@@ -1,49 +1,10 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="14" >
-  <Doc0 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/20070102/pokerth-0.3.1/src/local_engine/localplayer.h" >
-   <View0 line="44" Type="Source" />
+ <DocsAndViews NumberOfDocuments="1" >
+  <Doc0 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/trunk/pokerth/src/game.cpp" >
+   <View0 line="35" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/20070102/pokerth-0.3.1/src/local_engine/localplayer.cpp" >
-   <View0 line="36" Type="Source" />
-  </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/20070102/pokerth-0.3.1/src/gui/mainwindowimpl.cpp" >
-   <View0 line="1155" Type="Source" />
-  </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/20070102/pokerth-0.3.1/src/gui/log.cpp" >
-   <View0 line="34" Type="Source" />
-  </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/20070102/pokerth-0.3.1/src/local_engine/localpreflop.h" >
-   <View0 line="0" Type="Source" />
-  </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/20070102/pokerth-0.3.1/src/local_engine/localhand.h" >
-   <View0 line="21" Type="Source" />
-  </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/20070102/pokerth-0.3.1/src/local_engine/localhand.cpp" >
-   <View0 line="23" Type="Source" />
-  </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/20070102/pokerth-0.3.1/src/gui/mainwindowimpl.h" >
-   <View0 line="138" Type="Source" />
-  </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/20070102/pokerth-0.3.1/src/game.h" >
-   <View0 line="21" Type="Source" />
-  </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/20070102/pokerth-0.3.1/src/game.cpp" >
-   <View0 line="19" Type="Source" />
-  </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/20070102/pokerth-0.3.1/src/gui/log.h" >
-   <View0 line="37" Type="Source" />
-  </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/20070102/pokerth-0.3.1/src/gui/guiwrapper.h" >
-   <View0 line="38" Type="Source" />
-  </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/20070102/pokerth-0.3.1/src/gui/guiwrapper.cpp" >
-   <View0 line="47" Type="Source" />
-  </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/doitux/Projekte/qt-c%2B%2B/pokerth/20070102/pokerth-0.3.1/src/gui/guiinterface.h" >
-   <View0 line="31" Type="Source" />
-  </Doc13>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
