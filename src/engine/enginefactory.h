@@ -17,15 +17,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "enginefactory.h"
+#ifndef ENGINEFACTORY_H
+#define ENGINEFACTORY_H
 
-EngineFactory::EngineFactory()
-{
-}
+class EngineFactory{
+public:
+    
+	virtual ~EngineFactory();
 
+};
 
-EngineFactory::~EngineFactory()
-{
-}
-
-
+#endif
