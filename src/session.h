@@ -23,7 +23,6 @@
 #include <fstream>
 #include <string>
 
-class mainWindowImpl;
 class GuiInterface;
 class Game;
 
@@ -31,7 +30,7 @@ class Game;
 class Session{
 public:
 
-    Session(mainWindowImpl*, GuiInterface*);
+    Session(GuiInterface*);
 
     ~Session();
 
@@ -40,7 +39,6 @@ public:
 
 private:
 	Game *actualGame;
-	mainWindowImpl *myW;
 	GuiInterface *myGui;
 
 };

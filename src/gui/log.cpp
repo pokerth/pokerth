@@ -62,11 +62,3 @@ void Log::showPlayerActionLogMsg(string playerName, int &action, int &setValue) 
 
 
 
-// void Log::msgPlayerAction(QString playerName, int action , int setValue) {
-// 
-// 	
-// 	
-// // 	actualHand->getMainWindowImpl()->textBrowser_Log->append(msg);
-// 
-// }
-

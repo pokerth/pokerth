@@ -20,7 +20,7 @@
 #ifndef LOCALHAND_H
 #define LOCALHAND_H
 
-#include "mainwindowimpl.h"
+
 #include "guiinterface.h"
 #include "localboard.h"
 #include "localplayer.h"
@@ -30,7 +30,7 @@
 #include "localturn.h" 
 #include "localriver.h"
 
-class mainWindowImpl;
+
 class GuiInterface;
 class LocalBoard;
 class LocalPlayer;
@@ -43,7 +43,7 @@ class LocalRiver;
 class LocalHand {
 
 public:
-    LocalHand(mainWindowImpl*, GuiInterface*, LocalBoard*, LocalPlayer**, int, int, int, int, int);
+    LocalHand(GuiInterface*, LocalBoard*, LocalPlayer**, int, int, int, int, int);
 
     ~LocalHand();
 
@@ -53,7 +53,6 @@ public:
 	LocalFlop* getFlop() const { return myFlop; }
 	LocalTurn* getTurn() const { return myTurn; }
 	LocalRiver* getRiver() const { return myRiver; }
-	mainWindowImpl* getMainWindowImpl() const { return myW; }
 	GuiInterface* getGuiInterface() const { return myGui; }
 
 	void setMyID(const int& theValue) { myID = theValue; }
@@ -82,7 +81,7 @@ public:
 
 
 private:
-	mainWindowImpl *myW;
+
 	GuiInterface *myGui;
 	LocalBoard *myBoard;
 	LocalPlayer **playerArray;

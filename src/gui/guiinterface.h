@@ -23,20 +23,45 @@
 // #include <iostream>
 #include <string>
 
+#include "session.h"
+#include "game.h"
+
+//wird nach Einbau der EngineInterfaces zu handinterface.h
+#include "localhand.h"
+
 
 class GuiInterface{
 public:
 	virtual ~GuiInterface();
 
-
-	virtual void showPlayerActionLogMsg(std::string playName, int &action, int &setValue) const=0;
-
+	
+	//wird nach Einbau der EngineInterfaces umbenannt in setGameInterface und cp.
+	virtual void setGame(Game*) =0;
+	virtual void setHand(LocalHand*) =0;
+	virtual void setSession(Session*) =0;
+// 
+	virtual int getMaxQuantityPlayers() const=0;
+	
+	//refresh-Funktionen
 	virtual void refreshSet() const=0;
 	virtual void refreshChangePlayer() const=0;
+	virtual void refreshPot() const=0;
+	virtual void refreshGroupbox() const=0;
+	virtual void refreshAll() const=0;
+	virtual void refreshPlayerName() const=0;
 
+// 	virtual void refreshButton() const=0;
+
+// 	virtual void refreshAction() const=0;
+// 	virtual void refreshCash() const=0;
+
+// 	// Karten-Funktionen
+	virtual void dealHoleCards() const=0;
 	virtual void dealFlopCards() const=0;
 	virtual void dealTurnCard() const=0;
 	virtual void dealRiverCard() const=0;
+
+	virtual void highlightRoundLabel(std::string) const=0;
 
 	virtual void nextPlayerAnimation() const=0;
 
@@ -53,8 +78,33 @@ public:
 	virtual void riverAnimation2() const=0;
 
 	virtual void postRiverAnimation1() const=0;
+	virtual void postRiverRunAnimation1() const=0;
 // 	virtual void postRiverAnimation2() const=0;
+
+// 	virtual void handSwitchRounds() const=0;
+// 
+// 	virtual void startNewHand() const=0;
+	virtual void nextRoundCleanGui() const=0;
+// 	
+// 	virtual void userWidgetsBackgroudColor() const=0;
+// 	virtual void timerBlockerFalse() const=0;
+	virtual void meInAction() const=0;
+
+
+
+
+	//log.cpp
+	virtual void showPlayerActionLogMsg(std::string playName, int action, int setValue) const=0;
+
+
+
+
+
 		
+	
+	
+
+
 
 };
 

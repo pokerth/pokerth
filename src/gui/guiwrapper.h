@@ -21,6 +21,8 @@
 #define GUIWRAPPER_H
 
 #include <guiinterface.h>
+#include <string>
+#include <iostream>
 
 class mainWindowImpl;
 class Log;
@@ -34,32 +36,48 @@ public:
 
     ~GuiWrapper();
 
+	void setGame(Game*);
+	void setHand(LocalHand*);
+	void setSession(Session*);	
+
+	int getMaxQuantityPlayers() const;
+
+	void refreshSet() const;
+	void refreshChangePlayer() const;
+	void refreshPot() const;
+	void refreshGroupbox() const;
+	void refreshAll() const;
+	void refreshPlayerName() const;
 	
+	void dealHoleCards() const;
+	void dealFlopCards() const;
+	void dealTurnCard() const;
+	void dealRiverCard() const;
 
-	virtual void showPlayerActionLogMsg(std::string playerName, int &action, int &setValue) const;
-	virtual void refreshSet() const;
-	virtual void refreshChangePlayer() const;
+	void highlightRoundLabel(std::string round) const;
 
-	virtual void dealFlopCards() const;
-	virtual void dealTurnCard() const;
-	virtual void dealRiverCard() const;
+	void nextPlayerAnimation() const;
 
-	virtual void nextPlayerAnimation() const;
-
-	virtual void preflopAnimation1() const;
-	virtual void preflopAnimation2() const;
+	void preflopAnimation1() const;
+	void preflopAnimation2() const;
 	
-	virtual void flopAnimation1() const;
-	virtual void flopAnimation2() const;
+	void flopAnimation1() const;
+	void flopAnimation2() const;
 
-	virtual void turnAnimation1() const;
-	virtual void turnAnimation2() const;
+	void turnAnimation1() const;
+	void turnAnimation2() const;
 
-	virtual void riverAnimation1() const;
-	virtual void riverAnimation2() const;
+	void riverAnimation1() const;
+	void riverAnimation2() const;
 
-	virtual void postRiverAnimation1() const;
-// 	virtual void postRiverAnimation2() const;
+	void postRiverAnimation1() const;
+	void postRiverRunAnimation1() const;
+
+	void nextRoundCleanGui() const;
+
+	void meInAction() const;
+
+	void showPlayerActionLogMsg(std::string playerName, int action, int setValue) const;
 
 private: 
 

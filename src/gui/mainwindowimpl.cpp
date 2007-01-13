@@ -343,7 +343,9 @@ void mainWindowImpl::refreshGroupbox() {
 
 }
 
-void mainWindowImpl::highlightRoundLabel(QString round) { 
+void mainWindowImpl::highlightRoundLabel(string tempround) { 
+
+	QString round (QString::fromStdString(tempround));
 
 	// für PostRiverRun (alte Runden stehen lassen)
 	if(round != "") {

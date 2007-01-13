@@ -24,7 +24,6 @@
 
 class LocalHand;
 class LocalBoard;
-class mainWindowImpl;
 class GuiInterface;
 class LocalPlayer;
 
@@ -32,7 +31,7 @@ class LocalPlayer;
 class Game {
 
 public:
-    Game(mainWindowImpl*, GuiInterface*, int, int, int);
+    Game(GuiInterface*, int, int, int);
 
     ~Game();
 
@@ -66,7 +65,6 @@ public:
 
 private:
 
-	mainWindowImpl *myW;
 	GuiInterface *myGui;
 	LocalHand *actualHand;
 	LocalBoard *actualBoard;

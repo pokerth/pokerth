@@ -54,7 +54,7 @@ void LocalPlayer::action() {
 			preflopEngine();
 
 			actualBoard->collectSets();
-			actualHand->getMainWindowImpl()->refreshPot();
+			actualHand->getGuiInterface()->refreshPot();
 
 		} break;
 		case 1: {
@@ -62,7 +62,7 @@ void LocalPlayer::action() {
 			flopEngine();
 
 			actualBoard->collectSets();
-			actualHand->getMainWindowImpl()->refreshPot();
+			actualHand->getGuiInterface()->refreshPot();
 
 		} break;
 		case 2: {
@@ -70,7 +70,7 @@ void LocalPlayer::action() {
 			turnEngine();
 
 			actualBoard->collectSets();
-			actualHand->getMainWindowImpl()->refreshPot();
+			actualHand->getGuiInterface()->refreshPot();
 
 		} break;
 		case 3: {
@@ -78,7 +78,7 @@ void LocalPlayer::action() {
 			riverEngine();
 
 			actualBoard->collectSets();
-			actualHand->getMainWindowImpl()->refreshPot();
+			actualHand->getGuiInterface()->refreshPot();
 
 		} break;
 		default: {}

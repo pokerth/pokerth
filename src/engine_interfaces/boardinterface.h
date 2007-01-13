@@ -20,23 +20,24 @@
 #ifndef BOARDINTERFACE_H
 #define BOARDINTERFACE_H
 
-class BoardInterface{
+class BoardInterface {
+
 public:
    
     	virtual ~BoardInterface();
-
-// 	virtual void setPlayer(LocalPlayer**);
-// 	virtual void setHand(LocalHand*);
 // 
-// 	void setMyCards(int* theValue) { int i; for(i=0; i<5; i++) myCards[i] = theValue[i]; }
-// 	void getMyCards(int* theValue) { int i; for(i=0; i<5; i++) theValue[i] = myCards[i]; }
+// 	virtual void setPlayer(LocalPlayer**) =0;
+// 	virtual void setHand(LocalHand*) =0;
 // 
-// 	int getPot() const {  return pot;}
-// 	void setPot(int theValue) {  pot = theValue;}
-// 	int getSets() const { return sets; }
+// 	virtual void setMyCards(int* theValue) =0;
+// 	virtual void getMyCards(int* theValue) =0;
 // 
-// 	void collectSets();
-// 	void collectPot();
+// 	virtual int getPot() const=0;
+// 	virtual void setPot(int theValue) =0;
+// 	virtual int getSets() const=0;
+// 
+// 	virtual void collectSets() const=0;
+// 	virtual void collectPot() const=0;
 
 
 };

@@ -25,18 +25,18 @@
 
 using namespace std;
 
-Game::Game(mainWindowImpl *w, GuiInterface* g, int qP, int sC, int sB) : myW(w), myGui(g), actualHand(0), actualBoard(0), startQuantityPlayers(qP), startCash(sC), startSmallBlind(sB), actualQuantityPlayers(qP), actualSmallBlind(sB), actualHandID(0), dealerPosition(0)
+Game::Game(GuiInterface* g, int qP, int sC, int sB) : myGui(g), actualHand(0), actualBoard(0), startQuantityPlayers(qP), startCash(sC), startSmallBlind(sB), actualQuantityPlayers(qP), actualSmallBlind(sB), actualHandID(0), dealerPosition(0)
 {
 	int i;
 
-	for(i=0; i<myW->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
 		playerArray[i] = 0;
 	}
 
 // myEngine = new EngineWrapper();
 	
 
-	myW->setGame(this);
+	myGui->setGame(this);
 	
 // 	myGui->setGameEngine(myEngine);
 
@@ -49,7 +49,7 @@ Game::Game(mainWindowImpl *w, GuiInterface* g, int qP, int sC, int sB) : myW(w),
 
 	// Player erstellen
 	LocalPlayer *tempPlayer;
-	for(i=0; i<myW->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
 		tempPlayer = new LocalPlayer(actualBoard, i, startCash, startQuantityPlayers > i, 0);
 		playerArray[i] = tempPlayer;
 	}
@@ -75,7 +75,7 @@ Game::~Game()
 	actualHand = 0;
 
 	LocalPlayer *tempPlayer;
-	for(i=0; i<myW->getMaxQuantityPlayers(); i++) { 
+	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) { 
 		tempPlayer = playerArray[i];
 		playerArray[i] = 0;
 		delete tempPlayer;
@@ -99,31 +99,27 @@ void Game::startHand()
 	if(actualHandID%9 == 0) actualSmallBlind *= 2;
 
 	//Spieler Action auf 0 setzen 
-	for(i=0; i<myW->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
 		playerArray[i]->setMyAction(0);
 	}
 
 	// Spieler mit leerem Cash auf inactive setzen
-	for(i=0; i<myW->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
 		if(playerArray[i]->getMyCash() == 0) playerArray[i]->setMyActiveStatus(0);
 	}
-	
-	//Spiel-Men disablen
-// 	myW->actionNewGame->setDisabled(TRUE);
-	
 
 	// Hand erstellen
-	actualHand = new LocalHand(myW, myGui, actualBoard, playerArray, actualHandID, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
+	actualHand = new LocalHand(myGui, actualBoard, playerArray, actualHandID, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
 
 	//GUI bereinigen 
-	myW->nextRoundCleanGui();
+	myGui->nextRoundCleanGui();
 
 	//Spielernamen schreiben 
-	myW->refreshPlayerName();	
+	myGui->refreshPlayerName();	
 
 	// Dealer-Button weiterschieben --> Achtung inactive
 	do {
-		dealerPosition = (dealerPosition+1)%(myW->getMaxQuantityPlayers());
+		dealerPosition = (dealerPosition+1)%(myGui->getMaxQuantityPlayers());
 	} while(!(playerArray[dealerPosition]->getMyActiveStatus()));
 
 

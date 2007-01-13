@@ -45,7 +45,7 @@ int main( int argc, char **argv )
 	GuiInterface *myGuiInterface = new GuiWrapper(myW);
 
 
-	Session theFirst(myW, myGuiInterface);
+	Session theFirst(myGuiInterface);
 
 
 	return a.exec();

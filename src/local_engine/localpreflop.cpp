@@ -27,12 +27,12 @@ LocalPreflop::LocalPreflop(LocalHand* bR, int id, int qP, int dP, int sB) : myHa
 {
 
 	myHand->getBoard()->collectSets();
-	myHand->getMainWindowImpl()->refreshPot();
+	myHand->getGuiInterface()->refreshPot();
 
 // // 	BigBlind ermitteln 
 	bigBlindPosition = dealerPosition;
 	while (myHand->getPlayerArray()[bigBlindPosition]->getMyButton() != 3) {
-		bigBlindPosition = (bigBlindPosition+1)%(myHand->getMainWindowImpl()->getMaxQuantityPlayers());
+		bigBlindPosition = (bigBlindPosition+1)%(myHand->getGuiInterface()->getMaxQuantityPlayers());
 	}
 
 // // 	erste Spielernummer fr preflopRun() setzen
@@ -55,7 +55,7 @@ void LocalPreflop::preflopRun() {
 	bool allHighestSet = 1;
 
 	// prfe, ob alle Sets gleich sind ( falls nicht, dann allHighestSet = 0 )
-	for(i=0; i<myHand->getMainWindowImpl()->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
 		if(myHand->getPlayerArray()[i]->getMyActiveStatus() && myHand->getPlayerArray()[i]->getMyAction() != 1 && myHand->getPlayerArray()[i]->getMyAction() != 6)	{
 			if(highestSet != myHand->getPlayerArray()[i]->getMySet()) { allHighestSet=0; }
 		}
@@ -64,7 +64,7 @@ void LocalPreflop::preflopRun() {
 	// BigBlind ermitteln
 	bigBlindPosition = dealerPosition;
 	while (myHand->getPlayerArray()[bigBlindPosition]->getMyButton() != 3) {
-		bigBlindPosition = (bigBlindPosition+1)%(myHand->getMainWindowImpl()->getMaxQuantityPlayers());
+		bigBlindPosition = (bigBlindPosition+1)%(myHand->getGuiInterface()->getMaxQuantityPlayers());
 	}
 
 	// prfen, ob Preflop wirklich dran ist
@@ -75,14 +75,14 @@ void LocalPreflop::preflopRun() {
 		myHand->setActualRound(1);
 		
 		//Action l�chen und ActionButtons refresh
-		for(i=0; i<myHand->getMainWindowImpl()->getMaxQuantityPlayers(); i++) {
+		for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
 			if(myHand->getPlayerArray()[i]->getMyAction() != 1 && myHand->getPlayerArray()[i]->getMyAction() != 6) myHand->getPlayerArray()[i]->setMyAction(0);
 		}
 		//Sets in den Pot verschieben und Sets = 0 und Pot-refresh
 		myHand->getBoard()->collectSets();
 		myHand->getBoard()->collectPot();
-		myHand->getMainWindowImpl()->refreshPot();
-		myHand->getMainWindowImpl()->refreshAll();
+		myHand->getGuiInterface()->refreshPot();
+		myHand->getGuiInterface()->refreshAll();
 		
 		myHand->switchRounds();
 
@@ -93,18 +93,18 @@ void LocalPreflop::preflopRun() {
 		// n�hsten Spieler ermitteln
 		do {
 
-			playersTurn = (playersTurn+1)%(myHand->getMainWindowImpl()->getMaxQuantityPlayers());
+			playersTurn = (playersTurn+1)%(myHand->getGuiInterface()->getMaxQuantityPlayers());
 			// falls BigBlind, dann PreflopFirstRound zuende
 			if(myHand->getPlayerArray()[playersTurn]->getMyButton() == 3) preflopFirstRound = FALSE;
 
 		} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || myHand->getPlayerArray()[playersTurn]->getMyAction() == 1 || myHand->getPlayerArray()[playersTurn]->getMyAction() == 6);
 
 		myHand->getPlayerArray()[playersTurn]->setMyTurn(TRUE);
-		myHand->getMainWindowImpl()->refreshGroupbox();
+		myHand->getGuiInterface()->refreshGroupbox();
 
 		if(playersTurn == 0) {
 			// Wir sind dran
-			myHand->getMainWindowImpl()->meInAction();
+			myHand->getGuiInterface()->meInAction();
 		}
 		else {
 			//Gegner sind dran

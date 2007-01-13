@@ -22,22 +22,17 @@
 
 #include "ui_mainwindow.h"
 #include <iostream>
+#include <string>
 
 #include <QtGui>
 #include <QtCore>
 
-/*#include "newgamedialogimpl.h"
-#include "aboutpokerthimpl.h"
-#include "game.h"
-#include "localhand.h"
-#include "session.h"*/
-//#include "player.h"
-//#include "board.h"
-
 class Game;
-class LocalHand;
 class Session;
+class LocalHand;
+
 class QColor;
+
 
 class mainWindowImpl: public QMainWindow, public Ui::mainWindow {
 Q_OBJECT
@@ -74,7 +69,7 @@ public:
 	void meInAction();
 	void disableMyButtons();
 
-	void highlightRoundLabel(QString);
+	void highlightRoundLabel(std::string);
 
 public slots:
 

@@ -40,7 +40,7 @@ void LocalBoard::collectSets() {
 
 	sets = 0;
 	int i;
-	for(i=0; i<actualHand->getMainWindowImpl()->getMaxQuantityPlayers(); i++) sets += playerArray[i]->getMySet();
+	for(i=0; i<actualHand->getGuiInterface()->getMaxQuantityPlayers(); i++) sets += playerArray[i]->getMySet();
 
 }
 
@@ -48,7 +48,7 @@ void LocalBoard::collectPot() {
 	int i;
 	pot += sets; 
 	sets = 0;
-	for(i=0; i<actualHand->getMainWindowImpl()->getMaxQuantityPlayers(); i++){ playerArray[i]->setMySetNull(); }
+	for(i=0; i<actualHand->getGuiInterface()->getMaxQuantityPlayers(); i++){ playerArray[i]->setMySetNull(); }
 }
 
 

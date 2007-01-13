@@ -44,17 +44,26 @@ GuiWrapper::~GuiWrapper()
 {
 }
 
+void GuiWrapper::setGame(Game *g) { myW->setGame(g); }
+void GuiWrapper::setHand(LocalHand *lh) { myW->setHand(lh); }
+void GuiWrapper::setSession(Session *s) { myW->setSession(s); }
 
-void GuiWrapper::showPlayerActionLogMsg(string playerName, int &action, int &setValue) const { 		myLog->showPlayerActionLogMsg(playerName, action, setValue); 
-}
+int GuiWrapper::getMaxQuantityPlayers() const { return myW->getMaxQuantityPlayers(); }
 
 void GuiWrapper::refreshSet() const { myW->refreshSet(); }
 void GuiWrapper::refreshChangePlayer() const { myW->refreshChangePlayer(); }
+void GuiWrapper::refreshAll() const { myW->refreshAll(); }
+void GuiWrapper::refreshPot() const { myW->refreshPot(); }
+void GuiWrapper::refreshGroupbox() const { myW->refreshGroupbox(); }
+void GuiWrapper::refreshPlayerName() const { myW->refreshPlayerName(); }
 
-
+void GuiWrapper::dealHoleCards() const { myW->dealHoleCards(); }
 void GuiWrapper::dealFlopCards() const { myW->dealFlopCards0(); }
 void GuiWrapper::dealTurnCard() const { myW->dealTurnCards0(); }
 void GuiWrapper::dealRiverCard() const { myW->dealRiverCards0(); }
+
+void GuiWrapper::highlightRoundLabel(string round) const { myW->highlightRoundLabel(round); }
+
 
 void GuiWrapper::nextPlayerAnimation() const { myW->nextPlayerAnimation(); }
 
@@ -71,3 +80,13 @@ void GuiWrapper::riverAnimation1() const { myW->riverAnimation1(); }
 void GuiWrapper::riverAnimation2() const { myW->riverAnimation2(); }
 
 void GuiWrapper::postRiverAnimation1() const { myW->postRiverAnimation1(); }
+void GuiWrapper::postRiverRunAnimation1() const { myW->postRiverRunAnimation1(); }
+
+void GuiWrapper::nextRoundCleanGui() const { myW->nextRoundCleanGui(); }
+
+void GuiWrapper::meInAction() const { myW->meInAction(); }
+
+void GuiWrapper::showPlayerActionLogMsg(string playerName, int action, int setValue) const { myLog->showPlayerActionLogMsg(playerName, action, setValue); }
+
+
+

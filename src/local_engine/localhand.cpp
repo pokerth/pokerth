@@ -21,12 +21,12 @@
 
 using namespace std;
 
-LocalHand::LocalHand(mainWindowImpl *w, GuiInterface *g, LocalBoard *b, LocalPlayer **p, int id, int qP, int dP, int sB,int sC) : myW(w), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), allInCondition(FALSE)
+LocalHand::LocalHand(GuiInterface *g, LocalBoard *b, LocalPlayer **p, int id, int qP, int dP, int sB,int sC) : myW(w), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), allInCondition(FALSE)
 {
 	int i, j;
 	CardsValue myCardsValue;
 
-	myW->setHand(this);
+	myGui->setHand(this);
 	myBoard->setHand(this);
 
 // 	myEngine->setHand(this);
@@ -43,7 +43,7 @@ LocalHand::LocalHand(mainWindowImpl *w, GuiInterface *g, LocalBoard *b, LocalPla
 	// Dealer, SB, BB bestimmen
 	assignButtons();
 
-	myW->refreshAll();
+	myGui->refreshAll();
 
 	// Karten generieren und Board sowie Player zuweisen
 	Tools myTool;
@@ -67,7 +67,7 @@ LocalHand::LocalHand(mainWindowImpl *w, GuiInterface *g, LocalBoard *b, LocalPla
 	}
 
 	// Karten austeilen
-	myW->dealHoleCards();
+	myGui->dealHoleCards();
 
 	
 
@@ -103,7 +103,7 @@ void LocalHand::assignButtons() {
 	int i;
 
 	// alle Buttons loeschen
-	for (i=0; i<myW->getMaxQuantityPlayers(); i++) { playerArray[i]->setMyButton(0); }
+	for (i=0; i<myGui->getMaxQuantityPlayers(); i++) { playerArray[i]->setMyButton(0); }
 
 	// DealerButton zuweisen
 	playerArray[dealerPosition]->setMyButton(1);
@@ -111,7 +111,7 @@ void LocalHand::assignButtons() {
 	// Small Blind zuweisen und setzen
 	i = dealerPosition;
 	do {
-		i = (i+1)%(myW->getMaxQuantityPlayers());
+		i = (i+1)%(myGui->getMaxQuantityPlayers());
 		if(playerArray[i]->getMyActiveStatus())	{
 			playerArray[i]->setMyButton(2);
 			// mit SmallBlind All In ?
@@ -131,7 +131,7 @@ void LocalHand::assignButtons() {
 
 	// Big Blind zuweisen
 	do {
-		i = (i+1)%(myW->getMaxQuantityPlayers());
+		i = (i+1)%(myGui->getMaxQuantityPlayers());
 		if(playerArray[i]->getMyActiveStatus())	{
 			playerArray[i]->setMyButton(3);
 			// mit BigBlind All In ?
@@ -159,19 +159,19 @@ void LocalHand::switchRounds() {
 
 	//Aktive Spieler z�len --> wenn nur noch einer nicht-folded dann gleich den Pot verteilen
 	int activePlayersCounter = 0;
-	for (i=0; i<myW->getMaxQuantityPlayers(); i++) { 
+	for (i=0; i<myGui->getMaxQuantityPlayers(); i++) { 
 		if (playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyActiveStatus() == 1) activePlayersCounter++;
 	}
 
 	// Anzahl der Spieler ermitteln, welche All In sind
 	int allInPlayersCounter = 0;
-		for (i=0; i<myW->getMaxQuantityPlayers(); i++) { 
+		for (i=0; i<myGui->getMaxQuantityPlayers(); i++) { 
 			if (playerArray[i]->getMyAction() == 6) allInPlayersCounter++;
 	}
 
 	if(activePlayersCounter==1) {
 		myBoard->collectPot();	
-		myW->refreshPot();
+		myGui->refreshPot();
 		myGui->refreshSet();
 		actualRound = 4; 
 	}
@@ -188,7 +188,7 @@ void LocalHand::switchRounds() {
 		int tempHighestSet;
 		if(allInPlayersCounter+1 == activePlayersCounter) {
 			// Spieler ermitteln, der noch nicht All In ist
-			for (i=0; i<myW->getMaxQuantityPlayers(); i++) { 
+			for (i=0; i<myGui->getMaxQuantityPlayers(); i++) { 
 				if(playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyAction() != 6 && playerArray[i]->getMyActiveStatus() == 1) {	
 					tempHighestSet = 0;
 					switch (actualRound) {
@@ -213,13 +213,13 @@ void LocalHand::switchRounds() {
 	// beim Vorliegen einer All In Kondition -> Ausfhrung einer Sonderprozedur
 	if(allInCondition) {
 		myBoard->collectPot();	
-		myW->refreshPot();
-		myW->refreshSet();
+		myGui->refreshPot();
+		myGui->refreshSet();
 		actualRound++;
 	}
 
 
-	myW->refreshGroupbox();
+	myGui->refreshGroupbox();
 	highlightRoundLabel();
 // 	/*/*/*/*cout <<*/*/*/*/ "NextPlayerSpeed1 stop" << endl;
 // 
@@ -259,22 +259,22 @@ void LocalHand::switchRounds() {
 void LocalHand::highlightRoundLabel() {
 	switch(actualRound) {
 		case 0: {
-			myW->highlightRoundLabel("Preflop");
+			myGui->highlightRoundLabel("Preflop");
 		} break;
 		case 1: {
-			myW->highlightRoundLabel("Flop");
+			myGui->highlightRoundLabel("Flop");
 		} break;
 		case 2: {
-			myW->highlightRoundLabel("Turn");
+			myGui->highlightRoundLabel("Turn");
 		} break;
 		case 3: {
-			myW->highlightRoundLabel("River");
+			myGui->highlightRoundLabel("River");
 		} break;
 		case 4: {
-			myW->highlightRoundLabel("");
+			myGui->highlightRoundLabel("");
 		} break;
 		default: {
-			myW->highlightRoundLabel("!!! FEHLER !!!");
+			myGui->highlightRoundLabel("!!! FEHLER !!!");
 		}
 	}
 }

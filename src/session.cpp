@@ -18,13 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "session.h"
-#include "mainwindowimpl.h"
 #include "game.h"
 #include "guiinterface.h"
 
 using namespace std;
 
-Session::Session(mainWindowImpl* w, GuiInterface* g) : actualGame(0), myW(w), myGui(g)
+Session::Session(GuiInterface* g) : actualGame(0), myGui(g)
 {
 
 	
@@ -33,7 +32,7 @@ Session::Session(mainWindowImpl* w, GuiInterface* g) : actualGame(0), myW(w), my
 // 	a.setMainWidget( w );
 // 	myW->show();
 	// Session an mainwindowimpl bergeben
-	myW->setSession(this);
+	myGui->setSession(this);
 	
 
 }
@@ -46,7 +45,7 @@ Session::~Session()
 
 void Session::startGame(int qP, int sC, int sB) {
 
-	actualGame = new Game(myW, myGui, qP, sC, sB);
+	actualGame = new Game(myGui, qP, sC, sB);
 
 }
 

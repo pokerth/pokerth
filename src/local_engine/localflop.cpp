@@ -28,7 +28,7 @@ LocalFlop::LocalFlop(LocalHand* bR, int id, int qP, int dP, int sB) : myHand(bR)
 	int i;
 
 	//SmallBlind-Position ermitteln 
-	for(i=0; i<myHand->getMainWindowImpl()->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
 		if (myHand->getPlayerArray()[i]->getMyButton() == 2) smallBlindPosition = i;
 	}
 
@@ -54,7 +54,7 @@ void LocalFlop::flopRun() {
 		bool allHighestSet = 1;
 
 		// prfe, ob alle Sets gleich sind ( falls nicht, dann allHighestSet = 0 )
-		for(i=0; i<myHand->getMainWindowImpl()->getMaxQuantityPlayers(); i++) {
+		for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
 			if(myHand->getPlayerArray()[i]->getMyActiveStatus() && myHand->getPlayerArray()[i]->getMyAction() != 1 && myHand->getPlayerArray()[i]->getMyAction() != 6)	{
 				if(highestSet != myHand->getPlayerArray()[i]->getMySet()) { allHighestSet=0; }
 			}
@@ -70,14 +70,14 @@ void LocalFlop::flopRun() {
 			myHand->setActualRound(2);
 
 			//Action l�chen und ActionButtons refresh
-			for(i=0; i<myHand->getMainWindowImpl()->getMaxQuantityPlayers(); i++) {
+			for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
 				if(myHand->getPlayerArray()[i]->getMyAction() != 1 && myHand->getPlayerArray()[i]->getMyAction() != 6) myHand->getPlayerArray()[i]->setMyAction(0);
 			}
 			//Sets in den Pot verschieben und Sets = 0 und Pot-refresh
 			myHand->getBoard()->collectSets();
 			myHand->getBoard()->collectPot();
-			myHand->getMainWindowImpl()->refreshPot();
-			myHand->getMainWindowImpl()->refreshAll();
+			myHand->getGuiInterface()->refreshPot();
+			myHand->getGuiInterface()->refreshAll();
 
 			myHand->switchRounds();
 	
@@ -86,16 +86,16 @@ void LocalFlop::flopRun() {
 			// Flop ist wirklich dran
 	
 			// n�hsten Spieler ermitteln
-			do { playersTurn = (playersTurn+1)%(myHand->getMainWindowImpl()->getMaxQuantityPlayers());
+			do { playersTurn = (playersTurn+1)%(myHand->getGuiInterface()->getMaxQuantityPlayers());
 			} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6);
 
 			//Spieler-Position vor SmallBlind-Position ermitteln 
 			int activePlayerBeforeSmallBlind = smallBlindPosition;
-			do { activePlayerBeforeSmallBlind = (activePlayerBeforeSmallBlind + myHand->getMainWindowImpl()->getMaxQuantityPlayers() - 1 ) % (myHand->getMainWindowImpl()->getMaxQuantityPlayers());
+			do { activePlayerBeforeSmallBlind = (activePlayerBeforeSmallBlind + myHand->getGuiInterface()->getMaxQuantityPlayers() - 1 ) % (myHand->getGuiInterface()->getMaxQuantityPlayers());
 			} while(!(myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyActiveStatus()) || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==1 || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==6);
 
 			myHand->getPlayerArray()[playersTurn]->setMyTurn(TRUE);
-			myHand->getMainWindowImpl()->refreshGroupbox();
+			myHand->getGuiInterface()->refreshGroupbox();
 
 // 			cout << "activePlayerBeforeSmallBlind " << activePlayerBeforeSmallBlind << endl;
 // 			cout << "playersTurn " << playersTurn << endl;
@@ -106,7 +106,7 @@ void LocalFlop::flopRun() {
 				// Wir sind dran
 // 				cout << "actualRound " << myHand->getActualRound() << endl;
 // 				cout << "highestSet vor meInAction " << highestSet << endl;
-				myHand->getMainWindowImpl()->meInAction();
+				myHand->getGuiInterface()->meInAction();
 			}
 			else {
 				//Gegner sind dran
