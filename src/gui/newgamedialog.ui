@@ -1,0 +1,217 @@
+<ui version="4.0" >
+ <class>newGameDialog</class>
+ <widget class="QDialog" name="newGameDialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>212</width>
+    <height>212</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Start New Game</string>
+  </property>
+  <property name="sizeGripEnabled" >
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>9</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="0" column="0" >
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string>Game-Settings</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="1" >
+       <widget class="QSpinBox" name="spinBox_quantityPlayers" >
+        <property name="maximum" >
+         <number>5</number>
+        </property>
+        <property name="minimum" >
+         <number>2</number>
+        </property>
+        <property name="value" >
+         <number>5</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" >
+       <widget class="QSpinBox" name="spinBox_smallBlind" >
+        <property name="maximum" >
+         <number>500</number>
+        </property>
+        <property name="minimum" >
+         <number>5</number>
+        </property>
+        <property name="value" >
+         <number>10</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="QSpinBox" name="spinBox_startCash" >
+        <property name="maximum" >
+         <number>5000</number>
+        </property>
+        <property name="minimum" >
+         <number>1000</number>
+        </property>
+        <property name="value" >
+         <number>2000</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="label_4" >
+        <property name="text" >
+         <string>Number of Players</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QLabel" name="label" >
+        <property name="text" >
+         <string>Game-Speed</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" >
+       <widget class="QLabel" name="label_3" >
+        <property name="text" >
+         <string>Small Blind</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="label_2" >
+        <property name="text" >
+         <string>Start Cash</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" >
+       <widget class="QSpinBox" name="spinBox_gameSpeed" >
+        <property name="maximum" >
+         <number>10</number>
+        </property>
+        <property name="minimum" >
+         <number>1</number>
+        </property>
+        <property name="singleStep" >
+         <number>1</number>
+        </property>
+        <property name="value" >
+         <number>7</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonOk" >
+       <property name="text" >
+        <string>O&amp;K</string>
+       </property>
+       <property name="shortcut" >
+        <string>Alt+K</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>true</bool>
+       </property>
+       <property name="default" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonCancel" >
+       <property name="text" >
+        <string>Cancel</string>
+       </property>
+       <property name="shortcut" >
+        <string/>
+       </property>
+       <property name="autoDefault" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonOk</sender>
+   <signal>clicked()</signal>
+   <receiver>newGameDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>129</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>137</x>
+     <y>100</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>newGameDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>222</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>137</x>
+     <y>100</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

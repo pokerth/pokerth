@@ -1,0 +1,28 @@
+2006-10-16 version 0.3:
+
+- change: some changes on game-speed and game-rhythm. game-speed delay near 0 is possible ;)
+- change: gui-language changed from german to english
+- change: some ai-engine changes
+- change: now POT-distribution works better (especially for multible All-In situation and split-pot)
+- change: switched to Qt-4.2
+- change: some GUI-changes (e.g. killed the "Next Round"-Button --> task #131930)
+- bugfix: #1572742 - "bet-loop"
+- tasks: new published tasks #131988, #131980, #131987, #131978, #131992, #132018
+
+
+2006-10-04 version 0.2.1:
+
+- bugfix: fix the Bug that causes freeze average all 52 rounds. It was a problem with random-number-generation
+
+
+2006-10-04 version 0.2:
+
+- first public release
+- feature: now you can play preflop, flop, turn and river
+- change: its nearly complete portet to qt4
+
+
+2006-05-18 version 0.1:
+
+- first release
+- feature: you can play preflop and river
