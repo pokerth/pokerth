@@ -22,6 +22,8 @@
 
 #include <enginefactory.h>
 
+class BoardInterface;
+
 class LocalEngineFactory : public EngineFactory
 {
 public:
@@ -32,7 +34,10 @@ public:
 	HandInterface* createHand();
 	BoardInterface* createBoard();
 	PlayerInterface* createPlayer();
-
+	PreflopInterface* createPreflop();
+	FlopInterface* createFlop();
+	TurnInterface* createTurn();
+	RiverInterface* createRiver();
 };
 
 #endif

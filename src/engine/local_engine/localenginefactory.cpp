@@ -20,14 +20,12 @@
 #include "localenginefactory.h"
 
 #include "localhand.h"
-
-
 #include "localboard.h"
-#include "boardinterface.h"
-
 #include "localplayer.h"
-#include "playerinterface.h"
-
+#include "localpreflop.h"
+#include "localflop.h"
+#include "localturn.h"
+#include "localriver.h"
 
 LocalEngineFactory::LocalEngineFactory()
  : EngineFactory()
@@ -40,23 +38,16 @@ LocalEngineFactory::~LocalEngineFactory()
 }
 
 
-HandInterface* LocalEngineFactory::createHand() {
-/*
-	 new LocalHand;	
-	return hi;*/	
-}
+HandInterface* LocalEngineFactory::createHand() { /*return new LocalHand;*/ }
 
+BoardInterface* LocalEngineFactory::createBoard() { return new LocalBoard; }
 
-BoardInterface* LocalEngineFactory::createBoard() {
+PlayerInterface* LocalEngineFactory::createPlayer() { /*return new LocalPlayer;*/ }
 
-// 	BoardInterface *bi = new LocalBoard();	
-// 	return bi;	
-}
+PreflopInterface* LocalEngineFactory::createPreflop() {/* return new LocalPreflop;*/ }
 
+FlopInterface* LocalEngineFactory::createFlop() { /*return new LocalFlop;*/ }
 
-PlayerInterface* LocalEngineFactory::createPlayer() {
+TurnInterface* LocalEngineFactory::createTurn() { /*return new LocalTurn;*/ }
 
-// 	PlayerInterface *pi = new LocalPlayer();	
-// 	return pi;	
-
-}
+RiverInterface* LocalEngineFactory::createRiver() { /*return new LocalRiver;*/ }

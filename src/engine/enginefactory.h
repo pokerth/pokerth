@@ -20,11 +20,21 @@
 #ifndef ENGINEFACTORY_H
 #define ENGINEFACTORY_H
 
-
+#include "boardinterface.h"
+#include "handinterface.h"
+#include "playerinterface.h"
+#include "preflopinterface.h"
+#include "flopinterface.h"
+#include "turninterface.h"
+#include "riverinterface.h"
 
 class HandInterface;
 class BoardInterface;
 class PlayerInterface;
+class PreflopInterface;
+class FlopInterface;
+class TurnInterface;
+class RiverInterface;
 
 class EngineFactory{
 public:

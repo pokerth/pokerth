@@ -20,7 +20,16 @@
 #include "game.h"
 
 #include "localhand.h"
+
+
+#include "enginefactory.h"
+#include "localenginefactory.h"
+
 #include "guiinterface.h"
+
+#include "boardinterface.h"
+#include "playerinterface.h"
+#include "handinterface.h"
 
 
 using namespace std;
@@ -33,15 +42,17 @@ Game::Game(GuiInterface* g, int qP, int sC, int sB) : myGui(g), actualHand(0), a
 		playerArray[i] = 0;
 	}
 
-// myEngine = new EngineWrapper();
-	
-
 	myGui->setGame(this);
+
+	//EngineFactory erstellen
+	EngineFactory *myFactory;
+	myFactory = new LocalEngineFactory; // LocalEngine erstellen
 	
-// 	myGui->setGameEngine(myEngine);
 
 	// Board erstellen
 	actualBoard = new LocalBoard();
+	
+	
 
 	// ersten Dealer bestimmen
 	Tools myTool;
