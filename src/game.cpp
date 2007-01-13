@@ -33,7 +33,7 @@ Game::Game(mainWindowImpl *w, GuiInterface* g, int qP, int sC, int sB) : myW(w),
 		playerArray[i] = 0;
 	}
 
-// ssss	myEngine = new EngineWrapper();
+// myEngine = new EngineWrapper();
 	
 
 	myW->setGame(this);
