@@ -19,11 +19,6 @@
  ***************************************************************************/
 #include "handinterface.h"
 
-HandInterface::HandInterface()
-{
-}
-
-
 HandInterface::~HandInterface()
 {
 }

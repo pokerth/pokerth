@@ -19,11 +19,6 @@
  ***************************************************************************/
 #include "playerinterface.h"
 
-PlayerInterface::PlayerInterface()
-{
-}
-
-
 PlayerInterface::~PlayerInterface()
 {
 }

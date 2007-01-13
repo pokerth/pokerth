@@ -20,14 +20,59 @@
 #ifndef PLAYERINTERFACE_H
 #define PLAYERINTERFACE_H
 
-/**
-	@author FThauer FHammer <f.thauer@web.de>
-*/
 class PlayerInterface{
 public:
-    PlayerInterface();
 
-    ~PlayerInterface();
+	virtual ~PlayerInterface() =0;
+
+	virtual void setHand(HandInterface*) =0;
+
+	virtual void setMyID(const int& theValue) =0;
+	virtual int getMyID() const =0;
+
+	virtual void setMyDude(const int& theValue) =0;
+	virtual int getMyDude() const =0;
+
+	virtual void setMyName(const std::string& theValue) =0;
+	virtual std::string getMyName() const =0;
+
+	virtual void setMyCash(const int& theValue) =0;
+	virtual int getMyCash() const =0;
+
+	virtual void setMySet(const int& theValue) =0;
+	virtual void setMySetNull() =0;
+	virtual int getMySet() const =0;
+
+	virtual void setMyAction(const int& theValue) =0;
+	virtual int getMyAction() const	=0;
+
+	virtual void setMyButton(const int& theValue) =0;
+	virtual int getMyButton() const	=0;
+
+	virtual void setMyActiveStatus(bool theValue) =0;
+	virtual bool getMyActiveStatus() const =0;
+
+	virtual void setMyCards(int* theValue) =0;
+	virtual void getMyCards(int* theValue) =0;
+
+	virtual void setMyTurn(bool theValue) =0;
+	virtual bool getMyTurn() const =0;
+
+	virtual void setMyCardsValueInt(const int& theValue) =0;
+	virtual int getMyCardsValueInt() const =0;
+
+	virtual void setMyRoundStartCash(const int& theValue) =0;
+	virtual int getMyRoundStartCash() const =0;
+
+	virtual void setMyAverageSets(const int& theValue) =0;
+	virtual int getMyAverageSets() const =0;
+	
+	virtual void action() =0;
+	
+	virtual void preflopEngine() =0;
+	virtual void flopEngine() =0;
+	virtual void turnEngine() =0;
+	virtual void riverEngine() =0;
 
 };
 

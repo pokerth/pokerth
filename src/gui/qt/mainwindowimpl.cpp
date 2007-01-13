@@ -21,8 +21,12 @@
 
 #include "newgamedialogimpl.h"
 #include "aboutpokerthimpl.h"
+
+#include "handinterface.h"
+#include "playerinterface.h"
+#include "boardinterface.h"
+
 #include "game.h"
-#include "localhand.h"
 #include "session.h"
 
 // #include "player.h"
@@ -219,7 +223,7 @@ void mainWindowImpl::callAboutPokerthDialog() {
 
 void mainWindowImpl::setGame(Game *g) { actualGame = g; }
 
-void mainWindowImpl::setHand(LocalHand* br) { actualHand = br; }
+void mainWindowImpl::setHand(HandInterface* br) { actualHand = br; }
 
 void mainWindowImpl::setSession(Session* s) { mySession = s; }
 

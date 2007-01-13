@@ -45,7 +45,7 @@ GuiWrapper::~GuiWrapper()
 }
 
 void GuiWrapper::setGame(Game *g) { myW->setGame(g); }
-void GuiWrapper::setHand(LocalHand *lh) { myW->setHand(lh); }
+void GuiWrapper::setHand(HandInterface *lh) { myW->setHand(lh); }
 void GuiWrapper::setSession(Session *s) { myW->setSession(s); }
 
 int GuiWrapper::getMaxQuantityPlayers() const { return myW->getMaxQuantityPlayers(); }

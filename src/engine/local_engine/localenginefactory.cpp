@@ -38,11 +38,11 @@ LocalEngineFactory::~LocalEngineFactory()
 }
 
 
-HandInterface* LocalEngineFactory::createHand() { /*return new LocalHand;*/ }
+HandInterface* LocalEngineFactory::createHand(GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC) { return new LocalHand(g, b, p, id, qP, dP, sB, sC); }
 
 BoardInterface* LocalEngineFactory::createBoard() { return new LocalBoard; }
 
-PlayerInterface* LocalEngineFactory::createPlayer() { /*return new LocalPlayer;*/ }
+PlayerInterface* LocalEngineFactory::createPlayer(BoardInterface *b, int id, int sC, bool aS, int mB) { return new LocalPlayer(b, id, sC, aS, mB); }
 
 PreflopInterface* LocalEngineFactory::createPreflop() {/* return new LocalPreflop;*/ }
 

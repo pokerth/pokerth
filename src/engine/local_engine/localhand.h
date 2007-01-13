@@ -20,10 +20,10 @@
 #ifndef LOCALHAND_H
 #define LOCALHAND_H
 
-
 #include "guiinterface.h"
-#include "localboard.h"
-#include "localplayer.h"
+
+#include "handinterface.h"
+
 #include "tools.h"
 #include "localpreflop.h"
 #include "localflop.h"
@@ -32,23 +32,26 @@
 
 
 class GuiInterface;
-class LocalBoard;
-class LocalPlayer;
+class BoardInterface;
+class PlayerInterface;
+class HandInterface;
+
 class LocalPreflop;
 class LocalFlop;
 class LocalTurn;
 class LocalRiver;
 
 
-class LocalHand {
-
+class LocalHand : public HandInterface{
 public:
-    LocalHand(GuiInterface*, LocalBoard*, LocalPlayer**, int, int, int, int, int);
+    LocalHand(GuiInterface*, BoardInterface*, PlayerInterface**, int, int, int, int, int);
 
     ~LocalHand();
+	
+	
 
-	LocalPlayer** getPlayerArray() const	{ return playerArray; }
-	LocalBoard* getBoard() const { return myBoard; }
+	PlayerInterface** getPlayerArray() const	{ return playerArray; }
+	BoardInterface* getBoard() const { return myBoard; }
 	LocalPreflop* getPreflop() const { return myPreflop; }
 	LocalFlop* getFlop() const { return myFlop; }
 	LocalTurn* getTurn() const { return myTurn; }
@@ -63,6 +66,9 @@ public:
 
 	void setActualRound(const int& theValue) { actualRound = theValue; }
 	int getActualRound() const { return actualRound; }
+
+	void setDealerPosition(const int& theValue) { dealerPosition = theValue; }
+	int getDealerPosition() const { return dealerPosition; }
 
 	void setSmallBlind(const int& theValue) { smallBlind = theValue; }
 	int getSmallBlind() const { return smallBlind; }
@@ -79,12 +85,15 @@ public:
 	void switchRounds();
 
 
+	
+
+
 
 private:
 
 	GuiInterface *myGui;
-	LocalBoard *myBoard;
-	LocalPlayer **playerArray;
+	BoardInterface *myBoard;
+	PlayerInterface **playerArray;
 	LocalPreflop *myPreflop;
 	LocalFlop *myFlop;
 	LocalTurn *myTurn;

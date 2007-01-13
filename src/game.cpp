@@ -45,23 +45,22 @@ Game::Game(GuiInterface* g, int qP, int sC, int sB) : myGui(g), actualHand(0), a
 	myGui->setGame(this);
 
 	//EngineFactory erstellen
-	EngineFactory *myFactory;
 	myFactory = new LocalEngineFactory; // LocalEngine erstellen
 	
 
 	// Board erstellen
-	actualBoard = new LocalBoard();
-	
-	
+	actualBoard = myFactory->createBoard();
+
 
 	// ersten Dealer bestimmen
 	Tools myTool;
 	myTool.getRandNumber(0, startQuantityPlayers-1, 1, &dealerPosition, 0);
 
 	// Player erstellen
-	LocalPlayer *tempPlayer;
+	PlayerInterface *tempPlayer;
 	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
-		tempPlayer = new LocalPlayer(actualBoard, i, startCash, startQuantityPlayers > i, 0);
+// 		tempPlayer = new LocalPlayer(actualBoard, i, startCash, startQuantityPlayers > i, 0);
+		tempPlayer = myFactory->createPlayer(actualBoard, i, startCash, startQuantityPlayers > i, 0);
 		playerArray[i] = tempPlayer;
 	}
 	actualBoard->setPlayer(playerArray);
@@ -85,7 +84,7 @@ Game::~Game()
 	delete actualHand;
 	actualHand = 0;
 
-	LocalPlayer *tempPlayer;
+	PlayerInterface *tempPlayer;
 	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) { 
 		tempPlayer = playerArray[i];
 		playerArray[i] = 0;
@@ -120,8 +119,9 @@ void Game::startHand()
 	}
 
 	// Hand erstellen
-	actualHand = new LocalHand(myGui, actualBoard, playerArray, actualHandID, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
+	actualHand = myFactory->createHand(myGui, actualBoard, playerArray, actualHandID, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
 
+	
 	//GUI bereinigen 
 	myGui->nextRoundCleanGui();
 

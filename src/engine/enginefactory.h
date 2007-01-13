@@ -41,9 +41,9 @@ public:
     
 	virtual ~EngineFactory();
 		
-	virtual HandInterface* createHand() =0;
+	virtual HandInterface* createHand(GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC) =0;
 	virtual BoardInterface* createBoard() =0;
-	virtual PlayerInterface* createPlayer() =0;
+	virtual PlayerInterface* createPlayer(BoardInterface *b, int id, int sC, bool aS, int mB) =0;
 
 };
 

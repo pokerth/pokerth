@@ -39,7 +39,7 @@ public:
     ~GuiWrapper();
 
 	void setGame(Game*);
-	void setHand(LocalHand*);
+	void setHand(HandInterface*);
 	void setSession(Session*);	
 
 	int getMaxQuantityPlayers() const;

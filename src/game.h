@@ -22,10 +22,11 @@
 
 #include <iostream>
 
-class LocalHand;
-class LocalBoard;
 class GuiInterface;
-class LocalPlayer;
+class HandInterface;
+class PlayerInterface;
+class BoardInterface;
+class EngineFactory;
 
 
 class Game {
@@ -64,11 +65,12 @@ public:
 	
 
 private:
+	EngineFactory *myFactory;
 
 	GuiInterface *myGui;
-	LocalHand *actualHand;
-	LocalBoard *actualBoard;
-	LocalPlayer *playerArray[5];
+	HandInterface *actualHand;
+	BoardInterface *actualBoard;
+	PlayerInterface *playerArray[5];
 
 	//Startvariablen	
 	int startQuantityPlayers;

@@ -20,6 +20,8 @@
 #ifndef LOCALPLAYER_H
 #define LOCALPLAYER_H
 
+#include "playerinterface.h"
+
 #include "cardsvalue.h"
 
 #include <string>
@@ -28,11 +30,11 @@
 
 class CardsValue;
 class LocalHand;
-class LocalBoard;
+class BoardInterface;
 
-class LocalPlayer{
+class LocalPlayer : public PlayerInterface{
 public:
-    LocalPlayer(LocalBoard*, int, int, bool, int);
+    LocalPlayer(BoardInterface*, int, int, bool, int);
 
     ~LocalPlayer();
 
@@ -91,7 +93,7 @@ public:
 
 private:
 	LocalHand *actualHand;
-	LocalBoard *actualBoard;
+	BoardInterface *actualBoard;
 
 	CardsValue *myCardsValue;
 

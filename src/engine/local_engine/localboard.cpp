@@ -23,7 +23,7 @@
 
 using namespace std;
 
-LocalBoard::LocalBoard() : playerArray(0), actualHand(0), pot(0), sets(0)
+LocalBoard::LocalBoard() : BoardInterface(), playerArray(0), actualHand(0), pot(0), sets(0)
 {
 }
 
@@ -32,7 +32,7 @@ LocalBoard::~LocalBoard()
 {
 }
 
-void LocalBoard::setPlayer(LocalPlayer** p) { playerArray = p; }
+void LocalBoard::setPlayer(PlayerInterface** p) { playerArray = p; }
 
 void LocalBoard::setHand(LocalHand* br) { actualHand = br; }
 

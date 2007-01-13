@@ -20,24 +20,27 @@
 #ifndef BOARDINTERFACE_H
 #define BOARDINTERFACE_H
 
+class PlayerInterface;
+class HandInterface;
+
 class BoardInterface {
 
 public:
    
     	virtual ~BoardInterface();
 // 
-// 	virtual void setPlayer(LocalPlayer**) =0;
-// 	virtual void setHand(LocalHand*) =0;
+	virtual void setPlayer(PlayerInterface**) =0;
+	virtual void setHand(HandInterface*) =0;
 // 
-// 	virtual void setMyCards(int* theValue) =0;
-// 	virtual void getMyCards(int* theValue) =0;
+	virtual void setMyCards(int* theValue) =0;
+	virtual void getMyCards(int* theValue) =0;
 // 
-// 	virtual int getPot() const=0;
-// 	virtual void setPot(int theValue) =0;
-// 	virtual int getSets() const=0;
+	virtual int getPot() const=0;
+	virtual void setPot(int theValue) =0;
+	virtual int getSets() const=0;
 // 
-// 	virtual void collectSets() const=0;
-// 	virtual void collectPot() const=0;
+	virtual void collectSets() const=0;
+	virtual void collectPot() const=0;
 
 
 };

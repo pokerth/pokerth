@@ -20,14 +20,46 @@
 #ifndef HANDINTERFACE_H
 #define HANDINTERFACE_H
 
-/**
-	@author FThauer FHammer <f.thauer@web.de>
-*/
+#include "guiinterface.h"
+
 class HandInterface{
 public:
-    HandInterface();
+    
+	virtual ~HandInterface();
 
-    ~HandInterface();
+	virtual PlayerInterface** getPlayerArray() const =0;
+	virtual BoardInterface* getBoard() const =0;
+// 	virtual LocalPreflop* getPreflop() const =0;
+// 	virtual LocalFlop* getFlop() const =0;
+// 	virtual LocalTurn* getTurn() const =0;
+// 	virtual LocalRiver* getRiver() const =0;
+	virtual GuiInterface* getGuiInterface() const =0;
+
+	virtual void setMyID(const int& theValue) =0;
+	virtual int getMyID() const =0;
+	
+	virtual void setActualQuantityPlayers(const int& theValue) =0;
+	virtual int getActualQuantityPlayers() const =0;
+
+	virtual void setActualRound(const int& theValue) =0;
+	virtual int getActualRound() const =0;
+
+	virtual void setDealerPosition(const int& theValue) =0;
+	virtual int getDealerPosition() const =0;
+
+	virtual void setSmallBlind(const int& theValue) =0;
+	virtual int getSmallBlind() const =0;
+
+	virtual void setAllInCondition(bool theValue) =0;
+	virtual bool getAllInCondition() const =0;
+
+	virtual void setStartCash(const int& theValue) =0;
+	virtual int getStartCash() const =0;
+
+	virtual void assignButtons();
+
+	virtual void highlightRoundLabel();
+	virtual void switchRounds();
 
 };
 

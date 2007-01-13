@@ -20,20 +20,22 @@
 #ifndef LOCALBOARD_H
 #define LOCALBOARD_H
 
+#include "boardinterface.h"
+
 #include <iostream>
 
-class LocalPlayer;
-class LocalHand;
+class PlayerInterface;
+class HandInterface;
 
 
-class LocalBoard{
+class LocalBoard : public BoardInterface{
 public:
     LocalBoard();
 
     ~LocalBoard();
 
-	void setPlayer(LocalPlayer**);
-	void setHand(LocalHand*);
+	void setPlayer(PlayerInterface**);
+	void setHand(HandInterface*);
 
 	void setMyCards(int* theValue) { int i; for(i=0; i<5; i++) myCards[i] = theValue[i]; }
 	void getMyCards(int* theValue) { int i; for(i=0; i<5; i++) theValue[i] = myCards[i]; }
@@ -47,8 +49,8 @@ public:
 	
 
 private:
-	LocalPlayer **playerArray;
-	LocalHand *actualHand;
+	PlayerInterface **playerArray;
+	HandInterface *actualHand;
 
 	int myCards[5];
 	int pot;

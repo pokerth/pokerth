@@ -37,7 +37,7 @@ public:
 	
 	//wird nach Einbau der EngineInterfaces umbenannt in setGameInterface und cp.
 	virtual void setGame(Game*) =0;
-	virtual void setHand(LocalHand*) =0;
+	virtual void setHand(HandInterface*) =0;
 	virtual void setSession(Session*) =0;
 // 
 	virtual int getMaxQuantityPlayers() const=0;

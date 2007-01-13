@@ -29,7 +29,10 @@
 
 class Game;
 class Session;
-class LocalHand;
+
+class BoardInterface;
+class HandInterface;
+class PlayerInterface;
 
 class QColor;
 
@@ -39,7 +42,7 @@ Q_OBJECT
 public:
 	mainWindowImpl(QMainWindow *parent = 0, const char *name = 0 );
 	void setGame(Game*);
-	void setHand(LocalHand*);
+	void setHand(HandInterface*);
 	void setSession(Session*);
 
 
@@ -143,7 +146,7 @@ public slots:
 private: 
 	
 	Game *actualGame;
-	LocalHand *actualHand;
+	HandInterface *actualHand;
 	Session *mySession;
 
 
