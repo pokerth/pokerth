@@ -15,9 +15,9 @@ HEADERS += mainwindowimpl.h \
            log.h \
            guiinterface.h \
            guiwrapper.h \
-	   session.h \
+           session.h \
            game.h \
-	   localhand.h \
+           localhand.h \
            localboard.h \
            localplayer.h \
            cardsvalue.h \
@@ -26,24 +26,25 @@ HEADERS += mainwindowimpl.h \
            localturn.h \
            localriver.h \
            tools.h \
-	   handinterface.h \
+           handinterface.h \
            playerinterface.h \
            boardinterface.h \
            preflopinterface.h \
            flopinterface.h \
            turninterface.h \
-           riverinterface.h 
-
+           riverinterface.h \
+           enginefactory.h \
+           localenginefactory.h 
 SOURCES += pokerth.cpp \
-	   mainwindowimpl.cpp \
+           mainwindowimpl.cpp \
            newgamedialogimpl.cpp \
            aboutpokerthimpl.cpp \
            log.cpp \
            guiinterface.cpp \
            guiwrapper.cpp \
-	   session.cpp \
+           session.cpp \
            game.cpp \
-	   localhand.cpp \
+           localhand.cpp \
            localboard.cpp \
            localplayer.cpp \
            cardsvalue.cpp \
@@ -52,18 +53,19 @@ SOURCES += pokerth.cpp \
            localturn.cpp \
            localriver.cpp \
            tools.cpp \
-	   handinterface.cpp \
+           handinterface.cpp \
            playerinterface.cpp \
            boardinterface.cpp \
            preflopinterface.cpp \
            flopinterface.cpp \
            turninterface.cpp \
-           riverinterface.cpp 
-
+           riverinterface.cpp \
+           enginefactory.cpp \
+           localenginefactory.cpp 
 RESOURCES = deck.qrc
 TEMPLATE = app
-DEPENDPATH += . src uics src/gui src/gui/qt src/engine src/engine/local_engine src/engine/network_engine
-INCLUDEPATH += . src uics src/gui src/gui/qt src/engine src/engine/local_engine src/engine/network_engine
+DEPENDPATH += src uics src/gui src/engine_interfaces src/local_engine src/network_engine
+INCLUDEPATH += . src uics src/gui src/engine_interfaces src/local_engine src/network_engine
 CONFIG += qt release
 UI_DIR = uics
 TARGET = bin/pokerth
