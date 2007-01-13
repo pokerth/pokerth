@@ -20,10 +20,18 @@
 #ifndef ENGINEFACTORY_H
 #define ENGINEFACTORY_H
 
+class HandInterface;
+class BoardInterface;
+class PlayerInterface;
+
 class EngineFactory{
 public:
     
 	virtual ~EngineFactory();
+		
+	virtual HandInterface* createHand() =0;
+	virtual BoardInterface* createBoard() =0;
+	virtual PlayerInterface* createPlayer() =0;
 
 };
 

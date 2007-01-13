@@ -19,6 +19,16 @@
  ***************************************************************************/
 #include "localenginefactory.h"
 
+#include "localhand.h"
+#include "handinterface.h"
+
+#include "localboard.h"
+#include "boardinterface.h"
+
+#include "localplayer.h"
+#include "playerinterface.h"
+
+
 LocalEngineFactory::LocalEngineFactory()
  : EngineFactory()
 {
@@ -30,3 +40,23 @@ LocalEngineFactory::~LocalEngineFactory()
 }
 
 
+HandInterface* LocalEngineFactory::createHand() {
+
+	HandInterface *hi = new LocalHand();	
+	return hi;	
+}
+
+
+BoardInterface* LocalEngineFactory::createBoard() {
+
+	BoardInterface *bi = new LocalBoard();	
+	return bi;	
+}
+
+
+PlayerInterface* LocalEngineFactory::createPlayer() {
+
+	PlayerInterface *pi = new LocalPlayer();	
+	return pi;	
+
+}

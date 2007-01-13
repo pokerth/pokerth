@@ -22,15 +22,16 @@
 
 #include <enginefactory.h>
 
-/**
-	@author FThauer FHammer <f.thauer@web.de>
-*/
 class LocalEngineFactory : public EngineFactory
 {
 public:
     LocalEngineFactory();
 
     ~LocalEngineFactory();
+
+	HandInterface* createHand();
+	BoardInterface* createBoard();
+	PlayerInterface* createPlayer();
 
 };
 
