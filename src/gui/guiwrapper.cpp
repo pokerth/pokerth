@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 #include "guiwrapper.h"
 
 #include "log.h"
@@ -25,14 +26,13 @@
 using namespace std;
 
 
-GuiWrapper::GuiWrapper(mainWindowImpl* w) : myW(w)
+GuiWrapper::GuiWrapper() : myLog(0), myW(0)
 {
 
-// Am Ende soll GuiWrapper mainWindowImpl
-// 	myW = new mainWindowImpl();	
-// 	myW->show();
 
-// Jetzt muss myW erstmal aus Session kommen!
+	myW = new mainWindowImpl;
+	myW->show();
+
 
 	myLog = new Log(myW);
 

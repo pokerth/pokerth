@@ -28,9 +28,6 @@ Session::Session(GuiInterface* g) : actualGame(0), myGui(g)
 
 	
 
-// 	myW = new mainWindowImpl();
-// 	a.setMainWidget( w );
-// 	myW->show();
 	// Session an mainwindowimpl bergeben
 	myGui->setSession(this);
 	

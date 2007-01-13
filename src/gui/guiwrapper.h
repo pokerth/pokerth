@@ -20,6 +20,8 @@
 #ifndef GUIWRAPPER_H
 #define GUIWRAPPER_H
 
+#include <qapplication.h>
+
 #include <guiinterface.h>
 #include <string>
 #include <iostream>
@@ -32,7 +34,7 @@ class Log;
 class GuiWrapper : public GuiInterface
 {
 public:
-    GuiWrapper(mainWindowImpl*);
+    GuiWrapper();
 
     ~GuiWrapper();
 
@@ -81,8 +83,9 @@ public:
 
 private: 
 
-	mainWindowImpl *myW;
+	
 	Log *myLog;
+	mainWindowImpl *myW;
 	
 
 };

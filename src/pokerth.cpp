@@ -17,14 +17,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
 #include <qapplication.h>
 
-//wenn die Interfaces fertig sind werden die folgenden beiden includes nicht mehr gebraucht
 #include "session.h"
-#include "mainwindowimpl.h"
-
 #include "guiwrapper.h"
 
 class GuiWrapper;
@@ -37,12 +32,7 @@ int main( int argc, char **argv )
 	QApplication a( argc, argv );
 	Q_INIT_RESOURCE(deck);
 	
-	//wenn die Interfaces fertig sind werden die folgenden beiden Objekte nicht mehr gebraucht da sie von GuiWrapper und EngineWrapper erstellt werden.
-	
-	mainWindowImpl *myW = new mainWindowImpl;
-	myW->show();
-
-	GuiInterface *myGuiInterface = new GuiWrapper(myW);
+	GuiInterface *myGuiInterface = new GuiWrapper();
 
 
 	Session theFirst(myGuiInterface);
