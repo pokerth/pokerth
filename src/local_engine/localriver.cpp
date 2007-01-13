@@ -23,7 +23,7 @@
 
 using namespace std;
 
-LocalRiver::LocalRiver(LocalHand* bR, int id, int qP, int dP, int sB) : myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRiverRun(TRUE), firstRiverRound(TRUE), playersTurn(dP), highestCardsValue(0)
+LocalRiver::LocalRiver(LocalHand* bR, int id, int qP, int dP, int sB) : myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRiverRun(1), firstRiverRound(1), playersTurn(dP), highestCardsValue(0)
 
 {	int i;
 
@@ -45,7 +45,7 @@ void LocalRiver::riverRun() {
 
 	if (firstRiverRun) {
 		myHand->getGuiInterface()->dealRiverCard();
-		firstRiverRun = FALSE;
+		firstRiverRun = 0;
 		
 	}
 
@@ -95,13 +95,13 @@ void LocalRiver::riverRun() {
 			do { activePlayerBeforeSmallBlind = (activePlayerBeforeSmallBlind + myHand->getGuiInterface()->getMaxQuantityPlayers() - 1 ) % (myHand->getGuiInterface()->getMaxQuantityPlayers());
 			} while(!(myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyActiveStatus()) || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==1 || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==6);
 
-			myHand->getPlayerArray()[playersTurn]->setMyTurn(TRUE);
+			myHand->getPlayerArray()[playersTurn]->setMyTurn(1);
 			myHand->getGuiInterface()->refreshGroupbox();
 
 // 			cout << "activePlayerBeforeSmallBlind " << activePlayerBeforeSmallBlind << endl;
 // 			cout << "playersTurn " << playersTurn << endl;
 			// wenn wir letzter aktiver Spieler vor SmallBlind sind, dann flopFirstRound zuende
-			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind) { firstRiverRound = FALSE; }
+			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind) { firstRiverRound = 0; }
 		
 			if(playersTurn == 0) {
 				// Wir sind dran
@@ -349,9 +349,9 @@ void LocalRiver::distributePot() {
 			for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
 	
 				// prfen ob Spieler i zu den Winnern gehï¿œt
-				playerIsWinner = FALSE;	
+				playerIsWinner = 0;	
 				for(j=0; j<winnersCounter; j++) {
-					if(winnersArray[j] == i) playerIsWinner = TRUE; // -> Spieler i gehï¿œt zu den Winnern
+					if(winnersArray[j] == i) playerIsWinner = 1; // -> Spieler i gehï¿œt zu den Winnern
 				}
 	
 				// zuerst prfen ob ein gefoldeter Spieler was gesetzt hatte

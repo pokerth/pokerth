@@ -21,7 +21,7 @@
 
 using namespace std;
 
-LocalHand::LocalHand(GuiInterface *g, LocalBoard *b, LocalPlayer **p, int id, int qP, int dP, int sB,int sC) : myW(w), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), allInCondition(FALSE)
+LocalHand::LocalHand(GuiInterface *g, LocalBoard *b, LocalPlayer **p, int id, int qP, int dP, int sB,int sC) : myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), allInCondition(0)
 {
 	int i, j;
 	CardsValue myCardsValue;
@@ -181,7 +181,7 @@ void LocalHand::switchRounds() {
 	else {
 		// 1) wenn alle All In
 		if(allInPlayersCounter == activePlayersCounter) {
-			allInCondition = TRUE;
+			allInCondition = 1;
 		}
 
 		// 2) alle bis auf einen All In und der hat HighestSet
@@ -203,7 +203,7 @@ void LocalHand::switchRounds() {
 						default: {}	
 					}
 					if(playerArray[i]->getMySet() >= tempHighestSet) {
-						allInCondition = TRUE;
+						allInCondition = 1;
 					}
 				}
 			}

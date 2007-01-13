@@ -22,7 +22,7 @@
 
 using namespace std;
 
-LocalPreflop::LocalPreflop(LocalHand* bR, int id, int qP, int dP, int sB) : myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), bigBlindPosition(0), smallBlind(sB), highestSet(2*sB), preflopFirstRound(TRUE), playersTurn(0)
+LocalPreflop::LocalPreflop(LocalHand* bR, int id, int qP, int dP, int sB) : myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), bigBlindPosition(0), smallBlind(sB), highestSet(2*sB), preflopFirstRound(1), playersTurn(0)
 
 {
 
@@ -95,11 +95,11 @@ void LocalPreflop::preflopRun() {
 
 			playersTurn = (playersTurn+1)%(myHand->getGuiInterface()->getMaxQuantityPlayers());
 			// falls BigBlind, dann PreflopFirstRound zuende
-			if(myHand->getPlayerArray()[playersTurn]->getMyButton() == 3) preflopFirstRound = FALSE;
+			if(myHand->getPlayerArray()[playersTurn]->getMyButton() == 3) preflopFirstRound = 0;
 
 		} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || myHand->getPlayerArray()[playersTurn]->getMyAction() == 1 || myHand->getPlayerArray()[playersTurn]->getMyAction() == 6);
 
-		myHand->getPlayerArray()[playersTurn]->setMyTurn(TRUE);
+		myHand->getPlayerArray()[playersTurn]->setMyTurn(1);
 		myHand->getGuiInterface()->refreshGroupbox();
 
 		if(playersTurn == 0) {

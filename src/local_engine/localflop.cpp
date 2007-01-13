@@ -22,7 +22,7 @@
 
 using namespace std;
 
-LocalFlop::LocalFlop(LocalHand* bR, int id, int qP, int dP, int sB) : myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstFlopRun(TRUE), firstFlopRound(TRUE), playersTurn(dP)
+LocalFlop::LocalFlop(LocalHand* bR, int id, int qP, int dP, int sB) : myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstFlopRun(1), firstFlopRound(1), playersTurn(dP)
 
 {
 	int i;
@@ -46,7 +46,7 @@ void LocalFlop::flopRun() {
 
 	if (firstFlopRun) {
 		myHand->getGuiInterface()->dealFlopCards();
-		firstFlopRun = FALSE;
+		firstFlopRun = 0;
 		
 	}
 
@@ -94,13 +94,13 @@ void LocalFlop::flopRun() {
 			do { activePlayerBeforeSmallBlind = (activePlayerBeforeSmallBlind + myHand->getGuiInterface()->getMaxQuantityPlayers() - 1 ) % (myHand->getGuiInterface()->getMaxQuantityPlayers());
 			} while(!(myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyActiveStatus()) || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==1 || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==6);
 
-			myHand->getPlayerArray()[playersTurn]->setMyTurn(TRUE);
+			myHand->getPlayerArray()[playersTurn]->setMyTurn(1);
 			myHand->getGuiInterface()->refreshGroupbox();
 
 // 			cout << "activePlayerBeforeSmallBlind " << activePlayerBeforeSmallBlind << endl;
 // 			cout << "playersTurn " << playersTurn << endl;
 			// wenn wir letzter aktiver Spieler vor SmallBlind sind, dann flopFirstRound zuende
-			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind) { firstFlopRound = FALSE; }
+			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind) { firstFlopRound = 0; }
 		
 			if(playersTurn == 0) {
 				// Wir sind dran
