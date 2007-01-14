@@ -21,7 +21,7 @@
 
 using namespace std;
 
-LocalHand::LocalHand(GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC) : HandInterface(), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), allInCondition(0)
+LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC) : HandInterface(), myFactory(f), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), allInCondition(0)
 {
 	int i, j;
 	CardsValue myCardsValue;
@@ -29,7 +29,6 @@ LocalHand::LocalHand(GuiInterface *g, BoardInterface *b, PlayerInterface **p, in
 	myGui->setHand(this);
 	myBoard->setHand(this);
 
-// 	myEngine->setHand(this);
 
 	for(i=0; i<actualQuantityPlayers; i++) playerArray[i]->setHand(this);
 
@@ -72,10 +71,10 @@ LocalHand::LocalHand(GuiInterface *g, BoardInterface *b, PlayerInterface **p, in
 	
 
 	// Preflop, Flop, Turn und River erstellen
-	myPreflop = new LocalPreflop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-	myFlop = new LocalFlop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-	myTurn = new LocalTurn(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-	myRiver = new LocalRiver(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
+	myPreflop =  myFactory->createPreflop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
+	myFlop = myFactory->createFlop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
+	myTurn = myFactory->createTurn(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
+	myRiver = myFactory->createRiver(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
 	
 	//Rundenwechsel | beim ersten Durchlauf --> Preflop starten
 	myGui->nextPlayerAnimation();

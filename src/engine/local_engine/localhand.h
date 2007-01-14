@@ -20,9 +20,11 @@
 #ifndef HandInterface_H
 #define HandInterface_H
 
-#include "guiinterface.h"
+#include "enginefactory.h"
 
 #include "handinterface.h"
+#include "guiinterface.h"
+
 
 #include "tools.h"
 #include "cardsvalue.h"
@@ -32,20 +34,10 @@
 #include "localriver.h"
 
 
-// class GuiInterface;
-class BoardInterface;
-class PlayerInterface;
-// class HandInterface;
-
-class LocalPreflop;
-class LocalFlop;
-class LocalTurn;
-class LocalRiver;
-
 
 class LocalHand : public HandInterface{
 public:
-    LocalHand(GuiInterface*, BoardInterface*, PlayerInterface**, int, int, int, int, int);
+    LocalHand(EngineFactory*, GuiInterface*, BoardInterface*, PlayerInterface**, int, int, int, int, int);
 
     ~LocalHand();
 	
@@ -53,10 +45,10 @@ public:
 
 	PlayerInterface** getPlayerArray() const { return playerArray; }
 	BoardInterface* getBoard() const { return myBoard; }
-	LocalPreflop* getPreflop() const { return myPreflop; }
-	LocalFlop* getFlop() const { return myFlop; }
-	LocalTurn* getTurn() const { return myTurn; }
-	LocalRiver* getRiver() const { return myRiver; }
+	PreflopInterface* getPreflop() const { return myPreflop; }
+	FlopInterface* getFlop() const { return myFlop; }
+	TurnInterface* getTurn() const { return myTurn; }
+	RiverInterface* getRiver() const { return myRiver; }
 	GuiInterface* getGuiInterface() const { return myGui; }
 
 	void setMyID(const int& theValue) { myID = theValue; }
@@ -92,13 +84,14 @@ public:
 
 private:
 
+	EngineFactory *myFactory;
 	GuiInterface *myGui;
 	BoardInterface *myBoard;
 	PlayerInterface **playerArray;
-	LocalPreflop *myPreflop;
-	LocalFlop *myFlop;
-	LocalTurn *myTurn;
-	LocalRiver *myRiver;
+	PreflopInterface *myPreflop;
+	FlopInterface *myFlop;
+	TurnInterface *myTurn;
+	RiverInterface *myRiver;
 
 	int myID;
 	int actualQuantityPlayers;

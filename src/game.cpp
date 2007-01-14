@@ -19,14 +19,10 @@
  ***************************************************************************/
 #include "game.h"
 
-#include "localhand.h"
-
-
 #include "enginefactory.h"
 #include "localenginefactory.h"
 
 #include "guiinterface.h"
-
 #include "boardinterface.h"
 #include "playerinterface.h"
 #include "handinterface.h"
@@ -59,7 +55,6 @@ Game::Game(GuiInterface* g, int qP, int sC, int sB) : myGui(g), actualHand(0), a
 	// Player erstellen
 	PlayerInterface *tempPlayer;
 	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
-// 		tempPlayer = new LocalPlayer(actualBoard, i, startCash, startQuantityPlayers > i, 0);
 		tempPlayer = myFactory->createPlayer(actualBoard, i, startCash, startQuantityPlayers > i, 0);
 		playerArray[i] = tempPlayer;
 	}
@@ -119,7 +114,7 @@ void Game::startHand()
 	}
 
 	// Hand erstellen
-	actualHand = myFactory->createHand(myGui, actualBoard, playerArray, actualHandID, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
+	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, actualHandID, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
 
 	
 	//GUI bereinigen 

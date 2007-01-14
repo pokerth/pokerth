@@ -22,6 +22,13 @@
 
 #include <enginefactory.h>
 
+#include "localhand.h"
+#include "localboard.h"
+#include "localplayer.h"
+#include "localpreflop.h"
+#include "localflop.h"
+#include "localturn.h"
+#include "localriver.h"
 
 class LocalEngineFactory : public EngineFactory
 {
@@ -30,7 +37,7 @@ public:
 
     ~LocalEngineFactory();
 
-	HandInterface* createHand(GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC);
+	HandInterface* createHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC);
 	BoardInterface* createBoard();
 	PlayerInterface* createPlayer(BoardInterface *b, int id, int sC, bool aS, int mB);
 	PreflopInterface* createPreflop(HandInterface* hi, int id, int qP, int dP, int sB);

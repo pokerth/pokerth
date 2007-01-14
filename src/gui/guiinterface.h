@@ -23,10 +23,9 @@
 // #include <iostream>
 #include <string>
 
-#include "session.h"
-#include "game.h"
-
-#include "handinterface.h"
+class Game;
+class Session;
+class HandInterface;
 
 
 class GuiInterface{

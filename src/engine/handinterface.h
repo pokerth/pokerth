@@ -62,10 +62,10 @@ public:
 	virtual void setStartCash(const int& theValue) =0;
 	virtual int getStartCash() const =0;
 
-	virtual void assignButtons();
+	virtual void assignButtons() =0;
 
-	virtual void highlightRoundLabel();
-	virtual void switchRounds();
+	virtual void highlightRoundLabel() =0;
+	virtual void switchRounds() =0;
 
 };
 

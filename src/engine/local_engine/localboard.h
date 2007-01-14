@@ -44,8 +44,8 @@ public:
 	void setPot(int theValue) {  pot = theValue;}
 	int getSets() const { return sets; }
 
-	void collectSets();
-	void collectPot();
+	void collectSets() ;
+	void collectPot() ;
 	
 
 private:

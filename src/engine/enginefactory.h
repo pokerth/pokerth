@@ -28,20 +28,13 @@
 #include "turninterface.h"
 #include "riverinterface.h"
 
-// class HandInterface;
-// class BoardInterface;
-// class PlayerInterface;
-// class PreflopInterface;
-// class FlopInterface;
-// class TurnInterface;
-// class RiverInterface;
 
 class EngineFactory{
 public:
     
 	virtual ~EngineFactory();
 		
-	virtual HandInterface* createHand(GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC) =0;
+	virtual HandInterface* createHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC) =0;
 	virtual BoardInterface* createBoard() =0;
 	virtual PlayerInterface* createPlayer(BoardInterface *b, int id, int sC, bool aS, int mB) =0;
 	virtual PreflopInterface* createPreflop(HandInterface* hi, int id, int qP, int dP, int sB) =0;

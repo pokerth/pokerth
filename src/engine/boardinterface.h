@@ -39,8 +39,8 @@ public:
 	virtual void setPot(int theValue) =0;
 	virtual int getSets() const=0;
 // 
-	virtual void collectSets() const=0;
-	virtual void collectPot() const=0;
+	virtual void collectSets() =0;
+	virtual void collectPot() =0;
 
 
 };

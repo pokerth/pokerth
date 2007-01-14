@@ -40,8 +40,8 @@ public:
 	void setHighestSet(const int& theValue) { highestSet = theValue; }
 	int getHighestSet() const { return highestSet;}
 
-	void setLocalPreflopFirstRound(bool theValue) { preflopFirstRound = theValue; }
-	bool setLocalPreflopFirstRound() const { return preflopFirstRound; }
+	void setPreflopFirstRound(bool theValue) { preflopFirstRound = theValue; }
+	bool setPreflopFirstRound() const { return preflopFirstRound; }
 
 	void preflopRun();
 	void nextPlayer2(); 

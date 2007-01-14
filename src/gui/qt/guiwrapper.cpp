@@ -20,8 +20,6 @@
 
 #include "guiwrapper.h"
 
-#include "log.h"
-#include "mainwindowimpl.h"
 
 using namespace std;
 

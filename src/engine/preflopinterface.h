@@ -31,8 +31,8 @@ public:
 	virtual void setHighestSet(const int& theValue) =0;
 	virtual int getHighestSet() const =0;
 
-	virtual void setLocalPreflopFirstRound(bool theValue) =0;
-	virtual bool setLocalPreflopFirstRound() const =0;
+	virtual void setPreflopFirstRound(bool theValue) =0;
+	virtual bool setPreflopFirstRound() const =0;
 
 	virtual void preflopRun() =0;
 	virtual void nextPlayer2() =0; 

@@ -19,13 +19,6 @@
  ***************************************************************************/
 #include "localenginefactory.h"
 
-#include "localhand.h"
-#include "localboard.h"
-#include "localplayer.h"
-#include "localpreflop.h"
-#include "localflop.h"
-#include "localturn.h"
-#include "localriver.h"
 
 LocalEngineFactory::LocalEngineFactory()
  : EngineFactory()
@@ -38,7 +31,7 @@ LocalEngineFactory::~LocalEngineFactory()
 }
 
 
-HandInterface* LocalEngineFactory::createHand(GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC) { return new LocalHand(g, b, p, id, qP, dP, sB, sC); }
+HandInterface* LocalEngineFactory::createHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC) { return new LocalHand(f, g, b, p, id, qP, dP, sB, sC); }
 
 BoardInterface* LocalEngineFactory::createBoard() { return new LocalBoard; }
 

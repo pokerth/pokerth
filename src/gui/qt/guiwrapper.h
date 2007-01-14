@@ -20,16 +20,17 @@
 #ifndef GUIWRAPPER_H
 #define GUIWRAPPER_H
 
-#include <qapplication.h>
-
 #include <guiinterface.h>
+
+#include "log.h"
+#include "mainwindowimpl.h"
+
 #include <string>
 #include <iostream>
 
-class mainWindowImpl;
-class Log;
-
-
+#include "handinterface.h"
+#include "session.h"
+#include "game.h"
 
 class GuiWrapper : public GuiInterface
 {
