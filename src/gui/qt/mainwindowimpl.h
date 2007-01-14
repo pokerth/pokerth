@@ -48,12 +48,17 @@ public:
 
 	int getMaxQuantityPlayers() const { return maxQuantityPlayers; }
 	
-	int getGameSpeed() const { return gameSpeed; }
-	int getPreflopNextPlayerSpeed() const { return preflopNextPlayerSpeed; }
-	int getNextPlayerSpeed1() const { return nextPlayerSpeed1; }
-	int getNextPlayerSpeed2() const { return nextPlayerSpeed2; }	
-	int getNextPlayerSpeed3() const { return nextPlayerSpeed3; }
+// 	int getGameSpeed() const { return gameSpeed; }
 	
+
+// 	int getPreflopNextPlayerSpeed() const { return preflopNextPlayerSpeed; }
+// 	int getNextPlayerSpeed1() const { return nextPlayerSpeed1; }
+// 	int getNextPlayerSpeed2() const { return nextPlayerSpeed2; }	
+// 	int getNextPlayerSpeed3() const { return nextPlayerSpeed3; }
+
+		
+
+
 	//refresh-Funktionen
 	void refreshSet();
 	void refreshButton();
@@ -74,7 +79,11 @@ public:
 
 	void highlightRoundLabel(std::string);
 
+	void setSpeeds();
+
 public slots:
+
+	void setGameSpeed(const int theValue) { gameSpeed = theValue*10; setSpeeds(); } // Achtung Faktor 10!!!
 
 	void callNewGameDialog() ;
 	void callAboutPokerthDialog();
@@ -142,7 +151,6 @@ public slots:
 	void userWidgetsBackgroudColor();
 	void timerBlockerFalse();
 
-
 private: 
 	
 	Game *actualGame;
@@ -177,6 +185,17 @@ private:
 	int nextPlayerSpeed3;
 	int preflopNextPlayerSpeed;
 	int nextOpponentSpeed;	
+/*
+	int *gameSpeed;
+	int *dealCardsSpeed;
+	int *postRiverRunAnimationSpeed;
+	int *winnerBlinkSpeed; 
+	int *newRoundSpeed;
+	int *nextPlayerSpeed1;
+	int *nextPlayerSpeed2;
+	int *nextPlayerSpeed3;
+	int *preflopNextPlayerSpeed;
+	int *nextOpponentSpeed;	*/
 
 	bool firstCallNewGame;
 	bool newRoundTimerBlock;

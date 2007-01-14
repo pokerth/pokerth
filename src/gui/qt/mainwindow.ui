@@ -1567,7 +1567,7 @@
             <number>5</number>
            </property>
            <item row="1" column="1" >
-            <widget class="QSlider" name="horizontalSlider" >
+            <widget class="QSlider" name="horizontalSlider_speed" >
              <property name="palette" >
               <palette>
                <active>
@@ -1604,6 +1604,9 @@
                 </colorrole>
                </disabled>
               </palette>
+             </property>
+             <property name="minimum" >
+              <number>1</number>
              </property>
              <property name="maximum" >
               <number>10</number>
@@ -4028,7 +4031,7 @@
   <tabstop>pushButton_set</tabstop>
   <tabstop>spinBox_set</tabstop>
   <tabstop>pushButton_allin</tabstop>
-  <tabstop>horizontalSlider</tabstop>
+  <tabstop>horizontalSlider_speed</tabstop>
   <tabstop>pushButton</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>textBrowser_Log</tabstop>
@@ -4038,7 +4041,7 @@
  </resources>
  <connections>
   <connection>
-   <sender>horizontalSlider</sender>
+   <sender>horizontalSlider_speed</sender>
    <signal>valueChanged(int)</signal>
    <receiver>label_2</receiver>
    <slot>setNum(int)</slot>

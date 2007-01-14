@@ -44,7 +44,7 @@ const int maxQuantityPlayersConst = 5;
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
-     : QMainWindow(parent, name), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(1), debugMode(0)
+     : QMainWindow(parent, name), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(0)
 {
 
 	setupUi(this);
@@ -81,6 +81,26 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 
 	//Timer Objekt erstellen
 	potDistributeTimer = new QTimer(this);
+
+// 	gameSpeed = new int;
+// 	dealCardsSpeed = new int;
+// 	postRiverRunAnimationSpeed = new int; 
+// 	winnerBlinkSpeed = new int;
+// 	newRoundSpeed = new int;
+// 	nextPlayerSpeed1 = new int;
+// 	nextPlayerSpeed2 = new int;
+// 	nextPlayerSpeed3 = new int;
+// 	preflopNextPlayerSpeed = new int;
+// 	nextOpponentSpeed = new int;
+// // 	int *dealCardsSpeed;
+// // 	int *postRiverRunAnimationSpeed;
+// // 	int *winnerBlinkSpeed; 
+// // 	int *newRoundSpeed;
+// // 	int *nextPlayerSpeed1;
+// // 	int *nextPlayerSpeed2;
+// // 	int *nextPlayerSpeed3;
+// // 	int *preflopNextPlayerSpeed;
+// // 	int *nextOpponentSpeed;	
        
 
 	// buttonLabelArray init
@@ -166,8 +186,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	connect( pushButton_fold, SIGNAL( clicked() ), this, SLOT( myFold() ) );
 	connect( pushButton_check, SIGNAL( clicked() ), this, SLOT( myCheck() ) );
 	connect( pushButton_allin, SIGNAL( clicked() ), this, SLOT( myAllIn() ) );
-	
-// 	connect ( horizontalSlider_speed, (SIGNAL( valueChanged(int value), this, SLOT textLabel_speedSlider
+
+	connect ( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
 
 // tabWidget_2->hide();	
 }
@@ -198,15 +218,9 @@ void mainWindowImpl::callNewGameDialog() {
 // 		debugMode = v->checkBox_debugMode->isChecked();
 		
 		//Speeds 
-		dealCardsSpeed = (gameSpeed/2)*10; //milliseconds
-		postRiverRunAnimationSpeed = gameSpeed*18; 
-		winnerBlinkSpeed = gameSpeed*3; //milliseconds
-		newRoundSpeed = gameSpeed*35; 
-		nextPlayerSpeed1 = 10; // Zeit zwischen dem Setzen des Spielers und dem Verdunkeln
-		nextPlayerSpeed2 = 4; // Zeit zwischen Verdunkeln des einen und aufhellen des anderen Spielers
-		nextPlayerSpeed3 = 7; // Zeit bis zwischen Aufhellen und Aktion
-		preflopNextPlayerSpeed = 10; // Zeit bis zwischen Aufhellen und Aktion im Preflop (etwas langsamer da nicht gerechnet wird. )
-
+		setSpeeds();
+		
+		//Start Game!!!
 		mySession->startGame(v->spinBox_quantityPlayers->value(), v->spinBox_startCash->value(), v->spinBox_smallBlind->value());
 
 	}
@@ -934,38 +948,38 @@ void mainWindowImpl::nextPlayerAnimation() {
 	refreshChangePlayer();
 	
 	//weiter mit switchrounds in Hand
-	QTimer::singleShot(gameSpeed*nextPlayerSpeed1, this, SLOT( handSwitchRounds() ));
+	QTimer::singleShot(nextPlayerSpeed1, this, SLOT( handSwitchRounds() ));
 }
 
-void mainWindowImpl::preflopAnimation1() { QTimer::singleShot(gameSpeed*nextPlayerSpeed2, this, SLOT(preflopAnimation1Action())); }
+void mainWindowImpl::preflopAnimation1() { QTimer::singleShot(nextPlayerSpeed2, this, SLOT(preflopAnimation1Action())); }
 void mainWindowImpl::preflopAnimation1Action() { actualHand->getPreflop()->preflopRun(); }
 
-void mainWindowImpl::preflopAnimation2() { QTimer::singleShot(gameSpeed*preflopNextPlayerSpeed, this, SLOT(preflopAnimation2Action())); }
+void mainWindowImpl::preflopAnimation2() { QTimer::singleShot(preflopNextPlayerSpeed, this, SLOT(preflopAnimation2Action())); }
 void mainWindowImpl::preflopAnimation2Action() { actualHand->getPreflop()->nextPlayer2(); }
 
 
-void mainWindowImpl::flopAnimation1() { QTimer::singleShot(gameSpeed*nextPlayerSpeed2, this, SLOT(flopAnimation1Action())); }
+void mainWindowImpl::flopAnimation1() { QTimer::singleShot(nextPlayerSpeed2, this, SLOT(flopAnimation1Action())); }
 void mainWindowImpl::flopAnimation1Action() { actualHand->getFlop()->flopRun(); }
 
-void mainWindowImpl::flopAnimation2() { QTimer::singleShot(gameSpeed*nextPlayerSpeed3, this, SLOT(flopAnimation2Action())); }
+void mainWindowImpl::flopAnimation2() { QTimer::singleShot(nextPlayerSpeed3, this, SLOT(flopAnimation2Action())); }
 void mainWindowImpl::flopAnimation2Action() { actualHand->getFlop()->nextPlayer2(); }
 
 
-void mainWindowImpl::turnAnimation1() { QTimer::singleShot(gameSpeed*nextPlayerSpeed2, this, SLOT(turnAnimation1Action())); }
+void mainWindowImpl::turnAnimation1() { QTimer::singleShot(nextPlayerSpeed2, this, SLOT(turnAnimation1Action())); }
 void mainWindowImpl::turnAnimation1Action() { actualHand->getTurn()->turnRun(); }
 
-void mainWindowImpl::turnAnimation2() { QTimer::singleShot(gameSpeed*nextPlayerSpeed3, this, SLOT(turnAnimation2Action())); }
+void mainWindowImpl::turnAnimation2() { QTimer::singleShot(nextPlayerSpeed3, this, SLOT(turnAnimation2Action())); }
 void mainWindowImpl::turnAnimation2Action() { actualHand->getTurn()->nextPlayer2(); }
 
 
-void mainWindowImpl::riverAnimation1() { QTimer::singleShot(gameSpeed*nextPlayerSpeed2, this, SLOT(riverAnimation1Action())); }
+void mainWindowImpl::riverAnimation1() { QTimer::singleShot(nextPlayerSpeed2, this, SLOT(riverAnimation1Action())); }
 void mainWindowImpl::riverAnimation1Action() { actualHand->getRiver()->riverRun(); }
 
-void mainWindowImpl::riverAnimation2() { QTimer::singleShot(gameSpeed*nextPlayerSpeed3, this, SLOT(riverAnimation2Action())); }
+void mainWindowImpl::riverAnimation2() { QTimer::singleShot(nextPlayerSpeed3, this, SLOT(riverAnimation2Action())); }
 void mainWindowImpl::riverAnimation2Action() { actualHand->getRiver()->nextPlayer2(); }
 
 
-void mainWindowImpl::postRiverAnimation1() { QTimer::singleShot(gameSpeed*nextPlayerSpeed2, this, SLOT(postRiverAnimation1Action())); }
+void mainWindowImpl::postRiverAnimation1() { QTimer::singleShot(nextPlayerSpeed2, this, SLOT(postRiverAnimation1Action())); }
 void mainWindowImpl::postRiverAnimation1Action() { actualHand->getRiver()->postRiverRun(); }
 
 
@@ -1228,4 +1242,16 @@ void mainWindowImpl::timerBlockerFalse() {
 
 	newRoundTimerBlock=FALSE;
 
+}
+
+void mainWindowImpl::setSpeeds() {
+
+	dealCardsSpeed = (gameSpeed/2)*10; //milliseconds
+	postRiverRunAnimationSpeed = gameSpeed*18; 
+	winnerBlinkSpeed = gameSpeed*3; //milliseconds
+	newRoundSpeed = gameSpeed*35; 
+	nextPlayerSpeed1 = gameSpeed*10; // Zeit zwischen dem Setzen des Spielers und dem Verdunkeln
+	nextPlayerSpeed2 = gameSpeed*4; // Zeit zwischen Verdunkeln des einen und aufhellen des anderen Spielers
+	nextPlayerSpeed3 = gameSpeed*7; // Zeit bis zwischen Aufhellen und Aktion
+	preflopNextPlayerSpeed = gameSpeed*10; // Zeit bis zwischen Aufhellen und Aktion im Preflop (etwas langsamer da nicht gerechnet wird. )
 }
