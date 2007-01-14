@@ -34,7 +34,7 @@ LocalBoard::~LocalBoard()
 
 void LocalBoard::setPlayer(PlayerInterface** p) { playerArray = p; }
 
-void LocalBoard::setHand(LocalHand* br) { actualHand = br; }
+void LocalBoard::setHand(HandInterface* br) { actualHand = br; }
 
 void LocalBoard::collectSets() {
 

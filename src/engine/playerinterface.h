@@ -20,6 +20,8 @@
 #ifndef PLAYERINTERFACE_H
 #define PLAYERINTERFACE_H
 
+#include "handinterface.h"
+
 class PlayerInterface{
 public:
 

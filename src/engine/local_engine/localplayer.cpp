@@ -44,7 +44,7 @@ LocalPlayer::~LocalPlayer()
 {
 }
 
-void LocalPlayer::setHand(LocalHand* br) { actualHand = br; }
+void LocalPlayer::setHand(HandInterface* br) { actualHand = br; }
 
 void LocalPlayer::action() {
 
