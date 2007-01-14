@@ -33,10 +33,10 @@ public:
 	HandInterface* createHand(GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC);
 	BoardInterface* createBoard();
 	PlayerInterface* createPlayer(BoardInterface *b, int id, int sC, bool aS, int mB);
-	PreflopInterface* createPreflop();
-	FlopInterface* createFlop();
-	TurnInterface* createTurn();
-	RiverInterface* createRiver();
+	PreflopInterface* createPreflop(HandInterface* hi, int id, int qP, int dP, int sB);
+	FlopInterface* createFlop(HandInterface* hi, int id, int qP, int dP, int sB);
+	TurnInterface* createTurn(HandInterface* hi, int id, int qP, int dP, int sB);
+	RiverInterface* createRiver(HandInterface* hi, int id, int qP, int dP, int sB);
 };
 
 #endif

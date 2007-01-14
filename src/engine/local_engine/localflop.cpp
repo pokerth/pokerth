@@ -18,11 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "localflop.h"
-#include "localhand.h"
 
 using namespace std;
 
-LocalFlop::LocalFlop(LocalHand* bR, int id, int qP, int dP, int sB) : myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstFlopRun(1), firstFlopRound(1), playersTurn(dP)
+LocalFlop::LocalFlop(HandInterface* bR, int id, int qP, int dP, int sB) : FlopInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstFlopRun(1), firstFlopRound(1), playersTurn(dP)
 
 {
 	int i;

@@ -18,11 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "localpreflop.h"
-#include "localhand.h"
+
+#include "handinterface.h"
 
 using namespace std;
 
-LocalPreflop::LocalPreflop(LocalHand* bR, int id, int qP, int dP, int sB) : myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), bigBlindPosition(0), smallBlind(sB), highestSet(2*sB), preflopFirstRound(1), playersTurn(0)
+LocalPreflop::LocalPreflop(HandInterface* bR, int id, int qP, int dP, int sB) : PreflopInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), bigBlindPosition(0), smallBlind(sB), highestSet(2*sB), preflopFirstRound(1), playersTurn(0)
 
 {
 

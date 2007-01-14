@@ -21,6 +21,10 @@
 #define HANDINTERFACE_H
 
 #include "guiinterface.h"
+#include "preflopinterface.h"
+#include "flopinterface.h"
+#include "turninterface.h"
+#include "riverinterface.h"
 
 class HandInterface{
 public:
@@ -29,10 +33,10 @@ public:
 
 	virtual PlayerInterface** getPlayerArray() const =0;
 	virtual BoardInterface* getBoard() const =0;
-// 	virtual LocalPreflop* getPreflop() const =0;
-// 	virtual LocalFlop* getFlop() const =0;
-// 	virtual LocalTurn* getTurn() const =0;
-// 	virtual LocalRiver* getRiver() const =0;
+	virtual PreflopInterface* getPreflop() const =0;
+	virtual FlopInterface* getFlop() const =0;
+	virtual TurnInterface* getTurn() const =0;
+	virtual RiverInterface* getRiver() const =0;
 	virtual GuiInterface* getGuiInterface() const =0;
 
 	virtual void setMyID(const int& theValue) =0;

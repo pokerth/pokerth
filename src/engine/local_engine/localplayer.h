@@ -29,7 +29,7 @@
 
 
 class CardsValue;
-class LocalHand;
+class HandInterface;
 class BoardInterface;
 
 class LocalPlayer : public PlayerInterface{
@@ -38,7 +38,7 @@ public:
 
     ~LocalPlayer();
 
-	void setHand(LocalHand*);
+	void setHand(HandInterface*);
 
 	void setMyID(const int& theValue) { myID = theValue; }
 	int getMyID() const { return myID; }
@@ -92,7 +92,7 @@ public:
 
 
 private:
-	LocalHand *actualHand;
+	HandInterface *actualHand;
 	BoardInterface *actualBoard;
 
 	CardsValue *myCardsValue;

@@ -17,14 +17,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef LOCALHAND_H
-#define LOCALHAND_H
+#ifndef HandInterface_H
+#define HandInterface_H
 
 #include "guiinterface.h"
 
 #include "handinterface.h"
 
 #include "tools.h"
+#include "cardsvalue.h"
 #include "localpreflop.h"
 #include "localflop.h"
 #include "localturn.h" 
@@ -50,7 +51,7 @@ public:
 	
 	
 
-	PlayerInterface** getPlayerArray() const	{ return playerArray; }
+	PlayerInterface** getPlayerArray() const { return playerArray; }
 	BoardInterface* getBoard() const { return myBoard; }
 	LocalPreflop* getPreflop() const { return myPreflop; }
 	LocalFlop* getFlop() const { return myFlop; }

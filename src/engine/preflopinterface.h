@@ -25,6 +25,18 @@ public:
     
 	virtual ~PreflopInterface();
 
+	virtual void setPlayersTurn(const int& theValue) =0;
+	virtual int getPlayersTurn() const =0;
+	
+	virtual void setHighestSet(const int& theValue) =0;
+	virtual int getHighestSet() const =0;
+
+	virtual void setLocalPreflopFirstRound(bool theValue) =0;
+	virtual bool setLocalPreflopFirstRound() const =0;
+
+	virtual void preflopRun() =0;
+	virtual void nextPlayer2() =0; 
+
 	
 
 };

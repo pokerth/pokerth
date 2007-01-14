@@ -18,11 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "localturn.h"
-#include "localhand.h"
+
 
 using namespace std;
 
-LocalTurn::LocalTurn(LocalHand* bR, int id, int qP, int dP, int sB) : myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstTurnRun(1), firstTurnRound(1), playersTurn(dP)
+LocalTurn::LocalTurn(HandInterface* bR, int id, int qP, int dP, int sB) : TurnInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstTurnRun(1), firstTurnRound(1), playersTurn(dP)
 
 {	int i;
 

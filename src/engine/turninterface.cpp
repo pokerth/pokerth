@@ -19,11 +19,6 @@
  ***************************************************************************/
 #include "turninterface.h"
 
-TurnInterface::TurnInterface()
-{
-}
-
-
 TurnInterface::~TurnInterface()
 {
 }

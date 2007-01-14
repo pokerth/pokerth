@@ -20,14 +20,33 @@
 #ifndef RIVERINTERFACE_H
 #define RIVERINTERFACE_H
 
-/**
-	@author FThauer FHammer <f.thauer@web.de>
-*/
 class RiverInterface{
 public:
-    RiverInterface();
 
-    ~RiverInterface();
+	virtual ~RiverInterface();
+
+	virtual void setPlayersTurn(const int& theValue) =0;
+	virtual int getPlayersTurn() const =0;
+	
+	virtual void setHighestSet(const int& theValue) =0;
+	virtual int getHighestSet() const =0;
+
+	virtual void setFirstRiverRound(bool theValue) =0;
+	virtual bool getFirstRiverRound() const =0;
+
+	virtual void setSmallBlindPosition(const int& theValue) =0;
+	virtual int getSmallBlindPosition() const =0;
+
+	virtual void setSmallBlind(const int& theValue) =0;
+	virtual int getSmallBlind() const =0;
+
+	virtual void setHighestCardsValue(const int& theValue) =0;
+	virtual int getHighestCardsValue() const =0;
+
+	virtual void riverRun() =0;
+	virtual void postRiverRun() =0;
+	virtual void nextPlayer2() =0;
+	virtual void distributePot() =0;
 
 };
 

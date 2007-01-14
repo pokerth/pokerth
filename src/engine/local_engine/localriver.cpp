@@ -19,11 +19,10 @@
  ***************************************************************************/
 #include "localriver.h"
 
-#include "localhand.h"
 
 using namespace std;
 
-LocalRiver::LocalRiver(LocalHand* bR, int id, int qP, int dP, int sB) : myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRiverRun(1), firstRiverRound(1), playersTurn(dP), highestCardsValue(0)
+LocalRiver::LocalRiver(HandInterface* bR, int id, int qP, int dP, int sB) : RiverInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRiverRun(1), firstRiverRound(1), playersTurn(dP), highestCardsValue(0)
 
 {	int i;
 

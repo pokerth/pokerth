@@ -44,10 +44,10 @@ BoardInterface* LocalEngineFactory::createBoard() { return new LocalBoard; }
 
 PlayerInterface* LocalEngineFactory::createPlayer(BoardInterface *b, int id, int sC, bool aS, int mB) { return new LocalPlayer(b, id, sC, aS, mB); }
 
-PreflopInterface* LocalEngineFactory::createPreflop() {/* return new LocalPreflop;*/ }
+PreflopInterface* LocalEngineFactory::createPreflop(HandInterface* hi, int id, int qP, int dP, int sB) { return new LocalPreflop(hi, id, qP, dP, sB); }
 
-FlopInterface* LocalEngineFactory::createFlop() { /*return new LocalFlop;*/ }
+FlopInterface* LocalEngineFactory::createFlop(HandInterface* hi, int id, int qP, int dP, int sB) { return new LocalFlop(hi, id, qP, dP, sB); }
 
-TurnInterface* LocalEngineFactory::createTurn() { /*return new LocalTurn;*/ }
+TurnInterface* LocalEngineFactory::createTurn(HandInterface* hi, int id, int qP, int dP, int sB) { return new LocalTurn(hi, id, qP, dP, sB); }
 
-RiverInterface* LocalEngineFactory::createRiver() { /*return new LocalRiver;*/ }
+RiverInterface* LocalEngineFactory::createRiver(HandInterface* hi, int id, int qP, int dP, int sB) { return new LocalRiver(hi, id, qP, dP, sB); }

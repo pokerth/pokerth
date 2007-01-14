@@ -19,11 +19,6 @@
  ***************************************************************************/
 #include "flopinterface.h"
 
-FlopInterface::FlopInterface()
-{
-}
-
-
 FlopInterface::~FlopInterface()
 {
 }

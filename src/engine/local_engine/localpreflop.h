@@ -20,14 +20,16 @@
 #ifndef LOCALPREFLOP_H
 #define LOCALPREFLOP_H
 
+#include "preflopinterface.h"
+
 #include <iostream>
 
-class LocalHand;
+class HandInterface;
 
-class LocalPreflop {
+class LocalPreflop : public PreflopInterface{
  
 public:
-    LocalPreflop(LocalHand*, int, int, int, int);
+    LocalPreflop(HandInterface*, int, int, int, int);
 
     ~LocalPreflop();
 
@@ -46,7 +48,7 @@ public:
 
 
 private:
-	LocalHand *myHand;
+	HandInterface *myHand;
 
 	int myID;
 	int actualQuantityPlayers;	

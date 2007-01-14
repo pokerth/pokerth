@@ -20,14 +20,15 @@
 #ifndef LOCALFLOP_H
 #define LOCALFLOP_H
 
+#include "flopinterface.h"
+#include "handinterface.h"
+
 #include <iostream>
 
-class LocalHand;
-
-class LocalFlop {
+class LocalFlop : public FlopInterface{
   
 public:
-    LocalFlop(LocalHand*, int, int, int, int);
+    LocalFlop(HandInterface*, int, int, int, int);
 
     ~LocalFlop();
 
@@ -52,7 +53,7 @@ public:
 
 private:
 
-	LocalHand *myHand;
+	HandInterface *myHand;
 
 	int myID;
 	int actualQuantityPlayers;	

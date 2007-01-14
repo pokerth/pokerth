@@ -20,14 +20,16 @@
 #ifndef LOCALTURN_H
 #define LOCALTURN_H
 
+#include "turninterface.h"
+
+#include "handinterface.h"
+
 #include <iostream>
 
-class LocalHand;
-
-class LocalTurn {
+class LocalTurn : public TurnInterface{
   
 public:
-    LocalTurn(LocalHand*, int, int, int, int);
+    LocalTurn(HandInterface*, int, int, int, int);
 
     ~LocalTurn();
 
@@ -51,7 +53,7 @@ public:
 
 private:
 
-	LocalHand *myHand;
+	HandInterface *myHand;
 
 	int myID;
 	int actualQuantityPlayers;	

@@ -20,14 +20,16 @@
 #ifndef LOCALRIVER_H
 #define LOCALRIVER_H
 
+#include "riverinterface.h"
+
 #include <iostream>
 
-class LocalHand;
+#include "handinterface.h"
 
-class LocalRiver {
+class LocalRiver : public RiverInterface{
   
 public:
-    LocalRiver(LocalHand*, int, int, int, int);
+    LocalRiver(HandInterface*, int, int, int, int);
 
     ~LocalRiver();
 
@@ -56,7 +58,7 @@ public:
 	
 private:
 
-	LocalHand *myHand;
+	HandInterface *myHand;
 
 	int myID;
 	int actualQuantityPlayers;	

@@ -19,11 +19,6 @@
  ***************************************************************************/
 #include "riverinterface.h"
 
-RiverInterface::RiverInterface()
-{
-}
-
-
 RiverInterface::~RiverInterface()
 {
 }
