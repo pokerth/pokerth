@@ -219,6 +219,8 @@ void mainWindowImpl::callNewGameDialog() {
 		
 		//Speeds 
 		setSpeeds();
+		//positioning Slider
+		horizontalSlider_speed->setValue(gameSpeed/10);
 		
 		//Start Game!!!
 		mySession->startGame(v->spinBox_quantityPlayers->value(), v->spinBox_startCash->value(), v->spinBox_smallBlind->value());
