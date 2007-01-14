@@ -168,8 +168,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	connect( pushButton_allin, SIGNAL( clicked() ), this, SLOT( myAllIn() ) );
 
 	connect ( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
-	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakAfterThisHand() ) );
-
+	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakAfterThisHand() ) ); // auch wieder starten!!!!
 }
 
 
@@ -1183,6 +1182,7 @@ if( !newRoundTimerBlock && !breakAfterActualHand){
 else { 
 	newRoundTimerBlock=FALSE; 
 	pushButton_break->setDisabled(FALSE);
+	pushButton_break->setText("Start");
 	breakAfterActualHand=FALSE;
 }
 
