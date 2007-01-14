@@ -569,7 +569,7 @@
            <bool>true</bool>
           </property>
           <property name="pixmap" >
-           <pixmap resource="deck.qrc" >:/mycards/cards/logo1-140x100_neu.png</pixmap>
+           <pixmap/>
           </property>
          </widget>
         </item>
@@ -1093,12 +1093,6 @@
          </item>
          <item row="0" column="1" >
           <widget class="QFrame" name="frame_10" >
-           <property name="maximumSize" >
-            <size>
-             <width>16777215</width>
-             <height>30</height>
-            </size>
-           </property>
            <property name="frameShape" >
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -1574,6 +1568,49 @@
            </property>
            <item row="1" column="1" >
             <widget class="QSlider" name="horizontalSlider" >
+             <property name="palette" >
+              <palette>
+               <active>
+                <colorrole role="Button" >
+                 <brush brushstyle="SolidPattern" >
+                  <color alpha="255" >
+                   <red>203</red>
+                   <green>237</green>
+                   <blue>180</blue>
+                  </color>
+                 </brush>
+                </colorrole>
+               </active>
+               <inactive>
+                <colorrole role="Button" >
+                 <brush brushstyle="SolidPattern" >
+                  <color alpha="255" >
+                   <red>203</red>
+                   <green>237</green>
+                   <blue>180</blue>
+                  </color>
+                 </brush>
+                </colorrole>
+               </inactive>
+               <disabled>
+                <colorrole role="Button" >
+                 <brush brushstyle="SolidPattern" >
+                  <color alpha="255" >
+                   <red>203</red>
+                   <green>237</green>
+                   <blue>180</blue>
+                  </color>
+                 </brush>
+                </colorrole>
+               </disabled>
+              </palette>
+             </property>
+             <property name="maximum" >
+              <number>10</number>
+             </property>
+             <property name="sliderPosition" >
+              <number>5</number>
+             </property>
              <property name="orientation" >
               <enum>Qt::Horizontal</enum>
              </property>
@@ -1596,8 +1633,14 @@
              </item>
              <item>
               <widget class="QLabel" name="label_2" >
+               <property name="minimumSize" >
+                <size>
+                 <width>16</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="text" >
-                <string>1</string>
+                <string/>
                </property>
               </widget>
              </item>
@@ -1610,6 +1653,43 @@
                <width>40</width>
                <height>20</height>
               </size>
+             </property>
+             <property name="palette" >
+              <palette>
+               <active>
+                <colorrole role="Button" >
+                 <brush brushstyle="SolidPattern" >
+                  <color alpha="255" >
+                   <red>203</red>
+                   <green>237</green>
+                   <blue>180</blue>
+                  </color>
+                 </brush>
+                </colorrole>
+               </active>
+               <inactive>
+                <colorrole role="Button" >
+                 <brush brushstyle="SolidPattern" >
+                  <color alpha="255" >
+                   <red>203</red>
+                   <green>237</green>
+                   <blue>180</blue>
+                  </color>
+                 </brush>
+                </colorrole>
+               </inactive>
+               <disabled>
+                <colorrole role="Button" >
+                 <brush brushstyle="SolidPattern" >
+                  <color alpha="255" >
+                   <red>203</red>
+                   <green>237</green>
+                   <blue>180</blue>
+                  </color>
+                 </brush>
+                </colorrole>
+               </disabled>
+              </palette>
              </property>
              <property name="text" >
               <string>Stop</string>
@@ -3901,7 +3981,7 @@
      <x>0</x>
      <y>0</y>
      <width>874</width>
-     <height>29</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSpiel" >
@@ -3939,8 +4019,39 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>pushButton_raise</tabstop>
+  <tabstop>pushButton_bet</tabstop>
+  <tabstop>pushButton_call</tabstop>
+  <tabstop>pushButton_check</tabstop>
+  <tabstop>pushButton_fold</tabstop>
+  <tabstop>pushButton_set</tabstop>
+  <tabstop>spinBox_set</tabstop>
+  <tabstop>pushButton_allin</tabstop>
+  <tabstop>horizontalSlider</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>textBrowser_Log</tabstop>
+ </tabstops>
  <resources>
   <include location="deck.qrc" />
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>horizontalSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>label_2</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>720</x>
+     <y>619</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>699</x>
+     <y>616</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

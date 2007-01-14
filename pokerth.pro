@@ -64,7 +64,7 @@ SOURCES += pokerth.cpp \
 	   enginefactory.cpp \
 	   localenginefactory.cpp
 
-RESOURCES = deck.qrc
+RESOURCES = src/gui/qt/deck.qrc
 TEMPLATE = app
 DEPENDPATH += . src uics src/gui src/gui/qt src/engine src/engine/local_engine src/engine/network_engine
 INCLUDEPATH += . src uics src/gui src/gui/qt src/engine src/engine/local_engine src/engine/network_engine
