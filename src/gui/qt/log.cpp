@@ -25,6 +25,7 @@ using namespace std;
 
 Log::Log(mainWindowImpl* w) : myW(w)
 {
+	myW->setLog(this);
 	
 }
 
@@ -32,7 +33,7 @@ Log::~Log()
 {
 }
 
-void Log::showPlayerActionLogMsg(string playerName, int &action, int &setValue) const {
+void Log::showPlayerActionLogMsg(string playerName, int action, int setValue) const {
 	
 	QString msg;
 	msg = QString::fromStdString(playerName);

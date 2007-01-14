@@ -29,6 +29,7 @@
 #include "game.h"
 #include "session.h"
 
+#include "log.h"
 // #include "player.h"
 // #include "board.h"
 
@@ -44,7 +45,7 @@ const int maxQuantityPlayersConst = 5;
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
-     : QMainWindow(parent, name), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(0)
+     : QMainWindow(parent, name), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
 {
 
 	setupUi(this);
@@ -81,27 +82,6 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 
 	//Timer Objekt erstellen
 	potDistributeTimer = new QTimer(this);
-
-// 	gameSpeed = new int;
-// 	dealCardsSpeed = new int;
-// 	postRiverRunAnimationSpeed = new int; 
-// 	winnerBlinkSpeed = new int;
-// 	newRoundSpeed = new int;
-// 	nextPlayerSpeed1 = new int;
-// 	nextPlayerSpeed2 = new int;
-// 	nextPlayerSpeed3 = new int;
-// 	preflopNextPlayerSpeed = new int;
-// 	nextOpponentSpeed = new int;
-// // 	int *dealCardsSpeed;
-// // 	int *postRiverRunAnimationSpeed;
-// // 	int *winnerBlinkSpeed; 
-// // 	int *newRoundSpeed;
-// // 	int *nextPlayerSpeed1;
-// // 	int *nextPlayerSpeed2;
-// // 	int *nextPlayerSpeed3;
-// // 	int *preflopNextPlayerSpeed;
-// // 	int *nextOpponentSpeed;	
-       
 
 	// buttonLabelArray init
 	buttonLabelArray[0] = textLabel_Button0;
@@ -188,8 +168,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	connect( pushButton_allin, SIGNAL( clicked() ), this, SLOT( myAllIn() ) );
 
 	connect ( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
+	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakAfterThisHand() ) );
 
-// tabWidget_2->hide();	
 }
 
 
@@ -217,6 +197,12 @@ void mainWindowImpl::callNewGameDialog() {
 		gameSpeed = v->spinBox_gameSpeed->value()*10;
 // 		debugMode = v->checkBox_debugMode->isChecked();
 		
+		//Tools und Board aufhellen und enablen
+		QPalette tempPalette = groupBox_board->palette();
+		tempPalette.setColor(QPalette::Window, active);
+		groupBox_board->setPalette(tempPalette);
+		groupBox_tools->setDisabled(FALSE);	
+
 		//Speeds 
 		setSpeeds();
 		//positioning Slider
@@ -242,6 +228,8 @@ void mainWindowImpl::setGame(Game *g) { actualGame = g; }
 void mainWindowImpl::setHand(HandInterface* br) { actualHand = br; }
 
 void mainWindowImpl::setSession(Session* s) { mySession = s; }
+
+void mainWindowImpl::setLog(Log* l) { myLog = l; }
 
 //refresh-Funktionen
 void mainWindowImpl::refreshSet() {
@@ -375,7 +363,7 @@ void mainWindowImpl::highlightRoundLabel(string tempround) {
 		frame_handLabel->setPalette(tempPalette);
 		
 		textLabel_handLabel->setText("<p align='center'><span style='font-size:18px; font-weight:bold'>"+round+"</span></p>");
-		textLabel_gameNumber->setText("<p align='center'><span style='font-size:14px'>Game: "+QString::number(actualHand->getMyID(),10)+"</span></p>");
+		textLabel_gameNumber->setText("<p align='center'><span style='font-size:14px'>Hand: "+QString::number(actualHand->getMyID(),10)+"</span></p>");
 
 	}
 
@@ -465,7 +453,7 @@ void mainWindowImpl::dealFlopCards0() {
 
 if( !newRoundTimerBlock ){
 
-	QTimer::singleShot(500, this, SLOT( dealFlopCards1() ));
+	QTimer::singleShot(dealCardsSpeed*2, this, SLOT( dealFlopCards1() ));
 }
 else { newRoundTimerBlock=FALSE; }
 }
@@ -554,11 +542,11 @@ if( !newRoundTimerBlock ){
 	// stable
 	// wenn alle All In
 	if(actualHand->getAllInCondition()) {
-		QTimer::singleShot(1000, this, SLOT( handSwitchRounds() ));
+		QTimer::singleShot(dealCardsSpeed*4, this, SLOT( handSwitchRounds() ));
 	}
 	// sonst normale Variante
 	else {
-		QTimer::singleShot(1, this, SLOT( handSwitchRounds() ));
+		QTimer::singleShot(dealCardsSpeed, this, SLOT( handSwitchRounds() ));
 	}
 
 }
@@ -571,7 +559,7 @@ void mainWindowImpl::dealTurnCards0() {
 
 if( !newRoundTimerBlock ){
 
-	QTimer::singleShot(500, this, SLOT( dealTurnCards1() ));
+	QTimer::singleShot(dealCardsSpeed*2, this, SLOT( dealTurnCards1() ));
 }
 else { newRoundTimerBlock=FALSE; }
 }
@@ -603,11 +591,11 @@ if( !newRoundTimerBlock ){
 	// stable
 	// wenn alle All In
 	if(actualHand->getAllInCondition()) {
-		QTimer::singleShot(1000, this, SLOT( handSwitchRounds() ));
+		QTimer::singleShot(dealCardsSpeed*4, this, SLOT( handSwitchRounds() ));
 	}
 	// sonst normale Variante
 	else {
-		QTimer::singleShot(1, this, SLOT( handSwitchRounds() ));
+		QTimer::singleShot(dealCardsSpeed, this, SLOT( handSwitchRounds() ));
 	}
 }
 else { newRoundTimerBlock=FALSE; }
@@ -619,7 +607,7 @@ void mainWindowImpl::dealRiverCards0() {
 
 if( !newRoundTimerBlock ){
 
-	QTimer::singleShot(500, this, SLOT( dealRiverCards1() ));
+	QTimer::singleShot(dealCardsSpeed*2, this, SLOT( dealRiverCards1() ));
 }
 else { newRoundTimerBlock=FALSE; }
 }
@@ -652,11 +640,11 @@ if( !newRoundTimerBlock ){
 	// stable
 	// wenn alle All In
 	if(actualHand->getAllInCondition()) {
-		QTimer::singleShot(1000, this, SLOT( handSwitchRounds() ));
+		QTimer::singleShot(dealCardsSpeed*4, this, SLOT( handSwitchRounds() ));
 	}
 	// sonst normale Variante
 	else {
-		QTimer::singleShot(1, this, SLOT( handSwitchRounds() ));
+		QTimer::singleShot(dealCardsSpeed, this, SLOT( handSwitchRounds() ));
 	}
 
 }
@@ -762,6 +750,9 @@ void mainWindowImpl::myFold(){
 	actualHand->getPlayerArray()[0]->setMyAction(1);
 	actualHand->getPlayerArray()[0]->setMyTurn(0);
 
+	//Action in LogWindow
+	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
+
 	disableMyButtons();
 	
 	//Spiel läuft weiter
@@ -772,6 +763,9 @@ void mainWindowImpl::myCheck() {
 
 	actualHand->getPlayerArray()[0]->setMyAction(2);
 	actualHand->getPlayerArray()[0]->setMyTurn(0);
+
+	//Action in LogWindow
+	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 	
@@ -808,6 +802,9 @@ void mainWindowImpl::myCall(){
 
 	actualHand->getBoard()->collectSets();
 	refreshPot();
+
+	//Action in LogWindow
+	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 
@@ -909,6 +906,9 @@ void mainWindowImpl::mySet(){
 	actualHand->getBoard()->collectSets();
 	refreshPot();
 
+	//Action in LogWindow
+	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
+
 	disableMyButtons();
 
 	//Spiel läuft weiter
@@ -939,8 +939,11 @@ void mainWindowImpl::myAllIn(){
 	actualHand->getBoard()->collectSets();
 	refreshPot();
 
-	disableMyButtons();
+	//Action in LogWindow
+	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 	
+	disableMyButtons();
+
 	//Spiel läuft weiter
 	nextPlayerAnimation();
 }
@@ -1173,11 +1176,16 @@ else { newRoundTimerBlock=FALSE; }
 
 void mainWindowImpl::startNewHand() {
 
-if( !newRoundTimerBlock ){
+if( !newRoundTimerBlock && !breakAfterActualHand){
 	
 	actualGame->startHand();
 }
-else { newRoundTimerBlock=FALSE; }
+else { 
+	newRoundTimerBlock=FALSE; 
+	pushButton_break->setDisabled(FALSE);
+	breakAfterActualHand=FALSE;
+}
+
 
 }
 
@@ -1257,3 +1265,10 @@ void mainWindowImpl::setSpeeds() {
 	nextPlayerSpeed3 = gameSpeed*7; // Zeit bis zwischen Aufhellen und Aktion
 	preflopNextPlayerSpeed = gameSpeed*10; // Zeit bis zwischen Aufhellen und Aktion im Preflop (etwas langsamer da nicht gerechnet wird. )
 }
+
+void mainWindowImpl::breakAfterThisHand() {
+
+	pushButton_break->setDisabled(TRUE);
+	breakAfterActualHand=TRUE;
+}
+

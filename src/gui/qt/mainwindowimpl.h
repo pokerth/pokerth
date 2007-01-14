@@ -29,6 +29,7 @@
 
 class Game;
 class Session;
+class Log;
 
 class BoardInterface;
 class HandInterface;
@@ -41,10 +42,11 @@ class mainWindowImpl: public QMainWindow, public Ui::mainWindow {
 Q_OBJECT
 public:
 	mainWindowImpl(QMainWindow *parent = 0, const char *name = 0 );
+
 	void setGame(Game*);
 	void setHand(HandInterface*);
 	void setSession(Session*);
-
+	void setLog(Log*);
 
 	int getMaxQuantityPlayers() const { return maxQuantityPlayers; }
 	
@@ -150,12 +152,14 @@ public slots:
 	
 	void userWidgetsBackgroudColor();
 	void timerBlockerFalse();
+	void breakAfterThisHand();
 
 private: 
 	
 	Game *actualGame;
 	HandInterface *actualHand;
 	Session *mySession;
+	Log *myLog;
 
 
 	QTimer *potDistributeTimer;
@@ -200,6 +204,7 @@ private:
 	bool firstCallNewGame;
 	bool newRoundTimerBlock;
 	bool debugMode;
+	bool breakAfterActualHand;
 
 	QColor active;
 	QColor inactive;
