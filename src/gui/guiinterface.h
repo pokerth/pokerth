@@ -26,8 +26,7 @@
 #include "session.h"
 #include "game.h"
 
-//wird nach Einbau der EngineInterfaces zu handinterface.h
-#include "localhand.h"
+#include "handinterface.h"
 
 
 class GuiInterface{

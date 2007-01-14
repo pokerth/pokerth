@@ -31,10 +31,10 @@
 #include "localriver.h"
 
 
-class GuiInterface;
+// class GuiInterface;
 class BoardInterface;
 class PlayerInterface;
-class HandInterface;
+// class HandInterface;
 
 class LocalPreflop;
 class LocalFlop;
