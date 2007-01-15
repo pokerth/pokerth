@@ -30,8 +30,6 @@
 #include "session.h"
 
 #include "log.h"
-// #include "player.h"
-// #include "board.h"
 
 #define FORMATLEFT(X) "<p align='center'>(X)"
 #define FORMATRIGHT(X) "(X)</p>"
