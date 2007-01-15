@@ -31,6 +31,8 @@
 
 #include "log.h"
 
+//FICKEN!!!!!!!!!
+
 #define FORMATLEFT(X) "<p align='center'>(X)"
 #define FORMATRIGHT(X) "(X)</p>"
 
