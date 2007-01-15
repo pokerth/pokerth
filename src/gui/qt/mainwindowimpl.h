@@ -85,7 +85,7 @@ public:
 
 public slots:
 
-	void setGameSpeed(const int theValue) { gameSpeed = theValue*10; setSpeeds(); } // Achtung Faktor 10!!!
+	void setGameSpeed(const int theValue) { guiGameSpeed = theValue; setSpeeds(); } // Achtung Faktor 10!!!
 
 	void callNewGameDialog() ;
 	void callAboutPokerthDialog();
@@ -179,6 +179,7 @@ private:
 	int distributePotAnimCounter;
 
 	//Speed
+	int guiGameSpeed;
 	int gameSpeed;
 	int dealCardsSpeed;
 	int postRiverRunAnimationSpeed;

@@ -193,7 +193,7 @@ void mainWindowImpl::callNewGameDialog() {
 		label_Pot->setText("<p align='center'><span style='font-size:x-large; font-weight:bold'>Pot Total</span></p>");
 		label_Sets->setText("<p align='center'><span style='font-size:medium; font-weight:bold'>Sets:</span></p>");
 
-		gameSpeed = v->spinBox_gameSpeed->value()*10;
+		guiGameSpeed = v->spinBox_gameSpeed->value();
 // 		debugMode = v->checkBox_debugMode->isChecked();
 		
 		//Tools und Board aufhellen und enablen
@@ -205,7 +205,7 @@ void mainWindowImpl::callNewGameDialog() {
 		//Speeds 
 		setSpeeds();
 		//positioning Slider
-		horizontalSlider_speed->setValue(gameSpeed/10);
+		horizontalSlider_speed->setValue(guiGameSpeed);
 		
 		//Start Game!!!
 		mySession->startGame(v->spinBox_quantityPlayers->value(), v->spinBox_startCash->value(), v->spinBox_smallBlind->value());
@@ -1256,6 +1256,7 @@ void mainWindowImpl::timerBlockerFalse() {
 
 void mainWindowImpl::setSpeeds() {
 
+	gameSpeed = (11-guiGameSpeed)*10;
 	dealCardsSpeed = (gameSpeed/2)*10; //milliseconds
 	postRiverRunAnimationSpeed = gameSpeed*18; 
 	winnerBlinkSpeed = gameSpeed*3; //milliseconds
