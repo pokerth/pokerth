@@ -152,7 +152,7 @@ public slots:
 	
 	void userWidgetsBackgroudColor();
 	void timerBlockerFalse();
-	void breakAfterThisHand();
+	void breakButtonClicked();
 
 private: 
 	

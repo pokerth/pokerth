@@ -168,7 +168,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	connect( pushButton_allin, SIGNAL( clicked() ), this, SLOT( myAllIn() ) );
 
 	connect ( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
-	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakAfterThisHand() ) ); // auch wieder starten!!!!
+	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
 }
 
 
@@ -1266,9 +1266,15 @@ void mainWindowImpl::setSpeeds() {
 	preflopNextPlayerSpeed = gameSpeed*10; // Zeit bis zwischen Aufhellen und Aktion im Preflop (etwas langsamer da nicht gerechnet wird. )
 }
 
-void mainWindowImpl::breakAfterThisHand() {
+void mainWindowImpl::breakButtonClicked() {
 
-	pushButton_break->setDisabled(TRUE);
-	breakAfterActualHand=TRUE;
+	if (pushButton_break->text() == "Stop") {
+		pushButton_break->setDisabled(TRUE);
+		breakAfterActualHand=TRUE;
+	}
+	else { 
+             	pushButton_break->setText("Stop");
+		startNewHand();
+	}
 }
 
