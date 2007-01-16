@@ -3215,6 +3215,11 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="font" >
+               <font>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
              </widget>
             </item>
            </layout>
@@ -3523,6 +3528,11 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="font" >
+               <font>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
              </widget>
             </item>
            </layout>
@@ -3830,6 +3840,11 @@
                 <width>35</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="font" >
+               <font>
+                <pointsize>9</pointsize>
+               </font>
               </property>
              </widget>
             </item>

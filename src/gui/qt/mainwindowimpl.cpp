@@ -149,7 +149,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 
 	//Schriftart laden 
 	cout << "schriftart läd: " <<  QFontDatabase::addApplicationFont ("src/gui/qt/font.ttf") << endl;
-	QFont tmpFont("Tuffy");
+	QFont tmpFont("Tuffy",9);
 	QApplication::setFont(tmpFont);
 	
 	
