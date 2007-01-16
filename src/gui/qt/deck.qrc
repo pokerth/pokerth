@@ -1,7 +1,4 @@
 <RCC>
-    <qresource prefix="/font" >
-        <file>n019003l.afm</file>
-    </qresource>
     <qresource prefix="/graphics" >
         <file>cards/dealerbutton.png</file>
         <file>cards/logo1-140x100_neu.png</file>

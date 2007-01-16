@@ -147,6 +147,13 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	inactive.setRgb(83,141,107);
 	highlight.setRgb(151,214,109);
 
+	//Schriftart laden 
+	cout << "schriftart läd: " <<  QFontDatabase::addApplicationFont ("src/gui/qt/font.ttf") << endl;
+	QFont tmpFont("Tuffy");
+	QApplication::setFont(tmpFont);
+	
+	
+
 	//firstCallNewGame Test init 
 	firstCallNewGame = TRUE;
 	

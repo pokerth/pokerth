@@ -17,7 +17,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+/////// can be removed for non-qt-guis ////////////
 #include <qapplication.h>
+// #include <QFont>
+// #include <QFontDatabase>
+///////////////////////////////////////////////////
 
 #include "session.h"
 #include "guiwrapper.h"
@@ -29,9 +34,13 @@ int main( int argc, char **argv )
 
 	srand( time(0) );
 
+	/////// can be removed for non-qt-guis ////////////
 	QApplication a( argc, argv );
-	Q_INIT_RESOURCE(deck);
 	
+	Q_INIT_RESOURCE(deck);
+	///////////////////////////////////////////////////	
+
+
 	GuiInterface *myGuiInterface = new GuiWrapper();
 
 

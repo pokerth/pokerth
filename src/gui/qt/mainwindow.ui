@@ -116,9 +116,9 @@
      <colorrole role="Base" >
       <brush brushstyle="SolidPattern" >
        <color alpha="255" >
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
+        <red>74</red>
+        <green>131</green>
+        <blue>83</blue>
        </color>
       </brush>
      </colorrole>
@@ -271,9 +271,9 @@
      <colorrole role="Base" >
       <brush brushstyle="SolidPattern" >
        <color alpha="255" >
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
+        <red>74</red>
+        <green>131</green>
+        <blue>83</blue>
        </color>
       </brush>
      </colorrole>
@@ -3122,6 +3122,11 @@
                 <width>35</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="font" >
+               <font>
+                <pointsize>9</pointsize>
+               </font>
               </property>
              </widget>
             </item>
