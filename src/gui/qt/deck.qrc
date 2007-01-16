@@ -1,6 +1,12 @@
 <RCC>
-    <qresource prefix="/mycards" >
+    <qresource prefix="/font" >
+        <file>n019003l.afm</file>
+    </qresource>
+    <qresource prefix="/graphics" >
+        <file>cards/dealerbutton.png</file>
         <file>cards/logo1-140x100_neu.png</file>
+    </qresource>
+    <qresource prefix="/mycards" >
         <file>cards/mycards/0.png</file>
         <file>cards/mycards/1.png</file>
         <file>cards/mycards/10.png</file>

@@ -231,6 +231,7 @@ void mainWindowImpl::setLog(Log* l) { myLog = l; }
 //refresh-Funktionen
 void mainWindowImpl::refreshSet() {
 
+	
 	int i;
  	for (i=0; i<maxQuantityPlayers; i++) { 
 		if(actualHand->getPlayerArray()[i]->getMySet() == 0) setLabelArray[i]->setText("");
@@ -240,11 +241,19 @@ void mainWindowImpl::refreshSet() {
 
 void mainWindowImpl::refreshButton() {
 
-	QStringList buttonArray;
-	buttonArray << "" << "D" << "SB" << "BB";
+	QPixmap dealerButton(":/graphics/cards/dealerbutton.png");
+	QPixmap onePix(":/graphics/cards/1px.png");
 
 	int i;
-	for (i=0; i<maxQuantityPlayers; i++) { buttonLabelArray[i]->setText("<p align='center'><b>"+buttonArray[actualHand->getPlayerArray()[i]->getMyButton()]+"</b></p>"); }
+	for (i=0; i<maxQuantityPlayers; i++) { 
+		if (actualHand->getPlayerArray()[i]->getMyButton()==1) {
+			buttonLabelArray[i]->setPixmap(dealerButton); 
+		}	
+		else {
+			buttonLabelArray[i]->setPixmap(onePix);
+		}
+	}
+	
 
 }
 

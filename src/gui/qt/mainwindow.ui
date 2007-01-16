@@ -498,8 +498,16 @@
     </disabled>
    </palette>
   </property>
+  <property name="font" >
+   <font>
+    <family>Nimbus Sans L</family>
+   </font>
+  </property>
   <property name="windowTitle" >
    <string>PokerTH - The Open-Source Texas Holdem Engine</string>
+  </property>
+  <property name="autoFillBackground" >
+   <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QGridLayout" >
@@ -1066,6 +1074,9 @@
               <property name="text" >
                <string/>
               </property>
+              <property name="alignment" >
+               <set>Qt::AlignCenter</set>
+              </property>
              </widget>
             </item>
            </layout>
@@ -1073,6 +1084,12 @@
          </item>
          <item row="0" column="0" >
           <widget class="Q3Frame" name="frame57" >
+           <property name="maximumSize" >
+            <size>
+             <width>57</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="frameShape" >
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -1090,6 +1107,9 @@
              <widget class="QLabel" name="textLabel_Button0" >
               <property name="text" >
                <string/>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -1390,6 +1410,9 @@
              <widget class="QLabel" name="textLabel_Set0" >
               <property name="text" >
                <string/>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -1932,7 +1955,7 @@
          <bool>true</bool>
         </property>
         <property name="pixmap" >
-         <pixmap resource="deck.qrc" >:/mycards/cards/logo1-140x100_neu.png</pixmap>
+         <pixmap resource="deck.qrc" >:/graphics/cards/logo1-140x100_neu.png</pixmap>
         </property>
        </widget>
       </item>
@@ -2873,6 +2896,15 @@
                <height>28</height>
               </size>
              </property>
+             <property name="maximumSize" >
+              <size>
+               <width>28</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="autoFillBackground" >
+              <bool>false</bool>
+             </property>
              <property name="frameShape" >
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -2893,6 +2925,15 @@
                   <width>0</width>
                   <height>20</height>
                  </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>20</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="autoFillBackground" >
+                 <bool>true</bool>
                 </property>
                 <property name="text" >
                  <string/>
@@ -2934,6 +2975,9 @@
                 <property name="text" >
                  <string/>
                 </property>
+                <property name="alignment" >
+                 <set>Qt::AlignCenter</set>
+                </property>
                </widget>
               </item>
              </layout>
@@ -2973,6 +3017,9 @@
                 </property>
                 <property name="text" >
                  <string/>
+                </property>
+                <property name="alignment" >
+                 <set>Qt::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -3184,6 +3231,12 @@
                <height>28</height>
               </size>
              </property>
+             <property name="maximumSize" >
+              <size>
+               <width>28</width>
+               <height>16777215</height>
+              </size>
+             </property>
              <property name="frameShape" >
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -3203,6 +3256,12 @@
                  <size>
                   <width>0</width>
                   <height>20</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>20</width>
+                  <height>16777215</height>
                  </size>
                 </property>
                 <property name="text" >
@@ -3245,6 +3304,9 @@
                 <property name="text" >
                  <string/>
                 </property>
+                <property name="alignment" >
+                 <set>Qt::AlignCenter</set>
+                </property>
                </widget>
               </item>
              </layout>
@@ -3284,6 +3346,9 @@
                 </property>
                 <property name="text" >
                  <string/>
+                </property>
+                <property name="alignment" >
+                 <set>Qt::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -3490,6 +3555,12 @@
                <height>28</height>
               </size>
              </property>
+             <property name="maximumSize" >
+              <size>
+               <width>28</width>
+               <height>16777215</height>
+              </size>
+             </property>
              <property name="frameShape" >
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -3509,6 +3580,12 @@
                  <size>
                   <width>0</width>
                   <height>20</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>20</width>
+                  <height>16777215</height>
                  </size>
                 </property>
                 <property name="text" >
@@ -3551,6 +3628,9 @@
                 <property name="text" >
                  <string/>
                 </property>
+                <property name="alignment" >
+                 <set>Qt::AlignCenter</set>
+                </property>
                </widget>
               </item>
              </layout>
@@ -3590,6 +3670,9 @@
                 </property>
                 <property name="text" >
                  <string/>
+                </property>
+                <property name="alignment" >
+                 <set>Qt::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -3853,6 +3936,12 @@
                <height>28</height>
               </size>
              </property>
+             <property name="maximumSize" >
+              <size>
+               <width>28</width>
+               <height>16777215</height>
+              </size>
+             </property>
              <property name="frameShape" >
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -3872,6 +3961,12 @@
                  <size>
                   <width>0</width>
                   <height>20</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>20</width>
+                  <height>16777215</height>
                  </size>
                 </property>
                 <property name="text" >
@@ -3914,6 +4009,9 @@
                 <property name="text" >
                  <string/>
                 </property>
+                <property name="alignment" >
+                 <set>Qt::AlignCenter</set>
+                </property>
                </widget>
               </item>
              </layout>
@@ -3953,6 +4051,9 @@
                 </property>
                 <property name="text" >
                  <string/>
+                </property>
+                <property name="alignment" >
+                 <set>Qt::AlignCenter</set>
                 </property>
                </widget>
               </item>
