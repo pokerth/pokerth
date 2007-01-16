@@ -3123,11 +3123,6 @@
                 <height>0</height>
                </size>
               </property>
-              <property name="font" >
-               <font>
-                <pointsize>9</pointsize>
-               </font>
-              </property>
              </widget>
             </item>
             <item row="0" column="0" >
@@ -3214,11 +3209,6 @@
                 <width>35</width>
                 <height>0</height>
                </size>
-              </property>
-              <property name="font" >
-               <font>
-                <pointsize>9</pointsize>
-               </font>
               </property>
              </widget>
             </item>
@@ -3528,11 +3518,6 @@
                 <height>0</height>
                </size>
               </property>
-              <property name="font" >
-               <font>
-                <pointsize>9</pointsize>
-               </font>
-              </property>
              </widget>
             </item>
            </layout>
@@ -3840,11 +3825,6 @@
                 <width>35</width>
                 <height>0</height>
                </size>
-              </property>
-              <property name="font" >
-               <font>
-                <pointsize>9</pointsize>
-               </font>
               </property>
              </widget>
             </item>

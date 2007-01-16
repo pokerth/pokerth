@@ -20,8 +20,8 @@
 
 /////// can be removed for non-qt-guis ////////////
 #include <qapplication.h>
-// #include <QFont>
-// #include <QFontDatabase>
+#include <QFont>
+#include <QFontDatabase>
 ///////////////////////////////////////////////////
 
 #include "session.h"
@@ -34,9 +34,16 @@ int main( int argc, char **argv )
 
 	srand( time(0) );
 
+	
 	/////// can be removed for non-qt-guis ////////////
 	QApplication a( argc, argv );
 	
+	//Schriftart laden 
+	QFontDatabase::addApplicationFont ("src/gui/qt/Vera.ttf");
+	QFont tmpFont("Bitstream Vera Sans",9);
+	QApplication::setFont(tmpFont);
+
+
 	Q_INIT_RESOURCE(deck);
 	///////////////////////////////////////////////////	
 
