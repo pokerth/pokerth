@@ -8,10 +8,12 @@ TARGET.files += bin/*
 TARGET.path = /usr/bin/ 
 FORMS += mainwindow.ui \
          aboutpokerth.ui \
-         newgamedialog.ui 
+         newgamedialog.ui \
+	 settingsdialog.ui
 HEADERS += mainwindowimpl.h \
            newgamedialogimpl.h \
            aboutpokerthimpl.h \
+	   settingsdialogimpl.h \
            log.h \
            guiinterface.h \
            guiwrapper.h \
@@ -40,6 +42,7 @@ SOURCES += pokerth.cpp \
 	   mainwindowimpl.cpp \
            newgamedialogimpl.cpp \
            aboutpokerthimpl.cpp \
+	   settingsdialogimpl.cpp \
            log.cpp \
            guiinterface.cpp \
            guiwrapper.cpp \

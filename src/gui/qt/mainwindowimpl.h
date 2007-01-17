@@ -89,6 +89,7 @@ public slots:
 
 	void callNewGameDialog() ;
 	void callAboutPokerthDialog();
+	void callSettingsDialog();
 	void myFold();
 	void myCheck();
 	void myCall();

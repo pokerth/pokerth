@@ -21,6 +21,7 @@
 
 #include "newgamedialogimpl.h"
 #include "aboutpokerthimpl.h"
+#include "settingsdialogimpl.h"
 
 #include "handinterface.h"
 #include "playerinterface.h"
@@ -155,6 +156,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 
 	connect( actionNewGame, SIGNAL( activated() ), this, SLOT( callNewGameDialog() ) );
 	connect( actionAboutPokerth, SIGNAL( activated() ), this, SLOT( callAboutPokerthDialog() ) );
+	connect( actionSettings, SIGNAL( activated() ), this, SLOT( callSettingsDialog() ) );
 	connect( actionQuit, SIGNAL( activated() ), qApp, SLOT( quit() ) );
 	
 	connect( pushButton_raise, SIGNAL( clicked() ), this, SLOT( myRaise() ) );
@@ -218,6 +220,11 @@ void mainWindowImpl::callAboutPokerthDialog() {
 	v->exec();
 }
 
+void mainWindowImpl::callSettingsDialog() {
+
+	settingsDialogImpl *v = new settingsDialogImpl();
+	v->exec();
+}
 
 
 void mainWindowImpl::setGame(Game *g) { actualGame = g; }

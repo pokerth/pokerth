@@ -4114,6 +4114,7 @@
      <string>Game</string>
     </property>
     <addaction name="actionNewGame" />
+    <addaction name="actionSettings" />
     <addaction name="actionAboutPokerth" />
     <addaction name="actionQuit" />
    </widget>
@@ -4133,6 +4134,11 @@
   <action name="actionAboutPokerth" >
    <property name="text" >
     <string>About PokerTH ...</string>
+   </property>
+  </action>
+  <action name="actionSettings" >
+   <property name="text" >
+    <string>Settings ...</string>
    </property>
   </action>
  </widget>
