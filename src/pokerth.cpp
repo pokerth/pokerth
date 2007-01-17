@@ -18,6 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <iostream>
+
 /////// can be removed for non-qt-guis ////////////
 #include <qapplication.h>
 #include <QFont>
@@ -39,8 +41,8 @@ int main( int argc, char **argv )
 	QApplication a( argc, argv );
 	
 	//Schriftart laden 
-	QFontDatabase::addApplicationFont ("src/gui/qt/Vera.ttf");
-	QFont tmpFont("Bitstream Vera Sans",9);
+	QFontDatabase::addApplicationFont ("src/gui/qt/n019003l.pfb");
+	QFont tmpFont("Nimbus Sans L",9);
 	QApplication::setFont(tmpFont);
 
 

@@ -254,7 +254,6 @@ void mainWindowImpl::refreshButton() {
 		}
 	}
 	
-
 }
 
 void mainWindowImpl::refreshPlayerName() {
@@ -368,8 +367,8 @@ void mainWindowImpl::highlightRoundLabel(string tempround) {
 		tempPalette.setColor(QPalette::Window, highlight);
 		frame_handLabel->setPalette(tempPalette);
 		
-		textLabel_handLabel->setText("<p align='center'><span style='font-size:18px; font-weight:bold'>"+round+"</span></p>");
-		textLabel_gameNumber->setText("<p align='center'><span style='font-size:14px'>Hand: "+QString::number(actualHand->getMyID(),10)+"</span></p>");
+		textLabel_handLabel->setText(round);
+		textLabel_gameNumber->setText("Hand: "+QString::number(actualHand->getMyID(),10));
 
 	}
 

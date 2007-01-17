@@ -498,11 +498,6 @@
     </disabled>
    </palette>
   </property>
-  <property name="font" >
-   <font>
-    <family>Nimbus Sans L</family>
-   </font>
-  </property>
   <property name="windowTitle" >
    <string>PokerTH - The Open-Source Texas Holdem Engine</string>
   </property>
@@ -1086,7 +1081,7 @@
           <widget class="Q3Frame" name="frame57" >
            <property name="maximumSize" >
             <size>
-             <width>57</width>
+             <width>56</width>
              <height>16777215</height>
             </size>
            </property>
@@ -2764,7 +2759,16 @@
                <number>0</number>
               </property>
               <item rowspan="2" row="0" column="0" >
-               <widget class="QLabel" name="textLabel_gameNumber" />
+               <widget class="QLabel" name="textLabel_gameNumber" >
+                <property name="font" >
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="alignment" >
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -2794,7 +2798,18 @@
                <number>0</number>
               </property>
               <item row="0" column="0" >
-               <widget class="QLabel" name="textLabel_handLabel" />
+               <widget class="QLabel" name="textLabel_handLabel" >
+                <property name="font" >
+                 <font>
+                  <pointsize>15</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="alignment" >
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
