@@ -46,6 +46,10 @@ using namespace std;
 mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
      : QMainWindow(parent, name), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
 {
+// 	Schriftart laden 
+	QFontDatabase::addApplicationFont ("src/gui/qt/n019003l.pfb");
+	QFont tmpFont("Nimbus Sans L",9);
+	QApplication::setFont(tmpFont);
 
 	setupUi(this);
 

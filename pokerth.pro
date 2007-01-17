@@ -14,6 +14,7 @@ HEADERS += mainwindowimpl.h \
            newgamedialogimpl.h \
            aboutpokerthimpl.h \
 	   settingsdialogimpl.h \
+	   configfile.h \
            log.h \
            guiinterface.h \
            guiwrapper.h \
@@ -36,13 +37,14 @@ HEADERS += mainwindowimpl.h \
            turninterface.h \
            riverinterface.h \
 	   enginefactory.h \
-	   localenginefactory.h
+	   localenginefactory.h 
 
 SOURCES += pokerth.cpp \
 	   mainwindowimpl.cpp \
            newgamedialogimpl.cpp \
            aboutpokerthimpl.cpp \
 	   settingsdialogimpl.cpp \
+	   configfile.cpp \
            log.cpp \
            guiinterface.cpp \
            guiwrapper.cpp \

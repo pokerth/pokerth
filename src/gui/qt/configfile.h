@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by FThauer FHammer   *
- *   f.thauer@web.de   *
+ *   Copyright (C) 2006 by Felix Hammer   *
+ *   f.hammer@web.de   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,35 +17,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef CONFIGFILE_H
+#define CONFIGFILE_H
 
-#include <iostream>
+#include "QtCore"
 
-/////// can be removed for non-qt-guis ////////////
-#include <qapplication.h>
-///////////////////////////////////////////////////
+class ConfigFile{
+public:
+    ConfigFile();
 
-#include "session.h"
-#include "guiwrapper.h"
+    ~ConfigFile();
 
-class GuiWrapper;
+    void writeConfig(QString setVarName, QString setVarCont);
+    QString readConfig(QString varName, QString defaultvalue);
 
-int main( int argc, char **argv )
-{
-
-	srand( time(0) );
+private:
 
 	
-	/////// can be removed for non-qt-guis ////////////
-	QApplication a( argc, argv );
-	Q_INIT_RESOURCE(deck);
-	///////////////////////////////////////////////////	
+};
 
-
-	GuiInterface *myGuiInterface = new GuiWrapper();
-
-
-	Session theFirst(myGuiInterface);
-
-
-	return a.exec();
-}
+#endif
