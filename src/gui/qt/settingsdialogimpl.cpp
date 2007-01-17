@@ -18,11 +18,60 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "settingsdialogimpl.h"
+#include "configfile.h"
+#include <iostream>
+
 
 settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
     : QDialog(parent, name)
 {
 
 	 setupUi(this);
+
+	//Formulare Füllen
+	ConfigFile config;	
+
+	bool ok=TRUE;
+
+	//Player Nicks
+	lineEdit_humanPlayerName->setText(config.readConfig("myname", "Human Player"));
+	lineEdit_Opponent1Name->setText(config.readConfig("oppponent1name", "Player 1"));
+	lineEdit_Opponent2Name->setText(config.readConfig("oppponent2name", "Player 2"));
+	lineEdit_Opponent3Name->setText(config.readConfig("oppponent3name", "Player 3"));
+	lineEdit_Opponent4Name->setText(config.readConfig("oppponent4name", "Player 4"));
+
+	//Game Settings
+	spinBox_quantityPlayers->setValue(config.readConfig("numberofplayers", "5").toInt(&ok,10));
+	spinBox_startCash->setValue(config.readConfig("startcash", "2000").toInt(&ok,10));
+	spinBox_smallBlind->setValue(config.readConfig("smallblind", "10").toInt(&ok,10));
+	spinBox_gameSpeed->setValue(config.readConfig("gamespeed", "4").toInt(&ok,10));
+	checkBox_showGameSettingsDialogOnNewGame->setChecked(config.readConfig("showgamesettingsdialogonnewgame", "1").toInt(&ok,10));
 	
+
+	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( accept() ) );
+
+}
+
+
+void settingsDialogImpl::accept() {
+
+	std::cout << "wursst" <<  "\n";
+	
+	//Daten speichern
+	ConfigFile config;
+
+	//Player Nicks
+	config.writeConfig("myname", lineEdit_humanPlayerName->text());
+	config.writeConfig("oppponent1name", lineEdit_Opponent1Name->text());
+	config.writeConfig("oppponent2name", lineEdit_Opponent2Name->text());
+	config.writeConfig("oppponent3name", lineEdit_Opponent3Name->text());
+	config.writeConfig("oppponent4name", lineEdit_Opponent4Name->text());
+
+	//Game Settings
+	config.writeConfig("numberofplayers", QString::number(spinBox_quantityPlayers->value(),10));
+	config.writeConfig("startcash", QString::number(spinBox_startCash->value(),10));
+	config.writeConfig("smallblind", QString::number(spinBox_smallBlind->value(),10));
+	config.writeConfig("gamespeed", QString::number(spinBox_gameSpeed->value(),10));
+	config.writeConfig("showgamesettingsdialogonnewgame", QString::number(checkBox_showGameSettingsDialogOnNewGame->isChecked(),10));
+
 }

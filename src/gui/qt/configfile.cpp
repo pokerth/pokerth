@@ -33,7 +33,7 @@ QString ConfigFile::readConfig(QString varName, QString defaultvalue)
 {
   
 	QDir configDir;
-	configDir.setPath(QDir::home().absPath()+"/.pokerth/config/");
+	configDir.setPath(QDir::home().absPath()+"/.pokerth/");
 	
 	QFile configFile (configDir.absPath()+"/pokerth.conf");
 	
@@ -48,13 +48,14 @@ QString ConfigFile::readConfig(QString varName, QString defaultvalue)
 		stream << "\n";
 		stream << "numberofplayers=5\n";
 		stream << "startcash=2000\n";
-		stream << "smallblind=2000\n";
+		stream << "smallblind=10\n";
 		stream << "gamespeed=4\n";
+		stream << "showgamesettingsdialogonnewgame=1\n";
 		stream << "myname=Human Player\n";
-		stream << "player1=Player 1\n";
-		stream << "player2=Player 2\n";
-		stream << "player3=Player 3\n";
-		stream << "player4=Player 4\n";
+		stream << "oppponent1name=Player 1\n";
+		stream << "oppponent2name=Player 2\n";
+		stream << "oppponent3name=Player 3\n";
+		stream << "oppponent4name=Player 4\n";
 		configFile.close();
 	} 
 	
@@ -116,7 +117,7 @@ QString ConfigFile::readConfig(QString varName, QString defaultvalue)
 void ConfigFile::writeConfig(QString setVarName, QString setVarCont)
  {
     QDir configDir;
-    configDir.setPath(QDir::home().absPath()+"/.pokerth/config/");
+    configDir.setPath(QDir::home().absPath()+"/.pokerth/");
     QFile configFile (configDir.absPath()+"/pokerth.conf");
  
     QStringList lines;

@@ -18,12 +18,25 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "newgamedialogimpl.h"
+#include "configfile.h"
 
 newGameDialogImpl::newGameDialogImpl(QWidget *parent, const char *name)
       : QDialog(parent, name)
 {
 
     setupUi(this);
+
+	//Formulare Füllen
+	ConfigFile config;	
+
+	bool ok=TRUE;
+
+	//Game Settings
+	spinBox_quantityPlayers->setValue(config.readConfig("numberofplayers", "5").toInt(&ok,10));
+	spinBox_startCash->setValue(config.readConfig("startcash", "2000").toInt(&ok,10));
+	spinBox_smallBlind->setValue(config.readConfig("smallblind", "10").toInt(&ok,10));
+	spinBox_gameSpeed->setValue(config.readConfig("gamespeed", "4").toInt(&ok,10));
+	
 
 }
 

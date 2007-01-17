@@ -27,6 +27,10 @@ class settingsDialogImpl: public QDialog, public Ui::settingsDialog {
 Q_OBJECT
 public:
     settingsDialogImpl(QWidget *parent = 0, const char *name = 0);
+
+public slots:
+
+	void accept();
 };
 
 #endif
