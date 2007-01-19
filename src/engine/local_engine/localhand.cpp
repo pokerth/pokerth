@@ -46,7 +46,7 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 
 	// Karten generieren und Board sowie Player zuweisen
 	Tools myTool;
-	int cardsArray[2*actualQuantityPlayers+5];
+	int *cardsArray = new int[2*actualQuantityPlayers+5];
 	myTool.getRandNumber(0, 51, 2*actualQuantityPlayers+5, cardsArray, 1);
 	int tempBoardArray[5];
 	int tempPlayerArray[2];
@@ -78,7 +78,8 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 	
 	//Rundenwechsel | beim ersten Durchlauf --> Preflop starten
 	myGui->nextPlayerAnimation();
-	
+
+	delete[] cardsArray;
 }
 
 

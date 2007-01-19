@@ -182,7 +182,7 @@ void LocalRiver::distributePot() {
 	int winnersCounter = 0;
 	
 	// dieses Array ermittelt wieviel jeder Spieler wï¿œrend der gesamten BettingRound gesetzt hat
-	int roundSetArray[myHand->getGuiInterface()->getMaxQuantityPlayers()];
+	int *roundSetArray = new int[myHand->getGuiInterface()->getMaxQuantityPlayers()];
 	for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
 		// Standardwert fr nicht mehr aktive
 		roundSetArray[i] = 0;
@@ -193,7 +193,7 @@ void LocalRiver::distributePot() {
 	}
 	
 	// hier steht der CardsValue der Spieler drin die an der Potverteilung teilnehmen (d.h. aktiv und nicht gefoldet), bei allen anderen steht ne 0
-	int cardsValueArray[myHand->getGuiInterface()->getMaxQuantityPlayers()];
+	int *cardsValueArray = new int[myHand->getGuiInterface()->getMaxQuantityPlayers()];
 	int playerWantsPotCounter = 0;
 	
 	for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
@@ -421,5 +421,6 @@ void LocalRiver::distributePot() {
 	if(myHand->getBoard()->getPot() != 0) cout << "!!! Pot: " << myHand->getBoard()->getPot() << endl;
 	
 	delete[] winnersArray;
-
+	delete[] roundSetArray;
+	delete[] cardsValueArray;
 }

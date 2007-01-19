@@ -47,7 +47,7 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 	else {
 
 		
-		int tempArray[end-start];
+		int *tempArray = new int[end-start];
 		int i;
 		for (i=0; i<(end-start); i++) tempArray[i]=1;
 		
@@ -67,6 +67,7 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 			
 		}
 
+		delete[] tempArray;
 	}
 
 }
