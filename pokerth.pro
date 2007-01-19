@@ -3,6 +3,7 @@
 # Unterordner relativ zum Projektordner: .
 # Das Target ist eine Anwendung:  bin/pokerth
 
+TEMPLATE = vcapp
 INSTALLS += TARGET 
 TARGET.files += bin/* 
 TARGET.path = /usr/bin/ 
