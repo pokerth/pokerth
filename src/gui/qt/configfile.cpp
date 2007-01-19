@@ -52,10 +52,10 @@ QString ConfigFile::readConfig(QString varName, QString defaultvalue)
 		stream << "gamespeed=4\n";
 		stream << "showgamesettingsdialogonnewgame=1\n";
 		stream << "myname=Human Player\n";
-		stream << "oppponent1name=Player 1\n";
-		stream << "oppponent2name=Player 2\n";
-		stream << "oppponent3name=Player 3\n";
-		stream << "oppponent4name=Player 4\n";
+		stream << "opponent1name=Player 1\n";
+		stream << "opponent2name=Player 2\n";
+		stream << "opponent3name=Player 3\n";
+		stream << "opponent4name=Player 4\n";
 		configFile.close();
 	} 
 	
@@ -77,7 +77,7 @@ QString ConfigFile::readConfig(QString varName, QString defaultvalue)
 	if (foundvarname == 0) {
 
 		QDir configDir;
-		configDir.setPath(QDir::home().absPath()+"/.pokerth/config/");
+		configDir.setPath(QDir::home().absPath()+"/.pokerth/");
 		
 		QFile configFile (configDir.absPath()+"/pokerth.conf");
 		

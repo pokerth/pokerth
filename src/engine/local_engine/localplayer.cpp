@@ -23,7 +23,7 @@
 
 using namespace std;
 
-LocalPlayer::LocalPlayer(BoardInterface *b, int id, int sC, bool aS, int mB) : PlayerInterface(), actualHand(0), actualBoard(b), myCardsValue(0), myID(id), myDude(0), myCardsValueInt(0), myCash(sC), mySet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), myAverageSets(0)
+LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, int sC, bool aS, int mB) : PlayerInterface(), actualHand(0), actualBoard(b), myCardsValue(0), myID(id), myName(name), myDude(0), myCardsValueInt(0), myCash(sC), mySet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), myAverageSets(0)
 {
 
 	Tools myTool;
@@ -32,10 +32,10 @@ LocalPlayer::LocalPlayer(BoardInterface *b, int id, int sC, bool aS, int mB) : P
 // 	cout << "Spieler: " << myID << " Dude: " << myDude << " Cash: " << myCash << " ActiveStatus: " << myActiveStatus << " Button: " << myButton << endl;
 
 	myCardsValue = new CardsValue;
-
+/*
 	ostringstream temp;
 	temp << "Player " << myID;
-	myName = temp.str();
+	myName = temp.str();*/
 
 }
 

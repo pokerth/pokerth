@@ -24,6 +24,7 @@
 
 #include "log.h"
 #include "mainwindowimpl.h"
+#include "configfile.h"
 
 #include <string>
 #include <iostream>
@@ -44,6 +45,7 @@ public:
 	void setSession(Session*);	
 
 	int getMaxQuantityPlayers() const;
+	std::string getPlayerName(int) const;
 
 	void refreshSet() const;
 	void refreshChangePlayer() const;
@@ -87,6 +89,7 @@ private:
 	
 	Log *myLog;
 	mainWindowImpl *myW;
+	ConfigFile *myConfig;
 	
 
 };

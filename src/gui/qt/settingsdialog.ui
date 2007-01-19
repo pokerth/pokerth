@@ -328,6 +328,20 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>listWidget</tabstop>
+  <tabstop>spinBox_quantityPlayers</tabstop>
+  <tabstop>spinBox_startCash</tabstop>
+  <tabstop>spinBox_smallBlind</tabstop>
+  <tabstop>spinBox_gameSpeed</tabstop>
+  <tabstop>checkBox_showGameSettingsDialogOnNewGame</tabstop>
+  <tabstop>buttonBox</tabstop>
+  <tabstop>lineEdit_humanPlayerName</tabstop>
+  <tabstop>lineEdit_Opponent1Name</tabstop>
+  <tabstop>lineEdit_Opponent2Name</tabstop>
+  <tabstop>lineEdit_Opponent3Name</tabstop>
+  <tabstop>lineEdit_Opponent4Name</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

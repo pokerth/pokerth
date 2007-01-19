@@ -35,10 +35,10 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
 
 	//Player Nicks
 	lineEdit_humanPlayerName->setText(config.readConfig("myname", "Human Player"));
-	lineEdit_Opponent1Name->setText(config.readConfig("oppponent1name", "Player 1"));
-	lineEdit_Opponent2Name->setText(config.readConfig("oppponent2name", "Player 2"));
-	lineEdit_Opponent3Name->setText(config.readConfig("oppponent3name", "Player 3"));
-	lineEdit_Opponent4Name->setText(config.readConfig("oppponent4name", "Player 4"));
+	lineEdit_Opponent1Name->setText(config.readConfig("opponent1name", "Player 1"));
+	lineEdit_Opponent2Name->setText(config.readConfig("opponent2name", "Player 2"));
+	lineEdit_Opponent3Name->setText(config.readConfig("opponent3name", "Player 3"));
+	lineEdit_Opponent4Name->setText(config.readConfig("opponent4name", "Player 4"));
 
 	//Game Settings
 	spinBox_quantityPlayers->setValue(config.readConfig("numberofplayers", "5").toInt(&ok,10));
@@ -60,10 +60,10 @@ void settingsDialogImpl::accept() {
 
 	//Player Nicks
 	config.writeConfig("myname", lineEdit_humanPlayerName->text());
-	config.writeConfig("oppponent1name", lineEdit_Opponent1Name->text());
-	config.writeConfig("oppponent2name", lineEdit_Opponent2Name->text());
-	config.writeConfig("oppponent3name", lineEdit_Opponent3Name->text());
-	config.writeConfig("oppponent4name", lineEdit_Opponent4Name->text());
+	config.writeConfig("opponent1name", lineEdit_Opponent1Name->text());
+	config.writeConfig("opponent2name", lineEdit_Opponent2Name->text());
+	config.writeConfig("opponent3name", lineEdit_Opponent3Name->text());
+	config.writeConfig("opponent4name", lineEdit_Opponent4Name->text());
 
 	//Game Settings
 	config.writeConfig("numberofplayers", QString::number(spinBox_quantityPlayers->value(),10));

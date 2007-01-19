@@ -31,9 +31,9 @@ GuiWrapper::GuiWrapper() : myLog(0), myW(0)
 	myW = new mainWindowImpl;
 	myW->show();
 
-
 	myLog = new Log(myW);
 
+	myConfig = new ConfigFile;
 
 }
 
@@ -47,6 +47,15 @@ void GuiWrapper::setHand(HandInterface *lh) { myW->setHand(lh); }
 void GuiWrapper::setSession(Session *s) { myW->setSession(s); }
 
 int GuiWrapper::getMaxQuantityPlayers() const { return myW->getMaxQuantityPlayers(); }
+std::string GuiWrapper::getPlayerName(int id) const { 
+
+	if(id==0) {
+		return myConfig->readConfig("myname", "Human Player").toStdString() ; 
+	}
+	else {  return myConfig->readConfig("opponent"+QString::number(id)+"name", "Player "+QString::number(id)).toStdString() ; }
+
+}
+
 
 void GuiWrapper::refreshSet() const { myW->refreshSet(); }
 void GuiWrapper::refreshChangePlayer() const { myW->refreshChangePlayer(); }

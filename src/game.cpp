@@ -55,7 +55,10 @@ Game::Game(GuiInterface* g, int qP, int sC, int sB) : myGui(g), actualHand(0), a
 	// Player erstellen
 	PlayerInterface *tempPlayer;
 	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
-		tempPlayer = myFactory->createPlayer(actualBoard, i, startCash, startQuantityPlayers > i, 0);
+
+// 		cout << myGui->getPlayerName(i) << "\n";
+
+		tempPlayer = myFactory->createPlayer(actualBoard, i, myGui->getPlayerName(i), startCash, startQuantityPlayers > i, 0);
 		playerArray[i] = tempPlayer;
 	}
 	actualBoard->setPlayer(playerArray);

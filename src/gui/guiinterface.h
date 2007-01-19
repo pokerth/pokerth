@@ -33,12 +33,16 @@ public:
 	virtual ~GuiInterface();
 
 	
-	//wird nach Einbau der EngineInterfaces umbenannt in setGameInterface und cp.
+	//set
 	virtual void setGame(Game*) =0;
 	virtual void setHand(HandInterface*) =0;
 	virtual void setSession(Session*) =0;
-// 
+
+	//get
 	virtual int getMaxQuantityPlayers() const=0;
+	virtual std::string getPlayerName(int) const=0;
+
+	
 	
 	//refresh-Funktionen
 	virtual void refreshSet() const=0;
@@ -87,8 +91,6 @@ public:
 // 	virtual void userWidgetsBackgroudColor() const=0;
 // 	virtual void timerBlockerFalse() const=0;
 	virtual void meInAction() const=0;
-
-
 
 
 	//log.cpp

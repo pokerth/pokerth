@@ -34,7 +34,7 @@ class BoardInterface;
 
 class LocalPlayer : public PlayerInterface{
 public:
-    LocalPlayer(BoardInterface*, int, int, bool, int);
+    LocalPlayer(BoardInterface*, int, std::string, int, bool, int);
 
     ~LocalPlayer();
 
@@ -99,8 +99,9 @@ private:
 
 	// Konstanten
 	int myID;
-	int myDude;
 	std::string myName;
+	int myDude;
+
 
 	// Laufvariablen
 	int myCards[2];

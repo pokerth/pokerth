@@ -179,6 +179,14 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <tabstops>
+  <tabstop>spinBox_quantityPlayers</tabstop>
+  <tabstop>spinBox_startCash</tabstop>
+  <tabstop>spinBox_smallBlind</tabstop>
+  <tabstop>spinBox_gameSpeed</tabstop>
+  <tabstop>buttonOk</tabstop>
+  <tabstop>buttonCancel</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -188,8 +196,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>129</x>
-     <y>176</y>
+     <x>120</x>
+     <y>201</y>
     </hint>
     <hint type="destinationlabel" >
      <x>137</x>
@@ -204,8 +212,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>222</x>
-     <y>176</y>
+     <x>201</x>
+     <y>201</y>
     </hint>
     <hint type="destinationlabel" >
      <x>137</x>

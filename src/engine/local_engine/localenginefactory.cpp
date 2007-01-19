@@ -35,7 +35,7 @@ HandInterface* LocalEngineFactory::createHand(EngineFactory *f, GuiInterface *g,
 
 BoardInterface* LocalEngineFactory::createBoard() { return new LocalBoard; }
 
-PlayerInterface* LocalEngineFactory::createPlayer(BoardInterface *b, int id, int sC, bool aS, int mB) { return new LocalPlayer(b, id, sC, aS, mB); }
+PlayerInterface* LocalEngineFactory::createPlayer(BoardInterface *b, int id, std::string name, int sC, bool aS, int mB) { return new LocalPlayer(b, id, name, sC, aS, mB); }
 
 PreflopInterface* LocalEngineFactory::createPreflop(HandInterface* hi, int id, int qP, int dP, int sB) { return new LocalPreflop(hi, id, qP, dP, sB); }
 

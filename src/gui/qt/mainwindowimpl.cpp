@@ -320,6 +320,7 @@ void mainWindowImpl::refreshButton() {
 
 void mainWindowImpl::refreshPlayerName() {
 
+// 	cout << "refresh" << endl;
 	int i;
 	for (i=1; i<maxQuantityPlayers; i++) { 	groupBoxArray[i]->setTitle(QString::fromStdString(actualHand->getPlayerArray()[i]->getMyName()));
 	}
