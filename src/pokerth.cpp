@@ -27,6 +27,11 @@
 #include "session.h"
 #include "guiwrapper.h"
 
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
 class GuiWrapper;
 
 int main( int argc, char **argv )
