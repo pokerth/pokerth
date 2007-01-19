@@ -55,8 +55,6 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
 
 void settingsDialogImpl::accept() {
 
-	std::cout << "wursst" <<  "\n";
-	
 	//Daten speichern
 	ConfigFile config;
 

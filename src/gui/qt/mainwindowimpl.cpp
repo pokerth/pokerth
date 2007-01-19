@@ -31,6 +31,7 @@
 #include "session.h"
 
 #include "log.h"
+#include "configfile.h"
 
 #define FORMATLEFT(X) "<p align='center'>(X)"
 #define FORMATRIGHT(X) "(X)</p>"
@@ -186,41 +187,83 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 
 void mainWindowImpl::callNewGameDialog() {
 
-	newGameDialogImpl *v = new newGameDialogImpl();
-	v->exec();
+	ConfigFile configFile;
 
-	if (v->result() == QDialog::Accepted ) {
+	//wenn Dialogfenster gezeigt werden soll
+	bool ok;
+	if(configFile.readConfig("showgamesettingsdialogonnewgame", "1").toInt(&ok,10)) {
 
+		newGameDialogImpl *v = new newGameDialogImpl();
+		v->exec();
+	
+		if (v->result() == QDialog::Accepted ) {
+	
+			if(actualGame) {
+				mySession->deleteGame();
+				actualGame = 0;
+			}
+	
+			//restliche Singleshots abfangen!!!	
+			if (firstCallNewGame) { firstCallNewGame = FALSE; }
+			else { newRoundTimerBlock = TRUE; }
+			QTimer::singleShot(40*gameSpeed, this, SLOT( timerBlockerFalse() ));
+	
+	
+			label_Pot->setText("<p align='center'><span style='font-size:x-large; font-weight:bold'>Pot Total</span></p>");
+			label_Sets->setText("<p align='center'><span style='font-size:medium; font-weight:bold'>Sets:</span></p>");
+	
+			guiGameSpeed = v->spinBox_gameSpeed->value();
+	// 		debugMode = v->checkBox_debugMode->isChecked();
+			
+			//Tools und Board aufhellen und enablen
+			QPalette tempPalette = groupBox_board->palette();
+			tempPalette.setColor(QPalette::Window, active);
+			groupBox_board->setPalette(tempPalette);
+			groupBox_tools->setDisabled(FALSE);	
+	
+			//Speeds 
+			setSpeeds();
+			//positioning Slider
+			horizontalSlider_speed->setValue(guiGameSpeed);
+			
+			//Start Game!!!
+			mySession->startGame(v->spinBox_quantityPlayers->value(), v->spinBox_startCash->value(), v->spinBox_smallBlind->value());
+	
+		}
+	}
+	// sonst mit gespeicherten Werten starten
+	else {
+		
 		if(actualGame) {
 			mySession->deleteGame();
 			actualGame = 0;
 		}
-
+	
 		//restliche Singleshots abfangen!!!	
 		if (firstCallNewGame) { firstCallNewGame = FALSE; }
 		else { newRoundTimerBlock = TRUE; }
 		QTimer::singleShot(40*gameSpeed, this, SLOT( timerBlockerFalse() ));
-
-
+	
+	
 		label_Pot->setText("<p align='center'><span style='font-size:x-large; font-weight:bold'>Pot Total</span></p>");
 		label_Sets->setText("<p align='center'><span style='font-size:medium; font-weight:bold'>Sets:</span></p>");
-
-		guiGameSpeed = v->spinBox_gameSpeed->value();
-// 		debugMode = v->checkBox_debugMode->isChecked();
-		
+	
+		guiGameSpeed = configFile.readConfig("gamespeed","4").toInt(&ok,10);
+	// 	debugMode = v->checkBox_debugMode->isChecked();
+			
 		//Tools und Board aufhellen und enablen
 		QPalette tempPalette = groupBox_board->palette();
 		tempPalette.setColor(QPalette::Window, active);
 		groupBox_board->setPalette(tempPalette);
 		groupBox_tools->setDisabled(FALSE);	
-
+	
 		//Speeds 
 		setSpeeds();
 		//positioning Slider
 		horizontalSlider_speed->setValue(guiGameSpeed);
-		
+			
 		//Start Game!!!
-		mySession->startGame(v->spinBox_quantityPlayers->value(), v->spinBox_startCash->value(), v->spinBox_smallBlind->value());
+		mySession->startGame(configFile.readConfig("numberofplayers","5").toInt(&ok,10), configFile.readConfig("startcash","2000").toInt(&ok,10), configFile.readConfig("smallblind","10").toInt(&ok,10));
 
 	}
 
