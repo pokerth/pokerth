@@ -229,7 +229,7 @@
        <item row="2" column="0" >
         <widget class="QCheckBox" name="checkBox_showToolbox" >
          <property name="text" >
-          <string>Show Toolbox</string>
+          <string>Show Toolbox (F2 to switch on/off)</string>
          </property>
         </widget>
        </item>

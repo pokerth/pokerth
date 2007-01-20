@@ -157,6 +157,7 @@ public slots:
 	void breakButtonClicked();
 
 	void keyPressEvent ( QKeyEvent * event );
+	void switchToolBox();
 
 private: 
 	

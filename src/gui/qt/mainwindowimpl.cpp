@@ -1368,6 +1368,16 @@ void mainWindowImpl::breakButtonClicked() {
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
-// 	cout << event->key()/*.toStdString()*/ << endl;
+// 	cout << event->key() << endl;
+
+	if (event->key() == 16777265) { switchToolBox(); }
 
 }
+
+void mainWindowImpl::switchToolBox() {
+
+	if (groupBox_tools->isHidden()) { groupBox_tools->show(); }
+	else { groupBox_tools->hide(); }
+
+}
+
