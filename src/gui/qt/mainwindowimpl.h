@@ -30,6 +30,7 @@
 class Game;
 class Session;
 class Log;
+class ConfigFile;
 
 class BoardInterface;
 class HandInterface;
@@ -155,12 +156,15 @@ public slots:
 	void timerBlockerFalse();
 	void breakButtonClicked();
 
+	void keyPressEvent ( QKeyEvent * event );
+
 private: 
 	
 	Game *actualGame;
 	HandInterface *actualHand;
 	Session *mySession;
 	Log *myLog;
+	ConfigFile *myConfigFile;
 
 
 	QTimer *potDistributeTimer;

@@ -59,10 +59,16 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	
 	if ( !progDir1.exists() ) { progDir1.mkdir(progDir1.absPath()); }
 
+	myConfigFile = new ConfigFile;
 
 	setupUi(this);
 
 	int i;
+	bool ok;
+
+	//Toolbox verstecken?				
+	if (!myConfigFile->readConfig("showtoolbox", "1").toInt(&ok,10)) { groupBox_tools->hide(); }
+
 		
 	pushButton_raise->setDisabled(TRUE);
 	pushButton_call->setDisabled(TRUE);
@@ -187,17 +193,18 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 
 void mainWindowImpl::callNewGameDialog() {
 
-	ConfigFile configFile;
+	
 
 	//wenn Dialogfenster gezeigt werden soll
 	bool ok;
-	if(configFile.readConfig("showgamesettingsdialogonnewgame", "1").toInt(&ok,10)) {
+	if(myConfigFile->readConfig("showgamesettingsdialogonnewgame", "1").toInt(&ok,10)) {
 
 		newGameDialogImpl *v = new newGameDialogImpl();
 		v->exec();
 	
 		if (v->result() == QDialog::Accepted ) {
-	
+
+		
 			if(actualGame) {
 				mySession->deleteGame();
 				actualGame = 0;
@@ -248,7 +255,7 @@ void mainWindowImpl::callNewGameDialog() {
 		label_Pot->setText("<p align='center'><span style='font-size:x-large; font-weight:bold'>Pot Total</span></p>");
 		label_Sets->setText("<p align='center'><span style='font-size:medium; font-weight:bold'>Sets:</span></p>");
 	
-		guiGameSpeed = configFile.readConfig("gamespeed","4").toInt(&ok,10);
+		guiGameSpeed = myConfigFile->readConfig("gamespeed","4").toInt(&ok,10);
 	// 	debugMode = v->checkBox_debugMode->isChecked();
 			
 		//Tools und Board aufhellen und enablen
@@ -259,11 +266,13 @@ void mainWindowImpl::callNewGameDialog() {
 	
 		//Speeds 
 		setSpeeds();
+				
 		//positioning Slider
 		horizontalSlider_speed->setValue(guiGameSpeed);
-			
+		
+
 		//Start Game!!!
-		mySession->startGame(configFile.readConfig("numberofplayers","5").toInt(&ok,10), configFile.readConfig("startcash","2000").toInt(&ok,10), configFile.readConfig("smallblind","10").toInt(&ok,10));
+		mySession->startGame(myConfigFile->readConfig("numberofplayers","5").toInt(&ok,10), myConfigFile->readConfig("startcash","2000").toInt(&ok,10), myConfigFile->readConfig("smallblind","10").toInt(&ok,10));
 
 	}
 
@@ -279,6 +288,15 @@ void mainWindowImpl::callSettingsDialog() {
 
 	settingsDialogImpl *v = new settingsDialogImpl();
 	v->exec();
+		
+	if (v->result()) {
+		
+		bool ok;
+		//Toolbox verstecken?
+		if (!myConfigFile->readConfig("showtoolbox", "1").toInt(&ok,10)) { groupBox_tools->hide(); }
+		else { groupBox_tools->show(); }
+	
+	}
 }
 
 
@@ -1348,3 +1366,8 @@ void mainWindowImpl::breakButtonClicked() {
 	}
 }
 
+void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
+
+// 	cout << event->key()/*.toStdString()*/ << endl;
+
+}

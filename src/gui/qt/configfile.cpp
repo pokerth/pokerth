@@ -56,6 +56,7 @@ QString ConfigFile::readConfig(QString varName, QString defaultvalue)
 		stream << "opponent2name=Player 2\n";
 		stream << "opponent3name=Player 3\n";
 		stream << "opponent4name=Player 4\n";
+		stream << "showtoolbox=1\n";
 		configFile.close();
 	} 
 	

@@ -46,14 +46,17 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
 	spinBox_smallBlind->setValue(config.readConfig("smallblind", "10").toInt(&ok,10));
 	spinBox_gameSpeed->setValue(config.readConfig("gamespeed", "4").toInt(&ok,10));
 	checkBox_showGameSettingsDialogOnNewGame->setChecked(config.readConfig("showgamesettingsdialogonnewgame", "1").toInt(&ok,10));
+
+	//Interface
+	checkBox_showToolbox->setChecked(config.readConfig("showtoolbox", "1").toInt(&ok,10));
 	
 
-	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( accept() ) );
+	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
 
 }
 
 
-void settingsDialogImpl::accept() {
+void settingsDialogImpl::isAccepted() {
 
 	//Daten speichern
 	ConfigFile config;
@@ -71,5 +74,8 @@ void settingsDialogImpl::accept() {
 	config.writeConfig("smallblind", QString::number(spinBox_smallBlind->value(),10));
 	config.writeConfig("gamespeed", QString::number(spinBox_gameSpeed->value(),10));
 	config.writeConfig("showgamesettingsdialogonnewgame", QString::number(checkBox_showGameSettingsDialogOnNewGame->isChecked(),10));
+
+	//Interface
+	config.writeConfig("showtoolbox", QString::number(checkBox_showToolbox->isChecked(),10));
 
 }

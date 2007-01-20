@@ -44,12 +44,17 @@
      </item>
      <item>
       <property name="text" >
-       <string>Log</string>
+       <string>Interface</string>
       </property>
      </item>
      <item>
       <property name="text" >
        <string>Player Nicks</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Log Messages</string>
       </property>
      </item>
     </widget>
@@ -67,6 +72,27 @@
        <property name="spacing" >
         <number>6</number>
        </property>
+       <item row="1" column="0" colspan="2" >
+        <widget class="Line" name="line_3" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2" >
+        <widget class="QCheckBox" name="checkBox_showGameSettingsDialogOnNewGame" >
+         <property name="text" >
+          <string>Show game settings dialog on every new game</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" >
+        <widget class="QLabel" name="label" >
+         <property name="text" >
+          <string>Game-Speed</string>
+         </property>
+        </widget>
+       </item>
        <item row="7" column="0" >
         <spacer>
          <property name="orientation" >
@@ -80,20 +106,6 @@
          </property>
         </spacer>
        </item>
-       <item row="6" column="0" colspan="2" >
-        <widget class="QCheckBox" name="checkBox_showGameSettingsDialogOnNewGame" >
-         <property name="text" >
-          <string>show game settings dialog on every new game</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" >
-        <widget class="QLabel" name="label_2" >
-         <property name="text" >
-          <string>Start Cash</string>
-         </property>
-        </widget>
-       </item>
        <item row="4" column="1" >
         <widget class="QSpinBox" name="spinBox_smallBlind" >
          <property name="maximum" >
@@ -104,10 +116,37 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0" >
-        <widget class="QLabel" name="label" >
+       <item row="3" column="0" >
+        <widget class="QLabel" name="label_2" >
          <property name="text" >
-          <string>Game-Speed</string>
+          <string>Start Cash</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" >
+        <widget class="QLabel" name="label_3" >
+         <property name="text" >
+          <string>Small Blind</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QLabel" name="label_4" >
+         <property name="text" >
+          <string>Number of Players</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2" >
+        <widget class="QLabel" name="label_5" >
+         <property name="font" >
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text" >
+          <string>Game Settings</string>
          </property>
         </widget>
        </item>
@@ -118,13 +157,6 @@
          </property>
          <property name="minimum" >
           <number>1000</number>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" >
-        <widget class="QLabel" name="label_3" >
-         <property name="text" >
-          <string>Small Blind</string>
          </property>
         </widget>
        </item>
@@ -151,36 +183,9 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0" >
-        <widget class="QLabel" name="label_4" >
-         <property name="text" >
-          <string>Number of Players</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="2" >
-        <widget class="Line" name="line_3" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="2" >
-        <widget class="QLabel" name="label_5" >
-         <property name="font" >
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text" >
-          <string>Game Settings</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_3" >
+     <widget class="QWidget" name="page_2" >
       <layout class="QGridLayout" >
        <property name="margin" >
         <number>9</number>
@@ -188,7 +193,27 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="2" column="0" >
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_13" >
+         <property name="font" >
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text" >
+          <string>Interface</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="Line" name="line_5" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" >
         <spacer>
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -201,23 +226,10 @@
          </property>
         </spacer>
        </item>
-       <item row="1" column="0" >
-        <widget class="Line" name="line_2" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_6" >
-         <property name="font" >
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
+       <item row="2" column="0" >
+        <widget class="QCheckBox" name="checkBox_showToolbox" >
          <property name="text" >
-          <string>Log Settings</string>
+          <string>Show Toolbox</string>
          </property>
         </widget>
        </item>
@@ -316,7 +328,49 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_2" />
+     <widget class="QWidget" name="page_3" >
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="2" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="0" >
+        <widget class="Line" name="line_2" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_6" >
+         <property name="font" >
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text" >
+          <string>Log Messages</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item row="1" column="0" colspan="2" >
@@ -346,22 +400,6 @@
  <connections>
   <connection>
    <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>settingsDialog</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>227</x>
-     <y>316</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
    <signal>rejected()</signal>
    <receiver>settingsDialog</receiver>
    <slot>reject()</slot>
@@ -389,6 +427,38 @@
     <hint type="destinationlabel" >
      <x>281</x>
      <y>85</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>settingsDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>243</x>
+     <y>315</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>243</x>
+     <y>169</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>settingsDialog</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>243</x>
+     <y>315</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>243</x>
+     <y>169</y>
     </hint>
    </hints>
   </connection>

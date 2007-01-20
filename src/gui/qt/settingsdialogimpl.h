@@ -30,7 +30,7 @@ public:
 
 public slots:
 
-	void accept();
+	void isAccepted();
 };
 
 #endif
