@@ -52,7 +52,7 @@ ConfigFile::ConfigFile()
 	TiXmlDocument doc(configFileName); 
 	if(!doc.LoadFile()){ createDefaultConfig(); }
 
-	cout << readConfig("NumberOfPlayers", "2") << "\n";
+	cout << readConfigInt("NumberOfPlayers", 2) << "\n";
 
 }
 
@@ -113,7 +113,7 @@ void ConfigFile::createDefaultConfig() {
 
 }
 
-string ConfigFile::readConfig(string varName, string defaultvalue)
+string ConfigFile::readConfigString(string varName, string defaultvalue)
 {
   	string tempString;
 
@@ -210,7 +210,24 @@ string ConfigFile::readConfig(string varName, string defaultvalue)
     
  }
 
-void ConfigFile::writeConfig(string setVarName, string setVarCont)
+int ConfigFile::readConfigInt(string varName, int defaultvalue)
+{
+  	int tempInt;
+
+	TiXmlDocument doc(configFileName); 
+	TiXmlHandle docHandle( &doc );		
+
+	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
+	if ( conf ) {
+		cout << "ich war hier" << "\n";
+		conf->QueryValueAttribute("value", &tempInt );
+        }
+
+	return tempInt;
+}
+
+
+void ConfigFile::writeConfigInt(string setVarName, int setVarCont)
  {
 //     QDir configDir;
 //     configDir.setPath(QDir::home().absPath()+"/.pokerth/");
@@ -239,5 +256,12 @@ void ConfigFile::writeConfig(string setVarName, string setVarCont)
 //            }
 // 	configFile.close();
 //     }
+        
+}
+
+void ConfigFile::writeConfigString(string setVarName, string setVarCont)
+ {
+
+	
         
 }

@@ -31,8 +31,12 @@ public:
 
 	void createDefaultConfig();
 
-    	void writeConfig(std::string setVarName, std::string setVarCont);
-    	std::string readConfig(std::string varName, std::string defaultvalue);
+	std::string readConfigString(std::string varName, std::string defaultvalue);
+    	void writeConfigString(std::string setVarName, std::string setVarCont);
+    	
+	int readConfigInt(std::string varName, int defaultvalue);
+	void writeConfigInt(std::string setVarName, int setVarCont);
+    	
 
 private:
 	std::string configFileName;
