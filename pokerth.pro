@@ -11,7 +11,9 @@ FORMS += mainwindow.ui \
          aboutpokerth.ui \
          newgamedialog.ui \
 	 settingsdialog.ui
-HEADERS += mainwindowimpl.h \
+HEADERS += tinystr.h \
+ 	   tinyxml.h \
+     	   mainwindowimpl.h \
            newgamedialogimpl.h \
            aboutpokerthimpl.h \
 	   settingsdialogimpl.h \
@@ -41,6 +43,10 @@ HEADERS += mainwindowimpl.h \
 	   localenginefactory.h 
 
 SOURCES += pokerth.cpp \
+	   tinystr.cpp \
+	   tinyxml.cpp \
+           tinyxmlerror.cpp \
+           tinyxmlparser.cpp \
 	   mainwindowimpl.cpp \
            newgamedialogimpl.cpp \
            aboutpokerthimpl.cpp \
@@ -72,8 +78,8 @@ SOURCES += pokerth.cpp \
 
 RESOURCES = src/gui/qt/deck.qrc
 TEMPLATE = app
-DEPENDPATH += . src uics src/gui src/gui/qt src/engine src/engine/local_engine src/engine/network_engine
-INCLUDEPATH += . src uics src/gui src/gui/qt src/engine src/engine/local_engine src/engine/network_engine
+DEPENDPATH += . src uics src/gui src/gui/qt src/engine src/engine/local_engine src/engine/network_engine src/tinyxml
+INCLUDEPATH += . src uics src/gui src/gui/qt src/engine src/engine/local_engine src/engine/network_engine src/tinyxml
 CONFIG += qt release
 UI_DIR = uics
 TARGET = bin/pokerth

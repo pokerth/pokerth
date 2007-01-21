@@ -20,6 +20,7 @@
 #include "session.h"
 #include "game.h"
 #include "guiinterface.h"
+#include "tinyxml.h"
 
 using namespace std;
 
@@ -31,6 +32,8 @@ Session::Session(GuiInterface* g) : actualGame(0), myGui(g)
 	// Session an mainwindowimpl bergeben
 	myGui->setSession(this);
 	
+	//Konfiguration erstellen;
+
 
 }
 

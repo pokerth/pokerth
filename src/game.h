@@ -60,7 +60,13 @@ public:
 	void setActualHandID(const int& theValue) { actualHandID = theValue; }
 	int getActualHandID() const { return actualHandID; }
 
+	void setRoundsToRaiseSmallBlind(const int& theValue) { roundsToRaiseSmallBlind = theValue; }
+	int getRoundsToRaiseSmallBlind() const { return roundsToRaiseSmallBlind; }
+
 	void startHand();
+
+	
+	
 	
 	
 
@@ -82,6 +88,8 @@ private:
 	int actualSmallBlind;
 	int actualHandID;
 	int dealerPosition;
+
+	int roundsToRaiseSmallBlind;
 
 
 };
