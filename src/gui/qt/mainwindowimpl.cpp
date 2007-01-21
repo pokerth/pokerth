@@ -67,7 +67,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	bool ok;
 
 	//Toolbox verstecken?				
-	if (!myConfigFile->readConfig("showtoolbox", "1").toInt(&ok,10)) { groupBox_tools->hide(); }
+// 	if (!myConfigFile->readConfig("showtoolbox", "1").toInt(&ok,10)) { groupBox_tools->hide(); }
 
 		
 	pushButton_raise->setDisabled(TRUE);
@@ -197,7 +197,7 @@ void mainWindowImpl::callNewGameDialog() {
 
 	//wenn Dialogfenster gezeigt werden soll
 	bool ok;
-	if(myConfigFile->readConfig("showgamesettingsdialogonnewgame", "1").toInt(&ok,10)) {
+// 	if(myConfigFile->readConfig("showgamesettingsdialogonnewgame", "1").toInt(&ok,10)) {
 
 		newGameDialogImpl *v = new newGameDialogImpl();
 		v->exec();
@@ -237,9 +237,9 @@ void mainWindowImpl::callNewGameDialog() {
 			mySession->startGame(v->spinBox_quantityPlayers->value(), v->spinBox_startCash->value(), v->spinBox_smallBlind->value());
 	
 		}
-	}
+// 	}
 	// sonst mit gespeicherten Werten starten
-	else {
+// 	else {
 		
 		if(actualGame) {
 			mySession->deleteGame();
@@ -255,7 +255,7 @@ void mainWindowImpl::callNewGameDialog() {
 		label_Pot->setText("<p align='center'><span style='font-size:x-large; font-weight:bold'>Pot Total</span></p>");
 		label_Sets->setText("<p align='center'><span style='font-size:medium; font-weight:bold'>Sets:</span></p>");
 	
-		guiGameSpeed = myConfigFile->readConfig("gamespeed","4").toInt(&ok,10);
+		guiGameSpeed = 4/*myConfigFile->readConfig("gamespeed","4").toInt(&ok,10)*/;
 	// 	debugMode = v->checkBox_debugMode->isChecked();
 			
 		//Tools und Board aufhellen und enablen
@@ -272,9 +272,11 @@ void mainWindowImpl::callNewGameDialog() {
 		
 
 		//Start Game!!!
-		mySession->startGame(myConfigFile->readConfig("numberofplayers","5").toInt(&ok,10), myConfigFile->readConfig("startcash","2000").toInt(&ok,10), myConfigFile->readConfig("smallblind","10").toInt(&ok,10));
+// 		mySession->startGame(myConfigFile->readConfig("numberofplayers","5").toInt(&ok,10), myConfigFile->readConfig("startcash","2000").toInt(&ok,10), myConfigFile->readConfig("smallblind","10").toInt(&ok,10));
+		mySession->startGame(5, 2000, 10);
 
-	}
+
+// 	}
 
 }
 
@@ -293,8 +295,8 @@ void mainWindowImpl::callSettingsDialog() {
 		
 		bool ok;
 		//Toolbox verstecken?
-		if (!myConfigFile->readConfig("showtoolbox", "1").toInt(&ok,10)) { groupBox_tools->hide(); }
-		else { groupBox_tools->show(); }
+// 		if (!myConfigFile->readConfig("showtoolbox", "1").toInt(&ok,10)) { groupBox_tools->hide(); }
+// 		else { groupBox_tools->show(); }
 	
 	}
 }

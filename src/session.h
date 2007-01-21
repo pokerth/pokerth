@@ -25,6 +25,7 @@
 
 class GuiInterface;
 class Game;
+class ConfigFile;
 
 
 class Session{
@@ -37,9 +38,12 @@ public:
 	void startGame(int, int, int);
 	void deleteGame();
 
+// 	void createConfig();
+
 private:
 	Game *actualGame;
 	GuiInterface *myGui;
+	ConfigFile *myConfig;
 
 };
 

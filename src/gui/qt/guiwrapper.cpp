@@ -49,10 +49,10 @@ void GuiWrapper::setSession(Session *s) { myW->setSession(s); }
 int GuiWrapper::getMaxQuantityPlayers() const { return myW->getMaxQuantityPlayers(); }
 std::string GuiWrapper::getPlayerName(int id) const { 
 
-	if(id==0) {
-		return myConfig->readConfig("myname", "Human Player").toStdString() ; 
-	}
-	else {  return myConfig->readConfig("opponent"+QString::number(id)+"name", "Player "+QString::number(id)).toStdString() ; }
+// 	if(id==0) {
+// 		return myConfig->readConfig("myname", "Human Player").toStdString() ; 
+// 	}
+// 	else {  return myConfig->readConfig("opponent"+QString::number(id)+"name", "Player "+QString::number(id)).toStdString() ; }
 
 }
 

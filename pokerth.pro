@@ -78,8 +78,8 @@ SOURCES += pokerth.cpp \
 
 RESOURCES = src/gui/qt/deck.qrc
 TEMPLATE = app
-DEPENDPATH += . src uics src/gui src/gui/qt src/engine src/engine/local_engine src/engine/network_engine src/tinyxml
-INCLUDEPATH += . src uics src/gui src/gui/qt src/engine src/engine/local_engine src/engine/network_engine src/tinyxml
+DEPENDPATH += . src uics src/config src/config/tinyxml src/gui src/gui/qt src/engine src/engine/local_engine src/engine/network_engine 
+INCLUDEPATH += . src uics src/config src/config/tinyxml src/gui src/gui/qt src/engine src/engine/local_engine src/engine/network_engine
 CONFIG += qt release
 UI_DIR = uics
 TARGET = bin/pokerth

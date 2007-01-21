@@ -20,41 +20,21 @@
 #include "session.h"
 #include "game.h"
 #include "guiinterface.h"
-#include "tinyxml.h"
-#include <cstdlib>
+#include "configfile.h"
 
-#ifdef _WIN32
-#include <direct.h>
-#endif
+
 
 using namespace std;
 
 Session::Session(GuiInterface* g) : actualGame(0), myGui(g)
 {
 
-	
-
 	// Session an mainwindowimpl bergeben
 	myGui->setSession(this);
 	
-	// Konfiguration erstellen
+	myConfig = new ConfigFile;
+	
 
-	string configFileName;
-#ifdef _WIN32
-	const char *appDataPath = getenv("AppData");
-	if (appDataPath)
-	{
-		configFileName = appDataPath;
-		configFileName += "\\pokerth\\";
-		mkdir(configFileName.c_str());
-	}
-#else
-	// hier Linux/Mac Code zur Basispfadbestimmung, z.B.
-	configFileName = "~/pokerth";
-	// wenn nicht existiert, erzeugen!
-#endif
-
-	configFileName += "config.xml";
 }
 
 
