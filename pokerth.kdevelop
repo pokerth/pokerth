@@ -180,4 +180,8 @@
       <implementationsuffix>.cpp</implementationsuffix>
     </filetemplates>
   </cppsupportpart>
+  <ctagspart>
+    <customArguments/>
+    <customTagfilePath/>
+  </ctagspart>
 </kdevelop>
