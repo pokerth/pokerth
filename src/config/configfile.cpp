@@ -52,7 +52,7 @@ ConfigFile::ConfigFile()
 	TiXmlDocument doc(configFileName); 
 	if(!doc.LoadFile()){ createDefaultConfig(); }
 
-	cout << readConfig("numberofplayers", "2") << "\n";
+	cout << readConfig("NumberOfPlayers", "2") << "\n";
 
 }
 
@@ -74,18 +74,41 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * config;
        		config = new TiXmlElement( "Configuration" );  
 		root->LinkEndChild( config );  
-		config->SetAttribute("numberofplayers", 5);
-		config->SetAttribute("startcash", 2000);
-		config->SetAttribute("smallblind", 10);
-		config->SetAttribute("gamespeed", 4);
-		config->SetAttribute("showgamesettingsdialogonnewgame", 1);
-		config->SetAttribute("myname", "Human Player");
-		config->SetAttribute("opponent1name", "Player 1");
-		config->SetAttribute("opponent2name", "Player 2");
-		config->SetAttribute("opponent3name", "Player 3");
-		config->SetAttribute("opponent4name", "Player 4");
-		config->SetAttribute("showtoolbox", 1);
-		  
+		
+		TiXmlElement * confElement1 = new TiXmlElement( "NumberOfPlayers" ); 
+		config->LinkEndChild( confElement1 );
+		confElement1->SetAttribute("value", 5);
+                TiXmlElement * confElement2 = new TiXmlElement( "StartChash" );
+	        config->LinkEndChild( confElement2 );
+                confElement2->SetAttribute("value", 2000);
+		TiXmlElement * confElement3 = new TiXmlElement( "SmallBlind" );
+  		config->LinkEndChild( confElement3 );
+        	confElement3->SetAttribute("value", 10);
+		TiXmlElement * confElement4 = new TiXmlElement( "GameSpeed" );
+		config->LinkEndChild( confElement4 );
+      		confElement4->SetAttribute("value", 4);		
+		TiXmlElement * confElement5 = new TiXmlElement( "ShowGameSettingsDialogOnNewGame" );
+		config->LinkEndChild( confElement5 );
+      		confElement5->SetAttribute("value", 1);		
+		TiXmlElement * confElement6 = new TiXmlElement( "MyName" );
+		config->LinkEndChild( confElement6 );
+      		confElement6->SetAttribute("value", "Human Player");		
+		TiXmlElement * confElement7 = new TiXmlElement( "Opponent1Name" );
+		config->LinkEndChild( confElement7 );
+      		confElement7->SetAttribute("value", "Player 1");
+		TiXmlElement * confElement8 = new TiXmlElement( "Opponent2Name" );
+		config->LinkEndChild( confElement8 );
+      		confElement8->SetAttribute("value", "Player 2");
+		TiXmlElement * confElement9 = new TiXmlElement( "Opponent3Name" );
+		config->LinkEndChild( confElement9 );
+      		confElement9->SetAttribute("value", "Player 3");
+		TiXmlElement * confElement10 = new TiXmlElement( "Opponent4Name" );
+		config->LinkEndChild( confElement10 );
+      		confElement10->SetAttribute("value", "Player 4");
+		TiXmlElement * confElement11 = new TiXmlElement( "ShowToolBox" );
+		config->LinkEndChild( confElement11 );
+      		confElement11->SetAttribute("value", 1);
+
 		doc.SaveFile( configFileName );
 
 }
@@ -97,12 +120,12 @@ string ConfigFile::readConfig(string varName, string defaultvalue)
 	TiXmlDocument doc(configFileName); 
 	TiXmlHandle docHandle( &doc );		
 
-	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();
+	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
 	if ( conf ) {
 		cout << "ich war hier" << "\n";
-		conf->QueryValueAttribute(varName, &tempString );
+		conf->QueryValueAttribute("value", &tempString );
         }
-	cout << tempString << "\n";
+// 	cout << tempString << "\n";
 	return tempString;
 // 	QDir configDir;
 // 	configDir.setPath(QDir::home().absPath()+"/.pokerth/");
