@@ -59,15 +59,14 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	
 	if ( !progDir1.exists() ) { progDir1.mkdir(progDir1.absPath()); }
 
-	myConfigFile = new ConfigFile;
+	myConfig = new ConfigFile;
 
 	setupUi(this);
 
 	int i;
-	bool ok;
 
 	//Toolbox verstecken?				
-// 	if (!myConfigFile->readConfig("showtoolbox", "1").toInt(&ok,10)) { groupBox_tools->hide(); }
+// 	if (!myConfig->readConfigInt("ShowToolBox", 1)) { groupBox_tools->hide(); }
 
 		
 	pushButton_raise->setDisabled(TRUE);
@@ -196,8 +195,8 @@ void mainWindowImpl::callNewGameDialog() {
 	
 
 	//wenn Dialogfenster gezeigt werden soll
-	bool ok;
-// 	if(myConfigFile->readConfig("showgamesettingsdialogonnewgame", "1").toInt(&ok,10)) {
+
+// 	if(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame", 1)){
 
 		newGameDialogImpl *v = new newGameDialogImpl();
 		v->exec();
@@ -255,7 +254,7 @@ void mainWindowImpl::callNewGameDialog() {
 		label_Pot->setText("<p align='center'><span style='font-size:x-large; font-weight:bold'>Pot Total</span></p>");
 		label_Sets->setText("<p align='center'><span style='font-size:medium; font-weight:bold'>Sets:</span></p>");
 	
-		guiGameSpeed = 4/*myConfigFile->readConfig("gamespeed","4").toInt(&ok,10)*/;
+		guiGameSpeed = 4/*myConfig->readConfigInt("GameSpeed",4)*/;
 	// 	debugMode = v->checkBox_debugMode->isChecked();
 			
 		//Tools und Board aufhellen und enablen
@@ -272,7 +271,7 @@ void mainWindowImpl::callNewGameDialog() {
 		
 
 		//Start Game!!!
-// 		mySession->startGame(myConfigFile->readConfig("numberofplayers","5").toInt(&ok,10), myConfigFile->readConfig("startcash","2000").toInt(&ok,10), myConfigFile->readConfig("smallblind","10").toInt(&ok,10));
+// 		mySession->startGame(myConfig->readConfigInt("NumberOfPlayers",5), myConfig->readConfigInt("StartCash",2000), myConfig->readConfigInt("SmallBlind",10));
 		mySession->startGame(5, 2000, 10);
 
 
@@ -293,9 +292,8 @@ void mainWindowImpl::callSettingsDialog() {
 		
 	if (v->result()) {
 		
-		bool ok;
 		//Toolbox verstecken?
-// 		if (!myConfigFile->readConfig("showtoolbox", "1").toInt(&ok,10)) { groupBox_tools->hide(); }
+// 		if (!myConfig->readConfigInt("ShowToolBox", 1)) { groupBox_tools->hide(); }
 // 		else { groupBox_tools->show(); }
 	
 	}

@@ -50,9 +50,9 @@ int GuiWrapper::getMaxQuantityPlayers() const { return myW->getMaxQuantityPlayer
 std::string GuiWrapper::getPlayerName(int id) const { 
 
 // 	if(id==0) {
-// 		return myConfig->readConfig("myname", "Human Player").toStdString() ; 
+// 		return myConfig->readConfigString("MyName", "Human Player") ; 
 // 	}
-// 	else {  return myConfig->readConfig("opponent"+QString::number(id)+"name", "Player "+QString::number(id)).toStdString() ; }
+// 	else {  return myConfig->readConfigString("Opponent"+QString::number(id)+"Name", "Player "+QString::number(id)) ; }
 
 }
 

@@ -165,7 +165,7 @@ private:
 	HandInterface *actualHand;
 	Session *mySession;
 	Log *myLog;
-	ConfigFile *myConfigFile;
+	ConfigFile *myConfig;
 
 
 	QTimer *potDistributeTimer;
