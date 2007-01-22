@@ -121,7 +121,8 @@ string ConfigFile::readConfigString(string varName, string defaultValue)
 
 	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
 	if ( conf ) { 
-		conf->QueryValueAttribute("value", &tempString );
+		tempString = conf->Attribute("value");
+		cout << tempString << "\n";
         } else {
 		//Wenn nicht gefunden eines neues Anlegen
 		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
