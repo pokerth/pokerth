@@ -32,10 +32,7 @@ LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, int sC, bo
 // 	cout << "Spieler: " << myID << " Dude: " << myDude << " Cash: " << myCash << " ActiveStatus: " << myActiveStatus << " Button: " << myButton << endl;
 
 	myCardsValue = new CardsValue;
-/*
-	ostringstream temp;
-	temp << "Player " << myID;
-	myName = temp.str();*/
+
 
 }
 

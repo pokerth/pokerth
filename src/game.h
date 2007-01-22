@@ -21,18 +21,21 @@
 #define GAME_H
 
 #include <iostream>
+#include <string>
+#include <sstream>
 
 class GuiInterface;
 class HandInterface;
 class PlayerInterface;
 class BoardInterface;
 class EngineFactory;
+class ConfigFile;
 
 
 class Game {
 
 public:
-    Game(GuiInterface*, int, int, int);
+    Game(ConfigFile*, GuiInterface*, int, int, int);
 
     ~Game();
 
@@ -73,10 +76,13 @@ public:
 private:
 	EngineFactory *myFactory;
 
+	ConfigFile *myConfig;
+
 	GuiInterface *myGui;
 	HandInterface *actualHand;
 	BoardInterface *actualBoard;
 	PlayerInterface *playerArray[5];
+
 
 	//Startvariablen	
 	int startQuantityPlayers;

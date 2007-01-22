@@ -40,10 +40,7 @@ public:
 
 	//get
 	virtual int getMaxQuantityPlayers() const=0;
-	virtual std::string getPlayerName(int) const=0;
-
-	
-	
+		
 	//refresh-Funktionen
 	virtual void refreshSet() const=0;
 	virtual void refreshChangePlayer() const=0;

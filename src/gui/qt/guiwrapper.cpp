@@ -47,15 +47,6 @@ void GuiWrapper::setHand(HandInterface *lh) { myW->setHand(lh); }
 void GuiWrapper::setSession(Session *s) { myW->setSession(s); }
 
 int GuiWrapper::getMaxQuantityPlayers() const { return myW->getMaxQuantityPlayers(); }
-std::string GuiWrapper::getPlayerName(int id) const { 
-
-// 	if(id==0) {
-// 		return myConfig->readConfigString("MyName", "Human Player") ; 
-// 	}
-// 	else {  return myConfig->readConfigString("Opponent"+QString::number(id)+"Name", "Player "+QString::number(id)) ; }
-
-}
-
 
 void GuiWrapper::refreshSet() const { myW->refreshSet(); }
 void GuiWrapper::refreshChangePlayer() const { myW->refreshChangePlayer(); }

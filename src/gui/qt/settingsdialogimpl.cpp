@@ -29,28 +29,25 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
 	 setupUi(this);
 
 	//Formulare Füllen
-	ConfigFile config;	
-
-	bool ok=TRUE;
+	ConfigFile myConfig;	
 
 	//Player Nicks
-// 	lineEdit_humanPlayerName->setText(config.readConfig("myname", "Human Player"));
-// 	lineEdit_Opponent1Name->setText(config.readConfig("opponent1name", "Player 1"));
-// 	lineEdit_Opponent2Name->setText(config.readConfig("opponent2name", "Player 2"));
-// 	lineEdit_Opponent3Name->setText(config.readConfig("opponent3name", "Player 3"));
-// 	lineEdit_Opponent4Name->setText(config.readConfig("opponent4name", "Player 4"));
+	lineEdit_humanPlayerName->setText(QString::fromStdString(myConfig.readConfigString("MyName", "Human Player")));
+	lineEdit_Opponent1Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent1Name", "Player 1")));
+	lineEdit_Opponent2Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent2Name", "Player 2")));
+	lineEdit_Opponent3Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent3Name", "Player 3")));
+	lineEdit_Opponent4Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent4Name", "Player 4")));
 
 	//Game Settings
-// 	spinBox_quantityPlayers->setValue(config.readConfig("numberofplayers", "5").toInt(&ok,10));
-// 	spinBox_startCash->setValue(config.readConfig("startcash", "2000").toInt(&ok,10));
-// 	spinBox_smallBlind->setValue(config.readConfig("smallblind", "10").toInt(&ok,10));
-// 	spinBox_gameSpeed->setValue(config.readConfig("gamespeed", "4").toInt(&ok,10));
-// 	checkBox_showGameSettingsDialogOnNewGame->setChecked(config.readConfig("showgamesettingsdialogonnewgame", "1").toInt(&ok,10));
+	spinBox_quantityPlayers->setValue(myConfig.readConfigInt("NumberOfPlayers", 5));
+	spinBox_startCash->setValue(myConfig.readConfigInt("StartCash", 2000));
+	spinBox_smallBlind->setValue(myConfig.readConfigInt("SmallBlind", 10));
+	spinBox_gameSpeed->setValue(myConfig.readConfigInt("GameSpeed", 4));
+	checkBox_showGameSettingsDialogOnNewGame->setChecked(myConfig.readConfigInt("ShowGameSettingsDialogOnNewGame", 1));
 
 	//Interface
-// 	checkBox_showToolbox->setChecked(config.readConfig("showtoolbox", "1").toInt(&ok,10));
+	checkBox_showToolbox->setChecked(myConfig.readConfigInt("ShowToolBox", 1));
 	
-
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
 
 }
@@ -59,23 +56,23 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
 void settingsDialogImpl::isAccepted() {
 
 	//Daten speichern
-	ConfigFile config;
+	ConfigFile myConfig;
 
-	//Player Nicks
-// 	config.writeConfig("myname", lineEdit_humanPlayerName->text());
-// 	config.writeConfig("opponent1name", lineEdit_Opponent1Name->text());
-// 	config.writeConfig("opponent2name", lineEdit_Opponent2Name->text());
-// 	config.writeConfig("opponent3name", lineEdit_Opponent3Name->text());
-// 	config.writeConfig("opponent4name", lineEdit_Opponent4Name->text());
+// 	Player Nicks
+	myConfig.writeConfigString("MyName", lineEdit_humanPlayerName->text().toStdString());
+	myConfig.writeConfigString("Opponent1Name", lineEdit_Opponent1Name->text().toStdString());
+	myConfig.writeConfigString("Opponent2Name", lineEdit_Opponent2Name->text().toStdString());
+	myConfig.writeConfigString("Opponent3Name", lineEdit_Opponent3Name->text().toStdString());
+	myConfig.writeConfigString("Opponent4Name", lineEdit_Opponent4Name->text().toStdString());
 
-	//Game Settings
-// 	config.writeConfig("numberofplayers", QString::number(spinBox_quantityPlayers->value(),10));
-// 	config.writeConfig("startcash", QString::number(spinBox_startCash->value(),10));
-// 	config.writeConfig("smallblind", QString::number(spinBox_smallBlind->value(),10));
-// 	config.writeConfig("gamespeed", QString::number(spinBox_gameSpeed->value(),10));
-// 	config.writeConfig("showgamesettingsdialogonnewgame", QString::number(checkBox_showGameSettingsDialogOnNewGame->isChecked(),10));
+// 	Game Settings
+	myConfig.writeConfigInt("NumberOfPlayers", spinBox_quantityPlayers->value());
+	myConfig.writeConfigInt("StartCash", spinBox_startCash->value());
+	myConfig.writeConfigInt("SmallBlind", spinBox_smallBlind->value());
+	myConfig.writeConfigInt("GameSpeed", spinBox_gameSpeed->value());
+	myConfig.writeConfigInt("ShowGameSettingsDialogOnNewGame", checkBox_showGameSettingsDialogOnNewGame->isChecked());
 
-	//Interface
-// 	config.writeConfig("showtoolbox", QString::number(checkBox_showToolbox->isChecked(),10));
+// 	Interface
+	myConfig.writeConfigInt("ShowToolBox", checkBox_showToolbox->isChecked());
 
 }

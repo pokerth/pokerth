@@ -45,8 +45,7 @@ public:
 	void setSession(Session*);	
 
 	int getMaxQuantityPlayers() const;
-	std::string getPlayerName(int) const;
-
+	
 	void refreshSet() const;
 	void refreshChangePlayer() const;
 	void refreshPot() const;
@@ -85,12 +84,10 @@ public:
 	void showPlayerActionLogMsg(std::string playerName, int action, int setValue) const;
 
 private: 
-
 	
 	Log *myLog;
 	mainWindowImpl *myW;
 	ConfigFile *myConfig;
-	
 
 };
 

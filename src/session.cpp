@@ -45,7 +45,7 @@ Session::~Session()
 
 void Session::startGame(int qP, int sC, int sB) {
 
-	actualGame = new Game(myGui, qP, sC, sB);
+	actualGame = new Game(myConfig, myGui, qP, sC, sB);
 
 }
 

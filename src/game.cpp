@@ -27,10 +27,11 @@
 #include "playerinterface.h"
 #include "handinterface.h"
 
+#include "configfile.h"
 
 using namespace std;
 
-Game::Game(GuiInterface* g, int qP, int sC, int sB) : myGui(g), actualHand(0), actualBoard(0), startQuantityPlayers(qP), startCash(sC), startSmallBlind(sB), actualQuantityPlayers(qP), actualSmallBlind(sB), actualHandID(0), dealerPosition(0)
+Game::Game(ConfigFile* c, GuiInterface* g, int qP, int sC, int sB) : myConfig(c), myGui(g), actualHand(0), actualBoard(0), startQuantityPlayers(qP), startCash(sC), startSmallBlind(sB), actualQuantityPlayers(qP), actualSmallBlind(sB), actualHandID(0), dealerPosition(0)
 {
 	int i;
 
@@ -56,9 +57,20 @@ Game::Game(GuiInterface* g, int qP, int sC, int sB) : myGui(g), actualHand(0), a
 	PlayerInterface *tempPlayer;
 	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
 
-// 		cout << myGui->getPlayerName(i) << "\n";
+		//Namen abfragen 
+		ostringstream myName;
+		ostringstream myDefaultName;
+		if (i==0) { 
+			myName << "MyName";
+			myDefaultName << "Human Player";
+		}
+		else {
+			myName << "Opponent" << i << "Name";
+			myDefaultName << "Player " << i << "Name";
+		}
 
-		tempPlayer = myFactory->createPlayer(actualBoard, i, myGui->getPlayerName(i), startCash, startQuantityPlayers > i, 0);
+		//PlayerObjekte erzeugen
+		tempPlayer = myFactory->createPlayer(actualBoard, i, myConfig->readConfigString(myName.str(),myDefaultName.str()), startCash, startQuantityPlayers > i, 0);
 		playerArray[i] = tempPlayer;
 	}
 	actualBoard->setPlayer(playerArray);

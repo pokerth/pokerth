@@ -52,8 +52,6 @@ ConfigFile::ConfigFile()
 	TiXmlDocument doc(configFileName); 
 	if(!doc.LoadFile()){ createDefaultConfig(); }
 
-// 	cout << "readConfigString Value: " << readConfigString("Opponent1Name", "doitux") << "\n";
-	writeConfigString(string("MyName"), string("Ret"));
 }
 
 

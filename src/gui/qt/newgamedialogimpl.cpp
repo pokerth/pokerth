@@ -27,15 +27,13 @@ newGameDialogImpl::newGameDialogImpl(QWidget *parent, const char *name)
     setupUi(this);
 
 	//Formulare Füllen
-	ConfigFile config;	
-
-	bool ok=TRUE;
+	ConfigFile myConfig;	
 
 	//Game Settings
-// 	spinBox_quantityPlayers->setValue(config.readConfig("numberofplayers", "5").toInt(&ok,10));
-// 	spinBox_startCash->setValue(config.readConfig("startcash", "2000").toInt(&ok,10));
-// 	spinBox_smallBlind->setValue(config.readConfig("smallblind", "10").toInt(&ok,10));
-// 	spinBox_gameSpeed->setValue(config.readConfig("gamespeed", "4").toInt(&ok,10));
+	spinBox_quantityPlayers->setValue(myConfig.readConfigInt("NumberOfPlayers", 5));
+	spinBox_startCash->setValue(myConfig.readConfigInt("StartCash", 2000));
+	spinBox_smallBlind->setValue(myConfig.readConfigInt("SmallBlind", 10));
+	spinBox_gameSpeed->setValue(myConfig.readConfigInt("GameSpeed", 4));
 	
 
 }
