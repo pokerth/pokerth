@@ -52,8 +52,8 @@ ConfigFile::ConfigFile()
 	TiXmlDocument doc(configFileName); 
 	if(!doc.LoadFile()){ createDefaultConfig(); }
 
-	cout << "readConfigInt Value: " << readConfigInt("NumberOfPlayers", 2) << "\n";
-	cout << "1\n";
+// 	cout << "readConfigString Value: " << readConfigString("Opponent1Name", "doitux") << "\n";
+	writeConfigString(string("MyName"), string("Ret"));
 }
 
 
@@ -62,8 +62,8 @@ ConfigFile::~ConfigFile()
 }
 
 void ConfigFile::createDefaultConfig() {
-		//Anlegen!
 
+		//Anlegen!
 		TiXmlDocument doc;  
 		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
 		doc.LinkEndChild( decl );  
@@ -113,161 +113,111 @@ void ConfigFile::createDefaultConfig() {
 
 }
 
-string ConfigFile::readConfigString(string varName, string defaultvalue)
+string ConfigFile::readConfigString(string varName, string defaultValue)
 {
-  	string tempString;
+  	string tempString("");
 
 	TiXmlDocument doc(configFileName); 
-	
-	if(!doc.LoadFile()) {	cout << "nö" << "\n"; }
-	
+	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
 	TiXmlHandle docHandle( &doc );		
-	
-	
-	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
-	if ( conf ) {
-		cout << "ich war hier" << "\n";
-		conf->QueryValueAttribute("value", &tempString );
-        }
-// 	cout << tempString << "\n";
-	return tempString;
-// 	QDir configDir;
-// 	configDir.setPath(QDir::home().absPath()+"/.pokerth/");
-// 	
-// 	QFile configFile (configDir.absPath()+"/pokerth.conf");
-// 	
-// 	if ( !configFile.exists() ) {
-// 		configFile.open( QIODevice::WriteOnly );   
-// 		QTextStream stream( &configFile );
-// 		stream << "##################################################################################### \n";
-// 		stream << "#                                                                                   # \n";
-// 		stream << "#         This is the config-file for Pokerth - Please do not edit                  # \n";
-// 		stream << "#                                                                                   # \n";
-// 		stream << "##################################################################################### \n";
-// 		stream << "\n";
-// 		stream << "numberofplayers=5\n";
-// 		stream << "startcash=2000\n";
-// 		stream << "smallblind=10\n";
-// 		stream << "gamespeed=4\n";
-// 		stream << "showgamesettingsdialogonnewgame=1\n";
-// 		stream << "myname=Human Player\n";
-// 		stream << "opponent1name=Player 1\n";
-// 		stream << "opponent2name=Player 2\n";
-// 		stream << "opponent3name=Player 3\n";
-// 		stream << "opponent4name=Player 4\n";
-// 		stream << "showtoolbox=1\n";
-// 		configFile.close();
-// 	} 
-// 	
-// 	QString tempstring;
-// 	QString line;
-// 	int foundvarname(0);
-// 	
-// 	configFile.open( QIODevice::ReadOnly );  
-// 	QTextStream readStream( &configFile );
-// 	while ( !readStream.atEnd() ) {
-// 		line = readStream.readLine();
-// 		if ( line.section( "=", 0, 0 ) == varName ) {
-// 		tempstring = line.section( "=", 1, 1 );
-// 		foundvarname++;
-// 		}
-// 	}
-// 	configFile.close();
-// 	
-// 	if (foundvarname == 0) {
-// 
-// 		QDir configDir;
-// 		configDir.setPath(QDir::home().absPath()+"/.pokerth/");
-// 		
-// 		QFile configFile (configDir.absPath()+"/pokerth.conf");
-// 		
-// 		QStringList lines;
-// 		QString line;
-// 		QString listtemp;
-// 	
-// 		if ( configFile.open( QIODevice::ReadOnly ) ) {
-// 		QTextStream stream( &configFile );
-// 		while ( !stream.atEnd() ) {
-// 			line = stream.readLine();
-// 			lines += line;
-// 	
-// 		}
-// 		configFile.close();
-// 		}
-// 	
-// 		if ( configFile.open( QIODevice::WriteOnly ) ) {
-// 			
-// 			QTextStream stream( &configFile );
-// 			
-// 			for ( QStringList::Iterator it = lines.begin(); it != lines.end(); ++it ) {
-// 			stream << *it << "\n";
-// 			}
-// 			stream << varName+"="+defaultvalue+"\n";
-// 			configFile.close();
-// 		}
-// 	
-// 		tempstring = defaultvalue;    
-// 
-// 	}
-// 
 
-    
+	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
+	if ( conf ) { 
+		conf->QueryValueAttribute("value", &tempString );
+        } else {
+		//Wenn nicht gefunden eines neues Anlegen
+		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
+		if ( config ) { 		
+			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
+			config->LinkEndChild( confElement1 );
+			confElement1->SetAttribute("value", defaultValue);
+			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+
+			return readConfigString(varName, defaultValue);
+		}
+	}
+
+	return tempString;
  }
 
-int ConfigFile::readConfigInt(string varName, int defaultvalue)
+int ConfigFile::readConfigInt(string varName, int defaultValue)
 {
   	int tempInt=0;
 
-	cout << "2\n";
-
 	TiXmlDocument doc(configFileName); 
+	
+	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
+		
 	TiXmlHandle docHandle( &doc );		
 
 	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
 	if ( conf ) {
-		cout << "ich war hier" << "\n";
 		conf->QueryValueAttribute("value", &tempInt );
-        }
+        } else {
+		//Wenn nicht gefunden eines neues Anlegen
+		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
+		if ( config ) { 		
+			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
+			config->LinkEndChild( confElement1 );
+			confElement1->SetAttribute("value", defaultValue);
+			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+
+			return readConfigInt(varName, defaultValue);
+		}
+	}
 
 	return tempInt;
 }
 
 
-void ConfigFile::writeConfigInt(string setVarName, int setVarCont)
- {
-//     QDir configDir;
-//     configDir.setPath(QDir::home().absPath()+"/.pokerth/");
-//     QFile configFile (configDir.absPath()+"/pokerth.conf");
-//  
-//     QStringList lines;
-//     QString line;
-//     QString listtemp;
-//         
-//     if ( configFile.open( QIODevice::ReadOnly ) ) {
-//        QTextStream stream( &configFile );
-//        while ( !stream.atEnd() ) {
-//           line = stream.readLine();
-//           lines += line;
-//        }
-//        configFile.close();
-//     }
-//     
-//     listtemp = lines.grep(QRegExp("^"+setVarName)).join("");
-//     lines.gres(listtemp,setVarName+"="+setVarCont);
-//     
-//     if ( configFile.open( QIODevice::WriteOnly ) ) {
-//         QTextStream stream( &configFile );
-//         for ( QStringList::Iterator it = lines.begin(); it != lines.end(); ++it ) {
-// 	   stream << *it << "\n";
-//            }
-// 	configFile.close();
-//     }
-        
+void ConfigFile::writeConfigInt(string varName, int varCont)
+ {	
+
+	TiXmlDocument doc(configFileName); 
+	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
+	TiXmlHandle docHandle( &doc );		
+
+	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
+	if ( conf ) {
+		conf->SetAttribute("value", varCont );
+		if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+        } else {
+		//Wenn nicht gefunden eines neues Anlegen
+		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
+
+		if ( config ) { 		
+
+			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
+			config->LinkEndChild( confElement1 );
+			confElement1->SetAttribute("value", varCont);
+
+			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+		}
+	}
+	if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
 }
 
-void ConfigFile::writeConfigString(string setVarName, string setVarCont)
+void ConfigFile::writeConfigString(string varName, string varCont)
  {
+	
+	TiXmlDocument doc(configFileName); 
+	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
+	TiXmlHandle docHandle( &doc );		
 
+	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
+	if ( conf ) {
+		conf->SetAttribute("value", varCont );
+	} else {
+		//Wenn nicht gefunden eines neues Anlegen
+		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
+		if ( config ) { 		
+			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
+			config->LinkEndChild( confElement1 );
+			confElement1->SetAttribute("value", varCont);
+			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+		}
+	}
+	if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
 	
         
 }
