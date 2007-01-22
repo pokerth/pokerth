@@ -52,8 +52,8 @@ ConfigFile::ConfigFile()
 	TiXmlDocument doc(configFileName); 
 	if(!doc.LoadFile()){ createDefaultConfig(); }
 
-	cout << readConfigInt("NumberOfPlayers", 2) << "\n";
-
+	cout << "readConfigInt Value: " << readConfigInt("NumberOfPlayers", 2) << "\n";
+	cout << "1\n";
 }
 
 
@@ -65,7 +65,7 @@ void ConfigFile::createDefaultConfig() {
 		//Anlegen!
 
 		TiXmlDocument doc;  
-		TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "", "" );  
+		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
 		doc.LinkEndChild( decl );  
 	
 		TiXmlElement * root = new TiXmlElement( "PokerTH" );  
@@ -118,8 +118,12 @@ string ConfigFile::readConfigString(string varName, string defaultvalue)
   	string tempString;
 
 	TiXmlDocument doc(configFileName); 
+	
+	if(!doc.LoadFile()) {	cout << "nö" << "\n"; }
+	
 	TiXmlHandle docHandle( &doc );		
-
+	
+	
 	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
 	if ( conf ) {
 		cout << "ich war hier" << "\n";
@@ -212,7 +216,9 @@ string ConfigFile::readConfigString(string varName, string defaultvalue)
 
 int ConfigFile::readConfigInt(string varName, int defaultvalue)
 {
-  	int tempInt;
+  	int tempInt=0;
+
+	cout << "2\n";
 
 	TiXmlDocument doc(configFileName); 
 	TiXmlHandle docHandle( &doc );		
