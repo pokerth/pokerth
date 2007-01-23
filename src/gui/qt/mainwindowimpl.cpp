@@ -98,8 +98,6 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	}
 
 	//Timer Objekt erstellen
-	
-
 	dealFlopCards0Timer = new QTimer(this);
 	dealFlopCards1Timer = new QTimer(this);
 	dealFlopCards2Timer = new QTimer(this);
@@ -162,39 +160,6 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	postRiverRunAnimation3Timer->setSingleShot(TRUE);
 	postRiverRunAnimation5Timer->setSingleShot(TRUE);
 	postRiverRunAnimation6Timer->setSingleShot(TRUE);
-
-	connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
-	connect(dealFlopCards1Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards2() ));
-	connect(dealFlopCards2Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards3() ));
-	connect(dealFlopCards3Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards4() ));
-	connect(dealFlopCards4Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards5() ));
-	connect(dealFlopCards5Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards6() ));
-	connect(dealFlopCards6Timer, SIGNAL(timeout()), this, SLOT( handSwitchRounds() ));
-	connect(dealTurnCards0Timer, SIGNAL(timeout()), this, SLOT( dealTurnCards1() ));
-	connect(dealTurnCards1Timer, SIGNAL(timeout()), this, SLOT( dealTurnCards2() ));
-	connect(dealTurnCards2Timer, SIGNAL(timeout()), this, SLOT( handSwitchRounds() ));
-	connect(dealRiverCards0Timer, SIGNAL(timeout()), this, SLOT( dealRiverCards1() ));
-	connect(dealRiverCards1Timer, SIGNAL(timeout()), this, SLOT( dealRiverCards2() ));
-	connect(dealRiverCards2Timer, SIGNAL(timeout()), this, SLOT( handSwitchRounds() ));
-	
-	connect(nextPlayerAnimationTimer, SIGNAL(timeout()), this, SLOT( handSwitchRounds() ));
-	connect(preflopAnimation1Timer, SIGNAL(timeout()), this, SLOT( preflopAnimation1Action() ));
-	connect(preflopAnimation2Timer, SIGNAL(timeout()), this, SLOT( preflopAnimation2Action() ));
-	connect(flopAnimation1Timer, SIGNAL(timeout()), this, SLOT( flopAnimation1Action() ));
-	connect(flopAnimation2Timer, SIGNAL(timeout()), this, SLOT( flopAnimation2Action() ));
-	connect(turnAnimation1Timer, SIGNAL(timeout()), this, SLOT( turnAnimation1Action() ));
-	connect(turnAnimation2Timer, SIGNAL(timeout()), this, SLOT( turnAnimation2Action() ));
-	connect(riverAnimation1Timer, SIGNAL(timeout()), this, SLOT( riverAnimation1Action() ));
-	connect(riverAnimation2Timer, SIGNAL(timeout()), this, SLOT( riverAnimation2Action() ));
-	
-	connect(postRiverAnimation1Timer, SIGNAL(timeout()), this, SLOT( postRiverAnimation1Action() ));
-	connect(postRiverRunAnimation1Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation2() ));
-	connect(postRiverRunAnimation2Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation3() ));
-	connect(postRiverRunAnimation3Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation4() ));
-	connect(potDistributeTimer, SIGNAL(timeout()), this, SLOT(postRiverRunAnimation5()));
-	connect(postRiverRunAnimation5Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation6() ));
-	connect(postRiverRunAnimation6Timer, SIGNAL(timeout()), this, SLOT( startNewHand() ));
-
 
 	// buttonLabelArray init
 	buttonLabelArray[0] = textLabel_Button0;
@@ -262,11 +227,38 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	inactive.setRgb(83,141,107);
 	highlight.setRgb(151,214,109);
 
-	//firstCallNewGame Test init 
-	firstCallNewGame = TRUE;
+	//Connects
+	connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
+	connect(dealFlopCards1Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards2() ));
+	connect(dealFlopCards2Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards3() ));
+	connect(dealFlopCards3Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards4() ));
+	connect(dealFlopCards4Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards5() ));
+	connect(dealFlopCards5Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards6() ));
+	connect(dealFlopCards6Timer, SIGNAL(timeout()), this, SLOT( handSwitchRounds() ));
+	connect(dealTurnCards0Timer, SIGNAL(timeout()), this, SLOT( dealTurnCards1() ));
+	connect(dealTurnCards1Timer, SIGNAL(timeout()), this, SLOT( dealTurnCards2() ));
+	connect(dealTurnCards2Timer, SIGNAL(timeout()), this, SLOT( handSwitchRounds() ));
+	connect(dealRiverCards0Timer, SIGNAL(timeout()), this, SLOT( dealRiverCards1() ));
+	connect(dealRiverCards1Timer, SIGNAL(timeout()), this, SLOT( dealRiverCards2() ));
+	connect(dealRiverCards2Timer, SIGNAL(timeout()), this, SLOT( handSwitchRounds() ));
 	
-
+	connect(nextPlayerAnimationTimer, SIGNAL(timeout()), this, SLOT( handSwitchRounds() ));
+	connect(preflopAnimation1Timer, SIGNAL(timeout()), this, SLOT( preflopAnimation1Action() ));
+	connect(preflopAnimation2Timer, SIGNAL(timeout()), this, SLOT( preflopAnimation2Action() ));
+	connect(flopAnimation1Timer, SIGNAL(timeout()), this, SLOT( flopAnimation1Action() ));
+	connect(flopAnimation2Timer, SIGNAL(timeout()), this, SLOT( flopAnimation2Action() ));
+	connect(turnAnimation1Timer, SIGNAL(timeout()), this, SLOT( turnAnimation1Action() ));
+	connect(turnAnimation2Timer, SIGNAL(timeout()), this, SLOT( turnAnimation2Action() ));
+	connect(riverAnimation1Timer, SIGNAL(timeout()), this, SLOT( riverAnimation1Action() ));
+	connect(riverAnimation2Timer, SIGNAL(timeout()), this, SLOT( riverAnimation2Action() ));
 	
+	connect(postRiverAnimation1Timer, SIGNAL(timeout()), this, SLOT( postRiverAnimation1Action() ));
+	connect(postRiverRunAnimation1Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation2() ));
+	connect(postRiverRunAnimation2Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation3() ));
+	connect(postRiverRunAnimation3Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation4() ));
+	connect(potDistributeTimer, SIGNAL(timeout()), this, SLOT(postRiverRunAnimation5()));
+	connect(postRiverRunAnimation5Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation6() ));
+	connect(postRiverRunAnimation6Timer, SIGNAL(timeout()), this, SLOT( startNewHand() ));
 
 	connect( actionNewGame, SIGNAL( activated() ), this, SLOT( callNewGameDialog() ) );
 	connect( actionAboutPokerth, SIGNAL( activated() ), this, SLOT( callAboutPokerthDialog() ) );
@@ -311,8 +303,7 @@ void mainWindowImpl::callNewGameDialog() {
 			setSpeeds();
 	
 			//restliche Singleshots killen!!!
-			lockTimer();
-// 			unlockTimer();
+			stopTimer();
 				
 			label_Pot->setText("<p align='center'><span style='font-size:x-large; font-weight:bold'>Pot Total</span></p>");
 			label_Sets->setText("<p align='center'><span style='font-size:medium; font-weight:bold'>Sets:</span></p>");
@@ -327,8 +318,6 @@ void mainWindowImpl::callNewGameDialog() {
 			//positioning Slider
 			horizontalSlider_speed->setValue(guiGameSpeed);
 			
-			unlockTimer();
-
 			//Start Game!!!
 			mySession->startGame(v->spinBox_quantityPlayers->value(), v->spinBox_startCash->value(), v->spinBox_smallBlind->value());
 	
@@ -347,10 +336,7 @@ void mainWindowImpl::callNewGameDialog() {
 		setSpeeds();
 				
 		//restliche Singleshots killen!!!
-		lockTimer();
-// 		unlockTimer();
-				
-	
+		stopTimer();
 	
 		label_Pot->setText("<p align='center'><span style='font-size:x-large; font-weight:bold'>Pot Total</span></p>");
 		label_Sets->setText("<p align='center'><span style='font-size:medium; font-weight:bold'>Sets:</span></p>");
@@ -367,16 +353,12 @@ void mainWindowImpl::callNewGameDialog() {
 		
 		//positioning Slider
 		horizontalSlider_speed->setValue(guiGameSpeed);
-		
-		unlockTimer();
 
 		//Start Game!!!
 		mySession->startGame(myConfig->readConfigInt("NumberOfPlayers",5), myConfig->readConfigInt("StartCash",2000), myConfig->readConfigInt("SmallBlind",10));
 
 
 	}
-
-// 	actionNewGame->setDisabled(TRUE);
 
 }
 
@@ -636,57 +618,35 @@ void mainWindowImpl::dealHoleCards() {
 
 }
 
-void mainWindowImpl::dealFlopCards0() {
-
-if( !newRoundTimerBlock ){
-
-	dealFlopCards0Timer->start(dealCardsSpeed*2);
-}
-else { newRoundTimerBlock=FALSE; }
-}
+void mainWindowImpl::dealFlopCards0() {	dealFlopCards0Timer->start(dealCardsSpeed*2); }
 
 void mainWindowImpl::dealFlopCards1() {
 
-if( !newRoundTimerBlock ){
-
 	QPixmap flipside(":/othercards/cards/othercards/flipside.png");
 	boardCardsArray[0]->setPixmap(flipside);
-// 	QTimer::singleShot(dealCardsSpeed, this, SLOT( dealFlopCards2() ));
-	dealFlopCards1Timer->start(dealCardsSpeed);
-}
-else { newRoundTimerBlock=FALSE; }
 
+	dealFlopCards1Timer->start(dealCardsSpeed);
 }
 
 void mainWindowImpl::dealFlopCards2() {
 
-if( !newRoundTimerBlock ){
-
 	QPixmap flipside(":/othercards/cards/othercards/flipside.png");
 	boardCardsArray[1]->setPixmap(flipside);
-// 	QTimer::singleShot(dealCardsSpeed, this, SLOT( dealFlopCards3() ));	
+
 	dealFlopCards2Timer->start(dealCardsSpeed);
-}
-else { newRoundTimerBlock=FALSE; }
 
 }
 
 void mainWindowImpl::dealFlopCards3() {
 
-if( !newRoundTimerBlock ){
-
 	QPixmap flipside(":/othercards/cards/othercards/flipside.png");
 	boardCardsArray[2]->setPixmap(flipside);
-// 	QTimer::singleShot(dealCardsSpeed, this, SLOT( dealFlopCards4() ));
+
 	dealFlopCards3Timer->start(dealCardsSpeed);
-}
-else { newRoundTimerBlock=FALSE; }
 
 }
 
 void mainWindowImpl::dealFlopCards4() {
-
-if( !newRoundTimerBlock ){
 
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
@@ -694,16 +654,11 @@ if( !newRoundTimerBlock ){
 	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[0], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 	boardCardsArray[0]->setPixmap(card);
-// 	QTimer::singleShot(dealCardsSpeed, this, SLOT( dealFlopCards5() ));
-	dealFlopCards4Timer->start(dealCardsSpeed);
-}
-else { newRoundTimerBlock=FALSE; }
 
+	dealFlopCards4Timer->start(dealCardsSpeed);
 }
 
 void mainWindowImpl::dealFlopCards5() {
-
-if( !newRoundTimerBlock ){
 
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
@@ -711,17 +666,12 @@ if( !newRoundTimerBlock ){
 	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[1], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 	boardCardsArray[1]->setPixmap(card);
-// 	QTimer::singleShot(dealCardsSpeed, this, SLOT( dealFlopCards6() ));
-	dealFlopCards5Timer->start(dealCardsSpeed);
 
-}
-else { newRoundTimerBlock=FALSE; }
+	dealFlopCards5Timer->start(dealCardsSpeed);
 
 }
 
 void mainWindowImpl::dealFlopCards6() {
-
-if( !newRoundTimerBlock ){
 
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
@@ -732,49 +682,24 @@ if( !newRoundTimerBlock ){
 
 	// stable
 	// wenn alle All In
-	if(actualHand->getAllInCondition()) {
-// 		QTimer::singleShot(dealCardsSpeed*4, this, SLOT( handSwitchRounds() ));
-		dealFlopCards6Timer->start(dealCardsSpeed*4);
-	}
+	if(actualHand->getAllInCondition()) { dealFlopCards6Timer->start(dealCardsSpeed*4); }
 	// sonst normale Variante
-	else {
-// 		QTimer::singleShot(dealCardsSpeed, this, SLOT( handSwitchRounds() ));
-		dealFlopCards6Timer->start(dealCardsSpeed);
-	}
-
-}
-else { newRoundTimerBlock=FALSE; }
+	else { dealFlopCards6Timer->start(dealCardsSpeed);}
 
 }
 
 
-void mainWindowImpl::dealTurnCards0() {
-
-if( !newRoundTimerBlock ){
-
-// 	QTimer::singleShot(dealCardsSpeed*2, this, SLOT( dealTurnCards1() ));
-	dealTurnCards0Timer->start(dealCardsSpeed*2);
-}
-else { newRoundTimerBlock=FALSE; }
-}
-
+void mainWindowImpl::dealTurnCards0() { dealTurnCards0Timer->start(dealCardsSpeed*2); }
 
 void mainWindowImpl::dealTurnCards1() {
 
-if( !newRoundTimerBlock ){
-
 	QPixmap flipside(":/othercards/cards/othercards/flipside.png");
 	boardCardsArray[3]->setPixmap(flipside);
-// 	QTimer::singleShot(dealCardsSpeed, this, SLOT( dealTurnCards2() ));
 	dealTurnCards1Timer->start(dealCardsSpeed);
-}
-else { newRoundTimerBlock=FALSE; }
 
 }
 
 void mainWindowImpl::dealTurnCards2() {
-
-if( !newRoundTimerBlock ){
 
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
@@ -785,47 +710,25 @@ if( !newRoundTimerBlock ){
 
 	// stable
 	// wenn alle All In
-	if(actualHand->getAllInCondition()) {
-// 		QTimer::singleShot(dealCardsSpeed*4, this, SLOT( handSwitchRounds() ));
-		dealTurnCards2Timer->start(dealCardsSpeed*4);
+	if(actualHand->getAllInCondition()) { dealTurnCards2Timer->start(dealCardsSpeed*4);
 	}
 	// sonst normale Variante
-	else {
-// 		QTimer::singleShot(dealCardsSpeed, this, SLOT( handSwitchRounds() ));
-		dealTurnCards2Timer->start(dealCardsSpeed);
-	}
-}
-else { newRoundTimerBlock=FALSE; }
-
+	else { dealTurnCards2Timer->start(dealCardsSpeed); }
 }
 
 
-void mainWindowImpl::dealRiverCards0() {
-
-if( !newRoundTimerBlock ){
-
-// 	QTimer::singleShot(dealCardsSpeed*2, this, SLOT( dealRiverCards1() ));
-	dealRiverCards0Timer->start(dealCardsSpeed*2);
-}
-else { newRoundTimerBlock=FALSE; }
-}
+void mainWindowImpl::dealRiverCards0() { dealRiverCards0Timer->start(dealCardsSpeed*2); }
 
 void mainWindowImpl::dealRiverCards1() {
-
-if( !newRoundTimerBlock ){
 
 	QPixmap flipside(":/othercards/cards/othercards/flipside.png");
 	boardCardsArray[4]->setPixmap(flipside);
 // 	QTimer::singleShot(dealCardsSpeed, this, SLOT( dealRiverCards2() ));
 	dealRiverCards1Timer->start(dealCardsSpeed);
-}
-else { newRoundTimerBlock=FALSE; }
 
 }
 
 void mainWindowImpl::dealRiverCards2() {
-
-if( !newRoundTimerBlock ){
 
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
@@ -847,15 +750,10 @@ if( !newRoundTimerBlock ){
 		dealRiverCards2Timer->start(dealCardsSpeed);
 	}
 
-}
-else { newRoundTimerBlock=FALSE; }
-
 
 }
 
 void mainWindowImpl::meInAction() {
-
-// 	actionNewGame->setDisabled(FALSE);
 
 	
 	switch (actualHand->getActualRound()) {
@@ -1152,12 +1050,7 @@ void mainWindowImpl::myAllIn(){
 
 void mainWindowImpl::nextPlayerAnimation() {
 
-// 	actionNewGame->setDisabled(TRUE);
-
 	refreshChangePlayer();
-	
-	//weiter mit switchrounds in Hand
-// // 	QTimer::singleShot(nextPlayerSpeed1, this, SLOT( handSwitchRounds() ));
 	nextPlayerAnimationTimer->start(nextPlayerSpeed1);
 }
 
@@ -1213,8 +1106,6 @@ void mainWindowImpl::postRiverRunAnimation1() {
 
 void mainWindowImpl::postRiverRunAnimation2() {
 
-if( !newRoundTimerBlock ){
-	
 	int i;
 	
 	//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
@@ -1248,13 +1139,8 @@ if( !newRoundTimerBlock ){
 	}
 	else { postRiverRunAnimation3(); }
 }
-else { newRoundTimerBlock=FALSE; }
-
-}
 
 void mainWindowImpl::postRiverRunAnimation3() {
-
-if( !newRoundTimerBlock ){
 
 	int i;
 
@@ -1272,26 +1158,16 @@ if( !newRoundTimerBlock ){
 	userWidgetsBackgroudColor();
 
 	postRiverRunAnimation3Timer->start(postRiverRunAnimationSpeed/2);
-}
-else { newRoundTimerBlock=FALSE; }
 
 }
 
 void mainWindowImpl::postRiverRunAnimation4() {
 
-if( !newRoundTimerBlock ){
-	
 	distributePotAnimCounter=0;
 	potDistributeTimer->start(winnerBlinkSpeed);
-
-}
-else { newRoundTimerBlock=FALSE; }
-
 }
 
 void mainWindowImpl::postRiverRunAnimation5() {
-
-if( !newRoundTimerBlock ){
 
 	int i;
 
@@ -1339,19 +1215,10 @@ if( !newRoundTimerBlock ){
 		potDistributeTimer->stop();
 		postRiverRunAnimation5Timer->start(gameSpeed);	
 	}
-
-}
-else {
- 	potDistributeTimer->stop();
-	newRoundTimerBlock=TRUE; 
-}
-
 	
 }
 
 void mainWindowImpl::postRiverRunAnimation6() {
-	
-if( !newRoundTimerBlock ){
 
 	int i;
 	refreshCash();
@@ -1372,21 +1239,14 @@ if( !newRoundTimerBlock ){
 
 	}
 	postRiverRunAnimation6Timer->start(newRoundSpeed);
-
-}
-else { newRoundTimerBlock=FALSE; }
-
 }
 
 
 void mainWindowImpl::startNewHand() {
 
-if( !newRoundTimerBlock && !breakAfterActualHand){
-	
-	actualGame->startHand();
+if( !breakAfterActualHand){ actualGame->startHand();
 }
 else { 
-	newRoundTimerBlock=FALSE; 
 	pushButton_break->setDisabled(FALSE);
 	pushButton_break->setText("Start");
 	breakAfterActualHand=FALSE;
@@ -1395,10 +1255,8 @@ else {
 
 }
 
-void mainWindowImpl::handSwitchRounds() { 
-if( !newRoundTimerBlock ){ actualHand->switchRounds(); }
-else { newRoundTimerBlock=FALSE; } 
-}
+void mainWindowImpl::handSwitchRounds() { actualHand->switchRounds(); }
+
 
 void mainWindowImpl::nextRoundCleanGui() {
 
@@ -1435,75 +1293,40 @@ void mainWindowImpl::nextRoundCleanGui() {
 
 }
 
-void mainWindowImpl::lockTimer() {
+void mainWindowImpl::stopTimer() {
 
-	dealFlopCards0Timer->blockSignals(TRUE);
-	dealFlopCards1Timer->blockSignals(TRUE);
-	dealFlopCards2Timer->blockSignals(TRUE);
-	dealFlopCards3Timer->blockSignals(TRUE);
-	dealFlopCards4Timer->blockSignals(TRUE);
-	dealFlopCards5Timer->blockSignals(TRUE);
-	dealFlopCards6Timer->blockSignals(TRUE);
-	dealTurnCards0Timer->blockSignals(TRUE);
-	dealTurnCards1Timer->blockSignals(TRUE);
-	dealTurnCards2Timer->blockSignals(TRUE);
-	dealRiverCards0Timer->blockSignals(TRUE);
-	dealRiverCards1Timer->blockSignals(TRUE);
-	dealRiverCards2Timer->blockSignals(TRUE);
-		
-	nextPlayerAnimationTimer->blockSignals(TRUE);
-	preflopAnimation1Timer->blockSignals(TRUE);
-	preflopAnimation2Timer->blockSignals(TRUE);
-	flopAnimation1Timer->blockSignals(TRUE);
-	flopAnimation2Timer->blockSignals(TRUE);
-	turnAnimation1Timer->blockSignals(TRUE);
-	turnAnimation2Timer->blockSignals(TRUE);
-	riverAnimation1Timer->blockSignals(TRUE);
-	riverAnimation2Timer->blockSignals(TRUE);
-		
-	postRiverAnimation1Timer->blockSignals(TRUE);
-	postRiverRunAnimation1Timer->blockSignals(TRUE);
-	postRiverRunAnimation2Timer->blockSignals(TRUE);
-	postRiverRunAnimation3Timer->blockSignals(TRUE);
-	postRiverRunAnimation5Timer->blockSignals(TRUE);
-	postRiverRunAnimation6Timer->blockSignals(TRUE);	
-	potDistributeTimer->blockSignals(TRUE);
-
-}
-
-void mainWindowImpl::unlockTimer() {
-
-	dealFlopCards0Timer->blockSignals(FALSE);
-	dealFlopCards1Timer->blockSignals(FALSE);
-	dealFlopCards2Timer->blockSignals(FALSE);
-	dealFlopCards3Timer->blockSignals(FALSE);
-	dealFlopCards4Timer->blockSignals(FALSE);
-	dealFlopCards5Timer->blockSignals(FALSE);
-	dealFlopCards6Timer->blockSignals(FALSE);
-	dealTurnCards0Timer->blockSignals(FALSE);
-	dealTurnCards1Timer->blockSignals(FALSE);
-	dealTurnCards2Timer->blockSignals(FALSE);
-	dealRiverCards0Timer->blockSignals(FALSE);
-	dealRiverCards1Timer->blockSignals(FALSE);
-	dealRiverCards2Timer->blockSignals(FALSE);
+	dealFlopCards0Timer->stop();
+	dealFlopCards1Timer->stop();
+	dealFlopCards2Timer->stop();
+	dealFlopCards3Timer->stop();
+	dealFlopCards4Timer->stop();
+	dealFlopCards5Timer->stop();
+	dealFlopCards6Timer->stop();
+	dealTurnCards0Timer->stop();
+	dealTurnCards1Timer->stop();
+	dealTurnCards2Timer->stop();
+	dealRiverCards0Timer->stop();
+	dealRiverCards1Timer->stop();
+	dealRiverCards2Timer->stop();
 			
-	nextPlayerAnimationTimer->blockSignals(FALSE);
-	preflopAnimation1Timer->blockSignals(FALSE);
-	preflopAnimation2Timer->blockSignals(FALSE);
-	flopAnimation1Timer->blockSignals(FALSE);
-	flopAnimation2Timer->blockSignals(FALSE);
-	turnAnimation1Timer->blockSignals(FALSE);
-	turnAnimation2Timer->blockSignals(FALSE);
-	riverAnimation1Timer->blockSignals(FALSE);
-	riverAnimation2Timer->blockSignals(FALSE);
+	nextPlayerAnimationTimer->stop();
+	preflopAnimation1Timer->stop();
+	preflopAnimation2Timer->stop();
+	flopAnimation1Timer->stop();
+	flopAnimation2Timer->stop();
+	turnAnimation1Timer->stop();
+	turnAnimation2Timer->stop();
+	riverAnimation1Timer->stop();
+	riverAnimation2Timer->stop();
 			
-	postRiverAnimation1Timer->blockSignals(FALSE);
-	postRiverRunAnimation1Timer->blockSignals(FALSE);
-	postRiverRunAnimation2Timer->blockSignals(FALSE);
-	postRiverRunAnimation3Timer->blockSignals(FALSE);
-	postRiverRunAnimation5Timer->blockSignals(FALSE);
-	postRiverRunAnimation6Timer->blockSignals(FALSE);	
-	potDistributeTimer->blockSignals(FALSE);
+	postRiverAnimation1Timer->stop();
+	postRiverRunAnimation1Timer->stop();
+	postRiverRunAnimation2Timer->stop();
+	postRiverRunAnimation3Timer->stop();
+	postRiverRunAnimation5Timer->stop();
+	postRiverRunAnimation6Timer->stop();	
+	potDistributeTimer->stop();
+
 }
 
 
@@ -1529,7 +1352,6 @@ void mainWindowImpl::userWidgetsBackgroudColor() {
 	}
 }
 
-void mainWindowImpl::timerBlockerFalse() { newRoundTimerBlock=FALSE; }
 
 void mainWindowImpl::setSpeeds() {
 
@@ -1562,13 +1384,6 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
 	if (event->key() == 16777265) { switchToolBox(); }
 // 	if (event->key() == 65) { 
-// 		dealFlopCards0Timer->blockSignals(TRUE); 
-// 		dealFlopCards1Timer->blockSignals(TRUE); 
-// 		dealFlopCards2Timer->blockSignals(TRUE); 
-// 		dealFlopCards3Timer->blockSignals(TRUE); 
-// 		dealFlopCards4Timer->blockSignals(TRUE); 
-// 		dealFlopCards5Timer->blockSignals(TRUE); 
-// 		dealFlopCards6Timer->blockSignals(TRUE); 
 // 	}
 
 
@@ -1581,8 +1396,3 @@ void mainWindowImpl::switchToolBox() {
 
 }
 
-// void mainWindowImpl::processOneThing() {
-// 
-// 	cout << "wurst" << endl;
-// 	timer->start(300);
-// }

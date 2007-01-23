@@ -50,17 +50,6 @@ public:
 	void setLog(Log*);
 
 	int getMaxQuantityPlayers() const { return maxQuantityPlayers; }
-	
-// 	int getGameSpeed() const { return gameSpeed; }
-	
-
-// 	int getPreflopNextPlayerSpeed() const { return preflopNextPlayerSpeed; }
-// 	int getNextPlayerSpeed1() const { return nextPlayerSpeed1; }
-// 	int getNextPlayerSpeed2() const { return nextPlayerSpeed2; }	
-// 	int getNextPlayerSpeed3() const { return nextPlayerSpeed3; }
-
-		
-
 
 	//refresh-Funktionen
 	void refreshSet();
@@ -151,19 +140,15 @@ public slots:
 
 	void startNewHand();
 
-	void lockTimer();
-	void unlockTimer();
-
+	void stopTimer();
+	
 	void nextRoundCleanGui();
 	
 	void userWidgetsBackgroudColor();
-	void timerBlockerFalse();
 	void breakButtonClicked();
 
 	void keyPressEvent ( QKeyEvent * event );
 	void switchToolBox();
-
-// 	void processOneThing();
 
 
 private: 
@@ -234,20 +219,8 @@ private:
 	int nextPlayerSpeed3;
 	int preflopNextPlayerSpeed;
 	int nextOpponentSpeed;	
-/*
-	int *gameSpeed;
-	int *dealCardsSpeed;
-	int *postRiverRunAnimationSpeed;
-	int *winnerBlinkSpeed; 
-	int *newRoundSpeed;
-	int *nextPlayerSpeed1;
-	int *nextPlayerSpeed2;
-	int *nextPlayerSpeed3;
-	int *preflopNextPlayerSpeed;
-	int *nextOpponentSpeed;	*/
 
-	bool firstCallNewGame;
-	bool newRoundTimerBlock;
+
 	bool debugMode;
 	bool breakAfterActualHand;
 
