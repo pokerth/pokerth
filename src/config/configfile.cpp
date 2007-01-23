@@ -82,9 +82,12 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * confElement3 = new TiXmlElement( "SmallBlind" );
   		config->LinkEndChild( confElement3 );
         	confElement3->SetAttribute("value", 10);
+		TiXmlElement * confElement12 = new TiXmlElement( "HandsBeforeRaiseSmallBlind" );
+		config->LinkEndChild( confElement12 );
+      		confElement12->SetAttribute("value", 9);	
 		TiXmlElement * confElement4 = new TiXmlElement( "GameSpeed" );
 		config->LinkEndChild( confElement4 );
-      		confElement4->SetAttribute("value", 4);		
+      		confElement4->SetAttribute("value", 4);
 		TiXmlElement * confElement5 = new TiXmlElement( "ShowGameSettingsDialogOnNewGame" );
 		config->LinkEndChild( confElement5 );
       		confElement5->SetAttribute("value", 1);		

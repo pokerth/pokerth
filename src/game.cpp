@@ -117,8 +117,9 @@ void Game::startHand()
 	
 	actualHandID++;
 
-	// smallBlind alle 9 Runden erh�en
-	if(actualHandID%9 == 0) actualSmallBlind *= 2;
+	// smallBlind alle x Runden erhöhen
+	int handsBeforeRaiseSmallBLind = myConfig->readConfigInt("HandsBeforeRaiseSmallBlind", 9);
+	if(actualHandID%handsBeforeRaiseSmallBLind == 0) actualSmallBlind *= 2;
 
 	//Spieler Action auf 0 setzen 
 	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {

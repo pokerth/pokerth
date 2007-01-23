@@ -42,6 +42,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
 	spinBox_quantityPlayers->setValue(myConfig.readConfigInt("NumberOfPlayers", 5));
 	spinBox_startCash->setValue(myConfig.readConfigInt("StartCash", 2000));
 	spinBox_smallBlind->setValue(myConfig.readConfigInt("SmallBlind", 10));
+	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("HandsBeforeRaiseSmallBlind", 9));
 	spinBox_gameSpeed->setValue(myConfig.readConfigInt("GameSpeed", 4));
 	checkBox_showGameSettingsDialogOnNewGame->setChecked(myConfig.readConfigInt("ShowGameSettingsDialogOnNewGame", 1));
 
@@ -69,6 +70,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("NumberOfPlayers", spinBox_quantityPlayers->value());
 	myConfig.writeConfigInt("StartCash", spinBox_startCash->value());
 	myConfig.writeConfigInt("SmallBlind", spinBox_smallBlind->value());
+	myConfig.writeConfigInt("HandsBeforeRaiseSmallBlind", spinBox_handsBeforeRaiseSmallBlind->value());
 	myConfig.writeConfigInt("GameSpeed", spinBox_gameSpeed->value());
 	myConfig.writeConfigInt("ShowGameSettingsDialogOnNewGame", checkBox_showGameSettingsDialogOnNewGame->isChecked());
 

@@ -150,6 +150,10 @@ public slots:
 	void handSwitchRounds();
 
 	void startNewHand();
+
+	void lockTimer();
+	void unlockTimer();
+
 	void nextRoundCleanGui();
 	
 	void userWidgetsBackgroudColor();
@@ -159,6 +163,9 @@ public slots:
 	void keyPressEvent ( QKeyEvent * event );
 	void switchToolBox();
 
+// 	void processOneThing();
+
+
 private: 
 	
 	Game *actualGame;
@@ -167,9 +174,40 @@ private:
 	Log *myLog;
 	ConfigFile *myConfig;
 
-
+	//Timer
 	QTimer *potDistributeTimer;
+    	QTimer *timer;
+	QTimer *dealFlopCards0Timer;
+	QTimer *dealFlopCards1Timer;
+	QTimer *dealFlopCards2Timer;
+	QTimer *dealFlopCards3Timer;
+	QTimer *dealFlopCards4Timer;
+	QTimer *dealFlopCards5Timer;
+	QTimer *dealFlopCards6Timer;
+	QTimer *dealTurnCards0Timer;
+	QTimer *dealTurnCards1Timer;
+	QTimer *dealTurnCards2Timer;
+	QTimer *dealRiverCards0Timer;
+	QTimer *dealRiverCards1Timer;
+	QTimer *dealRiverCards2Timer;
 
+	QTimer *nextPlayerAnimationTimer;
+	QTimer *preflopAnimation1Timer;
+	QTimer *preflopAnimation2Timer;
+	QTimer *flopAnimation1Timer;
+	QTimer *flopAnimation2Timer;
+	QTimer *turnAnimation1Timer;
+	QTimer *turnAnimation2Timer;
+	QTimer *riverAnimation1Timer;
+	QTimer *riverAnimation2Timer;
+
+	QTimer *postRiverAnimation1Timer;
+	QTimer *postRiverRunAnimation1Timer;
+	QTimer *postRiverRunAnimation2Timer;
+	QTimer *postRiverRunAnimation3Timer;
+	QTimer *postRiverRunAnimation5Timer;
+	QTimer *postRiverRunAnimation6Timer;
+	
 	QWidget *userWidgetsArray[8];
 	QLabel *buttonLabelArray[5];
 	QLabel *cashLabelArray[5];

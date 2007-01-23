@@ -35,7 +35,7 @@ newGameDialogImpl::newGameDialogImpl(QWidget *parent, const char *name)
 	spinBox_startCash->setValue(myConfig.readConfigInt("StartCash", 2000));
 	spinBox_smallBlind->setValue(myConfig.readConfigInt("SmallBlind", 10));
 	spinBox_gameSpeed->setValue(myConfig.readConfigInt("GameSpeed", 4));
-	
+	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("HandsBeforeRaiseSmallBlind", 9));
 
 }
 
