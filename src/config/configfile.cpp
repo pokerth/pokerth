@@ -76,7 +76,7 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * confElement1 = new TiXmlElement( "NumberOfPlayers" ); 
 		config->LinkEndChild( confElement1 );
 		confElement1->SetAttribute("value", 5);
-                TiXmlElement * confElement2 = new TiXmlElement( "StartChash" );
+                TiXmlElement * confElement2 = new TiXmlElement( "StartCash" );
 	        config->LinkEndChild( confElement2 );
                 confElement2->SetAttribute("value", 2000);
 		TiXmlElement * confElement3 = new TiXmlElement( "SmallBlind" );
@@ -121,9 +121,9 @@ string ConfigFile::readConfigString(string varName, string defaultValue)
 
 	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
 	if ( conf ) { 
-		tempString = conf->Attribute("value");
-		cout << tempString << "\n";
-        } else {
+		const char *tmpStr = conf->Attribute("value");
+		if (tmpStr) tempString = tmpStr;
+        } /*else {
 		//Wenn nicht gefunden eines neues Anlegen
 		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
 		if ( config ) { 		
@@ -134,7 +134,7 @@ string ConfigFile::readConfigString(string varName, string defaultValue)
 
 			return readConfigString(varName, defaultValue);
 		}
-	}
+	}*/
 
 	return tempString;
  }
@@ -142,18 +142,18 @@ string ConfigFile::readConfigString(string varName, string defaultValue)
 int ConfigFile::readConfigInt(string varName, int defaultValue)
 {
   	int tempInt=0;
-
+// 	cout << varName << " : " << tempInt << "\n";
 	TiXmlDocument doc(configFileName); 
-	
 	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
-		
 	TiXmlHandle docHandle( &doc );		
-
+	
 	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
 	if ( conf ) {
-		conf->QueryValueAttribute("value", &tempInt );
-        } else {
-		//Wenn nicht gefunden eines neues Anlegen
+// 		cout << varName << " : " << tempInt << "\n";
+		conf->QueryIntAttribute("value", &tempInt );
+// 		cout << varName << " : " << tempInt << "\n";
+        } /*else {
+// 		Wenn nicht gefunden eines neues Anlegen
 		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
 		if ( config ) { 		
 			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
@@ -163,7 +163,7 @@ int ConfigFile::readConfigInt(string varName, int defaultValue)
 
 			return readConfigInt(varName, defaultValue);
 		}
-	}
+	}*/
 
 	return tempInt;
 }

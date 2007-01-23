@@ -208,18 +208,20 @@ void mainWindowImpl::callNewGameDialog() {
 				mySession->deleteGame();
 				actualGame = 0;
 			}
+			
+			guiGameSpeed = v->spinBox_gameSpeed->value();
+	// 		debugMode = v->checkBox_debugMode->isChecked();
+			//Speeds 
+			setSpeeds();
 	
 			//restliche Singleshots abfangen!!!	
-			if (firstCallNewGame) { firstCallNewGame = FALSE; }
-			else { newRoundTimerBlock = TRUE; }
-			QTimer::singleShot(40*gameSpeed, this, SLOT( timerBlockerFalse() ));
-	
+// 			if (firstCallNewGame) { firstCallNewGame = FALSE; }
+// 			else { newRoundTimerBlock = TRUE; }
+// 			QTimer::singleShot(400*gameSpeed, this, SLOT( timerBlockerFalse() ));
 	
 			label_Pot->setText("<p align='center'><span style='font-size:x-large; font-weight:bold'>Pot Total</span></p>");
 			label_Sets->setText("<p align='center'><span style='font-size:medium; font-weight:bold'>Sets:</span></p>");
 	
-			guiGameSpeed = v->spinBox_gameSpeed->value();
-	// 		debugMode = v->checkBox_debugMode->isChecked();
 			
 			//Tools und Board aufhellen und enablen
 			QPalette tempPalette = groupBox_board->palette();
@@ -227,8 +229,6 @@ void mainWindowImpl::callNewGameDialog() {
 			groupBox_board->setPalette(tempPalette);
 			groupBox_tools->setDisabled(FALSE);	
 	
-			//Speeds 
-			setSpeeds();
 			//positioning Slider
 			horizontalSlider_speed->setValue(guiGameSpeed);
 			
@@ -236,25 +236,29 @@ void mainWindowImpl::callNewGameDialog() {
 			mySession->startGame(v->spinBox_quantityPlayers->value(), v->spinBox_startCash->value(), v->spinBox_smallBlind->value());
 	
 		}
-// 	}
+	}
 	// sonst mit gespeicherten Werten starten
-// 	else {
+	else {
 		
 		if(actualGame) {
 			mySession->deleteGame();
 			actualGame = 0;
 		}
 	
+		guiGameSpeed = myConfig->readConfigInt("GameSpeed",4);
+		//Speeds 
+		setSpeeds();
+				
 		//restliche Singleshots abfangen!!!	
-		if (firstCallNewGame) { firstCallNewGame = FALSE; }
-		else { newRoundTimerBlock = TRUE; }
-		QTimer::singleShot(40*gameSpeed, this, SLOT( timerBlockerFalse() ));
+// 		if (firstCallNewGame) { firstCallNewGame = FALSE; }
+// 		else { newRoundTimerBlock = TRUE; }
+// 		QTimer::singleShot(40*gameSpeed, this, SLOT( timerBlockerFalse() ));
 	
 	
 		label_Pot->setText("<p align='center'><span style='font-size:x-large; font-weight:bold'>Pot Total</span></p>");
 		label_Sets->setText("<p align='center'><span style='font-size:medium; font-weight:bold'>Sets:</span></p>");
 	
-		guiGameSpeed = myConfig->readConfigInt("GameSpeed",4);
+	
 	// 	debugMode = v->checkBox_debugMode->isChecked();
 			
 		//Tools und Board aufhellen und enablen
@@ -263,9 +267,7 @@ void mainWindowImpl::callNewGameDialog() {
 		groupBox_board->setPalette(tempPalette);
 		groupBox_tools->setDisabled(FALSE);	
 	
-		//Speeds 
-		setSpeeds();
-				
+		
 		//positioning Slider
 		horizontalSlider_speed->setValue(guiGameSpeed);
 		
@@ -275,6 +277,8 @@ void mainWindowImpl::callNewGameDialog() {
 
 
 	}
+
+	actionNewGame->setDisabled(TRUE);
 
 }
 
@@ -740,6 +744,8 @@ else { newRoundTimerBlock=FALSE; }
 
 void mainWindowImpl::meInAction() {
 
+	actionNewGame->setDisabled(FALSE);
+
 	
 	switch (actualHand->getActualRound()) {
 
@@ -1035,6 +1041,8 @@ void mainWindowImpl::myAllIn(){
 
 void mainWindowImpl::nextPlayerAnimation() {
 
+	actionNewGame->setDisabled(TRUE);
+
 	refreshChangePlayer();
 	
 	//weiter mit switchrounds in Hand
@@ -1275,7 +1283,10 @@ else {
 
 }
 
-void mainWindowImpl::handSwitchRounds() { actualHand->switchRounds(); }
+void mainWindowImpl::handSwitchRounds() { 
+if( !newRoundTimerBlock ){ actualHand->switchRounds(); }
+else { newRoundTimerBlock=FALSE; } 
+}
 
 void mainWindowImpl::nextRoundCleanGui() {
 
@@ -1334,11 +1345,7 @@ void mainWindowImpl::userWidgetsBackgroudColor() {
 	}
 }
 
-void mainWindowImpl::timerBlockerFalse() {
-
-	newRoundTimerBlock=FALSE;
-
-}
+void mainWindowImpl::timerBlockerFalse() { newRoundTimerBlock=FALSE; }
 
 void mainWindowImpl::setSpeeds() {
 

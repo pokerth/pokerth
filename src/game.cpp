@@ -33,6 +33,7 @@ using namespace std;
 
 Game::Game(ConfigFile* c, GuiInterface* g, int qP, int sC, int sB) : myConfig(c), myGui(g), actualHand(0), actualBoard(0), startQuantityPlayers(qP), startCash(sC), startSmallBlind(sB), actualQuantityPlayers(qP), actualSmallBlind(sB), actualHandID(0), dealerPosition(0)
 {
+// 	cout << "Create Game Object" << "\n";
 	int i;
 
 	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
@@ -87,6 +88,7 @@ Game::Game(ConfigFile* c, GuiInterface* g, int qP, int sC, int sB) : myConfig(c)
 
 Game::~Game()
 {
+// 	cout << "Delete Game Object" << "\n";
 	int i;
 
 	delete actualBoard;

@@ -30,6 +30,7 @@ newGameDialogImpl::newGameDialogImpl(QWidget *parent, const char *name)
 	ConfigFile myConfig;	
 
 	//Game Settings
+
 	spinBox_quantityPlayers->setValue(myConfig.readConfigInt("NumberOfPlayers", 5));
 	spinBox_startCash->setValue(myConfig.readConfigInt("StartCash", 2000));
 	spinBox_smallBlind->setValue(myConfig.readConfigInt("SmallBlind", 10));
