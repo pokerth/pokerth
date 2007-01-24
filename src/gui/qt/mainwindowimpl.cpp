@@ -275,6 +275,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 
 	connect ( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
 	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
+
+
 }
 
 
@@ -1383,8 +1385,29 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 // 	cout << event->key() << endl;
 
 	if (event->key() == 16777265) { switchToolBox(); }
-// 	if (event->key() == 65) { 
-// 	}
+	if (event->key() == 65) {  
+
+QWidget *myWidget = new QWidget(this, Qt::SplashScreen);			
+		myWidget->setGeometry(100,100,100,100);
+// 		myWidget->setMask(QRegion(3,3,40,40));
+		myWidget->show();
+
+// 		QPicture picture;
+		QPainter painter(this);
+// 		painter.begin(this);           // paint in picture
+		painter.drawEllipse(10,20, 80,70); // draw an ellipse
+		painter.end();          
+	}
+	if (event->key() == 66) {  
+
+// 		myWidget->hide();
+
+		/*QPicture picture;
+		QPainter painter;
+		painter.begin(this);           // paint in picture
+		painter.drawEllipse(10,20, 80,70); // draw an ellipse
+		painter.end();          */
+	}
 
 
 }
