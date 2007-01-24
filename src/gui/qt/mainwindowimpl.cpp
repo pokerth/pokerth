@@ -22,6 +22,7 @@
 #include "newgamedialogimpl.h"
 #include "aboutpokerthimpl.h"
 #include "settingsdialogimpl.h"
+#include "startsplash.h"
 
 #include "handinterface.h"
 #include "playerinterface.h"
@@ -1380,33 +1381,33 @@ void mainWindowImpl::breakButtonClicked() {
 	}
 }
 
+void mainWindowImpl::paintStartSplash() {
+
+	StartSplash *mySplash = new StartSplash();	
+				
+	mySplash->setGeometry(0,0,300,200);
+	mySplash->setWindowFlags(Qt::SplashScreen);
+	mySplash->show();
+
+// 	QTimer *timer = new QTimer(this);
+// 	connect(timer, SIGNAL(timeout()), mySplash, SLOT(/*StartSp*/lash::nextAnimationFrame()));
+// 	timer->start(100);
+
+}
+
+
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
 // 	cout << event->key() << endl;
+	
 
 	if (event->key() == 16777265) { switchToolBox(); }
 	if (event->key() == 65) {  
-
-QWidget *myWidget = new QWidget(this, Qt::SplashScreen);			
-		myWidget->setGeometry(100,100,100,100);
-// 		myWidget->setMask(QRegion(3,3,40,40));
-		myWidget->show();
-
-// 		QPicture picture;
-		QPainter painter(this);
-// 		painter.begin(this);           // paint in picture
-		painter.drawEllipse(10,20, 80,70); // draw an ellipse
-		painter.end();          
+		paintStartSplash();
+		
 	}
 	if (event->key() == 66) {  
-
-// 		myWidget->hide();
-
-		/*QPicture picture;
-		QPainter painter;
-		painter.begin(this);           // paint in picture
-		painter.drawEllipse(10,20, 80,70); // draw an ellipse
-		painter.end();          */
+		
 	}
 
 

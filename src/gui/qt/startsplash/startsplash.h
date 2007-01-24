@@ -12,17 +12,24 @@
 #ifndef STARTSPLASH_H
 #define STARTSPLASH_H
 
-#include <QWidget>
+#include <QtGui>
+#include <QtCore>
 
-/**
-	@author FThauer FHammer <f.thauer@web.de>
-*/
 class StartSplash : public QWidget
 {
+Q_OBJECT
 public:
     StartSplash();
 
     ~StartSplash();
+	
+	int frameNo;
+	
+	void paintEvent(QPaintEvent * event);
+
+public slots:
+
+	void nextAnimationFrame();
 
 };
 

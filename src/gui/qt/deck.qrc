@@ -2,6 +2,7 @@
     <qresource prefix="/graphics" >
         <file>cards/dealerbutton.png</file>
         <file>cards/logo1-140x100_neu.png</file>
+        <file>graphics/logo-140-100.png</file>
     </qresource>
     <qresource prefix="/mycards" >
         <file>cards/mycards/0.png</file>

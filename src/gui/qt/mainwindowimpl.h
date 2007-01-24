@@ -150,6 +150,7 @@ public slots:
 	void keyPressEvent ( QKeyEvent * event );
 	void switchToolBox();
 
+	void paintStartSplash();
 
 private: 
 	
