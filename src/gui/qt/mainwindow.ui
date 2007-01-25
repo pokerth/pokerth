@@ -1978,7 +1978,7 @@
          <bool>true</bool>
         </property>
         <property name="pixmap" >
-         <pixmap resource="deck.qrc" >:/graphics/cards/logo1-140x100_neu.png</pixmap>
+         <pixmap resource="deck.qrc" >:/graphics/graphics/logo-140-100.png</pixmap>
         </property>
        </widget>
       </item>
