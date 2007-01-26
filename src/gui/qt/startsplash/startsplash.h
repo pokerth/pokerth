@@ -21,13 +21,15 @@ class StartSplash : public QWidget
 {
 Q_OBJECT
 public:
-    StartSplash();
+    StartSplash(const QRect&);
 
     ~StartSplash();
 	
 	int frameNo;
 	int opacityCounter;	
 	qreal opacity;
+
+	QRect parentsGeo;
 
 	void paintEvent(QPaintEvent * event);
 

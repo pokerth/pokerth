@@ -1384,16 +1384,11 @@ void mainWindowImpl::breakButtonClicked() {
 
 void mainWindowImpl::paintStartSplash() {
 
-	StartSplash *mySplash = new StartSplash();	
+	StartSplash *mySplash = new StartSplash(this->geometry());	
 				
 	mySplash->setGeometry(0,0,400,250);
 	mySplash->setWindowFlags(Qt::SplashScreen);
 	mySplash->show();
-
-// 	QTimer *timer = new QTimer(this);
-// 	connect(timer, SIGNAL(timeout()), mySplash, SLOT(/*StartSp*/lash::nextAnimationFrame()));
-// 	timer->start(100);
-
 }
 
 

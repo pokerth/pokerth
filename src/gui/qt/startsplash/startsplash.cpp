@@ -19,8 +19,8 @@
  ***************************************************************************/
 #include "startsplash.h"
 
-StartSplash::StartSplash()
- : QWidget()
+StartSplash::StartSplash(const QRect &rect)
+ : QWidget(), parentsGeo(rect)
 {
 	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/c059013l.pfb");
 	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/andybold.ttf");	
@@ -51,13 +51,6 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 	QFont welcomeFont("Century Schoolbook L",29);	
 	QFont haveFont("Andy MT",30);
 	QPixmap logo(":/graphics/graphics/logo-140-100.png");
-
-// 	if(frameNo < 40) {
-// 	
-// 		painter.setBrush(QColor(0+frameNo,40+frameNo,6+frameNo));
-// 		painter.drawRect(0,0,399,249);
-// 
-// 	}
 
 	if(frameNo >= 52 && frameNo < 65) {
 	
@@ -184,15 +177,10 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setPen(QColor(255,255,255));
 		painter.drawText(48,30,300,40,4,"Welcome to");
 
-
-
-		
-		
 		--opacityCounter;
 // 			std::cout << opacity << " " << opacityCounter << "\n";
 		opacity = 1.0/opacityCounter;
-		
-		std::cout << opacity << "\n";
+// 		std::cout << opacity << "\n";
 		painter.setOpacity(opacity);
 		painter.drawPixmap(130,85,140,100,logo);
 		
