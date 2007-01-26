@@ -109,6 +109,9 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * confElement11 = new TiXmlElement( "ShowToolBox" );
 		config->LinkEndChild( confElement11 );
       		confElement11->SetAttribute("value", 1);
+		TiXmlElement * confElement13 = new TiXmlElement( "ShowIntro" );
+		config->LinkEndChild( confElement13 );
+      		confElement13->SetAttribute("value", 1);
 
 		doc.SaveFile( configFileName );
 

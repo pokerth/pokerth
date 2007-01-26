@@ -48,6 +48,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
 
 	//Interface
 	checkBox_showToolbox->setChecked(myConfig.readConfigInt("ShowToolBox", 1));
+	checkBox_showIntro->setChecked(myConfig.readConfigInt("ShowIntro", 1));
 	
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
 
@@ -76,5 +77,6 @@ void settingsDialogImpl::isAccepted() {
 
 // 	Interface
 	myConfig.writeConfigInt("ShowToolBox", checkBox_showToolbox->isChecked());
+	myConfig.writeConfigInt("ShowIntro", checkBox_showIntro->isChecked());
 
 }

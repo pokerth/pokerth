@@ -68,6 +68,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 
 	//Toolbox verstecken?				
 	if (!myConfig->readConfigInt("ShowToolBox", 1)) { groupBox_tools->hide(); }
+	if (myConfig->readConfigInt("ShowIntro", 1)) { paintStartSplash(); }
 
 		
 	pushButton_raise->setDisabled(TRUE);
@@ -1385,7 +1386,7 @@ void mainWindowImpl::paintStartSplash() {
 
 	StartSplash *mySplash = new StartSplash();	
 				
-	mySplash->setGeometry(0,0,300,200);
+	mySplash->setGeometry(0,0,400,250);
 	mySplash->setWindowFlags(Qt::SplashScreen);
 	mySplash->show();
 
