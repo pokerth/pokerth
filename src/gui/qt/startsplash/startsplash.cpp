@@ -25,7 +25,9 @@ StartSplash::StartSplash()
 	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/c059013l.pfb");
 	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/andybold.ttf");	
 
-	frameNo = 0;
+	frameNo = 52;
+	opacityCounter = 13;
+	opacity = 1.0;
 	
 	QTimer *timer = new QTimer;
 	connect(timer, SIGNAL(timeout()), this, SLOT(nextAnimationFrame()));
@@ -50,14 +52,14 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 	QFont haveFont("Andy MT",30);
 	QPixmap logo(":/graphics/graphics/logo-140-100.png");
 
-	if(frameNo < 40) {
-	
-		painter.setBrush(QColor(0+frameNo,40+frameNo,6+frameNo));
-		painter.drawRect(0,0,399,249);
+// 	if(frameNo < 40) {
+// 	
+// 		painter.setBrush(QColor(0+frameNo,40+frameNo,6+frameNo));
+// 		painter.drawRect(0,0,399,249);
+// 
+// 	}
 
-	}
-
-	if(frameNo >= 40 && frameNo < 65) {
+	if(frameNo >= 52 && frameNo < 65) {
 	
 		painter.setBrush(QColor(40,80,46));
 		painter.drawRect(0,0,399,249);
@@ -172,7 +174,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 	}
 
-	if(frameNo >= 120 && frameNo < 145) {
+	if(frameNo >= 120 && frameNo < 132) {
 // 	
 		painter.setBrush(QColor(40,80,46));
 		painter.drawRect(0,0,399,249);
@@ -182,12 +184,21 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setPen(QColor(255,255,255));
 		painter.drawText(48,30,300,40,4,"Welcome to");
 
-// 		painter.setOpacity()
+
+
+		
+		
+		--opacityCounter;
+// 			std::cout << opacity << " " << opacityCounter << "\n";
+		opacity = 1.0/opacityCounter;
+		
+		std::cout << opacity << "\n";
+		painter.setOpacity(opacity);
 		painter.drawPixmap(130,85,140,100,logo);
 		
 	}
 
-	if(frameNo >= 145 && frameNo < 157) {
+	if(frameNo >= 132 && frameNo < 145) {
 // 	
 		painter.setBrush(QColor(40,80,46));
 		painter.drawRect(0,0,399,249);
@@ -201,7 +212,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 	}
 
-	if(frameNo >= 157 && frameNo < 200) {
+	if(frameNo >= 145 && frameNo < 185) {
 // 	
 		painter.setBrush(QColor(40,80,46));
 		painter.drawRect(0,0,399,249);
@@ -210,8 +221,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setFont(welcomeFont);
 		painter.setPen(QColor(255,255,255));
 		painter.drawText(48,30,300,40,4,"Welcome to");
-
-// 		painter.setOpacity()
+	
 		painter.drawPixmap(130,85,140,100,logo);
 		
 		painter.setFont(haveFont);
@@ -220,7 +230,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	}
 
-	if(frameNo >= 200 && frameNo < 285) {
+	if(frameNo >= 185 && frameNo < 260) {
 // 	
 		painter.setBrush(QColor(40,80,46));
 		painter.drawRect(0,0,399,249);
@@ -230,7 +240,6 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setPen(QColor(255,255,255));
 		painter.drawText(48,30,300,40,4,"Welcome to");
 
-// 		painter.setOpacity()
 		painter.drawPixmap(130,85,140,100,logo);
 		
 		painter.setFont(haveFont);
@@ -239,8 +248,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	}
 
-	if(frameNo >= 285 ) { this->hide(); }
-
+	if(frameNo >= 260 ) { this->hide(); }
 
 }
 

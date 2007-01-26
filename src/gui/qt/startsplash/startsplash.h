@@ -12,6 +12,8 @@
 #ifndef STARTSPLASH_H
 #define STARTSPLASH_H
 
+#include <iostream>
+
 #include <QtGui>
 #include <QtCore>
 
@@ -24,7 +26,9 @@ public:
     ~StartSplash();
 	
 	int frameNo;
-	
+	int opacityCounter;	
+	qreal opacity;
+
 	void paintEvent(QPaintEvent * event);
 
 public slots:
