@@ -68,7 +68,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 
 	//Toolbox verstecken?				
 	if (!myConfig->readConfigInt("ShowToolBox", 1)) { groupBox_tools->hide(); }
-	if (myConfig->readConfigInt("ShowIntro", 1)) { QTimer::singleShot(100, this, SLOT( paintStartSplash() )); }
+	if (myConfig->readConfigInt("ShowIntro", 1)) { 
+		label_logo->hide();
+		QTimer::singleShot(100, this, SLOT( paintStartSplash() )); }
 
 		
 	pushButton_raise->setDisabled(TRUE);
@@ -1384,7 +1386,7 @@ void mainWindowImpl::breakButtonClicked() {
 
 void mainWindowImpl::paintStartSplash() {
 
-	StartSplash *mySplash = new StartSplash();	
+	StartSplash *mySplash = new StartSplash(this);	
 				
 	mySplash->setMaximumSize(400,250);
 	mySplash->setMinimumSize(400,250);
@@ -1404,7 +1406,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 		
 	}
 	if (event->key() == 66) {  
-		
+		label_logo->hide();
 	}
 
 

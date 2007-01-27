@@ -19,8 +19,8 @@
  ***************************************************************************/
 #include "startsplash.h"
 
-StartSplash::StartSplash()
- : QDialog()
+StartSplash::StartSplash(mainWindowImpl *parent)
+ : QDialog(), myW(parent)
 {
 	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/c059013l.pfb");
 	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/andybold.ttf");	
@@ -236,7 +236,11 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	}
 
-	if(frameNo >= 245) { this->hide(); }
+	if(frameNo >= 245) { 
+		this->hide();
+		myW->label_logo->show(); 
+
+	}
 
 }
 

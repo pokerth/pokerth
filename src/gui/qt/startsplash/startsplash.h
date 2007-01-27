@@ -14,6 +14,8 @@
 
 #include <iostream>
 
+#include "mainwindowimpl.h"
+
 #include <QtGui>
 #include <QtCore>
 
@@ -21,7 +23,7 @@ class StartSplash : public QDialog
 {
 Q_OBJECT
 public:
-    StartSplash();
+    StartSplash(mainWindowImpl *);
 
     ~StartSplash();
 	
@@ -34,6 +36,10 @@ public:
 public slots:
 
 	void nextAnimationFrame();
+
+private:
+
+	mainWindowImpl *myW;
 
 };
 
