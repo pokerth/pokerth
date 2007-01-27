@@ -19,19 +19,13 @@
  ***************************************************************************/
 #include "startsplash.h"
 
-StartSplash::StartSplash(const QRect &rect)
- : QWidget(), parentsGeo(rect)
+StartSplash::StartSplash(QMainWindow *parent)
+ : QPainter()
 {
-	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/c059013l.pfb");
-	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/andybold.ttf");	
 
-	frameNo = 52;
 	opacityCounter = 13;
 	opacity = 1.0;
-	
-	QTimer *timer = new QTimer;
-	connect(timer, SIGNAL(timeout()), this, SLOT(nextAnimationFrame()));
-	timer->start(40);
+
 }
 
 
@@ -39,25 +33,18 @@ StartSplash::~StartSplash()
 {
 }
 
-void StartSplash::nextAnimationFrame() {
-     
-	++frameNo;
-     	update();
- }
+void StartSplash::aanimateStartSplash() {
 
-void StartSplash::paintEvent(QPaintEvent * event) {
-
-	QPainter painter(this);
 	QFont welcomeFont("Century Schoolbook L",29);	
 	QFont haveFont("Andy MT",30);
 	QPixmap logo(":/graphics/graphics/logo-140-100.png");
 
 	if(frameNo >= 52 && frameNo < 65) {
 	
-		painter.setBrush(QColor(40,80,46));
-		painter.drawRect(0,0,399,249);
+		setBrush(QColor(40,80,46));
+		drawRect(0,0,399,249);
 	}
-
+/*
 	if(frameNo >= 65 && frameNo < 68) {
 	
 		painter.setBrush(QColor(40,80,46));
@@ -236,7 +223,13 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	}
 
-	if(frameNo >= 260 ) { this->hide(); }
+	if(frameNo >= 260 ) { this->hide(); }*/
 
 }
 
+/*
+void StartSplash::mousePressEvent ( QMouseEvent * event ) {
+
+	if(event) this->hide();
+
+}*/

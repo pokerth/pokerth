@@ -17,11 +17,11 @@
 #include <QtGui>
 #include <QtCore>
 
-class StartSplash : public QWidget
+class StartSplash : public QPainter
 {
 Q_OBJECT
 public:
-    StartSplash(const QRect&);
+    StartSplash(QMainWindow *parent = 0);
 
     ~StartSplash();
 	
@@ -29,14 +29,8 @@ public:
 	int opacityCounter;	
 	qreal opacity;
 
-	QRect parentsGeo;
-
-	void paintEvent(QPaintEvent * event);
-
-public slots:
-
-	void nextAnimationFrame();
-
+	void aanimateStartSplash();
+	void setFrameNo(int frameNumber) { frameNo = frameNumber+51; }
 };
 
 #endif
