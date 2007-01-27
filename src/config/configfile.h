@@ -40,6 +40,7 @@ public:
 
 private:
 	std::string configFileName;
+	int configRev;
 	
 };
 

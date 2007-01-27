@@ -30,6 +30,8 @@ using namespace std;
 
 ConfigFile::ConfigFile()
 {
+	// !!!! Revisionsnummer der Configdefaults !!!!!
+	configRev = 1;
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
@@ -51,6 +53,14 @@ ConfigFile::ConfigFile()
 	//Prüfen ob Configfile existiert --> sonst anlegen
 	TiXmlDocument doc(configFileName); 
 	if(!doc.LoadFile()){ createDefaultConfig(); }
+	else { 
+	//Prüfen ob die Revision stimmt ansonsten löschen und neue anlegen 
+		int temp = 0;
+		TiXmlHandle docHandle( &doc );		
+		TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "ConfigRevision" ).ToElement();
+		if ( conf ) { conf->QueryIntAttribute("value", &temp ); }
+		if (temp < configRev) { /*löschen()*/ createDefaultConfig() ;}
+	}
 
 }
 
@@ -73,6 +83,9 @@ void ConfigFile::createDefaultConfig() {
        		config = new TiXmlElement( "Configuration" );  
 		root->LinkEndChild( config );  
 		
+		TiXmlElement * confElement0 = new TiXmlElement( "ConfigRevision" ); 
+		config->LinkEndChild( confElement0 );
+		confElement0->SetAttribute("value", configRev);
 		TiXmlElement * confElement1 = new TiXmlElement( "NumberOfPlayers" ); 
 		config->LinkEndChild( confElement1 );
 		confElement1->SetAttribute("value", 5);
