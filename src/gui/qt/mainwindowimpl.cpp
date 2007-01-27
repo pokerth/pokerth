@@ -50,9 +50,6 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 {
 // 	Schriftart laden 
 	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/n019003l.pfb");
-	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/c059013l.pfb");
-	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/andybold.ttf");	
-
 	QFont tmpFont("Nimbus Sans L",9);
 	QApplication::setFont(tmpFont);
 
@@ -68,11 +65,10 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	setupUi(this);
 
 	int i;
-	startSplashFrameNo = 0;
 
 	//Toolbox verstecken?				
 	if (!myConfig->readConfigInt("ShowToolBox", 1)) { groupBox_tools->hide(); }
-// 	if (myConfig->readConfigInt("ShowIntro", 1)) { paintStartSplash(); }
+	if (myConfig->readConfigInt("ShowIntro", 1)) { QTimer::singleShot(100, this, SLOT( paintStartSplash() )); }
 
 		
 	pushButton_raise->setDisabled(TRUE);
@@ -103,7 +99,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 		userWidgetsArray[i]->setPalette(tempPalette);
 	}
 
-	//Timer Objekte erstellen
+	//Timer Objekt erstellen
 	dealFlopCards0Timer = new QTimer(this);
 	dealFlopCards1Timer = new QTimer(this);
 	dealFlopCards2Timer = new QTimer(this);
@@ -135,9 +131,6 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	postRiverRunAnimation5Timer = new QTimer(this);
 	potDistributeTimer = new QTimer(this);
 	postRiverRunAnimation6Timer = new QTimer(this);
-
-	startSplashAnimationTimer = new QTimer(this);
-
 
 	dealFlopCards0Timer->setSingleShot(TRUE);
 	dealFlopCards1Timer->setSingleShot(TRUE);
@@ -268,8 +261,6 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	connect(potDistributeTimer, SIGNAL(timeout()), this, SLOT(postRiverRunAnimation5()));
 	connect(postRiverRunAnimation5Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation6() ));
 	connect(postRiverRunAnimation6Timer, SIGNAL(timeout()), this, SLOT( startNewHand() ));
-	
-	connect(startSplashAnimationTimer, SIGNAL(timeout()), this, SLOT( startSplashNextFrame() ));
 
 	connect( actionNewGame, SIGNAL( activated() ), this, SLOT( callNewGameDialog() ) );
 	connect( actionAboutPokerth, SIGNAL( activated() ), this, SLOT( callAboutPokerthDialog() ) );
@@ -1254,12 +1245,6 @@ void mainWindowImpl::postRiverRunAnimation6() {
 	postRiverRunAnimation6Timer->start(newRoundSpeed);
 }
 
-void mainWindowImpl::startSplashNextFrame() {
-
-	++startSplashFrameNo;
-     	this->update();
-
-}
 
 void mainWindowImpl::startNewHand() {
 
@@ -1397,12 +1382,20 @@ void mainWindowImpl::breakButtonClicked() {
 	}
 }
 
-void mainWindowImpl::paintStartSplash() { startSplashAnimationTimer->start(40); }
+void mainWindowImpl::paintStartSplash() {
+
+	StartSplash *mySplash = new StartSplash();	
+				
+	mySplash->setMaximumSize(400,250);
+	mySplash->setMinimumSize(400,250);
+	mySplash->setWindowFlags(Qt::SplashScreen);
+	mySplash->show();
+}
 
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
-	cout << event->key() << endl;
+// 	cout << event->key() << endl;
 	
 
 	if (event->key() == 16777265) { switchToolBox(); }
@@ -1416,21 +1409,6 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
 
 }
-
-void mainWindowImpl::paintEvent(QPaintEvent* event) {
-
-	QMainWindow::paintEvent(event);
-    /* do your overlay painting here */
-	
-//     StartSplash startSplashPainter(this, startSplashFrameNo);
-//     startSplashPainter.animateStartSplash();
-
-	QPainter p(this);
-	p.setBrush(QColor(0,0,0));
-	p.drawRect(200,200,399,249);
-
-}
-
 
 void mainWindowImpl::switchToolBox() {
 

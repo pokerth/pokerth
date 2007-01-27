@@ -17,19 +17,24 @@
 #include <QtGui>
 #include <QtCore>
 
-class StartSplash : public QPainter
+class StartSplash : public QDialog
 {
-
+Q_OBJECT
 public:
-    StartSplash(QMainWindow *parent = 0, int =0);
+    StartSplash();
 
-    virtual ~StartSplash();
+    ~StartSplash();
 	
 	int frameNo;
 	int opacityCounter;	
 	qreal opacity;
 
-	void animateStartSplash();
+	void paintEvent(QPaintEvent * event);
+
+public slots:
+
+	void nextAnimationFrame();
+
 };
 
 #endif

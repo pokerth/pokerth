@@ -136,8 +136,6 @@ public slots:
 	void postRiverRunAnimation5();	
 	void postRiverRunAnimation6();	
 
-	void startSplashNextFrame();
-
 	void handSwitchRounds();
 
 	void startNewHand();
@@ -150,9 +148,8 @@ public slots:
 	void breakButtonClicked();
 
 	void keyPressEvent ( QKeyEvent * event );
-	void paintEvent(QPaintEvent* event);
-	
 	void switchToolBox();
+
 	void paintStartSplash();
 
 private: 
@@ -196,9 +193,6 @@ private:
 	QTimer *postRiverRunAnimation3Timer;
 	QTimer *postRiverRunAnimation5Timer;
 	QTimer *postRiverRunAnimation6Timer;
-
-	QTimer *startSplashAnimationTimer;
-
 	
 	QWidget *userWidgetsArray[8];
 	QLabel *buttonLabelArray[5];
@@ -213,7 +207,6 @@ private:
 	int maxQuantityPlayers;
 	
 	int distributePotAnimCounter;
-	int startSplashFrameNo;
 
 	//Speed
 	int guiGameSpeed;
