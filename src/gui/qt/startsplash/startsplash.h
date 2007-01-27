@@ -19,18 +19,17 @@
 
 class StartSplash : public QPainter
 {
-Q_OBJECT
-public:
-    StartSplash(QMainWindow *parent = 0);
 
-    ~StartSplash();
+public:
+    StartSplash(QMainWindow *parent = 0, int =0);
+
+    virtual ~StartSplash();
 	
 	int frameNo;
 	int opacityCounter;	
 	qreal opacity;
 
-	void aanimateStartSplash();
-	void setFrameNo(int frameNumber) { frameNo = frameNumber+51; }
+	void animateStartSplash();
 };
 
 #endif

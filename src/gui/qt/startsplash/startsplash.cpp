@@ -19,10 +19,10 @@
  ***************************************************************************/
 #include "startsplash.h"
 
-StartSplash::StartSplash(QMainWindow *parent)
- : QPainter()
+StartSplash::StartSplash(QMainWindow *parent, int frameNumber)
+ : QPainter(parent), frameNo(frameNumber)
 {
-
+	frameNo += 51;
 	opacityCounter = 13;
 	opacity = 1.0;
 
@@ -33,7 +33,7 @@ StartSplash::~StartSplash()
 {
 }
 
-void StartSplash::aanimateStartSplash() {
+void StartSplash::animateStartSplash() {
 
 	QFont welcomeFont("Century Schoolbook L",29);	
 	QFont haveFont("Andy MT",30);
@@ -44,192 +44,185 @@ void StartSplash::aanimateStartSplash() {
 		setBrush(QColor(40,80,46));
 		drawRect(0,0,399,249);
 	}
-/*
+
 	if(frameNo >= 65 && frameNo < 68) {
 	
-		painter.setBrush(QColor(40,80,46));
-		painter.drawRect(0,0,399,249);
+		setBrush(QColor(40,80,46));
+		drawRect(0,0,399,249);
 	
 		
-		painter.setRenderHint(QPainter::Antialiasing, TRUE);
-		painter.setFont(welcomeFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"W");
+		setRenderHint(QPainter::Antialiasing, TRUE);
+		setFont(welcomeFont);
+		setPen(QColor(255,255,255));
+		drawText(48,30,300,40,4,"W");
 		
 	}
 
 	if(frameNo >= 68 && frameNo < 71) {
 	
-		painter.setBrush(QColor(40,80,46));
-		painter.drawRect(0,0,399,249);
+		setBrush(QColor(40,80,46));
+		drawRect(0,0,399,249);
 		
-		painter.setRenderHint(QPainter::Antialiasing, TRUE);
-		painter.setFont(welcomeFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"We");
+		setRenderHint(QPainter::Antialiasing, TRUE);
+		setFont(welcomeFont);
+		setPen(QColor(255,255,255));
+		drawText(48,30,300,40,4,"We");
 		
 	}
 
 	if(frameNo >= 71 && frameNo < 74) {
 	
-		painter.setBrush(QColor(40,80,46));
-		painter.drawRect(0,0,399,249);
+		setBrush(QColor(40,80,46));
+		drawRect(0,0,399,249);
 	
-		painter.setRenderHint(QPainter::Antialiasing, TRUE);
-		painter.setFont(welcomeFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Wel");
+		setRenderHint(QPainter::Antialiasing, TRUE);
+		setFont(welcomeFont);
+		setPen(QColor(255,255,255));
+		drawText(48,30,300,40,4,"Wel");
 		
 	}
 
 	if(frameNo >= 74 && frameNo < 77) {
 	
-		painter.setBrush(QColor(40,80,46));
-		painter.drawRect(0,0,399,249);
+		setBrush(QColor(40,80,46));
+		drawRect(0,0,399,249);
 		
-		painter.setRenderHint(QPainter::Antialiasing, TRUE);
-		painter.setFont(welcomeFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welc");
+		setRenderHint(QPainter::Antialiasing, TRUE);
+		setFont(welcomeFont);
+		setPen(QColor(255,255,255));
+		drawText(48,30,300,40,4,"Welc");
 		
 	}
 
 	if(frameNo >= 77 && frameNo < 80) {
 	
-		painter.setBrush(QColor(40,80,46));
-		painter.drawRect(0,0,399,249);
+		setBrush(QColor(40,80,46));
+		drawRect(0,0,399,249);
 		
-		painter.setRenderHint(QPainter::Antialiasing, TRUE);
-		painter.setFont(welcomeFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welco");
+		setRenderHint(QPainter::Antialiasing, TRUE);
+		setFont(welcomeFont);
+		setPen(QColor(255,255,255));
+		drawText(48,30,300,40,4,"Welco");
 		
 	}
 
 	if(frameNo >= 80 && frameNo < 83) {
 	
-		painter.setBrush(QColor(40,80,46));
-		painter.drawRect(0,0,399,249);
+		setBrush(QColor(40,80,46));
+		drawRect(0,0,399,249);
 		
-		painter.setRenderHint(QPainter::Antialiasing, TRUE);
-		painter.setFont(welcomeFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcom");
+		setRenderHint(QPainter::Antialiasing, TRUE);
+		setFont(welcomeFont);
+		setPen(QColor(255,255,255));
+		drawText(48,30,300,40,4,"Welcom");
 		
 	}
 
 	if(frameNo >= 83 && frameNo < 92) {
 	
-		painter.setBrush(QColor(40,80,46));
-		painter.drawRect(0,0,399,249);
+		setBrush(QColor(40,80,46));
+		drawRect(0,0,399,249);
 		
-		painter.setRenderHint(QPainter::Antialiasing, TRUE);
-		painter.setFont(welcomeFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcome");
+		setRenderHint(QPainter::Antialiasing, TRUE);
+		setFont(welcomeFont);
+		setPen(QColor(255,255,255));
+		drawText(48,30,300,40,4,"Welcome");
 		
 	}
 
 	if(frameNo >= 92 && frameNo < 95) {
 	
-		painter.setBrush(QColor(40,80,46));
-		painter.drawRect(0,0,399,249);
+		setBrush(QColor(40,80,46));
+		drawRect(0,0,399,249);
 		
-		painter.setRenderHint(QPainter::Antialiasing, TRUE);
-		painter.setFont(welcomeFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcome t");
+		setRenderHint(QPainter::Antialiasing, TRUE);
+		setFont(welcomeFont);
+		setPen(QColor(255,255,255));
+		drawText(48,30,300,40,4,"Welcome t");
 		
 	}
 
 	if(frameNo >= 95 && frameNo < 120 ) {
 	
-		painter.setBrush(QColor(40,80,46));
-		painter.drawRect(0,0,399,249);
+		setBrush(QColor(40,80,46));
+		drawRect(0,0,399,249);
 		
-		painter.setRenderHint(QPainter::Antialiasing, TRUE);
-		painter.setFont(welcomeFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcome to");
+		setRenderHint(QPainter::Antialiasing, TRUE);
+		setFont(welcomeFont);
+		setPen(QColor(255,255,255));
+		drawText(48,30,300,40,4,"Welcome to");
 		
 	}
 
 	if(frameNo >= 120 && frameNo < 132) {
-// 	
-		painter.setBrush(QColor(40,80,46));
-		painter.drawRect(0,0,399,249);
+	
+		setBrush(QColor(40,80,46));
+		drawRect(0,0,399,249);
 		
-		painter.setRenderHint(QPainter::Antialiasing, TRUE);
-		painter.setFont(welcomeFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcome to");
+		setRenderHint(QPainter::Antialiasing, TRUE);
+		setFont(welcomeFont);
+		setPen(QColor(255,255,255));
+		drawText(48,30,300,40,4,"Welcome to");
 
 		--opacityCounter;
 // 			std::cout << opacity << " " << opacityCounter << "\n";
 		opacity = 1.0/opacityCounter;
 // 		std::cout << opacity << "\n";
-		painter.setOpacity(opacity);
-		painter.drawPixmap(130,85,140,100,logo);
+		setOpacity(opacity);
+		drawPixmap(130,85,140,100,logo);
 		
 	}
 
 	if(frameNo >= 132 && frameNo < 145) {
-// 	
-		painter.setBrush(QColor(40,80,46));
-		painter.drawRect(0,0,399,249);
+	
+		setBrush(QColor(40,80,46));
+		drawRect(0,0,399,249);
 		
-		painter.setRenderHint(QPainter::Antialiasing, TRUE);
-		painter.setFont(welcomeFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcome to");
+		setRenderHint(QPainter::Antialiasing, TRUE);
+		setFont(welcomeFont);
+		setPen(QColor(255,255,255));
+		drawText(48,30,300,40,4,"Welcome to");
 
-		painter.drawPixmap(130,85,140,100,logo);
+		drawPixmap(130,85,140,100,logo);
 		
 	}
 
 	if(frameNo >= 145 && frameNo < 185) {
-// 	
-		painter.setBrush(QColor(40,80,46));
-		painter.drawRect(0,0,399,249);
-		
-		painter.setRenderHint(QPainter::Antialiasing, TRUE);
-		painter.setFont(welcomeFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcome to");
 	
-		painter.drawPixmap(130,85,140,100,logo);
+		setBrush(QColor(40,80,46));
+		drawRect(0,0,399,249);
 		
-		painter.setFont(haveFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,190,300,40,4,"Have a lot of fun!");
+		setRenderHint(QPainter::Antialiasing, TRUE);
+		setFont(welcomeFont);
+		setPen(QColor(255,255,255));
+		drawText(48,30,300,40,4,"Welcome to");
+	
+		drawPixmap(130,85,140,100,logo);
+		
+		setFont(haveFont);
+		setPen(QColor(255,255,255));
+		drawText(48,190,300,40,4,"Have a lot of fun!");
 
 	}
 
 	if(frameNo >= 185 && frameNo < 260) {
-// 	
-		painter.setBrush(QColor(40,80,46));
-		painter.drawRect(0,0,399,249);
+	
+		setBrush(QColor(40,80,46));
+		drawRect(0,0,399,249);
 		
-		painter.setRenderHint(QPainter::Antialiasing, TRUE);
-		painter.setFont(welcomeFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcome to");
+		setRenderHint(QPainter::Antialiasing, TRUE);
+		setFont(welcomeFont);
+		setPen(QColor(255,255,255));
+		drawText(48,30,300,40,4,"Welcome to");
 
-		painter.drawPixmap(130,85,140,100,logo);
+		drawPixmap(130,85,140,100,logo);
 		
-		painter.setFont(haveFont);
-		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,190,300,40,4,"Have a lot of fun! ;-)");
+		setFont(haveFont);
+		setPen(QColor(255,255,255));
+		drawText(48,190,300,40,4,"Have a lot of fun! ;-)");
 
 	}
 
-	if(frameNo >= 260 ) { this->hide(); }*/
+// 	if(frameNo >= 260 ) { this->hide(); }
 
 }
-
-/*
-void StartSplash::mousePressEvent ( QMouseEvent * event ) {
-
-	if(event) this->hide();
-
-}*/

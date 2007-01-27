@@ -72,7 +72,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 
 	//Toolbox verstecken?				
 	if (!myConfig->readConfigInt("ShowToolBox", 1)) { groupBox_tools->hide(); }
-	if (myConfig->readConfigInt("ShowIntro", 1)) { paintStartSplash(); }
+// 	if (myConfig->readConfigInt("ShowIntro", 1)) { paintStartSplash(); }
 
 		
 	pushButton_raise->setDisabled(TRUE);
@@ -1257,7 +1257,7 @@ void mainWindowImpl::postRiverRunAnimation6() {
 void mainWindowImpl::startSplashNextFrame() {
 
 	++startSplashFrameNo;
-     	update();
+     	this->update();
 
 }
 
@@ -1397,15 +1397,7 @@ void mainWindowImpl::breakButtonClicked() {
 	}
 }
 
-void mainWindowImpl::paintStartSplash() {
-
-// 	std::cout << this->geometry().x() << this->geometry().y() << "\n";
-
-/*
-	StartSplash *mySplash = new StartSplash(this);	
-	
-	mySplash->show();*/
-}
+void mainWindowImpl::paintStartSplash() { startSplashAnimationTimer->start(40); }
 
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
@@ -1426,10 +1418,17 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 }
 
 void mainWindowImpl::paintEvent(QPaintEvent* event) {
-    QMainWindow::paintEvent(event);
-    StartSplash startSplashPainter(this);
-    startSplashPainter.setFrameNo(startSplashFrameNo);
+
+	QMainWindow::paintEvent(event);
     /* do your overlay painting here */
+	
+//     StartSplash startSplashPainter(this, startSplashFrameNo);
+//     startSplashPainter.animateStartSplash();
+
+	QPainter p(this);
+	p.setBrush(QColor(0,0,0));
+	p.drawRect(200,200,399,249);
+
 }
 
 
