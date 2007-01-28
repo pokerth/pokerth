@@ -11,10 +11,12 @@
 //
 #include "mycardspixmaplabel.h"
 
+using namespace std;
+
 MyCardsPixmapLabel::MyCardsPixmapLabel(QFrame* parent)
  : QLabel(parent)
 {
-	
+	fadeOutAction = FALSE;
 	frameOpacity = 0.0;
 
 	timer = new QTimer;
@@ -27,7 +29,12 @@ MyCardsPixmapLabel::~MyCardsPixmapLabel()
 {
 }
 
-void MyCardsPixmapLabel::startFadeOut() { timer->start(40); }
+void MyCardsPixmapLabel::startFadeOut() { 
+	fadeOutAction = TRUE;
+	frameOpacity = 0.0;
+	timer->start(40); 
+	
+}
 
 
 void MyCardsPixmapLabel::nextFadeOutFrame() {
@@ -36,7 +43,10 @@ void MyCardsPixmapLabel::nextFadeOutFrame() {
 		frameOpacity += 0.01;
      		update();
 	}
-	else { timer->stop(); }
+	else { 
+		timer->stop(); 
+		fadeOutAction = FALSE;
+	}
 
 }
 
@@ -44,13 +54,19 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event) {
 
 	QLabel::paintEvent(event);
 
-	QPainter painter(this);
-	painter.setPen(QColor(74,131,83));
-	painter.setBrush(QColor(74,131,83));
-//  	painter.setBrush(QColor(0,0,0));
+	if (fadeOutAction) {
 
-	painter.setOpacity(frameOpacity);
-// 	painter.drawRect(this->geometry());
-	painter.drawRect(0,0,57,80);
-
+		QPainter painter(this);
+// 		painter.setPen(QColor(74,131,83));
+		painter.setBrush(QColor(74,131,83));
+	//  	painter.setBrush(QColor(0,0,0));
+	
+		painter.setOpacity(frameOpacity);
+	// 	painter.drawRect(this->geometry());
+		if(objectName()=="pixmapLabel_card0b" || objectName()=="pixmapLabel_card0a")
+		painter.drawRect(-1,-1,81,113);
+		else
+		painter.drawRect(-1,-1,58,81);
+		
+	}
 }

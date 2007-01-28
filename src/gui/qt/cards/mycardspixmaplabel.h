@@ -28,7 +28,7 @@ public:
 	qreal frameOpacity;
 	QTimer *timer;
 
-
+	bool fadeOutAction;
 	void startFadeOut();
 	void paintEvent(QPaintEvent * event);
 
