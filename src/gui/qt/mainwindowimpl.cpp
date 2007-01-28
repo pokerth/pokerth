@@ -492,8 +492,9 @@ void mainWindowImpl::callSettingsDialog() {
 		else { groupBox_tools->show(); }
 		
 		//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
-		if (v->getPlayerNickIsChanged()) { 
-			cout << "wurst" << endl;
+		if (v->getPlayerNickIsChanged() && actualGame) { 
+
+			actualHand->getPlayerArray()[0]->setMyName(v->lineEdit_humanPlayerName->text().toStdString());
 			actualHand->getPlayerArray()[1]->setMyName(v->lineEdit_Opponent1Name->text().toStdString());
 			actualHand->getPlayerArray()[2]->setMyName(v->lineEdit_Opponent2Name->text().toStdString());
 			actualHand->getPlayerArray()[3]->setMyName(v->lineEdit_Opponent3Name->text().toStdString());

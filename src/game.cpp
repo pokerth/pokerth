@@ -36,6 +36,8 @@ Game::Game(ConfigFile* c, GuiInterface* g, int qP, int sC, int sB) : myConfig(c)
 // 	cout << "Create Game Object" << "\n";
 	int i;
 
+	actualHandID = 0;
+
 	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
 		playerArray[i] = 0;
 	}
