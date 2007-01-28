@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>528</width>
-    <height>343</height>
+    <width>515</width>
+    <height>323</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -19,6 +19,16 @@
    <property name="spacing" >
     <number>6</number>
    </property>
+   <item row="2" column="0" colspan="2" >
+    <widget class="QDialogButtonBox" name="buttonBox" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons" >
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="1" >
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
@@ -178,6 +188,67 @@
         <number>6</number>
        </property>
        <item row="5" column="0" >
+        <widget class="QGroupBox" name="groupBox" >
+         <property name="title" >
+          <string>Flipside of Cards</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="1" column="1" >
+           <widget class="QLineEdit" name="lineEdit_OwnFlipsideFilename" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QRadioButton" name="radioButton_flipsideOwn" >
+            <property name="text" >
+             <string>Own Flipside Picture:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="2" >
+           <widget class="QRadioButton" name="radioButton_flipsideTux" >
+            <property name="text" >
+             <string>Default (Tux)</string>
+            </property>
+            <property name="checked" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2" >
+           <widget class="QPushButton" name="pushButton_openFlipsidePicture" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize" >
+             <size>
+              <width>27</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="maximumSize" >
+             <size>
+              <width>27</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="icon" >
+             <iconset resource="deck.qrc" >:/graphics/graphics/fileopen16.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="6" column="0" >
         <spacer>
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -190,34 +261,6 @@
          </property>
         </spacer>
        </item>
-       <item row="4" column="0" >
-        <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation" >
-         <property name="text" >
-          <string>Show Fade-Out Animation for Non-Winning Cards</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" >
-        <widget class="QCheckBox" name="checkBox_showToolbox" >
-         <property name="text" >
-          <string>Show Toolbox (F2 to switch on/off)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" >
-        <widget class="QCheckBox" name="checkBox_showIntro" >
-         <property name="text" >
-          <string>Show Intro on Startup</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" >
-        <widget class="Line" name="line_5" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="0" >
         <widget class="QLabel" name="label_13" >
          <property name="font" >
@@ -228,6 +271,34 @@
          </property>
          <property name="text" >
           <string>Interface</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="Line" name="line_5" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QCheckBox" name="checkBox_showIntro" >
+         <property name="text" >
+          <string>Show Intro on Startup</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" >
+        <widget class="QCheckBox" name="checkBox_showToolbox" >
+         <property name="text" >
+          <string>Show Toolbox (F2 to switch on/off)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" >
+        <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation" >
+         <property name="text" >
+          <string>Show Fade-Out Animation for Non-Winning Cards</string>
          </property>
         </widget>
        </item>
@@ -408,16 +479,6 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <tabstops>
@@ -434,7 +495,9 @@
   <tabstop>lineEdit_Opponent3Name</tabstop>
   <tabstop>lineEdit_Opponent4Name</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="deck.qrc" />
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
@@ -444,7 +507,7 @@
    <hints>
     <hint type="sourcelabel" >
      <x>295</x>
-     <y>322</y>
+     <y>302</y>
     </hint>
     <hint type="destinationlabel" >
      <x>286</x>
@@ -476,7 +539,7 @@
    <hints>
     <hint type="sourcelabel" >
      <x>243</x>
-     <y>315</y>
+     <y>295</y>
     </hint>
     <hint type="destinationlabel" >
      <x>243</x>
@@ -492,11 +555,75 @@
    <hints>
     <hint type="sourcelabel" >
      <x>243</x>
-     <y>315</y>
+     <y>295</y>
     </hint>
     <hint type="destinationlabel" >
      <x>243</x>
      <y>169</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_flipsideTux</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>lineEdit_OwnFlipsideFilename</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>209</x>
+     <y>170</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>353</x>
+     <y>205</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_flipsideOwn</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>lineEdit_OwnFlipsideFilename</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>220</x>
+     <y>210</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>429</x>
+     <y>207</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_flipsideTux</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>pushButton_openFlipsidePicture</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>345</x>
+     <y>173</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>474</x>
+     <y>194</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_flipsideOwn</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>pushButton_openFlipsidePicture</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>199</x>
+     <y>208</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>463</x>
+     <y>201</y>
     </hint>
    </hints>
   </connection>

@@ -53,6 +53,9 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
 	checkBox_showToolbox->setChecked(myConfig.readConfigInt("ShowToolBox", 1));
 	checkBox_showIntro->setChecked(myConfig.readConfigInt("ShowIntro", 1));
 	checkBox_showFadeOutCardsAnimation->setChecked(myConfig.readConfigInt("ShowFadeOutCardsAnimation", 1));
+	radioButton_flipsideTux->setChecked(myConfig.readConfigInt("FlipsideTux", 1));
+	radioButton_flipsideOwn->setChecked(myConfig.readConfigInt("FlipsideOwn", 0));
+	lineEdit_OwnFlipsideFilename->setText(QString::fromStdString(myConfig.readConfigString("FlipsideOwnFile", "")));
 	
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
 	connect( lineEdit_humanPlayerName, SIGNAL( textChanged( const QString &) ), this, SLOT( playerNickChanged() ) );
@@ -60,6 +63,8 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
 	connect( lineEdit_Opponent2Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( lineEdit_Opponent3Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( lineEdit_Opponent4Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( pushButton_openFlipsidePicture, SIGNAL( clicked() ), this, SLOT( setFlipsidePicFileName()) );
+	
 
 }
 
@@ -89,5 +94,18 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("ShowToolBox", checkBox_showToolbox->isChecked());
 	myConfig.writeConfigInt("ShowIntro", checkBox_showIntro->isChecked());
 	myConfig.writeConfigInt("ShowFadeOutCardsAnimation", checkBox_showFadeOutCardsAnimation->isChecked());
+	myConfig.writeConfigInt("FlipsideTux", radioButton_flipsideTux->isChecked());
+	myConfig.writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());
+	myConfig.writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toStdString());
 
 }
+
+void settingsDialogImpl::setFlipsidePicFileName()
+ {
+ 	QString fileName = QFileDialog::getOpenFileName(this, tr("Select your Flipside Picture"),
+                                                QDir::homePath(),
+                                                tr("Images (*.png *.xpm *.jpg)"));
+
+     if (!fileName.isEmpty())
+         lineEdit_OwnFlipsideFilename->setText(fileName);
+ }

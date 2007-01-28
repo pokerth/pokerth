@@ -131,6 +131,15 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * confElement15 = new TiXmlElement( "ShowFadeOutCardsAnimation" );
 		config->LinkEndChild( confElement15 );
       		confElement15->SetAttribute("value", 1);
+		TiXmlElement * confElement16 = new TiXmlElement( "FlipsideTux" );
+		config->LinkEndChild( confElement16 );
+      		confElement16->SetAttribute("value", 1);
+		TiXmlElement * confElement17 = new TiXmlElement( "FlipsideOwn" );
+		config->LinkEndChild( confElement17 );
+      		confElement17->SetAttribute("value", 0);
+		TiXmlElement * confElement18 = new TiXmlElement( "FlipsideOwnFile" );
+		config->LinkEndChild( confElement18 );
+      		confElement18->SetAttribute("value", "");
 
 		doc.SaveFile( configFileName );
 

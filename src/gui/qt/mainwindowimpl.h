@@ -162,6 +162,22 @@ private:
 	Log *myLog;
 	ConfigFile *myConfig;
 
+	//MyPixmapCardsLabel
+	MyCardsPixmapLabel *pixmapLabel_cardBoard0;
+	MyCardsPixmapLabel *pixmapLabel_cardBoard1;
+	MyCardsPixmapLabel *pixmapLabel_cardBoard2;
+	MyCardsPixmapLabel *pixmapLabel_cardBoard3;
+	MyCardsPixmapLabel *pixmapLabel_cardBoard4;
+	MyCardsPixmapLabel *pixmapLabel_card0a;
+	MyCardsPixmapLabel *pixmapLabel_card0b;
+	MyCardsPixmapLabel *pixmapLabel_card1a;
+	MyCardsPixmapLabel *pixmapLabel_card1b;
+	MyCardsPixmapLabel *pixmapLabel_card2a;
+	MyCardsPixmapLabel *pixmapLabel_card2b;
+	MyCardsPixmapLabel *pixmapLabel_card3a;
+	MyCardsPixmapLabel *pixmapLabel_card3b;
+	MyCardsPixmapLabel *pixmapLabel_card4a;
+	MyCardsPixmapLabel *pixmapLabel_card4b;
 	//Timer
 	QTimer *potDistributeTimer;
     	QTimer *timer;
@@ -205,6 +221,8 @@ private:
 	QGroupBox *groupBoxArray[5];
 	MyCardsPixmapLabel *boardCardsArray[5];
 	MyCardsPixmapLabel *holeCardsArray[5][2];
+
+	QPixmap *flipside;
 
 	int maxQuantityPlayers;
 	

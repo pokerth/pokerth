@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/graphics" >
         <file>cards/dealerbutton.png</file>
+        <file>graphics/fileopen16.png</file>
         <file>graphics/logo-140-100.png</file>
     </qresource>
     <qresource prefix="/mycards" >
