@@ -22,15 +22,26 @@
 
 #include "ui_settingsdialog.h"
 
+class QLineEdit;
+
 
 class settingsDialogImpl: public QDialog, public Ui::settingsDialog {
 Q_OBJECT
 public:
     settingsDialogImpl(QWidget *parent = 0, const char *name = 0);
 
+	void setPlayerNickIsChanged(bool theValue) { playerNickIsChanged = theValue; }
+	bool getPlayerNickIsChanged() const { return playerNickIsChanged; }
+
 public slots:
 
 	void isAccepted();
+	void playerNickChanged() { setPlayerNickIsChanged(TRUE); };
+
+private:
+
+	bool playerNickIsChanged;
+
 };
 
 #endif

@@ -18,6 +18,7 @@ MyCardsPixmapLabel::MyCardsPixmapLabel(QFrame* parent)
 {
 	fadeOutAction = FALSE;
 	frameOpacity = 0.0;
+	opacityRaiseIntervall = 0.01;
 
 	timer = new QTimer;
 	connect(timer, SIGNAL(timeout()), this, SLOT(nextFadeOutFrame()));
@@ -29,18 +30,25 @@ MyCardsPixmapLabel::~MyCardsPixmapLabel()
 {
 }
 
-void MyCardsPixmapLabel::startFadeOut() { 
-	fadeOutAction = TRUE;
-	frameOpacity = 0.0;
-	timer->start(40); 
+void MyCardsPixmapLabel::startFadeOut(int speed) { 
+	
+	if(speed <= 4) { opacityRaiseIntervall = 0.01; }
+	if(speed > 4 && speed <= 7) { opacityRaiseIntervall = 0.02; }
+	if(speed > 7 && speed <= 10) { opacityRaiseIntervall = 0.04; }
+
+	if(speed != 11) {
+		fadeOutAction = TRUE;
+		frameOpacity = 0.0;
+		timer->start(40);
+	} 
 	
 }
 
 
 void MyCardsPixmapLabel::nextFadeOutFrame() {
 
-	if (frameOpacity < 0.7) {
-		frameOpacity += 0.01;
+	if (frameOpacity < 0.65) {
+		frameOpacity += opacityRaiseIntervall;
      		update();
 	}
 	else { 

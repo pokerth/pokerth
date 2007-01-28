@@ -26,10 +26,11 @@ public:
     ~MyCardsPixmapLabel();
 
 	qreal frameOpacity;
+	qreal opacityRaiseIntervall;
 	QTimer *timer;
 
 	bool fadeOutAction;
-	void startFadeOut();
+	void startFadeOut(int);
 	void paintEvent(QPaintEvent * event);
 
 public slots:

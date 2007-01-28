@@ -62,6 +62,9 @@ public:
 	virtual void setStartCash(const int& theValue) =0;
 	virtual int getStartCash() const =0;
 
+	virtual void setActivePlayersCounter(const int& theValue) =0;
+	virtual int getActivePlayersCounter() const =0;
+
 	virtual void assignButtons() =0;
 
 	virtual void highlightRoundLabel() =0;

@@ -165,7 +165,7 @@ void LocalHand::switchRounds() {
 // 	cout << "switchrounds" << endl;
 
 	//Aktive Spieler z�len --> wenn nur noch einer nicht-folded dann gleich den Pot verteilen
-	int activePlayersCounter = 0;
+	activePlayersCounter = 0;
 	for (i=0; i<myGui->getMaxQuantityPlayers(); i++) { 
 		if (playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyActiveStatus() == 1) activePlayersCounter++;
 	}

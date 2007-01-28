@@ -28,6 +28,8 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
 
 	 setupUi(this);
 
+	playerNickIsChanged = FALSE;
+
 	//Formulare Füllen
 	ConfigFile myConfig;	
 
@@ -44,13 +46,20 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
 	spinBox_smallBlind->setValue(myConfig.readConfigInt("SmallBlind", 10));
 	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("HandsBeforeRaiseSmallBlind", 9));
 	spinBox_gameSpeed->setValue(myConfig.readConfigInt("GameSpeed", 4));
+	checkBox_pauseBetweenHands->setChecked(myConfig.readConfigInt("PauseBetweenHands", 0));
 	checkBox_showGameSettingsDialogOnNewGame->setChecked(myConfig.readConfigInt("ShowGameSettingsDialogOnNewGame", 1));
-
+	
 	//Interface
 	checkBox_showToolbox->setChecked(myConfig.readConfigInt("ShowToolBox", 1));
 	checkBox_showIntro->setChecked(myConfig.readConfigInt("ShowIntro", 1));
+	checkBox_showFadeOutCardsAnimation->setChecked(myConfig.readConfigInt("ShowFadeOutCardsAnimation", 1));
 	
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
+	connect( lineEdit_humanPlayerName, SIGNAL( textChanged( const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent1Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent2Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent3Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent4Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 
 }
 
@@ -73,10 +82,12 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("SmallBlind", spinBox_smallBlind->value());
 	myConfig.writeConfigInt("HandsBeforeRaiseSmallBlind", spinBox_handsBeforeRaiseSmallBlind->value());
 	myConfig.writeConfigInt("GameSpeed", spinBox_gameSpeed->value());
+	myConfig.writeConfigInt("PauseBetweenHands", checkBox_pauseBetweenHands->isChecked());
 	myConfig.writeConfigInt("ShowGameSettingsDialogOnNewGame", checkBox_showGameSettingsDialogOnNewGame->isChecked());
 
 // 	Interface
 	myConfig.writeConfigInt("ShowToolBox", checkBox_showToolbox->isChecked());
 	myConfig.writeConfigInt("ShowIntro", checkBox_showIntro->isChecked());
+	myConfig.writeConfigInt("ShowFadeOutCardsAnimation", checkBox_showFadeOutCardsAnimation->isChecked());
 
 }

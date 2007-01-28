@@ -72,10 +72,16 @@ public:
 	void setStartCash(const int& theValue)	{ startCash = theValue; }
 	int getStartCash() const { return startCash;	}
 
+	void setActivePlayersCounter(const int& theValue) { activePlayersCounter = theValue; }
+	int getActivePlayersCounter() const { return activePlayersCounter; }
+	
+
 	void assignButtons();
 
 	void highlightRoundLabel();
 	void switchRounds();
+
+	
 
 
 	
@@ -99,7 +105,8 @@ private:
 	int actualRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
 	int smallBlind;
 	int startCash;
-	
+	int activePlayersCounter;	
+
 	bool allInCondition;
 };
 

@@ -71,31 +71,31 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	pixmapLabel_cardBoard0->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard0"));
     	pixmapLabel_cardBoard0->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard0->setMaximumSize(QSize(57, 80));
-	gridLayout2->addWidget(pixmapLabel_cardBoard0, 0, 0, 1, 1);
+	gridLayout11->addWidget(pixmapLabel_cardBoard0, 0, 0, 1, 1);
 
 	MyCardsPixmapLabel *pixmapLabel_cardBoard1 = new MyCardsPixmapLabel(frame_5);
     	pixmapLabel_cardBoard1->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard1"));
     	pixmapLabel_cardBoard1->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard1->setMaximumSize(QSize(57, 80));
-    	gridLayout2->addWidget(pixmapLabel_cardBoard1, 0, 1, 1, 1);
+    	gridLayout11->addWidget(pixmapLabel_cardBoard1, 0, 1, 1, 1);
 
 	MyCardsPixmapLabel *pixmapLabel_cardBoard2 = new MyCardsPixmapLabel(frame_5);
     	pixmapLabel_cardBoard2->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard2"));
     	pixmapLabel_cardBoard2->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard2->setMaximumSize(QSize(57, 80));
-	gridLayout2->addWidget(pixmapLabel_cardBoard2, 0, 2, 1, 1);
+	gridLayout11->addWidget(pixmapLabel_cardBoard2, 0, 2, 1, 1);
 
 	MyCardsPixmapLabel *pixmapLabel_cardBoard3 = new MyCardsPixmapLabel(frame_5);
     	pixmapLabel_cardBoard3->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard3"));
     	pixmapLabel_cardBoard3->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard3->setMaximumSize(QSize(57, 80));
-    	gridLayout2->addWidget(pixmapLabel_cardBoard3, 0, 3, 1, 1);
+    	gridLayout11->addWidget(pixmapLabel_cardBoard3, 0, 3, 1, 1);
 	
 	MyCardsPixmapLabel *pixmapLabel_cardBoard4 = new MyCardsPixmapLabel(frame_5);
     	pixmapLabel_cardBoard4->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard4"));
     	pixmapLabel_cardBoard4->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard4->setMaximumSize(QSize(57, 80));
-    	gridLayout2->addWidget(pixmapLabel_cardBoard4, 0, 4, 1, 1);
+    	gridLayout11->addWidget(pixmapLabel_cardBoard4, 0, 4, 1, 1);
 
 	MyCardsPixmapLabel *pixmapLabel_card0a = new MyCardsPixmapLabel(frame5);
 	pixmapLabel_card0a->setObjectName(QString::fromUtf8("pixmapLabel_card0a"));
@@ -107,7 +107,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	pixmapLabel_card0a->setMinimumSize(QSize(80, 112));
 	pixmapLabel_card0a->setMaximumSize(QSize(80, 112));
 	pixmapLabel_card0a->setScaledContents(true);
-	gridLayout35->addWidget(pixmapLabel_card0a, 0, 0, 1, 1);
+	gridLayout2->addWidget(pixmapLabel_card0a, 0, 0, 1, 1);
 	
 	MyCardsPixmapLabel *pixmapLabel_card0b = new MyCardsPixmapLabel(frame5);
 	pixmapLabel_card0b->setObjectName(QString::fromUtf8("pixmapLabel_card0b"));
@@ -119,55 +119,55 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	pixmapLabel_card0b->setMinimumSize(QSize(80, 112));
 	pixmapLabel_card0b->setMaximumSize(QSize(80, 112));
 	pixmapLabel_card0b->setScaledContents(true);
-	gridLayout35->addWidget(pixmapLabel_card0b, 0, 1, 1, 1);
+	gridLayout2->addWidget(pixmapLabel_card0b, 0, 1, 1, 1);
 
 	MyCardsPixmapLabel *pixmapLabel_card1a = new MyCardsPixmapLabel(frame8_2_2_2_5);
     	pixmapLabel_card1a->setObjectName(QString::fromUtf8("pixmapLabel_card1a"));
 	pixmapLabel_card1a->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card1a->setMaximumSize(QSize(57, 80));
-	gridLayout9->addWidget(pixmapLabel_card1a, 0, 0, 1, 1);
+	gridLayout18->addWidget(pixmapLabel_card1a, 0, 0, 1, 1);
 
    	MyCardsPixmapLabel *pixmapLabel_card1b = new MyCardsPixmapLabel(frame8_2_2_2_5);
     	pixmapLabel_card1b->setObjectName(QString::fromUtf8("pixmapLabel_card1b"));
 	pixmapLabel_card1b->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card1b->setMaximumSize(QSize(57, 80));
-	gridLayout9->addWidget(pixmapLabel_card1b, 0, 1, 1, 1);
+	gridLayout18->addWidget(pixmapLabel_card1b, 0, 1, 1, 1);
 
 	MyCardsPixmapLabel *pixmapLabel_card2a = new MyCardsPixmapLabel(frame8_2_2_2_4);
     	pixmapLabel_card2a->setObjectName(QString::fromUtf8("pixmapLabel_card2a"));
 	pixmapLabel_card2a->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card2a->setMaximumSize(QSize(57, 80));
-   	gridLayout15->addWidget(pixmapLabel_card2a, 0, 0, 1, 1);
+   	gridLayout24->addWidget(pixmapLabel_card2a, 0, 0, 1, 1);
 
 	MyCardsPixmapLabel *pixmapLabel_card2b = new MyCardsPixmapLabel(frame8_2_2_2_4);
     	pixmapLabel_card2b->setObjectName(QString::fromUtf8("pixmapLabel_card2b"));
 	pixmapLabel_card2b->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card2b->setMaximumSize(QSize(57, 80));
-	gridLayout15->addWidget(pixmapLabel_card2b, 0, 1, 1, 1);
+	gridLayout24->addWidget(pixmapLabel_card2b, 0, 1, 1, 1);
 
 	MyCardsPixmapLabel *pixmapLabel_card3a = new MyCardsPixmapLabel(frame8_2_2_2_6);
     	pixmapLabel_card3a->setObjectName(QString::fromUtf8("pixmapLabel_card3a"));
 	pixmapLabel_card3a->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card3a->setMaximumSize(QSize(57, 80));
-   	gridLayout21->addWidget(pixmapLabel_card3a, 0, 0, 1, 1);
+   	gridLayout30->addWidget(pixmapLabel_card3a, 0, 0, 1, 1);
 
 	MyCardsPixmapLabel *pixmapLabel_card3b = new MyCardsPixmapLabel(frame8_2_2_2_6);
     	pixmapLabel_card3b->setObjectName(QString::fromUtf8("pixmapLabel_card3b"));
 	pixmapLabel_card3b->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card3b->setMaximumSize(QSize(57, 80));
-	gridLayout21->addWidget(pixmapLabel_card3b, 0, 1, 1, 1);
+	gridLayout30->addWidget(pixmapLabel_card3b, 0, 1, 1, 1);
 
 	MyCardsPixmapLabel *pixmapLabel_card4a = new MyCardsPixmapLabel(frame8_2_2_2_7);
     	pixmapLabel_card4a->setObjectName(QString::fromUtf8("pixmapLabel_card4a"));
 	pixmapLabel_card4a->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card4a->setMaximumSize(QSize(57, 80));
-   	gridLayout27->addWidget(pixmapLabel_card4a, 0, 0, 1, 1);
+   	gridLayout36->addWidget(pixmapLabel_card4a, 0, 0, 1, 1);
 
 	MyCardsPixmapLabel *pixmapLabel_card4b = new MyCardsPixmapLabel(frame8_2_2_2_7);
     	pixmapLabel_card4b->setObjectName(QString::fromUtf8("pixmapLabel_card4b"));
 	pixmapLabel_card4b->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card4b->setMaximumSize(QSize(57, 80));
-	gridLayout27->addWidget(pixmapLabel_card4b, 0, 1, 1, 1);
+	gridLayout36->addWidget(pixmapLabel_card4b, 0, 1, 1, 1);
 
 
 	int i;
@@ -490,10 +490,20 @@ void mainWindowImpl::callSettingsDialog() {
 		//Toolbox verstecken?
 		if (!myConfig->readConfigInt("ShowToolBox", 1)) { groupBox_tools->hide(); }
 		else { groupBox_tools->show(); }
-	
+		
+		//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
+		if (v->getPlayerNickIsChanged()) { 
+			cout << "wurst" << endl;
+			actualHand->getPlayerArray()[1]->setMyName(v->lineEdit_Opponent1Name->text().toStdString());
+			actualHand->getPlayerArray()[2]->setMyName(v->lineEdit_Opponent2Name->text().toStdString());
+			actualHand->getPlayerArray()[3]->setMyName(v->lineEdit_Opponent3Name->text().toStdString());
+			actualHand->getPlayerArray()[4]->setMyName(v->lineEdit_Opponent4Name->text().toStdString());
+			v->setPlayerNickIsChanged(FALSE);
+
+			refreshPlayerName();
+		}
 	}
 }
-
 
 void mainWindowImpl::setGame(Game *g) { actualGame = g; }
 
@@ -647,7 +657,6 @@ void mainWindowImpl::highlightRoundLabel(string tempround) {
 
 }
 
-
 void mainWindowImpl::refreshAll() {
 
 	refreshSet();
@@ -673,7 +682,6 @@ void mainWindowImpl::refreshPot() {
 	textLabel_Pot->setText("<p align='center'><span style='font-size:large; font-weight:bold'>"+QString::number(actualHand->getBoard()->getPot(),10)+" $</p>");
 
 }
-
 
 void mainWindowImpl::dealHoleCards() {
 
@@ -799,7 +807,6 @@ void mainWindowImpl::dealFlopCards6() {
 
 }
 
-
 void mainWindowImpl::dealTurnCards0() { dealTurnCards0Timer->start(dealCardsSpeed*2); }
 
 void mainWindowImpl::dealTurnCards1() {
@@ -826,7 +833,6 @@ void mainWindowImpl::dealTurnCards2() {
 	// sonst normale Variante
 	else { dealTurnCards2Timer->start(dealCardsSpeed); }
 }
-
 
 void mainWindowImpl::dealRiverCards0() { dealRiverCards0Timer->start(dealCardsSpeed*2); }
 
@@ -983,6 +989,7 @@ void mainWindowImpl::myCheck() {
 	//Spiel läuft weiter
 	nextPlayerAnimation();
 }
+
 void mainWindowImpl::myCall(){
 
 	int tempHighestSet = 0;
@@ -1266,53 +1273,54 @@ void mainWindowImpl::postRiverRunAnimation3() {
 			actionLabelArray[i]->setText("<p align='center'><b>- Winner -</b></p>");
 
 			//nicht gewonnene Karten ausblenden
-			int j;
+			if ( actualHand->getActivePlayersCounter() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation", 1)) {
 
-			//index 0 testen
-			bool index0 = TRUE;
-			for(j=0; j<=4; j++) {
-				
-// 				cout <<  (actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] << endl;
-				if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 0 ) { index0 = FALSE; }
-			}
-			if (index0) { holeCardsArray[i][0]->startFadeOut(); /*cout << "Fade Out index0" << endl;*/}
-			//index 1 testen
-			bool index1 = TRUE;
-			for(j=0; j<=4; j++) {
-				if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 1 ) { index1 = FALSE; }
-			}
-			if (index1) { holeCardsArray[i][1]->startFadeOut(); /*cout << "Fade Out index1" << endl;*/}
-			//index 2 testen
-			bool index2 = TRUE;
-			for(j=0; j<=4; j++) {
-				if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 2 ) { index2 = FALSE; }
-			}
-			if (index2) { boardCardsArray[0]->startFadeOut(); /*cout << "Fade Out index2" << endl;*/}
-			//index 3 testen
-			bool index3 = TRUE;
-			for(j=0; j<=4; j++) {
-				if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 3 ) { index3 = FALSE; }
-			}
-			if (index3) { boardCardsArray[1]->startFadeOut(); /*cout << "Fade Out index3" << endl;*/}
-			//index 4 testen
-			bool index4 = TRUE;
-			for(j=0; j<=4; j++) {
-				if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 4 ) { index4 = FALSE; }
-			}
-			if (index4) { boardCardsArray[2]->startFadeOut(); /*cout << "Fade Out index4" << endl;*/}
-			//index 5 testen
-			bool index5 = TRUE;
-			for(j=0; j<=4; j++) {
-				if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 5 ) { index5 = FALSE; }
-			}
-			if (index5) { boardCardsArray[3]->startFadeOut(); /*cout << "Fade Out index5" << endl;*/}
-			//index 6 testen
-			bool index6 = TRUE;
-			for(j=0; j<=4; j++) {
-				if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 6 ) { index6 = FALSE; }
-			}
-			if (index6) { boardCardsArray[4]->startFadeOut(); /*cout << "Fade Out index6" << endl;*/}
-					
+				int j;
+	
+				//index 0 testen --> Karte darf nicht im MyBestHand Position Array drin sein, es darf nicht nur ein Spieler Aktiv sein, die Config fordert die Animation
+				bool index0 = TRUE;
+				for(j=0; j<=4; j++) {			
+	// 				cout <<  (actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] << endl;
+					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 0 ) { index0 = FALSE; }
+				}
+				if (index0) { holeCardsArray[i][0]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index0" << endl;*/}
+				//index 1 testen
+				bool index1 = TRUE;
+				for(j=0; j<=4; j++) {
+					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 1 ) { index1 = FALSE; }
+				}
+				if (index1) { holeCardsArray[i][1]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index1" << endl;*/}
+				//index 2 testen
+				bool index2 = TRUE;
+				for(j=0; j<=4; j++) {
+					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 2 ) { index2 = FALSE; }
+				}
+				if (index2) { boardCardsArray[0]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index2" << endl;*/}
+				//index 3 testen
+				bool index3 = TRUE;
+				for(j=0; j<=4; j++) {
+					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 3 ) { index3 = FALSE; }
+				}
+				if (index3) { boardCardsArray[1]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index3" << endl;*/}
+				//index 4 testen
+				bool index4 = TRUE;
+				for(j=0; j<=4; j++) {
+					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 4 ) { index4 = FALSE; }
+				}
+				if (index4) { boardCardsArray[2]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index4" << endl;*/}
+				//index 5 testen
+				bool index5 = TRUE;
+				for(j=0; j<=4; j++) {
+					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 5 ) { index5 = FALSE; }
+				}
+				if (index5) { boardCardsArray[3]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index5" << endl;*/}
+				//index 6 testen
+				bool index6 = TRUE;
+				for(j=0; j<=4; j++) {
+					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 6 ) { index6 = FALSE; }
+				}
+				if (index6) { boardCardsArray[4]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index6" << endl;*/}
+			}		
 		}
 	}
 	
@@ -1404,7 +1412,6 @@ void mainWindowImpl::postRiverRunAnimation6() {
 	postRiverRunAnimation6Timer->start(newRoundSpeed);
 }
 
-
 void mainWindowImpl::startNewHand() {
 
 if( !breakAfterActualHand){ actualGame->startHand();
@@ -1419,7 +1426,6 @@ else {
 }
 
 void mainWindowImpl::handSwitchRounds() { actualHand->switchRounds(); }
-
 
 void mainWindowImpl::nextRoundCleanGui() {
 
@@ -1453,6 +1459,9 @@ void mainWindowImpl::nextRoundCleanGui() {
 	frame_handLabel->setPalette(tempPalette);
 
 	refreshAll();
+
+	//Wenn Pause zwischen den Hands in der Konfiguration steht den Stop Button drücken!
+	if (myConfig->readConfigInt("PauseBetweenHands", 0)) { pushButton_break->click(); }
 
 }
 
@@ -1492,7 +1501,6 @@ void mainWindowImpl::stopTimer() {
 
 }
 
-
 void mainWindowImpl::userWidgetsBackgroudColor() {
 	
 	
@@ -1514,7 +1522,6 @@ void mainWindowImpl::userWidgetsBackgroudColor() {
 		userWidgetsArray[i]->setPalette(tempPalette);
 	}
 }
-
 
 void mainWindowImpl::setSpeeds() {
 
@@ -1550,7 +1557,6 @@ void mainWindowImpl::paintStartSplash() {
 	mySplash->setWindowFlags(Qt::SplashScreen);
 	mySplash->show();
 }
-
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 

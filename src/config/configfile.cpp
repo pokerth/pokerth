@@ -31,7 +31,7 @@ using namespace std;
 ConfigFile::ConfigFile()
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 1;
+	configRev = 2;
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
@@ -101,6 +101,9 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * confElement4 = new TiXmlElement( "GameSpeed" );
 		config->LinkEndChild( confElement4 );
       		confElement4->SetAttribute("value", 4);
+		TiXmlElement * confElement14 = new TiXmlElement( "PauseBetweenHands" );
+		config->LinkEndChild( confElement14 );
+      		confElement14->SetAttribute("value", 0);		
 		TiXmlElement * confElement5 = new TiXmlElement( "ShowGameSettingsDialogOnNewGame" );
 		config->LinkEndChild( confElement5 );
       		confElement5->SetAttribute("value", 1);		
@@ -125,6 +128,9 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * confElement13 = new TiXmlElement( "ShowIntro" );
 		config->LinkEndChild( confElement13 );
       		confElement13->SetAttribute("value", 1);
+		TiXmlElement * confElement15 = new TiXmlElement( "ShowFadeOutCardsAnimation" );
+		config->LinkEndChild( confElement15 );
+      		confElement15->SetAttribute("value", 1);
 
 		doc.SaveFile( configFileName );
 
