@@ -23,6 +23,7 @@ using namespace std;
 
 LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC) : HandInterface(), myFactory(f), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), allInCondition(0)
 {
+
 	int i, j;
 	CardsValue myCardsValue;
 
@@ -62,7 +63,13 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 			tempPlayerAndBoardArray[j] = cardsArray[2*i+j+5];
 		}
 		playerArray[i]->setMyCards(tempPlayerArray);
-		playerArray[i]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray));
+		playerArray[i]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,playerArray[i]->getMyBestHandPosition()));
+		// myBestHandPosition auf Fehler ueberpruefen
+		for(j=0; j<5; j++) {
+			if((playerArray[i]->getMyBestHandPosition())[i] == -1) {
+				cout << "FEHLER bei myBestHandPosition-Ermittlung!!!" << endl;
+			}
+		}
 	}
 
 	// Karten austeilen

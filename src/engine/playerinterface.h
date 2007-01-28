@@ -63,6 +63,8 @@ public:
 	virtual void setMyCardsValueInt(const int& theValue) =0;
 	virtual int getMyCardsValueInt() const =0;
 
+	virtual int* getMyBestHandPosition() =0;
+
 	virtual void setMyRoundStartCash(const int& theValue) =0;
 	virtual int getMyRoundStartCash() const =0;
 

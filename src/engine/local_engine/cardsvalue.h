@@ -27,8 +27,8 @@ public:
 
     ~CardsValue();
 
-   int holeCardsClass(int one, int two);
-   int cardsValue(int *cards);
+   int holeCardsClass(int, int);
+   int cardsValue(int*, int*);
 
 };
 

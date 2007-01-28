@@ -71,7 +71,7 @@ int CardsValue::holeCardsClass(int one, int two) {
         }
       }
     } break;
-    //König
+    //Kï¿½ig
     case 13: { 
       if((one-1)/13 == (two-1)/13) {
         switch((one-1)%13-(two-1)%13) {
@@ -164,15 +164,16 @@ int CardsValue::holeCardsClass(int one, int two) {
 
 }
 
-int CardsValue::cardsValue(int *cards) {
+int CardsValue::cardsValue(int* cards, int* position) {
 
-int array[7][2];
-	int j1, j2, j3, j4, j5, k1, k2, ktemp[2];
+int array[7][3];
+	int j1, j2, j3, j4, j5, k1, k2, ktemp[3];
 
-	// Kartenwerte umwandeln (z.B. [ 11 (Karo König) -> 0 11 ] oder [ 31 (Pik 7) -> 2 5 ] )
+	// Kartenwerte umwandeln (z.B. [ 11 (Karo Kï¿½ig) -> 0 11 ] oder [ 31 (Pik 7) -> 2 5 ] )
 	for(j1=0; j1<7; j1++) {
 		array[j1][0] = cards[j1]/13;
 		array[j1][1] = cards[j1]%13;
+		array[j1][2] = j1;
 	}
 
 	// Karten nach Farben sortieren: Kreuz - Pik - Herz - Karo
@@ -181,49 +182,76 @@ int array[7][2];
 			if(array[k1][0]<array[k2][0]) {
 				ktemp[0] = array[k1][0];
 				ktemp[1] = array[k1][1];
+				ktemp[2] = array[k1][2];
 				array[k1][0] = array[k2][0];
 				array[k1][1] = array[k2][1];
+				array[k1][2] = array[k2][2];
 				array[k2][0] = ktemp[0];
 				array[k2][1] = ktemp[1];
+				array[k2][2] = ktemp[2];
 			}
 		}
 	}
 
-	// Karten innerhalb der Farben nach der Größe sortieren: Ass - König - Dame - ... - 4 - 3 - 2
+	// Karten innerhalb der Farben nach der Grï¿½e sortieren: Ass - Kï¿½ig - Dame - ... - 4 - 3 - 2
 	for(k1=0; k1<7; k1++) {
 		for(k2=k1+1; k2<7; k2++) {
 			if(array[k1][0]==array[k2][0] && array[k1][1]<array[k2][1]) {
 				ktemp[0] = array[k1][0];
 				ktemp[1] = array[k1][1];
+				ktemp[2] = array[k1][2];
 				array[k1][0] = array[k2][0];
 				array[k1][1] = array[k2][1];
+				array[k1][2] = array[k2][2];
 				array[k2][0] = ktemp[0];
 				array[k2][1] = ktemp[1];
+				array[k2][2] = ktemp[2];
 			}
 		}
 	}
 
-	// Karten auf Blätter testen. Klasseneinteilung absteigend: 9 - Royal Flush, 8 - Straight Flush, ... 2 - Zwei Paare, 1 - Ein Paar, 0 - Nischt
+	// Karten auf Blï¿½ter testen. Klasseneinteilung absteigend: 9 - Royal Flush, 8 - Straight Flush, ... 2 - Zwei Paare, 1 - Ein Paar, 0 - Nischt
 
 	// auf Royal Flush (Klasse 9) und Straight Flush (Klasse 8) testen
 	for(j1=0; j1<3; j1++) {
 		// 5 Karten gleiche Farbe ?
 		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0] && array[j1][0] == array[j1+4][0]) {
-			// zusätzlich in Straßenform ?
+			// zusï¿½zlich in Straï¿½nform ?
 			if(array[j1][1]-1 == array[j1+1][1] && array[j1+1][1]-1 == array[j1+2][1] && array[j1+2][1]-1 == array[j1+3][1] && array[j1+3][1]-1 == array[j1+4][1]) {
 				// mit Ass an der Spitze ?
 				if(array[j1][1] == 12) {
 					// Royal Flush (9*100000000)
+					if(position) {
+						// Position-Array fuellen
+						for(j2=0; j2<5; j2++) {
+							position[j2] = array[j1+j2][2];
+						}
+					}
 					return 900000000;
 				}
-				// sonst nur Straight Flush (8*100000000 + (höchste Straight-Karte)*1000000)
-				else return 800000000+array[j1][1]*1000000;
+				// sonst nur Straight Flush (8*100000000 + (hï¿½hste Straight-Karte)*1000000)
+				else {
+					if(position) {
+						// Position-Array fuellen
+						for(j2=0; j2<5; j2++) {
+							position[j2] = array[j1+j2][2];
+						}
+					}
+					return 800000000+array[j1][1]*1000000;
+				}
 			}
 			else {
 			// Straight Flush Ausnahme: 5-4-3-2-A
 				for(j2=j1+1; j2<7; j2++) {
 					if(array[j1][1]-9==array[j2][1] && array[j2][1]-1==array[j2+1][1] && array[j2+1][1]-1==array[j2+2][1] && array[j2+2][1]-1==array[j2+3][1] && array[j1][0]==array[j2+2][0] && array[j1][0]==array[j2+3][0]) {
-						// Straight Flush mit 5 als höhste Karte -> 8*100000000+3*1000000
+						// Straight Flush mit 5 als hï¿½ste Karte -> 8*100000000+3*1000000
+						if(position) {
+							// Position-Array fuellen
+							position[0] = array[j1][2];
+							for(j3=1; j3<5; j3++) {
+								position[j3] = array[j2+j3][2];
+							}
+						}
 						return 800000000+3*1000000;
 					}
 				}
@@ -234,23 +262,32 @@ int array[7][2];
 	// auf Flush (Klasse 5) testen
 	for(j1=0; j1<3; j1++) {
 		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0] && array[j1][0] == array[j1+4][0]) {
-			// Flush -> 5*10000000 + höhste Flush Karten mit absteigender Wertung
+			// Flush -> 5*10000000 + hï¿½ste Flush Karten mit absteigender Wertung
+			if(position) {
+				// Position-Array fuellen
+				for(j2=0; j2<5; j2++) {
+					position[j2] = array[j1+j2][2];
+				}
+			}
 			return 500000000+array[j1][1]*1000000+array[j1+1][1]*10000+array[j1+2][1]*100+array[j1+3][1]*10+array[j1+4][1];
 		}
 	}
 
 
 
-	// Karten für den Vierling-, Full-House-, Drilling- und Paartest umsortieren
+	// Karten fr den Vierling-, Full-House-, Drilling- und Paartest umsortieren
 	for(k1=0; k1<7; k1++) {
 		for(k2=k1+1; k2<7; k2++) {
 			if(array[k1][1]<array[k2][1]) {
 				ktemp[0] = array[k1][0];
 				ktemp[1] = array[k1][1];
+				ktemp[2] = array[k1][2];
 				array[k1][0] = array[k2][0];
 				array[k1][1] = array[k2][1];
+				array[k1][2] = array[k2][2];
 				array[k2][0] = ktemp[0];
 				array[k2][1] = ktemp[1];
+				array[k2][2] = ktemp[2];
 			}
 		}
 	}
@@ -259,8 +296,25 @@ int array[7][2];
 	for(j1=0; j1<4; j1++) {
 		if(array[j1][1] == array[j1+1][1] && array[j1][1] == array[j1+2][1] && array[j1][1] == array[j1+3][1]) {
 			// Position des Kickers ermitteln und der Blattwertung als dritte Gewichtung hinzuaddieren
-			if(j1==0) return 700000000+array[j1][1]*1000000+array[j1+4][1]*10000;
-			else return 700000000+array[j1][1]*1000000+array[0][1]*10000;
+			if(j1==0) { 
+				if(position) {
+					// Position-Array fuellen
+					for(j2=0; j2<5; j2++) {
+						position[j2] = array[j2][2];
+					}
+				}
+				return 700000000+array[j1][1]*1000000+array[j1+4][1]*10000;
+			}
+			else {
+				if(position) {
+					// Position-Array fuellen
+					for(j2=0; j2<4; j2++) {
+						position[j2] = array[j1+j2][2];
+					}
+					position[4] = array[j1][2];
+				}
+				return 700000000+array[j1][1]*1000000+array[0][1]*10000;
+			}
 		}
 	}
 
@@ -275,12 +329,28 @@ int array[7][2];
 					for(j5=j4+1; j5<7; j5++) {
 						// Straight
 						if((array[j1][1]-1 == array[j2][1] || array[j1][1]-9 == array[j2][1] ) && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1] && array[j4][1]-1 == array[j5][1]) {
-							// höhste Karte der Straight ermitteln
+							if(position) {
+								// Position-Array fuellen
+								position[0] = array[j1][2];
+								position[1] = array[j2][2];
+								position[2] = array[j3][2];
+								position[3] = array[j4][2];
+								position[4] = array[j5][2];
+							}
+							// hï¿½ste Karte der Straight ermitteln
 							if(array[j1][1]-9 == array[j2][1]) return 400000000+array[j2][1]*1000000;
 							else return 400000000+array[j1][1]*1000000;
 						}
 						// Full House
 						if((array[j1][1] == array[j2][1] && array[j1][1] == array[j3][1] && array[j4][1] == array[j5][1]) || (array[j3][1] == array[j4][1] && array[j3][1] == array[j5][1] && array[j1][1] == array[j2][1])) {
+							if(position) {
+								// Position-Array fuellen
+								position[0] = array[j1][2];
+								position[1] = array[j2][2];
+								position[2] = array[j3][2];
+								position[3] = array[j4][2];
+								position[4] = array[j5][2];
+							}
 							// Paar und Drilling des Full House ermitteln ermitteln
 							if(array[j3][1]==array[j1][1]) { drei = array[j1][1]; zwei = array[j4][1]; }
 							else { drei = array[4][1]; zwei = array[j1][1]; }
@@ -296,10 +366,36 @@ int array[7][2];
 	for(j1=0; j1<5; j1++) {
 		if(array[j1][1] == array[j1+1][1] && array[j1][1] == array[j1+2][1]) {
 			// Kicker ermitteln
-			if(j1==0) return 300000000+array[j1][1]*1000000+array[j1+3][1]*10000+array[j1+4][1]*100;
+			if(j1==0) {
+				if(position) {
+					// Position-Array fuellen
+					for(j2=0; j2<5;j2++) {
+						position[j2] = array[j2][2];
+					}
+				}
+				return 300000000+array[j1][1]*1000000+array[j1+3][1]*10000+array[j1+4][1]*100;
+			}
 			else {
-				if(j1==1) return 300000000+array[j1][1]*1000000+array[j1-1][1]*10000+array[j1+3][1]*100;
-				else return 300000000+array[j1][1]*1000000+array[0][1]*10000+array[1][1]*100;
+				if(j1==1) {
+					if(position) {
+						// Position-Array fuellen
+						for(j2=0; j2<5;j2++) {
+							position[j2] = array[j2][2];
+						}
+					}
+					return 300000000+array[j1][1]*1000000+array[j1-1][1]*10000+array[j1+3][1]*100;
+				}
+				else {
+					if(position) {
+						// Position-Array fuellen
+						for(j2=0; j2<3;j2++) {
+							position[j2] = array[j1+j2][2];
+						}
+						position[3] = array[0][2];
+						position[4] = array[1][2];
+					}
+					return 300000000+array[j1][1]*1000000+array[0][1]*10000+array[1][1]*100;
+				}
 			}
 		}
 	}
@@ -310,10 +406,40 @@ int array[7][2];
 			if(array[j1][1] == array[j1+1][1] && array[j2][1] == array[j2+1][1]) {
 				// Kicker ermitteln
 				if(j1==0) {
-					if(j2==2) return 200000000+array[j1][1]*1000000+array[j2][1]*10000+array[j2+2][1]*100;
-					else return 200000000+array[j1][1]*1000000+array[j2][1]*10000+array[j1+2][1]*100;
+					if(j2==2) {
+						if(position) {
+							// Position-Array fuellen
+							position[0] = array[j1][2];
+							position[1] = array[j1+1][2];
+							position[2] = array[j2][2];
+							position[3] = array[j2+1][2];
+							position[4] = array[j2+2][2];	
+						}
+						return 200000000+array[j1][1]*1000000+array[j2][1]*10000+array[j2+2][1]*100;
+					}
+					else {
+						if(position) {
+							// Position-Array fuellen
+							position[0] = array[j1][2];
+							position[1] = array[j1+1][2];
+							position[2] = array[j2][2];
+							position[3] = array[j2+1][2];
+							position[4] = array[j1+2][2];	
+						}
+						return 200000000+array[j1][1]*1000000+array[j2][1]*10000+array[j1+2][1]*100;
+					}
 				}
-				else return 200000000+array[j1][1]*1000000+array[j2][1]*10000+array[0][1]*100;
+				else {
+					if(position) {
+						// Position-Array fuellen
+						position[0] = array[j1][2];
+						position[1] = array[j1+1][2];
+						position[2] = array[j2][2];
+						position[3] = array[j2+1][2];
+						position[4] = array[0][2];	
+					}
+					return 200000000+array[j1][1]*1000000+array[j2][1]*10000+array[0][1]*100;
+				}
 			}
 		}
 	}
@@ -322,14 +448,56 @@ int array[7][2];
 	for(j1=0; j1<6; j1++) {
 		if(array[j1][1] == array[j1+1][1]) {
 			// Kicker ermitteln
-			if(j1==0) return 100000000+array[j1][1]*1000000+array[j1+2][1]*10000+array[j1+3][1]*100+array[j1+4][1];
-			if(j1==1) return 100000000+array[j1][1]*1000000+array[j1-1][1]*10000+array[j1+2][1]*100+array[j1+3][1];
-			if(j1==2) return 100000000+array[j1][1]*1000000+array[j1-2][1]*10000+array[j1-1][1]*100+array[j1+2][1];
-			else return 100000000+array[j1][1]*1000000+array[0][1]*10000+array[1][1]*100+array[2][1];
+			if(j1==0) {
+				if(position) {
+					// Position-Array fuellen
+					for(j2=0; j2<5; j2++) {
+						position[j2] = array[j2][2];
+					}
+				}
+				return 100000000+array[j1][1]*1000000+array[j1+2][1]*10000+array[j1+3][1]*100+array[j1+4][1];
+			}
+			if(j1==1) {
+				if(position) {
+					// Position-Array fuellen
+					for(j2=0; j2<5; j2++) {
+						position[j2] = array[j2][2];
+					}
+				}
+				return 100000000+array[j1][1]*1000000+array[j1-1][1]*10000+array[j1+2][1]*100+array[j1+3][1];
+			}
+			if(j1==2) {
+				if(position) {
+					// Position-Array fuellen
+					for(j2=0; j2<5; j2++) {
+						position[j2] = array[j2][2];
+					}
+				}
+				return 100000000+array[j1][1]*1000000+array[j1-2][1]*10000+array[j1-1][1]*100+array[j1+2][1];
+			}
+			else {
+				if(position) {
+					// Position-Array fuellen
+					for(j2=0; j2<2; j2++) {
+						position[j2] = array[j1+j2][2];
+					}
+					position[2] = array[0][2];
+					position[3] = array[1][2];
+					position[4] = array[2][2];
+				}
+				return 100000000+array[j1][1]*1000000+array[0][1]*10000+array[1][1]*100+array[2][1];
+			}
 		}
 	}
 
 	// Highest Card (Klasse 0) + Kicker
+	if(position) {
+		// Position-Array fuellen
+		for(j2=0; j2<5; j2++) {
+			position[j2] = array[j2][2];
+		}
+	}
 	return array[0][1]*1000000+array[1][1]*10000+array[2][1]*100+array[3][1]*10+array[4][1];
 } 
+
 

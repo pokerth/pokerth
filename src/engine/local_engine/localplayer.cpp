@@ -25,6 +25,12 @@ using namespace std;
 
 LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, int sC, bool aS, int mB) : PlayerInterface(), actualHand(0), actualBoard(b), myCardsValue(0), myID(id), myName(name), myDude(0), myCardsValueInt(0), myCash(sC), mySet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), myAverageSets(0)
 {
+	// myBestHandPosition mit -1 initialisieren
+	int i;
+	for(i=0; i<5; i++) {
+		myBestHandPosition[i] = -1;
+	}
+
 
 	Tools myTool;
 	// Dude zuweisen
@@ -314,8 +320,8 @@ void LocalPlayer::flopEngine() {
 						tempOpponentCardsArray[6] = l;
 						tempMyCardsArray[5] = k;
 						tempMyCardsArray[6] = l;
-						tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray);
-						tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray);
+						tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray,0);
+						tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray,0);
 
 						if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
 
@@ -484,8 +490,8 @@ void LocalPlayer::turnEngine() {
 					tempOpponentCardsArray[1] = j;
 					tempOpponentCardsArray[6] = k;
 					tempMyCardsArray[6] = k;
-					tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray);
-					tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray);
+					tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray,0);
+					tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray,0);
 
 					if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
 				}
@@ -650,8 +656,8 @@ void LocalPlayer::riverEngine() {
 
 				tempOpponentCardsArray[0] = i;
 				tempOpponentCardsArray[1] = j;
-				tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray);
-				tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray);
+				tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray,0);
+				tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray,0);
 
 				if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
 			}

@@ -74,6 +74,8 @@ public:
 	void setMyCardsValueInt(const int& theValue) { myCardsValueInt = theValue;}
 	int getMyCardsValueInt() const { return myCardsValueInt; }
 
+	int* getMyBestHandPosition() { return myBestHandPosition; }
+
 	void setMyRoundStartCash(const int& theValue) { myRoundStartCash = theValue;}
 	int getMyRoundStartCash() const { return myRoundStartCash; }
 
@@ -86,6 +88,7 @@ public:
 	void flopEngine();
 	void turnEngine();
 	void riverEngine();
+	
 	
 
 	
@@ -106,6 +109,7 @@ private:
 	// Laufvariablen
 	int myCards[2];
 	int myCardsValueInt;
+	int myBestHandPosition[5];
 	int myCash;
 	int mySet;
 	int myAction; // 0 = none, 1 = fold, 2 = check, 3 = call, 4 = bet, 5 = raise, 6 = allin
