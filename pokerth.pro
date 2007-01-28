@@ -40,7 +40,8 @@ HEADERS += tinystr.h \
            riverinterface.h \
            enginefactory.h \
            localenginefactory.h \
-           startsplash.h 
+           startsplash.h \
+           mycardspixmaplabel.h 
 SOURCES += pokerth.cpp \
            tinystr.cpp \
            tinyxml.cpp \
@@ -74,12 +75,13 @@ SOURCES += pokerth.cpp \
            riverinterface.cpp \
            enginefactory.cpp \
            localenginefactory.cpp \
-           startsplash.cpp 
+           startsplash.cpp \
+           mycardspixmaplabel.cpp 
 TEMPLATE = vcapp
 RESOURCES = src/gui/qt/deck.qrc
 TEMPLATE = app
-DEPENDPATH += . src uics src/config src/config/tinyxml src/gui src/gui/qt src/gui/qt/startsplash src/engine src/engine/local_engine src/engine/network_engine
-INCLUDEPATH += . src uics src/config src/config/tinyxml src/gui src/gui/qt src/gui/qt/startsplash src/engine src/engine/local_engine src/engine/network_engine
+DEPENDPATH += . src uics src/config src/config/tinyxml src/gui src/gui/qt src/gui/qt/startsplash src/gui/qt/cards src/engine src/engine/local_engine src/engine/network_engine
+INCLUDEPATH += . src uics src/config src/config/tinyxml src/gui src/gui/qt src/gui/qt/startsplash src/gui/qt/cards src/engine src/engine/local_engine src/engine/network_engine
 CONFIG += qt release
 UI_DIR = uics
 TARGET = bin/pokerth

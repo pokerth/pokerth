@@ -36,6 +36,8 @@ class BoardInterface;
 class HandInterface;
 class PlayerInterface;
 
+class MyCardsPixmapLabel;
+
 class QColor;
 
 
@@ -201,8 +203,8 @@ private:
 	QLabel *setLabelArray[5];
 	QLabel *actionLabelArray[5];
 	QGroupBox *groupBoxArray[5];
-	QLabel *boardCardsArray[5];
-	QLabel *holeCardsArray[5][2];
+	MyCardsPixmapLabel *boardCardsArray[5];
+	MyCardsPixmapLabel *holeCardsArray[5][2];
 
 	int maxQuantityPlayers;
 	
