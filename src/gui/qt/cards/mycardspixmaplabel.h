@@ -25,18 +25,27 @@ public:
 
     ~MyCardsPixmapLabel();
 
-	qreal frameOpacity;
-	qreal opacityRaiseIntervall;
-	QTimer *timer;
+	void setIsFlipside(bool theValue){ isFlipside = theValue;}
+	bool getIsFlipside() const{ return isFlipside;}
 
-	bool fadeOutAction;
 	void startFadeOut(int);
+	
 	void paintEvent(QPaintEvent * event);
+
 
 public slots:
 	
+	void setPixmap ( const QPixmap &, const bool );
 	void nextFadeOutFrame();
 
+private: 
+
+	qreal frameOpacity;
+	qreal opacityRaiseIntervall;
+	QTimer *timer;
+	
+	bool isFlipside;
+	bool fadeOutAction;
 };
 
 #endif

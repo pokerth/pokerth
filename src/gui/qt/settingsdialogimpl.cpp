@@ -55,6 +55,10 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
 	checkBox_showFadeOutCardsAnimation->setChecked(myConfig.readConfigInt("ShowFadeOutCardsAnimation", 1));
 	radioButton_flipsideTux->setChecked(myConfig.readConfigInt("FlipsideTux", 1));
 	radioButton_flipsideOwn->setChecked(myConfig.readConfigInt("FlipsideOwn", 0));
+	if(radioButton_flipsideOwn->isChecked()) { 
+		lineEdit_OwnFlipsideFilename->setEnabled(TRUE);
+		pushButton_openFlipsidePicture->setEnabled(TRUE);
+	}
 	lineEdit_OwnFlipsideFilename->setText(QString::fromStdString(myConfig.readConfigString("FlipsideOwnFile", "")));
 	
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
@@ -104,7 +108,7 @@ void settingsDialogImpl::setFlipsidePicFileName()
  {
  	QString fileName = QFileDialog::getOpenFileName(this, tr("Select your Flipside Picture"),
                                                 QDir::homePath(),
-                                                tr("Images (*.png *.xpm *.jpg)"));
+                                                tr("Images (*.png *.xpm)"));
 
      if (!fileName.isEmpty())
          lineEdit_OwnFlipsideFilename->setText(fileName);

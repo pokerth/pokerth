@@ -20,6 +20,8 @@ MyCardsPixmapLabel::MyCardsPixmapLabel(QFrame* parent)
 	frameOpacity = 0.0;
 	opacityRaiseIntervall = 0.01;
 
+	isFlipside = FALSE;
+
 	timer = new QTimer;
 	connect(timer, SIGNAL(timeout()), this, SLOT(nextFadeOutFrame()));
 	
@@ -55,6 +57,13 @@ void MyCardsPixmapLabel::nextFadeOutFrame() {
 		timer->stop(); 
 		fadeOutAction = FALSE;
 	}
+
+}
+
+void MyCardsPixmapLabel::setPixmap(const QPixmap &pic, const bool flipside) {
+	
+	QLabel::setPixmap(pic);
+	isFlipside = flipside;
 
 }
 

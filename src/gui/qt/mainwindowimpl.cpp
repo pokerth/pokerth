@@ -510,8 +510,21 @@ void mainWindowImpl::callSettingsDialog() {
 		flipside = new QPixmap(tmpFlipside.scaled(QSize(57, 80)));
 		}
 		else { flipside->load(":/othercards/cards/othercards/flipside.png"); }
-		pixmapLabel_card1b->repaint();
 
+		int i,j;
+
+		for (i=0; i<=4; i++ ) { 
+			if(boardCardsArray[i]->getIsFlipside()) {
+				boardCardsArray[i]->setPixmap(*flipside, TRUE);
+			}
+		}
+		for (i=1; i<=4; i++ ) { 
+			for ( j=0; j<=1; j++ ) {
+				if (holeCardsArray[i][j]->getIsFlipside()) {
+					holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
+				}
+			}
+		}
 	}
 }
 
@@ -571,8 +584,8 @@ void mainWindowImpl::refreshAction() {
 			groupBoxArray[i]->setDisabled(TRUE);
 			QPixmap onePix(":/graphics/cards/1px.png");
 			if(i != 0) {
-				holeCardsArray[i][0]->setPixmap(onePix);
-				holeCardsArray[i][1]->setPixmap(onePix);
+				holeCardsArray[i][0]->setPixmap(onePix, FALSE);
+				holeCardsArray[i][1]->setPixmap(onePix, FALSE);
 			}
 			
 			QColor c(199,199,199);	
@@ -709,15 +722,15 @@ void mainWindowImpl::dealHoleCards() {
 			if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 				if (debugMode) {
 					tempCardsPixmapArray[j].load(":/othercards/cards/othercards/"+QString::number(tempCardsIntArray[j], 10)+".png");
-					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j]);
+					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
 					
 				} 
-				else holeCardsArray[i][j]->setPixmap(*flipside);
+				else holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
 
 			}
 			else {
 				
-				holeCardsArray[i][j]->setPixmap(onePix);
+				holeCardsArray[i][j]->setPixmap(onePix, FALSE);
 // 				holeCardsArray[i][j]->repaint();
 			}
 	
@@ -732,12 +745,12 @@ void mainWindowImpl::dealHoleCards() {
 		if(actualHand->getPlayerArray()[0]->getMyActiveStatus()) { 
 			
 			tempCardsPixmapArray[i].load(":/mycards/cards/mycards/"+QString::number(tempCardsIntArray[i], 10)+".png");
-			holeCardsArray[0][i]->setPixmap(tempCardsPixmapArray[i]);
+			holeCardsArray[0][i]->setPixmap(tempCardsPixmapArray[i], FALSE);
 						
 		}
 		else {
 				
-			holeCardsArray[0][i]->setPixmap(onePix);
+			holeCardsArray[0][i]->setPixmap(onePix, FALSE);
 // 			holeCardsArray[i][j]->repaint();
 		}
 	}
@@ -750,14 +763,14 @@ void mainWindowImpl::dealFlopCards0() {	dealFlopCards0Timer->start(dealCardsSpee
 
 void mainWindowImpl::dealFlopCards1() {
 
-	boardCardsArray[0]->setPixmap(*flipside);
+	boardCardsArray[0]->setPixmap(*flipside, TRUE);
 
 	dealFlopCards1Timer->start(dealCardsSpeed);
 }
 
 void mainWindowImpl::dealFlopCards2() {
 
-	boardCardsArray[1]->setPixmap(*flipside);
+	boardCardsArray[1]->setPixmap(*flipside, TRUE);
 
 	dealFlopCards2Timer->start(dealCardsSpeed);
 
@@ -766,7 +779,7 @@ void mainWindowImpl::dealFlopCards2() {
 void mainWindowImpl::dealFlopCards3() {
 
 	
-	boardCardsArray[2]->setPixmap(*flipside);
+	boardCardsArray[2]->setPixmap(*flipside, TRUE);
 
 	dealFlopCards3Timer->start(dealCardsSpeed);
 
@@ -779,7 +792,7 @@ void mainWindowImpl::dealFlopCards4() {
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
 	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[0], 10)+".png");
 	QPixmap card(tempCardsPixmap);
-	boardCardsArray[0]->setPixmap(card);
+	boardCardsArray[0]->setPixmap(card, FALSE);
 
 	dealFlopCards4Timer->start(dealCardsSpeed);
 }
@@ -791,7 +804,7 @@ void mainWindowImpl::dealFlopCards5() {
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
 	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[1], 10)+".png");
 	QPixmap card(tempCardsPixmap);
-	boardCardsArray[1]->setPixmap(card);
+	boardCardsArray[1]->setPixmap(card, FALSE);
 
 	dealFlopCards5Timer->start(dealCardsSpeed);
 
@@ -804,7 +817,7 @@ void mainWindowImpl::dealFlopCards6() {
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
 	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[2], 10)+".png");
 	QPixmap card(tempCardsPixmap);
-	boardCardsArray[2]->setPixmap(card);
+	boardCardsArray[2]->setPixmap(card, FALSE);
 
 	// stable
 	// wenn alle All In
@@ -818,7 +831,7 @@ void mainWindowImpl::dealTurnCards0() { dealTurnCards0Timer->start(dealCardsSpee
 
 void mainWindowImpl::dealTurnCards1() {
 
-	boardCardsArray[3]->setPixmap(*flipside);
+	boardCardsArray[3]->setPixmap(*flipside, TRUE);
 	dealTurnCards1Timer->start(dealCardsSpeed);
 
 }
@@ -830,7 +843,7 @@ void mainWindowImpl::dealTurnCards2() {
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
 	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[3], 10)+".png");
 	QPixmap card(tempCardsPixmap);
-	boardCardsArray[3]->setPixmap(card);
+	boardCardsArray[3]->setPixmap(card, FALSE);
 
 	// stable
 	// wenn alle All In
@@ -844,7 +857,7 @@ void mainWindowImpl::dealRiverCards0() { dealRiverCards0Timer->start(dealCardsSp
 
 void mainWindowImpl::dealRiverCards1() {
 
-	boardCardsArray[4]->setPixmap(*flipside);
+	boardCardsArray[4]->setPixmap(*flipside, TRUE);
 // 	QTimer::singleShot(dealCardsSpeed, this, SLOT( dealRiverCards2() ));
 	dealRiverCards1Timer->start(dealCardsSpeed);
 
@@ -857,7 +870,7 @@ void mainWindowImpl::dealRiverCards2() {
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
 	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[4], 10)+".png");
 	QPixmap card(tempCardsPixmap);
-	boardCardsArray[4]->setPixmap(card);
+	boardCardsArray[4]->setPixmap(card, FALSE);
 
 
 	// stable
@@ -1253,7 +1266,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
 					
 					tempCardsPixmapArray[j].load(":/othercards/cards/othercards/"+QString::number(tempCardsIntArray[j], 10)+".png");
-					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j]);
+					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
 					
 				}	
 			}
@@ -1438,7 +1451,7 @@ void mainWindowImpl::nextRoundCleanGui() {
 
 	// GUI bereinigen
 	QPixmap onePix(":/graphics/cards/1px.png");
-	for (i=0; i<5; i++ ) { boardCardsArray[i]->setPixmap(onePix); }
+	for (i=0; i<5; i++ ) { boardCardsArray[i]->setPixmap(onePix, FALSE); }
 		
 	QColor c(0,0,0);
 	for(i=0; i<maxQuantityPlayers; i++) {
