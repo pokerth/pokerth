@@ -29,6 +29,7 @@ public:
 	bool getIsFlipside() const{ return isFlipside;}
 
 	void startFadeOut(int);
+	void startFlipCards(int);
 	
 	void paintEvent(QPaintEvent * event);
 
@@ -37,13 +38,15 @@ public slots:
 	
 	void setPixmap ( const QPixmap &, const bool );
 	void nextFadeOutFrame();
+	void nextFlipCardsFrame();
 
 private: 
 
 	qreal frameOpacity;
 	qreal opacityRaiseIntervall;
-	QTimer *timer;
-	
+	QTimer *fadeOutTimer;
+	QTimer *flipCardsTimer;	
+
 	bool isFlipside;
 	bool fadeOutAction;
 };

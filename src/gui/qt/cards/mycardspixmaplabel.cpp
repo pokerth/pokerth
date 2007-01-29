@@ -22,7 +22,7 @@ MyCardsPixmapLabel::MyCardsPixmapLabel(QFrame* parent)
 
 	isFlipside = FALSE;
 
-	timer = new QTimer;
+	fadeOutTimer = new QTimer;
 	connect(timer, SIGNAL(timeout()), this, SLOT(nextFadeOutFrame()));
 	
 }
@@ -41,7 +41,7 @@ void MyCardsPixmapLabel::startFadeOut(int speed) {
 	if(speed != 11) {
 		fadeOutAction = TRUE;
 		frameOpacity = 0.0;
-		timer->start(40);
+		fadeOutTimer->start(40);
 	} 
 	
 }
@@ -54,9 +54,36 @@ void MyCardsPixmapLabel::nextFadeOutFrame() {
      		update();
 	}
 	else { 
-		timer->stop(); 
+		fadeOutTimer->stop(); 
 		fadeOutAction = FALSE;
 	}
+
+}
+
+void MyCardsPixmapLabel::startFlipCards(int speed) { 
+	
+// 	if(speed <= 4) { opacityRaiseIntervall = 0.01; }
+// 	if(speed > 4 && speed <= 7) { opacityRaiseIntervall = 0.02; }
+// 	if(speed > 7 && speed <= 10) { opacityRaiseIntervall = 0.04; }
+// 
+// 	if(speed != 11) {
+// 		fadeOutAction = TRUE;
+// 		frameOpacity = 0.0;
+// 		timer->start(40);
+// 	} 
+	
+}
+
+void MyCardsPixmapLabel::nextFlipCardsFrame() {
+
+// 	if (frameOpacity < 0.65) {
+// 		frameOpacity += opacityRaiseIntervall;
+//      		update();
+// 	}
+// 	else { 
+// 		timer->stop(); 
+// 		fadeOutAction = FALSE;
+// 	}
 
 }
 
