@@ -136,7 +136,9 @@ public slots:
 	void postRiverRunAnimation3();	
 	void postRiverRunAnimation4();	
 	void postRiverRunAnimation5();	
-	void postRiverRunAnimation6();	
+	void postRiverRunAnimation6();
+
+	void flipHolecardsAllIn();
 
 	void handSwitchRounds();
 

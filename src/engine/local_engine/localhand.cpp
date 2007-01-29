@@ -222,6 +222,7 @@ void LocalHand::switchRounds() {
 		myBoard->collectPot();	
 		myGui->refreshPot();
 		myGui->refreshSet();
+		myGui->flipHolecardsAllIn();
 		actualRound++;
 	}
 

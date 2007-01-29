@@ -77,6 +77,8 @@ public:
 	void postRiverAnimation1() const;
 	void postRiverRunAnimation1() const;
 
+	void flipHolecardsAllIn() const;
+
 	void nextRoundCleanGui() const;
 
 	void meInAction() const;

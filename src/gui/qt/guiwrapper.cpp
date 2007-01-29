@@ -80,6 +80,8 @@ void GuiWrapper::riverAnimation2() const { myW->riverAnimation2(); }
 void GuiWrapper::postRiverAnimation1() const { myW->postRiverAnimation1(); }
 void GuiWrapper::postRiverRunAnimation1() const { myW->postRiverRunAnimation1(); }
 
+void GuiWrapper::flipHolecardsAllIn() const { myW->flipHolecardsAllIn(); }
+
 void GuiWrapper::nextRoundCleanGui() const { myW->nextRoundCleanGui(); }
 
 void GuiWrapper::meInAction() const { myW->meInAction(); }

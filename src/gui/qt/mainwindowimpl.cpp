@@ -1430,6 +1430,44 @@ void mainWindowImpl::postRiverRunAnimation6() {
 	postRiverRunAnimation6Timer->start(newRoundSpeed);
 }
 
+
+void mainWindowImpl::flipHolecardsAllIn() {
+
+	int i;
+	
+	//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
+	int activePlayersCounter = 0;
+	for (i=0; i<maxQuantityPlayers; i++) { 
+		if (actualHand->getPlayerArray()[i]->getMyAction() != 1 && actualHand->getPlayerArray()[i]->getMyActiveStatus() == 1) activePlayersCounter++;
+	}
+	
+	if(activePlayersCounter!=1) { 
+			
+		//Karten der aktiven Spieler umdrehen
+		QPixmap onePix(":/graphics/cards/1px.png");
+		
+		//TempArrays
+		QPixmap tempCardsPixmapArray[2];
+		int tempCardsIntArray[2];
+		
+		int i, j;
+		for(i=1; i<maxQuantityPlayers; i++) {
+			actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
+			for(j=0; j<2; j++) {
+				if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
+					
+					tempCardsPixmapArray[j].load(":/othercards/cards/othercards/"+QString::number(tempCardsIntArray[j], 10)+".png");
+					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
+		
+				}	
+			}
+		}
+	}
+
+}
+
+
+
 void mainWindowImpl::startNewHand() {
 
 if( !breakAfterActualHand){ actualGame->startHand();

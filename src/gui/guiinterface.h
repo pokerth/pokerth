@@ -79,6 +79,7 @@ public:
 	virtual void postRiverAnimation1() const=0;
 	virtual void postRiverRunAnimation1() const=0;
 // 	virtual void postRiverAnimation2() const=0;
+	virtual void flipHolecardsAllIn() const=0;
 
 // 	virtual void handSwitchRounds() const=0;
 // 
