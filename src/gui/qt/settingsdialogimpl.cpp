@@ -108,7 +108,7 @@ void settingsDialogImpl::setFlipsidePicFileName()
  {
  	QString fileName = QFileDialog::getOpenFileName(this, tr("Select your Flipside Picture"),
                                                 QDir::homePath(),
-                                                tr("Images (*.png *.xpm)"));
+                                                tr("Images (*.bmp *.png *.xpm)"));
 
      if (!fileName.isEmpty())
          lineEdit_OwnFlipsideFilename->setText(fileName);

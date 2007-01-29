@@ -3992,7 +3992,7 @@
      <x>0</x>
      <y>0</y>
      <width>874</width>
-     <height>30</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSpiel" >
@@ -4061,8 +4061,24 @@
      <y>616</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>717</x>
-     <y>614</y>
+     <x>716</x>
+     <y>627</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_set</sender>
+   <signal>editingFinished()</signal>
+   <receiver>pushButton_set</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>572</x>
+     <y>498</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>533</x>
+     <y>501</y>
     </hint>
    </hints>
   </connection>

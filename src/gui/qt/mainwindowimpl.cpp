@@ -1422,14 +1422,12 @@ void mainWindowImpl::postRiverRunAnimation6() {
 	if (playersPositiveCashCounter==1) {
 		
 		callNewGameDialog();	
+		//Bei Cancel nichts machen!!!
+		return;
 	} 
-	//sonst 
-	else {
-
-	}
+	
 	postRiverRunAnimation6Timer->start(newRoundSpeed);
 }
-
 
 void mainWindowImpl::flipHolecardsAllIn() {
 
@@ -1465,8 +1463,6 @@ void mainWindowImpl::flipHolecardsAllIn() {
 	}
 
 }
-
-
 
 void mainWindowImpl::startNewHand() {
 
