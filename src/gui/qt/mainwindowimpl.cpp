@@ -1617,7 +1617,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
 	if (event->key() == 16777265) { switchToolBox(); }
 	if (event->key() == 65) {  
-		paintStartSplash();
+		pixmapLabel_card1a->startFlipCards(4, QPixmap(":/othercards/cards/othercards/44.png"), flipside);
 		
 	}
 	if (event->key() == 66) {  
