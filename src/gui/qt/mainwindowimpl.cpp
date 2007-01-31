@@ -57,12 +57,12 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	QFont tmpFont("Nimbus Sans L",9);
 	QApplication::setFont(tmpFont);
 
-	// Programmverzeichnis erstellen 
-	QDir progDir1;
-	QDir progDir2;
-	progDir1.setPath(QDir::home().absPath()+"/.pokerth/");
-	
-	if ( !progDir1.exists() ) { progDir1.mkdir(progDir1.absPath()); }
+// 	// Programmverzeichnis erstellen 
+// 	QDir progDir1;
+// 	QDir progDir2;
+// 	progDir1.setPath(QDir::home().absPath()+"/.pokerth/");
+// 	
+// 	if ( !progDir1.exists() ) { progDir1.mkdir(progDir1.absPath()); }
 
 	myConfig = new ConfigFile;
 

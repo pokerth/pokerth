@@ -1349,17 +1349,11 @@
             <number>6</number>
            </property>
            <item>
-            <widget class="Q3Frame" name="frame57" >
-             <property name="minimumSize" >
-              <size>
-               <width>55</width>
-               <height>16</height>
-              </size>
-             </property>
+            <widget class="QFrame" name="frame57" >
              <property name="maximumSize" >
               <size>
-               <width>55</width>
-               <height>16777215</height>
+               <width>16777215</width>
+               <height>29</height>
               </size>
              </property>
              <property name="frameShape" >
@@ -1370,16 +1364,13 @@
              </property>
              <layout class="QGridLayout" >
               <property name="margin" >
-               <number>5</number>
+               <number>9</number>
               </property>
               <property name="spacing" >
-               <number>0</number>
+               <number>6</number>
               </property>
               <item row="0" column="0" >
                <widget class="QLabel" name="textLabel_Button0" >
-                <property name="text" >
-                 <string/>
-                </property>
                 <property name="alignment" >
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -1390,6 +1381,12 @@
            </item>
            <item>
             <widget class="QFrame" name="frame_10" >
+             <property name="maximumSize" >
+              <size>
+               <width>16777215</width>
+               <height>29</height>
+              </size>
+             </property>
              <property name="frameShape" >
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -1403,7 +1400,7 @@
               <property name="spacing" >
                <number>0</number>
               </property>
-              <item row="0" column="0" >
+              <item row="0" column="0" colspan="2" >
                <widget class="QLabel" name="textLabel_Status0" >
                 <property name="text" >
                  <string/>
@@ -1417,9 +1414,12 @@
             </widget>
            </item>
            <item>
-            <widget class="Q3Frame" name="frame_Set0" >
-             <property name="autoFillBackground" >
-              <bool>true</bool>
+            <widget class="QFrame" name="frame_Set0" >
+             <property name="maximumSize" >
+              <size>
+               <width>16777215</width>
+               <height>29</height>
+              </size>
              </property>
              <property name="frameShape" >
               <enum>QFrame::StyledPanel</enum>
@@ -1429,16 +1429,13 @@
              </property>
              <layout class="QGridLayout" >
               <property name="margin" >
-               <number>3</number>
+               <number>9</number>
               </property>
               <property name="spacing" >
-               <number>0</number>
+               <number>6</number>
               </property>
               <item row="0" column="0" >
                <widget class="QLabel" name="textLabel_Set0" >
-                <property name="text" >
-                 <string/>
-                </property>
                 <property name="alignment" >
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -4028,14 +4025,6 @@
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Q3Frame</class>
-   <extends>QFrame</extends>
-   <header>Qt3Support/Q3Frame</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>pushButton_raise</tabstop>
   <tabstop>pushButton_bet</tabstop>
