@@ -1364,10 +1364,10 @@
              </property>
              <layout class="QGridLayout" >
               <property name="margin" >
-               <number>9</number>
+               <number>0</number>
               </property>
               <property name="spacing" >
-               <number>6</number>
+               <number>0</number>
               </property>
               <item row="0" column="0" >
                <widget class="QLabel" name="textLabel_Button0" >
@@ -1429,10 +1429,10 @@
              </property>
              <layout class="QGridLayout" >
               <property name="margin" >
-               <number>9</number>
+               <number>0</number>
               </property>
               <property name="spacing" >
-               <number>6</number>
+               <number>0</number>
               </property>
               <item row="0" column="0" >
                <widget class="QLabel" name="textLabel_Set0" >
