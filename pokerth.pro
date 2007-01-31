@@ -17,7 +17,7 @@ HEADERS += tinystr.h \
            aboutpokerthimpl.h \
            settingsdialogimpl.h \
            configfile.h \
-           logwidgetimpl.h \
+           log.h \
            guiinterface.h \
            guiwrapper.h \
            session.h \
@@ -52,7 +52,7 @@ SOURCES += pokerth.cpp \
            aboutpokerthimpl.cpp \
            settingsdialogimpl.cpp \
            configfile.cpp \
-           logwidgetimpl.cpp \
+           log.cpp \
            guiinterface.cpp \
            guiwrapper.cpp \
            session.cpp \
@@ -87,4 +87,4 @@ UI_DIR = uics
 TARGET = bin/pokerth
 MOC_DIR = mocs
 OBJECTS_DIR = obj
-QT += qt3support
+QT += 
