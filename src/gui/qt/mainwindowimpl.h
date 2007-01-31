@@ -29,7 +29,7 @@
 
 class Game;
 class Session;
-class LogWidgetImpl;
+class Log;
 class ConfigFile;
 
 class BoardInterface;
@@ -49,7 +49,7 @@ public:
 	void setGame(Game*);
 	void setHand(HandInterface*);
 	void setSession(Session*);
-	void setLogWidgetImpl(LogWidgetImpl*);
+	void setLog(Log*);
 
 	int getMaxQuantityPlayers() const { return maxQuantityPlayers; }
 
@@ -161,10 +161,8 @@ private:
 	Game *actualGame;
 	HandInterface *actualHand;
 	Session *mySession;
-               
+	Log *myLog;
 	ConfigFile *myConfig;
-
-	LogWidgetImpl *myLogWidget;
 
 	//MyPixmapCardsLabel
 	MyCardsPixmapLabel *pixmapLabel_cardBoard0;

@@ -22,7 +22,7 @@
 
 #include <guiinterface.h>
 
-#include "logwidgetimpl.h"
+#include "log.h"
 #include "mainwindowimpl.h"
 #include "configfile.h"
 
@@ -87,7 +87,7 @@ public:
 
 private: 
 	
-	LogWidgetImpl *myLogWidget;
+	Log *myLog;
 	mainWindowImpl *myW;
 	ConfigFile *myConfig;
 
