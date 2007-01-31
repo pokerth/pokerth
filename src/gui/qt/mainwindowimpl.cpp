@@ -33,7 +33,7 @@
 #include "game.h"
 #include "session.h"
 
-#include "log.h"
+#include "logwidgetimpl.h"
 #include "configfile.h"
 
 #define FORMATLEFT(X) "<p align='center'>(X)"
@@ -537,7 +537,7 @@ void mainWindowImpl::setHand(HandInterface* br) { actualHand = br; }
 
 void mainWindowImpl::setSession(Session* s) { mySession = s; }
 
-void mainWindowImpl::setLog(Log* l) { myLog = l; }
+void mainWindowImpl::setLogWidgetImpl(LogWidgetImpl* l) { myLogWidget = l; }
 
 //refresh-Funktionen
 void mainWindowImpl::refreshSet() {
@@ -1027,7 +1027,7 @@ void mainWindowImpl::myFold(){
 	actualHand->getPlayerArray()[0]->setMyTurn(0);
 
 	//Action in LogWindow
-	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
+	myLogWidget->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 	
@@ -1041,7 +1041,7 @@ void mainWindowImpl::myCheck() {
 	actualHand->getPlayerArray()[0]->setMyTurn(0);
 
 	//Action in LogWindow
-	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
+	myLogWidget->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 	
@@ -1081,7 +1081,7 @@ void mainWindowImpl::myCall(){
 	refreshPot();
 
 	//Action in LogWindow
-	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
+	myLogWidget->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 
@@ -1184,7 +1184,7 @@ void mainWindowImpl::mySet(){
 	refreshPot();
 
 	//Action in LogWindow
-	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
+	myLogWidget->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 
@@ -1217,7 +1217,7 @@ void mainWindowImpl::myAllIn(){
 	refreshPot();
 
 	//Action in LogWindow
-	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
+	myLogWidget->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 	
 	disableMyButtons();
 
@@ -1725,7 +1725,7 @@ void mainWindowImpl::paintStartSplash() {
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
-	cout << event->key() << endl;
+// 	cout << event->key() << endl;
 	
 	if (event->key() == 16777220) { if(spinBox_set->hasFocus()) pushButton_set->click(); } //ENTER
 	if (event->key() == 16777265) { switchToolBox(); } //F2

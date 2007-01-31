@@ -140,6 +140,7 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event) {
 		QPainter painter(this);
 // 		painter.setPen(QColor(74,131,83));
 		painter.setBrush(QColor(74,131,83));
+// 		painter.setBrush(palette().color(QPalette::Background));
 	//  	painter.setBrush(QColor(0,0,0));
 	
 		painter.setOpacity(frameOpacity);

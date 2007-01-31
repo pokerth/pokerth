@@ -17,31 +17,49 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef LOG_H
-#define LOG_H
+#include "logwidgetimpl.h"
 
-#include <string>
-#include <iostream>
-#include <QtCore>
+#include "mainwindowimpl.h"
 
+using namespace std;
 
-
-class mainWindowImpl;
-
-class Log{
-public:
-    Log(mainWindowImpl*);
-
-    ~Log();
-
+LogWidgetImpl::LogWidgetImpl(mainWindowImpl* w) : myW(w)
+{
+	myW->setLogWidgetImpl(this);
 	
-	void showPlayerActionLogMsg(std::string playName, int action, int setValue) const;
+}
+
+LogWidgetImpl::~LogWidgetImpl()
+{
+}
+
+void LogWidgetImpl::showPlayerActionLogMsg(string playerName, int action, int setValue) const {
+	
+	QString msg;
+	msg = QString::fromStdString(playerName);
+	
+	switch (action) {
+
+		case 1: msg += " folds.";
+		break;
+		case 2: msg += " checks.";
+		break;
+		case 3: msg += " calls ";
+		break;
+		case 4: msg += " bets ";
+		break;
+		case 5: msg += " sets ";
+		break;
+		case 6: msg += " is all in with ";
+		break;
+		default: msg += "ERROR";
+	}
+	
+	if (action >= 3) { msg += QString::number(setValue,10)+"$."; }
+	
+	myW->textBrowser_Log->append(msg);
+
+}
 
 
-private:
 
-	mainWindowImpl *myW;
-
-};
-
-#endif

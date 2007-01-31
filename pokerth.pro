@@ -17,7 +17,7 @@ HEADERS += tinystr.h \
            aboutpokerthimpl.h \
            settingsdialogimpl.h \
            configfile.h \
-           log.h \
+           logwidgetimpl.h \
            guiinterface.h \
            guiwrapper.h \
            session.h \
@@ -52,7 +52,7 @@ SOURCES += pokerth.cpp \
            aboutpokerthimpl.cpp \
            settingsdialogimpl.cpp \
            configfile.cpp \
-           log.cpp \
+           logwidgetimpl.cpp \
            guiinterface.cpp \
            guiwrapper.cpp \
            session.cpp \

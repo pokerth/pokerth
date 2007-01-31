@@ -24,14 +24,14 @@
 using namespace std;
 
 
-GuiWrapper::GuiWrapper() : myLog(0), myW(0)
+GuiWrapper::GuiWrapper() : myLogWidget(0), myW(0)
 {
 
 
 	myW = new mainWindowImpl;
 	myW->show();
 
-	myLog = new Log(myW);
+	myLogWidget = new LogWidgetImpl(myW);
 
 	myConfig = new ConfigFile;
 
@@ -86,7 +86,7 @@ void GuiWrapper::nextRoundCleanGui() const { myW->nextRoundCleanGui(); }
 
 void GuiWrapper::meInAction() const { myW->meInAction(); }
 
-void GuiWrapper::showPlayerActionLogMsg(string playerName, int action, int setValue) const { myLog->showPlayerActionLogMsg(playerName, action, setValue); }
+void GuiWrapper::showPlayerActionLogMsg(string playerName, int action, int setValue) const { myLogWidget->showPlayerActionLogMsg(playerName, action, setValue); }
 
 
 
