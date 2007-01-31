@@ -177,6 +177,26 @@
        <property name="spacing" >
         <number>6</number>
        </property>
+       <item row="3" column="0" >
+        <widget class="QCheckBox" name="checkBox_showToolbox" >
+         <property name="text" >
+          <string>Show Toolbox (F2 to switch on/off)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_13" >
+         <property name="font" >
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text" >
+          <string>Interface</string>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="0" >
         <widget class="Line" name="line_5" >
          <property name="orientation" >
@@ -184,20 +204,14 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
+       <item row="4" column="0" >
+        <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation" >
+         <property name="text" >
+          <string>Show Fade-Out Animation for Non-Winning Cards</string>
          </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
-       <item row="5" column="0" >
+       <item row="6" column="0" >
         <widget class="QGroupBox" name="groupBox" >
          <property name="title" >
           <string>Flipside of Cards</string>
@@ -291,20 +305,6 @@ p, li { white-space: pre-wrap; }
          </layout>
         </widget>
        </item>
-       <item row="4" column="0" >
-        <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation" >
-         <property name="text" >
-          <string>Show Fade-Out Animation for Non-Winning Cards</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" >
-        <widget class="QCheckBox" name="checkBox_showToolbox" >
-         <property name="text" >
-          <string>Show Toolbox (F2 to switch on/off)</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="0" >
         <widget class="QCheckBox" name="checkBox_showIntro" >
          <property name="text" >
@@ -312,16 +312,23 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_13" >
-         <property name="font" >
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
+       <item row="7" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
          </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="5" column="0" >
+        <widget class="QCheckBox" name="checkBox_showFlipCardsAnimation" >
          <property name="text" >
-          <string>Interface</string>
+          <string>Show Flip-Card Animation</string>
          </property>
         </widget>
        </item>
@@ -519,14 +526,24 @@ p, li { white-space: pre-wrap; }
   <tabstop>spinBox_quantityPlayers</tabstop>
   <tabstop>spinBox_startCash</tabstop>
   <tabstop>spinBox_smallBlind</tabstop>
+  <tabstop>spinBox_handsBeforeRaiseSmallBlind</tabstop>
   <tabstop>spinBox_gameSpeed</tabstop>
+  <tabstop>checkBox_pauseBetweenHands</tabstop>
   <tabstop>checkBox_showGameSettingsDialogOnNewGame</tabstop>
-  <tabstop>buttonBox</tabstop>
+  <tabstop>checkBox_showIntro</tabstop>
+  <tabstop>checkBox_showToolbox</tabstop>
+  <tabstop>checkBox_showFadeOutCardsAnimation</tabstop>
+  <tabstop>checkBox_showFlipCardsAnimation</tabstop>
+  <tabstop>radioButton_flipsideTux</tabstop>
+  <tabstop>radioButton_flipsideOwn</tabstop>
+  <tabstop>lineEdit_OwnFlipsideFilename</tabstop>
+  <tabstop>pushButton_openFlipsidePicture</tabstop>
   <tabstop>lineEdit_humanPlayerName</tabstop>
   <tabstop>lineEdit_Opponent1Name</tabstop>
   <tabstop>lineEdit_Opponent2Name</tabstop>
   <tabstop>lineEdit_Opponent3Name</tabstop>
   <tabstop>lineEdit_Opponent4Name</tabstop>
+  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
   <include location="deck.qrc" />

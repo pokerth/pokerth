@@ -171,6 +171,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	}
 	else { flipside->load(":/othercards/cards/othercards/flipside.png"); }
 
+	//Flipside Animation noch nicht erledigt
+	flipHolecardsAllInAlreadyDone = FALSE;
+
 
 	//Toolbox verstecken?				
 	if (!myConfig->readConfigInt("ShowToolBox", 1)) { groupBox_tools->hide(); }
@@ -759,7 +762,7 @@ void mainWindowImpl::dealHoleCards() {
 	refreshGroupbox();
 }
 
-void mainWindowImpl::dealFlopCards0() {	dealFlopCards0Timer->start(dealCardsSpeed*2); }
+void mainWindowImpl::dealFlopCards0() {	dealFlopCards0Timer->start(preDealCardsSpeed); }
 
 void mainWindowImpl::dealFlopCards1() {
 
@@ -792,8 +795,16 @@ void mainWindowImpl::dealFlopCards4() {
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
 	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[0], 10)+".png");
 	QPixmap card(tempCardsPixmap);
-	boardCardsArray[0]->setPixmap(card, FALSE);
 
+	//Config? mit oder ohne Eye-Candy?
+	if(myConfig->readConfigInt("ShowFlipCardsAnimation", 1)) { 
+		//mit Eye-Candy
+		boardCardsArray[0]->startFlipCards(guiGameSpeed, card, flipside);
+	}
+	else {
+		//ohne Eye-Candy
+		boardCardsArray[0]->setPixmap(card, FALSE);
+	}
 	dealFlopCards4Timer->start(dealCardsSpeed);
 }
 
@@ -804,8 +815,16 @@ void mainWindowImpl::dealFlopCards5() {
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
 	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[1], 10)+".png");
 	QPixmap card(tempCardsPixmap);
-	boardCardsArray[1]->setPixmap(card, FALSE);
-
+	
+	//Config? mit oder ohne Eye-Candy?
+	if(myConfig->readConfigInt("ShowFlipCardsAnimation", 1)) { 
+		//mit Eye-Candy
+		boardCardsArray[1]->startFlipCards(guiGameSpeed, card, flipside);
+	}
+	else {
+		//ohne Eye-Candy
+		boardCardsArray[1]->setPixmap(card, FALSE);
+	}
 	dealFlopCards5Timer->start(dealCardsSpeed);
 
 }
@@ -817,17 +836,26 @@ void mainWindowImpl::dealFlopCards6() {
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
 	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[2], 10)+".png");
 	QPixmap card(tempCardsPixmap);
-	boardCardsArray[2]->setPixmap(card, FALSE);
+	
+	//Config? mit oder ohne Eye-Candy?
+	if(myConfig->readConfigInt("ShowFlipCardsAnimation", 1)) { 
+		//mit Eye-Candy
+		boardCardsArray[2]->startFlipCards(guiGameSpeed, card, flipside);
+	}
+	else {
+		//ohne Eye-Candy
+		boardCardsArray[2]->setPixmap(card, FALSE);
+	}
 
 	// stable
 	// wenn alle All In
-	if(actualHand->getAllInCondition()) { dealFlopCards6Timer->start(dealCardsSpeed*4); }
+	if(actualHand->getAllInCondition()) { dealFlopCards6Timer->start(AllInDealCardsSpeed); }
 	// sonst normale Variante
-	else { dealFlopCards6Timer->start(dealCardsSpeed);}
+	else { dealFlopCards6Timer->start(postDealCardsSpeed);}
 
 }
 
-void mainWindowImpl::dealTurnCards0() { dealTurnCards0Timer->start(dealCardsSpeed*2); }
+void mainWindowImpl::dealTurnCards0() { dealTurnCards0Timer->start(preDealCardsSpeed); }
 
 void mainWindowImpl::dealTurnCards1() {
 
@@ -843,17 +871,26 @@ void mainWindowImpl::dealTurnCards2() {
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
 	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[3], 10)+".png");
 	QPixmap card(tempCardsPixmap);
-	boardCardsArray[3]->setPixmap(card, FALSE);
 
+	//Config? mit oder ohne Eye-Candy?
+	if(myConfig->readConfigInt("ShowFlipCardsAnimation", 1)) { 
+		//mit Eye-Candy
+		boardCardsArray[3]->startFlipCards(guiGameSpeed, card, flipside);
+	}
+	else {
+		//ohne Eye-Candy
+		boardCardsArray[3]->setPixmap(card, FALSE);
+	}
+	
 	// stable
 	// wenn alle All In
-	if(actualHand->getAllInCondition()) { dealTurnCards2Timer->start(dealCardsSpeed*4);
+	if(actualHand->getAllInCondition()) { dealTurnCards2Timer->start(AllInDealCardsSpeed);
 	}
 	// sonst normale Variante
-	else { dealTurnCards2Timer->start(dealCardsSpeed); }
+	else { dealTurnCards2Timer->start(postDealCardsSpeed); }
 }
 
-void mainWindowImpl::dealRiverCards0() { dealRiverCards0Timer->start(dealCardsSpeed*2); }
+void mainWindowImpl::dealRiverCards0() { dealRiverCards0Timer->start(preDealCardsSpeed); }
 
 void mainWindowImpl::dealRiverCards1() {
 
@@ -870,19 +907,23 @@ void mainWindowImpl::dealRiverCards2() {
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
 	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[4], 10)+".png");
 	QPixmap card(tempCardsPixmap);
-	boardCardsArray[4]->setPixmap(card, FALSE);
 
+	//Config? mit oder ohne Eye-Candy?
+	if(myConfig->readConfigInt("ShowFlipCardsAnimation", 1)) { 
+		//mit Eye-Candy
+		boardCardsArray[4]->startFlipCards(guiGameSpeed, card, flipside);
+	}
+	else {
+		//ohne Eye-Candy
+		boardCardsArray[4]->setPixmap(card, FALSE);
+	}
 
 	// stable
 	// wenn alle All In
-	if(actualHand->getAllInCondition()) {
-// 		QTimer::singleShot(dealCardsSpeed*4, this, SLOT( handSwitchRounds() ));
-		dealRiverCards2Timer->start(dealCardsSpeed*4);
-	}
+	if(actualHand->getAllInCondition()) { dealRiverCards2Timer->start(AllInDealCardsSpeed);	}
 	// sonst normale Variante
 	else {
-// 		QTimer::singleShot(dealCardsSpeed, this, SLOT( handSwitchRounds() ));	
-		dealRiverCards2Timer->start(dealCardsSpeed);
+		dealRiverCards2Timer->start(postDealCardsSpeed);
 	}
 
 
@@ -1243,7 +1284,7 @@ void mainWindowImpl::postRiverRunAnimation1() {
 void mainWindowImpl::postRiverRunAnimation2() {
 
 	int i;
-	
+
 	//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
 	int activePlayersCounter = 0;
 	for (i=0; i<maxQuantityPlayers; i++) { 
@@ -1252,28 +1293,58 @@ void mainWindowImpl::postRiverRunAnimation2() {
 
 	if(activePlayersCounter!=1) { 
 		 
-		//Karten der aktiven Spieler umdrehen
-		QPixmap onePix(":/graphics/cards/1px.png");
-	
-		//TempArrays
-		QPixmap tempCardsPixmapArray[2];
-		int tempCardsIntArray[2];
-	
-		int i, j;
-		for(i=1; i<maxQuantityPlayers; i++) {
-			actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
-			for(j=0; j<2; j++) {
-				if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
+		if(!flipHolecardsAllInAlreadyDone) {
+
+			//Config? mit oder ohne Eye-Candy?
+			if(myConfig->readConfigInt("ShowFlipCardsAnimation", 1)) { 
+				// mit Eye-Candy
+		
+				//TempArrays
+				int tempCardsIntArray[2];
+		
+				int i, j;
+		
+				for(i=1; i<maxQuantityPlayers; i++) {
+					actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
+					for(j=0; j<2; j++) {
+						if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
 					
-					tempCardsPixmapArray[j].load(":/othercards/cards/othercards/"+QString::number(tempCardsIntArray[j], 10)+".png");
-					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
-					
-				}	
+							holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/othercards/cards/othercards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+				
+						}	
+					}
+				}		
 			}
+			else {
+				//Ohne Eye-Candy		
+			
+				//Karten der aktiven Spieler umdrehen
+				QPixmap onePix(":/graphics/cards/1px.png");
+			
+				//TempArrays
+				QPixmap tempCardsPixmapArray[2];
+				int tempCardsIntArray[2];
+			
+				int i, j;
+				for(i=1; i<maxQuantityPlayers; i++) {
+					actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
+					for(j=0; j<2; j++) {
+						if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
+							
+							tempCardsPixmapArray[j].load(":/othercards/cards/othercards/"+QString::number(tempCardsIntArray[j], 10)+".png");
+							holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
+							
+						}	
+					}
+				}
+			}
+		//Wenn einmal umgedreht dann fertig!!	
+		flipHolecardsAllInAlreadyDone = TRUE;
 		}
 		postRiverRunAnimation2Timer->start(postRiverRunAnimationSpeed);
 	}
 	else { postRiverRunAnimation3(); }
+	
 }
 
 void mainWindowImpl::postRiverRunAnimation3() {
@@ -1431,37 +1502,65 @@ void mainWindowImpl::postRiverRunAnimation6() {
 
 void mainWindowImpl::flipHolecardsAllIn() {
 
-	int i;
-	
-	//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
-	int activePlayersCounter = 0;
-	for (i=0; i<maxQuantityPlayers; i++) { 
-		if (actualHand->getPlayerArray()[i]->getMyAction() != 1 && actualHand->getPlayerArray()[i]->getMyActiveStatus() == 1) activePlayersCounter++;
-	}
-	
-	if(activePlayersCounter!=1) { 
-			
-		//Karten der aktiven Spieler umdrehen
-		QPixmap onePix(":/graphics/cards/1px.png");
-		
-		//TempArrays
-		QPixmap tempCardsPixmapArray[2];
-		int tempCardsIntArray[2];
-		
-		int i, j;
-		for(i=1; i<maxQuantityPlayers; i++) {
-			actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
-			for(j=0; j<2; j++) {
-				if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
-					
-					tempCardsPixmapArray[j].load(":/othercards/cards/othercards/"+QString::number(tempCardsIntArray[j], 10)+".png");
-					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
-		
-				}	
-			}
-		}
-	}
 
+	int i;
+
+	if(!flipHolecardsAllInAlreadyDone) {
+		//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
+		int activePlayersCounter = 0;
+		for (i=0; i<maxQuantityPlayers; i++) { 
+			if (actualHand->getPlayerArray()[i]->getMyAction() != 1 && actualHand->getPlayerArray()[i]->getMyActiveStatus() == 1) activePlayersCounter++;
+		}
+		
+		if(activePlayersCounter!=1) { 
+			
+			//Config? mit oder ohne Eye-Candy?
+			if(myConfig->readConfigInt("ShowFlipCardsAnimation", 1)) { 
+				// mit Eye-Candy
+	
+				//TempArrays
+				int tempCardsIntArray[2];
+	
+				int i, j;
+	
+				for(i=1; i<maxQuantityPlayers; i++) {
+					actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
+					for(j=0; j<2; j++) {
+						if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
+					
+							holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/othercards/cards/othercards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+				
+						}	
+					}
+				}		
+			}
+			else {
+				//Ohne Eye-Candy		
+		
+				//Karten der aktiven Spieler umdrehen
+				QPixmap onePix(":/graphics/cards/1px.png");
+				
+				//TempArrays
+				QPixmap tempCardsPixmapArray[2];
+				int temp2CardsIntArray[2];
+				
+				int i, j;
+				for(i=1; i<maxQuantityPlayers; i++) {
+					actualHand->getPlayerArray()[i]->getMyCards(temp2CardsIntArray);	
+					for(j=0; j<2; j++) {
+						if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
+							
+							tempCardsPixmapArray[j].load(":/othercards/cards/othercards/"+QString::number(temp2CardsIntArray[j], 10)+".png");
+							holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
+				
+						}	
+					}
+				}
+			}
+		}	
+	}
+	//Wenn einmal umgedreht dann fertig!!	
+	flipHolecardsAllInAlreadyDone = TRUE;
 }
 
 void mainWindowImpl::startNewHand() {
@@ -1481,11 +1580,20 @@ void mainWindowImpl::handSwitchRounds() { actualHand->switchRounds(); }
 
 void mainWindowImpl::nextRoundCleanGui() {
 
-	int i;
+	int i,j;
 
-	// GUI bereinigen
+	// GUI bereinigen - Bilder löschen, Animationen unterbrechen
 	QPixmap onePix(":/graphics/cards/1px.png");
-	for (i=0; i<5; i++ ) { boardCardsArray[i]->setPixmap(onePix, FALSE); }
+	for (i=0; i<5; i++ ) { 
+		boardCardsArray[i]->setPixmap(onePix, FALSE); 
+		boardCardsArray[i]->setFadeOutAction(FALSE); 
+		
+	}
+	for (i=1; i<=4; i++ ) { 
+		for ( j=0; j<=1; j++ ) { holeCardsArray[i][j]->setFadeOutAction(FALSE);}
+	}
+	
+
 		
 	QColor c(0,0,0);
 	for(i=0; i<maxQuantityPlayers; i++) {
@@ -1511,6 +1619,8 @@ void mainWindowImpl::nextRoundCleanGui() {
 	frame_handLabel->setPalette(tempPalette);
 
 	refreshAll();
+
+	flipHolecardsAllInAlreadyDone = FALSE;
 
 	//Wenn Pause zwischen den Hands in der Konfiguration steht den Stop Button drücken!
 	if (myConfig->readConfigInt("PauseBetweenHands", 0)) { pushButton_break->click(); }
@@ -1579,6 +1689,9 @@ void mainWindowImpl::setSpeeds() {
 
 	gameSpeed = (11-guiGameSpeed)*10;
 	dealCardsSpeed = (gameSpeed/2)*10; //milliseconds
+	preDealCardsSpeed = dealCardsSpeed*2; //Zeit for Karten aufdecken auf dem Board (Flop, Turn, River)
+	postDealCardsSpeed = dealCardsSpeed*2; //Zeit nach Karten aufdecken auf dem Board (Flop, Turn, River)
+	AllInDealCardsSpeed = dealCardsSpeed*4; //Zeit nach Karten aufdecken auf dem Board (Flop, Turn, River) bei AllIn
 	postRiverRunAnimationSpeed = gameSpeed*18; 
 	winnerBlinkSpeed = gameSpeed*3; //milliseconds
 	newRoundSpeed = gameSpeed*35; 
@@ -1612,12 +1725,11 @@ void mainWindowImpl::paintStartSplash() {
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
-// 	cout << event->key() << endl;
+	cout << event->key() << endl;
 	
-
-	if (event->key() == 16777265) { switchToolBox(); }
+	if (event->key() == 16777220) { if(spinBox_set->hasFocus()) pushButton_set->click(); } //ENTER
+	if (event->key() == 16777265) { switchToolBox(); } //F2
 	if (event->key() == 65) {  
-		pixmapLabel_card1a->startFlipCards(4, QPixmap(":/othercards/cards/othercards/44.png"), flipside);
 		
 	}
 	if (event->key() == 66) {  

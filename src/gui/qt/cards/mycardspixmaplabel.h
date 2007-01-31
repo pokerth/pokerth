@@ -27,7 +27,10 @@ public:
 
 	void setIsFlipside(bool theValue){ isFlipside = theValue;}
 	bool getIsFlipside() const{ return isFlipside;}
-
+	
+	void setFadeOutAction(bool theValue) { fadeOutAction = theValue; }
+	bool getFadeOutAction() const { return fadeOutAction;}
+	
 	void startFadeOut(int);
 	void startFlipCards(int, QPixmap, QPixmap*);
 	
@@ -39,6 +42,8 @@ public slots:
 	void setPixmap ( const QPixmap &, const bool );
 	void nextFadeOutFrame();
 	void nextFlipCardsFrame();
+
+	
 
 private: 
 

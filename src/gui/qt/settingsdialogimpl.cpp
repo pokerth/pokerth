@@ -53,6 +53,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
 	checkBox_showToolbox->setChecked(myConfig.readConfigInt("ShowToolBox", 1));
 	checkBox_showIntro->setChecked(myConfig.readConfigInt("ShowIntro", 1));
 	checkBox_showFadeOutCardsAnimation->setChecked(myConfig.readConfigInt("ShowFadeOutCardsAnimation", 1));
+	checkBox_showFlipCardsAnimation->setChecked(myConfig.readConfigInt("ShowFlipCardsAnimation", 1));
 	radioButton_flipsideTux->setChecked(myConfig.readConfigInt("FlipsideTux", 1));
 	radioButton_flipsideOwn->setChecked(myConfig.readConfigInt("FlipsideOwn", 0));
 	if(radioButton_flipsideOwn->isChecked()) { 
@@ -98,6 +99,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("ShowToolBox", checkBox_showToolbox->isChecked());
 	myConfig.writeConfigInt("ShowIntro", checkBox_showIntro->isChecked());
 	myConfig.writeConfigInt("ShowFadeOutCardsAnimation", checkBox_showFadeOutCardsAnimation->isChecked());
+	myConfig.writeConfigInt("ShowFlipCardsAnimation", checkBox_showFlipCardsAnimation->isChecked());
 	myConfig.writeConfigInt("FlipsideTux", radioButton_flipsideTux->isChecked());
 	myConfig.writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());
 	myConfig.writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toStdString());

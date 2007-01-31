@@ -234,6 +234,9 @@ private:
 	int guiGameSpeed;
 	int gameSpeed;
 	int dealCardsSpeed;
+	int preDealCardsSpeed;
+	int postDealCardsSpeed;
+	int AllInDealCardsSpeed;
 	int postRiverRunAnimationSpeed;
 	int winnerBlinkSpeed; 
 	int newRoundSpeed;
@@ -246,6 +249,8 @@ private:
 
 	bool debugMode;
 	bool breakAfterActualHand;
+	
+	bool flipHolecardsAllInAlreadyDone;
 
 	QColor active;
 	QColor inactive;

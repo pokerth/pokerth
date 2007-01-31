@@ -73,20 +73,22 @@ void MyCardsPixmapLabel::nextFadeOutFrame() {
 
 void MyCardsPixmapLabel::startFlipCards(int speed, QPixmap frontPix, QPixmap *flipsidePix) { 
 	
+	QLabel::setPixmap(frontPix);
+
 	frameFlipCardsAction1Size = 1.0;
 	frameFlipCardsAction2Size = 0.0;
 
 	*front = frontPix;
 	flipside = flipsidePix;
-// 	if(speed <= 4) { opacityRaiseIntervall = 0.01; }
-// 	if(speed > 4 && speed <= 7) { opacityRaiseIntervall = 0.02; }
-// 	if(speed > 7 && speed <= 10) { opacityRaiseIntervall = 0.04; }
-// 
-	flipCardsScaleIntervall = 0.1;
 
+	if(speed <= 4) { flipCardsScaleIntervall = 0.1; }
+	if(speed > 4 && speed <= 6) { flipCardsScaleIntervall = 0.20; }
+	if(speed > 6 && speed <= 8) { flipCardsScaleIntervall = 0.25; }
+	if(speed > 8 && speed <= 10) { flipCardsScaleIntervall = 0.5; }
+// 
+	
 	if(speed != 11) {
 		flipCardsAction1 = TRUE;
-// 		frameOpacity = 0.0;
 		flipCardsTimer->start(40);
 	} 
 	
@@ -105,7 +107,7 @@ void MyCardsPixmapLabel::nextFlipCardsFrame() {
 			flipCardsAction2 = TRUE;
 		}
 		else {
-			//dann front aufdecken
+			//dann front vergrößern
 			if (frameFlipCardsAction2Size < 0.9 ) {
 				
 				frameFlipCardsAction2Size += flipCardsScaleIntervall;
