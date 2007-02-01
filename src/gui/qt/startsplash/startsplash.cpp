@@ -20,7 +20,7 @@
 #include "startsplash.h"
 
 StartSplash::StartSplash(mainWindowImpl *parent)
- : QDialog(parent), myW(parent)
+ : QSplashScreen(parent), myW(parent)
 {
 	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/c059013l.pfb");
 	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/andybold.ttf");	
