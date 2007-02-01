@@ -20,8 +20,8 @@
 #include "newgamedialogimpl.h"
 #include "configfile.h"
 
-newGameDialogImpl::newGameDialogImpl(QWidget *parent, const char *name)
-      : QDialog(parent, name)
+newGameDialogImpl::newGameDialogImpl(QWidget *parent)
+      : QDialog(parent)
 {
 
     setupUi(this);

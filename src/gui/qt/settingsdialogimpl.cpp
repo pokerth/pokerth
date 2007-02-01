@@ -22,8 +22,8 @@
 #include <iostream>
 
 
-settingsDialogImpl::settingsDialogImpl(QWidget *parent, const char *name)
-    : QDialog(parent, name)
+settingsDialogImpl::settingsDialogImpl(QWidget *parent)
+    : QDialog(parent)
 {
 
 	 setupUi(this);

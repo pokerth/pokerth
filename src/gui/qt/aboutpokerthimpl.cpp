@@ -19,8 +19,8 @@
  ***************************************************************************/
 #include "aboutpokerthimpl.h"
 
-aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, const char *name)
-    : QDialog(parent, name)
+aboutPokerthImpl::aboutPokerthImpl(QWidget *parent)
+    : QDialog(parent)
 {
 
 	 setupUi(this);

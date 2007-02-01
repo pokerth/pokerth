@@ -44,7 +44,7 @@ class QColor;
 class mainWindowImpl: public QMainWindow, public Ui::mainWindow {
 Q_OBJECT
 public:
-	mainWindowImpl(QMainWindow *parent = 0, const char *name = 0 );
+	mainWindowImpl(QMainWindow *parent = 0 );
 
 	void setGame(Game*);
 	void setHand(HandInterface*);

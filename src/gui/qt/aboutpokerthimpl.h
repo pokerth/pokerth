@@ -26,7 +26,7 @@
 class aboutPokerthImpl: public QDialog, public Ui::aboutPokerth {
 Q_OBJECT
 public:
-    aboutPokerthImpl(QWidget *parent = 0, const char *name = 0);
+    aboutPokerthImpl(QWidget *parent = 0);
 };
 
 #endif

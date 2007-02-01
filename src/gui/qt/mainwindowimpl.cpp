@@ -47,8 +47,8 @@ const int maxQuantityPlayersConst = 5;
 
 using namespace std;
 
-mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
-     : QMainWindow(parent, name), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
+mainWindowImpl::mainWindowImpl(QMainWindow *parent)
+     : QMainWindow(parent), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
 {	
 	int i;
 
@@ -56,13 +56,6 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/n019003l.pfb");
 	QFont tmpFont("Nimbus Sans L",9);
 	QApplication::setFont(tmpFont);
-
-	// Programmverzeichnis erstellen 
-	QDir progDir1;
-	QDir progDir2;
-	progDir1.setPath(QDir::home().absPath()+"/.pokerth/");
-	
-	if ( !progDir1.exists() ) { progDir1.mkdir(progDir1.absPath()); }
 
 	myConfig = new ConfigFile;
 
@@ -177,6 +170,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent, const char *name)
 
 	//Toolbox verstecken?				
 	if (!myConfig->readConfigInt("ShowToolBox", 1)) { groupBox_tools->hide(); }
+	//Intro abspielen?
 	if (myConfig->readConfigInt("ShowIntro", 1)) { 
 		label_logo->hide();
 		QTimer::singleShot(100, this, SLOT( paintStartSplash() )); }

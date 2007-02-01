@@ -29,7 +29,7 @@
 class settingsDialogImpl: public QDialog, public Ui::settingsDialog {
 Q_OBJECT
 public:
-    settingsDialogImpl(QWidget *parent = 0, const char *name = 0);
+    settingsDialogImpl(QWidget *parent = 0);
 
 	void setPlayerNickIsChanged(bool theValue){ playerNickIsChanged = theValue;}
 	bool getPlayerNickIsChanged() const{ return playerNickIsChanged;}

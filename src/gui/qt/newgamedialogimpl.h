@@ -30,7 +30,7 @@
 class newGameDialogImpl: public QDialog, public Ui::newGameDialog {
 Q_OBJECT
 public:
-    newGameDialogImpl(QWidget *parent = 0, const char *name = 0);
+    newGameDialogImpl(QWidget *parent = 0);
 
 public slots:
 
