@@ -367,10 +367,10 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	connect(postRiverRunAnimation5Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation6() ));
 	connect(postRiverRunAnimation6Timer, SIGNAL(timeout()), this, SLOT( startNewHand() ));
 
-	connect( actionNewGame, SIGNAL( activated() ), this, SLOT( callNewGameDialog() ) );
-	connect( actionAboutPokerth, SIGNAL( activated() ), this, SLOT( callAboutPokerthDialog() ) );
-	connect( actionSettings, SIGNAL( activated() ), this, SLOT( callSettingsDialog() ) );
-	connect( actionQuit, SIGNAL( activated() ), qApp, SLOT( quit() ) );
+	connect( actionNewGame, SIGNAL( triggered() ), this, SLOT( callNewGameDialog() ) );
+	connect( actionAboutPokerth, SIGNAL( triggered() ), this, SLOT( callAboutPokerthDialog() ) );
+	connect( actionSettings, SIGNAL( triggered() ), this, SLOT( callSettingsDialog() ) );
+	connect( actionQuit, SIGNAL( triggered() ), qApp, SLOT( quit() ) );
 	
 	connect( pushButton_raise, SIGNAL( clicked() ), this, SLOT( myRaise() ) );
 	connect( pushButton_call, SIGNAL( clicked() ), this, SLOT( myCall() ) );
