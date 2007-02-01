@@ -53,7 +53,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	int i;
 
 // 	Schriftart laden 
-	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/n019003l.pfb");
+	QFontDatabase::addApplicationFont (":fonts/fonts/n019003l.pfb");
 	QFont tmpFont("Nimbus Sans L",9);
 	QApplication::setFont(tmpFont);
 
@@ -66,30 +66,35 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	pixmapLabel_cardBoard0->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard0"));
     	pixmapLabel_cardBoard0->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard0->setMaximumSize(QSize(57, 80));
+	pixmapLabel_cardBoard0->setScaledContents(true);
 	gridLayout11->addWidget(pixmapLabel_cardBoard0, 0, 0, 1, 1);
 
 	pixmapLabel_cardBoard1 = new MyCardsPixmapLabel(frame_5);
     	pixmapLabel_cardBoard1->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard1"));
     	pixmapLabel_cardBoard1->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard1->setMaximumSize(QSize(57, 80));
+	pixmapLabel_cardBoard1->setScaledContents(true);
     	gridLayout11->addWidget(pixmapLabel_cardBoard1, 0, 1, 1, 1);
 
 	pixmapLabel_cardBoard2 = new MyCardsPixmapLabel(frame_5);
     	pixmapLabel_cardBoard2->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard2"));
     	pixmapLabel_cardBoard2->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard2->setMaximumSize(QSize(57, 80));
+	pixmapLabel_cardBoard2->setScaledContents(true);
 	gridLayout11->addWidget(pixmapLabel_cardBoard2, 0, 2, 1, 1);
 
 	pixmapLabel_cardBoard3 = new MyCardsPixmapLabel(frame_5);
     	pixmapLabel_cardBoard3->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard3"));
     	pixmapLabel_cardBoard3->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard3->setMaximumSize(QSize(57, 80));
+	pixmapLabel_cardBoard3->setScaledContents(true);
     	gridLayout11->addWidget(pixmapLabel_cardBoard3, 0, 3, 1, 1);
 	
 	pixmapLabel_cardBoard4 = new MyCardsPixmapLabel(frame_5);
     	pixmapLabel_cardBoard4->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard4"));
     	pixmapLabel_cardBoard4->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard4->setMaximumSize(QSize(57, 80));
+	pixmapLabel_cardBoard4->setScaledContents(true);
     	gridLayout11->addWidget(pixmapLabel_cardBoard4, 0, 4, 1, 1);
 
 	pixmapLabel_card0a = new MyCardsPixmapLabel(frame5);
@@ -124,47 +129,54 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
     	pixmapLabel_card2a->setObjectName(QString::fromUtf8("pixmapLabel_card2a"));
 	pixmapLabel_card2a->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card2a->setMaximumSize(QSize(57, 80));
+	pixmapLabel_card2a->setScaledContents(true);
    	gridLayout24->addWidget(pixmapLabel_card2a, 0, 0, 1, 1);
 
 	pixmapLabel_card2b = new MyCardsPixmapLabel(frame8_2_2_2_4);
     	pixmapLabel_card2b->setObjectName(QString::fromUtf8("pixmapLabel_card2b"));
 	pixmapLabel_card2b->setMinimumSize(QSize(57, 80));
-    	pixmapLabel_card2b->setMaximumSize(QSize(57, 80));
+    	pixmapLabel_card2b->setMaximumSize(QSize(57, 80));	
+	pixmapLabel_card2b->setScaledContents(true);
 	gridLayout24->addWidget(pixmapLabel_card2b, 0, 1, 1, 1);
 
 	pixmapLabel_card3a = new MyCardsPixmapLabel(frame8_2_2_2_6);
     	pixmapLabel_card3a->setObjectName(QString::fromUtf8("pixmapLabel_card3a"));
 	pixmapLabel_card3a->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card3a->setMaximumSize(QSize(57, 80));
+	pixmapLabel_card3a->setScaledContents(true);
    	gridLayout30->addWidget(pixmapLabel_card3a, 0, 0, 1, 1);
 
 	pixmapLabel_card3b = new MyCardsPixmapLabel(frame8_2_2_2_6);
     	pixmapLabel_card3b->setObjectName(QString::fromUtf8("pixmapLabel_card3b"));
 	pixmapLabel_card3b->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card3b->setMaximumSize(QSize(57, 80));
+	pixmapLabel_card3b->setScaledContents(true);
 	gridLayout30->addWidget(pixmapLabel_card3b, 0, 1, 1, 1);
 
 	pixmapLabel_card4a = new MyCardsPixmapLabel(frame8_2_2_2_7);
     	pixmapLabel_card4a->setObjectName(QString::fromUtf8("pixmapLabel_card4a"));
 	pixmapLabel_card4a->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card4a->setMaximumSize(QSize(57, 80));
+	pixmapLabel_card4a->setScaledContents(true);
    	gridLayout36->addWidget(pixmapLabel_card4a, 0, 0, 1, 1);
 
 	pixmapLabel_card4b = new MyCardsPixmapLabel(frame8_2_2_2_7);
     	pixmapLabel_card4b->setObjectName(QString::fromUtf8("pixmapLabel_card4b"));
 	pixmapLabel_card4b->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card4b->setMaximumSize(QSize(57, 80));
+	pixmapLabel_card4b->setScaledContents(true);
 	gridLayout36->addWidget(pixmapLabel_card4b, 0, 1, 1, 1);
 
+// 	pixmapLabel_card4b->setPixmap(QPixmap(":/cards/graphics/cards/33.png"), FALSE);
 	
 	//Flipside festlegen;
-	flipside = new QPixmap(":/mycards/graphics/cards/mycards/flipside.png");
+	flipside = new QPixmap(":/cards/graphics/cards/flipside.png");
 	
 	if (myConfig->readConfigInt("FlipsideOwn",0) && myConfig->readConfigString("FlipsideOwnFile","") != "") {
 		QPixmap tmpFlipside(QString::fromStdString(myConfig->readConfigString("FlipsideOwnFile", "")));
 		flipside = new QPixmap(tmpFlipside.scaled(QSize(57, 80)));
 	}
-	else { flipside->load(":/mycards/graphics/cards/mycards/flipside.png"); }
+	else { flipside->load(":/cards/graphics/cards/flipside.png"); }
 
 	//Flipside Animation noch nicht erledigt
 	flipHolecardsAllInAlreadyDone = FALSE;
@@ -508,7 +520,7 @@ void mainWindowImpl::callSettingsDialog() {
 		QPixmap tmpFlipside(QString::fromStdString(myConfig->readConfigString("FlipsideOwnFile", "")));
 		flipside = new QPixmap(tmpFlipside.scaled(QSize(57, 80)));
 		}
-		else { flipside->load(":/othercards/cards/othercards/flipside.png"); }
+		else { flipside->load(":/cards/graphics/cards/flipside.png"); }
 
 		int i,j;
 
@@ -707,7 +719,7 @@ void mainWindowImpl::refreshPot() {
 
 void mainWindowImpl::dealHoleCards() {
 
-	QPixmap onePix(":/graphics/cards/1px.png");
+	QPixmap onePix(":/graphics/graphics/1px.png");
 
 	//TempArrays
 	QPixmap tempCardsPixmapArray[2];
@@ -720,7 +732,7 @@ void mainWindowImpl::dealHoleCards() {
 		for(j=0; j<2; j++) {
 			if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 				if (debugMode) {
-					tempCardsPixmapArray[j].load(":/mycards/graphics/cards/mycards/"+QString::number(tempCardsIntArray[j], 10)+".png");
+					tempCardsPixmapArray[j].load(":/cards/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");
 					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
 					
 				} 
@@ -743,7 +755,7 @@ void mainWindowImpl::dealHoleCards() {
 
 		if(actualHand->getPlayerArray()[0]->getMyActiveStatus()) { 
 			
-			tempCardsPixmapArray[i].load(":/mycards/graphics/cards/mycards/"+QString::number(tempCardsIntArray[i], 10)+".png");
+			tempCardsPixmapArray[i].load(":/cards/graphics/cards/"+QString::number(tempCardsIntArray[i], 10)+".png");
 			holeCardsArray[0][i]->setPixmap(tempCardsPixmapArray[i], FALSE);
 						
 		}
@@ -789,7 +801,7 @@ void mainWindowImpl::dealFlopCards4() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[0], 10)+".png");
+	tempCardsPixmap.load(":/cards/graphics/cards/"+QString::number(tempBoardCardsArray[0], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
@@ -809,7 +821,7 @@ void mainWindowImpl::dealFlopCards5() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[1], 10)+".png");
+	tempCardsPixmap.load(":/cards/graphics/cards/"+QString::number(tempBoardCardsArray[1], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 	
 	//Config? mit oder ohne Eye-Candy?
@@ -830,7 +842,7 @@ void mainWindowImpl::dealFlopCards6() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[2], 10)+".png");
+	tempCardsPixmap.load(":/cards/graphics/cards/"+QString::number(tempBoardCardsArray[2], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 	
 	//Config? mit oder ohne Eye-Candy?
@@ -865,7 +877,7 @@ void mainWindowImpl::dealTurnCards2() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[3], 10)+".png");
+	tempCardsPixmap.load(":/cards/graphics/cards/"+QString::number(tempBoardCardsArray[3], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
@@ -901,7 +913,7 @@ void mainWindowImpl::dealRiverCards2() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	actualHand->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(":/othercards/cards/othercards/"+QString::number(tempBoardCardsArray[4], 10)+".png");
+	tempCardsPixmap.load(":/cards/graphics/cards/"+QString::number(tempBoardCardsArray[4], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
@@ -1305,7 +1317,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 					for(j=0; j<2; j++) {
 						if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
 					
-							holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/othercards/cards/othercards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+							holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/cards/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
 				
 						}	
 					}
@@ -1327,7 +1339,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 					for(j=0; j<2; j++) {
 						if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
 							
-							tempCardsPixmapArray[j].load(":/othercards/cards/othercards/"+QString::number(tempCardsIntArray[j], 10)+".png");
+							tempCardsPixmapArray[j].load(":/cards/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");
 							holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
 							
 						}	
@@ -1524,7 +1536,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 					for(j=0; j<2; j++) {
 						if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
 					
-							holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/othercards/cards/othercards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+							holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/cards/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
 				
 						}	
 					}
@@ -1546,7 +1558,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 					for(j=0; j<2; j++) {
 						if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
 							
-							tempCardsPixmapArray[j].load(":/othercards/cards/othercards/"+QString::number(temp2CardsIntArray[j], 10)+".png");
+							tempCardsPixmapArray[j].load(":/cards/graphics/cards/"+QString::number(temp2CardsIntArray[j], 10)+".png");
 							holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
 				
 						}	

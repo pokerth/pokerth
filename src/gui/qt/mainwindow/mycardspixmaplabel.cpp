@@ -27,7 +27,7 @@ MyCardsPixmapLabel::MyCardsPixmapLabel(QFrame* parent)
 	isFlipside = FALSE;
 
 	front = new QPixmap;
-// 	flipside = new QPixmap;
+	flipside = new QPixmap;
 
 	fadeOutTimer = new QTimer;
 	connect(fadeOutTimer, SIGNAL(timeout()), this, SLOT(nextFadeOutFrame()));
@@ -122,10 +122,10 @@ void MyCardsPixmapLabel::nextFlipCardsFrame() {
 	}
 }
 
-void MyCardsPixmapLabel::setPixmap(const QPixmap &pic, const bool flipside) {
+void MyCardsPixmapLabel::setPixmap(const QPixmap &pic, const bool flipsideIs) {
 	
 	QLabel::setPixmap(pic);
-	isFlipside = flipside;
+	isFlipside = flipsideIs;
 
 }
 
@@ -154,24 +154,25 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event) {
 
 	if (flipCardsAction1) {
 		QPainter painter2(this);
-		QPointF center(flipside->width()/2.0, flipside->height()/2.0);
+		QPixmap tmpFlipside = flipside->scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+		QPointF center(tmpFlipside.width()/2.0, tmpFlipside.height()/2.0);
 
 		painter2.translate(center);
 		painter2.scale(frameFlipCardsAction1Size ,1);
 		painter2.translate(-center);
-
-		painter2.drawPixmap(0,0,*flipside);
+		painter2.drawPixmap(0,0, tmpFlipside);
 	}
 	
 	if (flipCardsAction2) {
 		QPainter painter3(this);
-		QPointF center(front->width()/2.0, front->height()/2.0);
+		QPixmap tmpFront = front->scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+		QPointF center(tmpFront.width()/2.0, tmpFront.height()/2.0);
 
 		painter3.translate(center);
 		painter3.scale(frameFlipCardsAction2Size ,1);
 		painter3.translate(-center);
 
-		painter3.drawPixmap(0,0,*front);
+		painter3.drawPixmap(0,0, tmpFront);
 	}
 
 	

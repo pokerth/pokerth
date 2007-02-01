@@ -22,8 +22,8 @@
 StartSplash::StartSplash(mainWindowImpl *parent)
  : QSplashScreen(parent), myW(parent)
 {
-	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/c059013l.pfb");
-	QFontDatabase::addApplicationFont ("src/gui/qt/fonts/andybold.ttf");	
+	QFontDatabase::addApplicationFont (":fonts/fonts/c059013l.pfb");
+	QFontDatabase::addApplicationFont (":fonts/fonts/andybold.ttf");	
 
 	frameNo = 52;
 	opacityCounter = 13;

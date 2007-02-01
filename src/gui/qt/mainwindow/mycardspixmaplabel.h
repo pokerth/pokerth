@@ -36,6 +36,9 @@ public:
 	
 	void paintEvent(QPaintEvent * event);
 
+	QPixmap *front;
+	QPixmap *flipside;
+
 
 public slots:
 	
@@ -57,9 +60,7 @@ private:
 	QTimer *fadeOutTimer;
 	QTimer *flipCardsTimer;	
 
-	QPixmap *front;
-	QPixmap *flipside;
-
+	
 	bool isFlipside;
 	bool fadeOutAction;
 	bool flipCardsAction1;
