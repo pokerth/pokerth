@@ -46,12 +46,9 @@ int main( int argc, char **argv )
 	Q_INIT_RESOURCE(deck);
 	///////////////////////////////////////////////////	
 
-
 	GuiInterface *myGuiInterface = new GuiWrapper();
 
-
 	Session theFirst(myGuiInterface);
-
 
 	return a.exec();
 }

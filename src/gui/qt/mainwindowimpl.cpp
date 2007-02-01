@@ -1723,7 +1723,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	
 	if (event->key() == 16777220) { if(spinBox_set->hasFocus()) pushButton_set->click(); } //ENTER
 	if (event->key() == 16777265) { switchToolBox(); } //F2
-	if (event->key() == 65) {  
+	if (event->key() == 65) {  callNewGameDialog();
 		
 	}
 	if (event->key() == 66) {  
