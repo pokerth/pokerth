@@ -110,12 +110,14 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
     	pixmapLabel_card1a->setObjectName(QString::fromUtf8("pixmapLabel_card1a"));
 	pixmapLabel_card1a->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card1a->setMaximumSize(QSize(57, 80));
+	pixmapLabel_card1a->setScaledContents(true);
 	gridLayout18->addWidget(pixmapLabel_card1a, 0, 0, 1, 1);
 
    	pixmapLabel_card1b = new MyCardsPixmapLabel(frame8_2_2_2_5);
     	pixmapLabel_card1b->setObjectName(QString::fromUtf8("pixmapLabel_card1b"));
 	pixmapLabel_card1b->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card1b->setMaximumSize(QSize(57, 80));
+	pixmapLabel_card1b->setScaledContents(true);
 	gridLayout18->addWidget(pixmapLabel_card1b, 0, 1, 1, 1);
 
 	pixmapLabel_card2a = new MyCardsPixmapLabel(frame8_2_2_2_4);
@@ -156,13 +158,13 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 	
 	//Flipside festlegen;
-	flipside = new QPixmap(":/othercards/cards/othercards/flipside.png");
+	flipside = new QPixmap(":/mycards/graphics/cards/mycards/flipside.png");
 	
 	if (myConfig->readConfigInt("FlipsideOwn",0) && myConfig->readConfigString("FlipsideOwnFile","") != "") {
 		QPixmap tmpFlipside(QString::fromStdString(myConfig->readConfigString("FlipsideOwnFile", "")));
 		flipside = new QPixmap(tmpFlipside.scaled(QSize(57, 80)));
 	}
-	else { flipside->load(":/othercards/cards/othercards/flipside.png"); }
+	else { flipside->load(":/mycards/graphics/cards/mycards/flipside.png"); }
 
 	//Flipside Animation noch nicht erledigt
 	flipHolecardsAllInAlreadyDone = FALSE;
@@ -718,7 +720,7 @@ void mainWindowImpl::dealHoleCards() {
 		for(j=0; j<2; j++) {
 			if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 				if (debugMode) {
-					tempCardsPixmapArray[j].load(":/othercards/cards/othercards/"+QString::number(tempCardsIntArray[j], 10)+".png");
+					tempCardsPixmapArray[j].load(":/mycards/graphics/cards/mycards/"+QString::number(tempCardsIntArray[j], 10)+".png");
 					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
 					
 				} 
@@ -741,7 +743,7 @@ void mainWindowImpl::dealHoleCards() {
 
 		if(actualHand->getPlayerArray()[0]->getMyActiveStatus()) { 
 			
-			tempCardsPixmapArray[i].load(":/mycards/cards/mycards/"+QString::number(tempCardsIntArray[i], 10)+".png");
+			tempCardsPixmapArray[i].load(":/mycards/graphics/cards/mycards/"+QString::number(tempCardsIntArray[i], 10)+".png");
 			holeCardsArray[0][i]->setPixmap(tempCardsPixmapArray[i], FALSE);
 						
 		}
