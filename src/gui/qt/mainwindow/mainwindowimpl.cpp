@@ -53,8 +53,12 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	int i;
 
 // 	Schriftart laden 
-	QFontDatabase::addApplicationFont (":fonts/fonts/n019003l.ttf");
+#ifdef _WIN32
+	QFont tmpFont("Arial",9);
+#else 
+	QFontDatabase::addApplicationFont (":fonts/fonts/n019003l.pfb");
 	QFont tmpFont("Nimbus Sans L",9);
+#endif
 	QApplication::setFont(tmpFont);
 
 	myConfig = new ConfigFile;

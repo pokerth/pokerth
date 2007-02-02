@@ -56,8 +56,8 @@
     </qresource>
     <qresource prefix="/fonts" >
         <file>fonts/andybold.ttf</file>
-        <file>fonts/c059013l.ttf</file>
-        <file>fonts/n019003l.ttf</file>
+        <file>fonts/c059013l.pfb</file>
+        <file>fonts/n019003l.pfb</file>
     </qresource>
     <qresource prefix="/graphics" >
         <file>graphics/1px.png</file>

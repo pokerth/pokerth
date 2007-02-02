@@ -22,7 +22,7 @@
 StartSplash::StartSplash(mainWindowImpl *parent)
  : QSplashScreen(parent), myW(parent)
 {
-	QFontDatabase::addApplicationFont (":fonts/fonts/c059013l.ttf");
+	QFontDatabase::addApplicationFont (":fonts/fonts/c059013l.pfb");
 	QFontDatabase::addApplicationFont (":fonts/fonts/andybold.ttf");	
 
 	frameNo = 52;
@@ -48,7 +48,12 @@ void StartSplash::nextAnimationFrame() {
 void StartSplash::paintEvent(QPaintEvent * event) {
 
 	QPainter painter(this);
+
+#ifdef _WIN32
+	QFont welcomeFont("Times New Roman",29);	
+#else 
 	QFont welcomeFont("Century Schoolbook L",29);	
+#endif
 	QFont haveFont("Andy MT",30);
 	QPixmap logo(":/graphics/graphics/logo-140-100.png");
 
