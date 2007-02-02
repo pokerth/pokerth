@@ -58,7 +58,6 @@
         <file>fonts/andybold.ttf</file>
         <file>fonts/c059013l.ttf</file>
         <file>fonts/n019003l.ttf</file>
-        <file>fonts/n019043l.ttf</file>
     </qresource>
     <qresource prefix="/graphics" >
         <file>graphics/1px.png</file>
