@@ -1056,7 +1056,7 @@ void mainWindowImpl::myCheck() {
 	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
-	
+
 	//Spiel läuft weiter
 	nextPlayerAnimation();
 }
@@ -1752,12 +1752,12 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	
 	if (event->key() == 16777220) { if(spinBox_set->hasFocus()) pushButton_set->click(); } //ENTER
 	if (event->key() == 16777265) { switchToolBox(); } //F2
-	if (event->key() == 65) {  paintStartSplash();
+	if (event->key() == 16777249) { pushButton_break->click(); } //CTRL
+// 	if (event->key() == 65) {  paintStartSplash();
 		
-	}
-	if (event->key() == 66) {  
-		label_logo->hide();
-	}
+	     
+// 	if (event->key() == 66) {  label_logo->hide();	}
+	
 
 
 }
