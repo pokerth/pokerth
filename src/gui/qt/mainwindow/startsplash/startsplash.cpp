@@ -22,7 +22,7 @@
 StartSplash::StartSplash(mainWindowImpl *parent)
  : QSplashScreen(parent), myW(parent)
 {
-	QFontDatabase::addApplicationFont (":fonts/fonts/c059013l.pfb");
+	QFontDatabase::addApplicationFont (":fonts/fonts/c059013l.ttf");
 	QFontDatabase::addApplicationFont (":fonts/fonts/andybold.ttf");	
 
 	frameNo = 52;

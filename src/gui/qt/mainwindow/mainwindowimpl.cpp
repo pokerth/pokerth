@@ -53,7 +53,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	int i;
 
 // 	Schriftart laden 
-	QFontDatabase::addApplicationFont (":fonts/fonts/n019003l.pfb");
+	QFontDatabase::addApplicationFont (":fonts/fonts/n019003l.ttf");
 	QFont tmpFont("Nimbus Sans L",9);
 	QApplication::setFont(tmpFont);
 
@@ -1417,7 +1417,18 @@ void mainWindowImpl::postRiverRunAnimation3() {
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 6 ) { index6 = FALSE; }
 				}
 				if (index6) { boardCardsArray[4]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index6" << endl;*/}
-			}		
+			}	
+			
+		}
+		else {
+			
+			if( actualHand->getActivePlayersCounter() != 1 && actualHand->getPlayerArray()[i]->getMyAction() != 1 &&  myConfig->readConfigInt("ShowFadeOutCardsAnimation", 1) ) {
+    	
+			//aufgedeckte Gegner auch ausblenden
+				holeCardsArray[i][0]->startFadeOut(guiGameSpeed);
+				holeCardsArray[i][1]->startFadeOut(guiGameSpeed);
+			}
+
 		}
 	}
 	
