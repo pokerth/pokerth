@@ -214,7 +214,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 		painter.setFont(haveFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,190,300,40,4,"Have a lot of fun!");
+		painter.drawText(3,190,390,40,4,"Have a lot of fun!");
 
 	}
 
@@ -232,7 +232,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 		painter.setFont(haveFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,190,300,40,4,"Have a lot of fun! ;-)");
+		painter.drawText(3,190,390,40,4,"Have a lot of fun! ;-)");
 
 	}
 
