@@ -21,6 +21,9 @@
 
 #include <cstdlib>
 #include <fstream>
+#include <sys/types.h>
+#include <sys/stat.h>
+#define MODUS 0711
 
 #ifdef _WIN32
 #include <direct.h>
@@ -46,6 +49,7 @@ ConfigFile::ConfigFile()
 	// hier Linux/Mac Code zur Basispfadbestimmung, z.B.
 	string homePath = getenv("HOME");
 	configFileName = homePath+"/.pokerth/";
+	mkdir(configFileName.c_str(), MODUS) ;
 	// wenn nicht existiert, erzeugen!
 #endif
 	configFileName += "config.xml";
