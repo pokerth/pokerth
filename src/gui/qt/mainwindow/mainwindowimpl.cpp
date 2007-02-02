@@ -528,11 +528,6 @@ void mainWindowImpl::callSettingsDialog() {
 
 		int i,j;
 
-		for (i=0; i<=4; i++ ) { 
-			if(boardCardsArray[i]->getIsFlipside()) {
-				boardCardsArray[i]->setPixmap(*flipside, TRUE);
-			}
-		}
 		for (i=1; i<=4; i++ ) { 
 			for ( j=0; j<=1; j++ ) {
 				if (holeCardsArray[i][j]->getIsFlipside()) {
@@ -1426,7 +1421,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 		}
 		else {
 			
-			if( actualHand->getActivePlayersCounter() != 1 && actualHand->getPlayerArray()[i]->getMyAction() != 1 &&  myConfig->readConfigInt("ShowFadeOutCardsAnimation", 1) ) {
+			if( actualHand->getActivePlayersCounter() != 1 && actualHand->getPlayerArray()[i]->getMyAction() != 1 &&  actualHand->getPlayerArray()[i]->getMyActiveStatus() && myConfig->readConfigInt("ShowFadeOutCardsAnimation", 1) ) {
     	
 			//aufgedeckte Gegner auch ausblenden
 				holeCardsArray[i][0]->startFadeOut(guiGameSpeed);
