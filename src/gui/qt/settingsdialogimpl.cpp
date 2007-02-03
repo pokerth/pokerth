@@ -34,37 +34,37 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 	ConfigFile myConfig;	
 
 	//Player Nicks
-	lineEdit_humanPlayerName->setText(QString::fromStdString(myConfig.readConfigString("MyName", "Human Player")));
-	lineEdit_Opponent1Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent1Name", "Player 1")));
-	lineEdit_Opponent2Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent2Name", "Player 2")));
-	lineEdit_Opponent3Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent3Name", "Player 3")));
-	lineEdit_Opponent4Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent4Name", "Player 4")));
+	lineEdit_humanPlayerName->setText(QString::fromStdString(myConfig.readConfigString("MyName")));
+	lineEdit_Opponent1Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent1Name")));
+	lineEdit_Opponent2Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent2Name")));
+	lineEdit_Opponent3Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent3Name")));
+	lineEdit_Opponent4Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent4Name")));
 
 	//Game Settings
-	spinBox_quantityPlayers->setValue(myConfig.readConfigInt("NumberOfPlayers", 5));
-	spinBox_startCash->setValue(myConfig.readConfigInt("StartCash", 2000));
-	spinBox_smallBlind->setValue(myConfig.readConfigInt("SmallBlind", 10));
-	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("HandsBeforeRaiseSmallBlind", 9));
-	spinBox_gameSpeed->setValue(myConfig.readConfigInt("GameSpeed", 4));
-	checkBox_pauseBetweenHands->setChecked(myConfig.readConfigInt("PauseBetweenHands", 0));
-	checkBox_showGameSettingsDialogOnNewGame->setChecked(myConfig.readConfigInt("ShowGameSettingsDialogOnNewGame", 1));
+	spinBox_quantityPlayers->setValue(myConfig.readConfigInt("NumberOfPlayers"));
+	spinBox_startCash->setValue(myConfig.readConfigInt("StartCash"));
+	spinBox_smallBlind->setValue(myConfig.readConfigInt("SmallBlind"));
+	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("HandsBeforeRaiseSmallBlind"));
+	spinBox_gameSpeed->setValue(myConfig.readConfigInt("GameSpeed"));
+	checkBox_pauseBetweenHands->setChecked(myConfig.readConfigInt("PauseBetweenHands"));
+	checkBox_showGameSettingsDialogOnNewGame->setChecked(myConfig.readConfigInt("ShowGameSettingsDialogOnNewGame"));
 	
 	//Interface
-	checkBox_showToolbox->setChecked(myConfig.readConfigInt("ShowToolBox", 1));
-	checkBox_showIntro->setChecked(myConfig.readConfigInt("ShowIntro", 1));
-	checkBox_showFadeOutCardsAnimation->setChecked(myConfig.readConfigInt("ShowFadeOutCardsAnimation", 1));
-	checkBox_showFlipCardsAnimation->setChecked(myConfig.readConfigInt("ShowFlipCardsAnimation", 1));
-	radioButton_flipsideTux->setChecked(myConfig.readConfigInt("FlipsideTux", 1));
-	radioButton_flipsideOwn->setChecked(myConfig.readConfigInt("FlipsideOwn", 0));
+	checkBox_showToolbox->setChecked(myConfig.readConfigInt("ShowToolBox"));
+	checkBox_showIntro->setChecked(myConfig.readConfigInt("ShowIntro"));
+	checkBox_showFadeOutCardsAnimation->setChecked(myConfig.readConfigInt("ShowFadeOutCardsAnimation"));
+	checkBox_showFlipCardsAnimation->setChecked(myConfig.readConfigInt("ShowFlipCardsAnimation"));
+	radioButton_flipsideTux->setChecked(myConfig.readConfigInt("FlipsideTux"));
+	radioButton_flipsideOwn->setChecked(myConfig.readConfigInt("FlipsideOwn"));
 	if(radioButton_flipsideOwn->isChecked()) { 
 		lineEdit_OwnFlipsideFilename->setEnabled(TRUE);
 		pushButton_openFlipsidePicture->setEnabled(TRUE);
 	}
-	lineEdit_OwnFlipsideFilename->setText(QString::fromStdString(myConfig.readConfigString("FlipsideOwnFile", "")));
+	lineEdit_OwnFlipsideFilename->setText(QString::fromStdString(myConfig.readConfigString("FlipsideOwnFile")));
 
 	//Log 
-	lineEdit_logDir->setText(QString::fromStdString(myConfig.readConfigString("LogDir", "")));
-	spinBox_logStoreDuration->setValue(myConfig.readConfigInt("LogStoreDuration", 2));
+	lineEdit_logDir->setText(QString::fromStdString(myConfig.readConfigString("LogDir")));
+	spinBox_logStoreDuration->setValue(myConfig.readConfigInt("LogStoreDuration"));
 	
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
 	connect( lineEdit_humanPlayerName, SIGNAL( textChanged( const QString &) ), this, SLOT( playerNickChanged() ) );
@@ -80,6 +80,8 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 
 
 void settingsDialogImpl::isAccepted() {
+
+	settingsCorrect = TRUE;
 
 	//Daten speichern
 	ConfigFile myConfig;
@@ -110,9 +112,19 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toStdString());
 
 //	Log
-	myConfig.writeConfigString("LogDir", lineEdit_logDir->text().toStdString());
+	if(QDir::QDir(lineEdit_logDir->text()).exists() && lineEdit_logDir->text() != "") { myConfig.writeConfigString("LogDir", lineEdit_logDir->text().toStdString());	}
+	else { 
+		QMessageBox::warning(this, tr("Settings Error"),
+                   tr("The Log File Directory doesn't exists.\n"
+                      "Please select an existing Directory!"),
+                   QMessageBox::Ok);
+		settingsCorrect = FALSE; 
+	}
+
 	myConfig.writeConfigInt("LogStoreDuration", spinBox_logStoreDuration->value());
 
+
+	if(settingsCorrect) { this->hide(); }
 }
 
 void settingsDialogImpl::setFlipsidePicFileName()

@@ -34,6 +34,8 @@ public:
 	void setPlayerNickIsChanged(bool theValue){ playerNickIsChanged = theValue;}
 	bool getPlayerNickIsChanged() const{ return playerNickIsChanged;}
 
+	bool getSettingsCorrect() const{ return settingsCorrect;}
+
 public slots:
 
 	void isAccepted();
@@ -44,6 +46,7 @@ public slots:
 private:
 	
 	bool playerNickIsChanged;
+	bool settingsCorrect;
 
 };
 

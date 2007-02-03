@@ -176,8 +176,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	//Flipside festlegen;
 	flipside = new QPixmap(":/cards/graphics/cards/flipside.png");
 	
-	if (myConfig->readConfigInt("FlipsideOwn",0) && myConfig->readConfigString("FlipsideOwnFile","") != "") {
-		QPixmap tmpFlipside(QString::fromStdString(myConfig->readConfigString("FlipsideOwnFile", "")));
+	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
+		QPixmap tmpFlipside(QString::fromStdString(myConfig->readConfigString("FlipsideOwnFile")));
 		flipside = new QPixmap(tmpFlipside.scaled(QSize(57, 80)));
 	}
 	else { flipside->load(":/cards/graphics/cards/flipside.png"); }
@@ -187,9 +187,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 
 	//Toolbox verstecken?				
-	if (!myConfig->readConfigInt("ShowToolBox", 1)) { groupBox_tools->hide(); }
+	if (!myConfig->readConfigInt("ShowToolBox")) { groupBox_tools->hide(); }
 	//Intro abspielen?
-	if (myConfig->readConfigInt("ShowIntro", 1)) { 
+	if (myConfig->readConfigInt("ShowIntro")) { 
 		label_logo->hide();
 		QTimer::singleShot(100, this, SLOT( paintStartSplash() )); }
 
@@ -411,7 +411,7 @@ void mainWindowImpl::callNewGameDialog() {
 
 	//wenn Dialogfenster gezeigt werden soll
 
-	if(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame", 1)){
+	if(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame")){
 
 		newGameDialogImpl *v = new newGameDialogImpl();
 		v->exec();
@@ -458,7 +458,7 @@ void mainWindowImpl::callNewGameDialog() {
 			actualGame = 0;
 		}
 	
-		guiGameSpeed = myConfig->readConfigInt("GameSpeed",4);
+		guiGameSpeed = myConfig->readConfigInt("GameSpeed");
 		//Speeds 
 		setSpeeds();
 				
@@ -482,7 +482,7 @@ void mainWindowImpl::callNewGameDialog() {
 		horizontalSlider_speed->setValue(guiGameSpeed);
 
 		//Start Game!!!
-		mySession->startGame(myConfig->readConfigInt("NumberOfPlayers",5), myConfig->readConfigInt("StartCash",2000), myConfig->readConfigInt("SmallBlind",10));
+		mySession->startGame(myConfig->readConfigInt("NumberOfPlayers"), myConfig->readConfigInt("StartCash"), myConfig->readConfigInt("SmallBlind"));
 
 
 	}
@@ -500,10 +500,10 @@ void mainWindowImpl::callSettingsDialog() {
 	settingsDialogImpl *v = new settingsDialogImpl();
 	v->exec();
 		
-	if (v->result()) {
+	if (v->getSettingsCorrect()) {
 		
 		//Toolbox verstecken?
-		if (!myConfig->readConfigInt("ShowToolBox", 1)) { groupBox_tools->hide(); }
+		if (!myConfig->readConfigInt("ShowToolBox")) { groupBox_tools->hide(); }
 		else { groupBox_tools->show(); }
 		
 		//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
@@ -520,9 +520,10 @@ void mainWindowImpl::callSettingsDialog() {
 		}
 	
 		//Flipside refresh
-		if (myConfig->readConfigInt("FlipsideOwn",0) && myConfig->readConfigString("FlipsideOwnFile","") != "") {
-		QPixmap tmpFlipside(QString::fromStdString(myConfig->readConfigString("FlipsideOwnFile", "")));
-		flipside = new QPixmap(tmpFlipside.scaled(QSize(57, 80)));
+		if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
+
+			QPixmap tmpFlipside(QString::fromStdString(myConfig->readConfigString("FlipsideOwnFile")));
+			flipside = new QPixmap(tmpFlipside.scaled(QSize(57, 80)));
 		}
 		else { flipside->load(":/cards/graphics/cards/flipside.png"); }
 
@@ -804,7 +805,7 @@ void mainWindowImpl::dealFlopCards4() {
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
-	if(myConfig->readConfigInt("ShowFlipCardsAnimation", 1)) { 
+	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
 		//mit Eye-Candy
 		boardCardsArray[0]->startFlipCards(guiGameSpeed, card, flipside);
 	}
@@ -824,7 +825,7 @@ void mainWindowImpl::dealFlopCards5() {
 	QPixmap card(tempCardsPixmap);
 	
 	//Config? mit oder ohne Eye-Candy?
-	if(myConfig->readConfigInt("ShowFlipCardsAnimation", 1)) { 
+	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
 		//mit Eye-Candy
 		boardCardsArray[1]->startFlipCards(guiGameSpeed, card, flipside);
 	}
@@ -845,7 +846,7 @@ void mainWindowImpl::dealFlopCards6() {
 	QPixmap card(tempCardsPixmap);
 	
 	//Config? mit oder ohne Eye-Candy?
-	if(myConfig->readConfigInt("ShowFlipCardsAnimation", 1)) { 
+	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
 		//mit Eye-Candy
 		boardCardsArray[2]->startFlipCards(guiGameSpeed, card, flipside);
 	}
@@ -880,7 +881,7 @@ void mainWindowImpl::dealTurnCards2() {
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
-	if(myConfig->readConfigInt("ShowFlipCardsAnimation", 1)) { 
+	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
 		//mit Eye-Candy
 		boardCardsArray[3]->startFlipCards(guiGameSpeed, card, flipside);
 	}
@@ -916,7 +917,7 @@ void mainWindowImpl::dealRiverCards2() {
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
-	if(myConfig->readConfigInt("ShowFlipCardsAnimation", 1)) { 
+	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
 		//mit Eye-Candy
 		boardCardsArray[4]->startFlipCards(guiGameSpeed, card, flipside);
 	}
@@ -1303,7 +1304,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 		if(!flipHolecardsAllInAlreadyDone) {
 
 			//Config? mit oder ohne Eye-Candy?
-			if(myConfig->readConfigInt("ShowFlipCardsAnimation", 1)) { 
+			if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
 				// mit Eye-Candy
 		
 				//TempArrays
@@ -1369,7 +1370,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 			actionLabelArray[i]->setText("<p align='center'><b>- Winner -</b></p>");
 
 			//nicht gewonnene Karten ausblenden
-			if ( actualHand->getActivePlayersCounter() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation", 1)) {
+			if ( actualHand->getActivePlayersCounter() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
 
 				int j;
 	
@@ -1421,7 +1422,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 		}
 		else {
 			
-			if( actualHand->getActivePlayersCounter() != 1 && actualHand->getPlayerArray()[i]->getMyAction() != 1 &&  actualHand->getPlayerArray()[i]->getMyActiveStatus() && myConfig->readConfigInt("ShowFadeOutCardsAnimation", 1) ) {
+			if( actualHand->getActivePlayersCounter() != 1 && actualHand->getPlayerArray()[i]->getMyAction() != 1 &&  actualHand->getPlayerArray()[i]->getMyActiveStatus() && myConfig->readConfigInt("ShowFadeOutCardsAnimation") ) {
     	
 			//aufgedeckte Gegner auch ausblenden
 				holeCardsArray[i][0]->startFadeOut(guiGameSpeed);
@@ -1533,7 +1534,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 		if(activePlayersCounter!=1) { 
 			
 			//Config? mit oder ohne Eye-Candy?
-			if(myConfig->readConfigInt("ShowFlipCardsAnimation", 1)) { 
+			if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
 				// mit Eye-Candy
 	
 				//TempArrays
@@ -1641,7 +1642,7 @@ void mainWindowImpl::nextRoundCleanGui() {
 	flipHolecardsAllInAlreadyDone = FALSE;
 
 	//Wenn Pause zwischen den Hands in der Konfiguration steht den Stop Button drücken!
-	if (myConfig->readConfigInt("PauseBetweenHands", 0)) { pushButton_break->click(); }
+	if (myConfig->readConfigInt("PauseBetweenHands")) { pushButton_break->click(); }
 
 }
 

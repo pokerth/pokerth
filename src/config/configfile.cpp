@@ -59,7 +59,7 @@ ConfigFile::ConfigFile()
 		mkdir(configFileName.c_str(), MODUS) ;
 		//Log-File Ordner auch erstellen
 		logDir = configFileName;
-		logDir += "/log-files/";
+		logDir += "log-files/";
 		mkdir(logDir.c_str(), MODUS);
 	}
 #endif
@@ -169,7 +169,7 @@ void ConfigFile::createDefaultConfig() {
 
 }
 
-string ConfigFile::readConfigString(string varName, string defaultValue)
+string ConfigFile::readConfigString(string varName)
 {
   	string tempString("");
 
@@ -197,7 +197,7 @@ string ConfigFile::readConfigString(string varName, string defaultValue)
 	return tempString;
  }
 
-int ConfigFile::readConfigInt(string varName, int defaultValue)
+int ConfigFile::readConfigInt(string varName)
 {
   	int tempInt=0;
 // 	cout << varName << " : " << tempInt << "\n";

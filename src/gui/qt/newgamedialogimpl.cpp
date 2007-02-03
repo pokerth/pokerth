@@ -31,11 +31,11 @@ newGameDialogImpl::newGameDialogImpl(QWidget *parent)
 
 	//Game Settings
 
-	spinBox_quantityPlayers->setValue(myConfig.readConfigInt("NumberOfPlayers", 5));
-	spinBox_startCash->setValue(myConfig.readConfigInt("StartCash", 2000));
-	spinBox_smallBlind->setValue(myConfig.readConfigInt("SmallBlind", 10));
-	spinBox_gameSpeed->setValue(myConfig.readConfigInt("GameSpeed", 4));
-	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("HandsBeforeRaiseSmallBlind", 9));
+	spinBox_quantityPlayers->setValue(myConfig.readConfigInt("NumberOfPlayers"));
+	spinBox_startCash->setValue(myConfig.readConfigInt("StartCash"));
+	spinBox_smallBlind->setValue(myConfig.readConfigInt("SmallBlind"));
+	spinBox_gameSpeed->setValue(myConfig.readConfigInt("GameSpeed"));
+	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("HandsBeforeRaiseSmallBlind"));
 
 }
 

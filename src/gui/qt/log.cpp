@@ -26,6 +26,22 @@ using namespace std;
 Log::Log(mainWindowImpl* w) : myW(w)
 {
 	myW->setLog(this);
+
+	myConfig = new ConfigFile;
+	if(myConfig->readConfigString("LogDir") != "" && QDir::QDir(QString::fromStdString(myConfig->readConfigString("LogDir"))).exists()) { 
+
+		myLogDir = new QDir(QString::fromStdString(myConfig->readConfigString("LogDir")));
+		myLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh:mm:ss")+".log");
+
+		myLogFile->open( QIODevice::WriteOnly );
+		QTextStream stream( myLogFile );
+		stream << "### This is a Log File for PokerTH ### \n";
+		myLogFile->close();
+	} 
+
+	
+
+;
 	
 }
 

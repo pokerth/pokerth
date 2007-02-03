@@ -62,18 +62,11 @@ Game::Game(ConfigFile* c, GuiInterface* g, int qP, int sC, int sB) : myConfig(c)
 
 		//Namen abfragen 
 		ostringstream myName;
-		ostringstream myDefaultName;
-		if (i==0) { 
-			myName << "MyName";
-			myDefaultName << "Human Player";
-		}
-		else {
-			myName << "Opponent" << i << "Name";
-			myDefaultName << "Player " << i << "Name";
-		}
+		if (i==0) { myName << "MyName";	}
+		else { myName << "Opponent" << i << "Name"; }
 
 		//PlayerObjekte erzeugen
-		tempPlayer = myFactory->createPlayer(actualBoard, i, myConfig->readConfigString(myName.str(),myDefaultName.str()), startCash, startQuantityPlayers > i, 0);
+		tempPlayer = myFactory->createPlayer(actualBoard, i, myConfig->readConfigString(myName.str()), startCash, startQuantityPlayers > i, 0);
 		playerArray[i] = tempPlayer;
 	}
 	actualBoard->setPlayer(playerArray);
@@ -120,7 +113,7 @@ void Game::startHand()
 	actualHandID++;
 
 	// smallBlind alle x Runden erhöhen
-	int handsBeforeRaiseSmallBLind = myConfig->readConfigInt("HandsBeforeRaiseSmallBlind", 9);
+	int handsBeforeRaiseSmallBLind = myConfig->readConfigInt("HandsBeforeRaiseSmallBlind");
 	if(actualHandID%handsBeforeRaiseSmallBLind == 0) actualSmallBlind *= 2;
 
 	//Spieler Action auf 0 setzen 

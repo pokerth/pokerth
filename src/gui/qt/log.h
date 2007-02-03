@@ -22,7 +22,12 @@
 
 #include <string>
 #include <iostream>
+
+#include "configfile.h"
+
 #include <QtCore>
+
+
 
 
 
@@ -41,6 +46,9 @@ public:
 private:
 
 	mainWindowImpl *myW;
+	ConfigFile *myConfig;
+	QFile *myLogFile;
+	QDir *myLogDir;
 
 };
 

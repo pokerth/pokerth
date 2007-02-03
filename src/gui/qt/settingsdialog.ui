@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>580</width>
-    <height>349</height>
+    <width>571</width>
+    <height>353</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -644,8 +644,8 @@ p, li { white-space: pre-wrap; }
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>295</x>
-     <y>302</y>
+     <x>304</x>
+     <y>339</y>
     </hint>
     <hint type="destinationlabel" >
      <x>286</x>
@@ -670,50 +670,18 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>settingsDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>243</x>
-     <y>295</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>243</x>
-     <y>169</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>settingsDialog</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>243</x>
-     <y>295</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>243</x>
-     <y>169</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>radioButton_flipsideTux</sender>
    <signal>clicked(bool)</signal>
    <receiver>lineEdit_OwnFlipsideFilename</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>209</x>
-     <y>170</y>
+     <x>394</x>
+     <y>213</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>353</x>
-     <y>205</y>
+     <x>512</x>
+     <y>245</y>
     </hint>
    </hints>
   </connection>
@@ -724,12 +692,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>220</x>
-     <y>210</y>
+     <x>325</x>
+     <y>246</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>429</x>
-     <y>207</y>
+     <x>512</x>
+     <y>245</y>
     </hint>
    </hints>
   </connection>
@@ -740,12 +708,12 @@ p, li { white-space: pre-wrap; }
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>345</x>
-     <y>173</y>
+     <x>530</x>
+     <y>213</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>474</x>
-     <y>194</y>
+     <x>520</x>
+     <y>245</y>
     </hint>
    </hints>
   </connection>
@@ -756,12 +724,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>199</x>
-     <y>208</y>
+     <x>325</x>
+     <y>246</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>463</x>
-     <y>201</y>
+     <x>520</x>
+     <y>245</y>
     </hint>
    </hints>
   </connection>
