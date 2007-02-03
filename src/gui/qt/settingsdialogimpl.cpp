@@ -61,6 +61,10 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 		pushButton_openFlipsidePicture->setEnabled(TRUE);
 	}
 	lineEdit_OwnFlipsideFilename->setText(QString::fromStdString(myConfig.readConfigString("FlipsideOwnFile", "")));
+
+	//Log 
+	lineEdit_logDir->setText(QString::fromStdString(myConfig.readConfigString("LogDir", "")));
+	spinBox_logStoreDuration->setValue(myConfig.readConfigInt("LogStoreDuration", 2));
 	
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
 	connect( lineEdit_humanPlayerName, SIGNAL( textChanged( const QString &) ), this, SLOT( playerNickChanged() ) );
@@ -69,6 +73,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 	connect( lineEdit_Opponent3Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( lineEdit_Opponent4Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( pushButton_openFlipsidePicture, SIGNAL( clicked() ), this, SLOT( setFlipsidePicFileName()) );
+	connect( pushButton_openLogDir, SIGNAL( clicked() ), this, SLOT( setLogDir()) );
 	
 
 }
@@ -104,6 +109,10 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());
 	myConfig.writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toStdString());
 
+//	Log
+	myConfig.writeConfigString("LogDir", lineEdit_logDir->text().toStdString());
+	myConfig.writeConfigInt("LogStoreDuration", spinBox_logStoreDuration->value());
+
 }
 
 void settingsDialogImpl::setFlipsidePicFileName()
@@ -114,4 +123,14 @@ void settingsDialogImpl::setFlipsidePicFileName()
 
      if (!fileName.isEmpty())
          lineEdit_OwnFlipsideFilename->setText(fileName);
+ }
+
+void settingsDialogImpl::setLogDir()
+ {
+	 QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                 QDir::homePath(),
+                                                 QFileDialog::ShowDirsOnly
+                                                 | QFileDialog::DontResolveSymlinks);
+		
+     	if (!dir.isEmpty()) lineEdit_logDir->setText(dir);
  }

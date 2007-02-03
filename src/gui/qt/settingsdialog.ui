@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>580</width>
-    <height>342</height>
+    <height>349</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -435,7 +435,56 @@ p, li { white-space: pre-wrap; }
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="2" column="0" >
+       <item row="3" column="0" >
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_17" >
+           <property name="maximumSize" >
+            <size>
+             <width>99</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text" >
+            <string>Store Log Files for</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_logStoreDuration" >
+           <property name="maximumSize" >
+            <size>
+             <width>50</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="maximum" >
+            <number>7</number>
+           </property>
+           <property name="minimum" >
+            <number>1</number>
+           </property>
+           <property name="value" >
+            <number>2</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_18" >
+           <property name="text" >
+            <string>Day(s)</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="4" column="0" >
         <spacer>
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -447,13 +496,6 @@ p, li { white-space: pre-wrap; }
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="1" column="0" >
-        <widget class="Line" name="line_2" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
        </item>
        <item row="0" column="0" >
         <widget class="QLabel" name="label_6" >
@@ -467,6 +509,52 @@ p, li { white-space: pre-wrap; }
           <string>Log Messages</string>
          </property>
         </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="Line" name="line_2" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_16" >
+           <property name="text" >
+            <string>Log File Directory: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_logDir" />
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_openLogDir" >
+           <property name="minimumSize" >
+            <size>
+             <width>27</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="maximumSize" >
+            <size>
+             <width>27</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="icon" >
+            <iconset resource="deck.qrc" >:/graphics/graphics/fileopen16.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>

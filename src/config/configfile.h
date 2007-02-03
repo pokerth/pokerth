@@ -40,6 +40,7 @@ public:
 
 private:
 	std::string configFileName;
+	std::string logDir;
 	int configRev;
 	
 };

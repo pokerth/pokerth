@@ -39,6 +39,7 @@ public slots:
 	void isAccepted();
 	void playerNickChanged() { setPlayerNickIsChanged(TRUE); };
 	void setFlipsidePicFileName();
+	void setLogDir();
 
 private:
 	

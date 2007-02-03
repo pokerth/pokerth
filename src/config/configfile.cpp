@@ -34,23 +34,34 @@ using namespace std;
 ConfigFile::ConfigFile()
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 3;
+	configRev = 4;
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
 	const char *appDataPath = getenv("AppData");
 	if (appDataPath)
-	{
+	{	//Programmordner erstellen
 		configFileName = appDataPath;
 		configFileName += "\\pokerth\\";
 		mkdir(configFileName.c_str());
+		//Log-File Ordner auch erstellen
+		logDir = configFileName;
+		logDir += "\\log-files\\";
+		mkdir(logDir.c_str());
+		
 	}
 #else
-	// hier Linux/Mac Code zur Basispfadbestimmung, z.B.
-	string homePath = getenv("HOME");
-	configFileName = homePath+"/.pokerth/";
-	mkdir(configFileName.c_str(), MODUS) ;
-	// wenn nicht existiert, erzeugen!
+	//Programmordner erstellen
+	const char *homePath = getenv("HOME");
+	if(homePath) {
+		configFileName = homePath;
+		configFileName += "/.pokerth/";
+		mkdir(configFileName.c_str(), MODUS) ;
+		//Log-File Ordner auch erstellen
+		logDir = configFileName;
+		logDir += "/log-files/";
+		mkdir(logDir.c_str(), MODUS);
+	}
 #endif
 	configFileName += "config.xml";
 
@@ -147,7 +158,13 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * confElement18 = new TiXmlElement( "FlipsideOwnFile" );
 		config->LinkEndChild( confElement18 );
       		confElement18->SetAttribute("value", "");
-
+		TiXmlElement * confElement20 = new TiXmlElement( "LogDir" );
+		config->LinkEndChild( confElement20 );
+      		confElement20->SetAttribute("value", logDir);
+		TiXmlElement * confElement21 = new TiXmlElement( "LogStoreDuration" );
+		config->LinkEndChild( confElement21 );
+      		confElement21->SetAttribute("value", 2);
+		
 		doc.SaveFile( configFileName );
 
 }
