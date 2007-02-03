@@ -1743,7 +1743,7 @@ void mainWindowImpl::paintStartSplash() {
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
-	cout << event->key() << endl;
+// 	cout << event->key() << endl;
 	
 	if (event->key() == 16777220) { if(spinBox_set->hasFocus()) pushButton_set->click(); } //ENTER
 	if (event->key() == 16777265) { switchToolBox(); } //F2
