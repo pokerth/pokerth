@@ -4008,6 +4008,9 @@
    <property name="text" >
     <string>Start New Game ...</string>
    </property>
+   <property name="shortcut" >
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="actionQuit" >
    <property name="text" >

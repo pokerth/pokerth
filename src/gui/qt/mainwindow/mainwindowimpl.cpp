@@ -353,7 +353,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	highlight.setRgb(151,214,109);
 
 	//ShortCuts 
-// 	QShortcut *startNewGameKeys = new QShortcut(QKeySequence(Qt::Key_Control), Ui::mainWindow);
+// 	QShortcut *startNewGameKeys = new QShortcut(QKeySequence(Qt::Key_Control + Qt::Key_N), this);
+// 	connect( startNewGameKeys, SIGNAL(activated() ), actionNewGame, SLOT( trigger() ) );
 
 	//Connects
 	connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
@@ -388,9 +389,6 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	connect(postRiverRunAnimation5Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation6() ));
 	connect(postRiverRunAnimation6Timer, SIGNAL(timeout()), this, SLOT( startNewHand() ));
 
-
-	
-// 	connect( startNewGameKeys, SIGNAL(activated() ), this, SLOT( callNewGameDialog() ) );
 	connect( actionNewGame, SIGNAL( triggered() ), this, SLOT( callNewGameDialog() ) );
 	connect( actionAboutPokerth, SIGNAL( triggered() ), this, SLOT( callAboutPokerthDialog() ) );
 	connect( actionSettings, SIGNAL( triggered() ), this, SLOT( callSettingsDialog() ) );
@@ -1750,7 +1748,7 @@ void mainWindowImpl::paintStartSplash() {
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
-	cout << event->key() << endl;
+// 	cout << event->key() << endl;
 	
 	bool ctrlPressed = FALSE;
 
