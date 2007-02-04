@@ -40,7 +40,7 @@ public:
     ~Log();
 
 	
-	void showPlayerActionLogMsg(std::string playName, int action, int setValue) const;
+	void logPlayerActionMsg(std::string playName, int action, int setValue) const;
 
 
 private:

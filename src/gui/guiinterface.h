@@ -92,7 +92,7 @@ public:
 
 
 	//log.cpp
-	virtual void showPlayerActionLogMsg(std::string playName, int action, int setValue) const=0;
+	virtual void logPlayerActionMsg(std::string playName, int action, int setValue) const=0;
 
 
 

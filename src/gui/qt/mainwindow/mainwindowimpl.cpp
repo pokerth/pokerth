@@ -1035,7 +1035,7 @@ void mainWindowImpl::myFold(){
 	actualHand->getPlayerArray()[0]->setMyTurn(0);
 
 	//Action in LogWindow
-	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
+	myLog->logPlayerActionMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 	
@@ -1049,7 +1049,7 @@ void mainWindowImpl::myCheck() {
 	actualHand->getPlayerArray()[0]->setMyTurn(0);
 
 	//Action in LogWindow
-	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
+	myLog->logPlayerActionMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 
@@ -1089,7 +1089,7 @@ void mainWindowImpl::myCall(){
 	refreshPot();
 
 	//Action in LogWindow
-	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
+	myLog->logPlayerActionMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 
@@ -1192,7 +1192,7 @@ void mainWindowImpl::mySet(){
 	refreshPot();
 
 	//Action in LogWindow
-	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
+	myLog->logPlayerActionMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 
@@ -1225,7 +1225,7 @@ void mainWindowImpl::myAllIn(){
 	refreshPot();
 
 	//Action in LogWindow
-	myLog->showPlayerActionLogMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
+	myLog->logPlayerActionMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 	
 	disableMyButtons();
 

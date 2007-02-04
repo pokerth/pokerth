@@ -109,14 +109,20 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("ShowFlipCardsAnimation", checkBox_showFlipCardsAnimation->isChecked());
 	myConfig.writeConfigInt("FlipsideTux", radioButton_flipsideTux->isChecked());
 	myConfig.writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());
-	myConfig.writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toStdString());
+
+	if(QFile::QFile(lineEdit_OwnFlipsideFilename->text()).exists() && lineEdit_OwnFlipsideFilename->text() != "") {myConfig.writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toStdString()); }
+	else {	QMessageBox::warning(this, tr("Settings Error"),
+                   tr("The entered Flipside Picture doesn't exists.\n"
+                      "Please enter an valid Picture!"),
+                   QMessageBox::Ok);
+		settingsCorrect = FALSE; }
 
 //	Log
 	if(QDir::QDir(lineEdit_logDir->text()).exists() && lineEdit_logDir->text() != "") { myConfig.writeConfigString("LogDir", lineEdit_logDir->text().toStdString());	}
 	else { 
 		QMessageBox::warning(this, tr("Settings Error"),
                    tr("The Log File Directory doesn't exists.\n"
-                      "Please select an existing Directory!"),
+                      "Please select an valid Directory!"),
                    QMessageBox::Ok);
 		settingsCorrect = FALSE; 
 	}
@@ -124,6 +130,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("LogStoreDuration", spinBox_logStoreDuration->value());
 
 
+	//Wenn alles richtig eingegeben wurde --> Dialog schließen
 	if(settingsCorrect) { this->hide(); }
 }
 

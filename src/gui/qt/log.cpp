@@ -31,11 +31,19 @@ Log::Log(mainWindowImpl* w) : myW(w)
 	if(myConfig->readConfigString("LogDir") != "" && QDir::QDir(QString::fromStdString(myConfig->readConfigString("LogDir"))).exists()) { 
 
 		myLogDir = new QDir(QString::fromStdString(myConfig->readConfigString("LogDir")));
-		myLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh:mm:ss")+".log");
+		myLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh:mm:ss")+".html");
+
+		//Logo-Pixmap extrahieren
+		QPixmap::QPixmap(":graphics/graphics/logo-140-100.png").save(myLogDir->absolutePath()+"/logo.png");
 
 		myLogFile->open( QIODevice::WriteOnly );
 		QTextStream stream( myLogFile );
-		stream << "### This is a Log File for PokerTH ### \n";
+		stream << "<html>";
+		stream << "<body>";
+		stream << "<img src='logo.png'>";
+		stream << "<h3><b>Log-File for PokerTH Session started on "+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>";
+		stream << "</body>";
+		stream << "</html>";
 		myLogFile->close();
 	} 
 
@@ -49,7 +57,7 @@ Log::~Log()
 {
 }
 
-void Log::showPlayerActionLogMsg(string playerName, int action, int setValue) const {
+void Log::logPlayerActionMsg(string playerName, int action, int setValue) const {
 	
 	QString msg;
 	msg = QString::fromStdString(playerName);

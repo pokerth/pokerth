@@ -92,7 +92,7 @@ void LocalPlayer::action() {
 	myTurn = 0;
 // 	cout << "jetzt" << endl;
 	
-	actualHand->getGuiInterface()->showPlayerActionLogMsg(myName, myAction, mySet);
+	actualHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
 	actualHand->getGuiInterface()->nextPlayerAnimation();
 
 
