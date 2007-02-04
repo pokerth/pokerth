@@ -27,13 +27,15 @@
 #include <QtGui>
 #include <QtCore>
 
+#include "handinterface.h"
+
 class Game;
 class Session;
 class Log;
 class ConfigFile;
 
 class BoardInterface;
-class HandInterface;
+// class HandInterface;
 class PlayerInterface;
 
 class MyCardsPixmapLabel;
@@ -46,12 +48,18 @@ Q_OBJECT
 public:
 	mainWindowImpl(QMainWindow *parent = 0 );
 
+	~mainWindowImpl();
+
 	void setGame(Game*);
 	void setHand(HandInterface*);
 	void setSession(Session*);
 	void setLog(Log*);
 
 	int getMaxQuantityPlayers() const { return maxQuantityPlayers; }
+	
+	void setActualHand(HandInterface* theValue) { actualHand = theValue;}
+	HandInterface* getActualHand() const {  return actualHand;}
+
 
 	//refresh-Funktionen
 	void refreshSet();
@@ -155,6 +163,9 @@ public slots:
 	void switchToolBox();
 
 	void paintStartSplash();
+
+	
+	
 
 private: 
 	

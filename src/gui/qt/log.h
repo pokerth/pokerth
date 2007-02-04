@@ -25,13 +25,11 @@
 
 #include "configfile.h"
 
+
 #include <QtCore>
 
-
-
-
-
 class mainWindowImpl;
+
 
 class Log{
 public:
@@ -42,7 +40,9 @@ public:
 	
 	void logPlayerActionMsg(std::string playName, int action, int setValue);
 	void logNewGameHandMsg(int gameID, int handID);
+	void logPlayerWinsMsg(int playerID);
 
+	void closeLogFile();
 
 private:
 
@@ -50,6 +50,7 @@ private:
 	
 	mainWindowImpl *myW;
 	ConfigFile *myConfig;
+	QTextStream stream;
 	QFile *myLogFile;
 	QDir *myLogDir;
 

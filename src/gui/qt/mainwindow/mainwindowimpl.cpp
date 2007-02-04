@@ -26,7 +26,7 @@
 #include "startsplash.h"
 #include "mycardspixmaplabel.h"
 
-#include "handinterface.h"
+
 #include "playerinterface.h"
 #include "boardinterface.h"
 
@@ -408,6 +408,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 }
 
+mainWindowImpl::~mainWindowImpl() {}
 
 void mainWindowImpl::callNewGameDialog() {
 
@@ -1368,10 +1369,13 @@ void mainWindowImpl::postRiverRunAnimation3() {
 	//Alle Winner erhellen und "Winner" schreiben
 	for(i=0; i<maxQuantityPlayers; i++) {
 		if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1 && actualHand->getPlayerArray()[i]->getMyCardsValueInt() == actualHand->getRiver()->getHighestCardsValue() ) { 
+
 			QPalette tempPalette = groupBoxArray[i]->palette();
 			tempPalette.setColor(QPalette::Window, highlight);
 			groupBoxArray[i]->setPalette(tempPalette);
 			actionLabelArray[i]->setText("<p align='center'><b>- Winner -</b></p>");
+
+			myLog->logPlayerWinsMsg(i);
 
 			//nicht gewonnene Karten ausblenden
 			if ( actualHand->getActivePlayersCounter() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {

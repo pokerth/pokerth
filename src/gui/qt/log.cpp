@@ -42,11 +42,11 @@ Log::Log(mainWindowImpl* w) : myW(w)
 		stream << "<body>\n";
 		stream << "<img src='logo.png'>\n";
 		stream << "<h3><b>Log-File for PokerTH Session started on "+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
-		stream << "</body>\n";
-		stream << "</html>\n";
+// 		stream << "</body>\n";
+// 		stream << "</html>\n";
 		myLogFile->close();
 
-		linesInFile = 5;
+		linesInFile = 3;
 	} 
 	
 }
@@ -85,10 +85,10 @@ void Log::logPlayerActionMsg(string playerName, int action, int setValue) {
 
 	myLogFile->open( QIODevice::ReadWrite );
 	QTextStream stream( myLogFile );
-	for(i=0; i<=linesInFile-2; i++) { stream.readLine(); }
+	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
 	stream << msg+"</br>\n";
-	stream << "</body>\n";
-	stream << "</html>\n";
+// 	stream << "</body>\n";
+// 	stream << "</html>\n";
 	myLogFile->close();
 
 	linesInFile++;
@@ -103,14 +103,45 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	
 	myLogFile->open( QIODevice::ReadWrite );
 	QTextStream stream( myLogFile );
-	for(i=0; i<=linesInFile-2; i++) { stream.readLine(); }
+	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
 	
-	QString msg("<p style='text-weight:bold;'>##### Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" #####<p>");
+	QString msg("<p><b>##### Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" #####</b></br>");
 	stream << msg << "\n";
-	stream << "</body>\n";
-	stream << "</html>\n";
+	
+	for(i=0; i<myW->getMaxQuantityPlayers(); i++) {
+		if(myW->getActualHand()->getPlayerArray()[i]->getMyButton() == 1) {
+			stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+" (Dealer): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";	
+		}
+		else {
+			stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";	
+		}
+	}
+	stream << "</p>\n";
+// 	stream << "</body>\n";
+// 	stream << "</html>\n";
 	myLogFile->close();
 
+	linesInFile++;
+	linesInFile++;
+
+}
+
+void Log::logPlayerWinsMsg(int playerID) {
+
+	int i;
+
+	myW->textBrowser_Log->append(QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins!!! ");
+	
+	myLogFile->open( QIODevice::ReadWrite );
+	QTextStream stream( myLogFile );
+	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
+	
+	QString msg("<p><i>"+QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins!!!</i></p>\n");
+	stream << msg;
+
+	myLogFile->close();
+
+	linesInFile++;
 	linesInFile++;
 
 }
