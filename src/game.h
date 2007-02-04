@@ -35,7 +35,7 @@ class ConfigFile;
 class Game {
 
 public:
-    Game(ConfigFile*, GuiInterface*, int, int, int);
+    Game(ConfigFile*, GuiInterface*, int, int, int, int);
 
     ~Game();
 
@@ -52,6 +52,10 @@ public:
 	void setDealerPosition(const int& theValue) { dealerPosition = theValue; }
 	int getDealerPosition() const { return dealerPosition; }
 	
+	void setMyGameID(const int& theValue) { myGameID = theValue;}
+	int getMyGameID() const	{ return myGameID; }
+	
+
 	
 	//Zufgriff Laufvariablen
 	void setActualQuantityPlayers(const int& theValue) { actualQuantityPlayers = theValue; }
@@ -83,11 +87,11 @@ private:
 	BoardInterface *actualBoard;
 	PlayerInterface *playerArray[5];
 
-
 	//Startvariablen	
 	int startQuantityPlayers;
 	int startCash;
 	int startSmallBlind;
+	int myGameID;
 
 	//Laufvariablen
 	int actualQuantityPlayers;

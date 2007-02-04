@@ -40,11 +40,14 @@ public:
     ~Log();
 
 	
-	void logPlayerActionMsg(std::string playName, int action, int setValue) const;
+	void logPlayerActionMsg(std::string playName, int action, int setValue);
+	void logNewGameHandMsg(int gameID, int handID);
 
 
 private:
 
+	int linesInFile;
+	
 	mainWindowImpl *myW;
 	ConfigFile *myConfig;
 	QFile *myLogFile;

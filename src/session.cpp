@@ -29,6 +29,7 @@ using namespace std;
 Session::Session(GuiInterface* g) : actualGame(0), myGui(g)
 {
 
+	actualGameID = 0;
 	// Session an mainwindowimpl bergeben
 	myGui->setSession(this);
 	
@@ -45,8 +46,9 @@ Session::~Session()
 
 void Session::startGame(int qP, int sC, int sB) {
 
-	actualGame = new Game(myConfig, myGui, qP, sC, sB);
+	actualGameID++;
 
+	actualGame = new Game(myConfig, myGui, qP, sC, sB, actualGameID);
 }
 
 void Session::deleteGame() {

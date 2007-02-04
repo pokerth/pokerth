@@ -31,7 +31,7 @@
 
 using namespace std;
 
-Game::Game(ConfigFile* c, GuiInterface* g, int qP, int sC, int sB) : myConfig(c), myGui(g), actualHand(0), actualBoard(0), startQuantityPlayers(qP), startCash(sC), startSmallBlind(sB), actualQuantityPlayers(qP), actualSmallBlind(sB), actualHandID(0), dealerPosition(0)
+Game::Game(ConfigFile* c, GuiInterface* g, int qP, int sC, int sB, int gId) : myConfig(c), myGui(g), actualHand(0), actualBoard(0), startQuantityPlayers(qP), startCash(sC), startSmallBlind(sB), myGameID(gId), actualQuantityPlayers(qP), actualSmallBlind(sB), actualHandID(0), dealerPosition(0)
 {
 // 	cout << "Create Game Object" << "\n";
 	int i;
@@ -140,6 +140,9 @@ void Game::startHand()
 	do {
 		dealerPosition = (dealerPosition+1)%(myGui->getMaxQuantityPlayers());
 	} while(!(playerArray[dealerPosition]->getMyActiveStatus()));
+
+
+	myGui->logNewGameHandMsg(myGameID, actualHandID);
 
 
 	// Abfrage Cash==0 -> player inactive -> actualQuantityPlayer--

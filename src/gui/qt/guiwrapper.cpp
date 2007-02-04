@@ -86,7 +86,7 @@ void GuiWrapper::nextRoundCleanGui() const { myW->nextRoundCleanGui(); }
 
 void GuiWrapper::meInAction() const { myW->meInAction(); }
 
-void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) const { myLog->logPlayerActionMsg(playerName, action, setValue); }
-
+void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) { myLog->logPlayerActionMsg(playerName, action, setValue); }
+void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->logNewGameHandMsg(gameID, handID); }
 
 

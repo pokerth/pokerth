@@ -38,9 +38,15 @@ public:
 	void startGame(int, int, int);
 	void deleteGame();
 
+	void setActualGameID(const int& theValue) { actualGameID = theValue; }
+	int getActualGameID() const { return actualGameID; }
+
 // 	void createConfig();
 
 private:
+
+	int actualGameID;
+
 	Game *actualGame;
 	GuiInterface *myGui;
 	ConfigFile *myConfig;

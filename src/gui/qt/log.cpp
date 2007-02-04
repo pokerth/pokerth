@@ -38,18 +38,16 @@ Log::Log(mainWindowImpl* w) : myW(w)
 
 		myLogFile->open( QIODevice::WriteOnly );
 		QTextStream stream( myLogFile );
-		stream << "<html>";
-		stream << "<body>";
-		stream << "<img src='logo.png'>";
-		stream << "<h3><b>Log-File for PokerTH Session started on "+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>";
-		stream << "</body>";
-		stream << "</html>";
+		stream << "<html>\n";
+		stream << "<body>\n";
+		stream << "<img src='logo.png'>\n";
+		stream << "<h3><b>Log-File for PokerTH Session started on "+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
+		stream << "</body>\n";
+		stream << "</html>\n";
 		myLogFile->close();
+
+		linesInFile = 5;
 	} 
-
-	
-
-;
 	
 }
 
@@ -57,8 +55,10 @@ Log::~Log()
 {
 }
 
-void Log::logPlayerActionMsg(string playerName, int action, int setValue) const {
-	
+void Log::logPlayerActionMsg(string playerName, int action, int setValue) {
+
+	int i;	
+
 	QString msg;
 	msg = QString::fromStdString(playerName);
 	
@@ -83,7 +83,34 @@ void Log::logPlayerActionMsg(string playerName, int action, int setValue) const 
 	
 	myW->textBrowser_Log->append(msg);
 
+	myLogFile->open( QIODevice::ReadWrite );
+	QTextStream stream( myLogFile );
+	for(i=0; i<=linesInFile-2; i++) { stream.readLine(); }
+	stream << msg+"</br>\n";
+	stream << "</body>\n";
+	stream << "</html>\n";
+	myLogFile->close();
+
+	linesInFile++;
+
 }
 
+void Log::logNewGameHandMsg(int gameID, int handID) {
 
+	int i;
 
+	myW->textBrowser_Log->append("## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##");
+	
+	myLogFile->open( QIODevice::ReadWrite );
+	QTextStream stream( myLogFile );
+	for(i=0; i<=linesInFile-2; i++) { stream.readLine(); }
+	
+	QString msg("<p style='text-weight:bold;'>##### Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" #####<p>");
+	stream << msg << "\n";
+	stream << "</body>\n";
+	stream << "</html>\n";
+	myLogFile->close();
+
+	linesInFile++;
+
+}

@@ -352,6 +352,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	inactive.setRgb(83,141,107);
 	highlight.setRgb(151,214,109);
 
+	//ShortCuts 
+// 	QShortcut *startNewGameKeys = new QShortcut(QKeySequence(Qt::Key_Control), Ui::mainWindow);
+
 	//Connects
 	connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
 	connect(dealFlopCards1Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards2() ));
@@ -385,6 +388,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	connect(postRiverRunAnimation5Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation6() ));
 	connect(postRiverRunAnimation6Timer, SIGNAL(timeout()), this, SLOT( startNewHand() ));
 
+
+	
+// 	connect( startNewGameKeys, SIGNAL(activated() ), this, SLOT( callNewGameDialog() ) );
 	connect( actionNewGame, SIGNAL( triggered() ), this, SLOT( callNewGameDialog() ) );
 	connect( actionAboutPokerth, SIGNAL( triggered() ), this, SLOT( callAboutPokerthDialog() ) );
 	connect( actionSettings, SIGNAL( triggered() ), this, SLOT( callSettingsDialog() ) );
@@ -560,8 +566,8 @@ void mainWindowImpl::refreshSet() {
 
 void mainWindowImpl::refreshButton() {
 
-	QPixmap dealerButton(":/graphics/cards/dealerbutton.png");
-	QPixmap onePix(":/graphics/cards/1px.png");
+	QPixmap dealerButton(":/graphics/graphics/dealerbutton.png");
+	QPixmap onePix(":/graphics/graphics/1px.png");
 
 	int i;
 	for (i=0; i<maxQuantityPlayers; i++) { 
@@ -593,7 +599,7 @@ void mainWindowImpl::refreshAction() {
 		
 		if (actualHand->getPlayerArray()[i]->getMyAction()==1) { 
 			groupBoxArray[i]->setDisabled(TRUE);
-			QPixmap onePix(":/graphics/cards/1px.png");
+			QPixmap onePix(":/graphics/graphics/1px.png");
 			if(i != 0) {
 				holeCardsArray[i][0]->setPixmap(onePix, FALSE);
 				holeCardsArray[i][1]->setPixmap(onePix, FALSE);
@@ -1744,11 +1750,17 @@ void mainWindowImpl::paintStartSplash() {
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
-// 	cout << event->key() << endl;
+	cout << event->key() << endl;
 	
+	bool ctrlPressed = FALSE;
+
 	if (event->key() == 16777220) { if(spinBox_set->hasFocus()) pushButton_set->click(); } //ENTER
 	if (event->key() == 16777265) { switchToolBox(); } //F2
-	if (event->key() == 16777249) { pushButton_break->click(); } //CTRL
+	if (event->key() == 16777249) { 
+		pushButton_break->click(); 
+		ctrlPressed = TRUE;
+// 		QTimer::SingleShot
+	} //CTRL
 // 	if (event->key() == 65) {  paintStartSplash();
 		
 	     

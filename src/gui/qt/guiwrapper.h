@@ -83,7 +83,8 @@ public:
 
 	void meInAction() const;
 
-	void logPlayerActionMsg(std::string playerName, int action, int setValue) const;
+	void logPlayerActionMsg(std::string playerName, int action, int setValue) ;
+	void logNewGameHandMsg(int gameID, int handID) ;
 
 private: 
 	

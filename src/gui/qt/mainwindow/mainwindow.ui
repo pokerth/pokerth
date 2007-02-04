@@ -578,7 +578,7 @@
            </size>
           </property>
           <property name="pixmap" >
-           <pixmap resource="deck.qrc" >:/graphics/graphics/logo-140-100.png</pixmap>
+           <pixmap/>
           </property>
          </widget>
         </item>
@@ -4036,7 +4036,7 @@
   <tabstop>pushButton_allin</tabstop>
  </tabstops>
  <resources>
-  <include location="deck.qrc" />
+  <include location="../deck.qrc" />
  </resources>
  <connections>
   <connection>
