@@ -46,7 +46,7 @@ ConfigFile::ConfigFile()
 		mkdir(configFileName.c_str());
 		//Log-File Ordner auch erstellen
 		logDir = configFileName;
-		logDir += "\\log-files\\";
+		logDir += "log-files\\";
 		mkdir(logDir.c_str());
 		
 	}
