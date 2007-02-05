@@ -110,12 +110,15 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("FlipsideTux", radioButton_flipsideTux->isChecked());
 	myConfig.writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());
 
-	if(QFile::QFile(lineEdit_OwnFlipsideFilename->text()).exists() && lineEdit_OwnFlipsideFilename->text() != "") {myConfig.writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toStdString()); }
-	else {	QMessageBox::warning(this, tr("Settings Error"),
-                   tr("The entered Flipside Picture doesn't exists.\n"
-                      "Please enter an valid Picture!"),
-                   QMessageBox::Ok);
-		settingsCorrect = FALSE; }
+	if(radioButton_flipsideOwn->isChecked()) {
+		if(QFile::QFile(lineEdit_OwnFlipsideFilename->text()).exists() && lineEdit_OwnFlipsideFilename->text() != "") {myConfig.writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toStdString()); }
+		else {	QMessageBox::warning(this, tr("Settings Error"),
+			tr("The entered Flipside Picture doesn't exists.\n"
+			"Please enter an valid Picture!"),
+			QMessageBox::Ok);
+			settingsCorrect = FALSE; 
+		}
+	}
 
 //	Log
 	if(QDir::QDir(lineEdit_logDir->text()).exists() && lineEdit_logDir->text() != "") { myConfig.writeConfigString("LogDir", lineEdit_logDir->text().toStdString());	}

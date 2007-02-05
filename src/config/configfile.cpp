@@ -34,7 +34,7 @@ using namespace std;
 ConfigFile::ConfigFile()
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 4;
+	configRev = 5;
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
