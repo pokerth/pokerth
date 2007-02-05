@@ -690,7 +690,9 @@ void mainWindowImpl::highlightRoundLabel(string tempround) {
 		frame_handLabel->setPalette(tempPalette);
 		
 		textLabel_handLabel->setText(round);
-		textLabel_gameNumber->setText("Hand: "+QString::number(actualHand->getMyID(),10));
+		textLabel_handNumber->setText("Hand: "+QString::number(actualHand->getMyID(),10));
+		textLabel_gameNumber->setText("Game: "+QString::number(actualGame->getMyGameID(),10));
+
 
 	}
 

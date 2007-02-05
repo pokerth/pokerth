@@ -2708,16 +2708,30 @@
              </property>
              <layout class="QGridLayout" >
               <property name="margin" >
-               <number>2</number>
+               <number>3</number>
               </property>
               <property name="spacing" >
                <number>0</number>
               </property>
-              <item rowspan="2" row="0" column="0" >
+              <item rowspan="2" row="1" column="0" >
+               <widget class="QLabel" name="textLabel_handNumber" >
+                <property name="font" >
+                 <font>
+                  <pointsize>11</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="alignment" >
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0" >
                <widget class="QLabel" name="textLabel_gameNumber" >
                 <property name="font" >
                  <font>
-                  <pointsize>12</pointsize>
+                  <pointsize>11</pointsize>
                  </font>
                 </property>
                 <property name="alignment" >
@@ -3989,7 +4003,7 @@
      <x>0</x>
      <y>0</y>
      <width>874</width>
-     <height>30</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSpiel" >
