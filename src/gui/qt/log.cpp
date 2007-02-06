@@ -30,12 +30,13 @@ Log::Log(mainWindowImpl* w) : myW(w)
 	myConfig = new ConfigFile;
 	if(myConfig->readConfigString("LogDir") != "" && QDir::QDir(QString::fromStdString(myConfig->readConfigString("LogDir"))).exists()) { 
 
-		myLogDir = new QDir(QString::fromStdString(myConfig->readConfigString("LogDir")));
 #ifdef _WIN32
-		myLogFile = new QFile(myLogDir->absolutePath().replace("\\","/")+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh:mm:ss")+".html");
-#else 
-		myLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh:mm:ss")+".html");
+		myLogDir = new QDir(QString::fromStdString(myConfig->readConfigString("LogDir")).replace("\\","/"));
+#else
+		myLogDir = new QDir(QString::fromStdString(myConfig->readConfigString("LogDir")));
 #endif
+		myLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh:mm:ss")+".html");
+
 
 		//Logo-Pixmap extrahieren
 		QPixmap::QPixmap(":graphics/graphics/logo-140-100.png").save(myLogDir->absolutePath()+"/logo.png");
