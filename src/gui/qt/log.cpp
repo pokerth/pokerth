@@ -32,6 +32,7 @@ Log::Log(mainWindowImpl* w) : myW(w)
 
 #ifdef _WIN32
 		myLogDir = new QDir(QString::fromStdString(myConfig->readConfigString("LogDir")).replace("\\","/"));
+		myW->textBrowser_Log->append(myLogDir->absolutePath());
 #else
 		myLogDir = new QDir(QString::fromStdString(myConfig->readConfigString("LogDir")));
 #endif
