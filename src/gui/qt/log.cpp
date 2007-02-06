@@ -32,6 +32,7 @@ Log::Log(mainWindowImpl* w) : myW(w)
 
 		myLogDir = new QDir(QString::fromStdString(myConfig->readConfigString("LogDir")));
 #ifdef _WIN32
+		cout << myLogDir->absolutePath()+"\\pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh:mm:ss")+".html" << endl;
 		myLogFile = new QFile(myLogDir->absolutePath()+"\\pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh:mm:ss")+".html");
 #else 
 		myLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh:mm:ss")+".html");
