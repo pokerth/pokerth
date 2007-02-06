@@ -1754,7 +1754,7 @@ void mainWindowImpl::paintStartSplash() {
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
-// 	cout << event->key() << endl;
+	cout << event->key() << endl;
 	
 	bool ctrlPressed = FALSE;
 

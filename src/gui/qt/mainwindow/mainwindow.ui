@@ -578,7 +578,7 @@
            </size>
           </property>
           <property name="pixmap" >
-           <pixmap/>
+           <pixmap resource="../deck.qrc" >:/graphics/graphics/logo-140-100.png</pixmap>
           </property>
          </widget>
         </item>
