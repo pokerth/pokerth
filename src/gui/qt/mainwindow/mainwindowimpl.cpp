@@ -54,16 +54,44 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 // 	Schriftart laden 
 #ifdef _WIN32
-	QFont tmpFont("Arial",9);
+
+	QFont tmpFont;
+	tmpFont.setFamily("Arial");
+	tmpFont.setPixelSize(12);
+
+// 	if(this->logicalDpiX() > 105) { tmpFont.setFont("Arial",8); }
+// 	else { QFont tmpFont("Arial",9); }
+
 #else 
 	QFontDatabase::addApplicationFont (":fonts/fonts/n019003l.pfb");
-	QFont tmpFont("Nimbus Sans L",9);
+// 	QFont tmpFont("Nimbus Sans L",9);
+	QFont tmpFont;
+	tmpFont.setFamily("Nimbus Sans L");
+	tmpFont.setPixelSize(12);
+
 #endif
 	QApplication::setFont(tmpFont);
 
 	myConfig = new ConfigFile;
 
 	setupUi(this);
+
+	//Schriftgrößen festlegen 
+	tmpFont.setPixelSize(11);
+	textBrowser_Log->setFont(tmpFont);
+	tmpFont.setPixelSize(18);
+	label_Pot->setFont(tmpFont);
+	tmpFont.setPixelSize(13);
+	label_Sets->setFont(tmpFont);
+	tmpFont.setPixelSize(14);
+	textLabel_handNumber->setFont(tmpFont);
+	textLabel_gameNumber->setFont(tmpFont);
+	textLabel_Sets->setFont(tmpFont);
+	tmpFont.setPixelSize(15);
+	textLabel_Pot->setFont(tmpFont);
+	tmpFont.setPixelSize(21);
+	tmpFont.setBold(TRUE);
+	textLabel_handLabel->setFont(tmpFont);
 
 	//pixmapCardsLabel erstellen und ins Layout einfügen!
 	pixmapLabel_cardBoard0 = new MyCardsPixmapLabel(frame_5);
@@ -437,8 +465,8 @@ void mainWindowImpl::callNewGameDialog() {
 			//restliche Singleshots killen!!!
 			stopTimer();
 				
-			label_Pot->setText("<p align='center'><span style='font-size:x-large; font-weight:bold'>Pot Total</span></p>");
-			label_Sets->setText("<p align='center'><span style='font-size:medium; font-weight:bold'>Sets:</span></p>");
+			label_Pot->setText("<p align='center'><span style='font-weight:bold'>Pot Total</span></p>");
+			label_Sets->setText("<p align='center'><span style='font-weight:bold'>Sets:</span></p>");
 	
 			
 			//Tools und Board aufhellen und enablen
@@ -470,8 +498,8 @@ void mainWindowImpl::callNewGameDialog() {
 		//restliche Singleshots killen!!!
 		stopTimer();
 	
-		label_Pot->setText("<p align='center'><span style='font-size:x-large; font-weight:bold'>Pot Total</span></p>");
-		label_Sets->setText("<p align='center'><span style='font-size:medium; font-weight:bold'>Sets:</span></p>");
+		label_Pot->setText("<p align='center'><span style='font-weight:bold'>Pot Total</span></p>");
+		label_Sets->setText("<p align='center'><span style='font-weight:bold'>Sets:</span></p>");
 	
 	
 	// 	debugMode = v->checkBox_debugMode->isChecked();
@@ -720,7 +748,7 @@ void mainWindowImpl::refreshChangePlayer() {
 void mainWindowImpl::refreshPot() {
 
 	textLabel_Sets->setText("<p align='left'>"+QString::number(actualHand->getBoard()->getSets(),10)+" $</p>");
-	textLabel_Pot->setText("<p align='center'><span style='font-size:large; font-weight:bold'>"+QString::number(actualHand->getBoard()->getPot(),10)+" $</p>");
+	textLabel_Pot->setText("<p align='center'><span style='font-weight:bold'>"+QString::number(actualHand->getBoard()->getPot(),10)+" $</span></p>");
 
 }
 
@@ -1641,7 +1669,7 @@ void mainWindowImpl::nextRoundCleanGui() {
 	tempPalette.setColor(QPalette::Window, active);
 	frame_Pot->setPalette(tempPalette);
 
-	textLabel_handLabel->setText("<p align='center'><span style='font-size:14pt; font-weight:bold'> </span></p>");
+	textLabel_handLabel->setText("");
 	
 	tempPalette = frame_handLabel->palette();
 	tempPalette.setColor(QPalette::Window, active);

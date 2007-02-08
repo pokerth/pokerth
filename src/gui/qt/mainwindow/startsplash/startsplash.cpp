@@ -50,11 +50,18 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 	QPainter painter(this);
 
 #ifdef _WIN32
-	QFont welcomeFont("Times New Roman",29);	
+	QFont welcomeFont;
+	welcomeFont.setFamily("Times New Roman");
+	welcomeFont.setPixelSize(42);	
 #else 
-	QFont welcomeFont("Century Schoolbook L",29);	
+	QFont welcomeFont;
+	welcomeFont.setFamily("Century Schoolbook L");
+	welcomeFont.setPixelSize(35);
 #endif
-	QFont haveFont("Andy MT",30);
+	QFont haveFont;
+	haveFont.setFamily("Andy MT");
+	haveFont.setPixelSize(36);
+	
 	QPixmap logo(":/graphics/graphics/logo-140-100.png");
 
 	if(frameNo >= 52 && frameNo < 65) {

@@ -1805,11 +1805,6 @@
                    </disabled>
                   </palette>
                  </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
                  <property name="horizontalScrollBarPolicy" >
                   <enum>Qt::ScrollBarAlwaysOff</enum>
                  </property>
@@ -2661,6 +2656,9 @@
                   <height>26</height>
                  </size>
                 </property>
+                <property name="alignment" >
+                 <set>Qt::AlignCenter</set>
+                </property>
                </widget>
               </item>
               <item>
@@ -2676,6 +2674,9 @@
                   <width>16777215</width>
                   <height>26</height>
                  </size>
+                </property>
+                <property name="alignment" >
+                 <set>Qt::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -2715,12 +2716,17 @@
               </property>
               <item rowspan="2" row="1" column="0" >
                <widget class="QLabel" name="textLabel_handNumber" >
-                <property name="font" >
-                 <font>
-                  <pointsize>11</pointsize>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
+                <property name="minimumSize" >
+                 <size>
+                  <width>0</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>16777215</width>
+                  <height>22</height>
+                 </size>
                 </property>
                 <property name="alignment" >
                  <set>Qt::AlignCenter</set>
@@ -2729,10 +2735,17 @@
               </item>
               <item row="0" column="0" >
                <widget class="QLabel" name="textLabel_gameNumber" >
-                <property name="font" >
-                 <font>
-                  <pointsize>11</pointsize>
-                 </font>
+                <property name="minimumSize" >
+                 <size>
+                  <width>0</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>16777215</width>
+                  <height>22</height>
+                 </size>
                 </property>
                 <property name="alignment" >
                  <set>Qt::AlignCenter</set>
@@ -2768,13 +2781,6 @@
               </property>
               <item row="0" column="0" >
                <widget class="QLabel" name="textLabel_handLabel" >
-                <property name="font" >
-                 <font>
-                  <pointsize>15</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
                 <property name="alignment" >
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -4003,7 +4009,7 @@
      <x>0</x>
      <y>0</y>
      <width>874</width>
-     <height>29</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSpiel" >

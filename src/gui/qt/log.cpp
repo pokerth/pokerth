@@ -103,7 +103,7 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 
 	int i;
 
-	myW->textBrowser_Log->append("## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##");
+	myW->textBrowser_Log->append("<b>## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##</b>");
 	
 	myLogFile->open( QIODevice::ReadWrite );
 	QTextStream stream( myLogFile );
