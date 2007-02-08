@@ -52,6 +52,35 @@ Log::Log(mainWindowImpl* w) : myW(w)
 
 		linesInFile = 3;
 	} 
+
+	//Zu alte Dateien löschen!!!
+	int daysUntilWaste = myConfig->readConfigInt("LogStoreDuration");
+	int i;
+		
+	QStringList logFileList = myLogDir->entryList(QDir::Files);
+	logFileList.removeFirst();
+	
+	for(i=0; i<logFileList.count(); i++) {
+
+// 		cout << logFileList.at(i).toStdString() << endl;
+
+		QString dateString = logFileList.at(i);
+		dateString.remove("pokerth-log-");
+		dateString.remove(10,14);
+		
+		QDate dateOfFile(QDate::fromString(dateString, Qt::ISODate));
+		QDate today(QDate::currentDate());
+		
+// 		cout << dateOfFile.daysTo(today) << endl;
+
+		if (dateOfFile.daysTo(today) > daysUntilWaste) {
+
+// 			cout << QString::QString(myLogDir->absolutePath()+"/"+logFileList.at(i)).toStdString() << endl;
+			QFile fileToDelete(myLogDir->absolutePath()+"/"+logFileList.at(i));
+			fileToDelete.remove();
+		}
+
+	}
 	
 }
 
