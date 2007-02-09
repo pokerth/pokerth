@@ -77,8 +77,13 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	setupUi(this);
 
 	//Schriftgrößen festlegen 
+#ifdef _WIN32
 	tmpFont.setPixelSize(11);
 	textBrowser_Log->setFont(tmpFont);
+#else
+	tmpFont.setPixelSize(10);
+	textBrowser_Log->setFont(tmpFont);
+#endif
 	tmpFont.setPixelSize(18);
 	label_Pot->setFont(tmpFont);
 	tmpFont.setPixelSize(13);

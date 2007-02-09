@@ -31,14 +31,16 @@ Log::Log(mainWindowImpl* w) : myW(w)
 	if(myConfig->readConfigString("LogDir") != "" && QDir::QDir(QString::fromStdString(myConfig->readConfigString("LogDir"))).exists()) { 
 
 #ifdef _WIN32
-		myLogDir = new QDir(QString::fromStdString(myConfig->readConfigString("LogDir")).replace("\\","/"));
+		myLogDir = new QDir(QString::fromStdString(myConfig->readConfigString("LogDir")));
 #else
 		myLogDir = new QDir(QString::fromStdString(myConfig->readConfigString("LogDir")));
 #endif
-		myLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh:mm:ss")+".html");
+		myLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh.mm.ss")+".html");
 
 		//Logo-Pixmap extrahieren
 		QPixmap::QPixmap(":graphics/graphics/logo-140-100.png").save(myLogDir->absolutePath()+"/logo.png");
+
+// 		myW->textBrowser_Log->append(myLogFile->fileName());
 
 		myLogFile->open( QIODevice::WriteOnly );
 		QTextStream stream( myLogFile );
@@ -57,8 +59,8 @@ Log::Log(mainWindowImpl* w) : myW(w)
 	int daysUntilWaste = myConfig->readConfigInt("LogStoreDuration");
 	int i;
 		
-	QStringList logFileList = myLogDir->entryList(QDir::Files);
-	logFileList.removeFirst();
+	QStringList filters("pokerth-log*");
+	QStringList logFileList = myLogDir->entryList(filters, QDir::Files);
 	
 	for(i=0; i<logFileList.count(); i++) {
 
@@ -142,11 +144,14 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	stream << msg << "\n";
 	
 	for(i=0; i<myW->getMaxQuantityPlayers(); i++) {
-		if(myW->getActualHand()->getPlayerArray()[i]->getMyButton() == 1) {
-			stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+" (Dealer): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";	
-		}
-		else {
-			stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";	
+		switch (myW->getActualHand()->getPlayerArray()[i]->getMyButton()) {
+			case 1 : stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+" (Dealer): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";	
+			break;
+			case 2 : stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+" (Small Blind): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";
+			break;
+			case 3 : stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+" (Big Blind): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";	
+			break;
+			default : stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";	
 		}
 	}
 	stream << "</p>\n";
