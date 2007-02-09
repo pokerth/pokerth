@@ -143,6 +143,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>spinBox_quantityPlayers</tabstop>
+  <tabstop>spinBox_startCash</tabstop>
+  <tabstop>spinBox_smallBlind</tabstop>
+  <tabstop>spinBox_handsBeforeRaiseSmallBlind</tabstop>
+  <tabstop>spinBox_gameSpeed</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
