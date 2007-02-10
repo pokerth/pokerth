@@ -142,22 +142,53 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	
 	stream << "<p><b>##### Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" #####</b></br>" << "\n";
 	stream << "CASH: ";
-	for(i=0; i<myW->getActualHand()->getActualQuantityPlayers(); i++) {
 
-		if(myW->getActualHand()->getPlayerArray()[i]->getMyButton() == 1) {
-			if(i == myW->getActualHand()->getActualQuantityPlayers()-1) {
-				stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+" (Dealer): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$";
+	int k = 0;
+	//Aktive Spieler zählen
+	int activePlayersCounter = 0;
+	for (k=0; k<myW->getMaxQuantityPlayers(); k++) { 
+		if (myW->getActualHand()->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
+	}
+	if(activePlayersCounter > 2) { 
+
+		for(i=0; i<myW->getActualHand()->getActualQuantityPlayers(); i++) {
+	
+			if(myW->getActualHand()->getPlayerArray()[i]->getMyButton() == 1) {
+				if(i == myW->getActualHand()->getActualQuantityPlayers()-1) {
+					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+" (Dealer): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$";
+				}
+				else {
+					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+" (Dealer): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";
+				}		
 			}
 			else {
-				stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+" (Dealer): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";
-			}		
+				if(i == myW->getActualHand()->getActualQuantityPlayers()-1) {
+					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$";
+				}
+				else {
+					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";
+				}
+			}
 		}
-		else {
-			if(i == myW->getActualHand()->getActualQuantityPlayers()-1) {
-				stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$";
+	}
+	else {
+		for(i=0; i<myW->getActualHand()->getActualQuantityPlayers(); i++) {
+	
+			if(myW->getActualHand()->getPlayerArray()[i]->getMyButton() == 3) {
+				if(i == myW->getActualHand()->getActualQuantityPlayers()-1) {
+					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+" (Dealer): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$";
+				}
+				else {
+					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+" (Dealer): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";
+				}		
 			}
 			else {
-				stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";
+				if(i == myW->getActualHand()->getActualQuantityPlayers()-1) {
+					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$";
+				}
+				else {
+					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";
+				}
 			}
 		}
 	}
@@ -183,11 +214,13 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 			default :;	
 		}
 	}
-	stream << "</p>\n";
+
+	stream << "</br></br><b>PREFLOP</b>";
+	stream << "</br>\n";
 
 	myLogFile->close();
 
-	linesInFile = linesInFile+3;
+	linesInFile = linesInFile+2;
 
 }
 
@@ -201,12 +234,10 @@ void Log::logPlayerWinsMsg(int playerID) {
 	QTextStream stream( myLogFile );
 	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
 	
-	QString msg("<p><i>"+QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins!!!</i></p>\n");
+	QString msg("</br><i>"+QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins!!!</i></p>\n");
 	stream << msg;
 
 	myLogFile->close();
 
 	linesInFile++;
-	linesInFile++;
-
 }

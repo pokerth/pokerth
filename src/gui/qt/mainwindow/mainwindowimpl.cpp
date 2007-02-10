@@ -605,13 +605,32 @@ void mainWindowImpl::refreshButton() {
 	QPixmap onePix(":/graphics/graphics/1px.png");
 
 	int i;
+	int k;
+	//Aktive Spieler zählen
+	int activePlayersCounter = 0;
+	for (k=0; k<maxQuantityPlayers; k++) { 
+		if (actualHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
+	}
+
 	for (i=0; i<actualHand->getActualQuantityPlayers(); i++) { 
-		if (actualHand->getPlayerArray()[i]->getMyButton()==1) {
-			buttonLabelArray[i]->setPixmap(dealerButton); 
-		}	
-		else {
-			buttonLabelArray[i]->setPixmap(onePix);
+		
+		if(activePlayersCounter > 2) {
+			if (actualHand->getPlayerArray()[i]->getMyButton()==1) {
+				buttonLabelArray[i]->setPixmap(dealerButton); 
+			}	
+			else {
+				buttonLabelArray[i]->setPixmap(onePix);
+			}
 		}
+		else {
+			if (actualHand->getPlayerArray()[i]->getMyButton()==3) {
+				buttonLabelArray[i]->setPixmap(dealerButton); 
+			}	
+			else {
+				buttonLabelArray[i]->setPixmap(onePix);
+			}
+		}
+		
 	}
 	
 }
