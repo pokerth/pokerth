@@ -142,11 +142,23 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	
 	stream << "<p><b>##### Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" #####</b></br>" << "\n";
 	stream << "CASH: ";
-	for(i=0; i<myW->getMaxQuantityPlayers(); i++) {
-		switch (myW->getActualHand()->getPlayerArray()[i]->getMyButton()) {
-			case 1 : stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+" (Dealer): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";	
-			break;
-			default : stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";	
+	for(i=0; i<myW->getActualHand()->getActualQuantityPlayers(); i++) {
+
+		if(myW->getActualHand()->getPlayerArray()[i]->getMyButton() == 1) {
+			if(i == myW->getActualHand()->getActualQuantityPlayers()-1) {
+				stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+" (Dealer): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$";
+			}
+			else {
+				stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+" (Dealer): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";
+			}		
+		}
+		else {
+			if(i == myW->getActualHand()->getActualQuantityPlayers()-1) {
+				stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$";
+			}
+			else {
+				stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";
+			}
 		}
 	}
 	stream << "</br>BLINDS: ";
@@ -160,8 +172,9 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 		}
 		if(activePlayersCounter < 3) { j=1; }
 		
-		cout << activePlayersCounter << endl;
-		cout << (i+myW->getActualHand()->getDealerPosition()+j)%5 << endl;
+// 		cout << activePlayersCounter << endl;
+// 		cout << (i+myW->getActualHand()->getDealerPosition()+j)%5 << endl;
+
 		switch (myW->getActualHand()->getPlayerArray()[(i+myW->getActualHand()->getDealerPosition()+j)%5]->getMyButton()) {
 			case 2 : stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[(i+myW->getActualHand()->getDealerPosition()+j)%5]->getMyName())+" ("+QString::number(myW->getActualHand()->getPlayerArray()[(i+myW->getActualHand()->getDealerPosition()+j)%5]->getMySet(),10)+"$), ";
 			break;

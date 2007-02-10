@@ -389,6 +389,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 // 	QShortcut *startNewGameKeys = new QShortcut(QKeySequence(Qt::Key_Control + Qt::Key_N), this);
 // 	connect( startNewGameKeys, SIGNAL(activated() ), actionNewGame, SLOT( trigger() ) );
 
+	//Statusbar 
+	statusBar()->showMessage(tr("Ctrl+N to start a new Game"));
+
 	//Connects
 	connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
 	connect(dealFlopCards1Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards2() ));
@@ -602,7 +605,7 @@ void mainWindowImpl::refreshButton() {
 	QPixmap onePix(":/graphics/graphics/1px.png");
 
 	int i;
-	for (i=0; i<maxQuantityPlayers; i++) { 
+	for (i=0; i<actualHand->getActualQuantityPlayers(); i++) { 
 		if (actualHand->getPlayerArray()[i]->getMyButton()==1) {
 			buttonLabelArray[i]->setPixmap(dealerButton); 
 		}	
@@ -1686,7 +1689,14 @@ void mainWindowImpl::nextRoundCleanGui() {
 
 	//Wenn Pause zwischen den Hands in der Konfiguration steht den Stop Button drücken!
 	if (myConfig->readConfigInt("PauseBetweenHands")) { pushButton_break->click(); }
+	else { 
+		//FIX STRG+N Bug
+		pushButton_break->setEnabled(TRUE); 
+		breakAfterActualHand=FALSE;
+	}
 
+	//Clear Statusbarmessage
+	statusBar()->clearMessage();
 }
 
 void mainWindowImpl::stopTimer() {
@@ -1787,7 +1797,7 @@ void mainWindowImpl::paintStartSplash() {
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
-	cout << event->key() << endl;
+// 	cout << event->key() << endl;
 	
 	bool ctrlPressed = FALSE;
 
