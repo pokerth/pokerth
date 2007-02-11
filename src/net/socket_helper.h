@@ -20,7 +20,7 @@
 #ifndef _SOCKET_HELPER_H_
 #define _SOCKET_HELPER_H_
 
-#include "genericsocket.h"
+#include <net/genericsocket.h>
 
 #ifndef bzero
 	#include <cstring>
@@ -54,7 +54,12 @@ bool socket_string_to_addr(const char *str, int addrFamily, struct sockaddr *add
  * Resolve a name to a numeric address.
  * str is assumed to be UTF-8 encoded.
  */
-bool socket_resolve(const char *str, int addrFamily, int sockType, int protocol, struct sockaddr *addr, int addrLen);
+bool socket_resolve(const char *str, const char *port, int addrFamily, int sockType, int protocol, struct sockaddr *addr, int addrLen);
+
+/**
+ * Internal function (common for all OSs).
+ */
+bool internal_socket_resolve(const char *str, const char *port, int addrFamily, int sockType, int protocol, struct sockaddr *addr, int addrLen);
 
 #endif
 

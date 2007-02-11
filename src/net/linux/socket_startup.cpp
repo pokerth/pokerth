@@ -20,22 +20,16 @@
 #error This source code is not for Win32.
 #endif
 
-#include "socket_helper.h"
-
+#include <net/socket_startup.h>
 
 bool
-socket_string_to_addr(const char *str, int addrFamily, struct sockaddr * addr, int addrLen)
+socket_startup()
 {
-	if (addrFamily == AF_INET)
-		return (inet_pton(addrFamily, str, &((struct sockaddr_in *)addr)->sin_addr) == 1);
-	else if (addrFamily == AF_INET6)
-		return (inet_pton(addrFamily, str, &((struct sockaddr_in6 *)addr)->sin6_addr) == 1);
-	else
-		return false;
+	return true;
 }
 
-bool
-socket_resolve(const char *str, int addrFamily, int sockType, int protocol, struct sockaddr *addr, int addrLen)
+void
+socket_cleanup()
 {
 }
 

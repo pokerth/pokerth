@@ -20,7 +20,8 @@
 #error This source code is Win32 only.
 #endif
 
-#include <winsock2.h>
+#include <net/socket_startup.h>
+#include <net/socket_helper.h>
 
 #define USE_SOCKET_VERSION_MAJOR	2
 #define USE_SOCKET_VERSION_MINOR	2
