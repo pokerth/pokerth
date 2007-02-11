@@ -41,6 +41,7 @@ public:
 	void logPlayerActionMsg(std::string playName, int action, int setValue);
 	void logNewGameHandMsg(int gameID, int handID);
 	void logPlayerWinsMsg(int playerID);
+	void logDealBoardCardsMsg(int roundID, int card1, int card2 = -1, int card3 = -1);
 
 	void closeLogFile();
 

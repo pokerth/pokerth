@@ -140,7 +140,7 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	QTextStream stream( myLogFile );
 	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
 	
-	stream << "<p><b>##### Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" #####</b></br>" << "\n";
+	stream << "<p><b>##### Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" #####</b></br>";
 	stream << "CASH: ";
 
 	int k = 0;
@@ -220,7 +220,7 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 
 	myLogFile->close();
 
-	linesInFile = linesInFile+2;
+	linesInFile = linesInFile++;
 
 }
 
@@ -240,4 +240,20 @@ void Log::logPlayerWinsMsg(int playerID) {
 	myLogFile->close();
 
 	linesInFile++;
+}
+
+void Log::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3) {  
+	
+	QString round;
+	switch (roundID) {
+
+		case 1: round = "Flop";
+		break;
+		case 2: round = "Turn";
+		break;
+		case 3: round = "River";
+		break;
+		default: round = "ERROR";
+	}
+	
 }
