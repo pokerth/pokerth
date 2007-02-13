@@ -83,7 +83,7 @@ Log::Log(mainWindowImpl* w) : myW(w)
 		}
 
 	}
-	
+
 }
 
 Log::~Log()
@@ -140,7 +140,7 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	QTextStream stream( myLogFile );
 	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
 	
-	stream << "<p><b>##### Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" #####</b></br>";
+	stream << "<p><b>####################&#160;&#160;&#160;Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+"&#160;&#160;&#160;####################</b></br>";
 	stream << "CASH: ";
 
 	int k = 0;
@@ -224,17 +224,17 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 
 }
 
-void Log::logPlayerWinsMsg(int playerID) {
+void Log::logPlayerWinsMsg(int playerID, int pot) {
 
 	int i;
 
-	myW->textBrowser_Log->append(QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins!!! ");
+	myW->textBrowser_Log->append(QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$!!! ");
 	
 	myLogFile->open( QIODevice::ReadWrite );
 	QTextStream stream( myLogFile );
 	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
 	
-	QString msg("</br><i>"+QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins!!!</i></p>\n");
+	QString msg("</br><i>"+QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n");
 	stream << msg;
 
 	myLogFile->close();
@@ -242,18 +242,102 @@ void Log::logPlayerWinsMsg(int playerID) {
 	linesInFile++;
 }
 
-void Log::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3) {  
+void Log::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4, int card5) {  
 	
+	int i;
+
+	myLogFile->open( QIODevice::ReadWrite );
+	QTextStream stream( myLogFile );
+	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
+
 	QString round;
 	switch (roundID) {
 
 		case 1: round = "Flop";
+		myW->textBrowser_Log->append("--- "+round+" --- "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+","+translateCardCode(card3).at(0)+translateCardCode(card3).at(1)+"]");
+		stream << "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+"]"+"</br>\n";
 		break;
 		case 2: round = "Turn";
+		myW->textBrowser_Log->append("--- "+round+" --- "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+","+translateCardCode(card3).at(0)+translateCardCode(card3).at(1)+","+translateCardCode(card4).at(0)+translateCardCode(card4).at(1)+"]");
+		stream << "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+",<b>"+translateCardCode(card4).at(0)+"</b>"+translateCardCode(card4).at(1)+"]"+"</br>\n";
 		break;
 		case 3: round = "River";
+		myW->textBrowser_Log->append("--- "+round+" --- "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+","+translateCardCode(card3).at(0)+translateCardCode(card3).at(1)+","+translateCardCode(card4).at(0)+translateCardCode(card4).at(1)+","+translateCardCode(card5).at(0)+translateCardCode(card5).at(1)+"]");
+		stream << "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+",<b>"+translateCardCode(card4).at(0)+"</b>"+translateCardCode(card4).at(1)+",<b>"+translateCardCode(card5).at(0)+"</b>"+translateCardCode(card5).at(1)+"]"+"</br>\n";
 		break;
 		default: round = "ERROR";
 	}
 	
+	myLogFile->close();
+	linesInFile++;
+	
+}
+
+void Log::logFlipHoleCardsMsg(std::string playerName, int card1, int card2) {
+
+	int i;
+
+	myLogFile->open( QIODevice::ReadWrite );
+	QTextStream stream( myLogFile );
+	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
+
+	myW->textBrowser_Log->append(QString::fromStdString(playerName)+" shows  "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"]");
+	stream << QString::fromStdString(playerName)+" shows [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"]"+"</br>\n";
+
+	myLogFile->close();
+	linesInFile++;
+}
+
+QStringList Log::translateCardCode(int cardCode) {
+
+	int value = cardCode%13;
+	int color = cardCode/13;
+	
+	QStringList cardString;
+		
+	switch (value) {
+	
+		case 0: cardString << "2";
+		break;
+		case 1: cardString << "3";
+		break;
+		case 2: cardString << "4";
+		break;
+		case 3: cardString << "5";
+		break;
+		case 4: cardString << "6";
+		break;
+		case 5: cardString << "7";
+		break;
+		case 6: cardString << "8";
+		break;
+		case 7: cardString << "9";
+		break;
+		case 8: cardString << "10";
+		break;
+		case 9: cardString << "J";
+		break;
+		case 10: cardString << "D";
+		break;
+		case 11: cardString << "K";
+		break;
+		case 12: cardString << "A";
+		break;
+		default: cardString << "ERROR";
+	}
+
+	switch (color) {
+	
+		case 0: cardString << "d";
+		break;
+		case 1: cardString << "h";
+		break;
+		case 2: cardString << "s";
+		break;
+		case 3: cardString << "c";
+		break;
+		default: cardString << "ERROR";
+	}
+	
+	return cardString;
 }

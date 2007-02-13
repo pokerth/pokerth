@@ -38,12 +38,13 @@ public:
     ~Log();
 
 	
-	void logPlayerActionMsg(std::string playName, int action, int setValue);
+	void logPlayerActionMsg(std::string playerName, int action, int setValue);
 	void logNewGameHandMsg(int gameID, int handID);
-	void logPlayerWinsMsg(int playerID);
-	void logDealBoardCardsMsg(int roundID, int card1, int card2 = -1, int card3 = -1);
+	void logPlayerWinsMsg(int playerID, int pot);
+	void logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1);
+	void logFlipHoleCardsMsg(std::string playerName, int card1, int card2);
 
-	void closeLogFile();
+	QStringList translateCardCode(int cardCode);
 
 private:
 

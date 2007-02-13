@@ -92,6 +92,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	textLabel_handNumber->setFont(tmpFont);
 	textLabel_gameNumber->setFont(tmpFont);
 	textLabel_Sets->setFont(tmpFont);
+	textLabel_Cash0->setFont(tmpFont);
 	tmpFont.setPixelSize(15);
 	textLabel_Pot->setFont(tmpFont);
 	tmpFont.setPixelSize(21);
@@ -683,11 +684,11 @@ void mainWindowImpl::refreshCash() {
 		if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 
 			if (i==0) {
-				cashLabelArray[0]->setText("<p align='center'><span style='font-size:14px'>"+QString::number(actualHand->getPlayerArray()[i]->getMyCash(),10)+" $</span></p>"); 
+				cashLabelArray[0]->setText(QString::number(actualHand->getPlayerArray()[i]->getMyCash(),10)+" $"); 
 				cashTopLabelArray[0]->setText("<p align='center'><span style='font-size:15px; font-weight:bold'>Cash:</span></p>"); 
 			}
 			else {
-				cashLabelArray[i]->setText("<p align='center'>"+QString::number(actualHand->getPlayerArray()[i]->getMyCash(),10)+" $</p>"); 
+				cashLabelArray[i]->setText(QString::number(actualHand->getPlayerArray()[i]->getMyCash(),10)+" $"); 
 				cashTopLabelArray[i]->setText("<p align='center'><b>Cash:</b></p>"); 
 			}
 		} else {
@@ -916,7 +917,8 @@ void mainWindowImpl::dealFlopCards6() {
 		//ohne Eye-Candy
 		boardCardsArray[2]->setPixmap(card, FALSE);
 	}
-
+	
+	myLog->logDealBoardCardsMsg(1, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2]);
 	// stable
 	// wenn alle All In
 	if(actualHand->getAllInCondition()) { dealFlopCards6Timer->start(AllInDealCardsSpeed); }
@@ -952,6 +954,7 @@ void mainWindowImpl::dealTurnCards2() {
 		boardCardsArray[3]->setPixmap(card, FALSE);
 	}
 	
+	myLog->logDealBoardCardsMsg(2, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3]);
 	// stable
 	// wenn alle All In
 	if(actualHand->getAllInCondition()) { dealTurnCards2Timer->start(AllInDealCardsSpeed);
@@ -988,6 +991,7 @@ void mainWindowImpl::dealRiverCards2() {
 		boardCardsArray[4]->setPixmap(card, FALSE);
 	}
 
+	myLog->logDealBoardCardsMsg(3, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
 	// stable
 	// wenn alle All In
 	if(actualHand->getAllInCondition()) { dealRiverCards2Timer->start(AllInDealCardsSpeed);	}
@@ -1373,17 +1377,23 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				int tempCardsIntArray[2];
 		
 				int i, j;
-		
+				
 				for(i=1; i<maxQuantityPlayers; i++) {
 					actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
-					for(j=0; j<2; j++) {
-						if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
-					
+					if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
+						for(j=0; j<2; j++) {
+											
 							holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/cards/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
 				
 						}	
+						//Karten umdrehen Loggen 
+						myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1]);
+						
 					}
 				}		
+				//Karten umdrehen für Human PlayerLoggen 
+				actualHand->getPlayerArray()[0]->getMyCards(tempCardsIntArray);	
+				myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[0]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1]);
 			}
 			else {
 				//Ohne Eye-Candy		
@@ -1398,16 +1408,23 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				int i, j;
 				for(i=1; i<maxQuantityPlayers; i++) {
 					actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
-					for(j=0; j<2; j++) {
-						if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
-							
+					if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
+						for(j=0; j<2; j++) {		
 							tempCardsPixmapArray[j].load(":/cards/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");
 							holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
 							
 						}	
+						//Karten umdrehen Loggen 
+						myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1] );
 					}
 				}
+				//Karten umdrehen für Human PlayerLoggen 
+				actualHand->getPlayerArray()[0]->getMyCards(tempCardsIntArray);	
+				myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[0]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1]);
 			}
+
+			
+
 		//Wenn einmal umgedreht dann fertig!!	
 		flipHolecardsAllInAlreadyDone = TRUE;
 		}
@@ -1431,8 +1448,6 @@ void mainWindowImpl::postRiverRunAnimation3() {
 			tempPalette.setColor(QPalette::Window, highlight);
 			groupBoxArray[i]->setPalette(tempPalette);
 			actionLabelArray[i]->setText("<p align='center'><b>- Winner -</b></p>");
-
-			myLog->logPlayerWinsMsg(i);
 
 			//nicht gewonnene Karten ausblenden
 			if ( actualHand->getActivePlayersCounter() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
@@ -1483,6 +1498,12 @@ void mainWindowImpl::postRiverRunAnimation3() {
 				}
 				if (index6) { boardCardsArray[4]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index6" << endl;*/}
 			}	
+
+			//Pot-Verteilung Loggen 
+			//Pro Spieler den Cash aus dem Player und dem Label auslesen. Player_cash - Label_cash = Gewinnsumme
+			bool toIntBool = TRUE;
+			int pot =  actualHand->getPlayerArray()[i]->getMyCash() - cashLabelArray[i]->text().remove(" $").toInt(&toIntBool,10) ;
+			myLog->logPlayerWinsMsg(i, pot);
 			
 		}
 		else {
@@ -1493,6 +1514,8 @@ void mainWindowImpl::postRiverRunAnimation3() {
 				holeCardsArray[i][0]->startFadeOut(guiGameSpeed);
 				holeCardsArray[i][1]->startFadeOut(guiGameSpeed);
 			}
+		
+		
 
 		}
 	}
@@ -1564,6 +1587,7 @@ void mainWindowImpl::postRiverRunAnimation5() {
 
 void mainWindowImpl::postRiverRunAnimation6() {
 
+	
 	int i;
 	refreshCash();
 	refreshPot();
@@ -1609,14 +1633,18 @@ void mainWindowImpl::flipHolecardsAllIn() {
 	
 				for(i=1; i<maxQuantityPlayers; i++) {
 					actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
-					for(j=0; j<2; j++) {
-						if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
-					
+					if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
+						for(j=0; j<2; j++) {
 							holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/cards/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
-				
-						}	
+						}
+						//Karten umdrehen Loggen 
+						myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1]);
+						
 					}
 				}		
+				//Karten umdrehen für Human PlayerLoggen 
+				actualHand->getPlayerArray()[0]->getMyCards(tempCardsIntArray);	
+				myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[0]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1]);
 			}
 			else {
 				//Ohne Eye-Candy		
@@ -1631,18 +1659,24 @@ void mainWindowImpl::flipHolecardsAllIn() {
 				int i, j;
 				for(i=1; i<maxQuantityPlayers; i++) {
 					actualHand->getPlayerArray()[i]->getMyCards(temp2CardsIntArray);	
-					for(j=0; j<2; j++) {
-						if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
+					if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
+						for(j=0; j<2; j++) {
 							
 							tempCardsPixmapArray[j].load(":/cards/graphics/cards/"+QString::number(temp2CardsIntArray[j], 10)+".png");
 							holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
 				
 						}	
+						//Karten umdrehen Loggen 
+						myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[i]->getMyName(), temp2CardsIntArray[0], temp2CardsIntArray[1] );
 					}
 				}
+				//Karten umdrehen für Human PlayerLoggen 
+				actualHand->getPlayerArray()[0]->getMyCards(temp2CardsIntArray);	
+				myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[0]->getMyName(), temp2CardsIntArray[0], temp2CardsIntArray[1]);
 			}
-		}	
-	}
+		}
+	}	
+	
 	//Wenn einmal umgedreht dann fertig!!	
 	flipHolecardsAllInAlreadyDone = TRUE;
 }

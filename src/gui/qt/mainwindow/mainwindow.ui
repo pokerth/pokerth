@@ -1315,7 +1315,11 @@
                  <number>0</number>
                 </property>
                 <item row="1" column="0" >
-                 <widget class="QLabel" name="textLabel_Cash0" />
+                 <widget class="QLabel" name="textLabel_Cash0" >
+                  <property name="alignment" >
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
                 </item>
                 <item row="0" column="0" >
                  <widget class="QLabel" name="textLabel_TopCash0" />
@@ -2918,6 +2922,9 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="alignment" >
+               <set>Qt::AlignCenter</set>
+              </property>
              </widget>
             </item>
             <item row="0" column="0" >
@@ -3395,6 +3402,9 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="alignment" >
+               <set>Qt::AlignCenter</set>
+              </property>
              </widget>
             </item>
            </layout>
@@ -3685,6 +3695,9 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="alignment" >
+               <set>Qt::AlignCenter</set>
+              </property>
              </widget>
             </item>
            </layout>
@@ -3974,6 +3987,9 @@
                 <width>35</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
