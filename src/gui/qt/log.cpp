@@ -224,11 +224,11 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 
 }
 
-void Log::logPlayerWinsMsg(int playerID, int pot) {
+void Log::logPlayerWinsMsg(int playerID, int pot, int cardsValueInt) {
 
 	int i;
 
-	myW->textBrowser_Log->append(QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$!!! ");
+	myW->textBrowser_Log->append(QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$ with "+translateCardsValueCode(cardsValueInt).at(0)+"!!! ");
 	
 	myLogFile->open( QIODevice::ReadWrite );
 	QTextStream stream( myLogFile );
@@ -317,7 +317,7 @@ QStringList Log::translateCardCode(int cardCode) {
 		break;
 		case 9: cardString << "J";
 		break;
-		case 10: cardString << "D";
+		case 10: cardString << "Q";
 		break;
 		case 11: cardString << "K";
 		break;
@@ -340,4 +340,665 @@ QStringList Log::translateCardCode(int cardCode) {
 	}
 	
 	return cardString;
+}
+
+QStringList Log::translateCardsValueCode(int cardsValueCode) {
+
+	QStringList cardString;
+
+	//erste Ziffer : Blattname
+	int firstPart = cardsValueCode/100000000;
+	//zweite und dritte Ziffer : Kicker, highest Card, usw.
+	int secondPart = cardsValueCode/1000000 - firstPart*100;
+	//vierte und fünfte Ziffer
+	int thirdPart = cardsValueCode/10000 - firstPart*10000 - secondPart*100;
+	// usw
+	int fourthPart = cardsValueCode/100 - firstPart*1000000 - secondPart*10000 - thirdPart*100;
+	//
+	int fifthPart = cardsValueCode - firstPart*100000000 - secondPart*1000000 - thirdPart*10000 - fourthPart*100;
+	// fuer highest Card
+	int fifthPartA = cardsValueCode/10 - firstPart*10000000 - secondPart*100000 - thirdPart*1000 - fourthPart*10;
+	int fifthPartB = cardsValueCode - firstPart*100000000 - secondPart*1000000 - thirdPart*10000 - fourthPart*100 - fifthPartA*10;
+
+
+	switch (firstPart) {
+		
+		case 9: cardString << "Royal Flush";
+		break;
+		case 8: {
+			cardString << "Straight Flush";
+			switch(secondPart) {
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				default: cardString << "ERROR";
+			}
+		}
+		break;
+		case 7: {
+			cardString << "Four of a Kind";
+			switch(secondPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+		}
+		break;
+		case 6: {
+			cardString << "Full House";
+			//Drilling
+			switch(secondPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+			//Pärchen
+			switch(thirdPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+		}
+		break;
+		case 5: {
+			cardString << "Flush";
+			//highest Card
+			switch(secondPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				default: cardString << "ERROR";
+			}
+		}
+		break;
+		case 4: {
+			cardString << "Straight";
+			switch(secondPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				default: cardString << "ERROR";
+			}
+		}
+		break;
+		case 3: {
+			cardString << "Three of a Kind";
+			switch(secondPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+			//Kicker 1
+			switch(thirdPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+			//Kicker 2
+			switch(fourthPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+		}
+		break;
+		case 2: {
+			cardString << "Two Pairs";
+			// erster Pair
+			switch(secondPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+			// zweiter Pair
+			switch(thirdPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+			//Kicker
+			switch(fourthPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+		}
+		break;
+		case 1: {
+			cardString << "Pair";
+			// Pair
+			switch(secondPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+			// Kicker 1
+			switch(thirdPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+			//Kicker 2
+			switch(fourthPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+			//Kicker 3
+			switch(fifthPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+		}
+		break;
+		case 0:  {
+			cardString << "Highest Card";
+			// Kicker 1
+			switch(secondPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+			// Kicker 2
+			switch(thirdPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+			//Kicker 3
+			switch(fourthPart) {
+				case 12: cardString << "Ace";
+				break;
+				case 11: cardString << "King";
+				break;
+				case 10: cardString << "Queen";
+				break;
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+			//Kicker 4
+			switch(fifthPartA) {
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+			//Kicker 5
+			switch(fifthPartB) {
+				case 9: cardString << "Jack";
+				break;
+				case 8: cardString << "10";
+				break;
+				case 7: cardString << "9";
+				break;
+				case 6: cardString << "8";
+				break;
+				case 5: cardString << "7";
+				break;
+				case 4: cardString << "6";
+				break;
+				case 3: cardString << "5";
+				break;
+				case 2: cardString << "4";
+				break;
+				case 1: cardString << "3";
+				break;
+				case 0: cardString << "2";
+				break;
+				default: cardString << "ERROR";
+			}
+		}
+		break;
+		default: cardString << "ERROR";
+
+	}
+
+
+
+	return cardString;
+
 }

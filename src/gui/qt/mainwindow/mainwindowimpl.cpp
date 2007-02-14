@@ -1503,7 +1503,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 			//Pro Spieler den Cash aus dem Player und dem Label auslesen. Player_cash - Label_cash = Gewinnsumme
 			bool toIntBool = TRUE;
 			int pot =  actualHand->getPlayerArray()[i]->getMyCash() - cashLabelArray[i]->text().remove(" $").toInt(&toIntBool,10) ;
-			myLog->logPlayerWinsMsg(i, pot);
+			myLog->logPlayerWinsMsg(i, pot, actualHand->getPlayerArray()[i]->getMyCardsValueInt());
 			
 		}
 		else {
