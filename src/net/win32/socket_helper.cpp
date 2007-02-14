@@ -86,7 +86,7 @@ socket_resolve(const char *str, const char *port, int addrFamily, int sockType, 
 
 		if (hWsock)
 		{
-			// Determine functions at runtime, because some operating system do not
+			// Determine functions at runtime, because some windows systems do not
 			// support the unicode version of getaddrinfo.
 			getaddrinfow_ptr_t getaddrinfow_ptr = (getaddrinfow_ptr_t)::GetProcAddress(hWsock, "GetAddrInfoW");
 			freeaddrinfow_ptr_t freeaddrinfow_ptr = (freeaddrinfow_ptr_t)::GetProcAddress(hWsock, "FreeAddrInfoW");
@@ -106,6 +106,7 @@ socket_resolve(const char *str, const char *port, int addrFamily, int sockType, 
 				aiHints.ai_socktype = sockType;
 				aiHints.ai_protocol = protocol;
 
+				// resolve the name (unicode).
 				bool success = (getaddrinfow_ptr(wstr.c_str(), wport.c_str(), &aiHints, &aiList) == 0);
 
 				if (success && aiList)
