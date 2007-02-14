@@ -1387,13 +1387,13 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				
 						}	
 						//Karten umdrehen Loggen 
-						myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1]);
+						myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], actualHand->getPlayerArray()[i]->getMyCardsValueInt());
 						
 					}
 				}		
 				//Karten umdrehen für Human PlayerLoggen 
 				actualHand->getPlayerArray()[0]->getMyCards(tempCardsIntArray);	
-				myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[0]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1]);
+				myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[0]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], actualHand->getPlayerArray()[0]->getMyCardsValueInt());
 			}
 			else {
 				//Ohne Eye-Candy		
@@ -1415,12 +1415,12 @@ void mainWindowImpl::postRiverRunAnimation2() {
 							
 						}	
 						//Karten umdrehen Loggen 
-						myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1] );
+						myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], actualHand->getPlayerArray()[i]->getMyCardsValueInt() );
 					}
 				}
 				//Karten umdrehen für Human PlayerLoggen 
 				actualHand->getPlayerArray()[0]->getMyCards(tempCardsIntArray);	
-				myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[0]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1]);
+				myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[0]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], actualHand->getPlayerArray()[0]->getMyCardsValueInt());
 			}
 
 			
@@ -1503,7 +1503,14 @@ void mainWindowImpl::postRiverRunAnimation3() {
 			//Pro Spieler den Cash aus dem Player und dem Label auslesen. Player_cash - Label_cash = Gewinnsumme
 			bool toIntBool = TRUE;
 			int pot =  actualHand->getPlayerArray()[i]->getMyCash() - cashLabelArray[i]->text().remove(" $").toInt(&toIntBool,10) ;
-			myLog->logPlayerWinsMsg(i, pot, actualHand->getPlayerArray()[i]->getMyCardsValueInt());
+			//Wenn River dann auch das Blatt loggen!
+// 			if (textLabel_handLabel->text() == "River") {
+			myLog->logPlayerWinsMsg(i, pot);	
+// 			}
+// 			else {
+// 				myLog->logPlayerWinsMsg(i, pot);
+// 			}
+// 			
 			
 		}
 		else {

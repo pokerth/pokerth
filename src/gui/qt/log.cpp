@@ -224,19 +224,22 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 
 }
 
-void Log::logPlayerWinsMsg(int playerID, int pot, int cardsValueInt) {
+void Log::logPlayerWinsMsg(int playerID, int pot) {
 
 	int i;
 
-	myW->textBrowser_Log->append(QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$ with "+translateCardsValueCode(cardsValueInt).at(0)+"!!! ");
-	
 	myLogFile->open( QIODevice::ReadWrite );
 	QTextStream stream( myLogFile );
 	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
-	
-	QString msg("</br><i>"+QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n");
-	stream << msg;
 
+// 	if (cardsValueInt != -1) {
+// 		myW->textBrowser_Log->append(QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$ with "+translateCardsValueCode(cardsValueInt).at(0)+"!!! ");
+// 		stream << "</br><i>"+QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
+// 	}
+// 	else {
+	myW->textBrowser_Log->append(QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$!!! ");
+	stream << "</br><i>"+QString::fromStdString(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
+// 	}
 	myLogFile->close();
 
 	linesInFile++;
@@ -273,7 +276,7 @@ void Log::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int
 	
 }
 
-void Log::logFlipHoleCardsMsg(std::string playerName, int card1, int card2) {
+void Log::logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt) {
 
 	int i;
 
@@ -281,9 +284,15 @@ void Log::logFlipHoleCardsMsg(std::string playerName, int card1, int card2) {
 	QTextStream stream( myLogFile );
 	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
 
-	myW->textBrowser_Log->append(QString::fromStdString(playerName)+" shows  "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"]");
-	stream << QString::fromStdString(playerName)+" shows [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"]"+"</br>\n";
+	if (cardsValueInt != -1) {
+		myW->textBrowser_Log->append(QString::fromStdString(playerName)+" shows \""+translateCardsValueCode(cardsValueInt).at(0)+"\"");
+		stream << QString::fromStdString(playerName)+" shows [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"] - "+translateCardsValueCode(cardsValueInt).at(0)+"</br>\n";
+	}
+	else {
+		myW->textBrowser_Log->append(QString::fromStdString(playerName)+" shows  "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"]");
+		stream << QString::fromStdString(playerName)+" shows [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"]"+"</br>\n";
 
+	}
 	myLogFile->close();
 	linesInFile++;
 }

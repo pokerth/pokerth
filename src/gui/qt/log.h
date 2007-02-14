@@ -40,9 +40,9 @@ public:
 	
 	void logPlayerActionMsg(std::string playerName, int action, int setValue);
 	void logNewGameHandMsg(int gameID, int handID);
-	void logPlayerWinsMsg(int playerID, int pot, int cardsValueInt);
+	void logPlayerWinsMsg(int playerID, int pot);
 	void logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1);
-	void logFlipHoleCardsMsg(std::string playerName, int card1, int card2);
+	void logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt = -1);
 
 	QStringList translateCardsValueCode(int cardsValueCode);
 	QStringList translateCardCode(int cardCode);
