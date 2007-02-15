@@ -4033,6 +4033,8 @@
      <string>Game</string>
     </property>
     <addaction name="actionNewGame" />
+    <addaction name="actionCreate_network_Game" />
+    <addaction name="actionJoin_network_Game" />
     <addaction name="actionSettings" />
     <addaction name="actionAboutPokerth" />
     <addaction name="actionQuit" />
@@ -4042,7 +4044,7 @@
   <widget class="QStatusBar" name="statusbar" />
   <action name="actionNewGame" >
    <property name="text" >
-    <string>Start New Game ...</string>
+    <string>Start new local Game ...</string>
    </property>
    <property name="shortcut" >
     <string>Ctrl+N</string>
@@ -4061,6 +4063,16 @@
   <action name="actionSettings" >
    <property name="text" >
     <string>Settings ...</string>
+   </property>
+  </action>
+  <action name="actionCreate_network_Game" >
+   <property name="text" >
+    <string>Create Network Game ...</string>
+   </property>
+  </action>
+  <action name="actionJoin_network_Game" >
+   <property name="text" >
+    <string>Join Network Game ...</string>
    </property>
   </action>
  </widget>
