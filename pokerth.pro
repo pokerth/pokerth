@@ -9,13 +9,15 @@ TARGET.path = /usr/bin/
 FORMS += mainwindow.ui \
          aboutpokerth.ui \
          newgamedialog.ui \
-         settingsdialog.ui 
+         settingsdialog.ui \
+	 joinnetworkgamedialog.ui
 HEADERS += tinystr.h \
            tinyxml.h \
            mainwindowimpl.h \
            newgamedialogimpl.h \
            aboutpokerthimpl.h \
            settingsdialogimpl.h \
+	   joinnetworkgamedialog.h \
            configfile.h \
            log.h \
            guiinterface.h \
@@ -51,6 +53,7 @@ SOURCES += pokerth.cpp \
            newgamedialogimpl.cpp \
            aboutpokerthimpl.cpp \
            settingsdialogimpl.cpp \
+ 	   joinnetworkgamedialog.cpp \
            configfile.cpp \
            log.cpp \
            guiinterface.cpp \

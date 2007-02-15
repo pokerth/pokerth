@@ -19,18 +19,110 @@
    <property name="spacing" >
     <number>6</number>
    </property>
-   <item row="3" column="0" >
-    <spacer>
+   <item row="1" column="0" colspan="2" >
+    <widget class="Line" name="line" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="sizeHint" >
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2" >
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string>Quick Connect</string>
      </property>
-    </spacer>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="label" >
+        <property name="text" >
+         <string>IP Address / Domain Name:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="label_2" >
+        <property name="text" >
+         <string>Port:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3" >
+       <widget class="QLabel" name="label_3" >
+        <property name="text" >
+         <string>Password (optional):</string>
+        </property>
+       </widget>
+      </item>
+      <item rowspan="2" row="0" column="2" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType" >
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>8</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="1" >
+       <widget class="QSpinBox" name="spinBox" />
+      </item>
+      <item row="0" column="1" >
+       <widget class="QLineEdit" name="lineEdit" />
+      </item>
+      <item row="0" column="4" >
+       <widget class="QLineEdit" name="lineEdit_2" />
+      </item>
+      <item row="3" column="0" colspan="5" >
+       <widget class="QPushButton" name="pushButton_3" >
+        <property name="text" >
+         <string>Connect</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3" colspan="2" >
+       <widget class="QCheckBox" name="checkBox" >
+        <property name="text" >
+         <string>Use IPv6</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="5" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType" >
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>20</width>
+          <height>1</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="1" >
+    <widget class="QPushButton" name="pushButton" >
+     <property name="text" >
+      <string>Close</string>
+     </property>
+    </widget>
    </item>
    <item row="2" column="0" colspan="2" >
     <widget class="QGroupBox" name="groupBox_2" >
@@ -84,17 +176,17 @@
        <widget class="QTreeWidget" name="treeWidget" >
         <column>
          <property name="text" >
-          <string>Server</string>
+          <string>                  Server                   </string>
          </property>
         </column>
         <column>
          <property name="text" >
-          <string>Address</string>
+          <string>                Address                 </string>
          </property>
         </column>
         <column>
          <property name="text" >
-          <string>Port</string>
+          <string>   Port   </string>
          </property>
         </column>
         <column>
@@ -107,81 +199,38 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2" >
-    <widget class="Line" name="line" >
+   <item row="3" column="0" >
+    <spacer>
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="2" >
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="title" >
-      <string>Quick Connect</string>
+     <property name="sizeHint" >
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
      </property>
-     <layout class="QGridLayout" >
-      <property name="margin" >
-       <number>9</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-      <item row="0" column="1" >
-       <widget class="QLineEdit" name="lineEdit" />
-      </item>
-      <item row="0" column="2" >
-       <widget class="QLabel" name="label_3" >
-        <property name="text" >
-         <string>Password (optional):</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2" colspan="2" >
-       <widget class="QCheckBox" name="checkBox" >
-        <property name="text" >
-         <string>Use IPv6</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" >
-       <widget class="QSpinBox" name="spinBox" />
-      </item>
-      <item row="0" column="3" >
-       <widget class="QLineEdit" name="lineEdit_2" />
-      </item>
-      <item row="1" column="0" >
-       <widget class="QLabel" name="label_2" >
-        <property name="text" >
-         <string>Port:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label" >
-        <property name="text" >
-         <string>IP Address / Domain Name:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="4" >
-       <widget class="QPushButton" name="pushButton_3" >
-        <property name="text" >
-         <string>Connect</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="3" column="1" >
-    <widget class="QPushButton" name="pushButton" >
-     <property name="text" >
-      <string>Close</string>
-     </property>
-    </widget>
+    </spacer>
    </item>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>joinNetworkGameDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>512</x>
+     <y>446</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>405</x>
+     <y>443</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

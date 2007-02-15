@@ -22,6 +22,8 @@
 #include "newgamedialogimpl.h"
 #include "aboutpokerthimpl.h"
 #include "settingsdialogimpl.h"
+#include "joinnetworkgamedialog.h"
+
 
 #include "startsplash.h"
 #include "mycardspixmaplabel.h"
@@ -429,8 +431,10 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	connect( actionNewGame, SIGNAL( triggered() ), this, SLOT( callNewGameDialog() ) );
 	connect( actionAboutPokerth, SIGNAL( triggered() ), this, SLOT( callAboutPokerthDialog() ) );
 	connect( actionSettings, SIGNAL( triggered() ), this, SLOT( callSettingsDialog() ) );
+	connect( actionJoin_network_Game, SIGNAL( triggered() ), this, SLOT( callJoinNetworkGameDialog() ) );
 	connect( actionQuit, SIGNAL( triggered() ), qApp, SLOT( quit() ) );
-	
+	actionCreate_network_Game->setVisible(FALSE);
+
 	connect( pushButton_raise, SIGNAL( clicked() ), this, SLOT( myRaise() ) );
 	connect( pushButton_call, SIGNAL( clicked() ), this, SLOT( myCall() ) );
 	connect( pushButton_bet, SIGNAL( clicked() ), this, SLOT( myBet() ) );
@@ -534,6 +538,12 @@ void mainWindowImpl::callNewGameDialog() {
 void mainWindowImpl::callAboutPokerthDialog() {
 
 	aboutPokerthImpl *v = new aboutPokerthImpl();
+	v->exec();
+}
+
+void mainWindowImpl::callJoinNetworkGameDialog() {
+
+	joinNetworkGameDialogImpl *v = new joinNetworkGameDialogImpl();
 	v->exec();
 }
 
