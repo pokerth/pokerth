@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>591</width>
-    <height>494</height>
+    <width>586</width>
+    <height>458</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -31,29 +31,6 @@
       <property name="spacing" >
        <number>6</number>
       </property>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label" >
-        <property name="text" >
-         <string>IP Address / Domain Name:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" >
-       <widget class="QSpinBox" name="spinBox" />
-      </item>
-      <item row="0" column="4" >
-       <widget class="QLineEdit" name="lineEdit_2" />
-      </item>
-      <item row="0" column="1" >
-       <widget class="QLineEdit" name="lineEdit" />
-      </item>
-      <item row="0" column="3" >
-       <widget class="QLabel" name="label_3" >
-        <property name="text" >
-         <string>Password (optional):</string>
-        </property>
-       </widget>
-      </item>
       <item row="4" column="0" colspan="5" >
        <widget class="QGroupBox" name="groupBox_2" >
         <property name="title" >
@@ -124,13 +101,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3" colspan="2" >
-       <widget class="QCheckBox" name="checkBox" >
-        <property name="text" >
-         <string>Use IPv6</string>
-        </property>
-       </widget>
-      </item>
       <item rowspan="2" row="0" column="2" >
        <spacer>
         <property name="orientation" >
@@ -147,28 +117,52 @@
         </property>
        </spacer>
       </item>
-      <item row="1" column="0" >
+      <item row="0" column="1" >
+       <widget class="QLineEdit" name="lineEdit" />
+      </item>
+      <item row="0" column="4" >
+       <widget class="QLineEdit" name="lineEdit_2" />
+      </item>
+      <item row="0" column="3" >
+       <widget class="QLabel" name="label_3" >
+        <property name="text" >
+         <string>Password (optional):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4" >
+       <widget class="QSpinBox" name="spinBox" />
+      </item>
+      <item row="1" column="3" >
        <widget class="QLabel" name="label_2" >
         <property name="text" >
          <string>Port:</string>
         </property>
        </widget>
       </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="label" >
+        <property name="text" >
+         <string>IP Address / Domain Name:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="label_4" >
+        <property name="text" >
+         <string>Server Name:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="QLineEdit" name="lineEdit_3" />
+      </item>
       <item row="2" column="0" colspan="5" >
-       <spacer>
-        <property name="orientation" >
-         <enum>Qt::Vertical</enum>
+       <widget class="QCheckBox" name="checkBox" >
+        <property name="text" >
+         <string>Use IPv6</string>
         </property>
-        <property name="sizeType" >
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" >
-         <size>
-          <width>528</width>
-          <height>2</height>
-         </size>
-        </property>
-       </spacer>
+       </widget>
       </item>
      </layout>
     </widget>
