@@ -16,58 +16,55 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Base class for threads (used by network client/server). */
 
-#include <boost/thread.hpp>
-#include <boost/shared_ptr.hpp>
+#include <net/clientthread.h>
+#include <net/socket_helper.h>
 
-class Thread
+using namespace std;
+
+class ClientData
 {
 public:
-	Thread();
-	virtual ~Thread();
+	ClientData()
+	: sockfd(INVALID_SOCKET), addrFamily(AF_INET), serverPort(0) {}
+	int GetServerAddrSize() const
+	{
+		return addrFamily == AF_INET6 ? sizeof(sockaddr_in6) : sizeof(sockaddr_in);
+	}
 
-	// Start the thread. Will do nothing if the
-	// thread was already started.
-	void Run();
-
-	// Signal that the thread should be terminated
-	void SignalTermination();
-
-	// Wait for the termination of the thread.
-	// Only one Thread should wait for the termination!
-	// You SHOULD always call join for a thread.
-	bool Join(unsigned msecTimeout);
-
-protected:
-
-	// Startup function.
-	void MainWrapper();
-
-	// Main function of the thread.
-	virtual void Main() = 0;
-
-	// Checks whether termination has been requested.
-	bool ShouldTerminate() const;
-
-	// Checks whether the thread is running.
-	bool IsRunning() const;
-
-private:
-
-	// Flag specifying whether the application code within the
-	// thread was terminated.
-	mutable boost::timed_mutex m_isTerminatedMutex;
-	mutable boost::timed_mutex::scoped_try_lock m_isTerminatedMutexLock;
-
-	// Flag specifying whether the thread should be terminated.
-	mutable boost::timed_mutex m_shouldTerminateMutex;
-	mutable boost::timed_mutex::scoped_try_lock m_userReqTerminateLock;
-
-	// The boost thread object.
-	boost::shared_ptr<boost::thread> m_threadObj;
-	mutable boost::mutex m_threadObjMutex;
-
-friend class ThreadStarter;
+	SOCKET		sockfd;
+	int			addrFamily;
+	string		serverAddr;
+	unsigned	serverPort;
+	string		password;
 };
+
+ClientThread::ClientThread()
+{
+	m_data.reset(new ClientData);
+}
+
+ClientThread::~ClientThread()
+{
+}
+
+void
+ClientThread::Init(const string &serverAddress, unsigned serverPort, bool ipv6, const string &pwd)
+{
+	if (IsRunning())
+		return; // TODO: throw exception
+	m_data->addrFamily = ipv6 ? AF_INET6 : AF_INET;
+	m_data->serverAddr = serverAddress;
+	m_data->serverPort = serverPort;
+	m_data->password = pwd;
+}
+
+void
+ClientThread::Main()
+{
+	while (!this->ShouldTerminate())
+	{
+		// TODO.
+	}
+}
 

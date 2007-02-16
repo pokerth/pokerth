@@ -111,3 +111,10 @@ Thread::ShouldTerminate() const
 	return lock.locked();
 }
 
+bool
+Thread::IsRunning() const
+{
+	boost::mutex::scoped_lock threadLock(m_threadObjMutex);
+	return (m_threadObj.get() != NULL);
+}
+

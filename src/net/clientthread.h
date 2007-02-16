@@ -16,58 +16,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Base class for threads (used by network client/server). */
+/* Network client thread. */
 
-#include <boost/thread.hpp>
-#include <boost/shared_ptr.hpp>
+#include <core/thread.h>
+#include <string>
+#include <memory>
 
-class Thread
+class ClientData;
+
+class ClientThread : public Thread
 {
 public:
-	Thread();
-	virtual ~Thread();
+	ClientThread();
+	virtual ~ClientThread();
 
-	// Start the thread. Will do nothing if the
-	// thread was already started.
-	void Run();
-
-	// Signal that the thread should be terminated
-	void SignalTermination();
-
-	// Wait for the termination of the thread.
-	// Only one Thread should wait for the termination!
-	// You SHOULD always call join for a thread.
-	bool Join(unsigned msecTimeout);
+	// Set the parameters. Does not do any error checking.
+	// Error checking will be done during connect
+	// (i.e. after starting the thread).
+	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
 
 protected:
 
-	// Startup function.
-	void MainWrapper();
-
 	// Main function of the thread.
-	virtual void Main() = 0;
-
-	// Checks whether termination has been requested.
-	bool ShouldTerminate() const;
-
-	// Checks whether the thread is running.
-	bool IsRunning() const;
+	virtual void Main();
 
 private:
 
-	// Flag specifying whether the application code within the
-	// thread was terminated.
-	mutable boost::timed_mutex m_isTerminatedMutex;
-	mutable boost::timed_mutex::scoped_try_lock m_isTerminatedMutexLock;
-
-	// Flag specifying whether the thread should be terminated.
-	mutable boost::timed_mutex m_shouldTerminateMutex;
-	mutable boost::timed_mutex::scoped_try_lock m_userReqTerminateLock;
-
-	// The boost thread object.
-	boost::shared_ptr<boost::thread> m_threadObj;
-	mutable boost::mutex m_threadObjMutex;
-
-friend class ThreadStarter;
+	std::auto_ptr<ClientData> m_data;
 };
 
