@@ -18,11 +18,15 @@
  ***************************************************************************/
 /* Network client thread. */
 
+#ifndef _CLIENTTHREAD_H_
+#define _CLIENTTHREAD_H_
+
 #include <core/thread.h>
 #include <string>
 #include <memory>
 
 class ClientData;
+class ClientState;
 
 class ClientThread : public Thread
 {
@@ -40,8 +44,20 @@ protected:
 	// Main function of the thread.
 	virtual void Main();
 
+	const ClientData &GetData() const;
+	ClientData &GetData();
+
+	void SetState(ClientState &newState);
+
 private:
 
 	std::auto_ptr<ClientData> m_data;
+
+	ClientState *m_curState;
+
+friend class ClientStateInit;
+friend class ClientStateResolve;
+friend class ClientStateConnect;
 };
 
+#endif

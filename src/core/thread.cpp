@@ -19,10 +19,6 @@
 
 #include "thread.h"
 
-#ifndef NANOSECONDS_PER_SECOND
-#define NANOSECONDS_PER_SECOND 1000000000
-#endif
-
 // Helper class for thread creation.
 class ThreadStarter
 {
@@ -66,6 +62,9 @@ Thread::SignalTermination()
 bool
 Thread::Join(unsigned msecTimeout)
 {
+	if (!IsRunning())
+		return true;
+
 	// Calculate time after timeout
 	boost::xtime t;
 	boost::xtime_get(&t, boost::TIME_UTC);

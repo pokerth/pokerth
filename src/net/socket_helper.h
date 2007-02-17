@@ -29,11 +29,15 @@
 
 #ifdef _WIN32
 #define CLOSESOCKET				closesocket
+#define IOCTLSOCKET				ioctlsocket
+#define SOCKET_ERRNO()			WSAGetLastError()
 #else
 #define SOCKET					int
 #define SOCKET_ERROR			-1
 #define INVALID_SOCKET			-1
 #define CLOSESOCKET				close
+#define SOCKET_ERRNO()			errno
+#define IOCTLSOCKET				ioctl
 #endif
 
 #define IS_VALID_SOCKET(_s)		((_s) != INVALID_SOCKET)
@@ -55,6 +59,11 @@ bool socket_string_to_addr(const char *str, int addrFamily, struct sockaddr *add
  * str is assumed to be UTF-8 encoded.
  */
 bool socket_resolve(const char *str, const char *port, int addrFamily, int sockType, int protocol, struct sockaddr *addr, int addrLen);
+
+/**
+ * Set the port in the sockaddr structure.
+ */
+bool socket_set_port(unsigned port, int addrFamily, struct sockaddr *addr, int addrLen);
 
 /**
  * Internal function (common for all OSs).

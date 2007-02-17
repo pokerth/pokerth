@@ -18,8 +18,15 @@
  ***************************************************************************/
 /* Base class for threads (used by network client/server). */
 
+#ifndef _THREAD_H_
+#define _THREAD_H_
+
 #include <boost/thread.hpp>
 #include <boost/shared_ptr.hpp>
+
+#ifndef NANOSECONDS_PER_SECOND
+#define NANOSECONDS_PER_SECOND 1000000000
+#endif
 
 class Thread
 {
@@ -71,3 +78,4 @@ private:
 friend class ThreadStarter;
 };
 
+#endif

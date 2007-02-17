@@ -16,63 +16,31 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+/* State of network client. */
 
+#ifndef _CLIENTDATA_H_
+#define _CLIENTDATA_H_
+
+#include <string>
 #include <net/socket_helper.h>
-#include <cstring>
 
-using namespace std;
 
-bool
-socket_set_port(unsigned port, int addrFamily, struct sockaddr *addr, int addrLen)
+class ClientData
 {
-	bool retVal = false;
-
-	if (addr)
+public:
+	ClientData()
+	: sockfd(INVALID_SOCKET), addrFamily(AF_INET), serverPort(0) {}
+	int GetServerAddrSize() const
 	{
-		if (addrFamily == AF_INET && addrLen >= sizeof(sockaddr_in))
-		{
-			((sockaddr_in *)&addr)->sin_port = htons(port);
-			retVal = true;
-		}
-		else if (addrFamily == AF_INET6 && addrLen >= sizeof(sockaddr_in6))
-		{
-			((sockaddr_in6 *)&addr)->sin6_port = htons(port);
-			retVal = true;
-		}
+		return addrFamily == AF_INET6 ? sizeof(sockaddr_in6) : sizeof(sockaddr_in);
 	}
 
-	return retVal;
-}
+	SOCKET				sockfd;
+	int					addrFamily;
+	std::string			serverAddr;
+	unsigned			serverPort;
+	std::string			password;
+	sockaddr_storage	clientAddr;
+};
 
-bool
-internal_socket_resolve(const char *str, const char *port, int addrFamily, int sockType, int protocol, struct sockaddr *addr, int addrLen)
-{
-	bool retVal = false;
-
-	if (str && *str != 0)
-	{
-		struct addrinfo aiHints;
-		struct addrinfo *aiList = NULL;
-
-		memset(&aiHints, 0, sizeof(aiHints));
-		aiHints.ai_family = addrFamily;
-		aiHints.ai_socktype = sockType;
-		aiHints.ai_protocol = protocol;
-
-		// Try to resolve the name.
-		// Will (hopefully) use UTF-8 if called on Linux.
-		bool success = (getaddrinfo(str, port, &aiHints, &aiList) == 0);
-
-		if (success && aiList)
-		{
-			if ((int)aiList->ai_addrlen <= addrLen)
-			{
-				memcpy(addr, aiList->ai_addr, aiList->ai_addrlen);
-				retVal = true;
-			}
-			freeaddrinfo(aiList);
-		}
-	}
-	return retVal;
-}
-
+#endif

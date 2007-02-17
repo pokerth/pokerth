@@ -16,63 +16,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+/* Socket message definitions. */
+#ifndef _SOCKET_MSG_H_
+#define _SOCKET_MSG_H_
 
-#include <net/socket_helper.h>
-#include <cstring>
+#define ERR_SOCK_SERVERADDR_NOT_SET		1
+#define ERR_SOCK_INVALID_PORT			2
+#define ERR_SOCK_CREATION_FAILED		10
+#define ERR_SOCK_SET_PORT_FAILED		11
+#define ERR_SOCK_RESOLVE_FAILED			12
+#define ERR_SOCK_CONNECT_FAILED			13
 
-using namespace std;
+#define MSG_SOCK_INIT_DONE				1
+#define MSG_SOCK_RESOLVE_DONE			2
+#define MSG_SOCK_CONNECT_DONE			3
 
-bool
-socket_set_port(unsigned port, int addrFamily, struct sockaddr *addr, int addrLen)
-{
-	bool retVal = false;
-
-	if (addr)
-	{
-		if (addrFamily == AF_INET && addrLen >= sizeof(sockaddr_in))
-		{
-			((sockaddr_in *)&addr)->sin_port = htons(port);
-			retVal = true;
-		}
-		else if (addrFamily == AF_INET6 && addrLen >= sizeof(sockaddr_in6))
-		{
-			((sockaddr_in6 *)&addr)->sin6_port = htons(port);
-			retVal = true;
-		}
-	}
-
-	return retVal;
-}
-
-bool
-internal_socket_resolve(const char *str, const char *port, int addrFamily, int sockType, int protocol, struct sockaddr *addr, int addrLen)
-{
-	bool retVal = false;
-
-	if (str && *str != 0)
-	{
-		struct addrinfo aiHints;
-		struct addrinfo *aiList = NULL;
-
-		memset(&aiHints, 0, sizeof(aiHints));
-		aiHints.ai_family = addrFamily;
-		aiHints.ai_socktype = sockType;
-		aiHints.ai_protocol = protocol;
-
-		// Try to resolve the name.
-		// Will (hopefully) use UTF-8 if called on Linux.
-		bool success = (getaddrinfo(str, port, &aiHints, &aiList) == 0);
-
-		if (success && aiList)
-		{
-			if ((int)aiList->ai_addrlen <= addrLen)
-			{
-				memcpy(addr, aiList->ai_addr, aiList->ai_addrlen);
-				retVal = true;
-			}
-			freeaddrinfo(aiList);
-		}
-	}
-	return retVal;
-}
+#endif
 

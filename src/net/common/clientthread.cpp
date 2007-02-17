@@ -18,30 +18,19 @@
  ***************************************************************************/
 
 #include <net/clientthread.h>
-#include <net/socket_helper.h>
+#include <net/clientstate.h>
+#include <net/clientdata.h>
+
+#include <cassert>
 
 using namespace std;
 
-class ClientData
-{
-public:
-	ClientData()
-	: sockfd(INVALID_SOCKET), addrFamily(AF_INET), serverPort(0) {}
-	int GetServerAddrSize() const
-	{
-		return addrFamily == AF_INET6 ? sizeof(sockaddr_in6) : sizeof(sockaddr_in);
-	}
-
-	SOCKET		sockfd;
-	int			addrFamily;
-	string		serverAddr;
-	unsigned	serverPort;
-	string		password;
-};
 
 ClientThread::ClientThread()
+: m_curState(NULL)
 {
 	m_data.reset(new ClientData);
+	m_curState = &CLIENT_INITIAL_STATE::Instance();
 }
 
 ClientThread::~ClientThread()
@@ -62,9 +51,27 @@ ClientThread::Init(const string &serverAddress, unsigned serverPort, bool ipv6, 
 void
 ClientThread::Main()
 {
-	while (!this->ShouldTerminate())
+	while (!ShouldTerminate())
 	{
-		// TODO.
 	}
 }
 
+const ClientData &
+ClientThread::GetData() const
+{
+	assert(m_data.get());
+	return *m_data;
+}
+
+ClientData &
+ClientThread::GetData()
+{
+	assert(m_data.get());
+	return *m_data;
+}
+
+void
+ClientThread::SetState(ClientState &newState)
+{
+	m_curState = &newState;
+}
