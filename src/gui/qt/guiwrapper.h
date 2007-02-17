@@ -24,6 +24,7 @@
 
 #include "log.h"
 #include "mainwindowimpl.h"
+#include "connecttoserverdialogimpl.h"
 #include "configfile.h"
 
 #include <string>
@@ -86,11 +87,15 @@ public:
 	void logPlayerActionMsg(std::string playerName, int action, int setValue) ;
 	void logNewGameHandMsg(int gameID, int handID) ;
 
+	void refreshConnectToServerDialog(int messageID, int percent);
+
 private: 
 	
 	Log *myLog;
 	mainWindowImpl *myW;
 	ConfigFile *myConfig;
+
+	connectToServerDialogImpl *myConnectToServerDialog;
 
 };
 

@@ -18,8 +18,8 @@ HEADERS += tinystr.h \
            newgamedialogimpl.h \
            aboutpokerthimpl.h \
            settingsdialogimpl.h \
-	   joinnetworkgamedialog.h \
-	   connecttoserverdialog.h \
+	   joinnetworkgamedialogimpl.h \
+	   connecttoserverdialogimpl.h \
            configfile.h \
            log.h \
            guiinterface.h \
@@ -55,8 +55,8 @@ SOURCES += pokerth.cpp \
            newgamedialogimpl.cpp \
            aboutpokerthimpl.cpp \
            settingsdialogimpl.cpp \
- 	   joinnetworkgamedialog.cpp \
- 	   connecttoserverdialog.cpp \
+ 	   joinnetworkgamedialogimpl.cpp \
+ 	   connecttoserverdialogimpl.cpp \
            configfile.cpp \
            log.cpp \
            guiinterface.cpp \

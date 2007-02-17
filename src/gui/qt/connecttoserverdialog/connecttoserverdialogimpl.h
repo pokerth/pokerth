@@ -32,7 +32,10 @@ Q_OBJECT
 public:
     connectToServerDialogImpl(QWidget *parent = 0);
 
+
 public slots:
+
+	void refresh(int messageID, int percent);
 
 };
 

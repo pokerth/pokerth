@@ -22,8 +22,8 @@
 #include "newgamedialogimpl.h"
 #include "aboutpokerthimpl.h"
 #include "settingsdialogimpl.h"
-#include "joinnetworkgamedialog.h"
-#include "connecttoserverdialog.h"
+#include "joinnetworkgamedialogimpl.h"
+#include "connecttoserverdialogimpl.h"
 
 
 #include "startsplash.h"

@@ -17,10 +17,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "joinnetworkgamedialog.h"
+#include "connecttoserverdialogimpl.h"
 // #include "configfile.h"
 
-joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
+connectToServerDialogImpl::connectToServerDialogImpl(QWidget *parent)
       : QDialog(parent)
 {
 
@@ -30,3 +30,8 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
 
 }
 
+void connectToServerDialogImpl::refresh(int messageID, int percent) {
+
+
+
+}

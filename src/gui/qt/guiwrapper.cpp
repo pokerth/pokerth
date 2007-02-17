@@ -32,6 +32,7 @@ GuiWrapper::GuiWrapper() : myLog(0), myW(0)
 	myW->show();
 
 	myLog = new Log(myW);
+	myConnectToServerDialog = new connectToServerDialogImpl();
 
 	myConfig = new ConfigFile;
 
@@ -89,4 +90,4 @@ void GuiWrapper::meInAction() const { myW->meInAction(); }
 void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) { myLog->logPlayerActionMsg(playerName, action, setValue); }
 void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->logNewGameHandMsg(gameID, handID); }
 
-
+void GuiWrapper::refreshConnectToServerDialog(int messageID, int percent) { myConnectToServerDialog->refresh(messageID, percent); }
