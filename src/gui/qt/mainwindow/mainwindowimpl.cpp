@@ -23,6 +23,7 @@
 #include "aboutpokerthimpl.h"
 #include "settingsdialogimpl.h"
 #include "joinnetworkgamedialog.h"
+#include "connecttoserverdialog.h"
 
 
 #include "startsplash.h"
@@ -545,6 +546,15 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 
 	joinNetworkGameDialogImpl *v = new joinNetworkGameDialogImpl();
 	v->exec();
+
+	if (v->result() == QDialog::Rejected ) {
+
+		//Dialog mit Statusbalken
+		connectToServerDialogImpl *w = new connectToServerDialogImpl();
+		w->exec();
+
+	}
+
 }
 
 void mainWindowImpl::callSettingsDialog() {

@@ -206,18 +206,34 @@
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton</sender>
+   <sender>pushButton_3</sender>
    <signal>clicked()</signal>
    <receiver>joinNetworkGameDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>512</x>
-     <y>446</y>
+     <x>124</x>
+     <y>141</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>405</x>
-     <y>443</y>
+     <x>49</x>
+     <y>433</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>joinNetworkGameDialog</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>531</x>
+     <y>430</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>411</x>
+     <y>429</y>
     </hint>
    </hints>
   </connection>

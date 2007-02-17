@@ -10,7 +10,8 @@ FORMS += mainwindow.ui \
          aboutpokerth.ui \
          newgamedialog.ui \
          settingsdialog.ui \
-	 joinnetworkgamedialog.ui
+	 joinnetworkgamedialog.ui \
+	 connecttoserverdialog.ui
 HEADERS += tinystr.h \
            tinyxml.h \
            mainwindowimpl.h \
@@ -18,6 +19,7 @@ HEADERS += tinystr.h \
            aboutpokerthimpl.h \
            settingsdialogimpl.h \
 	   joinnetworkgamedialog.h \
+	   connecttoserverdialog.h \
            configfile.h \
            log.h \
            guiinterface.h \
@@ -54,6 +56,7 @@ SOURCES += pokerth.cpp \
            aboutpokerthimpl.cpp \
            settingsdialogimpl.cpp \
  	   joinnetworkgamedialog.cpp \
+ 	   connecttoserverdialog.cpp \
            configfile.cpp \
            log.cpp \
            guiinterface.cpp \
@@ -83,8 +86,8 @@ SOURCES += pokerth.cpp \
 TEMPLATE = vcapp
 RESOURCES = src/gui/qt/deck.qrc
 TEMPLATE = app
-DEPENDPATH += . src uics src/config src/config/tinyxml src/gui src/gui/qt src/gui/qt/mainwindow/startsplash src/gui/qt/mainwindow src/gui/qt/aboutpokerth src/gui/qt/joinnetworkgamedialog src/gui/qt/newlocalgamedialog src/gui/qt/settingsdialog src/gui/qt/log src/engine src/engine/local_engine src/engine/network_engine
-INCLUDEPATH += . src uics src/config src/config/tinyxml src/gui src/gui/qt src/gui/qt/mainwindow/startsplash src/gui/qt/mainwindow src/gui/qt/aboutpokerth src/gui/qt/joinnetworkgamedialog src/gui/qt/newlocalgamedialog src/gui/qt/settingsdialog src/gui/qt/log src/engine src/engine/local_engine src/engine/network_engine
+DEPENDPATH += . src uics src/config src/config/tinyxml src/gui src/gui/qt src/gui/qt/mainwindow/startsplash src/gui/qt/mainwindow src/gui/qt/aboutpokerth src/gui/qt/joinnetworkgamedialog src/gui/qt/connecttoserverdialog src/gui/qt/newlocalgamedialog src/gui/qt/settingsdialog src/gui/qt/log src/engine src/engine/local_engine src/engine/network_engine
+INCLUDEPATH += . src uics src/config src/config/tinyxml src/gui src/gui/qt src/gui/qt/mainwindow/startsplash src/gui/qt/mainwindow src/gui/qt/aboutpokerth src/gui/qt/joinnetworkgamedialog src/gui/qt/connecttoserverdialog src/gui/qt/newlocalgamedialog src/gui/qt/settingsdialog src/gui/qt/log src/engine src/engine/local_engine src/engine/network_engine
 CONFIG += qt release
 UI_DIR = uics
 TARGET = bin/pokerth
