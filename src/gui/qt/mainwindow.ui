@@ -578,7 +578,7 @@
            </size>
           </property>
           <property name="pixmap" >
-           <pixmap resource="../deck.qrc" >:/graphics/graphics/logo-140-100.png</pixmap>
+           <pixmap resource="deck.qrc" >:/graphics/graphics/logo-140-100.png</pixmap>
           </property>
          </widget>
         </item>
@@ -1664,7 +1664,7 @@
               </palette>
              </property>
              <property name="currentIndex" >
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="tab_log" >
               <attribute name="title" >
@@ -1811,6 +1811,26 @@
                  </property>
                  <property name="horizontalScrollBarPolicy" >
                   <enum>Qt::ScrollBarAlwaysOff</enum>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab" >
+              <attribute name="title" >
+               <string>Page</string>
+              </attribute>
+              <layout class="QGridLayout" >
+               <property name="margin" >
+                <number>9</number>
+               </property>
+               <property name="spacing" >
+                <number>6</number>
+               </property>
+               <item row="0" column="0" >
+                <widget class="QLabel" name="label_3" >
+                 <property name="text" >
+                  <string>TextLabel</string>
                  </property>
                 </widget>
                </item>
@@ -4087,7 +4107,7 @@
   <tabstop>pushButton_allin</tabstop>
  </tabstops>
  <resources>
-  <include location="../deck.qrc" />
+  <include location="deck.qrc" />
  </resources>
  <connections>
   <connection>
