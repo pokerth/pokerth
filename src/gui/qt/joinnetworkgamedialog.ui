@@ -225,15 +225,15 @@
    <sender>pushButton</sender>
    <signal>clicked()</signal>
    <receiver>joinNetworkGameDialog</receiver>
-   <slot>hide()</slot>
+   <slot>close()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>531</x>
-     <y>430</y>
+     <x>513</x>
+     <y>431</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>411</x>
-     <y>429</y>
+     <x>449</x>
+     <y>431</y>
     </hint>
    </hints>
   </connection>

@@ -96,7 +96,8 @@ public:
 	virtual void logNewGameHandMsg(int gameID, int HandID) =0;
 
 	//connectToServerDialog
-	virtual void refreshConnectToServerDialog(int messageID, int percent) =0;
+	virtual void showActionConnectToServerDialog(int actionID) =0;
+	virtual void showErrorConnectToServerDialog(int errorID) =0;
 
 
 

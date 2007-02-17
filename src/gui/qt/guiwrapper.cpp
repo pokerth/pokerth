@@ -90,4 +90,5 @@ void GuiWrapper::meInAction() const { myW->meInAction(); }
 void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) { myLog->logPlayerActionMsg(playerName, action, setValue); }
 void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->logNewGameHandMsg(gameID, handID); }
 
-void GuiWrapper::refreshConnectToServerDialog(int messageID, int percent) { myConnectToServerDialog->refresh(messageID, percent); }
+void GuiWrapper::showActionConnectToServerDialog(int actionID) { myConnectToServerDialog->refresh(actionID); }
+void GuiWrapper::showErrorConnectToServerDialog(int errorID) { myConnectToServerDialog->error(errorID); }

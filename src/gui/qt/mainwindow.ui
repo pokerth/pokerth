@@ -1664,7 +1664,7 @@
               </palette>
              </property>
              <property name="currentIndex" >
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="tab_log" >
               <attribute name="title" >
@@ -1811,26 +1811,6 @@
                  </property>
                  <property name="horizontalScrollBarPolicy" >
                   <enum>Qt::ScrollBarAlwaysOff</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="tab" >
-              <attribute name="title" >
-               <string>Page</string>
-              </attribute>
-              <layout class="QGridLayout" >
-               <property name="margin" >
-                <number>9</number>
-               </property>
-               <property name="spacing" >
-                <number>6</number>
-               </property>
-               <item row="0" column="0" >
-                <widget class="QLabel" name="label_3" >
-                 <property name="text" >
-                  <string>TextLabel</string>
                  </property>
                 </widget>
                </item>

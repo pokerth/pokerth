@@ -553,6 +553,11 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 		connectToServerDialogImpl *w = new connectToServerDialogImpl();
 		w->exec();
 
+		if (w->result() == QDialog::Rejected ) {
+			callJoinNetworkGameDialog();
+		
+		}
+
 	}
 
 }

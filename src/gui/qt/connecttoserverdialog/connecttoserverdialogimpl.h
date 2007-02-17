@@ -35,8 +35,8 @@ public:
 
 public slots:
 
-	void refresh(int messageID, int percent);
-
+	void refresh(int actionID);
+	void error(int errorID);
 };
 
 #endif

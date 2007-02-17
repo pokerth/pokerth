@@ -87,7 +87,8 @@ public:
 	void logPlayerActionMsg(std::string playerName, int action, int setValue) ;
 	void logNewGameHandMsg(int gameID, int handID) ;
 
-	void refreshConnectToServerDialog(int messageID, int percent);
+	void showActionConnectToServerDialog(int actionID);
+	void showErrorConnectToServerDialog(int errorID);
 
 private: 
 	

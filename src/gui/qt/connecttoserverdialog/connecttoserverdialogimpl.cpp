@@ -30,8 +30,36 @@ connectToServerDialogImpl::connectToServerDialogImpl(QWidget *parent)
 
 }
 
-void connectToServerDialogImpl::refresh(int messageID, int percent) {
+void connectToServerDialogImpl::refresh(int actionID) {
 
+	int maxStateNumber = 10;
 
+	switch (actionID) {
+
+	case 0: { label_actionMessage->setText("msg0"); }
+	break;
+	case 1: { label_actionMessage->setText("msg1"); }
+	break;
+	case 2: { label_actionMessage->setText("msg2"); }
+	break;
+	case 3: { label_actionMessage->setText("msg3"); }
+	break;
+	case 4: { label_actionMessage->setText("msg4"); }
+	break;
+	default:  { label_actionMessage->setText("ERROR"); }
+	}
+
+	progressBar->setValue(actionID*(100/maxStateNumber));
+}
+
+void connectToServerDialogImpl::error(int errorID) {
+
+	if(errorID) {
+		QMessageBox::warning(this, tr("Connection Error"),
+			tr("An Operating System Error occured during Connection"),
+			QMessageBox::Close);
+	}
+
+	this->reject();
 
 }
