@@ -88,7 +88,7 @@ public:
 	void logNewGameHandMsg(int gameID, int handID) ;
 
 	void showActionConnectToServerDialog(int actionID);
-	void showErrorConnectToServerDialog(int errorID);
+	void showErrorConnectToServerDialog(int errorID, int osErrorID);
 
 private: 
 	

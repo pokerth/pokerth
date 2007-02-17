@@ -97,7 +97,7 @@ public:
 
 	//connectToServerDialog
 	virtual void showActionConnectToServerDialog(int actionID) =0;
-	virtual void showErrorConnectToServerDialog(int errorID) =0;
+	virtual void showErrorConnectToServerDialog(int errorID, int osErrorID) =0;
 
 
 

@@ -91,4 +91,4 @@ void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue)
 void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->logNewGameHandMsg(gameID, handID); }
 
 void GuiWrapper::showActionConnectToServerDialog(int actionID) { myConnectToServerDialog->refresh(actionID); }
-void GuiWrapper::showErrorConnectToServerDialog(int errorID) { myConnectToServerDialog->error(errorID); }
+void GuiWrapper::showErrorConnectToServerDialog(int errorID, int osErrorID) { myConnectToServerDialog->error(errorID, osErrorID); }

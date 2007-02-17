@@ -36,7 +36,7 @@ public:
 public slots:
 
 	void refresh(int actionID);
-	void error(int errorID);
+	void error(int errorID, int osErrorID);
 };
 
 #endif

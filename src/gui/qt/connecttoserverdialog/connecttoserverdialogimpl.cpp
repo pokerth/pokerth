@@ -32,7 +32,7 @@ connectToServerDialogImpl::connectToServerDialogImpl(QWidget *parent)
 
 void connectToServerDialogImpl::refresh(int actionID) {
 
-	int maxStateNumber = 10;
+	int maxStateNumber = 4;
 
 	switch (actionID) {
 
@@ -50,14 +50,43 @@ void connectToServerDialogImpl::refresh(int actionID) {
 	}
 
 	progressBar->setValue(actionID*(100/maxStateNumber));
+
+	if (actionID*(100/maxStateNumber == 100)) { QTimer::singleShot(500, this, SLOT(hide())); }
 }
 
-void connectToServerDialogImpl::error(int errorID) {
+void connectToServerDialogImpl::error(int errorID, int osErrorID) {
 
-	if(errorID) {
+	if(osErrorID) {
 		QMessageBox::warning(this, tr("Connection Error"),
 			tr("An Operating System Error occured during Connection"),
 			QMessageBox::Close);
+	}
+
+	switch (errorID) {
+
+		case 0: { QMessageBox::warning(this, tr("Connection Error"),
+				tr("Error0 occured during Connection"),
+				QMessageBox::Close); }
+		break;
+		case 1: {QMessageBox::warning(this, tr("Connection Error"),
+				tr("Error1 occured during Connection"),
+				QMessageBox::Close); }
+		break;
+		case 2: { QMessageBox::warning(this, tr("Connection Error"),
+				tr("Error2 occured during Connection"),
+				QMessageBox::Close); }
+		break;
+		case 3: { QMessageBox::warning(this, tr("Connection Error"),
+				tr("Error3 occured during Connection"),
+				QMessageBox::Close); }
+		break;
+		case 4: { QMessageBox::warning(this, tr("Connection Error"),
+				tr("Error4 occured during Connection"),
+				QMessageBox::Close); }
+		break;
+		default:  { QMessageBox::warning(this, tr("Connection Error"),
+				tr("DEFAULT ERROR"),
+				QMessageBox::Close); }
 	}
 
 	this->reject();
