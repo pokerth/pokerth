@@ -27,7 +27,7 @@
 #define CLIENT_INITIAL_STATE ClientStateInit
 
 class ClientThread;
-class GuiInterface;
+class ClientCallback;
 
 class ClientState
 {
@@ -35,7 +35,7 @@ public:
 	virtual ~ClientState();
 
 	// Main processing function of the current state.
-	virtual void Process(ClientThread &client, GuiInterface &gui) = 0;
+	virtual void Process(ClientThread &client, ClientCallback &gui) = 0;
 };
 
 // State: Initialization.
@@ -48,7 +48,7 @@ public:
 	virtual ~ClientStateInit();
 
 	// Some basic initialization (socket creation, basic checks).
-	virtual void Process(ClientThread &client, GuiInterface &gui);
+	virtual void Process(ClientThread &client, ClientCallback &gui);
 
 protected:
 
@@ -66,7 +66,7 @@ public:
 	virtual ~ClientStateResolve();
 
 	// "Poll" for the completion of the name resolution.
-	virtual void Process(ClientThread &client, GuiInterface &gui);
+	virtual void Process(ClientThread &client, ClientCallback &gui);
 
 protected:
 
@@ -84,7 +84,7 @@ public:
 	virtual ~ClientStateConnect();
 
 	// "Poll" for the completion of the TCP/IP connect call.
-	virtual void Process(ClientThread &client, GuiInterface &gui);
+	virtual void Process(ClientThread &client, ClientCallback &gui);
 
 protected:
 
@@ -102,7 +102,7 @@ public:
 	virtual ~ClientStateFinal();
 
 	// sleep.
-	virtual void Process(ClientThread &client, GuiInterface &gui);
+	virtual void Process(ClientThread &client, ClientCallback &gui);
 
 protected:
 

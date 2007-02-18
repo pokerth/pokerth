@@ -21,7 +21,7 @@
 #include <net/clientthread.h>
 #include <net/clientdata.h>
 #include <net/socket_msg.h>
-#include <gui/guiinterface.h>
+#include <net/clientcallback.h>
 
 #include <stdexcept>
 #include <sstream>
@@ -51,26 +51,26 @@ ClientStateInit::~ClientStateInit()
 }
 
 void
-ClientStateInit::Process(ClientThread &client, GuiInterface &gui)
+ClientStateInit::Process(ClientThread &client, ClientCallback &cb)
 {
 	ClientData &data = client.GetData();
 
 	if (data.serverAddr.empty())
 	{
-		gui.showErrorConnectToServerDialog(ERR_SOCK_SERVERADDR_NOT_SET, 0);
+		cb.SignalError(ERR_SOCK_SERVERADDR_NOT_SET, 0);
 		throw runtime_error("ClientStateInit"); // TODO: own exception
 	}
 
 	if (data.serverPort < 1024)
 	{
-		gui.showErrorConnectToServerDialog(ERR_SOCK_INVALID_PORT, 0);
+		cb.SignalError(ERR_SOCK_INVALID_PORT, 0);
 		throw runtime_error("ClientStateInit");
 	}
 
 	data.sockfd = socket(data.addrFamily, SOCK_STREAM, 0);
 	if (!IS_VALID_SOCKET(data.sockfd))
 	{
-		gui.showErrorConnectToServerDialog(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
+		cb.SignalError(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 		throw runtime_error("ClientStateInit");
 	}
 
@@ -78,12 +78,12 @@ ClientStateInit::Process(ClientThread &client, GuiInterface &gui)
 	unsigned long mode = 1;
 	if (IOCTLSOCKET(data.sockfd, FIONBIO, &mode) == SOCKET_ERROR)
 	{
-		gui.showErrorConnectToServerDialog(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
+		cb.SignalError(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 		throw runtime_error("ClientStateInit");
 	}
 #endif
 
-	gui.showActionConnectToServerDialog(MSG_SOCK_INIT_DONE);
+	cb.SignalSuccess(MSG_SOCK_INIT_DONE);
 	client.SetState(ClientStateResolve::Instance());
 }
 
@@ -105,7 +105,7 @@ ClientStateResolve::~ClientStateResolve()
 }
 
 void
-ClientStateResolve::Process(ClientThread &client, GuiInterface &gui)
+ClientStateResolve::Process(ClientThread &client, ClientCallback &cb)
 {
 	ClientData &data = client.GetData();
 
@@ -117,7 +117,7 @@ ClientStateResolve::Process(ClientThread &client, GuiInterface &gui)
 		// Set the port.
 		if (!socket_set_port(data.serverPort, data.addrFamily, (struct sockaddr *)&data.clientAddr, data.GetServerAddrSize()))
 		{
-			gui.showErrorConnectToServerDialog(ERR_SOCK_SET_PORT_FAILED, 0);
+			cb.SignalError(ERR_SOCK_SET_PORT_FAILED, 0);
 			throw runtime_error("ClientStateResolve");
 		}
 	}
@@ -128,11 +128,11 @@ ClientStateResolve::Process(ClientThread &client, GuiInterface &gui)
 		tmpStr << data.serverPort;
 		if (!socket_resolve(data.serverAddr.c_str(), tmpStr.str().c_str(), data.addrFamily, SOCK_STREAM, 0, (struct sockaddr *)&data.clientAddr, data.GetServerAddrSize()))
 		{
-			gui.showErrorConnectToServerDialog(ERR_SOCK_RESOLVE_FAILED, 0); // TODO: use errno value
+			cb.SignalError(ERR_SOCK_RESOLVE_FAILED, 0); // TODO: use errno value
 			throw runtime_error("ClientStateResolve");
 		}
 	}
-	gui.showActionConnectToServerDialog(MSG_SOCK_RESOLVE_DONE);
+	cb.SignalSuccess(MSG_SOCK_RESOLVE_DONE);
 	client.SetState(ClientStateConnect::Instance());
 }
 
@@ -154,16 +154,16 @@ ClientStateConnect::~ClientStateConnect()
 }
 
 void
-ClientStateConnect::Process(ClientThread &client, GuiInterface &gui)
+ClientStateConnect::Process(ClientThread &client, ClientCallback &cb)
 {
 	ClientData &data = client.GetData();
 
 	if (!IS_VALID_CONNECT(connect(data.sockfd, (struct sockaddr *)&data.clientAddr, data.GetServerAddrSize())))
 	{
-		gui.showErrorConnectToServerDialog(ERR_SOCK_CONNECT_FAILED, SOCKET_ERRNO());
+		cb.SignalError(ERR_SOCK_CONNECT_FAILED, SOCKET_ERRNO());
 		throw runtime_error("ClientStateResolve");
 	}
-	gui.showActionConnectToServerDialog(MSG_SOCK_RESOLVE_DONE);
+	cb.SignalSuccess(MSG_SOCK_RESOLVE_DONE);
 	client.SetState(ClientStateFinal::Instance());
 }
 
@@ -185,7 +185,7 @@ ClientStateFinal::~ClientStateFinal()
 }
 
 void
-ClientStateFinal::Process(ClientThread &client, GuiInterface &gui)
+ClientStateFinal::Process(ClientThread &client, ClientCallback &cb)
 {
 	boost::xtime t;
 	boost::xtime_get(&t, boost::TIME_UTC);

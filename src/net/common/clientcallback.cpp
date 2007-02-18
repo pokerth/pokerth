@@ -17,69 +17,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <net/clientthread.h>
-#include <net/clientstate.h>
-#include <net/clientdata.h>
-
-#include <cassert>
-
-using namespace std;
+#include <net/clientcallback.h>
 
 
-ClientThread::ClientThread(ClientCallback &cb)
-: m_curState(NULL), m_callback(cb)
-{
-	m_data.reset(new ClientData);
-	m_curState = &CLIENT_INITIAL_STATE::Instance();
-}
-
-ClientThread::~ClientThread()
+ClientCallback::~ClientCallback()
 {
 }
 
-void
-ClientThread::Init(const string &serverAddress, unsigned serverPort, bool ipv6, const string &pwd)
-{
-	if (IsRunning())
-		return; // TODO: throw exception
-	m_data->addrFamily = ipv6 ? AF_INET6 : AF_INET;
-	m_data->serverAddr = serverAddress;
-	m_data->serverPort = serverPort;
-	m_data->password = pwd;
-}
-
-void
-ClientThread::Main()
-{
-	while (!ShouldTerminate())
-	{
-		GetState().Process(*this, m_callback);
-	}
-}
-
-const ClientData &
-ClientThread::GetData() const
-{
-	assert(m_data.get());
-	return *m_data;
-}
-
-ClientData &
-ClientThread::GetData()
-{
-	assert(m_data.get());
-	return *m_data;
-}
-
-ClientState &
-ClientThread::GetState()
-{
-	assert(m_curState);
-	return *m_curState;
-}
-
-void
-ClientThread::SetState(ClientState &newState)
-{
-	m_curState = &newState;
-}

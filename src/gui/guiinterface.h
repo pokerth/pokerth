@@ -95,20 +95,6 @@ public:
 	virtual void logPlayerActionMsg(std::string playName, int action, int setValue) =0;
 	virtual void logNewGameHandMsg(int gameID, int HandID) =0;
 
-	//connectToServerDialog
-	virtual void showActionConnectToServerDialog(int actionID) =0;
-	virtual void showErrorConnectToServerDialog(int errorID, int osErrorID) =0;
-
-
-
-
-
-		
-	
-	
-
-
-
 };
 
 #endif
