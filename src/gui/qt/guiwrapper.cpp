@@ -23,6 +23,14 @@
 
 using namespace std;
 
+NetSignalDispatcher::NetSignalDispatcher(connectToServerDialogImpl *dialog)
+{
+	connect(this, SIGNAL(SignalNetClientSuccess(int)),
+		dialog, SLOT(refresh(int)));
+	connect(this, SIGNAL(SignalNetClientError(int, int)),
+		dialog, SLOT(error(int, int)));
+}
+
 
 GuiWrapper::GuiWrapper() : myLog(0), myW(0)
 {
@@ -33,6 +41,8 @@ GuiWrapper::GuiWrapper() : myLog(0), myW(0)
 
 	myLog = new Log(myW);
 	myConnectToServerDialog = new connectToServerDialogImpl();
+
+	myNetSignalDispatcher = new NetSignalDispatcher(myConnectToServerDialog);
 
 	myConfig = new ConfigFile;
 
@@ -90,5 +100,5 @@ void GuiWrapper::meInAction() const { myW->meInAction(); }
 void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) { myLog->logPlayerActionMsg(playerName, action, setValue); }
 void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->logNewGameHandMsg(gameID, handID); }
 
-void GuiWrapper::SignalNetClientSuccess(int actionID) { myConnectToServerDialog->refresh(actionID); }
-void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myConnectToServerDialog->error(errorID, osErrorID); }
+void GuiWrapper::SignalNetClientSuccess(int actionID) { myNetSignalDispatcher->SignalNetClientSuccess(actionID); }
+void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myNetSignalDispatcher->SignalNetClientError(errorID, osErrorID); }

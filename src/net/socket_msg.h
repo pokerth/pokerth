@@ -22,10 +22,10 @@
 
 #define ERR_SOCK_SERVERADDR_NOT_SET		1
 #define ERR_SOCK_INVALID_PORT			2
-#define ERR_SOCK_CREATION_FAILED		10
-#define ERR_SOCK_SET_PORT_FAILED		11
-#define ERR_SOCK_RESOLVE_FAILED			12
-#define ERR_SOCK_CONNECT_FAILED			13
+#define ERR_SOCK_CREATION_FAILED		3
+#define ERR_SOCK_SET_PORT_FAILED		4
+#define ERR_SOCK_RESOLVE_FAILED			5
+#define ERR_SOCK_CONNECT_FAILED			6
 
 // This is an internal message which is not reported.
 #define MSG_SOCK_INTERNAL_PENDING		0
@@ -34,6 +34,8 @@
 #define MSG_SOCK_INIT_DONE				1
 #define MSG_SOCK_RESOLVE_DONE			2
 #define MSG_SOCK_CONNECT_DONE			3
+
+#define MSG_SOCK_LAST					MSG_SOCK_CONNECT_DONE
 
 #endif
 

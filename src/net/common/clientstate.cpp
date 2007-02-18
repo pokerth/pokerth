@@ -58,8 +58,8 @@ ClientStateInit::Process(ClientThread &client)
 	if (data.serverAddr.empty())
 		throw ClientException(ERR_SOCK_SERVERADDR_NOT_SET, 0);
 
-	if (data.serverPort < 1024)
-		throw ClientException(ERR_SOCK_INVALID_PORT, 0);
+//	if (data.serverPort < 1024)
+//		throw ClientException(ERR_SOCK_INVALID_PORT, 0);
 
 	data.sockfd = socket(data.addrFamily, SOCK_STREAM, 0);
 	if (!IS_VALID_SOCKET(data.sockfd))
@@ -161,7 +161,7 @@ ClientStateConnect::Process(ClientThread &client)
 
 	client.SetState(ClientStateFinal::Instance());
 
-	return MSG_SOCK_RESOLVE_DONE;
+	return MSG_SOCK_CONNECT_DONE;
 }
 
 //-----------------------------------------------------------------------------

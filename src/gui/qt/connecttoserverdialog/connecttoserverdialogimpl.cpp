@@ -19,73 +19,69 @@
  ***************************************************************************/
 #include "connecttoserverdialogimpl.h"
 // #include "configfile.h"
+#include <net/socket_msg.h>
 
 connectToServerDialogImpl::connectToServerDialogImpl(QWidget *parent)
       : QDialog(parent)
 {
 
     setupUi(this);
-
-	
-
 }
 
 void connectToServerDialogImpl::refresh(int actionID) {
 
-	int maxStateNumber = 4;
-
 	switch (actionID) {
 
-	case 0: { label_actionMessage->setText("msg0"); }
+	case MSG_SOCK_INIT_DONE: { label_actionMessage->setText("Resolving address..."); }
 	break;
-	case 1: { label_actionMessage->setText("msg1"); }
+	case MSG_SOCK_RESOLVE_DONE: { label_actionMessage->setText("Connecting to server..."); }
 	break;
-	case 2: { label_actionMessage->setText("msg2"); }
-	break;
-	case 3: { label_actionMessage->setText("msg3"); }
-	break;
-	case 4: { label_actionMessage->setText("msg4"); }
+	case MSG_SOCK_CONNECT_DONE: { label_actionMessage->setText("Connection established."); }
 	break;
 	default:  { label_actionMessage->setText("ERROR"); }
 	}
 
-	progressBar->setValue(actionID*(100/maxStateNumber));
+	progressBar->setValue(actionID*(100/MSG_SOCK_LAST));
 
-	if (actionID*(100/maxStateNumber == 100)) { QTimer::singleShot(500, this, SLOT(hide())); }
+	if (actionID == MSG_SOCK_LAST)
+		QTimer::singleShot(500, this, SLOT(hide()));
 }
 
 void connectToServerDialogImpl::error(int errorID, int osErrorID) {
 
-	if(osErrorID) {
-		QMessageBox::warning(this, tr("Connection Error"),
-			tr("An Operating System Error occured during Connection"),
-			QMessageBox::Close);
-		return;
-	}
-
 	switch (errorID) {
 
-		case 0: { QMessageBox::warning(this, tr("Connection Error"),
-				tr("Error0 occured during Connection"),
+		case ERR_SOCK_SERVERADDR_NOT_SET:
+			{QMessageBox::warning(this, tr("Network Error"),
+				tr("Server address was not set."),
 				QMessageBox::Close); }
 		break;
-		case 1: {QMessageBox::warning(this, tr("Connection Error"),
-				tr("Error1 occured during Connection"),
+		case ERR_SOCK_INVALID_PORT:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("An invalid port was set (ports 0-1023 are not allowed)."),
 				QMessageBox::Close); }
 		break;
-		case 2: { QMessageBox::warning(this, tr("Connection Error"),
-				tr("Error2 occured during Connection"),
+		case ERR_SOCK_CREATION_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not create socket."),
 				QMessageBox::Close); }
 		break;
-		case 3: { QMessageBox::warning(this, tr("Connection Error"),
-				tr("Error3 occured during Connection"),
+		case ERR_SOCK_SET_PORT_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not set the port for this type of address."),
 				QMessageBox::Close); }
 		break;
-		case 4: { QMessageBox::warning(this, tr("Connection Error"),
-				tr("Error4 occured during Connection"),
+		case ERR_SOCK_RESOLVE_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The server name could not be resolved."),
 				QMessageBox::Close); }
 		break;
-		default:  { QMessageBox::warning(this, tr("Connection Error"),
+		case ERR_SOCK_CONNECT_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not connect to server."),
+				QMessageBox::Close); }
+		break;
+		default:  { QMessageBox::warning(this, tr("Network Error"),
 				tr("DEFAULT ERROR"),
 				QMessageBox::Close); }
 	}

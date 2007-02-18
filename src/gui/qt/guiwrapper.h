@@ -34,6 +34,18 @@
 #include "session.h"
 #include "game.h"
 
+class NetSignalDispatcher : public QObject, public ClientCallback
+{
+Q_OBJECT
+public:
+	NetSignalDispatcher(connectToServerDialogImpl *dialog);
+
+signals:
+	void SignalNetClientSuccess(int actionID);
+	void SignalNetClientError(int errorID, int osErrorID);
+friend class GuiWrapper;
+};
+
 class GuiWrapper : public GuiInterface
 {
 public:
@@ -95,6 +107,7 @@ private:
 	Log *myLog;
 	mainWindowImpl *myW;
 	ConfigFile *myConfig;
+	NetSignalDispatcher *myNetSignalDispatcher;
 
 	connectToServerDialogImpl *myConnectToServerDialog;
 

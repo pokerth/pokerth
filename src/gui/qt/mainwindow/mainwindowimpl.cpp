@@ -545,13 +545,13 @@ void mainWindowImpl::callAboutPokerthDialog() {
 void mainWindowImpl::callJoinNetworkGameDialog() {
 
 	joinNetworkGameDialogImpl *v = new joinNetworkGameDialogImpl();
+	connectToServerDialogImpl *w = new connectToServerDialogImpl();
 	v->setSession(mySession);
 	v->exec();
 
 	if (v->result() == QDialog::Accepted ) {
 
 		//Dialog mit Statusbalken
-		connectToServerDialogImpl *w = new connectToServerDialogImpl();
 		w->exec();
 
 		if (w->result() == QDialog::Rejected ) {
