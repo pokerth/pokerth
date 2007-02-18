@@ -57,20 +57,20 @@ ClientStateInit::Process(ClientThread &client, ClientCallback &cb)
 
 	if (data.serverAddr.empty())
 	{
-		cb.SignalError(ERR_SOCK_SERVERADDR_NOT_SET, 0);
+		cb.SignalNetClientError(ERR_SOCK_SERVERADDR_NOT_SET, 0);
 		throw runtime_error("ClientStateInit"); // TODO: own exception
 	}
 
 	if (data.serverPort < 1024)
 	{
-		cb.SignalError(ERR_SOCK_INVALID_PORT, 0);
+		cb.SignalNetClientError(ERR_SOCK_INVALID_PORT, 0);
 		throw runtime_error("ClientStateInit");
 	}
 
 	data.sockfd = socket(data.addrFamily, SOCK_STREAM, 0);
 	if (!IS_VALID_SOCKET(data.sockfd))
 	{
-		cb.SignalError(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
+		cb.SignalNetClientError(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 		throw runtime_error("ClientStateInit");
 	}
 
@@ -78,12 +78,12 @@ ClientStateInit::Process(ClientThread &client, ClientCallback &cb)
 	unsigned long mode = 1;
 	if (IOCTLSOCKET(data.sockfd, FIONBIO, &mode) == SOCKET_ERROR)
 	{
-		cb.SignalError(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
+		cb.SignalNetClientError(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 		throw runtime_error("ClientStateInit");
 	}
 #endif
 
-	cb.SignalSuccess(MSG_SOCK_INIT_DONE);
+	cb.SignalNetClientSuccess(MSG_SOCK_INIT_DONE);
 	client.SetState(ClientStateResolve::Instance());
 }
 
@@ -117,7 +117,7 @@ ClientStateResolve::Process(ClientThread &client, ClientCallback &cb)
 		// Set the port.
 		if (!socket_set_port(data.serverPort, data.addrFamily, (struct sockaddr *)&data.clientAddr, data.GetServerAddrSize()))
 		{
-			cb.SignalError(ERR_SOCK_SET_PORT_FAILED, 0);
+			cb.SignalNetClientError(ERR_SOCK_SET_PORT_FAILED, 0);
 			throw runtime_error("ClientStateResolve");
 		}
 	}
@@ -128,11 +128,11 @@ ClientStateResolve::Process(ClientThread &client, ClientCallback &cb)
 		tmpStr << data.serverPort;
 		if (!socket_resolve(data.serverAddr.c_str(), tmpStr.str().c_str(), data.addrFamily, SOCK_STREAM, 0, (struct sockaddr *)&data.clientAddr, data.GetServerAddrSize()))
 		{
-			cb.SignalError(ERR_SOCK_RESOLVE_FAILED, 0); // TODO: use errno value
+			cb.SignalNetClientError(ERR_SOCK_RESOLVE_FAILED, 0); // TODO: use errno value
 			throw runtime_error("ClientStateResolve");
 		}
 	}
-	cb.SignalSuccess(MSG_SOCK_RESOLVE_DONE);
+	cb.SignalNetClientSuccess(MSG_SOCK_RESOLVE_DONE);
 	client.SetState(ClientStateConnect::Instance());
 }
 
@@ -160,10 +160,10 @@ ClientStateConnect::Process(ClientThread &client, ClientCallback &cb)
 
 	if (!IS_VALID_CONNECT(connect(data.sockfd, (struct sockaddr *)&data.clientAddr, data.GetServerAddrSize())))
 	{
-		cb.SignalError(ERR_SOCK_CONNECT_FAILED, SOCKET_ERRNO());
+		cb.SignalNetClientError(ERR_SOCK_CONNECT_FAILED, SOCKET_ERRNO());
 		throw runtime_error("ClientStateResolve");
 	}
-	cb.SignalSuccess(MSG_SOCK_RESOLVE_DONE);
+	cb.SignalNetClientSuccess(MSG_SOCK_RESOLVE_DONE);
 	client.SetState(ClientStateFinal::Instance());
 }
 

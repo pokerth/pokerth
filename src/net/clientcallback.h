@@ -16,7 +16,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network client thread. */
+/* Callback interface for network client gui. */
 
 #ifndef _CLIENTCALLBACK_H_
 #define _CLIENTCALLBACK_H_
@@ -26,8 +26,8 @@ class ClientCallback
 public:
 	virtual ~ClientCallback();
 
-	virtual void SignalSuccess(int actionID) = 0;
-	virtual void SignalError(int errorID, int osErrorID) = 0;
+	virtual void SignalNetClientSuccess(int actionID) = 0;
+	virtual void SignalNetClientError(int errorID, int osErrorID) = 0;
 };
 
 #endif
