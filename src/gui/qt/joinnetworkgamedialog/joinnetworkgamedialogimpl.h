@@ -33,7 +33,7 @@ Q_OBJECT
 public:
     joinNetworkGameDialogImpl(QWidget *parent = 0);
 
-	void joinNetworkGameDialogImpl::setSession(Session* s);
+	void setSession(Session* s);
 
 public slots:
 
