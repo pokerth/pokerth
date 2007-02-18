@@ -16,24 +16,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Socket message definitions. */
-#ifndef _SOCKET_MSG_H_
-#define _SOCKET_MSG_H_
+/* Exception class for client errors. */
 
-#define ERR_SOCK_SERVERADDR_NOT_SET		1
-#define ERR_SOCK_INVALID_PORT			2
-#define ERR_SOCK_CREATION_FAILED		10
-#define ERR_SOCK_SET_PORT_FAILED		11
-#define ERR_SOCK_RESOLVE_FAILED			12
-#define ERR_SOCK_CONNECT_FAILED			13
+#ifndef _CLIENTEXCEPTION_H_
+#define _CLIENTEXCEPTION_H_
 
-// This is an internal message which is not reported.
-#define MSG_SOCK_INTERNAL_PENDING		0
 
-// The following messages are reported.
-#define MSG_SOCK_INIT_DONE				1
-#define MSG_SOCK_RESOLVE_DONE			2
-#define MSG_SOCK_CONNECT_DONE			3
+class ClientException
+{
+public:
+
+	ClientException(int errorId, int osErrorCode)
+		: m_errorId(errorId), m_osErrorCode(osErrorCode) {}
+
+	int GetErrorId() const {return m_errorId;}
+	int GetOsErrorCode() const {return m_osErrorCode;}
+
+private:
+	int m_errorId;
+	int m_osErrorCode;
+};
 
 #endif
-

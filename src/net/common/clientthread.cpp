@@ -20,6 +20,10 @@
 #include <net/clientthread.h>
 #include <net/clientstate.h>
 #include <net/clientdata.h>
+#include <net/clientcallback.h>
+#include <net/clientexception.h>
+#include <net/socket_msg.h>
+
 
 #include <cassert>
 
@@ -30,7 +34,6 @@ ClientThread::ClientThread(ClientCallback &cb)
 : m_curState(NULL), m_callback(cb)
 {
 	m_data.reset(new ClientData);
-	m_curState = &CLIENT_INITIAL_STATE::Instance();
 }
 
 ClientThread::~ClientThread()
@@ -42,18 +45,29 @@ ClientThread::Init(const string &serverAddress, unsigned serverPort, bool ipv6, 
 {
 	if (IsRunning())
 		return; // TODO: throw exception
-	m_data->addrFamily = ipv6 ? AF_INET6 : AF_INET;
-	m_data->serverAddr = serverAddress;
-	m_data->serverPort = serverPort;
-	m_data->password = pwd;
+
+	ClientData &data = GetData();
+
+	data.addrFamily	= ipv6 ? AF_INET6 : AF_INET;
+	data.serverAddr	= serverAddress;
+	data.serverPort	= serverPort;
+	data.password	= pwd;
 }
 
 void
 ClientThread::Main()
 {
-	while (!ShouldTerminate())
+	SetState(CLIENT_INITIAL_STATE::Instance());
+	try {
+		while (!ShouldTerminate())
+		{
+			int msg = GetState().Process(*this);
+			if (msg != MSG_SOCK_INTERNAL_PENDING)
+				m_callback.SignalNetClientSuccess(msg);
+		}
+	} catch (const ClientException &e)
 	{
-		GetState().Process(*this, m_callback);
+		m_callback.SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
 	}
 }
 

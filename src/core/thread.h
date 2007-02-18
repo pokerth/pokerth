@@ -46,6 +46,9 @@ public:
 	// You SHOULD always call join for a thread.
 	bool Join(unsigned msecTimeout);
 
+	// Sleep the currently active thread.
+	static void Msleep(unsigned msecs);
+
 protected:
 
 	// Startup function.

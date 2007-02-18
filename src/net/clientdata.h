@@ -28,8 +28,8 @@
 class ClientData
 {
 public:
-	ClientData()
-	: sockfd(INVALID_SOCKET), addrFamily(AF_INET), serverPort(0) {}
+	ClientData();
+	~ClientData();
 	int GetServerAddrSize() const
 	{
 		return addrFamily == AF_INET6 ? sizeof(sockaddr_in6) : sizeof(sockaddr_in);

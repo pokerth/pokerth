@@ -19,6 +19,19 @@
 
 #include "thread.h"
 
+// This is ugly, but I can't help it.
+#define ADD_MSEC_TO_XTIME(__xt, __msec) \
+	{ \
+		__xt.sec += __msec / 1000; \
+		__xt.nsec += (__msec % 1000) * 1000; \
+		if (__xt.nsec > NANOSECONDS_PER_SECOND) \
+		{ \
+			__xt.sec++; \
+			__xt.nsec -= NANOSECONDS_PER_SECOND; \
+		} \
+	}
+
+
 // Helper class for thread creation.
 class ThreadStarter
 {
@@ -68,13 +81,7 @@ Thread::Join(unsigned msecTimeout)
 	// Calculate time after timeout
 	boost::xtime t;
 	boost::xtime_get(&t, boost::TIME_UTC);
-	t.sec += msecTimeout / 1000;
-	t.nsec += (msecTimeout % 1000) * 1000;
-	if (t.nsec > NANOSECONDS_PER_SECOND)
-	{
-		t.sec++;
-		t.nsec -= NANOSECONDS_PER_SECOND;
-	}
+	ADD_MSEC_TO_XTIME(t, msecTimeout);
 
 	// Wait for the termination of the application code.
 	boost::timed_mutex::scoped_timed_lock lock(m_isTerminatedMutex, t);
@@ -92,6 +99,16 @@ Thread::Join(unsigned msecTimeout)
 	}
 
 	return tmpIsTerminated;
+}
+
+void
+Thread::Msleep(unsigned msecs)
+{
+	boost::xtime t;
+	boost::xtime_get(&t, boost::TIME_UTC);
+	ADD_MSEC_TO_XTIME(t, msecs);
+
+	boost::thread::sleep(t);
 }
 
 void
