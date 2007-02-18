@@ -60,6 +60,7 @@ void connectToServerDialogImpl::error(int errorID, int osErrorID) {
 		QMessageBox::warning(this, tr("Connection Error"),
 			tr("An Operating System Error occured during Connection"),
 			QMessageBox::Close);
+		return;
 	}
 
 	switch (errorID) {
