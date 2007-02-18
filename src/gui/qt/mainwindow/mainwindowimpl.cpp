@@ -1914,6 +1914,3 @@ void mainWindowImpl::switchToolBox() {
 	else { groupBox_tools->hide(); }
 
 }
-
-void mainWindowImpl::SignalNetClientSuccess(int actionID) { myConnectToServerDialog->refresh(actionID); }
-void mainWindowImpl::SignalNetClientError(int errorID, int osErrorID) {	myConnectToServerDialog->error(errorID, osErrorID); }
