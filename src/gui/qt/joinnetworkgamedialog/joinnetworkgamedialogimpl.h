@@ -22,6 +22,8 @@
 
 #include "ui_joinnetworkgamedialog.h"
 
+#include "clientthread.h"
+
 #include <iostream>
 #include <QtGui>
 #include <QtCore>
@@ -34,6 +36,7 @@ public:
 
 public slots:
 
+	void startClient();
 };
 
 #endif

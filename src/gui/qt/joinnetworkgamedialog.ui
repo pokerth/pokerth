@@ -95,7 +95,7 @@
        </widget>
       </item>
       <item row="3" column="0" colspan="5" >
-       <widget class="QPushButton" name="pushButton_3" >
+       <widget class="QPushButton" name="pushButton_connect" >
         <property name="text" >
          <string>Connect</string>
         </property>
@@ -118,10 +118,10 @@
        </spacer>
       </item>
       <item row="0" column="1" >
-       <widget class="QLineEdit" name="lineEdit" />
+       <widget class="QLineEdit" name="lineEdit_ipAddress" />
       </item>
       <item row="0" column="4" >
-       <widget class="QLineEdit" name="lineEdit_2" />
+       <widget class="QLineEdit" name="lineEdit_password" />
       </item>
       <item row="0" column="3" >
        <widget class="QLabel" name="label_3" >
@@ -131,7 +131,7 @@
        </widget>
       </item>
       <item row="1" column="4" >
-       <widget class="QSpinBox" name="spinBox" />
+       <widget class="QSpinBox" name="spinBox_port" />
       </item>
       <item row="1" column="3" >
        <widget class="QLabel" name="label_2" >
@@ -162,7 +162,7 @@
        </widget>
       </item>
       <item row="2" column="0" colspan="5" >
-       <widget class="QCheckBox" name="checkBox" >
+       <widget class="QCheckBox" name="checkBox_ipv6" >
         <property name="text" >
          <string>Use IPv6</string>
         </property>
@@ -193,7 +193,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton" >
+      <widget class="QPushButton" name="pushButton_close" >
        <property name="text" >
         <string>Close</string>
        </property>
@@ -206,34 +206,34 @@
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton_3</sender>
+   <sender>pushButton_connect</sender>
+   <signal>clicked()</signal>
+   <receiver>joinNetworkGameDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>79</x>
+     <y>145</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>33</x>
+     <y>422</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_close</sender>
    <signal>clicked()</signal>
    <receiver>joinNetworkGameDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>124</x>
-     <y>141</y>
+     <x>548</x>
+     <y>429</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>49</x>
-     <y>433</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>joinNetworkGameDialog</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>513</x>
-     <y>431</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>449</x>
-     <y>431</y>
+     <x>483</x>
+     <y>428</y>
     </hint>
    </hints>
   </connection>

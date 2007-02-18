@@ -26,7 +26,15 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
 
     setupUi(this);
 
+	connect( pushButton_connect, SIGNAL( clicked() ), this, SLOT( startClient() ) );
 	
-
 }
 
+
+void joinNetworkGameDialogImpl::startClient() {
+
+	ClientThread *myClientThread = new ClientThread();
+	myClientThread->Init(lineEdit_ipAddress->text().toStdString(), spinBox_port->value(), checkBox_ipv6->isChecked(), lineEdit_password->text().toStdString());
+	myClientThread->Run();
+
+}

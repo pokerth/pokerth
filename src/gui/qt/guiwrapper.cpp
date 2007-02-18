@@ -28,7 +28,7 @@ GuiWrapper::GuiWrapper() : myLog(0), myW(0)
 {
 
 
-	myW = new mainWindowImpl;
+	myW = new mainWindowImpl(this);
 	myW->show();
 
 	myLog = new Log(myW);

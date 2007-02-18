@@ -547,7 +547,7 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 	joinNetworkGameDialogImpl *v = new joinNetworkGameDialogImpl();
 	v->exec();
 
-	if (v->result() == QDialog::Rejected ) {
+	if (v->result() == QDialog::Accepted ) {
 
 		//Dialog mit Statusbalken
 		connectToServerDialogImpl *w = new connectToServerDialogImpl();
