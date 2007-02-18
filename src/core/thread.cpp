@@ -20,16 +20,16 @@
 #include "thread.h"
 
 // This is ugly, but I can't help it.
-#define ADD_MSEC_TO_XTIME(__xt, __msec) \
-	{ \
-		__xt.sec += __msec / 1000; \
-		__xt.nsec += (__msec % 1000) * 1000; \
-		if (__xt.nsec > NANOSECONDS_PER_SECOND) \
-		{ \
-			__xt.sec++; \
-			__xt.nsec -= NANOSECONDS_PER_SECOND; \
-		} \
+inline void ADD_MSEC_TO_XTIME(boost::xtime &xt, unsigned msec)
+{
+	xt.sec += msec / 1000;
+	xt.nsec += (msec % 1000) * 1000000;
+	if (xt.nsec > NANOSECONDS_PER_SECOND)
+	{
+		xt.sec++;
+		xt.nsec -= NANOSECONDS_PER_SECOND;
 	}
+}
 
 
 // Helper class for thread creation.

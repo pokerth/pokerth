@@ -26,6 +26,7 @@
 
 #include "session.h"
 #include "guiwrapper.h"
+#include <net/socket_startup.h>
 
 #include <cstdlib>
 #include <ctime>
@@ -36,6 +37,7 @@ class GuiWrapper;
 
 int main( int argc, char **argv )
 {
+	socket_startup();
 
 	srand( time(0) );
 
@@ -50,5 +52,8 @@ int main( int argc, char **argv )
 	Session theFirst(myGuiInterface);
 	myGuiInterface->setSession(&theFirst);
 
-	return a.exec();
+	int retVal = a.exec();
+
+	socket_cleanup();
+	return retVal;
 }
