@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "joinnetworkgamedialogimpl.h"
+#include "session.h"
 // #include "configfile.h"
 
 joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
@@ -30,11 +31,14 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
 	
 }
 
+void joinNetworkGameDialogImpl::setSession(Session* s)
+{
+	mySession = s;
+}
 
 void joinNetworkGameDialogImpl::startClient() {
 
-	ClientThread *myClientThread = new ClientThread();
-	myClientThread->Init(lineEdit_ipAddress->text().toStdString(), spinBox_port->value(), checkBox_ipv6->isChecked(), lineEdit_password->text().toStdString());
-	myClientThread->Run();
-
+	// TODO: Check input values!
+	if (mySession)
+		mySession->startNetworkClient(lineEdit_ipAddress->text().toUtf8().constData(), spinBox_port->value(), checkBox_ipv6->isChecked(), lineEdit_password->text().toUtf8().constData());
 }

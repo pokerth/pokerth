@@ -545,6 +545,7 @@ void mainWindowImpl::callAboutPokerthDialog() {
 void mainWindowImpl::callJoinNetworkGameDialog() {
 
 	joinNetworkGameDialogImpl *v = new joinNetworkGameDialogImpl();
+	v->setSession(mySession);
 	v->exec();
 
 	if (v->result() == QDialog::Accepted ) {

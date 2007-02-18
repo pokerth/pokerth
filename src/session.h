@@ -19,14 +19,12 @@
  ***************************************************************************/
 #ifndef STDSESSION_H
 #define STDSESSION_H
-#include <iostream>
-#include <fstream>
 #include <string>
 
 class GuiInterface;
 class Game;
 class ConfigFile;
-
+class ClientThread;
 
 class Session{
 public:
@@ -38,6 +36,9 @@ public:
 	void startGame(int, int, int);
 	void deleteGame();
 
+	void startNetworkClient(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
+	void terminateNetworkClient();
+
 	void setActualGameID(const int& theValue) { actualGameID = theValue; }
 	int getActualGameID() const { return actualGameID; }
 
@@ -46,6 +47,8 @@ public:
 private:
 
 	int actualGameID;
+
+	ClientThread *myNetClient;
 
 	Game *actualGame;
 	GuiInterface *myGui;

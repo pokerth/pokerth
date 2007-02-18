@@ -90,5 +90,5 @@ void GuiWrapper::meInAction() const { myW->meInAction(); }
 void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) { myLog->logPlayerActionMsg(playerName, action, setValue); }
 void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->logNewGameHandMsg(gameID, handID); }
 
-void GuiWrapper::showActionConnectToServerDialog(int actionID) { myConnectToServerDialog->refresh(actionID); }
-void GuiWrapper::showErrorConnectToServerDialog(int errorID, int osErrorID) { myConnectToServerDialog->error(errorID, osErrorID); }
+void GuiWrapper::SignalNetClientSuccess(int actionID) { myConnectToServerDialog->refresh(actionID); }
+void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myConnectToServerDialog->error(errorID, osErrorID); }

@@ -22,21 +22,26 @@
 
 #include "ui_joinnetworkgamedialog.h"
 
-#include "clientthread.h"
-
 #include <iostream>
 #include <QtGui>
 #include <QtCore>
 
+class Session;
 
 class joinNetworkGameDialogImpl: public QDialog, public Ui::joinNetworkGameDialog {
 Q_OBJECT
 public:
     joinNetworkGameDialogImpl(QWidget *parent = 0);
 
+	void joinNetworkGameDialogImpl::setSession(Session* s);
+
 public slots:
 
 	void startClient();
+
+private:
+
+	Session *mySession;
 };
 
 #endif

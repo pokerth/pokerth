@@ -20,7 +20,7 @@
 #ifndef GUIINTERFACE_H
 #define GUIINTERFACE_H
 
-// #include <iostream>
+#include <net/clientcallback.h>
 #include <string>
 
 class Game;
@@ -28,7 +28,7 @@ class Session;
 class HandInterface;
 
 
-class GuiInterface{
+class GuiInterface : public ClientCallback {
 public:
 	virtual ~GuiInterface();
 

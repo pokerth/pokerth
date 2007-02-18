@@ -21,26 +21,24 @@
 #include "game.h"
 #include "guiinterface.h"
 #include "configfile.h"
+#include <net/clientthread.h>
 
-
+#define NET_CLIENT_TERMINATE_TIMEOUT_MSEC	1000
 
 using namespace std;
 
-Session::Session(GuiInterface* g) : actualGame(0), myGui(g)
-{
-
-	actualGameID = 0;
-	// Session an mainwindowimpl bergeben
-	myGui->setSession(this);
-	
+Session::Session(GuiInterface *g)
+: actualGameID(0), myNetClient(0), actualGame(0), myGui(g)
+{	
 	myConfig = new ConfigFile;
-	
-
 }
 
 
 Session::~Session()
 {
+	terminateNetworkClient();
+	deleteGame();
+	delete myConfig;
 }
 
 
@@ -56,4 +54,27 @@ void Session::deleteGame() {
 	delete actualGame;
 	actualGame = 0;
 
+}
+
+void Session::startNetworkClient(const string &serverAddress, unsigned serverPort, bool ipv6, const string &pwd)
+{
+	if (myNetClient || !myGui)
+		return; // TODO: throw exception
+	myNetClient = new ClientThread(*myGui);
+	myNetClient->Init(serverAddress, serverPort, ipv6, pwd);
+	myNetClient->Run();
+}
+
+void Session::terminateNetworkClient()
+{
+	if (!myNetClient)
+		return; // already terminated
+	myNetClient->SignalTermination();
+	// Give the thread some time to terminate.
+	if (myNetClient->Join(NET_CLIENT_TERMINATE_TIMEOUT_MSEC))
+	{
+		delete myNetClient;
+	}
+	// If termination fails, leave a memory leak to prevent a crash.
+	myNetClient = 0;
 }
