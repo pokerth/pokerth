@@ -37,8 +37,10 @@ class ConfigFile;
 class BoardInterface;
 // class HandInterface;
 class PlayerInterface;
-
 class MyCardsPixmapLabel;
+class joinNetworkGameDialogImpl;
+class connectToServerDialogImpl;
+
 
 class QColor;
 
@@ -239,6 +241,9 @@ private:
 
 	QPixmap *flipside;
 
+	//Dialoge
+	joinNetworkGameDialogImpl *myJoinNetworkGameDialog;
+	connectToServerDialogImpl *myConnectToServerDialog;
 	int maxQuantityPlayers;
 	
 	int distributePotAnimCounter;

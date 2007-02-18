@@ -396,6 +396,10 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	//Statusbar 
 	statusBar()->showMessage(tr("Ctrl+N to start a new Game"));
 
+	//Dialoge 
+	myJoinNetworkGameDialog = new joinNetworkGameDialogImpl();
+	myConnectToServerDialog = new connectToServerDialogImpl();
+
 	//Connects
 	connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
 	connect(dealFlopCards1Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards2() ));
@@ -447,6 +451,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	connect ( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
 	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
 
+	//Nachrichten Thread-Save
+	connect(this, SIGNAL(SignalNetClientSuccess(int)), myConnectToServerDialog, SLOT(refresh(int)));
+	connect(this, SIGNAL(SignalNetClientError(int, int)), myConnectToServerDialog, SLOT(error(int, int)));
 
 }
 
@@ -543,18 +550,16 @@ void mainWindowImpl::callAboutPokerthDialog() {
 }
 
 void mainWindowImpl::callJoinNetworkGameDialog() {
+	
+	myJoinNetworkGameDialog->setSession(mySession);
+	myJoinNetworkGameDialog->exec();
 
-	joinNetworkGameDialogImpl *v = new joinNetworkGameDialogImpl();
-	connectToServerDialogImpl *w = new connectToServerDialogImpl();
-	v->setSession(mySession);
-	v->exec();
-
-	if (v->result() == QDialog::Accepted ) {
+	if (	myJoinNetworkGameDialog->result() == QDialog::Accepted ) {
 
 		//Dialog mit Statusbalken
-		w->exec();
+		myConnectToServerDialog->exec();
 
-		if (w->result() == QDialog::Rejected ) {
+		if (myConnectToServerDialog->result() == QDialog::Rejected ) {
 			callJoinNetworkGameDialog();
 		
 		}
