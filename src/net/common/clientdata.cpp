@@ -22,10 +22,10 @@
 ClientData::ClientData()
 : sockfd(INVALID_SOCKET), addrFamily(AF_INET), serverPort(0)
 {
-	bzero(clientAddr, sizeof(clientAddr));
+	bzero(&clientAddr, sizeof(clientAddr));
 }
 
-ClientCallback::~ClientCallback()
+ClientData::~ClientData()
 {
 	if (sockfd != INVALID_SOCKET)
 		CLOSESOCKET(sockfd);
