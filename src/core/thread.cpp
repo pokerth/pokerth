@@ -47,7 +47,7 @@ private:
 };
 
 Thread::Thread()
-: m_isTerminatedMutexLock(m_isTerminatedMutex), m_userReqTerminateLock(m_shouldTerminateMutex)
+: m_userReqTerminateLock(m_shouldTerminateMutex), m_threadStartBarrier(2)
 {
 }
 
@@ -62,7 +62,10 @@ Thread::Run()
 	boost::mutex::scoped_lock threadLock(m_threadObjMutex);
 
 	if (!m_threadObj.get())
+	{
 		m_threadObj.reset(new boost::thread(ThreadStarter(*this)));
+		m_threadStartBarrier.wait();
+	}
 }
 
 void
@@ -114,10 +117,9 @@ Thread::Msleep(unsigned msecs)
 void
 Thread::MainWrapper()
 {
+	boost::timed_mutex::scoped_lock lock(m_isTerminatedMutex);
+	m_threadStartBarrier.wait();
 	this->Main();
-	// Thread has been terminated.
-	// Unlock the isTerminated mutex.
-	m_isTerminatedMutexLock.unlock();
 }
 
 bool

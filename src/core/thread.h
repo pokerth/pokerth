@@ -22,6 +22,7 @@
 #define _THREAD_H_
 
 #include <boost/thread.hpp>
+#include <boost/thread/barrier.hpp>
 #include <boost/shared_ptr.hpp>
 
 #ifndef NANOSECONDS_PER_SECOND
@@ -68,7 +69,6 @@ private:
 	// Flag specifying whether the application code within the
 	// thread was terminated.
 	mutable boost::timed_mutex m_isTerminatedMutex;
-	mutable boost::timed_mutex::scoped_try_lock m_isTerminatedMutexLock;
 
 	// Flag specifying whether the thread should be terminated.
 	mutable boost::timed_mutex m_shouldTerminateMutex;
@@ -77,6 +77,8 @@ private:
 	// The boost thread object.
 	boost::shared_ptr<boost::thread> m_threadObj;
 	mutable boost::mutex m_threadObjMutex;
+
+	boost::barrier m_threadStartBarrier;
 
 friend class ThreadStarter;
 };
