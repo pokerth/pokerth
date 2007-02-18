@@ -44,7 +44,7 @@ void connectToServerDialogImpl::refresh(int actionID) {
 	progressBar->setValue(actionID*(100/MSG_SOCK_LAST));
 
 	if (actionID == MSG_SOCK_LAST)
-		QTimer::singleShot(1000, this, SLOT(hide()));
+		QTimer::singleShot(1000, this, SLOT(accept()));
 }
 
 void connectToServerDialogImpl::error(int errorID, int osErrorID) {
