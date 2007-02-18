@@ -26,8 +26,8 @@
 using namespace std;
 
 
-ClientThread::ClientThread()
-: m_curState(NULL)
+ClientThread::ClientThread(GuiInterface &gui)
+: m_curState(NULL), m_gui(gui)
 {
 	m_data.reset(new ClientData);
 	m_curState = &CLIENT_INITIAL_STATE::Instance();
@@ -53,6 +53,7 @@ ClientThread::Main()
 {
 	while (!ShouldTerminate())
 	{
+		GetState().Process(*this, m_gui);
 	}
 }
 
@@ -68,6 +69,13 @@ ClientThread::GetData()
 {
 	assert(m_data.get());
 	return *m_data;
+}
+
+ClientState &
+ClientThread::GetState()
+{
+	assert(m_curState);
+	return *m_curState;
 }
 
 void

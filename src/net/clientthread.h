@@ -27,11 +27,12 @@
 
 class ClientData;
 class ClientState;
+class GuiInterface;
 
 class ClientThread : public Thread
 {
 public:
-	ClientThread();
+	ClientThread(GuiInterface &gui);
 	virtual ~ClientThread();
 
 	// Set the parameters. Does not do any error checking.
@@ -47,13 +48,15 @@ protected:
 	const ClientData &GetData() const;
 	ClientData &GetData();
 
+	ClientState &GetState();
 	void SetState(ClientState &newState);
 
 private:
 
 	std::auto_ptr<ClientData> m_data;
-
 	ClientState *m_curState;
+	GuiInterface &m_gui;
+
 
 friend class ClientStateInit;
 friend class ClientStateResolve;
