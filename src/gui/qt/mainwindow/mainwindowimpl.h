@@ -173,8 +173,6 @@ public slots:
 
 	void paintStartSplash();
 
-	void refreshConnectToServerDialog(int actionID);
-	void errorConnectToServerDialog(int errorID, int osErrorID);
 
 private: 
 	

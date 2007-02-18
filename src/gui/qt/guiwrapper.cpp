@@ -23,11 +23,6 @@
 
 using namespace std;
 
-// NetSignalDispatcher::NetSignalDispatcher(connectToServerDialogImpl *dialog)
-// {
-// 	
-// }
-
 
 GuiWrapper::GuiWrapper() : myLog(0), myW(0)
 {
@@ -37,10 +32,6 @@ GuiWrapper::GuiWrapper() : myLog(0), myW(0)
 	myW->show();
 
 	myLog = new Log(myW);
-	myConnectToServerDialog = new connectToServerDialogImpl();
-
-// 	myNetSignalDispatcher = new NetSignalDispatcher(myConnectToServerDialog);
-
 	myConfig = new ConfigFile;
 
 }

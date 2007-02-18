@@ -452,8 +452,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
 
 	//Nachrichten Thread-Save
-	connect(this, SIGNAL(SignalNetClientSuccess(int)), this, SLOT(refreshConnectToServerDialog(int)));
-	connect(this, SIGNAL(SignalNetClientError(int, int)), this, SLOT(errorConnectToServerDialog(int, int)));
+	connect(this, SIGNAL(SignalNetClientSuccess(int)), myConnectToServerDialog, SLOT(refresh(int)));
+	connect(this, SIGNAL(SignalNetClientError(int, int)), myConnectToServerDialog, SLOT(error(int, int)));
 
 }
 
@@ -1915,5 +1915,3 @@ void mainWindowImpl::switchToolBox() {
 
 }
 
-void mainWindowImpl::refreshConnectToServerDialog(int actionID) { myConnectToServerDialog->refresh(actionID); }
-void mainWindowImpl::errorConnectToServerDialog(int errorID, int osErrorID) {	myConnectToServerDialog->error(errorID, osErrorID); }
