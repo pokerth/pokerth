@@ -168,6 +168,8 @@ public slots:
 
 	void paintStartSplash();
 
+	void SignalNetClientSuccess(int actionID);
+	void SignalNetClientError(int errorID, int osErrorID);
 	
 	
 

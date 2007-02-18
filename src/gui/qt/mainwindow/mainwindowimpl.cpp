@@ -1915,3 +1915,5 @@ void mainWindowImpl::switchToolBox() {
 
 }
 
+void mainWindowImpl::SignalNetClientSuccess(int actionID) { myConnectToServerDialog->refresh(actionID); }
+void mainWindowImpl::SignalNetClientError(int errorID, int osErrorID) {	myConnectToServerDialog->error(errorID, osErrorID); }
