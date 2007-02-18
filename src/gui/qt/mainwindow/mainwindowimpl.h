@@ -47,6 +47,7 @@ class QColor;
 
 class mainWindowImpl: public QMainWindow, public Ui::mainWindow {
 Q_OBJECT
+
 public:
 	mainWindowImpl(QMainWindow *parent = 0 );
 
@@ -84,6 +85,10 @@ public:
 	void highlightRoundLabel(std::string);
 
 	void setSpeeds();
+
+signals:
+	void SignalNetClientSuccess(int actionID);
+	void SignalNetClientError(int errorID, int osErrorID);
 
 public slots:
 
@@ -168,12 +173,8 @@ public slots:
 
 	void paintStartSplash();
 
-signals:
-
-	void SignalNetClientSuccess(int actionID);
-	void SignalNetClientError(int errorID, int osErrorID);
-	
-	
+	void refreshConnectToServerDialog(int actionID);
+	void errorConnectToServerDialog(int errorID, int osErrorID);
 
 private: 
 	
@@ -277,6 +278,8 @@ private:
 	QColor active;
 	QColor inactive;
 	QColor highlight;
+
+friend class GuiWrapper;
 };
 
 #endif
