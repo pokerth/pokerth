@@ -31,12 +31,34 @@
 #include <cstdlib>
 #include <ctime>
 
+#ifdef _MSC_VER
+	#ifdef _DEBUG
+		#define _CRTDBG_MAP_ALLOC
+		#include <crtdbg.h>
+
+		#define ENABLE_LEAK_CHECK() \
+			{ \
+				int tmpFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG); \
+				tmpFlag |= _CRTDBG_LEAK_CHECK_DF; \
+				_CrtSetDbgFlag(tmpFlag); \
+			}
+	#endif
+#endif
+
+#ifndef ENABLE_LEAK_CHECK
+	#define ENABLE_LEAK_CHECK()
+#endif
+
 using namespace std;
 
 class GuiWrapper;
 
 int main( int argc, char **argv )
 {
+	ENABLE_LEAK_CHECK();
+
+	//_CrtSetBreakAlloc(49937);
+
 	socket_startup();
 
 	srand( time(0) );

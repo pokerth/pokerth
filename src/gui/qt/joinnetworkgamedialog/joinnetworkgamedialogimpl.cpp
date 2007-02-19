@@ -31,14 +31,7 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
 	
 }
 
-void joinNetworkGameDialogImpl::setSession(Session* s)
-{
-	mySession = s;
-}
-
 void joinNetworkGameDialogImpl::startClient() {
 
 	// TODO: Check input values!
-	if (mySession)
-		mySession->startNetworkClient(lineEdit_ipAddress->text().toUtf8().constData(), spinBox_port->value(), checkBox_ipv6->isChecked(), lineEdit_password->text().toUtf8().constData());
 }

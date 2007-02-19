@@ -551,17 +551,25 @@ void mainWindowImpl::callAboutPokerthDialog() {
 
 void mainWindowImpl::callJoinNetworkGameDialog() {
 	
-	myJoinNetworkGameDialog->setSession(mySession);
 	myJoinNetworkGameDialog->exec();
 
-	if (	myJoinNetworkGameDialog->result() == QDialog::Accepted ) {
+	if (myJoinNetworkGameDialog->result() == QDialog::Accepted ) {
+
+		mySession->terminateNetworkClient();
+
+		// Maybe use QUrl::toPunycode.
+		mySession->startNetworkClient(
+			myJoinNetworkGameDialog->lineEdit_ipAddress->text().toUtf8().constData(),
+			myJoinNetworkGameDialog->spinBox_port->value(),
+			myJoinNetworkGameDialog->checkBox_ipv6->isChecked(),
+			myJoinNetworkGameDialog->lineEdit_password->text().toUtf8().constData());
 
 		//Dialog mit Statusbalken
 		myConnectToServerDialog->exec();
 
 		if (myConnectToServerDialog->result() == QDialog::Rejected ) {
-			callJoinNetworkGameDialog();
-		
+			mySession->terminateNetworkClient();
+			actionJoin_network_Game->trigger(); // re-trigger
 		}
 
 	}

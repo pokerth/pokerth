@@ -63,7 +63,7 @@ void connectToServerDialogImpl::error(int errorID, int osErrorID) {
 		break;
 		case ERR_SOCK_CREATION_FAILED:
 			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Could not create socket."),
+				tr("Could not create a socket for TCP communication."),
 				QMessageBox::Close); }
 		break;
 		case ERR_SOCK_SET_PORT_FAILED:
@@ -78,7 +78,7 @@ void connectToServerDialogImpl::error(int errorID, int osErrorID) {
 		break;
 		case ERR_SOCK_CONNECT_FAILED:
 			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Could not connect to server."),
+				tr("Could not connect to the server."),
 				QMessageBox::Close); }
 		break;
 		default:  { QMessageBox::warning(this, tr("Network Error"),

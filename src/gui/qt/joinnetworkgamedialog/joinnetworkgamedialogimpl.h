@@ -33,15 +33,9 @@ Q_OBJECT
 public:
     joinNetworkGameDialogImpl(QWidget *parent = 0);
 
-	void setSession(Session* s);
-
 public slots:
 
 	void startClient();
-
-private:
-
-	Session *mySession;
 };
 
 #endif
