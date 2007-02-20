@@ -34,7 +34,7 @@ using namespace std;
 ConfigFile::ConfigFile()
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 5;
+	configRev = 6;
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
@@ -137,9 +137,12 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * confElement10 = new TiXmlElement( "Opponent4Name" );
 		config->LinkEndChild( confElement10 );
       		confElement10->SetAttribute("value", "Player 4");
-		TiXmlElement * confElement11 = new TiXmlElement( "ShowToolBox" );
+		TiXmlElement * confElement11 = new TiXmlElement( "ShowLeftToolBox" );
 		config->LinkEndChild( confElement11 );
       		confElement11->SetAttribute("value", 1);
+		TiXmlElement * confElement22 = new TiXmlElement( "ShowRightToolBox" );
+		config->LinkEndChild( confElement22 );
+      		confElement22->SetAttribute("value", 1);
 		TiXmlElement * confElement13 = new TiXmlElement( "ShowIntro" );
 		config->LinkEndChild( confElement13 );
       		confElement13->SetAttribute("value", 1);

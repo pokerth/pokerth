@@ -102,111 +102,123 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	tmpFont.setBold(TRUE);
 	textLabel_handLabel->setFont(tmpFont);
 
+	//Logos
+	label_logoleft = new QLabel;
+	label_logoleft->setPixmap(QPixmap(QString::fromUtf8(":/graphics/graphics/logo-140-100.png")));
+	label_logoleft->hide();
+ 	vboxLayout->addWidget(label_logoleft);
+
+	label_logoright = new QLabel;
+	label_logoright->setPixmap(QPixmap(QString::fromUtf8(":/graphics/graphics/logo-140-100.png")));
+	label_logoright->setAlignment(Qt::AlignRight);
+	label_logoright->hide();
+ 	vboxLayout3->addWidget(label_logoright);
+
 	//pixmapCardsLabel erstellen und ins Layout einfügen!
 	pixmapLabel_cardBoard0 = new MyCardsPixmapLabel(frame_5);
 	pixmapLabel_cardBoard0->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard0"));
     	pixmapLabel_cardBoard0->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard0->setMaximumSize(QSize(57, 80));
 	pixmapLabel_cardBoard0->setScaledContents(true);
-	gridLayout11->addWidget(pixmapLabel_cardBoard0, 0, 0, 1, 1);
+	gridLayout37->addWidget(pixmapLabel_cardBoard0, 0, 0, 1, 1);
 
 	pixmapLabel_cardBoard1 = new MyCardsPixmapLabel(frame_5);
     	pixmapLabel_cardBoard1->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard1"));
     	pixmapLabel_cardBoard1->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard1->setMaximumSize(QSize(57, 80));
 	pixmapLabel_cardBoard1->setScaledContents(true);
-    	gridLayout11->addWidget(pixmapLabel_cardBoard1, 0, 1, 1, 1);
+    	gridLayout37->addWidget(pixmapLabel_cardBoard1, 0, 1, 1, 1);
 
 	pixmapLabel_cardBoard2 = new MyCardsPixmapLabel(frame_5);
     	pixmapLabel_cardBoard2->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard2"));
     	pixmapLabel_cardBoard2->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard2->setMaximumSize(QSize(57, 80));
 	pixmapLabel_cardBoard2->setScaledContents(true);
-	gridLayout11->addWidget(pixmapLabel_cardBoard2, 0, 2, 1, 1);
+	gridLayout37->addWidget(pixmapLabel_cardBoard2, 0, 2, 1, 1);
 
 	pixmapLabel_cardBoard3 = new MyCardsPixmapLabel(frame_5);
     	pixmapLabel_cardBoard3->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard3"));
     	pixmapLabel_cardBoard3->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard3->setMaximumSize(QSize(57, 80));
 	pixmapLabel_cardBoard3->setScaledContents(true);
-    	gridLayout11->addWidget(pixmapLabel_cardBoard3, 0, 3, 1, 1);
+    	gridLayout37->addWidget(pixmapLabel_cardBoard3, 0, 3, 1, 1);
 	
 	pixmapLabel_cardBoard4 = new MyCardsPixmapLabel(frame_5);
     	pixmapLabel_cardBoard4->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard4"));
     	pixmapLabel_cardBoard4->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard4->setMaximumSize(QSize(57, 80));
 	pixmapLabel_cardBoard4->setScaledContents(true);
-    	gridLayout11->addWidget(pixmapLabel_cardBoard4, 0, 4, 1, 1);
+    	gridLayout37->addWidget(pixmapLabel_cardBoard4, 0, 4, 1, 1);
 
 	pixmapLabel_card0a = new MyCardsPixmapLabel(frame5);
 	pixmapLabel_card0a->setObjectName(QString::fromUtf8("pixmapLabel_card0a"));
 	pixmapLabel_card0a->setMinimumSize(QSize(80, 112));
 	pixmapLabel_card0a->setMaximumSize(QSize(80, 112));
 	pixmapLabel_card0a->setScaledContents(true);
-	gridLayout2->addWidget(pixmapLabel_card0a, 0, 0, 1, 1);
+	gridLayout4->addWidget(pixmapLabel_card0a, 0, 0, 1, 1);
 	
 	pixmapLabel_card0b = new MyCardsPixmapLabel(frame5);
 	pixmapLabel_card0b->setObjectName(QString::fromUtf8("pixmapLabel_card0b"));
 	pixmapLabel_card0b->setMinimumSize(QSize(80, 112));
 	pixmapLabel_card0b->setMaximumSize(QSize(80, 112));
 	pixmapLabel_card0b->setScaledContents(true);
-	gridLayout2->addWidget(pixmapLabel_card0b, 0, 1, 1, 1);
+	gridLayout4->addWidget(pixmapLabel_card0b, 0, 1, 1, 1);
 
 	pixmapLabel_card1a = new MyCardsPixmapLabel(frame8_2_2_2_5);
     	pixmapLabel_card1a->setObjectName(QString::fromUtf8("pixmapLabel_card1a"));
 	pixmapLabel_card1a->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card1a->setMaximumSize(QSize(57, 80));
 	pixmapLabel_card1a->setScaledContents(true);
-	gridLayout18->addWidget(pixmapLabel_card1a, 0, 0, 1, 1);
+	gridLayout13->addWidget(pixmapLabel_card1a, 0, 0, 1, 1);
 
    	pixmapLabel_card1b = new MyCardsPixmapLabel(frame8_2_2_2_5);
     	pixmapLabel_card1b->setObjectName(QString::fromUtf8("pixmapLabel_card1b"));
 	pixmapLabel_card1b->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card1b->setMaximumSize(QSize(57, 80));
 	pixmapLabel_card1b->setScaledContents(true);
-	gridLayout18->addWidget(pixmapLabel_card1b, 0, 1, 1, 1);
+	gridLayout13->addWidget(pixmapLabel_card1b, 0, 1, 1, 1);
 
 	pixmapLabel_card2a = new MyCardsPixmapLabel(frame8_2_2_2_4);
     	pixmapLabel_card2a->setObjectName(QString::fromUtf8("pixmapLabel_card2a"));
 	pixmapLabel_card2a->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card2a->setMaximumSize(QSize(57, 80));
 	pixmapLabel_card2a->setScaledContents(true);
-   	gridLayout24->addWidget(pixmapLabel_card2a, 0, 0, 1, 1);
+   	gridLayout19->addWidget(pixmapLabel_card2a, 0, 0, 1, 1);
 
 	pixmapLabel_card2b = new MyCardsPixmapLabel(frame8_2_2_2_4);
     	pixmapLabel_card2b->setObjectName(QString::fromUtf8("pixmapLabel_card2b"));
 	pixmapLabel_card2b->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card2b->setMaximumSize(QSize(57, 80));	
 	pixmapLabel_card2b->setScaledContents(true);
-	gridLayout24->addWidget(pixmapLabel_card2b, 0, 1, 1, 1);
+	gridLayout19->addWidget(pixmapLabel_card2b, 0, 1, 1, 1);
 
 	pixmapLabel_card3a = new MyCardsPixmapLabel(frame8_2_2_2_6);
     	pixmapLabel_card3a->setObjectName(QString::fromUtf8("pixmapLabel_card3a"));
 	pixmapLabel_card3a->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card3a->setMaximumSize(QSize(57, 80));
 	pixmapLabel_card3a->setScaledContents(true);
-   	gridLayout30->addWidget(pixmapLabel_card3a, 0, 0, 1, 1);
+   	gridLayout25->addWidget(pixmapLabel_card3a, 0, 0, 1, 1);
 
 	pixmapLabel_card3b = new MyCardsPixmapLabel(frame8_2_2_2_6);
     	pixmapLabel_card3b->setObjectName(QString::fromUtf8("pixmapLabel_card3b"));
 	pixmapLabel_card3b->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card3b->setMaximumSize(QSize(57, 80));
 	pixmapLabel_card3b->setScaledContents(true);
-	gridLayout30->addWidget(pixmapLabel_card3b, 0, 1, 1, 1);
+	gridLayout25->addWidget(pixmapLabel_card3b, 0, 1, 1, 1);
 
 	pixmapLabel_card4a = new MyCardsPixmapLabel(frame8_2_2_2_7);
     	pixmapLabel_card4a->setObjectName(QString::fromUtf8("pixmapLabel_card4a"));
 	pixmapLabel_card4a->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card4a->setMaximumSize(QSize(57, 80));
 	pixmapLabel_card4a->setScaledContents(true);
-   	gridLayout36->addWidget(pixmapLabel_card4a, 0, 0, 1, 1);
+   	gridLayout31->addWidget(pixmapLabel_card4a, 0, 0, 1, 1);
 
 	pixmapLabel_card4b = new MyCardsPixmapLabel(frame8_2_2_2_7);
     	pixmapLabel_card4b->setObjectName(QString::fromUtf8("pixmapLabel_card4b"));
 	pixmapLabel_card4b->setMinimumSize(QSize(57, 80));
     	pixmapLabel_card4b->setMaximumSize(QSize(57, 80));
 	pixmapLabel_card4b->setScaledContents(true);
-	gridLayout36->addWidget(pixmapLabel_card4b, 0, 1, 1, 1);
+	gridLayout31->addWidget(pixmapLabel_card4b, 0, 1, 1, 1);
 
 // 	pixmapLabel_card4b->setPixmap(QPixmap(":/cards/graphics/cards/33.png"), FALSE);
 	
@@ -223,11 +235,19 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	flipHolecardsAllInAlreadyDone = FALSE;
 
 
-	//Toolbox verstecken?				
-	if (!myConfig->readConfigInt("ShowToolBox")) { groupBox_tools->hide(); }
+	//Toolboxen verstecken?				
+	if (!myConfig->readConfigInt("ShowRightToolBox")) { 
+		groupBox_right_tools->hide(); 
+		label_logoright->show();
+	}
+	if (!myConfig->readConfigInt("ShowLeftToolBox")) { 
+		groupBox_left_tools->hide(); 
+		label_logoleft->show();
+	}
+
 	//Intro abspielen?
 	if (myConfig->readConfigInt("ShowIntro")) { 
-		label_logo->hide();
+// 		label_logo->hide();
 		QTimer::singleShot(100, this, SLOT( paintStartSplash() )); }
 
 		
@@ -494,7 +514,9 @@ void mainWindowImpl::callNewGameDialog() {
 			QPalette tempPalette = groupBox_board->palette();
 			tempPalette.setColor(QPalette::Window, active);
 			groupBox_board->setPalette(tempPalette);
-			groupBox_tools->setDisabled(FALSE);	
+			groupBox_right_tools->setDisabled(FALSE);
+			groupBox_left_tools->setDisabled(FALSE);	
+		
 	
 			//positioning Slider
 			horizontalSlider_speed->setValue(guiGameSpeed);
@@ -529,7 +551,8 @@ void mainWindowImpl::callNewGameDialog() {
 		QPalette tempPalette = groupBox_board->palette();
 		tempPalette.setColor(QPalette::Window, active);
 		groupBox_board->setPalette(tempPalette);
-		groupBox_tools->setDisabled(FALSE);	
+		groupBox_right_tools->setDisabled(FALSE);	
+	 	groupBox_left_tools->setDisabled(FALSE);	
 	
 		
 		//positioning Slider
@@ -584,8 +607,25 @@ void mainWindowImpl::callSettingsDialog() {
 	if (v->getSettingsCorrect()) {
 		
 		//Toolbox verstecken?
-		if (!myConfig->readConfigInt("ShowToolBox")) { groupBox_tools->hide(); }
-		else { groupBox_tools->show(); }
+		if (myConfig->readConfigInt("ShowLeftToolBox")) { 
+			label_logoleft->hide();
+			groupBox_left_tools->show(); 
+		}
+		else { 
+			groupBox_left_tools->hide(); 
+			label_logoleft->show();
+		}
+
+		if (myConfig->readConfigInt("ShowRightToolBox")) { 
+			label_logoright->hide();
+			groupBox_right_tools->show(); 
+		}
+		else { 
+			groupBox_right_tools->hide(); 
+			label_logoright->show();
+		}
+
+
 		
 		//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
 		if (v->getPlayerNickIsChanged() && actualGame) { 
@@ -1900,8 +1940,9 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	
 	bool ctrlPressed = FALSE;
 
-	if (event->key() == 16777220) { if(spinBox_set->hasFocus()) pushButton_set->click(); } //ENTER
-	if (event->key() == 16777265) { switchToolBox(); } //F2
+	if (event->key() == 16777220) { if(spinBox_set->hasFocus()) pushButton_set->click(); } //ENTER 
+	if (event->key() == 16777265) { switchLeftToolBox(); } //F2	
+	if (event->key() == 16777266) { switchRightToolBox(); } //F3
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;
@@ -1916,10 +1957,29 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
 }
 
-void mainWindowImpl::switchToolBox() {
+void mainWindowImpl::switchLeftToolBox() {
 
-	if (groupBox_tools->isHidden()) { groupBox_tools->show(); }
-	else { groupBox_tools->hide(); }
+	if (groupBox_left_tools->isHidden()) { 
+		label_logoleft->hide();
+		groupBox_left_tools->show(); 
+	}
+	else { 
+		groupBox_left_tools->hide(); 
+		label_logoleft->show();
+	}
+
+}
+
+void mainWindowImpl::switchRightToolBox() {
+
+	if (groupBox_right_tools->isHidden()) { 
+		label_logoright->hide();
+		groupBox_right_tools->show(); 
+	}
+	else { 
+		groupBox_right_tools->hide(); 
+		label_logoright->show();
+	}
 
 }
 

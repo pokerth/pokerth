@@ -250,7 +250,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	if(frameNo >= 245) { 
 		this->hide();
-		myW->label_logo->show(); 
+// 		myW->label_logo->show(); 
 
 	}
 

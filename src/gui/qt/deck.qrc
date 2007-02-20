@@ -63,6 +63,7 @@
         <file>graphics/1px.png</file>
         <file>graphics/dealerbutton.png</file>
         <file>graphics/fileopen16.png</file>
+        <file>graphics/handRanking_release.png</file>
         <file>graphics/logo-140-100.png</file>
     </qresource>
 </RCC>

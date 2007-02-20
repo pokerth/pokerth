@@ -169,7 +169,8 @@ public slots:
 	void breakButtonClicked();
 
 	void keyPressEvent ( QKeyEvent * event );
-	void switchToolBox();
+	void switchLeftToolBox();
+	void switchRightToolBox();
 
 	void paintStartSplash();
 
@@ -181,6 +182,10 @@ private:
 	Session *mySession;
 	Log *myLog;
 	ConfigFile *myConfig;
+
+	//Logo 
+	QLabel *label_logoleft;
+	QLabel *label_logoright;
 
 	//MyPixmapCardsLabel
 	MyCardsPixmapLabel *pixmapLabel_cardBoard0;
