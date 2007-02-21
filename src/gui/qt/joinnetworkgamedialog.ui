@@ -219,6 +219,18 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_ipAddress</tabstop>
+  <tabstop>lineEdit_password</tabstop>
+  <tabstop>lineEdit_3</tabstop>
+  <tabstop>spinBox_port</tabstop>
+  <tabstop>checkBox_ipv6</tabstop>
+  <tabstop>treeWidget</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>pushButton_5</tabstop>
+  <tabstop>pushButton_connect</tabstop>
+  <tabstop>pushButton_close</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -228,8 +240,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>79</x>
-     <y>145</y>
+     <x>376</x>
+     <y>447</y>
     </hint>
     <hint type="destinationlabel" >
      <x>33</x>

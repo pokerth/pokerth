@@ -36,6 +36,7 @@ public:
 public slots:
 
 	void startClient();
+	void keyPressEvent ( QKeyEvent * event );
 };
 
 #endif

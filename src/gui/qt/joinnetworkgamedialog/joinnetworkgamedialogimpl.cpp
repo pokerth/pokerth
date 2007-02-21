@@ -27,11 +27,25 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
 
     setupUi(this);
 
+	lineEdit_ipAddress->setFocus();
+
+
+// 	QShortcut *connectKey = new QShortcut(QKeySequence(Qt::Key_Enter), this);
+// 	connect( connectKey, SIGNAL(activated() ), pushButton_connect, SLOT( click() ) );
+
 	connect( pushButton_connect, SIGNAL( clicked() ), this, SLOT( startClient() ) );
-	
+
 }
 
 void joinNetworkGameDialogImpl::startClient() {
 
 	// TODO: Check input values!
+}
+
+void joinNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
+
+// 	std::cout << "key" << event->key();
+	
+	if (event->key() == 16777220) { pushButton_connect->click(); } //ENTER 
+	
 }
