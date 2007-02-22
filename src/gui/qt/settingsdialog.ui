@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>581</width>
-    <height>387</height>
+    <width>582</width>
+    <height>386</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -19,13 +19,6 @@
    <property name="spacing" >
     <number>6</number>
    </property>
-   <item row="1" column="0" colspan="2" >
-    <widget class="Line" name="line" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="1" >
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
@@ -39,169 +32,10 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="8" column="0" colspan="2" >
-        <widget class="QCheckBox" name="checkBox_showGameSettingsDialogOnNewGame" >
-         <property name="text" >
-          <string>Show Game Settings Dialog on every new Game</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0" colspan="2" >
-        <widget class="QCheckBox" name="checkBox_pauseBetweenHands" >
-         <property name="text" >
-          <string>Pause between Hands (Press "Start" Button to go on)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="3" >
-        <widget class="Line" name="line_3" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" >
-        <widget class="QLabel" name="label_3" >
-         <property name="text" >
-          <string>Small Blind</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="2" >
-        <widget class="QLabel" name="label_5" >
-         <property name="font" >
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text" >
-          <string>Game Settings</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" >
-        <widget class="QLabel" name="label_14" >
-         <property name="text" >
-          <string>Hands before raise Small Blind</string>
-         </property>
-        </widget>
-       </item>
        <item row="6" column="0" >
-        <widget class="QLabel" name="label" >
+        <widget class="QCheckBox" name="checkBox_showFlipCardsAnimation" >
          <property name="text" >
-          <string>Game-Speed</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" >
-        <widget class="QLabel" name="label_4" >
-         <property name="text" >
-          <string>Number of Players</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="3" column="0" >
-        <widget class="QLabel" name="label_2" >
-         <property name="text" >
-          <string>Start Cash</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1" >
-        <widget class="QSpinBox" name="spinBox_gameSpeed" >
-         <property name="maximum" >
-          <number>11</number>
-         </property>
-         <property name="minimum" >
-          <number>1</number>
-         </property>
-         <property name="singleStep" >
-          <number>1</number>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1" >
-        <widget class="QSpinBox" name="spinBox_handsBeforeRaiseSmallBlind" >
-         <property name="minimum" >
-          <number>1</number>
-         </property>
-         <property name="value" >
-          <number>9</number>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1" >
-        <widget class="QSpinBox" name="spinBox_smallBlind" >
-         <property name="maximum" >
-          <number>500</number>
-         </property>
-         <property name="minimum" >
-          <number>5</number>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1" >
-        <widget class="QSpinBox" name="spinBox_startCash" >
-         <property name="maximum" >
-          <number>5000</number>
-         </property>
-         <property name="minimum" >
-          <number>1000</number>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1" >
-        <widget class="QSpinBox" name="spinBox_quantityPlayers" >
-         <property name="maximum" >
-          <number>5</number>
-         </property>
-         <property name="minimum" >
-          <number>2</number>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="page_2" >
-      <layout class="QGridLayout" >
-       <property name="margin" >
-        <number>9</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <item row="2" column="0" >
-        <widget class="QCheckBox" name="checkBox_showIntro" >
-         <property name="text" >
-          <string>Show Intro on Startup</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" >
-        <widget class="QCheckBox" name="checkBox_showRightToolbox" >
-         <property name="text" >
-          <string>Show right Toolbox (F3 to switch on/off)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" >
-        <widget class="QCheckBox" name="checkBox_showLeftToolbox" >
-         <property name="text" >
-          <string>Show left Toolbox (F2 to switch on/off)</string>
+          <string>Show Flip-Card Animation</string>
          </property>
         </widget>
        </item>
@@ -212,10 +46,37 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0" >
-        <widget class="QCheckBox" name="checkBox_showFlipCardsAnimation" >
+       <item row="1" column="0" >
+        <widget class="Line" name="line_6" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" >
+        <widget class="QCheckBox" name="checkBox_showRightToolbox" >
          <property name="text" >
-          <string>Show Flip-Card Animation</string>
+          <string>Show right Toolbox (F3 to switch on/off)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_19" >
+         <property name="font" >
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text" >
+          <string>Interface</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QCheckBox" name="checkBox_showIntro" >
+         <property name="text" >
+          <string>Show Intro on Startup</string>
          </property>
         </widget>
        </item>
@@ -286,7 +147,7 @@
              </layout>
             </item>
             <item>
-             <widget class="QLabel" name="label_15" >
+             <widget class="QLabel" name="label_23" >
               <property name="text" >
                <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
@@ -313,6 +174,13 @@ p, li { white-space: pre-wrap; }
          </layout>
         </widget>
        </item>
+       <item row="3" column="0" >
+        <widget class="QCheckBox" name="checkBox_showLeftToolbox" >
+         <property name="text" >
+          <string>Show left Toolbox (F2 to switch on/off)</string>
+         </property>
+        </widget>
+       </item>
        <item row="8" column="0" >
         <spacer>
          <property name="orientation" >
@@ -326,15 +194,96 @@ p, li { white-space: pre-wrap; }
          </property>
         </spacer>
        </item>
-       <item row="1" column="0" >
-        <widget class="Line" name="line_5" >
+      </layout>
+     </widget>
+     <widget class="QWidget" name="page_2" >
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="8" column="0" colspan="2" >
+        <widget class="QCheckBox" name="checkBox_showGameSettingsDialogOnNewGame" >
+         <property name="text" >
+          <string>Show Game Settings Dialog on every new Game</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2" >
+        <widget class="Line" name="line_3" >
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_13" >
+       <item row="4" column="1" >
+        <widget class="QSpinBox" name="spinBox_smallBlind" >
+         <property name="maximum" >
+          <number>500</number>
+         </property>
+         <property name="minimum" >
+          <number>5</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QLabel" name="label_4" >
+         <property name="text" >
+          <string>Number of Players:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1" >
+        <widget class="QSpinBox" name="spinBox_gameSpeed" >
+         <property name="maximum" >
+          <number>11</number>
+         </property>
+         <property name="minimum" >
+          <number>1</number>
+         </property>
+         <property name="singleStep" >
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" >
+        <widget class="QLabel" name="label" >
+         <property name="text" >
+          <string>Game-Speed:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="7" column="0" colspan="2" >
+        <widget class="QCheckBox" name="checkBox_pauseBetweenHands" >
+         <property name="text" >
+          <string>Pause between Hands (Press "Start" Button to go on)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" >
+        <widget class="QLabel" name="label_2" >
+         <property name="text" >
+          <string>Start Cash:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2" >
+        <widget class="QLabel" name="label_5" >
          <property name="font" >
           <font>
            <weight>75</weight>
@@ -342,7 +291,51 @@ p, li { white-space: pre-wrap; }
           </font>
          </property>
          <property name="text" >
-          <string>Interface</string>
+          <string>Local Game Default Settings</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" >
+        <widget class="QLabel" name="label_3" >
+         <property name="text" >
+          <string>Small Blind:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" >
+        <widget class="QSpinBox" name="spinBox_quantityPlayers" >
+         <property name="maximum" >
+          <number>5</number>
+         </property>
+         <property name="minimum" >
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" >
+        <widget class="QSpinBox" name="spinBox_startCash" >
+         <property name="maximum" >
+          <number>5000</number>
+         </property>
+         <property name="minimum" >
+          <number>1000</number>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1" >
+        <widget class="QSpinBox" name="spinBox_handsBeforeRaiseSmallBlind" >
+         <property name="minimum" >
+          <number>1</number>
+         </property>
+         <property name="value" >
+          <number>9</number>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" >
+        <widget class="QLabel" name="label_14" >
+         <property name="text" >
+          <string>Hands before raise Small Blind:</string>
          </property>
         </widget>
        </item>
@@ -356,6 +349,176 @@ p, li { white-space: pre-wrap; }
        <property name="spacing" >
         <number>6</number>
        </property>
+       <item row="6" column="0" >
+        <widget class="QLabel" name="label_36" >
+         <property name="text" >
+          <string>Game-Speed for Computer Opponents:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" >
+        <widget class="QLabel" name="label_33" >
+         <property name="text" >
+          <string>Hands before raise Small Blind:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" >
+        <widget class="QLabel" name="label_35" >
+         <property name="text" >
+          <string>Small Blind:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" >
+        <widget class="QLabel" name="label_13" >
+         <property name="text" >
+          <string>Start Cash:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QLabel" name="label_15" >
+         <property name="text" >
+          <string>Number of Players:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" >
+        <widget class="QSpinBox" name="spinBox_netQuantityPlayers" >
+         <property name="maximum" >
+          <number>5</number>
+         </property>
+         <property name="minimum" >
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2" >
+        <widget class="Line" name="line_5" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2" >
+        <widget class="QLabel" name="label_34" >
+         <property name="font" >
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text" >
+          <string>Network Game Default Settings</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0" colspan="2" >
+        <widget class="QGroupBox" name="groupBox_2" >
+         <property name="title" >
+          <string>Server Settings</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="0" column="1" >
+           <widget class="QLineEdit" name="lineEdit" >
+            <property name="echoMode" >
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_37" >
+            <property name="text" >
+             <string>Server Password:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="5" column="1" >
+        <widget class="QSpinBox" name="spinBox_netHandsBeforeRaiseSmallBlind" >
+         <property name="minimum" >
+          <number>1</number>
+         </property>
+         <property name="value" >
+          <number>9</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" >
+        <widget class="QSpinBox" name="spinBox_netStartCash" >
+         <property name="maximum" >
+          <number>5000</number>
+         </property>
+         <property name="minimum" >
+          <number>1000</number>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1" >
+        <widget class="QSpinBox" name="spinBox_netGameSpeed" >
+         <property name="maximum" >
+          <number>11</number>
+         </property>
+         <property name="minimum" >
+          <number>1</number>
+         </property>
+         <property name="singleStep" >
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1" >
+        <widget class="QSpinBox" name="spinBox_netSmallBlind" >
+         <property name="maximum" >
+          <number>500</number>
+         </property>
+         <property name="minimum" >
+          <number>5</number>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="7" column="0" colspan="2" >
+        <widget class="Line" name="line_7" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="page_3" >
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="2" column="1" >
+        <widget class="QLineEdit" name="lineEdit_humanPlayerName" />
+       </item>
        <item row="0" column="0" colspan="2" >
         <widget class="QLabel" name="label_7" >
          <property name="font" >
@@ -396,17 +559,36 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="6" column="0" >
-        <widget class="QLabel" name="label_12" >
-         <property name="text" >
-          <string>Opponent 4:</string>
+       <item row="6" column="1" >
+        <widget class="QLineEdit" name="lineEdit_Opponent4Name" />
+       </item>
+       <item row="1" column="0" colspan="2" >
+        <widget class="Line" name="line_4" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
+       </item>
+       <item row="5" column="1" >
+        <widget class="QLineEdit" name="lineEdit_Opponent3Name" />
        </item>
        <item row="5" column="0" >
         <widget class="QLabel" name="label_11" >
          <property name="text" >
           <string>Opponent 3:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" >
+        <widget class="QLineEdit" name="lineEdit_Opponent1Name" />
+       </item>
+       <item row="4" column="1" >
+        <widget class="QLineEdit" name="lineEdit_Opponent2Name" />
+       </item>
+       <item row="6" column="0" >
+        <widget class="QLabel" name="label_12" >
+         <property name="text" >
+          <string>Opponent 4:</string>
          </property>
         </widget>
        </item>
@@ -417,31 +599,9 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="6" column="1" >
-        <widget class="QLineEdit" name="lineEdit_Opponent4Name" />
-       </item>
-       <item row="5" column="1" >
-        <widget class="QLineEdit" name="lineEdit_Opponent3Name" />
-       </item>
-       <item row="4" column="1" >
-        <widget class="QLineEdit" name="lineEdit_Opponent2Name" />
-       </item>
-       <item row="3" column="1" >
-        <widget class="QLineEdit" name="lineEdit_Opponent1Name" />
-       </item>
-       <item row="2" column="1" >
-        <widget class="QLineEdit" name="lineEdit_humanPlayerName" />
-       </item>
-       <item row="1" column="0" colspan="2" >
-        <widget class="Line" name="line_4" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_3" >
+     <widget class="QWidget" name="page_5" >
       <layout class="QGridLayout" >
        <property name="margin" >
         <number>9</number>
@@ -449,7 +609,7 @@ p, li { white-space: pre-wrap; }
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="3" column="0" >
+       <item row="3" column="0" colspan="2" >
         <layout class="QHBoxLayout" >
          <property name="margin" >
           <number>0</number>
@@ -458,7 +618,7 @@ p, li { white-space: pre-wrap; }
           <number>6</number>
          </property>
          <item>
-          <widget class="QLabel" name="label_17" >
+          <widget class="QLabel" name="label_27" >
            <property name="maximumSize" >
             <size>
              <width>99</width>
@@ -490,7 +650,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_18" >
+          <widget class="QLabel" name="label_28" >
            <property name="text" >
             <string>Day(s)</string>
            </property>
@@ -498,7 +658,7 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </item>
-       <item row="4" column="0" >
+       <item row="4" column="1" >
         <spacer>
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -511,27 +671,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </spacer>
        </item>
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_6" >
-         <property name="font" >
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text" >
-          <string>Log Messages</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" >
-        <widget class="Line" name="line_2" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" >
+       <item row="2" column="0" colspan="2" >
         <layout class="QHBoxLayout" >
          <property name="margin" >
           <number>0</number>
@@ -540,7 +680,7 @@ p, li { white-space: pre-wrap; }
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="label_16" >
+          <widget class="QLabel" name="label_29" >
            <property name="text" >
             <string>Log File Directory: </string>
            </property>
@@ -570,6 +710,26 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </item>
+       <item row="0" column="0" colspan="2" >
+        <widget class="QLabel" name="label_6" >
+         <property name="font" >
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text" >
+          <string>Log Messages</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2" >
+        <widget class="Line" name="line_2" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </widget>
@@ -584,12 +744,17 @@ p, li { white-space: pre-wrap; }
      </property>
      <item>
       <property name="text" >
-       <string>Game Settings</string>
+       <string>Interface</string>
       </property>
      </item>
      <item>
       <property name="text" >
-       <string>Interface</string>
+       <string>Local Game Settings</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Network Game Settings</string>
       </property>
      </item>
      <item>
@@ -602,6 +767,13 @@ p, li { white-space: pre-wrap; }
        <string>Log Messages</string>
       </property>
      </item>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2" >
+    <widget class="Line" name="line" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
     </widget>
    </item>
    <item row="2" column="0" colspan="2" >
@@ -618,26 +790,6 @@ p, li { white-space: pre-wrap; }
  </widget>
  <tabstops>
   <tabstop>listWidget</tabstop>
-  <tabstop>spinBox_quantityPlayers</tabstop>
-  <tabstop>spinBox_startCash</tabstop>
-  <tabstop>spinBox_smallBlind</tabstop>
-  <tabstop>spinBox_handsBeforeRaiseSmallBlind</tabstop>
-  <tabstop>spinBox_gameSpeed</tabstop>
-  <tabstop>checkBox_pauseBetweenHands</tabstop>
-  <tabstop>checkBox_showGameSettingsDialogOnNewGame</tabstop>
-  <tabstop>checkBox_showIntro</tabstop>
-  <tabstop>checkBox_showRightToolbox</tabstop>
-  <tabstop>checkBox_showFadeOutCardsAnimation</tabstop>
-  <tabstop>checkBox_showFlipCardsAnimation</tabstop>
-  <tabstop>radioButton_flipsideTux</tabstop>
-  <tabstop>radioButton_flipsideOwn</tabstop>
-  <tabstop>lineEdit_OwnFlipsideFilename</tabstop>
-  <tabstop>pushButton_openFlipsidePicture</tabstop>
-  <tabstop>lineEdit_humanPlayerName</tabstop>
-  <tabstop>lineEdit_Opponent1Name</tabstop>
-  <tabstop>lineEdit_Opponent2Name</tabstop>
-  <tabstop>lineEdit_Opponent3Name</tabstop>
-  <tabstop>lineEdit_Opponent4Name</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
@@ -673,70 +825,6 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel" >
      <x>281</x>
      <y>85</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_flipsideTux</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>lineEdit_OwnFlipsideFilename</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>394</x>
-     <y>213</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>512</x>
-     <y>245</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_flipsideOwn</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>lineEdit_OwnFlipsideFilename</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>325</x>
-     <y>246</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>512</x>
-     <y>245</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_flipsideTux</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>pushButton_openFlipsidePicture</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>530</x>
-     <y>213</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>520</x>
-     <y>245</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_flipsideOwn</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>pushButton_openFlipsidePicture</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>325</x>
-     <y>246</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>520</x>
-     <y>245</y>
     </hint>
    </hints>
   </connection>
