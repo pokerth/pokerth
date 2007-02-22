@@ -4207,7 +4207,7 @@
   <widget class="QStatusBar" name="statusbar" />
   <action name="actionNewGame" >
    <property name="text" >
-    <string>Start new local Game ...</string>
+    <string>Start local Game ...</string>
    </property>
    <property name="shortcut" >
     <string>Ctrl+N</string>

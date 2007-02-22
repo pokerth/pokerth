@@ -40,7 +40,8 @@ class PlayerInterface;
 class MyCardsPixmapLabel;
 class joinNetworkGameDialogImpl;
 class connectToServerDialogImpl;
-
+class createNetworkGameDialogImpl;
+class startNetworkGameDialogImpl;
 
 class QColor;
 
@@ -97,6 +98,7 @@ public slots:
 	void callNewGameDialog() ;
 	void callAboutPokerthDialog();
 	void callSettingsDialog();
+	void callCreateNetworkGameDialog();
 	void callJoinNetworkGameDialog();
 
 	void myFold();
@@ -252,6 +254,9 @@ private:
 	//Dialoge
 	joinNetworkGameDialogImpl *myJoinNetworkGameDialog;
 	connectToServerDialogImpl *myConnectToServerDialog;
+	startNetworkGameDialogImpl *myStartNetworkGameDialog;
+	createNetworkGameDialogImpl *myCreateNetworkGameDialog;
+
 	int maxQuantityPlayers;
 	
 	int distributePotAnimCounter;

@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Dialog</string>
+   <string>Waiting for Server ...</string>
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >

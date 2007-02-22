@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Start New Game</string>
+   <string>Start Local Game</string>
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
@@ -22,7 +22,7 @@
    <item row="0" column="0" >
     <widget class="QGroupBox" name="groupBox" >
      <property name="title" >
-      <string>Game-Settings</string>
+      <string>Local Game Settings</string>
      </property>
      <layout class="QGridLayout" >
       <property name="margin" >

@@ -12,7 +12,9 @@ FORMS += mainwindow.ui \
          settingsdialog.ui \
 	 joinnetworkgamedialog.ui \
 	 connecttoserverdialog.ui \
-	 waitforservertostartgamedialog.ui
+	 waitforservertostartgamedialog.ui \
+	 createnetworkgamedialog.ui \
+	 startnetworkgamedialog.ui 	 
 HEADERS += tinystr.h \
            tinyxml.h \
            mainwindowimpl.h \
@@ -22,6 +24,8 @@ HEADERS += tinystr.h \
 	   joinnetworkgamedialogimpl.h \
 	   connecttoserverdialogimpl.h \
 	   waitforservertostartgamedialogimpl.h \
+	   createnetworkgamedialogimpl.h \
+  	   startnetworkgamedialogimpl.h \
            configfile.h \
            log.h \
            guiinterface.h \
@@ -68,6 +72,8 @@ SOURCES += pokerth.cpp \
  	   joinnetworkgamedialogimpl.cpp \
  	   connecttoserverdialogimpl.cpp \
 	   waitforservertostartgamedialogimpl.cpp \
+	   createnetworkgamedialogimpl.cpp \
+  	   startnetworkgamedialogimpl.cpp \
            configfile.cpp \
            log.cpp \
            guiinterface.cpp \
@@ -105,8 +111,8 @@ SOURCES += pokerth.cpp \
 TEMPLATE = vcapp
 RESOURCES = src/gui/qt/deck.qrc
 TEMPLATE = app
-DEPENDPATH += . src uics src/config src/config/tinyxml src/gui src/gui/qt src/gui/qt/mainwindow/startsplash src/gui/qt/mainwindow src/gui/qt/aboutpokerth src/gui/qt/joinnetworkgamedialog src/gui/qt/connecttoserverdialog src/gui/qt/newlocalgamedialog src/gui/qt/settingsdialog src/gui/qt/waitforservertostartgamedialog src/gui/qt/log src/engine src/engine/local_engine src/net src/net/common src/core/
-INCLUDEPATH += . src uics src/config src/config/tinyxml src/gui src/gui/qt src/gui/qt/mainwindow/startsplash src/gui/qt/mainwindow src/gui/qt/aboutpokerth src/gui/qt/joinnetworkgamedialog src/gui/qt/connecttoserverdialog src/gui/qt/newlocalgamedialog src/gui/qt/settingsdialog src/gui/qt/waitforservertostartgamedialog src/gui/qt/log src/engine src/engine/local_engine src/net src/net/common src/core/
+DEPENDPATH += . src uics src/config src/config/tinyxml src/gui src/gui/qt src/gui/qt/mainwindow/startsplash src/gui/qt/mainwindow src/gui/qt/aboutpokerth src/gui/qt/joinnetworkgamedialog src/gui/qt/connecttoserverdialog src/gui/qt/newlocalgamedialog src/gui/qt/settingsdialog src/gui/qt/waitforservertostartgamedialog src/gui/qt/startnetworkgamedialog src/gui/qt/createnetworkgamedialog src/gui/qt/log src/engine src/engine/local_engine src/net src/net/common src/core/
+INCLUDEPATH += . src uics src/config src/config/tinyxml src/gui src/gui/qt src/gui/qt/mainwindow/startsplash src/gui/qt/mainwindow src/gui/qt/aboutpokerth src/gui/qt/joinnetworkgamedialog src/gui/qt/connecttoserverdialog src/gui/qt/newlocalgamedialog src/gui/qt/settingsdialog src/gui/qt/waitforservertostartgamedialog src/gui/qt/startnetworkgamedialog src/gui/qt/createnetworkgamedialog src/gui/qt/log src/engine src/engine/local_engine src/net src/net/common src/core/
 win32 {
 	DEPENDPATH += src/net/win32/
 	INCLUDEPATH += ../boost/

@@ -24,11 +24,11 @@
 #include "settingsdialogimpl.h"
 #include "joinnetworkgamedialogimpl.h"
 #include "connecttoserverdialogimpl.h"
-
+#include "createnetworkgamedialogimpl.h"
+#include "startnetworkgamedialogimpl.h"
 
 #include "startsplash.h"
 #include "mycardspixmaplabel.h"
-
 
 #include "playerinterface.h"
 #include "boardinterface.h"
@@ -419,6 +419,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	//Dialoge 
 	myJoinNetworkGameDialog = new joinNetworkGameDialogImpl();
 	myConnectToServerDialog = new connectToServerDialogImpl();
+	myStartNetworkGameDialog = new startNetworkGameDialogImpl();
+	myCreateNetworkGameDialog = new createNetworkGameDialogImpl();
 
 	//Connects
 	connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
@@ -457,8 +459,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	connect( actionAboutPokerth, SIGNAL( triggered() ), this, SLOT( callAboutPokerthDialog() ) );
 	connect( actionSettings, SIGNAL( triggered() ), this, SLOT( callSettingsDialog() ) );
 	connect( actionJoin_network_Game, SIGNAL( triggered() ), this, SLOT( callJoinNetworkGameDialog() ) );
+	connect( actionCreate_network_Game, SIGNAL( triggered() ), this, SLOT( callCreateNetworkGameDialog() ) );
 	connect( actionQuit, SIGNAL( triggered() ), qApp, SLOT( quit() ) );
-	actionCreate_network_Game->setVisible(FALSE);
 
 	connect( pushButton_raise, SIGNAL( clicked() ), this, SLOT( myRaise() ) );
 	connect( pushButton_call, SIGNAL( clicked() ), this, SLOT( myCall() ) );
@@ -570,6 +572,33 @@ void mainWindowImpl::callAboutPokerthDialog() {
 
 	aboutPokerthImpl *v = new aboutPokerthImpl();
 	v->exec();
+}
+
+void mainWindowImpl::callCreateNetworkGameDialog() {
+	
+	myCreateNetworkGameDialog->exec();
+// 
+	if (myCreateNetworkGameDialog->result() == QDialog::Accepted ) {
+// 
+// 		mySession->terminateNetworkClient();
+// 
+// 		// Maybe use QUrl::toPunycode.
+// 		mySession->startNetworkClient(
+// 			myJoinNetworkGameDialog->lineEdit_ipAddress->text().toUtf8().constData(),
+// 			myJoinNetworkGameDialog->spinBox_port->value(),
+// 			myJoinNetworkGameDialog->checkBox_ipv6->isChecked(),
+// 			myJoinNetworkGameDialog->lineEdit_password->text().toUtf8().constData());
+// 
+// 		//Dialog mit Statusbalken
+// 		myConnectToServerDialog->exec();
+// 
+// 		if (myConnectToServerDialog->result() == QDialog::Rejected ) {
+// 			mySession->terminateNetworkClient();
+// 			actionJoin_network_Game->trigger(); // re-trigger
+// 		}
+// 
+	}
+
 }
 
 void mainWindowImpl::callJoinNetworkGameDialog() {
