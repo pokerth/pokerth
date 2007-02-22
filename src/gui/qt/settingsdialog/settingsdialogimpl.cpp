@@ -40,7 +40,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 	lineEdit_Opponent3Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent3Name")));
 	lineEdit_Opponent4Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent4Name")));
 
-	//Game Settings
+	//Local Game Settings
 	spinBox_quantityPlayers->setValue(myConfig.readConfigInt("NumberOfPlayers"));
 	spinBox_startCash->setValue(myConfig.readConfigInt("StartCash"));
 	spinBox_smallBlind->setValue(myConfig.readConfigInt("SmallBlind"));
@@ -49,6 +49,14 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 	checkBox_pauseBetweenHands->setChecked(myConfig.readConfigInt("PauseBetweenHands"));
 	checkBox_showGameSettingsDialogOnNewGame->setChecked(myConfig.readConfigInt("ShowGameSettingsDialogOnNewGame"));
 	
+	//Network Game Settings
+	spinBox_netQuantityPlayers->setValue(myConfig.readConfigInt("NetNumberOfPlayers"));
+	spinBox_netStartCash->setValue(myConfig.readConfigInt("NetStartCash"));
+	spinBox_netSmallBlind->setValue(myConfig.readConfigInt("NetSmallBlind"));
+	spinBox_netHandsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("NetHandsBeforeRaiseSmallBlind"));
+	spinBox_netGameSpeed->setValue(myConfig.readConfigInt("NetGameSpeed"));
+	lineEdit_serverPassword->setText(QString::fromStdString(myConfig.readConfigString("ServerPassword")));
+
 	//Interface
 	checkBox_showLeftToolbox->setChecked(myConfig.readConfigInt("ShowLeftToolBox"));
 	checkBox_showRightToolbox->setChecked(myConfig.readConfigInt("ShowRightToolBox"));
@@ -94,7 +102,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigString("Opponent3Name", lineEdit_Opponent3Name->text().toStdString());
 	myConfig.writeConfigString("Opponent4Name", lineEdit_Opponent4Name->text().toStdString());
 
-// 	Game Settings
+// 	Local Game Settings
 	myConfig.writeConfigInt("NumberOfPlayers", spinBox_quantityPlayers->value());
 	myConfig.writeConfigInt("StartCash", spinBox_startCash->value());
 	myConfig.writeConfigInt("SmallBlind", spinBox_smallBlind->value());
@@ -103,6 +111,14 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("PauseBetweenHands", checkBox_pauseBetweenHands->isChecked());
 	myConfig.writeConfigInt("ShowGameSettingsDialogOnNewGame", checkBox_showGameSettingsDialogOnNewGame->isChecked());
 
+	//Network Game Settings
+	myConfig.writeConfigInt("NetNumberOfPlayers", spinBox_netQuantityPlayers->value());
+	myConfig.writeConfigInt("NetStartCash", spinBox_netStartCash->value());
+	myConfig.writeConfigInt("NetSmallBlind", spinBox_netSmallBlind->value());
+	myConfig.writeConfigInt("NetHandsBeforeRaiseSmallBlind", spinBox_netHandsBeforeRaiseSmallBlind->value());
+	myConfig.writeConfigInt("NetGameSpeed", spinBox_netGameSpeed->value());
+	myConfig.writeConfigString("ServerPassword", lineEdit_serverPassword->text().toStdString());
+	
 // 	Interface
 	myConfig.writeConfigInt("ShowLeftToolBox", checkBox_showLeftToolbox->isChecked());
 	myConfig.writeConfigInt("ShowRightToolBox", checkBox_showRightToolbox->isChecked());

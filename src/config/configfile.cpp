@@ -34,7 +34,7 @@ using namespace std;
 ConfigFile::ConfigFile()
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 6;
+	configRev = 7;
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
@@ -98,45 +98,10 @@ void ConfigFile::createDefaultConfig() {
        		config = new TiXmlElement( "Configuration" );  
 		root->LinkEndChild( config );  
 		
+		
 		TiXmlElement * confElement0 = new TiXmlElement( "ConfigRevision" ); 
 		config->LinkEndChild( confElement0 );
 		confElement0->SetAttribute("value", configRev);
-		TiXmlElement * confElement1 = new TiXmlElement( "NumberOfPlayers" ); 
-		config->LinkEndChild( confElement1 );
-		confElement1->SetAttribute("value", 5);
-                TiXmlElement * confElement2 = new TiXmlElement( "StartCash" );
-	        config->LinkEndChild( confElement2 );
-                confElement2->SetAttribute("value", 2000);
-		TiXmlElement * confElement3 = new TiXmlElement( "SmallBlind" );
-  		config->LinkEndChild( confElement3 );
-        	confElement3->SetAttribute("value", 10);
-		TiXmlElement * confElement12 = new TiXmlElement( "HandsBeforeRaiseSmallBlind" );
-		config->LinkEndChild( confElement12 );
-      		confElement12->SetAttribute("value", 9);	
-		TiXmlElement * confElement4 = new TiXmlElement( "GameSpeed" );
-		config->LinkEndChild( confElement4 );
-      		confElement4->SetAttribute("value", 4);
-		TiXmlElement * confElement14 = new TiXmlElement( "PauseBetweenHands" );
-		config->LinkEndChild( confElement14 );
-      		confElement14->SetAttribute("value", 0);		
-		TiXmlElement * confElement5 = new TiXmlElement( "ShowGameSettingsDialogOnNewGame" );
-		config->LinkEndChild( confElement5 );
-      		confElement5->SetAttribute("value", 1);		
-		TiXmlElement * confElement6 = new TiXmlElement( "MyName" );
-		config->LinkEndChild( confElement6 );
-      		confElement6->SetAttribute("value", "Human Player");		
-		TiXmlElement * confElement7 = new TiXmlElement( "Opponent1Name" );
-		config->LinkEndChild( confElement7 );
-      		confElement7->SetAttribute("value", "Player 1");
-		TiXmlElement * confElement8 = new TiXmlElement( "Opponent2Name" );
-		config->LinkEndChild( confElement8 );
-      		confElement8->SetAttribute("value", "Player 2");
-		TiXmlElement * confElement9 = new TiXmlElement( "Opponent3Name" );
-		config->LinkEndChild( confElement9 );
-      		confElement9->SetAttribute("value", "Player 3");
-		TiXmlElement * confElement10 = new TiXmlElement( "Opponent4Name" );
-		config->LinkEndChild( confElement10 );
-      		confElement10->SetAttribute("value", "Player 4");
 		TiXmlElement * confElement11 = new TiXmlElement( "ShowLeftToolBox" );
 		config->LinkEndChild( confElement11 );
       		confElement11->SetAttribute("value", 1);
@@ -161,6 +126,64 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * confElement18 = new TiXmlElement( "FlipsideOwnFile" );
 		config->LinkEndChild( confElement18 );
       		confElement18->SetAttribute("value", "");
+	
+		TiXmlElement * confElement1 = new TiXmlElement( "NumberOfPlayers" ); 
+		config->LinkEndChild( confElement1 );
+		confElement1->SetAttribute("value", 5);
+                TiXmlElement * confElement2 = new TiXmlElement( "StartCash" );
+	        config->LinkEndChild( confElement2 );
+                confElement2->SetAttribute("value", 2000);
+		TiXmlElement * confElement3 = new TiXmlElement( "SmallBlind" );
+  		config->LinkEndChild( confElement3 );
+        	confElement3->SetAttribute("value", 10);
+		TiXmlElement * confElement12 = new TiXmlElement( "HandsBeforeRaiseSmallBlind" );
+		config->LinkEndChild( confElement12 );
+      		confElement12->SetAttribute("value", 9);	
+		TiXmlElement * confElement4 = new TiXmlElement( "GameSpeed" );
+		config->LinkEndChild( confElement4 );
+      		confElement4->SetAttribute("value", 4);
+		TiXmlElement * confElement14 = new TiXmlElement( "PauseBetweenHands" );
+		config->LinkEndChild( confElement14 );
+      		confElement14->SetAttribute("value", 0);		
+		TiXmlElement * confElement5 = new TiXmlElement( "ShowGameSettingsDialogOnNewGame" );
+		config->LinkEndChild( confElement5 );
+      		confElement5->SetAttribute("value", 1);		
+	
+		TiXmlElement * confElement23 = new TiXmlElement( "NetNumberOfPlayers" ); 
+		config->LinkEndChild( confElement23 );
+		confElement23->SetAttribute("value", 5);
+                TiXmlElement * confElement24 = new TiXmlElement( "NetStartCash" );
+	        config->LinkEndChild( confElement24 );
+                confElement24->SetAttribute("value", 2000);
+		TiXmlElement * confElement25 = new TiXmlElement( "NetSmallBlind" );
+  		config->LinkEndChild( confElement25 );
+        	confElement25->SetAttribute("value", 10);
+		TiXmlElement * confElement26 = new TiXmlElement( "NetHandsBeforeRaiseSmallBlind" );
+		config->LinkEndChild( confElement26 );
+      		confElement26->SetAttribute("value", 9);	
+		TiXmlElement * confElement27 = new TiXmlElement( "NetGameSpeed" );
+		config->LinkEndChild( confElement27 );
+      		confElement27->SetAttribute("value", 4);
+		TiXmlElement * confElement28 = new TiXmlElement( "ServerPassword" );
+		config->LinkEndChild( confElement28 );
+      		confElement28->SetAttribute("value", "");
+	
+		TiXmlElement * confElement6 = new TiXmlElement( "MyName" );
+		config->LinkEndChild( confElement6 );
+      		confElement6->SetAttribute("value", "Human Player");		
+		TiXmlElement * confElement7 = new TiXmlElement( "Opponent1Name" );
+		config->LinkEndChild( confElement7 );
+      		confElement7->SetAttribute("value", "Player 1");
+		TiXmlElement * confElement8 = new TiXmlElement( "Opponent2Name" );
+		config->LinkEndChild( confElement8 );
+      		confElement8->SetAttribute("value", "Player 2");
+		TiXmlElement * confElement9 = new TiXmlElement( "Opponent3Name" );
+		config->LinkEndChild( confElement9 );
+      		confElement9->SetAttribute("value", "Player 3");
+		TiXmlElement * confElement10 = new TiXmlElement( "Opponent4Name" );
+		config->LinkEndChild( confElement10 );
+      		confElement10->SetAttribute("value", "Player 4");
+		
 		TiXmlElement * confElement20 = new TiXmlElement( "LogDir" );
 		config->LinkEndChild( confElement20 );
       		confElement20->SetAttribute("value", logDir);
