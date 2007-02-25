@@ -47,7 +47,7 @@ ServerThread::Main()
 		struct sockaddr_storage servaddr, clientaddr;
 		int sockaddr_size = sizeof(struct sockaddr_in);
 		int addrFamily = AF_INET;
-		int addrSize;
+		socklen_t addrSize;
 
 		sockfd = socket(addrFamily, SOCK_STREAM, 0);
 		bzero(&servaddr, sizeof(servaddr));
