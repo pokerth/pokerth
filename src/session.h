@@ -25,6 +25,7 @@ class GuiInterface;
 class Game;
 class ConfigFile;
 class ClientThread;
+class ServerThread;
 
 class Session{
 public:
@@ -39,6 +40,9 @@ public:
 	void startNetworkClient(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
 	void terminateNetworkClient();
 
+	void startNetworkServer();
+	void terminateNetworkServer();
+
 	void setActualGameID(const int& theValue) { actualGameID = theValue; }
 	int getActualGameID() const { return actualGameID; }
 
@@ -49,6 +53,7 @@ private:
 	int actualGameID;
 
 	ClientThread *myNetClient;
+	ServerThread *myNetServer;
 
 	Game *actualGame;
 	GuiInterface *myGui;

@@ -105,6 +105,9 @@ SOURCES += pokerth.cpp \
 	   clientstate.cpp \
 	   clientthread.cpp \
 	   resolverthread.cpp \
+	   netpacket.cpp \
+	   senderthread.cpp \
+	   serverthread.cpp \
 	   clientdata.cpp \
 	   clientcallback.cpp \
 	   socket_helper_cmn.cpp \

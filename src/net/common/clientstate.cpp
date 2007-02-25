@@ -20,6 +20,8 @@
 #include <net/clientstate.h>
 #include <net/clientthread.h>
 #include <net/clientdata.h>
+#include <net/senderthread.h>
+#include <net/netpacket.h>
 #include <net/resolverthread.h>
 #include <net/clientexception.h>
 #include <net/socket_helper.h>
@@ -229,7 +231,7 @@ ClientStateStartConnect::Process(ClientThread &client)
 
 	if (IS_VALID_CONNECT(connectResult))
 	{
-		client.SetState(ClientStateFinal::Instance());
+		client.SetState(ClientStateStartSession::Instance());
 		retVal = MSG_SOCK_CONNECT_DONE;
 	}
 	else
@@ -288,7 +290,7 @@ ClientStateConnecting::Process(ClientThread &client)
 		getsockopt(data.sockfd, SOL_SOCKET, SO_ERROR, (char *)&connectResult, &tmpSize);
 		if (connectResult != 0)
 			throw ClientException(ERR_SOCK_CONNECT_FAILED, connectResult);
-		client.SetState(ClientStateFinal::Instance());
+		client.SetState(ClientStateStartSession::Instance());
 		retVal = MSG_SOCK_CONNECT_DONE;
 	}
 	else if (selectResult == 0) // timeout
@@ -296,6 +298,87 @@ ClientStateConnecting::Process(ClientThread &client)
 	else
 		throw ClientException(ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
 
+
+	return retVal;
+}
+
+//-----------------------------------------------------------------------------
+
+ClientStateStartSession &
+ClientStateStartSession::Instance()
+{
+	static ClientStateStartSession state;
+	return state;
+}
+
+ClientStateStartSession::ClientStateStartSession()
+{
+}
+
+ClientStateStartSession::~ClientStateStartSession()
+{
+}
+
+int
+ClientStateStartSession::Process(ClientThread &client)
+{
+	client.GetSender().Init(client.GetData().sockfd);
+	client.GetSender().Run();
+
+	boost::shared_ptr<NetPacket> packet(new TestNetPacket(10));
+	client.GetSender().Send(packet);
+
+	client.SetState(ClientStateWaitSession::Instance());
+
+	return MSG_SOCK_INTERNAL_PENDING;
+}
+
+//-----------------------------------------------------------------------------
+
+ClientStateWaitSession &
+ClientStateWaitSession::Instance()
+{
+	static ClientStateWaitSession state;
+	return state;
+}
+
+ClientStateWaitSession::ClientStateWaitSession()
+{
+}
+
+ClientStateWaitSession::~ClientStateWaitSession()
+{
+}
+
+int
+ClientStateWaitSession::Process(ClientThread &client)
+{
+	int retVal;
+	ClientData &data = client.GetData();
+
+	// TODO: use receiver thread.
+	fd_set readSet;
+	struct timeval timeout;
+
+	FD_ZERO(&readSet);
+	FD_SET(data.sockfd, &readSet);
+
+	timeout.tv_sec  = 0;
+	timeout.tv_usec = CLIENT_WAIT_TIMEOUT_MSEC * 1000;
+	int selectResult = select(data.sockfd + 1, &readSet, NULL, NULL, &timeout);
+	if (selectResult > 0) // recv is possible
+	{
+		char buf[128];
+		if (recv(data.sockfd, buf, sizeof(buf), 0) > 0)
+		{
+			client.SetState(ClientStateFinal::Instance());
+			retVal = MSG_SOCK_SESSION_DONE;
+		}
+		else
+			throw ClientException(ERR_SOCK_RECV_FAILED, 0);
+	}
+	else
+		retVal = MSG_SOCK_INTERNAL_PENDING;
 
 	return retVal;
 }

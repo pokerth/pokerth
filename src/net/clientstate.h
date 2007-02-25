@@ -137,6 +137,42 @@ protected:
 	ClientStateConnecting();
 };
 
+// State: Session init.
+class ClientStateStartSession : public ClientState
+{
+public:
+	// Access the state singleton.
+	static ClientStateStartSession &Instance();
+
+	virtual ~ClientStateStartSession();
+
+	// sleep.
+	virtual int Process(ClientThread &client);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateStartSession();
+};
+
+// State: Wait for Session ACK.
+class ClientStateWaitSession : public ClientState
+{
+public:
+	// Access the state singleton.
+	static ClientStateWaitSession &Instance();
+
+	virtual ~ClientStateWaitSession();
+
+	// sleep.
+	virtual int Process(ClientThread &client);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateWaitSession();
+};
+
 // State: Final (TODO).
 class ClientStateFinal : public ClientState
 {

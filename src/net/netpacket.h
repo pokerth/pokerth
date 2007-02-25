@@ -16,58 +16,58 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network client thread. */
+/* PokerTH network packet. */
 
-#ifndef _CLIENTTHREAD_H_
-#define _CLIENTTHREAD_H_
+#ifndef _NETPACKET_H_
+#define _NETPACKET_H_
 
-#include <core/thread.h>
 #include <string>
-#include <memory>
+#include <net/socket_helper.h>
 
-class ClientData;
-class ClientState;
-class ClientCallback;
-class SenderThread;
+#ifdef _MSC_VER
+	#pragma pack(push, 2)
+#else
+	#pragma align 2
+#endif
 
-class ClientThread : public Thread
+struct NetPacketHeader
+{
+	u_int16_t	type;
+	u_int16_t	length;
+};
+
+struct NetPacketInit
+{
+	NetPacketHeader head;
+	u_int32_t	test;
+};
+
+#ifdef _MSC_VER
+	#pragma pack(pop)
+#else
+	#pragma align 0
+#endif
+
+
+class NetPacket
 {
 public:
-	ClientThread(ClientCallback &gui);
-	virtual ~ClientThread();
+	virtual ~NetPacket();
 
-	// Set the parameters. Does not do any error checking.
-	// Error checking will be done during connect
-	// (i.e. after starting the thread).
-	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
+	virtual NetPacketHeader *GetData() = 0;
+};
+
+class TestNetPacket : public NetPacket
+{
+public:
+	TestNetPacket(u_int32_t value);
+	virtual ~TestNetPacket();
+
+	virtual NetPacketHeader *GetData();
 
 protected:
-
-	// Main function of the thread.
-	virtual void Main();
-
-	const ClientData &GetData() const;
-	ClientData &GetData();
-
-	ClientState &GetState();
-	void SetState(ClientState &newState);
-
-	SenderThread &GetSender();
-
-private:
-
-	std::auto_ptr<ClientData> m_data;
-	ClientState *m_curState;
-	ClientCallback &m_callback;
-	std::auto_ptr<SenderThread> m_sender;
-
-friend class ClientStateInit;
-friend class ClientStateStartResolve;
-friend class ClientStateResolving;
-friend class ClientStateStartConnect;
-friend class ClientStateConnecting;
-friend class ClientStateStartSession;
-friend class ClientStateWaitSession;
+	NetPacketInit m_data;
 };
 
 #endif
+

@@ -22,13 +22,15 @@
 #include "guiinterface.h"
 #include "configfile.h"
 #include <net/clientthread.h>
+#include <net/serverthread.h>
 
 #define NET_CLIENT_TERMINATE_TIMEOUT_MSEC	1000
+#define NET_SERVER_TERMINATE_TIMEOUT_MSEC	1000
 
 using namespace std;
 
 Session::Session(GuiInterface *g)
-: actualGameID(0), myNetClient(0), actualGame(0), myGui(g)
+: actualGameID(0), myNetClient(0), myNetServer(0), actualGame(0), myGui(g)
 {	
 	myConfig = new ConfigFile;
 }
@@ -78,3 +80,27 @@ void Session::terminateNetworkClient()
 	// If termination fails, leave a memory leak to prevent a crash.
 	myNetClient = 0;
 }
+
+void Session::startNetworkServer()
+{
+	if (myNetServer)
+		return; // TODO: throw exception
+	myNetServer = new ServerThread();
+	myNetServer->Init();
+	myNetServer->Run();
+}
+
+void Session::terminateNetworkServer()
+{
+	if (!myNetServer)
+		return; // already terminated
+	myNetServer->SignalTermination();
+	// Give the thread some time to terminate.
+	if (myNetServer->Join(NET_SERVER_TERMINATE_TIMEOUT_MSEC))
+	{
+		delete myNetServer;
+	}
+	// If termination fails, leave a memory leak to prevent a crash.
+	myNetServer = 0;
+}
+

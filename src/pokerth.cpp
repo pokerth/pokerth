@@ -55,7 +55,7 @@ class GuiWrapper;
 
 int main( int argc, char **argv )
 {
-	ENABLE_LEAK_CHECK();
+	//ENABLE_LEAK_CHECK();
 
 	//_CrtSetBreakAlloc(49937);
 

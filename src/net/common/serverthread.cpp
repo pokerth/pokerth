@@ -16,58 +16,58 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network client thread. */
 
-#ifndef _CLIENTTHREAD_H_
-#define _CLIENTTHREAD_H_
+#include <net/serverthread.h>
+#include <net/socket_helper.h>
 
-#include <core/thread.h>
-#include <string>
-#include <memory>
 
-class ClientData;
-class ClientState;
-class ClientCallback;
-class SenderThread;
-
-class ClientThread : public Thread
+ServerThread::ServerThread()
 {
-public:
-	ClientThread(ClientCallback &gui);
-	virtual ~ClientThread();
+}
 
-	// Set the parameters. Does not do any error checking.
-	// Error checking will be done during connect
-	// (i.e. after starting the thread).
-	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
+ServerThread::~ServerThread()
+{
+}
 
-protected:
+void
+ServerThread::Init()
+{
+	if (IsRunning())
+		return; // TODO: throw exception
+}
 
-	// Main function of the thread.
-	virtual void Main();
+void
+ServerThread::Main()
+{
+	while (!ShouldTerminate())
+	{
+		// Simple hacked server for testing.
+		SOCKET sockfd;
+		char buf[1024];
+		struct sockaddr_storage servaddr, clientaddr;
+		int sockaddr_size = sizeof(struct sockaddr_in);
+		int addrFamily = AF_INET;
+		int addrSize;
 
-	const ClientData &GetData() const;
-	ClientData &GetData();
+		sockfd = socket(addrFamily, SOCK_STREAM, 0);
+		bzero(&servaddr, sizeof(servaddr));
+		servaddr.ss_family = addrFamily;
 
-	ClientState &GetState();
-	void SetState(ClientState &newState);
+		socket_string_to_addr("0.0.0.0", addrFamily, (struct sockaddr *)&servaddr, sockaddr_size);
+		socket_set_port(7234, addrFamily, (struct sockaddr *)&servaddr, sockaddr_size);
 
-	SenderThread &GetSender();
+		bind(sockfd, (const struct sockaddr *)&servaddr, sockaddr_size);
+		listen(sockfd, 1);
 
-private:
+		bzero(&clientaddr, sizeof(clientaddr));
+		addrSize = sockaddr_size;
+		SOCKET conn = accept(sockfd, (struct sockaddr *)&clientaddr, &addrSize);
+		CLOSESOCKET(sockfd);
+		int ret = recv(conn, buf, sizeof(buf), 0);
 
-	std::auto_ptr<ClientData> m_data;
-	ClientState *m_curState;
-	ClientCallback &m_callback;
-	std::auto_ptr<SenderThread> m_sender;
+		send(conn, buf, ret, 0);
 
-friend class ClientStateInit;
-friend class ClientStateStartResolve;
-friend class ClientStateResolving;
-friend class ClientStateStartConnect;
-friend class ClientStateConnecting;
-friend class ClientStateStartSession;
-friend class ClientStateWaitSession;
-};
+		CLOSESOCKET(conn);
+	}
+}
 
-#endif

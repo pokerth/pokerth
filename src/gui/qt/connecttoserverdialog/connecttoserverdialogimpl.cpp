@@ -36,9 +36,12 @@ void connectToServerDialogImpl::refresh(int actionID) {
 	break;
 	case MSG_SOCK_RESOLVE_DONE: { label_actionMessage->setText("Connecting to server..."); }
 	break;
-	case MSG_SOCK_CONNECT_DONE: { label_actionMessage->setText("Connection established."); }
+	case MSG_SOCK_CONNECT_DONE: { label_actionMessage->setText("Starting session..."); }
 	break;
-	default:  { label_actionMessage->setText("ERROR"); }
+	case MSG_SOCK_SESSION_DONE: { label_actionMessage->setText("Connection established!"); }
+	break;
+
+	default:  { label_actionMessage->setText("Please wait..."); }
 	}
 
 	progressBar->setValue(actionID*(100/MSG_SOCK_LAST));
@@ -80,6 +83,21 @@ void connectToServerDialogImpl::error(int errorID, int osErrorID) {
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("Could not connect to the server."),
 				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_SELECT_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal network error: \"select\" failed."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_RECV_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal network error: \"recv\" failed."),
+				QMessageBox::Close); }
+		break;
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal network error: \"send\" failed."),
+				QMessageBox::Close); }
+		case ERR_SOCK_SEND_FAILED:
 		break;
 		default:  { QMessageBox::warning(this, tr("Network Error"),
 				tr("DEFAULT ERROR"),

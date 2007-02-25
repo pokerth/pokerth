@@ -579,6 +579,8 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 	myCreateNetworkGameDialog->exec();
 // 
 	if (myCreateNetworkGameDialog->result() == QDialog::Accepted ) {
+		mySession->terminateNetworkServer();
+		mySession->startNetworkServer();
 // 
 // 		mySession->terminateNetworkClient();
 // 

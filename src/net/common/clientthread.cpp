@@ -20,6 +20,7 @@
 #include <net/clientthread.h>
 #include <net/clientstate.h>
 #include <net/clientdata.h>
+#include <net/senderthread.h>
 #include <net/clientcallback.h>
 #include <net/clientexception.h>
 #include <net/socket_msg.h>
@@ -57,6 +58,7 @@ ClientThread::Init(const string &serverAddress, unsigned serverPort, bool ipv6, 
 void
 ClientThread::Main()
 {
+	m_sender.reset(new SenderThread);
 	SetState(CLIENT_INITIAL_STATE::Instance());
 	try {
 		while (!ShouldTerminate())
@@ -69,6 +71,8 @@ ClientThread::Main()
 	{
 		m_callback.SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
 	}
+	GetSender().SignalTermination();
+	GetSender().Join(100);
 }
 
 const ClientData &
@@ -97,3 +101,11 @@ ClientThread::SetState(ClientState &newState)
 {
 	m_curState = &newState;
 }
+
+SenderThread &
+ClientThread::GetSender()
+{
+	assert(m_sender.get());
+	return *m_sender;
+}
+

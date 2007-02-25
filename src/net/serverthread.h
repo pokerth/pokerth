@@ -16,58 +16,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network client thread. */
+/* Network server thread. */
 
-#ifndef _CLIENTTHREAD_H_
-#define _CLIENTTHREAD_H_
+#ifndef _SERVERTHREAD_H_
+#define _SERVERTHREAD_H_
 
 #include <core/thread.h>
 #include <string>
 #include <memory>
 
-class ClientData;
-class ClientState;
-class ClientCallback;
-class SenderThread;
 
-class ClientThread : public Thread
+class ServerThread : public Thread
 {
 public:
-	ClientThread(ClientCallback &gui);
-	virtual ~ClientThread();
+	ServerThread(/*ServerCallback &gui*/);
+	virtual ~ServerThread();
 
-	// Set the parameters. Does not do any error checking.
-	// Error checking will be done during connect
-	// (i.e. after starting the thread).
-	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
+	// Set the parameters. TODO
+	void Init();
 
 protected:
 
 	// Main function of the thread.
 	virtual void Main();
 
-	const ClientData &GetData() const;
-	ClientData &GetData();
-
-	ClientState &GetState();
-	void SetState(ClientState &newState);
-
-	SenderThread &GetSender();
-
 private:
 
-	std::auto_ptr<ClientData> m_data;
-	ClientState *m_curState;
-	ClientCallback &m_callback;
-	std::auto_ptr<SenderThread> m_sender;
-
-friend class ClientStateInit;
-friend class ClientStateStartResolve;
-friend class ClientStateResolving;
-friend class ClientStateStartConnect;
-friend class ClientStateConnecting;
-friend class ClientStateStartSession;
-friend class ClientStateWaitSession;
 };
 
 #endif

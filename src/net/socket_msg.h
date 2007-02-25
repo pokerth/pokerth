@@ -27,6 +27,8 @@
 #define ERR_SOCK_RESOLVE_FAILED			5
 #define ERR_SOCK_CONNECT_FAILED			6
 #define ERR_SOCK_SELECT_FAILED			7
+#define ERR_SOCK_RECV_FAILED			8
+#define ERR_SOCK_SEND_FAILED			9
 
 // This is an internal message which is not reported.
 #define MSG_SOCK_INTERNAL_PENDING		0
@@ -35,8 +37,9 @@
 #define MSG_SOCK_INIT_DONE				1
 #define MSG_SOCK_RESOLVE_DONE			2
 #define MSG_SOCK_CONNECT_DONE			3
+#define MSG_SOCK_SESSION_DONE			4
 
-#define MSG_SOCK_LAST					MSG_SOCK_CONNECT_DONE
+#define MSG_SOCK_LAST					MSG_SOCK_SESSION_DONE
 
 #endif
 

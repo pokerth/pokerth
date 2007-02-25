@@ -16,58 +16,29 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network client thread. */
 
-#ifndef _CLIENTTHREAD_H_
-#define _CLIENTTHREAD_H_
+#include <net/netpacket.h>
 
-#include <core/thread.h>
-#include <string>
-#include <memory>
-
-class ClientData;
-class ClientState;
-class ClientCallback;
-class SenderThread;
-
-class ClientThread : public Thread
+NetPacket::~NetPacket()
 {
-public:
-	ClientThread(ClientCallback &gui);
-	virtual ~ClientThread();
+}
 
-	// Set the parameters. Does not do any error checking.
-	// Error checking will be done during connect
-	// (i.e. after starting the thread).
-	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
+//-----------------------------------------------------------------------------
 
-protected:
+TestNetPacket::TestNetPacket(u_int32_t value)
+{
+	m_data.head.type = 0;
+	m_data.head.length = sizeof(m_data);
+	m_data.test = value;
+}
 
-	// Main function of the thread.
-	virtual void Main();
+TestNetPacket::~TestNetPacket()
+{
+}
 
-	const ClientData &GetData() const;
-	ClientData &GetData();
+NetPacketHeader *
+TestNetPacket::GetData()
+{
+	return (NetPacketHeader *)&m_data;
+}
 
-	ClientState &GetState();
-	void SetState(ClientState &newState);
-
-	SenderThread &GetSender();
-
-private:
-
-	std::auto_ptr<ClientData> m_data;
-	ClientState *m_curState;
-	ClientCallback &m_callback;
-	std::auto_ptr<SenderThread> m_sender;
-
-friend class ClientStateInit;
-friend class ClientStateStartResolve;
-friend class ClientStateResolving;
-friend class ClientStateStartConnect;
-friend class ClientStateConnecting;
-friend class ClientStateStartSession;
-friend class ClientStateWaitSession;
-};
-
-#endif

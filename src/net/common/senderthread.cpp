@@ -16,58 +16,70 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network client thread. */
 
-#ifndef _CLIENTTHREAD_H_
-#define _CLIENTTHREAD_H_
+#include <net/senderthread.h>
+#include <net/netpacket.h>
 
-#include <core/thread.h>
-#include <string>
-#include <memory>
+#define SEND_TIMEOUT_MSEC 50
 
-class ClientData;
-class ClientState;
-class ClientCallback;
-class SenderThread;
-
-class ClientThread : public Thread
+SenderThread::SenderThread()
 {
-public:
-	ClientThread(ClientCallback &gui);
-	virtual ~ClientThread();
+}
 
-	// Set the parameters. Does not do any error checking.
-	// Error checking will be done during connect
-	// (i.e. after starting the thread).
-	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
+SenderThread::~SenderThread()
+{
+}
 
-protected:
+void
+SenderThread::Init(SOCKET socket)
+{
+	if (!IS_VALID_SOCKET(socket) || IsRunning())
+		return; // TODO: throw exception
 
-	// Main function of the thread.
-	virtual void Main();
+	m_socket = socket;
+}
 
-	const ClientData &GetData() const;
-	ClientData &GetData();
+void
+SenderThread::Send(boost::shared_ptr<NetPacket> packet)
+{
+	boost::mutex::scoped_lock lock(m_outBufMutex);
+	m_outBuf.push_back(packet);
+}
 
-	ClientState &GetState();
-	void SetState(ClientState &newState);
+void
+SenderThread::Main()
+{
+	boost::shared_ptr<NetPacket> tmpPacket;
+	while (!ShouldTerminate())
+	{
+		if (!tmpPacket.get())
+		{
+			boost::mutex::scoped_lock lock(m_outBufMutex);
+			if (!m_outBuf.empty())
+			{
+				tmpPacket = m_outBuf.front();
+				m_outBuf.pop_front();
+			}
+		}
+		if (tmpPacket.get())
+		{
+			fd_set writeSet;
+			struct timeval timeout;
 
-	SenderThread &GetSender();
+			FD_ZERO(&writeSet);
+			FD_SET(m_socket, &writeSet);
 
-private:
+			timeout.tv_sec  = 0;
+			timeout.tv_usec = SEND_TIMEOUT_MSEC * 1000;
+			int selectResult = select(m_socket + 1, NULL, &writeSet, NULL, &timeout);
+			if (selectResult > 0) // send is possible
+			{
+				send(m_socket, (const char *)tmpPacket->GetData(), tmpPacket->GetData()->length, 0);
+				tmpPacket.reset();
+			}
+		}
+		else
+			Msleep(SEND_TIMEOUT_MSEC);
+	}
+}
 
-	std::auto_ptr<ClientData> m_data;
-	ClientState *m_curState;
-	ClientCallback &m_callback;
-	std::auto_ptr<SenderThread> m_sender;
-
-friend class ClientStateInit;
-friend class ClientStateStartResolve;
-friend class ClientStateResolving;
-friend class ClientStateStartConnect;
-friend class ClientStateConnecting;
-friend class ClientStateStartSession;
-friend class ClientStateWaitSession;
-};
-
-#endif
