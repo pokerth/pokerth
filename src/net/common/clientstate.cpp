@@ -320,7 +320,7 @@ ClientStateFinal::~ClientStateFinal()
 int
 ClientStateFinal::Process(ClientThread &client)
 {
-	Thread::Msleep(CLIENT_WAIT_TIMEOUT_MSEC;
+	Thread::Msleep(CLIENT_WAIT_TIMEOUT_MSEC);
 
 	return MSG_SOCK_INTERNAL_PENDING;
 }
