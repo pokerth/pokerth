@@ -22,6 +22,7 @@
 #include <net/clientdata.h>
 #include <net/resolverthread.h>
 #include <net/clientexception.h>
+#include <net/socket_helper.h>
 #include <net/socket_msg.h>
 
 #include <stdexcept>
@@ -319,7 +320,7 @@ ClientStateFinal::~ClientStateFinal()
 int
 ClientStateFinal::Process(ClientThread &client)
 {
-	Thread::Msleep(10);
+	Thread::Msleep(CLIENT_WAIT_TIMEOUT_MSEC;
 
 	return MSG_SOCK_INTERNAL_PENDING;
 }
