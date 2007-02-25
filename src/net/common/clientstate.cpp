@@ -270,7 +270,7 @@ ClientStateConnecting::Process(ClientThread &client)
 	int retVal;
 	ClientData &data = client.GetData();
 
-	struct fd_set writeSet;
+	fd_set writeSet;
 	struct timeval timeout;
 
 	FD_ZERO(&writeSet);
@@ -284,7 +284,7 @@ ClientStateConnecting::Process(ClientThread &client)
 	{
 		// Check whether the connect call succeeded.
 		int connectResult = 0;
-		int tmpSize = sizeof(connectResult);
+		socklen_t tmpSize = sizeof(connectResult);
 		getsockopt(data.sockfd, SOL_SOCKET, SO_ERROR, (char *)&connectResult, &tmpSize);
 		if (connectResult != 0)
 			throw ClientException(ERR_SOCK_CONNECT_FAILED, connectResult);
