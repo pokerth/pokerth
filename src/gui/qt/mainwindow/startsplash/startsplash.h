@@ -19,7 +19,7 @@
 #include <QtGui>
 #include <QtCore>
 
-class StartSplash : public QDialog
+class StartSplash : public QSplashScreen
 {
 Q_OBJECT
 public:
