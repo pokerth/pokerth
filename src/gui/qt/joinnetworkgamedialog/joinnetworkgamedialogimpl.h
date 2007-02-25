@@ -36,6 +36,8 @@ public:
 public slots:
 
 	void startClient();
+	void saveServerProfile();
+	void deleteServerProfile();
 	void keyPressEvent ( QKeyEvent * event );
 };
 

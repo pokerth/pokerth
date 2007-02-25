@@ -34,10 +34,22 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
 // 	connect( connectKey, SIGNAL(activated() ), pushButton_connect, SLOT( click() ) );
 
 	connect( pushButton_connect, SIGNAL( clicked() ), this, SLOT( startClient() ) );
+	connect( pushButton_save, SIGNAL( clicked() ), this, SLOT( saveServerProfile() ) );
+	connect( pushButton_delete, SIGNAL( clicked() ), this, SLOT( deleteServerProfile() ) );
 
 }
 
 void joinNetworkGameDialogImpl::startClient() {
+
+	// TODO: Check input values!
+}
+
+void joinNetworkGameDialogImpl::saveServerProfile() {
+
+	// TODO: Check input values!
+}
+
+void joinNetworkGameDialogImpl::deleteServerProfile() {
 
 	// TODO: Check input values!
 }

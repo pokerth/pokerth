@@ -153,14 +153,14 @@
             <number>6</number>
            </property>
            <item>
-            <widget class="QPushButton" name="pushButton_2" >
+            <widget class="QPushButton" name="pushButton_save" >
              <property name="text" >
               <string>Save</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_5" >
+            <widget class="QPushButton" name="pushButton_delete" >
              <property name="text" >
               <string>Delete</string>
              </property>
@@ -226,8 +226,8 @@
   <tabstop>spinBox_port</tabstop>
   <tabstop>checkBox_ipv6</tabstop>
   <tabstop>treeWidget</tabstop>
-  <tabstop>pushButton_2</tabstop>
-  <tabstop>pushButton_5</tabstop>
+  <tabstop>pushButton_save</tabstop>
+  <tabstop>pushButton_delete</tabstop>
   <tabstop>pushButton_connect</tabstop>
   <tabstop>pushButton_close</tabstop>
  </tabstops>

@@ -1951,7 +1951,7 @@ void mainWindowImpl::paintStartSplash() {
 				
 	mySplash->setMaximumSize(400,250);
 	mySplash->setMinimumSize(400,250);
-// 	mySplash->setWindowFlags(Qt::SplashScreen);
+	mySplash->setWindowFlags(Qt::SplashScreen);
 	mySplash->show();
 }
 
