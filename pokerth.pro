@@ -104,6 +104,7 @@ SOURCES += pokerth.cpp \
 	   socket_startup.cpp \
 	   clientstate.cpp \
 	   clientthread.cpp \
+	   resolverthread.cpp \
 	   clientdata.cpp \
 	   clientcallback.cpp \
 	   socket_helper_cmn.cpp \

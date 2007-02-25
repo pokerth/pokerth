@@ -31,12 +31,12 @@ socket_set_port(unsigned port, int addrFamily, struct sockaddr *addr, int addrLe
 	{
 		if (addrFamily == AF_INET && addrLen >= (int)sizeof(sockaddr_in))
 		{
-			((sockaddr_in *)&addr)->sin_port = htons(port);
+			((sockaddr_in *)addr)->sin_port = htons(port);
 			retVal = true;
 		}
 		else if (addrFamily == AF_INET6 && addrLen >= (int)sizeof(sockaddr_in6))
 		{
-			((sockaddr_in6 *)&addr)->sin6_port = htons(port);
+			((sockaddr_in6 *)addr)->sin6_port = htons(port);
 			retVal = true;
 		}
 	}

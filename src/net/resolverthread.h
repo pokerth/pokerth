@@ -16,29 +16,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network client thread. */
+/* Name resolution thread. */
 
-#ifndef _CLIENTTHREAD_H_
-#define _CLIENTTHREAD_H_
+#ifndef _RESOLVERTHREAD_H_
+#define _RESOLVERTHREAD_H_
 
 #include <core/thread.h>
 #include <string>
 #include <memory>
 
 class ClientData;
-class ClientState;
-class ClientCallback;
 
-class ClientThread : public Thread
+class ResolverThread : public Thread
 {
 public:
-	ClientThread(ClientCallback &gui);
-	virtual ~ClientThread();
+	ResolverThread();
+	virtual ~ResolverThread();
 
 	// Set the parameters. Does not do any error checking.
-	// Error checking will be done during connect
-	// (i.e. after starting the thread).
-	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
+	// To prevent access faults if this thread cannot be
+	// terminated, the data is not modified.
+	void Init(const ClientData &data);
+
+	// Retrieve the result of the name resolution.
+	// ONLY CALL THIS FUNCTION AFTER THE THREAD TERMINATED.
+	// You have been warned...
+	bool GetResult(ClientData &data);
 
 protected:
 
@@ -48,20 +51,11 @@ protected:
 	const ClientData &GetData() const;
 	ClientData &GetData();
 
-	ClientState &GetState();
-	void SetState(ClientState &newState);
-
 private:
 
 	std::auto_ptr<ClientData> m_data;
-	ClientState *m_curState;
-	ClientCallback &m_callback;
-
-
-friend class ClientStateInit;
-friend class ClientStateStartResolve;
-friend class ClientStateResolving;
-friend class ClientStateConnect;
+	bool m_retVal;
 };
 
 #endif
+

@@ -28,6 +28,7 @@
 
 class ClientThread;
 class ClientCallback;
+class ResolverThread;
 
 class ClientState
 {
@@ -56,22 +57,48 @@ protected:
 	ClientStateInit();
 };
 
-// State: Resolving name.
-class ClientStateResolve : public ClientState
+// State: Starting name resolution.
+class ClientStateStartResolve : public ClientState
 {
 public:
 	// Access the state singleton.
-	static ClientStateResolve &Instance();
+	static ClientStateStartResolve &Instance();
 
-	virtual ~ClientStateResolve();
+	virtual ~ClientStateStartResolve();
 
-	// "Poll" for the completion of the name resolution.
+	// Initiate the name resolution.
 	virtual int Process(ClientThread &client);
 
 protected:
 
 	// Protected constructor - this is a singleton.
-	ClientStateResolve();
+	ClientStateStartResolve();
+};
+
+// State: Name resolution.
+class ClientStateResolving : public ClientState
+{
+public:
+	// Access the state singleton.
+	static ClientStateResolving &Instance();
+
+	virtual ~ClientStateResolving();
+
+	void SetResolver(ResolverThread *resolver);
+
+	// Poll for the completion of the name resolution.
+	virtual int Process(ClientThread &client);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateResolving();
+
+	void Cleanup();
+
+private:
+
+	ResolverThread *m_resolver;
 };
 
 // State: Connecting to server.

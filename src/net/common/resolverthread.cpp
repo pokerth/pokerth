@@ -16,52 +16,79 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network client thread. */
 
-#ifndef _CLIENTTHREAD_H_
-#define _CLIENTTHREAD_H_
+#include <net/resolverthread.h>
+#include <net/clientdata.h>
+#include <net/clientexception.h>
 
-#include <core/thread.h>
-#include <string>
-#include <memory>
+#include <sstream>
+#include <cassert>
 
-class ClientData;
-class ClientState;
-class ClientCallback;
+using namespace std;
 
-class ClientThread : public Thread
+
+ResolverThread::ResolverThread()
+: m_retVal(false)
 {
-public:
-	ClientThread(ClientCallback &gui);
-	virtual ~ClientThread();
+	m_data.reset(new ClientData);
+}
 
-	// Set the parameters. Does not do any error checking.
-	// Error checking will be done during connect
-	// (i.e. after starting the thread).
-	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
+ResolverThread::~ResolverThread()
+{
+}
 
-protected:
+void
+ResolverThread::Init(const ClientData &data)
+{
+	if (IsRunning())
+		return; // TODO: throw exception
 
-	// Main function of the thread.
-	virtual void Main();
+	*m_data = data;
+}
 
-	const ClientData &GetData() const;
-	ClientData &GetData();
+bool
+ResolverThread::GetResult(ClientData &data)
+{
+	if (IsRunning())
+		return false; // TODO: throw exception
 
-	ClientState &GetState();
-	void SetState(ClientState &newState);
+	if (m_retVal)
+		memcpy(&data.clientAddr, &GetData().clientAddr, GetData().GetServerAddrSize());
 
-private:
+	return m_retVal;
+}
 
-	std::auto_ptr<ClientData> m_data;
-	ClientState *m_curState;
-	ClientCallback &m_callback;
+void
+ResolverThread::Main()
+{
+	const ClientData &data = GetData();
 
+	// Convert the port to a string.
+	ostringstream tmpStr;
+	tmpStr << data.serverPort;
 
-friend class ClientStateInit;
-friend class ClientStateStartResolve;
-friend class ClientStateResolving;
-friend class ClientStateConnect;
-};
+	// Start the name resolution.
+	m_retVal = socket_resolve(
+		data.serverAddr.c_str(),
+		tmpStr.str().c_str(),
+		data.addrFamily,
+		SOCK_STREAM,
+		0,
+		(struct sockaddr *)&data.clientAddr,
+		data.GetServerAddrSize());
+}
 
-#endif
+const ClientData &
+ResolverThread::GetData() const
+{
+	assert(m_data.get());
+	return *m_data;
+}
+
+ClientData &
+ResolverThread::GetData()
+{
+	assert(m_data.get());
+	return *m_data;
+}
+
