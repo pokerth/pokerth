@@ -278,7 +278,7 @@ ClientStateConnecting::Process(ClientThread &client)
 
 	timeout.tv_sec  = 0;
 	timeout.tv_usec = CLIENT_WAIT_TIMEOUT_MSEC * 1000;
-	int selectResult = select(data.sockfd, NULL, &writeSet, NULL, &timeout);
+	int selectResult = select(data.sockfd + 1, NULL, &writeSet, NULL, &timeout);
 
 	if (selectResult > 0) // success
 	{
