@@ -101,14 +101,32 @@ private:
 	ResolverThread *m_resolver;
 };
 
-// State: Connecting to server.
-class ClientStateConnect : public ClientState
+// State: Initiate server connection.
+class ClientStateStartConnect : public ClientState
 {
 public:
 	// Access the state singleton.
-	static ClientStateConnect &Instance();
+	static ClientStateStartConnect &Instance();
 
-	virtual ~ClientStateConnect();
+	virtual ~ClientStateStartConnect();
+
+	// Call connect.
+	virtual int Process(ClientThread &client);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateStartConnect();
+};
+
+// State: Connecting to server.
+class ClientStateConnecting : public ClientState
+{
+public:
+	// Access the state singleton.
+	static ClientStateConnecting &Instance();
+
+	virtual ~ClientStateConnecting();
 
 	// "Poll" for the completion of the TCP/IP connect call.
 	virtual int Process(ClientThread &client);
@@ -116,7 +134,7 @@ public:
 protected:
 
 	// Protected constructor - this is a singleton.
-	ClientStateConnect();
+	ClientStateConnecting();
 };
 
 // State: Final (TODO).

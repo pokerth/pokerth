@@ -26,6 +26,7 @@
 #define ERR_SOCK_SET_PORT_FAILED		4
 #define ERR_SOCK_RESOLVE_FAILED			5
 #define ERR_SOCK_CONNECT_FAILED			6
+#define ERR_SOCK_SELECT_FAILED			7
 
 // This is an internal message which is not reported.
 #define MSG_SOCK_INTERNAL_PENDING		0

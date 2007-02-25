@@ -43,7 +43,9 @@ ResolverThread::Init(const ClientData &data)
 	if (IsRunning())
 		return; // TODO: throw exception
 
-	*m_data = data;
+	m_data->addrFamily = data.addrFamily;
+	m_data->serverAddr = data.serverAddr;
+	m_data->serverPort = data.serverPort;
 }
 
 bool

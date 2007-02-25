@@ -31,6 +31,7 @@
 #define CLOSESOCKET				closesocket
 #define IOCTLSOCKET				ioctlsocket
 #define SOCKET_ERRNO()			WSAGetLastError()
+#define SOCKET_ERR_WOULDBLOCK	WSAEWOULDBLOCK
 #else
 #define SOCKET					int
 #define SOCKET_ERROR			-1
@@ -38,6 +39,7 @@
 #define CLOSESOCKET				close
 #define SOCKET_ERRNO()			errno
 #define IOCTLSOCKET				ioctl
+#define SOCKET_ERR_WOULDBLOCK	EWOULDBLOCK
 #endif
 
 #define IS_VALID_SOCKET(_s)		((_s) != INVALID_SOCKET)

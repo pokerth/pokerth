@@ -61,7 +61,8 @@ private:
 friend class ClientStateInit;
 friend class ClientStateStartResolve;
 friend class ClientStateResolving;
-friend class ClientStateConnect;
+friend class ClientStateStartConnect;
+friend class ClientStateConnecting;
 };
 
 #endif

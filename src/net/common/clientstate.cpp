@@ -28,6 +28,8 @@
 
 using namespace std;
 
+#define CLIENT_WAIT_TIMEOUT_MSEC	100
+
 
 ClientState::~ClientState()
 {
@@ -65,9 +67,9 @@ ClientStateInit::Process(ClientThread &client)
 	if (!IS_VALID_SOCKET(data.sockfd))
 		throw ClientException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 
-//	unsigned long mode = 1;
-//	if (IOCTLSOCKET(data.sockfd, FIONBIO, &mode) == SOCKET_ERROR)
-//		throw ClientException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
+	unsigned long mode = 1;
+	if (IOCTLSOCKET(data.sockfd, FIONBIO, &mode) == SOCKET_ERROR)
+		throw ClientException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 
 	client.SetState(ClientStateStartResolve::Instance());
 
@@ -112,7 +114,7 @@ ClientStateStartResolve::Process(ClientThread &client)
 			throw ClientException(ERR_SOCK_SET_PORT_FAILED, 0);
 
 		// No need to resolve - start connecting.
-		client.SetState(ClientStateConnect::Instance());
+		client.SetState(ClientStateStartConnect::Instance());
 		retVal = MSG_SOCK_RESOLVE_DONE;
 	}
 	else
@@ -167,7 +169,7 @@ ClientStateResolving::Process(ClientThread &client)
 	if (!m_resolver)
 		throw ClientException(ERR_SOCK_RESOLVE_FAILED, 0);
 
-	if (m_resolver->Join(100))
+	if (m_resolver->Join(CLIENT_WAIT_TIMEOUT_MSEC))
 	{
 		ClientData &data = client.GetData();
 		bool success = m_resolver->GetResult(data);
@@ -176,7 +178,7 @@ ClientStateResolving::Process(ClientThread &client)
 		if (!success)
 			throw ClientException(ERR_SOCK_RESOLVE_FAILED, 0);
 
-		client.SetState(ClientStateConnect::Instance());
+		client.SetState(ClientStateStartConnect::Instance());
 		retVal = MSG_SOCK_RESOLVE_DONE;
 	}
 	else
@@ -201,32 +203,100 @@ ClientStateResolving::Cleanup()
 
 //-----------------------------------------------------------------------------
 
-ClientStateConnect &
-ClientStateConnect::Instance()
+ClientStateStartConnect &
+ClientStateStartConnect::Instance()
 {
-	static ClientStateConnect state;
+	static ClientStateStartConnect state;
 	return state;
 }
 
-ClientStateConnect::ClientStateConnect()
+ClientStateStartConnect::ClientStateStartConnect()
 {
 }
 
-ClientStateConnect::~ClientStateConnect()
+ClientStateStartConnect::~ClientStateStartConnect()
 {
 }
 
 int
-ClientStateConnect::Process(ClientThread &client)
+ClientStateStartConnect::Process(ClientThread &client)
 {
+	int retVal;
 	ClientData &data = client.GetData();
 
-	if (!IS_VALID_CONNECT(connect(data.sockfd, (struct sockaddr *)&data.clientAddr, data.GetServerAddrSize())))
-		throw ClientException(ERR_SOCK_CONNECT_FAILED, SOCKET_ERRNO());
+	int connectResult = connect(data.sockfd, (struct sockaddr *)&data.clientAddr, data.GetServerAddrSize());
 
-	client.SetState(ClientStateFinal::Instance());
+	if (IS_VALID_CONNECT(connectResult))
+	{
+		client.SetState(ClientStateFinal::Instance());
+		retVal = MSG_SOCK_CONNECT_DONE;
+	}
+	else
+	{
+		int errCode = SOCKET_ERRNO();
+		if (errCode == SOCKET_ERR_WOULDBLOCK)
+		{
+			client.SetState(ClientStateConnecting::Instance());
+			retVal = MSG_SOCK_INTERNAL_PENDING;
+		}
+		else
+			throw ClientException(ERR_SOCK_CONNECT_FAILED, SOCKET_ERRNO());
+	}
 
-	return MSG_SOCK_CONNECT_DONE;
+	return retVal;
+}
+
+//-----------------------------------------------------------------------------
+
+ClientStateConnecting &
+ClientStateConnecting::Instance()
+{
+	static ClientStateConnecting state;
+	return state;
+}
+
+ClientStateConnecting::ClientStateConnecting()
+{
+}
+
+ClientStateConnecting::~ClientStateConnecting()
+{
+}
+
+int
+ClientStateConnecting::Process(ClientThread &client)
+{
+	int retVal;
+	ClientData &data = client.GetData();
+
+	struct fd_set writeSet;
+	struct timeval timeout;
+
+	FD_ZERO(&writeSet);
+	FD_SET(data.sockfd, &writeSet);
+
+	timeout.tv_sec  = 0;
+	timeout.tv_usec = CLIENT_WAIT_TIMEOUT_MSEC * 1000;
+	int selectResult = select(data.sockfd, NULL, &writeSet, NULL, &timeout);
+
+	if (selectResult > 0) // success
+	{
+		// Check whether the connect call succeeded.
+		int connectResult = 0;
+		int tmpSize = sizeof(connectResult);
+		getsockopt(data.sockfd, SOL_SOCKET, SO_ERROR, (char *)&connectResult, &tmpSize);
+		if (connectResult != 0)
+			throw ClientException(ERR_SOCK_CONNECT_FAILED, connectResult);
+		client.SetState(ClientStateFinal::Instance());
+		retVal = MSG_SOCK_CONNECT_DONE;
+	}
+	else if (selectResult == 0) // timeout
+		retVal = MSG_SOCK_INTERNAL_PENDING;
+	else
+		throw ClientException(ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
+
+
+	return retVal;
 }
 
 //-----------------------------------------------------------------------------
