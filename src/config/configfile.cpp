@@ -34,7 +34,7 @@ using namespace std;
 ConfigFile::ConfigFile()
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 7;
+	configRev = 8;
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
@@ -167,6 +167,9 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * confElement28 = new TiXmlElement( "ServerPassword" );
 		config->LinkEndChild( confElement28 );
       		confElement28->SetAttribute("value", "");
+		TiXmlElement * confElement29 = new TiXmlElement( "ServerUseIpv6" );
+		config->LinkEndChild( confElement29 );
+      		confElement29->SetAttribute("value", 0);
 	
 		TiXmlElement * confElement6 = new TiXmlElement( "MyName" );
 		config->LinkEndChild( confElement6 );

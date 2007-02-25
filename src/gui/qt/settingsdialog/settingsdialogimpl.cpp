@@ -56,6 +56,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 	spinBox_netHandsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("NetHandsBeforeRaiseSmallBlind"));
 	spinBox_netGameSpeed->setValue(myConfig.readConfigInt("NetGameSpeed"));
 	lineEdit_serverPassword->setText(QString::fromStdString(myConfig.readConfigString("ServerPassword")));
+	checkBox_useIpv6->setChecked(myConfig.readConfigInt("ServerUseIpv6"));
 
 	//Interface
 	checkBox_showLeftToolbox->setChecked(myConfig.readConfigInt("ShowLeftToolBox"));
@@ -118,6 +119,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("NetHandsBeforeRaiseSmallBlind", spinBox_netHandsBeforeRaiseSmallBlind->value());
 	myConfig.writeConfigInt("NetGameSpeed", spinBox_netGameSpeed->value());
 	myConfig.writeConfigString("ServerPassword", lineEdit_serverPassword->text().toStdString());
+	myConfig.writeConfigInt("ServerUseIpv6", checkBox_useIpv6->isChecked());
 	
 // 	Interface
 	myConfig.writeConfigInt("ShowLeftToolBox", checkBox_showLeftToolbox->isChecked());
