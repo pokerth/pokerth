@@ -44,7 +44,7 @@ typedef unsigned char			u_char;
 #define CLOSESOCKET				close
 #define SOCKET_ERRNO()			errno
 #define IOCTLSOCKET				ioctl
-#define SOCKET_ERR_WOULDBLOCK	EWOULDBLOCK
+#define SOCKET_ERR_WOULDBLOCK	EINPROGRESS
 #endif
 
 #define IS_VALID_SOCKET(_s)		((_s) != INVALID_SOCKET)
