@@ -55,6 +55,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 	spinBox_netSmallBlind->setValue(myConfig.readConfigInt("NetSmallBlind"));
 	spinBox_netHandsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("NetHandsBeforeRaiseSmallBlind"));
 	spinBox_netGameSpeed->setValue(myConfig.readConfigInt("NetGameSpeed"));
+	spinBox_serverPort->setValue(myConfig.readConfigInt("ServerPort"));
 	lineEdit_serverPassword->setText(QString::fromStdString(myConfig.readConfigString("ServerPassword")));
 	checkBox_useIpv6->setChecked(myConfig.readConfigInt("ServerUseIpv6"));
 
@@ -118,6 +119,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("NetSmallBlind", spinBox_netSmallBlind->value());
 	myConfig.writeConfigInt("NetHandsBeforeRaiseSmallBlind", spinBox_netHandsBeforeRaiseSmallBlind->value());
 	myConfig.writeConfigInt("NetGameSpeed", spinBox_netGameSpeed->value());
+	myConfig.writeConfigInt("ServerPort", spinBox_serverPort->value());
 	myConfig.writeConfigString("ServerPassword", lineEdit_serverPassword->text().toStdString());
 	myConfig.writeConfigInt("ServerUseIpv6", checkBox_useIpv6->isChecked());
 	

@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>582</width>
-    <height>386</height>
+    <width>544</width>
+    <height>381</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -22,7 +22,7 @@
    <item row="0" column="1" >
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QGridLayout" >
@@ -349,59 +349,70 @@ p, li { white-space: pre-wrap; }
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="6" column="0" >
-        <widget class="QLabel" name="label_36" >
-         <property name="text" >
-          <string>Game-Speed for Computer Opponents:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" >
-        <widget class="QLabel" name="label_33" >
-         <property name="text" >
-          <string>Hands before raise Small Blind:</string>
-         </property>
-        </widget>
-       </item>
        <item row="4" column="0" >
-        <widget class="QLabel" name="label_35" >
-         <property name="text" >
-          <string>Small Blind:</string>
+        <widget class="QGroupBox" name="groupBox_2" >
+         <property name="title" >
+          <string>Server Settings</string>
          </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="0" column="1" >
+           <widget class="QSpinBox" name="spinBox_serverPort" >
+            <property name="maximum" >
+             <number>65535</number>
+            </property>
+            <property name="minimum" >
+             <number>80</number>
+            </property>
+            <property name="value" >
+             <number>80</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="QLineEdit" name="lineEdit_serverPassword" >
+            <property name="echoMode" >
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_16" >
+            <property name="text" >
+             <string>Server Port:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="2" >
+           <widget class="QCheckBox" name="checkBox_useIpv6" >
+            <property name="text" >
+             <string>Use IPv6</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_37" >
+            <property name="text" >
+             <string>Server Password:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
-       <item row="3" column="0" >
-        <widget class="QLabel" name="label_13" >
-         <property name="text" >
-          <string>Start Cash:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" >
-        <widget class="QLabel" name="label_15" >
-         <property name="text" >
-          <string>Number of Players:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1" >
-        <widget class="QSpinBox" name="spinBox_netQuantityPlayers" >
-         <property name="maximum" >
-          <number>5</number>
-         </property>
-         <property name="minimum" >
-          <number>2</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="2" >
+       <item row="1" column="0" >
         <widget class="Line" name="line_5" >
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="0" column="0" colspan="2" >
+       <item row="0" column="0" >
         <widget class="QLabel" name="label_34" >
          <property name="font" >
           <font>
@@ -414,86 +425,112 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="8" column="0" colspan="2" >
-        <widget class="QGroupBox" name="groupBox_2" >
-         <property name="title" >
-          <string>Server Settings</string>
+       <item row="2" column="0" >
+        <layout class="QGridLayout" >
+         <property name="margin" >
+          <number>0</number>
          </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="1" column="1" >
-           <widget class="QLineEdit" name="lineEdit_serverPassword" >
-            <property name="echoMode" >
-             <enum>QLineEdit::Password</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_37" >
-            <property name="text" >
-             <string>Server Password:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" colspan="2" >
-           <widget class="QCheckBox" name="checkBox_useIpv6" >
-            <property name="text" >
-             <string>Use IPv6</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item row="3" column="1" >
+          <widget class="QSpinBox" name="spinBox_netHandsBeforeRaiseSmallBlind" >
+           <property name="minimum" >
+            <number>1</number>
+           </property>
+           <property name="value" >
+            <number>9</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1" >
+          <widget class="QSpinBox" name="spinBox_netStartCash" >
+           <property name="maximum" >
+            <number>5000</number>
+           </property>
+           <property name="minimum" >
+            <number>1000</number>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1" >
+          <widget class="QSpinBox" name="spinBox_netSmallBlind" >
+           <property name="maximum" >
+            <number>500</number>
+           </property>
+           <property name="minimum" >
+            <number>5</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" >
+          <widget class="QLabel" name="label_15" >
+           <property name="text" >
+            <string>Number of Players:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" >
+          <widget class="QLabel" name="label_36" >
+           <property name="text" >
+            <string>Game-Speed for Computer Opponents:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" >
+          <widget class="QLabel" name="label_35" >
+           <property name="text" >
+            <string>Small Blind:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1" >
+          <widget class="QSpinBox" name="spinBox_netGameSpeed" >
+           <property name="maximum" >
+            <number>11</number>
+           </property>
+           <property name="minimum" >
+            <number>1</number>
+           </property>
+           <property name="singleStep" >
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1" >
+          <widget class="QSpinBox" name="spinBox_netQuantityPlayers" >
+           <property name="maximum" >
+            <number>5</number>
+           </property>
+           <property name="minimum" >
+            <number>2</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" >
+          <widget class="QLabel" name="label_13" >
+           <property name="text" >
+            <string>Start Cash:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0" >
+          <widget class="QLabel" name="label_33" >
+           <property name="text" >
+            <string>Hands before raise Small Blind:</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0" >
+        <widget class="Line" name="line_7" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
         </widget>
        </item>
-       <item row="5" column="1" >
-        <widget class="QSpinBox" name="spinBox_netHandsBeforeRaiseSmallBlind" >
-         <property name="minimum" >
-          <number>1</number>
-         </property>
-         <property name="value" >
-          <number>9</number>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1" >
-        <widget class="QSpinBox" name="spinBox_netStartCash" >
-         <property name="maximum" >
-          <number>5000</number>
-         </property>
-         <property name="minimum" >
-          <number>1000</number>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1" >
-        <widget class="QSpinBox" name="spinBox_netGameSpeed" >
-         <property name="maximum" >
-          <number>11</number>
-         </property>
-         <property name="minimum" >
-          <number>1</number>
-         </property>
-         <property name="singleStep" >
-          <number>1</number>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1" >
-        <widget class="QSpinBox" name="spinBox_netSmallBlind" >
-         <property name="maximum" >
-          <number>500</number>
-         </property>
-         <property name="minimum" >
-          <number>5</number>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0" >
+       <item row="5" column="0" >
         <spacer>
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -501,17 +538,10 @@ p, li { white-space: pre-wrap; }
          <property name="sizeHint" >
           <size>
            <width>20</width>
-           <height>20</height>
+           <height>40</height>
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="7" column="0" colspan="2" >
-        <widget class="Line" name="line_7" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>

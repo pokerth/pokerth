@@ -37,6 +37,8 @@ public slots:
 
 	void createGame();
 	void cancel();
+	void fillFormular();
+	void showDialog();
 	void keyPressEvent ( QKeyEvent * event );
 };
 

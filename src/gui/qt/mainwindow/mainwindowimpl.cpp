@@ -576,7 +576,7 @@ void mainWindowImpl::callAboutPokerthDialog() {
 
 void mainWindowImpl::callCreateNetworkGameDialog() {
 	
-	myCreateNetworkGameDialog->exec();
+	myCreateNetworkGameDialog->showDialog();
 // 
 	if (myCreateNetworkGameDialog->result() == QDialog::Accepted ) {
 		mySession->terminateNetworkServer();

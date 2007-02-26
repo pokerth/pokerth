@@ -27,19 +27,11 @@ createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent)
 
     setupUi(this);
 
-	//Formulare Füllen
-	ConfigFile myConfig;	
-
-		//Network Game Settings
-	spinBox_quantityPlayers->setValue(myConfig.readConfigInt("NetNumberOfPlayers"));
-	spinBox_startCash->setValue(myConfig.readConfigInt("NetStartCash"));
-	spinBox_smallBlind->setValue(myConfig.readConfigInt("NetSmallBlind"));
-	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("NetHandsBeforeRaiseSmallBlind"));
-	spinBox_gameSpeed->setValue(myConfig.readConfigInt("NetGameSpeed"));
-	lineEdit_serverPassword->setText(QString::fromStdString(myConfig.readConfigString("ServerPassword")));
+	fillFormular();
 
 	connect( pushButton_cancel, SIGNAL( clicked() ), this, SLOT( cancel() ) );
 	connect( pushButton_createGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
+
 
 }
 
@@ -49,6 +41,25 @@ void createNetworkGameDialogImpl::createGame() {
 
 void createNetworkGameDialogImpl::cancel() {
 	
+}
+
+void createNetworkGameDialogImpl::fillFormular() {
+	
+	//Formulare Füllen
+	ConfigFile myConfig;	
+
+	//Network Game Settings
+	spinBox_quantityPlayers->setValue(myConfig.readConfigInt("NetNumberOfPlayers"));
+	spinBox_startCash->setValue(myConfig.readConfigInt("NetStartCash"));
+	spinBox_smallBlind->setValue(myConfig.readConfigInt("NetSmallBlind"));
+	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("NetHandsBeforeRaiseSmallBlind"));
+	spinBox_gameSpeed->setValue(myConfig.readConfigInt("NetGameSpeed"));
+}
+
+void createNetworkGameDialogImpl::showDialog() { 
+	
+	fillFormular();
+	exec();
 }
 
 void createNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
