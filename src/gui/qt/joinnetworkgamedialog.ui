@@ -39,7 +39,7 @@
        </widget>
       </item>
       <item row="1" column="1" >
-       <widget class="QLineEdit" name="lineEdit_3" >
+       <widget class="QLineEdit" name="lineEdit_profileName" >
         <property name="text" >
          <string>myServerProfile1</string>
         </property>
@@ -222,7 +222,7 @@
  <tabstops>
   <tabstop>lineEdit_ipAddress</tabstop>
   <tabstop>lineEdit_password</tabstop>
-  <tabstop>lineEdit_3</tabstop>
+  <tabstop>lineEdit_profileName</tabstop>
   <tabstop>spinBox_port</tabstop>
   <tabstop>checkBox_ipv6</tabstop>
   <tabstop>treeWidget</tabstop>

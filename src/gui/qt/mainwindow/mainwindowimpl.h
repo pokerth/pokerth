@@ -173,6 +173,7 @@ public slots:
 	void keyPressEvent ( QKeyEvent * event );
 	void switchLeftToolBox();
 	void switchRightToolBox();
+	void switchFullscreen();
 
 	void paintStartSplash();
 

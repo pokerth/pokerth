@@ -417,10 +417,10 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	statusBar()->showMessage(tr("Ctrl+N to start a new Game"));
 
 	//Dialoge 
-	myJoinNetworkGameDialog = new joinNetworkGameDialogImpl();
-	myConnectToServerDialog = new connectToServerDialogImpl();
-	myStartNetworkGameDialog = new startNetworkGameDialogImpl();
-	myCreateNetworkGameDialog = new createNetworkGameDialogImpl();
+	myJoinNetworkGameDialog = new joinNetworkGameDialogImpl(this);
+	myConnectToServerDialog = new connectToServerDialogImpl(this);
+	myStartNetworkGameDialog = new startNetworkGameDialogImpl(this);
+	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this);
 
 	//Connects
 	connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
@@ -461,6 +461,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	connect( actionJoin_network_Game, SIGNAL( triggered() ), this, SLOT( callJoinNetworkGameDialog() ) );
 	connect( actionCreate_network_Game, SIGNAL( triggered() ), this, SLOT( callCreateNetworkGameDialog() ) );
 	connect( actionQuit, SIGNAL( triggered() ), qApp, SLOT( quit() ) );
+	connect( actionFullScreen, SIGNAL( triggered() ), this, SLOT( switchFullscreen() ) );
 
 	connect( pushButton_raise, SIGNAL( clicked() ), this, SLOT( myRaise() ) );
 	connect( pushButton_call, SIGNAL( clicked() ), this, SLOT( myCall() ) );
@@ -492,7 +493,7 @@ void mainWindowImpl::callNewGameDialog() {
 
 	if(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame")){
 
-		newGameDialogImpl *v = new newGameDialogImpl();
+		newGameDialogImpl *v = new newGameDialogImpl(this);
 		v->exec();
 	
 		if (v->result() == QDialog::Accepted ) {
@@ -573,7 +574,7 @@ void mainWindowImpl::callNewGameDialog() {
 
 void mainWindowImpl::callAboutPokerthDialog() {
 
-	aboutPokerthImpl *v = new aboutPokerthImpl();
+	aboutPokerthImpl *v = new aboutPokerthImpl(this);
 	v->exec();
 }
 
@@ -635,7 +636,7 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 
 void mainWindowImpl::callSettingsDialog() {
 
-	settingsDialogImpl *v = new settingsDialogImpl();
+	settingsDialogImpl *v = new settingsDialogImpl(this);
 	v->exec();
 		
 	if (v->getSettingsCorrect()) {
@@ -1969,6 +1970,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == 16777220) { if(spinBox_set->hasFocus()) pushButton_set->click(); } //ENTER 
 	if (event->key() == 16777265) { switchLeftToolBox(); } //F2	
 	if (event->key() == 16777266) { switchRightToolBox(); } //F3
+	if (event->key() == Qt::Key_F) { switchFullscreen(); } //f
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;
@@ -2009,3 +2011,13 @@ void mainWindowImpl::switchRightToolBox() {
 
 }
 
+void mainWindowImpl::switchFullscreen() {
+
+	if (this->isFullScreen()) {
+		this->showNormal();
+	}
+	else {
+		this->showFullScreen();
+	}
+
+}

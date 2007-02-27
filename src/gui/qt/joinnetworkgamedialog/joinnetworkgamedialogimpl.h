@@ -27,6 +27,7 @@
 #include <QtCore>
 
 class Session;
+class ConfigFile;
 
 class joinNetworkGameDialogImpl: public QDialog, public Ui::joinNetworkGameDialog {
 Q_OBJECT

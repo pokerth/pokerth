@@ -23,12 +23,6 @@
     <height>670</height>
    </size>
   </property>
-  <property name="maximumSize" >
-   <size>
-    <width>874</width>
-    <height>670</height>
-   </size>
-  </property>
   <property name="palette" >
    <palette>
     <active>
@@ -2434,7 +2428,7 @@
             <enum>Qt::Vertical</enum>
            </property>
            <property name="sizeType" >
-            <enum>QSizePolicy::Expanding</enum>
+            <enum>QSizePolicy::Fixed</enum>
            </property>
            <property name="sizeHint" >
             <size>
@@ -2519,7 +2513,7 @@
             <enum>Qt::Vertical</enum>
            </property>
            <property name="sizeType" >
-            <enum>QSizePolicy::Expanding</enum>
+            <enum>QSizePolicy::Fixed</enum>
            </property>
            <property name="sizeHint" >
             <size>
@@ -2967,7 +2961,7 @@
             <enum>Qt::Vertical</enum>
            </property>
            <property name="sizeType" >
-            <enum>QSizePolicy::Expanding</enum>
+            <enum>QSizePolicy::Fixed</enum>
            </property>
            <property name="sizeHint" >
             <size>
@@ -3260,7 +3254,7 @@
             <enum>Qt::Vertical</enum>
            </property>
            <property name="sizeType" >
-            <enum>QSizePolicy::Expanding</enum>
+            <enum>QSizePolicy::Fixed</enum>
            </property>
            <property name="sizeHint" >
             <size>
@@ -4191,6 +4185,12 @@
      <height>30</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuView" >
+    <property name="title" >
+     <string>View</string>
+    </property>
+    <addaction name="actionFullScreen" />
+   </widget>
    <widget class="QMenu" name="menuSpiel" >
     <property name="title" >
      <string>Game</string>
@@ -4203,6 +4203,7 @@
     <addaction name="actionQuit" />
    </widget>
    <addaction name="menuSpiel" />
+   <addaction name="menuView" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
   <action name="actionNewGame" >
@@ -4236,6 +4237,14 @@
   <action name="actionJoin_network_Game" >
    <property name="text" >
     <string>Join Network Game ...</string>
+   </property>
+  </action>
+  <action name="actionFullScreen" >
+   <property name="text" >
+    <string>Fullscreen</string>
+   </property>
+   <property name="shortcut" >
+    <string>F</string>
    </property>
   </action>
  </widget>

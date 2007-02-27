@@ -20,6 +20,7 @@
 #include "joinnetworkgamedialogimpl.h"
 #include "session.h"
 #include "configfile.h"
+#include "tinyxml.h"
 
 joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
       : QDialog(parent)
@@ -55,15 +56,15 @@ void joinNetworkGameDialogImpl::saveServerProfile() {
 	TiXmlElement * root = new TiXmlElement( "PokerTH" );  
 	doc.LinkEndChild( root );  		
 	
-	TiXmlElement * config;
-       	config = new TiXmlElement( "ServerProfiles" );  
-	root->LinkEndChild( config );  
+	TiXmlElement * profiles = new TiXmlElement( "ServerProfiles" );  
+	root->LinkEndChild( profiles );  
 		
-	TiXmlElement * confElement11 = new TiXmlElement( "ShowLeftToolBox" );
-	config->LinkEndChild( confElement11 );
-      	confElement11->SetAttribute("value", 1);
-		
-	doc.SaveFile( myConfig->readConfigString("dataDir")+"" );
+	TiXmlElement * profile = new TiXmlElement( lineEdit_profileName->text().toStdString() );
+	profiles->LinkEndChild( profile );
+      	profile->SetAttribute("value", 1);
+	
+	std::cout << myConfig->readConfigString("dataDir")+"serverprofiles.xml" << endl;	
+	doc.SaveFile( myConfig->readConfigString("dataDir")+"serverprofiles.xml" );
 }
 
 void joinNetworkGameDialogImpl::deleteServerProfile() {

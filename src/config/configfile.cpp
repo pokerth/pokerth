@@ -34,7 +34,7 @@ using namespace std;
 ConfigFile::ConfigFile()
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 10;
+	configRev = 11;
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
@@ -205,8 +205,8 @@ void ConfigFile::createDefaultConfig() {
       		confElement21->SetAttribute("value", 2);
 
 		TiXmlElement * confElement31 = new TiXmlElement( "DataDir" );
-		config->LinkEndChild( confElement30 );
-      		confElement30->SetAttribute("value", dataDir);
+		config->LinkEndChild( confElement31 );
+      		confElement31->SetAttribute("value", dataDir);
 		
 		doc.SaveFile( configFileName );
 
