@@ -32,6 +32,24 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
 
 	myConfig = new ConfigFile;
 
+	//Anlegen wenn noch nicht existiert!
+	QFile serverProfilesfile(QString::fromStdString(myConfig->readConfigString("DataDir")+"serverprofiles.xml"));
+	TiXmlDocument doc;  
+	TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
+	doc.LinkEndChild( decl );  
+	
+	TiXmlElement * root = new TiXmlElement( "PokerTH" );  
+	doc.LinkEndChild( root );  		
+	
+	TiXmlElement * profiles = new TiXmlElement( "ServerProfiles" );  
+	root->LinkEndChild( profiles );  
+		
+	TiXmlElement * profile = new TiXmlElement( lineEdit_profileName->text().toStdString() );
+	profiles->LinkEndChild( profile );
+      	profile->SetAttribute("value", 1);
+	
+	doc.SaveFile( myConfig->readConfigString("DataDir")+"serverprofiles.xml" );
+
 // 	QShortcut *connectKey = new QShortcut(QKeySequence(Qt::Key_Enter), this);
 // 	connect( connectKey, SIGNAL(activated() ), pushButton_connect, SLOT( click() ) );
 
@@ -48,23 +66,7 @@ void joinNetworkGameDialogImpl::startClient() {
 
 void joinNetworkGameDialogImpl::saveServerProfile() {
 
-	//Anlegen!
-	TiXmlDocument doc;  
-	TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
-	doc.LinkEndChild( decl );  
 	
-	TiXmlElement * root = new TiXmlElement( "PokerTH" );  
-	doc.LinkEndChild( root );  		
-	
-	TiXmlElement * profiles = new TiXmlElement( "ServerProfiles" );  
-	root->LinkEndChild( profiles );  
-		
-	TiXmlElement * profile = new TiXmlElement( lineEdit_profileName->text().toStdString() );
-	profiles->LinkEndChild( profile );
-      	profile->SetAttribute("value", 1);
-	
-	std::cout << myConfig->readConfigString("dataDir")+"serverprofiles.xml" << endl;	
-	doc.SaveFile( myConfig->readConfigString("dataDir")+"serverprofiles.xml" );
 }
 
 void joinNetworkGameDialogImpl::deleteServerProfile() {
