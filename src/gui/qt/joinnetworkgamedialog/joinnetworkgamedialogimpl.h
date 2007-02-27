@@ -33,6 +33,8 @@ Q_OBJECT
 public:
     joinNetworkGameDialogImpl(QWidget *parent = 0);
 
+	ConfigFile *myConfig;
+
 public slots:
 
 	void startClient();

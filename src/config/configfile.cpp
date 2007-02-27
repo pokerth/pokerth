@@ -48,7 +48,10 @@ ConfigFile::ConfigFile()
 		logDir = configFileName;
 		logDir += "log-files\\";
 		mkdir(logDir.c_str());
-		
+		//data Ordner auch erstellen
+		dataDir = configFileName;
+		dataDir += "data\\";
+		mkdir(dataDir.c_str());
 	}
 #else
 	//Programmordner erstellen
@@ -61,6 +64,10 @@ ConfigFile::ConfigFile()
 		logDir = configFileName;
 		logDir += "log-files/";
 		mkdir(logDir.c_str(), MODUS);
+		//data Ordner auch erstellen
+		dataDir = configFileName;
+		dataDir += "data/";
+		mkdir(dataDir.c_str(), MODUS);
 	}
 #endif
 	configFileName += "config.xml";
@@ -196,6 +203,10 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * confElement21 = new TiXmlElement( "LogStoreDuration" );
 		config->LinkEndChild( confElement21 );
       		confElement21->SetAttribute("value", 2);
+
+		TiXmlElement * confElement31 = new TiXmlElement( "DataDir" );
+		config->LinkEndChild( confElement30 );
+      		confElement30->SetAttribute("value", dataDir);
 		
 		doc.SaveFile( configFileName );
 

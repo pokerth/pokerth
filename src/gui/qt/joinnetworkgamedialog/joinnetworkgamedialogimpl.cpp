@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "joinnetworkgamedialogimpl.h"
 #include "session.h"
-// #include "configfile.h"
+#include "configfile.h"
 
 joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
       : QDialog(parent)
@@ -29,6 +29,7 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
 
 	lineEdit_ipAddress->setFocus();
 
+	myConfig = new ConfigFile;
 
 // 	QShortcut *connectKey = new QShortcut(QKeySequence(Qt::Key_Enter), this);
 // 	connect( connectKey, SIGNAL(activated() ), pushButton_connect, SLOT( click() ) );
@@ -46,7 +47,23 @@ void joinNetworkGameDialogImpl::startClient() {
 
 void joinNetworkGameDialogImpl::saveServerProfile() {
 
-	// TODO: Check input values!
+	//Anlegen!
+	TiXmlDocument doc;  
+	TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
+	doc.LinkEndChild( decl );  
+	
+	TiXmlElement * root = new TiXmlElement( "PokerTH" );  
+	doc.LinkEndChild( root );  		
+	
+	TiXmlElement * config;
+       	config = new TiXmlElement( "ServerProfiles" );  
+	root->LinkEndChild( config );  
+		
+	TiXmlElement * confElement11 = new TiXmlElement( "ShowLeftToolBox" );
+	config->LinkEndChild( confElement11 );
+      	confElement11->SetAttribute("value", 1);
+		
+	doc.SaveFile( myConfig->readConfigString("dataDir")+"" );
 }
 
 void joinNetworkGameDialogImpl::deleteServerProfile() {
