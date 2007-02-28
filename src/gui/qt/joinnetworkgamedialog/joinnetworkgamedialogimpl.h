@@ -43,6 +43,7 @@ public slots:
 
 	void startClient();
 	void fillServerProfileList();
+	void itemFillForm (QTreeWidgetItem* item, int column);
 	void saveServerProfile();
 	void deleteServerProfile();
 	void keyPressEvent ( QKeyEvent * event );
