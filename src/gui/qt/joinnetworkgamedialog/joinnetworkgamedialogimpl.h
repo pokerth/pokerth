@@ -23,6 +23,8 @@
 #include "ui_joinnetworkgamedialog.h"
 
 #include <iostream>
+#include <string>
+#include "configfile.h"
 #include <QtGui>
 #include <QtCore>
 
@@ -34,11 +36,13 @@ Q_OBJECT
 public:
     joinNetworkGameDialogImpl(QWidget *parent = 0);
 
-	ConfigFile *myConfig;
+	ConfigFile myConfig;
+	std::string myServerProfilesFile;
 
 public slots:
 
 	void startClient();
+	void fillServerProfileList();
 	void saveServerProfile();
 	void deleteServerProfile();
 	void keyPressEvent ( QKeyEvent * event );

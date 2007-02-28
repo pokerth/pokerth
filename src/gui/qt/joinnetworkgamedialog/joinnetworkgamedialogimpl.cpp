@@ -22,33 +22,46 @@
 #include "configfile.h"
 #include "tinyxml.h"
 
+using namespace std;
+
 joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
       : QDialog(parent)
 {
 
     setupUi(this);
 
+	//Profile Name darf nicht mit einer Zahl beginnen --> XML konform
+	QRegExp rx("[A-Z|a-z]+[A-Z|a-z|\\d]*");
+ 	QValidator *validator = new QRegExpValidator(rx, this);
+ 	lineEdit_profileName->setValidator(validator);
+
 	lineEdit_ipAddress->setFocus();
 
-	myConfig = new ConfigFile;
+	myServerProfilesFile = myConfig.readConfigString("DataDir")+"serverprofiles.xml";
 
 	//Anlegen wenn noch nicht existiert!
-	QFile serverProfilesfile(QString::fromStdString(myConfig->readConfigString("DataDir")+"serverprofiles.xml"));
-	TiXmlDocument doc;  
-	TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
-	doc.LinkEndChild( decl );  
-	
-	TiXmlElement * root = new TiXmlElement( "PokerTH" );  
-	doc.LinkEndChild( root );  		
-	
-	TiXmlElement * profiles = new TiXmlElement( "ServerProfiles" );  
-	root->LinkEndChild( profiles );  
+	QFile serverProfilesfile(QString::fromStdString(myServerProfilesFile));
+
+	if(!serverProfilesfile.exists()) {
 		
-	TiXmlElement * profile = new TiXmlElement( lineEdit_profileName->text().toStdString() );
-	profiles->LinkEndChild( profile );
-      	profile->SetAttribute("value", 1);
+		TiXmlDocument doc;  
+		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
+		doc.LinkEndChild( decl );  
+		
+		TiXmlElement * root = new TiXmlElement( "PokerTH" );  
+		doc.LinkEndChild( root );  		
+		
+		TiXmlElement * profiles = new TiXmlElement( "ServerProfiles" );  
+		root->LinkEndChild( profiles );  
 	
-	doc.SaveFile( myConfig->readConfigString("DataDir")+"serverprofiles.xml" );
+		doc.SaveFile( myServerProfilesFile );
+	}
+	
+	//Liste Füllen
+	fillServerProfileList();
+
+
+
 
 // 	QShortcut *connectKey = new QShortcut(QKeySequence(Qt::Key_Enter), this);
 // 	connect( connectKey, SIGNAL(activated() ), pushButton_connect, SLOT( click() ) );
@@ -64,9 +77,94 @@ void joinNetworkGameDialogImpl::startClient() {
 	// TODO: Check input values!
 }
 
-void joinNetworkGameDialogImpl::saveServerProfile() {
+void joinNetworkGameDialogImpl::fillServerProfileList() {
 
 	
+	treeWidget->clear();
+
+	TiXmlDocument doc(myServerProfilesFile); 
+	if(!doc.LoadFile()) {	
+		QMessageBox::warning(this, tr("Load Server-Profile-File Error"),
+			tr("Could not load Server-Profiles-File:\n"+QString::fromStdString(myServerProfilesFile).toAscii()),
+			QMessageBox::Close);		
+	}
+	TiXmlHandle docHandle( &doc );		
+
+	TiXmlElement* profile = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).FirstChild().ToElement();
+	if ( profile ) {
+
+                for( profile; profile; profile = profile->NextSiblingElement()) {
+
+			
+			
+		   	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget,0);
+			item->setData(0, 0, profile->Attribute("Name"));
+			item->setData(1, 0, profile->Attribute("Address"));
+			item->setData(2, 0, profile->Attribute("Port"));
+			
+			string isIpv6 = "no";
+			int tempInt = 0;
+			profile->QueryIntAttribute("IsIpv6", &tempInt );
+			if( tempInt == 1 ) { isIpv6 = "yes"; }
+			item->setData(3, 0, QString::fromStdString(isIpv6));
+
+			treeWidget->addTopLevelItem(item);
+
+		}
+	} 
+	else { cout << "No Profiles Found \n";  }
+
+	treeWidget->resizeColumnToContents ( 0 );  
+	treeWidget->resizeColumnToContents ( 1 );
+	treeWidget->resizeColumnToContents ( 2 );
+	treeWidget->resizeColumnToContents ( 3 );
+}
+
+
+void joinNetworkGameDialogImpl::saveServerProfile() {
+
+// 	bool toIntTrue;
+
+	TiXmlDocument doc(myServerProfilesFile); 
+	if(!doc.LoadFile()) {	
+		QMessageBox::warning(this, tr("Load Server-Profile-File Error"),
+			tr("Could not load Server-Profiles-File:\n"+QString::fromStdString(myServerProfilesFile).toAscii()),
+			QMessageBox::Close);		
+	}
+	TiXmlHandle docHandle( &doc );		
+
+	TiXmlElement* profiles = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).ToElement();
+	if ( profiles ) {
+
+		TiXmlElement * testProfile = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).FirstChild( lineEdit_profileName->text().toStdString() ).ToElement();	
+		
+		if( testProfile ) {
+			// Wenn der Name schon existiert --> Hinweis und nicht speichern
+			QMessageBox::warning(this, tr("Save Server Profile Error"),
+				tr("A Profile with this Name already exists.\nPlease select another Profile Name!"),
+				QMessageBox::Close);
+		}
+		else {
+			// Wenn der Name nicht existiert --> speichern
+			TiXmlElement * profile = new TiXmlElement( lineEdit_profileName->text().toStdString() );
+			profiles->LinkEndChild( profile );
+			profile->SetAttribute("Name", lineEdit_profileName->text().toStdString());
+			profile->SetAttribute("Address", lineEdit_ipAddress->text().toStdString());
+			profile->SetAttribute("Password", lineEdit_password->text().toStdString());
+			profile->SetAttribute("Port", spinBox_port->value());
+			profile->SetAttribute("IsIpv6", checkBox_ipv6->isChecked());
+ 			
+		}
+        } 
+	else { QMessageBox::warning(this, tr("Read Server-Profile List Error"),
+			tr("Could not read Server-Profiles List"),
+			QMessageBox::Close);	 }
+
+	if(!doc.SaveFile()) {	QMessageBox::warning(this, tr("Save Server-Profile-File Error"),
+			tr("Could not save Server-Profiles-File:\n"+QString::fromStdString(myServerProfilesFile).toAscii()),
+			QMessageBox::Close);	 }
+
+	fillServerProfileList();
 }
 
 void joinNetworkGameDialogImpl::deleteServerProfile() {

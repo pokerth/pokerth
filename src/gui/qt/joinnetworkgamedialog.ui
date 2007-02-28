@@ -87,7 +87,11 @@
        </widget>
       </item>
       <item row="0" column="4" >
-       <widget class="QLineEdit" name="lineEdit_password" />
+       <widget class="QLineEdit" name="lineEdit_password" >
+        <property name="echoMode" >
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
       </item>
       <item row="0" column="1" >
        <widget class="QLineEdit" name="lineEdit_ipAddress" />
@@ -122,6 +126,24 @@
          </property>
          <item row="0" column="0" >
           <widget class="QTreeWidget" name="treeWidget" >
+           <property name="alternatingRowColors" >
+            <bool>true</bool>
+           </property>
+           <property name="indentation" >
+            <number>3</number>
+           </property>
+           <property name="rootIsDecorated" >
+            <bool>false</bool>
+           </property>
+           <property name="sortingEnabled" >
+            <bool>true</bool>
+           </property>
+           <property name="animated" >
+            <bool>true</bool>
+           </property>
+           <property name="allColumnsShowFocus" >
+            <bool>true</bool>
+           </property>
            <column>
             <property name="text" >
              <string>                  Name                   </string>
