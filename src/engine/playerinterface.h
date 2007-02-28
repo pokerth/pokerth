@@ -60,6 +60,9 @@ public:
 	virtual void setMyTurn(bool theValue) =0;
 	virtual bool getMyTurn() const =0;
 
+	virtual void setMyCardsFlip(bool theValue) =0;
+	virtual bool getMyCardsFlip() const =0;
+
 	virtual void setMyCardsValueInt(const int& theValue) =0;
 	virtual int getMyCardsValueInt() const =0;
 

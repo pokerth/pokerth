@@ -158,6 +158,7 @@ public slots:
 	void postRiverRunAnimation6();
 
 	void flipHolecardsAllIn();
+	void showMyCards();
 
 	void handSwitchRounds();
 

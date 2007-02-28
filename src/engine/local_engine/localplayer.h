@@ -71,6 +71,9 @@ public:
 	void setMyTurn(bool theValue){ myTurn = theValue;}
 	bool getMyTurn() const{ return myTurn;}
 
+	void setMyCardsFlip(bool theValue){ myCardsFlip = theValue;}
+	bool getMyCardsFlip() const{ return myCardsFlip;}
+
 	void setMyCardsValueInt(const int& theValue) { myCardsValueInt = theValue;}
 	int getMyCardsValueInt() const { return myCardsValueInt; }
 
@@ -88,10 +91,6 @@ public:
 	void flopEngine();
 	void turnEngine();
 	void riverEngine();
-	
-	
-
-	
 
 
 private:
@@ -116,6 +115,7 @@ private:
 	int myButton; // 0 = none, 1 = dealer, 2 =small, 3 = big
 	bool myActiveStatus; // 0 = inactive, 1 = active
 	bool myTurn; // 0 = no, 1 = yes
+	bool myCardsFlip; // 0 = cards are not fliped, 1 = cards are already flipped,
 	int myRoundStartCash;
 
 	int myAverageSets;

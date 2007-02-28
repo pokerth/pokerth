@@ -74,8 +74,11 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 
 	// Karten austeilen
 	myGui->dealHoleCards();
-
 	
+	// myFlipCards auf 0 setzen
+	for(i=0; i<actualQuantityPlayers; i++) {
+		playerArray[i]->setMyCardsFlip(0);
+	}
 
 	// Preflop, Flop, Turn und River erstellen
 	myPreflop =  myFactory->createPreflop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);

@@ -1499,11 +1499,12 @@ void mainWindowImpl::postRiverRunAnimation2() {
 							for(j=0; j<2; j++) {
 												
 								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/cards/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
-					
 							}	
 						}
 						//Karten umdrehen Loggen 
 						myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], actualHand->getPlayerArray()[i]->getMyCardsValueInt());
+			
+						actualHand->getPlayerArray()[i]->setMyCardsFlip(1);
 					}
 				}	
 			}
@@ -1530,6 +1531,8 @@ void mainWindowImpl::postRiverRunAnimation2() {
 						}
 						//Karten umdrehen Loggen 
 						myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], actualHand->getPlayerArray()[i]->getMyCardsValueInt() );
+
+						actualHand->getPlayerArray()[i]->setMyCardsFlip(1);
 					}
 				}
 			}
@@ -1757,6 +1760,8 @@ void mainWindowImpl::flipHolecardsAllIn() {
 						}
 						//Karten umdrehen Loggen 
 						myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1]);
+
+						actualHand->getPlayerArray()[i]->setMyCardsFlip(1);
 						
 					}
 				}
@@ -1784,6 +1789,8 @@ void mainWindowImpl::flipHolecardsAllIn() {
 						}
 						//Karten umdrehen Loggen 
 						myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[i]->getMyName(), temp2CardsIntArray[0], temp2CardsIntArray[1] );
+				
+						actualHand->getPlayerArray()[i]->setMyCardsFlip(1);
 					}
 				}
 			}
@@ -1793,6 +1800,21 @@ void mainWindowImpl::flipHolecardsAllIn() {
 	//Wenn einmal umgedreht dann fertig!!	
 	flipHolecardsAllInAlreadyDone = TRUE;
 }
+
+void mainWindowImpl::showMyCards() {
+
+	//TempArrays
+	int tempCardsIntArray[2];
+	
+	actualHand->getPlayerArray()[0]->getMyCards(tempCardsIntArray);	
+	if( actualHand->getPlayerArray()[0]->getMyCardsFlip() == 0 &&  actualHand->getActualRound() == 4 && actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) { 
+		//Karten umdrehen Loggen 
+		myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[0]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], actualHand->getPlayerArray()[0]->getMyCardsValueInt() );
+
+		actualHand->getPlayerArray()[0]->setMyCardsFlip(1);
+	}
+}
+
 
 void mainWindowImpl::startNewHand() {
 
@@ -1971,6 +1993,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == 16777265) { switchLeftToolBox(); } //F2	
 	if (event->key() == 16777266) { switchRightToolBox(); } //F3
 	if (event->key() == Qt::Key_F) { switchFullscreen(); } //f
+	if (event->key() == Qt::Key_S) { showMyCards(); } //f	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;

@@ -35,6 +35,8 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
  	QValidator *validator = new QRegExpValidator(rx, this);
  	lineEdit_profileName->setValidator(validator);
 
+	pushButton_delete->setDisabled(TRUE);
+
 	lineEdit_ipAddress->setFocus();
 
 	myServerProfilesFile = myConfig.readConfigString("DataDir")+"serverprofiles.xml";
@@ -141,6 +143,8 @@ void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int column)
 		checkBox_ipv6->setChecked(QString::fromStdString(profile->Attribute("IsIpv6")).toInt(&toIntTrue, 10));
 
 	}
+
+	pushButton_delete->setEnabled(TRUE);
 }
 
 void joinNetworkGameDialogImpl::saveServerProfile() {
@@ -202,22 +206,21 @@ void joinNetworkGameDialogImpl::deleteServerProfile() {
 	
 		TiXmlElement* profile = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).FirstChild( treeWidget->currentItem()->data(0,0).toString().toStdString() ).ToElement();
 	
-		if ( profile ) { 
-			cout << profile->Attribute("Name") << "\n"; 
-			profile->Parent()->RemoveChild(profile); 
-		}
-		else { cout << "nööö" << "\n"; }
-	
+		if ( profile ) { profile->Parent()->RemoveChild(profile); } 
+		
+		if(!doc.SaveFile()) {	QMessageBox::warning(this, tr("Save Server-Profile-File Error"),
+			tr("Could not save Server-Profiles-File:\n"+QString::fromStdString(myServerProfilesFile).toAscii()),
+			QMessageBox::Close);	 }
+
 		//Liste Füllen
 		fillServerProfileList();
 	}
-
+		
+	pushButton_delete->setDisabled(TRUE);
 }
 
 void joinNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 
 // 	std::cout << "key" << event->key();
-	
 	if (event->key() == 16777220) { pushButton_connect->click(); } //ENTER 
-	
 }
