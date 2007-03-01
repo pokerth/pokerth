@@ -21,6 +21,8 @@
 #define TOOLS_H
 
 #include <iostream>
+#include <limits>
+#include <openssl/rand.h>
 
 
 class Tools{

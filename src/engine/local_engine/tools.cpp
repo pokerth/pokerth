@@ -33,37 +33,58 @@ Tools::~Tools()
 
 void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool different) {
 
-	double r = end-start+1;
+	int r = end-start+1;
+	unsigned char rand_buf[4];
+	unsigned int randNumber;
+
+	int i,j;
 
 	if (!different) {
-			
-		int i;
+
 		for (i=0; i<howMany; i++) {
-			
-			randArray[i] = start+(int)(r*rand()/(RAND_MAX+1.0));
-			
+
+			if(!RAND_bytes(rand_buf,4)) {
+				RAND_pseudo_bytes(rand_buf,4);
+			}
+
+			randNumber = 0;
+			for(j=0; j<4; j++) {
+				randNumber += (rand_buf[j] << 8*j);
+			}
+
+			if(randNumber < ( (unsigned int) ( ((double)numeric_limits<unsigned int>::max()) / r ) ) * r) {
+				randArray[i] = start + (randNumber % r);
+			}
+
 		}
 	}
 	else {
 
-		
 		int *tempArray = new int[end-start+1];
-		int i;
 		for (i=0; i<(end-start+1); i++) tempArray[i]=1;
 		
-		int temp;
 		int counter(0);
 		while (counter < howMany) {
 
-			temp = (int)(r*rand()/(RAND_MAX+1.0));
-			if (tempArray[temp] == 1) { 
-
-				randArray[counter] = temp+start; 
-				tempArray[temp] = 0;
-				counter++;
+			if(!RAND_bytes(rand_buf,4)) {
+				RAND_pseudo_bytes(rand_buf,4);
 			}
-			else {	continue; }
-		
+
+			randNumber = 0;
+			for(j=0; j<4; j++) {
+				randNumber += (rand_buf[j] << 8*j);
+			}
+
+			if(randNumber < ( (unsigned int) ( ((double)numeric_limits<unsigned int>::max()) / r ) ) * r) {
+				randNumber = randNumber % r;
+
+				if (tempArray[randNumber] == 1) { 
+	
+					randArray[counter] = start + randNumber; 
+					tempArray[randNumber] = 0;
+					counter++;
+				}
+			}
 			
 		}
 

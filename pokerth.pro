@@ -125,7 +125,7 @@ win32 {
 }
 !win32 {
 	DEPENDPATH += src/net/linux/
-	LIBS += -lboost_thread
+	LIBS += -lboost_thread -l ssl
 }
 
 CONFIG += qt release
