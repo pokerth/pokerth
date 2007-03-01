@@ -165,20 +165,43 @@ void joinNetworkGameDialogImpl::saveServerProfile() {
 		TiXmlElement * testProfile = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).FirstChild( lineEdit_profileName->text().toStdString() ).ToElement();	
 		
 		if( testProfile ) {
-			// Wenn der Name schon existiert --> Hinweis und nicht speichern
-			QMessageBox::warning(this, tr("Save Server Profile Error"),
-				tr("A Profile with this Name already exists.\nPlease select another Profile Name!"),
-				QMessageBox::Close);
+			// Wenn der Name schon existiert --> Überschreiben?
+			QMessageBox msgBox(QMessageBox::Warning, tr("Save Server Profile Error"),
+				tr("A Profile with this Name already exists.\nDo you want to overwrite ?"), QMessageBox::Yes | QMessageBox::No, this);
+			switch (msgBox.exec()) {
+
+				case QMessageBox::Yes: {
+					// yes was clicked
+					// remove the old
+					testProfile->Parent()->RemoveChild(testProfile);
+					// write the new
+					TiXmlElement * profile1 = new TiXmlElement( lineEdit_profileName->text().toStdString() );
+					profiles->LinkEndChild( profile1 );
+					profile1->SetAttribute("Name", lineEdit_profileName->text().toStdString());
+					profile1->SetAttribute("Address", lineEdit_ipAddress->text().toStdString());
+					profile1->SetAttribute("Password", lineEdit_password->text().toStdString());
+					profile1->SetAttribute("Port", spinBox_port->value());
+					profile1->SetAttribute("IsIpv6", checkBox_ipv6->isChecked());
+				}
+				break;
+				case QMessageBox::No:
+				// no was clicked
+				break;
+				default:
+				// should never be reached
+				break;
+			}
+	
 		}
 		else {
 			// Wenn der Name nicht existiert --> speichern
-			TiXmlElement * profile = new TiXmlElement( lineEdit_profileName->text().toStdString() );
-			profiles->LinkEndChild( profile );
-			profile->SetAttribute("Name", lineEdit_profileName->text().toStdString());
-			profile->SetAttribute("Address", lineEdit_ipAddress->text().toStdString());
-			profile->SetAttribute("Password", lineEdit_password->text().toStdString());
-			profile->SetAttribute("Port", spinBox_port->value());
-			profile->SetAttribute("IsIpv6", checkBox_ipv6->isChecked());
+			TiXmlElement * profile2 = new TiXmlElement( lineEdit_profileName->text().toStdString() );
+			profiles->LinkEndChild( profile2 );
+			profile2->SetAttribute("Name", lineEdit_profileName->text().toStdString());
+			profile2->SetAttribute("Address", lineEdit_ipAddress->text().toStdString());
+			profile2->SetAttribute("Password", lineEdit_password->text().toStdString());
+			profile2->SetAttribute("Port", spinBox_port->value());
+			profile2->SetAttribute("IsIpv6", checkBox_ipv6->isChecked());
  			
 		}
         } 
