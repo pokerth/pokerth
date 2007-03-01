@@ -1979,7 +1979,8 @@ void mainWindowImpl::paintStartSplash() {
 				
 // 	mySplash->setMaximumSize(400,250);
 // 	mySplash->setMinimumSize(400,250);
-	mySplash->setGeometry(237,210,400,250);
+	
+	mySplash->setGeometry(this->pos().x()+237,this->pos().y()+210,400,250);
 // 	mySplash->setWindowFlags(Qt::SplashScreen);
 	mySplash->show();
 }
