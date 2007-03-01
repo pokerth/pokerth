@@ -60,9 +60,6 @@ int main( int argc, char **argv )
 	//_CrtSetBreakAlloc(49937);
 
 	socket_startup();
-
-	srand( time(0) );
-
 	
 	/////// can be removed for non-qt-guis ////////////
 	QApplication a( argc, argv );
