@@ -163,10 +163,10 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 			}
 			else {
 				if(i == myW->getActualHand()->getActualQuantityPlayers()-1) {
-					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$";
+					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash()+myW->getActualHand()->getPlayerArray()[i]->getMySet(),10)+"$";
 				}
 				else {
-					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";
+					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash()+myW->getActualHand()->getPlayerArray()[i]->getMySet(),10)+"$, ";
 				}
 			}
 		}
@@ -184,10 +184,10 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 			}
 			else {
 				if(i == myW->getActualHand()->getActualQuantityPlayers()-1) {
-					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$";
+					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash()+myW->getActualHand()->getPlayerArray()[i]->getMySet(),10)+"$";
 				}
 				else {
-					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$, ";
+					stream << QString::fromStdString(myW->getActualHand()->getPlayerArray()[i]->getMyName())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash()+myW->getActualHand()->getPlayerArray()[i]->getMySet(),10)+"$, ";
 				}
 			}
 		}
