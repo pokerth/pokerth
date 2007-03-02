@@ -111,20 +111,21 @@ SOURCES += pokerth.cpp \
 	   clientdata.cpp \
 	   clientcallback.cpp \
 	   socket_helper_cmn.cpp \
-	   thread.cpp
+	   thread.cpp \
+	   rand.cpp
 TEMPLATE = vcapp
 RESOURCES = src/gui/qt/deck.qrc
 TEMPLATE = app
-DEPENDPATH += . src uics src/config src/core/tinyxml src/gui src/gui/qt src/gui/qt/mainwindow/startsplash src/gui/qt/mainwindow src/gui/qt/aboutpokerth src/gui/qt/joinnetworkgamedialog src/gui/qt/connecttoserverdialog src/gui/qt/newlocalgamedialog src/gui/qt/settingsdialog src/gui/qt/waitforservertostartgamedialog src/gui/qt/startnetworkgamedialog src/gui/qt/createnetworkgamedialog src/gui/qt/log src/engine src/engine/local_engine src/net src/net/common src/core/
-INCLUDEPATH += . src uics src/config src/core/tinyxml src/gui src/gui/qt src/gui/qt/mainwindow/startsplash src/gui/qt/mainwindow src/gui/qt/aboutpokerth src/gui/qt/joinnetworkgamedialog src/gui/qt/connecttoserverdialog src/gui/qt/newlocalgamedialog src/gui/qt/settingsdialog src/gui/qt/waitforservertostartgamedialog src/gui/qt/startnetworkgamedialog src/gui/qt/createnetworkgamedialog src/gui/qt/log src/engine src/engine/local_engine src/net src/net/common src/core/
+DEPENDPATH += . src uics src/config src/core/tinyxml src/gui src/gui/qt src/gui/qt/mainwindow/startsplash src/gui/qt/mainwindow src/gui/qt/aboutpokerth src/gui/qt/joinnetworkgamedialog src/gui/qt/connecttoserverdialog src/gui/qt/newlocalgamedialog src/gui/qt/settingsdialog src/gui/qt/waitforservertostartgamedialog src/gui/qt/startnetworkgamedialog src/gui/qt/createnetworkgamedialog src/gui/qt/log src/engine src/engine/local_engine src/net src/net/common src/core src/core/common
+INCLUDEPATH += . src uics src/config src/core/tinyxml src/gui src/gui/qt src/gui/qt/mainwindow/startsplash src/gui/qt/mainwindow src/gui/qt/aboutpokerth src/gui/qt/joinnetworkgamedialog src/gui/qt/connecttoserverdialog src/gui/qt/newlocalgamedialog src/gui/qt/settingsdialog src/gui/qt/waitforservertostartgamedialog src/gui/qt/startnetworkgamedialog src/gui/qt/createnetworkgamedialog src/gui/qt/log src/engine src/engine/local_engine src/net src/net/common src/core src/core/common
 win32 {
-	DEPENDPATH += src/net/win32/
+	DEPENDPATH += src/net/win32/ src/core/win32
 	INCLUDEPATH += ../boost/
 	LIBPATH += ../boost/stage/lib
-	LIBS += ws2_32.lib
+	LIBS += ws2_32.lib advapi32.lib
 }
 !win32 {
-	DEPENDPATH += src/net/linux/
+	DEPENDPATH += src/net/linux/ src/core/linux
 	LIBS += -lboost_thread -l ssl
 }
 
