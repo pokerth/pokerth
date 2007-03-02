@@ -23,7 +23,6 @@
 #include <windows.h>
 #include <wincrypt.h>
 
-#include <boost/thread.hpp>
 #include <core/rand.h>
 
 class CryptData
@@ -43,21 +42,19 @@ public:
 	}
 	~CryptData()
 	{
-		if (cryptProvider) CryptReleaseContext(cryptProvider, 0);
+		if (cryptProvider)
+			CryptReleaseContext(cryptProvider, 0);
 	}
 
 	HCRYPTPROV cryptProvider;
 };
 
+static CryptData g_cryptData;
+
 void
 RandomBytes(unsigned char *buf, unsigned size)
 {
-	static boost::thread_specific_ptr<CryptData> m_cryptData;
-
-	if (!m_cryptData.get())
-		m_cryptData.reset(new CryptData);
-
-	HCRYPTPROV provider = m_cryptData.get()->cryptProvider;
+	HCRYPTPROV provider = g_cryptData.cryptProvider;
 
 	if (provider)
 		::CryptGenRandom(provider, size, buf);
