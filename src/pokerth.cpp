@@ -64,7 +64,7 @@ int main( int argc, char **argv )
 	/////// can be removed for non-qt-guis ////////////
 	QApplication a( argc, argv );
 	a.setStyle(new QPlastiqueStyle);
-	Q_INIT_RESOURCE(deck);
+	Q_INIT_RESOURCE(resources);
 	///////////////////////////////////////////////////	
 
 	GuiInterface *myGuiInterface = new GuiWrapper();

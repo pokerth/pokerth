@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>544</width>
-    <height>381</height>
+    <width>579</width>
+    <height>382</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -140,7 +140,7 @@
                  </size>
                 </property>
                 <property name="icon" >
-                 <iconset resource="deck.qrc" >:/graphics/graphics/fileopen16.png</iconset>
+                 <iconset resource="resources.qrc" >:/graphics/resources/graphics/fileopen16.png</iconset>
                 </property>
                </widget>
               </item>
@@ -741,7 +741,7 @@ p, li { white-space: pre-wrap; }
             </size>
            </property>
            <property name="icon" >
-            <iconset resource="deck.qrc" >:/graphics/graphics/fileopen16.png</iconset>
+            <iconset resource="resources.qrc" >:/graphics/resources/graphics/fileopen16.png</iconset>
            </property>
           </widget>
          </item>
@@ -830,7 +830,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
-  <include location="deck.qrc" />
+  <include location="resources.qrc" />
  </resources>
  <connections>
   <connection>
@@ -840,8 +840,8 @@ p, li { white-space: pre-wrap; }
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>304</x>
-     <y>339</y>
+     <x>313</x>
+     <y>372</y>
     </hint>
     <hint type="destinationlabel" >
      <x>286</x>
@@ -862,6 +862,38 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel" >
      <x>281</x>
      <y>85</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_flipsideOwn</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEdit_OwnFlipsideFilename</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>212</x>
+     <y>268</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>438</x>
+     <y>267</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_flipsideOwn</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>pushButton_openFlipsidePicture</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>225</x>
+     <y>270</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>533</x>
+     <y>261</y>
     </hint>
    </hints>
   </connection>

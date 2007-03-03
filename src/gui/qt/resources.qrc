@@ -1,0 +1,72 @@
+<RCC>
+    <qresource prefix="/cards" >
+        <file>resources/graphics/cards/0.png</file>
+        <file>resources/graphics/cards/1.png</file>
+        <file>resources/graphics/cards/10.png</file>
+        <file>resources/graphics/cards/11.png</file>
+        <file>resources/graphics/cards/12.png</file>
+        <file>resources/graphics/cards/13.png</file>
+        <file>resources/graphics/cards/14.png</file>
+        <file>resources/graphics/cards/15.png</file>
+        <file>resources/graphics/cards/16.png</file>
+        <file>resources/graphics/cards/17.png</file>
+        <file>resources/graphics/cards/18.png</file>
+        <file>resources/graphics/cards/19.png</file>
+        <file>resources/graphics/cards/2.png</file>
+        <file>resources/graphics/cards/20.png</file>
+        <file>resources/graphics/cards/21.png</file>
+        <file>resources/graphics/cards/22.png</file>
+        <file>resources/graphics/cards/23.png</file>
+        <file>resources/graphics/cards/24.png</file>
+        <file>resources/graphics/cards/25.png</file>
+        <file>resources/graphics/cards/26.png</file>
+        <file>resources/graphics/cards/27.png</file>
+        <file>resources/graphics/cards/28.png</file>
+        <file>resources/graphics/cards/29.png</file>
+        <file>resources/graphics/cards/3.png</file>
+        <file>resources/graphics/cards/30.png</file>
+        <file>resources/graphics/cards/31.png</file>
+        <file>resources/graphics/cards/32.png</file>
+        <file>resources/graphics/cards/33.png</file>
+        <file>resources/graphics/cards/34.png</file>
+        <file>resources/graphics/cards/35.png</file>
+        <file>resources/graphics/cards/36.png</file>
+        <file>resources/graphics/cards/37.png</file>
+        <file>resources/graphics/cards/38.png</file>
+        <file>resources/graphics/cards/39.png</file>
+        <file>resources/graphics/cards/4.png</file>
+        <file>resources/graphics/cards/40.png</file>
+        <file>resources/graphics/cards/41.png</file>
+        <file>resources/graphics/cards/42.png</file>
+        <file>resources/graphics/cards/43.png</file>
+        <file>resources/graphics/cards/44.png</file>
+        <file>resources/graphics/cards/45.png</file>
+        <file>resources/graphics/cards/46.png</file>
+        <file>resources/graphics/cards/47.png</file>
+        <file>resources/graphics/cards/48.png</file>
+        <file>resources/graphics/cards/49.png</file>
+        <file>resources/graphics/cards/5.png</file>
+        <file>resources/graphics/cards/50.png</file>
+        <file>resources/graphics/cards/51.png</file>
+        <file>resources/graphics/cards/6.png</file>
+        <file>resources/graphics/cards/7.png</file>
+        <file>resources/graphics/cards/8.png</file>
+        <file>resources/graphics/cards/9.png</file>
+        <file>resources/graphics/cards/flipside.png</file>
+    </qresource>
+    <qresource prefix="/data" >
+        <file>resources/data/preflopValues</file>
+    </qresource>
+    <qresource prefix="/fonts" >
+        <file>resources/fonts/andybold.ttf</file>
+        <file>resources/fonts/c059013l.pfb</file>
+        <file>resources/fonts/n019003l.pfb</file>
+    </qresource>
+    <qresource prefix="/graphics" >
+        <file>resources/graphics/1px.png</file>
+        <file>resources/graphics/dealerbutton.png</file>
+        <file>resources/graphics/fileopen16.png</file>
+        <file>resources/graphics/handRanking_release.png</file>
+        <file>resources/graphics/logo-140-100.png</file>
+    </qresource>
+</RCC>

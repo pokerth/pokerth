@@ -22,8 +22,8 @@
 StartSplash::StartSplash(mainWindowImpl *parent)
  : QSplashScreen(parent), myW(parent)
 {
-	QFontDatabase::addApplicationFont (":fonts/fonts/c059013l.pfb");
-	QFontDatabase::addApplicationFont (":fonts/fonts/andybold.ttf");	
+	QFontDatabase::addApplicationFont (":fonts/resources/fonts/c059013l.pfb");
+	QFontDatabase::addApplicationFont (":fonts/resources/fonts/andybold.ttf");	
 
 	frameNo = 52;
 	opacityCounter = 13;
@@ -62,7 +62,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 	haveFont.setFamily("Andy MT");
 	haveFont.setPixelSize(36);
 	
-	QPixmap logo(":/graphics/graphics/logo-140-100.png");
+	QPixmap logo(":/graphics/resources/graphics/logo-140-100.png");
 
 	if(frameNo >= 52 && frameNo < 65) {
 	

@@ -728,7 +728,7 @@
                <item row="0" column="0" >
                 <widget class="QLabel" name="label_3" >
                  <property name="pixmap" >
-                  <pixmap resource="deck.qrc" >:/graphics/graphics/handRanking_release.png</pixmap>
+                  <pixmap resource="resources.qrc" >:/graphics/resources/graphics/handRanking_release.png</pixmap>
                  </property>
                 </widget>
                </item>
@@ -4259,7 +4259,7 @@
   <tabstop>pushButton_allin</tabstop>
  </tabstops>
  <resources>
-  <include location="deck.qrc" />
+  <include location="resources.qrc" />
  </resources>
  <connections>
   <connection>
