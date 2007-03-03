@@ -34,7 +34,7 @@ using namespace std;
 ConfigFile::ConfigFile()
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 11;
+	configRev = 12;
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
@@ -149,6 +149,9 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * confElement4 = new TiXmlElement( "GameSpeed" );
 		config->LinkEndChild( confElement4 );
       		confElement4->SetAttribute("value", 4);
+		TiXmlElement * confElement32 = new TiXmlElement( "EngineVersion" );
+		config->LinkEndChild( confElement32 );
+      		confElement32->SetAttribute("value", 0);
 		TiXmlElement * confElement14 = new TiXmlElement( "PauseBetweenHands" );
 		config->LinkEndChild( confElement14 );
       		confElement14->SetAttribute("value", 0);		
@@ -171,6 +174,9 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * confElement27 = new TiXmlElement( "NetGameSpeed" );
 		config->LinkEndChild( confElement27 );
       		confElement27->SetAttribute("value", 4);
+		TiXmlElement * confElement33 = new TiXmlElement( "NetEngineVersion" );
+		config->LinkEndChild( confElement33 );
+      		confElement33->SetAttribute("value", 0);
 		TiXmlElement * confElement28 = new TiXmlElement( "ServerPassword" );
 		config->LinkEndChild( confElement28 );
       		confElement28->SetAttribute("value", "");

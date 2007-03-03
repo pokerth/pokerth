@@ -48,6 +48,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 	spinBox_gameSpeed->setValue(myConfig.readConfigInt("GameSpeed"));
 	checkBox_pauseBetweenHands->setChecked(myConfig.readConfigInt("PauseBetweenHands"));
 	checkBox_showGameSettingsDialogOnNewGame->setChecked(myConfig.readConfigInt("ShowGameSettingsDialogOnNewGame"));
+	comboBox_engineVersion->setCurrentIndex(myConfig.readConfigInt("EngineVersion"));
 	
 	//Network Game Settings
 	spinBox_netQuantityPlayers->setValue(myConfig.readConfigInt("NetNumberOfPlayers"));
@@ -55,9 +56,11 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 	spinBox_netSmallBlind->setValue(myConfig.readConfigInt("NetSmallBlind"));
 	spinBox_netHandsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("NetHandsBeforeRaiseSmallBlind"));
 	spinBox_netGameSpeed->setValue(myConfig.readConfigInt("NetGameSpeed"));
+	comboBox_netEngineVersion->setCurrentIndex(myConfig.readConfigInt("NetEngineVersion"));
 	spinBox_serverPort->setValue(myConfig.readConfigInt("ServerPort"));
 	lineEdit_serverPassword->setText(QString::fromStdString(myConfig.readConfigString("ServerPassword")));
 	checkBox_useIpv6->setChecked(myConfig.readConfigInt("ServerUseIpv6"));
+	
 
 	//Interface
 	checkBox_showLeftToolbox->setChecked(myConfig.readConfigInt("ShowLeftToolBox"));
@@ -110,6 +113,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("SmallBlind", spinBox_smallBlind->value());
 	myConfig.writeConfigInt("HandsBeforeRaiseSmallBlind", spinBox_handsBeforeRaiseSmallBlind->value());
 	myConfig.writeConfigInt("GameSpeed", spinBox_gameSpeed->value());
+	myConfig.writeConfigInt("EngineVersion", comboBox_engineVersion->currentIndex());
 	myConfig.writeConfigInt("PauseBetweenHands", checkBox_pauseBetweenHands->isChecked());
 	myConfig.writeConfigInt("ShowGameSettingsDialogOnNewGame", checkBox_showGameSettingsDialogOnNewGame->isChecked());
 
@@ -119,6 +123,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("NetSmallBlind", spinBox_netSmallBlind->value());
 	myConfig.writeConfigInt("NetHandsBeforeRaiseSmallBlind", spinBox_netHandsBeforeRaiseSmallBlind->value());
 	myConfig.writeConfigInt("NetGameSpeed", spinBox_netGameSpeed->value());
+	myConfig.writeConfigInt("NetEngineVersion", comboBox_netEngineVersion->currentIndex());
 	myConfig.writeConfigInt("ServerPort", spinBox_serverPort->value());
 	myConfig.writeConfigString("ServerPassword", lineEdit_serverPassword->text().toStdString());
 	myConfig.writeConfigInt("ServerUseIpv6", checkBox_useIpv6->isChecked());
