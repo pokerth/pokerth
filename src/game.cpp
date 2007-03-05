@@ -126,6 +126,12 @@ void Game::startHand()
 		if(playerArray[i]->getMyCash() == 0) playerArray[i]->setMyActiveStatus(0);
 	}
 
+	// Anzahl noch aktiver Spieler ermitteln
+	actualQuantityPlayers = 0;
+	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
+		if(playerArray[i]->getMyActiveStatus() != 0) actualQuantityPlayers++;
+	}
+
 	// Hand erstellen
 	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, actualHandID, startQuantityPlayers, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
 
