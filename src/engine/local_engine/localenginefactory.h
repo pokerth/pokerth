@@ -37,13 +37,13 @@ public:
 
     ~LocalEngineFactory();
 
-	HandInterface* createHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC);
+	HandInterface* createHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC);
 	BoardInterface* createBoard();
 	PlayerInterface* createPlayer(BoardInterface *b, int id, std::string name, int sC, bool aS, int mB);
-	PreflopInterface* createPreflop(HandInterface* hi, int id, int qP, int dP, int sB);
-	FlopInterface* createFlop(HandInterface* hi, int id, int qP, int dP, int sB);
-	TurnInterface* createTurn(HandInterface* hi, int id, int qP, int dP, int sB);
-	RiverInterface* createRiver(HandInterface* hi, int id, int qP, int dP, int sB);
+	PreflopInterface* createPreflop(HandInterface* hi, int id, int aP, int dP, int sB);
+	FlopInterface* createFlop(HandInterface* hi, int id, int aP, int dP, int sB);
+	TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB);
+	RiverInterface* createRiver(HandInterface* hi, int id, int aP, int dP, int sB);
 };
 
 #endif

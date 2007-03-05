@@ -31,16 +31,16 @@ LocalEngineFactory::~LocalEngineFactory()
 }
 
 
-HandInterface* LocalEngineFactory::createHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC) { return new LocalHand(f, g, b, p, id, qP, dP, sB, sC); }
+HandInterface* LocalEngineFactory::createHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC) { return new LocalHand(f, g, b, p, id, sP, aP, dP, sB, sC); }
 
 BoardInterface* LocalEngineFactory::createBoard() { return new LocalBoard; }
 
 PlayerInterface* LocalEngineFactory::createPlayer(BoardInterface *b, int id, std::string name, int sC, bool aS, int mB) { return new LocalPlayer(b, id, name, sC, aS, mB); }
 
-PreflopInterface* LocalEngineFactory::createPreflop(HandInterface* hi, int id, int qP, int dP, int sB) { return new LocalPreflop(hi, id, qP, dP, sB); }
+PreflopInterface* LocalEngineFactory::createPreflop(HandInterface* hi, int id, int aP, int dP, int sB) { return new LocalPreflop(hi, id, aP, dP, sB); }
 
-FlopInterface* LocalEngineFactory::createFlop(HandInterface* hi, int id, int qP, int dP, int sB) { return new LocalFlop(hi, id, qP, dP, sB); }
+FlopInterface* LocalEngineFactory::createFlop(HandInterface* hi, int id, int aP, int dP, int sB) { return new LocalFlop(hi, id, aP, dP, sB); }
 
-TurnInterface* LocalEngineFactory::createTurn(HandInterface* hi, int id, int qP, int dP, int sB) { return new LocalTurn(hi, id, qP, dP, sB); }
+TurnInterface* LocalEngineFactory::createTurn(HandInterface* hi, int id, int aP, int dP, int sB) { return new LocalTurn(hi, id, aP, dP, sB); }
 
-RiverInterface* LocalEngineFactory::createRiver(HandInterface* hi, int id, int qP, int dP, int sB) { return new LocalRiver(hi, id, qP, dP, sB); }
+RiverInterface* LocalEngineFactory::createRiver(HandInterface* hi, int id, int aP, int dP, int sB) { return new LocalRiver(hi, id, aP, dP, sB); }

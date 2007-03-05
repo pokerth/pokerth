@@ -127,7 +127,7 @@ void Game::startHand()
 	}
 
 	// Hand erstellen
-	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, actualHandID, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
+	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, actualHandID, startQuantityPlayers, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
 
 	
 	//GUI bereinigen 
