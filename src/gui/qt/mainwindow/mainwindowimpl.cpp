@@ -732,7 +732,7 @@ void mainWindowImpl::refreshButton() {
 		if (actualHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
 	}
 
-	for (i=0; i<actualHand->getActualQuantityPlayers(); i++) { 
+	for (i=0; i<actualHand->getStartQuantityPlayers(); i++) { 
 		
 		if(activePlayersCounter > 2) {
 			if (actualHand->getPlayerArray()[i]->getMyButton()==1) {

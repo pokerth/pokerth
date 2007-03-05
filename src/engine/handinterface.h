@@ -47,6 +47,9 @@ public:
 	virtual void setActualQuantityPlayers(const int& theValue) =0;
 	virtual int getActualQuantityPlayers() const =0;
 
+	virtual void setStartQuantityPlayers(const int& theValue) =0;
+	virtual int getStartQuantityPlayers() const =0;
+
 	virtual void setActualRound(const int& theValue) =0;
 	virtual int getActualRound() const =0;
 

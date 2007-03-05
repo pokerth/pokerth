@@ -21,7 +21,7 @@
 
 using namespace std;
 
-LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC) : HandInterface(), myFactory(f), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), allInCondition(0)
+LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int qP, int dP, int sB,int sC) : HandInterface(), myFactory(f), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0), myID(id), actualQuantityPlayers(qP), startQuantityPlayers(qP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), allInCondition(0)
 {
 
 	int i, j;
@@ -31,7 +31,7 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 	myBoard->setHand(this);
 
 
-	for(i=0; i<actualQuantityPlayers; i++) playerArray[i]->setHand(this);
+	for(i=0; i<startQuantityPlayers; i++) playerArray[i]->setHand(this);
 
 
 	// roundStartCashArray fllen
@@ -47,8 +47,8 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 
 	// Karten generieren und Board sowie Player zuweisen
 	Tools myTool;
-	int *cardsArray = new int[2*actualQuantityPlayers+5];
-	myTool.getRandNumber(0, 51, 2*actualQuantityPlayers+5, cardsArray, 1);
+	int *cardsArray = new int[2*startQuantityPlayers+5];
+	myTool.getRandNumber(0, 51, 2*startQuantityPlayers+5, cardsArray, 1);
 	int tempBoardArray[5];
 	int tempPlayerArray[2];
 	int tempPlayerAndBoardArray[7];
@@ -57,7 +57,7 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 		tempPlayerAndBoardArray[i+2] = cardsArray[i];
 	}
 	myBoard->setMyCards(tempBoardArray);
-	for(i=0; i<actualQuantityPlayers; i++) {
+	for(i=0; i<startQuantityPlayers; i++) {
 		for(j=0; j<2; j++) {
 			tempPlayerArray[j] = cardsArray[2*i+j+5];
 			tempPlayerAndBoardArray[j] = cardsArray[2*i+j+5];
@@ -76,15 +76,15 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 	myGui->dealHoleCards();
 	
 	// myFlipCards auf 0 setzen
-	for(i=0; i<actualQuantityPlayers; i++) {
+	for(i=0; i<startQuantityPlayers; i++) {
 		playerArray[i]->setMyCardsFlip(0);
 	}
 
 	// Preflop, Flop, Turn und River erstellen
-	myPreflop =  myFactory->createPreflop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-	myFlop = myFactory->createFlop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-	myTurn = myFactory->createTurn(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-	myRiver = myFactory->createRiver(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
+	myPreflop =  myFactory->createPreflop(this, myID, startQuantityPlayers, dealerPosition, smallBlind);
+	myFlop = myFactory->createFlop(this, myID, startQuantityPlayers, dealerPosition, smallBlind);
+	myTurn = myFactory->createTurn(this, myID, startQuantityPlayers, dealerPosition, smallBlind);
+	myRiver = myFactory->createRiver(this, myID, startQuantityPlayers, dealerPosition, smallBlind);
 	
 	//Rundenwechsel | beim ersten Durchlauf --> Preflop starten
 	myGui->nextPlayerAnimation();

@@ -57,6 +57,9 @@ public:
 	void setActualQuantityPlayers(const int& theValue) { actualQuantityPlayers = theValue; }
 	int getActualQuantityPlayers() const { return actualQuantityPlayers; }
 
+	void setStartQuantityPlayers(const int& theValue) { startQuantityPlayers = theValue; }
+	int getStartQuantityPlayers() const { return startQuantityPlayers; }
+
 	void setActualRound(const int& theValue) { actualRound = theValue; }
 	int getActualRound() const { return actualRound; }
 
@@ -101,6 +104,7 @@ private:
 
 	int myID;
 	int actualQuantityPlayers;
+	int startQuantityPlayers;
 	int dealerPosition; // -1 -> neutral
 	int actualRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
 	int smallBlind;
