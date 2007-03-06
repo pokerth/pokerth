@@ -23,7 +23,7 @@
 
 using namespace std;
 
-LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, int sC, bool aS, int mB) : PlayerInterface(), actualHand(0), actualBoard(b), myCardsValue(0), myID(id), myName(name), myDude(0), myCardsValueInt(0), myCash(sC), mySet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), myAverageSets(0)
+LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, int sC, bool aS, int mB) : PlayerInterface(), actualHand(0), actualBoard(b), myCardsValue(0), myID(id), myName(name), myDude(0), myCardsValueInt(0), myHoleCardsValue(0), myCash(sC), mySet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), myAverageSets(0)
 {
 	// myBestHandPosition mit -1 initialisieren
 	int i;
@@ -36,6 +36,15 @@ LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, int sC, bo
 	// Dude zuweisen
 	myTool.getRandNumber(3 , 5, 1, &myDude, 0);
 // 	cout << "Spieler: " << myID << " Dude: " << myDude << " Cash: " << myCash << " ActiveStatus: " << myActiveStatus << " Button: " << myButton << endl;
+
+	// Dude4 zuweisen
+	int tempArray[4];
+	myTool.getRandNumber(0, 14, 4, tempArray, 0);
+	for(i=0; i<4; i++) {
+		myDude4 += tempArray[i];
+	}
+	myDude4 = (myDude4/4)-7;
+
 
 	myCardsValue = new CardsValue;
 
@@ -99,6 +108,76 @@ void LocalPlayer::action() {
 }
 
 void LocalPlayer::preflopEngine() {
+
+	// Code der HoleCards ermitteln
+	int handCode;
+	if(myCards[0]%13 == myCards[1]%13) {
+		handCode = (myCards[0]%13)*1000 + (myCards[0]%13)*10;
+	} else {
+		if(myCards[0]%13 < myCards[1]%13) {
+			if(myCards[0]/13 == myCards[1]/13) {
+				handCode = (myCards[0]%13)*1000 + (myCards[1]%13)*10 + 1;
+			} else {
+				handCode = (myCards[0]%13)*1000 + (myCards[1]%13)*10;
+			}
+		} else {
+			if(myCards[0]/13 == myCards[1]/13) {
+				handCode = (myCards[1]%13)*1000 + (myCards[0]%13)*10 + 1;
+			} else {
+				handCode = (myCards[1]%13)*1000 + (myCards[0]%13)*10;
+			}
+		}
+	}
+
+	ConfigFile myConfig;
+	std::string fileName = myConfig.readConfigString("DataDir")+"preflopValues";
+
+	ifstream fin;
+
+	fin.open(fileName.c_str());
+	if(!fin) {
+		cout << "Es ist nicht möglich " << fileName << " zum lesen zu oeffnen." << endl;
+	}
+
+	char buffer[50];
+	char hand[5];
+	int i,j,k;
+	char preflopValue[8];
+	myHoleCardsValue = -1.;
+	while(fin.getline(buffer,50)) {
+		for(i=0; i<5; i++) hand[i] = buffer[i];
+		if(handCode == atoi(hand)) {
+			j = 0;
+			k = 2;
+			while(buffer[j] != '|' || k < actualHand->getActualQuantityPlayers()) {
+				if(buffer[j] == '|') k++;
+				j++;
+			}
+			for(k=0; k<8 ; k++) preflopValue[k] = buffer[k+j+1];
+			myHoleCardsValue = 100*atof(preflopValue);
+			break;
+		}
+	}
+	fin.close();
+	if(myHoleCardsValue == -1) cout << "ERROR myHoleCardsValue" << endl;
+
+	// Niveaus setzen
+	// 1. Fold -- Call
+	myNiveau[0] = 49 - 8*(actualHand->getActualQuantityPlayers() - 2);
+	// 2. Check -- Bet
+	myNiveau[1] = 50;
+	// 3. Call -- Raise
+	myNiveau[2] = 70;
+
+
+// 	mySet += myCash;
+// 	myCash = 0;
+// 	myAction = 6;
+// 	if(mySet > actualHand->getPreflop()->getHighestSet()) actualHand->getPreflop()->setHighestSet(mySet);
+
+// 	cout << "Spieler " << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << " " << endl;
+
+
 
 // 	cout << "nextID " << actualHand->getPlayerArray()[(myID+1)%5]->getMyID() << endl;
 

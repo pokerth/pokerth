@@ -24,8 +24,10 @@
 
 #include "cardsvalue.h"
 
+#include "configfile.h"
+
 #include <string>
-#include <sstream>
+#include <fstream>
 
 
 class CardsValue;
@@ -103,12 +105,16 @@ private:
 	int myID;
 	std::string myName;
 	int myDude;
+	int myDude4;
 
 
 	// Laufvariablen
-	int myCards[2];
 	int myCardsValueInt;
 	int myBestHandPosition[5];
+	double myHoleCardsValue;
+	int myNiveau[3];
+
+	int myCards[2];
 	int myCash;
 	int mySet;
 	int myAction; // 0 = none, 1 = fold, 2 = check, 3 = call, 4 = bet, 5 = raise, 6 = allin
