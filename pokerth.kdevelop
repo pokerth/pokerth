@@ -13,7 +13,9 @@
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
     <description/>
-    <versioncontrol/>
+    <versioncontrol>kdevsubversion</versioncontrol>
+    <projectname>pokerth</projectname>
+    <defaultencoding/>
   </general>
   <kdevfileview>
     <groups>
@@ -27,6 +29,7 @@
     <tree>
       <hidepatterns>*.o,*.lo,CVS</hidepatterns>
       <hidenonprojectfiles>false</hidenonprojectfiles>
+      <showvcsfields>false</showvcsfields>
     </tree>
   </kdevfileview>
   <kdevdoctreeview>
@@ -88,13 +91,18 @@
   </kdevdebugger>
   <kdevtrollproject>
     <run>
-      <mainprogram>bin/pokerth</mainprogram>
+      <mainprogram>/home/doitux/Projekte/qt-c++/pokerth/bin/pokerth</mainprogram>
       <programargs/>
       <directoryradio>executable</directoryradio>
       <customdirectory>/</customdirectory>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
       <envvars/>
+      <globaldebugarguments/>
+      <globalcwd>/home/doitux/Projekte/qt-c++/pokerth</globalcwd>
+      <useglobalprogram>false</useglobalprogram>
+      <autoinstall>false</autoinstall>
+      <autokdesu>false</autokdesu>
     </run>
     <general>
       <activedir></activedir>
@@ -111,6 +119,11 @@
         <envvar value="/usr/qt/static/4.2.2" name="QTDIR" />
       </envvars>
     </make>
+    <qmake>
+      <savebehaviour>2</savebehaviour>
+      <replacePaths>false</replacePaths>
+      <disableDefaultOpts>true</disableDefaultOpts>
+    </qmake>
   </kdevtrollproject>
   <kdevfilecreate>
     <filetypes/>
@@ -154,14 +167,34 @@
       <codeCompletionDelay>250</codeCompletionDelay>
       <argumentsHintDelay>400</argumentsHintDelay>
       <headerCompletionDelay>250</headerCompletionDelay>
+      <showOnlyAccessibleItems>false</showOnlyAccessibleItems>
+      <completionBoxItemOrder>0</completionBoxItemOrder>
+      <howEvaluationContextMenu>true</howEvaluationContextMenu>
+      <showCommentWithArgumentHint>true</showCommentWithArgumentHint>
+      <statusBarTypeEvaluation>false</statusBarTypeEvaluation>
+      <namespaceAliases>std=_GLIBCXX_STD;__gnu_cxx=std</namespaceAliases>
+      <processPrimaryTypes>true</processPrimaryTypes>
+      <processFunctionArguments>false</processFunctionArguments>
+      <preProcessAllHeaders>false</preProcessAllHeaders>
+      <parseMissingHeaders>false</parseMissingHeaders>
+      <resolveIncludePaths>true</resolveIncludePaths>
+      <alwaysParseInBackground>true</alwaysParseInBackground>
+      <usePermanentCaching>true</usePermanentCaching>
+      <alwaysIncludeNamespaces>false</alwaysIncludeNamespaces>
+      <includePaths>.;</includePaths>
     </codecompletion>
     <qt>
       <used>true</used>
       <version>4</version>
       <root>/usr/qt/static/4.2.2</root>
+      <includestyle>4</includestyle>
+      <designerintegration>ExternalDesigner</designerintegration>
+      <qmake>/usr/qt/static/4.2.2/bin/qmake</qmake>
+      <designer>/usr/qt/static/4.2.2/bin/designer</designer>
+      <designerpluginpaths/>
     </qt>
     <creategettersetter>
-      <prefixGet/>
+      <prefixGet>get</prefixGet>
       <prefixSet>set</prefixSet>
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>theValue</parameterName>
@@ -173,6 +206,11 @@
         <implementation class="aboutpokerth" path="src/aboutpokerth.ui" implementationpath="aboutpokerth.h" />
       </qtdesigner>
     </designerintegration>
+    <splitheadersource>
+      <enabled>true</enabled>
+      <synchronize>true</synchronize>
+      <orientation>Vertical</orientation>
+    </splitheadersource>
   </kdevcppsupport>
   <cppsupportpart>
     <filetemplates>
@@ -182,6 +220,7 @@
   </cppsupportpart>
   <ctagspart>
     <customArguments/>
-    <customTagfilePath/>
+    <customTagfilePath>/home/doitux/Projekte/qt-c++/pokerth/tags</customTagfilePath>
+    <activeTagsFiles/>
   </ctagspart>
 </kdevelop>
