@@ -84,8 +84,8 @@ public:
 	void setMyRoundStartCash(const int& theValue) { myRoundStartCash = theValue;}
 	int getMyRoundStartCash() const { return myRoundStartCash; }
 
-	void setMyAverageSets(const int& theValue) { myAverageSets = theValue; }
-	int getMyAverageSets() const { return myAverageSets; }
+	void setMyAverageSets(const int& theValue) { myAverageSets[0] = myAverageSets[1]; myAverageSets[1] = myAverageSets[2]; myAverageSets[2] = myAverageSets[3]; myAverageSets[3] = theValue; }
+	int getMyAverageSets() const { return (myAverageSets[0]+myAverageSets[1]+myAverageSets[2]+myAverageSets[3])/4; }
 	
 	void action();
 	
@@ -124,7 +124,7 @@ private:
 	bool myCardsFlip; // 0 = cards are not fliped, 1 = cards are already flipped,
 	int myRoundStartCash;
 
-	int myAverageSets;
+	int myAverageSets[4];
 
 };
 

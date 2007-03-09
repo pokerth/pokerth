@@ -47,6 +47,7 @@ public:
 	void nextPlayer2(); 
 
 
+
 private:
 	HandInterface *myHand;
 

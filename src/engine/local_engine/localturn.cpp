@@ -85,6 +85,11 @@ void LocalTurn::turnRun() {
 		}
 		else {
 			// Turn ist wirklich dran
+
+			// Anzahl der effektiv gespielten Runden (des human player) erhöhen
+			if(myHand->getPlayerArray()[0]->getMyActiveStatus() && myHand->getPlayerArray()[0]->getMyAction() != 1) {
+				myHand->setBettingRoundsPlayed(2);
+			}
 	
 			// n�hsten Spieler ermitteln
 			do { playersTurn = (playersTurn+1)%(myHand->getGuiInterface()->getMaxQuantityPlayers());

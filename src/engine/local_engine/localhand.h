@@ -78,11 +78,14 @@ public:
 	void setActivePlayersCounter(const int& theValue) { activePlayersCounter = theValue; }
 	int getActivePlayersCounter() const { return activePlayersCounter; }
 	
+	void setBettingRoundsPlayed(const int& theValue) { bettingRoundsPlayed = theValue; }
+	int getBettingRoundsPlayed() const { return bettingRoundsPlayed; }
 
 	void assignButtons();
 
 	void highlightRoundLabel();
 	void switchRounds();
+	
 
 	
 
@@ -109,9 +112,12 @@ private:
 	int actualRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
 	int smallBlind;
 	int startCash;
-	int activePlayersCounter;	
+	int activePlayersCounter;
 
 	bool allInCondition;
+
+	// hier steht bis zu welcher bettingRound der human player gespielt hat: 0 - nur Preflop, 1 - bis Flop, ...
+	int bettingRoundsPlayed;
 };
 
 #endif

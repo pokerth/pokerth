@@ -23,12 +23,17 @@
 
 using namespace std;
 
-LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, int sC, bool aS, int mB) : PlayerInterface(), actualHand(0), actualBoard(b), myCardsValue(0), myID(id), myName(name), myDude(0), myCardsValueInt(0), myHoleCardsValue(0), myCash(sC), mySet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), myAverageSets(0)
+LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, int sC, bool aS, int mB) : PlayerInterface(), actualHand(0), actualBoard(b), myCardsValue(0), myID(id), myName(name), myDude(0), myDude4(0), myCardsValueInt(0), myHoleCardsValue(0), myCash(sC), mySet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0)
 {
 	// myBestHandPosition mit -1 initialisieren
 	int i;
 	for(i=0; i<5; i++) {
 		myBestHandPosition[i] = -1;
+	}
+
+	// myAverageSets initialisieren
+	for(i=0; i<4; i++) {
+		myAverageSets[i] = 0;
 	}
 
 
@@ -38,12 +43,15 @@ LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, int sC, bo
 // 	cout << "Spieler: " << myID << " Dude: " << myDude << " Cash: " << myCash << " ActiveStatus: " << myActiveStatus << " Button: " << myButton << endl;
 
 	// Dude4 zuweisen
+	int interval = 7;
+	int count = 4;
+
 	int tempArray[4];
-	myTool.getRandNumber(0, 14, 4, tempArray, 0);
-	for(i=0; i<4; i++) {
+	myTool.getRandNumber(0, 2*interval, count, tempArray, 0);
+	for(i=0; i<count; i++) {
 		myDude4 += tempArray[i];
 	}
-	myDude4 = (myDude4/4)-7;
+	myDude4 = (myDude4/count)-interval;
 
 
 	myCardsValue = new CardsValue;
@@ -109,185 +117,100 @@ void LocalPlayer::action() {
 
 void LocalPlayer::preflopEngine() {
 
-	// Code der HoleCards ermitteln
-	int handCode;
-	if(myCards[0]%13 == myCards[1]%13) {
-		handCode = (myCards[0]%13)*1000 + (myCards[0]%13)*10;
-	} else {
-		if(myCards[0]%13 < myCards[1]%13) {
-			if(myCards[0]/13 == myCards[1]/13) {
-				handCode = (myCards[0]%13)*1000 + (myCards[1]%13)*10 + 1;
-			} else {
-				handCode = (myCards[0]%13)*1000 + (myCards[1]%13)*10;
-			}
-		} else {
-			if(myCards[0]/13 == myCards[1]/13) {
-				handCode = (myCards[1]%13)*1000 + (myCards[0]%13)*10 + 1;
-			} else {
-				handCode = (myCards[1]%13)*1000 + (myCards[0]%13)*10;
-			}
-		}
-	}
-
 	ConfigFile myConfig;
-	std::string fileName = myConfig.readConfigString("DataDir")+"preflopValues";
-
-	ifstream fin;
-
-	fin.open(fileName.c_str());
-	if(!fin) {
-		cout << "Es ist nicht möglich " << fileName << " zum lesen zu oeffnen." << endl;
-	}
-
-	char buffer[50];
-	char hand[5];
-	int i,j,k;
-	char preflopValue[8];
-	myHoleCardsValue = -1.;
-	while(fin.getline(buffer,50)) {
-		for(i=0; i<5; i++) hand[i] = buffer[i];
-		if(handCode == atoi(hand)) {
-			j = 0;
-			k = 2;
-			while(buffer[j] != '|' || k < actualHand->getActualQuantityPlayers()) {
-				if(buffer[j] == '|') k++;
-				j++;
-			}
-			for(k=0; k<8 ; k++) preflopValue[k] = buffer[k+j+1];
-			myHoleCardsValue = 100*atof(preflopValue);
-			break;
-		}
-	}
-	fin.close();
-	if(myHoleCardsValue == -1) cout << "ERROR myHoleCardsValue" << endl;
-
-	// Niveaus setzen
-	// 1. Fold -- Call
-	myNiveau[0] = 49 - 8*(actualHand->getActualQuantityPlayers() - 2);
-	// 2. Check -- Bet
-	myNiveau[1] = 50;
-	// 3. Call -- Raise
-	myNiveau[2] = 70;
-
-
-// 	mySet += myCash;
-// 	myCash = 0;
-// 	myAction = 6;
-// 	if(mySet > actualHand->getPreflop()->getHighestSet()) actualHand->getPreflop()->setHighestSet(mySet);
-
-// 	cout << "Spieler " << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << " " << endl;
-
-
-
-// 	cout << "nextID " << actualHand->getPlayerArray()[(myID+1)%5]->getMyID() << endl;
-
-	Tools myTool;
-	int raise = 0;
-
-// 	Bauchgefhl (zufÃ¯Â¿Ålig)	
-	int tempRand;
-	myTool.getRandNumber(1,10,1,&tempRand,0);
-
-	// bluff, checkbluff
-	int bluff;
-	myTool.getRandNumber(1,100,1,&bluff,0);
-
-// 	cout << "preflop-bluff " << bluff << endl;
-
-	// Potential
-	int potential = 10*(4*(myCardsValue->holeCardsClass(myCards[0], myCards[1]))+1*tempRand)/50-myDude;
-
-	int setToHighest = actualHand->getPreflop()->getHighestSet() - mySet;
-
-	// temp fr das Vielfache des Small Blind, sodass HighestSet zu hoch ist
-	int tempFold;
-// 	tempFold = (actualHand->getPlayerArray()[0]->getMyAverageSets())/(8*actualHand->getSmallBlind());
-	myTool.getRandNumber(2,3,1,&tempFold,0);
-
-	// FOLD --> wenn Potential negativ oder HighestSet zu hoch
-	if( (potential*setToHighest<0 || (setToHighest > tempFold * actualHand->getSmallBlind() &&  potential<1) || (setToHighest > 2 * tempFold * actualHand->getSmallBlind() &&  potential<2) || (setToHighest > 4 * tempFold * actualHand->getSmallBlind() &&  potential<3) || (setToHighest > 10 * tempFold * actualHand->getSmallBlind() &&  potential<4))  && myCardsValue->holeCardsClass(myCards[0], myCards[1]) < 9 && bluff > 15) {
-		myAction=1;
-	}
-	else {
-		// RAISE --> wenn hohes Potential
-		if(potential >= 4 && 6 * actualHand->getSmallBlind() >= actualHand->getPreflop()->getHighestSet() || bluff <= 6) {
-			// extrem hohes Potential --> groÃ¯Â¿År Raise
-			if(potential>=6 || bluff <= 2) {
-
-				// bluff - raise
-				if(bluff <=2  && 4 * actualHand->getSmallBlind() > actualHand->getPreflop()->getHighestSet()) {
-					raise = 3 * actualHand->getPreflop()->getHighestSet();
-				}
-				else {
-					// bluff - call
-					if(bluff >= 98) {
-						// All In
-						if(actualHand->getPreflop()->getHighestSet() >= myCash) {
+	if(myConfig.readConfigInt("EngineVersion")) {
+// 		cout << "Engine 0.3" << endl;
 	
-							mySet += myCash;
-							myCash = 0;
-							myAction = 6;
-		
-						}
-						// sonst
-						else {
-							myCash = myCash - actualHand->getPreflop()->getHighestSet() + mySet;
-							mySet = actualHand->getPreflop()->getHighestSet();
-							myAction = 3;
-						}
-					} else {
-						// doch nich raisen, sondern nur checken, weil highestSets bereits sehr hoch !!!
-						if(! (4 * actualHand->getSmallBlind() > actualHand->getPreflop()->getHighestSet())) {
-
-							// All In
-							if(actualHand->getPreflop()->getHighestSet() >= myCash) {
-			
-								mySet += myCash;
-								myCash = 0;
-								myAction = 6;
-			
-							}
-							// sonst
-							else {
-								myCash = myCash - actualHand->getPreflop()->getHighestSet() + mySet;
-								mySet = actualHand->getPreflop()->getHighestSet();
-								myAction = 3;
-							}
-
-						}
-						else raise = (potential - 4 ) * 2 * actualHand->getPreflop()->getHighestSet();
-					}
-				}
-			}
-			// hohes Potential --> gemäßigter Raise
-			else {
-				// bluff - raise
-				if(bluff <= 6 && 4 * actualHand->getSmallBlind() > actualHand->getPreflop()->getHighestSet()) {
-					raise = 2*actualHand->getPreflop()->getHighestSet();
-				}
-				else {
-					// bluff - call
-					if(bluff >= 93) {
-
-						// All In
-						if(actualHand->getPreflop()->getHighestSet() >= myCash) {
-		
-							mySet += myCash;
-							myCash = 0;
-							myAction = 6;
-		
-						}
-						// sonst
-						else {
-							myCash = myCash - actualHand->getPreflop()->getHighestSet() + mySet;
-							mySet = actualHand->getPreflop()->getHighestSet();
-							myAction = 3;
-						}
+	// 	cout << "nextID " << actualHand->getPlayerArray()[(myID+1)%5]->getMyID() << endl;
+	
+		Tools myTool;
+		int raise = 0;
+	
+	// 	Bauchgefhl (zufÃ¯Â¿Ålig)	
+		int tempRand;
+		myTool.getRandNumber(1,10,1,&tempRand,0);
+	
+		// bluff, checkbluff
+		int bluff;
+		myTool.getRandNumber(1,100,1,&bluff,0);
+	
+	// 	cout << "preflop-bluff " << bluff << endl;
+	
+		// Potential
+		int potential = 10*(4*(myCardsValue->holeCardsClass(myCards[0], myCards[1]))+1*tempRand)/50-myDude;
+	
+		int setToHighest = actualHand->getPreflop()->getHighestSet() - mySet;
+	
+		// temp fr das Vielfache des Small Blind, sodass HighestSet zu hoch ist
+		int tempFold;
+	// 	tempFold = (actualHand->getPlayerArray()[0]->getMyAverageSets())/(8*actualHand->getSmallBlind());
+		myTool.getRandNumber(2,3,1,&tempFold,0);
+	
+		// FOLD --> wenn Potential negativ oder HighestSet zu hoch
+		if( (potential*setToHighest<0 || (setToHighest > tempFold * actualHand->getSmallBlind() &&  potential<1) || (setToHighest > 2 * tempFold * actualHand->getSmallBlind() &&  potential<2) || (setToHighest > 4 * tempFold * actualHand->getSmallBlind() &&  potential<3) || (setToHighest > 10 * tempFold * actualHand->getSmallBlind() &&  potential<4))  && myCardsValue->holeCardsClass(myCards[0], myCards[1]) < 9 && bluff > 15) {
+			myAction=1;
+		}
+		else {
+			// RAISE --> wenn hohes Potential
+			if(potential >= 4 && 6 * actualHand->getSmallBlind() >= actualHand->getPreflop()->getHighestSet() || bluff <= 6) {
+				// extrem hohes Potential --> groÃ¯Â¿År Raise
+				if(potential>=6 || bluff <= 2) {
+	
+					// bluff - raise
+					if(bluff <=2  && 4 * actualHand->getSmallBlind() > actualHand->getPreflop()->getHighestSet()) {
+						raise = 3 * actualHand->getPreflop()->getHighestSet();
 					}
 					else {
-						// doch nich raisen, sondern nur checken, weil highestSets bereits sehr hoch !!!
-						if(! (4 * actualHand->getSmallBlind() > actualHand->getPreflop()->getHighestSet())) {
-
+						// bluff - call
+						if(bluff >= 98) {
+							// All In
+							if(actualHand->getPreflop()->getHighestSet() >= myCash) {
+		
+								mySet += myCash;
+								myCash = 0;
+								myAction = 6;
+			
+							}
+							// sonst
+							else {
+								myCash = myCash - actualHand->getPreflop()->getHighestSet() + mySet;
+								mySet = actualHand->getPreflop()->getHighestSet();
+								myAction = 3;
+							}
+						} else {
+							// doch nich raisen, sondern nur checken, weil highestSets bereits sehr hoch !!!
+							if(! (4 * actualHand->getSmallBlind() > actualHand->getPreflop()->getHighestSet())) {
+	
+								// All In
+								if(actualHand->getPreflop()->getHighestSet() >= myCash) {
+				
+									mySet += myCash;
+									myCash = 0;
+									myAction = 6;
+				
+								}
+								// sonst
+								else {
+									myCash = myCash - actualHand->getPreflop()->getHighestSet() + mySet;
+									mySet = actualHand->getPreflop()->getHighestSet();
+									myAction = 3;
+								}
+	
+							}
+							else raise = (potential - 4 ) * 2 * actualHand->getPreflop()->getHighestSet();
+						}
+					}
+				}
+				// hohes Potential --> gemäßigter Raise
+				else {
+					// bluff - raise
+					if(bluff <= 6 && 4 * actualHand->getSmallBlind() > actualHand->getPreflop()->getHighestSet()) {
+						raise = 2*actualHand->getPreflop()->getHighestSet();
+					}
+					else {
+						// bluff - call
+						if(bluff >= 93) {
+	
 							// All In
 							if(actualHand->getPreflop()->getHighestSet() >= myCash) {
 			
@@ -303,57 +226,263 @@ void LocalPlayer::preflopEngine() {
 								myAction = 3;
 							}
 						}
-						else raise = (potential - 3 ) * actualHand->getPreflop()->getHighestSet();
+						else {
+							// doch nich raisen, sondern nur checken, weil highestSets bereits sehr hoch !!!
+							if(! (4 * actualHand->getSmallBlind() > actualHand->getPreflop()->getHighestSet())) {
+	
+								// All In
+								if(actualHand->getPreflop()->getHighestSet() >= myCash) {
+				
+									mySet += myCash;
+									myCash = 0;
+									myAction = 6;
+				
+								}
+								// sonst
+								else {
+									myCash = myCash - actualHand->getPreflop()->getHighestSet() + mySet;
+									mySet = actualHand->getPreflop()->getHighestSet();
+									myAction = 3;
+								}
+							}
+							else raise = (potential - 3 ) * actualHand->getPreflop()->getHighestSet();
+						}
+					}
+				}
+		
+				if (raise > 0) {
+					// All In
+					if(actualHand->getPreflop()->getHighestSet() + raise >= myCash) {
+	
+						mySet += myCash;
+						myCash = 0;
+						myAction = 6;
+						if(mySet > actualHand->getPreflop()->getHighestSet()) actualHand->getPreflop()->setHighestSet(mySet);
+	
+					}
+					// sonst
+					else {
+	
+						myCash = myCash + mySet - actualHand->getPreflop()->getHighestSet() - raise;
+						mySet = actualHand->getPreflop()->getHighestSet() + raise;
+						actualHand->getPreflop()->setHighestSet(mySet);
+						myAction = 5;
 					}
 				}
 			}
+			//CHECK und CALL
+			else {
+				// CHECK --> wenn alle Sets glieich bei BigBlind und nich zu hohem Potential
+				if(mySet == actualHand->getPreflop()->getHighestSet()) {
+					myAction = 2;
+				}
+				// CALL --> bei normalen Potential
+				else {
+					// All In
+					if(actualHand->getPreflop()->getHighestSet() >= myCash) {
 	
-			if (raise > 0) {
-				// All In
-				if(actualHand->getPreflop()->getHighestSet() + raise >= myCash) {
+						mySet += myCash;
+						myCash = 0;
+						myAction = 6;
+	
+					}
+					// sonst
+					else {
+						myCash = myCash - actualHand->getPreflop()->getHighestSet() + mySet;
+						mySet = actualHand->getPreflop()->getHighestSet();
+						myAction = 3;
+					}
+				}
+			}
+		}
 
+	}
+
+	// ############# ENGINE 0.4 ##################
+	else {
+// 		cout << "Engine 0.4" << endl;
+
+	// Code der HoleCards ermitteln
+		int handCode;
+		if(myCards[0]%13 == myCards[1]%13) {
+			handCode = (myCards[0]%13)*1000 + (myCards[0]%13)*10;
+		} else {
+			if(myCards[0]%13 < myCards[1]%13) {
+				if(myCards[0]/13 == myCards[1]/13) {
+					handCode = (myCards[0]%13)*1000 + (myCards[1]%13)*10 + 1;
+				} else {
+					handCode = (myCards[0]%13)*1000 + (myCards[1]%13)*10;
+				}
+			} else {
+				if(myCards[0]/13 == myCards[1]/13) {
+					handCode = (myCards[1]%13)*1000 + (myCards[0]%13)*10 + 1;
+				} else {
+					handCode = (myCards[1]%13)*1000 + (myCards[0]%13)*10;
+				}
+			}
+		}
+	
+		std::string fileName = myConfig.readConfigString("DataDir")+"preflopValues";
+	
+		ifstream fin;
+	
+		fin.open(fileName.c_str());
+		if(!fin) {
+			cout << "Es ist nicht möglich " << fileName << " zum lesen zu oeffnen." << endl;
+		}
+	
+		char buffer[50];
+		char hand[6];
+		hand[5] = '\0';
+		int i,j,k;
+		char preflopValue[8];
+		myHoleCardsValue = -1.;
+		while(fin.getline(buffer,50)) {
+			for(i=0; i<5; i++) hand[i] = buffer[i];
+			if(handCode == atoi(hand)) {
+				j = 0;
+				k = 2;
+				while(buffer[j] != '|' || k < actualHand->getActualQuantityPlayers()) {
+					if(buffer[j] == '|') k++;
+					j++;
+				}
+				for(k=0; k<8 ; k++) preflopValue[k] = buffer[k+j+1];
+				myHoleCardsValue = 100*atof(preflopValue);
+				break;
+			}
+		}
+		fin.close();
+		if(myHoleCardsValue == -1) cout << "ERROR myHoleCardsValue - " << handCode << endl;
+	
+		int raise = 0;
+
+		// Niveaus setzen + Dude + Anzahl Gegenspieler
+		// 1. Fold -- Call
+		myNiveau[0] = 40 + myDude4 - 6*(actualHand->getActualQuantityPlayers() - 2);
+		// 2. Check -- Bet
+		myNiveau[1] = 50;
+		// 3. Call -- Raise
+		myNiveau[2] = 53 + myDude4 - 6*(actualHand->getActualQuantityPlayers() - 2);
+
+		// Verhaeltnis Set / Cash
+		if(myCash/actualHand->getPreflop()->getHighestSet() >= 25) {
+			myNiveau[0] += (25-myCash/actualHand->getPreflop()->getHighestSet())/10;
+		} else {
+			myNiveau[0] += (25-myCash/actualHand->getPreflop()->getHighestSet())/3;
+		}
+
+		// auf Aggresivität des humanPlayers eingehen
+		int aggValue = ( (50*(actualHand->getPlayerArray()[0]->getMyAverageSets()-6*actualHand->getSmallBlind())) / (actualHand->getStartQuantityPlayers()*actualHand->getStartCash() - 6*actualHand->getSmallBlind()) );
+
+		if(aggValue > 0) {
+			myNiveau[0] -= aggValue;
+			myNiveau[2] -= aggValue;
+		}
+	
+// 		cout << "Spieler " << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << "\t Agg " << aggValue << " " << endl;
+
+
+
+		// aktive oder passivie Situation ? -> im preflop nur passiv
+
+		// raise (bei hohem Niveau)
+		if(myHoleCardsValue >= myNiveau[2]) {
+
+			// raise-loop unterbinden -> d.h. entweder call oder bei superblatt all in
+			if(actualHand->getPreflop()->getHighestSet() >= 12*actualHand->getSmallBlind()) {
+				// all in
+				if(myHoleCardsValue >= myNiveau[2] + 8) {
+					raise = myCash;
+					myAction = 5;
+				}
+				// nur call
+				else {
+					myAction = 3;
+				}
+
+			// Standard-Raise-Routine
+			} else {
+				// raise-Betrag ermitteln
+				raise = (((int)myHoleCardsValue-myNiveau[2])/2)*2*actualHand->getSmallBlind();
+				// raise-Betrag zu klein -> mindestens Standard-raise
+				if(raise == 0) {
+					raise = actualHand->getPreflop()->getHighestSet()-mySet;
+				}
+				myAction = 5;
+			}
+		}
+		else {
+			// call
+			if(myHoleCardsValue >= myNiveau[0] || (mySet >= actualHand->getPreflop()->getHighestSet()/2 && myHoleCardsValue >= myNiveau[0]-5)) {
+				// bigBlind --> check
+				if(myButton == 3 && mySet == actualHand->getPreflop()->getHighestSet()) myAction = 2;
+				else myAction = 3;
+			}
+			// fold
+			else {
+				// bigBlind -> check
+				if(myButton == 3 && mySet == actualHand->getPreflop()->getHighestSet()) myAction = 2;
+				else myAction = 1;
+			}
+		}
+
+		// Auswertung
+
+		switch(myAction) {
+			// none
+			case 0: {}
+			break;
+			// fold
+			case 1: {}
+			break;
+			// check
+			case 2: {}
+			break;
+			// call
+			case 3: {
+				// all in
+				if(actualHand->getPreflop()->getHighestSet() >= myCash) {
+	
+						mySet += myCash;
+						myCash = 0;
+						myAction = 6;
+	
+				}
+				// sonst
+				else {
+					myCash = myCash - actualHand->getPreflop()->getHighestSet() + mySet;
+					mySet = actualHand->getPreflop()->getHighestSet();
+				}
+			}
+			break;
+			// bet
+			case 4: {}
+			break;
+			// raise
+			case 5: {
+				// all in
+				if(actualHand->getPreflop()->getHighestSet() + raise >= myCash) {
 					mySet += myCash;
 					myCash = 0;
 					myAction = 6;
 					if(mySet > actualHand->getPreflop()->getHighestSet()) actualHand->getPreflop()->setHighestSet(mySet);
-
 				}
 				// sonst
 				else {
-
 					myCash = myCash + mySet - actualHand->getPreflop()->getHighestSet() - raise;
 					mySet = actualHand->getPreflop()->getHighestSet() + raise;
 					actualHand->getPreflop()->setHighestSet(mySet);
 					myAction = 5;
 				}
 			}
+			break;
+			// all in
+			case 6: {}
+			break;
+			default: {}
 		}
-		//CHECK und CALL
-		else {
-			// CHECK --> wenn alle Sets glieich bei BigBlind und nich zu hohem Potential
-			if(mySet == actualHand->getPreflop()->getHighestSet()) {
-				myAction = 2;
-			}
-			// CALL --> bei normalen Potential
-			else {
-				// All In
-				if(actualHand->getPreflop()->getHighestSet() >= myCash) {
 
-					mySet += myCash;
-					myCash = 0;
-					myAction = 6;
-
-				}
-				// sonst
-				else {
-					myCash = myCash - actualHand->getPreflop()->getHighestSet() + mySet;
-					mySet = actualHand->getPreflop()->getHighestSet();
-					myAction = 3;
-				}
-			}
-		}
 	}
-
 }
 
 void LocalPlayer::flopEngine() {

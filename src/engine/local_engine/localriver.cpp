@@ -84,6 +84,11 @@ void LocalRiver::riverRun() {
 		}
 		else {
 			// River ist wirklich dran
+
+			// Anzahl der effektiv gespielten Runden (des human player) erhöhen
+			if(myHand->getPlayerArray()[0]->getMyActiveStatus() && myHand->getPlayerArray()[0]->getMyAction() != 1) {
+				myHand->setBettingRoundsPlayed(3);
+			}
 	
 			// nï¿œhsten Spieler ermitteln
 			do { playersTurn = (playersTurn+1)%(myHand->getGuiInterface()->getMaxQuantityPlayers());
@@ -120,12 +125,12 @@ void LocalRiver::postRiverRun() {
 
 	int i;
 
-	// für die Engine die durchschnittlichen Sets von Player 0 setzen
-	if(myID < 5) {
-		myHand->getPlayerArray()[0]->setMyAverageSets(((myHand->getPlayerArray()[0]->getMyAverageSets())*(myID-1))/myID + (myHand->getPlayerArray()[0]->getMyRoundStartCash()-myHand->getPlayerArray()[0]->getMyCash())/myID);
-	} else {
-		myHand->getPlayerArray()[0]->setMyAverageSets(((myHand->getPlayerArray()[0]->getMyAverageSets())*4)/5 + (myHand->getPlayerArray()[0]->getMyRoundStartCash()-myHand->getPlayerArray()[0]->getMyCash())/5);
-	}
+	// für die Engine die durchschnittlichen Sets von Player 0 setzen --> UNUSED !!!
+// 	if(myID < 5) {
+// 		myHand->getPlayerArray()[0]->setMyAverageSets(((myHand->getPlayerArray()[0]->getMyAverageSets())*(myID-1))/myID + (myHand->getPlayerArray()[0]->getMyRoundStartCash()-myHand->getPlayerArray()[0]->getMyCash())/myID);
+// 	} else {
+// 		myHand->getPlayerArray()[0]->setMyAverageSets(((myHand->getPlayerArray()[0]->getMyAverageSets())*4)/5 + (myHand->getPlayerArray()[0]->getMyRoundStartCash()-myHand->getPlayerArray()[0]->getMyCash())/5);
+// 	}
 
 // 	cout << myHand->getPlayerArray()[0]->getMyAverageSets() << endl;
 
@@ -138,6 +143,10 @@ void LocalRiver::postRiverRun() {
 			highestCardsValue = myHand->getPlayerArray()[i]->getMyCardsValueInt(); 
 		}
 	}
+
+	// Aggresivität des human player ermitteln
+	myHand->getPlayerArray()[0]->setMyAverageSets(((myHand->getPlayerArray()[0]->getMyRoundStartCash())-(myHand->getPlayerArray()[0]->getMyCash()))/(myHand->getBettingRoundsPlayed()+1));
+// 	cout << myHand->getPlayerArray()[0]->getMyAverageSets() << endl;
 
 	// Pot-Verteilung
 	distributePot();
@@ -423,4 +432,6 @@ void LocalRiver::distributePot() {
 	delete[] winnersArray;
 	delete[] roundSetArray;
 	delete[] cardsValueArray;
+
+
 }

@@ -1332,7 +1332,7 @@ void mainWindowImpl::myRaise(){
 		default: {}	
 	}
 
-	spinBox_set->setMinimum(tempHighestSet*2 - actualHand->getPlayerArray()[0]->getMySet());	
+	spinBox_set->setMinimum(tempHighestSet*2 - actualHand->getPlayerArray()[0]->getMySet());
 	spinBox_set->setMaximum(actualHand->getPlayerArray()[0]->getMyCash());
 	spinBox_set->setValue(spinBox_set->minimum());
 	spinBox_set->setFocus();
