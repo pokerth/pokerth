@@ -22,7 +22,7 @@
    <item row="1" column="0" >
     <widget class="QLabel" name="label" >
      <property name="text" >
-      <string>Maximal Player Number:</string>
+      <string>Maximum number of players:</string>
      </property>
     </widget>
    </item>
@@ -67,7 +67,7 @@
     <widget class="QTreeWidget" name="treeWidget" >
      <column>
       <property name="text" >
-       <string>    Connected Player    </string>
+       <string>    connected player    </string>
       </property>
      </column>
     </widget>
