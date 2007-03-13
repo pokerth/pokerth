@@ -19,7 +19,7 @@
 
 #include <net/clientstate.h>
 #include <net/clientthread.h>
-#include <net/clientdata.h>
+#include <net/clientcontext.h>
 #include <net/senderthread.h>
 #include <net/receiverhelper.h>
 #include <net/netpacket.h>
@@ -28,11 +28,9 @@
 #include <net/socket_helper.h>
 #include <net/socket_msg.h>
 
-#include <stdexcept>
-
 using namespace std;
 
-#define CLIENT_WAIT_TIMEOUT_MSEC	100
+#define CLIENT_WAIT_TIMEOUT_MSEC	50
 
 
 ClientState::~ClientState()
@@ -59,20 +57,20 @@ ClientStateInit::~ClientStateInit()
 int
 ClientStateInit::Process(ClientThread &client)
 {
-	ClientData &data = client.GetData();
+	ClientContext &context = client.GetContext();
 
-	if (data.serverAddr.empty())
+	if (context.GetServerAddr().empty())
 		throw ClientException(ERR_SOCK_SERVERADDR_NOT_SET, 0);
 
-//	if (data.serverPort < 1024)
+//	if (context.GetServerPort() < 1024)
 //		throw ClientException(ERR_SOCK_INVALID_PORT, 0);
 
-	data.sockfd = socket(data.addrFamily, SOCK_STREAM, 0);
-	if (!IS_VALID_SOCKET(data.sockfd))
+	context.SetSocket(socket(context.GetAddrFamily(), SOCK_STREAM, 0));
+	if (!IS_VALID_SOCKET(context.GetSocket()))
 		throw ClientException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 
 	unsigned long mode = 1;
-	if (IOCTLSOCKET(data.sockfd, FIONBIO, &mode) == SOCKET_ERROR)
+	if (IOCTLSOCKET(context.GetSocket(), FIONBIO, &mode) == SOCKET_ERROR)
 		throw ClientException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 
 	client.SetState(ClientStateStartResolve::Instance());
@@ -102,19 +100,19 @@ ClientStateStartResolve::Process(ClientThread &client)
 {
 	int retVal;
 
-	ClientData &data = client.GetData();
+	ClientContext &context = client.GetContext();
 
-	data.clientAddr.ss_family = data.addrFamily;
+	context.GetClientSockaddr()->ss_family = context.GetAddrFamily();
 
 	// Treat the server address as numbers first.
 	if (socket_string_to_addr(
-		data.serverAddr.c_str(),
-		data.addrFamily,
-		(struct sockaddr *)&data.clientAddr,
-		data.GetServerAddrSize()))
+		context.GetServerAddr().c_str(),
+		context.GetAddrFamily(),
+		(struct sockaddr *)context.GetClientSockaddr(),
+		context.GetClientSockaddrSize()))
 	{
 		// Success - but we still need to set the port.
-		if (!socket_set_port(data.serverPort, data.addrFamily, (struct sockaddr *)&data.clientAddr, data.GetServerAddrSize()))
+		if (!socket_set_port(context.GetServerPort(), context.GetAddrFamily(), (struct sockaddr *)context.GetClientSockaddr(), context.GetClientSockaddrSize()))
 			throw ClientException(ERR_SOCK_SET_PORT_FAILED, 0);
 
 		// No need to resolve - start connecting.
@@ -126,7 +124,7 @@ ClientStateStartResolve::Process(ClientThread &client)
 		// Start name resolution in a separate thread, since it is blocking
 		// for up to about 30 seconds.
 		std::auto_ptr<ResolverThread> resolver(new ResolverThread);
-		resolver->Init(data);
+		resolver->Init(context);
 		resolver->Run();
 
 		ClientStateResolving::Instance().SetResolver(resolver.release());
@@ -175,8 +173,8 @@ ClientStateResolving::Process(ClientThread &client)
 
 	if (m_resolver->Join(CLIENT_WAIT_TIMEOUT_MSEC))
 	{
-		ClientData &data = client.GetData();
-		bool success = m_resolver->GetResult(data);
+		ClientContext &context = client.GetContext();
+		bool success = m_resolver->GetResult(context);
 		Cleanup(); // Not required, but better keep things clean.
 
 		if (!success)
@@ -226,9 +224,9 @@ int
 ClientStateStartConnect::Process(ClientThread &client)
 {
 	int retVal;
-	ClientData &data = client.GetData();
+	ClientContext &context = client.GetContext();
 
-	int connectResult = connect(data.sockfd, (struct sockaddr *)&data.clientAddr, data.GetServerAddrSize());
+	int connectResult = connect(context.GetSocket(), (struct sockaddr *)context.GetClientSockaddr(), context.GetClientSockaddrSize());
 
 	if (IS_VALID_CONNECT(connectResult))
 	{
@@ -271,24 +269,24 @@ int
 ClientStateConnecting::Process(ClientThread &client)
 {
 	int retVal;
-	ClientData &data = client.GetData();
+	ClientContext &context = client.GetContext();
 
 	fd_set writeSet;
 	struct timeval timeout;
 
 	FD_ZERO(&writeSet);
-	FD_SET(data.sockfd, &writeSet);
+	FD_SET(context.GetSocket(), &writeSet);
 
 	timeout.tv_sec  = 0;
 	timeout.tv_usec = CLIENT_WAIT_TIMEOUT_MSEC * 1000;
-	int selectResult = select(data.sockfd + 1, NULL, &writeSet, NULL, &timeout);
+	int selectResult = select(context.GetSocket() + 1, NULL, &writeSet, NULL, &timeout);
 
 	if (selectResult > 0) // success
 	{
 		// Check whether the connect call succeeded.
 		int connectResult = 0;
 		socklen_t tmpSize = sizeof(connectResult);
-		getsockopt(data.sockfd, SOL_SOCKET, SO_ERROR, (char *)&connectResult, &tmpSize);
+		getsockopt(context.GetSocket(), SOL_SOCKET, SO_ERROR, (char *)&connectResult, &tmpSize);
 		if (connectResult != 0)
 			throw ClientException(ERR_SOCK_CONNECT_FAILED, connectResult);
 		client.SetState(ClientStateStartSession::Instance());
@@ -323,12 +321,8 @@ ClientStateStartSession::~ClientStateStartSession()
 int
 ClientStateStartSession::Process(ClientThread &client)
 {
-	client.GetReceiver().Init(client.GetData().sockfd);
-	client.GetSender().Init(client.GetData().sockfd);
-	client.GetSender().Run();
-
 	boost::shared_ptr<NetPacket> packet(new TestNetPacket(10));
-	client.GetSender().Send(packet);
+	client.GetSender().Send(packet, client.GetContext().GetSocket());
 
 	client.SetState(ClientStateWaitSession::Instance());
 
@@ -356,11 +350,11 @@ int
 ClientStateWaitSession::Process(ClientThread &client)
 {
 	int retVal;
-	ClientData &data = client.GetData();
+	ClientContext &context = client.GetContext();
 
 	// delegate to receiver helper class
 
-	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv();
+	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
 
 	if (tmpPacket.get())
 	{

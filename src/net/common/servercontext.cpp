@@ -16,43 +16,37 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network receiver helper class. NOTE: By design, this is not a thread. */
 
-#ifndef _RECEIVERHELPER_H_
-#define _RECEIVERHELPER_H_
+#include <net/servercontext.h>
 
-#include <net/socket_helper.h>
-#include <net/netpacket.h>
-
-#include <deque>
-#include <boost/shared_ptr.hpp>
-
-// MUST be larger than MAX_PACKET_SIZE
-#define RECV_BUF_SIZE		10 * MAX_PACKET_SIZE
-
-
-class ReceiverHelper
+ServerContext::ServerContext()
+: m_sockfd(INVALID_SOCKET), m_addrFamily(AF_INET), m_serverPort(0)
 {
-public:
-	ReceiverHelper();
-	virtual ~ReceiverHelper();
+	bzero(&m_serverSockaddr, sizeof(m_serverSockaddr));
+}
 
-	// Set the socket from which to receive data.
-	void Init(SOCKET socket);
+ServerContext::~ServerContext()
+{
+	if (m_sockfd != INVALID_SOCKET)
+		CLOSESOCKET(m_sockfd);
+}
 
-	boost::shared_ptr<NetPacket> Recv(SOCKET sock);
+SOCKET
+ServerContext::GetSocket() const
+{
+	return m_sockfd;
+}
 
-protected:
-	boost::shared_ptr<NetPacket> InternalGetPacket();
-	boost::shared_ptr<NetPacket> InternalCreateNetPacket(const NetPacketHeader *p);
+u_int32_t
+ServerContext::GetId() const
+{
+	// Id is unused for main server thread.
+	return 0;
+}
 
-private:
-
-	SOCKET m_socket;
-
-	char m_tmpInBuf[RECV_BUF_SIZE];
-	unsigned m_tmpInBufSize;
-};
-
-#endif
+void
+ServerContext::SetSocket(SOCKET sockfd)
+{
+	m_sockfd = sockfd;
+}
 

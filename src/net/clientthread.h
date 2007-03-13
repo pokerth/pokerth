@@ -25,11 +25,12 @@
 #include <string>
 #include <memory>
 
-class ClientData;
+class ClientContext;
 class ClientState;
 class ClientCallback;
 class SenderThread;
 class ReceiverHelper;
+class ClientSenderCallback;
 
 class ClientThread : public Thread
 {
@@ -42,13 +43,15 @@ public:
 	// (i.e. after starting the thread).
 	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
 
+	ClientCallback &GetCallback();
+
 protected:
 
 	// Main function of the thread.
 	virtual void Main();
 
-	const ClientData &GetData() const;
-	ClientData &GetData();
+	const ClientContext &GetContext() const;
+	ClientContext &GetContext();
 
 	ClientState &GetState();
 	void SetState(ClientState &newState);
@@ -56,9 +59,12 @@ protected:
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
 
+	ClientSenderCallback &GetSenderCallback();
+
 private:
 
-	std::auto_ptr<ClientData> m_data;
+	std::auto_ptr<ClientContext> m_context;
+	std::auto_ptr<ClientSenderCallback> m_senderCallback;
 	ClientState *m_curState;
 	ClientCallback &m_callback;
 	std::auto_ptr<SenderThread> m_sender;

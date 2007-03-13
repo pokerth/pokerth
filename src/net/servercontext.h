@@ -16,43 +16,51 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network receiver helper class. NOTE: By design, this is not a thread. */
+/* Context of network server. */
 
-#ifndef _RECEIVERHELPER_H_
-#define _RECEIVERHELPER_H_
+#ifndef _SERVERCONTEXT_H_
+#define _SERVERCONTEXT_H_
 
-#include <net/socket_helper.h>
-#include <net/netpacket.h>
-
-#include <deque>
-#include <boost/shared_ptr.hpp>
-
-// MUST be larger than MAX_PACKET_SIZE
-#define RECV_BUF_SIZE		10 * MAX_PACKET_SIZE
+#include <net/netcontext.h>
 
 
-class ReceiverHelper
+class ServerContext : public NetContext
 {
 public:
-	ReceiverHelper();
-	virtual ~ReceiverHelper();
+	ServerContext();
+	virtual ~ServerContext();
 
-	// Set the socket from which to receive data.
-	void Init(SOCKET socket);
+	virtual SOCKET GetSocket() const;
+	virtual u_int32_t GetId() const;
 
-	boost::shared_ptr<NetPacket> Recv(SOCKET sock);
+	void SetSocket(SOCKET sockfd);
 
-protected:
-	boost::shared_ptr<NetPacket> InternalGetPacket();
-	boost::shared_ptr<NetPacket> InternalCreateNetPacket(const NetPacketHeader *p);
+	int GetAddrFamily() const
+	{return m_addrFamily;}
+	void SetAddrFamily(int addrFamily)
+	{m_addrFamily = addrFamily;}
+	unsigned GetServerPort() const
+	{return m_serverPort;}
+	void SetServerPort(unsigned serverPort)
+	{m_serverPort = serverPort;}
+	const std::string &GetPassword() const
+	{return m_password;}
+	void SetPassword(const std::string &password)
+	{m_password = password;}
+	const sockaddr_storage *GetServerSockaddr() const
+	{return &m_serverSockaddr;}
+	sockaddr_storage *GetServerSockaddr()
+	{return &m_serverSockaddr;}
+
+	int GetServerSockaddrSize() const
+	{return m_addrFamily == AF_INET6 ? sizeof(sockaddr_in6) : sizeof(sockaddr_in);}
 
 private:
-
-	SOCKET m_socket;
-
-	char m_tmpInBuf[RECV_BUF_SIZE];
-	unsigned m_tmpInBufSize;
+	SOCKET				m_sockfd;
+	int					m_addrFamily;
+	unsigned			m_serverPort;
+	std::string			m_password;
+	sockaddr_storage	m_serverSockaddr;
 };
 
 #endif
-

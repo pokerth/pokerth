@@ -51,6 +51,7 @@ typedef unsigned char			u_char;
 #define IS_VALID_SOCKET(_s)		((_s) != INVALID_SOCKET)
 #define IS_VALID_CONNECT(_c)	((_c) == 0)
 #define IS_VALID_BIND(_b)		((_b) != SOCKET_ERROR)
+#define IS_VALID_LISTEN(_l)		((_l) != SOCKET_ERROR)
 #define IS_VALID_RECV(_r)		((_r) != SOCKET_ERROR)
 #define IS_VALID_SEND(_s)		((_s) != SOCKET_ERROR)
 #define IS_VALID_SELECT(_s)		((_s) != SOCKET_ERROR)

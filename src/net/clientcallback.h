@@ -27,9 +27,6 @@ class ClientCallback : public NetCallback
 {
 public:
 	virtual ~ClientCallback();
-
-	virtual void SignalNetSuccess(int actionID) = 0;
-	virtual void SignalNetError(int errorID, int osErrorID) = 0;
 };
 
 #endif

@@ -64,7 +64,7 @@ HEADERS += src/game.h \
            src/engine/turninterface.h \
            src/gui/guiinterface.h \
            src/net/clientcallback.h \
-           src/net/clientdata.h \
+           src/net/clientcontext.h \
            src/net/clientexception.h \
            src/net/clientstate.h \
            src/net/clientthread.h \
@@ -139,17 +139,24 @@ SOURCES += src/game.cpp \
            src/engine/local_engine/localturn.cpp \
            src/engine/local_engine/tools.cpp \
            src/gui/qt/guiwrapper.cpp \
+           src/net/common/connectdata.cpp \
            src/net/common/clientcallback.cpp \
-           src/net/common/clientdata.cpp \
+           src/net/common/clientcontext.cpp \
            src/net/common/clientstate.cpp \
            src/net/common/clientthread.cpp \
            src/net/common/netpacket.cpp \
            src/net/common/resolverthread.cpp \
            src/net/common/senderthread.cpp \
+           src/net/common/sendercallback.cpp \
            src/net/common/serverthread.cpp \
+           src/net/common/servercontext.cpp \
+           src/net/common/serverexception.cpp \
+           src/net/common/serverrecvthread.cpp \
+           src/net/common/serverrecvstate.cpp \
            src/net/common/socket_helper_cmn.cpp \
            src/net/common/clientexception.cpp \
            src/net/common/netcallback.cpp \
+           src/net/common/netcontext.cpp \
            src/net/common/netexception.cpp \
            src/net/common/receiverhelper.cpp \
            src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp \

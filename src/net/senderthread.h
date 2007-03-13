@@ -24,22 +24,20 @@
 #include <core/thread.h>
 #include <net/socket_helper.h>
 #include <net/netpacket.h>
+#include <net/sendercallback.h>
 
 #include <deque>
 #include <boost/shared_ptr.hpp>
 
-class NetCallback;
+#define SENDER_THREAD_TERMINATE_TIMEOUT		100
 
 class SenderThread : public Thread
 {
 public:
-	SenderThread(NetCallback &cb);
+	SenderThread(SenderCallback &cb);
 	virtual ~SenderThread();
 
-	// Set the socket used to send data.
-	void Init(SOCKET socket);
-
-	void Send(boost::shared_ptr<NetPacket> packet);
+	void Send(boost::shared_ptr<NetPacket> packet, SOCKET sock);
 
 protected:
 
@@ -48,15 +46,16 @@ protected:
 
 private:
 
-	SOCKET m_socket;
+	SOCKET m_curSocket;
 
-	std::deque<boost::shared_ptr<NetPacket> > m_outBuf;
+	typedef std::pair<boost::shared_ptr<NetPacket>, SOCKET> SendData;
+	std::deque<SendData> m_outBuf;
 	mutable boost::mutex m_outBufMutex;
 
 	char m_tmpOutBuf[MAX_PACKET_SIZE];
 	unsigned m_tmpOutBufSize;
 
-	NetCallback &m_callback;
+	SenderCallback &m_callback;
 };
 
 #endif

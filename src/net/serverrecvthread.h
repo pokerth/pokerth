@@ -16,43 +16,57 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network receiver helper class. NOTE: By design, this is not a thread. */
+/* Network server receive thread. */
 
-#ifndef _RECEIVERHELPER_H_
-#define _RECEIVERHELPER_H_
+#ifndef _SERVERRECVTHREAD_H_
+#define _SERVERRECVTHREAD_H_
 
-#include <net/socket_helper.h>
-#include <net/netpacket.h>
-
+#include <core/thread.h>
 #include <deque>
 #include <boost/shared_ptr.hpp>
 
-// MUST be larger than MAX_PACKET_SIZE
-#define RECV_BUF_SIZE		10 * MAX_PACKET_SIZE
+#include <net/connectdata.h>
 
+class ServerRecvState;
+class SenderThread;
+class ReceiverHelper;
+class ServerSenderCallback;
 
-class ReceiverHelper
+class ServerRecvThread : public Thread
 {
 public:
-	ReceiverHelper();
-	virtual ~ReceiverHelper();
+	ServerRecvThread();
+	virtual ~ServerRecvThread();
 
-	// Set the socket from which to receive data.
-	void Init(SOCKET socket);
-
-	boost::shared_ptr<NetPacket> Recv(SOCKET sock);
+	void AddConnection(boost::shared_ptr<ConnectData> data);
 
 protected:
-	boost::shared_ptr<NetPacket> InternalGetPacket();
-	boost::shared_ptr<NetPacket> InternalCreateNetPacket(const NetPacketHeader *p);
+
+	// Main function of the thread.
+	virtual void Main();
+
+	ServerRecvState &GetState();
+	void SetState(ServerRecvState &newState);
+
+	//const ServerRecvContext &GetContext() const;
+	//ServerRecvContext &GetContext();
+
+	SenderThread &GetSender();
+	ReceiverHelper &GetReceiver();
+
+	ServerSenderCallback &GetSenderCallback();
 
 private:
+	//std::auto_ptr<ServerRecvContext> m_context;
 
-	SOCKET m_socket;
+	std::deque<boost::shared_ptr<ConnectData> > m_connectQueue;
+	mutable boost::mutex m_connectQueueMutex;
+	ServerRecvState *m_curState;
 
-	char m_tmpInBuf[RECV_BUF_SIZE];
-	unsigned m_tmpInBufSize;
+	std::auto_ptr<ReceiverHelper> m_receiver;
+	std::auto_ptr<SenderThread> m_sender;
+
+	std::auto_ptr<ServerSenderCallback> m_senderCallback;
 };
 
 #endif
-

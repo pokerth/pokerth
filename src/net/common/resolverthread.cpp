@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include <net/resolverthread.h>
-#include <net/clientdata.h>
+#include <net/clientcontext.h>
 #include <net/clientexception.h>
 
 #include <sstream>
@@ -30,7 +30,7 @@ using namespace std;
 ResolverThread::ResolverThread()
 : m_retVal(false)
 {
-	m_data.reset(new ClientData);
+	m_context.reset(new ClientContext);
 }
 
 ResolverThread::~ResolverThread()
@@ -38,24 +38,24 @@ ResolverThread::~ResolverThread()
 }
 
 void
-ResolverThread::Init(const ClientData &data)
+ResolverThread::Init(const ClientContext &context)
 {
 	if (IsRunning())
 		return; // TODO: throw exception
 
-	m_data->addrFamily = data.addrFamily;
-	m_data->serverAddr = data.serverAddr;
-	m_data->serverPort = data.serverPort;
+	GetContext().SetAddrFamily(context.GetAddrFamily());
+	GetContext().SetServerAddr(context.GetServerAddr());
+	GetContext().SetServerPort(context.GetServerPort());
 }
 
 bool
-ResolverThread::GetResult(ClientData &data)
+ResolverThread::GetResult(ClientContext &context) const
 {
 	if (IsRunning())
 		return false; // TODO: throw exception
 
 	if (m_retVal)
-		memcpy(&data.clientAddr, &GetData().clientAddr, GetData().GetServerAddrSize());
+		memcpy(context.GetClientSockaddr(), GetContext().GetClientSockaddr(), GetContext().GetClientSockaddrSize());
 
 	return m_retVal;
 }
@@ -63,34 +63,34 @@ ResolverThread::GetResult(ClientData &data)
 void
 ResolverThread::Main()
 {
-	const ClientData &data = GetData();
+	const ClientContext &context = GetContext();
 
 	// Convert the port to a string.
 	ostringstream tmpStr;
-	tmpStr << data.serverPort;
+	tmpStr << context.GetServerPort();
 
 	// Start the name resolution.
 	m_retVal = socket_resolve(
-		data.serverAddr.c_str(),
+		context.GetServerAddr().c_str(),
 		tmpStr.str().c_str(),
-		data.addrFamily,
+		context.GetAddrFamily(),
 		SOCK_STREAM,
 		0,
-		(struct sockaddr *)&data.clientAddr,
-		data.GetServerAddrSize());
+		(struct sockaddr *)context.GetClientSockaddr(),
+		context.GetClientSockaddrSize());
 }
 
-const ClientData &
-ResolverThread::GetData() const
+const ClientContext &
+ResolverThread::GetContext() const
 {
-	assert(m_data.get());
-	return *m_data;
+	assert(m_context.get());
+	return *m_context;
 }
 
-ClientData &
-ResolverThread::GetData()
+ClientContext &
+ResolverThread::GetContext()
 {
-	assert(m_data.get());
-	return *m_data;
+	assert(m_context.get());
+	return *m_context;
 }
 

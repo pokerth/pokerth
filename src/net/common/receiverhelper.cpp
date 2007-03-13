@@ -45,7 +45,7 @@ ReceiverHelper::Init(SOCKET socket)
 }
 
 boost::shared_ptr<NetPacket>
-ReceiverHelper::Recv()
+ReceiverHelper::Recv(SOCKET sock)
 {
 	boost::shared_ptr<NetPacket> tmpPacket(InternalGetPacket());
 
@@ -59,18 +59,18 @@ ReceiverHelper::Recv()
 			struct timeval timeout;
 
 			FD_ZERO(&readSet);
-			FD_SET(m_socket, &readSet);
+			FD_SET(sock, &readSet);
 
 			timeout.tv_sec  = 0;
 			timeout.tv_usec = RECV_TIMEOUT_MSEC * 1000;
-			int selectResult = select(m_socket + 1, &readSet, NULL, NULL, &timeout);
+			int selectResult = select(sock + 1, &readSet, NULL, NULL, &timeout);
 			if (!IS_VALID_SELECT(selectResult))
 			{
 				throw NetException(ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
 			}
 			if (selectResult > 0) // recv is possible
 			{
-				int bytesRecvd = recv(m_socket, m_tmpInBuf + m_tmpInBufSize, bufSize, 0);
+				int bytesRecvd = recv(sock, m_tmpInBuf + m_tmpInBufSize, bufSize, 0);
 
 				if (!IS_VALID_RECV(bytesRecvd))
 				{

@@ -16,43 +16,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network receiver helper class. NOTE: By design, this is not a thread. */
+/* Exception class for server errors. */
 
-#ifndef _RECEIVERHELPER_H_
-#define _RECEIVERHELPER_H_
+#ifndef _SERVEREXCEPTION_H_
+#define _SERVEREXCEPTION_H_
 
-#include <net/socket_helper.h>
-#include <net/netpacket.h>
+#include <net/netexception.h>
 
-#include <deque>
-#include <boost/shared_ptr.hpp>
-
-// MUST be larger than MAX_PACKET_SIZE
-#define RECV_BUF_SIZE		10 * MAX_PACKET_SIZE
-
-
-class ReceiverHelper
+class ServerException : public NetException
 {
 public:
-	ReceiverHelper();
-	virtual ~ReceiverHelper();
 
-	// Set the socket from which to receive data.
-	void Init(SOCKET socket);
+	ServerException(int errorId, int osErrorCode)
+		: NetException(errorId, osErrorCode) {}
 
-	boost::shared_ptr<NetPacket> Recv(SOCKET sock);
-
-protected:
-	boost::shared_ptr<NetPacket> InternalGetPacket();
-	boost::shared_ptr<NetPacket> InternalCreateNetPacket(const NetPacketHeader *p);
-
-private:
-
-	SOCKET m_socket;
-
-	char m_tmpInBuf[RECV_BUF_SIZE];
-	unsigned m_tmpInBufSize;
+	virtual ~ServerException();
 };
 
 #endif
-

@@ -25,7 +25,7 @@
 #include <string>
 #include <memory>
 
-class ClientData;
+class ClientContext;
 
 class ResolverThread : public Thread
 {
@@ -36,24 +36,24 @@ public:
 	// Set the parameters. Does not do any error checking.
 	// To prevent access faults if this thread cannot be
 	// terminated, the data is not modified.
-	void Init(const ClientData &data);
+	void Init(const ClientContext &context);
 
 	// Retrieve the result of the name resolution.
 	// ONLY CALL THIS FUNCTION AFTER THE THREAD TERMINATED.
 	// You have been warned...
-	bool GetResult(ClientData &data);
+	bool GetResult(ClientContext &context) const;
 
 protected:
 
 	// Main function of the thread.
 	virtual void Main();
 
-	const ClientData &GetData() const;
-	ClientData &GetData();
+	const ClientContext &GetContext() const;
+	ClientContext &GetContext();
 
 private:
 
-	std::auto_ptr<ClientData> m_data;
+	std::auto_ptr<ClientContext> m_context;
 	bool m_retVal;
 };
 

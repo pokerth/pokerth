@@ -18,11 +18,20 @@
  ***************************************************************************/
 
 #include <net/serverthread.h>
+#include <net/servercontext.h>
+#include <net/connectdata.h>
+#include <net/serverrecvthread.h>
 #include <net/socket_helper.h>
+#include <net/serverexception.h>
+#include <net/socket_msg.h>
+
+#define ACCEPT_TIMEOUT_MSEC			50
+#define NET_SERVER_LISTEN_BACKLOG	5
 
 
 ServerThread::ServerThread()
 {
+	m_context.reset(new ServerContext);
 }
 
 ServerThread::~ServerThread()
@@ -30,44 +39,138 @@ ServerThread::~ServerThread()
 }
 
 void
-ServerThread::Init()
+ServerThread::Init(unsigned serverPort, bool ipv6, const std::string &pwd)
 {
 	if (IsRunning())
 		return; // TODO: throw exception
+
+	ServerContext &context = GetContext();
+
+	context.SetAddrFamily(ipv6 ? AF_INET6 : AF_INET);
+	context.SetServerPort(serverPort);
+	context.SetPassword(pwd);
 }
 
 void
 ServerThread::Main()
 {
-	while (!ShouldTerminate())
+	m_recvThread.reset(new ServerRecvThread);
+	try
 	{
-		// Simple hacked server for testing.
-		SOCKET sockfd;
-		char buf[1024];
-		struct sockaddr_storage servaddr, clientaddr;
-		int sockaddr_size = sizeof(struct sockaddr_in);
-		int addrFamily = AF_INET;
-		socklen_t addrSize;
+		Listen();
+		GetRecvThread().Run();
 
-		sockfd = socket(addrFamily, SOCK_STREAM, 0);
-		bzero(&servaddr, sizeof(servaddr));
-		servaddr.ss_family = addrFamily;
-
-		socket_string_to_addr("0.0.0.0", addrFamily, (struct sockaddr *)&servaddr, sockaddr_size);
-		socket_set_port(7234, addrFamily, (struct sockaddr *)&servaddr, sockaddr_size);
-
-		bind(sockfd, (const struct sockaddr *)&servaddr, sockaddr_size);
-		listen(sockfd, 1);
-
-		bzero(&clientaddr, sizeof(clientaddr));
-		addrSize = sockaddr_size;
-		SOCKET conn = accept(sockfd, (struct sockaddr *)&clientaddr, &addrSize);
-		CLOSESOCKET(sockfd);
-		int ret = recv(conn, buf, sizeof(buf), 0);
-
-		send(conn, buf, ret, 0);
-
-		CLOSESOCKET(conn);
+		while (!ShouldTerminate())
+		{
+			// The main server thread is simple. It only accepts connections.
+			AcceptLoop();
+		}
+	} catch (const NetException &)
+	{
+		// TODO: callback.
 	}
+}
+
+void
+ServerThread::Listen()
+{
+	ServerContext &context = GetContext();
+
+//	if (context.GetServerPort() < 1024)
+//		throw ServerException(ERR_SOCK_INVALID_PORT, 0);
+
+	context.SetSocket(socket(context.GetAddrFamily(), SOCK_STREAM, 0));
+	if (!IS_VALID_SOCKET(context.GetSocket()))
+		throw ServerException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
+
+	unsigned long mode = 1;
+	if (IOCTLSOCKET(context.GetSocket(), FIONBIO, &mode) == SOCKET_ERROR)
+		throw ServerException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
+
+	context.GetServerSockaddr()->ss_family = context.GetAddrFamily();
+
+	if (!socket_string_to_addr(
+			"0.0.0.0",
+			context.GetAddrFamily(),
+			(struct sockaddr *)context.GetServerSockaddr(),
+			context.GetServerSockaddrSize()))
+	{
+		throw ServerException(ERR_SOCK_SET_ADDR_FAILED, 0);
+	}
+	if (!socket_set_port(
+			context.GetServerPort(),
+			context.GetAddrFamily(),
+			(struct sockaddr *)context.GetServerSockaddr(),
+			context.GetServerSockaddrSize()))
+	{
+		throw ServerException(ERR_SOCK_SET_PORT_FAILED, 0);
+	}
+
+	if (!IS_VALID_BIND(bind(
+			context.GetSocket(),
+			(const struct sockaddr *)context.GetServerSockaddr(),
+			context.GetServerSockaddrSize())))
+	{
+		throw ServerException(ERR_SOCK_BIND_FAILED, SOCKET_ERRNO());
+	}
+
+	if (!IS_VALID_LISTEN(listen(context.GetSocket(), NET_SERVER_LISTEN_BACKLOG)))
+	{
+		throw ServerException(ERR_SOCK_LISTEN_FAILED, SOCKET_ERRNO());
+	}
+}
+
+void
+ServerThread::AcceptLoop()
+{
+	ServerContext &context = GetContext();
+
+	fd_set readSet;
+	struct timeval timeout;
+
+	FD_ZERO(&readSet);
+	FD_SET(context.GetSocket(), &readSet);
+
+	timeout.tv_sec  = 0;
+	timeout.tv_usec = ACCEPT_TIMEOUT_MSEC * 1000;
+	int selectResult = select(context.GetSocket() + 1, &readSet, NULL, NULL, &timeout);
+	if (!IS_VALID_SELECT(selectResult))
+	{
+		throw ServerException(ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
+	}
+	if (selectResult > 0) // accept is possible
+	{
+		boost::shared_ptr<ConnectData> tmpData(new ConnectData);
+		socklen_t addrSize = sizeof(*tmpData->GetSockaddr());
+		tmpData->SetSocket(accept(context.GetSocket(), (struct sockaddr *)tmpData->GetSockaddr(), &addrSize));
+
+		if (!IS_VALID_SOCKET(tmpData->GetSocket()))
+		{
+			throw ServerException(ERR_SOCK_ACCEPT_FAILED, SOCKET_ERRNO());
+		}
+
+		GetRecvThread().AddConnection(tmpData);
+	}
+}
+
+const ServerContext &
+ServerThread::GetContext() const
+{
+	assert(m_context.get());
+	return *m_context;
+}
+
+ServerContext &
+ServerThread::GetContext()
+{
+	assert(m_context.get());
+	return *m_context;
+}
+
+ServerRecvThread &
+ServerThread::GetRecvThread()
+{
+	assert(m_recvThread.get());
+	return *m_recvThread;
 }
 

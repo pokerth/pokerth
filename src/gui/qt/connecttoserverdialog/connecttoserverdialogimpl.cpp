@@ -69,6 +69,11 @@ void connectToServerDialogImpl::error(int errorID, int osErrorID) {
 				tr("Could not create a socket for TCP communication."),
 				QMessageBox::Close); }
 		break;
+		case ERR_SOCK_SET_ADDR_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not set the IP address."),
+				QMessageBox::Close); }
+		break;
 		case ERR_SOCK_SET_PORT_FAILED:
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("Could not set the port for this type of address."),
@@ -77,6 +82,21 @@ void connectToServerDialogImpl::error(int errorID, int osErrorID) {
 		case ERR_SOCK_RESOLVE_FAILED:
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("The server name could not be resolved."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_BIND_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Bind failed - please choose a different port."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_LISTEN_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal network error: \"listen\" failed."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_ACCEPT_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Server execution was terminated."),
 				QMessageBox::Close); }
 		break;
 		case ERR_SOCK_CONNECT_FAILED:

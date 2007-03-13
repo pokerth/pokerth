@@ -17,75 +17,50 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <net/clientthread.h>
-#include <net/clientstate.h>
-#include <net/clientcontext.h>
+#include <net/serverrecvthread.h>
+#include <net/serverexception.h>
+#include <net/serverrecvstate.h>
 #include <net/senderthread.h>
+#include <net/sendercallback.h>
 #include <net/receiverhelper.h>
-#include <net/clientcallback.h>
-#include <net/clientexception.h>
 #include <net/socket_msg.h>
 
-
-#include <cassert>
-
-using namespace std;
-
-
-class ClientSenderCallback : public SenderCallback
+class ServerSenderCallback : public SenderCallback
 {
 public:
-	ClientSenderCallback(ClientThread &client) : m_client(client) {}
-	virtual ~ClientSenderCallback() {}
+	ServerSenderCallback(ServerRecvThread &server) : m_server(server) {}
+	virtual ~ServerSenderCallback() {}
 
 	virtual void SignalNetError(SOCKET sock, int errorID, int osErrorID)
 	{
-		// For now, we ignore the socket.
-		// Just signal the error.
-		// We assume that the client thread will be terminated.
-		m_client.GetCallback().SignalNetError(errorID, osErrorID);
+		// TODO
 	}
 
 private:
-	ClientThread &m_client;
+	ServerRecvThread &m_server;
 };
 
 
-ClientThread::ClientThread(ClientCallback &cb)
-: m_curState(NULL), m_callback(cb)
+ServerRecvThread::ServerRecvThread()
 {
-	m_context.reset(new ClientContext);
-	m_senderCallback.reset(new ClientSenderCallback(*this));
+	m_senderCallback.reset(new ServerSenderCallback(*this));
 }
 
-ClientThread::~ClientThread()
+ServerRecvThread::~ServerRecvThread()
 {
-}
-
-void
-ClientThread::Init(const string &serverAddress, unsigned serverPort, bool ipv6, const string &pwd)
-{
-	if (IsRunning())
-		return; // TODO: throw exception
-
-	ClientContext &context = GetContext();
-
-	context.SetAddrFamily(ipv6 ? AF_INET6 : AF_INET);
-	context.SetServerAddr(serverAddress);
-	context.SetServerPort(serverPort);
-	context.SetPassword(pwd);
-}
-
-ClientCallback &
-ClientThread::GetCallback()
-{
-	return m_callback;
 }
 
 void
-ClientThread::Main()
+ServerRecvThread::AddConnection(boost::shared_ptr<ConnectData> data)
 {
-	SetState(CLIENT_INITIAL_STATE::Instance());
+	boost::mutex::scoped_lock lock(m_connectQueueMutex);
+	m_connectQueue.push_back(data);
+}
+
+void
+ServerRecvThread::Main()
+{
+	SetState(SERVER_INITIAL_STATE::Instance());
 
 	m_sender.reset(new SenderThread(GetSenderCallback()));
 	m_receiver.reset(new ReceiverHelper);
@@ -95,61 +70,58 @@ ClientThread::Main()
 	{
 		while (!ShouldTerminate())
 		{
-			int msg = GetState().Process(*this);
-			if (msg != MSG_SOCK_INTERNAL_PENDING)
-				GetCallback().SignalNetSuccess(msg);
+			{
+				boost::shared_ptr<ConnectData> tmpData;
+				{
+					boost::mutex::scoped_lock lock(m_connectQueueMutex);
+					if (!m_connectQueue.empty())
+					{
+						tmpData = m_connectQueue.front();
+						m_connectQueue.pop_front();
+					}
+				}
+				if (tmpData.get())
+					GetState().HandleNewConnection(*this, tmpData);
+			}
+			GetState().Process(*this);
 		}
-	} catch (const NetException &e)
+	} catch (const NetException &)
 	{
-		GetCallback().SignalNetError(e.GetErrorId(), e.GetOsErrorCode());
+		// TODO
 	}
 	GetSender().SignalTermination();
 	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);
 }
 
-const ClientContext &
-ClientThread::GetContext() const
-{
-	assert(m_context.get());
-	return *m_context;
-}
-
-ClientContext &
-ClientThread::GetContext()
-{
-	assert(m_context.get());
-	return *m_context;
-}
-
-ClientState &
-ClientThread::GetState()
+ServerRecvState &
+ServerRecvThread::GetState()
 {
 	assert(m_curState);
 	return *m_curState;
 }
 
 void
-ClientThread::SetState(ClientState &newState)
+ServerRecvThread::SetState(ServerRecvState &newState)
 {
 	m_curState = &newState;
 }
 
 SenderThread &
-ClientThread::GetSender()
+ServerRecvThread::GetSender()
 {
 	assert(m_sender.get());
 	return *m_sender;
 }
 
 ReceiverHelper &
-ClientThread::GetReceiver()
+ServerRecvThread::GetReceiver()
 {
 	assert(m_receiver.get());
 	return *m_receiver;
 }
 
-ClientSenderCallback &
-ClientThread::GetSenderCallback()
+ServerSenderCallback &
+ServerRecvThread::GetSenderCallback()
 {
 	assert(m_senderCallback.get());
 	return *m_senderCallback;

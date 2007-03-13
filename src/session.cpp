@@ -86,7 +86,10 @@ void Session::startNetworkServer()
 	if (myNetServer)
 		return; // TODO: throw exception
 	myNetServer = new ServerThread();
-	myNetServer->Init();
+	myNetServer->Init(
+		myConfig->readConfigInt("ServerPort"),
+		myConfig->readConfigInt("ServerUseIpv6") == 1,
+		"");
 	myNetServer->Run();
 }
 

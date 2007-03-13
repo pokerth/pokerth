@@ -16,31 +16,48 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* State of network client. */
 
-#ifndef _CLIENTDATA_H_
-#define _CLIENTDATA_H_
+#include <net/serverrecvstate.h>
+#include <net/serverrecvthread.h>
+#include <net/socket_msg.h>
 
-#include <string>
-#include <net/socket_helper.h>
+using namespace std;
+
+#define SERVER_WAIT_TIMEOUT_MSEC	50
 
 
-class ClientData
+ServerRecvState::~ServerRecvState()
 {
-public:
-	ClientData();
-	~ClientData();
-	int GetServerAddrSize() const
-	{
-		return addrFamily == AF_INET6 ? sizeof(sockaddr_in6) : sizeof(sockaddr_in);
-	}
+}
 
-	SOCKET				sockfd;
-	int					addrFamily;
-	std::string			serverAddr;
-	unsigned			serverPort;
-	std::string			password;
-	sockaddr_storage	clientAddr;
-};
+//-----------------------------------------------------------------------------
 
-#endif
+ServerRecvStateInit &
+ServerRecvStateInit::Instance()
+{
+	static ServerRecvStateInit state;
+	return state;
+}
+
+ServerRecvStateInit::ServerRecvStateInit()
+{
+}
+
+ServerRecvStateInit::~ServerRecvStateInit()
+{
+}
+
+void
+ServerRecvStateInit::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data)
+{
+}
+
+int
+ServerRecvStateInit::Process(ServerRecvThread &server)
+{
+	Thread::Msleep(SERVER_WAIT_TIMEOUT_MSEC);
+	return MSG_SOCK_INIT_DONE;
+}
+
+//-----------------------------------------------------------------------------
+

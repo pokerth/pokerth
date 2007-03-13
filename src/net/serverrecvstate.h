@@ -16,18 +16,50 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+/* State of network server. */
 
-#include <net/clientdata.h>
+#ifndef _SERVERRECVSTATE_H_
+#define _SERVERRECVSTATE_H_
 
-ClientData::ClientData()
-: sockfd(INVALID_SOCKET), addrFamily(AF_INET), serverPort(0)
+#include <boost/shared_ptr.hpp>
+#include <net/connectdata.h>
+
+#define SERVER_INITIAL_STATE ServerRecvStateInit
+
+class ServerRecvThread;
+class ServerCallback;
+
+class ServerRecvState
 {
-	bzero(&clientAddr, sizeof(clientAddr));
-}
+public:
+	virtual ~ServerRecvState();
 
-ClientData::~ClientData()
+	// Handling of a new TCP connection.
+	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data) = 0;
+
+	// Main processing function of the current state.
+	virtual int Process(ServerRecvThread &server) = 0;
+};
+
+// State: Initialization.
+class ServerRecvStateInit : public ServerRecvState
 {
-	if (sockfd != INVALID_SOCKET)
-		CLOSESOCKET(sockfd);
-}
+public:
+	// Access the state singleton.
+	static ServerRecvStateInit &Instance();
 
+	virtual ~ServerRecvStateInit();
+
+	// 
+	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
+
+	// 
+	virtual int Process(ServerRecvThread &server);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ServerRecvStateInit();
+};
+
+#endif

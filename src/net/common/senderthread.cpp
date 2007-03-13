@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include <net/senderthread.h>
-#include <net/netcallback.h>
+#include <net/sendercallback.h>
 #include <net/socket_msg.h>
 #include <cstring>
 
@@ -26,8 +26,8 @@ using namespace std;
 
 #define SEND_TIMEOUT_MSEC 50
 
-SenderThread::SenderThread(NetCallback &cb)
-: m_tmpOutBufSize(0), m_callback(cb)
+SenderThread::SenderThread(SenderCallback &cb)
+: m_curSocket(INVALID_SOCKET), m_tmpOutBufSize(0), m_callback(cb)
 {
 }
 
@@ -36,19 +36,13 @@ SenderThread::~SenderThread()
 }
 
 void
-SenderThread::Init(SOCKET socket)
+SenderThread::Send(boost::shared_ptr<NetPacket> packet, SOCKET sock)
 {
-	if (!IS_VALID_SOCKET(socket) || IsRunning())
-		return; // TODO: throw exception
-
-	m_socket = socket;
-}
-
-void
-SenderThread::Send(boost::shared_ptr<NetPacket> packet)
-{
-	boost::mutex::scoped_lock lock(m_outBufMutex);
-	m_outBuf.push_back(packet);
+	if (packet.get() && IS_VALID_SOCKET(sock))
+	{
+		boost::mutex::scoped_lock lock(m_outBufMutex);
+		m_outBuf.push_back(std::make_pair(packet, sock));
+	}
 }
 
 void
@@ -61,22 +55,26 @@ SenderThread::Main()
 		// For reasons of simplicity, only one packet is sent at a time.
 		if (!m_tmpOutBufSize)
 		{
-			boost::shared_ptr<NetPacket> tmpPacket;
+			SendData tmpData;
 			{
 				boost::mutex::scoped_lock lock(m_outBufMutex);
 				if (!m_outBuf.empty())
 				{
-					tmpPacket = m_outBuf.front();
+					tmpData = m_outBuf.front();
 					m_outBuf.pop_front();
 				}
 			}
-			if (tmpPacket.get())
+
+			if (tmpData.first.get())
 			{
-				u_int16_t tmpLen = ntohs(tmpPacket->GetData()->length);
+				if (IS_VALID_SOCKET(tmpData.second))
+					m_curSocket = tmpData.second;
+
+				u_int16_t tmpLen = ntohs(tmpData.first->GetData()->length);
 				if (tmpLen <= MAX_PACKET_SIZE)
 				{
 					m_tmpOutBufSize = tmpLen;
-					memcpy(m_tmpOutBuf, tmpPacket->GetData(), m_tmpOutBufSize);
+					memcpy(m_tmpOutBuf, tmpData.first->GetData(), m_tmpOutBufSize);
 				}
 			}
 		}
@@ -86,25 +84,25 @@ SenderThread::Main()
 			struct timeval timeout;
 
 			FD_ZERO(&writeSet);
-			FD_SET(m_socket, &writeSet);
+			FD_SET(m_curSocket, &writeSet);
 
 			timeout.tv_sec  = 0;
 			timeout.tv_usec = SEND_TIMEOUT_MSEC * 1000;
-			int selectResult = select(m_socket + 1, NULL, &writeSet, NULL, &timeout);
+			int selectResult = select(m_curSocket + 1, NULL, &writeSet, NULL, &timeout);
 			if (!IS_VALID_SELECT(selectResult))
 			{
-				m_callback.SignalNetError(ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
+				m_callback.SignalNetError(m_curSocket, ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
 				// Assume that this is a fatal error, terminate thread.
 				return;
 			}
 			if (selectResult > 0) // send is possible
 			{
 				// send next chunk of data
-				int bytesSent = send(m_socket, m_tmpOutBuf, m_tmpOutBufSize, 0);
+				int bytesSent = send(m_curSocket, m_tmpOutBuf, m_tmpOutBufSize, 0);
 
 				if (!IS_VALID_SEND(bytesSent))
 				{
-					m_callback.SignalNetError(ERR_SOCK_SEND_FAILED, SOCKET_ERRNO());
+					m_callback.SignalNetError(m_curSocket, ERR_SOCK_SEND_FAILED, SOCKET_ERRNO());
 					// Assume that this is a fatal error, terminate thread.
 					return;
 				}

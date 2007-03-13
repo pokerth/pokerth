@@ -16,43 +16,22 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network receiver helper class. NOTE: By design, this is not a thread. */
+/* Network context data. */
 
-#ifndef _RECEIVERHELPER_H_
-#define _RECEIVERHELPER_H_
+#ifndef _NETCONTEXT_H_
+#define _NETCONTEXT_H_
 
 #include <net/socket_helper.h>
-#include <net/netpacket.h>
-
-#include <deque>
-#include <boost/shared_ptr.hpp>
-
-// MUST be larger than MAX_PACKET_SIZE
-#define RECV_BUF_SIZE		10 * MAX_PACKET_SIZE
+#include <string>
 
 
-class ReceiverHelper
+class NetContext
 {
 public:
-	ReceiverHelper();
-	virtual ~ReceiverHelper();
+	virtual ~NetContext();
 
-	// Set the socket from which to receive data.
-	void Init(SOCKET socket);
-
-	boost::shared_ptr<NetPacket> Recv(SOCKET sock);
-
-protected:
-	boost::shared_ptr<NetPacket> InternalGetPacket();
-	boost::shared_ptr<NetPacket> InternalCreateNetPacket(const NetPacketHeader *p);
-
-private:
-
-	SOCKET m_socket;
-
-	char m_tmpInBuf[RECV_BUF_SIZE];
-	unsigned m_tmpInBufSize;
+	virtual SOCKET GetSocket() const = 0;
+	virtual u_int32_t GetId() const = 0;
 };
 
 #endif
-

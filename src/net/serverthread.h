@@ -25,6 +25,10 @@
 #include <string>
 #include <memory>
 
+class ServerContext;
+class ServerRecvThread;
+class ServerSenderCallback;
+class SenderThread;
 
 class ServerThread : public Thread
 {
@@ -32,16 +36,25 @@ public:
 	ServerThread(/*ServerCallback &gui*/);
 	virtual ~ServerThread();
 
-	// Set the parameters. TODO
-	void Init();
+	// Set the parameters.
+	void Init(unsigned serverPort, bool ipv6, const std::string &pwd);
 
 protected:
 
 	// Main function of the thread.
 	virtual void Main();
 
-private:
+	void Listen();
+	void AcceptLoop();
 
+	const ServerContext &GetContext() const;
+	ServerContext &GetContext();
+
+	ServerRecvThread &GetRecvThread();
+
+private:
+	std::auto_ptr<ServerContext> m_context;
+	std::auto_ptr<ServerRecvThread> m_recvThread;
 };
 
 #endif
