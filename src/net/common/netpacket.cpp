@@ -18,6 +18,8 @@
  ***************************************************************************/
 
 #include <net/netpacket.h>
+#include <net/netexception.h>
+#include <net/socket_msg.h>
 
 NetPacket::~NetPacket()
 {
@@ -25,11 +27,15 @@ NetPacket::~NetPacket()
 
 //-----------------------------------------------------------------------------
 
+TestNetPacket::TestNetPacket()
+{
+}
+
 TestNetPacket::TestNetPacket(u_int32_t value)
 {
-	m_data.head.type = 0;
-	m_data.head.length = sizeof(m_data);
-	m_data.test = value;
+	m_data.head.type = htons(NET_TYPE_TEST);
+	m_data.head.length = htons(sizeof(m_data));
+	m_data.test = htonl(value);
 }
 
 TestNetPacket::~TestNetPacket()
@@ -40,5 +46,18 @@ NetPacketHeader *
 TestNetPacket::GetData()
 {
 	return (NetPacketHeader *)&m_data;
+}
+
+void
+TestNetPacket::SetData(const NetPacketHeader *p)
+{
+	u_int16_t tmpLen = ntohs(p->length);
+	if (tmpLen != sizeof(m_data)
+		|| ntohs(p->type) != NET_TYPE_TEST)
+	{
+		throw NetException(ERR_SOCK_INTERNAL, 0);
+	}
+
+	memcpy(&m_data, p, tmpLen);
 }
 

@@ -18,11 +18,16 @@
  ***************************************************************************/
 
 #include <net/senderthread.h>
-#include <net/netpacket.h>
+#include <net/netcallback.h>
+#include <net/socket_msg.h>
+#include <cstring>
+
+using namespace std;
 
 #define SEND_TIMEOUT_MSEC 50
 
-SenderThread::SenderThread()
+SenderThread::SenderThread(NetCallback &cb)
+: m_tmpOutBufSize(0), m_callback(cb)
 {
 }
 
@@ -49,19 +54,33 @@ SenderThread::Send(boost::shared_ptr<NetPacket> packet)
 void
 SenderThread::Main()
 {
-	boost::shared_ptr<NetPacket> tmpPacket;
 	while (!ShouldTerminate())
 	{
-		if (!tmpPacket.get())
+		// Send remaining bytes of output buffer OR
+		// copy ONE packet to output buffer.
+		// For reasons of simplicity, only one packet is sent at a time.
+		if (!m_tmpOutBufSize)
 		{
-			boost::mutex::scoped_lock lock(m_outBufMutex);
-			if (!m_outBuf.empty())
+			boost::shared_ptr<NetPacket> tmpPacket;
 			{
-				tmpPacket = m_outBuf.front();
-				m_outBuf.pop_front();
+				boost::mutex::scoped_lock lock(m_outBufMutex);
+				if (!m_outBuf.empty())
+				{
+					tmpPacket = m_outBuf.front();
+					m_outBuf.pop_front();
+				}
+			}
+			if (tmpPacket.get())
+			{
+				u_int16_t tmpLen = ntohs(tmpPacket->GetData()->length);
+				if (tmpLen <= MAX_PACKET_SIZE)
+				{
+					m_tmpOutBufSize = tmpLen;
+					memcpy(m_tmpOutBuf, tmpPacket->GetData(), m_tmpOutBufSize);
+				}
 			}
 		}
-		if (tmpPacket.get())
+		if (m_tmpOutBufSize)
 		{
 			fd_set writeSet;
 			struct timeval timeout;
@@ -72,10 +91,32 @@ SenderThread::Main()
 			timeout.tv_sec  = 0;
 			timeout.tv_usec = SEND_TIMEOUT_MSEC * 1000;
 			int selectResult = select(m_socket + 1, NULL, &writeSet, NULL, &timeout);
+			if (!IS_VALID_SELECT(selectResult))
+			{
+				m_callback.SignalNetError(ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
+				// Assume that this is a fatal error, terminate thread.
+				return;
+			}
 			if (selectResult > 0) // send is possible
 			{
-				send(m_socket, (const char *)tmpPacket->GetData(), tmpPacket->GetData()->length, 0);
-				tmpPacket.reset();
+				// send next chunk of data
+				int bytesSent = send(m_socket, m_tmpOutBuf, m_tmpOutBufSize, 0);
+
+				if (!IS_VALID_SEND(bytesSent))
+				{
+					m_callback.SignalNetError(ERR_SOCK_SEND_FAILED, SOCKET_ERRNO());
+					// Assume that this is a fatal error, terminate thread.
+					return;
+				}
+				else if ((unsigned)bytesSent < m_tmpOutBufSize)
+				{
+					m_tmpOutBufSize = m_tmpOutBufSize - (unsigned)bytesSent;
+					memmove(m_tmpOutBuf, m_tmpOutBuf + bytesSent, m_tmpOutBufSize);
+				}
+				else
+				{
+					m_tmpOutBufSize = 0;
+				}
 			}
 		}
 		else

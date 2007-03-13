@@ -29,6 +29,7 @@ class ClientData;
 class ClientState;
 class ClientCallback;
 class SenderThread;
+class ReceiverHelper;
 
 class ClientThread : public Thread
 {
@@ -53,6 +54,7 @@ protected:
 	void SetState(ClientState &newState);
 
 	SenderThread &GetSender();
+	ReceiverHelper &GetReceiver();
 
 private:
 
@@ -60,6 +62,7 @@ private:
 	ClientState *m_curState;
 	ClientCallback &m_callback;
 	std::auto_ptr<SenderThread> m_sender;
+	std::auto_ptr<ReceiverHelper> m_receiver;
 
 friend class ClientStateInit;
 friend class ClientStateStartResolve;

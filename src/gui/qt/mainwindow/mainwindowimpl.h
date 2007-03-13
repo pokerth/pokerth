@@ -88,8 +88,8 @@ public:
 	void setSpeeds();
 
 signals:
-	void SignalNetClientSuccess(int actionID);
-	void SignalNetClientError(int errorID, int osErrorID);
+	void SignalNetSuccess(int actionID);
+	void SignalNetError(int errorID, int osErrorID);
 
 public slots:
 

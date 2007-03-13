@@ -16,21 +16,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Exception class for client errors. */
+/* Generic callback interface for network system. */
 
-#ifndef _CLIENTEXCEPTION_H_
-#define _CLIENTEXCEPTION_H_
+#ifndef _NETCALLBACK_H_
+#define _NETCALLBACK_H_
 
-#include <net/netexception.h>
-
-class ClientException : public NetException
+class NetCallback
 {
 public:
+	virtual ~NetCallback();
 
-	ClientException(int errorId, int osErrorCode)
-		: NetException(errorId, osErrorCode) {}
-
-	virtual ~ClientException();
+	virtual void SignalNetSuccess(int actionID) = 0;
+	virtual void SignalNetError(int errorID, int osErrorID) = 0;
 };
 
 #endif

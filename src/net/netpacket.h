@@ -24,6 +24,10 @@
 #include <string>
 #include <net/socket_helper.h>
 
+#define MAX_PACKET_SIZE		256
+
+#define NET_TYPE_TEST		0
+
 #ifdef _MSC_VER
 	#pragma pack(push, 2)
 #else
@@ -54,16 +58,19 @@ class NetPacket
 public:
 	virtual ~NetPacket();
 
+	virtual void SetData(const NetPacketHeader *p) = 0;
 	virtual NetPacketHeader *GetData() = 0;
 };
 
 class TestNetPacket : public NetPacket
 {
 public:
+	TestNetPacket();
 	TestNetPacket(u_int32_t value);
 	virtual ~TestNetPacket();
 
 	virtual NetPacketHeader *GetData();
+	virtual void SetData(const NetPacketHeader *p);
 
 protected:
 	NetPacketInit m_data;

@@ -21,13 +21,15 @@
 #ifndef _CLIENTCALLBACK_H_
 #define _CLIENTCALLBACK_H_
 
-class ClientCallback
+#include <net/netcallback.h>
+
+class ClientCallback : public NetCallback
 {
 public:
 	virtual ~ClientCallback();
 
-	virtual void SignalNetClientSuccess(int actionID) = 0;
-	virtual void SignalNetClientError(int errorID, int osErrorID) = 0;
+	virtual void SignalNetSuccess(int actionID) = 0;
+	virtual void SignalNetError(int errorID, int osErrorID) = 0;
 };
 
 #endif

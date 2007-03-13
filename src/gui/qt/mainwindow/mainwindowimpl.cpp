@@ -480,8 +480,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
 
 	//Nachrichten Thread-Save
-	connect(this, SIGNAL(SignalNetClientSuccess(int)), myConnectToServerDialog, SLOT(refresh(int)));
-	connect(this, SIGNAL(SignalNetClientError(int, int)), myConnectToServerDialog, SLOT(error(int, int)));
+	connect(this, SIGNAL(SignalNetSuccess(int)), myConnectToServerDialog, SLOT(refresh(int)));
+	connect(this, SIGNAL(SignalNetError(int, int)), myConnectToServerDialog, SLOT(error(int, int)));
 
 // 	textBrowser_Log->append(QString::number(this->pos().x(),10)+" "+QString::number(this->pos().y(),10));	
 // 	textBrowser_Log->append(QString::number(this->x(),10)+" "+QString::number(this->y(),10));

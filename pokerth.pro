@@ -148,6 +148,10 @@ SOURCES += src/game.cpp \
            src/net/common/senderthread.cpp \
            src/net/common/serverthread.cpp \
            src/net/common/socket_helper_cmn.cpp \
+           src/net/common/clientexception.cpp \
+           src/net/common/netcallback.cpp \
+           src/net/common/netexception.cpp \
+           src/net/common/receiverhelper.cpp \
            src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp \
            src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp \
            src/gui/qt/createnetworkgamedialog/createnetworkgamedialogimpl.cpp \

@@ -23,21 +23,20 @@
 
 #include <core/thread.h>
 #include <net/socket_helper.h>
+#include <net/netpacket.h>
 
 #include <deque>
 #include <boost/shared_ptr.hpp>
 
-class ClientData;
-class NetPacket;
+class NetCallback;
 
 class SenderThread : public Thread
 {
 public:
-	SenderThread();
+	SenderThread(NetCallback &cb);
 	virtual ~SenderThread();
 
-	// Set the socket from which to receive data.
-	// TODO: Add error callback.
+	// Set the socket used to send data.
 	void Init(SOCKET socket);
 
 	void Send(boost::shared_ptr<NetPacket> packet);
@@ -53,6 +52,11 @@ private:
 
 	std::deque<boost::shared_ptr<NetPacket> > m_outBuf;
 	mutable boost::mutex m_outBufMutex;
+
+	char m_tmpOutBuf[MAX_PACKET_SIZE];
+	unsigned m_tmpOutBufSize;
+
+	NetCallback &m_callback;
 };
 
 #endif

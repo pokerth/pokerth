@@ -94,10 +94,15 @@ void connectToServerDialogImpl::error(int errorID, int osErrorID) {
 				tr("Internal network error: \"recv\" failed."),
 				QMessageBox::Close); }
 		break;
+		case ERR_SOCK_SEND_FAILED:
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("Internal network error: \"send\" failed."),
 				QMessageBox::Close); }
-		case ERR_SOCK_SEND_FAILED:
+		break;
+		case ERR_SOCK_CONN_RESET:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Connection was closed by server."),
+				QMessageBox::Close); }
 		break;
 		default:  { QMessageBox::warning(this, tr("Network Error"),
 				tr("DEFAULT ERROR"),

@@ -16,21 +16,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Exception class for client errors. */
+/* Exception class for network errors. */
 
-#ifndef _CLIENTEXCEPTION_H_
-#define _CLIENTEXCEPTION_H_
+#ifndef _NETEXCEPTION_H_
+#define _NETEXCEPTION_H_
 
-#include <net/netexception.h>
 
-class ClientException : public NetException
+class NetException
 {
 public:
 
-	ClientException(int errorId, int osErrorCode)
-		: NetException(errorId, osErrorCode) {}
+	NetException(int errorId, int osErrorCode)
+		: m_errorId(errorId), m_osErrorCode(osErrorCode) {}
+	virtual ~NetException();
 
-	virtual ~ClientException();
+	int GetErrorId() const {return m_errorId;}
+	int GetOsErrorCode() const {return m_osErrorCode;}
+
+private:
+	int m_errorId;
+	int m_osErrorCode;
 };
 
 #endif

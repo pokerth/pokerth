@@ -21,6 +21,7 @@
 #include <net/clientstate.h>
 #include <net/clientdata.h>
 #include <net/senderthread.h>
+#include <net/receiverhelper.h>
 #include <net/clientcallback.h>
 #include <net/clientexception.h>
 #include <net/socket_msg.h>
@@ -58,18 +59,19 @@ ClientThread::Init(const string &serverAddress, unsigned serverPort, bool ipv6, 
 void
 ClientThread::Main()
 {
-	m_sender.reset(new SenderThread);
+	m_sender.reset(new SenderThread(m_callback));
+	m_receiver.reset(new ReceiverHelper);
 	SetState(CLIENT_INITIAL_STATE::Instance());
 	try {
 		while (!ShouldTerminate())
 		{
 			int msg = GetState().Process(*this);
 			if (msg != MSG_SOCK_INTERNAL_PENDING)
-				m_callback.SignalNetClientSuccess(msg);
+				m_callback.SignalNetSuccess(msg);
 		}
-	} catch (const ClientException &e)
+	} catch (const NetException &e)
 	{
-		m_callback.SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
+		m_callback.SignalNetError(e.GetErrorId(), e.GetOsErrorCode());
 	}
 	GetSender().SignalTermination();
 	GetSender().Join(100);
@@ -107,5 +109,12 @@ ClientThread::GetSender()
 {
 	assert(m_sender.get());
 	return *m_sender;
+}
+
+ReceiverHelper &
+ClientThread::GetReceiver()
+{
+	assert(m_receiver.get());
+	return *m_receiver;
 }
 

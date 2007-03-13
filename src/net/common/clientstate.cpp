@@ -21,6 +21,7 @@
 #include <net/clientthread.h>
 #include <net/clientdata.h>
 #include <net/senderthread.h>
+#include <net/receiverhelper.h>
 #include <net/netpacket.h>
 #include <net/resolverthread.h>
 #include <net/clientexception.h>
@@ -322,6 +323,7 @@ ClientStateStartSession::~ClientStateStartSession()
 int
 ClientStateStartSession::Process(ClientThread &client)
 {
+	client.GetReceiver().Init(client.GetData().sockfd);
 	client.GetSender().Init(client.GetData().sockfd);
 	client.GetSender().Run();
 
@@ -356,29 +358,20 @@ ClientStateWaitSession::Process(ClientThread &client)
 	int retVal;
 	ClientData &data = client.GetData();
 
-	// TODO: use receiver thread.
-	fd_set readSet;
-	struct timeval timeout;
+	// delegate to receiver helper class
 
-	FD_ZERO(&readSet);
-	FD_SET(data.sockfd, &readSet);
+	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv();
 
-	timeout.tv_sec  = 0;
-	timeout.tv_usec = CLIENT_WAIT_TIMEOUT_MSEC * 1000;
-	int selectResult = select(data.sockfd + 1, &readSet, NULL, NULL, &timeout);
-	if (selectResult > 0) // recv is possible
+	if (tmpPacket.get())
 	{
-		char buf[128];
-		if (recv(data.sockfd, buf, sizeof(buf), 0) > 0)
-		{
-			client.SetState(ClientStateFinal::Instance());
-			retVal = MSG_SOCK_SESSION_DONE;
-		}
-		else
-			throw ClientException(ERR_SOCK_RECV_FAILED, 0);
+		client.SetState(ClientStateFinal::Instance());
+		retVal = MSG_SOCK_SESSION_DONE;
 	}
 	else
+	{
 		retVal = MSG_SOCK_INTERNAL_PENDING;
+		Thread::Msleep(CLIENT_WAIT_TIMEOUT_MSEC);
+	}
 
 	return retVal;
 }
