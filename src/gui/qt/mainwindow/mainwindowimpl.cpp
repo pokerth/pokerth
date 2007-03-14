@@ -27,6 +27,7 @@
 #include "createnetworkgamedialogimpl.h"
 #include "startnetworkgamedialogimpl.h"
 
+
 #include "startsplash.h"
 #include "mycardspixmaplabel.h"
 
@@ -2011,8 +2012,6 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	     
 // 	if (event->key() == 66) {  label_logo->hide();	}
 	
-
-
 }
 
 void mainWindowImpl::switchLeftToolBox() {

@@ -20,12 +20,10 @@ DEPENDPATH += . \
               src/gui/qt/createnetworkgamedialog \
               src/gui/qt/joinnetworkgamedialog \
               src/gui/qt/log \
-              src/gui/qt/mainwindow \
               src/gui/qt/newlocalgamedialog \
               src/gui/qt/settingsdialog \
               src/gui/qt/startnetworkgamedialog \
-              src/gui/qt/waitforservertostartgamedialog \
-              src/gui/qt/mainwindow/startsplash
+              src/gui/qt/waitforservertostartgamedialog 
 INCLUDEPATH += . \
                src \
                src/engine \
@@ -36,7 +34,6 @@ INCLUDEPATH += . \
                src/core/tinyxml \
                src/gui/qt \
                src/gui/qt/log \
-               src/gui/qt/mainwindow \
                src/gui/qt/connecttoserverdialog \
                src/core \
                src/gui/qt/aboutpokerth \
@@ -45,9 +42,7 @@ INCLUDEPATH += . \
                src/gui/qt/newlocalgamedialog \
                src/gui/qt/settingsdialog \
                src/gui/qt/startnetworkgamedialog \
-               src/gui/qt/mainwindow/startsplash \
                src/gui/qt/waitforservertostartgamedialog
-
 # Input
 HEADERS += src/game.h \
            src/session.h \
@@ -94,18 +89,15 @@ HEADERS += src/game.h \
            src/gui/qt/createnetworkgamedialog/createnetworkgamedialogimpl.h \
            src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.h \
            src/gui/qt/log/log.h \
-           src/gui/qt/mainwindow/mainwindowimpl.h \
-           src/gui/qt/mainwindow/mycardspixmaplabel.h \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.h \
            src/gui/qt/settingsdialog/settingsdialogimpl.h \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.h \
            src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.h \
-           src/gui/qt/mainwindow/startsplash/startsplash.h
+
 FORMS += src/gui/qt/aboutpokerth.ui \
          src/gui/qt/connecttoserverdialog.ui \
          src/gui/qt/createnetworkgamedialog.ui \
          src/gui/qt/joinnetworkgamedialog.ui \
-         src/gui/qt/mainwindow.ui \
          src/gui/qt/newgamedialog.ui \
          src/gui/qt/settingsdialog.ui \
          src/gui/qt/startnetworkgamedialog.ui \
@@ -164,13 +156,10 @@ SOURCES += src/game.cpp \
            src/gui/qt/createnetworkgamedialog/createnetworkgamedialogimpl.cpp \
            src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp \
            src/gui/qt/log/log.cpp \
-           src/gui/qt/mainwindow/mainwindowimpl.cpp \
-           src/gui/qt/mainwindow/mycardspixmaplabel.cpp \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.cpp \
            src/gui/qt/settingsdialog/settingsdialogimpl.cpp \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp \
-           src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.cpp \
-           src/gui/qt/mainwindow/startsplash/startsplash.cpp
+           src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.cpp 
 RESOURCES += src/gui/qt/resources.qrc
 
 TEMPLATE = vcapp
@@ -190,6 +179,32 @@ win32 {
 		src/net/linux/socket_helper.cpp \
            	src/net/linux/socket_startup.cpp 
 	LIBS += -lboost_thread -l ssl
+}
+
+guiv2 {	  
+	   DEPENDPATH += src/gui/qt/mainwindowv2/ \
+			 src/gui/qt/mainwindowv2/startsplash/ 
+	   INCLUDEPATH += src/gui/qt/mainwindowv2/ \
+			  src/gui/qt/mainwindowv2/startsplash/ 
+	   HEADERS += src/gui/qt/mainwindowv2/mainwindowimpl.h \
+		      src/gui/qt/mainwindowv2/mycardspixmaplabel.h \
+		      src/gui/qt/mainwindowv2/ui_mainwindowv2.h \
+		      src/gui/qt/mainwindowv2/startsplash/startsplash.h
+	   SOURCES += src/gui/qt/mainwindowv2/mainwindowimpl.cpp \
+	              src/gui/qt/mainwindowv2/mycardspixmaplabel.cpp \
+ 		      src/gui/qt/mainwindowv2/startsplash/startsplash.cpp 
+} else {   
+	   DEPENDPATH += src/gui/qt/mainwindow/ \
+			 src/gui/qt/mainwindow/startsplash 
+	   INCLUDEPATH += src/gui/qt/mainwindow/ \
+			  src/gui/qt/mainwindow/startsplash 
+	   FORMS += src/gui/qt/mainwindow.ui
+	   HEADERS += src/gui/qt/mainwindow/mainwindowimpl.h \
+                      src/gui/qt/mainwindow/mycardspixmaplabel.h \
+		      src/gui/qt/mainwindow/startsplash/startsplash.h
+	   SOURCES += src/gui/qt/mainwindow/mainwindowimpl.cpp \
+           	      src/gui/qt/mainwindow/mycardspixmaplabel.cpp \
+ 		      src/gui/qt/mainwindow/startsplash/startsplash.cpp
 }
 
 CONFIG += qt release
