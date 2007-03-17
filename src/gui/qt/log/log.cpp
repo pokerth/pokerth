@@ -276,7 +276,7 @@ void Log::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int
 	
 }
 
-void Log::logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt) {
+void Log::logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt, string showHas) {
 
 	int i;
 
@@ -286,26 +286,116 @@ void Log::logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int 
 
 	if (cardsValueInt != -1) {
 	
-		if(translateCardsValueCode(cardsValueInt).at(0) == "Royal Flush") {
-			myW->textBrowser_Log->append(QString::fromStdString(playerName)+" shows \""+translateCardsValueCode(cardsValueInt).at(0)+"\"");
-			stream << QString::fromStdString(playerName)+" shows [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"] - "+translateCardsValueCode(cardsValueInt).at(0)+"</br>\n";
-		}
-		else {
+		QString tempHandName;
+// 		int sameHandCounter = 0;
+// 		int difference = 0;
+// 		int tempHighestCardsValueInt = 0;
+// 
+// 		//erste Ziffer : Blattname
+// 		int firstPart = cardsValueInt/100000000;
+// 		//zweite und dritte Ziffer : Kicker, highest Card, usw.
+// 		int secondPart = cardsValueInt/1000000 - firstPart*100;
+// 		//vierte und fünfte Ziffer
+// 		int thirdPart = cardsValueInt/10000 - firstPart*10000 - secondPart*100;
+// 		// usw
+// 		int fourthPart = cardsValueInt/100 - firstPart*1000000 - secondPart*10000 - thirdPart*100;
+// 		//
+// 		int fifthPart = cardsValueInt - firstPart*100000000 - secondPart*1000000 - thirdPart*10000 - fourthPart*100;
+// 		// fuer highest Card
+// 		int fifthPartA = cardsValueInt/10 - firstPart*10000000 - secondPart*100000 - thirdPart*1000 - fourthPart*10;
+// 		int fifthPartB = cardsValueInt - firstPart*100000000 - secondPart*1000000 - thirdPart*10000 - fourthPart*100 - fifthPartA*10;
 
-			if( translateCardsValueCode(cardsValueInt).at(0) == "Full House, " || translateCardsValueCode(cardsValueInt).at(0) == "Two Pairs, " ) {
-				
-				myW->textBrowser_Log->append(QString::fromStdString(playerName)+" shows \""+translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1)+translateCardsValueCode(cardsValueInt).at(2)+"\"");
-				stream << QString::fromStdString(playerName)+" shows [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"] - "+translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1)+translateCardsValueCode(cardsValueInt).at(2)+"</br>\n";
+		switch(cardsValueInt/100000000) {
+			// Royal Flush
+			case 9: {
+				tempHandName = translateCardsValueCode(cardsValueInt).at(0);
 			}
-			else {
-				myW->textBrowser_Log->append(QString::fromStdString(playerName)+" shows \""+translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1)+"\"");
-				stream << QString::fromStdString(playerName)+" shows [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"] - "+translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1)+"</br>\n";
+			break;
+			// Straight Flush
+			case 8: {
+				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
 			}
+			break;
+			// Vierling
+			case 7: {
+				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+			}
+			break;
+			// Full House
+			case 6: {
+				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1)+translateCardsValueCode(cardsValueInt).at(2);
+			}
+			break;
+			// Flush
+			case 5: {
+				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+			}
+			break;
+			// Straight
+			case 4: {
+				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+			}
+			break;
+			// Drilling
+			case 3: {
+
+				// Kicker anzeigen?
+// 				for(i=0; i<5; i++) {
+// 					if(myW->getActualHand()->getPlayerArray()[i]->getMyAction() != 1 && myW->getActualHand()->getPlayerArray()[i]->getMyActiveStatus() == 1 && myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) {
+// 						sameHandCounter++;
+// 						if(myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt() > tempHighestCardsValueInt) {
+// 							tempHighestCardsValueInt = myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt();
+// 						}
+// 					}
+// 				}
+
+				// Unterschied ermitteln
+// 				for(i=0; i<5; i++) {
+// 					if(myW->getActualHand()->getPlayerArray()[i]->getMyAction() != 1 && myW->getActualHand()->getPlayerArray()[i]->getMyActiveStatus() == 1 && myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) {
+// 						sameHandCounter++;
+// 						if(myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt() > tempHighestCardsValueInt) {
+// 							tempHighestCardsValueInt = myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt();
+// 						}
+// 					}
+// 				}
+
+
+// 				if(sameHandCounter==1) {
+					tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+/*				} else {
+					if(cardsValueInt == tempHighestCardsValueInt) {
+						for(i=0; i<5; i++) {
+							if(myW->getActualHand()->getPlayerArray()[i]->getMyAction() != 1 && myW->getActualHand()->getPlayerArray()[i]->getMyActiveStatus() == 1 && myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) ;
+						}
+					}
+				}*/
+			}
+			break;
+			// Doppelpaar
+			case 2: {
+				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1)+translateCardsValueCode(cardsValueInt).at(2);
+			}
+			break;
+			// Paar
+			case 1: {
+				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+			}
+			break;
+			// highestCard
+			case 0: {
+				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+			}
+			break;
+			default: {}
 		}
+
+		myW->textBrowser_Log->append(QString::fromStdString(playerName)+" "+QString::fromStdString(showHas)+" \""+tempHandName+"\"");
+		stream << QString::fromStdString(playerName)+" "+QString::fromStdString(showHas)+" [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"] - "+tempHandName+"</br>\n";
+
 	}
 	else {
-		myW->textBrowser_Log->append(QString::fromStdString(playerName)+" shows  "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"]");
-		stream << QString::fromStdString(playerName)+" shows [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"]"+"</br>\n";
+		myW->textBrowser_Log->append(QString::fromStdString(playerName)+" "+QString::fromStdString(showHas)+" ["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"]");
+		stream << QString::fromStdString(playerName)+" "+QString::fromStdString(showHas)+" [<b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"]"+"</br>\n";
 
 	}
 	myLogFile->close();

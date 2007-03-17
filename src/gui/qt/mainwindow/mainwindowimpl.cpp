@@ -1547,7 +1547,18 @@ void mainWindowImpl::postRiverRunAnimation2() {
 		flipHolecardsAllInAlreadyDone = TRUE;
 		}
 		else {
-
+			int tempCardsIntArray[2];
+			int i;
+			for(i=0; i<maxQuantityPlayers; i++) {
+				actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
+				if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
+				
+					//Kartenwerte Loggen 
+					myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], actualHand->getPlayerArray()[i]->getMyCardsValueInt(), "has");
+			
+	
+				}
+			}	
 		}
 
 		postRiverRunAnimation2Timer->start(postRiverRunAnimationSpeed);
