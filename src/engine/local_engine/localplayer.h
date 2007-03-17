@@ -94,6 +94,8 @@ public:
 	void turnEngine();
 	void riverEngine();
 
+	int preflopCardsValue(int*);
+
 
 private:
 	HandInterface *actualHand;
