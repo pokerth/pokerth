@@ -1498,7 +1498,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 		
 				int i, j;
 				
-				for(i=1; i<maxQuantityPlayers; i++) {
+				for(i=0; i<maxQuantityPlayers; i++) {
 					actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 					if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
 						if(i) {
@@ -1525,7 +1525,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				int tempCardsIntArray[2];
 			
 				int i, j;
-				for(i=1; i<maxQuantityPlayers; i++) {
+				for(i=0; i<maxQuantityPlayers; i++) {
 					actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 					if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
 						if(i) {
@@ -1546,6 +1546,10 @@ void mainWindowImpl::postRiverRunAnimation2() {
 		//Wenn einmal umgedreht dann fertig!!	
 		flipHolecardsAllInAlreadyDone = TRUE;
 		}
+		else {
+
+		}
+
 		postRiverRunAnimation2Timer->start(postRiverRunAnimationSpeed);
 	}
 	else { postRiverRunAnimation3(); }
@@ -1783,7 +1787,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 				int temp2CardsIntArray[2];
 				
 				int i, j;
-				for(i=1; i<maxQuantityPlayers; i++) {
+				for(i=0; i<maxQuantityPlayers; i++) {
 					actualHand->getPlayerArray()[i]->getMyCards(temp2CardsIntArray);	
 					if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
 						if(i) {
