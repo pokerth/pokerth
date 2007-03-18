@@ -94,7 +94,8 @@ public:
 	void turnEngine();
 	void riverEngine();
 
-	int preflopCardsValue(int*);
+	int flopCardsValue(int*);
+	int turnCardsValue(int*);
 
 
 private:

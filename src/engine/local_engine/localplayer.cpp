@@ -674,178 +674,239 @@ void LocalPlayer::flopEngine() {
 // 		for(i=0; i<5; i++) cout << tempArray[i] << " ";
 // 		cout << endl;
 
-		preflopCardsValue(tempArray);
+		cout << myID << ": ";
+
+		flopCardsValue(tempArray);
 
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void LocalPlayer::turnEngine() {
 
-	// Prozent ausrechnen
+	ConfigFile myConfig;
+	if(myConfig.readConfigInt("EngineVersion")) {
+// 		cout << "Engine 0.3" << endl;
 
-	int i, j, k;
-	int tempBoardCardsArray[5];
-	int tempMyCardsArray[7];
-	int tempOpponentCardsArray[7];
-	actualBoard->getMyCards(tempBoardCardsArray);
 
-	tempMyCardsArray[0] = myCards[0];
-	tempMyCardsArray[1] = myCards[1];
-	tempMyCardsArray[2] = tempBoardCardsArray[0];
-	tempMyCardsArray[3] = tempBoardCardsArray[1];
-	tempMyCardsArray[4] = tempBoardCardsArray[2];
-	tempMyCardsArray[5] = tempBoardCardsArray[3];
-
-	tempOpponentCardsArray[2] = tempBoardCardsArray[0];
-	tempOpponentCardsArray[3] = tempBoardCardsArray[1];
-	tempOpponentCardsArray[4] = tempBoardCardsArray[2];
-	tempOpponentCardsArray[5] = tempBoardCardsArray[3];
-
-	int tempMyCardsValue;
-	int tempOpponentCardsValue;
-
-	int countAll = 0;
-	int countMy = 0;
-
-	for(i=0; i<49; i++) {
-		if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
-		for(j=i+1; j<50; j++) {
-			if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
-			for(k=j+1; k<51; k++) {
-				if(k != myCards[0] && k != myCards[1] && k != tempBoardCardsArray[0] && k != tempBoardCardsArray[1] && k != tempBoardCardsArray[2]) {
-
-					countAll++;
-
-					tempOpponentCardsArray[0] = i;
-					tempOpponentCardsArray[1] = j;
-					tempOpponentCardsArray[6] = k;
-					tempMyCardsArray[6] = k;
-					tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray,0);
-					tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray,0);
-
-					if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
+		// Prozent ausrechnen
+	
+		int i, j, k;
+		int tempBoardCardsArray[5];
+		int tempMyCardsArray[7];
+		int tempOpponentCardsArray[7];
+		actualBoard->getMyCards(tempBoardCardsArray);
+	
+		tempMyCardsArray[0] = myCards[0];
+		tempMyCardsArray[1] = myCards[1];
+		tempMyCardsArray[2] = tempBoardCardsArray[0];
+		tempMyCardsArray[3] = tempBoardCardsArray[1];
+		tempMyCardsArray[4] = tempBoardCardsArray[2];
+		tempMyCardsArray[5] = tempBoardCardsArray[3];
+	
+		tempOpponentCardsArray[2] = tempBoardCardsArray[0];
+		tempOpponentCardsArray[3] = tempBoardCardsArray[1];
+		tempOpponentCardsArray[4] = tempBoardCardsArray[2];
+		tempOpponentCardsArray[5] = tempBoardCardsArray[3];
+	
+		int tempMyCardsValue;
+		int tempOpponentCardsValue;
+	
+		int countAll = 0;
+		int countMy = 0;
+	
+		for(i=0; i<49; i++) {
+			if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
+			for(j=i+1; j<50; j++) {
+				if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
+				for(k=j+1; k<51; k++) {
+					if(k != myCards[0] && k != myCards[1] && k != tempBoardCardsArray[0] && k != tempBoardCardsArray[1] && k != tempBoardCardsArray[2]) {
+	
+						countAll++;
+	
+						tempOpponentCardsArray[0] = i;
+						tempOpponentCardsArray[1] = j;
+						tempOpponentCardsArray[6] = k;
+						tempMyCardsArray[6] = k;
+						tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray,0);
+						tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray,0);
+	
+						if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
+					}
+				}
 				}
 			}
 			}
 		}
+	
+		double percent = (countMy*1.0)/(countAll*1.0);
+	// 	cout << "Prozent: " << percent << endl;
+	
+		Tools myTool;
+		int raise;
+	
+	// 	Bauchgefhl (zufÃ¯Â¿Ålig)	
+		int tempRand;
+		myTool.getRandNumber((int)(percent*10.)-2,(int)(percent*10.)+2,1,&tempRand,0);
+	
+		// bluff, checkbluff
+		int bluff;
+		myTool.getRandNumber(1,100,1,&bluff,0);
+	
+	// 	cout << "turn-bluff " << bluff << endl;
+	
+	// 	Potential
+		int potential = (10*(5*(int)(percent*100.)+10*tempRand*2))/700-myDude;
+	
+		int setToHighest = actualHand->getTurn()->getHighestSet() - mySet;
+	
+		// temp fr das Vielfache des Small Blind, sodass HighestSet zu hoch ist
+		int tempFold;
+	// 	tempFold = (actualHand->getPlayerArray()[0]->getMyAverageSets())/(7*actualHand->getSmallBlind());
+		myTool.getRandNumber(3,4,1,&tempFold,0);
+	
+		// FOLD
+		// --> wenn potential negativ oder HighestSet zu hoch
+		if( (potential*setToHighest<0 || (setToHighest > tempFold * actualHand->getSmallBlind() &&  potential<1) || (setToHighest > 3 * tempFold * actualHand->getSmallBlind() &&  potential<2) || (setToHighest > 9 * tempFold * actualHand->getSmallBlind() &&  potential<3) || (setToHighest > 20*tempFold * actualHand->getSmallBlind() &&  potential<4) || (setToHighest > 40 *tempFold * actualHand->getSmallBlind() &&  potential<5)) && percent < 0.90 && bluff > 15) {
+			myAction=1;
 		}
-	}
-
-	double percent = (countMy*1.0)/(countAll*1.0);
-// 	cout << "Prozent: " << percent << endl;
-
-	Tools myTool;
-	int raise;
-
-// 	Bauchgefhl (zufÃ¯Â¿Ålig)	
-	int tempRand;
-	myTool.getRandNumber((int)(percent*10.)-2,(int)(percent*10.)+2,1,&tempRand,0);
-
-	// bluff, checkbluff
-	int bluff;
-	myTool.getRandNumber(1,100,1,&bluff,0);
-
-// 	cout << "turn-bluff " << bluff << endl;
-
-// 	Potential
-	int potential = (10*(5*(int)(percent*100.)+10*tempRand*2))/700-myDude;
-
-	int setToHighest = actualHand->getTurn()->getHighestSet() - mySet;
-
-	// temp fr das Vielfache des Small Blind, sodass HighestSet zu hoch ist
-	int tempFold;
-// 	tempFold = (actualHand->getPlayerArray()[0]->getMyAverageSets())/(7*actualHand->getSmallBlind());
-	myTool.getRandNumber(3,4,1,&tempFold,0);
-
-	// FOLD
-	// --> wenn potential negativ oder HighestSet zu hoch
-	if( (potential*setToHighest<0 || (setToHighest > tempFold * actualHand->getSmallBlind() &&  potential<1) || (setToHighest > 3 * tempFold * actualHand->getSmallBlind() &&  potential<2) || (setToHighest > 9 * tempFold * actualHand->getSmallBlind() &&  potential<3) || (setToHighest > 20*tempFold * actualHand->getSmallBlind() &&  potential<4) || (setToHighest > 40 *tempFold * actualHand->getSmallBlind() &&  potential<5)) && percent < 0.90 && bluff > 15) {
-		myAction=1;
-	}
-	else {
-		// CHECK und BET --> wenn noch keiner was gesetzt hat
-		if(actualHand->getTurn()->getHighestSet() == 0) {
-			// CHECK --> wenn Potential klein
-			if((potential<2 || bluff >= 80) && bluff > 10) {
-				// check
-				myAction = 2;
-			}
-			// BET --> wenn Potential hoch
-			else {
-
-				if(bluff <= 3) mySet = bluff * 2 * actualHand->getSmallBlind();
+		else {
+			// CHECK und BET --> wenn noch keiner was gesetzt hat
+			if(actualHand->getTurn()->getHighestSet() == 0) {
+				// CHECK --> wenn Potential klein
+				if((potential<2 || bluff >= 80) && bluff > 10) {
+					// check
+					myAction = 2;
+				}
+				// BET --> wenn Potential hoch
 				else {
-					if(bluff <=10 ) mySet = ((bluff+2)/3) * actualHand->getSmallBlind();
-					// je hÃ¯Â¿Åer das Potential, desto hÃ¯Â¿Åher der Einsatz (zur Basis SmallBlind)
-					else mySet = (potential-1) * 3 * actualHand->getSmallBlind();
-				}
-
-				// All In
-				if(mySet >= myCash) {
-					mySet = myCash;
-					myCash = 0;
-					myAction = 6;
-
-				}
-				// sonst
-				else {
-					myCash -= mySet;
-					myAction = 4;
-				}
-				actualHand->getTurn()->setHighestSet(mySet);
-			}
-
- 		}
-		// CALL und RAISE --> wenn bereits gesetzt wurde
-		else {	
-			// RAISE --> wenn Potential besonders gut
-			if(potential >=4 && 2 * tempFold * actualHand->getSmallBlind() >= actualHand->getTurn()->getHighestSet() || (bluff <= 4 && 3 * tempFold * actualHand->getSmallBlind() >= actualHand->getTurn()->getHighestSet())) {
-
-				// bluff - raise
-				if(bluff <= 4) raise = ((bluff+1)/2) * actualHand->getTurn()->getHighestSet();
-				// Betrag, der ber dem aktuell HighestSet gesetzt werden soll
-				else raise = ( potential - 3 ) * actualHand->getTurn()->getHighestSet();
-
-				// All In
-				if(actualHand->getTurn()->getHighestSet() + raise >= myCash) {
-
-					mySet += myCash;
-					myCash = 0;
-					myAction = 6;
-					if(mySet > actualHand->getTurn()->getHighestSet()) actualHand->getTurn()->setHighestSet(mySet);
-
-				}
-				// sonst
-				else {
-
-					myCash = myCash + mySet - actualHand->getTurn()->getHighestSet() - raise;
-					mySet = actualHand->getTurn()->getHighestSet() + raise;
+	
+					if(bluff <= 3) mySet = bluff * 2 * actualHand->getSmallBlind();
+					else {
+						if(bluff <=10 ) mySet = ((bluff+2)/3) * actualHand->getSmallBlind();
+						// je hÃ¯Â¿Åer das Potential, desto hÃ¯Â¿Åher der Einsatz (zur Basis SmallBlind)
+						else mySet = (potential-1) * 3 * actualHand->getSmallBlind();
+					}
+	
+					// All In
+					if(mySet >= myCash) {
+						mySet = myCash;
+						myCash = 0;
+						myAction = 6;
+	
+					}
+					// sonst
+					else {
+						myCash -= mySet;
+						myAction = 4;
+					}
 					actualHand->getTurn()->setHighestSet(mySet);
-					myAction = 5;
 				}
+	
 			}
-			// CALL --> bei normalen Potential
-			else {
-				// All In
-				if(actualHand->getTurn()->getHighestSet() >= myCash) {
-
-					mySet += myCash;
-					myCash = 0;
-					myAction = 6;
-
+			// CALL und RAISE --> wenn bereits gesetzt wurde
+			else {	
+				// RAISE --> wenn Potential besonders gut
+				if(potential >=4 && 2 * tempFold * actualHand->getSmallBlind() >= actualHand->getTurn()->getHighestSet() || (bluff <= 4 && 3 * tempFold * actualHand->getSmallBlind() >= actualHand->getTurn()->getHighestSet())) {
+	
+					// bluff - raise
+					if(bluff <= 4) raise = ((bluff+1)/2) * actualHand->getTurn()->getHighestSet();
+					// Betrag, der ber dem aktuell HighestSet gesetzt werden soll
+					else raise = ( potential - 3 ) * actualHand->getTurn()->getHighestSet();
+	
+					// All In
+					if(actualHand->getTurn()->getHighestSet() + raise >= myCash) {
+	
+						mySet += myCash;
+						myCash = 0;
+						myAction = 6;
+						if(mySet > actualHand->getTurn()->getHighestSet()) actualHand->getTurn()->setHighestSet(mySet);
+	
+					}
+					// sonst
+					else {
+	
+						myCash = myCash + mySet - actualHand->getTurn()->getHighestSet() - raise;
+						mySet = actualHand->getTurn()->getHighestSet() + raise;
+						actualHand->getTurn()->setHighestSet(mySet);
+						myAction = 5;
+					}
 				}
-				// sonst
+				// CALL --> bei normalen Potential
 				else {
-					myCash = myCash - actualHand->getTurn()->getHighestSet() + mySet;
-					mySet = actualHand->getTurn()->getHighestSet();
-					myAction = 3;
+					// All In
+					if(actualHand->getTurn()->getHighestSet() >= myCash) {
+	
+						mySet += myCash;
+						myCash = 0;
+						myAction = 6;
+	
+					}
+					// sonst
+					else {
+						myCash = myCash - actualHand->getTurn()->getHighestSet() + mySet;
+						mySet = actualHand->getTurn()->getHighestSet();
+						myAction = 3;
+					}
 				}
 			}
-		}
-	}	
+		}	
+
+	}
+	// ################### ENGINE 0.4 #################
+	else {
+// 		cout << "Engine 0.4" << endl;
+		int tempArray[6];
+		int boardCards[5];
+		int i;
+
+		for(i=0; i<2; i++) tempArray[i] = myCards[i];
+		actualBoard->getMyCards(boardCards);
+		for(i=0; i<4; i++) tempArray[2+i] = boardCards[i];
+
+// 		for(i=0; i<5; i++) cout << tempArray[i] << " ";
+// 		cout << endl;
+
+		cout << myID << ": ";
+
+		turnCardsValue(tempArray);
+
+	}
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void LocalPlayer::riverEngine() {
 
@@ -1022,7 +1083,7 @@ void LocalPlayer::riverEngine() {
 
 
 
-int LocalPlayer::preflopCardsValue(int* cards) {
+int LocalPlayer::flopCardsValue(int* cards) {
 
 	int array[5][3];
 	int j1, j2, j3, j4, k1, k2, ktemp[3];
@@ -1161,6 +1222,22 @@ int LocalPlayer::preflopCardsValue(int* cards) {
         }
 	}
 
+
+// auf Straight und Full House testen
+     // Straight
+     if((array[0][1]-1 == array[1][1] || array[0][1]-9 == array[1][1] ) && array[1][1]-1 == array[2][1] && array[2][1]-1 == array[3][1] && array[3][1]-1 == array[4][1]) {
+          cout << "Straight" << endl;
+          // -> super Blatt -> auf andere achten
+          return 70;
+ 	 }
+ 	 // Full House
+	 if((array[0][1] == array[1][1] && array[0][1] == array[2][1] && array[3][1] == array[4][1]) || (array[2][1] == array[3][1] && array[2][1] == array[4][1] && array[0][1] == array[1][1])) {
+          cout << "Full House" << endl;
+          // -> super Blatt -> auf andere achten
+          return 70;	
+	 }
+
+
 // auf Straßenansatz testen
 	for(j1=0; j1<5; j1++) {
 		for(j2=j1+1; j2<5; j2++) {
@@ -1198,20 +1275,6 @@ int LocalPlayer::preflopCardsValue(int* cards) {
 		}
 	}
 
-
-// auf Straight und Full House testen
-     // Straight
-     if((array[0][1]-1 == array[1][1] || array[0][1]-9 == array[1][1] ) && array[1][1]-1 == array[2][1] && array[2][1]-1 == array[3][1] && array[3][1]-1 == array[4][1]) {
-          cout << "Straight" << endl;
-          // -> super Blatt -> auf andere achten
-          return 70;
- 	 }
- 	 // Full House
-	 if((array[0][1] == array[1][1] && array[0][1] == array[2][1] && array[3][1] == array[4][1]) || (array[2][1] == array[3][1] && array[2][1] == array[4][1] && array[0][1] == array[1][1])) {
-          cout << "Full House" << endl;
-          // -> super Blatt -> auf andere achten
-          return 70;	
-	 }
 	 
 // auf Drilling testen
 	for(j1=0; j1<3; j1++) {
@@ -1235,6 +1298,266 @@ int LocalPlayer::preflopCardsValue(int* cards) {
 
 	// auf Paar testen
 	for(j1=0; j1<4; j1++) {
+		if(array[j1][1] == array[j1+1][1]) {
+			cout << "Paar" << endl;
+			// -> gutes Blatt -> eigenen Anteil ermitteln und auf andere achten
+			return 30;
+		}
+	}
+
+	// Highest Card (Klasse 0) + Kicker
+	cout << endl;
+	return 10;
+	
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int LocalPlayer::turnCardsValue(int* cards) {
+
+	int array[6][3];
+	int j1, j2, j3, j4, j5, k1, k2, ktemp[3];
+
+	// Kartenwerte umwandeln (z.B. [ 11 (Karo K�ig) -> 0 11 ] oder [ 31 (Pik 7) -> 2 5 ] )
+	for(j1=0; j1<6; j1++) {
+		array[j1][0] = cards[j1]/13;
+		array[j1][1] = cards[j1]%13;
+		array[j1][2] = j1;
+	}
+
+	// Karten nach Farben sortieren: Kreuz - Pik - Herz - Karo
+	for(k1=0; k1<6; k1++) {
+		for(k2=k1+1; k2<6; k2++) {
+			if(array[k1][0]<array[k2][0]) {
+				ktemp[0] = array[k1][0];
+				ktemp[1] = array[k1][1];
+				ktemp[2] = array[k1][2];
+				array[k1][0] = array[k2][0];
+				array[k1][1] = array[k2][1];
+				array[k1][2] = array[k2][2];
+				array[k2][0] = ktemp[0];
+				array[k2][1] = ktemp[1];
+				array[k2][2] = ktemp[2];
+			}
+		}
+	}
+
+	// Karten innerhalb der Farben nach der Gr�e sortieren: Ass - K�ig - Dame - ... - 4 - 3 - 2
+	for(k1=0; k1<6; k1++) {
+		for(k2=k1+1; k2<6; k2++) {
+			if(array[k1][0]==array[k2][0] && array[k1][1]<array[k2][1]) {
+				ktemp[0] = array[k1][0];
+				ktemp[1] = array[k1][1];
+				ktemp[2] = array[k1][2];
+				array[k1][0] = array[k2][0];
+				array[k1][1] = array[k2][1];
+				array[k1][2] = array[k2][2];
+				array[k2][0] = ktemp[0];
+				array[k2][1] = ktemp[1];
+				array[k2][2] = ktemp[2];
+			}
+		}
+	}
+
+// auf Straight Flush und Flush testen	
+   	// 5 Karten gleiche Farbe ?
+	for(j1=0; j1<2; j1++) {
+		// 5 Karten gleiche Farbe ?
+		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0] && array[j1][0] == array[j1+4][0]) {
+			// Straight Flush?
+			if(array[j1][1]-4 == array[j1+4][1]) {
+             			cout << "Straight Flush" << endl;
+             			// -> Sieg -> alles mitgehen
+             			return 100;
+			}
+			else {
+		     		// Straight Flush Ausnahme: 5-4-3-2-A
+             			for(j2=j1+1; j2<3; j2++) {
+					if(array[j1][1]-9==array[j2][1] && array[j2][1]-1==array[j2+1][1] && array[j2+1][1]-1==array[j2+2][1] && array[j2+2][1]-1==array[j2+3][1] && array[j1][0]==array[j2+2][0] && array[j1][0]==array[j2+3][0]) {
+                  				cout << "Straight Flush Ass unten" << endl;
+                  				// -> fast sicherer Sieg -> alles mitgehen
+                  				return 99;
+             				}
+        			}
+			}
+		}
+	}
+
+	// auf Flush testen
+	for(j1=0; j1<2; j1++) {
+		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0] && array[j1][0] == array[j1+4][0]) {
+			cout << "Flush" << endl;
+                  	// -> sehr gutes Blatt -> eigenen Anteil ermitteln und auf andere achten
+                  	return 70;
+		}
+	}
+	
+	
+// auf Straight Flush Draw und Flush Draw testen
+   for(j1=0; j1<3; j1++) {
+		// 4 Karten gleiche Farbe ?
+		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0]) {
+			 // zusammenhaengender Strassenansatz ?
+			 if(array[j1][1]-3 == array[j1+3][1]) {
+                  // Strassenansatz am Rand?
+                  if(array[j1][1] == 12) {
+                       cout << "zusammenhaengender Straight-Flush-Draw mit Ass high   ";
+                       break;
+                  }
+                  // Strassenansatz in der Mitte
+                  else {
+                       cout << "zusammenhaengender Straight-Flush-Draw in der Mitte   ";
+                       break;
+                  }
+              }
+              else {
+                   // Bauchschuss ?
+                   if(array[j1][1]-4 == array[j1+3][1]) {
+                        cout << "Straight-Flush-Bauchschuss   ";
+                        break;
+                   }
+                   else {
+                        // Test auf Straight-Flush-Ausnahme 5-4-3-2-A
+                        if(array[j1][1] == 12 && (array[j1+1][1]<=3 || (array[j1+2][1]<=3 && array[j1][0]==array[j1+4][0]) || (array[j1+3][1]<=3 && array[j1][0]==array[j1+4][0] && array[j1][0]==array[j1+4][0]))) {
+                             cout << "Straight-Flush-Draw Ass unten   ";
+                             break;
+					    }
+                        // Flush Draw
+                        else {
+                             cout << "Flush Draw   ";
+                             break;
+                        }
+                   }
+                   
+              }
+         }
+    }
+	
+// Karten fr den Vierling-, Full-House-, Drilling- und Paartest umsortieren
+	for(k1=0; k1<6; k1++) {
+		for(k2=k1+1; k2<6; k2++) {
+			if(array[k1][1]<array[k2][1]) {
+				ktemp[0] = array[k1][0];
+				ktemp[1] = array[k1][1];
+				ktemp[2] = array[k1][2];
+				array[k1][0] = array[k2][0];
+				array[k1][1] = array[k2][1];
+				array[k1][2] = array[k2][2];
+				array[k2][0] = ktemp[0];
+				array[k2][1] = ktemp[1];
+				array[k2][2] = ktemp[2];
+			}
+		}
+	}
+	
+// auf Vierling testen
+	for(j1=0; j1<3; j1++) {
+		if(array[j1][1] == array[j1+1][1] && array[j1][1] == array[j1+2][1] && array[j1][1] == array[j1+3][1]) {
+             		cout << "Vierling" << endl;
+             		// -> Sieg (nur von Sraight Flush schlagbar) -> alles mitgehn
+             		return 100;
+        	}
+	}
+
+
+// auf Straight und Full House testen
+	for(j1=0; j1<6; j1++) {
+		for(j2=j1+1; j2<6; j2++) {
+			for(j3=j2+1; j3<6; j3++) {
+				for(j4=j3+1; j4<6; j4++) {
+					for(j5=j4+1; j5<6; j5++) {
+						// Straight
+						if((array[j1][1]-1 == array[j2][1] || array[j1][1]-9 == array[j2][1] ) && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1] && array[j4][1]-1 == array[j5][1]) {
+							cout << "Straight" << endl;
+          						// -> super Blatt -> auf andere achten
+          						return 70;
+						}
+						// Full House
+						if((array[j1][1] == array[j2][1] && array[j1][1] == array[j3][1] && array[j4][1] == array[j5][1]) || (array[j3][1] == array[j4][1] && array[j3][1] == array[j5][1] && array[j1][1] == array[j2][1])) {
+							cout << "Full House" << endl;
+							// -> super Blatt -> auf andere achten
+							return 70;	
+						}
+					}
+				}
+			}
+		}
+	}
+
+// auf Straßenansatz testen
+	for(j1=0; j1<6; j1++) {
+		for(j2=j1+1; j2<6; j2++) {
+			for(j3=j2+1; j3<6; j3++) {
+				for(j4=j3+1; j4<6; j4++) {
+					// zusammenhaengender Strassenansatz ?
+					if(array[j1][1]-1 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1]) { 
+                  				// Strassenansatz am Rand?
+                  				if(array[j1][1] == 12) {
+							cout << "zusammenhaengender Straight-Draw mit Ass high   ";
+                  					break;
+                  				}
+                  				// Strassenansatz in der Mitte
+                  				else {
+                       					cout << "zusammenhaengender Straight-Draw in der Mitte   ";
+                       					break;
+                  				}
+            				}
+              				else {
+                   				// Bauchschuss ?
+                   				if((array[j1][1]-2 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-1 == array[j2][1] && array[j2][1]-2 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-1 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-2 == array[j4][1])) {
+                        				cout << "Straight-Bauchschuss   ";
+                        				break;
+                   				}
+                   				else {
+                        			// Test auf Straßenansatz-Ausnahme 5-4-3-2-A
+                        				if((array[j1][1]-9 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-9 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-2 == array[j4][1]) || (array[j1][1]-9 == array[j2][1] && array[j2][1]-2 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-10 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1])) {
+                             					cout << "Straight-Draw Ass unten   ";
+                             					break;
+					    		}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	 
+// auf Drilling testen
+	for(j1=0; j1<4; j1++) {
+		if(array[j1][1] == array[j1+1][1] && array[j1][1] == array[j1+2][1]) {
+             cout << "Drilling" << endl;
+             // -> gutes Blatt -> eigenen Anteil ermitteln und auf andere achten
+             return 50;
+		}
+	}
+
+	// auf Zwei Paare testen
+	for(j1=0; j1<3; j1++) {
+		for(j2=j1+2; j2<5; j2++) {
+			if(array[j1][1] == array[j1+1][1] && array[j2][1] == array[j2+1][1]) {
+				cout << "Zwei Paare" << endl;
+				// -> gutes Blatt -> eigenen Anteil ermitteln und auf andere achten
+				return 40;
+			}
+		}
+	}
+
+	// auf Paar testen
+	for(j1=0; j1<5; j1++) {
 		if(array[j1][1] == array[j1+1][1]) {
 			cout << "Paar" << endl;
 			// -> gutes Blatt -> eigenen Anteil ermitteln und auf andere achten
