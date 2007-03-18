@@ -353,7 +353,7 @@ int array[7][3];
 							}
 							// Paar und Drilling des Full House ermitteln ermitteln
 							if(array[j3][1]==array[j1][1]) { drei = array[j1][1]; zwei = array[j4][1]; }
-							else { drei = array[4][1]; zwei = array[j1][1]; }
+							else { drei = array[j4][1]; zwei = array[j1][1]; }
 							return 600000000+drei*1000000+zwei*10000;
 						}
 					}
