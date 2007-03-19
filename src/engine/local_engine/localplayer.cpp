@@ -406,7 +406,7 @@ void LocalPlayer::preflopEngine() {
 				raise = (((int)myHoleCardsValue-myNiveau[2])/2)*2*actualHand->getSmallBlind();
 				// raise-Betrag zu klein -> mindestens Standard-raise
 				if(raise == 0) {
-					raise = actualHand->getPreflop()->getHighestSet()-mySet;
+					raise = actualHand->getPreflop()->getHighestSet();
 				}
 				myAction = 5;
 			}
@@ -665,18 +665,37 @@ void LocalPlayer::flopEngine() {
 // 		cout << "Engine 0.4" << endl;
 		int tempArray[5];
 		int boardCards[5];
+		int info[4];
 		int i;
 
 		for(i=0; i<2; i++) tempArray[i] = myCards[i];
 		actualBoard->getMyCards(boardCards);
 		for(i=0; i<3; i++) tempArray[2+i] = boardCards[i];
 
+		for(i=0; i<4; i++) info[i] = -1;
+
 // 		for(i=0; i<5; i++) cout << tempArray[i] << " ";
 // 		cout << endl;
 
 		cout << myID << ": ";
 
-		flopCardsValue(tempArray);
+		flopCardsValue(tempArray,info);
+
+		// aktive Situation --> check / bet
+		if(actualHand->getFlop()->getHighestSet() == 0) {
+
+
+
+
+
+		}
+		// passive Situation --> fold / call / raise
+		else {
+
+
+
+		}
+
 
 	}
 }
@@ -1083,10 +1102,13 @@ void LocalPlayer::riverEngine() {
 
 
 
-int LocalPlayer::flopCardsValue(int* cards) {
+int LocalPlayer::flopCardsValue(int* cards, int* info) {
 
 	int array[5][3];
 	int j1, j2, j3, j4, k1, k2, ktemp[3];
+	int tempChance = 0;
+	bool breakLoop = 0;
+	info[3] = 0;
 
 	// Kartenwerte umwandeln (z.B. [ 11 (Karo K�ig) -> 0 11 ] oder [ 31 (Pik 7) -> 2 5 ] )
 	for(j1=0; j1<5; j1++) {
@@ -1134,62 +1156,85 @@ int LocalPlayer::flopCardsValue(int* cards) {
    	if(array[0][0] == array[1][0] && array[0][0] == array[2][0] && array[0][0] == array[3][0] && array[0][0] == array[4][0]) {
 		// Straight Flush?
 		if(array[0][1]-4 == array[4][1]) {
-             		cout << "Straight Flush" << endl;
-             		// -> Sieg -> alles mitgehen
-             		return 100;
+			info[0] = 8;
+			info[1] = array[0][1];
+			info[3] = 2;
+             		cout << "Straight Flush  " << info[3] << endl;
+             		return 0;
 		}
 		else {
 		     	// Straight Flush Ausnahme: 5-4-3-2-A
              		if(array[0][1]==12 && array[1][1]==3 && array[2][1]==2 && array[3][1]==1 && array[4][1]==0) {
-                  		cout << "Straight Flush Ass unten" << endl;
-                  		// -> fast sicherer Sieg -> alles mitgehen
-                  		return 99;
+				info[0] = 8;
+				info[1] = 3;
+				info[3] = 2;
+                  		cout << "Straight Flush Ass unten  " << info[3] << endl;
+                  		return 0;
              		}
              		// Flush
              		else {
-                  		cout << "Flush" << endl;
-                  		// -> sehr gutes Blatt -> eigenen Anteil ermitteln und auf andere achten
-                  		return 70;
+				info[0] = 5;
+				info[1] = array[j1][1];
+				info[3] = 2;
+                  		cout << "Flush  " << info[3] << endl;
+                  		return 0;
              		}
         	}
 	}
 	
-	
-	
-	
 // auf Straight Flush Draw und Flush Draw testen
-   	for(j1=0; j1<2; j1++) {
+   	for(j1=0; j1<2 && !breakLoop; j1++) {
 		// 4 Karten gleiche Farbe ?
 		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0]) {
 			// zusammenhaengender Strassenansatz ?
 			if(array[j1][1]-3 == array[j1+3][1]) {
                   		// Strassenansatz am Rand?
                   		if(array[j1][1] == 12) {
-                       			cout << "zusammenhaengender Straight-Flush-Draw mit Ass high   ";
-                       			break;
+					tempChance += 45;
+					for(j2=0; j2<4; j2++) {
+						if(array[j1+j2][2] <= 1) info[3]++;
+					}
+                       			cout << "zusammenhaengender Straight-Flush-Draw mit Ass high   " << info[3] << "\t";
+                       			breakLoop = 1;
                   		}
                   		// Strassenansatz in der Mitte
                   		else {
-                       			cout << "zusammenhaengender Straight-Flush-Draw in der Mitte   ";
-                       			break;
+                       			tempChance += 54;
+					for(j2=0; j2<4; j2++) {
+						if(array[j1+j2][2] <= 1) info[3]++;
+					}
+                       			cout << "zusammenhaengender Straight-Flush-Draw in der Mitte   " << info[3] << "\t";
+                       			breakLoop = 1;
                   		}
               		}
               		else {
                    		// Bauchschuss ?
                    		if(array[j1][1]-4 == array[j1+3][1]) {
-                        		cout << "Straight-Flush-Bauchschuss   ";
-                        		break;
+                        		tempChance += 45;
+					for(j2=0; j2<4; j2++) {
+						if(array[j1+j2][2] <= 1) info[3]++;
+					}
+                        		cout << "Straight-Flush-Bauchschuss   " << info[3] << "\t";
+                       			breakLoop = 1;
                    		}
                    		else {
                         		// Test auf Straight-Flush-Ausnahme 5-4-3-2-A
                         		if(array[j1][1] == 12 && (array[j1+1][1]<=3 || (array[j1+2][1]<=3 && array[j1][0]==array[j1+4][0]))) {
-                             			cout << "Straight-Flush-Draw Ass unten   ";
-                             			break;
+                             			tempChance += 45;
+						for(j2=0; j2<4; j2++) {
+							if(array[j1+j2][2] <= 1) info[3]++;
+						}
+                             			cout << "Straight-Flush-Draw Ass unten   " << info[3] << "\t";
+                       				breakLoop = 1;
 					}
                         		// Flush Draw
                         		else {
-                             			cout << "Flush Draw   ";
-                             			break;
+                             			tempChance += 35;
+						for(j2=0; j2<4; j2++) {
+							if(array[j1+j2][2] <= 1) info[3]++;
+						}
+                             			cout << "Flush Draw   " << info[3] << "\t";
+                       				breakLoop = 1;
                         		}
                    		}
               		}
@@ -1216,57 +1261,88 @@ int LocalPlayer::flopCardsValue(int* cards) {
 // auf Vierling testen
 	for(j1=0; j1<2; j1++) {
 		if(array[j1][1] == array[j1+1][1] && array[j1][1] == array[j1+2][1] && array[j1][1] == array[j1+3][1]) {
-             cout << "Vierling" << endl;
-             // -> Sieg (nur von Sraight Flush schlagbar) -> alles mitgehn
-             return 100;
-        }
+			info[0] = 7;
+			info[1] = array[j1][1];
+			for(j2=0; j2<4; j2++) {
+				if(array[j1+j2][2] <= 1) info[3]++;
+			}
+             		cout << "Vierling  " << info[3] << endl;
+             		return 0;
+        	}
 	}
 
 
 // auf Straight und Full House testen
      // Straight
-     if((array[0][1]-1 == array[1][1] || array[0][1]-9 == array[1][1] ) && array[1][1]-1 == array[2][1] && array[2][1]-1 == array[3][1] && array[3][1]-1 == array[4][1]) {
-          cout << "Straight" << endl;
-          // -> super Blatt -> auf andere achten
-          return 70;
+     	if((array[0][1]-1 == array[1][1] || array[0][1]-9 == array[1][1] ) && array[1][1]-1 == array[2][1] && array[2][1]-1 == array[3][1] && array[3][1]-1 == array[4][1]) {
+		info[0] = 4;
+		if(array[0][1]-1 == array[1][1]) {
+			info[1] = array[0][1];
+		} else {
+			info[1] = array[1][1];
+		}
+		info[3] = 2;
+          	cout << "Straight  " << info[3] << endl;
+          	return 0;
  	 }
  	 // Full House
 	 if((array[0][1] == array[1][1] && array[0][1] == array[2][1] && array[3][1] == array[4][1]) || (array[2][1] == array[3][1] && array[2][1] == array[4][1] && array[0][1] == array[1][1])) {
-          cout << "Full House" << endl;
-          // -> super Blatt -> auf andere achten
-          return 70;	
+		info[0] = 6;
+		info[3] = 2;
+          	cout << "Full House  " << info[3] << endl;
+          	return 0;	
 	 }
 
 
 // auf Straßenansatz testen
-	for(j1=0; j1<5; j1++) {
-		for(j2=j1+1; j2<5; j2++) {
-			for(j3=j2+1; j3<5; j3++) {
-				for(j4=j3+1; j4<5; j4++) {
+	for(j1=0; j1<5 && !breakLoop; j1++) {
+		for(j2=j1+1; j2<5 && !breakLoop; j2++) {
+			for(j3=j2+1; j3<5 && !breakLoop; j3++) {
+				for(j4=j3+1; j4<5 && !breakLoop; j4++) {
 					// zusammenhaengender Strassenansatz ?
 					if((array[j1][1]-1 == array[j2][1] || array[j1][1]-9 == array[j2][1]) && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1]) { 
                   				// Strassenansatz am Rand?
                   				if(array[j1][1] == 12) {
-							cout << "zusammenhaengender Straight-Draw mit Ass high   ";
-                  					break;
+                  					tempChance += 16;
+							if(array[j1][2] <= 1) info[3]++;
+							if(array[j2][2] <= 1) info[3]++;
+							if(array[j3][2] <= 1) info[3]++;
+							if(array[j4][2] <= 1) info[3]++;
+							cout << "zusammenhaengender Straight-Draw mit Ass high   " << info[3] << "\t";
+                       					breakLoop = 1;
                   				}
                   				// Strassenansatz in der Mitte
                   				else {
-                       					cout << "zusammenhaengender Straight-Draw in der Mitte   ";
-                       					break;
+                       					tempChance += 31;
+							if(array[j1][2] <= 1) info[3]++;
+							if(array[j2][2] <= 1) info[3]++;
+							if(array[j3][2] <= 1) info[3]++;
+							if(array[j4][2] <= 1) info[3]++;
+                       					cout << "zusammenhaengender Straight-Draw in der Mitte   " << info[3] << "\t";
+                       					breakLoop = 1;
                   				}
             				}
               				else {
                    				// Bauchschuss ?
                    				if((array[j1][1]-2 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-1 == array[j2][1] && array[j2][1]-2 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-1 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-2 == array[j4][1])) {
-                        				cout << "Straight-Bauchschuss   ";
-                        				break;
+                  					tempChance += 16;
+							if(array[j1][2] <= 1) info[3]++;
+							if(array[j2][2] <= 1) info[3]++;
+							if(array[j3][2] <= 1) info[3]++;
+							if(array[j4][2] <= 1) info[3]++;
+							cout << "Straight-Draw Bauchschuss   " << info[3] << "\t";
+                       					breakLoop = 1;
                    				}
                    				else {
                         			// Test auf Straßenansatz-Ausnahme 5-4-3-2-A
                         				if((array[j1][1]-9 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-9 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-2 == array[j4][1]) || (array[j1][1]-9 == array[j2][1] && array[j2][1]-2 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-10 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1])) {
-                             					cout << "Straight-Draw Ass unten   ";
-                             					break;
+                  						tempChance += 16;
+								if(array[j1][2] <= 1) info[3]++;
+								if(array[j2][2] <= 1) info[3]++;
+								if(array[j3][2] <= 1) info[3]++;
+								if(array[j4][2] <= 1) info[3]++;
+                             					cout << "Straight-Draw Ass unten   " << info[3] << "\t";
+                       						breakLoop = 1;
 					    		}
 						}
 					}
@@ -1279,9 +1355,13 @@ int LocalPlayer::flopCardsValue(int* cards) {
 // auf Drilling testen
 	for(j1=0; j1<3; j1++) {
 		if(array[j1][1] == array[j1+1][1] && array[j1][1] == array[j1+2][1]) {
-             cout << "Drilling" << endl;
-             // -> gutes Blatt -> eigenen Anteil ermitteln und auf andere achten
-             return 50;
+             		info[0] = 3;
+			info[1] = array[j1][1];
+			for(j2=0; j2<3; j2++) {
+				if(array[j1+j2][2] <= 1) info[3]++;
+			}
+             		cout << "Drilling  " << info[3] << endl;
+          		return 0;
 		}
 	}
 
@@ -1289,9 +1369,14 @@ int LocalPlayer::flopCardsValue(int* cards) {
 	for(j1=0; j1<2; j1++) {
 		for(j2=j1+2; j2<4; j2++) {
 			if(array[j1][1] == array[j1+1][1] && array[j2][1] == array[j2+1][1]) {
-				cout << "Zwei Paare" << endl;
-				// -> gutes Blatt -> eigenen Anteil ermitteln und auf andere achten
-				return 40;
+				info[0] = 2;
+				info[1] = array[j1][1];
+				for(j3=0; j3<2; j3++) {
+					if(array[j1+j3][2] <= 1) info[3]++;
+					if(array[j2+j3][2] <= 1) info[3]++;
+				}
+             			cout << "Zwei Paare  " << info[3] << endl;
+          			return 0;
 			}
 		}
 	}
@@ -1299,15 +1384,27 @@ int LocalPlayer::flopCardsValue(int* cards) {
 	// auf Paar testen
 	for(j1=0; j1<4; j1++) {
 		if(array[j1][1] == array[j1+1][1]) {
-			cout << "Paar" << endl;
-			// -> gutes Blatt -> eigenen Anteil ermitteln und auf andere achten
-			return 30;
+			info[0] = 1;
+			info[1] = array[j1][1];
+			for(j2=0; j2<2; j2++) {
+				if(array[j1+j2][2] <= 1) info[3]++;
+			}
+			cout << "Paar  " << info[3] << endl;
+          		return 0;
 		}
 	}
 
 	// Highest Card (Klasse 0) + Kicker
+	info[0] = 0;
+	info[1] = array[0][1];
+	info[2] = tempChance;
+	if(!breakLoop) {
+		if(array[0][2] <= 1) info[3] = 1;
+		else info[3] = 0;
+		cout << "Highest Card  " << info[3];
+	}
 	cout << endl;
-	return 10;
+	return 0;
 	
 } 
 
