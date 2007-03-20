@@ -22,6 +22,7 @@
 #define _NETPACKET_H_
 
 #include <string>
+#include <boost/shared_ptr.hpp>
 #include <net/socket_helper.h>
 
 #define MAX_PACKET_SIZE		256
@@ -75,6 +76,8 @@ class NetPacket
 public:
 	virtual ~NetPacket();
 
+	virtual boost::shared_ptr<NetPacket> Clone() const = 0;
+
 	virtual void SetData(const NetPacketHeader *p) = 0;
 	virtual const NetPacketHeader *GetData() const = 0;
 
@@ -89,6 +92,8 @@ public:
 	NetPacketInit();
 	NetPacketInit(u_int32_t value);
 	virtual ~NetPacketInit();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
 
 	virtual const NetPacketHeader *GetData() const;
 	virtual void SetData(const NetPacketHeader *p);
@@ -109,6 +114,8 @@ public:
 	NetPacketInitAck(u_int32_t value);
 	virtual ~NetPacketInitAck();
 
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
 	virtual const NetPacketHeader *GetData() const;
 	virtual void SetData(const NetPacketHeader *p);
 
@@ -127,6 +134,8 @@ public:
 	NetPacketGameStart();
 	NetPacketGameStart(u_int32_t value);
 	virtual ~NetPacketGameStart();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
 
 	virtual const NetPacketHeader *GetData() const;
 	virtual void SetData(const NetPacketHeader *p);

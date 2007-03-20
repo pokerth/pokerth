@@ -72,13 +72,13 @@ private:
 
 	// Flag specifying whether the thread should be terminated.
 	mutable boost::timed_mutex m_shouldTerminateMutex;
-	mutable boost::timed_mutex::scoped_try_lock m_userReqTerminateLock;
+	mutable boost::shared_ptr<boost::timed_mutex::scoped_try_lock> m_userReqTerminateLock;
 
 	// The boost thread object.
 	boost::shared_ptr<boost::thread> m_threadObj;
 	mutable boost::mutex m_threadObjMutex;
 
-	boost::barrier m_threadStartBarrier;
+	mutable boost::shared_ptr<boost::barrier> m_threadStartBarrier;
 
 friend class ThreadStarter;
 };

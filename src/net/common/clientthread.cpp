@@ -55,6 +55,8 @@ ClientThread::ClientThread(ClientCallback &cb)
 {
 	m_context.reset(new ClientContext);
 	m_senderCallback.reset(new ClientSenderCallback(*this));
+	m_sender.reset(new SenderThread(GetSenderCallback()));
+	m_receiver.reset(new ReceiverHelper);
 }
 
 ClientThread::~ClientThread()
@@ -86,8 +88,6 @@ ClientThread::Main()
 {
 	SetState(CLIENT_INITIAL_STATE::Instance());
 
-	m_sender.reset(new SenderThread(GetSenderCallback()));
-	m_receiver.reset(new ReceiverHelper);
 	GetSender().Run();
 
 	try

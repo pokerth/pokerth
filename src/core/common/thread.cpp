@@ -47,7 +47,6 @@ private:
 };
 
 Thread::Thread()
-: m_userReqTerminateLock(m_shouldTerminateMutex), m_threadStartBarrier(2)
 {
 }
 
@@ -58,13 +57,18 @@ Thread::~Thread()
 void
 Thread::Run()
 {
-	// Create the boost thread object.
 	boost::mutex::scoped_lock threadLock(m_threadObjMutex);
 
+	// Create the boost thread object.
 	if (!m_threadObj.get())
 	{
+		// Initialise data structures within the context of the thread
+		// who runs/terminates this thread.
+		m_userReqTerminateLock.reset(new boost::timed_mutex::scoped_try_lock(m_shouldTerminateMutex));
+		m_threadStartBarrier.reset(new boost::barrier(2));
+
 		m_threadObj.reset(new boost::thread(ThreadStarter(*this)));
-		m_threadStartBarrier.wait();
+		m_threadStartBarrier->wait();
 	}
 }
 
@@ -72,7 +76,8 @@ void
 Thread::SignalTermination()
 {
 	// Unlock the shouldTerminateMutex.
-	m_userReqTerminateLock.unlock();
+	if (m_userReqTerminateLock.get()) // cannot signal before calling Run
+		m_userReqTerminateLock->unlock();
 }
 
 bool
@@ -118,7 +123,8 @@ void
 Thread::MainWrapper()
 {
 	boost::timed_mutex::scoped_lock lock(m_isTerminatedMutex);
-	m_threadStartBarrier.wait();
+	assert(m_threadStartBarrier.get());
+	m_threadStartBarrier->wait();
 	this->Main();
 }
 

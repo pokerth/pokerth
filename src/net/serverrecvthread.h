@@ -29,6 +29,8 @@
 #include <net/connectdata.h>
 #include <net/sessiondata.h>
 
+#define RECEIVER_THREAD_TERMINATE_TIMEOUT	200
+
 class ServerRecvState;
 class SenderThread;
 class ReceiverHelper;
@@ -42,7 +44,7 @@ public:
 	virtual ~ServerRecvThread();
 
 	void StartGame();
-	void SendToAllClients(boost::shared_ptr<NetPacket> packet);
+	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
 	void AddConnection(boost::shared_ptr<ConnectData> data);
 
 protected:
@@ -53,6 +55,9 @@ protected:
 	virtual void Main();
 
 	SOCKET Select();
+
+	void CleanupConnectQueue();
+	void CleanupSessionMap();
 
 	ServerRecvState &GetState();
 	void SetState(ServerRecvState &newState);
@@ -71,7 +76,8 @@ private:
 	mutable boost::mutex m_connectQueueMutex;
 	ServerRecvState *m_curState;
 
-	SocketSessionMap m_sessions;
+	SocketSessionMap m_sessionMap;
+	mutable boost::mutex m_sessionMapMutex;
 
 	std::auto_ptr<ReceiverHelper> m_receiver;
 	std::auto_ptr<SenderThread> m_sender;

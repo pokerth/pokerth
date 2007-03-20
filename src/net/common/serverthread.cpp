@@ -33,6 +33,7 @@ ServerThread::ServerThread(ServerCallback &cb)
 : m_callback(cb)
 {
 	m_context.reset(new ServerContext);
+	m_recvThread.reset(new ServerRecvThread);
 }
 
 ServerThread::~ServerThread()
@@ -71,7 +72,6 @@ ServerThread::GetCallback()
 void
 ServerThread::Main()
 {
-	m_recvThread.reset(new ServerRecvThread);
 	try
 	{
 		Listen();
@@ -86,6 +86,8 @@ ServerThread::Main()
 	{
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 	}
+	GetRecvThread().SignalTermination();
+	GetRecvThread().Join(RECEIVER_THREAD_TERMINATE_TIMEOUT);
 }
 
 void

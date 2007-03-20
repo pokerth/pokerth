@@ -159,7 +159,6 @@ void
 ClientStateResolving::SetResolver(ResolverThread *resolver)
 {
 	Cleanup();
-
 	m_resolver = resolver;
 }
 

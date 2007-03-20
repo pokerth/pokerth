@@ -29,7 +29,9 @@
 #include <deque>
 #include <boost/shared_ptr.hpp>
 
-#define SENDER_THREAD_TERMINATE_TIMEOUT		100
+#define SENDER_THREAD_TERMINATE_TIMEOUT		200
+#define SEND_TIMEOUT_MSEC					50
+#define SEND_QUEUE_SIZE						200
 
 class SenderThread : public Thread
 {

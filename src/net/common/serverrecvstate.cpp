@@ -121,9 +121,10 @@ ServerRecvStateStartGame::Process(ServerRecvThread &server)
 {
 	boost::shared_ptr<NetPacket> answer(new NetPacketGameStart);
 
-	server.SendToAllClients(answer);
+	server.SendToAllPlayers(answer);
+	Thread::Msleep(100);
 
-	return MSG_SOCK_INIT_DONE;
+	return MSG_SOCK_INTERNAL_PENDING;
 }
 
 //-----------------------------------------------------------------------------

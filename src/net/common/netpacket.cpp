@@ -68,6 +68,20 @@ NetPacketInit::Init()
 	m_data.test = htonl(0);
 }
 
+boost::shared_ptr<NetPacket>
+NetPacketInit::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketInit);
+	try
+	{
+		newPacket->SetData(GetData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
 const NetPacketHeader *
 NetPacketInit::GetData() const
 {
@@ -118,6 +132,20 @@ NetPacketInitAck::Init()
 	m_data.test = htonl(0);
 }
 
+boost::shared_ptr<NetPacket>
+NetPacketInitAck::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketInitAck);
+	try
+	{
+		newPacket->SetData(GetData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
 const NetPacketHeader *
 NetPacketInitAck::GetData() const
 {
@@ -166,6 +194,20 @@ NetPacketGameStart::Init()
 	m_data.head.type = htons(NET_TYPE_GAME_START);
 	m_data.head.length = htons(sizeof(m_data));
 	m_data.test = htonl(0);
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketGameStart::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketGameStart);
+	try
+	{
+		newPacket->SetData(GetData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
 }
 
 const NetPacketHeader *

@@ -24,7 +24,6 @@
 
 using namespace std;
 
-#define SEND_TIMEOUT_MSEC 50
 
 SenderThread::SenderThread(SenderCallback &cb)
 : m_curSocket(INVALID_SOCKET), m_tmpOutBufSize(0), m_callback(cb)
@@ -41,7 +40,9 @@ SenderThread::Send(boost::shared_ptr<NetPacket> packet, SOCKET sock)
 	if (packet.get() && IS_VALID_SOCKET(sock))
 	{
 		boost::mutex::scoped_lock lock(m_outBufMutex);
-		m_outBuf.push_back(std::make_pair(packet, sock));
+		if (m_outBuf.size() < SEND_QUEUE_SIZE) // Queue is limited in size.
+			m_outBuf.push_back(std::make_pair(packet, sock));
+		// TODO: Throw exception if failed.
 	}
 }
 
