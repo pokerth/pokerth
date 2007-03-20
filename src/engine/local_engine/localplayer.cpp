@@ -868,18 +868,6 @@ void LocalPlayer::flopEngine() {
 						}
 						break;
 						default: {
-							if(sBluff > 90) {
-								myAction = 2;
-							}
-							else {
-								if(myCash/(2*actualHand->getSmallBlind()) <= 5) {
-									myAction = 6;
-								} else {
-									bet = (cBluff/30)*2*actualHand->getSmallBlind();
-									if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
-									myAction = 4;
-								}
-							}
 						}
 					}
 					}
