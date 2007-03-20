@@ -39,6 +39,7 @@ Session::Session(GuiInterface *g)
 Session::~Session()
 {
 	terminateNetworkClient();
+	terminateNetworkServer();
 	deleteGame();
 	delete myConfig;
 }
@@ -67,6 +68,19 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 	myNetClient->Run();
 }
 
+void Session::startNetworkClientForLocalServer()
+{
+	if (myNetClient || !myGui)
+		return; // TODO: throw exception
+	myNetClient = new ClientThread(*myGui);
+	myNetClient->Init(
+		"localhost",
+		myConfig->readConfigInt("ServerPort"),
+		myConfig->readConfigInt("ServerUseIpv6") == 1,
+		myConfig->readConfigString("ServerPassword"));
+	myNetClient->Run();
+}
+
 void Session::terminateNetworkClient()
 {
 	if (!myNetClient)
@@ -89,7 +103,7 @@ void Session::startNetworkServer()
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
-		""); // TODO: use pwd
+		myConfig->readConfigString("ServerPassword"));
 	myNetServer->Run();
 }
 

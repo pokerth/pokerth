@@ -40,6 +40,8 @@
 #include "log.h"
 #include "configfile.h"
 
+#include <net/socket_msg.h>
+
 #define FORMATLEFT(X) "<p align='center'>(X)"
 #define FORMATRIGHT(X) "(X)</p>"
 
@@ -484,8 +486,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	//Nachrichten Thread-Save
 	connect(this, SIGNAL(SignalNetClientConnect(int)), myConnectToServerDialog, SLOT(refresh(int)));
 	connect(this, SIGNAL(SignalNetClientGameInfo(int)), myWaitingForServerGameDialog, SLOT(refresh(int)));
-	// TODO Fix, errors MUST be global, not within one dialog.
-	connect(this, SIGNAL(SignalNetClientError(int, int)), myConnectToServerDialog, SLOT(error(int, int)));
+	// Errors are handled globally, not within one dialog.
+	connect(this, SIGNAL(SignalNetClientError(int, int)), this, SLOT(networkError(int, int)));
 
 // 	textBrowser_Log->append(QString::number(this->pos().x(),10)+" "+QString::number(this->pos().y(),10));	
 // 	textBrowser_Log->append(QString::number(this->x(),10)+" "+QString::number(this->y(),10));
@@ -507,7 +509,10 @@ void mainWindowImpl::callNewGameDialog() {
 	
 		if (v->result() == QDialog::Accepted ) {
 
-		
+			// Start new local game - terminate existing network game.
+			mySession->terminateNetworkClient();
+			mySession->terminateNetworkServer();
+
 			if(actualGame) {
 				mySession->deleteGame();
 				actualGame = 0;
@@ -543,7 +548,13 @@ void mainWindowImpl::callNewGameDialog() {
 	}
 	// sonst mit gespeicherten Werten starten
 	else {
-		
+
+		// COPY AND PASTE WARNING, see above!!!
+		// TODO
+		// Start new local game - terminate existing network game.
+		mySession->terminateNetworkClient();
+		mySession->terminateNetworkServer();
+
 		if(actualGame) {
 			mySession->deleteGame();
 			actualGame = 0;
@@ -593,13 +604,20 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 // 
 	if (myCreateNetworkGameDialog->result() == QDialog::Accepted ) {
 
+		mySession->terminateNetworkClient();
 		mySession->terminateNetworkServer();
+
 		mySession->startNetworkServer();
+		mySession->startNetworkClientForLocalServer();
 
 		myStartNetworkGameDialog->exec();
 
 		if (myStartNetworkGameDialog->result() == QDialog::Accepted ) {
 			mySession->initiateNetworkServerGame();
+		}
+		else {
+			mySession->terminateNetworkClient();
+			mySession->terminateNetworkServer();
 		}
 	}
 
@@ -612,6 +630,7 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 	if (myJoinNetworkGameDialog->result() == QDialog::Accepted ) {
 
 		mySession->terminateNetworkClient();
+		mySession->terminateNetworkServer();
 
 		// Maybe use QUrl::toPunycode.
 		mySession->startNetworkClient(
@@ -629,6 +648,10 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 		}
 		else {
 			myWaitingForServerGameDialog->exec();
+
+			if (myWaitingForServerGameDialog->result() == QDialog::Rejected) {
+				mySession->terminateNetworkClient();
+			}
 		}
 
 	}
@@ -1999,6 +2022,89 @@ void mainWindowImpl::paintStartSplash() {
 	mySplash->setGeometry(this->pos().x()+237,this->pos().y()+210,400,250);
 // 	mySplash->setWindowFlags(Qt::SplashScreen);
 	mySplash->show();
+}
+
+void mainWindowImpl::networkError(int errorID, int osErrorID) {
+
+	switch (errorID) {
+
+		case ERR_SOCK_SERVERADDR_NOT_SET:
+			{QMessageBox::warning(this, tr("Network Error"),
+				tr("Server address was not set."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_INVALID_PORT:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("An invalid port was set (ports 0-1023 are not allowed)."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_CREATION_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not create a socket for TCP communication."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_SET_ADDR_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not set the IP address."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_SET_PORT_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not set the port for this type of address."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_RESOLVE_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The server name could not be resolved."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_BIND_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Bind failed - please choose a different port."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_LISTEN_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal network error: \"listen\" failed."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_ACCEPT_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Server execution was terminated."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_CONNECT_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not connect to the server."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_SELECT_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal network error: \"select\" failed."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_RECV_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal network error: \"recv\" failed."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_SEND_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal network error: \"send\" failed."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_CONN_RESET:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Connection was closed by server."),
+				QMessageBox::Close); }
+		break;
+		default:  { QMessageBox::warning(this, tr("Network Error"),
+				tr("DEFAULT ERROR"),
+				QMessageBox::Close); }
+	}
+	// close dialogs
+	myConnectToServerDialog->reject();
+	myWaitingForServerGameDialog->reject();
 }
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {

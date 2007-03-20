@@ -59,8 +59,8 @@ ServerThread::StartGame()
 	if (!IsRunning())
 		return; // TODO: throw exception
 
-	// TODO: possible race condition
-	GetRecvThread().StartGame();
+	// Thread-safe notification.
+	GetRecvThread().AddNotification(NOTIFY_GAME_START);
 }
 
 ServerCallback &

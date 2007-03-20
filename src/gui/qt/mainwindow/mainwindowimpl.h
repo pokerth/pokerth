@@ -180,6 +180,7 @@ public slots:
 
 	void paintStartSplash();
 
+	void networkError(int errorID, int osErrorID);
 
 private: 
 	

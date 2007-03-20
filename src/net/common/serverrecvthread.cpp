@@ -55,13 +55,6 @@ ServerRecvThread::~ServerRecvThread()
 }
 
 void
-ServerRecvThread::StartGame()
-{
-	// TODO: not thread safe. use flag or something.
-	SetState(SERVER_START_GAME_STATE::Instance());
-}
-
-void
 ServerRecvThread::SendToAllPlayers(boost::shared_ptr<NetPacket> packet)
 {
 	// This function needs to be thread safe.
@@ -86,6 +79,13 @@ ServerRecvThread::AddConnection(boost::shared_ptr<ConnectData> data)
 }
 
 void
+ServerRecvThread::AddNotification(unsigned notification)
+{
+	boost::mutex::scoped_lock lock(m_notificationQueueMutex);
+	m_notificationQueue.push_back(notification);
+}
+
+void
 ServerRecvThread::Main()
 {
 	SetState(SERVER_INITIAL_STATE::Instance());
@@ -96,6 +96,7 @@ ServerRecvThread::Main()
 		while (!ShouldTerminate())
 		{
 			{
+				// Handle one incoming connection at a time.
 				boost::shared_ptr<ConnectData> tmpData;
 				{
 					boost::mutex::scoped_lock lock(m_connectQueueMutex);
@@ -108,7 +109,10 @@ ServerRecvThread::Main()
 				if (tmpData.get())
 					GetState().HandleNewConnection(*this, tmpData);
 			}
+			// Process current state.
 			GetState().Process(*this);
+			// Process thread-safe notifications.
+			NotificationLoop();
 		}
 	} catch (const NetException &)
 	{
@@ -119,6 +123,25 @@ ServerRecvThread::Main()
 
 	CleanupConnectQueue();
 	CleanupSessionMap();
+}
+
+void
+ServerRecvThread::NotificationLoop()
+{
+	boost::mutex::scoped_lock lock(m_notificationQueueMutex);
+	// Process all notifications.
+	while (!m_notificationQueue.empty())
+	{
+		unsigned notification = m_notificationQueue.front();
+		m_notificationQueue.pop_front();
+
+		switch(notification)
+		{
+			case NOTIFY_GAME_START:
+				SetState(SERVER_START_GAME_STATE::Instance());
+				break;
+		}
+	}
 }
 
 SOCKET
@@ -139,7 +162,7 @@ ServerRecvThread::Select()
 		{
 			SOCKET tmpSock = i->first;
 			FD_SET(tmpSock, &rdset);
-			if (tmpSock > maxSock)
+			if (tmpSock > maxSock || maxSock == INVALID_SOCKET)
 				maxSock = tmpSock;
 			++i;
 		}

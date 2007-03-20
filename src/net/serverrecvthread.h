@@ -31,6 +31,9 @@
 
 #define RECEIVER_THREAD_TERMINATE_TIMEOUT	200
 
+// Notifications
+#define NOTIFY_GAME_START		1
+
 class ServerRecvState;
 class SenderThread;
 class ReceiverHelper;
@@ -43,16 +46,20 @@ public:
 	ServerRecvThread();
 	virtual ~ServerRecvThread();
 
-	void StartGame();
 	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
 	void AddConnection(boost::shared_ptr<ConnectData> data);
+	void AddNotification(unsigned notification);
 
 protected:
 
+	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
 	typedef std::map<SOCKET, boost::shared_ptr<SessionData> > SocketSessionMap;
+	typedef std::deque<unsigned> NotificationQueue;
 
 	// Main function of the thread.
 	virtual void Main();
+
+	void NotificationLoop();
 
 	SOCKET Select();
 
@@ -72,9 +79,12 @@ protected:
 
 private:
 
-	std::deque<boost::shared_ptr<ConnectData> > m_connectQueue;
+	ConnectQueue m_connectQueue;
 	mutable boost::mutex m_connectQueueMutex;
 	ServerRecvState *m_curState;
+
+	NotificationQueue m_notificationQueue;
+	mutable boost::mutex m_notificationQueueMutex;
 
 	SocketSessionMap m_sessionMap;
 	mutable boost::mutex m_sessionMapMutex;
