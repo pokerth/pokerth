@@ -26,7 +26,9 @@
 
 #define MAX_PACKET_SIZE		256
 
-#define NET_TYPE_TEST		0
+#define NET_TYPE_INIT			0
+#define NET_TYPE_INIT_ACK		1
+#define NET_TYPE_GAME_START		2
 
 #ifdef _MSC_VER
 	#pragma pack(push, 2)
@@ -40,7 +42,19 @@ struct NetPacketHeader
 	u_int16_t	length;
 };
 
-struct NetPacketInit
+struct NetPacketInitData
+{
+	NetPacketHeader head;
+	u_int32_t	test;
+};
+
+struct NetPacketInitAckData
+{
+	NetPacketHeader head;
+	u_int32_t	test;
+};
+
+struct NetPacketGameStartData
 {
 	NetPacketHeader head;
 	u_int32_t	test;
@@ -52,6 +66,9 @@ struct NetPacketInit
 	#pragma align 0
 #endif
 
+class NetPacketInit;
+class NetPacketInitAck;
+class NetPacketGameStart;
 
 class NetPacket
 {
@@ -59,21 +76,68 @@ public:
 	virtual ~NetPacket();
 
 	virtual void SetData(const NetPacketHeader *p) = 0;
-	virtual NetPacketHeader *GetData() = 0;
+	virtual const NetPacketHeader *GetData() const = 0;
+
+	virtual const NetPacketInit *ToNetPacketInit() const;
+	virtual const NetPacketInitAck *ToNetPacketInitAck() const;
+	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
 };
 
-class TestNetPacket : public NetPacket
+class NetPacketInit : public NetPacket
 {
 public:
-	TestNetPacket();
-	TestNetPacket(u_int32_t value);
-	virtual ~TestNetPacket();
+	NetPacketInit();
+	NetPacketInit(u_int32_t value);
+	virtual ~NetPacketInit();
 
-	virtual NetPacketHeader *GetData();
+	virtual const NetPacketHeader *GetData() const;
 	virtual void SetData(const NetPacketHeader *p);
 
+	virtual const NetPacketInit *ToNetPacketInit() const;
+
 protected:
-	NetPacketInit m_data;
+	void Init();
+
+private:
+	NetPacketInitData m_data;
+};
+
+class NetPacketInitAck : public NetPacket
+{
+public:
+	NetPacketInitAck();
+	NetPacketInitAck(u_int32_t value);
+	virtual ~NetPacketInitAck();
+
+	virtual const NetPacketHeader *GetData() const;
+	virtual void SetData(const NetPacketHeader *p);
+
+	virtual const NetPacketInitAck *ToNetPacketInitAck() const;
+
+protected:
+	void Init();
+
+private:
+	NetPacketInitAckData m_data;
+};
+
+class NetPacketGameStart : public NetPacket
+{
+public:
+	NetPacketGameStart();
+	NetPacketGameStart(u_int32_t value);
+	virtual ~NetPacketGameStart();
+
+	virtual const NetPacketHeader *GetData() const;
+	virtual void SetData(const NetPacketHeader *p);
+
+	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
+
+protected:
+	void Init();
+
+private:
+	NetPacketGameStartData m_data;
 };
 
 #endif

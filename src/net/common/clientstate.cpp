@@ -321,7 +321,7 @@ ClientStateStartSession::~ClientStateStartSession()
 int
 ClientStateStartSession::Process(ClientThread &client)
 {
-	boost::shared_ptr<NetPacket> packet(new TestNetPacket(10));
+	boost::shared_ptr<NetPacket> packet(new NetPacketInit(10));
 	client.GetSender().Send(packet, client.GetContext().GetSocket());
 
 	client.SetState(ClientStateWaitSession::Instance());
@@ -356,15 +356,54 @@ ClientStateWaitSession::Process(ClientThread &client)
 
 	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
 
-	if (tmpPacket.get())
+	if (tmpPacket.get() && tmpPacket->ToNetPacketInitAck())
 	{
-		client.SetState(ClientStateFinal::Instance());
+		client.SetState(ClientStateWaitGame::Instance());
 		retVal = MSG_SOCK_SESSION_DONE;
 	}
-	else
+	else // TODO: handle error packet
 	{
 		retVal = MSG_SOCK_INTERNAL_PENDING;
-		Thread::Msleep(CLIENT_WAIT_TIMEOUT_MSEC);
+	}
+
+	return retVal;
+}
+
+//-----------------------------------------------------------------------------
+
+ClientStateWaitGame &
+ClientStateWaitGame::Instance()
+{
+	static ClientStateWaitGame state;
+	return state;
+}
+
+ClientStateWaitGame::ClientStateWaitGame()
+{
+}
+
+ClientStateWaitGame::~ClientStateWaitGame()
+{
+}
+
+int
+ClientStateWaitGame::Process(ClientThread &client)
+{
+	int retVal;
+	ClientContext &context = client.GetContext();
+
+	// delegate to receiver helper class
+
+	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
+
+	if (tmpPacket.get() && tmpPacket->ToNetPacketGameStart())
+	{
+		client.SetState(ClientStateFinal::Instance());
+		retVal = MSG_SOCK_GAME_START;
+	}
+	else // TODO: handle error packet
+	{
+		retVal = MSG_SOCK_INTERNAL_PENDING;
 	}
 
 	return retVal;

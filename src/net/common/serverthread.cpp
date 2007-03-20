@@ -29,7 +29,8 @@
 #define NET_SERVER_LISTEN_BACKLOG	5
 
 
-ServerThread::ServerThread()
+ServerThread::ServerThread(ServerCallback &cb)
+: m_callback(cb)
 {
 	m_context.reset(new ServerContext);
 }
@@ -52,6 +53,22 @@ ServerThread::Init(unsigned serverPort, bool ipv6, const std::string &pwd)
 }
 
 void
+ServerThread::StartGame()
+{
+	if (!IsRunning())
+		return; // TODO: throw exception
+
+	// TODO: possible race condition
+	GetRecvThread().StartGame();
+}
+
+ServerCallback &
+ServerThread::GetCallback()
+{
+	return m_callback;
+}
+
+void
 ServerThread::Main()
 {
 	m_recvThread.reset(new ServerRecvThread);
@@ -65,9 +82,9 @@ ServerThread::Main()
 			// The main server thread is simple. It only accepts connections.
 			AcceptLoop();
 		}
-	} catch (const NetException &)
+	} catch (const NetException &e)
 	{
-		// TODO: callback.
+		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 	}
 }
 
@@ -141,8 +158,7 @@ ServerThread::AcceptLoop()
 	if (selectResult > 0) // accept is possible
 	{
 		boost::shared_ptr<ConnectData> tmpData(new ConnectData);
-		socklen_t addrSize = sizeof(*tmpData->GetSockaddr());
-		tmpData->SetSocket(accept(context.GetSocket(), (struct sockaddr *)tmpData->GetSockaddr(), &addrSize));
+		tmpData->SetSocket(accept(context.GetSocket(), NULL, NULL));
 
 		if (!IS_VALID_SOCKET(tmpData->GetSocket()))
 		{

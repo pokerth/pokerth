@@ -35,15 +35,21 @@
 #define ERR_SOCK_RECV_FAILED			13
 #define ERR_SOCK_SEND_FAILED			14
 #define ERR_SOCK_CONN_RESET				15
+#define ERR_SOCK_CONN_EXISTS			16
 
 // This is an internal message which is not reported.
 #define MSG_SOCK_INTERNAL_PENDING		0
 
-// The following messages are reported.
+// The following messages are connect messages.
 #define MSG_SOCK_INIT_DONE				1
 #define MSG_SOCK_RESOLVE_DONE			2
 #define MSG_SOCK_CONNECT_DONE			3
 #define MSG_SOCK_SESSION_DONE			4
+
+#define MSG_SOCK_LIMIT_CONNECT			MSG_SOCK_SESSION_DONE
+
+// The following messages are game messages.
+#define MSG_SOCK_GAME_START				5
 
 #define MSG_SOCK_LAST					MSG_SOCK_SESSION_DONE
 

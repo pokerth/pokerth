@@ -88,5 +88,10 @@ void GuiWrapper::meInAction() const { myW->meInAction(); }
 void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) { myLog->logPlayerActionMsg(playerName, action, setValue); }
 void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->logNewGameHandMsg(gameID, handID); }
 
-void GuiWrapper::SignalNetSuccess(int actionID) { myW->SignalNetSuccess(actionID); }
-void GuiWrapper::SignalNetError(int errorID, int osErrorID) { myW->SignalNetError(errorID, osErrorID); }
+void GuiWrapper::SignalNetClientConnect(int actionID) { myW->SignalNetClientConnect(actionID); }
+void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->SignalNetClientGameInfo(actionID); }
+void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myW->SignalNetClientError(errorID, osErrorID); }
+
+void GuiWrapper::SignalNetServerSuccess(int actionID) { }
+void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { }
+

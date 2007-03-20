@@ -19,6 +19,9 @@
 
 #include <net/serverrecvstate.h>
 #include <net/serverrecvthread.h>
+#include <net/receiverhelper.h>
+#include <net/senderthread.h>
+#include <net/netpacket.h>
 #include <net/socket_msg.h>
 
 using namespace std;
@@ -48,14 +51,78 @@ ServerRecvStateInit::~ServerRecvStateInit()
 }
 
 void
-ServerRecvStateInit::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data)
+ServerRecvStateInit::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
 {
+	boost::shared_ptr<SessionData> sessionData(new SessionData);
+	server.AddSession(connData, sessionData);
 }
 
 int
 ServerRecvStateInit::Process(ServerRecvThread &server)
 {
-	Thread::Msleep(SERVER_WAIT_TIMEOUT_MSEC);
+	SOCKET recvSock = server.Select();
+
+	if (recvSock != INVALID_SOCKET)
+	{
+		boost::shared_ptr<NetPacket> packet = server.GetReceiver().Recv(recvSock);
+		boost::shared_ptr<SessionData> session = server.GetSession(recvSock);
+
+		// Ignore if no session / no packet.
+		if (packet.get() && session.get())
+		{
+			if (session->GetState() == SessionData::Init)
+			{
+				// Only accept init packets.
+				if (packet->ToNetPacketInit())
+				{
+					boost::shared_ptr<NetPacket> answer(new NetPacketInitAck);
+					server.GetSender().Send(answer, recvSock);
+					session->SetState(SessionData::Established);
+				}
+				else
+				{
+					// TODO send error message, invalid packet
+				}
+			}
+			else
+			{
+				// TODO send error message, invalid state
+			}
+		}
+	}
+	return MSG_SOCK_INIT_DONE;
+}
+
+//-----------------------------------------------------------------------------
+
+ServerRecvStateStartGame &
+ServerRecvStateStartGame::Instance()
+{
+	static ServerRecvStateStartGame state;
+	return state;
+}
+
+ServerRecvStateStartGame::ServerRecvStateStartGame()
+{
+}
+
+ServerRecvStateStartGame::~ServerRecvStateStartGame()
+{
+}
+
+void
+ServerRecvStateStartGame::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
+{
+	// TODO: send error msg
+}
+
+int
+ServerRecvStateStartGame::Process(ServerRecvThread &server)
+{
+	boost::shared_ptr<NetPacket> answer(new NetPacketGameStart);
+
+	server.SendToAllClients(answer);
+
 	return MSG_SOCK_INIT_DONE;
 }
 

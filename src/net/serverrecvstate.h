@@ -24,7 +24,8 @@
 #include <boost/shared_ptr.hpp>
 #include <net/connectdata.h>
 
-#define SERVER_INITIAL_STATE ServerRecvStateInit
+#define SERVER_INITIAL_STATE	ServerRecvStateInit
+#define SERVER_START_GAME_STATE	ServerRecvStateStartGame
 
 class ServerRecvThread;
 class ServerCallback;
@@ -35,7 +36,7 @@ public:
 	virtual ~ServerRecvState();
 
 	// Handling of a new TCP connection.
-	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data) = 0;
+	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData) = 0;
 
 	// Main processing function of the current state.
 	virtual int Process(ServerRecvThread &server) = 0;
@@ -60,6 +61,27 @@ protected:
 
 	// Protected constructor - this is a singleton.
 	ServerRecvStateInit();
+};
+
+// State: Start server game.
+class ServerRecvStateStartGame : public ServerRecvState
+{
+public:
+	// Access the state singleton.
+	static ServerRecvStateStartGame &Instance();
+
+	virtual ~ServerRecvStateStartGame();
+
+	// 
+	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
+
+	// 
+	virtual int Process(ServerRecvThread &server);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ServerRecvStateStartGame();
 };
 
 #endif

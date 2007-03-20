@@ -164,13 +164,31 @@ public:
 
 	virtual ~ClientStateWaitSession();
 
-	// sleep.
+	// select on socket.
 	virtual int Process(ClientThread &client);
 
 protected:
 
 	// Protected constructor - this is a singleton.
 	ClientStateWaitSession();
+};
+
+// State: Wait for start of the game or start info.
+class ClientStateWaitGame : public ClientState
+{
+public:
+	// Access the state singleton.
+	static ClientStateWaitGame &Instance();
+
+	virtual ~ClientStateWaitGame();
+
+	// select on socket.
+	virtual int Process(ClientThread &client);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateWaitGame();
 };
 
 // State: Final (TODO).

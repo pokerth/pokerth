@@ -17,24 +17,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <net/connectdata.h>
+#include <net/servercallback.h>
 
-ConnectData::ConnectData()
-: m_sockfd(INVALID_SOCKET)
-{
-}
 
-ConnectData::~ConnectData()
+ServerCallback::~ServerCallback()
 {
-	if (m_sockfd != INVALID_SOCKET)
-		CLOSESOCKET(m_sockfd);
-}
-
-SOCKET
-ConnectData::ReleaseSocket()
-{
-	SOCKET tmpSock = m_sockfd;
-	m_sockfd = INVALID_SOCKET;
-	return tmpSock;
 }
 

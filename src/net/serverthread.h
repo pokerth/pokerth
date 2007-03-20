@@ -24,6 +24,7 @@
 #include <core/thread.h>
 #include <string>
 #include <memory>
+#include <net/servercallback.h>
 
 class ServerContext;
 class ServerRecvThread;
@@ -33,11 +34,14 @@ class SenderThread;
 class ServerThread : public Thread
 {
 public:
-	ServerThread(/*ServerCallback &gui*/);
+	ServerThread(ServerCallback &gui);
 	virtual ~ServerThread();
 
 	// Set the parameters.
 	void Init(unsigned serverPort, bool ipv6, const std::string &pwd);
+	void StartGame();
+
+	ServerCallback &GetCallback();
 
 protected:
 
@@ -55,6 +59,8 @@ protected:
 private:
 	std::auto_ptr<ServerContext> m_context;
 	std::auto_ptr<ServerRecvThread> m_recvThread;
+
+	ServerCallback &m_callback;
 };
 
 #endif

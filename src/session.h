@@ -41,6 +41,7 @@ public:
 	void terminateNetworkClient();
 
 	void startNetworkServer();
+	void initiateNetworkServerGame();
 	void terminateNetworkServer();
 
 	void setActualGameID(const int& theValue) { actualGameID = theValue; }

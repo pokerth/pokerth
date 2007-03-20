@@ -29,6 +29,7 @@
 
 // MUST be larger than MAX_PACKET_SIZE
 #define RECV_BUF_SIZE		10 * MAX_PACKET_SIZE
+#define RECV_TIMEOUT_MSEC	50
 
 
 class ReceiverHelper

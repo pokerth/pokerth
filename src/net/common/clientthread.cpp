@@ -22,7 +22,6 @@
 #include <net/clientcontext.h>
 #include <net/senderthread.h>
 #include <net/receiverhelper.h>
-#include <net/clientcallback.h>
 #include <net/clientexception.h>
 #include <net/socket_msg.h>
 
@@ -43,7 +42,7 @@ public:
 		// For now, we ignore the socket.
 		// Just signal the error.
 		// We assume that the client thread will be terminated.
-		m_client.GetCallback().SignalNetError(errorID, osErrorID);
+		m_client.GetCallback().SignalNetClientError(errorID, osErrorID);
 	}
 
 private:
@@ -97,11 +96,16 @@ ClientThread::Main()
 		{
 			int msg = GetState().Process(*this);
 			if (msg != MSG_SOCK_INTERNAL_PENDING)
-				GetCallback().SignalNetSuccess(msg);
+			{
+				if (msg <= MSG_SOCK_LIMIT_CONNECT)
+					GetCallback().SignalNetClientConnect(msg);
+				else
+					GetCallback().SignalNetClientGameInfo(msg);
+			}
 		}
 	} catch (const NetException &e)
 	{
-		GetCallback().SignalNetError(e.GetErrorId(), e.GetOsErrorCode());
+		GetCallback().SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
 	}
 	GetSender().SignalTermination();
 	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);

@@ -42,6 +42,7 @@ class joinNetworkGameDialogImpl;
 class connectToServerDialogImpl;
 class createNetworkGameDialogImpl;
 class startNetworkGameDialogImpl;
+class waitForServerToStartGameDialogImpl;
 
 class QColor;
 
@@ -88,8 +89,9 @@ public:
 	void setSpeeds();
 
 signals:
-	void SignalNetSuccess(int actionID);
-	void SignalNetError(int errorID, int osErrorID);
+	void SignalNetClientConnect(int actionID);
+	void SignalNetClientGameInfo(int actionID);
+	void SignalNetClientError(int errorID, int osErrorID);
 
 public slots:
 
@@ -258,6 +260,7 @@ private:
 	connectToServerDialogImpl *myConnectToServerDialog;
 	startNetworkGameDialogImpl *myStartNetworkGameDialog;
 	createNetworkGameDialogImpl *myCreateNetworkGameDialog;
+	waitForServerToStartGameDialogImpl *myWaitingForServerGameDialog;
 
 	int maxQuantityPlayers;
 	

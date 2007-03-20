@@ -44,9 +44,9 @@ void connectToServerDialogImpl::refresh(int actionID) {
 	default:  { label_actionMessage->setText("Please wait..."); }
 	}
 
-	progressBar->setValue(actionID*(100/MSG_SOCK_LAST));
+	progressBar->setValue(actionID*(100/MSG_SOCK_LIMIT_CONNECT));
 
-	if (actionID == MSG_SOCK_LAST)
+	if (actionID == MSG_SOCK_LIMIT_CONNECT)
 		QTimer::singleShot(1000, this, SLOT(accept()));
 }
 

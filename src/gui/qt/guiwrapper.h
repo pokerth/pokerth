@@ -88,8 +88,12 @@ public:
 	void logPlayerActionMsg(std::string playerName, int action, int setValue) ;
 	void logNewGameHandMsg(int gameID, int handID) ;
 
-	void SignalNetSuccess(int actionID);
-	void SignalNetError(int errorID, int osErrorID);
+	void SignalNetClientConnect(int actionID);
+	void SignalNetClientGameInfo(int actionID);
+	void SignalNetClientError(int errorID, int osErrorID);
+
+	void SignalNetServerSuccess(int actionID);
+	void SignalNetServerError(int errorID, int osErrorID);
 
 private: 
 	

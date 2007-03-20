@@ -31,6 +31,10 @@ waitForServerToStartGameDialogImpl::waitForServerToStartGameDialogImpl(QWidget *
 
 }
 
+void waitForServerToStartGameDialogImpl::refresh(int actionID) {
+	QTimer::singleShot(1000, this, SLOT(accept()));
+}
+
 void waitForServerToStartGameDialogImpl::cancel() {
 	
 }

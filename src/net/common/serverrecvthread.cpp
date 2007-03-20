@@ -51,6 +51,28 @@ ServerRecvThread::~ServerRecvThread()
 }
 
 void
+ServerRecvThread::StartGame()
+{
+	// TODO: not thread safe. use flag or something.
+	SetState(SERVER_START_GAME_STATE::Instance());
+}
+
+void
+ServerRecvThread::SendToAllClients(boost::shared_ptr<NetPacket> packet)
+{
+	// TODO: possible race condition if used in multithreading
+	SocketSessionMap::iterator i = m_sessions.begin();
+	SocketSessionMap::iterator end = m_sessions.end();
+
+	while (i != end)
+	{
+		// TODO: desparately need clone here, this is very dangerous.
+		GetSender().Send(packet, i->first);
+		++i;
+	}
+}
+
+void
 ServerRecvThread::AddConnection(boost::shared_ptr<ConnectData> data)
 {
 	boost::mutex::scoped_lock lock(m_connectQueueMutex);
@@ -91,6 +113,67 @@ ServerRecvThread::Main()
 	}
 	GetSender().SignalTermination();
 	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);
+
+	// TODO: clear connection queue
+}
+
+SOCKET
+ServerRecvThread::Select()
+{
+	SOCKET retSock = INVALID_SOCKET;
+
+	if (m_sessions.empty())
+	{
+		Msleep(RECV_TIMEOUT_MSEC); // just sleep if there is no session
+	}
+	else
+	{
+		// wait for data
+		SOCKET maxSock = 0;
+		fd_set rdset;
+		FD_ZERO(&rdset);
+
+		{
+			SocketSessionMap::iterator i = m_sessions.begin();
+			SocketSessionMap::iterator end = m_sessions.end();
+
+			while (i != end)
+			{
+				SOCKET tmpSock = i->first;
+				FD_SET(tmpSock, &rdset);
+				if (tmpSock > maxSock)
+					maxSock = tmpSock;
+				++i;
+			}
+		}
+
+		struct timeval timeout;
+		timeout.tv_sec = 0;
+		timeout.tv_usec = RECV_TIMEOUT_MSEC * 1000;
+		int selectResult = select(maxSock + 1, &rdset, NULL, NULL, &timeout);
+		if (!IS_VALID_SELECT(selectResult))
+		{
+			throw ServerException(ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
+		}
+		if (selectResult > 0) // one (or more) of the sockets is readable
+		{
+			// Check which socket is readable, return the first.
+			SocketSessionMap::iterator i = m_sessions.begin();
+			SocketSessionMap::iterator end = m_sessions.end();
+
+			while (i != end)
+			{
+				SOCKET tmpSock = i->first;
+				if (FD_ISSET(tmpSock, &rdset))
+				{
+					retSock = tmpSock;
+					break;
+				}
+				++i;
+			}
+		}
+	}
+	return retSock;
 }
 
 ServerRecvState &
@@ -104,6 +187,33 @@ void
 ServerRecvThread::SetState(ServerRecvState &newState)
 {
 	m_curState = &newState;
+}
+
+boost::shared_ptr<SessionData>
+ServerRecvThread::GetSession(SOCKET sock)
+{
+	boost::shared_ptr<SessionData> tmpSession;
+	
+	SocketSessionMap::iterator pos = m_sessions.find(sock);
+	if (pos != m_sessions.end())
+	{
+		tmpSession = pos->second;
+	}
+	return tmpSession;
+}
+
+void
+ServerRecvThread::AddSession(boost::shared_ptr<ConnectData> connData, boost::shared_ptr<SessionData> sessionData)
+{
+	SocketSessionMap::iterator pos = m_sessions.lower_bound(connData->GetSocket());
+
+	// If pos points to a pair whose key is equivalent to the socket, this handle
+	// already exists within the list.
+	if (pos != m_sessions.end() && connData->GetSocket() == pos->first)
+	{
+		throw ServerException(ERR_SOCK_CONN_EXISTS, 0);
+	}
+	m_sessions.insert(pos, SocketSessionMap::value_type(connData->ReleaseSocket(), sessionData));
 }
 
 SenderThread &

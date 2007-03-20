@@ -35,6 +35,7 @@ public:
 
 public slots:
 
+	void refresh(int actionID);
 	void cancel();
 	void keyPressEvent ( QKeyEvent * event );
 };

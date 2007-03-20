@@ -26,7 +26,7 @@
 #include "connecttoserverdialogimpl.h"
 #include "createnetworkgamedialogimpl.h"
 #include "startnetworkgamedialogimpl.h"
-
+#include "waitforservertostartgamedialogimpl.h"
 
 #include "startsplash.h"
 #include "mycardspixmaplabel.h"
@@ -427,6 +427,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	myConnectToServerDialog = new connectToServerDialogImpl(this);
 	myStartNetworkGameDialog = new startNetworkGameDialogImpl(this);
 	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this);
+	myWaitingForServerGameDialog = new waitForServerToStartGameDialogImpl(this);
 
 	//Connects
 	connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
@@ -481,8 +482,10 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
 
 	//Nachrichten Thread-Save
-	connect(this, SIGNAL(SignalNetSuccess(int)), myConnectToServerDialog, SLOT(refresh(int)));
-	connect(this, SIGNAL(SignalNetError(int, int)), myConnectToServerDialog, SLOT(error(int, int)));
+	connect(this, SIGNAL(SignalNetClientConnect(int)), myConnectToServerDialog, SLOT(refresh(int)));
+	connect(this, SIGNAL(SignalNetClientGameInfo(int)), myWaitingForServerGameDialog, SLOT(refresh(int)));
+	// TODO Fix, errors MUST be global, not within one dialog.
+	connect(this, SIGNAL(SignalNetClientError(int, int)), myConnectToServerDialog, SLOT(error(int, int)));
 
 // 	textBrowser_Log->append(QString::number(this->pos().x(),10)+" "+QString::number(this->pos().y(),10));	
 // 	textBrowser_Log->append(QString::number(this->x(),10)+" "+QString::number(this->y(),10));
@@ -586,29 +589,18 @@ void mainWindowImpl::callAboutPokerthDialog() {
 
 void mainWindowImpl::callCreateNetworkGameDialog() {
 	
-	myCreateNetworkGameDialog->showDialog();
+	myCreateNetworkGameDialog->exec();
 // 
 	if (myCreateNetworkGameDialog->result() == QDialog::Accepted ) {
+
 		mySession->terminateNetworkServer();
 		mySession->startNetworkServer();
-// 
-// 		mySession->terminateNetworkClient();
-// 
-// 		// Maybe use QUrl::toPunycode.
-// 		mySession->startNetworkClient(
-// 			myJoinNetworkGameDialog->lineEdit_ipAddress->text().toUtf8().constData(),
-// 			myJoinNetworkGameDialog->spinBox_port->value(),
-// 			myJoinNetworkGameDialog->checkBox_ipv6->isChecked(),
-// 			myJoinNetworkGameDialog->lineEdit_password->text().toUtf8().constData());
-// 
-// 		//Dialog mit Statusbalken
-// 		myConnectToServerDialog->exec();
-// 
-// 		if (myConnectToServerDialog->result() == QDialog::Rejected ) {
-// 			mySession->terminateNetworkClient();
-// 			actionJoin_network_Game->trigger(); // re-trigger
-// 		}
-// 
+
+		myStartNetworkGameDialog->exec();
+
+		if (myStartNetworkGameDialog->result() == QDialog::Accepted ) {
+			mySession->initiateNetworkServerGame();
+		}
 	}
 
 }
@@ -634,6 +626,9 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 		if (myConnectToServerDialog->result() == QDialog::Rejected ) {
 			mySession->terminateNetworkClient();
 			actionJoin_network_Game->trigger(); // re-trigger
+		}
+		else {
+			myWaitingForServerGameDialog->exec();
 		}
 
 	}

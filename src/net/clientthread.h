@@ -24,10 +24,10 @@
 #include <core/thread.h>
 #include <string>
 #include <memory>
+#include <net/clientcallback.h>
 
 class ClientContext;
 class ClientState;
-class ClientCallback;
 class SenderThread;
 class ReceiverHelper;
 class ClientSenderCallback;
@@ -77,6 +77,7 @@ friend class ClientStateStartConnect;
 friend class ClientStateConnecting;
 friend class ClientStateStartSession;
 friend class ClientStateWaitSession;
+friend class ClientStateWaitGame;
 };
 
 #endif

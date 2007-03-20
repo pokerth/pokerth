@@ -25,39 +25,171 @@ NetPacket::~NetPacket()
 {
 }
 
-//-----------------------------------------------------------------------------
-
-TestNetPacket::TestNetPacket()
+const NetPacketInit *
+NetPacket::ToNetPacketInit() const
 {
+	return NULL;
 }
 
-TestNetPacket::TestNetPacket(u_int32_t value)
+const NetPacketInitAck *
+NetPacket::ToNetPacketInitAck() const
 {
-	m_data.head.type = htons(NET_TYPE_TEST);
-	m_data.head.length = htons(sizeof(m_data));
+	return NULL;
+}
+
+const NetPacketGameStart *
+NetPacket::ToNetPacketGameStart() const
+{
+	return NULL;
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketInit::NetPacketInit()
+{
+	Init();
+}
+
+NetPacketInit::NetPacketInit(u_int32_t value)
+{
+	Init();
 	m_data.test = htonl(value);
 }
 
-TestNetPacket::~TestNetPacket()
+NetPacketInit::~NetPacketInit()
 {
-}
-
-NetPacketHeader *
-TestNetPacket::GetData()
-{
-	return (NetPacketHeader *)&m_data;
 }
 
 void
-TestNetPacket::SetData(const NetPacketHeader *p)
+NetPacketInit::Init()
+{
+	m_data.head.type = htons(NET_TYPE_INIT);
+	m_data.head.length = htons(sizeof(m_data));
+	m_data.test = htonl(0);
+}
+
+const NetPacketHeader *
+NetPacketInit::GetData() const
+{
+	return (const NetPacketHeader *)&m_data;
+}
+
+void
+NetPacketInit::SetData(const NetPacketHeader *p)
 {
 	u_int16_t tmpLen = ntohs(p->length);
 	if (tmpLen != sizeof(m_data)
-		|| ntohs(p->type) != NET_TYPE_TEST)
+		|| ntohs(p->type) != NET_TYPE_INIT)
 	{
 		throw NetException(ERR_SOCK_INTERNAL, 0);
 	}
 
 	memcpy(&m_data, p, tmpLen);
+}
+
+const NetPacketInit *
+NetPacketInit::ToNetPacketInit() const
+{
+	return this;
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketInitAck::NetPacketInitAck()
+{
+	Init();
+}
+
+NetPacketInitAck::NetPacketInitAck(u_int32_t value)
+{
+	Init();
+	m_data.test = htonl(value);
+}
+
+NetPacketInitAck::~NetPacketInitAck()
+{
+}
+
+void
+NetPacketInitAck::Init()
+{
+	m_data.head.type = htons(NET_TYPE_INIT_ACK);
+	m_data.head.length = htons(sizeof(m_data));
+	m_data.test = htonl(0);
+}
+
+const NetPacketHeader *
+NetPacketInitAck::GetData() const
+{
+	return (const NetPacketHeader *)&m_data;
+}
+
+void
+NetPacketInitAck::SetData(const NetPacketHeader *p)
+{
+	u_int16_t tmpLen = ntohs(p->length);
+	if (tmpLen != sizeof(m_data)
+		|| ntohs(p->type) != NET_TYPE_INIT_ACK)
+	{
+		throw NetException(ERR_SOCK_INTERNAL, 0);
+	}
+
+	memcpy(&m_data, p, tmpLen);
+}
+
+const NetPacketInitAck *
+NetPacketInitAck::ToNetPacketInitAck() const
+{
+	return this;
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketGameStart::NetPacketGameStart()
+{
+	Init();
+}
+
+NetPacketGameStart::NetPacketGameStart(u_int32_t value)
+{
+	Init();
+	m_data.test = htonl(value);
+}
+
+NetPacketGameStart::~NetPacketGameStart()
+{
+}
+
+void
+NetPacketGameStart::Init()
+{
+	m_data.head.type = htons(NET_TYPE_GAME_START);
+	m_data.head.length = htons(sizeof(m_data));
+	m_data.test = htonl(0);
+}
+
+const NetPacketHeader *
+NetPacketGameStart::GetData() const
+{
+	return (NetPacketHeader *)&m_data;
+}
+
+void
+NetPacketGameStart::SetData(const NetPacketHeader *p)
+{
+	u_int16_t tmpLen = ntohs(p->length);
+	if (tmpLen != sizeof(m_data)
+		|| ntohs(p->type) != NET_TYPE_GAME_START)
+	{
+		throw NetException(ERR_SOCK_INTERNAL, 0);
+	}
+
+	memcpy(&m_data, p, tmpLen);
+}
+
+const NetPacketGameStart *
+NetPacketGameStart::ToNetPacketGameStart() const
+{
+	return this;
 }
 

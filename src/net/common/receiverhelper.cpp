@@ -24,7 +24,6 @@
 
 using namespace std;
 
-#define RECV_TIMEOUT_MSEC 50
 
 ReceiverHelper::ReceiverHelper()
 : m_socket(INVALID_SOCKET), m_tmpInBufSize(0)
@@ -124,18 +123,25 @@ ReceiverHelper::InternalCreateNetPacket(const NetPacketHeader *p)
 {
 	boost::shared_ptr<NetPacket> tmpPacket;
 
-	switch(ntohs(p->type))
+	try
 	{
-		case NET_TYPE_TEST:
-			try
-			{
-				tmpPacket = boost::shared_ptr<NetPacket>(new TestNetPacket);
-				tmpPacket->SetData(p);
-			} catch (const NetException &)
-			{
-				tmpPacket.reset();
-			}
-			break;
+		switch(ntohs(p->type))
+		{
+			case NET_TYPE_INIT:
+				tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketInit);
+				break;
+			case NET_TYPE_INIT_ACK:
+				tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketInitAck);
+				break;
+			case NET_TYPE_GAME_START:
+				tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameStart);
+				break;
+		}
+		if (tmpPacket.get())
+			tmpPacket->SetData(p);
+	} catch (const NetException &)
+	{
+		tmpPacket.reset();
 	}
 	return tmpPacket;
 }

@@ -16,11 +16,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+/* Callback interface for network server gui. */
 
-#include <net/netcallback.h>
+#ifndef _SERVERCALLBACK_H_
+#define _SERVERCALLBACK_H_
 
-
-NetCallback::~NetCallback()
+class ServerCallback
 {
-}
+public:
+	virtual ~ServerCallback();
 
+	virtual void SignalNetServerSuccess(int actionID) = 0;
+	virtual void SignalNetServerError(int errorID, int osErrorID) = 0;
+};
+
+#endif

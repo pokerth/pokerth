@@ -16,18 +16,41 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Generic callback interface for network system. */
+/* Session data (a session is a valid client connection). */
 
-#ifndef _NETCALLBACK_H_
-#define _NETCALLBACK_H_
+#ifndef _SESSIONDATA_H_
+#define _SESSIONDATA_H_
 
-class NetCallback
+#include <string>
+
+#define SESSION_ID_INIT			0
+
+class SessionData
 {
 public:
-	virtual ~NetCallback();
+	enum State { Init, Established };
 
-	virtual void SignalNetSuccess(int actionID) = 0;
-	virtual void SignalNetError(int errorID, int osErrorID) = 0;
+	SessionData();
+	~SessionData();
+
+	unsigned GetId() const
+	{return m_id;}
+	void SetId(unsigned id)
+	{m_id = id;}
+	State GetState() const
+	{return m_state;}
+	void SetState(State state)
+	{m_state = state;}
+
+	const std::string &GetClientAddr() const
+	{return m_clientAddr;}
+	void SetClientAddr(const std::string &addr)
+	{m_clientAddr = addr;}
+
+private:
+	unsigned			m_id;
+	State				m_state;
+	std::string			m_clientAddr;
 };
 
 #endif

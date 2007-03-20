@@ -85,12 +85,19 @@ void Session::startNetworkServer()
 {
 	if (myNetServer)
 		return; // TODO: throw exception
-	myNetServer = new ServerThread();
+	myNetServer = new ServerThread(*myGui);
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
-		"");
+		""); // TODO: use pwd
 	myNetServer->Run();
+}
+
+void Session::initiateNetworkServerGame()
+{
+	if (!myNetServer)
+		return; // TODO: throw exception
+	myNetServer->StartGame();
 }
 
 void Session::terminateNetworkServer()

@@ -23,14 +23,17 @@
 
 #include <core/thread.h>
 #include <deque>
+#include <map>
 #include <boost/shared_ptr.hpp>
 
 #include <net/connectdata.h>
+#include <net/sessiondata.h>
 
 class ServerRecvState;
 class SenderThread;
 class ReceiverHelper;
 class ServerSenderCallback;
+class NetPacket;
 
 class ServerRecvThread : public Thread
 {
@@ -38,18 +41,24 @@ public:
 	ServerRecvThread();
 	virtual ~ServerRecvThread();
 
+	void StartGame();
+	void SendToAllClients(boost::shared_ptr<NetPacket> packet);
 	void AddConnection(boost::shared_ptr<ConnectData> data);
 
 protected:
 
+	typedef std::map<SOCKET, boost::shared_ptr<SessionData> > SocketSessionMap;
+
 	// Main function of the thread.
 	virtual void Main();
+
+	SOCKET Select();
 
 	ServerRecvState &GetState();
 	void SetState(ServerRecvState &newState);
 
-	//const ServerRecvContext &GetContext() const;
-	//ServerRecvContext &GetContext();
+	boost::shared_ptr<SessionData> GetSession(SOCKET sock);
+	void AddSession(boost::shared_ptr<ConnectData> connData, boost::shared_ptr<SessionData> sessionData);
 
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
@@ -57,16 +66,19 @@ protected:
 	ServerSenderCallback &GetSenderCallback();
 
 private:
-	//std::auto_ptr<ServerRecvContext> m_context;
 
 	std::deque<boost::shared_ptr<ConnectData> > m_connectQueue;
 	mutable boost::mutex m_connectQueueMutex;
 	ServerRecvState *m_curState;
 
+	SocketSessionMap m_sessions;
+
 	std::auto_ptr<ReceiverHelper> m_receiver;
 	std::auto_ptr<SenderThread> m_sender;
 
 	std::auto_ptr<ServerSenderCallback> m_senderCallback;
+
+friend class ServerRecvStateInit;
 };
 
 #endif

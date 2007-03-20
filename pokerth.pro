@@ -145,9 +145,10 @@ SOURCES += src/game.cpp \
            src/net/common/serverexception.cpp \
            src/net/common/serverrecvthread.cpp \
            src/net/common/serverrecvstate.cpp \
+           src/net/common/servercallback.cpp \
+           src/net/common/sessiondata.cpp \
            src/net/common/socket_helper_cmn.cpp \
            src/net/common/clientexception.cpp \
-           src/net/common/netcallback.cpp \
            src/net/common/netcontext.cpp \
            src/net/common/netexception.cpp \
            src/net/common/receiverhelper.cpp \

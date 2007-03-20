@@ -33,14 +33,11 @@ public:
 	{return m_sockfd;}
 	void SetSocket(SOCKET sockfd)
 	{m_sockfd = sockfd;}
-	const sockaddr_storage *GetSockaddr() const
-	{return &m_sockaddr;}
-	sockaddr_storage *GetSockaddr()
-	{return &m_sockaddr;}
+
+	SOCKET ReleaseSocket();
 
 private:
 	SOCKET				m_sockfd;
-	sockaddr_storage	m_sockaddr;
 };
 
 #endif
