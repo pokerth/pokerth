@@ -242,9 +242,9 @@ int array[7][3];
 			}
 			else {
 			// Straight Flush Ausnahme: 5-4-3-2-A
-				for(j2=j1+1; j2<7; j2++) {
+				for(j2=j1+1; j2<4; j2++) {
 					if(array[j1][1]-9==array[j2][1] && array[j2][1]-1==array[j2+1][1] && array[j2+1][1]-1==array[j2+2][1] && array[j2+2][1]-1==array[j2+3][1] && array[j1][0]==array[j2+2][0] && array[j1][0]==array[j2+3][0]) {
-						// Straight Flush mit 5 als h�ste Karte -> 8*100000000+3*1000000
+						// Straight Flush mit 5 als höchste Karte -> 8*100000000+3*1000000
 						if(position) {
 							// Position-Array fuellen
 							position[0] = array[j1][2];
