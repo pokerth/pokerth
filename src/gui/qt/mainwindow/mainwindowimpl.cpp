@@ -67,11 +67,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 // 	Schriftart laden 
 #ifdef _WIN32
-
 	QFont tmpFont;
 	tmpFont.setFamily("Arial");
 	tmpFont.setPixelSize(12);
-
 // 	if(this->logicalDpiX() > 105) { tmpFont.setFont("Arial",8); }
 // 	else { QFont tmpFont("Arial",9); }
 
@@ -81,7 +79,6 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	QFont tmpFont;
 	tmpFont.setFamily("Nimbus Sans L");
 	tmpFont.setPixelSize(12);
-
 #endif
 	QApplication::setFont(tmpFont);
 
@@ -228,8 +225,6 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	pixmapLabel_card4b->setScaledContents(true);
 	gridLayout31->addWidget(pixmapLabel_card4b, 0, 1, 1, 1);
 
-// 	pixmapLabel_card4b->setPixmap(QPixmap(":/cards/resources/graphics/cards/33.png"), FALSE);
-	
 	//Flipside festlegen;
 	flipside = new QPixmap(":/cards/resources/graphics/cards/flipside.png");
 	
@@ -241,7 +236,6 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 	//Flipside Animation noch nicht erledigt
 	flipHolecardsAllInAlreadyDone = FALSE;
-
 
 	//Toolboxen verstecken?				
 	if (!myConfig->readConfigInt("ShowRightToolBox")) { 
@@ -257,7 +251,6 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	if (myConfig->readConfigInt("ShowIntro")) { 
 // 		label_logo->hide();
 		QTimer::singleShot(100, this, SLOT( paintStartSplash() )); }
-
 		
 	pushButton_raise->setDisabled(TRUE);
 	pushButton_call->setDisabled(TRUE);
@@ -266,7 +259,6 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	pushButton_fold->setDisabled(TRUE);
 	pushButton_allin->setDisabled(TRUE);
 	pushButton_check->setDisabled(TRUE);
-	
 	spinBox_set->setDisabled(TRUE);
 	
 	// userWidgetsArray init
@@ -615,9 +607,7 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 				mySession->terminateNetworkClient();
 			}
 		}
-
 	}
-
 }
 
 void mainWindowImpl::callSettingsDialog() {
@@ -645,8 +635,6 @@ void mainWindowImpl::callSettingsDialog() {
 			groupBox_right_tools->hide(); 
 			label_logoright->show();
 		}
-
-
 		
 		//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
 		if (v->getPlayerNickIsChanged() && actualGame) { 
@@ -691,7 +679,6 @@ void mainWindowImpl::setLog(Log* l) { myLog = l; }
 
 //refresh-Funktionen
 void mainWindowImpl::refreshSet() {
-
 	
 	int i;
  	for (i=0; i<maxQuantityPlayers; i++) { 
@@ -730,10 +717,8 @@ void mainWindowImpl::refreshButton() {
 			else {
 				buttonLabelArray[i]->setPixmap(onePix);
 			}
-		}
-		
+		}	
 	}
-	
 }
 
 void mainWindowImpl::refreshPlayerName() {
@@ -774,7 +759,6 @@ void mainWindowImpl::refreshAction() {
 // 			cashTopLabelArray[i]->setAutoFillBackground(FALSE);
 // 		}
 	}
-
 }
 
 void mainWindowImpl::refreshCash() {
@@ -796,7 +780,6 @@ void mainWindowImpl::refreshCash() {
 			cashTopLabelArray[i]->setText("");
 		}
 	}
-
 }
 
 void mainWindowImpl::refreshGroupbox() {
@@ -828,10 +811,7 @@ void mainWindowImpl::refreshGroupbox() {
 			}
 		}
 	}
-
 	userWidgetsBackgroudColor();
-
-
 }
 
 void mainWindowImpl::highlightRoundLabel(string tempround) { 
@@ -848,10 +828,7 @@ void mainWindowImpl::highlightRoundLabel(string tempround) {
 		textLabel_handLabel->setText(round);
 		textLabel_handNumber->setText("Hand: "+QString::number(actualHand->getMyID(),10));
 		textLabel_gameNumber->setText("Game: "+QString::number(actualGame->getMyGameID(),10));
-
-
 	}
-
 }
 
 void mainWindowImpl::refreshAll() {
@@ -861,7 +838,6 @@ void mainWindowImpl::refreshAll() {
 	refreshAction();
 	refreshCash();
 	refreshGroupbox();
-
 }
 
 void mainWindowImpl::refreshChangePlayer() {
@@ -870,14 +846,12 @@ void mainWindowImpl::refreshChangePlayer() {
 	refreshButton();
 	refreshAction();
 	refreshCash();
-
 }
 
 void mainWindowImpl::refreshPot() {
 
 	textLabel_Sets->setText("<p align='left'>"+QString::number(actualHand->getBoard()->getSets(),10)+" $</p>");
 	textLabel_Pot->setText("<p align='center'><span style='font-weight:bold'>"+QString::number(actualHand->getBoard()->getPot(),10)+" $</span></p>");
-
 }
 
 void mainWindowImpl::dealHoleCards() {
@@ -907,10 +881,8 @@ void mainWindowImpl::dealHoleCards() {
 				holeCardsArray[i][j]->setPixmap(onePix, FALSE);
 // 				holeCardsArray[i][j]->repaint();
 			}
-	
 		}
 	}
-
 	// eigenen Karten austeilen
 	
 	actualHand->getPlayerArray()[0]->getMyCards(tempCardsIntArray);
@@ -928,7 +900,6 @@ void mainWindowImpl::dealHoleCards() {
 // 			holeCardsArray[i][j]->repaint();
 		}
 	}
-
 	//Groupbox repaint() hline-bug?;
 	refreshGroupbox();
 }
@@ -938,25 +909,19 @@ void mainWindowImpl::dealFlopCards0() {	dealFlopCards0Timer->start(preDealCardsS
 void mainWindowImpl::dealFlopCards1() {
 
 	boardCardsArray[0]->setPixmap(*flipside, TRUE);
-
 	dealFlopCards1Timer->start(dealCardsSpeed);
 }
 
 void mainWindowImpl::dealFlopCards2() {
 
 	boardCardsArray[1]->setPixmap(*flipside, TRUE);
-
 	dealFlopCards2Timer->start(dealCardsSpeed);
-
 }
 
 void mainWindowImpl::dealFlopCards3() {
-
 	
 	boardCardsArray[2]->setPixmap(*flipside, TRUE);
-
 	dealFlopCards3Timer->start(dealCardsSpeed);
-
 }
 
 void mainWindowImpl::dealFlopCards4() {
@@ -997,7 +962,6 @@ void mainWindowImpl::dealFlopCards5() {
 		boardCardsArray[1]->setPixmap(card, FALSE);
 	}
 	dealFlopCards5Timer->start(dealCardsSpeed);
-
 }
 
 void mainWindowImpl::dealFlopCards6() {
@@ -1024,7 +988,6 @@ void mainWindowImpl::dealFlopCards6() {
 	if(actualHand->getAllInCondition()) { dealFlopCards6Timer->start(AllInDealCardsSpeed); }
 	// sonst normale Variante
 	else { dealFlopCards6Timer->start(postDealCardsSpeed);}
-
 }
 
 void mainWindowImpl::dealTurnCards0() { dealTurnCards0Timer->start(preDealCardsSpeed); }
@@ -1033,7 +996,6 @@ void mainWindowImpl::dealTurnCards1() {
 
 	boardCardsArray[3]->setPixmap(*flipside, TRUE);
 	dealTurnCards1Timer->start(dealCardsSpeed);
-
 }
 
 void mainWindowImpl::dealTurnCards2() {
@@ -1070,7 +1032,6 @@ void mainWindowImpl::dealRiverCards1() {
 	boardCardsArray[4]->setPixmap(*flipside, TRUE);
 // 	QTimer::singleShot(dealCardsSpeed, this, SLOT( dealRiverCards2() ));
 	dealRiverCards1Timer->start(dealCardsSpeed);
-
 }
 
 void mainWindowImpl::dealRiverCards2() {
@@ -1099,12 +1060,9 @@ void mainWindowImpl::dealRiverCards2() {
 	else {
 		dealRiverCards2Timer->start(postDealCardsSpeed);
 	}
-
-
 }
 
 void mainWindowImpl::meInAction() {
-
 	
 	switch (actualHand->getActualRound()) {
 
@@ -1129,9 +1087,6 @@ void mainWindowImpl::meInAction() {
 			pushButton_call->setEnabled(TRUE); 
 			if (actualHand->getPlayerArray()[0]->getMyCash()+actualHand->getPlayerArray()[0]->getMySet() > actualHand->getPreflop()->getHighestSet()) { pushButton_raise->setEnabled(TRUE); }
 		}
-		
-
-
 	}
 	break;
 	case 2: {
@@ -1147,9 +1102,6 @@ void mainWindowImpl::meInAction() {
 			pushButton_call->setEnabled(TRUE); 
 			if (actualHand->getPlayerArray()[0]->getMyCash()+actualHand->getPlayerArray()[0]->getMySet() > actualHand->getPreflop()->getHighestSet()) { pushButton_raise->setEnabled(TRUE); }
 		}
-		
-
-
 	}
 	break;
 	case 3: {
@@ -1165,18 +1117,13 @@ void mainWindowImpl::meInAction() {
 			pushButton_call->setEnabled(TRUE); 
 			if (actualHand->getPlayerArray()[0]->getMyCash()+actualHand->getPlayerArray()[0]->getMySet() > actualHand->getPreflop()->getHighestSet()) { pushButton_raise->setEnabled(TRUE); }
 		}
-		
-
-
 	}
 	break;
 	default: {}
-
 	}
 
 	//Hintergrundfarbe der userWidgets anpassen;
 	userWidgetsBackgroudColor();
-
 }
 
 void mainWindowImpl::disableMyButtons() {
@@ -1273,7 +1220,6 @@ void mainWindowImpl::myBet(){
 
 	//Hintergrundfarbe anpassen;
 	userWidgetsBackgroudColor();
-
 	
 	if (actualHand->getActualRound() <= 2 ) { spinBox_set->setMinimum(actualHand->getSmallBlind()*2); }
 	else { spinBox_set->setMinimum(actualHand->getSmallBlind()*4); }
@@ -1284,7 +1230,6 @@ void mainWindowImpl::myBet(){
 	spinBox_set->selectAll();
 
 	actualHand->getPlayerArray()[0]->setMyAction(4);
-
 }
 
 void mainWindowImpl::myRaise(){ 
@@ -1297,7 +1242,6 @@ void mainWindowImpl::myRaise(){
 
 	//Hintergrundfarbe der userWidgets anpassen;
 	userWidgetsBackgroudColor();
-
 
 	int tempHighestSet = 0;
 	switch (actualHand->getActualRound()) {
@@ -1320,7 +1264,6 @@ void mainWindowImpl::myRaise(){
 	spinBox_set->selectAll();
 
 	actualHand->getPlayerArray()[0]->setMyAction(5);
-
 }
 
 void mainWindowImpl::mySet(){
@@ -1335,7 +1278,6 @@ void mainWindowImpl::mySet(){
 		actualHand->getPlayerArray()[0]->setMyAction(6);
 		actualHand->getPlayerArray()[0]->setMySet(actualHand->getPlayerArray()[0]->getMyCash());
 		actualHand->getPlayerArray()[0]->setMyCash(0);
-		
 	}
 
 	switch (actualHand->getActualRound()) {
@@ -1350,7 +1292,6 @@ void mainWindowImpl::mySet(){
 		break;
 		default: {}	
 	}
-
 	
 	actualHand->getPlayerArray()[0]->setMyTurn(0);
 
@@ -1418,13 +1359,11 @@ void mainWindowImpl::flopAnimation1Action() { actualHand->getFlop()->flopRun(); 
 void mainWindowImpl::flopAnimation2() { flopAnimation2Timer->start(nextPlayerSpeed3); }
 void mainWindowImpl::flopAnimation2Action() { actualHand->getFlop()->nextPlayer2(); }
 
-
 void mainWindowImpl::turnAnimation1() { turnAnimation1Timer->start(nextPlayerSpeed2); }
 void mainWindowImpl::turnAnimation1Action() { actualHand->getTurn()->turnRun(); }
 
 void mainWindowImpl::turnAnimation2() { turnAnimation2Timer->start(nextPlayerSpeed3); }
 void mainWindowImpl::turnAnimation2Action() { actualHand->getTurn()->nextPlayer2(); }
-
 
 void mainWindowImpl::riverAnimation1() { riverAnimation1Timer->start(nextPlayerSpeed2); }
 void mainWindowImpl::riverAnimation1Action() { actualHand->getRiver()->riverRun(); }
@@ -1432,10 +1371,8 @@ void mainWindowImpl::riverAnimation1Action() { actualHand->getRiver()->riverRun(
 void mainWindowImpl::riverAnimation2() { riverAnimation2Timer->start(nextPlayerSpeed3); }
 void mainWindowImpl::riverAnimation2Action() { actualHand->getRiver()->nextPlayer2(); }
 
-
 void mainWindowImpl::postRiverAnimation1() { postRiverAnimation1Timer->start(nextPlayerSpeed2); }
 void mainWindowImpl::postRiverAnimation1Action() { actualHand->getRiver()->postRiverRun(); }
-
 
 void mainWindowImpl::postRiverRunAnimation1() {
 
@@ -1449,10 +1386,7 @@ void mainWindowImpl::postRiverRunAnimation1() {
 	tempPalette.setColor(QPalette::Window, highlight);
 	frame_Pot->setPalette(tempPalette);
 
-
-
 	postRiverRunAnimation1Timer->start(postRiverRunAnimationSpeed);
-
 }
 
 void mainWindowImpl::postRiverRunAnimation2() {
@@ -1522,7 +1456,6 @@ void mainWindowImpl::postRiverRunAnimation2() {
 					}
 				}
 			}
-
 		//Wenn einmal umgedreht dann fertig!!	
 		flipHolecardsAllInAlreadyDone = TRUE;
 		}
@@ -1535,22 +1468,17 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				
 					//Kartenwerte Loggen 
 					myLog->logFlipHoleCardsMsg(actualHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], actualHand->getPlayerArray()[i]->getMyCardsValueInt(), "has");
-			
-	
 				}
 			}	
 		}
-
 		postRiverRunAnimation2Timer->start(postRiverRunAnimationSpeed);
 	}
 	else { postRiverRunAnimation3(); }
-	
 }
 
 void mainWindowImpl::postRiverRunAnimation3() {
 
 	int i;
-
 // 	cout << "Neue Runde" << endl;
 
 	//Alle Winner erhellen und "Winner" schreiben
@@ -1611,7 +1539,6 @@ void mainWindowImpl::postRiverRunAnimation3() {
 				}
 				if (index6) { boardCardsArray[4]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index6" << endl;*/}
 			}	
-
 			//Pot-Verteilung Loggen 
 			//Pro Spieler den Cash aus dem Player und dem Label auslesen. Player_cash - Label_cash = Gewinnsumme
 			bool toIntBool = TRUE;
@@ -1623,8 +1550,6 @@ void mainWindowImpl::postRiverRunAnimation3() {
 // 			else {
 // 				myLog->logPlayerWinsMsg(i, pot);
 // 			}
-// 			
-			
 		}
 		else {
 			
@@ -1634,18 +1559,12 @@ void mainWindowImpl::postRiverRunAnimation3() {
 				holeCardsArray[i][0]->startFadeOut(guiGameSpeed);
 				holeCardsArray[i][1]->startFadeOut(guiGameSpeed);
 			}
-		
-		
-
 		}
 	}
-	
-	
 	//Hintergrundfarbe der userWidgets anpassen;
 	userWidgetsBackgroudColor();
 
 	postRiverRunAnimation3Timer->start(postRiverRunAnimationSpeed/2);
-
 }
 
 void mainWindowImpl::postRiverRunAnimation4() {
@@ -1674,7 +1593,6 @@ void mainWindowImpl::postRiverRunAnimation5() {
 					QPalette labelPalette = cashTopLabelArray[i]->palette();
 					labelPalette.setColor(QPalette::WindowText, highlight);
 					cashTopLabelArray[i]->setPalette(labelPalette);
-					
 				}
 			}
 		}
@@ -1702,12 +1620,10 @@ void mainWindowImpl::postRiverRunAnimation5() {
 		potDistributeTimer->stop();
 		postRiverRunAnimation5Timer->start(gameSpeed);	
 	}
-	
 }
 
 void mainWindowImpl::postRiverRunAnimation6() {
 
-	
 	int i;
 	refreshCash();
 	refreshPot();
@@ -1729,7 +1645,6 @@ void mainWindowImpl::postRiverRunAnimation6() {
 }
 
 void mainWindowImpl::flipHolecardsAllIn() {
-
 
 	int i;
 
@@ -1819,15 +1734,13 @@ void mainWindowImpl::showMyCards() {
 
 void mainWindowImpl::startNewHand() {
 
-if( !breakAfterActualHand){ actualGame->startHand();
-}
-else { 
-	pushButton_break->setDisabled(FALSE);
-	pushButton_break->setText("Start");
-	breakAfterActualHand=FALSE;
-}
-
-
+	if( !breakAfterActualHand){ actualGame->startHand();
+	}
+	else { 
+		pushButton_break->setDisabled(FALSE);
+		pushButton_break->setText("Start");
+		breakAfterActualHand=FALSE;
+	}
 }
 
 void mainWindowImpl::handSwitchRounds() { actualHand->switchRounds(); }
@@ -1846,8 +1759,6 @@ void mainWindowImpl::nextRoundCleanGui() {
 	for (i=1; i<=4; i++ ) { 
 		for ( j=0; j<=1; j++ ) { holeCardsArray[i][j]->setFadeOutAction(FALSE);}
 	}
-	
-
 		
 	QColor c(0,0,0);
 	for(i=0; i<maxQuantityPlayers; i++) {
@@ -1921,11 +1832,9 @@ void mainWindowImpl::stopTimer() {
 	postRiverRunAnimation5Timer->stop();
 	postRiverRunAnimation6Timer->stop();	
 	potDistributeTimer->stop();
-
 }
 
 void mainWindowImpl::userWidgetsBackgroudColor() {
-	
 	
 	int i;
 	for(i=0; i<=7; i++) {
@@ -1940,7 +1849,6 @@ void mainWindowImpl::userWidgetsBackgroudColor() {
 		else {
 			QColor tempColor = tempPalette.color(QPalette::Window);
 			tempPalette.setColor(QPalette::Button, tempColor);
-
 		}
 		userWidgetsArray[i]->setPalette(tempPalette);
 	}
@@ -1977,10 +1885,6 @@ void mainWindowImpl::breakButtonClicked() {
 void mainWindowImpl::paintStartSplash() {
 
 	StartSplash *mySplash = new StartSplash(this);	
-				
-// 	mySplash->setMaximumSize(400,250);
-// 	mySplash->setMinimumSize(400,250);
-	
 	mySplash->setGeometry(this->pos().x()+237,this->pos().y()+210,400,250);
 // 	mySplash->setWindowFlags(Qt::SplashScreen);
 	mySplash->show();
@@ -2085,11 +1989,8 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 		ctrlPressed = TRUE;
 // 		QTimer::SingleShot
 	} //CTRL
-// 	if (event->key() == 65) {  paintStartSplash();
-		
-	     
+// 	if (event->key() == 65) {  paintStartSplash();	     
 // 	if (event->key() == 66) {  label_logo->hide();	}
-	
 }
 
 void mainWindowImpl::switchLeftToolBox() {
@@ -2102,7 +2003,6 @@ void mainWindowImpl::switchLeftToolBox() {
 		groupBox_left_tools->hide(); 
 		label_logoleft->show();
 	}
-
 }
 
 void mainWindowImpl::switchRightToolBox() {
@@ -2115,7 +2015,6 @@ void mainWindowImpl::switchRightToolBox() {
 		groupBox_right_tools->hide(); 
 		label_logoright->show();
 	}
-
 }
 
 void mainWindowImpl::switchFullscreen() {
@@ -2126,5 +2025,4 @@ void mainWindowImpl::switchFullscreen() {
 	else {
 		this->showFullScreen();
 	}
-
 }
