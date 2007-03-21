@@ -498,99 +498,61 @@ mainWindowImpl::~mainWindowImpl() {}
 
 void mainWindowImpl::callNewGameDialog() {
 
-	
-
 	//wenn Dialogfenster gezeigt werden soll
-
 	if(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame")){
 
 		newGameDialogImpl *v = new newGameDialogImpl(this);
 		v->exec();
-	
-		if (v->result() == QDialog::Accepted ) {
-
-			// Start new local game - terminate existing network game.
-			mySession->terminateNetworkClient();
-			mySession->terminateNetworkServer();
-
-			if(actualGame) {
-				mySession->deleteGame();
-				actualGame = 0;
-			}
-			
-			guiGameSpeed = v->spinBox_gameSpeed->value();
-	// 		debugMode = v->checkBox_debugMode->isChecked();
-			//Speeds 
-			setSpeeds();
-	
-			//restliche Singleshots killen!!!
-			stopTimer();
-				
-			label_Pot->setText("<p align='center'><span style='font-weight:bold'>Pot Total</span></p>");
-			label_Sets->setText("<p align='center'><span style='font-weight:bold'>Sets:</span></p>");
-	
-			
-			//Tools und Board aufhellen und enablen
-			QPalette tempPalette = groupBox_board->palette();
-			tempPalette.setColor(QPalette::Window, active);
-			groupBox_board->setPalette(tempPalette);
-			groupBox_right_tools->setDisabled(FALSE);
-			groupBox_left_tools->setDisabled(FALSE);	
-		
-	
-			//positioning Slider
-			horizontalSlider_speed->setValue(guiGameSpeed);
-			
-			//Start Game!!!
-			mySession->startGame(v->spinBox_quantityPlayers->value(), v->spinBox_startCash->value(), v->spinBox_smallBlind->value());
-	
-		}
+		if (v->result() == QDialog::Accepted ) { startNewLocalGame(v);	}
 	}
 	// sonst mit gespeicherten Werten starten
-	else {
+	else { startNewLocalGame(); }
+}
 
-		// COPY AND PASTE WARNING, see above!!!
-		// TODO
-		// Start new local game - terminate existing network game.
-		mySession->terminateNetworkClient();
-		mySession->terminateNetworkServer();
+void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 
-		if(actualGame) {
-			mySession->deleteGame();
-			actualGame = 0;
-		}
-	
-		guiGameSpeed = myConfig->readConfigInt("GameSpeed");
-		//Speeds 
-		setSpeeds();
-				
-		//restliche Singleshots killen!!!
-		stopTimer();
-	
-		label_Pot->setText("<p align='center'><span style='font-weight:bold'>Pot Total</span></p>");
-		label_Sets->setText("<p align='center'><span style='font-weight:bold'>Sets:</span></p>");
-	
-	
-	// 	debugMode = v->checkBox_debugMode->isChecked();
-			
-		//Tools und Board aufhellen und enablen
-		QPalette tempPalette = groupBox_board->palette();
-		tempPalette.setColor(QPalette::Window, active);
-		groupBox_board->setPalette(tempPalette);
-		groupBox_right_tools->setDisabled(FALSE);	
-	 	groupBox_left_tools->setDisabled(FALSE);	
-	
+	// Start new local game - terminate existing network game.
+	mySession->terminateNetworkClient();
+	mySession->terminateNetworkServer();
+
+	if(actualGame) {
+		mySession->deleteGame();
+		actualGame = 0;
+	}
+	//restliche Singleshots killen!!!
+	stopTimer();
 		
-		//positioning Slider
-		horizontalSlider_speed->setValue(guiGameSpeed);
+	label_Pot->setText("<p align='center'><span style='font-weight:bold'>Pot Total</span></p>");
+	label_Sets->setText("<p align='center'><span style='font-weight:bold'>Sets:</span></p>");
+	
+	//Tools und Board aufhellen und enablen
+	QPalette tempPalette = groupBox_board->palette();
+	tempPalette.setColor(QPalette::Window, active);
+	groupBox_board->setPalette(tempPalette);
+	groupBox_right_tools->setDisabled(FALSE);
+	groupBox_left_tools->setDisabled(FALSE);	
+		
+	//positioning Slider
+	horizontalSlider_speed->setValue(guiGameSpeed);
 
+	//get values from local game dialog
+	if(v) {
+		//Speeds 
+		guiGameSpeed = v->spinBox_gameSpeed->value();
+		setSpeeds();
+		//Start Game!!!
+		mySession->startGame(v->spinBox_quantityPlayers->value(), v->spinBox_startCash->value(), v->spinBox_smallBlind->value());
+	}
+	// start with default values
+	else {
+		//Speeds 
+		guiGameSpeed = myConfig->readConfigInt("GameSpeed");
+		setSpeeds();
 		//Start Game!!!
 		mySession->startGame(myConfig->readConfigInt("NumberOfPlayers"), myConfig->readConfigInt("StartCash"), myConfig->readConfigInt("SmallBlind"));
-
-
 	}
-
 }
+
 
 void mainWindowImpl::callAboutPokerthDialog() {
 

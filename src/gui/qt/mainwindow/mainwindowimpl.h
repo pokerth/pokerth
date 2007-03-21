@@ -38,6 +38,7 @@ class BoardInterface;
 // class HandInterface;
 class PlayerInterface;
 class MyCardsPixmapLabel;
+class newGameDialogImpl;
 class joinNetworkGameDialogImpl;
 class connectToServerDialogImpl;
 class createNetworkGameDialogImpl;
@@ -165,6 +166,7 @@ public slots:
 	void handSwitchRounds();
 
 	void startNewHand();
+	void startNewLocalGame(newGameDialogImpl* =0);
 
 	void stopTimer();
 	
@@ -173,14 +175,14 @@ public slots:
 	void userWidgetsBackgroudColor();
 	void breakButtonClicked();
 
-	void keyPressEvent ( QKeyEvent * event );
+	void keyPressEvent ( QKeyEvent*);
 	void switchLeftToolBox();
 	void switchRightToolBox();
 	void switchFullscreen();
 
 	void paintStartSplash();
 
-	void networkError(int errorID, int osErrorID);
+	void networkError(int, int);
 
 private: 
 	
