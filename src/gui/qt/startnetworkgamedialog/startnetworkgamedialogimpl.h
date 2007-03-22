@@ -37,7 +37,9 @@ public slots:
 
 	void startGame();
 	void cancel();
-	void keyPressEvent ( QKeyEvent * event );
+	void addConnectedPlayer(std::string);
+	
+	void keyPressEvent ( QKeyEvent*);
 };
 
 #endif

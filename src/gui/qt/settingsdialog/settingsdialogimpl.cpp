@@ -101,11 +101,11 @@ void settingsDialogImpl::isAccepted() {
 	ConfigFile myConfig;
 
 // 	Player Nicks
-	myConfig.writeConfigString("MyName", lineEdit_humanPlayerName->text().toStdString());
-	myConfig.writeConfigString("Opponent1Name", lineEdit_Opponent1Name->text().toStdString());
-	myConfig.writeConfigString("Opponent2Name", lineEdit_Opponent2Name->text().toStdString());
-	myConfig.writeConfigString("Opponent3Name", lineEdit_Opponent3Name->text().toStdString());
-	myConfig.writeConfigString("Opponent4Name", lineEdit_Opponent4Name->text().toStdString());
+	myConfig.writeConfigString("MyName", lineEdit_humanPlayerName->text().toUtf8().constData());
+	myConfig.writeConfigString("Opponent1Name", lineEdit_Opponent1Name->text().toUtf8().constData());
+	myConfig.writeConfigString("Opponent2Name", lineEdit_Opponent2Name->text().toUtf8().constData());
+	myConfig.writeConfigString("Opponent3Name", lineEdit_Opponent3Name->text().toUtf8().constData());
+	myConfig.writeConfigString("Opponent4Name", lineEdit_Opponent4Name->text().toUtf8().constData());
 
 // 	Local Game Settings
 	myConfig.writeConfigInt("NumberOfPlayers", spinBox_quantityPlayers->value());
@@ -125,7 +125,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("NetGameSpeed", spinBox_netGameSpeed->value());
 	myConfig.writeConfigInt("NetEngineVersion", comboBox_netEngineVersion->currentIndex());
 	myConfig.writeConfigInt("ServerPort", spinBox_serverPort->value());
-	myConfig.writeConfigString("ServerPassword", lineEdit_serverPassword->text().toStdString());
+	myConfig.writeConfigString("ServerPassword", lineEdit_serverPassword->text().toUtf8().constData());
 	myConfig.writeConfigInt("ServerUseIpv6", checkBox_useIpv6->isChecked());
 	
 // 	Interface
@@ -138,7 +138,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig.writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());
 
 	if(radioButton_flipsideOwn->isChecked()) {
-		if(QFile::QFile(lineEdit_OwnFlipsideFilename->text()).exists() && lineEdit_OwnFlipsideFilename->text() != "") {myConfig.writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toStdString()); }
+		if(QFile::QFile(lineEdit_OwnFlipsideFilename->text()).exists() && lineEdit_OwnFlipsideFilename->text() != "") {myConfig.writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toUtf8().constData()); }
 		else {	QMessageBox::warning(this, tr("Settings Error"),
 			tr("The entered flipside picture doesn't exists.\n"
 			"Please enter an valid picture!"),
@@ -148,7 +148,7 @@ void settingsDialogImpl::isAccepted() {
 	}
 
 //	Log
-	if(QDir::QDir(lineEdit_logDir->text()).exists() && lineEdit_logDir->text() != "") { myConfig.writeConfigString("LogDir", lineEdit_logDir->text().toStdString());	}
+	if(QDir::QDir(lineEdit_logDir->text()).exists() && lineEdit_logDir->text() != "") { myConfig.writeConfigString("LogDir", lineEdit_logDir->text().toUtf8().constData());	}
 	else { 
 		QMessageBox::warning(this, tr("Settings Error"),
                    tr("The log file directory doesn't exists.\n"
