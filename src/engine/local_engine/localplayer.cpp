@@ -1312,7 +1312,7 @@ void LocalPlayer::riverEngine() {
 int LocalPlayer::flopCardsValue(int* cards) {
 
 	int array[5][3];
-	int j1, j2, j3, j4, k1, k2, ktemp[3];
+	int j1, j2, j3, j4, j5, k1, k2, ktemp[3];
 	int temp = 0;
 	int temp1 = 0;
 	int temp2 = 0;
@@ -1427,19 +1427,25 @@ int LocalPlayer::flopCardsValue(int* cards) {
                         		// Flush Draw
                         		else {
                              			cout << "Flush Draw";
+
+						// Anteil ermitteln
 						for(j2=0; j2<4; j2++) {
 							if(array[j1+j2][2] <= 1) {
 								temp2Array[temp] = array[j1+j2][1];
 								temp++;
 							}
 						}
+
+						// Anteil 2
                        				if(temp==2) {
 							for(j2=0; j2<4; j2++) {
 								if(temp2Array[1] > array[j1+j2][1]) temp1++;
 								if(temp2Array[0] > array[j1+j2][1]) temp2++;
 							}
 							return (60000 + temp1*1000 + temp2*100 + array[j1][1]);
-						} else {
+						}
+						// Anteil 1
+						else {
 
 							// 2.Stelle
 							for(j2=0; j2<4; j2++) {
@@ -1504,122 +1510,385 @@ int LocalPlayer::flopCardsValue(int* cards) {
 	 }
 
 
-// // auf Straßenansatz testen
-// 	for(j1=0; j1<5 && !breakLoop; j1++) {
-// 		for(j2=j1+1; j2<5 && !breakLoop; j2++) {
-// 			for(j3=j2+1; j3<5 && !breakLoop; j3++) {
-// 				for(j4=j3+1; j4<5 && !breakLoop; j4++) {
-// 					// zusammenhaengender Strassenansatz ?
-// 					if((array[j1][1]-1 == array[j2][1] || array[j1][1]-9 == array[j2][1]) && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1]) { 
-//                   				// Strassenansatz am Rand?
-//                   				if(array[j1][1] == 12) {
-// 							cout << "zusammenhaengender Straight-Draw mit Ass high";
-// 
-// 							tempChance = 
-// 							breakLoop = 1;
-// 
-// 							for(j2=0; j2<4; j2++) {
-// 								if(array[j1+j2][2] <= 1) temp++;
-// 							}
-// 
-//                   				}
-//                   				// Strassenansatz in der Mitte
-//                   				else {
-//                        					tempChance += 31;
-// 							if(array[j1][2] <= 1) info[3]++;
-// 							if(array[j2][2] <= 1) info[3]++;
-// 							if(array[j3][2] <= 1) info[3]++;
-// 							if(array[j4][2] <= 1) info[3]++;
-//                        					cout << "zusammenhaengender Straight-Draw in der Mitte   " << info[3] << "\t";
-//                        					breakLoop = 1;
-//                   				}
-//             				}
-//               				else {
-//                    				// Bauchschuss ?
-//                    				if((array[j1][1]-2 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-1 == array[j2][1] && array[j2][1]-2 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-1 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-2 == array[j4][1])) {
-//                   					tempChance += 16;
-// 							if(array[j1][2] <= 1) info[3]++;
-// 							if(array[j2][2] <= 1) info[3]++;
-// 							if(array[j3][2] <= 1) info[3]++;
-// 							if(array[j4][2] <= 1) info[3]++;
-// 							cout << "Straight-Draw Bauchschuss   " << info[3] << "\t";
-//                        					breakLoop = 1;
-//                    				}
-//                    				else {
-//                         			// Test auf Straßenansatz-Ausnahme 5-4-3-2-A
-//                         				if((array[j1][1]-9 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-9 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-2 == array[j4][1]) || (array[j1][1]-9 == array[j2][1] && array[j2][1]-2 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-10 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1])) {
-//                   						tempChance += 16;
-// 								if(array[j1][2] <= 1) info[3]++;
-// 								if(array[j2][2] <= 1) info[3]++;
-// 								if(array[j3][2] <= 1) info[3]++;
-// 								if(array[j4][2] <= 1) info[3]++;
-//                              					cout << "Straight-Draw Ass unten   " << info[3] << "\t";
-//                        						breakLoop = 1;
-// 					    		}
-// 						}
-// 					}
-// 				}
-// 			}
-// 		}
-// 	}
-// 
-// 	 
-// // auf Drilling testen
-// 	for(j1=0; j1<3; j1++) {
-// 		if(array[j1][1] == array[j1+1][1] && array[j1][1] == array[j1+2][1]) {
-//              		info[0] = 3;
-// 			if(j1==0) info[1] = array[3][1];
-// 			else info[1] = array[0][1];
-// 			for(j2=0; j2<3; j2++) {
-// 				if(array[j1+j2][2] <= 1) info[3]++;
-// 			}
-//              		cout << "Drilling  " << info[3] << endl;
-//           		return 0;
-// 		}
-// 	}
-// 
-// 	// auf Zwei Paare testen
-// 	for(j1=0; j1<2; j1++) {
-// 		for(j2=j1+2; j2<4; j2++) {
-// 			if(array[j1][1] == array[j1+1][1] && array[j2][1] == array[j2+1][1]) {
-// 				info[0] = 2;
-// 				info[1] = array[j1][1];
-// 				for(j3=0; j3<2; j3++) {
-// 					if(array[j1+j3][2] <= 1) info[3]++;
-// 					if(array[j2+j3][2] <= 1) info[3]++;
-// 				}
-//              			cout << "Zwei Paare  " << info[3] << endl;
-//           			return 0;
-// 			}
-// 		}
-// 	}
-// 
-// 	// auf Paar testen
-// 	for(j1=0; j1<4; j1++) {
-// 		if(array[j1][1] == array[j1+1][1]) {
-// 			info[0] = 1;
-// 			info[1] = 0;
-// 			for(j2=0; j2<5; j2++) {
-// 				if(array[j2][2] >= 2 && array[j2][1] > array[j1][1]) info[1]++;
-// 			}
-// 			for(j2=0; j2<2; j2++) {
-// 				if(array[j1+j2][2] <= 1) info[3]++;
-// 			}
-// 			cout << "Paar  " << info[1] << "\t" << info[3] << endl;
-//           		return 0;
-// 		}
-// 	}
-// 
-// 	// Highest Card (Klasse 0) + Kicker
-// 	info[0] = 0;
-// 	info[1] = array[0][1];
-// 	info[2] = tempChance;
-// 	if(!breakLoop) {
-// 		if(array[0][2] <= 1) info[3] = 1;
-// 		else info[3] = 0;
-// 		cout << "Highest Card  " << info[3];
-// 	}
-// 	cout << endl;
+// auf Straßenansatz testen
+	for(j1=0; j1<5 && !breakLoop; j1++) {
+		for(j2=j1+1; j2<5 && !breakLoop; j2++) {
+			for(j3=j2+1; j3<5 && !breakLoop; j3++) {
+				for(j4=j3+1; j4<5 && !breakLoop; j4++) {
+					// zusammenhaengender Strassenansatz ?
+					if((array[j1][1]-1 == array[j2][1] || array[j1][1]-9 == array[j2][1]) && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1]) { 
+                  				// Strassenansatz am Rand?
+                  				if(array[j1][1] == 12) {
+							cout << "zusammenhaengender Straight-Draw mit Ass high";
+
+							// Anteil ermitteln
+							if(array[j1][2] <= 1) {
+								temp2Array[temp] = array[j1][1];
+								temp++;
+							}
+							if(array[j2][2] <= 1) {
+								temp2Array[temp] = array[j2][1];
+								temp++;
+							}
+							if(array[j3][2] <= 1) {
+								temp2Array[temp] = array[j3][1];
+								temp++;
+							}
+							if(array[j4][2] <= 1) {
+								temp2Array[temp] = array[j4][1];
+								temp++;
+							}
+	
+							// Anteil 2
+							if(temp==2) {
+								if(temp2Array[0] > array[j1][1]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][2]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][3]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][4]) {
+									temp1++;
+								}
+	
+								if(temp1 >= 3) temp1 = 2;
+	
+								tempValue = (40012 + temp1*2000);
+							}
+							// Anteil 1
+							else {
+	
+								// 2.Stelle
+								if(temp2Array[0] > array[j1][1]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][2]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][3]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][4]) {
+									temp1++;
+								}
+	
+								if(temp1 >= 1) temp1 = 2;
+	
+								// 3.Stelle
+								for(j5=0; j5<5; j5++) {
+									if(j5 != j1 && j5 != j2 && j5 != j3 && j5 != j4) {
+										if(array[j5][1] < array[j4][1]) {
+											temp2 = 0;
+										}
+										else {
+											temp2 = 1;
+										}
+									}
+								}
+
+								tempValue = (40012 + (temp1+1)*1000 + temp2*100);
+							}
+							breakLoop = 1;
+						}
+                  				// Strassenansatz in der Mitte
+                  				else {
+                       					cout << "zusammenhaengender Straight-Draw in der Mitte";
+
+							// Anteil ermitteln
+							if(array[j1][2] <= 1) {
+								temp2Array[temp] = array[j1][1];
+								temp++;
+							}
+							if(array[j2][2] <= 1) {
+								temp2Array[temp] = array[j2][1];
+								temp++;
+							}
+							if(array[j3][2] <= 1) {
+								temp2Array[temp] = array[j3][1];
+								temp++;
+							}
+							if(array[j4][2] <= 1) {
+								temp2Array[temp] = array[j4][1];
+								temp++;
+							}
+	
+							// Anteil 2
+							if(temp==2) {
+								if(temp2Array[0] > array[j1][1]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][2]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][3]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][4]) {
+									temp1++;
+								}
+	
+								if(temp1 >= 3) temp1 = 2;
+	
+								tempValue = (40000 + (temp1+2)*2000 + array[j1][1]);
+							}
+							// Anteil 1
+							else {
+	
+								// 2.Stelle
+								if(temp2Array[0] > array[j1][1]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][2]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][3]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][4]) {
+									temp1++;
+								}
+	
+								if(temp1 >= 1) temp1 = 2;
+	
+								// 3.Stelle
+								for(j5=0; j5<5; j5++) {
+									if(j5 != j1 && j5 != j2 && j5 != j3 && j5 != j4) {
+										if(array[j5][1] < array[j4][1]) {
+											temp2 = 0;
+										}
+										else {
+											temp2 = 1;
+										}
+									}
+								}
+
+								tempValue = (40000 + (temp1+5)*1000 + temp2*100 + array[j1][1]);
+							}
+							breakLoop = 1;
+                  				}
+            				}
+              				else {
+                   				// Bauchschuss ?
+                   				if((array[j1][1]-2 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-1 == array[j2][1] && array[j2][1]-2 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-1 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-2 == array[j4][1])) {
+							cout << "Straight-Draw Bauchschuss";
+
+							// Anteil ermitteln
+							if(array[j1][2] <= 1) {
+								temp2Array[temp] = array[j1][1];
+								temp++;
+							}
+							if(array[j2][2] <= 1) {
+								temp2Array[temp] = array[j2][1];
+								temp++;
+							}
+							if(array[j3][2] <= 1) {
+								temp2Array[temp] = array[j3][1];
+								temp++;
+							}
+							if(array[j4][2] <= 1) {
+								temp2Array[temp] = array[j4][1];
+								temp++;
+							}
+	
+							// Anteil 2
+							if(temp==2) {
+								if(temp2Array[0] > array[j1][1]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][2]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][3]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][4]) {
+									temp1++;
+								}
+	
+								if(temp1 >= 3) temp1 = 2;
+	
+								tempValue = (40000 + temp1*2000 + array[j1][1]);
+							}
+							// Anteil 1
+							else {
+	
+								// 2.Stelle
+								if(temp2Array[0] > array[j1][1]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][2]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][3]) {
+									temp1++;
+								}
+								if(temp2Array[0] > array[j1][4]) {
+									temp1++;
+								}
+	
+								if(temp1 >= 1) temp1 = 2;
+	
+								// 3.Stelle
+								for(j5=0; j5<5; j5++) {
+									if(j5 != j1 && j5 != j2 && j5 != j3 && j5 != j4) {
+										if(array[j5][1] < array[j4][1]) {
+											temp2 = 0;
+										}
+										else {
+											temp2 = 1;
+										}
+									}
+								}
+
+								tempValue = (40000 + (temp1+1)*1000 + temp2*100 + array[j1][1]);
+							}
+							breakLoop = 1;
+                   				}
+                   				else {
+                        			// Test auf Straßenansatz-Ausnahme 5-4-3-2-A
+                        				if((array[j1][1]-9 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-9 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-2 == array[j4][1]) || (array[j1][1]-9 == array[j2][1] && array[j2][1]-2 == array[j3][1] && array[j3][1]-1 == array[j4][1]) || (array[j1][1]-10 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1])) {
+                             					cout << "Straight-Draw Ass unten";
+
+								// Anteil ermitteln
+								if(array[j1][2] <= 1) {
+									temp2Array[temp] = array[j1][1];
+									temp++;
+								}
+								if(array[j2][2] <= 1) {
+									temp2Array[temp] = array[j2][1];
+									temp++;
+								}
+								if(array[j3][2] <= 1) {
+									temp2Array[temp] = array[j3][1];
+									temp++;
+								}
+								if(array[j4][2] <= 1) {
+									temp2Array[temp] = array[j4][1];
+									temp++;
+								}
+		
+								// Anteil 2
+								if(temp==2) {
+									if(temp2Array[0] > array[j1][1]) {
+										temp1++;
+									}
+									if(temp2Array[0] > array[j1][2]) {
+										temp1++;
+									}
+									if(temp2Array[0] > array[j1][3]) {
+										temp1++;
+									}
+									if(temp2Array[0] > array[j1][4]) {
+										temp1++;
+									}
+		
+									if(temp1 >= 3) temp1 = 2;
+		
+									tempValue = (40004 + temp1*2000);
+								}
+								// Anteil 1
+								else {
+		
+									// 2.Stelle
+									if(temp2Array[0] > array[j1][1]) {
+										temp1++;
+									}
+									if(temp2Array[0] > array[j1][2]) {
+										temp1++;
+									}
+									if(temp2Array[0] > array[j1][3]) {
+										temp1++;
+									}
+									if(temp2Array[0] > array[j1][4]) {
+										temp1++;
+									}
+		
+									if(temp1 >= 1) temp1 = 2;
+		
+									// 3.Stelle
+									for(j5=0; j5<5; j5++) {
+										if(j5 != j1 && j5 != j2 && j5 != j3 && j5 != j4) {
+											if(array[j5][1] < array[j4][1]) {
+												temp2 = 0;
+											}
+											else {
+												temp2 = 1;
+											}
+										}
+									}
+	
+									tempValue = (40004 + (temp1+1)*1000 + temp2*100);
+								}
+
+                       						breakLoop = 1;
+					    		}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	 
+// auf Drilling testen
+	for(j1=0; j1<3; j1++) {
+		if(array[j1][1] == array[j1+1][1] && array[j1][1] == array[j1+2][1]) {
+             		info[0] = 3;
+			if(j1==0) info[1] = array[3][1];
+			else info[1] = array[0][1];
+			for(j2=0; j2<3; j2++) {
+				if(array[j1+j2][2] <= 1) info[3]++;
+			}
+             		cout << "Drilling  " << info[3] << endl;
+          		return 0;
+		}
+	}
+
+	// auf Zwei Paare testen
+	for(j1=0; j1<2; j1++) {
+		for(j2=j1+2; j2<4; j2++) {
+			if(array[j1][1] == array[j1+1][1] && array[j2][1] == array[j2+1][1]) {
+				info[0] = 2;
+				info[1] = array[j1][1];
+				for(j3=0; j3<2; j3++) {
+					if(array[j1+j3][2] <= 1) info[3]++;
+					if(array[j2+j3][2] <= 1) info[3]++;
+				}
+             			cout << "Zwei Paare  " << info[3] << endl;
+          			return 0;
+			}
+		}
+	}
+
+	// auf Paar testen
+	for(j1=0; j1<4; j1++) {
+		if(array[j1][1] == array[j1+1][1]) {
+			info[0] = 1;
+			info[1] = 0;
+			for(j2=0; j2<5; j2++) {
+				if(array[j2][2] >= 2 && array[j2][1] > array[j1][1]) info[1]++;
+			}
+			for(j2=0; j2<2; j2++) {
+				if(array[j1+j2][2] <= 1) info[3]++;
+			}
+			cout << "Paar  " << info[1] << "\t" << info[3] << endl;
+          		return 0;
+		}
+	}
+
+	// Highest Card (Klasse 0) + Kicker
+	info[0] = 0;
+	info[1] = array[0][1];
+	info[2] = tempChance;
+	if(!breakLoop) {
+		if(array[0][2] <= 1) info[3] = 1;
+		else info[3] = 0;
+		cout << "Highest Card  " << info[3];
+	}
+	cout << endl;
 	return 0;
 
 
