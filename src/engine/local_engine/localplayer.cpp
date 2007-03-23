@@ -1820,7 +1820,7 @@ int LocalPlayer::flopCardsValue(int* cards) {
 				return 80000;
 			} else {
 				if(j1==0) {
-					return (30000 + array[j3][1]);
+					return (30000 + array[j1+3][1]);
 				} else {
 					return (30100 + array[j1][1]);
 				}
@@ -1870,7 +1870,7 @@ int LocalPlayer::flopCardsValue(int* cards) {
 		if(array[j1][1] == array[j1+1][1]) {
 			cout << "Paar";
 			// ohne Straight- und Flush-Draw
-			if(tempValue == -1) {
+			if(!breakLoop) {
 				for(j2=0; j2<2; j2++) {
 					if(array[j1+j2][2] <= 1) temp++;
 				}
@@ -1883,11 +1883,12 @@ int LocalPlayer::flopCardsValue(int* cards) {
 						case 2: return (12200 + array[j1][1]);
 						break;
 						default: return (12300 + array[j1][1]);
-						break;
+					}
+				} else {
+					if(temp == 1) {
+
 
 					}
-
-
 				}
 
 			}
@@ -1895,13 +1896,11 @@ int LocalPlayer::flopCardsValue(int* cards) {
 	}
 
 	// Highest Card (Klasse 0) + Kicker
-	info[0] = 0;
-	info[1] = array[0][1];
-	info[2] = tempChance;
+
 	if(!breakLoop) {
-		if(array[0][2] <= 1) info[3] = 1;
-		else info[3] = 0;
-		cout << "Highest Card  " << info[3];
+		if(array[0][2] <= 1) temp = 1;
+		else temp = 0;
+		cout << "Highest Card";
 	}
 	cout << endl;
 	return 0;
