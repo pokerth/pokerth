@@ -662,215 +662,27 @@ void LocalPlayer::flopEngine() {
 	}
 	// ################### ENGINE 0.4 #################
 	else {
+
 // 		cout << "Engine 0.4" << endl;
 		int tempArray[5];
 		int boardCards[5];
-		int info[4];
-		int cBluff;
-		int sBluff;
-		int bet = 0;
-		int raise = 0;
+		int handCode;
 
 		int i;
-		
-		Tools myTools;
+
 
 		for(i=0; i<2; i++) tempArray[i] = myCards[i];
 		actualBoard->getMyCards(boardCards);
 		for(i=0; i<3; i++) tempArray[2+i] = boardCards[i];
 
-		for(i=0; i<4; i++) info[i] = -1;
-
-// 		for(i=0; i<5; i++) cout << tempArray[i] << " ";
-// 		cout << endl;
-
 		cout << myID << ": ";
 
-		flopCardsValue(tempArray);
+		for(i=0; i<5; i++) cout << tempArray[i] << " ";
+		cout << "\t";
 
-		// aktive Situation --> check / bet
-		if(actualHand->getFlop()->getHighestSet() == 0) {
+		handCode = flopCardsValue(tempArray);
 
-			switch(info[0]) {
-				case 9: {}
-				case 8: {}
-				case 7: {}
-				case 6: {}
-				case 5: {}
-				case 4: {
-					myTools.getRandNumber(0,100,1,&cBluff,0);
-					if(cBluff < 35) {
-						myAction = 2;
-					}
-					else {
-						if(myCash/(2*actualHand->getSmallBlind()) <= 8) {
-							myAction = 6;
-						} else {
-							if(cBluff < 60) {
-								bet = (7-myDude4)*2*actualHand->getSmallBlind();
-							} else {
-								bet = (((100-cBluff)/20)+2)*actualHand->getSmallBlind();
-							}
-							if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
-							myAction = 4;
-						}
-					}
-				}
-				break;
-				case 3: {
-					switch(info[3]) {
-						case 2: {
-							myTools.getRandNumber(0,100,1,&cBluff,0);
-							if(cBluff < 35) {
-								myAction = 2;
-							}
-							else {
-								if(myCash/(2*actualHand->getSmallBlind()) <= 8) {
-									myAction = 6;
-								} else {
-									if(cBluff < 60) {
-										bet = (5-myDude4)*2*actualHand->getSmallBlind();
-									} else {
-										bet = (((100-cBluff)/20)+2)*actualHand->getSmallBlind();
-									}
-									if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
-									myAction = 4;
-								}
-							}
-						}
-						break;
-						case 1: {
-							myTools.getRandNumber(0,100,1,&cBluff,0);
-							if(cBluff < 40) {
-								myAction = 2;
-							}
-							else {
-								if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
-									myAction = 6;
-								} else {
-									if(cBluff < 60) {
-										bet = (3-myDude4)*2*actualHand->getSmallBlind();
-									} else {
-										bet = (((100-cBluff)/20)+2)*actualHand->getSmallBlind();
-									}
-									if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
-									myAction = 4;
-								}
-							}
-						}
-						break;
-						default: {
-							myTools.getRandNumber(0,100,1,&sBluff,0);
-							if(info[1] >= 10 && sBluff <= 40) {
-								bet = (sBluff/10)*2*actualHand->getSmallBlind();
-								if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
-								myAction = 4;
-							}
-							else {
-								myAction = 2;
-							}
-						}
-					}
-				}
-				break;
-				case 2: {
-					switch(info[3]) {
-						case 2: {
-							myTools.getRandNumber(0,100,1,&cBluff,0);
-							if(cBluff > 80) {
-								myAction = 2;
-							}
-							else {
-								if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
-									myAction = 6;
-								} else {
-									bet = (cBluff/20)*2*actualHand->getSmallBlind();
-									if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
-									myAction = 4;
-								}
-							}
-						}
-						break;
-						default: {
-							myTools.getRandNumber(0,100,1,&cBluff,0);
-							if(cBluff > 90) {
-								myAction = 2;
-							}
-							else {
-								if(myCash/(2*actualHand->getSmallBlind()) <= 5) {
-									myAction = 6;
-								} else {
-									bet = (cBluff/30)*2*actualHand->getSmallBlind();
-									if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
-									myAction = 4;
-								}
-							}
-						}
-					}
-				}
-				break;
-				case 1: {
-					if(!info[2]) {
-					myTools.getRandNumber(0,100,1,&sBluff,0);
-					switch(info[3]) {
-						case 2: {}
-						case 1: {
-							if(actualHand->getActualQuantityPlayers() == 2) {
-								bet = (1-myDude4)*2*actualHand->getSmallBlind();
-								if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
-								myAction = 4;
-
-							}
-							else {
-								switch(info[1]) {
-									case 3: {
-										if(sBluff <= 10) {
-											bet = (sBluff/5 + 2)*actualHand->getSmallBlind();
-											myAction = 4;
-										}
-										else {
-											myAction = 2;
-										}
-									}
-									break;
-									case 2: {
-										if(sBluff <= 15) {
-											bet = (sBluff/5 + 2)*actualHand->getSmallBlind();
-											myAction = 4;
-										}
-										else {
-											myAction = 2;
-										}
-									}
-									break;
-									case 1: {
-										if(sBluff <= 50) {
-											bet = (sBluff/15 + 2)*actualHand->getSmallBlind();
-											myAction = 4;
-										}
-										else {
-											myAction = 2;
-										}
-									}
-									break;
-									default: {
-										if(myCash/(2*actualHand->getSmallBlind()) <= 5) {
-											myAction = 6;
-										} else {
-											bet = (sBluff/15)*2*actualHand->getSmallBlind();
-											if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
-											myAction = 4;
-										}
-									}
-									break;
-								}
-							}
-						}
-						break;
-						default: {
-						}
-					}
-					}
+		cout << "\t" << handCode << endl;
 
 
 
@@ -880,28 +692,246 @@ void LocalPlayer::flopEngine() {
 
 
 
-
-
-
-
-
-
-
-
-				}
-				break;
-				default: {}
-			}
-
-
-
-		}
-		// passive Situation --> fold / call / raise
-		else {
-
-
-
-		}
+// 		cout << "Engine 0.4" << endl;
+// 		int tempArray[5];
+// 		int boardCards[5];
+// 		int info[4];
+// 		int cBluff;
+// 		int sBluff;
+// 		int bet = 0;
+// 		int raise = 0;
+// 
+// 		int i;
+// 		
+// 		Tools myTools;
+// 
+// 		for(i=0; i<2; i++) tempArray[i] = myCards[i];
+// 		actualBoard->getMyCards(boardCards);
+// 		for(i=0; i<3; i++) tempArray[2+i] = boardCards[i];
+// 
+// 		for(i=0; i<4; i++) info[i] = -1;
+// 
+// // 		for(i=0; i<5; i++) cout << tempArray[i] << " ";
+// // 		cout << endl;
+// 
+// 		cout << myID << ": ";
+// 
+// 		flopCardsValue(tempArray);
+// 
+// 		// aktive Situation --> check / bet
+// 		if(actualHand->getFlop()->getHighestSet() == 0) {
+// 
+// 			switch(info[0]) {
+// 				case 9: {}
+// 				case 8: {}
+// 				case 7: {}
+// 				case 6: {}
+// 				case 5: {}
+// 				case 4: {
+// 					myTools.getRandNumber(0,100,1,&cBluff,0);
+// 					if(cBluff < 35) {
+// 						myAction = 2;
+// 					}
+// 					else {
+// 						if(myCash/(2*actualHand->getSmallBlind()) <= 8) {
+// 							myAction = 6;
+// 						} else {
+// 							if(cBluff < 60) {
+// 								bet = (7-myDude4)*2*actualHand->getSmallBlind();
+// 							} else {
+// 								bet = (((100-cBluff)/20)+2)*actualHand->getSmallBlind();
+// 							}
+// 							if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 							myAction = 4;
+// 						}
+// 					}
+// 				}
+// 				break;
+// 				case 3: {
+// 					switch(info[3]) {
+// 						case 2: {
+// 							myTools.getRandNumber(0,100,1,&cBluff,0);
+// 							if(cBluff < 35) {
+// 								myAction = 2;
+// 							}
+// 							else {
+// 								if(myCash/(2*actualHand->getSmallBlind()) <= 8) {
+// 									myAction = 6;
+// 								} else {
+// 									if(cBluff < 60) {
+// 										bet = (5-myDude4)*2*actualHand->getSmallBlind();
+// 									} else {
+// 										bet = (((100-cBluff)/20)+2)*actualHand->getSmallBlind();
+// 									}
+// 									if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 									myAction = 4;
+// 								}
+// 							}
+// 						}
+// 						break;
+// 						case 1: {
+// 							myTools.getRandNumber(0,100,1,&cBluff,0);
+// 							if(cBluff < 40) {
+// 								myAction = 2;
+// 							}
+// 							else {
+// 								if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+// 									myAction = 6;
+// 								} else {
+// 									if(cBluff < 60) {
+// 										bet = (3-myDude4)*2*actualHand->getSmallBlind();
+// 									} else {
+// 										bet = (((100-cBluff)/20)+2)*actualHand->getSmallBlind();
+// 									}
+// 									if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 									myAction = 4;
+// 								}
+// 							}
+// 						}
+// 						break;
+// 						default: {
+// 							myTools.getRandNumber(0,100,1,&sBluff,0);
+// 							if(info[1] >= 10 && sBluff <= 40) {
+// 								bet = (sBluff/10)*2*actualHand->getSmallBlind();
+// 								if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 								myAction = 4;
+// 							}
+// 							else {
+// 								myAction = 2;
+// 							}
+// 						}
+// 					}
+// 				}
+// 				break;
+// 				case 2: {
+// 					switch(info[3]) {
+// 						case 2: {
+// 							myTools.getRandNumber(0,100,1,&cBluff,0);
+// 							if(cBluff > 80) {
+// 								myAction = 2;
+// 							}
+// 							else {
+// 								if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+// 									myAction = 6;
+// 								} else {
+// 									bet = (cBluff/20)*2*actualHand->getSmallBlind();
+// 									if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 									myAction = 4;
+// 								}
+// 							}
+// 						}
+// 						break;
+// 						default: {
+// 							myTools.getRandNumber(0,100,1,&cBluff,0);
+// 							if(cBluff > 90) {
+// 								myAction = 2;
+// 							}
+// 							else {
+// 								if(myCash/(2*actualHand->getSmallBlind()) <= 5) {
+// 									myAction = 6;
+// 								} else {
+// 									bet = (cBluff/30)*2*actualHand->getSmallBlind();
+// 									if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 									myAction = 4;
+// 								}
+// 							}
+// 						}
+// 					}
+// 				}
+// 				break;
+// 				case 1: {
+// 					if(!info[2]) {
+// 					myTools.getRandNumber(0,100,1,&sBluff,0);
+// 					switch(info[3]) {
+// 						case 2: {}
+// 						case 1: {
+// 							if(actualHand->getActualQuantityPlayers() == 2) {
+// 								bet = (1-myDude4)*2*actualHand->getSmallBlind();
+// 								if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 								myAction = 4;
+// 
+// 							}
+// 							else {
+// 								switch(info[1]) {
+// 									case 3: {
+// 										if(sBluff <= 10) {
+// 											bet = (sBluff/5 + 2)*actualHand->getSmallBlind();
+// 											myAction = 4;
+// 										}
+// 										else {
+// 											myAction = 2;
+// 										}
+// 									}
+// 									break;
+// 									case 2: {
+// 										if(sBluff <= 15) {
+// 											bet = (sBluff/5 + 2)*actualHand->getSmallBlind();
+// 											myAction = 4;
+// 										}
+// 										else {
+// 											myAction = 2;
+// 										}
+// 									}
+// 									break;
+// 									case 1: {
+// 										if(sBluff <= 50) {
+// 											bet = (sBluff/15 + 2)*actualHand->getSmallBlind();
+// 											myAction = 4;
+// 										}
+// 										else {
+// 											myAction = 2;
+// 										}
+// 									}
+// 									break;
+// 									default: {
+// 										if(myCash/(2*actualHand->getSmallBlind()) <= 5) {
+// 											myAction = 6;
+// 										} else {
+// 											bet = (sBluff/15)*2*actualHand->getSmallBlind();
+// 											if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 											myAction = 4;
+// 										}
+// 									}
+// 									break;
+// 								}
+// 							}
+// 						}
+// 						break;
+// 						default: {
+// 						}
+// 					}
+// 					}
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 				}
+// 				break;
+// 				default: {}
+// 			}
+// 
+// 
+// 
+// 		}
+// 		// passive Situation --> fold / call / raise
+// 		else {
+// 
+// 
+// 
+// 		}
 
 
 	}
@@ -1861,6 +1891,14 @@ int LocalPlayer::flopCardsValue(int* cards) {
 					}
 
 				}
+				// Anteil 1
+				else {
+					if(temp2Array[0] = array[j1][1]) {
+						return 21100 + array[j1][1];
+					} else {
+						return 21000 + array[j1][1];
+					}
+				}
 			}
 		}
 	}
@@ -1875,18 +1913,22 @@ int LocalPlayer::flopCardsValue(int* cards) {
 			cout << "Paar";
 			// ohne Straight- und Flush-Draw
 			if(!breakLoop) {
+				// Anteil ermitteln
 				for(j2=0; j2<2; j2++) {
 					if(array[j1+j2][2] <= 1) temp++;
 				}
+				// Anteil 2
 				if(temp == 2) {
 					return (12000 + j1*100 + array[j1][1]);
 				} else {
+					// Anteil 1
 					if(temp == 1) {
 						for(j2=0; j2<5; j2++) {
 							if(array[j2][2] >= 2 && array[j2][1] > array[j1][1]) temp1++;
 						}
 						return (11000 + temp1*100 + array[j1][1]);
 					}
+					// Anteil 0
 					else {
 						for(j2=0; j2<5; j2++) {
 							if(array[j2][2] <= 1 && array[j2][1] > temp1) temp1 = array[j2][1];
@@ -1894,6 +1936,8 @@ int LocalPlayer::flopCardsValue(int* cards) {
 						for(j2=0; j2<5; j2++) {
 							if(array[j2][2] >= 2 && array[j2][1] > temp1) temp2++;
 						}
+						if(temp2 == 2) temp2 = 1;
+						if(temp2 == 3) temp2 = 2;
 						return (10000 + temp2*100 + temp1);
 					}
 				}
