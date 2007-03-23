@@ -1317,7 +1317,7 @@ int LocalPlayer::flopCardsValue(int* cards) {
 	int temp1 = 0;
 	int temp2 = 0;
 	int temp2Array[2];
-	int tempValue;
+	int tempValue = -1;
 	bool breakLoop = 0;
 
 	// Kartenwerte umwandeln (z.B. [ 11 (Karo K�ig) -> 0 11 ] oder [ 31 (Pik 7) -> 2 5 ] )
@@ -1576,20 +1576,8 @@ int LocalPlayer::flopCardsValue(int* cards) {
 								}
 	
 								if(temp1 >= 1) temp1 = 2;
-	
-								// 3.Stelle
-								for(j5=0; j5<5; j5++) {
-									if(j5 != j1 && j5 != j2 && j5 != j3 && j5 != j4) {
-										if(array[j5][1] < array[j4][1]) {
-											temp2 = 0;
-										}
-										else {
-											temp2 = 1;
-										}
-									}
-								}
 
-								tempValue = (40012 + (temp1+1)*1000 + temp2*100);
+								tempValue = (40012 + (temp1+1)*1000);
 							}
 							breakLoop = 1;
 						}
@@ -1807,20 +1795,8 @@ int LocalPlayer::flopCardsValue(int* cards) {
 									}
 		
 									if(temp1 >= 1) temp1 = 2;
-		
-									// 3.Stelle
-									for(j5=0; j5<5; j5++) {
-										if(j5 != j1 && j5 != j2 && j5 != j3 && j5 != j4) {
-											if(array[j5][1] < array[j4][1]) {
-												temp2 = 0;
-											}
-											else {
-												temp2 = 1;
-											}
-										}
-									}
 	
-									tempValue = (40004 + (temp1+1)*1000 + temp2*100);
+									tempValue = (40004 + (temp1+1)*1000 + 100);
 								}
 
                        						breakLoop = 1;
@@ -1836,14 +1812,19 @@ int LocalPlayer::flopCardsValue(int* cards) {
 // auf Drilling testen
 	for(j1=0; j1<3; j1++) {
 		if(array[j1][1] == array[j1+1][1] && array[j1][1] == array[j1+2][1]) {
-             		info[0] = 3;
-			if(j1==0) info[1] = array[3][1];
-			else info[1] = array[0][1];
+             		cout << "Drilling";
 			for(j2=0; j2<3; j2++) {
-				if(array[j1+j2][2] <= 1) info[3]++;
+				if(array[j1+j2][2] <= 1) temp++;
 			}
-             		cout << "Drilling  " << info[3] << endl;
-          		return 0;
+			if(temp >=1) {
+				return 80000;
+			} else {
+				if(j1==0) {
+					return (30000 + array[j3][1]);
+				} else {
+					return (30100 + array[j1][1]);
+				}
+			}
 		}
 	}
 
@@ -1851,14 +1832,35 @@ int LocalPlayer::flopCardsValue(int* cards) {
 	for(j1=0; j1<2; j1++) {
 		for(j2=j1+2; j2<4; j2++) {
 			if(array[j1][1] == array[j1+1][1] && array[j2][1] == array[j2+1][1]) {
-				info[0] = 2;
-				info[1] = array[j1][1];
+             			cout << "Zwei Paare";
+				// Anteil ermitteln
 				for(j3=0; j3<2; j3++) {
-					if(array[j1+j3][2] <= 1) info[3]++;
-					if(array[j2+j3][2] <= 1) info[3]++;
+					if(array[j1+j3][2] <= 1) {
+						temp2Array[temp] = array[j1+j3][1];
+						temp++;
+					}
 				}
-             			cout << "Zwei Paare  " << info[3] << endl;
-          			return 0;
+				for(j3=0; j3<2; j3++) {
+					if(array[j2+j3][2] <= 1) {
+						temp2Array[temp] = array[j2+j3][1];
+						temp++;
+					}
+				}
+
+				// Anteil 2
+				if(temp == 2) {
+					if(temp2Array[0] != temp2Array[1]) {
+						return (22200 + temp2Array[0]);
+					}
+					else {
+						if(temp2Array[0] == array[j1][1]) {
+							return (22100 + temp2Array[0]);
+						} else {
+							return (22000 + temp2Array[0]);
+						}
+					}
+
+				}
 			}
 		}
 	}
@@ -1866,16 +1868,29 @@ int LocalPlayer::flopCardsValue(int* cards) {
 	// auf Paar testen
 	for(j1=0; j1<4; j1++) {
 		if(array[j1][1] == array[j1+1][1]) {
-			info[0] = 1;
-			info[1] = 0;
-			for(j2=0; j2<5; j2++) {
-				if(array[j2][2] >= 2 && array[j2][1] > array[j1][1]) info[1]++;
+			cout << "Paar";
+			// ohne Straight- und Flush-Draw
+			if(tempValue == -1) {
+				for(j2=0; j2<2; j2++) {
+					if(array[j1+j2][2] <= 1) temp++;
+				}
+				if(temp == 2) {
+					switch(j1) {
+						case 0: return (12000 + array[j1][1]);
+						break;
+						case 1: return (12100 + array[j1][1]);
+						break;
+						case 2: return (12200 + array[j1][1]);
+						break;
+						default: return (12300 + array[j1][1]);
+						break;
+
+					}
+
+
+				}
+
 			}
-			for(j2=0; j2<2; j2++) {
-				if(array[j1+j2][2] <= 1) info[3]++;
-			}
-			cout << "Paar  " << info[1] << "\t" << info[3] << endl;
-          		return 0;
 		}
 	}
 
