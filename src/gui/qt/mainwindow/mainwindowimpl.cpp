@@ -496,6 +496,7 @@ void mainWindowImpl::callNewGameDialog() {
 		newGameDialogImpl *v = new newGameDialogImpl(this);
 		v->exec();
 		if (v->result() == QDialog::Accepted ) { startNewLocalGame(v);	}
+		else { startNewLocalGame(); }
 	}
 	// sonst mit gespeicherten Werten starten
 	else { startNewLocalGame(); }
@@ -524,14 +525,13 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	groupBox_right_tools->setDisabled(FALSE);
 	groupBox_left_tools->setDisabled(FALSE);	
 		
-	//positioning Slider
-	horizontalSlider_speed->setValue(guiGameSpeed);
-
 	//get values from local game dialog
 	if(v) {
 		//Speeds 
 		guiGameSpeed = v->spinBox_gameSpeed->value();
 		setSpeeds();
+		//positioning Slider
+		horizontalSlider_speed->setValue(guiGameSpeed);
 		//Start Game!!!
 		mySession->startGame(v->spinBox_quantityPlayers->value(), v->spinBox_startCash->value(), v->spinBox_smallBlind->value());
 	}
@@ -540,6 +540,8 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 		//Speeds 
 		guiGameSpeed = myConfig->readConfigInt("GameSpeed");
 		setSpeeds();
+		//positioning Slider
+		horizontalSlider_speed->setValue(guiGameSpeed);
 		//Start Game!!!
 		mySession->startGame(myConfig->readConfigInt("NumberOfPlayers"), myConfig->readConfigInt("StartCash"), myConfig->readConfigInt("SmallBlind"));
 	}
