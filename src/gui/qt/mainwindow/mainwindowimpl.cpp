@@ -63,7 +63,15 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 // Resourcen abladen 
 	QFile preflopValuesFile(":data/resources/data/preflopValues");
 	QFile preflopValuesFileDest(QString::fromStdString(myConfig->readConfigString("DataDir")+"preflopValues"));
-	if(!preflopValuesFileDest.exists()) { preflopValuesFile.copy(QString::fromStdString(myConfig->readConfigString("DataDir")+"preflopValues")); }
+// 	if(!preflopValuesFileDest.exists()) {
+	preflopValuesFile.copy(QString::fromStdString(myConfig->readConfigString("DataDir")+"preflopValues"));
+// 	}
+
+	QFile flopValuesFile(":data/resources/data/flopValues");
+	QFile flopValuesFileDest(QString::fromStdString(myConfig->readConfigString("DataDir")+"flopValues"));
+// 	if(!flopValuesFileDest.exists()) {
+	flopValuesFile.copy(QString::fromStdString(myConfig->readConfigString("DataDir")+"flopValues"));
+// 	}
 
 // 	Schriftart laden 
 #ifdef _WIN32
