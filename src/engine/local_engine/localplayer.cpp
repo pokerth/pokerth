@@ -1865,6 +1865,10 @@ int LocalPlayer::flopCardsValue(int* cards) {
 		}
 	}
 
+	temp = 0;
+	temp1 = 0;
+	temp2 = 0;
+
 	// auf Paar testen
 	for(j1=0; j1<4; j1++) {
 		if(array[j1][1] == array[j1+1][1]) {
@@ -1875,36 +1879,54 @@ int LocalPlayer::flopCardsValue(int* cards) {
 					if(array[j1+j2][2] <= 1) temp++;
 				}
 				if(temp == 2) {
-					switch(j1) {
-						case 0: return (12000 + array[j1][1]);
-						break;
-						case 1: return (12100 + array[j1][1]);
-						break;
-						case 2: return (12200 + array[j1][1]);
-						break;
-						default: return (12300 + array[j1][1]);
-					}
+					return (12000 + j1*100 + array[j1][1]);
 				} else {
 					if(temp == 1) {
-
-
+						for(j2=0; j2<5; j2++) {
+							if(array[j2][2] >= 2 && array[j2][1] > array[j1][1]) temp1++;
+						}
+						return (11000 + temp1*100 + array[j1][1]);
+					}
+					else {
+						for(j2=0; j2<5; j2++) {
+							if(array[j2][2] <= 1 && array[j2][1] > temp1) temp1 = array[j2][1];
+						}
+						for(j2=0; j2<5; j2++) {
+							if(array[j2][2] >= 2 && array[j2][1] > temp1) temp2++;
+						}
+						return (10000 + temp2*100 + temp1);
 					}
 				}
-
+			}
+			else {
+				if(((int)(tempValue/10000)) == 4) {
+					return (((int)(tempValue/1000))*1000 + 200+ (tempValue - ((int)(tempValue/100))*100));
+				}
 			}
 		}
 	}
 
 	// Highest Card (Klasse 0) + Kicker
 
+	// ohne Straight- und Flush-Draw
 	if(!breakLoop) {
-		if(array[0][2] <= 1) temp = 1;
-		else temp = 0;
 		cout << "Highest Card";
-	}
-	cout << endl;
-	return 0;
+		// Anteil ermitteln
+		for(j1=0; j1<5; j1++) {
+			if(array[j1][2] <= 1) {
+				temp2Array[temp] = array[j1][1];
+				temp++;
+			}
+		}
+		for(j1=0; j1<5; j1++) {
+			if(temp2Array[1] > array[j1][1]) temp1++;
+			if(temp2Array[0] > array[j1][1]) temp2++;
+		}
+		return (temp1*1000 + temp2*100 + array[0][1]);
 
+	} else {
+		return tempValue;
+	}
 
 	
 } 
