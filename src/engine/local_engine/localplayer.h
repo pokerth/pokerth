@@ -87,6 +87,21 @@ public:
 	void setMyAverageSets(const int& theValue) { myAverageSets[0] = myAverageSets[1]; myAverageSets[1] = myAverageSets[2]; myAverageSets[2] = myAverageSets[3]; myAverageSets[3] = theValue; }
 	int getMyAverageSets() const { return (myAverageSets[0]+myAverageSets[1]+myAverageSets[2]+myAverageSets[3])/4; }
 	
+	void setMyAggressive(const bool& theValue) {
+		int i;
+		for(i=0; i<9; i++) {
+			myAggressive[i] = myAggressive[i+1];
+		}
+		myAggressive[9] = theValue;
+	}
+	int getMyAggressive() const {
+		int i, sum = 0;
+		for(i=0; i<10; i++) {
+			sum += myAggressive[i];
+		}
+		return sum;
+	}
+
 	void action();
 	
 	void preflopEngine();
@@ -128,6 +143,7 @@ private:
 	int myRoundStartCash;
 
 	int myAverageSets[4];
+	bool myAggressive[10];
 
 };
 
