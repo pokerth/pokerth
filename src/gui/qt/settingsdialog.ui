@@ -227,10 +227,13 @@ p, li { white-space: pre-wrap; }
        <item row="2" column="1" >
         <widget class="QSpinBox" name="spinBox_quantityPlayers" >
          <property name="maximum" >
-          <number>5</number>
+          <number>7</number>
          </property>
          <property name="minimum" >
           <number>2</number>
+         </property>
+         <property name="value" >
+          <number>7</number>
          </property>
         </widget>
        </item>
@@ -471,10 +474,13 @@ p, li { white-space: pre-wrap; }
          <item row="0" column="1" >
           <widget class="QSpinBox" name="spinBox_netQuantityPlayers" >
            <property name="maximum" >
-            <number>5</number>
+            <number>7</number>
            </property>
            <property name="minimum" >
             <number>2</number>
+           </property>
+           <property name="value" >
+            <number>7</number>
            </property>
           </widget>
          </item>

@@ -56,18 +56,31 @@
     </qresource>
     <qresource prefix="/data" >
         <file>resources/data/preflopValues</file>
-	<file>resources/data/flopValues</file>
     </qresource>
     <qresource prefix="/fonts" >
+        <file>resources/fonts/VeraBd.ttf</file>
         <file>resources/fonts/andybold.ttf</file>
         <file>resources/fonts/c059013l.pfb</file>
         <file>resources/fonts/n019003l.pfb</file>
     </qresource>
     <qresource prefix="/graphics" >
         <file>resources/graphics/1px.png</file>
-        <file>resources/graphics/dealerbutton.png</file>
         <file>resources/graphics/fileopen16.png</file>
         <file>resources/graphics/handRanking_release.png</file>
-        <file>resources/graphics/logo-140-100.png</file>
+    </qresource>
+    <qresource prefix="/guiv2" >
+        <file>resources/guiv2/cardholder_03.png</file>
+        <file>resources/guiv2/cardholder_05.png</file>
+        <file>resources/guiv2/cardholder_07.png</file>
+        <file>resources/guiv2/dealerPuck.png</file>
+        <file>resources/guiv2/genereticAvatar.png</file>
+        <file>resources/guiv2/oponentCardHidden.png</file>
+        <file>resources/guiv2/opponentBoxActiveGlow.png</file>
+        <file>resources/guiv2/opponentBoxInactiveGlow.png</file>
+        <file>resources/guiv2/playerBoxActiveGlow.png</file>
+        <file>resources/guiv2/playerBoxInactiveGlow.png</file>
+        <file>resources/guiv2/playeraction_03.png</file>
+        <file>resources/guiv2/playeraction_05.png</file>
+        <file>resources/guiv2/playeraction_07.png</file>
     </qresource>
 </RCC>
