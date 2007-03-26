@@ -39,7 +39,7 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 
 
 	// roundStartCashArray fllen
-	for(i=0; i<5; i++) {
+	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
 		playerArray[i]->setMyRoundStartCash(playerArray[i]->getMyCash());
 	}
 		

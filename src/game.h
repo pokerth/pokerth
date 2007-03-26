@@ -85,7 +85,7 @@ private:
 	GuiInterface *myGui;
 	HandInterface *actualHand;
 	BoardInterface *actualBoard;
-	PlayerInterface *playerArray[5];
+	PlayerInterface *playerArray[7];
 
 	//Startvariablen	
 	int startQuantityPlayers;
