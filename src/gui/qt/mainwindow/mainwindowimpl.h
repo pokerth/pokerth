@@ -212,6 +212,10 @@ private:
 	MyCardsPixmapLabel *pixmapLabel_card3b;
 	MyCardsPixmapLabel *pixmapLabel_card4a;
 	MyCardsPixmapLabel *pixmapLabel_card4b;
+	MyCardsPixmapLabel *pixmapLabel_card5a;
+	MyCardsPixmapLabel *pixmapLabel_card5b;
+	MyCardsPixmapLabel *pixmapLabel_card6a;
+	MyCardsPixmapLabel *pixmapLabel_card6b;
 	//Timer
 	QTimer *potDistributeTimer;
     	QTimer *timer;
@@ -247,14 +251,15 @@ private:
 	QTimer *postRiverRunAnimation6Timer;
 	
 	QWidget *userWidgetsArray[8];
-	QLabel *buttonLabelArray[5];
-	QLabel *cashLabelArray[5];
-	QLabel *cashTopLabelArray[5];
-	QLabel *setLabelArray[5];
-	QLabel *actionLabelArray[5];
-	QGroupBox *groupBoxArray[5];
+	QLabel *buttonLabelArray[7];
+	QLabel *cashLabelArray[7];
+	QLabel *cashTopLabelArray[7];
+	QLabel *setLabelArray[7];
+	QLabel *actionLabelArray[7];
+	QLabel *playerNameLabelArray[7];
+	QGroupBox *groupBoxArray[7];
 	MyCardsPixmapLabel *boardCardsArray[5];
-	MyCardsPixmapLabel *holeCardsArray[5][2];
+	MyCardsPixmapLabel *holeCardsArray[7][2];
 
 	QPixmap *flipside;
 

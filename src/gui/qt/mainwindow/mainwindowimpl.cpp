@@ -46,10 +46,10 @@
 #define FORMATRIGHT(X) "(X)</p>"
 
 // muss mit GUI übereinstimmen
-const int maxQuantityPlayersConst = 5;
+const int maxQuantityPlayersConst = 7;
 // !!! in game.h ebenfalls bei playerArray[?] setzen !!!
 // !!! in hand.h ebenfalls bei roundStartCashArray[?] setzen !!!
-
+// !!! in mainwindowimpl.h ebenfalls bei *LabelArray[?] setzen !!!
 
 using namespace std;
 
@@ -128,110 +128,112 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
  	vboxLayout3->addWidget(label_logoright);
 
 	//pixmapCardsLabel erstellen und ins Layout einfügen!
-	pixmapLabel_cardBoard0 = new MyCardsPixmapLabel(frame_5);
+	pixmapLabel_cardBoard0 = new MyCardsPixmapLabel(frame_Board);
 	pixmapLabel_cardBoard0->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard0"));
     	pixmapLabel_cardBoard0->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard0->setMaximumSize(QSize(57, 80));
 	pixmapLabel_cardBoard0->setScaledContents(true);
-	gridLayout37->addWidget(pixmapLabel_cardBoard0, 0, 0, 1, 1);
+	pixmapLabel_cardBoard0->setGeometry(QRect(20, 40, 57, 80));
 
-	pixmapLabel_cardBoard1 = new MyCardsPixmapLabel(frame_5);
+	pixmapLabel_cardBoard1 = new MyCardsPixmapLabel(frame_Board);
     	pixmapLabel_cardBoard1->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard1"));
     	pixmapLabel_cardBoard1->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard1->setMaximumSize(QSize(57, 80));
 	pixmapLabel_cardBoard1->setScaledContents(true);
-    	gridLayout37->addWidget(pixmapLabel_cardBoard1, 0, 1, 1, 1);
+	pixmapLabel_cardBoard1->setGeometry(QRect(100, 40, 57, 80));
 
-	pixmapLabel_cardBoard2 = new MyCardsPixmapLabel(frame_5);
+	pixmapLabel_cardBoard2 = new MyCardsPixmapLabel(frame_Board);
     	pixmapLabel_cardBoard2->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard2"));
     	pixmapLabel_cardBoard2->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard2->setMaximumSize(QSize(57, 80));
 	pixmapLabel_cardBoard2->setScaledContents(true);
-	gridLayout37->addWidget(pixmapLabel_cardBoard2, 0, 2, 1, 1);
+	pixmapLabel_cardBoard2->setGeometry(QRect(180, 40, 57, 80));
 
-	pixmapLabel_cardBoard3 = new MyCardsPixmapLabel(frame_5);
+	pixmapLabel_cardBoard3 = new MyCardsPixmapLabel(frame_Board);
     	pixmapLabel_cardBoard3->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard3"));
     	pixmapLabel_cardBoard3->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard3->setMaximumSize(QSize(57, 80));
 	pixmapLabel_cardBoard3->setScaledContents(true);
-    	gridLayout37->addWidget(pixmapLabel_cardBoard3, 0, 3, 1, 1);
+	pixmapLabel_cardBoard3->setGeometry(QRect(260, 40, 57, 80));
 	
-	pixmapLabel_cardBoard4 = new MyCardsPixmapLabel(frame_5);
+	pixmapLabel_cardBoard4 = new MyCardsPixmapLabel(frame_Board);
     	pixmapLabel_cardBoard4->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard4"));
     	pixmapLabel_cardBoard4->setMinimumSize(QSize(57, 80));
     	pixmapLabel_cardBoard4->setMaximumSize(QSize(57, 80));
 	pixmapLabel_cardBoard4->setScaledContents(true);
-    	gridLayout37->addWidget(pixmapLabel_cardBoard4, 0, 4, 1, 1);
+	pixmapLabel_cardBoard4->setGeometry(QRect(340, 40, 57, 80));
 
-	pixmapLabel_card0a = new MyCardsPixmapLabel(frame5);
-	pixmapLabel_card0a->setObjectName(QString::fromUtf8("pixmapLabel_card0a"));
-	pixmapLabel_card0a->setMinimumSize(QSize(80, 112));
-	pixmapLabel_card0a->setMaximumSize(QSize(80, 112));
+
+	pixmapLabel_card0a = new MyCardsPixmapLabel(frame_Cards0);
+    	pixmapLabel_card0a->setObjectName(QString::fromUtf8("pixmapLabel_card0a"));
 	pixmapLabel_card0a->setScaledContents(true);
-	gridLayout4->addWidget(pixmapLabel_card0a, 0, 0, 1, 1);
-	
-	pixmapLabel_card0b = new MyCardsPixmapLabel(frame5);
-	pixmapLabel_card0b->setObjectName(QString::fromUtf8("pixmapLabel_card0b"));
-	pixmapLabel_card0b->setMinimumSize(QSize(80, 112));
-	pixmapLabel_card0b->setMaximumSize(QSize(80, 112));
+	pixmapLabel_card0a->setGeometry(QRect(0, 0, 80, 111));
+
+   	pixmapLabel_card0b = new MyCardsPixmapLabel(frame_Cards0);
+    	pixmapLabel_card0b->setObjectName(QString::fromUtf8("pixmapLabel_card0b"));
 	pixmapLabel_card0b->setScaledContents(true);
-	gridLayout4->addWidget(pixmapLabel_card0b, 0, 1, 1, 1);
+	pixmapLabel_card0b->setGeometry(QRect(39, 0, 80, 111));	
 
-	pixmapLabel_card1a = new MyCardsPixmapLabel(frame8_2_2_2_5);
+	pixmapLabel_card1a = new MyCardsPixmapLabel(frame_Cards1);
     	pixmapLabel_card1a->setObjectName(QString::fromUtf8("pixmapLabel_card1a"));
-	pixmapLabel_card1a->setMinimumSize(QSize(57, 80));
-    	pixmapLabel_card1a->setMaximumSize(QSize(57, 80));
 	pixmapLabel_card1a->setScaledContents(true);
-	gridLayout13->addWidget(pixmapLabel_card1a, 0, 0, 1, 1);
+	pixmapLabel_card1a->setGeometry(QRect(0, 0, 80, 111));
 
-   	pixmapLabel_card1b = new MyCardsPixmapLabel(frame8_2_2_2_5);
+   	pixmapLabel_card1b = new MyCardsPixmapLabel(frame_Cards1);
     	pixmapLabel_card1b->setObjectName(QString::fromUtf8("pixmapLabel_card1b"));
-	pixmapLabel_card1b->setMinimumSize(QSize(57, 80));
-    	pixmapLabel_card1b->setMaximumSize(QSize(57, 80));
 	pixmapLabel_card1b->setScaledContents(true);
-	gridLayout13->addWidget(pixmapLabel_card1b, 0, 1, 1, 1);
+	pixmapLabel_card1b->setGeometry(QRect(39, 0, 80, 111));
 
-	pixmapLabel_card2a = new MyCardsPixmapLabel(frame8_2_2_2_4);
+	pixmapLabel_card2a = new MyCardsPixmapLabel(frame_Cards2);
     	pixmapLabel_card2a->setObjectName(QString::fromUtf8("pixmapLabel_card2a"));
-	pixmapLabel_card2a->setMinimumSize(QSize(57, 80));
-    	pixmapLabel_card2a->setMaximumSize(QSize(57, 80));
 	pixmapLabel_card2a->setScaledContents(true);
-   	gridLayout19->addWidget(pixmapLabel_card2a, 0, 0, 1, 1);
+	pixmapLabel_card2a->setGeometry(QRect(0, 0, 80, 111));
 
-	pixmapLabel_card2b = new MyCardsPixmapLabel(frame8_2_2_2_4);
+	pixmapLabel_card2b = new MyCardsPixmapLabel(frame_Cards2);
     	pixmapLabel_card2b->setObjectName(QString::fromUtf8("pixmapLabel_card2b"));
-	pixmapLabel_card2b->setMinimumSize(QSize(57, 80));
-    	pixmapLabel_card2b->setMaximumSize(QSize(57, 80));	
 	pixmapLabel_card2b->setScaledContents(true);
-	gridLayout19->addWidget(pixmapLabel_card2b, 0, 1, 1, 1);
+	pixmapLabel_card2b->setGeometry(QRect(39, 0, 80, 111));
 
-	pixmapLabel_card3a = new MyCardsPixmapLabel(frame8_2_2_2_6);
+	pixmapLabel_card3a = new MyCardsPixmapLabel(frame_Cards3);
     	pixmapLabel_card3a->setObjectName(QString::fromUtf8("pixmapLabel_card3a"));
-	pixmapLabel_card3a->setMinimumSize(QSize(57, 80));
-    	pixmapLabel_card3a->setMaximumSize(QSize(57, 80));
 	pixmapLabel_card3a->setScaledContents(true);
-   	gridLayout25->addWidget(pixmapLabel_card3a, 0, 0, 1, 1);
+	pixmapLabel_card3a->setGeometry(QRect(0, 0, 80, 111));
 
-	pixmapLabel_card3b = new MyCardsPixmapLabel(frame8_2_2_2_6);
+	pixmapLabel_card3b = new MyCardsPixmapLabel(frame_Cards3);
     	pixmapLabel_card3b->setObjectName(QString::fromUtf8("pixmapLabel_card3b"));
-	pixmapLabel_card3b->setMinimumSize(QSize(57, 80));
-    	pixmapLabel_card3b->setMaximumSize(QSize(57, 80));
 	pixmapLabel_card3b->setScaledContents(true);
-	gridLayout25->addWidget(pixmapLabel_card3b, 0, 1, 1, 1);
+	pixmapLabel_card3b->setGeometry(QRect(39, 0, 80, 111));
 
-	pixmapLabel_card4a = new MyCardsPixmapLabel(frame8_2_2_2_7);
+	pixmapLabel_card4a = new MyCardsPixmapLabel(frame_Cards4);
     	pixmapLabel_card4a->setObjectName(QString::fromUtf8("pixmapLabel_card4a"));
-	pixmapLabel_card4a->setMinimumSize(QSize(57, 80));
-    	pixmapLabel_card4a->setMaximumSize(QSize(57, 80));
 	pixmapLabel_card4a->setScaledContents(true);
-   	gridLayout31->addWidget(pixmapLabel_card4a, 0, 0, 1, 1);
+	pixmapLabel_card4a->setGeometry(QRect(0, 0, 80, 111));
 
-	pixmapLabel_card4b = new MyCardsPixmapLabel(frame8_2_2_2_7);
+	pixmapLabel_card4b = new MyCardsPixmapLabel(frame_Cards4);
     	pixmapLabel_card4b->setObjectName(QString::fromUtf8("pixmapLabel_card4b"));
-	pixmapLabel_card4b->setMinimumSize(QSize(57, 80));
-    	pixmapLabel_card4b->setMaximumSize(QSize(57, 80));
 	pixmapLabel_card4b->setScaledContents(true);
-	gridLayout31->addWidget(pixmapLabel_card4b, 0, 1, 1, 1);
+	pixmapLabel_card4b->setGeometry(QRect(39, 0, 80, 111));
+
+	pixmapLabel_card5a = new MyCardsPixmapLabel(frame_Cards5);
+    	pixmapLabel_card5a->setObjectName(QString::fromUtf8("pixmapLabel_card5a"));
+	pixmapLabel_card5a->setScaledContents(true);
+	pixmapLabel_card5a->setGeometry(QRect(0, 0, 80, 111));
+
+	pixmapLabel_card5b = new MyCardsPixmapLabel(frame_Cards5);
+    	pixmapLabel_card5b->setObjectName(QString::fromUtf8("pixmapLabel_card5b"));
+	pixmapLabel_card5b->setScaledContents(true);
+	pixmapLabel_card5b->setGeometry(QRect(39, 0, 80, 111));
+
+	pixmapLabel_card6a = new MyCardsPixmapLabel(frame_Cards6);
+    	pixmapLabel_card6a->setObjectName(QString::fromUtf8("pixmapLabel_card6a"));
+	pixmapLabel_card6a->setScaledContents(true);
+	pixmapLabel_card6a->setGeometry(QRect(0, 0, 80, 111));
+
+	pixmapLabel_card6b = new MyCardsPixmapLabel(frame_Cards6);
+    	pixmapLabel_card6b->setObjectName(QString::fromUtf8("pixmapLabel_card6b"));
+	pixmapLabel_card6b->setScaledContents(true);
+	pixmapLabel_card6b->setGeometry(QRect(39, 0, 80, 111));
+
 
 	//Flipside festlegen;
 	flipside = new QPixmap(":/cards/resources/graphics/cards/flipside.png");
@@ -357,6 +359,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	buttonLabelArray[2] = textLabel_Button2;
 	buttonLabelArray[3] = textLabel_Button3;
 	buttonLabelArray[4] = textLabel_Button4;
+	buttonLabelArray[5] = textLabel_Button5;
+	buttonLabelArray[6] = textLabel_Button6;
 
 	// cashLabelArray init
 	cashLabelArray[0] = textLabel_Cash0;
@@ -364,6 +368,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	cashLabelArray[2] = textLabel_Cash2;
 	cashLabelArray[3] = textLabel_Cash3;
 	cashLabelArray[4] = textLabel_Cash4;
+	cashLabelArray[5] = textLabel_Cash5;
+	cashLabelArray[6] = textLabel_Cash6;
 
 	// cashTopLabelArray init
 	cashTopLabelArray[0] = textLabel_TopCash0;
@@ -371,6 +377,17 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	cashTopLabelArray[2] = textLabel_TopCash2;
 	cashTopLabelArray[3] = textLabel_TopCash3;
 	cashTopLabelArray[4] = textLabel_TopCash4;
+	cashTopLabelArray[5] = textLabel_TopCash5;
+	cashTopLabelArray[6] = textLabel_TopCash6;
+
+	// cashTopLabelArray init
+	playerNameLabelArray[0] = label_PlayerName0;
+	playerNameLabelArray[1] = label_PlayerName1;
+	playerNameLabelArray[2] = label_PlayerName2;
+	playerNameLabelArray[3] = label_PlayerName3;
+	playerNameLabelArray[4] = label_PlayerName4;
+	playerNameLabelArray[5] = label_PlayerName5;
+	playerNameLabelArray[6] = label_PlayerName6;
 
 	// setLabelArray init
 	setLabelArray[0] = textLabel_Set0;
@@ -378,6 +395,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	setLabelArray[2] = textLabel_Set2;
 	setLabelArray[3] = textLabel_Set3;
 	setLabelArray[4] = textLabel_Set4;
+	setLabelArray[5] = textLabel_Set5;
+	setLabelArray[6] = textLabel_Set6;
 
 	// statusLabelArray init
 	actionLabelArray[0] = textLabel_Status0;
@@ -385,6 +404,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	actionLabelArray[2] = textLabel_Status2;
 	actionLabelArray[3] = textLabel_Status3;
 	actionLabelArray[4] = textLabel_Status4;
+	actionLabelArray[5] = textLabel_Status5;
+	actionLabelArray[6] = textLabel_Status6;
 
 	// GroupBoxArray init
 	groupBoxArray[0] = groupBox0;
@@ -392,6 +413,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	groupBoxArray[2] = groupBox2;
 	groupBoxArray[3] = groupBox3;
 	groupBoxArray[4] = groupBox4;
+	groupBoxArray[5] = groupBox5;
+	groupBoxArray[6] = groupBox6;
 
 	// boardCardsArray init
 	boardCardsArray[0] = pixmapLabel_cardBoard0;
@@ -411,11 +434,19 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	holeCardsArray[3][1] = pixmapLabel_card3b;
 	holeCardsArray[4][0] = pixmapLabel_card4a;
 	holeCardsArray[4][1] = pixmapLabel_card4b;
+	holeCardsArray[5][0] = pixmapLabel_card5a;
+	holeCardsArray[5][1] = pixmapLabel_card5b;
+	holeCardsArray[6][0] = pixmapLabel_card6a;
+	holeCardsArray[6][1] = pixmapLabel_card6b;
 
 	// Farben initalisieren
 	active.setRgb(86,170,86);
 	inactive.setRgb(83,141,107);
 	highlight.setRgb(151,214,109);
+
+	for (i=1; i<maxQuantityPlayers; i++) {	groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); }
+// 	for (i=0; i<maxQuantityPlayers; i++) {	groupBoxArray[i]->setStyleSheet("QGroupBox { border:none }"); }
+
 
 	//ShortCuts 
 // 	QShortcut *startNewGameKeys = new QShortcut(QKeySequence(Qt::Key_Control + Qt::Key_N), this);
@@ -527,9 +558,9 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	label_Sets->setText("<p align='center'><span style='font-weight:bold'>Sets:</span></p>");
 	
 	//Tools und Board aufhellen und enablen
-	QPalette tempPalette = groupBox_board->palette();
-	tempPalette.setColor(QPalette::Window, active);
-	groupBox_board->setPalette(tempPalette);
+// 	QPalette tempPalette = groupBox_board->palette();
+// 	tempPalette.setColor(QPalette::Window, active);
+// 	groupBox_board->setPalette(tempPalette);
 	groupBox_right_tools->setDisabled(FALSE);
 	groupBox_left_tools->setDisabled(FALSE);	
 		
@@ -669,7 +700,7 @@ void mainWindowImpl::callSettingsDialog() {
 
 		int i,j;
 
-		for (i=1; i<=4; i++ ) { 
+		for (i=1; i<maxQuantityPlayers; i++ ) { 
 			for ( j=0; j<=1; j++ ) {
 				if (holeCardsArray[i][j]->getIsFlipside()) {
 					holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
@@ -734,7 +765,9 @@ void mainWindowImpl::refreshButton() {
 void mainWindowImpl::refreshPlayerName() {
 
 	int i;
-	for (i=1; i<maxQuantityPlayers; i++) { 	groupBoxArray[i]->setTitle(QString::fromStdString(actualHand->getPlayerArray()[i]->getMyName())); }
+	for (i=0; i<maxQuantityPlayers; i++) {
+		playerNameLabelArray[i]->setText(QString::fromStdString(actualHand->getPlayerArray()[i]->getMyName()));
+	}
 }
 
 void mainWindowImpl::refreshAction() {
@@ -831,9 +864,9 @@ void mainWindowImpl::highlightRoundLabel(string tempround) {
 	// für PostRiverRun (alte Runden stehen lassen)
 	if(round != "") {
 
-		QPalette tempPalette = frame_handLabel->palette();
-		tempPalette.setColor(QPalette::Window, highlight);
-		frame_handLabel->setPalette(tempPalette);
+// 		QPalette tempPalette = frame_handLabel->palette();
+// 		tempPalette.setColor(QPalette::Window, highlight);
+// 		frame_handLabel->setPalette(tempPalette);
 		
 		textLabel_handLabel->setText(round);
 		textLabel_handNumber->setText("Hand: "+QString::number(actualHand->getMyID(),10));
@@ -1387,14 +1420,14 @@ void mainWindowImpl::postRiverAnimation1Action() { actualHand->getRiver()->postR
 void mainWindowImpl::postRiverRunAnimation1() {
 
 	//RoundsLabel mit "River" dunkel machen
-	QPalette tempPalette = frame_handLabel->palette();
-	tempPalette.setColor(QPalette::Window, active);
-	frame_handLabel->setPalette(tempPalette);
+// 	QPalette tempPalette = frame_handLabel->palette();
+// 	tempPalette.setColor(QPalette::Window, active);
+// 	frame_handLabel->setPalette(tempPalette);
 
 	//PotLabel aufhellen!
-	tempPalette = frame_Pot->palette();
-	tempPalette.setColor(QPalette::Window, highlight);
-	frame_Pot->setPalette(tempPalette);
+// // 	tempPalette = frame_Pot->palette();
+// 	tempPalette.setColor(QPalette::Window, highlight);
+// 	frame_Pot->setPalette(tempPalette);
 
 	postRiverRunAnimation1Timer->start(postRiverRunAnimationSpeed);
 }
@@ -1507,44 +1540,44 @@ void mainWindowImpl::postRiverRunAnimation3() {
 	
 				//index 0 testen --> Karte darf nicht im MyBestHand Position Array drin sein, es darf nicht nur ein Spieler Aktiv sein, die Config fordert die Animation
 				bool index0 = TRUE;
-				for(j=0; j<=4; j++) {			
+				for(j=0; j<maxQuantityPlayers; j++) {			
 	// 				cout <<  (actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] << endl;
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 0 ) { index0 = FALSE; }
 				}
 				if (index0) { holeCardsArray[i][0]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index0" << endl;*/}
 				//index 1 testen
 				bool index1 = TRUE;
-				for(j=0; j<=4; j++) {
+				for(j=0; j<maxQuantityPlayers; j++) {
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 1 ) { index1 = FALSE; }
 				}
 				if (index1) { holeCardsArray[i][1]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index1" << endl;*/}
 				//index 2 testen
 				bool index2 = TRUE;
-				for(j=0; j<=4; j++) {
+				for(j=0; j<maxQuantityPlayers; j++) {
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 2 ) { index2 = FALSE; }
 				}
 				if (index2) { boardCardsArray[0]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index2" << endl;*/}
 				//index 3 testen
 				bool index3 = TRUE;
-				for(j=0; j<=4; j++) {
+				for(j=0; j<maxQuantityPlayers; j++) {
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 3 ) { index3 = FALSE; }
 				}
 				if (index3) { boardCardsArray[1]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index3" << endl;*/}
 				//index 4 testen
 				bool index4 = TRUE;
-				for(j=0; j<=4; j++) {
+				for(j=0; j<maxQuantityPlayers; j++) {
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 4 ) { index4 = FALSE; }
 				}
 				if (index4) { boardCardsArray[2]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index4" << endl;*/}
 				//index 5 testen
 				bool index5 = TRUE;
-				for(j=0; j<=4; j++) {
+				for(j=0; j<maxQuantityPlayers; j++) {
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 5 ) { index5 = FALSE; }
 				}
 				if (index5) { boardCardsArray[3]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index5" << endl;*/}
 				//index 6 testen
 				bool index6 = TRUE;
-				for(j=0; j<=4; j++) {
+				for(j=0; j<maxQuantityPlayers; j++) {
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 6 ) { index6 = FALSE; }
 				}
 				if (index6) { boardCardsArray[4]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index6" << endl;*/}
@@ -1766,7 +1799,7 @@ void mainWindowImpl::nextRoundCleanGui() {
 		boardCardsArray[i]->setFadeOutAction(FALSE); 
 		
 	}
-	for (i=1; i<=4; i++ ) { 
+	for (i=0; i<maxQuantityPlayers; i++ ) { 
 		for ( j=0; j<=1; j++ ) { holeCardsArray[i][j]->setFadeOutAction(FALSE);}
 	}
 		
@@ -1783,15 +1816,15 @@ void mainWindowImpl::nextRoundCleanGui() {
 
 	disableMyButtons();
 	
-	QPalette tempPalette = frame_Pot->palette();
-	tempPalette.setColor(QPalette::Window, active);
-	frame_Pot->setPalette(tempPalette);
+// 	QPalette tempPalette = frame_Pot->palette();
+// 	tempPalette.setColor(QPalette::Window, active);
+// 	frame_Pot->setPalette(tempPalette);
 
 	textLabel_handLabel->setText("");
 	
-	tempPalette = frame_handLabel->palette();
-	tempPalette.setColor(QPalette::Window, active);
-	frame_handLabel->setPalette(tempPalette);
+// 	tempPalette = frame_handLabel->palette();
+// 	tempPalette.setColor(QPalette::Window, active);
+// 	frame_handLabel->setPalette(tempPalette);
 
 	refreshAll();
 
