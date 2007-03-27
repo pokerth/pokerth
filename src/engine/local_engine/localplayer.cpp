@@ -334,6 +334,10 @@ void LocalPlayer::preflopEngine() {
 		if(!fin) {
 			cout << "Es ist nicht möglich " << fileName << " zum lesen zu oeffnen." << endl;
 		}
+
+		// übergang solange preflopValue und flopValue noch nicht bereinigt
+		int players = actualHand->getActualQuantityPlayers();
+		if(players > 5) players = 5;
 	
 		char buffer[50];
 		char hand[6];
@@ -346,7 +350,7 @@ void LocalPlayer::preflopEngine() {
 			if(handCode == atoi(hand)) {
 				j = 0;
 				k = 2;
-				while(buffer[j] != '|' || k < actualHand->getActualQuantityPlayers()) {
+				while(buffer[j] != '|' || k < players) {
 					if(buffer[j] == '|') k++;
 					j++;
 				}
@@ -362,11 +366,9 @@ void LocalPlayer::preflopEngine() {
 
 		// Niveaus setzen + Dude + Anzahl Gegenspieler
 		// 1. Fold -- Call
-		myNiveau[0] = 40 + myDude4 - 6*(actualHand->getActualQuantityPlayers() - 2);
-		// 2. Check -- Bet
-		myNiveau[1] = 50;
+		myNiveau[0] = 40 + myDude4 - 6*(players - 2);
 		// 3. Call -- Raise
-		myNiveau[2] = 53 + myDude4 - 6*(actualHand->getActualQuantityPlayers() - 2);
+		myNiveau[2] = 53 + myDude4 - 6*(players - 2);
 
 		// Verhaeltnis Set / Cash
 		if(myCash/actualHand->getPreflop()->getHighestSet() >= 25) {
@@ -375,13 +377,20 @@ void LocalPlayer::preflopEngine() {
 			myNiveau[0] += (25-myCash/actualHand->getPreflop()->getHighestSet())/3;
 		}
 
-		// auf Aggresivität des humanPlayers eingehen
-		int aggValue = ( (50*(actualHand->getPlayerArray()[0]->getMyAverageSets()-6*actualHand->getSmallBlind())) / (actualHand->getStartQuantityPlayers()*actualHand->getStartCash() - 6*actualHand->getSmallBlind()) );
-
-		if(aggValue > 0) {
-			myNiveau[0] -= aggValue;
-			myNiveau[2] -= aggValue;
+		// Verhaeltnis Set / Cash für raise
+		if(myCash/actualHand->getPreflop()->getHighestSet() < 10) {
+			myNiveau[2] += (10-myCash/actualHand->getPreflop()->getHighestSet())/2;
 		}
+
+// 		cout << myID << ": " << myHoleCardsValue << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << myCards[0] << " " << myCards[1] << endl;
+
+		// auf Aggresivität des humanPlayers eingehen
+// 		int aggValue = ( (50*(actualHand->getPlayerArray()[0]->getMyAverageSets()-6*actualHand->getSmallBlind())) / (actualHand->getStartQuantityPlayers()*actualHand->getStartCash() - 6*actualHand->getSmallBlind()) );
+
+// 		if(aggValue > 0) {
+// 			myNiveau[0] -= aggValue;
+// 			myNiveau[2] -= aggValue;
+// 		}
 	
 // 		cout << "Spieler " << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << "\t Agg " << aggValue << " " << endl;
 
@@ -409,8 +418,12 @@ void LocalPlayer::preflopEngine() {
 				// raise-Betrag ermitteln
 				raise = (((int)myHoleCardsValue-myNiveau[2])/2)*2*actualHand->getSmallBlind();
 				// raise-Betrag zu klein -> mindestens Standard-raise
-				if(raise == 0) {
+				if(raise < actualHand->getPreflop()->getHighestSet()) {
 					raise = actualHand->getPreflop()->getHighestSet();
+				}
+				// all in bei nur wenigen Chips oder knappem raise
+				if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4)/5) {
+					raise = myCash;
 				}
 				myAction = 5;
 			}
@@ -694,6 +707,10 @@ void LocalPlayer::flopEngine() {
 			cout << "Es ist nicht möglich " << fileName << " zum lesen zu oeffnen." << endl;
 		}
 	
+		// übergang solange preflopValue und flopValue noch nicht bereinigt
+		int players = actualHand->getActualQuantityPlayers();
+		if(players > 5) players = 5;
+
 		if(handCode != 80000) {
 			char buffer[50];
 			char hand[6];
@@ -705,7 +722,7 @@ void LocalPlayer::flopEngine() {
 				if(handCode == atoi(hand)) {
 					j = 0;
 					k = 2;
-					while(buffer[j] != '|' || k < actualHand->getActualQuantityPlayers()) {
+					while(buffer[j] != '|' || k < players) {
 						if(buffer[j] == '|') k++;
 						j++;
 					}
@@ -731,31 +748,33 @@ void LocalPlayer::flopEngine() {
 
 		// Niveaus setzen + Dude + Anzahl Gegenspieler
 		// 1. Fold -- Call
-		myNiveau[0] = 38 + myDude4 - 6*(actualHand->getActualQuantityPlayers() - 2);
+		myNiveau[0] = 40 + myDude4 - 6*(players - 2);
 		// 2. Check -- Bet
-		myNiveau[1] = 50 + myDude4 - 6*(actualHand->getActualQuantityPlayers() - 2);
+		myNiveau[1] = 52 + myDude4 - 6*(players - 2);
 		// 3. Call -- Raise
-		myNiveau[2] = 62 + myDude4 - 6*(actualHand->getActualQuantityPlayers() - 2);
+		myNiveau[2] = 64 + myDude4 - 6*(players - 2);
 
 		// auf Aggresivität des humanPlayers eingehen
-		int aggValue = ( (50*(actualHand->getPlayerArray()[0]->getMyAverageSets()-6*actualHand->getSmallBlind())) / (actualHand->getStartQuantityPlayers()*actualHand->getStartCash() - 6*actualHand->getSmallBlind()) );
+// 		int aggValue = ( (50*(actualHand->getPlayerArray()[0]->getMyAverageSets()-6*actualHand->getSmallBlind())) / (actualHand->getStartQuantityPlayers()*actualHand->getStartCash() - 6*actualHand->getSmallBlind()) );
 
-		if(aggValue > 0) {
-			myNiveau[0] -= aggValue;
-			myNiveau[2] -= aggValue;
-		}
-	
-// 		cout << "Spieler " << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << "\t Agg " << aggValue << " " << endl;
-
+// 		if(aggValue > 0) {
+// 			myNiveau[0] -= aggValue;
+// 			myNiveau[2] -= aggValue;
+// 		}
 
 		// aktiv oder passiv?
 		if(actualHand->getFlop()->getHighestSet() > 0) {
 
-			// Verhaeltnis Set / Cash
+			// Verhaeltnis Set / Cash für call
 			if(myCash/actualHand->getFlop()->getHighestSet() >= 25) {
-				myNiveau[0] += (25-myCash/actualHand->getFlop()->getHighestSet())/10;
+				myNiveau[0] += (25-myCash/actualHand->getFlop()->getHighestSet())/20;
 			} else {
 				myNiveau[0] += (25-myCash/actualHand->getFlop()->getHighestSet())/3;
+			}
+
+			// Verhaeltnis Set / Cash für raise
+			if(myCash/actualHand->getFlop()->getHighestSet() < 10) {
+				myNiveau[2] += (10-myCash/actualHand->getFlop()->getHighestSet())/2;
 			}
 
 			// raise (bei hohem Niveau)
@@ -776,13 +795,13 @@ void LocalPlayer::flopEngine() {
 				// Standard-Raise-Routine
 				} else {
 					// raise-Betrag ermitteln
-					raise = (((int)myHoleCardsValue-myNiveau[2])/2)*2*actualHand->getSmallBlind();
+					raise = (((int)myHoleCardsValue-myNiveau[2])/5)*2*actualHand->getSmallBlind();
 					// raise-Betrag zu klein -> mindestens Standard-raise
-					if(raise == 0) {
+					if(raise < actualHand->getFlop()->getHighestSet()) {
 						raise = actualHand->getFlop()->getHighestSet();
 					}
-					// all in bei nur wenigen Chips
-					if(myCash/(2*actualHand->getSmallBlind()) <= 8) {
+					// all in bei nur wenigen Chips oder knappem raise
+					if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4.0)/5.0) {
 						raise = myCash;
 					}
 					myAction = 5;
@@ -792,7 +811,7 @@ void LocalPlayer::flopEngine() {
 				// call -> über niveau0, schon einiges gesetzt im flop, schon einiges insgesamt gesetzt 
 				if(myHoleCardsValue >= myNiveau[0] || (mySet >= actualHand->getFlop()->getHighestSet()/2 && myHoleCardsValue >= myNiveau[0]-5) || (myRoundStartCash-myCash > actualHand->getFlop()->getHighestSet() && myNiveau[0]-3)) {
 					// all in bei knappem call
-					if(myCash-actualHand->getFlop()->getHighestSet() <= (myCash*1.0)/4.0) {
+					if(actualHand->getFlop()->getHighestSet() > (myCash*3.0)/4.0) {
 						raise = myCash;
 						myAction = 5;
 					}
@@ -811,7 +830,8 @@ void LocalPlayer::flopEngine() {
 			}
 			// bet
 			else {
-				bet = (((int)myHoleCardsValue-myNiveau[1])/4)*2*actualHand->getSmallBlind();
+				bet = (((int)myHoleCardsValue-myNiveau[1])/8)*2*actualHand->getSmallBlind();
+				// bet zu klein
 				if(bet == 0) {
 					bet = 2*actualHand->getSmallBlind();
 				}
@@ -823,6 +843,8 @@ void LocalPlayer::flopEngine() {
 			}
 
 		}
+
+		cout << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << endl;
 
 		// Auswertung
 
@@ -1409,19 +1431,19 @@ void LocalPlayer::turnEngine() {
 
 		// Niveaus setzen + Dude + Anzahl Gegenspieler
 		// 1. Fold -- Call
-		myNiveau[0] = 38 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+		myNiveau[0] = 40 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 		// 2. Check -- Bet
-		myNiveau[1] = 50 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+		myNiveau[1] = 52 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 		// 3. Call -- Raise
-		myNiveau[2] = 62 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+		myNiveau[2] = 64 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 
 		// auf Aggresivität des humanPlayers eingehen
-		int aggValue = ( (50*(actualHand->getPlayerArray()[0]->getMyAverageSets()-6*actualHand->getSmallBlind())) / (actualHand->getStartQuantityPlayers()*actualHand->getStartCash() - 6*actualHand->getSmallBlind()) );
+// 		int aggValue = ( (50*(actualHand->getPlayerArray()[0]->getMyAverageSets()-6*actualHand->getSmallBlind())) / (actualHand->getStartQuantityPlayers()*actualHand->getStartCash() - 6*actualHand->getSmallBlind()) );
 
-		if(aggValue > 0) {
-			myNiveau[0] -= aggValue;
-			myNiveau[2] -= aggValue;
-		}
+// 		if(aggValue > 0) {
+// 			myNiveau[0] -= aggValue;
+// 			myNiveau[2] -= aggValue;
+// 		}
 	
 // 		cout << "Spieler " << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << "\t Agg " << aggValue << " " << endl;
 
@@ -1429,12 +1451,17 @@ void LocalPlayer::turnEngine() {
 		// aktiv oder passiv?
 		if(actualHand->getTurn()->getHighestSet() > 0) {
 
-			// Verhaeltnis Set / Cash
-// 			if(myCash/actualHand->getTurn()->getHighestSet() >= 25) {
-// 				myNiveau[0] += (25-myCash/actualHand->getTurn()->getHighestSet())/10;
-// 			} else {
-// 				myNiveau[0] += (25-myCash/actualHand->getTurn()->getHighestSet())/3;
-// 			}
+//			Verhaeltnis Set / Cash
+			if(myCash/actualHand->getTurn()->getHighestSet() >= 25) {
+				myNiveau[0] += (25-myCash/actualHand->getTurn()->getHighestSet())/10;
+			} else {
+				myNiveau[0] += (25-myCash/actualHand->getTurn()->getHighestSet())/3;
+			}
+
+			// Verhaeltnis Set / Cash für raise
+			if(myCash/actualHand->getTurn()->getHighestSet() < 10) {
+				myNiveau[2] += (10-myCash/actualHand->getTurn()->getHighestSet())/2;
+			}
 
 			// raise (bei hohem Niveau)
 			if(myHoleCardsValue >= myNiveau[2]) {
@@ -1454,13 +1481,13 @@ void LocalPlayer::turnEngine() {
 				// Standard-Raise-Routine
 				} else {
 					// raise-Betrag ermitteln
-					raise = (((int)myHoleCardsValue-myNiveau[2])/2)*2*actualHand->getSmallBlind();
+					raise = (((int)myHoleCardsValue-myNiveau[2])/4)*2*actualHand->getSmallBlind();
 					// raise-Betrag zu klein -> mindestens Standard-raise
-					if(raise == 0) {
+					if(raise < actualHand->getTurn()->getHighestSet()) {
 						raise = actualHand->getTurn()->getHighestSet();
 					}
-					// all in bei nur wenigen Chips
-					if(myCash/(2*actualHand->getSmallBlind()) <= 8) {
+					// all in bei nur wenigen Chips oder knappem raise
+					if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4.0)/5.0) {
 						raise = myCash;
 					}
 					myAction = 5;
@@ -1470,7 +1497,7 @@ void LocalPlayer::turnEngine() {
 				// call -> über niveau0, schon einiges gesetzt im flop, schon einiges insgesamt gesetzt 
 				if(myHoleCardsValue >= myNiveau[0] || (mySet >= actualHand->getTurn()->getHighestSet()/2 && myHoleCardsValue >= myNiveau[0]-5) || (myRoundStartCash-myCash > actualHand->getTurn()->getHighestSet() && myNiveau[0]-3)) {
 					// all in bei knappem call
-					if(myCash-actualHand->getTurn()->getHighestSet() <= (myCash*1)/4) {
+					if(actualHand->getTurn()->getHighestSet() > (myCash*3.0)/4.0) {
 						raise = myCash;
 						myAction = 5;
 					}
@@ -1489,7 +1516,7 @@ void LocalPlayer::turnEngine() {
 			}
 			// bet
 			else {
-				bet = (((int)myHoleCardsValue-myNiveau[1])/3)*2*actualHand->getSmallBlind();
+				bet = (((int)myHoleCardsValue-myNiveau[1])/6)*2*actualHand->getSmallBlind();
 				if(bet == 0) {
 					bet = 2*actualHand->getSmallBlind();
 				}
@@ -1852,19 +1879,19 @@ void LocalPlayer::riverEngine() {
 
 		// Niveaus setzen + Dude + Anzahl Gegenspieler
 		// 1. Fold -- Call
-		myNiveau[0] = 38 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+		myNiveau[0] = 40 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 		// 2. Check -- Bet
-		myNiveau[1] = 50 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+		myNiveau[1] = 52 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 		// 3. Call -- Raise
-		myNiveau[2] = 62 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+		myNiveau[2] = 64 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 
 		// auf Aggresivität des humanPlayers eingehen
-		int aggValue = ( (50*(actualHand->getPlayerArray()[0]->getMyAverageSets()-6*actualHand->getSmallBlind())) / (actualHand->getStartQuantityPlayers()*actualHand->getStartCash() - 6*actualHand->getSmallBlind()) );
+// 		int aggValue = ( (50*(actualHand->getPlayerArray()[0]->getMyAverageSets()-6*actualHand->getSmallBlind())) / (actualHand->getStartQuantityPlayers()*actualHand->getStartCash() - 6*actualHand->getSmallBlind()) );
 
-		if(aggValue > 0) {
-			myNiveau[0] -= aggValue;
-			myNiveau[2] -= aggValue;
-		}
+// 		if(aggValue > 0) {
+// 			myNiveau[0] -= aggValue;
+// 			myNiveau[2] -= aggValue;
+// 		}
 	
 // 		cout << "Spieler " << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << "\t Agg " << aggValue << " " << endl;
 
@@ -1873,11 +1900,16 @@ void LocalPlayer::riverEngine() {
 		if(actualHand->getRiver()->getHighestSet() > 0) {
 
 			// Verhaeltnis Set / Cash
-// 			if(myCash/actualHand->getRiver()->getHighestSet() >= 25) {
-// 				myNiveau[0] += (25-myCash/actualHand->getRiver()->getHighestSet())/10;
-// 			} else {
-// 				myNiveau[0] += (25-myCash/actualHand->getRiver()->getHighestSet())/3;
-// 			}
+			if(myCash/actualHand->getRiver()->getHighestSet() >= 25) {
+				myNiveau[0] += (25-myCash/actualHand->getRiver()->getHighestSet())/10;
+			} else {
+				myNiveau[0] += (25-myCash/actualHand->getRiver()->getHighestSet())/3;
+			}
+
+			// Verhaeltnis Set / Cash für raise
+			if(myCash/actualHand->getRiver()->getHighestSet() < 10) {
+				myNiveau[2] += (10-myCash/actualHand->getRiver()->getHighestSet())/2;
+			}
 
 			// raise (bei hohem Niveau)
 			if(myHoleCardsValue >= myNiveau[2]) {
