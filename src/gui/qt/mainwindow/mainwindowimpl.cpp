@@ -54,7 +54,7 @@ const int maxQuantityPlayersConst = 7;
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(QMainWindow *parent)
-     : QMainWindow(parent), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(1), breakAfterActualHand(FALSE)
+     : QMainWindow(parent), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
 {	
 	int i;
 
@@ -441,7 +441,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 		cashLabelArray[i]->setFont(tmpFont2);
 	}
 
-	tmpFont2.setPixelSize(11);
+	tmpFont2.setPixelSize(12);
 	for (i=0; i<maxQuantityPlayers; i++) {
 
 		setLabelArray[i]->setFont(tmpFont2);
@@ -476,11 +476,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 		
 	}
 
-// 	for (i=0; i<maxQuantityPlayers; i++) {
-// 	
-// // 		groupBoxArray[i]->setStyleSheet("QGroupBox { border:none }");
-// 		
-//  	}
+	//raise actionLable above just inserted mypixmaplabel
+	for (i=0; i<maxQuantityPlayers; i++) { actionLabelArray[i]->raise(); }
 
 
 	//ShortCuts 
@@ -832,35 +829,33 @@ void mainWindowImpl::refreshPlayerAvatar() {
 
 void mainWindowImpl::refreshAction() {
 
+	QPixmap onePix(":/graphics/resources/graphics/1px.png");
+	QPixmap action;
+
 	QStringList actionArray;
-	actionArray << "" << "Fold" << "Check" << "Call" << "Bet" << "Raise" << "All-In";
+	actionArray << "" << "fold" << "check" << "call" << "bet" << "raise" << "allin";
 
 	int i;
 	for (i=0; i<maxQuantityPlayers; i++) { 
 
-		actionLabelArray[i]->setText("<p align='center'>"+actionArray[actualHand->getPlayerArray()[i]->getMyAction()]+"</p>"); 
 		
+		//if no action --> clear Pixmap 
+		if(actualHand->getPlayerArray()[i]->getMyAction() == 0) {
+			actionLabelArray[i]->setPixmap(onePix);	
+		}
+		else {
+		//paint action pixmap and raise
+			actionLabelArray[i]->setPixmap(QPixmap(":/actions/resources/graphics/actions/action_"+actionArray[actualHand->getPlayerArray()[i]->getMyAction()]+".png"));				
+		}
+				
 		if (actualHand->getPlayerArray()[i]->getMyAction()==1) { 
 // 			groupBoxArray[i]->setDisabled(TRUE);
-			QPixmap onePix(":/graphics/resources/graphics/1px.png");
+			
 			if(i != 0) {
 				holeCardsArray[i][0]->setPixmap(onePix, FALSE);
 				holeCardsArray[i][1]->setPixmap(onePix, FALSE);
 			}
-			
-// 			QColor c(199,199,199);	
-// 			QPalette labelPalette = cashTopLabelArray[i]->palette();
-// 			labelPalette.setColor(QPalette::WindowText, c);
-// 			cashTopLabelArray[i]->setPalette(labelPalette);
-// 			cashTopLabelArray[i]->setAutoFillBackground(FALSE);
 		}
-// 		else {
-// 			QColor c(0,0,0);	
-// 			QPalette labelPalette = cashTopLabelArray[i]->palette();
-// 			labelPalette.setColor(QPalette::WindowText, c);
-// 			cashTopLabelArray[i]->setPalette(labelPalette);
-// 			cashTopLabelArray[i]->setAutoFillBackground(FALSE);
-// 		}
 	}
 }
 
@@ -1588,7 +1583,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 // 			QPalette tempPalette = groupBoxArray[i]->palette();
 // 			tempPalette.setColor(QPalette::Window, highlight);
 // 			groupBoxArray[i]->setPalette(tempPalette);
-			actionLabelArray[i]->setText("<p align='center'><b>- Winner -</b></p>");
+			actionLabelArray[i]->setPixmap(QPixmap(":/actions/resources/graphics/actions/action_winner.png"));
 
 			//nicht gewonnene Karten ausblenden
 			if ( actualHand->getActivePlayersCounter() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {

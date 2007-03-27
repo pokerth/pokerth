@@ -120,7 +120,7 @@ public:
 
 	void readFile();
 
-	void evaluation(int, int, int);
+	void evaluation(int, int);
 
 
 private:

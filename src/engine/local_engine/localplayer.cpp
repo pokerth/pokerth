@@ -114,7 +114,7 @@ void LocalPlayer::action() {
 		default: {}
 	}
 	
-
+	cout << myID << ": " << myAction << endl;
 
 	myTurn = 0;
 // 	cout << "jetzt" << endl;
@@ -215,7 +215,7 @@ void LocalPlayer::preflopEngine() {
 		}
 	}
 
-	evaluation(myAction, bet, raise);
+	evaluation(bet, raise);
 }
 
 
@@ -331,7 +331,7 @@ void LocalPlayer::flopEngine() {
 
 	cout << myID << ": Dude " << myDude4 << "\t Wert " <<  myOdds << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << endl;
 
-	evaluation(myAction, bet, raise);
+	evaluation(bet, raise);
 
 
 
@@ -775,7 +775,7 @@ void LocalPlayer::turnEngine() {
 
 		}
 
-		evaluation(myAction, bet, raise);
+		evaluation(bet, raise);
 
 }
 
@@ -970,7 +970,7 @@ void LocalPlayer::riverEngine() {
 
 		}
 
-		evaluation(myAction, bet, raise);
+		evaluation(bet, raise);
 
 
 
@@ -979,7 +979,7 @@ void LocalPlayer::riverEngine() {
 
 
 
-void LocalPlayer::evaluation(int myAction, int bet, int raise) {
+void LocalPlayer::evaluation(int bet, int raise) {
 
 	int highestSet = 0;
 
@@ -994,6 +994,8 @@ void LocalPlayer::evaluation(int myAction, int bet, int raise) {
 		break;
 		default: cout << "ERROR - wrong init of actualRound" << endl;
 	}
+
+	cout << "evaluation: " << myAction << " highestSet " << highestSet << " myCash " << myCash << endl;
 
 	switch(myAction) {
 		// none
@@ -1012,6 +1014,7 @@ void LocalPlayer::evaluation(int myAction, int bet, int raise) {
 					mySet += myCash;
 					myCash = 0;
 					myAction = 6;
+					cout << "dfgsdfg" << endl;
 					}
 			// sonst
 			else {
@@ -1071,6 +1074,7 @@ void LocalPlayer::evaluation(int myAction, int bet, int raise) {
 		break;
 		default: cout << "ERROR - wrong init of actualRound" << endl;
 	}
+
 
 }
 
