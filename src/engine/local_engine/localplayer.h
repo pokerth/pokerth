@@ -109,8 +109,18 @@ public:
 	void turnEngine();
 	void riverEngine();
 
+	void preflopEngine3();
+	void flopEngine3();
+	void turnEngine3();
+	void riverEngine3();
+
+	int preflopCardsValue(int*);
 	int flopCardsValue(int*);
 	int turnCardsValue(int*);
+
+	void readFile();
+
+	void evaluation(int, int, int);
 
 
 private:
@@ -129,7 +139,7 @@ private:
 	// Laufvariablen
 	int myCardsValueInt;
 	int myBestHandPosition[5];
-	double myHoleCardsValue;
+	double myOdds;
 	int myNiveau[3];
 
 	int myCards[2];
