@@ -82,5 +82,6 @@
         <file>resources/guiv2/playeraction_03.png</file>
         <file>resources/guiv2/playeraction_05.png</file>
         <file>resources/guiv2/playeraction_07.png</file>
+	<file>resources/guiv2/table.png</file>
     </qresource>
 </RCC>
