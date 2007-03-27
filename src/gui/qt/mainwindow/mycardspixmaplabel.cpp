@@ -145,10 +145,10 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event) {
 	
 		painter.setOpacity(frameOpacity);
 	// 	painter.drawRect(this->geometry());
-		if(objectName()=="pixmapLabel_card0b" || objectName()=="pixmapLabel_card0a")
-		painter.drawRect(-1,-1,81,113);
+		if(objectName().contains("pixmapLabel_card"))
+		painter.drawRect(-1,-1,81,112);
 		else
-		painter.drawRect(-1,-1,58,81);
+		painter.drawRect(-1,-1,80,115);
 		
 	}
 

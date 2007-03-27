@@ -71,6 +71,7 @@ public:
 	void refreshSet();
 	void refreshButton();
 	void refreshPlayerName();
+	void refreshPlayerAvatar();
 	void refreshAction();
 	void refreshCash();
 	void refreshGroupbox();
@@ -257,6 +258,8 @@ private:
 	QLabel *setLabelArray[7];
 	QLabel *actionLabelArray[7];
 	QLabel *playerNameLabelArray[7];
+	QLabel *playerAvatarLabelArray[7];
+
 	QGroupBox *groupBoxArray[7];
 	MyCardsPixmapLabel *boardCardsArray[5];
 	MyCardsPixmapLabel *holeCardsArray[7][2];

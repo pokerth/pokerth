@@ -54,7 +54,7 @@ const int maxQuantityPlayersConst = 7;
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(QMainWindow *parent)
-     : QMainWindow(parent), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
+     : QMainWindow(parent), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(1), breakAfterActualHand(FALSE)
 {	
 	int i;
 
@@ -73,47 +73,25 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	flopValuesFile.copy(QString::fromStdString(myConfig->readConfigString("DataDir")+"flopValues"));
 // 	}
 
-// 	Schriftart laden 
+// 	Schriftart laden und für Dialoge setzen
 #ifdef _WIN32
-	QFont tmpFont;
-	tmpFont.setFamily("Arial");
-	tmpFont.setPixelSize(12);
+	QFont tmpFont1;
+	tmpFont1.setFamily("Arial");
+	tmpFont1.setPixelSize(12);
 // 	if(this->logicalDpiX() > 105) { tmpFont.setFont("Arial",8); }
 // 	else { QFont tmpFont("Arial",9); }
 
 #else 
 	QFontDatabase::addApplicationFont (":fonts/resources/fonts/n019003l.pfb");
+	QFontDatabase::addApplicationFont (":fonts/resources/fonts/VeraBd.ttf");
 // 	QFont tmpFont("Nimbus Sans L",9);
-	QFont tmpFont;
-	tmpFont.setFamily("Nimbus Sans L");
-	tmpFont.setPixelSize(12);
+	QFont tmpFont1;
+	tmpFont1.setFamily("Nimbus Sans L");
+	tmpFont1.setPixelSize(12);
 #endif
-	QApplication::setFont(tmpFont);
+	QApplication::setFont(tmpFont1);
 
 	setupUi(this);
-
-	//Schriftgrößen festlegen 
-#ifdef _WIN32
-	tmpFont.setPixelSize(11);
-	textBrowser_Log->setFont(tmpFont);
-#else
-	tmpFont.setPixelSize(10);
-	textBrowser_Log->setFont(tmpFont);
-#endif
-	tmpFont.setPixelSize(18);
-	label_Pot->setFont(tmpFont);
-	tmpFont.setPixelSize(13);
-	label_Sets->setFont(tmpFont);
-	tmpFont.setPixelSize(14);
-	textLabel_handNumber->setFont(tmpFont);
-	textLabel_gameNumber->setFont(tmpFont);
-	textLabel_Sets->setFont(tmpFont);
-	textLabel_Cash0->setFont(tmpFont);
-	tmpFont.setPixelSize(15);
-	textLabel_Pot->setFont(tmpFont);
-	tmpFont.setPixelSize(21);
-	tmpFont.setBold(TRUE);
-	textLabel_handLabel->setFont(tmpFont);
 
 	//Logos
 	label_logoleft = new QLabel;
@@ -129,39 +107,29 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 	//pixmapCardsLabel erstellen und ins Layout einfügen!
 	pixmapLabel_cardBoard0 = new MyCardsPixmapLabel(frame_Board);
-	pixmapLabel_cardBoard0->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard0"));
-    	pixmapLabel_cardBoard0->setMinimumSize(QSize(57, 80));
-    	pixmapLabel_cardBoard0->setMaximumSize(QSize(57, 80));
+	pixmapLabel_cardBoard0->setObjectName(QString::fromUtf8("pixmapLabel_BoardCard0"));
 	pixmapLabel_cardBoard0->setScaledContents(true);
-	pixmapLabel_cardBoard0->setGeometry(QRect(20, 40, 57, 80));
+	pixmapLabel_cardBoard0->setGeometry(QRect(6, 64, 79, 114));
 
 	pixmapLabel_cardBoard1 = new MyCardsPixmapLabel(frame_Board);
-    	pixmapLabel_cardBoard1->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard1"));
-    	pixmapLabel_cardBoard1->setMinimumSize(QSize(57, 80));
-    	pixmapLabel_cardBoard1->setMaximumSize(QSize(57, 80));
-	pixmapLabel_cardBoard1->setScaledContents(true);
-	pixmapLabel_cardBoard1->setGeometry(QRect(100, 40, 57, 80));
+    	pixmapLabel_cardBoard1->setObjectName(QString::fromUtf8("pixmapLabel_BoardCard1"));
+    	pixmapLabel_cardBoard1->setScaledContents(true);
+	pixmapLabel_cardBoard1->setGeometry(QRect(95, 64, 79, 114));
 
 	pixmapLabel_cardBoard2 = new MyCardsPixmapLabel(frame_Board);
-    	pixmapLabel_cardBoard2->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard2"));
-    	pixmapLabel_cardBoard2->setMinimumSize(QSize(57, 80));
-    	pixmapLabel_cardBoard2->setMaximumSize(QSize(57, 80));
-	pixmapLabel_cardBoard2->setScaledContents(true);
-	pixmapLabel_cardBoard2->setGeometry(QRect(180, 40, 57, 80));
+    	pixmapLabel_cardBoard2->setObjectName(QString::fromUtf8("pixmapLabel_BoardCard2"));
+    	pixmapLabel_cardBoard2->setScaledContents(true);
+	pixmapLabel_cardBoard2->setGeometry(QRect(184, 64, 79, 114));
 
 	pixmapLabel_cardBoard3 = new MyCardsPixmapLabel(frame_Board);
-    	pixmapLabel_cardBoard3->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard3"));
-    	pixmapLabel_cardBoard3->setMinimumSize(QSize(57, 80));
-    	pixmapLabel_cardBoard3->setMaximumSize(QSize(57, 80));
-	pixmapLabel_cardBoard3->setScaledContents(true);
-	pixmapLabel_cardBoard3->setGeometry(QRect(260, 40, 57, 80));
+    	pixmapLabel_cardBoard3->setObjectName(QString::fromUtf8("pixmapLabel_BoardCard3"));
+    	pixmapLabel_cardBoard3->setScaledContents(true);
+	pixmapLabel_cardBoard3->setGeometry(QRect(280, 64, 79, 114));
 	
 	pixmapLabel_cardBoard4 = new MyCardsPixmapLabel(frame_Board);
-    	pixmapLabel_cardBoard4->setObjectName(QString::fromUtf8("pixmapLabel_cardBoard4"));
-    	pixmapLabel_cardBoard4->setMinimumSize(QSize(57, 80));
-    	pixmapLabel_cardBoard4->setMaximumSize(QSize(57, 80));
-	pixmapLabel_cardBoard4->setScaledContents(true);
-	pixmapLabel_cardBoard4->setGeometry(QRect(340, 40, 57, 80));
+    	pixmapLabel_cardBoard4->setObjectName(QString::fromUtf8("pixmapLabel_BoardCard4"));
+   	pixmapLabel_cardBoard4->setScaledContents(true);
+	pixmapLabel_cardBoard4->setGeometry(QRect(376, 64, 79, 114));
 
 
 	pixmapLabel_card0a = new MyCardsPixmapLabel(frame_Cards0);
@@ -249,11 +217,11 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 	//Toolboxen verstecken?				
 	if (!myConfig->readConfigInt("ShowRightToolBox")) { 
-		groupBox_right_tools->hide(); 
+		tabWidget_LeftToolBox->hide(); 
 		label_logoright->show();
 	}
 	if (!myConfig->readConfigInt("ShowLeftToolBox")) { 
-		groupBox_left_tools->hide(); 
+		tabWidget_LeftToolBox->hide(); 
 		label_logoleft->show();
 	}
 
@@ -380,7 +348,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	cashTopLabelArray[5] = textLabel_TopCash5;
 	cashTopLabelArray[6] = textLabel_TopCash6;
 
-	// cashTopLabelArray init
+	// playerNameLabelArray init
 	playerNameLabelArray[0] = label_PlayerName0;
 	playerNameLabelArray[1] = label_PlayerName1;
 	playerNameLabelArray[2] = label_PlayerName2;
@@ -388,6 +356,15 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	playerNameLabelArray[4] = label_PlayerName4;
 	playerNameLabelArray[5] = label_PlayerName5;
 	playerNameLabelArray[6] = label_PlayerName6;
+
+	// playerAvatarLabelArray init
+	playerAvatarLabelArray[0] = label_Avatar0;
+	playerAvatarLabelArray[1] = label_Avatar1;
+	playerAvatarLabelArray[2] = label_Avatar2;
+	playerAvatarLabelArray[3] = label_Avatar3;
+	playerAvatarLabelArray[4] = label_Avatar4;
+	playerAvatarLabelArray[5] = label_Avatar5;
+	playerAvatarLabelArray[6] = label_Avatar6;
 
 	// setLabelArray init
 	setLabelArray[0] = textLabel_Set0;
@@ -444,8 +421,66 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	inactive.setRgb(83,141,107);
 	highlight.setRgb(151,214,109);
 
-	for (i=1; i<maxQuantityPlayers; i++) {	groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); }
-// 	for (i=0; i<maxQuantityPlayers; i++) {	groupBoxArray[i]->setStyleSheet("QGroupBox { border:none }"); }
+	//Schriftart und Schriftgrößen für Widgets festlegen 
+#ifdef _WIN32
+	tmpFont1.setPixelSize(11);
+	textBrowser_Log->setFont(tmpFont1);
+#else
+	tmpFont1.setPixelSize(10);
+	textBrowser_Log->setFont(tmpFont1);
+#endif
+	QFont tmpFont2;
+	tmpFont2.setFamily("Bitstream Vera Sans");
+	tmpFont2.setPixelSize(18);
+	label_Pot->setFont(tmpFont2);
+	
+	tmpFont2.setPixelSize(10);
+	for (i=0; i<maxQuantityPlayers; i++) {
+
+		cashTopLabelArray[i]->setFont(tmpFont2);
+		cashLabelArray[i]->setFont(tmpFont2);
+	}
+
+	tmpFont2.setPixelSize(11);
+	for (i=0; i<maxQuantityPlayers; i++) {
+
+		setLabelArray[i]->setFont(tmpFont2);
+	}
+
+
+	tmpFont2.setPixelSize(13);
+	for (i=0; i<maxQuantityPlayers; i++) {
+
+		playerNameLabelArray[i]->setFont(tmpFont2);
+	}
+
+	label_Sets->setFont(tmpFont2);
+	label_Total->setFont(tmpFont2);
+	textLabel_Sets->setFont(tmpFont2);
+	textLabel_Pot->setFont(tmpFont2);
+	label_handNumber->setFont(tmpFont2);
+	label_gameNumber->setFont(tmpFont2);
+	textLabel_handNumber->setFont(tmpFont2);
+	textLabel_gameNumber->setFont(tmpFont2);
+
+// 	tmpFont2.setPixelSize(15);
+	tmpFont2.setPixelSize(17);
+	tmpFont2.setBold(TRUE);
+	textLabel_handLabel->setFont(tmpFont2);
+
+	//Widgets Grafiken per Stylesheets setzen
+	for (i=1; i<maxQuantityPlayers; i++) {
+
+		groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); 
+		
+		
+	}
+
+// 	for (i=0; i<maxQuantityPlayers; i++) {
+// 	
+// // 		groupBoxArray[i]->setStyleSheet("QGroupBox { border:none }");
+// 		
+//  	}
 
 
 	//ShortCuts 
@@ -554,15 +589,18 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	//restliche Singleshots killen!!!
 	stopTimer();
 		
-	label_Pot->setText("<p align='center'><span style='font-weight:bold'>Pot Total</span></p>");
-	label_Sets->setText("<p align='center'><span style='font-weight:bold'>Sets:</span></p>");
+	label_Pot->setText("<span style='font-weight:bold'>Pot</span>");
+	label_Total->setText("<span style='font-weight:bold'>Total:</span>");
+	label_Sets->setText("<span style='font-weight:bold'>Sets:</span>");
+	label_handNumber->setText("<span style='font-weight:bold'>Hand:</span>");
+	label_gameNumber->setText("<span style='font-weight:bold'>Game:</span>");
 	
 	//Tools und Board aufhellen und enablen
 // 	QPalette tempPalette = groupBox_board->palette();
 // 	tempPalette.setColor(QPalette::Window, active);
 // 	groupBox_board->setPalette(tempPalette);
-	groupBox_right_tools->setDisabled(FALSE);
-	groupBox_left_tools->setDisabled(FALSE);	
+	tabWidget_RightToolBox->setDisabled(FALSE);
+	tabWidget_LeftToolBox->setDisabled(FALSE);	
 		
 	//get values from local game dialog
 	if(v) {
@@ -661,19 +699,19 @@ void mainWindowImpl::callSettingsDialog() {
 		//Toolbox verstecken?
 		if (myConfig->readConfigInt("ShowLeftToolBox")) { 
 			label_logoleft->hide();
-			groupBox_left_tools->show(); 
+			tabWidget_LeftToolBox->show(); 
 		}
 		else { 
-			groupBox_left_tools->hide(); 
+			tabWidget_LeftToolBox->hide(); 
 			label_logoleft->show();
 		}
 
 		if (myConfig->readConfigInt("ShowRightToolBox")) { 
 			label_logoright->hide();
-			groupBox_right_tools->show(); 
+			tabWidget_RightToolBox->show(); 
 		}
 		else { 
-			groupBox_right_tools->hide(); 
+			tabWidget_RightToolBox->hide(); 
 			label_logoright->show();
 		}
 		
@@ -730,7 +768,7 @@ void mainWindowImpl::refreshSet() {
 
 void mainWindowImpl::refreshButton() {
 
-	QPixmap dealerButton(":/graphics/resources/graphics/dealerbutton.png");
+	QPixmap dealerButton(":/guiv2/resources/guiv2/dealerPuck.png");
 	QPixmap onePix(":/graphics/resources/graphics/1px.png");
 
 	int i;
@@ -766,7 +804,29 @@ void mainWindowImpl::refreshPlayerName() {
 
 	int i;
 	for (i=0; i<maxQuantityPlayers; i++) {
-		playerNameLabelArray[i]->setText(QString::fromStdString(actualHand->getPlayerArray()[i]->getMyName()));
+		if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
+			playerNameLabelArray[i]->setText(QString::fromStdString(actualHand->getPlayerArray()[i]->getMyName()));
+			
+		} else {
+			playerNameLabelArray[i]->setText(""); 
+		
+		}
+		
+	}
+}
+
+void mainWindowImpl::refreshPlayerAvatar() {
+
+	QPixmap onePix(":/graphics/resources/graphics/1px.png");
+	int i;
+
+	for (i=0; i<maxQuantityPlayers; i++) {
+		if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
+			playerAvatarLabelArray[i]->setPixmap(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png"));
+		}	
+		else {
+			playerAvatarLabelArray[i]->setPixmap(onePix);
+		}		
 	}
 }
 
@@ -781,18 +841,18 @@ void mainWindowImpl::refreshAction() {
 		actionLabelArray[i]->setText("<p align='center'>"+actionArray[actualHand->getPlayerArray()[i]->getMyAction()]+"</p>"); 
 		
 		if (actualHand->getPlayerArray()[i]->getMyAction()==1) { 
-			groupBoxArray[i]->setDisabled(TRUE);
+// 			groupBoxArray[i]->setDisabled(TRUE);
 			QPixmap onePix(":/graphics/resources/graphics/1px.png");
 			if(i != 0) {
 				holeCardsArray[i][0]->setPixmap(onePix, FALSE);
 				holeCardsArray[i][1]->setPixmap(onePix, FALSE);
 			}
 			
-			QColor c(199,199,199);	
-			QPalette labelPalette = cashTopLabelArray[i]->palette();
-			labelPalette.setColor(QPalette::WindowText, c);
-			cashTopLabelArray[i]->setPalette(labelPalette);
-			cashTopLabelArray[i]->setAutoFillBackground(FALSE);
+// 			QColor c(199,199,199);	
+// 			QPalette labelPalette = cashTopLabelArray[i]->palette();
+// 			labelPalette.setColor(QPalette::WindowText, c);
+// 			cashTopLabelArray[i]->setPalette(labelPalette);
+// 			cashTopLabelArray[i]->setAutoFillBackground(FALSE);
 		}
 // 		else {
 // 			QColor c(0,0,0);	
@@ -810,14 +870,9 @@ void mainWindowImpl::refreshCash() {
 	for (i=0; i<maxQuantityPlayers; i++) { 
 		if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 
-			if (i==0) {
-				cashLabelArray[0]->setText(QString::number(actualHand->getPlayerArray()[i]->getMyCash(),10)+" $"); 
-				cashTopLabelArray[0]->setText("<p align='center'><span style='font-size:15px; font-weight:bold'>Cash:</span></p>"); 
-			}
-			else {
-				cashLabelArray[i]->setText(QString::number(actualHand->getPlayerArray()[i]->getMyCash(),10)+" $"); 
-				cashTopLabelArray[i]->setText("<p align='center'><b>Cash:</b></p>"); 
-			}
+			cashLabelArray[i]->setText(QString::number(actualHand->getPlayerArray()[i]->getMyCash(),10)+" $"); 
+			cashTopLabelArray[i]->setText("<b>Cash:</b>"); 
+			
 		} else {
 			cashLabelArray[i]->setText(""); 
 			cashTopLabelArray[i]->setText("");
@@ -830,27 +885,27 @@ void mainWindowImpl::refreshGroupbox() {
 	int i;
 	for (i=0; i<maxQuantityPlayers; i++) { 
 
-		groupBoxArray[i]->setEnabled(actualHand->getPlayerArray()[i]->getMyActiveStatus());
-		if (actualHand->getPlayerArray()[i]->getMyAction() == 1) groupBoxArray[i]->setDisabled(TRUE);		
+// 		groupBoxArray[i]->setEnabled(actualHand->getPlayerArray()[i]->getMyActiveStatus());
+// 		if (actualHand->getPlayerArray()[i]->getMyAction() == 1) groupBoxArray[i]->setDisabled(TRUE);		
 
 		if(actualHand->getPlayerArray()[i]->getMyTurn()) {
 			//Groupbox aufhellen wenn der Spiele dran ist. 
-			QPalette tempPalette = groupBoxArray[i]->palette();
-			tempPalette.setColor(QPalette::Window, highlight);
-			groupBoxArray[i]->setPalette(tempPalette);
+// 			QPalette tempPalette = groupBoxArray[i]->palette();
+// 			tempPalette.setColor(QPalette::Window, highlight);
+// 			groupBoxArray[i]->setPalette(tempPalette);
 
 		} else {
 			//Groupbox auf Hintergrundfarbe setzen wenn der Spiele nicht dran aber aktiv ist. 
 			if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) {
-				QPalette tempPalette = groupBoxArray[i]->palette();
-				tempPalette.setColor(QPalette::Window, active);
-				groupBoxArray[i]->setPalette(tempPalette);
+// 				QPalette tempPalette = groupBoxArray[i]->palette();
+// 				tempPalette.setColor(QPalette::Window, active);
+// 				groupBoxArray[i]->setPalette(tempPalette);
 			}
 			//Groupbox verdunkeln wenn der Spiele inactive ist.  
 			else {
-				QPalette tempPalette = groupBoxArray[i]->palette();
-				tempPalette.setColor(QPalette::Window, inactive);
-				groupBoxArray[i]->setPalette(tempPalette);
+// 				QPalette tempPalette = groupBoxArray[i]->palette();
+// 				tempPalette.setColor(QPalette::Window, inactive);
+// 				groupBoxArray[i]->setPalette(tempPalette);
 			}
 		}
 	}
@@ -869,8 +924,8 @@ void mainWindowImpl::highlightRoundLabel(string tempround) {
 // 		frame_handLabel->setPalette(tempPalette);
 		
 		textLabel_handLabel->setText(round);
-		textLabel_handNumber->setText("Hand: "+QString::number(actualHand->getMyID(),10));
-		textLabel_gameNumber->setText("Game: "+QString::number(actualGame->getMyGameID(),10));
+		textLabel_handNumber->setText(QString::number(actualHand->getMyID(),10));
+		textLabel_gameNumber->setText(QString::number(actualGame->getMyGameID(),10));
 	}
 }
 
@@ -881,6 +936,8 @@ void mainWindowImpl::refreshAll() {
 	refreshAction();
 	refreshCash();
 	refreshGroupbox();
+	refreshPlayerName();
+	refreshPlayerAvatar();
 }
 
 void mainWindowImpl::refreshChangePlayer() {
@@ -893,8 +950,8 @@ void mainWindowImpl::refreshChangePlayer() {
 
 void mainWindowImpl::refreshPot() {
 
-	textLabel_Sets->setText("<p align='left'>"+QString::number(actualHand->getBoard()->getSets(),10)+" $</p>");
-	textLabel_Pot->setText("<p align='center'><span style='font-weight:bold'>"+QString::number(actualHand->getBoard()->getPot(),10)+" $</span></p>");
+	textLabel_Sets->setText("<span style='font-weight:bold'>"+QString::number(actualHand->getBoard()->getSets(),10)+" $</span>");
+	textLabel_Pot->setText("<span style='font-weight:bold'>"+QString::number(actualHand->getBoard()->getPot(),10)+" $</span>");
 }
 
 void mainWindowImpl::dealHoleCards() {
@@ -1528,9 +1585,9 @@ void mainWindowImpl::postRiverRunAnimation3() {
 	for(i=0; i<maxQuantityPlayers; i++) {
 		if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1 && actualHand->getPlayerArray()[i]->getMyCardsValueInt() == actualHand->getRiver()->getHighestCardsValue() ) { 
 
-			QPalette tempPalette = groupBoxArray[i]->palette();
-			tempPalette.setColor(QPalette::Window, highlight);
-			groupBoxArray[i]->setPalette(tempPalette);
+// 			QPalette tempPalette = groupBoxArray[i]->palette();
+// 			tempPalette.setColor(QPalette::Window, highlight);
+// 			groupBoxArray[i]->setPalette(tempPalette);
 			actionLabelArray[i]->setText("<p align='center'><b>- Winner -</b></p>");
 
 			//nicht gewonnene Karten ausblenden
@@ -1625,34 +1682,22 @@ void mainWindowImpl::postRiverRunAnimation5() {
 		
 		if (distributePotAnimCounter==0 || distributePotAnimCounter==2 || distributePotAnimCounter==4 || distributePotAnimCounter==6 || distributePotAnimCounter==8) { 
 
-			QPalette labelPalette = label_Pot->palette();
-			labelPalette.setColor(QPalette::WindowText, highlight);
-			label_Pot->setPalette(labelPalette);
+			label_Pot->setText("");
 	
 			for(i=0; i<maxQuantityPlayers; i++) {
 				if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1 && actualHand->getPlayerArray()[i]->getMyCardsValueInt() == actualHand->getRiver()->getHighestCardsValue() ) { 
 
-					cashTopLabelArray[i]->setAutoFillBackground(TRUE);
-					QPalette labelPalette = cashTopLabelArray[i]->palette();
-					labelPalette.setColor(QPalette::WindowText, highlight);
-					cashTopLabelArray[i]->setPalette(labelPalette);
+					cashTopLabelArray[i]->setText("");
 				}
 			}
 		}
 		else { 
+			label_Pot->setText("<span style='font-weight:bold'>Pot</span>");
 
-			QColor c(0,0,0);
-			QPalette labelPalette = label_Pot->palette();
-			labelPalette.setColor(QPalette::WindowText, c);
-			label_Pot->setPalette(labelPalette);
-			
 			for(i=0; i<maxQuantityPlayers; i++) {
 				if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1 && actualHand->getPlayerArray()[i]->getMyCardsValueInt() == actualHand->getRiver()->getHighestCardsValue() ) { 
 
-					QPalette labelPalette = cashTopLabelArray[i]->palette();
-					labelPalette.setColor(QPalette::WindowText, c);
-					cashTopLabelArray[i]->setPalette(labelPalette);
-					cashTopLabelArray[i]->setAutoFillBackground(FALSE);
+					cashTopLabelArray[i]->setText("<b>Cash:</b>"); 
 				}
 			}
 		}
@@ -1803,16 +1848,9 @@ void mainWindowImpl::nextRoundCleanGui() {
 		for ( j=0; j<=1; j++ ) { holeCardsArray[i][j]->setFadeOutAction(FALSE);}
 	}
 		
-	QColor c(0,0,0);
-	for(i=0; i<maxQuantityPlayers; i++) {
-		QPalette labelPalette = cashTopLabelArray[i]->palette();
-		labelPalette.setColor(QPalette::WindowText, c);
-		cashTopLabelArray[i]->setPalette(labelPalette);
-	}
-
-	QPalette labelPalette = label_Pot->palette();
-	labelPalette.setColor(QPalette::WindowText, c);
-	label_Pot->setPalette(labelPalette);
+// 	QPalette labelPalette = label_Pot->palette();
+// 	labelPalette.setColor(QPalette::WindowText, c);
+// 	label_Pot->setPalette(labelPalette);
 
 	disableMyButtons();
 	
@@ -2038,24 +2076,24 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
 void mainWindowImpl::switchLeftToolBox() {
 
-	if (groupBox_left_tools->isHidden()) { 
+	if (tabWidget_LeftToolBox->isHidden()) { 
 		label_logoleft->hide();
-		groupBox_left_tools->show(); 
+		tabWidget_LeftToolBox->show(); 
 	}
 	else { 
-		groupBox_left_tools->hide(); 
+		tabWidget_LeftToolBox->hide(); 
 		label_logoleft->show();
 	}
 }
 
 void mainWindowImpl::switchRightToolBox() {
 
-	if (groupBox_right_tools->isHidden()) { 
+	if (tabWidget_RightToolBox->isHidden()) { 
 		label_logoright->hide();
-		groupBox_right_tools->show(); 
+		tabWidget_RightToolBox->show(); 
 	}
 	else { 
-		groupBox_right_tools->hide(); 
+		tabWidget_RightToolBox->hide(); 
 		label_logoright->show();
 	}
 }
