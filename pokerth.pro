@@ -15,6 +15,8 @@ DEPENDPATH += . \
               src/engine/local_engine \
               src/gui/qt \
               src/net/common \
+	      src/gui/qt/mainwindow \
+	      src/gui/qt/mainwindow/startsplash \
               src/gui/qt/aboutpokerth \
               src/gui/qt/connecttoserverdialog \
               src/gui/qt/createnetworkgamedialog \
@@ -36,6 +38,8 @@ INCLUDEPATH += . \
                src/gui/qt/log \
                src/gui/qt/connecttoserverdialog \
                src/core \
+	       src/gui/qt/mainwindow \
+	       src/gui/qt/mainwindow/startsplash \
                src/gui/qt/aboutpokerth \
                src/gui/qt/createnetworkgamedialog \
                src/gui/qt/joinnetworkgamedialog \
@@ -83,6 +87,9 @@ HEADERS += src/game.h \
            src/engine/local_engine/localriver.h \
            src/engine/local_engine/localturn.h \
            src/engine/local_engine/tools.h \
+	   src/gui/qt/mainwindow/mainwindowimpl.h \
+           src/gui/qt/mainwindow/mycardspixmaplabel.h \
+	   src/gui/qt/mainwindow/startsplash/startsplash.h \
            src/gui/qt/guiwrapper.h \
            src/gui/qt/aboutpokerth/aboutpokerthimpl.h \
            src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.h \
@@ -92,9 +99,9 @@ HEADERS += src/game.h \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.h \
            src/gui/qt/settingsdialog/settingsdialogimpl.h \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.h \
-           src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.h \
-
-FORMS += src/gui/qt/aboutpokerth.ui \
+           src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.h
+FORMS += src/gui/qt/mainwindow.ui \
+	 src/gui/qt/aboutpokerth.ui \
          src/gui/qt/connecttoserverdialog.ui \
          src/gui/qt/createnetworkgamedialog.ui \
          src/gui/qt/joinnetworkgamedialog.ui \
@@ -130,7 +137,6 @@ SOURCES += src/game.cpp \
            src/engine/local_engine/localriver.cpp \
            src/engine/local_engine/localturn.cpp \
            src/engine/local_engine/tools.cpp \
-           src/gui/qt/guiwrapper.cpp \
            src/net/common/connectdata.cpp \
            src/net/common/clientcallback.cpp \
            src/net/common/clientcontext.cpp \
@@ -152,6 +158,10 @@ SOURCES += src/game.cpp \
            src/net/common/netcontext.cpp \
            src/net/common/netexception.cpp \
            src/net/common/receiverhelper.cpp \
+           src/gui/qt/guiwrapper.cpp \
+	   src/gui/qt/mainwindow/mainwindowimpl.cpp \
+           src/gui/qt/mainwindow/mycardspixmaplabel.cpp \
+ 	   src/gui/qt/mainwindow/startsplash/startsplash.cpp \
            src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp \
            src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp \
            src/gui/qt/createnetworkgamedialog/createnetworkgamedialogimpl.cpp \
@@ -180,32 +190,6 @@ win32 {
 		src/net/linux/socket_helper.cpp \
            	src/net/linux/socket_startup.cpp 
 	LIBS += -lboost_thread -l ssl
-}
-
-guiv2 {	  
-	   DEPENDPATH += src/gui/qt/mainwindowv2/ \
-			 src/gui/qt/mainwindowv2/startsplash/ 
-	   INCLUDEPATH += src/gui/qt/mainwindowv2/ \
-			  src/gui/qt/mainwindowv2/startsplash/ 
-	   HEADERS += src/gui/qt/mainwindowv2/mainwindowimpl.h \
-		      src/gui/qt/mainwindowv2/mycardspixmaplabel.h \
-		      src/gui/qt/mainwindowv2/ui_mainwindowv2.h \
-		      src/gui/qt/mainwindowv2/startsplash/startsplash.h
-	   SOURCES += src/gui/qt/mainwindowv2/mainwindowimpl.cpp \
-	              src/gui/qt/mainwindowv2/mycardspixmaplabel.cpp \
- 		      src/gui/qt/mainwindowv2/startsplash/startsplash.cpp 
-} else {   
-	   DEPENDPATH += src/gui/qt/mainwindow/ \
-			 src/gui/qt/mainwindow/startsplash 
-	   INCLUDEPATH += src/gui/qt/mainwindow/ \
-			  src/gui/qt/mainwindow/startsplash 
-	   FORMS += src/gui/qt/mainwindow.ui
-	   HEADERS += src/gui/qt/mainwindow/mainwindowimpl.h \
-                      src/gui/qt/mainwindow/mycardspixmaplabel.h \
-		      src/gui/qt/mainwindow/startsplash/startsplash.h
-	   SOURCES += src/gui/qt/mainwindow/mainwindowimpl.cpp \
-           	      src/gui/qt/mainwindow/mycardspixmaplabel.cpp \
- 		      src/gui/qt/mainwindow/startsplash/startsplash.cpp
 }
 
 CONFIG += qt release
