@@ -62,17 +62,17 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 	haveFont.setFamily("Andy MT");
 	haveFont.setPixelSize(36);
 	
-	QPixmap logo(":/graphics/resources/graphics/logo-140-100.png");
+	QPixmap logo(":/graphics/resources/graphics/logoChip3D.png");
 
 	if(frameNo >= 52 && frameNo < 65) {
 	
-		painter.setBrush(QColor(40,80,46));
+		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 	}
 
 	if(frameNo >= 65 && frameNo < 68) {
 	
-		painter.setBrush(QColor(40,80,46));
+		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 	
 		
@@ -85,7 +85,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	if(frameNo >= 68 && frameNo < 71) {
 	
-		painter.setBrush(QColor(40,80,46));
+		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 		
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
@@ -97,7 +97,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	if(frameNo >= 71 && frameNo < 74) {
 	
-		painter.setBrush(QColor(40,80,46));
+		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 	
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
@@ -109,7 +109,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	if(frameNo >= 74 && frameNo < 77) {
 	
-		painter.setBrush(QColor(40,80,46));
+		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 		
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
@@ -121,7 +121,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	if(frameNo >= 77 && frameNo < 80) {
 	
-		painter.setBrush(QColor(40,80,46));
+		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 		
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
@@ -133,7 +133,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	if(frameNo >= 80 && frameNo < 83) {
 	
-		painter.setBrush(QColor(40,80,46));
+		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 		
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
@@ -145,7 +145,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	if(frameNo >= 83 && frameNo < 92) {
 	
-		painter.setBrush(QColor(40,80,46));
+		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 		
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
@@ -157,7 +157,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	if(frameNo >= 92 && frameNo < 95) {
 	
-		painter.setBrush(QColor(40,80,46));
+		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 		
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
@@ -169,7 +169,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	if(frameNo >= 95 && frameNo < 120 ) {
 	
-		painter.setBrush(QColor(40,80,46));
+		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 		
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
@@ -181,7 +181,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	if(frameNo >= 120 && frameNo < 132) {
 // 	
-		painter.setBrush(QColor(40,80,46));
+		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 		
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
@@ -194,13 +194,13 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		opacity = 1.0/opacityCounter;
 // 		std::cout << opacity << "\n";
 		painter.setOpacity(opacity);
-		painter.drawPixmap(130,85,140,100,logo);
+		painter.drawPixmap(150,85,100,100,logo);
 		
 	}
 
 	if(frameNo >= 132 && frameNo < 155) {
 // 	
-		painter.setBrush(QColor(40,80,46));
+		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 		
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
@@ -208,13 +208,13 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setPen(QColor(255,255,255));
 		painter.drawText(48,30,300,40,4,"Welcome to");
 
-		painter.drawPixmap(130,85,140,100,logo);
+		painter.drawPixmap(150,85,100,100,logo);
 		
 	}
 
 	if(frameNo >= 155 && frameNo < 195) {
 // 	
-		painter.setBrush(QColor(40,80,46));
+		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 		
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
@@ -222,7 +222,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setPen(QColor(255,255,255));
 		painter.drawText(48,30,300,40,4,"Welcome to");
 	
-		painter.drawPixmap(130,85,140,100,logo);
+		painter.drawPixmap(150,85,100,100,logo);
 		
 		painter.setFont(haveFont);
 		painter.setPen(QColor(255,255,255));
@@ -232,7 +232,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	if(frameNo >= 195 && frameNo < 245) {
 // 	
-		painter.setBrush(QColor(40,80,46));
+		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 		
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
@@ -240,7 +240,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setPen(QColor(255,255,255));
 		painter.drawText(48,30,300,40,4,"Welcome to");
 
-		painter.drawPixmap(130,85,140,100,logo);
+		painter.drawPixmap(150,85,100,100,logo);
 		
 		painter.setFont(haveFont);
 		painter.setPen(QColor(255,255,255));

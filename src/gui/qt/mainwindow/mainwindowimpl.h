@@ -105,6 +105,10 @@ public slots:
 	void callCreateNetworkGameDialog();
 	void callJoinNetworkGameDialog();
 
+	void myBetRaise();
+	void myFoldAllin();
+	void myCallCheckSet();
+
 	void myFold();
 	void myCheck();
 	void myCall();
@@ -173,7 +177,6 @@ public slots:
 	
 	void nextRoundCleanGui();
 	
-	void userWidgetsBackgroudColor();
 	void breakButtonClicked();
 
 	void keyPressEvent ( QKeyEvent*);
@@ -251,7 +254,7 @@ private:
 	QTimer *postRiverRunAnimation5Timer;
 	QTimer *postRiverRunAnimation6Timer;
 	
-	QWidget *userWidgetsArray[8];
+	QWidget *userWidgetsArray[4];
 	QLabel *buttonLabelArray[7];
 	QLabel *cashLabelArray[7];
 	QLabel *cashTopLabelArray[7];

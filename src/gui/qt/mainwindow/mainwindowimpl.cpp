@@ -229,32 +229,16 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	if (myConfig->readConfigInt("ShowIntro")) { 
 // 		label_logo->hide();
 		QTimer::singleShot(100, this, SLOT( paintStartSplash() )); }
-		
-	pushButton_raise->setDisabled(TRUE);
-	pushButton_call->setDisabled(TRUE);
-	pushButton_bet->setDisabled(TRUE);
-	pushButton_set->setDisabled(TRUE);
-	pushButton_fold->setDisabled(TRUE);
-	pushButton_allin->setDisabled(TRUE);
-	pushButton_check->setDisabled(TRUE);
-	spinBox_set->setDisabled(TRUE);
-	
+			
 	// userWidgetsArray init
-	userWidgetsArray[0] = pushButton_raise;
-	userWidgetsArray[1] = pushButton_call;
-	userWidgetsArray[2] = pushButton_bet;
-	userWidgetsArray[3] = pushButton_set;
-	userWidgetsArray[4] = pushButton_fold;
-	userWidgetsArray[5] = pushButton_allin;
-	userWidgetsArray[6] = pushButton_check;
-	userWidgetsArray[7] = spinBox_set;
+	userWidgetsArray[0] = pushButton_BetRaise;
+	userWidgetsArray[1] = pushButton_CallCheckSet;
+	userWidgetsArray[2] = pushButton_FoldAllin;
+	userWidgetsArray[3] = spinBox_set;
 
-	//Hintergrundfarbe der userWidgets anpassen;
-	for(i=0; i<=7; i++) {
-		QPalette tempPalette = userWidgetsArray[i]->palette();
-		QColor tempColor = tempPalette.color(QPalette::Window);
-		tempPalette.setColor(QPalette::Button, tempColor);
-		userWidgetsArray[i]->setPalette(tempPalette);
+	//hide userWidgets
+	for(i=0; i<4; i++) {
+		userWidgetsArray[i]->hide();
 	}
 
 	//Timer Objekt erstellen
@@ -441,12 +425,13 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 		cashLabelArray[i]->setFont(tmpFont2);
 	}
 
+	spinBox_set->setFont(tmpFont2);
+
 	tmpFont2.setPixelSize(12);
 	for (i=0; i<maxQuantityPlayers; i++) {
 
 		setLabelArray[i]->setFont(tmpFont2);
 	}
-
 
 	tmpFont2.setPixelSize(13);
 	for (i=0; i<maxQuantityPlayers; i++) {
@@ -469,12 +454,19 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	textLabel_handLabel->setFont(tmpFont2);
 
 	//Widgets Grafiken per Stylesheets setzen
+		//Groupbox Background 
 	for (i=1; i<maxQuantityPlayers; i++) {
 
 		groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); 
-		
-		
 	}
+	groupBoxArray[0]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxInactiveGlow.png) }"); 
+
+		//Human player button
+	pushButton_BetRaise->setStyleSheet("QPushButton { background-image: url(:/guiv2/resources/guiv2/playeraction_03.png); font-family: \"Bitstream Vera Sans\"; font-size: 11px }");
+	pushButton_CallCheckSet->setStyleSheet("QPushButton { background-image: url(:/guiv2/resources/guiv2/playeraction_05.png); font-family: \"Bitstream Vera Sans\"; font-size: 11px }"); 
+	pushButton_FoldAllin->setStyleSheet("QPushButton { background-image: url(:/guiv2/resources/guiv2/playeraction_07.png); font-family: \"Bitstream Vera Sans\"; font-size: 11px }"); 
+
+
 
 	//raise actionLable above just inserted mypixmaplabel
 	for (i=0; i<maxQuantityPlayers; i++) { actionLabelArray[i]->raise(); }
@@ -535,13 +527,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	connect( actionQuit, SIGNAL( triggered() ), qApp, SLOT( quit() ) );
 	connect( actionFullScreen, SIGNAL( triggered() ), this, SLOT( switchFullscreen() ) );
 
-	connect( pushButton_raise, SIGNAL( clicked() ), this, SLOT( myRaise() ) );
-	connect( pushButton_call, SIGNAL( clicked() ), this, SLOT( myCall() ) );
-	connect( pushButton_bet, SIGNAL( clicked() ), this, SLOT( myBet() ) );
-	connect( pushButton_set, SIGNAL( clicked() ), this, SLOT( mySet() ) );
-	connect( pushButton_fold, SIGNAL( clicked() ), this, SLOT( myFold() ) );
-	connect( pushButton_check, SIGNAL( clicked() ), this, SLOT( myCheck() ) );
-	connect( pushButton_allin, SIGNAL( clicked() ), this, SLOT( myAllIn() ) );
+	connect( pushButton_BetRaise, SIGNAL( clicked() ), this, SLOT( myBetRaise() ) );
+	connect( pushButton_FoldAllin, SIGNAL( clicked() ), this, SLOT( myFoldAllin() ) );
+	connect( pushButton_CallCheckSet, SIGNAL( clicked() ), this, SLOT( myCallCheckSet() ) );
 
 	connect ( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
 	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
@@ -575,6 +563,8 @@ void mainWindowImpl::callNewGameDialog() {
 
 void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 
+	int i;
+
 	// Start new local game - terminate existing network game.
 	mySession->terminateNetworkClient();
 	mySession->terminateNetworkServer();
@@ -596,9 +586,14 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 // 	QPalette tempPalette = groupBox_board->palette();
 // 	tempPalette.setColor(QPalette::Window, active);
 // 	groupBox_board->setPalette(tempPalette);
-	tabWidget_RightToolBox->setDisabled(FALSE);
+	frame_RightToolBox->setDisabled(FALSE);
 	tabWidget_LeftToolBox->setDisabled(FALSE);	
 		
+	//show human player buttons
+	for(i=0; i<3; i++) {
+		userWidgetsArray[i]->show();
+	}
+
 	//get values from local game dialog
 	if(v) {
 		//Speeds 
@@ -705,10 +700,10 @@ void mainWindowImpl::callSettingsDialog() {
 
 		if (myConfig->readConfigInt("ShowRightToolBox")) { 
 			label_logoright->hide();
-			tabWidget_RightToolBox->show(); 
+			frame_RightToolBox->show(); 
 		}
 		else { 
-			tabWidget_RightToolBox->hide(); 
+			frame_RightToolBox->hide(); 
 			label_logoright->show();
 		}
 		
@@ -777,23 +772,25 @@ void mainWindowImpl::refreshButton() {
 	}
 
 	for (i=0; i<actualHand->getStartQuantityPlayers(); i++) { 
-		
-		if(activePlayersCounter > 2) {
-			if (actualHand->getPlayerArray()[i]->getMyButton()==1) {
-				buttonLabelArray[i]->setPixmap(dealerButton); 
-			}	
-			else {
-				buttonLabelArray[i]->setPixmap(onePix);
+		if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
+			if(activePlayersCounter > 2) {
+				if (actualHand->getPlayerArray()[i]->getMyButton()==1) {
+					buttonLabelArray[i]->setPixmap(dealerButton); 
+				}	
+				else {
+					buttonLabelArray[i]->setPixmap(onePix);
+				}
 			}
+			else {
+				if (actualHand->getPlayerArray()[i]->getMyButton()==3) {
+					buttonLabelArray[i]->setPixmap(dealerButton); 
+				}	
+				else {
+					buttonLabelArray[i]->setPixmap(onePix);
+				}
+			}	
 		}
-		else {
-			if (actualHand->getPlayerArray()[i]->getMyButton()==3) {
-				buttonLabelArray[i]->setPixmap(dealerButton); 
-			}	
-			else {
-				buttonLabelArray[i]->setPixmap(onePix);
-			}
-		}	
+		else { buttonLabelArray[i]->setPixmap(onePix); }
 	}
 }
 
@@ -877,34 +874,48 @@ void mainWindowImpl::refreshCash() {
 
 void mainWindowImpl::refreshGroupbox() {
 
-	int i;
+	int i,j;
 	for (i=0; i<maxQuantityPlayers; i++) { 
 
-// 		groupBoxArray[i]->setEnabled(actualHand->getPlayerArray()[i]->getMyActiveStatus());
-// 		if (actualHand->getPlayerArray()[i]->getMyAction() == 1) groupBoxArray[i]->setDisabled(TRUE);		
-
 		if(actualHand->getPlayerArray()[i]->getMyTurn()) {
-			//Groupbox aufhellen wenn der Spiele dran ist. 
-// 			QPalette tempPalette = groupBoxArray[i]->palette();
-// 			tempPalette.setColor(QPalette::Window, highlight);
-// 			groupBoxArray[i]->setPalette(tempPalette);
+			//Groupbox glow wenn der Spiele dran ist. 
+			if(i==0) {
+				groupBoxArray[0]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxActiveGlow.png) }"); 
+			}
+			else {
+				groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxActiveGlow.png) }"); 
+			}
 
 		} else {
 			//Groupbox auf Hintergrundfarbe setzen wenn der Spiele nicht dran aber aktiv ist. 
 			if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) {
-// 				QPalette tempPalette = groupBoxArray[i]->palette();
-// 				tempPalette.setColor(QPalette::Window, active);
-// 				groupBoxArray[i]->setPalette(tempPalette);
+				if(i==0) {
+					groupBoxArray[0]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxInactiveGlow.png) }"); 
+					//show buttons
+					for(j=0; j<3; j++) {
+						userWidgetsArray[j]->show();
+					}
+				}
+				else {
+					groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); 
+				}	
 			}
 			//Groupbox verdunkeln wenn der Spiele inactive ist.  
 			else {
-// 				QPalette tempPalette = groupBoxArray[i]->palette();
-// 				tempPalette.setColor(QPalette::Window, inactive);
-// 				groupBoxArray[i]->setPalette(tempPalette);
+				if(i==0) {
+					groupBoxArray[0]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxInactiveGlow.png) }"); 
+					//hide buttons
+					for(j=0; j<4; j++) {
+						userWidgetsArray[j]->hide();
+					}
+				}
+				else {
+					groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); 
+				}
 			}
 		}
 	}
-	userWidgetsBackgroudColor();
+	
 }
 
 void mainWindowImpl::highlightRoundLabel(string tempround) { 
@@ -1162,80 +1173,91 @@ void mainWindowImpl::meInAction() {
 	switch (actualHand->getActualRound()) {
 
 	case 0: {
-		if (actualHand->getPlayerArray()[0]->getMyCash()+actualHand->getPlayerArray()[0]->getMySet() > actualHand->getPreflop()->getHighestSet()) { pushButton_raise->setEnabled(TRUE); }
+		if (actualHand->getPlayerArray()[0]->getMyCash()+actualHand->getPlayerArray()[0]->getMySet() > actualHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 
-		if ( actualHand->getPlayerArray()[0]->getMySet()== actualHand->getPreflop()->getHighestSet() &&  actualHand->getPlayerArray()[0]->getMyButton() == 3) { pushButton_check->setEnabled(TRUE); }
-		else { pushButton_call->setEnabled(TRUE); }
-		pushButton_fold->setEnabled(TRUE);
+		if ( actualHand->getPlayerArray()[0]->getMySet()== actualHand->getPreflop()->getHighestSet() &&  actualHand->getPlayerArray()[0]->getMyButton() == 3) { pushButton_CallCheckSet->setText("Check"); }
+		else { pushButton_CallCheckSet->setText("Call"); }
+		pushButton_FoldAllin->setText("Fold"); 
 	}
 	break;
 	case 1: {
 	
-		pushButton_fold->setEnabled(TRUE);
+		pushButton_FoldAllin->setText("Fold"); 
 
 // 		cout << "highestSet in meInAction " << actualHand->getFlop()->getHighestSet()  << endl;
 		if (actualHand->getFlop()->getHighestSet() == 0) { 
-			pushButton_check->setEnabled(TRUE); 
-			pushButton_bet->setEnabled(TRUE); 
+			pushButton_CallCheckSet->setText("Check");
+			pushButton_BetRaise->setText("Bet"); 
 		}
 		if (actualHand->getFlop()->getHighestSet() > 0 && actualHand->getFlop()->getHighestSet() > actualHand->getPlayerArray()[0]->getMySet()) {
-			pushButton_call->setEnabled(TRUE); 
-			if (actualHand->getPlayerArray()[0]->getMyCash()+actualHand->getPlayerArray()[0]->getMySet() > actualHand->getPreflop()->getHighestSet()) { pushButton_raise->setEnabled(TRUE); }
+			pushButton_CallCheckSet->setText("Call");
+			if (actualHand->getPlayerArray()[0]->getMyCash()+actualHand->getPlayerArray()[0]->getMySet() > actualHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 		}
 	}
 	break;
 	case 2: {
 	
-		pushButton_fold->setEnabled(TRUE);
+		pushButton_FoldAllin->setText("Fold"); 
 
 // 		cout << "highestSet in meInAction " << actualHand->getFlop()->getHighestSet()  << endl;
 		if (actualHand->getTurn()->getHighestSet() == 0) { 
-			pushButton_check->setEnabled(TRUE); 
-			pushButton_bet->setEnabled(TRUE); 
+			pushButton_CallCheckSet->setText("Check");
+			pushButton_BetRaise->setText("Bet"); 
 		}
 		if (actualHand->getTurn()->getHighestSet() > 0 && actualHand->getTurn()->getHighestSet() > actualHand->getPlayerArray()[0]->getMySet()) {
-			pushButton_call->setEnabled(TRUE); 
-			if (actualHand->getPlayerArray()[0]->getMyCash()+actualHand->getPlayerArray()[0]->getMySet() > actualHand->getPreflop()->getHighestSet()) { pushButton_raise->setEnabled(TRUE); }
+			pushButton_CallCheckSet->setText("Call");
+			if (actualHand->getPlayerArray()[0]->getMyCash()+actualHand->getPlayerArray()[0]->getMySet() > actualHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 		}
 	}
 	break;
 	case 3: {
 	
-		pushButton_fold->setEnabled(TRUE);
+		pushButton_FoldAllin->setText("Fold"); 
 
 // 		cout << "highestSet in meInAction " << actualHand->getFlop()->getHighestSet()  << endl;
 		if (actualHand->getRiver()->getHighestSet() == 0) { 
-			pushButton_check->setEnabled(TRUE); 
-			pushButton_bet->setEnabled(TRUE); 
+			pushButton_CallCheckSet->setText("Check");
+			pushButton_BetRaise->setText("Bet");
 		}
 		if (actualHand->getRiver()->getHighestSet() > 0 && actualHand->getRiver()->getHighestSet() > actualHand->getPlayerArray()[0]->getMySet()) {
-			pushButton_call->setEnabled(TRUE); 
-			if (actualHand->getPlayerArray()[0]->getMyCash()+actualHand->getPlayerArray()[0]->getMySet() > actualHand->getPreflop()->getHighestSet()) { pushButton_raise->setEnabled(TRUE); }
+			pushButton_CallCheckSet->setText("Call");
+			if (actualHand->getPlayerArray()[0]->getMyCash()+actualHand->getPlayerArray()[0]->getMySet() > actualHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 		}
 	}
 	break;
 	default: {}
 	}
-
-	//Hintergrundfarbe der userWidgets anpassen;
-	userWidgetsBackgroudColor();
 }
 
 void mainWindowImpl::disableMyButtons() {
 
-	pushButton_raise->setDisabled(TRUE);
-	pushButton_call->setDisabled(TRUE);
-	pushButton_bet->setDisabled(TRUE);
-	pushButton_set->setDisabled(TRUE);
-	pushButton_fold->setDisabled(TRUE);
-	pushButton_allin->setDisabled(TRUE);
-	pushButton_check->setDisabled(TRUE);
+	//clear userWidgets
+	pushButton_BetRaise->show();
+	pushButton_BetRaise->setText("");
+	pushButton_CallCheckSet->setText("");
+	pushButton_FoldAllin->setText("");
 	spinBox_set->setMinimum(0);
 	spinBox_set->setValue(0);
-	spinBox_set->setDisabled(TRUE);
-	
-	userWidgetsBackgroudColor();
+	spinBox_set->hide();
 }
+
+void mainWindowImpl::myBetRaise() {
+	
+	if(pushButton_BetRaise->text() == "Raise") { myRaise(); }
+	else { myBet(); }
+}
+
+void mainWindowImpl::myFoldAllin() {
+	if(pushButton_FoldAllin->text() == "Fold") { myFold(); }
+	else { myAllIn(); }
+}
+
+void mainWindowImpl::myCallCheckSet() {
+	if(pushButton_CallCheckSet->text() == "Call") { myCall(); }
+	if(pushButton_CallCheckSet->text() == "Check") { myCheck(); }
+	if(pushButton_CallCheckSet->text() == "Set") { mySet(); }
+}
+
 
 void mainWindowImpl::myFold(){
 
@@ -1307,14 +1329,10 @@ void mainWindowImpl::myCall(){
 
 void mainWindowImpl::myBet(){ 
 
-	pushButton_bet->setDisabled(TRUE);
-
-	pushButton_set->setEnabled(TRUE);	
-	pushButton_allin->setEnabled(TRUE);
-	spinBox_set->setEnabled(TRUE);
-
-	//Hintergrundfarbe anpassen;
-	userWidgetsBackgroudColor();
+	pushButton_BetRaise->hide();
+	pushButton_CallCheckSet->setText("Set");
+	pushButton_FoldAllin->setText("All-In"); 
+	spinBox_set->show();
 	
 	if (actualHand->getActualRound() <= 2 ) { spinBox_set->setMinimum(actualHand->getSmallBlind()*2); }
 	else { spinBox_set->setMinimum(actualHand->getSmallBlind()*4); }
@@ -1329,14 +1347,10 @@ void mainWindowImpl::myBet(){
 
 void mainWindowImpl::myRaise(){ 
 
-	pushButton_raise->setDisabled(TRUE);
-
-	pushButton_set->setEnabled(TRUE);	
-	pushButton_allin->setEnabled(TRUE);
-	spinBox_set->setEnabled(TRUE);
-
-	//Hintergrundfarbe der userWidgets anpassen;
-	userWidgetsBackgroudColor();
+	pushButton_BetRaise->hide();
+	pushButton_CallCheckSet->setText("Set");
+	pushButton_FoldAllin->setText("All-In"); 
+	spinBox_set->show();
 
 	int tempHighestSet = 0;
 	switch (actualHand->getActualRound()) {
@@ -1656,9 +1670,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 			}
 		}
 	}
-	//Hintergrundfarbe der userWidgets anpassen;
-	userWidgetsBackgroudColor();
-
+	
 	postRiverRunAnimation3Timer->start(postRiverRunAnimationSpeed/2);
 }
 
@@ -1910,26 +1922,6 @@ void mainWindowImpl::stopTimer() {
 	potDistributeTimer->stop();
 }
 
-void mainWindowImpl::userWidgetsBackgroudColor() {
-	
-	int i;
-	for(i=0; i<=7; i++) {
-
-		QPalette tempPalette = userWidgetsArray[i]->palette();
-	
-		if (actualHand->getPlayerArray()[0]->getMyTurn() && userWidgetsArray[i]->isEnabled()) {
-			//Farbe der Buttons wenn der Spieler dran ist.
-			QColor tempColor(203,237,180);
-			tempPalette.setColor(QPalette::Button, tempColor);
-		}
-		else {
-			QColor tempColor = tempPalette.color(QPalette::Window);
-			tempPalette.setColor(QPalette::Button, tempColor);
-		}
-		userWidgetsArray[i]->setPalette(tempPalette);
-	}
-}
-
 void mainWindowImpl::setSpeeds() {
 
 	gameSpeed = (11-guiGameSpeed)*10;
@@ -2055,7 +2047,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	
 	bool ctrlPressed = FALSE;
 
-	if (event->key() == 16777220) { if(spinBox_set->hasFocus()) pushButton_set->click(); } //ENTER 
+	if (event->key() == 16777220) { if(spinBox_set->hasFocus()) pushButton_CallCheckSet->click(); } //ENTER 
 	if (event->key() == 16777265) { switchLeftToolBox(); } //F2	
 	if (event->key() == 16777266) { switchRightToolBox(); } //F3
 	if (event->key() == Qt::Key_F) { switchFullscreen(); } //f
@@ -2083,12 +2075,12 @@ void mainWindowImpl::switchLeftToolBox() {
 
 void mainWindowImpl::switchRightToolBox() {
 
-	if (tabWidget_RightToolBox->isHidden()) { 
+	if (frame_RightToolBox->isHidden()) { 
 		label_logoright->hide();
-		tabWidget_RightToolBox->show(); 
+		frame_RightToolBox->show(); 
 	}
 	else { 
-		tabWidget_RightToolBox->hide(); 
+		frame_RightToolBox->hide(); 
 		label_logoright->show();
 	}
 }

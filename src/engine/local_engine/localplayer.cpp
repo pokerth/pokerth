@@ -63,7 +63,6 @@ LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, int sC, bo
 
 }
 
-
 LocalPlayer::~LocalPlayer()
 {
 }
@@ -113,8 +112,6 @@ void LocalPlayer::action() {
 		} break;
 		default: {}
 	}
-	
-	cout << myID << ": " << myAction << endl;
 
 	myTurn = 0;
 // 	cout << "jetzt" << endl;
@@ -124,6 +121,7 @@ void LocalPlayer::action() {
 
 
 }
+
 
 void LocalPlayer::preflopEngine() {
 	
@@ -142,16 +140,22 @@ void LocalPlayer::preflopEngine() {
 	// 3. Call -- Raise
 	myNiveau[2] = 53 + myDude4 - 6*(players - 2);
 
+	// eigenes mögliches highestSet
+	int individualHighestSet = actualHand->getPreflop()->getHighestSet();
+	if(individualHighestSet > myCash) individualHighestSet = myCash;
+
 	// Verhaeltnis Set / Cash
-	if(myCash/actualHand->getPreflop()->getHighestSet() >= 25) {
-		myNiveau[0] += (25-myCash/actualHand->getPreflop()->getHighestSet())/10;
+
+	
+	if(myCash/individualHighestSet >= 25) {
+		myNiveau[0] += (25-myCash/individualHighestSet)/10;
 	} else {
-		myNiveau[0] += (25-myCash/actualHand->getPreflop()->getHighestSet())/3;
+		myNiveau[0] += (25-myCash/individualHighestSet)/3;
 	}
 
 	// Verhaeltnis Set / Cash für raise
-	if(myCash/actualHand->getPreflop()->getHighestSet() < 10) {
-		myNiveau[2] += (10-myCash/actualHand->getPreflop()->getHighestSet())/2;
+	if(myCash/individualHighestSet < 10) {
+		myNiveau[2] += (10-myCash/individualHighestSet)/2;
 	}
 
 // 		cout << myID << ": " << myHoleCardsValue << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << myCards[0] << " " << myCards[1] << endl;
@@ -219,7 +223,6 @@ void LocalPlayer::preflopEngine() {
 }
 
 
-
 void LocalPlayer::flopEngine() {
 
 	int raise = 0;
@@ -247,19 +250,23 @@ void LocalPlayer::flopEngine() {
 // 			myNiveau[2] -= aggValue;
 // 		}
 
+	// eigenes mögliches highestSet
+	int individualHighestSet = actualHand->getFlop()->getHighestSet();
+	if(individualHighestSet > myCash) individualHighestSet = myCash;
+
 	// aktiv oder passiv?
 	if(actualHand->getFlop()->getHighestSet() > 0) {
 
 		// Verhaeltnis Set / Cash für call
-		if(myCash/actualHand->getFlop()->getHighestSet() >= 25) {
-			myNiveau[0] += (25-myCash/actualHand->getFlop()->getHighestSet())/20;
+		if(myCash/individualHighestSet >= 25) {
+			myNiveau[0] += (25-myCash/individualHighestSet)/20;
 		} else {
-			myNiveau[0] += (25-myCash/actualHand->getFlop()->getHighestSet())/3;
+			myNiveau[0] += (25-myCash/individualHighestSet)/3;
 		}
 
 		// Verhaeltnis Set / Cash für raise
-		if(myCash/actualHand->getFlop()->getHighestSet() < 10) {
-			myNiveau[2] += (10-myCash/actualHand->getFlop()->getHighestSet())/2;
+		if(myCash/individualHighestSet < 10) {
+			myNiveau[2] += (10-myCash/individualHighestSet)/2;
 		}
 
 		// raise (bei hohem Niveau)
@@ -294,7 +301,7 @@ void LocalPlayer::flopEngine() {
 		}
 		else {
 			// call -> über niveau0, schon einiges gesetzt im flop, schon einiges insgesamt gesetzt 
-			if(myOdds >= myNiveau[0] || (mySet >= actualHand->getFlop()->getHighestSet()/2 && myOdds >= myNiveau[0]-5) || (myRoundStartCash-myCash > actualHand->getFlop()->getHighestSet() && myNiveau[0]-3)) {
+			if(myOdds >= myNiveau[0] || (mySet >= actualHand->getFlop()->getHighestSet()/2 && myOdds >= myNiveau[0]-5) || (myRoundStartCash-myCash > individualHighestSet && myNiveau[0]-3)) {
 				// all in bei knappem call
 				if(actualHand->getFlop()->getHighestSet() > (myCash*3.0)/4.0) {
 					raise = myCash;
@@ -324,12 +331,16 @@ void LocalPlayer::flopEngine() {
 			if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
 				raise = myCash;
 			}
+			// all in bei knappem bet
+			if(bet > (myCash*4.0)/5.0) {
+				bet = myCash;
+			}
 			myAction = 4;
 		}
 
 	}
 
-	cout << myID << ": Dude " << myDude4 << "\t Wert " <<  myOdds << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << endl;
+// 	cout << myID << ": Dude " << myDude4 << "\t Wert " <<  myOdds << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << endl;
 
 	evaluation(bet, raise);
 
@@ -581,22 +592,6 @@ void LocalPlayer::flopEngine() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void LocalPlayer::turnEngine() {
 
 	ConfigFile myConfig;
@@ -616,75 +611,21 @@ void LocalPlayer::turnEngine() {
 
 // 		turnCardsValue(tempArray);
 
+	int raise = 0;
+	int bet = 0;
 
+	readFile();
 
+	// Niveaus setzen + Dude + Anzahl Gegenspieler
+	// 1. Fold -- Call
+	myNiveau[0] = 42 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	// 2. Check -- Bet
+	myNiveau[1] = 53 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	// 3. Call -- Raise
+	myNiveau[2] = 64 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 
-		// Prozent ausrechnen
-	
-		int i, j, k;
-		int tempBoardCardsArray[5];
-		int tempMyCardsArray[7];
-		int tempOpponentCardsArray[7];
-		actualBoard->getMyCards(tempBoardCardsArray);
-	
-		tempMyCardsArray[0] = myCards[0];
-		tempMyCardsArray[1] = myCards[1];
-		tempMyCardsArray[2] = tempBoardCardsArray[0];
-		tempMyCardsArray[3] = tempBoardCardsArray[1];
-		tempMyCardsArray[4] = tempBoardCardsArray[2];
-		tempMyCardsArray[5] = tempBoardCardsArray[3];
-	
-		tempOpponentCardsArray[2] = tempBoardCardsArray[0];
-		tempOpponentCardsArray[3] = tempBoardCardsArray[1];
-		tempOpponentCardsArray[4] = tempBoardCardsArray[2];
-		tempOpponentCardsArray[5] = tempBoardCardsArray[3];
-	
-		int tempMyCardsValue;
-		int tempOpponentCardsValue;
-	
-		int countAll = 0;
-		int countMy = 0;
-	
-		for(i=0; i<49; i++) {
-			if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
-				for(j=i+1; j<50; j++) {
-					if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
-						for(k=j+1; k<51; k++) {
-							if(k != myCards[0] && k != myCards[1] && k != tempBoardCardsArray[0] && k != tempBoardCardsArray[1] && k != tempBoardCardsArray[2]) {
-			
-								countAll++;
-			
-								tempOpponentCardsArray[0] = i;
-								tempOpponentCardsArray[1] = j;
-								tempOpponentCardsArray[6] = k;
-								tempMyCardsArray[6] = k;
-								tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray,0);
-								tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray,0);
-			
-								if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
-							}
-						}
-					}
-				}
-			}
-		}
-	
-		myOdds = 100.0*(countMy*1.0)/(countAll*1.0);
-	// 	cout << "Prozent: " << percent << endl;
-
-		int raise = 0;
-		int bet = 0;
-
-		// Niveaus setzen + Dude + Anzahl Gegenspieler
-		// 1. Fold -- Call
-		myNiveau[0] = 40 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
-		// 2. Check -- Bet
-		myNiveau[1] = 52 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
-		// 3. Call -- Raise
-		myNiveau[2] = 64 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
-
-		// auf Aggresivität des humanPlayers eingehen
-// 		int aggValue = ( (50*(actualHand->getPlayerArray()[0]->getMyAverageSets()-6*actualHand->getSmallBlind())) / (actualHand->getStartQuantityPlayers()*actualHand->getStartCash() - 6*actualHand->getSmallBlind()) );
+	// auf Aggresivität des humanPlayers eingehen
+// 	int aggValue = ( (50*(actualHand->getPlayerArray()[0]->getMyAverageSets()-6*actualHand->getSmallBlind())) / (actualHand->getStartQuantityPlayers()*actualHand->getStartCash() - 6*actualHand->getSmallBlind()) );
 
 // 		if(aggValue > 0) {
 // 			myNiveau[0] -= aggValue;
@@ -694,105 +635,98 @@ void LocalPlayer::turnEngine() {
 // 		cout << "Spieler " << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << "\t Agg " << aggValue << " " << endl;
 
 
-		// aktiv oder passiv?
-		if(actualHand->getTurn()->getHighestSet() > 0) {
+	// eigenes mögliches highestSet
+	int individualHighestSet = actualHand->getTurn()->getHighestSet();
+	if(individualHighestSet > myCash) individualHighestSet = myCash;
 
-//			Verhaeltnis Set / Cash
-			if(myCash/actualHand->getTurn()->getHighestSet() >= 25) {
-				myNiveau[0] += (25-myCash/actualHand->getTurn()->getHighestSet())/10;
-			} else {
-				myNiveau[0] += (25-myCash/actualHand->getTurn()->getHighestSet())/3;
-			}
+	// aktiv oder passiv?
+	if(actualHand->getTurn()->getHighestSet() > 0) {
 
-			// Verhaeltnis Set / Cash für raise
-			if(myCash/actualHand->getTurn()->getHighestSet() < 10) {
-				myNiveau[2] += (10-myCash/actualHand->getTurn()->getHighestSet())/2;
-			}
+//		Verhaeltnis Set / Cash
+		if(myCash/individualHighestSet >= 25) {
+			myNiveau[0] += (25-myCash/individualHighestSet)/10;
+		} else {
+			myNiveau[0] += (25-myCash/individualHighestSet)/3;
+		}
 
-			// raise (bei hohem Niveau)
-			if(myOdds >= myNiveau[2]) {
+		// Verhaeltnis Set / Cash für raise
+		if(myCash/individualHighestSet < 10) {
+			myNiveau[2] += (10-myCash/individualHighestSet)/2;
+		}
+
+		// raise (bei hohem Niveau)
+		if(myOdds >= myNiveau[2]) {
 	
-				// raise-loop unterbinden -> d.h. entweder call oder bei superblatt all in
-				if(actualHand->getTurn()->getHighestSet() >= 12*actualHand->getSmallBlind()) {
-					// all in
-					if(myOdds >= myNiveau[2] + 8) {
-						raise = myCash;
-						myAction = 5;
-					}
-					// nur call
-					else {
-						myAction = 3;
-					}
-	
-				// Standard-Raise-Routine
-				} else {
-					// raise-Betrag ermitteln
-					raise = (((int)myOdds-myNiveau[2])/4)*2*actualHand->getSmallBlind();
-					// raise-Betrag zu klein -> mindestens Standard-raise
-					if(raise < actualHand->getTurn()->getHighestSet()) {
-						raise = actualHand->getTurn()->getHighestSet();
-					}
-					// all in bei nur wenigen Chips oder knappem raise
-					if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4.0)/5.0) {
-						raise = myCash;
-					}
+			// raise-loop unterbinden -> d.h. entweder call oder bei superblatt all in
+			if(actualHand->getTurn()->getHighestSet() >= 12*actualHand->getSmallBlind()) {
+				// all in
+				if(myOdds >= myNiveau[2] + 8) {
+					raise = myCash;
 					myAction = 5;
 				}
-			}
-			else {
-				// call -> über niveau0, schon einiges gesetzt im flop, schon einiges insgesamt gesetzt 
-				if(myOdds >= myNiveau[0] || (mySet >= actualHand->getTurn()->getHighestSet()/2 && myOdds >= myNiveau[0]-5) || (myRoundStartCash-myCash > actualHand->getTurn()->getHighestSet() && myNiveau[0]-3)) {
-					// all in bei knappem call
-					if(actualHand->getTurn()->getHighestSet() > (myCash*3.0)/4.0) {
-						raise = myCash;
-						myAction = 5;
-					}
-					else myAction = 3;
-				}
-				// fold
+					// nur call
 				else {
-					myAction = 1;
+					myAction = 3;
 				}
+	
+			// Standard-Raise-Routine
+			} else {
+				// raise-Betrag ermitteln
+				raise = (((int)myOdds-myNiveau[2])/4)*2*actualHand->getSmallBlind();
+				// raise-Betrag zu klein -> mindestens Standard-raise
+				if(raise < actualHand->getTurn()->getHighestSet()) {
+					raise = actualHand->getTurn()->getHighestSet();
+				}
+				// all in bei nur wenigen Chips oder knappem raise
+				if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4.0)/5.0) {
+					raise = myCash;
+				}
+				myAction = 5;
 			}
 		}
 		else {
-			// check
-			if(myOdds < myNiveau[1]) {
-				myAction = 2;
-			}
-			// bet
-			else {
-				bet = (((int)myOdds-myNiveau[1])/6)*2*actualHand->getSmallBlind();
-				if(bet == 0) {
-					bet = 2*actualHand->getSmallBlind();
-				}
-				// all in bei nur wenigen Chips
-				if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+			// call -> über niveau0, schon einiges gesetzt im flop, schon einiges insgesamt gesetzt 
+			if(myOdds >= myNiveau[0] || (mySet >= actualHand->getTurn()->getHighestSet()/2 && myOdds >= myNiveau[0]-5) || (myRoundStartCash-myCash > individualHighestSet && myNiveau[0]-3)) {
+				// all in bei knappem call
+				if(actualHand->getTurn()->getHighestSet() > (myCash*3.0)/4.0) {
 					raise = myCash;
+					myAction = 5;
 				}
-				myAction = 4;
+				else myAction = 3;
 			}
-
+			// fold
+			else {
+				myAction = 1;
+			}
 		}
+	}
+	// aktiv
+	else {
+		// check
+		if(myOdds < myNiveau[1]) {
+			myAction = 2;
+		}
+		// bet
+		else {
+			bet = (((int)myOdds-myNiveau[1])/6)*2*actualHand->getSmallBlind();
+			if(bet == 0) {
+				bet = 2*actualHand->getSmallBlind();
+			}
+			// all in bei nur wenigen Chips
+			if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+				raise = myCash;
+			}
+			// all in bei knappem bet
+			if(bet > (myCash*4.0)/5.0) {
+				bet = myCash;
+			}
+			myAction = 4;
+		}
+	}
 
-		evaluation(bet, raise);
+	evaluation(bet, raise);
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void LocalPlayer::riverEngine() {
@@ -815,66 +749,16 @@ void LocalPlayer::riverEngine() {
 // 		turnCardsValue(tempArray);
 
 
-
-
-		// Prozent ausrechnen
-	
-		int i, j;
-		int tempBoardCardsArray[5];
-		int tempMyCardsArray[7];
-		int tempOpponentCardsArray[7];
-		actualBoard->getMyCards(tempBoardCardsArray);
-	
-		tempMyCardsArray[0] = myCards[0];
-		tempMyCardsArray[1] = myCards[1];
-		tempMyCardsArray[2] = tempBoardCardsArray[0];
-		tempMyCardsArray[3] = tempBoardCardsArray[1];
-		tempMyCardsArray[4] = tempBoardCardsArray[2];
-		tempMyCardsArray[5] = tempBoardCardsArray[3];
-		tempMyCardsArray[6] = tempBoardCardsArray[4];
-	
-		tempOpponentCardsArray[2] = tempBoardCardsArray[0];
-		tempOpponentCardsArray[3] = tempBoardCardsArray[1];
-		tempOpponentCardsArray[4] = tempBoardCardsArray[2];
-		tempOpponentCardsArray[5] = tempBoardCardsArray[3];
-		tempOpponentCardsArray[6] = tempBoardCardsArray[4];
-	
-		int tempMyCardsValue;
-		int tempOpponentCardsValue;
-	
-		int countAll = 0;
-		int countMy = 0;
-	
-		for(i=0; i<49; i++) {
-			if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
-			for(j=i+1; j<50; j++) {
-				if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
-	
-					countAll++;
-	
-					tempOpponentCardsArray[0] = i;
-					tempOpponentCardsArray[1] = j;
-					tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray,0);
-					tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray,0);
-	
-					if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
-				}
-			}
-			}
-		}
-	
-		myOdds = 100.0*(countMy*1.0)/(countAll*1.0);
-
-
-
 		int raise = 0;
 		int bet = 0;
 
+		readFile();
+
 		// Niveaus setzen + Dude + Anzahl Gegenspieler
 		// 1. Fold -- Call
-		myNiveau[0] = 40 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+		myNiveau[0] = 42 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 		// 2. Check -- Bet
-		myNiveau[1] = 52 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+		myNiveau[1] = 53 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 		// 3. Call -- Raise
 		myNiveau[2] = 64 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 
@@ -888,20 +772,23 @@ void LocalPlayer::riverEngine() {
 	
 // 		cout << "Spieler " << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << "\t Agg " << aggValue << " " << endl;
 
+		// eigenes mögliches highestSet
+		int individualHighestSet = actualHand->getRiver()->getHighestSet();
+		if(individualHighestSet > myCash) individualHighestSet = myCash;
 
 		// aktiv oder passiv?
 		if(actualHand->getRiver()->getHighestSet() > 0) {
 
 			// Verhaeltnis Set / Cash
-			if(myCash/actualHand->getRiver()->getHighestSet() >= 25) {
-				myNiveau[0] += (25-myCash/actualHand->getRiver()->getHighestSet())/10;
+			if(myCash/individualHighestSet >= 25) {
+				myNiveau[0] += (25-myCash/individualHighestSet)/10;
 			} else {
-				myNiveau[0] += (25-myCash/actualHand->getRiver()->getHighestSet())/3;
+				myNiveau[0] += (25-myCash/individualHighestSet)/3;
 			}
 
 			// Verhaeltnis Set / Cash für raise
-			if(myCash/actualHand->getRiver()->getHighestSet() < 10) {
-				myNiveau[2] += (10-myCash/actualHand->getRiver()->getHighestSet())/2;
+			if(myCash/individualHighestSet < 10) {
+				myNiveau[2] += (10-myCash/individualHighestSet)/2;
 			}
 
 			// raise (bei hohem Niveau)
@@ -936,7 +823,7 @@ void LocalPlayer::riverEngine() {
 			}
 			else {
 				// call -> über niveau0, schon einiges gesetzt im flop, schon einiges insgesamt gesetzt 
-				if(myOdds >= myNiveau[0] || (mySet >= actualHand->getRiver()->getHighestSet()/2 && myOdds >= myNiveau[0]-5) || (myRoundStartCash-myCash > actualHand->getRiver()->getHighestSet() && myNiveau[0]-3)) {
+				if(myOdds >= myNiveau[0] || (mySet >= actualHand->getRiver()->getHighestSet()/2 && myOdds >= myNiveau[0]-5) || (myRoundStartCash-myCash > individualHighestSet && myNiveau[0]-3)) {
 					// all in bei knappem call
 					if(myCash-actualHand->getRiver()->getHighestSet() <= (myCash*1)/4) {
 						raise = myCash;
@@ -964,6 +851,10 @@ void LocalPlayer::riverEngine() {
 				// all in bei nur wenigen Chips
 				if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
 					raise = myCash;
+				}
+				// all in bei knappem bet
+				if(bet > (myCash*4.0)/5.0) {
+					bet = myCash;
 				}
 				myAction = 4;
 			}
@@ -995,8 +886,6 @@ void LocalPlayer::evaluation(int bet, int raise) {
 		default: cout << "ERROR - wrong init of actualRound" << endl;
 	}
 
-	cout << "evaluation: " << myAction << " highestSet " << highestSet << " myCash " << myCash << endl;
-
 	switch(myAction) {
 		// none
 		case 0: {}
@@ -1014,7 +903,6 @@ void LocalPlayer::evaluation(int bet, int raise) {
 					mySet += myCash;
 					myCash = 0;
 					myAction = 6;
-					cout << "dfgsdfg" << endl;
 					}
 			// sonst
 			else {
@@ -1862,9 +1750,113 @@ void LocalPlayer::readFile() {
 
 		}
 		break;
-		case 2: {}
+		case 2: {
+
+			// Prozent ausrechnen
+	
+			int i, j, k;
+			int tempBoardCardsArray[5];
+			int tempMyCardsArray[7];
+			int tempOpponentCardsArray[7];
+			actualBoard->getMyCards(tempBoardCardsArray);
+		
+			tempMyCardsArray[0] = myCards[0];
+			tempMyCardsArray[1] = myCards[1];
+			tempMyCardsArray[2] = tempBoardCardsArray[0];
+			tempMyCardsArray[3] = tempBoardCardsArray[1];
+			tempMyCardsArray[4] = tempBoardCardsArray[2];
+			tempMyCardsArray[5] = tempBoardCardsArray[3];
+		
+			tempOpponentCardsArray[2] = tempBoardCardsArray[0];
+			tempOpponentCardsArray[3] = tempBoardCardsArray[1];
+			tempOpponentCardsArray[4] = tempBoardCardsArray[2];
+			tempOpponentCardsArray[5] = tempBoardCardsArray[3];
+		
+			int tempMyCardsValue;
+			int tempOpponentCardsValue;
+		
+			int countAll = 0;
+			int countMy = 0;
+		
+			for(i=0; i<49; i++) {
+				if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
+					for(j=i+1; j<50; j++) {
+						if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
+							for(k=j+1; k<51; k++) {
+								if(k != myCards[0] && k != myCards[1] && k != tempBoardCardsArray[0] && k != tempBoardCardsArray[1] && k != tempBoardCardsArray[2]) {
+				
+									countAll++;
+				
+									tempOpponentCardsArray[0] = i;
+									tempOpponentCardsArray[1] = j;
+									tempOpponentCardsArray[6] = k;
+									tempMyCardsArray[6] = k;
+									tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray,0);
+									tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray,0);
+				
+									if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
+								}
+							}
+						}
+					}
+				}
+			}
+		
+			myOdds = 100.0*(countMy*1.0)/(countAll*1.0);
+
+		}
 		break;
-		case 3: {}
+		case 3: {
+
+			// Prozent ausrechnen
+	
+			int i, j;
+			int tempBoardCardsArray[5];
+			int tempMyCardsArray[7];
+			int tempOpponentCardsArray[7];
+			actualBoard->getMyCards(tempBoardCardsArray);
+		
+			tempMyCardsArray[0] = myCards[0];
+			tempMyCardsArray[1] = myCards[1];
+			tempMyCardsArray[2] = tempBoardCardsArray[0];
+			tempMyCardsArray[3] = tempBoardCardsArray[1];
+			tempMyCardsArray[4] = tempBoardCardsArray[2];
+			tempMyCardsArray[5] = tempBoardCardsArray[3];
+			tempMyCardsArray[6] = tempBoardCardsArray[4];
+		
+			tempOpponentCardsArray[2] = tempBoardCardsArray[0];
+			tempOpponentCardsArray[3] = tempBoardCardsArray[1];
+			tempOpponentCardsArray[4] = tempBoardCardsArray[2];
+			tempOpponentCardsArray[5] = tempBoardCardsArray[3];
+			tempOpponentCardsArray[6] = tempBoardCardsArray[4];
+		
+			int tempMyCardsValue;
+			int tempOpponentCardsValue;
+		
+			int countAll = 0;
+			int countMy = 0;
+		
+			for(i=0; i<49; i++) {
+				if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
+				for(j=i+1; j<50; j++) {
+					if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
+		
+						countAll++;
+		
+						tempOpponentCardsArray[0] = i;
+						tempOpponentCardsArray[1] = j;
+						tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray,0);
+						tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray,0);
+		
+						if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
+					}
+				}
+				}
+			}
+		
+			myOdds = 100.0*(countMy*1.0)/(countAll*1.0);
+
+		}
 		break;
 		default: cout <<"ERROR - wrong init of actualRound" << endl;
 
