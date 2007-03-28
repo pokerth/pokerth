@@ -73,6 +73,9 @@ public:
 
 	virtual void setMyAverageSets(const int& theValue) =0;
 	virtual int getMyAverageSets() const =0;
+
+	virtual void setMyAggressive(const bool& theValue) =0;
+	virtual int getMyAggressive() const =0;
 	
 	virtual void action() =0;
 	

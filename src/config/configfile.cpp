@@ -34,7 +34,7 @@ using namespace std;
 ConfigFile::ConfigFile()
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 13;
+	configRev = 15;
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
@@ -136,7 +136,7 @@ void ConfigFile::createDefaultConfig() {
 	
 		TiXmlElement * confElement1 = new TiXmlElement( "NumberOfPlayers" ); 
 		config->LinkEndChild( confElement1 );
-		confElement1->SetAttribute("value", 5);
+		confElement1->SetAttribute("value", 7);
                 TiXmlElement * confElement2 = new TiXmlElement( "StartCash" );
 	        config->LinkEndChild( confElement2 );
                 confElement2->SetAttribute("value", 2000);
@@ -161,7 +161,7 @@ void ConfigFile::createDefaultConfig() {
 	
 		TiXmlElement * confElement23 = new TiXmlElement( "NetNumberOfPlayers" ); 
 		config->LinkEndChild( confElement23 );
-		confElement23->SetAttribute("value", 5);
+		confElement23->SetAttribute("value", 7);
                 TiXmlElement * confElement24 = new TiXmlElement( "NetStartCash" );
 	        config->LinkEndChild( confElement24 );
                 confElement24->SetAttribute("value", 2000);
@@ -190,19 +190,46 @@ void ConfigFile::createDefaultConfig() {
 		TiXmlElement * confElement6 = new TiXmlElement( "MyName" );
 		config->LinkEndChild( confElement6 );
       		confElement6->SetAttribute("value", "Human Player");		
+		TiXmlElement * confElement34 = new TiXmlElement( "MyAvatar" );
+		config->LinkEndChild( confElement34 );
+      		confElement34->SetAttribute("value", "");		
 		TiXmlElement * confElement7 = new TiXmlElement( "Opponent1Name" );
 		config->LinkEndChild( confElement7 );
       		confElement7->SetAttribute("value", "Player 1");
+		TiXmlElement * confElement35 = new TiXmlElement( "Opponent1Avatar" );
+		config->LinkEndChild( confElement35 );
+      		confElement35->SetAttribute("value", "");
 		TiXmlElement * confElement8 = new TiXmlElement( "Opponent2Name" );
 		config->LinkEndChild( confElement8 );
       		confElement8->SetAttribute("value", "Player 2");
+		TiXmlElement * confElement36 = new TiXmlElement( "Opponent2Avatar" );
+		config->LinkEndChild( confElement36 );
+      		confElement36->SetAttribute("value", "");		
 		TiXmlElement * confElement9 = new TiXmlElement( "Opponent3Name" );
 		config->LinkEndChild( confElement9 );
       		confElement9->SetAttribute("value", "Player 3");
+		TiXmlElement * confElement37 = new TiXmlElement( "Opponent3Avatar" );
+		config->LinkEndChild( confElement37 );
+      		confElement37->SetAttribute("value", "");
 		TiXmlElement * confElement10 = new TiXmlElement( "Opponent4Name" );
 		config->LinkEndChild( confElement10 );
       		confElement10->SetAttribute("value", "Player 4");
-		
+		TiXmlElement * confElement38 = new TiXmlElement( "Opponent4Avatar" );
+		config->LinkEndChild( confElement38 );
+      		confElement38->SetAttribute("value", "");
+		TiXmlElement * confElement39 = new TiXmlElement( "Opponent5Name" );
+		config->LinkEndChild( confElement39 );
+      		confElement39->SetAttribute("value", "Player 5");
+		TiXmlElement * confElement40 = new TiXmlElement( "Opponent5Avatar" );
+		config->LinkEndChild( confElement40 );
+      		confElement40->SetAttribute("value", "");		
+		TiXmlElement * confElement41 = new TiXmlElement( "Opponent6Name" );
+		config->LinkEndChild( confElement41 );
+      		confElement41->SetAttribute("value", "Player 6");
+		TiXmlElement * confElement42 = new TiXmlElement( "Opponent6Avatar" );
+		config->LinkEndChild( confElement42 );
+      		confElement42->SetAttribute("value", "");
+
 		TiXmlElement * confElement20 = new TiXmlElement( "LogDir" );
 		config->LinkEndChild( confElement20 );
       		confElement20->SetAttribute("value", logDir);

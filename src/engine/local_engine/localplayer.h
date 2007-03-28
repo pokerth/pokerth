@@ -89,14 +89,14 @@ public:
 	
 	void setMyAggressive(const bool& theValue) {
 		int i;
-		for(i=0; i<9; i++) {
+		for(i=0; i<6; i++) {
 			myAggressive[i] = myAggressive[i+1];
 		}
-		myAggressive[9] = theValue;
+		myAggressive[6] = theValue;
 	}
 	int getMyAggressive() const {
 		int i, sum = 0;
-		for(i=0; i<10; i++) {
+		for(i=0; i<7; i++) {
 			sum += myAggressive[i];
 		}
 		return sum;
@@ -153,7 +153,7 @@ private:
 	int myRoundStartCash;
 
 	int myAverageSets[4];
-	bool myAggressive[10];
+	bool myAggressive[7];
 
 };
 

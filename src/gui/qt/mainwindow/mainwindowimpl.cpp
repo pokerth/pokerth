@@ -93,18 +93,6 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 	setupUi(this);
 
-	//Logos
-	label_logoleft = new QLabel;
-	label_logoleft->setPixmap(QPixmap(QString::fromUtf8(":/graphics/resources/graphics/logo-140-100.png")));
-	label_logoleft->hide();
- 	vboxLayout->addWidget(label_logoleft);
-
-	label_logoright = new QLabel;
-	label_logoright->setPixmap(QPixmap(QString::fromUtf8(":/graphics/resources/graphics/logo-140-100.png")));
-	label_logoright->setAlignment(Qt::AlignRight);
-	label_logoright->hide();
- 	vboxLayout3->addWidget(label_logoright);
-
 	//pixmapCardsLabel erstellen und ins Layout einfügen!
 	pixmapLabel_cardBoard0 = new MyCardsPixmapLabel(frame_Board);
 	pixmapLabel_cardBoard0->setObjectName(QString::fromUtf8("pixmapLabel_BoardCard0"));
@@ -555,7 +543,7 @@ void mainWindowImpl::callNewGameDialog() {
 		newGameDialogImpl *v = new newGameDialogImpl(this);
 		v->exec();
 		if (v->result() == QDialog::Accepted ) { startNewLocalGame(v);	}
-		else { startNewLocalGame(); }
+// 		else { startNewLocalGame(); }
 	}
 	// sonst mit gespeicherten Werten starten
 	else { startNewLocalGame(); }
@@ -685,27 +673,15 @@ void mainWindowImpl::callSettingsDialog() {
 
 	settingsDialogImpl *v = new settingsDialogImpl(this);
 	v->exec();
-		
-	if (v->getSettingsCorrect()) {
-		
-		//Toolbox verstecken?
-		if (myConfig->readConfigInt("ShowLeftToolBox")) { 
-			label_logoleft->hide();
-			tabWidget_LeftToolBox->show(); 
-		}
-		else { 
-			tabWidget_LeftToolBox->hide(); 
-			label_logoleft->show();
-		}
 
-		if (myConfig->readConfigInt("ShowRightToolBox")) { 
-			label_logoright->hide();
-			frame_RightToolBox->show(); 
-		}
-		else { 
-			frame_RightToolBox->hide(); 
-			label_logoright->show();
-		}
+	
+	if (v->getSettingsCorrect()) {
+		//Toolbox verstecken?
+		if (myConfig->readConfigInt("ShowLeftToolBox")) { tabWidget_LeftToolBox->show(); }
+		else { tabWidget_LeftToolBox->hide(); }
+
+		if (myConfig->readConfigInt("ShowRightToolBox")) { frame_RightToolBox->show(); }
+		else { frame_RightToolBox->hide(); }
 		
 		//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
 		if (v->getPlayerNickIsChanged() && actualGame) { 
@@ -715,11 +691,13 @@ void mainWindowImpl::callSettingsDialog() {
 			actualHand->getPlayerArray()[2]->setMyName(v->lineEdit_Opponent2Name->text().toStdString());
 			actualHand->getPlayerArray()[3]->setMyName(v->lineEdit_Opponent3Name->text().toStdString());
 			actualHand->getPlayerArray()[4]->setMyName(v->lineEdit_Opponent4Name->text().toStdString());
+			actualHand->getPlayerArray()[5]->setMyName(v->lineEdit_Opponent5Name->text().toStdString());
+			actualHand->getPlayerArray()[6]->setMyName(v->lineEdit_Opponent6Name->text().toStdString());
 			v->setPlayerNickIsChanged(FALSE);
 
 			refreshPlayerName();
 		}
-	
+		
 		//Flipside refresh
 		if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
 
@@ -737,6 +715,9 @@ void mainWindowImpl::callSettingsDialog() {
 				}
 			}
 		}
+
+		//avatar refresh
+		refreshPlayerAvatar();
 	}
 }
 
@@ -771,7 +752,7 @@ void mainWindowImpl::refreshButton() {
 		if (actualHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
 	}
 
-	for (i=0; i<actualHand->getStartQuantityPlayers(); i++) { 
+	for (i=0; i<maxQuantityPlayers; i++) { 
 		if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 			if(activePlayersCounter > 2) {
 				if (actualHand->getPlayerArray()[i]->getMyButton()==1) {
@@ -816,7 +797,25 @@ void mainWindowImpl::refreshPlayerAvatar() {
 
 	for (i=0; i<maxQuantityPlayers; i++) {
 		if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
-			playerAvatarLabelArray[i]->setPixmap(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png"));
+
+			if(!i) {
+				if(myConfig->readConfigString("MyAvatar") == "") {
+					playerAvatarLabelArray[0]->setPixmap(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png"));
+				}
+				else {
+					playerAvatarLabelArray[0]->setPixmap(QPixmap(QString::fromStdString(myConfig->readConfigString("MyAvatar"))));
+				}
+			}
+			else {
+				QString tmp("Opponent"+QString::number(i,10)+"Avatar");
+				
+				if(myConfig->readConfigString(tmp.toStdString()) == "") {
+					playerAvatarLabelArray[i]->setPixmap(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png"));
+				}
+				else {
+					playerAvatarLabelArray[i]->setPixmap(QPixmap(QString::fromStdString(myConfig->readConfigString(tmp.toStdString()))));
+				}
+			}
 		}	
 		else {
 			playerAvatarLabelArray[i]->setPixmap(onePix);
@@ -2063,26 +2062,14 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
 void mainWindowImpl::switchLeftToolBox() {
 
-	if (tabWidget_LeftToolBox->isHidden()) { 
-		label_logoleft->hide();
-		tabWidget_LeftToolBox->show(); 
-	}
-	else { 
-		tabWidget_LeftToolBox->hide(); 
-		label_logoleft->show();
-	}
+	if (tabWidget_LeftToolBox->isHidden()) { tabWidget_LeftToolBox->show(); }
+	else { 	tabWidget_LeftToolBox->hide(); 	}
 }
 
 void mainWindowImpl::switchRightToolBox() {
 
-	if (frame_RightToolBox->isHidden()) { 
-		label_logoright->hide();
-		frame_RightToolBox->show(); 
-	}
-	else { 
-		frame_RightToolBox->hide(); 
-		label_logoright->show();
-	}
+	if (frame_RightToolBox->isHidden()) { frame_RightToolBox->show(); }
+	else { 	frame_RightToolBox->hide(); }
 }
 
 void mainWindowImpl::switchFullscreen() {

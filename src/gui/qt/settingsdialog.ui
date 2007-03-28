@@ -164,7 +164,7 @@ p, li { white-space: pre-wrap; }
           <item row="0" column="0" >
            <widget class="QRadioButton" name="radioButton_flipsideTux" >
             <property name="text" >
-             <string>Default (Tux)</string>
+             <string>Default</string>
             </property>
             <property name="checked" >
              <bool>true</bool>
@@ -601,23 +601,316 @@ p, li { white-space: pre-wrap; }
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="2" column="1" >
-        <widget class="QLineEdit" name="lineEdit_humanPlayerName" />
-       </item>
-       <item row="0" column="0" colspan="2" >
-        <widget class="QLabel" name="label_7" >
-         <property name="font" >
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
+       <item row="3" column="0" >
+        <widget class="QGroupBox" name="groupBox_3" >
+         <property name="title" >
+          <string>Computer Engine</string>
          </property>
-         <property name="text" >
-          <string>Player Nicks</string>
-         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>5</number>
+          </property>
+          <property name="spacing" >
+           <number>5</number>
+          </property>
+          <item row="5" column="3" >
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_Opponent6Avatar" />
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_openAvatarFile6" >
+              <property name="minimumSize" >
+               <size>
+                <width>27</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize" >
+               <size>
+                <width>27</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="icon" >
+               <iconset resource="resources.qrc" >:/graphics/resources/graphics/fileopen16.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="4" column="3" >
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_Opponent5Avatar" />
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_openAvatarFile5" >
+              <property name="minimumSize" >
+               <size>
+                <width>27</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize" >
+               <size>
+                <width>27</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="icon" >
+               <iconset resource="resources.qrc" >:/graphics/resources/graphics/fileopen16.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="3" >
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_Opponent4Avatar" />
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_openAvatarFile4" >
+              <property name="minimumSize" >
+               <size>
+                <width>27</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize" >
+               <size>
+                <width>27</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="icon" >
+               <iconset resource="resources.qrc" >:/graphics/resources/graphics/fileopen16.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="3" >
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_Opponent3Avatar" />
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_openAvatarFile3" >
+              <property name="minimumSize" >
+               <size>
+                <width>27</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize" >
+               <size>
+                <width>27</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="icon" >
+               <iconset resource="resources.qrc" >:/graphics/resources/graphics/fileopen16.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="3" >
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_Opponent2Avatar" />
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_openAvatarFile2" >
+              <property name="minimumSize" >
+               <size>
+                <width>27</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize" >
+               <size>
+                <width>27</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="icon" >
+               <iconset resource="resources.qrc" >:/graphics/resources/graphics/fileopen16.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="3" >
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_Opponent1Avatar" />
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_openAvatarFile1" >
+              <property name="minimumSize" >
+               <size>
+                <width>27</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize" >
+               <size>
+                <width>27</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="icon" >
+               <iconset resource="resources.qrc" >:/graphics/resources/graphics/fileopen16.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="2" >
+           <widget class="QLabel" name="label_24" >
+            <property name="text" >
+             <string>Avatar:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" >
+           <widget class="QLabel" name="label_21" >
+            <property name="text" >
+             <string>Avatar:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2" >
+           <widget class="QLabel" name="label_22" >
+            <property name="text" >
+             <string>Avatar:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2" >
+           <widget class="QLabel" name="label_25" >
+            <property name="text" >
+             <string>Avatar:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2" >
+           <widget class="QLabel" name="label_30" >
+            <property name="text" >
+             <string>Avatar:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2" >
+           <widget class="QLabel" name="label_31" >
+            <property name="text" >
+             <string>Avatar:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1" >
+           <widget class="QLineEdit" name="lineEdit_Opponent4Name" />
+          </item>
+          <item row="2" column="1" >
+           <widget class="QLineEdit" name="lineEdit_Opponent3Name" />
+          </item>
+          <item row="0" column="1" >
+           <widget class="QLineEdit" name="lineEdit_Opponent1Name" />
+          </item>
+          <item row="1" column="1" >
+           <widget class="QLineEdit" name="lineEdit_Opponent2Name" />
+          </item>
+          <item row="5" column="1" >
+           <widget class="QLineEdit" name="lineEdit_Opponent6Name" />
+          </item>
+          <item row="4" column="1" >
+           <widget class="QLineEdit" name="lineEdit_Opponent5Name" />
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_10" >
+            <property name="text" >
+             <string>Opponent 2:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" >
+           <widget class="QLabel" name="label_11" >
+            <property name="text" >
+             <string>Opponent 3:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" >
+           <widget class="QLabel" name="label_12" >
+            <property name="text" >
+             <string>Opponent 4:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_9" >
+            <property name="text" >
+             <string>Opponent 1:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" >
+           <widget class="QLabel" name="label_26" >
+            <property name="text" >
+             <string>Opponent 5:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0" >
+           <widget class="QLabel" name="label_32" >
+            <property name="text" >
+             <string>Opponent 6:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
-       <item row="7" column="0" colspan="2" >
+       <item row="4" column="0" >
         <spacer>
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -630,57 +923,82 @@ p, li { white-space: pre-wrap; }
          </property>
         </spacer>
        </item>
-       <item row="2" column="0" >
-        <widget class="QLabel" name="label_8" >
-         <property name="text" >
-          <string>Human Player:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" >
-        <widget class="QLabel" name="label_10" >
-         <property name="text" >
-          <string>Opponent 2:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1" >
-        <widget class="QLineEdit" name="lineEdit_Opponent4Name" />
-       </item>
-       <item row="1" column="0" colspan="2" >
+       <item row="1" column="0" >
         <widget class="Line" name="line_4" >
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="5" column="1" >
-        <widget class="QLineEdit" name="lineEdit_Opponent3Name" />
-       </item>
-       <item row="5" column="0" >
-        <widget class="QLabel" name="label_11" >
-         <property name="text" >
-          <string>Opponent 3:</string>
+       <item row="2" column="0" >
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
          </property>
-        </widget>
-       </item>
-       <item row="3" column="1" >
-        <widget class="QLineEdit" name="lineEdit_Opponent1Name" />
-       </item>
-       <item row="4" column="1" >
-        <widget class="QLineEdit" name="lineEdit_Opponent2Name" />
-       </item>
-       <item row="6" column="0" >
-        <widget class="QLabel" name="label_12" >
-         <property name="text" >
-          <string>Opponent 4:</string>
+         <property name="spacing" >
+          <number>5</number>
          </property>
-        </widget>
+         <item>
+          <widget class="QLabel" name="label_8" >
+           <property name="text" >
+            <string>Human Player:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_humanPlayerName" />
+         </item>
+         <item>
+          <widget class="QLabel" name="label_20" >
+           <property name="text" >
+            <string>Avatar:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_humanPlayerAvatar" />
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_openAvatarFile0" >
+             <property name="minimumSize" >
+              <size>
+               <width>27</width>
+               <height>23</height>
+              </size>
+             </property>
+             <property name="maximumSize" >
+              <size>
+               <width>27</width>
+               <height>23</height>
+              </size>
+             </property>
+             <property name="icon" >
+              <iconset resource="resources.qrc" >:/graphics/resources/graphics/fileopen16.png</iconset>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </item>
-       <item row="3" column="0" >
-        <widget class="QLabel" name="label_9" >
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_7" >
+         <property name="font" >
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text" >
-          <string>Opponent 1:</string>
+          <string>Player Nicks</string>
          </property>
         </widget>
        </item>
@@ -819,6 +1137,23 @@ p, li { white-space: pre-wrap; }
      </widget>
     </widget>
    </item>
+   <item row="2" column="0" colspan="2" >
+    <widget class="QDialogButtonBox" name="buttonBox" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons" >
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2" >
+    <widget class="Line" name="line" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0" >
     <widget class="QListWidget" name="listWidget" >
      <property name="minimumSize" >
@@ -858,23 +1193,6 @@ p, li { white-space: pre-wrap; }
        <string>Log Messages</string>
       </property>
      </item>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2" >
-    <widget class="Line" name="line" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
-     </property>
     </widget>
    </item>
   </layout>

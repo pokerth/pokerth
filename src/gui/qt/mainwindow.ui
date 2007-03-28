@@ -2665,19 +2665,6 @@
             </item>
            </layout>
           </widget>
-          <widget class="QLabel" name="label_PlayerName6" >
-           <property name="geometry" >
-            <rect>
-             <x>80</x>
-             <y>17</y>
-             <width>118</width>
-             <height>23</height>
-            </rect>
-           </property>
-           <property name="alignment" >
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-          </widget>
           <widget class="QLabel" name="textLabel_Set6" >
            <property name="geometry" >
             <rect>
@@ -2738,6 +2725,19 @@
              <set>Qt::AlignCenter</set>
             </property>
            </widget>
+          </widget>
+          <widget class="QLabel" name="label_PlayerName6" >
+           <property name="geometry" >
+            <rect>
+             <x>85</x>
+             <y>17</y>
+             <width>118</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="alignment" >
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
           </widget>
          </widget>
         </item>
@@ -3608,38 +3608,6 @@
         <property name="title" >
          <string/>
         </property>
-        <widget class="QFrame" name="frame_Cards5" >
-         <property name="geometry" >
-          <rect>
-           <x>85</x>
-           <y>40</y>
-           <width>118</width>
-           <height>111</height>
-          </rect>
-         </property>
-         <widget class="QLabel" name="textLabel_Status5" >
-          <property name="geometry" >
-           <rect>
-            <x>9</x>
-            <y>35</y>
-            <width>100</width>
-            <height>40</height>
-           </rect>
-          </property>
-          <property name="minimumSize" >
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text" >
-           <string/>
-          </property>
-          <property name="alignment" >
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </widget>
         <widget class="QFrame" name="frame_12" >
          <property name="geometry" >
           <rect>
@@ -3810,19 +3778,6 @@
           </item>
          </layout>
         </widget>
-        <widget class="QLabel" name="label_PlayerName5" >
-         <property name="geometry" >
-          <rect>
-           <x>85</x>
-           <y>17</y>
-           <width>118</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="alignment" >
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-        </widget>
         <widget class="QLabel" name="textLabel_Set5" >
          <property name="geometry" >
           <rect>
@@ -3850,6 +3805,51 @@
          </property>
          <property name="pixmap" >
           <pixmap/>
+         </property>
+        </widget>
+        <widget class="QFrame" name="frame_Cards5" >
+         <property name="geometry" >
+          <rect>
+           <x>85</x>
+           <y>40</y>
+           <width>118</width>
+           <height>111</height>
+          </rect>
+         </property>
+         <widget class="QLabel" name="textLabel_Status5" >
+          <property name="geometry" >
+           <rect>
+            <x>9</x>
+            <y>35</y>
+            <width>100</width>
+            <height>40</height>
+           </rect>
+          </property>
+          <property name="minimumSize" >
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text" >
+           <string/>
+          </property>
+          <property name="alignment" >
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QLabel" name="label_PlayerName5" >
+         <property name="geometry" >
+          <rect>
+           <x>85</x>
+           <y>17</y>
+           <width>118</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
        </widget>

@@ -144,9 +144,23 @@ void LocalRiver::postRiverRun() {
 		}
 	}
 
-	// Aggresivität des human player ermitteln
+	// Durchschnittsets des human player ermitteln
 	myHand->getPlayerArray()[0]->setMyAverageSets(((myHand->getPlayerArray()[0]->getMyRoundStartCash())-(myHand->getPlayerArray()[0]->getMyCash()))/(myHand->getBettingRoundsPlayed()+1));
 // 	cout << myHand->getPlayerArray()[0]->getMyAverageSets() << endl;
+
+	// Aggressivität des human player ermitteln
+	// anzahl der player die möglichkeit haben am pot teilzuhaben
+	int potPlayers = 0;
+	for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+		if(myHand->getPlayerArray()[i]->getMyActiveStatus() && myHand->getPlayerArray()[i]->getMyAction() != 1) {
+			potPlayers++;
+		}
+	}
+
+	// prüfen ob nur noch der human player an der verteilung teilnimmt
+	myHand->getPlayerArray()[0]->setMyAggressive(potPlayers == 1 && myHand->getPlayerArray()[0]->getMyActiveStatus() && myHand->getPlayerArray()[0]->getMyAction() != 1);
+
+	cout << "aggressive: " << myHand->getPlayerArray()[0]->getMyAggressive() << endl;
 
 	// Pot-Verteilung
 	distributePot();
