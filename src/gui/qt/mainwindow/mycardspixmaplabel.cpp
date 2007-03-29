@@ -60,7 +60,7 @@ void MyCardsPixmapLabel::startFadeOut(int speed) {
 
 void MyCardsPixmapLabel::nextFadeOutFrame() {
 
-	if (frameOpacity < 0.65) {
+	if (frameOpacity < 0.75) {
 		frameOpacity += opacityRaiseIntervall;
      		update();
 	}

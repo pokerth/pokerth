@@ -143,7 +143,7 @@ void Game::startHand()
 	myGui->nextRoundCleanGui();
 
 	//Spielernamen schreiben 
-	myGui->refreshPlayerName();	
+// 	myGui->refreshPlayerName();	
 
 	// Dealer-Button weiterschieben --> Achtung inactive
 	do {

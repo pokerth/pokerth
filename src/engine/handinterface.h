@@ -71,6 +71,9 @@ public:
 	virtual void setBettingRoundsPlayed(const int& theValue) =0;
 	virtual int getBettingRoundsPlayed() const =0;
 
+	virtual void setLastPlayersTurn(const int& theValue) =0;
+	virtual int getLastPlayersTurn() const =0;
+
 	virtual void assignButtons() =0;
 
 	virtual void highlightRoundLabel() =0;

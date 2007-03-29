@@ -48,10 +48,12 @@ void GuiWrapper::setSession(Session *s) { myW->setSession(s); }
 int GuiWrapper::getMaxQuantityPlayers() const { return myW->getMaxQuantityPlayers(); }
 
 void GuiWrapper::refreshSet() const { myW->refreshSet(); }
+void GuiWrapper::refreshCash() const { myW->refreshCash(); }
+void GuiWrapper::refreshAction(int playerID, int playerAction) const { myW->refreshAction(playerID, playerAction); }
 void GuiWrapper::refreshChangePlayer() const { myW->refreshChangePlayer(); }
 void GuiWrapper::refreshAll() const { myW->refreshAll(); }
 void GuiWrapper::refreshPot() const { myW->refreshPot(); }
-void GuiWrapper::refreshGroupbox() const { myW->refreshGroupbox(); }
+void GuiWrapper::refreshGroupbox(int playerID, int status) const { myW->refreshGroupbox(playerID, status); }
 void GuiWrapper::refreshPlayerName() const { myW->refreshPlayerName(); }
 
 void GuiWrapper::dealHoleCards() const { myW->dealHoleCards(); }

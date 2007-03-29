@@ -81,6 +81,10 @@ public:
 	void setBettingRoundsPlayed(const int& theValue) { bettingRoundsPlayed = theValue; }
 	int getBettingRoundsPlayed() const { return bettingRoundsPlayed; }
 
+	void setLastPlayersTurn(const int& theValue) { lastPlayersTurn = theValue; }
+	int getLastPlayersTurn() const { return lastPlayersTurn; }
+
+
 	void assignButtons();
 
 	void highlightRoundLabel();
@@ -113,6 +117,8 @@ private:
 	int smallBlind;
 	int startCash;
 	int activePlayersCounter;
+
+	int lastPlayersTurn;
 
 	bool allInCondition;
 

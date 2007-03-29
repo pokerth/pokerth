@@ -72,9 +72,9 @@ public:
 	void refreshButton();
 	void refreshPlayerName();
 	void refreshPlayerAvatar();
-	void refreshAction();
+	void refreshAction(int =-1, int=-1);
 	void refreshCash();
-	void refreshGroupbox();
+	void refreshGroupbox(int =-1, int =-1);
 	void refreshAll();
 	void refreshChangePlayer();
 	void refreshPot();

@@ -25,6 +25,8 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 {
 
 	int i, j, k;
+	lastPlayersTurn = 0;
+
 	CardsValue myCardsValue;
 
 	myGui->setHand(this);
@@ -47,7 +49,7 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 	// Dealer, SB, BB bestimmen
 	assignButtons();
 
-	myGui->refreshAll();
+// 	myGui->refreshAll();
 
 	// Karten generieren und Board sowie Player zuweisen
 	Tools myTool;
@@ -237,8 +239,9 @@ void LocalHand::switchRounds() {
 		actualRound++;
 	}
 
+	//unhighlight actual players groupbox
+	myGui->refreshGroupbox(lastPlayersTurn,1);
 
-	myGui->refreshGroupbox();
 	highlightRoundLabel();
 // 	/*/*/*/*cout <<*/*/*/*/ "NextPlayerSpeed1 stop" << endl;
 // 

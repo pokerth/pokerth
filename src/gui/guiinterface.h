@@ -44,9 +44,11 @@ public:
 		
 	//refresh-Funktionen
 	virtual void refreshSet() const=0;
+	virtual void refreshCash() const=0;
+	virtual void refreshAction(int =-1, int =-1) const=0;
 	virtual void refreshChangePlayer() const=0;
 	virtual void refreshPot() const=0;
-	virtual void refreshGroupbox() const=0;
+	virtual void refreshGroupbox(int =-1, int =-1) const=0;
 	virtual void refreshAll() const=0;
 	virtual void refreshPlayerName() const=0;
 

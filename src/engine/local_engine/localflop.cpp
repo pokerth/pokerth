@@ -76,8 +76,11 @@ void LocalFlop::flopRun() {
 			myHand->getBoard()->collectSets();
 			myHand->getBoard()->collectPot();
 			myHand->getGuiInterface()->refreshPot();
-			myHand->getGuiInterface()->refreshAll();
-
+			
+			myHand->getGuiInterface()->refreshSet();
+			myHand->getGuiInterface()->refreshCash();
+			myHand->getGuiInterface()->refreshAction();
+			
 			myHand->switchRounds();
 	
 		}
@@ -100,7 +103,7 @@ void LocalFlop::flopRun() {
 			} while(!(myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyActiveStatus()) || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==1 || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==6);
 
 			myHand->getPlayerArray()[playersTurn]->setMyTurn(1);
-			myHand->getGuiInterface()->refreshGroupbox();
+			myHand->getGuiInterface()->refreshGroupbox(playersTurn,2);
 
 // 			cout << "activePlayerBeforeSmallBlind " << activePlayerBeforeSmallBlind << endl;
 // 			cout << "playersTurn " << playersTurn << endl;

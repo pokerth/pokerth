@@ -83,8 +83,11 @@ void LocalPreflop::preflopRun() {
 		myHand->getBoard()->collectSets();
 		myHand->getBoard()->collectPot();
 		myHand->getGuiInterface()->refreshPot();
-		myHand->getGuiInterface()->refreshAll();
 		
+		myHand->getGuiInterface()->refreshSet();
+		myHand->getGuiInterface()->refreshCash();
+		myHand->getGuiInterface()->refreshAction();
+
 		myHand->switchRounds();
 
 	}
@@ -101,7 +104,7 @@ void LocalPreflop::preflopRun() {
 		} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || myHand->getPlayerArray()[playersTurn]->getMyAction() == 1 || myHand->getPlayerArray()[playersTurn]->getMyAction() == 6);
 
 		myHand->getPlayerArray()[playersTurn]->setMyTurn(1);
-		myHand->getGuiInterface()->refreshGroupbox();
+		myHand->getGuiInterface()->refreshGroupbox(playersTurn,2);
 
 		if(playersTurn == 0) {
 			// Wir sind dran

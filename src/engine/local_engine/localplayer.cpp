@@ -63,11 +63,14 @@ LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, std::strin
 
 }
 
+
 LocalPlayer::~LocalPlayer()
 {
 }
 
+
 void LocalPlayer::setHand(HandInterface* br) { actualHand = br; }
+
 
 void LocalPlayer::action() {
 
@@ -116,6 +119,9 @@ void LocalPlayer::action() {
 	myTurn = 0;
 // 	cout << "jetzt" << endl;
 	
+	//set that i was the last active player. need this for unhighlighting groupbox
+	actualHand->setLastPlayersTurn(myID);
+
 	actualHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
 	actualHand->getGuiInterface()->nextPlayerAnimation();
 
@@ -128,10 +134,11 @@ void LocalPlayer::preflopEngine() {
 	int bet = 0;
 	int raise = 0;
 
-	// übergang solange preflopValue und flopValue noch nicht bereinigt
+	// temporär solange preflopValue und flopValue noch nicht bereinigt für sechs und sieben spieler
 	int players = actualHand->getActualQuantityPlayers();
 	if(players > 5) players = 5;
-	
+
+	// myOdds auslesen
 	readFile();
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
@@ -144,9 +151,7 @@ void LocalPlayer::preflopEngine() {
 	int individualHighestSet = actualHand->getPreflop()->getHighestSet();
 	if(individualHighestSet > myCash) individualHighestSet = myCash;
 
-	// Verhaeltnis Set / Cash
-
-	
+	// Verhaeltnis Set / Cash für call	
 	if(myCash/individualHighestSet >= 25) {
 		myNiveau[0] += (25-myCash/individualHighestSet)/10;
 	} else {
@@ -158,9 +163,17 @@ void LocalPlayer::preflopEngine() {
 		myNiveau[2] += (10-myCash/individualHighestSet)/2;
 	}
 
-// 		cout << myID << ": " << myHoleCardsValue << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << myCards[0] << " " << myCards[1] << endl;
+//	cout << myID << ": " << myHoleCardsValue << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << myCards[0] << " " << myCards[1] << endl;
 
-		// auf Aggresivität des humanPlayers eingehen
+	// Aggresivität des humanPlayers auslesen
+	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*0.1)/7.0 - 1.0/actualHand->getActualQuantityPlayers())*7.0);
+
+// 	if(aggValue > 0) {
+// 		myNiveau[0] -= aggValue;
+// 			myNiveau[2] -= aggValue;
+// 		}
+
+
 // 		int aggValue = ( (50*(actualHand->getPlayerArray()[0]->getMyAverageSets()-6*actualHand->getSmallBlind())) / (actualHand->getStartQuantityPlayers()*actualHand->getStartCash() - 6*actualHand->getSmallBlind()) );
 
 // 		if(aggValue > 0) {
@@ -869,7 +882,6 @@ void LocalPlayer::riverEngine() {
 }
 
 
-
 void LocalPlayer::evaluation(int bet, int raise) {
 
 	int highestSet = 0;
@@ -967,10 +979,6 @@ void LocalPlayer::evaluation(int bet, int raise) {
 }
 
 
-
-
-
-
 int LocalPlayer::preflopCardsValue(int* cards) {
 
 	// Code der HoleCards ermitteln
@@ -993,9 +1001,6 @@ int LocalPlayer::preflopCardsValue(int* cards) {
 	}
 
 }
-
-
-
 
 
 int LocalPlayer::flopCardsValue(int* cards) {

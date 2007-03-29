@@ -205,11 +205,11 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 	//Toolboxen verstecken?				
 	if (!myConfig->readConfigInt("ShowRightToolBox")) { 
-		tabWidget_LeftToolBox->hide(); 
+		groupBox_LeftToolBox->hide(); 
 		label_logoright->show();
 	}
 	if (!myConfig->readConfigInt("ShowLeftToolBox")) { 
-		tabWidget_LeftToolBox->hide(); 
+		groupBox_LeftToolBox->hide(); 
 		label_logoleft->show();
 	}
 
@@ -464,6 +464,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 // 	QShortcut *startNewGameKeys = new QShortcut(QKeySequence(Qt::Key_Control + Qt::Key_N), this);
 // 	connect( startNewGameKeys, SIGNAL(activated() ), actionNewGame, SLOT( trigger() ) );
 
+	//Clear Focus
+	groupBox_LeftToolBox->clearFocus();
+
 	//Statusbar 
 	statusBar()->showMessage(tr("Ctrl+N to start a new Game"));
 
@@ -574,8 +577,8 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 // 	QPalette tempPalette = groupBox_board->palette();
 // 	tempPalette.setColor(QPalette::Window, active);
 // 	groupBox_board->setPalette(tempPalette);
-	frame_RightToolBox->setDisabled(FALSE);
-	tabWidget_LeftToolBox->setDisabled(FALSE);	
+	groupBox_RightToolBox->setDisabled(FALSE);
+	groupBox_LeftToolBox->setDisabled(FALSE);	
 		
 	//show human player buttons
 	for(i=0; i<3; i++) {
@@ -677,11 +680,11 @@ void mainWindowImpl::callSettingsDialog() {
 	
 	if (v->getSettingsCorrect()) {
 		//Toolbox verstecken?
-		if (myConfig->readConfigInt("ShowLeftToolBox")) { tabWidget_LeftToolBox->show(); }
-		else { tabWidget_LeftToolBox->hide(); }
+		if (myConfig->readConfigInt("ShowLeftToolBox")) { groupBox_LeftToolBox->show(); }
+		else { groupBox_LeftToolBox->hide(); }
 
-		if (myConfig->readConfigInt("ShowRightToolBox")) { frame_RightToolBox->show(); }
-		else { frame_RightToolBox->hide(); }
+		if (myConfig->readConfigInt("ShowRightToolBox")) { groupBox_RightToolBox->show(); }
+		else { groupBox_RightToolBox->hide(); }
 		
 		//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
 		if (v->getPlayerNickIsChanged() && actualGame) { 
@@ -697,7 +700,21 @@ void mainWindowImpl::callSettingsDialog() {
 
 			refreshPlayerName();
 		}
-		
+	
+		if(actualGame) {
+
+			actualHand->getPlayerArray()[0]->setMyAvatar(v->lineEdit_humanPlayerAvatar->text().toStdString());
+			actualHand->getPlayerArray()[1]->setMyAvatar(v->lineEdit_Opponent1Avatar->text().toStdString());
+			actualHand->getPlayerArray()[2]->setMyAvatar(v->lineEdit_Opponent2Avatar->text().toStdString());
+			actualHand->getPlayerArray()[3]->setMyAvatar(v->lineEdit_Opponent3Avatar->text().toStdString());
+			actualHand->getPlayerArray()[4]->setMyAvatar(v->lineEdit_Opponent4Avatar->text().toStdString());
+			actualHand->getPlayerArray()[5]->setMyAvatar(v->lineEdit_Opponent5Avatar->text().toStdString());
+			actualHand->getPlayerArray()[6]->setMyAvatar(v->lineEdit_Opponent6Avatar->text().toStdString());
+
+			//avatar refresh
+			refreshPlayerAvatar();		
+		}
+
 		//Flipside refresh
 		if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
 
@@ -716,8 +733,7 @@ void mainWindowImpl::callSettingsDialog() {
 			}
 		}
 
-		//avatar refresh
-		refreshPlayerAvatar();
+		
 	}
 }
 
@@ -821,7 +837,7 @@ void mainWindowImpl::refreshPlayerAvatar() {
 	}
 }
 
-void mainWindowImpl::refreshAction() {
+void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 
 	QPixmap onePix(":/graphics/resources/graphics/1px.png");
 	QPixmap action;
@@ -829,25 +845,50 @@ void mainWindowImpl::refreshAction() {
 	QStringList actionArray;
 	actionArray << "" << "fold" << "check" << "call" << "bet" << "raise" << "allin";
 
-	int i;
-	for (i=0; i<maxQuantityPlayers; i++) { 
+	if(playerID == -1 || playerAction == -1) {
 
-		
+		int i;
+		for (i=0; i<maxQuantityPlayers; i++) { 
+			
+			//if no action --> clear Pixmap 
+			if(actualHand->getPlayerArray()[i]->getMyAction() == 0) {
+				actionLabelArray[i]->setPixmap(onePix);	
+			}
+			else {
+				if(i!=0 || ( i==0 && actualHand->getPlayerArray()[0]->getMyAction() != 1) ) {
+					//paint action pixmap
+					actionLabelArray[i]->setPixmap(QPixmap(":/actions/resources/graphics/actions/action_"+actionArray[actualHand->getPlayerArray()[i]->getMyAction()]+".png"));			
+				}
+	// 			actionLabelArray[i]->setStyleSheet("QLabel { background-image: url(:/actions/resources/graphics/actions/action_"+actionArray[actualHand->getPlayerArray()[i]->getMyAction()]+".png");				
+			}
+					
+			if (actualHand->getPlayerArray()[i]->getMyAction()==1) { 
+	// 			groupBoxArray[i]->setDisabled(TRUE);
+				
+				if(i != 0) {
+					holeCardsArray[i][0]->setPixmap(onePix, FALSE);
+					holeCardsArray[i][1]->setPixmap(onePix, FALSE);
+				}
+			}
+		}
+	} 
+	else {
 		//if no action --> clear Pixmap 
-		if(actualHand->getPlayerArray()[i]->getMyAction() == 0) {
-			actionLabelArray[i]->setPixmap(onePix);	
+		if(playerAction == 0) {
+			actionLabelArray[playerID]->setPixmap(onePix);	
 		}
 		else {
-		//paint action pixmap and raise
-			actionLabelArray[i]->setPixmap(QPixmap(":/actions/resources/graphics/actions/action_"+actionArray[actualHand->getPlayerArray()[i]->getMyAction()]+".png"));				
+		
+	// 		paint action pixmap and raise
+			actionLabelArray[playerID]->setPixmap(QPixmap(":/actions/resources/graphics/actions/action_"+actionArray[playerAction]+".png"));			
 		}
+
+		if (playerAction == 1) { 
+	// 		groupBoxArray[i]->setDisabled(TRUE);
 				
-		if (actualHand->getPlayerArray()[i]->getMyAction()==1) { 
-// 			groupBoxArray[i]->setDisabled(TRUE);
-			
-			if(i != 0) {
-				holeCardsArray[i][0]->setPixmap(onePix, FALSE);
-				holeCardsArray[i][1]->setPixmap(onePix, FALSE);
+			if(playerID != 0) {
+				holeCardsArray[playerID][0]->setPixmap(onePix, FALSE);
+				holeCardsArray[playerID][1]->setPixmap(onePix, FALSE);
 			}
 		}
 	}
@@ -869,50 +910,88 @@ void mainWindowImpl::refreshCash() {
 	}
 }
 
-void mainWindowImpl::refreshGroupbox() {
+void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 
-	int i,j;
-	for (i=0; i<maxQuantityPlayers; i++) { 
+	if(playerID == -1 || status == -1) {
 
-		if(actualHand->getPlayerArray()[i]->getMyTurn()) {
-			//Groupbox glow wenn der Spiele dran ist. 
-			if(i==0) {
-				groupBoxArray[0]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxActiveGlow.png) }"); 
-			}
-			else {
-				groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxActiveGlow.png) }"); 
-			}
-
-		} else {
-			//Groupbox auf Hintergrundfarbe setzen wenn der Spiele nicht dran aber aktiv ist. 
-			if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) {
+		int i,j;
+		for (i=0; i<maxQuantityPlayers; i++) { 
+	
+			if(actualHand->getPlayerArray()[i]->getMyTurn()) {
+				//Groupbox glow wenn der Spiele dran ist. 
 				if(i==0) {
-					groupBoxArray[0]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxInactiveGlow.png) }"); 
-					//show buttons
-					for(j=0; j<3; j++) {
-						userWidgetsArray[j]->show();
-					}
+					groupBoxArray[0]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxActiveGlow.png) }"); 
 				}
 				else {
-					groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); 
-				}	
-			}
-			//Groupbox verdunkeln wenn der Spiele inactive ist.  
-			else {
-				if(i==0) {
-					groupBoxArray[0]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxInactiveGlow.png) }"); 
-					//hide buttons
-					for(j=0; j<4; j++) {
-						userWidgetsArray[j]->hide();
-					}
+					groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxActiveGlow.png) }"); 
 				}
+	
+			} else {
+				//Groupbox auf Hintergrundfarbe setzen wenn der Spiele nicht dran aber aktiv ist. 
+				if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) {
+					if(i==0) {
+						groupBoxArray[0]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxInactiveGlow.png) }"); 
+						//show buttons
+						for(j=0; j<3; j++) {
+							userWidgetsArray[j]->show();
+						}
+					}
+					else {
+						groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); 
+					}	
+				}
+				//Groupbox verdunkeln wenn der Spiele inactive ist.  
 				else {
-					groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); 
+					if(i==0) {
+						groupBoxArray[0]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxInactiveGlow.png) }"); 
+						//hide buttons
+						for(j=0; j<4; j++) {
+							userWidgetsArray[j]->hide();
+						}
+					}
+					else {
+						groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); 
+					}
 				}
 			}
 		}
 	}
-	
+	else {
+		switch(status) {
+			
+		//inactive
+		case 0: { 
+				if (!playerID) {
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxInactiveGlow.png) }"); 			
+				}
+				else {
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); 
+				}
+			}
+		break;
+		//active but fold
+		case 1: {
+				if (!playerID) {
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxInactiveGlow.png) }"); 			
+				}
+				else {
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); 
+				}
+			}
+		break;
+		//active in action
+		case 2:  {
+				if (!playerID) {
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxActiveGlow.png) }"); 			
+				}
+				else {
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxActiveGlow.png) }"); 
+				}
+			}
+		break;
+		default: {}
+		}
+	}
 }
 
 void mainWindowImpl::highlightRoundLabel(string tempround) { 
@@ -945,11 +1024,9 @@ void mainWindowImpl::refreshAll() {
 
 void mainWindowImpl::refreshChangePlayer() {
 
-	refreshSet(); // alter
-	refreshButton(); // wech
-	refreshAction(); // alter
-	refreshCash(); // alter
-	//<refreshGroupbox(int 1, int 2)
+	refreshSet();
+	refreshAction();
+	refreshCash();
 }
 
 void mainWindowImpl::refreshPot() {
@@ -1005,7 +1082,7 @@ void mainWindowImpl::dealHoleCards() {
 		}
 	}
 	//Groupbox repaint() hline-bug?;
-	refreshGroupbox();
+// 	refreshGroupbox();
 }
 
 void mainWindowImpl::dealFlopCards0() {	dealFlopCards0Timer->start(preDealCardsSpeed); }
@@ -1230,24 +1307,24 @@ void mainWindowImpl::meInAction() {
 void mainWindowImpl::disableMyButtons() {
 
 	//clear userWidgets
+	spinBox_set->setMinimum(0);
+	spinBox_set->setValue(0);
+	spinBox_set->hide();
 	pushButton_BetRaise->show();
 	pushButton_BetRaise->setText("");
 	pushButton_CallCheckSet->setText("");
 	pushButton_FoldAllin->setText("");
-	spinBox_set->setMinimum(0);
-	spinBox_set->setValue(0);
-	spinBox_set->hide();
 }
 
 void mainWindowImpl::myBetRaise() {
 	
 	if(pushButton_BetRaise->text() == "Raise") { myRaise(); }
-	else { myBet(); }
+	if(pushButton_BetRaise->text() == "Bet") { myBet(); }
 }
 
 void mainWindowImpl::myFoldAllin() {
 	if(pushButton_FoldAllin->text() == "Fold") { myFold(); }
-	else { myAllIn(); }
+	if(pushButton_FoldAllin->text() == "All-In") { myAllIn(); }
 }
 
 void mainWindowImpl::myCallCheckSet() {
@@ -1265,7 +1342,12 @@ void mainWindowImpl::myFold(){
 	//Action in LogWindow
 	myLog->logPlayerActionMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 
+	holeCardsArray[0][0]->startFadeOut(10); 
+	holeCardsArray[0][1]->startFadeOut(10); 
 	disableMyButtons();
+
+	//set that i was the last active player. need this for unhighlighting groupbox
+	actualHand->setLastPlayersTurn(0);
 	
 	//Spiel läuft weiter
 	nextPlayerAnimation();
@@ -1280,6 +1362,9 @@ void mainWindowImpl::myCheck() {
 	myLog->logPlayerActionMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
+
+	//set that i was the last active player. need this for unhighlighting groupbox
+	actualHand->setLastPlayersTurn(0);
 
 	//Spiel läuft weiter
 	nextPlayerAnimation();
@@ -1320,6 +1405,9 @@ void mainWindowImpl::myCall(){
 	myLog->logPlayerActionMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
+
+	//set that i was the last active player. need this for unhighlighting groupbox
+	actualHand->setLastPlayersTurn(0);
 
 	//Spiel läuft weiter
 	nextPlayerAnimation();
@@ -1410,6 +1498,9 @@ void mainWindowImpl::mySet(){
 
 	disableMyButtons();
 
+	//set that i was the last active player. need this for unhighlighting groupbox
+	actualHand->setLastPlayersTurn(0);
+
 	//Spiel läuft weiter
 	nextPlayerAnimation();
 }
@@ -1443,13 +1534,21 @@ void mainWindowImpl::myAllIn(){
 	
 	disableMyButtons();
 
+	//set that i was the last active player. need this for unhighlighting groupbox
+	actualHand->setLastPlayersTurn(0);
+
 	//Spiel läuft weiter
 	nextPlayerAnimation();
 }
 
 void mainWindowImpl::nextPlayerAnimation() {
 
-	refreshChangePlayer();
+	
+	//refresh Change Player
+	refreshSet();
+	refreshAction(actualHand->getLastPlayersTurn(), actualHand->getPlayerArray()[actualHand->getLastPlayersTurn()]->getMyAction());
+	refreshCash();	
+
 	nextPlayerAnimationTimer->start(nextPlayerSpeed1);
 }
 
@@ -1857,8 +1956,10 @@ void mainWindowImpl::nextRoundCleanGui() {
 // 	labelPalette.setColor(QPalette::WindowText, c);
 // 	label_Pot->setPalette(labelPalette);
 
-	disableMyButtons();
-	
+	// for startNewGame during human player is active
+	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() == 1) {
+		disableMyButtons();
+	}
 // 	QPalette tempPalette = frame_Pot->palette();
 // 	tempPalette.setColor(QPalette::Window, active);
 // 	frame_Pot->setPalette(tempPalette);
@@ -1925,7 +2026,7 @@ void mainWindowImpl::setSpeeds() {
 	gameSpeed = (11-guiGameSpeed)*10;
 	dealCardsSpeed = (gameSpeed/2)*10; //milliseconds
 	preDealCardsSpeed = dealCardsSpeed*2; //Zeit for Karten aufdecken auf dem Board (Flop, Turn, River)
-	postDealCardsSpeed = dealCardsSpeed*2; //Zeit nach Karten aufdecken auf dem Board (Flop, Turn, River)
+	postDealCardsSpeed = dealCardsSpeed*3; //Zeit nach Karten aufdecken auf dem Board (Flop, Turn, River)
 	AllInDealCardsSpeed = dealCardsSpeed*4; //Zeit nach Karten aufdecken auf dem Board (Flop, Turn, River) bei AllIn
 	postRiverRunAnimationSpeed = gameSpeed*18; 
 	winnerBlinkSpeed = gameSpeed*3; //milliseconds
@@ -2061,14 +2162,14 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
 void mainWindowImpl::switchLeftToolBox() {
 
-	if (tabWidget_LeftToolBox->isHidden()) { tabWidget_LeftToolBox->show(); }
-	else { 	tabWidget_LeftToolBox->hide(); 	}
+	if (groupBox_LeftToolBox->isHidden()) { groupBox_LeftToolBox->show(); }
+	else { 	groupBox_LeftToolBox->hide(); 	}
 }
 
 void mainWindowImpl::switchRightToolBox() {
 
-	if (frame_RightToolBox->isHidden()) { frame_RightToolBox->show(); }
-	else { 	frame_RightToolBox->hide(); }
+	if (groupBox_RightToolBox->isHidden()) { groupBox_RightToolBox->show(); }
+	else { 	groupBox_RightToolBox->hide(); }
 }
 
 void mainWindowImpl::switchFullscreen() {

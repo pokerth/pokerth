@@ -77,7 +77,10 @@ void LocalRiver::riverRun() {
 			myHand->getBoard()->collectSets();
 			myHand->getBoard()->collectPot();
 			myHand->getGuiInterface()->refreshPot();
-			myHand->getGuiInterface()->refreshAll();
+
+			myHand->getGuiInterface()->refreshSet();
+			myHand->getGuiInterface()->refreshCash();
+			myHand->getGuiInterface()->refreshAction();
 
 			myHand->switchRounds();
 	
@@ -100,7 +103,7 @@ void LocalRiver::riverRun() {
 			} while(!(myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyActiveStatus()) || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==1 || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==6);
 
 			myHand->getPlayerArray()[playersTurn]->setMyTurn(1);
-			myHand->getGuiInterface()->refreshGroupbox();
+			myHand->getGuiInterface()->refreshGroupbox(playersTurn,2);
 
 // 			cout << "activePlayerBeforeSmallBlind " << activePlayerBeforeSmallBlind << endl;
 // 			cout << "playersTurn " << playersTurn << endl;
@@ -157,10 +160,8 @@ void LocalRiver::postRiverRun() {
 		}
 	}
 
-	// prüfen ob nur noch der human player an der verteilung teilnimmt
+	// prüfen ob nur noch der human player an der verteilung teilnimmt und myAggressive für human player setzen
 	myHand->getPlayerArray()[0]->setMyAggressive(potPlayers == 1 && myHand->getPlayerArray()[0]->getMyActiveStatus() && myHand->getPlayerArray()[0]->getMyAction() != 1);
-
-	cout << "aggressive: " << myHand->getPlayerArray()[0]->getMyAggressive() << endl;
 
 	// Pot-Verteilung
 	distributePot();
