@@ -182,7 +182,7 @@ win32 {
 		src/net/win32/socket_startup.cpp 
 	INCLUDEPATH += ../boost/
 	LIBPATH += ../boost/stage/lib
-	LIBS += ws2_32.lib advapi32.lib
+	LIBS += gdi32.lib comdlg32.lib oleaut32.lib imm32.lib winmm.lib winspool.lib ole32.lib uuid.lib user32.lib msimg32.lib shell32.lib kernel32.lib ws2_32.lib advapi32.lib
 	RC_FILE = pokerth.rc
 }
 !win32 {
