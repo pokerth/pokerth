@@ -36,7 +36,7 @@ class BoardInterface;
 
 class LocalPlayer : public PlayerInterface{
 public:
-    LocalPlayer(BoardInterface*, int, std::string, int, bool, int);
+    LocalPlayer(BoardInterface*, int, std::string, std::string, int, bool, int);
 
     ~LocalPlayer();
 
@@ -50,6 +50,9 @@ public:
 
 	void setMyName(const std::string& theValue) { myName = theValue; }
 	std::string getMyName() const { return myName; }
+
+	void setMyAvatar(const std::string& theValue) { myAvatar = theValue; }
+	std::string getMyAvatar() const { return myAvatar; }
 
 	void setMyCash(const int& theValue) { myCash = theValue; }
 	int getMyCash() const { return myCash; }
@@ -132,6 +135,7 @@ private:
 	// Konstanten
 	int myID;
 	std::string myName;
+	std::string myAvatar;
 	int myDude;
 	int myDude4;
 

@@ -60,13 +60,16 @@ Game::Game(ConfigFile* c, GuiInterface* g, int qP, int sC, int sB, int gId) : my
 	PlayerInterface *tempPlayer;
 	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
 
-		//Namen abfragen 
+		//Namen und Avatarpfad abfragen 
 		ostringstream myName;
 		if (i==0) { myName << "MyName";	}
 		else { myName << "Opponent" << i << "Name"; }
+		ostringstream myAvatar;
+		if (i==0) { myAvatar << "MyAvatar";	}
+		else { myAvatar << "Opponent" << i << "Avatar"; }
 
 		//PlayerObjekte erzeugen
-		tempPlayer = myFactory->createPlayer(actualBoard, i, myConfig->readConfigString(myName.str()), startCash, startQuantityPlayers > i, 0);
+		tempPlayer = myFactory->createPlayer(actualBoard, i, myConfig->readConfigString(myName.str()), myConfig->readConfigString(myAvatar.str()), startCash, startQuantityPlayers > i, 0);
 		playerArray[i] = tempPlayer;
 	}
 	actualBoard->setPlayer(playerArray);

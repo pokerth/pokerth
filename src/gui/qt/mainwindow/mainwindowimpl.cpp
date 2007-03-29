@@ -799,21 +799,19 @@ void mainWindowImpl::refreshPlayerAvatar() {
 		if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 
 			if(!i) {
-				if(myConfig->readConfigString("MyAvatar") == "") {
+				if(actualHand->getPlayerArray()[0]->getMyAvatar() == "") {
 					playerAvatarLabelArray[0]->setPixmap(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png"));
 				}
 				else {
-					playerAvatarLabelArray[0]->setPixmap(QPixmap(QString::fromStdString(myConfig->readConfigString("MyAvatar"))));
+					playerAvatarLabelArray[0]->setPixmap(QString::fromStdString(actualHand->getPlayerArray()[0]->getMyAvatar()));
 				}
 			}
-			else {
-				QString tmp("Opponent"+QString::number(i,10)+"Avatar");
-				
-				if(myConfig->readConfigString(tmp.toStdString()) == "") {
+			else {				
+				if(actualHand->getPlayerArray()[i]->getMyAvatar() == "") {
 					playerAvatarLabelArray[i]->setPixmap(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png"));
 				}
 				else {
-					playerAvatarLabelArray[i]->setPixmap(QPixmap(QString::fromStdString(myConfig->readConfigString(tmp.toStdString()))));
+					playerAvatarLabelArray[i]->setPixmap(QString::fromStdString(actualHand->getPlayerArray()[i]->getMyAvatar()));
 				}
 			}
 		}	
@@ -947,10 +945,11 @@ void mainWindowImpl::refreshAll() {
 
 void mainWindowImpl::refreshChangePlayer() {
 
-	refreshSet();
-	refreshButton();
-	refreshAction();
-	refreshCash();
+	refreshSet(); // alter
+	refreshButton(); // wech
+	refreshAction(); // alter
+	refreshCash(); // alter
+	//<refreshGroupbox(int 1, int 2)
 }
 
 void mainWindowImpl::refreshPot() {

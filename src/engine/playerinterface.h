@@ -38,6 +38,9 @@ public:
 	virtual void setMyName(const std::string& theValue) =0;
 	virtual std::string getMyName() const =0;
 
+	virtual void setMyAvatar(const std::string& theValue) =0;
+	virtual std::string getMyAvatar() const =0;
+
 	virtual void setMyCash(const int& theValue) =0;
 	virtual int getMyCash() const =0;
 
