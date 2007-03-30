@@ -82,6 +82,9 @@ public:
 
 	virtual void setSBluff ( int theValue ) =0;
 	virtual int getSBluff() const =0;
+
+	virtual void setSBluffStatus ( bool theValue ) =0;
+	virtual bool getSBluffStatus() const =0;
 	
 	virtual void action() =0;
 	

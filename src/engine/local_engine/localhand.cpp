@@ -85,6 +85,7 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 			if(i) {
 				myTool.getRandNumber(1,100,1,&sBluff,0);
 				playerArray[i]->setSBluff(sBluff);
+				playerArray[i]->setSBluffStatus(0);
 			}
 
 			k++;

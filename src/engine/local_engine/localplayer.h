@@ -108,6 +108,9 @@ public:
 	void setSBluff ( int theValue ) { sBluff = theValue; }
 	int getSBluff() const { return sBluff; }
 
+	void setSBluffStatus ( bool theValue ) { sBluffStatus = theValue; }
+	bool getSBluffStatus() const { return sBluffStatus; }
+
 	void action();
 	
 	void preflopEngine();
@@ -127,6 +130,9 @@ public:
 	void readFile();
 
 	void evaluation(int, int);
+
+
+	
 	
 
 
@@ -164,6 +170,7 @@ private:
 	bool myAggressive[7];
 
 	int sBluff;
+	bool sBluffStatus;
 
 };
 

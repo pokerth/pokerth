@@ -23,7 +23,7 @@
 
 using namespace std;
 
-LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, std::string avatar, int sC, bool aS, int mB) : PlayerInterface(), actualHand(0), actualBoard(b), myCardsValue(0), myID(id), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), sBluff(0)
+LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, std::string avatar, int sC, bool aS, int mB) : PlayerInterface(), actualHand(0), actualBoard(b), myCardsValue(0), myID(id), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), sBluff(0), sBluffStatus(0)
 {
 	// myBestHandPosition mit -1 initialisieren
 	int i;
@@ -235,12 +235,13 @@ void LocalPlayer::preflopEngine() {
 		}
 	}
 
-	cout << sBluff << endl;
+// 	cout << sBluff << endl;
 
 	// auf sBluff testen --> raise statt call oder fold
 	if(sBluff < 100/(((actualHand->getActualQuantityPlayers()-2)*6)+3) && myOdds < myNiveau[2] && actualHand->getPreflop()->getHighestSet() == 2*actualHand->getSmallBlind()) {
 
-		cout << "sBLUFF!" << endl;
+// 		cout << "sBLUFF!" << endl;
+		sBluffStatus = 1;
 
 		// Gegner raisen ebenfalls -> call
 		if(actualHand->getPreflop()->getHighestSet() >= 12*actualHand->getSmallBlind()) {
@@ -285,11 +286,11 @@ void LocalPlayer::flopEngine() {
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
 	// 1. Fold -- Call
-	myNiveau[0] = 42 + myDude4 - 6*(players - 2);
+	myNiveau[0] = 43 + myDude4 - 6*(players - 2);
 	// 2. Check -- Bet
-	myNiveau[1] = 54 + myDude4 - 6*(players - 2);
+	myNiveau[1] = 55 + myDude4 - 6*(players - 2);
 	// 3. Call -- Raise
-	myNiveau[2] = 66 + myDude4 - 6*(players - 2);
+	myNiveau[2] = 67 + myDude4 - 6*(players - 2);
 
 	// eigenes mögliches highestSet
 	int individualHighestSet = actualHand->getFlop()->getHighestSet();
@@ -685,7 +686,7 @@ void LocalPlayer::turnEngine() {
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
 	// 1. Fold -- Call
-	myNiveau[0] = 44 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	myNiveau[0] = 45 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 	// 2. Check -- Bet
 	myNiveau[1] = 55 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 	// 3. Call -- Raise
@@ -837,7 +838,7 @@ void LocalPlayer::riverEngine() {
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
 	// 1. Fold -- Call
-	myNiveau[0] = 44 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	myNiveau[0] = 45 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 	// 2. Check -- Bet
 	myNiveau[1] = 55 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 	// 3. Call -- Raise
