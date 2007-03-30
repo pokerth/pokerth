@@ -163,7 +163,7 @@ void LocalRiver::postRiverRun() {
 	// prüfen ob nur noch der human player an der verteilung teilnimmt und myAggressive für human player setzen
 	myHand->getPlayerArray()[0]->setMyAggressive(potPlayers == 1 && myHand->getPlayerArray()[0]->getMyActiveStatus() && myHand->getPlayerArray()[0]->getMyAction() != 1);
 
-	cout << "myAggressive: " << myHand->getPlayerArray()[0]->getMyAggressive() << endl;
+// 	cout << "myAggressive: " << myHand->getPlayerArray()[0]->getMyAggressive() << endl;
 
 	// Pot-Verteilung
 	distributePot();

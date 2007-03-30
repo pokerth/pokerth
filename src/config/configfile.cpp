@@ -34,7 +34,7 @@ using namespace std;
 ConfigFile::ConfigFile()
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 15;
+	configRev = 16;
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
@@ -139,19 +139,19 @@ void ConfigFile::createDefaultConfig() {
 		confElement1->SetAttribute("value", 7);
                 TiXmlElement * confElement2 = new TiXmlElement( "StartCash" );
 	        config->LinkEndChild( confElement2 );
-                confElement2->SetAttribute("value", 2000);
+                confElement2->SetAttribute("value", 3000);
 		TiXmlElement * confElement3 = new TiXmlElement( "SmallBlind" );
   		config->LinkEndChild( confElement3 );
         	confElement3->SetAttribute("value", 10);
 		TiXmlElement * confElement12 = new TiXmlElement( "HandsBeforeRaiseSmallBlind" );
 		config->LinkEndChild( confElement12 );
-      		confElement12->SetAttribute("value", 9);	
+      		confElement12->SetAttribute("value", 8);	
 		TiXmlElement * confElement4 = new TiXmlElement( "GameSpeed" );
 		config->LinkEndChild( confElement4 );
       		confElement4->SetAttribute("value", 4);
 		TiXmlElement * confElement32 = new TiXmlElement( "EngineVersion" );
 		config->LinkEndChild( confElement32 );
-      		confElement32->SetAttribute("value", 1);
+      		confElement32->SetAttribute("value", 0);
 		TiXmlElement * confElement14 = new TiXmlElement( "PauseBetweenHands" );
 		config->LinkEndChild( confElement14 );
       		confElement14->SetAttribute("value", 0);		

@@ -28,6 +28,10 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 
 	 setupUi(this);
 
+	stackedWidget->removeWidget(page_4);
+	listWidget->takeItem(2);
+// 	page_4->hide();
+
 	playerNickIsChanged = FALSE;
 
 	//Formulare Füllen

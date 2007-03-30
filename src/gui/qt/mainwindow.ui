@@ -4058,10 +4058,16 @@
    <property name="text" >
     <string>Create Network Game ...</string>
    </property>
+   <property name="visible" >
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionJoin_network_Game" >
    <property name="text" >
     <string>Join Network Game ...</string>
+   </property>
+   <property name="visible" >
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionFullScreen" >

@@ -145,9 +145,9 @@ void LocalPlayer::preflopEngine() {
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
 	// 1. Fold -- Call
-	myNiveau[0] = 42 + myDude4 - 6*(players - 2);
+	myNiveau[0] = 43 + myDude4 - 6*(players - 2);
 	// 3. Call -- Raise
-	myNiveau[2] = 53 + myDude4 - 6*(players - 2);
+	myNiveau[2] = 50 + myDude4 - 6*(players - 2);
 
 	// eigenes mögliches highestSet
 	int individualHighestSet = actualHand->getPreflop()->getHighestSet();
@@ -265,6 +265,7 @@ void LocalPlayer::preflopEngine() {
 
 	}
 
+// 	cout << myID << ": " << myOdds << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << "Bluff: " << sBluffStatus << endl;
 
 	evaluation(bet, raise);
 }
@@ -277,6 +278,7 @@ void LocalPlayer::flopEngine() {
 	int i;
 	int cBluff;
 	Tools myTool;
+	int rand;
 
 	// übergang solange preflopValue und flopValue noch nicht bereinigt
 	int players = actualHand->getActualQuantityPlayers();
@@ -286,9 +288,9 @@ void LocalPlayer::flopEngine() {
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
 	// 1. Fold -- Call
-	myNiveau[0] = 43 + myDude4 - 6*(players - 2);
+	myNiveau[0] = 45 + myDude4 - 6*(players - 2);
 	// 2. Check -- Bet
-	myNiveau[1] = 55 + myDude4 - 6*(players - 2);
+	myNiveau[1] = 53 + myDude4 - 6*(players - 2);
 	// 3. Call -- Raise
 	myNiveau[2] = 67 + myDude4 - 6*(players - 2);
 
@@ -405,7 +407,68 @@ void LocalPlayer::flopEngine() {
 
 	}
 
+	// auf sBluffStatus testen --> raise statt call und bet statt check
+
+	// aktiv oder passiv?
+	if(actualHand->getFlop()->getHighestSet() > 0) {
+
+		if(sBluffStatus && myOdds < myNiveau[2]) {
+	
+	// 		cout << "sBLUFF!" << endl;
+	
+			// Gegner setzen -> call
+			if(actualHand->getFlop()->getHighestSet() >= 4*actualHand->getSmallBlind()) {
+				myAction = 3;
+			}
+			// Standard-Raise-Routine
+			else {
+				// raise-Betrag ermitteln
+				myTool.getRandNumber(1,8,1,&rand,0);
+				raise = rand*actualHand->getSmallBlind();
+				// raise-Betrag zu klein -> mindestens Standard-raise
+				if(raise < actualHand->getFlop()->getHighestSet()) {
+					raise = actualHand->getFlop()->getHighestSet();
+				}
+				// all in bei nur wenigen Chips oder knappem raise
+				if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4)/5) {
+					raise = myCash;
+				}
+				myAction = 5;
+			}
+
+			// extrem hoher set der gegner -> bluff beenden
+			if(actualHand->getFlop()->getHighestSet() >= 10*actualHand->getSmallBlind()) {
+				myAction = 1;
+			}
+		}
+	}
+	else {
+		if(sBluffStatus && myOdds < myNiveau[1]) {
+	
+	// 		cout << "sBLUFF!" << endl;
+
+			myTool.getRandNumber(1,8,1,&rand,0);
+			bet = rand*actualHand->getSmallBlind();
+			// bet zu klein
+			if(bet == 0) {
+				bet = 2*actualHand->getSmallBlind();
+			}
+			// all in bei nur wenigen Chips
+			if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+				bet = myCash;
+			}
+			// all in bei knappem bet
+			if(bet > (myCash*4.0)/5.0) {
+				bet = myCash;
+			}
+			myAction = 4;
+		}
+
+	}
+
 // 	cout << myID << ": Dude " << myDude4 << "\t Wert " <<  myOdds << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << endl;
+
+// 	cout << myID << ": " << myOdds << " - " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << " - " << "Bluff: " << sBluffStatus << endl;
 
 	evaluation(bet, raise);
 
@@ -681,14 +744,15 @@ void LocalPlayer::turnEngine() {
 	int i;
 	int cBluff;
 	Tools myTool;
+	int rand;
 
 	readFile();
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
 	// 1. Fold -- Call
-	myNiveau[0] = 45 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	myNiveau[0] = 46 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 	// 2. Check -- Bet
-	myNiveau[1] = 55 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	myNiveau[1] = 54 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 	// 3. Call -- Raise
 	myNiveau[2] = 66 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 
@@ -805,6 +869,67 @@ void LocalPlayer::turnEngine() {
 		}
 	}
 
+	// auf sBluffStatus testen --> raise statt call und bet statt check
+
+	// aktiv oder passiv?
+	if(actualHand->getTurn()->getHighestSet() > 0) {
+
+		if(sBluffStatus && myOdds < myNiveau[2]) {
+	
+	// 		cout << "sBLUFF!" << endl;
+	
+			// Gegner setzen -> call
+			if(actualHand->getTurn()->getHighestSet() >= 4*actualHand->getSmallBlind()) {
+				myAction = 3;
+			}
+			// Standard-Raise-Routine
+			else {
+				// raise-Betrag ermitteln
+				myTool.getRandNumber(1,8,1,&rand,0);
+				raise = rand*actualHand->getSmallBlind();
+				// raise-Betrag zu klein -> mindestens Standard-raise
+				if(raise < actualHand->getTurn()->getHighestSet()) {
+					raise = actualHand->getTurn()->getHighestSet();
+				}
+				// all in bei nur wenigen Chips oder knappem raise
+				if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4)/5) {
+					raise = myCash;
+				}
+				myAction = 5;
+			}
+
+			// extrem hoher set der gegner -> bluff beenden
+			if(actualHand->getTurn()->getHighestSet() >= 10*actualHand->getSmallBlind()) {
+				myAction = 1;
+			}
+		}
+	}
+	else {
+		if(sBluffStatus && myOdds < myNiveau[1]) {
+	
+	// 		cout << "sBLUFF!" << endl;
+
+			myTool.getRandNumber(1,8,1,&rand,0);
+			bet = rand*actualHand->getSmallBlind();
+			// bet zu klein
+			if(bet == 0) {
+				bet = 2*actualHand->getSmallBlind();
+			}
+			// all in bei nur wenigen Chips
+			if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+				bet = myCash;
+			}
+			// all in bei knappem bet
+			if(bet > (myCash*4.0)/5.0) {
+				bet = myCash;
+			}
+			myAction = 4;
+		}
+
+	}
+
+// 	cout << myID << ": " << myOdds << " - " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << " - " << "Bluff: " << sBluffStatus << endl;
+
 	evaluation(bet, raise);
 
 }
@@ -833,14 +958,16 @@ void LocalPlayer::riverEngine() {
 	int raise = 0;
 	int bet = 0;
 	int i;
+	Tools myTool;
+	int rand;
 
 	readFile();
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
 	// 1. Fold -- Call
-	myNiveau[0] = 45 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	myNiveau[0] = 46 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 	// 2. Check -- Bet
-	myNiveau[1] = 55 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	myNiveau[1] = 54 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 	// 3. Call -- Raise
 	myNiveau[2] = 66 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 
@@ -940,6 +1067,67 @@ void LocalPlayer::riverEngine() {
 		}
 
 	}
+
+	// auf sBluffStatus testen --> raise statt call und bet statt check
+
+	// aktiv oder passiv?
+	if(actualHand->getRiver()->getHighestSet() > 0) {
+
+		if(sBluffStatus && myOdds < myNiveau[2]) {
+	
+	// 		cout << "sBLUFF!" << endl;
+	
+			// Gegner setzen -> call
+			if(actualHand->getRiver()->getHighestSet() >= 4*actualHand->getSmallBlind()) {
+				myAction = 3;
+			}
+			// Standard-Raise-Routine
+			else {
+				// raise-Betrag ermitteln
+				myTool.getRandNumber(1,8,1,&rand,0);
+				raise = rand*actualHand->getSmallBlind();
+				// raise-Betrag zu klein -> mindestens Standard-raise
+				if(raise < actualHand->getRiver()->getHighestSet()) {
+					raise = actualHand->getRiver()->getHighestSet();
+				}
+				// all in bei nur wenigen Chips oder knappem raise
+				if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4)/5) {
+					raise = myCash;
+				}
+				myAction = 5;
+			}
+
+			// extrem hoher set der gegner -> bluff beenden
+			if(actualHand->getRiver()->getHighestSet() >= 10*actualHand->getSmallBlind()) {
+				myAction = 1;
+			}
+		}
+	}
+	else {
+		if(sBluffStatus && myOdds < myNiveau[1]) {
+	
+	// 		cout << "sBLUFF!" << endl;
+
+			myTool.getRandNumber(1,8,1,&rand,0);
+			bet = rand*actualHand->getSmallBlind();
+			// bet zu klein
+			if(bet == 0) {
+				bet = 2*actualHand->getSmallBlind();
+			}
+			// all in bei nur wenigen Chips
+			if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+				bet = myCash;
+			}
+			// all in bei knappem bet
+			if(bet > (myCash*4.0)/5.0) {
+				bet = myCash;
+			}
+			myAction = 4;
+		}
+
+	}
+
+// 	cout << myID << ": " << myOdds << " - " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << " - " << "Bluff: " << sBluffStatus << endl;
 
 	evaluation(bet, raise);
 
@@ -1813,7 +2001,7 @@ void LocalPlayer::readFile() {
 				if(myOdds == -1) {
 					cout << "ERROR" << endl;
 					for(i=0; i<5; i++) cout << tempArray[i] << " ";
-					cout << "\t" << handCode << "\t" << myID << endl;
+// 					cout << "\t" << handCode << "\t" << myID << endl;
 				} else {
 		// 			cout << myHoleCardsValue << endl;
 			}

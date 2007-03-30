@@ -346,7 +346,7 @@ p, li { white-space: pre-wrap; }
         <widget class="QComboBox" name="comboBox_engineVersion" >
          <item>
           <property name="text" >
-           <string>0.4 (actual - under development)</string>
+           <string>0.4 (actual)</string>
           </property>
          </item>
          <item>
