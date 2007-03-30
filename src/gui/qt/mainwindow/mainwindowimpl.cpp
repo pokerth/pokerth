@@ -54,7 +54,7 @@ const int maxQuantityPlayersConst = 7;
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(QMainWindow *parent)
-     : QMainWindow(parent), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(1), breakAfterActualHand(FALSE)
+     : QMainWindow(parent), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
 {	
 	int i;
 
