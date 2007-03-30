@@ -105,6 +105,9 @@ public:
 		return sum;
 	}
 
+	void setSBluff ( int theValue ) { sBluff = theValue; }
+	int getSBluff() const { return sBluff; }
+
 	void action();
 	
 	void preflopEngine();
@@ -124,6 +127,7 @@ public:
 	void readFile();
 
 	void evaluation(int, int);
+	
 
 
 private:
@@ -158,6 +162,8 @@ private:
 
 	int myAverageSets[4];
 	bool myAggressive[7];
+
+	int sBluff;
 
 };
 

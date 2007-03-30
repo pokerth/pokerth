@@ -65,8 +65,9 @@ void MyCardsPixmapLabel::nextFadeOutFrame() {
      		update();
 	}
 	else { 
+		
 		fadeOutTimer->stop(); 
-		fadeOutAction = FALSE;
+// 		fadeOutAction = FALSE;
 	}
 
 }
@@ -177,3 +178,12 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event) {
 
 	
 }
+
+// bool MyCardsPixmapLabel::event ( QEvent * event )  { 
+// 
+// 	if(event->type() == QEvent::MouseMove) { event->ignore();  }
+// 	QLabel::event(event);
+// }
+
+
+

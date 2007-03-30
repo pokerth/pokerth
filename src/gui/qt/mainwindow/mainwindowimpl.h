@@ -180,6 +180,8 @@ public slots:
 	void breakButtonClicked();
 
 	void keyPressEvent ( QKeyEvent*);
+// 	bool event ( QEvent * );
+
 	void switchLeftToolBox();
 	void switchRightToolBox();
 	void switchFullscreen();

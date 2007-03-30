@@ -819,38 +819,6 @@
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
-        <widget class="QFrame" name="frame_Cards0" >
-         <property name="geometry" >
-          <rect>
-           <x>95</x>
-           <y>40</y>
-           <width>118</width>
-           <height>111</height>
-          </rect>
-         </property>
-         <widget class="QLabel" name="textLabel_Status0" >
-          <property name="geometry" >
-           <rect>
-            <x>9</x>
-            <y>35</y>
-            <width>100</width>
-            <height>40</height>
-           </rect>
-          </property>
-          <property name="minimumSize" >
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text" >
-           <string/>
-          </property>
-          <property name="alignment" >
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </widget>
         <widget class="QLabel" name="label_PlayerName0" >
          <property name="geometry" >
           <rect>
@@ -1064,6 +1032,41 @@
          <property name="scaledContents" >
           <bool>true</bool>
          </property>
+        </widget>
+        <widget class="QFrame" name="frame_Cards0" >
+         <property name="geometry" >
+          <rect>
+           <x>95</x>
+           <y>40</y>
+           <width>118</width>
+           <height>111</height>
+          </rect>
+         </property>
+         <widget class="QLabel" name="textLabel_Status0" >
+          <property name="geometry" >
+           <rect>
+            <x>9</x>
+            <y>35</y>
+            <width>100</width>
+            <height>40</height>
+           </rect>
+          </property>
+          <property name="minimumSize" >
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text" >
+           <string/>
+          </property>
+          <property name="alignment" >
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="textInteractionFlags" >
+           <enum>Qt::NoTextInteraction</enum>
+          </property>
+         </widget>
         </widget>
        </widget>
       </item>
@@ -1790,22 +1793,6 @@
           <height>185</height>
          </size>
         </property>
-        <widget class="QLabel" name="label_5" >
-         <property name="geometry" >
-          <rect>
-           <x>89</x>
-           <y>60</y>
-           <width>90</width>
-           <height>124</height>
-          </rect>
-         </property>
-         <property name="pixmap" >
-          <pixmap resource="resources.qrc" >:/guiv2/resources/guiv2/cardholder_03.png</pixmap>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
         <widget class="QLabel" name="label_6" >
          <property name="geometry" >
           <rect>
@@ -2489,6 +2476,22 @@
            </layout>
           </item>
          </layout>
+        </widget>
+        <widget class="QLabel" name="label_5" >
+         <property name="geometry" >
+          <rect>
+           <x>89</x>
+           <y>60</y>
+           <width>90</width>
+           <height>124</height>
+          </rect>
+         </property>
+         <property name="pixmap" >
+          <pixmap resource="resources.qrc" >:/guiv2/resources/guiv2/cardholder_03.png</pixmap>
+         </property>
+         <property name="scaledContents" >
+          <bool>true</bool>
+         </property>
         </widget>
         <widget class="QLabel" name="textLabel_handLabel" >
          <property name="geometry" >

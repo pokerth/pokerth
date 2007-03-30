@@ -58,6 +58,7 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 	int tempBoardArray[5];
 	int tempPlayerArray[2];
 	int tempPlayerAndBoardArray[7];
+	int sBluff;
 	for(i=0; i<5; i++) {
 		tempBoardArray[i] = cardsArray[i];
 		tempPlayerAndBoardArray[i+2] = cardsArray[i];
@@ -72,12 +73,20 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 			}
 			playerArray[i]->setMyCards(tempPlayerArray);
 			playerArray[i]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,playerArray[i]->getMyBestHandPosition()));
+
 			// myBestHandPosition auf Fehler ueberpruefen
 			for(j=0; j<5; j++) {
 				if((playerArray[i]->getMyBestHandPosition())[j] == -1) {
-					cout << "FEHLER bei myBestHandPosition-Ermittlung!!!" << endl;
+					cout << "ERROR get myBestHandPosition in localhand.cpp" << endl;
 				}
 			}
+
+			// sBluff für alle aktiver Spieler außer human player setzen
+			if(i) {
+				myTool.getRandNumber(1,100,1,&sBluff,0);
+				playerArray[i]->setSBluff(sBluff);
+			}
+
 			k++;
 		}
 	}

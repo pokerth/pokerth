@@ -54,7 +54,7 @@ const int maxQuantityPlayersConst = 7;
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(QMainWindow *parent)
-     : QMainWindow(parent), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
+     : QMainWindow(parent), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(1), breakAfterActualHand(FALSE)
 {	
 	int i;
 
@@ -124,6 +124,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
     	pixmapLabel_card0a->setObjectName(QString::fromUtf8("pixmapLabel_card0a"));
 	pixmapLabel_card0a->setScaledContents(true);
 	pixmapLabel_card0a->setGeometry(QRect(0, 0, 80, 111));
+// 	pixmapLabel_card0a->setFocusPolicy(Qt::NoFocus);
 
    	pixmapLabel_card0b = new MyCardsPixmapLabel(frame_Cards0);
     	pixmapLabel_card0b->setObjectName(QString::fromUtf8("pixmapLabel_card0b"));
@@ -2156,9 +2157,14 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 		ctrlPressed = TRUE;
 // 		QTimer::SingleShot
 	} //CTRL
-// 	if (event->key() == 65) {  paintStartSplash();	     
+	if (event->key() == 65) {  pixmapLabel_card0a->setUpdatesEnabled(FALSE); }     
 // 	if (event->key() == 66) {  label_logo->hide();	}
 }
+
+// bool mainWindowImpl::event ( QEvent * event )  { 
+
+// 	if(event->type() == QEvent::MouseMove) { event->setAccepted ( FALSE );  }
+// }
 
 void mainWindowImpl::switchLeftToolBox() {
 

@@ -46,6 +46,7 @@ public slots:
 	void nextFadeOutFrame();
 	void nextFlipCardsFrame();
 
+// 	bool event ( QEvent * );
 	
 
 private: 
