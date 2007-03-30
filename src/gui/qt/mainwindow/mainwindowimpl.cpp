@@ -468,6 +468,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	//Clear Focus
 	groupBox_LeftToolBox->clearFocus();
 
+	//set Focus to mainwindow
+	this->setFocus();
+
 	//Statusbar 
 	statusBar()->showMessage(tr("Ctrl+N to start a new Game"));
 
