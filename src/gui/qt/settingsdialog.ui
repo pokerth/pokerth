@@ -32,34 +32,6 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="6" column="0" >
-        <widget class="QCheckBox" name="checkBox_showFlipCardsAnimation" >
-         <property name="text" >
-          <string>Show Flip-Card Animation</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" >
-        <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation" >
-         <property name="text" >
-          <string>Show Fade-Out Animation for Non-Winning Cards</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" >
-        <widget class="Line" name="line_6" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" >
-        <widget class="QCheckBox" name="checkBox_showRightToolbox" >
-         <property name="text" >
-          <string>Show right Toolbox (F3 to switch on/off)</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="0" >
         <widget class="QLabel" name="label_19" >
          <property name="font" >
@@ -73,14 +45,27 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0" >
-        <widget class="QCheckBox" name="checkBox_showIntro" >
+       <item row="9" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="7" column="0" >
+        <widget class="QCheckBox" name="checkBox_showFlipCardsAnimation" >
          <property name="text" >
-          <string>Show Intro on Startup</string>
+          <string>Show Flip-Card Animation</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0" >
+       <item row="8" column="0" >
         <widget class="QGroupBox" name="groupBox" >
          <property name="title" >
           <string>Flipside of Cards</string>
@@ -174,25 +159,47 @@ p, li { white-space: pre-wrap; }
          </layout>
         </widget>
        </item>
-       <item row="3" column="0" >
-        <widget class="QCheckBox" name="checkBox_showLeftToolbox" >
+       <item row="6" column="0" >
+        <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation" >
          <property name="text" >
-          <string>Show left Toolbox (F2 to switch on/off)</string>
+          <string>Show Fade-Out Animation for Non-Winning Cards</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="0" >
-        <spacer>
+       <item row="2" column="0" >
+        <widget class="QCheckBox" name="checkBox_showIntro" >
+         <property name="text" >
+          <string>Show Intro on Startup</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="Line" name="line_6" >
          <property name="orientation" >
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
+        </widget>
+       </item>
+       <item row="4" column="0" >
+        <widget class="QCheckBox" name="checkBox_showRightToolbox" >
+         <property name="text" >
+          <string>Show right Toolbox (F11 to switch on/off)</string>
          </property>
-        </spacer>
+        </widget>
+       </item>
+       <item row="3" column="0" >
+        <widget class="QCheckBox" name="checkBox_showLeftToolbox" >
+         <property name="text" >
+          <string>Show left Toolbox (F10 to switch on/off)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" >
+        <widget class="QCheckBox" name="checkBox_showStatusbarMessages" >
+         <property name="text" >
+          <string>Show Statusbar Messages</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

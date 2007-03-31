@@ -78,6 +78,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 	//Interface
 	checkBox_showLeftToolbox->setChecked(myConfig.readConfigInt("ShowLeftToolBox"));
 	checkBox_showRightToolbox->setChecked(myConfig.readConfigInt("ShowRightToolBox"));
+	checkBox_showStatusbarMessages->setChecked(myConfig.readConfigInt("ShowStatusbarMessages"));
 	checkBox_showIntro->setChecked(myConfig.readConfigInt("ShowIntro"));
 	checkBox_showFadeOutCardsAnimation->setChecked(myConfig.readConfigInt("ShowFadeOutCardsAnimation"));
 	checkBox_showFlipCardsAnimation->setChecked(myConfig.readConfigInt("ShowFlipCardsAnimation"));
@@ -221,6 +222,7 @@ void settingsDialogImpl::isAccepted() {
 // 	Interface
 	myConfig.writeConfigInt("ShowLeftToolBox", checkBox_showLeftToolbox->isChecked());
 	myConfig.writeConfigInt("ShowRightToolBox", checkBox_showRightToolbox->isChecked());
+	myConfig.writeConfigInt("ShowStatusbarMessages", checkBox_showStatusbarMessages->isChecked());	
 	myConfig.writeConfigInt("ShowIntro", checkBox_showIntro->isChecked());
 	myConfig.writeConfigInt("ShowFadeOutCardsAnimation", checkBox_showFadeOutCardsAnimation->isChecked());
 	myConfig.writeConfigInt("ShowFlipCardsAnimation", checkBox_showFlipCardsAnimation->isChecked());

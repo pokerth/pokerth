@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>485</width>
-    <height>291</height>
+    <width>487</width>
+    <height>365</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -97,8 +97,16 @@ p, li { white-space: pre-wrap; }
 &lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">Authors: &lt;/span>&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">     Felix Hammer (&lt;a href="mailto:doitux@pokerth.net">&lt;span style=" text-decoration: underline; color:#0000ff;">doitux@pokerth.net&lt;/span>&lt;/a>)&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          - initial idea, basic architecture, gui implementation, webmaster@pokerth.net&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">     Florian Thauer (&lt;a href="mailto:floty@pokerth.net">&lt;span style=" text-decoration: underline; color:#0000ff;">floty@pokerth.net&lt;/span>&lt;/a>)&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">     Lothar May (&lt;a href="mailto:lotodore@pokerth.net">&lt;span style=" text-decoration: underline; color:#0000ff;">lotodore@pokerth.net&lt;/span>&lt;/a>)&lt;/p>&lt;/body>&lt;/html></string>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          - initial idea, basic architecture, engine development&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">     Lothar May (&lt;a href="mailto:lotodore@pokerth.net">&lt;span style=" text-decoration: underline; color:#0000ff;">lotodore@pokerth.net&lt;/span>&lt;/a>)&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          - network development&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">     Oskar Lindqvist (&lt;a href="mailto:tranberry@pokerth.net">&lt;span style=" text-decoration: underline; color:#0000ff;">tranberry@pokerth.net&lt;/span>&lt;/a>)&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          - gui graphics design, webdesign&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+         <property name="wordWrap" >
+          <bool>true</bool>
          </property>
         </widget>
        </item>

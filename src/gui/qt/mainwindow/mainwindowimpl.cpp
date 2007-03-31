@@ -472,7 +472,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	this->setFocus();
 
 	//Statusbar 
-	statusBar()->showMessage(tr("Ctrl+N to start a new Game"));
+	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
+		statusBar()->showMessage(tr("Ctrl+N to start a new game"));
+	}
 
 	//Dialoge 
 	myJoinNetworkGameDialog = new joinNetworkGameDialogImpl(this);
@@ -1249,6 +1251,10 @@ void mainWindowImpl::dealRiverCards2() {
 
 void mainWindowImpl::meInAction() {
 	
+	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
+		statusBar()->showMessage(tr("F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise"), 15000);
+	}
+
 	switch (actualHand->getActualRound()) {
 
 	case 0: {
@@ -1353,6 +1359,8 @@ void mainWindowImpl::myFold(){
 	//set that i was the last active player. need this for unhighlighting groupbox
 	actualHand->setLastPlayersTurn(0);
 	
+	statusBar()->clearMessage();
+
 	//Spiel läuft weiter
 	nextPlayerAnimation();
 }
@@ -1369,6 +1377,8 @@ void mainWindowImpl::myCheck() {
 
 	//set that i was the last active player. need this for unhighlighting groupbox
 	actualHand->setLastPlayersTurn(0);
+
+	statusBar()->clearMessage();
 
 	//Spiel läuft weiter
 	nextPlayerAnimation();
@@ -1412,6 +1422,8 @@ void mainWindowImpl::myCall(){
 
 	//set that i was the last active player. need this for unhighlighting groupbox
 	actualHand->setLastPlayersTurn(0);
+
+	statusBar()->clearMessage();
 
 	//Spiel läuft weiter
 	nextPlayerAnimation();
@@ -1502,6 +1514,8 @@ void mainWindowImpl::mySet(){
 
 	disableMyButtons();
 
+	statusBar()->clearMessage();
+
 	//set that i was the last active player. need this for unhighlighting groupbox
 	actualHand->setLastPlayersTurn(0);
 
@@ -1537,6 +1551,8 @@ void mainWindowImpl::myAllIn(){
 	myLog->logPlayerActionMsg(actualHand->getPlayerArray()[0]->getMyName(), actualHand->getPlayerArray()[0]->getMyAction(), actualHand->getPlayerArray()[0]->getMySet());
 	
 	disableMyButtons();
+
+	statusBar()->clearMessage();
 
 	//set that i was the last active player. need this for unhighlighting groupbox
 	actualHand->setLastPlayersTurn(0);
@@ -2151,16 +2167,19 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	bool ctrlPressed = FALSE;
 
 	if (event->key() == 16777220) { if(spinBox_set->hasFocus()) pushButton_CallCheckSet->click(); } //ENTER 
-	if (event->key() == 16777265) { switchLeftToolBox(); } //F2	
-	if (event->key() == 16777266) { switchRightToolBox(); } //F3
+	if (event->key() == Qt::Key_F1) { pushButton_FoldAllin->click(); } 
+	if (event->key() == Qt::Key_F2) { pushButton_CallCheckSet->click(); } 
+	if (event->key() == Qt::Key_F3) { pushButton_BetRaise->click(); } 
+	if (event->key() == Qt::Key_F10) { switchLeftToolBox(); } 
+	if (event->key() == Qt::Key_F11) { switchRightToolBox(); } 
 	if (event->key() == Qt::Key_F) { switchFullscreen(); } //f
-	if (event->key() == Qt::Key_S) { showMyCards(); } //f	
+// 	if (event->key() == Qt::Key_S) { showMyCards(); } //f	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;
 // 		QTimer::SingleShot
 	} //CTRL
-	if (event->key() == 65) {  pixmapLabel_card0a->setUpdatesEnabled(FALSE); }     
+// 	if (event->key() == 65) {  pixmapLabel_card0a->setUpdatesEnabled(FALSE); }     
 // 	if (event->key() == 66) {  label_logo->hide();	}
 }
 

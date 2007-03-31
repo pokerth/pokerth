@@ -168,7 +168,7 @@ void LocalPlayer::preflopEngine() {
 //	cout << myID << ": " << myHoleCardsValue << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << myCards[0] << " " << myCards[1] << endl;
 
 	// Aggresivität des humanPlayers auslesen
-	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActualQuantityPlayers())*14.0);
+	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActualQuantityPlayers())*21.0);
 
 // 	cout << aggValue << "  ";
 
@@ -277,6 +277,7 @@ void LocalPlayer::flopEngine() {
 	int bet = 0;
 	int i;
 	int cBluff;
+	int pBluff;
 	Tools myTool;
 	int rand;
 
@@ -288,9 +289,9 @@ void LocalPlayer::flopEngine() {
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
 	// 1. Fold -- Call
-	myNiveau[0] = 45 + myDude4 - 6*(players - 2);
+	myNiveau[0] = 49 + myDude4 - 6*(players - 2);
 	// 2. Check -- Bet
-	myNiveau[1] = 53 + myDude4 - 6*(players - 2);
+	myNiveau[1] = 54 + myDude4 - 6*(players - 2);
 	// 3. Call -- Raise
 	myNiveau[2] = 67 + myDude4 - 6*(players - 2);
 
@@ -299,7 +300,7 @@ void LocalPlayer::flopEngine() {
 	if(individualHighestSet > myCash) individualHighestSet = myCash;
 
 	// Aggresivität des humanPlayers auslesen
-	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActualQuantityPlayers())*14.0);
+	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActualQuantityPlayers())*21.0);
 
 	for(i=0; i<3; i++) {
 		myNiveau[i] -= aggValue;
@@ -400,9 +401,30 @@ void LocalPlayer::flopEngine() {
 			if(cBluff > 60 && myOdds >= myNiveau[1] + 8) myAction = 2;
 			if(cBluff > 50 && myOdds >= myNiveau[1] + 12) myAction = 2;
 		}
-		// bet
+		// check
 		else {
 			myAction = 2;
+			// Position
+			if(myButton == 1) {
+				// Position-Bluff generieren
+				myTool.getRandNumber(1,100,1,&pBluff,0);
+				if(pBluff <= 16) {
+					bet = (pBluff/4)*2*actualHand->getSmallBlind();
+					// bet zu klein
+					if(bet == 0) {
+						bet = 2*actualHand->getSmallBlind();
+					}
+					// all in bei nur wenigen Chips
+					if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+						bet = myCash;
+					}
+					// all in bei knappem bet
+					if(bet > (myCash*4.0)/5.0) {
+						bet = myCash;
+					}
+					myAction = 4;
+				}
+			}
 		}
 
 	}
@@ -743,6 +765,7 @@ void LocalPlayer::turnEngine() {
 	int bet = 0;
 	int i;
 	int cBluff;
+	int pBluff;
 	Tools myTool;
 	int rand;
 
@@ -750,14 +773,14 @@ void LocalPlayer::turnEngine() {
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
 	// 1. Fold -- Call
-	myNiveau[0] = 46 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	myNiveau[0] = 49 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 	// 2. Check -- Bet
 	myNiveau[1] = 54 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 	// 3. Call -- Raise
 	myNiveau[2] = 66 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 
 // Aggresivität des humanPlayers auslesen
-	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActualQuantityPlayers())*14.0);
+	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActualQuantityPlayers())*21.0);
 
 	for(i=0; i<3; i++) {
 		myNiveau[i] -= aggValue;
@@ -866,6 +889,27 @@ void LocalPlayer::turnEngine() {
 		// check
 		else {
 			myAction = 2;
+			// Position
+			if(myButton == 1) {
+				// Position-Bluff generieren
+				myTool.getRandNumber(1,100,1,&pBluff,0);
+				if(pBluff <= 16) {
+					bet = (pBluff/4)*2*actualHand->getSmallBlind();
+					// bet zu klein
+					if(bet == 0) {
+						bet = 2*actualHand->getSmallBlind();
+					}
+					// all in bei nur wenigen Chips
+					if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+						bet = myCash;
+					}
+					// all in bei knappem bet
+					if(bet > (myCash*4.0)/5.0) {
+						bet = myCash;
+					}
+					myAction = 4;
+				}
+			}
 		}
 	}
 
@@ -960,19 +1004,20 @@ void LocalPlayer::riverEngine() {
 	int i;
 	Tools myTool;
 	int rand;
+	int pBluff;
 
 	readFile();
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
 	// 1. Fold -- Call
-	myNiveau[0] = 46 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	myNiveau[0] = 49 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 	// 2. Check -- Bet
 	myNiveau[1] = 54 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 	// 3. Call -- Raise
 	myNiveau[2] = 66 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
 
 	// Aggresivität des humanPlayers auslesen
-	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActualQuantityPlayers())*14.0);
+	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActualQuantityPlayers())*21.0);
 
 	for(i=0; i<3; i++) {
 		myNiveau[i] -= aggValue;
@@ -1045,12 +1090,8 @@ void LocalPlayer::riverEngine() {
 		}
 	}
 	else {
-		// check
-		if(myOdds < myNiveau[1]) {
-			myAction = 2;
-		}
 		// bet
-		else {
+		if(myOdds >= myNiveau[1]) {
 			bet = (((int)myOdds-myNiveau[1])/3)*2*actualHand->getSmallBlind();
 			if(bet == 0) {
 				bet = 2*actualHand->getSmallBlind();
@@ -1065,7 +1106,31 @@ void LocalPlayer::riverEngine() {
 			}
 			myAction = 4;
 		}
-
+		// check
+		else {
+			myAction = 2;
+			// Position
+			if(myButton == 1) {
+				// Position-Bluff generieren
+				myTool.getRandNumber(1,100,1,&pBluff,0);
+				if(pBluff <= 20) {
+					bet = (pBluff/4)*2*actualHand->getSmallBlind();
+					// bet zu klein
+					if(bet == 0) {
+						bet = 2*actualHand->getSmallBlind();
+					}
+					// all in bei nur wenigen Chips
+					if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+						bet = myCash;
+					}
+					// all in bei knappem bet
+					if(bet > (myCash*4.0)/5.0) {
+						bet = myCash;
+					}
+					myAction = 4;
+				}
+			}
+		}
 	}
 
 	// auf sBluffStatus testen --> raise statt call und bet statt check
