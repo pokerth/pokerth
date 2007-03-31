@@ -471,6 +471,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	//set Focus to mainwindow
 	this->setFocus();
 
+	//windowicon
+	this->setWindowIcon(QIcon(QString::fromUtf8(":/graphics/resources/graphics/windowicon.png"))); 
+
 	//Statusbar 
 	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
 		statusBar()->showMessage(tr("Ctrl+N to start a new game"));
