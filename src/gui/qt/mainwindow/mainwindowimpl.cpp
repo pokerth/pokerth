@@ -212,12 +212,10 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 	//Toolboxen verstecken?				
 	if (!myConfig->readConfigInt("ShowRightToolBox")) { 
-		groupBox_LeftToolBox->hide(); 
-		label_logoright->show();
+		groupBox_RightToolBox->hide(); 
 	}
 	if (!myConfig->readConfigInt("ShowLeftToolBox")) { 
 		groupBox_LeftToolBox->hide(); 
-		label_logoleft->show();
 	}
 
 	//Intro abspielen?
