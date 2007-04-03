@@ -231,11 +231,27 @@ void LocalPlayer::preflopEngine() {
 			myAction = 5;
 		}
 
-		// auf cBluff testen --> call statt raise
-		if(cBluff > 80) myAction = 3;
-		if(cBluff > 70 && myOdds >= myNiveau[2] + 4) myAction = 3;
-		if(cBluff > 60 && myOdds >= myNiveau[2] + 8) myAction = 3;
-		if(cBluff > 50 && myOdds >= myNiveau[2] + 12) myAction = 3;
+		// auf cBluff testen --> call (bzw check) statt raise
+		if(cBluff > 90) {
+			myAction = 3;
+			// bigBlind --> check
+			if(myButton == 3 && mySet == actualHand->getPreflop()->getHighestSet()) myAction = 2;
+		}
+		if(cBluff > 80 && myOdds >= myNiveau[2] + 4) {
+			myAction = 3;
+			// bigBlind --> check
+			if(myButton == 3 && mySet == actualHand->getPreflop()->getHighestSet()) myAction = 2;
+		}
+		if(cBluff > 70 && myOdds >= myNiveau[2] + 8) {
+			myAction = 3;
+			// bigBlind --> check
+			if(myButton == 3 && mySet == actualHand->getPreflop()->getHighestSet()) myAction = 2;
+		}
+		if(cBluff > 60 && myOdds >= myNiveau[2] + 12) {
+			myAction = 3;
+			// bigBlind --> check
+			if(myButton == 3 && mySet == actualHand->getPreflop()->getHighestSet()) myAction = 2;
+		}
 
 	}
 	else {
@@ -279,6 +295,8 @@ void LocalPlayer::preflopEngine() {
 			}
 			else {
 				myAction = 3;
+				// bigBlind --> check
+				if(myButton == 3 && mySet == actualHand->getPreflop()->getHighestSet()) myAction = 2;
 			}
 		}
 		// Standard-Raise-Routine
