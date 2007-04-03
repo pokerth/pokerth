@@ -66,6 +66,7 @@
     </qresource>
     <qresource prefix="/data" >
         <file>resources/data/preflopValues</file>
+	<file>resources/data/flopValues</file>
     </qresource>
     <qresource prefix="/fonts" >
         <file>resources/fonts/VeraBd.ttf</file>
