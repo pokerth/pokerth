@@ -63,6 +63,8 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 		tempBoardArray[i] = cardsArray[i];
 		tempPlayerAndBoardArray[i+2] = cardsArray[i];
 	}
+
+
 	k = 0;
 	myBoard->setMyCards(tempBoardArray);
 	for(i=0; i<startQuantityPlayers; i++) {
@@ -185,7 +187,7 @@ void LocalHand::switchRounds() {
 
 	int i;
 
-// 	cout << "switchrounds" << endl;
+// 	cout <<" ------- HandID: " << myID << " | actualround: " << actualRound << " ---------" << endl;
 
 	//Aktive Spieler z�len --> wenn nur noch einer nicht-folded dann gleich den Pot verteilen
 	activePlayersCounter = 0;
@@ -205,10 +207,12 @@ void LocalHand::switchRounds() {
 		myGui->refreshSet();
 		actualRound = 4; 
 	}
-
 	// prfen der All In Kondition
 	// fr All In Prozedur mssen mindestens zwei aktive Player vorhanden sein
 	else {
+
+// 		cout << "activplayerscounter: " << activePlayersCounter << " | allInPlayersCounter: " << allInPlayersCounter << " | " << endl;
+
 		// 1) wenn alle All In
 		if(allInPlayersCounter == activePlayersCounter) {
 			allInCondition = 1;
@@ -232,6 +236,8 @@ void LocalHand::switchRounds() {
 						break;
 						default: {}	
 					}
+// 					cout << "tempHighestSet: " << tempHighestSet << "playerArray[i]->getMySet(): " << playerArray[i]->getMySet() << endl;
+					
 					if(playerArray[i]->getMySet() >= tempHighestSet) {
 						allInCondition = 1;
 					}

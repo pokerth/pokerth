@@ -35,6 +35,9 @@ public:
 	virtual void setMyDude(const int& theValue) =0;
 	virtual int getMyDude() const =0;
 
+	virtual void setMyDude4(const int& theValue) =0;
+	virtual int getMyDude4() const =0;
+
 	virtual void setMyName(const std::string& theValue) =0;
 	virtual std::string getMyName() const =0;
 

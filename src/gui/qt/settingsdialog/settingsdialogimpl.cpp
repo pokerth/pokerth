@@ -38,20 +38,20 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 	ConfigFile myConfig;	
 
 	//Player Nicks
-	lineEdit_humanPlayerName->setText(QString::fromStdString(myConfig.readConfigString("MyName")));
-	lineEdit_humanPlayerAvatar->setText(QString::fromStdString(myConfig.readConfigString("MyAvatar")));
-	lineEdit_Opponent1Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent1Name")));
-	lineEdit_Opponent1Avatar->setText(QString::fromStdString(myConfig.readConfigString("Opponent1Avatar")));
-	lineEdit_Opponent2Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent2Name")));
-	lineEdit_Opponent2Avatar->setText(QString::fromStdString(myConfig.readConfigString("Opponent2Avatar")));
-	lineEdit_Opponent3Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent3Name")));
-	lineEdit_Opponent3Avatar->setText(QString::fromStdString(myConfig.readConfigString("Opponent3Avatar")));
-	lineEdit_Opponent4Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent4Name")));
-	lineEdit_Opponent4Avatar->setText(QString::fromStdString(myConfig.readConfigString("Opponent4Avatar")));
-	lineEdit_Opponent5Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent5Name")));
-	lineEdit_Opponent5Avatar->setText(QString::fromStdString(myConfig.readConfigString("Opponent5Avatar")));
-	lineEdit_Opponent6Name->setText(QString::fromStdString(myConfig.readConfigString("Opponent6Name")));
-	lineEdit_Opponent6Avatar->setText(QString::fromStdString(myConfig.readConfigString("Opponent6Avatar")));
+	lineEdit_humanPlayerName->setText(QString::fromUtf8(myConfig.readConfigString("MyName").c_str()));
+	lineEdit_humanPlayerAvatar->setText(QString::fromUtf8(myConfig.readConfigString("MyAvatar").c_str()));
+	lineEdit_Opponent1Name->setText(QString::fromUtf8(myConfig.readConfigString("Opponent1Name").c_str()));
+	lineEdit_Opponent1Avatar->setText(QString::fromUtf8(myConfig.readConfigString("Opponent1Avatar").c_str()));
+	lineEdit_Opponent2Name->setText(QString::fromUtf8(myConfig.readConfigString("Opponent2Name").c_str()));
+	lineEdit_Opponent2Avatar->setText(QString::fromUtf8(myConfig.readConfigString("Opponent2Avatar").c_str()));
+	lineEdit_Opponent3Name->setText(QString::fromUtf8(myConfig.readConfigString("Opponent3Name").c_str()));
+	lineEdit_Opponent3Avatar->setText(QString::fromUtf8(myConfig.readConfigString("Opponent3Avatar").c_str()));
+	lineEdit_Opponent4Name->setText(QString::fromUtf8(myConfig.readConfigString("Opponent4Name").c_str()));
+	lineEdit_Opponent4Avatar->setText(QString::fromUtf8(myConfig.readConfigString("Opponent4Avatar").c_str()));
+	lineEdit_Opponent5Name->setText(QString::fromUtf8(myConfig.readConfigString("Opponent5Name").c_str()));
+	lineEdit_Opponent5Avatar->setText(QString::fromUtf8(myConfig.readConfigString("Opponent5Avatar").c_str()));
+	lineEdit_Opponent6Name->setText(QString::fromUtf8(myConfig.readConfigString("Opponent6Name").c_str()));
+	lineEdit_Opponent6Avatar->setText(QString::fromUtf8(myConfig.readConfigString("Opponent6Avatar").c_str()));
 
 	//Local Game Settings
 	spinBox_quantityPlayers->setValue(myConfig.readConfigInt("NumberOfPlayers"));
@@ -71,7 +71,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 	spinBox_netGameSpeed->setValue(myConfig.readConfigInt("NetGameSpeed"));
 	comboBox_netEngineVersion->setCurrentIndex(myConfig.readConfigInt("NetEngineVersion"));
 	spinBox_serverPort->setValue(myConfig.readConfigInt("ServerPort"));
-	lineEdit_serverPassword->setText(QString::fromStdString(myConfig.readConfigString("ServerPassword")));
+	lineEdit_serverPassword->setText(QString::fromUtf8(myConfig.readConfigString("ServerPassword").c_str()));
 	checkBox_useIpv6->setChecked(myConfig.readConfigInt("ServerUseIpv6"));
 	
 
@@ -88,10 +88,10 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 		lineEdit_OwnFlipsideFilename->setEnabled(TRUE);
 		pushButton_openFlipsidePicture->setEnabled(TRUE);
 	}
-	lineEdit_OwnFlipsideFilename->setText(QString::fromStdString(myConfig.readConfigString("FlipsideOwnFile")));
+	lineEdit_OwnFlipsideFilename->setText(QString::fromUtf8(myConfig.readConfigString("FlipsideOwnFile").c_str()));
 
 	//Log 
-	lineEdit_logDir->setText(QString::fromStdString(myConfig.readConfigString("LogDir")));
+	lineEdit_logDir->setText(QString::fromUtf8(myConfig.readConfigString("LogDir").c_str()));
 	spinBox_logStoreDuration->setValue(myConfig.readConfigInt("LogStoreDuration"));
 	
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );

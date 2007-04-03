@@ -1,3 +1,21 @@
+2007-04-04 version 0.4:
+
+- feature: settings menu (to do a lot of settings and save preferences)
+- feature: set player names and avatars for computer opponents
+- feature: switch to fullscreen mode
+- feature: cards animation (show winning hand, flip cards)
+- feature: set you own card-flipside picture 
+- feature: log-window and log-files
+- feature: start-stop button (for break between hands)
+- feature: game-speed slider (for changing speed during game)
+- feature: graphical handranking overview
+- feature: keyboard shortcuts (e.g. for human player action)
+- change: now you can play against up to 6 opponents
+- change: complete new gui (gfx by tranberry)
+- change: complete new engine design
+- bugfix: a lot of bugfixes
+
+
 2006-10-16 version 0.3:
 
 - change: some changes on game-speed and game-rhythm. game-speed delay near 0 is possible ;)

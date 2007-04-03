@@ -44,7 +44,7 @@ void startNetworkGameDialogImpl::cancel() {
 void startNetworkGameDialogImpl::addConnectedPlayer(std::string playerName) {
 
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget,0);
-	item->setData(0, 0, QString::fromStdString(playerName));
+	item->setData(0, 0, QString::fromUtf8(playerName.c_str()));
 }
 
 void startNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {

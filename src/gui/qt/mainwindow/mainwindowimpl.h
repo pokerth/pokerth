@@ -308,6 +308,9 @@ private:
 	QColor inactive;
 	QColor highlight;
 
+	// statistic testing
+	int statisticArray[15];
+
 friend class GuiWrapper;
 };
 

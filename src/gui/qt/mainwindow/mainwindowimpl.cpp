@@ -58,19 +58,25 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 {	
 	int i;
 
+	//for statistic development
+	for(i=0; i<15; i++) {
+		statisticArray[i] = 0;
+	}
+	////////////////////////////
+
 	myConfig = new ConfigFile;
 
 // Resourcen abladen 
 	QFile preflopValuesFile(":data/resources/data/preflopValues");
-	QFile preflopValuesFileDest(QString::fromStdString(myConfig->readConfigString("DataDir")+"preflopValues"));
+	QFile preflopValuesFileDest(QString::fromUtf8(myConfig->readConfigString("DataDir").c_str())+QString("preflopValues"));
 // 	if(!preflopValuesFileDest.exists()) {
-	preflopValuesFile.copy(QString::fromStdString(myConfig->readConfigString("DataDir")+"preflopValues"));
+	preflopValuesFile.copy(QString::fromUtf8(myConfig->readConfigString("DataDir").c_str())+QString("preflopValues"));
 // 	}
 
 	QFile flopValuesFile(":data/resources/data/flopValues");
-	QFile flopValuesFileDest(QString::fromStdString(myConfig->readConfigString("DataDir")+"flopValues"));
+	QFile flopValuesFileDest(QString::fromUtf8(myConfig->readConfigString("DataDir").c_str())+QString("flopValues"));
 // 	if(!flopValuesFileDest.exists()) {
-	flopValuesFile.copy(QString::fromStdString(myConfig->readConfigString("DataDir")+"flopValues"));
+	flopValuesFile.copy(QString::fromUtf8(myConfig->readConfigString("DataDir").c_str())+QString("flopValues"));
 // 	}
 
 // 	Schriftart laden und für Dialoge setzen
@@ -196,7 +202,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	flipside = new QPixmap(":/cards/resources/graphics/cards/flipside.png");
 	
 	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
-		QPixmap tmpFlipside(QString::fromStdString(myConfig->readConfigString("FlipsideOwnFile")));
+		QPixmap tmpFlipside(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
 		flipside = new QPixmap(tmpFlipside.scaled(QSize(57, 80)));
 	}
 	else { flipside->load(":/cards/resources/graphics/cards/flipside.png"); }
@@ -727,7 +733,7 @@ void mainWindowImpl::callSettingsDialog() {
 		//Flipside refresh
 		if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
 
-			QPixmap tmpFlipside(QString::fromStdString(myConfig->readConfigString("FlipsideOwnFile")));
+			QPixmap tmpFlipside(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
 			flipside = new QPixmap(tmpFlipside.scaled(QSize(57, 80)));
 		}
 		else { flipside->load(":/cards/resources/graphics/cards/flipside.png"); }
@@ -805,7 +811,7 @@ void mainWindowImpl::refreshPlayerName() {
 	int i;
 	for (i=0; i<maxQuantityPlayers; i++) {
 		if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
-			playerNameLabelArray[i]->setText(QString::fromStdString(actualHand->getPlayerArray()[i]->getMyName()));
+			playerNameLabelArray[i]->setText(QString::fromUtf8(actualHand->getPlayerArray()[i]->getMyName().c_str()));
 			
 		} else {
 			playerNameLabelArray[i]->setText(""); 
@@ -828,7 +834,7 @@ void mainWindowImpl::refreshPlayerAvatar() {
 					playerAvatarLabelArray[0]->setPixmap(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png"));
 				}
 				else {
-					playerAvatarLabelArray[0]->setPixmap(QString::fromStdString(actualHand->getPlayerArray()[0]->getMyAvatar()));
+					playerAvatarLabelArray[0]->setPixmap(QString::fromUtf8(actualHand->getPlayerArray()[0]->getMyAvatar().c_str()));
 				}
 			}
 			else {				
@@ -836,7 +842,7 @@ void mainWindowImpl::refreshPlayerAvatar() {
 					playerAvatarLabelArray[i]->setPixmap(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png"));
 				}
 				else {
-					playerAvatarLabelArray[i]->setPixmap(QString::fromStdString(actualHand->getPlayerArray()[i]->getMyAvatar()));
+					playerAvatarLabelArray[i]->setPixmap(QString::fromUtf8(actualHand->getPlayerArray()[i]->getMyAvatar().c_str()));
 				}
 			}
 		}	
@@ -1005,7 +1011,7 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 
 void mainWindowImpl::highlightRoundLabel(string tempround) { 
 
-	QString round (QString::fromStdString(tempround));
+	QString round (QString::fromUtf8(tempround.c_str()));
 
 	// für PostRiverRun (alte Runden stehen lassen)
 	if(round != "") {
@@ -1840,16 +1846,31 @@ void mainWindowImpl::postRiverRunAnimation5() {
 void mainWindowImpl::postRiverRunAnimation6() {
 
 	int i;
+
 	refreshCash();
 	refreshPot();
 
 	// wenn nur noch ein Spieler aktive "neues Spiel"-Dialog anzeigen
 	int playersPositiveCashCounter = 0;
 	for (i=0; i<actualGame->getStartQuantityPlayers(); i++) { 
+// 		cout << "player 0 cash: " << actualHand->getPlayerArray()[0]->getMyCash()
 
-		if (actualHand->getPlayerArray()[i]->getMyCash() > 0) playersPositiveCashCounter++;
+		if (actualHand->getPlayerArray()[i]->getMyCash() > 0) 
+		playersPositiveCashCounter++;
 	}
 	if (playersPositiveCashCounter==1) {
+
+// 		for (i=0; i<actualGame->getStartQuantityPlayers(); i++) { 
+// // 		cout << "player 0 cash: " << actualHand->getPlayerArray()[0]->getMyCash()
+// 			if (actualHand->getPlayerArray()[i]->getMyCash() > 0) {
+// 				(statisticArray[actualHand->getPlayerArray()[i]->getMyDude4()+7])++;
+// 			}
+// 		}
+
+// 		for(i=0; i<15; i++) {
+// 			cout << i-7 << ": " << statisticArray[i] << " | ";
+// 		}
+// 		cout << endl;
 		
 		callNewGameDialog();	
 		//Bei Cancel nichts machen!!!

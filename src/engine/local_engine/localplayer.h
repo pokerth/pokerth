@@ -48,6 +48,9 @@ public:
 	void setMyDude(const int& theValue) { myDude = theValue; }
 	int getMyDude() const { return myDude; }
 
+	void setMyDude4(const int& theValue) { myDude4 = theValue; }
+	int getMyDude4() const { return myDude4; }
+
 	void setMyName(const std::string& theValue) { myName = theValue; }
 	std::string getMyName() const { return myName; }
 

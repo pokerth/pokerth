@@ -42,7 +42,7 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
 	myServerProfilesFile = myConfig.readConfigString("DataDir")+"serverprofiles.xml";
 
 	//Anlegen wenn noch nicht existiert!
-	QFile serverProfilesfile(QString::fromStdString(myServerProfilesFile));
+	QFile serverProfilesfile(QString::fromUtf8(myServerProfilesFile.c_str()));
 
 	if(!serverProfilesfile.exists()) {
 		
@@ -89,7 +89,7 @@ void joinNetworkGameDialogImpl::fillServerProfileList() {
 	TiXmlDocument doc(myServerProfilesFile); 
 	if(!doc.LoadFile()) {	
 		QMessageBox::warning(this, tr("Load Server-Profile-File Error"),
-			tr("Could not load server-profiles-file:\n"+QString::fromStdString(myServerProfilesFile).toAscii()),
+			tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
 			QMessageBox::Close);		
 	}
 	TiXmlHandle docHandle( &doc );		
@@ -108,7 +108,7 @@ void joinNetworkGameDialogImpl::fillServerProfileList() {
 			int tempInt = 0;
 			profile->QueryIntAttribute("IsIpv6", &tempInt );
 			if( tempInt == 1 ) { isIpv6 = "yes"; }
-			item->setData(3, 0, QString::fromStdString(isIpv6));
+			item->setData(3, 0, QString::fromUtf8(isIpv6.c_str()));
 
 			treeWidget->addTopLevelItem(item);
 		}
@@ -128,7 +128,7 @@ void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int column)
 	TiXmlDocument doc(myServerProfilesFile); 
 	if(!doc.LoadFile()) {	
 		QMessageBox::warning(this, tr("Load Server-Profile-File Error"),
-			tr("Could not load server-profiles-file:\n"+QString::fromStdString(myServerProfilesFile).toAscii()),
+			tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
 			QMessageBox::Close);		
 	}
 	TiXmlHandle docHandle( &doc );		
@@ -136,11 +136,11 @@ void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int column)
 	TiXmlElement* profile = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).FirstChild( item->data(0,0).toString().toStdString() ).ToElement();
 	if ( profile ) {
 
-        	lineEdit_profileName->setText(QString::fromStdString(profile->Attribute("Name")));
-		lineEdit_ipAddress->setText(QString::fromStdString(profile->Attribute("Address")));
-		lineEdit_password->setText(QString::fromStdString(profile->Attribute("Password")));
-		spinBox_port->setValue(QString::fromStdString(profile->Attribute("Port")).toInt(&toIntTrue, 10));
-		checkBox_ipv6->setChecked(QString::fromStdString(profile->Attribute("IsIpv6")).toInt(&toIntTrue, 10));
+        	lineEdit_profileName->setText(QString::fromUtf8(profile->Attribute("Name")));
+		lineEdit_ipAddress->setText(QString::fromUtf8(profile->Attribute("Address")));
+		lineEdit_password->setText(QString::fromUtf8(profile->Attribute("Password")));
+		spinBox_port->setValue(QString::fromUtf8(profile->Attribute("Port")).toInt(&toIntTrue, 10));
+		checkBox_ipv6->setChecked(QString::fromUtf8(profile->Attribute("IsIpv6")).toInt(&toIntTrue, 10));
 
 	}
 
@@ -154,7 +154,7 @@ void joinNetworkGameDialogImpl::saveServerProfile() {
 	TiXmlDocument doc(myServerProfilesFile); 
 	if(!doc.LoadFile()) {	
 		QMessageBox::warning(this, tr("Load Server-Profile-File Error"),
-			tr("Could not load server-profiles-file:\n"+QString::fromStdString(myServerProfilesFile).toAscii()),
+			tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
 			QMessageBox::Close);		
 	}
 	TiXmlHandle docHandle( &doc );		
@@ -210,7 +210,7 @@ void joinNetworkGameDialogImpl::saveServerProfile() {
 			QMessageBox::Close);	 }
 
 	if(!doc.SaveFile()) {	QMessageBox::warning(this, tr("Save Server-Profile-File Error"),
-			tr("Could not save server-profiles-file:\n"+QString::fromStdString(myServerProfilesFile).toAscii()),
+			tr("Could not save server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
 			QMessageBox::Close);	 }
 
 	fillServerProfileList();
@@ -221,7 +221,7 @@ void joinNetworkGameDialogImpl::deleteServerProfile() {
 	TiXmlDocument doc(myServerProfilesFile); 
 	if(!doc.LoadFile()) {	
 		QMessageBox::warning(this, tr("Load Server-Profile-File Error"),
-			tr("Could not load server-profiles-file:\n"+QString::fromStdString(myServerProfilesFile).toAscii()),
+			tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
 			QMessageBox::Close);		
 	}
 	else {
@@ -232,7 +232,7 @@ void joinNetworkGameDialogImpl::deleteServerProfile() {
 		if ( profile ) { profile->Parent()->RemoveChild(profile); } 
 		
 		if(!doc.SaveFile()) {	QMessageBox::warning(this, tr("Save Server-Profile-File Error"),
-			tr("Could not save server-profiles-file:\n"+QString::fromStdString(myServerProfilesFile).toAscii()),
+			tr("Could not save server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
 			QMessageBox::Close);	 }
 
 		//Liste Füllen

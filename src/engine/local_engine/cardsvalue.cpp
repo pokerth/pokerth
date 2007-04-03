@@ -311,7 +311,7 @@ int array[7][3];
 					for(j2=0; j2<4; j2++) {
 						position[j2] = array[j1+j2][2];
 					}
-					position[4] = array[j1][2];
+					position[4] = array[0][2];
 				}
 				return 700000000+array[j1][1]*1000000+array[0][1]*10000;
 			}
@@ -328,7 +328,7 @@ int array[7][3];
 				for(j4=j3+1; j4<7; j4++) {
 					for(j5=j4+1; j5<7; j5++) {
 						// Straight
-						if((array[j1][1]-1 == array[j2][1] || array[j1][1]-9 == array[j2][1] ) && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1] && array[j4][1]-1 == array[j5][1]) {
+						if(array[j1][1]-1 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1] && array[j4][1]-1 == array[j5][1]) {
 							if(position) {
 								// Position-Array fuellen
 								position[0] = array[j1][2];
@@ -337,9 +337,7 @@ int array[7][3];
 								position[3] = array[j4][2];
 								position[4] = array[j5][2];
 							}
-							// h�ste Karte der Straight ermitteln
-							if(array[j1][1]-9 == array[j2][1]) return 400000000+array[j2][1]*1000000;
-							else return 400000000+array[j1][1]*1000000;
+							return 400000000+array[j1][1]*1000000;
 						}
 						// Full House
 						if((array[j1][1] == array[j2][1] && array[j1][1] == array[j3][1] && array[j4][1] == array[j5][1]) || (array[j3][1] == array[j4][1] && array[j3][1] == array[j5][1] && array[j1][1] == array[j2][1])) {
@@ -355,6 +353,29 @@ int array[7][3];
 							if(array[j3][1]==array[j1][1]) { drei = array[j1][1]; zwei = array[j4][1]; }
 							else { drei = array[j4][1]; zwei = array[j1][1]; }
 							return 600000000+drei*1000000+zwei*10000;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// auf Straight-Spezialfall ( 5 4 3 2 A ) testen
+	for(j1=0; j1<7; j1++) {
+		for(j2=j1+1; j2<7; j2++) {
+			for(j3=j2+1; j3<7; j3++) {
+				for(j4=j3+1; j4<7; j4++) {
+					for(j5=j4+1; j5<7; j5++) {
+						if(array[j1][1]-9 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1] && array[j4][1]-1 == array[j5][1]) {
+							if(position) {
+								// Position-Array fuellen
+								position[0] = array[j1][2];
+								position[1] = array[j2][2];
+								position[2] = array[j3][2];
+								position[3] = array[j4][2];
+								position[4] = array[j5][2];
+							}
+							return 400000000+array[j2][1]*1000000;
 						}
 					}
 				}
