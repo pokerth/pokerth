@@ -1128,7 +1128,7 @@ void LocalPlayer::riverEngine() {
 				// raise-Betrag ermitteln
 				raise = (((int)myOdds-myNiveau[2])/2)*2*actualHand->getSmallBlind();
 				// raise-Betrag zu klein -> mindestens Standard-raise
-				if(raise == 0) {
+				if(raise < actualHand->getRiver()->getHighestSet()) {
 					raise = actualHand->getRiver()->getHighestSet();
 				}
 				// all in bei nur wenigen Chips
