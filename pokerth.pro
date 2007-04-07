@@ -190,7 +190,7 @@ win32 {
 	SOURCES += src/core/linux/rand.cpp \
 		src/net/linux/socket_helper.cpp \
            	src/net/linux/socket_startup.cpp 
-	LIBS += -lboost_thread -l ssl
+	LIBS += -lboost_thread -lcrypto
 }
 
 CONFIG += qt release
