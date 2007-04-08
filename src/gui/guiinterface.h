@@ -98,6 +98,9 @@ public:
 	virtual void logPlayerActionMsg(std::string playName, int action, int setValue) =0;
 	virtual void logNewGameHandMsg(int gameID, int HandID) =0;
 
+	//qthelper.cpp
+	virtual	std::string stringToUtf8(const std::string &) =0;
+
 };
 
 #endif

@@ -22,6 +22,7 @@ DEPENDPATH += . \
               src/gui/qt/createnetworkgamedialog \
               src/gui/qt/joinnetworkgamedialog \
               src/gui/qt/log \
+	      src/gui/qt/qthelper \
               src/gui/qt/newlocalgamedialog \
               src/gui/qt/settingsdialog \
               src/gui/qt/startnetworkgamedialog \
@@ -36,6 +37,7 @@ INCLUDEPATH += . \
                src/core/tinyxml \
                src/gui/qt \
                src/gui/qt/log \
+	       src/gui/qt/qthelper \
                src/gui/qt/connecttoserverdialog \
                src/core \
 	       src/gui/qt/mainwindow \
@@ -99,7 +101,8 @@ HEADERS += src/game.h \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.h \
            src/gui/qt/settingsdialog/settingsdialogimpl.h \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.h \
-           src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.h
+           src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.h \
+           src/gui/qt/qthelper/qthelper.h
 FORMS += src/gui/qt/mainwindow.ui \
 	 src/gui/qt/aboutpokerth.ui \
          src/gui/qt/connecttoserverdialog.ui \
@@ -170,27 +173,28 @@ SOURCES += src/game.cpp \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.cpp \
            src/gui/qt/settingsdialog/settingsdialogimpl.cpp \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp \
-           src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.cpp 
+           src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.cpp  \
+           src/gui/qt/qthelper/qthelper.cpp
 RESOURCES += src/gui/qt/resources.qrc
 
 TEMPLATE = vcapp
 TEMPLATE = app
-win32 {
-	DEPENDPATH += src/net/win32/ src/core/win32
-	SOURCES += src/core/win32/rand.cpp \ 
+win32{
+    DEPENDPATH += src/net/win32/ src/core/win32
+    SOURCES += src/core/win32/rand.cpp \
 		src/net/win32/socket_helper.cpp \
 		src/net/win32/socket_startup.cpp 
-	INCLUDEPATH += ../boost/
-	LIBPATH += ../boost/stage/lib
-	LIBS += gdi32.lib comdlg32.lib oleaut32.lib imm32.lib winmm.lib winspool.lib ole32.lib uuid.lib user32.lib msimg32.lib shell32.lib kernel32.lib ws2_32.lib advapi32.lib
-	RC_FILE = pokerth.rc
+    INCLUDEPATH += ../boost/
+    LIBPATH += ../boost/stage/lib
+    LIBS += gdi32.lib comdlg32.lib oleaut32.lib imm32.lib winmm.lib winspool.lib ole32.lib uuid.lib user32.lib msimg32.lib shell32.lib kernel32.lib ws2_32.lib advapi32.lib
+    RC_FILE = pokerth.rc
 }
-!win32 {
-	DEPENDPATH += src/net/linux/ src/core/linux
-	SOURCES += src/core/linux/rand.cpp \
+!win32{
+    DEPENDPATH += src/net/linux/ src/core/linux
+    SOURCES += src/core/linux/rand.cpp \
 		src/net/linux/socket_helper.cpp \
            	src/net/linux/socket_startup.cpp 
-	LIBS += -lboost_thread -lcrypto
+    LIBS += -lboost_thread -lcrypto
 }
 
 CONFIG += qt release
