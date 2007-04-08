@@ -21,6 +21,8 @@
 #ifndef _SERVERCALLBACK_H_
 #define _SERVERCALLBACK_H_
 
+#include <string>
+
 class ServerCallback
 {
 public:
@@ -28,6 +30,8 @@ public:
 
 	virtual void SignalNetServerSuccess(int actionID) = 0;
 	virtual void SignalNetServerError(int errorID, int osErrorID) = 0;
+
+	virtual void SignalNetServerPlayerJoined(const std::string &playerName) = 0;
 };
 
 #endif

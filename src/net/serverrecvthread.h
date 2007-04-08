@@ -28,6 +28,7 @@
 
 #include <net/connectdata.h>
 #include <net/sessiondata.h>
+#include <net/servercallback.h>
 
 #define RECEIVER_THREAD_TERMINATE_TIMEOUT	200
 
@@ -43,12 +44,14 @@ class NetPacket;
 class ServerRecvThread : public Thread
 {
 public:
-	ServerRecvThread();
+	ServerRecvThread(ServerCallback &gui);
 	virtual ~ServerRecvThread();
 
 	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
 	void AddConnection(boost::shared_ptr<ConnectData> data);
 	void AddNotification(unsigned notification);
+
+	ServerCallback &GetCallback();
 
 protected:
 
@@ -93,6 +96,8 @@ private:
 	std::auto_ptr<SenderThread> m_sender;
 
 	std::auto_ptr<ServerSenderCallback> m_senderCallback;
+
+	ServerCallback &m_callback;
 
 friend class ServerRecvStateInit;
 };

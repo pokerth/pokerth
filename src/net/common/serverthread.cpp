@@ -33,7 +33,7 @@ ServerThread::ServerThread(ServerCallback &cb)
 : m_callback(cb)
 {
 	m_context.reset(new ServerContext);
-	m_recvThread.reset(new ServerRecvThread);
+	m_recvThread.reset(new ServerRecvThread(cb));
 }
 
 ServerThread::~ServerThread()

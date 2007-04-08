@@ -544,6 +544,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	// Errors are handled globally, not within one dialog.
 	connect(this, SIGNAL(SignalNetClientError(int, int)), this, SLOT(networkError(int, int)));
 
+	connect(this, SIGNAL(SignalNetServerPlayerJoined(QString)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString)));
+
+
 // 	textBrowser_Log->append(QString::number(this->pos().x(),10)+" "+QString::number(this->pos().y(),10));	
 // 	textBrowser_Log->append(QString::number(this->x(),10)+" "+QString::number(this->y(),10));
 

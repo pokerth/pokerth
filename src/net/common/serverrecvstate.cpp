@@ -77,7 +77,9 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 				if (tmpPacket)
 				{
 					// TODO: check password
-					// TODO: display name
+					NetPacketJoinGame::Data playerData;
+					tmpPacket->GetData(playerData);
+					server.GetCallback().SignalNetServerPlayerJoined(playerData.playerName);
 					boost::shared_ptr<NetPacket> answer(new NetPacketJoinGameAck);
 					server.GetSender().Send(answer, recvSock);
 					session->SetState(SessionData::Established);

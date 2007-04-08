@@ -41,7 +41,8 @@ private:
 };
 
 
-ServerRecvThread::ServerRecvThread()
+ServerRecvThread::ServerRecvThread(ServerCallback &cb)
+: m_callback(cb)
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
@@ -83,6 +84,12 @@ ServerRecvThread::AddNotification(unsigned notification)
 {
 	boost::mutex::scoped_lock lock(m_notificationQueueMutex);
 	m_notificationQueue.push_back(notification);
+}
+
+ServerCallback &
+ServerRecvThread::GetCallback()
+{
+	return m_callback;
 }
 
 void

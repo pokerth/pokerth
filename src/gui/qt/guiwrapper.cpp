@@ -99,4 +99,5 @@ void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myW->SignalN
 
 void GuiWrapper::SignalNetServerSuccess(int actionID) { }
 void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { }
+void GuiWrapper::SignalNetServerPlayerJoined(const string &playerName) { myW->SignalNetServerPlayerJoined(QString::fromUtf8(playerName.c_str())); }
 
