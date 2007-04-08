@@ -72,10 +72,13 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 		{
 			if (session->GetState() == SessionData::Init)
 			{
-				// Only accept init packets.
-				if (packet->ToNetPacketInit())
+				// Only accept join game packets.
+				const NetPacketJoinGame *tmpPacket = packet->ToNetPacketJoinGame();
+				if (tmpPacket)
 				{
-					boost::shared_ptr<NetPacket> answer(new NetPacketInitAck);
+					// TODO: check password
+					// TODO: display name
+					boost::shared_ptr<NetPacket> answer(new NetPacketJoinGameAck);
 					server.GetSender().Send(answer, recvSock);
 					session->SetState(SessionData::Established);
 				}

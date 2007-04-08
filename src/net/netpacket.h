@@ -25,128 +25,166 @@
 #include <boost/shared_ptr.hpp>
 #include <net/socket_helper.h>
 
-#define MAX_PACKET_SIZE		256
+#define MIN_PACKET_SIZE				4
+#define MAX_PACKET_SIZE				256
+#define MAX_NAME_SIZE				64
+#define MAX_PASSWORD_SIZE			64
 
-#define NET_TYPE_INIT			0
-#define NET_TYPE_INIT_ACK		1
-#define NET_TYPE_GAME_START		2
-
-#ifdef _MSC_VER
-	#pragma pack(push, 2)
-#else
-	#pragma align 2
-#endif
-
-struct NetPacketHeader
+// TODO: move this somewhere else
+enum PlayerType
 {
-	u_int16_t	type;
-	u_int16_t	length;
+	PLAYER_TYPE_COMPUTER,
+	PLAYER_TYPE_HUMAN
 };
 
-struct NetPacketInitData
+enum JoinGameErrorReason
 {
-	NetPacketHeader head;
-	u_int32_t	test;
+	JOIN_UNSUPPORTED_VERSION,
+	JOIN_SERVER_FULL,
+	JOIN_GAME_RUNNING,
+	JOIN_INVALID_PASSWORD,
+	JOIN_UNKNOWN
 };
 
-struct NetPacketInitAckData
-{
-	NetPacketHeader head;
-	u_int32_t	test;
-};
+struct NetPacketHeader;
 
-struct NetPacketGameStartData
-{
-	NetPacketHeader head;
-	u_int32_t	test;
-};
-
-#ifdef _MSC_VER
-	#pragma pack(pop)
-#else
-	#pragma align 0
-#endif
-
-class NetPacketInit;
-class NetPacketInitAck;
+class NetPacketJoinGame;
+class NetPacketJoinGameAck;
+class NetPacketJoinGameError;
 class NetPacketGameStart;
 
 class NetPacket
 {
 public:
+	static boost::shared_ptr<NetPacket> Create(char *data, unsigned &dataSize);
+
+	NetPacket(u_int16_t type, u_int16_t initialLen);
 	virtual ~NetPacket();
 
 	virtual boost::shared_ptr<NetPacket> Clone() const = 0;
 
-	virtual void SetData(const NetPacketHeader *p) = 0;
-	virtual const NetPacketHeader *GetData() const = 0;
+	const NetPacketHeader *GetRawData() const;
+	NetPacketHeader *GetRawData();
+	void SetRawData(const NetPacketHeader *p);
 
-	virtual const NetPacketInit *ToNetPacketInit() const;
-	virtual const NetPacketInitAck *ToNetPacketInitAck() const;
+	u_int16_t GetType() const;
+	u_int16_t GetLen() const;
+
+	virtual const NetPacketJoinGame *ToNetPacketJoinGame() const;
+	virtual const NetPacketJoinGameAck *ToNetPacketJoinGameAck() const;
+	virtual const NetPacketJoinGameError *ToNetPacketJoinGameError() const;
 	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const = 0;
+
+	void Resize(u_int16_t newLen);
+
+private:
+
+	NetPacketHeader *m_data;
 };
 
-class NetPacketInit : public NetPacket
+class NetPacketJoinGame : public NetPacket
 {
 public:
-	NetPacketInit();
-	NetPacketInit(u_int32_t value);
-	virtual ~NetPacketInit();
+	struct Data
+	{
+		PlayerType ptype;
+		std::string playerName;
+		std::string password;
+	};
+
+	NetPacketJoinGame();
+	virtual ~NetPacketJoinGame();
 
 	virtual boost::shared_ptr<NetPacket> Clone() const;
 
-	virtual const NetPacketHeader *GetData() const;
-	virtual void SetData(const NetPacketHeader *p);
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
 
-	virtual const NetPacketInit *ToNetPacketInit() const;
+	virtual const NetPacketJoinGame *ToNetPacketJoinGame() const;
 
 protected:
-	void Init();
 
-private:
-	NetPacketInitData m_data;
+	virtual void Check(const NetPacketHeader* data) const;
 };
 
-class NetPacketInitAck : public NetPacket
+class NetPacketJoinGameAck : public NetPacket
 {
 public:
-	NetPacketInitAck();
-	NetPacketInitAck(u_int32_t value);
-	virtual ~NetPacketInitAck();
+	struct Data
+	{
+		u_int32_t	sessionId;
+		u_int16_t	playerId;
+		u_int16_t	playerNumber;
+		u_int16_t	numberOfPlayers;
+		u_int16_t	smallBlind;
+		u_int16_t	handsBeforeRaise;
+		u_int16_t	gameSpeed;
+		u_int32_t	startCash;
+	};
+
+	NetPacketJoinGameAck();
+	virtual ~NetPacketJoinGameAck();
 
 	virtual boost::shared_ptr<NetPacket> Clone() const;
 
-	virtual const NetPacketHeader *GetData() const;
-	virtual void SetData(const NetPacketHeader *p);
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
 
-	virtual const NetPacketInitAck *ToNetPacketInitAck() const;
+	virtual const NetPacketJoinGameAck *ToNetPacketJoinGameAck() const;
 
 protected:
-	void Init();
 
-private:
-	NetPacketInitAckData m_data;
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketJoinGameError : public NetPacket
+{
+public:
+	struct Data
+	{
+		JoinGameErrorReason	reason;
+	};
+
+	NetPacketJoinGameError();
+	virtual ~NetPacketJoinGameError();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketJoinGameError *ToNetPacketJoinGameError() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
 };
 
 class NetPacketGameStart : public NetPacket
 {
 public:
+	struct Data
+	{
+		u_int16_t	yourCards[2];
+	};
+
 	NetPacketGameStart();
-	NetPacketGameStart(u_int32_t value);
 	virtual ~NetPacketGameStart();
 
 	virtual boost::shared_ptr<NetPacket> Clone() const;
 
-	virtual const NetPacketHeader *GetData() const;
-	virtual void SetData(const NetPacketHeader *p);
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
 
 	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
 
 protected:
-	void Init();
 
-private:
-	NetPacketGameStartData m_data;
+	virtual void Check(const NetPacketHeader* data) const;
 };
 
 #endif

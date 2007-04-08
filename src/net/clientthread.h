@@ -41,7 +41,12 @@ public:
 	// Set the parameters. Does not do any error checking.
 	// Error checking will be done during connect
 	// (i.e. after starting the thread).
-	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
+	void Init(
+		const std::string &serverAddress,
+		unsigned serverPort,
+		bool ipv6,
+		const std::string &pwd,
+		const std::string &playerName);
 
 	ClientCallback &GetCallback();
 

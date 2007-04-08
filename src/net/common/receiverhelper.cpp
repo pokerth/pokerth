@@ -98,50 +98,18 @@ ReceiverHelper::InternalGetPacket()
 	// This is necessary, because we use TCP.
 	// Packets may be received in multiple chunks or
 	// several packets may be received at once.
-	if (m_tmpInBufSize >= sizeof(NetPacketHeader))
+	if (m_tmpInBufSize >= MIN_PACKET_SIZE)
 	{
-		NetPacketHeader *tmpHeader = (NetPacketHeader *)m_tmpInBuf;
-		u_int16_t tmpLen = ntohs(tmpHeader->length);
-
-		if (tmpLen < sizeof(NetPacketHeader)
-			|| tmpLen > MAX_PACKET_SIZE)
+		try
 		{
-			// Invalid packet - reset input buffer.
+			// This call will also handle the memmove stuff, i.e.
+			// buffering for partial packets.
+			tmpPacket = NetPacket::Create(m_tmpInBuf, m_tmpInBufSize);
+		} catch (const NetException &)
+		{
+			// Reset buffer on error.
 			m_tmpInBufSize = 0;
 		}
-		else if (m_tmpInBufSize >= tmpLen)
-		{
-			tmpPacket = InternalCreateNetPacket(tmpHeader);
-			m_tmpInBufSize -= tmpLen;
-		}
-	}
-	return tmpPacket;
-}
-
-boost::shared_ptr<NetPacket>
-ReceiverHelper::InternalCreateNetPacket(const NetPacketHeader *p)
-{
-	boost::shared_ptr<NetPacket> tmpPacket;
-
-	try
-	{
-		switch(ntohs(p->type))
-		{
-			case NET_TYPE_INIT:
-				tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketInit);
-				break;
-			case NET_TYPE_INIT_ACK:
-				tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketInitAck);
-				break;
-			case NET_TYPE_GAME_START:
-				tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameStart);
-				break;
-		}
-		if (tmpPacket.get())
-			tmpPacket->SetData(p);
-	} catch (const NetException &)
-	{
-		tmpPacket.reset();
 	}
 	return tmpPacket;
 }

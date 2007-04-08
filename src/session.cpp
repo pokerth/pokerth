@@ -64,7 +64,12 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 	if (myNetClient || !myGui)
 		return; // TODO: throw exception
 	myNetClient = new ClientThread(*myGui);
-	myNetClient->Init(serverAddress, serverPort, ipv6, pwd);
+	myNetClient->Init(
+		serverAddress,
+		serverPort,
+		ipv6,
+		pwd,
+		myConfig->readConfigString("MyName"));
 	myNetClient->Run();
 }
 
@@ -77,7 +82,8 @@ void Session::startNetworkClientForLocalServer()
 		"localhost",
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
-		myConfig->readConfigString("ServerPassword"));
+		myConfig->readConfigString("ServerPassword"),
+		myConfig->readConfigString("MyName"));
 	myNetClient->Run();
 }
 

@@ -64,7 +64,8 @@ ClientThread::~ClientThread()
 }
 
 void
-ClientThread::Init(const string &serverAddress, unsigned serverPort, bool ipv6, const string &pwd)
+ClientThread::Init(
+	const string &serverAddress, unsigned serverPort, bool ipv6, const string &pwd, const string &playerName)
 {
 	if (IsRunning())
 		return; // TODO: throw exception
@@ -75,6 +76,7 @@ ClientThread::Init(const string &serverAddress, unsigned serverPort, bool ipv6, 
 	context.SetServerAddr(serverAddress);
 	context.SetServerPort(serverPort);
 	context.SetPassword(pwd);
+	context.SetPlayerName(playerName);
 }
 
 ClientCallback &

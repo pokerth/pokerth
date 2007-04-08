@@ -71,11 +71,11 @@ SenderThread::Main()
 				if (IS_VALID_SOCKET(tmpData.second))
 					m_curSocket = tmpData.second;
 
-				u_int16_t tmpLen = ntohs(tmpData.first->GetData()->length);
+				u_int16_t tmpLen = tmpData.first->GetLen();
 				if (tmpLen <= MAX_PACKET_SIZE)
 				{
 					m_tmpOutBufSize = tmpLen;
-					memcpy(m_tmpOutBuf, tmpData.first->GetData(), m_tmpOutBufSize);
+					memcpy(m_tmpOutBuf, tmpData.first->GetRawData(), tmpLen);
 				}
 			}
 		}
@@ -109,7 +109,7 @@ SenderThread::Main()
 				}
 				else if ((unsigned)bytesSent < m_tmpOutBufSize)
 				{
-					m_tmpOutBufSize = m_tmpOutBufSize - (unsigned)bytesSent;
+					m_tmpOutBufSize -= (unsigned)bytesSent;
 					memmove(m_tmpOutBuf, m_tmpOutBuf + bytesSent, m_tmpOutBufSize);
 				}
 				else

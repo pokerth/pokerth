@@ -45,7 +45,6 @@ public:
 
 protected:
 	boost::shared_ptr<NetPacket> InternalGetPacket();
-	boost::shared_ptr<NetPacket> InternalCreateNetPacket(const NetPacketHeader *p);
 
 private:
 

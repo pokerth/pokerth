@@ -55,6 +55,10 @@ public:
 	{return &m_clientSockaddr;}
 	sockaddr_storage *GetClientSockaddr()
 	{return &m_clientSockaddr;}
+	const std::string &GetPlayerName() const
+	{return m_playerName;}
+	void SetPlayerName(const std::string &playerName)
+	{m_playerName = playerName;}
 
 	int GetClientSockaddrSize() const
 	{return m_addrFamily == AF_INET6 ? sizeof(sockaddr_in6) : sizeof(sockaddr_in);}
@@ -66,6 +70,7 @@ private:
 	unsigned			m_serverPort;
 	std::string			m_password;
 	sockaddr_storage	m_clientSockaddr;
+	std::string			m_playerName; // TODO: use player interface.
 };
 
 #endif

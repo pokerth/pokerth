@@ -36,6 +36,9 @@
 #define ERR_SOCK_SEND_FAILED			14
 #define ERR_SOCK_CONN_RESET				15
 #define ERR_SOCK_CONN_EXISTS			16
+#define ERR_SOCK_INVALID_NAME_STR		17
+#define ERR_SOCK_INVALID_PWD_STR		18
+#define ERR_SOCK_INVALID_PACKET			19
 
 // This is an internal message which is not reported.
 #define MSG_SOCK_INTERNAL_PENDING		0

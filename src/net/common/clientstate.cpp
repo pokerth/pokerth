@@ -320,8 +320,17 @@ ClientStateStartSession::~ClientStateStartSession()
 int
 ClientStateStartSession::Process(ClientThread &client)
 {
-	boost::shared_ptr<NetPacket> packet(new NetPacketInit(10));
-	client.GetSender().Send(packet, client.GetContext().GetSocket());
+	ClientContext &context = client.GetContext();
+
+	NetPacketJoinGame::Data initData;
+	initData.password = context.GetPassword();
+	initData.playerName = context.GetPlayerName();
+	initData.ptype = PLAYER_TYPE_HUMAN; // TODO
+
+	boost::shared_ptr<NetPacket> packet(new NetPacketJoinGame);
+	((NetPacketJoinGame *)packet.get())->SetData(initData);
+	
+	client.GetSender().Send(packet, context.GetSocket());
 
 	client.SetState(ClientStateWaitSession::Instance());
 
@@ -355,7 +364,7 @@ ClientStateWaitSession::Process(ClientThread &client)
 
 	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
 
-	if (tmpPacket.get() && tmpPacket->ToNetPacketInitAck())
+	if (tmpPacket.get() && tmpPacket->ToNetPacketJoinGameAck())
 	{
 		client.SetState(ClientStateWaitGame::Instance());
 		retVal = MSG_SOCK_SESSION_DONE;

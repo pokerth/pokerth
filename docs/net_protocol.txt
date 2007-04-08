@@ -45,6 +45,9 @@ Additional values for major version = 1:
 [Future versions will include the name of the game, to support
 multiple games per server.]
 
+Player Flags:
+	0x01 set: Player is human
+
 
 Server Reply: Join Game ACK
 
@@ -83,7 +86,7 @@ Server Reply: Join Game Error
 Reason:
 	0x01 - Version not supported
 	0x02 - Server full
-	0x03 - Game has already started
+	0x03 - Game is already running
 	0x04 - Invalid Password
 	0xFF - Other cause
 
@@ -95,7 +98,7 @@ Server Notification: Player Joined
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|        Message Type = 4       |        Message Length         |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|         Player ID             |          Player Number        |
+	|         Player ID             |         Player Number         |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|         Player Flags          |          Name Length          |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -104,10 +107,6 @@ Server Notification: Player Joined
 	|                               +-------------------------------+
 	/                               |            padding            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
-Player Flags:
-	0x01 set: Player is human
-
 
 
 Server Notification: Player Left
