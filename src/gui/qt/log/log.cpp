@@ -56,36 +56,38 @@ Log::Log(mainWindowImpl* w) : myW(w)
 		myLogFile->close();
 
 		linesInFile = 3;
-	} 
 
-	//Zu alte Dateien löschen!!!
-	int daysUntilWaste = myConfig->readConfigInt("LogStoreDuration");
-	int i;
+		//Zu alte Dateien löschen!!!
+		int daysUntilWaste = myConfig->readConfigInt("LogStoreDuration");
+		int i;
+			
+		QStringList filters("pokerth-log*");
+		QStringList logFileList = myLogDir->entryList(filters, QDir::Files);
 		
-	QStringList filters("pokerth-log*");
-	QStringList logFileList = myLogDir->entryList(filters, QDir::Files);
+		for(i=0; i<logFileList.count(); i++) {
 	
-	for(i=0; i<logFileList.count(); i++) {
-
-// 		cout << logFileList.at(i).toStdString() << endl;
-
-		QString dateString = logFileList.at(i);
-		dateString.remove("pokerth-log-");
-		dateString.remove(10,14);
-		
-		QDate dateOfFile(QDate::fromString(dateString, Qt::ISODate));
-		QDate today(QDate::currentDate());
-		
-// 		cout << dateOfFile.daysTo(today) << endl;
-
-		if (dateOfFile.daysTo(today) > daysUntilWaste) {
-
-// 			cout << QString::QString(myLogDir->absolutePath()+"/"+logFileList.at(i)).toStdString() << endl;
-			QFile fileToDelete(myLogDir->absolutePath()+"/"+logFileList.at(i));
-			fileToDelete.remove();
+	// 		cout << logFileList.at(i).toStdString() << endl;
+	
+			QString dateString = logFileList.at(i);
+			dateString.remove("pokerth-log-");
+			dateString.remove(10,14);
+			
+			QDate dateOfFile(QDate::fromString(dateString, Qt::ISODate));
+			QDate today(QDate::currentDate());
+			
+	// 		cout << dateOfFile.daysTo(today) << endl;
+	
+			if (dateOfFile.daysTo(today) > daysUntilWaste) {
+	
+	// 			cout << QString::QString(myLogDir->absolutePath()+"/"+logFileList.at(i)).toStdString() << endl;
+				QFile fileToDelete(myLogDir->absolutePath()+"/"+logFileList.at(i));
+				fileToDelete.remove();
+			}
+	
 		}
 
-	}
+	} 
+	else {	cout << "Log directory doesn't exists. Cannot create log files"; }
 
 }
 

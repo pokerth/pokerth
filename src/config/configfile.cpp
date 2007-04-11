@@ -39,20 +39,38 @@ ConfigFile::ConfigFile()
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
 	const char *appDataPath = getenv("AppData");
-	if (appDataPath)
-	{	//Programmordner erstellen
-		configFileName = appDataPath;
-		configFileName += "\\pokerth\\";
-		mkdir(configFileName.c_str());
-		//Log-File Ordner auch erstellen
-		logDir = configFileName;
-		logDir += "log-files\\";
-		mkdir(logDir.c_str());
-		//data Ordner auch erstellen
-		dataDir = configFileName;
-		dataDir += "data\\";
-		mkdir(dataDir.c_str());
+	if (appDataPath && appDataPath[0] != 0) {
+		configFileName = appDataPath; 
 	}
+	else { 
+		configFileName = getcwd(); 
+		//Testen ob das Verzeichnis beschreibbar ist		
+		ofstream tmpFile;
+        	const char *tmpFileName = "pokerth_test.tmp";
+        	tmpFile.open(tmpFileName);
+		if (tmpFile) {
+			// Erfolgreich, Verzeichnis beschreibbar.
+			// Datei wieder loeschen.
+			tmpFile.close();
+			remove(tmpFileName);
+		}
+		else {
+			// Fehlgeschlagen, Verzeichnis nicht beschreibbar
+			configFileName = "C:\\Windows\\Temp\\";
+		}
+	}
+	//Programmordner erstellen
+	configFileName += "\\pokerth\\";
+	mkdir(configFileName.c_str());
+	//Log-File Ordner auch erstellen
+	logDir = configFileName;
+	logDir += "log-files\\";
+	mkdir(logDir.c_str());
+	//data Ordner auch erstellen
+	dataDir = configFileName;
+	dataDir += "data\\";
+	mkdir(dataDir.c_str());
+	
 #else
 	//Programmordner erstellen
 	const char *homePath = getenv("HOME");
