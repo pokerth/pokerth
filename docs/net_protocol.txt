@@ -88,6 +88,8 @@ Reason:
 	0x02 - Server full
 	0x03 - Game is already running
 	0x04 - Invalid Password
+	0x05 - Player Name already in use
+	0x06 - Invalid Player Name
 	0xFF - Other cause
 
 

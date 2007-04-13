@@ -26,6 +26,7 @@
 #define MODUS 0711
 
 #ifdef _WIN32
+#include <windows.h>
 #include <direct.h>
 #endif
 
@@ -42,21 +43,29 @@ ConfigFile::ConfigFile()
 	if (appDataPath && appDataPath[0] != 0) {
 		configFileName = appDataPath; 
 	}
-	else { 
-		configFileName = getcwd(); 
-		//Testen ob das Verzeichnis beschreibbar ist		
+	else {
+		const int MaxPathSize = 1024;
+		char curDir[MaxPathSize + 1];
+		curDir[0] = 0;
+		_getcwd(curDir, MaxPathSize);
+		curDir[MaxPathSize] = 0;
+		configFileName = curDir;
+		// Testen ob das Verzeichnis beschreibbar ist
 		ofstream tmpFile;
-        	const char *tmpFileName = "pokerth_test.tmp";
-        	tmpFile.open(tmpFileName);
+		const char *tmpFileName = "pokerth_test.tmp";
+		tmpFile.open((configFileName + "\\" + tmpFileName).c_str());
 		if (tmpFile) {
 			// Erfolgreich, Verzeichnis beschreibbar.
 			// Datei wieder loeschen.
 			tmpFile.close();
-			remove(tmpFileName);
+			remove((configFileName + "\\" + tmpFileName).c_str());
 		}
 		else {
 			// Fehlgeschlagen, Verzeichnis nicht beschreibbar
-			configFileName = "C:\\Windows\\Temp\\";
+			curDir[0] = 0;
+			GetTempPathA(MaxPathSize, curDir);
+			curDir[MaxPathSize] = 0;
+			configFileName = curDir;
 		}
 	}
 	//Programmordner erstellen
