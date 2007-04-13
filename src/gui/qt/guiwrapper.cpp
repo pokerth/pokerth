@@ -90,7 +90,7 @@ void GuiWrapper::meInAction() const { myW->meInAction(); }
 void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) { myLog->logPlayerActionMsg(playerName, action, setValue); }
 void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->logNewGameHandMsg(gameID, handID); }
 
-std::string GuiWrapper::stringToUtf8(const std::string &myString) { myQtHelper->stringToUtf8(myString); }
+std::string GuiWrapper::stringToUtf8(const std::string &myString) { return myQtHelper->stringToUtf8(myString); }
 
 
 void GuiWrapper::SignalNetClientConnect(int actionID) { myW->SignalNetClientConnect(actionID); }
