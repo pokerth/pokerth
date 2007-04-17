@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "localhand.h"
+#include <game_defs.h>
 
 using namespace std;
 
@@ -41,7 +42,7 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 
 
 	// roundStartCashArray fllen
-	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		playerArray[i]->setMyRoundStartCash(playerArray[i]->getMyCash());
 	}
 		
@@ -135,7 +136,7 @@ void LocalHand::assignButtons() {
 	int i;
 
 	// alle Buttons loeschen
-	for (i=0; i<myGui->getMaxQuantityPlayers(); i++) { playerArray[i]->setMyButton(0); }
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { playerArray[i]->setMyButton(0); }
 
 	// DealerButton zuweisen
 	playerArray[dealerPosition]->setMyButton(1);
@@ -143,7 +144,7 @@ void LocalHand::assignButtons() {
 	// Small Blind zuweisen und setzen
 	i = dealerPosition;
 	do {
-		i = (i+1)%(myGui->getMaxQuantityPlayers());
+		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
 		if(playerArray[i]->getMyActiveStatus())	{
 			playerArray[i]->setMyButton(2);
 			// mit SmallBlind All In ?
@@ -163,7 +164,7 @@ void LocalHand::assignButtons() {
 
 	// Big Blind zuweisen
 	do {
-		i = (i+1)%(myGui->getMaxQuantityPlayers());
+		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
 		if(playerArray[i]->getMyActiveStatus())	{
 			playerArray[i]->setMyButton(3);
 			// mit BigBlind All In ?
@@ -191,13 +192,13 @@ void LocalHand::switchRounds() {
 
 	//Aktive Spieler z�len --> wenn nur noch einer nicht-folded dann gleich den Pot verteilen
 	activePlayersCounter = 0;
-	for (i=0; i<myGui->getMaxQuantityPlayers(); i++) { 
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 		if (playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyActiveStatus() == 1) activePlayersCounter++;
 	}
 
 	// Anzahl der Spieler ermitteln, welche All In sind
 	int allInPlayersCounter = 0;
-		for (i=0; i<myGui->getMaxQuantityPlayers(); i++) { 
+		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 			if (playerArray[i]->getMyAction() == 6) allInPlayersCounter++;
 	}
 
@@ -222,7 +223,7 @@ void LocalHand::switchRounds() {
 		int tempHighestSet;
 		if(allInPlayersCounter+1 == activePlayersCounter) {
 			// Spieler ermitteln, der noch nicht All In ist
-			for (i=0; i<myGui->getMaxQuantityPlayers(); i++) { 
+			for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 				if(playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyAction() != 6 && playerArray[i]->getMyActiveStatus() == 1) {	
 					tempHighestSet = 0;
 					switch (actualRound) {

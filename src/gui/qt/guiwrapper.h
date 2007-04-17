@@ -47,8 +47,6 @@ public:
 	void setHand(HandInterface*);
 	void setSession(Session*);	
 
-	int getMaxQuantityPlayers() const;
-	
 	void refreshSet() const;
 	void refreshCash() const;
 	void refreshAction(int =-1, int =-1) const;

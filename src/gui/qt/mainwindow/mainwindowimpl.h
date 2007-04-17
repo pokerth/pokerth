@@ -28,9 +28,10 @@
 #include <QtCore>
 
 #include "handinterface.h"
+#include "game_defs.h"
 
-class Game;
 class Session;
+class Game;
 class Log;
 class ConfigFile;
 
@@ -61,8 +62,6 @@ public:
 	void setSession(Session*);
 	void setLog(Log*);
 
-	int getMaxQuantityPlayers() const { return maxQuantityPlayers; }
-	
 	void setActualHand(HandInterface* theValue) { actualHand = theValue;}
 	HandInterface* getActualHand() const {  return actualHand;}
 
@@ -225,7 +224,7 @@ private:
 	MyCardsPixmapLabel *pixmapLabel_card6b;
 	//Timer
 	QTimer *potDistributeTimer;
-    	QTimer *timer;
+	QTimer *timer;
 	QTimer *dealFlopCards0Timer;
 	QTimer *dealFlopCards1Timer;
 	QTimer *dealFlopCards2Timer;
@@ -258,17 +257,17 @@ private:
 	QTimer *postRiverRunAnimation6Timer;
 	
 	QWidget *userWidgetsArray[4];
-	QLabel *buttonLabelArray[7];
-	QLabel *cashLabelArray[7];
-	QLabel *cashTopLabelArray[7];
-	QLabel *setLabelArray[7];
-	QLabel *actionLabelArray[7];
-	QLabel *playerNameLabelArray[7];
-	QLabel *playerAvatarLabelArray[7];
+	QLabel *buttonLabelArray[MAX_NUMBER_OF_PLAYERS];
+	QLabel *cashLabelArray[MAX_NUMBER_OF_PLAYERS];
+	QLabel *cashTopLabelArray[MAX_NUMBER_OF_PLAYERS];
+	QLabel *setLabelArray[MAX_NUMBER_OF_PLAYERS];
+	QLabel *actionLabelArray[MAX_NUMBER_OF_PLAYERS];
+	QLabel *playerNameLabelArray[MAX_NUMBER_OF_PLAYERS];
+	QLabel *playerAvatarLabelArray[MAX_NUMBER_OF_PLAYERS];
 
-	QGroupBox *groupBoxArray[7];
+	QGroupBox *groupBoxArray[MAX_NUMBER_OF_PLAYERS];
 	MyCardsPixmapLabel *boardCardsArray[5];
-	MyCardsPixmapLabel *holeCardsArray[7][2];
+	MyCardsPixmapLabel *holeCardsArray[MAX_NUMBER_OF_PLAYERS][2];
 
 	QPixmap *flipside;
 
@@ -279,8 +278,6 @@ private:
 	createNetworkGameDialogImpl *myCreateNetworkGameDialog;
 	waitForServerToStartGameDialogImpl *myWaitingForServerGameDialog;
 
-	int maxQuantityPlayers;
-	
 	int distributePotAnimCounter;
 
 	//Speed

@@ -45,8 +45,6 @@ void GuiWrapper::setGame(Game *g) { myW->setGame(g); }
 void GuiWrapper::setHand(HandInterface *lh) { myW->setHand(lh); }
 void GuiWrapper::setSession(Session *s) { myW->setSession(s); }
 
-int GuiWrapper::getMaxQuantityPlayers() const { return myW->getMaxQuantityPlayers(); }
-
 void GuiWrapper::refreshSet() const { myW->refreshSet(); }
 void GuiWrapper::refreshCash() const { myW->refreshCash(); }
 void GuiWrapper::refreshAction(int playerID, int playerAction) const { myW->refreshAction(playerID, playerAction); }

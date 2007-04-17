@@ -17,39 +17,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "localboard.h"
+#ifndef GAME_DEFS_H
+#define GAME_DEFS_H
 
-#include "localhand.h"
-#include <game_defs.h>
+#define MAX_NUMBER_OF_PLAYERS		7
 
-using namespace std;
-
-LocalBoard::LocalBoard() : BoardInterface(), playerArray(0), actualHand(0), pot(0), sets(0)
-{
-}
-
-
-LocalBoard::~LocalBoard()
-{
-}
-
-void LocalBoard::setPlayer(PlayerInterface** p) { playerArray = p; }
-
-void LocalBoard::setHand(HandInterface* br) { actualHand = br; }
-
-void LocalBoard::collectSets() {
-
-	sets = 0;
-	int i;
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) sets += playerArray[i]->getMySet();
-
-}
-
-void LocalBoard::collectPot() { 
-	int i;
-	pot += sets; 
-	sets = 0;
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++){ playerArray[i]->setMySetNull(); }
-}
-
-
+#endif

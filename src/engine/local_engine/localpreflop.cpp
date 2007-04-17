@@ -20,6 +20,7 @@
 #include "localpreflop.h"
 
 #include "handinterface.h"
+#include <game_defs.h>
 
 using namespace std;
 
@@ -33,7 +34,7 @@ LocalPreflop::LocalPreflop(HandInterface* bR, int id, int qP, int dP, int sB) : 
 // // 	BigBlind ermitteln 
 	bigBlindPosition = dealerPosition;
 	while (myHand->getPlayerArray()[bigBlindPosition]->getMyButton() != 3) {
-		bigBlindPosition = (bigBlindPosition+1)%(myHand->getGuiInterface()->getMaxQuantityPlayers());
+		bigBlindPosition = (bigBlindPosition+1)%(MAX_NUMBER_OF_PLAYERS);
 	}
 
 // // 	erste Spielernummer fr preflopRun() setzen
@@ -56,7 +57,7 @@ void LocalPreflop::preflopRun() {
 	bool allHighestSet = 1;
 
 	// prfe, ob alle Sets gleich sind ( falls nicht, dann allHighestSet = 0 )
-	for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		if(myHand->getPlayerArray()[i]->getMyActiveStatus() && myHand->getPlayerArray()[i]->getMyAction() != 1 && myHand->getPlayerArray()[i]->getMyAction() != 6)	{
 			if(highestSet != myHand->getPlayerArray()[i]->getMySet()) { allHighestSet=0; }
 		}
@@ -65,7 +66,7 @@ void LocalPreflop::preflopRun() {
 	// BigBlind ermitteln
 	bigBlindPosition = dealerPosition;
 	while (myHand->getPlayerArray()[bigBlindPosition]->getMyButton() != 3) {
-		bigBlindPosition = (bigBlindPosition+1)%(myHand->getGuiInterface()->getMaxQuantityPlayers());
+		bigBlindPosition = (bigBlindPosition+1)%(MAX_NUMBER_OF_PLAYERS);
 	}
 
 	// prfen, ob Preflop wirklich dran ist
@@ -76,7 +77,7 @@ void LocalPreflop::preflopRun() {
 		myHand->setActualRound(1);
 		
 		//Action l�chen und ActionButtons refresh
-		for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 			if(myHand->getPlayerArray()[i]->getMyAction() != 1 && myHand->getPlayerArray()[i]->getMyAction() != 6) myHand->getPlayerArray()[i]->setMyAction(0);
 		}
 		//Sets in den Pot verschieben und Sets = 0 und Pot-refresh
@@ -97,7 +98,7 @@ void LocalPreflop::preflopRun() {
 		// n�hsten Spieler ermitteln
 		do {
 
-			playersTurn = (playersTurn+1)%(myHand->getGuiInterface()->getMaxQuantityPlayers());
+			playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
 			// falls BigBlind, dann PreflopFirstRound zuende
 			if(myHand->getPlayerArray()[playersTurn]->getMyButton() == 3) preflopFirstRound = 0;
 

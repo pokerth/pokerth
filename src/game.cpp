@@ -38,7 +38,7 @@ Game::Game(ConfigFile* c, GuiInterface* g, int qP, int sC, int sB, int gId) : my
 
 	actualHandID = 0;
 
-	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		playerArray[i] = 0;
 	}
 
@@ -58,7 +58,7 @@ Game::Game(ConfigFile* c, GuiInterface* g, int qP, int sC, int sB, int gId) : my
 
 	// Player erstellen
 	PlayerInterface *tempPlayer;
-	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
 		//Namen und Avatarpfad abfragen 
 		ostringstream myName;
@@ -95,7 +95,7 @@ Game::~Game()
 	actualHand = 0;
 
 	PlayerInterface *tempPlayer;
-	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) { 
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 		tempPlayer = playerArray[i];
 		playerArray[i] = 0;
 		delete tempPlayer;
@@ -107,7 +107,7 @@ void Game::startHand()
 {
 	int i;
 
-	//eventuell vorhandene Hand l�chen
+	// eventuell vorhandene Hand löschen
 	if(actualHand) {
 		delete actualHand;
 		actualHand = 0;
@@ -120,18 +120,18 @@ void Game::startHand()
 	if(actualHandID%handsBeforeRaiseSmallBLind == 0) actualSmallBlind *= 2;
 
 	//Spieler Action auf 0 setzen 
-	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		playerArray[i]->setMyAction(0);
 	}
 
 	// Spieler mit leerem Cash auf inactive setzen
-	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		if(playerArray[i]->getMyCash() == 0) playerArray[i]->setMyActiveStatus(0);
 	}
 
 	// Anzahl noch aktiver Spieler ermitteln
 	actualQuantityPlayers = 0;
-	for(i=0; i<myGui->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		if(playerArray[i]->getMyActiveStatus() != 0) actualQuantityPlayers++;
 	}
 
@@ -147,7 +147,7 @@ void Game::startHand()
 
 	// Dealer-Button weiterschieben --> Achtung inactive
 	do {
-		dealerPosition = (dealerPosition+1)%(myGui->getMaxQuantityPlayers());
+		dealerPosition = (dealerPosition+1)%(MAX_NUMBER_OF_PLAYERS);
 	} while(!(playerArray[dealerPosition]->getMyActiveStatus()));
 
 

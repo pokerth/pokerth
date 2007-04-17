@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "localturn.h"
+#include <game_defs.h>
 
 
 using namespace std;
@@ -27,7 +28,7 @@ LocalTurn::LocalTurn(HandInterface* bR, int id, int qP, int dP, int sB) : TurnIn
 {	int i;
 
 	//SmallBlind-Position ermitteln 
-	for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		if (myHand->getPlayerArray()[i]->getMyButton() == 2) smallBlindPosition = i;
 	}
 
@@ -53,7 +54,7 @@ void LocalTurn::turnRun() {
 		bool allHighestSet = 1;
 
 		// prfe, ob alle Sets gleich sind ( falls nicht, dann allHighestSet = 0 )
-		for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 			if(myHand->getPlayerArray()[i]->getMyActiveStatus() && myHand->getPlayerArray()[i]->getMyAction() != 1 && myHand->getPlayerArray()[i]->getMyAction() != 6)	{
 // 				cout << "Spieler " << i << " Set " << myHand->getPlayerArray()[i]->getMySet() << endl;
 				if(highestSet != myHand->getPlayerArray()[i]->getMySet()) { allHighestSet=0; }
@@ -71,7 +72,7 @@ void LocalTurn::turnRun() {
 			myHand->setActualRound(3);
 
 			//Action l�chen und ActionButtons refresh
-			for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 				if(myHand->getPlayerArray()[i]->getMyAction() != 1 && myHand->getPlayerArray()[i]->getMyAction() != 6) myHand->getPlayerArray()[i]->setMyAction(0);
 			}
 			//Sets in den Pot verschieben und Sets = 0 und Pot-refresh
@@ -95,12 +96,12 @@ void LocalTurn::turnRun() {
 			}
 	
 			// n�hsten Spieler ermitteln
-			do { playersTurn = (playersTurn+1)%(myHand->getGuiInterface()->getMaxQuantityPlayers());
+			do { playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
 			} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6);
 
 			//Spieler-Position vor SmallBlind-Position ermitteln
 			int activePlayerBeforeSmallBlind = smallBlindPosition;
-			do { activePlayerBeforeSmallBlind = (activePlayerBeforeSmallBlind + myHand->getGuiInterface()->getMaxQuantityPlayers() - 1 ) % (myHand->getGuiInterface()->getMaxQuantityPlayers());
+			do { activePlayerBeforeSmallBlind = (activePlayerBeforeSmallBlind + MAX_NUMBER_OF_PLAYERS - 1 ) % (MAX_NUMBER_OF_PLAYERS);
 			} while(!(myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyActiveStatus()) || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==1 || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==6);
 
 			myHand->getPlayerArray()[playersTurn]->setMyTurn(1);

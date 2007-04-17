@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "localriver.h"
+#include <game_defs.h>
 
 
 using namespace std;
@@ -27,7 +28,7 @@ LocalRiver::LocalRiver(HandInterface* bR, int id, int qP, int dP, int sB) : Rive
 {	int i;
 
 	//SmallBlind-Position ermitteln 
-	for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		if (myHand->getPlayerArray()[i]->getMyButton() == 2) smallBlindPosition = i;
 	}
 
@@ -52,7 +53,7 @@ void LocalRiver::riverRun() {
 		bool allHighestSet = 1;
 
 		// prfe, ob alle Sets gleich sind ( falls nicht, dann allHighestSet = 0 )
-		for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 			if(myHand->getPlayerArray()[i]->getMyActiveStatus() && myHand->getPlayerArray()[i]->getMyAction() != 1 && myHand->getPlayerArray()[i]->getMyAction() != 6)	{
 // 				cout << "Spieler " << i << " Set " << myHand->getPlayerArray()[i]->getMySet() << endl;
 				if(highestSet != myHand->getPlayerArray()[i]->getMySet()) { allHighestSet=0; }
@@ -70,7 +71,7 @@ void LocalRiver::riverRun() {
 			myHand->setActualRound(4);
 
 			//Action lï¿œchen und ActionButtons refresh
-			for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 				if(myHand->getPlayerArray()[i]->getMyAction() != 1 && myHand->getPlayerArray()[i]->getMyAction() != 6) myHand->getPlayerArray()[i]->setMyAction(0);
 			}
 			//Sets in den Pot verschieben und Sets = 0 und Pot-refresh
@@ -94,12 +95,12 @@ void LocalRiver::riverRun() {
 			}
 	
 			// nï¿œhsten Spieler ermitteln
-			do { playersTurn = (playersTurn+1)%(myHand->getGuiInterface()->getMaxQuantityPlayers());
+			do { playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
 			} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6);
 
 			//Spieler-Position vor SmallBlind-Position ermitteln 
 			int activePlayerBeforeSmallBlind = smallBlindPosition;
-			do { activePlayerBeforeSmallBlind = (activePlayerBeforeSmallBlind + myHand->getGuiInterface()->getMaxQuantityPlayers() - 1 ) % (myHand->getGuiInterface()->getMaxQuantityPlayers());
+			do { activePlayerBeforeSmallBlind = (activePlayerBeforeSmallBlind + MAX_NUMBER_OF_PLAYERS - 1 ) % (MAX_NUMBER_OF_PLAYERS);
 			} while(!(myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyActiveStatus()) || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==1 || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==6);
 
 			myHand->getPlayerArray()[playersTurn]->setMyTurn(1);
@@ -138,7 +139,7 @@ void LocalRiver::postRiverRun() {
 // 	cout << myHand->getPlayerArray()[0]->getMyAverageSets() << endl;
 
 	//berechnen welcher Spieler gewonnen hat
-	for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
 // 		cout << "Spieler: " << i << " hat: " << myHand->getPlayerArray()[i]->getMyCardsValueInt() << endl;
 
@@ -154,7 +155,7 @@ void LocalRiver::postRiverRun() {
 	// Aggressivität des human player ermitteln
 	// anzahl der player die möglichkeit haben am pot teilzuhaben
 	int potPlayers = 0;
-	for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		if(myHand->getPlayerArray()[i]->getMyActiveStatus() && myHand->getPlayerArray()[i]->getMyAction() != 1) {
 			potPlayers++;
 		}
@@ -202,14 +203,14 @@ void LocalRiver::distributePot() {
 	/////////////////////
 	
 	// winnersArray erstellen -> hier werden die winner der jeweiligen Potverteilungsrunden eingetragen
-	int *winnersArray = new int[myHand->getGuiInterface()->getMaxQuantityPlayers()];
+	int *winnersArray = new int[MAX_NUMBER_OF_PLAYERS];
 
 	// Anzahl der winner in einer Potverteilungsrunde
 	int winnersCounter = 0;
 	
 	// dieses Array ermittelt wieviel jeder Spieler wï¿œrend der gesamten BettingRound gesetzt hat
-	int *roundSetArray = new int[myHand->getGuiInterface()->getMaxQuantityPlayers()];
-	for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+	int *roundSetArray = new int[MAX_NUMBER_OF_PLAYERS];
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		// Standardwert fr nicht mehr aktive
 		roundSetArray[i] = 0;
 		// nur fr die Spieler ermitteln, die noch aktiv sind (inkl. der gefoldeten)
@@ -219,10 +220,10 @@ void LocalRiver::distributePot() {
 	}
 	
 	// hier steht der CardsValue der Spieler drin die an der Potverteilung teilnehmen (d.h. aktiv und nicht gefoldet), bei allen anderen steht ne 0
-	int *cardsValueArray = new int[myHand->getGuiInterface()->getMaxQuantityPlayers()];
+	int *cardsValueArray = new int[MAX_NUMBER_OF_PLAYERS];
 	int playerWantsPotCounter = 0;
 	
-	for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		// Standardwert
 		cardsValueArray[i] = 0;
 		if(myHand->getPlayerArray()[i]->getMyActiveStatus() && myHand->getPlayerArray()[i]->getMyAction() != 1) { 
@@ -255,7 +256,7 @@ void LocalRiver::distributePot() {
 		highestCardsValueTemp = 0;
 	
 		// aktuellen highestCardsValueTemp berechnen, von denen die noch an der Potverteilung teilnehmen
-		for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 			if(cardsValueArray[i] > highestCardsValueTemp ) { 
 				highestCardsValueTemp = myHand->getPlayerArray()[i]->getMyCardsValueInt(); 
 			}
@@ -264,7 +265,7 @@ void LocalRiver::distributePot() {
 		// zu Beginn der Potverteilungsrunde die Anzahl der winner auf 0 setzen
 		winnersCounter = 0;
 		// Siegerposition und -anzahl von denen ermitteln, die noch an der Potverteilung teilnehmen
-		for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 			if(cardsValueArray[i] == highestCardsValueTemp ) { 
 				winnersArray[winnersCounter] = i;
 				winnersCounter++;
@@ -291,7 +292,7 @@ void LocalRiver::distributePot() {
 // 			else {
 	
 				// alle Spieler nacheinander durchgehen und prfen von wem man wieviel Geld aus dem Pot bekommt
-				for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 	
 					// zuerst prfen ob ein gefoldeter Spieler was gesetzt hatte
 					if(i != winner && myHand->getPlayerArray()[i]->getMyAction() == 1) {
@@ -371,7 +372,7 @@ void LocalRiver::distributePot() {
 			}
 	
 			// alle Spieler nacheinander durchgehen und prfen von wem die Winner wieviel Geld aus dem Pot bekommen
-			for(i=0; i<myHand->getGuiInterface()->getMaxQuantityPlayers(); i++) {
+			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 	
 				// prfen ob Spieler i zu den Winnern gehï¿œt
 				playerIsWinner = 0;	

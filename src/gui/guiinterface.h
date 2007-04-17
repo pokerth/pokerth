@@ -39,9 +39,6 @@ public:
 	virtual void setHand(HandInterface*) =0;
 	virtual void setSession(Session*) =0;
 
-	//get
-	virtual int getMaxQuantityPlayers() const=0;
-		
 	//refresh-Funktionen
 	virtual void refreshSet() const=0;
 	virtual void refreshCash() const=0;

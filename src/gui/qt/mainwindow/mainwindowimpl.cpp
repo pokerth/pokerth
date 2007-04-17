@@ -45,16 +45,11 @@
 #define FORMATLEFT(X) "<p align='center'>(X)"
 #define FORMATRIGHT(X) "(X)</p>"
 
-// muss mit GUI übereinstimmen
-const int maxQuantityPlayersConst = 7;
-// !!! in game.h ebenfalls bei playerArray[?] setzen !!!
-// !!! in hand.h ebenfalls bei roundStartCashArray[?] setzen !!!
-// !!! in mainwindowimpl.h ebenfalls bei *LabelArray[?] setzen !!!
 
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(QMainWindow *parent)
-     : QMainWindow(parent), actualGame(0), actualHand(0), mySession(0), maxQuantityPlayers(maxQuantityPlayersConst), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
+     : QMainWindow(parent), actualGame(0), actualHand(0), mySession(0), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
 {	
 	int i;
 
@@ -412,7 +407,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	label_Pot->setFont(tmpFont2);
 	
 	tmpFont2.setPixelSize(10);
-	for (i=0; i<maxQuantityPlayers; i++) {
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
 		cashTopLabelArray[i]->setFont(tmpFont2);
 		cashLabelArray[i]->setFont(tmpFont2);
@@ -421,13 +416,13 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	spinBox_set->setFont(tmpFont2);
 
 	tmpFont2.setPixelSize(12);
-	for (i=0; i<maxQuantityPlayers; i++) {
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
 		setLabelArray[i]->setFont(tmpFont2);
 	}
 
 	tmpFont2.setPixelSize(13);
-	for (i=0; i<maxQuantityPlayers; i++) {
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
 		playerNameLabelArray[i]->setFont(tmpFont2);
 	}
@@ -448,7 +443,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 	//Widgets Grafiken per Stylesheets setzen
 		//Groupbox Background 
-	for (i=1; i<maxQuantityPlayers; i++) {
+	for (i=1; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
 		groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); 
 	}
@@ -462,7 +457,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 
 	//raise actionLable above just inserted mypixmaplabel
-	for (i=0; i<maxQuantityPlayers; i++) { actionLabelArray[i]->raise(); }
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { actionLabelArray[i]->raise(); }
 
 
 	//ShortCuts 
@@ -741,7 +736,7 @@ void mainWindowImpl::callSettingsDialog() {
 
 		int i,j;
 
-		for (i=1; i<maxQuantityPlayers; i++ ) { 
+		for (i=1; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
 			for ( j=0; j<=1; j++ ) {
 				if (holeCardsArray[i][j]->getIsFlipside()) {
 					holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
@@ -765,7 +760,7 @@ void mainWindowImpl::setLog(Log* l) { myLog = l; }
 void mainWindowImpl::refreshSet() {
 	
 	int i;
- 	for (i=0; i<maxQuantityPlayers; i++) { 
+ 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 		if(actualHand->getPlayerArray()[i]->getMySet() == 0) setLabelArray[i]->setText("");
 		else setLabelArray[i]->setText("<p align='center'><b>Set:</b> "+QString::number(actualHand->getPlayerArray()[i]->getMySet(),10)+" $</p>"); 
 	}
@@ -780,11 +775,11 @@ void mainWindowImpl::refreshButton() {
 	int k;
 	//Aktive Spieler zählen
 	int activePlayersCounter = 0;
-	for (k=0; k<maxQuantityPlayers; k++) { 
+	for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
 		if (actualHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
 	}
 
-	for (i=0; i<maxQuantityPlayers; i++) { 
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 		if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 			if(activePlayersCounter > 2) {
 				if (actualHand->getPlayerArray()[i]->getMyButton()==1) {
@@ -810,7 +805,7 @@ void mainWindowImpl::refreshButton() {
 void mainWindowImpl::refreshPlayerName() {
 
 	int i;
-	for (i=0; i<maxQuantityPlayers; i++) {
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 			playerNameLabelArray[i]->setText(QString::fromUtf8(actualHand->getPlayerArray()[i]->getMyName().c_str()));
 			
@@ -827,7 +822,7 @@ void mainWindowImpl::refreshPlayerAvatar() {
 	QPixmap onePix(":/graphics/resources/graphics/1px.png");
 	int i;
 
-	for (i=0; i<maxQuantityPlayers; i++) {
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 
 			if(!i) {
@@ -864,7 +859,7 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 	if(playerID == -1 || playerAction == -1) {
 
 		int i;
-		for (i=0; i<maxQuantityPlayers; i++) { 
+		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 			
 			//if no action --> clear Pixmap 
 			if(actualHand->getPlayerArray()[i]->getMyAction() == 0) {
@@ -913,7 +908,7 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 void mainWindowImpl::refreshCash() {
 
 	int i;
-	for (i=0; i<maxQuantityPlayers; i++) { 
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 		if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 
 			cashLabelArray[i]->setText(QString::number(actualHand->getPlayerArray()[i]->getMyCash(),10)+" $"); 
@@ -931,7 +926,7 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 	if(playerID == -1 || status == -1) {
 
 		int i,j;
-		for (i=0; i<maxQuantityPlayers; i++) { 
+		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 	
 			if(actualHand->getPlayerArray()[i]->getMyTurn()) {
 				//Groupbox glow wenn der Spiele dran ist. 
@@ -1061,7 +1056,7 @@ void mainWindowImpl::dealHoleCards() {
 	
 	// Karten der Gegner austeilen
 	int i, j;
-	for(i=1; i<maxQuantityPlayers; i++) {
+	for(i=1; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 		for(j=0; j<2; j++) {
 			if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
@@ -1631,7 +1626,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 
 	//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
 	int activePlayersCounter = 0;
-	for (i=0; i<maxQuantityPlayers; i++) { 
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 		if (actualHand->getPlayerArray()[i]->getMyAction() != 1 && actualHand->getPlayerArray()[i]->getMyActiveStatus() == 1) activePlayersCounter++;
 	}
 
@@ -1648,7 +1643,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 		
 				int i, j;
 				
-				for(i=0; i<maxQuantityPlayers; i++) {
+				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 					actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 					if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
 						if(i) {
@@ -1675,7 +1670,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				int tempCardsIntArray[2];
 			
 				int i, j;
-				for(i=0; i<maxQuantityPlayers; i++) {
+				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 					actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 					if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
 						if(i) {
@@ -1698,7 +1693,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 		else {
 			int tempCardsIntArray[2];
 			int i;
-			for(i=0; i<maxQuantityPlayers; i++) {
+			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 				actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 				if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
 				
@@ -1718,7 +1713,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 // 	cout << "Neue Runde" << endl;
 
 	//Alle Winner erhellen und "Winner" schreiben
-	for(i=0; i<maxQuantityPlayers; i++) {
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1 && actualHand->getPlayerArray()[i]->getMyCardsValueInt() == actualHand->getRiver()->getHighestCardsValue() ) { 
 
 // 			QPalette tempPalette = groupBoxArray[i]->palette();
@@ -1733,44 +1728,44 @@ void mainWindowImpl::postRiverRunAnimation3() {
 	
 				//index 0 testen --> Karte darf nicht im MyBestHand Position Array drin sein, es darf nicht nur ein Spieler Aktiv sein, die Config fordert die Animation
 				bool index0 = TRUE;
-				for(j=0; j<maxQuantityPlayers; j++) {			
+				for(j=0; j<MAX_NUMBER_OF_PLAYERS; j++) {			
 	// 				cout <<  (actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] << endl;
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 0 ) { index0 = FALSE; }
 				}
 				if (index0) { holeCardsArray[i][0]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index0" << endl;*/}
 				//index 1 testen
 				bool index1 = TRUE;
-				for(j=0; j<maxQuantityPlayers; j++) {
+				for(j=0; j<MAX_NUMBER_OF_PLAYERS; j++) {
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 1 ) { index1 = FALSE; }
 				}
 				if (index1) { holeCardsArray[i][1]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index1" << endl;*/}
 				//index 2 testen
 				bool index2 = TRUE;
-				for(j=0; j<maxQuantityPlayers; j++) {
+				for(j=0; j<MAX_NUMBER_OF_PLAYERS; j++) {
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 2 ) { index2 = FALSE; }
 				}
 				if (index2) { boardCardsArray[0]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index2" << endl;*/}
 				//index 3 testen
 				bool index3 = TRUE;
-				for(j=0; j<maxQuantityPlayers; j++) {
+				for(j=0; j<MAX_NUMBER_OF_PLAYERS; j++) {
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 3 ) { index3 = FALSE; }
 				}
 				if (index3) { boardCardsArray[1]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index3" << endl;*/}
 				//index 4 testen
 				bool index4 = TRUE;
-				for(j=0; j<maxQuantityPlayers; j++) {
+				for(j=0; j<MAX_NUMBER_OF_PLAYERS; j++) {
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 4 ) { index4 = FALSE; }
 				}
 				if (index4) { boardCardsArray[2]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index4" << endl;*/}
 				//index 5 testen
 				bool index5 = TRUE;
-				for(j=0; j<maxQuantityPlayers; j++) {
+				for(j=0; j<MAX_NUMBER_OF_PLAYERS; j++) {
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 5 ) { index5 = FALSE; }
 				}
 				if (index5) { boardCardsArray[3]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index5" << endl;*/}
 				//index 6 testen
 				bool index6 = TRUE;
-				for(j=0; j<maxQuantityPlayers; j++) {
+				for(j=0; j<MAX_NUMBER_OF_PLAYERS; j++) {
 					if ((actualHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 6 ) { index6 = FALSE; }
 				}
 				if (index6) { boardCardsArray[4]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index6" << endl;*/}
@@ -1818,7 +1813,7 @@ void mainWindowImpl::postRiverRunAnimation5() {
 
 			label_Pot->setText("");
 	
-			for(i=0; i<maxQuantityPlayers; i++) {
+			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 				if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1 && actualHand->getPlayerArray()[i]->getMyCardsValueInt() == actualHand->getRiver()->getHighestCardsValue() ) { 
 
 					cashTopLabelArray[i]->setText("");
@@ -1828,7 +1823,7 @@ void mainWindowImpl::postRiverRunAnimation5() {
 		else { 
 			label_Pot->setText("<span style='font-weight:bold'>Pot</span>");
 
-			for(i=0; i<maxQuantityPlayers; i++) {
+			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 				if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1 && actualHand->getPlayerArray()[i]->getMyCardsValueInt() == actualHand->getRiver()->getHighestCardsValue() ) { 
 
 					cashTopLabelArray[i]->setText("<b>Cash:</b>"); 
@@ -1888,7 +1883,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 	if(!flipHolecardsAllInAlreadyDone) {
 		//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
 		int activePlayersCounter = 0;
-		for (i=0; i<maxQuantityPlayers; i++) { 
+		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 			if (actualHand->getPlayerArray()[i]->getMyAction() != 1 && actualHand->getPlayerArray()[i]->getMyActiveStatus() == 1) activePlayersCounter++;
 		}
 		
@@ -1903,7 +1898,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 	
 				int i, j;
 	
-				for(i=0; i<maxQuantityPlayers; i++) {
+				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 					actualHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 					if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
 						if(i) {
@@ -1930,7 +1925,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 				int temp2CardsIntArray[2];
 				
 				int i, j;
-				for(i=0; i<maxQuantityPlayers; i++) {
+				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 					actualHand->getPlayerArray()[i]->getMyCards(temp2CardsIntArray);	
 					if(actualHand->getPlayerArray()[i]->getMyActiveStatus() && actualHand->getPlayerArray()[i]->getMyAction() != 1) { 
 						if(i) {
@@ -1993,7 +1988,7 @@ void mainWindowImpl::nextRoundCleanGui() {
 		boardCardsArray[i]->setFadeOutAction(FALSE); 
 		
 	}
-	for (i=0; i<maxQuantityPlayers; i++ ) { 
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
 		for ( j=0; j<=1; j++ ) { holeCardsArray[i][j]->setFadeOutAction(FALSE);}
 	}
 		

@@ -24,6 +24,8 @@
 #include <string>
 #include <sstream>
 
+#include "game_defs.h"
+
 class GuiInterface;
 class HandInterface;
 class PlayerInterface;
