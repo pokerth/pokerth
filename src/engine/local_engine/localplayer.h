@@ -25,6 +25,7 @@
 #include "cardsvalue.h"
 
 #include "configfile.h"
+#include "session.h"
 
 #include <string>
 #include <fstream>
@@ -36,7 +37,7 @@ class BoardInterface;
 
 class LocalPlayer : public PlayerInterface{
 public:
-    LocalPlayer(BoardInterface*, int, std::string, std::string, int, bool, int);
+    LocalPlayer(Session*, BoardInterface*, int, std::string, std::string, int, bool, int);
 
     ~LocalPlayer();
 
@@ -140,10 +141,11 @@ public:
 
 
 private:
+	Session *mySession;
 	HandInterface *actualHand;
 	BoardInterface *actualBoard;
-
 	CardsValue *myCardsValue;
+	ConfigFile *myConfig;
 
 	// Konstanten
 	int myID;

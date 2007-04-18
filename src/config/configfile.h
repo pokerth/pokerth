@@ -25,11 +25,9 @@
 
 class ConfigFile{
 public:
-    ConfigFile();
+    ConfigFile(std::string);
 
     ~ConfigFile();
-
-	void createDefaultConfig();
 
 	std::string readConfigString(std::string varName);
     	void writeConfigString(std::string varName, std::string varCont);
@@ -37,13 +35,9 @@ public:
 	int readConfigInt(std::string varName);
 	void writeConfigInt(std::string varName, int varCont);
     	
-
 private:
-	std::string configFileName;
-	std::string logDir;
-	std::string dataDir;
-	int configRev;
-	
+
+	std::string myPath;	
 };
 
 #endif

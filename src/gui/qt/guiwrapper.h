@@ -25,7 +25,6 @@
 #include "log.h"
 #include "mainwindowimpl.h"
 #include "connecttoserverdialogimpl.h"
-#include "qthelper.h"
 #include "configfile.h"
 
 #include <string>
@@ -39,7 +38,7 @@
 class GuiWrapper : public GuiInterface
 {
 public:
-    GuiWrapper();
+    GuiWrapper(Session*);
 
     ~GuiWrapper();
 
@@ -89,8 +88,6 @@ public:
 	void logPlayerActionMsg(std::string playerName, int action, int setValue) ;
 	void logNewGameHandMsg(int gameID, int handID) ;
 
-	std::string stringToUtf8(const std::string &);
-
 	void SignalNetClientConnect(int actionID);
 	void SignalNetClientGameInfo(int actionID);
 	void SignalNetClientError(int errorID, int osErrorID);
@@ -103,8 +100,6 @@ private:
 	
 	Log *myLog;
 	mainWindowImpl *myW;
-	ConfigFile *myConfig;
-	QtHelper *myQtHelper;
 
 };
 

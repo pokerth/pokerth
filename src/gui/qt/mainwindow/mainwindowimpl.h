@@ -53,13 +53,14 @@ class mainWindowImpl: public QMainWindow, public Ui::mainWindow {
 Q_OBJECT
 
 public:
-	mainWindowImpl(QMainWindow *parent = 0 );
+	mainWindowImpl(Session* = 0, QMainWindow *parent = 0 );
 
 	~mainWindowImpl();
 
 	void setGame(Game*);
 	void setHand(HandInterface*);
 	void setSession(Session*);
+	Session* getSession() { return mySession; }
 	void setLog(Log*);
 
 	void setActualHand(HandInterface* theValue) { actualHand = theValue;}

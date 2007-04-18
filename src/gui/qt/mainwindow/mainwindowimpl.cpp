@@ -39,6 +39,7 @@
 
 #include "log.h"
 #include "configfile.h"
+#include "defaultconfig.h"
 
 #include <net/socket_msg.h>
 
@@ -48,8 +49,8 @@
 
 using namespace std;
 
-mainWindowImpl::mainWindowImpl(QMainWindow *parent)
-     : QMainWindow(parent), actualGame(0), actualHand(0), mySession(0), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
+mainWindowImpl::mainWindowImpl(Session* s, QMainWindow *parent)
+     : QMainWindow(parent), actualGame(0), actualHand(0), mySession(s), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
 {	
 	int i;
 
@@ -59,7 +60,13 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	}
 	////////////////////////////
 
-	myConfig = new ConfigFile;
+	//Create Defaultconfig if there is no one
+	DefaultConfig myDefaultConfig;
+	
+	//set SessionConfigPath
+	mySession->setConfigPath(myDefaultConfig.getMyPath());
+
+	myConfig = new ConfigFile(mySession->getConfigPath());
 
 // Resourcen abladen 
 	QFile preflopValuesFile(":data/resources/data/preflopValues");
@@ -479,10 +486,10 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	}
 
 	//Dialoge 
-	myJoinNetworkGameDialog = new joinNetworkGameDialogImpl(this);
+	myJoinNetworkGameDialog = new joinNetworkGameDialogImpl(this, mySession->getConfigPath());
 	myConnectToServerDialog = new connectToServerDialogImpl(this);
 	myStartNetworkGameDialog = new startNetworkGameDialogImpl(this);
-	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this);
+	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this, mySession->getConfigPath());
 	myWaitingForServerGameDialog = new waitForServerToStartGameDialogImpl(this);
 
 	//Connects
@@ -554,7 +561,7 @@ void mainWindowImpl::callNewGameDialog() {
 	//wenn Dialogfenster gezeigt werden soll
 	if(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame")){
 
-		newGameDialogImpl *v = new newGameDialogImpl(this);
+		newGameDialogImpl *v = new newGameDialogImpl(this, mySession->getConfigPath());
 		v->exec();
 		if (v->result() == QDialog::Accepted ) { startNewLocalGame(v);	}
 // 		else { startNewLocalGame(); }
@@ -685,7 +692,7 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 
 void mainWindowImpl::callSettingsDialog() {
 
-	settingsDialogImpl *v = new settingsDialogImpl(this);
+	settingsDialogImpl *v = new settingsDialogImpl(this, mySession->getConfigPath());
 	v->exec();
 
 	
@@ -826,7 +833,7 @@ void mainWindowImpl::refreshPlayerAvatar() {
 		if(actualHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 
 			if(!i) {
-				if(actualHand->getPlayerArray()[0]->getMyAvatar() == "") {
+				if(actualHand->getPlayerArray()[0]->getMyAvatar() == ""/* || !QDir::QDir(QString::fromUtf8(actualHand->getPlayerArray()[0]->getMyAvatar().c_str())).exists()*/) {
 					playerAvatarLabelArray[0]->setPixmap(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png"));
 				}
 				else {
@@ -834,7 +841,7 @@ void mainWindowImpl::refreshPlayerAvatar() {
 				}
 			}
 			else {				
-				if(actualHand->getPlayerArray()[i]->getMyAvatar() == "") {
+				if(actualHand->getPlayerArray()[i]->getMyAvatar() == ""/* || !QDir::QDir(QString::fromUtf8(actualHand->getPlayerArray()[i]->getMyAvatar().c_str())).exists()*/) {
 					playerAvatarLabelArray[i]->setPixmap(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png"));
 				}
 				else {

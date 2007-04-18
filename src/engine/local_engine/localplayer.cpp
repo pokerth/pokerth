@@ -23,7 +23,7 @@
 
 using namespace std;
 
-LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, std::string avatar, int sC, bool aS, int mB) : PlayerInterface(), actualHand(0), actualBoard(b), myCardsValue(0), myID(id), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), sBluff(0), sBluffStatus(0)
+LocalPlayer::LocalPlayer(Session *s, BoardInterface *b, int id, std::string name, std::string avatar, int sC, bool aS, int mB) : PlayerInterface(), mySession(s), actualHand(0), actualBoard(b), myCardsValue(0), myConfig(0), myID(id), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), sBluff(0), sBluffStatus(0)
 {
 
 // 	for statistic development
@@ -32,7 +32,9 @@ LocalPlayer::LocalPlayer(BoardInterface *b, int id, std::string name, std::strin
 // 		myCash=0;
 // 	}
 	////////////////////////////
-	
+
+	myConfig = new ConfigFile(mySession->getConfigPath());	
+
 	// myBestHandPosition mit -1 initialisieren
 	int i;
 	for(i=0; i<5; i++) {
@@ -83,12 +85,11 @@ void LocalPlayer::setHand(HandInterface* br) { actualHand = br; }
 
 void LocalPlayer::action() {
 
-	ConfigFile myConfig;
-
+	
 	switch(actualHand->getActualRound()) {
 		case 0: {
 
-			if(myConfig.readConfigInt("EngineVersion")) preflopEngine3();
+			if(myConfig->readConfigInt("EngineVersion")) preflopEngine3();
 			else preflopEngine();
 
 			actualBoard->collectSets();
@@ -97,7 +98,7 @@ void LocalPlayer::action() {
 		} break;
 		case 1: {
 
-			if(myConfig.readConfigInt("EngineVersion")) flopEngine3();
+			if(myConfig->readConfigInt("EngineVersion")) flopEngine3();
 			else flopEngine();
 
 			actualBoard->collectSets();
@@ -106,7 +107,7 @@ void LocalPlayer::action() {
 		} break;
 		case 2: {
 
-			if(myConfig.readConfigInt("EngineVersion")) turnEngine3();
+			if(myConfig->readConfigInt("EngineVersion")) turnEngine3();
 			else turnEngine();
 
 			actualBoard->collectSets();
@@ -115,7 +116,7 @@ void LocalPlayer::action() {
 		} break;
 		case 3: {
 
-			if(myConfig.readConfigInt("EngineVersion")) riverEngine3();
+			if(myConfig->readConfigInt("EngineVersion")) riverEngine3();
 			else riverEngine();
 
 			actualBoard->collectSets();
@@ -809,7 +810,6 @@ void LocalPlayer::flopEngine() {
 
 void LocalPlayer::turnEngine() {
 
-	ConfigFile myConfig;
 
 // 		int tempArray[6];
 // 		int boardCards[5];
@@ -1056,7 +1056,6 @@ void LocalPlayer::turnEngine() {
 
 void LocalPlayer::riverEngine() {
 
-	ConfigFile myConfig;
 
 // 	int tempArray[6];
 // 	int boardCards[5];
@@ -2057,7 +2056,6 @@ int LocalPlayer::flopCardsValue(int* cards) {
 
 void LocalPlayer::readFile() {
 
-	ConfigFile myConfig;
 	int handCode;
 
 	switch(actualHand->getActualRound()) {
@@ -2066,7 +2064,7 @@ void LocalPlayer::readFile() {
 			
 			handCode = preflopCardsValue(myCards);
 
-			std::string fileName = myConfig.readConfigString("DataDir")+"preflopValues";
+			std::string fileName = myConfig->readConfigString("DataDir")+"preflopValues";
 			
 			ifstream fin;
 			
@@ -2120,7 +2118,7 @@ void LocalPlayer::readFile() {
 		
 		// 		cout << "\t" << handCode << endl;
 		
-			std::string fileName = myConfig.readConfigString("DataDir")+"flopValues";
+			std::string fileName = myConfig->readConfigString("DataDir")+"flopValues";
 			
 			ifstream fin;
 			

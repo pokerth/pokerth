@@ -67,9 +67,11 @@ int main( int argc, char **argv )
 	Q_INIT_RESOURCE(resources);
 	///////////////////////////////////////////////////	
 
-	GuiInterface *myGuiInterface = new GuiWrapper();
-	Session theFirst(myGuiInterface);
-	myGuiInterface->setSession(&theFirst);
+	Session *theFirst = new Session();
+	GuiInterface *myGuiInterface = new GuiWrapper(theFirst);
+
+	theFirst->setGuiInterface(myGuiInterface);
+// 	myGuiInterface->setSession(&theFirst);
 
 	int retVal = a.exec();
 

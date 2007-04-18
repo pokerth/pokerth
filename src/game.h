@@ -32,12 +32,14 @@ class PlayerInterface;
 class BoardInterface;
 class EngineFactory;
 class ConfigFile;
+class Session;
+
 
 
 class Game {
 
 public:
-    Game(ConfigFile*, GuiInterface*, int, int, int, int);
+    Game(Session*, GuiInterface*, int, int, int, int);
 
     ~Game();
 
@@ -82,6 +84,7 @@ public:
 private:
 	EngineFactory *myFactory;
 
+	Session *mySession;
 	ConfigFile *myConfig;
 
 	GuiInterface *myGui;

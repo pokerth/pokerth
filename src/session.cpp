@@ -29,10 +29,10 @@
 
 using namespace std;
 
-Session::Session(GuiInterface *g)
-: actualGameID(0), myNetClient(0), myNetServer(0), actualGame(0), myGui(g)
+Session::Session()
+: actualGameID(0), myNetClient(0), myNetServer(0), actualGame(0), myGui(0)
 {	
-	myConfig = new ConfigFile;
+	myConfig = new ConfigFile(getConfigPath());
 }
 
 
@@ -49,7 +49,7 @@ void Session::startGame(int qP, int sC, int sB) {
 
 	actualGameID++;
 
-	actualGame = new Game(myConfig, myGui, qP, sC, sB, actualGameID);
+	actualGame = new Game(this, myGui, qP, sC, sB, actualGameID);
 }
 
 void Session::deleteGame() {

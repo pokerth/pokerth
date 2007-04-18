@@ -29,6 +29,7 @@
 #include "localflop.h"
 #include "localturn.h"
 #include "localriver.h"
+#include "session.h"
 
 class LocalEngineFactory : public EngineFactory
 {
@@ -39,7 +40,7 @@ public:
 
 	HandInterface* createHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC);
 	BoardInterface* createBoard();
-	PlayerInterface* createPlayer(BoardInterface *b, int id, std::string name, std::string avatar, int sC, bool aS, int mB);
+	PlayerInterface* createPlayer(Session *s, BoardInterface *b, int id, std::string name, std::string avatar, int sC, bool aS, int mB);
 	PreflopInterface* createPreflop(HandInterface* hi, int id, int aP, int dP, int sB);
 	FlopInterface* createFlop(HandInterface* hi, int id, int aP, int dP, int sB);
 	TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB);

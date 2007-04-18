@@ -24,11 +24,12 @@
 
 using namespace std;
 
-joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
-      : QDialog(parent)
+joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, std::string path)
+      : QDialog(parent), myConfig(0)
 {
-
-    setupUi(this);
+	myConfig = new ConfigFile(path);
+	
+    	setupUi(this);
 
 	//Profile Name darf nicht mit einer Zahl beginnen --> XML konform
 	QRegExp rx("[A-Z|a-z]+[A-Z|a-z|\\d]*");
@@ -39,7 +40,7 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
 
 	lineEdit_ipAddress->setFocus();
 
-	myServerProfilesFile = myConfig.readConfigString("DataDir")+"serverprofiles.xml";
+	myServerProfilesFile = myConfig->readConfigString("DataDir")+"serverprofiles.xml";
 
 	//Anlegen wenn noch nicht existiert!
 	QFile serverProfilesfile(QString::fromUtf8(myServerProfilesFile.c_str()));

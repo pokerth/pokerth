@@ -27,6 +27,7 @@
 #include "flopinterface.h"
 #include "turninterface.h"
 #include "riverinterface.h"
+#include "session.h"
 
 
 class EngineFactory{
@@ -36,7 +37,7 @@ public:
 		
 	virtual HandInterface* createHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC) =0;
 	virtual BoardInterface* createBoard() =0;
-	virtual PlayerInterface* createPlayer(BoardInterface *b, int id, std::string name, std::string avatar, int sC, bool aS, int mB) =0;
+	virtual PlayerInterface* createPlayer(Session*s, BoardInterface *b, int id, std::string name, std::string avatar, int sC, bool aS, int mB) =0;
 	virtual PreflopInterface* createPreflop(HandInterface* hi, int id, int aP, int dP, int sB) =0;
 	virtual FlopInterface* createFlop(HandInterface* hi, int id, int aP, int dP, int sB) =0;
 	virtual TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB) =0;

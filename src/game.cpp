@@ -28,13 +28,16 @@
 #include "handinterface.h"
 
 #include "configfile.h"
+#include "session.h"
 
 using namespace std;
 
-Game::Game(ConfigFile* c, GuiInterface* g, int qP, int sC, int sB, int gId) : myConfig(c), myGui(g), actualHand(0), actualBoard(0), startQuantityPlayers(qP), startCash(sC), startSmallBlind(sB), myGameID(gId), actualQuantityPlayers(qP), actualSmallBlind(sB), actualHandID(0), dealerPosition(0)
+Game::Game(Session* s, GuiInterface* g, int qP, int sC, int sB, int gId) : mySession(s), myConfig(0), myGui(g), actualHand(0), actualBoard(0), startQuantityPlayers(qP), startCash(sC), startSmallBlind(sB), myGameID(gId), actualQuantityPlayers(qP), actualSmallBlind(sB), actualHandID(0), dealerPosition(0)
 {
 // 	cout << "Create Game Object" << "\n";
 	int i;
+	
+	myConfig = new ConfigFile(mySession->getConfigPath());
 
 	actualHandID = 0;
 
@@ -69,7 +72,7 @@ Game::Game(ConfigFile* c, GuiInterface* g, int qP, int sC, int sB, int gId) : my
 		else { myAvatar << "Opponent" << i << "Avatar"; }
 
 		//PlayerObjekte erzeugen
-		tempPlayer = myFactory->createPlayer(actualBoard, i, myConfig->readConfigString(myName.str()), myConfig->readConfigString(myAvatar.str()), startCash, startQuantityPlayers > i, 0);
+		tempPlayer = myFactory->createPlayer(mySession, actualBoard, i, myConfig->readConfigString(myName.str()), myConfig->readConfigString(myAvatar.str()), startCash, startQuantityPlayers > i, 0);
 		playerArray[i] = tempPlayer;
 	}
 	actualBoard->setPlayer(playerArray);

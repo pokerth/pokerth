@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by FThauer FHammer   *
- *   f.thauer@web.de   *
+ *   Copyright (C) 2006 by Felix Hammer   *
+ *   f.hammer@web.de   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,38 +17,28 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef JOINNETWORKGAMEDIALOGIMPL_H
-#define JOINNETWORKGAMEDIALOGIMPL_H
+#ifndef DEFAULTCONFIG_H
+#define DEFAULTCONFIG_H
 
-#include "ui_joinnetworkgamedialog.h"
-
-#include <iostream>
+#include "tinyxml.h"
 #include <string>
-#include <QtGui>
-#include <QtCore>
 
-class Session;
-class ConfigFile;
-
-class joinNetworkGameDialogImpl: public QDialog, public Ui::joinNetworkGameDialog {
-Q_OBJECT
+class DefaultConfig{
 public:
-    joinNetworkGameDialogImpl(QWidget *parent = 0, std::string = "");
+    DefaultConfig();
 
-	
-	std::string myServerProfilesFile;
+    ~DefaultConfig();
 
-public slots:
+	void createDefaultConfig();
 
-	void startClient();
-	void fillServerProfileList();
-	void itemFillForm (QTreeWidgetItem* item, int column);
-	void saveServerProfile();
-	void deleteServerProfile();
-	void keyPressEvent ( QKeyEvent * event );
+	std::string getMyPath() const { return configFileName; }
 
 private:
-	ConfigFile *myConfig;
+	std::string configFileName;
+	std::string logDir;
+	std::string dataDir;
+	int configRev;
+	
 };
 
 #endif
