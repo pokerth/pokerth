@@ -39,7 +39,8 @@
 
 #include "log.h"
 #include "configfile.h"
-#include "defaultconfig.h"
+#include "appdirpath.h"
+
 
 #include <net/socket_msg.h>
 
@@ -60,13 +61,8 @@ mainWindowImpl::mainWindowImpl(Session* s, QMainWindow *parent)
 	}
 	////////////////////////////
 
-	//Create Defaultconfig if there is no one
-	DefaultConfig myDefaultConfig;
-	
-	//set SessionConfigPath
-	mySession->setConfigPath(myDefaultConfig.getMyPath());
-
-	myConfig = new ConfigFile(mySession->getConfigPath());
+	AppDirPath myAppDirPath;
+	myConfig = new ConfigFile(myAppDirPath.getMyPath());
 
 // Resourcen abladen 
 	QFile preflopValuesFile(":data/resources/data/preflopValues");

@@ -52,6 +52,7 @@
 using namespace std;
 
 class GuiWrapper;
+class QtToolsWrapper;
 
 int main( int argc, char **argv )
 {
@@ -67,9 +68,11 @@ int main( int argc, char **argv )
 	Q_INIT_RESOURCE(resources);
 	///////////////////////////////////////////////////	
 
+	
 	Session *theFirst = new Session();
+	
 	GuiInterface *myGuiInterface = new GuiWrapper(theFirst);
-
+	
 	theFirst->setGuiInterface(myGuiInterface);
 // 	myGuiInterface->setSession(&theFirst);
 
