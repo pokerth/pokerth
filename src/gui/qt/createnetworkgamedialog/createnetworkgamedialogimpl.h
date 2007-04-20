@@ -23,18 +23,15 @@
 #include "ui_createnetworkgamedialog.h"
 
 #include <iostream>
-#include <string>
 #include <QtGui>
 #include <QtCore>
 
 class Session;
-class ConfigFile;
-
 
 class createNetworkGameDialogImpl: public QDialog, public Ui::createNetworkGameDialog {
 Q_OBJECT
 public:
-    createNetworkGameDialogImpl(QWidget *parent = 0, std::string = "");
+    createNetworkGameDialogImpl(QWidget *parent = 0);
 
 public slots:
 
@@ -43,10 +40,6 @@ public slots:
 	void fillFormular();
 	void showDialog();
 	void keyPressEvent ( QKeyEvent * event );
-private:
-
-	ConfigFile *myConfig;
-
 };
 
 #endif

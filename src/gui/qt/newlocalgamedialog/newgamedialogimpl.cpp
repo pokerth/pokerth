@@ -20,22 +20,22 @@
 #include "newgamedialogimpl.h"
 #include "configfile.h"
 
-newGameDialogImpl::newGameDialogImpl(QWidget *parent, std::string path)
+newGameDialogImpl::newGameDialogImpl(QWidget *parent)
       : QDialog(parent)
 {
 
     setupUi(this);
 
 	//Formulare Füllen
-	myConfig = new ConfigFile(path);	
+	ConfigFile myConfig;	
 
 	//Game Settings
 
-	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NumberOfPlayers"));
-	spinBox_startCash->setValue(myConfig->readConfigInt("StartCash"));
-	spinBox_smallBlind->setValue(myConfig->readConfigInt("SmallBlind"));
-	spinBox_gameSpeed->setValue(myConfig->readConfigInt("GameSpeed"));
-	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig->readConfigInt("HandsBeforeRaiseSmallBlind"));
+	spinBox_quantityPlayers->setValue(myConfig.readConfigInt("NumberOfPlayers"));
+	spinBox_startCash->setValue(myConfig.readConfigInt("StartCash"));
+	spinBox_smallBlind->setValue(myConfig.readConfigInt("SmallBlind"));
+	spinBox_gameSpeed->setValue(myConfig.readConfigInt("GameSpeed"));
+	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("HandsBeforeRaiseSmallBlind"));
 
 }
 

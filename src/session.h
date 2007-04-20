@@ -30,11 +30,9 @@ class ServerThread;
 class Session{
 public:
 
-    Session();
+    Session(GuiInterface*);
 
     ~Session();
-
-	void setGuiInterface(GuiInterface *gui) { myGui = gui; }
 
 	void startGame(int, int, int);
 	void deleteGame();
@@ -50,9 +48,6 @@ public:
 	void setActualGameID(const int& theValue) { actualGameID = theValue; }
 	int getActualGameID() const { return actualGameID; }
 
-	void setConfigPath(const std::string& theValue) { configPath = theValue; }
-	std::string getConfigPath() const { return configPath; }
-
 // 	void createConfig();
 
 private:
@@ -65,8 +60,6 @@ private:
 	Game *actualGame;
 	GuiInterface *myGui;
 	ConfigFile *myConfig;
-
-	std::string configPath;
 
 };
 

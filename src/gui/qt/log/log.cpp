@@ -21,7 +21,6 @@
 
 #include "mainwindowimpl.h"
 #include <game_defs.h>
-#include "session.h"
 
 using namespace std;
 
@@ -29,8 +28,7 @@ Log::Log(mainWindowImpl* w) : myW(w)
 {
 	myW->setLog(this);
 
-	myConfig = new ConfigFile(myW->getSession()->getConfigPath());
-
+	myConfig = new ConfigFile;
 	if(myConfig->readConfigString("LogDir") != "" && QDir::QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str())).exists()) { 
 
 #ifdef _WIN32

@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include <string>
+#include "configfile.h"
 #include <QtGui>
 #include <QtCore>
 
@@ -33,9 +34,9 @@ class ConfigFile;
 class joinNetworkGameDialogImpl: public QDialog, public Ui::joinNetworkGameDialog {
 Q_OBJECT
 public:
-    joinNetworkGameDialogImpl(QWidget *parent = 0, std::string = "");
+    joinNetworkGameDialogImpl(QWidget *parent = 0);
 
-	
+	ConfigFile myConfig;
 	std::string myServerProfilesFile;
 
 public slots:
@@ -46,9 +47,6 @@ public slots:
 	void saveServerProfile();
 	void deleteServerProfile();
 	void keyPressEvent ( QKeyEvent * event );
-
-private:
-	ConfigFile *myConfig;
 };
 
 #endif

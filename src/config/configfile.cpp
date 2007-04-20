@@ -32,59 +32,87 @@
 
 using namespace std;
 
-ConfigFile::ConfigFile(std::string path)
-: myPath(path)
-{	
-
+ConfigFile::ConfigFile()
+{
 	// !!!! Revisionsnummer der Configdefaults !!!!!
 	configRev = 17;
 
-
+	// Pfad und Dateinamen setzen
 #ifdef _WIN32
-	//Programmordner erstellen 
-	myPath += "\\pokerth\\";
-	mkdir(myPath.c_str());
+	const char *appDataPath = getenv("AppData");
+	if (appDataPath && appDataPath[0] != 0) {
+		configFileName = appDataPath; 
+	}
+	else {
+		const int MaxPathSize = 1024;
+		char curDir[MaxPathSize + 1];
+		curDir[0] = 0;
+		_getcwd(curDir, MaxPathSize);
+		curDir[MaxPathSize] = 0;
+		configFileName = curDir;
+		// Testen ob das Verzeichnis beschreibbar ist
+		ofstream tmpFile;
+		const char *tmpFileName = "pokerth_test.tmp";
+		tmpFile.open((configFileName + "\\" + tmpFileName).c_str());
+		if (tmpFile) {
+			// Erfolgreich, Verzeichnis beschreibbar.
+			// Datei wieder loeschen.
+			tmpFile.close();
+			remove((configFileName + "\\" + tmpFileName).c_str());
+		}
+		else {
+			// Fehlgeschlagen, Verzeichnis nicht beschreibbar
+			curDir[0] = 0;
+			GetTempPathA(MaxPathSize, curDir);
+			curDir[MaxPathSize] = 0;
+			configFileName = curDir;
+		}
+	}
+	//Programmordner erstellen
+	configFileName += "\\pokerth\\";
+	mkdir(configFileName.c_str());
 	//Log-File Ordner auch erstellen
-	logDir = myPath;
+	logDir = configFileName;
 	logDir += "log-files\\";
 	mkdir(logDir.c_str());
 	//data Ordner auch erstellen
-	dataDir = myPath;
+	dataDir = configFileName;
 	dataDir += "data\\";
 	mkdir(dataDir.c_str());
 	
 #else
 	//Programmordner erstellen
-	myPath += "/.pokerth/";
-	mkdir(myPath.c_str(), MODUS) ;
-	//Log-File Ordner auch erstellen
-	logDir = myPath;
-	logDir += "log-files/";
-	mkdir(logDir.c_str(), MODUS);
-	//data Ordner auch erstellen
-	dataDir = myPath;
-	dataDir += "data/";
-	mkdir(dataDir.c_str(), MODUS);
-	
+	const char *homePath = getenv("HOME");
+	if(homePath) {
+		configFileName = homePath;
+		configFileName += "/.pokerth/";
+		mkdir(configFileName.c_str(), MODUS) ;
+		//Log-File Ordner auch erstellen
+		logDir = configFileName;
+		logDir += "log-files/";
+		mkdir(logDir.c_str(), MODUS);
+		//data Ordner auch erstellen
+		dataDir = configFileName;
+		dataDir += "data/";
+		mkdir(dataDir.c_str(), MODUS);
+	}
 #endif
-
-	myPath += "config.xml";
+	configFileName += "config.xml";
 
 	//Prüfen ob Configfile existiert --> sonst anlegen
-	
-	TiXmlDocument doc(myPath); 
+	TiXmlDocument doc(configFileName); 
 	if(!doc.LoadFile()){ createDefaultConfig(); }
 	else { 
-	
 	//Prüfen ob die Revision stimmt ansonsten löschen und neue anlegen 
 		int temp = 0;
 		TiXmlHandle docHandle( &doc );		
 		TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "ConfigRevision" ).ToElement();
 		if ( conf ) { conf->QueryIntAttribute("value", &temp ); }
-		
 		if (temp < configRev) { /*löschen()*/ createDefaultConfig() ;}
 	}
+
 }
+
 
 ConfigFile::~ConfigFile()
 {
@@ -243,17 +271,16 @@ void ConfigFile::createDefaultConfig() {
 		config->LinkEndChild( confElement31 );
       		confElement31->SetAttribute("value", dataDir);
 		
-		doc.SaveFile( myPath );
+		doc.SaveFile( configFileName );
 
 }
-
 
 string ConfigFile::readConfigString(string varName)
 {
   	string tempString("");
 
-	TiXmlDocument doc(myPath.c_str()); 
-	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << myPath << "\n"; }
+	TiXmlDocument doc(configFileName); 
+	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
 	TiXmlHandle docHandle( &doc );		
 
 	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
@@ -267,7 +294,7 @@ string ConfigFile::readConfigString(string varName)
 			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
 			config->LinkEndChild( confElement1 );
 			confElement1->SetAttribute("value", defaultValue);
-			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << myPath << "\n"; }
+			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
 
 			return readConfigString(varName, defaultValue);
 		}
@@ -280,8 +307,8 @@ int ConfigFile::readConfigInt(string varName)
 {
   	int tempInt=0;
 // 	cout << varName << " : " << tempInt << "\n";
-	TiXmlDocument doc(myPath.c_str()); 
-	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << myPath << "\n"; }
+	TiXmlDocument doc(configFileName); 
+	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
 	TiXmlHandle docHandle( &doc );		
 	
 	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
@@ -296,7 +323,7 @@ int ConfigFile::readConfigInt(string varName)
 			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
 			config->LinkEndChild( confElement1 );
 			confElement1->SetAttribute("value", defaultValue);
-			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << myPath << "\n"; }
+			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
 
 			return readConfigInt(varName, defaultValue);
 		}
@@ -309,14 +336,14 @@ int ConfigFile::readConfigInt(string varName)
 void ConfigFile::writeConfigInt(string varName, int varCont)
  {	
 
-	TiXmlDocument doc(myPath.c_str()); 
-	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << myPath << "\n"; }
+	TiXmlDocument doc(configFileName); 
+	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
 	TiXmlHandle docHandle( &doc );		
 
 	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
 	if ( conf ) {
 		conf->SetAttribute("value", varCont );
-		if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << myPath << "\n"; }
+		if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
         } else {
 		//Wenn nicht gefunden eines neues Anlegen
 		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
@@ -327,17 +354,17 @@ void ConfigFile::writeConfigInt(string varName, int varCont)
 			config->LinkEndChild( confElement1 );
 			confElement1->SetAttribute("value", varCont);
 
-			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << myPath << "\n"; }
+			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
 		}
 	}
-	if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << myPath << "\n"; }
+	if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
 }
 
 void ConfigFile::writeConfigString(string varName, string varCont)
  {
 	
-	TiXmlDocument doc(myPath.c_str()); 
-	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << myPath << "\n"; }
+	TiXmlDocument doc(configFileName); 
+	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
 	TiXmlHandle docHandle( &doc );		
 
 	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
@@ -350,10 +377,10 @@ void ConfigFile::writeConfigString(string varName, string varCont)
 			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
 			config->LinkEndChild( confElement1 );
 			confElement1->SetAttribute("value", varCont);
-			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << myPath << "\n"; }
+			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
 		}
 	}
-	if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << myPath << "\n"; }
+	if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
 	
         
 }

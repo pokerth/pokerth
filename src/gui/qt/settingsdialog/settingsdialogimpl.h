@@ -22,16 +22,14 @@
 
 #include "ui_settingsdialog.h"
 
-#include <string>
 #include <QtCore>
 #include <QtGui>
 
-class ConfigFile;
 
 class settingsDialogImpl: public QDialog, public Ui::settingsDialog {
 Q_OBJECT
 public:
-    settingsDialogImpl(QWidget *parent = 0, std::string = "");
+    settingsDialogImpl(QWidget *parent = 0);
 
 	void setPlayerNickIsChanged(bool theValue){ playerNickIsChanged = theValue;}
 	bool getPlayerNickIsChanged() const{ return playerNickIsChanged;}
@@ -55,7 +53,6 @@ private:
 	
 	bool playerNickIsChanged;
 	bool settingsCorrect;
-	ConfigFile *myConfig;
 
 };
 

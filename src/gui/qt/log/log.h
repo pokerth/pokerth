@@ -30,6 +30,7 @@
 
 class mainWindowImpl;
 
+
 class Log{
 public:
     Log(mainWindowImpl*);

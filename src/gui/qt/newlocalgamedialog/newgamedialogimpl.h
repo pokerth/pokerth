@@ -23,22 +23,17 @@
 #include "ui_newgamedialog.h"
 
 #include <iostream>
-#include <string>
 #include <QtGui>
 #include <QtCore>
 
-class ConfigFile;
 
 class newGameDialogImpl: public QDialog, public Ui::newGameDialog {
 Q_OBJECT
 public:
-    newGameDialogImpl(QWidget *parent = 0, std::string = "");
+    newGameDialogImpl(QWidget *parent = 0);
 
 public slots:
 
-
-private: 
-	ConfigFile *myConfig;
 };
 
 #endif

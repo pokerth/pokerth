@@ -15,8 +15,6 @@ DEPENDPATH += . \
               src/engine/local_engine \
               src/gui/qt \
               src/net/common \
-              src/gui/qt/qttools \		
-	      src/gui/qt/qttools/appdirpath \		
 	      src/gui/qt/mainwindow \
 	      src/gui/qt/mainwindow/startsplash \
               src/gui/qt/aboutpokerth \
@@ -24,7 +22,7 @@ DEPENDPATH += . \
               src/gui/qt/createnetworkgamedialog \
               src/gui/qt/joinnetworkgamedialog \
               src/gui/qt/log \
-	      src/gui/qt/defaultconfig \
+	      src/gui/qt/qthelper \
               src/gui/qt/newlocalgamedialog \
               src/gui/qt/settingsdialog \
               src/gui/qt/startnetworkgamedialog \
@@ -39,11 +37,9 @@ INCLUDEPATH += . \
                src/core/tinyxml \
                src/gui/qt \
                src/gui/qt/log \
-	       src/gui/qt/defaultconfig \
+	       src/gui/qt/qthelper \
                src/gui/qt/connecttoserverdialog \
                src/core \
-	       src/gui/qt/qttools \		
-	       src/gui/qt/qttools/appdirpath \		
 	       src/gui/qt/mainwindow \
 	       src/gui/qt/mainwindow/startsplash \
                src/gui/qt/aboutpokerth \
@@ -68,7 +64,6 @@ HEADERS += src/game.h \
            src/engine/riverinterface.h \
            src/engine/turninterface.h \
            src/gui/guiinterface.h \
-           src/gui/qttoolsinterface.h \
            src/net/clientcallback.h \
            src/net/clientcontext.h \
            src/net/clientexception.h \
@@ -94,8 +89,6 @@ HEADERS += src/game.h \
            src/engine/local_engine/localriver.h \
            src/engine/local_engine/localturn.h \
            src/engine/local_engine/tools.h \
-           src/gui/qt/qttools/qttoolswrapper.h \		
-	   src/gui/qt/qttools/appdirpath/appdirpath.h \	
 	   src/gui/qt/mainwindow/mainwindowimpl.h \
            src/gui/qt/mainwindow/mycardspixmaplabel.h \
 	   src/gui/qt/mainwindow/startsplash/startsplash.h \
@@ -108,7 +101,8 @@ HEADERS += src/game.h \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.h \
            src/gui/qt/settingsdialog/settingsdialogimpl.h \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.h \
-           src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.h 
+           src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.h \
+           src/gui/qt/qthelper/qthelper.h
 FORMS += src/gui/qt/mainwindow.ui \
 	 src/gui/qt/aboutpokerth.ui \
          src/gui/qt/connecttoserverdialog.ui \
@@ -131,7 +125,6 @@ SOURCES += src/game.cpp \
            src/engine/riverinterface.cpp \
            src/engine/turninterface.cpp \
            src/gui/guiinterface.cpp \
-	   src/gui/qttoolsinterface.cpp \
            src/core/common/thread.cpp \
            src/core/tinyxml/tinystr.cpp \
            src/core/tinyxml/tinyxml.cpp \
@@ -169,8 +162,6 @@ SOURCES += src/game.cpp \
            src/net/common/netexception.cpp \
            src/net/common/receiverhelper.cpp \
            src/gui/qt/guiwrapper.cpp \
-	   src/gui/qt/qttools/qttoolswrapper.cpp \		
-	   src/gui/qt/qttools/appdirpath/appdirpath.cpp \	
 	   src/gui/qt/mainwindow/mainwindowimpl.cpp \
            src/gui/qt/mainwindow/mycardspixmaplabel.cpp \
  	   src/gui/qt/mainwindow/startsplash/startsplash.cpp \
@@ -182,7 +173,8 @@ SOURCES += src/game.cpp \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.cpp \
            src/gui/qt/settingsdialog/settingsdialogimpl.cpp \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp \
-           src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.cpp
+           src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.cpp  \
+           src/gui/qt/qthelper/qthelper.cpp
 RESOURCES += src/gui/qt/resources.qrc
 
 TEMPLATE = vcapp

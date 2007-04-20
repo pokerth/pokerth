@@ -20,7 +20,6 @@
 #include "session.h"
 #include "game.h"
 #include "guiinterface.h"
-#include "qttoolswrapper.h"
 #include "configfile.h"
 #include <net/clientthread.h>
 #include <net/serverthread.h>
@@ -30,14 +29,10 @@
 
 using namespace std;
 
-Session::Session()
-: actualGameID(0), myNetClient(0), myNetServer(0), actualGame(0), myGui(0)
+Session::Session(GuiInterface *g)
+: actualGameID(0), myNetClient(0), myNetServer(0), actualGame(0), myGui(g)
 {	
-	QtToolsInterface *myQtToolsInterface = new QtToolsWrapper();
-	myConfig = new ConfigFile(myQtToolsInterface->getMyAppDirPath());
-
-	setConfigPath(myQtToolsInterface->getMyAppDirPath());
-
+	myConfig = new ConfigFile;
 }
 
 
@@ -54,7 +49,7 @@ void Session::startGame(int qP, int sC, int sB) {
 
 	actualGameID++;
 
-	actualGame = new Game(this, myGui, qP, sC, sB, actualGameID);
+	actualGame = new Game(myConfig, myGui, qP, sC, sB, actualGameID);
 }
 
 void Session::deleteGame() {

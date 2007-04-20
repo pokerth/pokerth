@@ -24,13 +24,16 @@
 using namespace std;
 
 
-GuiWrapper::GuiWrapper(Session *session) : myLog(0), myW(0)
+GuiWrapper::GuiWrapper() : myLog(0), myW(0)
 {
-	myW = new mainWindowImpl(session);
+
+
+	myW = new mainWindowImpl;
 	myW->show();
 
 	myLog = new Log(myW);
-	
+	myConfig = new ConfigFile;
+
 }
 
 
@@ -84,6 +87,9 @@ void GuiWrapper::meInAction() const { myW->meInAction(); }
 
 void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) { myLog->logPlayerActionMsg(playerName, action, setValue); }
 void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->logNewGameHandMsg(gameID, handID); }
+
+std::string GuiWrapper::stringToUtf8(const std::string &myString) { return myQtHelper->stringToUtf8(myString); }
+
 
 void GuiWrapper::SignalNetClientConnect(int actionID) { myW->SignalNetClientConnect(actionID); }
 void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->SignalNetClientGameInfo(actionID); }
