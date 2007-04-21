@@ -42,6 +42,7 @@ Session::~Session()
 	terminateNetworkServer();
 	deleteGame();
 	delete myConfig;
+	myConfig = 0;
 }
 
 

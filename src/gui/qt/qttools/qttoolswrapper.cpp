@@ -20,21 +20,21 @@
 
 #include "qttoolswrapper.h"
 
-#include <appdirpath.h>
-
 using namespace std;
 
 
-QtToolsWrapper::QtToolsWrapper() : myAppDirPath(0)
+QtToolsWrapper::QtToolsWrapper() : myQtHelper(0)
 {
 
-	myAppDirPath = new AppDirPath();
+	myQtHelper = new QtHelper();
 }
 
 
 QtToolsWrapper::~QtToolsWrapper()
 {
+	delete myQtHelper;
+	myQtHelper = 0;
 }
 
-std::string QtToolsWrapper::getMyAppDirPath() const { return myAppDirPath->getMyPath(); }
+std::string QtToolsWrapper::stringToUtf8(const std::string &myString) { return myQtHelper->stringToUtf8(myString); }
 

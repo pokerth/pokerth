@@ -94,6 +94,8 @@ Log::Log(mainWindowImpl* w) : myW(w)
 
 Log::~Log()
 {
+	delete myConfig;
+	myConfig = 0;
 }
 
 void Log::logPlayerActionMsg(string playerName, int action, int setValue) {

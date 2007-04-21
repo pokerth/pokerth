@@ -21,11 +21,12 @@
 #define QTTOOLSWRAPPER_H
 
 #include <qttoolsinterface.h>
+#include <qthelper.h>
 
 #include <string>
 #include <iostream>
 
-class AppDirPath;
+class QtHelper;
 
 class QtToolsWrapper : public QtToolsInterface
 {
@@ -34,11 +35,11 @@ public:
 
     ~QtToolsWrapper();
 
-	std::string getMyAppDirPath() const;
+	std::string stringToUtf8(const std::string &myString);
 
 private: 
 	
-	AppDirPath *myAppDirPath;
+	QtHelper *myQtHelper;
 	
 };
 

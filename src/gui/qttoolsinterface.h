@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Felix Hammer   *
- *   f.hammer@web.de   *
+ *   Copyright (C) 2006 by FThauer FHammer   *
+ *   f.thauer@web.de   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,35 +17,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CONFIGFILE_H
-#define CONFIGFILE_H
+#ifndef QTTOOLSINTERFACE_H
+#define QTTOOLSINTERFACE_H
 
-#include "tinyxml.h"
 #include <string>
 
-
-
-class ConfigFile{
+class QtToolsInterface {
 public:
-    ConfigFile();
+	virtual ~QtToolsInterface();
 
-    ~ConfigFile();
-
-	void createDefaultConfig();
-
-	std::string readConfigString(std::string varName);
-    	void writeConfigString(std::string varName, std::string varCont);
-    	
-	int readConfigInt(std::string varName);
-	void writeConfigInt(std::string varName, int varCont);
-    	
-
-private:
-	std::string configFileName;
-	std::string logDir;
-	std::string dataDir;
-	int configRev;
+	//qthelper.cpp
+	virtual std::string stringToUtf8(const std::string &) =0;
 	
+
 };
 
 #endif

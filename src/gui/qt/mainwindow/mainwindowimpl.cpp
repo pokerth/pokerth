@@ -547,7 +547,11 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 }
 
-mainWindowImpl::~mainWindowImpl() {}
+mainWindowImpl::~mainWindowImpl() {
+
+	delete myConfig;
+	myConfig = 0;
+}
 
 void mainWindowImpl::callNewGameDialog() {
 

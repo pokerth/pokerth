@@ -22,7 +22,8 @@ DEPENDPATH += . \
               src/gui/qt/createnetworkgamedialog \
               src/gui/qt/joinnetworkgamedialog \
               src/gui/qt/log \
-	      src/gui/qt/qthelper \
+	      src/gui/qt/qttools \		
+	      src/gui/qt/qttools/qthelper \
               src/gui/qt/newlocalgamedialog \
               src/gui/qt/settingsdialog \
               src/gui/qt/startnetworkgamedialog \
@@ -37,9 +38,10 @@ INCLUDEPATH += . \
                src/core/tinyxml \
                src/gui/qt \
                src/gui/qt/log \
-	       src/gui/qt/qthelper \
                src/gui/qt/connecttoserverdialog \
                src/core \
+	       src/gui/qt/qttools \		
+	       src/gui/qt/qttools/qthelper \
 	       src/gui/qt/mainwindow \
 	       src/gui/qt/mainwindow/startsplash \
                src/gui/qt/aboutpokerth \
@@ -102,7 +104,9 @@ HEADERS += src/game.h \
            src/gui/qt/settingsdialog/settingsdialogimpl.h \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.h \
            src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.h \
-           src/gui/qt/qthelper/qthelper.h
+	   src/gui/qttoolsinterface.h \	
+	   src/gui/qt/qttools/qttoolswrapper.h \	
+	   src/gui/qt/qttools/qthelper/qthelper.h
 FORMS += src/gui/qt/mainwindow.ui \
 	 src/gui/qt/aboutpokerth.ui \
          src/gui/qt/connecttoserverdialog.ui \
@@ -174,7 +178,9 @@ SOURCES += src/game.cpp \
            src/gui/qt/settingsdialog/settingsdialogimpl.cpp \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp \
            src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.cpp  \
-           src/gui/qt/qthelper/qthelper.cpp
+           src/gui/qttoolsinterface.cpp \	
+	   src/gui/qt/qttools/qttoolswrapper.cpp \	
+	   src/gui/qt/qttools/qthelper/qthelper.cpp
 RESOURCES += src/gui/qt/resources.qrc
 
 TEMPLATE = vcapp
