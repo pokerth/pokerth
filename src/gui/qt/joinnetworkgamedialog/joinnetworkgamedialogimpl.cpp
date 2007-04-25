@@ -56,7 +56,7 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
 		TiXmlElement * profiles = new TiXmlElement( "ServerProfiles" );  
 		root->LinkEndChild( profiles );  
 	
-		doc.SaveFile( myServerProfilesFile );
+		doc.SaveFile( QString::fromUtf8(myServerProfilesFile.c_str()).toStdString() );
 	}
 	
 	//Liste Füllen
@@ -86,7 +86,7 @@ void joinNetworkGameDialogImpl::fillServerProfileList() {
 	
 	treeWidget->clear();
 
-	TiXmlDocument doc(myServerProfilesFile); 
+	TiXmlDocument doc(QString::fromUtf8(myServerProfilesFile.c_str()).toStdString()); 
 	if(!doc.LoadFile()) {	
 		QMessageBox::warning(this, tr("Load Server-Profile-File Error"),
 			tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
