@@ -31,11 +31,7 @@ Log::Log(mainWindowImpl* w) : myW(w)
 	myConfig = new ConfigFile;
 	if(myConfig->readConfigString("LogDir") != "" && QDir::QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str())).exists()) { 
 
-#ifdef _WIN32
 		myLogDir = new QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
-#else
-		myLogDir = new QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
-#endif
 		myLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh.mm.ss")+".html");
 
 		//Logo-Pixmap extrahieren
@@ -79,7 +75,7 @@ Log::Log(mainWindowImpl* w) : myW(w)
 	// 		cout << dateOfFile.daysTo(today) << endl;
 	
 			if (dateOfFile.daysTo(today) > daysUntilWaste) {
-	
+
 	// 			cout << QString::QString(myLogDir->absolutePath()+"/"+logFileList.at(i)).toStdString() << endl;
 				QFile fileToDelete(myLogDir->absolutePath()+"/"+logFileList.at(i));
 				fileToDelete.remove();
