@@ -25,19 +25,19 @@
 #include <sstream>
 
 #include "game_defs.h"
+#include "playerdata.h"
 
 class GuiInterface;
 class HandInterface;
 class PlayerInterface;
 class BoardInterface;
 class EngineFactory;
-class ConfigFile;
 
 
 class Game {
 
 public:
-    Game(ConfigFile*, GuiInterface*, int, int, int, int);
+    Game(GuiInterface *gui, const PlayerDataList &playerData, int sC, int sB, int hbrsB, int gameId);
 
     ~Game();
 
@@ -69,9 +69,6 @@ public:
 	void setActualHandID(const int& theValue) { actualHandID = theValue; }
 	int getActualHandID() const { return actualHandID; }
 
-	void setRoundsToRaiseSmallBlind(const int& theValue) { roundsToRaiseSmallBlind = theValue; }
-	int getRoundsToRaiseSmallBlind() const { return roundsToRaiseSmallBlind; }
-
 	void startHand();
 
 	
@@ -82,8 +79,6 @@ public:
 private:
 	EngineFactory *myFactory;
 
-	ConfigFile *myConfig;
-
 	GuiInterface *myGui;
 	HandInterface *actualHand;
 	BoardInterface *actualBoard;
@@ -93,6 +88,7 @@ private:
 	int startQuantityPlayers;
 	int startCash;
 	int startSmallBlind;
+	int startHandsBeforeRaiseSmallBlind;
 	int myGameID;
 
 	//Laufvariablen
@@ -100,10 +96,6 @@ private:
 	int actualSmallBlind;
 	int actualHandID;
 	int dealerPosition;
-
-	int roundsToRaiseSmallBlind;
-
-
 };
 
 #endif

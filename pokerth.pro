@@ -54,6 +54,7 @@ INCLUDEPATH += . \
 # Input
 HEADERS += src/game.h \
            src/session.h \
+           src/playerdata.h \
            src/config/configfile.h \
            src/core/rand.h \
            src/core/thread.h \
@@ -119,6 +120,7 @@ FORMS += src/gui/qt/mainwindow.ui \
 SOURCES += src/game.cpp \
            src/pokerth.cpp \
            src/session.cpp \
+           src/playerdata.cpp \
            src/config/configfile.cpp \
            src/engine/boardinterface.cpp \
            src/engine/enginefactory.cpp \

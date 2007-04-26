@@ -34,7 +34,7 @@ public:
 
     ~Session();
 
-	void startGame(int, int, int);
+	void startGame(int qP, int sC, int sB, int hbrsB);
 	void deleteGame();
 
 	void startNetworkClient(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
@@ -45,14 +45,12 @@ public:
 	void initiateNetworkServerGame();
 	void terminateNetworkServer();
 
-	void setActualGameID(const int& theValue) { actualGameID = theValue; }
-	int getActualGameID() const { return actualGameID; }
-
-// 	void createConfig();
+	void setCurrentGameID(const int& theValue) { currentGameID = theValue; }
+	int getCurrentGameID() const { return currentGameID; }
 
 private:
 
-	int actualGameID;
+	int currentGameID;
 
 	ClientThread *myNetClient;
 	ServerThread *myNetServer;

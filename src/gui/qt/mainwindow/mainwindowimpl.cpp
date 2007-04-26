@@ -608,7 +608,7 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 		//positioning Slider
 		horizontalSlider_speed->setValue(guiGameSpeed);
 		//Start Game!!!
-		mySession->startGame(v->spinBox_quantityPlayers->value(), v->spinBox_startCash->value(), v->spinBox_smallBlind->value());
+		mySession->startGame(v->spinBox_quantityPlayers->value(), v->spinBox_startCash->value(), v->spinBox_smallBlind->value(), v->spinBox_handsBeforeRaiseSmallBlind->value());
 	}
 	// start with default values
 	else {
@@ -618,7 +618,7 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 		//positioning Slider
 		horizontalSlider_speed->setValue(guiGameSpeed);
 		//Start Game!!!
-		mySession->startGame(myConfig->readConfigInt("NumberOfPlayers"), myConfig->readConfigInt("StartCash"), myConfig->readConfigInt("SmallBlind"));
+		mySession->startGame(myConfig->readConfigInt("NumberOfPlayers"), myConfig->readConfigInt("StartCash"), myConfig->readConfigInt("SmallBlind"), myConfig->readConfigInt("HandsBeforeRaiseSmallBlind"));
 	}
 }
 

@@ -30,7 +30,7 @@
 using namespace std;
 
 Session::Session(GuiInterface *g)
-: actualGameID(0), myNetClient(0), myNetServer(0), actualGame(0), myGui(g)
+: currentGameID(0), myNetClient(0), myNetServer(0), actualGame(0), myGui(g)
 {	
 	myConfig = new ConfigFile;
 }
@@ -46,11 +46,32 @@ Session::~Session()
 }
 
 
-void Session::startGame(int qP, int sC, int sB) {
+void Session::startGame(int qP, int sC, int sB, int hbrsB) {
 
-	actualGameID++;
+	currentGameID++;
 
-	actualGame = new Game(myConfig, myGui, qP, sC, sB, actualGameID);
+	PlayerDataList playerDataList;
+	for(int i=0; i<qP; i++) {
+
+		//Namen und Avatarpfad abfragen 
+		ostringstream myName;
+		if (i==0) { myName << "MyName";	}
+		else { myName << "Opponent" << i << "Name"; }
+		ostringstream myAvatar;
+		if (i==0) { myAvatar << "MyAvatar";	}
+		else { myAvatar << "Opponent" << i << "Avatar"; }
+
+		//PlayerData erzeugen
+		// TODO: PlayerType setzen
+		boost::shared_ptr<PlayerData> playerData(new PlayerData);
+		playerData->SetName(myConfig->readConfigString(myName.str()));
+		playerData->SetAvatarFile(myConfig->readConfigString(myAvatar.str()));
+
+		playerDataList.push_back(playerData);
+	}
+
+
+	actualGame = new Game(myGui, playerDataList, sC, sB, hbrsB, currentGameID);
 }
 
 void Session::deleteGame() {

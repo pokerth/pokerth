@@ -21,8 +21,7 @@
 #ifndef _NETPACKET_H_
 #define _NETPACKET_H_
 
-#include <string>
-#include <boost/shared_ptr.hpp>
+#include <playerdata.h>
 #include <net/socket_helper.h>
 
 #define MIN_PACKET_SIZE				4
@@ -30,12 +29,6 @@
 #define MAX_NAME_SIZE				64
 #define MAX_PASSWORD_SIZE			64
 
-// TODO: move this somewhere else
-enum PlayerType
-{
-	PLAYER_TYPE_COMPUTER,
-	PLAYER_TYPE_HUMAN
-};
 
 enum JoinGameErrorReason
 {

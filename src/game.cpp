@@ -27,14 +27,16 @@
 #include "playerinterface.h"
 #include "handinterface.h"
 
-#include "configfile.h"
-
 using namespace std;
 
-Game::Game(ConfigFile* c, GuiInterface* g, int qP, int sC, int sB, int gId) : myConfig(c), myGui(g), actualHand(0), actualBoard(0), startQuantityPlayers(qP), startCash(sC), startSmallBlind(sB), myGameID(gId), actualQuantityPlayers(qP), actualSmallBlind(sB), actualHandID(0), dealerPosition(0)
+Game::Game(GuiInterface* gui, const PlayerDataList &playerData, int sC, int sB, int hbrsB, int gameId)
+: myGui(gui), actualHand(0), actualBoard(0), startCash(sC),
+  startSmallBlind(sB), startHandsBeforeRaiseSmallBlind(hbrsB),myGameID(gameId),
+  actualSmallBlind(sB), actualHandID(0), dealerPosition(0)
 {
 // 	cout << "Create Game Object" << "\n";
 	int i;
+	startQuantityPlayers = actualQuantityPlayers = playerData.size();
 
 	actualHandID = 0;
 
@@ -57,23 +59,26 @@ Game::Game(ConfigFile* c, GuiInterface* g, int qP, int sC, int sB, int gId) : my
 	myTool.getRandNumber(0, startQuantityPlayers-1, 1, &dealerPosition, 0);
 
 	// Player erstellen
-	PlayerInterface *tempPlayer;
+	PlayerDataList::const_iterator player_i = playerData.begin();
+	PlayerDataList::const_iterator player_end = playerData.end();
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		//Namen und Avatarpfad abfragen 
-		ostringstream myName;
-		if (i==0) { myName << "MyName";	}
-		else { myName << "Opponent" << i << "Name"; }
-		ostringstream myAvatar;
-		if (i==0) { myAvatar << "MyAvatar";	}
-		else { myAvatar << "Opponent" << i << "Avatar"; }
+		string myName;
+		string myAvatarFile;
+
+		if (player_i != player_end)
+		{
+			myName = (*player_i)->GetName();
+			myAvatarFile = (*player_i)->GetAvatarFile();
+			// TODO: set player type
+			++player_i;
+		}
 
 		//PlayerObjekte erzeugen
-		tempPlayer = myFactory->createPlayer(actualBoard, i, myConfig->readConfigString(myName.str()), myConfig->readConfigString(myAvatar.str()), startCash, startQuantityPlayers > i, 0);
-		playerArray[i] = tempPlayer;
+		playerArray[i] = myFactory->createPlayer(actualBoard, i, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0);
 	}
 	actualBoard->setPlayer(playerArray);
-	
+
 	//// SPIEL-SCHLEIFE
 
 	startHand();
@@ -116,8 +121,7 @@ void Game::startHand()
 	actualHandID++;
 
 	// smallBlind alle x Runden erhöhen
-	int handsBeforeRaiseSmallBLind = myConfig->readConfigInt("HandsBeforeRaiseSmallBlind");
-	if(actualHandID%handsBeforeRaiseSmallBLind == 0) actualSmallBlind *= 2;
+	if(actualHandID%startHandsBeforeRaiseSmallBlind == 0) actualSmallBlind *= 2;
 
 	//Spieler Action auf 0 setzen 
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
