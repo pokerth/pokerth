@@ -24,6 +24,7 @@
 #include <core/thread.h>
 #include <deque>
 #include <map>
+#include <string>
 #include <boost/shared_ptr.hpp>
 
 #include <net/connectdata.h>
@@ -40,12 +41,15 @@ class SenderThread;
 class ReceiverHelper;
 class ServerSenderCallback;
 class NetPacket;
+struct GameData;
 
 class ServerRecvThread : public Thread
 {
 public:
 	ServerRecvThread(ServerCallback &gui);
 	virtual ~ServerRecvThread();
+
+	void Init(const std::string &pwd, const GameData &gameData);
 
 	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
 	void AddConnection(boost::shared_ptr<ConnectData> data);
@@ -78,6 +82,9 @@ protected:
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
 
+	const GameData &GetGameData();
+	bool CheckPassword(const std::string &password);
+
 	ServerSenderCallback &GetSenderCallback();
 
 private:
@@ -96,6 +103,9 @@ private:
 	std::auto_ptr<SenderThread> m_sender;
 
 	std::auto_ptr<ServerSenderCallback> m_senderCallback;
+	std::auto_ptr<GameData> m_gameData;
+
+	std::string m_password;
 
 	ServerCallback &m_callback;
 

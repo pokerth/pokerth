@@ -147,3 +147,5 @@ Server Notification: Player's Turn
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 
+
+2007 by Lothar May

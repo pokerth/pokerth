@@ -32,12 +32,12 @@ class HandInterface;
 class PlayerInterface;
 class BoardInterface;
 class EngineFactory;
-
+struct GameData;
 
 class Game {
 
 public:
-    Game(GuiInterface *gui, const PlayerDataList &playerData, int sC, int sB, int hbrsB, int gameId);
+    Game(GuiInterface *gui, const PlayerDataList &playerDataList, const GameData &gameData, int gameId);
 
     ~Game();
 

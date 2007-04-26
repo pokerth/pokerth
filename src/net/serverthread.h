@@ -30,6 +30,7 @@ class ServerContext;
 class ServerRecvThread;
 class ServerSenderCallback;
 class SenderThread;
+struct GameData;
 
 class ServerThread : public Thread
 {
@@ -38,7 +39,8 @@ public:
 	virtual ~ServerThread();
 
 	// Set the parameters.
-	void Init(unsigned serverPort, bool ipv6, const std::string &pwd);
+	void Init(unsigned serverPort, bool ipv6, const std::string &pwd,
+		const GameData &gameData);
 	void StartGame();
 
 	ServerCallback &GetCallback();

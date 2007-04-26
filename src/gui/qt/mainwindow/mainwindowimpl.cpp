@@ -601,14 +601,18 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	}
 
 	//get values from local game dialog
+	GameData gameData;
 	if(v) {
 		//Speeds 
 		guiGameSpeed = v->spinBox_gameSpeed->value();
 		setSpeeds();
 		//positioning Slider
 		horizontalSlider_speed->setValue(guiGameSpeed);
-		//Start Game!!!
-		mySession->startGame(v->spinBox_quantityPlayers->value(), v->spinBox_startCash->value(), v->spinBox_smallBlind->value(), v->spinBox_handsBeforeRaiseSmallBlind->value());
+		// Set Game Data
+		gameData.numberOfPlayers = v->spinBox_quantityPlayers->value();
+		gameData.startCash = v->spinBox_startCash->value();
+		gameData.smallBlind = v->spinBox_smallBlind->value();
+		gameData.handsBeforeRaise = v->spinBox_handsBeforeRaiseSmallBlind->value();
 	}
 	// start with default values
 	else {
@@ -617,9 +621,14 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 		setSpeeds();
 		//positioning Slider
 		horizontalSlider_speed->setValue(guiGameSpeed);
-		//Start Game!!!
-		mySession->startGame(myConfig->readConfigInt("NumberOfPlayers"), myConfig->readConfigInt("StartCash"), myConfig->readConfigInt("SmallBlind"), myConfig->readConfigInt("HandsBeforeRaiseSmallBlind"));
+		// Set Game Data
+		gameData.numberOfPlayers = myConfig->readConfigInt("NumberOfPlayers");
+		gameData.startCash = myConfig->readConfigInt("StartCash");
+		gameData.smallBlind = myConfig->readConfigInt("SmallBlind");
+		gameData.handsBeforeRaise = myConfig->readConfigInt("HandsBeforeRaiseSmallBlind");
 	}
+	//Start Game!!!
+	mySession->startGame(gameData);
 }
 
 
@@ -638,7 +647,13 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		mySession->terminateNetworkClient();
 		mySession->terminateNetworkServer();
 
-		mySession->startNetworkServer();
+		GameData gameData;
+		gameData.numberOfPlayers = myCreateNetworkGameDialog->spinBox_quantityPlayers->value();
+		gameData.startCash = myCreateNetworkGameDialog->spinBox_startCash->value();
+		gameData.smallBlind = myCreateNetworkGameDialog->spinBox_smallBlind->value();
+		gameData.handsBeforeRaise = myCreateNetworkGameDialog->spinBox_handsBeforeRaiseSmallBlind->value();
+
+		mySession->startNetworkServer(gameData);
 		mySession->startNetworkClientForLocalServer();
 
 		myStartNetworkGameDialog->exec();

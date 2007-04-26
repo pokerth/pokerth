@@ -43,10 +43,6 @@ public:
 	{return m_serverPort;}
 	void SetServerPort(unsigned serverPort)
 	{m_serverPort = serverPort;}
-	const std::string &GetPassword() const
-	{return m_password;}
-	void SetPassword(const std::string &password)
-	{m_password = password;}
 	const sockaddr_storage *GetServerSockaddr() const
 	{return &m_serverSockaddr;}
 	sockaddr_storage *GetServerSockaddr()
@@ -59,7 +55,6 @@ private:
 	SOCKET				m_sockfd;
 	int					m_addrFamily;
 	unsigned			m_serverPort;
-	std::string			m_password;
 	sockaddr_storage	m_serverSockaddr;
 };
 

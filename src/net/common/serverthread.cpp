@@ -41,7 +41,8 @@ ServerThread::~ServerThread()
 }
 
 void
-ServerThread::Init(unsigned serverPort, bool ipv6, const std::string &pwd)
+ServerThread::Init(unsigned serverPort, bool ipv6, const std::string &pwd,
+	const GameData &gameData)
 {
 	if (IsRunning())
 		return; // TODO: throw exception
@@ -50,7 +51,8 @@ ServerThread::Init(unsigned serverPort, bool ipv6, const std::string &pwd)
 
 	context.SetAddrFamily(ipv6 ? AF_INET6 : AF_INET);
 	context.SetServerPort(serverPort);
-	context.SetPassword(pwd);
+
+	GetRecvThread().Init(pwd, gameData);
 }
 
 void

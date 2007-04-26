@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "game.h"
+#include "gamedata.h"
 
 #include "enginefactory.h"
 #include "localenginefactory.h"
@@ -29,14 +30,15 @@
 
 using namespace std;
 
-Game::Game(GuiInterface* gui, const PlayerDataList &playerData, int sC, int sB, int hbrsB, int gameId)
-: myGui(gui), actualHand(0), actualBoard(0), startCash(sC),
-  startSmallBlind(sB), startHandsBeforeRaiseSmallBlind(hbrsB),myGameID(gameId),
-  actualSmallBlind(sB), actualHandID(0), dealerPosition(0)
+Game::Game(GuiInterface* gui, const PlayerDataList &playerDataList, const GameData &gameData, int gameId)
+: myGui(gui), actualHand(0), actualBoard(0), startQuantityPlayers(gameData.numberOfPlayers),
+  startCash(gameData.startCash), startSmallBlind(gameData.smallBlind),
+  startHandsBeforeRaiseSmallBlind(gameData.handsBeforeRaise),
+  myGameID(gameId), actualQuantityPlayers(gameData.numberOfPlayers),
+  actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(0)
 {
 // 	cout << "Create Game Object" << "\n";
 	int i;
-	startQuantityPlayers = actualQuantityPlayers = playerData.size();
 
 	actualHandID = 0;
 
@@ -59,8 +61,8 @@ Game::Game(GuiInterface* gui, const PlayerDataList &playerData, int sC, int sB, 
 	myTool.getRandNumber(0, startQuantityPlayers-1, 1, &dealerPosition, 0);
 
 	// Player erstellen
-	PlayerDataList::const_iterator player_i = playerData.begin();
-	PlayerDataList::const_iterator player_end = playerData.end();
+	PlayerDataList::const_iterator player_i = playerDataList.begin();
+	PlayerDataList::const_iterator player_end = playerDataList.end();
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
 		string myName;
@@ -84,8 +86,6 @@ Game::Game(GuiInterface* gui, const PlayerDataList &playerData, int sC, int sB, 
 	startHand();
 
 	// SPIEL-SCHLEIFE
-
-
 }
 
 

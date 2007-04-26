@@ -46,12 +46,12 @@ Session::~Session()
 }
 
 
-void Session::startGame(int qP, int sC, int sB, int hbrsB) {
+void Session::startGame(const GameData &gameData) {
 
 	currentGameID++;
 
 	PlayerDataList playerDataList;
-	for(int i=0; i<qP; i++) {
+	for(unsigned i=0; i<gameData.numberOfPlayers; i++) {
 
 		//Namen und Avatarpfad abfragen 
 		ostringstream myName;
@@ -63,7 +63,8 @@ void Session::startGame(int qP, int sC, int sB, int hbrsB) {
 
 		//PlayerData erzeugen
 		// TODO: PlayerType setzen
-		boost::shared_ptr<PlayerData> playerData(new PlayerData);
+		// UniqueId = PlayerNumber for local games.
+		boost::shared_ptr<PlayerData> playerData(new PlayerData(i));
 		playerData->SetName(myConfig->readConfigString(myName.str()));
 		playerData->SetAvatarFile(myConfig->readConfigString(myAvatar.str()));
 
@@ -71,7 +72,7 @@ void Session::startGame(int qP, int sC, int sB, int hbrsB) {
 	}
 
 
-	actualGame = new Game(myGui, playerDataList, sC, sB, hbrsB, currentGameID);
+	actualGame = new Game(myGui, playerDataList, gameData, currentGameID);
 }
 
 void Session::deleteGame() {
@@ -123,7 +124,7 @@ void Session::terminateNetworkClient()
 	myNetClient = 0;
 }
 
-void Session::startNetworkServer()
+void Session::startNetworkServer(const GameData &gameData)
 {
 	if (myNetServer)
 		return; // TODO: throw exception
@@ -131,7 +132,8 @@ void Session::startNetworkServer()
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
-		myConfig->readConfigString("ServerPassword"));
+		myConfig->readConfigString("ServerPassword"),
+		gameData);
 	myNetServer->Run();
 }
 

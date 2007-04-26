@@ -55,6 +55,7 @@ INCLUDEPATH += . \
 HEADERS += src/game.h \
            src/session.h \
            src/playerdata.h \
+           src/gamedata.h \
            src/config/configfile.h \
            src/core/rand.h \
            src/core/thread.h \

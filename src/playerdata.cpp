@@ -19,8 +19,8 @@
 
 #include <playerdata.h>
 
-PlayerData::PlayerData()
-: m_type(PLAYER_TYPE_COMPUTER)
+PlayerData::PlayerData(unsigned uniqueId)
+: m_uniqueId(uniqueId), m_type(PLAYER_TYPE_COMPUTER)
 {
 }
 

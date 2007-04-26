@@ -16,50 +16,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Player data. */
+/* Game data. */
 
-#ifndef _PLAYERDATA_H_
-#define _PLAYERDATA_H_
+#ifndef _GAMEDATA_H_
+#define _GAMEDATA_H_
 
-#include <string>
-#include <list>
-#include <boost/shared_ptr.hpp>
+// For the sake of simplicity, this is a struct.
 
-enum PlayerType
+struct GameData
 {
-	PLAYER_TYPE_COMPUTER,
-	PLAYER_TYPE_HUMAN
+	GameData() : numberOfPlayers(0), startCash(0), smallBlind(0), handsBeforeRaise(1) {}
+	unsigned numberOfPlayers;
+	unsigned startCash;
+	unsigned smallBlind;
+	unsigned handsBeforeRaise;
 };
-
-class PlayerData
-{
-public:
-	PlayerData(unsigned uniqueId);
-	~PlayerData();
-
-	const std::string &GetName() const
-	{return m_name;}
-	void SetName(const std::string &name)
-	{m_name = name;}
-	const std::string &GetAvatarFile() const
-	{return m_avatarFile;}
-	void SetAvatarFile(const std::string &avatarFile)
-	{m_avatarFile = avatarFile;}
-	PlayerType GetType() const
-	{return m_type;}
-	void SetPlayerType(PlayerType type)
-	{m_type = type;}
-	unsigned GetUniqueId() const
-	{return m_uniqueId;}
-
-private:
-	unsigned	m_uniqueId;
-	std::string	m_name;
-	std::string	m_avatarFile;
-	PlayerType	m_type;
-};
-
-typedef std::list<boost::shared_ptr<PlayerData> > PlayerDataList;
 
 #endif
 

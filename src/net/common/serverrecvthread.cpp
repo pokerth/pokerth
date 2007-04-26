@@ -24,6 +24,9 @@
 #include <net/sendercallback.h>
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
+#include <gamedata.h>
+
+using namespace std;
 
 class ServerSenderCallback : public SenderCallback
 {
@@ -47,12 +50,20 @@ ServerRecvThread::ServerRecvThread(ServerCallback &cb)
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
 	m_receiver.reset(new ReceiverHelper);
+	m_gameData.reset(new GameData);
 }
 
 ServerRecvThread::~ServerRecvThread()
 {
 	CleanupConnectQueue();
 	CleanupSessionMap();
+}
+
+void
+ServerRecvThread::Init(const string &pwd, const GameData &gameData)
+{
+	m_password = pwd;
+	*m_gameData = gameData;
 }
 
 void
@@ -295,6 +306,19 @@ ServerRecvThread::GetReceiver()
 {
 	assert(m_receiver.get());
 	return *m_receiver;
+}
+
+const GameData &
+ServerRecvThread::GetGameData()
+{
+	assert(m_gameData.get());
+	return *m_gameData;
+}
+
+bool
+ServerRecvThread::CheckPassword(const std::string &password)
+{
+	return (password == m_password);
 }
 
 ServerSenderCallback &

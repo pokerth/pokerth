@@ -19,6 +19,7 @@
  ***************************************************************************/
 #ifndef STDSESSION_H
 #define STDSESSION_H
+#include "gamedata.h"
 #include <string>
 
 class GuiInterface;
@@ -30,18 +31,18 @@ class ServerThread;
 class Session{
 public:
 
-    Session(GuiInterface*);
+	Session(GuiInterface*);
 
-    ~Session();
+	~Session();
 
-	void startGame(int qP, int sC, int sB, int hbrsB);
+	void startGame(const GameData &gameData);
 	void deleteGame();
 
 	void startNetworkClient(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
 	void startNetworkClientForLocalServer();
 	void terminateNetworkClient();
 
-	void startNetworkServer();
+	void startNetworkServer(const GameData &gameData);
 	void initiateNetworkServerGame();
 	void terminateNetworkServer();
 

@@ -81,6 +81,9 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 					tmpPacket->GetData(playerData);
 					server.GetCallback().SignalNetServerPlayerJoined(playerData.playerName);
 					boost::shared_ptr<NetPacket> answer(new NetPacketJoinGameAck);
+					NetPacketJoinGameAck::Data joinGameAckData;
+					// TODO: set data.
+					static_cast<NetPacketJoinGameAck *>(answer.get())->SetData(joinGameAckData);
 					server.GetSender().Send(answer, recvSock);
 					session->SetState(SessionData::Established);
 				}
