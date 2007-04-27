@@ -121,7 +121,7 @@ void Game::startHand()
 	actualHandID++;
 
 	// smallBlind alle x Runden erhöhen
-	if(actualHandID%startHandsBeforeRaiseSmallBlind == 0) actualSmallBlind *= 2;
+	if(actualHandID%(startHandsBeforeRaiseSmallBlind+1) == 0) actualSmallBlind *= 2;
 
 	//Spieler Action auf 0 setzen 
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {

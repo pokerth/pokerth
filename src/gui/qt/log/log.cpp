@@ -47,7 +47,7 @@ Log::Log(mainWindowImpl* w) : myW(w)
 		stream << "</head>\n";
 		stream << "<body>\n";
 		stream << "<img src='logo.png'>\n";
-		stream << "<h3><b>Log-File for PokerTH Session started on "+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
+		stream << "<h3><b>Log-File for PokerTH 0.4 Session started on "+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
 // 		stream << "</body>\n";
 // 		stream << "</html>\n";
 		myLogFile->close();

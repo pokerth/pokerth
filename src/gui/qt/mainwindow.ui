@@ -499,7 +499,7 @@
    </palette>
   </property>
   <property name="windowTitle" >
-   <string>PokerTH - The Open-Source Texas Holdem Engine</string>
+   <string>PokerTH 0.4 - The Open-Source Texas Holdem Engine</string>
   </property>
   <property name="styleSheet" >
    <string>QMainWindow { background-image: url(:/guiv2/resources/guiv2/table.png); background-position: bottom center; background-origin: content; }</string>
