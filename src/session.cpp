@@ -51,7 +51,7 @@ void Session::startGame(const GameData &gameData) {
 	currentGameID++;
 
 	PlayerDataList playerDataList;
-	for(unsigned i=0; i<gameData.numberOfPlayers; i++) {
+	for(int i=0; i<gameData.numberOfPlayers; i++) {
 
 		//Namen und Avatarpfad abfragen 
 		ostringstream myName;

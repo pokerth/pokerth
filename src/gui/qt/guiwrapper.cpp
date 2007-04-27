@@ -92,7 +92,7 @@ void GuiWrapper::SignalNetClientConnect(int actionID) { myW->SignalNetClientConn
 void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->SignalNetClientGameInfo(actionID); }
 void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myW->SignalNetClientError(errorID, osErrorID); }
 
-void GuiWrapper::SignalNetClientGameStart(const GameData &gameData) { myW->SignalNetClientGameStart(GameDataWrapper(gameData)); }
+void GuiWrapper::SignalNetClientGameStart(const GameData &gameData) { myW->SignalNetClientGameStart(gameData.numberOfPlayers, gameData.startCash, gameData.smallBlind, gameData.handsBeforeRaise); }
 
 void GuiWrapper::SignalNetServerSuccess(int actionID) { }
 void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { }

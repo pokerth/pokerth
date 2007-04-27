@@ -97,7 +97,6 @@ HEADERS += src/game.h \
            src/gui/qt/mainwindow/mycardspixmaplabel.h \
 	   src/gui/qt/mainwindow/startsplash/startsplash.h \
            src/gui/qt/guiwrapper.h \
-           src/gui/qt/gamedatawrapper.h \
            src/gui/qt/aboutpokerth/aboutpokerthimpl.h \
            src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.h \
            src/gui/qt/createnetworkgamedialog/createnetworkgamedialogimpl.h \
@@ -170,7 +169,6 @@ SOURCES += src/game.cpp \
            src/net/common/netexception.cpp \
            src/net/common/receiverhelper.cpp \
            src/gui/qt/guiwrapper.cpp \
-           src/gui/qt/gamedatawrapper.cpp \
 	   src/gui/qt/mainwindow/mainwindowimpl.cpp \
            src/gui/qt/mainwindow/mycardspixmaplabel.cpp \
  	   src/gui/qt/mainwindow/startsplash/startsplash.cpp \

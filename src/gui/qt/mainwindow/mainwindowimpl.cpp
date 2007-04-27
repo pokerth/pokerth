@@ -538,7 +538,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	connect(this, SIGNAL(SignalNetClientGameInfo(int)), myWaitingForServerGameDialog, SLOT(refresh(int)));
 	// Errors are handled globally, not within one dialog.
 	connect(this, SIGNAL(SignalNetClientError(int, int)), this, SLOT(networkError(int, int)));
-	connect(this, SIGNAL(SignalNetClientGameStart(GameDataWrapper)), this, SLOT(networkStart(GameDataWrapper)));
+	connect(this, SIGNAL(SignalNetClientGameStart(int, int, int, int)), this, SLOT(networkStart(int, int, int, int)));
 
 	connect(this, SIGNAL(SignalNetServerPlayerJoined(QString)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString)));
 
@@ -2200,9 +2200,14 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 	myWaitingForServerGameDialog->reject();
 }
 
-void mainWindowImpl::networkStart(GameDataWrapper gameData)
+void mainWindowImpl::networkStart(int numberOfPlayers, int startCash, int smallBlind, int handsBeforeRaise)
 {
-	mySession->startGame(gameData.GetGameData());
+	GameData gameData;
+	gameData.numberOfPlayers = numberOfPlayers;
+	gameData.startCash = startCash;
+	gameData.smallBlind = smallBlind;
+	gameData.handsBeforeRaise = handsBeforeRaise;
+	mySession->startGame(gameData);
 }
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {

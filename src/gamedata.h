@@ -26,10 +26,10 @@
 struct GameData
 {
 	GameData() : numberOfPlayers(0), startCash(0), smallBlind(0), handsBeforeRaise(1) {}
-	unsigned numberOfPlayers;
-	unsigned startCash;
-	unsigned smallBlind;
-	unsigned handsBeforeRaise;
+	int numberOfPlayers;
+	int startCash;
+	int smallBlind;
+	int handsBeforeRaise;
 };
 
 #endif
