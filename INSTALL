@@ -1,0 +1,28 @@
+Requirements
+============
+
+To compile PokerTH you need following libs: 
+
+Linux:
+- Qt version >= 4.2.3  --> http://trolltech.com/
+- libcrypt (e.g. version 0.9.7)  --> http://www.openssl.org/
+- libboost_thread (e.g. version 1.33)  --> http://www.boost.org/
+
+Windows:
+
+
+
+
+
+Basic Installation
+==================
+
+Linux:
+
+  1. Type "cd path/to/the/sources". Then do "qmake" to configure the makefile for your system.
+     Pay attention that the QTDIR environment varialbe points to Qt4 not Qt3. For example QTDIR=/usr/qt/4.
+     You can set this variable typing: "export QTDIR=/usr/qt/4"
+
+  2. Type "make" to compile the package.
+
+  3. Become root (typing "su") and type "make install" to install the program binary.
