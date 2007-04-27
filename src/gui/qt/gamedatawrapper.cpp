@@ -16,52 +16,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Player data. */
 
-#ifndef _PLAYERDATA_H_
-#define _PLAYERDATA_H_
+#include "gamedatawrapper.h"
 
-#include <string>
-#include <list>
-#include <map>
-#include <boost/shared_ptr.hpp>
-
-enum PlayerType
+GameDataWrapper::GameDataWrapper(const GameData &gameData)
+: m_gameData(gameData)
 {
-	PLAYER_TYPE_COMPUTER,
-	PLAYER_TYPE_HUMAN
-};
+}
 
-class PlayerData
+GameDataWrapper::GameDataWrapper(const GameDataWrapper &other)
+: m_gameData(other.GetGameData())
 {
-public:
-	PlayerData(unsigned uniqueId);
-	~PlayerData();
+}
 
-	const std::string &GetName() const
-	{return m_name;}
-	void SetName(const std::string &name)
-	{m_name = name;}
-	const std::string &GetAvatarFile() const
-	{return m_avatarFile;}
-	void SetAvatarFile(const std::string &avatarFile)
-	{m_avatarFile = avatarFile;}
-	PlayerType GetType() const
-	{return m_type;}
-	void SetPlayerType(PlayerType type)
-	{m_type = type;}
-	unsigned GetUniqueId() const
-	{return m_uniqueId;}
+const GameData&
+GameDataWrapper::GetGameData() const
+{
+	return m_gameData;
+}
 
-private:
-	unsigned	m_uniqueId;
-	std::string	m_name;
-	std::string	m_avatarFile;
-	PlayerType	m_type;
-};
-
-typedef std::list<boost::shared_ptr<PlayerData> > PlayerDataList;
-typedef std::map<unsigned, boost::shared_ptr<PlayerData> > PlayerDataMap;
-
-#endif
+const GameDataWrapper &
+GameDataWrapper::operator=(const GameDataWrapper &other)
+{
+	if (this != &other)
+		m_gameData = other.GetGameData();
+	return *this;
+}
 

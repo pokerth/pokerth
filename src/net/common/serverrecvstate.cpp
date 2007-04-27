@@ -23,6 +23,8 @@
 #include <net/senderthread.h>
 #include <net/netpacket.h>
 #include <net/socket_msg.h>
+#include <gamedata.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -43,6 +45,7 @@ ServerRecvStateInit::Instance()
 }
 
 ServerRecvStateInit::ServerRecvStateInit()
+: m_curUniquePlayerId(0)
 {
 }
 
@@ -76,16 +79,54 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 				const NetPacketJoinGame *tmpPacket = packet->ToNetPacketJoinGame();
 				if (tmpPacket)
 				{
-					// TODO: check password
-					NetPacketJoinGame::Data playerData;
-					tmpPacket->GetData(playerData);
-					server.GetCallback().SignalNetServerPlayerJoined(playerData.playerName);
-					boost::shared_ptr<NetPacket> answer(new NetPacketJoinGameAck);
-					NetPacketJoinGameAck::Data joinGameAckData;
-					// TODO: set data.
-					static_cast<NetPacketJoinGameAck *>(answer.get())->SetData(joinGameAckData);
-					server.GetSender().Send(answer, recvSock);
-					session->SetState(SessionData::Established);
+					NetPacketJoinGame::Data joinGameData;
+					tmpPacket->GetData(joinGameData);
+					// Check the server password.
+					if (server.CheckPassword(joinGameData.password))
+					{
+						PlayerDataList &playerDataList = server.GetPlayerDataList();
+						// Check whether this player is already connected.
+						PlayerDataList::const_iterator player_i = playerDataList.begin();
+						PlayerDataList::const_iterator player_end = playerDataList.end();
+						while (player_i != player_end)
+						{
+							if ((*player_i)->GetName() == joinGameData.playerName)
+								break;
+							++player_i;
+						}
+						if (player_i == player_end)
+						{
+							// Create player data object.
+							boost::shared_ptr<PlayerData> tmpPlayerData(new PlayerData(m_curUniquePlayerId++));
+							tmpPlayerData->SetName(joinGameData.playerName);
+							tmpPlayerData->SetPlayerType(joinGameData.ptype);
+
+							// Signal joining player to GUI.
+							server.GetCallback().SignalNetServerPlayerJoined(tmpPlayerData->GetName());
+
+							// Send ACK to client.
+							boost::shared_ptr<NetPacket> answer(new NetPacketJoinGameAck);
+							NetPacketJoinGameAck::Data joinGameAckData;
+							joinGameAckData.playerId = tmpPlayerData->GetUniqueId();
+							joinGameAckData.playerNumber = playerDataList.size();
+							joinGameAckData.sessionId = session->GetId(); // TODO: currently unused.
+							joinGameAckData.gameData = server.GetGameData();
+							static_cast<NetPacketJoinGameAck *>(answer.get())->SetData(joinGameAckData);
+							server.GetSender().Send(answer, recvSock);
+							session->SetState(SessionData::Established);
+
+							// Store player data in list.
+							playerDataList.push_back(tmpPlayerData);
+						}
+						else
+						{
+							// TODO send error message, duplicate name
+						}
+					}
+					else
+					{
+						// TODO send error message, invalid password
+					}
 				}
 				else
 				{

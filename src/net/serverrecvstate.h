@@ -21,8 +21,8 @@
 #ifndef _SERVERRECVSTATE_H_
 #define _SERVERRECVSTATE_H_
 
-#include <boost/shared_ptr.hpp>
 #include <net/connectdata.h>
+#include <playerdata.h>
 
 #define SERVER_INITIAL_STATE	ServerRecvStateInit
 #define SERVER_START_GAME_STATE	ServerRecvStateStartGame
@@ -61,6 +61,10 @@ protected:
 
 	// Protected constructor - this is a singleton.
 	ServerRecvStateInit();
+
+private:
+
+	unsigned		m_curUniquePlayerId;
 };
 
 // State: Start server game.

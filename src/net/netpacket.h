@@ -22,6 +22,7 @@
 #define _NETPACKET_H_
 
 #include <playerdata.h>
+#include <gamedata.h>
 #include <net/socket_helper.h>
 
 #define MIN_PACKET_SIZE				4
@@ -112,11 +113,7 @@ public:
 		u_int32_t	sessionId;
 		u_int16_t	playerId;
 		u_int16_t	playerNumber;
-		u_int16_t	numberOfPlayers;
-		u_int16_t	smallBlind;
-		u_int16_t	handsBeforeRaise;
-		u_int16_t	gameSpeed;
-		u_int32_t	startCash;
+		GameData	gameData;
 	};
 
 	NetPacketJoinGameAck();

@@ -78,7 +78,7 @@ struct NetPacketJoinGameAckData
 	u_int16_t			numberOfPlayers;
 	u_int16_t			smallBlind;
 	u_int16_t			handsBeforeRaise;
-	u_int16_t			gameSpeed;
+	u_int16_t			reserved;
 	u_int32_t			startCash;
 };
 
@@ -416,11 +416,10 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 	tmpData->sessionId			= htonl(inData.sessionId);
 	tmpData->playerId			= htons(inData.playerId);
 	tmpData->playerNumber		= htons(inData.playerNumber);
-	tmpData->numberOfPlayers	= htons(inData.numberOfPlayers);
-	tmpData->smallBlind			= htons(inData.smallBlind);
-	tmpData->handsBeforeRaise	= htons(inData.handsBeforeRaise);
-	tmpData->gameSpeed			= htons(inData.gameSpeed);
-	tmpData->startCash			= htonl(inData.startCash);
+	tmpData->numberOfPlayers	= htons(inData.gameData.numberOfPlayers);
+	tmpData->smallBlind			= htons(inData.gameData.smallBlind);
+	tmpData->handsBeforeRaise	= htons(inData.gameData.handsBeforeRaise);
+	tmpData->startCash			= htonl(inData.gameData.startCash);
 }
 
 void
@@ -429,14 +428,13 @@ NetPacketJoinGameAck::GetData(NetPacketJoinGameAck::Data &outData) const
 	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)GetRawData();
 	assert(tmpData);
 
-	outData.sessionId			= ntohl(tmpData->sessionId);
-	outData.playerId			= ntohs(tmpData->playerId);
-	outData.playerNumber		= ntohs(tmpData->playerNumber);
-	outData.numberOfPlayers		= ntohs(tmpData->numberOfPlayers);
-	outData.smallBlind			= ntohs(tmpData->smallBlind);
-	outData.handsBeforeRaise	= ntohs(tmpData->handsBeforeRaise);
-	outData.gameSpeed			= ntohs(tmpData->gameSpeed);
-	outData.startCash			= ntohl(tmpData->startCash);
+	outData.sessionId					= ntohl(tmpData->sessionId);
+	outData.playerId					= ntohs(tmpData->playerId);
+	outData.playerNumber				= ntohs(tmpData->playerNumber);
+	outData.gameData.numberOfPlayers	= ntohs(tmpData->numberOfPlayers);
+	outData.gameData.smallBlind			= ntohs(tmpData->smallBlind);
+	outData.gameData.handsBeforeRaise	= ntohs(tmpData->handsBeforeRaise);
+	outData.gameData.startCash			= ntohl(tmpData->startCash);
 }
 
 const NetPacketJoinGameAck *

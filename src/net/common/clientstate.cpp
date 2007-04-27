@@ -366,6 +366,11 @@ ClientStateWaitSession::Process(ClientThread &client)
 
 	if (tmpPacket.get() && tmpPacket->ToNetPacketJoinGameAck())
 	{
+		// Initialise game configuration.
+		NetPacketJoinGameAck::Data joinGameAckData;
+		tmpPacket->ToNetPacketJoinGameAck()->GetData(joinGameAckData);
+		client.SetGameData(joinGameAckData.gameData);
+
 		client.SetState(ClientStateWaitGame::Instance());
 		retVal = MSG_SOCK_SESSION_DONE;
 	}

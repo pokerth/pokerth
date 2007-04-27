@@ -92,6 +92,8 @@ public:
 	void SignalNetClientGameInfo(int actionID);
 	void SignalNetClientError(int errorID, int osErrorID);
 
+	void SignalNetClientGameStart(const GameData &gameData);
+
 	void SignalNetServerSuccess(int actionID);
 	void SignalNetServerError(int errorID, int osErrorID);
 	void SignalNetServerPlayerJoined(const std::string &playerName);

@@ -29,6 +29,7 @@
 
 #include "handinterface.h"
 #include "game_defs.h"
+#include <gamedatawrapper.h>
 
 class Session;
 class Game;
@@ -93,6 +94,7 @@ signals:
 	void SignalNetClientConnect(int actionID);
 	void SignalNetClientGameInfo(int actionID);
 	void SignalNetClientError(int errorID, int osErrorID);
+	void SignalNetClientGameStart(GameDataWrapper gameData);
 	void SignalNetServerPlayerJoined(QString playerName);
 
 public slots:
@@ -189,6 +191,7 @@ public slots:
 	void paintStartSplash();
 
 	void networkError(int, int);
+	void networkStart(GameDataWrapper);
 
 private: 
 	

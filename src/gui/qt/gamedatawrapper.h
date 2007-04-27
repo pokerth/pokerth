@@ -16,52 +16,28 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Player data. */
 
-#ifndef _PLAYERDATA_H_
-#define _PLAYERDATA_H_
+#ifndef GAMEDATAWRAPPER_H
+#define GAMEDATAWRAPPER_H
 
-#include <string>
-#include <list>
-#include <map>
-#include <boost/shared_ptr.hpp>
+#include <gamedata.h>
+#include <QtCore>
 
-enum PlayerType
+
+class GameDataWrapper : public QObject
 {
-	PLAYER_TYPE_COMPUTER,
-	PLAYER_TYPE_HUMAN
-};
+Q_OBJECT
 
-class PlayerData
-{
 public:
-	PlayerData(unsigned uniqueId);
-	~PlayerData();
+	GameDataWrapper(const GameData &gameData);
+	GameDataWrapper(const GameDataWrapper &other);
 
-	const std::string &GetName() const
-	{return m_name;}
-	void SetName(const std::string &name)
-	{m_name = name;}
-	const std::string &GetAvatarFile() const
-	{return m_avatarFile;}
-	void SetAvatarFile(const std::string &avatarFile)
-	{m_avatarFile = avatarFile;}
-	PlayerType GetType() const
-	{return m_type;}
-	void SetPlayerType(PlayerType type)
-	{m_type = type;}
-	unsigned GetUniqueId() const
-	{return m_uniqueId;}
+	const GameData &GetGameData() const;
+
+	const GameDataWrapper &operator=(const GameDataWrapper &other);
 
 private:
-	unsigned	m_uniqueId;
-	std::string	m_name;
-	std::string	m_avatarFile;
-	PlayerType	m_type;
+	GameData m_gameData;
 };
 
-typedef std::list<boost::shared_ptr<PlayerData> > PlayerDataList;
-typedef std::map<unsigned, boost::shared_ptr<PlayerData> > PlayerDataMap;
-
 #endif
-

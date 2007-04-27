@@ -309,16 +309,22 @@ ServerRecvThread::GetReceiver()
 }
 
 const GameData &
-ServerRecvThread::GetGameData()
+ServerRecvThread::GetGameData() const
 {
 	assert(m_gameData.get());
 	return *m_gameData;
 }
 
 bool
-ServerRecvThread::CheckPassword(const std::string &password)
+ServerRecvThread::CheckPassword(const std::string &password) const
 {
 	return (password == m_password);
+}
+
+PlayerDataList &
+ServerRecvThread::GetPlayerDataList()
+{
+	return m_playerDataList;
 }
 
 ServerSenderCallback &

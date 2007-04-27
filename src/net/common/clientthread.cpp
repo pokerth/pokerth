@@ -24,7 +24,7 @@
 #include <net/receiverhelper.h>
 #include <net/clientexception.h>
 #include <net/socket_msg.h>
-
+#include <gamedata.h>
 
 #include <cassert>
 
@@ -57,6 +57,7 @@ ClientThread::ClientThread(ClientCallback &cb)
 	m_senderCallback.reset(new ClientSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
 	m_receiver.reset(new ReceiverHelper);
+	m_gameData.reset(new GameData);
 }
 
 ClientThread::~ClientThread()
@@ -103,6 +104,10 @@ ClientThread::Main()
 					GetCallback().SignalNetClientConnect(msg);
 				else
 					GetCallback().SignalNetClientGameInfo(msg);
+
+				// Additionally signal the start of the game.
+				if (msg == MSG_SOCK_GAME_START)
+					GetCallback().SignalNetClientGameStart(GetGameData());
 			}
 		}
 	} catch (const NetException &e)
@@ -152,6 +157,20 @@ ClientThread::GetReceiver()
 {
 	assert(m_receiver.get());
 	return *m_receiver;
+}
+
+const GameData &
+ClientThread::GetGameData() const
+{
+	assert(m_gameData.get());
+	return *m_gameData;
+}
+
+void
+ClientThread::SetGameData(const GameData &gameData)
+{
+	assert(m_gameData.get());
+	*m_gameData = gameData;
 }
 
 ClientSenderCallback &

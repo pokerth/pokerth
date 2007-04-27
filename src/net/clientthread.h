@@ -31,6 +31,7 @@ class ClientState;
 class SenderThread;
 class ReceiverHelper;
 class ClientSenderCallback;
+struct GameData;
 
 class ClientThread : public Thread
 {
@@ -64,6 +65,9 @@ protected:
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
 
+	const GameData &GetGameData() const;
+	void SetGameData(const GameData &gameData);
+
 	ClientSenderCallback &GetSenderCallback();
 
 private:
@@ -72,8 +76,11 @@ private:
 	std::auto_ptr<ClientSenderCallback> m_senderCallback;
 	ClientState *m_curState;
 	ClientCallback &m_callback;
+
 	std::auto_ptr<SenderThread> m_sender;
 	std::auto_ptr<ReceiverHelper> m_receiver;
+
+	std::auto_ptr<GameData> m_gameData;
 
 friend class ClientStateInit;
 friend class ClientStateStartResolve;
