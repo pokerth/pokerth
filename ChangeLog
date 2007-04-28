@@ -1,3 +1,11 @@
+SVN changes:
+
+- bugfix: raise after x hands
+- add version number to title bar and about-dialog 
+- bugfix: utf8-path
+- bugfix: win98 winme crash
+- change: smaller table-background-image (1mb)
+
 2007-04-04 version 0.4:
 
 - feature: settings menu (to do a lot of settings and save preferences)
