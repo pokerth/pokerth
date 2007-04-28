@@ -1,10 +1,12 @@
 SVN changes:
 
+- bugfix: wrong font-color for mac-qt
 - bugfix: raise after x hands
 - add version number to title bar and about-dialog 
 - bugfix: utf8-path
 - bugfix: win98 winme crash
 - change: smaller table-background-image (1mb)
+- change: just link against libcrypt not whole libssl
 
 2007-04-04 version 0.4:
 
