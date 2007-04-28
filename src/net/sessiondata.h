@@ -30,13 +30,11 @@ class SessionData
 public:
 	enum State { Init, Established };
 
-	SessionData();
+	SessionData(unsigned id);
 	~SessionData();
 
 	unsigned GetId() const
 	{return m_id;}
-	void SetId(unsigned id)
-	{m_id = id;}
 	State GetState() const
 	{return m_state;}
 	void SetState(State state)

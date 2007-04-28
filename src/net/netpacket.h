@@ -25,27 +25,21 @@
 #include <gamedata.h>
 #include <net/socket_helper.h>
 
+#define NET_VERSION_MAJOR			1
+#define NET_VERSION_MINOR			0
+
 #define MIN_PACKET_SIZE				4
 #define MAX_PACKET_SIZE				256
 #define MAX_NAME_SIZE				64
 #define MAX_PASSWORD_SIZE			64
 
 
-enum JoinGameErrorReason
-{
-	JOIN_UNSUPPORTED_VERSION,
-	JOIN_SERVER_FULL,
-	JOIN_GAME_RUNNING,
-	JOIN_INVALID_PASSWORD,
-	JOIN_UNKNOWN
-};
-
 struct NetPacketHeader;
 
 class NetPacketJoinGame;
 class NetPacketJoinGameAck;
-class NetPacketJoinGameError;
 class NetPacketGameStart;
+class NetPacketError;
 
 class NetPacket
 {
@@ -66,8 +60,8 @@ public:
 
 	virtual const NetPacketJoinGame *ToNetPacketJoinGame() const;
 	virtual const NetPacketJoinGameAck *ToNetPacketJoinGameAck() const;
-	virtual const NetPacketJoinGameError *ToNetPacketJoinGameError() const;
 	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
+	virtual const NetPacketError *ToNetPacketError() const;
 
 protected:
 
@@ -85,6 +79,8 @@ class NetPacketJoinGame : public NetPacket
 public:
 	struct Data
 	{
+		int versionMajor;
+		int versionMinor;
 		PlayerType ptype;
 		std::string playerName;
 		std::string password;
@@ -131,29 +127,6 @@ protected:
 	virtual void Check(const NetPacketHeader* data) const;
 };
 
-class NetPacketJoinGameError : public NetPacket
-{
-public:
-	struct Data
-	{
-		JoinGameErrorReason	reason;
-	};
-
-	NetPacketJoinGameError();
-	virtual ~NetPacketJoinGameError();
-
-	virtual boost::shared_ptr<NetPacket> Clone() const;
-
-	void SetData(const Data &inData);
-	void GetData(Data &outData) const;
-
-	virtual const NetPacketJoinGameError *ToNetPacketJoinGameError() const;
-
-protected:
-
-	virtual void Check(const NetPacketHeader* data) const;
-};
-
 class NetPacketGameStart : public NetPacket
 {
 public:
@@ -171,6 +144,29 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketError : public NetPacket
+{
+public:
+	struct Data
+	{
+		int		errorCode;
+	};
+
+	NetPacketError();
+	virtual ~NetPacketError();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketError *ToNetPacketError() const;
 
 protected:
 

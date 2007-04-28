@@ -67,6 +67,16 @@ ServerRecvThread::Init(const string &pwd, const GameData &gameData)
 }
 
 void
+ServerRecvThread::SendError(int errorCode, SOCKET s)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacketError);
+	NetPacketError::Data errorData;
+	errorData.errorCode = errorCode;
+	static_cast<NetPacketError *>(packet.get())->SetData(errorData);
+	GetSender().Send(packet, s);
+}
+
+void
 ServerRecvThread::SendToAllPlayers(boost::shared_ptr<NetPacket> packet)
 {
 	// This function needs to be thread safe.

@@ -20,6 +20,7 @@
 #ifndef _SOCKET_MSG_H_
 #define _SOCKET_MSG_H_
 
+// Socket or socket related errors.
 #define ERR_SOCK_INTERNAL				1
 #define ERR_SOCK_SERVERADDR_NOT_SET		2
 #define ERR_SOCK_INVALID_PORT			3
@@ -36,9 +37,16 @@
 #define ERR_SOCK_SEND_FAILED			14
 #define ERR_SOCK_CONN_RESET				15
 #define ERR_SOCK_CONN_EXISTS			16
-#define ERR_SOCK_INVALID_NAME_STR		17
-#define ERR_SOCK_INVALID_PWD_STR		18
-#define ERR_SOCK_INVALID_PACKET			19
+#define ERR_SOCK_INVALID_PACKET			17
+#define ERR_SOCK_INVALID_STATE			18
+// The following errors are game errors.
+#define ERR_NET_VERSION_NOT_SUPPORTED	101
+#define ERR_NET_SERVER_FULL				102
+#define ERR_NET_GAME_ALREADY_RUNNING	103
+#define ERR_NET_INVALID_PASSWORD		104
+#define ERR_NET_INVALID_PASSWORD_STR	105
+#define ERR_NET_PLAYER_NAME_IN_USE		106
+#define ERR_NET_INVALID_PLAYER_NAME		107
 
 // This is an internal message which is not reported.
 #define MSG_SOCK_INTERNAL_PENDING		0
@@ -50,11 +58,10 @@
 #define MSG_SOCK_SESSION_DONE			4
 
 #define MSG_SOCK_LIMIT_CONNECT			MSG_SOCK_SESSION_DONE
+#define MSG_SOCK_LAST					MSG_SOCK_SESSION_DONE
 
 // The following messages are game messages.
-#define MSG_SOCK_GAME_START				5
-
-#define MSG_SOCK_LAST					MSG_SOCK_SESSION_DONE
+#define MSG_NET_GAME_START				5
 
 #endif
 

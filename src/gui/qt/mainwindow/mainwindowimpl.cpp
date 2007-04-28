@@ -2191,8 +2191,58 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 				tr("Connection was closed by server."),
 				QMessageBox::Close); }
 		break;
+		case ERR_SOCK_CONN_EXISTS:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal network error: Duplicate TCP connection."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_INVALID_PACKET:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("An invalid network packet was received.\nPlease make sure that all players use the same version of PokerTH."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_INVALID_STATE:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal state error.\nPlease make sure that all players use the same version of PokerTH."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_VERSION_NOT_SUPPORTED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The PokerTH server does not support this version of the game.\nPlease update PokerTH."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_SERVER_FULL:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Sorry, this server is already full."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_GAME_ALREADY_RUNNING:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Unable to join - the server has already started the game."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_INVALID_PASSWORD:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Invalid password when joining the game.\nPlease reenter the password and try again."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_INVALID_PASSWORD_STR:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The password is too long. Please choose another one."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_PLAYER_NAME_IN_USE:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Your player name is already used by another player.\nPlease choose a different name."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_INVALID_PLAYER_NAME:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The player name is either too short or too long. Please choose another one."),
+				QMessageBox::Close); }
+		break;
 		default:  { QMessageBox::warning(this, tr("Network Error"),
-				tr("DEFAULT ERROR"),
+				tr("An internal error occured."),
 				QMessageBox::Close); }
 	}
 	// close dialogs

@@ -52,6 +52,7 @@ public:
 
 	void Init(const std::string &pwd, const GameData &gameData);
 
+	void SendError(int errorCode, SOCKET s);
 	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
 	void AddConnection(boost::shared_ptr<ConnectData> data);
 	void AddNotification(unsigned notification);

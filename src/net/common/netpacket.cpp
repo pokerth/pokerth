@@ -27,23 +27,25 @@ using namespace std;
 
 #define ADD_PADDING(x) ((((x) + 3) >> 2) << 2)
 
-#define NET_TYPE_JOIN_GAME					1
-#define NET_TYPE_JOIN_GAME_ACK				2
-#define NET_TYPE_JOIN_GAME_ERROR			3
-#define NET_TYPE_PLAYER_JOINED				4
-#define NET_TYPE_PLAYER_LEFT				5
-#define NET_TYPE_GAME_START					6
+#define NET_TYPE_JOIN_GAME						0x0001
+#define NET_TYPE_JOIN_GAME_ACK					0x0002
+#define NET_TYPE_PLAYER_JOINED					0x0003
+#define NET_TYPE_PLAYER_LEFT					0x0004
+#define NET_TYPE_GAME_START						0x0005
 
-#define NET_PLAYER_FLAG_HUMAN				0x01
+#define NET_TYPE_ERROR							0x0400
 
-#define NET_JOIN_ERR_UNSUPPORTED_VERSION	0x01
-#define NET_JOIN_ERR_SERVER_FULL			0x02
-#define NET_JOIN_ERR_GAME_RUNNING			0x03
-#define NET_JOIN_ERR_INVALID_PASSWORD		0x04
-#define NET_JOIN_ERR_OTHER					0xFF
+#define NET_PLAYER_FLAG_HUMAN					0x01
 
-#define NET_VERSION_MAJOR			1
-#define NET_VERSION_MINOR			0
+#define NET_ERR_JOIN_GAME_VERSION_NOT_SUPPORTED	0x0001
+#define NET_ERR_JOIN_GAME_SERVER_FULL			0x0002
+#define NET_ERR_JOIN_GAME_ALREADY_RUNNING		0x0003
+#define NET_ERR_JOIN_GAME_INVALID_PASSWORD		0x0004
+#define NET_ERR_JOIN_GAME_PLAYER_NAME_IN_USE	0x0005
+#define NET_ERR_JOIN_GAME_INVALID_PLAYER_NAME	0x0006
+#define NET_ERR_GENERAL_INVALID_PACKET			0xFF01
+#define NET_ERR_GENERAL_INVALID_STATE			0xFF02
+#define NET_ERR_OTHER							0xFFFF
 
 #ifdef _MSC_VER
 	#pragma pack(push, 2)
@@ -112,6 +114,13 @@ struct NetPacketGameStartData
 	u_int16_t			yourCards[2];
 };
 
+struct NetPacketErrorData
+{
+	NetPacketHeader		head;
+	u_int16_t			reason;
+	u_int16_t			reserved;
+};
+
 #ifdef _MSC_VER
 	#pragma pack(pop)
 #else
@@ -148,6 +157,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_GAME_START:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameStart);
+					break;
+				case NET_TYPE_ERROR:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketError);
 					break;
 			}
 			if (tmpPacket.get())
@@ -242,14 +254,14 @@ NetPacket::ToNetPacketJoinGameAck() const
 	return NULL;
 }
 
-const NetPacketJoinGameError *
-NetPacket::ToNetPacketJoinGameError() const
+const NetPacketGameStart *
+NetPacket::ToNetPacketGameStart() const
 {
 	return NULL;
 }
 
-const NetPacketGameStart *
-NetPacket::ToNetPacketGameStart() const
+const NetPacketError *
+NetPacket::ToNetPacketError() const
 {
 	return NULL;
 }
@@ -321,9 +333,9 @@ NetPacketJoinGame::SetData(const NetPacketJoinGame::Data &inData)
 	u_int16_t passwordLen = (u_int16_t)inData.password.length();
 
 	if (!playerNameLen || playerNameLen > MAX_NAME_SIZE)
-		throw NetException(ERR_SOCK_INVALID_NAME_STR, 0);
+		throw NetException(ERR_NET_INVALID_PLAYER_NAME, 0);
 	if (passwordLen > MAX_PASSWORD_SIZE)
-		throw NetException(ERR_SOCK_INVALID_PWD_STR, 0);
+		throw NetException(ERR_NET_INVALID_PASSWORD_STR, 0);
 
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
@@ -347,6 +359,9 @@ NetPacketJoinGame::GetData(NetPacketJoinGame::Data &outData) const
 	NetPacketJoinGameData *tmpData = (NetPacketJoinGameData *)GetRawData();
 	assert(tmpData);
 
+	outData.versionMajor = ntohs(tmpData->requestedVersionMajor);
+	outData.versionMinor = ntohs(tmpData->requestedVersionMinor);
+
 	outData.ptype = (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_HUMAN) ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
 
 	u_int16_t passwordLen = ntohs(tmpData->passwordLength);
@@ -366,17 +381,26 @@ NetPacketJoinGame::Check(const NetPacketHeader* data) const
 	assert(data);
 
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketJoinGameData)
-		|| dataLen > sizeof(NetPacketJoinGameData) + MAX_NAME_SIZE + MAX_PASSWORD_SIZE)
+	if (dataLen < sizeof(NetPacketJoinGameData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
 
 	NetPacketJoinGameData *tmpData = (NetPacketJoinGameData *)data;
-	if (dataLen !=
+	int passwordLength = ntohs(tmpData->passwordLength);
+	int playerNameLength = ntohs(tmpData->playerNameLength);
+	// Generous checking - larger packets are allowed.
+	if (dataLen <
 		sizeof(NetPacketJoinGameData)
-		+ ADD_PADDING(ntohs(tmpData->passwordLength))
-		+ ADD_PADDING(ntohs(tmpData->playerNameLength)))
+		+ ADD_PADDING(passwordLength)
+		+ ADD_PADDING(playerNameLength))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check string sizes.
+	if (passwordLength > MAX_PASSWORD_SIZE
+		|| !playerNameLength
+		|| playerNameLength > MAX_NAME_SIZE)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
@@ -458,107 +482,6 @@ NetPacketJoinGameAck::Check(const NetPacketHeader* data) const
 
 //-----------------------------------------------------------------------------
 
-NetPacketJoinGameError::NetPacketJoinGameError()
-: NetPacket(NET_TYPE_JOIN_GAME_ERROR, sizeof(NetPacketJoinGameErrorData))
-{
-}
-
-NetPacketJoinGameError::~NetPacketJoinGameError()
-{
-}
-
-boost::shared_ptr<NetPacket>
-NetPacketJoinGameError::Clone() const
-{
-	boost::shared_ptr<NetPacket> newPacket(new NetPacketJoinGameError);
-	try
-	{
-		newPacket->SetRawData(GetRawData());
-	} catch (const NetException &)
-	{
-		// Need to return the new packet anyway.
-	}
-	return newPacket;
-}
-
-void
-NetPacketJoinGameError::SetData(const NetPacketJoinGameError::Data &inData)
-{
-	NetPacketJoinGameErrorData *tmpData = (NetPacketJoinGameErrorData *)GetRawData();
-	assert(tmpData);
-
-	switch (inData.reason)
-	{
-		case JOIN_UNSUPPORTED_VERSION :
-			tmpData->errorReason = htons(NET_JOIN_ERR_UNSUPPORTED_VERSION);
-			break;
-		case JOIN_SERVER_FULL :
-			tmpData->errorReason = htons(NET_JOIN_ERR_SERVER_FULL);
-			break;
-		case JOIN_GAME_RUNNING :
-			tmpData->errorReason = htons(NET_JOIN_ERR_GAME_RUNNING);
-			break;
-		case JOIN_INVALID_PASSWORD :
-			tmpData->errorReason = htons(NET_JOIN_ERR_INVALID_PASSWORD);
-			break;
-		default :
-			tmpData->errorReason = htons(NET_JOIN_ERR_OTHER);
-			break;
-	}
-}
-
-void
-NetPacketJoinGameError::GetData(NetPacketJoinGameError::Data &outData) const
-{
-	NetPacketJoinGameErrorData *tmpData = (NetPacketJoinGameErrorData *)GetRawData();
-	assert(tmpData);
-
-	switch (ntohs(tmpData->errorReason))
-	{
-		case NET_JOIN_ERR_UNSUPPORTED_VERSION :
-			outData.reason = JOIN_UNSUPPORTED_VERSION;
-			break;
-		case NET_JOIN_ERR_SERVER_FULL :
-			outData.reason = JOIN_SERVER_FULL;
-			break;
-		case NET_JOIN_ERR_GAME_RUNNING :
-			outData.reason = JOIN_GAME_RUNNING;
-			break;
-		case NET_JOIN_ERR_INVALID_PASSWORD :
-			outData.reason = JOIN_INVALID_PASSWORD;
-			break;
-		default :
-			outData.reason = JOIN_UNKNOWN;
-			break;
-	}
-}
-
-const NetPacketJoinGameError *
-NetPacketJoinGameError::ToNetPacketJoinGameError() const
-{
-	return this;
-}
-
-void
-NetPacketJoinGameError::Check(const NetPacketHeader* data) const
-{
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketJoinGameErrorData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
-	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
-	if (tmpData->yourCards[0] > 51 || tmpData->yourCards[1] > 51)
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-}
-
-//-----------------------------------------------------------------------------
-
 NetPacketGameStart::NetPacketGameStart()
 : NetPacket(NET_TYPE_GAME_START, sizeof(NetPacketGameStartData))
 {
@@ -621,6 +544,129 @@ NetPacketGameStart::Check(const NetPacketHeader* data) const
 
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
 	if (tmpData->yourCards[0] > 51 || tmpData->yourCards[1] > 51)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketError::NetPacketError()
+: NetPacket(NET_TYPE_ERROR, sizeof(NetPacketErrorData))
+{
+}
+
+NetPacketError::~NetPacketError()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketError::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketError);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketError::SetData(const NetPacketError::Data &inData)
+{
+	NetPacketErrorData *tmpData = (NetPacketErrorData *)GetRawData();
+	assert(tmpData);
+
+	switch (inData.errorCode)
+	{
+	// Join Game Errors.
+		case ERR_NET_VERSION_NOT_SUPPORTED :
+			tmpData->reason = htons(NET_ERR_JOIN_GAME_VERSION_NOT_SUPPORTED);
+			break;
+		case ERR_NET_SERVER_FULL :
+			tmpData->reason = htons(NET_ERR_JOIN_GAME_SERVER_FULL);
+			break;
+		case ERR_NET_GAME_ALREADY_RUNNING :
+			tmpData->reason = htons(NET_ERR_JOIN_GAME_ALREADY_RUNNING);
+			break;
+		case ERR_NET_INVALID_PASSWORD :
+			tmpData->reason = htons(NET_ERR_JOIN_GAME_INVALID_PASSWORD);
+			break;
+		case ERR_NET_PLAYER_NAME_IN_USE :
+			tmpData->reason = htons(NET_ERR_JOIN_GAME_PLAYER_NAME_IN_USE);
+			break;
+		case ERR_NET_INVALID_PLAYER_NAME :
+			tmpData->reason = htons(NET_ERR_JOIN_GAME_INVALID_PLAYER_NAME);
+			break;
+	// General Errors.
+		case ERR_SOCK_INVALID_PACKET :
+			tmpData->reason = htons(NET_ERR_GENERAL_INVALID_PACKET);
+			break;
+		case ERR_SOCK_INVALID_STATE :
+			tmpData->reason = htons(NET_ERR_GENERAL_INVALID_STATE);
+			break;
+		default :
+			tmpData->reason = htons(NET_ERR_OTHER);
+			break;
+	}
+}
+
+void
+NetPacketError::GetData(NetPacketError::Data &outData) const
+{
+	NetPacketErrorData *tmpData = (NetPacketErrorData *)GetRawData();
+	assert(tmpData);
+
+	switch (ntohs(tmpData->reason))
+	{
+	// Join Game Errors.
+		case NET_ERR_JOIN_GAME_VERSION_NOT_SUPPORTED :
+			outData.errorCode = ERR_NET_VERSION_NOT_SUPPORTED;
+			break;
+		case NET_ERR_JOIN_GAME_SERVER_FULL :
+			outData.errorCode = ERR_NET_SERVER_FULL;
+			break;
+		case NET_ERR_JOIN_GAME_ALREADY_RUNNING :
+			outData.errorCode = ERR_NET_GAME_ALREADY_RUNNING;
+			break;
+		case NET_ERR_JOIN_GAME_INVALID_PASSWORD :
+			outData.errorCode = ERR_NET_INVALID_PASSWORD;
+			break;
+		case NET_ERR_JOIN_GAME_PLAYER_NAME_IN_USE :
+			outData.errorCode = ERR_NET_PLAYER_NAME_IN_USE;
+			break;
+		case NET_ERR_JOIN_GAME_INVALID_PLAYER_NAME :
+			outData.errorCode = ERR_NET_INVALID_PLAYER_NAME;
+			break;
+	// General Errors.
+		case NET_ERR_GENERAL_INVALID_PACKET :
+			outData.errorCode = ERR_SOCK_INVALID_PACKET;
+			break;
+		case NET_ERR_GENERAL_INVALID_STATE :
+			outData.errorCode = ERR_SOCK_INVALID_STATE;
+			break;
+		default :
+			outData.errorCode = ERR_SOCK_INTERNAL;
+			break;
+	}
+}
+
+const NetPacketError *
+NetPacketError::ToNetPacketError() const
+{
+	return this;
+}
+
+void
+NetPacketError::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen < sizeof(NetPacketErrorData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}

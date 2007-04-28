@@ -19,8 +19,8 @@
 
 #include <net/sessiondata.h>
 
-SessionData::SessionData()
-: m_id(SESSION_ID_INIT), m_state(SessionData::Init)
+SessionData::SessionData(unsigned id)
+: m_id(id), m_state(SessionData::Init)
 {
 }
 

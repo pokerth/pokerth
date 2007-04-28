@@ -357,26 +357,34 @@ ClientStateWaitSession::~ClientStateWaitSession()
 int
 ClientStateWaitSession::Process(ClientThread &client)
 {
-	int retVal;
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
 	ClientContext &context = client.GetContext();
 
 	// delegate to receiver helper class
 
 	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
 
-	if (tmpPacket.get() && tmpPacket->ToNetPacketJoinGameAck())
+	if (tmpPacket.get())
 	{
-		// Initialise game configuration.
-		NetPacketJoinGameAck::Data joinGameAckData;
-		tmpPacket->ToNetPacketJoinGameAck()->GetData(joinGameAckData);
-		client.SetGameData(joinGameAckData.gameData);
+		if (tmpPacket->ToNetPacketJoinGameAck())
+		{
+			// Everything is fine - we joined the game.
+			// Initialize game configuration.
+			NetPacketJoinGameAck::Data joinGameAckData;
+			tmpPacket->ToNetPacketJoinGameAck()->GetData(joinGameAckData);
+			client.SetGameData(joinGameAckData.gameData);
 
-		client.SetState(ClientStateWaitGame::Instance());
-		retVal = MSG_SOCK_SESSION_DONE;
-	}
-	else // TODO: handle error packet
-	{
-		retVal = MSG_SOCK_INTERNAL_PENDING;
+			client.SetState(ClientStateWaitGame::Instance());
+			retVal = MSG_SOCK_SESSION_DONE;
+		}
+		else if (tmpPacket->ToNetPacketError())
+		{
+			// Server reported an error.
+			NetPacketError::Data errorData;
+			tmpPacket->ToNetPacketError()->GetData(errorData);
+			// Show the error.
+			throw ClientException(errorData.errorCode, 0);
+		}
 	}
 
 	return retVal;
@@ -412,7 +420,7 @@ ClientStateWaitGame::Process(ClientThread &client)
 	if (tmpPacket.get() && tmpPacket->ToNetPacketGameStart())
 	{
 		client.SetState(ClientStateFinal::Instance());
-		retVal = MSG_SOCK_GAME_START;
+		retVal = MSG_NET_GAME_START;
 	}
 	else // TODO: handle error packet
 	{
