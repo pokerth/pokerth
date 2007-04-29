@@ -720,13 +720,13 @@ void mainWindowImpl::callSettingsDialog() {
 		//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
 		if (v->getPlayerNickIsChanged() && actualGame) { 
 
-			actualHand->getPlayerArray()[0]->setMyName(v->lineEdit_humanPlayerName->text().toStdString());
-			actualHand->getPlayerArray()[1]->setMyName(v->lineEdit_Opponent1Name->text().toStdString());
-			actualHand->getPlayerArray()[2]->setMyName(v->lineEdit_Opponent2Name->text().toStdString());
-			actualHand->getPlayerArray()[3]->setMyName(v->lineEdit_Opponent3Name->text().toStdString());
-			actualHand->getPlayerArray()[4]->setMyName(v->lineEdit_Opponent4Name->text().toStdString());
-			actualHand->getPlayerArray()[5]->setMyName(v->lineEdit_Opponent5Name->text().toStdString());
-			actualHand->getPlayerArray()[6]->setMyName(v->lineEdit_Opponent6Name->text().toStdString());
+			actualHand->getPlayerArray()[0]->setMyName(v->lineEdit_humanPlayerName->text().toUtf8().constData());
+			actualHand->getPlayerArray()[1]->setMyName(v->lineEdit_Opponent1Name->text().toUtf8().constData());
+			actualHand->getPlayerArray()[2]->setMyName(v->lineEdit_Opponent2Name->text().toUtf8().constData());
+			actualHand->getPlayerArray()[3]->setMyName(v->lineEdit_Opponent3Name->text().toUtf8().constData());
+			actualHand->getPlayerArray()[4]->setMyName(v->lineEdit_Opponent4Name->text().toUtf8().constData());
+			actualHand->getPlayerArray()[5]->setMyName(v->lineEdit_Opponent5Name->text().toUtf8().constData());
+			actualHand->getPlayerArray()[6]->setMyName(v->lineEdit_Opponent6Name->text().toUtf8().constData());
 			v->setPlayerNickIsChanged(FALSE);
 
 			refreshPlayerName();
@@ -734,13 +734,13 @@ void mainWindowImpl::callSettingsDialog() {
 	
 		if(actualGame) {
 
-			actualHand->getPlayerArray()[0]->setMyAvatar(v->lineEdit_humanPlayerAvatar->text().toStdString());
-			actualHand->getPlayerArray()[1]->setMyAvatar(v->lineEdit_Opponent1Avatar->text().toStdString());
-			actualHand->getPlayerArray()[2]->setMyAvatar(v->lineEdit_Opponent2Avatar->text().toStdString());
-			actualHand->getPlayerArray()[3]->setMyAvatar(v->lineEdit_Opponent3Avatar->text().toStdString());
-			actualHand->getPlayerArray()[4]->setMyAvatar(v->lineEdit_Opponent4Avatar->text().toStdString());
-			actualHand->getPlayerArray()[5]->setMyAvatar(v->lineEdit_Opponent5Avatar->text().toStdString());
-			actualHand->getPlayerArray()[6]->setMyAvatar(v->lineEdit_Opponent6Avatar->text().toStdString());
+			actualHand->getPlayerArray()[0]->setMyAvatar(v->lineEdit_humanPlayerAvatar->text().toUtf8().constData());
+			actualHand->getPlayerArray()[1]->setMyAvatar(v->lineEdit_Opponent1Avatar->text().toUtf8().constData());
+			actualHand->getPlayerArray()[2]->setMyAvatar(v->lineEdit_Opponent2Avatar->text().toUtf8().constData());
+			actualHand->getPlayerArray()[3]->setMyAvatar(v->lineEdit_Opponent3Avatar->text().toUtf8().constData());
+			actualHand->getPlayerArray()[4]->setMyAvatar(v->lineEdit_Opponent4Avatar->text().toUtf8().constData());
+			actualHand->getPlayerArray()[5]->setMyAvatar(v->lineEdit_Opponent5Avatar->text().toUtf8().constData());
+			actualHand->getPlayerArray()[6]->setMyAvatar(v->lineEdit_Opponent6Avatar->text().toUtf8().constData());
 
 			//avatar refresh
 			refreshPlayerAvatar();		

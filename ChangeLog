@@ -1,5 +1,7 @@
 SVN changes:
 
+- bugfix: reload playernames after settingsdialog also with utf8
+- bugfix: reload playernames for opponent5 and opponent6 after settingsdialog
 - bugfix: wrong font-color for mac-qt
 - bugfix: raise after x hands
 - add version number to title bar and about-dialog 

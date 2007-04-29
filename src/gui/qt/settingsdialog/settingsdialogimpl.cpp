@@ -100,6 +100,8 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent)
 	connect( lineEdit_Opponent2Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( lineEdit_Opponent3Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( lineEdit_Opponent4Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent5Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent6Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( pushButton_openFlipsidePicture, SIGNAL( clicked() ), this, SLOT( setFlipsidePicFileName()) );
 	connect( pushButton_openLogDir, SIGNAL( clicked() ), this, SLOT( setLogDir()) );
 	connect( pushButton_openAvatarFile0, SIGNAL( clicked() ), this, SLOT( setAvatarFile0()) );
