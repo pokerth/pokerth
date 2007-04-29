@@ -1054,6 +1054,15 @@
          <property name="palette" >
           <palette>
            <active>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -1065,6 +1074,15 @@
             </colorrole>
            </active>
            <inactive>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -1076,6 +1094,15 @@
             </colorrole>
            </inactive>
            <disabled>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -1104,6 +1131,15 @@
          <property name="palette" >
           <palette>
            <active>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -1115,6 +1151,15 @@
             </colorrole>
            </active>
            <inactive>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -1126,6 +1171,15 @@
             </colorrole>
            </inactive>
            <disabled>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -1554,6 +1608,70 @@
                    <width>16</width>
                    <height>0</height>
                   </size>
+                 </property>
+                 <property name="palette" >
+                  <palette>
+                   <active>
+                    <colorrole role="WindowText" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>240</red>
+                       <green>240</green>
+                       <blue>240</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Text" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>240</red>
+                       <green>240</green>
+                       <blue>240</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </active>
+                   <inactive>
+                    <colorrole role="WindowText" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>240</red>
+                       <green>240</green>
+                       <blue>240</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Text" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>240</red>
+                       <green>240</green>
+                       <blue>240</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </inactive>
+                   <disabled>
+                    <colorrole role="WindowText" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>128</red>
+                       <green>128</green>
+                       <blue>128</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Text" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>199</red>
+                       <green>199</green>
+                       <blue>199</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </disabled>
+                  </palette>
                  </property>
                  <property name="text" >
                   <string/>
@@ -2175,6 +2293,15 @@
            <property name="palette" >
             <palette>
              <active>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
               <colorrole role="Text" >
                <brush brushstyle="SolidPattern" >
                 <color alpha="255" >
@@ -2186,6 +2313,15 @@
               </colorrole>
              </active>
              <inactive>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
               <colorrole role="Text" >
                <brush brushstyle="SolidPattern" >
                 <color alpha="255" >
@@ -2197,6 +2333,15 @@
               </colorrole>
              </inactive>
              <disabled>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>128</red>
+                 <green>128</green>
+                 <blue>128</blue>
+                </color>
+               </brush>
+              </colorrole>
               <colorrole role="Text" >
                <brush brushstyle="SolidPattern" >
                 <color alpha="255" >
@@ -2228,6 +2373,15 @@
            <property name="palette" >
             <palette>
              <active>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
               <colorrole role="Text" >
                <brush brushstyle="SolidPattern" >
                 <color alpha="255" >
@@ -2239,6 +2393,15 @@
               </colorrole>
              </active>
              <inactive>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
               <colorrole role="Text" >
                <brush brushstyle="SolidPattern" >
                 <color alpha="255" >
@@ -2250,6 +2413,15 @@
               </colorrole>
              </inactive>
              <disabled>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>128</red>
+                 <green>128</green>
+                 <blue>128</blue>
+                </color>
+               </brush>
+              </colorrole>
               <colorrole role="Text" >
                <brush brushstyle="SolidPattern" >
                 <color alpha="255" >
@@ -3340,56 +3512,6 @@
             <bool>true</bool>
            </property>
           </widget>
-          <widget class="QLabel" name="label_PlayerName6" >
-           <property name="geometry" >
-            <rect>
-             <x>85</x>
-             <y>17</y>
-             <width>118</width>
-             <height>23</height>
-            </rect>
-           </property>
-           <property name="palette" >
-            <palette>
-             <active>
-              <colorrole role="Text" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>240</red>
-                 <green>240</green>
-                 <blue>240</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </active>
-             <inactive>
-              <colorrole role="Text" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>240</red>
-                 <green>240</green>
-                 <blue>240</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </inactive>
-             <disabled>
-              <colorrole role="Text" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>199</red>
-                 <green>199</green>
-                 <blue>199</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </disabled>
-            </palette>
-           </property>
-           <property name="alignment" >
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-          </widget>
           <widget class="QLabel" name="textLabel_Set6" >
            <property name="geometry" >
             <rect>
@@ -3402,6 +3524,15 @@
            <property name="palette" >
             <palette>
              <active>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
               <colorrole role="Text" >
                <brush brushstyle="SolidPattern" >
                 <color alpha="255" >
@@ -3413,6 +3544,15 @@
               </colorrole>
              </active>
              <inactive>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
               <colorrole role="Text" >
                <brush brushstyle="SolidPattern" >
                 <color alpha="255" >
@@ -3424,6 +3564,15 @@
               </colorrole>
              </inactive>
              <disabled>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>128</red>
+                 <green>128</green>
+                 <blue>128</blue>
+                </color>
+               </brush>
+              </colorrole>
               <colorrole role="Text" >
                <brush brushstyle="SolidPattern" >
                 <color alpha="255" >
@@ -3441,6 +3590,83 @@
            </property>
            <property name="alignment" >
             <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_PlayerName6" >
+           <property name="geometry" >
+            <rect>
+             <x>85</x>
+             <y>17</y>
+             <width>118</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="palette" >
+            <palette>
+             <active>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </active>
+             <inactive>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </inactive>
+             <disabled>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>128</red>
+                 <green>128</green>
+                 <blue>128</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>199</red>
+                 <green>199</green>
+                 <blue>199</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </disabled>
+            </palette>
+           </property>
+           <property name="alignment" >
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
            </property>
           </widget>
          </widget>
@@ -3702,6 +3928,83 @@
           <bool>true</bool>
          </property>
         </widget>
+        <widget class="QLabel" name="label_PlayerName2" >
+         <property name="geometry" >
+          <rect>
+           <x>85</x>
+           <y>17</y>
+           <width>118</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="palette" >
+          <palette>
+           <active>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>199</red>
+               <green>199</green>
+               <blue>199</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+        </widget>
         <widget class="QLabel" name="textLabel_Set2" >
          <property name="geometry" >
           <rect>
@@ -3714,6 +4017,15 @@
          <property name="palette" >
           <palette>
            <active>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -3725,6 +4037,15 @@
             </colorrole>
            </active>
            <inactive>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -3736,6 +4057,15 @@
             </colorrole>
            </inactive>
            <disabled>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -3753,56 +4083,6 @@
          </property>
          <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_PlayerName2" >
-         <property name="geometry" >
-          <rect>
-           <x>85</x>
-           <y>17</y>
-           <width>118</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="palette" >
-          <palette>
-           <active>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>199</red>
-               <green>199</green>
-               <blue>199</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
-         <property name="alignment" >
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
        </widget>
@@ -4067,6 +4347,15 @@
          <property name="palette" >
           <palette>
            <active>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -4078,6 +4367,15 @@
             </colorrole>
            </active>
            <inactive>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -4089,6 +4387,15 @@
             </colorrole>
            </inactive>
            <disabled>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -4120,6 +4427,15 @@
          <property name="palette" >
           <palette>
            <active>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -4131,6 +4447,15 @@
             </colorrole>
            </active>
            <inactive>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -4142,6 +4467,15 @@
             </colorrole>
            </inactive>
            <disabled>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -4408,6 +4742,83 @@
           <bool>true</bool>
          </property>
         </widget>
+        <widget class="QLabel" name="label_PlayerName4" >
+         <property name="geometry" >
+          <rect>
+           <x>85</x>
+           <y>17</y>
+           <width>118</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="palette" >
+          <palette>
+           <active>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>199</red>
+               <green>199</green>
+               <blue>199</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+        </widget>
         <widget class="QLabel" name="textLabel_Set4" >
          <property name="geometry" >
           <rect>
@@ -4420,6 +4831,15 @@
          <property name="palette" >
           <palette>
            <active>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -4431,6 +4851,15 @@
             </colorrole>
            </active>
            <inactive>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -4442,6 +4871,15 @@
             </colorrole>
            </inactive>
            <disabled>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -4459,56 +4897,6 @@
          </property>
          <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_PlayerName4" >
-         <property name="geometry" >
-          <rect>
-           <x>85</x>
-           <y>17</y>
-           <width>118</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="palette" >
-          <palette>
-           <active>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>199</red>
-               <green>199</green>
-               <blue>199</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
-         <property name="alignment" >
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
        </widget>
@@ -4773,6 +5161,15 @@
          <property name="palette" >
           <palette>
            <active>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -4784,6 +5181,15 @@
             </colorrole>
            </active>
            <inactive>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -4795,6 +5201,15 @@
             </colorrole>
            </inactive>
            <disabled>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -4826,6 +5241,15 @@
          <property name="palette" >
           <palette>
            <active>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -4837,6 +5261,15 @@
             </colorrole>
            </active>
            <inactive>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
@@ -4848,6 +5281,15 @@
             </colorrole>
            </inactive>
            <disabled>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text" >
              <brush brushstyle="SolidPattern" >
               <color alpha="255" >
