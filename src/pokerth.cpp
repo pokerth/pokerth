@@ -22,6 +22,10 @@
 
 /////// can be removed for non-qt-guis ////////////
 #include <qapplication.h>
+
+#ifdef __APPLE__
+	#include <QMacStyle>
+#endif
 ///////////////////////////////////////////////////
 
 #include "session.h"
@@ -64,7 +68,7 @@ int main( int argc, char **argv )
 	/////// can be removed for non-qt-guis ////////////
 	QApplication a( argc, argv );
 #ifdef __APPLE__
-	a.setStyle(new QPlastiqueStyle);
+	a.setStyle(new QMacStyle);
 #else
 	a.setStyle(new QPlastiqueStyle);
 #endif
