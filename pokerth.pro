@@ -185,7 +185,11 @@ SOURCES += src/game.cpp \
 	   src/gui/qt/qttools/qttoolswrapper.cpp \	
 	   src/gui/qt/qttools/qthelper/qthelper.cpp
 RESOURCES += src/gui/qt/resources.qrc
-
+TRANSLATIONS = ts/pokerth_de.ts \
+               ts/pokerth_es.ts \
+	       ts/pokerth_it.ts \
+               ts/pokerth_fr.ts
+CODECFORSRC  = UTF-8
 TEMPLATE = vcapp
 TEMPLATE = app
 win32{

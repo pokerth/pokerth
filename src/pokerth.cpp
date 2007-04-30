@@ -65,6 +65,12 @@ int main( int argc, char **argv )
 	QApplication a( argc, argv );
 	a.setStyle(new QPlastiqueStyle);
 	Q_INIT_RESOURCE(resources);
+
+	QString locale = QLocale::system().name();
+
+   	QTranslator translator;
+     	translator.load(QString(":/translations/resources/translations/pokerth_") + locale);
+    	a.installTranslator(&translator);
 	///////////////////////////////////////////////////	
 
 	GuiInterface *myGuiInterface = new GuiWrapper();
