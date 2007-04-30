@@ -50,6 +50,32 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 	QPainter painter(this);
 
 #ifdef _WIN32
+        QFont welcomeFont;
+        welcomeFont.setFamily("Times New Roman");
+        welcomeFont.setPixelSize(42);        
+#else
+#ifdef __APPLE__ 
+        QFont welcomeFont;
+        welcomeFont.setFamily("Andy MT Bold");
+        welcomeFont.setPixelSize(42);
+#else
+        QFont welcomeFont;
+        welcomeFont.setFamily("Century Schoolbook L");
+        welcomeFont.setPixelSize(35);
+#endif        
+#endif
+#ifdef __APPLE__
+        QFont haveFont;
+        haveFont.setFamily("Andy MT Bold");
+        haveFont.setPixelSize(36);
+#else
+        QFont haveFont;
+        haveFont.setFamily("Andy MT");
+        haveFont.setPixelSize(36);
+#endif
+/*
+
+#ifdef _WIN32
 	QFont welcomeFont;
 	welcomeFont.setFamily("Times New Roman");
 	welcomeFont.setPixelSize(42);	
@@ -60,7 +86,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 #endif
 	QFont haveFont;
 	haveFont.setFamily("Andy MT");
-	haveFont.setPixelSize(36);
+	haveFont.setPixelSize(36);*/
 	
 	QPixmap logo(":/graphics/resources/graphics/logoChip3D.png");
 

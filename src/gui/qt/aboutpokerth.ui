@@ -1,4 +1,5 @@
 <ui version="4.0" >
+ <author>Felix Hammer</author>
  <class>aboutPokerth</class>
  <widget class="QDialog" name="aboutPokerth" >
   <property name="geometry" >
@@ -512,6 +513,7 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <includes/>
  <resources/>
  <connections>
   <connection>

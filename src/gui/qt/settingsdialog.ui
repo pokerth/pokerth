@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>591</width>
-    <height>434</height>
+    <width>603</width>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -1029,7 +1029,66 @@ p, li { white-space: pre-wrap; }
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="3" column="0" colspan="2" >
+       <item row="4" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="0" >
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_29" >
+           <property name="text" >
+            <string>Log File Directory: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_logDir" />
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_openLogDir" >
+           <property name="minimumSize" >
+            <size>
+             <width>27</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="maximumSize" >
+            <size>
+             <width>27</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="icon" >
+            <iconset resource="resources.qrc" >:/graphics/resources/graphics/fileopen16.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0" >
+        <widget class="Line" name="line_2" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" >
         <layout class="QHBoxLayout" >
          <property name="margin" >
           <number>0</number>
@@ -1076,61 +1135,22 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
-        </layout>
-       </item>
-       <item row="4" column="1" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="2" column="0" colspan="2" >
-        <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>0</number>
-         </property>
          <item>
-          <widget class="QLabel" name="label_29" >
-           <property name="text" >
-            <string>Log File Directory: </string>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_logDir" />
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_openLogDir" >
-           <property name="minimumSize" >
+           <property name="sizeHint" >
             <size>
-             <width>27</width>
-             <height>23</height>
+             <width>40</width>
+             <height>20</height>
             </size>
            </property>
-           <property name="maximumSize" >
-            <size>
-             <width>27</width>
-             <height>23</height>
-            </size>
-           </property>
-           <property name="icon" >
-            <iconset resource="resources.qrc" >:/graphics/resources/graphics/fileopen16.png</iconset>
-           </property>
-          </widget>
+          </spacer>
          </item>
         </layout>
        </item>
-       <item row="0" column="0" colspan="2" >
+       <item row="0" column="0" >
         <widget class="QLabel" name="label_6" >
          <property name="font" >
           <font>
@@ -1143,15 +1163,15 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2" >
-        <widget class="Line" name="line_2" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2" >
+    <widget class="Line" name="line" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
     </widget>
    </item>
    <item row="2" column="0" colspan="2" >
@@ -1161,13 +1181,6 @@ p, li { white-space: pre-wrap; }
      </property>
      <property name="standardButtons" >
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2" >
-    <widget class="Line" name="line" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>

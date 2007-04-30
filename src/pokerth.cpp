@@ -63,7 +63,11 @@ int main( int argc, char **argv )
 	
 	/////// can be removed for non-qt-guis ////////////
 	QApplication a( argc, argv );
+#ifdef __APPLE__
 	a.setStyle(new QPlastiqueStyle);
+#else
+	a.setStyle(new QPlastiqueStyle);
+#endif
 	Q_INIT_RESOURCE(resources);
 
 	QString locale = QLocale::system().name();

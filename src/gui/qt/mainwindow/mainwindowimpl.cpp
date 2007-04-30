@@ -53,6 +53,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 {	
 	int i;
 
+	this->setStyle(new QPlastiqueStyle);
+
 	//for statistic development
 	for(i=0; i<15; i++) {
 		statisticArray[i] = 0;
@@ -475,8 +477,13 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 
 	//Statusbar 
 	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
-		statusBar()->showMessage(tr("Ctrl+N to start a new game"));
-	}
+ 
+#ifdef __APPLE__
+                statusBar()->showMessage(tr("Cmd+N to start a new game"));
+#else
+                statusBar()->showMessage(tr("Ctrl+N to start a new game"));
+#endif
+        }
 
 	//Dialoge 
 	myJoinNetworkGameDialog = new joinNetworkGameDialogImpl(this);
@@ -2112,10 +2119,17 @@ void mainWindowImpl::breakButtonClicked() {
 void mainWindowImpl::paintStartSplash() {
 
 	StartSplash *mySplash = new StartSplash(this);	
-	mySplash->setGeometry(this->pos().x()+237,this->pos().y()+210,400,250);
-// 	mySplash->setWindowFlags(Qt::SplashScreen);
-	mySplash->show();
+
+#ifdef __APPLE__
+  int offset = 305;
+#else
+  int offset = 237;
+#endif
+        mySplash->setGeometry(this->pos().x()+offset,this->pos().y()+210,400,250);
+//         mySplash->setWindowFlags(Qt::SplashScreen);
+        mySplash->show();
 }
+
 
 void mainWindowImpl::networkError(int errorID, int osErrorID) {
 
