@@ -95,6 +95,73 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 		}
 	}
 
+// // 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!   testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+
+// // 	int *temp5Array;
+// // 
+// // 	tempBoardArray[0] = 2;
+// // 	tempBoardArray[1] = 15;
+// // 	tempBoardArray[2] = 4;
+// // 	tempBoardArray[3] = 28;
+// // 	tempBoardArray[4] = 17;
+// // 
+// // 	myBoard->setMyCards(tempBoardArray);
+// // 
+// // 	tempPlayerAndBoardArray[2] = 2;
+// // 	tempPlayerAndBoardArray[3] = 15;
+// // 	tempPlayerAndBoardArray[4] = 4;
+// // 	tempPlayerAndBoardArray[5] = 28;
+// // 	tempPlayerAndBoardArray[6] = 17;
+// // 
+// // 	tempPlayerArray[0] = 0;
+// // 	tempPlayerArray[1] = 5;
+// // 	tempPlayerAndBoardArray[0] = 0;
+// // 	tempPlayerAndBoardArray[1] = 5;
+// // 
+// // 	playerArray[0]->setMyCards(tempPlayerArray);
+// // 	playerArray[0]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,playerArray[0]->getMyBestHandPosition()));
+// // 
+// // 	temp5Array = playerArray[0]->getMyBestHandPosition();
+// // 
+// // 	for(i=0; i<5; i++) {
+// // 		cout << temp5Array[i] << " ";
+// // 	}
+// // 	cout << endl;
+// // 
+// // 	tempPlayerArray[0] = 12;
+// // 	tempPlayerArray[1] = 24;
+// // 	tempPlayerAndBoardArray[0] = 12;
+// // 	tempPlayerAndBoardArray[1] = 24;
+// // 
+// // 	playerArray[1]->setMyCards(tempPlayerArray);
+// // 	playerArray[1]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,playerArray[1]->getMyBestHandPosition()));
+// // 
+// // 	tempPlayerArray[0] = 25;
+// // 	tempPlayerArray[1] = 35;
+// // 	tempPlayerAndBoardArray[0] = 25;
+// // 	tempPlayerAndBoardArray[1] = 35;
+// // 
+// // 	playerArray[2]->setMyCards(tempPlayerArray);
+// // 	playerArray[2]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,playerArray[2]->getMyBestHandPosition()));
+// // 
+// // 	tempPlayerArray[0] = 51;
+// // 	tempPlayerArray[1] = 33;
+// // 	tempPlayerAndBoardArray[0] = 25;
+// // 	tempPlayerAndBoardArray[1] = 35;
+// // 
+// // 	playerArray[3]->setMyCards(tempPlayerArray);
+// // 	playerArray[3]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,playerArray[3]->getMyBestHandPosition()));
+
+
+// // // 	seven-two, the others have Ace-King, Ace-Jack, Ace-Nine. The pot is obviously split. 
+
+
+
+
+
+
+	/////////////////////
+
 	// Karten austeilen
 	myGui->dealHoleCards();
 	
