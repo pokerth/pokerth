@@ -167,9 +167,7 @@ public slots:
 	void postRiverRunAnimation5();	
 	void postRiverRunAnimation6();
 
-// 	void blinkingStartButtonAnimationStart();
 	void blinkingStartButtonAnimationAction();
-// 	void blinkingStartButtonAnimationStop();	
 
 	void flipHolecardsAllIn();
 	void showMyCards();
@@ -262,7 +260,10 @@ private:
 	QTimer *postRiverRunAnimation3Timer;
 	QTimer *postRiverRunAnimation5Timer;
 	QTimer *postRiverRunAnimation6Timer;
+
+	QTimer *blinkingStartButtonAnimationTimer;
 	
+
 	QWidget *userWidgetsArray[4];
 	QLabel *buttonLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *cashLabelArray[MAX_NUMBER_OF_PLAYERS];

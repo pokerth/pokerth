@@ -264,6 +264,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	potDistributeTimer = new QTimer(this);
 	postRiverRunAnimation6Timer = new QTimer(this);
 
+	blinkingStartButtonAnimationTimer = new QTimer(this);
+
 	dealFlopCards0Timer->setSingleShot(TRUE);
 	dealFlopCards1Timer->setSingleShot(TRUE);
 	dealFlopCards2Timer->setSingleShot(TRUE);
@@ -524,6 +526,8 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	connect(potDistributeTimer, SIGNAL(timeout()), this, SLOT(postRiverRunAnimation5()));
 	connect(postRiverRunAnimation5Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation6() ));
 	connect(postRiverRunAnimation6Timer, SIGNAL(timeout()), this, SLOT( startNewHand() ));
+
+	connect(blinkingStartButtonAnimationTimer, SIGNAL(timeout()), this, SLOT( blinkingStartButtonAnimationAction()));
 
 	connect( actionNewGame, SIGNAL( triggered() ), this, SLOT( callNewGameDialog() ) );
 	connect( actionAboutPokerth, SIGNAL( triggered() ), this, SLOT( callAboutPokerthDialog() ) );
@@ -1999,6 +2003,8 @@ void mainWindowImpl::startNewHand() {
 		pushButton_break->setDisabled(FALSE);
 		pushButton_break->setText("Start");
 		breakAfterActualHand=FALSE;
+
+		blinkingStartButtonAnimationTimer->start(500);		
 	}
 }
 
@@ -2111,6 +2117,13 @@ void mainWindowImpl::breakButtonClicked() {
 		breakAfterActualHand=TRUE;
 	}
 	else { 
+		blinkingStartButtonAnimationTimer->stop();
+		//Set default Color
+		QPalette tempPalette = pushButton_break->palette();
+		tempPalette.setColor(QPalette::Button, QColor(40,82,0));
+		tempPalette.setColor(QPalette::ButtonText, QColor(240,240,240));
+		pushButton_break->setPalette(tempPalette);
+
              	pushButton_break->setText("Stop");
 		startNewHand();
 	}
@@ -2326,9 +2339,15 @@ void mainWindowImpl::switchFullscreen() {
 
 void mainWindowImpl::blinkingStartButtonAnimationAction() {
 	
-// 	QPalette tempPalette = groupBoxArray[i]->palette();
-// 	tempPalette.setColor(QPalette::Window, inactive);
-// 	groupBoxArray[i]->setPalette(tempPalette);
-// 	pushButton_break->
-// 	pushButton_break->
+	QPalette tempPalette = pushButton_break->palette();
+
+	if(tempPalette.color(QPalette::Button).red()==40) {
+		tempPalette.setColor(QPalette::Button, QColor(113,162,0));
+		tempPalette.setColor(QPalette::ButtonText, QColor(0,0,0));
+	}
+	else {
+		tempPalette.setColor(QPalette::Button, QColor(40,82,0));
+		tempPalette.setColor(QPalette::ButtonText, QColor(240,240,240));
+	}
+	pushButton_break->setPalette(tempPalette);
 }
