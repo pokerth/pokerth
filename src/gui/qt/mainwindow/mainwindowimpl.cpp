@@ -2323,3 +2323,12 @@ void mainWindowImpl::switchFullscreen() {
 		this->showFullScreen();
 	}
 }
+
+void mainWindowImpl::blinkingStartButtonAnimationAction() {
+	
+// 	QPalette tempPalette = groupBoxArray[i]->palette();
+// 	tempPalette.setColor(QPalette::Window, inactive);
+// 	groupBoxArray[i]->setPalette(tempPalette);
+// 	pushButton_break->
+// 	pushButton_break->
+}

@@ -167,6 +167,10 @@ public slots:
 	void postRiverRunAnimation5();	
 	void postRiverRunAnimation6();
 
+// 	void blinkingStartButtonAnimationStart();
+	void blinkingStartButtonAnimationAction();
+// 	void blinkingStartButtonAnimationStop();	
+
 	void flipHolecardsAllIn();
 	void showMyCards();
 
