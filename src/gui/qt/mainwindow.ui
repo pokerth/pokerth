@@ -1520,7 +1520,7 @@
               <number>0</number>
              </property>
              <property name="spacing" >
-              <number>6</number>
+              <number>3</number>
              </property>
              <item>
               <layout class="QHBoxLayout" >
@@ -1528,7 +1528,7 @@
                 <number>0</number>
                </property>
                <property name="spacing" >
-                <number>6</number>
+                <number>3</number>
                </property>
                <item>
                 <widget class="QLabel" name="label_10" >
@@ -1682,6 +1682,14 @@
              </item>
              <item>
               <widget class="QSlider" name="horizontalSlider_speed" >
+               <property name="sizePolicy" >
+                <sizepolicy>
+                 <hsizetype>3</hsizetype>
+                 <vsizetype>0</vsizetype>
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="palette" >
                 <palette>
                  <active>
@@ -1741,9 +1749,23 @@
                <property name="enabled" >
                 <bool>true</bool>
                </property>
-               <property name="maximumSize" >
+               <property name="sizePolicy" >
+                <sizepolicy>
+                 <hsizetype>3</hsizetype>
+                 <vsizetype>0</vsizetype>
+                 <horstretch>10</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize" >
                 <size>
                  <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize" >
+                <size>
+                 <width>80</width>
                  <height>20</height>
                 </size>
                </property>

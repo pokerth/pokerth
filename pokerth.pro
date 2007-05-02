@@ -208,7 +208,35 @@ win32{
     SOURCES += src/core/linux/rand.cpp \
 		src/net/linux/socket_helper.cpp \
            	src/net/linux/socket_startup.cpp 
-    LIBS += -lboost_thread -lcrypto
+}
+
+unix{
+	LIBS += -lboost_thread -lcrypto
+}
+
+macx {
+# make it universal  
+  CONFIG += x86 
+  CONFIG += ppc
+  
+# for universal-compilation on PPC-Mac uncomment the following line
+#	QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
+
+# link needed Qt parts static (path is standard for self-compiling qt)
+  LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtCore.a
+  LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtGui.a
+# standard path for darwinports
+# make sure you have a universal version of boost
+  LIBS += /opt/local/lib/libboost_thread.a
+# crypto should be installed on every mac
+  LIBS += -lcrypto -lz -framework Carbon
+# set the application icon
+  RC_FILE = pokerth.icns
+	LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib 
+  INCLUDEPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/include/
+  INCLUDEPATH += /usr/local/Trolltech/Qt-4.2.3/include/
+  INCLUDEPATH += /usr/local/Trolltech/Qt-4.2.3/include/QtCore
+  INCLUDEPATH += /usr/local/Trolltech/Qt-4.2.3/include/QtGui
 }
 
 CONFIG += qt release

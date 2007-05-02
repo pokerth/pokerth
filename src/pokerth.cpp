@@ -77,7 +77,7 @@ int main( int argc, char **argv )
 	QString locale = QLocale::system().name();
 
    	QTranslator translator;
-     	translator.load(QString(":/translations/resources/translations/pokerth_") + locale);
+     	translator.load(QString(":/translations/resources/translations/pokerth_fr") /*+ locale*/);
     	a.installTranslator(&translator);
 	///////////////////////////////////////////////////	
 

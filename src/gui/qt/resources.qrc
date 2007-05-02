@@ -2,6 +2,7 @@
     <qresource prefix="/translations" >
         <file>resources/translations/pokerth_de.qm</file>
 	<file>resources/translations/pokerth_nl.qm</file>
+	<file>resources/translations/pokerth_fr.qm</file>
     </qresource>
     <qresource prefix="/actions" >
         <file>resources/graphics/actions/action_allin.png</file>

@@ -2001,7 +2001,7 @@ void mainWindowImpl::startNewHand() {
 	}
 	else { 
 		pushButton_break->setDisabled(FALSE);
-		pushButton_break->setText("Start");
+		pushButton_break->setText(tr("Start"));
 		breakAfterActualHand=FALSE;
 
 		blinkingStartButtonAnimationTimer->start(500);		
@@ -2112,7 +2112,7 @@ void mainWindowImpl::setSpeeds() {
 
 void mainWindowImpl::breakButtonClicked() {
 
-	if (pushButton_break->text() == "Stop") {
+	if (pushButton_break->text() == tr("Stop")) {
 		pushButton_break->setDisabled(TRUE);
 		breakAfterActualHand=TRUE;
 	}
@@ -2124,7 +2124,9 @@ void mainWindowImpl::breakButtonClicked() {
 		tempPalette.setColor(QPalette::ButtonText, QColor(240,240,240));
 		pushButton_break->setPalette(tempPalette);
 
-             	pushButton_break->setText("Stop");
+// 		QFontMetrics tempMetrics = this->fontMetrics();
+// 		int width = tempMetrics()
+             	pushButton_break->setText(tr("Stop"));
 		startNewHand();
 	}
 }
