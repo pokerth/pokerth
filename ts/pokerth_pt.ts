@@ -703,6 +703,11 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>mainWindowImpl</name>
     <message>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2143"/>
+        <source>Stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="489"/>
         <source>Cmd+N to start a new game</source>
         <translation type="unfinished"></translation>
@@ -720,11 +725,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2016"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2143"/>
-        <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
