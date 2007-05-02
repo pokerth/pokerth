@@ -5,12 +5,12 @@
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="13"/>
         <source>About PokerTH 0.4</source>
-        <translation type="unfinished">Info over PokerTH 0.4</translation>
+        <translation>Info over PokerTH 0.4</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="29"/>
         <source>About</source>
-        <translation type="unfinished">Beschrijving</translation>
+        <translation>Beschrijving</translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/aboutpokerth.ui" line="41"/>
@@ -27,12 +27,12 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;© 2006-2007, FHammer &amp;amp; FThauer&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;PokerTH 0.4&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Pokersimulator voor het populaire &quot;Texas Holdem&quot;-Poker&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Eenspelermodus&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Maximaal 6 tegenstanders&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Geprogrammeerd in C++ / QT4&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;© 2006-2007, FHammer &amp;amp; FThauer&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;PokerTH 0.4&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Pokersimulator voor het populaire &quot;Texas Holdem&quot;-Poker&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Eenspelermodus&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Maximaal 6 tegenstanders&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Geprogrammeerd in C++ / QT4&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;© 2006-2007, FHammer &amp;amp; FThauer&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="64"/>
         <source>Project</source>
-        <translation type="unfinished">Project</translation>
+        <translation>Project</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="89"/>
@@ -56,12 +56,12 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - gui graphics design, webdesign&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Erhard List (&lt;a href=&quot;mailto:dunkanx@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;dunkanx@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOS package&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Projectpage: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Authors: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Felix Hammer (&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - idee, basisarchitectuur, implementatie van de grafische interface, Linuxpakket, webmaster@pokerth.net&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Florian Thauer (&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - idee, basisarchitectuur, ontwikkeling van de simulator&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Lothar May (&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - netwerkprogrammatuur, Windowspakket&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Oskar Lindqvist (&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - ontwerp van de grafische interface, webdesign&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Erhard List (&lt;a href=&quot;mailto:dunkanx@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;dunkanx@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOS-pakket&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Projectpage: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Authors: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Felix Hammer (&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - idee, basisarchitectuur, implementatie van de grafische interface, Linuxpakket, webmaster@pokerth.net&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Florian Thauer (&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - idee, basisarchitectuur, ontwikkeling van de simulator&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Lothar May (&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - netwerkprogrammatuur, Windowspakket&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Oskar Lindqvist (&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - ontwerp van de grafische interface, webdesign&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Erhard List (&lt;a href=&quot;mailto:dunkanx@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;dunkanx@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOS-pakket&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="119"/>
         <source>License</source>
-        <translation type="unfinished">Licentie</translation>
+        <translation>Licentie</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="131"/>
@@ -415,7 +415,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="507"/>
         <source>Close</source>
-        <translation type="unfinished">Sluiten</translation>
+        <translation>Sluiten</translation>
     </message>
 </context>
 <context>
@@ -423,17 +423,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog.ui" line="13"/>
         <source>Connect to Server</source>
-        <translation type="unfinished">Maak verbinding met de server</translation>
+        <translation>Maak verbinding met de server</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog.ui" line="25"/>
         <source>Connecting to Server ...</source>
-        <translation type="unfinished">Verbinding aan het maken met de server ...</translation>
+        <translation>Verbinding aan het maken met de server ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog.ui" line="66"/>
         <source>Cancel</source>
-        <translation type="unfinished">Annuleren</translation>
+        <translation>Annuleren</translation>
     </message>
 </context>
 <context>
@@ -441,47 +441,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="13"/>
         <source>Create Network Game</source>
-        <translation type="unfinished">Netwerkspel aanmaken</translation>
+        <translation>Netwerkspel aanmaken</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="25"/>
         <source>Network Game Settings</source>
-        <translation type="unfinished">Netwerkspel instellingen</translation>
+        <translation>Netwerkspel instellingen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="60"/>
         <source>Hands before raise Small Blind:</source>
-        <translation type="unfinished">Rondes voor verhoging kleine blind:</translation>
+        <translation>Rondes voor verhoging kleine blind:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="67"/>
         <source>Start Cash:</source>
-        <translation type="unfinished">Startkapitaal:</translation>
+        <translation>Startkapitaal:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="74"/>
         <source>Small Blind:</source>
-        <translation type="unfinished">Kleine blind:</translation>
+        <translation>Kleine blind:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="81"/>
         <source>Number of Players:</source>
-        <translation type="unfinished">Aantal spelers:</translation>
+        <translation>Aantal spelers:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="88"/>
         <source>Game Speed for Computer Opponent:</source>
-        <translation type="unfinished">Speelsnelheid van computertegenstanders:</translation>
+        <translation>Speelsnelheid van computertegenstanders:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="158"/>
         <source>Create Game</source>
-        <translation type="unfinished">Maak een spel</translation>
+        <translation>Maak een spel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="165"/>
         <source>Cancel</source>
-        <translation type="unfinished">Annuleren</translation>
+        <translation>Annuleren</translation>
     </message>
 </context>
 <context>
@@ -489,87 +489,87 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="13"/>
         <source>Join Network Game</source>
-        <translation type="unfinished">Meedoen met netwerkspel</translation>
+        <translation>Meedoen met netwerkspel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="25"/>
         <source>Connect to Network Game</source>
-        <translation type="unfinished">Maak verbinding met netwerkspel</translation>
+        <translation>Maak verbinding met netwerkspel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="37"/>
         <source>Use IPv6</source>
-        <translation type="unfinished">Gebruik IPv6</translation>
+        <translation>Gebruik IPv6</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="44"/>
         <source>myServerProfile1</source>
-        <translation type="unfinished">mijnServerProfiel1</translation>
+        <translation>mijnServerProfiel1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="51"/>
         <source>Profile Name:</source>
-        <translation type="unfinished">Profielnaam:</translation>
+        <translation>Profielnaam:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="58"/>
         <source>IP Address / Domain Name:</source>
-        <translation type="unfinished">IP-adres / Domeinnaam:</translation>
+        <translation>IP-adres / Domeinnaam:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="65"/>
         <source>Port:</source>
-        <translation type="unfinished">Poort:</translation>
+        <translation>Poort:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="85"/>
         <source>Password (optional):</source>
-        <translation type="unfinished">Wachtwoord (niet verplicht):</translation>
+        <translation>Wachtwoord (niet verplicht):</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="118"/>
         <source>Server Profiles</source>
-        <translation type="unfinished">Serverprofielen</translation>
+        <translation>Serverprofielen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="149"/>
         <source>                  Name                   </source>
-        <translation type="unfinished">(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)Naam(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)</translation>
+        <translation>                  Naam                   </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="154"/>
         <source>                Address                 </source>
-        <translation type="unfinished">(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)Adres(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)</translation>
+        <translation>                Adres                 </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="159"/>
         <source>   Port   </source>
-        <translation type="unfinished">(sp)(sp)(sp)Poort(sp)(sp)(sp)</translation>
+        <translation>   Poort   </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="164"/>
         <source>IPv6</source>
-        <translation type="unfinished">IPv6</translation>
+        <translation>IPv6</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="180"/>
         <source>Save</source>
-        <translation type="unfinished">Opslaan</translation>
+        <translation>Opslaan</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="187"/>
         <source>Delete</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="229"/>
         <source>Connect</source>
-        <translation type="unfinished">Verbinding maken</translation>
+        <translation>Verbinding maken</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="236"/>
         <source>Close</source>
-        <translation type="unfinished">Sluiten</translation>
+        <translation>Sluiten</translation>
     </message>
 </context>
 <context>
@@ -577,45 +577,45 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="223"/>
         <source>Load Server-Profile-File Error</source>
-        <translation type="unfinished">Fout bij laden van serverprofielbestand</translation>
+        <translation>Fout bij laden van serverprofielbestand</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="224"/>
         <source>Could not load server-profiles-file:
 </source>
-        <translation type="unfinished">Kan het serverprofielbestand niet laden:
+        <translation>Kan het serverprofielbestand niet laden:
 </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="169"/>
         <source>Save Server Profile Error</source>
-        <translation type="unfinished">Fout bij opslaan serverprofiel</translation>
+        <translation>Fout bij opslaan serverprofiel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="170"/>
         <source>A profile with the name: &quot;</source>
-        <translation type="unfinished">Een profiel met de naam: &quot;</translation>
+        <translation>Een profiel met de naam: &quot;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="208"/>
         <source>Read Server-Profile List Error</source>
-        <translation type="unfinished">Fout bij lezen lijst serverprofielen</translation>
+        <translation>Fout bij lezen lijst serverprofielen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="209"/>
         <source>Could not read server-profiles list</source>
-        <translation type="unfinished">Kan lijst serverprofielen niet lezen</translation>
+        <translation>Kan lijst serverprofielen niet lezen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="234"/>
         <source>Save Server-Profile-File Error</source>
-        <translation type="unfinished">Fout bij opslaan serverprofielbestand</translation>
+        <translation>Fout bij opslaan serverprofielbestand</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="235"/>
         <source>Could not save server-profiles-file:
 </source>
-        <translation type="unfinished">Kan serverprofielbestand niet opslaan:
+        <translation>Kan serverprofielbestand niet opslaan:
 </translation>
     </message>
 </context>
@@ -624,82 +624,82 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="502"/>
         <source>PokerTH 0.4 - The Open-Source Texas Holdem Engine</source>
-        <translation type="unfinished">PokertTH 0.4 - De Open-Source Texas Holdem Simulator</translation>
+        <translation>PokertTH 0.4 - De Open-Source Texas Holdem Simulator</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="505"/>
         <source>QMainWindow { background-image: url(:/guiv2/resources/guiv2/table.png); background-position: bottom center; background-origin: content; }</source>
-        <translation type="unfinished"></translation>
+        <translation>QMainWindow { background-image: url(:/guiv2/resources/guiv2/table.png); background-position: bottom center; background-origin: content; }</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="1272"/>
         <source>QGroupBox { background-image: url(:/graphics/resources/graphics/toolboxFrameBG.png) }</source>
-        <translation type="unfinished"></translation>
+        <translation>QGroupBox { background-image: url(:/graphics/resources/graphics/toolboxFrameBG.png) }</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="1600"/>
         <source>Speed:</source>
-        <translation type="unfinished">Snelheid:</translation>
+        <translation>Snelheid:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2007"/>
         <source>Stop</source>
-        <translation type="unfinished">Stop</translation>
+        <translation>Stop</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="5339"/>
         <source>View</source>
-        <translation type="unfinished">Scherm</translation>
+        <translation>Scherm</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="5345"/>
         <source>Game</source>
-        <translation type="unfinished">Spel</translation>
+        <translation>Spel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="5360"/>
         <source>Start local Game ...</source>
-        <translation type="unfinished">Start lokaal spel ...</translation>
+        <translation>Start lokaal spel ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="5363"/>
         <source>Ctrl+N</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+N</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="5368"/>
         <source>Quit</source>
-        <translation type="unfinished">Afsluiten</translation>
+        <translation>Afsluiten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="5373"/>
         <source>About PokerTH ...</source>
-        <translation type="unfinished">Over PokerTH ...</translation>
+        <translation>Info over PokerTH ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="5378"/>
         <source>Settings ...</source>
-        <translation type="unfinished">Instellingen ...</translation>
+        <translation>Instellingen ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="5383"/>
         <source>Create Network Game ...</source>
-        <translation type="unfinished">Netwerkspel aanmaken ...</translation>
+        <translation>Netwerkspel aanmaken ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="5388"/>
         <source>Join Network Game ...</source>
-        <translation type="unfinished">Meedoen met netwerkspel ...</translation>
+        <translation>Meedoen met netwerkspel ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="5393"/>
         <source>Fullscreen</source>
-        <translation type="unfinished">Volledig scherm</translation>
+        <translation>Volledig scherm</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="5396"/>
         <source>F</source>
-        <translation type="unfinished"></translation>
+        <translation>F</translation>
     </message>
 </context>
 <context>
@@ -707,152 +707,152 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="478"/>
         <source>Ctrl+N to start a new game</source>
-        <translation type="unfinished">Ctrl+N om een nieuw spel te starten</translation>
+        <translation>Ctrl+N om een nieuw spel te starten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1280"/>
         <source>F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise</source>
-        <translation type="unfinished">F1 - Passen/All-In | F2 - Checken/Meegaan | F3 - Inzetten/Verhogen</translation>
+        <translation>F1 - Folden/All-In | F2 - Checken/Callen | F3 - Betten/Raisen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2244"/>
         <source>Network Error</source>
-        <translation type="unfinished">Netwerkfout</translation>
+        <translation>Netwerkfout</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2126"/>
         <source>Server address was not set.</source>
-        <translation type="unfinished">Serveradres is niet ingesteld.</translation>
+        <translation>Serveradres is niet ingesteld.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2131"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation type="unfinished">Onjuiste poort ingesteld (poorten 0-1023 niet toegestaan).</translation>
+        <translation>Onjuiste poort ingesteld (poorten 0-1023 niet toegestaan).</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2136"/>
         <source>Could not create a socket for TCP communication.</source>
-        <translation type="unfinished">Kan geen socket aanmaken voor TCP-communicatie.</translation>
+        <translation>Kan geen socket aanmaken voor TCP-communicatie.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2141"/>
         <source>Could not set the IP address.</source>
-        <translation type="unfinished">Kan het IP-adres niet instellen.</translation>
+        <translation>Kan het IP-adres niet instellen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2146"/>
         <source>Could not set the port for this type of address.</source>
-        <translation type="unfinished">Kan de poort niet instellen voor dit adrestype.</translation>
+        <translation>Kan de poort niet instellen voor dit adrestype.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2151"/>
         <source>The server name could not be resolved.</source>
-        <translation type="unfinished">Kan de servernaam nergens opzoeken.</translation>
+        <translation>Kan de servernaam nergens opzoeken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2156"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation type="unfinished">Kan niet verbinden - kies a.u.b. een andere poort.</translation>
+        <translation>Kan niet verbinden - kies a.u.b. een andere poort.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2161"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation type="unfinished">Interne netwerkfout: &quot;listen&quot; niet uitvoerbaar.</translation>
+        <translation>Interne netwerkfout: &quot;listen&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2166"/>
         <source>Server execution was terminated.</source>
-        <translation type="unfinished">Het uitvoeren op de server is afgebroken.</translation>
+        <translation>Het uitvoeren op de server is afgebroken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2171"/>
         <source>Could not connect to the server.</source>
-        <translation type="unfinished">Kan geen verbinding met de server maken.</translation>
+        <translation>Kan geen verbinding met de server maken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2176"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
-        <translation type="unfinished">Interne netwerkfout: &quot;select&quot; niet uitvoerbaar.</translation>
+        <translation>Interne netwerkfout: &quot;select&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2181"/>
         <source>Internal network error: &quot;recv&quot; failed.</source>
-        <translation type="unfinished">Interne netwerkfout: &quot;recv&quot; niet uitvoerbaar.</translation>
+        <translation>Interne netwerkfout: &quot;recv&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2186"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation type="unfinished">Interne netwerkfout: &quot;send&quot; niet uitvoerbaar.</translation>
+        <translation>Interne netwerkfout: &quot;send&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2191"/>
         <source>Connection was closed by server.</source>
-        <translation type="unfinished">Verbinding verbroken door server.</translation>
+        <translation>Verbinding verbroken door server.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2196"/>
         <source>Internal network error: Duplicate TCP connection.</source>
-        <translation type="unfinished">Interne netwerkfout: Dubbele TCP-verbinding.</translation>
+        <translation>Interne netwerkfout: Dubbele TCP-verbinding.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2201"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation type="unfinished">Ongeldig netwerkpakket ontvangen.
+        <translation>Ongeldig netwerkpakket ontvangen.
 Zorg er a.u.b. voor dat alle spelers dezelfde PokerTH-versie gebruiken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2206"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation type="unfinished">Interne statusfout.
+        <translation>Interne statusfout.
 Zorg er a.u.b. voor dat alle spelers dezelfde PokerTH-versie gebruiken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2211"/>
         <source>The PokerTH server does not support this version of the game.
 Please update PokerTH.</source>
-        <translation type="unfinished">De PokerTH-server ondersteunt deze versie van het spel niet.
+        <translation>De PokerTH-server ondersteunt deze versie van het spel niet.
 Zorg dat u de nieuwste versie van PokerTH heeft.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2216"/>
         <source>Sorry, this server is already full.</source>
-        <translation type="unfinished">Sorry, deze server is reeds vol.</translation>
+        <translation>Sorry, deze server is reeds vol.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2221"/>
         <source>Unable to join - the server has already started the game.</source>
-        <translation type="unfinished">Kan niet meedoen - de server heeft het spel al gestart.</translation>
+        <translation>Kan niet meedoen - de server heeft het spel al gestart.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2226"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
-        <translation type="unfinished">Ongeldig wachtwoord bij het verbinden.
+        <translation>Ongeldig wachtwoord bij het verbinden.
 Stel a.u.b. het wachtwoord opnieuw in en probeer opnieuw.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2231"/>
         <source>The password is too long. Please choose another one.</source>
-        <translation type="unfinished">Het wachtwoord is te lang. Kies a.u.b. een ander wachtwoord.</translation>
+        <translation>Het wachtwoord is te lang. Kies a.u.b. een ander wachtwoord.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2236"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
-        <translation type="unfinished">Uw spelernaam is al in gebruik door een andere speler.
+        <translation>Uw spelernaam is al in gebruik door een andere speler.
 Kies a.u.b. een andere naam.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2241"/>
         <source>The player name is either too short or too long. Please choose another one.</source>
-        <translation type="unfinished">De spelersnaam is te kort of te lang. Kies a.u.b. een andere naam.</translation>
+        <translation>De spelersnaam is te kort of te lang. Kies a.u.b. een andere naam.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2245"/>
         <source>An internal error occured.</source>
-        <translation type="unfinished">Interne fout opgetreden.</translation>
+        <translation>Interne fout opgetreden.</translation>
     </message>
 </context>
 <context>
@@ -860,37 +860,37 @@ Kies a.u.b. een andere naam.</translation>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="13"/>
         <source>Start Local Game</source>
-        <translation type="unfinished">Start lokaal spel</translation>
+        <translation>Start lokaal spel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="25"/>
         <source>Local Game Settings</source>
-        <translation type="unfinished">Instellingen van lokaal spel</translation>
+        <translation>Instellingen van lokaal spel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="50"/>
         <source>Game Speed:</source>
-        <translation type="unfinished">Speelsnelheid:</translation>
+        <translation>Speelsnelheid:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="93"/>
         <source>Number of Players:</source>
-        <translation type="unfinished">Aantal Spelers:</translation>
+        <translation>Aantal Spelers:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="100"/>
         <source>Start Cash:</source>
-        <translation type="unfinished">Startkapitaal:</translation>
+        <translation>Startkapitaal:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="107"/>
         <source>Small Blind:</source>
-        <translation type="unfinished">Kleine blind:</translation>
+        <translation>Kleine blind:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="127"/>
         <source>Hands before raise Small Blind:</source>
-        <translation type="unfinished">Rondes voor verhoging kleine blind:</translation>
+        <translation>Rondes voor verhoging kleine blind:</translation>
     </message>
 </context>
 <context>
@@ -898,27 +898,27 @@ Kies a.u.b. een andere naam.</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="13"/>
         <source>PokerTH 0.4 - Settings</source>
-        <translation type="unfinished">PokerTH 0.4 - Instellingen</translation>
+        <translation>PokerTH 0.4 - Instellingen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1190"/>
         <source>Interface</source>
-        <translation type="unfinished">Interface</translation>
+        <translation>Interface</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="64"/>
         <source>Show Flip-Card Animation</source>
-        <translation type="unfinished">Laat omdraaiende kaarten-animatie zien</translation>
+        <translation>Laat omdraaiende kaarten-animatie zien</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="71"/>
         <source>Flipside of Cards</source>
-        <translation type="unfinished">Kaartachterkant</translation>
+        <translation>Kaartachterkant</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="99"/>
         <source>Own Flipside Picture:</source>
-        <translation type="unfinished">Eigen plaatje voor kaartachterkant:</translation>
+        <translation>Eigen plaatje voor kaartachterkant:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="137"/>
@@ -926,177 +926,177 @@ Kies a.u.b. een andere naam.</translation>
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=100, height=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: Beste kwaliteit met hoogte-breedteverhouding gelijk aan &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;breedte=100, hoogte=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: Beste kwaliteit met hoogte-breedteverhouding gelijk aan &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;breedte=100, hoogte=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="152"/>
         <source>Default</source>
-        <translation type="unfinished">Standaard</translation>
+        <translation>Standaard</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="165"/>
         <source>Show Fade-Out Animation for Non-Winning Cards</source>
-        <translation type="unfinished">Laat fade out-animatie zien van niet-winnende kaarten</translation>
+        <translation>Laat fade out-animatie zien van niet-winnende kaarten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="172"/>
         <source>Show Intro on Startup</source>
-        <translation type="unfinished">Laat introductiescherm zien bij starten</translation>
+        <translation>Laat introductiescherm zien bij starten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="186"/>
         <source>Show right Toolbox (F11 to switch on/off)</source>
-        <translation type="unfinished">Laat rechter hulpscherm zien (F11 om aan/uit te zetten)</translation>
+        <translation>Laat rechter hulpscherm zien (F11 om aan/uit te zetten)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="193"/>
         <source>Show left Toolbox (F10 to switch on/off)</source>
-        <translation type="unfinished">Laat linker hulpscherm zien (F10 om aan/uit te zetten)</translation>
+        <translation>Laat linker hulpscherm zien (F10 om aan/uit te zetten)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="200"/>
         <source>Show Statusbar Messages</source>
-        <translation type="unfinished">Laat berichten zien in statusbalk</translation>
+        <translation>Laat berichten zien in statusbalk</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="217"/>
         <source>Show Game Settings Dialog on every new Game</source>
-        <translation type="unfinished">Laat instellingenvenster zien voor elk nieuw spel</translation>
+        <translation>Laat instellingenvenster zien voor elk nieuw spel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="541"/>
         <source>Hands before raise Small Blind:</source>
-        <translation type="unfinished">Rondes voor verhoging kleine blind:</translation>
+        <translation>Rondes voor verhoging kleine blind:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="507"/>
         <source>Number of Players:</source>
-        <translation type="unfinished">Aantal spelers:</translation>
+        <translation>Aantal spelers:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="283"/>
         <source>Local Game Default Settings</source>
-        <translation type="unfinished">Standaardinstellingen lokaal spel</translation>
+        <translation>Standaardinstellingen lokaal spel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="514"/>
         <source>Small Blind:</source>
-        <translation type="unfinished">Kleine blind:</translation>
+        <translation>Kleine blind:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="324"/>
         <source>Game-Speed:</source>
-        <translation type="unfinished">Speelsnelheid:</translation>
+        <translation>Speelsnelheid:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="477"/>
         <source>Start Cash:</source>
-        <translation type="unfinished">Startkapitaal:</translation>
+        <translation>Startkapitaal:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="338"/>
         <source>Pause between Hands (Press &quot;Start&quot; Button to go on)</source>
-        <translation type="unfinished">Stopzetten tussen rondes (Klik op &quot;Start&quot;-knop om door te gaan)</translation>
+        <translation>Stopzetten tussen rondes (Druk op &quot;Start&quot;-knop om door te gaan)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="356"/>
         <source>0.4 (actual)</source>
-        <translation type="unfinished">0.4 (huidige)</translation>
+        <translation>0.4 (huidige)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="567"/>
         <source>0.3 (previous)</source>
-        <translation type="unfinished">0.3 (vorige)</translation>
+        <translation>0.3 (vorige)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="575"/>
         <source>Engine Version:</source>
-        <translation type="unfinished">Simulatorversie:</translation>
+        <translation>Simulatorversie:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="386"/>
         <source>Server Settings</source>
-        <translation type="unfinished">Server-instellingen</translation>
+        <translation>Server-instellingen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="418"/>
         <source>Server Port:</source>
-        <translation type="unfinished">Server-poort:</translation>
+        <translation>Server-poort:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="425"/>
         <source>Use IPv6</source>
-        <translation type="unfinished">Gebruik IPv6</translation>
+        <translation>Gebruik IPv6</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="432"/>
         <source>Server Password:</source>
-        <translation type="unfinished">Server-wachtwoord:</translation>
+        <translation>Server-wachtwoord:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="455"/>
         <source>Network Game Default Settings</source>
-        <translation type="unfinished">Standaardinstellingen netwerkspel</translation>
+        <translation>Standaardinstellingen netwerkspel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="470"/>
         <source>Game-Speed for Computer Opponents:</source>
-        <translation type="unfinished">Speelsnelheid van computertegenstanders:</translation>
+        <translation>Speelsnelheid van computertegenstanders:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="562"/>
         <source>0.4 (actual - under development)</source>
-        <translation type="unfinished">0.4 (huidige - in ontwikkeling)</translation>
+        <translation>0.4 (huidige - in ontwikkeling)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="621"/>
         <source>Computer Engine</source>
-        <translation type="unfinished">Simulatorversie van computerspelers</translation>
+        <translation>Simulatorversie van computerspelers</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="668"/>
         <source>Opponent 5:</source>
-        <translation type="unfinished">Tegenstander 5:</translation>
+        <translation>Tegenstander 5:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="948"/>
         <source>Avatar:</source>
-        <translation type="unfinished">Spelerplaatje:</translation>
+        <translation>Spelerplaatje:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="749"/>
         <source>Opponent 3:</source>
-        <translation type="unfinished">Tegenstander 3:</translation>
+        <translation>Tegenstander 3:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="808"/>
         <source>Opponent 2:</source>
-        <translation type="unfinished">Tegenstander 2:</translation>
+        <translation>Tegenstander 2:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="822"/>
         <source>Opponent 6:</source>
-        <translation type="unfinished">Tegenstander 6:</translation>
+        <translation>Tegenstander 6:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="836"/>
         <source>Opponent 1:</source>
-        <translation type="unfinished">Tegenstander 1:</translation>
+        <translation>Tegenstander 1:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="843"/>
         <source>Opponent 4:</source>
-        <translation type="unfinished">Tegenstander 4:</translation>
+        <translation>Tegenstander 4:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="938"/>
         <source>Human Player:</source>
-        <translation type="unfinished">Menselijke Speler:</translation>
+        <translation>Menselijke Speler:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1205"/>
         <source>Player Nicks</source>
-        <translation type="unfinished">Bijnamen spelers</translation>
+        <translation>Bijnamen spelers</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1015"/>
@@ -1104,37 +1104,37 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=50, height=50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: Beste kwaliteit met hoogte-breedteverhouding gelijk aan &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;breedte=50, hoogte=50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: Beste kwaliteit met hoogte-breedteverhouding gelijk aan &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;breedte=50, hoogte=50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1049"/>
         <source>Store Log Files for</source>
-        <translation type="unfinished">Bewaar logbestanden gedurende</translation>
+        <translation>Bewaar logbestanden gedurende</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1075"/>
         <source>Day(s)</source>
-        <translation type="unfinished">Dag(en)</translation>
+        <translation>Dag(en)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1105"/>
         <source>Log File Directory: </source>
-        <translation type="unfinished">Map voor logbestanden:(sp)</translation>
+        <translation>Map voor logbestanden: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1210"/>
         <source>Log Messages</source>
-        <translation type="unfinished">Logberichten</translation>
+        <translation>Logberichten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1195"/>
         <source>Local Game Settings</source>
-        <translation type="unfinished">Instellingen lokaal spel</translation>
+        <translation>Instellingen lokaal spel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1200"/>
         <source>Network Game Settings</source>
-        <translation type="unfinished">Instellingen netwerkspel</translation>
+        <translation>Instellingen netwerkspel</translation>
     </message>
 </context>
 <context>
@@ -1142,95 +1142,95 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="247"/>
         <source>Settings Error</source>
-        <translation type="unfinished">Fout in instellingen</translation>
+        <translation>Fout in instellingen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="132"/>
         <source>The entered human player avatar picture doesn&apos;t exists.
 Please enter an valid picture!</source>
-        <translation type="unfinished">Het ingestelde spelerplaatje voor de menselijke speler bestaat niet.
+        <translation>Het ingestelde spelerplaatje voor de menselijke speler bestaat niet.
 Stel a.u.b. een geldig plaatje in!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="143"/>
         <source>The entered &quot;opponent 1&quot; avatar picture doesn&apos;t exists.
 Please enter an valid picture!</source>
-        <translation type="unfinished">Het ingestelde spelerplaatje voor &quot;tegenstander 1&quot; bestaat niet.
+        <translation>Het ingestelde spelerplaatje voor &quot;tegenstander 1&quot; bestaat niet.
 Stel a.u.b. een geldig plaatje in!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="154"/>
         <source>The entered &quot;opponent 2&quot; avatar picture doesn&apos;t exists.
 Please enter an valid picture!</source>
-        <translation type="unfinished">Het ingestelde spelerplaatje voor &quot;tegenstander 2&quot; bestaat niet.
+        <translation>Het ingestelde spelerplaatje voor &quot;tegenstander 2&quot; bestaat niet.
 Stel a.u.b. een geldig plaatje in!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="165"/>
         <source>The entered &quot;opponent 3&quot; avatar picture doesn&apos;t exists.
 Please enter an valid picture!</source>
-        <translation type="unfinished">Het ingestelde spelerplaatje voor &quot;tegenstander 3&quot; bestaat niet.
+        <translation>Het ingestelde spelerplaatje voor &quot;tegenstander 3&quot; bestaat niet.
 Stel a.u.b. een geldig plaatje in!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="176"/>
         <source>The entered &quot;opponent 4&quot; avatar picture doesn&apos;t exists.
 Please enter an valid picture!</source>
-        <translation type="unfinished">Het ingestelde spelerplaatje voor &quot;tegenstander 4&quot; bestaat niet.
+        <translation>Het ingestelde spelerplaatje voor &quot;tegenstander 4&quot; bestaat niet.
 Stel a.u.b. een geldig plaatje in!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="187"/>
         <source>The entered &quot;opponent 5&quot; avatar picture doesn&apos;t exists.
 Please enter an valid picture!</source>
-        <translation type="unfinished">Het ingestelde spelerplaatje voor &quot;tegenstander 5&quot; bestaat niet.
+        <translation>Het ingestelde spelerplaatje voor &quot;tegenstander 5&quot; bestaat niet.
 Stel a.u.b. een geldig plaatje in!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="198"/>
         <source>The entered &quot;opponent 6&quot; avatar picture doesn&apos;t exists.
 Please enter an valid picture!</source>
-        <translation type="unfinished">Het ingestelde spelerplaatje voor &quot;tegenstander 6&quot; bestaat niet.
+        <translation>Het ingestelde spelerplaatje voor &quot;tegenstander 6&quot; bestaat niet.
 Stel a.u.b. een geldig plaatje in!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="238"/>
         <source>The entered flipside picture doesn&apos;t exists.
 Please enter an valid picture!</source>
-        <translation type="unfinished">Het ingestelde plaatje voor de kaartachterkant bestaat niet.
+        <translation>Het ingestelde plaatje voor de kaartachterkant bestaat niet.
 Stel a.u.b. een geldig plaatje in!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="249"/>
         <source>The log file directory doesn&apos;t exists.
 Please select an valid directory!</source>
-        <translation type="unfinished">De map voor logbestanden bestaat niet.
+        <translation>De map voor logbestanden bestaat niet.
 Kies a.u.b. een geldige map!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="262"/>
         <source>Select your flipside picture</source>
-        <translation type="unfinished">Kies uw plaatje voor de kaartachterkant</translation>
+        <translation>Kies uw plaatje voor de kaartachterkant</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="334"/>
         <source>Images (*.png)</source>
-        <translation type="unfinished">Plaatjes (*.png)</translation>
+        <translation>Plaatjes (*.png)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="272"/>
         <source>Select your avatar picture</source>
-        <translation type="unfinished">Kies uw spelerplaatje</translation>
+        <translation>Kies uw spelerplaatje</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="332"/>
         <source>Select computer opponents avatar picture</source>
-        <translation type="unfinished">Kies een spelerplaatje voor de computertegenstander</translation>
+        <translation>Kies een spelerplaatje voor de computertegenstander</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="342"/>
         <source>Open Directory</source>
-        <translation type="unfinished">Open map</translation>
+        <translation>Open map</translation>
     </message>
 </context>
 <context>
@@ -1238,32 +1238,32 @@ Kies a.u.b. een geldige map!</translation>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="13"/>
         <source>Start Network Game</source>
-        <translation type="unfinished">Start netwerkspel</translation>
+        <translation>Start netwerkspel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="25"/>
         <source>Maximum number of players:</source>
-        <translation type="unfinished">Maximaal aantal spelers:</translation>
+        <translation>Maximaal aantal spelers:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="53"/>
         <source>Start Game</source>
-        <translation type="unfinished">Start spel</translation>
+        <translation>Start spel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="60"/>
         <source>Cancel</source>
-        <translation type="unfinished">Annuleren</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="70"/>
         <source>    connected player    </source>
-        <translation type="unfinished">(sp)(sp)(sp)(sp)speler met verbinding(sp)(sp)(sp)(sp)</translation>
+        <translation>    speler met verbinding    </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="78"/>
         <source>0</source>
-        <translation type="unfinished">0</translation>
+        <translation>0</translation>
     </message>
 </context>
 <context>
@@ -1271,17 +1271,17 @@ Kies a.u.b. een geldige map!</translation>
     <message>
         <location filename="../src/gui/qt/waitforservertostartgamedialog.ui" line="13"/>
         <source>Waiting for Server ...</source>
-        <translation type="unfinished">Aan het wachten op de server...</translation>
+        <translation>Aan het wachten op de server ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/waitforservertostartgamedialog.ui" line="57"/>
         <source>Cancel</source>
-        <translation type="unfinished">Annuleren</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/waitforservertostartgamedialog.ui" line="64"/>
         <source>Waiting for the Server to start the Game ...</source>
-        <translation type="unfinished">Aan het wachten tot de server het spel start ...</translation>
+        <translation>Aan het wachten tot de server het spel start ...</translation>
     </message>
 </context>
 </TS>
