@@ -464,6 +464,11 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { actionLabelArray[i]->raise(); }
 
 
+	//resize stop-button depending on translation
+	QFontMetrics tempMetrics = this->fontMetrics();
+	int width = tempMetrics.width(tr("Stop"));
+	pushButton_break->setMinimumSize(width+10,20);
+
 	//ShortCuts 
 // 	QShortcut *startNewGameKeys = new QShortcut(QKeySequence(Qt::Key_Control + Qt::Key_N), this);
 // 	connect( startNewGameKeys, SIGNAL(activated() ), actionNewGame, SLOT( trigger() ) );
@@ -633,10 +638,14 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		gameData.handsBeforeRaise = myCreateNetworkGameDialog->spinBox_handsBeforeRaiseSmallBlind->value();
 		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
 
+		myStartNetworkGameDialog->treeWidget->clear();
+	
 		mySession->startNetworkServer(gameData);
 		mySession->startNetworkClientForLocalServer();
 
 		myStartNetworkGameDialog->exec();
+		
+
 
 		if (myStartNetworkGameDialog->result() == QDialog::Accepted ) {
 			mySession->initiateNetworkServerGame();
@@ -1998,6 +2007,11 @@ void mainWindowImpl::startNewHand() {
 	}
 	else { 
 		pushButton_break->setDisabled(FALSE);
+		
+		QFontMetrics tempMetrics = this->fontMetrics();
+		int width = tempMetrics.width(tr("Start"));
+		pushButton_break->setMinimumSize(width+10,20);
+
 		pushButton_break->setText(tr("Start"));
 		breakAfterActualHand=FALSE;
 
@@ -2121,8 +2135,10 @@ void mainWindowImpl::breakButtonClicked() {
 		tempPalette.setColor(QPalette::ButtonText, QColor(240,240,240));
 		pushButton_break->setPalette(tempPalette);
 
-// 		QFontMetrics tempMetrics = this->fontMetrics();
-// 		int width = tempMetrics()
+		QFontMetrics tempMetrics = this->fontMetrics();
+		int width = tempMetrics.width(tr("Stop"));
+		pushButton_break->setMinimumSize(width+10,20);
+
              	pushButton_break->setText(tr("Stop"));
 		startNewHand();
 	}

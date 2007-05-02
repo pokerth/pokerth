@@ -1520,7 +1520,7 @@
               <number>0</number>
              </property>
              <property name="spacing" >
-              <number>3</number>
+              <number>5</number>
              </property>
              <item>
               <layout class="QHBoxLayout" >
