@@ -41,6 +41,8 @@ GuiWrapper::~GuiWrapper()
 {
 }
 
+void GuiWrapper::initGui(int speed) { myW->initGui(speed); }
+
 void GuiWrapper::setGame(Game *g) { myW->setGame(g); }
 void GuiWrapper::setHand(HandInterface *lh) { myW->setHand(lh); }
 void GuiWrapper::setSession(Session *s) { myW->setSession(s); }

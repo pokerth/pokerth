@@ -42,6 +42,8 @@ public:
 
     ~GuiWrapper();
 
+	void initGui(int speed);
+
 	void setGame(Game*);
 	void setHand(HandInterface*);
 	void setSession(Session*);	

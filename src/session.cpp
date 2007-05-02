@@ -48,6 +48,10 @@ Session::~Session()
 
 void Session::startGame(const GameData &gameData) {
 
+	myGui->setGame(0);
+	myGui->initGui(gameData.guiSpeed);
+	deleteGame();
+
 	currentGameID++;
 
 	PlayerDataList playerDataList;
@@ -71,8 +75,8 @@ void Session::startGame(const GameData &gameData) {
 		playerDataList.push_back(playerData);
 	}
 
-
 	actualGame = new Game(myGui, playerDataList, gameData, currentGameID);
+	myGui->setGame(actualGame);
 }
 
 void Session::deleteGame() {

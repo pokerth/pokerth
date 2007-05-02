@@ -30,6 +30,7 @@ struct GameData
 	int startCash;
 	int smallBlind;
 	int handsBeforeRaise;
+	int guiSpeed;
 };
 
 #endif

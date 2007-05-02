@@ -581,63 +581,30 @@ void mainWindowImpl::callNewGameDialog() {
 
 void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 
-	int i;
-
 	// Start new local game - terminate existing network game.
 	mySession->terminateNetworkClient();
 	mySession->terminateNetworkServer();
 
-	if(actualGame) {
-		mySession->deleteGame();
-		actualGame = 0;
-	}
-	//restliche Singleshots killen!!!
-	stopTimer();
-		
-	label_Pot->setText("<span style='font-weight:bold'>Pot</span>");
-	label_Total->setText("<span style='font-weight:bold'>Total:</span>");
-	label_Sets->setText("<span style='font-weight:bold'>Sets:</span>");
-	label_handNumber->setText("<span style='font-weight:bold'>Hand:</span>");
-	label_gameNumber->setText("<span style='font-weight:bold'>Game:</span>");
-	
-	//Tools und Board aufhellen und enablen
-// 	QPalette tempPalette = groupBox_board->palette();
-// 	tempPalette.setColor(QPalette::Window, active);
-// 	groupBox_board->setPalette(tempPalette);
-	groupBox_RightToolBox->setDisabled(FALSE);
-	groupBox_LeftToolBox->setDisabled(FALSE);	
-		
-	//show human player buttons
-	for(i=0; i<3; i++) {
-		userWidgetsArray[i]->show();
-	}
-
 	//get values from local game dialog
 	GameData gameData;
 	if(v) {
-		//Speeds 
-		guiGameSpeed = v->spinBox_gameSpeed->value();
-		setSpeeds();
-		//positioning Slider
-		horizontalSlider_speed->setValue(guiGameSpeed);
 		// Set Game Data
 		gameData.numberOfPlayers = v->spinBox_quantityPlayers->value();
 		gameData.startCash = v->spinBox_startCash->value();
 		gameData.smallBlind = v->spinBox_smallBlind->value();
 		gameData.handsBeforeRaise = v->spinBox_handsBeforeRaiseSmallBlind->value();
+		//Speeds 
+		gameData.guiSpeed = v->spinBox_gameSpeed->value();
 	}
 	// start with default values
 	else {
-		//Speeds 
-		guiGameSpeed = myConfig->readConfigInt("GameSpeed");
-		setSpeeds();
-		//positioning Slider
-		horizontalSlider_speed->setValue(guiGameSpeed);
 		// Set Game Data
 		gameData.numberOfPlayers = myConfig->readConfigInt("NumberOfPlayers");
 		gameData.startCash = myConfig->readConfigInt("StartCash");
 		gameData.smallBlind = myConfig->readConfigInt("SmallBlind");
 		gameData.handsBeforeRaise = myConfig->readConfigInt("HandsBeforeRaiseSmallBlind");
+		//Speeds 
+		gameData.guiSpeed = myConfig->readConfigInt("GameSpeed");
 	}
 	//Start Game!!!
 	mySession->startGame(gameData);
@@ -664,6 +631,7 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		gameData.startCash = myCreateNetworkGameDialog->spinBox_startCash->value();
 		gameData.smallBlind = myCreateNetworkGameDialog->spinBox_smallBlind->value();
 		gameData.handsBeforeRaise = myCreateNetworkGameDialog->spinBox_handsBeforeRaiseSmallBlind->value();
+		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
 
 		mySession->startNetworkServer(gameData);
 		mySession->startNetworkClientForLocalServer();
@@ -777,6 +745,35 @@ void mainWindowImpl::callSettingsDialog() {
 
 		
 	}
+}
+
+void mainWindowImpl::initGui(int speed)
+{
+	//restliche Singleshots killen!!!
+	stopTimer();
+		
+	label_Pot->setText("<span style='font-weight:bold'>Pot</span>");
+	label_Total->setText("<span style='font-weight:bold'>Total:</span>");
+	label_Sets->setText("<span style='font-weight:bold'>Sets:</span>");
+	label_handNumber->setText("<span style='font-weight:bold'>Hand:</span>");
+	label_gameNumber->setText("<span style='font-weight:bold'>Game:</span>");
+	
+	//Tools und Board aufhellen und enablen
+// 	QPalette tempPalette = groupBox_board->palette();
+// 	tempPalette.setColor(QPalette::Window, active);
+// 	groupBox_board->setPalette(tempPalette);
+	groupBox_RightToolBox->setDisabled(FALSE);
+	groupBox_LeftToolBox->setDisabled(FALSE);	
+		
+	//show human player buttons
+	for(int i=0; i<3; i++) {
+		userWidgetsArray[i]->show();
+	}
+
+	guiGameSpeed = speed;
+	//positioning Slider
+	horizontalSlider_speed->setValue(guiGameSpeed);
+	setSpeeds();
 }
 
 void mainWindowImpl::setGame(Game *g) { actualGame = g; }

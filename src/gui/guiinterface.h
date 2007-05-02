@@ -33,7 +33,7 @@ class GuiInterface : public ClientCallback, public ServerCallback {
 public:
 	virtual ~GuiInterface();
 
-	
+	virtual void initGui(int speed) =0;
 	//set
 	virtual void setGame(Game*) =0;
 	virtual void setHand(HandInterface*) =0;

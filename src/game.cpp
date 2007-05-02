@@ -46,8 +46,6 @@ Game::Game(GuiInterface* gui, const PlayerDataList &playerDataList, const GameDa
 		playerArray[i] = 0;
 	}
 
-	myGui->setGame(this);
-
 	//EngineFactory erstellen
 	myFactory = new LocalEngineFactory; // LocalEngine erstellen
 	
