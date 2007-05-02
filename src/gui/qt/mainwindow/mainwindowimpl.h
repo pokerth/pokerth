@@ -98,6 +98,7 @@ signals:
 	void SignalNetClientError(int errorID, int osErrorID);
 	void SignalNetClientGameStart(int numberOfPlayers, int startCash, int smallBlind, int handsBeforeRaise);
 	void SignalNetServerPlayerJoined(QString playerName);
+	void SignalNetServerPlayerLeft(QString playerName);
 
 public slots:
 

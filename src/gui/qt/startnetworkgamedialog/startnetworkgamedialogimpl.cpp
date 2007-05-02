@@ -47,6 +47,14 @@ void startNetworkGameDialogImpl::addConnectedPlayer(QString playerName) {
 	item->setData(0, 0, playerName);
 }
 
+void startNetworkGameDialogImpl::removePlayer(QString playerName) {
+
+	QList<QTreeWidgetItem *> list = treeWidget->findItems(playerName, Qt::MatchExactly, 0);
+	if(!list.empty()) { 
+		treeWidget->takeTopLevelItem(treeWidget->indexOfTopLevelItem(list[0]));
+	}
+}
+
 void startNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 
 

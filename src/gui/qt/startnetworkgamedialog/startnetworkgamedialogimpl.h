@@ -38,6 +38,7 @@ public slots:
 	void startGame();
 	void cancel();
 	void addConnectedPlayer(QString playerName);
+	void removePlayer(QString playerName);
 	
 	void keyPressEvent ( QKeyEvent*);
 };

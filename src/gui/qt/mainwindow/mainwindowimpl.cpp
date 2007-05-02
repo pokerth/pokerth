@@ -557,6 +557,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	connect(this, SIGNAL(SignalNetClientGameStart(int, int, int, int)), this, SLOT(networkStart(int, int, int, int)));
 
 	connect(this, SIGNAL(SignalNetServerPlayerJoined(QString)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString)));
+	connect(this, SIGNAL(SignalNetServerPlayerLeft(QString)), myStartNetworkGameDialog, SLOT(removePlayer(QString)));
 
 
 // 	textBrowser_Log->append(QString::number(this->pos().x(),10)+" "+QString::number(this->pos().y(),10));	

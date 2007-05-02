@@ -99,4 +99,5 @@ void GuiWrapper::SignalNetClientGameStart(const GameData &gameData) { myW->Signa
 void GuiWrapper::SignalNetServerSuccess(int actionID) { }
 void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { }
 void GuiWrapper::SignalNetServerPlayerJoined(const string &playerName) { myW->SignalNetServerPlayerJoined(QString::fromUtf8(playerName.c_str())); }
+void GuiWrapper::SignalNetServerPlayerLeft(const string &playerName) { myW->SignalNetServerPlayerLeft(QString::fromUtf8(playerName.c_str())); }
 

@@ -99,6 +99,7 @@ public:
 	void SignalNetServerSuccess(int actionID);
 	void SignalNetServerError(int errorID, int osErrorID);
 	void SignalNetServerPlayerJoined(const std::string &playerName);
+	void SignalNetServerPlayerLeft(const std::string &playerName);
 
 private: 
 	
