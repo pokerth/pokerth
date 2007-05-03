@@ -2060,13 +2060,27 @@ void mainWindowImpl::nextRoundCleanGui() {
 	flipHolecardsAllInAlreadyDone = FALSE;
 
 	//Wenn Pause zwischen den Hands in der Konfiguration steht den Stop Button drücken!
-	if (myConfig->readConfigInt("PauseBetweenHands")) { pushButton_break->click(); }
+	if (myConfig->readConfigInt("PauseBetweenHands") && blinkingStartButtonAnimationTimer->isActive() == FALSE ) { 
+		pushButton_break->click(); 
+	}
 	else { 
 		//FIX STRG+N Bug
 		pushButton_break->setEnabled(TRUE); 
 		breakAfterActualHand=FALSE;
 	}
-
+	
+	//Clean breakbutton
+	blinkingStartButtonAnimationTimer->stop();
+	QPalette tempPalette = pushButton_break->palette();
+	tempPalette.setColor(QPalette::Button, QColor(40,82,0));
+	tempPalette.setColor(QPalette::ButtonText, QColor(240,240,240));
+	pushButton_break->setPalette(tempPalette);
+	blinkingStartButtonAnimationTimer->stop();
+	QFontMetrics tempMetrics = this->fontMetrics();
+	int width = tempMetrics.width(tr("Stop"));
+	pushButton_break->setMinimumSize(width+10,20);
+       	pushButton_break->setText(tr("Stop"));
+	
 	//Clear Statusbarmessage
 	statusBar()->clearMessage();
 }

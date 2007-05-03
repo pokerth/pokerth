@@ -3,6 +3,31 @@
 INSTALLS += TARGET 
 TARGET.files += bin/* 
 TARGET.path = /usr/bin/ 
+
+INCLUDEPATH += . \
+		src \
+		src/engine \
+		src/gui \
+		src/net \
+		src/engine/local_engine \
+		src/config \
+		src/core/tinyxml \
+		src/gui/qt \
+		src/gui/qt/log \
+		src/gui/qt/connecttoserverdialog \
+		src/core \
+		src/gui/qt/qttools \
+		src/gui/qt/qttools/qthelper \
+		src/gui/qt/mainwindow \
+		src/gui/qt/mainwindow/startsplash \
+		src/gui/qt/aboutpokerth \
+		src/gui/qt/createnetworkgamedialog \
+		src/gui/qt/joinnetworkgamedialog \
+		src/gui/qt/newlocalgamedialog \
+		src/gui/qt/settingsdialog \
+		src/gui/qt/startnetworkgamedialog \
+		src/gui/qt/waitforservertostartgamedialog
+
 DEPENDPATH += . \
               src \
               src/config \
@@ -22,35 +47,12 @@ DEPENDPATH += . \
               src/gui/qt/createnetworkgamedialog \
               src/gui/qt/joinnetworkgamedialog \
               src/gui/qt/log \
-	      src/gui/qt/qttools \		
+	      src/gui/qt/qttools \
 	      src/gui/qt/qttools/qthelper \
               src/gui/qt/newlocalgamedialog \
               src/gui/qt/settingsdialog \
               src/gui/qt/startnetworkgamedialog \
-              src/gui/qt/waitforservertostartgamedialog 
-INCLUDEPATH += . \
-               src \
-               src/engine \
-               src/gui \
-               src/net \
-               src/engine/local_engine \
-               src/config \
-               src/core/tinyxml \
-               src/gui/qt \
-               src/gui/qt/log \
-               src/gui/qt/connecttoserverdialog \
-               src/core \
-	       src/gui/qt/qttools \		
-	       src/gui/qt/qttools/qthelper \
-	       src/gui/qt/mainwindow \
-	       src/gui/qt/mainwindow/startsplash \
-               src/gui/qt/aboutpokerth \
-               src/gui/qt/createnetworkgamedialog \
-               src/gui/qt/joinnetworkgamedialog \
-               src/gui/qt/newlocalgamedialog \
-               src/gui/qt/settingsdialog \
-               src/gui/qt/startnetworkgamedialog \
-               src/gui/qt/waitforservertostartgamedialog
+              src/gui/qt/waitforservertostartgamedialog
 # Input
 HEADERS += src/game.h \
            src/session.h \
@@ -106,8 +108,8 @@ HEADERS += src/game.h \
            src/gui/qt/settingsdialog/settingsdialogimpl.h \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.h \
            src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.h \
-	   src/gui/qttoolsinterface.h \	
-	   src/gui/qt/qttools/qttoolswrapper.h \	
+	   src/gui/qttoolsinterface.h \
+	   src/gui/qt/qttools/qttoolswrapper.h \
 	   src/gui/qt/qttools/qthelper/qthelper.h
 FORMS += src/gui/qt/mainwindow.ui \
 	 src/gui/qt/aboutpokerth.ui \
@@ -181,8 +183,8 @@ SOURCES += src/game.cpp \
            src/gui/qt/settingsdialog/settingsdialogimpl.cpp \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp \
            src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.cpp  \
-           src/gui/qttoolsinterface.cpp \	
-	   src/gui/qt/qttools/qttoolswrapper.cpp \	
+           src/gui/qttoolsinterface.cpp \
+	   src/gui/qt/qttools/qttoolswrapper.cpp \
 	   src/gui/qt/qttools/qthelper/qthelper.cpp
 RESOURCES += src/gui/qt/resources.qrc
 TRANSLATIONS = ts/pokerth_de.ts \
@@ -192,9 +194,11 @@ TRANSLATIONS = ts/pokerth_de.ts \
 	       ts/pokerth_se.ts \
     	       ts/pokerth_pt.ts \
        	       ts/pokerth_nl.ts
-CODECFORSRC  = UTF-8
+CODECFORSRC = UTF-8
+
 TEMPLATE = vcapp
 TEMPLATE = app
+
 win32{
     DEPENDPATH += src/net/win32/ src/core/win32
     SOURCES += src/core/win32/rand.cpp \
@@ -213,37 +217,41 @@ win32{
 }
 
 unix{
-	LIBS += -lboost_thread -lcrypto
+    LIBS += -lboost_thread -lcrypto
 }
 
-macx {
-# make it universal  
-  CONFIG += x86 
-  CONFIG += ppc
-  
-# for universal-compilation on PPC-Mac uncomment the following line
-#	QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
+macx{
+    # make it universal  
+    CONFIG += x86 
+    CONFIG += ppc
 
-# link needed Qt parts static (path is standard for self-compiling qt)
-  LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtCore.a
-  LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtGui.a
-# standard path for darwinports
-# make sure you have a universal version of boost
-  LIBS += /opt/local/lib/libboost_thread.a
-# crypto should be installed on every mac
-  LIBS += -lcrypto -lz -framework Carbon
-# set the application icon
-  RC_FILE = pokerth.icns
-	LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib 
-  INCLUDEPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/include/
-  INCLUDEPATH += /usr/local/Trolltech/Qt-4.2.3/include/
-  INCLUDEPATH += /usr/local/Trolltech/Qt-4.2.3/include/QtCore
-  INCLUDEPATH += /usr/local/Trolltech/Qt-4.2.3/include/QtGui
+    # for universal-compilation on PPC-Mac uncomment the following line
+    #	QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
+
+    # link needed Qt parts static (path is standard for self-compiling qt)
+    LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtCore.a
+    LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtGui.a
+    # standard path for darwinports
+    # make sure you have a universal version of boost
+    LIBS += /opt/local/lib/libboost_thread.a
+    # crypto should be installed on every mac
+    LIBS += -lcrypto -lz -framework Carbon
+    # set the application icon
+    RC_FILE = pokerth.icns
+    LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib 
+    INCLUDEPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/include/
+    INCLUDEPATH += /usr/local/Trolltech/Qt-4.2.3/include/
+    INCLUDEPATH += /usr/local/Trolltech/Qt-4.2.3/include/QtCore
+    INCLUDEPATH += /usr/local/Trolltech/Qt-4.2.3/include/QtGui
 }
 
 CONFIG += qt release
+#CONFIG += qt warn_on debug
 UI_DIR = uics
 TARGET = bin/pokerth
 MOC_DIR = mocs
 OBJECTS_DIR = obj
 QT += 
+# QMAKE_CXXFLAGS_DEBUG += -g
+
+

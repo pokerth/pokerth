@@ -108,6 +108,7 @@ Game::~Game()
 
 void Game::startHand()
 {
+
 	int i;
 
 	// eventuell vorhandene Hand löschen
@@ -119,7 +120,7 @@ void Game::startHand()
 	actualHandID++;
 
 	// smallBlind alle x Runden erhöhen
-	if(actualHandID%(startHandsBeforeRaiseSmallBlind+1) == 0) actualSmallBlind *= 2;
+	if(actualHandID%(startHandsBeforeRaiseSmallBlind+1) == 0) { actualSmallBlind *= 2; }
 
 	//Spieler Action auf 0 setzen 
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
@@ -140,7 +141,6 @@ void Game::startHand()
 	// Hand erstellen
 	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, actualHandID, startQuantityPlayers, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
 
-	
 	//GUI bereinigen 
 	myGui->nextRoundCleanGui();
 
