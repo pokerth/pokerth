@@ -61,7 +61,7 @@
    <item row="0" column="0" colspan="3" >
     <widget class="QLabel" name="label" >
      <property name="text" >
-      <string>Waiting for the Server to start the Game ...</string>
+      <string>Waiting for the server to start the game ...</string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignCenter</set>

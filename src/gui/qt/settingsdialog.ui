@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>603</width>
+    <width>635</width>
     <height>439</height>
    </rect>
   </property>
@@ -61,7 +61,7 @@
        <item row="7" column="0" >
         <widget class="QCheckBox" name="checkBox_showFlipCardsAnimation" >
          <property name="text" >
-          <string>Show Flip-Card Animation</string>
+          <string>Show flip-card animation</string>
          </property>
         </widget>
        </item>
@@ -96,7 +96,7 @@
               <item>
                <widget class="QRadioButton" name="radioButton_flipsideOwn" >
                 <property name="text" >
-                 <string>Own Flipside Picture:</string>
+                 <string>Own flipside picture:</string>
                 </property>
                </widget>
               </item>
@@ -162,14 +162,14 @@ p, li { white-space: pre-wrap; }
        <item row="6" column="0" >
         <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation" >
          <property name="text" >
-          <string>Show Fade-Out Animation for Non-Winning Cards</string>
+          <string>Show fade-out animation for non-winning cards</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0" >
         <widget class="QCheckBox" name="checkBox_showIntro" >
          <property name="text" >
-          <string>Show Intro on Startup</string>
+          <string>Show intro on startup</string>
          </property>
         </widget>
        </item>
@@ -183,21 +183,21 @@ p, li { white-space: pre-wrap; }
        <item row="4" column="0" >
         <widget class="QCheckBox" name="checkBox_showRightToolbox" >
          <property name="text" >
-          <string>Show right Toolbox (F11 to switch on/off)</string>
+          <string>Show right toolbox (F11 to switch on/off)</string>
          </property>
         </widget>
        </item>
        <item row="3" column="0" >
         <widget class="QCheckBox" name="checkBox_showLeftToolbox" >
          <property name="text" >
-          <string>Show left Toolbox (F10 to switch on/off)</string>
+          <string>Show left toolbox (F10 to switch on/off)</string>
          </property>
         </widget>
        </item>
        <item row="5" column="0" >
         <widget class="QCheckBox" name="checkBox_showStatusbarMessages" >
          <property name="text" >
-          <string>Show Statusbar Messages</string>
+          <string>Show statusbar messages</string>
          </property>
         </widget>
        </item>
@@ -214,7 +214,7 @@ p, li { white-space: pre-wrap; }
        <item row="9" column="0" colspan="2" >
         <widget class="QCheckBox" name="checkBox_showGameSettingsDialogOnNewGame" >
          <property name="text" >
-          <string>Show Game Settings Dialog on every new Game</string>
+          <string>Show game settings dialog on every new game</string>
          </property>
         </widget>
        </item>
@@ -247,14 +247,14 @@ p, li { white-space: pre-wrap; }
        <item row="5" column="0" >
         <widget class="QLabel" name="label_14" >
          <property name="text" >
-          <string>Hands before raise Small Blind:</string>
+          <string>Hands before raise small blind:</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0" >
         <widget class="QLabel" name="label_4" >
          <property name="text" >
-          <string>Number of Players:</string>
+          <string>Number of players:</string>
          </property>
         </widget>
        </item>
@@ -321,7 +321,7 @@ p, li { white-space: pre-wrap; }
        <item row="6" column="0" >
         <widget class="QLabel" name="label" >
          <property name="text" >
-          <string>Game-Speed:</string>
+          <string>Game Speed:</string>
          </property>
         </widget>
        </item>
@@ -335,7 +335,7 @@ p, li { white-space: pre-wrap; }
        <item row="8" column="0" colspan="2" >
         <widget class="QCheckBox" name="checkBox_pauseBetweenHands" >
          <property name="text" >
-          <string>Pause between Hands (Press "Start" Button to go on)</string>
+          <string>Pause between hands (press "start" button to go on)</string>
          </property>
         </widget>
        </item>
@@ -467,7 +467,7 @@ p, li { white-space: pre-wrap; }
          <item row="4" column="0" >
           <widget class="QLabel" name="label_36" >
            <property name="text" >
-            <string>Game-Speed for Computer Opponents:</string>
+            <string>Game Speed for computer opponents:</string>
            </property>
           </widget>
          </item>
@@ -504,7 +504,7 @@ p, li { white-space: pre-wrap; }
          <item row="0" column="0" >
           <widget class="QLabel" name="label_15" >
            <property name="text" >
-            <string>Number of Players:</string>
+            <string>Number of players:</string>
            </property>
           </widget>
          </item>
@@ -538,7 +538,7 @@ p, li { white-space: pre-wrap; }
          <item row="3" column="0" >
           <widget class="QLabel" name="label_33" >
            <property name="text" >
-            <string>Hands before raise Small Blind:</string>
+            <string>Hands before raise small blind:</string>
            </property>
           </widget>
          </item>
@@ -572,7 +572,7 @@ p, li { white-space: pre-wrap; }
          <item row="5" column="0" >
           <widget class="QLabel" name="label_18" >
            <property name="text" >
-            <string>Engine Version:</string>
+            <string>Engine Version for computer opponents:</string>
            </property>
           </widget>
          </item>
@@ -1029,126 +1029,171 @@ p, li { white-space: pre-wrap; }
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="4" column="0" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="2" column="0" >
-        <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
+        <widget class="QGroupBox" name="groupBox_LogOnOff" >
+         <property name="title" >
+          <string>Enable/Disable Logging</string>
          </property>
-         <property name="spacing" >
-          <number>0</number>
+         <property name="checkable" >
+          <bool>true</bool>
          </property>
-         <item>
-          <widget class="QLabel" name="label_29" >
-           <property name="text" >
-            <string>Log File Directory: </string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_logDir" />
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_openLogDir" >
-           <property name="minimumSize" >
-            <size>
-             <width>27</width>
-             <height>23</height>
-            </size>
-           </property>
-           <property name="maximumSize" >
-            <size>
-             <width>27</width>
-             <height>23</height>
-            </size>
-           </property>
-           <property name="icon" >
-            <iconset resource="resources.qrc" >:/graphics/resources/graphics/fileopen16.png</iconset>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="1" column="0" >
-        <widget class="Line" name="line_2" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
+         <property name="checked" >
+          <bool>true</bool>
          </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="1" column="0" >
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_27" >
+              <property name="maximumSize" >
+               <size>
+                <width>99</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text" >
+               <string>Store log files for</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinBox_logStoreDuration" >
+              <property name="maximumSize" >
+               <size>
+                <width>50</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="maximum" >
+               <number>7</number>
+              </property>
+              <property name="minimum" >
+               <number>1</number>
+              </property>
+              <property name="value" >
+               <number>2</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_28" >
+              <property name="text" >
+               <string>Day(s)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="0" >
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_29" >
+              <property name="text" >
+               <string>Log File Directory: </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_logDir" />
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_openLogDir" >
+              <property name="minimumSize" >
+               <size>
+                <width>27</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="maximumSize" >
+               <size>
+                <width>27</width>
+                <height>23</height>
+               </size>
+              </property>
+              <property name="icon" >
+               <iconset resource="resources.qrc" >:/graphics/resources/graphics/fileopen16.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="0" >
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_39" >
+              <property name="text" >
+               <string>Write log after every: </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBox_logInterval" >
+              <property name="sizePolicy" >
+               <sizepolicy>
+                <hsizetype>3</hsizetype>
+                <vsizetype>0</vsizetype>
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <item>
+               <property name="text" >
+                <string>every action (high frequent disc access)</string>
+               </property>
+              </item>
+              <item>
+               <property name="text" >
+                <string>every hand (medium disc access)</string>
+               </property>
+              </item>
+              <item>
+               <property name="text" >
+                <string>every game (low disc access)</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
-       </item>
-       <item row="3" column="0" >
-        <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="label_27" >
-           <property name="maximumSize" >
-            <size>
-             <width>99</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text" >
-            <string>Store Log Files for</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spinBox_logStoreDuration" >
-           <property name="maximumSize" >
-            <size>
-             <width>50</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="maximum" >
-            <number>7</number>
-           </property>
-           <property name="minimum" >
-            <number>1</number>
-           </property>
-           <property name="value" >
-            <number>2</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_28" >
-           <property name="text" >
-            <string>Day(s)</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" >
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
        </item>
        <item row="0" column="0" >
         <widget class="QLabel" name="label_6" >
@@ -1163,25 +1208,28 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
+       <item row="1" column="0" >
+        <widget class="Line" name="line_2" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
       </layout>
      </widget>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2" >
-    <widget class="Line" name="line" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
-     </property>
     </widget>
    </item>
    <item row="0" column="0" >
@@ -1223,6 +1271,23 @@ p, li { white-space: pre-wrap; }
        <string>Log Messages</string>
       </property>
      </item>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2" >
+    <widget class="QDialogButtonBox" name="buttonBox" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons" >
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2" >
+    <widget class="Line" name="line" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
     </widget>
    </item>
   </layout>
@@ -1280,6 +1345,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>lineEdit_logDir</tabstop>
   <tabstop>pushButton_openLogDir</tabstop>
   <tabstop>spinBox_logStoreDuration</tabstop>
+  <tabstop>comboBox_logInterval</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
@@ -1293,8 +1359,8 @@ p, li { white-space: pre-wrap; }
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>313</x>
-     <y>372</y>
+     <x>322</x>
+     <y>429</y>
     </hint>
     <hint type="destinationlabel" >
      <x>286</x>
@@ -1325,12 +1391,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>212</x>
-     <y>268</y>
+     <x>325</x>
+     <y>310</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>438</x>
-     <y>267</y>
+     <x>544</x>
+     <y>309</y>
     </hint>
    </hints>
   </connection>
@@ -1341,12 +1407,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>225</x>
-     <y>270</y>
+     <x>325</x>
+     <y>310</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>533</x>
-     <y>261</y>
+     <x>571</x>
+     <y>309</y>
     </hint>
    </hints>
   </connection>

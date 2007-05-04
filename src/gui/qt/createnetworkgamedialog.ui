@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>289</width>
-    <height>241</height>
+    <width>314</width>
+    <height>243</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -57,7 +57,7 @@
       <item row="3" column="0" colspan="2" >
        <widget class="QLabel" name="label_4" >
         <property name="text" >
-         <string>Hands before raise Small Blind:</string>
+         <string>Hands before raise small blind:</string>
         </property>
        </widget>
       </item>
@@ -78,14 +78,14 @@
       <item row="0" column="0" >
        <widget class="QLabel" name="label" >
         <property name="text" >
-         <string>Number of Players:</string>
+         <string>Number of players:</string>
         </property>
        </widget>
       </item>
       <item row="4" column="0" colspan="3" >
        <widget class="QLabel" name="label_5" >
         <property name="text" >
-         <string>Game Speed for Computer Opponent:</string>
+         <string>Game Speed for computer opponent:</string>
         </property>
        </widget>
       </item>

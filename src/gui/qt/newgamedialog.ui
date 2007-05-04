@@ -90,7 +90,7 @@
       <item row="0" column="0" >
        <widget class="QLabel" name="label" >
         <property name="text" >
-         <string>Number of Players:</string>
+         <string>Number of players:</string>
         </property>
        </widget>
       </item>
@@ -124,7 +124,7 @@
       <item row="3" column="0" colspan="2" >
        <widget class="QLabel" name="label_4" >
         <property name="text" >
-         <string>Hands before raise Small Blind:</string>
+         <string>Hands before raise small blind:</string>
         </property>
        </widget>
       </item>

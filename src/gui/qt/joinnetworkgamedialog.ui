@@ -146,17 +146,17 @@
            </property>
            <column>
             <property name="text" >
-             <string>                  Name                   </string>
+             <string>Name</string>
             </property>
            </column>
            <column>
             <property name="text" >
-             <string>                Address                 </string>
+             <string>Address</string>
             </property>
            </column>
            <column>
             <property name="text" >
-             <string>   Port   </string>
+             <string>Port</string>
             </property>
            </column>
            <column>
