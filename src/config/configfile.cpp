@@ -113,7 +113,7 @@ ConfigFile::ConfigFile(bool configFirstStart)
 		//Prüfen ob Configfile existiert --> sonst anlegen
 		TiXmlDocument doc(configFileName); 
 		if(!doc.LoadFile()){ 
-			CONFIGSTATE = INEXISTENT;
+			CONFIGSTATE = Inexistens;
 			updateConfig(CONFIGSTATE); 
 		}
 		else { 
@@ -123,7 +123,7 @@ ConfigFile::ConfigFile(bool configFirstStart)
 			TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "ConfigRevision" ).ToElement();
 			if ( conf ) { conf->QueryIntAttribute("value", &temp ); }
 			if (temp < configRev) { /*löschen()*/ 
-				CONFIGSTATE = OLD;
+				CONFIGSTATE = Old;
 				updateConfig(CONFIGSTATE) ;
 			}
 		}
