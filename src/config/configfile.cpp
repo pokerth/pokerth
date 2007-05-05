@@ -113,8 +113,8 @@ ConfigFile::ConfigFile(bool configFirstStart)
 		//Prüfen ob Configfile existiert --> sonst anlegen
 		TiXmlDocument doc(configFileName); 
 		if(!doc.LoadFile()){ 
-			CONFIGSTATE = Inexistens;
-			updateConfig(CONFIGSTATE); 
+			configState = nonexisting;
+			updateConfig(configState); 
 		}
 		else { 
 		//Prüfen ob die Revision stimmt ansonsten löschen und neue anlegen 
@@ -123,8 +123,8 @@ ConfigFile::ConfigFile(bool configFirstStart)
 			TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "ConfigRevision" ).ToElement();
 			if ( conf ) { conf->QueryIntAttribute("value", &temp ); }
 			if (temp < configRev) { /*löschen()*/ 
-				CONFIGSTATE = Old;
-				updateConfig(CONFIGSTATE) ;
+				configState = old;
+				updateConfig(configState) ;
 			}
 		}
 	}
@@ -135,10 +135,18 @@ ConfigFile::~ConfigFile()
 {
 }
 
-void ConfigFile::updateConfig(CONFIGSTATE) {
+void ConfigFile::updateConfig(CONFIGSTATE myConfigState) {
 	
 	QtToolsInterface *myQtToolsInterface = new QtToolsWrapper;
 	
+	if(myConfigState == old) {
+		configFileName += "config.xml";
+		TiXmlDocument doc(configFileName);
+		TiXmlHandle docHandle( &doc );	 
+		TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "ConfigRevision" ).ToElement();
+		
+	}
+
 	//Anlegen!
 	TiXmlDocument doc;  
 	TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 

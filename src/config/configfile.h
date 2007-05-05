@@ -23,7 +23,7 @@
 #include "tinyxml.h"
 #include <string>
 
-enum CONFIGSTATE { Inexistens, Old };
+enum CONFIGSTATE { nonexisting, old };
 
 class ConfigFile{
 public:
@@ -46,7 +46,7 @@ private:
 	std::string dataDir;
 	int configRev;
 
-	
+	CONFIGSTATE configState;
 };
 
 #endif
