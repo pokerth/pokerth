@@ -27,7 +27,7 @@
 
 class ConfigFile{
 public:
-    ConfigFile();
+    ConfigFile(bool configFirstStart =0);
 
     ~ConfigFile();
 

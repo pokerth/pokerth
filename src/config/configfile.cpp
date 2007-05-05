@@ -36,7 +36,7 @@ class QtToolsWrapper;
 
 using namespace std;
 
-ConfigFile::ConfigFile()
+ConfigFile::ConfigFile(bool configFirstStart)
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
 	configRev = 17;
@@ -72,49 +72,56 @@ ConfigFile::ConfigFile()
 			configFileName = curDir;
 		}
 	}
-	//Programmordner erstellen
+	//define app-dir
 	configFileName += "\\pokerth\\";
-	mkdir(configFileName.c_str());
-	//Log-File Ordner auch erstellen
+	////define log-dir
 	logDir = configFileName;
 	logDir += "log-files\\";
-	mkdir(logDir.c_str());
-	//data Ordner auch erstellen
+	////define data-dir
 	dataDir = configFileName;
 	dataDir += "data\\";
-	mkdir(dataDir.c_str());
+	//create directories on first start of app
+	if (configFirstStart) {
+		mkdir(configFileName.c_str());
+		mkdir(logDir.c_str());
+		mkdir(dataDir.c_str());
+	}
 	
 #else
-	//Programmordner erstellen
+	//define app-dir
 	const char *homePath = getenv("HOME");
 	if(homePath) {
 		configFileName = homePath;
 		configFileName += "/.pokerth/";
-		mkdir(configFileName.c_str(), MODUS) ;
-		//Log-File Ordner auch erstellen
+		////define log-dir
 		logDir = configFileName;
 		logDir += "log-files/";
-		mkdir(logDir.c_str(), MODUS);
-		//data Ordner auch erstellen
+		////define data-dir
 		dataDir = configFileName;
 		dataDir += "data/";
-		mkdir(dataDir.c_str(), MODUS);
+		//create directories on first start of app
+		if (configFirstStart) {
+			mkdir(configFileName.c_str(), MODUS) ;
+			mkdir(logDir.c_str(), MODUS);
+			mkdir(dataDir.c_str(), MODUS);
+		}
 	}
 #endif
 	configFileName += "config.xml";
-
-	//Prüfen ob Configfile existiert --> sonst anlegen
-	TiXmlDocument doc(configFileName); 
-	if(!doc.LoadFile()){ createDefaultConfig(); }
-	else { 
-	//Prüfen ob die Revision stimmt ansonsten löschen und neue anlegen 
-		int temp = 0;
-		TiXmlHandle docHandle( &doc );		
-		TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "ConfigRevision" ).ToElement();
-		if ( conf ) { conf->QueryIntAttribute("value", &temp ); }
-		if (temp < configRev) { /*löschen()*/ createDefaultConfig() ;}
+	
+	if (configFirstStart) {
+		//Prüfen ob Configfile existiert --> sonst anlegen
+		TiXmlDocument doc(configFileName); 
+		if(!doc.LoadFile()){ createDefaultConfig(); }
+		else { 
+		//Prüfen ob die Revision stimmt ansonsten löschen und neue anlegen 
+			int temp = 0;
+			TiXmlHandle docHandle( &doc );		
+			TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "ConfigRevision" ).ToElement();
+			if ( conf ) { conf->QueryIntAttribute("value", &temp ); }
+			if (temp < configRev) { /*löschen()*/ createDefaultConfig() ;}
+		}
 	}
-
 }
 
 

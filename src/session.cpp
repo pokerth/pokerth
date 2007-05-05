@@ -32,6 +32,7 @@ using namespace std;
 Session::Session(GuiInterface *g)
 : currentGameID(0), myNetClient(0), myNetServer(0), actualGame(0), myGui(g)
 {	
+	
 	myConfig = new ConfigFile;
 }
 

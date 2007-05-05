@@ -30,6 +30,7 @@
 
 #include "session.h"
 #include "guiwrapper.h"
+#include "configfile.h"
 #include <net/socket_startup.h>
 
 #include <cstdlib>
@@ -59,6 +60,10 @@ class GuiWrapper;
 
 int main( int argc, char **argv )
 {
+	//create defaultconfig
+	bool configFirstStart = 1;
+	ConfigFile myConfig(configFirstStart);
+
 	//ENABLE_LEAK_CHECK();
 
 	//_CrtSetBreakAlloc(49937);
