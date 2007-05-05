@@ -80,7 +80,7 @@ struct NetPacketJoinGameAckData
 	u_int16_t			numberOfPlayers;
 	u_int16_t			smallBlind;
 	u_int16_t			handsBeforeRaise;
-	u_int16_t			reserved;
+	u_int16_t			proposedGuiSpeed;
 	u_int32_t			startCash;
 };
 
@@ -443,6 +443,7 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 	tmpData->numberOfPlayers	= htons(inData.gameData.numberOfPlayers);
 	tmpData->smallBlind			= htons(inData.gameData.smallBlind);
 	tmpData->handsBeforeRaise	= htons(inData.gameData.handsBeforeRaise);
+	tmpData->proposedGuiSpeed	= htons(inData.gameData.guiSpeed);
 	tmpData->startCash			= htonl(inData.gameData.startCash);
 }
 
@@ -458,6 +459,7 @@ NetPacketJoinGameAck::GetData(NetPacketJoinGameAck::Data &outData) const
 	outData.gameData.numberOfPlayers	= ntohs(tmpData->numberOfPlayers);
 	outData.gameData.smallBlind			= ntohs(tmpData->smallBlind);
 	outData.gameData.handsBeforeRaise	= ntohs(tmpData->handsBeforeRaise);
+	outData.gameData.guiSpeed			= ntohs(tmpData->proposedGuiSpeed);
 	outData.gameData.startCash			= ntohl(tmpData->startCash);
 }
 

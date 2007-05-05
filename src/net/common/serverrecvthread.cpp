@@ -36,7 +36,9 @@ public:
 
 	virtual void SignalNetError(SOCKET sock, int errorID, int osErrorID)
 	{
-		// TODO
+		// We just ignore send errors for now, on server side.
+		// A send error should trigger a read error or a read
+		// returning 0 afterwards, and we will handle this error.
 	}
 
 private:
@@ -247,17 +249,7 @@ ServerRecvThread::CleanupSessionMap()
 {
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);
 
-	// We need to manually close all sockets for the sessions.
-	// This is "not great", but there are some issues when
-	// automatically closing them.
-	SocketSessionMap::iterator i = m_sessionMap.begin();
-	SocketSessionMap::iterator end = m_sessionMap.end();
-
-	while (i != end)
-	{
-		CLOSESOCKET(i->first);
-		++i;
-	}
+	// Sockets will be closed automatically.
 	m_sessionMap.clear();
 }
 
@@ -289,19 +281,19 @@ ServerRecvThread::GetSession(SOCKET sock)
 }
 
 void
-ServerRecvThread::AddSession(boost::shared_ptr<ConnectData> connData, boost::shared_ptr<SessionData> sessionData)
+ServerRecvThread::AddSession(boost::shared_ptr<SessionData> sessionData)
 {
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);
 
-	SocketSessionMap::iterator pos = m_sessionMap.lower_bound(connData->GetSocket());
+	SocketSessionMap::iterator pos = m_sessionMap.lower_bound(sessionData->GetSocket());
 
 	// If pos points to a pair whose key is equivalent to the socket, this handle
 	// already exists within the list.
-	if (pos != m_sessionMap.end() && connData->GetSocket() == pos->first)
+	if (pos != m_sessionMap.end() && sessionData->GetSocket() == pos->first)
 	{
 		throw ServerException(ERR_SOCK_CONN_EXISTS, 0);
 	}
-	m_sessionMap.insert(pos, SocketSessionMap::value_type(connData->ReleaseSocket(), sessionData));
+	m_sessionMap.insert(pos, SocketSessionMap::value_type(sessionData->GetSocket(), sessionData));
 }
 
 SenderThread &
@@ -331,10 +323,34 @@ ServerRecvThread::CheckPassword(const std::string &password) const
 	return (password == m_password);
 }
 
-PlayerDataList &
-ServerRecvThread::GetPlayerDataList()
+size_t
+ServerRecvThread::GetCurNumberOfPlayers() const
 {
-	return m_playerDataList;
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	return m_sessionMap.size();
+}
+
+bool
+ServerRecvThread::IsPlayerConnected(const std::string &playerName) const
+{
+	bool retVal = false;
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SocketSessionMap::const_iterator session_i = m_sessionMap.begin();
+	SocketSessionMap::const_iterator session_end = m_sessionMap.end();
+
+	while (session_i != session_end)
+	{
+		const boost::shared_ptr<PlayerData> tmpPlayerData = session_i->second->GetPlayerData();
+		if (tmpPlayerData.get() && tmpPlayerData->GetName() == playerName)
+		{
+			retVal = true;
+			break;
+		}
+
+		++session_i;
+	}
+	return retVal;
 }
 
 ServerSenderCallback &

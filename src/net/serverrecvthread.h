@@ -30,7 +30,6 @@
 #include <net/connectdata.h>
 #include <net/sessiondata.h>
 #include <net/servercallback.h>
-#include <playerdata.h>
 
 #define RECEIVER_THREAD_TERMINATE_TIMEOUT	200
 
@@ -79,7 +78,7 @@ protected:
 	void SetState(ServerRecvState &newState);
 
 	boost::shared_ptr<SessionData> GetSession(SOCKET sock);
-	void AddSession(boost::shared_ptr<ConnectData> connData, boost::shared_ptr<SessionData> sessionData);
+	void AddSession(boost::shared_ptr<SessionData> sessionData);
 
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
@@ -87,7 +86,8 @@ protected:
 	const GameData &GetGameData() const;
 	bool CheckPassword(const std::string &password) const;
 
-	PlayerDataList &GetPlayerDataList();
+	size_t GetCurNumberOfPlayers() const;
+	bool IsPlayerConnected(const std::string &playerName) const;
 
 	ServerSenderCallback &GetSenderCallback();
 
@@ -109,7 +109,6 @@ private:
 	std::auto_ptr<ServerSenderCallback> m_senderCallback;
 	std::auto_ptr<GameData> m_gameData;
 
-	PlayerDataList m_playerDataList;
 	std::string m_password;
 
 	ServerCallback &m_callback;

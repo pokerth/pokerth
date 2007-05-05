@@ -19,12 +19,14 @@
 
 #include <net/sessiondata.h>
 
-SessionData::SessionData(unsigned id)
-: m_id(id), m_state(SessionData::Init)
+SessionData::SessionData(SOCKET sockfd, unsigned id)
+: m_sockfd(sockfd), m_id(id), m_state(SessionData::Init)
 {
 }
 
 SessionData::~SessionData()
 {
+	if (m_sockfd != INVALID_SOCKET)
+		CLOSESOCKET(m_sockfd);
 }
 

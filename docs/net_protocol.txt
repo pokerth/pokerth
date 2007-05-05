@@ -62,7 +62,7 @@ Server Reply: Join Game ACK
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|       Number of Players       |          Small Blind          |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|       Hands before raise      |            Reserved           |
+	|       Hands before raise      |       Proposed GUI Speed      |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                          Start Cash                           |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -71,7 +71,8 @@ Player Number:
 	0 to (NumberOfPlayers - 1), "position".
 Player ID:
 	Unique Player ID
-
+Proposed GUI Speed:
+	1-11
 
 
 Server Notification: Player Joined
