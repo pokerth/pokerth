@@ -23,15 +23,15 @@
 #include "tinyxml.h"
 #include <string>
 
-
+enum CONFIGSTATE { Inexistens, Old };
 
 class ConfigFile{
 public:
     ConfigFile(bool configFirstStart =0);
 
     ~ConfigFile();
-
-	void createDefaultConfig();
+	
+	void updateConfig(CONFIGSTATE);
 
 	std::string readConfigString(std::string varName);
     	void writeConfigString(std::string varName, std::string varCont);
@@ -45,6 +45,7 @@ private:
 	std::string logDir;
 	std::string dataDir;
 	int configRev;
+
 	
 };
 
