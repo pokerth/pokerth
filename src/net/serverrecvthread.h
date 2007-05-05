@@ -51,8 +51,6 @@ public:
 
 	void Init(const std::string &pwd, const GameData &gameData);
 
-	void SendError(int errorCode, SOCKET s);
-	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
 	void AddConnection(boost::shared_ptr<ConnectData> data);
 	void AddNotification(unsigned notification);
 
@@ -79,6 +77,10 @@ protected:
 
 	boost::shared_ptr<SessionData> GetSession(SOCKET sock);
 	void AddSession(boost::shared_ptr<SessionData> sessionData);
+	void SessionError(boost::shared_ptr<SessionData> sessionData, int errorCode);
+
+	void SendError(int errorCode, SOCKET s);
+	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
 
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
@@ -114,6 +116,7 @@ private:
 	ServerCallback &m_callback;
 
 friend class ServerRecvStateInit;
+friend class ServerRecvStateStartGame;
 };
 
 #endif

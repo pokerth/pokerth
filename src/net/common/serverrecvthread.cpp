@@ -296,6 +296,13 @@ ServerRecvThread::AddSession(boost::shared_ptr<SessionData> sessionData)
 	m_sessionMap.insert(pos, SocketSessionMap::value_type(sessionData->GetSocket(), sessionData));
 }
 
+void
+ServerRecvThread::SessionError(boost::shared_ptr<SessionData> sessionData, int errorCode)
+{
+	assert(sessionData.get());
+	SendError(errorCode, sessionData->GetSocket());
+}
+
 SenderThread &
 ServerRecvThread::GetSender()
 {

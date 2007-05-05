@@ -50,9 +50,6 @@ ServerRecvStateInit::Instance()
 ServerRecvStateInit::ServerRecvStateInit()
 : m_curUniquePlayerId(0)
 {
-	boost::microsec_timer::time_duration_type dur;
-	boost::microsec_timer t(dur);
-	t.start();
 }
 
 ServerRecvStateInit::~ServerRecvStateInit()
@@ -90,6 +87,7 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			if (session.get())
 			{
 				//server.CloseSessionDelayed(session);
+				Thread::Msleep(10);
 				return retVal;
 			}
 		}
@@ -100,7 +98,7 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			// Session should be in initial state.
 			if (session->GetState() != SessionData::Init)
 			{
-				//server.SessionError(session, ERR_SOCK_INVALID_STATE);
+				server.SessionError(session, ERR_SOCK_INVALID_STATE);
 				return retVal;
 			}
 
@@ -108,7 +106,7 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			const NetPacketJoinGame *tmpPacket = packet->ToNetPacketJoinGame();
 			if (!tmpPacket)
 			{
-				//server.SessionError(session, ERR_SOCK_INVALID_PACKET);
+				server.SessionError(session, ERR_SOCK_INVALID_PACKET);
 				return retVal;
 			}
 
@@ -118,14 +116,14 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			// Check the protocol version.
 			if (joinGameData.versionMajor != NET_VERSION_MAJOR)
 			{
-				//server.SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
+				server.SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
 				return retVal;
 			}
 
 			// Check the server password.
 			if (!server.CheckPassword(joinGameData.password))
 			{
-				//server.SessionError(session, ERR_NET_INVALID_PASSWORD);
+				server.SessionError(session, ERR_NET_INVALID_PASSWORD);
 				return retVal;
 			}
 
@@ -134,14 +132,14 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			// Check the number of players.
 			if (curNumPlayers >= (size_t)server.GetGameData().numberOfPlayers)
 			{
-				//server.SessionError(session, ERR_NET_SERVER_FULL);
+				server.SessionError(session, ERR_NET_SERVER_FULL);
 				return retVal;
 			}
 
 			// Check whether this player is already connected.
 			if (server.IsPlayerConnected(joinGameData.playerName))
 			{
-				//server.SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
+				server.SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
 				return retVal;
 			}
 
