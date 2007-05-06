@@ -93,11 +93,13 @@ void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->logNewGameHa
 void GuiWrapper::SignalNetClientConnect(int actionID) { myW->SignalNetClientConnect(actionID); }
 void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->SignalNetClientGameInfo(actionID); }
 void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myW->SignalNetClientError(errorID, osErrorID); }
-
+void GuiWrapper::SignalNetClientPlayerJoined(const string &playerName) { myW->SignalNetClientPlayerJoined(QString::fromUtf8(playerName.c_str())); }
+void GuiWrapper::SignalNetClientPlayerLeft(const string &playerName) { myW->SignalNetClientPlayerLeft(QString::fromUtf8(playerName.c_str())); }
 void GuiWrapper::SignalNetClientGameStart(const GameData &gameData) { myW->SignalNetClientGameStart(gameData.numberOfPlayers, gameData.startCash, gameData.smallBlind, gameData.handsBeforeRaise); }
 
 void GuiWrapper::SignalNetServerSuccess(int actionID) { }
 void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { }
 void GuiWrapper::SignalNetServerPlayerJoined(const string &playerName) { myW->SignalNetServerPlayerJoined(QString::fromUtf8(playerName.c_str())); }
 void GuiWrapper::SignalNetServerPlayerLeft(const string &playerName) { myW->SignalNetServerPlayerLeft(QString::fromUtf8(playerName.c_str())); }
+
 

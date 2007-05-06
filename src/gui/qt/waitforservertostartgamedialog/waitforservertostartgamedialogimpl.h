@@ -38,6 +38,8 @@ public slots:
 	void refresh(int actionID);
 	void cancel();
 	void keyPressEvent ( QKeyEvent * event );
+	void addConnectedPlayer(QString playerName);
+	void removePlayer(QString playerName);
 };
 
 #endif

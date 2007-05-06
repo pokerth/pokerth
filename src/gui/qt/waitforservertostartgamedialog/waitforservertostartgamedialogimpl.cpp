@@ -45,3 +45,17 @@ void waitForServerToStartGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 // 	if (event->key() == 16777220) { pushButton_connect->click(); } //ENTER 
 	
 }
+
+void waitForServerToStartGameDialogImpl::addConnectedPlayer(QString playerName) {
+
+	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget,0);
+	item->setData(0, 0, playerName);
+}
+
+void waitForServerToStartGameDialogImpl::removePlayer(QString playerName) {
+
+	QList<QTreeWidgetItem *> list = treeWidget->findItems(playerName, Qt::MatchExactly, 0);
+	if(!list.empty()) { 
+		treeWidget->takeTopLevelItem(treeWidget->indexOfTopLevelItem(list[0]));
+	}
+}

@@ -552,6 +552,9 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	//Nachrichten Thread-Save
 	connect(this, SIGNAL(SignalNetClientConnect(int)), myConnectToServerDialog, SLOT(refresh(int)));
 	connect(this, SIGNAL(SignalNetClientGameInfo(int)), myWaitingForServerGameDialog, SLOT(refresh(int)));
+	connect(this, SIGNAL(SignalNetClientPlayerJoined(QString)), myWaitingForServerGameDialog, SLOT(addConnectedPlayer(QString)));
+	connect(this, SIGNAL(SignalNetClientPlayerLeft(QString)), myWaitingForServerGameDialog, SLOT(removePlayer(QString)));
+
 	// Errors are handled globally, not within one dialog.
 	connect(this, SIGNAL(SignalNetClientError(int, int)), this, SLOT(networkError(int, int)));
 	connect(this, SIGNAL(SignalNetClientGameStart(int, int, int, int)), this, SLOT(networkStart(int, int, int, int)));

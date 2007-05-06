@@ -96,9 +96,12 @@ signals:
 	void SignalNetClientConnect(int actionID);
 	void SignalNetClientGameInfo(int actionID);
 	void SignalNetClientError(int errorID, int osErrorID);
+	void SignalNetClientPlayerJoined(QString playerName);
+	void SignalNetClientPlayerLeft(QString playerName);
 	void SignalNetClientGameStart(int numberOfPlayers, int startCash, int smallBlind, int handsBeforeRaise);
 	void SignalNetServerPlayerJoined(QString playerName);
 	void SignalNetServerPlayerLeft(QString playerName);
+
 
 public slots:
 
