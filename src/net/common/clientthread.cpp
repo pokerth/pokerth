@@ -180,3 +180,9 @@ ClientThread::GetSenderCallback()
 	return *m_senderCallback;
 }
 
+ClientThread::PlayerMap &
+ClientThread::GetPlayerMap()
+{
+	return m_playerMap;
+}
+

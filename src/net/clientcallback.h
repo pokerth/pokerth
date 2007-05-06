@@ -21,6 +21,8 @@
 #ifndef _CLIENTCALLBACK_H_
 #define _CLIENTCALLBACK_H_
 
+#include <string>
+
 struct GameData;
 
 class ClientCallback
@@ -33,6 +35,8 @@ public:
 	virtual void SignalNetClientError(int errorID, int osErrorID) = 0;
 
 	virtual void SignalNetClientGameStart(const GameData &gameData) = 0;
+	virtual void SignalNetClientPlayerJoined(const std::string &playerName) = 0;
+	virtual void SignalNetClientPlayerLeft(const std::string &playerName) = 0;
 };
 
 #endif

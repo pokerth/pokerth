@@ -671,6 +671,7 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 		mySession->terminateNetworkClient();
 		mySession->terminateNetworkServer();
 
+		myWaitingForServerGameDialog->treeWidget->clear();
 		// Maybe use QUrl::toPunycode.
 		mySession->startNetworkClient(
 			myJoinNetworkGameDialog->lineEdit_ipAddress->text().toUtf8().constData(),

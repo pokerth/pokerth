@@ -39,6 +39,8 @@ struct NetPacketHeader;
 class NetPacketJoinGame;
 class NetPacketJoinGameAck;
 class NetPacketGameStart;
+class NetPacketPlayerJoined;
+class NetPacketPlayerLeft;
 class NetPacketError;
 
 class NetPacket
@@ -61,6 +63,8 @@ public:
 	virtual const NetPacketJoinGame *ToNetPacketJoinGame() const;
 	virtual const NetPacketJoinGameAck *ToNetPacketJoinGameAck() const;
 	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
+	virtual const NetPacketPlayerJoined *ToNetPacketPlayerJoined() const;
+	virtual const NetPacketPlayerLeft *ToNetPacketPlayerLeft() const;
 	virtual const NetPacketError *ToNetPacketError() const;
 
 protected:
@@ -144,6 +148,55 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketPlayerJoined : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int16_t	playerId;
+		u_int16_t	playerNumber;
+		PlayerType ptype;
+		std::string playerName;
+	};
+
+	NetPacketPlayerJoined();
+	virtual ~NetPacketPlayerJoined();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketPlayerJoined *ToNetPacketPlayerJoined() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketPlayerLeft : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int16_t	playerId;
+	};
+
+	NetPacketPlayerLeft();
+	virtual ~NetPacketPlayerLeft();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketPlayerLeft *ToNetPacketPlayerLeft() const;
 
 protected:
 

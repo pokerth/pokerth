@@ -158,6 +158,12 @@ NetPacket::Create(char *data, unsigned &dataSize)
 				case NET_TYPE_GAME_START:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameStart);
 					break;
+				case NET_TYPE_PLAYER_JOINED:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayerJoined);
+					break;
+				case NET_TYPE_PLAYER_LEFT:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayerLeft);
+					break;
 				case NET_TYPE_ERROR:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketError);
 					break;
@@ -256,6 +262,18 @@ NetPacket::ToNetPacketJoinGameAck() const
 
 const NetPacketGameStart *
 NetPacket::ToNetPacketGameStart() const
+{
+	return NULL;
+}
+
+const NetPacketPlayerJoined *
+NetPacket::ToNetPacketPlayerJoined() const
+{
+	return NULL;
+}
+
+const NetPacketPlayerLeft *
+NetPacket::ToNetPacketPlayerLeft() const
 {
 	return NULL;
 }
@@ -546,6 +564,164 @@ NetPacketGameStart::Check(const NetPacketHeader* data) const
 
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
 	if (tmpData->yourCards[0] > 51 || tmpData->yourCards[1] > 51)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketPlayerJoined::NetPacketPlayerJoined()
+: NetPacket(NET_TYPE_PLAYER_JOINED, sizeof(NetPacketPlayerJoinedData))
+{
+}
+
+NetPacketPlayerJoined::~NetPacketPlayerJoined()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketPlayerJoined::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketPlayerJoined);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketPlayerJoined::SetData(const NetPacketPlayerJoined::Data &inData)
+{
+	u_int16_t playerNameLen = (u_int16_t)inData.playerName.length();
+
+	if (!playerNameLen || playerNameLen > MAX_NAME_SIZE)
+		throw NetException(ERR_NET_INVALID_PLAYER_NAME, 0);
+
+	// Resize the packet so that the data fits in.
+	Resize((u_int16_t)
+		(sizeof(NetPacketPlayerJoinedData) + ADD_PADDING(playerNameLen)));
+
+	NetPacketPlayerJoinedData *tmpData = (NetPacketPlayerJoinedData *)GetRawData();
+	assert(tmpData);
+
+	// Set the data.
+	tmpData->playerFlags = htons((inData.ptype == PLAYER_TYPE_HUMAN) ? NET_PLAYER_FLAG_HUMAN : 0);
+	tmpData->playerId = htons(inData.playerId);
+	tmpData->playerNumber = htons(inData.playerNumber);
+	tmpData->playerNameLength = htons(playerNameLen);
+	memcpy(tmpData->playerName, inData.playerName.c_str(), playerNameLen);
+}
+
+void
+NetPacketPlayerJoined::GetData(NetPacketPlayerJoined::Data &outData) const
+{
+	// We assume that the data is valid. Validity has already been checked.
+	NetPacketPlayerJoinedData *tmpData = (NetPacketPlayerJoinedData *)GetRawData();
+	assert(tmpData);
+
+	outData.ptype = (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_HUMAN) ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
+	outData.playerId = ntohs(tmpData->playerId);
+	outData.playerNumber = ntohs(tmpData->playerNumber);
+	outData.playerName = string(tmpData->playerName, ntohs(tmpData->playerNameLength));
+}
+
+const NetPacketPlayerJoined *
+NetPacketPlayerJoined::ToNetPacketPlayerJoined() const
+{
+	return this;
+}
+
+void
+NetPacketPlayerJoined::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen < sizeof(NetPacketPlayerJoinedData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
+	NetPacketPlayerJoinedData *tmpData = (NetPacketPlayerJoinedData *)data;
+	int playerNameLength = ntohs(tmpData->playerNameLength);
+	// Generous checking - larger packets are allowed.
+	if (dataLen <
+		sizeof(NetPacketPlayerJoinedData)
+		+ ADD_PADDING(playerNameLength))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check string sizes.
+	if (!playerNameLength
+		|| playerNameLength > MAX_NAME_SIZE)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketPlayerLeft::NetPacketPlayerLeft()
+: NetPacket(NET_TYPE_PLAYER_LEFT, sizeof(NetPacketPlayerLeftData))
+{
+}
+
+NetPacketPlayerLeft::~NetPacketPlayerLeft()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketPlayerLeft::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketPlayerLeft);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketPlayerLeft::SetData(const NetPacketPlayerLeft::Data &inData)
+{
+	NetPacketPlayerLeftData *tmpData = (NetPacketPlayerLeftData *)GetRawData();
+	assert(tmpData);
+
+	// Set the data.
+	tmpData->playerId = htons(inData.playerId);
+}
+
+void
+NetPacketPlayerLeft::GetData(NetPacketPlayerLeft::Data &outData) const
+{
+	// We assume that the data is valid. Validity has already been checked.
+	NetPacketPlayerLeftData *tmpData = (NetPacketPlayerLeftData *)GetRawData();
+	assert(tmpData);
+
+	outData.playerId = ntohs(tmpData->playerId);
+}
+
+const NetPacketPlayerLeft *
+NetPacketPlayerLeft::ToNetPacketPlayerLeft() const
+{
+	return this;
+}
+
+void
+NetPacketPlayerLeft::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen < sizeof(NetPacketPlayerLeftData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}

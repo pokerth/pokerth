@@ -35,7 +35,7 @@ SenderThread::~SenderThread()
 }
 
 void
-SenderThread::Send(boost::shared_ptr<NetPacket> packet, SOCKET sock)
+SenderThread::Send(SOCKET sock, boost::shared_ptr<NetPacket> packet)
 {
 	if (packet.get() && IS_VALID_SOCKET(sock))
 	{

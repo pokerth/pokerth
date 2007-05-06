@@ -22,6 +22,7 @@
 #define _CLIENTTHREAD_H_
 
 #include <core/thread.h>
+#include <map>
 #include <string>
 #include <memory>
 #include <net/clientcallback.h>
@@ -52,6 +53,7 @@ public:
 	ClientCallback &GetCallback();
 
 protected:
+	typedef std::map<unsigned, std::string> PlayerMap;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -70,6 +72,8 @@ protected:
 
 	ClientSenderCallback &GetSenderCallback();
 
+	PlayerMap &GetPlayerMap();
+
 private:
 
 	std::auto_ptr<ClientContext> m_context;
@@ -81,6 +85,7 @@ private:
 	std::auto_ptr<ReceiverHelper> m_receiver;
 
 	std::auto_ptr<GameData> m_gameData;
+	PlayerMap m_playerMap;
 
 friend class ClientStateInit;
 friend class ClientStateStartResolve;

@@ -330,7 +330,7 @@ ClientStateStartSession::Process(ClientThread &client)
 	boost::shared_ptr<NetPacket> packet(new NetPacketJoinGame);
 	((NetPacketJoinGame *)packet.get())->SetData(initData);
 	
-	client.GetSender().Send(packet, context.GetSocket());
+	client.GetSender().Send(context.GetSocket(), packet);
 
 	client.SetState(ClientStateWaitSession::Instance());
 
@@ -374,6 +374,8 @@ ClientStateWaitSession::Process(ClientThread &client)
 			tmpPacket->ToNetPacketJoinGameAck()->GetData(joinGameAckData);
 			client.SetGameData(joinGameAckData.gameData);
 
+			client.GetCallback().SignalNetClientPlayerJoined(context.GetPlayerName());
+
 			client.SetState(ClientStateWaitGame::Instance());
 			retVal = MSG_SOCK_SESSION_DONE;
 		}
@@ -410,22 +412,37 @@ ClientStateWaitGame::~ClientStateWaitGame()
 int
 ClientStateWaitGame::Process(ClientThread &client)
 {
-	int retVal;
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
 	ClientContext &context = client.GetContext();
 
 	// delegate to receiver helper class
 
 	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
 
-	if (tmpPacket.get() && tmpPacket->ToNetPacketGameStart())
+	if (tmpPacket.get())
 	{
-		client.SetState(ClientStateFinal::Instance());
-		retVal = MSG_NET_GAME_START;
+		if (tmpPacket->ToNetPacketGameStart())
+		{
+			client.SetState(ClientStateFinal::Instance());
+			retVal = MSG_NET_GAME_START;
+		}
+		else if (tmpPacket->ToNetPacketPlayerJoined())
+		{
+			NetPacketPlayerJoined::Data playerData;
+			tmpPacket->ToNetPacketPlayerJoined()->GetData(playerData);
+			client.GetCallback().SignalNetClientPlayerJoined(playerData.playerName);
+			client.GetPlayerMap()[playerData.playerId] = playerData.playerName;
+		}
+		else if (tmpPacket->ToNetPacketPlayerLeft())
+		{
+			// TODO hacked.
+			NetPacketPlayerLeft::Data playerData;
+			tmpPacket->ToNetPacketPlayerLeft()->GetData(playerData);
+			client.GetCallback().SignalNetClientPlayerLeft(client.GetPlayerMap()[playerData.playerId]);
+			client.GetPlayerMap().erase(playerData.playerId);
+		}
 	}
-	else // TODO: handle error packet
-	{
-		retVal = MSG_SOCK_INTERNAL_PENDING;
-	}
+	// TODO: handle error packet
 
 	return retVal;
 }

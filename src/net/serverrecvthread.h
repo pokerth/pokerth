@@ -22,14 +22,16 @@
 #define _SERVERRECVTHREAD_H_
 
 #include <core/thread.h>
-#include <deque>
-#include <map>
-#include <string>
-#include <boost/shared_ptr.hpp>
-
 #include <net/connectdata.h>
 #include <net/sessiondata.h>
 #include <net/servercallback.h>
+
+#include <deque>
+#include <map>
+#include <list>
+#include <string>
+#include <boost/shared_ptr.hpp>
+#include <core/boost/timer.hpp>
 
 #define RECEIVER_THREAD_TERMINATE_TIMEOUT	200
 
@@ -61,11 +63,13 @@ protected:
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
 	typedef std::map<SOCKET, boost::shared_ptr<SessionData> > SocketSessionMap;
 	typedef std::deque<unsigned> NotificationQueue;
+	typedef std::list<std::pair<boost::microsec_timer, boost::shared_ptr<SessionData> > > CloseSessionList;
 
 	// Main function of the thread.
 	virtual void Main();
 
 	void NotificationLoop();
+	void CloseSessionLoop();
 
 	SOCKET Select();
 
@@ -79,8 +83,11 @@ protected:
 	void AddSession(boost::shared_ptr<SessionData> sessionData);
 	void SessionError(boost::shared_ptr<SessionData> sessionData, int errorCode);
 
-	void SendError(int errorCode, SOCKET s);
+	void SendError(SOCKET s, int errorCode);
 	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
+	void SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SOCKET except);
+
+	void CloseSessionDelayed(boost::shared_ptr<SessionData> sessionData);
 
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
@@ -90,6 +97,8 @@ protected:
 
 	size_t GetCurNumberOfPlayers() const;
 	bool IsPlayerConnected(const std::string &playerName) const;
+	void SetSessionPlayerData(boost::shared_ptr<SessionData> sessionData, boost::shared_ptr<PlayerData> playerData);
+	PlayerDataList GetPlayerDataList() const;
 
 	ServerSenderCallback &GetSenderCallback();
 
@@ -104,6 +113,8 @@ private:
 
 	SocketSessionMap m_sessionMap;
 	mutable boost::mutex m_sessionMapMutex;
+
+	CloseSessionList m_closeSessionList;
 
 	std::auto_ptr<ReceiverHelper> m_receiver;
 	std::auto_ptr<SenderThread> m_sender;

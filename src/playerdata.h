@@ -35,7 +35,7 @@ enum PlayerType
 class PlayerData
 {
 public:
-	PlayerData(unsigned uniqueId);
+	PlayerData(unsigned uniqueId, int number);
 	~PlayerData();
 
 	const std::string &GetName() const
@@ -52,9 +52,12 @@ public:
 	{m_type = type;}
 	unsigned GetUniqueId() const
 	{return m_uniqueId;}
+	int GetNumber() const
+	{return m_number;}
 
 private:
 	unsigned	m_uniqueId;
+	int			m_number;
 	std::string	m_name;
 	std::string	m_avatarFile;
 	PlayerType	m_type;

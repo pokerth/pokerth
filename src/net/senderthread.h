@@ -39,7 +39,7 @@ public:
 	SenderThread(SenderCallback &cb);
 	virtual ~SenderThread();
 
-	void Send(boost::shared_ptr<NetPacket> packet, SOCKET sock);
+	void Send(SOCKET sock, boost::shared_ptr<NetPacket> packet);
 
 protected:
 

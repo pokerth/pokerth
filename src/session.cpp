@@ -69,7 +69,7 @@ void Session::startGame(const GameData &gameData) {
 		//PlayerData erzeugen
 		// TODO: PlayerType setzen
 		// UniqueId = PlayerNumber for local games.
-		boost::shared_ptr<PlayerData> playerData(new PlayerData(i));
+		boost::shared_ptr<PlayerData> playerData(new PlayerData(i, i));
 		playerData->SetName(myConfig->readConfigString(myName.str()));
 		playerData->SetAvatarFile(myConfig->readConfigString(myAvatar.str()));
 

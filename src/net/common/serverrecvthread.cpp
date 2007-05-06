@@ -26,6 +26,8 @@
 #include <net/socket_msg.h>
 #include <gamedata.h>
 
+#define SERVER_CLOSE_SESSION_DELAY_SEC	10
+
 using namespace std;
 
 class ServerSenderCallback : public SenderCallback
@@ -69,13 +71,13 @@ ServerRecvThread::Init(const string &pwd, const GameData &gameData)
 }
 
 void
-ServerRecvThread::SendError(int errorCode, SOCKET s)
+ServerRecvThread::SendError(SOCKET s, int errorCode)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacketError);
 	NetPacketError::Data errorData;
 	errorData.errorCode = errorCode;
 	static_cast<NetPacketError *>(packet.get())->SetData(errorData);
-	GetSender().Send(packet, s);
+	GetSender().Send(s, packet);
 }
 
 void
@@ -90,9 +92,55 @@ ServerRecvThread::SendToAllPlayers(boost::shared_ptr<NetPacket> packet)
 	while (i != end)
 	{
 		// Send each client a copy of the packet.
-		GetSender().Send(boost::shared_ptr<NetPacket>(packet->Clone()), i->first);
+		GetSender().Send(i->first, boost::shared_ptr<NetPacket>(packet->Clone()));
 		++i;
 	}
+}
+
+void
+ServerRecvThread::SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SOCKET except)
+{
+	// This function needs to be thread safe.
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SocketSessionMap::iterator i = m_sessionMap.begin();
+	SocketSessionMap::iterator end = m_sessionMap.end();
+
+	while (i != end)
+	{
+		// Send each client but one a copy of the packet.
+		if (i->first != except)
+			GetSender().Send(i->first, boost::shared_ptr<NetPacket>(packet->Clone()));
+		++i;
+	}
+}
+
+void
+ServerRecvThread::CloseSessionDelayed(boost::shared_ptr<SessionData> sessionData)
+{
+	{
+		boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+		m_sessionMap.erase(sessionData->GetSocket());
+	}
+
+	boost::shared_ptr<PlayerData> tmpPlayerData = sessionData->GetPlayerData();
+	if (tmpPlayerData.get() && !tmpPlayerData->GetName().empty())
+	{
+		GetCallback().SignalNetServerPlayerLeft(tmpPlayerData->GetName());
+
+		// Send "Player Left" to clients.
+		boost::shared_ptr<NetPacket> thisPlayerLeft(new NetPacketPlayerLeft);
+		NetPacketPlayerLeft::Data thisPlayerLeftData;
+		thisPlayerLeftData.playerId = tmpPlayerData->GetUniqueId();
+		static_cast<NetPacketPlayerLeft *>(thisPlayerLeft.get())->SetData(thisPlayerLeftData);
+		SendToAllPlayers(thisPlayerLeft);
+	}
+
+	boost::microsec_timer closeTimer;
+	closeTimer.start();
+	CloseSessionList::value_type closeSessionData(closeTimer, sessionData);
+	m_closeSessionList.push_back(closeSessionData);
 }
 
 void
@@ -143,6 +191,8 @@ ServerRecvThread::Main()
 			GetState().Process(*this);
 			// Process thread-safe notifications.
 			NotificationLoop();
+			// Close sessions.
+			CloseSessionLoop();
 		}
 	} catch (const NetException &)
 	{
@@ -171,6 +221,21 @@ ServerRecvThread::NotificationLoop()
 				SetState(SERVER_START_GAME_STATE::Instance());
 				break;
 		}
+	}
+}
+
+void
+ServerRecvThread::CloseSessionLoop()
+{
+	CloseSessionList::iterator i = m_closeSessionList.begin();
+	CloseSessionList::iterator end = m_closeSessionList.end();
+
+	while (i != end)
+	{
+		CloseSessionList::iterator cur = i++;
+
+		if (cur->first.elapsed().seconds() >= SERVER_CLOSE_SESSION_DELAY_SEC)
+			m_closeSessionList.erase(cur);
 	}
 }
 
@@ -300,7 +365,7 @@ void
 ServerRecvThread::SessionError(boost::shared_ptr<SessionData> sessionData, int errorCode)
 {
 	assert(sessionData.get());
-	SendError(errorCode, sessionData->GetSocket());
+	SendError(sessionData->GetSocket(), errorCode);
 }
 
 SenderThread &
@@ -358,6 +423,34 @@ ServerRecvThread::IsPlayerConnected(const std::string &playerName) const
 		++session_i;
 	}
 	return retVal;
+}
+
+void
+ServerRecvThread::SetSessionPlayerData(boost::shared_ptr<SessionData> sessionData, boost::shared_ptr<PlayerData> playerData)
+{
+	boost::mutex::scoped_lock lock(m_sessionMapMutex); // Paranoia
+	sessionData->SetPlayerData(playerData);
+	// Signal joining player to GUI.
+	GetCallback().SignalNetServerPlayerJoined(playerData->GetName());
+}
+
+PlayerDataList
+ServerRecvThread::GetPlayerDataList() const
+{
+	PlayerDataList playerList;
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SocketSessionMap::const_iterator session_i = m_sessionMap.begin();
+	SocketSessionMap::const_iterator session_end = m_sessionMap.end();
+
+	while (session_i != session_end)
+	{
+		boost::shared_ptr<PlayerData> tmpPlayer(session_i->second->GetPlayerData());
+		if (tmpPlayer.get() && !tmpPlayer->GetName().empty())
+			playerList.push_back(tmpPlayer);
+		++session_i;
+	}
+	return playerList;
 }
 
 ServerSenderCallback &
