@@ -27,8 +27,11 @@ using namespace std;
 joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent)
       : QDialog(parent)
 {
+	bool toIntTrue;
+    	
+	setupUi(this);
 
-    setupUi(this);
+	spinBox_port->setValue(QString::fromUtf8(myConfig.readConfigString("ServerPort").c_str()).toInt(&toIntTrue, 10));
 
 	//Profile Name darf nicht mit einer Zahl beginnen --> XML konform
 	QRegExp rx("[A-Z|a-z]+[A-Z|a-z|\\d]*");

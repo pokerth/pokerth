@@ -294,6 +294,9 @@ void ConfigFile::updateConfig(CONFIGSTATE myConfigState) {
 		doc.SaveFile( configFileName );
 
 	}
+
+	if(myConfigState == old) {
+	}
 	
 	delete myQtToolsInterface;
 	myQtToolsInterface = 0;
