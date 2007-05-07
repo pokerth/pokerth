@@ -13,10 +13,19 @@
 #pragma once
 #endif
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4244)
+#endif
+
 // -------------------------- Includes --------------------------
 
 #include "boost/timer/implementation.hpp"
 #include "boost/timer/devices.hpp"
 #include "boost/timer/typedefs.hpp"
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 #endif // BOOST_TIMER_HPP
