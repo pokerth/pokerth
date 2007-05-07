@@ -1135,7 +1135,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="621"/>
         <source>Computer Engine</source>
-        <translation>Simulatorversie van computerspelers</translation>
+        <translation>Computertegenstanders</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="668"/>
