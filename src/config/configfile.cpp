@@ -25,6 +25,7 @@
 #include <fstream>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <boost/shared_ptr.hpp>
 #define MODUS 0711
 
 #ifdef _WIN32
@@ -113,8 +114,8 @@ ConfigFile::ConfigFile(bool configFirstStart)
 		//Prüfen ob Configfile existiert --> sonst anlegen
 		TiXmlDocument doc(configFileName); 
 		if(!doc.LoadFile()){ 
-			configState = nonexisting;
-			updateConfig(configState); 
+			myConfigState = NONEXISTING;
+			updateConfig(myConfigState); 
 		}
 		else { 
 		//Prüfen ob die Revision stimmt ansonsten löschen und neue anlegen 
@@ -123,8 +124,8 @@ ConfigFile::ConfigFile(bool configFirstStart)
 			TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "ConfigRevision" ).ToElement();
 			if ( conf ) { conf->QueryIntAttribute("value", &temp ); }
 			if (temp < configRev) { /*löschen()*/ 
-				configState = old;
-				updateConfig(configState) ;
+				myConfigState = OLD;
+				updateConfig(myConfigState) ;
 			}
 		}
 	}
@@ -135,11 +136,63 @@ ConfigFile::~ConfigFile()
 {
 }
 
-void ConfigFile::updateConfig(CONFIGSTATE myConfigState) {
+void ConfigFile::updateConfig(ConfigState myConfigState) {
 	
+	int i;
+
 	QtToolsInterface *myQtToolsInterface = new QtToolsWrapper;
 	
-	if(myConfigState == nonexisting) {
+	vector<ConfigInfo> configList;
+
+	ostringstream tempIntToString;
+	tempIntToString << configRev;
+	configList.push_back(ConfigInfo("ConfigRevision", CONFIG_TYPE_INT, tempIntToString.str()));
+	configList.push_back(ConfigInfo("ShowLeftToolBox", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("ShowRightToolBox", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("ShowStatusbarMessages", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("ShowIntro", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("ShowFadeOutCardsAnimation", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("ShowFlipCardsAnimation", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("FlipsideTux", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("FlipsideOwn", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("FlipsideOwnFile", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("NumberOfPlayers", CONFIG_TYPE_INT, "7"));
+	configList.push_back(ConfigInfo("StartCash", CONFIG_TYPE_INT, "3000"));
+	configList.push_back(ConfigInfo("SmallBlind", CONFIG_TYPE_INT, "10"));
+	configList.push_back(ConfigInfo("HandsBeforeRaiseSmallBlind", CONFIG_TYPE_INT, "8"));
+	configList.push_back(ConfigInfo("GameSpeed", CONFIG_TYPE_INT, "4"));
+	configList.push_back(ConfigInfo("EngineVersion", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("PauseBetweenHands", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("ShowGameSettingsDialogOnNewGame", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("NetNumberOfPlayers", CONFIG_TYPE_INT, "7"));
+	configList.push_back(ConfigInfo("NetStartCash", CONFIG_TYPE_INT, "3000"));
+	configList.push_back(ConfigInfo("NetSmallBlind", CONFIG_TYPE_INT, "10"));
+	configList.push_back(ConfigInfo("NetHandsBeforeRaiseSmallBlind", CONFIG_TYPE_INT, "8"));
+	configList.push_back(ConfigInfo("NetGameSpeed", CONFIG_TYPE_INT, "4"));
+	configList.push_back(ConfigInfo("NetEngineVersion", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("ServerPassword", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("ServerUseIpv6", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("ServerPort", CONFIG_TYPE_INT, "7234"));
+	configList.push_back(ConfigInfo("MyName", CONFIG_TYPE_STRING, "Human Player"));
+	configList.push_back(ConfigInfo("MyAvatar", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("Opponent1Name", CONFIG_TYPE_STRING, "Player 1"));
+	configList.push_back(ConfigInfo("Opponent1Avatar", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("Opponent2Name", CONFIG_TYPE_STRING, "Player 2"));
+	configList.push_back(ConfigInfo("Opponent2Avatar", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("Opponent3Name", CONFIG_TYPE_STRING, "Player 3"));
+	configList.push_back(ConfigInfo("Opponent3Avatar", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("Opponent4Name", CONFIG_TYPE_STRING, "Player 4"));
+	configList.push_back(ConfigInfo("Opponent4Avatar", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("Opponent5Name", CONFIG_TYPE_STRING, "Player 5"));
+	configList.push_back(ConfigInfo("Opponent5Avatar", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("Opponent6Name", CONFIG_TYPE_STRING, "Player 6"));
+	configList.push_back(ConfigInfo("Opponent6Avatar", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("LogDir", CONFIG_TYPE_STRING, logDir));
+	configList.push_back(ConfigInfo("LogStoreDuration", CONFIG_TYPE_INT, "2"));
+	configList.push_back(ConfigInfo("DataDir", CONFIG_TYPE_STRING, dataDir));
+
+
+	if(myConfigState == NONEXISTING) {
 		
 		//Create!
 		TiXmlDocument doc;  
@@ -152,150 +205,19 @@ void ConfigFile::updateConfig(CONFIGSTATE myConfigState) {
 		TiXmlElement * config;
 		config = new TiXmlElement( "Configuration" );  
 		root->LinkEndChild( config );  
-			
-		TiXmlElement * confElement0 = new TiXmlElement( "ConfigRevision" ); 
-		config->LinkEndChild( confElement0 );
-		confElement0->SetAttribute("value", configRev);
-		TiXmlElement * confElement11 = new TiXmlElement( "ShowLeftToolBox" );
-		config->LinkEndChild( confElement11 );
-		confElement11->SetAttribute("value", 1);
-		TiXmlElement * confElement22 = new TiXmlElement( "ShowRightToolBox" );
-		config->LinkEndChild( confElement22 );
-		confElement22->SetAttribute("value", 1);
-		TiXmlElement * confElement43 = new TiXmlElement( "ShowStatusbarMessages" );
-		config->LinkEndChild( confElement43 );
-		confElement43->SetAttribute("value", 1);
-		TiXmlElement * confElement13 = new TiXmlElement( "ShowIntro" );
-		config->LinkEndChild( confElement13 );
-		confElement13->SetAttribute("value", 1);
-		TiXmlElement * confElement15 = new TiXmlElement( "ShowFadeOutCardsAnimation" );
-		config->LinkEndChild( confElement15 );
-		confElement15->SetAttribute("value", 1);
-		TiXmlElement * confElement19 = new TiXmlElement( "ShowFlipCardsAnimation" );
-		config->LinkEndChild( confElement19 );
-		confElement19->SetAttribute("value", 1);
-		TiXmlElement * confElement16 = new TiXmlElement( "FlipsideTux" );
-		config->LinkEndChild( confElement16 );
-		confElement16->SetAttribute("value", 1);
-		TiXmlElement * confElement17 = new TiXmlElement( "FlipsideOwn" );
-		config->LinkEndChild( confElement17 );
-		confElement17->SetAttribute("value", 0);
-		TiXmlElement * confElement18 = new TiXmlElement( "FlipsideOwnFile" );
-		config->LinkEndChild( confElement18 );
-		confElement18->SetAttribute("value", "");
-		
-		TiXmlElement * confElement1 = new TiXmlElement( "NumberOfPlayers" ); 
-		config->LinkEndChild( confElement1 );
-		confElement1->SetAttribute("value", 7);
-		TiXmlElement * confElement2 = new TiXmlElement( "StartCash" );
-		config->LinkEndChild( confElement2 );
-		confElement2->SetAttribute("value", 3000);
-		TiXmlElement * confElement3 = new TiXmlElement( "SmallBlind" );
-		config->LinkEndChild( confElement3 );
-		confElement3->SetAttribute("value", 10);
-		TiXmlElement * confElement12 = new TiXmlElement( "HandsBeforeRaiseSmallBlind" );
-		config->LinkEndChild( confElement12 );
-		confElement12->SetAttribute("value", 8);	
-		TiXmlElement * confElement4 = new TiXmlElement( "GameSpeed" );
-		config->LinkEndChild( confElement4 );
-		confElement4->SetAttribute("value", 4);
-		TiXmlElement * confElement32 = new TiXmlElement( "EngineVersion" );
-		config->LinkEndChild( confElement32 );
-		confElement32->SetAttribute("value", 0);
-		TiXmlElement * confElement14 = new TiXmlElement( "PauseBetweenHands" );
-		config->LinkEndChild( confElement14 );
-		confElement14->SetAttribute("value", 0);		
-		TiXmlElement * confElement5 = new TiXmlElement( "ShowGameSettingsDialogOnNewGame" );
-		config->LinkEndChild( confElement5 );
-		confElement5->SetAttribute("value", 1);		
-		
-		TiXmlElement * confElement23 = new TiXmlElement( "NetNumberOfPlayers" ); 
-		config->LinkEndChild( confElement23 );
-		confElement23->SetAttribute("value", 7);
-		TiXmlElement * confElement24 = new TiXmlElement( "NetStartCash" );
-		config->LinkEndChild( confElement24 );
-		confElement24->SetAttribute("value", 2000);
-		TiXmlElement * confElement25 = new TiXmlElement( "NetSmallBlind" );
-		config->LinkEndChild( confElement25 );
-		confElement25->SetAttribute("value", 10);
-		TiXmlElement * confElement26 = new TiXmlElement( "NetHandsBeforeRaiseSmallBlind" );
-		config->LinkEndChild( confElement26 );
-		confElement26->SetAttribute("value", 9);	
-		TiXmlElement * confElement27 = new TiXmlElement( "NetGameSpeed" );
-		config->LinkEndChild( confElement27 );
-		confElement27->SetAttribute("value", 4);
-		TiXmlElement * confElement33 = new TiXmlElement( "NetEngineVersion" );
-		config->LinkEndChild( confElement33 );
-		confElement33->SetAttribute("value", 1);
-		TiXmlElement * confElement28 = new TiXmlElement( "ServerPassword" );
-		config->LinkEndChild( confElement28 );
-		confElement28->SetAttribute("value", "");
-		TiXmlElement * confElement29 = new TiXmlElement( "ServerUseIpv6" );
-		config->LinkEndChild( confElement29 );
-		confElement29->SetAttribute("value", 0);
-		TiXmlElement * confElement30 = new TiXmlElement( "ServerPort" );
-		config->LinkEndChild( confElement30 );
-		confElement30->SetAttribute("value", 7234);
-		
-		TiXmlElement * confElement6 = new TiXmlElement( "MyName" );
-		config->LinkEndChild( confElement6 );
-		confElement6->SetAttribute("value", "Human Player");		
-		TiXmlElement * confElement34 = new TiXmlElement( "MyAvatar" );
-		config->LinkEndChild( confElement34 );
-		confElement34->SetAttribute("value", "");		
-		TiXmlElement * confElement7 = new TiXmlElement( "Opponent1Name" );
-		config->LinkEndChild( confElement7 );
-		confElement7->SetAttribute("value", "Player 1");
-		TiXmlElement * confElement35 = new TiXmlElement( "Opponent1Avatar" );
-		config->LinkEndChild( confElement35 );
-		confElement35->SetAttribute("value", "");
-		TiXmlElement * confElement8 = new TiXmlElement( "Opponent2Name" );
-		config->LinkEndChild( confElement8 );
-		confElement8->SetAttribute("value", "Player 2");
-		TiXmlElement * confElement36 = new TiXmlElement( "Opponent2Avatar" );
-		config->LinkEndChild( confElement36 );
-		confElement36->SetAttribute("value", "");		
-		TiXmlElement * confElement9 = new TiXmlElement( "Opponent3Name" );
-		config->LinkEndChild( confElement9 );
-		confElement9->SetAttribute("value", "Player 3");
-		TiXmlElement * confElement37 = new TiXmlElement( "Opponent3Avatar" );
-		config->LinkEndChild( confElement37 );
-		confElement37->SetAttribute("value", "");
-		TiXmlElement * confElement10 = new TiXmlElement( "Opponent4Name" );
-		config->LinkEndChild( confElement10 );
-		confElement10->SetAttribute("value", "Player 4");
-		TiXmlElement * confElement38 = new TiXmlElement( "Opponent4Avatar" );
-		config->LinkEndChild( confElement38 );
-		confElement38->SetAttribute("value", "");
-		TiXmlElement * confElement39 = new TiXmlElement( "Opponent5Name" );
-		config->LinkEndChild( confElement39 );
-		confElement39->SetAttribute("value", "Player 5");
-		TiXmlElement * confElement40 = new TiXmlElement( "Opponent5Avatar" );
-		config->LinkEndChild( confElement40 );
-		confElement40->SetAttribute("value", "");		
-		TiXmlElement * confElement41 = new TiXmlElement( "Opponent6Name" );
-		config->LinkEndChild( confElement41 );
-		confElement41->SetAttribute("value", "Player 6");
-		TiXmlElement * confElement42 = new TiXmlElement( "Opponent6Avatar" );
-		config->LinkEndChild( confElement42 );
-		confElement42->SetAttribute("value", "");
-	
-		TiXmlElement * confElement20 = new TiXmlElement( "LogDir" );
-		config->LinkEndChild( confElement20 );
-		confElement20->SetAttribute("value", myQtToolsInterface->stringToUtf8(logDir));
-		TiXmlElement * confElement21 = new TiXmlElement( "LogStoreDuration" );
-		config->LinkEndChild( confElement21 );
-		confElement21->SetAttribute("value", 2);
-	
-		TiXmlElement * confElement31 = new TiXmlElement( "DataDir" );
-		config->LinkEndChild( confElement31 );
-		confElement31->SetAttribute("value", myQtToolsInterface->stringToUtf8(dataDir));
+
+		for (i=0; i<configList.size(); i++) {
+			vector< boost::shared_ptr<TiXmlElement> > TiXmlElements;
+			TiXmlElements.push_back( boost::shared_ptr<TiXmlElement> (new TiXmlElement(configList[i].name)));
+			config->LinkEndChild( TiXmlElements[i] );
+			TiXmlElements[i]->SetAttribute("value", myQtToolsInterface->stringToUtf8(configList[i].defaultValue));
+		}
 			
 		doc.SaveFile( configFileName );
-
 	}
 
-	if(myConfigState == old) {
+
+	if(myConfigState == OLD) {
 	}
 	
 	delete myQtToolsInterface;

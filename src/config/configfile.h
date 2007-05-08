@@ -22,8 +22,12 @@
 
 #include "tinyxml.h"
 #include <string>
+#include <iostream>
+#include <sstream>
 
-enum CONFIGSTATE { nonexisting, old };
+enum ConfigState { NONEXISTING, OLD };
+enum ConfigType { CONFIG_TYPE_INT, CONFIG_TYPE_STRING };
+
 
 class ConfigFile{
 public:
@@ -31,7 +35,7 @@ public:
 
     ~ConfigFile();
 	
-	void updateConfig(CONFIGSTATE);
+	void updateConfig(ConfigState);
 
 	std::string readConfigString(std::string varName);
     	void writeConfigString(std::string varName, std::string varCont);
@@ -41,12 +45,22 @@ public:
     	
 
 private:
+	
+
+	struct ConfigInfo
+	{
+		ConfigInfo(const std::string &n, ConfigType t, const std::string &d) : name(n), type(t), defaultValue(d) {}
+		std::string name;
+		ConfigType type;
+		std::string defaultValue;
+	};
+
 	std::string configFileName;
 	std::string logDir;
 	std::string dataDir;
 	int configRev;
 
-	CONFIGSTATE configState;
+	ConfigState myConfigState;
 };
 
 #endif
