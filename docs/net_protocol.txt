@@ -129,10 +129,10 @@ Server Request/Notification: Player's Turn
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 Game State:
-	0 - preflop
-	1 - flop
-	2 - turn
-	3 - river
+	0 - Preflop
+	1 - Flop
+	2 - Turn
+	3 - River
 
 
 Client Reply/Request: Player's Action

@@ -32,6 +32,9 @@ using namespace std;
 #define NET_TYPE_PLAYER_JOINED					0x0003
 #define NET_TYPE_PLAYER_LEFT					0x0004
 #define NET_TYPE_GAME_START						0x0005
+#define NET_TYPE_PLAYERS_TURN					0x0006
+#define NET_TYPE_PLAYERS_ACTION					0x0007
+#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x0008
 
 #define NET_TYPE_ERROR							0x0400
 
@@ -114,6 +117,31 @@ struct NetPacketGameStartData
 	u_int16_t			yourCards[2];
 };
 
+struct NetPacketPlayersTurnData
+{
+	NetPacketHeader		head;
+	u_int16_t			gameState;
+	u_int16_t			playerId;
+};
+
+struct NetPacketPlayersActionData
+{
+	NetPacketHeader		head;
+	u_int16_t			gameState;
+	u_int16_t			playerAction;
+	u_int32_t			cashValue;
+};
+
+struct NetPacketPlayersActionRejectedData
+{
+	NetPacketHeader		head;
+	u_int16_t			gameState;
+	u_int16_t			playerAction;
+	u_int32_t			cashValue;
+	u_int16_t			rejectionReason;
+	u_int16_t			reserved;
+};
+
 struct NetPacketErrorData
 {
 	NetPacketHeader		head;
@@ -155,14 +183,23 @@ NetPacket::Create(char *data, unsigned &dataSize)
 				case NET_TYPE_JOIN_GAME_ACK:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketJoinGameAck);
 					break;
-				case NET_TYPE_GAME_START:
-					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameStart);
-					break;
 				case NET_TYPE_PLAYER_JOINED:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayerJoined);
 					break;
 				case NET_TYPE_PLAYER_LEFT:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayerLeft);
+					break;
+				case NET_TYPE_GAME_START:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameStart);
+					break;
+				case NET_TYPE_PLAYERS_TURN:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayersTurn);
+					break;
+				case NET_TYPE_PLAYERS_ACTION:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayersAction);
+					break;
+				case NET_TYPE_PLAYERS_ACTION_REJECTED:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayersActionRejected);
 					break;
 				case NET_TYPE_ERROR:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketError);
@@ -260,12 +297,6 @@ NetPacket::ToNetPacketJoinGameAck() const
 	return NULL;
 }
 
-const NetPacketGameStart *
-NetPacket::ToNetPacketGameStart() const
-{
-	return NULL;
-}
-
 const NetPacketPlayerJoined *
 NetPacket::ToNetPacketPlayerJoined() const
 {
@@ -274,6 +305,30 @@ NetPacket::ToNetPacketPlayerJoined() const
 
 const NetPacketPlayerLeft *
 NetPacket::ToNetPacketPlayerLeft() const
+{
+	return NULL;
+}
+
+const NetPacketGameStart *
+NetPacket::ToNetPacketGameStart() const
+{
+	return NULL;
+}
+
+const NetPacketPlayersTurn *
+NetPacket::ToNetPacketPlayersTurn() const
+{
+	return NULL;
+}
+
+const NetPacketPlayersAction *
+NetPacket::ToNetPacketPlayersAction() const
+{
+	return NULL;
+}
+
+const NetPacketPlayersActionRejected *
+NetPacket::ToNetPacketPlayersActionRejected() const
 {
 	return NULL;
 }
@@ -502,75 +557,6 @@ NetPacketJoinGameAck::Check(const NetPacketHeader* data) const
 
 //-----------------------------------------------------------------------------
 
-NetPacketGameStart::NetPacketGameStart()
-: NetPacket(NET_TYPE_GAME_START, sizeof(NetPacketGameStartData))
-{
-}
-
-NetPacketGameStart::~NetPacketGameStart()
-{
-}
-
-boost::shared_ptr<NetPacket>
-NetPacketGameStart::Clone() const
-{
-	boost::shared_ptr<NetPacket> newPacket(new NetPacketGameStart);
-	try
-	{
-		newPacket->SetRawData(GetRawData());
-	} catch (const NetException &)
-	{
-		// Need to return the new packet anyway.
-	}
-	return newPacket;
-}
-
-void
-NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
-{
-	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
-	assert(tmpData);
-
-	tmpData->yourCards[0]		= htons(inData.yourCards[0]);
-	tmpData->yourCards[1]		= htons(inData.yourCards[1]);
-}
-
-void
-NetPacketGameStart::GetData(NetPacketGameStart::Data &outData) const
-{
-	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
-	assert(tmpData);
-
-	outData.yourCards[0]		= ntohs(tmpData->yourCards[0]);
-	outData.yourCards[1]		= ntohs(tmpData->yourCards[1]);
-}
-
-const NetPacketGameStart *
-NetPacketGameStart::ToNetPacketGameStart() const
-{
-	return this;
-}
-
-void
-NetPacketGameStart::Check(const NetPacketHeader* data) const
-{
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketGameStartData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
-	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
-	if (tmpData->yourCards[0] > 51 || tmpData->yourCards[1] > 51)
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-}
-
-//-----------------------------------------------------------------------------
-
 NetPacketPlayerJoined::NetPacketPlayerJoined()
 : NetPacket(NET_TYPE_PLAYER_JOINED, sizeof(NetPacketPlayerJoinedData))
 {
@@ -725,6 +711,305 @@ NetPacketPlayerLeft::Check(const NetPacketHeader* data) const
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketGameStart::NetPacketGameStart()
+: NetPacket(NET_TYPE_GAME_START, sizeof(NetPacketGameStartData))
+{
+}
+
+NetPacketGameStart::~NetPacketGameStart()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketGameStart::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketGameStart);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
+{
+	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
+	assert(tmpData);
+
+	tmpData->yourCards[0]		= htons(inData.yourCards[0]);
+	tmpData->yourCards[1]		= htons(inData.yourCards[1]);
+}
+
+void
+NetPacketGameStart::GetData(NetPacketGameStart::Data &outData) const
+{
+	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
+	assert(tmpData);
+
+	outData.yourCards[0]		= ntohs(tmpData->yourCards[0]);
+	outData.yourCards[1]		= ntohs(tmpData->yourCards[1]);
+}
+
+const NetPacketGameStart *
+NetPacketGameStart::ToNetPacketGameStart() const
+{
+	return this;
+}
+
+void
+NetPacketGameStart::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen < sizeof(NetPacketGameStartData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
+	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
+	if (ntohs(tmpData->yourCards[0]) > 51 || ntohs(tmpData->yourCards[1]) > 51)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketPlayersTurn::NetPacketPlayersTurn()
+: NetPacket(NET_TYPE_PLAYERS_TURN, sizeof(NetPacketPlayersTurnData))
+{
+}
+
+NetPacketPlayersTurn::~NetPacketPlayersTurn()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketPlayersTurn::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketPlayersTurn);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketPlayersTurn::SetData(const NetPacketPlayersTurn::Data &inData)
+{
+	NetPacketPlayersTurnData *tmpData = (NetPacketPlayersTurnData *)GetRawData();
+	assert(tmpData);
+
+	tmpData->gameState	= htons(inData.gameState);
+	tmpData->playerId	= htons(inData.playerId);
+}
+
+void
+NetPacketPlayersTurn::GetData(NetPacketPlayersTurn::Data &outData) const
+{
+	NetPacketPlayersTurnData *tmpData = (NetPacketPlayersTurnData *)GetRawData();
+	assert(tmpData);
+
+	outData.gameState	= static_cast<GameState>(ntohs(tmpData->gameState));
+	outData.playerId	= ntohs(tmpData->playerId);
+}
+
+const NetPacketPlayersTurn *
+NetPacketPlayersTurn::ToNetPacketPlayersTurn() const
+{
+	return this;
+}
+
+void
+NetPacketPlayersTurn::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen < sizeof(NetPacketPlayersTurnData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
+	// Check whether the state is valid.
+	NetPacketPlayersTurnData *tmpData = (NetPacketPlayersTurnData *)GetRawData();
+	if (ntohs(tmpData->gameState) > GAME_STATE_RIVER)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketPlayersAction::NetPacketPlayersAction()
+: NetPacket(NET_TYPE_PLAYERS_ACTION, sizeof(NetPacketPlayersActionData))
+{
+}
+
+NetPacketPlayersAction::~NetPacketPlayersAction()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketPlayersAction::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketPlayersAction);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketPlayersAction::SetData(const NetPacketPlayersAction::Data &inData)
+{
+	NetPacketPlayersActionData *tmpData = (NetPacketPlayersActionData *)GetRawData();
+	assert(tmpData);
+
+	tmpData->gameState		= htons(inData.gameState);
+	tmpData->playerAction	= htons(inData.playerAction);
+	tmpData->cashValue		= htonl(inData.cashValue);
+}
+
+void
+NetPacketPlayersAction::GetData(NetPacketPlayersAction::Data &outData) const
+{
+	NetPacketPlayersActionData *tmpData = (NetPacketPlayersActionData *)GetRawData();
+	assert(tmpData);
+
+	outData.gameState		= static_cast<GameState>(ntohs(tmpData->gameState));
+	outData.playerAction	= static_cast<PlayerAction>(ntohs(tmpData->playerAction));
+	outData.cashValue		= ntohl(tmpData->cashValue);
+}
+
+const NetPacketPlayersAction *
+NetPacketPlayersAction::ToNetPacketPlayersAction() const
+{
+	return this;
+}
+
+void
+NetPacketPlayersAction::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen < sizeof(NetPacketPlayersActionData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
+	// Check whether the state is valid.
+	NetPacketPlayersActionData *tmpData = (NetPacketPlayersActionData *)GetRawData();
+	if (ntohs(tmpData->gameState) > GAME_STATE_RIVER)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check whether the player action is valid.
+	if (ntohs(tmpData->playerAction) > PLAYER_ACTION_ALLIN)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketPlayersActionRejected::NetPacketPlayersActionRejected()
+: NetPacket(NET_TYPE_PLAYERS_ACTION_REJECTED, sizeof(NetPacketPlayersActionRejectedData))
+{
+}
+
+NetPacketPlayersActionRejected::~NetPacketPlayersActionRejected()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketPlayersActionRejected::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketPlayersActionRejected);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketPlayersActionRejected::SetData(const NetPacketPlayersActionRejected::Data &inData)
+{
+	NetPacketPlayersActionRejectedData *tmpData = (NetPacketPlayersActionRejectedData *)GetRawData();
+	assert(tmpData);
+
+	tmpData->gameState			= htons(inData.gameState);
+	tmpData->playerAction		= htons(inData.playerAction);
+	tmpData->cashValue			= htonl(inData.cashValue);
+
+	// TODO: set rejection reason
+	tmpData->rejectionReason	= htons(0);
+}
+
+void
+NetPacketPlayersActionRejected::GetData(NetPacketPlayersActionRejected::Data &outData) const
+{
+	NetPacketPlayersActionRejectedData *tmpData = (NetPacketPlayersActionRejectedData *)GetRawData();
+	assert(tmpData);
+
+	outData.gameState		= static_cast<GameState>(ntohs(tmpData->gameState));
+	outData.playerAction	= static_cast<PlayerAction>(ntohs(tmpData->playerAction));
+	outData.cashValue		= ntohl(tmpData->cashValue);
+
+	// TODO: set rejection reason
+}
+
+const NetPacketPlayersActionRejected *
+NetPacketPlayersActionRejected::ToNetPacketPlayersActionRejected() const
+{
+	return this;
+}
+
+void
+NetPacketPlayersActionRejected::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen < sizeof(NetPacketPlayersActionRejectedData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
+	// Check whether the state is valid.
+	NetPacketPlayersActionRejectedData *tmpData = (NetPacketPlayersActionRejectedData *)GetRawData();
+	if (ntohs(tmpData->gameState) > GAME_STATE_RIVER)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check whether the player action is valid.
+	if (ntohs(tmpData->playerAction) > PLAYER_ACTION_ALLIN)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// TODO: check rejection reason
 }
 
 //-----------------------------------------------------------------------------

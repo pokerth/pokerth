@@ -22,6 +22,7 @@
 #define _NETPACKET_H_
 
 #include <playerdata.h>
+#include <game_defs.h>
 #include <gamedata.h>
 #include <net/socket_helper.h>
 
@@ -38,9 +39,12 @@ struct NetPacketHeader;
 
 class NetPacketJoinGame;
 class NetPacketJoinGameAck;
-class NetPacketGameStart;
 class NetPacketPlayerJoined;
 class NetPacketPlayerLeft;
+class NetPacketGameStart;
+class NetPacketPlayersTurn;
+class NetPacketPlayersAction;
+class NetPacketPlayersActionRejected;
 class NetPacketError;
 
 class NetPacket
@@ -62,9 +66,12 @@ public:
 
 	virtual const NetPacketJoinGame *ToNetPacketJoinGame() const;
 	virtual const NetPacketJoinGameAck *ToNetPacketJoinGameAck() const;
-	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
 	virtual const NetPacketPlayerJoined *ToNetPacketPlayerJoined() const;
 	virtual const NetPacketPlayerLeft *ToNetPacketPlayerLeft() const;
+	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
+	virtual const NetPacketPlayersTurn *ToNetPacketPlayersTurn() const;
+	virtual const NetPacketPlayersAction *ToNetPacketPlayersAction() const;
+	virtual const NetPacketPlayersActionRejected *ToNetPacketPlayersActionRejected() const;
 	virtual const NetPacketError *ToNetPacketError() const;
 
 protected:
@@ -131,29 +138,6 @@ protected:
 	virtual void Check(const NetPacketHeader* data) const;
 };
 
-class NetPacketGameStart : public NetPacket
-{
-public:
-	struct Data
-	{
-		u_int16_t	yourCards[2];
-	};
-
-	NetPacketGameStart();
-	virtual ~NetPacketGameStart();
-
-	virtual boost::shared_ptr<NetPacket> Clone() const;
-
-	void SetData(const Data &inData);
-	void GetData(Data &outData) const;
-
-	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
-
-protected:
-
-	virtual void Check(const NetPacketHeader* data) const;
-};
-
 class NetPacketPlayerJoined : public NetPacket
 {
 public:
@@ -197,6 +181,105 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketPlayerLeft *ToNetPacketPlayerLeft() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketGameStart : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int16_t	yourCards[2];
+	};
+
+	NetPacketGameStart();
+	virtual ~NetPacketGameStart();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketPlayersTurn : public NetPacket
+{
+public:
+	struct Data
+	{
+		GameState	gameState;
+		u_int16_t	playerId;
+	};
+
+	NetPacketPlayersTurn();
+	virtual ~NetPacketPlayersTurn();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketPlayersTurn *ToNetPacketPlayersTurn() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketPlayersAction : public NetPacket
+{
+public:
+	struct Data
+	{
+		GameState		gameState;
+		PlayerAction	playerAction;
+		u_int32_t		cashValue;
+	};
+
+	NetPacketPlayersAction();
+	virtual ~NetPacketPlayersAction();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketPlayersAction *ToNetPacketPlayersAction() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketPlayersActionRejected : public NetPacket
+{
+public:
+
+	struct Data
+	{
+		GameState		gameState;
+		PlayerAction	playerAction;
+		u_int32_t		cashValue;
+		int				rejectionReason;
+	};
+
+	NetPacketPlayersActionRejected();
+	virtual ~NetPacketPlayersActionRejected();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketPlayersActionRejected *ToNetPacketPlayersActionRejected() const;
 
 protected:
 
