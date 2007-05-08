@@ -39,7 +39,7 @@ public:
 
 	HandInterface* createHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC);
 	BoardInterface* createBoard();
-	PlayerInterface* createPlayer(BoardInterface *b, int id, std::string name, std::string avatar, int sC, bool aS, int mB);
+	PlayerInterface* createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
 	PreflopInterface* createPreflop(HandInterface* hi, int id, int aP, int dP, int sB);
 	FlopInterface* createFlop(HandInterface* hi, int id, int aP, int dP, int sB);
 	TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB);

@@ -96,7 +96,6 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			if (session->GetState() != SessionData::Init)
 			{
 				server.SessionError(session, ERR_SOCK_INVALID_STATE);
-				server.CloseSessionDelayed(session);
 				return retVal;
 			}
 
@@ -105,7 +104,6 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			if (!tmpPacket)
 			{
 				server.SessionError(session, ERR_SOCK_INVALID_PACKET);
-				server.CloseSessionDelayed(session);
 				return retVal;
 			}
 
@@ -116,7 +114,6 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			if (joinGameData.versionMajor != NET_VERSION_MAJOR)
 			{
 				server.SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
-				server.CloseSessionDelayed(session);
 				return retVal;
 			}
 
@@ -124,7 +121,6 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			if (!server.CheckPassword(joinGameData.password))
 			{
 				server.SessionError(session, ERR_NET_INVALID_PASSWORD);
-				server.CloseSessionDelayed(session);
 				return retVal;
 			}
 
@@ -134,7 +130,6 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			if (curNumPlayers >= (size_t)server.GetGameData().numberOfPlayers)
 			{
 				server.SessionError(session, ERR_NET_SERVER_FULL);
-				server.CloseSessionDelayed(session);
 				return retVal;
 			}
 
@@ -142,14 +137,13 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			if (server.IsPlayerConnected(joinGameData.playerName))
 			{
 				server.SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
-				server.CloseSessionDelayed(session);
 				return retVal;
 			}
 
 			// Create player data object.
-			boost::shared_ptr<PlayerData> tmpPlayerData(new PlayerData(m_curUniquePlayerId++, 0));
+			boost::shared_ptr<PlayerData> tmpPlayerData(
+				new PlayerData(m_curUniquePlayerId++, server.GetNextPlayerNumber(), joinGameData.ptype));
 			tmpPlayerData->SetName(joinGameData.playerName);
-			tmpPlayerData->SetPlayerType(joinGameData.ptype);
 
 			// Send ACK to client.
 			boost::shared_ptr<NetPacket> answer(new NetPacketJoinGameAck);

@@ -21,6 +21,7 @@
 #define PLAYERINTERFACE_H
 
 #include "handinterface.h"
+#include <playerdata.h>
 
 class PlayerInterface{
 public:
@@ -29,8 +30,9 @@ public:
 
 	virtual void setHand(HandInterface*) =0;
 
-	virtual void setMyID(const int& theValue) =0;
 	virtual int getMyID() const =0;
+	virtual unsigned getMyUniqueID() const =0;
+	virtual PlayerType getMyType() const =0;
 
 	virtual void setMyDude(const int& theValue) =0;
 	virtual int getMyDude() const =0;

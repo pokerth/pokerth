@@ -26,6 +26,8 @@
 #include <net/socket_msg.h>
 #include <gamedata.h>
 
+#include <boost/lambda/lambda.hpp>
+
 #define SERVER_CLOSE_SESSION_DELAY_SEC	10
 
 using namespace std;
@@ -71,79 +73,6 @@ ServerRecvThread::Init(const string &pwd, const GameData &gameData)
 }
 
 void
-ServerRecvThread::SendError(SOCKET s, int errorCode)
-{
-	boost::shared_ptr<NetPacket> packet(new NetPacketError);
-	NetPacketError::Data errorData;
-	errorData.errorCode = errorCode;
-	static_cast<NetPacketError *>(packet.get())->SetData(errorData);
-	GetSender().Send(s, packet);
-}
-
-void
-ServerRecvThread::SendToAllPlayers(boost::shared_ptr<NetPacket> packet)
-{
-	// This function needs to be thread safe.
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
-
-	SocketSessionMap::iterator i = m_sessionMap.begin();
-	SocketSessionMap::iterator end = m_sessionMap.end();
-
-	while (i != end)
-	{
-		// Send each client a copy of the packet.
-		GetSender().Send(i->first, boost::shared_ptr<NetPacket>(packet->Clone()));
-		++i;
-	}
-}
-
-void
-ServerRecvThread::SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SOCKET except)
-{
-	// This function needs to be thread safe.
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
-
-	SocketSessionMap::iterator i = m_sessionMap.begin();
-	SocketSessionMap::iterator end = m_sessionMap.end();
-
-	while (i != end)
-	{
-		// Send each client but one a copy of the packet.
-		if (i->first != except)
-			GetSender().Send(i->first, boost::shared_ptr<NetPacket>(packet->Clone()));
-		++i;
-	}
-}
-
-void
-ServerRecvThread::CloseSessionDelayed(boost::shared_ptr<SessionData> sessionData)
-{
-	{
-		boost::mutex::scoped_lock lock(m_sessionMapMutex);
-
-		m_sessionMap.erase(sessionData->GetSocket());
-	}
-
-	boost::shared_ptr<PlayerData> tmpPlayerData = sessionData->GetPlayerData();
-	if (tmpPlayerData.get() && !tmpPlayerData->GetName().empty())
-	{
-		GetCallback().SignalNetServerPlayerLeft(tmpPlayerData->GetName());
-
-		// Send "Player Left" to clients.
-		boost::shared_ptr<NetPacket> thisPlayerLeft(new NetPacketPlayerLeft);
-		NetPacketPlayerLeft::Data thisPlayerLeftData;
-		thisPlayerLeftData.playerId = tmpPlayerData->GetUniqueId();
-		static_cast<NetPacketPlayerLeft *>(thisPlayerLeft.get())->SetData(thisPlayerLeftData);
-		SendToAllPlayers(thisPlayerLeft);
-	}
-
-	boost::microsec_timer closeTimer;
-	closeTimer.start();
-	CloseSessionList::value_type closeSessionData(closeTimer, sessionData);
-	m_closeSessionList.push_back(closeSessionData);
-}
-
-void
 ServerRecvThread::AddConnection(boost::shared_ptr<ConnectData> data)
 {
 	boost::mutex::scoped_lock lock(m_connectQueueMutex);
@@ -155,12 +84,6 @@ ServerRecvThread::AddNotification(unsigned notification)
 {
 	boost::mutex::scoped_lock lock(m_notificationQueueMutex);
 	m_notificationQueue.push_back(notification);
-}
-
-ServerCallback &
-ServerRecvThread::GetCallback()
-{
-	return m_callback;
 }
 
 void
@@ -318,19 +241,6 @@ ServerRecvThread::CleanupSessionMap()
 	m_sessionMap.clear();
 }
 
-ServerRecvState &
-ServerRecvThread::GetState()
-{
-	assert(m_curState);
-	return *m_curState;
-}
-
-void
-ServerRecvThread::SetState(ServerRecvState &newState)
-{
-	m_curState = &newState;
-}
-
 boost::shared_ptr<SessionData>
 ServerRecvThread::GetSession(SOCKET sock)
 {
@@ -366,6 +276,180 @@ ServerRecvThread::SessionError(boost::shared_ptr<SessionData> sessionData, int e
 {
 	assert(sessionData.get());
 	SendError(sessionData->GetSocket(), errorCode);
+	CloseSessionDelayed(sessionData);
+}
+
+void
+ServerRecvThread::CloseSessionDelayed(boost::shared_ptr<SessionData> sessionData)
+{
+	{
+		boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+		m_sessionMap.erase(sessionData->GetSocket());
+	}
+
+	boost::shared_ptr<PlayerData> tmpPlayerData = sessionData->GetPlayerData();
+	if (tmpPlayerData.get() && !tmpPlayerData->GetName().empty())
+	{
+		GetCallback().SignalNetServerPlayerLeft(tmpPlayerData->GetName());
+
+		// Send "Player Left" to clients.
+		boost::shared_ptr<NetPacket> thisPlayerLeft(new NetPacketPlayerLeft);
+		NetPacketPlayerLeft::Data thisPlayerLeftData;
+		thisPlayerLeftData.playerId = tmpPlayerData->GetUniqueId();
+		static_cast<NetPacketPlayerLeft *>(thisPlayerLeft.get())->SetData(thisPlayerLeftData);
+		SendToAllPlayers(thisPlayerLeft);
+	}
+
+	boost::microsec_timer closeTimer;
+	closeTimer.start();
+	CloseSessionList::value_type closeSessionData(closeTimer, sessionData);
+	m_closeSessionList.push_back(closeSessionData);
+}
+
+size_t
+ServerRecvThread::GetCurNumberOfPlayers() const
+{
+	PlayerDataList playerList = GetPlayerDataList();
+	return playerList.size();
+}
+
+bool
+ServerRecvThread::IsPlayerConnected(const std::string &playerName) const
+{
+	bool retVal = false;
+	PlayerDataList playerList = GetPlayerDataList();
+
+	PlayerDataList::const_iterator player_i = playerList.begin();
+	PlayerDataList::const_iterator player_end = playerList.end();
+
+	while (player_i != player_end)
+	{
+		if ((*player_i)->GetName() == playerName)
+		{
+			retVal = true;
+			break;
+		}
+
+		++player_i;
+	}
+	return retVal;
+}
+
+void
+ServerRecvThread::SetSessionPlayerData(boost::shared_ptr<SessionData> sessionData, boost::shared_ptr<PlayerData> playerData)
+{
+	sessionData->SetPlayerData(playerData);
+	// Signal joining player to GUI.
+	if (playerData.get() && !playerData->GetName().empty())
+		GetCallback().SignalNetServerPlayerJoined(playerData->GetName());
+}
+
+PlayerDataList
+ServerRecvThread::GetPlayerDataList() const
+{
+	PlayerDataList playerList;
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SocketSessionMap::const_iterator session_i = m_sessionMap.begin();
+	SocketSessionMap::const_iterator session_end = m_sessionMap.end();
+
+	while (session_i != session_end)
+	{
+		boost::shared_ptr<PlayerData> tmpPlayer(session_i->second->GetPlayerData());
+		if (tmpPlayer.get() && !tmpPlayer->GetName().empty())
+			playerList.push_back(tmpPlayer);
+		++session_i;
+	}
+	// Sort the list by player number.
+	playerList.sort(*boost::lambda::_1 < *boost::lambda::_2);
+	return playerList;
+}
+
+int
+ServerRecvThread::GetNextPlayerNumber() const
+{
+	int playerNumber = 0;
+
+	PlayerDataList playerList = GetPlayerDataList();
+	PlayerDataList::const_iterator player_i = playerList.begin();
+	PlayerDataList::const_iterator player_end = playerList.end();
+
+	// Assume the player list is sorted by player number.
+	while (player_i != player_end)
+	{
+		if ((*player_i)->GetNumber() == playerNumber)
+			playerNumber++;
+		else
+			break;
+		++player_i;
+	}
+
+	return playerNumber;
+}
+
+void
+ServerRecvThread::SendError(SOCKET s, int errorCode)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacketError);
+	NetPacketError::Data errorData;
+	errorData.errorCode = errorCode;
+	static_cast<NetPacketError *>(packet.get())->SetData(errorData);
+	GetSender().Send(s, packet);
+}
+
+void
+ServerRecvThread::SendToAllPlayers(boost::shared_ptr<NetPacket> packet)
+{
+	// This function needs to be thread safe.
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SocketSessionMap::iterator i = m_sessionMap.begin();
+	SocketSessionMap::iterator end = m_sessionMap.end();
+
+	while (i != end)
+	{
+		// Send each client a copy of the packet.
+		GetSender().Send(i->first, boost::shared_ptr<NetPacket>(packet->Clone()));
+		++i;
+	}
+}
+
+void
+ServerRecvThread::SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SOCKET except)
+{
+	// This function needs to be thread safe.
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SocketSessionMap::iterator i = m_sessionMap.begin();
+	SocketSessionMap::iterator end = m_sessionMap.end();
+
+	while (i != end)
+	{
+		// Send each client but one a copy of the packet.
+		if (i->first != except)
+			GetSender().Send(i->first, boost::shared_ptr<NetPacket>(packet->Clone()));
+		++i;
+	}
+}
+
+ServerCallback &
+ServerRecvThread::GetCallback()
+{
+	return m_callback;
+}
+
+ServerRecvState &
+ServerRecvThread::GetState()
+{
+	assert(m_curState);
+	return *m_curState;
+}
+
+void
+ServerRecvThread::SetState(ServerRecvState &newState)
+{
+	m_curState = &newState;
 }
 
 SenderThread &
@@ -393,64 +477,6 @@ bool
 ServerRecvThread::CheckPassword(const std::string &password) const
 {
 	return (password == m_password);
-}
-
-size_t
-ServerRecvThread::GetCurNumberOfPlayers() const
-{
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
-	return m_sessionMap.size();
-}
-
-bool
-ServerRecvThread::IsPlayerConnected(const std::string &playerName) const
-{
-	bool retVal = false;
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
-
-	SocketSessionMap::const_iterator session_i = m_sessionMap.begin();
-	SocketSessionMap::const_iterator session_end = m_sessionMap.end();
-
-	while (session_i != session_end)
-	{
-		const boost::shared_ptr<PlayerData> tmpPlayerData = session_i->second->GetPlayerData();
-		if (tmpPlayerData.get() && tmpPlayerData->GetName() == playerName)
-		{
-			retVal = true;
-			break;
-		}
-
-		++session_i;
-	}
-	return retVal;
-}
-
-void
-ServerRecvThread::SetSessionPlayerData(boost::shared_ptr<SessionData> sessionData, boost::shared_ptr<PlayerData> playerData)
-{
-	boost::mutex::scoped_lock lock(m_sessionMapMutex); // Paranoia
-	sessionData->SetPlayerData(playerData);
-	// Signal joining player to GUI.
-	GetCallback().SignalNetServerPlayerJoined(playerData->GetName());
-}
-
-PlayerDataList
-ServerRecvThread::GetPlayerDataList() const
-{
-	PlayerDataList playerList;
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
-
-	SocketSessionMap::const_iterator session_i = m_sessionMap.begin();
-	SocketSessionMap::const_iterator session_end = m_sessionMap.end();
-
-	while (session_i != session_end)
-	{
-		boost::shared_ptr<PlayerData> tmpPlayer(session_i->second->GetPlayerData());
-		if (tmpPlayer.get() && !tmpPlayer->GetName().empty())
-			playerList.push_back(tmpPlayer);
-		++session_i;
-	}
-	return playerList;
 }
 
 ServerSenderCallback &

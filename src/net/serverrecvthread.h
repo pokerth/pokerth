@@ -76,29 +76,30 @@ protected:
 	void CleanupConnectQueue();
 	void CleanupSessionMap();
 
-	ServerRecvState &GetState();
-	void SetState(ServerRecvState &newState);
-
 	boost::shared_ptr<SessionData> GetSession(SOCKET sock);
 	void AddSession(boost::shared_ptr<SessionData> sessionData);
 	void SessionError(boost::shared_ptr<SessionData> sessionData, int errorCode);
+	void CloseSessionDelayed(boost::shared_ptr<SessionData> sessionData);
+
+	size_t GetCurNumberOfPlayers() const;
+	bool IsPlayerConnected(const std::string &playerName) const;
+	void SetSessionPlayerData(boost::shared_ptr<SessionData> sessionData, boost::shared_ptr<PlayerData> playerData);
+	PlayerDataList GetPlayerDataList() const;
+
+	int GetNextPlayerNumber() const;
 
 	void SendError(SOCKET s, int errorCode);
 	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
 	void SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SOCKET except);
 
-	void CloseSessionDelayed(boost::shared_ptr<SessionData> sessionData);
+	ServerRecvState &GetState();
+	void SetState(ServerRecvState &newState);
 
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
 
 	const GameData &GetGameData() const;
 	bool CheckPassword(const std::string &password) const;
-
-	size_t GetCurNumberOfPlayers() const;
-	bool IsPlayerConnected(const std::string &playerName) const;
-	void SetSessionPlayerData(boost::shared_ptr<SessionData> sessionData, boost::shared_ptr<PlayerData> playerData);
-	PlayerDataList GetPlayerDataList() const;
 
 	ServerSenderCallback &GetSenderCallback();
 

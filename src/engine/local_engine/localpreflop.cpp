@@ -95,7 +95,7 @@ void LocalPreflop::preflopRun() {
 	else {
 		// Preflop ist wirklich dran
 
-		// n�hsten Spieler ermitteln
+		// naechsten Spieler ermitteln
 		do {
 
 			playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);

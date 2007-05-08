@@ -36,14 +36,16 @@ class BoardInterface;
 
 class LocalPlayer : public PlayerInterface{
 public:
-    LocalPlayer(BoardInterface*, int, std::string, std::string, int, bool, int);
+	LocalPlayer(
+		BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
 
-    ~LocalPlayer();
+	~LocalPlayer();
 
 	void setHand(HandInterface*);
 
-	void setMyID(const int& theValue) { myID = theValue; }
 	int getMyID() const { return myID; }
+	unsigned getMyUniqueID() const { return myUniqueID; }
+	PlayerType getMyType() const { return myType; }
 
 	void setMyDude(const int& theValue) { myDude = theValue; }
 	int getMyDude() const { return myDude; }
@@ -147,6 +149,8 @@ private:
 
 	// Konstanten
 	int myID;
+	unsigned myUniqueID;
+	PlayerType myType;
 	std::string myName;
 	std::string myAvatar;
 	int myDude;
