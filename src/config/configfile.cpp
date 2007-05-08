@@ -190,11 +190,12 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 	configList.push_back(ConfigInfo("LogDir", CONFIG_TYPE_STRING, logDir));
 	configList.push_back(ConfigInfo("LogStoreDuration", CONFIG_TYPE_INT, "2"));
 	configList.push_back(ConfigInfo("DataDir", CONFIG_TYPE_STRING, dataDir));
+	configList.push_back(ConfigInfo("LogStoreDuration", CONFIG_TYPE_INT, "2"));
 
 
 	if(myConfigState == NONEXISTING) {
 		
-		//Create!
+		//Create a new ConfigFile!
 		TiXmlDocument doc;  
 		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
 		doc.LinkEndChild( decl );  
@@ -217,6 +218,59 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 
 
 	if(myConfigState == OLD) {
+	
+		TiXmlDocument oldDoc(configFileName); 
+		
+		//load the old one
+		if(oldDoc.LoadFile()) {
+			
+			string tempString("");
+			 
+			TiXmlDocument newDoc;
+			
+			//Create the new one
+			TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
+			newDoc.LinkEndChild( decl );  
+				
+			TiXmlElement * root = new TiXmlElement( "PokerTH" );  
+			newDoc.LinkEndChild( root );  		
+			
+			TiXmlElement * config;
+			config = new TiXmlElement( "Configuration" );  
+			root->LinkEndChild( config ); 
+
+			TiXmlElement * confElement0 = new TiXmlElement( "ConfigRevision" ); 
+			config->LinkEndChild( confElement0 );
+			confElement0->SetAttribute("value", configRev);
+
+			TiXmlHandle docHandle( &oldDoc );	
+
+			// not i=0 because ConfigRevision is already set ^^
+			for (i=1; i<configList.size(); i++) {	
+				TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).ToElement();
+				
+				if ( conf ) {
+					// if element is already there --> take over the saved values
+					TiXmlElement *tmpElement = new TiXmlElement(configList[i].name);
+					config->LinkEndChild( tmpElement );
+				
+					const char *tmpStr = conf->Attribute("value");
+					if (tmpStr) tempString = tmpStr;
+					tmpElement->SetAttribute("value", myQtToolsInterface->stringToUtf8(tempString));
+				}	
+				else {
+					// if element is not there --> set it with defaultValue
+					TiXmlElement *tmpElement = new TiXmlElement(configList[i].name);
+					config->LinkEndChild( tmpElement );
+					tmpElement->SetAttribute("value", myQtToolsInterface->stringToUtf8(configList[i].defaultValue));
+				}
+			}
+			
+			newDoc.SaveFile( configFileName );
+		}
+		else { 	cout << "cannot update config file. did not found it" << endl;	}
+
+		
 	}
 	
 	delete myQtToolsInterface;
