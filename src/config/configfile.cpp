@@ -138,7 +138,7 @@ ConfigFile::~ConfigFile()
 
 void ConfigFile::updateConfig(ConfigState myConfigState) {
 	
-	int i;
+	size_t i;
 
 	QtToolsInterface *myQtToolsInterface = new QtToolsWrapper;
 	
@@ -207,10 +207,9 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 		root->LinkEndChild( config );  
 
 		for (i=0; i<configList.size(); i++) {
-			vector< boost::shared_ptr<TiXmlElement> > TiXmlElements;
-			TiXmlElements.push_back( boost::shared_ptr<TiXmlElement> (new TiXmlElement(configList[i].name)));
-			config->LinkEndChild( TiXmlElements[i] );
-			TiXmlElements[i]->SetAttribute("value", myQtToolsInterface->stringToUtf8(configList[i].defaultValue));
+			TiXmlElement *tmpElement = new TiXmlElement(configList[i].name);
+			config->LinkEndChild( tmpElement );
+			tmpElement->SetAttribute("value", myQtToolsInterface->stringToUtf8(configList[i].defaultValue));
 		}
 			
 		doc.SaveFile( configFileName );
