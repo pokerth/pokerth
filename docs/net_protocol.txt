@@ -109,7 +109,7 @@ Server Notification: Game Start
 	 0                   1                   2                   3
 	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|        Message Type = 5       |     Message Length = 4        |
+	|        Message Type = 5       |     Message Length = 8        |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|         Your 1st Card         |       Your 2nd Card           |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -118,15 +118,74 @@ Card:
 	0 to 51
 
 
-Server Notification: Player's Turn
+Server Request/Notification: Player's Turn
 
 	 0                   1                   2                   3
 	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|        Message Type = 6       |     Message Length = 8        |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|          Player ID            |          Reserved             |
+	|          Game State           |          Player ID            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+Game State:
+	0 - preflop
+	1 - flop
+	2 - turn
+	3 - river
+
+
+Client Reply/Request: Player's Action
+
+	 0                   1                   2                   3
+	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|        Message Type = 7       |     Message Length = 12       |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|          Game State           |         Player Action         |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                           Cash Value                          |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+[ Game State is confirmed to ensure consistency. ]
+Player Action:
+	1 - Fold
+	2 - Check
+	3 - Call
+	4 - Bet
+	5 - Raise
+	6 - All in
+Cash Value:
+	0   - states fold, check, call, all in
+	> 0 - states bet, raise
+
+
+Server Reply: Player's Action Rejected
+
+	 0                   1                   2                   3
+	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|        Message Type = 8       |     Message Length = 16       |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|          Game State           |         Player Action         |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                           Cash Value                          |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|        Rejection Reason       |          Reserved             |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+Rejection Reason:
+	0x0001 - Fold makes no sense.
+	0x0002 - Check not allowed.
+	0x0003 - Call not allowed.
+	0x0004 - Bet not allowed.
+	0x0005 - Raise not allowed.
+	0x0006 - All in not allowed.
+	0x0007 - Invalid game state.
+	0x0008 - Invalid cash value for this game state.
+	0x0009 - Cash value too small.
+	0x0010 - Cash value too large.
+	0xFFFF - Other reason
 
 
 Server Reply: Error
@@ -139,7 +198,7 @@ Server Reply: Error
 	|         Error Reason          |          Reserved             |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-Reason:
+Error Reason:
 	0x0001 - Join Game - Version not supported
 	0x0002 - Join Game - Server full
 	0x0003 - Join Game - Game is already running
@@ -148,7 +207,7 @@ Reason:
 	0x0006 - Join Game - Invalid Player Name
 	0xFF01 - General Error - Invalid packet
 	0xFF02 - General Error - Invalid state
-	0xFFFF - Other cause
+	0xFFFF - Other reason
 
 
 2007 by Lothar May
