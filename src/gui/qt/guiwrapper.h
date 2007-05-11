@@ -30,23 +30,22 @@
 #include <string>
 #include <iostream>
 
-#include "handinterface.h"
-#include "session.h"
-#include "game.h"
-
+class Session;
 
 class GuiWrapper : public GuiInterface
 {
 public:
-    GuiWrapper();
+	GuiWrapper();
 
-    ~GuiWrapper();
+	~GuiWrapper();
 
 	void initGui(int speed);
 
-	void setGame(Game*);
-	void setHand(HandInterface*);
-	void setSession(Session*);	
+	Session &getSession();
+	void setSession(boost::shared_ptr<Session> session);
+
+	bool isNetworkServer() const;
+	void waitForNetworkAction(GameState state, unsigned uniquePlayerId);
 
 	void refreshSet() const;
 	void refreshCash() const;

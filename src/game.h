@@ -37,9 +37,11 @@ struct GameData;
 class Game {
 
 public:
-    Game(GuiInterface *gui, const PlayerDataList &playerDataList, const GameData &gameData, int gameId);
+	Game(GuiInterface *gui, const PlayerDataList &playerDataList, const GameData &gameData, int gameId);
 
-    ~Game();
+	~Game();
+
+	HandInterface *getCurrentHand();
 
 	//Zufgriff Startvariablen
 	void setStartQuantityPlayers(const int& theValue) { startQuantityPlayers = theValue; }

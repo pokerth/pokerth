@@ -30,7 +30,7 @@
 using namespace std;
 
 Session::Session(GuiInterface *g)
-: currentGameID(0), myNetClient(0), myNetServer(0), actualGame(0), myGui(g)
+: currentGameID(0), myNetClient(0), myNetServer(0), currentGame(0), myGui(g)
 {	
 	
 	myConfig = new ConfigFile;
@@ -49,9 +49,8 @@ Session::~Session()
 
 void Session::startGame(const GameData &gameData) {
 
-	myGui->setGame(0);
-	myGui->initGui(gameData.guiSpeed);
 	deleteGame();
+	myGui->initGui(gameData.guiSpeed);
 
 	currentGameID++;
 
@@ -75,16 +74,19 @@ void Session::startGame(const GameData &gameData) {
 
 		playerDataList.push_back(playerData);
 	}
-
-	actualGame = new Game(myGui, playerDataList, gameData, currentGameID);
-	myGui->setGame(actualGame);
+	currentGame = new Game(myGui, playerDataList, gameData, currentGameID);
 }
 
 void Session::deleteGame() {
 
-	delete actualGame;
-	actualGame = 0;
+	delete currentGame;
+	currentGame = 0;
 
+}
+
+Game *Session::getCurrentGame()
+{
+	return currentGame;
 }
 
 void Session::startNetworkClient(const string &serverAddress, unsigned serverPort, bool ipv6, const string &pwd)
@@ -149,6 +151,13 @@ void Session::initiateNetworkServerGame()
 	myNetServer->StartGame();
 }
 
+void Session::waitForNetworkServerAction(GameState state, unsigned uniquePlayerId)
+{
+	if (!myNetServer)
+		return; // TODO: throw exception
+	myNetServer->WaitForClientAction(state, uniquePlayerId);
+}
+
 void Session::terminateNetworkServer()
 {
 	if (!myNetServer)
@@ -161,5 +170,12 @@ void Session::terminateNetworkServer()
 	}
 	// If termination fails, leave a memory leak to prevent a crash.
 	myNetServer = 0;
+}
+
+bool Session::isNetworkServerRunning() const
+{
+	// TODO: Hack
+	// TODO: Every function which calls this function is also hacked.
+	return myNetServer != 0;
 }
 

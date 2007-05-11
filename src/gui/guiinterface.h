@@ -22,11 +22,12 @@
 
 #include <net/clientcallback.h>
 #include <net/servercallback.h>
+#include <game_defs.h>
 #include <string>
+#include <boost/shared_ptr.hpp>
 
-class Game;
+
 class Session;
-class HandInterface;
 
 
 class GuiInterface : public ClientCallback, public ServerCallback {
@@ -34,10 +35,12 @@ public:
 	virtual ~GuiInterface();
 
 	virtual void initGui(int speed) =0;
-	//set
-	virtual void setGame(Game*) =0;
-	virtual void setHand(HandInterface*) =0;
-	virtual void setSession(Session*) =0;
+
+	virtual Session &getSession() =0;
+	virtual void setSession(boost::shared_ptr<Session> session) =0;
+
+	virtual bool isNetworkServer() const =0;
+	virtual void waitForNetworkAction(GameState state, unsigned uniquePlayerId) =0;
 
 	//refresh-Funktionen
 	virtual void refreshSet() const=0;

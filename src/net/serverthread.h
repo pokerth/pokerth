@@ -21,6 +21,7 @@
 #ifndef _SERVERTHREAD_H_
 #define _SERVERTHREAD_H_
 
+#include <game_defs.h>
 #include <core/thread.h>
 #include <string>
 #include <memory>
@@ -42,6 +43,7 @@ public:
 	void Init(unsigned serverPort, bool ipv6, const std::string &pwd,
 		const GameData &gameData);
 	void StartGame();
+	void WaitForClientAction(GameState state, unsigned uniquePlayerId);
 
 	ServerCallback &GetCallback();
 

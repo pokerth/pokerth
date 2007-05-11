@@ -30,7 +30,6 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 
 	CardsValue myCardsValue;
 
-	myGui->setHand(this);
 	myBoard->setHand(this);
 
 

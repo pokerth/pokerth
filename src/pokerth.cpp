@@ -87,8 +87,10 @@ int main( int argc, char **argv )
 	///////////////////////////////////////////////////	
 
 	GuiInterface *myGuiInterface = new GuiWrapper();
-	Session theFirst(myGuiInterface);
-	myGuiInterface->setSession(&theFirst);
+	{
+		boost::shared_ptr<Session> session(new Session(myGuiInterface));
+		myGuiInterface->setSession(session);
+	}
 
 	int retVal = a.exec();
 

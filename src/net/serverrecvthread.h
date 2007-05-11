@@ -36,7 +36,8 @@
 #define RECEIVER_THREAD_TERMINATE_TIMEOUT	200
 
 // Notifications
-#define NOTIFY_GAME_START		1
+#define NOTIFY_GAME_START				1
+#define NOTIFY_WAIT_FOR_CLIENT_ACTION	2
 
 class ServerRecvState;
 class SenderThread;
@@ -54,15 +55,24 @@ public:
 	void Init(const std::string &pwd, const GameData &gameData);
 
 	void AddConnection(boost::shared_ptr<ConnectData> data);
-	void AddNotification(unsigned notification);
+	void AddNotification(unsigned message, unsigned param1, unsigned param2);
 
 	ServerCallback &GetCallback();
 
 protected:
 
+	struct Notification
+	{
+		Notification(unsigned m, unsigned p1, unsigned p2)
+			: message(m), param1(p1), param2(p2) {}
+		unsigned message;
+		unsigned param1;
+		unsigned param2;
+	};
+
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
 	typedef std::map<SOCKET, boost::shared_ptr<SessionData> > SocketSessionMap;
-	typedef std::deque<unsigned> NotificationQueue;
+	typedef std::deque<Notification> NotificationQueue;
 	typedef std::list<std::pair<boost::microsec_timer, boost::shared_ptr<SessionData> > > CloseSessionList;
 
 	// Main function of the thread.

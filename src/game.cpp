@@ -110,6 +110,11 @@ Game::~Game()
 
 }
 
+HandInterface * Game::getCurrentHand()
+{
+	return actualHand;
+}
+
 void Game::startHand()
 {
 

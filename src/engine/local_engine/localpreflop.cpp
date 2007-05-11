@@ -107,14 +107,22 @@ void LocalPreflop::preflopRun() {
 		myHand->getPlayerArray()[playersTurn]->setMyTurn(1);
 		myHand->getGuiInterface()->refreshGroupbox(playersTurn,2);
 
-		if(playersTurn == 0) {
-			// Wir sind dran
-			myHand->getGuiInterface()->meInAction();
+		if(myHand->getGuiInterface()->isNetworkServer())
+		{
+			myHand->getGuiInterface()->waitForNetworkAction(
+				GAME_STATE_PREFLOP, myHand->getPlayerArray()[playersTurn]->getMyUniqueID());
 		}
-		else {
-			//Gegner sind dran
-// 			cout << "NextPlayerSpeed3 start" << endl;
-			myHand->getGuiInterface()->preflopAnimation2();
+		else
+		{
+			if(playersTurn == 0) {
+				// Wir sind dran
+				myHand->getGuiInterface()->meInAction();
+			}
+			else {
+				//Gegner sind dran
+//	 			cout << "NextPlayerSpeed3 start" << endl;
+				myHand->getGuiInterface()->preflopAnimation2();
+			}
 		}
 	}
 }

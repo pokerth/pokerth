@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "guiwrapper.h"
+#include "session.h"
 
 
 using namespace std;
@@ -43,9 +44,11 @@ GuiWrapper::~GuiWrapper()
 
 void GuiWrapper::initGui(int speed) { myW->initGui(speed); }
 
-void GuiWrapper::setGame(Game *g) { myW->setGame(g); }
-void GuiWrapper::setHand(HandInterface *lh) { myW->setHand(lh); }
-void GuiWrapper::setSession(Session *s) { myW->setSession(s); }
+Session &GuiWrapper::getSession() { return myW->getSession(); }
+void GuiWrapper::setSession(boost::shared_ptr<Session> session) { myW->setSession(session); }
+
+bool GuiWrapper::isNetworkServer() const { /* TODO hack */ return false; }
+void GuiWrapper::waitForNetworkAction(GameState state, unsigned uniquePlayerId) { /* TODO hack */ }
 
 void GuiWrapper::refreshSet() const { myW->refreshSet(); }
 void GuiWrapper::refreshCash() const { myW->refreshCash(); }

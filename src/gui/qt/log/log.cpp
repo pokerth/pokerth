@@ -20,6 +20,9 @@
 #include "log.h"
 
 #include "mainwindowimpl.h"
+#include <handinterface.h>
+#include <session.h>
+#include <game.h>
 #include <game_defs.h>
 
 using namespace std;
@@ -149,44 +152,45 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 
 	//Aktive Spieler zählen
 	int activePlayersCounter = 0;
+	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
 	for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
-		if (myW->getActualHand()->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
+		if (currentHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
 	}
 	k = 0;
 	if(activePlayersCounter > 2) { 
 
-		for(i=0; i<myW->getActualHand()->getStartQuantityPlayers(); i++) {
+		for(i=0; i<currentHand->getStartQuantityPlayers(); i++) {
 
-			if(myW->getActualHand()->getPlayerArray()[i]->getMyActiveStatus()) {
+			if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
 			//print cash only for active players
 				
 
-				if(myW->getActualHand()->getPlayerArray()[i]->getMyButton() == 1) {
+				if(currentHand->getPlayerArray()[i]->getMyButton() == 1) {
 					if(k==1) { stream << ", "; }
 					k=1;
-					stream << QString::fromUtf8(myW->getActualHand()->getPlayerArray()[i]->getMyName().c_str())+" (Dealer): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash(),10)+"$";
+					stream << QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+" (Dealer): "+QString::number(currentHand->getPlayerArray()[i]->getMyCash(),10)+"$";
 				}
 				else {
 					if(k==1) { stream << ", "; }
 					k=1;
-					stream << QString::fromUtf8(myW->getActualHand()->getPlayerArray()[i]->getMyName().c_str())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash()+myW->getActualHand()->getPlayerArray()[i]->getMySet(),10)+"$";
+					stream << QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+": "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
 				}
 			}
 		}
 	}
 	else {
-		for(i=0; i<myW->getActualHand()->getStartQuantityPlayers(); i++) {
-			if(myW->getActualHand()->getPlayerArray()[i]->getMyActiveStatus()) {
+		for(i=0; i<currentHand->getStartQuantityPlayers(); i++) {
+			if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
 			//print cash only for active players
-				if(myW->getActualHand()->getPlayerArray()[i]->getMyButton() == 3) {
+				if(currentHand->getPlayerArray()[i]->getMyButton() == 3) {
 					if(k==1) { stream << ", "; }
 					k=1;
-					stream << QString::fromUtf8(myW->getActualHand()->getPlayerArray()[i]->getMyName().c_str())+" (Dealer): "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash()+myW->getActualHand()->getPlayerArray()[i]->getMySet(),10)+"$";
+					stream << QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+" (Dealer): "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
 				}
 				else {
 					if(k==1) { stream << ", "; }
 					k=1;
-					stream << QString::fromUtf8(myW->getActualHand()->getPlayerArray()[i]->getMyName().c_str())+": "+QString::number(myW->getActualHand()->getPlayerArray()[i]->getMyCash()+myW->getActualHand()->getPlayerArray()[i]->getMySet(),10)+"$";
+					stream << QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+": "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
 				}
 			}
 		}
@@ -198,17 +202,17 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 		//Aktive Spieler zählen
 		int activePlayersCounter = 0;
 		for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
-			if (myW->getActualHand()->getPlayerArray()[k]->getMyAction() != 1 && myW->getActualHand()->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
+			if (currentHand->getPlayerArray()[k]->getMyAction() != 1 && currentHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
 		}
 		if(activePlayersCounter < 3) { j=1; }
 		
 // 		cout << activePlayersCounter << endl;
-// 		cout << (i+myW->getActualHand()->getDealerPosition()+j)%5 << endl;
+// 		cout << (i+currentHand->getDealerPosition()+j)%5 << endl;
 
-		switch (myW->getActualHand()->getPlayerArray()[(i+myW->getActualHand()->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyButton()) {
-			case 2 : stream << QString::fromUtf8(myW->getActualHand()->getPlayerArray()[(i+myW->getActualHand()->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyName().c_str())+" ("+QString::number(myW->getActualHand()->getPlayerArray()[(i+myW->getActualHand()->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMySet(),10)+"$), ";
+		switch (currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyButton()) {
+			case 2 : stream << QString::fromUtf8(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyName().c_str())+" ("+QString::number(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMySet(),10)+"$), ";
 			break;
-			case 3 : stream << QString::fromUtf8(myW->getActualHand()->getPlayerArray()[(i+myW->getActualHand()->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyName().c_str())+" ("+QString::number(myW->getActualHand()->getPlayerArray()[(i+myW->getActualHand()->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMySet(),10)+"$)";	
+			case 3 : stream << QString::fromUtf8(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyName().c_str())+" ("+QString::number(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMySet(),10)+"$)";	
 			break;
 			default :;	
 		}
@@ -226,18 +230,19 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 void Log::logPlayerWinsMsg(int playerID, int pot) {
 
 	int i;
+	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
 
 	myLogFile->open( QIODevice::ReadWrite );
 	QTextStream stream( myLogFile );
 	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
 
 // 	if (cardsValueInt != -1) {
-// 		myW->textBrowser_Log->append(QString::fromUtf8(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$ with "+translateCardsValueCode(cardsValueInt).at(0)+"!!! ");
-// 		stream << "</br><i>"+QString::fromUtf8(myW->getActualHand()->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
+// 		myW->textBrowser_Log->append(QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$ with "+translateCardsValueCode(cardsValueInt).at(0)+"!!! ");
+// 		stream << "</br><i>"+QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
 // 	}
 // 	else {
-	myW->textBrowser_Log->append(QString::fromUtf8(myW->getActualHand()->getPlayerArray()[playerID]->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!! ");
-	stream << "</br><i>"+QString::fromUtf8(myW->getActualHand()->getPlayerArray()[playerID]->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
+	myW->textBrowser_Log->append(QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!! ");
+	stream << "</br><i>"+QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
 // 	}
 	myLogFile->close();
 
@@ -340,20 +345,20 @@ void Log::logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int 
 
 				// Kicker anzeigen?
 // 				for(i=0; i<5; i++) {
-// 					if(myW->getActualHand()->getPlayerArray()[i]->getMyAction() != 1 && myW->getActualHand()->getPlayerArray()[i]->getMyActiveStatus() == 1 && myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) {
+// 					if(currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) {
 // 						sameHandCounter++;
-// 						if(myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt() > tempHighestCardsValueInt) {
-// 							tempHighestCardsValueInt = myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt();
+// 						if(currentHand->getPlayerArray()[i]->getMyCardsValueInt() > tempHighestCardsValueInt) {
+// 							tempHighestCardsValueInt = currentHand->getPlayerArray()[i]->getMyCardsValueInt();
 // 						}
 // 					}
 // 				}
 
 				// Unterschied ermitteln
 // 				for(i=0; i<5; i++) {
-// 					if(myW->getActualHand()->getPlayerArray()[i]->getMyAction() != 1 && myW->getActualHand()->getPlayerArray()[i]->getMyActiveStatus() == 1 && myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) {
+// 					if(currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) {
 // 						sameHandCounter++;
-// 						if(myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt() > tempHighestCardsValueInt) {
-// 							tempHighestCardsValueInt = myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt();
+// 						if(currentHand->getPlayerArray()[i]->getMyCardsValueInt() > tempHighestCardsValueInt) {
+// 							tempHighestCardsValueInt = currentHand->getPlayerArray()[i]->getMyCardsValueInt();
 // 						}
 // 					}
 // 				}
@@ -364,7 +369,7 @@ void Log::logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int 
 /*				} else {
 					if(cardsValueInt == tempHighestCardsValueInt) {
 						for(i=0; i<5; i++) {
-							if(myW->getActualHand()->getPlayerArray()[i]->getMyAction() != 1 && myW->getActualHand()->getPlayerArray()[i]->getMyActiveStatus() == 1 && myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(myW->getActualHand()->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) ;
+							if(currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) ;
 						}
 					}
 				}*/

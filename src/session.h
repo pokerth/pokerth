@@ -20,6 +20,7 @@
 #ifndef STDSESSION_H
 #define STDSESSION_H
 #include "gamedata.h"
+#include "game_defs.h"
 #include <string>
 
 class GuiInterface;
@@ -38,13 +39,18 @@ public:
 	void startGame(const GameData &gameData);
 	void deleteGame();
 
+	Game *getCurrentGame();
+
 	void startNetworkClient(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
 	void startNetworkClientForLocalServer();
 	void terminateNetworkClient();
 
 	void startNetworkServer(const GameData &gameData);
 	void initiateNetworkServerGame();
+	void waitForNetworkServerAction(GameState state, unsigned uniquePlayerId);
 	void terminateNetworkServer();
+
+	bool isNetworkServerRunning() const;
 
 	void setCurrentGameID(const int& theValue) { currentGameID = theValue; }
 	int getCurrentGameID() const { return currentGameID; }
@@ -56,7 +62,7 @@ private:
 	ClientThread *myNetClient;
 	ServerThread *myNetServer;
 
-	Game *actualGame;
+	Game *currentGame;
 	GuiInterface *myGui;
 	ConfigFile *myConfig;
 

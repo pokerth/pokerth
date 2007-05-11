@@ -21,20 +21,19 @@
 #define MAINWINDOWIMPL_H
 
 #include "ui_mainwindow.h"
+#include "game_defs.h"
+#include <gamedata.h>
+
 #include <iostream>
 #include <string>
+#include <boost/shared_ptr.hpp>
 
 #include <QtGui>
 #include <QtCore>
 
-#include "handinterface.h"
-#include "game_defs.h"
-#include <gamedata.h>
-
-class Session;
-class Game;
 class Log;
 class ConfigFile;
+class Session;
 
 class BoardInterface;
 // class HandInterface;
@@ -60,14 +59,10 @@ public:
 
 	void initGui(int speed);
 
-	void setGame(Game*);
-	void setHand(HandInterface*);
-	void setSession(Session*);
+	Session &getSession();
+	void setSession(boost::shared_ptr<Session> session);
+
 	void setLog(Log*);
-
-	void setActualHand(HandInterface* theValue) { actualHand = theValue;}
-	HandInterface* getActualHand() const {  return actualHand;}
-
 
 	//refresh-Funktionen
 	void refreshSet();
@@ -203,9 +198,7 @@ public slots:
 
 private: 
 	
-	Game *actualGame;
-	HandInterface *actualHand;
-	Session *mySession;
+	boost::shared_ptr<Session> mySession;
 	Log *myLog;
 	ConfigFile *myConfig;
 

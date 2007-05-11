@@ -80,10 +80,10 @@ ServerRecvThread::AddConnection(boost::shared_ptr<ConnectData> data)
 }
 
 void
-ServerRecvThread::AddNotification(unsigned notification)
+ServerRecvThread::AddNotification(unsigned message, unsigned param1, unsigned param2)
 {
 	boost::mutex::scoped_lock lock(m_notificationQueueMutex);
-	m_notificationQueue.push_back(notification);
+	m_notificationQueue.push_back(Notification(message, param1, param2));
 }
 
 void
@@ -135,13 +135,15 @@ ServerRecvThread::NotificationLoop()
 	// Process all notifications.
 	while (!m_notificationQueue.empty())
 	{
-		unsigned notification = m_notificationQueue.front();
+		Notification notification = m_notificationQueue.front();
 		m_notificationQueue.pop_front();
 
-		switch(notification)
+		switch(notification.message)
 		{
 			case NOTIFY_GAME_START:
 				SetState(SERVER_START_GAME_STATE::Instance());
+				break;
+			case NOTIFY_WAIT_FOR_CLIENT_ACTION:
 				break;
 		}
 	}
