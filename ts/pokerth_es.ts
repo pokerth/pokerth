@@ -575,43 +575,43 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>joinNetworkGameDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="223"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="226"/>
         <source>Load Server-Profile-File Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="224"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="227"/>
         <source>Could not load server-profiles-file:
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="169"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="172"/>
         <source>Save Server Profile Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="170"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="173"/>
         <source>A profile with the name: &quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="208"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="211"/>
         <source>Read Server-Profile List Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="209"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="212"/>
         <source>Could not read server-profiles list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="234"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="237"/>
         <source>Save Server-Profile-File Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="235"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="238"/>
         <source>Could not save server-profiles-file:
 </source>
         <translation type="unfinished"></translation>
@@ -708,142 +708,142 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1298"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1302"/>
         <source>F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2301"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2305"/>
         <source>Network Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2183"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2187"/>
         <source>Server address was not set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2188"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2192"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2193"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2197"/>
         <source>Could not create a socket for TCP communication.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2198"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2202"/>
         <source>Could not set the IP address.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2203"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2207"/>
         <source>Could not set the port for this type of address.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2208"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2212"/>
         <source>The server name could not be resolved.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2213"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2217"/>
         <source>Bind failed - please choose a different port.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2218"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2222"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2223"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2227"/>
         <source>Server execution was terminated.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2228"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2232"/>
         <source>Could not connect to the server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2233"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2237"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2238"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2242"/>
         <source>Internal network error: &quot;recv&quot; failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2243"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2247"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2248"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2252"/>
         <source>Connection was closed by server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2253"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2257"/>
         <source>Internal network error: Duplicate TCP connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2258"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2262"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2263"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2267"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2268"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2272"/>
         <source>The PokerTH server does not support this version of the game.
 Please update PokerTH.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2273"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2277"/>
         <source>Sorry, this server is already full.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2278"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2282"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2283"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2287"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2288"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2292"/>
         <source>The password is too long. Please choose another one.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2293"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2297"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2298"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2302"/>
         <source>The player name is either too short or too long. Please choose another one.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2302"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2306"/>
         <source>An internal error occured.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -853,12 +853,12 @@ Please choose a different name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2016"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2020"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2157"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2161"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1303,13 +1303,18 @@ Please select an valid directory!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/waitforservertostartgamedialog.ui" line="57"/>
+        <location filename="../src/gui/qt/waitforservertostartgamedialog.ui" line="50"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/waitforservertostartgamedialog.ui" line="64"/>
+        <location filename="../src/gui/qt/waitforservertostartgamedialog.ui" line="34"/>
         <source>Waiting for the server to start the game ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/waitforservertostartgamedialog.ui" line="26"/>
+        <source>    Connected Player    </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
