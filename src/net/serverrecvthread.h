@@ -45,6 +45,7 @@ class ReceiverHelper;
 class ServerSenderCallback;
 class NetPacket;
 struct GameData;
+class Game;
 
 class ServerRecvThread : public Thread
 {
@@ -86,6 +87,8 @@ protected:
 	void CleanupConnectQueue();
 	void CleanupSessionMap();
 
+	void InternalStartGame();
+
 	boost::shared_ptr<SessionData> GetSession(SOCKET sock);
 	void AddSession(boost::shared_ptr<SessionData> sessionData);
 	void SessionError(boost::shared_ptr<SessionData> sessionData, int errorCode);
@@ -108,6 +111,7 @@ protected:
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
 
+	Game &GetGame();
 	const GameData &GetGameData() const;
 	bool CheckPassword(const std::string &password) const;
 
@@ -130,8 +134,9 @@ private:
 	std::auto_ptr<ReceiverHelper> m_receiver;
 	std::auto_ptr<SenderThread> m_sender;
 
-	std::auto_ptr<ServerSenderCallback> m_senderCallback;
+	std::auto_ptr<Game> m_game;
 	std::auto_ptr<GameData> m_gameData;
+	std::auto_ptr<ServerSenderCallback> m_senderCallback;
 
 	std::string m_password;
 

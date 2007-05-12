@@ -75,6 +75,11 @@ void Session::startGame(const GameData &gameData) {
 		playerDataList.push_back(playerData);
 	}
 	currentGame = new Game(myGui, playerDataList, gameData, currentGameID);
+
+	//// SPIEL-SCHLEIFE
+	currentGame->initHand();
+	currentGame->startHand();
+	// SPIEL-SCHLEIFE
 }
 
 void Session::deleteGame() {
@@ -170,12 +175,5 @@ void Session::terminateNetworkServer()
 	}
 	// If termination fails, leave a memory leak to prevent a crash.
 	myNetServer = 0;
-}
-
-bool Session::isNetworkServerRunning() const
-{
-	// TODO: Hack
-	// TODO: Every function which calls this function is also hacked.
-	return myNetServer != 0;
 }
 

@@ -2037,7 +2037,9 @@ void mainWindowImpl::showMyCards() {
 
 void mainWindowImpl::startNewHand() {
 
-	if( !breakAfterActualHand){ mySession->getCurrentGame()->startHand();
+	if( !breakAfterActualHand){
+		mySession->getCurrentGame()->initHand();
+		mySession->getCurrentGame()->startHand();
 	}
 	else { 
 		pushButton_break->setDisabled(FALSE);

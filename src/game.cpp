@@ -82,12 +82,6 @@ Game::Game(GuiInterface* gui, const PlayerDataList &playerDataList, const GameDa
 		playerArray[i] = myFactory->createPlayer(actualBoard, i, uniqueId, type, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0);
 	}
 	actualBoard->setPlayer(playerArray);
-
-	//// SPIEL-SCHLEIFE
-
-	startHand();
-
-	// SPIEL-SCHLEIFE
 }
 
 
@@ -115,7 +109,7 @@ HandInterface * Game::getCurrentHand()
 	return actualHand;
 }
 
-void Game::startHand()
+void Game::initHand()
 {
 
 	int i;
@@ -150,20 +144,22 @@ void Game::startHand()
 	// Hand erstellen
 	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, actualHandID, startQuantityPlayers, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
 
-	//GUI bereinigen 
-	myGui->nextRoundCleanGui();
-
-	//Spielernamen schreiben 
-// 	myGui->refreshPlayerName();	
-
 	// Dealer-Button weiterschieben --> Achtung inactive
 	do {
 		dealerPosition = (dealerPosition+1)%(MAX_NUMBER_OF_PLAYERS);
 	} while(!(playerArray[dealerPosition]->getMyActiveStatus()));
 
+	// Abfrage Cash==0 -> player inactive -> actualQuantityPlayer--
+}
+
+void Game::startHand()
+{
+	assert(actualHand);
+
+	//GUI bereinigen 
+	myGui->nextRoundCleanGui();
 
 	myGui->logNewGameHandMsg(myGameID, actualHandID);
 
-
-	// Abfrage Cash==0 -> player inactive -> actualQuantityPlayer--
+	actualHand->start();
 }

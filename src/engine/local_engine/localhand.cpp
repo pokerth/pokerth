@@ -44,12 +44,6 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		playerArray[i]->setMyRoundStartCash(playerArray[i]->getMyCash());
 	}
-		
-
-	// Dealer, SB, BB bestimmen
-	assignButtons();
-
-// 	myGui->refreshAll();
 
 	// Karten generieren und Board sowie Player zuweisen
 	Tools myTool;
@@ -63,7 +57,6 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 		tempBoardArray[i] = cardsArray[i];
 		tempPlayerAndBoardArray[i+2] = cardsArray[i];
 	}
-
 
 	k = 0;
 	myBoard->setMyCards(tempBoardArray);
@@ -92,6 +85,12 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 
 			k++;
 		}
+	}
+	delete[] cardsArray;
+
+	// myFlipCards auf 0 setzen
+	for(i=0; i<startQuantityPlayers; i++) {
+		playerArray[i]->setMyCardsFlip(0);
 	}
 
 // // 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!   testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
@@ -154,31 +153,14 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 
 // // // 	seven-two, the others have Ace-King, Ace-Jack, Ace-Nine. The pot is obviously split. 
 
-
-
-
-
-
-	/////////////////////
-
-	// Karten austeilen
-	myGui->dealHoleCards();
-	
-	// myFlipCards auf 0 setzen
-	for(i=0; i<startQuantityPlayers; i++) {
-		playerArray[i]->setMyCardsFlip(0);
-	}
+	// Dealer, SB, BB bestimmen
+	assignButtons();
 
 	// Preflop, Flop, Turn und River erstellen
 	myPreflop =  myFactory->createPreflop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
 	myFlop = myFactory->createFlop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
 	myTurn = myFactory->createTurn(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
 	myRiver = myFactory->createRiver(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-	
-	//Rundenwechsel | beim ersten Durchlauf --> Preflop starten
-	myGui->nextPlayerAnimation();
-
-	delete[] cardsArray;
 }
 
 
@@ -195,6 +177,20 @@ LocalHand::~LocalHand()
 	delete myRiver;
 	myRiver = 0;
 
+}
+
+void LocalHand::start() {
+
+	/////////////////////
+
+	// Karten austeilen
+	myGui->dealHoleCards();
+
+	getBoard()->collectSets();
+	getGuiInterface()->refreshPot();
+	
+	//Rundenwechsel | beim ersten Durchlauf --> Preflop starten
+	myGui->nextPlayerAnimation();
 }
 
 void LocalHand::assignButtons() {

@@ -50,8 +50,6 @@ public:
 	void waitForNetworkServerAction(GameState state, unsigned uniquePlayerId);
 	void terminateNetworkServer();
 
-	bool isNetworkServerRunning() const;
-
 	void setCurrentGameID(const int& theValue) { currentGameID = theValue; }
 	int getCurrentGameID() const { return currentGameID; }
 

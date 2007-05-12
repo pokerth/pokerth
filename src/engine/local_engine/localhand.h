@@ -37,11 +37,11 @@
 
 class LocalHand : public HandInterface{
 public:
-    LocalHand(EngineFactory*, GuiInterface*, BoardInterface*, PlayerInterface**, int, int, int, int, int, int);
+	LocalHand(EngineFactory*, GuiInterface*, BoardInterface*, PlayerInterface**, int, int, int, int, int, int);
 
-    ~LocalHand();
-	
-	
+	~LocalHand();
+
+	void start();
 
 	PlayerInterface** getPlayerArray() const { return playerArray; }
 	BoardInterface* getBoard() const { return myBoard; }

@@ -41,6 +41,9 @@ public:
 
 	~Game();
 
+	void initHand();
+	void startHand();
+
 	HandInterface *getCurrentHand();
 
 	//Zufgriff Startvariablen
@@ -71,12 +74,6 @@ public:
 	void setActualHandID(const int& theValue) { actualHandID = theValue; }
 	int getActualHandID() const { return actualHandID; }
 
-	void startHand();
-
-	
-	
-	
-	
 
 private:
 	EngineFactory *myFactory;

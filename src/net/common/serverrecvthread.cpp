@@ -24,13 +24,14 @@
 #include <net/sendercallback.h>
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
-#include <gamedata.h>
+#include <game.h>
 
 #include <boost/lambda/lambda.hpp>
 
 #define SERVER_CLOSE_SESSION_DELAY_SEC	10
 
 using namespace std;
+
 
 class ServerSenderCallback : public SenderCallback
 {
@@ -141,7 +142,7 @@ ServerRecvThread::NotificationLoop()
 		switch(notification.message)
 		{
 			case NOTIFY_GAME_START:
-				SetState(SERVER_START_GAME_STATE::Instance());
+				InternalStartGame();
 				break;
 			case NOTIFY_WAIT_FOR_CLIENT_ACTION:
 				break;
@@ -241,6 +242,13 @@ ServerRecvThread::CleanupSessionMap()
 
 	// Sockets will be closed automatically.
 	m_sessionMap.clear();
+}
+
+void
+ServerRecvThread::InternalStartGame()
+{
+//	m_game.reset(...);
+	SetState(SERVER_START_GAME_STATE::Instance());
 }
 
 boost::shared_ptr<SessionData>
@@ -466,6 +474,13 @@ ServerRecvThread::GetReceiver()
 {
 	assert(m_receiver.get());
 	return *m_receiver;
+}
+
+Game &
+ServerRecvThread::GetGame()
+{
+	assert(m_game.get());
+	return *m_game;
 }
 
 const GameData &

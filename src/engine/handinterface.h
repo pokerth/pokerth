@@ -33,6 +33,8 @@ public:
     
 	virtual ~HandInterface();
 
+	virtual void start() = 0;
+
 	virtual PlayerInterface** getPlayerArray() const =0;
 	virtual BoardInterface* getBoard() const =0;
 	virtual PreflopInterface* getPreflop() const =0;
