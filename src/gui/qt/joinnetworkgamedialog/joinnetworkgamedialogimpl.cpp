@@ -27,7 +27,7 @@ using namespace std;
 joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile *c)
       : QDialog(parent), myConfig(c)
 {
-	bool toIntTrue;
+
     	
 	setupUi(this);
 
@@ -43,6 +43,8 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile
 }
 
 void joinNetworkGameDialogImpl::exec() {
+
+	bool toIntTrue;
 
 	spinBox_port->setValue(QString::fromUtf8(myConfig->readConfigString("ServerPort").c_str()).toInt(&toIntTrue, 10));
 
