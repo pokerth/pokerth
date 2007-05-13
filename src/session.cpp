@@ -73,7 +73,7 @@ void Session::startGame(const GameData &gameData) {
 
 		playerDataList.push_back(playerData);
 	}
-	currentGame = new Game(myGui, playerDataList, gameData, currentGameID);
+	currentGame = new Game(myGui, playerDataList, gameData, currentGameID, myConfig);
 
 	//// SPIEL-SCHLEIFE
 	currentGame->initHand();

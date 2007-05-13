@@ -30,10 +30,12 @@
 #include "localturn.h"
 #include "localriver.h"
 
+#include "configfile.h"
+
 class LocalEngineFactory : public EngineFactory
 {
 public:
-    LocalEngineFactory();
+    LocalEngineFactory(ConfigFile*);
 
     ~LocalEngineFactory();
 
@@ -44,6 +46,9 @@ public:
 	FlopInterface* createFlop(HandInterface* hi, int id, int aP, int dP, int sB);
 	TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB);
 	RiverInterface* createRiver(HandInterface* hi, int id, int aP, int dP, int sB);
+private:
+
+	ConfigFile *myConfig;
 };
 
 #endif

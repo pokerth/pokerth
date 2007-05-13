@@ -20,8 +20,8 @@
 #include "localenginefactory.h"
 
 
-LocalEngineFactory::LocalEngineFactory()
- : EngineFactory()
+LocalEngineFactory::LocalEngineFactory(ConfigFile *c)
+ : EngineFactory(), myConfig(c)
 {
 }
 
@@ -35,7 +35,7 @@ HandInterface* LocalEngineFactory::createHand(EngineFactory *f, GuiInterface *g,
 
 BoardInterface* LocalEngineFactory::createBoard() { return new LocalBoard; }
 
-PlayerInterface* LocalEngineFactory::createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB) { return new LocalPlayer(b, id, uniqueId, type, name, avatar, sC, aS, mB); }
+PlayerInterface* LocalEngineFactory::createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB) { return new LocalPlayer(myConfig, b, id, uniqueId, type, name, avatar, sC, aS, mB); }
 
 PreflopInterface* LocalEngineFactory::createPreflop(HandInterface* hi, int id, int aP, int dP, int sB) { return new LocalPreflop(hi, id, aP, dP, sB); }
 

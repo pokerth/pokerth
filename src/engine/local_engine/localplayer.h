@@ -36,8 +36,7 @@ class BoardInterface;
 
 class LocalPlayer : public PlayerInterface{
 public:
-	LocalPlayer(
-		BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
+	LocalPlayer(ConfigFile*, BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
 
 	~LocalPlayer();
 
@@ -142,6 +141,8 @@ public:
 
 
 private:
+
+	ConfigFile *myConfig;
 	HandInterface *actualHand;
 	BoardInterface *actualBoard;
 

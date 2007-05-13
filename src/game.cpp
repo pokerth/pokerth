@@ -30,12 +30,12 @@
 
 using namespace std;
 
-Game::Game(GuiInterface* gui, const PlayerDataList &playerDataList, const GameData &gameData, int gameId)
+Game::Game(GuiInterface* gui, const PlayerDataList &playerDataList, const GameData &gameData, int gameId, ConfigFile *c)
 : myGui(gui), actualHand(0), actualBoard(0), startQuantityPlayers(gameData.numberOfPlayers),
   startCash(gameData.startCash), startSmallBlind(gameData.smallBlind),
   startHandsBeforeRaiseSmallBlind(gameData.handsBeforeRaise),
   myGameID(gameId), actualQuantityPlayers(gameData.numberOfPlayers),
-  actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(0)
+  actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(0), myConfig(c)
 {
 // 	cout << "Create Game Object" << "\n";
 	int i;
@@ -47,7 +47,7 @@ Game::Game(GuiInterface* gui, const PlayerDataList &playerDataList, const GameDa
 	}
 
 	//EngineFactory erstellen
-	myFactory = new LocalEngineFactory; // LocalEngine erstellen
+	myFactory = new LocalEngineFactory(myConfig); // LocalEngine erstellen
 	
 
 	// Board erstellen

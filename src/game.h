@@ -26,6 +26,7 @@
 
 #include "game_defs.h"
 #include "playerdata.h"
+#include "configfile.h"
 
 class GuiInterface;
 class HandInterface;
@@ -37,7 +38,7 @@ struct GameData;
 class Game {
 
 public:
-	Game(GuiInterface *gui, const PlayerDataList &playerDataList, const GameData &gameData, int gameId);
+	Game(GuiInterface *gui, const PlayerDataList &playerDataList, const GameData &gameData, int gameId, ConfigFile*);
 
 	~Game();
 
@@ -95,6 +96,8 @@ private:
 	int actualSmallBlind;
 	int actualHandID;
 	int dealerPosition;
+
+	ConfigFile *myConfig;
 };
 
 #endif
