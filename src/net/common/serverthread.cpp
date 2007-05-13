@@ -29,11 +29,11 @@
 #define NET_SERVER_LISTEN_BACKLOG	5
 
 
-ServerThread::ServerThread(ServerCallback &cb)
-: m_callback(cb)
+ServerThread::ServerThread(GuiInterface &gui, ConfigFile *config)
+: m_gui(gui)
 {
 	m_context.reset(new ServerContext);
-	m_recvThread.reset(new ServerRecvThread(cb));
+	m_recvThread.reset(new ServerRecvThread(gui, config));
 }
 
 ServerThread::~ServerThread()
@@ -78,7 +78,13 @@ ServerThread::WaitForClientAction(GameState state, unsigned uniquePlayerId)
 ServerCallback &
 ServerThread::GetCallback()
 {
-	return m_callback;
+	return m_gui;
+}
+
+GuiInterface &
+ServerThread::GetGui()
+{
+	return m_gui;
 }
 
 void

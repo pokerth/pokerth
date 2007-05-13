@@ -67,6 +67,7 @@ Game::Game(GuiInterface* gui, const PlayerDataList &playerDataList, const GameDa
 		string myAvatarFile;
 		unsigned uniqueId = 0;
 		PlayerType type = PLAYER_TYPE_COMPUTER;
+		boost::shared_ptr<SessionData> myNetSession;
 
 		if (player_i != player_end)
 		{
@@ -74,12 +75,14 @@ Game::Game(GuiInterface* gui, const PlayerDataList &playerDataList, const GameDa
 			type = (*player_i)->GetType();
 			myName = (*player_i)->GetName();
 			myAvatarFile = (*player_i)->GetAvatarFile();
+			myNetSession = (*player_i)->GetNetSessionData();
 			// TODO: set player type
 			++player_i;
 		}
 
 		//PlayerObjekte erzeugen
 		playerArray[i] = myFactory->createPlayer(actualBoard, i, uniqueId, type, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0);
+		playerArray[i]->setNetSessionData(myNetSession);
 	}
 	actualBoard->setPlayer(playerArray);
 }

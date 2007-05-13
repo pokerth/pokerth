@@ -42,11 +42,6 @@ public:
 	void SetState(State state)
 	{m_state = state;}
 
-	const boost::shared_ptr<PlayerData> GetPlayerData() const
-	{return m_playerData;}
-	void SetPlayerData(boost::shared_ptr<PlayerData> playerData)
-	{m_playerData = playerData;}
-
 	SOCKET GetSocket() const
 	{return m_sockfd;}
 
@@ -60,7 +55,6 @@ private:
 	unsigned						m_id;
 	State							m_state;
 	std::string						m_clientAddr;
-	boost::shared_ptr<PlayerData>	m_playerData;
 };
 
 #endif

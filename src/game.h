@@ -47,6 +47,8 @@ public:
 
 	HandInterface *getCurrentHand();
 
+	PlayerInterface** getPlayerArray() {return playerArray;}
+
 	//Zufgriff Startvariablen
 	void setStartQuantityPlayers(const int& theValue) { startQuantityPlayers = theValue; }
 	int getStartQuantityPlayers() const { return startQuantityPlayers; }

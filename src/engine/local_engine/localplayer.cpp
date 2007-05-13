@@ -3219,3 +3219,13 @@ void LocalPlayer::riverEngine3() {
 
 }
 
+void LocalPlayer::setNetSessionData(boost::shared_ptr<SessionData> session)
+{
+	myNetSessionData = session;
+}
+
+boost::shared_ptr<SessionData> LocalPlayer::getNetSessionData()
+{
+	return myNetSessionData;
+}
+

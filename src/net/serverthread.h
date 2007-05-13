@@ -23,20 +23,21 @@
 
 #include <game_defs.h>
 #include <core/thread.h>
+#include <gui/guiinterface.h>
 #include <string>
 #include <memory>
-#include <net/servercallback.h>
 
 class ServerContext;
 class ServerRecvThread;
 class ServerSenderCallback;
 class SenderThread;
+class ConfigFile;
 struct GameData;
 
 class ServerThread : public Thread
 {
 public:
-	ServerThread(ServerCallback &gui);
+	ServerThread(GuiInterface &gui, ConfigFile *config);
 	virtual ~ServerThread();
 
 	// Set the parameters.
@@ -46,6 +47,7 @@ public:
 	void WaitForClientAction(GameState state, unsigned uniquePlayerId);
 
 	ServerCallback &GetCallback();
+	GuiInterface &GetGui();
 
 protected:
 
@@ -64,7 +66,7 @@ private:
 	std::auto_ptr<ServerContext> m_context;
 	std::auto_ptr<ServerRecvThread> m_recvThread;
 
-	ServerCallback &m_callback;
+	GuiInterface &m_gui;
 };
 
 #endif

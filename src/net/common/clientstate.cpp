@@ -416,7 +416,6 @@ ClientStateWaitGame::Process(ClientThread &client)
 	ClientContext &context = client.GetContext();
 
 	// delegate to receiver helper class
-
 	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
 
 	if (tmpPacket.get())
@@ -424,7 +423,7 @@ ClientStateWaitGame::Process(ClientThread &client)
 		if (tmpPacket->ToNetPacketGameStart())
 		{
 			client.SetState(ClientStateFinal::Instance());
-			retVal = MSG_NET_GAME_START;
+			retVal = MSG_NET_GAME_CLIENT_START;
 		}
 		else if (tmpPacket->ToNetPacketPlayerJoined())
 		{
@@ -467,7 +466,21 @@ ClientStateFinal::~ClientStateFinal()
 int
 ClientStateFinal::Process(ClientThread &client)
 {
-	Thread::Msleep(CLIENT_WAIT_TIMEOUT_MSEC);
+	ClientContext &context = client.GetContext();
+
+	// delegate to receiver helper class
+	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
+
+	if (tmpPacket.get())
+	{
+		if (tmpPacket->ToNetPacketHandStart())
+		{
+			// TODO
+			NetPacketHandStart::Data tmpData;
+			tmpPacket->ToNetPacketHandStart()->GetData(tmpData);
+			int z = 1;
+		}
+	}
 
 	return MSG_SOCK_INTERNAL_PENDING;
 }

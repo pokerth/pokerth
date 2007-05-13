@@ -26,6 +26,8 @@
 #include <net/netexception.h>
 #include <core/rand.h>
 #include <gamedata.h>
+#include <game.h>
+#include <playerinterface.h>
 
 using namespace std;
 
@@ -75,14 +77,14 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 
 	if (recvSock != INVALID_SOCKET)
 	{
-		boost::shared_ptr<SessionData> session = server.GetSession(recvSock);
+		SessionWrapper session = server.GetSession(recvSock);
 		boost::shared_ptr<NetPacket> packet;
 		try
 		{
 			packet = server.GetReceiver().Recv(recvSock);
 		} catch (const NetException &)
 		{
-			if (session.get())
+			if (session.sessionData.get())
 			{
 				server.CloseSessionDelayed(session);
 				return retVal;
@@ -90,10 +92,10 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 		}
 
 		// Ignore if no session / no packet.
-		if (packet.get() && session.get())
+		if (packet.get() && session.sessionData.get())
 		{
 			// Session should be in initial state.
-			if (session->GetState() != SessionData::Init)
+			if (session.sessionData->GetState() != SessionData::Init)
 			{
 				server.SessionError(session, ERR_SOCK_INVALID_STATE);
 				return retVal;
@@ -144,13 +146,14 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			boost::shared_ptr<PlayerData> tmpPlayerData(
 				new PlayerData(m_curUniquePlayerId++, server.GetNextPlayerNumber(), joinGameData.ptype));
 			tmpPlayerData->SetName(joinGameData.playerName);
+			tmpPlayerData->SetNetSessionData(session.sessionData);
 
 			// Send ACK to client.
 			boost::shared_ptr<NetPacket> answer(new NetPacketJoinGameAck);
 			NetPacketJoinGameAck::Data joinGameAckData;
 			joinGameAckData.playerId = tmpPlayerData->GetUniqueId();
 			joinGameAckData.playerNumber = tmpPlayerData->GetNumber();
-			joinGameAckData.sessionId = session->GetId(); // TODO: currently unused.
+			joinGameAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
 			joinGameAckData.gameData = server.GetGameData();
 			static_cast<NetPacketJoinGameAck *>(answer.get())->SetData(joinGameAckData);
 			server.GetSender().Send(recvSock, answer);
@@ -168,7 +171,7 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 				otherPlayerJoinedData.playerNumber = (*player_i)->GetNumber();
 				otherPlayerJoinedData.ptype = (*player_i)->GetType();
 				static_cast<NetPacketPlayerJoined *>(otherPlayerJoined.get())->SetData(otherPlayerJoinedData);
-				server.GetSender().Send(session->GetSocket(), otherPlayerJoined);
+				server.GetSender().Send(session.sessionData->GetSocket(), otherPlayerJoined);
 
 				++player_i;
 			}
@@ -181,13 +184,13 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			thisPlayerJoinedData.playerNumber = tmpPlayerData->GetNumber();
 			thisPlayerJoinedData.ptype = tmpPlayerData->GetType();
 			static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
-			server.SendToAllButOnePlayers(thisPlayerJoined, session->GetSocket());
+			server.SendToAllButOnePlayers(thisPlayerJoined, session.sessionData->GetSocket());
 
 			// Set player data for session.
-			server.SetSessionPlayerData(session, tmpPlayerData);
+			server.SetSessionPlayerData(session.sessionData, tmpPlayerData);
 
 			// Session is now established.
-			session->SetState(SessionData::Established);
+			session.sessionData->SetState(SessionData::Established);
 		}
 	}
 	return retVal;
@@ -222,10 +225,93 @@ ServerRecvStateStartGame::Process(ServerRecvThread &server)
 	boost::shared_ptr<NetPacket> answer(new NetPacketGameStart);
 
 	server.SendToAllPlayers(answer);
-	Thread::Msleep(100);
+	server.SetState(ServerRecvStateStartHand::Instance());
+
+	return MSG_NET_GAME_SERVER_START;
+}
+
+//-----------------------------------------------------------------------------
+
+ServerRecvStateStartHand &
+ServerRecvStateStartHand::Instance()
+{
+	static ServerRecvStateStartHand state;
+	return state;
+}
+
+ServerRecvStateStartHand::ServerRecvStateStartHand()
+{
+}
+
+ServerRecvStateStartHand::~ServerRecvStateStartHand()
+{
+}
+
+void
+ServerRecvStateStartHand::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
+{
+	// TODO: send error msg
+}
+
+int
+ServerRecvStateStartHand::Process(ServerRecvThread &server)
+{
+	boost::shared_ptr<NetPacket> answer(new NetPacketHandStart);
+
+	Game &curGame = server.GetGame();
+	curGame.initHand();
+	PlayerInterface **playerArray = curGame.getPlayerArray();
+
+	for (int i = 0; i < curGame.getActualQuantityPlayers(); i++)
+	{
+		if (playerArray[i]->getNetSessionData().get())
+		{
+			int cards[2];
+			playerArray[i]->getMyCards(cards);
+			boost::shared_ptr<NetPacket> notification(new NetPacketHandStart);
+			NetPacketHandStart::Data handStartData;
+			handStartData.yourCards[0] = static_cast<unsigned>(cards[0]);
+			handStartData.yourCards[1] = static_cast<unsigned>(cards[1]);
+			static_cast<NetPacketHandStart *>(notification.get())->SetData(handStartData);
+
+			server.GetSender().Send(playerArray[i]->getNetSessionData()->GetSocket(), notification);
+		}
+	}
+
+	server.SetState(ServerRecvStateFinal::Instance());
+
+	return MSG_NET_GAME_SERVER_HAND;
+}
+
+//-----------------------------------------------------------------------------
+
+ServerRecvStateFinal &
+ServerRecvStateFinal::Instance()
+{
+	static ServerRecvStateFinal state;
+	return state;
+}
+
+ServerRecvStateFinal::ServerRecvStateFinal()
+{
+}
+
+ServerRecvStateFinal::~ServerRecvStateFinal()
+{
+}
+
+void
+ServerRecvStateFinal::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
+{
+	// TODO: send error msg
+}
+
+int
+ServerRecvStateFinal::Process(ServerRecvThread &server)
+{
+	Thread::Msleep(10);
 
 	return MSG_SOCK_INTERNAL_PENDING;
 }
 
 //-----------------------------------------------------------------------------
-

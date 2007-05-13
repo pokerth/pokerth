@@ -23,6 +23,10 @@
 #include "handinterface.h"
 #include <playerdata.h>
 
+#include <boost/shared_ptr.hpp>
+
+class SessionData;
+
 class PlayerInterface{
 public:
 
@@ -98,6 +102,8 @@ public:
 	virtual void turnEngine() =0;
 	virtual void riverEngine() =0;
 
+	virtual void setNetSessionData(boost::shared_ptr<SessionData> session) =0;
+	virtual boost::shared_ptr<SessionData> getNetSessionData() =0;
 };
 
 #endif

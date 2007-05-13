@@ -135,10 +135,8 @@ public:
 
 	void evaluation(int, int);
 
-
-	
-	
-
+	void setNetSessionData(boost::shared_ptr<SessionData> session);
+	boost::shared_ptr<SessionData> getNetSessionData();
 
 private:
 
@@ -180,6 +178,7 @@ private:
 	int sBluff;
 	bool sBluffStatus;
 
+	boost::shared_ptr<SessionData> myNetSessionData;
 };
 
 #endif

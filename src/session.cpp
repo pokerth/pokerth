@@ -139,7 +139,7 @@ void Session::startNetworkServer(const GameData &gameData)
 {
 	if (myNetServer)
 		return; // TODO: throw exception
-	myNetServer = new ServerThread(*myGui);
+	myNetServer = new ServerThread(*myGui, myConfig);
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,

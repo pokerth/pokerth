@@ -57,6 +57,7 @@ void
 ServerGuiWrapper::waitForNetworkAction(GameState state, unsigned uniquePlayerId)
 {
 	/* TODO hack */
+	myGui->waitForNetworkAction(state, uniquePlayerId);
 }
 
 void ServerGuiWrapper::refreshSet() const {}

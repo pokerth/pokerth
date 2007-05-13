@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "genericservergui.h"
-
+#include <session.h>
 
 using namespace std;
 
@@ -39,6 +39,7 @@ void GenericServerGui::initGui(int speed)
 
 Session &GenericServerGui::getSession()
 {
+	assert(mySession.get());
 	return *mySession;
 }
 
@@ -49,5 +50,6 @@ void GenericServerGui::setSession(boost::shared_ptr<Session> session)
 
 void GenericServerGui::waitForNetworkAction(GameState state, unsigned uniquePlayerId)
 {
+	getSession().waitForNetworkServerAction(state, uniquePlayerId);
 }
 

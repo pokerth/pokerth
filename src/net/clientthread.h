@@ -95,6 +95,7 @@ friend class ClientStateConnecting;
 friend class ClientStateStartSession;
 friend class ClientStateWaitSession;
 friend class ClientStateWaitGame;
+friend class ClientStateFinal;
 };
 
 #endif

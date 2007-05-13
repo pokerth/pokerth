@@ -106,7 +106,7 @@ ClientThread::Main()
 					GetCallback().SignalNetClientGameInfo(msg);
 
 				// Additionally signal the start of the game.
-				if (msg == MSG_NET_GAME_START)
+				if (msg == MSG_NET_GAME_CLIENT_START)
 					GetCallback().SignalNetClientGameStart(GetGameData());
 			}
 		}

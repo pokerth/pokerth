@@ -88,4 +88,46 @@ protected:
 	ServerRecvStateStartGame();
 };
 
+// State: Start new hand.
+class ServerRecvStateStartHand : public ServerRecvState
+{
+public:
+	// Access the state singleton.
+	static ServerRecvStateStartHand &Instance();
+
+	virtual ~ServerRecvStateStartHand();
+
+	// 
+	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
+
+	// 
+	virtual int Process(ServerRecvThread &server);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ServerRecvStateStartHand();
+};
+
+// State: Final.
+class ServerRecvStateFinal : public ServerRecvState
+{
+public:
+	// Access the state singleton.
+	static ServerRecvStateFinal &Instance();
+
+	virtual ~ServerRecvStateFinal();
+
+	// 
+	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
+
+	// 
+	virtual int Process(ServerRecvThread &server);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ServerRecvStateFinal();
+};
+
 #endif

@@ -26,6 +26,8 @@
 #include <map>
 #include <boost/shared_ptr.hpp>
 
+class SessionData;
+
 enum PlayerType
 {
 	PLAYER_TYPE_COMPUTER,
@@ -46,6 +48,10 @@ public:
 	{return m_avatarFile;}
 	void SetAvatarFile(const std::string &avatarFile)
 	{m_avatarFile = avatarFile;}
+	boost::shared_ptr<SessionData> GetNetSessionData()
+	{return m_netSessionData;}
+	void SetNetSessionData(boost::shared_ptr<SessionData> session)
+	{m_netSessionData = session;}
 	PlayerType GetType() const
 	{return m_type;}
 	unsigned GetUniqueId() const
@@ -57,11 +63,12 @@ public:
 	{return m_number < other.GetNumber();}
 
 private:
-	unsigned	m_uniqueId;
-	int			m_number;
-	std::string	m_name;
-	std::string	m_avatarFile;
-	PlayerType	m_type;
+	unsigned						m_uniqueId;
+	int								m_number;
+	std::string						m_name;
+	std::string						m_avatarFile;
+	PlayerType						m_type;
+	boost::shared_ptr<SessionData>	m_netSessionData;
 };
 
 typedef std::list<boost::shared_ptr<PlayerData> > PlayerDataList;

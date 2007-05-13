@@ -24,7 +24,7 @@
 #include <core/thread.h>
 #include <net/connectdata.h>
 #include <net/sessiondata.h>
-#include <net/servercallback.h>
+#include <gui/guiinterface.h>
 
 #include <deque>
 #include <map>
@@ -44,13 +44,23 @@ class SenderThread;
 class ReceiverHelper;
 class ServerSenderCallback;
 class NetPacket;
+class ConfigFile;
 struct GameData;
 class Game;
+
+struct SessionWrapper
+{
+	SessionWrapper() {}
+	SessionWrapper(boost::shared_ptr<SessionData> s, boost::shared_ptr<PlayerData> p)
+		: sessionData(s), playerData(p) {}
+	boost::shared_ptr<SessionData>	sessionData;
+	boost::shared_ptr<PlayerData>	playerData;
+};
 
 class ServerRecvThread : public Thread
 {
 public:
-	ServerRecvThread(ServerCallback &gui);
+	ServerRecvThread(GuiInterface &gui, ConfigFile *playerConfig);
 	virtual ~ServerRecvThread();
 
 	void Init(const std::string &pwd, const GameData &gameData);
@@ -72,7 +82,7 @@ protected:
 	};
 
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
-	typedef std::map<SOCKET, boost::shared_ptr<SessionData> > SocketSessionMap;
+	typedef std::map<SOCKET, SessionWrapper> SocketSessionMap;
 	typedef std::deque<Notification> NotificationQueue;
 	typedef std::list<std::pair<boost::microsec_timer, boost::shared_ptr<SessionData> > > CloseSessionList;
 
@@ -89,10 +99,10 @@ protected:
 
 	void InternalStartGame();
 
-	boost::shared_ptr<SessionData> GetSession(SOCKET sock);
-	void AddSession(boost::shared_ptr<SessionData> sessionData);
-	void SessionError(boost::shared_ptr<SessionData> sessionData, int errorCode);
-	void CloseSessionDelayed(boost::shared_ptr<SessionData> sessionData);
+	SessionWrapper GetSession(SOCKET sock);
+	void AddSession(boost::shared_ptr<SessionData> sessionData); // new Sessions have no player data
+	void SessionError(SessionWrapper session, int errorCode);
+	void CloseSessionDelayed(SessionWrapper session);
 
 	size_t GetCurNumberOfPlayers() const;
 	bool IsPlayerConnected(const std::string &playerName) const;
@@ -116,6 +126,7 @@ protected:
 	bool CheckPassword(const std::string &password) const;
 
 	ServerSenderCallback &GetSenderCallback();
+	GuiInterface &GetGui();
 
 private:
 
@@ -136,14 +147,18 @@ private:
 
 	std::auto_ptr<Game> m_game;
 	std::auto_ptr<GameData> m_gameData;
+	unsigned m_curGameId;
 	std::auto_ptr<ServerSenderCallback> m_senderCallback;
 
 	std::string m_password;
 
-	ServerCallback &m_callback;
+	GuiInterface &m_gui;
+
+	ConfigFile *m_playerConfig;
 
 friend class ServerRecvStateInit;
 friend class ServerRecvStateStartGame;
+friend class ServerRecvStateStartHand;
 };
 
 #endif

@@ -793,7 +793,7 @@ NetPacketGameStart::Check(const NetPacketHeader* data) const
 //-----------------------------------------------------------------------------
 
 NetPacketHandStart::NetPacketHandStart()
-: NetPacket(NET_TYPE_GAME_START, sizeof(NetPacketGameStartData))
+: NetPacket(NET_TYPE_HAND_START, sizeof(NetPacketHandStartData))
 {
 }
 
@@ -852,7 +852,7 @@ NetPacketHandStart::Check(const NetPacketHeader* data) const
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
 
-	NetPacketHandStartData *tmpData = (NetPacketHandStartData *)GetRawData();
+	NetPacketHandStartData *tmpData = (NetPacketHandStartData *)data;
 	if (ntohs(tmpData->yourCards[0]) > 51 || ntohs(tmpData->yourCards[1]) > 51)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
@@ -922,7 +922,7 @@ NetPacketPlayersTurn::Check(const NetPacketHeader* data) const
 	}
 
 	// Check whether the state is valid.
-	NetPacketPlayersTurnData *tmpData = (NetPacketPlayersTurnData *)GetRawData();
+	NetPacketPlayersTurnData *tmpData = (NetPacketPlayersTurnData *)data;
 	if (ntohs(tmpData->gameState) > GAME_STATE_RIVER)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
@@ -994,7 +994,7 @@ NetPacketPlayersAction::Check(const NetPacketHeader* data) const
 	}
 
 	// Check whether the state is valid.
-	NetPacketPlayersActionData *tmpData = (NetPacketPlayersActionData *)GetRawData();
+	NetPacketPlayersActionData *tmpData = (NetPacketPlayersActionData *)data;
 	if (ntohs(tmpData->gameState) > GAME_STATE_RIVER)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
@@ -1076,7 +1076,7 @@ NetPacketPlayersActionRejected::Check(const NetPacketHeader* data) const
 	}
 
 	// Check whether the state is valid.
-	NetPacketPlayersActionRejectedData *tmpData = (NetPacketPlayersActionRejectedData *)GetRawData();
+	NetPacketPlayersActionRejectedData *tmpData = (NetPacketPlayersActionRejectedData *)data;
 	if (ntohs(tmpData->gameState) > GAME_STATE_RIVER)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);

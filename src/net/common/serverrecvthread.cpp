@@ -51,8 +51,8 @@ private:
 };
 
 
-ServerRecvThread::ServerRecvThread(ServerCallback &cb)
-: m_callback(cb)
+ServerRecvThread::ServerRecvThread(GuiInterface &gui, ConfigFile *playerConfig)
+: m_curGameId(0), m_gui(gui), m_playerConfig(playerConfig)
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
@@ -247,14 +247,16 @@ ServerRecvThread::CleanupSessionMap()
 void
 ServerRecvThread::InternalStartGame()
 {
-//	m_game.reset(...);
+	GuiInterface &gui = GetGui();
+	PlayerDataList playerData = GetPlayerDataList();
+	m_game.reset(new Game(&gui, playerData, GetGameData(), m_curGameId++, m_playerConfig));
 	SetState(SERVER_START_GAME_STATE::Instance());
 }
 
-boost::shared_ptr<SessionData>
+SessionWrapper
 ServerRecvThread::GetSession(SOCKET sock)
 {
-	boost::shared_ptr<SessionData> tmpSession;
+	SessionWrapper tmpSession;
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);
 
 	SocketSessionMap::iterator pos = m_sessionMap.find(sock);
@@ -278,27 +280,27 @@ ServerRecvThread::AddSession(boost::shared_ptr<SessionData> sessionData)
 	{
 		throw ServerException(ERR_SOCK_CONN_EXISTS, 0);
 	}
-	m_sessionMap.insert(pos, SocketSessionMap::value_type(sessionData->GetSocket(), sessionData));
+	m_sessionMap.insert(pos, SocketSessionMap::value_type(sessionData->GetSocket(), SessionWrapper(sessionData, boost::shared_ptr<PlayerData>())));
 }
 
 void
-ServerRecvThread::SessionError(boost::shared_ptr<SessionData> sessionData, int errorCode)
+ServerRecvThread::SessionError(SessionWrapper session, int errorCode)
 {
-	assert(sessionData.get());
-	SendError(sessionData->GetSocket(), errorCode);
-	CloseSessionDelayed(sessionData);
+	assert(session.sessionData.get());
+	SendError(session.sessionData->GetSocket(), errorCode);
+	CloseSessionDelayed(session);
 }
 
 void
-ServerRecvThread::CloseSessionDelayed(boost::shared_ptr<SessionData> sessionData)
+ServerRecvThread::CloseSessionDelayed(SessionWrapper session)
 {
 	{
 		boost::mutex::scoped_lock lock(m_sessionMapMutex);
 
-		m_sessionMap.erase(sessionData->GetSocket());
+		m_sessionMap.erase(session.sessionData->GetSocket());
 	}
 
-	boost::shared_ptr<PlayerData> tmpPlayerData = sessionData->GetPlayerData();
+	boost::shared_ptr<PlayerData> tmpPlayerData = session.playerData;
 	if (tmpPlayerData.get() && !tmpPlayerData->GetName().empty())
 	{
 		GetCallback().SignalNetServerPlayerLeft(tmpPlayerData->GetName());
@@ -313,7 +315,7 @@ ServerRecvThread::CloseSessionDelayed(boost::shared_ptr<SessionData> sessionData
 
 	boost::microsec_timer closeTimer;
 	closeTimer.start();
-	CloseSessionList::value_type closeSessionData(closeTimer, sessionData);
+	CloseSessionList::value_type closeSessionData(closeTimer, session.sessionData);
 	m_closeSessionList.push_back(closeSessionData);
 }
 
@@ -349,10 +351,20 @@ ServerRecvThread::IsPlayerConnected(const std::string &playerName) const
 void
 ServerRecvThread::SetSessionPlayerData(boost::shared_ptr<SessionData> sessionData, boost::shared_ptr<PlayerData> playerData)
 {
-	sessionData->SetPlayerData(playerData);
-	// Signal joining player to GUI.
 	if (playerData.get() && !playerData->GetName().empty())
-		GetCallback().SignalNetServerPlayerJoined(playerData->GetName());
+	{
+		assert(sessionData.get());
+		boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+		SocketSessionMap::iterator pos = m_sessionMap.find(sessionData->GetSocket());
+		if (pos != m_sessionMap.end())
+		{
+			pos->second.playerData = playerData;
+
+			// Signal joining player to GUI.
+			GetCallback().SignalNetServerPlayerJoined(playerData->GetName());
+		}
+	}
 }
 
 PlayerDataList
@@ -366,7 +378,7 @@ ServerRecvThread::GetPlayerDataList() const
 
 	while (session_i != session_end)
 	{
-		boost::shared_ptr<PlayerData> tmpPlayer(session_i->second->GetPlayerData());
+		boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
 		if (tmpPlayer.get() && !tmpPlayer->GetName().empty())
 			playerList.push_back(tmpPlayer);
 		++session_i;
@@ -446,7 +458,7 @@ ServerRecvThread::SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SO
 ServerCallback &
 ServerRecvThread::GetCallback()
 {
-	return m_callback;
+	return m_gui;
 }
 
 ServerRecvState &
@@ -501,5 +513,11 @@ ServerRecvThread::GetSenderCallback()
 {
 	assert(m_senderCallback.get());
 	return *m_senderCallback;
+}
+
+GuiInterface &
+ServerRecvThread::GetGui()
+{
+	return m_gui;
 }
 
