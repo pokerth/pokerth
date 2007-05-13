@@ -28,6 +28,29 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c)
 
 	 setupUi(this);
 
+	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
+	connect( lineEdit_humanPlayerName, SIGNAL( textChanged( const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent1Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent2Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent3Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent4Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent5Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent6Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( pushButton_openFlipsidePicture, SIGNAL( clicked() ), this, SLOT( setFlipsidePicFileName()) );
+	connect( pushButton_openLogDir, SIGNAL( clicked() ), this, SLOT( setLogDir()) );
+	connect( pushButton_openAvatarFile0, SIGNAL( clicked() ), this, SLOT( setAvatarFile0()) );
+	connect( pushButton_openAvatarFile1, SIGNAL( clicked() ), this, SLOT( setAvatarFile1()) );
+	connect( pushButton_openAvatarFile2, SIGNAL( clicked() ), this, SLOT( setAvatarFile2()) );
+	connect( pushButton_openAvatarFile3, SIGNAL( clicked() ), this, SLOT( setAvatarFile3()) );
+	connect( pushButton_openAvatarFile4, SIGNAL( clicked() ), this, SLOT( setAvatarFile4()) );
+	connect( pushButton_openAvatarFile5, SIGNAL( clicked() ), this, SLOT( setAvatarFile5()) );
+	connect( pushButton_openAvatarFile6, SIGNAL( clicked() ), this, SLOT( setAvatarFile6()) );
+
+}
+
+void settingsDialogImpl::exec() {
+
+	
 // 	stackedWidget->removeWidget(page_4);
 // 	listWidget->takeItem(2);
 // 	page_4->hide();
@@ -90,27 +113,10 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c)
 	//Log 
 	lineEdit_logDir->setText(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
 	spinBox_logStoreDuration->setValue(myConfig->readConfigInt("LogStoreDuration"));
-	
-	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
-	connect( lineEdit_humanPlayerName, SIGNAL( textChanged( const QString &) ), this, SLOT( playerNickChanged() ) );
-	connect( lineEdit_Opponent1Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
-	connect( lineEdit_Opponent2Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
-	connect( lineEdit_Opponent3Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
-	connect( lineEdit_Opponent4Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
-	connect( lineEdit_Opponent5Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
-	connect( lineEdit_Opponent6Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
-	connect( pushButton_openFlipsidePicture, SIGNAL( clicked() ), this, SLOT( setFlipsidePicFileName()) );
-	connect( pushButton_openLogDir, SIGNAL( clicked() ), this, SLOT( setLogDir()) );
-	connect( pushButton_openAvatarFile0, SIGNAL( clicked() ), this, SLOT( setAvatarFile0()) );
-	connect( pushButton_openAvatarFile1, SIGNAL( clicked() ), this, SLOT( setAvatarFile1()) );
-	connect( pushButton_openAvatarFile2, SIGNAL( clicked() ), this, SLOT( setAvatarFile2()) );
-	connect( pushButton_openAvatarFile3, SIGNAL( clicked() ), this, SLOT( setAvatarFile3()) );
-	connect( pushButton_openAvatarFile4, SIGNAL( clicked() ), this, SLOT( setAvatarFile4()) );
-	connect( pushButton_openAvatarFile5, SIGNAL( clicked() ), this, SLOT( setAvatarFile5()) );
-	connect( pushButton_openAvatarFile6, SIGNAL( clicked() ), this, SLOT( setAvatarFile6()) );
+		
+	QDialog::exec();
 
 }
-
 
 void settingsDialogImpl::isAccepted() {
 

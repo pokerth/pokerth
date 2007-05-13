@@ -35,6 +35,13 @@ createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, Config
 
 }
 
+
+void createNetworkGameDialogImpl::exec() { 
+	
+	fillFormular();
+	QDialog::exec();
+}
+
 void createNetworkGameDialogImpl::createGame() {
 	
 }

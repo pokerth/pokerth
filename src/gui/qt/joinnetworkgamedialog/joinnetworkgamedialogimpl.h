@@ -39,6 +39,8 @@ public:
 	ConfigFile *myConfig;
 	std::string myServerProfilesFile;
 
+	void exec();
+
 public slots:
 
 	void startClient();

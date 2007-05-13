@@ -31,6 +31,8 @@ class settingsDialogImpl: public QDialog, public Ui::settingsDialog {
 Q_OBJECT
 public:
     settingsDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
+	
+	void exec();
 
 	void setPlayerNickIsChanged(bool theValue){ playerNickIsChanged = theValue;}
 	bool getPlayerNickIsChanged() const{ return playerNickIsChanged;}

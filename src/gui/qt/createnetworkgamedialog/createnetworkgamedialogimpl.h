@@ -34,6 +34,8 @@ Q_OBJECT
 public:
     createNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
 
+	void exec();
+
 public slots:
 
 	void createGame();

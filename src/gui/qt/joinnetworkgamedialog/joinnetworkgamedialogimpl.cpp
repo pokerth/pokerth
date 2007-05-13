@@ -31,6 +31,19 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile
     	
 	setupUi(this);
 
+// 	QShortcut *connectKey = new QShortcut(QKeySequence(Qt::Key_Enter), this);
+// 	connect( connectKey, SIGNAL(activated() ), pushButton_connect, SLOT( click() ) );
+
+	connect( pushButton_connect, SIGNAL( clicked() ), this, SLOT( startClient() ) );
+	connect( pushButton_save, SIGNAL( clicked() ), this, SLOT( saveServerProfile() ) );
+	connect( pushButton_delete, SIGNAL( clicked() ), this, SLOT( deleteServerProfile() ) );
+
+	connect( treeWidget, SIGNAL( itemClicked ( QTreeWidgetItem*, int) ), this, SLOT( itemFillForm (QTreeWidgetItem*, int) ) );
+
+}
+
+void joinNetworkGameDialogImpl::exec() {
+
 	spinBox_port->setValue(QString::fromUtf8(myConfig->readConfigString("ServerPort").c_str()).toInt(&toIntTrue, 10));
 
 	//Profile Name darf nicht mit einer Zahl beginnen --> XML konform
@@ -65,18 +78,8 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile
 	//Liste Füllen
 	fillServerProfileList();
 
-
-
-
-// 	QShortcut *connectKey = new QShortcut(QKeySequence(Qt::Key_Enter), this);
-// 	connect( connectKey, SIGNAL(activated() ), pushButton_connect, SLOT( click() ) );
-
-	connect( pushButton_connect, SIGNAL( clicked() ), this, SLOT( startClient() ) );
-	connect( pushButton_save, SIGNAL( clicked() ), this, SLOT( saveServerProfile() ) );
-	connect( pushButton_delete, SIGNAL( clicked() ), this, SLOT( deleteServerProfile() ) );
-
-	connect( treeWidget, SIGNAL( itemClicked ( QTreeWidgetItem*, int) ), this, SLOT( itemFillForm (QTreeWidgetItem*, int) ) );
-
+	QDialog::exec();
+	
 }
 
 void joinNetworkGameDialogImpl::startClient() {

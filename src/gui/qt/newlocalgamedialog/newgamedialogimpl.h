@@ -33,6 +33,8 @@ Q_OBJECT
 public:
     newGameDialogImpl(QWidget *parent = 0, ConfigFile* = 0);
 
+	void exec();
+
 public slots:
 
 private:

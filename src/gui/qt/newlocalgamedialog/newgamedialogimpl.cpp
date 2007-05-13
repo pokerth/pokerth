@@ -26,12 +26,17 @@ newGameDialogImpl::newGameDialogImpl(QWidget *parent, ConfigFile *c)
 
     setupUi(this);
 
-	//Game Settings
+	
+}
+
+void newGameDialogImpl::exec() {
+
 	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NumberOfPlayers"));
 	spinBox_startCash->setValue(myConfig->readConfigInt("StartCash"));
 	spinBox_smallBlind->setValue(myConfig->readConfigInt("SmallBlind"));
 	spinBox_gameSpeed->setValue(myConfig->readConfigInt("GameSpeed"));
 	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig->readConfigInt("HandsBeforeRaiseSmallBlind"));
 
+	QDialog::exec();
+	
 }
-
