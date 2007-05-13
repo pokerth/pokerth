@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by FThauer FHammer   *
- *   f.thauer@web.de   *
+ *   Copyright (C) 2007 by Lothar May                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,24 +16,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef GAME_DEFS_H
-#define GAME_DEFS_H
 
-#define MAX_NUMBER_OF_PLAYERS		7
+#include "genericservergui.h"
 
-enum GameState {
-	GAME_STATE_PREFLOP = 0,
-	GAME_STATE_FLOP,
-	GAME_STATE_TURN,
-	GAME_STATE_RIVER };
 
-enum PlayerAction {
-	PLAYER_ACTION_NONE = 0,
-	PLAYER_ACTION_FOLD,
-	PLAYER_ACTION_CHECK,
-	PLAYER_ACTION_CALL,
-	PLAYER_ACTION_BET,
-	PLAYER_ACTION_RAISE,
-	PLAYER_ACTION_ALLIN };
+using namespace std;
 
-#endif
+
+GenericServerGui::GenericServerGui(ConfigFile *config)
+: myConfig(config)
+{
+}
+
+
+GenericServerGui::~GenericServerGui()
+{
+}
+
+void GenericServerGui::initGui(int speed)
+{
+}
+
+Session &GenericServerGui::getSession()
+{
+	return *mySession;
+}
+
+void GenericServerGui::setSession(boost::shared_ptr<Session> session)
+{
+	mySession = session;
+}
+
+void GenericServerGui::waitForNetworkAction(GameState state, unsigned uniquePlayerId)
+{
+}
+

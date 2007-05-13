@@ -20,7 +20,9 @@
 
 #include "guiwrapper.h"
 #include "session.h"
-
+#include "log.h"
+#include "mainwindowimpl.h"
+#include "configfile.h"
 
 using namespace std;
 

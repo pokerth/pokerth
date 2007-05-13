@@ -33,6 +33,9 @@
 #include "configfile.h"
 #include <net/socket_startup.h>
 
+#include <QtGui>
+#include <QtCore>
+
 #include <cstdlib>
 #include <ctime>
 

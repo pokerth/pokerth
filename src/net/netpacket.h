@@ -42,6 +42,7 @@ class NetPacketJoinGameAck;
 class NetPacketPlayerJoined;
 class NetPacketPlayerLeft;
 class NetPacketGameStart;
+class NetPacketHandStart;
 class NetPacketPlayersTurn;
 class NetPacketPlayersAction;
 class NetPacketPlayersActionRejected;
@@ -69,6 +70,7 @@ public:
 	virtual const NetPacketPlayerJoined *ToNetPacketPlayerJoined() const;
 	virtual const NetPacketPlayerLeft *ToNetPacketPlayerLeft() const;
 	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
+	virtual const NetPacketHandStart *ToNetPacketHandStart() const;
 	virtual const NetPacketPlayersTurn *ToNetPacketPlayersTurn() const;
 	virtual const NetPacketPlayersAction *ToNetPacketPlayersAction() const;
 	virtual const NetPacketPlayersActionRejected *ToNetPacketPlayersActionRejected() const;
@@ -192,7 +194,7 @@ class NetPacketGameStart : public NetPacket
 public:
 	struct Data
 	{
-		u_int16_t	yourCards[2];
+		u_int32_t	reserved;
 	};
 
 	NetPacketGameStart();
@@ -204,6 +206,29 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketHandStart : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int16_t	yourCards[2];
+	};
+
+	NetPacketHandStart();
+	virtual ~NetPacketHandStart();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketHandStart *ToNetPacketHandStart() const;
 
 protected:
 

@@ -40,15 +40,15 @@ DEPENDPATH += . \
               src/engine/local_engine \
               src/gui/qt \
               src/net/common \
-	      src/gui/qt/mainwindow \
-	      src/gui/qt/mainwindow/startsplash \
+              src/gui/qt/mainwindow \
+              src/gui/qt/mainwindow/startsplash \
               src/gui/qt/aboutpokerth \
               src/gui/qt/connecttoserverdialog \
               src/gui/qt/createnetworkgamedialog \
               src/gui/qt/joinnetworkgamedialog \
               src/gui/qt/log \
-	      src/gui/qt/qttools \
-	      src/gui/qt/qttools/qthelper \
+              src/gui/qt/qttools \
+              src/gui/qt/qttools/qthelper \
               src/gui/qt/newlocalgamedialog \
               src/gui/qt/settingsdialog \
               src/gui/qt/startnetworkgamedialog \
@@ -95,9 +95,9 @@ HEADERS += src/game.h \
            src/engine/local_engine/localriver.h \
            src/engine/local_engine/localturn.h \
            src/engine/local_engine/tools.h \
-	   src/gui/qt/mainwindow/mainwindowimpl.h \
+           src/gui/qt/mainwindow/mainwindowimpl.h \
            src/gui/qt/mainwindow/mycardspixmaplabel.h \
-	   src/gui/qt/mainwindow/startsplash/startsplash.h \
+           src/gui/qt/mainwindow/startsplash/startsplash.h \
            src/gui/qt/guiwrapper.h \
            src/gui/qt/aboutpokerth/aboutpokerthimpl.h \
            src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.h \
@@ -108,11 +108,13 @@ HEADERS += src/game.h \
            src/gui/qt/settingsdialog/settingsdialogimpl.h \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.h \
            src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.h \
-	   src/gui/qttoolsinterface.h \
-	   src/gui/qt/qttools/qttoolswrapper.h \
-	   src/gui/qt/qttools/qthelper/qthelper.h
+           src/gui/qttoolsinterface.h \
+           src/gui/qt/qttools/qttoolswrapper.h \
+           src/gui/qt/qttools/qthelper/qthelper.h \
+           src/gui/generic/serverguiwrapper.h \
+           src/gui/generic/genericservergui.h
 FORMS += src/gui/qt/mainwindow.ui \
-	 src/gui/qt/aboutpokerth.ui \
+         src/gui/qt/aboutpokerth.ui \
          src/gui/qt/connecttoserverdialog.ui \
          src/gui/qt/createnetworkgamedialog.ui \
          src/gui/qt/joinnetworkgamedialog.ui \
@@ -171,9 +173,9 @@ SOURCES += src/game.cpp \
            src/net/common/netexception.cpp \
            src/net/common/receiverhelper.cpp \
            src/gui/qt/guiwrapper.cpp \
-	   src/gui/qt/mainwindow/mainwindowimpl.cpp \
+           src/gui/qt/mainwindow/mainwindowimpl.cpp \
            src/gui/qt/mainwindow/mycardspixmaplabel.cpp \
- 	   src/gui/qt/mainwindow/startsplash/startsplash.cpp \
+           src/gui/qt/mainwindow/startsplash/startsplash.cpp \
            src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp \
            src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp \
            src/gui/qt/createnetworkgamedialog/createnetworkgamedialogimpl.cpp \
@@ -184,17 +186,19 @@ SOURCES += src/game.cpp \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp \
            src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.cpp  \
            src/gui/qttoolsinterface.cpp \
-	   src/gui/qt/qttools/qttoolswrapper.cpp \
-	   src/gui/qt/qttools/qthelper/qthelper.cpp
+           src/gui/qt/qttools/qttoolswrapper.cpp \
+           src/gui/qt/qttools/qthelper/qthelper.cpp \
+           src/gui/generic/serverguiwrapper.cpp \
+           src/gui/generic/genericservergui.cpp
 RESOURCES += src/gui/qt/resources.qrc
 TRANSLATIONS = ts/pokerth_de.ts \
                ts/pokerth_es.ts \
-	       ts/pokerth_it.ts \
+               ts/pokerth_it.ts \
                ts/pokerth_fr.ts \
-	       ts/pokerth_se.ts \
-    	       ts/pokerth_pt.ts \
-	       ts/pokerth_tr.ts \
-       	       ts/pokerth_nl.ts
+               ts/pokerth_se.ts \
+               ts/pokerth_pt.ts \
+               ts/pokerth_tr.ts \
+               ts/pokerth_nl.ts
 CODECFORSRC = UTF-8
 
 TEMPLATE = vcapp
@@ -214,7 +218,7 @@ win32{
     DEPENDPATH += src/net/linux/ src/core/linux
     SOURCES += src/core/linux/rand.cpp \
 		src/net/linux/socket_helper.cpp \
-           	src/net/linux/socket_startup.cpp 
+		src/net/linux/socket_startup.cpp 
 }
 
 unix{

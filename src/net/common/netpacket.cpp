@@ -32,9 +32,10 @@ using namespace std;
 #define NET_TYPE_PLAYER_JOINED					0x0003
 #define NET_TYPE_PLAYER_LEFT					0x0004
 #define NET_TYPE_GAME_START						0x0005
-#define NET_TYPE_PLAYERS_TURN					0x0006
-#define NET_TYPE_PLAYERS_ACTION					0x0007
-#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x0008
+#define NET_TYPE_HAND_START						0x0006
+#define NET_TYPE_PLAYERS_TURN					0x0007
+#define NET_TYPE_PLAYERS_ACTION					0x0008
+#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x0009
 
 #define NET_TYPE_ERROR							0x0400
 
@@ -114,6 +115,12 @@ struct NetPacketPlayerLeftData
 struct NetPacketGameStartData
 {
 	NetPacketHeader		head;
+	u_int32_t			reserved;
+};
+
+struct NetPacketHandStartData
+{
+	NetPacketHeader		head;
 	u_int16_t			yourCards[2];
 };
 
@@ -191,6 +198,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_GAME_START:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameStart);
+					break;
+				case NET_TYPE_HAND_START:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketHandStart);
 					break;
 				case NET_TYPE_PLAYERS_TURN:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayersTurn);
@@ -311,6 +321,12 @@ NetPacket::ToNetPacketPlayerLeft() const
 
 const NetPacketGameStart *
 NetPacket::ToNetPacketGameStart() const
+{
+	return NULL;
+}
+
+const NetPacketHandStart *
+NetPacket::ToNetPacketHandStart() const
 {
 	return NULL;
 }
@@ -744,8 +760,7 @@ NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
 	assert(tmpData);
 
-	tmpData->yourCards[0]		= htons(inData.yourCards[0]);
-	tmpData->yourCards[1]		= htons(inData.yourCards[1]);
+	tmpData->reserved		= htonl(inData.reserved);
 }
 
 void
@@ -754,8 +769,7 @@ NetPacketGameStart::GetData(NetPacketGameStart::Data &outData) const
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
 	assert(tmpData);
 
-	outData.yourCards[0]		= ntohs(tmpData->yourCards[0]);
-	outData.yourCards[1]		= ntohs(tmpData->yourCards[1]);
+	outData.reserved		= ntohl(tmpData->reserved);
 }
 
 const NetPacketGameStart *
@@ -774,8 +788,71 @@ NetPacketGameStart::Check(const NetPacketHeader* data) const
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
+}
 
-	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
+//-----------------------------------------------------------------------------
+
+NetPacketHandStart::NetPacketHandStart()
+: NetPacket(NET_TYPE_GAME_START, sizeof(NetPacketGameStartData))
+{
+}
+
+NetPacketHandStart::~NetPacketHandStart()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketHandStart::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketHandStart);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketHandStart::SetData(const NetPacketHandStart::Data &inData)
+{
+	NetPacketHandStartData *tmpData = (NetPacketHandStartData *)GetRawData();
+	assert(tmpData);
+
+	tmpData->yourCards[0]		= htons(inData.yourCards[0]);
+	tmpData->yourCards[1]		= htons(inData.yourCards[1]);
+}
+
+void
+NetPacketHandStart::GetData(NetPacketHandStart::Data &outData) const
+{
+	NetPacketHandStartData *tmpData = (NetPacketHandStartData *)GetRawData();
+	assert(tmpData);
+
+	outData.yourCards[0]		= ntohs(tmpData->yourCards[0]);
+	outData.yourCards[1]		= ntohs(tmpData->yourCards[1]);
+}
+
+const NetPacketHandStart *
+NetPacketHandStart::ToNetPacketHandStart() const
+{
+	return this;
+}
+
+void
+NetPacketHandStart::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen < sizeof(NetPacketHandStartData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
+	NetPacketHandStartData *tmpData = (NetPacketHandStartData *)GetRawData();
 	if (ntohs(tmpData->yourCards[0]) > 51 || ntohs(tmpData->yourCards[1]) > 51)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);

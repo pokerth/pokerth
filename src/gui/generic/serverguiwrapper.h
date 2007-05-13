@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by FThauer FHammer   *
- *   f.thauer@web.de   *
+ *   Copyright (C) 2007 by Lothar May                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,25 +16,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef GUIWRAPPER_H
-#define GUIWRAPPER_H
+#ifndef SERVERGUIWRAPPER_H
+#define SERVERGUIWRAPPER_H
 
 #include <guiinterface.h>
 
-#include <string>
-#include <iostream>
-
-class Session;
-class mainWindowImpl;
-class Log;
 class ConfigFile;
+class GenericServerGui;
 
-class GuiWrapper : public GuiInterface
+class ServerGuiWrapper : public GuiInterface
 {
 public:
-	GuiWrapper(ConfigFile*);
-
-	~GuiWrapper();
+	ServerGuiWrapper(ConfigFile *config, ClientCallback *clientcb, ServerCallback *servercb);
+	~ServerGuiWrapper();
 
 	void initGui(int speed);
 
@@ -102,10 +95,9 @@ public:
 
 private:
 
-	Log *myLog;
-	mainWindowImpl *myW;
-	ConfigFile *myConfig;
-
+	boost::shared_ptr<GenericServerGui> myGui;
+	ClientCallback *myClientcb;
+	ServerCallback *myServercb;
 };
 
 #endif
