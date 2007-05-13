@@ -494,11 +494,11 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	//Dialoge 
 	myNewGameDialog = new newGameDialogImpl(this, myConfig);
-	mySettingsDialog = new settingsDialogImpl(this);
-	myJoinNetworkGameDialog = new joinNetworkGameDialogImpl(this);
+	mySettingsDialog = new settingsDialogImpl(this, myConfig);
+	myJoinNetworkGameDialog = new joinNetworkGameDialogImpl(this, myConfig);
 	myConnectToServerDialog = new connectToServerDialogImpl(this);
 	myStartNetworkGameDialog = new startNetworkGameDialogImpl(this);
-	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this);
+	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this, myConfig);
 	myWaitingForServerGameDialog = new waitForServerToStartGameDialogImpl(this);
 	myAboutPokerthDialog = new aboutPokerthImpl(this);
 

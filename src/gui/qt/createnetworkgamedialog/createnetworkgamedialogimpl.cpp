@@ -21,8 +21,8 @@
 #include "session.h"
 #include "configfile.h"
 
-createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent)
-      : QDialog(parent)
+createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, ConfigFile *c)
+      : QDialog(parent), myConfig(c)
 {
 
     setupUi(this);
@@ -45,15 +45,12 @@ void createNetworkGameDialogImpl::cancel() {
 
 void createNetworkGameDialogImpl::fillFormular() {
 	
-	//Formulare Füllen
-	ConfigFile myConfig;	
-
 	//Network Game Settings
-	spinBox_quantityPlayers->setValue(myConfig.readConfigInt("NetNumberOfPlayers"));
-	spinBox_startCash->setValue(myConfig.readConfigInt("NetStartCash"));
-	spinBox_smallBlind->setValue(myConfig.readConfigInt("NetSmallBlind"));
-	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig.readConfigInt("NetHandsBeforeRaiseSmallBlind"));
-	spinBox_gameSpeed->setValue(myConfig.readConfigInt("NetGameSpeed"));
+	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
+	spinBox_startCash->setValue(myConfig->readConfigInt("NetStartCash"));
+	spinBox_smallBlind->setValue(myConfig->readConfigInt("NetSmallBlind"));
+	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig->readConfigInt("NetHandsBeforeRaiseSmallBlind"));
+	spinBox_gameSpeed->setValue(myConfig->readConfigInt("NetGameSpeed"));
 }
 
 void createNetworkGameDialogImpl::showDialog() { 

@@ -34,9 +34,9 @@ class ConfigFile;
 class joinNetworkGameDialogImpl: public QDialog, public Ui::joinNetworkGameDialog {
 Q_OBJECT
 public:
-    joinNetworkGameDialogImpl(QWidget *parent = 0);
+    joinNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
 
-	ConfigFile myConfig;
+	ConfigFile *myConfig;
 	std::string myServerProfilesFile;
 
 public slots:
