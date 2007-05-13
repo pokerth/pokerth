@@ -32,7 +32,7 @@ class ServerThread;
 class Session{
 public:
 
-	Session(GuiInterface*);
+	Session(GuiInterface*, ConfigFile*);
 
 	~Session();
 

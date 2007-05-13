@@ -62,7 +62,7 @@ int main( int argc, char **argv )
 {
 	//create defaultconfig
 	bool configFirstStart = 1;
-	ConfigFile myConfig(configFirstStart);
+	ConfigFile *myConfig = new ConfigFile(configFirstStart);
 
 	//ENABLE_LEAK_CHECK();
 
@@ -86,9 +86,9 @@ int main( int argc, char **argv )
     	a.installTranslator(&translator);
 	///////////////////////////////////////////////////	
 
-	GuiInterface *myGuiInterface = new GuiWrapper();
+	GuiInterface *myGuiInterface = new GuiWrapper(myConfig);
 	{
-		boost::shared_ptr<Session> session(new Session(myGuiInterface));
+		boost::shared_ptr<Session> session(new Session(myGuiInterface, myConfig));
 		myGuiInterface->setSession(session);
 	}
 

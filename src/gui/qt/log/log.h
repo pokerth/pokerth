@@ -33,7 +33,7 @@ class mainWindowImpl;
 
 class Log{
 public:
-    Log(mainWindowImpl*);
+    Log(mainWindowImpl*, ConfigFile *c);
 
     ~Log();
 

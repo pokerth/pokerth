@@ -40,6 +40,8 @@ class BoardInterface;
 class PlayerInterface;
 class MyCardsPixmapLabel;
 class newGameDialogImpl;
+class settingsDialogImpl;
+class aboutPokerthImpl;
 class joinNetworkGameDialogImpl;
 class connectToServerDialogImpl;
 class createNetworkGameDialogImpl;
@@ -53,7 +55,7 @@ class mainWindowImpl: public QMainWindow, public Ui::mainWindow {
 Q_OBJECT
 
 public:
-	mainWindowImpl(QMainWindow *parent = 0 );
+	mainWindowImpl(ConfigFile *c = 0, QMainWindow *parent = 0);
 
 	~mainWindowImpl();
 
@@ -279,6 +281,9 @@ private:
 	QPixmap *flipside;
 
 	//Dialoge
+	aboutPokerthImpl *myAboutPokerthDialog;
+	newGameDialogImpl *myNewGameDialog;
+	settingsDialogImpl *mySettingsDialog;
 	joinNetworkGameDialogImpl *myJoinNetworkGameDialog;
 	connectToServerDialogImpl *myConnectToServerDialog;
 	startNetworkGameDialogImpl *myStartNetworkGameDialog;

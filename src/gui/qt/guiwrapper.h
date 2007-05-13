@@ -35,7 +35,7 @@ class Session;
 class GuiWrapper : public GuiInterface
 {
 public:
-	GuiWrapper();
+	GuiWrapper(ConfigFile*);
 
 	~GuiWrapper();
 

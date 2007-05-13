@@ -49,8 +49,8 @@
 
 using namespace std;
 
-mainWindowImpl::mainWindowImpl(QMainWindow *parent)
-     : QMainWindow(parent), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
+mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
+     : QMainWindow(parent), myConfig(c), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
 {
 	int i;
 
@@ -62,8 +62,7 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
 	}
 	////////////////////////////
 
-	myConfig = new ConfigFile;
-
+	
 // Resourcen abladen 
 	QFile preflopValuesFile(":data/resources/data/preflopValues");
 	QFile preflopValuesFileDest(QString::fromUtf8(myConfig->readConfigString("DataDir").c_str())+QString("preflopValues"));
@@ -494,11 +493,14 @@ mainWindowImpl::mainWindowImpl(QMainWindow *parent)
         }
 
 	//Dialoge 
+	myNewGameDialog = new newGameDialogImpl(this, myConfig);
+	mySettingsDialog = new settingsDialogImpl(this);
 	myJoinNetworkGameDialog = new joinNetworkGameDialogImpl(this);
 	myConnectToServerDialog = new connectToServerDialogImpl(this);
 	myStartNetworkGameDialog = new startNetworkGameDialogImpl(this);
 	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this);
 	myWaitingForServerGameDialog = new waitForServerToStartGameDialogImpl(this);
+	myAboutPokerthDialog = new aboutPokerthImpl(this);
 
 	//Connects
 	connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
@@ -580,9 +582,8 @@ void mainWindowImpl::callNewGameDialog() {
 	//wenn Dialogfenster gezeigt werden soll
 	if(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame")){
 
-		newGameDialogImpl *v = new newGameDialogImpl(this);
-		v->exec();
-		if (v->result() == QDialog::Accepted ) { startNewLocalGame(v);	}
+		myNewGameDialog->exec();
+		if (myNewGameDialog->result() == QDialog::Accepted ) { startNewLocalGame(myNewGameDialog);	}
 // 		else { startNewLocalGame(); }
 	}
 	// sonst mit gespeicherten Werten starten
@@ -621,11 +622,7 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 }
 
 
-void mainWindowImpl::callAboutPokerthDialog() {
-
-	aboutPokerthImpl *v = new aboutPokerthImpl(this);
-	v->exec();
-}
+void mainWindowImpl::callAboutPokerthDialog() {	myAboutPokerthDialog->exec(); }
 
 void mainWindowImpl::callCreateNetworkGameDialog() {
 	
@@ -699,11 +696,9 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 
 void mainWindowImpl::callSettingsDialog() {
 
-	settingsDialogImpl *v = new settingsDialogImpl(this);
-	v->exec();
-
+	mySettingsDialog->exec();
 	
-	if (v->getSettingsCorrect()) {
+	if (mySettingsDialog->getSettingsCorrect()) {
 		//Toolbox verstecken?
 		if (myConfig->readConfigInt("ShowLeftToolBox")) { groupBox_LeftToolBox->show(); }
 		else { groupBox_LeftToolBox->hide(); }
@@ -712,17 +707,17 @@ void mainWindowImpl::callSettingsDialog() {
 		else { groupBox_RightToolBox->hide(); }
 		
 		//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
-		if (v->getPlayerNickIsChanged() && mySession->getCurrentGame()) { 
+		if (mySettingsDialog->getPlayerNickIsChanged() && mySession->getCurrentGame()) { 
 
 			HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-			currentHand->getPlayerArray()[0]->setMyName(v->lineEdit_humanPlayerName->text().toUtf8().constData());
-			currentHand->getPlayerArray()[1]->setMyName(v->lineEdit_Opponent1Name->text().toUtf8().constData());
-			currentHand->getPlayerArray()[2]->setMyName(v->lineEdit_Opponent2Name->text().toUtf8().constData());
-			currentHand->getPlayerArray()[3]->setMyName(v->lineEdit_Opponent3Name->text().toUtf8().constData());
-			currentHand->getPlayerArray()[4]->setMyName(v->lineEdit_Opponent4Name->text().toUtf8().constData());
-			currentHand->getPlayerArray()[5]->setMyName(v->lineEdit_Opponent5Name->text().toUtf8().constData());
-			currentHand->getPlayerArray()[6]->setMyName(v->lineEdit_Opponent6Name->text().toUtf8().constData());
-			v->setPlayerNickIsChanged(FALSE);
+			currentHand->getPlayerArray()[0]->setMyName(mySettingsDialog->lineEdit_humanPlayerName->text().toUtf8().constData());
+			currentHand->getPlayerArray()[1]->setMyName(mySettingsDialog->lineEdit_Opponent1Name->text().toUtf8().constData());
+			currentHand->getPlayerArray()[2]->setMyName(mySettingsDialog->lineEdit_Opponent2Name->text().toUtf8().constData());
+			currentHand->getPlayerArray()[3]->setMyName(mySettingsDialog->lineEdit_Opponent3Name->text().toUtf8().constData());
+			currentHand->getPlayerArray()[4]->setMyName(mySettingsDialog->lineEdit_Opponent4Name->text().toUtf8().constData());
+			currentHand->getPlayerArray()[5]->setMyName(mySettingsDialog->lineEdit_Opponent5Name->text().toUtf8().constData());
+			currentHand->getPlayerArray()[6]->setMyName(mySettingsDialog->lineEdit_Opponent6Name->text().toUtf8().constData());
+			mySettingsDialog->setPlayerNickIsChanged(FALSE);
 
 			refreshPlayerName();
 		}
@@ -730,13 +725,13 @@ void mainWindowImpl::callSettingsDialog() {
 		if(mySession->getCurrentGame()) {
 
 			HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-			currentHand->getPlayerArray()[0]->setMyAvatar(v->lineEdit_humanPlayerAvatar->text().toUtf8().constData());
-			currentHand->getPlayerArray()[1]->setMyAvatar(v->lineEdit_Opponent1Avatar->text().toUtf8().constData());
-			currentHand->getPlayerArray()[2]->setMyAvatar(v->lineEdit_Opponent2Avatar->text().toUtf8().constData());
-			currentHand->getPlayerArray()[3]->setMyAvatar(v->lineEdit_Opponent3Avatar->text().toUtf8().constData());
-			currentHand->getPlayerArray()[4]->setMyAvatar(v->lineEdit_Opponent4Avatar->text().toUtf8().constData());
-			currentHand->getPlayerArray()[5]->setMyAvatar(v->lineEdit_Opponent5Avatar->text().toUtf8().constData());
-			currentHand->getPlayerArray()[6]->setMyAvatar(v->lineEdit_Opponent6Avatar->text().toUtf8().constData());
+			currentHand->getPlayerArray()[0]->setMyAvatar(mySettingsDialog->lineEdit_humanPlayerAvatar->text().toUtf8().constData());
+			currentHand->getPlayerArray()[1]->setMyAvatar(mySettingsDialog->lineEdit_Opponent1Avatar->text().toUtf8().constData());
+			currentHand->getPlayerArray()[2]->setMyAvatar(mySettingsDialog->lineEdit_Opponent2Avatar->text().toUtf8().constData());
+			currentHand->getPlayerArray()[3]->setMyAvatar(mySettingsDialog->lineEdit_Opponent3Avatar->text().toUtf8().constData());
+			currentHand->getPlayerArray()[4]->setMyAvatar(mySettingsDialog->lineEdit_Opponent4Avatar->text().toUtf8().constData());
+			currentHand->getPlayerArray()[5]->setMyAvatar(mySettingsDialog->lineEdit_Opponent5Avatar->text().toUtf8().constData());
+			currentHand->getPlayerArray()[6]->setMyAvatar(mySettingsDialog->lineEdit_Opponent6Avatar->text().toUtf8().constData());
 
 			//avatar refresh
 			refreshPlayerAvatar();		

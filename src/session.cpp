@@ -29,11 +29,10 @@
 
 using namespace std;
 
-Session::Session(GuiInterface *g)
-: currentGameID(0), myNetClient(0), myNetServer(0), currentGame(0), myGui(g)
+Session::Session(GuiInterface *g, ConfigFile *c)
+: currentGameID(0), myNetClient(0), myNetServer(0), currentGame(0), myGui(g), myConfig(c)
 {	
 	
-	myConfig = new ConfigFile;
 }
 
 

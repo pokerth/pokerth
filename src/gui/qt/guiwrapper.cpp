@@ -25,15 +25,13 @@
 using namespace std;
 
 
-GuiWrapper::GuiWrapper() : myLog(0), myW(0)
+GuiWrapper::GuiWrapper(ConfigFile *c) : myLog(0), myW(0), myConfig(c)
 {
 
 
-	myW = new mainWindowImpl;
+	myW = new mainWindowImpl(myConfig);
 	myW->show();
-
-	myLog = new Log(myW);
-	myConfig = new ConfigFile;
+	myLog = new Log(myW, myConfig);
 
 }
 
