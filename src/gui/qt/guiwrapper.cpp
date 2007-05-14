@@ -47,9 +47,6 @@ void GuiWrapper::initGui(int speed) { myW->initGui(speed); }
 Session &GuiWrapper::getSession() { return myW->getSession(); }
 void GuiWrapper::setSession(boost::shared_ptr<Session> session) { myW->setSession(session); }
 
-bool GuiWrapper::isNetworkServer() const { /* TODO hack */ return false; }
-void GuiWrapper::waitForNetworkAction(GameState state, unsigned uniquePlayerId) { /* TODO hack */ }
-
 void GuiWrapper::refreshSet() const { myW->refreshSet(); }
 void GuiWrapper::refreshCash() const { myW->refreshCash(); }
 void GuiWrapper::refreshAction(int playerID, int playerAction) const { myW->refreshAction(playerID, playerAction); }

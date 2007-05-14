@@ -39,9 +39,6 @@ public:
 	virtual Session &getSession() =0;
 	virtual void setSession(boost::shared_ptr<Session> session) =0;
 
-	virtual bool isNetworkServer() const =0;
-	virtual void waitForNetworkAction(GameState state, unsigned uniquePlayerId) =0;
-
 	//refresh-Funktionen
 	virtual void refreshSet() const=0;
 	virtual void refreshCash() const=0;

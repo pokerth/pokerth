@@ -22,7 +22,7 @@
 #include <guiinterface.h>
 
 class ConfigFile;
-class GenericServerGui;
+class Session;
 
 class ServerGuiWrapper : public GuiInterface
 {
@@ -34,9 +34,6 @@ public:
 
 	Session &getSession();
 	void setSession(boost::shared_ptr<Session> session);
-
-	bool isNetworkServer() const;
-	void waitForNetworkAction(GameState state, unsigned uniquePlayerId);
 
 	void refreshSet() const;
 	void refreshCash() const;
@@ -95,7 +92,9 @@ public:
 
 private:
 
-	boost::shared_ptr<GenericServerGui> myGui;
+	boost::shared_ptr<Session> mySession;
+	ConfigFile *myConfig;
+
 	ClientCallback *myClientcb;
 	ServerCallback *myServercb;
 };

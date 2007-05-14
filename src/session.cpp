@@ -160,13 +160,6 @@ void Session::initiateNetworkServerGame()
 	myNetServer->StartGame();
 }
 
-void Session::waitForNetworkServerAction(GameState state, unsigned uniquePlayerId)
-{
-	if (!myNetServer)
-		return; // TODO: throw exception
-	myNetServer->WaitForClientAction(state, uniquePlayerId);
-}
-
 void Session::terminateNetworkServer()
 {
 	if (!myNetServer)

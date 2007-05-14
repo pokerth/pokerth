@@ -18,16 +18,15 @@
  ***************************************************************************/
 
 #include "serverguiwrapper.h"
-#include "genericservergui.h"
+#include <session.h>
 
 
 using namespace std;
 
 
 ServerGuiWrapper::ServerGuiWrapper(ConfigFile *config, ClientCallback *clientcb, ServerCallback *servercb)
-: myClientcb(clientcb), myServercb(servercb)
+: myConfig(config), myClientcb(clientcb), myServercb(servercb)
 {
-	myGui.reset(new GenericServerGui(config));
 }
 
 ServerGuiWrapper::~ServerGuiWrapper()
@@ -38,26 +37,13 @@ void ServerGuiWrapper::initGui(int speed) {}
 
 Session &ServerGuiWrapper::getSession()
 {
-	return myGui->getSession();
+	assert(mySession.get());
+	return *mySession;
 }
 
 void ServerGuiWrapper::setSession(boost::shared_ptr<Session> session)
 {
-	myGui->setSession(session);
-}
-
-bool
-ServerGuiWrapper::isNetworkServer() const
-{
-	/* TODO hack */
-	return true;
-}
-
-void
-ServerGuiWrapper::waitForNetworkAction(GameState state, unsigned uniquePlayerId)
-{
-	/* TODO hack */
-	myGui->waitForNetworkAction(state, uniquePlayerId);
+	mySession = session;
 }
 
 void ServerGuiWrapper::refreshSet() const {}
@@ -74,32 +60,32 @@ void ServerGuiWrapper::refreshPot() const {}
 void ServerGuiWrapper::refreshGroupbox(int playerID, int status) const {}
 void ServerGuiWrapper::refreshPlayerName() const {}
 
-void ServerGuiWrapper::dealHoleCards() { myGui->dealHoleCards(); }
-void ServerGuiWrapper::dealFlopCards() { myGui->dealFlopCards(); }
-void ServerGuiWrapper::dealTurnCard() { myGui->dealTurnCard(); }
-void ServerGuiWrapper::dealRiverCard() { myGui->dealRiverCard(); }
+void ServerGuiWrapper::dealHoleCards() {}
+void ServerGuiWrapper::dealFlopCards() {}
+void ServerGuiWrapper::dealTurnCard() {}
+void ServerGuiWrapper::dealRiverCard() {}
 
 void ServerGuiWrapper::highlightRoundLabel(string round) const {}
 
 
-void ServerGuiWrapper::nextPlayerAnimation() { myGui->nextPlayerAnimation(); }
+void ServerGuiWrapper::nextPlayerAnimation() {}
 
-void ServerGuiWrapper::preflopAnimation1() { myGui->preflopAnimation1(); }
-void ServerGuiWrapper::preflopAnimation2() { myGui->preflopAnimation2(); }
+void ServerGuiWrapper::preflopAnimation1() {}
+void ServerGuiWrapper::preflopAnimation2() {}
 
-void ServerGuiWrapper::flopAnimation1() { myGui->flopAnimation1(); }
-void ServerGuiWrapper::flopAnimation2() { myGui->flopAnimation2(); }
+void ServerGuiWrapper::flopAnimation1() {}
+void ServerGuiWrapper::flopAnimation2() {}
 
-void ServerGuiWrapper::turnAnimation1() { myGui->turnAnimation1(); }
-void ServerGuiWrapper::turnAnimation2() { myGui->turnAnimation2(); }
+void ServerGuiWrapper::turnAnimation1() {}
+void ServerGuiWrapper::turnAnimation2() {}
 
-void ServerGuiWrapper::riverAnimation1() { myGui->riverAnimation1(); }
-void ServerGuiWrapper::riverAnimation2() { myGui->riverAnimation2(); }
+void ServerGuiWrapper::riverAnimation1() {}
+void ServerGuiWrapper::riverAnimation2() {}
 
-void ServerGuiWrapper::postRiverAnimation1() { myGui->postRiverAnimation1(); }
-void ServerGuiWrapper::postRiverRunAnimation1() { myGui->postRiverRunAnimation1(); }
+void ServerGuiWrapper::postRiverAnimation1() {}
+void ServerGuiWrapper::postRiverRunAnimation1() {}
 
-void ServerGuiWrapper::flipHolecardsAllIn() { myGui->flipHolecardsAllIn(); }
+void ServerGuiWrapper::flipHolecardsAllIn() {}
 
 void ServerGuiWrapper::nextRoundCleanGui() {}
 

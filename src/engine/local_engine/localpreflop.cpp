@@ -72,7 +72,7 @@ void LocalPreflop::preflopRun() {
 		//also gehe in Flop
 		myHand->setActualRound(1);
 		
-		//Action l�chen und ActionButtons refresh
+		//Action loeschen und ActionButtons refresh
 		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 			if(myHand->getPlayerArray()[i]->getMyAction() != 1 && myHand->getPlayerArray()[i]->getMyAction() != 6) myHand->getPlayerArray()[i]->setMyAction(0);
 		}
@@ -103,22 +103,14 @@ void LocalPreflop::preflopRun() {
 		myHand->getPlayerArray()[playersTurn]->setMyTurn(1);
 		myHand->getGuiInterface()->refreshGroupbox(playersTurn,2);
 
-		if(myHand->getGuiInterface()->isNetworkServer())
-		{
-			myHand->getGuiInterface()->waitForNetworkAction(
-				GAME_STATE_PREFLOP, myHand->getPlayerArray()[playersTurn]->getMyUniqueID());
+		if(playersTurn == 0) {
+			// Wir sind dran
+			myHand->getGuiInterface()->meInAction();
 		}
-		else
-		{
-			if(playersTurn == 0) {
-				// Wir sind dran
-				myHand->getGuiInterface()->meInAction();
-			}
-			else {
-				//Gegner sind dran
-//	 			cout << "NextPlayerSpeed3 start" << endl;
-				myHand->getGuiInterface()->preflopAnimation2();
-			}
+		else {
+			//Gegner sind dran
+//			cout << "NextPlayerSpeed3 start" << endl;
+			myHand->getGuiInterface()->preflopAnimation2();
 		}
 	}
 }

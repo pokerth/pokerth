@@ -111,23 +111,15 @@ void LocalRiver::riverRun() {
 			// wenn wir letzter aktiver Spieler vor SmallBlind sind, dann flopFirstRound zuende
 			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind) { firstRiverRound = 0; }
 
-			if(myHand->getGuiInterface()->isNetworkServer())
-			{
-				myHand->getGuiInterface()->waitForNetworkAction(
-					GAME_STATE_RIVER, myHand->getPlayerArray()[playersTurn]->getMyUniqueID());
+			if(playersTurn == 0) {
+				// Wir sind dran
+//				cout << "actualRound " << myHand->getActualRound() << endl;
+//				cout << "highestSet vor meInAction " << highestSet << endl;
+				myHand->getGuiInterface()->meInAction();
 			}
-			else
-			{
-				if(playersTurn == 0) {
-					// Wir sind dran
-//					cout << "actualRound " << myHand->getActualRound() << endl;
-//					cout << "highestSet vor meInAction " << highestSet << endl;
-					myHand->getGuiInterface()->meInAction();
-				}
-				else {
-					//Gegner sind dran
-					myHand->getGuiInterface()->riverAnimation2();
-				}
+			else {
+				//Gegner sind dran
+				myHand->getGuiInterface()->riverAnimation2();
 			}
 		}
 	}

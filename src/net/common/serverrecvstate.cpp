@@ -318,6 +318,44 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 	Game &curGame = server.GetGame();
 
 	curGame.getCurrentHand()->switchRounds();
+	int playersTurn = 0;
+
+	// TODO: no switch needed here if game states are polymorphic
+	switch(curGame.getCurrentHand()->getActualRound()) {
+		case 0: {
+			// Preflop starten
+			curGame.getCurrentHand()->getPreflop()->preflopRun();
+			playersTurn = curGame.getCurrentHand()->getPreflop()->getPlayersTurn();
+		} break;
+		case 1: {
+			// Flop starten
+			curGame.getCurrentHand()->getFlop()->flopRun();
+			playersTurn = curGame.getCurrentHand()->getFlop()->getPlayersTurn();
+		} break;
+		case 2: {
+			// Turn starten
+			curGame.getCurrentHand()->getTurn()->turnRun();
+			playersTurn = curGame.getCurrentHand()->getTurn()->getPlayersTurn();
+		} break;
+		case 3: {
+			// River starten
+			curGame.getCurrentHand()->getRiver()->riverRun();
+			playersTurn = curGame.getCurrentHand()->getRiver()->getPlayersTurn();
+		} break;
+		default: {
+			// TODO
+		}
+	}
+
+	assert(playersTurn < curGame.getActualQuantityPlayers());
+
+	boost::shared_ptr<NetPacket> notification(new NetPacketPlayersTurn);
+	NetPacketPlayersTurn::Data playersTurnData;
+	playersTurnData.gameState = (GameState)curGame.getCurrentHand()->getActualRound();
+	playersTurnData.playerId = curGame.getPlayerArray()[playersTurn]->getMyUniqueID();
+	static_cast<NetPacketPlayersTurn *>(notification.get())->SetData(playersTurnData);
+
+	server.SendToAllPlayers(notification);
 
 	server.SetState(ServerRecvStateFinal::Instance());
 

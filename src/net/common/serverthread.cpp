@@ -65,16 +65,6 @@ ServerThread::StartGame()
 	GetRecvThread().AddNotification(NOTIFY_GAME_START, 0, 0);
 }
 
-void
-ServerThread::WaitForClientAction(GameState state, unsigned uniquePlayerId)
-{
-	if (!IsRunning())
-		return; // TODO: throw exception
-
-	// Thread-safe notification.
-	GetRecvThread().AddNotification(NOTIFY_WAIT_FOR_CLIENT_ACTION, state, uniquePlayerId);
-}
-
 ServerCallback &
 ServerThread::GetCallback()
 {

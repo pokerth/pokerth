@@ -111,8 +111,7 @@ HEADERS += src/game.h \
            src/gui/qttoolsinterface.h \
            src/gui/qt/qttools/qttoolswrapper.h \
            src/gui/qt/qttools/qthelper/qthelper.h \
-           src/gui/generic/serverguiwrapper.h \
-           src/gui/generic/genericservergui.h
+           src/gui/generic/serverguiwrapper.h
 FORMS += src/gui/qt/mainwindow.ui \
          src/gui/qt/aboutpokerth.ui \
          src/gui/qt/connecttoserverdialog.ui \
@@ -188,8 +187,7 @@ SOURCES += src/game.cpp \
            src/gui/qttoolsinterface.cpp \
            src/gui/qt/qttools/qttoolswrapper.cpp \
            src/gui/qt/qttools/qthelper/qthelper.cpp \
-           src/gui/generic/serverguiwrapper.cpp \
-           src/gui/generic/genericservergui.cpp
+           src/gui/generic/serverguiwrapper.cpp
 RESOURCES += src/gui/qt/resources.qrc
 TRANSLATIONS = ts/pokerth_de.ts \
                ts/pokerth_es.ts \

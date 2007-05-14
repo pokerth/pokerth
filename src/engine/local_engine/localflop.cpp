@@ -69,7 +69,7 @@ void LocalFlop::flopRun() {
 			//also gehe in Turn
 			myHand->setActualRound(2);
 
-			//Action l�chen und ActionButtons refresh
+			//Action loeschen und ActionButtons refresh
 			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 				if(myHand->getPlayerArray()[i]->getMyAction() != 1 && myHand->getPlayerArray()[i]->getMyAction() != 6) myHand->getPlayerArray()[i]->setMyAction(0);
 			}
@@ -94,7 +94,7 @@ void LocalFlop::flopRun() {
 			}
 			
 	
-			// n�hsten Spieler ermitteln
+			// naechsten Spieler ermitteln
 			do { playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
 			} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6);
 
@@ -111,24 +111,16 @@ void LocalFlop::flopRun() {
 			// wenn wir letzter aktiver Spieler vor SmallBlind sind, dann flopFirstRound zuende
 			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind) { firstFlopRound = 0; }
 
-			if(myHand->getGuiInterface()->isNetworkServer())
-			{
-				myHand->getGuiInterface()->waitForNetworkAction(
-					GAME_STATE_FLOP, myHand->getPlayerArray()[playersTurn]->getMyUniqueID());
+			if(playersTurn == 0) {
+				// Wir sind dran
+//				cout << "actualRound " << myHand->getActualRound() << endl;
+//				cout << "highestSet vor meInAction " << highestSet << endl;
+				myHand->getGuiInterface()->meInAction();
 			}
-			else
-			{
-				if(playersTurn == 0) {
-					// Wir sind dran
-//					cout << "actualRound " << myHand->getActualRound() << endl;
-// 					cout << "highestSet vor meInAction " << highestSet << endl;
-					myHand->getGuiInterface()->meInAction();
-				}
-				else {
-					//Gegner sind dran
-//	 				cout << "NextPlayerSpeed3 start" << endl;
-					myHand->getGuiInterface()->flopAnimation2();
-				}
+			else {
+				//Gegner sind dran
+//				cout << "NextPlayerSpeed3 start" << endl;
+				myHand->getGuiInterface()->flopAnimation2();
 			}
 		}
 	}

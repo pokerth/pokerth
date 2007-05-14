@@ -42,9 +42,6 @@ public:
 	Session &getSession();
 	void setSession(boost::shared_ptr<Session> session);
 
-	bool isNetworkServer() const;
-	void waitForNetworkAction(GameState state, unsigned uniquePlayerId);
-
 	void refreshSet() const;
 	void refreshCash() const;
 	void refreshAction(int =-1, int =-1) const;

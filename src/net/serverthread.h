@@ -44,7 +44,6 @@ public:
 	void Init(unsigned serverPort, bool ipv6, const std::string &pwd,
 		const GameData &gameData);
 	void StartGame();
-	void WaitForClientAction(GameState state, unsigned uniquePlayerId);
 
 	ServerCallback &GetCallback();
 	GuiInterface &GetGui();

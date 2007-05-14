@@ -49,7 +49,6 @@ public:
 
 	void startNetworkServer(const GameData &gameData);
 	void initiateNetworkServerGame();
-	void waitForNetworkServerAction(GameState state, unsigned uniquePlayerId);
 	void terminateNetworkServer();
 
 	void setCurrentGameID(const int& theValue) { currentGameID = theValue; }

@@ -37,7 +37,6 @@
 
 // Notifications
 #define NOTIFY_GAME_START				1
-#define NOTIFY_WAIT_FOR_CLIENT_ACTION	2
 
 class ServerRecvState;
 class SenderThread;

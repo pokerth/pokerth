@@ -144,8 +144,6 @@ ServerRecvThread::NotificationLoop()
 			case NOTIFY_GAME_START:
 				InternalStartGame();
 				break;
-			case NOTIFY_WAIT_FOR_CLIENT_ACTION:
-				break;
 		}
 	}
 }
