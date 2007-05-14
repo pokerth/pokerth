@@ -97,61 +97,65 @@ LocalHand::LocalHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, Playe
 
 // // 	int *temp5Array;
 // // 
-// // 	tempBoardArray[0] = 2;
-// // 	tempBoardArray[1] = 15;
-// // 	tempBoardArray[2] = 4;
-// // 	tempBoardArray[3] = 28;
-// // 	tempBoardArray[4] = 17;
+// // 	tempBoardArray[0] = 25;
+// // 	tempBoardArray[1] = 50;
+// // 	tempBoardArray[2] = 24;
+// // 	tempBoardArray[3] = 22;
+// // 	tempBoardArray[4] = 51;
 // // 
 // // 	myBoard->setMyCards(tempBoardArray);
 // // 
-// // 	tempPlayerAndBoardArray[2] = 2;
-// // 	tempPlayerAndBoardArray[3] = 15;
-// // 	tempPlayerAndBoardArray[4] = 4;
-// // 	tempPlayerAndBoardArray[5] = 28;
-// // 	tempPlayerAndBoardArray[6] = 17;
+// // 	tempPlayerAndBoardArray[2] = tempBoardArray[0];
+// // 	tempPlayerAndBoardArray[3] = tempBoardArray[1];
+// // 	tempPlayerAndBoardArray[4] = tempBoardArray[2];
+// // 	tempPlayerAndBoardArray[5] = tempBoardArray[3];
+// // 	tempPlayerAndBoardArray[6] = tempBoardArray[4];
 // // 
-// // 	tempPlayerArray[0] = 0;
-// // 	tempPlayerArray[1] = 5;
-// // 	tempPlayerAndBoardArray[0] = 0;
-// // 	tempPlayerAndBoardArray[1] = 5;
+// // 	tempPlayerArray[0] = 12;
+// // 	tempPlayerArray[1] = 27;
+// // 	tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+// // 	tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 // // 
 // // 	playerArray[0]->setMyCards(tempPlayerArray);
 // // 	playerArray[0]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,playerArray[0]->getMyBestHandPosition()));
 // // 
 // // 	temp5Array = playerArray[0]->getMyBestHandPosition();
 // // 
-// // 	for(i=0; i<5; i++) {
-// // 		cout << temp5Array[i] << " ";
-// // 	}
-// // 	cout << endl;
+// // // 	for(i=0; i<5; i++) {
+// // // 		cout << temp5Array[i] << " ";
+// // // 	}
+// // // 	cout << endl;
 // // 
-// // 	tempPlayerArray[0] = 12;
-// // 	tempPlayerArray[1] = 24;
-// // 	tempPlayerAndBoardArray[0] = 12;
-// // 	tempPlayerAndBoardArray[1] = 24;
+// // 	tempPlayerArray[0] = 23;
+// // 	tempPlayerArray[1] = 2;
+// // 	tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+// // 	tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 // // 
 // // 	playerArray[1]->setMyCards(tempPlayerArray);
 // // 	playerArray[1]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,playerArray[1]->getMyBestHandPosition()));
 // // 
-// // 	tempPlayerArray[0] = 25;
-// // 	tempPlayerArray[1] = 35;
-// // 	tempPlayerAndBoardArray[0] = 25;
-// // 	tempPlayerAndBoardArray[1] = 35;
+// // 	tempPlayerArray[0] = 20;
+// // 	tempPlayerArray[1] = 38;
+// // 	tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+// // 	tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 // // 
 // // 	playerArray[2]->setMyCards(tempPlayerArray);
 // // 	playerArray[2]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,playerArray[2]->getMyBestHandPosition()));
 // // 
-// // 	tempPlayerArray[0] = 51;
-// // 	tempPlayerArray[1] = 33;
-// // 	tempPlayerAndBoardArray[0] = 25;
-// // 	tempPlayerAndBoardArray[1] = 35;
+// // 	tempPlayerArray[0] = 19;
+// // 	tempPlayerArray[1] = 10;
+// // 	tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+// // 	tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 // // 
 // // 	playerArray[3]->setMyCards(tempPlayerArray);
 // // 	playerArray[3]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,playerArray[3]->getMyBestHandPosition()));
+// // 
+// // 	for(i=0; i<4; i++) {
+// // 		cout << i << ": " << playerArray[i]->getMyCardsValueInt() << endl;
+// // 	}
 
 
-// // // 	seven-two, the others have Ace-King, Ace-Jack, Ace-Nine. The pot is obviously split. 
+// // // ----------------------------------------
 
 	// Dealer, SB, BB bestimmen
 	assignButtons();
