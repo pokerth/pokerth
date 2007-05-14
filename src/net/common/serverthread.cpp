@@ -126,8 +126,9 @@ ServerThread::Listen()
 
 	context.GetServerSockaddr()->ss_family = context.GetAddrFamily();
 
+	const char *localAddr = (context.GetAddrFamily() == AF_INET6) ? "::0" : "0.0.0.0";
 	if (!socket_string_to_addr(
-			"0.0.0.0",
+			localAddr,
 			context.GetAddrFamily(),
 			(struct sockaddr *)context.GetServerSockaddr(),
 			context.GetServerSockaddrSize()))
