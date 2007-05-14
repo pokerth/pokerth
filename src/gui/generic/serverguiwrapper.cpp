@@ -74,36 +74,36 @@ void ServerGuiWrapper::refreshPot() const {}
 void ServerGuiWrapper::refreshGroupbox(int playerID, int status) const {}
 void ServerGuiWrapper::refreshPlayerName() const {}
 
-void ServerGuiWrapper::dealHoleCards() const {}
-void ServerGuiWrapper::dealFlopCards() const {}
-void ServerGuiWrapper::dealTurnCard() const {}
-void ServerGuiWrapper::dealRiverCard() const {}
+void ServerGuiWrapper::dealHoleCards() { myGui->dealHoleCards(); }
+void ServerGuiWrapper::dealFlopCards() { myGui->dealFlopCards(); }
+void ServerGuiWrapper::dealTurnCard() { myGui->dealTurnCard(); }
+void ServerGuiWrapper::dealRiverCard() { myGui->dealRiverCard(); }
 
 void ServerGuiWrapper::highlightRoundLabel(string round) const {}
 
 
-void ServerGuiWrapper::nextPlayerAnimation() const {}
+void ServerGuiWrapper::nextPlayerAnimation() { myGui->nextPlayerAnimation(); }
 
-void ServerGuiWrapper::preflopAnimation1() const {}
-void ServerGuiWrapper::preflopAnimation2() const {}
+void ServerGuiWrapper::preflopAnimation1() { myGui->preflopAnimation1(); }
+void ServerGuiWrapper::preflopAnimation2() { myGui->preflopAnimation2(); }
 
-void ServerGuiWrapper::flopAnimation1() const {}
-void ServerGuiWrapper::flopAnimation2() const {}
+void ServerGuiWrapper::flopAnimation1() { myGui->flopAnimation1(); }
+void ServerGuiWrapper::flopAnimation2() { myGui->flopAnimation2(); }
 
-void ServerGuiWrapper::turnAnimation1() const {}
-void ServerGuiWrapper::turnAnimation2() const {}
+void ServerGuiWrapper::turnAnimation1() { myGui->turnAnimation1(); }
+void ServerGuiWrapper::turnAnimation2() { myGui->turnAnimation2(); }
 
-void ServerGuiWrapper::riverAnimation1() const {}
-void ServerGuiWrapper::riverAnimation2() const {}
+void ServerGuiWrapper::riverAnimation1() { myGui->riverAnimation1(); }
+void ServerGuiWrapper::riverAnimation2() { myGui->riverAnimation2(); }
 
-void ServerGuiWrapper::postRiverAnimation1() const {}
-void ServerGuiWrapper::postRiverRunAnimation1() const {}
+void ServerGuiWrapper::postRiverAnimation1() { myGui->postRiverAnimation1(); }
+void ServerGuiWrapper::postRiverRunAnimation1() { myGui->postRiverRunAnimation1(); }
 
-void ServerGuiWrapper::flipHolecardsAllIn() const {}
+void ServerGuiWrapper::flipHolecardsAllIn() { myGui->flipHolecardsAllIn(); }
 
-void ServerGuiWrapper::nextRoundCleanGui() const {}
+void ServerGuiWrapper::nextRoundCleanGui() {}
 
-void ServerGuiWrapper::meInAction() const {}
+void ServerGuiWrapper::meInAction() {}
 
 void ServerGuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) {}
 void ServerGuiWrapper::logNewGameHandMsg(int gameID, int handID) {}

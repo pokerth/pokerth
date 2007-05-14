@@ -35,6 +35,7 @@ class Log;
 class ConfigFile;
 class Session;
 
+class GuiInterface;
 class BoardInterface;
 // class HandInterface;
 class PlayerInterface;
@@ -199,7 +200,8 @@ public slots:
 	void networkStart(int, int, int, int);
 
 private: 
-	
+
+	boost::shared_ptr<GuiInterface> myServerGuiInterface;
 	boost::shared_ptr<Session> mySession;
 	Log *myLog;
 	ConfigFile *myConfig;

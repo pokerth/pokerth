@@ -89,9 +89,9 @@ int main( int argc, char **argv )
     	a.installTranslator(&translator);
 	///////////////////////////////////////////////////	
 
-	GuiInterface *myGuiInterface = new GuiWrapper(myConfig);
+	boost::shared_ptr<GuiInterface> myGuiInterface(new GuiWrapper(myConfig));
 	{
-		boost::shared_ptr<Session> session(new Session(myGuiInterface, myConfig));
+		boost::shared_ptr<Session> session(new Session(myGuiInterface.get(), myConfig));
 		myGuiInterface->setSession(session);
 	}
 

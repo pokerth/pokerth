@@ -40,6 +40,7 @@
 
 #include "log.h"
 #include "configfile.h"
+#include <generic/serverguiwrapper.h>
 
 #include <net/socket_msg.h>
 
@@ -594,7 +595,8 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 
 	// Start new local game - terminate existing network game.
 	mySession->terminateNetworkClient();
-	mySession->terminateNetworkServer();
+	if (myServerGuiInterface.get())
+		myServerGuiInterface->getSession().terminateNetworkServer();
 
 	//get values from local game dialog
 	GameData gameData;
@@ -630,8 +632,19 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 // 
 	if (myCreateNetworkGameDialog->result() == QDialog::Accepted ) {
 
+		if (!myServerGuiInterface.get())
+		{
+			// Create pseudo Gui Wrapper for the server.
+			myServerGuiInterface.reset(new ServerGuiWrapper(myConfig, mySession->getGui(), mySession->getGui()));
+			{
+				boost::shared_ptr<Session> session(new Session(myServerGuiInterface.get(), myConfig));
+				myServerGuiInterface->setSession(session);
+			}
+		}
+
+		// Terminate existing network games.
 		mySession->terminateNetworkClient();
-		mySession->terminateNetworkServer();
+		myServerGuiInterface->getSession().terminateNetworkServer();
 
 		GameData gameData;
 		gameData.numberOfPlayers = myCreateNetworkGameDialog->spinBox_quantityPlayers->value();
@@ -641,8 +654,8 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
 
 		myStartNetworkGameDialog->treeWidget->clear();
-	
-		mySession->startNetworkServer(gameData);
+
+		myServerGuiInterface->getSession().startNetworkServer(gameData);
 		mySession->startNetworkClientForLocalServer();
 
 		myStartNetworkGameDialog->exec();
@@ -650,11 +663,11 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 
 
 		if (myStartNetworkGameDialog->result() == QDialog::Accepted ) {
-			mySession->initiateNetworkServerGame();
+			myServerGuiInterface->getSession().initiateNetworkServerGame();
 		}
 		else {
 			mySession->terminateNetworkClient();
-			mySession->terminateNetworkServer();
+			myServerGuiInterface->getSession().terminateNetworkServer();
 		}
 	}
 
@@ -667,7 +680,8 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 	if (myJoinNetworkGameDialog->result() == QDialog::Accepted ) {
 
 		mySession->terminateNetworkClient();
-		mySession->terminateNetworkServer();
+		if (myServerGuiInterface.get())
+			myServerGuiInterface->getSession().terminateNetworkServer();
 
 		myWaitingForServerGameDialog->treeWidget->clear();
 		// Maybe use QUrl::toPunycode.

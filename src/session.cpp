@@ -93,6 +93,11 @@ Game *Session::getCurrentGame()
 	return currentGame;
 }
 
+GuiInterface *Session::getGui()
+{
+	return myGui;
+}
+
 void Session::startNetworkClient(const string &serverAddress, unsigned serverPort, bool ipv6, const string &pwd)
 {
 	if (myNetClient || !myGui)

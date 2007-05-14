@@ -19,6 +19,7 @@
 
 #include "genericservergui.h"
 #include <session.h>
+#include <game.h>
 
 using namespace std;
 
@@ -51,5 +52,70 @@ void GenericServerGui::setSession(boost::shared_ptr<Session> session)
 void GenericServerGui::waitForNetworkAction(GameState state, unsigned uniquePlayerId)
 {
 	getSession().waitForNetworkServerAction(state, uniquePlayerId);
+}
+
+
+void GenericServerGui::dealHoleCards()
+{
+}
+
+void GenericServerGui::dealFlopCards()
+{
+}
+
+void GenericServerGui::dealTurnCard()
+{
+}
+
+void GenericServerGui::dealRiverCard()
+{
+}
+
+void GenericServerGui::nextPlayerAnimation()
+{
+}
+
+void GenericServerGui::preflopAnimation1()
+{
+}
+
+void GenericServerGui::preflopAnimation2()
+{
+}
+
+void GenericServerGui::flopAnimation1()
+{
+}
+
+void GenericServerGui::flopAnimation2()
+{
+}
+
+void GenericServerGui::turnAnimation1()
+{
+}
+
+void GenericServerGui::turnAnimation2()
+{
+}
+
+void GenericServerGui::riverAnimation1()
+{
+}
+
+void GenericServerGui::riverAnimation2()
+{
+}
+
+void GenericServerGui::postRiverAnimation1()
+{
+}
+
+void GenericServerGui::postRiverRunAnimation1()
+{
+}
+
+void GenericServerGui::flipHolecardsAllIn()
+{
 }
 

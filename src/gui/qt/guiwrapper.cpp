@@ -59,36 +59,36 @@ void GuiWrapper::refreshPot() const { myW->refreshPot(); }
 void GuiWrapper::refreshGroupbox(int playerID, int status) const { myW->refreshGroupbox(playerID, status); }
 void GuiWrapper::refreshPlayerName() const { myW->refreshPlayerName(); }
 
-void GuiWrapper::dealHoleCards() const { myW->dealHoleCards(); }
-void GuiWrapper::dealFlopCards() const { myW->dealFlopCards0(); }
-void GuiWrapper::dealTurnCard() const { myW->dealTurnCards0(); }
-void GuiWrapper::dealRiverCard() const { myW->dealRiverCards0(); }
+void GuiWrapper::dealHoleCards() { myW->dealHoleCards(); }
+void GuiWrapper::dealFlopCards() { myW->dealFlopCards0(); }
+void GuiWrapper::dealTurnCard() { myW->dealTurnCards0(); }
+void GuiWrapper::dealRiverCard() { myW->dealRiverCards0(); }
 
 void GuiWrapper::highlightRoundLabel(string round) const { myW->highlightRoundLabel(round); }
 
 
-void GuiWrapper::nextPlayerAnimation() const { myW->nextPlayerAnimation(); }
+void GuiWrapper::nextPlayerAnimation() { myW->nextPlayerAnimation(); }
 
-void GuiWrapper::preflopAnimation1() const { myW->preflopAnimation1(); }
-void GuiWrapper::preflopAnimation2() const { myW->preflopAnimation2(); }
+void GuiWrapper::preflopAnimation1() { myW->preflopAnimation1(); }
+void GuiWrapper::preflopAnimation2() { myW->preflopAnimation2(); }
 
-void GuiWrapper::flopAnimation1() const { myW->flopAnimation1(); }
-void GuiWrapper::flopAnimation2() const { myW->flopAnimation2(); }
+void GuiWrapper::flopAnimation1() { myW->flopAnimation1(); }
+void GuiWrapper::flopAnimation2() { myW->flopAnimation2(); }
 
-void GuiWrapper::turnAnimation1() const { myW->turnAnimation1(); }
-void GuiWrapper::turnAnimation2() const { myW->turnAnimation2(); }
+void GuiWrapper::turnAnimation1() { myW->turnAnimation1(); }
+void GuiWrapper::turnAnimation2() { myW->turnAnimation2(); }
 
-void GuiWrapper::riverAnimation1() const { myW->riverAnimation1(); }
-void GuiWrapper::riverAnimation2() const { myW->riverAnimation2(); }
+void GuiWrapper::riverAnimation1() { myW->riverAnimation1(); }
+void GuiWrapper::riverAnimation2() { myW->riverAnimation2(); }
 
-void GuiWrapper::postRiverAnimation1() const { myW->postRiverAnimation1(); }
-void GuiWrapper::postRiverRunAnimation1() const { myW->postRiverRunAnimation1(); }
+void GuiWrapper::postRiverAnimation1() { myW->postRiverAnimation1(); }
+void GuiWrapper::postRiverRunAnimation1() { myW->postRiverRunAnimation1(); }
 
-void GuiWrapper::flipHolecardsAllIn() const { myW->flipHolecardsAllIn(); }
+void GuiWrapper::flipHolecardsAllIn() { myW->flipHolecardsAllIn(); }
 
-void GuiWrapper::nextRoundCleanGui() const { myW->nextRoundCleanGui(); }
+void GuiWrapper::nextRoundCleanGui() { myW->nextRoundCleanGui(); }
 
-void GuiWrapper::meInAction() const { myW->meInAction(); }
+void GuiWrapper::meInAction() { myW->meInAction(); }
 
 void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) { myLog->logPlayerActionMsg(playerName, action, setValue); }
 void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->logNewGameHandMsg(gameID, handID); }

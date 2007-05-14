@@ -47,35 +47,35 @@ public:
 	void refreshAll() const;
 	void refreshPlayerName() const;
 	
-	void dealHoleCards() const;
-	void dealFlopCards() const;
-	void dealTurnCard() const;
-	void dealRiverCard() const;
+	void dealHoleCards();
+	void dealFlopCards();
+	void dealTurnCard();
+	void dealRiverCard();
 
 	void highlightRoundLabel(std::string round) const;
 
-	void nextPlayerAnimation() const;
+	void nextPlayerAnimation();
 
-	void preflopAnimation1() const;
-	void preflopAnimation2() const;
+	void preflopAnimation1();
+	void preflopAnimation2();
 	
-	void flopAnimation1() const;
-	void flopAnimation2() const;
+	void flopAnimation1();
+	void flopAnimation2();
 
-	void turnAnimation1() const;
-	void turnAnimation2() const;
+	void turnAnimation1();
+	void turnAnimation2();
 
-	void riverAnimation1() const;
-	void riverAnimation2() const;
+	void riverAnimation1();
+	void riverAnimation2();
 
-	void postRiverAnimation1() const;
-	void postRiverRunAnimation1() const;
+	void postRiverAnimation1();
+	void postRiverRunAnimation1();
 
-	void flipHolecardsAllIn() const;
+	void flipHolecardsAllIn();
 
-	void nextRoundCleanGui() const;
+	void nextRoundCleanGui();
 
-	void meInAction() const;
+	void meInAction();
 
 	void logPlayerActionMsg(std::string playerName, int action, int setValue) ;
 	void logNewGameHandMsg(int gameID, int handID) ;

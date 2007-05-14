@@ -39,6 +39,30 @@ public:
 
 	void waitForNetworkAction(GameState state, unsigned uniquePlayerId);
 
+	void dealHoleCards();
+	void dealFlopCards();
+	void dealTurnCard();
+	void dealRiverCard();
+
+	void nextPlayerAnimation();
+
+	void preflopAnimation1();
+	void preflopAnimation2();
+	
+	void flopAnimation1();
+	void flopAnimation2();
+
+	void turnAnimation1();
+	void turnAnimation2();
+
+	void riverAnimation1();
+	void riverAnimation2();
+
+	void postRiverAnimation1();
+	void postRiverRunAnimation1();
+
+	void flipHolecardsAllIn();
+
 private: 
 
 	boost::shared_ptr<Session> mySession;

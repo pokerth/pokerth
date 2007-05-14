@@ -109,6 +109,27 @@ protected:
 	ServerRecvStateStartHand();
 };
 
+// State: Start new round.
+class ServerRecvStateStartRound : public ServerRecvState
+{
+public:
+	// Access the state singleton.
+	static ServerRecvStateStartRound &Instance();
+
+	virtual ~ServerRecvStateStartRound();
+
+	// 
+	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
+
+	// 
+	virtual int Process(ServerRecvThread &server);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ServerRecvStateStartRound();
+};
+
 // State: Final.
 class ServerRecvStateFinal : public ServerRecvState
 {

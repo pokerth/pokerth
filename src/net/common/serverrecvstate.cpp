@@ -28,6 +28,7 @@
 #include <gamedata.h>
 #include <game.h>
 #include <playerinterface.h>
+#include <handinterface.h>
 
 using namespace std;
 
@@ -258,10 +259,12 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 {
 	boost::shared_ptr<NetPacket> answer(new NetPacketHandStart);
 
+	// Initialize hand.
 	Game &curGame = server.GetGame();
 	curGame.initHand();
 	PlayerInterface **playerArray = curGame.getPlayerArray();
 
+	// Send cards to all players.
 	for (int i = 0; i < curGame.getActualQuantityPlayers(); i++)
 	{
 		if (playerArray[i]->getNetSessionData().get())
@@ -278,9 +281,47 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 		}
 	}
 
-	server.SetState(ServerRecvStateFinal::Instance());
+	// Start hand.
+	curGame.startHand();
+
+	server.SetState(ServerRecvStateStartRound::Instance());
 
 	return MSG_NET_GAME_SERVER_HAND;
+}
+
+//-----------------------------------------------------------------------------
+
+ServerRecvStateStartRound &
+ServerRecvStateStartRound::Instance()
+{
+	static ServerRecvStateStartRound state;
+	return state;
+}
+
+ServerRecvStateStartRound::ServerRecvStateStartRound()
+{
+}
+
+ServerRecvStateStartRound::~ServerRecvStateStartRound()
+{
+}
+
+void
+ServerRecvStateStartRound::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
+{
+	// TODO: send error msg
+}
+
+int
+ServerRecvStateStartRound::Process(ServerRecvThread &server)
+{
+	Game &curGame = server.GetGame();
+
+	curGame.getCurrentHand()->switchRounds();
+
+	server.SetState(ServerRecvStateFinal::Instance());
+
+	return MSG_NET_GAME_SERVER_ROUND;
 }
 
 //-----------------------------------------------------------------------------
