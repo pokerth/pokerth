@@ -199,6 +199,8 @@ public slots:
 	void networkError(int, int);
 	void networkStart(int, int, int, int);
 
+	void closeEvent(QCloseEvent*);
+
 private: 
 
 	boost::shared_ptr<GuiInterface> myServerGuiInterface;

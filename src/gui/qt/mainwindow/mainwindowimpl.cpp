@@ -2425,3 +2425,12 @@ void mainWindowImpl::blinkingStartButtonAnimationAction() {
 	}
 	pushButton_break->setPalette(tempPalette);
 }
+
+void mainWindowImpl::closeEvent(QCloseEvent *event) {
+	
+	mySession->terminateNetworkClient();
+	if (myServerGuiInterface.get()) myServerGuiInterface->getSession().terminateNetworkServer();
+	
+	event->accept();
+
+}
