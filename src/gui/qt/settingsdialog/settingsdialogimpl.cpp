@@ -111,9 +111,11 @@ void settingsDialogImpl::exec() {
 	lineEdit_OwnFlipsideFilename->setText(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
 
 	//Log 
+	groupBox_logOnOff->setChecked(myConfig->readConfigInt("LogOnOff"));
 	lineEdit_logDir->setText(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
 	spinBox_logStoreDuration->setValue(myConfig->readConfigInt("LogStoreDuration"));
-		
+	comboBox_logInterval->setCurrentIndex(myConfig->readConfigInt("LogInterval"));
+
 	QDialog::exec();
 
 }
@@ -242,6 +244,7 @@ void settingsDialogImpl::isAccepted() {
 	}
 
 //	Log
+	myConfig->writeConfigInt("LogOnOff", groupBox_logOnOff->isChecked());
 	if(QDir::QDir(lineEdit_logDir->text()).exists() && lineEdit_logDir->text() != "") { myConfig->writeConfigString("LogDir", lineEdit_logDir->text().toUtf8().constData());	}
 	else { 
 		QMessageBox::warning(this, tr("Settings Error"),
@@ -252,6 +255,7 @@ void settingsDialogImpl::isAccepted() {
 	}
 
 	myConfig->writeConfigInt("LogStoreDuration", spinBox_logStoreDuration->value());
+	myConfig->writeConfigInt("LogInterval", comboBox_logInterval->currentIndex());
 
 	//Wenn alles richtig eingegeben wurde --> Dialog schließen
 	if(settingsCorrect) { this->hide(); }

@@ -40,7 +40,7 @@ using namespace std;
 ConfigFile::ConfigFile(bool configFirstStart)
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 17;
+	configRev = 18;
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
@@ -187,10 +187,11 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 	configList.push_back(ConfigInfo("Opponent5Avatar", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("Opponent6Name", CONFIG_TYPE_STRING, "Player 6"));
 	configList.push_back(ConfigInfo("Opponent6Avatar", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("LogOnOff", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("LogDir", CONFIG_TYPE_STRING, logDir));
 	configList.push_back(ConfigInfo("LogStoreDuration", CONFIG_TYPE_INT, "2"));
+	configList.push_back(ConfigInfo("LogInterval", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DataDir", CONFIG_TYPE_STRING, dataDir));
-	configList.push_back(ConfigInfo("LogStoreDuration", CONFIG_TYPE_INT, "2"));
 
 
 	if(myConfigState == NONEXISTING) {

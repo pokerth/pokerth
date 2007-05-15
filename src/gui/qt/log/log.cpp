@@ -31,63 +31,65 @@ Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c)
 {
 	myW->setLog(this);
 
-	if(myConfig->readConfigString("LogDir") != "" && QDir::QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str())).exists()) { 
-
-		myLogDir = new QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
-		myLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh.mm.ss")+".html");
-
-		//Logo-Pixmap extrahieren
-		QPixmap::QPixmap(":graphics/resources/graphics/logoChip3D.png").save(myLogDir->absolutePath()+"/logo.png");
-
-// 		myW->textBrowser_Log->append(myLogFile->fileName());
-
-		myLogFile->open( QIODevice::WriteOnly );
-		QTextStream stream( myLogFile );
-		stream << "<html>\n";
-		stream << "<head>\n";
-		stream << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf8\">";
-		stream << "</head>\n";
-		stream << "<body>\n";
-		stream << "<img src='logo.png'>\n";
-		stream << "<h3><b>Log-File for PokerTH 0.4 Session started on "+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
-// 		stream << "</body>\n";
-// 		stream << "</html>\n";
-		myLogFile->close();
-
-		linesInFile = 3;
-
-		//Zu alte Dateien löschen!!!
-		int daysUntilWaste = myConfig->readConfigInt("LogStoreDuration");
-		int i;
+	if(myConfig->readConfigInt("LogOnOff")) {
+	//if write logfiles is enabled
+		if(myConfig->readConfigString("LogDir") != "" && QDir::QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str())).exists()) { 
+	
+			myLogDir = new QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
+			myLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh.mm.ss")+".html");
+	
+			//Logo-Pixmap extrahieren
+			QPixmap::QPixmap(":graphics/resources/graphics/logoChip3D.png").save(myLogDir->absolutePath()+"/logo.png");
+	
+	// 		myW->textBrowser_Log->append(myLogFile->fileName());
+	
+			myLogFile->open( QIODevice::WriteOnly );
+			QTextStream stream( myLogFile );
+			stream << "<html>\n";
+			stream << "<head>\n";
+			stream << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf8\">";
+			stream << "</head>\n";
+			stream << "<body>\n";
+			stream << "<img src='logo.png'>\n";
+			stream << "<h3><b>Log-File for PokerTH 0.4 Session started on "+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
+	// 		stream << "</body>\n";
+	// 		stream << "</html>\n";
+			myLogFile->close();
+	
+			linesInFile = 3;
+	
+			//Zu alte Dateien löschen!!!
+			int daysUntilWaste = myConfig->readConfigInt("LogStoreDuration");
+			int i;
+				
+			QStringList filters("pokerth-log*");
+			QStringList logFileList = myLogDir->entryList(filters, QDir::Files);
 			
-		QStringList filters("pokerth-log*");
-		QStringList logFileList = myLogDir->entryList(filters, QDir::Files);
+			for(i=0; i<logFileList.count(); i++) {
 		
-		for(i=0; i<logFileList.count(); i++) {
+		// 		cout << logFileList.at(i).toStdString() << endl;
+		
+				QString dateString = logFileList.at(i);
+				dateString.remove("pokerth-log-");
+				dateString.remove(10,14);
+				
+				QDate dateOfFile(QDate::fromString(dateString, Qt::ISODate));
+				QDate today(QDate::currentDate());
+				
+		// 		cout << dateOfFile.daysTo(today) << endl;
+		
+				if (dateOfFile.daysTo(today) > daysUntilWaste) {
 	
-	// 		cout << logFileList.at(i).toStdString() << endl;
-	
-			QString dateString = logFileList.at(i);
-			dateString.remove("pokerth-log-");
-			dateString.remove(10,14);
-			
-			QDate dateOfFile(QDate::fromString(dateString, Qt::ISODate));
-			QDate today(QDate::currentDate());
-			
-	// 		cout << dateOfFile.daysTo(today) << endl;
-	
-			if (dateOfFile.daysTo(today) > daysUntilWaste) {
-
-	// 			cout << QString::QString(myLogDir->absolutePath()+"/"+logFileList.at(i)).toStdString() << endl;
-				QFile fileToDelete(myLogDir->absolutePath()+"/"+logFileList.at(i));
-				fileToDelete.remove();
+		// 			cout << QString::QString(myLogDir->absolutePath()+"/"+logFileList.at(i)).toStdString() << endl;
+					QFile fileToDelete(myLogDir->absolutePath()+"/"+logFileList.at(i));
+					fileToDelete.remove();
+				}
+		
 			}
 	
-		}
-
-	} 
-	else {	cout << "Log directory doesn't exists. Cannot create log files"; }
-
+		} 
+		else {	cout << "Log directory doesn't exists. Cannot create log files"; }
+	}
 }
 
 Log::~Log()
@@ -124,16 +126,18 @@ void Log::logPlayerActionMsg(string playerName, int action, int setValue) {
 	
 	myW->textBrowser_Log->append(msg);
 
-	myLogFile->open( QIODevice::ReadWrite );
-	QTextStream stream( myLogFile );
-	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
-	stream << msg+"</br>\n";
-// 	stream << "</body>\n";
-// 	stream << "</html>\n";
-	myLogFile->close();
-
-	linesInFile++;
-
+	if(myConfig->readConfigInt("LogOnOff")) {
+	//if write logfiles is enabled
+		myLogFile->open( QIODevice::ReadWrite );
+		QTextStream stream( myLogFile );
+		for(i=0; i<=linesInFile; i++) { stream.readLine(); }
+		stream << msg+"</br>\n";
+	// 	stream << "</body>\n";
+	// 	stream << "</html>\n";
+		myLogFile->close();
+	
+		linesInFile++;
+	}
 }
 
 void Log::logNewGameHandMsg(int gameID, int handID) {
@@ -142,150 +146,168 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 
 	myW->textBrowser_Log->append("<b>## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##</b>");
 	
-	myLogFile->open( QIODevice::ReadWrite );
-	QTextStream stream( myLogFile );
-	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
+	if(myConfig->readConfigInt("LogOnOff")) {
+	//if write logfiles is enabled
 	
-	stream << "<p><b>####################&#160;&#160;&#160;Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+"&#160;&#160;&#160;####################</b></br>";
-	stream << "CASH: ";
-
-	//Aktive Spieler zählen
-	int activePlayersCounter = 0;
-	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
-	for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
-		if (currentHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
-	}
-	k = 0;
-	if(activePlayersCounter > 2) { 
-
-		for(i=0; i<currentHand->getStartQuantityPlayers(); i++) {
-
-			if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
-			//print cash only for active players
-				
-
-				if(currentHand->getPlayerArray()[i]->getMyButton() == 1) {
-					if(k==1) { stream << ", "; }
-					k=1;
-					stream << QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+" (Dealer): "+QString::number(currentHand->getPlayerArray()[i]->getMyCash(),10)+"$";
-				}
-				else {
-					if(k==1) { stream << ", "; }
-					k=1;
-					stream << QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+": "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
-				}
-			}
-		}
-	}
-	else {
-		for(i=0; i<currentHand->getStartQuantityPlayers(); i++) {
-			if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
-			//print cash only for active players
-				if(currentHand->getPlayerArray()[i]->getMyButton() == 3) {
-					if(k==1) { stream << ", "; }
-					k=1;
-					stream << QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+" (Dealer): "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
-				}
-				else {
-					if(k==1) { stream << ", "; }
-					k=1;
-					stream << QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+": "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
-				}
-			}
-		}
-	}
-	stream << "</br>BLINDS: ";
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+		myLogFile->open( QIODevice::ReadWrite );
+		QTextStream stream( myLogFile );
+		for(i=0; i<=linesInFile; i++) { stream.readLine(); }
+		
+		stream << "<p><b>####################&#160;&#160;&#160;Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+"&#160;&#160;&#160;####################</b></br>";
+		stream << "CASH: ";
 	
-		j = 0;
 		//Aktive Spieler zählen
 		int activePlayersCounter = 0;
+		HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
 		for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
-			if (currentHand->getPlayerArray()[k]->getMyAction() != 1 && currentHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
+			if (currentHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
 		}
-		if(activePlayersCounter < 3) { j=1; }
+		k = 0;
+		if(activePlayersCounter > 2) { 
+	
+			for(i=0; i<currentHand->getStartQuantityPlayers(); i++) {
+	
+				if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
+				//print cash only for active players
+					
+	
+					if(currentHand->getPlayerArray()[i]->getMyButton() == 1) {
+						if(k==1) { stream << ", "; }
+						k=1;
+						stream << QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+" (Dealer): "+QString::number(currentHand->getPlayerArray()[i]->getMyCash(),10)+"$";
+					}
+					else {
+						if(k==1) { stream << ", "; }
+						k=1;
+						stream << QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+": "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
+					}
+				}
+			}
+		}
+		else {
+			for(i=0; i<currentHand->getStartQuantityPlayers(); i++) {
+				if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
+				//print cash only for active players
+					if(currentHand->getPlayerArray()[i]->getMyButton() == 3) {
+						if(k==1) { stream << ", "; }
+						k=1;
+						stream << QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+" (Dealer): "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
+					}
+					else {
+						if(k==1) { stream << ", "; }
+						k=1;
+						stream << QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+": "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
+					}
+				}
+			}
+		}
+		stream << "</br>BLINDS: ";
+		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		
-// 		cout << activePlayersCounter << endl;
-// 		cout << (i+currentHand->getDealerPosition()+j)%5 << endl;
-
-		switch (currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyButton()) {
-			case 2 : stream << QString::fromUtf8(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyName().c_str())+" ("+QString::number(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMySet(),10)+"$), ";
-			break;
-			case 3 : stream << QString::fromUtf8(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyName().c_str())+" ("+QString::number(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMySet(),10)+"$)";	
-			break;
-			default :;	
+			j = 0;
+			//Aktive Spieler zählen
+			int activePlayersCounter = 0;
+			for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
+				if (currentHand->getPlayerArray()[k]->getMyAction() != 1 && currentHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
+			}
+			if(activePlayersCounter < 3) { j=1; }
+			
+	// 		cout << activePlayersCounter << endl;
+	// 		cout << (i+currentHand->getDealerPosition()+j)%5 << endl;
+	
+			switch (currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyButton()) {
+				case 2 : stream << QString::fromUtf8(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyName().c_str())+" ("+QString::number(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMySet(),10)+"$), ";
+				break;
+				case 3 : stream << QString::fromUtf8(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyName().c_str())+" ("+QString::number(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMySet(),10)+"$)";	
+				break;
+				default :;	
+			}
 		}
+	
+		stream << "</br></br><b>PREFLOP</b>";
+		stream << "</br>\n";
+	
+		myLogFile->close();
+	
+		linesInFile = linesInFile++;
 	}
-
-	stream << "</br></br><b>PREFLOP</b>";
-	stream << "</br>\n";
-
-	myLogFile->close();
-
-	linesInFile = linesInFile++;
-
 }
 
 void Log::logPlayerWinsMsg(int playerID, int pot) {
 
 	int i;
 	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
-
-	myLogFile->open( QIODevice::ReadWrite );
-	QTextStream stream( myLogFile );
-	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
-
-// 	if (cardsValueInt != -1) {
-// 		myW->textBrowser_Log->append(QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$ with "+translateCardsValueCode(cardsValueInt).at(0)+"!!! ");
-// 		stream << "</br><i>"+QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
-// 	}
-// 	else {
+	
 	myW->textBrowser_Log->append(QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!! ");
-	stream << "</br><i>"+QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
-// 	}
-	myLogFile->close();
-
-	linesInFile++;
+	
+	if(myConfig->readConfigInt("LogOnOff")) {
+	//if write logfiles is enabled
+		myLogFile->open( QIODevice::ReadWrite );
+		QTextStream stream( myLogFile );
+		for(i=0; i<=linesInFile; i++) { stream.readLine(); }
+	
+	// 	if (cardsValueInt != -1) {
+	// 		myW->textBrowser_Log->append(QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$ with "+translateCardsValueCode(cardsValueInt).at(0)+"!!! ");
+	// 		stream << "</br><i>"+QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
+	// 	}
+	// 	else {
+		
+		stream << "</br><i>"+QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
+	// 	}
+		myLogFile->close();
+	
+		linesInFile++;
+	}
 }
 
 void Log::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4, int card5) {  
 	
 	int i;
-
-	myLogFile->open( QIODevice::ReadWrite );
-	QTextStream stream( myLogFile );
-	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
-
 	QString round;
+	
 	switch (roundID) {
 
 		case 1: round = "Flop";
 		myW->textBrowser_Log->append("--- "+round+" --- "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+","+translateCardCode(card3).at(0)+translateCardCode(card3).at(1)+"]");
-		stream << "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+"]"+"</br>\n";
 		break;
 		case 2: round = "Turn";
 		myW->textBrowser_Log->append("--- "+round+" --- "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+","+translateCardCode(card3).at(0)+translateCardCode(card3).at(1)+","+translateCardCode(card4).at(0)+translateCardCode(card4).at(1)+"]");
-		stream << "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+",<b>"+translateCardCode(card4).at(0)+"</b>"+translateCardCode(card4).at(1)+"]"+"</br>\n";
 		break;
 		case 3: round = "River";
 		myW->textBrowser_Log->append("--- "+round+" --- "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+","+translateCardCode(card3).at(0)+translateCardCode(card3).at(1)+","+translateCardCode(card4).at(0)+translateCardCode(card4).at(1)+","+translateCardCode(card5).at(0)+translateCardCode(card5).at(1)+"]");
-		stream << "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+",<b>"+translateCardCode(card4).at(0)+"</b>"+translateCardCode(card4).at(1)+",<b>"+translateCardCode(card5).at(0)+"</b>"+translateCardCode(card5).at(1)+"]"+"</br>\n";
 		break;
 		default: round = "ERROR";
 	}
+
+	if(myConfig->readConfigInt("LogOnOff")) {
+	//if write logfiles is enabled
 	
-	myLogFile->close();
-	linesInFile++;
+		myLogFile->open( QIODevice::ReadWrite );
+		QTextStream stream( myLogFile );
+		for(i=0; i<=linesInFile; i++) { stream.readLine(); }
 	
+		switch (roundID) {
+	
+			case 1: round = "Flop";
+			stream << "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+"]"+"</br>\n";
+			break;
+			case 2: round = "Turn";
+			stream << "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+",<b>"+translateCardCode(card4).at(0)+"</b>"+translateCardCode(card4).at(1)+"]"+"</br>\n";
+			break;
+			case 3: round = "River";
+			stream << "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+",<b>"+translateCardCode(card4).at(0)+"</b>"+translateCardCode(card4).at(1)+",<b>"+translateCardCode(card5).at(0)+"</b>"+translateCardCode(card5).at(1)+"]"+"</br>\n";
+			break;
+			default: round = "ERROR";
+		}
+		
+		myLogFile->close();
+		linesInFile++;
+	}
 }
 
 void Log::logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt, string showHas) {
 
 	int i;
-
-	myLogFile->open( QIODevice::ReadWrite );
-	QTextStream stream( myLogFile );
-	for(i=0; i<=linesInFile; i++) { stream.readLine(); }
 
 	if (cardsValueInt != -1) {
 	
@@ -393,16 +415,31 @@ void Log::logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int 
 		}
 
 		myW->textBrowser_Log->append(QString::fromUtf8(playerName.c_str())+" "+QString::fromUtf8(showHas.c_str())+" \""+tempHandName+"\"");
-		stream << QString::fromUtf8(playerName.c_str())+" "+QString::fromUtf8(showHas.c_str())+" [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"] - "+tempHandName+"</br>\n";
 
+		if(myConfig->readConfigInt("LogOnOff")) {
+		//if write logfiles is enabled
+			myLogFile->open( QIODevice::ReadWrite );
+			QTextStream stream( myLogFile );
+			for(i=0; i<=linesInFile; i++) { stream.readLine(); }
+			stream << QString::fromUtf8(playerName.c_str())+" "+QString::fromUtf8(showHas.c_str())+" [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"] - "+tempHandName+"</br>\n";
+			myLogFile->close();
+			linesInFile++;	
+		}
 	}
 	else {
 		myW->textBrowser_Log->append(QString::fromUtf8(playerName.c_str())+" "+QString::fromUtf8(showHas.c_str())+" ["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"]");
-		stream << QString::fromUtf8(playerName.c_str())+" "+QString::fromUtf8(showHas.c_str())+" [<b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"]"+"</br>\n";
-
+		
+		if(myConfig->readConfigInt("LogOnOff")) {
+		//if write logfiles is enabled
+			myLogFile->open( QIODevice::ReadWrite );
+			QTextStream stream( myLogFile );
+			for(i=0; i<=linesInFile; i++) { stream.readLine(); }
+			stream << QString::fromUtf8(playerName.c_str())+" "+QString::fromUtf8(showHas.c_str())+" [<b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"]"+"</br>\n";
+			myLogFile->close();
+			linesInFile++;
+		}
 	}
-	myLogFile->close();
-	linesInFile++;
+	
 }
 
 QStringList Log::translateCardCode(int cardCode) {
