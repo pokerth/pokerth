@@ -19,9 +19,19 @@
  ***************************************************************************/
 #include "localenginefactory.h"
 
+#include "localhand.h"
+#include "localboard.h"
+#include "localplayer.h"
+#include "localpreflop.h"
+#include "localflop.h"
+#include "localturn.h"
+#include "localriver.h"
+
+#include <configfile.h>
+
 
 LocalEngineFactory::LocalEngineFactory(ConfigFile *c)
- : EngineFactory(), myConfig(c)
+: myConfig(c)
 {
 }
 

@@ -22,22 +22,21 @@
 
 #include <enginefactory.h>
 
-#include "localhand.h"
-#include "localboard.h"
-#include "localplayer.h"
-#include "localpreflop.h"
-#include "localflop.h"
-#include "localturn.h"
-#include "localriver.h"
+#include <handinterface.h>
+#include <boardinterface.h>
+#include <playerinterface.h>
+#include <preflopinterface.h>
+#include <flopinterface.h>
+#include <turninterface.h>
+#include <riverinterface.h>
 
-#include "configfile.h"
+class ConfigFile;
 
 class LocalEngineFactory : public EngineFactory
 {
 public:
-    LocalEngineFactory(ConfigFile*);
-
-    ~LocalEngineFactory();
+	LocalEngineFactory(ConfigFile*);
+	~LocalEngineFactory();
 
 	HandInterface* createHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC);
 	BoardInterface* createBoard();
@@ -46,8 +45,8 @@ public:
 	FlopInterface* createFlop(HandInterface* hi, int id, int aP, int dP, int sB);
 	TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB);
 	RiverInterface* createRiver(HandInterface* hi, int id, int aP, int dP, int sB);
-private:
 
+private:
 	ConfigFile *myConfig;
 };
 

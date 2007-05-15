@@ -81,8 +81,6 @@ public:
 // 	virtual void postRiverAnimation2()=0;
 	virtual void flipHolecardsAllIn()=0;
 
-// 	virtual void handSwitchRounds() const=0;
-// 
 // 	virtual void startNewHand() const=0;
 	virtual void nextRoundCleanGui()=0;
 // 	

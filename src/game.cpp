@@ -20,13 +20,9 @@
 #include "game.h"
 #include "gamedata.h"
 
-#include "enginefactory.h"
-#include "localenginefactory.h"
-
-#include "guiinterface.h"
-#include "boardinterface.h"
-#include "playerinterface.h"
-#include "handinterface.h"
+#include <localenginefactory.h>
+#include <guiinterface.h>
+#include <tools.h>
 
 using namespace std;
 

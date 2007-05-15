@@ -19,10 +19,10 @@
  ***************************************************************************/
 #include "localpreflop.h"
 
-#include "handinterface.h"
+#include <handinterface.h>
 #include <game_defs.h>
 
-using namespace std;
+//using namespace std;
 
 LocalPreflop::LocalPreflop(HandInterface* bR, int id, int qP, int dP, int sB) : PreflopInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), bigBlindPosition(0), smallBlind(sB), highestSet(2*sB), preflopFirstRound(1), playersTurn(0)
 
@@ -86,7 +86,6 @@ void LocalPreflop::preflopRun() {
 		myHand->getGuiInterface()->refreshAction();
 
 		myHand->switchRounds();
-
 	}
 	else {
 		// Preflop ist wirklich dran

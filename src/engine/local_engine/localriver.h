@@ -20,18 +20,15 @@
 #ifndef LOCALRIVER_H
 #define LOCALRIVER_H
 
-#include "riverinterface.h"
+#include <riverinterface.h>
 
-#include <iostream>
+class HandInterface;
 
-#include "handinterface.h"
 
 class LocalRiver : public RiverInterface{
-  
 public:
-    LocalRiver(HandInterface*, int, int, int, int);
-
-    ~LocalRiver();
+	LocalRiver(HandInterface*, int, int, int, int);
+	~LocalRiver();
 
 	void setPlayersTurn(const int& theValue) { playersTurn = theValue; }
 	int getPlayersTurn() const { return playersTurn; }

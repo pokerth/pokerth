@@ -19,8 +19,9 @@
  ***************************************************************************/
 #include "localflop.h"
 #include <game_defs.h>
+#include <handinterface.h>
 
-using namespace std;
+//using namespace std;
 
 LocalFlop::LocalFlop(HandInterface* bR, int id, int qP, int dP, int sB) : FlopInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstFlopRun(1), firstFlopRound(1), playersTurn(dP)
 
@@ -83,7 +84,6 @@ void LocalFlop::flopRun() {
 			myHand->getGuiInterface()->refreshAction();
 			
 			myHand->switchRounds();
-	
 		}
 		else {
 			// Flop ist wirklich dran

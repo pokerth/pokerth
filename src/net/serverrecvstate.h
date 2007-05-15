@@ -27,6 +27,8 @@
 #define SERVER_INITIAL_STATE	ServerRecvStateInit
 #define SERVER_START_GAME_STATE	ServerRecvStateStartGame
 
+class Game;
+class PlayerInterface;
 class ServerRecvThread;
 class ServerCallback;
 
@@ -128,6 +130,9 @@ protected:
 
 	// Protected constructor - this is a singleton.
 	ServerRecvStateStartRound();
+
+	void GameRun(Game &curGame, int state);
+	PlayerInterface *GetCurrentPlayer(Game &curGame);
 };
 
 // State: Final.

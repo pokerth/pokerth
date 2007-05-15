@@ -318,41 +318,24 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 	Game &curGame = server.GetGame();
 
 	curGame.getCurrentHand()->switchRounds();
-	int playersTurn = 0;
 
-	// TODO: no switch needed here if game states are polymorphic
-	switch(curGame.getCurrentHand()->getActualRound()) {
-		case 0: {
-			// Preflop starten
-			curGame.getCurrentHand()->getPreflop()->preflopRun();
-			playersTurn = curGame.getCurrentHand()->getPreflop()->getPlayersTurn();
-		} break;
-		case 1: {
-			// Flop starten
-			curGame.getCurrentHand()->getFlop()->flopRun();
-			playersTurn = curGame.getCurrentHand()->getFlop()->getPlayersTurn();
-		} break;
-		case 2: {
-			// Turn starten
-			curGame.getCurrentHand()->getTurn()->turnRun();
-			playersTurn = curGame.getCurrentHand()->getTurn()->getPlayersTurn();
-		} break;
-		case 3: {
-			// River starten
-			curGame.getCurrentHand()->getRiver()->riverRun();
-			playersTurn = curGame.getCurrentHand()->getRiver()->getPlayersTurn();
-		} break;
-		default: {
-			// TODO
-		}
-	}
+	// Call main loop - if state changes, call again.
+	int newRound = curGame.getCurrentHand()->getActualRound();
+	int curRound;
+	do
+	{
+		curRound = newRound;
+		GameRun(curGame, curRound);
+		newRound = curGame.getCurrentHand()->getActualRound();
+	} while (newRound != curRound);
 
-	assert(playersTurn < curGame.getActualQuantityPlayers());
+	// Retrieve current player.
+	PlayerInterface *curPlayer = GetCurrentPlayer(curGame);
 
 	boost::shared_ptr<NetPacket> notification(new NetPacketPlayersTurn);
 	NetPacketPlayersTurn::Data playersTurnData;
 	playersTurnData.gameState = (GameState)curGame.getCurrentHand()->getActualRound();
-	playersTurnData.playerId = curGame.getPlayerArray()[playersTurn]->getMyUniqueID();
+	playersTurnData.playerId = curPlayer->getMyUniqueID();
 	static_cast<NetPacketPlayersTurn *>(notification.get())->SetData(playersTurnData);
 
 	server.SendToAllPlayers(notification);
@@ -361,6 +344,60 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 
 	return MSG_NET_GAME_SERVER_ROUND;
 }
+
+void
+ServerRecvStateStartRound::GameRun(Game &curGame, int state)
+{
+	// TODO: no switch needed here if game states are polymorphic
+	switch(state) {
+		case 0: {
+			// Preflop starten
+			curGame.getCurrentHand()->getPreflop()->preflopRun();
+		} break;
+		case 1: {
+			// Flop starten
+			curGame.getCurrentHand()->getFlop()->flopRun();
+		} break;
+		case 2: {
+			// Turn starten
+			curGame.getCurrentHand()->getTurn()->turnRun();
+		} break;
+		case 3: {
+			// River starten
+			curGame.getCurrentHand()->getRiver()->riverRun();
+		} break;
+		default: {
+			// TODO
+		}
+	}
+}
+
+PlayerInterface *
+ServerRecvStateStartRound::GetCurrentPlayer(Game &curGame)
+{
+	int curPlayerNum = 0;
+	// TODO: no switch needed here if game states are polymorphic
+	switch(curGame.getCurrentHand()->getActualRound()) {
+		case 0: {
+			curPlayerNum = curGame.getCurrentHand()->getPreflop()->getPlayersTurn();
+		} break;
+		case 1: {
+			curPlayerNum = curGame.getCurrentHand()->getFlop()->getPlayersTurn();
+		} break;
+		case 2: {
+			curPlayerNum = curGame.getCurrentHand()->getTurn()->getPlayersTurn();
+		} break;
+		case 3: {
+			curPlayerNum = curGame.getCurrentHand()->getRiver()->getPlayersTurn();
+		} break;
+		default: {
+			// TODO
+		}
+	}
+	assert(curPlayerNum < curGame.getActualQuantityPlayers());
+	return curGame.getPlayerArray()[curPlayerNum];
+}
+
 
 //-----------------------------------------------------------------------------
 

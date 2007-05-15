@@ -18,8 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "localriver.h"
+#include <handinterface.h>
 #include <game_defs.h>
 
+#include <iostream>
 
 using namespace std;
 
@@ -84,7 +86,6 @@ void LocalRiver::riverRun() {
 			myHand->getGuiInterface()->refreshAction();
 
 			myHand->switchRounds();
-	
 		}
 		else {
 			// River ist wirklich dran

@@ -20,9 +20,7 @@
 #ifndef LOCALBOARD_H
 #define LOCALBOARD_H
 
-#include "boardinterface.h"
-
-#include <iostream>
+#include <boardinterface.h>
 
 class PlayerInterface;
 class HandInterface;
@@ -30,9 +28,8 @@ class HandInterface;
 
 class LocalBoard : public BoardInterface{
 public:
-    LocalBoard();
-
-    ~LocalBoard();
+	LocalBoard();
+	~LocalBoard();
 
 	void setPlayer(PlayerInterface**);
 	void setHand(HandInterface*);

@@ -20,17 +20,15 @@
 #ifndef LOCALFLOP_H
 #define LOCALFLOP_H
 
-#include "flopinterface.h"
-#include "handinterface.h"
+#include <flopinterface.h>
 
-#include <iostream>
+class HandInterface;
 
 class LocalFlop : public FlopInterface{
-  
-public:
-    LocalFlop(HandInterface*, int, int, int, int);
 
-    ~LocalFlop();
+public:
+	LocalFlop(HandInterface*, int, int, int, int);
+	~LocalFlop();
 
 
 	void setPlayersTurn(const int& theValue) { playersTurn = theValue; }

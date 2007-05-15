@@ -20,18 +20,14 @@
 #ifndef LOCALTURN_H
 #define LOCALTURN_H
 
-#include "turninterface.h"
+#include <turninterface.h>
 
-#include "handinterface.h"
-
-#include <iostream>
+class HandInterface;
 
 class LocalTurn : public TurnInterface{
-  
 public:
-    LocalTurn(HandInterface*, int, int, int, int);
-
-    ~LocalTurn();
+	LocalTurn(HandInterface*, int, int, int, int);
+	~LocalTurn();
 
 	void setPlayersTurn(const int& theValue) { playersTurn = theValue; }
 	int getPlayersTurn() const { return playersTurn; }

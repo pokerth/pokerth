@@ -20,17 +20,14 @@
 #ifndef LOCALPLAYER_H
 #define LOCALPLAYER_H
 
-#include "playerinterface.h"
+#include <playerinterface.h>
 
-#include "cardsvalue.h"
-
-#include "configfile.h"
-
+#include <boost/shared_ptr.hpp>
 #include <string>
-#include <fstream>
 
 
 class CardsValue;
+class ConfigFile;
 class HandInterface;
 class BoardInterface;
 

@@ -18,10 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "localturn.h"
+#include <handinterface.h>
 #include <game_defs.h>
 
 
-using namespace std;
+//using namespace std;
 
 LocalTurn::LocalTurn(HandInterface* bR, int id, int qP, int dP, int sB) : TurnInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstTurnRun(1), firstTurnRound(1), playersTurn(dP)
 
@@ -85,7 +86,6 @@ void LocalTurn::turnRun() {
 			myHand->getGuiInterface()->refreshAction();
 
 			myHand->switchRounds();
-	
 		}
 		else {
 			// Turn ist wirklich dran

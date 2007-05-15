@@ -17,28 +17,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef HandInterface_H
-#define HandInterface_H
+#ifndef LOCALHAND_H
+#define LOCALHAND_H
 
-#include "enginefactory.h"
-
-#include "handinterface.h"
-#include "guiinterface.h"
-
-
-#include "tools.h"
-#include "cardsvalue.h"
-#include "localpreflop.h"
-#include "localflop.h"
-#include "localturn.h" 
-#include "localriver.h"
-
+#include <enginefactory.h>
+#include <guiinterface.h>
+#include <boardinterface.h>
+#include <playerinterface.h>
+#include <handinterface.h>
+#include <preflopinterface.h>
+#include <flopinterface.h>
+#include <turninterface.h>
+#include <riverinterface.h>
 
 
 class LocalHand : public HandInterface{
 public:
 	LocalHand(EngineFactory*, GuiInterface*, BoardInterface*, PlayerInterface**, int, int, int, int, int, int);
-
 	~LocalHand();
 
 	void start();
@@ -89,13 +84,6 @@ public:
 
 	void highlightRoundLabel();
 	void switchRounds();
-	
-
-	
-
-
-	
-
 
 
 private:
