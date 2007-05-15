@@ -47,15 +47,17 @@ public:
 	QStringList translateCardsValueCode(int cardsValueCode);
 	QStringList translateCardCode(int cardCode);
 
-private:
+	void writeLogFileStream(QString string);
 
-	int linesInFile;
-	
+private:
+	int lastGameID;
+
 	mainWindowImpl *myW;
 	ConfigFile *myConfig;
 	QTextStream stream;
 	QFile *myLogFile;
 	QDir *myLogDir;
+	QString logFileStreamString;
 
 };
 
