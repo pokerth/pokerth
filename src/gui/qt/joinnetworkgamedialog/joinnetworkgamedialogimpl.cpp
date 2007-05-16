@@ -64,28 +64,31 @@ void joinNetworkGameDialogImpl::exec() {
 
 	lineEdit_ipAddress->setFocus();
 
-	myServerProfilesFile = myConfig->readConfigString("DataDir")+"serverprofiles.xml";
-
-	//Anlegen wenn noch nicht existiert!
-	QFile serverProfilesfile(QString::fromUtf8(myServerProfilesFile.c_str()));
-
-	if(!serverProfilesfile.exists()) {
-		
-		TiXmlDocument doc;  
-		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
-		doc.LinkEndChild( decl );  
-		
-		TiXmlElement * root = new TiXmlElement( "PokerTH" );  
-		doc.LinkEndChild( root );  		
-		
-		TiXmlElement * profiles = new TiXmlElement( "ServerProfiles" );  
-		root->LinkEndChild( profiles );  
+	if (myConfig->readConfigInt("CLA_NoWriteAccess") == 0 ) { 
+	//if discwrite-access
+		myServerProfilesFile = myConfig->readConfigString("DataDir")+"serverprofiles.xml";
 	
-		doc.SaveFile( QString::fromUtf8(myServerProfilesFile.c_str()).toStdString() );
+		//Anlegen wenn noch nicht existiert!
+		QFile serverProfilesfile(QString::fromUtf8(myServerProfilesFile.c_str()));
+	
+		if(!serverProfilesfile.exists()) {
+			
+			TiXmlDocument doc;  
+			TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
+			doc.LinkEndChild( decl );  
+			
+			TiXmlElement * root = new TiXmlElement( "PokerTH" );  
+			doc.LinkEndChild( root );  		
+			
+			TiXmlElement * profiles = new TiXmlElement( "ServerProfiles" );  
+			root->LinkEndChild( profiles );  
+		
+			doc.SaveFile( QString::fromUtf8(myServerProfilesFile.c_str()).toStdString() );
+		}
+		
+		//Liste Füllen
+		fillServerProfileList();
 	}
-	
-	//Liste Füllen
-	fillServerProfileList();
 
 	QDialog::exec();
 	
