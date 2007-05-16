@@ -31,77 +31,96 @@
 class QtToolsWrapper;
 
 
-ConfigFile::ConfigFile(bool configFirstStart)
+ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 {
-	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 18;
+	int i;
 
-	// Pfad und Dateinamen setzen
-#ifdef _WIN32
-	const char *appDataPath = getenv("AppData");
-	if (appDataPath && appDataPath[0] != 0) {
-		configFileName = appDataPath; 
+	for (i=0; i<argc; i++) {
+		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
 	}
-	else {
-		const int MaxPathSize = 1024;
-		char curDir[MaxPathSize + 1];
-		curDir[0] = 0;
-		_getcwd(curDir, MaxPathSize);
-		curDir[MaxPathSize] = 0;
-		configFileName = curDir;
-		// Testen ob das Verzeichnis beschreibbar ist
-		ofstream tmpFile;
-		const char *tmpFileName = "pokerth_test.tmp";
-		tmpFile.open((configFileName + "\\" + tmpFileName).c_str());
-		if (tmpFile) {
-			// Erfolgreich, Verzeichnis beschreibbar.
-			// Datei wieder loeschen.
-			tmpFile.close();
-			remove((configFileName + "\\" + tmpFileName).c_str());
+	// !!!! Revisionsnummer der Configdefaults !!!!!
+	configRev = 20;
+
+	//standard defaults
+	logOnOffDefault = "1";
+	claNoWriteAccess = "0";
+
+
+	if(!noWriteAccess) {
+		// Pfad und Dateinamen setzen
+#ifdef _WIN32
+		const char *appDataPath = getenv("AppData");
+		if (appDataPath && appDataPath[0] != 0) {
+			configFileName = appDataPath; 
 		}
 		else {
-			// Fehlgeschlagen, Verzeichnis nicht beschreibbar
+			const int MaxPathSize = 1024;
+			char curDir[MaxPathSize + 1];
 			curDir[0] = 0;
-			GetTempPathA(MaxPathSize, curDir);
+			_getcwd(curDir, MaxPathSize);
 			curDir[MaxPathSize] = 0;
 			configFileName = curDir;
+			// Testen ob das Verzeichnis beschreibbar ist
+			ofstream tmpFile;
+			const char *tmpFileName = "pokerth_test.tmp";
+			tmpFile.open((configFileName + "\\" + tmpFileName).c_str());
+			if (tmpFile) {
+				// Erfolgreich, Verzeichnis beschreibbar.
+				// Datei wieder loeschen.
+				tmpFile.close();
+				remove((configFileName + "\\" + tmpFileName).c_str());
+			}
+			else {
+				// Fehlgeschlagen, Verzeichnis nicht beschreibbar
+				curDir[0] = 0;
+				GetTempPathA(MaxPathSize, curDir);
+				curDir[MaxPathSize] = 0;
+				configFileName = curDir;
+			}
 		}
-	}
-	//define app-dir
-	configFileName += "\\pokerth\\";
-	////define log-dir
-	logDir = configFileName;
-	logDir += "log-files\\";
-	////define data-dir
-	dataDir = configFileName;
-	dataDir += "data\\";
-	//create directories on first start of app
-	if (configFirstStart) {
+		//define app-dir
+		configFileName += "\\pokerth\\";
+		////define log-dir
+		logDir = configFileName;
+		logDir += "log-files\\";
+		////define data-dir
+		dataDir = configFileName;
+		dataDir += "data\\";
+		//create directories on first start of app
 		mkdir(configFileName.c_str());
 		mkdir(logDir.c_str());
 		mkdir(dataDir.c_str());
-	}
 	
+		
 #else
-	//define app-dir
-	const char *homePath = getenv("HOME");
-	if(homePath) {
-		configFileName = homePath;
-		configFileName += "/.pokerth/";
-		////define log-dir
-		logDir = configFileName;
-		logDir += "log-files/";
-		////define data-dir
-		dataDir = configFileName;
-		dataDir += "data/";
-		//create directories on first start of app
-		if (configFirstStart) {
+		//define app-dir
+		const char *homePath = getenv("HOME");
+		if(homePath) {
+			configFileName = homePath;
+			configFileName += "/.pokerth/";
+			////define log-dir
+			logDir = configFileName;
+			logDir += "log-files/";
+			////define data-dir
+			dataDir = configFileName;
+			dataDir += "data/";
+			//create directories on first start of app
 			mkdir(configFileName.c_str(), MODUS) ;
 			mkdir(logDir.c_str(), MODUS);
 			mkdir(dataDir.c_str(), MODUS);
+	
 		}
-	}
+	
 #endif
+	}
+	else {
+	//no writeaccess
+		configFileName = "";
+		logDir = "";
+		dataDir = "";
+		logOnOffDefault = "0";
+		claNoWriteAccess = "1";
+	}
 
 	ostringstream tempIntToString;
 	tempIntToString << configRev;
@@ -146,20 +165,21 @@ ConfigFile::ConfigFile(bool configFirstStart)
 	configList.push_back(ConfigInfo("Opponent5Avatar", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("Opponent6Name", CONFIG_TYPE_STRING, "Player 6"));
 	configList.push_back(ConfigInfo("Opponent6Avatar", CONFIG_TYPE_STRING, ""));
-	configList.push_back(ConfigInfo("LogOnOff", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("LogOnOff", CONFIG_TYPE_INT, logOnOffDefault));
 	configList.push_back(ConfigInfo("LogDir", CONFIG_TYPE_STRING, logDir));
 	configList.push_back(ConfigInfo("LogStoreDuration", CONFIG_TYPE_INT, "2"));
 	configList.push_back(ConfigInfo("LogInterval", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DataDir", CONFIG_TYPE_STRING, dataDir));
+	configList.push_back(ConfigInfo("CLA_NoWriteAccess", CONFIG_TYPE_INT, claNoWriteAccess));
 
 	//fill tempList firstTime
 	configBufferList = configList;
 
 // 	cout << configTempList[3].name << " " << configTempList[10].defaultValue << endl;
 
-	configFileName += "config.xml";
-	
-	if (configFirstStart) {
+	if(!noWriteAccess) {
+		configFileName += "config.xml";
+		
 		//Prüfen ob Configfile existiert --> sonst anlegen
 		TiXmlDocument doc(configFileName); 
 		if(!doc.LoadFile()){ 
@@ -177,9 +197,10 @@ ConfigFile::ConfigFile(bool configFirstStart)
 				updateConfig(myConfigState) ;
 			}
 		}
+		
+	
+		fillBuffer();
 	}
-
-	fillBuffer();
 }
 
 
@@ -392,56 +413,81 @@ int ConfigFile::readConfigInt(string varName)
 
 void ConfigFile::writeConfigInt(string varName, int varCont)
  {	
-
-	TiXmlDocument doc(configFileName); 
-	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
-	TiXmlHandle docHandle( &doc );		
-
-	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
-	if ( conf ) {
-		conf->SetAttribute("value", varCont );
-		if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
-        } else {
-		//Wenn nicht gefunden eines neues Anlegen
-		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
-
-		if ( config ) { 		
-
-			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
-			config->LinkEndChild( confElement1 );
-			confElement1->SetAttribute("value", varCont);
-
+	if(!noWriteAccess) {
+	//writeaccess
+		TiXmlDocument doc(configFileName); 
+		if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
+		TiXmlHandle docHandle( &doc );		
+	
+		TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
+		if ( conf ) {
+			conf->SetAttribute("value", varCont );
 			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+		} else {
+			//Wenn nicht gefunden eines neues Anlegen
+			TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
+	
+			if ( config ) { 		
+	
+				TiXmlElement * confElement1 = new TiXmlElement( varName ); 
+				config->LinkEndChild( confElement1 );
+				confElement1->SetAttribute("value", varCont);
+	
+				if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+			}
+		}
+		if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+	
+		fillBuffer();
+	}
+	else {
+	//no writeaccess
+		size_t i;
+		string tempString;
+		ostringstream intToString;
+
+		for (i=0; i<configBufferList.size(); i++) {	
+
+			if (configBufferList[i].name == varName) {
+				intToString << varCont;
+				configBufferList[i].defaultValue = intToString.str();	
+			}
 		}
 	}
-	if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
-
-	fillBuffer();
-
 }
 
 void ConfigFile::writeConfigString(string varName, string varCont)
  {
 	
-	TiXmlDocument doc(configFileName); 
-	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
-	TiXmlHandle docHandle( &doc );		
-
-	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
-	if ( conf ) {
-		conf->SetAttribute("value", varCont );
-	} else {
-		//Wenn nicht gefunden eines neues Anlegen
-		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
-		if ( config ) { 		
-			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
-			config->LinkEndChild( confElement1 );
-			confElement1->SetAttribute("value", varCont);
-			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+	if(!noWriteAccess) {
+	//writeaccess
+		TiXmlDocument doc(configFileName); 
+		if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
+		TiXmlHandle docHandle( &doc );		
+	
+		TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
+		if ( conf ) {
+			conf->SetAttribute("value", varCont );
+		} else {
+			//Wenn nicht gefunden eines neues Anlegen
+			TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
+			if ( config ) { 		
+				TiXmlElement * confElement1 = new TiXmlElement( varName ); 
+				config->LinkEndChild( confElement1 );
+				confElement1->SetAttribute("value", varCont);
+				if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+			}
+		}
+		if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+		
+		fillBuffer();
+	}
+	else {
+	//no writeaccess
+		size_t i;
+		for (i=0; i<configBufferList.size(); i++) {	
+			if (configBufferList[i].name == varName) { configBufferList[i].defaultValue = varCont; }
 		}
 	}
-	if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
-	
-	fillBuffer();
         
 }

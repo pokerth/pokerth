@@ -64,8 +64,7 @@ class GuiWrapper;
 int main( int argc, char **argv )
 {
 	//create defaultconfig
-	bool configFirstStart = 1;
-	ConfigFile *myConfig = new ConfigFile(configFirstStart);
+	ConfigFile *myConfig = new ConfigFile(argc, argv);
 
 	//ENABLE_LEAK_CHECK();
 

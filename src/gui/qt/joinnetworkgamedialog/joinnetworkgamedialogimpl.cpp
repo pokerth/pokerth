@@ -34,6 +34,13 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile
 // 	QShortcut *connectKey = new QShortcut(QKeySequence(Qt::Key_Enter), this);
 // 	connect( connectKey, SIGNAL(activated() ), pushButton_connect, SLOT( click() ) );
 
+	if (myConfig->readConfigInt("CLA_NoWriteAccess")) { 
+
+		pushButton_save->setDisabled(TRUE);
+		pushButton_delete->setDisabled(TRUE);
+		treeWidget->setDisabled(TRUE);
+	}
+
 	connect( pushButton_connect, SIGNAL( clicked() ), this, SLOT( startClient() ) );
 	connect( pushButton_save, SIGNAL( clicked() ), this, SLOT( saveServerProfile() ) );
 	connect( pushButton_delete, SIGNAL( clicked() ), this, SLOT( deleteServerProfile() ) );

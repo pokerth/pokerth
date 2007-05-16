@@ -42,7 +42,7 @@ enum ConfigType { CONFIG_TYPE_INT, CONFIG_TYPE_STRING };
 
 class ConfigFile{
 public:
-    ConfigFile(bool configFirstStart =0);
+    ConfigFile(int, char **);
 
     ~ConfigFile();
 	
@@ -75,6 +75,10 @@ private:
 	std::string logDir;
 	std::string dataDir;
 	int configRev;
+	bool noWriteAccess;
+
+	std::string logOnOffDefault;
+	std::string claNoWriteAccess;
 
 	ConfigState myConfigState;
 };
