@@ -55,8 +55,8 @@ private:
 	mainWindowImpl *myW;
 	ConfigFile *myConfig;
 	QTextStream stream;
-	QFile *myLogFile;
 	QDir *myLogDir;
+	QFile *myLogFile;
 	QString logFileStreamString;
 
 };

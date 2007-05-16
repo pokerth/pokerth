@@ -24,6 +24,17 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <cstdlib>
+#include <fstream>
+#include <vector>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#include <boost/shared_ptr.hpp>
+
+
+using namespace std;
 
 enum ConfigState { NONEXISTING, OLD };
 enum ConfigType { CONFIG_TYPE_INT, CONFIG_TYPE_STRING };
@@ -35,6 +46,8 @@ public:
 
     ~ConfigFile();
 	
+	void fillBuffer();
+
 	void updateConfig(ConfigState);
 
 	std::string readConfigString(std::string varName);
@@ -54,6 +67,9 @@ private:
 		ConfigType type;
 		std::string defaultValue;
 	};
+	
+	vector<ConfigInfo> configList;
+	vector<ConfigInfo> configBufferList;
 
 	std::string configFileName;
 	std::string logDir;

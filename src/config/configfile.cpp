@@ -21,11 +21,6 @@
 
 #include <qttoolswrapper.h>
 
-#include <cstdlib>
-#include <fstream>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <boost/shared_ptr.hpp>
 #define MODUS 0711
 
 #ifdef _WIN32
@@ -35,7 +30,6 @@
 
 class QtToolsWrapper;
 
-using namespace std;
 
 ConfigFile::ConfigFile(bool configFirstStart)
 {
@@ -108,41 +102,6 @@ ConfigFile::ConfigFile(bool configFirstStart)
 		}
 	}
 #endif
-	configFileName += "config.xml";
-	
-	if (configFirstStart) {
-		//Prüfen ob Configfile existiert --> sonst anlegen
-		TiXmlDocument doc(configFileName); 
-		if(!doc.LoadFile()){ 
-			myConfigState = NONEXISTING;
-			updateConfig(myConfigState); 
-		}
-		else { 
-		//Prüfen ob die Revision stimmt ansonsten löschen und neue anlegen 
-			int temp = 0;
-			TiXmlHandle docHandle( &doc );		
-			TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "ConfigRevision" ).ToElement();
-			if ( conf ) { conf->QueryIntAttribute("value", &temp ); }
-			if (temp < configRev) { /*löschen()*/ 
-				myConfigState = OLD;
-				updateConfig(myConfigState) ;
-			}
-		}
-	}
-}
-
-
-ConfigFile::~ConfigFile()
-{
-}
-
-void ConfigFile::updateConfig(ConfigState myConfigState) {
-	
-	size_t i;
-
-	QtToolsInterface *myQtToolsInterface = new QtToolsWrapper;
-	
-	vector<ConfigInfo> configList;
 
 	ostringstream tempIntToString;
 	tempIntToString << configRev;
@@ -193,7 +152,80 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 	configList.push_back(ConfigInfo("LogInterval", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DataDir", CONFIG_TYPE_STRING, dataDir));
 
+	//fill tempList firstTime
+	configBufferList = configList;
 
+// 	cout << configTempList[3].name << " " << configTempList[10].defaultValue << endl;
+
+	configFileName += "config.xml";
+	
+	if (configFirstStart) {
+		//Prüfen ob Configfile existiert --> sonst anlegen
+		TiXmlDocument doc(configFileName); 
+		if(!doc.LoadFile()){ 
+			myConfigState = NONEXISTING;
+			updateConfig(myConfigState); 
+		}
+		else { 
+		//Prüfen ob die Revision stimmt ansonsten löschen und neue anlegen 
+			int temp = 0;
+			TiXmlHandle docHandle( &doc );		
+			TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "ConfigRevision" ).ToElement();
+			if ( conf ) { conf->QueryIntAttribute("value", &temp ); }
+			if (temp < configRev) { /*löschen()*/ 
+				myConfigState = OLD;
+				updateConfig(myConfigState) ;
+			}
+		}
+	}
+
+	fillBuffer();
+}
+
+
+ConfigFile::~ConfigFile()
+{
+}
+
+
+void ConfigFile::fillBuffer() {
+
+	QtToolsInterface *myQtToolsInterface = new QtToolsWrapper;
+
+	size_t i;
+	string tempString("");
+
+	TiXmlDocument doc(configFileName); 
+		
+	if(doc.LoadFile()) {
+	TiXmlHandle docHandle( &doc );	
+
+		for (i=0; i<configBufferList.size(); i++) {	
+	
+			TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).ToElement();
+				
+			if ( conf ) {
+
+				const char *tmpStr = conf->Attribute("value");
+				if (tmpStr) tempString = tmpStr;
+				configBufferList[i].defaultValue = myQtToolsInterface->stringToUtf8(tempString);
+			}	
+			else {	cout << "Could not find the element to fill the config-buffer with!";	}
+				
+// 			cout << configBufferList[i].name << " " << configBufferList[i].defaultValue << endl;
+		}
+	}
+
+	delete myQtToolsInterface;
+	myQtToolsInterface = 0;
+}
+
+void ConfigFile::updateConfig(ConfigState myConfigState) {
+	
+	size_t i;
+
+	QtToolsInterface *myQtToolsInterface = new QtToolsWrapper;
+	
 	if(myConfigState == NONEXISTING) {
 		
 		//Create a new ConfigFile!
@@ -281,58 +313,79 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 
 string ConfigFile::readConfigString(string varName)
 {
+	size_t i;
   	string tempString("");
 
-	TiXmlDocument doc(configFileName); 
-	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
-	TiXmlHandle docHandle( &doc );		
+// 	TiXmlDocument doc(configFileName); 
+// 	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
+// 	TiXmlHandle docHandle( &doc );		
+// 
+// 	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
+// 	if ( conf ) { 
+// 		const char *tmpStr = conf->Attribute("value");
+// 		if (tmpStr) tempString = tmpStr;
+//         } /*else {
+// 		//Wenn nicht gefunden eines neues Anlegen
+// 		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
+// 		if ( config ) { 		
+// 			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
+// 			config->LinkEndChild( confElement1 );
+// 			confElement1->SetAttribute("value", defaultValue);
+// 			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+// 
+// 			return readConfigString(varName, defaultValue);
+// 		}
+// 	}*/
+	for (i=0; i<configBufferList.size(); i++) {	
 
-	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
-	if ( conf ) { 
-		const char *tmpStr = conf->Attribute("value");
-		if (tmpStr) tempString = tmpStr;
-        } /*else {
-		//Wenn nicht gefunden eines neues Anlegen
-		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
-		if ( config ) { 		
-			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
-			config->LinkEndChild( confElement1 );
-			confElement1->SetAttribute("value", defaultValue);
-			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
-
-			return readConfigString(varName, defaultValue);
+		if (configBufferList[i].name == varName) {
+			tempString = configBufferList[i].defaultValue;	
 		}
-	}*/
+	}
 
 	return tempString;
  }
 
 int ConfigFile::readConfigInt(string varName)
 {
+	size_t i;
+  	string tempString("");
   	int tempInt=0;
+
 // 	cout << varName << " : " << tempInt << "\n";
-	TiXmlDocument doc(configFileName); 
-	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
-	TiXmlHandle docHandle( &doc );		
-	
-	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
-	if ( conf ) {
-// 		cout << varName << " : " << tempInt << "\n";
-		conf->QueryIntAttribute("value", &tempInt );
-// 		cout << varName << " : " << tempInt << "\n";
-        } /*else {
-// 		Wenn nicht gefunden eines neues Anlegen
-		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
-		if ( config ) { 		
-			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
-			config->LinkEndChild( confElement1 );
-			confElement1->SetAttribute("value", defaultValue);
-			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+// 	TiXmlDocument doc(configFileName); 
+// 	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
+// 	TiXmlHandle docHandle( &doc );		
+// 	
+// 	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
+// 	if ( conf ) {
+// // 		cout << varName << " : " << tempInt << "\n";
+// 		conf->QueryIntAttribute("value", &tempInt );
+// // 		cout << varName << " : " << tempInt << "\n";
+//         } /*else {
+// // 		Wenn nicht gefunden eines neues Anlegen
+// 		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
+// 		if ( config ) { 		
+// 			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
+// 			config->LinkEndChild( confElement1 );
+// 			confElement1->SetAttribute("value", defaultValue);
+// 			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+// 
+// 			return readConfigInt(varName, defaultValue);
+// 		}
+// 	}*/
 
-			return readConfigInt(varName, defaultValue);
+	for (i=0; i<configBufferList.size(); i++) {	
+
+		if (configBufferList[i].name == varName) {
+			tempString = configBufferList[i].defaultValue;	
 		}
-	}*/
-
+	}
+	
+	istringstream isst;
+	isst.str (tempString);
+	isst >> tempInt;
+	
 	return tempInt;
 }
 
@@ -362,6 +415,9 @@ void ConfigFile::writeConfigInt(string varName, int varCont)
 		}
 	}
 	if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
+
+	fillBuffer();
+
 }
 
 void ConfigFile::writeConfigString(string varName, string varCont)
@@ -386,5 +442,6 @@ void ConfigFile::writeConfigString(string varName, string varCont)
 	}
 	if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
 	
+	fillBuffer();
         
 }

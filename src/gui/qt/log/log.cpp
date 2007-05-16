@@ -27,7 +27,7 @@
 
 using namespace std;
 
-Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c)
+Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), myLogFile(0)
 {
 	myW->setLog(this);
 
@@ -1138,10 +1138,15 @@ QStringList Log::translateCardsValueCode(int cardsValueCode) {
 
 void Log::writeLogFileStream(QString streamString) { 
 
-	myLogFile->open( QIODevice::ReadWrite );
-	QTextStream stream( myLogFile );
-	stream.readAll();
-	stream << streamString;
-	myLogFile->close();
+	if(myLogFile) {
+		if(myLogFile->open( QIODevice::ReadWrite )) {
+			QTextStream stream( myLogFile );
+			stream.readAll();
+			stream << streamString;
+			myLogFile->close();
+		}
+		else { cout << "could not open log-file to write log-messages!" << endl; }
+	}
+	else { cout << "could not find log-file to write log-messages!" << endl; }
 }
 
