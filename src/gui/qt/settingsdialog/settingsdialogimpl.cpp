@@ -28,6 +28,8 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c)
 
 	 setupUi(this);
 
+	if (myConfig->readConfigInt("CLA_NoWriteAccess")) { groupBox_logOnOff->setDisabled(TRUE); }
+
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
 	connect( lineEdit_humanPlayerName, SIGNAL( textChanged( const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( lineEdit_Opponent1Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
@@ -245,17 +247,20 @@ void settingsDialogImpl::isAccepted() {
 
 //	Log
 	myConfig->writeConfigInt("LogOnOff", groupBox_logOnOff->isChecked());
-	if(QDir::QDir(lineEdit_logDir->text()).exists() && lineEdit_logDir->text() != "") { myConfig->writeConfigString("LogDir", lineEdit_logDir->text().toUtf8().constData());	}
-	else { 
-		QMessageBox::warning(this, tr("Settings Error"),
-                   tr("The log file directory doesn't exists.\n"
-                      "Please select an valid directory!"),
-                   QMessageBox::Ok);
-		settingsCorrect = FALSE; 
+	if (myConfig->readConfigInt("LogOnOff")) {
+	// if log On
+		if(QDir::QDir(lineEdit_logDir->text()).exists() && lineEdit_logDir->text() != "") { myConfig->writeConfigString("LogDir", lineEdit_logDir->text().toUtf8().constData());	}
+		else { 
+			QMessageBox::warning(this, tr("Settings Error"),
+			tr("The log file directory doesn't exists.\n"
+			"Please select an valid directory!"),
+			QMessageBox::Ok);
+			settingsCorrect = FALSE; 
+		}
+	
+		myConfig->writeConfigInt("LogStoreDuration", spinBox_logStoreDuration->value());
+		myConfig->writeConfigInt("LogInterval", comboBox_logInterval->currentIndex());
 	}
-
-	myConfig->writeConfigInt("LogStoreDuration", spinBox_logStoreDuration->value());
-	myConfig->writeConfigInt("LogInterval", comboBox_logInterval->currentIndex());
 
 	//Wenn alles richtig eingegeben wurde --> Dialog schließen
 	if(settingsCorrect) { this->hide(); }
