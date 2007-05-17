@@ -104,6 +104,7 @@ void settingsDialogImpl::exec() {
 	checkBox_showIntro->setChecked(myConfig->readConfigInt("ShowIntro"));
 	checkBox_showFadeOutCardsAnimation->setChecked(myConfig->readConfigInt("ShowFadeOutCardsAnimation"));
 	checkBox_showFlipCardsAnimation->setChecked(myConfig->readConfigInt("ShowFlipCardsAnimation"));
+	checkBox_showBlindButtons->setChecked(myConfig->readConfigInt("ShowBlindButtons"));
 	radioButton_flipsideTux->setChecked(myConfig->readConfigInt("FlipsideTux"));
 	radioButton_flipsideOwn->setChecked(myConfig->readConfigInt("FlipsideOwn"));
 	if(radioButton_flipsideOwn->isChecked()) { 
@@ -232,6 +233,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("ShowIntro", checkBox_showIntro->isChecked());
 	myConfig->writeConfigInt("ShowFadeOutCardsAnimation", checkBox_showFadeOutCardsAnimation->isChecked());
 	myConfig->writeConfigInt("ShowFlipCardsAnimation", checkBox_showFlipCardsAnimation->isChecked());
+	myConfig->writeConfigInt("ShowBlindButtons", checkBox_showBlindButtons->isChecked());
 	myConfig->writeConfigInt("FlipsideTux", radioButton_flipsideTux->isChecked());
 	myConfig->writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());
 

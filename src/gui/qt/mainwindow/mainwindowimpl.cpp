@@ -759,6 +759,10 @@ void mainWindowImpl::callSettingsDialog() {
 		}
 		else { flipside->load(":/cards/resources/graphics/cards/flipside.png"); }
 
+		if(mySession->getCurrentGame()) {
+			//blind buttons refresh
+			refreshButton();
+		}
 		int i,j;
 
 		for (i=1; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
@@ -824,6 +828,8 @@ void mainWindowImpl::refreshSet() {
 void mainWindowImpl::refreshButton() {
 
 	QPixmap dealerButton(":/guiv2/resources/guiv2/dealerPuck.png");
+	QPixmap smallblindButton(":/graphics/resources/graphics/smallblindPuck.png");
+	QPixmap bigblindButton(":/graphics/resources/graphics/bigblindPuck.png");
 	QPixmap onePix(":/graphics/resources/graphics/1px.png");
 
 	int i;
@@ -839,11 +845,22 @@ void mainWindowImpl::refreshButton() {
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 		if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 			if(activePlayersCounter > 2) {
-				if (currentHand->getPlayerArray()[i]->getMyButton()==1) {
-					buttonLabelArray[i]->setPixmap(dealerButton); 
-				}	
-				else {
-					buttonLabelArray[i]->setPixmap(onePix);
+				switch (currentHand->getPlayerArray()[i]->getMyButton()) {
+				
+				case 1 : buttonLabelArray[i]->setPixmap(dealerButton); 
+				break;
+				case 2 : { 	
+						if ( myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[i]->setPixmap(smallblindButton); 
+						else { buttonLabelArray[i]->setPixmap(onePix); }					  
+					 }
+				break;
+				case 3 : { 
+						if (myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[i]->setPixmap(bigblindButton); 				
+						else { buttonLabelArray[i]->setPixmap(onePix); }					  
+					 }
+				break;
+				default: buttonLabelArray[i]->setPixmap(onePix);
+				
 				}
 			}
 			else {

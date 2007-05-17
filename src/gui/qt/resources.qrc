@@ -86,6 +86,8 @@
 	<file>resources/graphics/toolboxFrameBG.png</file>
 	<file>resources/graphics/logoChip3D.png</file>
 	<file>resources/graphics/windowicon.png</file>
+	<file>resources/graphics/smallblindPuck.png</file>
+	<file>resources/graphics/bigblindPuck.png</file>
     </qresource>
     <qresource prefix="/guiv2" >
         <file>resources/guiv2/cardholder_03.png</file>
