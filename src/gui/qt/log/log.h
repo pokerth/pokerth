@@ -31,23 +31,31 @@
 class mainWindowImpl;
 
 
-class Log{
+class Log : public QObject
+{
+Q_OBJECT
+
 public:
-    Log(mainWindowImpl*, ConfigFile *c);
+	Log(mainWindowImpl*, ConfigFile *c);
 
-    ~Log();
+	~Log();
 
-	
-	void logPlayerActionMsg(std::string playerName, int action, int setValue);
+public slots:
+	void logPlayerActionMsg(QString playerName, int action, int setValue);
 	void logNewGameHandMsg(int gameID, int handID);
 	void logPlayerWinsMsg(int playerID, int pot);
 	void logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1);
-	void logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt = -1, std::string showHas = "shows");
+	void logFlipHoleCardsMsg(QString playerName, int card1, int card2, int cardsValueInt = -1, std::string showHas = "shows");
 
+public:
 	QStringList translateCardsValueCode(int cardsValueCode);
 	QStringList translateCardCode(int cardCode);
 
 	void writeLogFileStream(QString string);
+
+signals:
+	void signalLogPlayerActionMsg(QString playerName, int action, int setValue);
+	void signalLogNewGameHandMsg(int gameID, int handID);
 
 private:
 	int lastGameID;
@@ -59,6 +67,7 @@ private:
 	QFile *myLogFile;
 	QString logFileStreamString;
 
+friend class GuiWrapper;
 };
 
 #endif

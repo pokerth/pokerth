@@ -556,17 +556,51 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
 
 	//Nachrichten Thread-Save
-	connect(this, SIGNAL(SignalNetClientConnect(int)), myConnectToServerDialog, SLOT(refresh(int)));
-	connect(this, SIGNAL(SignalNetClientGameInfo(int)), myWaitingForServerGameDialog, SLOT(refresh(int)));
-	connect(this, SIGNAL(SignalNetClientPlayerJoined(QString)), myWaitingForServerGameDialog, SLOT(addConnectedPlayer(QString)));
-	connect(this, SIGNAL(SignalNetClientPlayerLeft(QString)), myWaitingForServerGameDialog, SLOT(removePlayer(QString)));
+	connect(this, SIGNAL(signalRefreshSet()), this, SLOT(refreshSet()));
+	connect(this, SIGNAL(signalRefreshCash()), this, SLOT(refreshCash()));
+	connect(this, SIGNAL(signalRefreshAction(int, int)), this, SLOT(refreshAction(int, int)));
+	connect(this, SIGNAL(signalRefreshChangePlayer()), this, SLOT(refreshChangePlayer()));
+	connect(this, SIGNAL(signalRefreshPot()), this, SLOT(refreshPot()));
+	connect(this, SIGNAL(signalRefreshGroupbox(int, int)), this, SLOT(refreshGroupbox(int, int)));
+	connect(this, SIGNAL(signalRefreshAll()), this, SLOT(refreshAll()));
+	connect(this, SIGNAL(signalRefreshPlayerName()), this, SLOT(refreshPlayerName()));
+
+	connect(this, SIGNAL(signalMeInAction()), this, SLOT(meInAction()));
+
+	connect(this, SIGNAL(signalDealHoleCards()), this, SLOT(dealHoleCards()));
+	connect(this, SIGNAL(signalDealFlopCards0()), this, SLOT(dealFlopCards0()));
+	connect(this, SIGNAL(signalDealTurnCards0()), this, SLOT(dealTurnCards0()));
+	connect(this, SIGNAL(signalDealRiverCards0()), this, SLOT(dealRiverCards0()));
+
+	connect(this, SIGNAL(signalHighlightRoundLabel(QString)), this, SLOT(highlightRoundLabel(QString)));
+	connect(this, SIGNAL(signalNextPlayerAnimation()), this, SLOT(nextPlayerAnimation()));
+
+	connect(this, SIGNAL(signalPreflopAnimation1()), this, SLOT(preflopAnimation1()));
+	connect(this, SIGNAL(signalPreflopAnimation2()), this, SLOT(preflopAnimation2()));
+	connect(this, SIGNAL(signalFlopAnimation1()), this, SLOT(flopAnimation1()));
+	connect(this, SIGNAL(signalFlopAnimation2()), this, SLOT(flopAnimation2()));
+	connect(this, SIGNAL(signalTurnAnimation1()), this, SLOT(turnAnimation1()));
+	connect(this, SIGNAL(signalTurnAnimation2()), this, SLOT(turnAnimation2()));
+	connect(this, SIGNAL(signalRiverAnimation1()), this, SLOT(riverAnimation1()));
+	connect(this, SIGNAL(signalRiverAnimation2()), this, SLOT(riverAnimation2()));
+	connect(this, SIGNAL(signalPostRiverAnimation1()), this, SLOT(postRiverAnimation1()));
+	connect(this, SIGNAL(signalPostRiverRunAnimation1()), this, SLOT(postRiverRunAnimation1()));
+
+	connect(this, SIGNAL(signalFlipHolecardsAllIn()), this, SLOT(flipHolecardsAllIn()));
+
+	connect(this, SIGNAL(signalNextRoundCleanGui()), this, SLOT(nextRoundCleanGui()));
+
+	connect(this, SIGNAL(signalNetClientConnect(int)), myConnectToServerDialog, SLOT(refresh(int)));
+	connect(this, SIGNAL(signalNetClientGameInfo(int)), myWaitingForServerGameDialog, SLOT(refresh(int)));
+	connect(this, SIGNAL(signalNetClientPlayerJoined(QString)), myWaitingForServerGameDialog, SLOT(addConnectedPlayer(QString)));
+	connect(this, SIGNAL(signalNetClientPlayerLeft(QString)), myWaitingForServerGameDialog, SLOT(removePlayer(QString)));
 
 	// Errors are handled globally, not within one dialog.
-	connect(this, SIGNAL(SignalNetClientError(int, int)), this, SLOT(networkError(int, int)));
-	connect(this, SIGNAL(SignalNetClientGameStart()), this, SLOT(networkStart()));
+	connect(this, SIGNAL(signalNetClientError(int, int)), this, SLOT(networkError(int, int)));
+	connect(this, SIGNAL(signalNetClientGameStart()), this, SLOT(networkStart()));
 
-	connect(this, SIGNAL(SignalNetServerPlayerJoined(QString)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString)));
-	connect(this, SIGNAL(SignalNetServerPlayerLeft(QString)), myStartNetworkGameDialog, SLOT(removePlayer(QString)));
+	connect(this, SIGNAL(signalNetServerPlayerJoined(QString)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString)));
+	connect(this, SIGNAL(signalNetServerPlayerLeft(QString)), myStartNetworkGameDialog, SLOT(removePlayer(QString)));
 
 
 // 	textBrowser_Log->append(QString::number(this->pos().x(),10)+" "+QString::number(this->pos().y(),10));	
@@ -1098,9 +1132,7 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 	}
 }
 
-void mainWindowImpl::highlightRoundLabel(string tempround) { 
-
-	QString round (QString::fromUtf8(tempround.c_str()));
+void mainWindowImpl::highlightRoundLabel(QString round) { 
 
 	// für PostRiverRun (alte Runden stehen lassen)
 	if(round != "") {
@@ -1452,7 +1484,7 @@ void mainWindowImpl::myFold(){
 	currentHand->getPlayerArray()[0]->setMyTurn(0);
 
 	//Action in LogWindow
-	myLog->logPlayerActionMsg(currentHand->getPlayerArray()[0]->getMyName(), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
+	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
 
 	holeCardsArray[0][0]->startFadeOut(10); 
 	holeCardsArray[0][1]->startFadeOut(10); 
@@ -1473,7 +1505,7 @@ void mainWindowImpl::myCheck() {
 	currentHand->getPlayerArray()[0]->setMyTurn(0);
 
 	//Action in LogWindow
-	myLog->logPlayerActionMsg(currentHand->getPlayerArray()[0]->getMyName(), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
+	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 
@@ -1519,7 +1551,7 @@ void mainWindowImpl::myCall(){
 	refreshPot();
 
 	//Action in LogWindow
-	myLog->logPlayerActionMsg(currentHand->getPlayerArray()[0]->getMyName(), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
+	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 
@@ -1617,7 +1649,7 @@ void mainWindowImpl::mySet(){
 	refreshPot();
 
 	//Action in LogWindow
-	myLog->logPlayerActionMsg(currentHand->getPlayerArray()[0]->getMyName(), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
+	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 
@@ -1655,7 +1687,7 @@ void mainWindowImpl::myAllIn(){
 	refreshPot();
 
 	//Action in LogWindow
-	myLog->logPlayerActionMsg(currentHand->getPlayerArray()[0]->getMyName(), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
+	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
 	
 	disableMyButtons();
 
@@ -1757,7 +1789,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 							}	
 						}
 						//Karten umdrehen Loggen 
-						myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt());
+						myLog->logFlipHoleCardsMsg(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str()), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt());
 			
 						currentHand->getPlayerArray()[i]->setMyCardsFlip(1);
 					}
@@ -1785,7 +1817,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 							}	
 						}
 						//Karten umdrehen Loggen 
-						myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt() );
+						myLog->logFlipHoleCardsMsg(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str()), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt() );
 
 						currentHand->getPlayerArray()[i]->setMyCardsFlip(1);
 					}
@@ -1802,7 +1834,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
 				
 					//Kartenwerte Loggen 
-					myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt(), "has");
+					myLog->logFlipHoleCardsMsg(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str()), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt(), "has");
 				}
 			}	
 		}
@@ -2015,7 +2047,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 							}
 						}
 						//Karten umdrehen Loggen 
-						myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1]);
+						myLog->logFlipHoleCardsMsg(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str()), tempCardsIntArray[0], tempCardsIntArray[1]);
 
 						currentHand->getPlayerArray()[i]->setMyCardsFlip(1);
 						
@@ -2044,7 +2076,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 							}	
 						}
 						//Karten umdrehen Loggen 
-						myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), temp2CardsIntArray[0], temp2CardsIntArray[1] );
+						myLog->logFlipHoleCardsMsg(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str()), temp2CardsIntArray[0], temp2CardsIntArray[1] );
 				
 						currentHand->getPlayerArray()[i]->setMyCardsFlip(1);
 					}
@@ -2066,7 +2098,7 @@ void mainWindowImpl::showMyCards() {
 	currentHand->getPlayerArray()[0]->getMyCards(tempCardsIntArray);	
 	if( currentHand->getPlayerArray()[0]->getMyCardsFlip() == 0 &&  currentHand->getActualRound() == 4 && currentHand->getPlayerArray()[0]->getMyActiveStatus() && currentHand->getPlayerArray()[0]->getMyAction() != 1) { 
 		//Karten umdrehen Loggen 
-		myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[0]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[0]->getMyCardsValueInt() );
+		myLog->logFlipHoleCardsMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[0]->getMyCardsValueInt() );
 
 		currentHand->getPlayerArray()[0]->setMyCardsFlip(1);
 	}

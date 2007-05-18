@@ -66,17 +66,67 @@ public:
 
 	void setLog(Log*);
 
+	void setSpeeds();
+
+signals:
+	void signalRefreshSet();
+	void signalRefreshCash();
+	void signalRefreshAction(int =-1, int=-1);
+	void signalRefreshChangePlayer();
+	void signalRefreshPot();
+	void signalRefreshGroupbox(int =-1, int =-1);
+	void signalRefreshAll();
+	void signalRefreshPlayerName();
+
+	void signalMeInAction();
+
+	void signalDealHoleCards();
+	void signalDealFlopCards0();
+	void signalDealTurnCards0();
+	void signalDealRiverCards0();
+
+	void signalHighlightRoundLabel(QString);
+	void signalNextPlayerAnimation();
+
+	void signalPreflopAnimation1();
+	void signalPreflopAnimation2();
+	void signalFlopAnimation1();
+	void signalFlopAnimation2();
+	void signalTurnAnimation1();
+	void signalTurnAnimation2();
+	void signalRiverAnimation1();
+	void signalRiverAnimation2();
+	void signalPostRiverAnimation1();
+	void signalPostRiverRunAnimation1();
+
+	void signalFlipHolecardsAllIn();
+
+	void signalNextRoundCleanGui();
+
+	void signalNetClientConnect(int actionID);
+	void signalNetClientGameInfo(int actionID);
+	void signalNetClientError(int errorID, int osErrorID);
+	void signalNetClientPlayerJoined(QString playerName);
+	void signalNetClientPlayerLeft(QString playerName);
+	void signalNetClientGameStart();
+	void signalNetServerPlayerJoined(QString playerName);
+	void signalNetServerPlayerLeft(QString playerName);
+
+
+public slots:
+
 	//refresh-Funktionen
 	void refreshSet();
-	void refreshButton();
-	void refreshPlayerName();
-	void refreshPlayerAvatar();
-	void refreshAction(int =-1, int=-1);
 	void refreshCash();
-	void refreshGroupbox(int =-1, int =-1);
-	void refreshAll();
+	void refreshAction(int =-1, int=-1);
 	void refreshChangePlayer();
 	void refreshPot();
+	void refreshGroupbox(int =-1, int =-1);
+	void refreshAll();
+	void refreshPlayerName();
+
+	void refreshButton();
+	void refreshPlayerAvatar();
 
 	// Karten-Funktionen
 	void dealHoleCards();
@@ -85,22 +135,7 @@ public:
 	void meInAction();
 	void disableMyButtons();
 
-	void highlightRoundLabel(std::string);
-
-	void setSpeeds();
-
-signals:
-	void SignalNetClientConnect(int actionID);
-	void SignalNetClientGameInfo(int actionID);
-	void SignalNetClientError(int errorID, int osErrorID);
-	void SignalNetClientPlayerJoined(QString playerName);
-	void SignalNetClientPlayerLeft(QString playerName);
-	void SignalNetClientGameStart();
-	void SignalNetServerPlayerJoined(QString playerName);
-	void SignalNetServerPlayerLeft(QString playerName);
-
-
-public slots:
+	void highlightRoundLabel(QString);
 
 	void setGameSpeed(const int theValue) { guiGameSpeed = theValue; setSpeeds(); } // Achtung Faktor 10!!!
 

@@ -47,59 +47,59 @@ void GuiWrapper::initGui(int speed) { myW->initGui(speed); }
 Session &GuiWrapper::getSession() { return myW->getSession(); }
 void GuiWrapper::setSession(boost::shared_ptr<Session> session) { myW->setSession(session); }
 
-void GuiWrapper::refreshSet() const { myW->refreshSet(); }
-void GuiWrapper::refreshCash() const { myW->refreshCash(); }
-void GuiWrapper::refreshAction(int playerID, int playerAction) const { myW->refreshAction(playerID, playerAction); }
-void GuiWrapper::refreshChangePlayer() const { myW->refreshChangePlayer(); }
-void GuiWrapper::refreshAll() const { myW->refreshAll(); }
-void GuiWrapper::refreshPot() const { myW->refreshPot(); }
-void GuiWrapper::refreshGroupbox(int playerID, int status) const { myW->refreshGroupbox(playerID, status); }
-void GuiWrapper::refreshPlayerName() const { myW->refreshPlayerName(); }
+void GuiWrapper::refreshSet() const { myW->signalRefreshSet(); }
+void GuiWrapper::refreshCash() const { myW->signalRefreshCash(); }
+void GuiWrapper::refreshAction(int playerID, int playerAction) const { myW->signalRefreshAction(playerID, playerAction); }
+void GuiWrapper::refreshChangePlayer() const { myW->signalRefreshChangePlayer(); }
+void GuiWrapper::refreshAll() const { myW->signalRefreshAll(); }
+void GuiWrapper::refreshPot() const { myW->signalRefreshPot(); }
+void GuiWrapper::refreshGroupbox(int playerID, int status) const { myW->signalRefreshGroupbox(playerID, status); }
+void GuiWrapper::refreshPlayerName() const { myW->signalRefreshPlayerName(); }
 
-void GuiWrapper::dealHoleCards() { myW->dealHoleCards(); }
-void GuiWrapper::dealFlopCards() { myW->dealFlopCards0(); }
-void GuiWrapper::dealTurnCard() { myW->dealTurnCards0(); }
-void GuiWrapper::dealRiverCard() { myW->dealRiverCards0(); }
+void GuiWrapper::dealHoleCards() { myW->signalDealHoleCards(); }
+void GuiWrapper::dealFlopCards() { myW->signalDealFlopCards0(); }
+void GuiWrapper::dealTurnCard() { myW->signalDealTurnCards0(); }
+void GuiWrapper::dealRiverCard() { myW->signalDealRiverCards0(); }
 
-void GuiWrapper::highlightRoundLabel(string round) const { myW->highlightRoundLabel(round); }
+void GuiWrapper::highlightRoundLabel(string round) const { myW->signalHighlightRoundLabel(QString::fromUtf8(round.c_str())); }
 
 
-void GuiWrapper::nextPlayerAnimation() { myW->nextPlayerAnimation(); }
+void GuiWrapper::nextPlayerAnimation() { myW->signalNextPlayerAnimation(); }
 
-void GuiWrapper::preflopAnimation1() { myW->preflopAnimation1(); }
-void GuiWrapper::preflopAnimation2() { myW->preflopAnimation2(); }
+void GuiWrapper::preflopAnimation1() { myW->signalPreflopAnimation1(); }
+void GuiWrapper::preflopAnimation2() { myW->signalPreflopAnimation2(); }
 
-void GuiWrapper::flopAnimation1() { myW->flopAnimation1(); }
-void GuiWrapper::flopAnimation2() { myW->flopAnimation2(); }
+void GuiWrapper::flopAnimation1() { myW->signalFlopAnimation1(); }
+void GuiWrapper::flopAnimation2() { myW->signalFlopAnimation2(); }
 
-void GuiWrapper::turnAnimation1() { myW->turnAnimation1(); }
-void GuiWrapper::turnAnimation2() { myW->turnAnimation2(); }
+void GuiWrapper::turnAnimation1() { myW->signalTurnAnimation1(); }
+void GuiWrapper::turnAnimation2() { myW->signalTurnAnimation2(); }
 
-void GuiWrapper::riverAnimation1() { myW->riverAnimation1(); }
-void GuiWrapper::riverAnimation2() { myW->riverAnimation2(); }
+void GuiWrapper::riverAnimation1() { myW->signalRiverAnimation1(); }
+void GuiWrapper::riverAnimation2() { myW->signalRiverAnimation2(); }
 
-void GuiWrapper::postRiverAnimation1() { myW->postRiverAnimation1(); }
-void GuiWrapper::postRiverRunAnimation1() { myW->postRiverRunAnimation1(); }
+void GuiWrapper::postRiverAnimation1() { myW->signalPostRiverAnimation1(); }
+void GuiWrapper::postRiverRunAnimation1() { myW->signalPostRiverRunAnimation1(); }
 
-void GuiWrapper::flipHolecardsAllIn() { myW->flipHolecardsAllIn(); }
+void GuiWrapper::flipHolecardsAllIn() { myW->signalFlipHolecardsAllIn(); }
 
-void GuiWrapper::nextRoundCleanGui() { myW->nextRoundCleanGui(); }
+void GuiWrapper::nextRoundCleanGui() { myW->signalNextRoundCleanGui(); }
 
-void GuiWrapper::meInAction() { myW->meInAction(); }
+void GuiWrapper::meInAction() { myW->signalMeInAction(); }
 
-void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) { myLog->logPlayerActionMsg(playerName, action, setValue); }
-void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->logNewGameHandMsg(gameID, handID); }
+void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) { myLog->signalLogPlayerActionMsg(QString::fromUtf8(playerName.c_str()), action, setValue); }
+void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->signalLogNewGameHandMsg(gameID, handID); }
 
-void GuiWrapper::SignalNetClientConnect(int actionID) { myW->SignalNetClientConnect(actionID); }
-void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->SignalNetClientGameInfo(actionID); }
-void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myW->SignalNetClientError(errorID, osErrorID); }
-void GuiWrapper::SignalNetClientPlayerJoined(const string &playerName) { myW->SignalNetClientPlayerJoined(QString::fromUtf8(playerName.c_str())); }
-void GuiWrapper::SignalNetClientPlayerLeft(const string &playerName) { myW->SignalNetClientPlayerLeft(QString::fromUtf8(playerName.c_str())); }
-void GuiWrapper::SignalNetClientGameStart(const GameData &gameData) { myW->SignalNetClientGameStart(); }
+void GuiWrapper::SignalNetClientConnect(int actionID) { myW->signalNetClientConnect(actionID); }
+void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->signalNetClientGameInfo(actionID); }
+void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myW->signalNetClientError(errorID, osErrorID); }
+void GuiWrapper::SignalNetClientPlayerJoined(const string &playerName) { myW->signalNetClientPlayerJoined(QString::fromUtf8(playerName.c_str())); }
+void GuiWrapper::SignalNetClientPlayerLeft(const string &playerName) { myW->signalNetClientPlayerLeft(QString::fromUtf8(playerName.c_str())); }
+void GuiWrapper::SignalNetClientGameStart(const GameData &gameData) { myW->signalNetClientGameStart(); }
 
 void GuiWrapper::SignalNetServerSuccess(int actionID) { }
 void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { }
-void GuiWrapper::SignalNetServerPlayerJoined(const string &playerName) { myW->SignalNetServerPlayerJoined(QString::fromUtf8(playerName.c_str())); }
-void GuiWrapper::SignalNetServerPlayerLeft(const string &playerName) { myW->SignalNetServerPlayerLeft(QString::fromUtf8(playerName.c_str())); }
+void GuiWrapper::SignalNetServerPlayerJoined(const string &playerName) { myW->signalNetServerPlayerJoined(QString::fromUtf8(playerName.c_str())); }
+void GuiWrapper::SignalNetServerPlayerLeft(const string &playerName) { myW->signalNetServerPlayerLeft(QString::fromUtf8(playerName.c_str())); }
 
 
