@@ -114,6 +114,9 @@ Server Notification: Game Start
 	|        Start Dealer Pos       |          Reserved             |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
+[ Dealer Pos can be different for each game, therefore it is not
+  transmitted in Join Game ACK. ]
+
 
 Server Notification: Hand Start
 
