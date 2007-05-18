@@ -2092,6 +2092,7 @@ void mainWindowImpl::nextRoundCleanGui() {
 	for (i=0; i<5; i++ ) { 
 		boardCardsArray[i]->setPixmap(onePix, FALSE); 
 		boardCardsArray[i]->setFadeOutAction(FALSE); 
+		boardCardsArray[i]->stopFlipCardsAnimation();
 		
 	}
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 

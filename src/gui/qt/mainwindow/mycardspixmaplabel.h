@@ -33,6 +33,7 @@ public:
 	
 	void startFadeOut(int);
 	void startFlipCards(int, QPixmap, QPixmap*);
+	void stopFlipCardsAnimation();
 	
 	void paintEvent(QPaintEvent * event);
 
@@ -66,6 +67,7 @@ private:
 	bool fadeOutAction;
 	bool flipCardsAction1;
 	bool flipCardsAction2;
+	bool stopFlipCards;
 };
 
 #endif

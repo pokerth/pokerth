@@ -74,6 +74,8 @@ void MyCardsPixmapLabel::nextFadeOutFrame() {
 
 void MyCardsPixmapLabel::startFlipCards(int speed, QPixmap frontPix, QPixmap *flipsidePix) { 
 	
+	stopFlipCards = FALSE;
+
 	QLabel::setPixmap(frontPix);
 
 	frameFlipCardsAction1Size = 1.0;
@@ -93,6 +95,15 @@ void MyCardsPixmapLabel::startFlipCards(int speed, QPixmap frontPix, QPixmap *fl
 		flipCardsTimer->start(40);
 	} 
 	
+}
+
+void MyCardsPixmapLabel::stopFlipCardsAnimation() {
+	
+	flipCardsTimer->stop();
+	flipCardsAction1 = FALSE;
+	flipCardsAction2 = FALSE;
+	stopFlipCards = TRUE;
+	update();
 }
 
 void MyCardsPixmapLabel::nextFlipCardsFrame() {
