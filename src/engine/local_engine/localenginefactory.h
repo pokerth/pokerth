@@ -38,7 +38,7 @@ public:
 	LocalEngineFactory(ConfigFile*);
 	~LocalEngineFactory();
 
-	HandInterface* createHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC);
+	HandInterface* createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC);
 	BoardInterface* createBoard();
 	PlayerInterface* createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
 	PreflopInterface* createPreflop(HandInterface* hi, int id, int aP, int dP, int sB);

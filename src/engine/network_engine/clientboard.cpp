@@ -16,24 +16,43 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Game data. */
+#include "clientboard.h"
 
-#ifndef _GAMEDATA_H_
-#define _GAMEDATA_H_
+#include "localhand.h"
+#include <game_defs.h>
 
-// For the sake of simplicity, this is a struct.
+using namespace std;
 
-struct GameData
+ClientBoard::ClientBoard()
+: playerArray(0), actualHand(0), pot(0), sets(0)
 {
-	GameData() : numberOfPlayers(0), startCash(0), smallBlind(0),
-		handsBeforeRaise(1), guiSpeed(4), startDealerPos(0) {}
-	int numberOfPlayers;
-	int startCash;
-	int smallBlind;
-	int handsBeforeRaise;
-	int guiSpeed;
-	int startDealerPos;
-};
+}
 
-#endif
+
+ClientBoard::~ClientBoard()
+{
+}
+
+void
+ClientBoard::setPlayer(PlayerInterface** p)
+{
+	playerArray = p;
+}
+
+void
+ClientBoard::setHand(HandInterface* br)
+{
+	actualHand = br;
+}
+
+void
+ClientBoard::collectSets()
+{
+}
+
+void
+ClientBoard::collectPot()
+{
+}
+
 

@@ -20,18 +20,22 @@
 #include "game.h"
 #include "gamedata.h"
 
-#include <localenginefactory.h>
+#include <enginefactory.h>
 #include <guiinterface.h>
-#include <tools.h>
+
+#include <iostream>
+#include <sstream>
 
 using namespace std;
 
-Game::Game(GuiInterface* gui, const PlayerDataList &playerDataList, const GameData &gameData, int gameId, ConfigFile *c)
-: myGui(gui), actualHand(0), actualBoard(0), startQuantityPlayers(gameData.numberOfPlayers),
+Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
+		   const PlayerDataList &playerDataList, const GameData &gameData, int gameId)
+: myGui(gui), myFactory(factory), actualHand(0), actualBoard(0),
+  startQuantityPlayers(gameData.numberOfPlayers),
   startCash(gameData.startCash), startSmallBlind(gameData.smallBlind),
   startHandsBeforeRaiseSmallBlind(gameData.handsBeforeRaise),
   myGameID(gameId), actualQuantityPlayers(gameData.numberOfPlayers),
-  actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(0), myConfig(c)
+  actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(gameData.startDealerPos)
 {
 // 	cout << "Create Game Object" << "\n";
 	int i;
@@ -42,17 +46,10 @@ Game::Game(GuiInterface* gui, const PlayerDataList &playerDataList, const GameDa
 		playerArray[i] = 0;
 	}
 
-	//EngineFactory erstellen
-	myFactory = new LocalEngineFactory(myConfig); // LocalEngine erstellen
-	
 
 	// Board erstellen
 	actualBoard = myFactory->createBoard();
 
-
-	// ersten Dealer bestimmen
-	Tools myTool;
-	myTool.getRandNumber(0, startQuantityPlayers-1, 1, &dealerPosition, 0);
 
 	// Player erstellen
 	PlayerDataList::const_iterator player_i = playerDataList.begin();

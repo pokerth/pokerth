@@ -16,24 +16,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Game data. */
+#include "clientriver.h"
+#include <game_defs.h>
 
-#ifndef _GAMEDATA_H_
-#define _GAMEDATA_H_
 
-// For the sake of simplicity, this is a struct.
+//using namespace std;
 
-struct GameData
+ClientRiver::ClientRiver(HandInterface* bR, int id, int qP, int dP, int sB)
+: myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRiverRun(1), firstRiverRound(1), playersTurn(dP), highestCardsValue(0)
 {
-	GameData() : numberOfPlayers(0), startCash(0), smallBlind(0),
-		handsBeforeRaise(1), guiSpeed(4), startDealerPos(0) {}
-	int numberOfPlayers;
-	int startCash;
-	int smallBlind;
-	int handsBeforeRaise;
-	int guiSpeed;
-	int startDealerPos;
-};
+}
 
-#endif
+ClientRiver::~ClientRiver()
+{
+}
 
+
+void
+ClientRiver::riverRun()
+{
+}
+
+void
+ClientRiver::postRiverRun()
+{
+}
+
+void
+ClientRiver::nextPlayer2()
+{
+}
+
+void
+ClientRiver::distributePot()
+{
+}

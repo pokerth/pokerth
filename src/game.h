@@ -20,13 +20,12 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <iostream>
-#include <string>
-#include <sstream>
-
 #include "game_defs.h"
 #include "playerdata.h"
 #include "configfile.h"
+
+#include <string>
+#include <boost/shared_ptr.hpp>
 
 class GuiInterface;
 class HandInterface;
@@ -38,7 +37,7 @@ struct GameData;
 class Game {
 
 public:
-	Game(GuiInterface *gui, const PlayerDataList &playerDataList, const GameData &gameData, int gameId, ConfigFile*);
+	Game(GuiInterface *gui, boost::shared_ptr<EngineFactory> factory, const PlayerDataList &playerDataList, const GameData &gameData, int gameId);
 
 	~Game();
 
@@ -59,9 +58,8 @@ public:
 	void setStartCash(const int& theValue)	{ startCash = theValue; }
 	int getStartCash() const { return startCash;	}
 
-	void setDealerPosition(const int& theValue) { dealerPosition = theValue; }
 	int getDealerPosition() const { return dealerPosition; }
-	
+
 	void setMyGameID(const int& theValue) { myGameID = theValue;}
 	int getMyGameID() const	{ return myGameID; }
 	
@@ -79,7 +77,7 @@ public:
 
 
 private:
-	EngineFactory *myFactory;
+	boost::shared_ptr<EngineFactory> myFactory;
 
 	GuiInterface *myGui;
 	HandInterface *actualHand;
@@ -98,8 +96,6 @@ private:
 	int actualSmallBlind;
 	int actualHandID;
 	int dealerPosition;
-
-	ConfigFile *myConfig;
 };
 
 #endif

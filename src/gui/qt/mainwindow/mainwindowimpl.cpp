@@ -37,9 +37,11 @@
 #include "handinterface.h"
 #include "game.h"
 #include "session.h"
+#include "tools.h"
 
 #include "log.h"
 #include "configfile.h"
+#include <gamedata.h>
 #include <generic/serverguiwrapper.h>
 
 #include <net/socket_msg.h>
@@ -561,7 +563,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	// Errors are handled globally, not within one dialog.
 	connect(this, SIGNAL(SignalNetClientError(int, int)), this, SLOT(networkError(int, int)));
-	connect(this, SIGNAL(SignalNetClientGameStart(int, int, int, int)), this, SLOT(networkStart(int, int, int, int)));
+	connect(this, SIGNAL(SignalNetClientGameStart()), this, SLOT(networkStart()));
 
 	connect(this, SIGNAL(SignalNetServerPlayerJoined(QString)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString)));
 	connect(this, SIGNAL(SignalNetServerPlayerLeft(QString)), myStartNetworkGameDialog, SLOT(removePlayer(QString)));
@@ -619,8 +621,12 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 		//Speeds 
 		gameData.guiSpeed = myConfig->readConfigInt("GameSpeed");
 	}
+	// Set dealer pos.
+	Tools myTool;
+	myTool.getRandNumber(0, gameData.numberOfPlayers-1, 1, &gameData.startDealerPos, 0);
+
 	//Start Game!!!
-	mySession->startGame(gameData);
+	mySession->startLocalGame(gameData);
 }
 
 
@@ -2375,14 +2381,11 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 	myWaitingForServerGameDialog->reject();
 }
 
-void mainWindowImpl::networkStart(int numberOfPlayers, int startCash, int smallBlind, int handsBeforeRaise)
+void mainWindowImpl::networkStart()
 {
-	GameData gameData;
-	gameData.numberOfPlayers = numberOfPlayers;
-	gameData.startCash = startCash;
-	gameData.smallBlind = smallBlind;
-	gameData.handsBeforeRaise = handsBeforeRaise;
-	mySession->startGame(gameData);
+//	QMutexLocker lock(&myClientDataMutex);
+//	assert(!myClientPlayerDataList.empty());
+//	mySession->startClientGame(myClientGameData, myClientPlayerDataList);
 }
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {

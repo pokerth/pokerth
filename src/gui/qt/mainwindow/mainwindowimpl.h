@@ -22,7 +22,6 @@
 
 #include "ui_mainwindow.h"
 #include "game_defs.h"
-#include <gamedata.h>
 
 #include <iostream>
 #include <string>
@@ -96,7 +95,7 @@ signals:
 	void SignalNetClientError(int errorID, int osErrorID);
 	void SignalNetClientPlayerJoined(QString playerName);
 	void SignalNetClientPlayerLeft(QString playerName);
-	void SignalNetClientGameStart(int numberOfPlayers, int startCash, int smallBlind, int handsBeforeRaise);
+	void SignalNetClientGameStart();
 	void SignalNetServerPlayerJoined(QString playerName);
 	void SignalNetServerPlayerLeft(QString playerName);
 
@@ -197,7 +196,7 @@ public slots:
 	void paintStartSplash();
 
 	void networkError(int, int);
-	void networkStart(int, int, int, int);
+	void networkStart();
 
 	void closeEvent(QCloseEvent*);
 

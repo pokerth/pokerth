@@ -10,6 +10,7 @@ INCLUDEPATH += . \
 		src/gui \
 		src/net \
 		src/engine/local_engine \
+		src/engine/network_engine \
 		src/config \
 		src/core/tinyxml \
 		src/gui/qt \
@@ -38,6 +39,7 @@ DEPENDPATH += . \
               src/core/common \
               src/core/tinyxml \
               src/engine/local_engine \
+              src/engine/network_engine \
               src/gui/qt \
               src/net/common \
               src/gui/qt/mainwindow \
@@ -95,6 +97,14 @@ HEADERS += src/game.h \
            src/engine/local_engine/localriver.h \
            src/engine/local_engine/localturn.h \
            src/engine/local_engine/tools.h \
+           src/engine/network_engine/clientboard.h \
+           src/engine/network_engine/clientenginefactory.h \
+           src/engine/network_engine/clientflop.h \
+           src/engine/network_engine/clienthand.h \
+           src/engine/network_engine/clientplayer.h \
+           src/engine/network_engine/clientpreflop.h \
+           src/engine/network_engine/clientriver.h \
+           src/engine/network_engine/clientturn.h \
            src/gui/qt/mainwindow/mainwindowimpl.h \
            src/gui/qt/mainwindow/mycardspixmaplabel.h \
            src/gui/qt/mainwindow/startsplash/startsplash.h \
@@ -150,6 +160,14 @@ SOURCES += src/game.cpp \
            src/engine/local_engine/localriver.cpp \
            src/engine/local_engine/localturn.cpp \
            src/engine/local_engine/tools.cpp \
+           src/engine/network_engine/clientboard.cpp \
+           src/engine/network_engine/clientenginefactory.cpp \
+           src/engine/network_engine/clientflop.cpp \
+           src/engine/network_engine/clienthand.cpp \
+           src/engine/network_engine/clientplayer.cpp \
+           src/engine/network_engine/clientpreflop.cpp \
+           src/engine/network_engine/clientriver.cpp \
+           src/engine/network_engine/clientturn.cpp \
            src/net/common/connectdata.cpp \
            src/net/common/clientcallback.cpp \
            src/net/common/clientcontext.cpp \

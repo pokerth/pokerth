@@ -16,24 +16,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Game data. */
+#include "clientflop.h"
+#include <game_defs.h>
+#include <handinterface.h>
 
-#ifndef _GAMEDATA_H_
-#define _GAMEDATA_H_
+//using namespace std;
 
-// For the sake of simplicity, this is a struct.
-
-struct GameData
+ClientFlop::ClientFlop(HandInterface* bR, int id, int qP, int dP, int sB)
+: myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstFlopRun(1), firstFlopRound(1), playersTurn(dP)
 {
-	GameData() : numberOfPlayers(0), startCash(0), smallBlind(0),
-		handsBeforeRaise(1), guiSpeed(4), startDealerPos(0) {}
-	int numberOfPlayers;
-	int startCash;
-	int smallBlind;
-	int handsBeforeRaise;
-	int guiSpeed;
-	int startDealerPos;
-};
+}
 
-#endif
+
+ClientFlop::~ClientFlop()
+{
+}
+
+void
+ClientFlop::flopRun()
+{
+}
+
+void
+ClientFlop::nextPlayer2()
+{
+}
+
 

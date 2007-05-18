@@ -16,24 +16,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Game data. */
+#include "clientpreflop.h"
 
-#ifndef _GAMEDATA_H_
-#define _GAMEDATA_H_
+#include <handinterface.h>
+#include <game_defs.h>
 
-// For the sake of simplicity, this is a struct.
+using namespace std;
 
-struct GameData
+ClientPreflop::ClientPreflop(HandInterface* bR, int id, int qP, int dP, int sB)
+: myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), bigBlindPosition(0), smallBlind(sB), highestSet(2*sB), preflopFirstRound(1), playersTurn(0)
 {
-	GameData() : numberOfPlayers(0), startCash(0), smallBlind(0),
-		handsBeforeRaise(1), guiSpeed(4), startDealerPos(0) {}
-	int numberOfPlayers;
-	int startCash;
-	int smallBlind;
-	int handsBeforeRaise;
-	int guiSpeed;
-	int startDealerPos;
-};
+}
 
-#endif
 
+
+ClientPreflop::~ClientPreflop()
+{
+}
+
+void
+ClientPreflop::preflopRun()
+{
+}
+
+void
+ClientPreflop::nextPlayer2()
+{
+}

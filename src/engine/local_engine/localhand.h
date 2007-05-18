@@ -33,7 +33,7 @@
 
 class LocalHand : public HandInterface{
 public:
-	LocalHand(EngineFactory*, GuiInterface*, BoardInterface*, PlayerInterface**, int, int, int, int, int, int);
+	LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, PlayerInterface**, int, int, int, int, int, int);
 	~LocalHand();
 
 	void start();
@@ -88,7 +88,7 @@ public:
 
 private:
 
-	EngineFactory *myFactory;
+	boost::shared_ptr<EngineFactory> myFactory;
 	GuiInterface *myGui;
 	BoardInterface *myBoard;
 	PlayerInterface **playerArray;

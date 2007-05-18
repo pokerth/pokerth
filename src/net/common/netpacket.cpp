@@ -115,7 +115,8 @@ struct NetPacketPlayerLeftData
 struct NetPacketGameStartData
 {
 	NetPacketHeader		head;
-	u_int32_t			reserved;
+	u_int16_t			startDealerPos;
+	u_int16_t			reserved;
 };
 
 struct NetPacketHandStartData
@@ -760,7 +761,7 @@ NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
 	assert(tmpData);
 
-	tmpData->reserved		= htonl(inData.reserved);
+	tmpData->startDealerPos	= htons(inData.startDealerPos);
 }
 
 void
@@ -769,7 +770,7 @@ NetPacketGameStart::GetData(NetPacketGameStart::Data &outData) const
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
 	assert(tmpData);
 
-	outData.reserved		= ntohl(tmpData->reserved);
+	outData.startDealerPos	= ntohs(tmpData->startDealerPos);
 }
 
 const NetPacketGameStart *

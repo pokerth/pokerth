@@ -121,7 +121,7 @@ protected:
 	ReceiverHelper &GetReceiver();
 
 	Game &GetGame();
-	const GameData &GetGameData() const;
+	GameData &GetGameData() const;
 	bool CheckPassword(const std::string &password) const;
 
 	ServerSenderCallback &GetSenderCallback();

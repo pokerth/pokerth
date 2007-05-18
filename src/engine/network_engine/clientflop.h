@@ -16,24 +16,53 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Game data. */
+#ifndef CLIENTFLOP_H
+#define CLIENTFLOP_H
 
-#ifndef _GAMEDATA_H_
-#define _GAMEDATA_H_
+#include "flopinterface.h"
 
-// For the sake of simplicity, this is a struct.
+class HandInterface;
 
-struct GameData
-{
-	GameData() : numberOfPlayers(0), startCash(0), smallBlind(0),
-		handsBeforeRaise(1), guiSpeed(4), startDealerPos(0) {}
-	int numberOfPlayers;
-	int startCash;
+class ClientFlop : public FlopInterface{
+public:
+	ClientFlop(HandInterface*, int, int, int, int);
+	~ClientFlop();
+
+
+	void setPlayersTurn(const int& theValue) { playersTurn = theValue; }
+	int getPlayersTurn() const { return playersTurn; }
+	
+	void setHighestSet(const int& theValue) { highestSet = theValue; }
+	int getHighestSet() const { return highestSet;}
+
+	void setFirstFlopRound(bool theValue) { firstFlopRound = theValue;}
+	bool getFirstFlopRound() const {  return firstFlopRound;}
+
+	void setSmallBlindPosition(const int& theValue) { smallBlindPosition = theValue;}
+	int getSmallBlindPosition() const { return smallBlindPosition; }
+
+	void setSmallBlind(const int& theValue) { smallBlind = theValue; }
+	int getSmallBlind() const { return smallBlind; }
+
+	void flopRun();
+	void nextPlayer2();
+
+private:
+
+	HandInterface *myHand;
+
+	int myID;
+	int actualQuantityPlayers;	
+	int dealerPosition;
+	int smallBlindPosition;
+
 	int smallBlind;
-	int handsBeforeRaise;
-	int guiSpeed;
-	int startDealerPos;
+	int highestSet;
+
+	bool firstFlopRun;
+	bool firstFlopRound;
+	int playersTurn;
+
 };
 
 #endif
-

@@ -20,6 +20,7 @@
 #ifndef STDSESSION_H
 #define STDSESSION_H
 #include "gamedata.h"
+#include "playerdata.h"
 #include "game_defs.h"
 #include <string>
 
@@ -36,7 +37,8 @@ public:
 
 	~Session();
 
-	void startGame(const GameData &gameData);
+	void startLocalGame(const GameData &gameData);
+	void startClientGame(const GameData &gameData, const PlayerDataList &playerDataList);
 	void deleteGame();
 
 	Game *getCurrentGame();

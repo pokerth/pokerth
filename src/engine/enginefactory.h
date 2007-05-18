@@ -28,13 +28,15 @@
 #include "turninterface.h"
 #include "riverinterface.h"
 
+#include <boost/shared_ptr.hpp>
+
 
 class EngineFactory{
 public:
     
 	virtual ~EngineFactory();
 		
-	virtual HandInterface* createHand(EngineFactory *f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC) =0;
+	virtual HandInterface* createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC) =0;
 	virtual BoardInterface* createBoard() =0;
 	virtual PlayerInterface* createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB) =0;
 	virtual PreflopInterface* createPreflop(HandInterface* hi, int id, int aP, int dP, int sB) =0;

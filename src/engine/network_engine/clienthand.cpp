@@ -16,24 +16,39 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Game data. */
+#include "clienthand.h"
+#include <game_defs.h>
 
-#ifndef _GAMEDATA_H_
-#define _GAMEDATA_H_
+using namespace std;
 
-// For the sake of simplicity, this is a struct.
-
-struct GameData
+ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC)
+: myFactory(f), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0), myID(id), actualQuantityPlayers(aP), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), allInCondition(0), bettingRoundsPlayed(0)
 {
-	GameData() : numberOfPlayers(0), startCash(0), smallBlind(0),
-		handsBeforeRaise(1), guiSpeed(4), startDealerPos(0) {}
-	int numberOfPlayers;
-	int startCash;
-	int smallBlind;
-	int handsBeforeRaise;
-	int guiSpeed;
-	int startDealerPos;
-};
+}
 
-#endif
+
+
+ClientHand::~ClientHand()
+{
+}
+
+void
+ClientHand::start()
+{
+}
+
+void
+ClientHand::assignButtons()
+{
+}
+
+void
+ClientHand::switchRounds()
+{
+}
+
+void
+ClientHand::highlightRoundLabel()
+{
+}
 

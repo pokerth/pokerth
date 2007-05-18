@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "localboard.h"
 
-#include "localhand.h"
+#include "handinterface.h"
 #include <game_defs.h>
 
 using namespace std;

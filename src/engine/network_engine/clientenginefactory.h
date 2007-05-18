@@ -16,24 +16,37 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Game data. */
+#ifndef CLIENTENGINEFACTORY_H
+#define CLIENTENGINEFACTORY_H
 
-#ifndef _GAMEDATA_H_
-#define _GAMEDATA_H_
+#include <enginefactory.h>
 
-// For the sake of simplicity, this is a struct.
+#include <handinterface.h>
+#include <boardinterface.h>
+#include <playerinterface.h>
+#include <preflopinterface.h>
+#include <flopinterface.h>
+#include <turninterface.h>
+#include <riverinterface.h>
 
-struct GameData
+class ConfigFile;
+
+class ClientEngineFactory : public EngineFactory
 {
-	GameData() : numberOfPlayers(0), startCash(0), smallBlind(0),
-		handsBeforeRaise(1), guiSpeed(4), startDealerPos(0) {}
-	int numberOfPlayers;
-	int startCash;
-	int smallBlind;
-	int handsBeforeRaise;
-	int guiSpeed;
-	int startDealerPos;
+public:
+	ClientEngineFactory(ConfigFile*);
+	~ClientEngineFactory();
+
+	HandInterface* createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC);
+	BoardInterface* createBoard();
+	PlayerInterface* createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
+	PreflopInterface* createPreflop(HandInterface* hi, int id, int aP, int dP, int sB);
+	FlopInterface* createFlop(HandInterface* hi, int id, int aP, int dP, int sB);
+	TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB);
+	RiverInterface* createRiver(HandInterface* hi, int id, int aP, int dP, int sB);
+
+private:
+	ConfigFile *myConfig;
 };
 
 #endif
-

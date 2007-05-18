@@ -27,6 +27,7 @@
 #include <core/rand.h>
 #include <gamedata.h>
 #include <game.h>
+#include <tools.h>
 #include <playerinterface.h>
 #include <handinterface.h>
 
@@ -223,7 +224,17 @@ ServerRecvStateStartGame::HandleNewConnection(ServerRecvThread &server, boost::s
 int
 ServerRecvStateStartGame::Process(ServerRecvThread &server)
 {
+	GameData &gameData = server.GetGameData();
+
+	// Set dealer pos.
+	Tools myTool;
+	myTool.getRandNumber(0, gameData.numberOfPlayers-1, 1, &gameData.startDealerPos, 0);
+
 	boost::shared_ptr<NetPacket> answer(new NetPacketGameStart);
+
+	NetPacketGameStart::Data gameStartData;
+	gameStartData.startDealerPos = gameData.startDealerPos;
+	static_cast<NetPacketGameStart *>(answer.get())->SetData(gameStartData);
 
 	server.SendToAllPlayers(answer);
 	server.SetState(ServerRecvStateStartHand::Instance());

@@ -21,6 +21,8 @@
 #include "game.h"
 #include "guiinterface.h"
 #include "configfile.h"
+#include <localenginefactory.h>
+#include <clientenginefactory.h>
 #include <net/clientthread.h>
 #include <net/serverthread.h>
 
@@ -46,7 +48,7 @@ Session::~Session()
 }
 
 
-void Session::startGame(const GameData &gameData) {
+void Session::startLocalGame(const GameData &gameData) {
 
 	deleteGame();
 	myGui->initGui(gameData.guiSpeed);
@@ -73,7 +75,28 @@ void Session::startGame(const GameData &gameData) {
 
 		playerDataList.push_back(playerData);
 	}
-	currentGame = new Game(myGui, playerDataList, gameData, currentGameID, myConfig);
+	// EngineFactory erstellen
+	boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(myConfig)); // LocalEngine erstellen
+
+	currentGame = new Game(myGui, factory, playerDataList, gameData, currentGameID);
+
+	//// SPIEL-SCHLEIFE
+	currentGame->initHand();
+	currentGame->startHand();
+	// SPIEL-SCHLEIFE
+}
+
+void Session::startClientGame(const GameData &gameData, const PlayerDataList &playerDataList)
+{
+	deleteGame();
+	myGui->initGui(gameData.guiSpeed);
+
+	currentGameID++;
+
+	// EngineFactory erstellen
+	boost::shared_ptr<EngineFactory> factory(new ClientEngineFactory(myConfig)); // LocalEngine erstellen
+
+	currentGame = new Game(myGui, factory, playerDataList, gameData, currentGameID);
 
 	//// SPIEL-SCHLEIFE
 	currentGame->initHand();

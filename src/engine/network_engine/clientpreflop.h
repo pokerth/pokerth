@@ -16,24 +16,49 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Game data. */
+#ifndef CLIENTPREFLOP_H
+#define CLIENTPREFLOP_H
 
-#ifndef _GAMEDATA_H_
-#define _GAMEDATA_H_
+#include <preflopinterface.h>
 
-// For the sake of simplicity, this is a struct.
+class HandInterface;
 
-struct GameData
-{
-	GameData() : numberOfPlayers(0), startCash(0), smallBlind(0),
-		handsBeforeRaise(1), guiSpeed(4), startDealerPos(0) {}
-	int numberOfPlayers;
-	int startCash;
+class ClientPreflop : public PreflopInterface{
+ 
+public:
+	ClientPreflop(HandInterface*, int, int, int, int);
+	~ClientPreflop();
+
+
+	void setPlayersTurn(const int& theValue) { playersTurn = theValue; }
+	int getPlayersTurn() const { return playersTurn; }
+	
+	void setHighestSet(const int& theValue) { highestSet = theValue; }
+	int getHighestSet() const { return highestSet;}
+
+	void setPreflopFirstRound(bool theValue) { preflopFirstRound = theValue; }
+	bool setPreflopFirstRound() const { return preflopFirstRound; }
+
+	void preflopRun();
+	void nextPlayer2(); 
+
+
+
+private:
+	HandInterface *myHand;
+
+	int myID;
+	int actualQuantityPlayers;	
+	int dealerPosition;
+	int bigBlindPosition;
+
 	int smallBlind;
-	int handsBeforeRaise;
-	int guiSpeed;
-	int startDealerPos;
+	int highestSet;
+
+	bool preflopFirstRound;
+	int playersTurn;
+
+
 };
 
 #endif
-

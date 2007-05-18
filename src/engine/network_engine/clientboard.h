@@ -16,24 +16,40 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Game data. */
+#ifndef CLIENTBOARD_H
+#define CLIENTBOARD_H
 
-#ifndef _GAMEDATA_H_
-#define _GAMEDATA_H_
+#include <boardinterface.h>
 
-// For the sake of simplicity, this is a struct.
+class PlayerInterface;
+class HandInterface;
 
-struct GameData
-{
-	GameData() : numberOfPlayers(0), startCash(0), smallBlind(0),
-		handsBeforeRaise(1), guiSpeed(4), startDealerPos(0) {}
-	int numberOfPlayers;
-	int startCash;
-	int smallBlind;
-	int handsBeforeRaise;
-	int guiSpeed;
-	int startDealerPos;
+
+class ClientBoard : public BoardInterface{
+public:
+	ClientBoard();
+	~ClientBoard();
+
+	void setPlayer(PlayerInterface**);
+	void setHand(HandInterface*);
+
+	void setMyCards(int* theValue) { int i; for(i=0; i<5; i++) myCards[i] = theValue[i]; }
+	void getMyCards(int* theValue) { int i; for(i=0; i<5; i++) theValue[i] = myCards[i]; }
+
+	int getPot() const {  return pot;}
+	void setPot(int theValue) {  pot = theValue;}
+	int getSets() const { return sets; }
+
+	void collectSets();
+	void collectPot();
+
+private:
+	PlayerInterface **playerArray;
+	HandInterface *actualHand;
+
+	int myCards[5];
+	int pot;
+	int sets;
 };
 
 #endif
-

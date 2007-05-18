@@ -25,6 +25,7 @@
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
 #include <game.h>
+#include <localenginefactory.h>
 
 #include <boost/lambda/lambda.hpp>
 
@@ -247,7 +248,11 @@ ServerRecvThread::InternalStartGame()
 {
 	GuiInterface &gui = GetGui();
 	PlayerDataList playerData = GetPlayerDataList();
-	m_game.reset(new Game(&gui, playerData, GetGameData(), m_curGameId++, m_playerConfig));
+
+	// EngineFactory erstellen
+	boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(m_playerConfig)); // LocalEngine erstellen
+
+	m_game.reset(new Game(&gui, factory, playerData, GetGameData(), m_curGameId++));
 	SetState(SERVER_START_GAME_STATE::Instance());
 }
 
@@ -493,7 +498,7 @@ ServerRecvThread::GetGame()
 	return *m_game;
 }
 
-const GameData &
+GameData &
 ServerRecvThread::GetGameData() const
 {
 	assert(m_gameData.get());
