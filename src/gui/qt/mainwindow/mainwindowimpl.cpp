@@ -864,11 +864,17 @@ void mainWindowImpl::refreshButton() {
 				}
 			}
 			else {
-				if (currentHand->getPlayerArray()[i]->getMyButton()==3) {
-					buttonLabelArray[i]->setPixmap(dealerButton); 
-				}	
-				else {
-					buttonLabelArray[i]->setPixmap(onePix);
+				switch (currentHand->getPlayerArray()[i]->getMyButton()) {
+			
+				case 2 : buttonLabelArray[i]->setPixmap(dealerButton); 
+				break;
+				case 3 : { 
+						if (myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[i]->setPixmap(bigblindButton); 				
+						else { buttonLabelArray[i]->setPixmap(onePix); }					  
+					 }
+				break;
+				default: buttonLabelArray[i]->setPixmap(onePix);
+				
 				}
 			}	
 		}

@@ -181,7 +181,7 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 			for(i=0; i<currentHand->getStartQuantityPlayers(); i++) {
 				if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
 				//print cash only for active players
-					if(currentHand->getPlayerArray()[i]->getMyButton() == 3) {
+					if(currentHand->getPlayerArray()[i]->getMyButton() == 2) {
 						if(k==1) { logFileStreamString += ", "; }
 						k=1;
 						logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+" (Dealer): "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
@@ -203,18 +203,14 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 			for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
 				if (currentHand->getPlayerArray()[k]->getMyAction() != 1 && currentHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
 			}
-			if(activePlayersCounter < 3) { j=1; }
-			
-	// 		cout << activePlayersCounter << endl;
-	// 		cout << (i+currentHand->getDealerPosition()+j)%5 << endl;
-	
+		
 			switch (currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyButton()) {
 				case 2 : logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyName().c_str())+" ("+QString::number(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMySet(),10)+"$), ";
 				break;
 				case 3 : logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyName().c_str())+" ("+QString::number(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMySet(),10)+"$)";	
 				break;
 				default :;	
-			}
+			}			
 		}
 	
 		logFileStreamString += "</br></br><b>PREFLOP</b>";

@@ -203,18 +203,46 @@ void LocalHand::assignButtons() {
 
 	int i;
 
+	//Aktive Spieler zählen
+	int activePlayersCounter = 0;
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+		if (playerArray[i]->getMyActiveStatus() == 1) activePlayersCounter++;
+	}
+
 	// alle Buttons loeschen
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { playerArray[i]->setMyButton(0); }
 
 	// DealerButton zuweisen
 	playerArray[dealerPosition]->setMyButton(1);
 
-	// Small Blind zuweisen und setzen
+	// assign Small Blind next to dealer. ATTENTION: in heads up it is big blind
 	i = dealerPosition;
 	do {
 		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
 		if(playerArray[i]->getMyActiveStatus())	{
-			playerArray[i]->setMyButton(2);
+			if(activePlayersCounter > 2) playerArray[i]->setMyButton(2); //small blind normal
+			else playerArray[i]->setMyButton(3); //big blind in heads up
+		
+		}
+
+	} while(!(playerArray[i]->getMyActiveStatus()));
+
+	// assign big blind next to small blind. ATTENTION: in heads up it is small blind
+	do {
+		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
+		if(playerArray[i]->getMyActiveStatus())	{
+			if(activePlayersCounter > 2) playerArray[i]->setMyButton(3); //big blind normal
+			else playerArray[i]->setMyButton(2); //small blind in heads up
+			
+		}
+
+	} while(!(playerArray[i]->getMyActiveStatus()));
+
+	//do sets
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+
+		if(playerArray[i]->getMyButton() == 2) { 
+		//small blind
 			// mit SmallBlind All In ?
 			if(playerArray[i]->getMyCash() <= smallBlind) {
 
@@ -223,18 +251,11 @@ void LocalHand::assignButtons() {
 
 			}
 			// sonst
-			else { 
-				playerArray[i]->setMySet(smallBlind);
-			}
-		}
+			else { playerArray[i]->setMySet(smallBlind); }
+		} 
 
-	} while(!(playerArray[i]->getMyActiveStatus()));
-
-	// Big Blind zuweisen
-	do {
-		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
-		if(playerArray[i]->getMyActiveStatus())	{
-			playerArray[i]->setMyButton(3);
+		if(playerArray[i]->getMyButton() == 3) { 
+		//big blind
 			// mit BigBlind All In ?
 			if(playerArray[i]->getMyCash() <= 2*smallBlind) {
 
@@ -243,12 +264,9 @@ void LocalHand::assignButtons() {
 
 			}
 			// sonst
-			else { 
-				playerArray[i]->setMySet(2*smallBlind);
-			}
+			else { playerArray[i]->setMySet(2*smallBlind);	}
 		}
-
-	} while(!(playerArray[i]->getMyActiveStatus()));
+	}
 }
 
 
