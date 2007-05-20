@@ -23,7 +23,7 @@
 
 //using namespace std;
 
-LocalFlop::LocalFlop(HandInterface* bR, int id, int qP, int dP, int sB) : FlopInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstFlopRun(1), firstFlopRound(1), playersTurn(dP)
+LocalFlop::LocalFlop(HandInterface* bR, int id, int qP, int dP, int sB) : FlopInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstFlopRun(1), firstFlopRound(1), firstHeadsUpFlopRound(1), playersTurn(dP)
 
 {
 	int i;
@@ -93,10 +93,14 @@ void LocalFlop::flopRun() {
 				myHand->setBettingRoundsPlayed(1);
 			}
 			
-	
-			// naechsten Spieler ermitteln
-			do { playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
-			} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6);
+			if( !(myHand->getActualQuantityPlayers() < 3 && firstHeadsUpFlopRound == 1) ) { 
+// 			not first round in heads up (for headsup dealer is smallblind so it is dealers turn)
+		
+				// naechsten Spieler ermitteln
+				do { playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
+				} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6);
+			}
+			else { firstHeadsUpFlopRound = 0; }
 
 			//Spieler-Position vor SmallBlind-Position ermitteln 
 			int activePlayerBeforeSmallBlind = smallBlindPosition;
@@ -108,6 +112,7 @@ void LocalFlop::flopRun() {
 
 // 			cout << "activePlayerBeforeSmallBlind " << activePlayerBeforeSmallBlind << endl;
 // 			cout << "playersTurn " << playersTurn << endl;
+
 			// wenn wir letzter aktiver Spieler vor SmallBlind sind, dann flopFirstRound zuende
 			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind) { firstFlopRound = 0; }
 

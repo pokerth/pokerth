@@ -61,6 +61,7 @@ private:
 
 	bool firstTurnRun;
 	bool firstTurnRound;
+	bool firstHeadsUpTurnRound;
 	int playersTurn;
 
 };

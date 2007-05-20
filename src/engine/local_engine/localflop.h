@@ -63,6 +63,7 @@ private:
 
 	bool firstFlopRun;
 	bool firstFlopRound;
+	bool firstHeadsUpFlopRound;
 	int playersTurn;
 
 };

@@ -24,7 +24,7 @@
 
 //using namespace std;
 
-LocalTurn::LocalTurn(HandInterface* bR, int id, int qP, int dP, int sB) : TurnInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstTurnRun(1), firstTurnRound(1), playersTurn(dP)
+LocalTurn::LocalTurn(HandInterface* bR, int id, int qP, int dP, int sB) : TurnInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstTurnRun(1), firstTurnRound(1), firstHeadsUpTurnRound(1), playersTurn(dP)
 
 {	int i;
 
@@ -95,9 +95,14 @@ void LocalTurn::turnRun() {
 				myHand->setBettingRoundsPlayed(2);
 			}
 	
-			// n�hsten Spieler ermitteln
-			do { playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
-			} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6);
+			if( !(myHand->getActualQuantityPlayers() < 3 && firstHeadsUpTurnRound == 1) ) { 
+// 			not first round in heads up (for headsup dealer is smallblind so it is dealers turn)
+		
+				// naechsten Spieler ermitteln
+				do { playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
+				} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6);
+			}
+			else { firstHeadsUpTurnRound = 0; }
 
 			//Spieler-Position vor SmallBlind-Position ermitteln
 			int activePlayerBeforeSmallBlind = smallBlindPosition;

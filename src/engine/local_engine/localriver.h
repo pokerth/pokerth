@@ -67,6 +67,7 @@ private:
 
 	bool firstRiverRun;
 	bool firstRiverRound;
+	bool firstHeadsUpRiverRound;
 	int playersTurn;
 
 	int highestCardsValue;

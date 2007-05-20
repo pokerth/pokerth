@@ -25,7 +25,7 @@
 
 using namespace std;
 
-LocalRiver::LocalRiver(HandInterface* bR, int id, int qP, int dP, int sB) : RiverInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRiverRun(1), firstRiverRound(1), playersTurn(dP), highestCardsValue(0)
+LocalRiver::LocalRiver(HandInterface* bR, int id, int qP, int dP, int sB) : RiverInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRiverRun(1), firstRiverRound(1), firstHeadsUpRiverRound(1), playersTurn(dP), highestCardsValue(0)
 
 {	int i;
 
@@ -95,9 +95,14 @@ void LocalRiver::riverRun() {
 				myHand->setBettingRoundsPlayed(3);
 			}
 	
-			// nï¿œhsten Spieler ermitteln
-			do { playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
-			} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6);
+			if( !(myHand->getActualQuantityPlayers() < 3 && firstHeadsUpRiverRound == 1) ) { 
+// 			not first round in heads up (for headsup dealer is smallblind so it is dealers turn)
+		
+				// naechsten Spieler ermitteln
+				do { playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
+				} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6);
+			}
+			else { firstHeadsUpRiverRound = 0; }
 
 			//Spieler-Position vor SmallBlind-Position ermitteln 
 			int activePlayerBeforeSmallBlind = smallBlindPosition;

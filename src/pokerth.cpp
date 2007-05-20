@@ -87,9 +87,11 @@ int main( int argc, char **argv )
 	QTranslator translator;
 		translator.load(QString(":/translations/resources/translations/pokerth_") + locale);
 		a.installTranslator(&translator);
-	///////////////////////////////////////////////////	
+	
 
 	qRegisterMetaType<boost::shared_ptr<Game> >("boost::shared_ptr<Game>");
+	///////////////////////////////////////////////////	
+
 
 	boost::shared_ptr<GuiInterface> myGuiInterface(new GuiWrapper(myConfig));
 	{
