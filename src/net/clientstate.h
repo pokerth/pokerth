@@ -21,8 +21,10 @@
 #ifndef _CLIENTSTATE_H_
 #define _CLIENTSTATE_H_
 
+#include <net/socket_helper.h> // needed for correct order of header files.
 #include <string>
 #include <memory>
+#include <core/boost/timer.hpp>
 
 #define CLIENT_INITIAL_STATE ClientStateInit
 
@@ -110,6 +112,8 @@ public:
 
 	virtual ~ClientStateStartConnect();
 
+	void SetTimer(boost::microsec_timer timer);
+
 	// Call connect.
 	virtual int Process(ClientThread &client);
 
@@ -128,6 +132,8 @@ public:
 
 	virtual ~ClientStateConnecting();
 
+	void SetTimer(const boost::microsec_timer &timer);
+
 	// "Poll" for the completion of the TCP/IP connect call.
 	virtual int Process(ClientThread &client);
 
@@ -135,6 +141,10 @@ protected:
 
 	// Protected constructor - this is a singleton.
 	ClientStateConnecting();
+
+private:
+
+	boost::microsec_timer m_connectTimer;
 };
 
 // State: Session init.

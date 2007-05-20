@@ -34,6 +34,7 @@
 using namespace std;
 
 #define CLIENT_WAIT_TIMEOUT_MSEC	50
+#define CLIENT_CONNECT_TIMEOUT_SEC	10
 
 
 ClientState::~ClientState()
@@ -240,6 +241,9 @@ ClientStateStartConnect::Process(ClientThread &client)
 		int errCode = SOCKET_ERRNO();
 		if (errCode == SOCKET_ERR_WOULDBLOCK)
 		{
+			boost::microsec_timer connectTimer;
+			connectTimer.start();
+			ClientStateConnecting::Instance().SetTimer(connectTimer);
 			client.SetState(ClientStateConnecting::Instance());
 			retVal = MSG_SOCK_INTERNAL_PENDING;
 		}
@@ -265,6 +269,12 @@ ClientStateConnecting::ClientStateConnecting()
 
 ClientStateConnecting::~ClientStateConnecting()
 {
+}
+
+void
+ClientStateConnecting::SetTimer(const boost::microsec_timer &timer)
+{
+	m_connectTimer = timer;
 }
 
 int
@@ -295,7 +305,12 @@ ClientStateConnecting::Process(ClientThread &client)
 		retVal = MSG_SOCK_CONNECT_DONE;
 	}
 	else if (selectResult == 0) // timeout
-		retVal = MSG_SOCK_INTERNAL_PENDING;
+	{
+		if (m_connectTimer.elapsed().seconds() >= CLIENT_CONNECT_TIMEOUT_SEC)
+			throw ClientException(ERR_SOCK_CONNECT_TIMEOUT, 0);
+		else
+			retVal = MSG_SOCK_INTERNAL_PENDING;
+	}
 	else
 		throw ClientException(ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
 

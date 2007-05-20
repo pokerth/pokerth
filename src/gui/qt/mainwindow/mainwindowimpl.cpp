@@ -2335,6 +2335,11 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 				tr("Could not connect to the server."),
 				QMessageBox::Close); }
 		break;
+		case ERR_SOCK_CONNECT_TIMEOUT:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Connection timed out.\nPlease check the server address.\n\nIf the server is behind a NAT-Router, make sure port forwarding has been set up on server side."),
+				QMessageBox::Close); }
+		break;
 		case ERR_SOCK_SELECT_FAILED:
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("Internal network error: \"select\" failed."),
