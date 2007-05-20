@@ -597,7 +597,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	// Errors are handled globally, not within one dialog.
 	connect(this, SIGNAL(signalNetClientError(int, int)), this, SLOT(networkError(int, int)));
-	connect(this, SIGNAL(signalNetClientGameStart()), this, SLOT(networkStart()));
+	connect(this, SIGNAL(signalNetClientGameStart(boost::shared_ptr<Game>)), this, SLOT(networkStart(boost::shared_ptr<Game>)));
 
 	connect(this, SIGNAL(signalNetServerPlayerJoined(QString)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString)));
 	connect(this, SIGNAL(signalNetServerPlayerLeft(QString)), myStartNetworkGameDialog, SLOT(removePlayer(QString)));
@@ -656,11 +656,12 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 		gameData.guiSpeed = myConfig->readConfigInt("GameSpeed");
 	}
 	// Set dealer pos.
+	StartData startData;
 	Tools myTool;
-	myTool.getRandNumber(0, gameData.numberOfPlayers-1, 1, &gameData.startDealerPos, 0);
+	myTool.getRandNumber(0, gameData.numberOfPlayers-1, 1, &startData.startDealerPos, 0);
 
 	//Start Game!!!
-	mySession->startLocalGame(gameData);
+	mySession->startLocalGame(gameData, startData);
 }
 
 
@@ -1182,11 +1183,11 @@ void mainWindowImpl::dealHoleCards() {
 	
 	// Karten der Gegner austeilen
 	int i, j;
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	Game *currentGame = mySession->getCurrentGame();
 	for(i=1; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		currentHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
+		currentGame->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 		for(j=0; j<2; j++) {
-			if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) { 
+			if(currentGame->getPlayerArray()[i]->getMyActiveStatus()) { 
 				if (debugMode) {
 					tempCardsPixmapArray[j].load(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");
 					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
@@ -1204,10 +1205,10 @@ void mainWindowImpl::dealHoleCards() {
 	}
 	// eigenen Karten austeilen
 	
-	currentHand->getPlayerArray()[0]->getMyCards(tempCardsIntArray);
+	currentGame->getPlayerArray()[0]->getMyCards(tempCardsIntArray);
 	for(i=0; i<2; i++) {
 
-		if(currentHand->getPlayerArray()[0]->getMyActiveStatus()) { 
+		if(currentGame->getPlayerArray()[0]->getMyActiveStatus()) { 
 			
 			tempCardsPixmapArray[i].load(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[i], 10)+".png");
 			holeCardsArray[0][i]->setPixmap(tempCardsPixmapArray[i], FALSE);
@@ -2413,11 +2414,9 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 	myWaitingForServerGameDialog->reject();
 }
 
-void mainWindowImpl::networkStart()
+void mainWindowImpl::networkStart(boost::shared_ptr<Game> game)
 {
-//	QMutexLocker lock(&myClientDataMutex);
-//	assert(!myClientPlayerDataList.empty());
-//	mySession->startClientGame(myClientGameData, myClientPlayerDataList);
+	mySession->startClientGame(game);
 }
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {

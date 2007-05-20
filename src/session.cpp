@@ -32,7 +32,7 @@
 using namespace std;
 
 Session::Session(GuiInterface *g, ConfigFile *c)
-: currentGameID(0), myNetClient(0), myNetServer(0), currentGame(0), myGui(g), myConfig(c)
+: currentGameID(0), myNetClient(0), myNetServer(0), myGui(g), myConfig(c)
 {	
 	
 }
@@ -42,18 +42,17 @@ Session::~Session()
 {
 	terminateNetworkClient();
 	terminateNetworkServer();
-	deleteGame();
 	delete myConfig;
 	myConfig = 0;
 }
 
 
-void Session::startLocalGame(const GameData &gameData) {
+void Session::startLocalGame(const GameData &gameData, const StartData &startData) {
 
-	deleteGame();
-	myGui->initGui(gameData.guiSpeed);
-
+	currentGame.reset();
 	currentGameID++;
+
+	myGui->initGui(gameData.guiSpeed);
 
 	PlayerDataList playerDataList;
 	for(int i=0; i<gameData.numberOfPlayers; i++) {
@@ -78,7 +77,7 @@ void Session::startLocalGame(const GameData &gameData) {
 	// EngineFactory erstellen
 	boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(myConfig)); // LocalEngine erstellen
 
-	currentGame = new Game(myGui, factory, playerDataList, gameData, currentGameID);
+	currentGame.reset(new Game(myGui, factory, playerDataList, gameData, startData, currentGameID));
 
 	//// SPIEL-SCHLEIFE
 	currentGame->initHand();
@@ -86,34 +85,18 @@ void Session::startLocalGame(const GameData &gameData) {
 	// SPIEL-SCHLEIFE
 }
 
-void Session::startClientGame(const GameData &gameData, const PlayerDataList &playerDataList)
+void Session::startClientGame(boost::shared_ptr<Game> game)
 {
-	deleteGame();
-	myGui->initGui(gameData.guiSpeed);
-
 	currentGameID++;
 
-	// EngineFactory erstellen
-	boost::shared_ptr<EngineFactory> factory(new ClientEngineFactory(myConfig)); // LocalEngine erstellen
-
-	currentGame = new Game(myGui, factory, playerDataList, gameData, currentGameID);
-
-	//// SPIEL-SCHLEIFE
-	currentGame->initHand();
-	currentGame->startHand();
-	// SPIEL-SCHLEIFE
-}
-
-void Session::deleteGame() {
-
-	delete currentGame;
-	currentGame = 0;
-
+// TODO: use server gui speed.
+	myGui->initGui(5);
+	currentGame = game;
 }
 
 Game *Session::getCurrentGame()
 {
-	return currentGame;
+	return currentGame.get();
 }
 
 GuiInterface *Session::getGui()

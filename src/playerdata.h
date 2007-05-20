@@ -31,7 +31,7 @@ class SessionData;
 enum PlayerType
 {
 	PLAYER_TYPE_COMPUTER,
-	PLAYER_TYPE_HUMAN
+	PLAYER_TYPE_HUMAN,
 };
 
 class PlayerData

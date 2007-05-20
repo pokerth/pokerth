@@ -28,6 +28,9 @@
 #include <net/socket_helper.h>
 #include <net/socket_msg.h>
 
+#include <game.h>
+#include <playerinterface.h>
+
 using namespace std;
 
 #define CLIENT_WAIT_TIMEOUT_MSEC	50
@@ -374,7 +377,14 @@ ClientStateWaitSession::Process(ClientThread &client)
 			tmpPacket->ToNetPacketJoinGameAck()->GetData(joinGameAckData);
 			client.SetGameData(joinGameAckData.gameData);
 
-			client.GetCallback().SignalNetClientPlayerJoined(context.GetPlayerName());
+			// TODO: Hack
+			client.m_myPlayerNum = joinGameAckData.playerNumber;
+
+			// TODO: Type Human is fixed here.
+			boost::shared_ptr<PlayerData> playerData(
+				new PlayerData(joinGameAckData.playerId, joinGameAckData.playerNumber, PLAYER_TYPE_HUMAN));
+			playerData->SetName(context.GetPlayerName());
+			client.AddPlayerData(playerData);
 
 			client.SetState(ClientStateWaitGame::Instance());
 			retVal = MSG_SOCK_SESSION_DONE;
@@ -422,28 +432,80 @@ ClientStateWaitGame::Process(ClientThread &client)
 	{
 		if (tmpPacket->ToNetPacketGameStart())
 		{
-			client.SetState(ClientStateFinal::Instance());
+			// Start the network game as client.
+			NetPacketGameStart::Data gameStartData;
+			tmpPacket->ToNetPacketGameStart()->GetData(gameStartData);
+
+			client.SetStartData(gameStartData.startData);
+
+			client.SetState(ClientStateWaitHand::Instance());
 			retVal = MSG_NET_GAME_CLIENT_START;
 		}
 		else if (tmpPacket->ToNetPacketPlayerJoined())
 		{
-			NetPacketPlayerJoined::Data playerData;
-			tmpPacket->ToNetPacketPlayerJoined()->GetData(playerData);
-			client.GetCallback().SignalNetClientPlayerJoined(playerData.playerName);
-			client.GetPlayerMap()[playerData.playerId] = playerData.playerName;
+			// Another player joined the network game.
+			NetPacketPlayerJoined::Data netPlayerData;
+			tmpPacket->ToNetPacketPlayerJoined()->GetData(netPlayerData);
+
+			boost::shared_ptr<PlayerData> playerData(
+				new PlayerData(netPlayerData.playerId, netPlayerData.playerNumber, netPlayerData.ptype));
+			playerData->SetName(netPlayerData.playerName);
+			client.AddPlayerData(playerData);
 		}
 		else if (tmpPacket->ToNetPacketPlayerLeft())
 		{
-			// TODO hacked.
-			NetPacketPlayerLeft::Data playerData;
-			tmpPacket->ToNetPacketPlayerLeft()->GetData(playerData);
-			client.GetCallback().SignalNetClientPlayerLeft(client.GetPlayerMap()[playerData.playerId]);
-			client.GetPlayerMap().erase(playerData.playerId);
+			// Another player left the network game.
+			NetPacketPlayerLeft::Data netPlayerData;
+			tmpPacket->ToNetPacketPlayerLeft()->GetData(netPlayerData);
+			client.RemovePlayerData(netPlayerData.playerId);
 		}
 	}
 	// TODO: handle error packet
 
 	return retVal;
+}
+
+//-----------------------------------------------------------------------------
+
+ClientStateWaitHand &
+ClientStateWaitHand::Instance()
+{
+	static ClientStateWaitHand state;
+	return state;
+}
+
+ClientStateWaitHand::ClientStateWaitHand()
+{
+}
+
+ClientStateWaitHand::~ClientStateWaitHand()
+{
+}
+
+int
+ClientStateWaitHand::Process(ClientThread &client)
+{
+	ClientContext &context = client.GetContext();
+
+	// delegate to receiver helper class
+	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
+
+	if (tmpPacket.get())
+	{
+		if (tmpPacket->ToNetPacketHandStart())
+		{
+			NetPacketHandStart::Data tmpData;
+			tmpPacket->ToNetPacketHandStart()->GetData(tmpData);
+			// TODO: Hack
+			int myCards[2];
+			myCards[0] = (int)tmpData.yourCards[0];
+			myCards[1] = (int)tmpData.yourCards[1];
+			client.GetGame()->getPlayerArray()[client.m_myPlayerNum]->setMyCards(myCards);
+			client.GetGui().dealHoleCards();
+		}
+	}
+
+	return MSG_SOCK_INTERNAL_PENDING;
 }
 
 //-----------------------------------------------------------------------------
@@ -466,21 +528,7 @@ ClientStateFinal::~ClientStateFinal()
 int
 ClientStateFinal::Process(ClientThread &client)
 {
-	ClientContext &context = client.GetContext();
-
-	// delegate to receiver helper class
-	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
-
-	if (tmpPacket.get())
-	{
-		if (tmpPacket->ToNetPacketHandStart())
-		{
-			// TODO
-			NetPacketHandStart::Data tmpData;
-			tmpPacket->ToNetPacketHandStart()->GetData(tmpData);
-			int z = 1;
-		}
-	}
+	Thread::Msleep(10);
 
 	return MSG_SOCK_INTERNAL_PENDING;
 }

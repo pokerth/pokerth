@@ -26,12 +26,17 @@
 struct GameData
 {
 	GameData() : numberOfPlayers(0), startCash(0), smallBlind(0),
-		handsBeforeRaise(1), guiSpeed(4), startDealerPos(0) {}
+		handsBeforeRaise(1), guiSpeed(4) {}
 	int numberOfPlayers;
 	int startCash;
 	int smallBlind;
 	int handsBeforeRaise;
 	int guiSpeed;
+};
+
+struct StartData
+{
+	StartData() : startDealerPos(0) {}
 	int startDealerPos;
 };
 

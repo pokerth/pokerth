@@ -83,7 +83,7 @@ public:
 	void SignalNetClientPlayerJoined(const std::string &playerName);
 	void SignalNetClientPlayerLeft(const std::string &playerName);
 
-	void SignalNetClientGameStart(const GameData &gameData);
+	void SignalNetClientGameStart(boost::shared_ptr<Game> game);
 
 	void SignalNetServerSuccess(int actionID);
 	void SignalNetServerError(int errorID, int osErrorID);

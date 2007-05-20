@@ -224,16 +224,18 @@ ServerRecvStateStartGame::HandleNewConnection(ServerRecvThread &server, boost::s
 int
 ServerRecvStateStartGame::Process(ServerRecvThread &server)
 {
-	GameData &gameData = server.GetGameData();
-
-	// Set dealer pos.
-	Tools myTool;
-	myTool.getRandNumber(0, gameData.numberOfPlayers-1, 1, &gameData.startDealerPos, 0);
+	{
+		// Set dealer pos.
+		StartData startData;
+		Tools myTool;
+		myTool.getRandNumber(0, server.GetGameData().numberOfPlayers-1, 1, &startData.startDealerPos, 0);
+		server.SetStartData(startData);
+	}
 
 	boost::shared_ptr<NetPacket> answer(new NetPacketGameStart);
 
 	NetPacketGameStart::Data gameStartData;
-	gameStartData.startDealerPos = gameData.startDealerPos;
+	gameStartData.startData = server.GetStartData();
 	static_cast<NetPacketGameStart *>(answer.get())->SetData(gameStartData);
 
 	server.SendToAllPlayers(answer);

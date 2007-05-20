@@ -58,7 +58,6 @@ ServerRecvThread::ServerRecvThread(GuiInterface &gui, ConfigFile *playerConfig)
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
 	m_receiver.reset(new ReceiverHelper);
-	m_gameData.reset(new GameData);
 }
 
 ServerRecvThread::~ServerRecvThread()
@@ -71,7 +70,7 @@ void
 ServerRecvThread::Init(const string &pwd, const GameData &gameData)
 {
 	m_password = pwd;
-	*m_gameData = gameData;
+	m_gameData = gameData;
 }
 
 void
@@ -252,7 +251,7 @@ ServerRecvThread::InternalStartGame()
 	// EngineFactory erstellen
 	boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(m_playerConfig)); // LocalEngine erstellen
 
-	m_game.reset(new Game(&gui, factory, playerData, GetGameData(), m_curGameId++));
+	m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), m_curGameId++));
 	SetState(SERVER_START_GAME_STATE::Instance());
 }
 
@@ -498,11 +497,22 @@ ServerRecvThread::GetGame()
 	return *m_game;
 }
 
-GameData &
+const GameData &
 ServerRecvThread::GetGameData() const
 {
-	assert(m_gameData.get());
-	return *m_gameData;
+	return m_gameData;
+}
+
+const StartData &
+ServerRecvThread::GetStartData() const
+{
+	return m_startData;
+}
+
+void
+ServerRecvThread::SetStartData(const StartData &startData)
+{
+	m_startData = startData;
 }
 
 bool

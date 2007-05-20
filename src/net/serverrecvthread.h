@@ -25,6 +25,7 @@
 #include <net/connectdata.h>
 #include <net/sessiondata.h>
 #include <gui/guiinterface.h>
+#include <gamedata.h>
 
 #include <deque>
 #include <map>
@@ -121,7 +122,9 @@ protected:
 	ReceiverHelper &GetReceiver();
 
 	Game &GetGame();
-	GameData &GetGameData() const;
+	const GameData &GetGameData() const;
+	const StartData &GetStartData() const;
+	void SetStartData(const StartData &startData);
 	bool CheckPassword(const std::string &password) const;
 
 	ServerSenderCallback &GetSenderCallback();
@@ -145,7 +148,8 @@ private:
 	std::auto_ptr<SenderThread> m_sender;
 
 	std::auto_ptr<Game> m_game;
-	std::auto_ptr<GameData> m_gameData;
+	GameData m_gameData;
+	StartData m_startData;
 	unsigned m_curGameId;
 	std::auto_ptr<ServerSenderCallback> m_senderCallback;
 

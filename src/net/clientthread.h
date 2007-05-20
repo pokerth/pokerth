@@ -22,22 +22,23 @@
 #define _CLIENTTHREAD_H_
 
 #include <core/thread.h>
-#include <map>
+#include <guiinterface.h>
+#include <playerdata.h>
+#include <gamedata.h>
 #include <string>
 #include <memory>
-#include <net/clientcallback.h>
 
 class ClientContext;
 class ClientState;
 class SenderThread;
 class ReceiverHelper;
 class ClientSenderCallback;
-struct GameData;
+class Game;
 
 class ClientThread : public Thread
 {
 public:
-	ClientThread(ClientCallback &gui);
+	ClientThread(GuiInterface &gui);
 	virtual ~ClientThread();
 
 	// Set the parameters. Does not do any error checking.
@@ -51,6 +52,7 @@ public:
 		const std::string &playerName);
 
 	ClientCallback &GetCallback();
+	GuiInterface &GetGui();
 
 protected:
 	typedef std::map<unsigned, std::string> PlayerMap;
@@ -69,23 +71,36 @@ protected:
 
 	const GameData &GetGameData() const;
 	void SetGameData(const GameData &gameData);
+	const StartData &GetStartData() const;
+	void SetStartData(const StartData &startData);
+
+	boost::shared_ptr<Game> GetGame();
 
 	ClientSenderCallback &GetSenderCallback();
 
-	PlayerMap &GetPlayerMap();
+	void AddPlayerData(boost::shared_ptr<PlayerData> playerData);
+	void RemovePlayerData(unsigned playerId);
+	const PlayerDataList &GetPlayerDataList() const;
+
+	int m_myPlayerNum; // TODO: Hack
 
 private:
 
 	std::auto_ptr<ClientContext> m_context;
 	std::auto_ptr<ClientSenderCallback> m_senderCallback;
 	ClientState *m_curState;
-	ClientCallback &m_callback;
+	GuiInterface &m_gui;
 
 	std::auto_ptr<SenderThread> m_sender;
 	std::auto_ptr<ReceiverHelper> m_receiver;
 
-	std::auto_ptr<GameData> m_gameData;
-	PlayerMap m_playerMap;
+	GameData m_gameData;
+	StartData m_startData;
+	PlayerDataList m_playerDataList;
+
+	boost::shared_ptr<Game> m_game;
+
+	unsigned m_curGameId;
 
 friend class ClientStateInit;
 friend class ClientStateStartResolve;
@@ -95,6 +110,7 @@ friend class ClientStateConnecting;
 friend class ClientStateStartSession;
 friend class ClientStateWaitSession;
 friend class ClientStateWaitGame;
+friend class ClientStateWaitHand;
 friend class ClientStateFinal;
 };
 

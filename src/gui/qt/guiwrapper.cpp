@@ -95,7 +95,7 @@ void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->signalNetClientGam
 void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myW->signalNetClientError(errorID, osErrorID); }
 void GuiWrapper::SignalNetClientPlayerJoined(const string &playerName) { myW->signalNetClientPlayerJoined(QString::fromUtf8(playerName.c_str())); }
 void GuiWrapper::SignalNetClientPlayerLeft(const string &playerName) { myW->signalNetClientPlayerLeft(QString::fromUtf8(playerName.c_str())); }
-void GuiWrapper::SignalNetClientGameStart(const GameData &gameData) { myW->signalNetClientGameStart(); }
+void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { myW->signalNetClientGameStart(game); }
 
 void GuiWrapper::SignalNetServerSuccess(int actionID) { }
 void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { }

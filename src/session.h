@@ -23,6 +23,7 @@
 #include "playerdata.h"
 #include "game_defs.h"
 #include <string>
+#include <boost/shared_ptr.hpp>
 
 class GuiInterface;
 class Game;
@@ -37,9 +38,8 @@ public:
 
 	~Session();
 
-	void startLocalGame(const GameData &gameData);
-	void startClientGame(const GameData &gameData, const PlayerDataList &playerDataList);
-	void deleteGame();
+	void startLocalGame(const GameData &gameData, const StartData &startData);
+	void startClientGame(boost::shared_ptr<Game> game);
 
 	Game *getCurrentGame();
 
@@ -63,7 +63,7 @@ private:
 	ClientThread *myNetClient;
 	ServerThread *myNetServer;
 
-	Game *currentGame;
+	boost::shared_ptr<Game> currentGame;
 	GuiInterface *myGui;
 	ConfigFile *myConfig;
 

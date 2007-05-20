@@ -34,7 +34,7 @@ class ConfigFile;
 class ClientEngineFactory : public EngineFactory
 {
 public:
-	ClientEngineFactory(ConfigFile*);
+	ClientEngineFactory();
 	~ClientEngineFactory();
 
 	HandInterface* createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC);
@@ -44,9 +44,6 @@ public:
 	FlopInterface* createFlop(HandInterface* hi, int id, int aP, int dP, int sB);
 	TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB);
 	RiverInterface* createRiver(HandInterface* hi, int id, int aP, int dP, int sB);
-
-private:
-	ConfigFile *myConfig;
 };
 
 #endif

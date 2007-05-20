@@ -33,11 +33,14 @@ class PlayerInterface;
 class BoardInterface;
 class EngineFactory;
 struct GameData;
+struct StartData;
 
 class Game {
 
 public:
-	Game(GuiInterface *gui, boost::shared_ptr<EngineFactory> factory, const PlayerDataList &playerDataList, const GameData &gameData, int gameId);
+	Game(GuiInterface *gui, boost::shared_ptr<EngineFactory> factory,
+		const PlayerDataList &playerDataList, const GameData &gameData,
+		const StartData &startData, int gameId);
 
 	~Game();
 

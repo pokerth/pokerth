@@ -60,6 +60,7 @@
 using namespace std;
 
 class GuiWrapper;
+class Game;
 
 int main( int argc, char **argv )
 {
@@ -83,10 +84,12 @@ int main( int argc, char **argv )
 
 	QString locale = QLocale::system().name();
 
-   	QTranslator translator;
-     	translator.load(QString(":/translations/resources/translations/pokerth_") + locale);
-    	a.installTranslator(&translator);
+	QTranslator translator;
+		translator.load(QString(":/translations/resources/translations/pokerth_") + locale);
+		a.installTranslator(&translator);
 	///////////////////////////////////////////////////	
+
+	qRegisterMetaType<boost::shared_ptr<Game> >("boost::shared_ptr<Game>");
 
 	boost::shared_ptr<GuiInterface> myGuiInterface(new GuiWrapper(myConfig));
 	{

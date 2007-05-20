@@ -29,13 +29,14 @@
 using namespace std;
 
 Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
-		   const PlayerDataList &playerDataList, const GameData &gameData, int gameId)
+		   const PlayerDataList &playerDataList, const GameData &gameData,
+		   const StartData &startData, int gameId)
 : myGui(gui), myFactory(factory), actualHand(0), actualBoard(0),
   startQuantityPlayers(gameData.numberOfPlayers),
   startCash(gameData.startCash), startSmallBlind(gameData.smallBlind),
   startHandsBeforeRaiseSmallBlind(gameData.handsBeforeRaise),
   myGameID(gameId), actualQuantityPlayers(gameData.numberOfPlayers),
-  actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(gameData.startDealerPos)
+  actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(startData.startDealerPos)
 {
 // 	cout << "Create Game Object" << "\n";
 	int i;

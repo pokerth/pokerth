@@ -33,6 +33,7 @@
 class Log;
 class ConfigFile;
 class Session;
+class Game;
 
 class GuiInterface;
 class BoardInterface;
@@ -108,7 +109,7 @@ signals:
 	void signalNetClientError(int errorID, int osErrorID);
 	void signalNetClientPlayerJoined(QString playerName);
 	void signalNetClientPlayerLeft(QString playerName);
-	void signalNetClientGameStart();
+	void signalNetClientGameStart(boost::shared_ptr<Game> game);
 	void signalNetServerPlayerJoined(QString playerName);
 	void signalNetServerPlayerLeft(QString playerName);
 
@@ -231,7 +232,7 @@ public slots:
 	void paintStartSplash();
 
 	void networkError(int, int);
-	void networkStart();
+	void networkStart(boost::shared_ptr<Game> game);
 
 	void closeEvent(QCloseEvent*);
 

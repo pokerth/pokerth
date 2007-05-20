@@ -26,11 +26,8 @@
 #include "clientturn.h"
 #include "clientriver.h"
 
-#include <configfile.h>
 
-
-ClientEngineFactory::ClientEngineFactory(ConfigFile *c)
-: myConfig(c)
+ClientEngineFactory::ClientEngineFactory()
 {
 }
 
@@ -52,7 +49,7 @@ BoardInterface* ClientEngineFactory::createBoard()
 
 PlayerInterface* ClientEngineFactory::createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
 {
-	return new ClientPlayer(myConfig, b, id, uniqueId, type, name, avatar, sC, aS, mB);
+	return new ClientPlayer(NULL, b, id, uniqueId, type, name, avatar, sC, aS, mB);
 }
 
 PreflopInterface* ClientEngineFactory::createPreflop(HandInterface* hi, int id, int aP, int dP, int sB)

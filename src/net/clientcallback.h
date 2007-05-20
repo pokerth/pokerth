@@ -22,8 +22,9 @@
 #define _CLIENTCALLBACK_H_
 
 #include <string>
+#include <boost/shared_ptr.hpp>
 
-struct GameData;
+class Game;
 
 class ClientCallback
 {
@@ -34,7 +35,7 @@ public:
 	virtual void SignalNetClientGameInfo(int actionID) = 0;
 	virtual void SignalNetClientError(int errorID, int osErrorID) = 0;
 
-	virtual void SignalNetClientGameStart(const GameData &gameData) = 0;
+	virtual void SignalNetClientGameStart(boost::shared_ptr<Game> game) = 0;
 	virtual void SignalNetClientPlayerJoined(const std::string &playerName) = 0;
 	virtual void SignalNetClientPlayerLeft(const std::string &playerName) = 0;
 };

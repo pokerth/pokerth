@@ -761,7 +761,7 @@ NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
 	assert(tmpData);
 
-	tmpData->startDealerPos	= htons(inData.startDealerPos);
+	tmpData->startDealerPos	= htons(inData.startData.startDealerPos);
 }
 
 void
@@ -770,7 +770,7 @@ NetPacketGameStart::GetData(NetPacketGameStart::Data &outData) const
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
 	assert(tmpData);
 
-	outData.startDealerPos	= ntohs(tmpData->startDealerPos);
+	outData.startData.startDealerPos	= ntohs(tmpData->startDealerPos);
 }
 
 const NetPacketGameStart *

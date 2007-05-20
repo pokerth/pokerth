@@ -194,7 +194,7 @@ class NetPacketGameStart : public NetPacket
 public:
 	struct Data
 	{
-		u_int16_t	startDealerPos;
+		StartData	startData;
 		u_int16_t	reserved;
 	};
 

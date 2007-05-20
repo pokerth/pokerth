@@ -191,6 +191,24 @@ protected:
 	ClientStateWaitGame();
 };
 
+// State: Wait for start of the next hand.
+class ClientStateWaitHand : public ClientState
+{
+public:
+	// Access the state singleton.
+	static ClientStateWaitHand &Instance();
+
+	virtual ~ClientStateWaitHand();
+
+	// select on socket.
+	virtual int Process(ClientThread &client);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateWaitHand();
+};
+
 // State: Final (TODO).
 class ClientStateFinal : public ClientState
 {

@@ -99,7 +99,7 @@ void ServerGuiWrapper::SignalNetClientGameInfo(int actionID) { if (myClientcb) m
 void ServerGuiWrapper::SignalNetClientError(int errorID, int osErrorID) { if (myClientcb) myClientcb->SignalNetClientError(errorID, osErrorID); }
 void ServerGuiWrapper::SignalNetClientPlayerJoined(const string &playerName) { if (myClientcb) myClientcb->SignalNetClientPlayerJoined(playerName); }
 void ServerGuiWrapper::SignalNetClientPlayerLeft(const string &playerName) { if (myClientcb) myClientcb->SignalNetClientPlayerLeft(playerName); }
-void ServerGuiWrapper::SignalNetClientGameStart(const GameData &gameData) { if (myClientcb) myClientcb->SignalNetClientGameStart(gameData); }
+void ServerGuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { if (myClientcb) myClientcb->SignalNetClientGameStart(game); }
 
 void ServerGuiWrapper::SignalNetServerSuccess(int actionID) { if (myServercb) myServercb->SignalNetServerSuccess(actionID); }
 void ServerGuiWrapper::SignalNetServerError(int errorID, int osErrorID) { if (myServercb) myServercb->SignalNetServerError(errorID, osErrorID); }

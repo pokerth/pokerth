@@ -24,8 +24,10 @@
 #include <net/receiverhelper.h>
 #include <net/clientexception.h>
 #include <net/socket_msg.h>
-#include <gamedata.h>
+#include <clientenginefactory.h>
+#include <game.h>
 
+#include <boost/lambda/lambda.hpp>
 #include <cassert>
 
 using namespace std;
@@ -50,14 +52,13 @@ private:
 };
 
 
-ClientThread::ClientThread(ClientCallback &cb)
-: m_curState(NULL), m_callback(cb)
+ClientThread::ClientThread(GuiInterface &gui)
+: m_curState(NULL), m_gui(gui), m_curGameId(0)
 {
 	m_context.reset(new ClientContext);
 	m_senderCallback.reset(new ClientSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
 	m_receiver.reset(new ReceiverHelper);
-	m_gameData.reset(new GameData);
 }
 
 ClientThread::~ClientThread()
@@ -83,7 +84,13 @@ ClientThread::Init(
 ClientCallback &
 ClientThread::GetCallback()
 {
-	return m_callback;
+	return m_gui;
+}
+
+GuiInterface &
+ClientThread::GetGui()
+{
+	return m_gui;
 }
 
 void
@@ -107,7 +114,13 @@ ClientThread::Main()
 
 				// Additionally signal the start of the game.
 				if (msg == MSG_NET_GAME_CLIENT_START)
-					GetCallback().SignalNetClientGameStart(GetGameData());
+				{
+					// EngineFactory erstellen
+					boost::shared_ptr<EngineFactory> factory(new ClientEngineFactory); // LocalEngine erstellen
+
+					m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameId++));
+					GetCallback().SignalNetClientGameStart(m_game);
+				}
 			}
 		}
 	} catch (const NetException &e)
@@ -162,15 +175,31 @@ ClientThread::GetReceiver()
 const GameData &
 ClientThread::GetGameData() const
 {
-	assert(m_gameData.get());
-	return *m_gameData;
+	return m_gameData;
 }
 
 void
 ClientThread::SetGameData(const GameData &gameData)
 {
-	assert(m_gameData.get());
-	*m_gameData = gameData;
+	m_gameData = gameData;
+}
+
+const StartData &
+ClientThread::GetStartData() const
+{
+	return m_startData;
+}
+
+void
+ClientThread::SetStartData(const StartData &startData)
+{
+	m_startData = startData;
+}
+
+boost::shared_ptr<Game>
+ClientThread::GetGame()
+{
+	return m_game;
 }
 
 ClientSenderCallback &
@@ -180,9 +209,44 @@ ClientThread::GetSenderCallback()
 	return *m_senderCallback;
 }
 
-ClientThread::PlayerMap &
-ClientThread::GetPlayerMap()
+void
+ClientThread::AddPlayerData(boost::shared_ptr<PlayerData> playerData)
 {
-	return m_playerMap;
+	if (playerData.get() && !playerData->GetName().empty())
+	{
+		m_playerDataList.push_back(playerData);
+		// Sort the list by player number.
+		m_playerDataList.sort(*boost::lambda::_1 < *boost::lambda::_2);
+
+		GetCallback().SignalNetClientPlayerJoined(playerData->GetName());
+	}
+}
+
+void
+ClientThread::RemovePlayerData(unsigned playerId)
+{
+	string playerName;
+
+	PlayerDataList::iterator i = m_playerDataList.begin();
+	PlayerDataList::iterator end = m_playerDataList.end();
+	while (i != end)
+	{
+		if ((*i)->GetUniqueId() == playerId)
+		{
+			playerName = (*i)->GetName();
+			m_playerDataList.erase(i);
+			break;
+		}
+		++i;
+	}
+
+	if (!playerName.empty())
+		GetCallback().SignalNetClientPlayerLeft(playerName);
+}
+
+const PlayerDataList &
+ClientThread::GetPlayerDataList() const
+{
+	return m_playerDataList;
 }
 
