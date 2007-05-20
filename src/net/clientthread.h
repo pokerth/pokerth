@@ -82,8 +82,6 @@ protected:
 	void RemovePlayerData(unsigned playerId);
 	const PlayerDataList &GetPlayerDataList() const;
 
-	int m_myPlayerNum; // TODO: Hack
-
 private:
 
 	std::auto_ptr<ClientContext> m_context;

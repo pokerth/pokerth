@@ -63,10 +63,8 @@ public:
 
 	int getDealerPosition() const { return dealerPosition; }
 
-	void setMyGameID(const int& theValue) { myGameID = theValue;}
 	int getMyGameID() const	{ return myGameID; }
-	
-
+	int getGuiPlayerNum() const { return guiPlayerNum; }
 	
 	//Zufgriff Laufvariablen
 	void setActualQuantityPlayers(const int& theValue) { actualQuantityPlayers = theValue; }
@@ -85,7 +83,7 @@ private:
 	GuiInterface *myGui;
 	HandInterface *actualHand;
 	BoardInterface *actualBoard;
-	PlayerInterface *playerArray[7];
+	PlayerInterface *playerArray[MAX_NUMBER_OF_PLAYERS];
 
 	//Startvariablen	
 	int startQuantityPlayers;
@@ -93,6 +91,7 @@ private:
 	int startSmallBlind;
 	int startHandsBeforeRaiseSmallBlind;
 	int myGameID;
+	int guiPlayerNum;
 
 	//Laufvariablen
 	int actualQuantityPlayers;

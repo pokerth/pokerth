@@ -120,8 +120,6 @@ public:
 	struct Data
 	{
 		u_int32_t	sessionId;
-		u_int16_t	playerId;
-		u_int16_t	playerNumber;
 		GameData	gameData;
 	};
 

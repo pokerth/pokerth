@@ -153,10 +153,10 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			// Send ACK to client.
 			boost::shared_ptr<NetPacket> answer(new NetPacketJoinGameAck);
 			NetPacketJoinGameAck::Data joinGameAckData;
-			joinGameAckData.playerId = tmpPlayerData->GetUniqueId();
-			joinGameAckData.playerNumber = tmpPlayerData->GetNumber();
 			joinGameAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
 			joinGameAckData.gameData = server.GetGameData();
+			joinGameAckData.gameData.guiPlayerUniqueId = tmpPlayerData->GetUniqueId();
+			joinGameAckData.gameData.guiPlayerNum = tmpPlayerData->GetNumber();
 			static_cast<NetPacketJoinGameAck *>(answer.get())->SetData(joinGameAckData);
 			server.GetSender().Send(recvSock, answer);
 

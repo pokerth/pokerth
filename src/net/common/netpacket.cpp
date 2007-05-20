@@ -528,13 +528,13 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 	assert(tmpData);
 
 	tmpData->sessionId			= htonl(inData.sessionId);
-	tmpData->playerId			= htons(inData.playerId);
-	tmpData->playerNumber		= htons(inData.playerNumber);
 	tmpData->numberOfPlayers	= htons(inData.gameData.numberOfPlayers);
 	tmpData->smallBlind			= htons(inData.gameData.smallBlind);
 	tmpData->handsBeforeRaise	= htons(inData.gameData.handsBeforeRaise);
 	tmpData->proposedGuiSpeed	= htons(inData.gameData.guiSpeed);
 	tmpData->startCash			= htonl(inData.gameData.startCash);
+	tmpData->playerId			= htons(inData.gameData.guiPlayerUniqueId);
+	tmpData->playerNumber		= htons(inData.gameData.guiPlayerNum);
 }
 
 void
@@ -544,13 +544,13 @@ NetPacketJoinGameAck::GetData(NetPacketJoinGameAck::Data &outData) const
 	assert(tmpData);
 
 	outData.sessionId					= ntohl(tmpData->sessionId);
-	outData.playerId					= ntohs(tmpData->playerId);
-	outData.playerNumber				= ntohs(tmpData->playerNumber);
 	outData.gameData.numberOfPlayers	= ntohs(tmpData->numberOfPlayers);
 	outData.gameData.smallBlind			= ntohs(tmpData->smallBlind);
 	outData.gameData.handsBeforeRaise	= ntohs(tmpData->handsBeforeRaise);
 	outData.gameData.guiSpeed			= ntohs(tmpData->proposedGuiSpeed);
 	outData.gameData.startCash			= ntohl(tmpData->startCash);
+	outData.gameData.guiPlayerUniqueId	= ntohs(tmpData->playerId);
+	outData.gameData.guiPlayerNum		= ntohs(tmpData->playerNumber);
 }
 
 const NetPacketJoinGameAck *

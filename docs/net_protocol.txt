@@ -116,6 +116,9 @@ Server Notification: Game Start
 
 [ Dealer Pos can be different for each game, therefore it is not
   transmitted in Join Game ACK. ]
+[ It is not necessary to transmit the Dealer Pos, because the server
+  decides which player's turn it is. This is only for fast and simple
+  GUI display. ]
 
 
 Server Notification: Hand Start
@@ -143,10 +146,12 @@ Server Request/Notification: Player's Turn
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 Game State:
-	0 - Preflop
-	1 - Flop
-	2 - Turn
-	3 - River
+	0xF0 - Preflop Small Blind (no action requested)
+	0xF1 - Preflop Big Blind (no action requested)
+	0x00 - Preflop
+	0x01 - Flop
+	0x02 - Turn
+	0x03 - River
 
 
 Client Reply/Request: Player's Action
@@ -173,13 +178,25 @@ Cash Value:
 	0   - states fold, check, call, all in
 	> 0 - states bet, raise
 
+Server Reply/Notification: Player's Action Done
+
+	 0                   1                   2                   3
+	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|        Message Type = 9       |     Message Length = 12       |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|          Game State           |         Player Action         |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                           Cash Value                          |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
 
 Server Reply: Player's Action Rejected
 
 	 0                   1                   2                   3
 	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|        Message Type = 9       |     Message Length = 16       |
+	|        Message Type = 10       |     Message Length = 16       |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|          Game State           |         Player Action         |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+

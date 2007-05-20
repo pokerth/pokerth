@@ -392,12 +392,9 @@ ClientStateWaitSession::Process(ClientThread &client)
 			tmpPacket->ToNetPacketJoinGameAck()->GetData(joinGameAckData);
 			client.SetGameData(joinGameAckData.gameData);
 
-			// TODO: Hack
-			client.m_myPlayerNum = joinGameAckData.playerNumber;
-
 			// TODO: Type Human is fixed here.
 			boost::shared_ptr<PlayerData> playerData(
-				new PlayerData(joinGameAckData.playerId, joinGameAckData.playerNumber, PLAYER_TYPE_HUMAN));
+				new PlayerData(joinGameAckData.gameData.guiPlayerUniqueId, joinGameAckData.gameData.guiPlayerNum, PLAYER_TYPE_HUMAN));
 			playerData->SetName(context.GetPlayerName());
 			client.AddPlayerData(playerData);
 
@@ -515,7 +512,7 @@ ClientStateWaitHand::Process(ClientThread &client)
 			int myCards[2];
 			myCards[0] = (int)tmpData.yourCards[0];
 			myCards[1] = (int)tmpData.yourCards[1];
-			client.GetGame()->getPlayerArray()[client.m_myPlayerNum]->setMyCards(myCards);
+			client.GetGame()->getPlayerArray()[client.GetGame()->getGuiPlayerNum()]->setMyCards(myCards);
 			client.GetGui().dealHoleCards();
 		}
 	}
