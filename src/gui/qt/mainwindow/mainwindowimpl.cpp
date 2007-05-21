@@ -1181,47 +1181,27 @@ void mainWindowImpl::dealHoleCards() {
 	QPixmap tempCardsPixmapArray[2];
 	int tempCardsIntArray[2];
 	
-	// Karten der Gegner austeilen
+	// Karten der Gegner und eigene Karten austeilen
 	int i, j;
 	Game *currentGame = mySession->getCurrentGame();
-	for(i=1; i<MAX_NUMBER_OF_PLAYERS; i++) {
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		currentGame->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 		for(j=0; j<2; j++) {
 			if(currentGame->getPlayerArray()[i]->getMyActiveStatus()) { 
-				if (debugMode) {
+				if ((i == currentGame->getGuiPlayerNum()) || debugMode) {
 					tempCardsPixmapArray[j].load(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");
 					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
 					
 				} 
 				else holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
-
 			}
 			else {
 				
 				holeCardsArray[i][j]->setPixmap(onePix, FALSE);
-// 				holeCardsArray[i][j]->repaint();
+//					holeCardsArray[i][j]->repaint();
 			}
 		}
 	}
-	// eigenen Karten austeilen
-	
-	currentGame->getPlayerArray()[0]->getMyCards(tempCardsIntArray);
-	for(i=0; i<2; i++) {
-
-		if(currentGame->getPlayerArray()[0]->getMyActiveStatus()) { 
-			
-			tempCardsPixmapArray[i].load(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[i], 10)+".png");
-			holeCardsArray[0][i]->setPixmap(tempCardsPixmapArray[i], FALSE);
-						
-		}
-		else {
-				
-			holeCardsArray[0][i]->setPixmap(onePix, FALSE);
-// 			holeCardsArray[i][j]->repaint();
-		}
-	}
-	//Groupbox repaint() hline-bug?;
-// 	refreshGroupbox();
 }
 
 void mainWindowImpl::dealFlopCards0() {	dealFlopCards0Timer->start(preDealCardsSpeed); }
