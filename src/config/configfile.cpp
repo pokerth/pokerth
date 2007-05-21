@@ -230,7 +230,7 @@ void ConfigFile::fillBuffer() {
 
 				const char *tmpStr = conf->Attribute("value");
 				if (tmpStr) tempString = tmpStr;
-				configBufferList[i].defaultValue = myQtToolsInterface->stringToUtf8(tempString);
+				configBufferList[i].defaultValue = tempString;
 			}	
 			else {	cout << "Could not find the element to fill the config-buffer with!";	}
 				

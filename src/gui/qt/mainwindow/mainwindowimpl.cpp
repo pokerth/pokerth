@@ -606,6 +606,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 // 	textBrowser_Log->append(QString::number(this->pos().x(),10)+" "+QString::number(this->pos().y(),10));	
 // 	textBrowser_Log->append(QString::number(this->x(),10)+" "+QString::number(this->y(),10));
 
+// 	playerNameLabelArray[1]->setText(QString::fromUtf8(myConfig->readConfigString("Opponent1Name").c_str()));
+
+
 }
 
 mainWindowImpl::~mainWindowImpl() {
