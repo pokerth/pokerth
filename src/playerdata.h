@@ -58,6 +58,8 @@ public:
 	{return m_uniqueId;}
 	int GetNumber() const
 	{return m_number;}
+	void SetNumber(int number)
+	{m_number = number;}
 
 	bool operator<(const PlayerData &other)
 	{return m_number < other.GetNumber();}

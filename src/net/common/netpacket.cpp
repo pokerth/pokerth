@@ -115,7 +115,7 @@ struct NetPacketPlayerLeftData
 struct NetPacketGameStartData
 {
 	NetPacketHeader		head;
-	u_int16_t			startDealerPos;
+	u_int16_t			startDealerPlayerId;
 	u_int16_t			reserved;
 };
 
@@ -528,13 +528,13 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 	assert(tmpData);
 
 	tmpData->sessionId			= htonl(inData.sessionId);
+	tmpData->playerId			= htons(inData.yourPlayerUniqueId);
+	tmpData->playerNumber		= htons(inData.yourPlayerNum);
 	tmpData->numberOfPlayers	= htons(inData.gameData.numberOfPlayers);
 	tmpData->smallBlind			= htons(inData.gameData.smallBlind);
 	tmpData->handsBeforeRaise	= htons(inData.gameData.handsBeforeRaise);
 	tmpData->proposedGuiSpeed	= htons(inData.gameData.guiSpeed);
 	tmpData->startCash			= htonl(inData.gameData.startCash);
-	tmpData->playerId			= htons(inData.gameData.guiPlayerUniqueId);
-	tmpData->playerNumber		= htons(inData.gameData.guiPlayerNum);
 }
 
 void
@@ -544,13 +544,13 @@ NetPacketJoinGameAck::GetData(NetPacketJoinGameAck::Data &outData) const
 	assert(tmpData);
 
 	outData.sessionId					= ntohl(tmpData->sessionId);
+	outData.yourPlayerUniqueId			= ntohs(tmpData->playerId);
+	outData.yourPlayerNum				= ntohs(tmpData->playerNumber);
 	outData.gameData.numberOfPlayers	= ntohs(tmpData->numberOfPlayers);
 	outData.gameData.smallBlind			= ntohs(tmpData->smallBlind);
 	outData.gameData.handsBeforeRaise	= ntohs(tmpData->handsBeforeRaise);
 	outData.gameData.guiSpeed			= ntohs(tmpData->proposedGuiSpeed);
 	outData.gameData.startCash			= ntohl(tmpData->startCash);
-	outData.gameData.guiPlayerUniqueId	= ntohs(tmpData->playerId);
-	outData.gameData.guiPlayerNum		= ntohs(tmpData->playerNumber);
 }
 
 const NetPacketJoinGameAck *
@@ -761,7 +761,7 @@ NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
 	assert(tmpData);
 
-	tmpData->startDealerPos	= htons(inData.startData.startDealerPos);
+	tmpData->startDealerPlayerId	= htons(inData.startData.startDealerPlayerId);
 }
 
 void
@@ -770,7 +770,7 @@ NetPacketGameStart::GetData(NetPacketGameStart::Data &outData) const
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
 	assert(tmpData);
 
-	outData.startData.startDealerPos	= ntohs(tmpData->startDealerPos);
+	outData.startData.startDealerPlayerId	= ntohs(tmpData->startDealerPlayerId);
 }
 
 const NetPacketGameStart *

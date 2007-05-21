@@ -26,11 +26,7 @@
 
 class Tools{
 public:
-    Tools();
-
-    ~Tools();
-
-	void getRandNumber(int, int, int, int*, bool);
+	static void getRandNumber(int, int, int, int*, bool);
 
 };
 

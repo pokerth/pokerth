@@ -35,8 +35,8 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
   startQuantityPlayers(gameData.numberOfPlayers),
   startCash(gameData.startCash), startSmallBlind(gameData.smallBlind),
   startHandsBeforeRaiseSmallBlind(gameData.handsBeforeRaise),
-  myGameID(gameId), guiPlayerNum(gameData.guiPlayerNum), actualQuantityPlayers(gameData.numberOfPlayers),
-  actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(startData.startDealerPos)
+  myGameID(gameId), actualQuantityPlayers(gameData.numberOfPlayers),
+  actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(0)
 {
 // 	cout << "Create Game Object" << "\n";
 	int i;
@@ -47,14 +47,27 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		playerArray[i] = 0;
 	}
 
+	// Dealer Position bestimmen
+	PlayerDataList::const_iterator player_i = playerDataList.begin();
+	PlayerDataList::const_iterator player_end = playerDataList.end();
+
+	while (player_i != player_end)
+	{
+		if ((*player_i)->GetUniqueId() == startData.startDealerPlayerId)
+		{
+			dealerPosition = (*player_i)->GetNumber();
+			break;
+		}
+		++player_i;
+	}
 
 	// Board erstellen
 	actualBoard = myFactory->createBoard();
 
 
 	// Player erstellen
-	PlayerDataList::const_iterator player_i = playerDataList.begin();
-	PlayerDataList::const_iterator player_end = playerDataList.end();
+	player_i = playerDataList.begin();
+	player_end = playerDataList.end();
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
 		string myName;

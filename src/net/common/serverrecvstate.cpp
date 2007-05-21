@@ -154,9 +154,9 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			boost::shared_ptr<NetPacket> answer(new NetPacketJoinGameAck);
 			NetPacketJoinGameAck::Data joinGameAckData;
 			joinGameAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
+			joinGameAckData.yourPlayerUniqueId = tmpPlayerData->GetUniqueId();
+			joinGameAckData.yourPlayerNum = tmpPlayerData->GetNumber();
 			joinGameAckData.gameData = server.GetGameData();
-			joinGameAckData.gameData.guiPlayerUniqueId = tmpPlayerData->GetUniqueId();
-			joinGameAckData.gameData.guiPlayerNum = tmpPlayerData->GetNumber();
 			static_cast<NetPacketJoinGameAck *>(answer.get())->SetData(joinGameAckData);
 			server.GetSender().Send(recvSock, answer);
 
@@ -227,8 +227,9 @@ ServerRecvStateStartGame::Process(ServerRecvThread &server)
 	{
 		// Set dealer pos.
 		StartData startData;
-		Tools myTool;
-		myTool.getRandNumber(0, server.GetGameData().numberOfPlayers-1, 1, &startData.startDealerPos, 0);
+		int tmpDealerPos = 0;
+		Tools::getRandNumber(0, server.GetGameData().numberOfPlayers-1, 1, &tmpDealerPos, 0);
+		startData.startDealerPlayerId = static_cast<unsigned>(tmpDealerPos);
 		server.SetStartData(startData);
 	}
 

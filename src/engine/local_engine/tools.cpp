@@ -22,16 +22,6 @@
 
 using namespace std;
 
-Tools::Tools()
-{
-}
-
-
-Tools::~Tools()
-{
-}
-
-
 void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool different) {
 
 	int r = end-start+1;

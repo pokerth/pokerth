@@ -49,9 +49,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	}
 
 	// Karten generieren und Board sowie Player zuweisen
-	Tools myTool;
 	int *cardsArray = new int[2*actualQuantityPlayers+5];
-	myTool.getRandNumber(0, 51, 2*actualQuantityPlayers+5, cardsArray, 1);
+	Tools::getRandNumber(0, 51, 2*actualQuantityPlayers+5, cardsArray, 1);
 	int tempBoardArray[5];
 	int tempPlayerArray[2];
 	int tempPlayerAndBoardArray[7];
@@ -81,7 +80,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 			// sBluff für alle aktiver Spieler außer human player setzen
 			if(i) {
-				myTool.getRandNumber(1,100,1,&sBluff,0);
+				Tools::getRandNumber(1,100,1,&sBluff,0);
 				playerArray[i]->setSBluff(sBluff);
 				playerArray[i]->setSBluffStatus(0);
 			}

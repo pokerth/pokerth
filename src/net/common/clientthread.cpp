@@ -53,7 +53,7 @@ private:
 
 
 ClientThread::ClientThread(GuiInterface &gui)
-: m_curState(NULL), m_gui(gui), m_curGameId(0)
+: m_curState(NULL), m_gui(gui), m_curGameId(0), m_guiPlayerNum(0)
 {
 	m_context.reset(new ClientContext);
 	m_senderCallback.reset(new ClientSenderCallback(*this));
@@ -118,7 +118,7 @@ ClientThread::Main()
 					// EngineFactory erstellen
 					boost::shared_ptr<EngineFactory> factory(new ClientEngineFactory); // LocalEngine erstellen
 
-					m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameId++));
+					m_game.reset(new Game(&m_gui, factory, GetMappedPlayerDataList(), GetGameData(), GetStartData(), m_curGameId++));
 					GetCallback().SignalNetClientGameStart(m_game);
 				}
 			}
@@ -196,6 +196,18 @@ ClientThread::SetStartData(const StartData &startData)
 	m_startData = startData;
 }
 
+int
+ClientThread::GetGuiPlayerNum() const
+{
+	return m_guiPlayerNum;
+}
+
+void
+ClientThread::SetGuiPlayerNum(int guiPlayerNum)
+{
+	m_guiPlayerNum = guiPlayerNum;
+}
+
 boost::shared_ptr<Game>
 ClientThread::GetGame()
 {
@@ -215,9 +227,6 @@ ClientThread::AddPlayerData(boost::shared_ptr<PlayerData> playerData)
 	if (playerData.get() && !playerData->GetName().empty())
 	{
 		m_playerDataList.push_back(playerData);
-		// Sort the list by player number.
-		m_playerDataList.sort(*boost::lambda::_1 < *boost::lambda::_2);
-
 		GetCallback().SignalNetClientPlayerJoined(playerData->GetName());
 	}
 }
@@ -244,9 +253,31 @@ ClientThread::RemovePlayerData(unsigned playerId)
 		GetCallback().SignalNetClientPlayerLeft(playerName);
 }
 
-const PlayerDataList &
-ClientThread::GetPlayerDataList() const
+PlayerDataList
+ClientThread::GetMappedPlayerDataList() const
 {
-	return m_playerDataList;
+	PlayerDataList mappedList;
+
+	PlayerDataList::const_iterator i = m_playerDataList.begin();
+	PlayerDataList::const_iterator end = m_playerDataList.end();
+
+	// Create a copy of the player list so that the GUI player
+	// is player 0. This is mapped because the GUI depends on it.
+	while (i != end)
+	{
+		boost::shared_ptr<PlayerData> tmpData(new PlayerData(*(*i)));
+		int numberDiff = tmpData->GetNumber() - GetGuiPlayerNum();
+		if (numberDiff >= 0)
+			tmpData->SetNumber(numberDiff);
+		else
+			tmpData->SetNumber(GetGameData().numberOfPlayers + numberDiff);
+		mappedList.push_back(tmpData);
+		++i;
+	}
+
+	// Sort the list by player number.
+	mappedList.sort(*boost::lambda::_1 < *boost::lambda::_2);
+
+	return mappedList;
 }
 

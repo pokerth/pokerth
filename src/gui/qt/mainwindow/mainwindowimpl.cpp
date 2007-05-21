@@ -657,8 +657,9 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	}
 	// Set dealer pos.
 	StartData startData;
-	Tools myTool;
-	myTool.getRandNumber(0, gameData.numberOfPlayers-1, 1, &startData.startDealerPos, 0);
+	int tmpDealerPos = 0;
+	Tools::getRandNumber(0, gameData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
+	startData.startDealerPlayerId = static_cast<unsigned>(tmpDealerPos);
 
 	//Start Game!!!
 	mySession->startLocalGame(gameData, startData);
@@ -1188,7 +1189,7 @@ void mainWindowImpl::dealHoleCards() {
 		currentGame->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 		for(j=0; j<2; j++) {
 			if(currentGame->getPlayerArray()[i]->getMyActiveStatus()) { 
-				if ((i == currentGame->getGuiPlayerNum()) || debugMode) {
+				if ((i == 0) || debugMode) {
 					tempCardsPixmapArray[j].load(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");
 					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
 					

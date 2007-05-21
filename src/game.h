@@ -64,8 +64,7 @@ public:
 	int getDealerPosition() const { return dealerPosition; }
 
 	int getMyGameID() const	{ return myGameID; }
-	int getGuiPlayerNum() const { return guiPlayerNum; }
-	
+
 	//Zufgriff Laufvariablen
 	void setActualQuantityPlayers(const int& theValue) { actualQuantityPlayers = theValue; }
 	int getActualQuantityPlayers() const { return actualQuantityPlayers; }
