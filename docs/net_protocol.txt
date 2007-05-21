@@ -168,6 +168,7 @@ Client Reply/Request: Player's Action
 
 [ Game State is confirmed to ensure consistency. ]
 Player Action:
+	0 - None (e.g. Small Blind or Big Blind in Preflop)
 	1 - Fold
 	2 - Check
 	3 - Call
@@ -178,14 +179,16 @@ Cash Value:
 	0   - states fold, check, call, all in
 	> 0 - states bet, raise
 
-Server Reply/Notification: Player's Action Done
+Server Notification: Player's Action Done
 
 	 0                   1                   2                   3
 	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|        Message Type = 9       |     Message Length = 12       |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|          Game State           |         Player Action         |
+	|          Game State           |           Player Id           |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|        Player Action          |           Reserved            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                           Cash Value                          |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+

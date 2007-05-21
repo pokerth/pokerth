@@ -35,7 +35,8 @@ using namespace std;
 #define NET_TYPE_HAND_START						0x0006
 #define NET_TYPE_PLAYERS_TURN					0x0007
 #define NET_TYPE_PLAYERS_ACTION					0x0008
-#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x0009
+#define NET_TYPE_PLAYERS_ACTION_DONE			0x0009
+#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x000A
 
 #define NET_TYPE_ERROR							0x0400
 
@@ -142,6 +143,16 @@ struct GCC_PACKED NetPacketPlayersActionData
 	u_int32_t			cashValue;
 };
 
+struct GCC_PACKED NetPacketPlayersActionDoneData
+{
+	NetPacketHeader		head;
+	u_int16_t			gameState;
+	u_int16_t			playerId;
+	u_int16_t			playerAction;
+	u_int16_t			reserved;
+	u_int32_t			cashValue;
+};
+
 struct GCC_PACKED NetPacketPlayersActionRejectedData
 {
 	NetPacketHeader		head;
@@ -208,6 +219,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_PLAYERS_ACTION:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayersAction);
+					break;
+				case NET_TYPE_PLAYERS_ACTION_DONE:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayersActionDone);
 					break;
 				case NET_TYPE_PLAYERS_ACTION_REJECTED:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayersActionRejected);
@@ -340,6 +354,12 @@ NetPacket::ToNetPacketPlayersTurn() const
 
 const NetPacketPlayersAction *
 NetPacket::ToNetPacketPlayersAction() const
+{
+	return NULL;
+}
+
+const NetPacketPlayersActionDone *
+NetPacket::ToNetPacketPlayersActionDone() const
 {
 	return NULL;
 }
@@ -1000,6 +1020,81 @@ NetPacketPlayersAction::Check(const NetPacketHeader* data) const
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
+	// Check whether the player action is valid.
+	if (ntohs(tmpData->playerAction) > PLAYER_ACTION_ALLIN)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketPlayersActionDone::NetPacketPlayersActionDone()
+: NetPacket(NET_TYPE_PLAYERS_ACTION_DONE, sizeof(NetPacketPlayersActionDoneData))
+{
+}
+
+NetPacketPlayersActionDone::~NetPacketPlayersActionDone()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketPlayersActionDone::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketPlayersActionDone);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketPlayersActionDone::SetData(const NetPacketPlayersActionDone::Data &inData)
+{
+	NetPacketPlayersActionDoneData *tmpData = (NetPacketPlayersActionDoneData *)GetRawData();
+	assert(tmpData);
+
+	tmpData->gameState		= htons(inData.gameState);
+	tmpData->playerId		= htons(inData.playerId);
+	tmpData->playerAction	= htons(inData.playerAction);
+	tmpData->cashValue		= htonl(inData.cashValue);
+}
+
+void
+NetPacketPlayersActionDone::GetData(NetPacketPlayersActionDone::Data &outData) const
+{
+	NetPacketPlayersActionDoneData *tmpData = (NetPacketPlayersActionDoneData *)GetRawData();
+	assert(tmpData);
+
+	outData.gameState		= static_cast<GameState>(ntohs(tmpData->gameState));
+	outData.playerId		= ntohs(tmpData->playerId);
+	outData.playerAction	= static_cast<PlayerAction>(ntohs(tmpData->playerAction));
+	outData.cashValue		= ntohl(tmpData->cashValue);
+}
+
+const NetPacketPlayersActionDone *
+NetPacketPlayersActionDone::ToNetPacketPlayersActionDone() const
+{
+	return this;
+}
+
+void
+NetPacketPlayersActionDone::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen < sizeof(NetPacketPlayersActionDoneData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
+	NetPacketPlayersActionDoneData *tmpData = (NetPacketPlayersActionDoneData *)data;
+	// TODO: Check whether the state is valid.
 	// Check whether the player action is valid.
 	if (ntohs(tmpData->playerAction) > PLAYER_ACTION_ALLIN)
 	{

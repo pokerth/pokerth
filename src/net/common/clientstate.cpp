@@ -505,11 +505,11 @@ ClientStateWaitHand::Process(ClientThread &client)
 
 	if (tmpPacket.get())
 	{
+		// TODO: Hack
 		if (tmpPacket->ToNetPacketHandStart())
 		{
 			NetPacketHandStart::Data tmpData;
 			tmpPacket->ToNetPacketHandStart()->GetData(tmpData);
-			// TODO: Hack
 			int myCards[2];
 			myCards[0] = (int)tmpData.yourCards[0];
 			myCards[1] = (int)tmpData.yourCards[1];
@@ -517,6 +517,31 @@ ClientStateWaitHand::Process(ClientThread &client)
 			client.GetGame()->initHand();
 			client.GetGame()->startHand();
 			client.GetGui().dealHoleCards();
+		}
+		else if (tmpPacket->ToNetPacketPlayersActionDone())
+		{
+			NetPacketPlayersActionDone::Data tmpData;
+			tmpPacket->ToNetPacketPlayersActionDone()->GetData(tmpData);
+			PlayerInterface *tmpPlayer = client.GetGame()->getPlayerByUniqueId(tmpData.playerId);
+			if (tmpPlayer)
+			{
+				if (tmpData.gameState == GAME_STATE_PREFLOP_SMALL_BLIND)
+				{
+					tmpPlayer->setMyButton(BUTTON_SMALL_BLIND);
+					tmpPlayer->setMyAction(tmpData.playerAction);
+					tmpPlayer->setMySet(tmpData.cashValue);
+					client.GetGui().refreshSet();
+					client.GetGui().refreshPot();
+				}
+				else if (tmpData.gameState == GAME_STATE_PREFLOP_BIG_BLIND)
+				{
+					tmpPlayer->setMyButton(BUTTON_BIG_BLIND);
+					tmpPlayer->setMyAction(tmpData.playerAction);
+					tmpPlayer->setMySet(tmpData.cashValue);
+					client.GetGui().refreshSet();
+					client.GetGui().refreshPot();
+				}
+			}
 		}
 	}
 

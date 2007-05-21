@@ -45,6 +45,7 @@ class NetPacketGameStart;
 class NetPacketHandStart;
 class NetPacketPlayersTurn;
 class NetPacketPlayersAction;
+class NetPacketPlayersActionDone;
 class NetPacketPlayersActionRejected;
 class NetPacketError;
 
@@ -73,6 +74,7 @@ public:
 	virtual const NetPacketHandStart *ToNetPacketHandStart() const;
 	virtual const NetPacketPlayersTurn *ToNetPacketPlayersTurn() const;
 	virtual const NetPacketPlayersAction *ToNetPacketPlayersAction() const;
+	virtual const NetPacketPlayersActionDone *ToNetPacketPlayersActionDone() const;
 	virtual const NetPacketPlayersActionRejected *ToNetPacketPlayersActionRejected() const;
 	virtual const NetPacketError *ToNetPacketError() const;
 
@@ -279,6 +281,32 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketPlayersAction *ToNetPacketPlayersAction() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketPlayersActionDone : public NetPacket
+{
+public:
+	struct Data
+	{
+		GameState		gameState;
+		u_int16_t		playerId;
+		PlayerAction	playerAction;
+		u_int32_t		cashValue;
+	};
+
+	NetPacketPlayersActionDone();
+	virtual ~NetPacketPlayersActionDone();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketPlayersActionDone *ToNetPacketPlayersActionDone() const;
 
 protected:
 

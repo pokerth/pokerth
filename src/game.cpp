@@ -173,3 +173,17 @@ void Game::startHand()
 
 	actualHand->start();
 }
+
+PlayerInterface *Game::getPlayerByUniqueId(unsigned id)
+{
+	PlayerInterface *tmpPlayer = NULL;
+	for (int i = 0; i < startQuantityPlayers; i++)
+	{
+		if (playerArray[i]->getMyUniqueID() == id)
+		{
+			tmpPlayer = playerArray[i];
+			break;
+		}
+	}
+	return tmpPlayer;
+}

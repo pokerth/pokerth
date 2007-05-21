@@ -271,22 +271,54 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 	// Send cards to all players.
 	for (int i = 0; i < curGame.getActualQuantityPlayers(); i++)
 	{
-		if (playerArray[i]->getNetSessionData().get())
+		if (playerArray[i]->getNetSessionData().get()) // TODO: this is an assert.
 		{
 			int cards[2];
 			playerArray[i]->getMyCards(cards);
-			boost::shared_ptr<NetPacket> notification(new NetPacketHandStart);
+			boost::shared_ptr<NetPacket> notifyCards(new NetPacketHandStart);
 			NetPacketHandStart::Data handStartData;
 			handStartData.yourCards[0] = static_cast<unsigned>(cards[0]);
 			handStartData.yourCards[1] = static_cast<unsigned>(cards[1]);
-			static_cast<NetPacketHandStart *>(notification.get())->SetData(handStartData);
+			static_cast<NetPacketHandStart *>(notifyCards.get())->SetData(handStartData);
 
-			server.GetSender().Send(playerArray[i]->getNetSessionData()->GetSocket(), notification);
+			server.GetSender().Send(playerArray[i]->getNetSessionData()->GetSocket(), notifyCards);
 		}
 	}
 
 	// Start hand.
 	curGame.startHand();
+
+	// Auto small blind / big blind at the beginning of preflop.
+	for (int i = 0; i < curGame.getActualQuantityPlayers(); i++)
+	{
+		if(playerArray[i]->getMyButton() == BUTTON_SMALL_BLIND)
+		{
+			boost::shared_ptr<NetPacket> notifySmallBlind(new NetPacketPlayersActionDone);
+			NetPacketPlayersActionDone::Data actionDoneData;
+			actionDoneData.gameState = GAME_STATE_PREFLOP_SMALL_BLIND;
+			actionDoneData.playerId = playerArray[i]->getMyUniqueID();
+			actionDoneData.playerAction = (PlayerAction)playerArray[i]->getMyAction();
+			actionDoneData.cashValue = playerArray[i]->getMySet();
+			static_cast<NetPacketPlayersActionDone *>(notifySmallBlind.get())->SetData(actionDoneData);
+			server.SendToAllPlayers(notifySmallBlind);
+			break;
+		}
+	}
+	for (int i = 0; i < curGame.getActualQuantityPlayers(); i++)
+	{
+		if(playerArray[i]->getMyButton() == BUTTON_BIG_BLIND)
+		{
+			boost::shared_ptr<NetPacket> notifyBigBlind(new NetPacketPlayersActionDone);
+			NetPacketPlayersActionDone::Data actionDoneData;
+			actionDoneData.gameState = GAME_STATE_PREFLOP_BIG_BLIND;
+			actionDoneData.playerId = playerArray[i]->getMyUniqueID();
+			actionDoneData.playerAction = (PlayerAction)playerArray[i]->getMyAction();
+			actionDoneData.cashValue = playerArray[i]->getMySet();
+			static_cast<NetPacketPlayersActionDone *>(notifyBigBlind.get())->SetData(actionDoneData);
+			server.SendToAllPlayers(notifyBigBlind);
+			break;
+		}
+	}
 
 	server.SetState(ServerRecvStateStartRound::Instance());
 
