@@ -25,6 +25,7 @@
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
 #include <game.h>
+#include <tools.h>
 #include <localenginefactory.h>
 
 #include <boost/lambda/lambda.hpp>
@@ -250,6 +251,13 @@ ServerRecvThread::InternalStartGame()
 
 	// EngineFactory erstellen
 	boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(m_playerConfig)); // LocalEngine erstellen
+
+	// Set dealer pos.
+	StartData startData;
+	int tmpDealerPos = 0;
+	Tools::getRandNumber(0, GetGameData().numberOfPlayers-1, 1, &tmpDealerPos, 0);
+	startData.startDealerPlayerId = static_cast<unsigned>(tmpDealerPos);
+	SetStartData(startData);
 
 	m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), m_curGameId++));
 	SetState(SERVER_START_GAME_STATE::Instance());

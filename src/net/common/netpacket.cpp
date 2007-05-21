@@ -52,18 +52,20 @@ using namespace std;
 #define NET_ERR_OTHER							0xFFFF
 
 #ifdef _MSC_VER
-	#pragma pack(push, 2)
+	#pragma pack(push, 1)
+	#define GCC_PACKED
 #else
-	#pragma align 2
+	#define GCC_PACKED __attribute__ ((__packed__))
 #endif
 
-struct NetPacketHeader
+
+struct GCC_PACKED NetPacketHeader
 {
 	u_int16_t			type;
 	u_int16_t			length;
 };
 
-struct NetPacketJoinGameData
+struct GCC_PACKED NetPacketJoinGameData
 {
 	NetPacketHeader		head;
 	u_int16_t			requestedVersionMajor;
@@ -75,7 +77,7 @@ struct NetPacketJoinGameData
 	char				password[1];
 };
 
-struct NetPacketJoinGameAckData
+struct GCC_PACKED NetPacketJoinGameAckData
 {
 	NetPacketHeader		head;
 	u_int32_t			sessionId;
@@ -88,14 +90,14 @@ struct NetPacketJoinGameAckData
 	u_int32_t			startCash;
 };
 
-struct NetPacketJoinGameErrorData
+struct GCC_PACKED NetPacketJoinGameErrorData
 {
 	NetPacketHeader		head;
 	u_int16_t			errorReason;
 	u_int16_t			reserved;
 };
 
-struct NetPacketPlayerJoinedData
+struct GCC_PACKED NetPacketPlayerJoinedData
 {
 	NetPacketHeader		head;
 	u_int16_t			playerId;
@@ -105,34 +107,34 @@ struct NetPacketPlayerJoinedData
 	char				playerName[1];
 };
 
-struct NetPacketPlayerLeftData
+struct GCC_PACKED NetPacketPlayerLeftData
 {
 	NetPacketHeader		head;
 	u_int16_t			playerId;
 	u_int16_t			reserved;
 };
 
-struct NetPacketGameStartData
+struct GCC_PACKED NetPacketGameStartData
 {
 	NetPacketHeader		head;
 	u_int16_t			startDealerPlayerId;
 	u_int16_t			reserved;
 };
 
-struct NetPacketHandStartData
+struct GCC_PACKED NetPacketHandStartData
 {
 	NetPacketHeader		head;
 	u_int16_t			yourCards[2];
 };
 
-struct NetPacketPlayersTurnData
+struct GCC_PACKED NetPacketPlayersTurnData
 {
 	NetPacketHeader		head;
 	u_int16_t			gameState;
 	u_int16_t			playerId;
 };
 
-struct NetPacketPlayersActionData
+struct GCC_PACKED NetPacketPlayersActionData
 {
 	NetPacketHeader		head;
 	u_int16_t			gameState;
@@ -140,7 +142,7 @@ struct NetPacketPlayersActionData
 	u_int32_t			cashValue;
 };
 
-struct NetPacketPlayersActionRejectedData
+struct GCC_PACKED NetPacketPlayersActionRejectedData
 {
 	NetPacketHeader		head;
 	u_int16_t			gameState;
@@ -150,7 +152,7 @@ struct NetPacketPlayersActionRejectedData
 	u_int16_t			reserved;
 };
 
-struct NetPacketErrorData
+struct GCC_PACKED NetPacketErrorData
 {
 	NetPacketHeader		head;
 	u_int16_t			reason;
@@ -159,8 +161,6 @@ struct NetPacketErrorData
 
 #ifdef _MSC_VER
 	#pragma pack(pop)
-#else
-	#pragma align 0
 #endif
 
 

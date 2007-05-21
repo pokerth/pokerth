@@ -31,7 +31,7 @@ using namespace std;
 Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		   const PlayerDataList &playerDataList, const GameData &gameData,
 		   const StartData &startData, int gameId)
-: myGui(gui), myFactory(factory), actualHand(0), actualBoard(0),
+: myFactory(factory), myGui(gui), actualHand(0), actualBoard(0),
   startQuantityPlayers(gameData.numberOfPlayers),
   startCash(gameData.startCash), startSmallBlind(gameData.smallBlind),
   startHandsBeforeRaiseSmallBlind(gameData.handsBeforeRaise),

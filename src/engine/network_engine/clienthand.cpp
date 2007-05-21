@@ -24,6 +24,26 @@ using namespace std;
 ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC)
 : myFactory(f), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0), myID(id), actualQuantityPlayers(aP), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), allInCondition(0), bettingRoundsPlayed(0)
 {
+	int i;
+	lastPlayersTurn = 0;
+
+	myBoard->setHand(this);
+
+
+	for(i=0; i<startQuantityPlayers; i++) {
+		if(playerArray[i]->getMyActiveStatus() != 0) {
+			playerArray[i]->setHand(this);
+		}
+		playerArray[i]->setMyCardsFlip(0);
+	}
+
+
+	// roundStartCashArray fllen
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+		playerArray[i]->setMyRoundStartCash(playerArray[i]->getMyCash());
+	}
+
+	assignButtons();
 }
 
 
@@ -40,6 +60,42 @@ ClientHand::start()
 void
 ClientHand::assignButtons()
 {
+	int i;
+
+	//Aktive Spieler zählen
+	int activePlayersCounter = 0;
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+		if (playerArray[i]->getMyActiveStatus() == 1) activePlayersCounter++;
+	}
+
+	// alle Buttons loeschen
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { playerArray[i]->setMyButton(0); }
+
+	// DealerButton zuweisen
+	playerArray[dealerPosition]->setMyButton(1);
+
+	// assign Small Blind next to dealer. ATTENTION: in heads up it is big blind
+	i = dealerPosition;
+	do {
+		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
+		if(playerArray[i]->getMyActiveStatus())	{
+			if(activePlayersCounter > 2) playerArray[i]->setMyButton(2); //small blind normal
+			else playerArray[i]->setMyButton(3); //big blind in heads up
+		
+		}
+
+	} while(!(playerArray[i]->getMyActiveStatus()));
+
+	// assign big blind next to small blind. ATTENTION: in heads up it is small blind
+	do {
+		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
+		if(playerArray[i]->getMyActiveStatus())	{
+			if(activePlayersCounter > 2) playerArray[i]->setMyButton(3); //big blind normal
+			else playerArray[i]->setMyButton(2); //small blind in heads up
+			
+		}
+
+	} while(!(playerArray[i]->getMyActiveStatus()));
 }
 
 void
