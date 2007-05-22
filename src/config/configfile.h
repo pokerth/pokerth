@@ -21,20 +21,10 @@
 #define CONFIGFILE_H
 
 #include "tinyxml.h"
-#include <string>
-#include <iostream>
-#include <sstream>
-#include <cstdlib>
-#include <fstream>
 #include <vector>
-
-#include <sys/types.h>
-#include <sys/stat.h>
+#include <string>
 
 #include <boost/shared_ptr.hpp>
-
-
-using namespace std;
 
 enum ConfigState { NONEXISTING, OLD };
 enum ConfigType { CONFIG_TYPE_INT, CONFIG_TYPE_STRING };
@@ -42,20 +32,20 @@ enum ConfigType { CONFIG_TYPE_INT, CONFIG_TYPE_STRING };
 
 class ConfigFile{
 public:
-    ConfigFile(int, char **);
+	ConfigFile(int, char **);
 
-    ~ConfigFile();
+	~ConfigFile();
 	
 	void fillBuffer();
 
 	void updateConfig(ConfigState);
 
 	std::string readConfigString(std::string varName);
-    	void writeConfigString(std::string varName, std::string varCont);
-    	
+	void writeConfigString(std::string varName, std::string varCont);
+
 	int readConfigInt(std::string varName);
 	void writeConfigInt(std::string varName, int varCont);
-    	
+
 
 private:
 	
@@ -68,8 +58,8 @@ private:
 		std::string defaultValue;
 	};
 	
-	vector<ConfigInfo> configList;
-	vector<ConfigInfo> configBufferList;
+	std::vector<ConfigInfo> configList;
+	std::vector<ConfigInfo> configBufferList;
 
 	std::string configFileName;
 	std::string logDir;

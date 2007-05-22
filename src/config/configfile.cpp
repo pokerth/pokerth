@@ -28,6 +28,16 @@
 #include <direct.h>
 #endif
 
+#include <iostream>
+#include <sstream>
+#include <cstdlib>
+#include <fstream>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+
+using namespace std;
+
 class QtToolsWrapper;
 
 
