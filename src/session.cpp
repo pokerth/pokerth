@@ -26,6 +26,8 @@
 #include <net/clientthread.h>
 #include <net/serverthread.h>
 
+#include <sstream>
+
 #define NET_CLIENT_TERMINATE_TIMEOUT_MSEC	1000
 #define NET_SERVER_TERMINATE_TIMEOUT_MSEC	1000
 

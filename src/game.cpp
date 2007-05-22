@@ -51,15 +51,18 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 	PlayerDataList::const_iterator player_i = playerDataList.begin();
 	PlayerDataList::const_iterator player_end = playerDataList.end();
 
+	bool dealerFound = false;
 	while (player_i != player_end)
 	{
 		if ((*player_i)->GetUniqueId() == startData.startDealerPlayerId)
 		{
 			dealerPosition = (*player_i)->GetNumber();
+			dealerFound = true;
 			break;
 		}
 		++player_i;
 	}
+	assert(dealerFound);
 
 	// Board erstellen
 	actualBoard = myFactory->createBoard();

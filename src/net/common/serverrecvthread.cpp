@@ -256,7 +256,26 @@ ServerRecvThread::InternalStartGame()
 	StartData startData;
 	int tmpDealerPos = 0;
 	Tools::getRandNumber(0, GetGameData().numberOfPlayers-1, 1, &tmpDealerPos, 0);
-	startData.startDealerPlayerId = static_cast<unsigned>(tmpDealerPos);
+	// The Player Id is not continuous. Therefore, the start dealer position
+	// needs to be converted to a player Id, and cannot be directly generated
+	// as player Id.
+	PlayerDataList::const_iterator player_i = playerData.begin();
+	PlayerDataList::const_iterator player_end = playerData.end();
+
+	bool randDealerFound = false;
+	while (player_i != player_end)
+	{
+		if ((*player_i)->GetNumber() == tmpDealerPos)
+		{
+			// Get ID of the dealer.
+			startData.startDealerPlayerId = static_cast<unsigned>((*player_i)->GetUniqueId());
+			randDealerFound = true;
+			break;
+		}
+		++player_i;
+	}
+	assert(randDealerFound);
+
 	SetStartData(startData);
 
 	m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), m_curGameId++));

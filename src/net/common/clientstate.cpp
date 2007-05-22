@@ -527,7 +527,7 @@ ClientStateWaitHand::Process(ClientThread &client)
 			{
 				if (tmpData.gameState == GAME_STATE_PREFLOP_SMALL_BLIND)
 				{
-					tmpPlayer->setMyButton(BUTTON_SMALL_BLIND);
+					assert(tmpPlayer->getMyButton() == BUTTON_SMALL_BLIND);
 					tmpPlayer->setMyAction(tmpData.playerAction);
 					tmpPlayer->setMySet(tmpData.cashValue);
 					client.GetGui().refreshSet();
@@ -535,7 +535,7 @@ ClientStateWaitHand::Process(ClientThread &client)
 				}
 				else if (tmpData.gameState == GAME_STATE_PREFLOP_BIG_BLIND)
 				{
-					tmpPlayer->setMyButton(BUTTON_BIG_BLIND);
+					assert(tmpPlayer->getMyButton() == BUTTON_BIG_BLIND);
 					tmpPlayer->setMyAction(tmpData.playerAction);
 					tmpPlayer->setMySet(tmpData.cashValue);
 					client.GetGui().refreshSet();

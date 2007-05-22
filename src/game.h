@@ -61,8 +61,6 @@ public:
 	void setStartCash(const int& theValue)	{ startCash = theValue; }
 	int getStartCash() const { return startCash;	}
 
-	int getDealerPosition() const { return dealerPosition; }
-
 	int getMyGameID() const	{ return myGameID; }
 
 	//Zufgriff Laufvariablen
