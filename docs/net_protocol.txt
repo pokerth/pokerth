@@ -64,7 +64,7 @@ Server Reply: Join Game ACK
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|       Hands before raise      |       Proposed GUI Speed      |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|                          Start Cash                           |
+	|                          Start Money                          |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 Player Number:
@@ -163,7 +163,7 @@ Client Reply/Request: Player's Action
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|          Game State           |         Player Action         |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|                           Cash Value                          |
+	|                           Player Bet                          |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 [ Game State is confirmed to ensure consistency. ]
@@ -175,7 +175,7 @@ Player Action:
 	4 - Bet
 	5 - Raise
 	6 - All in
-Cash Value:
+Player Bet:
 	0   - states fold, check, call, all in
 	> 0 - states bet, raise
 
@@ -190,7 +190,13 @@ Server Notification: Player's Action Done
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|        Player Action          |           Reserved            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|                           Cash Value                          |
+	|                           Player Bet                          |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                      Current Player Money                     |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                            Pot Size                           |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                       Current Hand Bets                       |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 
@@ -199,11 +205,11 @@ Server Reply: Player's Action Rejected
 	 0                   1                   2                   3
 	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|        Message Type = 10       |     Message Length = 16       |
+	|        Message Type = 10      |     Message Length = 16       |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|          Game State           |         Player Action         |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|                           Cash Value                          |
+	|                           Player Bet                          |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|        Rejection Reason       |          Reserved             |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -216,9 +222,9 @@ Rejection Reason:
 	0x0005 - Raise not allowed.
 	0x0006 - All in not allowed.
 	0x0007 - Invalid game state.
-	0x0008 - Invalid cash value for this game state.
-	0x0009 - Cash value too small.
-	0x0010 - Cash value too large.
+	0x0008 - Invalid bet for this game state.
+	0x0009 - Bet too small.
+	0x0010 - Bet too large.
 	0xFFFF - Other reason
 
 

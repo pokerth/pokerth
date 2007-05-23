@@ -7,7 +7,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+` *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
@@ -30,7 +30,8 @@
 #include <riverinterface.h>
 
 
-class ClientHand : public HandInterface{
+class ClientHand : public HandInterface
+{
 public:
 	ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, PlayerInterface**, int, int, int, int, int, int);
 	~ClientHand();
@@ -78,8 +79,6 @@ public:
 	void setLastPlayersTurn(const int& theValue) { lastPlayersTurn = theValue; }
 	int getLastPlayersTurn() const { return lastPlayersTurn; }
 
-
-	void assignButtons();
 
 	void highlightRoundLabel();
 	void switchRounds();

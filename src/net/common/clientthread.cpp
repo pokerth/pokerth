@@ -81,6 +81,20 @@ ClientThread::Init(
 	context.SetPlayerName(playerName);
 }
 
+void
+ClientThread::SendPlayerAction()
+{
+	// TODO: ugly hack
+	
+	boost::shared_ptr<NetPacket> action(new NetPacketPlayersAction);
+	NetPacketPlayersAction::Data actionData;
+	actionData.gameState = (GameState)GetGame()->getCurrentHand()->getActualRound();
+	actionData.playerAction = (PlayerAction)GetGame()->getPlayerArray()[0]->getMyAction();
+	actionData.playerBet = GetGame()->getPlayerArray()[0]->getMySet();
+	static_cast<NetPacketPlayersAction *>(action.get())->SetData(actionData);
+	GetSender().Send(GetContext().GetSocket(), action);
+}
+
 ClientCallback &
 ClientThread::GetCallback()
 {

@@ -182,3 +182,10 @@ void Session::terminateNetworkServer()
 	myNetServer = 0;
 }
 
+void Session::sendClientPlayerAction()
+{
+	if (!myNetClient)
+		return;
+	myNetClient->SendPlayerAction();
+}
+

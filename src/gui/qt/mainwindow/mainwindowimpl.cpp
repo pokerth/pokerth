@@ -644,7 +644,7 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	if(v) {
 		// Set Game Data
 		gameData.numberOfPlayers = v->spinBox_quantityPlayers->value();
-		gameData.startCash = v->spinBox_startCash->value();
+		gameData.startMoney = v->spinBox_startCash->value();
 		gameData.smallBlind = v->spinBox_smallBlind->value();
 		gameData.handsBeforeRaise = v->spinBox_handsBeforeRaiseSmallBlind->value();
 		//Speeds 
@@ -654,7 +654,7 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	else {
 		// Set Game Data
 		gameData.numberOfPlayers = myConfig->readConfigInt("NumberOfPlayers");
-		gameData.startCash = myConfig->readConfigInt("StartCash");
+		gameData.startMoney = myConfig->readConfigInt("StartCash");
 		gameData.smallBlind = myConfig->readConfigInt("SmallBlind");
 		gameData.handsBeforeRaise = myConfig->readConfigInt("HandsBeforeRaiseSmallBlind");
 		//Speeds 
@@ -695,7 +695,7 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 
 		GameData gameData;
 		gameData.numberOfPlayers = myCreateNetworkGameDialog->spinBox_quantityPlayers->value();
-		gameData.startCash = myCreateNetworkGameDialog->spinBox_startCash->value();
+		gameData.startMoney = myCreateNetworkGameDialog->spinBox_startCash->value();
 		gameData.smallBlind = myCreateNetworkGameDialog->spinBox_smallBlind->value();
 		gameData.handsBeforeRaise = myCreateNetworkGameDialog->spinBox_handsBeforeRaiseSmallBlind->value();
 		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
@@ -1374,14 +1374,15 @@ void mainWindowImpl::meInAction() {
 	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
 		statusBar()->showMessage(tr("F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise"), 15000);
 	}
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	Game *currentGame = mySession->getCurrentGame();
+	HandInterface *currentHand = currentGame->getCurrentHand();
 
 	switch (currentHand->getActualRound()) {
 
 	case 0: {
-		if (currentHand->getPlayerArray()[0]->getMyCash()+currentHand->getPlayerArray()[0]->getMySet() > currentHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+		if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 
-		if ( currentHand->getPlayerArray()[0]->getMySet()== currentHand->getPreflop()->getHighestSet() &&  currentHand->getPlayerArray()[0]->getMyButton() == 3) { pushButton_CallCheckSet->setText("Check"); }
+		if (currentGame->getPlayerArray()[0]->getMySet()== currentHand->getPreflop()->getHighestSet() &&  currentGame->getPlayerArray()[0]->getMyButton() == 3) { pushButton_CallCheckSet->setText("Check"); }
 		else { pushButton_CallCheckSet->setText("Call"); }
 		pushButton_FoldAllin->setText("Fold"); 
 	}
@@ -1395,9 +1396,9 @@ void mainWindowImpl::meInAction() {
 			pushButton_CallCheckSet->setText("Check");
 			pushButton_BetRaise->setText("Bet"); 
 		}
-		if (currentHand->getFlop()->getHighestSet() > 0 && currentHand->getFlop()->getHighestSet() > currentHand->getPlayerArray()[0]->getMySet()) {
+		if (currentHand->getFlop()->getHighestSet() > 0 && currentHand->getFlop()->getHighestSet() > currentGame->getPlayerArray()[0]->getMySet()) {
 			pushButton_CallCheckSet->setText("Call");
-			if (currentHand->getPlayerArray()[0]->getMyCash()+currentHand->getPlayerArray()[0]->getMySet() > currentHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+			if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 		}
 	}
 	break;
@@ -1410,9 +1411,9 @@ void mainWindowImpl::meInAction() {
 			pushButton_CallCheckSet->setText("Check");
 			pushButton_BetRaise->setText("Bet"); 
 		}
-		if (currentHand->getTurn()->getHighestSet() > 0 && currentHand->getTurn()->getHighestSet() > currentHand->getPlayerArray()[0]->getMySet()) {
+		if (currentHand->getTurn()->getHighestSet() > 0 && currentHand->getTurn()->getHighestSet() > currentGame->getPlayerArray()[0]->getMySet()) {
 			pushButton_CallCheckSet->setText("Call");
-			if (currentHand->getPlayerArray()[0]->getMyCash()+currentHand->getPlayerArray()[0]->getMySet() > currentHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+			if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 		}
 	}
 	break;
@@ -1425,9 +1426,9 @@ void mainWindowImpl::meInAction() {
 			pushButton_CallCheckSet->setText("Check");
 			pushButton_BetRaise->setText("Bet");
 		}
-		if (currentHand->getRiver()->getHighestSet() > 0 && currentHand->getRiver()->getHighestSet() > currentHand->getPlayerArray()[0]->getMySet()) {
+		if (currentHand->getRiver()->getHighestSet() > 0 && currentHand->getRiver()->getHighestSet() > currentGame->getPlayerArray()[0]->getMySet()) {
 			pushButton_CallCheckSet->setText("Call");
-			if (currentHand->getPlayerArray()[0]->getMyCash()+currentHand->getPlayerArray()[0]->getMySet() > currentHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+			if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 		}
 	}
 	break;
@@ -1690,12 +1691,15 @@ void mainWindowImpl::myAllIn(){
 
 void mainWindowImpl::nextPlayerAnimation() {
 
+	// TODO ugliest hack ever
+	mySession->sendClientPlayerAction();
+
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
 	//refresh Change Player
 	refreshSet();
 	refreshAction(currentHand->getLastPlayersTurn(), currentHand->getPlayerArray()[currentHand->getLastPlayersTurn()]->getMyAction());
-	refreshCash();	
+	refreshCash();
 
 	nextPlayerAnimationTimer->start(nextPlayerSpeed1);
 }

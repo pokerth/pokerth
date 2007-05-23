@@ -53,6 +53,8 @@ public:
 	void initiateNetworkServerGame();
 	void terminateNetworkServer();
 
+	void sendClientPlayerAction();
+
 	void setCurrentGameID(const int& theValue) { currentGameID = theValue; }
 	int getCurrentGameID() const { return currentGameID; }
 

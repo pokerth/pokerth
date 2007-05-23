@@ -88,7 +88,7 @@ struct GCC_PACKED NetPacketJoinGameAckData
 	u_int16_t			smallBlind;
 	u_int16_t			handsBeforeRaise;
 	u_int16_t			proposedGuiSpeed;
-	u_int32_t			startCash;
+	u_int32_t			startMoney;
 };
 
 struct GCC_PACKED NetPacketJoinGameErrorData
@@ -140,7 +140,7 @@ struct GCC_PACKED NetPacketPlayersActionData
 	NetPacketHeader		head;
 	u_int16_t			gameState;
 	u_int16_t			playerAction;
-	u_int32_t			cashValue;
+	u_int32_t			playerBet;
 };
 
 struct GCC_PACKED NetPacketPlayersActionDoneData
@@ -150,7 +150,10 @@ struct GCC_PACKED NetPacketPlayersActionDoneData
 	u_int16_t			playerId;
 	u_int16_t			playerAction;
 	u_int16_t			reserved;
-	u_int32_t			cashValue;
+	u_int32_t			playerBet;
+	u_int32_t			curPlayerMoney;
+	u_int32_t			potSize;
+	u_int32_t			curHandBets;
 };
 
 struct GCC_PACKED NetPacketPlayersActionRejectedData
@@ -158,7 +161,7 @@ struct GCC_PACKED NetPacketPlayersActionRejectedData
 	NetPacketHeader		head;
 	u_int16_t			gameState;
 	u_int16_t			playerAction;
-	u_int32_t			cashValue;
+	u_int32_t			playerBet;
 	u_int16_t			rejectionReason;
 	u_int16_t			reserved;
 };
@@ -554,7 +557,7 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 	tmpData->smallBlind			= htons(inData.gameData.smallBlind);
 	tmpData->handsBeforeRaise	= htons(inData.gameData.handsBeforeRaise);
 	tmpData->proposedGuiSpeed	= htons(inData.gameData.guiSpeed);
-	tmpData->startCash			= htonl(inData.gameData.startCash);
+	tmpData->startMoney			= htonl(inData.gameData.startMoney);
 }
 
 void
@@ -570,7 +573,7 @@ NetPacketJoinGameAck::GetData(NetPacketJoinGameAck::Data &outData) const
 	outData.gameData.smallBlind			= ntohs(tmpData->smallBlind);
 	outData.gameData.handsBeforeRaise	= ntohs(tmpData->handsBeforeRaise);
 	outData.gameData.guiSpeed			= ntohs(tmpData->proposedGuiSpeed);
-	outData.gameData.startCash			= ntohl(tmpData->startCash);
+	outData.gameData.startMoney			= ntohl(tmpData->startMoney);
 }
 
 const NetPacketJoinGameAck *
@@ -983,7 +986,7 @@ NetPacketPlayersAction::SetData(const NetPacketPlayersAction::Data &inData)
 
 	tmpData->gameState		= htons(inData.gameState);
 	tmpData->playerAction	= htons(inData.playerAction);
-	tmpData->cashValue		= htonl(inData.cashValue);
+	tmpData->playerBet		= htonl(inData.playerBet);
 }
 
 void
@@ -994,7 +997,7 @@ NetPacketPlayersAction::GetData(NetPacketPlayersAction::Data &outData) const
 
 	outData.gameState		= static_cast<GameState>(ntohs(tmpData->gameState));
 	outData.playerAction	= static_cast<PlayerAction>(ntohs(tmpData->playerAction));
-	outData.cashValue		= ntohl(tmpData->cashValue);
+	outData.playerBet		= ntohl(tmpData->playerBet);
 }
 
 const NetPacketPlayersAction *
@@ -1061,7 +1064,10 @@ NetPacketPlayersActionDone::SetData(const NetPacketPlayersActionDone::Data &inDa
 	tmpData->gameState		= htons(inData.gameState);
 	tmpData->playerId		= htons(inData.playerId);
 	tmpData->playerAction	= htons(inData.playerAction);
-	tmpData->cashValue		= htonl(inData.cashValue);
+	tmpData->playerBet		= htonl(inData.playerBet);
+	tmpData->curPlayerMoney	= htonl(inData.curPlayerMoney);
+	tmpData->potSize		= htonl(inData.potSize);
+	tmpData->curHandBets	= htonl(inData.curHandBets);
 }
 
 void
@@ -1073,7 +1079,10 @@ NetPacketPlayersActionDone::GetData(NetPacketPlayersActionDone::Data &outData) c
 	outData.gameState		= static_cast<GameState>(ntohs(tmpData->gameState));
 	outData.playerId		= ntohs(tmpData->playerId);
 	outData.playerAction	= static_cast<PlayerAction>(ntohs(tmpData->playerAction));
-	outData.cashValue		= ntohl(tmpData->cashValue);
+	outData.playerBet		= ntohl(tmpData->playerBet);
+	outData.curPlayerMoney	= ntohl(tmpData->curPlayerMoney);
+	outData.potSize			= ntohl(tmpData->potSize);
+	outData.curHandBets		= ntohl(tmpData->curHandBets);
 }
 
 const NetPacketPlayersActionDone *
@@ -1135,7 +1144,7 @@ NetPacketPlayersActionRejected::SetData(const NetPacketPlayersActionRejected::Da
 
 	tmpData->gameState			= htons(inData.gameState);
 	tmpData->playerAction		= htons(inData.playerAction);
-	tmpData->cashValue			= htonl(inData.cashValue);
+	tmpData->playerBet			= htonl(inData.playerBet);
 
 	// TODO: set rejection reason
 	tmpData->rejectionReason	= htons(0);
@@ -1149,7 +1158,7 @@ NetPacketPlayersActionRejected::GetData(NetPacketPlayersActionRejected::Data &ou
 
 	outData.gameState		= static_cast<GameState>(ntohs(tmpData->gameState));
 	outData.playerAction	= static_cast<PlayerAction>(ntohs(tmpData->playerAction));
-	outData.cashValue		= ntohl(tmpData->cashValue);
+	outData.playerBet		= ntohl(tmpData->playerBet);
 
 	// TODO: set rejection reason
 }

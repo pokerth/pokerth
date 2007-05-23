@@ -294,6 +294,9 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 		server.GetSender().Send(playerArray[i]->getNetSessionData()->GetSocket(), notifyCards);
 	}
 
+	// Start hand.
+	curGame.startHand();
+
 	// Auto small blind / big blind at the beginning of hand.
 	for (int i = 0; i < curGame.getActualQuantityPlayers(); i++)
 	{
@@ -304,7 +307,10 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 			actionDoneData.gameState = GAME_STATE_PREFLOP_SMALL_BLIND;
 			actionDoneData.playerId = playerArray[i]->getMyUniqueID();
 			actionDoneData.playerAction = (PlayerAction)playerArray[i]->getMyAction();
-			actionDoneData.cashValue = playerArray[i]->getMySet();
+			actionDoneData.playerBet = playerArray[i]->getMySet();
+			actionDoneData.curPlayerMoney = playerArray[i]->getMyCash();
+			actionDoneData.potSize = curGame.getCurrentHand()->getBoard()->getPot();
+			actionDoneData.curHandBets = playerArray[i]->getMySet(); // first bet only
 			static_cast<NetPacketPlayersActionDone *>(notifySmallBlind.get())->SetData(actionDoneData);
 			server.SendToAllPlayers(notifySmallBlind);
 			break;
@@ -319,15 +325,15 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 			actionDoneData.gameState = GAME_STATE_PREFLOP_BIG_BLIND;
 			actionDoneData.playerId = playerArray[i]->getMyUniqueID();
 			actionDoneData.playerAction = (PlayerAction)playerArray[i]->getMyAction();
-			actionDoneData.cashValue = playerArray[i]->getMySet();
+			actionDoneData.playerBet = playerArray[i]->getMySet();
+			actionDoneData.curPlayerMoney = playerArray[i]->getMyCash();
+			actionDoneData.potSize = curGame.getCurrentHand()->getBoard()->getPot();
+			actionDoneData.curHandBets = curGame.getCurrentHand()->getBoard()->getSets();
 			static_cast<NetPacketPlayersActionDone *>(notifyBigBlind.get())->SetData(actionDoneData);
 			server.SendToAllPlayers(notifyBigBlind);
 			break;
 		}
 	}
-
-	// Start hand.
-	curGame.startHand();
 
 	server.SetState(ServerRecvStateStartRound::Instance());
 
@@ -386,7 +392,7 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 
 	server.SendToAllPlayers(notification);
 
-	server.SetState(ServerRecvStateFinal::Instance());
+	server.SetState(ServerRecvStateWaitPlayerAction::Instance());
 
 	return MSG_NET_GAME_SERVER_ROUND;
 }
@@ -444,6 +450,79 @@ ServerRecvStateStartRound::GetCurrentPlayer(Game &curGame)
 	return curGame.getPlayerArray()[curPlayerNum];
 }
 
+//-----------------------------------------------------------------------------
+
+ServerRecvStateWaitPlayerAction &
+ServerRecvStateWaitPlayerAction::Instance()
+{
+	static ServerRecvStateWaitPlayerAction state;
+	return state;
+}
+
+ServerRecvStateWaitPlayerAction::ServerRecvStateWaitPlayerAction()
+{
+}
+
+ServerRecvStateWaitPlayerAction::~ServerRecvStateWaitPlayerAction()
+{
+}
+
+void
+ServerRecvStateWaitPlayerAction::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
+{
+	// Do not accept new connections in this state.
+	server.RejectNewConnection(connData);
+}
+
+int
+ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
+{
+	int retVal = MSG_SOCK_INIT_DONE;
+	SOCKET recvSock = server.Select();
+
+	if (recvSock != INVALID_SOCKET)
+	{
+		SessionWrapper session = server.GetSession(recvSock);
+		boost::shared_ptr<NetPacket> packet;
+		try
+		{
+			packet = server.GetReceiver().Recv(recvSock);
+		} catch (const NetException &)
+		{
+			if (session.sessionData.get())
+			{
+				server.CloseSessionDelayed(session);
+				return retVal;
+			}
+		}
+
+		// Ignore if no session / no packet.
+		if (packet.get() && session.sessionData.get())
+		{
+			if (packet->ToNetPacketPlayersAction())
+			{
+				NetPacketPlayersAction::Data actionData;
+				packet->ToNetPacketPlayersAction()->GetData(actionData);
+				
+				Game &curGame = server.GetGame();
+
+				boost::shared_ptr<NetPacket> notifyActionDone(new NetPacketPlayersActionDone);
+				NetPacketPlayersActionDone::Data actionDoneData;
+				actionDoneData.gameState = GAME_STATE_PREFLOP; // TODO
+				actionDoneData.playerId = session.playerData->GetUniqueId();
+				actionDoneData.playerAction = actionData.playerAction;
+				actionDoneData.playerBet = actionData.playerBet;
+				actionDoneData.curPlayerMoney = 0;
+				actionDoneData.potSize = curGame.getCurrentHand()->getBoard()->getPot();
+				actionDoneData.curHandBets = curGame.getCurrentHand()->getBoard()->getSets();
+				static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
+				server.SendToAllPlayers(notifyActionDone);
+			}
+		}
+	}
+
+	return MSG_SOCK_INTERNAL_PENDING;
+}
 
 //-----------------------------------------------------------------------------
 

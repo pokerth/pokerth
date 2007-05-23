@@ -54,7 +54,7 @@ private:
 
 
 ServerRecvThread::ServerRecvThread(GuiInterface &gui, ConfigFile *playerConfig)
-: m_curGameId(0), m_gui(gui), m_playerConfig(playerConfig)
+: m_curGameId(1), m_gui(gui), m_playerConfig(playerConfig)
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));

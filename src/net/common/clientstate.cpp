@@ -520,27 +520,35 @@ ClientStateWaitHand::Process(ClientThread &client)
 		}
 		else if (tmpPacket->ToNetPacketPlayersActionDone())
 		{
-			NetPacketPlayersActionDone::Data tmpData;
-			tmpPacket->ToNetPacketPlayersActionDone()->GetData(tmpData);
-			PlayerInterface *tmpPlayer = client.GetGame()->getPlayerByUniqueId(tmpData.playerId);
-			if (tmpPlayer)
+			NetPacketPlayersActionDone::Data actionDoneData;
+			tmpPacket->ToNetPacketPlayersActionDone()->GetData(actionDoneData);
+			PlayerInterface *tmpPlayer = client.GetGame()->getPlayerByUniqueId(actionDoneData.playerId);
+			assert(tmpPlayer); // TODO: throw exception
+
+			if (actionDoneData.gameState == GAME_STATE_PREFLOP_SMALL_BLIND)
+				tmpPlayer->setMyButton(BUTTON_SMALL_BLIND);
+			else if (actionDoneData.gameState == GAME_STATE_PREFLOP_BIG_BLIND)
+				tmpPlayer->setMyButton(BUTTON_BIG_BLIND);
+
+			tmpPlayer->setMyAction(actionDoneData.playerAction);
+			tmpPlayer->setMySet(actionDoneData.playerBet);
+			//assert(tmpPlayer->getMyCash() == actionDoneData.curPlayerMoney); // TODO: throw exception
+			client.GetGame()->getCurrentHand()->getBoard()->setPot(actionDoneData.potSize);
+			client.GetGame()->getCurrentHand()->getBoard()->setSets(actionDoneData.curHandBets);
+			client.GetGui().refreshSet();
+			client.GetGui().refreshPot();
+			client.GetGui().refreshAction();
+		}
+		else if (tmpPacket->ToNetPacketPlayersTurn())
+		{
+			NetPacketPlayersTurn::Data turnData;
+			tmpPacket->ToNetPacketPlayersTurn()->GetData(turnData);
+			PlayerInterface *tmpPlayer = client.GetGame()->getPlayerByUniqueId(turnData.playerId);
+			assert(tmpPlayer); // TODO: throw exception
+
+			if (tmpPlayer->getMyID() == 0) // Is this the GUI player?
 			{
-				if (tmpData.gameState == GAME_STATE_PREFLOP_SMALL_BLIND)
-				{
-					assert(tmpPlayer->getMyButton() == BUTTON_SMALL_BLIND);
-					tmpPlayer->setMyAction(tmpData.playerAction);
-					tmpPlayer->setMySet(tmpData.cashValue);
-					client.GetGui().refreshSet();
-					client.GetGui().refreshPot();
-				}
-				else if (tmpData.gameState == GAME_STATE_PREFLOP_BIG_BLIND)
-				{
-					assert(tmpPlayer->getMyButton() == BUTTON_BIG_BLIND);
-					tmpPlayer->setMyAction(tmpData.playerAction);
-					tmpPlayer->setMySet(tmpData.cashValue);
-					client.GetGui().refreshSet();
-					client.GetGui().refreshPot();
-				}
+				client.GetGui().meInAction();
 			}
 		}
 	}

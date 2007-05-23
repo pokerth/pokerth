@@ -51,6 +51,8 @@ public:
 		const std::string &pwd,
 		const std::string &playerName);
 
+	void SendPlayerAction();
+
 	ClientCallback &GetCallback();
 	GuiInterface &GetGui();
 

@@ -40,6 +40,7 @@ public:
 	int getPot() const {  return pot;}
 	void setPot(int theValue) {  pot = theValue;}
 	int getSets() const { return sets; }
+	void setSets(int theValue) { sets = theValue; }
 
 	void collectSets() ;
 	void collectPot() ;

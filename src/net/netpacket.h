@@ -269,7 +269,7 @@ public:
 	{
 		GameState		gameState;
 		PlayerAction	playerAction;
-		u_int32_t		cashValue;
+		u_int32_t		playerBet;
 	};
 
 	NetPacketPlayersAction();
@@ -295,7 +295,10 @@ public:
 		GameState		gameState;
 		u_int16_t		playerId;
 		PlayerAction	playerAction;
-		u_int32_t		cashValue;
+		u_int32_t		playerBet;
+		u_int32_t		curPlayerMoney;
+		u_int32_t		potSize;
+		u_int32_t		curHandBets;
 	};
 
 	NetPacketPlayersActionDone();
@@ -321,7 +324,7 @@ public:
 	{
 		GameState		gameState;
 		PlayerAction	playerAction;
-		u_int32_t		cashValue;
+		u_int32_t		playerBet;
 		int				rejectionReason;
 	};
 

@@ -135,6 +135,28 @@ protected:
 	PlayerInterface *GetCurrentPlayer(Game &curGame);
 };
 
+// State: Wait for a player action.
+class ServerRecvStateWaitPlayerAction : public ServerRecvState
+{
+public:
+	// Access the state singleton.
+	static ServerRecvStateWaitPlayerAction &Instance();
+
+	virtual ~ServerRecvStateWaitPlayerAction();
+
+	// 
+	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
+
+	// 
+	virtual int Process(ServerRecvThread &server);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ServerRecvStateWaitPlayerAction();
+};
+
+
 // State: Final.
 class ServerRecvStateFinal : public ServerRecvState
 {
