@@ -287,5 +287,21 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>treeWidget</sender>
+   <signal>itemDoubleClicked(QTreeWidgetItem*,int)</signal>
+   <receiver>pushButton_connect</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>113</x>
+     <y>206</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>394</x>
+     <y>427</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>

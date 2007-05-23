@@ -39,8 +39,17 @@ public slots:
 	void cancel();
 	void addConnectedPlayer(QString playerName);
 	void removePlayer(QString playerName);
-	
+	void checkPlayerQuantity();
+
 	void keyPressEvent ( QKeyEvent*);
+
+	void setMaxPlayerNumber ( int theValue ) { maxPlayerNumber = theValue; label_maxPlayerNumber->setText(QString::number(theValue,10)); }
+	int getMaxPlayerNumber() const { return maxPlayerNumber; }
+	
+
+private: 
+
+	int maxPlayerNumber;
 };
 
 #endif

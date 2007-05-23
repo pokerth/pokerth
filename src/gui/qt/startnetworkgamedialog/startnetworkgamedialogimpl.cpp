@@ -45,6 +45,8 @@ void startNetworkGameDialogImpl::addConnectedPlayer(QString playerName) {
 
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget,0);
 	item->setData(0, 0, playerName);
+	
+	checkPlayerQuantity();
 }
 
 void startNetworkGameDialogImpl::removePlayer(QString playerName) {
@@ -53,6 +55,15 @@ void startNetworkGameDialogImpl::removePlayer(QString playerName) {
 	if(!list.empty()) { 
 		treeWidget->takeTopLevelItem(treeWidget->indexOfTopLevelItem(list[0]));
 	}
+
+	checkPlayerQuantity();
+}
+
+void startNetworkGameDialogImpl::checkPlayerQuantity() {
+
+	if(treeWidget->topLevelItemCount() == maxPlayerNumber) pushButton_startGame->setEnabled(TRUE);
+	else pushButton_startGame->setDisabled(TRUE);
+
 }
 
 void startNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {

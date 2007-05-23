@@ -703,6 +703,7 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		myServerGuiInterface->getSession().startNetworkServer(gameData);
 		mySession->startNetworkClientForLocalServer();
 
+		myStartNetworkGameDialog->setMaxPlayerNumber(gameData.numberOfPlayers);
 		myStartNetworkGameDialog->exec();
 		
 
