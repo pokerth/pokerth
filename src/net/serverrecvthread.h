@@ -83,6 +83,7 @@ protected:
 
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
 	typedef std::map<SOCKET, SessionWrapper> SocketSessionMap;
+	typedef std::list<SessionWrapper> SessionList;
 	typedef std::deque<Notification> NotificationQueue;
 	typedef std::list<std::pair<boost::microsec_timer, boost::shared_ptr<SessionData> > > CloseSessionList;
 
@@ -102,7 +103,9 @@ protected:
 	SessionWrapper GetSession(SOCKET sock);
 	void AddSession(boost::shared_ptr<SessionData> sessionData); // new Sessions have no player data
 	void SessionError(SessionWrapper session, int errorCode);
+	void RejectNewConnection(boost::shared_ptr<ConnectData> connData);
 	void CloseSessionDelayed(SessionWrapper session);
+	void RemoveNotEstablishedSessions();
 
 	size_t GetCurNumberOfPlayers() const;
 	bool IsPlayerConnected(const std::string &playerName) const;
@@ -163,6 +166,7 @@ friend class ServerRecvStateInit;
 friend class ServerRecvStateStartGame;
 friend class ServerRecvStateStartHand;
 friend class ServerRecvStateStartRound;
+friend class ServerRecvStateFinal;
 };
 
 #endif

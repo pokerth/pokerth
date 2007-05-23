@@ -120,6 +120,15 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 				return retVal;
 			}
 
+			size_t curNumPlayers = server.GetCurNumberOfPlayers();
+
+			// Check the number of players.
+			if (curNumPlayers >= (size_t)server.GetGameData().numberOfPlayers)
+			{
+				server.SessionError(session, ERR_NET_SERVER_FULL);
+				return retVal;
+			}
+
 			// Check the server password.
 			if (!server.CheckPassword(joinGameData.password))
 			{
@@ -127,12 +136,11 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 				return retVal;
 			}
 
-			size_t curNumPlayers = server.GetCurNumberOfPlayers();
-
-			// Check the number of players.
-			if (curNumPlayers >= (size_t)server.GetGameData().numberOfPlayers)
+			// Check whether the player name is correct.
+			// Paranoia check, this is also done in netpacket.
+			if (joinGameData.playerName.empty() || joinGameData.playerName.size() > MAX_NAME_SIZE)
 			{
-				server.SessionError(session, ERR_NET_SERVER_FULL);
+				server.SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
 				return retVal;
 			}
 
@@ -177,7 +185,7 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 				++player_i;
 			}
 
-			// Send "Player Joined" to other clients.
+			// Send "Player Joined" to other fully connected clients.
 			boost::shared_ptr<NetPacket> thisPlayerJoined(new NetPacketPlayerJoined);
 			NetPacketPlayerJoined::Data thisPlayerJoinedData;
 			thisPlayerJoinedData.playerId = tmpPlayerData->GetUniqueId();
@@ -185,7 +193,7 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 			thisPlayerJoinedData.playerNumber = tmpPlayerData->GetNumber();
 			thisPlayerJoinedData.ptype = tmpPlayerData->GetType();
 			static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
-			server.SendToAllButOnePlayers(thisPlayerJoined, session.sessionData->GetSocket());
+			server.SendToAllPlayers(thisPlayerJoined);
 
 			// Set player data for session.
 			server.SetSessionPlayerData(session.sessionData, tmpPlayerData);
@@ -217,7 +225,8 @@ ServerRecvStateStartGame::~ServerRecvStateStartGame()
 void
 ServerRecvStateStartGame::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
 {
-	// TODO: send error msg
+	// Do not accept new connections in this state.
+	server.RejectNewConnection(connData);
 }
 
 int
@@ -255,7 +264,8 @@ ServerRecvStateStartHand::~ServerRecvStateStartHand()
 void
 ServerRecvStateStartHand::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
 {
-	// TODO: send error msg
+	// Do not accept new connections in this state.
+	server.RejectNewConnection(connData);
 }
 
 int
@@ -271,24 +281,20 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 	// Send cards to all players.
 	for (int i = 0; i < curGame.getActualQuantityPlayers(); i++)
 	{
-		if (playerArray[i]->getNetSessionData().get()) // TODO: this is an assert.
-		{
-			int cards[2];
-			playerArray[i]->getMyCards(cards);
-			boost::shared_ptr<NetPacket> notifyCards(new NetPacketHandStart);
-			NetPacketHandStart::Data handStartData;
-			handStartData.yourCards[0] = static_cast<unsigned>(cards[0]);
-			handStartData.yourCards[1] = static_cast<unsigned>(cards[1]);
-			static_cast<NetPacketHandStart *>(notifyCards.get())->SetData(handStartData);
+		assert(playerArray[i]->getNetSessionData().get()); // TODO throw exception
 
-			server.GetSender().Send(playerArray[i]->getNetSessionData()->GetSocket(), notifyCards);
-		}
+		int cards[2];
+		playerArray[i]->getMyCards(cards);
+		boost::shared_ptr<NetPacket> notifyCards(new NetPacketHandStart);
+		NetPacketHandStart::Data handStartData;
+		handStartData.yourCards[0] = static_cast<unsigned>(cards[0]);
+		handStartData.yourCards[1] = static_cast<unsigned>(cards[1]);
+		static_cast<NetPacketHandStart *>(notifyCards.get())->SetData(handStartData);
+
+		server.GetSender().Send(playerArray[i]->getNetSessionData()->GetSocket(), notifyCards);
 	}
 
-	// Start hand.
-	curGame.startHand();
-
-	// Auto small blind / big blind at the beginning of preflop.
+	// Auto small blind / big blind at the beginning of hand.
 	for (int i = 0; i < curGame.getActualQuantityPlayers(); i++)
 	{
 		if(playerArray[i]->getMyButton() == BUTTON_SMALL_BLIND)
@@ -320,6 +326,9 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 		}
 	}
 
+	// Start hand.
+	curGame.startHand();
+
 	server.SetState(ServerRecvStateStartRound::Instance());
 
 	return MSG_NET_GAME_SERVER_HAND;
@@ -345,7 +354,8 @@ ServerRecvStateStartRound::~ServerRecvStateStartRound()
 void
 ServerRecvStateStartRound::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
 {
-	// TODO: send error msg
+	// Do not accept new connections in this state.
+	server.RejectNewConnection(connData);
 }
 
 int
@@ -403,7 +413,7 @@ ServerRecvStateStartRound::GameRun(Game &curGame, int state)
 			curGame.getCurrentHand()->getRiver()->riverRun();
 		} break;
 		default: {
-			// TODO
+			// 
 		}
 	}
 }
@@ -427,7 +437,7 @@ ServerRecvStateStartRound::GetCurrentPlayer(Game &curGame)
 			curPlayerNum = curGame.getCurrentHand()->getRiver()->getPlayersTurn();
 		} break;
 		default: {
-			// TODO
+			// 
 		}
 	}
 	assert(curPlayerNum < curGame.getActualQuantityPlayers());
@@ -455,7 +465,8 @@ ServerRecvStateFinal::~ServerRecvStateFinal()
 void
 ServerRecvStateFinal::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
 {
-	// TODO: send error msg
+	// Do not accept new connections in this state.
+	server.RejectNewConnection(connData);
 }
 
 int

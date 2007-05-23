@@ -246,10 +246,16 @@ ServerRecvThread::CleanupSessionMap()
 void
 ServerRecvThread::InternalStartGame()
 {
+	SetState(SERVER_START_GAME_STATE::Instance());
+
+	// Kick all players which are not fully connected.
+	RemoveNotEstablishedSessions();
+
+	// Initialize the game.
 	GuiInterface &gui = GetGui();
 	PlayerDataList playerData = GetPlayerDataList();
 
-	// EngineFactory erstellen
+	// Create EngineFactory
 	boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(m_playerConfig)); // LocalEngine erstellen
 
 	// Set dealer pos.
@@ -274,12 +280,11 @@ ServerRecvThread::InternalStartGame()
 		}
 		++player_i;
 	}
-	assert(randDealerFound);
+	assert(randDealerFound); // TODO: Throw exception.
 
 	SetStartData(startData);
 
 	m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), m_curGameId++));
-	SetState(SERVER_START_GAME_STATE::Instance());
 }
 
 SessionWrapper
@@ -321,6 +326,15 @@ ServerRecvThread::SessionError(SessionWrapper session, int errorCode)
 }
 
 void
+ServerRecvThread::RejectNewConnection(boost::shared_ptr<ConnectData> connData)
+{
+	// Create a generic session with Id 0.
+	boost::shared_ptr<SessionData> sessionData(new SessionData(connData->ReleaseSocket(), 0));
+	// Gracefully close this session.
+	SessionError(SessionWrapper(sessionData, boost::shared_ptr<PlayerData>()), ERR_NET_GAME_ALREADY_RUNNING);
+}
+
+void
 ServerRecvThread::CloseSessionDelayed(SessionWrapper session)
 {
 	{
@@ -348,6 +362,39 @@ ServerRecvThread::CloseSessionDelayed(SessionWrapper session)
 	m_closeSessionList.push_back(closeSessionData);
 }
 
+void
+ServerRecvThread::RemoveNotEstablishedSessions()
+{
+	SessionList removeList;
+
+	SocketSessionMap::iterator session_i = m_sessionMap.begin();
+	SocketSessionMap::iterator session_end = m_sessionMap.end();
+
+	while (session_i != session_end)
+	{
+		// Remove all players which are not fully connected.
+		assert(session_i->second.sessionData.get());
+		if (session_i->second.sessionData->GetState() != SessionData::Established)
+		{
+			// Do not mess with the map within this loop.
+			// Just store what needs to be removed.
+			removeList.push_back(session_i->second);
+		}
+		++session_i;
+	}
+
+	SessionList::iterator remove_i = removeList.begin();
+	SessionList::iterator remove_end = removeList.end();
+
+	while (remove_i != remove_end)
+	{
+		// Inform the players that we are starting without them.
+		// Gracefully remove them from the server.
+		SessionError(*remove_i, ERR_NET_GAME_ALREADY_RUNNING);
+		++remove_i;
+	}
+}
+
 size_t
 ServerRecvThread::GetCurNumberOfPlayers() const
 {
@@ -364,6 +411,7 @@ ServerRecvThread::IsPlayerConnected(const std::string &playerName) const
 	PlayerDataList::const_iterator player_i = playerList.begin();
 	PlayerDataList::const_iterator player_end = playerList.end();
 
+	// Check by name - the name is unique.
 	while (player_i != player_end)
 	{
 		if ((*player_i)->GetName() == playerName)
@@ -380,19 +428,19 @@ ServerRecvThread::IsPlayerConnected(const std::string &playerName) const
 void
 ServerRecvThread::SetSessionPlayerData(boost::shared_ptr<SessionData> sessionData, boost::shared_ptr<PlayerData> playerData)
 {
-	if (playerData.get() && !playerData->GetName().empty())
+	assert(playerData.get());
+	assert(!playerData->GetName().empty());
+	assert(sessionData.get());
+
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SocketSessionMap::iterator pos = m_sessionMap.find(sessionData->GetSocket());
+	if (pos != m_sessionMap.end())
 	{
-		assert(sessionData.get());
-		boost::mutex::scoped_lock lock(m_sessionMapMutex);
+		pos->second.playerData = playerData;
 
-		SocketSessionMap::iterator pos = m_sessionMap.find(sessionData->GetSocket());
-		if (pos != m_sessionMap.end())
-		{
-			pos->second.playerData = playerData;
-
-			// Signal joining player to GUI.
-			GetCallback().SignalNetServerPlayerJoined(playerData->GetName());
-		}
+		// Signal joining player to GUI.
+		GetCallback().SignalNetServerPlayerJoined(playerData->GetName());
 	}
 }
 
@@ -407,9 +455,14 @@ ServerRecvThread::GetPlayerDataList() const
 
 	while (session_i != session_end)
 	{
-		boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
-		if (tmpPlayer.get() && !tmpPlayer->GetName().empty())
+		// Get all players which are fully connected.
+		if (session_i->second.sessionData->GetState() == SessionData::Established)
+		{
+			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
+			assert(tmpPlayer.get());
+			assert(!tmpPlayer->GetName().empty());
 			playerList.push_back(tmpPlayer);
+		}
 		++session_i;
 	}
 	// Sort the list by player number.
@@ -460,8 +513,11 @@ ServerRecvThread::SendToAllPlayers(boost::shared_ptr<NetPacket> packet)
 
 	while (i != end)
 	{
-		// Send each client a copy of the packet.
-		GetSender().Send(i->first, boost::shared_ptr<NetPacket>(packet->Clone()));
+		assert(i->second.sessionData.get());
+
+		// Send each fully connected client a copy of the packet.
+		if (i->second.sessionData->GetState() == SessionData::Established)
+			GetSender().Send(i->first, boost::shared_ptr<NetPacket>(packet->Clone()));
 		++i;
 	}
 }
@@ -477,9 +533,10 @@ ServerRecvThread::SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SO
 
 	while (i != end)
 	{
-		// Send each client but one a copy of the packet.
-		if (i->first != except)
-			GetSender().Send(i->first, boost::shared_ptr<NetPacket>(packet->Clone()));
+		// Send each fully connected client but one a copy of the packet.
+		if (i->second.sessionData->GetState() == SessionData::Established)
+			if (i->first != except)
+				GetSender().Send(i->first, boost::shared_ptr<NetPacket>(packet->Clone()));
 		++i;
 	}
 }
