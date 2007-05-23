@@ -308,8 +308,8 @@ void LocalHand::switchRounds() {
 		// 2) alle bis auf einen All In und der hat HighestSet
 		int tempHighestSet;
 		if(allInPlayersCounter+1 == activePlayersCounter) {
-			// Spieler ermitteln, der noch nicht All In ist
 			for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+				// Spieler ermitteln, der noch nicht All In ist
 				if(playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyAction() != 6 && playerArray[i]->getMyActiveStatus() == 1) {	
 					tempHighestSet = 0;
 					switch (actualRound) {
@@ -328,7 +328,14 @@ void LocalHand::switchRounds() {
 					if(playerArray[i]->getMySet() >= tempHighestSet) {
 						allInCondition = 1;
 					}
+
 				}
+
+				// HeadsUp-Ausnahme -> spieler ermitteln, der all in ist und als bb nur weniger als sb setzen konnte
+				if(activePlayersCounter==2 && playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyAction() == 6 && playerArray[i]->getMyActiveStatus() == 1 && playerArray[i]->getMyButton()==3 && playerArray[i]->getMySet()<=smallBlind) {
+						allInCondition = 1;
+				}
+
 			}
 		}
 	}
