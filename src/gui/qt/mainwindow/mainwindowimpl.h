@@ -42,6 +42,7 @@ class PlayerInterface;
 class MyCardsPixmapLabel;
 class newGameDialogImpl;
 class settingsDialogImpl;
+class selectAvatarDialogImpl;
 class aboutPokerthImpl;
 class joinNetworkGameDialogImpl;
 class connectToServerDialogImpl;
@@ -323,6 +324,7 @@ private:
 	aboutPokerthImpl *myAboutPokerthDialog;
 	newGameDialogImpl *myNewGameDialog;
 	settingsDialogImpl *mySettingsDialog;
+	selectAvatarDialogImpl *mySelectAvatarDialog;
 	joinNetworkGameDialogImpl *myJoinNetworkGameDialog;
 	connectToServerDialogImpl *myConnectToServerDialog;
 	startNetworkGameDialogImpl *myStartNetworkGameDialog;

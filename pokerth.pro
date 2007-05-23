@@ -26,6 +26,7 @@ INCLUDEPATH += . \
 		src/gui/qt/joinnetworkgamedialog \
 		src/gui/qt/newlocalgamedialog \
 		src/gui/qt/settingsdialog \
+		src/gui/qt/settingsdialog/selectavatardialog \
 		src/gui/qt/startnetworkgamedialog \
 		src/gui/qt/waitforservertostartgamedialog
 
@@ -53,6 +54,7 @@ DEPENDPATH += . \
               src/gui/qt/qttools/qthelper \
               src/gui/qt/newlocalgamedialog \
               src/gui/qt/settingsdialog \
+	      src/gui/qt/settingsdialog/selectavatardialog \
               src/gui/qt/startnetworkgamedialog \
               src/gui/qt/waitforservertostartgamedialog
 # Input
@@ -116,6 +118,7 @@ HEADERS += src/game.h \
            src/gui/qt/log/log.h \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.h \
            src/gui/qt/settingsdialog/settingsdialogimpl.h \
+	   src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.h \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.h \
            src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.h \
            src/gui/qttoolsinterface.h \
@@ -129,6 +132,7 @@ FORMS += src/gui/qt/mainwindow.ui \
          src/gui/qt/joinnetworkgamedialog.ui \
          src/gui/qt/newgamedialog.ui \
          src/gui/qt/settingsdialog.ui \
+	 src/gui/qt/selectavatardialog.ui \
          src/gui/qt/startnetworkgamedialog.ui \
          src/gui/qt/waitforservertostartgamedialog.ui
 SOURCES += src/game.cpp \
@@ -200,6 +204,7 @@ SOURCES += src/game.cpp \
            src/gui/qt/log/log.cpp \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.cpp \
            src/gui/qt/settingsdialog/settingsdialogimpl.cpp \
+	   src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp \
            src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.cpp  \
            src/gui/qttoolsinterface.cpp \

@@ -18,12 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "settingsdialogimpl.h"
+
 #include "configfile.h"
 #include <iostream>
 
 
-settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c)
-    : QDialog(parent), myConfig(c)
+settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAvatarDialogImpl *s)
+    : QDialog(parent), myConfig(c), mySelectAvatarDialogImpl(s)
 {
 
 	 setupUi(this);
@@ -47,6 +48,8 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c)
 	connect( pushButton_openAvatarFile4, SIGNAL( clicked() ), this, SLOT( setAvatarFile4()) );
 	connect( pushButton_openAvatarFile5, SIGNAL( clicked() ), this, SLOT( setAvatarFile5()) );
 	connect( pushButton_openAvatarFile6, SIGNAL( clicked() ), this, SLOT( setAvatarFile6()) );
+
+	connect( checkBox_showIntro, SIGNAL( clicked() ), this, SLOT( callSelectAvatarDialog()) ); 
 
 }
 

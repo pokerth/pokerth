@@ -21,16 +21,18 @@
 #define SETTINGSDIALOGIMPL_H
 
 #include "ui_settingsdialog.h"
+#include "selectavatardialogimpl.h"
 
 #include <QtCore>
 #include <QtGui>
 
 class ConfigFile;
+class selectAvatarDialogImpl;
 
 class settingsDialogImpl: public QDialog, public Ui::settingsDialog {
 Q_OBJECT
 public:
-    settingsDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
+    settingsDialogImpl(QWidget *parent = 0, ConfigFile *c = 0, selectAvatarDialogImpl *s = 0);
 	
 	void exec();
 
@@ -52,12 +54,16 @@ public slots:
 	void setAvatarFile4();
 	void setAvatarFile5();
 	void setAvatarFile6();
+
+	void callSelectAvatarDialog() { mySelectAvatarDialogImpl->exec(); } 
+
 private:
 	
 	bool playerNickIsChanged;
 	bool settingsCorrect;
 	
 	ConfigFile* myConfig;
+	selectAvatarDialogImpl* mySelectAvatarDialogImpl;
 
 };
 

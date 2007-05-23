@@ -1,0 +1,135 @@
+<ui version="4.0" >
+ <class>selectAvatarDialog</class>
+ <widget class="QDialog" name="selectAvatarDialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>879</width>
+    <height>523</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Please select an avatar</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox" >
+   <property name="geometry" >
+    <rect>
+     <x>480</x>
+     <y>480</y>
+     <width>341</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons" >
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>30</x>
+     <y>10</y>
+     <width>581</width>
+     <height>351</height>
+    </rect>
+   </property>
+   <property name="showGrid" >
+    <bool>false</bool>
+   </property>
+   <row>
+    <property name="text" >
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text" >
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text" >
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text" >
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text" >
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text" >
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text" >
+     <string>New Row</string>
+    </property>
+   </row>
+   <column>
+    <property name="text" >
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>New Column</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>selectAvatarDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>selectAvatarDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

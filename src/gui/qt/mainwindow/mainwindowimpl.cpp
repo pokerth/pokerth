@@ -22,6 +22,7 @@
 #include "newgamedialogimpl.h"
 #include "aboutpokerthimpl.h"
 #include "settingsdialogimpl.h"
+#include "selectavatardialogimpl.h"
 #include "joinnetworkgamedialogimpl.h"
 #include "connecttoserverdialogimpl.h"
 #include "createnetworkgamedialogimpl.h"
@@ -497,7 +498,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	//Dialoge 
 	myNewGameDialog = new newGameDialogImpl(this, myConfig);
-	mySettingsDialog = new settingsDialogImpl(this, myConfig);
+	mySelectAvatarDialog = new selectAvatarDialogImpl(this, myConfig);
+	mySettingsDialog = new settingsDialogImpl(this, myConfig, mySelectAvatarDialog);	
 	myJoinNetworkGameDialog = new joinNetworkGameDialogImpl(this, myConfig);
 	myConnectToServerDialog = new connectToServerDialogImpl(this);
 	myStartNetworkGameDialog = new startNetworkGameDialogImpl(this);
