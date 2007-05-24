@@ -1057,9 +1057,10 @@ void mainWindowImpl::refreshCash() {
 
 void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 
+	int i,j;
+
 	if(playerID == -1 || status == -1) {
 
-		int i,j;
 		HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 	
@@ -1108,7 +1109,11 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 		//inactive
 		case 0: { 
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxInactiveGlow.png) }"); 			
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxInactiveGlow.png) }"); 	
+					//hide buttons
+					for(j=0; j<4; j++) {
+						userWidgetsArray[j]->hide();
+					}					
 				}
 				else {
 					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); 
@@ -1118,7 +1123,11 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 		//active but fold
 		case 1: {
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxInactiveGlow.png) }"); 			
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxInactiveGlow.png) }"); 	
+					//show buttons
+					for(j=0; j<3; j++) {
+						userWidgetsArray[j]->show();
+					}		
 				}
 				else {
 					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); 
@@ -1128,7 +1137,7 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 		//active in action
 		case 2:  {
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxActiveGlow.png) }"); 			
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxActiveGlow.png) }"); 
 				}
 				else {
 					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxActiveGlow.png) }"); 
