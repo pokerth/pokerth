@@ -41,6 +41,7 @@
 #include "tools.h"
 
 #include "log.h"
+#include "chat.h"
 #include "configfile.h"
 #include <gamedata.h>
 #include <generic/serverguiwrapper.h>
@@ -1141,6 +1142,16 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 				}
 				else {
 					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxActiveGlow.png) }"); 
+				}
+			}
+		break;
+		//active not in action
+		case 3:  {
+				if (!playerID) {
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/playerBoxInactiveGlow.png) }"); 	
+				}
+				else {
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(:/guiv2/resources/guiv2/opponentBoxInactiveGlow.png) }"); 
 				}
 			}
 		break;
