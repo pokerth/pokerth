@@ -135,8 +135,8 @@ protected:
 	// Protected constructor - this is a singleton.
 	ServerRecvStateStartRound();
 
-	void GameRun(Game &curGame, int state);
-	PlayerInterface *GetCurrentPlayer(Game &curGame);
+	static void GameRun(Game &curGame, int state);
+	static PlayerInterface *GetCurrentPlayer(Game &curGame);
 };
 
 // State: Wait for a player action.
@@ -155,6 +155,9 @@ protected:
 
 	// Protected constructor - this is a singleton.
 	ServerRecvStateWaitPlayerAction();
+
+	static int GetHighestSet(Game &curGame);
+	static void SetHighestSet(Game &curGame, int highestSet);
 };
 
 

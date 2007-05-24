@@ -31,6 +31,7 @@
 class ClientThread;
 class ClientCallback;
 class ResolverThread;
+class Game;
 
 class ClientState
 {
@@ -235,6 +236,11 @@ protected:
 
 	// Protected constructor - this is a singleton.
 	ClientStateRunHand();
+
+	static int GetHighestSet(Game &curGame);
+	static void SetHighestSet(Game &curGame, int highestSet);
+	static int GetPlayersTurn(Game &curGame);
+	static void SetPlayersTurn(Game &curGame, int playersTurn);
 };
 
 // State: Final (TODO).

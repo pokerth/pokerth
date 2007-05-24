@@ -500,6 +500,9 @@ ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 				tmpPlayer->setMyAction(actionData.playerAction);
 				tmpPlayer->setMySet(actionData.playerBet);
 
+				if (tmpPlayer->getMySet() > GetHighestSet(curGame))
+					SetHighestSet(curGame, tmpPlayer->getMySet());
+
 				boost::shared_ptr<NetPacket> notifyActionDone(new NetPacketPlayersActionDone);
 				NetPacketPlayersActionDone::Data actionDoneData;
 				actionDoneData.gameState = static_cast<GameState>(curGame.getCurrentHand()->getActualRound());
@@ -519,6 +522,54 @@ ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 	}
 
 	return retVal;
+}
+
+int
+ServerRecvStateWaitPlayerAction::GetHighestSet(Game &curGame)
+{
+	int highestSet = 0;
+	// TODO: no switch needed here if game states are polymorphic
+	switch(curGame.getCurrentHand()->getActualRound()) {
+		case GAME_STATE_PREFLOP: {
+			highestSet = curGame.getCurrentHand()->getPreflop()->getHighestSet();
+		} break;
+		case GAME_STATE_FLOP: {
+			highestSet = curGame.getCurrentHand()->getFlop()->getHighestSet();
+		} break;
+		case GAME_STATE_TURN: {
+			highestSet = curGame.getCurrentHand()->getTurn()->getHighestSet();
+		} break;
+		case GAME_STATE_RIVER: {
+			highestSet = curGame.getCurrentHand()->getRiver()->getHighestSet();
+		} break;
+		default: {
+			// 
+		}
+	}
+	return highestSet;
+}
+
+void
+ServerRecvStateWaitPlayerAction::SetHighestSet(Game &curGame, int highestSet)
+{
+	// TODO: no switch needed here if game states are polymorphic
+	switch(curGame.getCurrentHand()->getActualRound()) {
+		case GAME_STATE_PREFLOP: {
+			curGame.getCurrentHand()->getPreflop()->setHighestSet(highestSet);
+		} break;
+		case GAME_STATE_FLOP: {
+			curGame.getCurrentHand()->getFlop()->setHighestSet(highestSet);
+		} break;
+		case GAME_STATE_TURN: {
+			curGame.getCurrentHand()->getTurn()->setHighestSet(highestSet);
+		} break;
+		case GAME_STATE_RIVER: {
+			curGame.getCurrentHand()->getRiver()->setHighestSet(highestSet);
+		} break;
+		default: {
+			// 
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------

@@ -573,9 +573,19 @@ ClientStateRunHand::Process(ClientThread &client)
 			tmpPlayer->setMyCash(actionDoneData.playerMoney);
 			curGame->getCurrentHand()->getBoard()->setPot(actionDoneData.potSize);
 			curGame->getCurrentHand()->getBoard()->setSets(actionDoneData.curHandBets);
+
+			// Update highest set
+			if (tmpPlayer->getMySet() > GetHighestSet(*curGame))
+				SetHighestSet(*curGame, tmpPlayer->getMySet());
+
+			// Unmark last player in GUI.
+			client.GetGui().refreshGroupbox(tmpPlayer->getMyID(), 3);
+
+			// Refresh GUI
 			client.GetGui().refreshSet();
 			client.GetGui().refreshPot();
 			client.GetGui().refreshAction();
+			client.GetGui().refreshCash();
 		}
 		else if (tmpPacket->ToNetPacketPlayersTurn())
 		{
@@ -588,26 +598,15 @@ ClientStateRunHand::Process(ClientThread &client)
 			curGame->getCurrentHand()->setActualRound(turnData.gameState);
 
 			// Next player's turn.
-			// TODO: no switch needed here if game states are polymorphic
-			switch(turnData.gameState) {
-				case GAME_STATE_PREFLOP: {
-					curGame->getCurrentHand()->getPreflop()->setPlayersTurn(tmpPlayer->getMyID());
-				} break;
-				case GAME_STATE_FLOP: {
-					curGame->getCurrentHand()->getFlop()->setPlayersTurn(tmpPlayer->getMyID());
-				} break;
-				case GAME_STATE_TURN: {
-					curGame->getCurrentHand()->getTurn()->setPlayersTurn(tmpPlayer->getMyID());
-				} break;
-				case GAME_STATE_RIVER: {
-					curGame->getCurrentHand()->getRiver()->setPlayersTurn(tmpPlayer->getMyID());
-				} break;
-				default: {
-					// 
-				}
-			}
+			SetPlayersTurn(*curGame, tmpPlayer->getMyID());
 
-			client.GetGui().nextPlayerAnimation();
+			// Mark current player in GUI.
+			int guiStatus = 2;
+			if (!tmpPlayer->getMyActiveStatus())
+				guiStatus = 0;
+			else if (tmpPlayer->getMyAction() == PLAYER_ACTION_FOLD)
+				guiStatus = 1;
+			client.GetGui().refreshGroupbox(tmpPlayer->getMyID(), guiStatus);
 
 			if (tmpPlayer->getMyID() == 0) // Is this the GUI player?
 				client.GetGui().meInAction();
@@ -615,6 +614,103 @@ ClientStateRunHand::Process(ClientThread &client)
 	}
 
 	return MSG_SOCK_INTERNAL_PENDING;
+}
+
+
+int
+ClientStateRunHand::GetHighestSet(Game &curGame)
+{
+	int highestSet = 0;
+	// TODO: no switch needed here if game states are polymorphic
+	switch(curGame.getCurrentHand()->getActualRound()) {
+		case GAME_STATE_PREFLOP: {
+			highestSet = curGame.getCurrentHand()->getPreflop()->getHighestSet();
+		} break;
+		case GAME_STATE_FLOP: {
+			highestSet = curGame.getCurrentHand()->getFlop()->getHighestSet();
+		} break;
+		case GAME_STATE_TURN: {
+			highestSet = curGame.getCurrentHand()->getTurn()->getHighestSet();
+		} break;
+		case GAME_STATE_RIVER: {
+			highestSet = curGame.getCurrentHand()->getRiver()->getHighestSet();
+		} break;
+		default: {
+			// 
+		}
+	}
+	return highestSet;
+}
+
+void
+ClientStateRunHand::SetHighestSet(Game &curGame, int highestSet)
+{
+	// TODO: no switch needed here if game states are polymorphic
+	switch(curGame.getCurrentHand()->getActualRound()) {
+		case GAME_STATE_PREFLOP: {
+			curGame.getCurrentHand()->getPreflop()->setHighestSet(highestSet);
+		} break;
+		case GAME_STATE_FLOP: {
+			curGame.getCurrentHand()->getFlop()->setHighestSet(highestSet);
+		} break;
+		case GAME_STATE_TURN: {
+			curGame.getCurrentHand()->getTurn()->setHighestSet(highestSet);
+		} break;
+		case GAME_STATE_RIVER: {
+			curGame.getCurrentHand()->getRiver()->setHighestSet(highestSet);
+		} break;
+		default: {
+			// 
+		}
+	}
+}
+
+int
+ClientStateRunHand::GetPlayersTurn(Game &curGame)
+{
+	int playersTurn = 0;
+	// TODO: no switch needed here if game states are polymorphic
+	switch(curGame.getCurrentHand()->getActualRound()) {
+		case GAME_STATE_PREFLOP: {
+			playersTurn = curGame.getCurrentHand()->getPreflop()->getPlayersTurn();
+		} break;
+		case GAME_STATE_FLOP: {
+			playersTurn = curGame.getCurrentHand()->getFlop()->getPlayersTurn();
+		} break;
+		case GAME_STATE_TURN: {
+			playersTurn = curGame.getCurrentHand()->getTurn()->getPlayersTurn();
+		} break;
+		case GAME_STATE_RIVER: {
+			playersTurn = curGame.getCurrentHand()->getRiver()->getPlayersTurn();
+		} break;
+		default: {
+			// 
+		}
+	}
+	return playersTurn;
+}
+
+void
+ClientStateRunHand::SetPlayersTurn(Game &curGame, int playersTurn)
+{
+	// TODO: no switch needed here if game states are polymorphic
+	switch(curGame.getCurrentHand()->getActualRound()) {
+		case GAME_STATE_PREFLOP: {
+			curGame.getCurrentHand()->getPreflop()->setPlayersTurn(playersTurn);
+		} break;
+		case GAME_STATE_FLOP: {
+			curGame.getCurrentHand()->getFlop()->setPlayersTurn(playersTurn);
+		} break;
+		case GAME_STATE_TURN: {
+			curGame.getCurrentHand()->getTurn()->setPlayersTurn(playersTurn);
+		} break;
+		case GAME_STATE_RIVER: {
+			curGame.getCurrentHand()->getRiver()->setPlayersTurn(playersTurn);
+		} break;
+		default: {
+			// 
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------
