@@ -159,6 +159,8 @@ public slots:
 	void myRaise();
 	void myAllIn();
 
+	void myActionDone();
+
 	void dealFlopCards0();
 	void dealFlopCards1();
 	void dealFlopCards2();

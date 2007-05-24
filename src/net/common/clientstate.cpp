@@ -498,16 +498,18 @@ ClientStateWaitHand::~ClientStateWaitHand()
 int
 ClientStateWaitHand::Process(ClientThread &client)
 {
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
 	ClientContext &context = client.GetContext();
 
-	// delegate to receiver helper class
+	// Delegate to receiver helper class.
 	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
 
 	if (tmpPacket.get())
 	{
-		// TODO: Hack
 		if (tmpPacket->ToNetPacketHandStart())
 		{
+			// Hand was started.
+			// These are the cards. Good luck.
 			NetPacketHandStart::Data tmpData;
 			tmpPacket->ToNetPacketHandStart()->GetData(tmpData);
 			int myCards[2];
@@ -517,12 +519,48 @@ ClientStateWaitHand::Process(ClientThread &client)
 			client.GetGame()->initHand();
 			client.GetGame()->startHand();
 			client.GetGui().dealHoleCards();
+			client.SetState(ClientStateRunHand::Instance());
+
+			retVal = MSG_NET_GAME_CLIENT_HAND;
 		}
-		else if (tmpPacket->ToNetPacketPlayersActionDone())
+	}
+
+	return MSG_SOCK_INTERNAL_PENDING;
+}
+
+//-----------------------------------------------------------------------------
+
+ClientStateRunHand &
+ClientStateRunHand::Instance()
+{
+	static ClientStateRunHand state;
+	return state;
+}
+
+ClientStateRunHand::ClientStateRunHand()
+{
+}
+
+ClientStateRunHand::~ClientStateRunHand()
+{
+}
+
+int
+ClientStateRunHand::Process(ClientThread &client)
+{
+	ClientContext &context = client.GetContext();
+
+	// Delegate to receiver helper class.
+	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
+
+	if (tmpPacket.get())
+	{
+		boost::shared_ptr<Game> curGame = client.GetGame();
+		if (tmpPacket->ToNetPacketPlayersActionDone())
 		{
 			NetPacketPlayersActionDone::Data actionDoneData;
 			tmpPacket->ToNetPacketPlayersActionDone()->GetData(actionDoneData);
-			PlayerInterface *tmpPlayer = client.GetGame()->getPlayerByUniqueId(actionDoneData.playerId);
+			PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(actionDoneData.playerId);
 			assert(tmpPlayer); // TODO: throw exception
 
 			if (actionDoneData.gameState == GAME_STATE_PREFLOP_SMALL_BLIND)
@@ -531,10 +569,10 @@ ClientStateWaitHand::Process(ClientThread &client)
 				tmpPlayer->setMyButton(BUTTON_BIG_BLIND);
 
 			tmpPlayer->setMyAction(actionDoneData.playerAction);
-			tmpPlayer->setMySet(actionDoneData.playerBet);
-			//assert(tmpPlayer->getMyCash() == actionDoneData.curPlayerMoney); // TODO: throw exception
-			client.GetGame()->getCurrentHand()->getBoard()->setPot(actionDoneData.potSize);
-			client.GetGame()->getCurrentHand()->getBoard()->setSets(actionDoneData.curHandBets);
+			tmpPlayer->setMySetAbsolute(actionDoneData.totalPlayerBet);
+			tmpPlayer->setMyCash(actionDoneData.playerMoney);
+			curGame->getCurrentHand()->getBoard()->setPot(actionDoneData.potSize);
+			curGame->getCurrentHand()->getBoard()->setSets(actionDoneData.curHandBets);
 			client.GetGui().refreshSet();
 			client.GetGui().refreshPot();
 			client.GetGui().refreshAction();
@@ -543,13 +581,36 @@ ClientStateWaitHand::Process(ClientThread &client)
 		{
 			NetPacketPlayersTurn::Data turnData;
 			tmpPacket->ToNetPacketPlayersTurn()->GetData(turnData);
-			PlayerInterface *tmpPlayer = client.GetGame()->getPlayerByUniqueId(turnData.playerId);
+			PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(turnData.playerId);
 			assert(tmpPlayer); // TODO: throw exception
 
-			if (tmpPlayer->getMyID() == 0) // Is this the GUI player?
-			{
-				client.GetGui().meInAction();
+			// Set round.
+			curGame->getCurrentHand()->setActualRound(turnData.gameState);
+
+			// Next player's turn.
+			// TODO: no switch needed here if game states are polymorphic
+			switch(turnData.gameState) {
+				case GAME_STATE_PREFLOP: {
+					curGame->getCurrentHand()->getPreflop()->setPlayersTurn(tmpPlayer->getMyID());
+				} break;
+				case GAME_STATE_FLOP: {
+					curGame->getCurrentHand()->getFlop()->setPlayersTurn(tmpPlayer->getMyID());
+				} break;
+				case GAME_STATE_TURN: {
+					curGame->getCurrentHand()->getTurn()->setPlayersTurn(tmpPlayer->getMyID());
+				} break;
+				case GAME_STATE_RIVER: {
+					curGame->getCurrentHand()->getRiver()->setPlayersTurn(tmpPlayer->getMyID());
+				} break;
+				default: {
+					// 
+				}
 			}
+
+			client.GetGui().nextPlayerAnimation();
+
+			if (tmpPlayer->getMyID() == 0) // Is this the GUI player?
+				client.GetGui().meInAction();
 		}
 	}
 

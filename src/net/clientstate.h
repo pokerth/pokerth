@@ -219,6 +219,24 @@ protected:
 	ClientStateWaitHand();
 };
 
+// State: Hand Loop.
+class ClientStateRunHand : public ClientState
+{
+public:
+	// Access the state singleton.
+	static ClientStateRunHand &Instance();
+
+	virtual ~ClientStateRunHand();
+
+	// select on socket.
+	virtual int Process(ClientThread &client);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateRunHand();
+};
+
 // State: Final (TODO).
 class ClientStateFinal : public ClientState
 {

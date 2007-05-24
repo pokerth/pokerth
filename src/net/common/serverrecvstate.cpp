@@ -207,6 +207,23 @@ ServerRecvStateInit::Process(ServerRecvThread &server)
 
 //-----------------------------------------------------------------------------
 
+ServerRecvStateRunning::ServerRecvStateRunning()
+{
+}
+
+ServerRecvStateRunning::~ServerRecvStateRunning()
+{
+}
+
+void
+ServerRecvStateRunning::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
+{
+	// Do not accept new connections in this state.
+	server.RejectNewConnection(connData);
+}
+
+//-----------------------------------------------------------------------------
+
 ServerRecvStateStartGame &
 ServerRecvStateStartGame::Instance()
 {
@@ -220,13 +237,6 @@ ServerRecvStateStartGame::ServerRecvStateStartGame()
 
 ServerRecvStateStartGame::~ServerRecvStateStartGame()
 {
-}
-
-void
-ServerRecvStateStartGame::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
-{
-	// Do not accept new connections in this state.
-	server.RejectNewConnection(connData);
 }
 
 int
@@ -259,13 +269,6 @@ ServerRecvStateStartHand::ServerRecvStateStartHand()
 
 ServerRecvStateStartHand::~ServerRecvStateStartHand()
 {
-}
-
-void
-ServerRecvStateStartHand::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
-{
-	// Do not accept new connections in this state.
-	server.RejectNewConnection(connData);
 }
 
 int
@@ -307,8 +310,8 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 			actionDoneData.gameState = GAME_STATE_PREFLOP_SMALL_BLIND;
 			actionDoneData.playerId = playerArray[i]->getMyUniqueID();
 			actionDoneData.playerAction = (PlayerAction)playerArray[i]->getMyAction();
-			actionDoneData.playerBet = playerArray[i]->getMySet();
-			actionDoneData.curPlayerMoney = playerArray[i]->getMyCash();
+			actionDoneData.totalPlayerBet = playerArray[i]->getMySet();
+			actionDoneData.playerMoney = playerArray[i]->getMyCash();
 			actionDoneData.potSize = curGame.getCurrentHand()->getBoard()->getPot();
 			actionDoneData.curHandBets = playerArray[i]->getMySet(); // first bet only
 			static_cast<NetPacketPlayersActionDone *>(notifySmallBlind.get())->SetData(actionDoneData);
@@ -325,8 +328,8 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 			actionDoneData.gameState = GAME_STATE_PREFLOP_BIG_BLIND;
 			actionDoneData.playerId = playerArray[i]->getMyUniqueID();
 			actionDoneData.playerAction = (PlayerAction)playerArray[i]->getMyAction();
-			actionDoneData.playerBet = playerArray[i]->getMySet();
-			actionDoneData.curPlayerMoney = playerArray[i]->getMyCash();
+			actionDoneData.totalPlayerBet = playerArray[i]->getMySet();
+			actionDoneData.playerMoney = playerArray[i]->getMyCash();
 			actionDoneData.potSize = curGame.getCurrentHand()->getBoard()->getPot();
 			actionDoneData.curHandBets = curGame.getCurrentHand()->getBoard()->getSets();
 			static_cast<NetPacketPlayersActionDone *>(notifyBigBlind.get())->SetData(actionDoneData);
@@ -355,13 +358,6 @@ ServerRecvStateStartRound::ServerRecvStateStartRound()
 
 ServerRecvStateStartRound::~ServerRecvStateStartRound()
 {
-}
-
-void
-ServerRecvStateStartRound::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
-{
-	// Do not accept new connections in this state.
-	server.RejectNewConnection(connData);
 }
 
 int
@@ -402,19 +398,19 @@ ServerRecvStateStartRound::GameRun(Game &curGame, int state)
 {
 	// TODO: no switch needed here if game states are polymorphic
 	switch(state) {
-		case 0: {
+		case GAME_STATE_PREFLOP: {
 			// Preflop starten
 			curGame.getCurrentHand()->getPreflop()->preflopRun();
 		} break;
-		case 1: {
+		case GAME_STATE_FLOP: {
 			// Flop starten
 			curGame.getCurrentHand()->getFlop()->flopRun();
 		} break;
-		case 2: {
+		case GAME_STATE_TURN: {
 			// Turn starten
 			curGame.getCurrentHand()->getTurn()->turnRun();
 		} break;
-		case 3: {
+		case GAME_STATE_RIVER: {
 			// River starten
 			curGame.getCurrentHand()->getRiver()->riverRun();
 		} break;
@@ -430,16 +426,16 @@ ServerRecvStateStartRound::GetCurrentPlayer(Game &curGame)
 	int curPlayerNum = 0;
 	// TODO: no switch needed here if game states are polymorphic
 	switch(curGame.getCurrentHand()->getActualRound()) {
-		case 0: {
+		case GAME_STATE_PREFLOP: {
 			curPlayerNum = curGame.getCurrentHand()->getPreflop()->getPlayersTurn();
 		} break;
-		case 1: {
+		case GAME_STATE_FLOP: {
 			curPlayerNum = curGame.getCurrentHand()->getFlop()->getPlayersTurn();
 		} break;
-		case 2: {
+		case GAME_STATE_TURN: {
 			curPlayerNum = curGame.getCurrentHand()->getTurn()->getPlayersTurn();
 		} break;
-		case 3: {
+		case GAME_STATE_RIVER: {
 			curPlayerNum = curGame.getCurrentHand()->getRiver()->getPlayersTurn();
 		} break;
 		default: {
@@ -467,17 +463,10 @@ ServerRecvStateWaitPlayerAction::~ServerRecvStateWaitPlayerAction()
 {
 }
 
-void
-ServerRecvStateWaitPlayerAction::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
-{
-	// Do not accept new connections in this state.
-	server.RejectNewConnection(connData);
-}
-
 int
 ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 {
-	int retVal = MSG_SOCK_INIT_DONE;
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
 	SOCKET recvSock = server.Select();
 
 	if (recvSock != INVALID_SOCKET)
@@ -505,23 +494,31 @@ ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 				packet->ToNetPacketPlayersAction()->GetData(actionData);
 				
 				Game &curGame = server.GetGame();
+				PlayerInterface *tmpPlayer = curGame.getPlayerByUniqueId(session.playerData->GetUniqueId());
+				assert(tmpPlayer); // TODO throw exception
+
+				tmpPlayer->setMyAction(actionData.playerAction);
+				tmpPlayer->setMySet(actionData.playerBet);
 
 				boost::shared_ptr<NetPacket> notifyActionDone(new NetPacketPlayersActionDone);
 				NetPacketPlayersActionDone::Data actionDoneData;
-				actionDoneData.gameState = GAME_STATE_PREFLOP; // TODO
+				actionDoneData.gameState = static_cast<GameState>(curGame.getCurrentHand()->getActualRound());
 				actionDoneData.playerId = session.playerData->GetUniqueId();
 				actionDoneData.playerAction = actionData.playerAction;
-				actionDoneData.playerBet = actionData.playerBet;
-				actionDoneData.curPlayerMoney = 0;
+				actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
+				actionDoneData.playerMoney = tmpPlayer->getMyCash();
 				actionDoneData.potSize = curGame.getCurrentHand()->getBoard()->getPot();
 				actionDoneData.curHandBets = curGame.getCurrentHand()->getBoard()->getSets();
 				static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
 				server.SendToAllPlayers(notifyActionDone);
+
+				server.SetState(ServerRecvStateStartRound::Instance());
+				retVal = MSG_NET_GAME_SERVER_ACTION;
 			}
 		}
 	}
 
-	return MSG_SOCK_INTERNAL_PENDING;
+	return retVal;
 }
 
 //-----------------------------------------------------------------------------
@@ -539,13 +536,6 @@ ServerRecvStateFinal::ServerRecvStateFinal()
 
 ServerRecvStateFinal::~ServerRecvStateFinal()
 {
-}
-
-void
-ServerRecvStateFinal::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
-{
-	// Do not accept new connections in this state.
-	server.RejectNewConnection(connData);
 }
 
 int

@@ -150,8 +150,8 @@ struct GCC_PACKED NetPacketPlayersActionDoneData
 	u_int16_t			playerId;
 	u_int16_t			playerAction;
 	u_int16_t			reserved;
-	u_int32_t			playerBet;
-	u_int32_t			curPlayerMoney;
+	u_int32_t			totalPlayerBet;
+	u_int32_t			playerMoney;
 	u_int32_t			potSize;
 	u_int32_t			curHandBets;
 };
@@ -1064,8 +1064,8 @@ NetPacketPlayersActionDone::SetData(const NetPacketPlayersActionDone::Data &inDa
 	tmpData->gameState		= htons(inData.gameState);
 	tmpData->playerId		= htons(inData.playerId);
 	tmpData->playerAction	= htons(inData.playerAction);
-	tmpData->playerBet		= htonl(inData.playerBet);
-	tmpData->curPlayerMoney	= htonl(inData.curPlayerMoney);
+	tmpData->totalPlayerBet	= htonl(inData.totalPlayerBet);
+	tmpData->playerMoney	= htonl(inData.playerMoney);
 	tmpData->potSize		= htonl(inData.potSize);
 	tmpData->curHandBets	= htonl(inData.curHandBets);
 }
@@ -1079,8 +1079,8 @@ NetPacketPlayersActionDone::GetData(NetPacketPlayersActionDone::Data &outData) c
 	outData.gameState		= static_cast<GameState>(ntohs(tmpData->gameState));
 	outData.playerId		= ntohs(tmpData->playerId);
 	outData.playerAction	= static_cast<PlayerAction>(ntohs(tmpData->playerAction));
-	outData.playerBet		= ntohl(tmpData->playerBet);
-	outData.curPlayerMoney	= ntohl(tmpData->curPlayerMoney);
+	outData.totalPlayerBet	= ntohl(tmpData->totalPlayerBet);
+	outData.playerMoney		= ntohl(tmpData->playerMoney);
 	outData.potSize			= ntohl(tmpData->potSize);
 	outData.curHandBets		= ntohl(tmpData->curHandBets);
 }

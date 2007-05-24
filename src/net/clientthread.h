@@ -114,6 +114,7 @@ friend class ClientStateStartSession;
 friend class ClientStateWaitSession;
 friend class ClientStateWaitGame;
 friend class ClientStateWaitHand;
+friend class ClientStateRunHand;
 friend class ClientStateFinal;
 };
 

@@ -163,11 +163,11 @@ private:
 	ConfigFile *m_playerConfig;
 
 friend class ServerRecvStateInit;
+friend class ServerRecvStateRunning;
 friend class ServerRecvStateStartGame;
 friend class ServerRecvStateStartHand;
 friend class ServerRecvStateStartRound;
 friend class ServerRecvStateWaitPlayerAction;
-friend class ServerRecvStateFinal;
 };
 
 #endif

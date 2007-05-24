@@ -84,14 +84,15 @@ ClientThread::Init(
 void
 ClientThread::SendPlayerAction()
 {
-	// TODO: ugly hack
-	
+	// Warning: This function is called in the context of the GUI thread.
+	// Create a network packet containing the current player action.
 	boost::shared_ptr<NetPacket> action(new NetPacketPlayersAction);
 	NetPacketPlayersAction::Data actionData;
-	actionData.gameState = (GameState)GetGame()->getCurrentHand()->getActualRound();
-	actionData.playerAction = (PlayerAction)GetGame()->getPlayerArray()[0]->getMyAction();
-	actionData.playerBet = GetGame()->getPlayerArray()[0]->getMySet();
+	actionData.gameState = static_cast<GameState>(GetGame()->getCurrentHand()->getActualRound());
+	actionData.playerAction = static_cast<PlayerAction>(GetGame()->getPlayerArray()[0]->getMyAction());
+	actionData.playerBet = GetGame()->getPlayerArray()[0]->getMyLastRelativeSet();
 	static_cast<NetPacketPlayersAction *>(action.get())->SetData(actionData);
+	// The sender is thread-safe, so just dump the packet.
 	GetSender().Send(GetContext().GetSocket(), action);
 }
 

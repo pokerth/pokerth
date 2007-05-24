@@ -43,10 +43,10 @@ public:
 	unsigned getMyUniqueID() const { return myUniqueID; }
 	PlayerType getMyType() const { return myType; }
 
-	void setMyDude(const int& theValue) { myDude = theValue; }
+	void setMyDude(int theValue) { myDude = theValue; }
 	int getMyDude() const { return myDude; }
 
-	void setMyDude4(const int& theValue) { myDude4 = theValue; }
+	void setMyDude4(int theValue) { myDude4 = theValue; }
 	int getMyDude4() const { return myDude4; }
 
 	void setMyName(const std::string& theValue) { myName = theValue; }
@@ -55,17 +55,19 @@ public:
 	void setMyAvatar(const std::string& theValue) { myAvatar = theValue; }
 	std::string getMyAvatar() const { return myAvatar; }
 
-	void setMyCash(const int& theValue) { myCash = theValue; }
+	void setMyCash(int theValue) { myCash = theValue; }
 	int getMyCash() const { return myCash; }
 
-	void setMySet(const int& theValue) { mySet += theValue; myCash -= theValue;	}
+	void setMySet(int theValue) { myLastRelativeSet = theValue; mySet += theValue; myCash -= theValue;	}
+	void setMySetAbsolute(int theValue) { mySet = theValue; }
 	void setMySetNull() { mySet = 0; }
 	int getMySet() const { return mySet;}
+	int getMyLastRelativeSet() const { return myLastRelativeSet; }
 
-	void setMyAction(const int& theValue) { myAction = theValue; }
+	void setMyAction(int theValue) { myAction = theValue; }
 	int getMyAction() const	{ return myAction; }
 
-	void setMyButton(const int& theValue) { myButton = theValue; }
+	void setMyButton(int theValue) { myButton = theValue; }
 	int getMyButton() const	{ return myButton; }
 
 	void setMyActiveStatus(bool theValue) { myActiveStatus = theValue; }
@@ -80,18 +82,18 @@ public:
 	void setMyCardsFlip(bool theValue){ myCardsFlip = theValue;}
 	bool getMyCardsFlip() const{ return myCardsFlip;}
 
-	void setMyCardsValueInt(const int& theValue) { myCardsValueInt = theValue;}
+	void setMyCardsValueInt(int theValue) { myCardsValueInt = theValue;}
 	int getMyCardsValueInt() const { return myCardsValueInt; }
 
 	int* getMyBestHandPosition() { return myBestHandPosition; }
 
-	void setMyRoundStartCash(const int& theValue) { myRoundStartCash = theValue;}
+	void setMyRoundStartCash(int theValue) { myRoundStartCash = theValue;}
 	int getMyRoundStartCash() const { return myRoundStartCash; }
 
-	void setMyAverageSets(const int& theValue) { myAverageSets[0] = myAverageSets[1]; myAverageSets[1] = myAverageSets[2]; myAverageSets[2] = myAverageSets[3]; myAverageSets[3] = theValue; }
+	void setMyAverageSets(int theValue) { myAverageSets[0] = myAverageSets[1]; myAverageSets[1] = myAverageSets[2]; myAverageSets[2] = myAverageSets[3]; myAverageSets[3] = theValue; }
 	int getMyAverageSets() const { return (myAverageSets[0]+myAverageSets[1]+myAverageSets[2]+myAverageSets[3])/4; }
 	
-	void setMyAggressive(const bool& theValue) {
+	void setMyAggressive(bool theValue) {
 		int i;
 		for(i=0; i<6; i++) {
 			myAggressive[i] = myAggressive[i+1];
@@ -162,6 +164,7 @@ private:
 	int myCards[2];
 	int myCash;
 	int mySet;
+	int myLastRelativeSet;
 	int myAction; // 0 = none, 1 = fold, 2 = check, 3 = call, 4 = bet, 5 = raise, 6 = allin
 	int myButton; // 0 = none, 1 = dealer, 2 =small, 3 = big
 	bool myActiveStatus; // 0 = inactive, 1 = active

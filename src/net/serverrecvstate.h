@@ -69,17 +69,27 @@ private:
 	unsigned		m_curUniquePlayerId;
 };
 
+// Abstract State: Game is running.
+class ServerRecvStateRunning : public ServerRecvState
+{
+public:
+	virtual ~ServerRecvStateRunning();
+
+	// 
+	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
+
+protected:
+	ServerRecvStateRunning();
+};
+
 // State: Start server game.
-class ServerRecvStateStartGame : public ServerRecvState
+class ServerRecvStateStartGame : public ServerRecvStateRunning
 {
 public:
 	// Access the state singleton.
 	static ServerRecvStateStartGame &Instance();
 
 	virtual ~ServerRecvStateStartGame();
-
-	// 
-	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
 
 	// 
 	virtual int Process(ServerRecvThread &server);
@@ -91,16 +101,13 @@ protected:
 };
 
 // State: Start new hand.
-class ServerRecvStateStartHand : public ServerRecvState
+class ServerRecvStateStartHand : public ServerRecvStateRunning
 {
 public:
 	// Access the state singleton.
 	static ServerRecvStateStartHand &Instance();
 
 	virtual ~ServerRecvStateStartHand();
-
-	// 
-	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
 
 	// 
 	virtual int Process(ServerRecvThread &server);
@@ -112,16 +119,13 @@ protected:
 };
 
 // State: Start new round.
-class ServerRecvStateStartRound : public ServerRecvState
+class ServerRecvStateStartRound : public ServerRecvStateRunning
 {
 public:
 	// Access the state singleton.
 	static ServerRecvStateStartRound &Instance();
 
 	virtual ~ServerRecvStateStartRound();
-
-	// 
-	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
 
 	// 
 	virtual int Process(ServerRecvThread &server);
@@ -136,16 +140,13 @@ protected:
 };
 
 // State: Wait for a player action.
-class ServerRecvStateWaitPlayerAction : public ServerRecvState
+class ServerRecvStateWaitPlayerAction : public ServerRecvStateRunning
 {
 public:
 	// Access the state singleton.
 	static ServerRecvStateWaitPlayerAction &Instance();
 
 	virtual ~ServerRecvStateWaitPlayerAction();
-
-	// 
-	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
 
 	// 
 	virtual int Process(ServerRecvThread &server);
@@ -158,16 +159,13 @@ protected:
 
 
 // State: Final.
-class ServerRecvStateFinal : public ServerRecvState
+class ServerRecvStateFinal : public ServerRecvStateRunning
 {
 public:
 	// Access the state singleton.
 	static ServerRecvStateFinal &Instance();
 
 	virtual ~ServerRecvStateFinal();
-
-	// 
-	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
 
 	// 
 	virtual int Process(ServerRecvThread &server);

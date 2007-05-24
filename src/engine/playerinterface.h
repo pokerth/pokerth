@@ -38,10 +38,10 @@ public:
 	virtual unsigned getMyUniqueID() const =0;
 	virtual PlayerType getMyType() const =0;
 
-	virtual void setMyDude(const int& theValue) =0;
+	virtual void setMyDude(int theValue) =0;
 	virtual int getMyDude() const =0;
 
-	virtual void setMyDude4(const int& theValue) =0;
+	virtual void setMyDude4(int theValue) =0;
 	virtual int getMyDude4() const =0;
 
 	virtual void setMyName(const std::string& theValue) =0;
@@ -50,17 +50,19 @@ public:
 	virtual void setMyAvatar(const std::string& theValue) =0;
 	virtual std::string getMyAvatar() const =0;
 
-	virtual void setMyCash(const int& theValue) =0;
+	virtual void setMyCash(int theValue) =0;
 	virtual int getMyCash() const =0;
 
-	virtual void setMySet(const int& theValue) =0;
+	virtual void setMySet(int theValue) =0;
+	virtual void setMySetAbsolute(int theValue) =0;
 	virtual void setMySetNull() =0;
 	virtual int getMySet() const =0;
+	virtual int getMyLastRelativeSet() const =0;
 
-	virtual void setMyAction(const int& theValue) =0;
+	virtual void setMyAction(int theValue) =0;
 	virtual int getMyAction() const	=0;
 
-	virtual void setMyButton(const int& theValue) =0;
+	virtual void setMyButton(int theValue) =0;
 	virtual int getMyButton() const	=0;
 
 	virtual void setMyActiveStatus(bool theValue) =0;
@@ -75,18 +77,18 @@ public:
 	virtual void setMyCardsFlip(bool theValue) =0;
 	virtual bool getMyCardsFlip() const =0;
 
-	virtual void setMyCardsValueInt(const int& theValue) =0;
+	virtual void setMyCardsValueInt(int theValue) =0;
 	virtual int getMyCardsValueInt() const =0;
 
 	virtual int* getMyBestHandPosition() =0;
 
-	virtual void setMyRoundStartCash(const int& theValue) =0;
+	virtual void setMyRoundStartCash(int theValue) =0;
 	virtual int getMyRoundStartCash() const =0;
 
-	virtual void setMyAverageSets(const int& theValue) =0;
+	virtual void setMyAverageSets(int theValue) =0;
 	virtual int getMyAverageSets() const =0;
 
-	virtual void setMyAggressive(const bool& theValue) =0;
+	virtual void setMyAggressive(bool theValue) =0;
 	virtual int getMyAggressive() const =0;
 
 	virtual void setSBluff ( int theValue ) =0;

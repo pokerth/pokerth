@@ -1485,7 +1485,7 @@ void mainWindowImpl::myFold(){
 	statusBar()->clearMessage();
 
 	//Spiel läuft weiter
-	nextPlayerAnimation();
+	myActionDone();
 }
 
 void mainWindowImpl::myCheck() {
@@ -1504,7 +1504,7 @@ void mainWindowImpl::myCheck() {
 	statusBar()->clearMessage();
 
 	//Spiel läuft weiter
-	nextPlayerAnimation();
+	myActionDone();
 }
 
 void mainWindowImpl::myCall(){
@@ -1550,7 +1550,7 @@ void mainWindowImpl::myCall(){
 	statusBar()->clearMessage();
 
 	//Spiel läuft weiter
-	nextPlayerAnimation();
+	myActionDone();
 }
 
 void mainWindowImpl::myBet(){ 
@@ -1648,7 +1648,7 @@ void mainWindowImpl::mySet(){
 	currentHand->setLastPlayersTurn(0);
 
 	//Spiel läuft weiter
-	nextPlayerAnimation();
+	myActionDone();
 }
 
 void mainWindowImpl::myAllIn(){
@@ -1686,13 +1686,19 @@ void mainWindowImpl::myAllIn(){
 	currentHand->setLastPlayersTurn(0);
 
 	//Spiel läuft weiter
+	myActionDone();
+}
+
+void mainWindowImpl::myActionDone() {
+
+	// If a network client is running, we need
+	// to transfer the action to the server.
+	mySession->sendClientPlayerAction();
+
 	nextPlayerAnimation();
 }
 
 void mainWindowImpl::nextPlayerAnimation() {
-
-	// TODO ugliest hack ever
-	mySession->sendClientPlayerAction();
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
