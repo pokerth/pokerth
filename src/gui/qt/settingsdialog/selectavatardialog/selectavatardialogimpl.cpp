@@ -27,7 +27,21 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 {
 
 	 setupUi(this);
+	
 
+// 	listWidget->setViewMode(QListView::IconMode);
+// 	listWidget->setIconSize(QSize(50,50));
+// 	listWidget->setSpacing(20);
+// 	listWidget->setDragEnabled(FALSE);
+// 	listWidget->setResizeMode(QListView::Adjust);
+// 	listWidget->setLayoutDirection(Qt::LeftToRight);
+
+	int i;
+	for (i=0; i<30; i++) {
+		QListWidgetItem *myItem = new QListWidgetItem;
+		myItem->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png")));
+		listWidget->addItem(myItem);
+	};
 
 }
 

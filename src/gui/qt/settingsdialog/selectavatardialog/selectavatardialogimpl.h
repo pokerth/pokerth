@@ -26,6 +26,7 @@
 #include <QtGui>
 
 class ConfigFile;
+class selectAvatarDialogImpl;
 
 class selectAvatarDialogImpl: public QDialog, public Ui::selectAvatarDialog {
 Q_OBJECT
@@ -34,7 +35,9 @@ public:
 	
 	void exec();
 
+	
 public slots:
+
 
 private:
 	
