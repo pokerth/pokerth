@@ -14,13 +14,14 @@ INCLUDEPATH += . \
 		src/config \
 		src/core/tinyxml \
 		src/gui/qt \
-		src/gui/qt/log \
 		src/gui/qt/connecttoserverdialog \
 		src/core \
 		src/gui/qt/qttools \
 		src/gui/qt/qttools/qthelper \
 		src/gui/qt/mainwindow \
 		src/gui/qt/mainwindow/startsplash \
+		src/gui/qt/mainwindow/log \
+		src/gui/qt/mainwindow/chat \
 		src/gui/qt/aboutpokerth \
 		src/gui/qt/createnetworkgamedialog \
 		src/gui/qt/joinnetworkgamedialog \
@@ -45,11 +46,12 @@ DEPENDPATH += . \
               src/net/common \
               src/gui/qt/mainwindow \
               src/gui/qt/mainwindow/startsplash \
+	      src/gui/qt/mainwindow/log \
+	      src/gui/qt/mainwindow/chat \
               src/gui/qt/aboutpokerth \
               src/gui/qt/connecttoserverdialog \
               src/gui/qt/createnetworkgamedialog \
               src/gui/qt/joinnetworkgamedialog \
-              src/gui/qt/log \
               src/gui/qt/qttools \
               src/gui/qt/qttools/qthelper \
               src/gui/qt/newlocalgamedialog \
@@ -110,12 +112,13 @@ HEADERS += src/game.h \
            src/gui/qt/mainwindow/mainwindowimpl.h \
            src/gui/qt/mainwindow/mycardspixmaplabel.h \
            src/gui/qt/mainwindow/startsplash/startsplash.h \
+	   src/gui/qt/mainwindow/log/log.h \
+	   src/gui/qt/mainwindow/chat/chat.h \
            src/gui/qt/guiwrapper.h \
            src/gui/qt/aboutpokerth/aboutpokerthimpl.h \
            src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.h \
            src/gui/qt/createnetworkgamedialog/createnetworkgamedialogimpl.h \
            src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.h \
-           src/gui/qt/log/log.h \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.h \
            src/gui/qt/settingsdialog/settingsdialogimpl.h \
 	   src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.h \
@@ -197,11 +200,12 @@ SOURCES += src/game.cpp \
            src/gui/qt/mainwindow/mainwindowimpl.cpp \
            src/gui/qt/mainwindow/mycardspixmaplabel.cpp \
            src/gui/qt/mainwindow/startsplash/startsplash.cpp \
+	   src/gui/qt/mainwindow/log/log.cpp \
+	   src/gui/qt/mainwindow/chat/chat.cpp \
            src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp \
            src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp \
            src/gui/qt/createnetworkgamedialog/createnetworkgamedialogimpl.cpp \
            src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp \
-           src/gui/qt/log/log.cpp \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.cpp \
            src/gui/qt/settingsdialog/settingsdialogimpl.cpp \
 	   src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp \
