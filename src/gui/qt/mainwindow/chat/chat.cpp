@@ -53,7 +53,9 @@ void Chat::checkInvisible() {
 		
 	switch (myW->tabWidget->currentIndex()) {
 
-		case 1: { myW->tabWidget->stopBlinkChatTab(); }
+		case 1: { myW->tabWidget->stopBlinkChatTab();
+			  myW->tabWidget->showDefaultChatTab();
+			}
 		break;
 		default: { myW->tabWidget->startBlinkChatTab(); }
 	} 

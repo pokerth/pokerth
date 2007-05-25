@@ -31,6 +31,7 @@ MyRightTabWidget::~MyRightTabWidget()
 
 void MyRightTabWidget::startBlinkChatTab() { chatBlinkTimer->start(500); }
 void MyRightTabWidget::stopBlinkChatTab() { chatBlinkTimer->stop(); }
+void MyRightTabWidget::showDefaultChatTab() { myTabBar->setTabTextColor(1, QColor(240,240,240)); }
 
 void MyRightTabWidget::blinkChatTab() {
 

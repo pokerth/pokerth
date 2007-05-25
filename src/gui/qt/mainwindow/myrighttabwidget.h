@@ -29,6 +29,7 @@ public:
 	void paintEvent(QPaintEvent * event);
 	void startBlinkChatTab();
 	void stopBlinkChatTab();
+	void showDefaultChatTab();
 
 public slots:
 	

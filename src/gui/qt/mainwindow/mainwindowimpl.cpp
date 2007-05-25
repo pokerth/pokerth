@@ -2458,7 +2458,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F10) { switchLeftToolBox(); } 
 	if (event->key() == Qt::Key_F11) { switchRightToolBox(); } 
 // 	if (event->key() == Qt::Key_F) { switchFullscreen(); } //f
-// 	if (event->key() == Qt::Key_S) { myChat->checkInvisible(); } //f	
+	if (event->key() == Qt::Key_S) { myChat->checkInvisible(); } //f	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;
