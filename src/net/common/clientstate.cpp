@@ -597,8 +597,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			client.GetGui().refreshGroupbox(tmpPlayer->getMyID(), 3);
 
 			// Refresh GUI
-			client.GetGui().refreshSet();
 			client.GetGui().refreshPot();
+			client.GetGui().refreshSet();
 			client.GetGui().refreshAction();
 			client.GetGui().refreshCash();
 		}
@@ -610,7 +610,26 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			assert(tmpPlayer); // TODO: throw exception
 
 			// Set round.
-			curGame->getCurrentHand()->setActualRound(turnData.gameState);
+			if (curGame->getCurrentHand()->getActualRound() != turnData.gameState)
+			{
+				// Reset player actions
+				for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
+				{
+					int action = curGame->getPlayerArray()[i]->getMyAction();
+					if (action != 1 && action != 6)
+						curGame->getPlayerArray()[i]->setMyAction(0);
+				}
+				// Move sets to pot
+				curGame->getCurrentHand()->getBoard()->collectSets();
+				curGame->getCurrentHand()->getBoard()->collectPot();
+
+				client.GetGui().refreshPot();
+				client.GetGui().refreshSet();
+				client.GetGui().refreshAction();
+				client.GetGui().refreshCash();
+
+				curGame->getCurrentHand()->setActualRound(turnData.gameState);
+			}
 
 			// Next player's turn.
 			SetPlayersTurn(*curGame, tmpPlayer->getMyID());

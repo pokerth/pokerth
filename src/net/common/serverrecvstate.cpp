@@ -318,6 +318,7 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 	// Initialize hand.
 	Game &curGame = server.GetGame();
 	curGame.initHand();
+
 	PlayerInterface **playerArray = curGame.getPlayerArray();
 
 	// Send cards to all players.
@@ -417,7 +418,11 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 
 		// If round changes, deal cards if needed.
 		if (newRound != curRound)
+		{
+			// HACK: Skip GUI notification run
+			GameRun(curGame, newRound);
 			SendNewRoundCards(server, curGame);
+		}
 	} while (newRound != curRound);
 
 	// Retrieve current player.
@@ -505,9 +510,9 @@ ServerRecvStateStartRound::SendNewRoundCards(ServerRecvThread &server, Game &cur
 			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
 			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealFlopCards);
 			NetPacketDealFlopCards::Data notifyCardsData;
-			notifyCardsData.flopCards[0] = static_cast<unsigned>(cards[0]);
-			notifyCardsData.flopCards[1] = static_cast<unsigned>(cards[1]);
-			notifyCardsData.flopCards[2] = static_cast<unsigned>(cards[2]);
+			notifyCardsData.flopCards[0] = static_cast<u_int16_t>(cards[0]);
+			notifyCardsData.flopCards[1] = static_cast<u_int16_t>(cards[1]);
+			notifyCardsData.flopCards[2] = static_cast<u_int16_t>(cards[2]);
 			static_cast<NetPacketDealFlopCards *>(notifyCards.get())->SetData(notifyCardsData);
 			server.SendToAllPlayers(notifyCards);
 		} break;
@@ -517,7 +522,7 @@ ServerRecvStateStartRound::SendNewRoundCards(ServerRecvThread &server, Game &cur
 			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
 			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealTurnCard);
 			NetPacketDealTurnCard::Data notifyCardsData;
-			notifyCardsData.turnCard = static_cast<unsigned>(cards[3]);
+			notifyCardsData.turnCard = static_cast<u_int16_t>(cards[3]);
 			static_cast<NetPacketDealTurnCard *>(notifyCards.get())->SetData(notifyCardsData);
 			server.SendToAllPlayers(notifyCards);
 		} break;
@@ -527,7 +532,7 @@ ServerRecvStateStartRound::SendNewRoundCards(ServerRecvThread &server, Game &cur
 			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
 			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealRiverCard);
 			NetPacketDealRiverCard::Data notifyCardsData;
-			notifyCardsData.riverCard = static_cast<unsigned>(cards[4]);
+			notifyCardsData.riverCard = static_cast<u_int16_t>(cards[4]);
 			static_cast<NetPacketDealRiverCard *>(notifyCards.get())->SetData(notifyCardsData);
 			server.SendToAllPlayers(notifyCards);
 		} break;

@@ -58,7 +58,7 @@ public:
 
 	void setMySet(int theValue) { myLastRelativeSet = theValue; mySet += theValue; myCash -= theValue;	}
 	void setMySetAbsolute(int theValue) { mySet = theValue; }
-	void setMySetNull() { mySet = 0; }
+	void setMySetNull() { mySet = 0; myLastRelativeSet = 0; }
 	int getMySet() const { return mySet;}
 	int getMyLastRelativeSet() const { return myLastRelativeSet; }
 
