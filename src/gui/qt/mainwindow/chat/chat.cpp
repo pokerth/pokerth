@@ -58,3 +58,8 @@ void Chat::checkInvisible() {
 		default: { myW->tabWidget->startBlinkChatTab(); }
 	} 
 }
+
+void Chat::checkInputLength(QString string) {
+
+	 if(string.toUtf8().length() > 120) myW->lineEdit_ChatInput->setMaxLength(string.length());  
+}

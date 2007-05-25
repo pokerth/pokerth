@@ -47,6 +47,7 @@ public slots:
 	void sendMessage();
 	void receiveMessage(QString playerName, QString msg);
 	void checkInvisible();
+	void checkInputLength(QString);
 		
 private:
 	

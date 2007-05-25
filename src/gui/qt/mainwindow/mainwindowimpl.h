@@ -237,6 +237,7 @@ public slots:
 	void paintStartSplash();
 
 	void sendChatMessage();
+	void checkChatInputLength(QString);
 	void tabSwitchAction();
 
 	void networkError(int, int);

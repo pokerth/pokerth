@@ -560,6 +560,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	connect( tabWidget, SIGNAL( currentChanged(int) ), this, SLOT( tabSwitchAction() ) );
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
+	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), this, SLOT( checkChatInputLength(QString) ) );
 
 	//Nachrichten Thread-Save
 	connect(this, SIGNAL(signalRefreshSet()), this, SLOT(refreshSet()));
@@ -2510,6 +2511,8 @@ void mainWindowImpl::blinkingStartButtonAnimationAction() {
 }
 
 void mainWindowImpl::sendChatMessage() { myChat->sendMessage(); }
+void mainWindowImpl::checkChatInputLength(QString string) { myChat->checkInputLength(string); }
+
 
 void mainWindowImpl::tabSwitchAction() { 
 	
