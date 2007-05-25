@@ -626,6 +626,38 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			if (tmpPlayer->getMyID() == 0) // Is this the GUI player?
 				client.GetGui().meInAction();
 		}
+		else if (packet->ToNetPacketDealFlopCards())
+		{
+			NetPacketDealFlopCards::Data cardsData;
+			packet->ToNetPacketDealFlopCards()->GetData(cardsData);
+			int tmpCards[5];
+			tmpCards[0] = static_cast<int>(cardsData.flopCards[0]);
+			tmpCards[1] = static_cast<int>(cardsData.flopCards[1]);
+			tmpCards[2] = static_cast<int>(cardsData.flopCards[2]);
+			tmpCards[3] = tmpCards[4] = 0;
+			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
+			client.GetGui().dealFlopCards();
+		}
+		else if (packet->ToNetPacketDealTurnCard())
+		{
+			NetPacketDealTurnCard::Data cardsData;
+			packet->ToNetPacketDealTurnCard()->GetData(cardsData);
+			int tmpCards[5];
+			curGame->getCurrentHand()->getBoard()->getMyCards(tmpCards);
+			tmpCards[3] = static_cast<int>(cardsData.turnCard);
+			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
+			client.GetGui().dealTurnCard();
+		}
+		else if (packet->ToNetPacketDealRiverCard())
+		{
+			NetPacketDealRiverCard::Data cardsData;
+			packet->ToNetPacketDealRiverCard()->GetData(cardsData);
+			int tmpCards[5];
+			curGame->getCurrentHand()->getBoard()->getMyCards(tmpCards);
+			tmpCards[4] = static_cast<int>(cardsData.riverCard);
+			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
+			client.GetGui().dealRiverCard();
+		}
 	}
 
 	return MSG_SOCK_INTERNAL_PENDING;

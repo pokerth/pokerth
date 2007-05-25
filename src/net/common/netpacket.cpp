@@ -37,8 +37,12 @@ using namespace std;
 #define NET_TYPE_PLAYERS_ACTION					0x0008
 #define NET_TYPE_PLAYERS_ACTION_DONE			0x0009
 #define NET_TYPE_PLAYERS_ACTION_REJECTED		0x000A
-#define NET_TYPE_SEND_CHAT_TEXT					0x000B
-#define NET_TYPE_CHAT_TEXT						0x000C
+#define NET_TYPE_DEAL_FLOP_CARDS				0x000B
+#define NET_TYPE_DEAL_TURN_CARD					0x000C
+#define NET_TYPE_DEAL_RIVER_CARD				0x000D
+
+#define NET_TYPE_SEND_CHAT_TEXT					0x0200
+#define NET_TYPE_CHAT_TEXT						0x0201
 
 #define NET_TYPE_ERROR							0x0400
 
@@ -125,7 +129,8 @@ struct GCC_PACKED NetPacketGameStartData
 struct GCC_PACKED NetPacketHandStartData
 {
 	NetPacketHeader		head;
-	u_int16_t			yourCards[2];
+	u_int16_t			yourCard1;
+	u_int16_t			yourCard2;
 };
 
 struct GCC_PACKED NetPacketPlayersTurnData
@@ -163,6 +168,29 @@ struct GCC_PACKED NetPacketPlayersActionRejectedData
 	u_int16_t			playerAction;
 	u_int32_t			playerBet;
 	u_int16_t			rejectionReason;
+	u_int16_t			reserved;
+};
+
+struct GCC_PACKED NetPacketDealFlopCardsData
+{
+	NetPacketHeader		head;
+	u_int16_t			flopCard1;
+	u_int16_t			flopCard2;
+	u_int16_t			flopCard3;
+	u_int16_t			reserved;
+};
+
+struct GCC_PACKED NetPacketDealTurnCardData
+{
+	NetPacketHeader		head;
+	u_int16_t			turnCard;
+	u_int16_t			reserved;
+};
+
+struct GCC_PACKED NetPacketDealRiverCardData
+{
+	NetPacketHeader		head;
+	u_int16_t			riverCard;
 	u_int16_t			reserved;
 };
 
@@ -243,6 +271,15 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_PLAYERS_ACTION_REJECTED:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayersActionRejected);
+					break;
+				case NET_TYPE_DEAL_FLOP_CARDS:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketDealFlopCards);
+					break;
+				case NET_TYPE_DEAL_TURN_CARD:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketDealTurnCard);
+					break;
+				case NET_TYPE_DEAL_RIVER_CARD:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketDealRiverCard);
 					break;
 				case NET_TYPE_SEND_CHAT_TEXT:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketSendChatText);
@@ -390,6 +427,24 @@ NetPacket::ToNetPacketPlayersActionDone() const
 
 const NetPacketPlayersActionRejected *
 NetPacket::ToNetPacketPlayersActionRejected() const
+{
+	return NULL;
+}
+
+const NetPacketDealFlopCards *
+NetPacket::ToNetPacketDealFlopCards() const
+{
+	return NULL;
+}
+
+const NetPacketDealTurnCard *
+NetPacket::ToNetPacketDealTurnCard() const
+{
+	return NULL;
+}
+
+const NetPacketDealRiverCard *
+NetPacket::ToNetPacketDealRiverCard() const
 {
 	return NULL;
 }
@@ -623,7 +678,7 @@ NetPacketJoinGameAck::Check(const NetPacketHeader* data) const
 	assert(data);
 
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketJoinGameAckData))
+	if (dataLen != sizeof(NetPacketJoinGameAckData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
@@ -784,7 +839,7 @@ NetPacketPlayerLeft::Check(const NetPacketHeader* data) const
 	assert(data);
 
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketPlayerLeftData))
+	if (dataLen != sizeof(NetPacketPlayerLeftData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
@@ -845,7 +900,7 @@ NetPacketGameStart::Check(const NetPacketHeader* data) const
 	assert(data);
 
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketGameStartData))
+	if (dataLen != sizeof(NetPacketGameStartData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
@@ -882,8 +937,8 @@ NetPacketHandStart::SetData(const NetPacketHandStart::Data &inData)
 	NetPacketHandStartData *tmpData = (NetPacketHandStartData *)GetRawData();
 	assert(tmpData);
 
-	tmpData->yourCards[0]		= htons(inData.yourCards[0]);
-	tmpData->yourCards[1]		= htons(inData.yourCards[1]);
+	tmpData->yourCard1		= htons(inData.yourCards[0]);
+	tmpData->yourCard2		= htons(inData.yourCards[1]);
 }
 
 void
@@ -892,8 +947,8 @@ NetPacketHandStart::GetData(NetPacketHandStart::Data &outData) const
 	NetPacketHandStartData *tmpData = (NetPacketHandStartData *)GetRawData();
 	assert(tmpData);
 
-	outData.yourCards[0]		= ntohs(tmpData->yourCards[0]);
-	outData.yourCards[1]		= ntohs(tmpData->yourCards[1]);
+	outData.yourCards[0]		= ntohs(tmpData->yourCard1);
+	outData.yourCards[1]		= ntohs(tmpData->yourCard2);
 }
 
 const NetPacketHandStart *
@@ -908,13 +963,13 @@ NetPacketHandStart::Check(const NetPacketHeader* data) const
 	assert(data);
 
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketHandStartData))
+	if (dataLen != sizeof(NetPacketHandStartData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
 
 	NetPacketHandStartData *tmpData = (NetPacketHandStartData *)data;
-	if (ntohs(tmpData->yourCards[0]) > 51 || ntohs(tmpData->yourCards[1]) > 51)
+	if (ntohs(tmpData->yourCard1) > 51 || ntohs(tmpData->yourCard2) > 51)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
@@ -977,7 +1032,7 @@ NetPacketPlayersTurn::Check(const NetPacketHeader* data) const
 	assert(data);
 
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketPlayersTurnData))
+	if (dataLen != sizeof(NetPacketPlayersTurnData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
@@ -1049,7 +1104,7 @@ NetPacketPlayersAction::Check(const NetPacketHeader* data) const
 	assert(data);
 
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketPlayersActionData))
+	if (dataLen != sizeof(NetPacketPlayersActionData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
@@ -1134,7 +1189,7 @@ NetPacketPlayersActionDone::Check(const NetPacketHeader* data) const
 	assert(data);
 
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketPlayersActionDoneData))
+	if (dataLen != sizeof(NetPacketPlayersActionDoneData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
@@ -1212,7 +1267,7 @@ NetPacketPlayersActionRejected::Check(const NetPacketHeader* data) const
 	assert(data);
 
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketPlayersActionRejectedData))
+	if (dataLen != sizeof(NetPacketPlayersActionRejectedData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
@@ -1229,6 +1284,211 @@ NetPacketPlayersActionRejected::Check(const NetPacketHeader* data) const
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// TODO: check rejection reason
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketDealFlopCards::NetPacketDealFlopCards()
+: NetPacket(NET_TYPE_DEAL_FLOP_CARDS, sizeof(NetPacketDealFlopCardsData))
+{
+}
+
+NetPacketDealFlopCards::~NetPacketDealFlopCards()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketDealFlopCards::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketDealFlopCards);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketDealFlopCards::SetData(const NetPacketDealFlopCards::Data &inData)
+{
+	NetPacketDealFlopCardsData *tmpData = (NetPacketDealFlopCardsData *)GetRawData();
+	assert(tmpData);
+
+	tmpData->flopCard1		= htons(inData.flopCards[0]);
+	tmpData->flopCard2		= htons(inData.flopCards[1]);
+	tmpData->flopCard3		= htons(inData.flopCards[2]);
+}
+
+void
+NetPacketDealFlopCards::GetData(NetPacketDealFlopCards::Data &outData) const
+{
+	NetPacketDealFlopCardsData *tmpData = (NetPacketDealFlopCardsData *)GetRawData();
+	assert(tmpData);
+
+	outData.flopCards[0]		= ntohs(tmpData->flopCard1);
+	outData.flopCards[1]		= ntohs(tmpData->flopCard2);
+	outData.flopCards[2]		= ntohs(tmpData->flopCard3);
+}
+
+const NetPacketDealFlopCards *
+NetPacketDealFlopCards::ToNetPacketDealFlopCards() const
+{
+	return this;
+}
+
+void
+NetPacketDealFlopCards::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen != sizeof(NetPacketDealFlopCardsData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
+	NetPacketDealFlopCardsData *tmpData = (NetPacketDealFlopCardsData *)data;
+	if (ntohs(tmpData->flopCard1) > 51 || ntohs(tmpData->flopCard2) > 51 || ntohs(tmpData->flopCard3) > 51)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketDealTurnCard::NetPacketDealTurnCard()
+: NetPacket(NET_TYPE_DEAL_TURN_CARD, sizeof(NetPacketDealTurnCardData))
+{
+}
+
+NetPacketDealTurnCard::~NetPacketDealTurnCard()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketDealTurnCard::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketDealTurnCard);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketDealTurnCard::SetData(const NetPacketDealTurnCard::Data &inData)
+{
+	NetPacketDealTurnCardData *tmpData = (NetPacketDealTurnCardData *)GetRawData();
+	assert(tmpData);
+
+	tmpData->turnCard			= htons(inData.turnCard);
+}
+
+void
+NetPacketDealTurnCard::GetData(NetPacketDealTurnCard::Data &outData) const
+{
+	NetPacketDealTurnCardData *tmpData = (NetPacketDealTurnCardData *)GetRawData();
+	assert(tmpData);
+
+	outData.turnCard			= ntohs(tmpData->turnCard);
+}
+
+const NetPacketDealTurnCard *
+NetPacketDealTurnCard::ToNetPacketDealTurnCard() const
+{
+	return this;
+}
+
+void
+NetPacketDealTurnCard::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen != sizeof(NetPacketDealTurnCardData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
+	NetPacketDealTurnCardData *tmpData = (NetPacketDealTurnCardData *)data;
+	if (ntohs(tmpData->turnCard) > 51)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketDealRiverCard::NetPacketDealRiverCard()
+: NetPacket(NET_TYPE_DEAL_RIVER_CARD, sizeof(NetPacketDealRiverCardData))
+{
+}
+
+NetPacketDealRiverCard::~NetPacketDealRiverCard()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketDealRiverCard::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketDealRiverCard);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketDealRiverCard::SetData(const NetPacketDealRiverCard::Data &inData)
+{
+	NetPacketDealRiverCardData *tmpData = (NetPacketDealRiverCardData *)GetRawData();
+	assert(tmpData);
+
+	tmpData->riverCard			= htons(inData.riverCard);
+}
+
+void
+NetPacketDealRiverCard::GetData(NetPacketDealRiverCard::Data &outData) const
+{
+	NetPacketDealRiverCardData *tmpData = (NetPacketDealRiverCardData *)GetRawData();
+	assert(tmpData);
+
+	outData.riverCard			= ntohs(tmpData->riverCard);
+}
+
+const NetPacketDealRiverCard *
+NetPacketDealRiverCard::ToNetPacketDealRiverCard() const
+{
+	return this;
+}
+
+void
+NetPacketDealRiverCard::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen != sizeof(NetPacketDealRiverCardData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
+	NetPacketDealRiverCardData *tmpData = (NetPacketDealRiverCardData *)data;
+	if (ntohs(tmpData->riverCard) > 51)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -1531,7 +1791,7 @@ NetPacketError::Check(const NetPacketHeader* data) const
 	assert(data);
 
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketErrorData))
+	if (dataLen < sizeof(NetPacketErrorData)) // graceful size checking only for error packets
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}

@@ -414,10 +414,16 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 		curRound = newRound;
 		GameRun(curGame, curRound);
 		newRound = curGame.getCurrentHand()->getActualRound();
+
+		// If round changes, deal cards if needed.
+		if (newRound != curRound)
+			SendNewRoundCards(server, curGame);
 	} while (newRound != curRound);
 
 	// Retrieve current player.
 	PlayerInterface *curPlayer = GetCurrentPlayer(curGame);
+	assert(curPlayer); // TODO throw exception
+	assert(curPlayer->getMyActiveStatus()); // TODO throw exception
 
 	boost::shared_ptr<NetPacket> notification(new NetPacketPlayersTurn);
 	NetPacketPlayersTurn::Data playersTurnData;
@@ -481,8 +487,54 @@ ServerRecvStateStartRound::GetCurrentPlayer(Game &curGame)
 			// 
 		}
 	}
-	assert(curPlayerNum < curGame.getActualQuantityPlayers());
+	assert(curPlayerNum < curGame.getActualQuantityPlayers()); // TODO: throw exception
 	return curGame.getPlayerArray()[curPlayerNum];
+}
+
+void
+ServerRecvStateStartRound::SendNewRoundCards(ServerRecvThread &server, Game &curGame)
+{
+	// TODO: no switch needed here if game states are polymorphic
+	switch(curGame.getCurrentHand()->getActualRound()) {
+		case GAME_STATE_PREFLOP: {
+			// nothing to do
+		} break;
+		case GAME_STATE_FLOP: {
+			// deal flop cards
+			int cards[5];
+			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
+			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealFlopCards);
+			NetPacketDealFlopCards::Data notifyCardsData;
+			notifyCardsData.flopCards[0] = static_cast<unsigned>(cards[0]);
+			notifyCardsData.flopCards[1] = static_cast<unsigned>(cards[1]);
+			notifyCardsData.flopCards[2] = static_cast<unsigned>(cards[2]);
+			static_cast<NetPacketDealFlopCards *>(notifyCards.get())->SetData(notifyCardsData);
+			server.SendToAllPlayers(notifyCards);
+		} break;
+		case GAME_STATE_TURN: {
+			// deal turn card
+			int cards[5];
+			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
+			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealTurnCard);
+			NetPacketDealTurnCard::Data notifyCardsData;
+			notifyCardsData.turnCard = static_cast<unsigned>(cards[3]);
+			static_cast<NetPacketDealTurnCard *>(notifyCards.get())->SetData(notifyCardsData);
+			server.SendToAllPlayers(notifyCards);
+		} break;
+		case GAME_STATE_RIVER: {
+			// deal river card
+			int cards[5];
+			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
+			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealRiverCard);
+			NetPacketDealRiverCard::Data notifyCardsData;
+			notifyCardsData.riverCard = static_cast<unsigned>(cards[4]);
+			static_cast<NetPacketDealRiverCard *>(notifyCards.get())->SetData(notifyCardsData);
+			server.SendToAllPlayers(notifyCards);
+		} break;
+		default: {
+			// 
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------

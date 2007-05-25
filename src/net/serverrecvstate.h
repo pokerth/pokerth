@@ -153,6 +153,7 @@ protected:
 
 	static void GameRun(Game &curGame, int state);
 	static PlayerInterface *GetCurrentPlayer(Game &curGame);
+	static void SendNewRoundCards(ServerRecvThread &server, Game &curGame);
 };
 
 // State: Wait for a player action.

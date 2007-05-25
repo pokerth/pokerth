@@ -48,6 +48,9 @@ class NetPacketPlayersTurn;
 class NetPacketPlayersAction;
 class NetPacketPlayersActionDone;
 class NetPacketPlayersActionRejected;
+class NetPacketDealFlopCards;
+class NetPacketDealTurnCard;
+class NetPacketDealRiverCard;
 class NetPacketSendChatText;
 class NetPacketChatText;
 class NetPacketError;
@@ -79,6 +82,9 @@ public:
 	virtual const NetPacketPlayersAction *ToNetPacketPlayersAction() const;
 	virtual const NetPacketPlayersActionDone *ToNetPacketPlayersActionDone() const;
 	virtual const NetPacketPlayersActionRejected *ToNetPacketPlayersActionRejected() const;
+	virtual const NetPacketDealFlopCards *ToNetPacketDealFlopCards() const;
+	virtual const NetPacketDealTurnCard *ToNetPacketDealTurnCard() const;
+	virtual const NetPacketDealRiverCard *ToNetPacketDealRiverCard() const;
 	virtual const NetPacketSendChatText *ToNetPacketSendChatText() const;
 	virtual const NetPacketChatText *ToNetPacketChatText() const;
 	virtual const NetPacketError *ToNetPacketError() const;
@@ -342,6 +348,75 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketPlayersActionRejected *ToNetPacketPlayersActionRejected() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketDealFlopCards : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int16_t	flopCards[3];
+	};
+
+	NetPacketDealFlopCards();
+	virtual ~NetPacketDealFlopCards();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketDealFlopCards *ToNetPacketDealFlopCards() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketDealTurnCard : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int16_t	turnCard;
+	};
+
+	NetPacketDealTurnCard();
+	virtual ~NetPacketDealTurnCard();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketDealTurnCard *ToNetPacketDealTurnCard() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketDealRiverCard : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int16_t	riverCard;
+	};
+
+	NetPacketDealRiverCard();
+	virtual ~NetPacketDealRiverCard();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketDealRiverCard *ToNetPacketDealRiverCard() const;
 
 protected:
 
