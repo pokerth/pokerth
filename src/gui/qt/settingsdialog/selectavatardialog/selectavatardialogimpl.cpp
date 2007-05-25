@@ -31,10 +31,14 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 
 // 	listWidget->setViewMode(QListView::IconMode);
 // 	listWidget->setIconSize(QSize(50,50));
-// 	listWidget->setSpacing(20);
-// 	listWidget->setDragEnabled(FALSE);
-// 	listWidget->setResizeMode(QListView::Adjust);
 // 	listWidget->setLayoutDirection(Qt::LeftToRight);
+    	listWidget->setViewMode(QListView::IconMode);
+	listWidget->setIconSize(QSize(50, 50));
+//     	listWidget->setFlow(QListView::TopToBottom);
+//       	listWidget->setWrapping(true);
+	listWidget->setSpacing(20);
+	listWidget->setDragEnabled(FALSE);
+	listWidget->setResizeMode(QListView::Adjust);
 
 	int i;
 	for (i=0; i<30; i++) {

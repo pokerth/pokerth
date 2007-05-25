@@ -27,6 +27,7 @@
 
 #include <QtCore>
 
+
 class mainWindowImpl;
 
 class Chat : public QObject
@@ -42,11 +43,14 @@ public slots:
 	
 	void sendMessage();
 	void receiveMessage(std::string);
-
+	void checkInvisible();
+		
 private:
 	
 	mainWindowImpl *myW;
 	ConfigFile *myConfig;
+	
+
 	
 friend class GuiWrapper;
 };

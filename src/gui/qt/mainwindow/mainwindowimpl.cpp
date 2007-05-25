@@ -558,7 +558,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect ( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
 	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
 
-	connect( tabWidget, SIGNAL( currentChanged(int) ), this, SLOT( setChatFocus() ) );
+	connect( tabWidget, SIGNAL( currentChanged(int) ), this, SLOT( tabSwitchAction() ) );
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
 
 	//Nachrichten Thread-Save
@@ -2457,7 +2457,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F10) { switchLeftToolBox(); } 
 	if (event->key() == Qt::Key_F11) { switchRightToolBox(); } 
 // 	if (event->key() == Qt::Key_F) { switchFullscreen(); } //f
-// 	if (event->key() == Qt::Key_S) { showMyCards(); } //f	
+// 	if (event->key() == Qt::Key_S) { myChat->checkInvisible(); } //f	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;
@@ -2511,11 +2511,17 @@ void mainWindowImpl::blinkingStartButtonAnimationAction() {
 
 void mainWindowImpl::sendChatMessage() { myChat->sendMessage(); }
 
-void mainWindowImpl::setChatFocus() { 
+void mainWindowImpl::tabSwitchAction() { 
 	
-	if(tabWidget->currentIndex() == 1) lineEdit_ChatInput->setFocus();
-	else lineEdit_ChatInput->clearFocus();
+	switch(tabWidget->currentIndex()) {
 
+		case 1: { lineEdit_ChatInput->setFocus();
+			  myChat->checkInvisible();				
+			}
+		break;
+		default: { lineEdit_ChatInput->clearFocus(); }
+	
+	}
 }
 
 void mainWindowImpl::closeEvent(QCloseEvent *event) {

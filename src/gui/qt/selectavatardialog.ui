@@ -12,61 +12,32 @@
   <property name="windowTitle" >
    <string>Please select an avatar</string>
   </property>
-  <layout class="QGridLayout" >
-   <property name="margin" >
-    <number>9</number>
+  <widget class="QListWidget" name="listWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>460</width>
+     <height>220</height>
+    </rect>
    </property>
-   <property name="spacing" >
-    <number>6</number>
+  </widget>
+  <widget class="QDialogButtonBox" name="buttonBox" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>235</y>
+     <width>460</width>
+     <height>28</height>
+    </rect>
    </property>
-   <item row="0" column="0" >
-    <widget class="QListWidget" name="listWidget" >
-     <property name="horizontalScrollBarPolicy" >
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="iconSize" >
-      <size>
-       <width>50</width>
-       <height>50</height>
-      </size>
-     </property>
-     <property name="flow" >
-      <enum>QListView::TopToBottom</enum>
-     </property>
-     <property name="isWrapping" stdset="0" >
-      <bool>true</bool>
-     </property>
-     <property name="resizeMode" >
-      <enum>QListView::Adjust</enum>
-     </property>
-     <property name="layoutMode" >
-      <enum>QListView::Batched</enum>
-     </property>
-     <property name="gridSize" >
-      <size>
-       <width>70</width>
-       <height>70</height>
-      </size>
-     </property>
-     <property name="viewMode" >
-      <enum>QListView::IconMode</enum>
-     </property>
-     <property name="wordWrap" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-  </layout>
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons" >
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>

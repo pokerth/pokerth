@@ -237,7 +237,7 @@ public slots:
 	void paintStartSplash();
 
 	void sendChatMessage();
-	void setChatFocus();
+	void tabSwitchAction();
 
 	void networkError(int, int);
 	void networkStart(boost::shared_ptr<Game> game);

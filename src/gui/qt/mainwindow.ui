@@ -1800,10 +1800,19 @@
             </layout>
            </item>
            <item row="0" column="0" >
-            <widget class="QTabWidget" name="tabWidget" >
+            <widget class="MyRightTabWidget" name="tabWidget" >
              <property name="palette" >
               <palette>
                <active>
+                <colorrole role="WindowText" >
+                 <brush brushstyle="SolidPattern" >
+                  <color alpha="255" >
+                   <red>240</red>
+                   <green>240</green>
+                   <blue>240</blue>
+                  </color>
+                 </brush>
+                </colorrole>
                 <colorrole role="Button" >
                  <brush brushstyle="SolidPattern" >
                   <color alpha="255" >
@@ -1815,6 +1824,15 @@
                 </colorrole>
                </active>
                <inactive>
+                <colorrole role="WindowText" >
+                 <brush brushstyle="SolidPattern" >
+                  <color alpha="255" >
+                   <red>240</red>
+                   <green>240</green>
+                   <blue>240</blue>
+                  </color>
+                 </brush>
+                </colorrole>
                 <colorrole role="Button" >
                  <brush brushstyle="SolidPattern" >
                   <color alpha="255" >
@@ -1826,6 +1844,15 @@
                 </colorrole>
                </inactive>
                <disabled>
+                <colorrole role="WindowText" >
+                 <brush brushstyle="SolidPattern" >
+                  <color alpha="255" >
+                   <red>128</red>
+                   <green>128</green>
+                   <blue>128</blue>
+                  </color>
+                 </brush>
+                </colorrole>
                 <colorrole role="Button" >
                  <brush brushstyle="SolidPattern" >
                   <color alpha="255" >
@@ -5831,6 +5858,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyRightTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>myrighttabwidget.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>spinBox_set</tabstop>
  </tabstops>

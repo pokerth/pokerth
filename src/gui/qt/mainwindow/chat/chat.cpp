@@ -26,7 +26,6 @@ using namespace std;
 
 Chat::Chat(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c)
 {
-
 	myW->setChat(this);
 	
 }
@@ -43,4 +42,18 @@ void Chat::sendMessage() {
 	myW->lineEdit_ChatInput->setText("");
 }
 
-void Chat::receiveMessage(std::string message) { myW->textBrowser_Chat->append(QString::fromUtf8(message.c_str())); }
+void Chat::receiveMessage(std::string message) { 
+
+	myW->textBrowser_Chat->append(QString::fromUtf8(message.c_str())); 
+	checkInvisible();
+}
+
+void Chat::checkInvisible() {
+		
+	switch (myW->tabWidget->currentIndex()) {
+
+		case 1: { myW->tabWidget->stopBlinkChatTab(); }
+		break;
+		default: { myW->tabWidget->startBlinkChatTab(); }
+	} 
+}
