@@ -21,6 +21,7 @@
 #include "guiwrapper.h"
 #include "session.h"
 #include "log.h"
+#include "chat.h"
 #include "mainwindowimpl.h"
 #include "configfile.h"
 
@@ -34,6 +35,7 @@ GuiWrapper::GuiWrapper(ConfigFile *c) : myLog(0), myW(0), myConfig(c)
 	myW = new mainWindowImpl(myConfig);
 	myW->show();
 	myLog = new Log(myW, myConfig);
+	myChat = new Chat(myW, myConfig);
 
 }
 
@@ -89,6 +91,8 @@ void GuiWrapper::meInAction() { myW->signalMeInAction(); }
 
 void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) { myLog->signalLogPlayerActionMsg(QString::fromUtf8(playerName.c_str()), action, setValue); }
 void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->signalLogNewGameHandMsg(gameID, handID); }
+
+void GuiWrapper::chatAppendMsg(string msg) { myChat->receiveMessage(msg); }
 
 void GuiWrapper::SignalNetClientConnect(int actionID) { myW->signalNetClientConnect(actionID); }
 void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->signalNetClientGameInfo(actionID); }

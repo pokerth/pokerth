@@ -189,3 +189,8 @@ void Session::sendClientPlayerAction()
 	myNetClient->SendPlayerAction();
 }
 
+void Session::sendChatMessage(std::string message) {
+	
+	//hi lothar --> zum testen schick ich es gleich wieder zurück an die gui. wie du siehst klappt es ;-) 
+	 myGui->chatAppendMsg(message);
+}

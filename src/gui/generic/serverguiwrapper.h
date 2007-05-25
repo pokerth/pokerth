@@ -77,6 +77,8 @@ public:
 	void logPlayerActionMsg(std::string playerName, int action, int setValue) ;
 	void logNewGameHandMsg(int gameID, int handID) ;
 
+	void chatAppendMsg(std::string msg);
+
 	void SignalNetClientConnect(int actionID);
 	void SignalNetClientGameInfo(int actionID);
 	void SignalNetClientError(int errorID, int osErrorID);

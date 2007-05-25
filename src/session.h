@@ -23,6 +23,7 @@
 #include "playerdata.h"
 #include "game_defs.h"
 #include <string>
+#include <iostream>
 #include <boost/shared_ptr.hpp>
 
 class GuiInterface;
@@ -57,6 +58,8 @@ public:
 
 	void setCurrentGameID(const int& theValue) { currentGameID = theValue; }
 	int getCurrentGameID() const { return currentGameID; }
+
+	void sendChatMessage(std::string message);
 
 private:
 

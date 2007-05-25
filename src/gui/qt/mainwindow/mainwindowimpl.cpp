@@ -558,6 +558,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect ( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
 	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
 
+	connect( tabWidget, SIGNAL( currentChanged(int) ), this, SLOT( setChatFocus() ) );
+	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
+
 	//Nachrichten Thread-Save
 	connect(this, SIGNAL(signalRefreshSet()), this, SLOT(refreshSet()));
 	connect(this, SIGNAL(signalRefreshCash()), this, SLOT(refreshCash()));
@@ -862,7 +865,7 @@ void mainWindowImpl::setSession(boost::shared_ptr<Session> session)
 	mySession = session;
 }
 
-void mainWindowImpl::setLog(Log* l) { myLog = l; }
+
 
 //refresh-Funktionen
 void mainWindowImpl::refreshSet() {
@@ -2504,6 +2507,15 @@ void mainWindowImpl::blinkingStartButtonAnimationAction() {
 		tempPalette.setColor(QPalette::ButtonText, QColor(240,240,240));
 	}
 	pushButton_break->setPalette(tempPalette);
+}
+
+void mainWindowImpl::sendChatMessage() { myChat->sendMessage(); }
+
+void mainWindowImpl::setChatFocus() { 
+	
+	if(tabWidget->currentIndex() == 1) lineEdit_ChatInput->setFocus();
+	else lineEdit_ChatInput->clearFocus();
+
 }
 
 void mainWindowImpl::closeEvent(QCloseEvent *event) {

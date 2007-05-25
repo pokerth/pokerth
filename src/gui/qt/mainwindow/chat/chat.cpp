@@ -20,12 +20,14 @@
 #include "chat.h"
 
 #include "mainwindowimpl.h"
+#include "session.h"
 
 using namespace std;
 
 Chat::Chat(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c)
 {
-// 	myW->setChat(this);
+
+	myW->setChat(this);
 	
 }
 
@@ -34,3 +36,11 @@ Chat::~Chat()
 	delete myConfig;
 	myConfig = 0;
 }
+
+void Chat::sendMessage() {
+
+	myW->getSession().sendChatMessage(myW->lineEdit_ChatInput->text().toUtf8().constData());
+	myW->lineEdit_ChatInput->setText("");
+}
+
+void Chat::receiveMessage(std::string message) { myW->textBrowser_Chat->append(QString::fromUtf8(message.c_str())); }

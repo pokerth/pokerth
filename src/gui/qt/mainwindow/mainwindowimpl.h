@@ -31,6 +31,7 @@
 #include <QtCore>
 
 class Log;
+class Chat;
 class ConfigFile;
 class Session;
 class Game;
@@ -66,7 +67,8 @@ public:
 	Session &getSession();
 	void setSession(boost::shared_ptr<Session> session);
 
-	void setLog(Log*);
+	void setLog(Log* l) { myLog = l; }
+	void setChat(Chat* c) { myChat = c; }
 
 	void setSpeeds();
 
@@ -234,6 +236,9 @@ public slots:
 
 	void paintStartSplash();
 
+	void sendChatMessage();
+	void setChatFocus();
+
 	void networkError(int, int);
 	void networkStart(boost::shared_ptr<Game> game);
 
@@ -244,6 +249,7 @@ private:
 	boost::shared_ptr<GuiInterface> myServerGuiInterface;
 	boost::shared_ptr<Session> mySession;
 	Log *myLog;
+	Chat *myChat;
 	ConfigFile *myConfig;
 
 	//Logo 

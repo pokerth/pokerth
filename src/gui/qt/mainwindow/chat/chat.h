@@ -40,10 +40,9 @@ public:
 
 public slots:
 	
-public:
-	
-signals:
-	
+	void sendMessage();
+	void receiveMessage(std::string);
+
 private:
 	
 	mainWindowImpl *myW;
