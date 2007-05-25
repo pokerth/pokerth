@@ -92,10 +92,6 @@ public:
 	//log.cpp
 	virtual void logPlayerActionMsg(std::string playName, int action, int setValue) =0;
 	virtual void logNewGameHandMsg(int gameID, int HandID) =0;
-
-	//chat
-	virtual void chatAppendMsg(std::string msg) =0;
-
 };
 
 #endif

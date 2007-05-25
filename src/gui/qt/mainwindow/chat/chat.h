@@ -39,10 +39,13 @@ public:
 
 	~Chat();
 
+signals:
+	void signalChatMessage(QString playerName, QString msg);
+
 public slots:
 	
 	void sendMessage();
-	void receiveMessage(std::string);
+	void receiveMessage(QString playerName, QString msg);
 	void checkInvisible();
 		
 private:

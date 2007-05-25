@@ -59,7 +59,7 @@ public:
 	void setCurrentGameID(const int& theValue) { currentGameID = theValue; }
 	int getCurrentGameID() const { return currentGameID; }
 
-	void sendChatMessage(std::string message);
+	void sendChatMessage(const std::string &message);
 
 private:
 

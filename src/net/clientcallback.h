@@ -38,6 +38,8 @@ public:
 	virtual void SignalNetClientGameStart(boost::shared_ptr<Game> game) = 0;
 	virtual void SignalNetClientPlayerJoined(const std::string &playerName) = 0;
 	virtual void SignalNetClientPlayerLeft(const std::string &playerName) = 0;
+
+	virtual void SignalNetClientChatMsg(const std::string &playerName, const std::string &msg) = 0;
 };
 
 #endif

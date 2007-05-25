@@ -27,7 +27,8 @@ using namespace std;
 Chat::Chat(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c)
 {
 	myW->setChat(this);
-	
+
+	connect(this, SIGNAL(signalChatMessage(QString, QString)), this, SLOT(receiveMessage(QString, QString)));
 }
 
 Chat::~Chat()
@@ -42,9 +43,9 @@ void Chat::sendMessage() {
 	myW->lineEdit_ChatInput->setText("");
 }
 
-void Chat::receiveMessage(std::string message) { 
+void Chat::receiveMessage(QString playerName, QString message) { 
 
-	myW->textBrowser_Chat->append(QString::fromUtf8(message.c_str())); 
+	myW->textBrowser_Chat->append(playerName + ": " + message); 
 	checkInvisible();
 }
 

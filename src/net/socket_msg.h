@@ -48,6 +48,7 @@
 #define ERR_NET_INVALID_PASSWORD_STR	105
 #define ERR_NET_PLAYER_NAME_IN_USE		106
 #define ERR_NET_INVALID_PLAYER_NAME		107
+#define ERR_NET_INVALID_CHAT_TEXT		108
 
 // This is an internal message which is not reported.
 #define MSG_SOCK_INTERNAL_PENDING		0

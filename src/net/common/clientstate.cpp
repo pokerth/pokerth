@@ -357,6 +357,43 @@ ClientStateStartSession::Process(ClientThread &client)
 
 //-----------------------------------------------------------------------------
 
+AbstractClientStateReceiving::AbstractClientStateReceiving()
+{
+}
+
+AbstractClientStateReceiving::~AbstractClientStateReceiving()
+{
+}
+
+int
+AbstractClientStateReceiving::Process(ClientThread &client)
+{
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
+
+	// delegate to receiver helper class
+	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(client.GetContext().GetSocket());
+
+	if (tmpPacket.get())
+	{
+		if (tmpPacket->ToNetPacketChatText())
+		{
+			// Chat message - display it in the GUI.
+			NetPacketChatText::Data chatData;
+			tmpPacket->ToNetPacketChatText()->GetData(chatData);
+
+			boost::shared_ptr<PlayerData> tmpPlayer = client.GetPlayerDataByUniqueId(chatData.playerId);
+			if (tmpPlayer.get())
+				client.GetCallback().SignalNetClientChatMsg(tmpPlayer->GetName(), chatData.text);
+		}
+		else
+			retVal = InternalProcess(client, tmpPacket);
+	}
+
+	return retVal;
+}
+
+//-----------------------------------------------------------------------------
+
 ClientStateWaitSession &
 ClientStateWaitSession::Instance()
 {
@@ -373,43 +410,36 @@ ClientStateWaitSession::~ClientStateWaitSession()
 }
 
 int
-ClientStateWaitSession::Process(ClientThread &client)
+ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 	ClientContext &context = client.GetContext();
 
-	// delegate to receiver helper class
-
-	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
-
-	if (tmpPacket.get())
+	if (packet->ToNetPacketJoinGameAck())
 	{
-		if (tmpPacket->ToNetPacketJoinGameAck())
-		{
-			// Everything is fine - we joined the game.
-			// Initialize game configuration.
-			NetPacketJoinGameAck::Data joinGameAckData;
-			tmpPacket->ToNetPacketJoinGameAck()->GetData(joinGameAckData);
-			client.SetGameData(joinGameAckData.gameData);
-			client.SetGuiPlayerNum(joinGameAckData.yourPlayerNum);
+		// Everything is fine - we joined the game.
+		// Initialize game configuration.
+		NetPacketJoinGameAck::Data joinGameAckData;
+		packet->ToNetPacketJoinGameAck()->GetData(joinGameAckData);
+		client.SetGameData(joinGameAckData.gameData);
+		client.SetGuiPlayerNum(joinGameAckData.yourPlayerNum);
 
-			// TODO: Type Human is fixed here.
-			boost::shared_ptr<PlayerData> playerData(
-				new PlayerData(joinGameAckData.yourPlayerUniqueId, joinGameAckData.yourPlayerNum, PLAYER_TYPE_HUMAN));
-			playerData->SetName(context.GetPlayerName());
-			client.AddPlayerData(playerData);
+		// TODO: Type Human is fixed here.
+		boost::shared_ptr<PlayerData> playerData(
+			new PlayerData(joinGameAckData.yourPlayerUniqueId, joinGameAckData.yourPlayerNum, PLAYER_TYPE_HUMAN));
+		playerData->SetName(context.GetPlayerName());
+		client.AddPlayerData(playerData);
 
-			client.SetState(ClientStateWaitGame::Instance());
-			retVal = MSG_SOCK_SESSION_DONE;
-		}
-		else if (tmpPacket->ToNetPacketError())
-		{
-			// Server reported an error.
-			NetPacketError::Data errorData;
-			tmpPacket->ToNetPacketError()->GetData(errorData);
-			// Show the error.
-			throw ClientException(errorData.errorCode, 0);
-		}
+		client.SetState(ClientStateWaitGame::Instance());
+		retVal = MSG_SOCK_SESSION_DONE;
+	}
+	else if (packet->ToNetPacketError())
+	{
+		// Server reported an error.
+		NetPacketError::Data errorData;
+		packet->ToNetPacketError()->GetData(errorData);
+		// Show the error.
+		throw ClientException(errorData.errorCode, 0);
 	}
 
 	return retVal;
@@ -433,45 +463,39 @@ ClientStateWaitGame::~ClientStateWaitGame()
 }
 
 int
-ClientStateWaitGame::Process(ClientThread &client)
+ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 	ClientContext &context = client.GetContext();
 
-	// delegate to receiver helper class
-	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
-
-	if (tmpPacket.get())
+	if (packet->ToNetPacketGameStart())
 	{
-		if (tmpPacket->ToNetPacketGameStart())
-		{
-			// Start the network game as client.
-			NetPacketGameStart::Data gameStartData;
-			tmpPacket->ToNetPacketGameStart()->GetData(gameStartData);
+		// Start the network game as client.
+		NetPacketGameStart::Data gameStartData;
+		packet->ToNetPacketGameStart()->GetData(gameStartData);
 
-			client.SetStartData(gameStartData.startData);
+		client.SetStartData(gameStartData.startData);
 
-			client.SetState(ClientStateWaitHand::Instance());
-			retVal = MSG_NET_GAME_CLIENT_START;
-		}
-		else if (tmpPacket->ToNetPacketPlayerJoined())
-		{
-			// Another player joined the network game.
-			NetPacketPlayerJoined::Data netPlayerData;
-			tmpPacket->ToNetPacketPlayerJoined()->GetData(netPlayerData);
+		client.SetState(ClientStateWaitHand::Instance());
+		retVal = MSG_NET_GAME_CLIENT_START;
+	}
+	else if (packet->ToNetPacketPlayerJoined())
+	{
+		// Another player joined the network game.
+		NetPacketPlayerJoined::Data netPlayerData;
+		packet->ToNetPacketPlayerJoined()->GetData(netPlayerData);
 
-			boost::shared_ptr<PlayerData> playerData(
-				new PlayerData(netPlayerData.playerId, netPlayerData.playerNumber, netPlayerData.ptype));
-			playerData->SetName(netPlayerData.playerName);
-			client.AddPlayerData(playerData);
-		}
-		else if (tmpPacket->ToNetPacketPlayerLeft())
-		{
-			// Another player left the network game.
-			NetPacketPlayerLeft::Data netPlayerData;
-			tmpPacket->ToNetPacketPlayerLeft()->GetData(netPlayerData);
-			client.RemovePlayerData(netPlayerData.playerId);
-		}
+		boost::shared_ptr<PlayerData> playerData(
+			new PlayerData(netPlayerData.playerId, netPlayerData.playerNumber, netPlayerData.ptype));
+		playerData->SetName(netPlayerData.playerName);
+		client.AddPlayerData(playerData);
+	}
+	else if (packet->ToNetPacketPlayerLeft())
+	{
+		// Another player left the network game.
+		NetPacketPlayerLeft::Data netPlayerData;
+		packet->ToNetPacketPlayerLeft()->GetData(netPlayerData);
+		client.RemovePlayerData(netPlayerData.playerId);
 	}
 	// TODO: handle error packet
 
@@ -496,33 +520,27 @@ ClientStateWaitHand::~ClientStateWaitHand()
 }
 
 int
-ClientStateWaitHand::Process(ClientThread &client)
+ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 	ClientContext &context = client.GetContext();
 
-	// Delegate to receiver helper class.
-	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
-
-	if (tmpPacket.get())
+	if (packet->ToNetPacketHandStart())
 	{
-		if (tmpPacket->ToNetPacketHandStart())
-		{
-			// Hand was started.
-			// These are the cards. Good luck.
-			NetPacketHandStart::Data tmpData;
-			tmpPacket->ToNetPacketHandStart()->GetData(tmpData);
-			int myCards[2];
-			myCards[0] = (int)tmpData.yourCards[0];
-			myCards[1] = (int)tmpData.yourCards[1];
-			client.GetGame()->getPlayerArray()[0]->setMyCards(myCards);
-			client.GetGame()->initHand();
-			client.GetGame()->startHand();
-			client.GetGui().dealHoleCards();
-			client.SetState(ClientStateRunHand::Instance());
+		// Hand was started.
+		// These are the cards. Good luck.
+		NetPacketHandStart::Data tmpData;
+		packet->ToNetPacketHandStart()->GetData(tmpData);
+		int myCards[2];
+		myCards[0] = (int)tmpData.yourCards[0];
+		myCards[1] = (int)tmpData.yourCards[1];
+		client.GetGame()->getPlayerArray()[0]->setMyCards(myCards);
+		client.GetGame()->initHand();
+		client.GetGame()->startHand();
+		client.GetGui().dealHoleCards();
+		client.SetState(ClientStateRunHand::Instance());
 
-			retVal = MSG_NET_GAME_CLIENT_HAND;
-		}
+		retVal = MSG_NET_GAME_CLIENT_HAND;
 	}
 
 	return MSG_SOCK_INTERNAL_PENDING;
@@ -546,20 +564,17 @@ ClientStateRunHand::~ClientStateRunHand()
 }
 
 int
-ClientStateRunHand::Process(ClientThread &client)
+ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet)
 {
 	ClientContext &context = client.GetContext();
 
-	// Delegate to receiver helper class.
-	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(context.GetSocket());
-
-	if (tmpPacket.get())
+	if (packet.get())
 	{
 		boost::shared_ptr<Game> curGame = client.GetGame();
-		if (tmpPacket->ToNetPacketPlayersActionDone())
+		if (packet->ToNetPacketPlayersActionDone())
 		{
 			NetPacketPlayersActionDone::Data actionDoneData;
-			tmpPacket->ToNetPacketPlayersActionDone()->GetData(actionDoneData);
+			packet->ToNetPacketPlayersActionDone()->GetData(actionDoneData);
 			PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(actionDoneData.playerId);
 			assert(tmpPlayer); // TODO: throw exception
 
@@ -587,10 +602,10 @@ ClientStateRunHand::Process(ClientThread &client)
 			client.GetGui().refreshAction();
 			client.GetGui().refreshCash();
 		}
-		else if (tmpPacket->ToNetPacketPlayersTurn())
+		else if (packet->ToNetPacketPlayersTurn())
 		{
 			NetPacketPlayersTurn::Data turnData;
-			tmpPacket->ToNetPacketPlayersTurn()->GetData(turnData);
+			packet->ToNetPacketPlayersTurn()->GetData(turnData);
 			PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(turnData.playerId);
 			assert(tmpPlayer); // TODO: throw exception
 

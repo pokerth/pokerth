@@ -146,8 +146,6 @@ Server Request/Notification: Player's Turn
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 Game State:
-	0xF0 - Preflop Small Blind (no action requested)
-	0xF1 - Preflop Big Blind (no action requested)
 	0x00 - Preflop
 	0x01 - Flop
 	0x02 - Turn
@@ -168,23 +166,23 @@ Client Reply/Request: Player's Action
 
 [ Game State is confirmed to ensure consistency. ]
 Player Action:
-	0 - None (e.g. Small Blind or Big Blind in Preflop)
-	1 - Fold
-	2 - Check
-	3 - Call
-	4 - Bet
-	5 - Raise
-	6 - All in
+	0x00 - None (e.g. Small Blind or Big Blind in Preflop)
+	0x01 - Fold
+	0x02 - Check
+	0x03 - Call
+	0x04 - Bet
+	0x05 - Raise
+	0x06 - All in
 Player Bet:
-	0   - states fold, check, call, all in
-	> 0 - states bet, raise
+	0 (ignored) - states fold, check, call, all in
+	> 0         - states bet, raise
 
 Server Notification: Player's Action Done
 
 	 0                   1                   2                   3
 	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|        Message Type = 9       |     Message Length = 12       |
+	|        Message Type = 9       |     Message Length = 28       |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|          Game State           |           Player Id           |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -198,6 +196,10 @@ Server Notification: Player's Action Done
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                       Current Hand Bets                       |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+Additional Game States:
+	0xF0 - Preflop Small Blind (no action requested)
+	0xF1 - Preflop Big Blind (no action requested)
 
 
 Server Reply: Player's Action Rejected
@@ -226,6 +228,38 @@ Rejection Reason:
 	0x0009 - Bet too small.
 	0x0010 - Bet too large.
 	0xFFFF - Other reason
+
+
+Client Request: Send Chat Text
+
+	 0                   1                   2                   3
+	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|        Message Type = 11      |         Message Length        |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|         Text Length           |           Reserved            |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                                                               \
+	\                          Text (UTF-8)                         /
+	|                               +-------------------------------+
+	/                               |            padding            |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+
+Server Notification: Chat Text
+
+	 0                   1                   2                   3
+	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|        Message Type = 12      |         Message Length        |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|         Text Length           |           Player Id           |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                                                               \
+	\                          Text (UTF-8)                         /
+	|                               +-------------------------------+
+	/                               |            padding            |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 
 Server Reply: Error

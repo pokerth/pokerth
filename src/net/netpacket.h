@@ -33,6 +33,7 @@
 #define MAX_PACKET_SIZE				256
 #define MAX_NAME_SIZE				64
 #define MAX_PASSWORD_SIZE			64
+#define MAX_CHAT_TEXT_SIZE			128
 
 
 struct NetPacketHeader;
@@ -47,6 +48,8 @@ class NetPacketPlayersTurn;
 class NetPacketPlayersAction;
 class NetPacketPlayersActionDone;
 class NetPacketPlayersActionRejected;
+class NetPacketSendChatText;
+class NetPacketChatText;
 class NetPacketError;
 
 class NetPacket
@@ -76,6 +79,8 @@ public:
 	virtual const NetPacketPlayersAction *ToNetPacketPlayersAction() const;
 	virtual const NetPacketPlayersActionDone *ToNetPacketPlayersActionDone() const;
 	virtual const NetPacketPlayersActionRejected *ToNetPacketPlayersActionRejected() const;
+	virtual const NetPacketSendChatText *ToNetPacketSendChatText() const;
+	virtual const NetPacketChatText *ToNetPacketChatText() const;
 	virtual const NetPacketError *ToNetPacketError() const;
 
 protected:
@@ -337,6 +342,53 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketPlayersActionRejected *ToNetPacketPlayersActionRejected() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketSendChatText : public NetPacket
+{
+public:
+	struct Data
+	{
+		std::string		text;
+	};
+
+	NetPacketSendChatText();
+	virtual ~NetPacketSendChatText();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketSendChatText *ToNetPacketSendChatText() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketChatText : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int16_t		playerId;
+		std::string		text;
+	};
+
+	NetPacketChatText();
+	virtual ~NetPacketChatText();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketChatText *ToNetPacketChatText() const;
 
 protected:
 

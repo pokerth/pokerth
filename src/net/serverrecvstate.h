@@ -21,7 +21,7 @@
 #ifndef _SERVERRECVSTATE_H_
 #define _SERVERRECVSTATE_H_
 
-#include <net/connectdata.h>
+#include <net/serverrecvthread.h>
 #include <playerdata.h>
 
 #define SERVER_INITIAL_STATE	ServerRecvStateInit
@@ -29,7 +29,6 @@
 
 class Game;
 class PlayerInterface;
-class ServerRecvThread;
 class ServerCallback;
 
 class ServerRecvState
@@ -44,8 +43,25 @@ public:
 	virtual int Process(ServerRecvThread &server) = 0;
 };
 
+// Abstract State: Receiving.
+class ServerRecvStateReceiving : public ServerRecvState
+{
+public:
+	virtual ~ServerRecvStateReceiving();
+
+	// Globally handle packets which are allowed in all running states.
+	// Calls InternalProcess if packet has not been processed.
+	virtual int Process(ServerRecvThread &server);
+
+protected:
+
+	ServerRecvStateReceiving();
+
+	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
+};
+
 // State: Initialization.
-class ServerRecvStateInit : public ServerRecvState
+class ServerRecvStateInit : public ServerRecvStateReceiving
 {
 public:
 	// Access the state singleton.
@@ -56,13 +72,12 @@ public:
 	// 
 	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
 
-	// 
-	virtual int Process(ServerRecvThread &server);
-
 protected:
 
 	// Protected constructor - this is a singleton.
 	ServerRecvStateInit();
+
+	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
 private:
 
@@ -75,10 +90,11 @@ class ServerRecvStateRunning : public ServerRecvState
 public:
 	virtual ~ServerRecvStateRunning();
 
-	// 
+	// Reject new connections.
 	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
 
 protected:
+
 	ServerRecvStateRunning();
 };
 
@@ -140,7 +156,7 @@ protected:
 };
 
 // State: Wait for a player action.
-class ServerRecvStateWaitPlayerAction : public ServerRecvStateRunning
+class ServerRecvStateWaitPlayerAction : public ServerRecvStateReceiving
 {
 public:
 	// Access the state singleton.
@@ -148,13 +164,14 @@ public:
 
 	virtual ~ServerRecvStateWaitPlayerAction();
 
-	// 
-	virtual int Process(ServerRecvThread &server);
+	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
 
 protected:
 
 	// Protected constructor - this is a singleton.
 	ServerRecvStateWaitPlayerAction();
+
+	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
 	static int GetHighestSet(Game &curGame);
 	static void SetHighestSet(Game &curGame, int highestSet);

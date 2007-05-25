@@ -37,6 +37,8 @@ using namespace std;
 #define NET_TYPE_PLAYERS_ACTION					0x0008
 #define NET_TYPE_PLAYERS_ACTION_DONE			0x0009
 #define NET_TYPE_PLAYERS_ACTION_REJECTED		0x000A
+#define NET_TYPE_SEND_CHAT_TEXT					0x000B
+#define NET_TYPE_CHAT_TEXT						0x000C
 
 #define NET_TYPE_ERROR							0x0400
 
@@ -75,7 +77,6 @@ struct GCC_PACKED NetPacketJoinGameData
 	u_int16_t			playerFlags;
 	u_int16_t			playerNameLength;
 	u_int16_t			reserved;
-	char				password[1];
 };
 
 struct GCC_PACKED NetPacketJoinGameAckData
@@ -105,7 +106,6 @@ struct GCC_PACKED NetPacketPlayerJoinedData
 	u_int16_t			playerNumber;
 	u_int16_t			playerFlags;
 	u_int16_t			playerNameLength;
-	char				playerName[1];
 };
 
 struct GCC_PACKED NetPacketPlayerLeftData
@@ -164,6 +164,21 @@ struct GCC_PACKED NetPacketPlayersActionRejectedData
 	u_int32_t			playerBet;
 	u_int16_t			rejectionReason;
 	u_int16_t			reserved;
+};
+
+struct GCC_PACKED NetPacketSendChatTextData
+{
+	NetPacketHeader		head;
+	u_int16_t			textLength;
+	u_int16_t			reserved;
+};
+
+struct GCC_PACKED NetPacketChatTextData
+{
+	NetPacketHeader		head;
+	u_int16_t			textLength;
+	u_int16_t			playerId;
+	char				text[1];
 };
 
 struct GCC_PACKED NetPacketErrorData
@@ -228,6 +243,12 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_PLAYERS_ACTION_REJECTED:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayersActionRejected);
+					break;
+				case NET_TYPE_SEND_CHAT_TEXT:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketSendChatText);
+					break;
+				case NET_TYPE_CHAT_TEXT:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketChatText);
 					break;
 				case NET_TYPE_ERROR:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketError);
@@ -373,6 +394,18 @@ NetPacket::ToNetPacketPlayersActionRejected() const
 	return NULL;
 }
 
+const NetPacketSendChatText *
+NetPacket::ToNetPacketSendChatText() const
+{
+	return NULL;
+}
+
+const NetPacketChatText *
+NetPacket::ToNetPacketChatText() const
+{
+	return NULL;
+}
+
 const NetPacketError *
 NetPacket::ToNetPacketError() const
 {
@@ -461,8 +494,9 @@ NetPacketJoinGame::SetData(const NetPacketJoinGame::Data &inData)
 	tmpData->passwordLength = htons(passwordLen);
 	tmpData->playerFlags = htons((inData.ptype == PLAYER_TYPE_HUMAN) ? NET_PLAYER_FLAG_HUMAN : 0);
 	tmpData->playerNameLength = htons(playerNameLen);
-	memcpy(tmpData->password, inData.password.c_str(), passwordLen);
-	memcpy(tmpData->password + ADD_PADDING(passwordLen), inData.playerName.c_str(), playerNameLen);
+	char *passwordPtr = (char *)tmpData + sizeof(NetPacketJoinGameData);
+	memcpy(passwordPtr, inData.password.c_str(), passwordLen);
+	memcpy(passwordPtr + ADD_PADDING(passwordLen), inData.playerName.c_str(), playerNameLen);
 }
 
 void
@@ -478,8 +512,9 @@ NetPacketJoinGame::GetData(NetPacketJoinGame::Data &outData) const
 	outData.ptype = (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_HUMAN) ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
 
 	u_int16_t passwordLen = ntohs(tmpData->passwordLength);
-	outData.password = string(tmpData->password, passwordLen);
-	outData.playerName = string(tmpData->password + ADD_PADDING(passwordLen), ntohs(tmpData->playerNameLength));
+	char *passwordPtr = (char *)tmpData + sizeof(NetPacketJoinGameData);
+	outData.password = string(passwordPtr, passwordLen);
+	outData.playerName = string(passwordPtr + ADD_PADDING(passwordLen), ntohs(tmpData->playerNameLength));
 }
 
 const NetPacketJoinGame *
@@ -640,7 +675,8 @@ NetPacketPlayerJoined::SetData(const NetPacketPlayerJoined::Data &inData)
 	tmpData->playerId = htons(inData.playerId);
 	tmpData->playerNumber = htons(inData.playerNumber);
 	tmpData->playerNameLength = htons(playerNameLen);
-	memcpy(tmpData->playerName, inData.playerName.c_str(), playerNameLen);
+	char *namePtr = (char *)tmpData + sizeof(NetPacketPlayerJoinedData);
+	memcpy(namePtr, inData.playerName.c_str(), playerNameLen);
 }
 
 void
@@ -653,7 +689,8 @@ NetPacketPlayerJoined::GetData(NetPacketPlayerJoined::Data &outData) const
 	outData.ptype = (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_HUMAN) ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
 	outData.playerId = ntohs(tmpData->playerId);
 	outData.playerNumber = ntohs(tmpData->playerNumber);
-	outData.playerName = string(tmpData->playerName, ntohs(tmpData->playerNameLength));
+	char *namePtr = (char *)tmpData + sizeof(NetPacketPlayerJoinedData);
+	outData.playerName = string(namePtr, ntohs(tmpData->playerNameLength));
 }
 
 const NetPacketPlayerJoined *
@@ -1194,6 +1231,189 @@ NetPacketPlayersActionRejected::Check(const NetPacketHeader* data) const
 	// TODO: check rejection reason
 }
 
+//-----------------------------------------------------------------------------
+
+NetPacketSendChatText::NetPacketSendChatText()
+: NetPacket(NET_TYPE_SEND_CHAT_TEXT, sizeof(NetPacketSendChatTextData))
+{
+}
+
+NetPacketSendChatText::~NetPacketSendChatText()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketSendChatText::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketSendChatText);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketSendChatText::SetData(const NetPacketSendChatText::Data &inData)
+{
+	u_int16_t textLen = (u_int16_t)inData.text.length();
+
+	if (!textLen || textLen > MAX_CHAT_TEXT_SIZE)
+		throw NetException(ERR_NET_INVALID_CHAT_TEXT, 0);
+
+	// Resize the packet so that the data fits in.
+	Resize((u_int16_t)
+		(sizeof(NetPacketSendChatTextData) + ADD_PADDING(textLen)));
+
+	NetPacketSendChatTextData *tmpData = (NetPacketSendChatTextData *)GetRawData();
+	assert(tmpData);
+
+	// Set the data.
+	tmpData->textLength = htons(textLen);
+	char *textPtr = (char *)tmpData + sizeof(NetPacketSendChatTextData);
+	memcpy(textPtr, inData.text.c_str(), textLen);
+}
+
+void
+NetPacketSendChatText::GetData(NetPacketSendChatText::Data &outData) const
+{
+	// We assume that the data is valid. Validity has already been checked.
+	NetPacketSendChatTextData *tmpData = (NetPacketSendChatTextData *)GetRawData();
+	assert(tmpData);
+
+	char *textPtr = (char *)tmpData + sizeof(NetPacketSendChatTextData);
+	outData.text = string(textPtr, ntohs(tmpData->textLength));
+}
+
+const NetPacketSendChatText *
+NetPacketSendChatText::ToNetPacketSendChatText() const
+{
+	return this;
+}
+
+void
+NetPacketSendChatText::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen < sizeof(NetPacketSendChatTextData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
+	NetPacketSendChatTextData *tmpData = (NetPacketSendChatTextData *)data;
+	int textLength = ntohs(tmpData->textLength);
+	// Generous checking - larger packets are allowed.
+	if (dataLen <
+		sizeof(NetPacketSendChatTextData)
+		+ ADD_PADDING(textLength))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check string sizes.
+	if (!textLength
+		|| textLength > MAX_CHAT_TEXT_SIZE)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketChatText::NetPacketChatText()
+: NetPacket(NET_TYPE_CHAT_TEXT, sizeof(NetPacketChatTextData))
+{
+}
+
+NetPacketChatText::~NetPacketChatText()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketChatText::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketChatText);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketChatText::SetData(const NetPacketChatText::Data &inData)
+{
+	u_int16_t textLen = (u_int16_t)inData.text.length();
+
+	if (!textLen || textLen > MAX_CHAT_TEXT_SIZE)
+		throw NetException(ERR_NET_INVALID_CHAT_TEXT, 0);
+
+	// Resize the packet so that the data fits in.
+	Resize((u_int16_t)
+		(sizeof(NetPacketChatTextData) + ADD_PADDING(textLen)));
+
+	NetPacketChatTextData *tmpData = (NetPacketChatTextData *)GetRawData();
+	assert(tmpData);
+
+	// Set the data.
+	tmpData->playerId = htons(inData.playerId);
+	tmpData->textLength = htons(textLen);
+	char *textPtr = (char *)tmpData + sizeof(NetPacketChatTextData);
+	memcpy(textPtr, inData.text.c_str(), textLen);
+}
+
+void
+NetPacketChatText::GetData(NetPacketChatText::Data &outData) const
+{
+	// We assume that the data is valid. Validity has already been checked.
+	NetPacketChatTextData *tmpData = (NetPacketChatTextData *)GetRawData();
+	assert(tmpData);
+
+	outData.playerId = ntohs(tmpData->playerId);
+	char *textPtr = (char *)tmpData + sizeof(NetPacketChatTextData);
+	outData.text = string(textPtr, ntohs(tmpData->textLength));
+}
+
+const NetPacketChatText *
+NetPacketChatText::ToNetPacketChatText() const
+{
+	return this;
+}
+
+void
+NetPacketChatText::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen < sizeof(NetPacketChatTextData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
+	NetPacketChatTextData *tmpData = (NetPacketChatTextData *)data;
+	int textLength = ntohs(tmpData->textLength);
+	// Generous checking - larger packets are allowed.
+	if (dataLen <
+		sizeof(NetPacketChatTextData)
+		+ ADD_PADDING(textLength))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check string sizes.
+	if (!textLength
+		|| textLength > MAX_CHAT_TEXT_SIZE)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
 //-----------------------------------------------------------------------------
 
 NetPacketError::NetPacketError()

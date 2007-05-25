@@ -94,14 +94,13 @@ void ServerGuiWrapper::meInAction() {}
 void ServerGuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) {}
 void ServerGuiWrapper::logNewGameHandMsg(int gameID, int handID) {}
 
-void ServerGuiWrapper::chatAppendMsg(std::string msg) {}
-
 void ServerGuiWrapper::SignalNetClientConnect(int actionID) { if (myClientcb) myClientcb->SignalNetClientConnect(actionID); }
 void ServerGuiWrapper::SignalNetClientGameInfo(int actionID) { if (myClientcb) myClientcb->SignalNetClientGameInfo(actionID); }
 void ServerGuiWrapper::SignalNetClientError(int errorID, int osErrorID) { if (myClientcb) myClientcb->SignalNetClientError(errorID, osErrorID); }
 void ServerGuiWrapper::SignalNetClientPlayerJoined(const string &playerName) { if (myClientcb) myClientcb->SignalNetClientPlayerJoined(playerName); }
 void ServerGuiWrapper::SignalNetClientPlayerLeft(const string &playerName) { if (myClientcb) myClientcb->SignalNetClientPlayerLeft(playerName); }
 void ServerGuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { if (myClientcb) myClientcb->SignalNetClientGameStart(game); }
+void ServerGuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { if (myClientcb) myClientcb->SignalNetClientChatMsg(playerName, msg); }
 
 void ServerGuiWrapper::SignalNetServerSuccess(int actionID) { if (myServercb) myServercb->SignalNetServerSuccess(actionID); }
 void ServerGuiWrapper::SignalNetServerError(int errorID, int osErrorID) { if (myServercb) myServercb->SignalNetServerError(errorID, osErrorID); }

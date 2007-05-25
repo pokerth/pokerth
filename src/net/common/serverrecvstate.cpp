@@ -41,6 +41,66 @@ ServerRecvState::~ServerRecvState()
 
 //-----------------------------------------------------------------------------
 
+ServerRecvStateReceiving::ServerRecvStateReceiving()
+{
+}
+
+ServerRecvStateReceiving::~ServerRecvStateReceiving()
+{
+}
+
+int
+ServerRecvStateReceiving::Process(ServerRecvThread &server)
+{
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
+	SOCKET recvSock = server.Select();
+
+	if (recvSock != INVALID_SOCKET)
+	{
+		SessionWrapper session = server.GetSession(recvSock);
+		boost::shared_ptr<NetPacket> packet;
+		try
+		{
+			packet = server.GetReceiver().Recv(recvSock);
+		} catch (const NetException &)
+		{
+			if (session.sessionData.get())
+			{
+				// TODO: Deactivate player.
+				server.CloseSessionDelayed(session);
+				return retVal;
+			}
+		}
+
+		// Ignore if no session / no packet.
+		if (packet.get() && session.sessionData.get())
+		{
+			if (packet->ToNetPacketSendChatText()) // Chat text is always allowed.
+			{
+				if (session.playerData.get()) // Only forward if this player is known.
+				{
+					// Forward chat text to all players.
+					// TODO: Some limitation needed.
+					NetPacketSendChatText::Data inChatData;
+					packet->ToNetPacketSendChatText()->GetData(inChatData);
+
+					boost::shared_ptr<NetPacket> outChat(new NetPacketChatText);
+					NetPacketChatText::Data outChatData;
+					outChatData.playerId = session.playerData->GetUniqueId();
+					outChatData.text = inChatData.text;
+					static_cast<NetPacketChatText *>(outChat.get())->SetData(outChatData);
+					server.SendToAllPlayers(outChat);
+				}
+			}
+			else
+				retVal = InternalProcess(server, session, packet); // Let other class handle this.
+		}
+	}
+	return retVal;
+}
+
+//-----------------------------------------------------------------------------
+
 ServerRecvStateInit &
 ServerRecvStateInit::Instance()
 {
@@ -71,137 +131,116 @@ ServerRecvStateInit::HandleNewConnection(ServerRecvThread &server, boost::shared
 }
 
 int
-ServerRecvStateInit::Process(ServerRecvThread &server)
+ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INIT_DONE;
-	SOCKET recvSock = server.Select();
 
-	if (recvSock != INVALID_SOCKET)
+	// Session should be in initial state.
+	if (session.sessionData->GetState() != SessionData::Init)
 	{
-		SessionWrapper session = server.GetSession(recvSock);
-		boost::shared_ptr<NetPacket> packet;
-		try
-		{
-			packet = server.GetReceiver().Recv(recvSock);
-		} catch (const NetException &)
-		{
-			if (session.sessionData.get())
-			{
-				server.CloseSessionDelayed(session);
-				return retVal;
-			}
-		}
-
-		// Ignore if no session / no packet.
-		if (packet.get() && session.sessionData.get())
-		{
-			// Session should be in initial state.
-			if (session.sessionData->GetState() != SessionData::Init)
-			{
-				server.SessionError(session, ERR_SOCK_INVALID_STATE);
-				return retVal;
-			}
-
-			// Only accept join game packets.
-			const NetPacketJoinGame *tmpPacket = packet->ToNetPacketJoinGame();
-			if (!tmpPacket)
-			{
-				server.SessionError(session, ERR_SOCK_INVALID_PACKET);
-				return retVal;
-			}
-
-			NetPacketJoinGame::Data joinGameData;
-			tmpPacket->GetData(joinGameData);
-
-			// Check the protocol version.
-			if (joinGameData.versionMajor != NET_VERSION_MAJOR)
-			{
-				server.SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
-				return retVal;
-			}
-
-			size_t curNumPlayers = server.GetCurNumberOfPlayers();
-
-			// Check the number of players.
-			if (curNumPlayers >= (size_t)server.GetGameData().numberOfPlayers)
-			{
-				server.SessionError(session, ERR_NET_SERVER_FULL);
-				return retVal;
-			}
-
-			// Check the server password.
-			if (!server.CheckPassword(joinGameData.password))
-			{
-				server.SessionError(session, ERR_NET_INVALID_PASSWORD);
-				return retVal;
-			}
-
-			// Check whether the player name is correct.
-			// Paranoia check, this is also done in netpacket.
-			if (joinGameData.playerName.empty() || joinGameData.playerName.size() > MAX_NAME_SIZE)
-			{
-				server.SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
-				return retVal;
-			}
-
-			// Check whether this player is already connected.
-			if (server.IsPlayerConnected(joinGameData.playerName))
-			{
-				server.SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
-				return retVal;
-			}
-
-			// Create player data object.
-			boost::shared_ptr<PlayerData> tmpPlayerData(
-				new PlayerData(m_curUniquePlayerId++, server.GetNextPlayerNumber(), joinGameData.ptype));
-			tmpPlayerData->SetName(joinGameData.playerName);
-			tmpPlayerData->SetNetSessionData(session.sessionData);
-
-			// Send ACK to client.
-			boost::shared_ptr<NetPacket> answer(new NetPacketJoinGameAck);
-			NetPacketJoinGameAck::Data joinGameAckData;
-			joinGameAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
-			joinGameAckData.yourPlayerUniqueId = tmpPlayerData->GetUniqueId();
-			joinGameAckData.yourPlayerNum = tmpPlayerData->GetNumber();
-			joinGameAckData.gameData = server.GetGameData();
-			static_cast<NetPacketJoinGameAck *>(answer.get())->SetData(joinGameAckData);
-			server.GetSender().Send(recvSock, answer);
-
-			// Send notifications for connected players to client.
-			PlayerDataList tmpPlayerList = server.GetPlayerDataList();
-			PlayerDataList::iterator player_i = tmpPlayerList.begin();
-			PlayerDataList::iterator player_end = tmpPlayerList.end();
-			while (player_i != player_end)
-			{
-				boost::shared_ptr<NetPacket> otherPlayerJoined(new NetPacketPlayerJoined);
-				NetPacketPlayerJoined::Data otherPlayerJoinedData;
-				otherPlayerJoinedData.playerId = (*player_i)->GetUniqueId();
-				otherPlayerJoinedData.playerName = (*player_i)->GetName();
-				otherPlayerJoinedData.playerNumber = (*player_i)->GetNumber();
-				otherPlayerJoinedData.ptype = (*player_i)->GetType();
-				static_cast<NetPacketPlayerJoined *>(otherPlayerJoined.get())->SetData(otherPlayerJoinedData);
-				server.GetSender().Send(session.sessionData->GetSocket(), otherPlayerJoined);
-
-				++player_i;
-			}
-
-			// Send "Player Joined" to other fully connected clients.
-			boost::shared_ptr<NetPacket> thisPlayerJoined(new NetPacketPlayerJoined);
-			NetPacketPlayerJoined::Data thisPlayerJoinedData;
-			thisPlayerJoinedData.playerId = tmpPlayerData->GetUniqueId();
-			thisPlayerJoinedData.playerName = tmpPlayerData->GetName();
-			thisPlayerJoinedData.playerNumber = tmpPlayerData->GetNumber();
-			thisPlayerJoinedData.ptype = tmpPlayerData->GetType();
-			static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
-			server.SendToAllPlayers(thisPlayerJoined);
-
-			// Set player data for session.
-			server.SetSessionPlayerData(session.sessionData, tmpPlayerData);
-
-			// Session is now established.
-			session.sessionData->SetState(SessionData::Established);
-		}
+		server.SessionError(session, ERR_SOCK_INVALID_STATE);
+		return retVal;
 	}
+
+	// Only accept join game packets.
+	const NetPacketJoinGame *tmpPacket = packet->ToNetPacketJoinGame();
+	if (!tmpPacket)
+	{
+		server.SessionError(session, ERR_SOCK_INVALID_PACKET);
+		return retVal;
+	}
+
+	NetPacketJoinGame::Data joinGameData;
+	tmpPacket->GetData(joinGameData);
+
+	// Check the protocol version.
+	if (joinGameData.versionMajor != NET_VERSION_MAJOR)
+	{
+		server.SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
+		return retVal;
+	}
+
+	size_t curNumPlayers = server.GetCurNumberOfPlayers();
+
+	// Check the number of players.
+	if (curNumPlayers >= (size_t)server.GetGameData().numberOfPlayers)
+	{
+		server.SessionError(session, ERR_NET_SERVER_FULL);
+		return retVal;
+	}
+
+	// Check the server password.
+	if (!server.CheckPassword(joinGameData.password))
+	{
+		server.SessionError(session, ERR_NET_INVALID_PASSWORD);
+		return retVal;
+	}
+
+	// Check whether the player name is correct.
+	// Paranoia check, this is also done in netpacket.
+	if (joinGameData.playerName.empty() || joinGameData.playerName.size() > MAX_NAME_SIZE)
+	{
+		server.SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
+		return retVal;
+	}
+
+	// Check whether this player is already connected.
+	if (server.IsPlayerConnected(joinGameData.playerName))
+	{
+		server.SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
+		return retVal;
+	}
+
+	// Create player data object.
+	boost::shared_ptr<PlayerData> tmpPlayerData(
+		new PlayerData(m_curUniquePlayerId++, server.GetNextPlayerNumber(), joinGameData.ptype));
+	tmpPlayerData->SetName(joinGameData.playerName);
+	tmpPlayerData->SetNetSessionData(session.sessionData);
+
+	// Send ACK to client.
+	boost::shared_ptr<NetPacket> answer(new NetPacketJoinGameAck);
+	NetPacketJoinGameAck::Data joinGameAckData;
+	joinGameAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
+	joinGameAckData.yourPlayerUniqueId = tmpPlayerData->GetUniqueId();
+	joinGameAckData.yourPlayerNum = tmpPlayerData->GetNumber();
+	joinGameAckData.gameData = server.GetGameData();
+	static_cast<NetPacketJoinGameAck *>(answer.get())->SetData(joinGameAckData);
+	server.GetSender().Send(session.sessionData->GetSocket(), answer);
+
+	// Send notifications for connected players to client.
+	PlayerDataList tmpPlayerList = server.GetPlayerDataList();
+	PlayerDataList::iterator player_i = tmpPlayerList.begin();
+	PlayerDataList::iterator player_end = tmpPlayerList.end();
+	while (player_i != player_end)
+	{
+		boost::shared_ptr<NetPacket> otherPlayerJoined(new NetPacketPlayerJoined);
+		NetPacketPlayerJoined::Data otherPlayerJoinedData;
+		otherPlayerJoinedData.playerId = (*player_i)->GetUniqueId();
+		otherPlayerJoinedData.playerName = (*player_i)->GetName();
+		otherPlayerJoinedData.playerNumber = (*player_i)->GetNumber();
+		otherPlayerJoinedData.ptype = (*player_i)->GetType();
+		static_cast<NetPacketPlayerJoined *>(otherPlayerJoined.get())->SetData(otherPlayerJoinedData);
+		server.GetSender().Send(session.sessionData->GetSocket(), otherPlayerJoined);
+
+		++player_i;
+	}
+
+	// Send "Player Joined" to other fully connected clients.
+	boost::shared_ptr<NetPacket> thisPlayerJoined(new NetPacketPlayerJoined);
+	NetPacketPlayerJoined::Data thisPlayerJoinedData;
+	thisPlayerJoinedData.playerId = tmpPlayerData->GetUniqueId();
+	thisPlayerJoinedData.playerName = tmpPlayerData->GetName();
+	thisPlayerJoinedData.playerNumber = tmpPlayerData->GetNumber();
+	thisPlayerJoinedData.ptype = tmpPlayerData->GetType();
+	static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
+	server.SendToAllPlayers(thisPlayerJoined);
+
+	// Set player data for session.
+	server.SetSessionPlayerData(session.sessionData, tmpPlayerData);
+
+	// Session is now established.
+	session.sessionData->SetState(SessionData::Established);
+
 	return retVal;
 }
 
@@ -463,62 +502,50 @@ ServerRecvStateWaitPlayerAction::~ServerRecvStateWaitPlayerAction()
 {
 }
 
+void
+ServerRecvStateWaitPlayerAction::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
+{
+	// C++ really sucks concerning multiple inheritance *sigh*.
+	// So this is a copy & paste from ServerRecvStateRunning.
+
+	// Do not accept new connections in this state.
+	server.RejectNewConnection(connData);
+}
+
 int
-ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
+ServerRecvStateWaitPlayerAction::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
-	SOCKET recvSock = server.Select();
 
-	if (recvSock != INVALID_SOCKET)
+	if (packet->ToNetPacketPlayersAction())
 	{
-		SessionWrapper session = server.GetSession(recvSock);
-		boost::shared_ptr<NetPacket> packet;
-		try
-		{
-			packet = server.GetReceiver().Recv(recvSock);
-		} catch (const NetException &)
-		{
-			if (session.sessionData.get())
-			{
-				server.CloseSessionDelayed(session);
-				return retVal;
-			}
-		}
+		NetPacketPlayersAction::Data actionData;
+		packet->ToNetPacketPlayersAction()->GetData(actionData);
+		
+		Game &curGame = server.GetGame();
+		PlayerInterface *tmpPlayer = curGame.getPlayerByUniqueId(session.playerData->GetUniqueId());
+		assert(tmpPlayer); // TODO throw exception
 
-		// Ignore if no session / no packet.
-		if (packet.get() && session.sessionData.get())
-		{
-			if (packet->ToNetPacketPlayersAction())
-			{
-				NetPacketPlayersAction::Data actionData;
-				packet->ToNetPacketPlayersAction()->GetData(actionData);
-				
-				Game &curGame = server.GetGame();
-				PlayerInterface *tmpPlayer = curGame.getPlayerByUniqueId(session.playerData->GetUniqueId());
-				assert(tmpPlayer); // TODO throw exception
+		tmpPlayer->setMyAction(actionData.playerAction);
+		tmpPlayer->setMySet(actionData.playerBet);
 
-				tmpPlayer->setMyAction(actionData.playerAction);
-				tmpPlayer->setMySet(actionData.playerBet);
+		if (tmpPlayer->getMySet() > GetHighestSet(curGame))
+			SetHighestSet(curGame, tmpPlayer->getMySet());
 
-				if (tmpPlayer->getMySet() > GetHighestSet(curGame))
-					SetHighestSet(curGame, tmpPlayer->getMySet());
+		boost::shared_ptr<NetPacket> notifyActionDone(new NetPacketPlayersActionDone);
+		NetPacketPlayersActionDone::Data actionDoneData;
+		actionDoneData.gameState = static_cast<GameState>(curGame.getCurrentHand()->getActualRound());
+		actionDoneData.playerId = session.playerData->GetUniqueId();
+		actionDoneData.playerAction = actionData.playerAction;
+		actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
+		actionDoneData.playerMoney = tmpPlayer->getMyCash();
+		actionDoneData.potSize = curGame.getCurrentHand()->getBoard()->getPot();
+		actionDoneData.curHandBets = curGame.getCurrentHand()->getBoard()->getSets();
+		static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
+		server.SendToAllPlayers(notifyActionDone);
 
-				boost::shared_ptr<NetPacket> notifyActionDone(new NetPacketPlayersActionDone);
-				NetPacketPlayersActionDone::Data actionDoneData;
-				actionDoneData.gameState = static_cast<GameState>(curGame.getCurrentHand()->getActualRound());
-				actionDoneData.playerId = session.playerData->GetUniqueId();
-				actionDoneData.playerAction = actionData.playerAction;
-				actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
-				actionDoneData.playerMoney = tmpPlayer->getMyCash();
-				actionDoneData.potSize = curGame.getCurrentHand()->getBoard()->getPot();
-				actionDoneData.curHandBets = curGame.getCurrentHand()->getBoard()->getSets();
-				static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
-				server.SendToAllPlayers(notifyActionDone);
-
-				server.SetState(ServerRecvStateStartRound::Instance());
-				retVal = MSG_NET_GAME_SERVER_ACTION;
-			}
-		}
+		server.SetState(ServerRecvStateStartRound::Instance());
+		retVal = MSG_NET_GAME_SERVER_ACTION;
 	}
 
 	return retVal;

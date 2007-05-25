@@ -52,6 +52,7 @@ public:
 		const std::string &playerName);
 
 	void SendPlayerAction();
+	void SendChatMessage(const std::string &msg);
 
 	ClientCallback &GetCallback();
 	GuiInterface &GetGui();
@@ -84,7 +85,9 @@ protected:
 
 	void AddPlayerData(boost::shared_ptr<PlayerData> playerData);
 	void RemovePlayerData(unsigned playerId);
-	PlayerDataList GetMappedPlayerDataList() const;
+	void MapPlayerDataList();
+	const PlayerDataList &GetPlayerDataList() const;
+	boost::shared_ptr<PlayerData> GetPlayerDataByUniqueId(unsigned id);
 
 private:
 
@@ -105,6 +108,7 @@ private:
 	unsigned m_curGameId;
 	int m_guiPlayerNum;
 
+friend class AbstractClientStateReceiving;
 friend class ClientStateInit;
 friend class ClientStateStartResolve;
 friend class ClientStateResolving;

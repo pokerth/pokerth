@@ -96,6 +96,19 @@ ClientThread::SendPlayerAction()
 	GetSender().Send(GetContext().GetSocket(), action);
 }
 
+void
+ClientThread::SendChatMessage(const std::string &msg)
+{
+	// Warning: This function is called in the context of the GUI thread.
+	// Create a network packet containing the chat message.
+	boost::shared_ptr<NetPacket> chat(new NetPacketSendChatText);
+	NetPacketSendChatText::Data chatData;
+	chatData.text = msg;
+	static_cast<NetPacketSendChatText *>(chat.get())->SetData(chatData);
+	// The sender is thread-safe, so just dump the packet.
+	GetSender().Send(GetContext().GetSocket(), chat);
+}
+
 ClientCallback &
 ClientThread::GetCallback()
 {
@@ -133,7 +146,8 @@ ClientThread::Main()
 					// EngineFactory erstellen
 					boost::shared_ptr<EngineFactory> factory(new ClientEngineFactory); // LocalEngine erstellen
 
-					m_game.reset(new Game(&m_gui, factory, GetMappedPlayerDataList(), GetGameData(), GetStartData(), m_curGameId++));
+					MapPlayerDataList();
+					m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameId++));
 					GetCallback().SignalNetClientGameStart(m_game);
 				}
 			}
@@ -268,8 +282,8 @@ ClientThread::RemovePlayerData(unsigned playerId)
 		GetCallback().SignalNetClientPlayerLeft(playerName);
 }
 
-PlayerDataList
-ClientThread::GetMappedPlayerDataList() const
+void
+ClientThread::MapPlayerDataList()
 {
 	PlayerDataList mappedList;
 
@@ -293,6 +307,33 @@ ClientThread::GetMappedPlayerDataList() const
 	// Sort the list by player number.
 	mappedList.sort(*boost::lambda::_1 < *boost::lambda::_2);
 
-	return mappedList;
+	m_playerDataList = mappedList;
+	SetGuiPlayerNum(0);
+}
+
+const PlayerDataList &
+ClientThread::GetPlayerDataList() const
+{
+	return m_playerDataList;
+}
+
+boost::shared_ptr<PlayerData>
+ClientThread::GetPlayerDataByUniqueId(unsigned id)
+{
+	boost::shared_ptr<PlayerData> tmpPlayer;
+
+	PlayerDataList::const_iterator i = m_playerDataList.begin();
+	PlayerDataList::const_iterator end = m_playerDataList.end();
+
+	while (i != end)
+	{
+		if ((*i)->GetUniqueId() == id)
+		{
+			tmpPlayer = *i;
+			break;
+		}
+		++i;
+	}
+	return tmpPlayer;
 }
 

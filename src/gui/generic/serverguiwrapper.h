@@ -77,13 +77,12 @@ public:
 	void logPlayerActionMsg(std::string playerName, int action, int setValue) ;
 	void logNewGameHandMsg(int gameID, int handID) ;
 
-	void chatAppendMsg(std::string msg);
-
 	void SignalNetClientConnect(int actionID);
 	void SignalNetClientGameInfo(int actionID);
 	void SignalNetClientError(int errorID, int osErrorID);
 	void SignalNetClientPlayerJoined(const std::string &playerName);
 	void SignalNetClientPlayerLeft(const std::string &playerName);
+	void SignalNetClientChatMsg(const std::string &playerName, const std::string &msg);
 
 	void SignalNetClientGameStart(boost::shared_ptr<Game> game);
 

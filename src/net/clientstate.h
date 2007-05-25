@@ -32,6 +32,7 @@ class ClientThread;
 class ClientCallback;
 class ResolverThread;
 class Game;
+class NetPacket;
 
 class ClientState
 {
@@ -166,8 +167,24 @@ protected:
 	ClientStateStartSession();
 };
 
+// Abstract State: Receiving
+class AbstractClientStateReceiving : public ClientState
+{
+public:
+	virtual ~AbstractClientStateReceiving();
+
+	// select on socket.
+	virtual int Process(ClientThread &client);
+
+protected:
+
+	virtual int InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet) = 0;
+
+	AbstractClientStateReceiving();
+};
+
 // State: Wait for Session ACK.
-class ClientStateWaitSession : public ClientState
+class ClientStateWaitSession : public AbstractClientStateReceiving
 {
 public:
 	// Access the state singleton.
@@ -175,17 +192,17 @@ public:
 
 	virtual ~ClientStateWaitSession();
 
-	// select on socket.
-	virtual int Process(ClientThread &client);
 
 protected:
 
 	// Protected constructor - this is a singleton.
 	ClientStateWaitSession();
+
+	virtual int InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet);
 };
 
 // State: Wait for start of the game or start info.
-class ClientStateWaitGame : public ClientState
+class ClientStateWaitGame : public AbstractClientStateReceiving
 {
 public:
 	// Access the state singleton.
@@ -193,17 +210,16 @@ public:
 
 	virtual ~ClientStateWaitGame();
 
-	// select on socket.
-	virtual int Process(ClientThread &client);
-
 protected:
 
 	// Protected constructor - this is a singleton.
 	ClientStateWaitGame();
+
+	virtual int InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet);
 };
 
 // State: Wait for start of the next hand.
-class ClientStateWaitHand : public ClientState
+class ClientStateWaitHand : public AbstractClientStateReceiving
 {
 public:
 	// Access the state singleton.
@@ -211,17 +227,16 @@ public:
 
 	virtual ~ClientStateWaitHand();
 
-	// select on socket.
-	virtual int Process(ClientThread &client);
-
 protected:
 
 	// Protected constructor - this is a singleton.
 	ClientStateWaitHand();
+
+	virtual int InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet);
 };
 
 // State: Hand Loop.
-class ClientStateRunHand : public ClientState
+class ClientStateRunHand : public AbstractClientStateReceiving
 {
 public:
 	// Access the state singleton.
@@ -229,13 +244,12 @@ public:
 
 	virtual ~ClientStateRunHand();
 
-	// select on socket.
-	virtual int Process(ClientThread &client);
-
 protected:
 
 	// Protected constructor - this is a singleton.
 	ClientStateRunHand();
+
+	virtual int InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet);
 
 	static int GetHighestSet(Game &curGame);
 	static void SetHighestSet(Game &curGame, int highestSet);
