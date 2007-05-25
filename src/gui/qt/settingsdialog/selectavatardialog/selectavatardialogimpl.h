@@ -37,6 +37,8 @@ public:
 
 	
 public slots:
+	void toggleGroupBox1(bool);
+	void toggleGroupBox2(bool);
 
 
 private:
