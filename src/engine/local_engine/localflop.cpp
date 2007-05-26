@@ -23,7 +23,7 @@
 
 //using namespace std;
 
-LocalFlop::LocalFlop(HandInterface* bR, int id, int qP, int dP, int sB) : FlopInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstFlopRun(1), firstFlopRound(1), firstHeadsUpFlopRound(1), playersTurn(dP)
+LocalFlop::LocalFlop(HandInterface* bR, int id, int qP, int dP, int sB) : FlopInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstFlopRun(1), firstFlopRound(1), firstHeadsUpFlopRound(1), playersTurn(dP), logBoardCardsDone(0)
 
 {
 	int i;
@@ -52,6 +52,15 @@ void LocalFlop::flopRun() {
 	}
 
 	else {
+		//log the turned cards
+		if(!logBoardCardsDone) {
+			int tempBoardCardsArray[5];
+			
+			myHand->getBoard()->getMyCards(tempBoardCardsArray);
+			myHand->getGuiInterface()->logDealBoardCardsMsg(1, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2]);
+			logBoardCardsDone = 1;
+		}
+
 		bool allHighestSet = 1;
 
 		// prfe, ob alle Sets gleich sind ( falls nicht, dann allHighestSet = 0 )

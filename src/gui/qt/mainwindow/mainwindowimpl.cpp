@@ -672,6 +672,9 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	Tools::getRandNumber(0, gameData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
 	startData.startDealerPlayerId = static_cast<unsigned>(tmpDealerPos);
 
+	//remove ChatWindow
+	tab_Chat->hide();
+
 	//Start Game!!!
 	mySession->startLocalGame(gameData, startData);
 }
@@ -861,12 +864,7 @@ void mainWindowImpl::initGui(int speed)
 }
 
 Session &mainWindowImpl::getSession() { assert(mySession.get()); return *mySession; }
-
-void mainWindowImpl::setSession(boost::shared_ptr<Session> session)
-{
-	mySession = session;
-}
-
+void mainWindowImpl::setSession(boost::shared_ptr<Session> session) { mySession = session; }
 
 
 //refresh-Funktionen
@@ -1314,7 +1312,6 @@ void mainWindowImpl::dealFlopCards6() {
 		boardCardsArray[2]->setPixmap(card, FALSE);
 	}
 	
-	myLog->logDealBoardCardsMsg(1, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2]);
 	// stable
 	// wenn alle All In
 	if(mySession->getCurrentGame()->getCurrentHand()->getAllInCondition()) { dealFlopCards6Timer->start(AllInDealCardsSpeed); }
@@ -1348,7 +1345,6 @@ void mainWindowImpl::dealTurnCards2() {
 		boardCardsArray[3]->setPixmap(card, FALSE);
 	}
 	
-	myLog->logDealBoardCardsMsg(2, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3]);
 	// stable
 	// wenn alle All In
 	if(mySession->getCurrentGame()->getCurrentHand()->getAllInCondition()) { dealTurnCards2Timer->start(AllInDealCardsSpeed);
@@ -1384,7 +1380,6 @@ void mainWindowImpl::dealRiverCards2() {
 		boardCardsArray[4]->setPixmap(card, FALSE);
 	}
 
-	myLog->logDealBoardCardsMsg(3, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
 	// stable
 	// wenn alle All In
 	if(mySession->getCurrentGame()->getCurrentHand()->getAllInCondition()) { dealRiverCards2Timer->start(AllInDealCardsSpeed);	}
@@ -1826,7 +1821,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 							}	
 						}
 						//Karten umdrehen Loggen 
-						myLog->logFlipHoleCardsMsg(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str()), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt());
+						myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt());
 			
 						currentHand->getPlayerArray()[i]->setMyCardsFlip(1);
 					}
@@ -1854,7 +1849,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 							}	
 						}
 						//Karten umdrehen Loggen 
-						myLog->logFlipHoleCardsMsg(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str()), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt() );
+						myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt() );
 
 						currentHand->getPlayerArray()[i]->setMyCardsFlip(1);
 					}
@@ -1871,7 +1866,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
 				
 					//Kartenwerte Loggen 
-					myLog->logFlipHoleCardsMsg(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str()), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt(), "has");
+					myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt(), "has");
 				}
 			}	
 		}
@@ -2089,7 +2084,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 							}
 						}
 						//Karten umdrehen Loggen 
-						myLog->logFlipHoleCardsMsg(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str()), tempCardsIntArray[0], tempCardsIntArray[1]);
+						myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1]);
 
 						currentHand->getPlayerArray()[i]->setMyCardsFlip(1);
 						
@@ -2118,7 +2113,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 							}	
 						}
 						//Karten umdrehen Loggen 
-						myLog->logFlipHoleCardsMsg(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str()), temp2CardsIntArray[0], temp2CardsIntArray[1] );
+						myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), temp2CardsIntArray[0], temp2CardsIntArray[1] );
 				
 						currentHand->getPlayerArray()[i]->setMyCardsFlip(1);
 					}
@@ -2140,7 +2135,7 @@ void mainWindowImpl::showMyCards() {
 	currentHand->getPlayerArray()[0]->getMyCards(tempCardsIntArray);	
 	if( currentHand->getPlayerArray()[0]->getMyCardsFlip() == 0 &&  currentHand->getActualRound() == 4 && currentHand->getPlayerArray()[0]->getMyActiveStatus() && currentHand->getPlayerArray()[0]->getMyAction() != 1) { 
 		//Karten umdrehen Loggen 
-		myLog->logFlipHoleCardsMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[0]->getMyCardsValueInt() );
+		myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[0]->getMyName().c_str(), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[0]->getMyCardsValueInt() );
 
 		currentHand->getPlayerArray()[0]->setMyCardsFlip(1);
 	}

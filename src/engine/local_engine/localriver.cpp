@@ -25,7 +25,7 @@
 
 using namespace std;
 
-LocalRiver::LocalRiver(HandInterface* bR, int id, int qP, int dP, int sB) : RiverInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRiverRun(1), firstRiverRound(1), firstHeadsUpRiverRound(1), playersTurn(dP), highestCardsValue(0)
+LocalRiver::LocalRiver(HandInterface* bR, int id, int qP, int dP, int sB) : RiverInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRiverRun(1), firstRiverRound(1), firstHeadsUpRiverRound(1), playersTurn(dP), highestCardsValue(0), logBoardCardsDone(0)
 
 {	int i;
 
@@ -52,6 +52,15 @@ void LocalRiver::riverRun() {
 	}
 
 	else {
+		//log the turned cards
+		if(!logBoardCardsDone) {
+			int tempBoardCardsArray[5];
+			
+			myHand->getBoard()->getMyCards(tempBoardCardsArray);
+			myHand->getGuiInterface()->logDealBoardCardsMsg(3, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
+			logBoardCardsDone = 1;
+		}
+		
 		bool allHighestSet = 1;
 
 		// prfe, ob alle Sets gleich sind ( falls nicht, dann allHighestSet = 0 )

@@ -66,6 +66,8 @@ private:
 	bool firstHeadsUpTurnRound;
 	int playersTurn;
 
+	bool logBoardCardsDone;
+
 };
 
 #endif

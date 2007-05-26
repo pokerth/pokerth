@@ -24,7 +24,7 @@
 
 //using namespace std;
 
-LocalTurn::LocalTurn(HandInterface* bR, int id, int qP, int dP, int sB) : TurnInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstTurnRun(1), firstTurnRound(1), firstHeadsUpTurnRound(1), playersTurn(dP)
+LocalTurn::LocalTurn(HandInterface* bR, int id, int qP, int dP, int sB) : TurnInterface(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstTurnRun(1), firstTurnRound(1), firstHeadsUpTurnRound(1), playersTurn(dP), logBoardCardsDone(0)
 
 {	int i;
 
@@ -52,6 +52,15 @@ void LocalTurn::turnRun() {
 	}
 
 	else {
+		//log the turned cards
+		if(!logBoardCardsDone) {
+			int tempBoardCardsArray[5];
+			
+			myHand->getBoard()->getMyCards(tempBoardCardsArray);
+			myHand->getGuiInterface()->logDealBoardCardsMsg(2, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3]);
+			logBoardCardsDone = 1;
+		}
+		
 		bool allHighestSet = 1;
 
 		// prfe, ob alle Sets gleich sind ( falls nicht, dann allHighestSet = 0 )

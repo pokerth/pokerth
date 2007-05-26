@@ -74,6 +74,8 @@ private:
 
 	int highestCardsValue;
 
+	bool logBoardCardsDone;
+
 };
 
 #endif

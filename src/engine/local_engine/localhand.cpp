@@ -29,7 +29,6 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 {
 
 	int i, j, k;
-	lastPlayersTurn = 0;
 
 	CardsValue myCardsValue;
 
@@ -352,7 +351,7 @@ void LocalHand::switchRounds() {
 	}
 
 	//unhighlight actual players groupbox
-	myGui->refreshGroupbox(lastPlayersTurn,1);
+	if(playerArray[lastPlayersTurn]->getMyActiveStatus() == 1) myGui->refreshGroupbox(lastPlayersTurn,1);
 
 	highlightRoundLabel();
 // 	/*/*/*/*cout <<*/*/*/*/ "NextPlayerSpeed1 stop" << endl;
