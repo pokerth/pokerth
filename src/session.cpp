@@ -194,3 +194,10 @@ void Session::sendChatMessage(const std::string &message) {
 		return; // only act if client is running.
 	myNetClient->SendChatMessage(message);
 }
+
+bool Session::isNetworkClientRunning() const
+{
+	// This, and every place which calls this, is a HACK.
+	// TODO
+	return myNetClient != NULL;
+}

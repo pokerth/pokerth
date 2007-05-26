@@ -40,6 +40,8 @@ using namespace std;
 #define NET_TYPE_DEAL_FLOP_CARDS				0x000B
 #define NET_TYPE_DEAL_TURN_CARD					0x000C
 #define NET_TYPE_DEAL_RIVER_CARD				0x000D
+#define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x000E
+#define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x000F
 
 #define NET_TYPE_SEND_CHAT_TEXT					0x0200
 #define NET_TYPE_CHAT_TEXT						0x0201
@@ -194,6 +196,37 @@ struct GCC_PACKED NetPacketDealRiverCardData
 	u_int16_t			reserved;
 };
 
+struct GCC_PACKED NetPacketEndOfHandShowCardsData
+{
+	NetPacketHeader		head;
+	u_int16_t			numberOfPlayerResults;
+	u_int16_t			reserved;
+};
+
+struct GCC_PACKED PlayerResultData
+{
+	u_int16_t			playerId;
+	u_int16_t			card1;
+	u_int16_t			card2;
+	u_int16_t			bestHandPos1;
+	u_int16_t			bestHandPos2;
+	u_int16_t			bestHandPos3;
+	u_int16_t			bestHandPos4;
+	u_int16_t			bestHandPos5;
+	u_int32_t			valueOfCards;
+	u_int32_t			moneyWon;
+	u_int32_t			playerMoney;
+};
+
+struct GCC_PACKED NetPacketEndOfHandHideCardsData
+{
+	NetPacketHeader		head;
+	u_int16_t			playerId;
+	u_int16_t			reserved;
+	u_int32_t			moneyWon;
+	u_int32_t			playerMoney;
+};
+
 struct GCC_PACKED NetPacketSendChatTextData
 {
 	NetPacketHeader		head;
@@ -280,6 +313,12 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_DEAL_RIVER_CARD:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketDealRiverCard);
+					break;
+				case NET_TYPE_END_OF_HAND_SHOW_CARDS:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketEndOfHandShowCards);
+					break;
+				case NET_TYPE_END_OF_HAND_HIDE_CARDS:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketEndOfHandHideCards);
 					break;
 				case NET_TYPE_SEND_CHAT_TEXT:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketSendChatText);
@@ -445,6 +484,18 @@ NetPacket::ToNetPacketDealTurnCard() const
 
 const NetPacketDealRiverCard *
 NetPacket::ToNetPacketDealRiverCard() const
+{
+	return NULL;
+}
+
+const NetPacketEndOfHandShowCards *
+NetPacket::ToNetPacketEndOfHandShowCards() const
+{
+	return NULL;
+}
+
+const NetPacketEndOfHandHideCards *
+NetPacket::ToNetPacketEndOfHandHideCards() const
 {
 	return NULL;
 }
@@ -1486,6 +1537,199 @@ NetPacketDealRiverCard::Check(const NetPacketHeader* data) const
 
 	NetPacketDealRiverCardData *tmpData = (NetPacketDealRiverCardData *)data;
 	if (ntohs(tmpData->riverCard) > 51)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketEndOfHandShowCards::NetPacketEndOfHandShowCards()
+: NetPacket(NET_TYPE_END_OF_HAND_SHOW_CARDS, sizeof(NetPacketEndOfHandShowCardsData))
+{
+}
+
+NetPacketEndOfHandShowCards::~NetPacketEndOfHandShowCards()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketEndOfHandShowCards::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketEndOfHandShowCards);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketEndOfHandShowCards::SetData(const NetPacketEndOfHandShowCards::Data &inData)
+{
+	u_int16_t numPlayerResults = (u_int16_t)inData.playerResults.size();
+
+	if (!numPlayerResults || numPlayerResults > MAX_NUM_PLAYER_RESULTS)
+		throw NetException(ERR_NET_INVALID_PLAYER_RESULTS, 0);
+
+	// Resize the packet so that the data fits in.
+	Resize((u_int16_t)
+		(sizeof(NetPacketEndOfHandShowCardsData) + numPlayerResults * sizeof(PlayerResultData)));
+
+	NetPacketEndOfHandShowCardsData *tmpData = (NetPacketEndOfHandShowCardsData *)GetRawData();
+	assert(tmpData);
+
+	tmpData->numberOfPlayerResults		= htons(numPlayerResults);
+
+	PlayerResultList::const_iterator i = inData.playerResults.begin();
+	PlayerResultList::const_iterator end = inData.playerResults.end();
+
+	// Copy the player result data to continous memory
+	PlayerResultData *curPlayerResultData =
+		(PlayerResultData *)((char *)tmpData + sizeof(NetPacketEndOfHandShowCardsData));
+	while (i != end)
+	{
+		curPlayerResultData->playerId		= htons((*i).playerId);
+		curPlayerResultData->card1			= htons((*i).cards[0]);
+		curPlayerResultData->card2			= htons((*i).cards[1]);
+		curPlayerResultData->bestHandPos1	= htons((*i).bestHandPos[0]);
+		curPlayerResultData->bestHandPos2	= htons((*i).bestHandPos[1]);
+		curPlayerResultData->bestHandPos3	= htons((*i).bestHandPos[2]);
+		curPlayerResultData->bestHandPos4	= htons((*i).bestHandPos[3]);
+		curPlayerResultData->bestHandPos5	= htons((*i).bestHandPos[4]);
+		curPlayerResultData->valueOfCards	= htonl((*i).valueOfCards);
+		curPlayerResultData->moneyWon		= htonl((*i).moneyWon);
+		curPlayerResultData->playerMoney	= htonl((*i).playerMoney);
+		++curPlayerResultData;
+		++i;
+	}
+}
+
+void
+NetPacketEndOfHandShowCards::GetData(NetPacketEndOfHandShowCards::Data &outData) const
+{
+	NetPacketEndOfHandShowCardsData *tmpData = (NetPacketEndOfHandShowCardsData *)GetRawData();
+	assert(tmpData);
+
+	outData.playerResults.clear();
+
+	u_int16_t numPlayerResults = ntohs(tmpData->numberOfPlayerResults);
+	PlayerResultData *curPlayerResultData =
+		(PlayerResultData *)((char *)tmpData + sizeof(NetPacketEndOfHandShowCardsData));
+
+	// Store all available player results.
+	for (int i = 0; i < numPlayerResults; i++)
+	{
+		PlayerResult tmpPlayerResult;
+		tmpPlayerResult.playerId		= ntohs(curPlayerResultData->playerId);
+		tmpPlayerResult.cards[0]		= ntohs(curPlayerResultData->card1);
+		tmpPlayerResult.cards[1]		= ntohs(curPlayerResultData->card2);
+		tmpPlayerResult.bestHandPos[0]	= ntohs(curPlayerResultData->bestHandPos1);
+		tmpPlayerResult.bestHandPos[1]	= ntohs(curPlayerResultData->bestHandPos2);
+		tmpPlayerResult.bestHandPos[2]	= ntohs(curPlayerResultData->bestHandPos3);
+		tmpPlayerResult.bestHandPos[3]	= ntohs(curPlayerResultData->bestHandPos4);
+		tmpPlayerResult.bestHandPos[4]	= ntohs(curPlayerResultData->bestHandPos5);
+		tmpPlayerResult.valueOfCards	= ntohl(curPlayerResultData->valueOfCards);
+		tmpPlayerResult.moneyWon		= ntohl(curPlayerResultData->moneyWon);
+		tmpPlayerResult.playerMoney		= ntohl(curPlayerResultData->playerMoney);
+
+		outData.playerResults.push_back(tmpPlayerResult);
+		++curPlayerResultData;
+	}
+}
+
+const NetPacketEndOfHandShowCards *
+NetPacketEndOfHandShowCards::ToNetPacketEndOfHandShowCards() const
+{
+	return this;
+}
+
+void
+NetPacketEndOfHandShowCards::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen < sizeof(NetPacketEndOfHandShowCardsData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
+	NetPacketEndOfHandShowCardsData *tmpData = (NetPacketEndOfHandShowCardsData *)data;
+	int numPlayerResults = ntohs(tmpData->numberOfPlayerResults);
+
+	if (dataLen !=
+		sizeof(NetPacketEndOfHandShowCardsData)
+		+ numPlayerResults * sizeof(PlayerResultData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// TODO: semantic checks within PlayerResultData
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketEndOfHandHideCards::NetPacketEndOfHandHideCards()
+: NetPacket(NET_TYPE_END_OF_HAND_HIDE_CARDS, sizeof(NetPacketEndOfHandHideCardsData))
+{
+}
+
+NetPacketEndOfHandHideCards::~NetPacketEndOfHandHideCards()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketEndOfHandHideCards::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketEndOfHandHideCards);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketEndOfHandHideCards::SetData(const NetPacketEndOfHandHideCards::Data &inData)
+{
+	NetPacketEndOfHandHideCardsData *tmpData = (NetPacketEndOfHandHideCardsData *)GetRawData();
+	assert(tmpData);
+
+	tmpData->playerId			= htons(inData.playerId);
+	tmpData->moneyWon			= htonl(inData.moneyWon);
+	tmpData->playerMoney		= htonl(inData.playerMoney);
+}
+
+void
+NetPacketEndOfHandHideCards::GetData(NetPacketEndOfHandHideCards::Data &outData) const
+{
+	NetPacketEndOfHandHideCardsData *tmpData = (NetPacketEndOfHandHideCardsData *)GetRawData();
+	assert(tmpData);
+
+	outData.playerId			= ntohs(tmpData->playerId);
+	outData.moneyWon			= ntohl(tmpData->moneyWon);
+	outData.playerMoney			= ntohl(tmpData->playerMoney);
+}
+
+const NetPacketEndOfHandHideCards *
+NetPacketEndOfHandHideCards::ToNetPacketEndOfHandHideCards() const
+{
+	return this;
+}
+
+void
+NetPacketEndOfHandHideCards::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen != sizeof(NetPacketEndOfHandHideCardsData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}

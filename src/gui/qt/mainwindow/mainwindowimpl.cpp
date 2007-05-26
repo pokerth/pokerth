@@ -571,6 +571,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalRefreshGroupbox(int, int)), this, SLOT(refreshGroupbox(int, int)));
 	connect(this, SIGNAL(signalRefreshAll()), this, SLOT(refreshAll()));
 	connect(this, SIGNAL(signalRefreshPlayerName()), this, SLOT(refreshPlayerName()));
+	connect(this, SIGNAL(signalRefreshButton()), this, SLOT(refreshButton()));
 
 	connect(this, SIGNAL(signalMeInAction()), this, SLOT(meInAction()));
 
@@ -1799,7 +1800,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 	//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
 	int activePlayersCounter = 0;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
-		if (currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1) activePlayersCounter++;
+		if (currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus()) activePlayersCounter++;
 	}
 
 	if(activePlayersCounter!=1) { 
@@ -2020,6 +2021,11 @@ void mainWindowImpl::postRiverRunAnimation6() {
 
 	refreshCash();
 	refreshPot();
+
+	// TODO HACK
+	// Check for network client, do not start new hand if client is running.
+	if (mySession->isNetworkClientRunning())
+		return;
 
 	// wenn nur noch ein Spieler aktive "neues Spiel"-Dialog anzeigen
 	int playersPositiveCashCounter = 0;

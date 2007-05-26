@@ -61,6 +61,8 @@ public:
 
 	void sendChatMessage(const std::string &message);
 
+	bool isNetworkClientRunning() const; // TODO hack
+
 private:
 
 	int currentGameID;

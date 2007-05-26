@@ -34,6 +34,7 @@
 #define MAX_NAME_SIZE				64
 #define MAX_PASSWORD_SIZE			64
 #define MAX_CHAT_TEXT_SIZE			128
+#define MAX_NUM_PLAYER_RESULTS		MAX_NUMBER_OF_PLAYERS
 
 
 struct NetPacketHeader;
@@ -51,6 +52,8 @@ class NetPacketPlayersActionRejected;
 class NetPacketDealFlopCards;
 class NetPacketDealTurnCard;
 class NetPacketDealRiverCard;
+class NetPacketEndOfHandShowCards;
+class NetPacketEndOfHandHideCards;
 class NetPacketSendChatText;
 class NetPacketChatText;
 class NetPacketError;
@@ -85,6 +88,8 @@ public:
 	virtual const NetPacketDealFlopCards *ToNetPacketDealFlopCards() const;
 	virtual const NetPacketDealTurnCard *ToNetPacketDealTurnCard() const;
 	virtual const NetPacketDealRiverCard *ToNetPacketDealRiverCard() const;
+	virtual const NetPacketEndOfHandShowCards *ToNetPacketEndOfHandShowCards() const;
+	virtual const NetPacketEndOfHandHideCards *ToNetPacketEndOfHandHideCards() const;
 	virtual const NetPacketSendChatText *ToNetPacketSendChatText() const;
 	virtual const NetPacketChatText *ToNetPacketChatText() const;
 	virtual const NetPacketError *ToNetPacketError() const;
@@ -417,6 +422,66 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketDealRiverCard *ToNetPacketDealRiverCard() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketEndOfHandShowCards : public NetPacket
+{
+public:
+	struct PlayerResult
+	{
+		u_int16_t		playerId;
+		u_int16_t		cards[2];
+		u_int16_t		bestHandPos[5];
+		u_int32_t		valueOfCards;
+		u_int32_t		moneyWon;
+		u_int32_t		playerMoney;
+	};
+
+	typedef std::list<PlayerResult> PlayerResultList;
+
+	struct Data
+	{
+		PlayerResultList playerResults;
+	};
+
+	NetPacketEndOfHandShowCards();
+	virtual ~NetPacketEndOfHandShowCards();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketEndOfHandShowCards *ToNetPacketEndOfHandShowCards() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketEndOfHandHideCards : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int16_t		playerId;
+		u_int32_t		moneyWon;
+		u_int32_t		playerMoney;
+	};
+
+	NetPacketEndOfHandHideCards();
+	virtual ~NetPacketEndOfHandHideCards();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketEndOfHandHideCards *ToNetPacketEndOfHandHideCards() const;
 
 protected:
 

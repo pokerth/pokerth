@@ -347,7 +347,8 @@ void LocalHand::switchRounds() {
 		myGui->refreshPot();
 		myGui->refreshSet();
 		myGui->flipHolecardsAllIn();
-		actualRound++;
+		if (actualRound < 4) // do not increment past 4
+			actualRound++;
 	}
 
 	//unhighlight actual players groupbox

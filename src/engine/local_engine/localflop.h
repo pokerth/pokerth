@@ -46,6 +46,8 @@ public:
 	void setSmallBlind(const int& theValue) { smallBlind = theValue; }
 	int getSmallBlind() const { return smallBlind; }
 
+	void resetFirstRun() { firstFlopRun = false; }
+
 	void flopRun();
 	void nextPlayer2();
 

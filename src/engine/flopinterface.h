@@ -24,7 +24,7 @@ class FlopInterface{
 public:
 
 
-    	virtual ~FlopInterface();
+	virtual ~FlopInterface();
 
 	virtual void setPlayersTurn(const int& theValue) =0;
 	virtual int getPlayersTurn() const =0;
@@ -40,6 +40,8 @@ public:
 
 	virtual void setSmallBlind(const int& theValue) =0;
 	virtual int getSmallBlind() const =0;
+
+	virtual void resetFirstRun() =0;
 
 	virtual void flopRun() =0;
 	virtual void nextPlayer2() =0;

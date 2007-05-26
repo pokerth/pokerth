@@ -81,6 +81,7 @@ signals:
 	void signalRefreshGroupbox(int =-1, int =-1);
 	void signalRefreshAll();
 	void signalRefreshPlayerName();
+	void signalRefreshButton();
 
 	void signalMeInAction();
 

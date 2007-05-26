@@ -43,6 +43,8 @@ public:
 	void setSmallBlind(const int& theValue) { smallBlind = theValue; }
 	int getSmallBlind() const { return smallBlind; }
 
+	void resetFirstRun() { firstTurnRun = false; }
+
 	void turnRun();
 	void nextPlayer2();
 

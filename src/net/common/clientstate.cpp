@@ -540,7 +540,7 @@ ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		client.GetGui().dealHoleCards();
 		client.SetState(ClientStateRunHand::Instance());
 
-		retVal = MSG_NET_GAME_CLIENT_HAND;
+		retVal = MSG_NET_GAME_CLIENT_HAND_START;
 	}
 
 	return MSG_SOCK_INTERNAL_PENDING;
@@ -566,6 +566,7 @@ ClientStateRunHand::~ClientStateRunHand()
 int
 ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet)
 {
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
 	ClientContext &context = client.GetContext();
 
 	if (packet.get())
@@ -601,6 +602,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			client.GetGui().refreshSet();
 			client.GetGui().refreshAction();
 			client.GetGui().refreshCash();
+			client.GetGui().refreshButton();
 		}
 		else if (packet->ToNetPacketPlayersTurn())
 		{
@@ -650,9 +652,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			NetPacketDealFlopCards::Data cardsData;
 			packet->ToNetPacketDealFlopCards()->GetData(cardsData);
 			int tmpCards[5];
-			tmpCards[0] = static_cast<int>(cardsData.flopCards[0]);
-			tmpCards[1] = static_cast<int>(cardsData.flopCards[1]);
-			tmpCards[2] = static_cast<int>(cardsData.flopCards[2]);
+			for (int num = 0; num < 3; num++)
+				tmpCards[num] = static_cast<int>(cardsData.flopCards[num]);
 			tmpCards[3] = tmpCards[4] = 0;
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 			client.GetGui().dealFlopCards();
@@ -677,9 +678,63 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 			client.GetGui().dealRiverCard();
 		}
+		else if (packet->ToNetPacketEndOfHandHideCards())
+		{
+			// End of Hand, but keep cards hidden.
+			NetPacketEndOfHandHideCards::Data endHandData;
+			packet->ToNetPacketEndOfHandHideCards()->GetData(endHandData);
+
+			PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(endHandData.playerId);
+			assert(tmpPlayer); // TODO: throw exception
+
+			tmpPlayer->setMyCash(endHandData.playerMoney);
+			// TODO use moneyWon
+			client.GetGui().postRiverRunAnimation1();
+
+			// Wait for next Hand.
+			client.SetState(ClientStateWaitHand::Instance());
+			retVal = MSG_NET_GAME_SERVER_HAND_END;
+		}
+		else if (packet->ToNetPacketEndOfHandShowCards())
+		{
+			// End of Hand, show cards.
+			NetPacketEndOfHandShowCards::Data endHandData;
+			packet->ToNetPacketEndOfHandShowCards()->GetData(endHandData);
+
+			NetPacketEndOfHandShowCards::PlayerResultList::const_iterator i
+				= endHandData.playerResults.begin();
+			NetPacketEndOfHandShowCards::PlayerResultList::const_iterator end
+				= endHandData.playerResults.end();
+
+			int highestValueOfCards = 0;
+			while (i != end)
+			{
+				PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId((*i).playerId);
+				assert(tmpPlayer); // TODO: throw exception
+
+				int tmpCards[2];
+				tmpCards[0] = static_cast<int>((*i).cards[0]);
+				tmpCards[1] = static_cast<int>((*i).cards[1]);
+				tmpPlayer->setMyCards(tmpCards);
+				for (int num = 0; num < 5; num++)
+					tmpPlayer->getMyBestHandPosition()[num] = (*i).bestHandPos[num];
+				tmpPlayer->setMyCardsValueInt((*i).valueOfCards);
+				if (tmpPlayer->getMyCardsValueInt() > highestValueOfCards)
+					highestValueOfCards = tmpPlayer->getMyCardsValueInt();
+				tmpPlayer->setMyCash((*i).playerMoney);
+				// TODO use moneyWon
+				++i;
+			}
+			client.GetGame()->getCurrentHand()->getRiver()->setHighestCardsValue(highestValueOfCards);
+			client.GetGui().postRiverRunAnimation1();
+
+			// Wait for next Hand.
+			client.SetState(ClientStateWaitHand::Instance());
+			retVal = MSG_NET_GAME_SERVER_HAND_END;
+		}
 	}
 
-	return MSG_SOCK_INTERNAL_PENDING;
+	return retVal;
 }
 
 

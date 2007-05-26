@@ -81,7 +81,7 @@ protected:
 
 private:
 
-	unsigned		m_curUniquePlayerId;
+	u_int16_t		m_curUniquePlayerId;
 };
 
 // Abstract State: Game is running.
@@ -151,9 +151,9 @@ protected:
 	// Protected constructor - this is a singleton.
 	ServerRecvStateStartRound();
 
-	static void GameRun(Game &curGame, int state);
+	static void GameRun(Game &curGame);
 	static PlayerInterface *GetCurrentPlayer(Game &curGame);
-	static void SendNewRoundCards(ServerRecvThread &server, Game &curGame);
+	static void SendNewRoundCards(ServerRecvThread &server, Game &curGame, int state);
 };
 
 // State: Wait for a player action.
@@ -176,6 +176,30 @@ protected:
 
 	static int GetHighestSet(Game &curGame);
 	static void SetHighestSet(Game &curGame, int highestSet);
+};
+
+// State: Final.
+class ServerRecvStateNextHand : public ServerRecvStateRunning
+{
+public:
+	// Access the state singleton.
+	static ServerRecvStateNextHand &Instance();
+
+	virtual ~ServerRecvStateNextHand();
+
+	void SetTimer(const boost::microsec_timer &timer);
+
+	// 
+	virtual int Process(ServerRecvThread &server);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ServerRecvStateNextHand();
+
+private:
+
+	boost::microsec_timer m_delayTimer;
 };
 
 

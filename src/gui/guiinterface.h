@@ -48,11 +48,7 @@ public:
 	virtual void refreshGroupbox(int =-1, int =-1) const=0;
 	virtual void refreshAll() const=0;
 	virtual void refreshPlayerName() const=0;
-
-// 	virtual void refreshButton() const=0;
-
-// 	virtual void refreshAction() const=0;
-// 	virtual void refreshCash() const=0;
+	virtual void refreshButton() const =0;
 
 // 	// Karten-Funktionen
 	virtual void dealHoleCards()=0;

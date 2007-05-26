@@ -47,6 +47,8 @@ public:
 	void setHighestCardsValue(const int& theValue) { highestCardsValue = theValue;}
 	int getHighestCardsValue() const { return highestCardsValue;}
 
+	void resetFirstRun() { firstRiverRun = false; }
+
 	void riverRun();
 	void postRiverRun();
 	void nextPlayer2();

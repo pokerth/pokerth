@@ -40,6 +40,8 @@ public:
 	virtual void setSmallBlind(const int& theValue) =0;
 	virtual int getSmallBlind() const =0;
 
+	virtual void resetFirstRun() =0;
+
 	virtual void turnRun() =0;
 	virtual void nextPlayer2() =0;
 

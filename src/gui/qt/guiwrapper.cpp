@@ -57,6 +57,7 @@ void GuiWrapper::refreshAll() const { myW->signalRefreshAll(); }
 void GuiWrapper::refreshPot() const { myW->signalRefreshPot(); }
 void GuiWrapper::refreshGroupbox(int playerID, int status) const { myW->signalRefreshGroupbox(playerID, status); }
 void GuiWrapper::refreshPlayerName() const { myW->signalRefreshPlayerName(); }
+void GuiWrapper::refreshButton() const { myW->signalRefreshButton(); }
 
 void GuiWrapper::dealHoleCards() { myW->signalDealHoleCards(); }
 void GuiWrapper::dealFlopCards() { myW->signalDealFlopCards0(); }

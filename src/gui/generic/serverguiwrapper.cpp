@@ -59,6 +59,7 @@ void ServerGuiWrapper::refreshAll() const {}
 void ServerGuiWrapper::refreshPot() const {}
 void ServerGuiWrapper::refreshGroupbox(int playerID, int status) const {}
 void ServerGuiWrapper::refreshPlayerName() const {}
+void ServerGuiWrapper::refreshButton() const {}
 
 void ServerGuiWrapper::dealHoleCards() {}
 void ServerGuiWrapper::dealFlopCards() {}

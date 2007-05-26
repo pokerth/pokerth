@@ -43,6 +43,8 @@ public:
 	virtual void setHighestCardsValue(const int& theValue) =0;
 	virtual int getHighestCardsValue() const =0;
 
+	virtual void resetFirstRun() =0;
+
 	virtual void riverRun() =0;
 	virtual void postRiverRun() =0;
 	virtual void nextPlayer2() =0;

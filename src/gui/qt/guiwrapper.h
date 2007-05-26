@@ -51,7 +51,8 @@ public:
 	void refreshGroupbox(int =-1, int =-1) const;
 	void refreshAll() const;
 	void refreshPlayerName() const;
-	
+	void refreshButton() const;
+
 	void dealHoleCards();
 	void dealFlopCards();
 	void dealTurnCard();
