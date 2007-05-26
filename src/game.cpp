@@ -138,10 +138,7 @@ void Game::initHand()
 	// smallBlind alle x Runden erhöhen
 	if(actualHandID%(startHandsBeforeRaiseSmallBlind+1) == 0) { actualSmallBlind *= 2; }
 
-	//Spieler Action auf 0 setzen 
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		playerArray[i]->setMyAction(0);
-	}
+	
 
 	// Spieler mit leerem Cash auf inactive setzen
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
@@ -156,6 +153,11 @@ void Game::initHand()
 
 	// Hand erstellen
 	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, actualHandID, startQuantityPlayers, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
+
+	//Spieler Action auf 0 setzen 
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+		playerArray[i]->setMyAction(0);
+	}
 
 	// Dealer-Button weiterschieben --> Achtung inactive
 	do {

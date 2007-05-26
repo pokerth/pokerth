@@ -55,7 +55,7 @@
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
-     : QMainWindow(parent), myConfig(c), gameSpeed(0), debugMode(0), breakAfterActualHand(FALSE)
+     : QMainWindow(parent), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), debugMode(0), breakAfterActualHand(FALSE)
 {
 	int i;
 
@@ -1496,8 +1496,8 @@ void mainWindowImpl::myFold(){
 	currentHand->getPlayerArray()[0]->setMyAction(1);
 	currentHand->getPlayerArray()[0]->setMyTurn(0);
 
-	//Action in LogWindow
-	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
+// 	//Action in LogWindow
+// 	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
 
 	holeCardsArray[0][0]->startFadeOut(10); 
 	holeCardsArray[0][1]->startFadeOut(10); 
@@ -1514,11 +1514,12 @@ void mainWindowImpl::myFold(){
 
 void mainWindowImpl::myCheck() {
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-	currentHand->getPlayerArray()[0]->setMyAction(2);
+	
 	currentHand->getPlayerArray()[0]->setMyTurn(0);
+	currentHand->getPlayerArray()[0]->setMyAction(2);
 
-	//Action in LogWindow
-	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
+// 	//Action in LogWindow
+// 	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 
@@ -1550,9 +1551,9 @@ void mainWindowImpl::myCall(){
 
 	if (currentHand->getPlayerArray()[0]->getMyCash()+currentHand->getPlayerArray()[0]->getMySet() <= tempHighestSet) {
 
-		currentHand->getPlayerArray()[0]->setMyAction(6);
 		currentHand->getPlayerArray()[0]->setMySet(currentHand->getPlayerArray()[0]->getMyCash());
 		currentHand->getPlayerArray()[0]->setMyCash(0);
+		currentHand->getPlayerArray()[0]->setMyAction(6);
 	}
 	else {	
 		currentHand->getPlayerArray()[0]->setMySet(tempHighestSet - currentHand->getPlayerArray()[0]->getMySet());
@@ -1563,8 +1564,8 @@ void mainWindowImpl::myCall(){
 	currentHand->getBoard()->collectSets();
 	refreshPot();
 
-	//Action in LogWindow
-	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
+// 	//Action in LogWindow
+// 	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 
@@ -1594,7 +1595,7 @@ void mainWindowImpl::myBet(){
 	spinBox_set->setFocus();
 	spinBox_set->selectAll();
 
-	currentHand->getPlayerArray()[0]->setMyAction(4);
+	myActionIsBet = 1;
 }
 
 void mainWindowImpl::myRaise(){ 
@@ -1624,8 +1625,8 @@ void mainWindowImpl::myRaise(){
 	spinBox_set->setValue(spinBox_set->minimum());
 	spinBox_set->setFocus();
 	spinBox_set->selectAll();
-
-	currentHand->getPlayerArray()[0]->setMyAction(5);
+	
+	myActionIsRaise = 1;
 }
 
 void mainWindowImpl::mySet(){
@@ -1638,10 +1639,11 @@ void mainWindowImpl::mySet(){
 // 	cout << "MySET " << currentHand->getPlayerArray()[0]->getMySet() << endl;
 	if (spinBox_set->value() >= tempCash ) {
 
-		currentHand->getPlayerArray()[0]->setMyAction(6);
 		currentHand->getPlayerArray()[0]->setMySet(currentHand->getPlayerArray()[0]->getMyCash());
 		currentHand->getPlayerArray()[0]->setMyCash(0);
+		currentHand->getPlayerArray()[0]->setMyAction(6);
 	}
+	
 
 	switch (currentHand->getActualRound()) {
 
@@ -1656,13 +1658,23 @@ void mainWindowImpl::mySet(){
 		default: {}	
 	}
 	
+	if(myActionIsRaise) {
+		currentHand->getPlayerArray()[0]->setMyAction(5);
+		myActionIsRaise = 0;
+	}
+	
+	if(myActionIsBet) {
+		currentHand->getPlayerArray()[0]->setMyAction(4);
+		myActionIsBet = 0;
+	}
+
 	currentHand->getPlayerArray()[0]->setMyTurn(0);
 
 	currentHand->getBoard()->collectSets();
 	refreshPot();
 
-	//Action in LogWindow
-	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
+// 	//Action in LogWindow
+// 	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 
@@ -1676,10 +1688,12 @@ void mainWindowImpl::mySet(){
 }
 
 void mainWindowImpl::myAllIn(){
+
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-	currentHand->getPlayerArray()[0]->setMyAction(6);
+
 	currentHand->getPlayerArray()[0]->setMySet(currentHand->getPlayerArray()[0]->getMyCash());
 	currentHand->getPlayerArray()[0]->setMyCash(0);
+	currentHand->getPlayerArray()[0]->setMyAction(6);
 	
 	switch (currentHand->getActualRound()) {
 
@@ -1699,8 +1713,8 @@ void mainWindowImpl::myAllIn(){
 	currentHand->getBoard()->collectSets();
 	refreshPot();
 
-	//Action in LogWindow
-	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
+// 	//Action in LogWindow
+// 	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
 	
 	disableMyButtons();
 

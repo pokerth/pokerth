@@ -64,7 +64,11 @@ public:
 	int getMySet() const { return mySet;}
 	int getMyLastRelativeSet() const { return myLastRelativeSet; }
 
-	void setMyAction(int theValue) { myAction = theValue; }
+	void setMyAction(int theValue) { 
+		myAction = theValue; 
+		// logging for human player 
+		if(myAction) actualHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
+	}
 	int getMyAction() const	{ return myAction; }
 
 	void setMyButton(int theValue) { myButton = theValue; }

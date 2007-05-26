@@ -358,6 +358,8 @@ private:
 	int preflopNextPlayerSpeed;
 	int nextOpponentSpeed;	
 
+	bool myActionIsBet;
+	bool myActionIsRaise;
 
 	bool debugMode;
 	bool breakAfterActualHand;
