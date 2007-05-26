@@ -1492,9 +1492,6 @@ void mainWindowImpl::myFold(){
 	currentHand->getPlayerArray()[0]->setMyAction(1);
 	currentHand->getPlayerArray()[0]->setMyTurn(0);
 
-// 	//Action in LogWindow
-// 	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
-
 	holeCardsArray[0][0]->startFadeOut(10); 
 	holeCardsArray[0][1]->startFadeOut(10); 
 	disableMyButtons();
@@ -1513,9 +1510,6 @@ void mainWindowImpl::myCheck() {
 	
 	currentHand->getPlayerArray()[0]->setMyTurn(0);
 	currentHand->getPlayerArray()[0]->setMyAction(2);
-
-// 	//Action in LogWindow
-// 	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 
@@ -1559,9 +1553,6 @@ void mainWindowImpl::myCall(){
 
 	currentHand->getBoard()->collectSets();
 	refreshPot();
-
-// 	//Action in LogWindow
-// 	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
 
 	disableMyButtons();
 
@@ -1669,9 +1660,6 @@ void mainWindowImpl::mySet(){
 	currentHand->getBoard()->collectSets();
 	refreshPot();
 
-// 	//Action in LogWindow
-// 	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
-
 	disableMyButtons();
 
 	statusBar()->clearMessage();
@@ -1708,9 +1696,6 @@ void mainWindowImpl::myAllIn(){
 
 	currentHand->getBoard()->collectSets();
 	refreshPot();
-
-// 	//Action in LogWindow
-// 	myLog->logPlayerActionMsg(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyName().c_str()), currentHand->getPlayerArray()[0]->getMyAction(), currentHand->getPlayerArray()[0]->getMySet());
 	
 	disableMyButtons();
 
