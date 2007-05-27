@@ -83,7 +83,7 @@ void joinNetworkGameDialogImpl::exec() {
 			TiXmlElement * profiles = new TiXmlElement( "ServerProfiles" );  
 			root->LinkEndChild( profiles );  
 		
-			doc.SaveFile( QString::fromUtf8(myServerProfilesFile.c_str()).toStdString() );
+			doc.SaveFile( myServerProfilesFile );
 		}
 		
 		//Liste Füllen
