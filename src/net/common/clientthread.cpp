@@ -104,9 +104,14 @@ ClientThread::SendChatMessage(const std::string &msg)
 	boost::shared_ptr<NetPacket> chat(new NetPacketSendChatText);
 	NetPacketSendChatText::Data chatData;
 	chatData.text = msg;
-	static_cast<NetPacketSendChatText *>(chat.get())->SetData(chatData);
-	// The sender is thread-safe, so just dump the packet.
-	GetSender().Send(GetContext().GetSocket(), chat);
+	try
+	{
+		static_cast<NetPacketSendChatText *>(chat.get())->SetData(chatData);
+		// The sender is thread-safe, so just dump the packet.
+		GetSender().Send(GetContext().GetSocket(), chat);
+	} catch (const NetException &e)
+	{
+	}
 }
 
 ClientCallback &
