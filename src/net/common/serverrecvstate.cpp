@@ -589,7 +589,7 @@ ServerRecvStateStartRound::GetCurrentPlayer(Game &curGame)
 			// 
 		}
 	}
-	assert(curPlayerNum < curGame.getActualQuantityPlayers()); // TODO: throw exception
+	assert(curPlayerNum < MAX_NUMBER_OF_PLAYERS); // TODO: throw exception
 	return curGame.getPlayerArray()[curPlayerNum];
 }
 
@@ -653,16 +653,6 @@ ServerRecvStateWaitPlayerAction::ServerRecvStateWaitPlayerAction()
 
 ServerRecvStateWaitPlayerAction::~ServerRecvStateWaitPlayerAction()
 {
-}
-
-void
-ServerRecvStateWaitPlayerAction::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
-{
-	// C++ really sucks concerning multiple inheritance *sigh*.
-	// So this is a copy & paste from ServerRecvStateRunning.
-
-	// Do not accept new connections in this state.
-	server.RejectNewConnection(connData);
 }
 
 int
@@ -803,7 +793,7 @@ ServerRecvStateFinal::~ServerRecvStateFinal()
 }
 
 int
-ServerRecvStateFinal::Process(ServerRecvThread &server)
+ServerRecvStateFinal::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	Thread::Msleep(10);
 

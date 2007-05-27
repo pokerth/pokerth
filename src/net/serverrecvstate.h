@@ -24,6 +24,11 @@
 #include <net/serverrecvthread.h>
 #include <playerdata.h>
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4250)
+#endif
+
 #define SERVER_INITIAL_STATE	ServerRecvStateInit
 #define SERVER_START_GAME_STATE	ServerRecvStateStartGame
 
@@ -44,7 +49,7 @@ public:
 };
 
 // Abstract State: Receiving.
-class ServerRecvStateReceiving : public ServerRecvState
+class ServerRecvStateReceiving : virtual public ServerRecvState
 {
 public:
 	virtual ~ServerRecvStateReceiving();
@@ -85,7 +90,7 @@ private:
 };
 
 // Abstract State: Game is running.
-class ServerRecvStateRunning : public ServerRecvState
+class ServerRecvStateRunning : virtual public ServerRecvState
 {
 public:
 	virtual ~ServerRecvStateRunning();
@@ -157,15 +162,13 @@ protected:
 };
 
 // State: Wait for a player action.
-class ServerRecvStateWaitPlayerAction : public ServerRecvStateReceiving
+class ServerRecvStateWaitPlayerAction : public ServerRecvStateReceiving, public ServerRecvStateRunning
 {
 public:
 	// Access the state singleton.
 	static ServerRecvStateWaitPlayerAction &Instance();
 
 	virtual ~ServerRecvStateWaitPlayerAction();
-
-	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
 
 protected:
 
@@ -204,7 +207,7 @@ private:
 
 
 // State: Final.
-class ServerRecvStateFinal : public ServerRecvStateRunning
+class ServerRecvStateFinal : public ServerRecvStateReceiving, public ServerRecvStateRunning
 {
 public:
 	// Access the state singleton.
@@ -212,13 +215,16 @@ public:
 
 	virtual ~ServerRecvStateFinal();
 
-	// 
-	virtual int Process(ServerRecvThread &server);
-
 protected:
 
 	// Protected constructor - this is a singleton.
 	ServerRecvStateFinal();
+
+	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 };
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 #endif
