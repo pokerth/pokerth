@@ -620,10 +620,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 					int action = curGame->getPlayerArray()[i]->getMyAction();
 					if (action != 1 && action != 6)
 						curGame->getPlayerArray()[i]->setMyAction(0);
+					curGame->getPlayerArray()[i]->setMySetNull();
 				}
-				// Move sets to pot
-				curGame->getCurrentHand()->getBoard()->collectSets();
-				curGame->getCurrentHand()->getBoard()->collectPot();
 
 				client.GetGui().refreshPot();
 				client.GetGui().refreshSet();
@@ -691,6 +689,12 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			// TODO use moneyWon
 			client.GetGui().postRiverRunAnimation1();
 
+			// Reset player actions
+			for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
+			{
+				curGame->getPlayerArray()[i]->setMyAction(0);
+				curGame->getPlayerArray()[i]->setMySetNull();
+			}
 			// Wait for next Hand.
 			client.SetState(ClientStateWaitHand::Instance());
 			retVal = MSG_NET_GAME_SERVER_HAND_END;
@@ -728,6 +732,12 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			client.GetGame()->getCurrentHand()->getRiver()->setHighestCardsValue(highestValueOfCards);
 			client.GetGui().postRiverRunAnimation1();
 
+			// Reset player sets
+			for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
+			{
+				curGame->getPlayerArray()[i]->setMyAction(0);
+				curGame->getPlayerArray()[i]->setMySetNull();
+			}
 			// Wait for next Hand.
 			client.SetState(ClientStateWaitHand::Instance());
 			retVal = MSG_NET_GAME_SERVER_HAND_END;

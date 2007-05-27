@@ -33,7 +33,7 @@
 using namespace std;
 
 #define SERVER_WAIT_TIMEOUT_MSEC	50
-#define SERVER_NEXT_HAND_DELAY_SEC	5
+#define SERVER_NEXT_HAND_DELAY_SEC	10
 
 
 ServerRecvState::~ServerRecvState()

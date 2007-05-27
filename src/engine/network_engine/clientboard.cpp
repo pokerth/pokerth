@@ -48,19 +48,11 @@ ClientBoard::setHand(HandInterface* br)
 void
 ClientBoard::collectSets()
 {
-	sets = 0;
-	int i;
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) sets += playerArray[i]->getMySet();
-
 }
 
 void
 ClientBoard::collectPot()
 {
-	int i;
-	pot += sets; 
-	sets = 0;
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++){ playerArray[i]->setMySetNull(); }
 }
 
 
