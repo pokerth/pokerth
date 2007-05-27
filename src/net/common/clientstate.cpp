@@ -691,10 +691,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 
 			// Reset player actions
 			for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
-			{
-				curGame->getPlayerArray()[i]->setMyAction(0);
 				curGame->getPlayerArray()[i]->setMySetNull();
-			}
 			// Wait for next Hand.
 			client.SetState(ClientStateWaitHand::Instance());
 			retVal = MSG_NET_GAME_SERVER_HAND_END;
@@ -734,10 +731,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 
 			// Reset player sets
 			for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
-			{
-				curGame->getPlayerArray()[i]->setMyAction(0);
 				curGame->getPlayerArray()[i]->setMySetNull();
-			}
 			// Wait for next Hand.
 			client.SetState(ClientStateWaitHand::Instance());
 			retVal = MSG_NET_GAME_SERVER_HAND_END;
