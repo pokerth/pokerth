@@ -328,7 +328,7 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 	PlayerInterface **playerArray = curGame.getPlayerArray();
 
 	// Send cards to all players.
-	for (int i = 0; i < curGame.getActualQuantityPlayers(); i++)
+	for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
 	{
 		assert(playerArray[i]->getNetSessionData().get()); // TODO throw exception
 
@@ -347,7 +347,7 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 	curGame.startHand();
 
 	// Auto small blind / big blind at the beginning of hand.
-	for (int i = 0; i < curGame.getActualQuantityPlayers(); i++)
+	for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
 	{
 		if(playerArray[i]->getMyButton() == BUTTON_SMALL_BLIND)
 		{
@@ -365,7 +365,7 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 			break;
 		}
 	}
-	for (int i = 0; i < curGame.getActualQuantityPlayers(); i++)
+	for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
 	{
 		if(playerArray[i]->getMyButton() == BUTTON_BIG_BLIND)
 		{
@@ -461,7 +461,7 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 		// Count active players. If only one player is left, no cards are shown.
 		int activePlayersCounter = 0;
 		std::list<PlayerInterface *> activePlayers;
-		for (int i = 0; i < curGame.getActualQuantityPlayers() ; i++)
+		for (int i = 0; i < curGame.getStartQuantityPlayers() ; i++)
 		{ 
 			if (curGame.getPlayerArray()[i]->getMyActiveStatus()
 				&& curGame.getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD)
@@ -589,7 +589,7 @@ ServerRecvStateStartRound::GetCurrentPlayer(Game &curGame)
 			// 
 		}
 	}
-	assert(curPlayerNum < MAX_NUMBER_OF_PLAYERS); // TODO: throw exception
+	assert(curPlayerNum < curGame.getStartQuantityPlayers()); // TODO: throw exception
 	return curGame.getPlayerArray()[curPlayerNum];
 }
 
