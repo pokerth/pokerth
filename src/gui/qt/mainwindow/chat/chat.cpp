@@ -65,3 +65,16 @@ void Chat::checkInputLength(QString string) {
 
 	 if(string.toUtf8().length() > 120) myW->lineEdit_ChatInput->setMaxLength(string.length());  
 }
+
+void Chat::clearNewGame() {
+
+	myW->textBrowser_Chat->clear();
+/*	QStringList wordList;
+	wordList << "alpha" << "omega" << "omicron" << "zeta";*/
+	
+// 	QCompleter *completer = new QCompleter(wordList, this);
+// 	completer->setCaseSensitivity(Qt::CaseInsensitive);
+// 	completer->setCompletionMode(QCompleter::InlineCompletion);
+// // 	lineEdit_ChatInput->setCompleter(completer);
+	
+}

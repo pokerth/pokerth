@@ -28,6 +28,7 @@
 #include "createnetworkgamedialogimpl.h"
 #include "startnetworkgamedialogimpl.h"
 #include "waitforservertostartgamedialogimpl.h"
+#include "changehumanplayernamedialogimpl.h"
 
 #include "startsplash.h"
 #include "mycardspixmaplabel.h"
@@ -409,6 +410,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 #else
 	tmpFont1.setPixelSize(10);
 	textBrowser_Log->setFont(tmpFont1);
+	textBrowser_Chat->setFont(tmpFont1);	
+	lineEdit_ChatInput->setFont(tmpFont1);	
 #endif
 	QFont tmpFont2;
 	tmpFont2.setFamily("Bitstream Vera Sans");
@@ -501,6 +504,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	myNewGameDialog = new newGameDialogImpl(this, myConfig);
 	mySelectAvatarDialog = new selectAvatarDialogImpl(this, myConfig);
 	mySettingsDialog = new settingsDialogImpl(this, myConfig, mySelectAvatarDialog);	
+	myChangeHumanPlayerNameDialog = new changeHumanPlayerNameDialogImpl(this, myConfig);
 	myJoinNetworkGameDialog = new joinNetworkGameDialogImpl(this, myConfig);
 	myConnectToServerDialog = new connectToServerDialogImpl(this);
 	myStartNetworkGameDialog = new startNetworkGameDialogImpl(this);
@@ -2430,9 +2434,14 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 				QMessageBox::Close); }
 		break;
 		case ERR_NET_PLAYER_NAME_IN_USE:
-			{ QMessageBox::warning(this, tr("Network Error"),
+			{ /*QMessageBox::warning(this, tr("Network Error"),
 				tr("Your player name is already used by another player.\nPlease choose a different name."),
-				QMessageBox::Close); }
+				QMessageBox::Close);*/ 
+			
+			  myChangeHumanPlayerNameDialog->label_Message->setText(tr("Your player name is already used by another player.\nPlease choose a different name."));
+			  myChangeHumanPlayerNameDialog->exec();
+
+						     }
 		break;
 		case ERR_NET_INVALID_PLAYER_NAME:
 			{ QMessageBox::warning(this, tr("Network Error"),
@@ -2555,7 +2564,7 @@ void mainWindowImpl::networkGameModification() {
 	
 	tabWidget_Left->disableTab(1, FALSE);	
 	tabWidget_Left->setCurrentIndex(1);
-	textBrowser_Chat->clear();
+	myChat->clearNewGame();
 
 }
 

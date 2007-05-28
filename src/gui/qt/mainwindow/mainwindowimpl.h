@@ -50,6 +50,7 @@ class connectToServerDialogImpl;
 class createNetworkGameDialogImpl;
 class startNetworkGameDialogImpl;
 class waitForServerToStartGameDialogImpl;
+class changeHumanPlayerNameDialogImpl;
 
 class QColor;
 
@@ -338,6 +339,7 @@ private:
 	newGameDialogImpl *myNewGameDialog;
 	settingsDialogImpl *mySettingsDialog;
 	selectAvatarDialogImpl *mySelectAvatarDialog;
+	changeHumanPlayerNameDialogImpl *myChangeHumanPlayerNameDialog;
 	joinNetworkGameDialogImpl *myJoinNetworkGameDialog;
 	connectToServerDialogImpl *myConnectToServerDialog;
 	startNetworkGameDialogImpl *myStartNetworkGameDialog;

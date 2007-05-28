@@ -29,7 +29,8 @@ INCLUDEPATH += . \
 		src/gui/qt/settingsdialog \
 		src/gui/qt/settingsdialog/selectavatardialog \
 		src/gui/qt/startnetworkgamedialog \
-		src/gui/qt/waitforservertostartgamedialog
+		src/gui/qt/waitforservertostartgamedialog \
+		src/gui/qt/changehumanplayernamedialog
 
 DEPENDPATH += . \
               src \
@@ -58,7 +59,8 @@ DEPENDPATH += . \
               src/gui/qt/settingsdialog \
 	      src/gui/qt/settingsdialog/selectavatardialog \
               src/gui/qt/startnetworkgamedialog \
-              src/gui/qt/waitforservertostartgamedialog
+              src/gui/qt/waitforservertostartgamedialog \
+	      src/gui/qt/changehumanplayernamedialog
 # Input
 HEADERS += src/game.h \
            src/session.h \
@@ -126,6 +128,7 @@ HEADERS += src/game.h \
 	   src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.h \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.h \
            src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.h \
+	   src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.h \
            src/gui/qttoolsinterface.h \
            src/gui/qt/qttools/qttoolswrapper.h \
            src/gui/qt/qttools/qthelper/qthelper.h \
@@ -139,7 +142,8 @@ FORMS += src/gui/qt/mainwindow.ui \
          src/gui/qt/settingsdialog.ui \
 	 src/gui/qt/selectavatardialog.ui \
          src/gui/qt/startnetworkgamedialog.ui \
-         src/gui/qt/waitforservertostartgamedialog.ui
+         src/gui/qt/waitforservertostartgamedialog.ui \
+	 src/gui/qt/changehumanplayernamedialog.ui
 SOURCES += src/game.cpp \
            src/pokerth.cpp \
            src/session.cpp \
@@ -215,6 +219,7 @@ SOURCES += src/game.cpp \
 	   src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp \
            src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.cpp  \
+	   src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.cpp \
            src/gui/qttoolsinterface.cpp \
            src/gui/qt/qttools/qttoolswrapper.cpp \
            src/gui/qt/qttools/qthelper/qthelper.cpp \

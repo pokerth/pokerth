@@ -17,47 +17,28 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CHAT_H
-#define CHAT_H
+#ifndef CHANGEHUMANPLAYERNAMEDIALOGIMPL_H
+#define CHANGEHUMANPLAYERNAMEDIALOGIMPL_H
 
-#include <string>
-#include <iostream>
-
-#include "configfile.h"
+#include "ui_changehumanplayernamedialog.h"
 
 #include <QtCore>
 
+class ConfigFile;
 
-class mainWindowImpl;
-
-class Chat : public QObject
-{
+class changeHumanPlayerNameDialogImpl: public QDialog, public Ui::changeHumanPlayerNameDialog {
 Q_OBJECT
-
 public:
-	Chat(mainWindowImpl*, ConfigFile *c);
-
-	~Chat();
-
-signals:
-	void signalChatMessage(QString playerName, QString msg);
+    changeHumanPlayerNameDialogImpl(QWidget *parent = 0, ConfigFile *config = 0);
 
 public slots:
-	
-	void sendMessage();
-	void receiveMessage(QString playerName, QString msg);
-	void checkInvisible();
-	void checkInputLength(QString);
-	void clearNewGame();
-		
-private:
-	
-	mainWindowImpl *myW;
+
+	void savePlayerName();
+
+private: 
+
 	ConfigFile *myConfig;
 	
-
-	
-friend class GuiWrapper;
 };
 
 #endif
