@@ -558,7 +558,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect ( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
 	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
 
-	connect( tabWidget, SIGNAL( currentChanged(int) ), this, SLOT( tabSwitchAction() ) );
+	connect( tabWidget_Left, SIGNAL( currentChanged(int) ), this, SLOT( tabSwitchAction() ) );
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), this, SLOT( checkChatInputLength(QString) ) );
 
@@ -2516,7 +2516,7 @@ void mainWindowImpl::checkChatInputLength(QString string) { myChat->checkInputLe
 
 void mainWindowImpl::tabSwitchAction() { 
 	
-	switch(tabWidget->currentIndex()) {
+	switch(tabWidget_Left->currentIndex()) {
 
 		case 1: { lineEdit_ChatInput->setFocus();
 			  myChat->checkInvisible();				

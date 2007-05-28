@@ -51,13 +51,13 @@ void Chat::receiveMessage(QString playerName, QString message) {
 
 void Chat::checkInvisible() {
 		
-	switch (myW->tabWidget->currentIndex()) {
+	switch (myW->tabWidget_Left->currentIndex()) {
 
-		case 1: { myW->tabWidget->stopBlinkChatTab();
-			  myW->tabWidget->showDefaultChatTab();
+		case 1: { myW->tabWidget_Left->stopBlinkChatTab();
+			  myW->tabWidget_Left->showDefaultChatTab();
 			}
 		break;
-		default: { myW->tabWidget->startBlinkChatTab(); }
+		default: { myW->tabWidget_Left->startBlinkChatTab(); }
 	} 
 }
 

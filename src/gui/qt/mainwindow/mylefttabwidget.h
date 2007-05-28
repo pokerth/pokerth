@@ -1,5 +1,5 @@
 //
-// C++ Interface: MyRightTabWidget
+// C++ Interface: MyLeftTabWidget
 //
 // Description: 
 //
@@ -9,35 +9,35 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#ifndef MYRIGHTTABWIDGET_H
-#define MYRIGHTTABWIDGET_H
+#ifndef MYLEFTTABWIDGET_H
+#define MYLEFTTABWIDGET_H
 
 #include <QtGui>
 #include <QtCore>
 
 #include <iostream>
 
-class MyRightTabWidget : public QTabWidget
+class MyLeftTabWidget : public QTabWidget
 {
 Q_OBJECT
 public:
-    MyRightTabWidget(QGroupBox*);
+    MyLeftTabWidget(QGroupBox*);
 
-    ~MyRightTabWidget();
+    ~MyLeftTabWidget();
 
 
 	void paintEvent(QPaintEvent * event);
-// 	void startBlinkChatTab();
-// 	void stopBlinkChatTab();
-// 	void showDefaultChatTab();
+	void startBlinkChatTab();
+	void stopBlinkChatTab();
+	void showDefaultChatTab();
 
 public slots:
 	
-// 	void blinkChatTab();
+	void blinkChatTab();
 
 private: 
 
-// 	QTimer *chatBlinkTimer;
+	QTimer *chatBlinkTimer;
 	QTabBar *myTabBar;
 
 };

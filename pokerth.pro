@@ -112,6 +112,7 @@ HEADERS += src/game.h \
            src/gui/qt/mainwindow/mainwindowimpl.h \
            src/gui/qt/mainwindow/mycardspixmaplabel.h \
 	   src/gui/qt/mainwindow/myrighttabwidget.h \
+	   src/gui/qt/mainwindow/mylefttabwidget.h \
            src/gui/qt/mainwindow/startsplash/startsplash.h \
 	   src/gui/qt/mainwindow/log/log.h \
 	   src/gui/qt/mainwindow/chat/chat.h \
@@ -201,6 +202,7 @@ SOURCES += src/game.cpp \
            src/gui/qt/mainwindow/mainwindowimpl.cpp \
            src/gui/qt/mainwindow/mycardspixmaplabel.cpp \
 	   src/gui/qt/mainwindow/myrighttabwidget.cpp \
+	   src/gui/qt/mainwindow/mylefttabwidget.cpp \
            src/gui/qt/mainwindow/startsplash/startsplash.cpp \
 	   src/gui/qt/mainwindow/log/log.cpp \
 	   src/gui/qt/mainwindow/chat/chat.cpp \
