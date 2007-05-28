@@ -118,8 +118,8 @@ void joinNetworkGameDialogImpl::fillServerProfileList() {
                 for( profile; profile; profile = profile->NextSiblingElement()) {
 			
 		   	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget,0);
-			item->setData(0, 0, profile->Attribute("Name"));
-			item->setData(1, 0, profile->Attribute("Address"));
+			item->setData(0, 0, QString::fromUtf8(profile->Attribute("Name")));
+			item->setData(1, 0, QString::fromUtf8(profile->Attribute("Address")));
 			item->setData(2, 0, profile->Attribute("Port"));
 			
 			string isIpv6 = "no";
@@ -193,11 +193,11 @@ void joinNetworkGameDialogImpl::saveServerProfile() {
 					// remove the old
 					testProfile->Parent()->RemoveChild(testProfile);
 					// write the new
-					TiXmlElement * profile1 = new TiXmlElement( lineEdit_profileName->text().toStdString() );
+					TiXmlElement * profile1 = new TiXmlElement( lineEdit_profileName->text().toUtf8().constData() );
 					profiles->LinkEndChild( profile1 );
-					profile1->SetAttribute("Name", lineEdit_profileName->text().toStdString());
-					profile1->SetAttribute("Address", lineEdit_ipAddress->text().toStdString());
-					profile1->SetAttribute("Password", lineEdit_password->text().toStdString());
+					profile1->SetAttribute("Name", lineEdit_profileName->text().toUtf8().constData());
+					profile1->SetAttribute("Address", lineEdit_ipAddress->text().toUtf8().constData());
+					profile1->SetAttribute("Password", lineEdit_password->text().toUtf8().constData());
 					profile1->SetAttribute("Port", spinBox_port->value());
 					profile1->SetAttribute("IsIpv6", checkBox_ipv6->isChecked());
 				}
@@ -215,9 +215,9 @@ void joinNetworkGameDialogImpl::saveServerProfile() {
 			// Wenn der Name nicht existiert --> speichern
 			TiXmlElement * profile2 = new TiXmlElement( lineEdit_profileName->text().toStdString() );
 			profiles->LinkEndChild( profile2 );
-			profile2->SetAttribute("Name", lineEdit_profileName->text().toStdString());
-			profile2->SetAttribute("Address", lineEdit_ipAddress->text().toStdString());
-			profile2->SetAttribute("Password", lineEdit_password->text().toStdString());
+			profile2->SetAttribute("Name", lineEdit_profileName->text().toUtf8().constData());
+			profile2->SetAttribute("Address", lineEdit_ipAddress->text().toUtf8().constData());
+			profile2->SetAttribute("Password", lineEdit_password->text().toUtf8().constData());
 			profile2->SetAttribute("Port", spinBox_port->value());
 			profile2->SetAttribute("IsIpv6", checkBox_ipv6->isChecked());
  			
@@ -245,7 +245,7 @@ void joinNetworkGameDialogImpl::deleteServerProfile() {
 	else {
 		TiXmlHandle docHandle( &doc );		
 	
-		TiXmlElement* profile = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).FirstChild( treeWidget->currentItem()->data(0,0).toString().toStdString() ).ToElement();
+		TiXmlElement* profile = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).FirstChild( treeWidget->currentItem()->data(0,0).toString().toUtf8().constData() ).ToElement();
 	
 		if ( profile ) { profile->Parent()->RemoveChild(profile); } 
 		
