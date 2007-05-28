@@ -321,7 +321,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 				
 					const char *tmpStr = conf->Attribute("value");
 					if (tmpStr) tempString = tmpStr;
-					tmpElement->SetAttribute("value", myQtToolsInterface->stringToUtf8(tempString));
+					tmpElement->SetAttribute("value", tempString);
 				}	
 				else {
 					// if element is not there --> set it with defaultValue
