@@ -30,6 +30,7 @@ public:
 	void startBlinkChatTab();
 	void stopBlinkChatTab();
 	void showDefaultChatTab();
+	void disableTab(int tabIndex, bool yesNO);
 
 public slots:
 	

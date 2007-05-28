@@ -32,6 +32,7 @@ MyLeftTabWidget::~MyLeftTabWidget()
 void MyLeftTabWidget::startBlinkChatTab() { chatBlinkTimer->start(500); }
 void MyLeftTabWidget::stopBlinkChatTab() { chatBlinkTimer->stop(); }
 void MyLeftTabWidget::showDefaultChatTab() { myTabBar->setTabTextColor(1, QColor(240,240,240)); }
+void MyLeftTabWidget::disableTab(int tabIndex, bool yesNo) { myTabBar->setTabEnabled(tabIndex, !yesNo); }
 
 void MyLeftTabWidget::blinkChatTab() {
 

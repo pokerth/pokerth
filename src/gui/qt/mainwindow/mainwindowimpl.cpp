@@ -672,8 +672,8 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	Tools::getRandNumber(0, gameData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
 	startData.startDealerPlayerId = static_cast<unsigned>(tmpDealerPos);
 
-	//remove ChatWindow
-	tab_Chat->hide();
+	//some gui modifications
+	localGameModification();
 
 	//Start Game!!!
 	mySession->startLocalGame(gameData, startData);
@@ -720,7 +720,11 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 
 
 		if (myStartNetworkGameDialog->result() == QDialog::Accepted ) {
+			
+			//some gui modifications
+			networkGameModification();
 			myServerGuiInterface->getSession().initiateNetworkServerGame();
+			
 		}
 		else {
 			mySession->terminateNetworkClient();
@@ -731,7 +735,7 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 }
 
 void mainWindowImpl::callJoinNetworkGameDialog() {
-	
+
 	myJoinNetworkGameDialog->exec();
 
 	if (myJoinNetworkGameDialog->result() == QDialog::Accepted ) {
@@ -760,6 +764,10 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 
 			if (myWaitingForServerGameDialog->result() == QDialog::Rejected) {
 				mySession->terminateNetworkClient();
+			}
+			else {
+				//some gui modifications
+				networkGameModification();
 			}
 		}
 	}
@@ -2535,3 +2543,19 @@ void mainWindowImpl::closeEvent(QCloseEvent *event) {
 	event->accept();
 
 }
+
+void mainWindowImpl::localGameModification() {
+	
+	tabWidget_Left->setCurrentIndex(0);
+	tabWidget_Left->disableTab(1, TRUE);
+	
+}
+
+void mainWindowImpl::networkGameModification() {
+	
+	tabWidget_Left->disableTab(1, FALSE);	
+	tabWidget_Left->setCurrentIndex(1);
+	textBrowser_Chat->clear();
+
+}
+

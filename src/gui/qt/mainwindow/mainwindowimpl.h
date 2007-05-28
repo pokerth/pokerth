@@ -245,6 +245,9 @@ public slots:
 	void networkStart(boost::shared_ptr<Game> game);
 
 	void closeEvent(QCloseEvent*);
+	
+	void localGameModification();
+	void networkGameModification();
 
 private: 
 
