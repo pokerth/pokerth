@@ -30,6 +30,9 @@
 #include <QtGui>
 #include <QtCore>
 
+#include "SDL/SDL.h"
+#include "SDL/SDL_mixer.h"
+
 class Log;
 class Chat;
 class ConfigFile;
@@ -250,6 +253,11 @@ public slots:
 	void localGameModification();
 	void networkGameModification();
 
+	//SOUND TESTING
+	void playSound();
+	void musicDone();
+	
+
 private: 
 
 	boost::shared_ptr<GuiInterface> myServerGuiInterface;
@@ -378,6 +386,13 @@ private:
 
 	// statistic testing
 	int statisticArray[15];
+
+	//sound testing
+	int audio_rate;
+  	Uint16 audio_format;
+ 	int audio_channels;
+  	int audio_buffers;
+	Mix_Music *music;
 
 friend class GuiWrapper;
 };

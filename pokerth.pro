@@ -256,7 +256,7 @@ win32{
 }
 
 unix{
-    LIBS += -lboost_thread -lcrypto
+    LIBS += -lboost_thread -lcrypto -lSDL_mixer
 }
 
 macx{

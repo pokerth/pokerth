@@ -49,8 +49,15 @@
 
 #include <net/socket_msg.h>
 
+//SOUND TESTING
+// #include "SDL.h"
+// #include "SDL_mixer.h"
+//SOUND TESTING
+
 #define FORMATLEFT(X) "<p align='center'>(X)"
 #define FORMATRIGHT(X) "(X)</p>"
+
+
 
 
 using namespace std;
@@ -621,12 +628,34 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 // 	playerNameLabelArray[1]->setText(QString::fromUtf8(myConfig->readConfigString("Opponent1Name").c_str()));
 
 
+
+	//SOUNDTESTING
+	audio_rate = 44100;
+  	audio_format = AUDIO_S16; /* 16-bit stereo */
+  	audio_channels = 2;
+  	audio_buffers = 4096;
+	music = NULL;
+
+	SDL_Init(SDL_INIT_AUDIO);
+
+	if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) {
+    		printf("Unable to open audio!\n");
+    		exit(1);
+  	}
+	
+	Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
+	//SOUNDTESTING
+
 }
 
 mainWindowImpl::~mainWindowImpl() {
 
 	delete myConfig;
 	myConfig = 0;
+
+	//SOUND TESTING
+	Mix_CloseAudio();
+  	SDL_Quit();
 }
 
 void mainWindowImpl::callNewGameDialog() {
@@ -2468,7 +2497,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F10) { switchLeftToolBox(); } 
 	if (event->key() == Qt::Key_F11) { switchRightToolBox(); } 
 // 	if (event->key() == Qt::Key_F) { switchFullscreen(); } //f
-	if (event->key() == Qt::Key_S) { myChat->checkInvisible(); } //f	
+	if (event->key() == Qt::Key_S) { playSound(); } //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;
@@ -2560,4 +2589,31 @@ void mainWindowImpl::networkGameModification() {
 	myChat->clearNewGame();
 
 }
+
+void mainWindowImpl::musicDone() {
+  Mix_HaltMusic();
+  Mix_FreeMusic(music);
+  music = NULL;
+}
+
+void mainWindowImpl::playSound() {
+
+	cout << "play now" << endl;
+	 /* Actually loads up the music */
+        music = Mix_LoadMUS("beep.ogg");
+
+        /* This begins playing the music - the first argument is a
+           pointer to Mix_Music structure, and the second is how many
+           times you want it to loop (use -1 for infinite, and 0 to
+           have it just play once) */
+        Mix_PlayMusic(music, 0);
+
+        /* We want to know when our music has stopped playing so we
+           can free it up and set 'music' back to NULL.  SDL_Mixer
+           provides us with a callback routine we can use to do
+           exactly that */
+//         Mix_HookMusicFinished(mainWindowImpl::musicDone);
+        
+ }
+
 
