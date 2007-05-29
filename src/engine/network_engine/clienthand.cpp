@@ -34,7 +34,7 @@ ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, Boar
 		if(playerArray[i]->getMyActiveStatus() != 0) {
 			playerArray[i]->setHand(this);
 		}
-		playerArray[i]->setMyCardsFlip(0);
+		playerArray[i]->setMyCardsFlip(0, 0);
 	}
 
 

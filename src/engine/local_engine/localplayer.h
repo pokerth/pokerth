@@ -83,7 +83,21 @@ public:
 	void setMyTurn(bool theValue){ myTurn = theValue;}
 	bool getMyTurn() const{ return myTurn;}
 
-	void setMyCardsFlip(bool theValue){ myCardsFlip = theValue;}
+	void setMyCardsFlip(bool theValue, int state){ 
+		myCardsFlip = theValue;
+		// log flipping cards
+		if(myCardsFlip) {
+			switch(state) {
+				case 1: actualHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt);
+				break;
+				case 2: actualHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1]);
+				break;
+				case 3: actualHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt, "has");
+				break;
+				default: ;
+			}
+		}
+	}
 	bool getMyCardsFlip() const{ return myCardsFlip;}
 
 	void setMyCardsValueInt(int theValue) { myCardsValueInt = theValue;}
@@ -118,6 +132,14 @@ public:
 	void setSBluffStatus ( bool theValue ) { sBluffStatus = theValue; }
 	bool getSBluffStatus() const { return sBluffStatus; }
 
+	void setMyWinnerState ( bool theValue, int pot ) {
+		myWinnerState = theValue;
+		if(theValue) actualHand->getGuiInterface()->logPlayerWinsMsg(myID, pot);	
+	}
+	bool getMyWinnerState() const { return myWinnerState;}
+	
+
+
 	void action();
 	
 	void preflopEngine();
@@ -140,6 +162,8 @@ public:
 
 	void setNetSessionData(boost::shared_ptr<SessionData> session);
 	boost::shared_ptr<SessionData> getNetSessionData();
+
+	
 
 private:
 
@@ -181,6 +205,8 @@ private:
 
 	int sBluff;
 	bool sBluffStatus;
+	
+	bool myWinnerState;
 
 	boost::shared_ptr<SessionData> myNetSessionData;
 };

@@ -1846,10 +1846,8 @@ void mainWindowImpl::postRiverRunAnimation2() {
 								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
 							}	
 						}
-						//Karten umdrehen Loggen 
-						myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt());
-			
-						currentHand->getPlayerArray()[i]->setMyCardsFlip(1);
+						//set Player value (logging)
+						currentHand->getPlayerArray()[i]->setMyCardsFlip(1,1);
 					}
 				}	
 			}
@@ -1874,10 +1872,8 @@ void mainWindowImpl::postRiverRunAnimation2() {
 								
 							}	
 						}
-						//Karten umdrehen Loggen 
-						myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt() );
-
-						currentHand->getPlayerArray()[i]->setMyCardsFlip(1);
+						//set Player value (logging)
+						currentHand->getPlayerArray()[i]->setMyCardsFlip(1,1);
 					}
 				}
 			}
@@ -1891,8 +1887,8 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				currentHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 				if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
 				
-					//Kartenwerte Loggen 
-					myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[i]->getMyCardsValueInt(), "has");
+					//set Player value (logging)
+					currentHand->getPlayerArray()[i]->setMyCardsFlip(1,3);
 				}
 			}	
 		}
@@ -1971,7 +1967,10 @@ void mainWindowImpl::postRiverRunAnimation3() {
 			int pot =  currentHand->getPlayerArray()[i]->getMyCash() - cashLabelArray[i]->text().remove(" $").toInt(&toIntBool,10) ;
 			//Wenn River dann auch das Blatt loggen!
 // 			if (textLabel_handLabel->text() == "River") {
-			myLog->logPlayerWinsMsg(i, pot);	
+
+			//set Player value (logging)
+			currentHand->getPlayerArray()[i]->setMyWinnerState(1, pot);
+
 // 			}
 // 			else {
 // 				myLog->logPlayerWinsMsg(i, pot);
@@ -2109,10 +2108,8 @@ void mainWindowImpl::flipHolecardsAllIn() {
 								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
 							}
 						}
-						//Karten umdrehen Loggen 
-						myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), tempCardsIntArray[0], tempCardsIntArray[1]);
-
-						currentHand->getPlayerArray()[i]->setMyCardsFlip(1);
+						//set Player value (logging)
+						currentHand->getPlayerArray()[i]->setMyCardsFlip(1,2);
 						
 					}
 				}
@@ -2138,10 +2135,8 @@ void mainWindowImpl::flipHolecardsAllIn() {
 								holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
 							}	
 						}
-						//Karten umdrehen Loggen 
-						myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[i]->getMyName(), temp2CardsIntArray[0], temp2CardsIntArray[1] );
-				
-						currentHand->getPlayerArray()[i]->setMyCardsFlip(1);
+						//set Player value (logging)
+						currentHand->getPlayerArray()[i]->setMyCardsFlip(1,2);
 					}
 				}
 			}
@@ -2160,10 +2155,9 @@ void mainWindowImpl::showMyCards() {
 
 	currentHand->getPlayerArray()[0]->getMyCards(tempCardsIntArray);	
 	if( currentHand->getPlayerArray()[0]->getMyCardsFlip() == 0 &&  currentHand->getActualRound() == 4 && currentHand->getPlayerArray()[0]->getMyActiveStatus() && currentHand->getPlayerArray()[0]->getMyAction() != 1) { 
-		//Karten umdrehen Loggen 
-		myLog->logFlipHoleCardsMsg(currentHand->getPlayerArray()[0]->getMyName().c_str(), tempCardsIntArray[0], tempCardsIntArray[1], currentHand->getPlayerArray()[0]->getMyCardsValueInt() );
 
-		currentHand->getPlayerArray()[0]->setMyCardsFlip(1);
+		//set Player value (logging)	
+		currentHand->getPlayerArray()[0]->setMyCardsFlip(1,1);
 	}
 }
 
@@ -2612,7 +2606,7 @@ void mainWindowImpl::playSound() {
            can free it up and set 'music' back to NULL.  SDL_Mixer
            provides us with a callback routine we can use to do
            exactly that */
-//         Mix_HookMusicFinished(mainWindowImpl::musicDone);
+//         Mix_HookMusicFinished(musicDone);
         
  }
 

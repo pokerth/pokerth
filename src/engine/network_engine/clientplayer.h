@@ -77,7 +77,7 @@ public:
 	void setMyTurn(bool theValue){ myTurn = theValue;}
 	bool getMyTurn() const{ return myTurn;}
 
-	void setMyCardsFlip(bool theValue){ myCardsFlip = theValue;}
+	void setMyCardsFlip(bool theValue, int state){ myCardsFlip = theValue;}
 	bool getMyCardsFlip() const{ return myCardsFlip;}
 
 	void setMyCardsValueInt(int theValue) { myCardsValueInt = theValue;}
@@ -111,6 +111,9 @@ public:
 
 	void setSBluffStatus ( bool theValue ) { sBluffStatus = theValue; }
 	bool getSBluffStatus() const { return sBluffStatus; }
+
+	void setMyWinnerState ( bool theValue, int pot ) { myWinnerState = theValue; }
+	bool getMyWinnerState() const { return myWinnerState;}
 
 	void action();
 	
@@ -175,6 +178,8 @@ private:
 
 	int sBluff;
 	bool sBluffStatus;
+
+	bool myWinnerState;
 
 	boost::shared_ptr<SessionData> myNetSessionData;
 };
