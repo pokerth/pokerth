@@ -44,13 +44,12 @@ public:
 	void refreshAll() const;
 	void refreshPlayerName() const;
 	void refreshButton() const;
-	
+	void refreshGameLabels(int round) const;
+
 	void dealHoleCards();
 	void dealFlopCards();
 	void dealTurnCard();
 	void dealRiverCard();
-
-	void highlightRoundLabel(std::string round) const;
 
 	void nextPlayerAnimation();
 

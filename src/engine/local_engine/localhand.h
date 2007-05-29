@@ -82,7 +82,6 @@ public:
 
 	void assignButtons();
 
-	void highlightRoundLabel();
 	void switchRounds();
 
 

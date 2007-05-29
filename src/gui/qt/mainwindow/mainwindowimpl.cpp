@@ -591,7 +591,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalDealTurnCards0()), this, SLOT(dealTurnCards0()));
 	connect(this, SIGNAL(signalDealRiverCards0()), this, SLOT(dealRiverCards0()));
 
-	connect(this, SIGNAL(signalHighlightRoundLabel(QString)), this, SLOT(highlightRoundLabel(QString)));
+	connect(this, SIGNAL(signalRefreshGameLabels(int)), this, SLOT(refreshGameLabels(int)));
 	connect(this, SIGNAL(signalNextPlayerAnimation()), this, SLOT(nextPlayerAnimation()));
 
 	connect(this, SIGNAL(signalPreflopAnimation1()), this, SLOT(preflopAnimation1()));
@@ -1204,19 +1204,31 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 	}
 }
 
-void mainWindowImpl::highlightRoundLabel(QString round) { 
+void mainWindowImpl::refreshGameLabels(int round) { 
 
-	// für PostRiverRun (alte Runden stehen lassen)
-	if(round != "") {
-
-// 		QPalette tempPalette = frame_handLabel->palette();
-// 		tempPalette.setColor(QPalette::Window, highlight);
-// 		frame_handLabel->setPalette(tempPalette);
-		
-		textLabel_handLabel->setText(round);
-		textLabel_handNumber->setText(QString::number(mySession->getCurrentGame()->getCurrentHand()->getMyID(),10));
-		textLabel_gameNumber->setText(QString::number(mySession->getCurrentGame()->getMyGameID(),10));
+	switch(round) {
+		case 0: {
+			textLabel_handLabel->setText("Preflop");
+		} break;
+		case 1: {
+			textLabel_handLabel->setText("Flop");
+		} break;
+		case 2: {
+			textLabel_handLabel->setText("Turn");
+		} break;
+		case 3: {
+			textLabel_handLabel->setText("River");
+		} break;
+		case 4: {
+			textLabel_handLabel->setText("");
+		} break;
+		default: {
+			textLabel_handLabel->setText("!!! ERROR !!!");
+		}
 	}
+
+	textLabel_handNumber->setText(QString::number(mySession->getCurrentGame()->getCurrentHand()->getMyID(),10));
+	textLabel_gameNumber->setText(QString::number(mySession->getCurrentGame()->getMyGameID(),10));
 }
 
 void mainWindowImpl::refreshAll() {

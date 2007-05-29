@@ -66,7 +66,7 @@ void ServerGuiWrapper::dealFlopCards() {}
 void ServerGuiWrapper::dealTurnCard() {}
 void ServerGuiWrapper::dealRiverCard() {}
 
-void ServerGuiWrapper::highlightRoundLabel(string round) const {}
+void ServerGuiWrapper::refreshGameLabels(int round) const {}
 
 
 void ServerGuiWrapper::nextPlayerAnimation() {}

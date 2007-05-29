@@ -56,7 +56,7 @@ public:
 	virtual void dealTurnCard()=0;
 	virtual void dealRiverCard()=0;
 
-	virtual void highlightRoundLabel(std::string) const=0;
+	virtual void refreshGameLabels(int) const=0;
 
 	virtual void nextPlayerAnimation()=0;
 

@@ -79,8 +79,6 @@ public:
 	void setLastPlayersTurn(const int& theValue) { lastPlayersTurn = theValue; }
 	int getLastPlayersTurn() const { return lastPlayersTurn; }
 
-
-	void highlightRoundLabel();
 	void switchRounds();
 
 

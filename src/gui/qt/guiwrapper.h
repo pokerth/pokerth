@@ -58,7 +58,7 @@ public:
 	void dealTurnCard();
 	void dealRiverCard();
 
-	void highlightRoundLabel(std::string round) const;
+	void refreshGameLabels(int round) const;
 
 	void nextPlayerAnimation();
 

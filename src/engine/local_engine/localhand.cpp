@@ -353,7 +353,7 @@ void LocalHand::switchRounds() {
 	//unhighlight actual players groupbox
 	if(playerArray[lastPlayersTurn]->getMyActiveStatus() == 1) myGui->refreshGroupbox(lastPlayersTurn,1);
 
-	highlightRoundLabel();
+	myGui->refreshGameLabels(actualRound);
 // 	/*/*/*/*cout <<*/*/*/*/ "NextPlayerSpeed1 stop" << endl;
 // 
 // 	cout << "NextPlayerSpeed2 start" << endl;
@@ -388,27 +388,3 @@ void LocalHand::switchRounds() {
 	}
 
 }
-
-void LocalHand::highlightRoundLabel() {
-	switch(actualRound) {
-		case 0: {
-			myGui->highlightRoundLabel("Preflop");
-		} break;
-		case 1: {
-			myGui->highlightRoundLabel("Flop");
-		} break;
-		case 2: {
-			myGui->highlightRoundLabel("Turn");
-		} break;
-		case 3: {
-			myGui->highlightRoundLabel("River");
-		} break;
-		case 4: {
-			myGui->highlightRoundLabel("");
-		} break;
-		default: {
-			myGui->highlightRoundLabel("!!! FEHLER !!!");
-		}
-	}
-}
-

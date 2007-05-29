@@ -94,7 +94,7 @@ signals:
 	void signalDealTurnCards0();
 	void signalDealRiverCards0();
 
-	void signalHighlightRoundLabel(QString);
+	void signalRefreshGameLabels(int);
 	void signalNextPlayerAnimation();
 
 	void signalPreflopAnimation1();
@@ -133,7 +133,7 @@ public slots:
 	void refreshGroupbox(int =-1, int =-1);
 	void refreshAll();
 	void refreshPlayerName();
-
+	void refreshGameLabels(int);
 	void refreshButton();
 	void refreshPlayerAvatar();
 
@@ -143,8 +143,6 @@ public slots:
 	//Spieler-Funktionen
 	void meInAction();
 	void disableMyButtons();
-
-	void highlightRoundLabel(QString);
 
 	void setGameSpeed(const int theValue) { guiGameSpeed = theValue; setSpeeds(); } // Achtung Faktor 10!!!
 

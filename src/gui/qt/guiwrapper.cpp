@@ -58,14 +58,12 @@ void GuiWrapper::refreshPot() const { myW->signalRefreshPot(); }
 void GuiWrapper::refreshGroupbox(int playerID, int status) const { myW->signalRefreshGroupbox(playerID, status); }
 void GuiWrapper::refreshPlayerName() const { myW->signalRefreshPlayerName(); }
 void GuiWrapper::refreshButton() const { myW->signalRefreshButton(); }
+void GuiWrapper::refreshGameLabels(int round) const { myW->signalRefreshGameLabels(round); }
 
 void GuiWrapper::dealHoleCards() { myW->signalDealHoleCards(); }
 void GuiWrapper::dealFlopCards() { myW->signalDealFlopCards0(); }
 void GuiWrapper::dealTurnCard() { myW->signalDealTurnCards0(); }
 void GuiWrapper::dealRiverCard() { myW->signalDealRiverCards0(); }
-
-void GuiWrapper::highlightRoundLabel(string round) const { myW->signalHighlightRoundLabel(QString::fromUtf8(round.c_str())); }
-
 
 void GuiWrapper::nextPlayerAnimation() { myW->signalNextPlayerAnimation(); }
 

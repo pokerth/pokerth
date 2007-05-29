@@ -74,8 +74,5 @@ ClientHand::switchRounds()
 {
 }
 
-void
-ClientHand::highlightRoundLabel()
-{
-}
+
 
