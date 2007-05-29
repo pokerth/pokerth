@@ -329,7 +329,7 @@ private:
 	QLabel *buttonLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *cashLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *cashTopLabelArray[MAX_NUMBER_OF_PLAYERS];
-	QLabel *setLabelArray[MAX_NUMBER_OF_PLAYERS];
+	MySetLabel *setLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *actionLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *playerNameLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *playerAvatarLabelArray[MAX_NUMBER_OF_PLAYERS];

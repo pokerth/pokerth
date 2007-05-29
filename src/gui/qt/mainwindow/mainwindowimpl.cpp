@@ -32,6 +32,7 @@
 
 #include "startsplash.h"
 #include "mycardspixmaplabel.h"
+#include "mysetlabel.h"
 
 #include "playerinterface.h"
 #include "boardinterface.h"
@@ -2502,7 +2503,8 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F3) { pushButton_BetRaise->click(); } 
 	if (event->key() == Qt::Key_F10) { switchLeftToolBox(); } 
 	if (event->key() == Qt::Key_F11) { switchRightToolBox(); } 
-// 	if (event->key() == Qt::Key_F) { switchFullscreen(); } //f
+	if (event->key() == Qt::Key_D) { setLabelArray[0]->startTimeOutAnimation(10); } //f
+	if (event->key() == Qt::Key_E) { setLabelArray[0]->stopTimeOutAnimation(); } //f
 	if (event->key() == Qt::Key_S) { playSound(); } //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 

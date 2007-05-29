@@ -1610,118 +1610,6 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QFrame" name="frame_Cards0" >
-         <property name="geometry" >
-          <rect>
-           <x>95</x>
-           <y>40</y>
-           <width>118</width>
-           <height>111</height>
-          </rect>
-         </property>
-         <widget class="QLabel" name="textLabel_Status0" >
-          <property name="geometry" >
-           <rect>
-            <x>9</x>
-            <y>35</y>
-            <width>100</width>
-            <height>40</height>
-           </rect>
-          </property>
-          <property name="minimumSize" >
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text" >
-           <string/>
-          </property>
-          <property name="alignment" >
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="textInteractionFlags" >
-           <enum>Qt::NoTextInteraction</enum>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QLabel" name="textLabel_Set0" >
-         <property name="geometry" >
-          <rect>
-           <x>95</x>
-           <y>20</y>
-           <width>118</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="palette" >
-          <palette>
-           <active>
-            <colorrole role="WindowText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="WindowText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="WindowText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>128</red>
-               <green>128</green>
-               <blue>128</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>199</red>
-               <green>199</green>
-               <blue>199</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
-         <property name="alignment" >
-          <set>Qt::AlignHCenter|Qt::AlignTop</set>
-         </property>
-        </widget>
         <widget class="QLabel" name="label_PlayerName0" >
          <property name="geometry" >
           <rect>
@@ -1797,6 +1685,118 @@
          </property>
          <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+         </property>
+        </widget>
+        <widget class="QFrame" name="frame_Cards0" >
+         <property name="geometry" >
+          <rect>
+           <x>95</x>
+           <y>40</y>
+           <width>118</width>
+           <height>111</height>
+          </rect>
+         </property>
+         <widget class="QLabel" name="textLabel_Status0" >
+          <property name="geometry" >
+           <rect>
+            <x>9</x>
+            <y>35</y>
+            <width>100</width>
+            <height>40</height>
+           </rect>
+          </property>
+          <property name="minimumSize" >
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text" >
+           <string/>
+          </property>
+          <property name="alignment" >
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="textInteractionFlags" >
+           <enum>Qt::NoTextInteraction</enum>
+          </property>
+         </widget>
+        </widget>
+        <widget class="MySetLabel" name="textLabel_Set0" >
+         <property name="geometry" >
+          <rect>
+           <x>95</x>
+           <y>20</y>
+           <width>118</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="palette" >
+          <palette>
+           <active>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>199</red>
+               <green>199</green>
+               <blue>199</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignHCenter|Qt::AlignTop</set>
          </property>
         </widget>
        </widget>
@@ -3052,7 +3052,84 @@
             <bool>true</bool>
            </property>
           </widget>
-          <widget class="QLabel" name="textLabel_Set1" >
+          <widget class="QLabel" name="label_PlayerName1" >
+           <property name="geometry" >
+            <rect>
+             <x>85</x>
+             <y>17</y>
+             <width>118</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="palette" >
+            <palette>
+             <active>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </active>
+             <inactive>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </inactive>
+             <disabled>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>128</red>
+                 <green>128</green>
+                 <blue>128</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>199</red>
+                 <green>199</green>
+                 <blue>199</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </disabled>
+            </palette>
+           </property>
+           <property name="alignment" >
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+          </widget>
+          <widget class="MySetLabel" name="textLabel_Set1" >
            <property name="geometry" >
             <rect>
              <x>85</x>
@@ -3130,83 +3207,6 @@
            </property>
            <property name="alignment" >
             <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_PlayerName1" >
-           <property name="geometry" >
-            <rect>
-             <x>85</x>
-             <y>17</y>
-             <width>118</width>
-             <height>23</height>
-            </rect>
-           </property>
-           <property name="palette" >
-            <palette>
-             <active>
-              <colorrole role="WindowText" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>240</red>
-                 <green>240</green>
-                 <blue>240</blue>
-                </color>
-               </brush>
-              </colorrole>
-              <colorrole role="Text" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>240</red>
-                 <green>240</green>
-                 <blue>240</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </active>
-             <inactive>
-              <colorrole role="WindowText" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>240</red>
-                 <green>240</green>
-                 <blue>240</blue>
-                </color>
-               </brush>
-              </colorrole>
-              <colorrole role="Text" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>240</red>
-                 <green>240</green>
-                 <blue>240</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </inactive>
-             <disabled>
-              <colorrole role="WindowText" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>128</red>
-                 <green>128</green>
-                 <blue>128</blue>
-                </color>
-               </brush>
-              </colorrole>
-              <colorrole role="Text" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>199</red>
-                 <green>199</green>
-                 <blue>199</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </disabled>
-            </palette>
-           </property>
-           <property name="alignment" >
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
            </property>
           </widget>
          </widget>
@@ -4283,7 +4283,84 @@
             <bool>true</bool>
            </property>
           </widget>
-          <widget class="QLabel" name="textLabel_Set6" >
+          <widget class="QLabel" name="label_PlayerName6" >
+           <property name="geometry" >
+            <rect>
+             <x>85</x>
+             <y>17</y>
+             <width>118</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="palette" >
+            <palette>
+             <active>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </active>
+             <inactive>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>240</red>
+                 <green>240</green>
+                 <blue>240</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </inactive>
+             <disabled>
+              <colorrole role="WindowText" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>128</red>
+                 <green>128</green>
+                 <blue>128</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Text" >
+               <brush brushstyle="SolidPattern" >
+                <color alpha="255" >
+                 <red>199</red>
+                 <green>199</green>
+                 <blue>199</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </disabled>
+            </palette>
+           </property>
+           <property name="alignment" >
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+          </widget>
+          <widget class="MySetLabel" name="textLabel_Set6" >
            <property name="geometry" >
             <rect>
              <x>85</x>
@@ -4361,83 +4438,6 @@
            </property>
            <property name="alignment" >
             <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_PlayerName6" >
-           <property name="geometry" >
-            <rect>
-             <x>85</x>
-             <y>17</y>
-             <width>118</width>
-             <height>23</height>
-            </rect>
-           </property>
-           <property name="palette" >
-            <palette>
-             <active>
-              <colorrole role="WindowText" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>240</red>
-                 <green>240</green>
-                 <blue>240</blue>
-                </color>
-               </brush>
-              </colorrole>
-              <colorrole role="Text" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>240</red>
-                 <green>240</green>
-                 <blue>240</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </active>
-             <inactive>
-              <colorrole role="WindowText" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>240</red>
-                 <green>240</green>
-                 <blue>240</blue>
-                </color>
-               </brush>
-              </colorrole>
-              <colorrole role="Text" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>240</red>
-                 <green>240</green>
-                 <blue>240</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </inactive>
-             <disabled>
-              <colorrole role="WindowText" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>128</red>
-                 <green>128</green>
-                 <blue>128</blue>
-                </color>
-               </brush>
-              </colorrole>
-              <colorrole role="Text" >
-               <brush brushstyle="SolidPattern" >
-                <color alpha="255" >
-                 <red>199</red>
-                 <green>199</green>
-                 <blue>199</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </disabled>
-            </palette>
-           </property>
-           <property name="alignment" >
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
            </property>
           </widget>
          </widget>
@@ -4776,7 +4776,7 @@
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Set2" >
+        <widget class="MySetLabel" name="textLabel_Set2" >
          <property name="geometry" >
           <rect>
            <x>85</x>
@@ -5106,7 +5106,84 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Set3" >
+        <widget class="QLabel" name="label_PlayerName3" >
+         <property name="geometry" >
+          <rect>
+           <x>85</x>
+           <y>17</y>
+           <width>118</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="palette" >
+          <palette>
+           <active>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>199</red>
+               <green>199</green>
+               <blue>199</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+        </widget>
+        <widget class="MySetLabel" name="textLabel_Set3" >
          <property name="geometry" >
           <rect>
            <x>85</x>
@@ -5184,83 +5261,6 @@
          </property>
          <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_PlayerName3" >
-         <property name="geometry" >
-          <rect>
-           <x>85</x>
-           <y>17</y>
-           <width>118</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="palette" >
-          <palette>
-           <active>
-            <colorrole role="WindowText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="WindowText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="WindowText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>128</red>
-               <green>128</green>
-               <blue>128</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>199</red>
-               <green>199</green>
-               <blue>199</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
-         <property name="alignment" >
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
        </widget>
@@ -5590,7 +5590,7 @@
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Set4" >
+        <widget class="MySetLabel" name="textLabel_Set4" >
          <property name="geometry" >
           <rect>
            <x>85</x>
@@ -5920,7 +5920,84 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Set5" >
+        <widget class="QLabel" name="label_PlayerName5" >
+         <property name="geometry" >
+          <rect>
+           <x>85</x>
+           <y>17</y>
+           <width>118</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="palette" >
+          <palette>
+           <active>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="WindowText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>199</red>
+               <green>199</green>
+               <blue>199</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+        </widget>
+        <widget class="MySetLabel" name="textLabel_Set5" >
          <property name="geometry" >
           <rect>
            <x>85</x>
@@ -5998,83 +6075,6 @@
          </property>
          <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_PlayerName5" >
-         <property name="geometry" >
-          <rect>
-           <x>85</x>
-           <y>17</y>
-           <width>118</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="palette" >
-          <palette>
-           <active>
-            <colorrole role="WindowText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="WindowText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="WindowText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>128</red>
-               <green>128</green>
-               <blue>128</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>199</red>
-               <green>199</green>
-               <blue>199</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
-         <property name="alignment" >
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
        </widget>
@@ -6173,6 +6173,11 @@
    <class>MyLeftTabWidget</class>
    <extends>QTabWidget</extends>
    <header>mylefttabwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MySetLabel</class>
+   <extends>QLabel</extends>
+   <header>mysetlabel.h</header>
   </customwidget>
   <customwidget>
    <class>MyRightTabWidget</class>
