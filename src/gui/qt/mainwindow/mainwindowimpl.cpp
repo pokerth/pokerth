@@ -2513,7 +2513,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F3) { pushButton_BetRaise->click(); } 
 	if (event->key() == Qt::Key_F10) { switchLeftToolBox(); } 
 	if (event->key() == Qt::Key_F11) { switchRightToolBox(); } 
-	if (event->key() == Qt::Key_D) { setLabelArray[0]->startTimeOutAnimation(10); } //f
+	if (event->key() == Qt::Key_D) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction")); } //f
 	if (event->key() == Qt::Key_E) { setLabelArray[0]->stopTimeOutAnimation(); } //f
 	if (event->key() == Qt::Key_S) { playSound(); } //s	
 	if (event->key() == 16777249) { 
@@ -2616,21 +2616,22 @@ void mainWindowImpl::musicDone() {
 
 void mainWindowImpl::playSound() {
 
-	cout << "play now" << endl;
-	 /* Actually loads up the music */
-        music = Mix_LoadMUS("beep.ogg");
-
-        /* This begins playing the music - the first argument is a
-           pointer to Mix_Music structure, and the second is how many
-           times you want it to loop (use -1 for infinite, and 0 to
-           have it just play once) */
-        Mix_PlayMusic(music, 0);
-
+	if(myConfig->readConfigInt("PlaySoundEffects")) {
+		cout << "play now" << endl;
+		/* Actually loads up the music */
+		music = Mix_LoadMUS("beep.ogg");
+	
+		/* This begins playing the music - the first argument is a
+		pointer to Mix_Music structure, and the second is how many
+		times you want it to loop (use -1 for infinite, and 0 to
+		have it just play once) */
+		Mix_PlayMusic(music, 0);
+	}
         /* We want to know when our music has stopped playing so we
            can free it up and set 'music' back to NULL.  SDL_Mixer
            provides us with a callback routine we can use to do
            exactly that */
-//         Mix_HookMusicFinished(musicDone);
+//         Mix_HookMusicFinished(mainWindowImpl::musicDone());
         
  }
 

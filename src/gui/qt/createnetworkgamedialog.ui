@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>314</width>
-    <height>243</height>
+    <width>335</width>
+    <height>274</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -44,51 +44,6 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="2" colspan="2" >
-       <widget class="QSpinBox" name="spinBox_handsBeforeRaiseSmallBlind" >
-        <property name="minimum" >
-         <number>1</number>
-        </property>
-        <property name="value" >
-         <number>9</number>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" colspan="2" >
-       <widget class="QLabel" name="label_4" >
-        <property name="text" >
-         <string>Hands before raise small blind:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" >
-       <widget class="QLabel" name="label_2" >
-        <property name="text" >
-         <string>Start Cash:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" >
-       <widget class="QLabel" name="label_3" >
-        <property name="text" >
-         <string>Small Blind:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label" >
-        <property name="text" >
-         <string>Number of players:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" colspan="3" >
-       <widget class="QLabel" name="label_5" >
-        <property name="text" >
-         <string>Game Speed for computer opponent:</string>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="1" colspan="3" >
        <widget class="QSpinBox" name="spinBox_smallBlind" >
         <property name="maximum" >
@@ -99,6 +54,27 @@
         </property>
         <property name="value" >
          <number>10</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" >
+       <widget class="QLabel" name="label_3" >
+        <property name="text" >
+         <string>Small Blind:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="label_2" >
+        <property name="text" >
+         <string>Start Cash:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="label" >
+        <property name="text" >
+         <string>Number of players:</string>
         </property>
        </widget>
       </item>
@@ -125,6 +101,50 @@
         </property>
         <property name="value" >
          <number>7</number>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2" colspan="2" >
+       <widget class="QSpinBox" name="spinBox_netTimeOutPlayerAction" >
+        <property name="maximum" >
+         <number>60</number>
+        </property>
+        <property name="minimum" >
+         <number>5</number>
+        </property>
+        <property name="value" >
+         <number>20</number>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="2" >
+       <widget class="QLabel" name="label_6" >
+        <property name="text" >
+         <string>Timeout for player action (sec):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2" >
+       <widget class="QLabel" name="label_4" >
+        <property name="text" >
+         <string>Hands before raise small blind:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2" colspan="2" >
+       <widget class="QSpinBox" name="spinBox_handsBeforeRaiseSmallBlind" >
+        <property name="minimum" >
+         <number>1</number>
+        </property>
+        <property name="value" >
+         <number>9</number>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="3" >
+       <widget class="QLabel" name="label_5" >
+        <property name="text" >
+         <string>Game Speed for computer opponent:</string>
         </property>
        </widget>
       </item>

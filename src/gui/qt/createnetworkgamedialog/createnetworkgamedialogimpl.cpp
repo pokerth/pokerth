@@ -58,6 +58,7 @@ void createNetworkGameDialogImpl::fillFormular() {
 	spinBox_smallBlind->setValue(myConfig->readConfigInt("NetSmallBlind"));
 	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig->readConfigInt("NetHandsBeforeRaiseSmallBlind"));
 	spinBox_gameSpeed->setValue(myConfig->readConfigInt("NetGameSpeed"));
+	spinBox_netTimeOutPlayerAction->setValue(myConfig->readConfigInt("NetTimeOutPlayerAction"));
 }
 
 void createNetworkGameDialogImpl::showDialog() { 

@@ -255,7 +255,7 @@ public slots:
 
 	//SOUND TESTING
 	void playSound();
-	void musicDone();
+	void musicDone(); 
 	
 
 private: 

@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>635</width>
-    <height>439</height>
+    <height>470</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -32,7 +32,7 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="9" column="0" >
+       <item row="10" column="0" >
         <widget class="QGroupBox" name="groupBox" >
          <property name="title" >
           <string>Flipside of Cards</string>
@@ -126,10 +126,24 @@ p, li { white-space: pre-wrap; }
          </layout>
         </widget>
        </item>
-       <item row="3" column="0" >
-        <widget class="QCheckBox" name="checkBox_showLeftToolbox" >
+       <item row="7" column="0" >
+        <widget class="QCheckBox" name="checkBox_showFlipCardsAnimation" >
          <property name="text" >
-          <string>Show left toolbox (F10 to switch on/off)</string>
+          <string>Show flip-card animation</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0" >
+        <widget class="QCheckBox" name="checkBox_showBlindButtons" >
+         <property name="text" >
+          <string>Show buttons for small blind and big blind</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" >
+        <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation" >
+         <property name="text" >
+          <string>Show fade-out animation for non-winning cards</string>
          </property>
         </widget>
        </item>
@@ -140,23 +154,10 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="10" column="0" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="6" column="0" >
-        <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation" >
+       <item row="3" column="0" >
+        <widget class="QCheckBox" name="checkBox_showLeftToolbox" >
          <property name="text" >
-          <string>Show fade-out animation for non-winning cards</string>
+          <string>Show left toolbox (F10 to switch on/off)</string>
          </property>
         </widget>
        </item>
@@ -180,13 +181,6 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="7" column="0" >
-        <widget class="QCheckBox" name="checkBox_showFlipCardsAnimation" >
-         <property name="text" >
-          <string>Show flip-card animation</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="0" >
         <widget class="QCheckBox" name="checkBox_showIntro" >
          <property name="text" >
@@ -201,10 +195,23 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="8" column="0" >
-        <widget class="QCheckBox" name="checkBox_showBlindButtons" >
+       <item row="11" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="9" column="0" >
+        <widget class="QCheckBox" name="checkBox_playSoundEffects" >
          <property name="text" >
-          <string>Show buttons for small blind and big blind</string>
+          <string>Play sound effects</string>
          </property>
         </widget>
        </item>
@@ -471,57 +478,6 @@ p, li { white-space: pre-wrap; }
          <property name="spacing" >
           <number>6</number>
          </property>
-         <item row="4" column="0" >
-          <widget class="QLabel" name="label_36" >
-           <property name="text" >
-            <string>Game Speed for computer opponents:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" >
-          <widget class="QLabel" name="label_13" >
-           <property name="text" >
-            <string>Start Cash:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1" >
-          <widget class="QSpinBox" name="spinBox_netQuantityPlayers" >
-           <property name="maximum" >
-            <number>7</number>
-           </property>
-           <property name="minimum" >
-            <number>2</number>
-           </property>
-           <property name="value" >
-            <number>7</number>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1" >
-          <widget class="QSpinBox" name="spinBox_netSmallBlind" >
-           <property name="maximum" >
-            <number>500</number>
-           </property>
-           <property name="minimum" >
-            <number>5</number>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label_15" >
-           <property name="text" >
-            <string>Number of players:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0" >
-          <widget class="QLabel" name="label_35" >
-           <property name="text" >
-            <string>Small Blind:</string>
-           </property>
-          </widget>
-         </item>
          <item row="3" column="1" >
           <widget class="QSpinBox" name="spinBox_netHandsBeforeRaiseSmallBlind" >
            <property name="minimum" >
@@ -542,10 +498,16 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
-         <item row="3" column="0" >
-          <widget class="QLabel" name="label_33" >
-           <property name="text" >
-            <string>Hands before raise small blind:</string>
+         <item row="0" column="1" >
+          <widget class="QSpinBox" name="spinBox_netQuantityPlayers" >
+           <property name="maximum" >
+            <number>7</number>
+           </property>
+           <property name="minimum" >
+            <number>2</number>
+           </property>
+           <property name="value" >
+            <number>7</number>
            </property>
           </widget>
          </item>
@@ -562,11 +524,32 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
+         <item row="2" column="0" >
+          <widget class="QLabel" name="label_35" >
+           <property name="text" >
+            <string>Small Blind:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" >
+          <widget class="QLabel" name="label_36" >
+           <property name="text" >
+            <string>Game Speed for computer opponents:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" >
+          <widget class="QLabel" name="label_15" >
+           <property name="text" >
+            <string>Number of players:</string>
+           </property>
+          </widget>
+         </item>
          <item row="5" column="1" >
           <widget class="QComboBox" name="comboBox_netEngineVersion" >
            <item>
             <property name="text" >
-             <string>0.4 (actual - under development)</string>
+             <string>0.4 (actual)</string>
             </property>
            </item>
            <item>
@@ -580,6 +563,50 @@ p, li { white-space: pre-wrap; }
           <widget class="QLabel" name="label_18" >
            <property name="text" >
             <string>Engine Version for computer opponents:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" >
+          <widget class="QLabel" name="label_13" >
+           <property name="text" >
+            <string>Start Cash:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1" >
+          <widget class="QSpinBox" name="spinBox_netSmallBlind" >
+           <property name="maximum" >
+            <number>500</number>
+           </property>
+           <property name="minimum" >
+            <number>5</number>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0" >
+          <widget class="QLabel" name="label_33" >
+           <property name="text" >
+            <string>Hands before raise small blind:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0" >
+          <widget class="QLabel" name="label_40" >
+           <property name="text" >
+            <string>Timout for player action (sec):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1" >
+          <widget class="QSpinBox" name="spinBox_netTimeOutPlayerAction" >
+           <property name="maximum" >
+            <number>60</number>
+           </property>
+           <property name="minimum" >
+            <number>5</number>
+           </property>
+           <property name="value" >
+            <number>20</number>
            </property>
           </widget>
          </item>

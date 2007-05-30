@@ -95,9 +95,11 @@ void settingsDialogImpl::exec() {
 	spinBox_netHandsBeforeRaiseSmallBlind->setValue(myConfig->readConfigInt("NetHandsBeforeRaiseSmallBlind"));
 	spinBox_netGameSpeed->setValue(myConfig->readConfigInt("NetGameSpeed"));
 	comboBox_netEngineVersion->setCurrentIndex(myConfig->readConfigInt("NetEngineVersion"));
+	spinBox_netTimeOutPlayerAction->setValue(myConfig->readConfigInt("NetTimeOutPlayerAction"));
 	spinBox_serverPort->setValue(myConfig->readConfigInt("ServerPort"));
 	lineEdit_serverPassword->setText(QString::fromUtf8(myConfig->readConfigString("ServerPassword").c_str()));
 	checkBox_useIpv6->setChecked(myConfig->readConfigInt("ServerUseIpv6"));
+
 	
 
 	//Interface
@@ -108,6 +110,7 @@ void settingsDialogImpl::exec() {
 	checkBox_showFadeOutCardsAnimation->setChecked(myConfig->readConfigInt("ShowFadeOutCardsAnimation"));
 	checkBox_showFlipCardsAnimation->setChecked(myConfig->readConfigInt("ShowFlipCardsAnimation"));
 	checkBox_showBlindButtons->setChecked(myConfig->readConfigInt("ShowBlindButtons"));
+	checkBox_playSoundEffects->setChecked(myConfig->readConfigInt("PlaySoundEffects"));
 	radioButton_flipsideTux->setChecked(myConfig->readConfigInt("FlipsideTux"));
 	radioButton_flipsideOwn->setChecked(myConfig->readConfigInt("FlipsideOwn"));
 	if(radioButton_flipsideOwn->isChecked()) { 
@@ -121,6 +124,7 @@ void settingsDialogImpl::exec() {
 	lineEdit_logDir->setText(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
 	spinBox_logStoreDuration->setValue(myConfig->readConfigInt("LogStoreDuration"));
 	comboBox_logInterval->setCurrentIndex(myConfig->readConfigInt("LogInterval"));
+	
 
 	QDialog::exec();
 
@@ -225,6 +229,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("NetHandsBeforeRaiseSmallBlind", spinBox_netHandsBeforeRaiseSmallBlind->value());
 	myConfig->writeConfigInt("NetGameSpeed", spinBox_netGameSpeed->value());
 	myConfig->writeConfigInt("NetEngineVersion", comboBox_netEngineVersion->currentIndex());
+	myConfig->writeConfigInt("NetTimeOutPlayerAction", spinBox_netTimeOutPlayerAction->value());
 	myConfig->writeConfigInt("ServerPort", spinBox_serverPort->value());
 	myConfig->writeConfigString("ServerPassword", lineEdit_serverPassword->text().toUtf8().constData());
 	myConfig->writeConfigInt("ServerUseIpv6", checkBox_useIpv6->isChecked());
@@ -237,6 +242,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("ShowFadeOutCardsAnimation", checkBox_showFadeOutCardsAnimation->isChecked());
 	myConfig->writeConfigInt("ShowFlipCardsAnimation", checkBox_showFlipCardsAnimation->isChecked());
 	myConfig->writeConfigInt("ShowBlindButtons", checkBox_showBlindButtons->isChecked());
+	myConfig->writeConfigInt("PlaySoundEffects", checkBox_playSoundEffects->isChecked());
 	myConfig->writeConfigInt("FlipsideTux", radioButton_flipsideTux->isChecked());
 	myConfig->writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());
 

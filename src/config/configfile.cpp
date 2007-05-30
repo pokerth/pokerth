@@ -49,7 +49,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
 	}
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 21;
+	configRev = 24;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -142,6 +142,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("ShowFadeOutCardsAnimation", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("ShowFlipCardsAnimation", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("ShowBlindButtons", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("PlaySoundEffects", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("FlipsideTux", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("FlipsideOwn", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("FlipsideOwnFile", CONFIG_TYPE_STRING, ""));
@@ -159,6 +160,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("NetHandsBeforeRaiseSmallBlind", CONFIG_TYPE_INT, "8"));
 	configList.push_back(ConfigInfo("NetGameSpeed", CONFIG_TYPE_INT, "4"));
 	configList.push_back(ConfigInfo("NetEngineVersion", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("NetTimeOutPlayerAction", CONFIG_TYPE_INT, "20"));
 	configList.push_back(ConfigInfo("ServerPassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("ServerUseIpv6", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerPort", CONFIG_TYPE_INT, "7234"));
