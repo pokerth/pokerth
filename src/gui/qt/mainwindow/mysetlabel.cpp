@@ -11,7 +11,9 @@
 //
 #include "mysetlabel.h"
 
-// using namespace std;
+#include "mainwindowimpl.h"
+
+using namespace std;
 
 MySetLabel::MySetLabel(QGroupBox* parent)
  : QLabel(parent), timeOutAnimation(FALSE), timeOutValue(0), timeOutFrame(0)
@@ -54,7 +56,11 @@ void MySetLabel::nextTimeOutAnimationFrame() {
 		timeOutFrame++;
 		update();
 	}	
-	else stopTimeOutAnimation();
+	else { 
+		stopTimeOutAnimation();	
+		//callback
+		myW->userActionTimeOutReached();
+	}
 }
 
 

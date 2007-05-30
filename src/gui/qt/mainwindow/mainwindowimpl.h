@@ -251,6 +251,8 @@ public slots:
 	void localGameModification();
 	void networkGameModification();
 
+	void userActionTimeOutReached();
+
 	//SOUND TESTING
 	void playSound();
 	void musicDone();

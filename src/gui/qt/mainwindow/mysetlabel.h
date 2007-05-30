@@ -17,6 +17,9 @@
 
 #include <iostream>
 
+
+class mainWindowImpl;
+
 class MySetLabel : public QLabel
 {
 Q_OBJECT
@@ -25,6 +28,9 @@ public:
 
     ~MySetLabel();
 
+	
+	void setMyW ( mainWindowImpl* theValue ) { myW = theValue; }
+	
 	void startTimeOutAnimation(int secs);
 	void stopTimeOutAnimation();
 	
@@ -33,9 +39,11 @@ public:
 public slots:
 	
 	void nextTimeOutAnimationFrame();
+
 	
 private: 
 
+	mainWindowImpl *myW;
 	QTimer *timeOutAnimationTimer;
 	bool timeOutAnimation;
 

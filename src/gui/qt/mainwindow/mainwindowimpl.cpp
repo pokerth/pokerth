@@ -364,6 +364,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	setLabelArray[4] = textLabel_Set4;
 	setLabelArray[5] = textLabel_Set5;
 	setLabelArray[6] = textLabel_Set6;
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { setLabelArray[i]->setMyW(this); }
 
 	// statusLabelArray init
 	actionLabelArray[0] = textLabel_Status0;
@@ -1762,6 +1763,15 @@ void mainWindowImpl::myAllIn(){
 	myActionDone();
 }
 
+void mainWindowImpl::userActionTimeOutReached() {
+
+	//TODO
+// 	automatic check, fold
+	cout << "timeoutaction" << endl;
+
+}
+
+
 void mainWindowImpl::myActionDone() {
 
 	// If a network client is running, we need
@@ -2623,5 +2633,4 @@ void mainWindowImpl::playSound() {
 //         Mix_HookMusicFinished(musicDone);
         
  }
-
 
