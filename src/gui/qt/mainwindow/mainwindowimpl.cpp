@@ -1701,12 +1701,18 @@ void mainWindowImpl::mySet(){
 	}
 	
 	if(myActionIsRaise) {
-		currentHand->getPlayerArray()[0]->setMyAction(5);
+		//do not if allIn
+		if(currentHand->getPlayerArray()[0]->getMyAction() != 6) {
+			currentHand->getPlayerArray()[0]->setMyAction(5);
+		}
 		myActionIsRaise = 0;
 	}
 	
 	if(myActionIsBet) {
-		currentHand->getPlayerArray()[0]->setMyAction(4);
+		//do not if allIn
+		if(currentHand->getPlayerArray()[0]->getMyAction() != 6) {
+			currentHand->getPlayerArray()[0]->setMyAction(4);
+		}		
 		myActionIsBet = 0;
 	}
 
