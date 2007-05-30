@@ -257,6 +257,7 @@ public slots:
 	void playSound();
 	void musicDone(); 
 	
+	void quitPokerTH();
 
 private: 
 

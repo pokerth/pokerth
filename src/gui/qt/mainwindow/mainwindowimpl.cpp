@@ -561,7 +561,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect( actionSettings, SIGNAL( triggered() ), this, SLOT( callSettingsDialog() ) );
 	connect( actionJoin_network_Game, SIGNAL( triggered() ), this, SLOT( callJoinNetworkGameDialog() ) );
 	connect( actionCreate_network_Game, SIGNAL( triggered() ), this, SLOT( callCreateNetworkGameDialog() ) );
-	connect( actionQuit, SIGNAL( triggered() ), qApp, SLOT( quit() ) );
+	connect( actionQuit, SIGNAL( triggered() ), this, SLOT( quitPokerTH() ) );
 	connect( actionFullScreen, SIGNAL( triggered() ), this, SLOT( switchFullscreen() ) );
 
 	connect( pushButton_BetRaise, SIGNAL( clicked() ), this, SLOT( myBetRaise() ) );
@@ -655,9 +655,6 @@ mainWindowImpl::~mainWindowImpl() {
 	delete myConfig;
 	myConfig = 0;
 
-	//SOUND TESTING
-	Mix_CloseAudio();
-  	SDL_Quit();
 }
 
 void mainWindowImpl::callNewGameDialog() {
@@ -2522,6 +2519,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_D) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction")); } //f
 	if (event->key() == Qt::Key_E) { setLabelArray[0]->stopTimeOutAnimation(); } //f
 	if (event->key() == Qt::Key_S) { playSound(); } //s	
+	if (event->key() == Qt::Key_W) { qApp->quit(); } //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;
@@ -2590,14 +2588,6 @@ void mainWindowImpl::tabSwitchAction() {
 	}
 }
 
-void mainWindowImpl::closeEvent(QCloseEvent *event) {
-	
-	mySession->terminateNetworkClient();
-	if (myServerGuiInterface.get()) myServerGuiInterface->getSession().terminateNetworkServer();
-	
-	event->accept();
-
-}
 
 void mainWindowImpl::localGameModification() {
 	
@@ -2639,5 +2629,20 @@ void mainWindowImpl::playSound() {
            exactly that */
 //         Mix_HookMusicFinished(mainWindowImpl::musicDone());
         
- }
+}
+
+void mainWindowImpl::closeEvent(QCloseEvent *event) { quitPokerTH(); }
+
+void mainWindowImpl::quitPokerTH() {
+	
+	mySession->terminateNetworkClient();
+	if (myServerGuiInterface.get()) myServerGuiInterface->getSession().terminateNetworkServer();
+	
+	//SOUND close
+	Mix_CloseAudio();
+  	SDL_Quit();
+	
+// 	cout << "PokerTH finished" << endl;
+	qApp->quit();
+}
 
