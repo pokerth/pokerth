@@ -253,9 +253,9 @@ public slots:
 
 	void userActionTimeOutReached();
 
-	//SOUND TESTING
 	void playSound();
 	void musicDone(); 
+	void SDLMixerClean();
 	
 	void quitPokerTH();
 

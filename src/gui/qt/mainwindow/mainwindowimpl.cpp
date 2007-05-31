@@ -486,9 +486,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	int width = tempMetrics.width(tr("Stop"));
 	pushButton_break->setMinimumSize(width+10,20);
 
-	//ShortCuts 
-// 	QShortcut *startNewGameKeys = new QShortcut(QKeySequence(Qt::Key_Control + Qt::Key_N), this);
-// 	connect( startNewGameKeys, SIGNAL(activated() ), actionNewGame, SLOT( trigger() ) );
 
 	//Clear Focus
 	groupBox_LeftToolBox->clearFocus();
@@ -520,6 +517,12 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this, myConfig);
 	myWaitingForServerGameDialog = new waitForServerToStartGameDialogImpl(this);
 	myAboutPokerthDialog = new aboutPokerthImpl(this);
+
+
+// 	//ShortCuts 
+// 	QShortcut *quitPokerTHKeys = new QShortcut(QKeySequence(Qt::Key_Control + Qt::Key_Q), this);
+// 	connect( quitPokerTHKeys, SIGNAL(activated() ), actionQuit, SLOT( trigger() ) );
+
 
 	//Connects
 	connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
@@ -638,16 +641,18 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
   	audio_buffers = 4096;
 	music = NULL;
 
-	SDL_Init(SDL_INIT_AUDIO);
+	if (myConfig->readConfigInt("PlaySoundEffects")) { 
 
-	if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) {
-    		printf("Unable to open audio!\n");
-    		exit(1);
-  	}
-	
-	Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
-	//SOUNDTESTING
+		SDL_Init(SDL_INIT_AUDIO);
 
+		if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) {
+			printf("Unable to open audio!\n");
+			exit(1);
+		}
+		
+		Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
+		//SOUNDTESTING
+	}
 }
 
 mainWindowImpl::~mainWindowImpl() {
@@ -869,8 +874,18 @@ void mainWindowImpl::callSettingsDialog() {
 				}
 			}
 		}
-
-		
+		//Audio Clean?
+		if (myConfig->readConfigInt("PlaySoundEffects") == 0) { SDLMixerClean(); }
+		else {
+// 			SDL_Init(SDL_INIT_AUDIO);
+// 
+// 			if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) {
+// 				printf("Unable to open audio!\n");
+// 				exit(1);
+// 			}
+// 			
+// 			Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
+		}
 	}
 }
 
@@ -2519,7 +2534,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_D) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction")); } //f
 	if (event->key() == Qt::Key_E) { setLabelArray[0]->stopTimeOutAnimation(); } //f
 	if (event->key() == Qt::Key_S) { playSound(); } //s	
-	if (event->key() == Qt::Key_W) { qApp->quit(); } //s	
+// 	if (event->key() == Qt::Key_W) { qApp->quit(); } //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;
@@ -2610,6 +2625,15 @@ void mainWindowImpl::musicDone() {
   music = NULL;
 }
 
+void mainWindowImpl::SDLMixerClean() {
+	//SOUND close
+	Mix_HaltMusic();
+	Mix_FreeMusic(music);
+  	music = NULL;
+// 	Mix_CloseAudio();
+//   	SDL_Quit();
+}
+
 void mainWindowImpl::playSound() {
 
 	if(myConfig->readConfigInt("PlaySoundEffects")) {
@@ -2638,9 +2662,7 @@ void mainWindowImpl::quitPokerTH() {
 	mySession->terminateNetworkClient();
 	if (myServerGuiInterface.get()) myServerGuiInterface->getSession().terminateNetworkServer();
 	
-	//SOUND close
-	Mix_CloseAudio();
-  	SDL_Quit();
+	SDLMixerClean();
 	
 // 	cout << "PokerTH finished" << endl;
 	qApp->quit();

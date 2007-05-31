@@ -6138,6 +6138,9 @@
    <property name="text" >
     <string>Quit</string>
    </property>
+   <property name="shortcut" >
+    <string>Ctrl+Q</string>
+   </property>
   </action>
   <action name="actionAboutPokerth" >
    <property name="text" >
@@ -6170,6 +6173,11 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>MyRightTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>myrighttabwidget.h</header>
+  </customwidget>
+  <customwidget>
    <class>MyLeftTabWidget</class>
    <extends>QTabWidget</extends>
    <header>mylefttabwidget.h</header>
@@ -6178,11 +6186,6 @@
    <class>MySetLabel</class>
    <extends>QLabel</extends>
    <header>mysetlabel.h</header>
-  </customwidget>
-  <customwidget>
-   <class>MyRightTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>myrighttabwidget.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
