@@ -2647,11 +2647,7 @@ void mainWindowImpl::playSound() {
 		have it just play once) */
 		Mix_PlayMusic(music, 0);
 	}
-        /* We want to know when our music has stopped playing so we
-           can free it up and set 'music' back to NULL.  SDL_Mixer
-           provides us with a callback routine we can use to do
-           exactly that */
-//         Mix_HookMusicFinished(mainWindowImpl::musicDone());
+        
         
 }
 
