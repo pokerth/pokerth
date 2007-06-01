@@ -42,12 +42,14 @@ void SDLPlayer::initAudio() {
 	Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
 }
 
-void SDLPlayer::playSound(std::string audioString) {
+void SDLPlayer::playSound(string audioString) {
+
+	audioDone();
 
 	cout << "play now" << endl;
 	/* Actually loads up the music */
-	string oggString = ".ogg";
-// 	music = Mix_LoadMUS( audioString+oggString );
+	string completeAudioString = audioString + ".ogg";
+	music = Mix_LoadMUS(completeAudioString.c_str());
 	
 	/* This begins playing the music - the first argument is a
 	pointer to Mix_Music structure, and the second is how many

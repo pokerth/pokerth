@@ -30,9 +30,6 @@
 #include <QtGui>
 #include <QtCore>
 
-#include "SDL/SDL.h"
-#include "SDL/SDL_mixer.h"
-
 class Log;
 class Chat;
 class ConfigFile;
@@ -57,6 +54,7 @@ class changeHumanPlayerNameDialogImpl;
 
 class QColor;
 
+class SDLPlayer;
 
 class mainWindowImpl: public QMainWindow, public Ui::mainWindow {
 Q_OBJECT
@@ -252,10 +250,6 @@ public slots:
 	void networkGameModification();
 
 	void userActionTimeOutReached();
-
-	void playSound();
-	void musicDone(); 
-	void SDLMixerClean();
 	
 	void quitPokerTH();
 
@@ -355,6 +349,9 @@ private:
 	createNetworkGameDialogImpl *myCreateNetworkGameDialog;
 	waitForServerToStartGameDialogImpl *myWaitingForServerGameDialog;
 
+	//Sound
+	SDLPlayer *mySDLPlayer;
+
 	int distributePotAnimCounter;
 
 	//Speed
@@ -388,12 +385,7 @@ private:
 	// statistic testing
 	int statisticArray[15];
 
-	//sound testing
-	int audio_rate;
-  	Uint16 audio_format;
- 	int audio_channels;
-  	int audio_buffers;
-	Mix_Music *music;
+	
 
 friend class GuiWrapper;
 };

@@ -33,33 +33,26 @@
 #include "startsplash.h"
 #include "mycardspixmaplabel.h"
 #include "mysetlabel.h"
+#include "log.h"
+#include "chat.h"
 
 #include "playerinterface.h"
 #include "boardinterface.h"
-
 #include "handinterface.h"
 #include "game.h"
 #include "session.h"
 #include "tools.h"
 
-#include "log.h"
-#include "chat.h"
 #include "configfile.h"
+#include "sdlplayer.h"
+
 #include <gamedata.h>
 #include <generic/serverguiwrapper.h>
 
 #include <net/socket_msg.h>
 
-//SOUND TESTING
-// #include "SDL.h"
-// #include "SDL_mixer.h"
-//SOUND TESTING
-
 #define FORMATLEFT(X) "<p align='center'>(X)"
 #define FORMATRIGHT(X) "(X)</p>"
-
-
-
 
 using namespace std;
 
@@ -627,32 +620,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetServerPlayerLeft(QString)), myStartNetworkGameDialog, SLOT(removePlayer(QString)));
 
 
-// 	textBrowser_Log->append(QString::number(this->pos().x(),10)+" "+QString::number(this->pos().y(),10));	
-// 	textBrowser_Log->append(QString::number(this->x(),10)+" "+QString::number(this->y(),10));
+	//Sound
+	mySDLPlayer = new SDLPlayer;
 
-// 	playerNameLabelArray[1]->setText(QString::fromUtf8(myConfig->readConfigString("Opponent1Name").c_str()));
-
-
-
-	//SOUNDTESTING
-	audio_rate = 44100;
-  	audio_format = AUDIO_S16; /* 16-bit stereo */
-  	audio_channels = 2;
-  	audio_buffers = 4096;
-	music = NULL;
-
-	if (myConfig->readConfigInt("PlaySoundEffects")) { 
-
-		SDL_Init(SDL_INIT_AUDIO);
-
-		if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) {
-			printf("Unable to open audio!\n");
-			exit(1);
-		}
-		
-		Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
-		//SOUNDTESTING
-	}
 }
 
 mainWindowImpl::~mainWindowImpl() {
@@ -875,7 +845,7 @@ void mainWindowImpl::callSettingsDialog() {
 			}
 		}
 		//Audio Clean?
-		if (myConfig->readConfigInt("PlaySoundEffects") == 0) { SDLMixerClean(); }
+		if (myConfig->readConfigInt("PlaySoundEffects") == 0) { mySDLPlayer->audioDone(); }
 		else {
 // 			SDL_Init(SDL_INIT_AUDIO);
 // 
@@ -2533,7 +2503,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F11) { switchRightToolBox(); } 
 	if (event->key() == Qt::Key_D) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction")); } //f
 	if (event->key() == Qt::Key_E) { setLabelArray[0]->stopTimeOutAnimation(); } //f
-	if (event->key() == Qt::Key_S) { playSound(); } //s	
+	if (event->key() == Qt::Key_S) { if(myConfig->readConfigInt("PlaySoundEffects")) mySDLPlayer->playSound("beep"); } //s	
 // 	if (event->key() == Qt::Key_W) { qApp->quit(); } //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
@@ -2619,38 +2589,6 @@ void mainWindowImpl::networkGameModification() {
 
 }
 
-void mainWindowImpl::musicDone() {
-  Mix_HaltMusic();
-  Mix_FreeMusic(music);
-  music = NULL;
-}
-
-void mainWindowImpl::SDLMixerClean() {
-	//SOUND close
-	Mix_HaltMusic();
-	Mix_FreeMusic(music);
-  	music = NULL;
-// 	Mix_CloseAudio();
-//   	SDL_Quit();
-}
-
-void mainWindowImpl::playSound() {
-
-	if(myConfig->readConfigInt("PlaySoundEffects")) {
-		cout << "play now" << endl;
-		/* Actually loads up the music */
-		music = Mix_LoadMUS("beep.ogg");
-	
-		/* This begins playing the music - the first argument is a
-		pointer to Mix_Music structure, and the second is how many
-		times you want it to loop (use -1 for infinite, and 0 to
-		have it just play once) */
-		Mix_PlayMusic(music, 0);
-	}
-        
-        
-}
-
 void mainWindowImpl::closeEvent(QCloseEvent *event) { quitPokerTH(); }
 
 void mainWindowImpl::quitPokerTH() {
@@ -2658,7 +2596,7 @@ void mainWindowImpl::quitPokerTH() {
 	mySession->terminateNetworkClient();
 	if (myServerGuiInterface.get()) myServerGuiInterface->getSession().terminateNetworkServer();
 	
-	SDLMixerClean();
+	mySDLPlayer->closeAudio();
 	
 // 	cout << "PokerTH finished" << endl;
 	qApp->quit();
