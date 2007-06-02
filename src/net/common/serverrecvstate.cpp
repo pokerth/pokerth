@@ -766,7 +766,7 @@ ServerRecvStateNextHand::SetTimer(const boost::microsec_timer &timer)
 }
 
 int
-ServerRecvStateNextHand::Process(ServerRecvThread &server)
+ServerRecvStateNextHand::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	if (m_delayTimer.elapsed().seconds() >= SERVER_NEXT_HAND_DELAY_SEC)
 		server.SetState(ServerRecvStateStartHand::Instance());

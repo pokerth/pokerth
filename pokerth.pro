@@ -249,9 +249,9 @@ win32{
     SOURCES += src/core/win32/rand.cpp \
 		src/net/win32/socket_helper.cpp \
 		src/net/win32/socket_startup.cpp 
-    INCLUDEPATH += ../boost/
-    LIBPATH += ../boost/stage/lib
-    LIBS += gdi32.lib comdlg32.lib oleaut32.lib imm32.lib winmm.lib winspool.lib ole32.lib uuid.lib user32.lib msimg32.lib shell32.lib kernel32.lib ws2_32.lib advapi32.lib
+    INCLUDEPATH += ../boost/ ../SDL/include ../SDL_mixer
+    LIBPATH += ../boost/stage/lib ../SDL/VisualC/SDL/Release ../SDL/VisualC/SDLmain/Release ../SDL_mixer/VisualC/Release
+    LIBS += gdi32.lib comdlg32.lib oleaut32.lib imm32.lib winmm.lib winspool.lib ole32.lib uuid.lib user32.lib msimg32.lib shell32.lib kernel32.lib ws2_32.lib advapi32.lib sdl.lib sdlmain.lib sdl_mixer.lib
     RC_FILE = pokerth.rc
 }
 !win32{

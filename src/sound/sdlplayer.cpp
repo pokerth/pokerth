@@ -11,6 +11,8 @@
 //
 #include "sdlplayer.h"
 
+#include <iostream>
+
 using namespace std;
 
 SDLPlayer::SDLPlayer()
@@ -48,7 +50,7 @@ void SDLPlayer::playSound(string audioString) {
 
 	cout << "play now" << endl;
 	/* Actually loads up the music */
-	string completeAudioString = audioString + ".ogg";
+	string completeAudioString = audioString + ".wav";
 	music = Mix_LoadMUS(completeAudioString.c_str());
 	
 	/* This begins playing the music - the first argument is a

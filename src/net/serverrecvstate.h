@@ -181,8 +181,8 @@ protected:
 	static void SetHighestSet(Game &curGame, int highestSet);
 };
 
-// State: Final.
-class ServerRecvStateNextHand : public ServerRecvStateRunning
+// State: Delay before next hand.
+class ServerRecvStateNextHand : public ServerRecvStateReceiving, public ServerRecvStateRunning
 {
 public:
 	// Access the state singleton.
@@ -192,13 +192,12 @@ public:
 
 	void SetTimer(const boost::microsec_timer &timer);
 
-	// 
-	virtual int Process(ServerRecvThread &server);
-
 protected:
 
 	// Protected constructor - this is a singleton.
 	ServerRecvStateNextHand();
+
+	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
 private:
 

@@ -109,7 +109,7 @@ ClientThread::SendChatMessage(const std::string &msg)
 		static_cast<NetPacketSendChatText *>(chat.get())->SetData(chatData);
 		// The sender is thread-safe, so just dump the packet.
 		GetSender().Send(GetContext().GetSocket(), chat);
-	} catch (const NetException &e)
+	} catch (const NetException &)
 	{
 	}
 }
