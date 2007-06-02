@@ -70,7 +70,7 @@ private:
 	unsigned			m_serverPort;
 	std::string			m_password;
 	sockaddr_storage	m_clientSockaddr;
-	std::string			m_playerName; // TODO: use player interface.
+	std::string			m_playerName;
 };
 
 #endif

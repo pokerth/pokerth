@@ -68,7 +68,6 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
 		else { myAvatar << "Opponent" << i << "Avatar"; }
 
 		//PlayerData erzeugen
-		// TODO: PlayerType setzen
 		// UniqueId = PlayerNumber for local games.
 		boost::shared_ptr<PlayerData> playerData(new PlayerData(i, i, i == 0 ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER));
 		playerData->SetName(myConfig->readConfigString(myName.str()));
@@ -91,8 +90,6 @@ void Session::startClientGame(boost::shared_ptr<Game> game)
 {
 	currentGameID++;
 
-// TODO: use server gui speed.
-	myGui->initGui(5);
 	currentGame = game;
 }
 
@@ -109,7 +106,10 @@ GuiInterface *Session::getGui()
 void Session::startNetworkClient(const string &serverAddress, unsigned serverPort, bool ipv6, const string &pwd)
 {
 	if (myNetClient || !myGui)
-		return; // TODO: throw exception
+	{
+		assert(false);
+		return;
+	}
 	myNetClient = new ClientThread(*myGui);
 	myNetClient->Init(
 		serverAddress,
@@ -123,7 +123,10 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 void Session::startNetworkClientForLocalServer()
 {
 	if (myNetClient || !myGui)
-		return; // TODO: throw exception
+	{
+		assert(false);
+		return;
+	}
 	myNetClient = new ClientThread(*myGui);
 	myNetClient->Init(
 		"localhost",
@@ -151,7 +154,10 @@ void Session::terminateNetworkClient()
 void Session::startNetworkServer(const GameData &gameData)
 {
 	if (myNetServer)
-		return; // TODO: throw exception
+	{
+		assert(false);
+		return;
+	}
 	myNetServer = new ServerThread(*myGui, myConfig);
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
@@ -164,7 +170,10 @@ void Session::startNetworkServer(const GameData &gameData)
 void Session::initiateNetworkServerGame()
 {
 	if (!myNetServer)
-		return; // TODO: throw exception
+	{
+		assert(false);
+		return;
+	}
 	myNetServer->StartGame();
 }
 

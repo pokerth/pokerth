@@ -497,7 +497,7 @@ ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		packet->ToNetPacketPlayerLeft()->GetData(netPlayerData);
 		client.RemovePlayerData(netPlayerData.playerId);
 	}
-	// TODO: handle error packet
+	// TODO: handle error packet (kicked from server)
 
 	return retVal;
 }

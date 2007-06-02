@@ -157,6 +157,9 @@ ClientThread::Main()
 
 					MapPlayerDataList();
 					m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameId++));
+					// Initialize GUI speed.
+					GetGui().initGui(GetGameData().guiSpeed);
+					// Signal start of game to GUI.
 					GetCallback().SignalNetClientGameStart(m_game);
 				}
 			}
