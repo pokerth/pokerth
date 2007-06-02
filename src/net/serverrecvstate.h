@@ -190,6 +190,9 @@ public:
 
 	virtual ~ServerRecvStateNextHand();
 
+	// Overwrite default processing
+	virtual int Process(ServerRecvThread &server);
+
 	void SetTimer(const boost::microsec_timer &timer);
 
 protected:

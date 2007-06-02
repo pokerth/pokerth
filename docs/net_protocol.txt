@@ -175,8 +175,8 @@ Player Action:
 	0x05 - Raise
 	0x06 - All in
 Player Bet:
-	0 (ignored) - states fold, check, call, all in
-	> 0         - states bet, raise
+	0 (ignored) - states fold, check, 
+	> 0         - states call, bet, raise, all in
 
 Server Notification: Player's Action Done
 

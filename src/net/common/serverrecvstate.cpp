@@ -670,10 +670,14 @@ ServerRecvStateWaitPlayerAction::InternalProcess(ServerRecvThread &server, Sessi
 		assert(tmpPlayer); // TODO throw exception
 
 		tmpPlayer->setMyAction(actionData.playerAction);
-		tmpPlayer->setMySet(actionData.playerBet);
+		// Only change the player bet if action is not fold/check
+		if (actionData.playerAction != PLAYER_ACTION_FOLD && actionData.playerAction != PLAYER_ACTION_CHECK)
+		{
+			tmpPlayer->setMySet(actionData.playerBet);
 
-		if (tmpPlayer->getMySet() > GetHighestSet(curGame))
-			SetHighestSet(curGame, tmpPlayer->getMySet());
+			if (tmpPlayer->getMySet() > GetHighestSet(curGame))
+				SetHighestSet(curGame, tmpPlayer->getMySet());
+		}
 
 		boost::shared_ptr<NetPacket> notifyActionDone(new NetPacketPlayersActionDone);
 		NetPacketPlayersActionDone::Data actionDoneData;
@@ -766,12 +770,19 @@ ServerRecvStateNextHand::SetTimer(const boost::microsec_timer &timer)
 }
 
 int
-ServerRecvStateNextHand::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerRecvStateNextHand::Process(ServerRecvThread &server)
 {
+	int retVal = ServerRecvStateReceiving::Process(server);
+
 	if (m_delayTimer.elapsed().seconds() >= SERVER_NEXT_HAND_DELAY_SEC)
 		server.SetState(ServerRecvStateStartHand::Instance());
-	Thread::Msleep(10);
 
+	return retVal;
+}
+
+int
+ServerRecvStateNextHand::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+{
 	return MSG_SOCK_INTERNAL_PENDING;
 }
 
@@ -795,8 +806,6 @@ ServerRecvStateFinal::~ServerRecvStateFinal()
 int
 ServerRecvStateFinal::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
-	Thread::Msleep(10);
-
 	return MSG_SOCK_INTERNAL_PENDING;
 }
 

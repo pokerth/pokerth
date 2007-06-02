@@ -90,7 +90,11 @@ ClientThread::SendPlayerAction()
 	NetPacketPlayersAction::Data actionData;
 	actionData.gameState = static_cast<GameState>(GetGame()->getCurrentHand()->getActualRound());
 	actionData.playerAction = static_cast<PlayerAction>(GetGame()->getPlayerArray()[0]->getMyAction());
-	actionData.playerBet = GetGame()->getPlayerArray()[0]->getMyLastRelativeSet();
+	// Only send last bet if not fold/checked.
+	if (actionData.playerAction != PLAYER_ACTION_FOLD && actionData.playerAction != PLAYER_ACTION_CHECK)
+		actionData.playerBet = GetGame()->getPlayerArray()[0]->getMyLastRelativeSet();
+	else
+		actionData.playerBet = 0;
 	static_cast<NetPacketPlayersAction *>(action.get())->SetData(actionData);
 	// The sender is thread-safe, so just dump the packet.
 	GetSender().Send(GetContext().GetSocket(), action);
