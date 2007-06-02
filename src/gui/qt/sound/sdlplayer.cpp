@@ -15,8 +15,9 @@
 
 using namespace std;
 
-SDLPlayer::SDLPlayer()
+SDLPlayer::SDLPlayer():QObject()
 {
+	currentChannel = 0;
 	initAudio();
 	
 }
@@ -32,7 +33,7 @@ void SDLPlayer::initAudio() {
 	audio_format = AUDIO_S16; /* 16-bit stereo */
 	audio_channels = 2;
 	audio_buffers = 4096;
-	music = NULL;
+	sound = NULL;
 
 	SDL_Init(SDL_INIT_AUDIO);
 
@@ -44,37 +45,33 @@ void SDLPlayer::playSound(string audioString) {
 
 	audioDone();
 
-	cout << "play now" << endl;
-	/* Actually loads up the music */
-	string completeAudioString = audioString + ".wav";
-	music = Mix_LoadMUS(completeAudioString.c_str());
+	QFile myFile(":sounds/resources/sounds/"+QString::fromStdString(audioString)+".wav");
+        if(!myFile.open(QIODevice::ReadOnly)) cout << "could not load wav" << endl;
+        
+	QDataStream in(&myFile);
+        Uint8 *myMem = new Uint8[(int)myFile.size()];
+        in.readRawData( (char*)myMem, (int)myFile.size() );
+	
+        sound = Mix_QuickLoad_WAV( myMem ); 
 
-	/* This begins playing the music - the first argument is a
-	pointer to Mix_Music structure, and the second is how many
-	times you want it to loop (use -1 for infinite, and 0 to
-	have it just play once) */
-	Mix_PlayMusic(music, 0);
+	currentChannel = Mix_PlayChannel(0, sound,0);
 
-	/* We want to know when our music has stopped playing so we
-           can free it up and set 'music' back to NULL.  SDL_Mixer
-           provides us with a callback routine we can use to do
-           exactly that */
-//         Mix_HookMusicFinished(mainWindowImpl::musicDone());
+	delete[] myMem; 
 
 }
 
 void SDLPlayer::audioDone() {
 
-	Mix_HaltMusic();
-	Mix_FreeMusic(music);
-	music = NULL;
+	Mix_HaltChannel(currentChannel);
+	Mix_FreeChunk(sound);
+	sound = NULL;
 }
 
 void SDLPlayer::closeAudio() {
 
-	Mix_HaltMusic();
-	Mix_FreeMusic(music);
-	music = NULL;
+	Mix_HaltChannel(currentChannel);
+	Mix_FreeChunk(sound);
+	sound = NULL;
 	Mix_CloseAudio();
 	SDL_Quit();
 }

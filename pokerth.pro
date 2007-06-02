@@ -13,10 +13,10 @@ INCLUDEPATH += . \
 		src/engine/network_engine \
 		src/config \
 		src/core/tinyxml \
-		src/sound \
 		src/gui/qt \
 		src/gui/qt/connecttoserverdialog \
 		src/core \
+		src/gui/qt/sound \
 		src/gui/qt/qttools \
 		src/gui/qt/qttools/qthelper \
 		src/gui/qt/mainwindow \
@@ -36,7 +36,6 @@ INCLUDEPATH += . \
 DEPENDPATH += . \
               src \
               src/config \
-	      src/sound \
               src/core \
               src/engine \
               src/gui \
@@ -47,6 +46,7 @@ DEPENDPATH += . \
               src/engine/network_engine \
               src/gui/qt \
               src/net/common \
+	      src/gui/qt/sound \
               src/gui/qt/mainwindow \
               src/gui/qt/mainwindow/startsplash \
 	      src/gui/qt/mainwindow/log \
@@ -113,6 +113,7 @@ HEADERS += src/game.h \
            src/engine/network_engine/clientpreflop.h \
            src/engine/network_engine/clientriver.h \
            src/engine/network_engine/clientturn.h \
+     	   src/gui/qt/sound/sdlplayer.h \
            src/gui/qt/mainwindow/mainwindowimpl.h \
            src/gui/qt/mainwindow/mycardspixmaplabel.h \
 	   src/gui/qt/mainwindow/mysetlabel.h \
@@ -135,8 +136,7 @@ HEADERS += src/game.h \
            src/gui/qttoolsinterface.h \
            src/gui/qt/qttools/qttoolswrapper.h \
            src/gui/qt/qttools/qthelper/qthelper.h \
-           src/gui/generic/serverguiwrapper.h \
-           src/sound/sdlplayer.h
+           src/gui/generic/serverguiwrapper.h 
 FORMS += src/gui/qt/mainwindow.ui \
          src/gui/qt/aboutpokerth.ui \
          src/gui/qt/connecttoserverdialog.ui \
@@ -206,6 +206,7 @@ SOURCES += src/game.cpp \
            src/net/common/netcontext.cpp \
            src/net/common/netexception.cpp \
            src/net/common/receiverhelper.cpp \
+	   src/gui/qt/sound/sdlplayer.cpp \
            src/gui/qt/guiwrapper.cpp \
            src/gui/qt/mainwindow/mainwindowimpl.cpp \
            src/gui/qt/mainwindow/mycardspixmaplabel.cpp \
@@ -228,8 +229,7 @@ SOURCES += src/game.cpp \
            src/gui/qttoolsinterface.cpp \
            src/gui/qt/qttools/qttoolswrapper.cpp \
            src/gui/qt/qttools/qthelper/qthelper.cpp \
-           src/gui/generic/serverguiwrapper.cpp \
-           src/sound/sdlplayer.cpp
+           src/gui/generic/serverguiwrapper.cpp
 RESOURCES += src/gui/qt/resources.qrc
 TRANSLATIONS = ts/pokerth_de.ts \
                ts/pokerth_es.ts \

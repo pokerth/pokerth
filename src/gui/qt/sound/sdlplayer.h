@@ -9,6 +9,8 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+#include <QtCore>
+
 #ifndef SDLPLAYER_H
 #define SDLPLAYER_H
 
@@ -25,7 +27,9 @@
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
 */
-class SDLPlayer{
+class SDLPlayer : public QObject{
+Q_OBJECT
+
 public:
 	SDLPlayer();
 
@@ -42,7 +46,8 @@ private:
 	Uint16 audio_format;
 	int audio_channels;
 	int audio_buffers;
-	Mix_Music *music;
+	Mix_Chunk *sound;
+	int currentChannel;
 
 };
 
