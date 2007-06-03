@@ -257,7 +257,7 @@ protected:
 	static void SetPlayersTurn(Game &curGame, int playersTurn);
 };
 
-// State: Final (TODO).
+// State: Final (just for testing, should not be used).
 class ClientStateFinal : public ClientState
 {
 public:

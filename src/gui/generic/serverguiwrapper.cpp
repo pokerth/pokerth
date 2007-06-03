@@ -60,14 +60,12 @@ void ServerGuiWrapper::refreshPot() const {}
 void ServerGuiWrapper::refreshGroupbox(int playerID, int status) const {}
 void ServerGuiWrapper::refreshPlayerName() const {}
 void ServerGuiWrapper::refreshButton() const {}
+void ServerGuiWrapper::refreshGameLabels() const {}
 
 void ServerGuiWrapper::dealHoleCards() {}
 void ServerGuiWrapper::dealFlopCards() {}
 void ServerGuiWrapper::dealTurnCard() {}
 void ServerGuiWrapper::dealRiverCard() {}
-
-void ServerGuiWrapper::refreshGameLabels(int round) const {}
-
 
 void ServerGuiWrapper::nextPlayerAnimation() {}
 

@@ -22,7 +22,10 @@
 using namespace std;
 
 ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC)
-: myFactory(f), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0), myID(id), actualQuantityPlayers(aP), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), allInCondition(0), bettingRoundsPlayed(0)
+: myFactory(f), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0),
+  myID(id), actualQuantityPlayers(aP), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0),
+  smallBlind(sB), startCash(sC), activePlayersCounter(aP), lastPlayersTurn(0), allInCondition(0),
+  bettingRoundsPlayed(0)
 {
 	int i;
 	lastPlayersTurn = 0;
@@ -34,6 +37,7 @@ ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, Boar
 		if(playerArray[i]->getMyActiveStatus() != 0) {
 			playerArray[i]->setHand(this);
 		}
+	// myFlipCards auf 0 setzen
 		playerArray[i]->setMyCardsFlip(0, 0);
 	}
 
@@ -72,6 +76,11 @@ ClientHand::start()
 void
 ClientHand::switchRounds()
 {
+	// update active players counter.
+	activePlayersCounter = 0;
+	for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++) { 
+		if (playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyActiveStatus() == 1) activePlayersCounter++;
+	}
 }
 
 

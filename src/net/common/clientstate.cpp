@@ -538,6 +538,7 @@ ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		client.GetGame()->initHand();
 		client.GetGame()->startHand();
 		client.GetGui().dealHoleCards();
+		client.GetGui().refreshGameLabels();
 		client.SetState(ClientStateRunHand::Instance());
 
 		retVal = MSG_NET_GAME_CLIENT_HAND_START;
@@ -577,7 +578,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			NetPacketPlayersActionDone::Data actionDoneData;
 			packet->ToNetPacketPlayersActionDone()->GetData(actionDoneData);
 			PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(actionDoneData.playerId);
-			assert(tmpPlayer); // TODO: throw exception
+			if (!tmpPlayer)
+				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 			if (actionDoneData.gameState == GAME_STATE_PREFLOP_SMALL_BLIND)
 				tmpPlayer->setMyButton(BUTTON_SMALL_BLIND);
@@ -609,7 +611,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			NetPacketPlayersTurn::Data turnData;
 			packet->ToNetPacketPlayersTurn()->GetData(turnData);
 			PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(turnData.playerId);
-			assert(tmpPlayer); // TODO: throw exception
+			if (!tmpPlayer)
+				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 			// Set round.
 			if (curGame->getCurrentHand()->getActualRound() != turnData.gameState)
@@ -623,12 +626,13 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 					curGame->getPlayerArray()[i]->setMySetNull();
 				}
 
+				curGame->getCurrentHand()->setActualRound(turnData.gameState);
+
 				client.GetGui().refreshPot();
 				client.GetGui().refreshSet();
 				client.GetGui().refreshAction();
 				client.GetGui().refreshCash();
-
-				curGame->getCurrentHand()->setActualRound(turnData.gameState);
+				client.GetGui().refreshGameLabels();
 			}
 
 			// Next player's turn.
@@ -683,7 +687,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			packet->ToNetPacketEndOfHandHideCards()->GetData(endHandData);
 
 			PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(endHandData.playerId);
-			assert(tmpPlayer); // TODO: throw exception
+			if (!tmpPlayer)
+				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 			tmpPlayer->setMyCash(endHandData.playerMoney);
 			// TODO use moneyWon
@@ -711,7 +716,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			while (i != end)
 			{
 				PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId((*i).playerId);
-				assert(tmpPlayer); // TODO: throw exception
+				if (!tmpPlayer)
+					throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 				int tmpCards[2];
 				tmpCards[0] = static_cast<int>((*i).cards[0]);

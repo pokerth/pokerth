@@ -44,7 +44,7 @@ GuiWrapper::~GuiWrapper()
 {
 }
 
-void GuiWrapper::initGui(int speed) { myW->initGui(speed); }
+void GuiWrapper::initGui(int speed) { myW->signalInitGui(speed); }
 
 Session &GuiWrapper::getSession() { return myW->getSession(); }
 void GuiWrapper::setSession(boost::shared_ptr<Session> session) { myW->setSession(session); }
@@ -58,7 +58,7 @@ void GuiWrapper::refreshPot() const { myW->signalRefreshPot(); }
 void GuiWrapper::refreshGroupbox(int playerID, int status) const { myW->signalRefreshGroupbox(playerID, status); }
 void GuiWrapper::refreshPlayerName() const { myW->signalRefreshPlayerName(); }
 void GuiWrapper::refreshButton() const { myW->signalRefreshButton(); }
-void GuiWrapper::refreshGameLabels(int round) const { myW->signalRefreshGameLabels(round); }
+void GuiWrapper::refreshGameLabels() const { myW->signalRefreshGameLabels(); }
 
 void GuiWrapper::dealHoleCards() { myW->signalDealHoleCards(); }
 void GuiWrapper::dealFlopCards() { myW->signalDealFlopCards0(); }

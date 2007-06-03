@@ -49,14 +49,13 @@ public:
 	virtual void refreshAll() const=0;
 	virtual void refreshPlayerName() const=0;
 	virtual void refreshButton() const =0;
+	virtual void refreshGameLabels() const=0;
 
 // 	// Karten-Funktionen
 	virtual void dealHoleCards()=0;
 	virtual void dealFlopCards()=0;
 	virtual void dealTurnCard()=0;
 	virtual void dealRiverCard()=0;
-
-	virtual void refreshGameLabels(int) const=0;
 
 	virtual void nextPlayerAnimation()=0;
 

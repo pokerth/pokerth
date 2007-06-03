@@ -50,6 +50,7 @@
 #define ERR_NET_INVALID_PLAYER_NAME		107
 #define ERR_NET_INVALID_PLAYER_RESULTS	108
 #define ERR_NET_INVALID_CHAT_TEXT		109
+#define ERR_NET_UNKNOWN_PLAYER_ID		110
 
 // This is an internal message which is not reported.
 #define MSG_SOCK_INTERNAL_PENDING		0

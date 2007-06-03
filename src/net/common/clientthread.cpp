@@ -53,7 +53,7 @@ private:
 
 
 ClientThread::ClientThread(GuiInterface &gui)
-: m_curState(NULL), m_gui(gui), m_curGameId(0), m_guiPlayerNum(0)
+: m_curState(NULL), m_gui(gui), m_curGameId(1), m_guiPlayerNum(0)
 {
 	m_context.reset(new ClientContext);
 	m_senderCallback.reset(new ClientSenderCallback(*this));
@@ -70,7 +70,10 @@ ClientThread::Init(
 	const string &serverAddress, unsigned serverPort, bool ipv6, const string &pwd, const string &playerName)
 {
 	if (IsRunning())
-		return; // TODO: throw exception
+	{
+		assert(false);
+		return;
+	}
 
 	ClientContext &context = GetContext();
 

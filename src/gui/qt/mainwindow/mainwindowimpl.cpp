@@ -572,6 +572,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), this, SLOT( checkChatInputLength(QString) ) );
 
 	//Nachrichten Thread-Save
+	connect(this, SIGNAL(signalInitGui(int)), this, SLOT(initGui(int)));
+
 	connect(this, SIGNAL(signalRefreshSet()), this, SLOT(refreshSet()));
 	connect(this, SIGNAL(signalRefreshCash()), this, SLOT(refreshCash()));
 	connect(this, SIGNAL(signalRefreshAction(int, int)), this, SLOT(refreshAction(int, int)));
@@ -581,6 +583,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalRefreshAll()), this, SLOT(refreshAll()));
 	connect(this, SIGNAL(signalRefreshPlayerName()), this, SLOT(refreshPlayerName()));
 	connect(this, SIGNAL(signalRefreshButton()), this, SLOT(refreshButton()));
+	connect(this, SIGNAL(signalRefreshGameLabels()), this, SLOT(refreshGameLabels()));
 
 	connect(this, SIGNAL(signalMeInAction()), this, SLOT(meInAction()));
 
@@ -589,7 +592,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalDealTurnCards0()), this, SLOT(dealTurnCards0()));
 	connect(this, SIGNAL(signalDealRiverCards0()), this, SLOT(dealRiverCards0()));
 
-	connect(this, SIGNAL(signalRefreshGameLabels(int)), this, SLOT(refreshGameLabels(int)));
 	connect(this, SIGNAL(signalNextPlayerAnimation()), this, SLOT(nextPlayerAnimation()));
 
 	connect(this, SIGNAL(signalPreflopAnimation1()), this, SLOT(preflopAnimation1()));
@@ -1181,9 +1183,9 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 	}
 }
 
-void mainWindowImpl::refreshGameLabels(int round) { 
+void mainWindowImpl::refreshGameLabels() { 
 
-	switch(round) {
+	switch(mySession->getCurrentGame()->getCurrentHand()->getActualRound()) {
 		case 0: {
 			textLabel_handLabel->setText("Preflop");
 		} break;
@@ -2471,6 +2473,11 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 		case ERR_NET_INVALID_PLAYER_NAME:
 			{ myChangeHumanPlayerNameDialog->label_Message->setText(tr("The player name is either too short or too long. Please choose another one."));
 			  myChangeHumanPlayerNameDialog->exec(); }
+		break;
+		case ERR_NET_UNKNOWN_PLAYER_ID:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The server referred to an unknown player. Aborting."),
+				QMessageBox::Close); }
 		break;
 		default:  { QMessageBox::warning(this, tr("Network Error"),
 				tr("An internal error occured."),

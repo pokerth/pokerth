@@ -25,7 +25,10 @@
 using namespace std;
 
 LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC)
-: HandInterface(), myFactory(f), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0), myID(id), actualQuantityPlayers(aP), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), lastPlayersTurn(0), allInCondition(0), bettingRoundsPlayed(0)
+: myFactory(f), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0),
+  myID(id), actualQuantityPlayers(aP), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0),
+  smallBlind(sB), startCash(sC), activePlayersCounter(aP), lastPlayersTurn(0), allInCondition(0),
+  bettingRoundsPlayed(0)
 {
 
 	int i, j, k;
@@ -39,6 +42,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 		if(playerArray[i]->getMyActiveStatus() != 0) {
 			playerArray[i]->setHand(this);
 		}
+	// myFlipCards auf 0 setzen
+		playerArray[i]->setMyCardsFlip(0, 0);
 	}
 
 
@@ -88,11 +93,6 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 		}
 	}
 	delete[] cardsArray;
-
-	// myFlipCards auf 0 setzen
-	for(i=0; i<startQuantityPlayers; i++) {
-		playerArray[i]->setMyCardsFlip(0, 0);
-	}
 
 // // 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!   testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
 
@@ -353,7 +353,7 @@ void LocalHand::switchRounds() {
 	//unhighlight actual players groupbox
 	if(playerArray[lastPlayersTurn]->getMyActiveStatus() == 1) myGui->refreshGroupbox(lastPlayersTurn,1);
 
-	myGui->refreshGameLabels(actualRound);
+	myGui->refreshGameLabels();
 // 	/*/*/*/*cout <<*/*/*/*/ "NextPlayerSpeed1 stop" << endl;
 // 
 // 	cout << "NextPlayerSpeed2 start" << endl;

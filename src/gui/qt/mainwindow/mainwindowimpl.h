@@ -64,8 +64,6 @@ public:
 
 	~mainWindowImpl();
 
-	void initGui(int speed);
-
 	Session &getSession();
 	void setSession(boost::shared_ptr<Session> session);
 
@@ -75,6 +73,8 @@ public:
 	void setSpeeds();
 
 signals:
+	void signalInitGui(int speed);
+
 	void signalRefreshSet();
 	void signalRefreshCash();
 	void signalRefreshAction(int =-1, int=-1);
@@ -92,7 +92,7 @@ signals:
 	void signalDealTurnCards0();
 	void signalDealRiverCards0();
 
-	void signalRefreshGameLabels(int);
+	void signalRefreshGameLabels();
 	void signalNextPlayerAnimation();
 
 	void signalPreflopAnimation1();
@@ -122,6 +122,8 @@ signals:
 
 public slots:
 
+	void initGui(int speed);
+
 	//refresh-Funktionen
 	void refreshSet();
 	void refreshCash();
@@ -131,7 +133,7 @@ public slots:
 	void refreshGroupbox(int =-1, int =-1);
 	void refreshAll();
 	void refreshPlayerName();
-	void refreshGameLabels(int);
+	void refreshGameLabels();
 	void refreshButton();
 	void refreshPlayerAvatar();
 
