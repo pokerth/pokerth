@@ -127,6 +127,12 @@ void joinNetworkGameDialogImpl::fillServerProfileList() {
 			profile->QueryIntAttribute("IsIpv6", &tempInt );
 			if( tempInt == 1 ) { isIpv6 = "yes"; }
 			item->setData(3, 0, QString::fromUtf8(isIpv6.c_str()));
+			
+			string isSctp = "no";
+			int tempInt1 = 0;
+			profile->QueryIntAttribute("IsSctp", &tempInt1 );
+			if( tempInt1 == 1 ) { isSctp = "yes"; }
+			item->setData(4, 0, QString::fromUtf8(isSctp.c_str()));
 
 			treeWidget->addTopLevelItem(item);
 		}
@@ -159,6 +165,7 @@ void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int column)
 		lineEdit_password->setText(QString::fromUtf8(profile->Attribute("Password")));
 		spinBox_port->setValue(QString::fromUtf8(profile->Attribute("Port")).toInt(&toIntTrue, 10));
 		checkBox_ipv6->setChecked(QString::fromUtf8(profile->Attribute("IsIpv6")).toInt(&toIntTrue, 10));
+		checkBox_sctp->setChecked(QString::fromUtf8(profile->Attribute("IsSctp")).toInt(&toIntTrue, 10));
 
 	}
 
@@ -200,6 +207,7 @@ void joinNetworkGameDialogImpl::saveServerProfile() {
 					profile1->SetAttribute("Password", lineEdit_password->text().toUtf8().constData());
 					profile1->SetAttribute("Port", spinBox_port->value());
 					profile1->SetAttribute("IsIpv6", checkBox_ipv6->isChecked());
+					profile1->SetAttribute("IsSctp", checkBox_sctp->isChecked());
 				}
 				break;
 				case QMessageBox::No:
@@ -220,6 +228,7 @@ void joinNetworkGameDialogImpl::saveServerProfile() {
 			profile2->SetAttribute("Password", lineEdit_password->text().toUtf8().constData());
 			profile2->SetAttribute("Port", spinBox_port->value());
 			profile2->SetAttribute("IsIpv6", checkBox_ipv6->isChecked());
+			profile2->SetAttribute("IsSctp", checkBox_sctp->isChecked());
  			
 		}
         } 

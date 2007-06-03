@@ -49,7 +49,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
 	}
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 24;
+	configRev = 25;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -163,6 +163,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("NetTimeOutPlayerAction", CONFIG_TYPE_INT, "20"));
 	configList.push_back(ConfigInfo("ServerPassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("ServerUseIpv6", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("ServerUseSctp", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerPort", CONFIG_TYPE_INT, "7234"));
 	configList.push_back(ConfigInfo("MyName", CONFIG_TYPE_STRING, "Human Player"));
 	configList.push_back(ConfigInfo("MyAvatar", CONFIG_TYPE_STRING, ""));

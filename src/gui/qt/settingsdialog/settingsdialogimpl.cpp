@@ -109,6 +109,7 @@ void settingsDialogImpl::exec() {
 	spinBox_serverPort->setValue(myConfig->readConfigInt("ServerPort"));
 	lineEdit_serverPassword->setText(QString::fromUtf8(myConfig->readConfigString("ServerPassword").c_str()));
 	checkBox_useIpv6->setChecked(myConfig->readConfigInt("ServerUseIpv6"));
+	checkBox_useSctp->setChecked(myConfig->readConfigInt("ServerUseSctp"));
 
 	
 
@@ -187,6 +188,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("ServerPort", spinBox_serverPort->value());
 	myConfig->writeConfigString("ServerPassword", lineEdit_serverPassword->text().toUtf8().constData());
 	myConfig->writeConfigInt("ServerUseIpv6", checkBox_useIpv6->isChecked());
+	myConfig->writeConfigInt("ServerUseSctp", checkBox_useSctp->isChecked());
 	
 // 	Interface
 	myConfig->writeConfigInt("ShowLeftToolBox", checkBox_showLeftToolbox->isChecked());

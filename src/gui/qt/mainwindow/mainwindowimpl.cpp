@@ -511,6 +511,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	myWaitingForServerGameDialog = new waitForServerToStartGameDialogImpl(this);
 	myAboutPokerthDialog = new aboutPokerthImpl(this);
 
+	//dialog settings
+// 	mySettingsDialog->checkBox_useSctp->setEnabled(mySession->hasSctp());
+// 	myJoinNetworkGameDialog->checkBox_sctp->setEnabled(mySession->hasSctp());
 
 // 	//ShortCuts 
 // 	QShortcut *quitPokerTHKeys = new QShortcut(QKeySequence(Qt::Key_Control + Qt::Key_Q), this);

@@ -63,6 +63,10 @@ public:
 
 	bool isNetworkClientRunning() const; // TODO hack
 
+	void setHasSctp ( bool theValue ) { thisHasSctp = theValue; }
+	bool hasSctp() const {	return thisHasSctp; }
+	
+
 private:
 
 	int currentGameID;
@@ -73,6 +77,8 @@ private:
 	boost::shared_ptr<Game> currentGame;
 	GuiInterface *myGui;
 	ConfigFile *myConfig;
+
+	bool thisHasSctp;
 
 };
 
