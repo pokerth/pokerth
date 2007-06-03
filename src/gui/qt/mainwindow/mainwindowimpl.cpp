@@ -1053,6 +1053,9 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 		
 	// 		paint action pixmap and raise
 			actionLabelArray[playerID]->setPixmap(QPixmap(":/actions/resources/graphics/actions/action_"+actionArray[playerAction]+".png"));			
+
+			//play sounds if exist
+			mySDLPlayer->playSound(actionArray[playerAction].toStdString());
 		}
 
 		if (playerAction == 1) { 
@@ -1063,10 +1066,6 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 				holeCardsArray[playerID][1]->setPixmap(onePix, FALSE);
 			}
 		}
-
-		//play sounds if exist
-		mySDLPlayer->playSound(actionArray[playerAction].toStdString());
-
 	}
 }
 

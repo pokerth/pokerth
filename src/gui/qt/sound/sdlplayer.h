@@ -47,6 +47,7 @@ private:
 	int audio_channels;
 	int audio_buffers;
 	Mix_Chunk *sound;
+	Uint8 *soundData;
 	int currentChannel;
 
 };
