@@ -100,7 +100,9 @@ void LocalPreflop::preflopRun() {
 		} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || myHand->getPlayerArray()[playersTurn]->getMyAction() == 1 || myHand->getPlayerArray()[playersTurn]->getMyAction() == 6);
 
 		myHand->getPlayerArray()[playersTurn]->setMyTurn(1);
+		//highlight active players groupbox and clear action
 		myHand->getGuiInterface()->refreshGroupbox(playersTurn,2);
+		myHand->getGuiInterface()->refreshAction(playersTurn,0);
 
 		if(playersTurn == 0) {
 			// Wir sind dran

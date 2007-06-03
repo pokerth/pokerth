@@ -120,7 +120,9 @@ void LocalRiver::riverRun() {
 			} while(!(myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyActiveStatus()) || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==1 || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==6);
 
 			myHand->getPlayerArray()[playersTurn]->setMyTurn(1);
+			//highlight active players groupbox and clear action
 			myHand->getGuiInterface()->refreshGroupbox(playersTurn,2);
+			myHand->getGuiInterface()->refreshAction(playersTurn,0);
 
 // 			cout << "activePlayerBeforeSmallBlind " << activePlayerBeforeSmallBlind << endl;
 // 			cout << "playersTurn " << playersTurn << endl;
