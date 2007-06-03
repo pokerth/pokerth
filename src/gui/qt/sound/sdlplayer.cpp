@@ -57,7 +57,7 @@ void SDLPlayer::playSound(string audioString) {
 	
 		currentChannel = Mix_PlayChannel(-1, sound,0);
 	}
-	else cout << "could not load " << audioString << ".wav" << endl;
+// 	else cout << "could not load " << audioString << ".wav" << endl;
 
 	//test
 //	audioDone();       

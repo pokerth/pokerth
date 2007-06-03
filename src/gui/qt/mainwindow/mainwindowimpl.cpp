@@ -846,16 +846,6 @@ void mainWindowImpl::callSettingsDialog() {
 		}
 		//Audio Clean?
 		if (myConfig->readConfigInt("PlaySoundEffects") == 0) { mySDLPlayer->audioDone(); }
-		else {
-// 			SDL_Init(SDL_INIT_AUDIO);
-// 
-// 			if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) {
-// 				printf("Unable to open audio!\n");
-// 				exit(1);
-// 			}
-// 			
-// 			Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
-		}
 	}
 }
 
@@ -1055,7 +1045,7 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 			actionLabelArray[playerID]->setPixmap(QPixmap(":/actions/resources/graphics/actions/action_"+actionArray[playerAction]+".png"));			
 
 			//play sounds if exist
-			mySDLPlayer->playSound(actionArray[playerAction].toStdString());
+			if(myConfig->readConfigInt("PlaySoundEffects")) mySDLPlayer->playSound(actionArray[playerAction].toStdString());
 		}
 
 		if (playerAction == 1) { 
