@@ -43,20 +43,27 @@ void SDLPlayer::initAudio() {
 
 void SDLPlayer::playSound(string audioString) {
 
-	audioDone();
+// 	QFile myFile(":sounds/resources/sounds/"+QString::fromStdString(audioString)+".wav");
+//         if(myFile.open(QIODevice::ReadOnly)) {
+// 
+// 		audioDone();        
+// 
+// 		QDataStream in(&myFile);
+// 		Uint8 *myMem = new Uint8[(int)myFile.size()];
+// 		in.readRawData( (char*)myMem, (int)myFile.size() );
+// 		
+// 		sound = Mix_QuickLoad_WAV( myMem ); 
+// 	
+// 		currentChannel = Mix_PlayChannel(-1, sound,0);
+// 	
+// 		delete[] myMem; 
+// 	}
+// 	else cout << "could not load " << audioString << ".wav" << endl;
 
-	QFile myFile(":sounds/resources/sounds/"+QString::fromStdString(audioString)+".wav");
-        if(!myFile.open(QIODevice::ReadOnly)) cout << "could not load wav" << endl;
-        
-	QDataStream in(&myFile);
-        Uint8 *myMem = new Uint8[(int)myFile.size()];
-        in.readRawData( (char*)myMem, (int)myFile.size() );
-	
-        sound = Mix_QuickLoad_WAV( myMem ); 
-
-	currentChannel = Mix_PlayChannel(0, sound,0);
-
-	delete[] myMem; 
+	//test
+	audioDone();       
+	sound = Mix_LoadWAV( QString(QString::fromStdString(audioString)+QString(".wav")).toStdString().c_str() );  
+	currentChannel = Mix_PlayChannel(-1, sound,0);
 
 }
 

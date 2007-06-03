@@ -1063,6 +1063,10 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 				holeCardsArray[playerID][1]->setPixmap(onePix, FALSE);
 			}
 		}
+
+		//play sounds if exist
+		mySDLPlayer->playSound(actionArray[playerAction].toStdString());
+
 	}
 }
 
@@ -1216,10 +1220,14 @@ void mainWindowImpl::refreshGameLabels(int round) {
 }
 
 void mainWindowImpl::refreshAll() {
-
+	
+	int i;
+	
 	refreshSet();
 	refreshButton();
-	refreshAction();
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+		refreshAction( i, mySession->getCurrentGame()->getPlayerArray()[i]->getMyAction());
+	}
 	refreshCash();
 	refreshGroupbox();
 	refreshPlayerName();
@@ -1228,8 +1236,12 @@ void mainWindowImpl::refreshAll() {
 
 void mainWindowImpl::refreshChangePlayer() {
 
+	int i;
+
 	refreshSet();
-	refreshAction();
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+		refreshAction( i, mySession->getCurrentGame()->getPlayerArray()[i]->getMyAction());
+	}
 	refreshCash();
 }
 
@@ -2499,7 +2511,9 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F11) { switchRightToolBox(); } 
 	if (event->key() == Qt::Key_D) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction")); } //f
 	if (event->key() == Qt::Key_E) { setLabelArray[0]->stopTimeOutAnimation(); } //f
-	if (event->key() == Qt::Key_S) { if(myConfig->readConfigInt("PlaySoundEffects")) mySDLPlayer->playSound("dealtwocards"); } //s	
+	if (event->key() == Qt::Key_S) { if(myConfig->readConfigInt("PlaySoundEffects")) mySDLPlayer->playSound("call"); } //s	
+	if (event->key() == Qt::Key_A) { if(myConfig->readConfigInt("PlaySoundEffects")) mySDLPlayer->playSound("raise"); } //s	
+	if (event->key() == Qt::Key_X) { if(myConfig->readConfigInt("PlaySoundEffects")) mySDLPlayer->playSound(""); } //s	
 // 	if (event->key() == Qt::Key_W) { qApp->quit(); } //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 

@@ -90,7 +90,7 @@ void LocalFlop::flopRun() {
 			
 			myHand->getGuiInterface()->refreshSet();
 			myHand->getGuiInterface()->refreshCash();
-			myHand->getGuiInterface()->refreshAction();
+			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { myHand->getGuiInterface()->refreshAction(i,0); }
 			
 			myHand->switchRounds();
 		}

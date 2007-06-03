@@ -75,6 +75,8 @@
     </qresource>
    <qresource prefix="/sounds" >
         <file>resources/sounds/dealtwocards.wav</file>
+    	<file>resources/sounds/call.wav</file>
+    	<file>resources/sounds/raise.wav</file>
     </qresource>
     <qresource prefix="/fonts" >
         <file>resources/fonts/VeraBd.ttf</file>
