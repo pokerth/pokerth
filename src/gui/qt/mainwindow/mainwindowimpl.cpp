@@ -1924,7 +1924,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 // 			groupBoxArray[i]->setPalette(tempPalette);
 			actionLabelArray[i]->setPixmap(QPixmap(":/actions/resources/graphics/actions/action_winner.png"));
 
-			//nicht gewonnene Karten ausblenden
+			//show winnercards if more than one player is active
 			if ( currentHand->getActivePlayersCounter() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
 
 				int j;

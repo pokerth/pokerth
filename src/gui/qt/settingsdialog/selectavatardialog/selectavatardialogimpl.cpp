@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "selectavatardialogimpl.h"
+#include "myavatarlistitem.h"
 #include "configfile.h"
 #include <iostream>
 
@@ -40,13 +41,7 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 	listWidget->setDragEnabled(FALSE);
 	listWidget->setResizeMode(QListView::Adjust);
 
-	int i;
-	for (i=0; i<30; i++) {
-		QListWidgetItem *myItem = new QListWidgetItem;
-		myItem->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png")));
-		listWidget->addItem(myItem);
-	};
-
+	
 	QObject::connect(groupBox, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox1(bool)));
 	QObject::connect(groupBox_2, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox2(bool)));
 
@@ -54,6 +49,18 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 
 void selectAvatarDialogImpl::exec() {
 
+	int i;
+	for (i=0; i<30; i++) {
+		MyAvatarListItem *myItem = new MyAvatarListItem(listWidget);
+		myItem->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png")));
+		myItem->setMyLink(":/guiv2/resources/guiv2/genereticAvatar.png");
+		myItem->setText("PokerTH");
+		listWidget->addItem(myItem);
+	};
+
+	//clear
+	lineEdit->setText("");
+	
 	QDialog::exec();
 }
 
@@ -61,3 +68,8 @@ void selectAvatarDialogImpl::toggleGroupBox1(bool toogleState) { if(groupBox->is
 
 void selectAvatarDialogImpl::toggleGroupBox2(bool toogleState) { if(groupBox_2->isChecked()) groupBox->setChecked(FALSE); }
 
+QString selectAvatarDialogImpl::getAvatarLink() {
+
+	if(groupBox->isChecked()) return static_cast<MyAvatarListItem*>(listWidget->currentItem())->getMyLink();
+	else return lineEdit->text();
+}

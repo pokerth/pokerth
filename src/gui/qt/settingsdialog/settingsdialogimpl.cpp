@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "settingsdialogimpl.h"
+#include "myavatarlistitem.h"
 
 #include "configfile.h"
 #include <iostream>
@@ -289,12 +290,18 @@ void settingsDialogImpl::setFlipsidePicFileName()
 
 void settingsDialogImpl::setAvatarFile0() {
 
+	callSelectAvatarDialog();
+	if(mySelectAvatarDialogImpl->result() == QDialog::Accepted ) {
+		 
+		lineEdit_humanPlayerAvatar->setText(mySelectAvatarDialogImpl->getAvatarLink());
+	}
+/*
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Select your avatar picture"),
                                                 QDir::homePath(),
                                                 tr("Images (*.png)"));
 
      if (!fileName.isEmpty())
-         lineEdit_humanPlayerAvatar->setText(fileName);
+         lineEdit_humanPlayerAvatar->setText(fileName);*/
 }
 
 void settingsDialogImpl::setAvatarFile1() {

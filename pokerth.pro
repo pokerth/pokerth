@@ -130,6 +130,7 @@ HEADERS += src/game.h \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.h \
            src/gui/qt/settingsdialog/settingsdialogimpl.h \
 	   src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.h \
+	   src/gui/qt/settingsdialog/selectavatardialog/myavatarlistitem.h \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.h \
            src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.h \
 	   src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.h \
@@ -223,6 +224,7 @@ SOURCES += src/game.cpp \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.cpp \
            src/gui/qt/settingsdialog/settingsdialogimpl.cpp \
 	   src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp \
+	   src/gui/qt/settingsdialog/selectavatardialog/myavatarlistitem.cpp \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp \
            src/gui/qt/waitforservertostartgamedialog/waitforservertostartgamedialogimpl.cpp  \
 	   src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.cpp \
