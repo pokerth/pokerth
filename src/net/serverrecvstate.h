@@ -157,7 +157,6 @@ protected:
 	ServerRecvStateStartRound();
 
 	static void GameRun(Game &curGame);
-	static PlayerInterface *GetCurrentPlayer(Game &curGame);
 	static void SendNewRoundCards(ServerRecvThread &server, Game &curGame, int state);
 };
 
@@ -170,6 +169,9 @@ public:
 
 	virtual ~ServerRecvStateWaitPlayerAction();
 
+	// Handle leaving players.
+	virtual int Process(ServerRecvThread &server);
+
 protected:
 
 	// Protected constructor - this is a singleton.
@@ -177,6 +179,7 @@ protected:
 
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
+	static void PerformPlayerAction(ServerRecvThread &server, PlayerInterface *player, PlayerAction action, int bet);
 	static int GetHighestSet(Game &curGame);
 	static void SetHighestSet(Game &curGame, int highestSet);
 };

@@ -385,6 +385,33 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			if (tmpPlayer.get())
 				client.GetCallback().SignalNetClientChatMsg(tmpPlayer->GetName(), chatData.text);
 		}
+		else if (tmpPacket->ToNetPacketPlayerLeft())
+		{
+			// A player left the game.
+			NetPacketPlayerLeft::Data playerLeftData;
+			tmpPacket->ToNetPacketPlayerLeft()->GetData(playerLeftData);
+
+			// Signal to GUI.
+			client.RemovePlayerData(playerLeftData.playerId);
+
+			// If the game is running, deactivate player.
+			boost::shared_ptr<Game> curGame = client.GetGame();
+			if (curGame.get())
+			{
+				PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(playerLeftData.playerId);
+				if (!tmpPlayer)
+					throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+
+				// Reset his action and his cash.
+				tmpPlayer->setMyAction(PLAYER_ACTION_FOLD);
+				tmpPlayer->setMyCash(0);
+				// Player is now inactive.
+				tmpPlayer->setMyActiveStatus(false);
+
+				client.GetGui().refreshAction();
+				client.GetGui().refreshCash();
+			}
+		}
 		else
 			retVal = InternalProcess(client, tmpPacket);
 	}
@@ -489,13 +516,6 @@ ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 			new PlayerData(netPlayerData.playerId, netPlayerData.playerNumber, netPlayerData.ptype));
 		playerData->SetName(netPlayerData.playerName);
 		client.AddPlayerData(playerData);
-	}
-	else if (packet->ToNetPacketPlayerLeft())
-	{
-		// Another player left the network game.
-		NetPacketPlayerLeft::Data netPlayerData;
-		packet->ToNetPacketPlayerLeft()->GetData(netPlayerData);
-		client.RemovePlayerData(netPlayerData.playerId);
 	}
 	// TODO: handle error packet (kicked from server)
 

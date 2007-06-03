@@ -346,7 +346,17 @@ ServerRecvThread::CloseSessionDelayed(SessionWrapper session)
 	boost::shared_ptr<PlayerData> tmpPlayerData = session.playerData;
 	if (tmpPlayerData.get() && !tmpPlayerData->GetName().empty())
 	{
-		GetCallback().SignalNetServerPlayerLeft(tmpPlayerData->GetName());
+		// Set player inactive.
+		if (m_game.get())
+		{
+			PlayerInterface *player = GetGame().getPlayerByUniqueId(tmpPlayerData->GetUniqueId());
+			if (player)
+			{
+				player->setMyAction(PLAYER_ACTION_FOLD);
+				player->setMyCash(0);
+				player->setMyActiveStatus(false);
+			}
+		}
 
 		// Send "Player Left" to clients.
 		boost::shared_ptr<NetPacket> thisPlayerLeft(new NetPacketPlayerLeft);
@@ -354,6 +364,8 @@ ServerRecvThread::CloseSessionDelayed(SessionWrapper session)
 		thisPlayerLeftData.playerId = tmpPlayerData->GetUniqueId();
 		static_cast<NetPacketPlayerLeft *>(thisPlayerLeft.get())->SetData(thisPlayerLeftData);
 		SendToAllPlayers(thisPlayerLeft);
+
+		GetCallback().SignalNetServerPlayerLeft(tmpPlayerData->GetName());
 	}
 
 	boost::microsec_timer closeTimer;

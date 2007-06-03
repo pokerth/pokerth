@@ -35,6 +35,34 @@ using namespace std;
 #define SERVER_WAIT_TIMEOUT_MSEC	50
 #define SERVER_NEXT_HAND_DELAY_SEC	10
 
+// Helper functions
+
+static PlayerInterface *GetCurrentPlayer(Game &curGame)
+{
+	int curPlayerNum = 0;
+	// TODO: no switch needed here if game states are polymorphic
+	switch(curGame.getCurrentHand()->getActualRound()) {
+		case GAME_STATE_PREFLOP: {
+			curPlayerNum = curGame.getCurrentHand()->getPreflop()->getPlayersTurn();
+		} break;
+		case GAME_STATE_FLOP: {
+			curPlayerNum = curGame.getCurrentHand()->getFlop()->getPlayersTurn();
+		} break;
+		case GAME_STATE_TURN: {
+			curPlayerNum = curGame.getCurrentHand()->getTurn()->getPlayersTurn();
+		} break;
+		case GAME_STATE_RIVER: {
+			curPlayerNum = curGame.getCurrentHand()->getRiver()->getPlayersTurn();
+		} break;
+		default: {
+			// 
+		}
+	}
+	assert(curPlayerNum < curGame.getStartQuantityPlayers()); // TODO: throw exception
+	return curGame.getPlayerArray()[curPlayerNum];
+}
+
+//-----------------------------------------------------------------------------
 
 ServerRecvState::~ServerRecvState()
 {
@@ -567,32 +595,6 @@ ServerRecvStateStartRound::GameRun(Game &curGame)
 	}
 }
 
-PlayerInterface *
-ServerRecvStateStartRound::GetCurrentPlayer(Game &curGame)
-{
-	int curPlayerNum = 0;
-	// TODO: no switch needed here if game states are polymorphic
-	switch(curGame.getCurrentHand()->getActualRound()) {
-		case GAME_STATE_PREFLOP: {
-			curPlayerNum = curGame.getCurrentHand()->getPreflop()->getPlayersTurn();
-		} break;
-		case GAME_STATE_FLOP: {
-			curPlayerNum = curGame.getCurrentHand()->getFlop()->getPlayersTurn();
-		} break;
-		case GAME_STATE_TURN: {
-			curPlayerNum = curGame.getCurrentHand()->getTurn()->getPlayersTurn();
-		} break;
-		case GAME_STATE_RIVER: {
-			curPlayerNum = curGame.getCurrentHand()->getRiver()->getPlayersTurn();
-		} break;
-		default: {
-			// 
-		}
-	}
-	assert(curPlayerNum < curGame.getStartQuantityPlayers()); // TODO: throw exception
-	return curGame.getPlayerArray()[curPlayerNum];
-}
-
 void
 ServerRecvStateStartRound::SendNewRoundCards(ServerRecvThread &server, Game &curGame, int state)
 {
@@ -656,6 +658,28 @@ ServerRecvStateWaitPlayerAction::~ServerRecvStateWaitPlayerAction()
 }
 
 int
+ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
+{
+	int retVal;
+
+	// If the player we are waiting for left, continue without him.
+	PlayerInterface *tmpPlayer = GetCurrentPlayer(server.GetGame());
+	assert(tmpPlayer);
+	if (!tmpPlayer->getMyActiveStatus())
+	{
+		assert(tmpPlayer->getMyAction() == PLAYER_ACTION_FOLD && tmpPlayer->getMyCash() == 0);
+		PerformPlayerAction(server, tmpPlayer, PLAYER_ACTION_FOLD, 0);
+
+		server.SetState(ServerRecvStateStartRound::Instance());
+		retVal = MSG_NET_GAME_SERVER_ACTION;
+	}
+	else
+		retVal = ServerRecvStateReceiving::Process(server);
+
+	return retVal;
+}
+
+int
 ServerRecvStateWaitPlayerAction::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
@@ -668,34 +692,44 @@ ServerRecvStateWaitPlayerAction::InternalProcess(ServerRecvThread &server, Sessi
 		Game &curGame = server.GetGame();
 		PlayerInterface *tmpPlayer = curGame.getPlayerByUniqueId(session.playerData->GetUniqueId());
 		assert(tmpPlayer); // TODO throw exception
+		// TODO: check whether this is the correct player
+		// TODO: check game state
 
-		tmpPlayer->setMyAction(actionData.playerAction);
-		// Only change the player bet if action is not fold/check
-		if (actionData.playerAction != PLAYER_ACTION_FOLD && actionData.playerAction != PLAYER_ACTION_CHECK)
-		{
-			tmpPlayer->setMySet(actionData.playerBet);
-
-			if (tmpPlayer->getMySet() > GetHighestSet(curGame))
-				SetHighestSet(curGame, tmpPlayer->getMySet());
-		}
-
-		boost::shared_ptr<NetPacket> notifyActionDone(new NetPacketPlayersActionDone);
-		NetPacketPlayersActionDone::Data actionDoneData;
-		actionDoneData.gameState = static_cast<GameState>(curGame.getCurrentHand()->getActualRound());
-		actionDoneData.playerId = session.playerData->GetUniqueId();
-		actionDoneData.playerAction = actionData.playerAction;
-		actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
-		actionDoneData.playerMoney = tmpPlayer->getMyCash();
-		actionDoneData.potSize = curGame.getCurrentHand()->getBoard()->getPot();
-		actionDoneData.curHandBets = curGame.getCurrentHand()->getBoard()->getSets();
-		static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
-		server.SendToAllPlayers(notifyActionDone);
+		PerformPlayerAction(server, tmpPlayer, actionData.playerAction, actionData.playerBet);
 
 		server.SetState(ServerRecvStateStartRound::Instance());
 		retVal = MSG_NET_GAME_SERVER_ACTION;
 	}
 
 	return retVal;
+}
+
+void
+ServerRecvStateWaitPlayerAction::PerformPlayerAction(ServerRecvThread &server, PlayerInterface *player, PlayerAction action, int bet)
+{
+	Game &curGame = server.GetGame();
+	assert(player);
+	player->setMyAction(action);
+	// Only change the player bet if action is not fold/check
+	if (action != PLAYER_ACTION_FOLD && action != PLAYER_ACTION_CHECK)
+	{
+		player->setMySet(bet);
+
+		if (player->getMySet() > GetHighestSet(curGame))
+			SetHighestSet(curGame, player->getMySet());
+	}
+
+	boost::shared_ptr<NetPacket> notifyActionDone(new NetPacketPlayersActionDone);
+	NetPacketPlayersActionDone::Data actionDoneData;
+	actionDoneData.gameState = static_cast<GameState>(curGame.getCurrentHand()->getActualRound());
+	actionDoneData.playerId = player->getMyUniqueID();
+	actionDoneData.playerAction = static_cast<PlayerAction>(player->getMyAction());
+	actionDoneData.totalPlayerBet = player->getMySet();
+	actionDoneData.playerMoney = player->getMyCash();
+	actionDoneData.potSize = curGame.getCurrentHand()->getBoard()->getPot();
+	actionDoneData.curHandBets = curGame.getCurrentHand()->getBoard()->getSets();
+	static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
+	server.SendToAllPlayers(notifyActionDone);
 }
 
 int
