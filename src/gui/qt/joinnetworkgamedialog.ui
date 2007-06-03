@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>586</width>
+    <width>614</width>
     <height>458</height>
    </rect>
   </property>
@@ -31,13 +31,6 @@
       <property name="spacing" >
        <number>6</number>
       </property>
-      <item row="2" column="0" colspan="5" >
-       <widget class="QCheckBox" name="checkBox_ipv6" >
-        <property name="text" >
-         <string>Use IPv6</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="1" >
        <widget class="QLineEdit" name="lineEdit_profileName" >
         <property name="text" >
@@ -164,6 +157,11 @@
              <string>IPv6</string>
             </property>
            </column>
+           <column>
+            <property name="text" >
+             <string>SCTP</string>
+            </property>
+           </column>
           </widget>
          </item>
          <item row="1" column="0" >
@@ -191,6 +189,40 @@
           </layout>
          </item>
         </layout>
+       </widget>
+      </item>
+      <item row="2" column="0" >
+       <widget class="QCheckBox" name="checkBox_ipv6" >
+        <property name="text" >
+         <string>Use IPv6</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" >
+       <widget class="QLabel" name="label_5" >
+        <property name="text" >
+         <string>&lt;a href="http://en.wikipedia.org/wiki/Ipv6">What is this?&lt;/a></string>
+        </property>
+        <property name="openExternalLinks" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3" >
+       <widget class="QCheckBox" name="checkBox_sctp" >
+        <property name="text" >
+         <string>Use SCTP</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="4" >
+       <widget class="QLabel" name="label_6" >
+        <property name="text" >
+         <string>&lt;a href="http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol">What is this?&lt;/a></string>
+        </property>
+        <property name="openExternalLinks" >
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
      </layout>

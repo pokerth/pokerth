@@ -129,6 +129,8 @@ HEADERS += src/game.h \
            src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.h \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.h \
            src/gui/qt/settingsdialog/settingsdialogimpl.h \
+	   src/gui/qt/settingsdialog/myavatarbutton.h \
+	   src/gui/qt/settingsdialog/myhpavatarbutton.h \
 	   src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.h \
 	   src/gui/qt/settingsdialog/selectavatardialog/myavatarlistitem.h \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.h \
@@ -223,6 +225,8 @@ SOURCES += src/game.cpp \
            src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp \
            src/gui/qt/newlocalgamedialog/newgamedialogimpl.cpp \
            src/gui/qt/settingsdialog/settingsdialogimpl.cpp \
+	   src/gui/qt/settingsdialog/myavatarbutton.cpp \
+	   src/gui/qt/settingsdialog/myhpavatarbutton.cpp \
 	   src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp \
 	   src/gui/qt/settingsdialog/selectavatardialog/myavatarlistitem.cpp \
            src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp \

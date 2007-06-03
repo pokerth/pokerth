@@ -798,7 +798,7 @@ void mainWindowImpl::callSettingsDialog() {
 		if (mySettingsDialog->getPlayerNickIsChanged() && mySession->getCurrentGame()) { 
 
 			HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-			currentHand->getPlayerArray()[0]->setMyName(mySettingsDialog->lineEdit_humanPlayerName->text().toUtf8().constData());
+			currentHand->getPlayerArray()[0]->setMyName(mySettingsDialog->lineEdit_HumanPlayerName->text().toUtf8().constData());
 			currentHand->getPlayerArray()[1]->setMyName(mySettingsDialog->lineEdit_Opponent1Name->text().toUtf8().constData());
 			currentHand->getPlayerArray()[2]->setMyName(mySettingsDialog->lineEdit_Opponent2Name->text().toUtf8().constData());
 			currentHand->getPlayerArray()[3]->setMyName(mySettingsDialog->lineEdit_Opponent3Name->text().toUtf8().constData());
@@ -813,13 +813,13 @@ void mainWindowImpl::callSettingsDialog() {
 		if(mySession->getCurrentGame()) {
 
 			HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-			currentHand->getPlayerArray()[0]->setMyAvatar(mySettingsDialog->lineEdit_humanPlayerAvatar->text().toUtf8().constData());
-			currentHand->getPlayerArray()[1]->setMyAvatar(mySettingsDialog->lineEdit_Opponent1Avatar->text().toUtf8().constData());
-			currentHand->getPlayerArray()[2]->setMyAvatar(mySettingsDialog->lineEdit_Opponent2Avatar->text().toUtf8().constData());
-			currentHand->getPlayerArray()[3]->setMyAvatar(mySettingsDialog->lineEdit_Opponent3Avatar->text().toUtf8().constData());
-			currentHand->getPlayerArray()[4]->setMyAvatar(mySettingsDialog->lineEdit_Opponent4Avatar->text().toUtf8().constData());
-			currentHand->getPlayerArray()[5]->setMyAvatar(mySettingsDialog->lineEdit_Opponent5Avatar->text().toUtf8().constData());
-			currentHand->getPlayerArray()[6]->setMyAvatar(mySettingsDialog->lineEdit_Opponent6Avatar->text().toUtf8().constData());
+			currentHand->getPlayerArray()[0]->setMyAvatar(mySettingsDialog->pushButton_HumanPlayerAvatar->getMyLink().toUtf8().constData());
+			currentHand->getPlayerArray()[1]->setMyAvatar(mySettingsDialog->pushButton_Opponent1Avatar->getMyLink().toUtf8().constData());
+			currentHand->getPlayerArray()[2]->setMyAvatar(mySettingsDialog->pushButton_Opponent2Avatar->getMyLink().toUtf8().constData());
+			currentHand->getPlayerArray()[3]->setMyAvatar(mySettingsDialog->pushButton_Opponent3Avatar->getMyLink().toUtf8().constData());
+			currentHand->getPlayerArray()[4]->setMyAvatar(mySettingsDialog->pushButton_Opponent4Avatar->getMyLink().toUtf8().constData());
+			currentHand->getPlayerArray()[5]->setMyAvatar(mySettingsDialog->pushButton_Opponent5Avatar->getMyLink().toUtf8().constData());
+			currentHand->getPlayerArray()[6]->setMyAvatar(mySettingsDialog->pushButton_Opponent6Avatar->getMyLink().toUtf8().constData());
 
 			//avatar refresh
 			refreshPlayerAvatar();		

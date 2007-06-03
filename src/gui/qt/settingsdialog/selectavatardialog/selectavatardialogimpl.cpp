@@ -24,7 +24,7 @@
 
 
 selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
-    : QDialog(parent), myConfig(c)
+    : QDialog(parent), myConfig(c), settingsCorrect(TRUE)
 {
 
 	 setupUi(this);
@@ -41,22 +41,55 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 	listWidget->setDragEnabled(FALSE);
 	listWidget->setResizeMode(QListView::Adjust);
 
+		
+// 	int i;
+// 	for (i=0; i<30; i++) {
+// 		MyAvatarListItem *myItem = new MyAvatarListItem(listWidget);
+// // 		myItem->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png").scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
+// 		myItem->setMyLink(":/guiv2/resources/guiv2/genereticAvatar.png");
+// 		myItem->setText("PokerTH");
+// 		listWidget->addItem(myItem);
+// 	};
+		MyAvatarListItem *myItem = new MyAvatarListItem(listWidget);
+		myItem->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png").scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
+		myItem->setMyLink(":/guiv2/resources/guiv2/genereticAvatar.png");
+		myItem->setText("Avatar 1");
+		listWidget->addItem(myItem);
+
+		MyAvatarListItem *myItem1 = new MyAvatarListItem(listWidget);
+		myItem1->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/dealerPuck.png").scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
+		myItem1->setMyLink(":/guiv2/resources/guiv2/dealerPuck.png");
+		myItem1->setText("Avatar 2");
+		listWidget->addItem(myItem1);
+
+		MyAvatarListItem *myItem2 = new MyAvatarListItem(listWidget);
+		myItem2->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/playeraction_03.png").scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
+		myItem2->setMyLink(":/guiv2/resources/guiv2/playeraction_03.png");
+		myItem2->setText("Avatar 3");
+		listWidget->addItem(myItem2);
 	
-	QObject::connect(groupBox, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox1(bool)));
-	QObject::connect(groupBox_2, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox2(bool)));
+		MyAvatarListItem *myItem3 = new MyAvatarListItem(listWidget);
+		myItem3->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/playeraction_05.png").scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
+		myItem3->setMyLink(":/guiv2/resources/guiv2/playeraction_05.png");
+		myItem3->setText("Avatar 4");
+		listWidget->addItem(myItem3);
+
+		MyAvatarListItem *myItem4 = new MyAvatarListItem(listWidget);
+		myItem4->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/playeraction_07.png").scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
+		myItem4->setMyLink(":/guiv2/resources/guiv2/playeraction_07.png");
+		myItem4->setText("Avatar 5");
+		listWidget->addItem(myItem4);
+	
+
+	connect(groupBox, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox1(bool)));
+	connect(groupBox_2, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox2(bool)));
+	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
+	connect( buttonBox, SIGNAL( rejected() ), this, SLOT( isRejected() ) );
+	connect( pushButton_OpenAvatarFile, SIGNAL( clicked() ), this, SLOT( setExternalAvatar() ) );
 
 }
 
 void selectAvatarDialogImpl::exec() {
-
-	int i;
-	for (i=0; i<30; i++) {
-		MyAvatarListItem *myItem = new MyAvatarListItem(listWidget);
-		myItem->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png")));
-		myItem->setMyLink(":/guiv2/resources/guiv2/genereticAvatar.png");
-		myItem->setText("PokerTH");
-		listWidget->addItem(myItem);
-	};
 
 	//clear
 	lineEdit->setText("");
@@ -70,6 +103,59 @@ void selectAvatarDialogImpl::toggleGroupBox2(bool toogleState) { if(groupBox_2->
 
 QString selectAvatarDialogImpl::getAvatarLink() {
 
-	if(groupBox->isChecked()) return static_cast<MyAvatarListItem*>(listWidget->currentItem())->getMyLink();
-	else return lineEdit->text();
+	QList<QListWidgetItem *> myItemList = listWidget->selectedItems();
+
+	if(groupBox->isChecked()) {
+		if(myItemList.size() == 1) {
+			return static_cast<MyAvatarListItem*>(listWidget->currentItem())->getMyLink();
+		}
+		else return QString("");
+	}
+	
+	if(groupBox_2->isChecked() && QFile::QFile(lineEdit->text()).exists() ) return externalAvatar;
+	else return QString("");
 }
+
+
+void selectAvatarDialogImpl::isAccepted() {
+
+	QList<QListWidgetItem *> myItemList = listWidget->selectedItems();
+
+	if(groupBox->isChecked()) { 
+		if(myItemList.size() == 0) {
+			QMessageBox::warning(this, tr("Avatar File Error"),
+			tr("Please select an avatar from the list!"),
+			QMessageBox::Ok);
+			settingsCorrect = FALSE; 
+		}
+		else settingsCorrect = TRUE;;
+	}
+	
+	if(groupBox_2->isChecked()) {
+		if(QFile::QFile(lineEdit->text()).exists()) { 
+			externalAvatar = lineEdit->text();
+			settingsCorrect = TRUE;
+		}
+		else { QMessageBox::warning(this, tr("Avatar File Error"),
+			tr("The entered avatar picture doesn't exists.\n"
+			"Please enter an valid picture!"),
+			QMessageBox::Ok);
+			settingsCorrect = FALSE; 
+			externalAvatar = "";
+		}
+	}
+
+	//Wenn alles richtig eingegeben wurde --> Dialog schließen
+	if(settingsCorrect) { this->hide(); }
+}
+
+void selectAvatarDialogImpl::isRejected() { settingsCorrect = FALSE;  }
+
+void selectAvatarDialogImpl::setExternalAvatar() {
+	
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Select external avatar picture"), QDir::homePath(), tr("Images (*.png)"));
+
+     	if (!fileName.isEmpty())
+     	lineEdit->setText(fileName);
+}
+

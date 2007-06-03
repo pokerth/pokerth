@@ -39,12 +39,20 @@ public:
 public slots:
 	void toggleGroupBox1(bool);
 	void toggleGroupBox2(bool);
+	void isAccepted();
+	void isRejected();
 	
 	QString getAvatarLink();
+	void setExternalAvatar();
+
+	bool getSettingsCorrect() const	{ return settingsCorrect;}
+	
 
 private:
 	
 	ConfigFile* myConfig;
+	bool settingsCorrect;
+	QString externalAvatar;
 
 };
 

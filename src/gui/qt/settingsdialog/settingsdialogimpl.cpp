@@ -33,7 +33,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	if (myConfig->readConfigInt("CLA_NoWriteAccess")) { groupBox_logOnOff->setDisabled(TRUE); }
 
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
-	connect( lineEdit_humanPlayerName, SIGNAL( textChanged( const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_HumanPlayerName, SIGNAL( textChanged( const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( lineEdit_Opponent1Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( lineEdit_Opponent2Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( lineEdit_Opponent3Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
@@ -42,13 +42,13 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( lineEdit_Opponent6Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( pushButton_openFlipsidePicture, SIGNAL( clicked() ), this, SLOT( setFlipsidePicFileName()) );
 	connect( pushButton_openLogDir, SIGNAL( clicked() ), this, SLOT( setLogDir()) );
-	connect( pushButton_openAvatarFile0, SIGNAL( clicked() ), this, SLOT( setAvatarFile0()) );
-	connect( pushButton_openAvatarFile1, SIGNAL( clicked() ), this, SLOT( setAvatarFile1()) );
-	connect( pushButton_openAvatarFile2, SIGNAL( clicked() ), this, SLOT( setAvatarFile2()) );
-	connect( pushButton_openAvatarFile3, SIGNAL( clicked() ), this, SLOT( setAvatarFile3()) );
-	connect( pushButton_openAvatarFile4, SIGNAL( clicked() ), this, SLOT( setAvatarFile4()) );
-	connect( pushButton_openAvatarFile5, SIGNAL( clicked() ), this, SLOT( setAvatarFile5()) );
-	connect( pushButton_openAvatarFile6, SIGNAL( clicked() ), this, SLOT( setAvatarFile6()) );
+	connect( pushButton_HumanPlayerAvatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile0()) );
+	connect( pushButton_Opponent1Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile1()) );
+	connect( pushButton_Opponent2Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile2()) );
+	connect( pushButton_Opponent3Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile3()) );
+	connect( pushButton_Opponent4Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile4()) );
+	connect( pushButton_Opponent5Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile5()) );
+	connect( pushButton_Opponent6Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile6()) );
 
 	connect( checkBox_showIntro, SIGNAL( clicked() ), this, SLOT( callSelectAvatarDialog()) ); 
 
@@ -64,20 +64,29 @@ void settingsDialogImpl::exec() {
 	playerNickIsChanged = FALSE;
 
 	//Player Nicks
-	lineEdit_humanPlayerName->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
-	lineEdit_humanPlayerAvatar->setText(QString::fromUtf8(myConfig->readConfigString("MyAvatar").c_str()));
+	lineEdit_HumanPlayerName->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+	pushButton_HumanPlayerAvatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("MyAvatar").c_str()));
 	lineEdit_Opponent1Name->setText(QString::fromUtf8(myConfig->readConfigString("Opponent1Name").c_str()));
-	lineEdit_Opponent1Avatar->setText(QString::fromUtf8(myConfig->readConfigString("Opponent1Avatar").c_str()));
+	pushButton_Opponent1Avatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("Opponent1Avatar").c_str()));
 	lineEdit_Opponent2Name->setText(QString::fromUtf8(myConfig->readConfigString("Opponent2Name").c_str()));
-	lineEdit_Opponent2Avatar->setText(QString::fromUtf8(myConfig->readConfigString("Opponent2Avatar").c_str()));
+	pushButton_Opponent2Avatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("Opponent2Avatar").c_str()));
 	lineEdit_Opponent3Name->setText(QString::fromUtf8(myConfig->readConfigString("Opponent3Name").c_str()));
-	lineEdit_Opponent3Avatar->setText(QString::fromUtf8(myConfig->readConfigString("Opponent3Avatar").c_str()));
+	pushButton_Opponent3Avatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("Opponent3Avatar").c_str()));
 	lineEdit_Opponent4Name->setText(QString::fromUtf8(myConfig->readConfigString("Opponent4Name").c_str()));
-	lineEdit_Opponent4Avatar->setText(QString::fromUtf8(myConfig->readConfigString("Opponent4Avatar").c_str()));
+	pushButton_Opponent4Avatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("Opponent4Avatar").c_str()));
 	lineEdit_Opponent5Name->setText(QString::fromUtf8(myConfig->readConfigString("Opponent5Name").c_str()));
-	lineEdit_Opponent5Avatar->setText(QString::fromUtf8(myConfig->readConfigString("Opponent5Avatar").c_str()));
+	pushButton_Opponent5Avatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("Opponent5Avatar").c_str()));
 	lineEdit_Opponent6Name->setText(QString::fromUtf8(myConfig->readConfigString("Opponent6Name").c_str()));
-	lineEdit_Opponent6Avatar->setText(QString::fromUtf8(myConfig->readConfigString("Opponent6Avatar").c_str()));
+	pushButton_Opponent6Avatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("Opponent6Avatar").c_str()));
+
+	//refresh AvatarIcons
+	pushButton_HumanPlayerAvatar->setIcon(QIcon(pushButton_HumanPlayerAvatar->getMyLink()));
+	pushButton_Opponent1Avatar->setIcon(QIcon(pushButton_Opponent1Avatar->getMyLink()));
+	pushButton_Opponent2Avatar->setIcon(QIcon(pushButton_Opponent2Avatar->getMyLink()));
+	pushButton_Opponent3Avatar->setIcon(QIcon(pushButton_Opponent3Avatar->getMyLink()));
+	pushButton_Opponent4Avatar->setIcon(QIcon(pushButton_Opponent4Avatar->getMyLink()));
+	pushButton_Opponent5Avatar->setIcon(QIcon(pushButton_Opponent5Avatar->getMyLink()));
+	pushButton_Opponent6Avatar->setIcon(QIcon(pushButton_Opponent6Avatar->getMyLink()));
 
 	//Local Game Settings
 	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NumberOfPlayers"));
@@ -136,82 +145,26 @@ void settingsDialogImpl::isAccepted() {
 	settingsCorrect = TRUE;
 
 // 	Player Nicks
-	myConfig->writeConfigString("MyName", lineEdit_humanPlayerName->text().toUtf8().constData());
-	if(QFile::QFile(lineEdit_humanPlayerAvatar->text()).exists() || lineEdit_humanPlayerAvatar->text() == "") { 
-		myConfig->writeConfigString("MyAvatar", lineEdit_humanPlayerAvatar->text().toUtf8().constData());  
-	}
-	else {	QMessageBox::warning(this, tr("Settings Error"),
-		tr("The entered human player avatar picture doesn't exists.\n"
-		"Please enter an valid picture!"),
-		QMessageBox::Ok);
-		settingsCorrect = FALSE; 
-	}
+	myConfig->writeConfigString("MyName", lineEdit_HumanPlayerName->text().toUtf8().constData());
+	myConfig->writeConfigString("MyAvatar", pushButton_HumanPlayerAvatar->getMyLink().toUtf8().constData());  
 	
 	myConfig->writeConfigString("Opponent1Name", lineEdit_Opponent1Name->text().toUtf8().constData());
-	if(QFile::QFile(lineEdit_Opponent1Avatar->text()).exists() || lineEdit_Opponent1Avatar->text() == "") { 
-		myConfig->writeConfigString("Opponent1Avatar", lineEdit_Opponent1Avatar->text().toUtf8().constData());  
-	}
-	else {	QMessageBox::warning(this, tr("Settings Error"),
-		tr("The entered \"opponent 1\" avatar picture doesn't exists.\n"
-		"Please enter an valid picture!"),
-		QMessageBox::Ok);
-		settingsCorrect = FALSE; 
-	}
+	myConfig->writeConfigString("Opponent1Avatar", pushButton_Opponent1Avatar->getMyLink().toUtf8().constData());  
 
 	myConfig->writeConfigString("Opponent2Name", lineEdit_Opponent2Name->text().toUtf8().constData());
-	if(QFile::QFile(lineEdit_Opponent2Avatar->text()).exists() || lineEdit_Opponent2Avatar->text() == "") { 
-		myConfig->writeConfigString("Opponent2Avatar", lineEdit_Opponent2Avatar->text().toUtf8().constData());  
-	}
-	else {	QMessageBox::warning(this, tr("Settings Error"),
-		tr("The entered \"opponent 2\" avatar picture doesn't exists.\n"
-		"Please enter an valid picture!"),
-		QMessageBox::Ok);
-		settingsCorrect = FALSE; 
-	}
-
+	myConfig->writeConfigString("Opponent2Avatar", pushButton_Opponent2Avatar->getMyLink().toUtf8().constData());  
+	
 	myConfig->writeConfigString("Opponent3Name", lineEdit_Opponent3Name->text().toUtf8().constData());
-	if(QFile::QFile(lineEdit_Opponent3Avatar->text()).exists() || lineEdit_Opponent3Avatar->text() == "") { 
-		myConfig->writeConfigString("Opponent3Avatar", lineEdit_Opponent3Avatar->text().toUtf8().constData());  
-	}
-	else {	QMessageBox::warning(this, tr("Settings Error"),
-		tr("The entered \"opponent 3\" avatar picture doesn't exists.\n"
-		"Please enter an valid picture!"),
-		QMessageBox::Ok);
-		settingsCorrect = FALSE; 
-	}
-
+	myConfig->writeConfigString("Opponent3Avatar", pushButton_Opponent3Avatar->getMyLink().toUtf8().constData());  
+	
 	myConfig->writeConfigString("Opponent4Name", lineEdit_Opponent4Name->text().toUtf8().constData());
-	if(QFile::QFile(lineEdit_Opponent4Avatar->text()).exists() || lineEdit_Opponent4Avatar->text() == "") { 
-		myConfig->writeConfigString("Opponent4Avatar", lineEdit_Opponent4Avatar->text().toUtf8().constData());  
-	}
-	else {	QMessageBox::warning(this, tr("Settings Error"),
-		tr("The entered \"opponent 4\" avatar picture doesn't exists.\n"
-		"Please enter an valid picture!"),
-		QMessageBox::Ok);
-		settingsCorrect = FALSE; 
-	}
-
+	myConfig->writeConfigString("Opponent4Avatar", pushButton_Opponent4Avatar->getMyLink().toUtf8().constData());  
+	
 	myConfig->writeConfigString("Opponent5Name", lineEdit_Opponent5Name->text().toUtf8().constData());
-	if(QFile::QFile(lineEdit_Opponent5Avatar->text()).exists() || lineEdit_Opponent5Avatar->text() == "") { 
-		myConfig->writeConfigString("Opponent5Avatar", lineEdit_Opponent5Avatar->text().toUtf8().constData());  
-	}
-	else {	QMessageBox::warning(this, tr("Settings Error"),
-		tr("The entered \"opponent 5\" avatar picture doesn't exists.\n"
-		"Please enter an valid picture!"),
-		QMessageBox::Ok);
-		settingsCorrect = FALSE; 
-	}
+	myConfig->writeConfigString("Opponent5Avatar", pushButton_Opponent5Avatar->getMyLink().toUtf8().constData());  
 
 	myConfig->writeConfigString("Opponent6Name", lineEdit_Opponent6Name->text().toUtf8().constData());
-	if(QFile::QFile(lineEdit_Opponent6Avatar->text()).exists() || lineEdit_Opponent6Avatar->text() == "") { 
-		myConfig->writeConfigString("Opponent6Avatar", lineEdit_Opponent6Avatar->text().toUtf8().constData());  
-	}
-	else {	QMessageBox::warning(this, tr("Settings Error"),
-		tr("The entered \"opponent 6\" avatar picture doesn't exists.\n"
-		"Please enter an valid picture!"),
-		QMessageBox::Ok);
-		settingsCorrect = FALSE; 
-	}
+	myConfig->writeConfigString("Opponent6Avatar", pushButton_Opponent6Avatar->getMyLink().toUtf8().constData());  
 
 // 	Local Game Settings
 	myConfig->writeConfigInt("NumberOfPlayers", spinBox_quantityPlayers->value());
@@ -291,77 +244,65 @@ void settingsDialogImpl::setFlipsidePicFileName()
 void settingsDialogImpl::setAvatarFile0() {
 
 	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->result() == QDialog::Accepted ) {
-		 
-		lineEdit_humanPlayerAvatar->setText(mySelectAvatarDialogImpl->getAvatarLink());
-	}
-/*
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Select your avatar picture"),
-                                                QDir::homePath(),
-                                                tr("Images (*.png)"));
-
-     if (!fileName.isEmpty())
-         lineEdit_humanPlayerAvatar->setText(fileName);*/
+	pushButton_HumanPlayerAvatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
+	
+	pushButton_HumanPlayerAvatar->setIcon(QIcon(pushButton_HumanPlayerAvatar->getMyLink()));
+	
 }
 
 void settingsDialogImpl::setAvatarFile1() {
 
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Select computer opponents avatar picture"),
-                                                QDir::homePath(),
-                                                tr("Images (*.png)"));
-
-     if (!fileName.isEmpty())
-     	lineEdit_Opponent1Avatar->setText(fileName);
+	callSelectAvatarDialog();
+	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
+		pushButton_Opponent1Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
+		pushButton_Opponent1Avatar->setIcon(QIcon(pushButton_Opponent1Avatar->getMyLink()));
+	}     	
 }
 
 void settingsDialogImpl::setAvatarFile2() {
 
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Select computer opponents avatar picture"),
-                                                QDir::homePath(),
-                                                tr("Images (*.png)"));
-
-     if (!fileName.isEmpty())
-     	lineEdit_Opponent2Avatar->setText(fileName);
+	callSelectAvatarDialog();
+	
+	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
+		pushButton_Opponent2Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
+		pushButton_Opponent2Avatar->setIcon(QIcon(pushButton_Opponent2Avatar->getMyLink()));
+	}
 }
 
 void settingsDialogImpl::setAvatarFile3() {
 
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Select computer opponents avatar picture"),
-                                                QDir::homePath(),
-                                                tr("Images (*.png)"));
-
-     if (!fileName.isEmpty())
-     	lineEdit_Opponent3Avatar->setText(fileName);
+	callSelectAvatarDialog();
+	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
+		pushButton_Opponent3Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
+		pushButton_Opponent3Avatar->setIcon(QIcon(pushButton_Opponent3Avatar->getMyLink()));
+	}
 }
 
 void settingsDialogImpl::setAvatarFile4() {
 
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Select computer opponents avatar picture"),
-                                                QDir::homePath(),
-                                                tr("Images (*.png)"));
-
-     if (!fileName.isEmpty())
-     	lineEdit_Opponent4Avatar->setText(fileName);
+	callSelectAvatarDialog();
+	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
+		pushButton_Opponent4Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
+		pushButton_Opponent4Avatar->setIcon(QIcon(pushButton_Opponent4Avatar->getMyLink()));
+	}
 }
 
 void settingsDialogImpl::setAvatarFile5() {
 
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Select computer opponents avatar picture"),
-                                                QDir::homePath(),
-                                                tr("Images (*.png)"));
-
-     if (!fileName.isEmpty())
-     	lineEdit_Opponent5Avatar->setText(fileName);
+	callSelectAvatarDialog();
+	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
+		pushButton_Opponent5Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
+		pushButton_Opponent5Avatar->setIcon(QIcon(pushButton_Opponent5Avatar->getMyLink()));
+	}
 }
 
 void settingsDialogImpl::setAvatarFile6() {
 
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Select computer opponents avatar picture"),
-                                                QDir::homePath(),
-                                                tr("Images (*.png)"));
-
-     if (!fileName.isEmpty())
-     	lineEdit_Opponent6Avatar->setText(fileName);
+	callSelectAvatarDialog();
+	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
+		pushButton_Opponent6Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
+		pushButton_Opponent6Avatar->setIcon(QIcon(pushButton_Opponent6Avatar->getMyLink()));
+	}
 }
 
 void settingsDialogImpl::setLogDir()

@@ -103,7 +103,7 @@
      <number>6</number>
     </property>
     <item row="0" column="1" >
-     <widget class="QPushButton" name="pushButton_openAvatarFile1" >
+     <widget class="QPushButton" name="pushButton_OpenAvatarFile" >
       <property name="minimumSize" >
        <size>
         <width>27</width>
@@ -129,22 +129,6 @@
  </widget>
  <resources/>
  <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>selectAvatarDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>248</x>
-     <y>390</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
@@ -196,7 +180,7 @@
   <connection>
    <sender>groupBox_2</sender>
    <signal>toggled(bool)</signal>
-   <receiver>pushButton_openAvatarFile1</receiver>
+   <receiver>pushButton_OpenAvatarFile</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
