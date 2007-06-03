@@ -16,7 +16,7 @@
 using namespace std;
 
 SDLPlayer::SDLPlayer()
-: currentChannel(0), soundData(NULL)
+: soundData(NULL), currentChannel(0) 
 {
 	initAudio();
 }
