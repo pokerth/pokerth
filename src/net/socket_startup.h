@@ -16,12 +16,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Socket startup/cleanup functions (required for Win32). */
+/* Socket startup/cleanup/detection functions. */
 #ifndef _SOCKET_STARTUP_H_
 #define _SOCKET_STARTUP_H_
 
 bool socket_startup();
 void socket_cleanup();
+
+bool socket_has_sctp();
 
 #endif
 

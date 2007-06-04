@@ -21,6 +21,7 @@
 #include "myavatarlistitem.h"
 
 #include "configfile.h"
+#include <net/socket_startup.h>
 #include <iostream>
 
 
@@ -135,7 +136,8 @@ void settingsDialogImpl::exec() {
 	lineEdit_logDir->setText(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
 	spinBox_logStoreDuration->setValue(myConfig->readConfigInt("LogStoreDuration"));
 	comboBox_logInterval->setCurrentIndex(myConfig->readConfigInt("LogInterval"));
-	
+
+	checkBox_useSctp->setEnabled(socket_has_sctp());
 
 	QDialog::exec();
 

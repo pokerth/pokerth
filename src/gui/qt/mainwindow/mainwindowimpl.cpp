@@ -511,10 +511,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	myWaitingForServerGameDialog = new waitForServerToStartGameDialogImpl(this);
 	myAboutPokerthDialog = new aboutPokerthImpl(this);
 
-	//dialog settings
-// 	mySettingsDialog->checkBox_useSctp->setEnabled(mySession->hasSctp());
-// 	myJoinNetworkGameDialog->checkBox_sctp->setEnabled(mySession->hasSctp());
-
 // 	//ShortCuts 
 // 	QShortcut *quitPokerTHKeys = new QShortcut(QKeySequence(Qt::Key_Control + Qt::Key_Q), this);
 // 	connect( quitPokerTHKeys, SIGNAL(activated() ), actionQuit, SLOT( trigger() ) );
@@ -798,7 +794,7 @@ void mainWindowImpl::callSettingsDialog() {
 		else { groupBox_RightToolBox->hide(); }
 		
 		//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
-		if (mySettingsDialog->getPlayerNickIsChanged() && mySession->getCurrentGame()) { 
+		if (mySettingsDialog->getPlayerNickIsChanged() && mySession->getCurrentGame() && !mySession->isNetworkClientRunning()) { 
 
 			HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 			currentHand->getPlayerArray()[0]->setMyName(mySettingsDialog->lineEdit_HumanPlayerName->text().toUtf8().constData());

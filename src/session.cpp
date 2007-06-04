@@ -34,7 +34,7 @@
 using namespace std;
 
 Session::Session(GuiInterface *g, ConfigFile *c)
-: currentGameID(0), myNetClient(0), myNetServer(0), myGui(g), myConfig(c), thisHasSctp(0)
+: currentGameID(0), myNetClient(0), myNetServer(0), myGui(g), myConfig(c)
 {	
 	
 }
@@ -210,3 +210,4 @@ bool Session::isNetworkClientRunning() const
 	// TODO
 	return myNetClient != NULL;
 }
+

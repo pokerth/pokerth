@@ -66,3 +66,9 @@ socket_cleanup()
 	WSACleanup();
 }
 
+bool
+socket_has_sctp()
+{
+	return false; /* no SCTP on Windows */
+}
+

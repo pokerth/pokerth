@@ -21,6 +21,7 @@
 #include "session.h"
 #include "configfile.h"
 #include "tinyxml.h"
+#include <net/socket_startup.h>
 
 using namespace std;
 
@@ -89,6 +90,8 @@ void joinNetworkGameDialogImpl::exec() {
 		//Liste Füllen
 		fillServerProfileList();
 	}
+
+	checkBox_sctp->setEnabled(socket_has_sctp());
 
 	QDialog::exec();
 	
