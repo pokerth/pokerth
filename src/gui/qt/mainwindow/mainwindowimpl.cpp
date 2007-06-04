@@ -615,6 +615,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	// Errors are handled globally, not within one dialog.
 	connect(this, SIGNAL(signalNetClientError(int, int)), this, SLOT(networkError(int, int)));
+	connect(this, SIGNAL(signalNetServerError(int, int)), this, SLOT(networkError(int, int)));
 	connect(this, SIGNAL(signalNetClientGameStart(boost::shared_ptr<Game>)), this, SLOT(networkStart(boost::shared_ptr<Game>)));
 
 	connect(this, SIGNAL(signalNetServerPlayerJoined(QString)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString)));

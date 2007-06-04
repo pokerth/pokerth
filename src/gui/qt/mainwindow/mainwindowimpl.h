@@ -113,6 +113,7 @@ signals:
 	void signalNetClientConnect(int actionID);
 	void signalNetClientGameInfo(int actionID);
 	void signalNetClientError(int errorID, int osErrorID);
+	void signalNetServerError(int errorID, int osErrorID);
 	void signalNetClientPlayerJoined(QString playerName);
 	void signalNetClientPlayerLeft(QString playerName);
 	void signalNetClientGameStart(boost::shared_ptr<Game> game);

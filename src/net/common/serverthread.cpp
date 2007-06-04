@@ -104,8 +104,8 @@ ServerThread::Listen()
 {
 	ServerContext &context = GetContext();
 
-//	if (context.GetServerPort() < 1024)
-//		throw ServerException(ERR_SOCK_INVALID_PORT, 0);
+	if (context.GetServerPort() < 1024)
+		throw ServerException(ERR_SOCK_INVALID_PORT, 0);
 
 	context.SetSocket(socket(context.GetAddrFamily(), SOCK_STREAM, context.GetProtocol()));
 	if (!IS_VALID_SOCKET(context.GetSocket()))
