@@ -31,80 +31,6 @@
       <property name="spacing" >
        <number>6</number>
       </property>
-      <item row="1" column="1" >
-       <widget class="QLineEdit" name="lineEdit_profileName" >
-        <property name="text" >
-         <string>myServerProfile1</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" >
-       <widget class="QLabel" name="label_4" >
-        <property name="text" >
-         <string>Profile Name:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label" >
-        <property name="text" >
-         <string>IP Address / Domain Name:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3" >
-       <widget class="QLabel" name="label_2" >
-        <property name="text" >
-         <string>Port:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="4" >
-       <widget class="QSpinBox" name="spinBox_port" >
-        <property name="maximum" >
-         <number>65535</number>
-        </property>
-        <property name="minimum" >
-         <number>80</number>
-        </property>
-        <property name="value" >
-         <number>7234</number>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3" >
-       <widget class="QLabel" name="label_3" >
-        <property name="text" >
-         <string>Password (optional):</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4" >
-       <widget class="QLineEdit" name="lineEdit_password" >
-        <property name="echoMode" >
-         <enum>QLineEdit::Password</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" >
-       <widget class="QLineEdit" name="lineEdit_ipAddress" />
-      </item>
-      <item rowspan="2" row="0" column="2" >
-       <spacer>
-        <property name="orientation" >
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType" >
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" >
-         <size>
-          <width>16</width>
-          <height>57</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
       <item row="3" column="0" colspan="5" >
        <widget class="QGroupBox" name="groupBox_2" >
         <property name="title" >
@@ -123,7 +49,7 @@
             <bool>true</bool>
            </property>
            <property name="indentation" >
-            <number>3</number>
+            <number>15</number>
            </property>
            <property name="rootIsDecorated" >
             <bool>false</bool>
@@ -191,37 +117,163 @@
         </layout>
        </widget>
       </item>
-      <item row="2" column="0" >
-       <widget class="QCheckBox" name="checkBox_ipv6" >
-        <property name="text" >
-         <string>Use IPv6</string>
+      <item row="2" column="3" colspan="2" >
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QCheckBox" name="checkBox_sctp" >
+          <property name="text" >
+           <string>Use SCTP</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_6" >
+          <property name="text" >
+           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Nimbus Sans L'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">  &lt;a href="http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol">&lt;span style=" text-decoration: underline; color:#0000ff;">What is this?&lt;/span>&lt;/a>&lt;/p>&lt;/body>&lt;/html></string>
+          </property>
+          <property name="openExternalLinks" >
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0" colspan="2" >
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QCheckBox" name="checkBox_ipv6" >
+          <property name="text" >
+           <string>Use IPv6</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_5" >
+          <property name="text" >
+           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Nimbus Sans L'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">   &lt;a href="http://en.wikipedia.org/wiki/Ipv6">&lt;span style=" text-decoration: underline; color:#0000ff;">What is this?&lt;/span>&lt;/a>&lt;/p>&lt;/body>&lt;/html></string>
+          </property>
+          <property name="openExternalLinks" >
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>131</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item rowspan="2" row="0" column="2" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType" >
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>16</width>
+          <height>57</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="1" >
+       <widget class="QLineEdit" name="lineEdit_ipAddress" />
+      </item>
+      <item row="0" column="4" >
+       <widget class="QLineEdit" name="lineEdit_password" >
+        <property name="echoMode" >
+         <enum>QLineEdit::Password</enum>
         </property>
        </widget>
       </item>
-      <item row="2" column="1" >
-       <widget class="QLabel" name="label_5" >
+      <item row="0" column="3" >
+       <widget class="QLabel" name="label_3" >
         <property name="text" >
-         <string>&lt;a href="http://en.wikipedia.org/wiki/Ipv6">What is this?&lt;/a></string>
-        </property>
-        <property name="openExternalLinks" >
-         <bool>true</bool>
+         <string>Password (optional):</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="3" >
-       <widget class="QCheckBox" name="checkBox_sctp" >
-        <property name="text" >
-         <string>Use SCTP</string>
+      <item row="1" column="4" >
+       <widget class="QSpinBox" name="spinBox_port" >
+        <property name="maximum" >
+         <number>65535</number>
+        </property>
+        <property name="minimum" >
+         <number>80</number>
+        </property>
+        <property name="value" >
+         <number>7234</number>
         </property>
        </widget>
       </item>
-      <item row="2" column="4" >
-       <widget class="QLabel" name="label_6" >
+      <item row="1" column="3" >
+       <widget class="QLabel" name="label_2" >
         <property name="text" >
-         <string>&lt;a href="http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol">What is this?&lt;/a></string>
+         <string>Port:</string>
         </property>
-        <property name="openExternalLinks" >
-         <bool>true</bool>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="label" >
+        <property name="text" >
+         <string>IP Address / Domain Name:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="label_4" >
+        <property name="text" >
+         <string>Profile Name:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="QLineEdit" name="lineEdit_profileName" >
+        <property name="text" >
+         <string>myServerProfile1</string>
         </property>
        </widget>
       </item>

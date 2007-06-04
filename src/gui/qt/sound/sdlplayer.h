@@ -50,6 +50,8 @@ private:
 	Uint8 *soundData;
 	int currentChannel;
 
+	bool audioEnabled;
+
 };
 
 #endif
