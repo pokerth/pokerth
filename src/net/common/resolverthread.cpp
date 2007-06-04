@@ -75,7 +75,7 @@ ResolverThread::Main()
 		tmpStr.str().c_str(),
 		context.GetAddrFamily(),
 		SOCK_STREAM,
-		0,
+		context.GetProtocol(),
 		(struct sockaddr *)context.GetClientSockaddr(),
 		context.GetClientSockaddrSize());
 }
