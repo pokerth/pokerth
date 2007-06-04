@@ -46,7 +46,7 @@ public:
 
 	GuiInterface *getGui();
 
-	void startNetworkClient(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &pwd);
+	void startNetworkClient(const std::string &serverAddress, unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd);
 	void startNetworkClientForLocalServer();
 	void terminateNetworkClient();
 

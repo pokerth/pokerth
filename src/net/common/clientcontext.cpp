@@ -20,7 +20,7 @@
 #include <net/clientcontext.h>
 
 ClientContext::ClientContext()
-: m_sockfd(INVALID_SOCKET), m_addrFamily(AF_INET), m_serverPort(0)
+: m_sockfd(INVALID_SOCKET), m_protocol(0), m_addrFamily(AF_INET), m_serverPort(0)
 {
 	bzero(&m_clientSockaddr, sizeof(m_clientSockaddr));
 }

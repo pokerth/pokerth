@@ -35,6 +35,10 @@ public:
 
 	void SetSocket(SOCKET sockfd);
 
+	int GetProtocol() const
+	{return m_protocol;}
+	void SetProtocol(int protocol)
+	{m_protocol = protocol;}
 	int GetAddrFamily() const
 	{return m_addrFamily;}
 	void SetAddrFamily(int addrFamily)
@@ -65,6 +69,7 @@ public:
 
 private:
 	SOCKET				m_sockfd;
+	int					m_protocol;
 	int					m_addrFamily;
 	std::string			m_serverAddr;
 	unsigned			m_serverPort;

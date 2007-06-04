@@ -58,6 +58,12 @@ typedef unsigned char			u_char;
 #define IS_VALID_SEND(_s)		((_s) != SOCKET_ERROR)
 #define IS_VALID_SELECT(_s)		((_s) != SOCKET_ERROR)
 
+#ifdef IPPROTO_SCTP
+	#define SOCKET_IPPROTO_SCTP		IPPROTO_SCTP
+#else
+	#define SOCKET_IPPROTO_SCTP		0
+#endif
+
 // All char *s are assumed to be UTF-8.
 
 /**

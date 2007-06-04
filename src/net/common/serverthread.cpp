@@ -41,7 +41,7 @@ ServerThread::~ServerThread()
 }
 
 void
-ServerThread::Init(unsigned serverPort, bool ipv6, const std::string &pwd,
+ServerThread::Init(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd,
 	const GameData &gameData)
 {
 	if (IsRunning())
@@ -49,6 +49,7 @@ ServerThread::Init(unsigned serverPort, bool ipv6, const std::string &pwd,
 
 	ServerContext &context = GetContext();
 
+	context.SetProtocol(sctp ? SOCKET_IPPROTO_SCTP : 0);
 	context.SetAddrFamily(ipv6 ? AF_INET6 : AF_INET);
 	context.SetServerPort(serverPort);
 
@@ -106,7 +107,7 @@ ServerThread::Listen()
 //	if (context.GetServerPort() < 1024)
 //		throw ServerException(ERR_SOCK_INVALID_PORT, 0);
 
-	context.SetSocket(socket(context.GetAddrFamily(), SOCK_STREAM, 0));
+	context.SetSocket(socket(context.GetAddrFamily(), SOCK_STREAM, context.GetProtocol()));
 	if (!IS_VALID_SOCKET(context.GetSocket()))
 		throw ServerException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 

@@ -48,6 +48,7 @@ public:
 		const std::string &serverAddress,
 		unsigned serverPort,
 		bool ipv6,
+		bool sctp,
 		const std::string &pwd,
 		const std::string &playerName);
 

@@ -103,7 +103,7 @@ GuiInterface *Session::getGui()
 	return myGui;
 }
 
-void Session::startNetworkClient(const string &serverAddress, unsigned serverPort, bool ipv6, const string &pwd)
+void Session::startNetworkClient(const string &serverAddress, unsigned serverPort, bool ipv6, bool sctp, const string &pwd)
 {
 	if (myNetClient || !myGui)
 	{
@@ -115,6 +115,7 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 		serverAddress,
 		serverPort,
 		ipv6,
+		sctp,
 		pwd,
 		myConfig->readConfigString("MyName"));
 	myNetClient->Run();
@@ -132,6 +133,7 @@ void Session::startNetworkClientForLocalServer()
 		"localhost",
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
+		myConfig->readConfigInt("ServerUseSctp") == 1,
 		myConfig->readConfigString("ServerPassword"),
 		myConfig->readConfigString("MyName"));
 	myNetClient->Run();
@@ -162,6 +164,7 @@ void Session::startNetworkServer(const GameData &gameData)
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
+		myConfig->readConfigInt("ServerUseSCTP") == 1,
 		myConfig->readConfigString("ServerPassword"),
 		gameData);
 	myNetServer->Run();
