@@ -129,10 +129,12 @@ void Session::startNetworkClientForLocalServer()
 		return;
 	}
 	myNetClient = new ClientThread(*myGui);
+	bool useIpv6 = myConfig->readConfigInt("ServerUseIpv6") == 1;
+	const char *loopbackAddr = useIpv6 ? "::1" : "127.0.0.1";
 	myNetClient->Init(
-		"localhost",
+		loopbackAddr,
 		myConfig->readConfigInt("ServerPort"),
-		myConfig->readConfigInt("ServerUseIpv6") == 1,
+		useIpv6,
 		myConfig->readConfigInt("ServerUseSctp") == 1,
 		myConfig->readConfigString("ServerPassword"),
 		myConfig->readConfigString("MyName"));
