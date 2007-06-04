@@ -166,7 +166,7 @@ void Session::startNetworkServer(const GameData &gameData)
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
-		myConfig->readConfigInt("ServerUseSCTP") == 1,
+		myConfig->readConfigInt("ServerUseSctp") == 1,
 		myConfig->readConfigString("ServerPassword"),
 		gameData);
 	myNetServer->Run();
