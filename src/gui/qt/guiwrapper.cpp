@@ -93,7 +93,7 @@ void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->signalLogNew
 void GuiWrapper::logPlayerWinsMsg(int playerID, int pot) { myLog->signalLogPlayerWinsMsg(playerID, pot); }
 void GuiWrapper::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4, int card5) { myLog->signalLogDealBoardCardsMsg(roundID, card1, card2, card3, card4, card5); }
 void GuiWrapper::logFlipHoleCardsMsg(string playerName, int card1, int card2, int cardsValueInt, string showHas) { myLog->signalLogFlipHoleCardsMsg(playerName, card1, card2, cardsValueInt, showHas); }
-
+void GuiWrapper::logPlayerLeftMsg(int playerID) {  myLog->signalLogPlayerLeftMsg(playerID); }
 
 void GuiWrapper::SignalNetClientConnect(int actionID) { myW->signalNetClientConnect(actionID); }
 void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->signalNetClientGameInfo(actionID); }

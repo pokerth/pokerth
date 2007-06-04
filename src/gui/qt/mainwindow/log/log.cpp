@@ -36,6 +36,8 @@ Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), m
 	connect(this, SIGNAL(signalLogPlayerWinsMsg(int, int)), this, SLOT(logPlayerWinsMsg(int, int)));
 	connect(this, SIGNAL(signalLogDealBoardCardsMsg(int, int, int, int, int, int)), this, SLOT(logDealBoardCardsMsg(int, int, int, int, int, int)));
 	connect(this, SIGNAL(signalLogFlipHoleCardsMsg(std::string, int, int, int, std::string)), this, SLOT(logFlipHoleCardsMsg(std::string, int, int, int, std::string)));
+	connect(this, SIGNAL(signalLogPlayerLeftMsg(int)), this, SLOT(logPlayerLeftMsg(int)));
+
 
 	logFileStreamString = "";
 	lastGameID = 0;
@@ -439,6 +441,24 @@ void Log::logFlipHoleCardsMsg(string playerName, int card1, int card2, int cards
 	}
 	
 }
+
+void Log::logPlayerLeftMsg(int playerID) {
+
+	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
+	
+	myW->textBrowser_Log->append( "<i>"+QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" has left the game!</i>");
+	
+	if(myConfig->readConfigInt("LogOnOff")) {
+	
+		logFileStreamString += "<i>"+QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" has left the game!</i><br>\n";
+
+		if(myConfig->readConfigInt("LogInterval") == 0) {	
+			writeLogFileStream(logFileStreamString);
+			logFileStreamString = "";
+		}
+	}
+}
+
 
 QStringList Log::translateCardCode(int cardCode) {
 
