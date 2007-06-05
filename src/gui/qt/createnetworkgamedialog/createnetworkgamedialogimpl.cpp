@@ -32,6 +32,10 @@ createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, Config
 	connect( pushButton_cancel, SIGNAL( clicked() ), this, SLOT( cancel() ) );
 	connect( pushButton_createGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 
+	//temporarely unused until ai is enabled in network
+	label_5->hide();
+	spinBox_gameSpeed->hide();
+
 
 }
 
@@ -57,7 +61,8 @@ void createNetworkGameDialogImpl::fillFormular() {
 	spinBox_startCash->setValue(myConfig->readConfigInt("NetStartCash"));
 	spinBox_smallBlind->setValue(myConfig->readConfigInt("NetSmallBlind"));
 	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig->readConfigInt("NetHandsBeforeRaiseSmallBlind"));
-	spinBox_gameSpeed->setValue(myConfig->readConfigInt("NetGameSpeed"));
+	//temporarely unused until ai is enabled in network
+// 	spinBox_gameSpeed->setValue(myConfig->readConfigInt("NetGameSpeed"));
 	spinBox_netTimeOutPlayerAction->setValue(myConfig->readConfigInt("NetTimeOutPlayerAction"));
 }
 

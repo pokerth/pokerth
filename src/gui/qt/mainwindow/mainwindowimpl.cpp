@@ -506,7 +506,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	myChangeHumanPlayerNameDialog = new changeHumanPlayerNameDialogImpl(this, myConfig);
 	myJoinNetworkGameDialog = new joinNetworkGameDialogImpl(this, myConfig);
 	myConnectToServerDialog = new connectToServerDialogImpl(this);
-	myStartNetworkGameDialog = new startNetworkGameDialogImpl(this);
+	myStartNetworkGameDialog = new startNetworkGameDialogImpl(this, myConfig);
 	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this, myConfig);
 	myWaitingForServerGameDialog = new waitForServerToStartGameDialogImpl(this);
 	myAboutPokerthDialog = new aboutPokerthImpl(this);
@@ -716,7 +716,9 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		gameData.startMoney = myCreateNetworkGameDialog->spinBox_startCash->value();
 		gameData.smallBlind = myCreateNetworkGameDialog->spinBox_smallBlind->value();
 		gameData.handsBeforeRaise = myCreateNetworkGameDialog->spinBox_handsBeforeRaiseSmallBlind->value();
-		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
+		//temporarely static until ai is enabled in network
+// 		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
+		gameData.guiSpeed = 4;
 
 		myStartNetworkGameDialog->treeWidget->clear();
 

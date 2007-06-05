@@ -18,11 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "startnetworkgamedialogimpl.h"
-#include "session.h"
-// #include "configfile.h"
+// #include "session.h"
+#include "configfile.h"
 
-startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent)
-      : QDialog(parent)
+startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFile *config)
+      : QDialog(parent), myConfig(config)
 {
 
     setupUi(this);
@@ -69,11 +69,17 @@ void startNetworkGameDialogImpl::playerSelected(QTreeWidgetItem*, int) {
 
 void startNetworkGameDialogImpl::kickPlayer() {
 
-// 	if()
+	
 	QTreeWidgetItem *item = treeWidget->currentItem();
 	QString playerName = item->text(0);
-// 	kickplayerFunktion(playerName.toStdString());
-
+	if(playerName == QString::fromUtf8(myConfig->readConfigString("MyName").c_str())) {
+		{ QMessageBox::warning(this, tr("Server Error"),
+				tr("You should not kick yourself from this game!"),
+				QMessageBox::Close); }
+	}
+	else {
+// 		kickplayerFunktion(playerName.toStdString());
+	}
 	pushButton_Kick->setEnabled(FALSE);
 
 }

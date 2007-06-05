@@ -53,6 +53,12 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
 	connect( checkBox_showIntro, SIGNAL( clicked() ), this, SLOT( callSelectAvatarDialog()) ); 
 
+	//temporarely unused until ai is enabled in network
+	label_36->hide();
+	spinBox_netGameSpeed->hide();
+
+	label_18->hide();
+	comboBox_netEngineVersion->hide();
 }
 
 void settingsDialogImpl::exec() {
@@ -104,8 +110,9 @@ void settingsDialogImpl::exec() {
 	spinBox_netStartCash->setValue(myConfig->readConfigInt("NetStartCash"));
 	spinBox_netSmallBlind->setValue(myConfig->readConfigInt("NetSmallBlind"));
 	spinBox_netHandsBeforeRaiseSmallBlind->setValue(myConfig->readConfigInt("NetHandsBeforeRaiseSmallBlind"));
-	spinBox_netGameSpeed->setValue(myConfig->readConfigInt("NetGameSpeed"));
-	comboBox_netEngineVersion->setCurrentIndex(myConfig->readConfigInt("NetEngineVersion"));
+	//temporarely unused until ai is enabled in network
+// 	spinBox_netGameSpeed->setValue(myConfig->readConfigInt("NetGameSpeed"));
+// 	comboBox_netEngineVersion->setCurrentIndex(myConfig->readConfigInt("NetEngineVersion"));
 	spinBox_netTimeOutPlayerAction->setValue(myConfig->readConfigInt("NetTimeOutPlayerAction"));
 	spinBox_serverPort->setValue(myConfig->readConfigInt("ServerPort"));
 	lineEdit_serverPassword->setText(QString::fromUtf8(myConfig->readConfigString("ServerPassword").c_str()));
@@ -185,8 +192,9 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("NetStartCash", spinBox_netStartCash->value());
 	myConfig->writeConfigInt("NetSmallBlind", spinBox_netSmallBlind->value());
 	myConfig->writeConfigInt("NetHandsBeforeRaiseSmallBlind", spinBox_netHandsBeforeRaiseSmallBlind->value());
-	myConfig->writeConfigInt("NetGameSpeed", spinBox_netGameSpeed->value());
-	myConfig->writeConfigInt("NetEngineVersion", comboBox_netEngineVersion->currentIndex());
+	//temporarely unused until ai is enabled in network
+// 	myConfig->writeConfigInt("NetGameSpeed", spinBox_netGameSpeed->value());
+// 	myConfig->writeConfigInt("NetEngineVersion", comboBox_netEngineVersion->currentIndex());
 	myConfig->writeConfigInt("NetTimeOutPlayerAction", spinBox_netTimeOutPlayerAction->value());
 	myConfig->writeConfigInt("ServerPort", spinBox_serverPort->value());
 	myConfig->writeConfigString("ServerPassword", lineEdit_serverPassword->text().toUtf8().constData());

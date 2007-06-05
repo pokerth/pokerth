@@ -26,12 +26,13 @@
 #include <QtGui>
 #include <QtCore>
 
-class Session;
+// class Session;
+class ConfigFile;
 
 class startNetworkGameDialogImpl: public QDialog, public Ui::startNetworkGameDialog {
 Q_OBJECT
 public:
-    startNetworkGameDialogImpl(QWidget *parent = 0);
+    startNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *config = 0);
 
 public slots:
 
@@ -52,6 +53,7 @@ public slots:
 private: 
 
 	int maxPlayerNumber;
+	ConfigFile *myConfig;
 };
 
 #endif
