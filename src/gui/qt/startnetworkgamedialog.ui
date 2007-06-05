@@ -74,7 +74,7 @@
     <widget class="QTreeWidget" name="treeWidget" >
      <column>
       <property name="text" >
-       <string>    Connected Player    </string>
+       <string>Connected Players</string>
       </property>
      </column>
     </widget>
