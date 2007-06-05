@@ -88,6 +88,7 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
 	connect( buttonBox, SIGNAL( rejected() ), this, SLOT( isRejected() ) );
 	connect( pushButton_OpenAvatarFile, SIGNAL( clicked() ), this, SLOT( setExternalAvatar() ) );
+	connect( listWidget, SIGNAL( doubleClicked(QModelIndex) ), this, SLOT( isAccepted() ) );
 
 }
 
