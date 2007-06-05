@@ -184,6 +184,32 @@ protected:
 	static void SetHighestSet(Game &curGame, int highestSet);
 };
 
+// State: Delay after dealing cards
+class ServerRecvStateDealCardsDelay : public ServerRecvStateReceiving, public ServerRecvStateRunning
+{
+public:
+	// Access the state singleton.
+	static ServerRecvStateDealCardsDelay &Instance();
+
+	virtual ~ServerRecvStateDealCardsDelay();
+
+	// Overwrite default processing
+	virtual int Process(ServerRecvThread &server);
+
+	void SetTimer(const boost::microsec_timer &timer);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ServerRecvStateDealCardsDelay();
+
+	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+
+private:
+
+	boost::microsec_timer m_delayTimer;
+};
+
 // State: Delay before next hand.
 class ServerRecvStateNextHand : public ServerRecvStateReceiving, public ServerRecvStateRunning
 {

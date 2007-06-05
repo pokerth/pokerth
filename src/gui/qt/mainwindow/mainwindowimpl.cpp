@@ -2597,12 +2597,11 @@ void mainWindowImpl::networkGameModification() {
 void mainWindowImpl::closeEvent(QCloseEvent *event) { quitPokerTH(); }
 
 void mainWindowImpl::quitPokerTH() {
-	
+
 	mySession->terminateNetworkClient();
 	if (myServerGuiInterface.get()) myServerGuiInterface->getSession().terminateNetworkServer();
-	
-	mySDLPlayer->closeAudio();
-	
+
+
 // 	cout << "PokerTH finished" << endl;
 	qApp->quit();
 }

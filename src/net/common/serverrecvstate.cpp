@@ -32,8 +32,11 @@
 
 using namespace std;
 
-#define SERVER_WAIT_TIMEOUT_MSEC	50
-#define SERVER_NEXT_HAND_DELAY_SEC	10
+#define SERVER_WAIT_TIMEOUT_MSEC		50
+#define SERVER_NEXT_HAND_DELAY_SEC		10
+#define SERVER_DEAL_FLOP_CARDS_SEC		6
+#define SERVER_DEAL_TURN_CARD_SEC		3
+#define SERVER_DEAL_RIVER_CARD_SEC		3
 
 // Helper functions
 
@@ -440,129 +443,132 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 	Game &curGame = server.GetGame();
 
-	// Call main loop - if state changes, call again.
+	// Main game loop.
+	int curRound = curGame.getCurrentHand()->getActualRound();
+	curGame.getCurrentHand()->switchRounds();
+	if (!curGame.getCurrentHand()->getAllInCondition())
+		GameRun(curGame);
 	int newRound = curGame.getCurrentHand()->getActualRound();
-	int curRound;
-	do
+
+	// If round changes, deal cards if needed.
+	if (newRound != curRound)
 	{
-		curRound = newRound;
-		curGame.getCurrentHand()->switchRounds();
-		if (!curGame.getCurrentHand()->getAllInCondition())
-			GameRun(curGame);
-		newRound = curGame.getCurrentHand()->getActualRound();
+		assert(newRound > curRound);
+		SendNewRoundCards(server, curGame, newRound);
 
-		// If round changes, deal cards if needed.
-		if (newRound != curRound)
-		{
-			assert(newRound > curRound);
-			SendNewRoundCards(server, curGame, newRound);
-		}
-	} while (newRound != curRound);
-
-	if (newRound != GAME_STATE_POST_RIVER) // continue hand
-	{
-		if (!curGame.getCurrentHand()->getAllInCondition())
-		{
-			// Retrieve current player.
-			PlayerInterface *curPlayer = GetCurrentPlayer(curGame);
-			assert(curPlayer); // TODO throw exception
-			assert(curPlayer->getMyActiveStatus()); // TODO throw exception
-
-			boost::shared_ptr<NetPacket> notification(new NetPacketPlayersTurn);
-			NetPacketPlayersTurn::Data playersTurnData;
-			playersTurnData.gameState = (GameState)curGame.getCurrentHand()->getActualRound();
-			playersTurnData.playerId = curPlayer->getMyUniqueID();
-			static_cast<NetPacketPlayersTurn *>(notification.get())->SetData(playersTurnData);
-
-			server.SendToAllPlayers(notification);
-
-			server.SetState(ServerRecvStateWaitPlayerAction::Instance());
-
-			retVal = MSG_NET_GAME_SERVER_ROUND;
-		}
+		boost::microsec_timer delayTimer;
+		delayTimer.start();
+		ServerRecvStateDealCardsDelay::Instance().SetTimer(delayTimer);
+		server.SetState(ServerRecvStateDealCardsDelay::Instance());
+		retVal = MSG_NET_GAME_SERVER_CARDS_DELAY;
 	}
-	else // hand is over
+	else
 	{
-		// Let the engine find out the winner(s).
-		curGame.getCurrentHand()->getRiver()->postRiverRun();
-
-		// Count active players. If only one player is left, no cards are shown.
-		int activePlayersCounter = 0;
-		std::list<PlayerInterface *> activePlayers;
-		for (int i = 0; i < curGame.getStartQuantityPlayers() ; i++)
-		{ 
-			if (curGame.getPlayerArray()[i]->getMyActiveStatus()
-				&& curGame.getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD)
+		if (newRound != GAME_STATE_POST_RIVER) // continue hand
+		{
+			if (!curGame.getCurrentHand()->getAllInCondition())
 			{
-				activePlayersCounter++;
-				activePlayers.push_back(curGame.getPlayerArray()[i]);
+				// Retrieve current player.
+				PlayerInterface *curPlayer = GetCurrentPlayer(curGame);
+				assert(curPlayer); // TODO throw exception
+				assert(curPlayer->getMyActiveStatus()); // TODO throw exception
+
+				boost::shared_ptr<NetPacket> notification(new NetPacketPlayersTurn);
+				NetPacketPlayersTurn::Data playersTurnData;
+				playersTurnData.gameState = (GameState)curGame.getCurrentHand()->getActualRound();
+				playersTurnData.playerId = curPlayer->getMyUniqueID();
+				static_cast<NetPacketPlayersTurn *>(notification.get())->SetData(playersTurnData);
+
+				server.SendToAllPlayers(notification);
+
+				server.SetState(ServerRecvStateWaitPlayerAction::Instance());
+
+				retVal = MSG_NET_GAME_SERVER_ROUND;
 			}
 		}
-		assert(activePlayersCounter);
-		assert(!activePlayers.empty());
-
-		if (activePlayersCounter == 1)
+		else // hand is over
 		{
-			// End of Hand, but keep cards hidden.
-			PlayerInterface *player = activePlayers.front();
-			boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandHideCards);
-			NetPacketEndOfHandHideCards::Data endHandData;
-			endHandData.playerId = player->getMyUniqueID();
-			endHandData.moneyWon = 0; // TODO
-			endHandData.playerMoney = player->getMyCash();
-			static_cast<NetPacketEndOfHandHideCards *>(endHand.get())->SetData(endHandData);
+			// Let the engine find out the winner(s).
+			curGame.getCurrentHand()->getRiver()->postRiverRun();
 
-			server.SendToAllPlayers(endHand);
-		}
-		else
-		{
-			// End of Hand - show cards of active players.
-			boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandShowCards);
-			NetPacketEndOfHandShowCards::Data endHandData;
-
-			std::list<PlayerInterface *>::iterator i = activePlayers.begin();
-			std::list<PlayerInterface *>::iterator end = activePlayers.end();
-
-			while (i != end)
-			{
-				NetPacketEndOfHandShowCards::PlayerResult tmpPlayerResult;
-				tmpPlayerResult.playerId = (*i)->getMyUniqueID();
-
-				int tmpCards[2];
-				(*i)->getMyCards(tmpCards);
-				tmpPlayerResult.cards[0] = static_cast<u_int16_t>(tmpCards[0]);
-				tmpPlayerResult.cards[1] = static_cast<u_int16_t>(tmpCards[1]);
-
-				for (int num = 0; num < 5; num++)
-					tmpPlayerResult.bestHandPos[num] = (*i)->getMyBestHandPosition()[num];
-
-				tmpPlayerResult.valueOfCards = (*i)->getMyCardsValueInt();
-				tmpPlayerResult.moneyWon = 0; // TODO
-				tmpPlayerResult.playerMoney = (*i)->getMyCash();
-
-				endHandData.playerResults.push_back(tmpPlayerResult);
-				++i;
+			// Count active players. If only one player is left, no cards are shown.
+			int activePlayersCounter = 0;
+			std::list<PlayerInterface *> activePlayers;
+			for (int i = 0; i < curGame.getStartQuantityPlayers() ; i++)
+			{ 
+				if (curGame.getPlayerArray()[i]->getMyActiveStatus()
+					&& curGame.getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD)
+				{
+					activePlayersCounter++;
+					activePlayers.push_back(curGame.getPlayerArray()[i]);
+				}
 			}
-			static_cast<NetPacketEndOfHandShowCards *>(endHand.get())->SetData(endHandData);
+			assert(activePlayersCounter);
+			assert(!activePlayers.empty());
 
-			server.SendToAllPlayers(endHand);
-		}
-		// Start next hand - if enough players are left.
-		int playersPositiveCashCounter = 0;
-		for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
-		{
-			if (curGame.getCurrentHand()->getPlayerArray()[i]->getMyCash() > 0) 
-				playersPositiveCashCounter++;
-		}
-		if (playersPositiveCashCounter == 1)
-			server.SetState(ServerRecvStateFinal::Instance()); // TODO
-		else
-		{
-			boost::microsec_timer delayTimer;
-			delayTimer.start();
-			ServerRecvStateNextHand::Instance().SetTimer(delayTimer);
-			server.SetState(ServerRecvStateNextHand::Instance());
-			retVal = MSG_NET_GAME_SERVER_HAND_END;
+			if (activePlayersCounter == 1)
+			{
+				// End of Hand, but keep cards hidden.
+				PlayerInterface *player = activePlayers.front();
+				boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandHideCards);
+				NetPacketEndOfHandHideCards::Data endHandData;
+				endHandData.playerId = player->getMyUniqueID();
+				endHandData.moneyWon = 0; // TODO
+				endHandData.playerMoney = player->getMyCash();
+				static_cast<NetPacketEndOfHandHideCards *>(endHand.get())->SetData(endHandData);
+
+				server.SendToAllPlayers(endHand);
+			}
+			else
+			{
+				// End of Hand - show cards of active players.
+				boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandShowCards);
+				NetPacketEndOfHandShowCards::Data endHandData;
+
+				std::list<PlayerInterface *>::iterator i = activePlayers.begin();
+				std::list<PlayerInterface *>::iterator end = activePlayers.end();
+
+				while (i != end)
+				{
+					NetPacketEndOfHandShowCards::PlayerResult tmpPlayerResult;
+					tmpPlayerResult.playerId = (*i)->getMyUniqueID();
+
+					int tmpCards[2];
+					(*i)->getMyCards(tmpCards);
+					tmpPlayerResult.cards[0] = static_cast<u_int16_t>(tmpCards[0]);
+					tmpPlayerResult.cards[1] = static_cast<u_int16_t>(tmpCards[1]);
+
+					for (int num = 0; num < 5; num++)
+						tmpPlayerResult.bestHandPos[num] = (*i)->getMyBestHandPosition()[num];
+
+					tmpPlayerResult.valueOfCards = (*i)->getMyCardsValueInt();
+					tmpPlayerResult.moneyWon = 0; // TODO
+					tmpPlayerResult.playerMoney = (*i)->getMyCash();
+
+					endHandData.playerResults.push_back(tmpPlayerResult);
+					++i;
+				}
+				static_cast<NetPacketEndOfHandShowCards *>(endHand.get())->SetData(endHandData);
+
+				server.SendToAllPlayers(endHand);
+			}
+			// Start next hand - if enough players are left.
+			int playersPositiveCashCounter = 0;
+			for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
+			{
+				if (curGame.getCurrentHand()->getPlayerArray()[i]->getMyCash() > 0) 
+					playersPositiveCashCounter++;
+			}
+			if (playersPositiveCashCounter == 1)
+				server.SetState(ServerRecvStateFinal::Instance()); // TODO
+			else
+			{
+				boost::microsec_timer delayTimer;
+				delayTimer.start();
+				ServerRecvStateNextHand::Instance().SetTimer(delayTimer);
+				server.SetState(ServerRecvStateNextHand::Instance());
+				retVal = MSG_NET_GAME_SERVER_HAND_END;
+			}
 		}
 	}
 	return retVal;
@@ -737,7 +743,8 @@ ServerRecvStateWaitPlayerAction::GetHighestSet(Game &curGame)
 {
 	int highestSet = 0;
 	// TODO: no switch needed here if game states are polymorphic
-	switch(curGame.getCurrentHand()->getActualRound()) {
+	switch(curGame.getCurrentHand()->getActualRound())
+	{
 		case GAME_STATE_PREFLOP: {
 			highestSet = curGame.getCurrentHand()->getPreflop()->getHighestSet();
 		} break;
@@ -761,7 +768,8 @@ void
 ServerRecvStateWaitPlayerAction::SetHighestSet(Game &curGame, int highestSet)
 {
 	// TODO: no switch needed here if game states are polymorphic
-	switch(curGame.getCurrentHand()->getActualRound()) {
+	switch(curGame.getCurrentHand()->getActualRound())
+	{
 		case GAME_STATE_PREFLOP: {
 			curGame.getCurrentHand()->getPreflop()->setHighestSet(highestSet);
 		} break;
@@ -778,6 +786,64 @@ ServerRecvStateWaitPlayerAction::SetHighestSet(Game &curGame, int highestSet)
 			// 
 		}
 	}
+}
+
+//-----------------------------------------------------------------------------
+
+ServerRecvStateDealCardsDelay &
+ServerRecvStateDealCardsDelay::Instance()
+{
+	static ServerRecvStateDealCardsDelay state;
+	return state;
+}
+
+ServerRecvStateDealCardsDelay::ServerRecvStateDealCardsDelay()
+{
+}
+
+ServerRecvStateDealCardsDelay::~ServerRecvStateDealCardsDelay()
+{
+}
+
+void
+ServerRecvStateDealCardsDelay::SetTimer(const boost::microsec_timer &timer)
+{
+	m_delayTimer = timer;
+}
+
+int
+ServerRecvStateDealCardsDelay::Process(ServerRecvThread &server)
+{
+	int retVal = ServerRecvStateReceiving::Process(server);
+
+	Game &curGame = server.GetGame();
+
+	int allInDelay = curGame.getCurrentHand()->getAllInCondition() ? 2 : 0;
+
+	switch(curGame.getCurrentHand()->getActualRound())
+	{
+		case GAME_STATE_FLOP:
+			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_FLOP_CARDS_SEC + allInDelay)
+				server.SetState(ServerRecvStateStartRound::Instance());
+			break;
+		case GAME_STATE_TURN:
+			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_TURN_CARD_SEC + allInDelay)
+				server.SetState(ServerRecvStateStartRound::Instance());
+			break;
+		case GAME_STATE_RIVER:
+			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_RIVER_CARD_SEC + allInDelay)
+				server.SetState(ServerRecvStateStartRound::Instance());
+			break;
+		default:
+			server.SetState(ServerRecvStateStartRound::Instance());
+	}
+	return retVal;
+}
+
+int
+ServerRecvStateDealCardsDelay::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+{
+	return MSG_SOCK_INTERNAL_PENDING;
 }
 
 //-----------------------------------------------------------------------------

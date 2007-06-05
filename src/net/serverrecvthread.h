@@ -169,6 +169,7 @@ friend class ServerRecvStateStartGame;
 friend class ServerRecvStateStartHand;
 friend class ServerRecvStateStartRound;
 friend class ServerRecvStateWaitPlayerAction;
+friend class ServerRecvStateDealCardsDelay;
 friend class ServerRecvStateNextHand;
 };
 

@@ -38,18 +38,3 @@ socket_cleanup()
 {
 }
 
-bool
-socket_has_sctp()
-{
-#ifdef IPPROTO_SCTP
-	int test = socket(AF_INET, SOCK_STREAM, IPPROTO_SCTP);
-
-	if (test == -1)
-		return false;
-	close(test);
-	return true;
-#else
-	return false;
-#endif
-}
-

@@ -16,53 +16,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef _WIN32
-#error This source code is Win32 only.
-#endif
 
 #include <net/socket_startup.h>
 #include <net/socket_helper.h>
 
-#define USE_SOCKET_VERSION_MAJOR	2
-#define USE_SOCKET_VERSION_MINOR	2
 
 bool
-socket_startup()
+socket_has_sctp()
 {
-	WORD wVersionRequested;
-	WSADATA wsaData;
-	int err;
+#ifdef IPPROTO_SCTP
+	SOCKET test = socket(AF_INET, SOCK_STREAM, IPPROTO_SCTP);
 
-	wVersionRequested = MAKEWORD(USE_SOCKET_VERSION_MAJOR, USE_SOCKET_VERSION_MINOR);
-	err = WSAStartup(wVersionRequested, &wsaData);
-	if (err != 0)
-	{
-		/* Tell the user that we could not find a usable */
-		/* WinSock DLL.                                  */
+	if (test == INVALID_SOCKET)
 		return false;
-	}
-
-	/* Confirm that the WinSock DLL supports 2.2.*/
-	/* Note that if the DLL supports versions greater    */
-	/* than 2.2 in addition to 2.2, it will still return */
-	/* 2.2 in wVersion since that is the version we      */
-	/* requested.                                        */
- 
-	if (LOBYTE(wsaData.wVersion) != USE_SOCKET_VERSION_MAJOR ||
-			HIBYTE(wsaData.wVersion) != USE_SOCKET_VERSION_MINOR) {
-		/* Tell the user that we could not find a usable */
-		/* WinSock DLL.                                  */
-		WSACleanup();
-		return false;
-	}
-
-	/* The WinSock DLL is acceptable. Proceed. */
+	CLOSESOCKET(test);
 	return true;
+#else
+	return false;
+#endif
 }
 
-void
-socket_cleanup()
+bool
+socket_has_ipv6()
 {
-	WSACleanup();
+	SOCKET test = socket(AF_INET6, SOCK_STREAM, 0);
+
+	if (test == INVALID_SOCKET)
+		return false;
+	CLOSESOCKET(test);
+	return true;
 }
 

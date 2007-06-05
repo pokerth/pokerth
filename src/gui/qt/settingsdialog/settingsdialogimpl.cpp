@@ -137,6 +137,7 @@ void settingsDialogImpl::exec() {
 	spinBox_logStoreDuration->setValue(myConfig->readConfigInt("LogStoreDuration"));
 	comboBox_logInterval->setCurrentIndex(myConfig->readConfigInt("LogInterval"));
 
+	checkBox_useIpv6->setEnabled(socket_has_ipv6());
 	checkBox_useSctp->setEnabled(socket_has_sctp());
 
 	QDialog::exec();

@@ -91,6 +91,7 @@ void joinNetworkGameDialogImpl::exec() {
 		fillServerProfileList();
 	}
 
+	checkBox_ipv6->setEnabled(socket_has_ipv6());
 	checkBox_sctp->setEnabled(socket_has_sctp());
 
 	QDialog::exec();

@@ -87,6 +87,6 @@ void SDLPlayer::closeAudio() {
 	if(audioEnabled) {
 		audioDone();
 		Mix_CloseAudio();
-		SDL_Quit();
 	}
+	SDL_Quit();
 }

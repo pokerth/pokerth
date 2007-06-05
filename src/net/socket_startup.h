@@ -24,6 +24,7 @@ bool socket_startup();
 void socket_cleanup();
 
 bool socket_has_sctp();
+bool socket_has_ipv6();
 
 #endif
 

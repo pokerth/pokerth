@@ -204,6 +204,7 @@ SOURCES += src/game.cpp \
            src/net/common/serverrecvstate.cpp \
            src/net/common/servercallback.cpp \
            src/net/common/sessiondata.cpp \
+           src/net/common/socket_startup_cmn.cpp \
            src/net/common/socket_helper_cmn.cpp \
            src/net/common/clientexception.cpp \
            src/net/common/netcontext.cpp \
