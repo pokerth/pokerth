@@ -35,6 +35,7 @@
 #define MAX_PASSWORD_SIZE			64
 #define MAX_CHAT_TEXT_SIZE			128
 #define MAX_NUM_PLAYER_RESULTS		MAX_NUMBER_OF_PLAYERS
+#define MAX_NUM_PLAYER_CARDS		MAX_NUMBER_OF_PLAYERS
 
 
 struct NetPacketHeader;
@@ -52,6 +53,7 @@ class NetPacketPlayersActionRejected;
 class NetPacketDealFlopCards;
 class NetPacketDealTurnCard;
 class NetPacketDealRiverCard;
+class NetPacketAllInShowCards;
 class NetPacketEndOfHandShowCards;
 class NetPacketEndOfHandHideCards;
 class NetPacketSendChatText;
@@ -88,6 +90,7 @@ public:
 	virtual const NetPacketDealFlopCards *ToNetPacketDealFlopCards() const;
 	virtual const NetPacketDealTurnCard *ToNetPacketDealTurnCard() const;
 	virtual const NetPacketDealRiverCard *ToNetPacketDealRiverCard() const;
+	virtual const NetPacketAllInShowCards *ToNetPacketAllInShowCards() const;
 	virtual const NetPacketEndOfHandShowCards *ToNetPacketEndOfHandShowCards() const;
 	virtual const NetPacketEndOfHandHideCards *ToNetPacketEndOfHandHideCards() const;
 	virtual const NetPacketSendChatText *ToNetPacketSendChatText() const;
@@ -422,6 +425,37 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketDealRiverCard *ToNetPacketDealRiverCard() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketAllInShowCards : public NetPacket
+{
+public:
+	struct PlayerCards
+	{
+		u_int16_t		playerId;
+		u_int16_t		cards[2];
+	};
+
+	typedef std::list<PlayerCards> PlayerCardsList;
+
+	struct Data
+	{
+		PlayerCardsList playerCards;
+	};
+
+	NetPacketAllInShowCards();
+	virtual ~NetPacketAllInShowCards();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketAllInShowCards *ToNetPacketAllInShowCards() const;
 
 protected:
 
