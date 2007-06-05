@@ -39,6 +39,8 @@ public slots:
 	void cancel();
 	void addConnectedPlayer(QString playerName);
 	void removePlayer(QString playerName);
+	void playerSelected(QTreeWidgetItem*, int);
+	void kickPlayer();
 	void checkPlayerQuantity();
 
 	void keyPressEvent ( QKeyEvent*);

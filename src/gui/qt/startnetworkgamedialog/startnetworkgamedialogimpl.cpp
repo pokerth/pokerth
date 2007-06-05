@@ -29,7 +29,8 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent)
 
 	connect( pushButton_cancel, SIGNAL( clicked() ), this, SLOT( cancel() ) );
 	connect( pushButton_startGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
-
+	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
+	connect( treeWidget, SIGNAL( itemClicked ( QTreeWidgetItem*, int) ), this, SLOT( playerSelected(QTreeWidgetItem*, int) ) );
 }
 
 void startNetworkGameDialogImpl::startGame() {
@@ -57,6 +58,21 @@ void startNetworkGameDialogImpl::removePlayer(QString playerName) {
 	}
 
 	checkPlayerQuantity();
+}
+
+void startNetworkGameDialogImpl::playerSelected(QTreeWidgetItem*, int) {
+
+	pushButton_Kick->setEnabled(TRUE);
+}
+
+void startNetworkGameDialogImpl::kickPlayer() {
+
+	QTreeWidgetItem *item = treeWidget->currentItem();
+	QString playerName = item->text(0);
+// 	kickplayerFunktion(playerName.toStdString());
+
+	pushButton_Kick->setEnabled(FALSE);
+
 }
 
 void startNetworkGameDialogImpl::checkPlayerQuantity() {
