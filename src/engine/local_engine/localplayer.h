@@ -64,10 +64,10 @@ public:
 	int getMySet() const { return mySet;}
 	int getMyLastRelativeSet() const { return myLastRelativeSet; }
 
-	void setMyAction(int theValue) { 
+	void setMyAction(int theValue, bool blind = 0) { 
 		myAction = theValue; 
 		// logging for human player 
-		if(myAction) actualHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
+		if(myAction && !blind) actualHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
 	}
 	int getMyAction() const	{ return myAction; }
 

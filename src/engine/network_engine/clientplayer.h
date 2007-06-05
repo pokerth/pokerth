@@ -62,7 +62,7 @@ public:
 	int getMySet() const { return mySet;}
 	int getMyLastRelativeSet() const { return myLastRelativeSet; }
 
-	void setMyAction(int theValue) { myAction = theValue; }
+	void setMyAction(int theValue, bool blind) { myAction = theValue; }
 	int getMyAction() const	{ return myAction; }
 
 	void setMyButton(int theValue) { myButton = theValue; }

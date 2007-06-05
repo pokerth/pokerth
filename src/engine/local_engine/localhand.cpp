@@ -246,7 +246,8 @@ void LocalHand::assignButtons() {
 			if(playerArray[i]->getMyCash() <= smallBlind) {
 
 				playerArray[i]->setMySet(playerArray[i]->getMyCash());
-				playerArray[i]->setMyAction(6);
+				// 1 to do not log this
+				playerArray[i]->setMyAction(6,1);
 
 			}
 			// sonst
@@ -259,7 +260,8 @@ void LocalHand::assignButtons() {
 			if(playerArray[i]->getMyCash() <= 2*smallBlind) {
 
 				playerArray[i]->setMySet(playerArray[i]->getMyCash());
-				playerArray[i]->setMyAction(6);
+				// 1 to do not log this
+				playerArray[i]->setMyAction(6,1);
 
 			}
 			// sonst
