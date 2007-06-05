@@ -6173,11 +6173,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MyRightTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>myrighttabwidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>MyLeftTabWidget</class>
    <extends>QTabWidget</extends>
    <header>mylefttabwidget.h</header>
@@ -6186,6 +6181,11 @@
    <class>MySetLabel</class>
    <extends>QLabel</extends>
    <header>mysetlabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MyRightTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>myrighttabwidget.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

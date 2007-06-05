@@ -1,9 +1,4 @@
 <RCC>
-    <qresource prefix="/translations" >
-        <file>resources/translations/pokerth_de.qm</file>
-	<file>resources/translations/pokerth_nl.qm</file>
-	<file>resources/translations/pokerth_fr.qm</file>
-    </qresource>
     <qresource prefix="/actions" >
         <file>resources/graphics/actions/action_allin.png</file>
         <file>resources/graphics/actions/action_bet.png</file>
@@ -12,7 +7,29 @@
         <file>resources/graphics/actions/action_fold.png</file>
         <file>resources/graphics/actions/action_raise.png</file>
         <file>resources/graphics/actions/action_set.png</file>
- 	<file>resources/graphics/actions/action_winner.png</file>
+        <file>resources/graphics/actions/action_winner.png</file>
+    </qresource>
+    <qresource prefix="/avatar" >
+        <file>resources/avatar/Chales_Johnson.png</file>
+        <file>resources/avatar/Eli_Hodapp.png</file>
+        <file>resources/avatar/Eli_Hodapp1.png</file>
+        <file>resources/avatar/Hans_Dekker.png</file>
+        <file>resources/avatar/Indigo_Goat.png</file>
+        <file>resources/avatar/Jerry_Daykin.png</file>
+        <file>resources/avatar/Presty.png</file>
+        <file>resources/avatar/The_Marmot.png</file>
+        <file>resources/avatar/William_Holtkamp.png</file>
+        <file>resources/avatar/cr.png</file>
+        <file>resources/avatar/dps.png</file>
+        <file>resources/avatar/ellievanhoutte.png</file>
+        <file>resources/avatar/jarrodtrainique.png</file>
+        <file>resources/avatar/joeltelling.png</file>
+        <file>resources/avatar/loufi.png</file>
+        <file>resources/avatar/riccardodivirgilio.png</file>
+        <file>resources/avatar/riccardodivirgilio1.png</file>
+        <file>resources/avatar/rileyroxx.png</file>
+        <file>resources/avatar/saidanddone.png</file>
+        <file>resources/avatar/scottfeldstein.png</file>
     </qresource>
     <qresource prefix="/cards" >
         <file>resources/graphics/cards/0.png</file>
@@ -70,13 +87,8 @@
         <file>resources/graphics/cards/flipside.png</file>
     </qresource>
     <qresource prefix="/data" >
+        <file>resources/data/flopValues</file>
         <file>resources/data/preflopValues</file>
-	<file>resources/data/flopValues</file>
-    </qresource>
-   <qresource prefix="/sounds" >
-        <file>resources/sounds/dealtwocards.wav</file>
-    	<file>resources/sounds/call.wav</file>
-    	<file>resources/sounds/raise.wav</file>
     </qresource>
     <qresource prefix="/fonts" >
         <file>resources/fonts/VeraBd.ttf</file>
@@ -86,13 +98,13 @@
     </qresource>
     <qresource prefix="/graphics" >
         <file>resources/graphics/1px.png</file>
+        <file>resources/graphics/bigblindPuck.png</file>
         <file>resources/graphics/fileopen16.png</file>
         <file>resources/graphics/handRanking_release.png</file>
-	<file>resources/graphics/toolboxFrameBG.png</file>
-	<file>resources/graphics/logoChip3D.png</file>
-	<file>resources/graphics/windowicon.png</file>
-	<file>resources/graphics/smallblindPuck.png</file>
-	<file>resources/graphics/bigblindPuck.png</file>
+        <file>resources/graphics/logoChip3D.png</file>
+        <file>resources/graphics/smallblindPuck.png</file>
+        <file>resources/graphics/toolboxFrameBG.png</file>
+        <file>resources/graphics/windowicon.png</file>
     </qresource>
     <qresource prefix="/guiv2" >
         <file>resources/guiv2/cardholder_03.png</file>
@@ -109,5 +121,15 @@
         <file>resources/guiv2/playeraction_05.png</file>
         <file>resources/guiv2/playeraction_07.png</file>
         <file>resources/guiv2/table.png</file>
+    </qresource>
+    <qresource prefix="/sounds" >
+        <file>resources/sounds/call.wav</file>
+        <file>resources/sounds/dealtwocards.wav</file>
+        <file>resources/sounds/raise.wav</file>
+    </qresource>
+    <qresource prefix="/translations" >
+        <file>resources/translations/pokerth_de.qm</file>
+        <file>resources/translations/pokerth_fr.qm</file>
+        <file>resources/translations/pokerth_nl.qm</file>
     </qresource>
 </RCC>

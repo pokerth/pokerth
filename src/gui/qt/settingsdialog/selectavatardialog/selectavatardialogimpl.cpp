@@ -50,36 +50,38 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 // 		myItem->setText("PokerTH");
 // 		listWidget->addItem(myItem);
 // 	};
+
+	QStringList avatarList;
+	avatarList << ":avatar/resources/avatar/Chales_Johnson.png";
+        avatarList << ":avatar/resources/avatar/Eli_Hodapp.png";
+        avatarList << ":avatar/resources/avatar/Eli_Hodapp1.png";
+        avatarList << ":avatar/resources/avatar/Hans_Dekker.png";
+        avatarList << ":avatar/resources/avatar/Indigo_Goat.png";
+        avatarList << ":avatar/resources/avatar/Jerry_Daykin.png";
+        avatarList << ":avatar/resources/avatar/Presty.png";
+        avatarList << ":avatar/resources/avatar/The_Marmot.png";
+        avatarList << ":avatar/resources/avatar/William_Holtkamp.png";
+        avatarList << ":avatar/resources/avatar/cr.png";
+        avatarList << ":avatar/resources/avatar/dps.png";
+        avatarList << ":avatar/resources/avatar/ellievanhoutte.png";
+        avatarList << ":avatar/resources/avatar/jarrodtrainique.png";
+        avatarList << ":avatar/resources/avatar/joeltelling.png";
+        avatarList << ":avatar/resources/avatar/loufi.png";
+        avatarList << ":avatar/resources/avatar/riccardodivirgilio.png";
+        avatarList << ":avatar/resources/avatar/riccardodivirgilio1.png";
+        avatarList << ":avatar/resources/avatar/rileyroxx.png";
+        avatarList << ":avatar/resources/avatar/saidanddone.png";
+        avatarList << ":avatar/resources/avatar/scottfeldstein.png";
+
+	int i;
+	for (i=0; i<20; i++) {
+	
 		MyAvatarListItem *myItem = new MyAvatarListItem(listWidget);
-		myItem->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png").scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
-		myItem->setMyLink(":/guiv2/resources/guiv2/genereticAvatar.png");
-		myItem->setText("Avatar 1");
+		myItem->setIcon(QIcon(QPixmap(avatarList.at(i)).scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
+		myItem->setMyLink(avatarList.at(i));
+		myItem->setText(QString("No. ")+QString::number(i+1,10));
 		listWidget->addItem(myItem);
-
-		MyAvatarListItem *myItem1 = new MyAvatarListItem(listWidget);
-		myItem1->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/dealerPuck.png").scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
-		myItem1->setMyLink(":/guiv2/resources/guiv2/dealerPuck.png");
-		myItem1->setText("Avatar 2");
-		listWidget->addItem(myItem1);
-
-		MyAvatarListItem *myItem2 = new MyAvatarListItem(listWidget);
-		myItem2->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/playeraction_03.png").scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
-		myItem2->setMyLink(":/guiv2/resources/guiv2/playeraction_03.png");
-		myItem2->setText("Avatar 3");
-		listWidget->addItem(myItem2);
-	
-		MyAvatarListItem *myItem3 = new MyAvatarListItem(listWidget);
-		myItem3->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/playeraction_05.png").scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
-		myItem3->setMyLink(":/guiv2/resources/guiv2/playeraction_05.png");
-		myItem3->setText("Avatar 4");
-		listWidget->addItem(myItem3);
-
-		MyAvatarListItem *myItem4 = new MyAvatarListItem(listWidget);
-		myItem4->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/playeraction_07.png").scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
-		myItem4->setMyLink(":/guiv2/resources/guiv2/playeraction_07.png");
-		myItem4->setText("Avatar 5");
-		listWidget->addItem(myItem4);
-	
+	}
 
 	connect(groupBox, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox1(bool)));
 	connect(groupBox_2, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox2(bool)));

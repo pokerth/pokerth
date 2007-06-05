@@ -25,4 +25,11 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent)
 
 	 setupUi(this);
 	
+	QPalette myPalette = textBrowser->palette();
+	QColor myColor = myPalette.color(QPalette::Window);
+	myPalette.setColor(QPalette::Base, myColor);
+	textBrowser->setPalette(myPalette);
+	textBrowser_2->setPalette(myPalette);
+	textBrowser_3->setPalette(myPalette);
+	
 }
