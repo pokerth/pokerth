@@ -31,6 +31,8 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent)
 	connect( pushButton_startGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
 	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
 	connect( treeWidget, SIGNAL( itemClicked ( QTreeWidgetItem*, int) ), this, SLOT( playerSelected(QTreeWidgetItem*, int) ) );
+
+	pushButton_Kick->setEnabled(FALSE);
 }
 
 void startNetworkGameDialogImpl::startGame() {
@@ -67,6 +69,7 @@ void startNetworkGameDialogImpl::playerSelected(QTreeWidgetItem*, int) {
 
 void startNetworkGameDialogImpl::kickPlayer() {
 
+// 	if()
 	QTreeWidgetItem *item = treeWidget->currentItem();
 	QString playerName = item->text(0);
 // 	kickplayerFunktion(playerName.toStdString());
