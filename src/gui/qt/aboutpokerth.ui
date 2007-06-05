@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>615</width>
-    <height>324</height>
+    <width>624</width>
+    <height>347</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -104,6 +104,9 @@ p, li { white-space: pre-wrap; }
        </property>
        <item row="0" column="0" >
         <widget class="QTextBrowser" name="textBrowser_2" >
+         <property name="lineWrapMode" >
+          <enum>QTextEdit::NoWrap</enum>
+         </property>
          <property name="html" >
           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
