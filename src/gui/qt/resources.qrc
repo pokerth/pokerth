@@ -10,26 +10,12 @@
         <file>resources/graphics/actions/action_winner.png</file>
     </qresource>
     <qresource prefix="/avatar" >
-        <file>resources/avatar/Chales_Johnson.png</file>
-        <file>resources/avatar/Eli_Hodapp.png</file>
-        <file>resources/avatar/Eli_Hodapp1.png</file>
-        <file>resources/avatar/Hans_Dekker.png</file>
-        <file>resources/avatar/Indigo_Goat.png</file>
-        <file>resources/avatar/Jerry_Daykin.png</file>
-        <file>resources/avatar/Presty.png</file>
-        <file>resources/avatar/The_Marmot.png</file>
-        <file>resources/avatar/William_Holtkamp.png</file>
-        <file>resources/avatar/cr.png</file>
-        <file>resources/avatar/dps.png</file>
-        <file>resources/avatar/ellievanhoutte.png</file>
-        <file>resources/avatar/jarrodtrainique.png</file>
-        <file>resources/avatar/joeltelling.png</file>
-        <file>resources/avatar/loufi.png</file>
-        <file>resources/avatar/riccardodivirgilio.png</file>
-        <file>resources/avatar/riccardodivirgilio1.png</file>
-        <file>resources/avatar/rileyroxx.png</file>
-        <file>resources/avatar/saidanddone.png</file>
-        <file>resources/avatar/scottfeldstein.png</file>
+        <file>resources/avatar/albert_einstein.png</file>
+        <file>resources/avatar/clipart1.png</file>
+        <file>resources/avatar/goethe.png</file>
+        <file>resources/avatar/linus.png</file>
+        <file>resources/avatar/marc.png</file>
+        <file>resources/avatar/mozart.png</file>
     </qresource>
     <qresource prefix="/cards" >
         <file>resources/graphics/cards/0.png</file>

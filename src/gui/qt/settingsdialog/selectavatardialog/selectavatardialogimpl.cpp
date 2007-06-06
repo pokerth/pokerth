@@ -52,29 +52,15 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 // 	};
 
 	QStringList avatarList;
-	avatarList << ":avatar/resources/avatar/Chales_Johnson.png";
-        avatarList << ":avatar/resources/avatar/Eli_Hodapp.png";
-        avatarList << ":avatar/resources/avatar/Eli_Hodapp1.png";
-        avatarList << ":avatar/resources/avatar/Hans_Dekker.png";
-        avatarList << ":avatar/resources/avatar/Indigo_Goat.png";
-        avatarList << ":avatar/resources/avatar/Jerry_Daykin.png";
-        avatarList << ":avatar/resources/avatar/Presty.png";
-        avatarList << ":avatar/resources/avatar/The_Marmot.png";
-        avatarList << ":avatar/resources/avatar/William_Holtkamp.png";
-        avatarList << ":avatar/resources/avatar/cr.png";
-        avatarList << ":avatar/resources/avatar/dps.png";
-        avatarList << ":avatar/resources/avatar/ellievanhoutte.png";
-        avatarList << ":avatar/resources/avatar/jarrodtrainique.png";
-        avatarList << ":avatar/resources/avatar/joeltelling.png";
-        avatarList << ":avatar/resources/avatar/loufi.png";
-        avatarList << ":avatar/resources/avatar/riccardodivirgilio.png";
-        avatarList << ":avatar/resources/avatar/riccardodivirgilio1.png";
-        avatarList << ":avatar/resources/avatar/rileyroxx.png";
-        avatarList << ":avatar/resources/avatar/saidanddone.png";
-        avatarList << ":avatar/resources/avatar/scottfeldstein.png";
+	avatarList << ":avatar/resources/avatar/albert_einstein.png";
+	avatarList << ":avatar/resources/avatar/goethe.png";
+	avatarList << ":avatar/resources/avatar/linus.png";
+	avatarList << ":avatar/resources/avatar/mozart.png";
+	avatarList << ":avatar/resources/avatar/marc.png";
+	avatarList << ":avatar/resources/avatar/clipart1.png";
 
 	int i;
-	for (i=0; i<20; i++) {
+	for (i=0; i<avatarList.size(); i++) {
 	
 		MyAvatarListItem *myItem = new MyAvatarListItem(listWidget);
 		myItem->setIcon(QIcon(QPixmap(avatarList.at(i)).scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
