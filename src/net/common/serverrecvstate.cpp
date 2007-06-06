@@ -454,6 +454,42 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 	if (newRound != curRound)
 	{
 		assert(newRound > curRound);
+
+		if (curGame.getCurrentHand()->getAllInCondition()
+			&& !curGame.getCurrentHand()->getCardsShown())
+		{
+			// Retrieve active players. If only one player is left, no cards are shown.
+			std::list<PlayerInterface *> activePlayers = GetActivePlayers(curGame);
+			assert(!activePlayers.empty());
+			if (activePlayers.size() > 1)
+			{
+				// Send cards of all active players to all players (all in).
+				boost::shared_ptr<NetPacket> allIn(new NetPacketAllInShowCards);
+				NetPacketAllInShowCards::Data allInData;
+
+				std::list<PlayerInterface *>::iterator i = activePlayers.begin();
+				std::list<PlayerInterface *>::iterator end = activePlayers.end();
+
+				while (i != end)
+				{
+					NetPacketAllInShowCards::PlayerCards tmpPlayerCards;
+					tmpPlayerCards.playerId = (*i)->getMyUniqueID();
+
+					int tmpCards[2];
+					(*i)->getMyCards(tmpCards);
+					tmpPlayerCards.cards[0] = static_cast<u_int16_t>(tmpCards[0]);
+					tmpPlayerCards.cards[1] = static_cast<u_int16_t>(tmpCards[1]);
+
+					allInData.playerCards.push_back(tmpPlayerCards);
+					++i;
+				}
+				static_cast<NetPacketAllInShowCards *>(allIn.get())->SetData(allInData);
+				server.SendToAllPlayers(allIn);
+
+				curGame.getCurrentHand()->setCardsShown(true);
+			}
+		}
+
 		SendNewRoundCards(server, curGame, newRound);
 
 		boost::microsec_timer delayTimer;
@@ -466,47 +502,35 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 	{
 		if (newRound != GAME_STATE_POST_RIVER) // continue hand
 		{
-			if (!curGame.getCurrentHand()->getAllInCondition())
-			{
-				// Retrieve current player.
-				PlayerInterface *curPlayer = GetCurrentPlayer(curGame);
-				assert(curPlayer); // TODO throw exception
-				assert(curPlayer->getMyActiveStatus()); // TODO throw exception
+			assert (!curGame.getCurrentHand()->getAllInCondition()); // this would be an error.
 
-				boost::shared_ptr<NetPacket> notification(new NetPacketPlayersTurn);
-				NetPacketPlayersTurn::Data playersTurnData;
-				playersTurnData.gameState = (GameState)curGame.getCurrentHand()->getActualRound();
-				playersTurnData.playerId = curPlayer->getMyUniqueID();
-				static_cast<NetPacketPlayersTurn *>(notification.get())->SetData(playersTurnData);
+			// Retrieve current player.
+			PlayerInterface *curPlayer = GetCurrentPlayer(curGame);
+			assert(curPlayer); // TODO throw exception
+			assert(curPlayer->getMyActiveStatus()); // TODO throw exception
 
-				server.SendToAllPlayers(notification);
+			boost::shared_ptr<NetPacket> notification(new NetPacketPlayersTurn);
+			NetPacketPlayersTurn::Data playersTurnData;
+			playersTurnData.gameState = (GameState)curGame.getCurrentHand()->getActualRound();
+			playersTurnData.playerId = curPlayer->getMyUniqueID();
+			static_cast<NetPacketPlayersTurn *>(notification.get())->SetData(playersTurnData);
 
-				server.SetState(ServerRecvStateWaitPlayerAction::Instance());
+			server.SendToAllPlayers(notification);
 
-				retVal = MSG_NET_GAME_SERVER_ROUND;
-			}
+			server.SetState(ServerRecvStateWaitPlayerAction::Instance());
+
+			retVal = MSG_NET_GAME_SERVER_ROUND;
 		}
 		else // hand is over
 		{
 			// Let the engine find out the winner(s).
 			curGame.getCurrentHand()->getRiver()->postRiverRun();
 
-			// Count active players. If only one player is left, no cards are shown.
-			int activePlayersCounter = 0;
-			std::list<PlayerInterface *> activePlayers;
-			for (int i = 0; i < curGame.getStartQuantityPlayers() ; i++)
-			{ 
-				if (curGame.getPlayerArray()[i]->getMyActiveStatus()
-					&& curGame.getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD)
-				{
-					activePlayersCounter++;
-					activePlayers.push_back(curGame.getPlayerArray()[i]);
-				}
-			}
-			assert(activePlayersCounter);
+			// Retrieve active players. If only one player is left, no cards are shown.
+			std::list<PlayerInterface *> activePlayers = GetActivePlayers(curGame);
 			assert(!activePlayers.empty());
 
-			if (activePlayersCounter == 1)
+			if (activePlayers.size() == 1)
 			{
 				// End of Hand, but keep cards hidden.
 				PlayerInterface *player = activePlayers.front();
@@ -644,6 +668,21 @@ ServerRecvStateStartRound::SendNewRoundCards(ServerRecvThread &server, Game &cur
 			// 
 		}
 	}
+}
+
+std::list<PlayerInterface *>
+ServerRecvStateStartRound::GetActivePlayers(Game &curGame)
+{
+	std::list<PlayerInterface *> activePlayers;
+	for (int i = 0; i < curGame.getStartQuantityPlayers() ; i++)
+	{ 
+		if (curGame.getPlayerArray()[i]->getMyActiveStatus()
+			&& curGame.getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD)
+		{
+			activePlayers.push_back(curGame.getPlayerArray()[i]);
+		}
+	}
+	return activePlayers;
 }
 
 //-----------------------------------------------------------------------------

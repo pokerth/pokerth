@@ -158,6 +158,7 @@ protected:
 
 	static void GameRun(Game &curGame);
 	static void SendNewRoundCards(ServerRecvThread &server, Game &curGame, int state);
+	static std::list<PlayerInterface *> GetActivePlayers(Game &curGame);
 };
 
 // State: Wait for a player action.

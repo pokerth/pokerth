@@ -46,39 +46,41 @@ public:
 	RiverInterface* getRiver() const { return myRiver; }
 	GuiInterface* getGuiInterface() const { return myGui; }
 
-	void setMyID(const int& theValue) { myID = theValue; }
+	void setMyID(int theValue) { myID = theValue; }
 	int getMyID() const { return myID; }
 	
-	void setActualQuantityPlayers(const int& theValue) { actualQuantityPlayers = theValue; }
+	void setActualQuantityPlayers(int theValue) { actualQuantityPlayers = theValue; }
 	int getActualQuantityPlayers() const { return actualQuantityPlayers; }
 
-	void setStartQuantityPlayers(const int& theValue) { startQuantityPlayers = theValue; }
+	void setStartQuantityPlayers(int theValue) { startQuantityPlayers = theValue; }
 	int getStartQuantityPlayers() const { return startQuantityPlayers; }
 
-	void setActualRound(const int& theValue) { actualRound = theValue; }
+	void setActualRound(int theValue) { actualRound = theValue; }
 	int getActualRound() const { return actualRound; }
 
-	void setDealerPosition(const int& theValue) { dealerPosition = theValue; }
+	void setDealerPosition(int theValue) { dealerPosition = theValue; }
 	int getDealerPosition() const { return dealerPosition; }
 
-	void setSmallBlind(const int& theValue) { smallBlind = theValue; }
+	void setSmallBlind(int theValue) { smallBlind = theValue; }
 	int getSmallBlind() const { return smallBlind; }
 
 	void setAllInCondition(bool theValue) { allInCondition = theValue; }
 	bool getAllInCondition() const { return allInCondition; }
 
-	void setStartCash(const int& theValue)	{ startCash = theValue; }
+	void setStartCash(int theValue)	{ startCash = theValue; }
 	int getStartCash() const { return startCash;	}
 
-	void setActivePlayersCounter(const int& theValue) { activePlayersCounter = theValue; }
+	void setActivePlayersCounter(int theValue) { activePlayersCounter = theValue; }
 	int getActivePlayersCounter() const { return activePlayersCounter; }
 	
-	void setBettingRoundsPlayed(const int& theValue) { bettingRoundsPlayed = theValue; }
+	void setBettingRoundsPlayed(int theValue) { bettingRoundsPlayed = theValue; }
 	int getBettingRoundsPlayed() const { return bettingRoundsPlayed; }
 
-	void setLastPlayersTurn(const int& theValue) { lastPlayersTurn = theValue; }
+	void setLastPlayersTurn(int theValue) { lastPlayersTurn = theValue; }
 	int getLastPlayersTurn() const { return lastPlayersTurn; }
 
+	void setCardsShown(bool theValue) { cardsShown = theValue; }
+	bool getCardsShown() const { return cardsShown; }
 
 	void assignButtons();
 
@@ -108,6 +110,7 @@ private:
 	int lastPlayersTurn;
 
 	bool allInCondition;
+	bool cardsShown;
 
 	// hier steht bis zu welcher bettingRound der human player gespielt hat: 0 - nur Preflop, 1 - bis Flop, ...
 	int bettingRoundsPlayed;

@@ -700,6 +700,30 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 			client.GetGui().dealRiverCard();
 		}
+		else if (packet->ToNetPacketAllInShowCards())
+		{
+			NetPacketAllInShowCards::Data allInData;
+			packet->ToNetPacketAllInShowCards()->GetData(allInData);
+
+			NetPacketAllInShowCards::PlayerCardsList::const_iterator i
+				= allInData.playerCards.begin();
+			NetPacketAllInShowCards::PlayerCardsList::const_iterator end
+				= allInData.playerCards.end();
+
+			while (i != end)
+			{
+				PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId((*i).playerId);
+				if (!tmpPlayer)
+					throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+
+				int tmpCards[2];
+				tmpCards[0] = static_cast<int>((*i).cards[0]);
+				tmpCards[1] = static_cast<int>((*i).cards[1]);
+				tmpPlayer->setMyCards(tmpCards);
+				++i;
+			}
+			client.GetGui().flipHolecardsAllIn();
+		}
 		else if (packet->ToNetPacketEndOfHandHideCards())
 		{
 			// End of Hand, but keep cards hidden.

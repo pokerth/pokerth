@@ -43,38 +43,41 @@ public:
 	virtual RiverInterface* getRiver() const =0;
 	virtual GuiInterface* getGuiInterface() const =0;
 
-	virtual void setMyID(const int& theValue) =0;
+	virtual void setMyID(int theValue) =0;
 	virtual int getMyID() const =0;
 	
-	virtual void setActualQuantityPlayers(const int& theValue) =0;
+	virtual void setActualQuantityPlayers(int theValue) =0;
 	virtual int getActualQuantityPlayers() const =0;
 
-	virtual void setStartQuantityPlayers(const int& theValue) =0;
+	virtual void setStartQuantityPlayers(int theValue) =0;
 	virtual int getStartQuantityPlayers() const =0;
 
-	virtual void setActualRound(const int& theValue) =0;
+	virtual void setActualRound(int theValue) =0;
 	virtual int getActualRound() const =0;
 
-	virtual void setDealerPosition(const int& theValue) =0;
+	virtual void setDealerPosition(int theValue) =0;
 	virtual int getDealerPosition() const =0;
 
-	virtual void setSmallBlind(const int& theValue) =0;
+	virtual void setSmallBlind(int theValue) =0;
 	virtual int getSmallBlind() const =0;
 
 	virtual void setAllInCondition(bool theValue) =0;
 	virtual bool getAllInCondition() const =0;
 
-	virtual void setStartCash(const int& theValue) =0;
+	virtual void setStartCash(int theValue) =0;
 	virtual int getStartCash() const =0;
 
-	virtual void setActivePlayersCounter(const int& theValue) =0;
+	virtual void setActivePlayersCounter(int theValue) =0;
 	virtual int getActivePlayersCounter() const =0;
 
-	virtual void setBettingRoundsPlayed(const int& theValue) =0;
+	virtual void setBettingRoundsPlayed(int theValue) =0;
 	virtual int getBettingRoundsPlayed() const =0;
 
-	virtual void setLastPlayersTurn(const int& theValue) =0;
+	virtual void setLastPlayersTurn(int theValue) =0;
 	virtual int getLastPlayersTurn() const =0;
+
+	virtual void setCardsShown(bool theValue) =0;
+	virtual bool getCardsShown() const =0;
 
 	virtual void switchRounds() =0;
 
