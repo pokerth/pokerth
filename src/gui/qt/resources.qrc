@@ -16,6 +16,7 @@
         <file>resources/avatar/linus.png</file>
         <file>resources/avatar/marc.png</file>
         <file>resources/avatar/mozart.png</file>
+	<file>resources/avatar/bach.png</file>
     </qresource>
     <qresource prefix="/cards" >
         <file>resources/graphics/cards/0.png</file>

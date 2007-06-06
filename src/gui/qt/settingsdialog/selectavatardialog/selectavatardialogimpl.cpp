@@ -53,11 +53,13 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 
 	QStringList avatarList;
 	avatarList << ":avatar/resources/avatar/albert_einstein.png";
-	avatarList << ":avatar/resources/avatar/goethe.png";
 	avatarList << ":avatar/resources/avatar/linus.png";
 	avatarList << ":avatar/resources/avatar/mozart.png";
+	avatarList << ":avatar/resources/avatar/bach.png";
+	avatarList << ":avatar/resources/avatar/goethe.png";
 	avatarList << ":avatar/resources/avatar/marc.png";
 	avatarList << ":avatar/resources/avatar/clipart1.png";
+
 
 	int i;
 	for (i=0; i<avatarList.size(); i++) {
