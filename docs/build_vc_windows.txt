@@ -1,0 +1,47 @@
+These are the instructions to compile PokerTH on Windows using MSVC Express Edition.
+
+1. Get and install MSVC 2005 Express Edition (English version is strongly recommended).
+
+2. Get and install Service Pack 1 for MSVC 2005 Express Edition
+
+3. Get and install a QT related Hotfix for MSVC 2005 SP1:
+http://hotfix.xable.net/download
+English - Visual Studio 2005 - VS80sp1-KB930859-X86-ENU.exe
+
+More information on this:
+http://support.microsoft.com/kb/930198
+
+4. Get and install a new Microsoft Platform SDK
+
+This step can be left out if you use MSVC 2005 Professional instead of the Express Edition.
+
+For example this version:
+[about 1 GB download, sorry I cannot tell you which packages are required]
+http://www.microsoft.com/downloads/details.aspx?FamilyID=c2b1e300-f358-4523-b479-f53d234cdccf&DisplayLang=en
+Update (not required):
+http://www.microsoft.com/downloads/details.aspx?familyid=FF6467E6-5BBA-4BF5-B562-9199BE864D29&displaylang=en
+
+5. Get open source QT 4.2.3 from Trolltech and the MSVC patch from the Sourceforge page:
+
+http://sourceforge.net/projects/qtwin
+
+6. Apply the patch and compile QT, make sure you set the proper environment variables.
+These pages might help:
+http://qtnode.net/wiki/Qt4_with_Visual_Studio
+http://321soft.de/321soft/iframe.php?inhalt=qttut [German only]
+
+7. Get boost and bjam and compile boost
+
+Now the worst part:
+8. Get and compile(!) (do not use precompiled version) SDL and SDL_mixer
+(this is a bit tricky, contact me for binaries if you wish)
+
+9. Run
+qmake -tp vc
+in the pokerth directory
+
+10. Open the vcproj file, and Build All.
+
+
+
+2007 by Lothar May
