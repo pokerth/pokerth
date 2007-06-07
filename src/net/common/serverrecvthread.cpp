@@ -82,10 +82,10 @@ ServerRecvThread::AddConnection(boost::shared_ptr<ConnectData> data)
 }
 
 void
-ServerRecvThread::AddNotification(unsigned message, unsigned param1, unsigned param2)
+ServerRecvThread::AddNotification(unsigned message, const string &param)
 {
 	boost::mutex::scoped_lock lock(m_notificationQueueMutex);
-	m_notificationQueue.push_back(Notification(message, param1, param2));
+	m_notificationQueue.push_back(Notification(message, param));
 }
 
 void
@@ -144,6 +144,9 @@ ServerRecvThread::NotificationLoop()
 		{
 			case NOTIFY_GAME_START:
 				InternalStartGame();
+				break;
+			case NOTIFY_KICK_PLAYER:
+				InternalKickPlayer(notification.param);
 				break;
 		}
 	}
@@ -287,16 +290,55 @@ ServerRecvThread::InternalStartGame()
 	m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), m_curGameId++));
 }
 
+void
+ServerRecvThread::InternalKickPlayer(const string playerName)
+{
+	if (!playerName.empty())
+	{
+		SessionWrapper tmpSession = GetSession(playerName);
+
+		SessionError(tmpSession, ERR_NET_PLAYER_KICKED);
+	}
+}
+
 SessionWrapper
-ServerRecvThread::GetSession(SOCKET sock)
+ServerRecvThread::GetSession(SOCKET sock) const
 {
 	SessionWrapper tmpSession;
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);
 
-	SocketSessionMap::iterator pos = m_sessionMap.find(sock);
+	SocketSessionMap::const_iterator pos = m_sessionMap.find(sock);
 	if (pos != m_sessionMap.end())
 	{
 		tmpSession = pos->second;
+	}
+	return tmpSession;
+}
+
+SessionWrapper
+ServerRecvThread::GetSession(const string playerName) const
+{
+	SessionWrapper tmpSession;
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SocketSessionMap::const_iterator session_i = m_sessionMap.begin();
+	SocketSessionMap::const_iterator session_end = m_sessionMap.end();
+
+	while (session_i != session_end)
+	{
+		// Check all players which are fully connected.
+		if (session_i->second.sessionData->GetState() == SessionData::Established)
+		{
+			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
+			assert(tmpPlayer.get());
+			if (tmpPlayer->GetName() == playerName)
+			{
+				tmpSession = session_i->second;
+				break;
+			}
+		}
+
+		++session_i;
 	}
 	return tmpSession;
 }
@@ -415,25 +457,15 @@ ServerRecvThread::GetCurNumberOfPlayers() const
 }
 
 bool
-ServerRecvThread::IsPlayerConnected(const std::string &playerName) const
+ServerRecvThread::IsPlayerConnected(const string &playerName) const
 {
 	bool retVal = false;
-	PlayerDataList playerList = GetPlayerDataList();
 
-	PlayerDataList::const_iterator player_i = playerList.begin();
-	PlayerDataList::const_iterator player_end = playerList.end();
+	SessionWrapper tmpSession = GetSession(playerName);
 
-	// Check by name - the name is unique.
-	while (player_i != player_end)
-	{
-		if ((*player_i)->GetName() == playerName)
-		{
-			retVal = true;
-			break;
-		}
+	if (tmpSession.sessionData.get() && tmpSession.playerData.get())
+		retVal = true;
 
-		++player_i;
-	}
 	return retVal;
 }
 
@@ -612,7 +644,7 @@ ServerRecvThread::SetStartData(const StartData &startData)
 }
 
 bool
-ServerRecvThread::CheckPassword(const std::string &password) const
+ServerRecvThread::CheckPassword(const string &password) const
 {
 	return (password == m_password);
 }

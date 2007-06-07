@@ -59,6 +59,7 @@ using namespace std;
 #define NET_ERR_JOIN_GAME_INVALID_PLAYER_NAME	0x0006
 #define NET_ERR_GENERAL_INVALID_PACKET			0xFF01
 #define NET_ERR_GENERAL_INVALID_STATE			0xFF02
+#define NET_ERR_GENERAL_PLAYER_KICKED			0xFF03
 #define NET_ERR_OTHER							0xFFFF
 
 #ifdef _MSC_VER
@@ -2111,6 +2112,9 @@ NetPacketError::SetData(const NetPacketError::Data &inData)
 		case ERR_SOCK_INVALID_STATE :
 			tmpData->reason = htons(NET_ERR_GENERAL_INVALID_STATE);
 			break;
+		case ERR_NET_PLAYER_KICKED :
+			tmpData->reason = htons(NET_ERR_GENERAL_PLAYER_KICKED);
+			break;
 		default :
 			tmpData->reason = htons(NET_ERR_OTHER);
 			break;
@@ -2150,6 +2154,9 @@ NetPacketError::GetData(NetPacketError::Data &outData) const
 			break;
 		case NET_ERR_GENERAL_INVALID_STATE :
 			outData.errorCode = ERR_SOCK_INVALID_STATE;
+			break;
+		case NET_ERR_GENERAL_PLAYER_KICKED :
+			outData.errorCode = ERR_NET_PLAYER_KICKED;
 			break;
 		default :
 			outData.errorCode = ERR_SOCK_INTERNAL;

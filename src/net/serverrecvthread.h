@@ -38,6 +38,7 @@
 
 // Notifications
 #define NOTIFY_GAME_START				1
+#define NOTIFY_KICK_PLAYER				2
 
 class ServerRecvState;
 class SenderThread;
@@ -66,7 +67,7 @@ public:
 	void Init(const std::string &pwd, const GameData &gameData);
 
 	void AddConnection(boost::shared_ptr<ConnectData> data);
-	void AddNotification(unsigned message, unsigned param1, unsigned param2);
+	void AddNotification(unsigned message, const std::string &param);
 
 	ServerCallback &GetCallback();
 
@@ -78,11 +79,10 @@ protected:
 
 	struct Notification
 	{
-		Notification(unsigned m, unsigned p1, unsigned p2)
-			: message(m), param1(p1), param2(p2) {}
+		Notification(unsigned m, std::string p)
+			: message(m), param(p) {}
 		unsigned message;
-		unsigned param1;
-		unsigned param2;
+		std::string param;
 	};
 
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
@@ -103,8 +103,10 @@ protected:
 	void CleanupSessionMap();
 
 	void InternalStartGame();
+	void InternalKickPlayer(const std::string playerName);
 
-	SessionWrapper GetSession(SOCKET sock);
+	SessionWrapper GetSession(SOCKET sock) const;
+	SessionWrapper GetSession(const std::string playerName) const;
 	void AddSession(boost::shared_ptr<SessionData> sessionData); // new Sessions have no player data
 	void SessionError(SessionWrapper session, int errorCode);
 	void RejectNewConnection(boost::shared_ptr<ConnectData> connData);

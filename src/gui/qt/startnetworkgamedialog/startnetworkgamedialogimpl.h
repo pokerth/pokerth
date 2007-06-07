@@ -31,7 +31,7 @@ class ConfigFile;
 class startNetworkGameDialogImpl: public QDialog, public Ui::startNetworkGameDialog {
 Q_OBJECT
 public:
-    startNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *config = 0, Session *session = 0);
+    startNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *config = 0);
 
 public slots:
 
@@ -42,6 +42,8 @@ public slots:
 	void playerSelected(QTreeWidgetItem*, int);
 	void kickPlayer();
 	void checkPlayerQuantity();
+
+	void setSession(Session *session);
 
 	void keyPressEvent ( QKeyEvent*);
 

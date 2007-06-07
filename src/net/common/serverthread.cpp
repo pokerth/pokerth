@@ -28,6 +28,7 @@
 #define ACCEPT_TIMEOUT_MSEC			50
 #define NET_SERVER_LISTEN_BACKLOG	5
 
+using namespace std;
 
 ServerThread::ServerThread(GuiInterface &gui, ConfigFile *config)
 : m_gui(gui)
@@ -63,7 +64,17 @@ ServerThread::StartGame()
 		return; // TODO: throw exception
 
 	// Thread-safe notification.
-	GetRecvThread().AddNotification(NOTIFY_GAME_START, 0, 0);
+	GetRecvThread().AddNotification(NOTIFY_GAME_START, "");
+}
+
+void
+ServerThread::KickPlayer(const string &playerName)
+{
+	if (!IsRunning())
+		return; // TODO: throw exception
+
+	// Thread-safe notification.
+	GetRecvThread().AddNotification(NOTIFY_KICK_PLAYER, playerName);
 }
 
 ServerCallback &

@@ -385,6 +385,7 @@ Error Reason:
 	0x0006 - Join Game - Invalid Player Name
 	0xFF01 - General Error - Invalid packet
 	0xFF02 - General Error - Invalid state
+	0xFF03 - General Error - Kicked from the server
 	0xFFFF - Other reason
 
 

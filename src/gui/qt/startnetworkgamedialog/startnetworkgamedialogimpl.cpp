@@ -21,12 +21,10 @@
 #include "session.h"
 #include "configfile.h"
 
-startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFile *config, Session *session)
-      : QDialog(parent), myConfig(config), mySession(session)
+startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFile *config)
+      : QDialog(parent), myConfig(config)
 {
-	assert(mySession);
-
-    setupUi(this);
+	setupUi(this);
 
 	connect( pushButton_cancel, SIGNAL( clicked() ), this, SLOT( cancel() ) );
 	connect( pushButton_startGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
@@ -81,7 +79,8 @@ void startNetworkGameDialogImpl::kickPlayer() {
 					QMessageBox::Close); }
 		}
 		else {
-	// 		kickplayerFunktion(playerName.toStdString());
+			assert(mySession);
+			mySession->kickPlayer(playerName.toUtf8().constData());
 		}
 	}
 	pushButton_Kick->setEnabled(FALSE);
@@ -92,6 +91,11 @@ void startNetworkGameDialogImpl::checkPlayerQuantity() {
 	if(treeWidget->topLevelItemCount() == maxPlayerNumber) pushButton_startGame->setEnabled(TRUE);
 	else pushButton_startGame->setDisabled(TRUE);
 
+}
+
+void startNetworkGameDialogImpl::setSession(Session *session)
+{
+	mySession = session;
 }
 
 void startNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {

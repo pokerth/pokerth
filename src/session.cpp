@@ -203,10 +203,21 @@ void Session::sendClientPlayerAction()
 	myNetClient->SendPlayerAction();
 }
 
-void Session::sendChatMessage(const std::string &message) {
+void Session::sendChatMessage(const std::string &message)
+{
 	if (!myNetClient)
 		return; // only act if client is running.
 	myNetClient->SendChatMessage(message);
+}
+
+void Session::kickPlayer(const std::string &playerName)
+{
+	if (!myNetServer)
+	{
+		assert(false);
+		return;
+	}
+	myNetServer->KickPlayer(playerName);
 }
 
 bool Session::isNetworkClientRunning() const

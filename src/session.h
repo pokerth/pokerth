@@ -59,6 +59,7 @@ public:
 	int getCurrentGameID() const { return currentGameID; }
 
 	void sendChatMessage(const std::string &message);
+	void kickPlayer(const std::string &playerName);
 
 	bool isNetworkClientRunning() const; // TODO hack
 

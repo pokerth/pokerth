@@ -444,8 +444,6 @@ void Log::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int card
 
 void Log::logPlayerLeftMsg(QString playerName) {
 
-	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
-	
 	myW->textBrowser_Log->append( "<i>"+playerName+" has left the game!</i>");
 	
 	if(myConfig->readConfigInt("LogOnOff")) {

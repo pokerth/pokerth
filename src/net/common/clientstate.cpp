@@ -379,7 +379,15 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 
 	if (tmpPacket.get())
 	{
-		if (tmpPacket->ToNetPacketChatText())
+		if (tmpPacket->ToNetPacketError())
+		{
+			// Server reported an error.
+			NetPacketError::Data errorData;
+			tmpPacket->ToNetPacketError()->GetData(errorData);
+			// Show the error.
+			throw ClientException(errorData.errorCode, 0);
+		}
+		else if (tmpPacket->ToNetPacketChatText())
 		{
 			// Chat message - display it in the GUI.
 			NetPacketChatText::Data chatData;
@@ -463,14 +471,6 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 
 		client.SetState(ClientStateWaitGame::Instance());
 		retVal = MSG_SOCK_SESSION_DONE;
-	}
-	else if (packet->ToNetPacketError())
-	{
-		// Server reported an error.
-		NetPacketError::Data errorData;
-		packet->ToNetPacketError()->GetData(errorData);
-		// Show the error.
-		throw ClientException(errorData.errorCode, 0);
 	}
 
 	return retVal;

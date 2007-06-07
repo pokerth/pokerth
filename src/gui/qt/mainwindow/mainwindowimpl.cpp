@@ -720,6 +720,7 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 // 		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
 		gameData.guiSpeed = 4;
 
+		myStartNetworkGameDialog->setSession(&myServerGuiInterface->getSession());
 		myStartNetworkGameDialog->treeWidget->clear();
 
 		myServerGuiInterface->getSession().startNetworkServer(gameData);
@@ -2480,6 +2481,11 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 		case ERR_NET_UNKNOWN_PLAYER_ID:
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("The server referred to an unknown player. Aborting."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_PLAYER_KICKED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("You were kicked from the server."),
 				QMessageBox::Close); }
 		break;
 		default:  { QMessageBox::warning(this, tr("Network Error"),
