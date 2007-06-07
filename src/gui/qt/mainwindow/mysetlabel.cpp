@@ -57,9 +57,9 @@ void MySetLabel::nextTimeOutAnimationFrame() {
 		update();
 	}	
 	else { 
-		stopTimeOutAnimation();	
-		//callback
-		myW->userActionTimeOutReached();
+		stopTimeOutAnimation();
+		// no callback is called here.
+		// the server initiates any action required.
 	}
 }
 

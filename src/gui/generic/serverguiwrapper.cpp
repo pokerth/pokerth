@@ -89,6 +89,8 @@ void ServerGuiWrapper::flipHolecardsAllIn() {}
 void ServerGuiWrapper::nextRoundCleanGui() {}
 
 void ServerGuiWrapper::meInAction() {}
+void ServerGuiWrapper::startTimeoutAnimation(int playerId, int timeoutSec) {}
+void ServerGuiWrapper::stopTimeoutAnimation(int playerId) {}
 
 void ServerGuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) {}
 void ServerGuiWrapper::logNewGameHandMsg(int gameID, int handID) {}

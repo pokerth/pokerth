@@ -26,12 +26,13 @@
 struct GameData
 {
 	GameData() : numberOfPlayers(0), startMoney(0), smallBlind(0),
-		handsBeforeRaise(1), guiSpeed(4) {}
+		handsBeforeRaise(1), guiSpeed(4), playerActionTimeoutSec(20) {}
 	int numberOfPlayers;
 	int startMoney;
 	int smallBlind;
 	int handsBeforeRaise;
 	int guiSpeed;
+	int playerActionTimeoutSec;
 };
 
 struct StartData

@@ -87,6 +87,8 @@ void GuiWrapper::flipHolecardsAllIn() { myW->signalFlipHolecardsAllIn(); }
 void GuiWrapper::nextRoundCleanGui() { myW->signalNextRoundCleanGui(); }
 
 void GuiWrapper::meInAction() { myW->signalMeInAction(); }
+void GuiWrapper::startTimeoutAnimation(int playerId, int timeoutSec) { myW->signalStartTimeoutAnimation(playerId, timeoutSec); }
+void GuiWrapper::stopTimeoutAnimation(int playerId) { myW->signalStopTimeoutAnimation(playerId); }
 
 void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) { myLog->signalLogPlayerActionMsg(QString::fromUtf8(playerName.c_str()), action, setValue); }
 void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->signalLogNewGameHandMsg(gameID, handID); }

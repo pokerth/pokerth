@@ -80,6 +80,8 @@ public:
 	void nextRoundCleanGui();
 
 	void meInAction();
+	void startTimeoutAnimation(int playerId, int timeoutSec);
+	void stopTimeoutAnimation(int playerId);
 
 	void logPlayerActionMsg(std::string playerName, int action, int setValue) ;
 	void logNewGameHandMsg(int gameID, int handID) ;

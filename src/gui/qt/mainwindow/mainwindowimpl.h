@@ -86,6 +86,8 @@ signals:
 	void signalRefreshGameLabels(int);
 
 	void signalMeInAction();
+	void signalStartTimeoutAnimation(int playerId, int timeoutSec);
+	void signalStopTimeoutAnimation(int playerId);
 
 	void signalDealHoleCards();
 	void signalDealFlopCards0();
@@ -151,6 +153,9 @@ public slots:
 	void callSettingsDialog();
 	void callCreateNetworkGameDialog();
 	void callJoinNetworkGameDialog();
+
+	void startTimeoutAnimation(int playerId, int timoutSec);
+	void stopTimeoutAnimation(int playerId);
 
 	void myBetRaise();
 	void myFoldAllin();
@@ -251,8 +256,6 @@ public slots:
 	void localGameModification();
 	void networkGameModification();
 
-	void userActionTimeOutReached();
-	
 	void quitPokerTH();
 
 private: 

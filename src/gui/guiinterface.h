@@ -82,7 +82,8 @@ public:
 // 	virtual void userWidgetsBackgroudColor() const=0;
 // 	virtual void timerBlockerFalse() const=0;
 	virtual void meInAction()=0;
-
+	virtual void startTimeoutAnimation(int playerId, int timeoutSec) =0;
+	virtual void stopTimeoutAnimation(int playerId) =0;
 
 	//log.cpp
 	virtual void logPlayerActionMsg(std::string playName, int action, int setValue) =0;

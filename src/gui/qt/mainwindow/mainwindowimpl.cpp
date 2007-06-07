@@ -585,6 +585,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalRefreshGameLabels(int)), this, SLOT(refreshGameLabels(int)));
 
 	connect(this, SIGNAL(signalMeInAction()), this, SLOT(meInAction()));
+	connect(this, SIGNAL(signalStartTimeoutAnimation(int, int)), this, SLOT(startTimeoutAnimation(int, int)));
+	connect(this, SIGNAL(signalStopTimeoutAnimation(int)), this, SLOT(stopTimeoutAnimation(int)));
 
 	connect(this, SIGNAL(signalDealHoleCards()), this, SLOT(dealHoleCards()));
 	connect(this, SIGNAL(signalDealFlopCards0()), this, SLOT(dealFlopCards0()));
@@ -719,6 +721,7 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		//temporarely static until ai is enabled in network
 // 		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
 		gameData.guiSpeed = 4;
+		gameData.playerActionTimeoutSec = myCreateNetworkGameDialog->spinBox_netTimeOutPlayerAction->value();
 
 		myStartNetworkGameDialog->setSession(&myServerGuiInterface->getSession());
 		myStartNetworkGameDialog->treeWidget->clear();
@@ -1500,6 +1503,16 @@ void mainWindowImpl::meInAction() {
 	}
 }
 
+void mainWindowImpl::startTimeoutAnimation(int playerId, int timeoutSec) {
+	assert(playerId >= 0 && playerId < mySession->getCurrentGame()->getStartQuantityPlayers());
+	setLabelArray[playerId]->startTimeOutAnimation(timeoutSec);
+}
+
+void mainWindowImpl::stopTimeoutAnimation(int playerId) {
+	assert(playerId >= 0 && playerId < mySession->getCurrentGame()->getStartQuantityPlayers());
+	setLabelArray[playerId]->stopTimeOutAnimation();
+}
+
 void mainWindowImpl::disableMyButtons() {
 
 	//clear userWidgets
@@ -1757,15 +1770,6 @@ void mainWindowImpl::myAllIn(){
 	//Spiel läuft weiter
 	myActionDone();
 }
-
-void mainWindowImpl::userActionTimeOutReached() {
-
-	//TODO
-// 	automatic check, fold
-	cout << "timeoutaction" << endl;
-
-}
-
 
 void mainWindowImpl::myActionDone() {
 
@@ -2514,8 +2518,6 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F3) { pushButton_BetRaise->click(); } 
 	if (event->key() == Qt::Key_F10) { switchLeftToolBox(); } 
 	if (event->key() == Qt::Key_F11) { switchRightToolBox(); } 
-	if (event->key() == Qt::Key_D) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction")); } //f
-	if (event->key() == Qt::Key_E) { setLabelArray[0]->stopTimeOutAnimation(); } //f
 // 	if (event->key() == Qt::Key_W) { qApp->quit(); } //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 

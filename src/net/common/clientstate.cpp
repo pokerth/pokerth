@@ -630,6 +630,9 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			if (tmpPlayer->getMySet() > GetHighestSet(*curGame))
 				SetHighestSet(*curGame, tmpPlayer->getMySet());
 
+			// Stop the timeout for the player.
+			client.GetGui().stopTimeoutAnimation(tmpPlayer->getMyID());
+
 			// Unmark last player in GUI.
 			client.GetGui().refreshGroupbox(tmpPlayer->getMyID(), 3);
 
@@ -667,6 +670,9 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			else if (tmpPlayer->getMyAction() == PLAYER_ACTION_FOLD)
 				guiStatus = 1;
 			client.GetGui().refreshGroupbox(tmpPlayer->getMyID(), guiStatus);
+
+			// Start displaying the timeout for the player.
+			client.GetGui().startTimeoutAnimation(tmpPlayer->getMyID(), client.GetGameData().playerActionTimeoutSec);
 
 			if (tmpPlayer->getMyID() == 0) // Is this the GUI player?
 				client.GetGui().meInAction();

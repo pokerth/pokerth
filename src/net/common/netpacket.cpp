@@ -97,6 +97,8 @@ struct GCC_PACKED NetPacketJoinGameAckData
 	u_int16_t			smallBlind;
 	u_int16_t			handsBeforeRaise;
 	u_int16_t			proposedGuiSpeed;
+	u_int16_t			playerActionTimeout;
+	u_int16_t			reserved;
 	u_int32_t			startMoney;
 };
 
@@ -716,14 +718,15 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)GetRawData();
 	assert(tmpData);
 
-	tmpData->sessionId			= htonl(inData.sessionId);
-	tmpData->playerId			= htons(inData.yourPlayerUniqueId);
-	tmpData->playerNumber		= htons(inData.yourPlayerNum);
-	tmpData->numberOfPlayers	= htons(inData.gameData.numberOfPlayers);
-	tmpData->smallBlind			= htons(inData.gameData.smallBlind);
-	tmpData->handsBeforeRaise	= htons(inData.gameData.handsBeforeRaise);
-	tmpData->proposedGuiSpeed	= htons(inData.gameData.guiSpeed);
-	tmpData->startMoney			= htonl(inData.gameData.startMoney);
+	tmpData->sessionId				= htonl(inData.sessionId);
+	tmpData->playerId				= htons(inData.yourPlayerUniqueId);
+	tmpData->playerNumber			= htons(inData.yourPlayerNum);
+	tmpData->numberOfPlayers		= htons(inData.gameData.numberOfPlayers);
+	tmpData->smallBlind				= htons(inData.gameData.smallBlind);
+	tmpData->handsBeforeRaise		= htons(inData.gameData.handsBeforeRaise);
+	tmpData->proposedGuiSpeed		= htons(inData.gameData.guiSpeed);
+	tmpData->playerActionTimeout	= htons(inData.gameData.playerActionTimeoutSec);
+	tmpData->startMoney				= htonl(inData.gameData.startMoney);
 }
 
 void
@@ -732,14 +735,15 @@ NetPacketJoinGameAck::GetData(NetPacketJoinGameAck::Data &outData) const
 	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)GetRawData();
 	assert(tmpData);
 
-	outData.sessionId					= ntohl(tmpData->sessionId);
-	outData.yourPlayerUniqueId			= ntohs(tmpData->playerId);
-	outData.yourPlayerNum				= ntohs(tmpData->playerNumber);
-	outData.gameData.numberOfPlayers	= ntohs(tmpData->numberOfPlayers);
-	outData.gameData.smallBlind			= ntohs(tmpData->smallBlind);
-	outData.gameData.handsBeforeRaise	= ntohs(tmpData->handsBeforeRaise);
-	outData.gameData.guiSpeed			= ntohs(tmpData->proposedGuiSpeed);
-	outData.gameData.startMoney			= ntohl(tmpData->startMoney);
+	outData.sessionId						= ntohl(tmpData->sessionId);
+	outData.yourPlayerUniqueId				= ntohs(tmpData->playerId);
+	outData.yourPlayerNum					= ntohs(tmpData->playerNumber);
+	outData.gameData.numberOfPlayers		= ntohs(tmpData->numberOfPlayers);
+	outData.gameData.smallBlind				= ntohs(tmpData->smallBlind);
+	outData.gameData.handsBeforeRaise		= ntohs(tmpData->handsBeforeRaise);
+	outData.gameData.guiSpeed				= ntohs(tmpData->proposedGuiSpeed);
+	outData.gameData.playerActionTimeoutSec	= ntohs(tmpData->playerActionTimeout);
+	outData.gameData.startMoney				= ntohl(tmpData->startMoney);
 }
 
 const NetPacketJoinGameAck *
