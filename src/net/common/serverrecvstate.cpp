@@ -34,7 +34,7 @@ using namespace std;
 
 #define SERVER_WAIT_TIMEOUT_MSEC		50
 #define SERVER_NEXT_HAND_DELAY_SEC		10
-#define SERVER_DEAL_FLOP_CARDS_SEC		6
+#define SERVER_DEAL_FLOP_CARDS_SEC		5
 #define SERVER_DEAL_TURN_CARD_SEC		3
 #define SERVER_DEAL_RIVER_CARD_SEC		3
 
@@ -857,20 +857,20 @@ ServerRecvStateDealCardsDelay::Process(ServerRecvThread &server)
 
 	Game &curGame = server.GetGame();
 
-	int allInDelay = curGame.getCurrentHand()->getAllInCondition() ? 2 : 0;
+	int allInDelay = curGame.getCurrentHand()->getAllInCondition() ? 1 : 0;
 
 	switch(curGame.getCurrentHand()->getActualRound())
 	{
 		case GAME_STATE_FLOP:
-			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_FLOP_CARDS_SEC + allInDelay)
+			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_FLOP_CARDS_SEC - allInDelay)
 				server.SetState(ServerRecvStateStartRound::Instance());
 			break;
 		case GAME_STATE_TURN:
-			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_TURN_CARD_SEC + allInDelay)
+			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_TURN_CARD_SEC /*+ allInDelay*/)
 				server.SetState(ServerRecvStateStartRound::Instance());
 			break;
 		case GAME_STATE_RIVER:
-			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_RIVER_CARD_SEC + allInDelay)
+			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_RIVER_CARD_SEC /*+ allInDelay*/)
 				server.SetState(ServerRecvStateStartRound::Instance());
 			break;
 		default:
