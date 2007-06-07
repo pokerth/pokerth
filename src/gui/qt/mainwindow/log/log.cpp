@@ -35,8 +35,8 @@ Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), m
 	connect(this, SIGNAL(signalLogNewGameHandMsg(int, int)), this, SLOT(logNewGameHandMsg(int, int)));
 	connect(this, SIGNAL(signalLogPlayerWinsMsg(int, int)), this, SLOT(logPlayerWinsMsg(int, int)));
 	connect(this, SIGNAL(signalLogDealBoardCardsMsg(int, int, int, int, int, int)), this, SLOT(logDealBoardCardsMsg(int, int, int, int, int, int)));
-	connect(this, SIGNAL(signalLogFlipHoleCardsMsg(std::string, int, int, int, std::string)), this, SLOT(logFlipHoleCardsMsg(std::string, int, int, int, std::string)));
-	connect(this, SIGNAL(signalLogPlayerLeftMsg(int)), this, SLOT(logPlayerLeftMsg(int)));
+	connect(this, SIGNAL(signalLogFlipHoleCardsMsg(QString, int, int, int, QString)), this, SLOT(logFlipHoleCardsMsg(QString, int, int, int, QString)));
+	connect(this, SIGNAL(signalLogPlayerLeftMsg(QString)), this, SLOT(logPlayerLeftMsg(QString)));
 
 
 	logFileStreamString = "";
@@ -305,7 +305,7 @@ void Log::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int
 	}
 }
 
-void Log::logFlipHoleCardsMsg(string playerName, int card1, int card2, int cardsValueInt, string showHas) {
+void Log::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int cardsValueInt, QString showHas) {
 
 	if (cardsValueInt != -1) {
 	
@@ -412,12 +412,12 @@ void Log::logFlipHoleCardsMsg(string playerName, int card1, int card2, int cards
 			default: {}
 		}
 
-		myW->textBrowser_Log->append(QString::fromUtf8(playerName.c_str())+" "+QString::fromUtf8(showHas.c_str())+" \""+tempHandName+"\"");
+		myW->textBrowser_Log->append(playerName+" "+showHas+" \""+tempHandName+"\"");
 
 		if(myConfig->readConfigInt("LogOnOff")) {
 		//if write logfiles is enabled
 
-			logFileStreamString += QString::fromUtf8(playerName.c_str())+" "+QString::fromUtf8(showHas.c_str())+" [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"] - "+tempHandName+"</br>\n";
+			logFileStreamString += playerName+" "+showHas+" [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"] - "+tempHandName+"</br>\n";
 	
 			if(myConfig->readConfigInt("LogInterval") == 0) {		
 				writeLogFileStream(logFileStreamString);
@@ -427,12 +427,12 @@ void Log::logFlipHoleCardsMsg(string playerName, int card1, int card2, int cards
 		}
 	}
 	else {
-		myW->textBrowser_Log->append(QString::fromUtf8(playerName.c_str())+" "+QString::fromUtf8(showHas.c_str())+" ["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"]");
+		myW->textBrowser_Log->append(playerName+" "+showHas+" ["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"]");
 		
 		if(myConfig->readConfigInt("LogOnOff")) {
 		//if write logfiles is enabled
 
-			logFileStreamString += QString::fromUtf8(playerName.c_str())+" "+QString::fromUtf8(showHas.c_str())+" [<b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"]"+"</br>\n";
+			logFileStreamString += playerName+" "+showHas+" [<b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"]"+"</br>\n";
 			if(myConfig->readConfigInt("LogInterval") == 0) {		
 				writeLogFileStream(logFileStreamString);
 				logFileStreamString = "";
@@ -442,15 +442,15 @@ void Log::logFlipHoleCardsMsg(string playerName, int card1, int card2, int cards
 	
 }
 
-void Log::logPlayerLeftMsg(int playerID) {
+void Log::logPlayerLeftMsg(QString playerName) {
 
 	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
 	
-	myW->textBrowser_Log->append( "<i>"+QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" has left the game!</i>");
+	myW->textBrowser_Log->append( "<i>"+playerName+" has left the game!</i>");
 	
 	if(myConfig->readConfigInt("LogOnOff")) {
 	
-		logFileStreamString += "<i>"+QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" has left the game!</i><br>\n";
+		logFileStreamString += "<i>"+playerName+" has left the game!</i><br>\n";
 
 		if(myConfig->readConfigInt("LogInterval") == 0) {	
 			writeLogFileStream(logFileStreamString);

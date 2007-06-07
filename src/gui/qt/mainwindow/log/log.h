@@ -45,8 +45,8 @@ public slots:
 	void logNewGameHandMsg(int gameID, int handID);
 	void logPlayerWinsMsg(int playerID, int pot);
 	void logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1);
-	void logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt = -1, std::string showHas = "shows");
-	void logPlayerLeftMsg(int playerID);
+	void logFlipHoleCardsMsg(QString playerName, int card1, int card2, int cardsValueInt = -1, QString showHas = "shows");
+	void logPlayerLeftMsg(QString playerName);
 
 
 public:
@@ -60,8 +60,8 @@ signals:
 	void signalLogNewGameHandMsg(int gameID, int handID);
 	void signalLogPlayerWinsMsg(int playerID, int pot);
 	void signalLogDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1);
-	void signalLogFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt = -1, std::string showHas = "shows");
-	void signalLogPlayerLeftMsg(int playerID);
+	void signalLogFlipHoleCardsMsg(QString playerName, int card1, int card2, int cardsValueInt = -1, QString showHas = "shows");
+	void signalLogPlayerLeftMsg(QString playerName);
 
 
 private:

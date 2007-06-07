@@ -92,8 +92,7 @@ void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue)
 void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->signalLogNewGameHandMsg(gameID, handID); }
 void GuiWrapper::logPlayerWinsMsg(int playerID, int pot) { myLog->signalLogPlayerWinsMsg(playerID, pot); }
 void GuiWrapper::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4, int card5) { myLog->signalLogDealBoardCardsMsg(roundID, card1, card2, card3, card4, card5); }
-void GuiWrapper::logFlipHoleCardsMsg(string playerName, int card1, int card2, int cardsValueInt, string showHas) { myLog->signalLogFlipHoleCardsMsg(playerName, card1, card2, cardsValueInt, showHas); }
-void GuiWrapper::logPlayerLeftMsg(int playerID) {  myLog->signalLogPlayerLeftMsg(playerID); }
+void GuiWrapper::logFlipHoleCardsMsg(string playerName, int card1, int card2, int cardsValueInt, string showHas) { myLog->signalLogFlipHoleCardsMsg(QString::fromUtf8(playerName.c_str()), card1, card2, cardsValueInt, QString::fromUtf8(showHas.c_str())); }
 
 void GuiWrapper::SignalNetClientConnect(int actionID) { myW->signalNetClientConnect(actionID); }
 void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->signalNetClientGameInfo(actionID); }
@@ -106,6 +105,11 @@ void GuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &
 void GuiWrapper::SignalNetServerSuccess(int actionID) { }
 void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { myW->signalNetServerError(errorID, osErrorID); }
 void GuiWrapper::SignalNetServerPlayerJoined(const string &playerName) { myW->signalNetServerPlayerJoined(QString::fromUtf8(playerName.c_str())); }
-void GuiWrapper::SignalNetServerPlayerLeft(const string &playerName) { myW->signalNetServerPlayerLeft(QString::fromUtf8(playerName.c_str())); }
+void GuiWrapper::SignalNetServerPlayerLeft(const string &playerName)
+{
+	QString tmpName(QString::fromUtf8(playerName.c_str()));
+	myW->signalNetServerPlayerLeft(tmpName);
+	myLog->signalLogPlayerLeftMsg(tmpName);
+}
 
 

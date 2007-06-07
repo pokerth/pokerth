@@ -2510,7 +2510,6 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F11) { switchRightToolBox(); } 
 	if (event->key() == Qt::Key_D) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction")); } //f
 	if (event->key() == Qt::Key_E) { setLabelArray[0]->stopTimeOutAnimation(); } //f
-	if (event->key() == Qt::Key_S) {  mySession->getGui()->logPlayerLeftMsg(2); } //s	
 // 	if (event->key() == Qt::Key_W) { qApp->quit(); } //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 

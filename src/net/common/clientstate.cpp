@@ -609,6 +609,17 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 				tmpPlayer->setMyButton(BUTTON_SMALL_BLIND);
 			else if (actionDoneData.gameState == GAME_STATE_PREFLOP_BIG_BLIND)
 				tmpPlayer->setMyButton(BUTTON_BIG_BLIND);
+			else // no blind -> log
+			{
+				if (actionDoneData.playerAction)
+				{
+					assert(actionDoneData.totalPlayerBet >= (unsigned)tmpPlayer->getMySet());
+					client.GetGui().logPlayerActionMsg(
+						tmpPlayer->getMyName(),
+						actionDoneData.playerAction,
+						actionDoneData.totalPlayerBet - tmpPlayer->getMySet());
+				}
+			}
 
 			tmpPlayer->setMyAction(actionDoneData.playerAction);
 			tmpPlayer->setMySetAbsolute(actionDoneData.totalPlayerBet);
@@ -671,6 +682,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 			curGame->getCurrentHand()->getBoard()->collectPot();
 
+			client.GetGui().logDealBoardCardsMsg(GAME_STATE_FLOP, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 			client.GetGui().refreshGameLabels(GAME_STATE_FLOP);
 			client.GetGui().refreshPot();
 			client.GetGui().refreshSet();
@@ -686,6 +698,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 			curGame->getCurrentHand()->getBoard()->collectPot();
 
+			client.GetGui().logDealBoardCardsMsg(GAME_STATE_TURN, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 			client.GetGui().refreshGameLabels(GAME_STATE_TURN);
 			client.GetGui().refreshPot();
 			client.GetGui().refreshSet();
@@ -701,6 +714,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 			curGame->getCurrentHand()->getBoard()->collectPot();
 
+			client.GetGui().logDealBoardCardsMsg(GAME_STATE_RIVER, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 			client.GetGui().refreshGameLabels(GAME_STATE_RIVER);
 			client.GetGui().refreshPot();
 			client.GetGui().refreshSet();

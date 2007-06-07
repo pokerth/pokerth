@@ -56,7 +56,7 @@ public:
 	void setMyCash(int theValue) { myCash = theValue; }
 	int getMyCash() const { return myCash; }
 
-	void setMySet(int theValue) { myLastRelativeSet = theValue; mySet += theValue; myCash -= theValue;	}
+	void setMySet(int theValue) { myLastRelativeSet = theValue; }
 	void setMySetAbsolute(int theValue) { mySet = theValue; }
 	void setMySetNull() { mySet = 0; myLastRelativeSet = 0; }
 	int getMySet() const { return mySet;}
@@ -77,7 +77,21 @@ public:
 	void setMyTurn(bool theValue){ myTurn = theValue;}
 	bool getMyTurn() const{ return myTurn;}
 
-	void setMyCardsFlip(bool theValue, int state){ myCardsFlip = theValue;}
+	void setMyCardsFlip(bool theValue, int state){ 
+		myCardsFlip = theValue;
+		// log flipping cards
+		if(myCardsFlip) {
+			switch(state) {
+				case 1: actualHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt);
+				break;
+				case 2: actualHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1]);
+				break;
+				case 3: actualHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt, "has");
+				break;
+				default: ;
+			}
+		}
+	}
 	bool getMyCardsFlip() const{ return myCardsFlip;}
 
 	void setMyCardsValueInt(int theValue) { myCardsValueInt = theValue;}
@@ -112,7 +126,10 @@ public:
 	void setSBluffStatus ( bool theValue ) { sBluffStatus = theValue; }
 	bool getSBluffStatus() const { return sBluffStatus; }
 
-	void setMyWinnerState ( bool theValue, int pot ) { myWinnerState = theValue; }
+	void setMyWinnerState ( bool theValue, int pot ) {
+		myWinnerState = theValue;
+		if(theValue) actualHand->getGuiInterface()->logPlayerWinsMsg(myID, pot);	
+	}
 	bool getMyWinnerState() const { return myWinnerState;}
 
 	void action();
