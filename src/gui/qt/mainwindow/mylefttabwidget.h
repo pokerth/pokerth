@@ -15,7 +15,6 @@
 #include <QtGui>
 #include <QtCore>
 
-#include <iostream>
 
 class MyLeftTabWidget : public QTabWidget
 {

@@ -24,7 +24,6 @@
 #include <qthelper.h>
 
 #include <string>
-#include <iostream>
 
 class QtHelper;
 

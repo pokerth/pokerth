@@ -23,7 +23,6 @@
 #include "ui_mainwindow.h"
 #include "game_defs.h"
 
-#include <iostream>
 #include <string>
 #include <boost/shared_ptr.hpp>
 

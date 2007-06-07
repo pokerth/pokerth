@@ -22,7 +22,6 @@
 
 #include "ui_createnetworkgamedialog.h"
 
-#include <iostream>
 #include <QtGui>
 #include <QtCore>
 

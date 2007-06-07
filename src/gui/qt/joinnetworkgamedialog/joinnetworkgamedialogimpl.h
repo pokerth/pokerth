@@ -22,7 +22,6 @@
 
 #include "ui_joinnetworkgamedialog.h"
 
-#include <iostream>
 #include <string>
 #include "configfile.h"
 #include <QtGui>

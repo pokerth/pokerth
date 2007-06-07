@@ -23,7 +23,6 @@
 #include <guiinterface.h>
 
 #include <string>
-#include <iostream>
 
 class Session;
 class mainWindowImpl;

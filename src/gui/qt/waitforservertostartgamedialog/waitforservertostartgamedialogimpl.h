@@ -22,7 +22,6 @@
 
 #include "ui_waitforservertostartgamedialog.h"
 
-#include <iostream>
 #include <QtGui>
 #include <QtCore>
 

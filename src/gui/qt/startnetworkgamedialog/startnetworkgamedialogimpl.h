@@ -22,17 +22,16 @@
 
 #include "ui_startnetworkgamedialog.h"
 
-#include <iostream>
 #include <QtGui>
 #include <QtCore>
 
-// class Session;
+class Session;
 class ConfigFile;
 
 class startNetworkGameDialogImpl: public QDialog, public Ui::startNetworkGameDialog {
 Q_OBJECT
 public:
-    startNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *config = 0);
+    startNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *config = 0, Session *session = 0);
 
 public slots:
 
@@ -54,6 +53,7 @@ private:
 
 	int maxPlayerNumber;
 	ConfigFile *myConfig;
+	Session *mySession;
 };
 
 #endif

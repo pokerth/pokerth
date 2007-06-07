@@ -21,7 +21,6 @@
 #define LOG_H
 
 #include <string>
-#include <iostream>
 
 #include "configfile.h"
 

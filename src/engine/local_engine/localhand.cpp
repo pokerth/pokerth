@@ -22,6 +22,8 @@
 #include "cardsvalue.h"
 #include <game_defs.h>
 
+#include <iostream>
+
 using namespace std;
 
 LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC)

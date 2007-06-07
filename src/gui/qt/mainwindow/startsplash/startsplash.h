@@ -12,8 +12,6 @@
 #ifndef STARTSPLASH_H
 #define STARTSPLASH_H
 
-#include <iostream>
-
 #include "mainwindowimpl.h"
 
 #include <QtGui>

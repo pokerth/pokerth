@@ -22,7 +22,6 @@
 
 #include "ui_connecttoserverdialog.h"
 
-#include <iostream>
 #include <QtGui>
 #include <QtCore>
 

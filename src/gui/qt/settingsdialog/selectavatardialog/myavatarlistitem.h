@@ -15,8 +15,6 @@
 #include <QtGui>
 #include <QtCore>
 
-#include <iostream>
-
 class MyAvatarListItem : public QListWidgetItem
 {
 public:

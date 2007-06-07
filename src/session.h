@@ -23,7 +23,6 @@
 #include "playerdata.h"
 #include "game_defs.h"
 #include <string>
-#include <iostream>
 #include <boost/shared_ptr.hpp>
 
 class GuiInterface;

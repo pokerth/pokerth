@@ -22,7 +22,6 @@
 
 #include "ui_newgamedialog.h"
 
-#include <iostream>
 #include <QtGui>
 #include <QtCore>
 

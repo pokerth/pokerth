@@ -15,8 +15,6 @@
 #include <QtGui>
 #include <QtCore>
 
-#include <iostream>
-
 class MyAvatarButton : public QPushButton
 {
 public:
