@@ -436,7 +436,6 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 			actionDoneData.playerAction = (PlayerAction)playerArray[i]->getMyAction();
 			actionDoneData.totalPlayerBet = playerArray[i]->getMySet();
 			actionDoneData.playerMoney = playerArray[i]->getMyCash();
-			actionDoneData.potSize = curGame.getCurrentHand()->getBoard()->getPot();
 			actionDoneData.curHandBets = playerArray[i]->getMySet(); // first bet only
 			static_cast<NetPacketPlayersActionDone *>(notifySmallBlind.get())->SetData(actionDoneData);
 			server.SendToAllPlayers(notifySmallBlind);
@@ -454,7 +453,6 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 			actionDoneData.playerAction = (PlayerAction)playerArray[i]->getMyAction();
 			actionDoneData.totalPlayerBet = playerArray[i]->getMySet();
 			actionDoneData.playerMoney = playerArray[i]->getMyCash();
-			actionDoneData.potSize = curGame.getCurrentHand()->getBoard()->getPot();
 			actionDoneData.curHandBets = curGame.getCurrentHand()->getBoard()->getSets();
 			static_cast<NetPacketPlayersActionDone *>(notifyBigBlind.get())->SetData(actionDoneData);
 			server.SendToAllPlayers(notifyBigBlind);
@@ -579,7 +577,7 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 
 			// Retrieve active players. If only one player is left, no cards are shown.
 			std::list<PlayerInterface *> activePlayers = GetActivePlayers(curGame);
-			assert(!activePlayers.empty());
+			// if (activePlayers.empty()) TODO throw exception
 
 			if (activePlayers.size() == 1)
 			{
@@ -768,6 +766,8 @@ ServerRecvStateWaitPlayerAction::PerformPlayerAction(ServerRecvThread &server, P
 
 		if (player->getMySet() > GetHighestSet(curGame))
 			SetHighestSet(curGame, player->getMySet());
+		// Update total sets.
+		curGame.getCurrentHand()->getBoard()->collectSets();
 	}
 
 	boost::shared_ptr<NetPacket> notifyActionDone(new NetPacketPlayersActionDone);
@@ -777,7 +777,6 @@ ServerRecvStateWaitPlayerAction::PerformPlayerAction(ServerRecvThread &server, P
 	actionDoneData.playerAction = static_cast<PlayerAction>(player->getMyAction());
 	actionDoneData.totalPlayerBet = player->getMySet();
 	actionDoneData.playerMoney = player->getMyCash();
-	actionDoneData.potSize = curGame.getCurrentHand()->getBoard()->getPot();
 	actionDoneData.curHandBets = curGame.getCurrentHand()->getBoard()->getSets();
 	static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
 	server.SendToAllPlayers(notifyActionDone);

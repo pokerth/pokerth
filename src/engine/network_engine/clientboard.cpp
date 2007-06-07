@@ -53,6 +53,8 @@ ClientBoard::collectSets()
 void
 ClientBoard::collectPot()
 {
+	pot += sets; 
+	sets = 0;
 }
 
 

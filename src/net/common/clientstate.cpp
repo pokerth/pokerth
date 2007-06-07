@@ -613,7 +613,6 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			tmpPlayer->setMyAction(actionDoneData.playerAction);
 			tmpPlayer->setMySetAbsolute(actionDoneData.totalPlayerBet);
 			tmpPlayer->setMyCash(actionDoneData.playerMoney);
-			curGame->getCurrentHand()->getBoard()->setPot(actionDoneData.potSize);
 			curGame->getCurrentHand()->getBoard()->setSets(actionDoneData.curHandBets);
 
 			// Update highest set
@@ -670,8 +669,11 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 				tmpCards[num] = static_cast<int>(cardsData.flopCards[num]);
 			tmpCards[3] = tmpCards[4] = 0;
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
+			curGame->getCurrentHand()->getBoard()->collectPot();
 
 			client.GetGui().refreshGameLabels(GAME_STATE_FLOP);
+			client.GetGui().refreshPot();
+			client.GetGui().refreshSet();
 			client.GetGui().dealFlopCards();
 		}
 		else if (packet->ToNetPacketDealTurnCard())
@@ -682,8 +684,11 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			curGame->getCurrentHand()->getBoard()->getMyCards(tmpCards);
 			tmpCards[3] = static_cast<int>(cardsData.turnCard);
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
+			curGame->getCurrentHand()->getBoard()->collectPot();
 
 			client.GetGui().refreshGameLabels(GAME_STATE_TURN);
+			client.GetGui().refreshPot();
+			client.GetGui().refreshSet();
 			client.GetGui().dealTurnCard();
 		}
 		else if (packet->ToNetPacketDealRiverCard())
@@ -694,8 +699,11 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			curGame->getCurrentHand()->getBoard()->getMyCards(tmpCards);
 			tmpCards[4] = static_cast<int>(cardsData.riverCard);
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
+			curGame->getCurrentHand()->getBoard()->collectPot();
 
 			client.GetGui().refreshGameLabels(GAME_STATE_RIVER);
+			client.GetGui().refreshPot();
+			client.GetGui().refreshSet();
 			client.GetGui().dealRiverCard();
 		}
 		else if (packet->ToNetPacketAllInShowCards())
