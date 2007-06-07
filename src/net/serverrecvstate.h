@@ -157,7 +157,6 @@ protected:
 	ServerRecvStateStartRound();
 
 	static void GameRun(Game &curGame);
-	static void SendNewRoundCards(ServerRecvThread &server, Game &curGame, int state);
 	static std::list<PlayerInterface *> GetActivePlayers(Game &curGame);
 };
 
@@ -203,6 +202,32 @@ protected:
 
 	// Protected constructor - this is a singleton.
 	ServerRecvStateDealCardsDelay();
+
+	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+
+private:
+
+	boost::microsec_timer m_delayTimer;
+};
+
+// State: Delay after showing cards (all in)
+class ServerRecvStateShowCardsDelay : public ServerRecvStateReceiving, public ServerRecvStateRunning
+{
+public:
+	// Access the state singleton.
+	static ServerRecvStateShowCardsDelay &Instance();
+
+	virtual ~ServerRecvStateShowCardsDelay();
+
+	// Overwrite default processing
+	virtual int Process(ServerRecvThread &server);
+
+	void SetTimer(const boost::microsec_timer &timer);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ServerRecvStateShowCardsDelay();
 
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 

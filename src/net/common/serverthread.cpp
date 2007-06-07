@@ -115,9 +115,11 @@ ServerThread::Listen()
 	if (IOCTLSOCKET(context.GetSocket(), FIONBIO, &mode) == SOCKET_ERROR)
 		throw ServerException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 
-	// The following call is optional. If it fails, we don't care.
+	// The following two calls are optional. If they fail, we don't care.
 	int reuse = 1;
 	setsockopt(context.GetSocket(), SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(reuse));
+	int nodelay = 1;
+	setsockopt(context.GetSocket(), SOL_SOCKET, TCP_NODELAY, (char *)&nodelay, sizeof(nodelay));
 
 	context.GetServerSockaddr()->ss_family = context.GetAddrFamily();
 

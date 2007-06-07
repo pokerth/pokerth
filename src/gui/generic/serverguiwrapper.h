@@ -44,7 +44,7 @@ public:
 	void refreshAll() const;
 	void refreshPlayerName() const;
 	void refreshButton() const;
-	void refreshGameLabels() const;
+	void refreshGameLabels(GameState state) const;
 
 	void dealHoleCards();
 	void dealFlopCards();

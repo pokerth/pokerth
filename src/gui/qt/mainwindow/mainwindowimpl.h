@@ -84,6 +84,7 @@ signals:
 	void signalRefreshAll();
 	void signalRefreshPlayerName();
 	void signalRefreshButton();
+	void signalRefreshGameLabels(int);
 
 	void signalMeInAction();
 
@@ -92,7 +93,6 @@ signals:
 	void signalDealTurnCards0();
 	void signalDealRiverCards0();
 
-	void signalRefreshGameLabels();
 	void signalNextPlayerAnimation();
 
 	void signalPreflopAnimation1();
@@ -134,7 +134,7 @@ public slots:
 	void refreshGroupbox(int =-1, int =-1);
 	void refreshAll();
 	void refreshPlayerName();
-	void refreshGameLabels();
+	void refreshGameLabels(int);
 	void refreshButton();
 	void refreshPlayerAvatar();
 

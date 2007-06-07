@@ -66,8 +66,8 @@ ClientStateInit::Process(ClientThread &client)
 	if (context.GetServerAddr().empty())
 		throw ClientException(ERR_SOCK_SERVERADDR_NOT_SET, 0);
 
-//	if (context.GetServerPort() < 1024)
-//		throw ClientException(ERR_SOCK_INVALID_PORT, 0);
+	if (context.GetServerPort() < 1024)
+		throw ClientException(ERR_SOCK_INVALID_PORT, 0);
 
 	context.SetSocket(socket(context.GetAddrFamily(), SOCK_STREAM, context.GetProtocol()));
 	if (!IS_VALID_SOCKET(context.GetSocket()))
@@ -76,6 +76,10 @@ ClientStateInit::Process(ClientThread &client)
 	unsigned long mode = 1;
 	if (IOCTLSOCKET(context.GetSocket(), FIONBIO, &mode) == SOCKET_ERROR)
 		throw ClientException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
+
+	// The following call is optional - the return value is not checked.
+	int nodelay = 1;
+	setsockopt(context.GetSocket(), SOL_SOCKET, TCP_NODELAY, (char *)&nodelay, sizeof(nodelay));
 
 	client.SetState(ClientStateStartResolve::Instance());
 
@@ -558,7 +562,7 @@ ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		client.GetGame()->initHand();
 		client.GetGame()->startHand();
 		client.GetGui().dealHoleCards();
-		client.GetGui().refreshGameLabels();
+		client.GetGui().refreshGameLabels(GAME_STATE_PREFLOP);
 		client.SetState(ClientStateRunHand::Instance());
 
 		retVal = MSG_NET_GAME_CLIENT_HAND_START;
@@ -637,22 +641,10 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			// Set round.
 			if (curGame->getCurrentHand()->getActualRound() != turnData.gameState)
 			{
-				// Reset player actions
-				for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
-				{
-					int action = curGame->getPlayerArray()[i]->getMyAction();
-					if (action != 1 && action != 6)
-						curGame->getPlayerArray()[i]->setMyAction(0);
-					curGame->getPlayerArray()[i]->setMySetNull();
-				}
-
+				ResetPlayerActions(*curGame);
 				curGame->getCurrentHand()->setActualRound(turnData.gameState);
-
-				client.GetGui().refreshPot();
-				client.GetGui().refreshSet();
+				// Refresh actions.
 				client.GetGui().refreshAction();
-				client.GetGui().refreshCash();
-				client.GetGui().refreshGameLabels();
 			}
 
 			// Next player's turn.
@@ -678,6 +670,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 				tmpCards[num] = static_cast<int>(cardsData.flopCards[num]);
 			tmpCards[3] = tmpCards[4] = 0;
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
+
+			client.GetGui().refreshGameLabels(GAME_STATE_FLOP);
 			client.GetGui().dealFlopCards();
 		}
 		else if (packet->ToNetPacketDealTurnCard())
@@ -688,6 +682,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			curGame->getCurrentHand()->getBoard()->getMyCards(tmpCards);
 			tmpCards[3] = static_cast<int>(cardsData.turnCard);
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
+
+			client.GetGui().refreshGameLabels(GAME_STATE_TURN);
 			client.GetGui().dealTurnCard();
 		}
 		else if (packet->ToNetPacketDealRiverCard())
@@ -698,6 +694,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			curGame->getCurrentHand()->getBoard()->getMyCards(tmpCards);
 			tmpCards[4] = static_cast<int>(cardsData.riverCard);
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
+
+			client.GetGui().refreshGameLabels(GAME_STATE_RIVER);
 			client.GetGui().dealRiverCard();
 		}
 		else if (packet->ToNetPacketAllInShowCards())
@@ -885,6 +883,19 @@ ClientStateRunHand::SetPlayersTurn(Game &curGame, int playersTurn)
 		default: {
 			// 
 		}
+	}
+}
+
+void
+ClientStateRunHand::ResetPlayerActions(Game &curGame)
+{
+	// Reset player actions
+	for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
+	{
+		int action = curGame.getPlayerArray()[i]->getMyAction();
+		if (action != 1 && action != 6)
+			curGame.getPlayerArray()[i]->setMyAction(0);
+		curGame.getPlayerArray()[i]->setMySetNull();
 	}
 }
 

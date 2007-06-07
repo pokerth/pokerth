@@ -355,7 +355,7 @@ void LocalHand::switchRounds() {
 	//unhighlight actual players groupbox
 	if(playerArray[lastPlayersTurn]->getMyActiveStatus() == 1) myGui->refreshGroupbox(lastPlayersTurn,1);
 
-	myGui->refreshGameLabels();
+	myGui->refreshGameLabels((GameState)getActualRound());
 // 	/*/*/*/*cout <<*/*/*/*/ "NextPlayerSpeed1 stop" << endl;
 // 
 // 	cout << "NextPlayerSpeed2 start" << endl;

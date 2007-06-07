@@ -32,13 +32,16 @@
 
 using namespace std;
 
-#define SERVER_WAIT_TIMEOUT_MSEC		50
-#define SERVER_NEXT_HAND_DELAY_SEC		10
-#define SERVER_DEAL_FLOP_CARDS_SEC		5
-#define SERVER_DEAL_TURN_CARD_SEC		3
-#define SERVER_DEAL_RIVER_CARD_SEC		3
+#define SERVER_WAIT_TIMEOUT_MSEC				50
+#define SERVER_DELAY_NEXT_HAND_SEC				10
+#define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		5
+#define SERVER_DEAL_TURN_CARD_DELAY_SEC			2
+#define SERVER_DEAL_RIVER_CARD_DELAY_SEC		2
+#define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		1
+#define SERVER_SHOW_CARDS_DELAY_SEC				2
 
 // Helper functions
+// TODO: these are hacks.
 
 static PlayerInterface *GetCurrentPlayer(Game &curGame)
 {
@@ -63,6 +66,50 @@ static PlayerInterface *GetCurrentPlayer(Game &curGame)
 	}
 	assert(curPlayerNum < curGame.getStartQuantityPlayers()); // TODO: throw exception
 	return curGame.getPlayerArray()[curPlayerNum];
+}
+
+static void SendNewRoundCards(ServerRecvThread &server, Game &curGame, int state)
+{
+	// TODO: no switch needed here if game states are polymorphic
+	switch(state) {
+		case GAME_STATE_PREFLOP: {
+			// nothing to do
+		} break;
+		case GAME_STATE_FLOP: {
+			// deal flop cards
+			int cards[5];
+			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
+			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealFlopCards);
+			NetPacketDealFlopCards::Data notifyCardsData;
+			for (int num = 0; num < 3; num++)
+				notifyCardsData.flopCards[num] = static_cast<u_int16_t>(cards[num]);
+			static_cast<NetPacketDealFlopCards *>(notifyCards.get())->SetData(notifyCardsData);
+			server.SendToAllPlayers(notifyCards);
+		} break;
+		case GAME_STATE_TURN: {
+			// deal turn card
+			int cards[5];
+			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
+			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealTurnCard);
+			NetPacketDealTurnCard::Data notifyCardsData;
+			notifyCardsData.turnCard = static_cast<u_int16_t>(cards[3]);
+			static_cast<NetPacketDealTurnCard *>(notifyCards.get())->SetData(notifyCardsData);
+			server.SendToAllPlayers(notifyCards);
+		} break;
+		case GAME_STATE_RIVER: {
+			// deal river card
+			int cards[5];
+			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
+			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealRiverCard);
+			NetPacketDealRiverCard::Data notifyCardsData;
+			notifyCardsData.riverCard = static_cast<u_int16_t>(cards[4]);
+			static_cast<NetPacketDealRiverCard *>(notifyCards.get())->SetData(notifyCardsData);
+			server.SendToAllPlayers(notifyCards);
+		} break;
+		default: {
+			// 
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -454,49 +501,53 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 	if (newRound != curRound)
 	{
 		assert(newRound > curRound);
+		// Retrieve active players. If only one player is left, no cards are shown.
+		std::list<PlayerInterface *> activePlayers = GetActivePlayers(curGame);
 
 		if (curGame.getCurrentHand()->getAllInCondition()
-			&& !curGame.getCurrentHand()->getCardsShown())
+			&& !curGame.getCurrentHand()->getCardsShown()
+			&& activePlayers.size() > 1)
 		{
-			// Retrieve active players. If only one player is left, no cards are shown.
-			std::list<PlayerInterface *> activePlayers = GetActivePlayers(curGame);
-			assert(!activePlayers.empty());
-			if (activePlayers.size() > 1)
+			// Send cards of all active players to all players (all in).
+			boost::shared_ptr<NetPacket> allIn(new NetPacketAllInShowCards);
+			NetPacketAllInShowCards::Data allInData;
+
+			std::list<PlayerInterface *>::iterator i = activePlayers.begin();
+			std::list<PlayerInterface *>::iterator end = activePlayers.end();
+
+			while (i != end)
 			{
-				// Send cards of all active players to all players (all in).
-				boost::shared_ptr<NetPacket> allIn(new NetPacketAllInShowCards);
-				NetPacketAllInShowCards::Data allInData;
+				NetPacketAllInShowCards::PlayerCards tmpPlayerCards;
+				tmpPlayerCards.playerId = (*i)->getMyUniqueID();
 
-				std::list<PlayerInterface *>::iterator i = activePlayers.begin();
-				std::list<PlayerInterface *>::iterator end = activePlayers.end();
+				int tmpCards[2];
+				(*i)->getMyCards(tmpCards);
+				tmpPlayerCards.cards[0] = static_cast<u_int16_t>(tmpCards[0]);
+				tmpPlayerCards.cards[1] = static_cast<u_int16_t>(tmpCards[1]);
 
-				while (i != end)
-				{
-					NetPacketAllInShowCards::PlayerCards tmpPlayerCards;
-					tmpPlayerCards.playerId = (*i)->getMyUniqueID();
-
-					int tmpCards[2];
-					(*i)->getMyCards(tmpCards);
-					tmpPlayerCards.cards[0] = static_cast<u_int16_t>(tmpCards[0]);
-					tmpPlayerCards.cards[1] = static_cast<u_int16_t>(tmpCards[1]);
-
-					allInData.playerCards.push_back(tmpPlayerCards);
-					++i;
-				}
-				static_cast<NetPacketAllInShowCards *>(allIn.get())->SetData(allInData);
-				server.SendToAllPlayers(allIn);
-
-				curGame.getCurrentHand()->setCardsShown(true);
+				allInData.playerCards.push_back(tmpPlayerCards);
+				++i;
 			}
+			static_cast<NetPacketAllInShowCards *>(allIn.get())->SetData(allInData);
+			server.SendToAllPlayers(allIn);
+			curGame.getCurrentHand()->setCardsShown(true);
+
+			boost::microsec_timer delayTimer;
+			delayTimer.start();
+			ServerRecvStateShowCardsDelay::Instance().SetTimer(delayTimer);
+			server.SetState(ServerRecvStateShowCardsDelay::Instance());
+			retVal = MSG_NET_GAME_SERVER_CARDS_DELAY;
 		}
+		else
+		{
+			SendNewRoundCards(server, curGame, newRound);
 
-		SendNewRoundCards(server, curGame, newRound);
-
-		boost::microsec_timer delayTimer;
-		delayTimer.start();
-		ServerRecvStateDealCardsDelay::Instance().SetTimer(delayTimer);
-		server.SetState(ServerRecvStateDealCardsDelay::Instance());
-		retVal = MSG_NET_GAME_SERVER_CARDS_DELAY;
+			boost::microsec_timer delayTimer;
+			delayTimer.start();
+			ServerRecvStateDealCardsDelay::Instance().SetTimer(delayTimer);
+			server.SetState(ServerRecvStateDealCardsDelay::Instance());
+			retVal = MSG_NET_GAME_SERVER_CARDS_DELAY;
+		}
 	}
 	else
 	{
@@ -618,51 +669,6 @@ ServerRecvStateStartRound::GameRun(Game &curGame)
 		case GAME_STATE_RIVER: {
 			// River starten
 			curGame.getCurrentHand()->getRiver()->riverRun();
-		} break;
-		default: {
-			// 
-		}
-	}
-}
-
-void
-ServerRecvStateStartRound::SendNewRoundCards(ServerRecvThread &server, Game &curGame, int state)
-{
-	// TODO: no switch needed here if game states are polymorphic
-	switch(state) {
-		case GAME_STATE_PREFLOP: {
-			// nothing to do
-		} break;
-		case GAME_STATE_FLOP: {
-			// deal flop cards
-			int cards[5];
-			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
-			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealFlopCards);
-			NetPacketDealFlopCards::Data notifyCardsData;
-			for (int num = 0; num < 3; num++)
-				notifyCardsData.flopCards[num] = static_cast<u_int16_t>(cards[num]);
-			static_cast<NetPacketDealFlopCards *>(notifyCards.get())->SetData(notifyCardsData);
-			server.SendToAllPlayers(notifyCards);
-		} break;
-		case GAME_STATE_TURN: {
-			// deal turn card
-			int cards[5];
-			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
-			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealTurnCard);
-			NetPacketDealTurnCard::Data notifyCardsData;
-			notifyCardsData.turnCard = static_cast<u_int16_t>(cards[3]);
-			static_cast<NetPacketDealTurnCard *>(notifyCards.get())->SetData(notifyCardsData);
-			server.SendToAllPlayers(notifyCards);
-		} break;
-		case GAME_STATE_RIVER: {
-			// deal river card
-			int cards[5];
-			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
-			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealRiverCard);
-			NetPacketDealRiverCard::Data notifyCardsData;
-			notifyCardsData.riverCard = static_cast<u_int16_t>(cards[4]);
-			static_cast<NetPacketDealRiverCard *>(notifyCards.get())->SetData(notifyCardsData);
-			server.SendToAllPlayers(notifyCards);
 		} break;
 		default: {
 			// 
@@ -857,20 +863,20 @@ ServerRecvStateDealCardsDelay::Process(ServerRecvThread &server)
 
 	Game &curGame = server.GetGame();
 
-	int allInDelay = curGame.getCurrentHand()->getAllInCondition() ? 1 : 0;
+	int allInDelay = curGame.getCurrentHand()->getAllInCondition() ? SERVER_DEAL_ADD_ALL_IN_DELAY_SEC : 0;
 
 	switch(curGame.getCurrentHand()->getActualRound())
 	{
 		case GAME_STATE_FLOP:
-			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_FLOP_CARDS_SEC - allInDelay)
+			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_FLOP_CARDS_DELAY_SEC + allInDelay)
 				server.SetState(ServerRecvStateStartRound::Instance());
 			break;
 		case GAME_STATE_TURN:
-			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_TURN_CARD_SEC /*+ allInDelay*/)
+			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_TURN_CARD_DELAY_SEC)
 				server.SetState(ServerRecvStateStartRound::Instance());
 			break;
 		case GAME_STATE_RIVER:
-			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_RIVER_CARD_SEC /*+ allInDelay*/)
+			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_RIVER_CARD_DELAY_SEC)
 				server.SetState(ServerRecvStateStartRound::Instance());
 			break;
 		default:
@@ -881,6 +887,56 @@ ServerRecvStateDealCardsDelay::Process(ServerRecvThread &server)
 
 int
 ServerRecvStateDealCardsDelay::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+{
+	return MSG_SOCK_INTERNAL_PENDING;
+}
+
+//-----------------------------------------------------------------------------
+
+ServerRecvStateShowCardsDelay &
+ServerRecvStateShowCardsDelay::Instance()
+{
+	static ServerRecvStateShowCardsDelay state;
+	return state;
+}
+
+ServerRecvStateShowCardsDelay::ServerRecvStateShowCardsDelay()
+{
+}
+
+ServerRecvStateShowCardsDelay::~ServerRecvStateShowCardsDelay()
+{
+}
+
+void
+ServerRecvStateShowCardsDelay::SetTimer(const boost::microsec_timer &timer)
+{
+	m_delayTimer = timer;
+}
+
+int
+ServerRecvStateShowCardsDelay::Process(ServerRecvThread &server)
+{
+	int retVal = ServerRecvStateReceiving::Process(server);
+
+	Game &curGame = server.GetGame();
+
+	if (m_delayTimer.elapsed().seconds() >= SERVER_SHOW_CARDS_DELAY_SEC)
+	{
+		SendNewRoundCards(server, curGame, curGame.getCurrentHand()->getActualRound());
+
+		boost::microsec_timer delayTimer;
+		delayTimer.start();
+		ServerRecvStateDealCardsDelay::Instance().SetTimer(delayTimer);
+		server.SetState(ServerRecvStateDealCardsDelay::Instance());
+		retVal = MSG_NET_GAME_SERVER_CARDS_DELAY;
+	}
+
+	return retVal;
+}
+
+int
+ServerRecvStateShowCardsDelay::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	return MSG_SOCK_INTERNAL_PENDING;
 }
@@ -913,7 +969,7 @@ ServerRecvStateNextHand::Process(ServerRecvThread &server)
 {
 	int retVal = ServerRecvStateReceiving::Process(server);
 
-	if (m_delayTimer.elapsed().seconds() >= SERVER_NEXT_HAND_DELAY_SEC)
+	if (m_delayTimer.elapsed().seconds() >= SERVER_DELAY_NEXT_HAND_SEC)
 		server.SetState(ServerRecvStateStartHand::Instance());
 
 	return retVal;

@@ -582,7 +582,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalRefreshAll()), this, SLOT(refreshAll()));
 	connect(this, SIGNAL(signalRefreshPlayerName()), this, SLOT(refreshPlayerName()));
 	connect(this, SIGNAL(signalRefreshButton()), this, SLOT(refreshButton()));
-	connect(this, SIGNAL(signalRefreshGameLabels()), this, SLOT(refreshGameLabels()));
+	connect(this, SIGNAL(signalRefreshGameLabels(int)), this, SLOT(refreshGameLabels(int)));
 
 	connect(this, SIGNAL(signalMeInAction()), this, SLOT(meInAction()));
 
@@ -1186,9 +1186,9 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 	}
 }
 
-void mainWindowImpl::refreshGameLabels() { 
+void mainWindowImpl::refreshGameLabels(int gameState) { 
 
-	switch(mySession->getCurrentGame()->getCurrentHand()->getActualRound()) {
+	switch(gameState) {
 		case 0: {
 			textLabel_handLabel->setText("Preflop");
 		} break;

@@ -70,6 +70,10 @@ public:
 
 	ServerCallback &GetCallback();
 
+	void SendError(SOCKET s, int errorCode);
+	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
+	void SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SOCKET except);
+
 protected:
 
 	struct Notification
@@ -113,10 +117,6 @@ protected:
 	PlayerDataList GetPlayerDataList() const;
 
 	int GetNextPlayerNumber() const;
-
-	void SendError(SOCKET s, int errorCode);
-	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
-	void SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SOCKET except);
 
 	ServerRecvState &GetState();
 	void SetState(ServerRecvState &newState);
@@ -169,6 +169,7 @@ friend class ServerRecvStateStartGame;
 friend class ServerRecvStateStartHand;
 friend class ServerRecvStateStartRound;
 friend class ServerRecvStateWaitPlayerAction;
+friend class ServerRecvStateShowCardsDelay;
 friend class ServerRecvStateDealCardsDelay;
 friend class ServerRecvStateNextHand;
 };
