@@ -51,7 +51,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( pushButton_Opponent5Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile5()) );
 	connect( pushButton_Opponent6Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile6()) );
 
-	connect( checkBox_showIntro, SIGNAL( clicked() ), this, SLOT( callSelectAvatarDialog()) ); 
+// 	connect( checkBox_showIntro, SIGNAL( clicked() ), this, SLOT( callSelectAvatarDialog()) ); 
 
 	//temporarely unused until ai is enabled in network
 	label_36->hide();
