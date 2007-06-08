@@ -585,6 +585,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalRefreshGameLabels(int)), this, SLOT(refreshGameLabels(int)));
 
 	connect(this, SIGNAL(signalMeInAction()), this, SLOT(meInAction()));
+	connect(this, SIGNAL(signalDisableMyButtons()), this, SLOT(disableMyButtons()));
 	connect(this, SIGNAL(signalStartTimeoutAnimation(int, int)), this, SLOT(startTimeoutAnimation(int, int)));
 	connect(this, SIGNAL(signalStopTimeoutAnimation(int)), this, SLOT(stopTimeoutAnimation(int)));
 
@@ -1551,7 +1552,6 @@ void mainWindowImpl::myFold(){
 
 	holeCardsArray[0][0]->startFadeOut(10); 
 	holeCardsArray[0][1]->startFadeOut(10); 
-	disableMyButtons();
 
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setLastPlayersTurn(0);
@@ -1567,8 +1567,6 @@ void mainWindowImpl::myCheck() {
 	
 	currentHand->getPlayerArray()[0]->setMyTurn(0);
 	currentHand->getPlayerArray()[0]->setMyAction(2);
-
-	disableMyButtons();
 
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setLastPlayersTurn(0);
@@ -1610,8 +1608,6 @@ void mainWindowImpl::myCall(){
 
 	currentHand->getBoard()->collectSets();
 	refreshPot();
-
-	disableMyButtons();
 
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setLastPlayersTurn(0);
@@ -1723,8 +1719,6 @@ void mainWindowImpl::mySet(){
 	currentHand->getBoard()->collectSets();
 	refreshPot();
 
-	disableMyButtons();
-
 	statusBar()->clearMessage();
 
 	//set that i was the last active player. need this for unhighlighting groupbox
@@ -1760,8 +1754,6 @@ void mainWindowImpl::myAllIn(){
 	currentHand->getBoard()->collectSets();
 	refreshPot();
 	
-	disableMyButtons();
-
 	statusBar()->clearMessage();
 
 	//set that i was the last active player. need this for unhighlighting groupbox
@@ -1776,6 +1768,9 @@ void mainWindowImpl::myActionDone() {
 	// If a network client is running, we need
 	// to transfer the action to the server.
 	mySession->sendClientPlayerAction();
+
+	// TODO: Should not call in networking game.
+	disableMyButtons();
 
 	nextPlayerAnimation();
 }

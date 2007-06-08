@@ -86,6 +86,7 @@ signals:
 	void signalRefreshGameLabels(int);
 
 	void signalMeInAction();
+	void signalDisableMyButtons();
 	void signalStartTimeoutAnimation(int playerId, int timeoutSec);
 	void signalStopTimeoutAnimation(int playerId);
 
@@ -145,6 +146,8 @@ public slots:
 	//Spieler-Funktionen
 	void meInAction();
 	void disableMyButtons();
+	void startTimeoutAnimation(int playerId, int timoutSec);
+	void stopTimeoutAnimation(int playerId);
 
 	void setGameSpeed(const int theValue) { guiGameSpeed = theValue; setSpeeds(); } // Achtung Faktor 10!!!
 
@@ -153,9 +156,6 @@ public slots:
 	void callSettingsDialog();
 	void callCreateNetworkGameDialog();
 	void callJoinNetworkGameDialog();
-
-	void startTimeoutAnimation(int playerId, int timoutSec);
-	void stopTimeoutAnimation(int playerId);
 
 	void myBetRaise();
 	void myFoldAllin();

@@ -39,6 +39,7 @@ using namespace std;
 #define SERVER_DEAL_RIVER_CARD_DELAY_SEC		2
 #define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		1
 #define SERVER_SHOW_CARDS_DELAY_SEC				2
+#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		2
 
 // Helper functions
 // TODO: these are hacks.
@@ -723,6 +724,14 @@ ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 	if (!tmpPlayer->getMyActiveStatus())
 	{
 		assert(tmpPlayer->getMyAction() == PLAYER_ACTION_FOLD && tmpPlayer->getMyCash() == 0);
+		PerformPlayerAction(server, tmpPlayer, PLAYER_ACTION_FOLD, 0);
+
+		server.SetState(ServerRecvStateStartRound::Instance());
+		retVal = MSG_NET_GAME_SERVER_ACTION;
+	}
+	else if (GetTimer().elapsed().seconds() >= server.GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC)
+	{
+		// Player did not act fast enough. Act for him.
 		PerformPlayerAction(server, tmpPlayer, PLAYER_ACTION_FOLD, 0);
 
 		server.SetState(ServerRecvStateStartRound::Instance());

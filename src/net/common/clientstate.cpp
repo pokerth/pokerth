@@ -638,6 +638,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			client.GetGui().refreshGroupbox(tmpPlayer->getMyID(), 3);
 
 			// Refresh GUI
+			if (tmpPlayer->getMyID() == 0)
+				client.GetGui().disableMyButtons();
 			client.GetGui().refreshPot();
 			client.GetGui().refreshSet();
 			client.GetGui().refreshAction();

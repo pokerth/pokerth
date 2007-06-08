@@ -89,6 +89,7 @@ void ServerGuiWrapper::flipHolecardsAllIn() {}
 void ServerGuiWrapper::nextRoundCleanGui() {}
 
 void ServerGuiWrapper::meInAction() {}
+void ServerGuiWrapper::disableMyButtons() {}
 void ServerGuiWrapper::startTimeoutAnimation(int playerId, int timeoutSec) {}
 void ServerGuiWrapper::stopTimeoutAnimation(int playerId) {}
 

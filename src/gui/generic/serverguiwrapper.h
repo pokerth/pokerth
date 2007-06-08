@@ -73,6 +73,7 @@ public:
 	void nextRoundCleanGui();
 
 	void meInAction();
+	void disableMyButtons();
 	void startTimeoutAnimation(int playerId, int timeoutSec);
 	void stopTimeoutAnimation(int playerId);
 
