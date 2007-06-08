@@ -20,6 +20,10 @@ MySetLabel::MySetLabel(QGroupBox* parent)
 {
 
 	timeOutAnimationTimer = new QTimer;
+	timeOutAnimationKickOnTimer = new QTimer;
+	timeOutAnimationKickOnTimer->setSingleShot(TRUE);
+
+	connect(timeOutAnimationKickOnTimer, SIGNAL(timeout()), this, SLOT(startTimeOutAnimationNow()));
 	connect(timeOutAnimationTimer, SIGNAL(timeout()), this, SLOT(nextTimeOutAnimationFrame()));
 // 	flipCardsTimer = new QTimer;
 // 	connect(flipCardsTimer, SIGNAL(timeout()), this, SLOT(nextFlipCardsFrame()));
@@ -32,17 +36,23 @@ MySetLabel::~MySetLabel()
 
 void MySetLabel::startTimeOutAnimation(int secs) {
 
-	timeOutValue = secs;
+	timeOutValue = secs-3;
 	timeOutFrame = 1;
 	timeOutAnimationWidth = 118;
 	
-	timeOutAnimation = TRUE;
-	timeOutAnimationTimer->start(40);
+	timeOutAnimationKickOnTimer->start(3000);
 }
 
+void MySetLabel::startTimeOutAnimationNow() {
+
+	timeOutAnimation = TRUE;
+	timeOutAnimationTimer->start(83);
+
+}
 
 void MySetLabel::stopTimeOutAnimation() {
 
+	timeOutAnimationKickOnTimer->stop();
 	timeOutAnimationTimer->stop();
 	timeOutAnimation = FALSE;
 	update();
@@ -51,8 +61,8 @@ void MySetLabel::stopTimeOutAnimation() {
 void MySetLabel::nextTimeOutAnimationFrame() {
 
 	if(timeOutAnimationWidth >=0) {
-		if(timeOutFrame%(timeOutValue*25/118) == 0) 
-		timeOutAnimationWidth--;
+		if(timeOutFrame%(timeOutValue*12/118) == 0) 
+			timeOutAnimationWidth--;
 		timeOutFrame++;
 		update();
 	}	

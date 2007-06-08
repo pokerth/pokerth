@@ -30,12 +30,13 @@ public:
 	void setMyW ( mainWindowImpl* theValue ) { myW = theValue; }
 	
 	void startTimeOutAnimation(int secs);
+	
 	void stopTimeOutAnimation();
 	
 	void paintEvent(QPaintEvent * event);
 
 public slots:
-	
+	void startTimeOutAnimationNow();
 	void nextTimeOutAnimationFrame();
 
 	
@@ -43,6 +44,7 @@ private:
 
 	mainWindowImpl *myW;
 	QTimer *timeOutAnimationTimer;
+	QTimer *timeOutAnimationKickOnTimer;
 	bool timeOutAnimation;
 
 	int timeOutAnimationWidth;
