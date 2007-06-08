@@ -269,6 +269,7 @@ void LocalHand::assignButtons() {
 			// sonst
 			else { playerArray[i]->setMySet(2*smallBlind);	}
 		}
+
 	}
 }
 
@@ -288,7 +289,7 @@ void LocalHand::switchRounds() {
 
 	// Anzahl der Spieler ermitteln, welche All In sind
 	int allInPlayersCounter = 0;
-		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 			if (playerArray[i]->getMyAction() == 6) allInPlayersCounter++;
 	}
 
@@ -336,7 +337,7 @@ void LocalHand::switchRounds() {
 				}
 
 				// HeadsUp-Ausnahme -> spieler ermitteln, der all in ist und als bb nur weniger als sb setzen konnte
-				if(activePlayersCounter==2 && playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyAction() == 6 && playerArray[i]->getMyActiveStatus() == 1 && playerArray[i]->getMyButton()==3 && playerArray[i]->getMySet()<=smallBlind) {
+				if(activePlayersCounter==2 && playerArray[i]->getMyAction() == 6 && playerArray[i]->getMyActiveStatus() == 1 && playerArray[i]->getMyButton()==3 && playerArray[i]->getMySet()<=smallBlind) {
 						allInCondition = 1;
 				}
 

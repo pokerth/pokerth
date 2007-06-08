@@ -34,11 +34,14 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 // 	for statistic development
 // 	if(myID==0) { 
 // 		myActiveStatus=0;
-// 		myCash=0;
+// 		myCash=20;
 // 	}
-
+// 
 // 	if(myID==1) {
-// 		myCash=300;
+// 		myCash=6130;
+// 	}
+// 	if(myID==2) {
+// 		myCash=2850;
 // 	}
 	////////////////////////////
 	

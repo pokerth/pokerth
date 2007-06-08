@@ -151,13 +151,14 @@ void Game::initHand()
 		if(playerArray[i]->getMyActiveStatus() != 0) actualQuantityPlayers++;
 	}
 
-	// Hand erstellen
-	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, actualHandID, startQuantityPlayers, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
-
 	//Spieler Action auf 0 setzen 
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		playerArray[i]->setMyAction(0);
 	}
+
+	// Hand erstellen
+	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, actualHandID, startQuantityPlayers, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
+
 
 	// Dealer-Button weiterschieben --> Achtung inactive
 	do {
