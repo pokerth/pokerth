@@ -563,6 +563,7 @@ ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		client.GetGame()->startHand();
 		client.GetGui().dealHoleCards();
 		client.GetGui().refreshGameLabels(GAME_STATE_PREFLOP);
+		client.GetGui().refreshPot();
 		client.SetState(ClientStateRunHand::Instance());
 
 		retVal = MSG_NET_GAME_CLIENT_HAND_START;
@@ -657,6 +658,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 				ResetPlayerActions(*curGame);
 				curGame->getCurrentHand()->setActualRound(turnData.gameState);
 				// Refresh actions.
+				client.GetGui().refreshSet();
 				client.GetGui().refreshAction();
 			}
 
@@ -762,6 +764,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 
 			tmpPlayer->setMyCash(endHandData.playerMoney);
 			// TODO use moneyWon
+			curGame->getCurrentHand()->getBoard()->setPot(0);
 			client.GetGui().postRiverRunAnimation1();
 
 			// Reset player actions
@@ -802,7 +805,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 				// TODO use moneyWon
 				++i;
 			}
-			client.GetGame()->getCurrentHand()->getRiver()->setHighestCardsValue(highestValueOfCards);
+			curGame->getCurrentHand()->getRiver()->setHighestCardsValue(highestValueOfCards);
+			curGame->getCurrentHand()->getBoard()->setPot(0);
 			client.GetGui().postRiverRunAnimation1();
 
 			// Reset player sets
