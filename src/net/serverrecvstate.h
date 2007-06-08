@@ -41,6 +41,9 @@ class ServerRecvState
 public:
 	virtual ~ServerRecvState();
 
+	// Initialize after switching to this state.
+	virtual void Init() = 0;
+
 	// Handling of a new TCP connection.
 	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData) = 0;
 
@@ -65,28 +68,22 @@ protected:
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
 };
 
-// State: Initialization.
-class ServerRecvStateInit : public ServerRecvStateReceiving
+// Abstract State: Timer.
+class ServerRecvStateTimer : virtual public ServerRecvState
 {
 public:
-	// Access the state singleton.
-	static ServerRecvStateInit &Instance();
+	virtual ~ServerRecvStateTimer();
 
-	virtual ~ServerRecvStateInit();
+	virtual void Init();
 
-	// 
-	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
+	const boost::microsec_timer &GetTimer() const {return m_timer;}
 
 protected:
 
-	// Protected constructor - this is a singleton.
-	ServerRecvStateInit();
-
-	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	ServerRecvStateTimer();
 
 private:
-
-	u_int16_t		m_curUniquePlayerId;
+	boost::microsec_timer m_timer;
 };
 
 // Abstract State: Game is running.
@@ -103,6 +100,31 @@ protected:
 	ServerRecvStateRunning();
 };
 
+// State: Initialization.
+class ServerRecvStateInit : public ServerRecvStateReceiving
+{
+public:
+	// Access the state singleton.
+	static ServerRecvStateInit &Instance();
+
+	virtual ~ServerRecvStateInit();
+
+	virtual void Init() {}
+	// 
+	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ServerRecvStateInit();
+
+	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+
+private:
+
+	u_int16_t		m_curUniquePlayerId;
+};
+
 // State: Start server game.
 class ServerRecvStateStartGame : public ServerRecvStateRunning
 {
@@ -111,6 +133,8 @@ public:
 	static ServerRecvStateStartGame &Instance();
 
 	virtual ~ServerRecvStateStartGame();
+
+	virtual void Init() {}
 
 	// 
 	virtual int Process(ServerRecvThread &server);
@@ -130,6 +154,8 @@ public:
 
 	virtual ~ServerRecvStateStartHand();
 
+	virtual void Init() {}
+
 	// 
 	virtual int Process(ServerRecvThread &server);
 
@@ -148,6 +174,8 @@ public:
 
 	virtual ~ServerRecvStateStartRound();
 
+	virtual void Init() {}
+
 	// 
 	virtual int Process(ServerRecvThread &server);
 
@@ -161,7 +189,7 @@ protected:
 };
 
 // State: Wait for a player action.
-class ServerRecvStateWaitPlayerAction : public ServerRecvStateReceiving, public ServerRecvStateRunning
+class ServerRecvStateWaitPlayerAction : public ServerRecvStateReceiving, public ServerRecvStateRunning, public ServerRecvStateTimer
 {
 public:
 	// Access the state singleton.
@@ -185,7 +213,7 @@ protected:
 };
 
 // State: Delay after dealing cards
-class ServerRecvStateDealCardsDelay : public ServerRecvStateReceiving, public ServerRecvStateRunning
+class ServerRecvStateDealCardsDelay : public ServerRecvStateReceiving, public ServerRecvStateRunning, public ServerRecvStateTimer
 {
 public:
 	// Access the state singleton.
@@ -196,22 +224,16 @@ public:
 	// Overwrite default processing
 	virtual int Process(ServerRecvThread &server);
 
-	void SetTimer(const boost::microsec_timer &timer);
-
 protected:
 
 	// Protected constructor - this is a singleton.
 	ServerRecvStateDealCardsDelay();
 
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-
-private:
-
-	boost::microsec_timer m_delayTimer;
 };
 
 // State: Delay after showing cards (all in)
-class ServerRecvStateShowCardsDelay : public ServerRecvStateReceiving, public ServerRecvStateRunning
+class ServerRecvStateShowCardsDelay : public ServerRecvStateReceiving, public ServerRecvStateRunning, public ServerRecvStateTimer
 {
 public:
 	// Access the state singleton.
@@ -222,22 +244,16 @@ public:
 	// Overwrite default processing
 	virtual int Process(ServerRecvThread &server);
 
-	void SetTimer(const boost::microsec_timer &timer);
-
 protected:
 
 	// Protected constructor - this is a singleton.
 	ServerRecvStateShowCardsDelay();
 
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-
-private:
-
-	boost::microsec_timer m_delayTimer;
 };
 
 // State: Delay before next hand.
-class ServerRecvStateNextHand : public ServerRecvStateReceiving, public ServerRecvStateRunning
+class ServerRecvStateNextHand : public ServerRecvStateReceiving, public ServerRecvStateRunning, public ServerRecvStateTimer
 {
 public:
 	// Access the state singleton.
@@ -248,18 +264,12 @@ public:
 	// Overwrite default processing
 	virtual int Process(ServerRecvThread &server);
 
-	void SetTimer(const boost::microsec_timer &timer);
-
 protected:
 
 	// Protected constructor - this is a singleton.
 	ServerRecvStateNextHand();
 
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-
-private:
-
-	boost::microsec_timer m_delayTimer;
 };
 
 
@@ -271,6 +281,8 @@ public:
 	static ServerRecvStateFinal &Instance();
 
 	virtual ~ServerRecvStateFinal();
+
+	virtual void Init() {}
 
 protected:
 

@@ -601,6 +601,7 @@ ServerRecvThread::GetState()
 void
 ServerRecvThread::SetState(ServerRecvState &newState)
 {
+	newState.Init();
 	m_curState = &newState;
 }
 

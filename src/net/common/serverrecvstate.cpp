@@ -180,6 +180,23 @@ ServerRecvStateReceiving::Process(ServerRecvThread &server)
 
 //-----------------------------------------------------------------------------
 
+ServerRecvStateTimer::ServerRecvStateTimer()
+{
+}
+
+ServerRecvStateTimer::~ServerRecvStateTimer()
+{
+}
+
+void
+ServerRecvStateTimer::Init()
+{
+	m_timer.reset();
+	m_timer.start();
+}
+
+//-----------------------------------------------------------------------------
+
 ServerRecvStateInit &
 ServerRecvStateInit::Instance()
 {
@@ -436,7 +453,6 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 			actionDoneData.playerAction = (PlayerAction)playerArray[i]->getMyAction();
 			actionDoneData.totalPlayerBet = playerArray[i]->getMySet();
 			actionDoneData.playerMoney = playerArray[i]->getMyCash();
-			actionDoneData.curHandBets = playerArray[i]->getMySet(); // first bet only
 			static_cast<NetPacketPlayersActionDone *>(notifySmallBlind.get())->SetData(actionDoneData);
 			server.SendToAllPlayers(notifySmallBlind);
 			break;
@@ -453,7 +469,6 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 			actionDoneData.playerAction = (PlayerAction)playerArray[i]->getMyAction();
 			actionDoneData.totalPlayerBet = playerArray[i]->getMySet();
 			actionDoneData.playerMoney = playerArray[i]->getMyCash();
-			actionDoneData.curHandBets = curGame.getCurrentHand()->getBoard()->getSets();
 			static_cast<NetPacketPlayersActionDone *>(notifyBigBlind.get())->SetData(actionDoneData);
 			server.SendToAllPlayers(notifyBigBlind);
 			break;
@@ -530,9 +545,6 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 			server.SendToAllPlayers(allIn);
 			curGame.getCurrentHand()->setCardsShown(true);
 
-			boost::microsec_timer delayTimer;
-			delayTimer.start();
-			ServerRecvStateShowCardsDelay::Instance().SetTimer(delayTimer);
 			server.SetState(ServerRecvStateShowCardsDelay::Instance());
 			retVal = MSG_NET_GAME_SERVER_CARDS_DELAY;
 		}
@@ -540,9 +552,6 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 		{
 			SendNewRoundCards(server, curGame, newRound);
 
-			boost::microsec_timer delayTimer;
-			delayTimer.start();
-			ServerRecvStateDealCardsDelay::Instance().SetTimer(delayTimer);
 			server.SetState(ServerRecvStateDealCardsDelay::Instance());
 			retVal = MSG_NET_GAME_SERVER_CARDS_DELAY;
 		}
@@ -636,9 +645,6 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 				server.SetState(ServerRecvStateFinal::Instance()); // TODO
 			else
 			{
-				boost::microsec_timer delayTimer;
-				delayTimer.start();
-				ServerRecvStateNextHand::Instance().SetTimer(delayTimer);
 				server.SetState(ServerRecvStateNextHand::Instance());
 				retVal = MSG_NET_GAME_SERVER_HAND_END;
 			}
@@ -777,7 +783,6 @@ ServerRecvStateWaitPlayerAction::PerformPlayerAction(ServerRecvThread &server, P
 	actionDoneData.playerAction = static_cast<PlayerAction>(player->getMyAction());
 	actionDoneData.totalPlayerBet = player->getMySet();
 	actionDoneData.playerMoney = player->getMyCash();
-	actionDoneData.curHandBets = curGame.getCurrentHand()->getBoard()->getSets();
 	static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
 	server.SendToAllPlayers(notifyActionDone);
 }
@@ -849,12 +854,6 @@ ServerRecvStateDealCardsDelay::~ServerRecvStateDealCardsDelay()
 {
 }
 
-void
-ServerRecvStateDealCardsDelay::SetTimer(const boost::microsec_timer &timer)
-{
-	m_delayTimer = timer;
-}
-
 int
 ServerRecvStateDealCardsDelay::Process(ServerRecvThread &server)
 {
@@ -863,24 +862,23 @@ ServerRecvStateDealCardsDelay::Process(ServerRecvThread &server)
 	Game &curGame = server.GetGame();
 
 	int allInDelay = curGame.getCurrentHand()->getAllInCondition() ? SERVER_DEAL_ADD_ALL_IN_DELAY_SEC : 0;
+	int delay = 0;
 
 	switch(curGame.getCurrentHand()->getActualRound())
 	{
 		case GAME_STATE_FLOP:
-			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_FLOP_CARDS_DELAY_SEC + allInDelay)
-				server.SetState(ServerRecvStateStartRound::Instance());
+			delay = SERVER_DEAL_FLOP_CARDS_DELAY_SEC + allInDelay;
 			break;
 		case GAME_STATE_TURN:
-			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_TURN_CARD_DELAY_SEC)
-				server.SetState(ServerRecvStateStartRound::Instance());
+			delay = SERVER_DEAL_TURN_CARD_DELAY_SEC;
 			break;
 		case GAME_STATE_RIVER:
-			if (m_delayTimer.elapsed().seconds() >= SERVER_DEAL_RIVER_CARD_DELAY_SEC)
-				server.SetState(ServerRecvStateStartRound::Instance());
+			delay = SERVER_DEAL_RIVER_CARD_DELAY_SEC;
 			break;
-		default:
-			server.SetState(ServerRecvStateStartRound::Instance());
 	}
+	if (!delay || GetTimer().elapsed().seconds() >= delay)
+		server.SetState(ServerRecvStateStartRound::Instance());
+
 	return retVal;
 }
 
@@ -907,12 +905,6 @@ ServerRecvStateShowCardsDelay::~ServerRecvStateShowCardsDelay()
 {
 }
 
-void
-ServerRecvStateShowCardsDelay::SetTimer(const boost::microsec_timer &timer)
-{
-	m_delayTimer = timer;
-}
-
 int
 ServerRecvStateShowCardsDelay::Process(ServerRecvThread &server)
 {
@@ -920,13 +912,10 @@ ServerRecvStateShowCardsDelay::Process(ServerRecvThread &server)
 
 	Game &curGame = server.GetGame();
 
-	if (m_delayTimer.elapsed().seconds() >= SERVER_SHOW_CARDS_DELAY_SEC)
+	if (GetTimer().elapsed().seconds() >= SERVER_SHOW_CARDS_DELAY_SEC)
 	{
 		SendNewRoundCards(server, curGame, curGame.getCurrentHand()->getActualRound());
 
-		boost::microsec_timer delayTimer;
-		delayTimer.start();
-		ServerRecvStateDealCardsDelay::Instance().SetTimer(delayTimer);
 		server.SetState(ServerRecvStateDealCardsDelay::Instance());
 		retVal = MSG_NET_GAME_SERVER_CARDS_DELAY;
 	}
@@ -957,18 +946,12 @@ ServerRecvStateNextHand::~ServerRecvStateNextHand()
 {
 }
 
-void
-ServerRecvStateNextHand::SetTimer(const boost::microsec_timer &timer)
-{
-	m_delayTimer = timer;
-}
-
 int
 ServerRecvStateNextHand::Process(ServerRecvThread &server)
 {
 	int retVal = ServerRecvStateReceiving::Process(server);
 
-	if (m_delayTimer.elapsed().seconds() >= SERVER_DELAY_NEXT_HAND_SEC)
+	if (GetTimer().elapsed().seconds() >= SERVER_DELAY_NEXT_HAND_SEC)
 		server.SetState(ServerRecvStateStartHand::Instance());
 
 	return retVal;

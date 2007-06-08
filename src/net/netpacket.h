@@ -316,7 +316,6 @@ public:
 		PlayerAction	playerAction;
 		u_int32_t		totalPlayerBet;
 		u_int32_t		playerMoney;
-		u_int32_t		curHandBets;
 	};
 
 	NetPacketPlayersActionDone();

@@ -163,7 +163,6 @@ struct GCC_PACKED NetPacketPlayersActionDoneData
 	u_int16_t			reserved;
 	u_int32_t			totalPlayerBet;
 	u_int32_t			playerMoney;
-	u_int32_t			curHandBets;
 };
 
 struct GCC_PACKED NetPacketPlayersActionRejectedData
@@ -1238,7 +1237,6 @@ NetPacketPlayersActionDone::SetData(const NetPacketPlayersActionDone::Data &inDa
 	tmpData->playerAction	= htons(inData.playerAction);
 	tmpData->totalPlayerBet	= htonl(inData.totalPlayerBet);
 	tmpData->playerMoney	= htonl(inData.playerMoney);
-	tmpData->curHandBets	= htonl(inData.curHandBets);
 }
 
 void
@@ -1252,7 +1250,6 @@ NetPacketPlayersActionDone::GetData(NetPacketPlayersActionDone::Data &outData) c
 	outData.playerAction	= static_cast<PlayerAction>(ntohs(tmpData->playerAction));
 	outData.totalPlayerBet	= ntohl(tmpData->totalPlayerBet);
 	outData.playerMoney		= ntohl(tmpData->playerMoney);
-	outData.curHandBets		= ntohl(tmpData->curHandBets);
 }
 
 const NetPacketPlayersActionDone *
