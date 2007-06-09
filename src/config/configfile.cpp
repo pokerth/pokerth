@@ -255,6 +255,33 @@ void ConfigFile::fillBuffer() {
 	myQtToolsInterface = 0;
 }
 
+void ConfigFile::writeBuffer() {
+
+	//write buffer to disc if enabled
+	if(!noWriteAccess) {
+		TiXmlDocument doc;  
+		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
+		doc.LinkEndChild( decl );  
+			
+		TiXmlElement * root = new TiXmlElement( "PokerTH" );  
+		doc.LinkEndChild( root );  		
+			
+		TiXmlElement * config;
+		config = new TiXmlElement( "Configuration" );  
+		root->LinkEndChild( config );  
+	
+		size_t i;
+	
+		for (i=0; i<configBufferList.size(); i++) {
+			TiXmlElement *tmpElement = new TiXmlElement(configBufferList[i].name);
+			config->LinkEndChild( tmpElement );
+			tmpElement->SetAttribute("value", configBufferList[i].defaultValue);
+		}
+				
+		doc.SaveFile( configFileName );
+	}
+}
+
 void ConfigFile::updateConfig(ConfigState myConfigState) {
 	
 	size_t i;
@@ -427,81 +454,24 @@ int ConfigFile::readConfigInt(string varName)
 
 void ConfigFile::writeConfigInt(string varName, int varCont)
  {	
-	if(!noWriteAccess) {
-	//writeaccess
-		TiXmlDocument doc(configFileName); 
-		if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
-		TiXmlHandle docHandle( &doc );		
-	
-		TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
-		if ( conf ) {
-			conf->SetAttribute("value", varCont );
-			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
-		} else {
-			//Wenn nicht gefunden eines neues Anlegen
-			TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
-	
-			if ( config ) { 		
-	
-				TiXmlElement * confElement1 = new TiXmlElement( varName ); 
-				config->LinkEndChild( confElement1 );
-				confElement1->SetAttribute("value", varCont);
-	
-				if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
-			}
-		}
-		if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
-	
-		fillBuffer();
-	}
-	else {
-	//no writeaccess
-		size_t i;
-		string tempString;
-		ostringstream intToString;
+	size_t i;
+	string tempString;
+	ostringstream intToString;
 
-		for (i=0; i<configBufferList.size(); i++) {	
+	for (i=0; i<configBufferList.size(); i++) {	
 
-			if (configBufferList[i].name == varName) {
-				intToString << varCont;
-				configBufferList[i].defaultValue = intToString.str();	
-			}
+		if (configBufferList[i].name == varName) {
+			intToString << varCont;
+			configBufferList[i].defaultValue = intToString.str();	
 		}
 	}
 }
 
 void ConfigFile::writeConfigString(string varName, string varCont)
  {
-	
-	if(!noWriteAccess) {
-	//writeaccess
-		TiXmlDocument doc(configFileName); 
-		if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
-		TiXmlHandle docHandle( &doc );		
-	
-		TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
-		if ( conf ) {
-			conf->SetAttribute("value", varCont );
-		} else {
-			//Wenn nicht gefunden eines neues Anlegen
-			TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
-			if ( config ) { 		
-				TiXmlElement * confElement1 = new TiXmlElement( varName ); 
-				config->LinkEndChild( confElement1 );
-				confElement1->SetAttribute("value", varCont);
-				if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
-			}
-		}
-		if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
-		
-		fillBuffer();
+	size_t i;
+	for (i=0; i<configBufferList.size(); i++) {	
+		if (configBufferList[i].name == varName) { configBufferList[i].defaultValue = varCont; }
 	}
-	else {
-	//no writeaccess
-		size_t i;
-		for (i=0; i<configBufferList.size(); i++) {	
-			if (configBufferList[i].name == varName) { configBufferList[i].defaultValue = varCont; }
-		}
-	}
-        
+
 }

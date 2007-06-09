@@ -2513,7 +2513,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F3) { pushButton_BetRaise->click(); } 
 	if (event->key() == Qt::Key_F10) { switchLeftToolBox(); } 
 	if (event->key() == Qt::Key_F11) { switchRightToolBox(); } 
-// 	if (event->key() == Qt::Key_W) { qApp->quit(); } //s	
+	if (event->key() == Qt::Key_S) {} //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;
@@ -2588,6 +2588,10 @@ void mainWindowImpl::localGameModification() {
 	tabWidget_Left->setCurrentIndex(0);
 	tabWidget_Left->disableTab(1, TRUE);
 	
+	int i;
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
+		setLabelArray[i]->stopTimeOutAnimation();
+	}
 }
 
 void mainWindowImpl::networkGameModification() {

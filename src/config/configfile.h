@@ -37,6 +37,7 @@ public:
 	~ConfigFile();
 	
 	void fillBuffer();
+	void writeBuffer();
 
 	void updateConfig(ConfigState);
 

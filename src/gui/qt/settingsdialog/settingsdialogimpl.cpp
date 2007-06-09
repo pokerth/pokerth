@@ -240,6 +240,9 @@ void settingsDialogImpl::isAccepted() {
 		myConfig->writeConfigInt("LogInterval", comboBox_logInterval->currentIndex());
 	}
 
+	//write buffer to disc 
+	myConfig->writeBuffer();
+
 	//Wenn alles richtig eingegeben wurde --> Dialog schließen
 	if(settingsCorrect) { this->hide(); }
 }

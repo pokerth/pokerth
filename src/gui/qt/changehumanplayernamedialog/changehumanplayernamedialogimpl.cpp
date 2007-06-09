@@ -36,4 +36,6 @@ changeHumanPlayerNameDialogImpl::changeHumanPlayerNameDialogImpl(QWidget *parent
 void changeHumanPlayerNameDialogImpl::savePlayerName() {
 
 	myConfig->writeConfigString("MyName", lineEdit->text().toUtf8().constData());
+	//write buffer to disc 
+	myConfig->writeBuffer();
 }
