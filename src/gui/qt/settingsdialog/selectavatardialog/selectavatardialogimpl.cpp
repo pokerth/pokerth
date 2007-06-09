@@ -52,14 +52,25 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 // 	};
 
 	QStringList avatarList;
-	avatarList << ":avatar/resources/avatar/albert_einstein.png";
-	avatarList << ":avatar/resources/avatar/linus.png";
-	avatarList << ":avatar/resources/avatar/mozart.png";
-	avatarList << ":avatar/resources/avatar/bach.png";
-	avatarList << ":avatar/resources/avatar/goethe.png";
-	avatarList << ":avatar/resources/avatar/marc.png";
-	avatarList << ":avatar/resources/avatar/clipart1.png";
 
+        avatarList << ":avatar/resources/avatar/Catherine_russia.png";
+        avatarList << ":avatar/resources/avatar/Columbus.png";
+        avatarList << ":avatar/resources/avatar/Elisabeth1.png";
+        avatarList << ":avatar/resources/avatar/George_Washington.png";
+        avatarList << ":avatar/resources/avatar/James_Watt.png";
+        avatarList << ":avatar/resources/avatar/Louis_XIV.png";
+        avatarList << ":avatar/resources/avatar/Martin_Luther_King.png";
+        avatarList << ":avatar/resources/avatar/Napoleon.png";
+        avatarList << ":avatar/resources/avatar/PopeInnocentX.png";
+        avatarList << ":avatar/resources/avatar/Pope_Clement_VII.png";
+        avatarList << ":avatar/resources/avatar/Sissi.png";
+        avatarList << ":avatar/resources/avatar/albert_einstein.png";
+        avatarList << ":avatar/resources/avatar/bach.png";
+        avatarList << ":avatar/resources/avatar/clipart1.png";
+        avatarList << ":avatar/resources/avatar/goethe.png";
+        avatarList << ":avatar/resources/avatar/linus.png";
+        avatarList << ":avatar/resources/avatar/marc.png";
+        avatarList << ":avatar/resources/avatar/mozart.png";
 
 	int i;
 	for (i=0; i<avatarList.size(); i++) {

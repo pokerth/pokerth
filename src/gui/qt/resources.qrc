@@ -10,13 +10,24 @@
         <file>resources/graphics/actions/action_winner.png</file>
     </qresource>
     <qresource prefix="/avatar" >
+        <file>resources/avatar/Catherine_russia.png</file>
+        <file>resources/avatar/Columbus.png</file>
+        <file>resources/avatar/Elisabeth1.png</file>
+        <file>resources/avatar/George_Washington.png</file>
+        <file>resources/avatar/James_Watt.png</file>
+        <file>resources/avatar/Louis_XIV.png</file>
+        <file>resources/avatar/Martin_Luther_King.png</file>
+        <file>resources/avatar/Napoleon.png</file>
+        <file>resources/avatar/PopeInnocentX.png</file>
+        <file>resources/avatar/Pope_Clement_VII.png</file>
+        <file>resources/avatar/Sissi.png</file>
         <file>resources/avatar/albert_einstein.png</file>
+        <file>resources/avatar/bach.png</file>
         <file>resources/avatar/clipart1.png</file>
         <file>resources/avatar/goethe.png</file>
         <file>resources/avatar/linus.png</file>
         <file>resources/avatar/marc.png</file>
         <file>resources/avatar/mozart.png</file>
-	<file>resources/avatar/bach.png</file>
     </qresource>
     <qresource prefix="/cards" >
         <file>resources/graphics/cards/0.png</file>
