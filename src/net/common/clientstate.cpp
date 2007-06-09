@@ -626,6 +626,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			tmpPlayer->setMySetAbsolute(actionDoneData.totalPlayerBet);
 			tmpPlayer->setMyCash(actionDoneData.playerMoney);
 			curGame->getCurrentHand()->getBoard()->collectSets();
+			curGame->getCurrentHand()->switchRounds();
 
 			// Update highest set
 			if (tmpPlayer->getMySet() > GetHighestSet(*curGame))
