@@ -281,7 +281,7 @@ void LocalHand::switchRounds() {
 
 // 	cout <<" ------- HandID: " << myID << " | actualround: " << actualRound << " ---------" << endl;
 
-	//Aktive Spieler z�len --> wenn nur noch einer nicht-folded dann gleich den Pot verteilen
+	//Aktive Spieler z�len
 	activePlayersCounter = 0;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 		if (playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyActiveStatus() == 1) activePlayersCounter++;
@@ -292,7 +292,8 @@ void LocalHand::switchRounds() {
 		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 			if (playerArray[i]->getMyAction() == 6) allInPlayersCounter++;
 	}
-
+	 
+	//wenn nur noch einer nicht-folded dann gleich den Pot verteilen
 	if(activePlayersCounter==1) {
 		myBoard->collectPot();	
 		myGui->refreshPot();
