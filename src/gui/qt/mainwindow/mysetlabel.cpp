@@ -56,7 +56,7 @@ void MySetLabel::startTimeOutAnimation(int secs) {
 
 	waitFrames = 3000/timerIntervall;
 
-	std::cout << timerIntervall << endl;
+// 	std::cout << timerIntervall << endl;
 	timeOutAnimation = TRUE;	
 	timeOutAnimationTimer->start(timerIntervall);
 }

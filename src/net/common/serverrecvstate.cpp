@@ -37,7 +37,7 @@ using namespace std;
 #define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		5
 #define SERVER_DEAL_TURN_CARD_DELAY_SEC			2
 #define SERVER_DEAL_RIVER_CARD_DELAY_SEC		2
-#define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		1
+#define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		2
 #define SERVER_SHOW_CARDS_DELAY_SEC				2
 #define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		2
 
@@ -879,10 +879,10 @@ ServerRecvStateDealCardsDelay::Process(ServerRecvThread &server)
 	switch(curGame.getCurrentHand()->getActualRound())
 	{
 		case GAME_STATE_FLOP:
-			delay = SERVER_DEAL_FLOP_CARDS_DELAY_SEC + allInDelay;
+			delay = SERVER_DEAL_FLOP_CARDS_DELAY_SEC;
 			break;
 		case GAME_STATE_TURN:
-			delay = SERVER_DEAL_TURN_CARD_DELAY_SEC;
+			delay = SERVER_DEAL_TURN_CARD_DELAY_SEC + allInDelay;
 			break;
 		case GAME_STATE_RIVER:
 			delay = SERVER_DEAL_RIVER_CARD_DELAY_SEC;
