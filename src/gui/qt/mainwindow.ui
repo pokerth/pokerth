@@ -6102,7 +6102,7 @@
      <x>0</x>
      <y>0</y>
      <width>1006</width>
-     <height>29</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView" >
@@ -6173,11 +6173,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MyLeftTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>mylefttabwidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>MySetLabel</class>
    <extends>QLabel</extends>
    <header>mysetlabel.h</header>
@@ -6186,6 +6181,11 @@
    <class>MyRightTabWidget</class>
    <extends>QTabWidget</extends>
    <header>myrighttabwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MyLeftTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>mylefttabwidget.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
