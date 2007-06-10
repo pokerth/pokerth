@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>PokerTH 0.4 - Settings</string>
+   <string>Settings</string>
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
