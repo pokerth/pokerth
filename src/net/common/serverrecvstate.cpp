@@ -732,7 +732,10 @@ ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 	else if (GetTimer().elapsed().seconds() >= server.GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC)
 	{
 		// Player did not act fast enough. Act for him.
-		PerformPlayerAction(server, tmpPlayer, PLAYER_ACTION_FOLD, 0);
+		if (GetHighestSet(server.GetGame()) == tmpPlayer->getMySet())
+			PerformPlayerAction(server, tmpPlayer, PLAYER_ACTION_CHECK, 0);
+		else
+			PerformPlayerAction(server, tmpPlayer, PLAYER_ACTION_FOLD, 0);
 
 		server.SetState(ServerRecvStateStartRound::Instance());
 		retVal = MSG_NET_GAME_SERVER_ACTION;
