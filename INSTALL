@@ -6,7 +6,7 @@ To compile PokerTH you need following libs:
 Linux:
 - Qt version >= 4.2.3  --> http://trolltech.com/
 - libcrypt (e.g. version 0.9.7)  --> http://www.openssl.org/
-- libboost_thread (e.g. version 1.33)  --> http://www.boost.org/
+- libboost_thread (version >= 1.33 )  --> http://www.boost.org/
 - libSDL_mixer, libSDL --> http://www.libsdl.org/
 
 Windows:
