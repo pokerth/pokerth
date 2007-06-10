@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "waitforservertostartgamedialogimpl.h"
 #include "session.h"
+#include <net/socket_msg.h>
 // #include "configfile.h"
 
 waitForServerToStartGameDialogImpl::waitForServerToStartGameDialogImpl(QWidget *parent)
@@ -33,7 +34,10 @@ waitForServerToStartGameDialogImpl::waitForServerToStartGameDialogImpl(QWidget *
 
 void waitForServerToStartGameDialogImpl::refresh(int actionID) {
 
-	QTimer::singleShot(1000, this, SLOT(accept()));
+	if (actionID == MSG_NET_GAME_CLIENT_START)
+	{
+		QTimer::singleShot(500, this, SLOT(accept()));
+	}
 }
 
 void waitForServerToStartGameDialogImpl::cancel() {

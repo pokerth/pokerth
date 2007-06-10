@@ -568,6 +568,12 @@ ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 
 		retVal = MSG_NET_GAME_CLIENT_HAND_START;
 	}
+	else if (packet->ToNetPacketEndOfGame())
+	{
+		client.GetCallback().SignalNetClientWaitDialog();
+		client.SetState(ClientStateWaitGame::Instance());
+		retVal = MSG_NET_GAME_CLIENT_END;
+	}
 
 	return MSG_SOCK_INTERNAL_PENDING;
 }
@@ -831,7 +837,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 
 			// Wait for next Hand.
 			client.SetState(ClientStateWaitHand::Instance());
-			retVal = MSG_NET_GAME_SERVER_HAND_END;
+			retVal = MSG_NET_GAME_CLIENT_HAND_END;
 		}
 	}
 

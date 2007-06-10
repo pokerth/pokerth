@@ -253,13 +253,13 @@ protected:
 };
 
 // State: Delay before next hand.
-class ServerRecvStateNextHand : public ServerRecvStateReceiving, public ServerRecvStateRunning, public ServerRecvStateTimer
+class ServerRecvStateNextHandDelay : public ServerRecvStateReceiving, public ServerRecvStateRunning, public ServerRecvStateTimer
 {
 public:
 	// Access the state singleton.
-	static ServerRecvStateNextHand &Instance();
+	static ServerRecvStateNextHandDelay &Instance();
 
-	virtual ~ServerRecvStateNextHand();
+	virtual ~ServerRecvStateNextHandDelay();
 
 	// Overwrite default processing
 	virtual int Process(ServerRecvThread &server);
@@ -267,11 +267,30 @@ public:
 protected:
 
 	// Protected constructor - this is a singleton.
-	ServerRecvStateNextHand();
+	ServerRecvStateNextHandDelay();
 
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 };
 
+// State: Delay before next hand.
+class ServerRecvStateNextGameDelay : public ServerRecvStateReceiving, public ServerRecvStateRunning, public ServerRecvStateTimer
+{
+public:
+	// Access the state singleton.
+	static ServerRecvStateNextGameDelay &Instance();
+
+	virtual ~ServerRecvStateNextGameDelay();
+
+	// Overwrite default processing
+	virtual int Process(ServerRecvThread &server);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ServerRecvStateNextGameDelay();
+
+	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+};
 
 // State: Final.
 class ServerRecvStateFinal : public ServerRecvStateReceiving, public ServerRecvStateRunning

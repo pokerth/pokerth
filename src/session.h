@@ -62,6 +62,7 @@ public:
 	void kickPlayer(const std::string &playerName);
 
 	bool isNetworkClientRunning() const; // TODO hack
+	bool isNetworkServerRunning() const; // TODO hack
 
 private:
 

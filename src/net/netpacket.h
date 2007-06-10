@@ -56,6 +56,7 @@ class NetPacketDealRiverCard;
 class NetPacketAllInShowCards;
 class NetPacketEndOfHandShowCards;
 class NetPacketEndOfHandHideCards;
+class NetPacketEndOfGame;
 class NetPacketSendChatText;
 class NetPacketChatText;
 class NetPacketError;
@@ -93,6 +94,7 @@ public:
 	virtual const NetPacketAllInShowCards *ToNetPacketAllInShowCards() const;
 	virtual const NetPacketEndOfHandShowCards *ToNetPacketEndOfHandShowCards() const;
 	virtual const NetPacketEndOfHandHideCards *ToNetPacketEndOfHandHideCards() const;
+	virtual const NetPacketEndOfGame *ToNetPacketEndOfGame() const;
 	virtual const NetPacketSendChatText *ToNetPacketSendChatText() const;
 	virtual const NetPacketChatText *ToNetPacketChatText() const;
 	virtual const NetPacketError *ToNetPacketError() const;
@@ -216,7 +218,6 @@ public:
 	struct Data
 	{
 		StartData	startData;
-		u_int16_t	reserved;
 	};
 
 	NetPacketGameStart();
@@ -514,6 +515,29 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketEndOfHandHideCards *ToNetPacketEndOfHandHideCards() const;
+
+protected:
+
+	virtual void Check(const NetPacketHeader* data) const;
+};
+
+class NetPacketEndOfGame : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int16_t	winnerPlayerId;
+	};
+
+	NetPacketEndOfGame();
+	virtual ~NetPacketEndOfGame();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketEndOfGame *ToNetPacketEndOfGame() const;
 
 protected:
 

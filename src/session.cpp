@@ -227,3 +227,9 @@ bool Session::isNetworkClientRunning() const
 	return myNetClient != NULL;
 }
 
+bool Session::isNetworkServerRunning() const
+{
+	// This, and every place which calls this, is a HACK.
+	// TODO
+	return myNetServer != NULL;
+}

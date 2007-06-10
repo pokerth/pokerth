@@ -33,6 +33,8 @@ public:
 
 	virtual void SignalNetServerPlayerJoined(const std::string &playerName) = 0;
 	virtual void SignalNetServerPlayerLeft(const std::string &playerName) = 0;
+
+	virtual void SignalNetServerStartDialog() = 0;
 };
 
 #endif

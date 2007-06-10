@@ -119,9 +119,9 @@ ServerRecvThread::Main()
 			// Close sessions.
 			CloseSessionLoop();
 		}
-	} catch (const NetException &)
+	} catch (const NetException &e)
 	{
-		// TODO
+		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 	}
 	GetSender().SignalTermination();
 	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);

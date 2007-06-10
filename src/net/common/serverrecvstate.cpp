@@ -34,6 +34,7 @@ using namespace std;
 
 #define SERVER_WAIT_TIMEOUT_MSEC				50
 #define SERVER_DELAY_NEXT_HAND_SEC				10
+#define SERVER_DELAY_NEXT_GAME_SEC				10
 #define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		5
 #define SERVER_DEAL_TURN_CARD_DELAY_SEC			2
 #define SERVER_DEAL_RIVER_CARD_DELAY_SEC		2
@@ -642,11 +643,16 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 				if (curGame.getCurrentHand()->getPlayerArray()[i]->getMyCash() > 0) 
 					playersPositiveCashCounter++;
 			}
+			assert(playersPositiveCashCounter);
 			if (playersPositiveCashCounter == 1)
-				server.SetState(ServerRecvStateFinal::Instance()); // TODO
+			{
+				// View a dialog for a new game - delayed.
+				server.SetState(ServerRecvStateNextGameDelay::Instance());
+				retVal = MSG_NET_GAME_SERVER_END;
+			}
 			else
 			{
-				server.SetState(ServerRecvStateNextHand::Instance());
+				server.SetState(ServerRecvStateNextHandDelay::Instance());
 				retVal = MSG_NET_GAME_SERVER_HAND_END;
 			}
 		}
@@ -922,10 +928,9 @@ ServerRecvStateShowCardsDelay::Process(ServerRecvThread &server)
 {
 	int retVal = ServerRecvStateReceiving::Process(server);
 
-	Game &curGame = server.GetGame();
-
 	if (GetTimer().elapsed().seconds() >= SERVER_SHOW_CARDS_DELAY_SEC)
 	{
+		Game &curGame = server.GetGame();
 		SendNewRoundCards(server, curGame, curGame.getCurrentHand()->getActualRound());
 
 		server.SetState(ServerRecvStateDealCardsDelay::Instance());
@@ -943,23 +948,23 @@ ServerRecvStateShowCardsDelay::InternalProcess(ServerRecvThread &server, Session
 
 //-----------------------------------------------------------------------------
 
-ServerRecvStateNextHand &
-ServerRecvStateNextHand::Instance()
+ServerRecvStateNextHandDelay &
+ServerRecvStateNextHandDelay::Instance()
 {
-	static ServerRecvStateNextHand state;
+	static ServerRecvStateNextHandDelay state;
 	return state;
 }
 
-ServerRecvStateNextHand::ServerRecvStateNextHand()
+ServerRecvStateNextHandDelay::ServerRecvStateNextHandDelay()
 {
 }
 
-ServerRecvStateNextHand::~ServerRecvStateNextHand()
+ServerRecvStateNextHandDelay::~ServerRecvStateNextHandDelay()
 {
 }
 
 int
-ServerRecvStateNextHand::Process(ServerRecvThread &server)
+ServerRecvStateNextHandDelay::Process(ServerRecvThread &server)
 {
 	int retVal = ServerRecvStateReceiving::Process(server);
 
@@ -970,7 +975,65 @@ ServerRecvStateNextHand::Process(ServerRecvThread &server)
 }
 
 int
-ServerRecvStateNextHand::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerRecvStateNextHandDelay::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+{
+	return MSG_SOCK_INTERNAL_PENDING;
+}
+
+//-----------------------------------------------------------------------------
+
+ServerRecvStateNextGameDelay &
+ServerRecvStateNextGameDelay::Instance()
+{
+	static ServerRecvStateNextGameDelay state;
+	return state;
+}
+
+ServerRecvStateNextGameDelay::ServerRecvStateNextGameDelay()
+{
+}
+
+ServerRecvStateNextGameDelay::~ServerRecvStateNextGameDelay()
+{
+}
+
+int
+ServerRecvStateNextGameDelay::Process(ServerRecvThread &server)
+{
+	int retVal = ServerRecvStateReceiving::Process(server);
+
+	if (GetTimer().elapsed().seconds() >= SERVER_DELAY_NEXT_GAME_SEC)
+	{
+		Game &curGame = server.GetGame();
+		// The game has ended. Notify all clients.
+		PlayerInterface *winnerPlayer = NULL;
+		for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
+		{
+			winnerPlayer = curGame.getCurrentHand()->getPlayerArray()[i];
+			if (winnerPlayer->getMyCash() > 0)
+				break;
+		}
+
+		boost::shared_ptr<NetPacket> endGame(new NetPacketEndOfGame);
+		NetPacketEndOfGame::Data endGameData;
+		endGameData.winnerPlayerId = winnerPlayer->getMyUniqueID();
+		static_cast<NetPacketEndOfGame *>(endGame.get())->SetData(endGameData);
+
+		server.SendToAllPlayers(endGame);
+
+		// Switch back to the GUI, wait for the start of a new game.
+		// Luckily, the names are still in the GUI dialog.
+		// We just need to show the proper dialog, and people can
+		// join or leave as usual.
+		server.GetCallback().SignalNetServerStartDialog();
+		server.SetState(ServerRecvStateInit::Instance());
+	}
+
+	return retVal;
+}
+
+int
+ServerRecvStateNextGameDelay::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	return MSG_SOCK_INTERNAL_PENDING;
 }

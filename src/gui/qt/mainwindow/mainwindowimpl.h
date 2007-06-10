@@ -74,6 +74,9 @@ public:
 signals:
 	void signalInitGui(int speed);
 
+	void signalShowServerStartDialog();
+	void signalShowClientWaitDialog();
+
 	void signalRefreshSet();
 	void signalRefreshCash();
 	void signalRefreshAction(int =-1, int=-1);
@@ -128,6 +131,9 @@ signals:
 public slots:
 
 	void initGui(int speed);
+
+	void showServerStartDialog();
+	void showClientWaitDialog();
 
 	//refresh-Funktionen
 	void refreshSet();

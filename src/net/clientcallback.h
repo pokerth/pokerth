@@ -40,6 +40,7 @@ public:
 	virtual void SignalNetClientPlayerLeft(const std::string &playerName) = 0;
 
 	virtual void SignalNetClientChatMsg(const std::string &playerName, const std::string &msg) = 0;
+	virtual void SignalNetClientWaitDialog() = 0;
 };
 
 #endif

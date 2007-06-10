@@ -42,6 +42,9 @@ public:
 	Session &getSession();
 	void setSession(boost::shared_ptr<Session> session);
 
+	void showServerStartDialog();
+	void showClientWaitDialog();
+
 	void refreshSet() const;
 	void refreshCash() const;
 	void refreshAction(int =-1, int =-1) const;
@@ -98,6 +101,7 @@ public:
 	void SignalNetClientPlayerJoined(const std::string &playerName);
 	void SignalNetClientPlayerLeft(const std::string &playerName);
 	void SignalNetClientChatMsg(const std::string &playerName, const std::string &msg);
+	void SignalNetClientWaitDialog();
 
 	void SignalNetClientGameStart(boost::shared_ptr<Game> game);
 
@@ -105,6 +109,7 @@ public:
 	void SignalNetServerError(int errorID, int osErrorID);
 	void SignalNetServerPlayerJoined(const std::string &playerName);
 	void SignalNetServerPlayerLeft(const std::string &playerName);
+	void SignalNetServerStartDialog();
 
 private:
 

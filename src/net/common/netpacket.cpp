@@ -43,6 +43,7 @@ using namespace std;
 #define NET_TYPE_ALL_IN_SHOW_CARDS				0x000E
 #define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x000F
 #define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x0010
+#define NET_TYPE_END_OF_GAME					0x0011
 
 #define NET_TYPE_SEND_CHAT_TEXT					0x0200
 #define NET_TYPE_CHAT_TEXT						0x0201
@@ -244,6 +245,13 @@ struct GCC_PACKED NetPacketEndOfHandHideCardsData
 	u_int32_t			playerMoney;
 };
 
+struct GCC_PACKED NetPacketEndOfGameData
+{
+	NetPacketHeader		head;
+	u_int16_t			winnerPlayerId;
+	u_int16_t			reserved;
+};
+
 struct GCC_PACKED NetPacketSendChatTextData
 {
 	NetPacketHeader		head;
@@ -339,6 +347,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_END_OF_HAND_HIDE_CARDS:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketEndOfHandHideCards);
+					break;
+				case NET_TYPE_END_OF_GAME:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketEndOfGame);
 					break;
 				case NET_TYPE_SEND_CHAT_TEXT:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketSendChatText);
@@ -522,6 +533,12 @@ NetPacket::ToNetPacketEndOfHandShowCards() const
 
 const NetPacketEndOfHandHideCards *
 NetPacket::ToNetPacketEndOfHandHideCards() const
+{
+	return NULL;
+}
+
+const NetPacketEndOfGame *
+NetPacket::ToNetPacketEndOfGame() const
 {
 	return NULL;
 }
@@ -1866,6 +1883,67 @@ NetPacketEndOfHandHideCards::Check(const NetPacketHeader* data) const
 
 	u_int16_t dataLen = ntohs(data->length);
 	if (dataLen != sizeof(NetPacketEndOfHandHideCardsData))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketEndOfGame::NetPacketEndOfGame()
+: NetPacket(NET_TYPE_END_OF_GAME, sizeof(NetPacketEndOfGameData))
+{
+}
+
+NetPacketEndOfGame::~NetPacketEndOfGame()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketEndOfGame::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketEndOfGame);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketEndOfGame::SetData(const NetPacketEndOfGame::Data &inData)
+{
+	NetPacketEndOfGameData *tmpData = (NetPacketEndOfGameData *)GetRawData();
+	assert(tmpData);
+
+	tmpData->winnerPlayerId	= htons(inData.winnerPlayerId);
+}
+
+void
+NetPacketEndOfGame::GetData(NetPacketEndOfGame::Data &outData) const
+{
+	NetPacketEndOfGameData *tmpData = (NetPacketEndOfGameData *)GetRawData();
+	assert(tmpData);
+
+	outData.winnerPlayerId	= ntohs(tmpData->winnerPlayerId);
+}
+
+const NetPacketEndOfGame *
+NetPacketEndOfGame::ToNetPacketEndOfGame() const
+{
+	return this;
+}
+
+void
+NetPacketEndOfGame::Check(const NetPacketHeader* data) const
+{
+	assert(data);
+
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen != sizeof(NetPacketEndOfGameData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}

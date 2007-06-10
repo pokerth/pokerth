@@ -110,6 +110,7 @@ void GuiWrapper::SignalNetClientPlayerJoined(const string &playerName) { myW->si
 void GuiWrapper::SignalNetClientPlayerLeft(const string &playerName) { myW->signalNetClientPlayerLeft(QString::fromUtf8(playerName.c_str())); }
 void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { myW->signalNetClientGameStart(game); }
 void GuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { myChat->signalChatMessage(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
+void GuiWrapper::SignalNetClientWaitDialog() { myW->signalShowClientWaitDialog(); }
 
 void GuiWrapper::SignalNetServerSuccess(int actionID) { }
 void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { myW->signalNetServerError(errorID, osErrorID); }
@@ -120,5 +121,5 @@ void GuiWrapper::SignalNetServerPlayerLeft(const string &playerName)
 	myW->signalNetServerPlayerLeft(tmpName);
 	myLog->signalLogPlayerLeftMsg(tmpName);
 }
-
+void GuiWrapper::SignalNetServerStartDialog() { myW->signalShowServerStartDialog(); }
 

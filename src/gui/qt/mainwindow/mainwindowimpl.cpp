@@ -573,6 +573,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	//Nachrichten Thread-Save
 	connect(this, SIGNAL(signalInitGui(int)), this, SLOT(initGui(int)));
 
+	connect(this, SIGNAL(signalShowServerStartDialog()), this, SLOT(showServerStartDialog()));
+	connect(this, SIGNAL(signalShowClientWaitDialog()), this, SLOT(showClientWaitDialog()));
+
 	connect(this, SIGNAL(signalRefreshSet()), this, SLOT(refreshSet()));
 	connect(this, SIGNAL(signalRefreshCash()), this, SLOT(refreshCash()));
 	connect(this, SIGNAL(signalRefreshAction(int, int)), this, SLOT(refreshAction(int, int)));
@@ -733,21 +736,8 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		mySession->startNetworkClientForLocalServer();
 
 		myStartNetworkGameDialog->setMaxPlayerNumber(gameData.numberOfPlayers);
-		myStartNetworkGameDialog->exec();
-		
 
-
-		if (myStartNetworkGameDialog->result() == QDialog::Accepted ) {
-			
-			//some gui modifications
-			networkGameModification();
-			myServerGuiInterface->getSession().initiateNetworkServerGame();
-			
-		}
-		else {
-			mySession->terminateNetworkClient();
-			myServerGuiInterface->getSession().terminateNetworkServer();
-		}
+		showServerStartDialog();
 	}
 
 }
@@ -779,15 +769,7 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 			actionJoin_network_Game->trigger(); // re-trigger
 		}
 		else {
-			myWaitingForServerGameDialog->exec();
-
-			if (myWaitingForServerGameDialog->result() == QDialog::Rejected) {
-				mySession->terminateNetworkClient();
-			}
-			else {
-				//some gui modifications
-				networkGameModification();
-			}
+			showClientWaitDialog();
 		}
 	}
 }
@@ -888,6 +870,39 @@ void mainWindowImpl::initGui(int speed)
 	//positioning Slider
 	horizontalSlider_speed->setValue(guiGameSpeed);
 	setSpeeds();
+}
+
+void mainWindowImpl::showServerStartDialog()
+{
+	myStartNetworkGameDialog->exec();
+
+	if (myStartNetworkGameDialog->result() == QDialog::Accepted ) {
+		
+		//some gui modifications
+		networkGameModification();
+		myServerGuiInterface->getSession().initiateNetworkServerGame();
+		
+	}
+	else {
+		mySession->terminateNetworkClient();
+		myServerGuiInterface->getSession().terminateNetworkServer();
+	}
+}
+
+void mainWindowImpl::showClientWaitDialog()
+{
+	if (!myServerGuiInterface.get() || !myServerGuiInterface->getSession().isNetworkServerRunning())
+	{
+		myWaitingForServerGameDialog->exec();
+
+		if (myWaitingForServerGameDialog->result() == QDialog::Accepted) {
+			//some gui modifications
+			networkGameModification();
+		}
+		else {
+			mySession->terminateNetworkClient();
+		}
+	}
 }
 
 Session &mainWindowImpl::getSession() { assert(mySession.get()); return *mySession; }
@@ -2344,7 +2359,7 @@ void mainWindowImpl::breakButtonClicked() {
 		int width = tempMetrics.width(tr("Stop"));
 		pushButton_break->setMinimumSize(width+10,20);
 
-             	pushButton_break->setText(tr("Stop"));
+		pushButton_break->setText(tr("Stop"));
 		startNewHand();
 	}
 }
