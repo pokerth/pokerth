@@ -53,6 +53,8 @@ public:
 	void refreshButton() const;
 	void refreshGameLabels(GameState state) const;
 
+	void waitForGuiUpdateDone() const;
+
 	void dealHoleCards();
 	void dealFlopCards();
 	void dealTurnCard();

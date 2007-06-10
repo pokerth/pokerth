@@ -85,6 +85,8 @@ signals:
 	void signalRefreshButton();
 	void signalRefreshGameLabels(int);
 
+	void signalGuiUpdateDone();
+
 	void signalMeInAction();
 	void signalDisableMyButtons();
 	void signalStartTimeoutAnimation(int playerId, int timeoutSec);
@@ -139,6 +141,9 @@ public slots:
 	void refreshGameLabels(int);
 	void refreshButton();
 	void refreshPlayerAvatar();
+
+	void guiUpdateDone();
+	void waitForGuiUpdateDone();
 
 	// Karten-Funktionen
 	void dealHoleCards();
@@ -390,7 +395,7 @@ private:
 	// statistic testing
 	int statisticArray[15];
 
-	
+	QSemaphore guiUpdateSemaphore;
 
 friend class GuiWrapper;
 };

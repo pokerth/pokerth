@@ -584,6 +584,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalRefreshButton()), this, SLOT(refreshButton()));
 	connect(this, SIGNAL(signalRefreshGameLabels(int)), this, SLOT(refreshGameLabels(int)));
 
+	connect(this, SIGNAL(signalGuiUpdateDone()), this, SLOT(guiUpdateDone()));
+
 	connect(this, SIGNAL(signalMeInAction()), this, SLOT(meInAction()));
 	connect(this, SIGNAL(signalDisableMyButtons()), this, SLOT(disableMyButtons()));
 	connect(this, SIGNAL(signalStartTimeoutAnimation(int, int)), this, SLOT(startTimeoutAnimation(int, int)));
@@ -1249,6 +1251,14 @@ void mainWindowImpl::refreshPot() {
 
 	textLabel_Sets->setText("<span style='font-weight:bold'>"+QString::number(currentHand->getBoard()->getSets(),10)+" $</span>");
 	textLabel_Pot->setText("<span style='font-weight:bold'>"+QString::number(currentHand->getBoard()->getPot(),10)+" $</span>");
+}
+
+void mainWindowImpl::guiUpdateDone() {
+	guiUpdateSemaphore.release();
+}
+
+void mainWindowImpl::waitForGuiUpdateDone() {
+	guiUpdateSemaphore.acquire();
 }
 
 void mainWindowImpl::dealHoleCards() {

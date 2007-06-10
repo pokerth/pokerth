@@ -60,6 +60,12 @@ void GuiWrapper::refreshPlayerName() const { myW->signalRefreshPlayerName(); }
 void GuiWrapper::refreshButton() const { myW->signalRefreshButton(); }
 void GuiWrapper::refreshGameLabels(GameState state) const { myW->signalRefreshGameLabels(state); }
 
+void GuiWrapper::waitForGuiUpdateDone() const
+{
+	myW->signalGuiUpdateDone();
+	myW->waitForGuiUpdateDone();
+}
+
 void GuiWrapper::dealHoleCards() { myW->signalDealHoleCards(); }
 void GuiWrapper::dealFlopCards() { myW->signalDealFlopCards0(); }
 void GuiWrapper::dealTurnCard() { myW->signalDealTurnCards0(); }

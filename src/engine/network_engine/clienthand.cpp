@@ -42,13 +42,14 @@ ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, Boar
 	}
 
 
-	// roundStartCashArray fllen
+	// roundStartCashArray fuellen
+	// cardsvalue zuruecksetzen
+	// remove all buttons
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		playerArray[i]->setMyRoundStartCash(playerArray[i]->getMyCash());
+		playerArray[i]->setMyCardsValueInt(0);
+		playerArray[i]->setMyButton(0);
 	}
-
-	// remove all buttons
-	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { playerArray[i]->setMyButton(0); }
 
 	// assign dealer button
 	playerArray[dealerPosition]->setMyButton(1);

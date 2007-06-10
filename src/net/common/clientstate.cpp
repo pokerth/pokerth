@@ -757,6 +757,15 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 		}
 		else if (packet->ToNetPacketEndOfHandHideCards())
 		{
+			curGame->getCurrentHand()->getBoard()->collectPot();
+			// Reset player sets
+			for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
+				curGame->getPlayerArray()[i]->setMySetNull();
+			client.GetGui().refreshPot();
+			client.GetGui().refreshSet();
+			// Synchronize with GUI.
+			client.GetGui().waitForGuiUpdateDone();
+
 			// End of Hand, but keep cards hidden.
 			NetPacketEndOfHandHideCards::Data endHandData;
 			packet->ToNetPacketEndOfHandHideCards()->GetData(endHandData);
@@ -768,17 +777,24 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			tmpPlayer->setMyCash(endHandData.playerMoney);
 			// TODO use moneyWon
 			curGame->getCurrentHand()->getBoard()->setPot(0);
+
 			client.GetGui().postRiverRunAnimation1();
 
-			// Reset player actions
-			for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
-				curGame->getPlayerArray()[i]->setMySetNull();
 			// Wait for next Hand.
 			client.SetState(ClientStateWaitHand::Instance());
 			retVal = MSG_NET_GAME_SERVER_HAND_END;
 		}
 		else if (packet->ToNetPacketEndOfHandShowCards())
 		{
+			curGame->getCurrentHand()->getBoard()->collectPot();
+			// Reset player sets
+			for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
+				curGame->getPlayerArray()[i]->setMySetNull();
+			client.GetGui().refreshPot();
+			client.GetGui().refreshSet();
+			// Synchronize with GUI.
+			client.GetGui().waitForGuiUpdateDone();
+
 			// End of Hand, show cards.
 			NetPacketEndOfHandShowCards::Data endHandData;
 			packet->ToNetPacketEndOfHandShowCards()->GetData(endHandData);
@@ -810,16 +826,17 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			}
 			curGame->getCurrentHand()->getRiver()->setHighestCardsValue(highestValueOfCards);
 			curGame->getCurrentHand()->getBoard()->setPot(0);
+
 			client.GetGui().postRiverRunAnimation1();
 
-			// Reset player sets
-			for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
-				curGame->getPlayerArray()[i]->setMySetNull();
 			// Wait for next Hand.
 			client.SetState(ClientStateWaitHand::Instance());
 			retVal = MSG_NET_GAME_SERVER_HAND_END;
 		}
 	}
+
+	// Synchronize with GUI.
+	client.GetGui().waitForGuiUpdateDone();
 
 	return retVal;
 }

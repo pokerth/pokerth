@@ -51,6 +51,8 @@ public:
 	virtual void refreshButton() const =0;
 	virtual void refreshGameLabels(GameState state) const=0;
 
+	virtual void waitForGuiUpdateDone() const=0;
+
 // 	// Karten-Funktionen
 	virtual void dealHoleCards()=0;
 	virtual void dealFlopCards()=0;
