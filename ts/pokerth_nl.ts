@@ -918,7 +918,7 @@ p, li { white-space: pre-wrap; }
         <translation>Interne netwerkfout: &quot;select&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2242"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2238"/>
         <source>Internal network error: &quot;recv&quot; failed.</source>
         <translation type="obsolete">Interne netwerkfout: &quot;recv&quot; niet uitvoerbaar.</translation>
     </message>
@@ -928,7 +928,7 @@ p, li { white-space: pre-wrap; }
         <translation>Interne netwerkfout: &quot;send&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2252"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2248"/>
         <source>Connection was closed by server.</source>
         <translation type="obsolete">Verbinding verbroken door server.</translation>
     </message>
@@ -1701,11 +1701,6 @@ Kies a.u.b. een geldige map!</translation>
         <location filename="../src/gui/qt/waitforservertostartgamedialog.ui" line="34"/>
         <source>Waiting for the server to start the game ...</source>
         <translation>Aan het wachten tot de server het spel start ...</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/waitforservertostartgamedialog.ui" line="26"/>
-        <source>    Connected Player    </source>
-        <translation type="obsolete">    Speler met verbinding    </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/waitforservertostartgamedialog.ui" line="26"/>
