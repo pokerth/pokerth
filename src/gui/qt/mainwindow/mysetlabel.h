@@ -12,6 +12,8 @@
 #ifndef MYSETLABEL_H
 #define MYSETLABEL_H
 
+#include <iostream>
+
 #include <QtGui>
 #include <QtCore>
 
@@ -50,6 +52,10 @@ private:
 	int timeOutAnimationWidth;
 	int timeOutValue;
 	int timeOutFrame;
+	int waitFrames;
+	int decreaseWidthIntervall;
+	int timerIntervall;
+	
 };
 
 #endif

@@ -16,17 +16,12 @@
 using namespace std;
 
 MySetLabel::MySetLabel(QGroupBox* parent)
- : QLabel(parent), timeOutAnimation(FALSE), timeOutValue(0), timeOutFrame(0)
+ : QLabel(parent), timeOutAnimation(FALSE), timeOutValue(0), timeOutFrame(0), waitFrames(0), decreaseWidthIntervall(1), timerIntervall(0)
 {
 
 	timeOutAnimationTimer = new QTimer;
-	timeOutAnimationKickOnTimer = new QTimer;
-	timeOutAnimationKickOnTimer->setSingleShot(TRUE);
 
-	connect(timeOutAnimationKickOnTimer, SIGNAL(timeout()), this, SLOT(startTimeOutAnimationNow()));
 	connect(timeOutAnimationTimer, SIGNAL(timeout()), this, SLOT(nextTimeOutAnimationFrame()));
-// 	flipCardsTimer = new QTimer;
-// 	connect(flipCardsTimer, SIGNAL(timeout()), this, SLOT(nextFlipCardsFrame()));
 }
 
 
@@ -36,11 +31,34 @@ MySetLabel::~MySetLabel()
 
 void MySetLabel::startTimeOutAnimation(int secs) {
 
-	timeOutValue = secs-3;
+	
+	decreaseWidthIntervall = 1;
+
+	timeOutValue = secs;
 	timeOutFrame = 1;
 	timeOutAnimationWidth = 118;
 	
-	timeOutAnimationKickOnTimer->start(3000);
+	int preTimerIntervall = ((timeOutValue-3) * 1000)/timeOutAnimationWidth;
+	
+	timerIntervall = preTimerIntervall;
+
+	//save gfx ressources and never play more the 10 pps
+	while(timerIntervall < 100) {
+		if(secs <= 9 && secs >= 6) {
+			//fix inaccuracies caused by integer division
+			timerIntervall = timerIntervall + preTimerIntervall + 5;
+		}
+		else {
+			timerIntervall = timerIntervall + preTimerIntervall;
+		}
+		decreaseWidthIntervall++;
+	}
+
+	waitFrames = 3000/timerIntervall;
+
+	std::cout << timerIntervall << endl;
+	timeOutAnimation = TRUE;	
+	timeOutAnimationTimer->start(timerIntervall);
 }
 
 void MySetLabel::startTimeOutAnimationNow() {
@@ -52,7 +70,7 @@ void MySetLabel::startTimeOutAnimationNow() {
 
 void MySetLabel::stopTimeOutAnimation() {
 
-	timeOutAnimationKickOnTimer->stop();
+// 	timeOutAnimationKickOnTimer->stop();
 	timeOutAnimationTimer->stop();
 	timeOutAnimation = FALSE;
 	update();
@@ -61,8 +79,10 @@ void MySetLabel::stopTimeOutAnimation() {
 void MySetLabel::nextTimeOutAnimationFrame() {
 
 	if(timeOutAnimationWidth >=0) {
-		if(timeOutFrame%(timeOutValue*12/118) == 0) 
-			timeOutAnimationWidth--;
+		if(timeOutFrame > waitFrames) { 
+			//save gfx ressources and never play more the 10 pps
+			timeOutAnimationWidth = timeOutAnimationWidth - decreaseWidthIntervall;
+		}
 		timeOutFrame++;
 		update();
 	}	
@@ -76,11 +96,11 @@ void MySetLabel::nextTimeOutAnimationFrame() {
 
 void MySetLabel::paintEvent(QPaintEvent * event) {
 
-	if(!timeOutAnimation) {
+	if(!timeOutAnimation || timeOutFrame <= waitFrames) {
 		QLabel::paintEvent(event);
 	}
 
-	if(timeOutAnimation) {
+	if(timeOutAnimation && timeOutFrame > waitFrames) {
 
 		QPainter painter(this);
 	
@@ -92,6 +112,6 @@ void MySetLabel::paintEvent(QPaintEvent * event) {
 		painter.setBrush(linearGrad);
 		
 		painter.setPen(QColor(0,0,0));
-		painter.drawRect(0,6,timeOutAnimationWidth,8);
+		painter.drawRect(0,6,timeOutAnimationWidth-1,8);
 	}
 }

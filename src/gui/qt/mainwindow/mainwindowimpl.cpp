@@ -2523,7 +2523,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F3) { pushButton_BetRaise->click(); } 
 	if (event->key() == Qt::Key_F10) { switchLeftToolBox(); } 
 	if (event->key() == Qt::Key_F11) { switchRightToolBox(); } 
-	if (event->key() == Qt::Key_S) {} //s	
+	if (event->key() == Qt::Key_S) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction")); } //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;
