@@ -52,25 +52,25 @@ public:
 	PlayerInterface** getPlayerArray() {return playerArray;}
 
 	//Zufgriff Startvariablen
-	void setStartQuantityPlayers(const int& theValue) { startQuantityPlayers = theValue; }
+	void setStartQuantityPlayers(int theValue) { startQuantityPlayers = theValue; }
 	int getStartQuantityPlayers() const { return startQuantityPlayers; }
 	
-	void setStartSmallBlind(const int& theValue) { startSmallBlind = theValue; }
+	void setStartSmallBlind(int theValue) { startSmallBlind = theValue; }
 	int getStartSmallBlind() const { return startSmallBlind; }
 
-	void setStartCash(const int& theValue)	{ startCash = theValue; }
+	void setStartCash(int theValue)	{ startCash = theValue; }
 	int getStartCash() const { return startCash;	}
 
 	int getMyGameID() const	{ return myGameID; }
 
 	//Zufgriff Laufvariablen
-	void setActualQuantityPlayers(const int& theValue) { actualQuantityPlayers = theValue; }
+	void setActualQuantityPlayers(int theValue) { actualQuantityPlayers = theValue; }
 	int getActualQuantityPlayers() const { return actualQuantityPlayers; }
 
-	void setActualSmallBlind(const int& theValue) { actualSmallBlind = theValue; }
+	void setActualSmallBlind(int theValue) { actualSmallBlind = theValue; }
 	int getActualSmallBlind() const { return actualSmallBlind; }
 
-	void setActualHandID(const int& theValue) { actualHandID = theValue; }
+	void setActualHandID(int theValue) { actualHandID = theValue; }
 	int getActualHandID() const { return actualHandID; }
 
 	PlayerInterface * getPlayerByUniqueId(unsigned id);

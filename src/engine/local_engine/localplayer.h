@@ -78,7 +78,7 @@ public:
 	bool getMyActiveStatus() const { return myActiveStatus; }
 
 	void setMyCards(int* theValue) { int i; for(i=0; i<2; i++) myCards[i] = theValue[i]; }
-	void getMyCards(int* theValue) { int i; for(i=0; i<2; i++) theValue[i] = myCards[i]; }
+	void getMyCards(int* theValue) const { int i; for(i=0; i<2; i++) theValue[i] = myCards[i]; }
 
 	void setMyTurn(bool theValue){ myTurn = theValue;}
 	bool getMyTurn() const{ return myTurn;}
@@ -103,7 +103,16 @@ public:
 	void setMyCardsValueInt(int theValue) { myCardsValueInt = theValue;}
 	int getMyCardsValueInt() const { return myCardsValueInt; }
 
-	int* getMyBestHandPosition() { return myBestHandPosition; }
+	void setMyBestHandPosition(int* theValue)
+	{
+		for (int i = 0; i < 5; i++)
+			myBestHandPosition[i] = theValue[i];
+	}
+	void getMyBestHandPosition(int* theValue) const
+	{
+		for (int i = 0; i < 5; i++)
+			theValue[i] = myBestHandPosition[i];
+	}
 
 	void setMyRoundStartCash(int theValue) { myRoundStartCash = theValue;}
 	int getMyRoundStartCash() const { return myRoundStartCash; }

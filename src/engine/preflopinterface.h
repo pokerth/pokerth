@@ -25,10 +25,10 @@ public:
     
 	virtual ~PreflopInterface();
 
-	virtual void setPlayersTurn(const int& theValue) =0;
+	virtual void setPlayersTurn(int theValue) =0;
 	virtual int getPlayersTurn() const =0;
 	
-	virtual void setHighestSet(const int& theValue) =0;
+	virtual void setHighestSet(int theValue) =0;
 	virtual int getHighestSet() const =0;
 
 	virtual void setPreflopFirstRound(bool theValue) =0;

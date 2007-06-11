@@ -20,12 +20,14 @@
 #define CLIENTBOARD_H
 
 #include <boardinterface.h>
+#include <boost/thread.hpp>
 
 class PlayerInterface;
 class HandInterface;
 
 
-class ClientBoard : public BoardInterface{
+class ClientBoard : public BoardInterface
+{
 public:
 	ClientBoard();
 	~ClientBoard();
@@ -33,18 +35,20 @@ public:
 	void setPlayer(PlayerInterface**);
 	void setHand(HandInterface*);
 
-	void setMyCards(int* theValue) { int i; for(i=0; i<5; i++) myCards[i] = theValue[i]; }
-	void getMyCards(int* theValue) { int i; for(i=0; i<5; i++) theValue[i] = myCards[i]; }
+	void setMyCards(int* theValue);
+	void getMyCards(int* theValue);
 
-	int getPot() const {  return pot;}
-	void setPot(int theValue) {  pot = theValue;}
-	int getSets() const { return sets; }
-	void setSets(int theValue) { sets = theValue; }
+	int getPot() const;
+	void setPot(int theValue);
+	int getSets() const;
+	void setSets(int theValue);
 
 	void collectSets();
 	void collectPot();
 
 private:
+	mutable boost::recursive_mutex m_syncMutex;
+
 	PlayerInterface **playerArray;
 	HandInterface *actualHand;
 

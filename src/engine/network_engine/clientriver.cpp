@@ -31,6 +31,96 @@ ClientRiver::~ClientRiver()
 {
 }
 
+void
+ClientRiver::setPlayersTurn(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	playersTurn = theValue;
+}
+
+int
+ClientRiver::getPlayersTurn() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return playersTurn;
+}
+
+void
+ClientRiver::setHighestSet(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	highestSet = theValue;
+}
+
+int
+ClientRiver::getHighestSet() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return highestSet;
+}
+
+void
+ClientRiver::setFirstRiverRound(bool theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	firstRiverRound = theValue;
+}
+
+bool
+ClientRiver::getFirstRiverRound() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return firstRiverRound;
+}
+
+void
+ClientRiver::setSmallBlindPosition(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	smallBlindPosition = theValue;
+}
+
+int
+ClientRiver::getSmallBlindPosition() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return smallBlindPosition;
+}
+
+void
+ClientRiver::setSmallBlind(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	smallBlind = theValue;
+}
+
+int
+ClientRiver::getSmallBlind() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return smallBlind;
+}
+
+void
+ClientRiver::setHighestCardsValue(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	highestCardsValue = theValue;
+}
+
+int
+ClientRiver::getHighestCardsValue() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return highestCardsValue;
+}
+
+void
+ClientRiver::resetFirstRun()
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	firstRiverRun = false;
+}
 
 void
 ClientRiver::riverRun()

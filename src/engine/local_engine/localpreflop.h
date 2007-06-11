@@ -31,10 +31,10 @@ public:
 	~LocalPreflop();
 
 
-	void setPlayersTurn(const int& theValue) { playersTurn = theValue; }
+	void setPlayersTurn(int theValue) { playersTurn = theValue; }
 	int getPlayersTurn() const { return playersTurn; }
 	
-	void setHighestSet(const int& theValue) { highestSet = theValue; }
+	void setHighestSet(int theValue) { highestSet = theValue; }
 	int getHighestSet() const { return highestSet;}
 
 	void setPreflopFirstRound(bool theValue) { preflopFirstRound = theValue; }

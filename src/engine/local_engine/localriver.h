@@ -30,22 +30,22 @@ public:
 	LocalRiver(HandInterface*, int, int, int, int);
 	~LocalRiver();
 
-	void setPlayersTurn(const int& theValue) { playersTurn = theValue; }
+	void setPlayersTurn(int theValue) { playersTurn = theValue; }
 	int getPlayersTurn() const { return playersTurn; }
 	
-	void setHighestSet(const int& theValue) { highestSet = theValue; }
+	void setHighestSet(int theValue) { highestSet = theValue; }
 	int getHighestSet() const { return highestSet;}
 
 	void setFirstRiverRound(bool theValue) { firstRiverRound = theValue;}
 	bool getFirstRiverRound() const {  return firstRiverRound;}
 
-	void setSmallBlindPosition(const int& theValue) { smallBlindPosition = theValue;}
+	void setSmallBlindPosition(int theValue) { smallBlindPosition = theValue;}
 	int getSmallBlindPosition() const { return smallBlindPosition; }
 
-	void setSmallBlind(const int& theValue) { smallBlind = theValue; }
+	void setSmallBlind(int theValue) { smallBlind = theValue; }
 	int getSmallBlind() const { return smallBlind; }
 
-	void setHighestCardsValue(const int& theValue) { highestCardsValue = theValue;}
+	void setHighestCardsValue(int theValue) { highestCardsValue = theValue;}
 	int getHighestCardsValue() const { return highestCardsValue;}
 
 	void resetFirstRun() { firstRiverRun = false; }

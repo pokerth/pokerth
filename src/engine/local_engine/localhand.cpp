@@ -70,16 +70,21 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	myBoard->setMyCards(tempBoardArray);
 	for(i=0; i<startQuantityPlayers; i++) {
 		if(playerArray[i]->getMyActiveStatus() != 0) {
+
+			int bestHandPos[5];
+			playerArray[i]->getMyBestHandPosition(bestHandPos);
+
 			for(j=0; j<2; j++) {
 				tempPlayerArray[j] = cardsArray[2*k+j+5];
 				tempPlayerAndBoardArray[j] = cardsArray[2*k+j+5];
 			}
 			playerArray[i]->setMyCards(tempPlayerArray);
-			playerArray[i]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,playerArray[i]->getMyBestHandPosition()));
+			playerArray[i]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray, bestHandPos));
+			playerArray[i]->setMyBestHandPosition(bestHandPos);
 
 			// myBestHandPosition auf Fehler ueberpruefen
 			for(j=0; j<5; j++) {
-				if((playerArray[i]->getMyBestHandPosition())[j] == -1) {
+				if (bestHandPos[j] == -1) {
 					cout << "ERROR get myBestHandPosition in localhand.cpp" << endl;
 				}
 			}

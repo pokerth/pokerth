@@ -20,6 +20,7 @@
 #define CLIENTPREFLOP_H
 
 #include <preflopinterface.h>
+#include <boost/thread.hpp>
 
 class HandInterface;
 
@@ -29,26 +30,25 @@ public:
 	ClientPreflop(HandInterface*, int, int, int, int);
 	~ClientPreflop();
 
-
-	void setPlayersTurn(const int& theValue) { playersTurn = theValue; }
-	int getPlayersTurn() const { return playersTurn; }
+	void setPlayersTurn(int theValue);
+	int getPlayersTurn() const;
 	
-	void setHighestSet(const int& theValue) { highestSet = theValue; }
-	int getHighestSet() const { return highestSet;}
+	void setHighestSet(int theValue);
+	int getHighestSet() const;
 
-	void setPreflopFirstRound(bool theValue) { preflopFirstRound = theValue; }
-	bool setPreflopFirstRound() const { return preflopFirstRound; }
+	void setPreflopFirstRound(bool theValue);
+	bool setPreflopFirstRound() const;
 
 	void preflopRun();
 	void nextPlayer2(); 
 
-
-
 private:
+	mutable boost::recursive_mutex m_syncMutex;
+
 	HandInterface *myHand;
 
 	int myID;
-	int actualQuantityPlayers;	
+	int actualQuantityPlayers;
 	int dealerPosition;
 	int bigBlindPosition;
 

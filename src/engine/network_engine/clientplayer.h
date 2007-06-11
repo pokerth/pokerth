@@ -22,8 +22,8 @@
 #include <playerinterface.h>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/thread.hpp>
 #include <string>
-
 
 class CardsValue;
 class ConfigFile;
@@ -37,100 +37,72 @@ public:
 
 	void setHand(HandInterface*);
 
-	int getMyID() const { return myID; }
-	unsigned getMyUniqueID() const { return myUniqueID; }
-	PlayerType getMyType() const { return myType; }
+	int getMyID() const;
+	unsigned getMyUniqueID() const;
+	PlayerType getMyType() const;
 
-	void setMyDude(int theValue) { myDude = theValue; }
-	int getMyDude() const { return myDude; }
+	void setMyDude(int theValue);
+	int getMyDude() const;
 
-	void setMyDude4(int theValue) { myDude4 = theValue; }
-	int getMyDude4() const { return myDude4; }
+	void setMyDude4(int theValue);
+	int getMyDude4() const;
 
-	void setMyName(const std::string& theValue) { myName = theValue; }
-	std::string getMyName() const { return myName; }
+	void setMyName(const std::string& theValue);
+	std::string getMyName() const;
 
-	void setMyAvatar(const std::string& theValue) { myAvatar = theValue; }
-	std::string getMyAvatar() const { return myAvatar; }
+	void setMyAvatar(const std::string& theValue);
+	std::string getMyAvatar() const;
 
-	void setMyCash(int theValue) { myCash = theValue; }
-	int getMyCash() const { return myCash; }
+	void setMyCash(int theValue);
+	int getMyCash() const;
 
-	void setMySet(int theValue) { myLastRelativeSet = theValue; }
-	void setMySetAbsolute(int theValue) { mySet = theValue; }
-	void setMySetNull() { mySet = 0; myLastRelativeSet = 0; }
-	int getMySet() const { return mySet;}
-	int getMyLastRelativeSet() const { return myLastRelativeSet; }
+	void setMySet(int theValue);
+	void setMySetAbsolute(int theValue);
+	void setMySetNull();
+	int getMySet() const;
+	int getMyLastRelativeSet() const;
 
-	void setMyAction(int theValue, bool blind) { myAction = theValue; }
-	int getMyAction() const	{ return myAction; }
+	void setMyAction(int theValue, bool blind);
+	int getMyAction() const;
 
-	void setMyButton(int theValue) { myButton = theValue; }
-	int getMyButton() const	{ return myButton; }
+	void setMyButton(int theValue);
+	int getMyButton() const;
 
-	void setMyActiveStatus(bool theValue) { myActiveStatus = theValue; }
-	bool getMyActiveStatus() const { return myActiveStatus; }
+	void setMyActiveStatus(bool theValue);
+	bool getMyActiveStatus() const;
 
-	void setMyCards(int* theValue) { int i; for(i=0; i<2; i++) myCards[i] = theValue[i]; }
-	void getMyCards(int* theValue) { int i; for(i=0; i<2; i++) theValue[i] = myCards[i]; }
+	void setMyCards(int* theValue);
+	void getMyCards(int* theValue) const;
 
-	void setMyTurn(bool theValue){ myTurn = theValue;}
-	bool getMyTurn() const{ return myTurn;}
+	void setMyTurn(bool theValue);
+	bool getMyTurn() const;
 
-	void setMyCardsFlip(bool theValue, int state){ 
-		myCardsFlip = theValue;
-		// log flipping cards
-		if(myCardsFlip) {
-			switch(state) {
-				case 1: actualHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt);
-				break;
-				case 2: actualHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1]);
-				break;
-				case 3: actualHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt, "has");
-				break;
-				default: ;
-			}
-		}
-	}
-	bool getMyCardsFlip() const{ return myCardsFlip;}
+	void setMyCardsFlip(bool theValue, int state);
+	bool getMyCardsFlip() const;
 
-	void setMyCardsValueInt(int theValue) { myCardsValueInt = theValue;}
-	int getMyCardsValueInt() const { return myCardsValueInt; }
+	void setMyCardsValueInt(int theValue);
+	int getMyCardsValueInt() const;
 
-	int* getMyBestHandPosition() { return myBestHandPosition; }
+	void setMyBestHandPosition(int* theValue);
+	void getMyBestHandPosition(int* theValue) const;
 
-	void setMyRoundStartCash(int theValue) { myRoundStartCash = theValue;}
-	int getMyRoundStartCash() const { return myRoundStartCash; }
+	void setMyRoundStartCash(int theValue);
+	int getMyRoundStartCash() const;
 
-	void setMyAverageSets(int theValue) { myAverageSets[0] = myAverageSets[1]; myAverageSets[1] = myAverageSets[2]; myAverageSets[2] = myAverageSets[3]; myAverageSets[3] = theValue; }
-	int getMyAverageSets() const { return (myAverageSets[0]+myAverageSets[1]+myAverageSets[2]+myAverageSets[3])/4; }
-	
-	void setMyAggressive(bool theValue) {
-		int i;
-		for(i=0; i<6; i++) {
-			myAggressive[i] = myAggressive[i+1];
-		}
-		myAggressive[6] = theValue;
-	}
-	int getMyAggressive() const {
-		int i, sum = 0;
-		for(i=0; i<7; i++) {
-			sum += myAggressive[i];
-		}
-		return sum;
-	}
+	void setMyAverageSets(int theValue);
+	int getMyAverageSets() const;
 
-	void setSBluff ( int theValue ) { sBluff = theValue; }
-	int getSBluff() const { return sBluff; }
+	void setMyAggressive(bool theValue);
+	int getMyAggressive() const;
 
-	void setSBluffStatus ( bool theValue ) { sBluffStatus = theValue; }
-	bool getSBluffStatus() const { return sBluffStatus; }
+	void setSBluff (int theValue);
+	int getSBluff() const;
 
-	void setMyWinnerState ( bool theValue, int pot ) {
-		myWinnerState = theValue;
-		if(theValue) actualHand->getGuiInterface()->logPlayerWinsMsg(myID, pot);	
-	}
-	bool getMyWinnerState() const { return myWinnerState;}
+	void setSBluffStatus (bool theValue);
+	bool getSBluffStatus() const;
+
+	void setMyWinnerState (bool theValue, int pot);
+	bool getMyWinnerState() const;
 
 	void action();
 	
@@ -156,6 +128,7 @@ public:
 	boost::shared_ptr<SessionData> getNetSessionData();
 
 private:
+	mutable boost::recursive_mutex m_syncMutex;
 
 	ConfigFile *myConfig;
 	HandInterface *actualHand;
@@ -164,9 +137,9 @@ private:
 	CardsValue *myCardsValue;
 
 	// Konstanten
-	int myID;
-	unsigned myUniqueID;
-	PlayerType myType;
+	const int myID;
+	const unsigned myUniqueID;
+	const PlayerType myType;
 	std::string myName;
 	std::string myAvatar;
 	int myDude;

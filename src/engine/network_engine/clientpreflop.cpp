@@ -35,6 +35,48 @@ ClientPreflop::~ClientPreflop()
 }
 
 void
+ClientPreflop::setPlayersTurn(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	playersTurn = theValue;
+}
+
+int
+ClientPreflop::getPlayersTurn() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return playersTurn;
+}
+
+void
+ClientPreflop::setHighestSet(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	highestSet = theValue;
+}
+
+int
+ClientPreflop::getHighestSet() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return highestSet;
+}
+
+void
+ClientPreflop::setPreflopFirstRound(bool theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	preflopFirstRound = theValue;
+}
+
+bool
+ClientPreflop::setPreflopFirstRound() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return preflopFirstRound;
+}
+
+void
 ClientPreflop::preflopRun()
 {
 }
@@ -43,3 +85,4 @@ void
 ClientPreflop::nextPlayer2()
 {
 }
+

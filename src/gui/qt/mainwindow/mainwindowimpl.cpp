@@ -1957,48 +1957,50 @@ void mainWindowImpl::postRiverRunAnimation3() {
 			if ( currentHand->getActivePlayersCounter() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
 
 				int j;
-	
+				int bestHandPos[5];
+				currentHand->getPlayerArray()[i]->getMyBestHandPosition(bestHandPos);
+
 				//index 0 testen --> Karte darf nicht im MyBestHand Position Array drin sein, es darf nicht nur ein Spieler Aktiv sein, die Config fordert die Animation
 				bool index0 = TRUE;
 				for(j=0; j<5; j++) {			
 	// 				cout <<  (currentHand->getPlayerArray()[i]->getMyBestHandPosition())[j] << endl;
-					if ((currentHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 0 ) { index0 = FALSE; }
+					if (bestHandPos[j] == 0 ) { index0 = FALSE; }
 				}
 				if (index0) { holeCardsArray[i][0]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index0" << endl;*/}
 				//index 1 testen
 				bool index1 = TRUE;
 				for(j=0; j<5; j++) {
-					if ((currentHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 1 ) { index1 = FALSE; }
+					if (bestHandPos[j] == 1 ) { index1 = FALSE; }
 				}
 				if (index1) { holeCardsArray[i][1]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index1" << endl;*/}
 				//index 2 testen
 				bool index2 = TRUE;
 				for(j=0; j<5; j++) {
-					if ((currentHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 2 ) { index2 = FALSE; }
+					if (bestHandPos[j] == 2 ) { index2 = FALSE; }
 				}
 				if (index2) { boardCardsArray[0]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index2" << endl;*/}
 				//index 3 testen
 				bool index3 = TRUE;
 				for(j=0; j<5; j++) {
-					if ((currentHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 3 ) { index3 = FALSE; }
+					if (bestHandPos[j] == 3 ) { index3 = FALSE; }
 				}
 				if (index3) { boardCardsArray[1]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index3" << endl;*/}
 				//index 4 testen
 				bool index4 = TRUE;
 				for(j=0; j<5; j++) {
-					if ((currentHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 4 ) { index4 = FALSE; }
+					if (bestHandPos[j] == 4 ) { index4 = FALSE; }
 				}
 				if (index4) { boardCardsArray[2]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index4" << endl;*/}
 				//index 5 testen
 				bool index5 = TRUE;
 				for(j=0; j<5; j++) {
-					if ((currentHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 5 ) { index5 = FALSE; }
+					if (bestHandPos[j] == 5 ) { index5 = FALSE; }
 				}
 				if (index5) { boardCardsArray[3]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index5" << endl;*/}
 				//index 6 testen
 				bool index6 = TRUE;
 				for(j=0; j<5; j++) {
-					if ((currentHand->getPlayerArray()[i]->getMyBestHandPosition())[j] == 6 ) { index6 = FALSE; }
+					if (bestHandPos[j] == 6 ) { index6 = FALSE; }
 				}
 				if (index6) { boardCardsArray[4]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index6" << endl;*/}
 			}	

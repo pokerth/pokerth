@@ -69,7 +69,7 @@ public:
 	virtual bool getMyActiveStatus() const =0;
 
 	virtual void setMyCards(int* theValue) =0;
-	virtual void getMyCards(int* theValue) =0;
+	virtual void getMyCards(int* theValue) const =0;
 
 	virtual void setMyTurn(bool theValue) =0;
 	virtual bool getMyTurn() const =0;
@@ -80,7 +80,8 @@ public:
 	virtual void setMyCardsValueInt(int theValue) =0;
 	virtual int getMyCardsValueInt() const =0;
 
-	virtual int* getMyBestHandPosition() =0;
+	virtual void setMyBestHandPosition(int* theValue) =0;
+	virtual void getMyBestHandPosition(int* theValue) const =0;
 
 	virtual void setMyRoundStartCash(int theValue) =0;
 	virtual int getMyRoundStartCash() const =0;

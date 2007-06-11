@@ -618,12 +618,14 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 					tmpPlayerResult.playerId = (*i)->getMyUniqueID();
 
 					int tmpCards[2];
+					int bestHandPos[5];
 					(*i)->getMyCards(tmpCards);
 					tmpPlayerResult.cards[0] = static_cast<u_int16_t>(tmpCards[0]);
 					tmpPlayerResult.cards[1] = static_cast<u_int16_t>(tmpCards[1]);
 
+					(*i)->getMyBestHandPosition(bestHandPos);
 					for (int num = 0; num < 5; num++)
-						tmpPlayerResult.bestHandPos[num] = (*i)->getMyBestHandPosition()[num];
+						tmpPlayerResult.bestHandPos[num] = bestHandPos[num];
 
 					tmpPlayerResult.valueOfCards = (*i)->getMyCardsValueInt();
 					tmpPlayerResult.moneyWon = 0; // TODO

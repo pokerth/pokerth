@@ -25,22 +25,22 @@ public:
 
 	virtual ~RiverInterface();
 
-	virtual void setPlayersTurn(const int& theValue) =0;
+	virtual void setPlayersTurn(int theValue) =0;
 	virtual int getPlayersTurn() const =0;
 	
-	virtual void setHighestSet(const int& theValue) =0;
+	virtual void setHighestSet(int theValue) =0;
 	virtual int getHighestSet() const =0;
 
 	virtual void setFirstRiverRound(bool theValue) =0;
 	virtual bool getFirstRiverRound() const =0;
 
-	virtual void setSmallBlindPosition(const int& theValue) =0;
+	virtual void setSmallBlindPosition(int theValue) =0;
 	virtual int getSmallBlindPosition() const =0;
 
-	virtual void setSmallBlind(const int& theValue) =0;
+	virtual void setSmallBlind(int theValue) =0;
 	virtual int getSmallBlind() const =0;
 
-	virtual void setHighestCardsValue(const int& theValue) =0;
+	virtual void setHighestCardsValue(int theValue) =0;
 	virtual int getHighestCardsValue() const =0;
 
 	virtual void resetFirstRun() =0;

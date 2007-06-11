@@ -26,19 +26,19 @@ public:
 
 	virtual ~FlopInterface();
 
-	virtual void setPlayersTurn(const int& theValue) =0;
+	virtual void setPlayersTurn(int theValue) =0;
 	virtual int getPlayersTurn() const =0;
 	
-	virtual void setHighestSet(const int& theValue) =0;
+	virtual void setHighestSet(int theValue) =0;
 	virtual int getHighestSet() const =0;
 
 	virtual void setFirstFlopRound(bool theValue) =0;
 	virtual bool getFirstFlopRound() const =0;
 
-	virtual void setSmallBlindPosition(const int& theValue) =0;
+	virtual void setSmallBlindPosition(int theValue) =0;
 	virtual int getSmallBlindPosition() const =0;
 
-	virtual void setSmallBlind(const int& theValue) =0;
+	virtual void setSmallBlind(int theValue) =0;
 	virtual int getSmallBlind() const =0;
 
 	virtual void resetFirstRun() =0;

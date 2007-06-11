@@ -20,6 +20,7 @@
 #define CLIENTTURN_H
 
 #include <turninterface.h>
+#include <boost/thread.hpp>
 
 class HandInterface;
 
@@ -28,27 +29,28 @@ public:
 	ClientTurn(HandInterface*, int, int, int, int);
 	~ClientTurn();
 
-	void setPlayersTurn(const int& theValue) { playersTurn = theValue; }
-	int getPlayersTurn() const { return playersTurn; }
+	void setPlayersTurn(int theValue);
+	int getPlayersTurn() const;
 	
-	void setHighestSet(const int& theValue) { highestSet = theValue; }
-	int getHighestSet() const { return highestSet;}
+	void setHighestSet(int theValue);
+	int getHighestSet() const;
 
-	void setFirstTurnRound(bool theValue) { firstTurnRound = theValue;}
-	bool getFirstTurnRound() const {  return firstTurnRound;}
+	void setFirstTurnRound(bool theValue);
+	bool getFirstTurnRound() const;
 
-	void setSmallBlindPosition(const int& theValue) { smallBlindPosition = theValue;}
-	int getSmallBlindPosition() const { return smallBlindPosition; }
+	void setSmallBlindPosition(int theValue);
+	int getSmallBlindPosition() const;
 
-	void setSmallBlind(const int& theValue) { smallBlind = theValue; }
-	int getSmallBlind() const { return smallBlind; }
+	void setSmallBlind(int theValue);
+	int getSmallBlind() const;
 
-	void resetFirstRun() { firstTurnRun = false; }
+	void resetFirstRun();
 
 	void turnRun();
 	void nextPlayer2();
 
 private:
+	mutable boost::recursive_mutex m_syncMutex;
 
 	HandInterface *myHand;
 

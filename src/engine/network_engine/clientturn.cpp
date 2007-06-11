@@ -32,6 +32,83 @@ ClientTurn::~ClientTurn()
 }
 
 void
+ClientTurn::setPlayersTurn(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	playersTurn = theValue;
+}
+
+int
+ClientTurn::getPlayersTurn() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return playersTurn;
+}
+
+void
+ClientTurn::setHighestSet(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	highestSet = theValue;
+}
+
+int
+ClientTurn::getHighestSet() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return highestSet;
+}
+
+void
+ClientTurn::setFirstTurnRound(bool theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	firstTurnRound = theValue;
+}
+
+bool
+ClientTurn::getFirstTurnRound() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return firstTurnRound;
+}
+
+void
+ClientTurn::setSmallBlindPosition(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	smallBlindPosition = theValue;
+}
+
+int
+ClientTurn::getSmallBlindPosition() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return smallBlindPosition;
+}
+
+void
+ClientTurn::setSmallBlind(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	smallBlind = theValue;
+}
+
+int
+ClientTurn::getSmallBlind() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return smallBlind;
+}
+
+void
+ClientTurn::resetFirstRun()
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	firstTurnRun = false;
+}
+
+void
 ClientTurn::turnRun()
 {
 }

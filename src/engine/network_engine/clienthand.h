@@ -29,6 +29,7 @@
 #include <turninterface.h>
 #include <riverinterface.h>
 
+#include <boost/thread.hpp>
 
 class ClientHand : public HandInterface
 {
@@ -38,54 +39,55 @@ public:
 
 	void start();
 
-	PlayerInterface** getPlayerArray() const { return playerArray; }
-	BoardInterface* getBoard() const { return myBoard; }
-	PreflopInterface* getPreflop() const { return myPreflop; }
-	FlopInterface* getFlop() const { return myFlop; }
-	TurnInterface* getTurn() const { return myTurn; }
-	RiverInterface* getRiver() const { return myRiver; }
-	GuiInterface* getGuiInterface() const { return myGui; }
+	PlayerInterface** getPlayerArray() const;
+	BoardInterface* getBoard() const;
+	PreflopInterface* getPreflop() const;
+	FlopInterface* getFlop() const;
+	TurnInterface* getTurn() const;
+	RiverInterface* getRiver() const;
+	GuiInterface* getGuiInterface() const;
 
-	void setMyID(int theValue) { myID = theValue; }
-	int getMyID() const { return myID; }
+	void setMyID(int theValue);
+	int getMyID() const;
 	
-	void setActualQuantityPlayers(int theValue) { actualQuantityPlayers = theValue; }
-	int getActualQuantityPlayers() const { return actualQuantityPlayers; }
+	void setActualQuantityPlayers(int theValue);
+	int getActualQuantityPlayers() const;
 
-	void setStartQuantityPlayers(int theValue) { startQuantityPlayers = theValue; }
-	int getStartQuantityPlayers() const { return startQuantityPlayers; }
+	void setStartQuantityPlayers(int theValue);
+	int getStartQuantityPlayers() const;
 
-	void setActualRound(int theValue) { actualRound = theValue; }
-	int getActualRound() const { return actualRound; }
+	void setActualRound(int theValue);
+	int getActualRound() const;
 
-	void setDealerPosition(int theValue) { dealerPosition = theValue; }
-	int getDealerPosition() const { return dealerPosition; }
+	void setDealerPosition(int theValue);
+	int getDealerPosition() const;
 
-	void setSmallBlind(int theValue) { smallBlind = theValue; }
-	int getSmallBlind() const { return smallBlind; }
+	void setSmallBlind(int theValue);
+	int getSmallBlind() const;
 
-	void setAllInCondition(bool theValue) { allInCondition = theValue; }
-	bool getAllInCondition() const { return allInCondition; }
+	void setAllInCondition(bool theValue);
+	bool getAllInCondition() const;
 
-	void setStartCash(int theValue)	{ startCash = theValue; }
-	int getStartCash() const { return startCash;	}
+	void setStartCash(int theValue);
+	int getStartCash() const;
 
-	void setActivePlayersCounter(int theValue) { activePlayersCounter = theValue; }
-	int getActivePlayersCounter() const { return activePlayersCounter; }
+	void setActivePlayersCounter(int theValue);
+	int getActivePlayersCounter() const;
 	
-	void setBettingRoundsPlayed(int theValue) { bettingRoundsPlayed = theValue; }
-	int getBettingRoundsPlayed() const { return bettingRoundsPlayed; }
+	void setBettingRoundsPlayed(int theValue);
+	int getBettingRoundsPlayed() const;
 
-	void setLastPlayersTurn(int theValue) { lastPlayersTurn = theValue; }
-	int getLastPlayersTurn() const { return lastPlayersTurn; }
+	void setLastPlayersTurn(int theValue);
+	int getLastPlayersTurn() const;
 
-	void setCardsShown(bool theValue) { cardsShown = theValue; }
-	bool getCardsShown() const { return cardsShown; }
+	void setCardsShown(bool theValue);
+	bool getCardsShown() const;
 
 	void switchRounds();
 
 
 private:
+	mutable boost::recursive_mutex m_syncMutex;
 
 	boost::shared_ptr<EngineFactory> myFactory;
 	GuiInterface *myGui;

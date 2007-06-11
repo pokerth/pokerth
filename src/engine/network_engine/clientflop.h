@@ -20,36 +20,39 @@
 #define CLIENTFLOP_H
 
 #include "flopinterface.h"
+#include <boost/thread.hpp>
 
 class HandInterface;
 
-class ClientFlop : public FlopInterface{
+class ClientFlop : public FlopInterface
+{
 public:
 	ClientFlop(HandInterface*, int, int, int, int);
 	~ClientFlop();
 
 
-	void setPlayersTurn(const int& theValue) { playersTurn = theValue; }
-	int getPlayersTurn() const { return playersTurn; }
-	
-	void setHighestSet(const int& theValue) { highestSet = theValue; }
-	int getHighestSet() const { return highestSet;}
+	void setPlayersTurn(int theValue);
+	int getPlayersTurn() const;
 
-	void setFirstFlopRound(bool theValue) { firstFlopRound = theValue;}
-	bool getFirstFlopRound() const {  return firstFlopRound;}
+	void setHighestSet(int theValue);
+	int getHighestSet() const;
 
-	void setSmallBlindPosition(const int& theValue) { smallBlindPosition = theValue;}
-	int getSmallBlindPosition() const { return smallBlindPosition; }
+	void setFirstFlopRound(bool theValue);
+	bool getFirstFlopRound() const;
 
-	void setSmallBlind(const int& theValue) { smallBlind = theValue; }
-	int getSmallBlind() const { return smallBlind; }
+	void setSmallBlindPosition(int theValue);
+	int getSmallBlindPosition() const;
 
-	void resetFirstRun() { firstFlopRun = false; }
+	void setSmallBlind(int theValue);
+	int getSmallBlind() const;
+
+	void resetFirstRun();
 
 	void flopRun();
 	void nextPlayer2();
 
 private:
+	mutable boost::recursive_mutex m_syncMutex;
 
 	HandInterface *myHand;
 

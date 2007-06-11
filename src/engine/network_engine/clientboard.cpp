@@ -18,7 +18,7 @@
  ***************************************************************************/
 #include "clientboard.h"
 
-#include "localhand.h"
+#include <handinterface.h>
 #include <game_defs.h>
 
 using namespace std;
@@ -36,26 +36,74 @@ ClientBoard::~ClientBoard()
 void
 ClientBoard::setPlayer(PlayerInterface** p)
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	playerArray = p;
 }
 
 void
 ClientBoard::setHand(HandInterface* br)
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	actualHand = br;
+}
+
+void
+ClientBoard::setMyCards(int* theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	for (int i = 0; i < 5; i++)
+		myCards[i] = theValue[i];
+}
+
+void
+ClientBoard::getMyCards(int* theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	for (int i = 0; i < 5; i++)
+		theValue[i] = myCards[i];
+}
+
+int
+ClientBoard::getPot() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return pot;
+}
+
+void
+ClientBoard::setPot(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	pot = theValue;
+}
+
+int
+ClientBoard::getSets() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return sets;
+}
+
+void
+ClientBoard::setSets(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	sets = theValue;
 }
 
 void
 ClientBoard::collectSets()
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	sets = 0;
-	int i;
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) sets += playerArray[i]->getMySet();
+	for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
+		sets += playerArray[i]->getMySet();
 }
 
 void
 ClientBoard::collectPot()
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	pot += sets; 
 	sets = 0;
 }

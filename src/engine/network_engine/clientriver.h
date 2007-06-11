@@ -20,6 +20,7 @@
 #define CLIENTRIVER_H
 
 #include <riverinterface.h>
+#include <boost/thread.hpp>
 
 class HandInterface;
 
@@ -29,25 +30,25 @@ public:
 	ClientRiver(HandInterface*, int, int, int, int);
 	~ClientRiver();
 
-	void setPlayersTurn(const int& theValue) { playersTurn = theValue; }
-	int getPlayersTurn() const { return playersTurn; }
+	void setPlayersTurn(int theValue);
+	int getPlayersTurn() const;
 	
-	void setHighestSet(const int& theValue) { highestSet = theValue; }
-	int getHighestSet() const { return highestSet;}
+	void setHighestSet(int theValue);
+	int getHighestSet() const;
 
-	void setFirstRiverRound(bool theValue) { firstRiverRound = theValue;}
-	bool getFirstRiverRound() const {  return firstRiverRound;}
+	void setFirstRiverRound(bool theValue);
+	bool getFirstRiverRound() const;
 
-	void setSmallBlindPosition(const int& theValue) { smallBlindPosition = theValue;}
-	int getSmallBlindPosition() const { return smallBlindPosition; }
+	void setSmallBlindPosition(int theValue);
+	int getSmallBlindPosition() const;
 
-	void setSmallBlind(const int& theValue) { smallBlind = theValue; }
-	int getSmallBlind() const { return smallBlind; }
+	void setSmallBlind(int theValue);
+	int getSmallBlind() const;
 
-	void setHighestCardsValue(const int& theValue) { highestCardsValue = theValue;}
-	int getHighestCardsValue() const { return highestCardsValue;}
+	void setHighestCardsValue(int theValue);
+	int getHighestCardsValue() const;
 
-	void resetFirstRun() { firstRiverRun = false; }
+	void resetFirstRun();
 
 	void riverRun();
 	void postRiverRun();
@@ -55,6 +56,7 @@ public:
 	void distributePot();
 	
 private:
+	mutable boost::recursive_mutex m_syncMutex;
 
 	HandInterface *myHand;
 
@@ -75,3 +77,4 @@ private:
 };
 
 #endif
+

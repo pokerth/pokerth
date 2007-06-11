@@ -74,15 +74,224 @@ ClientHand::start()
 {
 }
 
+PlayerInterface**
+ClientHand::getPlayerArray() const
+{
+	return playerArray;
+}
+
+BoardInterface*
+ClientHand::getBoard() const
+{
+	return myBoard;
+}
+
+PreflopInterface*
+ClientHand::getPreflop() const
+{
+	return myPreflop;
+}
+
+FlopInterface*
+ClientHand::getFlop() const
+{
+	return myFlop;
+}
+
+TurnInterface*
+ClientHand::getTurn() const
+{
+	return myTurn;
+}
+
+RiverInterface*
+ClientHand::getRiver() const
+{
+	return myRiver;
+}
+
+GuiInterface*
+ClientHand::getGuiInterface() const
+{
+	return myGui;
+}
+
+void
+ClientHand::setMyID(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	myID = theValue;
+}
+
+int
+ClientHand::getMyID() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return myID;
+}
+
+void
+ClientHand::setActualQuantityPlayers(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	actualQuantityPlayers = theValue;
+}
+
+int
+ClientHand::getActualQuantityPlayers() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return actualQuantityPlayers;
+}
+
+void
+ClientHand::setStartQuantityPlayers(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	startQuantityPlayers = theValue;
+}
+
+int
+ClientHand::getStartQuantityPlayers() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return startQuantityPlayers;
+}
+
+void
+ClientHand::setActualRound(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	actualRound = theValue;
+}
+
+int
+ClientHand::getActualRound() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return actualRound;
+}
+
+void
+ClientHand::setDealerPosition(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	dealerPosition = theValue;
+}
+
+int
+ClientHand::getDealerPosition() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return dealerPosition;
+}
+
+void
+ClientHand::setSmallBlind(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	smallBlind = theValue;
+}
+
+int
+ClientHand::getSmallBlind() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return smallBlind;
+}
+
+void
+ClientHand::setAllInCondition(bool theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	allInCondition = theValue;
+}
+
+bool
+ClientHand::getAllInCondition() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return allInCondition;
+}
+
+void
+ClientHand::setStartCash(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	startCash = theValue;
+}
+
+int
+ClientHand::getStartCash() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return startCash;
+}
+
+void
+ClientHand::setActivePlayersCounter(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	activePlayersCounter = theValue;
+}
+
+int
+ClientHand::getActivePlayersCounter() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return activePlayersCounter;
+}
+
+void
+ClientHand::setBettingRoundsPlayed(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	bettingRoundsPlayed = theValue;
+}
+
+int
+ClientHand::getBettingRoundsPlayed() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return bettingRoundsPlayed;
+}
+
+void
+ClientHand::setLastPlayersTurn(int theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	lastPlayersTurn = theValue;
+}
+
+int
+ClientHand::getLastPlayersTurn() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return lastPlayersTurn;
+}
+
+void
+ClientHand::setCardsShown(bool theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	cardsShown = theValue;
+}
+
+bool
+ClientHand::getCardsShown() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return cardsShown;
+}
+
 void
 ClientHand::switchRounds()
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	// update active players counter.
 	activePlayersCounter = 0;
 	for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++) { 
 		if (playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyActiveStatus() == 1) activePlayersCounter++;
 	}
 }
-
-
 

@@ -55,7 +55,7 @@ public:
 
 	void sendClientPlayerAction();
 
-	void setCurrentGameID(const int& theValue) { currentGameID = theValue; }
+	void setCurrentGameID(int theValue) { currentGameID = theValue; }
 	int getCurrentGameID() const { return currentGameID; }
 
 	void sendChatMessage(const std::string &message);

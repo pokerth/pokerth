@@ -818,12 +818,14 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 					throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 				int tmpCards[2];
+				int bestHandPos[5];
 				tmpCards[0] = static_cast<int>((*i).cards[0]);
 				tmpCards[1] = static_cast<int>((*i).cards[1]);
 				tmpPlayer->setMyCards(tmpCards);
 				for (int num = 0; num < 5; num++)
-					tmpPlayer->getMyBestHandPosition()[num] = (*i).bestHandPos[num];
+					bestHandPos[num] = (*i).bestHandPos[num];
 				tmpPlayer->setMyCardsValueInt((*i).valueOfCards);
+				tmpPlayer->setMyBestHandPosition(bestHandPos);
 				if (tmpPlayer->getMyCardsValueInt() > highestValueOfCards)
 					highestValueOfCards = tmpPlayer->getMyCardsValueInt();
 				tmpPlayer->setMyCash((*i).playerMoney);

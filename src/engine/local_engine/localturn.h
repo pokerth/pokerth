@@ -29,19 +29,19 @@ public:
 	LocalTurn(HandInterface*, int, int, int, int);
 	~LocalTurn();
 
-	void setPlayersTurn(const int& theValue) { playersTurn = theValue; }
+	void setPlayersTurn(int theValue) { playersTurn = theValue; }
 	int getPlayersTurn() const { return playersTurn; }
 	
-	void setHighestSet(const int& theValue) { highestSet = theValue; }
+	void setHighestSet(int theValue) { highestSet = theValue; }
 	int getHighestSet() const { return highestSet;}
 
 	void setFirstTurnRound(bool theValue) { firstTurnRound = theValue;}
 	bool getFirstTurnRound() const {  return firstTurnRound;}
 
-	void setSmallBlindPosition(const int& theValue) { smallBlindPosition = theValue;}
+	void setSmallBlindPosition(int theValue) { smallBlindPosition = theValue;}
 	int getSmallBlindPosition() const { return smallBlindPosition; }
 
-	void setSmallBlind(const int& theValue) { smallBlind = theValue; }
+	void setSmallBlind(int theValue) { smallBlind = theValue; }
 	int getSmallBlind() const { return smallBlind; }
 
 	void resetFirstRun() { firstTurnRun = false; }
