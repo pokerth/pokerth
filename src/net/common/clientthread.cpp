@@ -160,6 +160,8 @@ ClientThread::Main()
 					boost::shared_ptr<EngineFactory> factory(new ClientEngineFactory); // LocalEngine erstellen
 
 					MapPlayerDataList();
+					if (GetPlayerDataList().size() != GetStartData().numberOfPlayers)
+						throw NetException(ERR_NET_INVALID_PLAYER_COUNT, 0);
 					m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameId++));
 					// Initialize GUI speed.
 					GetGui().initGui(GetGameData().guiSpeed);
@@ -315,7 +317,7 @@ ClientThread::MapPlayerDataList()
 		if (numberDiff >= 0)
 			tmpData->SetNumber(numberDiff);
 		else
-			tmpData->SetNumber(GetGameData().numberOfPlayers + numberDiff);
+			tmpData->SetNumber(GetStartData().numberOfPlayers + numberDiff);
 		mappedList.push_back(tmpData);
 		++i;
 	}

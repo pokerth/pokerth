@@ -32,10 +32,10 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		   const PlayerDataList &playerDataList, const GameData &gameData,
 		   const StartData &startData, int gameId)
 : myFactory(factory), myGui(gui), actualHand(0), actualBoard(0),
-  startQuantityPlayers(gameData.numberOfPlayers),
+  startQuantityPlayers(startData.numberOfPlayers),
   startCash(gameData.startMoney), startSmallBlind(gameData.smallBlind),
   startHandsBeforeRaiseSmallBlind(gameData.handsBeforeRaise),
-  myGameID(gameId), actualQuantityPlayers(gameData.numberOfPlayers),
+  myGameID(gameId), actualQuantityPlayers(startData.numberOfPlayers),
   actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(0)
 {
 // 	cout << "Create Game Object" << "\n";

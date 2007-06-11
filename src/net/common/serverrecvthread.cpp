@@ -261,10 +261,12 @@ ServerRecvThread::InternalStartGame()
 	// Create EngineFactory
 	boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(m_playerConfig)); // LocalEngine erstellen
 
-	// Set dealer pos.
+	// Set start data.
 	StartData startData;
+	startData.numberOfPlayers = playerData.size();
+
 	int tmpDealerPos = 0;
-	Tools::getRandNumber(0, GetGameData().numberOfPlayers-1, 1, &tmpDealerPos, 0);
+	Tools::getRandNumber(0, startData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
 	// The Player Id is not continuous. Therefore, the start dealer position
 	// needs to be converted to a player Id, and cannot be directly generated
 	// as player Id.

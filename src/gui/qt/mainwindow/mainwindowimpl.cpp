@@ -666,7 +666,7 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	GameData gameData;
 	if(v) {
 		// Set Game Data
-		gameData.numberOfPlayers = v->spinBox_quantityPlayers->value();
+		gameData.maxNumberOfPlayers = v->spinBox_quantityPlayers->value();
 		gameData.startMoney = v->spinBox_startCash->value();
 		gameData.smallBlind = v->spinBox_smallBlind->value();
 		gameData.handsBeforeRaise = v->spinBox_handsBeforeRaiseSmallBlind->value();
@@ -676,7 +676,7 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	// start with default values
 	else {
 		// Set Game Data
-		gameData.numberOfPlayers = myConfig->readConfigInt("NumberOfPlayers");
+		gameData.maxNumberOfPlayers = myConfig->readConfigInt("NumberOfPlayers");
 		gameData.startMoney = myConfig->readConfigInt("StartCash");
 		gameData.smallBlind = myConfig->readConfigInt("SmallBlind");
 		gameData.handsBeforeRaise = myConfig->readConfigInt("HandsBeforeRaiseSmallBlind");
@@ -686,7 +686,8 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	// Set dealer pos.
 	StartData startData;
 	int tmpDealerPos = 0;
-	Tools::getRandNumber(0, gameData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
+	startData.numberOfPlayers = gameData.maxNumberOfPlayers;
+	Tools::getRandNumber(0, startData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
 	startData.startDealerPlayerId = static_cast<unsigned>(tmpDealerPos);
 
 	//some gui modifications
@@ -720,7 +721,7 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		myServerGuiInterface->getSession().terminateNetworkServer();
 
 		GameData gameData;
-		gameData.numberOfPlayers = myCreateNetworkGameDialog->spinBox_quantityPlayers->value();
+		gameData.maxNumberOfPlayers = myCreateNetworkGameDialog->spinBox_quantityPlayers->value();
 		gameData.startMoney = myCreateNetworkGameDialog->spinBox_startCash->value();
 		gameData.smallBlind = myCreateNetworkGameDialog->spinBox_smallBlind->value();
 		gameData.handsBeforeRaise = myCreateNetworkGameDialog->spinBox_handsBeforeRaiseSmallBlind->value();
@@ -735,7 +736,7 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		myServerGuiInterface->getSession().startNetworkServer(gameData);
 		mySession->startNetworkClientForLocalServer();
 
-		myStartNetworkGameDialog->setMaxPlayerNumber(gameData.numberOfPlayers);
+		myStartNetworkGameDialog->setMaxPlayerNumber(gameData.maxNumberOfPlayers);
 
 		showServerStartDialog();
 	}
@@ -2511,6 +2512,11 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 		case ERR_NET_PLAYER_KICKED:
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("You were kicked from the server."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_INVALID_PLAYER_COUNT:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The client player count is invalid."),
 				QMessageBox::Close); }
 		break;
 		default:  { QMessageBox::warning(this, tr("Network Error"),

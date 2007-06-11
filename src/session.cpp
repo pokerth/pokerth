@@ -57,7 +57,7 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
 	myGui->initGui(gameData.guiSpeed);
 
 	PlayerDataList playerDataList;
-	for(int i=0; i<gameData.numberOfPlayers; i++) {
+	for(int i = 0; i < startData.numberOfPlayers; i++) {
 
 		//Namen und Avatarpfad abfragen 
 		ostringstream myName;

@@ -32,6 +32,7 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFi
 	connect( treeWidget, SIGNAL( itemClicked ( QTreeWidgetItem*, int) ), this, SLOT( playerSelected(QTreeWidgetItem*, int) ) );
 
 	pushButton_Kick->setEnabled(FALSE);
+	pushButton_startGame->setEnabled(FALSE);
 }
 
 void startNetworkGameDialogImpl::startGame() {
@@ -88,8 +89,10 @@ void startNetworkGameDialogImpl::kickPlayer() {
 
 void startNetworkGameDialogImpl::checkPlayerQuantity() {
 
-	if(treeWidget->topLevelItemCount() == maxPlayerNumber) pushButton_startGame->setEnabled(TRUE);
-	else pushButton_startGame->setDisabled(TRUE);
+	if (treeWidget->topLevelItemCount() >= 2)
+		pushButton_startGame->setEnabled(TRUE);
+	else
+		pushButton_startGame->setEnabled(FALSE);
 
 }
 

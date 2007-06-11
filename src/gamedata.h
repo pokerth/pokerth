@@ -25,9 +25,9 @@
 
 struct GameData
 {
-	GameData() : numberOfPlayers(0), startMoney(0), smallBlind(0),
+	GameData() : maxNumberOfPlayers(0), startMoney(0), smallBlind(0),
 		handsBeforeRaise(1), guiSpeed(4), playerActionTimeoutSec(20) {}
-	int numberOfPlayers;
+	int maxNumberOfPlayers;
 	int startMoney;
 	int smallBlind;
 	int handsBeforeRaise;
@@ -37,8 +37,9 @@ struct GameData
 
 struct StartData
 {
-	StartData() : startDealerPlayerId(0) {}
+	StartData() : startDealerPlayerId(0), numberOfPlayers(0) {}
 	unsigned startDealerPlayerId;
+	int numberOfPlayers;
 };
 
 #endif

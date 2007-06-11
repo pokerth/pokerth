@@ -94,7 +94,7 @@ struct GCC_PACKED NetPacketJoinGameAckData
 	u_int32_t			sessionId;
 	u_int16_t			playerId;
 	u_int16_t			playerNumber;
-	u_int16_t			numberOfPlayers;
+	u_int16_t			maxNumberOfPlayers;
 	u_int16_t			smallBlind;
 	u_int16_t			handsBeforeRaise;
 	u_int16_t			proposedGuiSpeed;
@@ -130,7 +130,7 @@ struct GCC_PACKED NetPacketGameStartData
 {
 	NetPacketHeader		head;
 	u_int16_t			startDealerPlayerId;
-	u_int16_t			reserved;
+	u_int16_t			numberOfPlayers;
 };
 
 struct GCC_PACKED NetPacketHandStartData
@@ -737,7 +737,7 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 	tmpData->sessionId				= htonl(inData.sessionId);
 	tmpData->playerId				= htons(inData.yourPlayerUniqueId);
 	tmpData->playerNumber			= htons(inData.yourPlayerNum);
-	tmpData->numberOfPlayers		= htons(inData.gameData.numberOfPlayers);
+	tmpData->maxNumberOfPlayers		= htons(inData.gameData.maxNumberOfPlayers);
 	tmpData->smallBlind				= htons(inData.gameData.smallBlind);
 	tmpData->handsBeforeRaise		= htons(inData.gameData.handsBeforeRaise);
 	tmpData->proposedGuiSpeed		= htons(inData.gameData.guiSpeed);
@@ -754,7 +754,7 @@ NetPacketJoinGameAck::GetData(NetPacketJoinGameAck::Data &outData) const
 	outData.sessionId						= ntohl(tmpData->sessionId);
 	outData.yourPlayerUniqueId				= ntohs(tmpData->playerId);
 	outData.yourPlayerNum					= ntohs(tmpData->playerNumber);
-	outData.gameData.numberOfPlayers		= ntohs(tmpData->numberOfPlayers);
+	outData.gameData.maxNumberOfPlayers		= ntohs(tmpData->maxNumberOfPlayers);
 	outData.gameData.smallBlind				= ntohs(tmpData->smallBlind);
 	outData.gameData.handsBeforeRaise		= ntohs(tmpData->handsBeforeRaise);
 	outData.gameData.guiSpeed				= ntohs(tmpData->proposedGuiSpeed);
@@ -973,6 +973,7 @@ NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
 	assert(tmpData);
 
 	tmpData->startDealerPlayerId	= htons(inData.startData.startDealerPlayerId);
+	tmpData->numberOfPlayers		= htons(inData.startData.numberOfPlayers);
 }
 
 void
@@ -982,6 +983,7 @@ NetPacketGameStart::GetData(NetPacketGameStart::Data &outData) const
 	assert(tmpData);
 
 	outData.startData.startDealerPlayerId	= ntohs(tmpData->startDealerPlayerId);
+	outData.startData.numberOfPlayers		= ntohs(tmpData->numberOfPlayers);
 }
 
 const NetPacketGameStart *

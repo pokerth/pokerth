@@ -261,7 +261,7 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 	size_t curNumPlayers = server.GetCurNumberOfPlayers();
 
 	// Check the number of players.
-	if (curNumPlayers >= (size_t)server.GetGameData().numberOfPlayers)
+	if (curNumPlayers >= (size_t)server.GetGameData().maxNumberOfPlayers)
 	{
 		server.SessionError(session, ERR_NET_SERVER_FULL);
 		return retVal;
