@@ -387,11 +387,6 @@ p, li { white-space: pre-wrap; }
            <string>0.4 (current)</string>
           </property>
          </item>
-         <item>
-          <property name="text" >
-           <string>0.3 (previous)</string>
-          </property>
-         </item>
         </widget>
        </item>
        <item row="7" column="0" >
@@ -425,6 +420,9 @@ p, li { white-space: pre-wrap; }
           </property>
           <item row="1" column="1" >
            <widget class="QLineEdit" name="lineEdit_serverPassword" >
+            <property name="maxLength" >
+             <number>60</number>
+            </property>
             <property name="echoMode" >
              <enum>QLineEdit::Password</enum>
             </property>
@@ -446,7 +444,7 @@ p, li { white-space: pre-wrap; }
              <number>80</number>
             </property>
             <property name="value" >
-             <number>80</number>
+             <number>7234</number>
             </property>
            </widget>
           </item>
@@ -585,7 +583,7 @@ p, li { white-space: pre-wrap; }
          <item row="0" column="0" >
           <widget class="QLabel" name="label_15" >
            <property name="text" >
-            <string>Number of players:</string>
+            <string>Maximum number of players:</string>
            </property>
           </widget>
          </item>
@@ -594,11 +592,6 @@ p, li { white-space: pre-wrap; }
            <item>
             <property name="text" >
              <string>0.4 (actual)</string>
-            </property>
-           </item>
-           <item>
-            <property name="text" >
-             <string>0.3 (previous)</string>
             </property>
            </item>
           </widget>

@@ -73,30 +73,20 @@ void StartSplash::paintEvent(QPaintEvent * event) {
         haveFont.setFamily("Andy MT");
         haveFont.setPixelSize(36);
 #endif
-/*
-
-#ifdef _WIN32
-	QFont welcomeFont;
-	welcomeFont.setFamily("Times New Roman");
-	welcomeFont.setPixelSize(42);	
-#else 
-	QFont welcomeFont;
-	welcomeFont.setFamily("Century Schoolbook L");
-	welcomeFont.setPixelSize(35);
-#endif
-	QFont haveFont;
-	haveFont.setFamily("Andy MT");
-	haveFont.setPixelSize(36);*/
 	
+	QFont versionFont;
+	versionFont.setFamily("Nimbus Sans L");
+	versionFont.setPixelSize(12);
+
 	QPixmap logo(":/graphics/resources/graphics/logoChip3D.png");
 
-	if(frameNo >= 52 && frameNo < 65) {
+	if(frameNo >= 52 && frameNo < 55) {
 	
 		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
 	}
 
-	if(frameNo >= 65 && frameNo < 68) {
+	if(frameNo >= 55 && frameNo < 57) {
 	
 		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
@@ -109,7 +99,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 	}
 
-	if(frameNo >= 68 && frameNo < 71) {
+	if(frameNo >= 57 && frameNo < 59) {
 	
 		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
@@ -121,7 +111,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 	}
 
-	if(frameNo >= 71 && frameNo < 74) {
+	if(frameNo >= 59 && frameNo < 61) {
 	
 		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
@@ -133,7 +123,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 	}
 
-	if(frameNo >= 74 && frameNo < 77) {
+	if(frameNo >= 61 && frameNo < 63) {
 	
 		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
@@ -145,7 +135,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 	}
 
-	if(frameNo >= 77 && frameNo < 80) {
+	if(frameNo >= 63 && frameNo < 65) {
 	
 		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
@@ -157,7 +147,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 	}
 
-	if(frameNo >= 80 && frameNo < 83) {
+	if(frameNo >= 65 && frameNo < 67) {
 	
 		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
@@ -169,7 +159,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 	}
 
-	if(frameNo >= 83 && frameNo < 92) {
+	if(frameNo >= 67 && frameNo < 72) {
 	
 		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
@@ -181,7 +171,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 	}
 
-	if(frameNo >= 92 && frameNo < 95) {
+	if(frameNo >= 72 && frameNo < 74) {
 	
 		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
@@ -193,7 +183,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 	}
 
-	if(frameNo >= 95 && frameNo < 120 ) {
+	if(frameNo >= 74 && frameNo < 79 ) {
 	
 		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
@@ -205,7 +195,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 	}
 
-	if(frameNo >= 120 && frameNo < 132) {
+	if(frameNo >= 79 && frameNo < 91) {
 // 	
 		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
@@ -224,7 +214,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 	}
 
-	if(frameNo >= 132 && frameNo < 155) {
+	if(frameNo >= 91 && frameNo < 106) {
 // 	
 		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
@@ -238,7 +228,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		
 	}
 
-	if(frameNo >= 155 && frameNo < 195) {
+	if(frameNo >= 106 && frameNo < 136) {
 // 	
 		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
@@ -256,7 +246,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	}
 
-	if(frameNo >= 195 && frameNo < 245) {
+	if(frameNo >= 136 && frameNo < 190) {
 // 	
 		painter.setBrush(QColor(35,71,0));
 		painter.drawRect(0,0,399,249);
@@ -274,11 +264,18 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 
 	}
 
-	if(frameNo >= 245) { 
+	if(frameNo >=190) { 
 		this->hide();
 // 		myW->label_logo->show(); 
 
 	}
+
+	//even draw version number
+	painter.setOpacity(1.0);
+	painter.setFont(versionFont);
+	painter.setPen(QColor(102,153,0));
+	painter.drawText(312,230,100,20,4,"Version 0.5");
+	painter.setOpacity(opacity);
 
 }
 

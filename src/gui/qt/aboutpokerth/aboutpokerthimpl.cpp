@@ -31,5 +31,6 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent)
 	textBrowser->setPalette(myPalette);
 	textBrowser_2->setPalette(myPalette);
 	textBrowser_3->setPalette(myPalette);
+	textBrowser_4->setPalette(myPalette);
 	
 }
