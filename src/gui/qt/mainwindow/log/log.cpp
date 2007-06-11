@@ -460,11 +460,11 @@ void Log::logPlayerLeftMsg(QString playerName) {
 
 void Log::logPlayerWinGame(QString playerName, int gameID) {
 
-	myW->textBrowser_Log->append( "<i><b>"+playerName+" wins game no. " + QString::number(gameID,10)  +"!</i></b>");
+	myW->textBrowser_Log->append( "<i><b>"+playerName+" wins game " + QString::number(gameID,10)  +"!</i></b>");
 	
 	if(myConfig->readConfigInt("LogOnOff")) {
 	
-		logFileStreamString += "<i><b>"+playerName+" wins game no. " + QString::number(gameID,10)  +"!</i></b><br>\n";
+		logFileStreamString += "<i><b>"+playerName+" wins game " + QString::number(gameID,10)  +"!</i></b><br>\n";
 
 		if(myConfig->readConfigInt("LogInterval") == 0) {	
 			writeLogFileStream(logFileStreamString);

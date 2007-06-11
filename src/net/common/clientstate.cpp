@@ -570,9 +570,19 @@ ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 	}
 	else if (packet->ToNetPacketEndOfGame())
 	{
-		client.GetCallback().SignalNetClientWaitDialog();
-		client.SetState(ClientStateWaitGame::Instance());
-		retVal = MSG_NET_GAME_CLIENT_END;
+		boost::shared_ptr<Game> curGame = client.GetGame();
+		if (curGame.get())
+		{
+			NetPacketEndOfGame::Data endData;
+			packet->ToNetPacketEndOfGame()->GetData(endData);
+			PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(endData.winnerPlayerId);
+			if (!tmpPlayer)
+				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+			client.GetGui().logPlayerWinGame(tmpPlayer->getMyName(), curGame->getMyGameID());
+			client.GetCallback().SignalNetClientWaitDialog();
+			client.SetState(ClientStateWaitGame::Instance());
+			retVal = MSG_NET_GAME_CLIENT_END;
+		}
 	}
 
 	return MSG_SOCK_INTERNAL_PENDING;

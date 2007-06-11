@@ -100,6 +100,7 @@ void ServerGuiWrapper::logNewGameHandMsg(int gameID, int handID) {}
 void ServerGuiWrapper::logPlayerWinsMsg(int playerID, int pot) {}
 void ServerGuiWrapper::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4, int card5) {}
 void ServerGuiWrapper::logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt, std::string showHas) {}
+void ServerGuiWrapper::logPlayerWinGame(std::string playerName, int gameID) {}
 
 void ServerGuiWrapper::SignalNetClientConnect(int actionID) { if (myClientcb) myClientcb->SignalNetClientConnect(actionID); }
 void ServerGuiWrapper::SignalNetClientGameInfo(int actionID) { if (myClientcb) myClientcb->SignalNetClientGameInfo(actionID); }

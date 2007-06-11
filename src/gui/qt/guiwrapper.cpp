@@ -102,6 +102,7 @@ void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->signalLogNew
 void GuiWrapper::logPlayerWinsMsg(int playerID, int pot) { myLog->signalLogPlayerWinsMsg(playerID, pot); }
 void GuiWrapper::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4, int card5) { myLog->signalLogDealBoardCardsMsg(roundID, card1, card2, card3, card4, card5); }
 void GuiWrapper::logFlipHoleCardsMsg(string playerName, int card1, int card2, int cardsValueInt, string showHas) { myLog->signalLogFlipHoleCardsMsg(QString::fromUtf8(playerName.c_str()), card1, card2, cardsValueInt, QString::fromUtf8(showHas.c_str())); }
+void GuiWrapper::logPlayerWinGame(std::string playerName, int gameID) { myLog->signalLogPlayerWinGame(QString::fromUtf8(playerName.c_str()), gameID); }
 
 void GuiWrapper::SignalNetClientConnect(int actionID) { myW->signalNetClientConnect(actionID); }
 void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->signalNetClientGameInfo(actionID); }
