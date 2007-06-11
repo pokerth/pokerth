@@ -37,6 +37,7 @@ Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), m
 	connect(this, SIGNAL(signalLogDealBoardCardsMsg(int, int, int, int, int, int)), this, SLOT(logDealBoardCardsMsg(int, int, int, int, int, int)));
 	connect(this, SIGNAL(signalLogFlipHoleCardsMsg(QString, int, int, int, QString)), this, SLOT(logFlipHoleCardsMsg(QString, int, int, int, QString)));
 	connect(this, SIGNAL(signalLogPlayerLeftMsg(QString)), this, SLOT(logPlayerLeftMsg(QString)));
+	connect(this, SIGNAL(signalLogPlayerWinGame(QString, int)), this, SLOT(logPlayerWinGame(QString, int))); 
 
 
 	logFileStreamString = "";
@@ -457,6 +458,21 @@ void Log::logPlayerLeftMsg(QString playerName) {
 	}
 }
 
+void Log::logPlayerWinGame(QString playerName, int gameID) {
+
+	myW->textBrowser_Log->append( "<i><b>"+playerName+" wins game no. " + QString::number(gameID,10)  +"!</i></b>");
+	
+	if(myConfig->readConfigInt("LogOnOff")) {
+	
+		logFileStreamString += "<i><b>"+playerName+" wins game no. " + QString::number(gameID,10)  +"!</i></b><br>\n";
+
+		if(myConfig->readConfigInt("LogInterval") == 0) {	
+			writeLogFileStream(logFileStreamString);
+			logFileStreamString = "";
+		}
+	}
+
+}
 
 QStringList Log::translateCardCode(int cardCode) {
 
