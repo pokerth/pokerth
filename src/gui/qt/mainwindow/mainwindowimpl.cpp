@@ -802,7 +802,7 @@ void mainWindowImpl::callSettingsDialog() {
 			refreshPlayerName();
 		}
 	
-		if(mySession->getCurrentGame()) {
+		if(mySession->getCurrentGame() && !mySession->isNetworkClientRunning()) {
 
 			HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 			currentHand->getPlayerArray()[0]->setMyAvatar(mySettingsDialog->pushButton_HumanPlayerAvatar->getMyLink().toUtf8().constData());
