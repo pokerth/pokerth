@@ -116,4 +116,3 @@ void ServerGuiWrapper::SignalNetServerPlayerJoined(const string &playerName) { i
 void ServerGuiWrapper::SignalNetServerPlayerLeft(const string &playerName) { if (myServercb) myServercb->SignalNetServerPlayerLeft(playerName); }
 void ServerGuiWrapper::SignalNetServerStartDialog() { if (myServercb) myServercb->SignalNetServerStartDialog(); }
 
-\
