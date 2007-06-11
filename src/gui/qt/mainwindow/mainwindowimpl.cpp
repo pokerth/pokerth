@@ -1044,11 +1044,10 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 				actionLabelArray[i]->setPixmap(onePix);	
 			}
 			else {
-				if(i!=0 || ( i==0 && currentHand->getPlayerArray()[0]->getMyAction() != 1) ) {
+// 				if(i!=0 || ( i==0 && currentHand->getPlayerArray()[0]->getMyAction() != 1) ) {
 					//paint action pixmap
 					actionLabelArray[i]->setPixmap(QPixmap(":/actions/resources/graphics/actions/action_"+actionArray[currentHand->getPlayerArray()[i]->getMyAction()]+".png"));			
-				}
-	// 			actionLabelArray[i]->setStyleSheet("QLabel { background-image: url(:/actions/resources/graphics/actions/action_"+actionArray[currentHand->getPlayerArray()[i]->getMyAction()]+".png");				
+// 				}		
 			}
 					
 			if (currentHand->getPlayerArray()[i]->getMyAction()==1) { 
