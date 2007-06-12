@@ -30,6 +30,8 @@
         <file>resources/avatar/linus.png</file>
         <file>resources/avatar/marc.png</file>
 	<file>resources/avatar/florian.png</file>
+	<file>resources/avatar/Kapitan.png</file>
+	<file>resources/avatar/benedikt.png</file>
     </qresource>
     <qresource prefix="/cards" >
         <file>resources/graphics/cards/0.png</file>
