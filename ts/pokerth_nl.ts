@@ -1232,7 +1232,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="841"/>
         <source>Hands</source>
-        <translation>Rondes</translation>
+        <translation>Handen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="864"/>

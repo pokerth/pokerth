@@ -269,7 +269,10 @@ win32{
 }
 
 unix{
-    LIBS += -lboost_thread -lcrypto -lSDL_mixer
+   LIBS += -lboost_thread -lcrypto -lSDL_mixer
+   ## My release static libs 
+   #LIBS += -lboost_thread-mt_static -lcrypto -lSDL_mixer -lmikmod -lSDL
+   # -lmikmod -lSDL -laa -lgpm -lncurses
 }
 
 macx{
@@ -305,5 +308,3 @@ MOC_DIR = mocs
 OBJECTS_DIR = obj
 QT += 
 # QMAKE_CXXFLAGS_DEBUG += -g
-
-

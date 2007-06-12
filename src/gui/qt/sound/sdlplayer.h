@@ -36,7 +36,7 @@ public:
 	~SDLPlayer();
 
 	void initAudio();
-	void playSound(std::string);
+	void playSound(std::string, int playerID);
 	void audioDone();
 	void closeAudio();
 

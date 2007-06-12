@@ -43,14 +43,38 @@ void SDLPlayer::initAudio() {
 	}
 }
 
-void SDLPlayer::playSound(string audioString) {
+void SDLPlayer::playSound(string audioString, int playerID) {
 
 	if(audioEnabled) {
-	
+		
 		QFile myFile(":sounds/resources/sounds/"+QString::fromStdString(audioString)+".wav");
 	
 		if(myFile.open(QIODevice::ReadOnly)) {
 	
+			//set 3d position for player
+			int position = 0;
+			int distance = 0;
+			
+			switch (playerID) {
+
+			case 0: { position = 180; distance = 30; }
+			break;
+			case 1: { position = 281; distance = 40; }
+			break;
+			case 2: { position = 315; distance = 80; }
+			break;
+			case 3: { position = 338; distance = 100; }
+			break;
+			case 4: { position = 23; distance = 100; }
+			break;
+			case 5: { position = 45; distance = 80; }
+			break;
+			case 6: { position = 79; distance = 30; }
+			break;
+			default: { position = 0; distance = 0; }
+			break;
+			}
+
 			audioDone();
 	
 			QDataStream in(&myFile);
@@ -59,6 +83,11 @@ void SDLPlayer::playSound(string audioString) {
 			
 			sound = Mix_QuickLoad_WAV(soundData); 
 		
+			// set channel 2 to be behind and right, and 100 units away
+			if(!Mix_SetPosition(0, position, distance)) {
+    				printf("Mix_SetPosition: %s\n", Mix_GetError());
+    				// no position effect, is it ok?
+			}
 			currentChannel = Mix_PlayChannel(-1, sound,0);
 		}
 	// 	else cout << "could not load " << audioString << ".wav" << endl;

@@ -1072,7 +1072,7 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 			actionLabelArray[playerID]->setPixmap(QPixmap(":/actions/resources/graphics/actions/action_"+actionArray[playerAction]+".png"));			
 
 			//play sounds if exist
-			if(myConfig->readConfigInt("PlaySoundEffects")) mySDLPlayer->playSound(actionArray[playerAction].toStdString());
+			if(myConfig->readConfigInt("PlaySoundEffects")) mySDLPlayer->playSound(actionArray[playerAction].toStdString(), playerID);
 		}
 
 		if (playerAction == 1) { 
