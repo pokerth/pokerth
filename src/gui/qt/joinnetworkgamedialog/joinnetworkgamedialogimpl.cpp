@@ -42,6 +42,8 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile
 		treeWidget->setDisabled(TRUE);
 	}
 
+	connect( lineEdit_ipAddress, SIGNAL( editingFinished ()), this, SLOT( checkIp() ) );
+
 	connect( pushButton_connect, SIGNAL( clicked() ), this, SLOT( startClient() ) );
 	connect( pushButton_save, SIGNAL( clicked() ), this, SLOT( saveServerProfile() ) );
 	connect( pushButton_delete, SIGNAL( clicked() ), this, SLOT( deleteServerProfile() ) );
@@ -277,4 +279,11 @@ void joinNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 
 // 	std::cout << "key" << event->key();
 	if (event->key() == 16777220) { pushButton_connect->click(); } //ENTER 
+}
+
+void joinNetworkGameDialogImpl::checkIp() {
+	
+	//remove whitespaces
+	QString tmp = lineEdit_ipAddress->text();
+	lineEdit_ipAddress->setText(tmp.remove(" "));
 }

@@ -48,6 +48,7 @@ public slots:
 	void saveServerProfile();
 	void deleteServerProfile();
 	void keyPressEvent ( QKeyEvent * event );
+	void checkIp();
 };
 
 #endif
