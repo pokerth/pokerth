@@ -15,8 +15,8 @@
 
 using namespace std;
 
-SDLPlayer::SDLPlayer()
-: soundData(NULL), currentChannel(0) , audioEnabled(0)
+SDLPlayer::SDLPlayer(ConfigFile *c)
+: soundData(NULL), currentChannel(0) , audioEnabled(0), myConfig(c)
 {
 	initAudio();
 }
@@ -83,7 +83,11 @@ void SDLPlayer::playSound(string audioString, int playerID) {
 			
 			sound = Mix_QuickLoad_WAV(soundData); 
 		
-			// set channel 2 to be behind and right, and 100 units away
+			 
+  			// set channel 0 to settings volume
+			Mix_Volume(0,myConfig->readConfigInt("SoundVolume")*10);
+
+			// set 3d effect
 			if(!Mix_SetPosition(0, position, distance)) {
     				printf("Mix_SetPosition: %s\n", Mix_GetError());
     				// no position effect, is it ok?

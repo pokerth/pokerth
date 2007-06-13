@@ -23,6 +23,7 @@
 #endif
 
 #include <string>
+#include "configfile.h"
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
@@ -31,7 +32,7 @@ class SDLPlayer : public QObject{
 Q_OBJECT
 
 public:
-	SDLPlayer();
+	SDLPlayer(ConfigFile*);
 
 	~SDLPlayer();
 
@@ -51,6 +52,8 @@ private:
 	int currentChannel;
 
 	bool audioEnabled;
+
+	ConfigFile *myConfig;
 
 };
 

@@ -631,7 +631,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 
 	//Sound
-	mySDLPlayer = new SDLPlayer;
+	mySDLPlayer = new SDLPlayer(myConfig);
 
 }
 
@@ -1007,7 +1007,7 @@ void mainWindowImpl::refreshPlayerAvatar() {
 		if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 
 			if(!i) {
-				if(currentHand->getPlayerArray()[0]->getMyAvatar() == "") {
+				if(currentHand->getPlayerArray()[0]->getMyAvatar() == "" || !QFile::QFile(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyAvatar().c_str())).exists()) {
 					playerAvatarLabelArray[0]->setPixmap(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png"));
 				}
 				else {
@@ -1015,7 +1015,7 @@ void mainWindowImpl::refreshPlayerAvatar() {
 				}
 			}
 			else {				
-				if(currentHand->getPlayerArray()[i]->getMyAvatar() == "") {
+				if(currentHand->getPlayerArray()[i]->getMyAvatar() == ""  || !QFile::QFile(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyAvatar().c_str())).exists()) {
 					playerAvatarLabelArray[i]->setPixmap(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png"));
 				}
 				else {
