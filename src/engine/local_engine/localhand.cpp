@@ -357,8 +357,18 @@ void LocalHand::switchRounds() {
 		myGui->refreshPot();
 		myGui->refreshSet();
 		myGui->flipHolecardsAllIn();
+		
 		if (actualRound < 4) // do not increment past 4
 			actualRound++;
+		
+		//log board cards for allin
+		if(actualRound >= 1) {
+			int tempBoardCardsArray[5];
+			
+			myBoard->getMyCards(tempBoardCardsArray);
+			myGui->logDealBoardCardsMsg(actualRound, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
+		}
+	
 	}
 
 	//unhighlight actual players groupbox
