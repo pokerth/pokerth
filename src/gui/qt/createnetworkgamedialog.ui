@@ -196,6 +196,7 @@
   <tabstop>spinBox_smallBlind</tabstop>
   <tabstop>spinBox_handsBeforeRaiseSmallBlind</tabstop>
   <tabstop>spinBox_gameSpeed</tabstop>
+  <tabstop>spinBox_netTimeOutPlayerAction</tabstop>
   <tabstop>pushButton_createGame</tabstop>
   <tabstop>pushButton_cancel</tabstop>
  </tabstops>

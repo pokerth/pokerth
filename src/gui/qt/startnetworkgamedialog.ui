@@ -120,6 +120,7 @@
  </widget>
  <tabstops>
   <tabstop>treeWidget</tabstop>
+  <tabstop>pushButton_Kick</tabstop>
   <tabstop>pushButton_startGame</tabstop>
   <tabstop>pushButton_cancel</tabstop>
  </tabstops>

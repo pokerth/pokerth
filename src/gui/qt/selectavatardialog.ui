@@ -127,6 +127,12 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>listWidget</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>pushButton_OpenAvatarFile</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

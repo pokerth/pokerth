@@ -24,7 +24,7 @@
 
 
 selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
-    : QDialog(parent), myConfig(c), settingsCorrect(TRUE)
+    : QDialog(parent), myConfig(c), settingsCorrect(TRUE), avatarDir("")
 {
 
 	 setupUi(this);
@@ -159,9 +159,12 @@ void selectAvatarDialogImpl::isRejected() { settingsCorrect = FALSE;  }
 
 void selectAvatarDialogImpl::setExternalAvatar() {
 	
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Select external avatar picture"), QDir::homePath(), tr("Images (*.png)"));
+	if (avatarDir == "") avatarDir = QDir::homePath();
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Select external avatar picture"), avatarDir, tr("Images (*.png)"));
 
-     	if (!fileName.isEmpty())
-     	lineEdit->setText(fileName);
+     	if (!fileName.isEmpty()) {
+     		lineEdit->setText(fileName);	
+		avatarDir =  fileName;
+	}
 }
 

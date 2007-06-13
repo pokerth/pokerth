@@ -53,6 +53,7 @@ private:
 	ConfigFile* myConfig;
 	bool settingsCorrect;
 	QString externalAvatar;
+	QString avatarDir;
 
 };
 

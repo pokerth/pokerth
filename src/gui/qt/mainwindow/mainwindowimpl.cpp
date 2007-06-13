@@ -866,11 +866,15 @@ void mainWindowImpl::initGui(int speed)
 	for(int i=0; i<3; i++) {
 		userWidgetsArray[i]->show();
 	}
-
-	guiGameSpeed = speed;
-	//positioning Slider
-	horizontalSlider_speed->setValue(guiGameSpeed);
-	setSpeeds();
+	
+	//set speeds for local game and for first network game
+	if( !mySession->isNetworkClientRunning() || (mySession->isNetworkClientRunning() && !mySession->getCurrentGame()) ) {
+	
+		guiGameSpeed = speed;
+		//positioning Slider
+		horizontalSlider_speed->setValue(guiGameSpeed);
+		setSpeeds();
+	}
 }
 
 void mainWindowImpl::showServerStartDialog()

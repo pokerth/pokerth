@@ -334,6 +334,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>lineEdit_profileName</tabstop>
   <tabstop>spinBox_port</tabstop>
   <tabstop>checkBox_ipv6</tabstop>
+  <tabstop>checkBox_sctp</tabstop>
   <tabstop>treeWidget</tabstop>
   <tabstop>pushButton_save</tabstop>
   <tabstop>pushButton_delete</tabstop>
