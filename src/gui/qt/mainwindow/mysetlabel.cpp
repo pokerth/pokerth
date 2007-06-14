@@ -16,7 +16,7 @@
 using namespace std;
 
 MySetLabel::MySetLabel(QGroupBox* parent)
- : QLabel(parent), timeOutAnimation(FALSE), timeOutValue(0), timeOutFrame(0), waitFrames(0), decreaseWidthIntervall(1), timerIntervall(0)
+ : QLabel(parent), timeOutAnimation(FALSE), timeOutValue(0), timeOutFrame(0), waitFrames(0), timerIntervall(0)
 {
 
 	timeOutAnimationTimer = new QTimer;
@@ -30,8 +30,6 @@ MySetLabel::~MySetLabel()
 }
 
 void MySetLabel::startTimeOutAnimation(int secs) {
-
-	decreaseWidthIntervall = 1;
 
 	timeOutValue = secs;
 	timeOutFrame = 1;
@@ -50,7 +48,6 @@ void MySetLabel::startTimeOutAnimation(int secs) {
 		else {
 			timerIntervall = timerIntervall + preTimerIntervall;
 		}
-		decreaseWidthIntervall++;
 	}
 
 	waitFrames = 3000/timerIntervall;
@@ -84,7 +81,6 @@ void MySetLabel::nextTimeOutAnimationFrame() {
 	if(timeOutAnimationWidth >=0) {
 		if(timeOutFrame > waitFrames) { 
 			//save gfx ressources and never play more the 10 pps
-// 			timeOutAnimationWidth = timeOutAnimationWidth - decreaseWidthIntervall;
 			unsigned int realTimerValue = realTimer.elapsed().total_milliseconds();
 			timeOutAnimationWidth = 118-(((realTimerValue-3000)*118)/((timeOutValue-3)*1000));		
 
