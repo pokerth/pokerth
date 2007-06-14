@@ -16,7 +16,7 @@
 
 #include <QtGui>
 #include <QtCore>
-
+#include <core/boost/timer.hpp>
 
 class mainWindowImpl;
 
@@ -47,6 +47,9 @@ private:
 	mainWindowImpl *myW;
 	QTimer *timeOutAnimationTimer;
 	QTimer *timeOutAnimationKickOnTimer;
+	
+	boost::microsec_timer realTimer;
+
 	bool timeOutAnimation;
 
 	int timeOutAnimationWidth;

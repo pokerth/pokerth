@@ -1905,12 +1905,6 @@ p, li { white-space: pre-wrap; }
             </property>
             <item>
              <widget class="QLabel" name="label_27" >
-              <property name="maximumSize" >
-               <size>
-                <width>99</width>
-                <height>16777215</height>
-               </size>
-              </property>
               <property name="text" >
                <string>Store log files for</string>
               </property>
@@ -2023,17 +2017,17 @@ p, li { white-space: pre-wrap; }
               </property>
               <item>
                <property name="text" >
-                <string>every action (high frequent disc access)</string>
+                <string>action (high frequent disc access)</string>
                </property>
               </item>
               <item>
                <property name="text" >
-                <string>every hand (medium disc access)</string>
+                <string>hand (medium disc access)</string>
                </property>
               </item>
               <item>
                <property name="text" >
-                <string>every game (low disc access)</string>
+                <string>game (low disc access)</string>
                </property>
               </item>
              </widget>

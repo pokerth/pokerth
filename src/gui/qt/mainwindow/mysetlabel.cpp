@@ -31,7 +31,6 @@ MySetLabel::~MySetLabel()
 
 void MySetLabel::startTimeOutAnimation(int secs) {
 
-	
 	decreaseWidthIntervall = 1;
 
 	timeOutValue = secs;
@@ -55,6 +54,10 @@ void MySetLabel::startTimeOutAnimation(int secs) {
 	}
 
 	waitFrames = 3000/timerIntervall;
+	
+	//start the real timer
+	realTimer.reset();
+	realTimer.start();
 
 // 	std::cout << timerIntervall << endl;
 	timeOutAnimation = TRUE;	
@@ -81,7 +84,10 @@ void MySetLabel::nextTimeOutAnimationFrame() {
 	if(timeOutAnimationWidth >=0) {
 		if(timeOutFrame > waitFrames) { 
 			//save gfx ressources and never play more the 10 pps
-			timeOutAnimationWidth = timeOutAnimationWidth - decreaseWidthIntervall;
+// 			timeOutAnimationWidth = timeOutAnimationWidth - decreaseWidthIntervall;
+			unsigned int realTimerValue = realTimer.elapsed().total_milliseconds();
+			timeOutAnimationWidth = 118-((realTimerValue*118)/(timeOutValue*1000));		
+
 		}
 		timeOutFrame++;
 		update();
