@@ -86,7 +86,7 @@ void MySetLabel::nextTimeOutAnimationFrame() {
 			//save gfx ressources and never play more the 10 pps
 // 			timeOutAnimationWidth = timeOutAnimationWidth - decreaseWidthIntervall;
 			unsigned int realTimerValue = realTimer.elapsed().total_milliseconds();
-			timeOutAnimationWidth = 118-((realTimerValue*118)/(timeOutValue*1000));		
+			timeOutAnimationWidth = 118-(((realTimerValue-3000)*118)/((timeOutValue-3)*1000));		
 
 		}
 		timeOutFrame++;
