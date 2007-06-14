@@ -147,7 +147,6 @@ ServerRecvStateReceiving::Process(ServerRecvThread &server)
 		{
 			if (session.sessionData.get())
 			{
-				// TODO: Deactivate player.
 				server.CloseSessionDelayed(session);
 				return retVal;
 			}
@@ -737,7 +736,7 @@ ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 		server.SetState(ServerRecvStateStartRound::Instance());
 		retVal = MSG_NET_GAME_SERVER_ACTION;
 	}
-	else if (GetTimer().elapsed().seconds() >= server.GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC)
+	else if (GetTimer().elapsed().total_seconds() >= server.GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC)
 	{
 		// Player did not act fast enough. Act for him.
 		if (GetHighestSet(server.GetGame()) == tmpPlayer->getMySet())
@@ -896,7 +895,7 @@ ServerRecvStateDealCardsDelay::Process(ServerRecvThread &server)
 			delay = SERVER_DEAL_RIVER_CARD_DELAY_SEC;
 			break;
 	}
-	if (!delay || GetTimer().elapsed().seconds() >= delay)
+	if (!delay || GetTimer().elapsed().total_seconds() >= delay)
 		server.SetState(ServerRecvStateStartRound::Instance());
 
 	return retVal;
@@ -930,7 +929,7 @@ ServerRecvStateShowCardsDelay::Process(ServerRecvThread &server)
 {
 	int retVal = ServerRecvStateReceiving::Process(server);
 
-	if (GetTimer().elapsed().seconds() >= SERVER_SHOW_CARDS_DELAY_SEC)
+	if (GetTimer().elapsed().total_seconds() >= SERVER_SHOW_CARDS_DELAY_SEC)
 	{
 		Game &curGame = server.GetGame();
 		SendNewRoundCards(server, curGame, curGame.getCurrentHand()->getActualRound());
@@ -970,7 +969,7 @@ ServerRecvStateNextHandDelay::Process(ServerRecvThread &server)
 {
 	int retVal = ServerRecvStateReceiving::Process(server);
 
-	if (GetTimer().elapsed().seconds() >= SERVER_DELAY_NEXT_HAND_SEC)
+	if (GetTimer().elapsed().total_seconds() >= SERVER_DELAY_NEXT_HAND_SEC)
 		server.SetState(ServerRecvStateStartHand::Instance());
 
 	return retVal;
@@ -1004,7 +1003,7 @@ ServerRecvStateNextGameDelay::Process(ServerRecvThread &server)
 {
 	int retVal = ServerRecvStateReceiving::Process(server);
 
-	if (GetTimer().elapsed().seconds() >= SERVER_DELAY_NEXT_GAME_SEC)
+	if (GetTimer().elapsed().total_seconds() >= SERVER_DELAY_NEXT_GAME_SEC)
 	{
 		Game &curGame = server.GetGame();
 		// The game has ended. Notify all clients.

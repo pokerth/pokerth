@@ -162,7 +162,7 @@ ServerRecvThread::CloseSessionLoop()
 	{
 		CloseSessionList::iterator cur = i++;
 
-		if (cur->first.elapsed().seconds() >= SERVER_CLOSE_SESSION_DELAY_SEC)
+		if (cur->first.elapsed().total_seconds() >= SERVER_CLOSE_SESSION_DELAY_SEC)
 			m_closeSessionList.erase(cur);
 	}
 }
@@ -396,9 +396,14 @@ ServerRecvThread::CloseSessionDelayed(SessionWrapper session)
 			PlayerInterface *player = GetGame().getPlayerByUniqueId(tmpPlayerData->GetUniqueId());
 			if (player)
 			{
-				player->setMyAction(PLAYER_ACTION_FOLD);
-				player->setMyCash(0);
-				player->setMyActiveStatus(false);
+				// Deactivate player (if active).
+				if (player->getMyActiveStatus())
+				{
+					if (player->getMyAction() != PLAYER_ACTION_FOLD)
+						player->setMyAction(PLAYER_ACTION_FOLD);
+					player->setMyCash(0);
+					player->setMyActiveStatus(false);
+				}
 			}
 		}
 

@@ -310,7 +310,7 @@ ClientStateConnecting::Process(ClientThread &client)
 	}
 	else if (selectResult == 0) // timeout
 	{
-		if (m_connectTimer.elapsed().seconds() >= CLIENT_CONNECT_TIMEOUT_SEC)
+		if (m_connectTimer.elapsed().total_seconds() >= CLIENT_CONNECT_TIMEOUT_SEC)
 			throw ClientException(ERR_SOCK_CONNECT_TIMEOUT, 0);
 		else
 			retVal = MSG_SOCK_INTERNAL_PENDING;

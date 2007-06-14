@@ -41,9 +41,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 
 	for(i=0; i<startQuantityPlayers; i++) {
-		if(playerArray[i]->getMyActiveStatus() != 0) {
-			playerArray[i]->setHand(this);
-		}
+		playerArray[i]->setHand(this);
 	// myFlipCards auf 0 setzen
 		playerArray[i]->setMyCardsFlip(0, 0);
 	}
