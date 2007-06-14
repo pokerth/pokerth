@@ -953,7 +953,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="147"/>
         <source>Game Speed for computer opponent:</source>
-        <translation>Velocidad de juego del ordenador oponente:</translation>
+        <translation type="obsolete">Velocidad de juego del ordenador oponente:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="123"/>
@@ -964,6 +964,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="77"/>
         <source>Maximum number of players:</source>
         <translation>Número máximo de jugadores:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="147"/>
+        <source>Game Speed for computer opponents:</source>
+        <translation type="unfinished">Velocidad de juego de los ordenadores oponentes:</translation>
     </message>
 </context>
 <context>
@@ -1842,7 +1847,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="754"/>
         <source>Timout for player action (sec):</source>
-        <translation>Tiempo de acción del jugador (seg):</translation>
+        <translation type="obsolete">Tiempo de acción del jugador (seg):</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1850"/>
@@ -1879,6 +1884,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="155"/>
         <source>10</source>
         <translation type="unfinished">10</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="754"/>
+        <source>Timeout for player action (sec):</source>
+        <translation type="unfinished">Tiempo de acción del jugador (seg):</translation>
     </message>
 </context>
 <context>

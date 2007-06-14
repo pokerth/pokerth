@@ -502,11 +502,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="147"/>
-        <source>Game Speed for computer opponent:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="178"/>
         <source>Create Game</source>
         <translation type="unfinished"></translation>
@@ -524,6 +519,11 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="77"/>
         <source>Maximum number of players:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="147"/>
+        <source>Game Speed for computer opponents:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1321,11 +1321,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="754"/>
-        <source>Timout for player action (sec):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1850"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1356,6 +1351,11 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1041"/>
         <source>Opponent 6:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="754"/>
+        <source>Timeout for player action (sec):</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

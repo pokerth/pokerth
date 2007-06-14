@@ -951,7 +951,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="147"/>
         <source>Game Speed for computer opponent:</source>
-        <translation>Speelsnelheid van computertegenstanders:</translation>
+        <translation type="obsolete">Speelsnelheid van computertegenstanders:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="123"/>
@@ -962,6 +962,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="77"/>
         <source>Maximum number of players:</source>
         <translation>Maximaal aantal spelers:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="147"/>
+        <source>Game Speed for computer opponents:</source>
+        <translation type="unfinished">Speelsnelheid van computertegenstanders:</translation>
     </message>
 </context>
 <context>
@@ -1930,7 +1935,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="754"/>
         <source>Timout for player action (sec):</source>
-        <translation>Wacht op handeling speler gedurende (sec):</translation>
+        <translation type="obsolete">Wacht op handeling speler gedurende (sec):</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1850"/>
@@ -1967,6 +1972,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="155"/>
         <source>10</source>
         <translation type="unfinished">10</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="754"/>
+        <source>Timeout for player action (sec):</source>
+        <translation type="unfinished">Wacht op handeling speler gedurende (sec):</translation>
     </message>
 </context>
 <context>

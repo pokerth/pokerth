@@ -553,7 +553,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="147"/>
         <source>Game Speed for computer opponent:</source>
-        <translation>Скорость игры компьютерного оппонента:</translation>
+        <translation type="obsolete">Скорость игры компьютерного оппонента:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="178"/>
@@ -564,6 +564,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="185"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="147"/>
+        <source>Game Speed for computer opponents:</source>
+        <translation type="unfinished">Скорость игры компьютерных оппонентов:</translation>
     </message>
 </context>
 <context>
@@ -1302,7 +1307,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="754"/>
         <source>Timout for player action (sec):</source>
-        <translation>Тайм-аут для хода игрока (сек):</translation>
+        <translation type="obsolete">Тайм-аут для хода игрока (сек):</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1850"/>
@@ -1429,6 +1434,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="1041"/>
         <source>Opponent 6:</source>
         <translation type="unfinished">Оппонент 1: {6:?}</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="754"/>
+        <source>Timeout for player action (sec):</source>
+        <translation type="unfinished">Тайм-аут для хода игрока (сек):</translation>
     </message>
 </context>
 <context>
