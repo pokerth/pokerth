@@ -1230,7 +1230,7 @@ p, li { white-space: pre-wrap; }
         <translation>Пауза между розыгрышами (нажмите &quot;Старт&quot; для продолжения)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="508"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="715"/>
         <source>0.4 (current)</source>
         <translation>0.4 (текущая)</translation>
     </message>
@@ -1292,7 +1292,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="715"/>
         <source>0.4 (actual)</source>
-        <translation>0.4 (текущая)</translation>
+        <translation type="obsolete">0.4 (текущая)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="723"/>
@@ -1323,7 +1323,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1041"/>
         <source>Opponent 7:</source>
-        <translation>Оппонент 7:</translation>
+        <translation type="obsolete">Оппонент 7:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1180"/>
@@ -1424,6 +1424,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="155"/>
         <source>10</source>
         <translation type="unfinished">10</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1041"/>
+        <source>Opponent 6:</source>
+        <translation type="unfinished">Оппонент 1: {6:?}</translation>
     </message>
 </context>
 <context>

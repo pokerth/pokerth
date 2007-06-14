@@ -1630,7 +1630,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="715"/>
         <source>0.4 (actual)</source>
-        <translation>0.4 (courante)</translation>
+        <translation type="obsolete">0.4 (courante)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="601"/>
@@ -1703,9 +1703,9 @@ p, li { white-space: pre-wrap; }
         <translation>Adversaire 2:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="822"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1041"/>
         <source>Opponent 6:</source>
-        <translation type="obsolete">Adversaire 6:</translation>
+        <translation type="unfinished">Adversaire 6:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1763"/>
@@ -1879,7 +1879,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="508"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="715"/>
         <source>0.4 (current)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1914,7 +1914,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1041"/>
         <source>Opponent 7:</source>
-        <translation type="unfinished">Adversaire 4: {7:?}</translation>
+        <translation type="obsolete">Adversaire 4: {7:?}</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="19"/>

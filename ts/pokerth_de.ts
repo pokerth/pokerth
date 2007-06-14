@@ -3,7 +3,7 @@
 <context>
     <name>aboutPokerth</name>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="14"/>
+        <location filename="../../tmp/src/gui/qt/aboutpokerth.ui" line="14"/>
         <source>About PokerTH 0.4</source>
         <translation type="obsolete">Über PokerTH 0.4</translation>
     </message>
@@ -13,7 +13,7 @@
         <translation>Über</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="42"/>
+        <location filename="../../tmp/src/gui/qt/aboutpokerth.ui" line="42"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -795,12 +795,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="158"/>
         <source>Thanks to</source>
-        <translation type="unfinished"></translation>
+        <translation>Danke an</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="14"/>
         <source>About PokerTH 0.5</source>
-        <translation type="unfinished">Über PokerTH 0.5</translation>
+        <translation>Über PokerTH 0.5</translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/aboutpokerth.ui" line="66"/>
@@ -822,7 +822,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="138"/>
         <source>Translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Übersetzung</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="170"/>
@@ -837,7 +837,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for different gpl lizensed sounds&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -845,12 +845,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="13"/>
         <source>Network Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerkfehler</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="35"/>
         <source>Human Player:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Menschlicher Spieler</translation>
     </message>
 </context>
 <context>
@@ -876,52 +876,52 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="13"/>
         <source>Create Network Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Erstelle Netzwerkspiel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="25"/>
         <source>Network Game Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerkspiel Einstellungen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="70"/>
         <source>Start Cash:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Startgeld</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="63"/>
         <source>Small Blind:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Small Blind</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="178"/>
         <source>Create Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Erstelle Spiel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="185"/>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="130"/>
         <source>Hands before raise small blind:</source>
-        <translation type="unfinished"></translation>
+        <translation>Runden vor der Erhöhung des small blind:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="147"/>
         <source>Game Speed for computer opponent:</source>
-        <translation type="unfinished"></translation>
+        <translation>Spielgeschwindigkeit für Computergegner:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="123"/>
         <source>Timeout for player action (sec):</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeit für Spieleraktion (Sek.):</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="77"/>
         <source>Maximum number of players:</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale Anzahl der Spieler:</translation>
     </message>
 </context>
 <context>
@@ -929,97 +929,97 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="13"/>
         <source>Join Network Game</source>
-        <translation type="unfinished"></translation>
+        <translation>An Netzwerkspiel teilnehmen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="25"/>
         <source>Connect to Network Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde mit Netzwerkspiel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="174"/>
         <source>Use IPv6</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutze IPv6</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="279"/>
         <source>myServerProfile1</source>
-        <translation type="unfinished"></translation>
+        <translation>MeinServerProfil1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="272"/>
         <source>Profile Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Profilname:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="265"/>
         <source>IP Address / Domain Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>IP-Adresse/Domainname:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="258"/>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Port:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="238"/>
         <source>Password (optional):</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwort (optional):</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="37"/>
         <source>Server Profiles</source>
-        <translation type="unfinished"></translation>
+        <translation>Serverprofile</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="83"/>
         <source>IPv6</source>
-        <translation type="unfinished"></translation>
+        <translation>IPv6</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="104"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="111"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="316"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinden</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="323"/>
         <source>Close</source>
-        <translation type="unfinished">Schließen</translation>
+        <translation>Schließen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="68"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="73"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="78"/>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Port</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="88"/>
         <source>SCTP</source>
-        <translation type="unfinished"></translation>
+        <translation>SCTP</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="131"/>
         <source>Use SCTP</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutze SCTP</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="138"/>
@@ -1027,7 +1027,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;What is this?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="181"/>
@@ -1035,7 +1035,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;   &lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;What is this?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1043,44 +1043,44 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="256"/>
         <source>Load Server-Profile-File Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade Server-Profil-Datei Fehler</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="257"/>
         <source>Could not load server-profiles-file:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Kann Server-Profil-Datei nicht laden:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="200"/>
         <source>Save Server Profile Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichere Server-Profil-Fehler</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="201"/>
         <source>A profile with the name: &quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Profil mit dem Namen:&quot;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="241"/>
         <source>Read Server-Profile List Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Lese Server-Profil-Liste Fehler</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="242"/>
         <source>Could not read server-profiles list</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann die Server-Profil-Liste nicht lesen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="267"/>
         <source>Save Server-Profile-File Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichere Server-Profile-Datei Fehler</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="268"/>
         <source>Could not save server-profiles-file:
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kann Server-Profil-Datei nicht lesen </translation>
     </message>
 </context>
 <context>
@@ -1098,17 +1098,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="1967"/>
         <source>Speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Geschwindigkeit:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2396"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Stop</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="6110"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Ansicht</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="6116"/>
@@ -1201,7 +1201,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2526"/>
         <source>Network Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Netzwerkfehler</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2394"/>
@@ -1336,7 +1336,7 @@ Please choose a different name.</source>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2368"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stop</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2444"/>
@@ -1402,7 +1402,7 @@ If the server is behind a NAT-Router, make sure port forwarding has been set up 
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="127"/>
         <source>Hands before raise small blind:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Runden vor der Erhöhung des small blind:</translation>
     </message>
 </context>
 <context>
@@ -1493,11 +1493,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="715"/>
-        <source>0.4 (actual)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="516"/>
         <source>Engine Version:</source>
         <translation type="unfinished"></translation>
@@ -1515,7 +1510,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="589"/>
         <source>Use IPv6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Benutze IPv6</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="555"/>
@@ -1590,7 +1585,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="71"/>
         <source>Network Game Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Netzwerkspiel Einstellungen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="183"/>
@@ -1635,7 +1630,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="747"/>
         <source>Hands before raise small blind:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Runden vor der Erhöhung des small blind:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="409"/>
@@ -1703,14 +1698,14 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="508"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="715"/>
         <source>0.4 (current)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="582"/>
         <source>Use SCTP</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Benutze SCTP</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="596"/>
@@ -1736,11 +1731,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1041"/>
-        <source>Opponent 7:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="19"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
@@ -1748,7 +1738,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="707"/>
         <source>Maximum number of players:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Maximale Anzahl der Spieler:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="142"/>
@@ -1758,6 +1748,11 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="155"/>
         <source>10</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1041"/>
+        <source>Opponent 6:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1806,7 +1801,7 @@ Please select an valid directory!</source>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="33"/>
         <source>Maximum number of players:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Maximale Anzahl der Spieler:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="106"/>

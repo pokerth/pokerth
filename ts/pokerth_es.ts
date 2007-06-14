@@ -1581,7 +1581,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="715"/>
         <source>0.4 (actual)</source>
-        <translation>0.4 (actual)</translation>
+        <translation type="obsolete">0.4 (actual)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="601"/>
@@ -1649,9 +1649,9 @@ p, li { white-space: pre-wrap; }
         <translation>Oponente 2:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="822"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1041"/>
         <source>Opponent 6:</source>
-        <translation type="obsolete">Oponente 6:</translation>
+        <translation type="unfinished">Oponente 6:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1763"/>
@@ -1820,7 +1820,7 @@ p, li { white-space: pre-wrap; }
         <translation>Reproducir efectos de sonido</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="508"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="715"/>
         <source>0.4 (current)</source>
         <translation>0.4 (actual)</translation>
     </message>
@@ -1858,7 +1858,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1041"/>
         <source>Opponent 7:</source>
-        <translation>Oponente 7:</translation>
+        <translation type="obsolete">Oponente 7:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="19"/>

@@ -1156,11 +1156,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="715"/>
-        <source>0.4 (actual)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="516"/>
         <source>Engine Version:</source>
         <translation type="unfinished"></translation>
@@ -1306,7 +1301,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="508"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="715"/>
         <source>0.4 (current)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1339,11 +1334,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1041"/>
-        <source>Opponent 7:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="19"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
@@ -1361,6 +1351,11 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="155"/>
         <source>10</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1041"/>
+        <source>Opponent 6:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
