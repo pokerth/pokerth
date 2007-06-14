@@ -1371,42 +1371,42 @@ p, li { white-space: pre-wrap; }
         <translation>Включение/Выключение записи событий</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1915"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1909"/>
         <source>Store log files for</source>
         <translation>Сохранять логи для </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1941"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1935"/>
         <source>Day(s)</source>
         <translation>Дней</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1971"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1965"/>
         <source>Log File Directory: </source>
         <translation>Каталог для файла лога: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2010"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2004"/>
         <source>Write log after every: </source>
         <translation>Записывать лог после каждых: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2026"/>
         <source>every action (high frequent disc access)</source>
-        <translation>каждое действие (много обращений к диску)</translation>
+        <translation type="obsolete">каждое действие (много обращений к диску)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2031"/>
         <source>every hand (medium disc access)</source>
-        <translation>каждый розыгрыш (средняя частота обращений к диску)</translation>
+        <translation type="obsolete">каждый розыгрыш (средняя частота обращений к диску)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2036"/>
         <source>every game (low disc access)</source>
-        <translation>каждая игра (малое количество обращения к диску)</translation>
+        <translation type="obsolete">каждая игра (малое количество обращения к диску)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2055"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2049"/>
         <source>Log Messages</source>
         <translation>Сообщения лога</translation>
     </message>
@@ -1439,6 +1439,21 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="754"/>
         <source>Timeout for player action (sec):</source>
         <translation type="unfinished">Тайм-аут для хода игрока (сек):</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2020"/>
+        <source>action (high frequent disc access)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2025"/>
+        <source>hand (medium disc access)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2030"/>
+        <source>game (low disc access)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

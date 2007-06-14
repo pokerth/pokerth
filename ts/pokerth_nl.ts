@@ -1778,17 +1778,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Bewaar logbestanden gedurende</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1941"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1935"/>
         <source>Day(s)</source>
         <translation>Dag(en)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1971"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1965"/>
         <source>Log File Directory: </source>
         <translation>Map voor logbestanden: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2055"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2049"/>
         <source>Log Messages</source>
         <translation>Logberichten</translation>
     </message>
@@ -1878,29 +1878,29 @@ p, li { white-space: pre-wrap; }
         <translation>Schrijven van logbestanden Aan/Uit</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1915"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1909"/>
         <source>Store log files for</source>
         <translation>Bewaar logbestanden gedurende</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2010"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2004"/>
         <source>Write log after every: </source>
         <translation>Schrijven naar logbestand na iedere: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2026"/>
         <source>every action (high frequent disc access)</source>
-        <translation>iedere handeling (veel schijfactiviteit)</translation>
+        <translation type="obsolete">iedere handeling (veel schijfactiviteit)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2031"/>
         <source>every hand (medium disc access)</source>
-        <translation>iedere ronde (matige schijfactiviteit)</translation>
+        <translation type="obsolete">iedere ronde (matige schijfactiviteit)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2036"/>
         <source>every game (low disc access)</source>
-        <translation>ieder spel (weinig schijfactiviteit)</translation>
+        <translation type="obsolete">ieder spel (weinig schijfactiviteit)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="297"/>
@@ -1977,6 +1977,21 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="754"/>
         <source>Timeout for player action (sec):</source>
         <translation type="unfinished">Wacht op handeling speler gedurende (sec):</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2020"/>
+        <source>action (high frequent disc access)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2025"/>
+        <source>hand (medium disc access)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2030"/>
+        <source>game (low disc access)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

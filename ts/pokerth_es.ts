@@ -1690,17 +1690,17 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Nota: La mejor calidad se obtiene con unas proporciones de la imagen de &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;ancho=100, alto=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1941"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1935"/>
         <source>Day(s)</source>
         <translation>Día(s)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1971"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1965"/>
         <source>Log File Directory: </source>
         <translation>Directorio del archivo de registro: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2055"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2049"/>
         <source>Log Messages</source>
         <translation>Mensajes de registro</translation>
     </message>
@@ -1790,29 +1790,29 @@ p, li { white-space: pre-wrap; }
         <translation>Conmutar registro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1915"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1909"/>
         <source>Store log files for</source>
         <translation>Guardar los archivos de registro durante</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2010"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2004"/>
         <source>Write log after every: </source>
         <translation>Escribir el registro cada: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2026"/>
         <source>every action (high frequent disc access)</source>
-        <translation>cada acción (acceso a disco muy frecuente)</translation>
+        <translation type="obsolete">cada acción (acceso a disco muy frecuente)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2031"/>
         <source>every hand (medium disc access)</source>
-        <translation>cada mano (acceso a disco medio)</translation>
+        <translation type="obsolete">cada mano (acceso a disco medio)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2036"/>
         <source>every game (low disc access)</source>
-        <translation>cada partida (acceso a disco bajo)</translation>
+        <translation type="obsolete">cada partida (acceso a disco bajo)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="297"/>
@@ -1889,6 +1889,21 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="754"/>
         <source>Timeout for player action (sec):</source>
         <translation type="unfinished">Tiempo de acción del jugador (seg):</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2020"/>
+        <source>action (high frequent disc access)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2025"/>
+        <source>hand (medium disc access)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2030"/>
+        <source>game (low disc access)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
