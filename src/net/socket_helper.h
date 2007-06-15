@@ -32,6 +32,8 @@
 #define IOCTLSOCKET				ioctlsocket
 #define SOCKET_ERRNO()			WSAGetLastError()
 #define SOCKET_ERR_WOULDBLOCK	WSAEWOULDBLOCK
+#define SOCKET_ERR_NOTCONN		WSAENOTCONN
+#define SOCKET_ERR_NOTSOCK		WSAENOTSOCK
 
 typedef unsigned __int16		u_int16_t;
 typedef unsigned __int32		u_int32_t;
@@ -47,6 +49,8 @@ typedef unsigned char			u_char;
 #define SOCKET_ERRNO()			errno
 #define IOCTLSOCKET				ioctl
 #define SOCKET_ERR_WOULDBLOCK	EINPROGRESS
+#define SOCKET_ERR_NOTCONN		ENOTCONN
+#define SOCKET_ERR_NOTSOCK		ENOTSOCK
 
 #endif
 

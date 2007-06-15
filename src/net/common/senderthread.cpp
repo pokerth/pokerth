@@ -92,9 +92,17 @@ SenderThread::Main()
 			int selectResult = select(m_curSocket + 1, NULL, &writeSet, NULL, &timeout);
 			if (!IS_VALID_SELECT(selectResult))
 			{
-				m_callback.SignalNetError(m_curSocket, ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
-				// Assume that this is a fatal error, terminate thread.
-				return;
+				// Never assume that this is a fatal error.
+				int errCode = SOCKET_ERRNO();
+				if (errCode != SOCKET_ERR_WOULDBLOCK)
+				{
+					// Skip this packet - this is bad, and is therefore reported.
+					// Ignore invalid or not connected sockets.
+					if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
+						m_callback.SignalNetError(m_curSocket, ERR_SOCK_SELECT_FAILED, errCode);
+					m_tmpOutBufSize = 0;
+				}
+				Msleep(SEND_TIMEOUT_MSEC);
 			}
 			if (selectResult > 0) // send is possible
 			{
@@ -103,9 +111,17 @@ SenderThread::Main()
 
 				if (!IS_VALID_SEND(bytesSent))
 				{
-					m_callback.SignalNetError(m_curSocket, ERR_SOCK_SEND_FAILED, SOCKET_ERRNO());
-					// Assume that this is a fatal error, terminate thread.
-					return;
+					// Never assume that this is a fatal error.
+					int errCode = SOCKET_ERRNO();
+					if (errCode != SOCKET_ERR_WOULDBLOCK)
+					{
+						// Skip this packet - this is bad, and is therefore reported.
+						// Ignore invalid or not connected sockets.
+						if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
+							m_callback.SignalNetError(m_curSocket, ERR_SOCK_SEND_FAILED, errCode);
+						m_tmpOutBufSize = 0;
+					}
+					Msleep(SEND_TIMEOUT_MSEC);
 				}
 				else if ((unsigned)bytesSent < m_tmpOutBufSize)
 				{

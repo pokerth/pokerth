@@ -426,17 +426,19 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 	// Send cards to all players.
 	for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
 	{
-		assert(playerArray[i]->getNetSessionData().get()); // TODO throw exception
+		// also send to inactive players, but not to disconnected players.
+		if (playerArray[i]->getNetSessionData().get())
+		{
+			int cards[2];
+			playerArray[i]->getMyCards(cards);
+			boost::shared_ptr<NetPacket> notifyCards(new NetPacketHandStart);
+			NetPacketHandStart::Data handStartData;
+			handStartData.yourCards[0] = static_cast<unsigned>(cards[0]);
+			handStartData.yourCards[1] = static_cast<unsigned>(cards[1]);
+			static_cast<NetPacketHandStart *>(notifyCards.get())->SetData(handStartData);
 
-		int cards[2];
-		playerArray[i]->getMyCards(cards);
-		boost::shared_ptr<NetPacket> notifyCards(new NetPacketHandStart);
-		NetPacketHandStart::Data handStartData;
-		handStartData.yourCards[0] = static_cast<unsigned>(cards[0]);
-		handStartData.yourCards[1] = static_cast<unsigned>(cards[1]);
-		static_cast<NetPacketHandStart *>(notifyCards.get())->SetData(handStartData);
-
-		server.GetSender().Send(playerArray[i]->getNetSessionData()->GetSocket(), notifyCards);
+			server.GetSender().Send(playerArray[i]->getNetSessionData()->GetSocket(), notifyCards);
+		}
 	}
 
 	// Start hand.

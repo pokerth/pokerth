@@ -30,8 +30,8 @@
 #include <boost/shared_ptr.hpp>
 
 #define SENDER_THREAD_TERMINATE_TIMEOUT		200
-#define SEND_TIMEOUT_MSEC					50
-#define SEND_QUEUE_SIZE						200
+#define SEND_TIMEOUT_MSEC					10
+#define SEND_QUEUE_SIZE						500
 
 class SenderThread : public Thread
 {

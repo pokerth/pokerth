@@ -476,13 +476,11 @@ ServerRecvThread::RemoveDisconnectedPlayers()
 		for (int i = 0; i < m_game->getStartQuantityPlayers(); i++)
 		{
 			PlayerInterface *tmpPlayer = m_game->getPlayerArray()[i];
-			if (tmpPlayer->getMyActiveStatus())
+			if (!IsPlayerConnected(tmpPlayer->getMyUniqueID()))
 			{
-				if (!IsPlayerConnected(tmpPlayer->getMyUniqueID()))
-				{
-					tmpPlayer->setMyCash(0);
-					tmpPlayer->setMyActiveStatus(false);
-				}
+				tmpPlayer->setMyCash(0);
+				tmpPlayer->setMyActiveStatus(false);
+				tmpPlayer->setNetSessionData(boost::shared_ptr<SessionData>());
 			}
 		}
 	}
