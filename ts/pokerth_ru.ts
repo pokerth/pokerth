@@ -93,7 +93,7 @@ p, li { white-space: pre-wrap; }
         <translation>Перевод</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="158"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="165"/>
         <source>Thanks to</source>
         <translation>Благодарности</translation>
     </message>
@@ -110,7 +110,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for different gpl lizensed sounds&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
@@ -123,12 +123,12 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="191"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="201"/>
         <source>License</source>
         <translation>Лицензия</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="206"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="216"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -477,9 +477,36 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="582"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="592"/>
         <source>Close</source>
         <translation>Закрыть</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="150"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;lt;your translator name&amp;gt; - &amp;lt;your language&amp;gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &amp;lt;if you like your mail address&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="177"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;     - &lt;span style=&quot; font-weight:400;&quot;&gt;for different popular avatar picture resources&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Viktoria, Benedikt, Erhard, Felix, Florian, Linus, Lothar, Mark&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for avatar pictures&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for different gpl lizensed sounds&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -492,7 +519,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="35"/>
         <source>Human Player:</source>
-        <translation>Игрок:</translation>
+        <translation type="obsolete">Игрок:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="35"/>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1175,7 +1207,7 @@ p, li { white-space: pre-wrap; }
         <translation>Показывать левую панель (F10 для вкл/выкл)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2055"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2110"/>
         <source>Interface</source>
         <translation>Интерфейс</translation>
     </message>
@@ -1310,7 +1342,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Тайм-аут для хода игрока (сек):</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1792"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1623"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -1321,7 +1353,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Замечание: Наилучшее качество аватары при размерах картинки &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;ширина=50, высота=50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="943"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="774"/>
         <source>Computer Engine</source>
         <translation>Движок оппонента-компьютера</translation>
     </message>
@@ -1331,62 +1363,62 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Оппонент 7:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1122"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="953"/>
         <source>Opponent 5:</source>
         <translation>Оппонент 5:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1288"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1119"/>
         <source>Opponent 4:</source>
         <translation>Оппонент 4:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1400"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1231"/>
         <source>Opponent 3:</source>
         <translation>Оппонент 3:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1566"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1397"/>
         <source>Opponent 2:</source>
         <translation>Оппонент 2:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1705"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1536"/>
         <source>Opponent 1:</source>
         <translation>Оппонент 1:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="916"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1692"/>
         <source>Human Player:</source>
         <translation>Игрок:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2070"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2125"/>
         <source>Player Nicks</source>
         <translation>Ники игроков</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1828"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1900"/>
         <source>Enable/Disable Logging</source>
         <translation>Включение/Выключение записи событий</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1854"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1926"/>
         <source>Store log files for</source>
         <translation>Сохранять логи для </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1880"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1952"/>
         <source>Day(s)</source>
         <translation>Дней</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1910"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1982"/>
         <source>Log File Directory: </source>
         <translation>Каталог для файла лога: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1949"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2021"/>
         <source>Write log after every: </source>
         <translation>Записывать лог после каждых: </translation>
     </message>
@@ -1406,17 +1438,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">каждая игра (малое количество обращения к диску)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2075"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2130"/>
         <source>Log Messages</source>
         <translation>Сообщения лога</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2060"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2115"/>
         <source>Local Game Settings</source>
         <translation>Настройки локальной игры</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2065"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2120"/>
         <source>Network Game Settings</source>
         <translation>Настройки сетевой игры</translation>
     </message>
@@ -1431,7 +1463,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">10</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="983"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="814"/>
         <source>Opponent 6:</source>
         <translation type="unfinished">Оппонент 1: {6:?}</translation>
     </message>
@@ -1441,17 +1473,17 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Тайм-аут для хода игрока (сек):</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1965"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2037"/>
         <source>action (high frequent disc access)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1970"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2042"/>
         <source>hand (medium disc access)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1975"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2047"/>
         <source>game (low disc access)</source>
         <translation type="unfinished"></translation>
     </message>

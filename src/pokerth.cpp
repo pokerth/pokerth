@@ -84,9 +84,13 @@ int main( int argc, char **argv )
 
 	QString locale = QLocale::system().name();
 
+	QTranslator qtTranslator;
+        qtTranslator.load(QString(":/translations/resources/translations/qt_") + locale);
+        a.installTranslator(&qtTranslator);
+
 	QTranslator translator;
-		translator.load(QString(":/translations/resources/translations/pokerth_") + locale);
-		a.installTranslator(&translator);
+	translator.load(QString(":/translations/resources/translations/pokerth_") + locale);
+	a.installTranslator(&translator);
 	
 
 	qRegisterMetaType<boost::shared_ptr<Game> >("boost::shared_ptr<Game>");
