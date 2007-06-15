@@ -84,7 +84,7 @@ void MySetLabel::nextTimeOutAnimationFrame() {
 	if(timeOutAnimationWidth >=0) {
 		if(timeOutFrame > waitFrames) { 
 			//play beep after waitFrames one time
-			if(!isBeepPlayed) { 
+			if(isBeep && !isBeepPlayed) { 
 				myW->getMySDLPlayer()->playSound("yourturn",0);
 				isBeepPlayed = TRUE;
 			}
