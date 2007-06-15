@@ -102,6 +102,8 @@ void ServerGuiWrapper::logDealBoardCardsMsg(int roundID, int card1, int card2, i
 void ServerGuiWrapper::logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt, std::string showHas) {}
 void ServerGuiWrapper::logPlayerWinGame(std::string playerName, int gameID) {}
 
+void ServerGuiWrapper::fadeOutHumanPlayerCards() {}
+
 void ServerGuiWrapper::SignalNetClientConnect(int actionID) { if (myClientcb) myClientcb->SignalNetClientConnect(actionID); }
 void ServerGuiWrapper::SignalNetClientGameInfo(int actionID) { if (myClientcb) myClientcb->SignalNetClientGameInfo(actionID); }
 void ServerGuiWrapper::SignalNetClientError(int errorID, int osErrorID) { if (myClientcb) myClientcb->SignalNetClientError(errorID, osErrorID); }

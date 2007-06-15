@@ -629,6 +629,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetServerPlayerJoined(QString)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString)));
 	connect(this, SIGNAL(signalNetServerPlayerLeft(QString)), myStartNetworkGameDialog, SLOT(removePlayer(QString)));
 
+	connect(this, SIGNAL(signalFadeOutHumanPlayerCards()), this, SLOT( fadeOutHumanPlayerCards()));
+
 
 	//Sound
 	mySDLPlayer = new SDLPlayer(myConfig);
@@ -2639,6 +2641,12 @@ void mainWindowImpl::networkGameModification() {
 	tabWidget_Left->setCurrentIndex(1);
 	myChat->clearNewGame();
 
+}
+
+void mainWindowImpl::fadeOutHumanPlayerCards() {
+	
+	holeCardsArray[0][0]->startFadeOut(10); 
+	holeCardsArray[0][1]->startFadeOut(10); 
 }
 
 void mainWindowImpl::closeEvent(QCloseEvent *event) { quitPokerTH(); }

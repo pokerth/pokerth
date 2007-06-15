@@ -88,6 +88,8 @@ public:
 	virtual void startTimeoutAnimation(int playerId, int timeoutSec) =0;
 	virtual void stopTimeoutAnimation(int playerId) =0;
 
+	virtual void fadeOutHumanPlayerCards() =0;
+
 	//log.cpp
 	virtual void logPlayerActionMsg(std::string playName, int action, int setValue) =0;
 	virtual void logNewGameHandMsg(int gameID, int HandID) =0;
@@ -95,6 +97,8 @@ public:
 	virtual void logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1) = 0;
 	virtual void logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt = -1, std::string showHas = "shows") = 0;
 	virtual void logPlayerWinGame(std::string playerName, int gameID) =0;
+
+	
 };
 
 #endif

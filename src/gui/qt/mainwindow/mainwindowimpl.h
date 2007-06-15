@@ -129,6 +129,7 @@ signals:
 	void signalNetServerPlayerJoined(QString playerName);
 	void signalNetServerPlayerLeft(QString playerName);
 
+	void signalFadeOutHumanPlayerCards();
 
 public slots:
 
@@ -268,6 +269,8 @@ public slots:
 	
 	void localGameModification();
 	void networkGameModification();
+
+	void fadeOutHumanPlayerCards();
 
 	void quitPokerTH();
 
