@@ -138,5 +138,7 @@
         <file>resources/translations/pokerth_fr.qm</file>
         <file>resources/translations/pokerth_nl.qm</file>
 	<file>resources/translations/pokerth_es.qm</file>
+	<file>resources/translations/pokerth_ru.qm</file>
+	<file>resources/translations/pokerth_no.qm</file>
     </qresource>
 </RCC>
