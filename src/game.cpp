@@ -148,7 +148,7 @@ void Game::initHand()
 	// Anzahl noch aktiver Spieler ermitteln
 	actualQuantityPlayers = 0;
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		if(playerArray[i]->getMyActiveStatus() != 0) actualQuantityPlayers++;
+		if(playerArray[i]->getMyActiveStatus()) actualQuantityPlayers++;
 	}
 
 	//Spieler Action auf 0 setzen 

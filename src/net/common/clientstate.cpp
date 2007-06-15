@@ -403,26 +403,8 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			NetPacketPlayerLeft::Data playerLeftData;
 			tmpPacket->ToNetPacketPlayerLeft()->GetData(playerLeftData);
 
-			// Signal to GUI.
+			// Signal to GUI and remove from data list.
 			client.RemovePlayerData(playerLeftData.playerId);
-
-			// If the game is running, deactivate player.
-			boost::shared_ptr<Game> curGame = client.GetGame();
-			if (curGame.get())
-			{
-				PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(playerLeftData.playerId);
-				if (!tmpPlayer)
-					throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
-
-				// Reset his action and his cash.
-				tmpPlayer->setMyAction(PLAYER_ACTION_FOLD);
-				tmpPlayer->setMyCash(0);
-				// Player is now inactive.
-				tmpPlayer->setMyActiveStatus(false);
-
-				client.GetGui().refreshAction();
-				client.GetGui().refreshCash();
-			}
 		}
 		else
 			retVal = InternalProcess(client, tmpPacket);
@@ -551,6 +533,8 @@ ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 
 	if (packet->ToNetPacketHandStart())
 	{
+		// Remove all players which left the server.
+		client.RemoveDisconnectedPlayers();
 		// Hand was started.
 		// These are the cards. Good luck.
 		NetPacketHandStart::Data tmpData;

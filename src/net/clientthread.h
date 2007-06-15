@@ -90,6 +90,8 @@ protected:
 	const PlayerDataList &GetPlayerDataList() const;
 	boost::shared_ptr<PlayerData> GetPlayerDataByUniqueId(unsigned id);
 
+	void RemoveDisconnectedPlayers();
+
 private:
 
 	std::auto_ptr<ClientContext> m_context;

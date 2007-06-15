@@ -108,7 +108,12 @@ void GuiWrapper::SignalNetClientConnect(int actionID) { myW->signalNetClientConn
 void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->signalNetClientGameInfo(actionID); }
 void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myW->signalNetClientError(errorID, osErrorID); }
 void GuiWrapper::SignalNetClientPlayerJoined(const string &playerName) { myW->signalNetClientPlayerJoined(QString::fromUtf8(playerName.c_str())); }
-void GuiWrapper::SignalNetClientPlayerLeft(const string &playerName) { myW->signalNetClientPlayerLeft(QString::fromUtf8(playerName.c_str())); }
+void GuiWrapper::SignalNetClientPlayerLeft(const string &playerName)
+{
+	QString tmpName(QString::fromUtf8(playerName.c_str()));
+	myW->signalNetClientPlayerLeft(tmpName);
+	myLog->signalLogPlayerLeftMsg(tmpName);
+}
 void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { myW->signalNetClientGameStart(game); }
 void GuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { myChat->signalChatMessage(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
 void GuiWrapper::SignalNetClientWaitDialog() { myW->signalShowClientWaitDialog(); }
@@ -116,11 +121,6 @@ void GuiWrapper::SignalNetClientWaitDialog() { myW->signalShowClientWaitDialog()
 void GuiWrapper::SignalNetServerSuccess(int actionID) { }
 void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { myW->signalNetServerError(errorID, osErrorID); }
 void GuiWrapper::SignalNetServerPlayerJoined(const string &playerName) { myW->signalNetServerPlayerJoined(QString::fromUtf8(playerName.c_str())); }
-void GuiWrapper::SignalNetServerPlayerLeft(const string &playerName)
-{
-	QString tmpName(QString::fromUtf8(playerName.c_str()));
-	myW->signalNetServerPlayerLeft(tmpName);
-	myLog->signalLogPlayerLeftMsg(tmpName);
-}
+void GuiWrapper::SignalNetServerPlayerLeft(const string &playerName) { myW->signalNetServerPlayerLeft(QString::fromUtf8(playerName.c_str())); }
 void GuiWrapper::SignalNetServerStartDialog() { myW->signalShowServerStartDialog(); }
 

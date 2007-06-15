@@ -355,3 +355,25 @@ ClientThread::GetPlayerDataByUniqueId(unsigned id)
 	return tmpPlayer;
 }
 
+void
+ClientThread::RemoveDisconnectedPlayers()
+{
+	// This should only be called between hands.
+	if (m_game.get())
+	{
+		for (int i = 0; i < m_game->getStartQuantityPlayers(); i++)
+		{
+			PlayerInterface *tmpPlayer = m_game->getPlayerArray()[i];
+			if (tmpPlayer->getMyActiveStatus())
+			{
+				// If a player is not in the player data list, it was disconnected.
+				if (!GetPlayerDataByUniqueId(tmpPlayer->getMyUniqueID()).get())
+				{
+					tmpPlayer->setMyCash(0);
+					tmpPlayer->setMyActiveStatus(false);
+				}
+			}
+		}
+	}
+}
+

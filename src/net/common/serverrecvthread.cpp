@@ -297,7 +297,7 @@ ServerRecvThread::InternalKickPlayer(const string playerName)
 {
 	if (!playerName.empty())
 	{
-		SessionWrapper tmpSession = GetSession(playerName);
+		SessionWrapper tmpSession = GetSessionByPlayerName(playerName);
 
 		SessionError(tmpSession, ERR_NET_PLAYER_KICKED);
 	}
@@ -318,7 +318,7 @@ ServerRecvThread::GetSession(SOCKET sock) const
 }
 
 SessionWrapper
-ServerRecvThread::GetSession(const string playerName) const
+ServerRecvThread::GetSessionByPlayerName(const string playerName) const
 {
 	SessionWrapper tmpSession;
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);
@@ -334,6 +334,34 @@ ServerRecvThread::GetSession(const string playerName) const
 			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
 			assert(tmpPlayer.get());
 			if (tmpPlayer->GetName() == playerName)
+			{
+				tmpSession = session_i->second;
+				break;
+			}
+		}
+
+		++session_i;
+	}
+	return tmpSession;
+}
+
+SessionWrapper
+ServerRecvThread::GetSessionByUniquePlayerId(unsigned uniqueId) const
+{
+	SessionWrapper tmpSession;
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SocketSessionMap::const_iterator session_i = m_sessionMap.begin();
+	SocketSessionMap::const_iterator session_end = m_sessionMap.end();
+
+	while (session_i != session_end)
+	{
+		// Check all players which are fully connected.
+		if (session_i->second.sessionData->GetState() == SessionData::Established)
+		{
+			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
+			assert(tmpPlayer.get());
+			if (tmpPlayer->GetUniqueId() == uniqueId)
 			{
 				tmpSession = session_i->second;
 				break;
@@ -390,23 +418,6 @@ ServerRecvThread::CloseSessionDelayed(SessionWrapper session)
 	boost::shared_ptr<PlayerData> tmpPlayerData = session.playerData;
 	if (tmpPlayerData.get() && !tmpPlayerData->GetName().empty())
 	{
-		// Set player inactive.
-		if (m_game.get())
-		{
-			PlayerInterface *player = GetGame().getPlayerByUniqueId(tmpPlayerData->GetUniqueId());
-			if (player)
-			{
-				// Deactivate player (if active).
-				if (player->getMyActiveStatus())
-				{
-					if (player->getMyAction() != PLAYER_ACTION_FOLD)
-						player->setMyAction(PLAYER_ACTION_FOLD);
-					player->setMyCash(0);
-					player->setMyActiveStatus(false);
-				}
-			}
-		}
-
 		// Send "Player Left" to clients.
 		boost::shared_ptr<NetPacket> thisPlayerLeft(new NetPacketPlayerLeft);
 		NetPacketPlayerLeft::Data thisPlayerLeftData;
@@ -456,6 +467,27 @@ ServerRecvThread::RemoveNotEstablishedSessions()
 	}
 }
 
+void
+ServerRecvThread::RemoveDisconnectedPlayers()
+{
+	// This should only be called between hands.
+	if (m_game.get())
+	{
+		for (int i = 0; i < m_game->getStartQuantityPlayers(); i++)
+		{
+			PlayerInterface *tmpPlayer = m_game->getPlayerArray()[i];
+			if (tmpPlayer->getMyActiveStatus())
+			{
+				if (!IsPlayerConnected(tmpPlayer->getMyUniqueID()))
+				{
+					tmpPlayer->setMyCash(0);
+					tmpPlayer->setMyActiveStatus(false);
+				}
+			}
+		}
+	}
+}
+
 size_t
 ServerRecvThread::GetCurNumberOfPlayers() const
 {
@@ -468,7 +500,20 @@ ServerRecvThread::IsPlayerConnected(const string &playerName) const
 {
 	bool retVal = false;
 
-	SessionWrapper tmpSession = GetSession(playerName);
+	SessionWrapper tmpSession = GetSessionByPlayerName(playerName);
+
+	if (tmpSession.sessionData.get() && tmpSession.playerData.get())
+		retVal = true;
+
+	return retVal;
+}
+
+bool
+ServerRecvThread::IsPlayerConnected(unsigned uniquePlayerId) const
+{
+	bool retVal = false;
+
+	SessionWrapper tmpSession = GetSessionByUniquePlayerId(uniquePlayerId);
 
 	if (tmpSession.sessionData.get() && tmpSession.playerData.get())
 		retVal = true;

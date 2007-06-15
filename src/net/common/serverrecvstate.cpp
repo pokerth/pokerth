@@ -637,6 +637,10 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 
 				server.SendToAllPlayers(endHand);
 			}
+
+			// Remove disconnected players. This is the one and only place to do this.
+			server.RemoveDisconnectedPlayers();
+
 			// Start next hand - if enough players are left.
 			int playersPositiveCashCounter = 0;
 			for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
@@ -728,9 +732,9 @@ ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 	// If the player we are waiting for left, continue without him.
 	PlayerInterface *tmpPlayer = GetCurrentPlayer(server.GetGame());
 	assert(tmpPlayer);
-	if (!tmpPlayer->getMyActiveStatus())
+	assert(!tmpPlayer->getMyName().empty());
+	if (!server.IsPlayerConnected(tmpPlayer->getMyName()))
 	{
-		assert(tmpPlayer->getMyAction() == PLAYER_ACTION_FOLD && tmpPlayer->getMyCash() == 0);
 		PerformPlayerAction(server, tmpPlayer, PLAYER_ACTION_FOLD, 0);
 
 		server.SetState(ServerRecvStateStartRound::Instance());

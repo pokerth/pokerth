@@ -106,15 +106,18 @@ protected:
 	void InternalKickPlayer(const std::string playerName);
 
 	SessionWrapper GetSession(SOCKET sock) const;
-	SessionWrapper GetSession(const std::string playerName) const;
+	SessionWrapper GetSessionByPlayerName(const std::string playerName) const;
+	SessionWrapper GetSessionByUniquePlayerId(unsigned uniqueId) const;
 	void AddSession(boost::shared_ptr<SessionData> sessionData); // new Sessions have no player data
 	void SessionError(SessionWrapper session, int errorCode);
 	void RejectNewConnection(boost::shared_ptr<ConnectData> connData);
 	void CloseSessionDelayed(SessionWrapper session);
 	void RemoveNotEstablishedSessions();
+	void RemoveDisconnectedPlayers();
 
 	size_t GetCurNumberOfPlayers() const;
 	bool IsPlayerConnected(const std::string &playerName) const;
+	bool IsPlayerConnected(unsigned uniquePlayerId) const;
 	void SetSessionPlayerData(boost::shared_ptr<SessionData> sessionData, boost::shared_ptr<PlayerData> playerData);
 	PlayerDataList GetPlayerDataList() const;
 
