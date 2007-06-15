@@ -1584,8 +1584,11 @@ void mainWindowImpl::myFold(){
 	currentHand->getPlayerArray()[0]->setMyAction(1);
 	currentHand->getPlayerArray()[0]->setMyTurn(0);
 
-	holeCardsArray[0][0]->startFadeOut(10); 
-	holeCardsArray[0][1]->startFadeOut(10); 
+	if (!mySession->isNetworkClientRunning())
+	{
+		holeCardsArray[0][0]->startFadeOut(10); 
+		holeCardsArray[0][1]->startFadeOut(10); 
+	}
 
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setLastPlayersTurn(0);

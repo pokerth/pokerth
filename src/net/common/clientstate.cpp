@@ -640,7 +640,11 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 
 			// Refresh GUI
 			if (tmpPlayer->getMyID() == 0)
+			{
 				client.GetGui().disableMyButtons();
+				if (tmpPlayer->getMyAction() == PLAYER_ACTION_FOLD)
+					client.GetGui().fadeOutHumanPlayerCards();
+			}
 			client.GetGui().refreshAction(tmpPlayer->getMyID(), tmpPlayer->getMyAction());
 			client.GetGui().refreshPot();
 			client.GetGui().refreshSet();
