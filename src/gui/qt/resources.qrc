@@ -131,7 +131,8 @@
         <file>resources/sounds/bet.wav</file>
         <file>resources/sounds/allin.wav</file>
         <file>resources/sounds/check.wav</file>
-	<file>resources/sounds/fold.wav</file>
+	<file>resources/sounds/fold.wav</file>	
+	<file>resources/sounds/yourturn.wav</file>
     </qresource>
     <qresource prefix="/translations" >
         <file>resources/translations/pokerth_de.qm</file>

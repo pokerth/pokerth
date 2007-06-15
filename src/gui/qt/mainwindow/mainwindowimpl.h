@@ -69,6 +69,8 @@ public:
 	void setLog(Log* l) { myLog = l; }
 	void setChat(Chat* c) { myChat = c; }
 
+	SDLPlayer* getMySDLPlayer() const { return mySDLPlayer; }
+	
 	void setSpeeds();
 
 signals:
@@ -268,6 +270,8 @@ public slots:
 	void networkGameModification();
 
 	void quitPokerTH();
+
+	
 
 private: 
 

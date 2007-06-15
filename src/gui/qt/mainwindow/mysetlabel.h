@@ -17,6 +17,7 @@
 #include <QtGui>
 #include <QtCore>
 #include <core/boost/timer.hpp>
+#include "sdlplayer.h"
 
 class mainWindowImpl;
 
@@ -31,12 +32,12 @@ public:
 	
 	void setMyW ( mainWindowImpl* theValue ) { myW = theValue; }
 	
-	void startTimeOutAnimation(int secs);
-	
+	void startTimeOutAnimation(int secs, bool beep);
 	void stopTimeOutAnimation();
 	
 	void paintEvent(QPaintEvent * event);
 
+	
 public slots:
 	void startTimeOutAnimationNow();
 	void nextTimeOutAnimationFrame();
@@ -48,6 +49,8 @@ private:
 	QTimer *timeOutAnimationTimer;
 	QTimer *timeOutAnimationKickOnTimer;
 	
+// 	boost::shared_ptr<SDLPlayer> mySDLPlayer;
+
 	boost::microsec_timer realTimer;
 
 	bool timeOutAnimation;
@@ -58,6 +61,9 @@ private:
 	int waitFrames;
 	int decreaseWidthIntervall;
 	int timerIntervall;
+	bool isBeep;
+	bool isBeepPlayed;
+	
 	
 };
 

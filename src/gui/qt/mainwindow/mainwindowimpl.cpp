@@ -1535,7 +1535,10 @@ void mainWindowImpl::meInAction() {
 
 void mainWindowImpl::startTimeoutAnimation(int playerId, int timeoutSec) {
 	assert(playerId >= 0 && playerId < mySession->getCurrentGame()->getStartQuantityPlayers());
-	setLabelArray[playerId]->startTimeOutAnimation(timeoutSec);
+	
+	//beep for player 0
+	if(playerId) { setLabelArray[playerId]->startTimeOutAnimation(timeoutSec, FALSE); }
+	else { setLabelArray[playerId]->startTimeOutAnimation(timeoutSec, TRUE); }
 }
 
 void mainWindowImpl::stopTimeoutAnimation(int playerId) {
@@ -2549,7 +2552,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F3) { pushButton_BetRaise->click(); } 
 	if (event->key() == Qt::Key_F10) { switchLeftToolBox(); } 
 	if (event->key() == Qt::Key_F11) { switchRightToolBox(); } 
-	if (event->key() == Qt::Key_S) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction")); } //s	
+	if (event->key() == Qt::Key_S) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction"),TRUE); } //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;

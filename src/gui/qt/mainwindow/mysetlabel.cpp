@@ -16,7 +16,7 @@
 using namespace std;
 
 MySetLabel::MySetLabel(QGroupBox* parent)
- : QLabel(parent), timeOutAnimation(FALSE), timeOutValue(0), timeOutFrame(0), waitFrames(0), timerIntervall(0)
+ : QLabel(parent), timeOutAnimation(FALSE), timeOutValue(0), timeOutFrame(0), waitFrames(0), timerIntervall(0), isBeep(0), isBeepPlayed(0)
 {
 
 	timeOutAnimationTimer = new QTimer;
@@ -29,7 +29,10 @@ MySetLabel::~MySetLabel()
 {
 }
 
-void MySetLabel::startTimeOutAnimation(int secs) {
+void MySetLabel::startTimeOutAnimation(int secs, bool beep) {
+
+	isBeepPlayed = FALSE;
+	isBeep = beep;
 
 	timeOutValue = secs;
 	timeOutFrame = 1;
@@ -80,6 +83,11 @@ void MySetLabel::nextTimeOutAnimationFrame() {
 
 	if(timeOutAnimationWidth >=0) {
 		if(timeOutFrame > waitFrames) { 
+			//play beep after waitFrames one time
+			if(!isBeepPlayed) { 
+				myW->getMySDLPlayer()->playSound("yourturn",0);
+				isBeepPlayed = TRUE;
+			}
 			//save gfx ressources and never play more the 10 pps
 			unsigned int realTimerValue = realTimer.elapsed().total_milliseconds();
 			timeOutAnimationWidth = 118-(((realTimerValue-3000)*118)/((timeOutValue-3)*1000));		
