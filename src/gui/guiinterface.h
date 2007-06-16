@@ -88,8 +88,6 @@ public:
 	virtual void startTimeoutAnimation(int playerId, int timeoutSec) =0;
 	virtual void stopTimeoutAnimation(int playerId) =0;
 
-	virtual void fadeOutHumanPlayerCards() =0;
-
 	//log.cpp
 	virtual void logPlayerActionMsg(std::string playName, int action, int setValue) =0;
 	virtual void logNewGameHandMsg(int gameID, int HandID) =0;

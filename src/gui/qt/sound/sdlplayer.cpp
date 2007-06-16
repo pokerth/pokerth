@@ -18,6 +18,7 @@ using namespace std;
 SDLPlayer::SDLPlayer(ConfigFile *c)
 : soundData(NULL), currentChannel(0) , audioEnabled(0), myConfig(c)
 {
+	SDL_Init(SDL_INIT_AUDIO);
 	initAudio();
 }
 
@@ -25,21 +26,23 @@ SDLPlayer::SDLPlayer(ConfigFile *c)
 SDLPlayer::~SDLPlayer()
 {
 	closeAudio();
+	SDL_Quit();
 }
 
 void SDLPlayer::initAudio() {
 
-	audio_rate = 44100;
-	audio_format = AUDIO_S16; /* 16-bit stereo */
-	audio_channels = 2;
-	audio_buffers = 4096;
-	sound = NULL;
+	if (myConfig->readConfigInt("PlaySoundEffects"))
+	{
+		audio_rate = 44100;
+		audio_format = AUDIO_S16; /* 16-bit stereo */
+		audio_channels = 2;
+		audio_buffers = 4096;
+		sound = NULL;
 
-	SDL_Init(SDL_INIT_AUDIO);
-
-	if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) == 0) {
-		Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
-		audioEnabled = 1;
+		if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) == 0) {
+			Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
+			audioEnabled = 1;
+		}
 	}
 }
 
@@ -121,5 +124,4 @@ void SDLPlayer::closeAudio() {
 		audioDone();
 		Mix_CloseAudio();
 	}
-	SDL_Quit();
 }

@@ -129,8 +129,6 @@ signals:
 	void signalNetServerPlayerJoined(QString playerName);
 	void signalNetServerPlayerLeft(QString playerName);
 
-	void signalFadeOutHumanPlayerCards();
-
 public slots:
 
 	void initGui(int speed);
@@ -269,8 +267,6 @@ public slots:
 	
 	void localGameModification();
 	void networkGameModification();
-
-	void fadeOutHumanPlayerCards();
 
 	void quitPokerTH();
 

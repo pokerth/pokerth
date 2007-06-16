@@ -629,9 +629,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetServerPlayerJoined(QString)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString)));
 	connect(this, SIGNAL(signalNetServerPlayerLeft(QString)), myStartNetworkGameDialog, SLOT(removePlayer(QString)));
 
-	connect(this, SIGNAL(signalFadeOutHumanPlayerCards()), this, SLOT( fadeOutHumanPlayerCards()));
-
-
 	//Sound
 	mySDLPlayer = new SDLPlayer(myConfig);
 
@@ -841,8 +838,9 @@ void mainWindowImpl::callSettingsDialog() {
 				}
 			}
 		}
-		//Audio Clean?
-		if (myConfig->readConfigInt("PlaySoundEffects") == 0) { mySDLPlayer->audioDone(); }
+		// Re-init audio.
+		mySDLPlayer->closeAudio();
+		mySDLPlayer->initAudio();
 	}
 }
 
@@ -1078,13 +1076,16 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 			actionLabelArray[playerID]->setPixmap(QPixmap(":/actions/resources/graphics/actions/action_"+actionArray[playerAction]+".png"));			
 
 			//play sounds if exist
-			if(myConfig->readConfigInt("PlaySoundEffects")) mySDLPlayer->playSound(actionArray[playerAction].toStdString(), playerID);
+			mySDLPlayer->playSound(actionArray[playerAction].toStdString(), playerID);
 		}
 
-		if (playerAction == 1) { 
-	// 		groupBoxArray[i]->setDisabled(TRUE);
-				
-			if(playerID != 0) {
+		if (playerAction == 1) { // FOLD
+
+			if (playerID == 0) {
+				holeCardsArray[0][0]->startFadeOut(10); 
+				holeCardsArray[0][1]->startFadeOut(10); 
+			}
+			else {
 				holeCardsArray[playerID][0]->setPixmap(onePix, FALSE);
 				holeCardsArray[playerID][1]->setPixmap(onePix, FALSE);
 			}
@@ -1584,12 +1585,6 @@ void mainWindowImpl::myFold(){
 	currentHand->getPlayerArray()[0]->setMyAction(1);
 	currentHand->getPlayerArray()[0]->setMyTurn(0);
 
-	if (!mySession->isNetworkClientRunning())
-	{
-		holeCardsArray[0][0]->startFadeOut(10); 
-		holeCardsArray[0][1]->startFadeOut(10); 
-	}
-
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setLastPlayersTurn(0);
 	
@@ -1809,7 +1804,8 @@ void mainWindowImpl::myActionDone() {
 	// TODO: Should not call in networking game.
 	disableMyButtons();
 
-	nextPlayerAnimation();
+	if (!mySession->isNetworkClientRunning())
+		nextPlayerAnimation();
 }
 
 void mainWindowImpl::nextPlayerAnimation() {
@@ -2644,12 +2640,6 @@ void mainWindowImpl::networkGameModification() {
 	tabWidget_Left->setCurrentIndex(1);
 	myChat->clearNewGame();
 
-}
-
-void mainWindowImpl::fadeOutHumanPlayerCards() {
-	
-	holeCardsArray[0][0]->startFadeOut(10); 
-	holeCardsArray[0][1]->startFadeOut(10); 
 }
 
 void mainWindowImpl::closeEvent(QCloseEvent *event) { quitPokerTH(); }

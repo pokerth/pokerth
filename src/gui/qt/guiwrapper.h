@@ -96,8 +96,6 @@ public:
 	void logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt = -1, std::string showHas = "shows");
 	void logPlayerWinGame(std::string playerName, int gameID);
 
-	void fadeOutHumanPlayerCards();
-
 	void SignalNetClientConnect(int actionID);
 	void SignalNetClientGameInfo(int actionID);
 	void SignalNetClientError(int errorID, int osErrorID);
