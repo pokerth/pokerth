@@ -37,4 +37,4 @@ QtToolsWrapper::~QtToolsWrapper()
 }
 
 std::string QtToolsWrapper::stringToUtf8(const std::string &myString) { return myQtHelper->stringToUtf8(myString); }
-
+std::string QtToolsWrapper::getDefaultLanguage() { return myQtHelper->getDefaultLanguage(); }

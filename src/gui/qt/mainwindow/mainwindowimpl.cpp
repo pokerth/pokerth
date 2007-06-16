@@ -57,7 +57,7 @@
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
-     : QMainWindow(parent), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), debugMode(0), breakAfterActualHand(FALSE)
+     : QMainWindow(parent), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), debugMode(1), breakAfterActualHand(FALSE)
 {
 	int i;
 

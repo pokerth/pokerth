@@ -28,3 +28,4 @@ std::string QtHelper::stringToUtf8(const std::string &myString) {
 	return myUtf8String;
 }
 
+std::string QtHelper::getDefaultLanguage() { return QLocale::system().name().toStdString(); }

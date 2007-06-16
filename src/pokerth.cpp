@@ -82,14 +82,12 @@ int main( int argc, char **argv )
 #endif
 	Q_INIT_RESOURCE(resources);
 
-	QString locale = QLocale::system().name();
-
 	QTranslator qtTranslator;
-        qtTranslator.load(QString(":/translations/resources/translations/qt_") + locale);
+        qtTranslator.load(QString(":/translations/resources/translations/qt_") + QString::fromStdString(myConfig->readConfigString("Language")));
         a.installTranslator(&qtTranslator);
 
 	QTranslator translator;
-	translator.load(QString(":/translations/resources/translations/pokerth_") + locale);
+	translator.load(QString(":/translations/resources/translations/pokerth_") + QString::fromStdString(myConfig->readConfigString("Language")));
 	a.installTranslator(&translator);
 	
 

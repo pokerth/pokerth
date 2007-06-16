@@ -28,6 +28,7 @@ public:
 
 	//qthelper.cpp
 	virtual std::string stringToUtf8(const std::string &) =0;
+	virtual std::string getDefaultLanguage() =0;
 	
 
 };

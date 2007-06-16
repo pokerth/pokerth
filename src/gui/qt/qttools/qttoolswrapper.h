@@ -35,6 +35,7 @@ public:
     ~QtToolsWrapper();
 
 	std::string stringToUtf8(const std::string &myString);
+	std::string getDefaultLanguage();
 
 private: 
 	

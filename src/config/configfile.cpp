@@ -45,11 +45,13 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 {
 	int i;
 
+	myQtToolsInterface = new QtToolsWrapper;
+
 	for (i=0; i<argc; i++) {
 		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
 	}
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 25;
+	configRev = 26;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -135,6 +137,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	ostringstream tempIntToString;
 	tempIntToString << configRev;
 	configList.push_back(ConfigInfo("ConfigRevision", CONFIG_TYPE_INT, tempIntToString.str()));
+	configList.push_back(ConfigInfo("Language", CONFIG_TYPE_INT, myQtToolsInterface->getDefaultLanguage()));
 	configList.push_back(ConfigInfo("ShowLeftToolBox", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("ShowRightToolBox", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("ShowStatusbarMessages", CONFIG_TYPE_INT, "1"));
@@ -221,12 +224,13 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 
 ConfigFile::~ConfigFile()
 {
+	delete myQtToolsInterface;
+	myQtToolsInterface = 0;
+	
 }
 
 
 void ConfigFile::fillBuffer() {
-
-	QtToolsInterface *myQtToolsInterface = new QtToolsWrapper;
 
 	size_t i;
 	string tempString("");
@@ -251,9 +255,6 @@ void ConfigFile::fillBuffer() {
 // 			cout << configBufferList[i].name << " " << configBufferList[i].defaultValue << endl;
 		}
 	}
-
-	delete myQtToolsInterface;
-	myQtToolsInterface = 0;
 }
 
 void ConfigFile::writeBuffer() {
@@ -286,8 +287,6 @@ void ConfigFile::writeBuffer() {
 void ConfigFile::updateConfig(ConfigState myConfigState) {
 	
 	size_t i;
-
-	QtToolsInterface *myQtToolsInterface = new QtToolsWrapper;
 	
 	if(myConfigState == NONEXISTING) {
 		
@@ -368,10 +367,6 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 
 		
 	}
-	
-	delete myQtToolsInterface;
-	myQtToolsInterface = 0;
-
 }
 
 string ConfigFile::readConfigString(string varName)

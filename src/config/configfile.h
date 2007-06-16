@@ -29,6 +29,7 @@
 enum ConfigState { NONEXISTING, OLD };
 enum ConfigType { CONFIG_TYPE_INT, CONFIG_TYPE_STRING };
 
+class QtToolsInterface;
 
 class ConfigFile{
 public:
@@ -72,6 +73,7 @@ private:
 	std::string claNoWriteAccess;
 
 	ConfigState myConfigState;
+	QtToolsInterface *myQtToolsInterface;
 };
 
 #endif
