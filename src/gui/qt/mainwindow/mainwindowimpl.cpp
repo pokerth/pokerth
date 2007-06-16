@@ -839,7 +839,6 @@ void mainWindowImpl::callSettingsDialog() {
 			}
 		}
 		// Re-init audio.
-		mySDLPlayer->closeAudio();
 		mySDLPlayer->initAudio();
 	}
 }

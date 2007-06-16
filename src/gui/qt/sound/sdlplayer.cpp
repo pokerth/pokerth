@@ -31,7 +31,7 @@ SDLPlayer::~SDLPlayer()
 
 void SDLPlayer::initAudio() {
 
-	if (myConfig->readConfigInt("PlaySoundEffects"))
+	if (!audioEnabled && myConfig->readConfigInt("PlaySoundEffects"))
 	{
 		audio_rate = 44100;
 		audio_format = AUDIO_S16; /* 16-bit stereo */
@@ -48,7 +48,7 @@ void SDLPlayer::initAudio() {
 
 void SDLPlayer::playSound(string audioString, int playerID) {
 
-	if(audioEnabled) {
+	if(audioEnabled && myConfig->readConfigInt("PlaySoundEffects")) {
 		
 		QFile myFile(":sounds/resources/sounds/"+QString::fromStdString(audioString)+".wav");
 	
