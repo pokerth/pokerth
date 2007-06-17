@@ -29,9 +29,12 @@
         <file>resources/avatar/goethe.png</file>
         <file>resources/avatar/linus.png</file>
         <file>resources/avatar/marc.png</file>
-	<file>resources/avatar/florian.png</file>
 	<file>resources/avatar/Kapitan.png</file>
 	<file>resources/avatar/benedikt.png</file>
+	<file>resources/avatar/lotodore.png</file>
+	<file>resources/avatar/viktoria.png</file>
+	<file>resources/avatar/felix.png</file>
+	<file>resources/avatar/florian.png</file>
     </qresource>
     <qresource prefix="/cards" >
         <file>resources/graphics/cards/0.png</file>
