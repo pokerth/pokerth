@@ -139,7 +139,6 @@
     </qresource>
     <qresource prefix="/translations" >
         <file>resources/translations/pokerth_de.qm</file>
-        <file>resources/translations/pokerth_fr.qm</file>
         <file>resources/translations/pokerth_nl.qm</file>
 	<file>resources/translations/pokerth_es.qm</file>
 	<file>resources/translations/pokerth_ru.qm</file>

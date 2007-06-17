@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="nb_NO">
+<!DOCTYPE TS><TS version="1.1" language="no_NO">
 <context>
     <name>aboutPokerth</name>
     <message>
@@ -449,7 +449,10 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;lt;your translator name&amp;gt; - &amp;lt;your language&amp;gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &amp;lt;if you like your mail address&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Sigmund Lahn - Norwegian&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="177"/>
@@ -1403,17 +1406,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2037"/>
         <source>action (high frequent disc access)</source>
-        <translation type="unfinished"></translation>
+        <translation>Handling (hyppig disk-bruk)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2042"/>
         <source>hand (medium disc access)</source>
-        <translation type="unfinished"></translation>
+        <translation>Hånd (medium disk-bruk)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2047"/>
         <source>game (low disc access)</source>
-        <translation type="unfinished"></translation>
+        <translation>Spill (lav disk-bruk)</translation>
     </message>
 </context>
 <context>
