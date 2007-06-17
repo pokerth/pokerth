@@ -267,10 +267,9 @@ win32{
 }
 
 unix{
-   LIBS += -lboost_thread -lcrypto -lSDL_mixer -lSDL -lmikmod 
+   LIBS += -lboost_thread-mt -lcrypto -lSDL_mixer
    ## My release static libs 
-   #LIBS += -lboost_thread -lcrypto -lSDL_mixer -lSDL -lmikmod 
-   # -lmikmod -lSDL -laa -lgpm -lncurses
+   #LIBS += -lboost_thread-mt -lcrypto -lSDL_mixer -lSDL -lmikmod
 }
 
 macx{
