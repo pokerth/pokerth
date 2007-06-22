@@ -908,137 +908,137 @@ p, li { white-space: pre-wrap; }
         <translation>Strg+N um ein neues Spiel zu starten</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1472"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1475"/>
         <source>F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise</source>
         <translation>F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2529"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2530"/>
         <source>Network Error</source>
         <translation>Netzwerkfehler</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2397"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2398"/>
         <source>Server address was not set.</source>
         <translation>Serveradresse wurde nicht angegeben.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2402"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2403"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
         <translation>Ein ungültiger Port wurde angegeben (Ports 0-1023 sind nicht erlaubt).</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2407"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2408"/>
         <source>Could not create a socket for TCP communication.</source>
         <translation>Socket für TCP-Übertragung kann nicht erstellt werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2412"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2413"/>
         <source>Could not set the IP address.</source>
         <translation>IP-Adresse kann nicht gesetzt werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2417"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2418"/>
         <source>Could not set the port for this type of address.</source>
         <translation>Der Port für diesen Adresstyp kann nicht gesetzt werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2422"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2423"/>
         <source>The server name could not be resolved.</source>
         <translation>Der Servername kann nicht aufgelöst werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2427"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2428"/>
         <source>Bind failed - please choose a different port.</source>
         <translation>Verbindung fehlgeschlagen - bitte einen anderen Port wählen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2432"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2433"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
         <translation>Interner Netzwerkfehler: &quot;Lauschen&quot; fehlgeschlagen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2437"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2438"/>
         <source>Server execution was terminated.</source>
         <translation>Serverbetrieb wurde beendet.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2442"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2443"/>
         <source>Could not connect to the server.</source>
         <translation>Keine Verbindung zum Server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2452"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2453"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
         <translation>Interner Netzwerkfehler: &quot;Auswahl&quot; fehlgeschlagen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2457"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2458"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
         <translation>Interner Netzwerkfehler: &quot;Senden&quot; fehlgeschlagen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2468"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2469"/>
         <source>Internal network error: Duplicate TCP connection.</source>
         <translation>Interner Netzwerkfehler: Doppelte TCP-Verbindung.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2473"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2474"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Ein ungültiges Netzwerkpaket wurde empfangen.
 Bitte stellen Sie sicher, dass alle Spieler die gleiche Version von PokerTH benutzen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2478"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2479"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Interner Status Fehler.
 Bitte stellen Sie sicher, dass alle Spieler die gleiche Version von PokerTH benutzen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2483"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2484"/>
         <source>The PokerTH server does not support this version of the game.
 Please update PokerTH.</source>
         <translation>Der PokerTH-Server unterstützt diese Version des Spiels nicht.
 Führen Sie bitte ein Update von PokerTH durch.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2488"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2489"/>
         <source>Sorry, this server is already full.</source>
         <translation>Schade, der Server ist  bereits voll.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2493"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2494"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Betreten nicht möglich - Der Server hat bereits ein Spiel gestartet.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2498"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2499"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Ungültiges Paßwort beim Betreten des Spieltisches.
 Bitte geben Sie ihr Paßwort erneut ein und probieren Sie es nocheinmal.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2503"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2504"/>
         <source>The password is too long. Please choose another one.</source>
         <translation>Das Paßwort ist zu lang. Bitte wählen Sie ein Kürzeres.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2507"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2508"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
         <translation>Ihr Spielername wird bereits von einem anderen Spieler benutzt.
 Bitte wählen Sie einen anderen Namen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2511"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2512"/>
         <source>The player name is either too short or too long. Please choose another one.</source>
         <translation>Der Spielername ist entweder zu kurz oder zu lang. Bitte wählen Sie einen anderen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2530"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2531"/>
         <source>An internal error occured.</source>
         <translation>Ein interner Fehler ist aufgetreten. </translation>
     </message>
@@ -1048,17 +1048,17 @@ Bitte wählen Sie einen anderen Namen.</translation>
         <translation>Ctrl+N zum Start eines neuen Spiels</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2229"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2230"/>
         <source>Start</source>
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2371"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2372"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2447"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2448"/>
         <source>Connection timed out.
 Please check the server address.
 
@@ -1068,22 +1068,22 @@ Bitte überprüfen Sie die Serveradresse.
 Wenn der Server hinter einem NAT-Router betrieben wird, stellen Sie sicher, dass serverseitig die Portweiterleitung aktiviert wurde.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2463"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2464"/>
         <source>Connection was closed by the server.</source>
         <translation>Der Server  hat die Verbindung beendet.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2516"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2517"/>
         <source>The server referred to an unknown player. Aborting.</source>
         <translation>Der Server verweist den unbekannten Spieler des Tisches. Abbruch.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2521"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2522"/>
         <source>You were kicked from the server.</source>
         <translation>Sie wurden des Servers verwiesen (kick).</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2526"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2527"/>
         <source>The client player count is invalid.</source>
         <translation>Die Anzahl der Mitspieler ist ungültig.</translation>
     </message>
@@ -1147,29 +1147,29 @@ Wenn der Server hinter einem NAT-Router betrieben wird, stellen Sie sicher, dass
 <context>
     <name>selectAvatarDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="145"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="148"/>
         <source>Avatar File Error</source>
         <translation>Avatar-Datei Fehler</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="133"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="136"/>
         <source>Please select an avatar from the list!</source>
         <translation>Bitte wähle einen Avatar aus der Liste!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="147"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="150"/>
         <source>The entered avatar picture doesn&apos;t exists.
 Please enter an valid picture!</source>
         <translation>Das gewählte Avatar-Bild existiert nicht.
 Bitte wähle ein gültiges Avatar-Bild!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="163"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="166"/>
         <source>Select external avatar picture</source>
         <translation>Wähle ein externes Avatar-Bild aus</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="163"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="166"/>
         <source>Images (*.png)</source>
         <translation>Bilder (*.png)</translation>
     </message>
