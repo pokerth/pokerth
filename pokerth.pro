@@ -267,9 +267,17 @@ win32{
 }
 
 unix{
-   LIBS += -lboost_thread-mt -lcrypto -lSDL_mixer
-   ## My release static libs 
-   #LIBS += -lboost_thread-mt -lcrypto -lSDL_mixer -lSDL -lmikmod
+	exists( /usr/lib/libboost_thread-mt.so ) {
+		message("Found libboost_thread-mt")
+		LIBS += -lboost_thread-mt
+	}
+	exists( /usr/lib/libboost_thread.so ) {
+		message("Found libboost_thread")
+		LIBS += -lboost_thread
+	}
+	LIBS += -lcrypto -lSDL_mixer
+	## My release static libs
+	#LIBS += -lcrypto -lSDL_mixer -lSDL -lmikmod
 }
 
 macx{
