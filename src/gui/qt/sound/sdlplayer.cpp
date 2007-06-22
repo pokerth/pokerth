@@ -62,17 +62,17 @@ void SDLPlayer::playSound(string audioString, int playerID) {
 
 			case 0: { position = 180; distance = 10; }
 			break;
-			case 1: { position = 281; distance = 30; }
+			case 1: { position = 281; distance = 50; }
 			break;
-			case 2: { position = 315; distance = 90; }
+			case 2: { position = 315; distance = 120; }
 			break;
-			case 3: { position = 338; distance = 130; }
+			case 3: { position = 338; distance = 160; }
 			break;
-			case 4: { position = 23; distance = 130; }
+			case 4: { position = 23; distance = 160; }
 			break;
-			case 5: { position = 45; distance = 90; }
+			case 5: { position = 45; distance = 120; }
 			break;
-			case 6: { position = 79; distance = 30; }
+			case 6: { position = 79; distance = 50; }
 			break;
 			default: { position = 0; distance = 0; }
 			break;
