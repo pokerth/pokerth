@@ -825,11 +825,6 @@
                </disabled>
               </palette>
              </property>
-             <property name="font" >
-              <font>
-               <pointsize>8</pointsize>
-              </font>
-             </property>
              <property name="tabShape" >
               <enum>QTabWidget::Rounded</enum>
              </property>
@@ -2000,11 +1995,6 @@
                 </colorrole>
                </disabled>
               </palette>
-             </property>
-             <property name="font" >
-              <font>
-               <pointsize>8</pointsize>
-              </font>
              </property>
              <property name="tabShape" >
               <enum>QTabWidget::Rounded</enum>

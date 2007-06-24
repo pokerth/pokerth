@@ -417,9 +417,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 #endif
 	QFont tmpFont2;
 	tmpFont2.setFamily("Bitstream Vera Sans");
-	tmpFont2.setPixelSize(18);
-	label_Pot->setFont(tmpFont2);
-	
+
 	tmpFont2.setPixelSize(10);
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
@@ -428,6 +426,16 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	}
 
 	spinBox_set->setFont(tmpFont2);
+
+#ifdef __APPLE__
+	tmpFont1.setPixelSize(11);
+	tabWidget_Right->setFont(tmpFont1);
+	tabWidget_Left->setFont(tmpFont1);
+#else
+	tmpFont1.setPixelSize(10);
+	tabWidget_Right->setFont(tmpFont1);
+	tabWidget_Left->setFont(tmpFont1);
+#endif
 
 	tmpFont2.setPixelSize(12);
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
@@ -454,6 +462,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	tmpFont2.setPixelSize(17);
 	tmpFont2.setBold(TRUE);
 	textLabel_handLabel->setFont(tmpFont2);
+
+	tmpFont2.setPixelSize(18);
+	label_Pot->setFont(tmpFont2);
 
 	//Widgets Grafiken per Stylesheets setzen
 		//Groupbox Background 
