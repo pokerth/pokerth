@@ -6087,6 +6087,9 @@
      <string>View</string>
     </property>
     <addaction name="actionFullScreen" />
+    <addaction name="actionShowHideChat" />
+    <addaction name="actionShowHideHelp" />
+    <addaction name="actionShowHideLog" />
    </widget>
    <addaction name="menuSpiel" />
    <addaction name="menuView" />
@@ -6133,15 +6136,15 @@
     <string>Fullscreen</string>
    </property>
    <property name="shortcut" >
-    <string>Ctrl-F</string>
+    <string>⌘F</string>
    </property>
   </action>
   <action name="actionShowHideChat" >
    <property name="text" >
-    <string>Show/Hide Chat-Window</string>
+    <string>Show/Hide Chat Window</string>
    </property>
    <property name="shortcut" >
-    <string>Ctrl-C</string>
+    <string>⌘C</string>
    </property>
   </action>
   <action name="actionShowHideHelp" >
@@ -6149,7 +6152,7 @@
     <string>Show/Hide Help Window</string>
    </property>
    <property name="shortcut" >
-    <string>Ctrl-H</string>
+    <string>⌘H</string>
    </property>
   </action>
   <action name="actionShowHideLog" >
@@ -6157,7 +6160,7 @@
     <string>Show/Hide Log Window</string>
    </property>
    <property name="shortcut" >
-    <string>Ctrl-L</string>
+    <string>⌘L</string>
    </property>
   </action>
  </widget>
