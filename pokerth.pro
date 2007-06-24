@@ -267,7 +267,7 @@ win32{
 		src/net/linux/socket_startup.cpp 
 }
 
-unix{
+unix:!mac{
 	exists( /usr/lib/libboost_thread-mt.so ) {
 		message("Found libboost_thread-mt")
 		LIBS += -lboost_thread-mt
@@ -281,29 +281,36 @@ unix{
 	#LIBS += -lcrypto -lSDL_mixer -lSDL -lmikmod
 }
 
-macx{
+mac{
     # make it universal  
     CONFIG += x86 
     CONFIG += ppc
-
-    # for universal-compilation on PPC-Mac uncomment the following line
+		QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.3
+    
+		# for universal-compilation on PPC-Mac uncomment the following line
+		# on Intel-Mac you have to comment this line out or build will fail.
     #	QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 
-    # link needed Qt parts static (path is standard for self-compiling qt)
-    LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtCore.a
-    LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtGui.a
+    # Qt static (path is standard for self-compiling qt)
+    #LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtCore.a
+    #LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtGui.a
+		# QT dynamic linked framework (see also mac_post_make.sh)
+		LIBS += -framework QtCore
+		LIBS += -framework QtGui
+		# SDL and SDL_mixer come as frameworks
+		LIBS += -framework SDL
+		LIBS += -framework SDL_mixer
     # standard path for darwinports
     # make sure you have a universal version of boost
     LIBS += /opt/local/lib/libboost_thread.a
-    # crypto should be installed on every mac
+    # libraries installed on every mac
     LIBS += -lcrypto -lz -framework Carbon
     # set the application icon
     RC_FILE = pokerth.icns
     LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib 
     INCLUDEPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/include/
-    INCLUDEPATH += /usr/local/Trolltech/Qt-4.2.3/include/
-    INCLUDEPATH += /usr/local/Trolltech/Qt-4.2.3/include/QtCore
-    INCLUDEPATH += /usr/local/Trolltech/Qt-4.2.3/include/QtGui
+		INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
+		INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers		
 }
 
 CONFIG += qt release

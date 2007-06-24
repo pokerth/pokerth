@@ -250,8 +250,9 @@ public slots:
 	void keyPressEvent ( QKeyEvent*);
 // 	bool event ( QEvent * );
 
-	void switchLeftToolBox();
-	void switchRightToolBox();
+	void switchChatWindow();
+	void switchHelpWindow();
+	void switchLogWindow();
 	void switchFullscreen();
 
 	void paintStartSplash();

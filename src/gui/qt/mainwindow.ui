@@ -6068,15 +6068,9 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>30</height>
+     <height>23</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuView" >
-    <property name="title" >
-     <string>View</string>
-    </property>
-    <addaction name="actionFullScreen" />
-   </widget>
    <widget class="QMenu" name="menuSpiel" >
     <property name="title" >
      <string>Game</string>
@@ -6087,6 +6081,12 @@
     <addaction name="actionSettings" />
     <addaction name="actionAboutPokerth" />
     <addaction name="actionQuit" />
+   </widget>
+   <widget class="QMenu" name="menuView" >
+    <property name="title" >
+     <string>View</string>
+    </property>
+    <addaction name="actionFullScreen" />
    </widget>
    <addaction name="menuSpiel" />
    <addaction name="menuView" />
@@ -6133,20 +6133,44 @@
     <string>Fullscreen</string>
    </property>
    <property name="shortcut" >
-    <string>F</string>
+    <string>Ctrl-F</string>
+   </property>
+  </action>
+  <action name="actionShowHideChat" >
+   <property name="text" >
+    <string>Show/Hide Chat-Window</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl-C</string>
+   </property>
+  </action>
+  <action name="actionShowHideHelp" >
+   <property name="text" >
+    <string>Show/Hide Help Window</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl-H</string>
+   </property>
+  </action>
+  <action name="actionShowHideLog" >
+   <property name="text" >
+    <string>Show/Hide Log Window</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl-L</string>
    </property>
   </action>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MySetLabel</class>
-   <extends>QLabel</extends>
-   <header>mysetlabel.h</header>
-  </customwidget>
-  <customwidget>
    <class>MyRightTabWidget</class>
    <extends>QTabWidget</extends>
    <header>myrighttabwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MySetLabel</class>
+   <extends>QLabel</extends>
+   <header>mysetlabel.h</header>
   </customwidget>
   <customwidget>
    <class>MyLeftTabWidget</class>

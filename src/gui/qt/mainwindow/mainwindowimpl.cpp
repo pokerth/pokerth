@@ -569,6 +569,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect( actionCreate_network_Game, SIGNAL( triggered() ), this, SLOT( callCreateNetworkGameDialog() ) );
 	connect( actionQuit, SIGNAL( triggered() ), this, SLOT( quitPokerTH() ) );
 	connect( actionFullScreen, SIGNAL( triggered() ), this, SLOT( switchFullscreen() ) );
+	connect( actionShowHideChat, SIGNAL( triggered() ), this, SLOT( switchChatWindow() ) );
+	connect( actionShowHideHelp, SIGNAL( triggered() ), this, SLOT( switchHelpWindow() ) );
+	connect( actionShowHideLog, SIGNAL( triggered() ), this, SLOT( switchLogWindow() ) );
 
 	connect( pushButton_BetRaise, SIGNAL( clicked() ), this, SLOT( myBetRaise() ) );
 	connect( pushButton_FoldAllin, SIGNAL( clicked() ), this, SLOT( myFoldAllin() ) );
@@ -2562,8 +2565,6 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F1) { pushButton_FoldAllin->click(); } 
 	if (event->key() == Qt::Key_F2) { pushButton_CallCheckSet->click(); } 
 	if (event->key() == Qt::Key_F3) { pushButton_BetRaise->click(); } 
-	if (event->key() == Qt::Key_F10) { switchLeftToolBox(); } 
-	if (event->key() == Qt::Key_F11) { switchRightToolBox(); } 
 	if (event->key() == Qt::Key_S) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction"),TRUE); } //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
@@ -2579,16 +2580,43 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 // 	if(event->type() == QEvent::MouseMove) { event->setAccepted ( FALSE );  }
 // }
 
-void mainWindowImpl::switchLeftToolBox() {
+void mainWindowImpl::switchChatWindow() {
 
-	if (groupBox_LeftToolBox->isHidden()) { groupBox_LeftToolBox->show(); }
-	else { 	groupBox_LeftToolBox->hide(); 	}
+	int tab = 1;
+	if (groupBox_LeftToolBox->isHidden()) { 
+		tabWidget_Left->setCurrentIndex(tab);
+		groupBox_LeftToolBox->show(); 
+	}	else {
+		if (tabWidget_Left->currentIndex() == tab) {
+			groupBox_LeftToolBox->hide(); 				
+		} else {
+			tabWidget_Left->setCurrentIndex(tab);			
+		}
+	}
 }
 
-void mainWindowImpl::switchRightToolBox() {
+void mainWindowImpl::switchHelpWindow() {
 
-	if (groupBox_RightToolBox->isHidden()) { groupBox_RightToolBox->show(); }
-	else { 	groupBox_RightToolBox->hide(); }
+	int tab = 0;
+	if (groupBox_LeftToolBox->isHidden()) { 
+		tabWidget_Left->setCurrentIndex(tab);
+		groupBox_LeftToolBox->show(); 
+	}	else {
+		if (tabWidget_Left->currentIndex() == tab) {
+			groupBox_LeftToolBox->hide(); 				
+		} else {
+			tabWidget_Left->setCurrentIndex(tab);			
+		}
+	}
+}
+
+void mainWindowImpl::switchLogWindow() {
+
+	if (groupBox_RightToolBox->isHidden()) { 
+		groupBox_RightToolBox->show(); 
+	}	else { 	
+		groupBox_RightToolBox->hide(); 
+	}
 }
 
 void mainWindowImpl::switchFullscreen() {
