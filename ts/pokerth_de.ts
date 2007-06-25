@@ -3,43 +3,9 @@
 <context>
     <name>aboutPokerth</name>
     <message>
-        <location filename="../../tmp/src/gui/qt/aboutpokerth.ui" line="14"/>
-        <source>About PokerTH 0.4</source>
-        <translation type="obsolete">Über PokerTH 0.4</translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="33"/>
         <source>About</source>
         <translation>Über</translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../../tmp/src/gui/qt/aboutpokerth.ui" line="42"/>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;PokerTH 0.4&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Poker-Engine for the popular &quot;Texas Holdem&quot;-Poker&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Singleplayer-Modus&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Up to 6 Opponents&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Coded in C++ / QT4&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;© 2006-2007, FHammer &amp;amp; FThauer&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;PokerTH 0.4&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Poker-Engine für das populäre &quot;Texas Holdem&quot;-Poker&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Singleplayer-Modus&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Gegen bis zu 6 Gegner spielbar&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Programmiert in C++ / QT4&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;© 2006-2007, FHammer &amp;amp; FThauer&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="96"/>
@@ -547,11 +513,6 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="35"/>
-        <source>Human Player:</source>
-        <translation type="obsolete">Menschlicher Spieler:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="35"/>
         <source>Name:</source>
         <translation>Name:</translation>
     </message>
@@ -610,11 +571,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="130"/>
         <source>Hands before raise small blind:</source>
         <translation>Runden vor der Erhöhung des Small Blind:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="147"/>
-        <source>Game Speed for computer opponent:</source>
-        <translation type="obsolete">Spielgeschwindigkeit für Computergegner:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="123"/>
@@ -865,11 +821,6 @@ p, li { white-space: pre-wrap; }
         <translation>Vollbild</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="6146"/>
-        <source>F</source>
-        <translation type="obsolete">F</translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="836"/>
         <source>Hands</source>
         <translation>Blätter</translation>
@@ -902,37 +853,37 @@ p, li { white-space: pre-wrap; }
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/mainwindow.ui" line="6139"/>
         <source>⌘F</source>
-        <translation type="unfinished"></translation>
+        <translation>⌘F</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="6144"/>
         <source>Show/Hide Chat Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige/Verstecke Chat-Fenster</translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/mainwindow.ui" line="6147"/>
         <source>⌘C</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="6152"/>
-        <source>Show/Hide Help Window</source>
-        <translation type="unfinished"></translation>
+        <translation>⌘C</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../src/gui/qt/mainwindow.ui" line="6155"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6161"/>
         <source>⌘H</source>
-        <translation type="unfinished"></translation>
+        <translation>⌘H</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="6160"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6166"/>
         <source>Show/Hide Log Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige/Verstecke Log-Fenster</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../src/gui/qt/mainwindow.ui" line="6163"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6169"/>
         <source>⌘L</source>
-        <translation type="unfinished"></translation>
+        <translation>⌘L</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6158"/>
+        <source>Show/Hide Hands Window</source>
+        <translation>Zeige/Verstecke Blätter-Fenster</translation>
     </message>
 </context>
 <context>
@@ -1080,7 +1031,7 @@ Bitte wählen Sie einen anderen Namen.</translation>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="507"/>
         <source>Cmd+N to start a new game</source>
-        <translation>Ctrl+N zum Start eines neuen Spiels</translation>
+        <translation>⌘N zum Start eines neuen Spiels</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2244"/>
@@ -1248,11 +1199,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="672"/>
         <source>Start Cash:</source>
         <translation>Startgeld:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="715"/>
-        <source>0.4 (actual)</source>
-        <translation type="obsolete">0.4 (aktuell)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="458"/>
@@ -1435,21 +1381,6 @@ p, li { white-space: pre-wrap; }
         <translation>Schreibe Logdateien nach jeder/jedem:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2026"/>
-        <source>every action (high frequent disc access)</source>
-        <translation type="obsolete">jeder Aktion (hoher Festplattenzugriff)</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2031"/>
-        <source>every hand (medium disc access)</source>
-        <translation type="obsolete">jeder Runde (mittlerer Festplattenzugriff)</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2036"/>
-        <source>every game (low disc access)</source>
-        <translation type="obsolete">jedem Spiel (geringer Festplattenzugriff)</translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="239"/>
         <source>Show buttons for small blind and big blind</source>
         <translation>Zeige Symbole für Small Blind und Big Blind Buttons</translation>
@@ -1480,11 +1411,6 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;Was ist das?&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="754"/>
-        <source>Timout for player action (sec):</source>
-        <translation type="obsolete">Zeit für Spielerhandlungen (Sek.):</translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1623"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1494,11 +1420,6 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Hinweis: Die beste Avatar-Qualität erhalten Sie folgenden Seitenverhältnissen: &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Breite = 50, Höhe = 50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1041"/>
-        <source>Opponent 7:</source>
-        <translation type="obsolete">Gegner 7:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="19"/>

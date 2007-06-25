@@ -829,7 +829,7 @@
               <enum>QTabWidget::Rounded</enum>
              </property>
              <property name="currentIndex" >
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="tab_Hands" >
               <attribute name="title" >
@@ -1439,111 +1439,11 @@
           <number>5</number>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_CallCheckSet" >
-         <property name="geometry" >
-          <rect>
-           <x>232</x>
-           <y>70</y>
-           <width>55</width>
-           <height>55</height>
-          </rect>
-         </property>
-         <property name="palette" >
-          <palette>
-           <active>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>128</red>
-               <green>128</green>
-               <blue>128</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
-         <property name="focusPolicy" >
-          <enum>Qt::NoFocus</enum>
-         </property>
-        </widget>
         <widget class="QPushButton" name="pushButton_FoldAllin" >
          <property name="geometry" >
           <rect>
            <x>232</x>
            <y>122</y>
-           <width>55</width>
-           <height>55</height>
-          </rect>
-         </property>
-         <property name="palette" >
-          <palette>
-           <active>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>128</red>
-               <green>128</green>
-               <blue>128</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
-         <property name="focusPolicy" >
-          <enum>Qt::NoFocus</enum>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton_BetRaise" >
-         <property name="geometry" >
-          <rect>
-           <x>232</x>
-           <y>18</y>
            <width>55</width>
            <height>55</height>
           </rect>
@@ -1793,6 +1693,106 @@
            <enum>Qt::NoTextInteraction</enum>
           </property>
          </widget>
+        </widget>
+        <widget class="QPushButton" name="pushButton_CallCheckSet" >
+         <property name="geometry" >
+          <rect>
+           <x>232</x>
+           <y>70</y>
+           <width>55</width>
+           <height>55</height>
+          </rect>
+         </property>
+         <property name="palette" >
+          <palette>
+           <active>
+            <colorrole role="ButtonText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="ButtonText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="ButtonText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
+         <property name="focusPolicy" >
+          <enum>Qt::NoFocus</enum>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_BetRaise" >
+         <property name="geometry" >
+          <rect>
+           <x>232</x>
+           <y>18</y>
+           <width>55</width>
+           <height>55</height>
+          </rect>
+         </property>
+         <property name="palette" >
+          <palette>
+           <active>
+            <colorrole role="ButtonText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="ButtonText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="ButtonText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
+         <property name="focusPolicy" >
+          <enum>Qt::NoFocus</enum>
+         </property>
         </widget>
        </widget>
       </item>
@@ -6149,7 +6149,13 @@
   </action>
   <action name="actionShowHideHelp" >
    <property name="text" >
-    <string>Show/Hide Help Window</string>
+    <string>Show/Hide Hands Window</string>
+   </property>
+   <property name="iconText" >
+    <string>Show/Hide Hands Window</string>
+   </property>
+   <property name="toolTip" >
+    <string>Show/Hide Hands Window</string>
    </property>
    <property name="shortcut" >
     <string>⌘H</string>
@@ -6199,8 +6205,8 @@
      <y>624</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>858</x>
-     <y>620</y>
+     <x>831</x>
+     <y>636</y>
     </hint>
    </hints>
   </connection>

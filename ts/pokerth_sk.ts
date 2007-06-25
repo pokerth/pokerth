@@ -819,11 +819,6 @@ p, li { white-space: pre-wrap; }
         <source>Fullscreen</source>
         <translation>Celá obrazovka</translation>
     </message>
-    <message>
-        <location filename="" line="495451"/>
-        <source>F</source>
-        <translation type="obsolete">F</translation>
-    </message>
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/mainwindow.ui" line="6139"/>
         <source>⌘F</source>
@@ -839,24 +834,24 @@ p, li { white-space: pre-wrap; }
         <source>⌘C</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="6152"/>
-        <source>Show/Hide Help Window</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message encoding="UTF-8">
-        <location filename="../src/gui/qt/mainwindow.ui" line="6155"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6161"/>
         <source>⌘H</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="6160"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6166"/>
         <source>Show/Hide Log Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../src/gui/qt/mainwindow.ui" line="6163"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6169"/>
         <source>⌘L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6158"/>
+        <source>Show/Hide Hands Window</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -870,7 +865,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="507"/>
         <source>Cmd+N to start a new game</source>
-        <translation>Cmd+N pre spustenie novej hry</translation>
+        <translation type="unfinished">Cmd+N pre spustenie novej hry</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="509"/>
