@@ -61,7 +61,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 {
 	int i;
 
-	this->setStyle(new QPlastiqueStyle);
+//	this->setStyle(new QPlastiqueStyle);
 
 	//for statistic development
 	for(i=0; i<15; i++) {

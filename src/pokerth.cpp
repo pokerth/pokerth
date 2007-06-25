@@ -75,11 +75,10 @@ int main( int argc, char **argv )
 	
 	/////// can be removed for non-qt-guis ////////////
 	QApplication a( argc, argv );
-#ifdef __APPLE__
-	a.setStyle(new QMacStyle);
-#else
+
+	// set PlastiqueStyle even for mac-version to prevent artefacts on styled widgets
 	a.setStyle(new QPlastiqueStyle);
-#endif
+	
 	Q_INIT_RESOURCE(resources);
 
 	QTranslator qtTranslator;

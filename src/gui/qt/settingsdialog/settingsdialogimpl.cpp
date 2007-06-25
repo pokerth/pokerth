@@ -29,7 +29,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
     : QDialog(parent), myConfig(c), mySelectAvatarDialogImpl(s)
 {
 
-	 setupUi(this);
+  setupUi(this);
 
 	if (myConfig->readConfigInt("CLA_NoWriteAccess")) { groupBox_logOnOff->setDisabled(TRUE); }
 
