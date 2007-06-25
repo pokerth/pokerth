@@ -829,7 +829,7 @@
               <enum>QTabWidget::Rounded</enum>
              </property>
              <property name="currentIndex" >
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="tab_Hands" >
               <attribute name="title" >
@@ -6068,9 +6068,18 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>23</height>
+     <height>30</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuView" >
+    <property name="title" >
+     <string>View</string>
+    </property>
+    <addaction name="actionFullScreen" />
+    <addaction name="actionShowHideChat" />
+    <addaction name="actionShowHideHelp" />
+    <addaction name="actionShowHideLog" />
+   </widget>
    <widget class="QMenu" name="menuSpiel" >
     <property name="title" >
      <string>Game</string>
@@ -6081,15 +6090,6 @@
     <addaction name="actionSettings" />
     <addaction name="actionAboutPokerth" />
     <addaction name="actionQuit" />
-   </widget>
-   <widget class="QMenu" name="menuView" >
-    <property name="title" >
-     <string>View</string>
-    </property>
-    <addaction name="actionFullScreen" />
-    <addaction name="actionShowHideChat" />
-    <addaction name="actionShowHideHelp" />
-    <addaction name="actionShowHideLog" />
    </widget>
    <addaction name="menuSpiel" />
    <addaction name="menuView" />
@@ -6125,10 +6125,16 @@
    <property name="text" >
     <string>Create Network Game ...</string>
    </property>
+   <property name="shortcut" >
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="actionJoin_network_Game" >
    <property name="text" >
     <string>Join Network Game ...</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+J</string>
    </property>
   </action>
   <action name="actionFullScreen" >
@@ -6136,7 +6142,7 @@
     <string>Fullscreen</string>
    </property>
    <property name="shortcut" >
-    <string>⌘F</string>
+    <string>Ctrl+F</string>
    </property>
   </action>
   <action name="actionShowHideChat" >
@@ -6144,7 +6150,7 @@
     <string>Show/Hide Chat Window</string>
    </property>
    <property name="shortcut" >
-    <string>⌘C</string>
+    <string>Ctrl+T</string>
    </property>
   </action>
   <action name="actionShowHideHelp" >
@@ -6158,7 +6164,7 @@
     <string>Show/Hide Hands Window</string>
    </property>
    <property name="shortcut" >
-    <string>⌘H</string>
+    <string>Ctrl+H</string>
    </property>
   </action>
   <action name="actionShowHideLog" >
@@ -6166,7 +6172,7 @@
     <string>Show/Hide Log Window</string>
    </property>
    <property name="shortcut" >
-    <string>⌘L</string>
+    <string>Ctrl+L</string>
    </property>
   </action>
  </widget>

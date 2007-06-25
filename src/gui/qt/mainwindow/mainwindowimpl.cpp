@@ -2565,7 +2565,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F1) { pushButton_FoldAllin->click(); } 
 	if (event->key() == Qt::Key_F2) { pushButton_CallCheckSet->click(); } 
 	if (event->key() == Qt::Key_F3) { pushButton_BetRaise->click(); } 
-	if (event->key() == Qt::Key_S) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction"),TRUE); } //s	
+// 	if (event->key() == Qt::Key_S) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction"),TRUE); } //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;

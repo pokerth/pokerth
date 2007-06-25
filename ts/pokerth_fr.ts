@@ -1121,12 +1121,12 @@ p, li { white-space: pre-wrap; }
         <translation>Arrêter</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="6087"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6076"/>
         <source>View</source>
         <translation>Visualiser</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="6076"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6085"/>
         <source>Game</source>
         <translation>Partie</translation>
     </message>
@@ -1156,12 +1156,12 @@ p, li { white-space: pre-wrap; }
         <translation>Créer une partie en réseau ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="6131"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6134"/>
         <source>Join Network Game ...</source>
         <translation>Se joindre à une partie en réseau ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="6136"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6142"/>
         <source>Fullscreen</source>
         <translation>Plein écran</translation>
     </message>
@@ -1198,36 +1198,66 @@ p, li { white-space: pre-wrap; }
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/mainwindow.ui" line="6139"/>
         <source>⌘F</source>
-        <translation>⌘F</translation>
+        <translation type="obsolete">⌘F</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="6144"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6150"/>
         <source>Show/Hide Chat Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/mainwindow.ui" line="6147"/>
         <source>⌘C</source>
-        <translation>⌘C</translation>
+        <translation type="obsolete">⌘C</translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/mainwindow.ui" line="6161"/>
         <source>⌘H</source>
-        <translation>⌘H</translation>
+        <translation type="obsolete">⌘H</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="6166"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6172"/>
         <source>Show/Hide Log Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/mainwindow.ui" line="6169"/>
         <source>⌘L</source>
-        <translation>⌘L</translation>
+        <translation type="obsolete">⌘L</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="6158"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6164"/>
         <source>Show/Hide Hands Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6129"/>
+        <source>Ctrl+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6137"/>
+        <source>Ctrl+J</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6145"/>
+        <source>Ctrl+F</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6153"/>
+        <source>Ctrl+T</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6167"/>
+        <source>Ctrl+H</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow.ui" line="6175"/>
+        <source>Ctrl+L</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
