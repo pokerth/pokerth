@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1">
+<!DOCTYPE TS><TS version="1.1" language="sk">
 <context>
     <name>aboutPokerth</name>
     <message>
@@ -822,7 +822,7 @@ p, li { white-space: pre-wrap; }
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/mainwindow.ui" line="6139"/>
         <source>⌘F</source>
-        <translation type="unfinished"></translation>
+        <translation>⌘F</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="6144"/>
@@ -832,12 +832,12 @@ p, li { white-space: pre-wrap; }
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/mainwindow.ui" line="6147"/>
         <source>⌘C</source>
-        <translation type="unfinished"></translation>
+        <translation>⌘C</translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/mainwindow.ui" line="6161"/>
         <source>⌘H</source>
-        <translation type="unfinished"></translation>
+        <translation>⌘H</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="6166"/>
@@ -847,7 +847,7 @@ p, li { white-space: pre-wrap; }
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/mainwindow.ui" line="6169"/>
         <source>⌘L</source>
-        <translation type="unfinished"></translation>
+        <translation>⌘L</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="6158"/>
@@ -865,7 +865,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="507"/>
         <source>Cmd+N to start a new game</source>
-        <translation type="unfinished">Cmd+N pre spustenie novej hry</translation>
+        <translation>⌘N pre spustenie novej hry</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="509"/>
