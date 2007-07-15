@@ -2561,7 +2561,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	
 	bool ctrlPressed = FALSE;
 
-	if (event->key() == Qt::Key_Enter) { if(spinBox_set->hasFocus()) pushButton_CallCheckSet->click(); } //ENTER 
+	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return ) { if(spinBox_set->hasFocus()) pushButton_CallCheckSet->click(); } //ENTER 
 	if (event->key() == Qt::Key_F1) { pushButton_FoldAllin->click(); } 
 	if (event->key() == Qt::Key_F2) { pushButton_CallCheckSet->click(); } 
 	if (event->key() == Qt::Key_F3) { pushButton_BetRaise->click(); } 
