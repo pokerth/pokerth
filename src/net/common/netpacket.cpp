@@ -93,13 +93,11 @@ struct GCC_PACKED NetPacketJoinGameAckData
 	NetPacketHeader		head;
 	u_int32_t			sessionId;
 	u_int16_t			playerId;
-	u_int16_t			playerNumber;
 	u_int16_t			maxNumberOfPlayers;
 	u_int16_t			smallBlind;
 	u_int16_t			handsBeforeRaise;
 	u_int16_t			proposedGuiSpeed;
 	u_int16_t			playerActionTimeout;
-	u_int16_t			reserved;
 	u_int32_t			startMoney;
 };
 
@@ -114,9 +112,9 @@ struct GCC_PACKED NetPacketPlayerJoinedData
 {
 	NetPacketHeader		head;
 	u_int16_t			playerId;
-	u_int16_t			playerNumber;
 	u_int16_t			playerFlags;
 	u_int16_t			playerNameLength;
+	u_int16_t			reserved;
 };
 
 struct GCC_PACKED NetPacketPlayerLeftData
@@ -131,6 +129,11 @@ struct GCC_PACKED NetPacketGameStartData
 	NetPacketHeader		head;
 	u_int16_t			startDealerPlayerId;
 	u_int16_t			numberOfPlayers;
+};
+
+struct GCC_PACKED PlayerSlotData
+{
+	u_int16_t			playerId;
 };
 
 struct GCC_PACKED NetPacketHandStartData
@@ -736,7 +739,6 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 
 	tmpData->sessionId				= htonl(inData.sessionId);
 	tmpData->playerId				= htons(inData.yourPlayerUniqueId);
-	tmpData->playerNumber			= htons(inData.yourPlayerNum);
 	tmpData->maxNumberOfPlayers		= htons(inData.gameData.maxNumberOfPlayers);
 	tmpData->smallBlind				= htons(inData.gameData.smallBlind);
 	tmpData->handsBeforeRaise		= htons(inData.gameData.handsBeforeRaise);
@@ -753,7 +755,6 @@ NetPacketJoinGameAck::GetData(NetPacketJoinGameAck::Data &outData) const
 
 	outData.sessionId						= ntohl(tmpData->sessionId);
 	outData.yourPlayerUniqueId				= ntohs(tmpData->playerId);
-	outData.yourPlayerNum					= ntohs(tmpData->playerNumber);
 	outData.gameData.maxNumberOfPlayers		= ntohs(tmpData->maxNumberOfPlayers);
 	outData.gameData.smallBlind				= ntohs(tmpData->smallBlind);
 	outData.gameData.handsBeforeRaise		= ntohs(tmpData->handsBeforeRaise);
@@ -824,7 +825,6 @@ NetPacketPlayerJoined::SetData(const NetPacketPlayerJoined::Data &inData)
 	// Set the data.
 	tmpData->playerFlags = htons((inData.ptype == PLAYER_TYPE_HUMAN) ? NET_PLAYER_FLAG_HUMAN : 0);
 	tmpData->playerId = htons(inData.playerId);
-	tmpData->playerNumber = htons(inData.playerNumber);
 	tmpData->playerNameLength = htons(playerNameLen);
 	char *namePtr = (char *)tmpData + sizeof(NetPacketPlayerJoinedData);
 	memcpy(namePtr, inData.playerName.c_str(), playerNameLen);
@@ -839,7 +839,6 @@ NetPacketPlayerJoined::GetData(NetPacketPlayerJoined::Data &outData) const
 
 	outData.ptype = (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_HUMAN) ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
 	outData.playerId = ntohs(tmpData->playerId);
-	outData.playerNumber = ntohs(tmpData->playerNumber);
 	char *namePtr = (char *)tmpData + sizeof(NetPacketPlayerJoinedData);
 	outData.playerName = string(namePtr, ntohs(tmpData->playerNameLength));
 }
@@ -969,11 +968,33 @@ NetPacketGameStart::Clone() const
 void
 NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
 {
+	u_int16_t numPlayers = (u_int16_t)inData.playerSlots.size();
+
+	if (!numPlayers || numPlayers > MAX_NUMBER_OF_PLAYERS || numPlayers != inData.startData.numberOfPlayers)
+		throw NetException(ERR_NET_INVALID_PLAYER_COUNT, 0);
+
+	// Resize the packet so that the data fits in.
+	Resize((u_int16_t)
+		(sizeof(NetPacketGameStartData) + ADD_PADDING(numPlayers * sizeof(PlayerSlotData))));
+
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
 	assert(tmpData);
 
 	tmpData->startDealerPlayerId	= htons(inData.startData.startDealerPlayerId);
-	tmpData->numberOfPlayers		= htons(inData.startData.numberOfPlayers);
+	tmpData->numberOfPlayers		= htons(numPlayers);
+
+	PlayerSlotList::const_iterator i = inData.playerSlots.begin();
+	PlayerSlotList::const_iterator end = inData.playerSlots.end();
+
+	// Copy the player slot data to continous memory
+	PlayerSlotData *curPlayerSlotData =
+		(PlayerSlotData *)((char *)tmpData + sizeof(NetPacketGameStartData));
+	while (i != end)
+	{
+		curPlayerSlotData->playerId		= htons((*i).playerId);
+		++curPlayerSlotData;
+		++i;
+	}
 }
 
 void
@@ -983,7 +1004,21 @@ NetPacketGameStart::GetData(NetPacketGameStart::Data &outData) const
 	assert(tmpData);
 
 	outData.startData.startDealerPlayerId	= ntohs(tmpData->startDealerPlayerId);
-	outData.startData.numberOfPlayers		= ntohs(tmpData->numberOfPlayers);
+	u_int16_t numPlayers = ntohs(tmpData->numberOfPlayers);
+	outData.startData.numberOfPlayers = numPlayers;
+
+	PlayerSlotData *curPlayerSlotData =
+		(PlayerSlotData *)((char *)tmpData + sizeof(NetPacketGameStartData));
+
+	// Store all available player slots.
+	for (int i = 0; i < numPlayers; i++)
+	{
+		PlayerSlot tmpPlayerSlot;
+		tmpPlayerSlot.playerId	= ntohs(curPlayerSlotData->playerId);
+
+		outData.playerSlots.push_back(tmpPlayerSlot);
+		++curPlayerSlotData;
+	}
 }
 
 const NetPacketGameStart *
@@ -998,10 +1033,11 @@ NetPacketGameStart::Check(const NetPacketHeader* data) const
 	assert(data);
 
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen != sizeof(NetPacketGameStartData))
+	if (dataLen < sizeof(NetPacketGameStartData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
+	// TODO additional checking
 }
 
 //-----------------------------------------------------------------------------

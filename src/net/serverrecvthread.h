@@ -121,7 +121,7 @@ protected:
 	void SetSessionPlayerData(boost::shared_ptr<SessionData> sessionData, boost::shared_ptr<PlayerData> playerData);
 	PlayerDataList GetPlayerDataList() const;
 
-	int GetNextPlayerNumber() const;
+	void AssignPlayerNumbers();
 
 	ServerRecvState &GetState();
 	void SetState(ServerRecvState &newState);

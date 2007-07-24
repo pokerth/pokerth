@@ -443,11 +443,12 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 		NetPacketJoinGameAck::Data joinGameAckData;
 		packet->ToNetPacketJoinGameAck()->GetData(joinGameAckData);
 		client.SetGameData(joinGameAckData.gameData);
-		client.SetGuiPlayerNum(joinGameAckData.yourPlayerNum);
+		client.SetGuiPlayerId(joinGameAckData.yourPlayerUniqueId);
 
 		// TODO: Type Human is fixed here.
+		// Player number is 0 on join. Will be set when the game starts.
 		boost::shared_ptr<PlayerData> playerData(
-			new PlayerData(joinGameAckData.yourPlayerUniqueId, joinGameAckData.yourPlayerNum, PLAYER_TYPE_HUMAN));
+			new PlayerData(joinGameAckData.yourPlayerUniqueId, 0, PLAYER_TYPE_HUMAN));
 		playerData->SetName(context.GetPlayerName());
 		client.AddPlayerData(playerData);
 
@@ -489,6 +490,23 @@ ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 
 		client.SetStartData(gameStartData.startData);
 
+		// Set player numbers using the game start data slots.
+		NetPacketGameStart::PlayerSlotList::const_iterator slot_i = gameStartData.playerSlots.begin();
+		NetPacketGameStart::PlayerSlotList::const_iterator slot_end = gameStartData.playerSlots.end();
+		int num = 0;
+
+		while (slot_i != slot_end)
+		{
+			unsigned playerId = (*slot_i).playerId;
+			boost::shared_ptr<PlayerData> tmpPlayer = client.GetPlayerDataByUniqueId(playerId);
+			if (!tmpPlayer.get())
+				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+			tmpPlayer->SetNumber(num);
+
+			++num;
+			++slot_i;
+		}
+
 		client.SetState(ClientStateWaitHand::Instance());
 		retVal = MSG_NET_GAME_CLIENT_START;
 	}
@@ -499,11 +517,10 @@ ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		packet->ToNetPacketPlayerJoined()->GetData(netPlayerData);
 
 		boost::shared_ptr<PlayerData> playerData(
-			new PlayerData(netPlayerData.playerId, netPlayerData.playerNumber, netPlayerData.ptype));
+			new PlayerData(netPlayerData.playerId, 0, netPlayerData.ptype));
 		playerData->SetName(netPlayerData.playerName);
 		client.AddPlayerData(playerData);
 	}
-	// TODO: handle error packet (kicked from server)
 
 	return retVal;
 }

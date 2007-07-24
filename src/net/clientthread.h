@@ -77,8 +77,8 @@ protected:
 	void SetGameData(const GameData &gameData);
 	const StartData &GetStartData() const;
 	void SetStartData(const StartData &startData);
-	int GetGuiPlayerNum() const;
-	void SetGuiPlayerNum(int guiPlayerNum);
+	int GetGuiPlayerId() const;
+	void SetGuiPlayerId(int guiPlayerId);
 
 	boost::shared_ptr<Game> GetGame();
 
@@ -109,7 +109,7 @@ private:
 	boost::shared_ptr<Game> m_game;
 
 	unsigned m_curGameId;
-	int m_guiPlayerNum;
+	unsigned m_guiPlayerId;
 
 friend class AbstractClientStateReceiving;
 friend class ClientStateInit;

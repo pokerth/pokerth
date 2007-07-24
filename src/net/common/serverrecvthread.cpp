@@ -253,6 +253,8 @@ ServerRecvThread::InternalStartGame()
 
 	// Kick all players which are not fully connected.
 	RemoveNotEstablishedSessions();
+	// Set order of players.
+	AssignPlayerNumbers();
 
 	// Initialize the game.
 	GuiInterface &gui = GetGui();
@@ -559,31 +561,24 @@ ServerRecvThread::GetPlayerDataList() const
 		}
 		++session_i;
 	}
-	// Sort the list by player number.
-	playerList.sort(*boost::lambda::_1 < *boost::lambda::_2);
 	return playerList;
 }
 
-int
-ServerRecvThread::GetNextPlayerNumber() const
+void
+ServerRecvThread::AssignPlayerNumbers()
 {
 	int playerNumber = 0;
 
 	PlayerDataList playerList = GetPlayerDataList();
-	PlayerDataList::const_iterator player_i = playerList.begin();
-	PlayerDataList::const_iterator player_end = playerList.end();
+	PlayerDataList::iterator player_i = playerList.begin();
+	PlayerDataList::iterator player_end = playerList.end();
 
-	// Assume the player list is sorted by player number.
 	while (player_i != player_end)
 	{
-		if ((*player_i)->GetNumber() == playerNumber)
-			playerNumber++;
-		else
-			break;
+		(*player_i)->SetNumber(playerNumber);
+		++playerNumber;
 		++player_i;
 	}
-
-	return playerNumber;
 }
 
 void

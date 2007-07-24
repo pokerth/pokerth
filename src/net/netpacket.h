@@ -26,7 +26,7 @@
 #include <gamedata.h>
 #include <net/socket_helper.h>
 
-#define NET_VERSION_MAJOR			1
+#define NET_VERSION_MAJOR			2
 #define NET_VERSION_MINOR			0
 
 #define MIN_PACKET_SIZE				4
@@ -143,7 +143,6 @@ public:
 	struct Data
 	{
 		u_int32_t	sessionId;
-		int16_t		yourPlayerNum;
 		u_int16_t	yourPlayerUniqueId;
 		GameData	gameData;
 	};
@@ -169,7 +168,6 @@ public:
 	struct Data
 	{
 		u_int16_t	playerId;
-		u_int16_t	playerNumber;
 		PlayerType ptype;
 		std::string playerName;
 	};
@@ -215,9 +213,18 @@ protected:
 class NetPacketGameStart : public NetPacket
 {
 public:
+
+	struct PlayerSlot
+	{
+		unsigned		playerId;
+	};
+
+	typedef std::list<PlayerSlot> PlayerSlotList;
+
 	struct Data
 	{
-		StartData	startData;
+		StartData		startData;
+		PlayerSlotList	playerSlots;
 	};
 
 	NetPacketGameStart();

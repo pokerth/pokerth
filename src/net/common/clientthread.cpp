@@ -53,7 +53,7 @@ private:
 
 
 ClientThread::ClientThread(GuiInterface &gui)
-: m_curState(NULL), m_gui(gui), m_curGameId(1), m_guiPlayerNum(0)
+: m_curState(NULL), m_gui(gui), m_curGameId(1), m_guiPlayerId(0)
 {
 	m_context.reset(new ClientContext);
 	m_senderCallback.reset(new ClientSenderCallback(*this));
@@ -244,15 +244,15 @@ ClientThread::SetStartData(const StartData &startData)
 }
 
 int
-ClientThread::GetGuiPlayerNum() const
+ClientThread::GetGuiPlayerId() const
 {
-	return m_guiPlayerNum;
+	return m_guiPlayerId;
 }
 
 void
-ClientThread::SetGuiPlayerNum(int guiPlayerNum)
+ClientThread::SetGuiPlayerId(int guiPlayerId)
 {
-	m_guiPlayerNum = guiPlayerNum;
+	m_guiPlayerId = guiPlayerId;
 }
 
 boost::shared_ptr<Game>
@@ -303,21 +303,27 @@ ClientThread::RemovePlayerData(unsigned playerId)
 void
 ClientThread::MapPlayerDataList()
 {
+	// Retrieve the GUI player.
+	boost::shared_ptr<PlayerData> guiPlayer = GetPlayerDataByUniqueId(GetGuiPlayerId());
+	assert(guiPlayer.get());
+	int guiPlayerNum = guiPlayer->GetNumber();
+
+	// Create a copy of the player list so that the GUI player
+	// is player 0. This is mapped because the GUI depends on it.
 	PlayerDataList mappedList;
 
 	PlayerDataList::const_iterator i = m_playerDataList.begin();
 	PlayerDataList::const_iterator end = m_playerDataList.end();
+	int numPlayers = GetStartData().numberOfPlayers;
 
-	// Create a copy of the player list so that the GUI player
-	// is player 0. This is mapped because the GUI depends on it.
 	while (i != end)
 	{
 		boost::shared_ptr<PlayerData> tmpData(new PlayerData(*(*i)));
-		int numberDiff = tmpData->GetNumber() - GetGuiPlayerNum();
+		int numberDiff = tmpData->GetNumber() - guiPlayerNum;
 		if (numberDiff >= 0)
 			tmpData->SetNumber(numberDiff);
 		else
-			tmpData->SetNumber(GetStartData().numberOfPlayers + numberDiff);
+			tmpData->SetNumber(numPlayers + numberDiff);
 		mappedList.push_back(tmpData);
 		++i;
 	}
@@ -326,7 +332,6 @@ ClientThread::MapPlayerDataList()
 	mappedList.sort(*boost::lambda::_1 < *boost::lambda::_2);
 
 	m_playerDataList = mappedList;
-	SetGuiPlayerNum(0);
 }
 
 const PlayerDataList &

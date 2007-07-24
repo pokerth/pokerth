@@ -290,7 +290,7 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 
 	// Create player data object.
 	boost::shared_ptr<PlayerData> tmpPlayerData(
-		new PlayerData(m_curUniquePlayerId++, server.GetNextPlayerNumber(), joinGameData.ptype));
+		new PlayerData(m_curUniquePlayerId++, 0, joinGameData.ptype));
 	tmpPlayerData->SetName(joinGameData.playerName);
 	tmpPlayerData->SetNetSessionData(session.sessionData);
 
@@ -299,7 +299,6 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 	NetPacketJoinGameAck::Data joinGameAckData;
 	joinGameAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
 	joinGameAckData.yourPlayerUniqueId = tmpPlayerData->GetUniqueId();
-	joinGameAckData.yourPlayerNum = tmpPlayerData->GetNumber();
 	joinGameAckData.gameData = server.GetGameData();
 	static_cast<NetPacketJoinGameAck *>(answer.get())->SetData(joinGameAckData);
 	server.GetSender().Send(session.sessionData->GetSocket(), answer);
@@ -314,7 +313,6 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 		NetPacketPlayerJoined::Data otherPlayerJoinedData;
 		otherPlayerJoinedData.playerId = (*player_i)->GetUniqueId();
 		otherPlayerJoinedData.playerName = (*player_i)->GetName();
-		otherPlayerJoinedData.playerNumber = (*player_i)->GetNumber();
 		otherPlayerJoinedData.ptype = (*player_i)->GetType();
 		static_cast<NetPacketPlayerJoined *>(otherPlayerJoined.get())->SetData(otherPlayerJoinedData);
 		server.GetSender().Send(session.sessionData->GetSocket(), otherPlayerJoined);
@@ -327,7 +325,6 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 	NetPacketPlayerJoined::Data thisPlayerJoinedData;
 	thisPlayerJoinedData.playerId = tmpPlayerData->GetUniqueId();
 	thisPlayerJoinedData.playerName = tmpPlayerData->GetName();
-	thisPlayerJoinedData.playerNumber = tmpPlayerData->GetNumber();
 	thisPlayerJoinedData.ptype = tmpPlayerData->GetType();
 	static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
 	server.SendToAllPlayers(thisPlayerJoined);
@@ -382,6 +379,20 @@ ServerRecvStateStartGame::Process(ServerRecvThread &server)
 
 	NetPacketGameStart::Data gameStartData;
 	gameStartData.startData = server.GetStartData();
+
+	// Assign player numbers. Assume Player List is sorted by number.
+	PlayerDataList tmpPlayerList = server.GetPlayerDataList();
+	PlayerDataList::iterator player_i = tmpPlayerList.begin();
+	PlayerDataList::iterator player_end = tmpPlayerList.end();
+	while (player_i != player_end)
+	{
+		NetPacketGameStart::PlayerSlot tmpPlayerSlot;
+		tmpPlayerSlot.playerId = (*player_i)->GetUniqueId();
+		gameStartData.playerSlots.push_back(tmpPlayerSlot);
+
+		++player_i;
+	}
+
 	static_cast<NetPacketGameStart *>(answer.get())->SetData(gameStartData);
 
 	server.SendToAllPlayers(answer);
