@@ -133,7 +133,7 @@ The player slots are the positions of the players on the table. Each slot
 contains the ID for the corresponding player. The slots are ordered.
 The number of player slots is the number of players.
 
-[ Dealer Pos can be different for each game, therefore it is not
+[ Dealer Id can be different for each game, therefore it is not
   transmitted in Join Game ACK. ]
 [ It is not necessary to transmit the Dealer Id, because the server
   decides which player's turn it is. This is only for fast and simple
