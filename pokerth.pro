@@ -246,6 +246,7 @@ TRANSLATIONS = ts/pokerth_de.ts \
                ts/pokerth_sk.ts \
       	       ts/pokerth_eo.ts \
 	       ts/pokerth_hu.ts \
+	       ts/pokerth_ptbr.ts \
                ts/pokerth_nl.ts
 CODECFORSRC = UTF-8
 
