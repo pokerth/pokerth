@@ -287,6 +287,12 @@ NetPacket::Create(char *data, unsigned &dataSize)
 {
 	boost::shared_ptr<NetPacket> tmpPacket;
 
+	// Check minimum requirements.
+	if (!data || dataSize < sizeof(NetPacketHeader))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
 	NetPacketHeader *tmpHeader = (NetPacketHeader *)data;
 	u_int16_t tmpLen = ntohs(tmpHeader->length);
 
@@ -298,7 +304,8 @@ NetPacket::Create(char *data, unsigned &dataSize)
 	}
 	else if (dataSize >= tmpLen)
 	{
-		// OK - we have a complete packet. Construct a corresponding object.
+		// OK - we have a complete packet.
+		// Construct a corresponding object.
 		try
 		{
 			switch(ntohs(tmpHeader->type))
@@ -363,6 +370,8 @@ NetPacket::Create(char *data, unsigned &dataSize)
 				case NET_TYPE_ERROR:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketError);
 					break;
+				default:
+					throw NetException(ERR_SOCK_INVALID_TYPE, 0);
 			}
 			if (tmpPacket.get())
 				tmpPacket->SetRawData(tmpHeader);
@@ -371,6 +380,7 @@ NetPacket::Create(char *data, unsigned &dataSize)
 			tmpPacket.reset();
 		}
 
+		// Consume the bytes.
 		if (tmpLen < dataSize)
 		{
 			dataSize -= tmpLen;
@@ -382,15 +392,15 @@ NetPacket::Create(char *data, unsigned &dataSize)
 	return tmpPacket;
 }
 
-NetPacket::NetPacket(u_int16_t type, u_int16_t initialLen)
-: m_data(NULL)
+NetPacket::NetPacket(u_int16_t type, u_int16_t initialSize, u_int16_t maxSize)
+: m_data(NULL), m_initialSize(initialSize), m_maxSize(maxSize)
 {
-	assert(initialLen >= sizeof(NetPacketHeader));
-	m_data = (NetPacketHeader *)malloc(initialLen);
+	assert(initialSize >= sizeof(NetPacketHeader));
+	m_data = static_cast<NetPacketHeader *>(malloc(initialSize));
 	assert(m_data);
-	memset(m_data, 0, initialLen);
+	memset(m_data, 0, initialSize);
 	m_data->type = htons(type);
-	m_data->length = htons(initialLen);
+	m_data->length = htons(initialSize);
 }
 
 NetPacket::~NetPacket()
@@ -595,13 +605,28 @@ NetPacket::Resize(u_int16_t newLen)
 	}
 }
 
+void
+NetPacket::Check(const NetPacketHeader *data) const
+{
+	// Check the input data.
+	assert(data);
+
+	// Check minimum and maximum size.
+	u_int16_t dataLen = ntohs(data->length);
+	if (dataLen < m_initialSize || dataLen > m_maxSize)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+
+	InternalCheck(data);
+}
+
 //-----------------------------------------------------------------------------
 
 NetPacketJoinGame::NetPacketJoinGame()
-: NetPacket(NET_TYPE_JOIN_GAME, sizeof(NetPacketJoinGameData))
+: NetPacket(NET_TYPE_JOIN_GAME, sizeof(NetPacketJoinGameData), MAX_PACKET_SIZE)
 {
 	NetPacketJoinGameData *tmpData = (NetPacketJoinGameData *)GetRawData();
-	assert(tmpData);
 	tmpData->requestedVersionMajor = htons(NET_VERSION_MAJOR);
 	tmpData->requestedVersionMinor = htons(NET_VERSION_MINOR);
 }
@@ -630,6 +655,8 @@ NetPacketJoinGame::SetData(const NetPacketJoinGame::Data &inData)
 	u_int16_t playerNameLen = (u_int16_t)inData.playerName.length();
 	u_int16_t passwordLen = (u_int16_t)inData.password.length();
 
+	// Some basic checks, so we don't use up too much memory.
+	// The constructed packet will also be checked.
 	if (!playerNameLen || playerNameLen > MAX_NAME_SIZE)
 		throw NetException(ERR_NET_INVALID_PLAYER_NAME, 0);
 	if (passwordLen > MAX_PASSWORD_SIZE)
@@ -640,7 +667,6 @@ NetPacketJoinGame::SetData(const NetPacketJoinGame::Data &inData)
 		(sizeof(NetPacketJoinGameData) + ADD_PADDING(playerNameLen) + ADD_PADDING(passwordLen)));
 
 	NetPacketJoinGameData *tmpData = (NetPacketJoinGameData *)GetRawData();
-	assert(tmpData);
 
 	// Set the data.
 	tmpData->passwordLength = htons(passwordLen);
@@ -649,6 +675,9 @@ NetPacketJoinGame::SetData(const NetPacketJoinGame::Data &inData)
 	char *passwordPtr = (char *)tmpData + sizeof(NetPacketJoinGameData);
 	memcpy(passwordPtr, inData.password.c_str(), passwordLen);
 	memcpy(passwordPtr + ADD_PADDING(passwordLen), inData.playerName.c_str(), playerNameLen);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
@@ -656,7 +685,6 @@ NetPacketJoinGame::GetData(NetPacketJoinGame::Data &outData) const
 {
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketJoinGameData *tmpData = (NetPacketJoinGameData *)GetRawData();
-	assert(tmpData);
 
 	outData.versionMajor = ntohs(tmpData->requestedVersionMajor);
 	outData.versionMinor = ntohs(tmpData->requestedVersionMinor);
@@ -676,20 +704,16 @@ NetPacketJoinGame::ToNetPacketJoinGame() const
 }
 
 void
-NetPacketJoinGame::Check(const NetPacketHeader* data) const
+NetPacketJoinGame::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketJoinGameData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
 	NetPacketJoinGameData *tmpData = (NetPacketJoinGameData *)data;
 	int passwordLength = ntohs(tmpData->passwordLength);
 	int playerNameLength = ntohs(tmpData->playerNameLength);
-	// Generous checking - larger packets are allowed.
+	// Generous checking of dynamic packet size -
+	// larger packets are allowed.
+	// This is because the version number is in this packet,
+	// and later versions might provide larger packets.
 	if (dataLen <
 		sizeof(NetPacketJoinGameData)
 		+ ADD_PADDING(passwordLength)
@@ -704,12 +728,18 @@ NetPacketJoinGame::Check(const NetPacketHeader* data) const
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
+	// Check name string.
+	char *namePtr = (char *)tmpData + sizeof(NetPacketJoinGameData) + ADD_PADDING(passwordLength);
+	if (namePtr[0] == 0)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
 }
 
 //-----------------------------------------------------------------------------
 
 NetPacketJoinGameAck::NetPacketJoinGameAck()
-: NetPacket(NET_TYPE_JOIN_GAME_ACK, sizeof(NetPacketJoinGameAckData))
+: NetPacket(NET_TYPE_JOIN_GAME_ACK, sizeof(NetPacketJoinGameAckData), sizeof(NetPacketJoinGameAckData))
 {
 }
 
@@ -735,7 +765,6 @@ void
 NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 {
 	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)GetRawData();
-	assert(tmpData);
 
 	tmpData->sessionId				= htonl(inData.sessionId);
 	tmpData->playerId				= htons(inData.yourPlayerUniqueId);
@@ -745,13 +774,15 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 	tmpData->proposedGuiSpeed		= htons(inData.gameData.guiSpeed);
 	tmpData->playerActionTimeout	= htons(inData.gameData.playerActionTimeoutSec);
 	tmpData->startMoney				= htonl(inData.gameData.startMoney);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketJoinGameAck::GetData(NetPacketJoinGameAck::Data &outData) const
 {
 	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)GetRawData();
-	assert(tmpData);
 
 	outData.sessionId						= ntohl(tmpData->sessionId);
 	outData.yourPlayerUniqueId				= ntohs(tmpData->playerId);
@@ -770,22 +801,28 @@ NetPacketJoinGameAck::ToNetPacketJoinGameAck() const
 }
 
 void
-NetPacketJoinGameAck::Check(const NetPacketHeader* data) const
+NetPacketJoinGameAck::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen != sizeof(NetPacketJoinGameAckData))
+	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)data;
+	// Semantic checks
+	int maxNumPlayers = ntohs(tmpData->maxNumberOfPlayers);
+	int proposedGuiSpeed = ntohs(tmpData->proposedGuiSpeed);
+	if (maxNumPlayers < MIN_NUMBER_OF_PLAYERS
+		|| maxNumPlayers > MAX_NUMBER_OF_PLAYERS
+		|| !ntohs(tmpData->smallBlind)
+		|| !ntohs(tmpData->handsBeforeRaise)
+		|| proposedGuiSpeed < MIN_GUI_SPEED
+		|| proposedGuiSpeed > MAX_GUI_SPEED
+		|| !ntohl(tmpData->startMoney))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
-	// TODO: maybe some semantic checks
 }
 
 //-----------------------------------------------------------------------------
 
 NetPacketPlayerJoined::NetPacketPlayerJoined()
-: NetPacket(NET_TYPE_PLAYER_JOINED, sizeof(NetPacketPlayerJoinedData))
+: NetPacket(NET_TYPE_PLAYER_JOINED, sizeof(NetPacketPlayerJoinedData), MAX_PACKET_SIZE)
 {
 }
 
@@ -820,7 +857,6 @@ NetPacketPlayerJoined::SetData(const NetPacketPlayerJoined::Data &inData)
 		(sizeof(NetPacketPlayerJoinedData) + ADD_PADDING(playerNameLen)));
 
 	NetPacketPlayerJoinedData *tmpData = (NetPacketPlayerJoinedData *)GetRawData();
-	assert(tmpData);
 
 	// Set the data.
 	tmpData->playerFlags = htons((inData.ptype == PLAYER_TYPE_HUMAN) ? NET_PLAYER_FLAG_HUMAN : 0);
@@ -828,6 +864,9 @@ NetPacketPlayerJoined::SetData(const NetPacketPlayerJoined::Data &inData)
 	tmpData->playerNameLength = htons(playerNameLen);
 	char *namePtr = (char *)tmpData + sizeof(NetPacketPlayerJoinedData);
 	memcpy(namePtr, inData.playerName.c_str(), playerNameLen);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
@@ -835,7 +874,6 @@ NetPacketPlayerJoined::GetData(NetPacketPlayerJoined::Data &outData) const
 {
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketPlayerJoinedData *tmpData = (NetPacketPlayerJoinedData *)GetRawData();
-	assert(tmpData);
 
 	outData.ptype = (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_HUMAN) ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
 	outData.playerId = ntohs(tmpData->playerId);
@@ -850,20 +888,13 @@ NetPacketPlayerJoined::ToNetPacketPlayerJoined() const
 }
 
 void
-NetPacketPlayerJoined::Check(const NetPacketHeader* data) const
+NetPacketPlayerJoined::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketPlayerJoinedData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
 	NetPacketPlayerJoinedData *tmpData = (NetPacketPlayerJoinedData *)data;
 	int playerNameLength = ntohs(tmpData->playerNameLength);
-	// Generous checking - larger packets are allowed.
-	if (dataLen <
+	// Exact checking this time.
+	if (dataLen !=
 		sizeof(NetPacketPlayerJoinedData)
 		+ ADD_PADDING(playerNameLength))
 	{
@@ -880,7 +911,7 @@ NetPacketPlayerJoined::Check(const NetPacketHeader* data) const
 //-----------------------------------------------------------------------------
 
 NetPacketPlayerLeft::NetPacketPlayerLeft()
-: NetPacket(NET_TYPE_PLAYER_LEFT, sizeof(NetPacketPlayerLeftData))
+: NetPacket(NET_TYPE_PLAYER_LEFT, sizeof(NetPacketPlayerLeftData), sizeof(NetPacketPlayerLeftData))
 {
 }
 
@@ -906,10 +937,12 @@ void
 NetPacketPlayerLeft::SetData(const NetPacketPlayerLeft::Data &inData)
 {
 	NetPacketPlayerLeftData *tmpData = (NetPacketPlayerLeftData *)GetRawData();
-	assert(tmpData);
 
 	// Set the data.
 	tmpData->playerId = htons(inData.playerId);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
@@ -917,7 +950,6 @@ NetPacketPlayerLeft::GetData(NetPacketPlayerLeft::Data &outData) const
 {
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketPlayerLeftData *tmpData = (NetPacketPlayerLeftData *)GetRawData();
-	assert(tmpData);
 
 	outData.playerId = ntohs(tmpData->playerId);
 }
@@ -929,21 +961,15 @@ NetPacketPlayerLeft::ToNetPacketPlayerLeft() const
 }
 
 void
-NetPacketPlayerLeft::Check(const NetPacketHeader* data) const
+NetPacketPlayerLeft::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen != sizeof(NetPacketPlayerLeftData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
+	// Nothing to do.
 }
 
 //-----------------------------------------------------------------------------
 
 NetPacketGameStart::NetPacketGameStart()
-: NetPacket(NET_TYPE_GAME_START, sizeof(NetPacketGameStartData))
+: NetPacket(NET_TYPE_GAME_START, sizeof(NetPacketGameStartData), MAX_PACKET_SIZE)
 {
 }
 
@@ -970,7 +996,8 @@ NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
 {
 	u_int16_t numPlayers = (u_int16_t)inData.playerSlots.size();
 
-	if (!numPlayers || numPlayers > MAX_NUMBER_OF_PLAYERS || numPlayers != inData.startData.numberOfPlayers)
+	// Basic checking.
+	if (numPlayers < MIN_NUMBER_OF_PLAYERS || numPlayers > MAX_NUMBER_OF_PLAYERS || numPlayers != inData.startData.numberOfPlayers)
 		throw NetException(ERR_NET_INVALID_PLAYER_COUNT, 0);
 
 	// Resize the packet so that the data fits in.
@@ -978,7 +1005,6 @@ NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
 		(sizeof(NetPacketGameStartData) + ADD_PADDING(numPlayers * sizeof(PlayerSlotData))));
 
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
-	assert(tmpData);
 
 	tmpData->startDealerPlayerId	= htons(inData.startData.startDealerPlayerId);
 	tmpData->numberOfPlayers		= htons(numPlayers);
@@ -995,13 +1021,15 @@ NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
 		++curPlayerSlotData;
 		++i;
 	}
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketGameStart::GetData(NetPacketGameStart::Data &outData) const
 {
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
-	assert(tmpData);
 
 	outData.startData.startDealerPlayerId	= ntohs(tmpData->startDealerPlayerId);
 	u_int16_t numPlayers = ntohs(tmpData->numberOfPlayers);
@@ -1028,22 +1056,25 @@ NetPacketGameStart::ToNetPacketGameStart() const
 }
 
 void
-NetPacketGameStart::Check(const NetPacketHeader* data) const
+NetPacketGameStart::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketGameStartData))
+	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)data;
+	int numPlayers = ntohs(tmpData->numberOfPlayers);
+	// Check exact packet size.
+	if (dataLen !=
+		sizeof(NetPacketGameStartData)
+		+ ADD_PADDING(numPlayers * sizeof(PlayerSlotData)))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
-	// TODO additional checking
+	// Semantic checks not needed.
 }
 
 //-----------------------------------------------------------------------------
 
 NetPacketHandStart::NetPacketHandStart()
-: NetPacket(NET_TYPE_HAND_START, sizeof(NetPacketHandStartData))
+: NetPacket(NET_TYPE_HAND_START, sizeof(NetPacketHandStartData), sizeof(NetPacketHandStartData))
 {
 }
 
@@ -1069,17 +1100,18 @@ void
 NetPacketHandStart::SetData(const NetPacketHandStart::Data &inData)
 {
 	NetPacketHandStartData *tmpData = (NetPacketHandStartData *)GetRawData();
-	assert(tmpData);
 
 	tmpData->yourCard1		= htons(inData.yourCards[0]);
 	tmpData->yourCard2		= htons(inData.yourCards[1]);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketHandStart::GetData(NetPacketHandStart::Data &outData) const
 {
 	NetPacketHandStartData *tmpData = (NetPacketHandStartData *)GetRawData();
-	assert(tmpData);
 
 	outData.yourCards[0]		= ntohs(tmpData->yourCard1);
 	outData.yourCards[1]		= ntohs(tmpData->yourCard2);
@@ -1092,16 +1124,8 @@ NetPacketHandStart::ToNetPacketHandStart() const
 }
 
 void
-NetPacketHandStart::Check(const NetPacketHeader* data) const
+NetPacketHandStart::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen != sizeof(NetPacketHandStartData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
 	NetPacketHandStartData *tmpData = (NetPacketHandStartData *)data;
 	if (ntohs(tmpData->yourCard1) > 51 || ntohs(tmpData->yourCard2) > 51)
 	{
@@ -1112,7 +1136,7 @@ NetPacketHandStart::Check(const NetPacketHeader* data) const
 //-----------------------------------------------------------------------------
 
 NetPacketPlayersTurn::NetPacketPlayersTurn()
-: NetPacket(NET_TYPE_PLAYERS_TURN, sizeof(NetPacketPlayersTurnData))
+: NetPacket(NET_TYPE_PLAYERS_TURN, sizeof(NetPacketPlayersTurnData), sizeof(NetPacketPlayersTurnData))
 {
 }
 
@@ -1138,17 +1162,18 @@ void
 NetPacketPlayersTurn::SetData(const NetPacketPlayersTurn::Data &inData)
 {
 	NetPacketPlayersTurnData *tmpData = (NetPacketPlayersTurnData *)GetRawData();
-	assert(tmpData);
 
 	tmpData->gameState	= htons(inData.gameState);
 	tmpData->playerId	= htons(inData.playerId);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketPlayersTurn::GetData(NetPacketPlayersTurn::Data &outData) const
 {
 	NetPacketPlayersTurnData *tmpData = (NetPacketPlayersTurnData *)GetRawData();
-	assert(tmpData);
 
 	outData.gameState	= static_cast<GameState>(ntohs(tmpData->gameState));
 	outData.playerId	= ntohs(tmpData->playerId);
@@ -1161,16 +1186,8 @@ NetPacketPlayersTurn::ToNetPacketPlayersTurn() const
 }
 
 void
-NetPacketPlayersTurn::Check(const NetPacketHeader* data) const
+NetPacketPlayersTurn::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen != sizeof(NetPacketPlayersTurnData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
 	// Check whether the state is valid.
 	NetPacketPlayersTurnData *tmpData = (NetPacketPlayersTurnData *)data;
 	if (ntohs(tmpData->gameState) > GAME_STATE_RIVER)
@@ -1182,7 +1199,7 @@ NetPacketPlayersTurn::Check(const NetPacketHeader* data) const
 //-----------------------------------------------------------------------------
 
 NetPacketPlayersAction::NetPacketPlayersAction()
-: NetPacket(NET_TYPE_PLAYERS_ACTION, sizeof(NetPacketPlayersActionData))
+: NetPacket(NET_TYPE_PLAYERS_ACTION, sizeof(NetPacketPlayersActionData), sizeof(NetPacketPlayersActionData))
 {
 }
 
@@ -1208,18 +1225,19 @@ void
 NetPacketPlayersAction::SetData(const NetPacketPlayersAction::Data &inData)
 {
 	NetPacketPlayersActionData *tmpData = (NetPacketPlayersActionData *)GetRawData();
-	assert(tmpData);
 
 	tmpData->gameState		= htons(inData.gameState);
 	tmpData->playerAction	= htons(inData.playerAction);
 	tmpData->playerBet		= htonl(inData.playerBet);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketPlayersAction::GetData(NetPacketPlayersAction::Data &outData) const
 {
 	NetPacketPlayersActionData *tmpData = (NetPacketPlayersActionData *)GetRawData();
-	assert(tmpData);
 
 	outData.gameState		= static_cast<GameState>(ntohs(tmpData->gameState));
 	outData.playerAction	= static_cast<PlayerAction>(ntohs(tmpData->playerAction));
@@ -1233,18 +1251,10 @@ NetPacketPlayersAction::ToNetPacketPlayersAction() const
 }
 
 void
-NetPacketPlayersAction::Check(const NetPacketHeader* data) const
+NetPacketPlayersAction::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen != sizeof(NetPacketPlayersActionData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
-	// Check whether the state is valid.
 	NetPacketPlayersActionData *tmpData = (NetPacketPlayersActionData *)data;
+	// Check whether the state is valid.
 	if (ntohs(tmpData->gameState) > GAME_STATE_RIVER)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
@@ -1254,12 +1264,13 @@ NetPacketPlayersAction::Check(const NetPacketHeader* data) const
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
+	// Semantic checks are done by the server process.
 }
 
 //-----------------------------------------------------------------------------
 
 NetPacketPlayersActionDone::NetPacketPlayersActionDone()
-: NetPacket(NET_TYPE_PLAYERS_ACTION_DONE, sizeof(NetPacketPlayersActionDoneData))
+: NetPacket(NET_TYPE_PLAYERS_ACTION_DONE, sizeof(NetPacketPlayersActionDoneData), sizeof(NetPacketPlayersActionDoneData))
 {
 }
 
@@ -1285,20 +1296,21 @@ void
 NetPacketPlayersActionDone::SetData(const NetPacketPlayersActionDone::Data &inData)
 {
 	NetPacketPlayersActionDoneData *tmpData = (NetPacketPlayersActionDoneData *)GetRawData();
-	assert(tmpData);
 
 	tmpData->gameState		= htons(inData.gameState);
 	tmpData->playerId		= htons(inData.playerId);
 	tmpData->playerAction	= htons(inData.playerAction);
 	tmpData->totalPlayerBet	= htonl(inData.totalPlayerBet);
 	tmpData->playerMoney	= htonl(inData.playerMoney);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketPlayersActionDone::GetData(NetPacketPlayersActionDone::Data &outData) const
 {
 	NetPacketPlayersActionDoneData *tmpData = (NetPacketPlayersActionDoneData *)GetRawData();
-	assert(tmpData);
 
 	outData.gameState		= static_cast<GameState>(ntohs(tmpData->gameState));
 	outData.playerId		= ntohs(tmpData->playerId);
@@ -1314,18 +1326,17 @@ NetPacketPlayersActionDone::ToNetPacketPlayersActionDone() const
 }
 
 void
-NetPacketPlayersActionDone::Check(const NetPacketHeader* data) const
+NetPacketPlayersActionDone::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen != sizeof(NetPacketPlayersActionDoneData))
+	NetPacketPlayersActionDoneData *tmpData = (NetPacketPlayersActionDoneData *)data;
+	// Check whether the state is valid.
+	int gameState = ntohs(tmpData->gameState);
+	if (gameState > GAME_STATE_RIVER
+		&& gameState != GAME_STATE_PREFLOP_SMALL_BLIND
+		&& gameState != GAME_STATE_PREFLOP_BIG_BLIND)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
-
-	NetPacketPlayersActionDoneData *tmpData = (NetPacketPlayersActionDoneData *)data;
-	// TODO: Check whether the state is valid.
 	// Check whether the player action is valid.
 	if (ntohs(tmpData->playerAction) > PLAYER_ACTION_ALLIN)
 	{
@@ -1336,7 +1347,7 @@ NetPacketPlayersActionDone::Check(const NetPacketHeader* data) const
 //-----------------------------------------------------------------------------
 
 NetPacketPlayersActionRejected::NetPacketPlayersActionRejected()
-: NetPacket(NET_TYPE_PLAYERS_ACTION_REJECTED, sizeof(NetPacketPlayersActionRejectedData))
+: NetPacket(NET_TYPE_PLAYERS_ACTION_REJECTED, sizeof(NetPacketPlayersActionRejectedData), sizeof(NetPacketPlayersActionRejectedData))
 {
 }
 
@@ -1362,7 +1373,6 @@ void
 NetPacketPlayersActionRejected::SetData(const NetPacketPlayersActionRejected::Data &inData)
 {
 	NetPacketPlayersActionRejectedData *tmpData = (NetPacketPlayersActionRejectedData *)GetRawData();
-	assert(tmpData);
 
 	tmpData->gameState			= htons(inData.gameState);
 	tmpData->playerAction		= htons(inData.playerAction);
@@ -1370,13 +1380,15 @@ NetPacketPlayersActionRejected::SetData(const NetPacketPlayersActionRejected::Da
 
 	// TODO: set rejection reason
 	tmpData->rejectionReason	= htons(0);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketPlayersActionRejected::GetData(NetPacketPlayersActionRejected::Data &outData) const
 {
 	NetPacketPlayersActionRejectedData *tmpData = (NetPacketPlayersActionRejectedData *)GetRawData();
-	assert(tmpData);
 
 	outData.gameState		= static_cast<GameState>(ntohs(tmpData->gameState));
 	outData.playerAction	= static_cast<PlayerAction>(ntohs(tmpData->playerAction));
@@ -1392,16 +1404,8 @@ NetPacketPlayersActionRejected::ToNetPacketPlayersActionRejected() const
 }
 
 void
-NetPacketPlayersActionRejected::Check(const NetPacketHeader* data) const
+NetPacketPlayersActionRejected::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen != sizeof(NetPacketPlayersActionRejectedData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
 	// Check whether the state is valid.
 	NetPacketPlayersActionRejectedData *tmpData = (NetPacketPlayersActionRejectedData *)data;
 	if (ntohs(tmpData->gameState) > GAME_STATE_RIVER)
@@ -1419,7 +1423,7 @@ NetPacketPlayersActionRejected::Check(const NetPacketHeader* data) const
 //-----------------------------------------------------------------------------
 
 NetPacketDealFlopCards::NetPacketDealFlopCards()
-: NetPacket(NET_TYPE_DEAL_FLOP_CARDS, sizeof(NetPacketDealFlopCardsData))
+: NetPacket(NET_TYPE_DEAL_FLOP_CARDS, sizeof(NetPacketDealFlopCardsData), sizeof(NetPacketDealFlopCardsData))
 {
 }
 
@@ -1445,18 +1449,19 @@ void
 NetPacketDealFlopCards::SetData(const NetPacketDealFlopCards::Data &inData)
 {
 	NetPacketDealFlopCardsData *tmpData = (NetPacketDealFlopCardsData *)GetRawData();
-	assert(tmpData);
 
 	tmpData->flopCard1		= htons(inData.flopCards[0]);
 	tmpData->flopCard2		= htons(inData.flopCards[1]);
 	tmpData->flopCard3		= htons(inData.flopCards[2]);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketDealFlopCards::GetData(NetPacketDealFlopCards::Data &outData) const
 {
 	NetPacketDealFlopCardsData *tmpData = (NetPacketDealFlopCardsData *)GetRawData();
-	assert(tmpData);
 
 	outData.flopCards[0]		= ntohs(tmpData->flopCard1);
 	outData.flopCards[1]		= ntohs(tmpData->flopCard2);
@@ -1470,16 +1475,8 @@ NetPacketDealFlopCards::ToNetPacketDealFlopCards() const
 }
 
 void
-NetPacketDealFlopCards::Check(const NetPacketHeader* data) const
+NetPacketDealFlopCards::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen != sizeof(NetPacketDealFlopCardsData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
 	NetPacketDealFlopCardsData *tmpData = (NetPacketDealFlopCardsData *)data;
 	if (ntohs(tmpData->flopCard1) > 51 || ntohs(tmpData->flopCard2) > 51 || ntohs(tmpData->flopCard3) > 51)
 	{
@@ -1490,7 +1487,7 @@ NetPacketDealFlopCards::Check(const NetPacketHeader* data) const
 //-----------------------------------------------------------------------------
 
 NetPacketDealTurnCard::NetPacketDealTurnCard()
-: NetPacket(NET_TYPE_DEAL_TURN_CARD, sizeof(NetPacketDealTurnCardData))
+: NetPacket(NET_TYPE_DEAL_TURN_CARD, sizeof(NetPacketDealTurnCardData), sizeof(NetPacketDealTurnCardData))
 {
 }
 
@@ -1516,16 +1513,17 @@ void
 NetPacketDealTurnCard::SetData(const NetPacketDealTurnCard::Data &inData)
 {
 	NetPacketDealTurnCardData *tmpData = (NetPacketDealTurnCardData *)GetRawData();
-	assert(tmpData);
 
 	tmpData->turnCard			= htons(inData.turnCard);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketDealTurnCard::GetData(NetPacketDealTurnCard::Data &outData) const
 {
 	NetPacketDealTurnCardData *tmpData = (NetPacketDealTurnCardData *)GetRawData();
-	assert(tmpData);
 
 	outData.turnCard			= ntohs(tmpData->turnCard);
 }
@@ -1537,16 +1535,8 @@ NetPacketDealTurnCard::ToNetPacketDealTurnCard() const
 }
 
 void
-NetPacketDealTurnCard::Check(const NetPacketHeader* data) const
+NetPacketDealTurnCard::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen != sizeof(NetPacketDealTurnCardData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
 	NetPacketDealTurnCardData *tmpData = (NetPacketDealTurnCardData *)data;
 	if (ntohs(tmpData->turnCard) > 51)
 	{
@@ -1557,7 +1547,7 @@ NetPacketDealTurnCard::Check(const NetPacketHeader* data) const
 //-----------------------------------------------------------------------------
 
 NetPacketDealRiverCard::NetPacketDealRiverCard()
-: NetPacket(NET_TYPE_DEAL_RIVER_CARD, sizeof(NetPacketDealRiverCardData))
+: NetPacket(NET_TYPE_DEAL_RIVER_CARD, sizeof(NetPacketDealRiverCardData), sizeof(NetPacketDealRiverCardData))
 {
 }
 
@@ -1583,16 +1573,17 @@ void
 NetPacketDealRiverCard::SetData(const NetPacketDealRiverCard::Data &inData)
 {
 	NetPacketDealRiverCardData *tmpData = (NetPacketDealRiverCardData *)GetRawData();
-	assert(tmpData);
 
 	tmpData->riverCard			= htons(inData.riverCard);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketDealRiverCard::GetData(NetPacketDealRiverCard::Data &outData) const
 {
 	NetPacketDealRiverCardData *tmpData = (NetPacketDealRiverCardData *)GetRawData();
-	assert(tmpData);
 
 	outData.riverCard			= ntohs(tmpData->riverCard);
 }
@@ -1604,16 +1595,8 @@ NetPacketDealRiverCard::ToNetPacketDealRiverCard() const
 }
 
 void
-NetPacketDealRiverCard::Check(const NetPacketHeader* data) const
+NetPacketDealRiverCard::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen != sizeof(NetPacketDealRiverCardData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
 	NetPacketDealRiverCardData *tmpData = (NetPacketDealRiverCardData *)data;
 	if (ntohs(tmpData->riverCard) > 51)
 	{
@@ -1624,7 +1607,7 @@ NetPacketDealRiverCard::Check(const NetPacketHeader* data) const
 //-----------------------------------------------------------------------------
 
 NetPacketAllInShowCards::NetPacketAllInShowCards()
-: NetPacket(NET_TYPE_ALL_IN_SHOW_CARDS, sizeof(NetPacketAllInShowCardsData))
+: NetPacket(NET_TYPE_ALL_IN_SHOW_CARDS, sizeof(NetPacketAllInShowCardsData), MAX_PACKET_SIZE)
 {
 }
 
@@ -1659,7 +1642,6 @@ NetPacketAllInShowCards::SetData(const NetPacketAllInShowCards::Data &inData)
 		(sizeof(NetPacketAllInShowCardsData) + numPlayerCards * sizeof(PlayerCardsData)));
 
 	NetPacketAllInShowCardsData *tmpData = (NetPacketAllInShowCardsData *)GetRawData();
-	assert(tmpData);
 
 	tmpData->numberOfPlayerCards		= htons(numPlayerCards);
 
@@ -1677,13 +1659,15 @@ NetPacketAllInShowCards::SetData(const NetPacketAllInShowCards::Data &inData)
 		++curPlayerCardsData;
 		++i;
 	}
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketAllInShowCards::GetData(NetPacketAllInShowCards::Data &outData) const
 {
 	NetPacketAllInShowCardsData *tmpData = (NetPacketAllInShowCardsData *)GetRawData();
-	assert(tmpData);
 
 	outData.playerCards.clear();
 
@@ -1711,16 +1695,9 @@ NetPacketAllInShowCards::ToNetPacketAllInShowCards() const
 }
 
 void
-NetPacketAllInShowCards::Check(const NetPacketHeader* data) const
+NetPacketAllInShowCards::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketAllInShowCardsData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
 	NetPacketAllInShowCardsData *tmpData = (NetPacketAllInShowCardsData *)data;
 	int numPlayerCards = ntohs(tmpData->numberOfPlayerCards);
 
@@ -1730,13 +1707,17 @@ NetPacketAllInShowCards::Check(const NetPacketHeader* data) const
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
-	// TODO: semantic checks within PlayerCardsData
+	if (ntohs(tmpData->numberOfPlayerCards) > MAX_NUMBER_OF_PLAYERS)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Semantic checks not needed, this packet is sent by the server.
 }
 
 //-----------------------------------------------------------------------------
 
 NetPacketEndOfHandShowCards::NetPacketEndOfHandShowCards()
-: NetPacket(NET_TYPE_END_OF_HAND_SHOW_CARDS, sizeof(NetPacketEndOfHandShowCardsData))
+: NetPacket(NET_TYPE_END_OF_HAND_SHOW_CARDS, sizeof(NetPacketEndOfHandShowCardsData), MAX_PACKET_SIZE)
 {
 }
 
@@ -1771,7 +1752,6 @@ NetPacketEndOfHandShowCards::SetData(const NetPacketEndOfHandShowCards::Data &in
 		(sizeof(NetPacketEndOfHandShowCardsData) + numPlayerResults * sizeof(PlayerResultData)));
 
 	NetPacketEndOfHandShowCardsData *tmpData = (NetPacketEndOfHandShowCardsData *)GetRawData();
-	assert(tmpData);
 
 	tmpData->numberOfPlayerResults		= htons(numPlayerResults);
 
@@ -1797,13 +1777,15 @@ NetPacketEndOfHandShowCards::SetData(const NetPacketEndOfHandShowCards::Data &in
 		++curPlayerResultData;
 		++i;
 	}
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketEndOfHandShowCards::GetData(NetPacketEndOfHandShowCards::Data &outData) const
 {
 	NetPacketEndOfHandShowCardsData *tmpData = (NetPacketEndOfHandShowCardsData *)GetRawData();
-	assert(tmpData);
 
 	outData.playerResults.clear();
 
@@ -1839,16 +1821,9 @@ NetPacketEndOfHandShowCards::ToNetPacketEndOfHandShowCards() const
 }
 
 void
-NetPacketEndOfHandShowCards::Check(const NetPacketHeader* data) const
+NetPacketEndOfHandShowCards::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketEndOfHandShowCardsData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
 	NetPacketEndOfHandShowCardsData *tmpData = (NetPacketEndOfHandShowCardsData *)data;
 	int numPlayerResults = ntohs(tmpData->numberOfPlayerResults);
 
@@ -1858,13 +1833,17 @@ NetPacketEndOfHandShowCards::Check(const NetPacketHeader* data) const
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
-	// TODO: semantic checks within PlayerResultData
+	if (ntohs(tmpData->numberOfPlayerResults) > MAX_NUMBER_OF_PLAYERS)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Semantic checks not needed, this packet is sent by the server.
 }
 
 //-----------------------------------------------------------------------------
 
 NetPacketEndOfHandHideCards::NetPacketEndOfHandHideCards()
-: NetPacket(NET_TYPE_END_OF_HAND_HIDE_CARDS, sizeof(NetPacketEndOfHandHideCardsData))
+: NetPacket(NET_TYPE_END_OF_HAND_HIDE_CARDS, sizeof(NetPacketEndOfHandHideCardsData), sizeof(NetPacketEndOfHandHideCardsData))
 {
 }
 
@@ -1890,18 +1869,19 @@ void
 NetPacketEndOfHandHideCards::SetData(const NetPacketEndOfHandHideCards::Data &inData)
 {
 	NetPacketEndOfHandHideCardsData *tmpData = (NetPacketEndOfHandHideCardsData *)GetRawData();
-	assert(tmpData);
 
 	tmpData->playerId			= htons(inData.playerId);
 	tmpData->moneyWon			= htonl(inData.moneyWon);
 	tmpData->playerMoney		= htonl(inData.playerMoney);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketEndOfHandHideCards::GetData(NetPacketEndOfHandHideCards::Data &outData) const
 {
 	NetPacketEndOfHandHideCardsData *tmpData = (NetPacketEndOfHandHideCardsData *)GetRawData();
-	assert(tmpData);
 
 	outData.playerId			= ntohs(tmpData->playerId);
 	outData.moneyWon			= ntohl(tmpData->moneyWon);
@@ -1915,21 +1895,15 @@ NetPacketEndOfHandHideCards::ToNetPacketEndOfHandHideCards() const
 }
 
 void
-NetPacketEndOfHandHideCards::Check(const NetPacketHeader* data) const
+NetPacketEndOfHandHideCards::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen != sizeof(NetPacketEndOfHandHideCardsData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
+	// Nothing to do.
 }
 
 //-----------------------------------------------------------------------------
 
 NetPacketEndOfGame::NetPacketEndOfGame()
-: NetPacket(NET_TYPE_END_OF_GAME, sizeof(NetPacketEndOfGameData))
+: NetPacket(NET_TYPE_END_OF_GAME, sizeof(NetPacketEndOfGameData), sizeof(NetPacketEndOfGameData))
 {
 }
 
@@ -1955,16 +1929,17 @@ void
 NetPacketEndOfGame::SetData(const NetPacketEndOfGame::Data &inData)
 {
 	NetPacketEndOfGameData *tmpData = (NetPacketEndOfGameData *)GetRawData();
-	assert(tmpData);
 
 	tmpData->winnerPlayerId	= htons(inData.winnerPlayerId);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketEndOfGame::GetData(NetPacketEndOfGame::Data &outData) const
 {
 	NetPacketEndOfGameData *tmpData = (NetPacketEndOfGameData *)GetRawData();
-	assert(tmpData);
 
 	outData.winnerPlayerId	= ntohs(tmpData->winnerPlayerId);
 }
@@ -1976,21 +1951,15 @@ NetPacketEndOfGame::ToNetPacketEndOfGame() const
 }
 
 void
-NetPacketEndOfGame::Check(const NetPacketHeader* data) const
+NetPacketEndOfGame::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen != sizeof(NetPacketEndOfGameData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
+	// Nothing to do.
 }
 
 //-----------------------------------------------------------------------------
 
 NetPacketSendChatText::NetPacketSendChatText()
-: NetPacket(NET_TYPE_SEND_CHAT_TEXT, sizeof(NetPacketSendChatTextData))
+: NetPacket(NET_TYPE_SEND_CHAT_TEXT, sizeof(NetPacketSendChatTextData), MAX_PACKET_SIZE)
 {
 }
 
@@ -2025,12 +1994,14 @@ NetPacketSendChatText::SetData(const NetPacketSendChatText::Data &inData)
 		(sizeof(NetPacketSendChatTextData) + ADD_PADDING(textLen)));
 
 	NetPacketSendChatTextData *tmpData = (NetPacketSendChatTextData *)GetRawData();
-	assert(tmpData);
 
 	// Set the data.
 	tmpData->textLength = htons(textLen);
 	char *textPtr = (char *)tmpData + sizeof(NetPacketSendChatTextData);
 	memcpy(textPtr, inData.text.c_str(), textLen);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
@@ -2038,7 +2009,6 @@ NetPacketSendChatText::GetData(NetPacketSendChatText::Data &outData) const
 {
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketSendChatTextData *tmpData = (NetPacketSendChatTextData *)GetRawData();
-	assert(tmpData);
 
 	char *textPtr = (char *)tmpData + sizeof(NetPacketSendChatTextData);
 	outData.text = string(textPtr, ntohs(tmpData->textLength));
@@ -2051,28 +2021,27 @@ NetPacketSendChatText::ToNetPacketSendChatText() const
 }
 
 void
-NetPacketSendChatText::Check(const NetPacketHeader* data) const
+NetPacketSendChatText::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketSendChatTextData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
 	NetPacketSendChatTextData *tmpData = (NetPacketSendChatTextData *)data;
 	int textLength = ntohs(tmpData->textLength);
-	// Generous checking - larger packets are allowed.
-	if (dataLen <
+	// Check exact packet length.
+	if (dataLen !=
 		sizeof(NetPacketSendChatTextData)
 		+ ADD_PADDING(textLength))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
-	// Check string sizes.
+	// Check string size.
 	if (!textLength
 		|| textLength > MAX_CHAT_TEXT_SIZE)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check text string.
+	char *textPtr = (char *)tmpData + sizeof(NetPacketSendChatTextData);
+	if (textPtr[0] == 0)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
@@ -2081,7 +2050,7 @@ NetPacketSendChatText::Check(const NetPacketHeader* data) const
 //-----------------------------------------------------------------------------
 
 NetPacketChatText::NetPacketChatText()
-: NetPacket(NET_TYPE_CHAT_TEXT, sizeof(NetPacketChatTextData))
+: NetPacket(NET_TYPE_CHAT_TEXT, sizeof(NetPacketChatTextData), MAX_PACKET_SIZE)
 {
 }
 
@@ -2116,13 +2085,15 @@ NetPacketChatText::SetData(const NetPacketChatText::Data &inData)
 		(sizeof(NetPacketChatTextData) + ADD_PADDING(textLen)));
 
 	NetPacketChatTextData *tmpData = (NetPacketChatTextData *)GetRawData();
-	assert(tmpData);
 
 	// Set the data.
 	tmpData->playerId = htons(inData.playerId);
 	tmpData->textLength = htons(textLen);
 	char *textPtr = (char *)tmpData + sizeof(NetPacketChatTextData);
 	memcpy(textPtr, inData.text.c_str(), textLen);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
@@ -2130,7 +2101,6 @@ NetPacketChatText::GetData(NetPacketChatText::Data &outData) const
 {
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketChatTextData *tmpData = (NetPacketChatTextData *)GetRawData();
-	assert(tmpData);
 
 	outData.playerId = ntohs(tmpData->playerId);
 	char *textPtr = (char *)tmpData + sizeof(NetPacketChatTextData);
@@ -2144,36 +2114,30 @@ NetPacketChatText::ToNetPacketChatText() const
 }
 
 void
-NetPacketChatText::Check(const NetPacketHeader* data) const
+NetPacketChatText::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
 	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketChatTextData))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-
 	NetPacketChatTextData *tmpData = (NetPacketChatTextData *)data;
 	int textLength = ntohs(tmpData->textLength);
-	// Generous checking - larger packets are allowed.
-	if (dataLen <
+	// Check exact packet length.
+	if (dataLen !=
 		sizeof(NetPacketChatTextData)
 		+ ADD_PADDING(textLength))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
-	// Check string sizes.
+	// Check string size.
 	if (!textLength
 		|| textLength > MAX_CHAT_TEXT_SIZE)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
+	// No more checks required - this packet is sent by the server.
 }
 //-----------------------------------------------------------------------------
 
 NetPacketError::NetPacketError()
-: NetPacket(NET_TYPE_ERROR, sizeof(NetPacketErrorData))
+: NetPacket(NET_TYPE_ERROR, sizeof(NetPacketErrorData), sizeof(NetPacketErrorData))
 {
 }
 
@@ -2199,7 +2163,6 @@ void
 NetPacketError::SetData(const NetPacketError::Data &inData)
 {
 	NetPacketErrorData *tmpData = (NetPacketErrorData *)GetRawData();
-	assert(tmpData);
 
 	switch (inData.errorCode)
 	{
@@ -2236,13 +2199,15 @@ NetPacketError::SetData(const NetPacketError::Data &inData)
 			tmpData->reason = htons(NET_ERR_OTHER);
 			break;
 	}
+
+	// Check the packet - just in case.
+	Check(GetRawData());
 }
 
 void
 NetPacketError::GetData(NetPacketError::Data &outData) const
 {
 	NetPacketErrorData *tmpData = (NetPacketErrorData *)GetRawData();
-	assert(tmpData);
 
 	switch (ntohs(tmpData->reason))
 	{
@@ -2288,15 +2253,9 @@ NetPacketError::ToNetPacketError() const
 }
 
 void
-NetPacketError::Check(const NetPacketHeader* data) const
+NetPacketError::InternalCheck(const NetPacketHeader* data) const
 {
-	assert(data);
-
-	u_int16_t dataLen = ntohs(data->length);
-	if (dataLen < sizeof(NetPacketErrorData)) // graceful size checking only for error packets
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
+	// Nothing to do.
 }
 
 //-----------------------------------------------------------------------------

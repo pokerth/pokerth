@@ -20,7 +20,11 @@
 #ifndef GAME_DEFS_H
 #define GAME_DEFS_H
 
+#define MIN_NUMBER_OF_PLAYERS		2
 #define MAX_NUMBER_OF_PLAYERS		7
+
+#define MIN_GUI_SPEED				1
+#define MAX_GUI_SPEED				11
 
 enum GameState {
 	GAME_STATE_PREFLOP = 0,

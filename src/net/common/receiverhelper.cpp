@@ -109,6 +109,7 @@ ReceiverHelper::InternalGetPacket()
 		{
 			// Reset buffer on error.
 			m_tmpInBufSize = 0;
+			// TODO: log error/increase error counter.
 		}
 	}
 	return tmpPacket;

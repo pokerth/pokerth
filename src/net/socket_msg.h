@@ -40,6 +40,7 @@
 #define ERR_SOCK_CONN_EXISTS			17
 #define ERR_SOCK_INVALID_PACKET			18
 #define ERR_SOCK_INVALID_STATE			19
+#define ERR_SOCK_INVALID_TYPE			20
 // The following errors are game errors.
 #define ERR_NET_VERSION_NOT_SUPPORTED	101
 #define ERR_NET_SERVER_FULL				102

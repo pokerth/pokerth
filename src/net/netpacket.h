@@ -66,7 +66,7 @@ class NetPacket
 public:
 	static boost::shared_ptr<NetPacket> Create(char *data, unsigned &dataSize);
 
-	NetPacket(u_int16_t type, u_int16_t initialLen);
+	NetPacket(u_int16_t type, u_int16_t initialSize, u_int16_t maxSize);
 	virtual ~NetPacket();
 
 	virtual boost::shared_ptr<NetPacket> Clone() const = 0;
@@ -101,13 +101,16 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const = 0;
+	void Check(const NetPacketHeader *data) const;
+	virtual void InternalCheck(const NetPacketHeader *data) const = 0;
 
 	void Resize(u_int16_t newLen);
 
 private:
 
 	NetPacketHeader *m_data;
+	const u_int16_t m_initialSize;
+	const u_int16_t m_maxSize;
 };
 
 class NetPacketJoinGame : public NetPacket
@@ -134,7 +137,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketJoinGameAck : public NetPacket
@@ -159,7 +162,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketPlayerJoined : public NetPacket
@@ -184,7 +187,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketPlayerLeft : public NetPacket
@@ -207,7 +210,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketGameStart : public NetPacket
@@ -239,7 +242,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketHandStart : public NetPacket
@@ -262,7 +265,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketPlayersTurn : public NetPacket
@@ -286,7 +289,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketPlayersAction : public NetPacket
@@ -311,7 +314,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketPlayersActionDone : public NetPacket
@@ -338,7 +341,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketPlayersActionRejected : public NetPacket
@@ -365,7 +368,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketDealFlopCards : public NetPacket
@@ -388,7 +391,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketDealTurnCard : public NetPacket
@@ -411,7 +414,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketDealRiverCard : public NetPacket
@@ -434,7 +437,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketAllInShowCards : public NetPacket
@@ -465,7 +468,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketEndOfHandShowCards : public NetPacket
@@ -500,7 +503,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketEndOfHandHideCards : public NetPacket
@@ -525,7 +528,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketEndOfGame : public NetPacket
@@ -548,7 +551,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketSendChatText : public NetPacket
@@ -571,7 +574,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketChatText : public NetPacket
@@ -595,7 +598,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 class NetPacketError : public NetPacket
@@ -618,7 +621,7 @@ public:
 
 protected:
 
-	virtual void Check(const NetPacketHeader* data) const;
+	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
 #endif
