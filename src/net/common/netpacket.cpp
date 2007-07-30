@@ -51,6 +51,7 @@ using namespace std;
 #define NET_TYPE_ERROR							0x0400
 
 #define NET_PLAYER_FLAG_HUMAN					0x01
+#define NET_PLAYER_FLAG_ADMIN					0x02
 
 #define NET_ERR_JOIN_GAME_VERSION_NOT_SUPPORTED	0x0001
 #define NET_ERR_JOIN_GAME_SERVER_FULL			0x0002
@@ -83,9 +84,8 @@ struct GCC_PACKED NetPacketJoinGameData
 	u_int16_t			requestedVersionMajor;
 	u_int16_t			requestedVersionMinor;
 	u_int16_t			passwordLength;
-	u_int16_t			playerFlags;
 	u_int16_t			playerNameLength;
-	u_int16_t			reserved;
+	u_int32_t			reserved;
 };
 
 struct GCC_PACKED NetPacketJoinGameAckData
@@ -93,11 +93,13 @@ struct GCC_PACKED NetPacketJoinGameAckData
 	NetPacketHeader		head;
 	u_int32_t			sessionId;
 	u_int16_t			playerId;
+	u_int16_t			playerFlags;
 	u_int16_t			maxNumberOfPlayers;
 	u_int16_t			smallBlind;
 	u_int16_t			handsBeforeRaise;
 	u_int16_t			proposedGuiSpeed;
 	u_int16_t			playerActionTimeout;
+	u_int16_t			reserved;
 	u_int32_t			startMoney;
 };
 
@@ -670,7 +672,6 @@ NetPacketJoinGame::SetData(const NetPacketJoinGame::Data &inData)
 
 	// Set the data.
 	tmpData->passwordLength = htons(passwordLen);
-	tmpData->playerFlags = htons((inData.ptype == PLAYER_TYPE_HUMAN) ? NET_PLAYER_FLAG_HUMAN : 0);
 	tmpData->playerNameLength = htons(playerNameLen);
 	char *passwordPtr = (char *)tmpData + sizeof(NetPacketJoinGameData);
 	memcpy(passwordPtr, inData.password.c_str(), passwordLen);
@@ -688,8 +689,6 @@ NetPacketJoinGame::GetData(NetPacketJoinGame::Data &outData) const
 
 	outData.versionMajor = ntohs(tmpData->requestedVersionMajor);
 	outData.versionMinor = ntohs(tmpData->requestedVersionMinor);
-
-	outData.ptype = (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_HUMAN) ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
 
 	u_int16_t passwordLen = ntohs(tmpData->passwordLength);
 	char *passwordPtr = (char *)tmpData + sizeof(NetPacketJoinGameData);
@@ -766,8 +765,15 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 {
 	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)GetRawData();
 
+	u_int16_t tmpPlayerFlags = 0;
+	if (inData.ptype == PLAYER_TYPE_HUMAN)
+		tmpPlayerFlags |= NET_PLAYER_FLAG_HUMAN;
+	if (inData.prights == PLAYER_RIGHTS_ADMIN)
+		tmpPlayerFlags |= NET_PLAYER_FLAG_ADMIN;
+
 	tmpData->sessionId				= htonl(inData.sessionId);
 	tmpData->playerId				= htons(inData.yourPlayerUniqueId);
+	tmpData->playerFlags			= htons(tmpPlayerFlags);
 	tmpData->maxNumberOfPlayers		= htons(inData.gameData.maxNumberOfPlayers);
 	tmpData->smallBlind				= htons(inData.gameData.smallBlind);
 	tmpData->handsBeforeRaise		= htons(inData.gameData.handsBeforeRaise);
@@ -786,6 +792,8 @@ NetPacketJoinGameAck::GetData(NetPacketJoinGameAck::Data &outData) const
 
 	outData.sessionId						= ntohl(tmpData->sessionId);
 	outData.yourPlayerUniqueId				= ntohs(tmpData->playerId);
+	outData.ptype							= (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_HUMAN) ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
+	outData.prights							= (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_ADMIN) ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL;
 	outData.gameData.maxNumberOfPlayers		= ntohs(tmpData->maxNumberOfPlayers);
 	outData.gameData.smallBlind				= ntohs(tmpData->smallBlind);
 	outData.gameData.handsBeforeRaise		= ntohs(tmpData->handsBeforeRaise);
@@ -858,8 +866,14 @@ NetPacketPlayerJoined::SetData(const NetPacketPlayerJoined::Data &inData)
 
 	NetPacketPlayerJoinedData *tmpData = (NetPacketPlayerJoinedData *)GetRawData();
 
+	u_int16_t tmpPlayerFlags = 0;
+	if (inData.ptype == PLAYER_TYPE_HUMAN)
+		tmpPlayerFlags |= NET_PLAYER_FLAG_HUMAN;
+	if (inData.prights == PLAYER_RIGHTS_ADMIN)
+		tmpPlayerFlags |= NET_PLAYER_FLAG_ADMIN;
+
 	// Set the data.
-	tmpData->playerFlags = htons((inData.ptype == PLAYER_TYPE_HUMAN) ? NET_PLAYER_FLAG_HUMAN : 0);
+	tmpData->playerFlags = htons(tmpPlayerFlags);
 	tmpData->playerId = htons(inData.playerId);
 	tmpData->playerNameLength = htons(playerNameLen);
 	char *namePtr = (char *)tmpData + sizeof(NetPacketPlayerJoinedData);
@@ -876,6 +890,7 @@ NetPacketPlayerJoined::GetData(NetPacketPlayerJoined::Data &outData) const
 	NetPacketPlayerJoinedData *tmpData = (NetPacketPlayerJoinedData *)GetRawData();
 
 	outData.ptype = (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_HUMAN) ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
+	outData.prights = (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_ADMIN) ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL;
 	outData.playerId = ntohs(tmpData->playerId);
 	char *namePtr = (char *)tmpData + sizeof(NetPacketPlayerJoinedData);
 	outData.playerName = string(namePtr, ntohs(tmpData->playerNameLength));

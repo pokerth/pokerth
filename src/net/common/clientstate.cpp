@@ -347,7 +347,6 @@ ClientStateStartSession::Process(ClientThread &client)
 	NetPacketJoinGame::Data initData;
 	initData.password = context.GetPassword();
 	initData.playerName = context.GetPlayerName();
-	initData.ptype = PLAYER_TYPE_HUMAN; // TODO
 
 	boost::shared_ptr<NetPacket> packet(new NetPacketJoinGame);
 	((NetPacketJoinGame *)packet.get())->SetData(initData);

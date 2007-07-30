@@ -86,14 +86,24 @@ Thread::Join(unsigned msecTimeout)
 	if (!IsRunning())
 		return true;
 
-	// Calculate time after timeout
-	boost::xtime t;
-	boost::xtime_get(&t, boost::TIME_UTC);
-	ADD_MSEC_TO_XTIME(t, msecTimeout);
+	bool tmpIsTerminated;
+	if (msecTimeout == THREAD_WAIT_INFINITE)
+	{
+		// Wait infinitely.
+		boost::timed_mutex::scoped_lock lock(m_isTerminatedMutex);
+		tmpIsTerminated = true;
+	}
+	else
+	{
+		// Calculate time after timeout
+		boost::xtime t;
+		boost::xtime_get(&t, boost::TIME_UTC);
+		ADD_MSEC_TO_XTIME(t, msecTimeout);
 
-	// Wait for the termination of the application code.
-	boost::timed_mutex::scoped_timed_lock lock(m_isTerminatedMutex, t);
-	bool tmpIsTerminated = lock.locked();
+		// Wait for the termination of the application code.
+		boost::timed_mutex::scoped_timed_lock lock(m_isTerminatedMutex, t);
+		tmpIsTerminated = lock.locked();
+	}
 
 	if (tmpIsTerminated)
 	{

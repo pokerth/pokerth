@@ -33,11 +33,11 @@ Client Request: Join Game
 	|                               +-------------------------------+
 	/                               |            padding            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-Additional values for major version = 1:
+Additional values for major version = 2:
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|        Password Length        |         Player Flags          |
+	|        Password Length        |          Name Length          |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|          Name Length          |           Reserved            |
+	||                           Reserved                           |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                                                               |
 	\                      Password (UTF-8)                         /
@@ -49,11 +49,8 @@ Additional values for major version = 1:
 	|                               +-------------------------------+
 	/                               |            padding            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-[Future versions will include the name of the game, to support
+[Future versions will include an id of the game, to support
 multiple games per server.]
-
-Player Flags:
-	0x01 set: Player is human
 
 
 Server Reply: Join Game ACK
@@ -65,11 +62,13 @@ Server Reply: Join Game ACK
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                         Your Session ID                       |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|        Your Player ID         |     Max Number of Players     |
+	|        Your Player ID         |       Your Player Flags       |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|          Small Blind          |      Hands before raise       |
+	|     Max Number of Players     |          Small Blind          |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|       Proposed GUI Speed      |     Player Action Timeout     |
+	|      Hands before raise       |       Proposed GUI Speed      |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|     Player Action Timeout     |           Reserved            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                          Start Money                          |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -80,6 +79,9 @@ Proposed GUI Speed:
 	1-11
 Player Action Timeout:
 	# seconds
+Player Flags:
+	0x01 set: Player is human
+	0x02 set: Player is admin for this game
 
 
 Server Notification: Player Joined

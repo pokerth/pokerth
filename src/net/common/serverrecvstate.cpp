@@ -290,7 +290,7 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 
 	// Create player data object.
 	boost::shared_ptr<PlayerData> tmpPlayerData(
-		new PlayerData(m_curUniquePlayerId++, 0, joinGameData.ptype));
+		new PlayerData(m_curUniquePlayerId++, 0, PLAYER_TYPE_HUMAN));
 	tmpPlayerData->SetName(joinGameData.playerName);
 	tmpPlayerData->SetNetSessionData(session.sessionData);
 

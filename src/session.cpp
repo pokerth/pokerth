@@ -196,6 +196,17 @@ void Session::terminateNetworkServer()
 	myNetServer = 0;
 }
 
+void Session::waitForNetworkServer(unsigned timeoutMsec)
+{
+	if (!myNetServer)
+		return; // already terminated
+	if (myNetServer->Join(timeoutMsec))
+	{
+		delete myNetServer;
+		myNetServer = 0;
+	}
+}
+
 void Session::sendClientPlayerAction()
 {
 	if (!myNetClient)

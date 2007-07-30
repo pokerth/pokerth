@@ -120,7 +120,6 @@ public:
 	{
 		int versionMajor;
 		int versionMinor;
-		PlayerType ptype;
 		std::string playerName;
 		std::string password;
 	};
@@ -145,9 +144,11 @@ class NetPacketJoinGameAck : public NetPacket
 public:
 	struct Data
 	{
-		u_int32_t	sessionId;
-		u_int16_t	yourPlayerUniqueId;
-		GameData	gameData;
+		u_int32_t		sessionId;
+		u_int16_t		yourPlayerUniqueId;
+		PlayerType		ptype;
+		PlayerRights	prights;
+		GameData		gameData;
 	};
 
 	NetPacketJoinGameAck();
@@ -170,9 +171,10 @@ class NetPacketPlayerJoined : public NetPacket
 public:
 	struct Data
 	{
-		u_int16_t	playerId;
-		PlayerType ptype;
-		std::string playerName;
+		u_int16_t		playerId;
+		PlayerType		ptype;
+		PlayerRights	prights;
+		std::string		playerName;
 	};
 
 	NetPacketPlayerJoined();

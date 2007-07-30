@@ -31,7 +31,13 @@ class SessionData;
 enum PlayerType
 {
 	PLAYER_TYPE_COMPUTER,
-	PLAYER_TYPE_HUMAN,
+	PLAYER_TYPE_HUMAN
+};
+
+enum PlayerRights
+{
+	PLAYER_RIGHTS_NORMAL,
+	PLAYER_RIGHTS_ADMIN
 };
 
 class PlayerData

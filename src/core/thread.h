@@ -29,6 +29,8 @@
 #define NANOSECONDS_PER_SECOND 1000000000
 #endif
 
+#define THREAD_WAIT_INFINITE	0xFFFFFFFF
+
 class Thread
 {
 public:
