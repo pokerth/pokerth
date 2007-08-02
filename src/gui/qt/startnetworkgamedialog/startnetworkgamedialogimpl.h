@@ -37,7 +37,9 @@ public slots:
 
 	void startGame();
 	void cancel();
-	void addConnectedPlayer(QString playerName);
+	void refresh(int actionID);
+	void joinedNetworkGame(QString playerName, int rights);
+	void addConnectedPlayer(QString playerName, int rights);
 	void removePlayer(QString playerName);
 	void playerSelected(QTreeWidgetItem*, int);
 	void kickPlayer();
@@ -54,6 +56,7 @@ public slots:
 private: 
 
 	int maxPlayerNumber;
+	bool isAdmin;
 	ConfigFile *myConfig;
 	Session *mySession;
 };

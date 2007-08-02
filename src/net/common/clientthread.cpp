@@ -86,6 +86,30 @@ ClientThread::Init(
 }
 
 void
+ClientThread::SendKickPlayer(const string &playerName)
+{
+	boost::shared_ptr<PlayerData> tmpPlayer = GetPlayerDataByName(playerName);
+	if (tmpPlayer.get())
+	{
+		boost::shared_ptr<NetPacket> request(new NetPacketKickPlayer);
+		NetPacketKickPlayer::Data requestData;
+		requestData.playerId = tmpPlayer->GetUniqueId();
+		static_cast<NetPacketKickPlayer *>(request.get())->SetData(requestData);
+		GetSender().Send(GetContext().GetSocket(), request);
+	}
+}
+
+void
+ClientThread::SendStartEvent()
+{
+	// Warning: This function is called in the context of the GUI thread.
+	// Create a network packet for the server start event.
+	boost::shared_ptr<NetPacket> startEvent(new NetPacketStartEvent);
+	// The sender is thread-safe, so just dump the packet.
+	GetSender().Send(GetContext().GetSocket(), startEvent);
+}
+
+void
 ClientThread::SendPlayerAction()
 {
 	// Warning: This function is called in the context of the GUI thread.
@@ -274,7 +298,10 @@ ClientThread::AddPlayerData(boost::shared_ptr<PlayerData> playerData)
 	if (playerData.get() && !playerData->GetName().empty())
 	{
 		m_playerDataList.push_back(playerData);
-		GetCallback().SignalNetClientPlayerJoined(playerData->GetName());
+		if (playerData->GetUniqueId() == GetGuiPlayerId())
+			GetCallback().SignalNetClientSelfJoined(playerData->GetName(), playerData->GetRights());
+		else
+			GetCallback().SignalNetClientPlayerJoined(playerData->GetName(), playerData->GetRights());
 	}
 }
 
@@ -356,6 +383,29 @@ ClientThread::GetPlayerDataByUniqueId(unsigned id)
 			break;
 		}
 		++i;
+	}
+	return tmpPlayer;
+}
+
+boost::shared_ptr<PlayerData>
+ClientThread::GetPlayerDataByName(const std::string &name)
+{
+	boost::shared_ptr<PlayerData> tmpPlayer;
+
+	if (!name.empty())
+	{
+		PlayerDataList::const_iterator i = m_playerDataList.begin();
+		PlayerDataList::const_iterator end = m_playerDataList.end();
+
+		while (i != end)
+		{
+			if ((*i)->GetName() == name)
+			{
+				tmpPlayer = *i;
+				break;
+			}
+			++i;
+		}
 	}
 	return tmpPlayer;
 }

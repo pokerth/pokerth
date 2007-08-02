@@ -76,8 +76,7 @@ public:
 signals:
 	void signalInitGui(int speed);
 
-	void signalShowServerStartDialog();
-	void signalShowClientWaitDialog();
+	void signalShowNetworkStartDialog();
 
 	void signalRefreshSet();
 	void signalRefreshCash();
@@ -123,18 +122,16 @@ signals:
 	void signalNetClientGameInfo(int actionID);
 	void signalNetClientError(int errorID, int osErrorID);
 	void signalNetServerError(int errorID, int osErrorID);
-	void signalNetClientPlayerJoined(QString playerName);
+	void signalNetClientSelfJoined(QString playerName, int rights);
+	void signalNetClientPlayerJoined(QString playerName, int rights);
 	void signalNetClientPlayerLeft(QString playerName);
 	void signalNetClientGameStart(boost::shared_ptr<Game> game);
-	void signalNetServerPlayerJoined(QString playerName);
-	void signalNetServerPlayerLeft(QString playerName);
 
 public slots:
 
 	void initGui(int speed);
 
-	void showServerStartDialog();
-	void showClientWaitDialog();
+	void showNetworkStartDialog();
 
 	//refresh-Funktionen
 	void refreshSet();

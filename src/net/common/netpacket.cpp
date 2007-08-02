@@ -31,19 +31,21 @@ using namespace std;
 #define NET_TYPE_JOIN_GAME_ACK					0x0002
 #define NET_TYPE_PLAYER_JOINED					0x0003
 #define NET_TYPE_PLAYER_LEFT					0x0004
-#define NET_TYPE_GAME_START						0x0005
-#define NET_TYPE_HAND_START						0x0006
-#define NET_TYPE_PLAYERS_TURN					0x0007
-#define NET_TYPE_PLAYERS_ACTION					0x0008
-#define NET_TYPE_PLAYERS_ACTION_DONE			0x0009
-#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x000A
-#define NET_TYPE_DEAL_FLOP_CARDS				0x000B
-#define NET_TYPE_DEAL_TURN_CARD					0x000C
-#define NET_TYPE_DEAL_RIVER_CARD				0x000D
-#define NET_TYPE_ALL_IN_SHOW_CARDS				0x000E
-#define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x000F
-#define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x0010
-#define NET_TYPE_END_OF_GAME					0x0011
+#define NET_TYPE_KICK_PLAYER					0x0005
+#define NET_TYPE_START_EVENT					0x0006
+#define NET_TYPE_GAME_START						0x0007
+#define NET_TYPE_HAND_START						0x0008
+#define NET_TYPE_PLAYERS_TURN					0x0009
+#define NET_TYPE_PLAYERS_ACTION					0x000A
+#define NET_TYPE_PLAYERS_ACTION_DONE			0x000B
+#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x000C
+#define NET_TYPE_DEAL_FLOP_CARDS				0x000D
+#define NET_TYPE_DEAL_TURN_CARD					0x000E
+#define NET_TYPE_DEAL_RIVER_CARD				0x000F
+#define NET_TYPE_ALL_IN_SHOW_CARDS				0x0010
+#define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x0011
+#define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x0012
+#define NET_TYPE_END_OF_GAME					0x0013
 
 #define NET_TYPE_SEND_CHAT_TEXT					0x0200
 #define NET_TYPE_CHAT_TEXT						0x0201
@@ -124,6 +126,18 @@ struct GCC_PACKED NetPacketPlayerLeftData
 	NetPacketHeader		head;
 	u_int16_t			playerId;
 	u_int16_t			reserved;
+};
+
+struct GCC_PACKED NetPacketKickPlayerData
+{
+	NetPacketHeader		head;
+	u_int16_t			playerId;
+	u_int16_t			reserved;
+};
+
+struct GCC_PACKED NetPacketStartEventData
+{
+	NetPacketHeader		head;
 };
 
 struct GCC_PACKED NetPacketGameStartData
@@ -324,6 +338,12 @@ NetPacket::Create(char *data, unsigned &dataSize)
 				case NET_TYPE_PLAYER_LEFT:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayerLeft);
 					break;
+				case NET_TYPE_KICK_PLAYER:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketKickPlayer);
+					break;
+				case NET_TYPE_START_EVENT:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketStartEvent);
+					break;
 				case NET_TYPE_GAME_START:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameStart);
 					break;
@@ -476,6 +496,18 @@ NetPacket::ToNetPacketPlayerJoined() const
 
 const NetPacketPlayerLeft *
 NetPacket::ToNetPacketPlayerLeft() const
+{
+	return NULL;
+}
+
+const NetPacketKickPlayer *
+NetPacket::ToNetPacketKickPlayer() const
+{
+	return NULL;
+}
+
+const NetPacketStartEvent *
+NetPacket::ToNetPacketStartEvent() const
 {
 	return NULL;
 }
@@ -977,6 +1009,101 @@ NetPacketPlayerLeft::ToNetPacketPlayerLeft() const
 
 void
 NetPacketPlayerLeft::InternalCheck(const NetPacketHeader* data) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketKickPlayer::NetPacketKickPlayer()
+: NetPacket(NET_TYPE_KICK_PLAYER, sizeof(NetPacketKickPlayerData), sizeof(NetPacketKickPlayerData))
+{
+}
+
+NetPacketKickPlayer::~NetPacketKickPlayer()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketKickPlayer::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketKickPlayer);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketKickPlayer::SetData(const NetPacketKickPlayer::Data &inData)
+{
+	NetPacketKickPlayerData *tmpData = (NetPacketKickPlayerData *)GetRawData();
+
+	// Set the data.
+	tmpData->playerId = htons(inData.playerId);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketKickPlayer::GetData(NetPacketKickPlayer::Data &outData) const
+{
+	// We assume that the data is valid. Validity has already been checked.
+	NetPacketKickPlayerData *tmpData = (NetPacketKickPlayerData *)GetRawData();
+
+	outData.playerId = ntohs(tmpData->playerId);
+}
+
+const NetPacketKickPlayer *
+NetPacketKickPlayer::ToNetPacketKickPlayer() const
+{
+	return this;
+}
+
+void
+NetPacketKickPlayer::InternalCheck(const NetPacketHeader* data) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketStartEvent::NetPacketStartEvent()
+: NetPacket(NET_TYPE_START_EVENT, sizeof(NetPacketStartEventData), sizeof(NetPacketStartEventData))
+{
+}
+
+NetPacketStartEvent::~NetPacketStartEvent()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketStartEvent::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketStartEvent);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+const NetPacketStartEvent *
+NetPacketStartEvent::ToNetPacketStartEvent() const
+{
+	return this;
+}
+
+void
+NetPacketStartEvent::InternalCheck(const NetPacketHeader* data) const
 {
 	// Nothing to do.
 }

@@ -232,108 +232,128 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 {
 	int retVal = MSG_SOCK_INIT_DONE;
 
-	// Session should be in initial state.
-	if (session.sessionData->GetState() != SessionData::Init)
+	if (packet->ToNetPacketJoinGame())
 	{
-		server.SessionError(session, ERR_SOCK_INVALID_STATE);
-		return retVal;
-	}
+		// Session should be in initial state.
+		if (session.sessionData->GetState() != SessionData::Init)
+		{
+			server.SessionError(session, ERR_SOCK_INVALID_STATE);
+			return retVal;
+		}
 
-	// Only accept join game packets.
-	const NetPacketJoinGame *tmpPacket = packet->ToNetPacketJoinGame();
-	if (!tmpPacket)
+		const NetPacketJoinGame *tmpPacket = packet->ToNetPacketJoinGame();
+
+		NetPacketJoinGame::Data joinGameData;
+		tmpPacket->GetData(joinGameData);
+
+		// Check the protocol version.
+		if (joinGameData.versionMajor != NET_VERSION_MAJOR)
+		{
+			server.SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
+			return retVal;
+		}
+
+		size_t curNumPlayers = server.GetCurNumberOfPlayers();
+
+		// Check the number of players.
+		if (curNumPlayers >= (size_t)server.GetGameData().maxNumberOfPlayers)
+		{
+			server.SessionError(session, ERR_NET_SERVER_FULL);
+			return retVal;
+		}
+
+		// Check the server password.
+		if (!server.CheckPassword(joinGameData.password))
+		{
+			server.SessionError(session, ERR_NET_INVALID_PASSWORD);
+			return retVal;
+		}
+
+		// Check whether the player name is correct.
+		// Paranoia check, this is also done in netpacket.
+		if (joinGameData.playerName.empty() || joinGameData.playerName.size() > MAX_NAME_SIZE)
+		{
+			server.SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
+			return retVal;
+		}
+
+		// Check whether this player is already connected.
+		if (server.IsPlayerConnected(joinGameData.playerName))
+		{
+			server.SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
+			return retVal;
+		}
+
+		// Create player data object.
+		// TODO HACK first player is admin
+		PlayerRights rights = PLAYER_RIGHTS_NORMAL;
+		if (server.GetCurNumberOfPlayers() == 0)
+			rights = PLAYER_RIGHTS_ADMIN;
+		boost::shared_ptr<PlayerData> tmpPlayerData(
+			new PlayerData(m_curUniquePlayerId++, 0, PLAYER_TYPE_HUMAN, rights));
+		tmpPlayerData->SetName(joinGameData.playerName);
+		tmpPlayerData->SetNetSessionData(session.sessionData);
+
+		// Send ACK to client.
+		boost::shared_ptr<NetPacket> answer(new NetPacketJoinGameAck);
+		NetPacketJoinGameAck::Data joinGameAckData;
+		joinGameAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
+		joinGameAckData.yourPlayerUniqueId = tmpPlayerData->GetUniqueId();
+		joinGameAckData.gameData = server.GetGameData();
+		joinGameAckData.ptype = tmpPlayerData->GetType();
+		joinGameAckData.prights = tmpPlayerData->GetRights();
+		static_cast<NetPacketJoinGameAck *>(answer.get())->SetData(joinGameAckData);
+		server.GetSender().Send(session.sessionData->GetSocket(), answer);
+
+		// Send notifications for connected players to client.
+		PlayerDataList tmpPlayerList = server.GetPlayerDataList();
+		PlayerDataList::iterator player_i = tmpPlayerList.begin();
+		PlayerDataList::iterator player_end = tmpPlayerList.end();
+		while (player_i != player_end)
+		{
+			boost::shared_ptr<NetPacket> otherPlayerJoined(new NetPacketPlayerJoined);
+			NetPacketPlayerJoined::Data otherPlayerJoinedData;
+			otherPlayerJoinedData.playerId = (*player_i)->GetUniqueId();
+			otherPlayerJoinedData.playerName = (*player_i)->GetName();
+			otherPlayerJoinedData.ptype = (*player_i)->GetType();
+			static_cast<NetPacketPlayerJoined *>(otherPlayerJoined.get())->SetData(otherPlayerJoinedData);
+			server.GetSender().Send(session.sessionData->GetSocket(), otherPlayerJoined);
+
+			++player_i;
+		}
+
+		// Send "Player Joined" to other fully connected clients.
+		boost::shared_ptr<NetPacket> thisPlayerJoined(new NetPacketPlayerJoined);
+		NetPacketPlayerJoined::Data thisPlayerJoinedData;
+		thisPlayerJoinedData.playerId = tmpPlayerData->GetUniqueId();
+		thisPlayerJoinedData.playerName = tmpPlayerData->GetName();
+		thisPlayerJoinedData.ptype = tmpPlayerData->GetType();
+		thisPlayerJoinedData.prights = tmpPlayerData->GetRights();
+		static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
+		server.SendToAllPlayers(thisPlayerJoined);
+
+		// Set player data for session.
+		server.SetSessionPlayerData(session.sessionData, tmpPlayerData);
+
+		// Session is now established.
+		session.sessionData->SetState(SessionData::Established);
+	}
+	else if (packet->ToNetPacketStartEvent())
+	{
+		server.InternalStartGame();
+		server.SetState(SERVER_START_GAME_STATE::Instance());
+	}
+	else if (packet->ToNetPacketKickPlayer())
+	{
+		NetPacketKickPlayer::Data kickPlayerData;
+		packet->ToNetPacketKickPlayer()->GetData(kickPlayerData);
+
+		server.InternalKickPlayer(kickPlayerData.playerId);
+	}
+	else
 	{
 		server.SessionError(session, ERR_SOCK_INVALID_PACKET);
-		return retVal;
 	}
-
-	NetPacketJoinGame::Data joinGameData;
-	tmpPacket->GetData(joinGameData);
-
-	// Check the protocol version.
-	if (joinGameData.versionMajor != NET_VERSION_MAJOR)
-	{
-		server.SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
-		return retVal;
-	}
-
-	size_t curNumPlayers = server.GetCurNumberOfPlayers();
-
-	// Check the number of players.
-	if (curNumPlayers >= (size_t)server.GetGameData().maxNumberOfPlayers)
-	{
-		server.SessionError(session, ERR_NET_SERVER_FULL);
-		return retVal;
-	}
-
-	// Check the server password.
-	if (!server.CheckPassword(joinGameData.password))
-	{
-		server.SessionError(session, ERR_NET_INVALID_PASSWORD);
-		return retVal;
-	}
-
-	// Check whether the player name is correct.
-	// Paranoia check, this is also done in netpacket.
-	if (joinGameData.playerName.empty() || joinGameData.playerName.size() > MAX_NAME_SIZE)
-	{
-		server.SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
-		return retVal;
-	}
-
-	// Check whether this player is already connected.
-	if (server.IsPlayerConnected(joinGameData.playerName))
-	{
-		server.SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
-		return retVal;
-	}
-
-	// Create player data object.
-	boost::shared_ptr<PlayerData> tmpPlayerData(
-		new PlayerData(m_curUniquePlayerId++, 0, PLAYER_TYPE_HUMAN));
-	tmpPlayerData->SetName(joinGameData.playerName);
-	tmpPlayerData->SetNetSessionData(session.sessionData);
-
-	// Send ACK to client.
-	boost::shared_ptr<NetPacket> answer(new NetPacketJoinGameAck);
-	NetPacketJoinGameAck::Data joinGameAckData;
-	joinGameAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
-	joinGameAckData.yourPlayerUniqueId = tmpPlayerData->GetUniqueId();
-	joinGameAckData.gameData = server.GetGameData();
-	static_cast<NetPacketJoinGameAck *>(answer.get())->SetData(joinGameAckData);
-	server.GetSender().Send(session.sessionData->GetSocket(), answer);
-
-	// Send notifications for connected players to client.
-	PlayerDataList tmpPlayerList = server.GetPlayerDataList();
-	PlayerDataList::iterator player_i = tmpPlayerList.begin();
-	PlayerDataList::iterator player_end = tmpPlayerList.end();
-	while (player_i != player_end)
-	{
-		boost::shared_ptr<NetPacket> otherPlayerJoined(new NetPacketPlayerJoined);
-		NetPacketPlayerJoined::Data otherPlayerJoinedData;
-		otherPlayerJoinedData.playerId = (*player_i)->GetUniqueId();
-		otherPlayerJoinedData.playerName = (*player_i)->GetName();
-		otherPlayerJoinedData.ptype = (*player_i)->GetType();
-		static_cast<NetPacketPlayerJoined *>(otherPlayerJoined.get())->SetData(otherPlayerJoinedData);
-		server.GetSender().Send(session.sessionData->GetSocket(), otherPlayerJoined);
-
-		++player_i;
-	}
-
-	// Send "Player Joined" to other fully connected clients.
-	boost::shared_ptr<NetPacket> thisPlayerJoined(new NetPacketPlayerJoined);
-	NetPacketPlayerJoined::Data thisPlayerJoinedData;
-	thisPlayerJoinedData.playerId = tmpPlayerData->GetUniqueId();
-	thisPlayerJoinedData.playerName = tmpPlayerData->GetName();
-	thisPlayerJoinedData.ptype = tmpPlayerData->GetType();
-	static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
-	server.SendToAllPlayers(thisPlayerJoined);
-
-	// Set player data for session.
-	server.SetSessionPlayerData(session.sessionData, tmpPlayerData);
-
-	// Session is now established.
-	session.sessionData->SetState(SessionData::Established);
 
 	return retVal;
 }
@@ -1039,11 +1059,7 @@ ServerRecvStateNextGameDelay::Process(ServerRecvThread &server)
 
 		server.SendToAllPlayers(endGame);
 
-		// Switch back to the GUI, wait for the start of a new game.
-		// Luckily, the names are still in the GUI dialog.
-		// We just need to show the proper dialog, and people can
-		// join or leave as usual.
-		server.GetCallback().SignalNetServerStartDialog();
+		// Wait for the start of a new game.
 		server.SetState(ServerRecvStateInit::Instance());
 	}
 

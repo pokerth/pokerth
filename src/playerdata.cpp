@@ -19,8 +19,8 @@
 
 #include <playerdata.h>
 
-PlayerData::PlayerData(unsigned uniqueId, int number, PlayerType type)
-: m_uniqueId(uniqueId), m_number(number), m_type(type)
+PlayerData::PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRights rights)
+: m_uniqueId(uniqueId), m_number(number), m_type(type), m_rights(rights)
 {
 }
 

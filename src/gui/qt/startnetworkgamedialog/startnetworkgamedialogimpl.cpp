@@ -20,9 +20,10 @@
 #include "startnetworkgamedialogimpl.h"
 #include "session.h"
 #include "configfile.h"
+#include <net/socket_msg.h>
 
 startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFile *config)
-      : QDialog(parent), myConfig(config)
+      : QDialog(parent), myConfig(config), isAdmin(false)
 {
 	setupUi(this);
 
@@ -36,15 +37,29 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFi
 }
 
 void startNetworkGameDialogImpl::startGame() {
-	
+	assert(mySession);
+	mySession->sendStartEvent();
 }
 
 void startNetworkGameDialogImpl::cancel() {
 	
 }
 
+void startNetworkGameDialogImpl::refresh(int actionID) {
 
-void startNetworkGameDialogImpl::addConnectedPlayer(QString playerName) {
+	if (actionID == MSG_NET_GAME_CLIENT_START)
+	{
+		QTimer::singleShot(500, this, SLOT(accept()));
+	}
+}
+
+void startNetworkGameDialogImpl::joinedNetworkGame(QString playerName, int rights) {
+
+	isAdmin = rights == PLAYER_RIGHTS_ADMIN;
+	addConnectedPlayer(playerName, rights);
+}
+
+void startNetworkGameDialogImpl::addConnectedPlayer(QString playerName, int rights) {
 
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget,0);
 	item->setData(0, 0, playerName);
@@ -64,7 +79,7 @@ void startNetworkGameDialogImpl::removePlayer(QString playerName) {
 
 void startNetworkGameDialogImpl::playerSelected(QTreeWidgetItem*, int) {
 
-	pushButton_Kick->setEnabled(TRUE);
+	pushButton_Kick->setEnabled(isAdmin);
 }
 
 void startNetworkGameDialogImpl::kickPlayer() {
@@ -89,7 +104,7 @@ void startNetworkGameDialogImpl::kickPlayer() {
 
 void startNetworkGameDialogImpl::checkPlayerQuantity() {
 
-	if (treeWidget->topLevelItemCount() >= 2)
+	if (treeWidget->topLevelItemCount() >= 2 && isAdmin)
 		pushButton_startGame->setEnabled(TRUE);
 	else
 		pushButton_startGame->setEnabled(FALSE);

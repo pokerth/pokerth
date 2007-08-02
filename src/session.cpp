@@ -69,7 +69,9 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
 
 		//PlayerData erzeugen
 		// UniqueId = PlayerNumber for local games.
-		boost::shared_ptr<PlayerData> playerData(new PlayerData(i, i, i == 0 ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER));
+		boost::shared_ptr<PlayerData> playerData(new PlayerData(i, i,
+			i == 0 ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER,
+			i == 0 ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL));
 		playerData->SetName(myConfig->readConfigString(myName.str()));
 		playerData->SetAvatarFile(myConfig->readConfigString(myAvatar.str()));
 
@@ -172,16 +174,6 @@ void Session::startNetworkServer(const GameData &gameData)
 	myNetServer->Run();
 }
 
-void Session::initiateNetworkServerGame()
-{
-	if (!myNetServer)
-	{
-		assert(false);
-		return;
-	}
-	myNetServer->StartGame();
-}
-
 void Session::terminateNetworkServer()
 {
 	if (!myNetServer)
@@ -207,6 +199,13 @@ void Session::waitForNetworkServer(unsigned timeoutMsec)
 	}
 }
 
+void Session::sendStartEvent()
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendStartEvent();
+}
+
 void Session::sendClientPlayerAction()
 {
 	if (!myNetClient)
@@ -223,12 +222,9 @@ void Session::sendChatMessage(const std::string &message)
 
 void Session::kickPlayer(const std::string &playerName)
 {
-	if (!myNetServer)
-	{
-		assert(false);
-		return;
-	}
-	myNetServer->KickPlayer(playerName);
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendKickPlayer(playerName);
 }
 
 bool Session::isNetworkClientRunning() const

@@ -105,7 +105,8 @@ void ServerGuiWrapper::logPlayerWinGame(std::string playerName, int gameID) {}
 void ServerGuiWrapper::SignalNetClientConnect(int actionID) { if (myClientcb) myClientcb->SignalNetClientConnect(actionID); }
 void ServerGuiWrapper::SignalNetClientGameInfo(int actionID) { if (myClientcb) myClientcb->SignalNetClientGameInfo(actionID); }
 void ServerGuiWrapper::SignalNetClientError(int errorID, int osErrorID) { if (myClientcb) myClientcb->SignalNetClientError(errorID, osErrorID); }
-void ServerGuiWrapper::SignalNetClientPlayerJoined(const string &playerName) { if (myClientcb) myClientcb->SignalNetClientPlayerJoined(playerName); }
+void ServerGuiWrapper::SignalNetClientSelfJoined(const string &playerName, PlayerRights rights) { if (myClientcb) myClientcb->SignalNetClientSelfJoined(playerName, rights); }
+void ServerGuiWrapper::SignalNetClientPlayerJoined(const string &playerName, PlayerRights rights) { if (myClientcb) myClientcb->SignalNetClientPlayerJoined(playerName, rights); }
 void ServerGuiWrapper::SignalNetClientPlayerLeft(const string &playerName) { if (myClientcb) myClientcb->SignalNetClientPlayerLeft(playerName); }
 void ServerGuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { if (myClientcb) myClientcb->SignalNetClientGameStart(game); }
 void ServerGuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { if (myClientcb) myClientcb->SignalNetClientChatMsg(playerName, msg); }
@@ -115,5 +116,4 @@ void ServerGuiWrapper::SignalNetServerSuccess(int actionID) { if (myServercb) my
 void ServerGuiWrapper::SignalNetServerError(int errorID, int osErrorID) { if (myServercb) myServercb->SignalNetServerError(errorID, osErrorID); }
 void ServerGuiWrapper::SignalNetServerPlayerJoined(const string &playerName) { if (myServercb) myServercb->SignalNetServerPlayerJoined(playerName); }
 void ServerGuiWrapper::SignalNetServerPlayerLeft(const string &playerName) { if (myServercb) myServercb->SignalNetServerPlayerLeft(playerName); }
-void ServerGuiWrapper::SignalNetServerStartDialog() { if (myServercb) myServercb->SignalNetServerStartDialog(); }
 

@@ -140,15 +140,10 @@ ServerRecvThread::NotificationLoop()
 		Notification notification = m_notificationQueue.front();
 		m_notificationQueue.pop_front();
 
-		switch(notification.message)
-		{
-			case NOTIFY_GAME_START:
-				InternalStartGame();
-				break;
-			case NOTIFY_KICK_PLAYER:
-				InternalKickPlayer(notification.param);
-				break;
-		}
+//		switch(notification.message)
+//		{
+//			break;
+//		}
 	}
 }
 
@@ -249,8 +244,6 @@ ServerRecvThread::CleanupSessionMap()
 void
 ServerRecvThread::InternalStartGame()
 {
-	SetState(SERVER_START_GAME_STATE::Instance());
-
 	// Kick all players which are not fully connected.
 	RemoveNotEstablishedSessions();
 	// Set order of players.
@@ -295,14 +288,10 @@ ServerRecvThread::InternalStartGame()
 }
 
 void
-ServerRecvThread::InternalKickPlayer(const string playerName)
+ServerRecvThread::InternalKickPlayer(unsigned uniqueId)
 {
-	if (!playerName.empty())
-	{
-		SessionWrapper tmpSession = GetSessionByPlayerName(playerName);
-
-		SessionError(tmpSession, ERR_NET_PLAYER_KICKED);
-	}
+	SessionWrapper tmpSession = GetSessionByUniquePlayerId(uniqueId);
+	SessionError(tmpSession, ERR_NET_PLAYER_KICKED);
 }
 
 SessionWrapper
@@ -394,9 +383,11 @@ ServerRecvThread::AddSession(boost::shared_ptr<SessionData> sessionData)
 void
 ServerRecvThread::SessionError(SessionWrapper session, int errorCode)
 {
-	assert(session.sessionData.get());
-	SendError(session.sessionData->GetSocket(), errorCode);
-	CloseSessionDelayed(session);
+	if (session.sessionData.get())
+	{
+		SendError(session.sessionData->GetSocket(), errorCode);
+		CloseSessionDelayed(session);
+	}
 }
 
 void

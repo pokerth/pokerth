@@ -43,7 +43,7 @@ enum PlayerRights
 class PlayerData
 {
 public:
-	PlayerData(unsigned uniqueId, int number, PlayerType type);
+	PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRights rights);
 	~PlayerData();
 
 	const std::string &GetName() const
@@ -60,6 +60,8 @@ public:
 	{m_netSessionData = session;}
 	PlayerType GetType() const
 	{return m_type;}
+	PlayerRights GetRights() const
+	{return m_rights;}
 	unsigned GetUniqueId() const
 	{return m_uniqueId;}
 	int GetNumber() const
@@ -76,6 +78,7 @@ private:
 	std::string						m_name;
 	std::string						m_avatarFile;
 	PlayerType						m_type;
+	PlayerRights					m_rights;
 	boost::shared_ptr<SessionData>	m_netSessionData;
 };
 

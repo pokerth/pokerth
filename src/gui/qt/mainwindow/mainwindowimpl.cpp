@@ -587,8 +587,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	//Nachrichten Thread-Save
 	connect(this, SIGNAL(signalInitGui(int)), this, SLOT(initGui(int)));
 
-	connect(this, SIGNAL(signalShowServerStartDialog()), this, SLOT(showServerStartDialog()));
-	connect(this, SIGNAL(signalShowClientWaitDialog()), this, SLOT(showClientWaitDialog()));
+	connect(this, SIGNAL(signalShowNetworkStartDialog()), this, SLOT(showNetworkStartDialog()));
 
 	connect(this, SIGNAL(signalRefreshSet()), this, SLOT(refreshSet()));
 	connect(this, SIGNAL(signalRefreshCash()), this, SLOT(refreshCash()));
@@ -631,17 +630,15 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNextRoundCleanGui()), this, SLOT(nextRoundCleanGui()));
 
 	connect(this, SIGNAL(signalNetClientConnect(int)), myConnectToServerDialog, SLOT(refresh(int)));
-	connect(this, SIGNAL(signalNetClientGameInfo(int)), myWaitingForServerGameDialog, SLOT(refresh(int)));
-	connect(this, SIGNAL(signalNetClientPlayerJoined(QString)), myWaitingForServerGameDialog, SLOT(addConnectedPlayer(QString)));
-	connect(this, SIGNAL(signalNetClientPlayerLeft(QString)), myWaitingForServerGameDialog, SLOT(removePlayer(QString)));
+	connect(this, SIGNAL(signalNetClientGameInfo(int)), myStartNetworkGameDialog, SLOT(refresh(int)));
+	connect(this, SIGNAL(signalNetClientSelfJoined(QString, int)), myStartNetworkGameDialog, SLOT(joinedNetworkGame(QString, int)));
+	connect(this, SIGNAL(signalNetClientPlayerJoined(QString, int)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString, int)));
+	connect(this, SIGNAL(signalNetClientPlayerLeft(QString)), myStartNetworkGameDialog, SLOT(removePlayer(QString)));
 
 	// Errors are handled globally, not within one dialog.
 	connect(this, SIGNAL(signalNetClientError(int, int)), this, SLOT(networkError(int, int)));
 	connect(this, SIGNAL(signalNetServerError(int, int)), this, SLOT(networkError(int, int)));
 	connect(this, SIGNAL(signalNetClientGameStart(boost::shared_ptr<Game>)), this, SLOT(networkStart(boost::shared_ptr<Game>)));
-
-	connect(this, SIGNAL(signalNetServerPlayerJoined(QString)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString)));
-	connect(this, SIGNAL(signalNetServerPlayerLeft(QString)), myStartNetworkGameDialog, SLOT(removePlayer(QString)));
 
 	//Sound
 	mySDLPlayer = new SDLPlayer(myConfig);
@@ -743,7 +740,7 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		gameData.guiSpeed = 4;
 		gameData.playerActionTimeoutSec = myCreateNetworkGameDialog->spinBox_netTimeOutPlayerAction->value();
 
-		myStartNetworkGameDialog->setSession(&myServerGuiInterface->getSession());
+		myStartNetworkGameDialog->setSession(&getSession());
 		myStartNetworkGameDialog->treeWidget->clear();
 
 		myServerGuiInterface->getSession().startNetworkServer(gameData);
@@ -751,7 +748,7 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 
 		myStartNetworkGameDialog->setMaxPlayerNumber(gameData.maxNumberOfPlayers);
 
-		showServerStartDialog();
+		showNetworkStartDialog();
 	}
 
 }
@@ -766,7 +763,8 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 		if (myServerGuiInterface.get())
 			myServerGuiInterface->getSession().terminateNetworkServer();
 
-		myWaitingForServerGameDialog->treeWidget->clear();
+		myStartNetworkGameDialog->setSession(&getSession());
+		myStartNetworkGameDialog->treeWidget->clear();
 		// Maybe use QUrl::toPunycode.
 		mySession->startNetworkClient(
 			myJoinNetworkGameDialog->lineEdit_ipAddress->text().toUtf8().constData(),
@@ -783,7 +781,7 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 			actionJoin_network_Game->trigger(); // re-trigger
 		}
 		else {
-			showClientWaitDialog();
+			showNetworkStartDialog();
 		}
 	}
 }
@@ -891,7 +889,7 @@ void mainWindowImpl::initGui(int speed)
 	}
 }
 
-void mainWindowImpl::showServerStartDialog()
+void mainWindowImpl::showNetworkStartDialog()
 {
 	myStartNetworkGameDialog->exec();
 
@@ -899,28 +897,11 @@ void mainWindowImpl::showServerStartDialog()
 		
 		//some gui modifications
 		networkGameModification();
-		myServerGuiInterface->getSession().initiateNetworkServerGame();
-		
 	}
 	else {
 		mySession->terminateNetworkClient();
-		myServerGuiInterface->getSession().terminateNetworkServer();
-	}
-}
-
-void mainWindowImpl::showClientWaitDialog()
-{
-	if (!myServerGuiInterface.get() || !myServerGuiInterface->getSession().isNetworkServerRunning())
-	{
-		myWaitingForServerGameDialog->exec();
-
-		if (myWaitingForServerGameDialog->result() == QDialog::Accepted) {
-			//some gui modifications
-			networkGameModification();
-		}
-		else {
-			mySession->terminateNetworkClient();
-		}
+		if (myServerGuiInterface)
+			myServerGuiInterface->getSession().terminateNetworkServer();
 	}
 }
 
@@ -2547,7 +2528,7 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 	}
 	// close dialogs
 	myConnectToServerDialog->reject();
-	myWaitingForServerGameDialog->reject();
+	myStartNetworkGameDialog->reject();
 }
 
 void mainWindowImpl::networkStart(boost::shared_ptr<Game> game)

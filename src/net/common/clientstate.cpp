@@ -447,7 +447,7 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 		// TODO: Type Human is fixed here.
 		// Player number is 0 on join. Will be set when the game starts.
 		boost::shared_ptr<PlayerData> playerData(
-			new PlayerData(joinGameAckData.yourPlayerUniqueId, 0, PLAYER_TYPE_HUMAN));
+			new PlayerData(joinGameAckData.yourPlayerUniqueId, 0, joinGameAckData.ptype, joinGameAckData.prights));
 		playerData->SetName(context.GetPlayerName());
 		client.AddPlayerData(playerData);
 
@@ -516,7 +516,7 @@ ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		packet->ToNetPacketPlayerJoined()->GetData(netPlayerData);
 
 		boost::shared_ptr<PlayerData> playerData(
-			new PlayerData(netPlayerData.playerId, 0, netPlayerData.ptype));
+			new PlayerData(netPlayerData.playerId, 0, netPlayerData.ptype, netPlayerData.prights));
 		playerData->SetName(netPlayerData.playerName);
 		client.AddPlayerData(playerData);
 	}

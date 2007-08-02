@@ -50,7 +50,7 @@ public:
 	void terminateNetworkClient();
 
 	void startNetworkServer(const GameData &gameData);
-	void initiateNetworkServerGame();
+	void sendStartEvent();
 	void terminateNetworkServer();
 	void waitForNetworkServer(unsigned timeoutMsec);
 

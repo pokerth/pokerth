@@ -52,6 +52,8 @@ public:
 		const std::string &pwd,
 		const std::string &playerName);
 
+	void SendKickPlayer(const std::string &playerName);
+	void SendStartEvent();
 	void SendPlayerAction();
 	void SendChatMessage(const std::string &msg);
 
@@ -89,6 +91,7 @@ protected:
 	void MapPlayerDataList();
 	const PlayerDataList &GetPlayerDataList() const;
 	boost::shared_ptr<PlayerData> GetPlayerDataByUniqueId(unsigned id);
+	boost::shared_ptr<PlayerData> GetPlayerDataByName(const std::string &name);
 
 	void RemoveDisconnectedPlayers();
 

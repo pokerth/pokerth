@@ -23,6 +23,7 @@
 
 #include <string>
 #include <boost/shared_ptr.hpp>
+#include <playerdata.h>
 
 class Game;
 
@@ -36,7 +37,8 @@ public:
 	virtual void SignalNetClientError(int errorID, int osErrorID) = 0;
 
 	virtual void SignalNetClientGameStart(boost::shared_ptr<Game> game) = 0;
-	virtual void SignalNetClientPlayerJoined(const std::string &playerName) = 0;
+	virtual void SignalNetClientSelfJoined(const std::string &playerName, PlayerRights rights) = 0;
+	virtual void SignalNetClientPlayerJoined(const std::string &playerName, PlayerRights rights) = 0;
 	virtual void SignalNetClientPlayerLeft(const std::string &playerName) = 0;
 
 	virtual void SignalNetClientChatMsg(const std::string &playerName, const std::string &msg) = 0;

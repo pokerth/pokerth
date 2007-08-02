@@ -36,9 +36,6 @@
 
 #define RECEIVER_THREAD_TERMINATE_TIMEOUT	200
 
-// Notifications
-#define NOTIFY_GAME_START				1
-#define NOTIFY_KICK_PLAYER				2
 
 class ServerRecvState;
 class SenderThread;
@@ -103,7 +100,7 @@ protected:
 	void CleanupSessionMap();
 
 	void InternalStartGame();
-	void InternalKickPlayer(const std::string playerName);
+	void InternalKickPlayer(unsigned uniqueId);
 
 	SessionWrapper GetSession(SOCKET sock) const;
 	SessionWrapper GetSessionByPlayerName(const std::string playerName) const;

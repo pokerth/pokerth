@@ -57,26 +57,6 @@ ServerThread::Init(unsigned serverPort, bool ipv6, bool sctp, const std::string 
 	GetRecvThread().Init(pwd, gameData);
 }
 
-void
-ServerThread::StartGame()
-{
-	if (!IsRunning())
-		return; // TODO: throw exception
-
-	// Thread-safe notification.
-	GetRecvThread().AddNotification(NOTIFY_GAME_START, "");
-}
-
-void
-ServerThread::KickPlayer(const string &playerName)
-{
-	if (!IsRunning())
-		return; // TODO: throw exception
-
-	// Thread-safe notification.
-	GetRecvThread().AddNotification(NOTIFY_KICK_PLAYER, playerName);
-}
-
 ServerCallback &
 ServerThread::GetCallback()
 {
