@@ -920,7 +920,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>mainWindowImpl</name>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2386"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2367"/>
         <source>Stop</source>
         <translation>Стоп</translation>
     </message>
@@ -935,72 +935,72 @@ p, li { white-space: pre-wrap; }
         <translation>Ctrl+N для старта новой игры</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1489"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1470"/>
         <source>F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise</source>
         <translation>F1 - Сбросить/Ва-банк | F2 - Пропуск/Ответить | F3 - Ставка/Повысить</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2244"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2225"/>
         <source>Start</source>
         <translation>Старт</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2544"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2525"/>
         <source>Network Error</source>
         <translation>Сетевая ошибка</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2412"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2393"/>
         <source>Server address was not set.</source>
         <translation>Не установлен адрес сервера.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2417"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2398"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
         <translation>Указан неверный порт (диапазон 0-1023 не допускается).</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2422"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2403"/>
         <source>Could not create a socket for TCP communication.</source>
         <translation>Не могу создать сокет для TCP-соединения.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2427"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2408"/>
         <source>Could not set the IP address.</source>
         <translation>Не могу установить IP адрес.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2432"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2413"/>
         <source>Could not set the port for this type of address.</source>
         <translation>Не могу установить порт для этого типа адреса.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2437"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2418"/>
         <source>The server name could not be resolved.</source>
         <translation>Не могу определить имя сервера.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2442"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2423"/>
         <source>Bind failed - please choose a different port.</source>
         <translation>Подключение на порт не удалось - выберите другой порт.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2447"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2428"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
         <translation>Внутренняя сетевая ошибка: неудачный &quot;listen&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2452"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2433"/>
         <source>Server execution was terminated.</source>
         <translation>Работа сервера была прервана.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2457"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2438"/>
         <source>Could not connect to the server.</source>
         <translation>Не могу соединиться с сервером.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2462"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2443"/>
         <source>Connection timed out.
 Please check the server address.
 
@@ -1011,97 +1011,97 @@ If the server is behind a NAT-Router, make sure port forwarding has been set up 
 Если сервер находится за NAT-маршрутизатора, удостоверьтесь, что обращение к порту сервера разрешено.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2467"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2448"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
         <translation>Внутренняя сетевая ошибка: неудачный &quot;select&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2472"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2453"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
         <translation>Внутренняя сетевая ошибка: неудачный &quot;send&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2478"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2459"/>
         <source>Connection was closed by the server.</source>
         <translation>Соединение было закрыто сервером.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2483"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2464"/>
         <source>Internal network error: Duplicate TCP connection.</source>
         <translation>Внутренняя сетевая ошибка: двойное TCP-соединение.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2488"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2469"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Принят неверный сетевой пакет.
 Убедитесь, что все игроки используют одинаковую версию PokerTH.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2493"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2474"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Внутренняя ошибка состояния.
 Убедитесь, что все игроки используют одинаковую версию PokerTH.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2498"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2479"/>
         <source>The PokerTH server does not support this version of the game.
 Please update PokerTH.</source>
         <translation>Сервер PokerTH не поддерживает эту версию игры.
 Обновите PokerTH.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2503"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2484"/>
         <source>Sorry, this server is already full.</source>
         <translation>Извините, сервер уже занят.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2508"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2489"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Подключение невозможно - сервер уже начал игру.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2513"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2494"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Неверный пароль при подключении.
 Введите пароль заново и подключитесь снова.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2518"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2499"/>
         <source>The password is too long. Please choose another one.</source>
         <translation>Слишком длинный пароль. Выберите другой.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2522"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2503"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
         <translation>Ваше игровое имя уже используется другим игроком.
 Выберите другое имя.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2526"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2507"/>
         <source>The player name is either too short or too long. Please choose another one.</source>
         <translation>Имя игрока слишком длинное или слишком короткое. Выберите другое имя.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2531"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2512"/>
         <source>The server referred to an unknown player. Aborting.</source>
         <translation>Сервер обращается к неизвестному игроку. Останов.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2536"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2517"/>
         <source>You were kicked from the server.</source>
         <translation>Вы были отключены от сервера.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2541"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2522"/>
         <source>The client player count is invalid.</source>
         <translation>Неверное количество клиентов сервера.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2545"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2526"/>
         <source>An internal error occured.</source>
         <translation>Произошла внутренняя ошибка.</translation>
     </message>
@@ -1580,12 +1580,12 @@ Please select an valid directory!</source>
 <context>
     <name>startNetworkGameDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="78"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="93"/>
         <source>Server Error</source>
         <translation>Ошибка сервера</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="79"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="94"/>
         <source>You should not kick yourself from this game!</source>
         <translation>Вы не можете отключить себя от этой игры!</translation>
     </message>

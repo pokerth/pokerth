@@ -906,137 +906,137 @@ p, li { white-space: pre-wrap; }
         <translation>Ctrl+N - új játékot indít</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1489"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1470"/>
         <source>F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise</source>
         <translation>F1 - Eldob/All-In | F2 - Mehet/Tart | F3 - Emel/Ráemel</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2544"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2525"/>
         <source>Network Error</source>
         <translation>Hálózati hiba</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2412"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2393"/>
         <source>Server address was not set.</source>
         <translation>Szerver cím nincs beállítva.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2417"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2398"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
         <translation>Hibás port van beállítva (A portok 0-1023-ig nem engedélyezettek).</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2422"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2403"/>
         <source>Could not create a socket for TCP communication.</source>
         <translation>Nem lehet létrehozni socket-et a TCP kommunikációhoz.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2427"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2408"/>
         <source>Could not set the IP address.</source>
         <translation>Nem lehet beállítani az IP címet.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2432"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2413"/>
         <source>Could not set the port for this type of address.</source>
         <translation>Nem lehet beállítani a port-ot ehhez a cím típushoz. </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2437"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2418"/>
         <source>The server name could not be resolved.</source>
         <translation>A szerver név feloldása nem lehetséges.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2442"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2423"/>
         <source>Bind failed - please choose a different port.</source>
         <translation>Kötés sikertelen - kérlek válassz másik port-ot.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2447"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2428"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
         <translation>Belső hálózati hiba: &quot;Listázás&quot; sikertelen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2452"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2433"/>
         <source>Server execution was terminated.</source>
         <translation>Szerver futtatása befejezve.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2457"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2438"/>
         <source>Could not connect to the server.</source>
         <translation>Nem lehet kapcsolódni a szerverhez.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2467"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2448"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
         <translation>Belső hálózati hiba: &quot;kiválasztás&quot; sikertelen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2472"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2453"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
         <translation>Belső hálózati hiba: &quot;küldés&quot; sikertelen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2483"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2464"/>
         <source>Internal network error: Duplicate TCP connection.</source>
         <translation>Belső hálózati hiba: Duplikált TCP kapcsolódás.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2488"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2469"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Érvénytelen hálózati csomag került fogadásra.
 Kérlek bizonyosodj meg róla, hogy az összes játékos ugyanazt a verziót használja.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2493"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2474"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Belső hiba.
 Kérlek bizonyosodj meg róla, hogy az összes játékos ugyanazt a verziót használja.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2498"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2479"/>
         <source>The PokerTH server does not support this version of the game.
 Please update PokerTH.</source>
         <translation>A PokerTH szerver nem támogatja a játéknak ezt a verzióját.
 Kérlek frissítsd a PokerTH-t.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2503"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2484"/>
         <source>Sorry, this server is already full.</source>
         <translation>Elnézést, a szerver jelenleg tele van.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2508"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2489"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Csatlakozás sikertelen - a szerver már elindította a játékot.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2513"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2494"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Hibás jelszó a játékhoz való csatlakozáskor.
 Kérlek írd be a jelszót mégegyszer és próbáld újra.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2518"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2499"/>
         <source>The password is too long. Please choose another one.</source>
         <translation>A jelszó túl hosszú. Kérlek válassz egy rövidebbet.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2522"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2503"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
         <translation>A játékos nevedetl már valaki használja.
 Kérlek válassz egy másik nevet.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2526"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2507"/>
         <source>The player name is either too short or too long. Please choose another one.</source>
         <translation>A játékos név túl hosszú vagy túl rövid. Kérlek válassz másik nevet.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2545"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2526"/>
         <source>An internal error occured.</source>
         <translation>Belső hiba lépett fel.</translation>
     </message>
@@ -1046,17 +1046,17 @@ Kérlek válassz egy másik nevet.</translation>
         <translation>Cmd+N - új játék indítása</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2244"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2225"/>
         <source>Start</source>
         <translation>Indítás</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2386"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2367"/>
         <source>Stop</source>
         <translation>Állj</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2462"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2443"/>
         <source>Connection timed out.
 Please check the server address.
 
@@ -1066,22 +1066,22 @@ Kérlek ellenőrizd a szerver címét.
 Ha a szerver NAT router mögött van, akkor bizonyosodj meg róla hogy a port továbbítás engedélyezett.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2478"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2459"/>
         <source>Connection was closed by the server.</source>
         <translation>A szerver megszakította a kapcsolatot.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2531"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2512"/>
         <source>The server referred to an unknown player. Aborting.</source>
         <translation>A szerver egy ismeretlen játékost azonosított. Megszakítás.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2536"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2517"/>
         <source>You were kicked from the server.</source>
         <translation>A szerver kidobott a játékból. </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2541"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2522"/>
         <source>The client player count is invalid.</source>
         <translation>A kliens játékos száma érvénytelen.</translation>
     </message>
@@ -1557,12 +1557,12 @@ Kérlek válassz egy valós mappát!</translation>
 <context>
     <name>startNetworkGameDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="78"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="93"/>
         <source>Server Error</source>
         <translation>Szerver hiba</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="79"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="94"/>
         <source>You should not kick yourself from this game!</source>
         <translation>Nem tudod saját magadat kirúgni a játékból! </translation>
     </message>
