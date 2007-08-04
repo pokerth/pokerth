@@ -13,6 +13,9 @@
 #define LOCALBEROFACTORY_H
 
 #include <berofactoryinterface.h>
+#include <berointerface.h>
+#include <handinterface.h>
+#include <localberopreflop.h>
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
@@ -20,9 +23,15 @@
 class LocalBeRoFactory : public BeRoFactoryInterface
 {
 public:
-    LocalBeRoFactory();
+    LocalBeRoFactory(HandInterface* hi);
 
     ~LocalBeRoFactory();
+
+    BeRoInterface* switchRounds();
+
+private:
+
+    HandInterface* myHand;
 
 };
 

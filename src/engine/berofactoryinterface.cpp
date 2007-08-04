@@ -11,11 +11,6 @@
 //
 #include "berofactoryinterface.h"
 
-BeRoFactoryInterface::BeRoFactoryInterface()
-{
-}
-
-
 BeRoFactoryInterface::~BeRoFactoryInterface()
 {
 }

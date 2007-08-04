@@ -28,6 +28,7 @@
 #include <flopinterface.h>
 #include <turninterface.h>
 #include <riverinterface.h>
+#include <berointerface.h>
 
 #include <boost/thread.hpp>
 
@@ -41,7 +42,7 @@ public:
 
 	PlayerInterface** getPlayerArray() const;
 	BoardInterface* getBoard() const;
-	PreflopInterface* getPreflop() const;
+	BeRoInterface* getPreflop() const;
 	FlopInterface* getFlop() const;
 	TurnInterface* getTurn() const;
 	RiverInterface* getRiver() const;
@@ -97,6 +98,7 @@ private:
 	FlopInterface *myFlop;
 	TurnInterface *myTurn;
 	RiverInterface *myRiver;
+	BeRoInterface *myBeRo;
 
 	int myID;
 	int actualQuantityPlayers;

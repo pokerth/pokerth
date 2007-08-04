@@ -172,7 +172,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	myTurn = myFactory->createTurn(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
 	myRiver = myFactory->createRiver(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
 
-	myBeRo = myFactory->createBeRo();
+	myBeRoFactory = myFactory->createBeRoFactory(this);
+	myBeRo = myBeRoFactory->switchRounds();
 }
 
 
@@ -324,7 +325,7 @@ void LocalHand::switchRounds() {
 				if(playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyAction() != 6 && playerArray[i]->getMyActiveStatus() == 1) {	
 					tempHighestSet = 0;
 					switch (actualRound) {
-						case 0: {tempHighestSet = myPreflop->getHighestSet();}
+						case 0: {tempHighestSet = myBeRo->getHighestSet();}
 						break;
 						case 1: {tempHighestSet = myFlop->getHighestSet();}
 						break;

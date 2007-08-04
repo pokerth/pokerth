@@ -84,10 +84,10 @@ ClientHand::getBoard() const
 	return myBoard;
 }
 
-PreflopInterface*
+BeRoInterface*
 ClientHand::getPreflop() const
 {
-	return myPreflop;
+	return myBeRo;
 }
 
 FlopInterface*

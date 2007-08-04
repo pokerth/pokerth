@@ -30,6 +30,7 @@
 #include <turninterface.h>
 #include <riverinterface.h>
 #include <berointerface.h>
+#include <berofactoryinterface.h>
 
 
 class LocalHand : public HandInterface{
@@ -41,7 +42,7 @@ public:
 
 	PlayerInterface** getPlayerArray() const { return playerArray; }
 	BoardInterface* getBoard() const { return myBoard; }
-	PreflopInterface* getPreflop() const { return myPreflop; }
+	BeRoInterface* getPreflop() const { return myBeRo; }
 	FlopInterface* getFlop() const { return myFlop; }
 	TurnInterface* getTurn() const { return myTurn; }
 	RiverInterface* getRiver() const { return myRiver; }
@@ -99,6 +100,7 @@ private:
 	TurnInterface *myTurn;
 	RiverInterface *myRiver;
 	BeRoInterface *myBeRo;
+	BeRoFactoryInterface *myBeRoFactory;
 
 	int myID;
 	int actualQuantityPlayers;

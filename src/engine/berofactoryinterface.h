@@ -15,11 +15,15 @@
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
 */
+
+#include <berointerface.h>
+
 class BeRoFactoryInterface{
 public:
-    BeRoFactoryInterface();
 
-    ~BeRoFactoryInterface();
+    virtual ~BeRoFactoryInterface();
+
+    virtual BeRoInterface* switchRounds() = 0;
 
 };
 

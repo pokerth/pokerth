@@ -75,12 +75,12 @@ RiverInterface* ClientEngineFactory::createRiver(HandInterface* hi, int id, int 
 	return new ClientRiver(hi, id, aP, dP, sB);
 }
 
-BeRoInterface* ClientEngineFactory::createBeRo() 
-{
-	return new ClientBeRo();
-}
+// BeRoInterface* ClientEngineFactory::createBeRo() 
+// {
+// 	return new ClientBeRo();
+// }
 
-BeRoFactoryInterface* ClientEngineFactory::createBeRoFactory() 
+BeRoFactoryInterface* ClientEngineFactory::createBeRoFactory(HandInterface* hi) 
 {
-	return new ClientBeRoFactory();
+	return new ClientBeRoFactory(hi);
 }

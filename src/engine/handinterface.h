@@ -27,6 +27,7 @@
 #include "flopinterface.h"
 #include "turninterface.h"
 #include "riverinterface.h"
+#include "berointerface.h"
 
 class HandInterface{
 public:
@@ -37,7 +38,7 @@ public:
 
 	virtual PlayerInterface** getPlayerArray() const =0;
 	virtual BoardInterface* getBoard() const =0;
-	virtual PreflopInterface* getPreflop() const =0;
+	virtual BeRoInterface* getPreflop() const =0;
 	virtual FlopInterface* getFlop() const =0;
 	virtual TurnInterface* getTurn() const =0;
 	virtual RiverInterface* getRiver() const =0;

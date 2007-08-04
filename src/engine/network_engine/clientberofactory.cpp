@@ -11,7 +11,7 @@
 //
 #include "clientberofactory.h"
 
-ClientBeRoFactory::ClientBeRoFactory()
+ClientBeRoFactory::ClientBeRoFactory(HandInterface* hi)
  : BeRoFactoryInterface()
 {
 }
@@ -22,3 +22,4 @@ ClientBeRoFactory::~ClientBeRoFactory()
 }
 
 
+BeRoInterface* ClientBeRoFactory::switchRounds() {}

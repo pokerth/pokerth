@@ -28,7 +28,7 @@
 #include <flopinterface.h>
 #include <turninterface.h>
 #include <riverinterface.h>
-#include <berointerface.h>
+// #include <berointerface.h>
 #include <berofactoryinterface.h>
 
 
@@ -47,8 +47,8 @@ public:
 	FlopInterface* createFlop(HandInterface* hi, int id, int aP, int dP, int sB);
 	TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB);
 	RiverInterface* createRiver(HandInterface* hi, int id, int aP, int dP, int sB);
-	BeRoInterface* createBeRo();
-	BeRoFactoryInterface* createBeRoFactory();
+// 	BeRoInterface* createBeRo();
+	BeRoFactoryInterface* createBeRoFactory(HandInterface* hi);
 	
 };
 

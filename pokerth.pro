@@ -104,6 +104,7 @@ HEADERS += src/game.h \
            src/engine/local_engine/localhand.h \
            src/engine/local_engine/localplayer.h \
            src/engine/local_engine/localpreflop.h \
+	   src/engine/local_engine/localberopreflop.h \
            src/engine/local_engine/localriver.h \
            src/engine/local_engine/localturn.h \
            src/engine/local_engine/tools.h \
@@ -185,7 +186,8 @@ SOURCES += src/game.cpp \
            src/engine/local_engine/localhand.cpp \
            src/engine/local_engine/localplayer.cpp \
            src/engine/local_engine/localpreflop.cpp \
-           src/engine/local_engine/localriver.cpp \
+	   src/engine/local_engine/localberopreflop.cpp \
+	   src/engine/local_engine/localriver.cpp \
            src/engine/local_engine/localturn.cpp \
            src/engine/local_engine/tools.cpp \
            src/engine/local_engine/localbero.cpp \

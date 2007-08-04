@@ -1,7 +1,7 @@
 //
 // C++ Implementation: localberofactory
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <webmaster@pokerth.net>, (C) 2007
@@ -11,14 +11,23 @@
 //
 #include "localberofactory.h"
 
-LocalBeRoFactory::LocalBeRoFactory()
- : BeRoFactoryInterface()
-{
-}
+LocalBeRoFactory::LocalBeRoFactory ( HandInterface* hi )
+		: BeRoFactoryInterface() , myHand ( hi )
+{}
 
 
 LocalBeRoFactory::~LocalBeRoFactory()
+{}
+
+BeRoInterface* LocalBeRoFactory::switchRounds()
 {
+
+	BeRoInterface* myBeRo = 0;
+
+	myBeRo = new LocalBeRoPreflop ( myHand, 0, 7, 0, 10 );
+
+	return myBeRo;
 }
+
 
 

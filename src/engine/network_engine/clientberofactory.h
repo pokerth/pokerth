@@ -13,6 +13,7 @@
 #define CLIENTBEROFACTORY_H
 
 #include <berofactoryinterface.h>
+#include <handinterface.h>
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
@@ -20,9 +21,11 @@
 class ClientBeRoFactory : public BeRoFactoryInterface
 {
 public:
-    ClientBeRoFactory();
+    ClientBeRoFactory(HandInterface* hi);
 
     ~ClientBeRoFactory();
+
+    BeRoInterface* switchRounds();
 
 };
 

@@ -45,8 +45,14 @@ public:
 	virtual FlopInterface* createFlop(HandInterface* hi, int id, int aP, int dP, int sB) =0;
 	virtual TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB) =0;
 	virtual RiverInterface* createRiver(HandInterface* hi, int id, int aP, int dP, int sB) =0;
-	virtual BeRoInterface* createBeRo() =0;
-	virtual BeRoFactoryInterface* createBeRoFactory() =0;
+// 	virtual BeRoInterface* createBeRo() =0;
+	virtual BeRoFactoryInterface* createBeRoFactory(HandInterface* hi) =0;
 };
 
 #endif
+
+// The following code introduces the new BeRo interface step by step. This hint will be removed if refactorying was succesfull //
+
+
+
+// new BeRo Interface code stop here //
