@@ -22,9 +22,9 @@ LocalBeRoFactory::~LocalBeRoFactory()
 BeRoInterface* LocalBeRoFactory::switchRounds()
 {
 
-	BeRoInterface* myBeRo = 0;
+	BeRoInterface* myBeRo = NULL;
 
-	myBeRo = new LocalBeRoPreflop ( myHand, 0, 7, 0, 10 );
+	myBeRo = new LocalBeRoPreflop ( myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind );
 
 	return myBeRo;
 }

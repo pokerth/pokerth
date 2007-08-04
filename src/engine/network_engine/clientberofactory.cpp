@@ -22,4 +22,4 @@ ClientBeRoFactory::~ClientBeRoFactory()
 }
 
 
-BeRoInterface* ClientBeRoFactory::switchRounds() {}
+BeRoInterface* ClientBeRoFactory::switchRounds() { return NULL;}
