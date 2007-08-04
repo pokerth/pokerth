@@ -26,6 +26,7 @@
 #include "clientturn.h"
 #include "clientriver.h"
 #include "clientbero.h"
+#include "clientberofactory.h"
 
 
 
@@ -77,4 +78,9 @@ RiverInterface* ClientEngineFactory::createRiver(HandInterface* hi, int id, int 
 BeRoInterface* ClientEngineFactory::createBeRo() 
 {
 	return new ClientBeRo();
+}
+
+BeRoFactoryInterface* ClientEngineFactory::createBeRoFactory() 
+{
+	return new ClientBeRoFactory();
 }

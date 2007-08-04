@@ -28,6 +28,7 @@
 #include "turninterface.h"
 #include "riverinterface.h"
 #include "berointerface.h"
+#include "berofactoryinterface.h"
 
 #include <boost/shared_ptr.hpp>
 
@@ -45,6 +46,7 @@ public:
 	virtual TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB) =0;
 	virtual RiverInterface* createRiver(HandInterface* hi, int id, int aP, int dP, int sB) =0;
 	virtual BeRoInterface* createBeRo() =0;
+	virtual BeRoFactoryInterface* createBeRoFactory() =0;
 };
 
 #endif
