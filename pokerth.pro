@@ -79,6 +79,7 @@ HEADERS += src/game.h \
            src/engine/preflopinterface.h \
            src/engine/riverinterface.h \
            src/engine/turninterface.h \
+	   src/engine/berointerface.h \
            src/gui/guiinterface.h \
            src/net/clientcallback.h \
            src/net/clientcontext.h \
@@ -105,6 +106,7 @@ HEADERS += src/game.h \
            src/engine/local_engine/localriver.h \
            src/engine/local_engine/localturn.h \
            src/engine/local_engine/tools.h \
+	   src/engine/local_engine/localbero.h \
            src/engine/network_engine/clientboard.h \
            src/engine/network_engine/clientenginefactory.h \
            src/engine/network_engine/clientflop.h \
@@ -113,7 +115,8 @@ HEADERS += src/game.h \
            src/engine/network_engine/clientpreflop.h \
            src/engine/network_engine/clientriver.h \
            src/engine/network_engine/clientturn.h \
-     	   src/gui/qt/sound/sdlplayer.h \
+     	   src/engine/network_engine/clientbero.h \
+	   src/gui/qt/sound/sdlplayer.h \
            src/gui/qt/mainwindow/mainwindowimpl.h \
            src/gui/qt/mainwindow/mycardspixmaplabel.h \
 	   src/gui/qt/mainwindow/mysetlabel.h \
@@ -139,7 +142,7 @@ HEADERS += src/game.h \
            src/gui/qttoolsinterface.h \
            src/gui/qt/qttools/qttoolswrapper.h \
            src/gui/qt/qttools/qthelper/qthelper.h \
-           src/gui/generic/serverguiwrapper.h 
+           src/gui/generic/serverguiwrapper.h
 FORMS += src/gui/qt/mainwindow.ui \
          src/gui/qt/aboutpokerth.ui \
          src/gui/qt/connecttoserverdialog.ui \
@@ -164,6 +167,7 @@ SOURCES += src/game.cpp \
            src/engine/preflopinterface.cpp \
            src/engine/riverinterface.cpp \
            src/engine/turninterface.cpp \
+	   src/engine/berointerface.cpp \
            src/gui/guiinterface.cpp \
            src/core/common/thread.cpp \
            src/core/tinyxml/tinystr.cpp \
@@ -180,6 +184,7 @@ SOURCES += src/game.cpp \
            src/engine/local_engine/localriver.cpp \
            src/engine/local_engine/localturn.cpp \
            src/engine/local_engine/tools.cpp \
+           src/engine/local_engine/localbero.cpp \
            src/engine/network_engine/clientboard.cpp \
            src/engine/network_engine/clientenginefactory.cpp \
            src/engine/network_engine/clientflop.cpp \
@@ -188,6 +193,7 @@ SOURCES += src/game.cpp \
            src/engine/network_engine/clientpreflop.cpp \
            src/engine/network_engine/clientriver.cpp \
            src/engine/network_engine/clientturn.cpp \
+	   src/engine/network_engine/clientbero.cpp \
            src/net/common/connectdata.cpp \
            src/net/common/clientcallback.cpp \
            src/net/common/clientcontext.cpp \
@@ -246,7 +252,7 @@ TRANSLATIONS = ts/pokerth_de.ts \
                ts/pokerth_sk.ts \
       	       ts/pokerth_eo.ts \
 	       ts/pokerth_hu.ts \
-	       ts/pokerth_pl.ts \	
+	       ts/pokerth_pl.ts \
 	       ts/pokerth_ptbr.ts \
    	       ts/pokerth_it.ts \
                ts/pokerth_nl.ts
@@ -272,39 +278,39 @@ win32{
 		src/net/linux/socket_startup.cpp 
 }
 
-unix:!mac{
-	exists( /usr/lib/libboost_thread-mt.so ) {
-		message("Found libboost_thread-mt")
-		LIBS += -lboost_thread-mt
-	}
-	exists( /usr/lib/libboost_thread.so ) {
-		message("Found libboost_thread")
-		LIBS += -lboost_thread
-	}
-	LIBS += -lcrypto -lSDL_mixer
-	## My release static libs
-	#LIBS += -lcrypto -lSDL_mixer -lSDL -lmikmod
-}
+unix: !mac{
+        exists( /usr/lib/libboost_thread-mt.so ){
+            message("Found libboost_thread-mt")
+            LIBS += -lboost_thread-mt
+        }
+        exists( /usr/lib/libboost_thread.so ){
+            message("Found libboost_thread")
+            LIBS += -lboost_thread
+        }
+        LIBS += -lcrypto -lSDL_mixer
+        ## My release static libs
+        #LIBS += -lcrypto -lSDL_mixer -lSDL -lmikmod
+    }
 
 mac{
     # make it universal  
     CONFIG += x86 
     CONFIG += ppc
-		QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.3
-    
-		# for universal-compilation on PPC-Mac uncomment the following line
-		# on Intel-Mac you have to comment this line out or build will fail.
+    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.3
+
+    # for universal-compilation on PPC-Mac uncomment the following line
+    # on Intel-Mac you have to comment this line out or build will fail.
     #	QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 
     # Qt static (path is standard for self-compiling qt)
     #LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtCore.a
     #LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtGui.a
-		# QT dynamic linked framework (see also mac_post_make.sh)
-		LIBS += -framework QtCore
-		LIBS += -framework QtGui
-		# SDL and SDL_mixer come as frameworks
-		LIBS += -framework SDL
-		LIBS += -framework SDL_mixer
+    # QT dynamic linked framework (see also mac_post_make.sh)
+    LIBS += -framework QtCore
+    LIBS += -framework QtGui
+    # SDL and SDL_mixer come as frameworks
+    LIBS += -framework SDL
+    LIBS += -framework SDL_mixer
     # standard path for darwinports
     # make sure you have a universal version of boost
     LIBS += /opt/local/lib/libboost_thread.a
@@ -314,8 +320,8 @@ mac{
     RC_FILE = pokerth.icns
     LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib 
     INCLUDEPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/include/
-		INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
-		INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers		
+    INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
+    INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers		
 }
 
 CONFIG += qt release

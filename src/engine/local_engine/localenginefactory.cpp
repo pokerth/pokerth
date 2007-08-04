@@ -26,6 +26,7 @@
 #include "localflop.h"
 #include "localturn.h"
 #include "localriver.h"
+#include "localbero.h"
 
 #include <configfile.h>
 
@@ -54,3 +55,5 @@ FlopInterface* LocalEngineFactory::createFlop(HandInterface* hi, int id, int aP,
 TurnInterface* LocalEngineFactory::createTurn(HandInterface* hi, int id, int aP, int dP, int sB) { return new LocalTurn(hi, id, aP, dP, sB); }
 
 RiverInterface* LocalEngineFactory::createRiver(HandInterface* hi, int id, int aP, int dP, int sB) { return new LocalRiver(hi, id, aP, dP, sB); }
+
+BeRoInterface* LocalEngineFactory::createBeRo() { return new LocalBeRo(); }
