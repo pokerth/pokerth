@@ -11,7 +11,7 @@
 //
 #include "clientberofactory.h"
 
-ClientBeRoFactory::ClientBeRoFactory(HandInterface* hi)
+ClientBeRoFactory::ClientBeRoFactory(HandInterface* hi, int id, int aP, int dP, int sB)
  : BeRoFactoryInterface()
 {
 }

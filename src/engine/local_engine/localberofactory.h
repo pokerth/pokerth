@@ -23,7 +23,7 @@
 class LocalBeRoFactory : public BeRoFactoryInterface
 {
 public:
-    LocalBeRoFactory(HandInterface* hi);
+    LocalBeRoFactory(HandInterface* hi, int id, int aP, int dP, int sB);
 
     ~LocalBeRoFactory();
 
@@ -32,6 +32,17 @@ public:
 private:
 
     HandInterface* myHand;
+
+	int myID;
+	int actualQuantityPlayers;	
+	int dealerPosition;
+	int bigBlindPosition;
+
+	int smallBlind;
+	int highestSet;
+
+	bool preflopFirstRound;
+	int playersTurn;
 
 };
 

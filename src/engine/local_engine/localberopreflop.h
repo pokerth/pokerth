@@ -16,40 +16,51 @@
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
-#ifndef LOCALENGINEFACTORY_H
-#define LOCALENGINEFACTORY_H
+ *************************************************************************/
+#ifndef LOCALBEROPREFLOP_H
+#define LOCALBEROPREFLOP_H
 
-#include <enginefactory.h>
+#include <iostream>
+#include <localbero.h>
 
-#include <handinterface.h>
-#include <boardinterface.h>
-#include <playerinterface.h>
-#include <preflopinterface.h>
-#include <flopinterface.h>
-#include <turninterface.h>
-#include <riverinterface.h>
-#include <berofactoryinterface.h>
+class HandInterface;
 
-class ConfigFile;
-
-class LocalEngineFactory : public EngineFactory
-{
+class LocalBeRoPreflop : public LocalBeRo{
+ 
 public:
-	LocalEngineFactory(ConfigFile*);
-	~LocalEngineFactory();
+	LocalBeRoPreflop(HandInterface*, int, int, int, int);
+	~LocalBeRoPreflop();
 
-	HandInterface* createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC);
-	BoardInterface* createBoard();
-	PlayerInterface* createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
-	PreflopInterface* createPreflop(HandInterface* hi, int id, int aP, int dP, int sB);
-	FlopInterface* createFlop(HandInterface* hi, int id, int aP, int dP, int sB);
-	TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB);
-	RiverInterface* createRiver(HandInterface* hi, int id, int aP, int dP, int sB);
-	BeRoFactoryInterface* createBeRoFactory(HandInterface* hi, int id, int aP, int dP, int sB);
+
+	void setPlayersTurn(int theValue) { playersTurn = theValue; }
+	int getPlayersTurn() const { return playersTurn; }
+	
+	void setHighestSet(int theValue) { highestSet = theValue; }
+	int getHighestSet() const { return highestSet;}
+
+	void setPreflopFirstRound(bool theValue) { preflopFirstRound = theValue; }
+	bool setPreflopFirstRound() const { return preflopFirstRound; }
+
+	void preflopRun();
+	void nextPlayer2(); 
+
+
 
 private:
-	ConfigFile *myConfig;
+	HandInterface *myHand;
+
+	int myID;
+	int actualQuantityPlayers;	
+	int dealerPosition;
+	int bigBlindPosition;
+
+	int smallBlind;
+	int highestSet;
+
+	bool preflopFirstRound;
+	int playersTurn;
+
+
 };
 
 #endif

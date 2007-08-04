@@ -11,8 +11,8 @@
 //
 #include "localberofactory.h"
 
-LocalBeRoFactory::LocalBeRoFactory ( HandInterface* hi )
-		: BeRoFactoryInterface() , myHand ( hi )
+LocalBeRoFactory::LocalBeRoFactory (HandInterface* hi, int id, int aP, int dP, int sB)
+		: BeRoFactoryInterface() , myHand(hi), myID(id), actualQuantityPlayers(aP), dealerPosition(dP), smallBlind(sB)
 {}
 
 

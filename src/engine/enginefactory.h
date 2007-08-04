@@ -46,7 +46,7 @@ public:
 	virtual TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB) =0;
 	virtual RiverInterface* createRiver(HandInterface* hi, int id, int aP, int dP, int sB) =0;
 // 	virtual BeRoInterface* createBeRo() =0;
-	virtual BeRoFactoryInterface* createBeRoFactory(HandInterface* hi) =0;
+	virtual BeRoFactoryInterface* createBeRoFactory(HandInterface* hi, int id, int aP, int dP, int sB) =0;
 };
 
 #endif

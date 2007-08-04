@@ -21,7 +21,7 @@
 class ClientBeRoFactory : public BeRoFactoryInterface
 {
 public:
-    ClientBeRoFactory(HandInterface* hi);
+    ClientBeRoFactory(HandInterface* hi, int id, int aP, int dP, int sB);
 
     ~ClientBeRoFactory();
 
