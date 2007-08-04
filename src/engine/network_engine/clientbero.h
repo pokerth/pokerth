@@ -12,10 +12,13 @@
 #ifndef CLIENTBERO_H
 #define CLIENTBERO_H
 
+#include "berointerface.h"
+
+
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
 */
-class ClientBeRo{
+class ClientBeRo : public BeRoInterface{
 public:
     ClientBeRo();
 

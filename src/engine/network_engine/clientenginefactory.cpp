@@ -25,6 +25,8 @@
 #include "clientflop.h"
 #include "clientturn.h"
 #include "clientriver.h"
+#include "clientbero.h"
+
 
 
 ClientEngineFactory::ClientEngineFactory()
@@ -72,3 +74,7 @@ RiverInterface* ClientEngineFactory::createRiver(HandInterface* hi, int id, int 
 	return new ClientRiver(hi, id, aP, dP, sB);
 }
 
+BeRoInterface* ClientEngineFactory::createBeRo() 
+{
+	return new ClientBeRo();
+}

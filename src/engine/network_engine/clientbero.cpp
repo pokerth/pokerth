@@ -11,7 +11,7 @@
 //
 #include "clientbero.h"
 
-ClientBeRo::ClientBeRo()
+ClientBeRo::ClientBeRo() : BeRoInterface()
 {
 }
 

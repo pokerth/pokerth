@@ -29,6 +29,7 @@
 #include <flopinterface.h>
 #include <turninterface.h>
 #include <riverinterface.h>
+#include <berointerface.h>
 
 
 class LocalHand : public HandInterface{
@@ -97,6 +98,7 @@ private:
 	FlopInterface *myFlop;
 	TurnInterface *myTurn;
 	RiverInterface *myRiver;
+	BeRoInterface *myBeRo;
 
 	int myID;
 	int actualQuantityPlayers;

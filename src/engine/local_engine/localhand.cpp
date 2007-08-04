@@ -171,6 +171,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	myFlop = myFactory->createFlop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
 	myTurn = myFactory->createTurn(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
 	myRiver = myFactory->createRiver(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
+
+	myBeRo = myFactory->createBeRo();
 }
 
 

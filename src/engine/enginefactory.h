@@ -27,6 +27,7 @@
 #include "flopinterface.h"
 #include "turninterface.h"
 #include "riverinterface.h"
+#include "berointerface.h"
 
 #include <boost/shared_ptr.hpp>
 
@@ -43,7 +44,7 @@ public:
 	virtual FlopInterface* createFlop(HandInterface* hi, int id, int aP, int dP, int sB) =0;
 	virtual TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB) =0;
 	virtual RiverInterface* createRiver(HandInterface* hi, int id, int aP, int dP, int sB) =0;
-
+	virtual BeRoInterface* createBeRo() =0;
 };
 
 #endif
