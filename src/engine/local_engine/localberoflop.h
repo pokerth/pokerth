@@ -52,12 +52,6 @@ public:
 	void flopRun();
 	void nextPlayer2();
 
-	//only until bero refactory is over
-	void preflopRun() {}
-	void turnRun() {}
-	void riverRun() {}
-	void postRiverRun() {}
-
 private:
 
 	HandInterface *myHand;

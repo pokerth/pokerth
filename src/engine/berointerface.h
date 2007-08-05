@@ -28,6 +28,10 @@ public:
 	virtual void setHighestSet(int) =0;
 	virtual int getHighestSet() const =0;
 
+	virtual void setHighestCardsValue(int theValue) =0;
+	virtual void resetFirstRun() =0;
+	virtual int getHighestCardsValue() =0;
+
 	virtual void preflopRun() =0;
 	virtual void flopRun() =0;
 	virtual void turnRun() =0;

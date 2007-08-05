@@ -167,16 +167,16 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	assignButtons();
 
 	// Preflop, Flop, Turn und River erstellen
-	myPreflop =  myFactory->createPreflop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-	myFlop = myFactory->createFlop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-	myTurn = myFactory->createTurn(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-	myRiver = myFactory->createRiver(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
+// 	myPreflop =  myFactory->createPreflop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
+// 	myFlop = myFactory->createFlop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
+// 	myTurn = myFactory->createTurn(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
+// 	myRiver = myFactory->createRiver(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
 
 	myBeRoFactory = myFactory->createBeRoFactory(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
 
 	int currentRound = actualRound; // for Lothar ;-)
 
-	myBeRo = myBeRoFactory->switchRounds(currentRound);
+	myBeRo = myBeRoFactory->createBeRoPreflop();
 }
 
 
@@ -330,11 +330,11 @@ void LocalHand::switchRounds() {
 					switch (actualRound) {
 						case 0: {tempHighestSet = myBeRo->getHighestSet();}
 						break;
-						case 1: {tempHighestSet = myFlop->getHighestSet();}
+						case 1: {tempHighestSet = myBeRo->getHighestSet();}
 						break;
-						case 2: {tempHighestSet = myTurn->getHighestSet();}
+						case 2: {tempHighestSet = myBeRo->getHighestSet();}
 						break;
-						case 3: {tempHighestSet = myRiver->getHighestSet();}
+						case 3: {tempHighestSet = myBeRo->getHighestSet();}
 						break;
 						default: {}	
 					}
@@ -381,7 +381,10 @@ void LocalHand::switchRounds() {
 	myGui->refreshGameLabels((GameState)getActualRound());
 // 	/*/*/*/*cout <<*/*/*/*/ "NextPlayerSpeed1 stop" << endl;
 // 
+
+	int currentRound = actualRound;
 	
+	myBeRo = myBeRoFactory->switchRounds(myBeRo, currentRound);
 
 // 	cout << "NextPlayerSpeed2 start" << endl;
 	switch(actualRound) {

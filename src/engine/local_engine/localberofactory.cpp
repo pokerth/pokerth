@@ -21,70 +21,56 @@ LocalBeRoFactory::LocalBeRoFactory (HandInterface* hi, int id, int aP, int dP, i
 LocalBeRoFactory::~LocalBeRoFactory()
 {}
 
-BeRoInterface* LocalBeRoFactory::switchRounds(int currentRound)
+BeRoInterface* LocalBeRoFactory::createBeRoPreflop() {
+
+	BeRoInterface* preflopBeRo = new LocalBeRoPreflop ( myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind );
+
+	return preflopBeRo;
+
+}
+
+BeRoInterface* LocalBeRoFactory::switchRounds(BeRoInterface* currentBeRo, int currentRound)
 {
+	if(currentRound != currentBeRo->getMyBeRoID()) {
 
-	BeRoInterface* myBeRo = NULL;
+		delete currentBeRo;
+		currentBeRo = NULL;
 
-	switch(currentRound) {
-		case GAME_STATE_PREFLOP: {
-			if(currentRound != myHand->getCurrentBeRo()->getMyBeRoID()) {
+		switch(currentRound) {
+			case GAME_STATE_PREFLOP: {
 
-				delete myBeRo;
-				myBeRo = NULL;
-
-				myBeRo = new LocalBeRoPreflop ( myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind );
+				currentBeRo = new LocalBeRoPreflop ( myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind );
 			}
-		}
-		break;
-		case GAME_STATE_FLOP: {
-			if(currentRound != myHand->getCurrentBeRo()->getMyBeRoID()) {
-
-				delete myBeRo;
-				myBeRo = NULL;
-
-				myBeRo = new LocalBeRoFlop( myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind );
+			break;
+			case GAME_STATE_FLOP: {
+	
+				currentBeRo = new LocalBeRoFlop( myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind );
 			}
-		}
-		break;
-		case GAME_STATE_TURN: {
-			if(currentRound != myHand->getCurrentBeRo()->getMyBeRoID()) {
+			break;
+			case GAME_STATE_TURN: {
+	
+				currentBeRo = new LocalBeRoTurn( myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind );
 
-				delete myBeRo;
-				myBeRo = NULL;
-
-				myBeRo = new LocalBeRoTurn( myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind );
 			}
-		}
-		break;
-		case GAME_STATE_RIVER: {
-			if(currentRound != myHand->getCurrentBeRo()->getMyBeRoID()) {
+			break;
+			case GAME_STATE_RIVER: {
+	
+				currentBeRo = new LocalBeRoRiver ( myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind );
 
-				delete myBeRo;
-				myBeRo = NULL;
-
-				myBeRo = new LocalBeRoRiver ( myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind );
 			}
-		}
-		break;
-		case GAME_STATE_POST_RIVER: {
-			if(currentRound != myHand->getCurrentBeRo()->getMyBeRoID()) {
+			break;
+			case GAME_STATE_POST_RIVER: {
+	
+				currentBeRo = new LocalBeRoPostRiver ( myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind );
 
-				delete myBeRo;
-				myBeRo = NULL;
-
-				myBeRo = new LocalBeRoPostRiver ( myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind );
 			}
+			break;
+			default: { cout << "BeRoFactory-ERROR" << endl; }
 		}
-		break;
-		default: { cout << "BeRoFactory-ERROR" << endl; }
+
 	}
 
-
-
-	
-
-	return myBeRo;
+	return currentBeRo;
 }
 
 

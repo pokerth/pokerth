@@ -78,3 +78,4 @@ BeRoFactoryInterface* ClientEngineFactory::createBeRoFactory(HandInterface* hi, 
 {
 	return new ClientBeRoFactory(hi, id, aP, dP, sB);
 }
+

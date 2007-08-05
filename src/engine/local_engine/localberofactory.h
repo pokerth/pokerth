@@ -33,7 +33,9 @@ public:
 
     ~LocalBeRoFactory();
 
-    BeRoInterface* switchRounds(int);
+	BeRoInterface* switchRounds(BeRoInterface*, int);
+
+	BeRoInterface* createBeRoPreflop();
 
 private:
 

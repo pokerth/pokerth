@@ -25,7 +25,9 @@ public:
 
     ~ClientBeRoFactory();
 
-    BeRoInterface* switchRounds(int);
+	BeRoInterface* switchRounds(BeRoInterface*, int);
+
+	BeRoInterface* createBeRoPreflop();
 
 };
 

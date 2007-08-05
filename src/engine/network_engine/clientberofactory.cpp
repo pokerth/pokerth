@@ -10,6 +10,7 @@
 //
 //
 #include "clientberofactory.h"
+#include "berointerface.h"
 
 ClientBeRoFactory::ClientBeRoFactory(HandInterface* hi, int id, int aP, int dP, int sB)
  : BeRoFactoryInterface()
@@ -22,4 +23,6 @@ ClientBeRoFactory::~ClientBeRoFactory()
 }
 
 
-BeRoInterface* ClientBeRoFactory::switchRounds(int currentRound) { return NULL;}
+BeRoInterface* ClientBeRoFactory::switchRounds(BeRoInterface* currentBeRo, int currentRound) { return NULL;}
+
+BeRoInterface* ClientBeRoFactory::createBeRoPreflop() { return NULL; }

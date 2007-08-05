@@ -39,9 +39,9 @@ public:
 	virtual PlayerInterface** getPlayerArray() const =0;
 	virtual BoardInterface* getBoard() const =0;
 	virtual BeRoInterface* getPreflop() const =0;
-	virtual FlopInterface* getFlop() const =0;
-	virtual TurnInterface* getTurn() const =0;
-	virtual RiverInterface* getRiver() const =0;
+	virtual BeRoInterface* getFlop() const =0;
+	virtual BeRoInterface* getTurn() const =0;
+	virtual BeRoInterface* getRiver() const =0;
 	virtual GuiInterface* getGuiInterface() const =0;
 	virtual BeRoInterface* getCurrentBeRo() const =0;
 

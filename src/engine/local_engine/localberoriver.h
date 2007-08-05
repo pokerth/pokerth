@@ -55,11 +55,6 @@ public:
 	void postRiverRun();
 	void nextPlayer2();
 	void distributePot();
-
-	//only until bero refactory is over
-	void preflopRun() {}
-	void flopRun() {}
-	void turnRun() {}
 	
 private:
 

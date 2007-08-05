@@ -90,22 +90,22 @@ ClientHand::getPreflop() const
 	return myBeRo;
 }
 
-FlopInterface*
+BeRoInterface*
 ClientHand::getFlop() const
 {
-	return myFlop;
+	return myBeRo;
 }
 
-TurnInterface*
+BeRoInterface*
 ClientHand::getTurn() const
 {
-	return myTurn;
+	return myBeRo;
 }
 
-RiverInterface*
+BeRoInterface*
 ClientHand::getRiver() const
 {
-	return myRiver;
+	return myBeRo;
 }
 
 BeRoInterface*

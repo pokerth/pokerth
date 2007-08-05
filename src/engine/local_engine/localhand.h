@@ -43,9 +43,9 @@ public:
 	PlayerInterface** getPlayerArray() const { return playerArray; }
 	BoardInterface* getBoard() const { return myBoard; }
 	BeRoInterface* getPreflop() const { return myBeRo; }
-	FlopInterface* getFlop() const { return myFlop; }
-	TurnInterface* getTurn() const { return myTurn; }
-	RiverInterface* getRiver() const { return myRiver; }
+	BeRoInterface* getFlop() const { return myBeRo; }
+	BeRoInterface* getTurn() const { return myBeRo; }
+	BeRoInterface* getRiver() const { return myBeRo; }
 	GuiInterface* getGuiInterface() const { return myGui; }
 	BeRoInterface* getCurrentBeRo() const { return myBeRo; }
 

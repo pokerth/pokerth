@@ -23,7 +23,9 @@ public:
 
     virtual ~BeRoFactoryInterface();
 
-    virtual BeRoInterface* switchRounds(int) = 0;
+	virtual BeRoInterface* switchRounds(BeRoInterface*, int) = 0;
+
+	virtual BeRoInterface* createBeRoPreflop() =0;
 
 };
 

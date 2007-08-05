@@ -31,7 +31,6 @@ public:
 	LocalBeRoPreflop(HandInterface*, int, int, int, int);
 	~LocalBeRoPreflop();
 
-
 	void setPlayersTurn(int theValue) { playersTurn = theValue; }
 	int getPlayersTurn() const { return playersTurn; }
 	
@@ -41,12 +40,6 @@ public:
 	void preflopRun();
 	void nextPlayer2(); 
 	
-	//only until bero refactory is over
-	void flopRun() {}
-	void turnRun() {}
-	void riverRun() {}
-	void postRiverRun() {}
-
 
 private:
 	HandInterface *myHand;

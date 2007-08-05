@@ -340,8 +340,8 @@ mac{
     INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers		
 }
 
-CONFIG += qt release
-#CONFIG += qt warn_on debug
+#CONFIG += qt release
+CONFIG += qt warn_on debug
 UI_DIR = uics
 TARGET = bin/pokerth
 MOC_DIR = mocs

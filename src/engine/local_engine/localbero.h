@@ -24,7 +24,19 @@ public:
     ~LocalBeRo();
 
 	int getMyBeRoID() const { return myBeRoID; }
+	
+	int getHighestCardsValue() {}
+	void setHighestCardsValue(int theValue) {}
 
+	//only until bero refactory is over
+	void preflopRun() {}
+	void flopRun() {}
+	void riverRun() {}
+	void turnRun() {}
+	void postRiverRun() {}
+
+	void resetFirstRun() {}
+	
 protected:
 
 	int myBeRoID;
