@@ -23,7 +23,7 @@ public:
 
     virtual ~BeRoFactoryInterface();
 
-    virtual BeRoInterface* switchRounds() = 0;
+    virtual BeRoInterface* switchRounds(int) = 0;
 
 };
 

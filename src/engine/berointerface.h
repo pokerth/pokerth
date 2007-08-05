@@ -19,6 +19,8 @@ class BeRoInterface{
 public:
 
     virtual ~BeRoInterface();
+	
+	virtual int getMyBeRoID() const =0;
 
 	virtual void setPlayersTurn(int) =0;
 	virtual int getPlayersTurn() const =0;
@@ -26,10 +28,12 @@ public:
 	virtual void setHighestSet(int) =0;
 	virtual int getHighestSet() const =0;
 
-	virtual void setPreflopFirstRound(bool) =0;
-	virtual bool setPreflopFirstRound() const =0;
-
 	virtual void preflopRun() =0;
+	virtual void flopRun() =0;
+	virtual void turnRun() =0;
+	virtual void riverRun() =0;
+	virtual void postRiverRun() =0;
+	
 	virtual void nextPlayer2() =0;
 
 };

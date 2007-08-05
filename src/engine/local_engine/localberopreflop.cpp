@@ -27,6 +27,8 @@ using namespace std;
 LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* bR, int id, int qP, int dP, int sB) : LocalBeRo(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), bigBlindPosition(0), smallBlind(sB), highestSet(2*sB), preflopFirstRound(1), playersTurn(0)
 
 {
+	myBeRoID = GAME_STATE_PREFLOP;
+
 // // 	BigBlind ermitteln 
 	bigBlindPosition = dealerPosition;
 	while (myHand->getPlayerArray()[bigBlindPosition]->getMyButton() != 3) {
@@ -36,7 +38,7 @@ LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* bR, int id, int qP, int dP, in
 // // 	erste Spielernummer fr preflopRun() setzen
 	playersTurn = bigBlindPosition;
 
-	cout << "LocalBeroPreflop erstellt" << endl;
+	cout << "LocalBeroPreflop erstellt - " << myBeRoID << endl;
 }
 
 

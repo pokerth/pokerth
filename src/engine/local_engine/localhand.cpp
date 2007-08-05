@@ -173,7 +173,10 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	myRiver = myFactory->createRiver(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
 
 	myBeRoFactory = myFactory->createBeRoFactory(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-	myBeRo = myBeRoFactory->switchRounds();
+
+	int currentRound = actualRound; // for Lothar ;-)
+
+	myBeRo = myBeRoFactory->switchRounds(currentRound);
 }
 
 
@@ -378,6 +381,8 @@ void LocalHand::switchRounds() {
 	myGui->refreshGameLabels((GameState)getActualRound());
 // 	/*/*/*/*cout <<*/*/*/*/ "NextPlayerSpeed1 stop" << endl;
 // 
+	
+
 // 	cout << "NextPlayerSpeed2 start" << endl;
 	switch(actualRound) {
 		case 0: {

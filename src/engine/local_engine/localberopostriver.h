@@ -16,21 +16,20 @@
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- *************************************************************************/
-#ifndef LOCALBEROPREFLOP_H
-#define LOCALBEROPREFLOP_H
+ ***************************************************************************/
+#ifndef LOCALBEROPOSTRIVER_H
+#define LOCALBEROPOSTRIVER_H
 
 #include <iostream>
 #include <localbero.h>
 
 class HandInterface;
 
-class LocalBeRoPreflop : public LocalBeRo{
- 
-public:
-	LocalBeRoPreflop(HandInterface*, int, int, int, int);
-	~LocalBeRoPreflop();
 
+class LocalBeRoPostRiver : public LocalBeRo{
+public:
+	LocalBeRoPostRiver(HandInterface*, int, int, int, int);
+	~LocalBeRoPostRiver();
 
 	void setPlayersTurn(int theValue) { playersTurn = theValue; }
 	int getPlayersTurn() const { return playersTurn; }
@@ -38,31 +37,50 @@ public:
 	void setHighestSet(int theValue) { highestSet = theValue; }
 	int getHighestSet() const { return highestSet;}
 
-	void preflopRun();
-	void nextPlayer2(); 
-	
+	void setFirstRiverRound(bool theValue) { firstRiverRound = theValue;}
+	bool getFirstRiverRound() const {  return firstRiverRound;}
+
+	void setSmallBlindPosition(int theValue) { smallBlindPosition = theValue;}
+	int getSmallBlindPosition() const { return smallBlindPosition; }
+
+	void setSmallBlind(int theValue) { smallBlind = theValue; }
+	int getSmallBlind() const { return smallBlind; }
+
+	void setHighestCardsValue(int theValue) { highestCardsValue = theValue;}
+	int getHighestCardsValue() const { return highestCardsValue;}
+
+	void resetFirstRun() { firstRiverRun = false; }
+
+	void riverRun();
+	void postRiverRun();
+	void nextPlayer2();
+	void distributePot();
+
 	//only until bero refactory is over
-	void flopRun() {}
+	void preflopRun() {}
 	void turnRun() {}
-	void riverRun() {}
-	void postRiverRun() {}
-
-
+	void flopRun() {}
+	
 private:
-	HandInterface *myHand;
 
+	HandInterface *myHand;
 
 	int myID;
 	int actualQuantityPlayers;	
 	int dealerPosition;
-	int bigBlindPosition;
+	int smallBlindPosition;
 
 	int smallBlind;
 	int highestSet;
 
-	bool preflopFirstRound;
+	bool firstRiverRun;
+	bool firstRiverRound;
+	bool firstHeadsUpRiverRound;
 	int playersTurn;
 
+	int highestCardsValue;
+
+	bool logBoardCardsDone;
 
 };
 

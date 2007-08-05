@@ -16,21 +16,19 @@
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- *************************************************************************/
-#ifndef LOCALBEROPREFLOP_H
-#define LOCALBEROPREFLOP_H
+ ***************************************************************************/
+#ifndef LOCALBEROTURN_H
+#define LOCALBEROTURN_H
 
-#include <iostream>
 #include <localbero.h>
+#include <iostream>
 
 class HandInterface;
 
-class LocalBeRoPreflop : public LocalBeRo{
- 
+class LocalBeRoTurn : public LocalBeRo{
 public:
-	LocalBeRoPreflop(HandInterface*, int, int, int, int);
-	~LocalBeRoPreflop();
-
+	LocalBeRoTurn(HandInterface*, int, int, int, int);
+	~LocalBeRoTurn();
 
 	void setPlayersTurn(int theValue) { playersTurn = theValue; }
 	int getPlayersTurn() const { return playersTurn; }
@@ -38,31 +36,44 @@ public:
 	void setHighestSet(int theValue) { highestSet = theValue; }
 	int getHighestSet() const { return highestSet;}
 
-	void preflopRun();
-	void nextPlayer2(); 
-	
+	void setFirstTurnRound(bool theValue) { firstTurnRound = theValue;}
+	bool getFirstTurnRound() const {  return firstTurnRound;}
+
+	void setSmallBlindPosition(int theValue) { smallBlindPosition = theValue;}
+	int getSmallBlindPosition() const { return smallBlindPosition; }
+
+	void setSmallBlind(int theValue) { smallBlind = theValue; }
+	int getSmallBlind() const { return smallBlind; }
+
+	void resetFirstRun() { firstTurnRun = false; }
+
+	void nextPlayer2();
+	void turnRun();
+
 	//only until bero refactory is over
+	void preflopRun() {}
 	void flopRun() {}
-	void turnRun() {}
 	void riverRun() {}
 	void postRiverRun() {}
 
-
 private:
-	HandInterface *myHand;
 
+	HandInterface *myHand;
 
 	int myID;
 	int actualQuantityPlayers;	
 	int dealerPosition;
-	int bigBlindPosition;
+	int smallBlindPosition;
 
 	int smallBlind;
 	int highestSet;
 
-	bool preflopFirstRound;
+	bool firstTurnRun;
+	bool firstTurnRound;
+	bool firstHeadsUpTurnRound;
 	int playersTurn;
 
+	bool logBoardCardsDone;
 
 };
 

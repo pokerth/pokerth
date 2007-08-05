@@ -63,20 +63,6 @@ ClientPreflop::getHighestSet() const
 }
 
 void
-ClientPreflop::setPreflopFirstRound(bool theValue)
-{
-	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	preflopFirstRound = theValue;
-}
-
-bool
-ClientPreflop::setPreflopFirstRound() const
-{
-	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	return preflopFirstRound;
-}
-
-void
 ClientPreflop::preflopRun()
 {
 }

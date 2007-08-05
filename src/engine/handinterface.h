@@ -43,6 +43,7 @@ public:
 	virtual TurnInterface* getTurn() const =0;
 	virtual RiverInterface* getRiver() const =0;
 	virtual GuiInterface* getGuiInterface() const =0;
+	virtual BeRoInterface* getCurrentBeRo() const =0;
 
 	virtual void setMyID(int theValue) =0;
 	virtual int getMyID() const =0;

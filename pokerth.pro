@@ -101,12 +101,16 @@ HEADERS += src/game.h \
            src/engine/local_engine/localboard.h \
            src/engine/local_engine/localenginefactory.h \
            src/engine/local_engine/localflop.h \
+ 	   src/engine/local_engine/localberoflop.h \
            src/engine/local_engine/localhand.h \
            src/engine/local_engine/localplayer.h \
            src/engine/local_engine/localpreflop.h \
 	   src/engine/local_engine/localberopreflop.h \
            src/engine/local_engine/localriver.h \
+           src/engine/local_engine/localberoriver.h \
+           src/engine/local_engine/localberopostriver.h \
            src/engine/local_engine/localturn.h \
+	   src/engine/local_engine/localberoturn.h \
            src/engine/local_engine/tools.h \
 	   src/engine/local_engine/localbero.h \
            src/engine/local_engine/localberofactory.h \
@@ -183,12 +187,16 @@ SOURCES += src/game.cpp \
            src/engine/local_engine/localboard.cpp \
            src/engine/local_engine/localenginefactory.cpp \
            src/engine/local_engine/localflop.cpp \
-           src/engine/local_engine/localhand.cpp \
+           src/engine/local_engine/localberoflop.cpp \
+	   src/engine/local_engine/localhand.cpp \
            src/engine/local_engine/localplayer.cpp \
            src/engine/local_engine/localpreflop.cpp \
 	   src/engine/local_engine/localberopreflop.cpp \
 	   src/engine/local_engine/localriver.cpp \
+	   src/engine/local_engine/localberoriver.cpp \
+	   src/engine/local_engine/localberopostriver.cpp \
            src/engine/local_engine/localturn.cpp \
+	   src/engine/local_engine/localberoturn.cpp \
            src/engine/local_engine/tools.cpp \
            src/engine/local_engine/localbero.cpp \
 	   src/engine/local_engine/localberofactory.cpp \

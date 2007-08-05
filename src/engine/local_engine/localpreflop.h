@@ -21,6 +21,7 @@
 #define LOCALPREFLOP_H
 
 #include <preflopinterface.h>
+#include <iostream>
 
 class HandInterface;
 
@@ -36,9 +37,6 @@ public:
 	
 	void setHighestSet(int theValue) { highestSet = theValue; }
 	int getHighestSet() const { return highestSet;}
-
-	void setPreflopFirstRound(bool theValue) { preflopFirstRound = theValue; }
-	bool setPreflopFirstRound() const { return preflopFirstRound; }
 
 	void preflopRun();
 	void nextPlayer2(); 

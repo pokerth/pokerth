@@ -47,6 +47,7 @@ public:
 	TurnInterface* getTurn() const;
 	RiverInterface* getRiver() const;
 	GuiInterface* getGuiInterface() const;
+	BeRoInterface* getCurrentBeRo() const;
 
 	void setMyID(int theValue);
 	int getMyID() const;

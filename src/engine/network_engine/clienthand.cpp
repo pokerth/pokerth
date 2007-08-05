@@ -108,6 +108,13 @@ ClientHand::getRiver() const
 	return myRiver;
 }
 
+BeRoInterface*
+ClientHand::getCurrentBeRo() const
+{
+	return myBeRo;
+}
+
+
 GuiInterface*
 ClientHand::getGuiInterface() const
 {

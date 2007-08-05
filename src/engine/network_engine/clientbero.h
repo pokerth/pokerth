@@ -24,6 +24,12 @@ public:
 
     ~ClientBeRo();
 
+	int getMyBeRoID() const { return myBeRoID; }
+
+protected:
+
+	int myBeRoID;
+
 };
 
 #endif

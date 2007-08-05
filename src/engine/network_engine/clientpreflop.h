@@ -36,9 +36,6 @@ public:
 	void setHighestSet(int theValue);
 	int getHighestSet() const;
 
-	void setPreflopFirstRound(bool theValue);
-	bool setPreflopFirstRound() const;
-
 	void preflopRun();
 	void nextPlayer2(); 
 

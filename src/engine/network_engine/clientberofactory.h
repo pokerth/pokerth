@@ -25,7 +25,7 @@ public:
 
     ~ClientBeRoFactory();
 
-    BeRoInterface* switchRounds();
+    BeRoInterface* switchRounds(int);
 
 };
 
