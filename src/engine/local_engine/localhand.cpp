@@ -165,11 +165,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	// Dealer, SB, BB bestimmen
 	assignButtons();
 
-	myBeRoFactory = myFactory->createBeRoFactory(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-
-	int currentRound = actualRound; // for Lothar ;-)
-
-	myBeRo = myBeRoFactory->createBeRo();
+	myBeRo = myFactory->createBeRo(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
 }
 
 

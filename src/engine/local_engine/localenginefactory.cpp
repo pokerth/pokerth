@@ -27,6 +27,11 @@
 #include "localturn.h"
 #include "localriver.h"
 #include "localberofactory.h"
+#include "localberopreflop.h"
+#include "localberoflop.h"
+#include "localberoturn.h"
+#include "localberoriver.h"
+#include "localberopostriver.h"
 
 #include <configfile.h>
 
@@ -58,3 +63,20 @@ RiverInterface* LocalEngineFactory::createRiver(HandInterface* hi, int id, int a
 
 BeRoFactoryInterface* LocalEngineFactory::createBeRoFactory(HandInterface* hi, int id, int aP, int dP, int sB) { return new LocalBeRoFactory(hi, id, aP, dP, sB); }
 
+std::vector<boost::shared_ptr<BeRoInterface> > LocalEngineFactory::createBeRo(HandInterface* hi, int id, int aP, int dP, int sB) {
+
+	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoPreflop(hi, id, aP, dP, sB)));
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoFlop(hi, id, aP, dP, sB)));
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoTurn(hi, id, aP, dP, sB)));
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoRiver(hi, id, aP, dP, sB)));
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoPostRiver(hi, id, aP, dP, sB)));
+
+	return myBeRo;
+
+}

@@ -79,3 +79,21 @@ BeRoFactoryInterface* ClientEngineFactory::createBeRoFactory(HandInterface* hi, 
 	return new ClientBeRoFactory(hi, id, aP, dP, sB);
 }
 
+std::vector<boost::shared_ptr<BeRoInterface> > ClientEngineFactory::createBeRo(HandInterface* hi, int id, int aP, int dP, int sB) {
+
+	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoPreflop(hi, id, aP, dP, sB)));
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoFlop(hi, id, aP, dP, sB)));
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoTurn(hi, id, aP, dP, sB)));
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoRiver(hi, id, aP, dP, sB)));
+
+// 	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoPostRiver(hi, id, aP, dP, sB)));
+
+	return myBeRo;
+
+}
+

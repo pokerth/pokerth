@@ -48,23 +48,26 @@ LocalBeRoFlop::~LocalBeRoFlop()
 void LocalBeRoFlop::run() {
 
 	cout << "LocalBeroFlopRun!!!" << endl;
-	
+
 	int i;
 
 	if (firstFlopRun) {
+
 		myHand->getGuiInterface()->dealFlopCards();
 		firstFlopRun = 0;
-		
+
 	}
 
 	else {
 		//log the turned cards
 		if(!logBoardCardsDone) {
+
 			int tempBoardCardsArray[5];
-			
+
 			myHand->getBoard()->getMyCards(tempBoardCardsArray);
 			myHand->getGuiInterface()->logDealBoardCardsMsg(1, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2]);
 			logBoardCardsDone = 1;
+
 		}
 
 		bool allHighestSet = 1;
@@ -75,8 +78,6 @@ void LocalBeRoFlop::run() {
 				if(highestSet != myHand->getPlayerArray()[i]->getMySet()) { allHighestSet=0; }
 			}
 		}
-
-// 		cout << "firstflopround " << firstFlopRound << endl;
 
 		// prfen, ob Flop wirklich dran ist
 		if(!firstFlopRound && allHighestSet) { 
@@ -127,21 +128,15 @@ void LocalBeRoFlop::run() {
 			myHand->getGuiInterface()->refreshGroupbox(playersTurn,2);
 			myHand->getGuiInterface()->refreshAction(playersTurn,0);
 
-// 			cout << "activePlayerBeforeSmallBlind " << activePlayerBeforeSmallBlind << endl;
-// 			cout << "playersTurn " << playersTurn << endl;
-
 			// wenn wir letzter aktiver Spieler vor SmallBlind sind, dann flopFirstRound zuende
 			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind) { firstFlopRound = 0; }
 
 			if(playersTurn == 0) {
 				// Wir sind dran
-//				cout << "actualRound " << myHand->getActualRound() << endl;
-//				cout << "highestSet vor meInAction " << highestSet << endl;
 				myHand->getGuiInterface()->meInAction();
 			}
 			else {
 				//Gegner sind dran
-//				cout << "NextPlayerSpeed3 start" << endl;
 				myHand->getGuiInterface()->flopAnimation2();
 			}
 		}

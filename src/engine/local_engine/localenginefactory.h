@@ -47,6 +47,7 @@ public:
 	TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB);
 	RiverInterface* createRiver(HandInterface* hi, int id, int aP, int dP, int sB);
 	BeRoFactoryInterface* createBeRoFactory(HandInterface* hi, int id, int aP, int dP, int sB);
+	std::vector<boost::shared_ptr<BeRoInterface> > createBeRo(HandInterface* hi, int id, int aP, int dP, int sB);
 
 private:
 	ConfigFile *myConfig;

@@ -71,13 +71,9 @@ void LocalBeRoRiver::run() {
 		// prfe, ob alle Sets gleich sind ( falls nicht, dann allHighestSet = 0 )
 		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 			if(myHand->getPlayerArray()[i]->getMyActiveStatus() && myHand->getPlayerArray()[i]->getMyAction() != 1 && myHand->getPlayerArray()[i]->getMyAction() != 6)	{
-// 				cout << "Spieler " << i << " Set " << myHand->getPlayerArray()[i]->getMySet() << endl;
 				if(highestSet != myHand->getPlayerArray()[i]->getMySet()) { allHighestSet=0; }
 			}
 		}
-// 		cout << "allHighestSet " << allHighestSet << endl;
-
-// 		cout << "firstflopround " << firstRiverRound << endl;
 
 		// prfen, ob River wirklich dran ist
 		if(!firstRiverRound && allHighestSet) { 
@@ -99,7 +95,6 @@ void LocalBeRoRiver::run() {
 			myHand->getGuiInterface()->refreshCash();
 			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { myHand->getGuiInterface()->refreshAction(i,0); }
 			
-
 			myHand->switchRounds();
 		}
 		else {
@@ -129,15 +124,11 @@ void LocalBeRoRiver::run() {
 			myHand->getGuiInterface()->refreshGroupbox(playersTurn,2);
 			myHand->getGuiInterface()->refreshAction(playersTurn,0);
 
-// 			cout << "activePlayerBeforeSmallBlind " << activePlayerBeforeSmallBlind << endl;
-// 			cout << "playersTurn " << playersTurn << endl;
 			// wenn wir letzter aktiver Spieler vor SmallBlind sind, dann flopFirstRound zuende
 			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind) { firstRiverRound = 0; }
 
 			if(playersTurn == 0) {
 				// Wir sind dran
-//				cout << "actualRound " << myHand->getActualRound() << endl;
-//				cout << "highestSet vor meInAction " << highestSet << endl;
 				myHand->getGuiInterface()->meInAction();
 			}
 			else {
