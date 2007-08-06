@@ -25,7 +25,7 @@ public:
 
 	int getMyBeRoID() const { return myBeRoID; }
 	
-	int getHighestCardsValue() {}
+	int getHighestCardsValue() const {}
 	void setHighestCardsValue(int theValue) {}
 
 	//only until bero refactory is over

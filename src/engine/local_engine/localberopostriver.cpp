@@ -29,7 +29,7 @@ LocalBeRoPostRiver::LocalBeRoPostRiver(HandInterface* bR, int id, int qP, int dP
 
 {
 
-	myBeRoID = GAME_STATE_RIVER;
+	myBeRoID = GAME_STATE_POST_RIVER;
 
 	int i;
 

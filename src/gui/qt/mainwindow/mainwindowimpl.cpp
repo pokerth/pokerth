@@ -1946,8 +1946,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 
 	int i;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-// 	cout << "Neue Runde" << endl;
-
+	cout << currentHand->getRiver()->getMyBeRoID() << endl;
 	//Alle Winner erhellen und "Winner" schreiben
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getRiver()->getHighestCardsValue() ) { 
