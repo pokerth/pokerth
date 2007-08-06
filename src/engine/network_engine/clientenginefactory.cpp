@@ -25,7 +25,6 @@
 #include "clientflop.h"
 #include "clientturn.h"
 #include "clientriver.h"
-#include "clientberofactory.h"
 
 
 
@@ -52,31 +51,6 @@ BoardInterface* ClientEngineFactory::createBoard()
 PlayerInterface* ClientEngineFactory::createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
 {
 	return new ClientPlayer(NULL, b, id, uniqueId, type, name, avatar, sC, aS, mB);
-}
-
-PreflopInterface* ClientEngineFactory::createPreflop(HandInterface* hi, int id, int aP, int dP, int sB)
-{
-	return NULL;
-}
-
-FlopInterface* ClientEngineFactory::createFlop(HandInterface* hi, int id, int aP, int dP, int sB)
-{
-	return NULL;
-}
-
-TurnInterface* ClientEngineFactory::createTurn(HandInterface* hi, int id, int aP, int dP, int sB)
-{
-	return NULL;
-}
-
-RiverInterface* ClientEngineFactory::createRiver(HandInterface* hi, int id, int aP, int dP, int sB)
-{
-	return NULL;
-}
-
-BeRoFactoryInterface* ClientEngineFactory::createBeRoFactory(HandInterface* hi, int id, int aP, int dP, int sB) 
-{
-	return new ClientBeRoFactory(hi, id, aP, dP, sB);
 }
 
 std::vector<boost::shared_ptr<BeRoInterface> > ClientEngineFactory::createBeRo(HandInterface* hi, int id, int aP, int dP, int sB) {

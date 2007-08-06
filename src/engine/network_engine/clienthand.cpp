@@ -55,7 +55,7 @@ ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, Boar
 	// the rest of the buttons are assigned later as received from the server.
 
 	// Preflop, Flop, Turn und River erstellen
-	myBeRo = myFactory->createBeRoFactory(this, myID, actualQuantityPlayers, dealerPosition, smallBlind)->createBeRo();
+	myBeRo = myFactory->createBeRo(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
 }
 
 

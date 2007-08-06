@@ -78,7 +78,6 @@ HEADERS += src/game.h \
            src/engine/riverinterface.h \
            src/engine/turninterface.h \
 	   src/engine/berointerface.h \
-           src/engine/berofactoryinterface.h \
            src/gui/guiinterface.h \
            src/net/clientcallback.h \
            src/net/clientcontext.h \
@@ -111,7 +110,6 @@ HEADERS += src/game.h \
 	   src/engine/local_engine/localberoturn.h \
            src/engine/local_engine/tools.h \
 	   src/engine/local_engine/localbero.h \
-           src/engine/local_engine/localberofactory.h \
            src/engine/network_engine/clientboard.h \
            src/engine/network_engine/clientenginefactory.h \
            src/engine/network_engine/clientflop.h \
@@ -121,7 +119,6 @@ HEADERS += src/game.h \
            src/engine/network_engine/clientriver.h \
            src/engine/network_engine/clientturn.h \
      	   src/engine/network_engine/clientbero.h \
-	   src/engine/network_engine/clientberofactory.h \
 	   src/gui/qt/sound/sdlplayer.h \
            src/gui/qt/mainwindow/mainwindowimpl.h \
            src/gui/qt/mainwindow/mycardspixmaplabel.h \
@@ -172,7 +169,6 @@ SOURCES += src/game.cpp \
            src/engine/riverinterface.cpp \
            src/engine/turninterface.cpp \
 	   src/engine/berointerface.cpp \
-           src/engine/berofactoryinterface.cpp \
            src/gui/guiinterface.cpp \
            src/core/common/thread.cpp \
            src/core/tinyxml/tinystr.cpp \
@@ -195,7 +191,6 @@ SOURCES += src/game.cpp \
 	   src/engine/local_engine/localberoturn.cpp \
            src/engine/local_engine/tools.cpp \
            src/engine/local_engine/localbero.cpp \
-	   src/engine/local_engine/localberofactory.cpp \
            src/engine/network_engine/clientboard.cpp \
            src/engine/network_engine/clientenginefactory.cpp \
            src/engine/network_engine/clientflop.cpp \
@@ -205,7 +200,6 @@ SOURCES += src/game.cpp \
            src/engine/network_engine/clientriver.cpp \
            src/engine/network_engine/clientturn.cpp \
 	   src/engine/network_engine/clientbero.cpp \
-           src/engine/network_engine/clientberofactory.cpp \
            src/net/common/connectdata.cpp \
            src/net/common/clientcallback.cpp \
            src/net/common/clientcontext.cpp \

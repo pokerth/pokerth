@@ -25,11 +25,6 @@
 #include <handinterface.h>
 #include <boardinterface.h>
 #include <playerinterface.h>
-#include <preflopinterface.h>
-#include <flopinterface.h>
-#include <turninterface.h>
-#include <riverinterface.h>
-#include <berofactoryinterface.h>
 
 class ConfigFile;
 
@@ -42,11 +37,6 @@ public:
 	HandInterface* createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC);
 	BoardInterface* createBoard();
 	PlayerInterface* createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
-	PreflopInterface* createPreflop(HandInterface* hi, int id, int aP, int dP, int sB);
-	FlopInterface* createFlop(HandInterface* hi, int id, int aP, int dP, int sB);
-	TurnInterface* createTurn(HandInterface* hi, int id, int aP, int dP, int sB);
-	RiverInterface* createRiver(HandInterface* hi, int id, int aP, int dP, int sB);
-	BeRoFactoryInterface* createBeRoFactory(HandInterface* hi, int id, int aP, int dP, int sB);
 	std::vector<boost::shared_ptr<BeRoInterface> > createBeRo(HandInterface* hi, int id, int aP, int dP, int sB);
 
 private:

@@ -22,11 +22,6 @@
 #include "localhand.h"
 #include "localboard.h"
 #include "localplayer.h"
-#include "localpreflop.h"
-#include "localflop.h"
-#include "localturn.h"
-#include "localriver.h"
-#include "localberofactory.h"
 #include "localberopreflop.h"
 #include "localberoflop.h"
 #include "localberoturn.h"
@@ -52,16 +47,6 @@ HandInterface* LocalEngineFactory::createHand(boost::shared_ptr<EngineFactory> f
 BoardInterface* LocalEngineFactory::createBoard() { return new LocalBoard; }
 
 PlayerInterface* LocalEngineFactory::createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB) { return new LocalPlayer(myConfig, b, id, uniqueId, type, name, avatar, sC, aS, mB); }
-
-PreflopInterface* LocalEngineFactory::createPreflop(HandInterface* hi, int id, int aP, int dP, int sB) { return new LocalPreflop(hi, id, aP, dP, sB); }
-
-FlopInterface* LocalEngineFactory::createFlop(HandInterface* hi, int id, int aP, int dP, int sB) { return new LocalFlop(hi, id, aP, dP, sB); }
-
-TurnInterface* LocalEngineFactory::createTurn(HandInterface* hi, int id, int aP, int dP, int sB) { return new LocalTurn(hi, id, aP, dP, sB); }
-
-RiverInterface* LocalEngineFactory::createRiver(HandInterface* hi, int id, int aP, int dP, int sB) { return new LocalRiver(hi, id, aP, dP, sB); }
-
-BeRoFactoryInterface* LocalEngineFactory::createBeRoFactory(HandInterface* hi, int id, int aP, int dP, int sB) { return new LocalBeRoFactory(hi, id, aP, dP, sB); }
 
 std::vector<boost::shared_ptr<BeRoInterface> > LocalEngineFactory::createBeRo(HandInterface* hi, int id, int aP, int dP, int sB) {
 

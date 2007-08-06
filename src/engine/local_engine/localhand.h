@@ -30,7 +30,6 @@
 #include <playerinterface.h>
 #include <handinterface.h>
 #include <berointerface.h>
-#include <berofactoryinterface.h>
 
 
 class LocalHand : public HandInterface{
@@ -96,7 +95,6 @@ private:
 	GuiInterface *myGui;
 	BoardInterface *myBoard;
 	PlayerInterface **playerArray;
-	BeRoFactoryInterface *myBeRoFactory;
 	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
 	int myID;

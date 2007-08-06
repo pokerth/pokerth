@@ -34,10 +34,12 @@ public:
 
 	virtual void run() =0;
 
+	// for network
 	virtual void preflopRun() =0;
 	virtual void flopRun() =0;
 	virtual void turnRun() =0;
 	virtual void riverRun() =0;
+
 	virtual void postRiverRun() =0;
 	
 	virtual void nextPlayer2() =0;
