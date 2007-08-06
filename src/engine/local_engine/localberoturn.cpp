@@ -46,7 +46,7 @@ LocalBeRoTurn::~LocalBeRoTurn()
 }
 
 
-void LocalBeRoTurn::turnRun() {
+void LocalBeRoTurn::run() {
 
 	cout << "LocalBeroTurnRun!!!" << endl;
 	int i;

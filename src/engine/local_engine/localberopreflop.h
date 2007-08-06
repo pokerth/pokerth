@@ -37,7 +37,7 @@ public:
 	void setHighestSet(int theValue) { highestSet = theValue; }
 	int getHighestSet() const { return highestSet;}
 
-	void preflopRun();
+	void run();
 	void nextPlayer2(); 
 	
 

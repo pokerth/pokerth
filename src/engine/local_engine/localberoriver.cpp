@@ -45,7 +45,7 @@ LocalBeRoRiver::~LocalBeRoRiver()
 }
 
 
-void LocalBeRoRiver::riverRun() {
+void LocalBeRoRiver::run() {
 
 	cout << "LocalBeroRiverRun!!!" << endl;
 	int i;

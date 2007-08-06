@@ -21,6 +21,24 @@ LocalBeRoFactory::LocalBeRoFactory (HandInterface* hi, int id, int aP, int dP, i
 LocalBeRoFactory::~LocalBeRoFactory()
 {}
 
+std::vector<boost::shared_ptr<BeRoInterface> > LocalBeRoFactory::createBeRo() {
+
+	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoPreflop(myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind)));
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoFlop(myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind)));
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoTurn(myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind)));
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoRiver(myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind)));
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoPostRiver(myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind)));
+
+	return myBeRo;
+
+}
+
 BeRoInterface* LocalBeRoFactory::createBeRoPreflop() {
 
 	BeRoInterface* preflopBeRo = new LocalBeRoPreflop ( myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind );

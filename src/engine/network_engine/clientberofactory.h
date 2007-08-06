@@ -12,6 +12,10 @@
 #ifndef CLIENTBEROFACTORY_H
 #define CLIENTBEROFACTORY_H
 
+#include <vector>
+
+#include <boost/shared_ptr.hpp>
+
 #include <berofactoryinterface.h>
 #include <handinterface.h>
 
@@ -28,6 +32,8 @@ public:
 	BeRoInterface* switchRounds(BeRoInterface*, int);
 
 	BeRoInterface* createBeRoPreflop();
+
+	std::vector<boost::shared_ptr<BeRoInterface> > createBeRo();
 
 };
 

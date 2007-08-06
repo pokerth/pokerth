@@ -32,91 +32,94 @@
 
 #include <boost/thread.hpp>
 
+#include <vector>
+
 class ClientHand : public HandInterface
 {
-public:
-	ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, PlayerInterface**, int, int, int, int, int, int);
-	~ClientHand();
+	public:
+		ClientHand ( boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, PlayerInterface**, int, int, int, int, int, int );
+		~ClientHand();
 
-	void start();
+		void start();
 
-	PlayerInterface** getPlayerArray() const;
-	BoardInterface* getBoard() const;
-	BeRoInterface* getPreflop() const;
-	BeRoInterface* getFlop() const;
-	BeRoInterface* getTurn() const;
-	BeRoInterface* getRiver() const;
-	GuiInterface* getGuiInterface() const;
-	BeRoInterface* getCurrentBeRo() const;
+		PlayerInterface** getPlayerArray() const;
+		BoardInterface* getBoard() const;
+		boost::shared_ptr<BeRoInterface> getPreflop() const;
+		boost::shared_ptr<BeRoInterface> getFlop() const;
+		boost::shared_ptr<BeRoInterface> getTurn() const;
+		boost::shared_ptr<BeRoInterface> getRiver() const;
+		GuiInterface* getGuiInterface() const;
+		boost::shared_ptr<BeRoInterface> getCurrentBeRo() const;
 
-	void setMyID(int theValue);
-	int getMyID() const;
-	
-	void setActualQuantityPlayers(int theValue);
-	int getActualQuantityPlayers() const;
+		void setMyID ( int theValue );
+		int getMyID() const;
 
-	void setStartQuantityPlayers(int theValue);
-	int getStartQuantityPlayers() const;
+		void setActualQuantityPlayers ( int theValue );
+		int getActualQuantityPlayers() const;
 
-	void setActualRound(int theValue);
-	int getActualRound() const;
+		void setStartQuantityPlayers ( int theValue );
+		int getStartQuantityPlayers() const;
 
-	void setDealerPosition(int theValue);
-	int getDealerPosition() const;
+		void setActualRound ( int theValue );
+		int getActualRound() const;
 
-	void setSmallBlind(int theValue);
-	int getSmallBlind() const;
+		void setDealerPosition ( int theValue );
+		int getDealerPosition() const;
 
-	void setAllInCondition(bool theValue);
-	bool getAllInCondition() const;
+		void setSmallBlind ( int theValue );
+		int getSmallBlind() const;
 
-	void setStartCash(int theValue);
-	int getStartCash() const;
+		void setAllInCondition ( bool theValue );
+		bool getAllInCondition() const;
 
-	void setActivePlayersCounter(int theValue);
-	int getActivePlayersCounter() const;
-	
-	void setBettingRoundsPlayed(int theValue);
-	int getBettingRoundsPlayed() const;
+		void setStartCash ( int theValue );
+		int getStartCash() const;
 
-	void setLastPlayersTurn(int theValue);
-	int getLastPlayersTurn() const;
+		void setActivePlayersCounter ( int theValue );
+		int getActivePlayersCounter() const;
 
-	void setCardsShown(bool theValue);
-	bool getCardsShown() const;
+		void setBettingRoundsPlayed ( int theValue );
+		int getBettingRoundsPlayed() const;
 
-	void switchRounds();
+		void setLastPlayersTurn ( int theValue );
+		int getLastPlayersTurn() const;
+
+		void setCardsShown ( bool theValue );
+		bool getCardsShown() const;
+
+		void switchRounds();
 
 
-private:
-	mutable boost::recursive_mutex m_syncMutex;
+	private:
+		mutable boost::recursive_mutex m_syncMutex;
 
-	boost::shared_ptr<EngineFactory> myFactory;
-	GuiInterface *myGui;
-	BoardInterface *myBoard;
-	PlayerInterface **playerArray;
-	PreflopInterface *myPreflop;
-	FlopInterface *myFlop;
-	TurnInterface *myTurn;
-	RiverInterface *myRiver;
-	BeRoInterface *myBeRo;
+		boost::shared_ptr<EngineFactory> myFactory;
+		GuiInterface *myGui;
+		BoardInterface *myBoard;
+		PlayerInterface **playerArray;
+		PreflopInterface *myPreflop;
+		FlopInterface *myFlop;
+		TurnInterface *myTurn;
+		RiverInterface *myRiver;
+		BeRoInterface *myOldBeRo;
+		std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
-	int myID;
-	int actualQuantityPlayers;
-	int startQuantityPlayers;
-	int dealerPosition; // -1 -> neutral
-	int actualRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
-	int smallBlind;
-	int startCash;
-	int activePlayersCounter;
+		int myID;
+		int actualQuantityPlayers;
+		int startQuantityPlayers;
+		int dealerPosition; // -1 -> neutral
+		int actualRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
+		int smallBlind;
+		int startCash;
+		int activePlayersCounter;
 
-	int lastPlayersTurn;
+		int lastPlayersTurn;
 
-	bool allInCondition;
-	bool cardsShown;
+		bool allInCondition;
+		bool cardsShown;
 
-	// hier steht bis zu welcher bettingRound der human player gespielt hat: 0 - nur Preflop, 1 - bis Flop, ...
-	int bettingRoundsPlayed;
+		// hier steht bis zu welcher bettingRound der human player gespielt hat: 0 - nur Preflop, 1 - bis Flop, ...
+		int bettingRoundsPlayed;
 };
 
 #endif

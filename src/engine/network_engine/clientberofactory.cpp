@@ -22,6 +22,19 @@ ClientBeRoFactory::~ClientBeRoFactory()
 {
 }
 
+std::vector<boost::shared_ptr<BeRoInterface> > ClientBeRoFactory::createBeRo()
+{
+	std::vector<boost::shared_ptr<BeRoInterface> > bettingRounds;
+//         bettingRounds.push_back(boost::shared_ptr<BeRoInterface>(new
+// LocalBeRoPreflop(...)));
+//         bettingRounds.push_back(boost::shared_ptr<BeRoInterface>(new
+// LocalBeRoFlop(...)));
+// 
+//         ...
+	return bettingRounds;
+}
+
+
 
 BeRoInterface* ClientBeRoFactory::switchRounds(BeRoInterface* currentBeRo, int currentRound) { return NULL;}
 

@@ -45,7 +45,7 @@ LocalBeRoFlop::~LocalBeRoFlop()
 {
 }
 
-void LocalBeRoFlop::flopRun() {
+void LocalBeRoFlop::run() {
 
 	cout << "LocalBeroFlopRun!!!" << endl;
 	

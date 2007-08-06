@@ -1814,26 +1814,26 @@ void mainWindowImpl::nextPlayerAnimation() {
 }
 
 void mainWindowImpl::preflopAnimation1() { preflopAnimation1Timer->start(nextPlayerSpeed2); }
-void mainWindowImpl::preflopAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getPreflop()->preflopRun(); }
+void mainWindowImpl::preflopAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getPreflop()->run(); }
 
 void mainWindowImpl::preflopAnimation2() { preflopAnimation2Timer->start(preflopNextPlayerSpeed); }
 void mainWindowImpl::preflopAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getPreflop()->nextPlayer2(); }
 
 
 void mainWindowImpl::flopAnimation1() { flopAnimation1Timer->start(nextPlayerSpeed2); }
-void mainWindowImpl::flopAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getFlop()->flopRun(); }
+void mainWindowImpl::flopAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getFlop()->run(); }
 
 void mainWindowImpl::flopAnimation2() { flopAnimation2Timer->start(nextPlayerSpeed3); }
 void mainWindowImpl::flopAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getFlop()->nextPlayer2(); }
 
 void mainWindowImpl::turnAnimation1() { turnAnimation1Timer->start(nextPlayerSpeed2); }
-void mainWindowImpl::turnAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getTurn()->turnRun(); }
+void mainWindowImpl::turnAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getTurn()->run(); }
 
 void mainWindowImpl::turnAnimation2() { turnAnimation2Timer->start(nextPlayerSpeed3); }
 void mainWindowImpl::turnAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getTurn()->nextPlayer2(); }
 
 void mainWindowImpl::riverAnimation1() { riverAnimation1Timer->start(nextPlayerSpeed2); }
-void mainWindowImpl::riverAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getRiver()->riverRun(); }
+void mainWindowImpl::riverAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getRiver()->run(); }
 
 void mainWindowImpl::riverAnimation2() { riverAnimation2Timer->start(nextPlayerSpeed3); }
 void mainWindowImpl::riverAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getRiver()->nextPlayer2(); }
@@ -1944,7 +1944,6 @@ void mainWindowImpl::postRiverRunAnimation3() {
 
 	int i;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-	cout << currentHand->getRiver()->getMyBeRoID() << endl;
 	//Alle Winner erhellen und "Winner" schreiben
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getRiver()->getHighestCardsValue() ) { 

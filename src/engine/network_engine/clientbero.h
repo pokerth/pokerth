@@ -12,6 +12,10 @@
 #ifndef CLIENTBERO_H
 #define CLIENTBERO_H
 
+#include <vector>
+
+#include <boost/shared_ptr.hpp>
+
 #include "berointerface.h"
 
 
@@ -25,6 +29,8 @@ public:
     ~ClientBeRo();
 
 	int getMyBeRoID() const { return myBeRoID; }
+
+	void run() {}
 
 protected:
 

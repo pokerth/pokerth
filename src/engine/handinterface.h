@@ -20,6 +20,10 @@
 #ifndef HANDINTERFACE_H
 #define HANDINTERFACE_H
 
+#include <vector>
+
+#include <boost/shared_ptr.hpp>
+
 #include "guiinterface.h"
 #include "boardinterface.h"
 #include "playerinterface.h"
@@ -38,12 +42,12 @@ public:
 
 	virtual PlayerInterface** getPlayerArray() const =0;
 	virtual BoardInterface* getBoard() const =0;
-	virtual BeRoInterface* getPreflop() const =0;
-	virtual BeRoInterface* getFlop() const =0;
-	virtual BeRoInterface* getTurn() const =0;
-	virtual BeRoInterface* getRiver() const =0;
+	virtual boost::shared_ptr<BeRoInterface> getPreflop() const =0;
+	virtual boost::shared_ptr<BeRoInterface> getFlop() const =0;
+	virtual boost::shared_ptr<BeRoInterface> getTurn() const =0;
+	virtual boost::shared_ptr<BeRoInterface> getRiver() const =0;
 	virtual GuiInterface* getGuiInterface() const =0;
-	virtual BeRoInterface* getCurrentBeRo() const =0;
+	virtual boost::shared_ptr<BeRoInterface> getCurrentBeRo() const =0;
 
 	virtual void setMyID(int theValue) =0;
 	virtual int getMyID() const =0;

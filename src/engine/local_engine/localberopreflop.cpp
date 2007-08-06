@@ -50,7 +50,7 @@ LocalBeRoPreflop::~LocalBeRoPreflop()
 
 }
 
-void LocalBeRoPreflop::preflopRun() {
+void LocalBeRoPreflop::run() {
 
 	cout << "LocalBeroPreflopRun!!!" << endl;
 

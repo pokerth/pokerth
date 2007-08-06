@@ -28,7 +28,8 @@ public:
 	int getHighestCardsValue() const {}
 	void setHighestCardsValue(int theValue) {}
 
-	//only until bero refactory is over
+	void run() {}
+	//only until bero refactoring is over
 	void preflopRun() {}
 	void flopRun() {}
 	void riverRun() {}

@@ -51,7 +51,7 @@ public:
 
 	void resetFirstRun() { firstRiverRun = false; }
 
-	void riverRun();
+	void run();
 	void postRiverRun();
 	void nextPlayer2();
 	void distributePot();

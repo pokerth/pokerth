@@ -48,7 +48,7 @@ public:
 	void resetFirstRun() { firstTurnRun = false; }
 
 	void nextPlayer2();
-	void turnRun();
+	void run();
 
 private:
 

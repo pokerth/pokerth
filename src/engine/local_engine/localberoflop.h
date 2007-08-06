@@ -49,7 +49,8 @@ public:
 
 	void resetFirstRun() { firstFlopRun = false; }
 
-	void flopRun();
+	void run();
+
 	void nextPlayer2();
 
 private:

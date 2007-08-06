@@ -84,34 +84,34 @@ ClientHand::getBoard() const
 	return myBoard;
 }
 
-BeRoInterface*
+boost::shared_ptr<BeRoInterface>
 ClientHand::getPreflop() const
 {
-	return myBeRo;
+	return myBeRo[actualRound];
 }
 
-BeRoInterface*
+boost::shared_ptr<BeRoInterface>
 ClientHand::getFlop() const
 {
-	return myBeRo;
+	return myBeRo[actualRound];
 }
 
-BeRoInterface*
+boost::shared_ptr<BeRoInterface>
 ClientHand::getTurn() const
 {
-	return myBeRo;
+	return myBeRo[actualRound];
 }
 
-BeRoInterface*
+boost::shared_ptr<BeRoInterface>
 ClientHand::getRiver() const
 {
-	return myBeRo;
+	return myBeRo[actualRound];
 }
 
-BeRoInterface*
+boost::shared_ptr<BeRoInterface>
 ClientHand::getCurrentBeRo() const
 {
-	return myBeRo;
+	return myBeRo[actualRound];
 }
 
 

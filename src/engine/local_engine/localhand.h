@@ -20,15 +20,15 @@
 #ifndef LOCALHAND_H
 #define LOCALHAND_H
 
+#include <vector>
+
+#include <boost/shared_ptr.hpp>
+
 #include <enginefactory.h>
 #include <guiinterface.h>
 #include <boardinterface.h>
 #include <playerinterface.h>
 #include <handinterface.h>
-#include <preflopinterface.h>
-#include <flopinterface.h>
-#include <turninterface.h>
-#include <riverinterface.h>
 #include <berointerface.h>
 #include <berofactoryinterface.h>
 
@@ -42,12 +42,12 @@ public:
 
 	PlayerInterface** getPlayerArray() const { return playerArray; }
 	BoardInterface* getBoard() const { return myBoard; }
-	BeRoInterface* getPreflop() const { return myBeRo; }
-	BeRoInterface* getFlop() const { return myBeRo; }
-	BeRoInterface* getTurn() const { return myBeRo; }
-	BeRoInterface* getRiver() const { return myBeRo; }
+	boost::shared_ptr<BeRoInterface> getPreflop() const { return myBeRo[actualRound]; }
+	boost::shared_ptr<BeRoInterface> getFlop() const { return myBeRo[actualRound]; }
+	boost::shared_ptr<BeRoInterface> getTurn() const { return myBeRo[actualRound]; }
+	boost::shared_ptr<BeRoInterface> getRiver() const { return myBeRo[actualRound]; }
 	GuiInterface* getGuiInterface() const { return myGui; }
-	BeRoInterface* getCurrentBeRo() const { return myBeRo; }
+	boost::shared_ptr<BeRoInterface> getCurrentBeRo() const { return myBeRo[actualRound]; }
 
 	void setMyID(int theValue) { myID = theValue; }
 	int getMyID() const { return myID; }
@@ -96,12 +96,8 @@ private:
 	GuiInterface *myGui;
 	BoardInterface *myBoard;
 	PlayerInterface **playerArray;
-	PreflopInterface *myPreflop;
-	FlopInterface *myFlop;
-	TurnInterface *myTurn;
-	RiverInterface *myRiver;
-	BeRoInterface *myBeRo;
 	BeRoFactoryInterface *myBeRoFactory;
+	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
 	int myID;
 	int actualQuantityPlayers;

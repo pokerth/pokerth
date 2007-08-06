@@ -27,11 +27,10 @@
 using namespace std;
 
 LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC)
-: myFactory(f), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0),
-  myID(id), actualQuantityPlayers(aP), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0),
-  smallBlind(sB), startCash(sC), activePlayersCounter(aP), lastPlayersTurn(0), allInCondition(0),
+: myFactory(f), myBeRo(0), myGui(g),  myBoard(b), playerArray(p), myID(id), actualQuantityPlayers(aP), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), activePlayersCounter(aP), lastPlayersTurn(0), allInCondition(0),
   cardsShown(false), bettingRoundsPlayed(0)
 {
+
 
 	int i, j, k;
 
@@ -166,33 +165,17 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	// Dealer, SB, BB bestimmen
 	assignButtons();
 
-	// Preflop, Flop, Turn und River erstellen
-// 	myPreflop =  myFactory->createPreflop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-// 	myFlop = myFactory->createFlop(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-// 	myTurn = myFactory->createTurn(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-// 	myRiver = myFactory->createRiver(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
-
 	myBeRoFactory = myFactory->createBeRoFactory(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
 
 	int currentRound = actualRound; // for Lothar ;-)
 
-	myBeRo = myBeRoFactory->createBeRoPreflop();
+	myBeRo = myBeRoFactory->createBeRo();
 }
 
 
 
 LocalHand::~LocalHand()
 {
-
-	delete myPreflop;
-	myPreflop = 0;
-	delete myFlop;
-	myFlop = 0;
-	delete myTurn;
-	myTurn = 0;
-	delete myRiver;
-	myRiver = 0;
-
 }
 
 void LocalHand::start() {
@@ -327,17 +310,7 @@ void LocalHand::switchRounds() {
 				// Spieler ermitteln, der noch nicht All In ist
 				if(playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyAction() != 6 && playerArray[i]->getMyActiveStatus() == 1) {	
 					tempHighestSet = 0;
-					switch (actualRound) {
-						case 0: {tempHighestSet = myBeRo->getHighestSet();}
-						break;
-						case 1: {tempHighestSet = myBeRo->getHighestSet();}
-						break;
-						case 2: {tempHighestSet = myBeRo->getHighestSet();}
-						break;
-						case 3: {tempHighestSet = myBeRo->getHighestSet();}
-						break;
-						default: {}	
-					}
+					tempHighestSet = myBeRo[actualRound]->getHighestSet();
 // 					cout << "tempHighestSet: " << tempHighestSet << "playerArray[i]->getMySet(): " << playerArray[i]->getMySet() << endl;
 					
 					if(playerArray[i]->getMySet() >= tempHighestSet) {
@@ -383,8 +356,6 @@ void LocalHand::switchRounds() {
 // 
 
 	int currentRound = actualRound;
-	
-	myBeRo = myBeRoFactory->switchRounds(myBeRo, currentRound);
 
 // 	cout << "NextPlayerSpeed2 start" << endl;
 	switch(actualRound) {

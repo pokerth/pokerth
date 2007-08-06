@@ -32,6 +32,8 @@ public:
 	virtual void resetFirstRun() =0;
 	virtual int getHighestCardsValue() const =0;
 
+	virtual void run() =0;
+
 	virtual void preflopRun() =0;
 	virtual void flopRun() =0;
 	virtual void turnRun() =0;
