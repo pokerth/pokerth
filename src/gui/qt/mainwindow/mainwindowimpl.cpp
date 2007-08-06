@@ -27,7 +27,6 @@
 #include "connecttoserverdialogimpl.h"
 #include "createnetworkgamedialogimpl.h"
 #include "startnetworkgamedialogimpl.h"
-#include "waitforservertostartgamedialogimpl.h"
 #include "changehumanplayernamedialogimpl.h"
 
 #include "startsplash.h"
@@ -519,7 +518,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	myConnectToServerDialog = new connectToServerDialogImpl(this);
 	myStartNetworkGameDialog = new startNetworkGameDialogImpl(this, myConfig);
 	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this, myConfig);
-	myWaitingForServerGameDialog = new waitForServerToStartGameDialogImpl(this);
 	myAboutPokerthDialog = new aboutPokerthImpl(this);
 
 // 	//ShortCuts 

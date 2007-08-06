@@ -48,7 +48,6 @@ class joinNetworkGameDialogImpl;
 class connectToServerDialogImpl;
 class createNetworkGameDialogImpl;
 class startNetworkGameDialogImpl;
-class waitForServerToStartGameDialogImpl;
 class changeHumanPlayerNameDialogImpl;
 
 class QColor;
@@ -364,7 +363,6 @@ private:
 	connectToServerDialogImpl *myConnectToServerDialog;
 	startNetworkGameDialogImpl *myStartNetworkGameDialog;
 	createNetworkGameDialogImpl *myCreateNetworkGameDialog;
-	waitForServerToStartGameDialogImpl *myWaitingForServerGameDialog;
 
 	//Sound
 	SDLPlayer *mySDLPlayer;
