@@ -25,7 +25,7 @@ public:
 
 	int getMyBeRoID() const { return myBeRoID; }
 	
-	int getHighestCardsValue() const {}
+	int getHighestCardsValue() const {return 0;}
 	void setHighestCardsValue(int theValue) {}
 
 	void run() {}

@@ -10,10 +10,13 @@
 //
 //
 #include "clientberofactory.h"
-#include "berointerface.h"
+#include <clientpreflop.h>
+#include <clientflop.h>
+#include <clientturn.h>
+#include <clientriver.h>
 
 ClientBeRoFactory::ClientBeRoFactory(HandInterface* hi, int id, int aP, int dP, int sB)
- : BeRoFactoryInterface()
+: myHand(hi), myID(id), actualQuantityPlayers(aP), dealerPosition(dP), smallBlind(sB)
 {
 }
 
@@ -24,14 +27,19 @@ ClientBeRoFactory::~ClientBeRoFactory()
 
 std::vector<boost::shared_ptr<BeRoInterface> > ClientBeRoFactory::createBeRo()
 {
-	std::vector<boost::shared_ptr<BeRoInterface> > bettingRounds;
-//         bettingRounds.push_back(boost::shared_ptr<BeRoInterface>(new
-// LocalBeRoPreflop(...)));
-//         bettingRounds.push_back(boost::shared_ptr<BeRoInterface>(new
-// LocalBeRoFlop(...)));
-// 
-//         ...
-	return bettingRounds;
+	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoPreflop(myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind)));
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoFlop(myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind)));
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoTurn(myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind)));
+
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoRiver(myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind)));
+
+//	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoPostRiver(myHand, myID, actualQuantityPlayers, dealerPosition, smallBlind)));
+
+	return myBeRo;
 }
 
 

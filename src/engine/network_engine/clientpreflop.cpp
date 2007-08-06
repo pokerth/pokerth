@@ -23,52 +23,58 @@
 
 using namespace std;
 
-ClientPreflop::ClientPreflop(HandInterface* bR, int id, int qP, int dP, int sB)
+ClientBeRoPreflop::ClientBeRoPreflop(HandInterface* bR, int id, int qP, int dP, int sB)
 : myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), bigBlindPosition(0), smallBlind(sB), highestSet(2*sB), preflopFirstRound(1), playersTurn(0)
 {
 }
 
 
 
-ClientPreflop::~ClientPreflop()
+ClientBeRoPreflop::~ClientBeRoPreflop()
 {
 }
 
+int
+ClientBeRoPreflop::getMyBeRoID() const
+{
+	return GAME_STATE_PREFLOP;
+}
+
 void
-ClientPreflop::setPlayersTurn(int theValue)
+ClientBeRoPreflop::setPlayersTurn(int theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	playersTurn = theValue;
 }
 
 int
-ClientPreflop::getPlayersTurn() const
+ClientBeRoPreflop::getPlayersTurn() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return playersTurn;
 }
 
 void
-ClientPreflop::setHighestSet(int theValue)
+ClientBeRoPreflop::setHighestSet(int theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	highestSet = theValue;
 }
 
 int
-ClientPreflop::getHighestSet() const
+ClientBeRoPreflop::getHighestSet() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return highestSet;
 }
 
 void
-ClientPreflop::preflopRun()
+ClientBeRoPreflop::resetFirstRun()
 {
 }
 
 void
-ClientPreflop::nextPlayer2()
+ClientBeRoPreflop::run()
 {
 }
 

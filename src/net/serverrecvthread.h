@@ -112,6 +112,8 @@ protected:
 	void RemoveNotEstablishedSessions();
 	void RemoveDisconnectedPlayers();
 
+	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
+
 	size_t GetCurNumberOfPlayers() const;
 	bool IsPlayerConnected(const std::string &playerName) const;
 	bool IsPlayerConnected(unsigned uniquePlayerId) const;
@@ -146,6 +148,8 @@ private:
 
 	SocketSessionMap m_sessionMap;
 	mutable boost::mutex m_sessionMapMutex;
+
+	PlayerDataList m_computerPlayers;
 
 	CloseSessionList m_closeSessionList;
 

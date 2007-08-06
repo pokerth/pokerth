@@ -35,6 +35,14 @@ public:
 
 	std::vector<boost::shared_ptr<BeRoInterface> > createBeRo();
 
+private:
+
+	HandInterface* myHand;
+
+	int myID;
+	int actualQuantityPlayers;	
+	int dealerPosition;
+	int smallBlind;
 };
 
 #endif

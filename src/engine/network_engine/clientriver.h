@@ -19,16 +19,18 @@
 #ifndef CLIENTRIVER_H
 #define CLIENTRIVER_H
 
-#include <riverinterface.h>
+#include <berointerface.h>
 #include <boost/thread.hpp>
 
 class HandInterface;
 
 
-class ClientRiver : public RiverInterface{
+class ClientBeRoRiver : public BeRoInterface{
 public:
-	ClientRiver(HandInterface*, int, int, int, int);
-	~ClientRiver();
+	ClientBeRoRiver(HandInterface*, int, int, int, int);
+	~ClientBeRoRiver();
+
+	int getMyBeRoID() const;
 
 	void setPlayersTurn(int theValue);
 	int getPlayersTurn() const;
@@ -50,11 +52,18 @@ public:
 
 	void resetFirstRun();
 
-	void riverRun();
-	void postRiverRun();
-	void nextPlayer2();
 	void distributePot();
-	
+
+	void run();
+
+	void preflopRun() {}
+	void flopRun() {}
+	void turnRun() {}
+	void riverRun() {}
+	void postRiverRun() {}
+
+	void nextPlayer2() {}
+
 private:
 	mutable boost::recursive_mutex m_syncMutex;
 

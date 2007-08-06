@@ -19,16 +19,18 @@
 #ifndef CLIENTPREFLOP_H
 #define CLIENTPREFLOP_H
 
-#include <preflopinterface.h>
+#include <berointerface.h>
 #include <boost/thread.hpp>
 
 class HandInterface;
 
-class ClientPreflop : public PreflopInterface{
+class ClientBeRoPreflop : public BeRoInterface{
  
 public:
-	ClientPreflop(HandInterface*, int, int, int, int);
-	~ClientPreflop();
+	ClientBeRoPreflop(HandInterface*, int, int, int, int);
+	~ClientBeRoPreflop();
+
+	int getMyBeRoID() const;
 
 	void setPlayersTurn(int theValue);
 	int getPlayersTurn() const;
@@ -36,8 +38,20 @@ public:
 	void setHighestSet(int theValue);
 	int getHighestSet() const;
 
-	void preflopRun();
-	void nextPlayer2(); 
+	void setHighestCardsValue(int theValue) {}
+	int getHighestCardsValue() const {return 0;}
+
+	void resetFirstRun();
+
+	void run();
+
+	void preflopRun() {}
+	void flopRun() {}
+	void turnRun() {}
+	void riverRun() {}
+	void postRiverRun() {}
+
+	void nextPlayer2() {}
 
 private:
 	mutable boost::recursive_mutex m_syncMutex;

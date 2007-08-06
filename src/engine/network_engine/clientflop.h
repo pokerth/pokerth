@@ -19,17 +19,18 @@
 #ifndef CLIENTFLOP_H
 #define CLIENTFLOP_H
 
-#include "flopinterface.h"
+#include "berointerface.h"
 #include <boost/thread.hpp>
 
 class HandInterface;
 
-class ClientFlop : public FlopInterface
+class ClientBeRoFlop : public BeRoInterface
 {
 public:
-	ClientFlop(HandInterface*, int, int, int, int);
-	~ClientFlop();
+	ClientBeRoFlop(HandInterface*, int, int, int, int);
+	~ClientBeRoFlop();
 
+	int getMyBeRoID() const;
 
 	void setPlayersTurn(int theValue);
 	int getPlayersTurn() const;
@@ -46,10 +47,20 @@ public:
 	void setSmallBlind(int theValue);
 	int getSmallBlind() const;
 
+	void setHighestCardsValue(int theValue) {}
+	int getHighestCardsValue() const {return 0;}
+
 	void resetFirstRun();
 
-	void flopRun();
-	void nextPlayer2();
+	void run();
+
+	void preflopRun() {}
+	void flopRun() {}
+	void turnRun() {}
+	void riverRun() {}
+	void postRiverRun() {}
+
+	void nextPlayer2() {}
 
 private:
 	mutable boost::recursive_mutex m_syncMutex;

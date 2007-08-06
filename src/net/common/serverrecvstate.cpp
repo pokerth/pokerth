@@ -340,6 +340,22 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 	}
 	else if (packet->ToNetPacketStartEvent())
 	{
+		boost::shared_ptr<PlayerData> tmpPlayerData(
+			new PlayerData(m_curUniquePlayerId++, 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL));
+		tmpPlayerData->SetName("Computer");
+
+		// Send "Player Joined" to other fully connected clients.
+		boost::shared_ptr<NetPacket> thisPlayerJoined(new NetPacketPlayerJoined);
+		NetPacketPlayerJoined::Data thisPlayerJoinedData;
+		thisPlayerJoinedData.playerId = tmpPlayerData->GetUniqueId();
+		thisPlayerJoinedData.playerName = tmpPlayerData->GetName();
+		thisPlayerJoinedData.ptype = tmpPlayerData->GetType();
+		thisPlayerJoinedData.prights = tmpPlayerData->GetRights();
+		static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
+		server.SendToAllPlayers(thisPlayerJoined);
+
+		server.AddComputerPlayer(tmpPlayerData);
+
 		server.InternalStartGame();
 		server.SetState(SERVER_START_GAME_STATE::Instance());
 	}
@@ -762,11 +778,17 @@ ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 {
 	int retVal;
 
-	// If the player we are waiting for left, continue without him.
 	PlayerInterface *tmpPlayer = GetCurrentPlayer(server.GetGame());
 	assert(tmpPlayer);
 	assert(!tmpPlayer->getMyName().empty());
-	if (!server.IsPlayerConnected(tmpPlayer->getMyName()))
+
+	// If the player is computer controlled, let the engine act.
+	if (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER)
+	{
+		tmpPlayer->action();
+	}
+	// If the player we are waiting for left, continue without him.
+	else if (!server.IsPlayerConnected(tmpPlayer->getMyName()))
 	{
 		PerformPlayerAction(server, tmpPlayer, PLAYER_ACTION_FOLD, 0);
 
@@ -831,6 +853,15 @@ ServerRecvStateWaitPlayerAction::PerformPlayerAction(ServerRecvThread &server, P
 		// Update total sets.
 		curGame.getCurrentHand()->getBoard()->collectSets();
 	}
+
+	SendPlayerAction(server, player);
+}
+
+void
+ServerRecvStateWaitPlayerAction::SendPlayerAction(ServerRecvThread &server, PlayerInterface *player)
+{
+	Game &curGame = server.GetGame();
+	assert(player);
 
 	boost::shared_ptr<NetPacket> notifyActionDone(new NetPacketPlayersActionDone);
 	NetPacketPlayersActionDone::Data actionDoneData;

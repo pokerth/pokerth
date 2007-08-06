@@ -21,11 +21,6 @@
 #include <berofactoryinterface.h>
 #include <berointerface.h>
 #include <handinterface.h>
-#include <localberopreflop.h>
-#include <localberoflop.h>
-#include <localberoturn.h>
-#include <localberoriver.h>
-#include <localberopostriver.h>
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>

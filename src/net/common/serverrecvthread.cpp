@@ -469,7 +469,7 @@ ServerRecvThread::RemoveDisconnectedPlayers()
 		for (int i = 0; i < m_game->getStartQuantityPlayers(); i++)
 		{
 			PlayerInterface *tmpPlayer = m_game->getPlayerArray()[i];
-			if (!IsPlayerConnected(tmpPlayer->getMyUniqueID()))
+			if (!IsPlayerConnected(tmpPlayer->getMyUniqueID()) && tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN)
 			{
 				tmpPlayer->setMyCash(0);
 				tmpPlayer->setMyActiveStatus(false);
@@ -477,6 +477,12 @@ ServerRecvThread::RemoveDisconnectedPlayers()
 			}
 		}
 	}
+}
+
+void
+ServerRecvThread::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
+{
+	m_computerPlayers.push_back(player);
 }
 
 size_t
@@ -552,6 +558,8 @@ ServerRecvThread::GetPlayerDataList() const
 		}
 		++session_i;
 	}
+	if (!m_computerPlayers.empty())
+		playerList.insert(playerList.end(), m_computerPlayers.begin(), m_computerPlayers.end());
 	return playerList;
 }
 

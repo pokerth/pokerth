@@ -208,6 +208,7 @@ protected:
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
 	static void PerformPlayerAction(ServerRecvThread &server, PlayerInterface *player, PlayerAction action, int bet);
+	static void SendPlayerAction(ServerRecvThread &server, PlayerInterface *player);
 	static int GetHighestSet(Game &curGame);
 	static void SetHighestSet(Game &curGame, int highestSet);
 };

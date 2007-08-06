@@ -56,22 +56,22 @@ PlayerInterface* ClientEngineFactory::createPlayer(BoardInterface *b, int id, un
 
 PreflopInterface* ClientEngineFactory::createPreflop(HandInterface* hi, int id, int aP, int dP, int sB)
 {
-	return new ClientPreflop(hi, id, aP, dP, sB);
+	return NULL;
 }
 
 FlopInterface* ClientEngineFactory::createFlop(HandInterface* hi, int id, int aP, int dP, int sB)
 {
-	return new ClientFlop(hi, id, aP, dP, sB);
+	return NULL;
 }
 
 TurnInterface* ClientEngineFactory::createTurn(HandInterface* hi, int id, int aP, int dP, int sB)
 {
-	return new ClientTurn(hi, id, aP, dP, sB);
+	return NULL;
 }
 
 RiverInterface* ClientEngineFactory::createRiver(HandInterface* hi, int id, int aP, int dP, int sB)
 {
-	return new ClientRiver(hi, id, aP, dP, sB);
+	return NULL;
 }
 
 BeRoFactoryInterface* ClientEngineFactory::createBeRoFactory(HandInterface* hi, int id, int aP, int dP, int sB) 

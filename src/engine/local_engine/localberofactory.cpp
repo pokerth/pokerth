@@ -11,6 +11,12 @@
 //
 #include "localberofactory.h"
 
+#include <localberopreflop.h>
+#include <localberoflop.h>
+#include <localberoturn.h>
+#include <localberoriver.h>
+#include <localberopostriver.h>
+
 using namespace std;
 
 LocalBeRoFactory::LocalBeRoFactory (HandInterface* hi, int id, int aP, int dP, int sB)
