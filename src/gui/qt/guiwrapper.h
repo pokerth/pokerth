@@ -55,6 +55,7 @@ public:
 
 	void waitForGuiUpdateDone() const;
 
+	void dealBeRoCards(int myBeRoID);
 	void dealHoleCards();
 	void dealFlopCards();
 	void dealTurnCard();

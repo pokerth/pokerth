@@ -53,6 +53,7 @@ public:
 
 	virtual void waitForGuiUpdateDone() const=0;
 
+	virtual void dealBeRoCards(int) =0;
 // 	// Karten-Funktionen
 	virtual void dealHoleCards()=0;
 	virtual void dealFlopCards()=0;

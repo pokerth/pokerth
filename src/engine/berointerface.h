@@ -34,7 +34,7 @@ public:
 
 	virtual void run() =0;
 
-	// for network
+	// temporary for network
 	virtual void preflopRun() =0;
 	virtual void flopRun() =0;
 	virtual void turnRun() =0;

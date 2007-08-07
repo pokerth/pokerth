@@ -22,8 +22,7 @@
 using namespace std;
 
 ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC)
-: myFactory(f), myGui(g),  myBoard(b), playerArray(p), myPreflop(0), myFlop(0), myTurn(0), myRiver(0),
-  myID(id), actualQuantityPlayers(aP), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0),
+: myFactory(f), myGui(g),  myBoard(b), playerArray(p), myID(id), actualQuantityPlayers(aP), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0),
   smallBlind(sB), startCash(sC), activePlayersCounter(aP), lastPlayersTurn(0), allInCondition(0),
   cardsShown(false), bettingRoundsPlayed(0)
 {

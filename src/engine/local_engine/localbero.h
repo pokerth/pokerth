@@ -13,13 +13,14 @@
 #define LOCALBERO_H
 
 #include "berointerface.h"
+#include "handinterface.h"
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
 */
 class LocalBeRo : public BeRoInterface{
 public:
-    LocalBeRo();
+    LocalBeRo(HandInterface* hi, int id, int qP, int dP, int sB);
 
     ~LocalBeRo();
 
@@ -28,7 +29,8 @@ public:
 	int getHighestCardsValue() const {return 0;}
 	void setHighestCardsValue(int theValue) {}
 
-	void run() {}
+	void run();
+
 	//only until bero refactoring is over
 	void preflopRun() {}
 	void flopRun() {}
@@ -40,7 +42,24 @@ public:
 	
 protected:
 
+	HandInterface* myHand;
+
 	int myBeRoID;
+	int myID;
+	int actualQuantityPlayers;	
+	int dealerPosition;
+	int smallBlindPosition;
+
+	int smallBlind;
+	int highestSet;
+
+	bool firstRun;
+	bool firstRound;
+	bool firstHeadsUpRound;
+	int playersTurn;
+
+	bool logBoardCardsDone;
+
 
 };
 

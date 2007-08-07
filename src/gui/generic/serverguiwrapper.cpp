@@ -64,6 +64,7 @@ void ServerGuiWrapper::refreshGameLabels(GameState state) const {}
 
 void ServerGuiWrapper::waitForGuiUpdateDone() const {}
 
+void ServerGuiWrapper::dealBeRoCards(int myBeRoID) {}
 void ServerGuiWrapper::dealHoleCards() {}
 void ServerGuiWrapper::dealFlopCards() {}
 void ServerGuiWrapper::dealTurnCard() {}

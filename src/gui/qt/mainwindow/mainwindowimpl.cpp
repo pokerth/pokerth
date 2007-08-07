@@ -605,6 +605,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalStartTimeoutAnimation(int, int)), this, SLOT(startTimeoutAnimation(int, int)));
 	connect(this, SIGNAL(signalStopTimeoutAnimation(int)), this, SLOT(stopTimeoutAnimation(int)));
 
+	connect(this, SIGNAL(signalDealBeRoCards(int)), this, SLOT(dealBeRoCards(int)));
 	connect(this, SIGNAL(signalDealHoleCards()), this, SLOT(dealHoleCards()));
 	connect(this, SIGNAL(signalDealFlopCards0()), this, SLOT(dealFlopCards0()));
 	connect(this, SIGNAL(signalDealTurnCards0()), this, SLOT(dealTurnCards0()));
@@ -1306,6 +1307,21 @@ void mainWindowImpl::dealHoleCards() {
 		}
 	}
 }
+
+void mainWindowImpl::dealBeRoCards(int myBeRoID) {	
+
+	switch(myBeRoID) {
+
+		case 1: { dealFlopCards0(); }
+		break;
+		case 2: { dealTurnCards0(); }
+		break;
+		case 3: { dealRiverCards0(); }
+		break;
+		default: { cout << "dealBeRoCards Error" << endl; }
+	}
+}
+
 
 void mainWindowImpl::dealFlopCards0() {	dealFlopCards0Timer->start(preDealCardsSpeed); }
 

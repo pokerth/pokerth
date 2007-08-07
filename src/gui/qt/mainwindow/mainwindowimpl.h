@@ -95,6 +95,8 @@ signals:
 	void signalStartTimeoutAnimation(int playerId, int timeoutSec);
 	void signalStopTimeoutAnimation(int playerId);
 
+	void signalDealBeRoCards(int myBeRoID);
+
 	void signalDealHoleCards();
 	void signalDealFlopCards0();
 	void signalDealTurnCards0();
@@ -178,6 +180,8 @@ public slots:
 	void myAllIn();
 
 	void myActionDone();
+
+	void dealBeRoCards(int);
 
 	void dealFlopCards0();
 	void dealFlopCards1();

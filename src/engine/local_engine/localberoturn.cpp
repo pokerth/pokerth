@@ -24,7 +24,7 @@
 
 using namespace std;
 
-LocalBeRoTurn::LocalBeRoTurn(HandInterface* bR, int id, int qP, int dP, int sB) : LocalBeRo(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstTurnRun(1), firstTurnRound(1), firstHeadsUpTurnRound(1), playersTurn(dP), logBoardCardsDone(0)
+LocalBeRoTurn::LocalBeRoTurn(HandInterface* hi, int id, int qP, int dP, int sB) : LocalBeRo(hi, id, qP, dP, sB), myHand(hi), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstTurnRun(1), firstTurnRound(1), firstHeadsUpTurnRound(1), playersTurn(dP), logBoardCardsDone(0)
 
 {
 

@@ -71,12 +71,8 @@ HEADERS += src/game.h \
            src/core/thread.h \
            src/engine/boardinterface.h \
            src/engine/enginefactory.h \
-           src/engine/flopinterface.h \
            src/engine/handinterface.h \
            src/engine/playerinterface.h \
-           src/engine/preflopinterface.h \
-           src/engine/riverinterface.h \
-           src/engine/turninterface.h \
 	   src/engine/berointerface.h \
            src/gui/guiinterface.h \
            src/net/clientcallback.h \
@@ -97,17 +93,13 @@ HEADERS += src/game.h \
            src/engine/local_engine/cardsvalue.h \
            src/engine/local_engine/localboard.h \
            src/engine/local_engine/localenginefactory.h \
-           src/engine/local_engine/localflop.h \
- 	   src/engine/local_engine/localberoflop.h \
            src/engine/local_engine/localhand.h \
            src/engine/local_engine/localplayer.h \
-           src/engine/local_engine/localpreflop.h \
 	   src/engine/local_engine/localberopreflop.h \
-           src/engine/local_engine/localriver.h \
+           src/engine/local_engine/localberoflop.h \
+	   src/engine/local_engine/localberoturn.h \
            src/engine/local_engine/localberoriver.h \
            src/engine/local_engine/localberopostriver.h \
-           src/engine/local_engine/localturn.h \
-	   src/engine/local_engine/localberoturn.h \
            src/engine/local_engine/tools.h \
 	   src/engine/local_engine/localbero.h \
            src/engine/network_engine/clientboard.h \
@@ -162,12 +154,8 @@ SOURCES += src/game.cpp \
            src/config/configfile.cpp \
            src/engine/boardinterface.cpp \
            src/engine/enginefactory.cpp \
-           src/engine/flopinterface.cpp \
            src/engine/handinterface.cpp \
            src/engine/playerinterface.cpp \
-           src/engine/preflopinterface.cpp \
-           src/engine/riverinterface.cpp \
-           src/engine/turninterface.cpp \
 	   src/engine/berointerface.cpp \
            src/gui/guiinterface.cpp \
            src/core/common/thread.cpp \
@@ -178,17 +166,13 @@ SOURCES += src/game.cpp \
            src/engine/local_engine/cardsvalue.cpp \
            src/engine/local_engine/localboard.cpp \
            src/engine/local_engine/localenginefactory.cpp \
-           src/engine/local_engine/localflop.cpp \
-           src/engine/local_engine/localberoflop.cpp \
 	   src/engine/local_engine/localhand.cpp \
            src/engine/local_engine/localplayer.cpp \
-           src/engine/local_engine/localpreflop.cpp \
 	   src/engine/local_engine/localberopreflop.cpp \
-	   src/engine/local_engine/localriver.cpp \
+           src/engine/local_engine/localberoflop.cpp \
+	   src/engine/local_engine/localberoturn.cpp \
 	   src/engine/local_engine/localberoriver.cpp \
 	   src/engine/local_engine/localberopostriver.cpp \
-           src/engine/local_engine/localturn.cpp \
-	   src/engine/local_engine/localberoturn.cpp \
            src/engine/local_engine/tools.cpp \
            src/engine/local_engine/localbero.cpp \
            src/engine/network_engine/clientboard.cpp \

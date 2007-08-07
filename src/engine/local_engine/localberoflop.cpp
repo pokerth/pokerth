@@ -24,7 +24,7 @@
 
 using namespace std;
 
-LocalBeRoFlop::LocalBeRoFlop(HandInterface* bR, int id, int qP, int dP, int sB) : LocalBeRo(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstFlopRun(1), firstFlopRound(1), firstHeadsUpFlopRound(1), playersTurn(dP), logBoardCardsDone(0)
+LocalBeRoFlop::LocalBeRoFlop(HandInterface* hi, int id, int qP, int dP, int sB) : LocalBeRo(hi, id, qP, dP, sB), myHand(hi), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstFlopRun(1), firstFlopRound(1), firstHeadsUpFlopRound(1), playersTurn(dP), logBoardCardsDone(0)
 
 {
 

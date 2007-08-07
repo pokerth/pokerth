@@ -25,7 +25,7 @@
 
 using namespace std;
 
-LocalBeRoPostRiver::LocalBeRoPostRiver(HandInterface* bR, int id, int qP, int dP, int sB) : LocalBeRo(), myHand(bR), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRiverRun(1), firstRiverRound(1), firstHeadsUpRiverRound(1), playersTurn(dP), highestCardsValue(0), logBoardCardsDone(0)
+LocalBeRoPostRiver::LocalBeRoPostRiver(HandInterface* hi, int id, int qP, int dP, int sB) : LocalBeRo(hi, id, qP, dP, sB), myHand(hi), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRiverRun(1), firstRiverRound(1), firstHeadsUpRiverRound(1), playersTurn(dP), highestCardsValue(0), logBoardCardsDone(0)
 
 {
 

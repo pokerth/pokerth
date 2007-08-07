@@ -66,6 +66,8 @@ void GuiWrapper::waitForGuiUpdateDone() const
 	myW->waitForGuiUpdateDone();
 }
 
+void GuiWrapper::dealBeRoCards(int myBeRoID) { myW->signalDealBeRoCards(myBeRoID); }
+
 void GuiWrapper::dealHoleCards() { myW->signalDealHoleCards(); }
 void GuiWrapper::dealFlopCards() { myW->signalDealFlopCards0(); }
 void GuiWrapper::dealTurnCard() { myW->signalDealTurnCards0(); }

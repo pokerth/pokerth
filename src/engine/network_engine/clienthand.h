@@ -24,12 +24,7 @@
 #include <boardinterface.h>
 #include <playerinterface.h>
 #include <handinterface.h>
-#include <preflopinterface.h>
-#include <flopinterface.h>
-#include <turninterface.h>
-#include <riverinterface.h>
 #include <berointerface.h>
-
 #include <boost/thread.hpp>
 
 #include <vector>
@@ -97,11 +92,6 @@ class ClientHand : public HandInterface
 		GuiInterface *myGui;
 		BoardInterface *myBoard;
 		PlayerInterface **playerArray;
-		PreflopInterface *myPreflop;
-		FlopInterface *myFlop;
-		TurnInterface *myTurn;
-		RiverInterface *myRiver;
-		BeRoInterface *myOldBeRo;
 		std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
 		int myID;

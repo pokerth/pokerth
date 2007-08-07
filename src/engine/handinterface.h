@@ -27,10 +27,6 @@
 #include "guiinterface.h"
 #include "boardinterface.h"
 #include "playerinterface.h"
-#include "preflopinterface.h"
-#include "flopinterface.h"
-#include "turninterface.h"
-#include "riverinterface.h"
 #include "berointerface.h"
 
 class HandInterface{

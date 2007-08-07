@@ -48,6 +48,7 @@ public:
 
 	void waitForGuiUpdateDone() const;
 
+	void dealBeRoCards(int);
 	void dealHoleCards();
 	void dealFlopCards();
 	void dealTurnCard();
