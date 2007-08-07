@@ -62,6 +62,8 @@ public:
 
 	virtual void nextPlayerAnimation()=0;
 
+	virtual void beRoAnimation2(int)=0;
+
 	virtual void preflopAnimation1()=0;
 	virtual void preflopAnimation2()=0;
 

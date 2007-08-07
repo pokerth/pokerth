@@ -75,6 +75,8 @@ void GuiWrapper::dealRiverCard() { myW->signalDealRiverCards0(); }
 
 void GuiWrapper::nextPlayerAnimation() { myW->signalNextPlayerAnimation(); }
 
+void GuiWrapper::beRoAnimation2(int myBeRoID) { myW->signalBeRoAnimation2(myBeRoID); }
+
 void GuiWrapper::preflopAnimation1() { myW->signalPreflopAnimation1(); }
 void GuiWrapper::preflopAnimation2() { myW->signalPreflopAnimation2(); }
 

@@ -62,7 +62,7 @@ public:
 	void riverRun() {}
 	void postRiverRun() {}
 
-	void nextPlayer2() {}
+	void nextPlayer() {}
 
 private:
 	mutable boost::recursive_mutex m_syncMutex;

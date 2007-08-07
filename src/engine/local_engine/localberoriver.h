@@ -30,53 +30,6 @@ class LocalBeRoRiver : public LocalBeRo{
 public:
 	LocalBeRoRiver(HandInterface*, int, int, int, int);
 	~LocalBeRoRiver();
-
-	void setPlayersTurn(int theValue) { playersTurn = theValue; }
-	int getPlayersTurn() const { return playersTurn; }
-	
-	void setHighestSet(int theValue) { highestSet = theValue; }
-	int getHighestSet() const { return highestSet;}
-
-	void setFirstRiverRound(bool theValue) { firstRiverRound = theValue;}
-	bool getFirstRiverRound() const {  return firstRiverRound;}
-
-	void setSmallBlindPosition(int theValue) { smallBlindPosition = theValue;}
-	int getSmallBlindPosition() const { return smallBlindPosition; }
-
-	void setSmallBlind(int theValue) { smallBlind = theValue; }
-	int getSmallBlind() const { return smallBlind; }
-
-	void setHighestCardsValue(int theValue) { highestCardsValue = theValue;}
-	int getHighestCardsValue() const { return highestCardsValue;}
-
-	void resetFirstRun() { firstRiverRun = false; }
-
-	void run();
-	void postRiverRun();
-	void nextPlayer2();
-	void distributePot();
-	
-private:
-
-	HandInterface *myHand;
-
-	int myID;
-	int actualQuantityPlayers;	
-	int dealerPosition;
-	int smallBlindPosition;
-
-	int smallBlind;
-	int highestSet;
-
-	bool firstRiverRun;
-	bool firstRiverRound;
-	bool firstHeadsUpRiverRound;
-	int playersTurn;
-
-	int highestCardsValue;
-
-	bool logBoardCardsDone;
-
 };
 
 #endif

@@ -31,47 +31,6 @@ public:
 	LocalBeRoFlop(HandInterface*, int, int, int, int);
 	~LocalBeRoFlop();
 
-
-	void setPlayersTurn(int theValue) { playersTurn = theValue; }
-	int getPlayersTurn() const { return playersTurn; }
-	
-	void setHighestSet(int theValue) { highestSet = theValue; }
-	int getHighestSet() const { return highestSet;}
-
-	void setFirstFlopRound(bool theValue) { firstFlopRound = theValue;}
-	bool getFirstFlopRound() const {  return firstFlopRound;}
-
-	void setSmallBlindPosition(int theValue) { smallBlindPosition = theValue;}
-	int getSmallBlindPosition() const { return smallBlindPosition; }
-
-	void setSmallBlind(int theValue) { smallBlind = theValue; }
-	int getSmallBlind() const { return smallBlind; }
-
-	void resetFirstRun() { firstFlopRun = false; }
-
-	void run();
-
-	void nextPlayer2();
-
-private:
-
-	HandInterface *myHand;
-
-	int myID;
-	int actualQuantityPlayers;	
-	int dealerPosition;
-	int smallBlindPosition;
-
-	int smallBlind;
-	int highestSet;
-
-	bool firstFlopRun;
-	bool firstFlopRound;
-	bool firstHeadsUpFlopRound;
-	int playersTurn;
-
-	bool logBoardCardsDone;
-
 };
 
 #endif

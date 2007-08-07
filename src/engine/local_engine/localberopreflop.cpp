@@ -24,10 +24,10 @@
 
 using namespace std;
 
-LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int qP, int dP, int sB) : LocalBeRo(hi, id, qP, dP, sB), myHand(hi), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), bigBlindPosition(0), smallBlind(sB), highestSet(2*sB), preflopFirstRound(1), playersTurn(0)
+LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int qP, int dP, int sB) : LocalBeRo(hi, id, qP, dP, sB, GAME_STATE_PREFLOP), bigBlindPosition(0)
 
 {
-	myBeRoID = GAME_STATE_PREFLOP;
+	highestSet = 2*smallBlind;
 
 // // 	BigBlind ermitteln 
 	bigBlindPosition = dealerPosition;
@@ -72,11 +72,11 @@ void LocalBeRoPreflop::run() {
 	}
 
 	// prfen, ob Preflop wirklich dran ist
-	if(!preflopFirstRound && allHighestSet) { 
+	if(!firstRound && allHighestSet) { 
 
 		// Preflop nicht dran, weil wir nicht mehr in erster PreflopRunde und alle Sets gleich sind
 		//also gehe in Flop
-		myHand->setActualRound(1);
+		myHand->setActualRound(GAME_STATE_FLOP);
 		
 		//Action loeschen und ActionButtons refresh
 		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
@@ -101,7 +101,7 @@ void LocalBeRoPreflop::run() {
 
 			playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
 			// falls BigBlind, dann PreflopFirstRound zuende
-			if(myHand->getPlayerArray()[playersTurn]->getMyButton() == 3) preflopFirstRound = 0;
+			if(myHand->getPlayerArray()[playersTurn]->getMyButton() == 3) firstRound = 0;
 
 		} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || myHand->getPlayerArray()[playersTurn]->getMyAction() == 1 || myHand->getPlayerArray()[playersTurn]->getMyAction() == 6);
 
@@ -117,13 +117,7 @@ void LocalBeRoPreflop::run() {
 		else {
 			//Gegner sind dran
 //			cout << "NextPlayerSpeed3 start" << endl;
-			myHand->getGuiInterface()->preflopAnimation2();
+			myHand->getGuiInterface()->beRoAnimation2(myBeRoID);
 		}
 	}
-}
-
-void LocalBeRoPreflop::nextPlayer2() {
-// 	cout << "NextPlayerSpeed3 stop" << endl;
-	myHand->getPlayerArray()[playersTurn]->action();
-
 }

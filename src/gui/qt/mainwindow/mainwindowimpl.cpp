@@ -613,6 +613,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	connect(this, SIGNAL(signalNextPlayerAnimation()), this, SLOT(nextPlayerAnimation()));
 
+		;
+	connect(this, SIGNAL(signalBeRoAnimation2(int)), this, SLOT(beRoAnimation2(int)));
+
 	connect(this, SIGNAL(signalPreflopAnimation1()), this, SLOT(preflopAnimation1()));
 	connect(this, SIGNAL(signalPreflopAnimation2()), this, SLOT(preflopAnimation2()));
 	connect(this, SIGNAL(signalFlopAnimation1()), this, SLOT(flopAnimation1()));
@@ -1829,30 +1832,47 @@ void mainWindowImpl::nextPlayerAnimation() {
 	nextPlayerAnimationTimer->start(nextPlayerSpeed1);
 }
 
+void mainWindowImpl::beRoAnimation2(int myBeRoID) {
+
+	switch(myBeRoID) {
+
+		case 0: { preflopAnimation2(); }
+		break;
+		case 1: { flopAnimation2(); }
+		break;
+		case 2: { turnAnimation2(); }
+		break;
+		case 3: { riverAnimation2(); }
+		break;
+		default: { cout << "beRoAnimation2 Error" << endl; }
+	}
+}
+
+
 void mainWindowImpl::preflopAnimation1() { preflopAnimation1Timer->start(nextPlayerSpeed2); }
 void mainWindowImpl::preflopAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getPreflop()->run(); }
 
 void mainWindowImpl::preflopAnimation2() { preflopAnimation2Timer->start(preflopNextPlayerSpeed); }
-void mainWindowImpl::preflopAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getPreflop()->nextPlayer2(); }
+void mainWindowImpl::preflopAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getPreflop()->nextPlayer(); }
 
 
 void mainWindowImpl::flopAnimation1() { flopAnimation1Timer->start(nextPlayerSpeed2); }
 void mainWindowImpl::flopAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getFlop()->run(); }
 
 void mainWindowImpl::flopAnimation2() { flopAnimation2Timer->start(nextPlayerSpeed3); }
-void mainWindowImpl::flopAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getFlop()->nextPlayer2(); }
+void mainWindowImpl::flopAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getFlop()->nextPlayer(); }
 
 void mainWindowImpl::turnAnimation1() { turnAnimation1Timer->start(nextPlayerSpeed2); }
 void mainWindowImpl::turnAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getTurn()->run(); }
 
 void mainWindowImpl::turnAnimation2() { turnAnimation2Timer->start(nextPlayerSpeed3); }
-void mainWindowImpl::turnAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getTurn()->nextPlayer2(); }
+void mainWindowImpl::turnAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getTurn()->nextPlayer(); }
 
 void mainWindowImpl::riverAnimation1() { riverAnimation1Timer->start(nextPlayerSpeed2); }
 void mainWindowImpl::riverAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getRiver()->run(); }
 
 void mainWindowImpl::riverAnimation2() { riverAnimation2Timer->start(nextPlayerSpeed3); }
-void mainWindowImpl::riverAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getRiver()->nextPlayer2(); }
+void mainWindowImpl::riverAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getRiver()->nextPlayer(); }
 
 void mainWindowImpl::postRiverAnimation1() { postRiverAnimation1Timer->start(nextPlayerSpeed2); }
 void mainWindowImpl::postRiverAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getRiver()->postRiverRun(); }

@@ -104,6 +104,8 @@ signals:
 
 	void signalNextPlayerAnimation();
 
+	void signalBeRoAnimation2(int);
+
 	void signalPreflopAnimation1();
 	void signalPreflopAnimation2();
 	void signalFlopAnimation1();
@@ -200,6 +202,8 @@ public slots:
 	void dealRiverCards2();
 
 	void nextPlayerAnimation();
+
+	void beRoAnimation2(int);
 
 	void preflopAnimation1();
 	void preflopAnimation1Action();

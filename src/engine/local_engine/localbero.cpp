@@ -11,16 +11,34 @@
 //
 #include "localbero.h"
 
-LocalBeRo::LocalBeRo(HandInterface* hi, int id, int qP, int dP, int sB) : BeRoInterface(), myHand(hi), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRun(1), firstRound(1), firstHeadsUpRound(1), playersTurn(dP), logBoardCardsDone(0)
+using namespace std;
+
+LocalBeRo::LocalBeRo(HandInterface* hi, int id, int qP, int dP, int sB, GameState gS) : BeRoInterface(), myHand(hi), myBeRoID(gS), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRun(1), firstRound(1), firstHeadsUpRound(1), playersTurn(dP), logBoardCardsDone(0)
 {
-}
+
+	int i;
+
+	//SmallBlind-Position ermitteln 
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+		if (myHand->getPlayerArray()[i]->getMyButton() == 2) smallBlindPosition = i;
+	}
+
+}		
 
 
 LocalBeRo::~LocalBeRo()
 {
 }
 
+void LocalBeRo::nextPlayer() {
+
+	myHand->getPlayerArray()[playersTurn]->action();
+
+}
+
 void LocalBeRo::run() {
+
+	cout << "LocalBeRoRun-" << myBeRoID << endl;
 
 	int i;
 
@@ -110,7 +128,7 @@ void LocalBeRo::run() {
 			}
 			else {
 				//Gegner sind dran
-				myHand->getGuiInterface()->flopAnimation2();
+				myHand->getGuiInterface()->beRoAnimation2(myBeRoID);
 			}
 		}
 	}

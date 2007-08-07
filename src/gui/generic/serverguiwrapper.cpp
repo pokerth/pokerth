@@ -72,6 +72,8 @@ void ServerGuiWrapper::dealRiverCard() {}
 
 void ServerGuiWrapper::nextPlayerAnimation() {}
 
+void ServerGuiWrapper::beRoAnimation2(int myBeRoID) {}
+
 void ServerGuiWrapper::preflopAnimation1() {}
 void ServerGuiWrapper::preflopAnimation2() {}
 

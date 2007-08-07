@@ -42,7 +42,7 @@ public:
 
 	virtual void postRiverRun() =0;
 	
-	virtual void nextPlayer2() =0;
+	virtual void nextPlayer() =0;
 
 };
 

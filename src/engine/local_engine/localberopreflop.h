@@ -31,32 +31,10 @@ public:
 	LocalBeRoPreflop(HandInterface*, int, int, int, int);
 	~LocalBeRoPreflop();
 
-	void setPlayersTurn(int theValue) { playersTurn = theValue; }
-	int getPlayersTurn() const { return playersTurn; }
-	
-	void setHighestSet(int theValue) { highestSet = theValue; }
-	int getHighestSet() const { return highestSet;}
-
 	void run();
-	void nextPlayer2(); 
-	
 
 private:
-	HandInterface *myHand;
-
-
-	int myID;
-	int actualQuantityPlayers;	
-	int dealerPosition;
 	int bigBlindPosition;
-
-	int smallBlind;
-	int highestSet;
-
-	bool preflopFirstRound;
-	int playersTurn;
-
-
 };
 
 #endif

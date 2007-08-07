@@ -56,6 +56,8 @@ public:
 
 	void nextPlayerAnimation();
 
+	void beRoAnimation2(int);
+
 	void preflopAnimation1();
 	void preflopAnimation2();
 	
