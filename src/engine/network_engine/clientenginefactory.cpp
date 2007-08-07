@@ -21,10 +21,7 @@
 #include "clienthand.h"
 #include "clientboard.h"
 #include "clientplayer.h"
-#include "clientpreflop.h"
-#include "clientflop.h"
-#include "clientturn.h"
-#include "clientriver.h"
+#include "clientbero.h"
 
 
 
@@ -57,15 +54,11 @@ std::vector<boost::shared_ptr<BeRoInterface> > ClientEngineFactory::createBeRo(H
 
 	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
-	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoPreflop(hi, id, aP, dP, sB)));
-
-	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoFlop(hi, id, aP, dP, sB)));
-
-	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoTurn(hi, id, aP, dP, sB)));
-
-	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoRiver(hi, id, aP, dP, sB)));
-
-// 	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRoPostRiver(hi, id, aP, dP, sB)));
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRo(hi, id, aP, dP, sB, GAME_STATE_PREFLOP)));
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRo(hi, id, aP, dP, sB, GAME_STATE_FLOP)));
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRo(hi, id, aP, dP, sB, GAME_STATE_TURN)));
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRo(hi, id, aP, dP, sB, GAME_STATE_RIVER)));
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new ClientBeRo(hi, id, aP, dP, sB, GAME_STATE_POST_RIVER)));
 
 	return myBeRo;
 

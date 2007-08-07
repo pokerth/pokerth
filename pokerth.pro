@@ -104,12 +104,8 @@ HEADERS += src/game.h \
 	   src/engine/local_engine/localbero.h \
            src/engine/network_engine/clientboard.h \
            src/engine/network_engine/clientenginefactory.h \
-           src/engine/network_engine/clientflop.h \
            src/engine/network_engine/clienthand.h \
            src/engine/network_engine/clientplayer.h \
-           src/engine/network_engine/clientpreflop.h \
-           src/engine/network_engine/clientriver.h \
-           src/engine/network_engine/clientturn.h \
      	   src/engine/network_engine/clientbero.h \
 	   src/gui/qt/sound/sdlplayer.h \
            src/gui/qt/mainwindow/mainwindowimpl.h \
@@ -177,12 +173,8 @@ SOURCES += src/game.cpp \
            src/engine/local_engine/localbero.cpp \
            src/engine/network_engine/clientboard.cpp \
            src/engine/network_engine/clientenginefactory.cpp \
-           src/engine/network_engine/clientflop.cpp \
            src/engine/network_engine/clienthand.cpp \
            src/engine/network_engine/clientplayer.cpp \
-           src/engine/network_engine/clientpreflop.cpp \
-           src/engine/network_engine/clientriver.cpp \
-           src/engine/network_engine/clientturn.cpp \
 	   src/engine/network_engine/clientbero.cpp \
            src/net/common/connectdata.cpp \
            src/net/common/clientcallback.cpp \

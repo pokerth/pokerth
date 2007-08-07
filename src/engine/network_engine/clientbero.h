@@ -12,30 +12,59 @@
 #ifndef CLIENTBERO_H
 #define CLIENTBERO_H
 
-#include <vector>
-
-#include <boost/shared_ptr.hpp>
-
+#include <boost/thread.hpp>
 #include "berointerface.h"
 
+class HandInterface;
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
 */
 class ClientBeRo : public BeRoInterface{
 public:
-    ClientBeRo();
+	ClientBeRo(HandInterface* hi, int id, int qP, int dP, int sB, GameState gS);
+	~ClientBeRo();
 
-    ~ClientBeRo();
+	GameState getMyBeRoID() const;
 
-	int getMyBeRoID() const { return myBeRoID; }
+	int getHighestCardsValue() const;
+	void setHighestCardsValue(int theValue);
 
-	void run() {}
+	void setPlayersTurn(int theValue);
+	int getPlayersTurn() const;
+	
+	void setHighestSet(int theValue);
+	int getHighestSet() const;
 
-protected:
+	void setFirstRound(bool theValue);
+	bool getFirstRound() const;
 
-	int myBeRoID;
+	void setSmallBlindPosition(int theValue);
+	int getSmallBlindPosition() const;
 
+	void setSmallBlind(int theValue);
+	int getSmallBlind() const;
+
+	void resetFirstRun();
+
+	void nextPlayer();
+	void run();
+	void postRiverRun();
+
+private:
+
+	const GameState myBeRoID;
+
+	mutable boost::recursive_mutex m_syncMutex;
+
+	HandInterface *myHand;
+
+	int highestCardsValue;
+	int playersTurn;
+	int highestSet;
+	bool firstRound;
+	int smallBlindPosition;
+	int smallBlind;
 };
 
 #endif

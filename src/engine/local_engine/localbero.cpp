@@ -13,7 +13,8 @@
 
 using namespace std;
 
-LocalBeRo::LocalBeRo(HandInterface* hi, int id, int qP, int dP, int sB, GameState gS) : BeRoInterface(), myHand(hi), myBeRoID(gS), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRun(1), firstRound(1), firstHeadsUpRound(1), playersTurn(dP), logBoardCardsDone(0)
+LocalBeRo::LocalBeRo(HandInterface* hi, int id, int qP, int dP, int sB, GameState gS)
+: BeRoInterface(), myHand(hi), myBeRoID(gS), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRun(1), firstRound(1), firstHeadsUpRound(1), playersTurn(dP), logBoardCardsDone(0)
 {
 
 	int i;

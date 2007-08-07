@@ -15,7 +15,6 @@
 
 #include <iostream>
 
-#include "game_defs.h"
 #include "berointerface.h"
 #include "handinterface.h"
 
@@ -24,15 +23,13 @@
 */
 class LocalBeRo : public BeRoInterface{
 public:
-    LocalBeRo(HandInterface* hi, int id, int qP, int dP, int sB, GameState gS);
+	LocalBeRo(HandInterface* hi, int id, int qP, int dP, int sB, GameState gS);
+	~LocalBeRo();
 
-    ~LocalBeRo();
-
-	int getMyBeRoID() const { return myBeRoID; }
+	GameState getMyBeRoID() const { return myBeRoID; }
 	
 	int getHighestCardsValue() const {return 0;}
 	void setHighestCardsValue(int theValue) {}
-
 
 	void setPlayersTurn(int theValue) { playersTurn = theValue; }
 	int getPlayersTurn() const { return playersTurn; }
@@ -53,21 +50,15 @@ public:
 
 	void nextPlayer();
 	void run();
-
-	//only until bero refactoring is over
-	void preflopRun() {}
-	void flopRun() {}
-	void riverRun() {}
-	void turnRun() {}
 	void postRiverRun() {}
-	
+
 protected:
 
 	HandInterface* myHand;
 
-	int myBeRoID;
+	const GameState myBeRoID;
 	int myID;
-	int actualQuantityPlayers;	
+	int actualQuantityPlayers;
 	int dealerPosition;
 	int smallBlindPosition;
 

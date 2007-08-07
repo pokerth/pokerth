@@ -184,7 +184,6 @@ protected:
 	// Protected constructor - this is a singleton.
 	ServerRecvStateStartRound();
 
-	static void GameRun(Game &curGame);
 	static std::list<PlayerInterface *> GetActivePlayers(Game &curGame);
 };
 

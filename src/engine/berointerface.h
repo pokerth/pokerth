@@ -1,7 +1,7 @@
 //
 // C++ Interface: berointerface
 //
-// Description: 
+// Description: Betting rounds interface
 //
 //
 // Author: FThauer FHammer <webmaster@pokerth.net>, (C) 2007
@@ -12,15 +12,17 @@
 #ifndef BEROINTERFACE_H
 #define BEROINTERFACE_H
 
+#include "game_defs.h"
+
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
 */
 class BeRoInterface{
 public:
 
-    virtual ~BeRoInterface();
+	virtual ~BeRoInterface();
 	
-	virtual int getMyBeRoID() const =0;
+	virtual GameState getMyBeRoID() const =0;
 
 	virtual void setPlayersTurn(int) =0;
 	virtual int getPlayersTurn() const =0;
@@ -29,21 +31,13 @@ public:
 	virtual int getHighestSet() const =0;
 
 	virtual void setHighestCardsValue(int theValue) =0;
-	virtual void resetFirstRun() =0;
 	virtual int getHighestCardsValue() const =0;
 
-	virtual void run() =0;
+	virtual void resetFirstRun() =0;
 
-	// temporary for network
-	virtual void preflopRun() =0;
-	virtual void flopRun() =0;
-	virtual void turnRun() =0;
-	virtual void riverRun() =0;
-
-	virtual void postRiverRun() =0;
-	
 	virtual void nextPlayer() =0;
-
+	virtual void run() =0;
+	virtual void postRiverRun() =0;
 };
 
 #endif

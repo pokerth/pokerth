@@ -340,7 +340,7 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 	}
 	else if (packet->ToNetPacketStartEvent())
 	{
-		boost::shared_ptr<PlayerData> tmpPlayerData(
+		/*boost::shared_ptr<PlayerData> tmpPlayerData(
 			new PlayerData(m_curUniquePlayerId++, 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL));
 		tmpPlayerData->SetName("Computer");
 
@@ -354,7 +354,7 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 		static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
 		server.SendToAllPlayers(thisPlayerJoined);
 
-		server.AddComputerPlayer(tmpPlayerData);
+		server.AddComputerPlayer(tmpPlayerData);*/
 
 		server.InternalStartGame();
 		server.SetState(SERVER_START_GAME_STATE::Instance());
@@ -557,7 +557,7 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 	int curRound = curGame.getCurrentHand()->getActualRound();
 	curGame.getCurrentHand()->switchRounds();
 	if (!curGame.getCurrentHand()->getAllInCondition())
-		GameRun(curGame);
+		curGame.getCurrentHand()->getCurrentBeRo()->run();
 	int newRound = curGame.getCurrentHand()->getActualRound();
 
 	// If round changes, deal cards if needed.
@@ -712,33 +712,6 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 		}
 	}
 	return retVal;
-}
-
-void
-ServerRecvStateStartRound::GameRun(Game &curGame)
-{
-	// TODO: no switch needed here if game states are polymorphic
-	switch(curGame.getCurrentHand()->getActualRound()) {
-		case GAME_STATE_PREFLOP: {
-			// Preflop starten
-			curGame.getCurrentHand()->getPreflop()->preflopRun();
-		} break;
-		case GAME_STATE_FLOP: {
-			// Flop starten
-			curGame.getCurrentHand()->getFlop()->flopRun();
-		} break;
-		case GAME_STATE_TURN: {
-			// Turn starten
-			curGame.getCurrentHand()->getTurn()->turnRun();
-		} break;
-		case GAME_STATE_RIVER: {
-			// River starten
-			curGame.getCurrentHand()->getRiver()->riverRun();
-		} break;
-		default: {
-			// 
-		}
-	}
 }
 
 std::list<PlayerInterface *>
