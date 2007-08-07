@@ -47,25 +47,7 @@ using namespace std;
 
 static PlayerInterface *GetCurrentPlayer(Game &curGame)
 {
-	int curPlayerNum = 0;
-	// TODO: no switch needed here if game states are polymorphic
-	switch(curGame.getCurrentHand()->getActualRound()) {
-		case GAME_STATE_PREFLOP: {
-			curPlayerNum = curGame.getCurrentHand()->getPreflop()->getPlayersTurn();
-		} break;
-		case GAME_STATE_FLOP: {
-			curPlayerNum = curGame.getCurrentHand()->getFlop()->getPlayersTurn();
-		} break;
-		case GAME_STATE_TURN: {
-			curPlayerNum = curGame.getCurrentHand()->getTurn()->getPlayersTurn();
-		} break;
-		case GAME_STATE_RIVER: {
-			curPlayerNum = curGame.getCurrentHand()->getRiver()->getPlayersTurn();
-		} break;
-		default: {
-			// 
-		}
-	}
+	int curPlayerNum = curGame.getCurrentHand()->getCurrentBeRo()->getPlayersTurn();
 	assert(curPlayerNum < curGame.getStartQuantityPlayers()); // TODO: throw exception
 	return curGame.getPlayerArray()[curPlayerNum];
 }
@@ -771,7 +753,7 @@ ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 	else if (GetTimer().elapsed().total_seconds() >= server.GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC)
 	{
 		// Player did not act fast enough. Act for him.
-		if (GetHighestSet(server.GetGame()) == tmpPlayer->getMySet())
+		if (server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet() == tmpPlayer->getMySet())
 			PerformPlayerAction(server, tmpPlayer, PLAYER_ACTION_CHECK, 0);
 		else
 			PerformPlayerAction(server, tmpPlayer, PLAYER_ACTION_FOLD, 0);
@@ -821,8 +803,8 @@ ServerRecvStateWaitPlayerAction::PerformPlayerAction(ServerRecvThread &server, P
 	{
 		player->setMySet(bet);
 
-		if (player->getMySet() > GetHighestSet(curGame))
-			SetHighestSet(curGame, player->getMySet());
+		if (player->getMySet() > curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet())
+			curGame.getCurrentHand()->getCurrentBeRo()->setHighestSet(player->getMySet());
 		// Update total sets.
 		curGame.getCurrentHand()->getBoard()->collectSets();
 	}
@@ -845,56 +827,6 @@ ServerRecvStateWaitPlayerAction::SendPlayerAction(ServerRecvThread &server, Play
 	actionDoneData.playerMoney = player->getMyCash();
 	static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
 	server.SendToAllPlayers(notifyActionDone);
-}
-
-int
-ServerRecvStateWaitPlayerAction::GetHighestSet(Game &curGame)
-{
-	int highestSet = 0;
-	// TODO: no switch needed here if game states are polymorphic
-	switch(curGame.getCurrentHand()->getActualRound())
-	{
-		case GAME_STATE_PREFLOP: {
-			highestSet = curGame.getCurrentHand()->getPreflop()->getHighestSet();
-		} break;
-		case GAME_STATE_FLOP: {
-			highestSet = curGame.getCurrentHand()->getFlop()->getHighestSet();
-		} break;
-		case GAME_STATE_TURN: {
-			highestSet = curGame.getCurrentHand()->getTurn()->getHighestSet();
-		} break;
-		case GAME_STATE_RIVER: {
-			highestSet = curGame.getCurrentHand()->getRiver()->getHighestSet();
-		} break;
-		default: {
-			// 
-		}
-	}
-	return highestSet;
-}
-
-void
-ServerRecvStateWaitPlayerAction::SetHighestSet(Game &curGame, int highestSet)
-{
-	// TODO: no switch needed here if game states are polymorphic
-	switch(curGame.getCurrentHand()->getActualRound())
-	{
-		case GAME_STATE_PREFLOP: {
-			curGame.getCurrentHand()->getPreflop()->setHighestSet(highestSet);
-		} break;
-		case GAME_STATE_FLOP: {
-			curGame.getCurrentHand()->getFlop()->setHighestSet(highestSet);
-		} break;
-		case GAME_STATE_TURN: {
-			curGame.getCurrentHand()->getTurn()->setHighestSet(highestSet);
-		} break;
-		case GAME_STATE_RIVER: {
-			curGame.getCurrentHand()->getRiver()->setHighestSet(highestSet);
-		} break;
-		default: {
-			// 
-		}
-	}
 }
 
 //-----------------------------------------------------------------------------

@@ -41,10 +41,10 @@ public:
 
 	PlayerInterface** getPlayerArray() const { return playerArray; }
 	BoardInterface* getBoard() const { return myBoard; }
-	boost::shared_ptr<BeRoInterface> getPreflop() const { return myBeRo[actualRound]; }
-	boost::shared_ptr<BeRoInterface> getFlop() const { return myBeRo[actualRound]; }
-	boost::shared_ptr<BeRoInterface> getTurn() const { return myBeRo[actualRound]; }
-	boost::shared_ptr<BeRoInterface> getRiver() const { return myBeRo[actualRound]; }
+	boost::shared_ptr<BeRoInterface> getPreflop() const { return myBeRo[GAME_STATE_PREFLOP]; }
+	boost::shared_ptr<BeRoInterface> getFlop() const { return myBeRo[GAME_STATE_FLOP]; }
+	boost::shared_ptr<BeRoInterface> getTurn() const { return myBeRo[GAME_STATE_TURN]; }
+	boost::shared_ptr<BeRoInterface> getRiver() const { return myBeRo[GAME_STATE_RIVER]; }
 	GuiInterface* getGuiInterface() const { return myGui; }
 	boost::shared_ptr<BeRoInterface> getCurrentBeRo() const { return myBeRo[actualRound]; }
 
