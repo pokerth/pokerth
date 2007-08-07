@@ -27,9 +27,21 @@ public:
 	~LocalBeRo();
 
 	GameState getMyBeRoID() const { return myBeRoID; }
-	
-	int getHighestCardsValue() const {return 0;}
+
+	int getHighestCardsValue() const {return 0; }
 	void setHighestCardsValue(int theValue) {}
+
+	void resetFirstRun() { firstRun = false; }
+
+	void nextPlayer();
+	void run();
+
+protected:
+
+	HandInterface* getMyHand() const { return myHand; }
+
+	int getDealerPosition() const {return dealerPosition; }
+	void setDealerPosition(int theValue) { dealerPosition = theValue; }
 
 	void setPlayersTurn(int theValue) { playersTurn = theValue; }
 	int getPlayersTurn() const { return playersTurn; }
@@ -45,14 +57,9 @@ public:
 
 	void setSmallBlind(int theValue) { smallBlind = theValue; }
 	int getSmallBlind() const { return smallBlind; }
+	
 
-	void resetFirstRun() { firstRun = false; }
-
-	void nextPlayer();
-	void run();
-	void postRiverRun() {}
-
-protected:
+private:
 
 	HandInterface* myHand;
 

@@ -45,7 +45,9 @@ enum PlayerAction {
 	PLAYER_ACTION_ALLIN };
 
 enum Button {
-	BUTTON_SMALL_BLIND = 2,
-	BUTTON_BIG_BLIND = 3 };
+	BUTTON_NONE = 0,
+	BUTTON_DEALER,
+	BUTTON_SMALL_BLIND,
+	BUTTON_BIG_BLIND };
 
 #endif

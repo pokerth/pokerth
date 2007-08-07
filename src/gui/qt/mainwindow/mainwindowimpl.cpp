@@ -1875,7 +1875,7 @@ void mainWindowImpl::riverAnimation2() { riverAnimation2Timer->start(nextPlayerS
 void mainWindowImpl::riverAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getRiver()->nextPlayer(); }
 
 void mainWindowImpl::postRiverAnimation1() { postRiverAnimation1Timer->start(nextPlayerSpeed2); }
-void mainWindowImpl::postRiverAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getRiver()->postRiverRun(); }
+void mainWindowImpl::postRiverAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
 
 void mainWindowImpl::postRiverRunAnimation1() {
 
@@ -1982,7 +1982,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 	//Alle Winner erhellen und "Winner" schreiben
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getRiver()->getHighestCardsValue() ) { 
+		if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
 // 			QPalette tempPalette = groupBoxArray[i]->palette();
 // 			tempPalette.setColor(QPalette::Window, highlight);

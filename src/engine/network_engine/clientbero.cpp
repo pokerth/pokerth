@@ -126,8 +126,3 @@ ClientBeRo::run()
 {
 }
 
-void
-ClientBeRo::postRiverRun()
-{
-}
-

@@ -34,55 +34,43 @@ LocalBeRoPostRiver::~LocalBeRoPostRiver()
 }
 
 
-void LocalBeRoPostRiver::postRiverRun() {
-
+void LocalBeRoPostRiver::run() {
+	
 	int i;
-
-	// für die Engine die durchschnittlichen Sets von Player 0 setzen --> UNUSED !!!
-// 	if(myID < 5) {
-// 		myHand->getPlayerArray()[0]->setMyAverageSets(((myHand->getPlayerArray()[0]->getMyAverageSets())*(myID-1))/myID + (myHand->getPlayerArray()[0]->getMyRoundStartCash()-myHand->getPlayerArray()[0]->getMyCash())/myID);
-// 	} else {
-// 		myHand->getPlayerArray()[0]->setMyAverageSets(((myHand->getPlayerArray()[0]->getMyAverageSets())*4)/5 + (myHand->getPlayerArray()[0]->getMyRoundStartCash()-myHand->getPlayerArray()[0]->getMyCash())/5);
-// 	}
-
-// 	cout << myHand->getPlayerArray()[0]->getMyAverageSets() << endl;
 
 	//berechnen welcher Spieler gewonnen hat
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-// 		cout << "Spieler: " << i << " hat: " << myHand->getPlayerArray()[i]->getMyCardsValueInt() << endl;
-
-		if(myHand->getPlayerArray()[i]->getMyActiveStatus() && myHand->getPlayerArray()[i]->getMyAction() != 1 && myHand->getPlayerArray()[i]->getMyCardsValueInt() > highestCardsValue ) { 
-			highestCardsValue = myHand->getPlayerArray()[i]->getMyCardsValueInt(); 
+		if(getMyHand()->getPlayerArray()[i]->getMyActiveStatus() && getMyHand()->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD && getMyHand()->getPlayerArray()[i]->getMyCardsValueInt() > highestCardsValue ) { 
+			highestCardsValue = getMyHand()->getPlayerArray()[i]->getMyCardsValueInt(); 
 		}
 	}
 
 	// Durchschnittsets des human player ermitteln
-	myHand->getPlayerArray()[0]->setMyAverageSets(((myHand->getPlayerArray()[0]->getMyRoundStartCash())-(myHand->getPlayerArray()[0]->getMyCash()))/(myHand->getBettingRoundsPlayed()+1));
-// 	cout << myHand->getPlayerArray()[0]->getMyAverageSets() << endl;
+	getMyHand()->getPlayerArray()[0]->setMyAverageSets(((getMyHand()->getPlayerArray()[0]->getMyRoundStartCash())-(getMyHand()->getPlayerArray()[0]->getMyCash()))/(getMyHand()->getBettingRoundsPlayed()+1));
 
 	// Aggressivität des human player ermitteln
 	// anzahl der player die möglichkeit haben am pot teilzuhaben
 	int potPlayers = 0;
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		if(myHand->getPlayerArray()[i]->getMyActiveStatus() && myHand->getPlayerArray()[i]->getMyAction() != 1) {
+		if(getMyHand()->getPlayerArray()[i]->getMyActiveStatus() && getMyHand()->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD) {
 			potPlayers++;
 		}
 	}
 
 	// prüfen ob nur noch der human player an der verteilung teilnimmt und myAggressive für human player setzen
-	myHand->getPlayerArray()[0]->setMyAggressive(potPlayers == 1 && myHand->getPlayerArray()[0]->getMyActiveStatus() && myHand->getPlayerArray()[0]->getMyAction() != 1);
+	getMyHand()->getPlayerArray()[0]->setMyAggressive(potPlayers == 1 && getMyHand()->getPlayerArray()[0]->getMyActiveStatus() && getMyHand()->getPlayerArray()[0]->getMyAction() != PLAYER_ACTION_FOLD);
 
-// 	cout << "myAggressive: " << myHand->getPlayerArray()[0]->getMyAggressive() << endl;
+// 	cout << "myAggressive: " << getMyHand()->getPlayerArray()[0]->getMyAggressive() << endl;
 
 	// Pot-Verteilung
 	distributePot();
 
 	//Pot auf 0 setzen
-	myHand->getBoard()->setPot(0);
+	getMyHand()->getBoard()->setPot(0);
 	
 	//starte die Animaionsreihe
-	myHand->getGuiInterface()->postRiverRunAnimation1();	
+	getMyHand()->getGuiInterface()->postRiverRunAnimation1();	
 }
 
 void LocalBeRoPostRiver::distributePot() {
@@ -117,8 +105,8 @@ void LocalBeRoPostRiver::distributePot() {
 		// Standardwert fr nicht mehr aktive
 		roundSetArray[i] = 0;
 		// nur fr die Spieler ermitteln, die noch aktiv sind (inkl. der gefoldeten)
-		if(myHand->getPlayerArray()[i]->getMyActiveStatus()) { 
-			roundSetArray[i] = myHand->getPlayerArray()[i]->getMyRoundStartCash()-myHand->getPlayerArray()[i]->getMyCash();
+		if(getMyHand()->getPlayerArray()[i]->getMyActiveStatus()) { 
+			roundSetArray[i] = getMyHand()->getPlayerArray()[i]->getMyRoundStartCash()-getMyHand()->getPlayerArray()[i]->getMyCash();
 		}
 	}
 	
@@ -129,9 +117,9 @@ void LocalBeRoPostRiver::distributePot() {
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		// Standardwert
 		cardsValueArray[i] = 0;
-		if(myHand->getPlayerArray()[i]->getMyActiveStatus() && myHand->getPlayerArray()[i]->getMyAction() != 1) { 
+		if(getMyHand()->getPlayerArray()[i]->getMyActiveStatus() && getMyHand()->getPlayerArray()[i]->getMyAction() != 1) { 
 			// nur bei den Spielen den Kartenwert eintragen, die an der Potverteilung teilnehmen
-			cardsValueArray[i] = myHand->getPlayerArray()[i]->getMyCardsValueInt();
+			cardsValueArray[i] = getMyHand()->getPlayerArray()[i]->getMyCardsValueInt();
 			playerWantsPotCounter++;
 		}
 	}
@@ -161,7 +149,7 @@ void LocalBeRoPostRiver::distributePot() {
 		// aktuellen highestCardsValueTemp berechnen, von denen die noch an der Potverteilung teilnehmen
 		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 			if(cardsValueArray[i] > highestCardsValueTemp ) { 
-				highestCardsValueTemp = myHand->getPlayerArray()[i]->getMyCardsValueInt(); 
+				highestCardsValueTemp = getMyHand()->getPlayerArray()[i]->getMyCardsValueInt(); 
 			}
 		}
 	
@@ -184,10 +172,10 @@ void LocalBeRoPostRiver::distributePot() {
 			winner = winnersArray[0];
 	
 			// Winner ist nicht All In gegangen -> bekommt den gesamten Pot
-// 			if(myHand->getPlayerArray()[winner]->getMyAction() != 6) {
+// 			if(getMyHand()->getPlayerArray()[winner]->getMyAction() != 6) {
 // 	
-// 				myHand->getPlayerArray()[winner]->setMyCash(myHand->getPlayerArray()[winner]->getMyCash()+myHand->getBoard()->getPot());
-// 				myHand->getBoard()->setPot(0);
+// 				getMyHand()->getPlayerArray()[winner]->setMyCash(getMyHand()->getPlayerArray()[winner]->getMyCash()+getMyHand()->getBoard()->getPot());
+// 				getMyHand()->getBoard()->setPot(0);
 // 				playerWantsPotCounter = 1;
 // 	
 // 			}
@@ -198,12 +186,12 @@ void LocalBeRoPostRiver::distributePot() {
 				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 	
 					// zuerst prfen ob ein gefoldeter Spieler was gesetzt hatte
-					if(i != winner && myHand->getPlayerArray()[i]->getMyAction() == 1) {
+					if(i != winner && getMyHand()->getPlayerArray()[i]->getMyAction() == 1) {
 	
 						// diesen Teil aus dem Pot holen
-						myHand->getPlayerArray()[winner]->setMyCash(myHand->getPlayerArray()[winner]->getMyCash()+roundSetArray[i]);
+						getMyHand()->getPlayerArray()[winner]->setMyCash(getMyHand()->getPlayerArray()[winner]->getMyCash()+roundSetArray[i]);
 						// Pot dementsprechend verkleinern
-						myHand->getBoard()->setPot(myHand->getBoard()->getPot() - roundSetArray[i]);
+						getMyHand()->getBoard()->setPot(getMyHand()->getBoard()->getPot() - roundSetArray[i]);
 						// deren Sets auf Null seztzen -> in den nï¿œhsten Potverteilungsrunden nimmt der Winner dann von diesen Spielern 0 Dollar aus dem Pot
 						roundSetArray[i] = 0;
 	
@@ -216,9 +204,9 @@ void LocalBeRoPostRiver::distributePot() {
 						if(roundSetArray[winner] >= roundSetArray[i]) { 
 	
 							// von denen alles holen
-							myHand->getPlayerArray()[winner]->setMyCash(myHand->getPlayerArray()[winner]->getMyCash()+roundSetArray[i]);
+							getMyHand()->getPlayerArray()[winner]->setMyCash(getMyHand()->getPlayerArray()[winner]->getMyCash()+roundSetArray[i]);
 							// Pot dementsprechend verkleinern
-							myHand->getBoard()->setPot(myHand->getBoard()->getPot() - roundSetArray[i]);
+							getMyHand()->getBoard()->setPot(getMyHand()->getBoard()->getPot() - roundSetArray[i]);
 							// diese Spieler dann von der weiteren Potverteilung ausschlieï¿œn
 							cardsValueArray[i] = 0;
 							playerWantsPotCounter--;
@@ -230,8 +218,8 @@ void LocalBeRoPostRiver::distributePot() {
 						else {
 	
 							// den eigenen Setanteil aus dem Pot holen
-							myHand->getPlayerArray()[winner]->setMyCash(myHand->getPlayerArray()[winner]->getMyCash()+roundSetArray[winner]);
-							myHand->getBoard()->setPot(myHand->getBoard()->getPot() - roundSetArray[winner]);
+							getMyHand()->getPlayerArray()[winner]->setMyCash(getMyHand()->getPlayerArray()[winner]->getMyCash()+roundSetArray[winner]);
+							getMyHand()->getBoard()->setPot(getMyHand()->getBoard()->getPot() - roundSetArray[winner]);
 							// den Set des Gegners um den bereits abgenommenen Setanteil verkleinern
 							roundSetArray[i] = roundSetArray[i] - roundSetArray[winner];
 							// diese Spieler nehmen an der weiteren Potverteilung teil
@@ -242,8 +230,8 @@ void LocalBeRoPostRiver::distributePot() {
 // // 			}
 	
 			// zum Scluss noch eingenen Set wieder holen
-			myHand->getPlayerArray()[winner]->setMyCash(myHand->getPlayerArray()[winner]->getMyCash()+roundSetArray[winner]);
-			myHand->getBoard()->setPot(myHand->getBoard()->getPot() - roundSetArray[winner]);
+			getMyHand()->getPlayerArray()[winner]->setMyCash(getMyHand()->getPlayerArray()[winner]->getMyCash()+roundSetArray[winner]);
+			getMyHand()->getBoard()->setPot(getMyHand()->getBoard()->getPot() - roundSetArray[winner]);
 			// nicht mehr an der weiteren Potverteilung teilnehmen, da man sich alles geholt hat was einem zusteht
 			cardsValueArray[winner] = 0;
 			playerWantsPotCounter--;
@@ -284,12 +272,12 @@ void LocalBeRoPostRiver::distributePot() {
 				}
 	
 				// zuerst prfen ob ein gefoldeter Spieler was gesetzt hatte
-				if(!playerIsWinner && myHand->getPlayerArray()[i]->getMyAction() == 1) {
+				if(!playerIsWinner && getMyHand()->getPlayerArray()[i]->getMyAction() == 1) {
 	
 					// diesen Teil aus dem Pot holen und dem winnersPot geben
 					winnersPot += roundSetArray[i];
 					// Pot dementsprechend verkleinern
-					myHand->getBoard()->setPot(myHand->getBoard()->getPot() - roundSetArray[i]);
+					getMyHand()->getBoard()->setPot(getMyHand()->getBoard()->getPot() - roundSetArray[i]);
 					// deren Sets auf Null seztzen -> in den nï¿œhsten Potverteilungsrunden nehmen die Winner dann von diesen Spielern 0 Dollar aus dem Pot
 					roundSetArray[i] = 0;
 	
@@ -304,7 +292,7 @@ void LocalBeRoPostRiver::distributePot() {
 						// von denen alles holen
 						winnersPot += roundSetArray[i];
 						// Pot dementsprechend verkleinern
-						myHand->getBoard()->setPot(myHand->getBoard()->getPot() - roundSetArray[i]);
+						getMyHand()->getBoard()->setPot(getMyHand()->getBoard()->getPot() - roundSetArray[i]);
 						// diese Spieler dann von der weiteren Potverteilung ausschlieï¿œn
 						cardsValueArray[i] = 0;
 						playerWantsPotCounter--;
@@ -317,7 +305,7 @@ void LocalBeRoPostRiver::distributePot() {
 	
 						// den eigenen Setanteil aus dem Pot holen
 						winnersPot += winnersMaxSet;
-						myHand->getBoard()->setPot(myHand->getBoard()->getPot() - winnersMaxSet);
+						getMyHand()->getBoard()->setPot(getMyHand()->getBoard()->getPot() - winnersMaxSet);
 						// den Set des Gegners um den bereits abgenommenen Setanteil verkleinern
 						roundSetArray[i] = roundSetArray[i] - winnersMaxSet;
 						// diese Spieler nehmen an der weiteren Potverteilung teil
@@ -328,11 +316,11 @@ void LocalBeRoPostRiver::distributePot() {
 	
 			// zum Schluss noch die eingenen Set aus dem Pot holen
 			winnersPot += winnersSets;
-			myHand->getBoard()->setPot(myHand->getBoard()->getPot() - winnersSets);
+			getMyHand()->getBoard()->setPot(getMyHand()->getBoard()->getPot() - winnersSets);
 	
 			// winnersPot verteilen (anteilmï¿œig)
 			for(i=0; i<winnersCounter; i++) {
-				myHand->getPlayerArray()[winnersArray[i]]->setMyCash(myHand->getPlayerArray()[winnersArray[i]]->getMyCash()+((roundSetArray[winnersArray[i]]*winnersPot)/winnersSets));
+				getMyHand()->getPlayerArray()[winnersArray[i]]->setMyCash(getMyHand()->getPlayerArray()[winnersArray[i]]->getMyCash()+((roundSetArray[winnersArray[i]]*winnersPot)/winnersSets));
 			}
 	
 	
@@ -348,7 +336,7 @@ void LocalBeRoPostRiver::distributePot() {
 		}
 	}
 
-	if(myHand->getBoard()->getPot() != 0) cout << "!!! Pot: " << myHand->getBoard()->getPot() << endl;
+	if(getMyHand()->getBoard()->getPot() != 0) cout << "!!! Pot: " << getMyHand()->getBoard()->getPot() << endl;
 	
 	delete[] winnersArray;
 	delete[] roundSetArray;

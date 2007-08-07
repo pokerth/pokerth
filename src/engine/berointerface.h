@@ -24,6 +24,7 @@ public:
 	
 	virtual GameState getMyBeRoID() const =0;
 
+
 	virtual void setPlayersTurn(int) =0;
 	virtual int getPlayersTurn() const =0;
 	
@@ -37,7 +38,6 @@ public:
 
 	virtual void nextPlayer() =0;
 	virtual void run() =0;
-	virtual void postRiverRun() =0;
 };
 
 #endif

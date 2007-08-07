@@ -34,7 +34,7 @@ public:
 	void setHighestCardsValue(int theValue) { highestCardsValue = theValue;}
 	int getHighestCardsValue() const { return highestCardsValue;}
 
-	void postRiverRun();
+	void run();
 	void distributePot();
 	
 private:

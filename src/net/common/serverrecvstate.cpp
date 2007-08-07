@@ -614,7 +614,7 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 		else // hand is over
 		{
 			// Let the engine find out the winner(s).
-			curGame.getCurrentHand()->getRiver()->postRiverRun();
+			curGame.getCurrentHand()->getCurrentBeRo()->run();
 
 			// Retrieve active players. If only one player is left, no cards are shown.
 			std::list<PlayerInterface *> activePlayers = GetActivePlayers(curGame);
