@@ -39,8 +39,6 @@ void LocalBeRo::nextPlayer() {
 
 void LocalBeRo::run() {
 
-	cout << "LocalBeRoRun-" << myBeRoID << endl;
-
 	int i;
 
 	if (firstRun) {

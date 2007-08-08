@@ -1492,9 +1492,9 @@ void mainWindowImpl::meInAction() {
 	switch (currentHand->getActualRound()) {
 
 	case 0: {
-		if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+		if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 
-		if (currentGame->getPlayerArray()[0]->getMySet()== currentHand->getPreflop()->getHighestSet() &&  currentGame->getPlayerArray()[0]->getMyButton() == 3) { pushButton_CallCheckSet->setText("Check"); }
+		if (currentGame->getPlayerArray()[0]->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getPlayerArray()[0]->getMyButton() == 3) { pushButton_CallCheckSet->setText("Check"); }
 		else { pushButton_CallCheckSet->setText("Call"); }
 		pushButton_FoldAllin->setText("Fold"); 
 	}
@@ -1503,14 +1503,14 @@ void mainWindowImpl::meInAction() {
 	
 		pushButton_FoldAllin->setText("Fold"); 
 
-// 		cout << "highestSet in meInAction " << currentHand->getFlop()->getHighestSet()  << endl;
-		if (currentHand->getFlop()->getHighestSet() == 0) { 
+// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
+		if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 			pushButton_CallCheckSet->setText("Check");
 			pushButton_BetRaise->setText("Bet"); 
 		}
-		if (currentHand->getFlop()->getHighestSet() > 0 && currentHand->getFlop()->getHighestSet() > currentGame->getPlayerArray()[0]->getMySet()) {
+		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getPlayerArray()[0]->getMySet()) {
 			pushButton_CallCheckSet->setText("Call");
-			if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+			if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 		}
 	}
 	break;
@@ -1518,14 +1518,14 @@ void mainWindowImpl::meInAction() {
 	
 		pushButton_FoldAllin->setText("Fold"); 
 
-// 		cout << "highestSet in meInAction " << currentHand->getFlop()->getHighestSet()  << endl;
-		if (currentHand->getTurn()->getHighestSet() == 0) { 
+// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
+		if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 			pushButton_CallCheckSet->setText("Check");
 			pushButton_BetRaise->setText("Bet"); 
 		}
-		if (currentHand->getTurn()->getHighestSet() > 0 && currentHand->getTurn()->getHighestSet() > currentGame->getPlayerArray()[0]->getMySet()) {
+		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getPlayerArray()[0]->getMySet()) {
 			pushButton_CallCheckSet->setText("Call");
-			if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+			if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 		}
 	}
 	break;
@@ -1533,14 +1533,14 @@ void mainWindowImpl::meInAction() {
 	
 		pushButton_FoldAllin->setText("Fold"); 
 
-// 		cout << "highestSet in meInAction " << currentHand->getFlop()->getHighestSet()  << endl;
-		if (currentHand->getRiver()->getHighestSet() == 0) { 
+// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
+		if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 			pushButton_CallCheckSet->setText("Check");
 			pushButton_BetRaise->setText("Bet");
 		}
-		if (currentHand->getRiver()->getHighestSet() > 0 && currentHand->getRiver()->getHighestSet() > currentGame->getPlayerArray()[0]->getMySet()) {
+		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getPlayerArray()[0]->getMySet()) {
 			pushButton_CallCheckSet->setText("Call");
-			if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getPreflop()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+			if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 		}
 	}
 	break;
@@ -1625,18 +1625,8 @@ void mainWindowImpl::myCall(){
 
 	int tempHighestSet = 0;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-	switch (currentHand->getActualRound()) {
-
-		case 0: {tempHighestSet = currentHand->getPreflop()->getHighestSet();}
-		break;
-		case 1: {tempHighestSet = currentHand->getFlop()->getHighestSet();}
-		break;
-		case 2: {tempHighestSet = currentHand->getTurn()->getHighestSet();}
-		break;
-		case 3: {tempHighestSet = currentHand->getRiver()->getHighestSet();}
-		break;
-		default: {}	
-	}
+	
+	tempHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 
 	if (currentHand->getPlayerArray()[0]->getMyCash()+currentHand->getPlayerArray()[0]->getMySet() <= tempHighestSet) {
 
@@ -1691,18 +1681,8 @@ void mainWindowImpl::myRaise(){
 
 	int tempHighestSet = 0;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-	switch (currentHand->getActualRound()) {
 
-		case 0: {tempHighestSet = currentHand->getPreflop()->getHighestSet();}
-		break;
-		case 1: {tempHighestSet = currentHand->getFlop()->getHighestSet();}
-		break;
-		case 2: {tempHighestSet = currentHand->getTurn()->getHighestSet();}
-		break;
-		case 3: {tempHighestSet = currentHand->getRiver()->getHighestSet();}
-		break;
-		default: {}	
-	}
+	tempHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 
 	spinBox_set->setMinimum(tempHighestSet*2 - currentHand->getPlayerArray()[0]->getMySet());
 	spinBox_set->setMaximum(currentHand->getPlayerArray()[0]->getMyCash());
@@ -1728,19 +1708,7 @@ void mainWindowImpl::mySet(){
 		currentHand->getPlayerArray()[0]->setMyAction(6);
 	}
 	
-
-	switch (currentHand->getActualRound()) {
-
-		case 0: {currentHand->getPreflop()->setHighestSet(currentHand->getPlayerArray()[0]->getMySet());}
-		break;
-		case 1: {currentHand->getFlop()->setHighestSet( currentHand->getPlayerArray()[0]->getMySet());}
-		break;
-		case 2: {currentHand->getTurn()->setHighestSet( currentHand->getPlayerArray()[0]->getMySet());}
-		break;
-		case 3: {currentHand->getRiver()->setHighestSet( currentHand->getPlayerArray()[0]->getMySet());}
-		break;
-		default: {}	
-	}
+	currentHand->getCurrentBeRo()->setHighestSet(currentHand->getPlayerArray()[0]->getMySet());
 	
 	if(myActionIsRaise) {
 		//do not if allIn
@@ -1780,18 +1748,7 @@ void mainWindowImpl::myAllIn(){
 	currentHand->getPlayerArray()[0]->setMyCash(0);
 	currentHand->getPlayerArray()[0]->setMyAction(6);
 	
-	switch (currentHand->getActualRound()) {
-
-		case 0: {if(currentHand->getPlayerArray()[0]->getMySet() > currentHand->getPreflop()->getHighestSet()) currentHand->getPreflop()->setHighestSet(currentHand->getPlayerArray()[0]->getMySet());}
-		break;
-		case 1: {if(currentHand->getPlayerArray()[0]->getMySet() > currentHand->getFlop()->getHighestSet()) currentHand->getFlop()->setHighestSet(currentHand->getPlayerArray()[0]->getMySet());}
-		break;
-		case 2: {if(currentHand->getPlayerArray()[0]->getMySet() > currentHand->getTurn()->getHighestSet()) currentHand->getTurn()->setHighestSet(currentHand->getPlayerArray()[0]->getMySet());}
-		break;
-		case 3: {if(currentHand->getPlayerArray()[0]->getMySet() > currentHand->getRiver()->getHighestSet()) currentHand->getRiver()->setHighestSet(currentHand->getPlayerArray()[0]->getMySet());}
-		break;
-		default: {}	
-	}
+	if(currentHand->getPlayerArray()[0]->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { currentHand->getCurrentBeRo()->setHighestSet(currentHand->getPlayerArray()[0]->getMySet());}
 
 	currentHand->getPlayerArray()[0]->setMyTurn(0);
 
@@ -1850,29 +1807,29 @@ void mainWindowImpl::beRoAnimation2(int myBeRoID) {
 
 
 void mainWindowImpl::preflopAnimation1() { preflopAnimation1Timer->start(nextPlayerSpeed2); }
-void mainWindowImpl::preflopAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getPreflop()->run(); }
+void mainWindowImpl::preflopAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
 
 void mainWindowImpl::preflopAnimation2() { preflopAnimation2Timer->start(preflopNextPlayerSpeed); }
-void mainWindowImpl::preflopAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getPreflop()->nextPlayer(); }
+void mainWindowImpl::preflopAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->nextPlayer(); }
 
 
 void mainWindowImpl::flopAnimation1() { flopAnimation1Timer->start(nextPlayerSpeed2); }
-void mainWindowImpl::flopAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getFlop()->run(); }
+void mainWindowImpl::flopAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
 
 void mainWindowImpl::flopAnimation2() { flopAnimation2Timer->start(nextPlayerSpeed3); }
-void mainWindowImpl::flopAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getFlop()->nextPlayer(); }
+void mainWindowImpl::flopAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->nextPlayer(); }
 
 void mainWindowImpl::turnAnimation1() { turnAnimation1Timer->start(nextPlayerSpeed2); }
-void mainWindowImpl::turnAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getTurn()->run(); }
+void mainWindowImpl::turnAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
 
 void mainWindowImpl::turnAnimation2() { turnAnimation2Timer->start(nextPlayerSpeed3); }
-void mainWindowImpl::turnAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getTurn()->nextPlayer(); }
+void mainWindowImpl::turnAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->nextPlayer(); }
 
 void mainWindowImpl::riverAnimation1() { riverAnimation1Timer->start(nextPlayerSpeed2); }
-void mainWindowImpl::riverAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getRiver()->run(); }
+void mainWindowImpl::riverAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
 
 void mainWindowImpl::riverAnimation2() { riverAnimation2Timer->start(nextPlayerSpeed3); }
-void mainWindowImpl::riverAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getRiver()->nextPlayer(); }
+void mainWindowImpl::riverAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->nextPlayer(); }
 
 void mainWindowImpl::postRiverAnimation1() { postRiverAnimation1Timer->start(nextPlayerSpeed2); }
 void mainWindowImpl::postRiverAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
@@ -2088,7 +2045,7 @@ void mainWindowImpl::postRiverRunAnimation5() {
 			label_Pot->setText("");
 	
 			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-				if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getRiver()->getHighestCardsValue() ) { 
+				if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
 					cashTopLabelArray[i]->setText("");
 				}
@@ -2098,7 +2055,7 @@ void mainWindowImpl::postRiverRunAnimation5() {
 			label_Pot->setText("<span style='font-weight:bold'>Pot</span>");
 
 			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-				if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getRiver()->getHighestCardsValue() ) { 
+				if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
 					cashTopLabelArray[i]->setText("<b>Cash:</b>"); 
 				}

@@ -38,7 +38,6 @@ LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int qP, int dP, in
 // // 	erste Spielernummer fr preflopRun() setzen
 	setPlayersTurn(bigBlindPosition);
 
-	cout << "LocalBeroPreflop erstellt - " << getMyBeRoID() << endl;
 }
 
 
@@ -52,9 +51,6 @@ LocalBeRoPreflop::~LocalBeRoPreflop()
 
 void LocalBeRoPreflop::run() {
 
-	cout << "LocalBeroPreflopRun!!!" << endl;
-
-// 	cout << "NextPlayerSpeed2 stop" << endl;
 	int i;
 	bool allHighestSet = 1;
 
