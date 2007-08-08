@@ -190,7 +190,7 @@ void LocalHand::start() {
 
 void LocalHand::assignButtons() {
 
-	int i;
+	int i,j;
 
 	//Aktive Spieler zählen
 	int activePlayersCounter = 0;
@@ -206,26 +206,26 @@ void LocalHand::assignButtons() {
 
 	// assign Small Blind next to dealer. ATTENTION: in heads up it is big blind
 	i = dealerPosition;
-	do {
+
+	for(j=0; (j<MAX_NUMBER_OF_PLAYERS && !(playerArray[i]->getMyActiveStatus())) || j==0; j++) {
+
 		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
 		if(playerArray[i]->getMyActiveStatus())	{
 			if(activePlayersCounter > 2) playerArray[i]->setMyButton(2); //small blind normal
-			else playerArray[i]->setMyButton(3); //big blind in heads up
-		
+			else playerArray[i]->setMyButton(3); //big blind in heads up		
 		}
-
-	} while(!(playerArray[i]->getMyActiveStatus()));
+	}
 
 	// assign big blind next to small blind. ATTENTION: in heads up it is small blind
-	do {
+	for(j=0; (j<MAX_NUMBER_OF_PLAYERS && !(playerArray[i]->getMyActiveStatus())) || j==0; j++) {
+
 		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
 		if(playerArray[i]->getMyActiveStatus())	{
 			if(activePlayersCounter > 2) playerArray[i]->setMyButton(3); //big blind normal
 			else playerArray[i]->setMyButton(2); //small blind in heads up
 			
 		}
-
-	} while(!(playerArray[i]->getMyActiveStatus()));
+	}
 
 	//do sets
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 

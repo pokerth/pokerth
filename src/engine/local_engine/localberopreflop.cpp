@@ -31,7 +31,9 @@ LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int qP, int dP, in
 
 // // 	BigBlind ermitteln 
 	bigBlindPosition = getDealerPosition();
-	while (getMyHand()->getPlayerArray()[bigBlindPosition]->getMyButton() != BUTTON_BIG_BLIND) {
+
+	int i;
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS && getMyHand()->getPlayerArray()[bigBlindPosition]->getMyButton() != BUTTON_BIG_BLIND; i++) {
 		bigBlindPosition = (bigBlindPosition+1)%(MAX_NUMBER_OF_PLAYERS);
 	}
 
@@ -63,7 +65,8 @@ void LocalBeRoPreflop::run() {
 
 	// BigBlind ermitteln
 	bigBlindPosition = getDealerPosition();
-	while (getMyHand()->getPlayerArray()[bigBlindPosition]->getMyButton() != BUTTON_BIG_BLIND) {
+
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS && getMyHand()->getPlayerArray()[bigBlindPosition]->getMyButton() != BUTTON_BIG_BLIND; i++) {
 		bigBlindPosition = (bigBlindPosition+1)%(MAX_NUMBER_OF_PLAYERS);
 	}
 
@@ -93,13 +96,13 @@ void LocalBeRoPreflop::run() {
 		// Preflop ist wirklich dran
 
 		// naechsten Spieler ermitteln
-		do {
+		for(i=0; (MAX_NUMBER_OF_PLAYERS && (!(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyActiveStatus()) || getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyAction() == PLAYER_ACTION_FOLD || getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyAction() == PLAYER_ACTION_ALLIN)) || i==0; i++) {
 
 			setPlayersTurn((getPlayersTurn()+1)%(MAX_NUMBER_OF_PLAYERS));
 			// falls BigBlind, dann PreflopFirstRound zuende
 			if(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyButton() == BUTTON_BIG_BLIND) setFirstRound(0);
 
-		} while(!(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyActiveStatus()) || getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyAction() == PLAYER_ACTION_FOLD || getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyAction() == PLAYER_ACTION_ALLIN);
+		}
 
 		getMyHand()->getPlayerArray()[getPlayersTurn()]->setMyTurn(1);
 		//highlight active players groupbox and clear action

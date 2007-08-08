@@ -23,7 +23,7 @@
 #include <net/socket_msg.h>
 
 startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFile *config)
-      : QDialog(parent), myConfig(config), isAdmin(false)
+      : QDialog(parent), myConfig(config), isAdmin(false), myW(0)
 {
 	setupUi(this);
 
@@ -64,6 +64,8 @@ void startNetworkGameDialogImpl::addConnectedPlayer(QString playerName, int righ
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget,0);
 	item->setData(0, 0, playerName);
 	
+// 	myW->getMySDLPlayer()->playSound("call", 0);
+
 	checkPlayerQuantity();
 }
 
@@ -104,11 +106,16 @@ void startNetworkGameDialogImpl::kickPlayer() {
 
 void startNetworkGameDialogImpl::checkPlayerQuantity() {
 
-	if (treeWidget->topLevelItemCount() >= 2 && isAdmin)
+	if (treeWidget->topLevelItemCount() >= 2 && isAdmin) {
 		pushButton_startGame->setEnabled(TRUE);
-	else
+	}
+	else {
 		pushButton_startGame->setEnabled(FALSE);
-
+	}
+	
+	if(treeWidget->topLevelItemCount() == maxPlayerNumber) {
+// 		myW->getMySDLPlayer()->playSound("raise", 0);
+	}
 }
 
 void startNetworkGameDialogImpl::setSession(Session *session)

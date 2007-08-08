@@ -103,15 +103,20 @@ void LocalBeRo::run() {
 // 			not first round in heads up (for headsup dealer is smallblind so it is dealers turn)
 		
 				// naechsten Spieler ermitteln
-				do { playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
-				} while(!(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6);
+				int i;
+				for(i=0; (i<MAX_NUMBER_OF_PLAYERS && !(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6) || i==0; i++) {
+					playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
+				}
 			}
 			else { firstHeadsUpRound = 0; }
 
 			//Spieler-Position vor SmallBlind-Position ermitteln 
 			int activePlayerBeforeSmallBlind = smallBlindPosition;
-			do { activePlayerBeforeSmallBlind = (activePlayerBeforeSmallBlind + MAX_NUMBER_OF_PLAYERS - 1 ) % (MAX_NUMBER_OF_PLAYERS);
-			} while(!(myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyActiveStatus()) || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==1 || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==6);
+
+			for(i=0; (i<MAX_NUMBER_OF_PLAYERS && !(myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyActiveStatus()) || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==1 || (myHand->getPlayerArray()[activePlayerBeforeSmallBlind]->getMyAction())==6) || i==0; i++) {
+
+				activePlayerBeforeSmallBlind = (activePlayerBeforeSmallBlind + MAX_NUMBER_OF_PLAYERS - 1 ) % (MAX_NUMBER_OF_PLAYERS);
+			}
 
 			myHand->getPlayerArray()[playersTurn]->setMyTurn(1);
 			//highlight active players groupbox and clear action

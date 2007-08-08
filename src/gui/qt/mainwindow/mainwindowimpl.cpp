@@ -520,6 +520,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this, myConfig);
 	myAboutPokerthDialog = new aboutPokerthImpl(this);
 
+	myStartNetworkGameDialog->setMyW(this);
+
 // 	//ShortCuts 
 // 	QShortcut *quitPokerTHKeys = new QShortcut(QKeySequence(Qt::Key_Control + Qt::Key_Q), this);
 // 	connect( quitPokerTHKeys, SIGNAL(activated() ), actionQuit, SLOT( trigger() ) );

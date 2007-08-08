@@ -24,6 +24,8 @@
 
 #include <QtGui>
 #include <QtCore>
+#include "sdlplayer.h"
+#include "mainwindowimpl.h"
 
 class Session;
 class ConfigFile;
@@ -34,6 +36,9 @@ public:
     startNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *config = 0);
 
 public slots:
+
+	void setMyW ( mainWindowImpl* theValue ) { myW = theValue; }
+	
 
 	void startGame();
 	void cancel();
@@ -55,6 +60,7 @@ public slots:
 
 private: 
 
+	mainWindowImpl* myW;
 	int maxPlayerNumber;
 	bool isAdmin;
 	ConfigFile *myConfig;
