@@ -52,4 +52,9 @@ void LocalBoard::collectPot() {
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++){ playerArray[i]->setMySetNull(); }
 }
 
+void LocalBoard::distributePot() {
+
+	vector<int> playerSets;
+
+}
 

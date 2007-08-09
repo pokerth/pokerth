@@ -43,6 +43,8 @@ public:
 	virtual void collectSets() =0;
 	virtual void collectPot() =0;
 
+	virtual void distributePot() =0;
+
 
 };
 

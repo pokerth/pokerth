@@ -46,6 +46,8 @@ public:
 	void collectSets();
 	void collectPot();
 
+	void distributePot();
+
 private:
 	mutable boost::recursive_mutex m_syncMutex;
 

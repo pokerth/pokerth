@@ -65,6 +65,7 @@ void LocalBeRoPostRiver::run() {
 
 	// Pot-Verteilung
 	distributePot();
+	getMyHand()->getBoard()->distributePot();
 
 	//Pot auf 0 setzen
 	getMyHand()->getBoard()->setPot(0);

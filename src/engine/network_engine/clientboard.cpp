@@ -108,4 +108,10 @@ ClientBoard::collectPot()
 	sets = 0;
 }
 
+void
+ClientBoard::distributePot()
+{
+
+}
+
 

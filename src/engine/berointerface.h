@@ -38,6 +38,7 @@ public:
 
 	virtual void nextPlayer() =0;
 	virtual void run() =0;
+
 };
 
 #endif

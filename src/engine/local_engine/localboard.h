@@ -20,6 +20,8 @@
 #ifndef LOCALBOARD_H
 #define LOCALBOARD_H
 
+#include <vector>
+
 #include <boardinterface.h>
 
 class PlayerInterface;
@@ -44,6 +46,8 @@ public:
 
 	void collectSets() ;
 	void collectPot() ;
+
+	void distributePot();
 	
 
 private:
