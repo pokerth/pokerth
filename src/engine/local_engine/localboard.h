@@ -20,6 +20,7 @@
 #ifndef LOCALBOARD_H
 #define LOCALBOARD_H
 
+#include <iostream>
 #include <vector>
 
 #include <boardinterface.h>
@@ -52,7 +53,7 @@ public:
 
 private:
 	PlayerInterface **playerArray;
-	HandInterface *actualHand;
+	HandInterface *currentHand;
 
 	int myCards[5];
 	int pot;

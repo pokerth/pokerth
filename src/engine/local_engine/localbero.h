@@ -28,8 +28,8 @@ public:
 
 	GameState getMyBeRoID() const { return myBeRoID; }
 
-	int getHighestCardsValue() const {return 0; }
-	void setHighestCardsValue(int theValue) {}
+	int getHighestCardsValue() const { std::cout << "getHighestCardsValue() in wrong BeRo" << std::endl; return 0; }
+	void setHighestCardsValue(int theValue) { }
 
 	void resetFirstRun() { firstRun = false; }
 

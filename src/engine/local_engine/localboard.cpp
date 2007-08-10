@@ -24,7 +24,7 @@
 
 using namespace std;
 
-LocalBoard::LocalBoard() : BoardInterface(), playerArray(0), actualHand(0), pot(0), sets(0)
+LocalBoard::LocalBoard() : BoardInterface(), playerArray(0), currentHand(0), pot(0), sets(0)
 {
 }
 
@@ -35,7 +35,7 @@ LocalBoard::~LocalBoard()
 
 void LocalBoard::setPlayer(PlayerInterface** p) { playerArray = p; }
 
-void LocalBoard::setHand(HandInterface* br) { actualHand = br; }
+void LocalBoard::setHand(HandInterface* br) { currentHand = br; }
 
 void LocalBoard::collectSets() {
 
@@ -54,7 +54,148 @@ void LocalBoard::collectPot() {
 
 void LocalBoard::distributePot() {
 
+	size_t i,j,k;
+
+	// filling player stes vector
 	vector<int> playerSets;
+	for(i=0; i<(size_t)MAX_NUMBER_OF_PLAYERS; i++) {
+		if(playerArray[i]->getMyActiveStatus()) {
+			playerSets.push_back(((playerArray[i]->getMyRoundStartCash())-(playerArray[i]->getMyCash())));
+		} else {
+			playerSets.push_back(0);
+		}
+	}
+
+	// sort player sets asc
+	vector<int> playerSetsSort = playerSets;
+	sort(playerSetsSort.begin(), playerSetsSort.end());
+
+	// pot[0] = potLevel0, pot[1] = potLevel1, ...
+// 	vector< vector<int> > pot;
+
+	// potLevel[0] = amount, potLevel[1] = sum, potLevel[2..n] = winner
+	vector<int> potLevel;
+
+	// temp var
+	int highestCardsValue;
+	size_t winnerCount;
+	size_t mod;
+	int winnerPointer;
+	bool winnerHit;
+
+	// level loop
+	for(i=0; i<playerSetsSort.size(); i++) {
+// 	for(i=0; i<4; i++) {
+
+		// restart levelHighestCardsValue
+		highestCardsValue = 0;
+
+		// level detection
+		if(playerSetsSort[i] > 0) {
+
+			// level amount
+			potLevel.push_back(playerSetsSort[i]);
+
+			// level sum
+			potLevel.push_back((playerSetsSort.size()-i)*potLevel[0]);
+
+			// determine level highestCardsValue
+			for(j=0; j<MAX_NUMBER_OF_PLAYERS; j++) {
+
+				if(playerArray[j]->getMyCardsValueInt() > highestCardsValue && playerArray[j]->getMyActiveStatus() && playerArray[j]->getMyAction() != PLAYER_ACTION_FOLD && playerSets[j] >= potLevel[0]) { 
+					highestCardsValue = playerArray[j]->getMyCardsValueInt(); 
+				}
+			}
+
+			// level winners
+			for(j=0; j<MAX_NUMBER_OF_PLAYERS; j++) {
+				if(highestCardsValue == playerArray[j]->getMyCardsValueInt() && playerArray[j]->getMyActiveStatus() && playerArray[j]->getMyAction() != PLAYER_ACTION_FOLD) {
+					potLevel.push_back(playerArray[j]->getMyID());
+				}
+			}
+
+			// determine the number of level winners
+			winnerCount = potLevel.size()-2;
+
+			// distribute the pot level sum to level winners
+			mod = (potLevel[1])%winnerCount;
+			// pot level sum divisible by winnerCount
+			if(mod == 0) {
+				for(j=2; j<potLevel.size(); j++) {
+					playerArray[potLevel[j]]->setMyCash(playerArray[potLevel[j]]->getMyCash() + ((potLevel[1])/winnerCount));
+				}
+
+			}
+			// pot level sum not divisible by winnerCount
+			// --> distribution after smallBlind (perhaps lastActionPlayer? - TODO)
+			else {
+
+				winnerPointer = currentHand->getDealerPosition();
+
+				for(j=0; j<winnerCount; j++) {
+
+					do {
+
+						winnerPointer = (winnerPointer+1)%(MAX_NUMBER_OF_PLAYERS);
+
+						winnerHit = false;
+
+						for(k=2; k<potLevel.size(); k++) {
+							if(winnerPointer == potLevel[k]) winnerHit = true;
+						}
+
+					} while(!winnerHit);
+
+					if(j<mod) {
+						playerArray[winnerPointer]->setMyCash(playerArray[winnerPointer]->getMyCash() + (int)((potLevel[1])/winnerCount) + 1);
+					} else {
+						playerArray[winnerPointer]->setMyCash(playerArray[winnerPointer]->getMyCash() + (int)((potLevel[1])/winnerCount));
+					}
+				}
+			}
+
+			// reevaluate the player sets
+			for(j=0; j<playerSets.size(); j++) {
+				if(playerSets[j]>0) {
+					playerSets[j] -= potLevel[0];
+				}
+			}
+
+			// sort player sets asc
+			playerSetsSort = playerSets;
+			sort(playerSetsSort.begin(), playerSetsSort.end());
+
+			// pot refresh
+			pot -= potLevel[1];
+
+			// clear potLevel
+			potLevel.clear();
+
+		}
+	}
+
+
+	// playerSetsSort output
+// 	for(i=0; i<playerSetsSort.size(); i++) cout << i << ": " << playerSetsSort.at(i) << endl;
+
+	// potLevel output
+// 	cout << "potLevel" << endl;
+// 	for(i=0; i<potLevel.size(); i++) cout << i << ": " << potLevel.at(i) << endl;
+
+// 	cout << pot << endl;
+
+	// ERROR-Outputs
+
+	if(pot!=0) cout << "distributePot-ERROR: Pot = " << pot << endl;
+
+	int sum = 0;
+	for(i=0; i<(size_t)MAX_NUMBER_OF_PLAYERS; i++) {
+		if(playerArray[i]->getMyActiveStatus())
+			sum += playerArray[i]->getMyCash();
+	}
+
+	if(sum != (currentHand->getStartQuantityPlayers() * currentHand->getStartCash()))
+		cout << "distributePot-ERROR: PlayersSumCash = " << sum << endl;
 
 }
 
