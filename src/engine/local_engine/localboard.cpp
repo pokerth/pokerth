@@ -54,7 +54,7 @@ void LocalBoard::collectPot() {
 
 void LocalBoard::distributePot() {
 
-	size_t i,j,k;
+	size_t i,j,k,l;
 
 	// filling player sets vector
 	vector<int> playerSets;
@@ -105,7 +105,7 @@ void LocalBoard::distributePot() {
 
 			// level winners
 			for(j=0; j<MAX_NUMBER_OF_PLAYERS; j++) {
-				if(highestCardsValue == playerArray[j]->getMyCardsValueInt() && playerArray[j]->getMyActiveStatus() && playerArray[j]->getMyAction() != PLAYER_ACTION_FOLD) {
+				if(highestCardsValue == playerArray[j]->getMyCardsValueInt() && playerArray[j]->getMyActiveStatus() && playerArray[j]->getMyAction() != PLAYER_ACTION_FOLD && playerSets[j] >= potLevel[0]) {
 					potLevel.push_back(playerArray[j]->getMyID());
 				}
 			}
@@ -130,17 +130,19 @@ void LocalBoard::distributePot() {
 
 				for(j=0; j<winnerCount; j++) {
 
-					do {
+					winnerHit = false;
+
+					for(k=0; k<MAX_NUMBER_OF_PLAYERS && !winnerHit; k++){
 
 						winnerPointer = (winnerPointer+1)%(MAX_NUMBER_OF_PLAYERS);
 
 						winnerHit = false;
 
-						for(k=2; k<potLevel.size(); k++) {
-							if(winnerPointer == potLevel[k]) winnerHit = true;
+						for(l=2; l<potLevel.size(); l++) {
+							if(winnerPointer == potLevel[l]) winnerHit = true;
 						}
 
-					} while(!winnerHit);
+					}
 
 					if(j<mod) {
 						playerArray[winnerPointer]->setMyCash(playerArray[winnerPointer]->getMyCash() + (int)((potLevel[1])/winnerCount) + 1);

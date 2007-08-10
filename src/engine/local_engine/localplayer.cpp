@@ -40,9 +40,9 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 // 	if(myID==1) {
 // 		myCash=6130;
 // 	}
-// 	if(myID==2) {
-// 		myCash=2850;
-// 	}
+	if(myID==2) {
+		myCash=37;
+	}
 	////////////////////////////
 	
 	// myBestHandPosition mit -1 initialisieren

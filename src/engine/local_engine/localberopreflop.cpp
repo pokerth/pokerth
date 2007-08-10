@@ -96,7 +96,7 @@ void LocalBeRoPreflop::run() {
 		// Preflop ist wirklich dran
 
 		// naechsten Spieler ermitteln
-		for(i=0; (MAX_NUMBER_OF_PLAYERS && (!(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyActiveStatus()) || getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyAction() == PLAYER_ACTION_FOLD || getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyAction() == PLAYER_ACTION_ALLIN)) || i==0; i++) {
+		for(i=0; (i<MAX_NUMBER_OF_PLAYERS && (!(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyActiveStatus()) || getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyAction() == PLAYER_ACTION_FOLD || getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyAction() == PLAYER_ACTION_ALLIN)) || i==0; i++) {
 
 			setPlayersTurn((getPlayersTurn()+1)%(MAX_NUMBER_OF_PLAYERS));
 			// falls BigBlind, dann PreflopFirstRound zuende

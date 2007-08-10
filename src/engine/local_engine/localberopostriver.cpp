@@ -64,8 +64,8 @@ void LocalBeRoPostRiver::run() {
 // 	cout << "myAggressive: " << getMyHand()->getPlayerArray()[0]->getMyAggressive() << endl;
 
 	// Pot-Verteilung
-// 	getMyHand()->getBoard()->distributePot();
-	distributePot();
+	getMyHand()->getBoard()->distributePot();
+// 	distributePot();
 
 	//Pot auf 0 setzen
 	getMyHand()->getBoard()->setPot(0);
