@@ -163,9 +163,10 @@ void Game::initHand()
 
 
 	// Dealer-Button weiterschieben --> Achtung inactive
-	do {
+	for(i=0; (i<MAX_NUMBER_OF_PLAYERS && !(playerArray[dealerPosition]->getMyActiveStatus())) || i==0; i++) {
+	
 		dealerPosition = (dealerPosition+1)%(MAX_NUMBER_OF_PLAYERS);
-	} while(!(playerArray[dealerPosition]->getMyActiveStatus()));
+	}
 
 	// Abfrage Cash==0 -> player inactive -> actualQuantityPlayer--
 }
