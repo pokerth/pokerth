@@ -113,7 +113,7 @@ Game::~Game()
 	delete actualHand;
 	actualHand = 0;
 
-// 	PlayerInterface *tempPlayer;
+// 	boost::shared_ptr<PlayerInterface> tempPlayer;
 // 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 // 		tempPlayer = playerArray[i];
 // 		playerArray[i] = 0;

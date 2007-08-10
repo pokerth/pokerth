@@ -82,7 +82,7 @@ private:
 	HandInterface *actualHand;
 	BoardInterface *actualBoard;
 	std::vector<boost::shared_ptr<PlayerInterface> > playerArray;
-// 	PlayerInterface *playerArray[MAX_NUMBER_OF_PLAYERS];
+// 	boost::shared_ptr<PlayerInterface> playerArray[MAX_NUMBER_OF_PLAYERS];
 
 	//Startvariablen	
 	int startQuantityPlayers;

@@ -547,7 +547,7 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 	{
 		assert(newRound > curRound);
 		// Retrieve active players. If only one player is left, no cards are shown.
-		std::list<PlayerInterface *> activePlayers = GetActivePlayers(curGame);
+		std::list<boost::shared_ptr<PlayerInterface> > activePlayers = GetActivePlayers(curGame);
 
 		if (curGame.getCurrentHand()->getAllInCondition()
 			&& !curGame.getCurrentHand()->getCardsShown()
@@ -557,8 +557,8 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 			boost::shared_ptr<NetPacket> allIn(new NetPacketAllInShowCards);
 			NetPacketAllInShowCards::Data allInData;
 
-			std::list<PlayerInterface *>::iterator i = activePlayers.begin();
-			std::list<PlayerInterface *>::iterator end = activePlayers.end();
+			std::list<boost::shared_ptr<PlayerInterface> >::iterator i = activePlayers.begin();
+			std::list<boost::shared_ptr<PlayerInterface> >::iterator end = activePlayers.end();
 
 			while (i != end)
 			{
@@ -617,13 +617,13 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 			curGame.getCurrentHand()->getCurrentBeRo()->run();
 
 			// Retrieve active players. If only one player is left, no cards are shown.
-			std::list<PlayerInterface *> activePlayers = GetActivePlayers(curGame);
+			std::list<boost::shared_ptr<PlayerInterface> > activePlayers = GetActivePlayers(curGame);
 			// if (activePlayers.empty()) TODO throw exception
 
 			if (activePlayers.size() == 1)
 			{
 				// End of Hand, but keep cards hidden.
-				PlayerInterface *player = activePlayers.front();
+				boost::shared_ptr<PlayerInterface> player = activePlayers.front();
 				boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandHideCards);
 				NetPacketEndOfHandHideCards::Data endHandData;
 				endHandData.playerId = player->getMyUniqueID();
@@ -639,8 +639,8 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 				boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandShowCards);
 				NetPacketEndOfHandShowCards::Data endHandData;
 
-				std::list<PlayerInterface *>::iterator i = activePlayers.begin();
-				std::list<PlayerInterface *>::iterator end = activePlayers.end();
+				std::list<boost::shared_ptr<PlayerInterface> >::iterator i = activePlayers.begin();
+				std::list<boost::shared_ptr<PlayerInterface> >::iterator end = activePlayers.end();
 
 				while (i != end)
 				{
@@ -778,7 +778,7 @@ ServerRecvStateWaitPlayerAction::InternalProcess(ServerRecvThread &server, Sessi
 		packet->ToNetPacketPlayersAction()->GetData(actionData);
 		
 		Game &curGame = server.GetGame();
-		PlayerInterface *tmpPlayer = curGame.getPlayerByUniqueId(session.playerData->GetUniqueId());
+		boost::shared_ptr<PlayerInterface> tmpPlayer = curGame.getPlayerByUniqueId(session.playerData->GetUniqueId());
 		assert(tmpPlayer); // TODO throw exception
 		// TODO: check whether this is the correct player
 		// TODO: check game state
@@ -793,7 +793,7 @@ ServerRecvStateWaitPlayerAction::InternalProcess(ServerRecvThread &server, Sessi
 }
 
 void
-ServerRecvStateWaitPlayerAction::PerformPlayerAction(ServerRecvThread &server, PlayerInterface *player, PlayerAction action, int bet)
+ServerRecvStateWaitPlayerAction::PerformPlayerAction(ServerRecvThread &server, boost::shared_ptr<PlayerInterface> player, PlayerAction action, int bet)
 {
 	Game &curGame = server.GetGame();
 	assert(player);
@@ -813,7 +813,7 @@ ServerRecvStateWaitPlayerAction::PerformPlayerAction(ServerRecvThread &server, P
 }
 
 void
-ServerRecvStateWaitPlayerAction::SendPlayerAction(ServerRecvThread &server, PlayerInterface *player)
+ServerRecvStateWaitPlayerAction::SendPlayerAction(ServerRecvThread &server, boost::shared_ptr<PlayerInterface> player)
 {
 	Game &curGame = server.GetGame();
 	assert(player);
@@ -980,7 +980,7 @@ ServerRecvStateNextGameDelay::Process(ServerRecvThread &server)
 	{
 		Game &curGame = server.GetGame();
 		// The game has ended. Notify all clients.
-		PlayerInterface *winnerPlayer = NULL;
+		boost::shared_ptr<PlayerInterface> winnerPlayer;
 		for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
 		{
 			winnerPlayer = curGame.getCurrentHand()->getPlayerArray()[i];
