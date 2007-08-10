@@ -785,6 +785,8 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 			actionJoin_network_Game->trigger(); // re-trigger
 		}
 		else {
+			//needed for join and ready sounds - TODO
+			//myStartNetworkGameDialog->setMaxPlayerNumber(gameData.maxNumberOfPlayers);
 			showNetworkStartDialog();
 		}
 	}

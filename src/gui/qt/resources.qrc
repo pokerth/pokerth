@@ -136,6 +136,8 @@
         <file>resources/sounds/check.wav</file>
 	<file>resources/sounds/fold.wav</file>	
 	<file>resources/sounds/yourturn.wav</file>
+	<file>resources/sounds/playerconnected.wav</file>
+	<file>resources/sounds/onlinegameready.wav</file>
     </qresource>
     <qresource prefix="/translations" >
         <file>resources/translations/pokerth_de.qm</file>

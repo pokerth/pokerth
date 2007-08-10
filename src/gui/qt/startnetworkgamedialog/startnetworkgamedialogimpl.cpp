@@ -64,7 +64,12 @@ void startNetworkGameDialogImpl::addConnectedPlayer(QString playerName, int righ
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget,0);
 	item->setData(0, 0, playerName);
 	
-// 	myW->getMySDLPlayer()->playSound("call", 0);
+	if(treeWidget->topLevelItemCount() != maxPlayerNumber) {
+		myW->getMySDLPlayer()->playSound("playerconnected", 0);
+	}
+	else {
+		myW->getMySDLPlayer()->playSound("onlinegameready", 0);
+	}
 
 	checkPlayerQuantity();
 }
@@ -112,10 +117,7 @@ void startNetworkGameDialogImpl::checkPlayerQuantity() {
 	else {
 		pushButton_startGame->setEnabled(FALSE);
 	}
-	
-	if(treeWidget->topLevelItemCount() == maxPlayerNumber) {
-// 		myW->getMySDLPlayer()->playSound("raise", 0);
-	}
+
 }
 
 void startNetworkGameDialogImpl::setSession(Session *session)
