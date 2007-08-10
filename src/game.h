@@ -49,7 +49,7 @@ public:
 
 	HandInterface *getCurrentHand();
 
-	PlayerInterface** getPlayerArray() {return playerArray;}
+	std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() {return playerArray;}
 
 	//Zufgriff Startvariablen
 	void setStartQuantityPlayers(int theValue) { startQuantityPlayers = theValue; }
@@ -73,7 +73,7 @@ public:
 	void setActualHandID(int theValue) { actualHandID = theValue; }
 	int getActualHandID() const { return actualHandID; }
 
-	PlayerInterface * getPlayerByUniqueId(unsigned id);
+	boost::shared_ptr<PlayerInterface> getPlayerByUniqueId(unsigned id);
 
 private:
 	boost::shared_ptr<EngineFactory> myFactory;
@@ -81,7 +81,8 @@ private:
 	GuiInterface *myGui;
 	HandInterface *actualHand;
 	BoardInterface *actualBoard;
-	PlayerInterface *playerArray[MAX_NUMBER_OF_PLAYERS];
+	std::vector<boost::shared_ptr<PlayerInterface> > playerArray;
+// 	PlayerInterface *playerArray[MAX_NUMBER_OF_PLAYERS];
 
 	//Startvariablen	
 	int startQuantityPlayers;

@@ -35,7 +35,7 @@ ClientEngineFactory::~ClientEngineFactory()
 }
 
 
-HandInterface* ClientEngineFactory::createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC)
+HandInterface* ClientEngineFactory::createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > p, int id, int sP, int aP, int dP, int sB,int sC)
 {
 	return new ClientHand(f, g, b, p, id, sP, aP, dP, sB, sC);
 }
@@ -45,7 +45,7 @@ BoardInterface* ClientEngineFactory::createBoard()
 	return new ClientBoard;
 }
 
-PlayerInterface* ClientEngineFactory::createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
+boost::shared_ptr<PlayerInterface>  ClientEngineFactory::createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
 {
 	return new ClientPlayer(NULL, b, id, uniqueId, type, name, avatar, sC, aS, mB);
 }

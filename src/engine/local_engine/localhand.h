@@ -34,12 +34,12 @@
 
 class LocalHand : public HandInterface{
 public:
-	LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, PlayerInterface**, int, int, int, int, int, int);
+	LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, std::vector<boost::shared_ptr<PlayerInterface> >, int, int, int, int, int, int);
 	~LocalHand();
 
 	void start();
 
-	PlayerInterface** getPlayerArray() const { return playerArray; }
+	std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() const { return playerArray; }
 	BoardInterface* getBoard() const { return myBoard; }
 	boost::shared_ptr<BeRoInterface> getPreflop() const { return myBeRo[GAME_STATE_PREFLOP]; }
 	boost::shared_ptr<BeRoInterface> getFlop() const { return myBeRo[GAME_STATE_FLOP]; }
@@ -94,7 +94,7 @@ private:
 	boost::shared_ptr<EngineFactory> myFactory;
 	GuiInterface *myGui;
 	BoardInterface *myBoard;
-	PlayerInterface **playerArray;
+	std::vector<boost::shared_ptr<PlayerInterface> > playerArray;
 	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
 	int myID;

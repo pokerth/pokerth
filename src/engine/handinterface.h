@@ -36,7 +36,7 @@ public:
 
 	virtual void start() = 0;
 
-	virtual PlayerInterface** getPlayerArray() const =0;
+	virtual std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() const =0;
 	virtual BoardInterface* getBoard() const =0;
 	virtual boost::shared_ptr<BeRoInterface> getPreflop() const =0;
 	virtual boost::shared_ptr<BeRoInterface> getFlop() const =0;

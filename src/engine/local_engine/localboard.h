@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <vector>
+#include <boost/shared_ptr.hpp>
 
 #include <boardinterface.h>
 
@@ -34,7 +35,7 @@ public:
 	LocalBoard();
 	~LocalBoard();
 
-	void setPlayer(PlayerInterface**);
+	void setPlayer(std::vector<boost::shared_ptr<PlayerInterface> >);
 	void setHand(HandInterface*);
 
 	void setMyCards(int* theValue) { int i; for(i=0; i<5; i++) myCards[i] = theValue[i]; }
@@ -52,7 +53,7 @@ public:
 	
 
 private:
-	PlayerInterface **playerArray;
+	std::vector<boost::shared_ptr<PlayerInterface> > playerArray;
 	HandInterface *currentHand;
 
 	int myCards[5];

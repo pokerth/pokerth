@@ -43,9 +43,9 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 
 	actualHandID = 0;
 
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		playerArray[i] = 0;
-	}
+// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 		playerArray[i] = 0;
+// 	}
 
 	// Dealer Position bestimmen
 	PlayerDataList::const_iterator player_i = playerDataList.begin();
@@ -93,7 +93,10 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		}
 
 		//PlayerObjekte erzeugen
-		playerArray[i] = myFactory->createPlayer(actualBoard, i, uniqueId, type, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0);
+		playerArray.push_back(myFactory->createPlayer(actualBoard, i, uniqueId, type, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0));
+
+
+// 		playerArray[i] = myFactory->createPlayer(actualBoard, i, uniqueId, type, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0);
 		playerArray[i]->setNetSessionData(myNetSession);
 	}
 	actualBoard->setPlayer(playerArray);
@@ -110,12 +113,12 @@ Game::~Game()
 	delete actualHand;
 	actualHand = 0;
 
-	PlayerInterface *tempPlayer;
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
-		tempPlayer = playerArray[i];
-		playerArray[i] = 0;
-		delete tempPlayer;
-	}
+// 	PlayerInterface *tempPlayer;
+// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+// 		tempPlayer = playerArray[i];
+// 		playerArray[i] = 0;
+// 		delete tempPlayer;
+// 	}
 
 }
 
@@ -183,9 +186,9 @@ void Game::startHand()
 	actualHand->start();
 }
 
-PlayerInterface *Game::getPlayerByUniqueId(unsigned id)
+boost::shared_ptr<PlayerInterface> Game::getPlayerByUniqueId(unsigned id)
 {
-	PlayerInterface *tmpPlayer = NULL;
+	boost::shared_ptr<PlayerInterface> tmpPlayer;
 	for (int i = 0; i < startQuantityPlayers; i++)
 	{
 		if (playerArray[i]->getMyUniqueID() == id)

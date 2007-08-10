@@ -26,6 +26,9 @@
 #include <boardinterface.h>
 #include <playerinterface.h>
 
+#include <boost/shared_ptr.hpp>
+#include <vector>
+
 class ConfigFile;
 
 class LocalEngineFactory : public EngineFactory
@@ -34,9 +37,9 @@ public:
 	LocalEngineFactory(ConfigFile*);
 	~LocalEngineFactory();
 
-	HandInterface* createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerInterface **p, int id, int sP, int aP, int dP, int sB,int sC);
+	HandInterface* createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > p, int id, int sP, int aP, int dP, int sB,int sC);
 	BoardInterface* createBoard();
-	PlayerInterface* createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
+	boost::shared_ptr<PlayerInterface> createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
 	std::vector<boost::shared_ptr<BeRoInterface> > createBeRo(HandInterface* hi, int id, int aP, int dP, int sB);
 
 private:
