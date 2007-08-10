@@ -56,7 +56,7 @@ void LocalBoard::distributePot() {
 
 	size_t i,j,k;
 
-	// filling player stes vector
+	// filling player sets vector
 	vector<int> playerSets;
 	for(i=0; i<(size_t)MAX_NUMBER_OF_PLAYERS; i++) {
 		if(playerArray[i]->getMyActiveStatus()) {
@@ -70,9 +70,6 @@ void LocalBoard::distributePot() {
 	vector<int> playerSetsSort = playerSets;
 	sort(playerSetsSort.begin(), playerSetsSort.end());
 
-	// pot[0] = potLevel0, pot[1] = potLevel1, ...
-// 	vector< vector<int> > pot;
-
 	// potLevel[0] = amount, potLevel[1] = sum, potLevel[2..n] = winner
 	vector<int> potLevel;
 
@@ -85,7 +82,6 @@ void LocalBoard::distributePot() {
 
 	// level loop
 	for(i=0; i<playerSetsSort.size(); i++) {
-// 	for(i=0; i<4; i++) {
 
 		// restart levelHighestCardsValue
 		highestCardsValue = 0;
@@ -173,16 +169,6 @@ void LocalBoard::distributePot() {
 
 		}
 	}
-
-
-	// playerSetsSort output
-// 	for(i=0; i<playerSetsSort.size(); i++) cout << i << ": " << playerSetsSort.at(i) << endl;
-
-	// potLevel output
-// 	cout << "potLevel" << endl;
-// 	for(i=0; i<potLevel.size(); i++) cout << i << ": " << potLevel.at(i) << endl;
-
-// 	cout << pot << endl;
 
 	// ERROR-Outputs
 
