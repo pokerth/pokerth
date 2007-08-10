@@ -322,7 +322,7 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 	}
 	else if (packet->ToNetPacketStartEvent())
 	{
-		/*boost::shared_ptr<PlayerData> tmpPlayerData(
+		boost::shared_ptr<PlayerData> tmpPlayerData(
 			new PlayerData(m_curUniquePlayerId++, 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL));
 		tmpPlayerData->SetName("Computer");
 
@@ -336,7 +336,7 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 		static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
 		server.SendToAllPlayers(thisPlayerJoined);
 
-		server.AddComputerPlayer(tmpPlayerData);*/
+		server.AddComputerPlayer(tmpPlayerData);
 
 		server.InternalStartGame();
 		server.SetState(SERVER_START_GAME_STATE::Instance());
@@ -734,13 +734,17 @@ ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 	int retVal;
 
 	boost::shared_ptr<PlayerInterface> tmpPlayer = GetCurrentPlayer(server.GetGame());
-	assert(tmpPlayer);
+	assert(tmpPlayer.get());
 	assert(!tmpPlayer->getMyName().empty());
 
 	// If the player is computer controlled, let the engine act.
 	if (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER)
 	{
 		tmpPlayer->action();
+		SendPlayerAction(server, tmpPlayer);
+
+		server.SetState(ServerRecvStateStartRound::Instance());
+		retVal = MSG_NET_GAME_SERVER_ACTION;
 	}
 	// If the player we are waiting for left, continue without him.
 	else if (!server.IsPlayerConnected(tmpPlayer->getMyName()))
@@ -779,7 +783,7 @@ ServerRecvStateWaitPlayerAction::InternalProcess(ServerRecvThread &server, Sessi
 		
 		Game &curGame = server.GetGame();
 		boost::shared_ptr<PlayerInterface> tmpPlayer = curGame.getPlayerByUniqueId(session.playerData->GetUniqueId());
-		assert(tmpPlayer); // TODO throw exception
+		assert(tmpPlayer.get()); // TODO throw exception
 		// TODO: check whether this is the correct player
 		// TODO: check game state
 
