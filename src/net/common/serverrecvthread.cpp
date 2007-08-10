@@ -468,7 +468,7 @@ ServerRecvThread::RemoveDisconnectedPlayers()
 	{
 		for (int i = 0; i < m_game->getStartQuantityPlayers(); i++)
 		{
-			PlayerInterface *tmpPlayer = m_game->getPlayerArray()[i];
+			boost::shared_ptr<PlayerInterface> tmpPlayer = m_game->getPlayerArray()[i];
 			if (!IsPlayerConnected(tmpPlayer->getMyUniqueID()) && tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN)
 			{
 				tmpPlayer->setMyCash(0);

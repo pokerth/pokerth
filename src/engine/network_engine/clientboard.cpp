@@ -34,7 +34,7 @@ ClientBoard::~ClientBoard()
 }
 
 void
-ClientBoard::setPlayer(PlayerInterface** p)
+ClientBoard::setPlayer(std::vector<boost::shared_ptr<PlayerInterface> > p)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	playerArray = p;

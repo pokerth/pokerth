@@ -575,7 +575,7 @@ ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		{
 			NetPacketEndOfGame::Data endData;
 			packet->ToNetPacketEndOfGame()->GetData(endData);
-			PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(endData.winnerPlayerId);
+			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(endData.winnerPlayerId);
 			if (!tmpPlayer)
 				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
 			client.GetGui().logPlayerWinGame(tmpPlayer->getMyName(), curGame->getMyGameID());
@@ -618,7 +618,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 		{
 			NetPacketPlayersActionDone::Data actionDoneData;
 			packet->ToNetPacketPlayersActionDone()->GetData(actionDoneData);
-			PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(actionDoneData.playerId);
+			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(actionDoneData.playerId);
 			if (!tmpPlayer)
 				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
@@ -667,7 +667,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 		{
 			NetPacketPlayersTurn::Data turnData;
 			packet->ToNetPacketPlayersTurn()->GetData(turnData);
-			PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(turnData.playerId);
+			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(turnData.playerId);
 			if (!tmpPlayer)
 				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
@@ -759,7 +759,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 
 			while (i != end)
 			{
-				PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId((*i).playerId);
+				boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId((*i).playerId);
 				if (!tmpPlayer)
 					throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
@@ -786,7 +786,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			NetPacketEndOfHandHideCards::Data endHandData;
 			packet->ToNetPacketEndOfHandHideCards()->GetData(endHandData);
 
-			PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId(endHandData.playerId);
+			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(endHandData.playerId);
 			if (!tmpPlayer)
 				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
@@ -823,7 +823,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			int highestValueOfCards = 0;
 			while (i != end)
 			{
-				PlayerInterface *tmpPlayer = curGame->getPlayerByUniqueId((*i).playerId);
+				boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId((*i).playerId);
 				if (!tmpPlayer)
 					throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
 

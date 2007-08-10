@@ -21,6 +21,8 @@
 
 #include <boardinterface.h>
 #include <boost/thread.hpp>
+#include <vector>
+
 
 class PlayerInterface;
 class HandInterface;
@@ -32,7 +34,7 @@ public:
 	ClientBoard();
 	~ClientBoard();
 
-	void setPlayer(PlayerInterface**);
+	void setPlayer(std::vector<boost::shared_ptr<PlayerInterface> >);
 	void setHand(HandInterface*);
 
 	void setMyCards(int* theValue);
@@ -51,7 +53,7 @@ public:
 private:
 	mutable boost::recursive_mutex m_syncMutex;
 
-	PlayerInterface **playerArray;
+	std::vector<boost::shared_ptr<PlayerInterface> > playerArray;
 	HandInterface *actualHand;
 
 	int myCards[5];

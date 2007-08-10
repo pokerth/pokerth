@@ -418,7 +418,7 @@ ClientThread::RemoveDisconnectedPlayers()
 	{
 		for (int i = 0; i < m_game->getStartQuantityPlayers(); i++)
 		{
-			PlayerInterface *tmpPlayer = m_game->getPlayerArray()[i];
+			boost::shared_ptr<PlayerInterface> tmpPlayer = m_game->getPlayerArray()[i];
 			if (tmpPlayer->getMyActiveStatus())
 			{
 				// If a player is not in the player data list, it was disconnected.

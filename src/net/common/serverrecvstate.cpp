@@ -45,7 +45,7 @@ using namespace std;
 // Helper functions
 // TODO: these are hacks.
 
-static PlayerInterface *GetCurrentPlayer(Game &curGame)
+static boost::shared_ptr<PlayerInterface> GetCurrentPlayer(Game &curGame)
 {
 	int curPlayerNum = curGame.getCurrentHand()->getCurrentBeRo()->getPlayersTurn();
 	assert(curPlayerNum < curGame.getStartQuantityPlayers()); // TODO: throw exception
@@ -450,7 +450,7 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 	curGame.getCurrentHand()->getTurn()->resetFirstRun();
 	curGame.getCurrentHand()->getRiver()->resetFirstRun();
 
-	PlayerInterface **playerArray = curGame.getPlayerArray();
+	std::vector<boost::shared_ptr<PlayerInterface> >playerArray = curGame.getPlayerArray();
 
 	// Send cards to all players.
 	for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
@@ -595,7 +595,7 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 			assert (!curGame.getCurrentHand()->getAllInCondition()); // this would be an error.
 
 			// Retrieve current player.
-			PlayerInterface *curPlayer = GetCurrentPlayer(curGame);
+			boost::shared_ptr<PlayerInterface> curPlayer = GetCurrentPlayer(curGame);
 			assert(curPlayer); // TODO throw exception
 			assert(curPlayer->getMyActiveStatus()); // TODO throw exception
 
@@ -696,10 +696,10 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 	return retVal;
 }
 
-std::list<PlayerInterface *>
+std::list<boost::shared_ptr<PlayerInterface> >
 ServerRecvStateStartRound::GetActivePlayers(Game &curGame)
 {
-	std::list<PlayerInterface *> activePlayers;
+	std::list<boost::shared_ptr<PlayerInterface> > activePlayers;
 	for (int i = 0; i < curGame.getStartQuantityPlayers() ; i++)
 	{ 
 		if (curGame.getPlayerArray()[i]->getMyActiveStatus()
@@ -733,7 +733,7 @@ ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 {
 	int retVal;
 
-	PlayerInterface *tmpPlayer = GetCurrentPlayer(server.GetGame());
+	boost::shared_ptr<PlayerInterface> tmpPlayer = GetCurrentPlayer(server.GetGame());
 	assert(tmpPlayer);
 	assert(!tmpPlayer->getMyName().empty());
 

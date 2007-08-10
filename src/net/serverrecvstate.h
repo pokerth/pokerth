@@ -184,7 +184,7 @@ protected:
 	// Protected constructor - this is a singleton.
 	ServerRecvStateStartRound();
 
-	static std::list<PlayerInterface *> GetActivePlayers(Game &curGame);
+	static std::list<boost::shared_ptr<PlayerInterface> > GetActivePlayers(Game &curGame);
 };
 
 // State: Wait for a player action.
