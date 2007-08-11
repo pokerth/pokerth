@@ -117,6 +117,7 @@ unix:!mac{
 		message("Found libboost_thread")
 		LIBS += -lboost_thread
 	}
+	LIBPATH += lib
 	LIBS += -lpokerth_lib
 	LIBS += -lcrypto
 	## My release static libs

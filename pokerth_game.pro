@@ -220,6 +220,7 @@ unix: !mac{
 		message("Found libboost_thread")
 		LIBS += -lboost_thread
 	}
+	LIBPATH += lib
 	LIBS += -lpokerth_lib
 	LIBS += -lcrypto -lSDL_mixer
 	## My release static libs
