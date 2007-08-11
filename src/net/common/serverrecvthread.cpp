@@ -485,6 +485,12 @@ ServerRecvThread::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
 	m_computerPlayers.push_back(player);
 }
 
+void
+ServerRecvThread::ResetComputerPlayerList()
+{
+	m_computerPlayers.clear();
+}
+
 size_t
 ServerRecvThread::GetCurNumberOfPlayers() const
 {

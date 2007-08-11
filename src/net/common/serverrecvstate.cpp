@@ -335,6 +335,7 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 	}
 	else if (packet->ToNetPacketStartEvent())
 	{
+		server.ResetComputerPlayerList();
 		int remainingSlots = server.GetGameData().maxNumberOfPlayers - server.GetCurNumberOfPlayers();
 		for (int i = 1; i <= remainingSlots; i++)
 		{
@@ -581,7 +582,7 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 	int newRound = curGame.getCurrentHand()->getActualRound();
 
 	// If round changes, deal cards if needed.
-	if (newRound != curRound)
+	if (newRound != curRound && newRound != GAME_STATE_POST_RIVER)
 	{
 		assert(newRound > curRound);
 		// Retrieve active players. If only one player is left, no cards are shown.
@@ -651,9 +652,6 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 		}
 		else // hand is over
 		{
-			// Let the engine find out the winner(s).
-			curGame.getCurrentHand()->getCurrentBeRo()->run();
-
 			// Retrieve active players. If only one player is left, no cards are shown.
 			std::list<boost::shared_ptr<PlayerInterface> > activePlayers = GetActivePlayers(curGame);
 			// if (activePlayers.empty()) TODO throw exception

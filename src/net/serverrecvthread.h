@@ -115,6 +115,7 @@ protected:
 	void RemoveDisconnectedPlayers();
 
 	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
+	void ResetComputerPlayerList();
 
 	size_t GetCurNumberOfPlayers() const;
 	bool IsPlayerConnected(const std::string &playerName) const;
