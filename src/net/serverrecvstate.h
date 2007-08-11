@@ -120,6 +120,8 @@ protected:
 
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
+	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerJoined(const PlayerData &playerData);
+
 private:
 
 	u_int16_t m_curUniquePlayerId;
@@ -220,11 +222,34 @@ protected:
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
 	static void PerformPlayerAction(ServerRecvThread &server, boost::shared_ptr<PlayerInterface> player, PlayerAction action, int bet);
-	static void SendPlayerAction(ServerRecvThread &server, boost::shared_ptr<PlayerInterface> player);
 
 private:
 
 	static boost::thread_specific_ptr<ServerRecvStateWaitPlayerAction>	Ptr;
+};
+
+// State: Delay and computer action
+class ServerRecvStateComputerAction : public AbstractServerRecvStateReceiving, public AbstractServerRecvStateRunning, public AbstractServerRecvStateTimer
+{
+public:
+	// Access the state singleton.
+	static ServerRecvStateComputerAction &Instance();
+
+	virtual ~ServerRecvStateComputerAction();
+
+	// Overwrite default processing
+	virtual int Process(ServerRecvThread &server);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ServerRecvStateComputerAction();
+
+	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+
+private:
+
+	static boost::thread_specific_ptr<ServerRecvStateComputerAction>	Ptr;
 };
 
 // State: Delay after dealing cards

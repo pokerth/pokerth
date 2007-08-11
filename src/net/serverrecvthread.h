@@ -72,6 +72,8 @@ public:
 	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
 	void SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SOCKET except);
 
+	Game &GetGame();
+
 protected:
 
 	struct Notification
@@ -128,7 +130,6 @@ protected:
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
 
-	Game &GetGame();
 	const GameData &GetGameData() const;
 	const StartData &GetStartData() const;
 	void SetStartData(const StartData &startData);
@@ -175,6 +176,7 @@ friend class ServerRecvStateStartGame;
 friend class ServerRecvStateStartHand;
 friend class ServerRecvStateStartRound;
 friend class ServerRecvStateWaitPlayerAction;
+friend class ServerRecvStateComputerAction;
 friend class ServerRecvStateShowCardsDelay;
 friend class ServerRecvStateDealCardsDelay;
 friend class ServerRecvStateNextHandDelay;

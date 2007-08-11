@@ -30,6 +30,8 @@
 #include <playerinterface.h>
 #include <handinterface.h>
 
+#include <sstream>
+
 using namespace std;
 
 #define SERVER_WAIT_TIMEOUT_MSEC				50
@@ -41,9 +43,28 @@ using namespace std;
 #define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		2
 #define SERVER_SHOW_CARDS_DELAY_SEC				2
 #define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		2
+#define SERVER_COMPUTER_ACTION_DELAY_SEC		2
+
+#define SERVER_COMPUTER_PLAYER_NAME				"Computer"
 
 // Helper functions
 // TODO: these are hacks.
+
+static void SendPlayerAction(ServerRecvThread &server, boost::shared_ptr<PlayerInterface> player)
+{
+	Game &curGame = server.GetGame();
+	assert(player);
+
+	boost::shared_ptr<NetPacket> notifyActionDone(new NetPacketPlayersActionDone);
+	NetPacketPlayersActionDone::Data actionDoneData;
+	actionDoneData.gameState = static_cast<GameState>(curGame.getCurrentHand()->getActualRound());
+	actionDoneData.playerId = player->getMyUniqueID();
+	actionDoneData.playerAction = static_cast<PlayerAction>(player->getMyAction());
+	actionDoneData.totalPlayerBet = player->getMySet();
+	actionDoneData.playerMoney = player->getMyCash();
+	static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
+	server.SendToAllPlayers(notifyActionDone);
+}
 
 static void SendNewRoundCards(ServerRecvThread &server, Game &curGame, int state)
 {
@@ -256,8 +277,10 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 		}
 
 		// Check whether the player name is correct.
-		// Paranoia check, this is also done in netpacket.
-		if (joinGameData.playerName.empty() || joinGameData.playerName.size() > MAX_NAME_SIZE)
+		// Partly, this is also done in netpacket.
+		// However, some disallowed names are checked only here.
+		if (joinGameData.playerName.empty() || joinGameData.playerName.size() > MAX_NAME_SIZE
+			|| joinGameData.playerName.substr(0, sizeof(SERVER_COMPUTER_PLAYER_NAME) - 1) == SERVER_COMPUTER_PLAYER_NAME)
 		{
 			server.SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
 			return retVal;
@@ -297,26 +320,12 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 		PlayerDataList::iterator player_end = tmpPlayerList.end();
 		while (player_i != player_end)
 		{
-			boost::shared_ptr<NetPacket> otherPlayerJoined(new NetPacketPlayerJoined);
-			NetPacketPlayerJoined::Data otherPlayerJoinedData;
-			otherPlayerJoinedData.playerId = (*player_i)->GetUniqueId();
-			otherPlayerJoinedData.playerName = (*player_i)->GetName();
-			otherPlayerJoinedData.ptype = (*player_i)->GetType();
-			static_cast<NetPacketPlayerJoined *>(otherPlayerJoined.get())->SetData(otherPlayerJoinedData);
-			server.GetSender().Send(session.sessionData->GetSocket(), otherPlayerJoined);
-
+			server.GetSender().Send(session.sessionData->GetSocket(), CreateNetPacketPlayerJoined(*(*player_i)));
 			++player_i;
 		}
 
 		// Send "Player Joined" to other fully connected clients.
-		boost::shared_ptr<NetPacket> thisPlayerJoined(new NetPacketPlayerJoined);
-		NetPacketPlayerJoined::Data thisPlayerJoinedData;
-		thisPlayerJoinedData.playerId = tmpPlayerData->GetUniqueId();
-		thisPlayerJoinedData.playerName = tmpPlayerData->GetName();
-		thisPlayerJoinedData.ptype = tmpPlayerData->GetType();
-		thisPlayerJoinedData.prights = tmpPlayerData->GetRights();
-		static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
-		server.SendToAllPlayers(thisPlayerJoined);
+		server.SendToAllPlayers(CreateNetPacketPlayerJoined(*tmpPlayerData));
 
 		// Set player data for session.
 		server.SetSessionPlayerData(session.sessionData, tmpPlayerData);
@@ -326,21 +335,20 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 	}
 	else if (packet->ToNetPacketStartEvent())
 	{
-		boost::shared_ptr<PlayerData> tmpPlayerData(
-			new PlayerData(m_curUniquePlayerId++, 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL));
-		tmpPlayerData->SetName("Computer");
+		int remainingSlots = server.GetGameData().maxNumberOfPlayers - server.GetCurNumberOfPlayers();
+		for (int i = 1; i <= remainingSlots; i++)
+		{
+			boost::shared_ptr<PlayerData> tmpPlayerData(
+				new PlayerData(m_curUniquePlayerId++, 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL));
 
-		// Send "Player Joined" to other fully connected clients.
-		boost::shared_ptr<NetPacket> thisPlayerJoined(new NetPacketPlayerJoined);
-		NetPacketPlayerJoined::Data thisPlayerJoinedData;
-		thisPlayerJoinedData.playerId = tmpPlayerData->GetUniqueId();
-		thisPlayerJoinedData.playerName = tmpPlayerData->GetName();
-		thisPlayerJoinedData.ptype = tmpPlayerData->GetType();
-		thisPlayerJoinedData.prights = tmpPlayerData->GetRights();
-		static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
-		server.SendToAllPlayers(thisPlayerJoined);
+			ostringstream name;
+			name << SERVER_COMPUTER_PLAYER_NAME << i;
+			tmpPlayerData->SetName(name.str());
 
-		server.AddComputerPlayer(tmpPlayerData);
+			// Send "Player Joined" to other fully connected clients.
+			server.SendToAllPlayers(CreateNetPacketPlayerJoined(*tmpPlayerData));
+			server.AddComputerPlayer(tmpPlayerData);
+		}
 
 		server.InternalStartGame();
 		server.SetState(SERVER_START_GAME_STATE::Instance());
@@ -358,6 +366,19 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 	}
 
 	return retVal;
+}
+
+boost::shared_ptr<NetPacket>
+ServerRecvStateInit::CreateNetPacketPlayerJoined(const PlayerData &playerData)
+{
+	boost::shared_ptr<NetPacket> thisPlayerJoined(new NetPacketPlayerJoined);
+	NetPacketPlayerJoined::Data thisPlayerJoinedData;
+	thisPlayerJoinedData.playerId = playerData.GetUniqueId();
+	thisPlayerJoinedData.playerName = playerData.GetName();
+	thisPlayerJoinedData.ptype = playerData.GetType();
+	thisPlayerJoinedData.prights = playerData.GetRights();
+	static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
+	return thisPlayerJoined;
 }
 
 //-----------------------------------------------------------------------------
@@ -761,11 +782,8 @@ ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 	// If the player is computer controlled, let the engine act.
 	if (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER)
 	{
-		tmpPlayer->action();
-		SendPlayerAction(server, tmpPlayer);
-
-		server.SetState(ServerRecvStateStartRound::Instance());
-		retVal = MSG_NET_GAME_SERVER_ACTION;
+		server.SetState(ServerRecvStateComputerAction::Instance());
+		retVal = MSG_SOCK_INTERNAL_PENDING;
 	}
 	// If the player we are waiting for left, continue without him.
 	else if (!server.IsPlayerConnected(tmpPlayer->getMyName()))
@@ -837,21 +855,50 @@ ServerRecvStateWaitPlayerAction::PerformPlayerAction(ServerRecvThread &server, b
 	SendPlayerAction(server, player);
 }
 
-void
-ServerRecvStateWaitPlayerAction::SendPlayerAction(ServerRecvThread &server, boost::shared_ptr<PlayerInterface> player)
-{
-	Game &curGame = server.GetGame();
-	assert(player);
+//-----------------------------------------------------------------------------
 
-	boost::shared_ptr<NetPacket> notifyActionDone(new NetPacketPlayersActionDone);
-	NetPacketPlayersActionDone::Data actionDoneData;
-	actionDoneData.gameState = static_cast<GameState>(curGame.getCurrentHand()->getActualRound());
-	actionDoneData.playerId = player->getMyUniqueID();
-	actionDoneData.playerAction = static_cast<PlayerAction>(player->getMyAction());
-	actionDoneData.totalPlayerBet = player->getMySet();
-	actionDoneData.playerMoney = player->getMyCash();
-	static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
-	server.SendToAllPlayers(notifyActionDone);
+boost::thread_specific_ptr<ServerRecvStateComputerAction> ServerRecvStateComputerAction::Ptr;
+
+ServerRecvStateComputerAction &
+ServerRecvStateComputerAction::Instance()
+{
+	if (!Ptr.get())
+		Ptr.reset(new ServerRecvStateComputerAction);
+
+	return *Ptr;
+}
+
+ServerRecvStateComputerAction::ServerRecvStateComputerAction()
+{
+}
+
+ServerRecvStateComputerAction::~ServerRecvStateComputerAction()
+{
+}
+
+int
+ServerRecvStateComputerAction::Process(ServerRecvThread &server)
+{
+	int retVal = AbstractServerRecvStateReceiving::Process(server);
+
+	if (GetTimer().elapsed().total_seconds() >= SERVER_COMPUTER_ACTION_DELAY_SEC)
+	{
+		boost::shared_ptr<PlayerInterface> tmpPlayer = server.GetGame().getCurrentPlayer();
+
+		tmpPlayer->action();
+		SendPlayerAction(server, tmpPlayer);
+
+		server.SetState(ServerRecvStateStartRound::Instance());
+		retVal = MSG_NET_GAME_SERVER_ACTION;
+	}
+
+	return retVal;
+}
+
+int
+ServerRecvStateComputerAction::InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+{
+	return MSG_SOCK_INTERNAL_PENDING;
 }
 
 //-----------------------------------------------------------------------------
