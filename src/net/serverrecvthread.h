@@ -169,8 +169,8 @@ private:
 	ConfigFile *m_playerConfig;
 
 friend class ServerRecvStateInit;
-friend class ServerRecvStateReceiving;
-friend class ServerRecvStateRunning;
+friend class AbstractServerRecvStateReceiving;
+friend class AbstractServerRecvStateRunning;
 friend class ServerRecvStateStartGame;
 friend class ServerRecvStateStartHand;
 friend class ServerRecvStateStartRound;

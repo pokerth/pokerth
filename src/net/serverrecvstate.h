@@ -52,10 +52,10 @@ public:
 };
 
 // Abstract State: Receiving.
-class ServerRecvStateReceiving : virtual public ServerRecvState
+class AbstractServerRecvStateReceiving : virtual public ServerRecvState
 {
 public:
-	virtual ~ServerRecvStateReceiving();
+	virtual ~AbstractServerRecvStateReceiving();
 
 	// Globally handle packets which are allowed in all running states.
 	// Calls InternalProcess if packet has not been processed.
@@ -63,16 +63,16 @@ public:
 
 protected:
 
-	ServerRecvStateReceiving();
+	AbstractServerRecvStateReceiving();
 
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
 };
 
 // Abstract State: Timer.
-class ServerRecvStateTimer : virtual public ServerRecvState
+class AbstractServerRecvStateTimer : virtual public ServerRecvState
 {
 public:
-	virtual ~ServerRecvStateTimer();
+	virtual ~AbstractServerRecvStateTimer();
 
 	virtual void Init();
 
@@ -80,28 +80,28 @@ public:
 
 protected:
 
-	ServerRecvStateTimer();
+	AbstractServerRecvStateTimer();
 
 private:
 	boost::microsec_timer m_timer;
 };
 
 // Abstract State: Game is running.
-class ServerRecvStateRunning : virtual public ServerRecvState
+class AbstractServerRecvStateRunning : virtual public ServerRecvState
 {
 public:
-	virtual ~ServerRecvStateRunning();
+	virtual ~AbstractServerRecvStateRunning();
 
 	// Reject new connections.
 	virtual void HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> data);
 
 protected:
 
-	ServerRecvStateRunning();
+	AbstractServerRecvStateRunning();
 };
 
 // State: Initialization.
-class ServerRecvStateInit : public ServerRecvStateReceiving
+class ServerRecvStateInit : public AbstractServerRecvStateReceiving
 {
 public:
 	// Access the state singleton.
@@ -122,11 +122,12 @@ protected:
 
 private:
 
-	u_int16_t		m_curUniquePlayerId;
+	u_int16_t m_curUniquePlayerId;
+	static boost::thread_specific_ptr<ServerRecvStateInit>	Ptr;
 };
 
 // State: Start server game.
-class ServerRecvStateStartGame : public ServerRecvStateRunning
+class ServerRecvStateStartGame : public AbstractServerRecvStateRunning
 {
 public:
 	// Access the state singleton.
@@ -143,10 +144,14 @@ protected:
 
 	// Protected constructor - this is a singleton.
 	ServerRecvStateStartGame();
+
+private:
+
+	static boost::thread_specific_ptr<ServerRecvStateStartGame>	Ptr;
 };
 
 // State: Start new hand.
-class ServerRecvStateStartHand : public ServerRecvStateRunning
+class ServerRecvStateStartHand : public AbstractServerRecvStateRunning
 {
 public:
 	// Access the state singleton.
@@ -163,10 +168,14 @@ protected:
 
 	// Protected constructor - this is a singleton.
 	ServerRecvStateStartHand();
+
+private:
+
+	static boost::thread_specific_ptr<ServerRecvStateStartHand>	Ptr;
 };
 
 // State: Start new round.
-class ServerRecvStateStartRound : public ServerRecvStateRunning
+class ServerRecvStateStartRound : public AbstractServerRecvStateRunning
 {
 public:
 	// Access the state singleton.
@@ -185,10 +194,14 @@ protected:
 	ServerRecvStateStartRound();
 
 	static std::list<boost::shared_ptr<PlayerInterface> > GetActivePlayers(Game &curGame);
+
+private:
+
+	static boost::thread_specific_ptr<ServerRecvStateStartRound>	Ptr;
 };
 
 // State: Wait for a player action.
-class ServerRecvStateWaitPlayerAction : public ServerRecvStateReceiving, public ServerRecvStateRunning, public ServerRecvStateTimer
+class ServerRecvStateWaitPlayerAction : public AbstractServerRecvStateReceiving, public AbstractServerRecvStateRunning, public AbstractServerRecvStateTimer
 {
 public:
 	// Access the state singleton.
@@ -208,10 +221,14 @@ protected:
 
 	static void PerformPlayerAction(ServerRecvThread &server, boost::shared_ptr<PlayerInterface> player, PlayerAction action, int bet);
 	static void SendPlayerAction(ServerRecvThread &server, boost::shared_ptr<PlayerInterface> player);
+
+private:
+
+	static boost::thread_specific_ptr<ServerRecvStateWaitPlayerAction>	Ptr;
 };
 
 // State: Delay after dealing cards
-class ServerRecvStateDealCardsDelay : public ServerRecvStateReceiving, public ServerRecvStateRunning, public ServerRecvStateTimer
+class ServerRecvStateDealCardsDelay : public AbstractServerRecvStateReceiving, public AbstractServerRecvStateRunning, public AbstractServerRecvStateTimer
 {
 public:
 	// Access the state singleton.
@@ -228,10 +245,14 @@ protected:
 	ServerRecvStateDealCardsDelay();
 
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+
+private:
+
+	static boost::thread_specific_ptr<ServerRecvStateDealCardsDelay>	Ptr;
 };
 
 // State: Delay after showing cards (all in)
-class ServerRecvStateShowCardsDelay : public ServerRecvStateReceiving, public ServerRecvStateRunning, public ServerRecvStateTimer
+class ServerRecvStateShowCardsDelay : public AbstractServerRecvStateReceiving, public AbstractServerRecvStateRunning, public AbstractServerRecvStateTimer
 {
 public:
 	// Access the state singleton.
@@ -248,10 +269,14 @@ protected:
 	ServerRecvStateShowCardsDelay();
 
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+
+private:
+
+	static boost::thread_specific_ptr<ServerRecvStateShowCardsDelay>	Ptr;
 };
 
 // State: Delay before next hand.
-class ServerRecvStateNextHandDelay : public ServerRecvStateReceiving, public ServerRecvStateRunning, public ServerRecvStateTimer
+class ServerRecvStateNextHandDelay : public AbstractServerRecvStateReceiving, public AbstractServerRecvStateRunning, public AbstractServerRecvStateTimer
 {
 public:
 	// Access the state singleton.
@@ -268,10 +293,14 @@ protected:
 	ServerRecvStateNextHandDelay();
 
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+
+private:
+
+	static boost::thread_specific_ptr<ServerRecvStateNextHandDelay>	Ptr;
 };
 
 // State: Delay before next hand.
-class ServerRecvStateNextGameDelay : public ServerRecvStateReceiving, public ServerRecvStateRunning, public ServerRecvStateTimer
+class ServerRecvStateNextGameDelay : public AbstractServerRecvStateReceiving, public AbstractServerRecvStateRunning, public AbstractServerRecvStateTimer
 {
 public:
 	// Access the state singleton.
@@ -288,10 +317,14 @@ protected:
 	ServerRecvStateNextGameDelay();
 
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+
+private:
+
+	static boost::thread_specific_ptr<ServerRecvStateNextGameDelay>	Ptr;
 };
 
 // State: Final.
-class ServerRecvStateFinal : public ServerRecvStateReceiving, public ServerRecvStateRunning
+class ServerRecvStateFinal : public AbstractServerRecvStateReceiving, public AbstractServerRecvStateRunning
 {
 public:
 	// Access the state singleton.
@@ -307,6 +340,10 @@ protected:
 	ServerRecvStateFinal();
 
 	virtual int InternalProcess(ServerRecvThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+
+private:
+
+	static boost::thread_specific_ptr<ServerRecvStateFinal>	Ptr;
 };
 
 #ifdef _MSC_VER

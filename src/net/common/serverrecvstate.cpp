@@ -45,13 +45,6 @@ using namespace std;
 // Helper functions
 // TODO: these are hacks.
 
-static boost::shared_ptr<PlayerInterface> GetCurrentPlayer(Game &curGame)
-{
-	int curPlayerNum = curGame.getCurrentHand()->getCurrentBeRo()->getPlayersTurn();
-	assert(curPlayerNum < curGame.getStartQuantityPlayers()); // TODO: throw exception
-	return curGame.getPlayerArray()[curPlayerNum];
-}
-
 static void SendNewRoundCards(ServerRecvThread &server, Game &curGame, int state)
 {
 	// TODO: no switch needed here if game states are polymorphic
@@ -104,40 +97,44 @@ ServerRecvState::~ServerRecvState()
 
 //-----------------------------------------------------------------------------
 
-ServerRecvStateReceiving::ServerRecvStateReceiving()
+AbstractServerRecvStateReceiving::AbstractServerRecvStateReceiving()
 {
 }
 
-ServerRecvStateReceiving::~ServerRecvStateReceiving()
+AbstractServerRecvStateReceiving::~AbstractServerRecvStateReceiving()
 {
 }
 
 int
-ServerRecvStateReceiving::Process(ServerRecvThread &server)
+AbstractServerRecvStateReceiving::Process(ServerRecvThread &server)
 {
+	// This is the receive loop for the server.
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 	SOCKET recvSock = server.Select();
 
 	if (recvSock != INVALID_SOCKET)
 	{
+		// If data is available, find the corresponding session.
 		SessionWrapper session = server.GetSession(recvSock);
+		// The session must exist.
+		assert(session.sessionData.get());
+
 		boost::shared_ptr<NetPacket> packet;
 		try
 		{
+			// Receive the packet.
 			packet = server.GetReceiver().Recv(recvSock);
 		} catch (const NetException &)
 		{
-			if (session.sessionData.get())
-			{
-				server.CloseSessionDelayed(session);
-				return retVal;
-			}
+			server.CloseSessionDelayed(session);
+			return retVal;
 		}
 
-		// Ignore if no session / no packet.
-		if (packet.get() && session.sessionData.get())
+		// Process packet if one was received.
+		if (packet.get())
 		{
-			if (packet->ToNetPacketSendChatText()) // Chat text is always allowed.
+			// Chat text is always allowed.
+			if (packet->ToNetPacketSendChatText())
 			{
 				if (session.playerData.get()) // Only forward if this player is known.
 				{
@@ -155,7 +152,10 @@ ServerRecvStateReceiving::Process(ServerRecvThread &server)
 				}
 			}
 			else
-				retVal = InternalProcess(server, session, packet); // Let other class handle this.
+			{
+				// Packet processing in subclass.
+				retVal = InternalProcess(server, session, packet);
+			}
 		}
 	}
 	return retVal;
@@ -163,16 +163,16 @@ ServerRecvStateReceiving::Process(ServerRecvThread &server)
 
 //-----------------------------------------------------------------------------
 
-ServerRecvStateTimer::ServerRecvStateTimer()
+AbstractServerRecvStateTimer::AbstractServerRecvStateTimer()
 {
 }
 
-ServerRecvStateTimer::~ServerRecvStateTimer()
+AbstractServerRecvStateTimer::~AbstractServerRecvStateTimer()
 {
 }
 
 void
-ServerRecvStateTimer::Init()
+AbstractServerRecvStateTimer::Init()
 {
 	m_timer.reset();
 	m_timer.start();
@@ -180,11 +180,15 @@ ServerRecvStateTimer::Init()
 
 //-----------------------------------------------------------------------------
 
+boost::thread_specific_ptr<ServerRecvStateInit> ServerRecvStateInit::Ptr;
+
 ServerRecvStateInit &
 ServerRecvStateInit::Instance()
 {
-	static ServerRecvStateInit state;
-	return state;
+	if (!Ptr.get())
+		Ptr.reset(new ServerRecvStateInit);
+
+	return *Ptr;
 }
 
 ServerRecvStateInit::ServerRecvStateInit()
@@ -358,16 +362,16 @@ ServerRecvStateInit::InternalProcess(ServerRecvThread &server, SessionWrapper se
 
 //-----------------------------------------------------------------------------
 
-ServerRecvStateRunning::ServerRecvStateRunning()
+AbstractServerRecvStateRunning::AbstractServerRecvStateRunning()
 {
 }
 
-ServerRecvStateRunning::~ServerRecvStateRunning()
+AbstractServerRecvStateRunning::~AbstractServerRecvStateRunning()
 {
 }
 
 void
-ServerRecvStateRunning::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
+AbstractServerRecvStateRunning::HandleNewConnection(ServerRecvThread &server, boost::shared_ptr<ConnectData> connData)
 {
 	// Do not accept new connections in this state.
 	server.RejectNewConnection(connData);
@@ -375,11 +379,15 @@ ServerRecvStateRunning::HandleNewConnection(ServerRecvThread &server, boost::sha
 
 //-----------------------------------------------------------------------------
 
+boost::thread_specific_ptr<ServerRecvStateStartGame> ServerRecvStateStartGame::Ptr;
+
 ServerRecvStateStartGame &
 ServerRecvStateStartGame::Instance()
 {
-	static ServerRecvStateStartGame state;
-	return state;
+	if (!Ptr.get())
+		Ptr.reset(new ServerRecvStateStartGame);
+
+	return *Ptr;
 }
 
 ServerRecvStateStartGame::ServerRecvStateStartGame()
@@ -398,7 +406,8 @@ ServerRecvStateStartGame::Process(ServerRecvThread &server)
 	NetPacketGameStart::Data gameStartData;
 	gameStartData.startData = server.GetStartData();
 
-	// Assign player numbers. Assume Player List is sorted by number.
+	// Send player order to clients.
+	// Assume player list is sorted by number.
 	PlayerDataList tmpPlayerList = server.GetPlayerDataList();
 	PlayerDataList::iterator player_i = tmpPlayerList.begin();
 	PlayerDataList::iterator player_end = tmpPlayerList.end();
@@ -421,11 +430,15 @@ ServerRecvStateStartGame::Process(ServerRecvThread &server)
 
 //-----------------------------------------------------------------------------
 
+boost::thread_specific_ptr<ServerRecvStateStartHand> ServerRecvStateStartHand::Ptr;
+
 ServerRecvStateStartHand &
 ServerRecvStateStartHand::Instance()
 {
-	static ServerRecvStateStartHand state;
-	return state;
+	if (!Ptr.get())
+		Ptr.reset(new ServerRecvStateStartHand);
+
+	return *Ptr;
 }
 
 ServerRecvStateStartHand::ServerRecvStateStartHand()
@@ -514,11 +527,15 @@ ServerRecvStateStartHand::Process(ServerRecvThread &server)
 
 //-----------------------------------------------------------------------------
 
+boost::thread_specific_ptr<ServerRecvStateStartRound> ServerRecvStateStartRound::Ptr;
+
 ServerRecvStateStartRound &
 ServerRecvStateStartRound::Instance()
 {
-	static ServerRecvStateStartRound state;
-	return state;
+	if (!Ptr.get())
+		Ptr.reset(new ServerRecvStateStartRound);
+
+	return *Ptr;
 }
 
 ServerRecvStateStartRound::ServerRecvStateStartRound()
@@ -595,8 +612,8 @@ ServerRecvStateStartRound::Process(ServerRecvThread &server)
 			assert (!curGame.getCurrentHand()->getAllInCondition()); // this would be an error.
 
 			// Retrieve current player.
-			boost::shared_ptr<PlayerInterface> curPlayer = GetCurrentPlayer(curGame);
-			assert(curPlayer); // TODO throw exception
+			boost::shared_ptr<PlayerInterface> curPlayer = curGame.getCurrentPlayer();
+			assert(curPlayer.get()); // TODO throw exception
 			assert(curPlayer->getMyActiveStatus()); // TODO throw exception
 
 			boost::shared_ptr<NetPacket> notification(new NetPacketPlayersTurn);
@@ -713,11 +730,15 @@ ServerRecvStateStartRound::GetActivePlayers(Game &curGame)
 
 //-----------------------------------------------------------------------------
 
+boost::thread_specific_ptr<ServerRecvStateWaitPlayerAction> ServerRecvStateWaitPlayerAction::Ptr;
+
 ServerRecvStateWaitPlayerAction &
 ServerRecvStateWaitPlayerAction::Instance()
 {
-	static ServerRecvStateWaitPlayerAction state;
-	return state;
+	if (!Ptr.get())
+		Ptr.reset(new ServerRecvStateWaitPlayerAction);
+
+	return *Ptr;
 }
 
 ServerRecvStateWaitPlayerAction::ServerRecvStateWaitPlayerAction()
@@ -733,7 +754,7 @@ ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 {
 	int retVal;
 
-	boost::shared_ptr<PlayerInterface> tmpPlayer = GetCurrentPlayer(server.GetGame());
+	boost::shared_ptr<PlayerInterface> tmpPlayer = server.GetGame().getCurrentPlayer();
 	assert(tmpPlayer.get());
 	assert(!tmpPlayer->getMyName().empty());
 
@@ -766,7 +787,7 @@ ServerRecvStateWaitPlayerAction::Process(ServerRecvThread &server)
 		retVal = MSG_NET_GAME_SERVER_ACTION;
 	}
 	else
-		retVal = ServerRecvStateReceiving::Process(server);
+		retVal = AbstractServerRecvStateReceiving::Process(server);
 
 	return retVal;
 }
@@ -835,11 +856,15 @@ ServerRecvStateWaitPlayerAction::SendPlayerAction(ServerRecvThread &server, boos
 
 //-----------------------------------------------------------------------------
 
+boost::thread_specific_ptr<ServerRecvStateDealCardsDelay> ServerRecvStateDealCardsDelay::Ptr;
+
 ServerRecvStateDealCardsDelay &
 ServerRecvStateDealCardsDelay::Instance()
 {
-	static ServerRecvStateDealCardsDelay state;
-	return state;
+	if (!Ptr.get())
+		Ptr.reset(new ServerRecvStateDealCardsDelay);
+
+	return *Ptr;
 }
 
 ServerRecvStateDealCardsDelay::ServerRecvStateDealCardsDelay()
@@ -853,7 +878,7 @@ ServerRecvStateDealCardsDelay::~ServerRecvStateDealCardsDelay()
 int
 ServerRecvStateDealCardsDelay::Process(ServerRecvThread &server)
 {
-	int retVal = ServerRecvStateReceiving::Process(server);
+	int retVal = AbstractServerRecvStateReceiving::Process(server);
 
 	Game &curGame = server.GetGame();
 
@@ -886,11 +911,15 @@ ServerRecvStateDealCardsDelay::InternalProcess(ServerRecvThread &server, Session
 
 //-----------------------------------------------------------------------------
 
+boost::thread_specific_ptr<ServerRecvStateShowCardsDelay> ServerRecvStateShowCardsDelay::Ptr;
+
 ServerRecvStateShowCardsDelay &
 ServerRecvStateShowCardsDelay::Instance()
 {
-	static ServerRecvStateShowCardsDelay state;
-	return state;
+	if (!Ptr.get())
+		Ptr.reset(new ServerRecvStateShowCardsDelay);
+
+	return *Ptr;
 }
 
 ServerRecvStateShowCardsDelay::ServerRecvStateShowCardsDelay()
@@ -904,7 +933,7 @@ ServerRecvStateShowCardsDelay::~ServerRecvStateShowCardsDelay()
 int
 ServerRecvStateShowCardsDelay::Process(ServerRecvThread &server)
 {
-	int retVal = ServerRecvStateReceiving::Process(server);
+	int retVal = AbstractServerRecvStateReceiving::Process(server);
 
 	if (GetTimer().elapsed().total_seconds() >= SERVER_SHOW_CARDS_DELAY_SEC)
 	{
@@ -926,11 +955,15 @@ ServerRecvStateShowCardsDelay::InternalProcess(ServerRecvThread &server, Session
 
 //-----------------------------------------------------------------------------
 
+boost::thread_specific_ptr<ServerRecvStateNextHandDelay> ServerRecvStateNextHandDelay::Ptr;
+
 ServerRecvStateNextHandDelay &
 ServerRecvStateNextHandDelay::Instance()
 {
-	static ServerRecvStateNextHandDelay state;
-	return state;
+	if (!Ptr.get())
+		Ptr.reset(new ServerRecvStateNextHandDelay);
+
+	return *Ptr;
 }
 
 ServerRecvStateNextHandDelay::ServerRecvStateNextHandDelay()
@@ -944,7 +977,7 @@ ServerRecvStateNextHandDelay::~ServerRecvStateNextHandDelay()
 int
 ServerRecvStateNextHandDelay::Process(ServerRecvThread &server)
 {
-	int retVal = ServerRecvStateReceiving::Process(server);
+	int retVal = AbstractServerRecvStateReceiving::Process(server);
 
 	if (GetTimer().elapsed().total_seconds() >= SERVER_DELAY_NEXT_HAND_SEC)
 		server.SetState(ServerRecvStateStartHand::Instance());
@@ -960,11 +993,15 @@ ServerRecvStateNextHandDelay::InternalProcess(ServerRecvThread &server, SessionW
 
 //-----------------------------------------------------------------------------
 
+boost::thread_specific_ptr<ServerRecvStateNextGameDelay> ServerRecvStateNextGameDelay::Ptr;
+
 ServerRecvStateNextGameDelay &
 ServerRecvStateNextGameDelay::Instance()
 {
-	static ServerRecvStateNextGameDelay state;
-	return state;
+	if (!Ptr.get())
+		Ptr.reset(new ServerRecvStateNextGameDelay);
+
+	return *Ptr;
 }
 
 ServerRecvStateNextGameDelay::ServerRecvStateNextGameDelay()
@@ -978,7 +1015,7 @@ ServerRecvStateNextGameDelay::~ServerRecvStateNextGameDelay()
 int
 ServerRecvStateNextGameDelay::Process(ServerRecvThread &server)
 {
-	int retVal = ServerRecvStateReceiving::Process(server);
+	int retVal = AbstractServerRecvStateReceiving::Process(server);
 
 	if (GetTimer().elapsed().total_seconds() >= SERVER_DELAY_NEXT_GAME_SEC)
 	{
@@ -1014,11 +1051,15 @@ ServerRecvStateNextGameDelay::InternalProcess(ServerRecvThread &server, SessionW
 
 //-----------------------------------------------------------------------------
 
+boost::thread_specific_ptr<ServerRecvStateFinal> ServerRecvStateFinal::Ptr;
+
 ServerRecvStateFinal &
 ServerRecvStateFinal::Instance()
 {
-	static ServerRecvStateFinal state;
-	return state;
+	if (!Ptr.get())
+		Ptr.reset(new ServerRecvStateFinal);
+
+	return *Ptr;
 }
 
 ServerRecvStateFinal::ServerRecvStateFinal()

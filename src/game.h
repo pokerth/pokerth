@@ -74,6 +74,7 @@ public:
 	int getActualHandID() const { return actualHandID; }
 
 	boost::shared_ptr<PlayerInterface> getPlayerByUniqueId(unsigned id);
+	boost::shared_ptr<PlayerInterface> getCurrentPlayer();
 
 private:
 	boost::shared_ptr<EngineFactory> myFactory;

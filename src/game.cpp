@@ -199,3 +199,11 @@ boost::shared_ptr<PlayerInterface> Game::getPlayerByUniqueId(unsigned id)
 	}
 	return tmpPlayer;
 }
+
+boost::shared_ptr<PlayerInterface> Game::getCurrentPlayer()
+{
+	int curPlayerNum = getCurrentHand()->getCurrentBeRo()->getPlayersTurn();
+	assert(curPlayerNum < getStartQuantityPlayers());
+	return getPlayerArray()[curPlayerNum];
+}
+
