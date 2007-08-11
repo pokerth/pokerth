@@ -36,7 +36,7 @@ public:
 
 	void run();
 	void distributePot();
-	
+
 private:
 
 	int highestCardsValue;

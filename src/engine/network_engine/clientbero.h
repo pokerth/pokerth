@@ -30,6 +30,9 @@ public:
 	int getHighestCardsValue() const;
 	void setHighestCardsValue(int theValue);
 
+	void setLastActionPlayer ( int theValue );
+	int getLastActionPlayer() const;
+
 	void setPlayersTurn(int theValue);
 	int getPlayersTurn() const;
 	
@@ -64,6 +67,8 @@ private:
 	bool firstRound;
 	int smallBlindPosition;
 	int smallBlind;
+
+	int lastActionPlayer;
 };
 
 #endif

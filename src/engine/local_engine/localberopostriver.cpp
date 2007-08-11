@@ -25,7 +25,7 @@
 
 using namespace std;
 
-LocalBeRoPostRiver::LocalBeRoPostRiver(HandInterface* hi, int id, int qP, int dP, int sB) : LocalBeRo(hi, id, qP, dP, sB, GAME_STATE_POST_RIVER)
+LocalBeRoPostRiver::LocalBeRoPostRiver(HandInterface* hi, int id, int qP, int dP, int sB) : LocalBeRo(hi, id, qP, dP, sB, GAME_STATE_POST_RIVER), highestCardsValue(0)
 {
 }
 

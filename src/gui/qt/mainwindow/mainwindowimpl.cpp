@@ -56,7 +56,7 @@
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
-     : QMainWindow(parent), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), debugMode(0), breakAfterActualHand(FALSE)
+     : QMainWindow(parent), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), breakAfterActualHand(FALSE)
 {
 	int i;
 
@@ -265,6 +265,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	postRiverAnimation1Timer = new QTimer(this);
 	postRiverRunAnimation1Timer = new QTimer(this);
 	postRiverRunAnimation2Timer = new QTimer(this);
+	postRiverRunAnimation2_flipHoleCards1Timer = new QTimer(this);
+	postRiverRunAnimation2_flipHoleCards2Timer = new QTimer(this);
 	postRiverRunAnimation3Timer = new QTimer(this);
 	postRiverRunAnimation5Timer = new QTimer(this);
 	potDistributeTimer = new QTimer(this);
@@ -299,6 +301,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	postRiverAnimation1Timer->setSingleShot(TRUE);
 	postRiverRunAnimation1Timer->setSingleShot(TRUE);
 	postRiverRunAnimation2Timer->setSingleShot(TRUE);
+	postRiverRunAnimation2_flipHoleCards1Timer->setSingleShot(TRUE);
+	postRiverRunAnimation2_flipHoleCards2Timer->setSingleShot(TRUE);
 	postRiverRunAnimation3Timer->setSingleShot(TRUE);
 	postRiverRunAnimation5Timer->setSingleShot(TRUE);
 	postRiverRunAnimation6Timer->setSingleShot(TRUE);
@@ -555,6 +559,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(postRiverAnimation1Timer, SIGNAL(timeout()), this, SLOT( postRiverAnimation1Action() ));
 	connect(postRiverRunAnimation1Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation2() ));
 	connect(postRiverRunAnimation2Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation3() ));
+	connect(postRiverRunAnimation2_flipHoleCards1Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation2_flipHoleCards1() ));
+	connect(postRiverRunAnimation2_flipHoleCards2Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation2_flipHoleCards2() ));
 	connect(postRiverRunAnimation3Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation4() ));
 	connect(potDistributeTimer, SIGNAL(timeout()), this, SLOT(postRiverRunAnimation5()));
 	connect(postRiverRunAnimation5Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation6() ));
@@ -1299,7 +1305,7 @@ void mainWindowImpl::dealHoleCards() {
 		currentGame->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 		for(j=0; j<2; j++) {
 			if(currentGame->getPlayerArray()[i]->getMyActiveStatus()) { 
-				if ((i == 0) || debugMode) {
+				if ((i == 0) || DEBUG_MODE) {
 					tempCardsPixmapArray[j].load(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");
 					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
 					
@@ -1838,20 +1844,7 @@ void mainWindowImpl::riverAnimation2Action() { mySession->getCurrentGame()->getC
 void mainWindowImpl::postRiverAnimation1() { postRiverAnimation1Timer->start(nextPlayerSpeed2); }
 void mainWindowImpl::postRiverAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
 
-void mainWindowImpl::postRiverRunAnimation1() {
-
-	//RoundsLabel mit "River" dunkel machen
-// 	QPalette tempPalette = frame_handLabel->palette();
-// 	tempPalette.setColor(QPalette::Window, active);
-// 	frame_handLabel->setPalette(tempPalette);
-
-	//PotLabel aufhellen!
-// // 	tempPalette = frame_Pot->palette();
-// 	tempPalette.setColor(QPalette::Window, highlight);
-// 	frame_Pot->setPalette(tempPalette);
-
-	postRiverRunAnimation1Timer->start(postRiverRunAnimationSpeed);
-}
+void mainWindowImpl::postRiverRunAnimation1() {	postRiverRunAnimation1Timer->start(postRiverRunAnimationSpeed); }
 
 void mainWindowImpl::postRiverRunAnimation2() {
 
@@ -1868,7 +1861,11 @@ void mainWindowImpl::postRiverRunAnimation2() {
 		 
 		if(!flipHolecardsAllInAlreadyDone) {
 
-			//Config? mit oder ohne Eye-Candy?
+//TODO - Turn cards like in the rules
+
+// 			postRiverRunAnimation2_flipHoleCards1Timer->start(nextPlayerSpeed2);
+
+// 			//Config? mit oder ohne Eye-Candy?
 			if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
 				// mit Eye-Candy
 		
@@ -1937,12 +1934,35 @@ void mainWindowImpl::postRiverRunAnimation2() {
 	else { postRiverRunAnimation3(); }
 }
 
+// TODO
+void mainWindowImpl::postRiverRunAnimation2_flipHoleCards1() {
+
+	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+
+	currentHand->getCurrentBeRo()->setPlayersTurn(currentHand->getCurrentBeRo()->getLastActionPlayer());
+
+	postRiverRunAnimation2_flipHoleCards2Timer->start(nextPlayerSpeed2);
+}
+
+
+void mainWindowImpl::postRiverRunAnimation2_flipHoleCards2() {
+
+// 	if() {
+// 		postRiverRunAnimation2_flipHoleCards1Timer->start(nextPlayerSpeed2);
+// 	}
+// 	else {
+// 		postRiverRunAnimation2Timer->start(postRiverRunAnimationSpeed);
+// 	}
+}
+
+
 void mainWindowImpl::postRiverRunAnimation3() {
 
 	int i;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 	//Alle Winner erhellen und "Winner" schreiben
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+
 		if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
 // 			QPalette tempPalette = groupBoxArray[i]->palette();

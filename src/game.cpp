@@ -106,19 +106,11 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 Game::~Game()
 {
 // 	cout << "Delete Game Object" << "\n";
-	int i;
 
 	delete actualBoard;
 	actualBoard = 0;
 	delete actualHand;
 	actualHand = 0;
-
-// 	boost::shared_ptr<PlayerInterface> tempPlayer;
-// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
-// 		tempPlayer = playerArray[i];
-// 		playerArray[i] = 0;
-// 		delete tempPlayer;
-// 	}
 
 }
 

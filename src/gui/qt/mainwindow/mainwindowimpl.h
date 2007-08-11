@@ -230,6 +230,8 @@ public slots:
 
 	void postRiverRunAnimation1();
 	void postRiverRunAnimation2();
+	void postRiverRunAnimation2_flipHoleCards1();
+	void postRiverRunAnimation2_flipHoleCards2();
 	void postRiverRunAnimation3();	
 	void postRiverRunAnimation4();	
 	void postRiverRunAnimation5();	
@@ -274,6 +276,7 @@ public slots:
 	void networkGameModification();
 
 	void quitPokerTH();
+	
 
 	
 
@@ -339,6 +342,8 @@ private:
 	QTimer *postRiverAnimation1Timer;
 	QTimer *postRiverRunAnimation1Timer;
 	QTimer *postRiverRunAnimation2Timer;
+	QTimer *postRiverRunAnimation2_flipHoleCards1Timer;
+	QTimer *postRiverRunAnimation2_flipHoleCards2Timer;
 	QTimer *postRiverRunAnimation3Timer;
 	QTimer *postRiverRunAnimation5Timer;
 	QTimer *postRiverRunAnimation6Timer;
@@ -396,7 +401,6 @@ private:
 	bool myActionIsBet;
 	bool myActionIsRaise;
 
-	bool debugMode;
 	bool breakAfterActualHand;
 	
 	bool flipHolecardsAllInAlreadyDone;

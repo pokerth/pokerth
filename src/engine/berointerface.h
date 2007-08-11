@@ -34,6 +34,9 @@ public:
 	virtual void setHighestCardsValue(int theValue) =0;
 	virtual int getHighestCardsValue() const =0;
 
+	virtual void setLastActionPlayer( int theValue ) =0;
+	virtual int getLastActionPlayer() const =0;
+
 	virtual void resetFirstRun() =0;
 
 	virtual void nextPlayer() =0;

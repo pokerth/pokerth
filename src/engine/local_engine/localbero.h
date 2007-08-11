@@ -57,6 +57,9 @@ protected:
 
 	void setSmallBlind(int theValue) { smallBlind = theValue; }
 	int getSmallBlind() const { return smallBlind; }
+
+	void setLastActionPlayer ( int theValue ) { lastActionPlayer = theValue; }
+	int getLastActionPlayer() const { return lastActionPlayer; }
 	
 
 private:
@@ -78,6 +81,8 @@ private:
 	int playersTurn;
 
 	bool logBoardCardsDone;
+
+	int lastActionPlayer;
 
 
 };

@@ -31,18 +31,25 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 : PlayerInterface(), myConfig(c), actualHand(0), actualBoard(b), myCardsValue(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), sBluff(0), sBluffStatus(0)
 {
 
-// 	for statistic development
-// 	if(myID==0) { 
-// 		myActiveStatus=0;
-// 		myCash=20;
-// 	}
-// 
-// 	if(myID==1) {
-// 		myCash=6130;
-// 	}
-// 	if(myID==2) {
-// 		myCash=37;
-// 	}
+	// !!!!!!!!!!!!!!!!!!!!!!!! testing !!!!!!!!!!!!!!!!!!!!!!!!
+	if(DEBUG_MODE) {
+	
+		if(myID==0) { 
+// 			myActiveStatus=0;
+			myCash=570;
+		}
+	
+		if(myID==1) {
+			myCash=2730;
+		}
+		if(myID==2) {
+			myCash=5970;
+		}
+		if(myID==3) {
+			myCash=2730;
+		}
+
+	}
 	////////////////////////////
 	
 	// myBestHandPosition mit -1 initialisieren
@@ -331,6 +338,23 @@ void LocalPlayer::preflopEngine() {
 	}
 
 // 	cout << myID << ": " << myOdds << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << "Bluff: " << sBluffStatus << endl;
+
+	if(DEBUG_MODE) {
+		switch(myID) {
+			case 0: {}
+			break;
+			case 1: { myAction = PLAYER_ACTION_FOLD; }
+			break;
+			case 2: { myAction = PLAYER_ACTION_CALL; }
+			break;
+			case 3: { myAction = PLAYER_ACTION_FOLD; }
+			break;
+			default: {}
+		}
+
+
+	}
+
 
 	evaluation(bet, raise);
 }
@@ -1215,6 +1239,10 @@ void LocalPlayer::riverEngine() {
 				}
 			}
 		}
+
+		// lastPlayerAction für Karten umblättern reihenfolge setzrn
+		actualHand->getCurrentBeRo()->setLastActionPlayer(myID);
+
 	}
 
 	// auf sBluffStatus testen --> raise statt call und bet statt check
@@ -1291,6 +1319,7 @@ void LocalPlayer::evaluation(int bet, int raise) {
 	int highestSet = 0;
 
 	highestSet = actualHand->getCurrentBeRo()->getHighestSet();
+
 
 // 	cout << "myAction(evaluation): " << myAction << endl;
 	switch(myAction) {

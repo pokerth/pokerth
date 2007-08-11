@@ -26,6 +26,8 @@
 #define MIN_GUI_SPEED				1
 #define MAX_GUI_SPEED				11
 
+#define DEBUG_MODE			0
+
 enum GameState {
 	GAME_STATE_PREFLOP = 0,
 	GAME_STATE_FLOP,
