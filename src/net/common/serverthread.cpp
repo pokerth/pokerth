@@ -30,19 +30,19 @@
 
 using namespace std;
 
-ServerThread::ServerThread(GuiInterface &gui, ConfigFile *config)
+ServerAcceptThread::ServerAcceptThread(GuiInterface &gui, ConfigFile *config)
 : m_gui(gui)
 {
 	m_context.reset(new ServerContext);
-	m_recvThread.reset(new ServerRecvThread(gui, config));
+	m_lobbyThread.reset(new ServerLobbyThread(gui, config));
 }
 
-ServerThread::~ServerThread()
+ServerAcceptThread::~ServerAcceptThread()
 {
 }
 
 void
-ServerThread::Init(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd,
+ServerAcceptThread::Init(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd,
 	const GameData &gameData)
 {
 	if (IsRunning())
@@ -54,28 +54,28 @@ ServerThread::Init(unsigned serverPort, bool ipv6, bool sctp, const std::string 
 	context.SetAddrFamily(ipv6 ? AF_INET6 : AF_INET);
 	context.SetServerPort(serverPort);
 
-	GetRecvThread().Init(pwd, gameData);
+	GetLobbyThread().Init(pwd);
 }
 
 ServerCallback &
-ServerThread::GetCallback()
+ServerAcceptThread::GetCallback()
 {
 	return m_gui;
 }
 
 GuiInterface &
-ServerThread::GetGui()
+ServerAcceptThread::GetGui()
 {
 	return m_gui;
 }
 
 void
-ServerThread::Main()
+ServerAcceptThread::Main()
 {
 	try
 	{
 		Listen();
-		GetRecvThread().Run();
+		GetLobbyThread().Run();
 
 		while (!ShouldTerminate())
 		{
@@ -86,12 +86,12 @@ ServerThread::Main()
 	{
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 	}
-	GetRecvThread().SignalTermination();
-	GetRecvThread().Join(RECEIVER_THREAD_TERMINATE_TIMEOUT);
+	GetLobbyThread().SignalTermination();
+	GetLobbyThread().Join(LOBBY_THREAD_TERMINATE_TIMEOUT);
 }
 
 void
-ServerThread::Listen()
+ServerAcceptThread::Listen()
 {
 	ServerContext &context = GetContext();
 
@@ -147,7 +147,7 @@ ServerThread::Listen()
 }
 
 void
-ServerThread::AcceptLoop()
+ServerAcceptThread::AcceptLoop()
 {
 	ServerContext &context = GetContext();
 
@@ -174,28 +174,28 @@ ServerThread::AcceptLoop()
 			throw ServerException(ERR_SOCK_ACCEPT_FAILED, SOCKET_ERRNO());
 		}
 
-		GetRecvThread().AddConnection(tmpData);
+		GetLobbyThread().AddConnection(tmpData);
 	}
 }
 
 const ServerContext &
-ServerThread::GetContext() const
+ServerAcceptThread::GetContext() const
 {
 	assert(m_context.get());
 	return *m_context;
 }
 
 ServerContext &
-ServerThread::GetContext()
+ServerAcceptThread::GetContext()
 {
 	assert(m_context.get());
 	return *m_context;
 }
 
-ServerRecvThread &
-ServerThread::GetRecvThread()
+ServerLobbyThread &
+ServerAcceptThread::GetLobbyThread()
 {
-	assert(m_recvThread.get());
-	return *m_recvThread;
+	assert(m_lobbyThread.get());
+	return *m_lobbyThread;
 }
 

@@ -31,7 +31,7 @@
 #include <list>
 #include <core/boost/timer.hpp>
 
-#define RECEIVER_THREAD_TERMINATE_TIMEOUT	200
+#define LOBBY_THREAD_TERMINATE_TIMEOUT	200
 
 
 class SenderThread;

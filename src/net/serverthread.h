@@ -16,10 +16,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network server thread. */
+/* Network server thread to accept connections. */
 
-#ifndef _SERVERTHREAD_H_
-#define _SERVERTHREAD_H_
+#ifndef _SERVERACCEPTTHREAD_H_
+#define _SERVERACCEPTTHREAD_H_
 
 #include <game_defs.h>
 #include <core/thread.h>
@@ -28,17 +28,17 @@
 #include <memory>
 
 class ServerContext;
-class ServerRecvThread;
+class ServerLobbyThread;
 class ServerSenderCallback;
 class SenderThread;
 class ConfigFile;
 struct GameData;
 
-class ServerThread : public Thread
+class ServerAcceptThread : public Thread
 {
 public:
-	ServerThread(GuiInterface &gui, ConfigFile *config);
-	virtual ~ServerThread();
+	ServerAcceptThread(GuiInterface &gui, ConfigFile *config);
+	virtual ~ServerAcceptThread();
 
 	// Set the parameters.
 	void Init(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd,
@@ -58,11 +58,11 @@ protected:
 	const ServerContext &GetContext() const;
 	ServerContext &GetContext();
 
-	ServerRecvThread &GetRecvThread();
+	ServerLobbyThread &GetLobbyThread();
 
 private:
 	std::auto_ptr<ServerContext> m_context;
-	std::auto_ptr<ServerRecvThread> m_recvThread;
+	std::auto_ptr<ServerLobbyThread> m_lobbyThread;
 
 	GuiInterface &m_gui;
 };
