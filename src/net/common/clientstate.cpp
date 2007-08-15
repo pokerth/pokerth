@@ -344,12 +344,12 @@ ClientStateStartSession::Process(ClientThread &client)
 {
 	ClientContext &context = client.GetContext();
 
-	NetPacketJoinGame::Data initData;
+	NetPacketInit::Data initData;
 	initData.password = context.GetPassword();
 	initData.playerName = context.GetPlayerName();
 
-	boost::shared_ptr<NetPacket> packet(new NetPacketJoinGame);
-	((NetPacketJoinGame *)packet.get())->SetData(initData);
+	boost::shared_ptr<NetPacket> packet(new NetPacketInit);
+	((NetPacketInit *)packet.get())->SetData(initData);
 	
 	client.GetSender().Send(context.GetSocket(), packet);
 
@@ -435,19 +435,16 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 	ClientContext &context = client.GetContext();
 
-	if (packet->ToNetPacketJoinGameAck())
+	if (packet->ToNetPacketInitAck())
 	{
-		// Everything is fine - we joined the game.
-		// Initialize game configuration.
-		NetPacketJoinGameAck::Data joinGameAckData;
-		packet->ToNetPacketJoinGameAck()->GetData(joinGameAckData);
-		client.SetGameData(joinGameAckData.gameData);
-		client.SetGuiPlayerId(joinGameAckData.yourPlayerUniqueId);
+		// Everything is fine - we are in the lobby.
+		NetPacketInitAck::Data initAckData;
+		packet->ToNetPacketInitAck()->GetData(initAckData);
+		client.SetGuiPlayerId(initAckData.yourPlayerUniqueId);
 
-		// TODO: Type Human is fixed here.
-		// Player number is 0 on join. Will be set when the game starts.
+		// Player number is 0 on init. Will be set when the game starts.
 		boost::shared_ptr<PlayerData> playerData(
-			new PlayerData(joinGameAckData.yourPlayerUniqueId, 0, joinGameAckData.ptype, joinGameAckData.prights));
+			new PlayerData(initAckData.yourPlayerUniqueId, 0, PLAYER_TYPE_HUMAN, PLAYER_RIGHTS_NORMAL));
 		playerData->SetName(context.GetPlayerName());
 		client.AddPlayerData(playerData);
 

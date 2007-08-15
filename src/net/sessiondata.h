@@ -21,7 +21,6 @@
 #ifndef _SESSIONDATA_H_
 #define _SESSIONDATA_H_
 
-#include <playerdata.h>
 #include <net/socket_helper.h>
 #include <string>
 

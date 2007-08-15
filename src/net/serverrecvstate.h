@@ -124,7 +124,7 @@ protected:
 
 private:
 
-	u_int16_t m_curUniquePlayerId;
+	u_int32_t m_curUniquePlayerId;
 	static boost::thread_specific_ptr<ServerRecvStateInit>	Ptr;
 };
 

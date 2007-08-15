@@ -21,119 +21,70 @@
 #ifndef _SERVERRECVTHREAD_H_
 #define _SERVERRECVTHREAD_H_
 
-#include <core/thread.h>
 #include <net/connectdata.h>
-#include <net/sessiondata.h>
+#include <net/sessionmanager.h>
+#include <net/netpacket.h>
 #include <gui/guiinterface.h>
 #include <gamedata.h>
 
 #include <deque>
-#include <map>
 #include <list>
-#include <string>
-#include <boost/shared_ptr.hpp>
 #include <core/boost/timer.hpp>
 
 #define RECEIVER_THREAD_TERMINATE_TIMEOUT	200
 
 
-class ServerRecvState;
 class SenderThread;
 class ReceiverHelper;
 class ServerSenderCallback;
-class NetPacket;
 class ConfigFile;
 struct GameData;
 class Game;
 
-struct SessionWrapper
-{
-	SessionWrapper() {}
-	SessionWrapper(boost::shared_ptr<SessionData> s, boost::shared_ptr<PlayerData> p)
-		: sessionData(s), playerData(p) {}
-	boost::shared_ptr<SessionData>	sessionData;
-	boost::shared_ptr<PlayerData>	playerData;
-};
-
-class ServerRecvThread : public Thread
+class ServerLobbyThread : public Thread
 {
 public:
-	ServerRecvThread(GuiInterface &gui, ConfigFile *playerConfig);
-	virtual ~ServerRecvThread();
+	ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig);
+	virtual ~ServerLobbyThread();
 
-	void Init(const std::string &pwd, const GameData &gameData);
+	void Init(const std::string &pwd);
 
 	void AddConnection(boost::shared_ptr<ConnectData> data);
-	void AddNotification(unsigned message, const std::string &param);
 
+	u_int32_t GetNextUniquePlayerId();
 	ServerCallback &GetCallback();
-
-	void SendError(SOCKET s, int errorCode);
-	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
-	void SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SOCKET except);
-
-	Game &GetGame();
 
 protected:
 
-	struct Notification
-	{
-		Notification(unsigned m, std::string p)
-			: message(m), param(p) {}
-		unsigned message;
-		std::string param;
-	};
-
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
-	typedef std::map<SOCKET, SessionWrapper> SocketSessionMap;
 	typedef std::list<SessionWrapper> SessionList;
-	typedef std::deque<Notification> NotificationQueue;
 	typedef std::list<std::pair<boost::microsec_timer, boost::shared_ptr<SessionData> > > CloseSessionList;
 
 	// Main function of the thread.
 	virtual void Main();
 
-	void NotificationLoop();
+	void ProcessLoop();
+	void HandleNetPacketInit(SessionWrapper session, const NetPacketInit &tmpPacket);
+	void HandleNetPacketCreateGame(SessionWrapper session, const NetPacketCreateGame &tmpPacket);
+	void HandleNetPacketJoinGame(SessionWrapper session, const NetPacketJoinGame &tmpPacket);
 	void CloseSessionLoop();
+
+	void HandleNewConnection(boost::shared_ptr<ConnectData> connData);
 
 	SOCKET Select();
 
 	void CleanupConnectQueue();
 	void CleanupSessionMap();
 
-	void InternalStartGame();
-	void InternalKickPlayer(unsigned uniqueId);
-
-	SessionWrapper GetSession(SOCKET sock) const;
-	SessionWrapper GetSessionByPlayerName(const std::string playerName) const;
-	SessionWrapper GetSessionByUniquePlayerId(unsigned uniqueId) const;
-	void AddSession(boost::shared_ptr<SessionData> sessionData); // new Sessions have no player data
 	void SessionError(SessionWrapper session, int errorCode);
-	void RejectNewConnection(boost::shared_ptr<ConnectData> connData);
 	void CloseSessionDelayed(SessionWrapper session);
-	void RemoveNotEstablishedSessions();
-	void RemoveDisconnectedPlayers();
+	void SendError(SOCKET s, int errorCode);
 
-	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
-	void ResetComputerPlayerList();
-
-	size_t GetCurNumberOfPlayers() const;
 	bool IsPlayerConnected(const std::string &playerName) const;
-	bool IsPlayerConnected(unsigned uniquePlayerId) const;
-	void SetSessionPlayerData(boost::shared_ptr<SessionData> sessionData, boost::shared_ptr<PlayerData> playerData);
-	PlayerDataList GetPlayerDataList() const;
-
-	void AssignPlayerNumbers();
-
-	ServerRecvState &GetState();
-	void SetState(ServerRecvState &newState);
 
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
 
-	const GameData &GetGameData() const;
-	const StartData &GetStartData() const;
-	void SetStartData(const StartData &startData);
 	bool CheckPassword(const std::string &password) const;
 
 	ServerSenderCallback &GetSenderCallback();
@@ -143,45 +94,19 @@ private:
 
 	ConnectQueue m_connectQueue;
 	mutable boost::mutex m_connectQueueMutex;
-	ServerRecvState *m_curState;
 
-	NotificationQueue m_notificationQueue;
-	mutable boost::mutex m_notificationQueueMutex;
-
-	SocketSessionMap m_sessionMap;
-	mutable boost::mutex m_sessionMapMutex;
-
-	PlayerDataList m_computerPlayers;
+	SessionManager m_sessionManager;
 
 	CloseSessionList m_closeSessionList;
 
 	std::auto_ptr<ReceiverHelper> m_receiver;
 	std::auto_ptr<SenderThread> m_sender;
-
-	std::auto_ptr<Game> m_game;
-	GameData m_gameData;
-	StartData m_startData;
-	unsigned m_curGameId;
 	std::auto_ptr<ServerSenderCallback> m_senderCallback;
-
-	std::string m_password;
-
 	GuiInterface &m_gui;
 
+	std::string m_password;
 	ConfigFile *m_playerConfig;
-
-friend class ServerRecvStateInit;
-friend class AbstractServerRecvStateReceiving;
-friend class AbstractServerRecvStateRunning;
-friend class ServerRecvStateStartGame;
-friend class ServerRecvStateStartHand;
-friend class ServerRecvStateStartRound;
-friend class ServerRecvStateWaitPlayerAction;
-friend class ServerRecvStateComputerAction;
-friend class ServerRecvStateShowCardsDelay;
-friend class ServerRecvStateDealCardsDelay;
-friend class ServerRecvStateNextHandDelay;
-friend class ServerRecvStateNextGameDelay;
+	u_int32_t m_curUniquePlayerId;
 };
 
 #endif

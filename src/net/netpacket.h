@@ -40,6 +40,12 @@
 
 struct NetPacketHeader;
 
+class NetPacketInit;
+class NetPacketInitAck;
+class NetPacketGameListNew;
+class NetPacketGameListUpdate;
+class NetPacketCreateGame;
+class NetPacketCreateGameAck;
 class NetPacketJoinGame;
 class NetPacketJoinGameAck;
 class NetPacketPlayerJoined;
@@ -80,6 +86,12 @@ public:
 	u_int16_t GetType() const;
 	u_int16_t GetLen() const;
 
+	virtual const NetPacketInit *ToNetPacketInit() const;
+	virtual const NetPacketInitAck *ToNetPacketInitAck() const;
+	virtual const NetPacketGameListNew *ToNetPacketGameListNew() const;
+	virtual const NetPacketGameListUpdate *ToNetPacketGameListUpdate() const;
+	virtual const NetPacketCreateGame *ToNetPacketCreateGame() const;
+	virtual const NetPacketCreateGameAck *ToNetPacketCreateGameAck() const;
 	virtual const NetPacketJoinGame *ToNetPacketJoinGame() const;
 	virtual const NetPacketJoinGameAck *ToNetPacketJoinGameAck() const;
 	virtual const NetPacketPlayerJoined *ToNetPacketPlayerJoined() const;
@@ -117,7 +129,7 @@ private:
 	const u_int16_t m_maxSize;
 };
 
-class NetPacketJoinGame : public NetPacket
+class NetPacketInit : public NetPacket
 {
 public:
 	struct Data
@@ -126,6 +138,151 @@ public:
 		int versionMinor;
 		std::string playerName;
 		std::string password;
+	};
+
+	NetPacketInit();
+	virtual ~NetPacketInit();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketInit *ToNetPacketInit() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketInitAck : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		sessionId;
+		u_int32_t		playerId;
+	};
+
+	NetPacketInitAck();
+	virtual ~NetPacketInitAck();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketInitAck *ToNetPacketInitAck() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketGameListNew : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		gameId;
+		GameMode		gameMode;
+		std::string		gameName;
+	};
+
+	NetPacketGameListNew();
+	virtual ~NetPacketGameListNew();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketGameListNew *ToNetPacketGameListNew() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketGameListUpdate : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		gameId;
+		GameMode		gameMode;
+	};
+
+	NetPacketGameListUpdate();
+	virtual ~NetPacketGameListUpdate();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketGameListUpdate *ToNetPacketGameListUpdate() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketCreateGame : public NetPacket
+{
+public:
+	struct Data
+	{
+		std::string		gameName;
+		std::string		password;
+		GameData		gameData;
+	};
+
+	NetPacketCreateGame();
+	virtual ~NetPacketCreateGame();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketCreateGame *ToNetPacketCreateGame() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketCreateGameAck : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		gameId;
+	};
+
+	NetPacketCreateGameAck();
+	virtual ~NetPacketCreateGameAck();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketCreateGameAck *ToNetPacketCreateGameAck() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketJoinGame : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		gameId;
+		std::string		password;
 	};
 
 	NetPacketJoinGame();
@@ -148,10 +305,6 @@ class NetPacketJoinGameAck : public NetPacket
 public:
 	struct Data
 	{
-		u_int32_t		sessionId;
-		u_int16_t		yourPlayerUniqueId;
-		PlayerType		ptype;
-		PlayerRights	prights;
 		GameData		gameData;
 	};
 
@@ -175,7 +328,7 @@ class NetPacketPlayerJoined : public NetPacket
 public:
 	struct Data
 	{
-		u_int16_t		playerId;
+		u_int32_t		playerId;
 		PlayerType		ptype;
 		PlayerRights	prights;
 		std::string		playerName;
@@ -201,7 +354,7 @@ class NetPacketPlayerLeft : public NetPacket
 public:
 	struct Data
 	{
-		u_int16_t	playerId;
+		u_int32_t	playerId;
 	};
 
 	NetPacketPlayerLeft();
@@ -224,7 +377,7 @@ class NetPacketKickPlayer : public NetPacket
 public:
 	struct Data
 	{
-		u_int16_t	playerId;
+		u_int32_t	playerId;
 	};
 
 	NetPacketKickPlayer();
@@ -264,7 +417,7 @@ public:
 
 	struct PlayerSlot
 	{
-		unsigned		playerId;
+		u_int32_t	playerId;
 	};
 
 	typedef std::list<PlayerSlot> PlayerSlotList;
@@ -319,7 +472,7 @@ public:
 	struct Data
 	{
 		GameState	gameState;
-		u_int16_t	playerId;
+		u_int32_t	playerId;
 	};
 
 	NetPacketPlayersTurn();
@@ -368,7 +521,7 @@ public:
 	struct Data
 	{
 		GameState		gameState;
-		u_int16_t		playerId;
+		u_int32_t		playerId;
 		PlayerAction	playerAction;
 		u_int32_t		totalPlayerBet;
 		u_int32_t		playerMoney;
@@ -490,7 +643,7 @@ class NetPacketAllInShowCards : public NetPacket
 public:
 	struct PlayerCards
 	{
-		u_int16_t		playerId;
+		u_int32_t		playerId;
 		u_int16_t		cards[2];
 	};
 
@@ -521,7 +674,7 @@ class NetPacketEndOfHandShowCards : public NetPacket
 public:
 	struct PlayerResult
 	{
-		u_int16_t		playerId;
+		u_int32_t		playerId;
 		u_int16_t		cards[2];
 		u_int16_t		bestHandPos[5];
 		u_int32_t		valueOfCards;
@@ -556,7 +709,7 @@ class NetPacketEndOfHandHideCards : public NetPacket
 public:
 	struct Data
 	{
-		u_int16_t		playerId;
+		u_int32_t		playerId;
 		u_int32_t		moneyWon;
 		u_int32_t		playerMoney;
 	};
@@ -581,7 +734,7 @@ class NetPacketEndOfGame : public NetPacket
 public:
 	struct Data
 	{
-		u_int16_t	winnerPlayerId;
+		u_int32_t	winnerPlayerId;
 	};
 
 	NetPacketEndOfGame();
@@ -627,7 +780,7 @@ class NetPacketChatText : public NetPacket
 public:
 	struct Data
 	{
-		u_int16_t		playerId;
+		u_int32_t		playerId;
 		std::string		text;
 	};
 

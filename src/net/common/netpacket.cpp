@@ -27,25 +27,31 @@ using namespace std;
 
 #define ADD_PADDING(x) ((((x) + 3) >> 2) << 2)
 
-#define NET_TYPE_JOIN_GAME						0x0001
-#define NET_TYPE_JOIN_GAME_ACK					0x0002
-#define NET_TYPE_PLAYER_JOINED					0x0003
-#define NET_TYPE_PLAYER_LEFT					0x0004
-#define NET_TYPE_KICK_PLAYER					0x0005
-#define NET_TYPE_START_EVENT					0x0006
-#define NET_TYPE_GAME_START						0x0007
-#define NET_TYPE_HAND_START						0x0008
-#define NET_TYPE_PLAYERS_TURN					0x0009
-#define NET_TYPE_PLAYERS_ACTION					0x000A
-#define NET_TYPE_PLAYERS_ACTION_DONE			0x000B
-#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x000C
-#define NET_TYPE_DEAL_FLOP_CARDS				0x000D
-#define NET_TYPE_DEAL_TURN_CARD					0x000E
-#define NET_TYPE_DEAL_RIVER_CARD				0x000F
-#define NET_TYPE_ALL_IN_SHOW_CARDS				0x0010
-#define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x0011
-#define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x0012
-#define NET_TYPE_END_OF_GAME					0x0013
+#define NET_TYPE_INIT							0x0001
+#define NET_TYPE_INIT_ACK						0x0002
+#define NET_TYPE_GAME_LIST_NEW					0x0003
+#define NET_TYPE_GAME_LIST_UPDATE				0x0004
+#define NET_TYPE_CREATE_GAME					0x0005
+#define NET_TYPE_CREATE_GAME_ACK				0x0006
+#define NET_TYPE_JOIN_GAME						0x0007
+#define NET_TYPE_JOIN_GAME_ACK					0x0008
+#define NET_TYPE_PLAYER_JOINED					0x0009
+#define NET_TYPE_PLAYER_LEFT					0x000A
+#define NET_TYPE_KICK_PLAYER					0x000B
+#define NET_TYPE_START_EVENT					0x000C
+#define NET_TYPE_GAME_START						0x000D
+#define NET_TYPE_HAND_START						0x000E
+#define NET_TYPE_PLAYERS_TURN					0x000F
+#define NET_TYPE_PLAYERS_ACTION					0x0010
+#define NET_TYPE_PLAYERS_ACTION_DONE			0x0011
+#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x0012
+#define NET_TYPE_DEAL_FLOP_CARDS				0x0013
+#define NET_TYPE_DEAL_TURN_CARD					0x0014
+#define NET_TYPE_DEAL_RIVER_CARD				0x0015
+#define NET_TYPE_ALL_IN_SHOW_CARDS				0x0016
+#define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x0017
+#define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x0018
+#define NET_TYPE_END_OF_GAME					0x0019
 
 #define NET_TYPE_SEND_CHAT_TEXT					0x0200
 #define NET_TYPE_CHAT_TEXT						0x0201
@@ -80,7 +86,7 @@ struct GCC_PACKED NetPacketHeader
 	u_int16_t			length;
 };
 
-struct GCC_PACKED NetPacketJoinGameData
+struct GCC_PACKED NetPacketInitData
 {
 	NetPacketHeader		head;
 	u_int16_t			requestedVersionMajor;
@@ -90,12 +96,34 @@ struct GCC_PACKED NetPacketJoinGameData
 	u_int32_t			reserved;
 };
 
-struct GCC_PACKED NetPacketJoinGameAckData
+struct GCC_PACKED NetPacketInitAckData
 {
 	NetPacketHeader		head;
 	u_int32_t			sessionId;
-	u_int16_t			playerId;
-	u_int16_t			playerFlags;
+	u_int32_t			playerId;
+};
+
+struct GCC_PACKED NetPacketGameListNewData
+{
+	NetPacketHeader		head;
+	u_int32_t			gameId;
+	u_int16_t			gameMode;
+	u_int16_t			gameNameLength;
+};
+
+struct GCC_PACKED NetPacketGameListUpdateData
+{
+	NetPacketHeader		head;
+	u_int32_t			gameId;
+	u_int16_t			gameMode;
+	u_int16_t			reserved;
+};
+
+struct GCC_PACKED NetPacketCreateGameData
+{
+	NetPacketHeader		head;
+	u_int16_t			passwordLength;
+	u_int16_t			gameNameLength;
 	u_int16_t			maxNumberOfPlayers;
 	u_int16_t			smallBlind;
 	u_int16_t			handsBeforeRaise;
@@ -105,34 +133,50 @@ struct GCC_PACKED NetPacketJoinGameAckData
 	u_int32_t			startMoney;
 };
 
-struct GCC_PACKED NetPacketJoinGameErrorData
+struct GCC_PACKED NetPacketCreateGameAckData
 {
 	NetPacketHeader		head;
-	u_int16_t			errorReason;
+	u_int32_t			gameId;
+};
+
+struct GCC_PACKED NetPacketJoinGameData
+{
+	NetPacketHeader		head;
+	u_int32_t			gameId;
+	u_int16_t			passwordLength;
 	u_int16_t			reserved;
+};
+
+struct GCC_PACKED NetPacketJoinGameAckData
+{
+	NetPacketHeader		head;
+	u_int16_t			maxNumberOfPlayers;
+	u_int16_t			smallBlind;
+	u_int16_t			handsBeforeRaise;
+	u_int16_t			proposedGuiSpeed;
+	u_int16_t			playerActionTimeout;
+	u_int16_t			reserved;
+	u_int32_t			startMoney;
 };
 
 struct GCC_PACKED NetPacketPlayerJoinedData
 {
 	NetPacketHeader		head;
-	u_int16_t			playerId;
+	u_int32_t			playerId;
 	u_int16_t			playerFlags;
 	u_int16_t			playerNameLength;
-	u_int16_t			reserved;
 };
 
 struct GCC_PACKED NetPacketPlayerLeftData
 {
 	NetPacketHeader		head;
-	u_int16_t			playerId;
-	u_int16_t			reserved;
+	u_int32_t			playerId;
 };
 
 struct GCC_PACKED NetPacketKickPlayerData
 {
 	NetPacketHeader		head;
-	u_int16_t			playerId;
-	u_int16_t			reserved;
+	u_int32_t			playerId;
 };
 
 struct GCC_PACKED NetPacketStartEventData
@@ -143,13 +187,14 @@ struct GCC_PACKED NetPacketStartEventData
 struct GCC_PACKED NetPacketGameStartData
 {
 	NetPacketHeader		head;
-	u_int16_t			startDealerPlayerId;
+	u_int32_t			startDealerPlayerId;
 	u_int16_t			numberOfPlayers;
+	u_int16_t			reserved;
 };
 
 struct GCC_PACKED PlayerSlotData
 {
-	u_int16_t			playerId;
+	u_int32_t			playerId;
 };
 
 struct GCC_PACKED NetPacketHandStartData
@@ -162,8 +207,9 @@ struct GCC_PACKED NetPacketHandStartData
 struct GCC_PACKED NetPacketPlayersTurnData
 {
 	NetPacketHeader		head;
+	u_int32_t			playerId;
 	u_int16_t			gameState;
-	u_int16_t			playerId;
+	u_int16_t			reserved;
 };
 
 struct GCC_PACKED NetPacketPlayersActionData
@@ -177,10 +223,9 @@ struct GCC_PACKED NetPacketPlayersActionData
 struct GCC_PACKED NetPacketPlayersActionDoneData
 {
 	NetPacketHeader		head;
+	u_int32_t			playerId;
 	u_int16_t			gameState;
-	u_int16_t			playerId;
 	u_int16_t			playerAction;
-	u_int16_t			reserved;
 	u_int32_t			totalPlayerBet;
 	u_int32_t			playerMoney;
 };
@@ -227,10 +272,9 @@ struct GCC_PACKED NetPacketAllInShowCardsData
 
 struct GCC_PACKED PlayerCardsData
 {
-	u_int16_t			playerId;
+	u_int32_t			playerId;
 	u_int16_t			card1;
 	u_int16_t			card2;
-	u_int16_t			reserved;
 };
 
 struct GCC_PACKED NetPacketEndOfHandShowCardsData
@@ -242,7 +286,7 @@ struct GCC_PACKED NetPacketEndOfHandShowCardsData
 
 struct GCC_PACKED PlayerResultData
 {
-	u_int16_t			playerId;
+	u_int32_t			playerId;
 	u_int16_t			card1;
 	u_int16_t			card2;
 	u_int16_t			bestHandPos1;
@@ -250,6 +294,7 @@ struct GCC_PACKED PlayerResultData
 	u_int16_t			bestHandPos3;
 	u_int16_t			bestHandPos4;
 	u_int16_t			bestHandPos5;
+	u_int16_t			reserved;
 	u_int32_t			valueOfCards;
 	u_int32_t			moneyWon;
 	u_int32_t			playerMoney;
@@ -258,8 +303,7 @@ struct GCC_PACKED PlayerResultData
 struct GCC_PACKED NetPacketEndOfHandHideCardsData
 {
 	NetPacketHeader		head;
-	u_int16_t			playerId;
-	u_int16_t			reserved;
+	u_int32_t			playerId;
 	u_int32_t			moneyWon;
 	u_int32_t			playerMoney;
 };
@@ -267,8 +311,7 @@ struct GCC_PACKED NetPacketEndOfHandHideCardsData
 struct GCC_PACKED NetPacketEndOfGameData
 {
 	NetPacketHeader		head;
-	u_int16_t			winnerPlayerId;
-	u_int16_t			reserved;
+	u_int32_t			winnerPlayerId;
 };
 
 struct GCC_PACKED NetPacketSendChatTextData
@@ -281,9 +324,9 @@ struct GCC_PACKED NetPacketSendChatTextData
 struct GCC_PACKED NetPacketChatTextData
 {
 	NetPacketHeader		head;
+	u_int32_t			playerId;
 	u_int16_t			textLength;
-	u_int16_t			playerId;
-	char				text[1];
+	u_int16_t			reserved;
 };
 
 struct GCC_PACKED NetPacketErrorData
@@ -326,6 +369,24 @@ NetPacket::Create(char *data, unsigned &dataSize)
 		{
 			switch(ntohs(tmpHeader->type))
 			{
+				case NET_TYPE_INIT:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketInit);
+					break;
+				case NET_TYPE_INIT_ACK:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketInitAck);
+					break;
+				case NET_TYPE_GAME_LIST_NEW:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameListNew);
+					break;
+				case NET_TYPE_GAME_LIST_UPDATE:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameListUpdate);
+					break;
+				case NET_TYPE_CREATE_GAME:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketCreateGame);
+					break;
+				case NET_TYPE_CREATE_GAME_ACK:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketCreateGameAck);
+					break;
 				case NET_TYPE_JOIN_GAME:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketJoinGame);
 					break;
@@ -474,6 +535,42 @@ u_int16_t
 NetPacket::GetLen() const
 {
 	return ntohs(GetRawData()->length);
+}
+
+const NetPacketInit *
+NetPacket::ToNetPacketInit() const
+{
+	return NULL;
+}
+
+const NetPacketInitAck *
+NetPacket::ToNetPacketInitAck() const
+{
+	return NULL;
+}
+
+const NetPacketGameListNew *
+NetPacket::ToNetPacketGameListNew() const
+{
+	return NULL;
+}
+
+const NetPacketGameListUpdate *
+NetPacket::ToNetPacketGameListUpdate() const
+{
+	return NULL;
+}
+
+const NetPacketCreateGame *
+NetPacket::ToNetPacketCreateGame() const
+{
+	return NULL;
+}
+
+const NetPacketCreateGameAck *
+NetPacket::ToNetPacketCreateGameAck() const
+{
+	return NULL;
 }
 
 const NetPacketJoinGame *
@@ -657,12 +754,523 @@ NetPacket::Check(const NetPacketHeader *data) const
 
 //-----------------------------------------------------------------------------
 
+NetPacketInit::NetPacketInit()
+: NetPacket(NET_TYPE_INIT, sizeof(NetPacketInitData), MAX_PACKET_SIZE)
+{
+	NetPacketInitData *tmpData = (NetPacketInitData *)GetRawData();
+	tmpData->requestedVersionMajor = htons(NET_VERSION_MAJOR);
+	tmpData->requestedVersionMinor = htons(NET_VERSION_MINOR);
+}
+
+NetPacketInit::~NetPacketInit()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketInit::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketInit);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketInit::SetData(const NetPacketInit::Data &inData)
+{
+	u_int16_t playerNameLen = (u_int16_t)inData.playerName.length();
+	u_int16_t passwordLen = (u_int16_t)inData.password.length();
+
+	// Some basic checks, so we don't use up too much memory.
+	// The constructed packet will also be checked.
+	if (!playerNameLen || playerNameLen > MAX_NAME_SIZE)
+		throw NetException(ERR_NET_INVALID_PLAYER_NAME, 0);
+	if (passwordLen > MAX_PASSWORD_SIZE)
+		throw NetException(ERR_NET_INVALID_PASSWORD_STR, 0);
+
+	// Resize the packet so that the data fits in.
+	Resize((u_int16_t)
+		(sizeof(NetPacketInitData) + ADD_PADDING(playerNameLen) + ADD_PADDING(passwordLen)));
+
+	NetPacketInitData *tmpData = (NetPacketInitData *)GetRawData();
+
+	// Set the data.
+	tmpData->passwordLength = htons(passwordLen);
+	tmpData->playerNameLength = htons(playerNameLen);
+	char *passwordPtr = (char *)tmpData + sizeof(NetPacketInitData);
+	memcpy(passwordPtr, inData.password.c_str(), passwordLen);
+	memcpy(passwordPtr + ADD_PADDING(passwordLen), inData.playerName.c_str(), playerNameLen);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketInit::GetData(NetPacketInit::Data &outData) const
+{
+	// We assume that the data is valid. Validity has already been checked.
+	NetPacketInitData *tmpData = (NetPacketInitData *)GetRawData();
+
+	outData.versionMajor = ntohs(tmpData->requestedVersionMajor);
+	outData.versionMinor = ntohs(tmpData->requestedVersionMinor);
+
+	u_int16_t passwordLen = ntohs(tmpData->passwordLength);
+	char *passwordPtr = (char *)tmpData + sizeof(NetPacketInitData);
+	outData.password = string(passwordPtr, passwordLen);
+	outData.playerName = string(passwordPtr + ADD_PADDING(passwordLen), ntohs(tmpData->playerNameLength));
+}
+
+const NetPacketInit *
+NetPacketInit::ToNetPacketInit() const
+{
+	return this;
+}
+
+void
+NetPacketInit::InternalCheck(const NetPacketHeader* data) const
+{
+	u_int16_t dataLen = ntohs(data->length);
+	NetPacketInitData *tmpData = (NetPacketInitData *)data;
+	int passwordLength = ntohs(tmpData->passwordLength);
+	int playerNameLength = ntohs(tmpData->playerNameLength);
+	// Generous checking of dynamic packet size -
+	// larger packets are allowed.
+	// This is because the version number is in this packet,
+	// and later versions might provide larger packets.
+	if (dataLen <
+		sizeof(NetPacketInitData)
+		+ ADD_PADDING(passwordLength)
+		+ ADD_PADDING(playerNameLength))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check string sizes.
+	if (passwordLength > MAX_PASSWORD_SIZE
+		|| !playerNameLength
+		|| playerNameLength > MAX_NAME_SIZE)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check name string.
+	char *namePtr = (char *)tmpData + sizeof(NetPacketInitData) + ADD_PADDING(passwordLength);
+	if (namePtr[0] == 0)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketInitAck::NetPacketInitAck()
+: NetPacket(NET_TYPE_INIT_ACK, sizeof(NetPacketInitAckData), sizeof(NetPacketInitAckData))
+{
+}
+
+NetPacketInitAck::~NetPacketInitAck()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketInitAck::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketInitAck);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketInitAck::SetData(const NetPacketInitAck::Data &inData)
+{
+	NetPacketInitAckData *tmpData = (NetPacketInitAckData *)GetRawData();
+
+	tmpData->sessionId				= htonl(inData.sessionId);
+	tmpData->playerId				= htonl(inData.playerId);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketInitAck::GetData(NetPacketInitAck::Data &outData) const
+{
+	NetPacketInitAckData *tmpData = (NetPacketInitAckData *)GetRawData();
+
+	outData.sessionId				= ntohl(tmpData->sessionId);
+	outData.playerId				= ntohl(tmpData->playerId);
+}
+
+const NetPacketInitAck *
+NetPacketInitAck::ToNetPacketInitAck() const
+{
+	return this;
+}
+
+void
+NetPacketInitAck::InternalCheck(const NetPacketHeader* data) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketGameListNew::NetPacketGameListNew()
+: NetPacket(NET_TYPE_GAME_LIST_NEW, sizeof(NetPacketGameListNewData), MAX_PACKET_SIZE)
+{
+}
+
+NetPacketGameListNew::~NetPacketGameListNew()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketGameListNew::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketGameListNew);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketGameListNew::SetData(const NetPacketGameListNew::Data &inData)
+{
+	u_int16_t gameNameLen = (u_int16_t)inData.gameName.length();
+
+	// Some basic checks, so we don't use up too much memory.
+	// The constructed packet will also be checked.
+	if (!gameNameLen || gameNameLen > MAX_NAME_SIZE)
+		throw NetException(ERR_NET_INVALID_GAME_NAME, 0);
+
+	// Resize the packet so that the data fits in.
+	Resize((u_int16_t)
+		(sizeof(NetPacketGameListNewData) + ADD_PADDING(gameNameLen)));
+
+	NetPacketGameListNewData *tmpData = (NetPacketGameListNewData *)GetRawData();
+
+	// Set the data.
+	tmpData->gameId			= htonl(inData.gameId);
+	tmpData->gameMode		= htons(inData.gameMode);
+	tmpData->gameNameLength = htons(gameNameLen);
+	char *gameNamePtr = (char *)tmpData + sizeof(NetPacketGameListNewData);
+	memcpy(gameNamePtr, inData.gameName.c_str(), gameNameLen);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketGameListNew::GetData(NetPacketGameListNew::Data &outData) const
+{
+	// We assume that the data is valid. Validity has already been checked.
+	NetPacketGameListNewData *tmpData = (NetPacketGameListNewData *)GetRawData();
+
+	outData.gameId			= ntohl(tmpData->gameId);
+	outData.gameMode		= static_cast<GameMode>(ntohs(tmpData->gameMode));
+	u_int16_t gameNameLen	= ntohs(tmpData->gameNameLength);
+	char *gameNamePtr = (char *)tmpData + sizeof(NetPacketGameListNewData);
+	outData.gameName = string(gameNamePtr, gameNameLen);
+}
+
+const NetPacketGameListNew *
+NetPacketGameListNew::ToNetPacketGameListNew() const
+{
+	return this;
+}
+
+void
+NetPacketGameListNew::InternalCheck(const NetPacketHeader* data) const
+{
+	u_int16_t dataLen = ntohs(data->length);
+	NetPacketGameListNewData *tmpData = (NetPacketGameListNewData *)data;
+	int gameNameLength = ntohs(tmpData->gameNameLength);
+	// Exact checking of dynamic packet size.
+	if (dataLen !=
+		sizeof(NetPacketGameListNewData)
+		+ ADD_PADDING(gameNameLength))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check string size.
+	if (!gameNameLength
+		|| gameNameLength > MAX_NAME_SIZE)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check name string.
+	char *namePtr = (char *)tmpData + sizeof(NetPacketGameListNewData);
+	if (namePtr[0] == 0)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketGameListUpdate::NetPacketGameListUpdate()
+: NetPacket(NET_TYPE_GAME_LIST_UPDATE, sizeof(NetPacketGameListUpdateData), sizeof(NetPacketGameListUpdateData))
+{
+}
+
+NetPacketGameListUpdate::~NetPacketGameListUpdate()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketGameListUpdate::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketGameListUpdate);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketGameListUpdate::SetData(const NetPacketGameListUpdate::Data &inData)
+{
+	NetPacketGameListUpdateData *tmpData = (NetPacketGameListUpdateData *)GetRawData();
+
+	// Set the data.
+	tmpData->gameId			= htonl(inData.gameId);
+	tmpData->gameMode		= htons(inData.gameMode);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketGameListUpdate::GetData(NetPacketGameListUpdate::Data &outData) const
+{
+	// We assume that the data is valid. Validity has already been checked.
+	NetPacketGameListUpdateData *tmpData = (NetPacketGameListUpdateData *)GetRawData();
+
+	outData.gameId			= ntohl(tmpData->gameId);
+	outData.gameMode		= static_cast<GameMode>(ntohs(tmpData->gameMode));
+}
+
+const NetPacketGameListUpdate *
+NetPacketGameListUpdate::ToNetPacketGameListUpdate() const
+{
+	return this;
+}
+
+void
+NetPacketGameListUpdate::InternalCheck(const NetPacketHeader* data) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketCreateGame::NetPacketCreateGame()
+: NetPacket(NET_TYPE_CREATE_GAME, sizeof(NetPacketCreateGameData), MAX_PACKET_SIZE)
+{
+}
+
+NetPacketCreateGame::~NetPacketCreateGame()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketCreateGame::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketCreateGame);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketCreateGame::SetData(const NetPacketCreateGame::Data &inData)
+{
+	u_int16_t gameNameLen = (u_int16_t)inData.gameName.length();
+	u_int16_t passwordLen = (u_int16_t)inData.password.length();
+
+	// Some basic checks, so we don't use up too much memory.
+	// The constructed packet will also be checked.
+	if (!gameNameLen || gameNameLen > MAX_NAME_SIZE)
+		throw NetException(ERR_NET_INVALID_PLAYER_NAME, 0);
+	if (passwordLen > MAX_PASSWORD_SIZE)
+		throw NetException(ERR_NET_INVALID_PASSWORD_STR, 0);
+
+	// Resize the packet so that the data fits in.
+	Resize((u_int16_t)
+		(sizeof(NetPacketCreateGameData) + ADD_PADDING(gameNameLen) + ADD_PADDING(passwordLen)));
+
+	NetPacketCreateGameData *tmpData = (NetPacketCreateGameData *)GetRawData();
+
+	// Set the data.
+	tmpData->passwordLength			= htons(passwordLen);
+	tmpData->gameNameLength			= htons(gameNameLen);
+	tmpData->maxNumberOfPlayers		= htons(inData.gameData.maxNumberOfPlayers);
+	tmpData->smallBlind				= htons(inData.gameData.smallBlind);
+	tmpData->handsBeforeRaise		= htons(inData.gameData.handsBeforeRaise);
+	tmpData->proposedGuiSpeed		= htons(inData.gameData.guiSpeed);
+	tmpData->playerActionTimeout	= htons(inData.gameData.playerActionTimeoutSec);
+	tmpData->startMoney				= htonl(inData.gameData.startMoney);
+
+	char *passwordPtr = (char *)tmpData + sizeof(NetPacketCreateGameData);
+	memcpy(passwordPtr, inData.password.c_str(), passwordLen);
+	memcpy(passwordPtr + ADD_PADDING(passwordLen), inData.gameName.c_str(), gameNameLen);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketCreateGame::GetData(NetPacketCreateGame::Data &outData) const
+{
+	// We assume that the data is valid. Validity has already been checked.
+	NetPacketCreateGameData *tmpData = (NetPacketCreateGameData *)GetRawData();
+
+	outData.gameData.maxNumberOfPlayers		= ntohs(tmpData->maxNumberOfPlayers);
+	outData.gameData.smallBlind				= ntohs(tmpData->smallBlind);
+	outData.gameData.handsBeforeRaise		= ntohs(tmpData->handsBeforeRaise);
+	outData.gameData.guiSpeed				= ntohs(tmpData->proposedGuiSpeed);
+	outData.gameData.playerActionTimeoutSec	= ntohs(tmpData->playerActionTimeout);
+	outData.gameData.startMoney				= ntohl(tmpData->startMoney);
+
+	u_int16_t passwordLen = ntohs(tmpData->passwordLength);
+	char *passwordPtr = (char *)tmpData + sizeof(NetPacketCreateGameData);
+	outData.password = string(passwordPtr, passwordLen);
+	outData.gameName = string(passwordPtr + ADD_PADDING(passwordLen), ntohs(tmpData->gameNameLength));
+}
+
+const NetPacketCreateGame *
+NetPacketCreateGame::ToNetPacketCreateGame() const
+{
+	return this;
+}
+
+void
+NetPacketCreateGame::InternalCheck(const NetPacketHeader* data) const
+{
+	u_int16_t dataLen = ntohs(data->length);
+	NetPacketCreateGameData *tmpData = (NetPacketCreateGameData *)data;
+	int passwordLength = ntohs(tmpData->passwordLength);
+	int gameNameLength = ntohs(tmpData->gameNameLength);
+	// Exact checking of dynamic packet size.
+	if (dataLen <
+		sizeof(NetPacketCreateGameData)
+		+ ADD_PADDING(passwordLength)
+		+ ADD_PADDING(gameNameLength))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check string sizes.
+	if (passwordLength > MAX_PASSWORD_SIZE
+		|| !gameNameLength
+		|| gameNameLength > MAX_NAME_SIZE)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check name string.
+	char *namePtr = (char *)tmpData + sizeof(NetPacketCreateGameData) + ADD_PADDING(passwordLength);
+	if (namePtr[0] == 0)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Semantic checks
+	int maxNumPlayers = ntohs(tmpData->maxNumberOfPlayers);
+	int proposedGuiSpeed = ntohs(tmpData->proposedGuiSpeed);
+	if (maxNumPlayers < MIN_NUMBER_OF_PLAYERS
+		|| maxNumPlayers > MAX_NUMBER_OF_PLAYERS
+		|| !ntohs(tmpData->smallBlind)
+		|| !ntohs(tmpData->handsBeforeRaise)
+		|| proposedGuiSpeed < MIN_GUI_SPEED
+		|| proposedGuiSpeed > MAX_GUI_SPEED
+		|| !ntohl(tmpData->startMoney))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketCreateGameAck::NetPacketCreateGameAck()
+: NetPacket(NET_TYPE_CREATE_GAME_ACK, sizeof(NetPacketCreateGameAckData), sizeof(NetPacketCreateGameAckData))
+{
+}
+
+NetPacketCreateGameAck::~NetPacketCreateGameAck()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketCreateGameAck::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketCreateGameAck);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketCreateGameAck::SetData(const NetPacketCreateGameAck::Data &inData)
+{
+	NetPacketCreateGameAckData *tmpData = (NetPacketCreateGameAckData *)GetRawData();
+
+	tmpData->gameId					= htonl(inData.gameId);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketCreateGameAck::GetData(NetPacketCreateGameAck::Data &outData) const
+{
+	NetPacketCreateGameAckData *tmpData = (NetPacketCreateGameAckData *)GetRawData();
+
+	outData.gameId					= ntohl(tmpData->gameId);
+}
+
+const NetPacketCreateGameAck *
+NetPacketCreateGameAck::ToNetPacketCreateGameAck() const
+{
+	return this;
+}
+
+void
+NetPacketCreateGameAck::InternalCheck(const NetPacketHeader* data) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
 NetPacketJoinGame::NetPacketJoinGame()
 : NetPacket(NET_TYPE_JOIN_GAME, sizeof(NetPacketJoinGameData), MAX_PACKET_SIZE)
 {
-	NetPacketJoinGameData *tmpData = (NetPacketJoinGameData *)GetRawData();
-	tmpData->requestedVersionMajor = htons(NET_VERSION_MAJOR);
-	tmpData->requestedVersionMinor = htons(NET_VERSION_MINOR);
 }
 
 NetPacketJoinGame::~NetPacketJoinGame()
@@ -686,28 +1294,25 @@ NetPacketJoinGame::Clone() const
 void
 NetPacketJoinGame::SetData(const NetPacketJoinGame::Data &inData)
 {
-	u_int16_t playerNameLen = (u_int16_t)inData.playerName.length();
 	u_int16_t passwordLen = (u_int16_t)inData.password.length();
 
 	// Some basic checks, so we don't use up too much memory.
 	// The constructed packet will also be checked.
-	if (!playerNameLen || playerNameLen > MAX_NAME_SIZE)
-		throw NetException(ERR_NET_INVALID_PLAYER_NAME, 0);
 	if (passwordLen > MAX_PASSWORD_SIZE)
 		throw NetException(ERR_NET_INVALID_PASSWORD_STR, 0);
 
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
-		(sizeof(NetPacketJoinGameData) + ADD_PADDING(playerNameLen) + ADD_PADDING(passwordLen)));
+		(sizeof(NetPacketJoinGameData) + ADD_PADDING(passwordLen)));
 
 	NetPacketJoinGameData *tmpData = (NetPacketJoinGameData *)GetRawData();
 
 	// Set the data.
-	tmpData->passwordLength = htons(passwordLen);
-	tmpData->playerNameLength = htons(playerNameLen);
+	tmpData->gameId					= htonl(inData.gameId);
+	tmpData->passwordLength			= htons(passwordLen);
+
 	char *passwordPtr = (char *)tmpData + sizeof(NetPacketJoinGameData);
 	memcpy(passwordPtr, inData.password.c_str(), passwordLen);
-	memcpy(passwordPtr + ADD_PADDING(passwordLen), inData.playerName.c_str(), playerNameLen);
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -719,13 +1324,11 @@ NetPacketJoinGame::GetData(NetPacketJoinGame::Data &outData) const
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketJoinGameData *tmpData = (NetPacketJoinGameData *)GetRawData();
 
-	outData.versionMajor = ntohs(tmpData->requestedVersionMajor);
-	outData.versionMinor = ntohs(tmpData->requestedVersionMinor);
+	outData.gameId					= ntohl(tmpData->gameId);
 
 	u_int16_t passwordLen = ntohs(tmpData->passwordLength);
 	char *passwordPtr = (char *)tmpData + sizeof(NetPacketJoinGameData);
 	outData.password = string(passwordPtr, passwordLen);
-	outData.playerName = string(passwordPtr + ADD_PADDING(passwordLen), ntohs(tmpData->playerNameLength));
 }
 
 const NetPacketJoinGame *
@@ -740,28 +1343,15 @@ NetPacketJoinGame::InternalCheck(const NetPacketHeader* data) const
 	u_int16_t dataLen = ntohs(data->length);
 	NetPacketJoinGameData *tmpData = (NetPacketJoinGameData *)data;
 	int passwordLength = ntohs(tmpData->passwordLength);
-	int playerNameLength = ntohs(tmpData->playerNameLength);
-	// Generous checking of dynamic packet size -
-	// larger packets are allowed.
-	// This is because the version number is in this packet,
-	// and later versions might provide larger packets.
+	// Exact checking of dynamic packet size.
 	if (dataLen <
 		sizeof(NetPacketJoinGameData)
-		+ ADD_PADDING(passwordLength)
-		+ ADD_PADDING(playerNameLength))
+		+ ADD_PADDING(passwordLength))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
-	// Check string sizes.
-	if (passwordLength > MAX_PASSWORD_SIZE
-		|| !playerNameLength
-		|| playerNameLength > MAX_NAME_SIZE)
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
-	// Check name string.
-	char *namePtr = (char *)tmpData + sizeof(NetPacketJoinGameData) + ADD_PADDING(passwordLength);
-	if (namePtr[0] == 0)
+	// Check string size.
+	if (passwordLength > MAX_PASSWORD_SIZE)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
@@ -797,15 +1387,7 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 {
 	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)GetRawData();
 
-	u_int16_t tmpPlayerFlags = 0;
-	if (inData.ptype == PLAYER_TYPE_HUMAN)
-		tmpPlayerFlags |= NET_PLAYER_FLAG_HUMAN;
-	if (inData.prights == PLAYER_RIGHTS_ADMIN)
-		tmpPlayerFlags |= NET_PLAYER_FLAG_ADMIN;
-
-	tmpData->sessionId				= htonl(inData.sessionId);
-	tmpData->playerId				= htons(inData.yourPlayerUniqueId);
-	tmpData->playerFlags			= htons(tmpPlayerFlags);
+	// Set the data.
 	tmpData->maxNumberOfPlayers		= htons(inData.gameData.maxNumberOfPlayers);
 	tmpData->smallBlind				= htons(inData.gameData.smallBlind);
 	tmpData->handsBeforeRaise		= htons(inData.gameData.handsBeforeRaise);
@@ -820,12 +1402,9 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 void
 NetPacketJoinGameAck::GetData(NetPacketJoinGameAck::Data &outData) const
 {
+	// We assume that the data is valid. Validity has already been checked.
 	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)GetRawData();
 
-	outData.sessionId						= ntohl(tmpData->sessionId);
-	outData.yourPlayerUniqueId				= ntohs(tmpData->playerId);
-	outData.ptype							= (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_HUMAN) ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
-	outData.prights							= (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_ADMIN) ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL;
 	outData.gameData.maxNumberOfPlayers		= ntohs(tmpData->maxNumberOfPlayers);
 	outData.gameData.smallBlind				= ntohs(tmpData->smallBlind);
 	outData.gameData.handsBeforeRaise		= ntohs(tmpData->handsBeforeRaise);
@@ -843,6 +1422,7 @@ NetPacketJoinGameAck::ToNetPacketJoinGameAck() const
 void
 NetPacketJoinGameAck::InternalCheck(const NetPacketHeader* data) const
 {
+	u_int16_t dataLen = ntohs(data->length);
 	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)data;
 	// Semantic checks
 	int maxNumPlayers = ntohs(tmpData->maxNumberOfPlayers);
@@ -905,9 +1485,9 @@ NetPacketPlayerJoined::SetData(const NetPacketPlayerJoined::Data &inData)
 		tmpPlayerFlags |= NET_PLAYER_FLAG_ADMIN;
 
 	// Set the data.
-	tmpData->playerFlags = htons(tmpPlayerFlags);
-	tmpData->playerId = htons(inData.playerId);
-	tmpData->playerNameLength = htons(playerNameLen);
+	tmpData->playerId			= htonl(inData.playerId);
+	tmpData->playerFlags		= htons(tmpPlayerFlags);
+	tmpData->playerNameLength	= htons(playerNameLen);
 	char *namePtr = (char *)tmpData + sizeof(NetPacketPlayerJoinedData);
 	memcpy(namePtr, inData.playerName.c_str(), playerNameLen);
 
@@ -921,9 +1501,9 @@ NetPacketPlayerJoined::GetData(NetPacketPlayerJoined::Data &outData) const
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketPlayerJoinedData *tmpData = (NetPacketPlayerJoinedData *)GetRawData();
 
+	outData.playerId = ntohl(tmpData->playerId);
 	outData.ptype = (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_HUMAN) ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
 	outData.prights = (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_ADMIN) ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL;
-	outData.playerId = ntohs(tmpData->playerId);
 	char *namePtr = (char *)tmpData + sizeof(NetPacketPlayerJoinedData);
 	outData.playerName = string(namePtr, ntohs(tmpData->playerNameLength));
 }
@@ -986,7 +1566,7 @@ NetPacketPlayerLeft::SetData(const NetPacketPlayerLeft::Data &inData)
 	NetPacketPlayerLeftData *tmpData = (NetPacketPlayerLeftData *)GetRawData();
 
 	// Set the data.
-	tmpData->playerId = htons(inData.playerId);
+	tmpData->playerId = htonl(inData.playerId);
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -998,7 +1578,7 @@ NetPacketPlayerLeft::GetData(NetPacketPlayerLeft::Data &outData) const
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketPlayerLeftData *tmpData = (NetPacketPlayerLeftData *)GetRawData();
 
-	outData.playerId = ntohs(tmpData->playerId);
+	outData.playerId = ntohl(tmpData->playerId);
 }
 
 const NetPacketPlayerLeft *
@@ -1044,7 +1624,7 @@ NetPacketKickPlayer::SetData(const NetPacketKickPlayer::Data &inData)
 	NetPacketKickPlayerData *tmpData = (NetPacketKickPlayerData *)GetRawData();
 
 	// Set the data.
-	tmpData->playerId = htons(inData.playerId);
+	tmpData->playerId = htonl(inData.playerId);
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -1056,7 +1636,7 @@ NetPacketKickPlayer::GetData(NetPacketKickPlayer::Data &outData) const
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketKickPlayerData *tmpData = (NetPacketKickPlayerData *)GetRawData();
 
-	outData.playerId = ntohs(tmpData->playerId);
+	outData.playerId = ntohl(tmpData->playerId);
 }
 
 const NetPacketKickPlayer *
@@ -1148,7 +1728,7 @@ NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
 
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
 
-	tmpData->startDealerPlayerId	= htons(inData.startData.startDealerPlayerId);
+	tmpData->startDealerPlayerId	= htonl(inData.startData.startDealerPlayerId);
 	tmpData->numberOfPlayers		= htons(numPlayers);
 
 	PlayerSlotList::const_iterator i = inData.playerSlots.begin();
@@ -1159,7 +1739,7 @@ NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
 		(PlayerSlotData *)((char *)tmpData + sizeof(NetPacketGameStartData));
 	while (i != end)
 	{
-		curPlayerSlotData->playerId		= htons((*i).playerId);
+		curPlayerSlotData->playerId		= htonl((*i).playerId);
 		++curPlayerSlotData;
 		++i;
 	}
@@ -1173,7 +1753,7 @@ NetPacketGameStart::GetData(NetPacketGameStart::Data &outData) const
 {
 	NetPacketGameStartData *tmpData = (NetPacketGameStartData *)GetRawData();
 
-	outData.startData.startDealerPlayerId	= ntohs(tmpData->startDealerPlayerId);
+	outData.startData.startDealerPlayerId	= ntohl(tmpData->startDealerPlayerId);
 	u_int16_t numPlayers = ntohs(tmpData->numberOfPlayers);
 	outData.startData.numberOfPlayers = numPlayers;
 
@@ -1184,7 +1764,7 @@ NetPacketGameStart::GetData(NetPacketGameStart::Data &outData) const
 	for (int i = 0; i < numPlayers; i++)
 	{
 		PlayerSlot tmpPlayerSlot;
-		tmpPlayerSlot.playerId	= ntohs(curPlayerSlotData->playerId);
+		tmpPlayerSlot.playerId	= ntohl(curPlayerSlotData->playerId);
 
 		outData.playerSlots.push_back(tmpPlayerSlot);
 		++curPlayerSlotData;
@@ -1206,7 +1786,7 @@ NetPacketGameStart::InternalCheck(const NetPacketHeader* data) const
 	// Check exact packet size.
 	if (dataLen !=
 		sizeof(NetPacketGameStartData)
-		+ ADD_PADDING(numPlayers * sizeof(PlayerSlotData)))
+		+ numPlayers * sizeof(PlayerSlotData))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
@@ -1305,8 +1885,8 @@ NetPacketPlayersTurn::SetData(const NetPacketPlayersTurn::Data &inData)
 {
 	NetPacketPlayersTurnData *tmpData = (NetPacketPlayersTurnData *)GetRawData();
 
+	tmpData->playerId	= htonl(inData.playerId);
 	tmpData->gameState	= htons(inData.gameState);
-	tmpData->playerId	= htons(inData.playerId);
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -1317,8 +1897,8 @@ NetPacketPlayersTurn::GetData(NetPacketPlayersTurn::Data &outData) const
 {
 	NetPacketPlayersTurnData *tmpData = (NetPacketPlayersTurnData *)GetRawData();
 
+	outData.playerId	= ntohl(tmpData->playerId);
 	outData.gameState	= static_cast<GameState>(ntohs(tmpData->gameState));
-	outData.playerId	= ntohs(tmpData->playerId);
 }
 
 const NetPacketPlayersTurn *
@@ -1439,8 +2019,8 @@ NetPacketPlayersActionDone::SetData(const NetPacketPlayersActionDone::Data &inDa
 {
 	NetPacketPlayersActionDoneData *tmpData = (NetPacketPlayersActionDoneData *)GetRawData();
 
+	tmpData->playerId		= htonl(inData.playerId);
 	tmpData->gameState		= htons(inData.gameState);
-	tmpData->playerId		= htons(inData.playerId);
 	tmpData->playerAction	= htons(inData.playerAction);
 	tmpData->totalPlayerBet	= htonl(inData.totalPlayerBet);
 	tmpData->playerMoney	= htonl(inData.playerMoney);
@@ -1454,8 +2034,8 @@ NetPacketPlayersActionDone::GetData(NetPacketPlayersActionDone::Data &outData) c
 {
 	NetPacketPlayersActionDoneData *tmpData = (NetPacketPlayersActionDoneData *)GetRawData();
 
+	outData.playerId		= ntohl(tmpData->playerId);
 	outData.gameState		= static_cast<GameState>(ntohs(tmpData->gameState));
-	outData.playerId		= ntohs(tmpData->playerId);
 	outData.playerAction	= static_cast<PlayerAction>(ntohs(tmpData->playerAction));
 	outData.totalPlayerBet	= ntohl(tmpData->totalPlayerBet);
 	outData.playerMoney		= ntohl(tmpData->playerMoney);
@@ -1795,7 +2375,7 @@ NetPacketAllInShowCards::SetData(const NetPacketAllInShowCards::Data &inData)
 		(PlayerCardsData *)((char *)tmpData + sizeof(NetPacketAllInShowCardsData));
 	while (i != end)
 	{
-		curPlayerCardsData->playerId		= htons((*i).playerId);
+		curPlayerCardsData->playerId		= htonl((*i).playerId);
 		curPlayerCardsData->card1			= htons((*i).cards[0]);
 		curPlayerCardsData->card2			= htons((*i).cards[1]);
 		++curPlayerCardsData;
@@ -1821,7 +2401,7 @@ NetPacketAllInShowCards::GetData(NetPacketAllInShowCards::Data &outData) const
 	for (int i = 0; i < numPlayerCards; i++)
 	{
 		PlayerCards tmpPlayerCards;
-		tmpPlayerCards.playerId		= ntohs(curPlayerCardsData->playerId);
+		tmpPlayerCards.playerId		= ntohl(curPlayerCardsData->playerId);
 		tmpPlayerCards.cards[0]		= ntohs(curPlayerCardsData->card1);
 		tmpPlayerCards.cards[1]		= ntohs(curPlayerCardsData->card2);
 
@@ -1905,7 +2485,7 @@ NetPacketEndOfHandShowCards::SetData(const NetPacketEndOfHandShowCards::Data &in
 		(PlayerResultData *)((char *)tmpData + sizeof(NetPacketEndOfHandShowCardsData));
 	while (i != end)
 	{
-		curPlayerResultData->playerId		= htons((*i).playerId);
+		curPlayerResultData->playerId		= htonl((*i).playerId);
 		curPlayerResultData->card1			= htons((*i).cards[0]);
 		curPlayerResultData->card2			= htons((*i).cards[1]);
 		curPlayerResultData->bestHandPos1	= htons((*i).bestHandPos[0]);
@@ -1939,7 +2519,7 @@ NetPacketEndOfHandShowCards::GetData(NetPacketEndOfHandShowCards::Data &outData)
 	for (int i = 0; i < numPlayerResults; i++)
 	{
 		PlayerResult tmpPlayerResult;
-		tmpPlayerResult.playerId		= ntohs(curPlayerResultData->playerId);
+		tmpPlayerResult.playerId		= ntohl(curPlayerResultData->playerId);
 		tmpPlayerResult.cards[0]		= ntohs(curPlayerResultData->card1);
 		tmpPlayerResult.cards[1]		= ntohs(curPlayerResultData->card2);
 		tmpPlayerResult.bestHandPos[0]	= ntohs(curPlayerResultData->bestHandPos1);
@@ -2012,7 +2592,7 @@ NetPacketEndOfHandHideCards::SetData(const NetPacketEndOfHandHideCards::Data &in
 {
 	NetPacketEndOfHandHideCardsData *tmpData = (NetPacketEndOfHandHideCardsData *)GetRawData();
 
-	tmpData->playerId			= htons(inData.playerId);
+	tmpData->playerId			= htonl(inData.playerId);
 	tmpData->moneyWon			= htonl(inData.moneyWon);
 	tmpData->playerMoney		= htonl(inData.playerMoney);
 
@@ -2025,7 +2605,7 @@ NetPacketEndOfHandHideCards::GetData(NetPacketEndOfHandHideCards::Data &outData)
 {
 	NetPacketEndOfHandHideCardsData *tmpData = (NetPacketEndOfHandHideCardsData *)GetRawData();
 
-	outData.playerId			= ntohs(tmpData->playerId);
+	outData.playerId			= ntohl(tmpData->playerId);
 	outData.moneyWon			= ntohl(tmpData->moneyWon);
 	outData.playerMoney			= ntohl(tmpData->playerMoney);
 }
@@ -2072,7 +2652,7 @@ NetPacketEndOfGame::SetData(const NetPacketEndOfGame::Data &inData)
 {
 	NetPacketEndOfGameData *tmpData = (NetPacketEndOfGameData *)GetRawData();
 
-	tmpData->winnerPlayerId	= htons(inData.winnerPlayerId);
+	tmpData->winnerPlayerId	= htonl(inData.winnerPlayerId);
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -2083,7 +2663,7 @@ NetPacketEndOfGame::GetData(NetPacketEndOfGame::Data &outData) const
 {
 	NetPacketEndOfGameData *tmpData = (NetPacketEndOfGameData *)GetRawData();
 
-	outData.winnerPlayerId	= ntohs(tmpData->winnerPlayerId);
+	outData.winnerPlayerId	= ntohl(tmpData->winnerPlayerId);
 }
 
 const NetPacketEndOfGame *
@@ -2229,7 +2809,7 @@ NetPacketChatText::SetData(const NetPacketChatText::Data &inData)
 	NetPacketChatTextData *tmpData = (NetPacketChatTextData *)GetRawData();
 
 	// Set the data.
-	tmpData->playerId = htons(inData.playerId);
+	tmpData->playerId = htonl(inData.playerId);
 	tmpData->textLength = htons(textLen);
 	char *textPtr = (char *)tmpData + sizeof(NetPacketChatTextData);
 	memcpy(textPtr, inData.text.c_str(), textLen);
@@ -2244,7 +2824,7 @@ NetPacketChatText::GetData(NetPacketChatText::Data &outData) const
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketChatTextData *tmpData = (NetPacketChatTextData *)GetRawData();
 
-	outData.playerId = ntohs(tmpData->playerId);
+	outData.playerId = ntohl(tmpData->playerId);
 	char *textPtr = (char *)tmpData + sizeof(NetPacketChatTextData);
 	outData.text = string(textPtr, ntohs(tmpData->textLength));
 }

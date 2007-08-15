@@ -16,37 +16,58 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Game data. */
+/* Thread safe server session manager. */
 
-#ifndef _GAMEDATA_H_
-#define _GAMEDATA_H_
+#ifndef _SESSIONMANAGER_H_
+#define _SESSIONMANAGER_H_
 
-enum GameMode
+#include <net/sessiondata.h>
+#include <playerdata.h>
+#include <core/thread.h>
+
+#include <map>
+#include <string>
+
+class SenderThread;
+class NetPacket;
+
+struct SessionWrapper
 {
-	GAME_MODE_CREATED = 1,
-	GAME_MODE_STARTED,
-	GAME_MODE_CLOSED
+	SessionWrapper() {}
+	SessionWrapper(boost::shared_ptr<SessionData> s, boost::shared_ptr<PlayerData> p)
+		: sessionData(s), playerData(p) {}
+	boost::shared_ptr<SessionData>	sessionData;
+	boost::shared_ptr<PlayerData>	playerData;
 };
 
-// For the sake of simplicity, this is a struct.
-struct GameData
+class SessionManager
 {
-	GameData() : maxNumberOfPlayers(0), startMoney(0), smallBlind(0),
-		handsBeforeRaise(1), guiSpeed(4), playerActionTimeoutSec(20) {}
-	int maxNumberOfPlayers;
-	int startMoney;
-	int smallBlind;
-	int handsBeforeRaise;
-	int guiSpeed;
-	int playerActionTimeoutSec;
-};
+public:
+	SessionManager();
+	virtual ~SessionManager();
 
-struct StartData
-{
-	StartData() : startDealerPlayerId(0), numberOfPlayers(0) {}
-	unsigned startDealerPlayerId;
-	int numberOfPlayers;
+	void AddSession(boost::shared_ptr<SessionData> sessionData); // new Sessions have no player data
+	void SetSessionPlayerData(SOCKET session, boost::shared_ptr<PlayerData> playerData);
+	void RemoveSession(SOCKET session);
+
+	SessionWrapper Select(unsigned timeoutMsec);
+	SessionWrapper GetSessionByPlayerName(const std::string playerName) const;
+	SessionWrapper GetSessionByUniquePlayerId(unsigned uniqueId) const;
+
+	void Clear();
+	unsigned GetRawSessionCount();
+
+	void SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet);
+	void SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SOCKET except);
+
+protected:
+
+	typedef std::map<SOCKET, SessionWrapper> SessionMap;
+
+private:
+
+	SessionMap m_sessionMap;
+	mutable boost::mutex m_sessionMapMutex;
 };
 
 #endif
-
