@@ -5,7 +5,7 @@
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="33"/>
         <source>About</source>
-        <translation>Info</translation>
+        <translation>Infó</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="96"/>
@@ -37,23 +37,23 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Projektseite: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;A projekt weboldala: &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Autoren: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Készítők: &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Felix Hammer (&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - Grundidee, Programm-Architektur, grafische Benutzeroberfläche, Linux-Paket, webmaster@pokerth.net&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - Eredeti ötlet, program architektúra, grafikus felület, Linux csomag, webmaster@pokerth.net&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Florian Thauer (&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - Grundidee, Programm-Architektur, Engine Entwicklung&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - Eredeti ötlet, program architektúra, motor fejlesztése&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Lothar May (&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - Netzwerk-Entwicklung, Programm-Architektur, Windows-Paket&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - Hálózati fejlesztés, program architektúra, Windows csomag/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Oskar Lindqvist (&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - Grafikdesign für die grafische Benutzeroberfläche, Webdesign&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - Grafikai dizájn kialakítása, webdizájn/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Erhard List (&lt;a href=&quot;mailto:dunkanx@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;dunkanx@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOSX-Paket&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOSX csomag&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="201"/>
@@ -95,10 +95,10 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;PokerTH 0.5&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Engine für die populäre &quot;Texas Holdem&quot; Poker Variante&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Einzelspielermodus mit bis zu 6 Computer-Gegnern&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Mehrspielermodus im Netzwerk&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Programmiert in C++ / QT4&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- A népszerű &quot;Texas Holdem&quot; szabályira épülö póker játék&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Egyjátékos mód akár 6 gépi ellenféllel&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Hálózaton játszható többjátékos mód&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;-  C++ / QT4 programkód&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;© 2006-2007, FHammer &amp;amp; FThauer&lt;/span&gt;&lt;/p&gt;
@@ -116,7 +116,7 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;lt;your translator name&amp;gt; - &amp;lt;your language&amp;gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &amp;lt;if you like your mail address&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;lt;mRaRa&amp;gt; - &amp;lt;hungarian&amp;gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &amp;lt;masterrara[at]freemail[dot]hu&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;lt;Magyarra fordította: mRaRa&amp;gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &amp;lt; masterrara@freemail.hu&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="177"/>
@@ -134,7 +134,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons -nak&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;     - &lt;span style=&quot; font-weight:400;&quot;&gt;A népszerű avatar képekért&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Viktoria, Benedikt, Erhard, Felix, Florian, Linus, Lothar, Mark -nak&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - az avatar képekért&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot; -nak&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - a különbőző gpl liszenszes hangokért&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos  -nak&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - a saját felvételű zseton hangokért&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -203,7 +203,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="130"/>
         <source>Hands before raise small blind:</source>
-        <translation>Kisvak emelése előtti kezek:</translation>
+        <translation type="unfinished">Vakemelés előtti körök száma:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="123"/>
@@ -352,38 +352,38 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="257"/>
         <source>Could not load server-profiles-file:
 </source>
-        <translation>Kann Server-Profil-Datei nicht laden:</translation>
+        <translation>Nem lehet betölteni a szerver profil-fájlt:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="200"/>
         <source>Save Server Profile Error</source>
-        <translation>Speichere Server-Profil-Fehler</translation>
+        <translation>Hiba a szerver profil mentése közben</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="201"/>
         <source>A profile with the name: &quot;</source>
-        <translation>Ein Profil mit dem Namen:&quot;</translation>
+        <translation>Profil a következő névvel:&quot;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="241"/>
         <source>Read Server-Profile List Error</source>
-        <translation>Lese Server-Profil-Liste Fehler</translation>
+        <translation>Hiba a szerver profil olvasása közben</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="242"/>
         <source>Could not read server-profiles list</source>
-        <translation>Kann die Server-Profil-Liste nicht lesen</translation>
+        <translation>Nem sikerült beolvasni a szerver profil listát</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="267"/>
         <source>Save Server-Profile-File Error</source>
-        <translation>Speichere Server-Profile-Datei Fehler</translation>
+        <translation>Hiba a szerver profil-fájl mentése közben</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="268"/>
         <source>Could not save server-profiles-file:
 </source>
-        <translation>Kann Server-Profil-Datei nicht lesen:</translation>
+        <translation>Nem sikerült elmenteni a szerver profil-fájlt:</translation>
     </message>
 </context>
 <context>
@@ -456,7 +456,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="836"/>
         <source>Hands</source>
-        <translation>Kéz</translation>
+        <translation>Sorrend</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="859"/>
@@ -481,7 +481,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="502"/>
         <source>PokerTH 0.5 - The Open-Source Texas Holdem Engine</source>
-        <translation>PokerTH 0.5 - A nyílt forráskódú Texas Holdem motor</translation>
+        <translation>PokerTH 0.5 - A nyílt forráskódú Texas Holdem játék</translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/mainwindow.ui" line="6139"/>
@@ -516,7 +516,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="6164"/>
         <source>Show/Hide Hands Window</source>
-        <translation>Kezek mutatása/elrejtése</translation>
+        <translation>Sorrend mutatása/elrejtése</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="6129"/>
@@ -772,7 +772,7 @@ Ha a szerver NAT router mögött van, akkor bizonyosodj meg róla hogy a port to
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="127"/>
         <source>Hands before raise small blind:</source>
-        <translation>Kisvak emelése előtti kezek száma:</translation>
+        <translation type="unfinished">Vakemelés előtti körök száma:</translation>
     </message>
 </context>
 <context>
@@ -828,7 +828,7 @@ Kérlek válassz egy valós képet!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2110"/>
         <source>Interface</source>
-        <translation>Interfész</translation>
+        <translation>Általános beállítások</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="132"/>
@@ -841,7 +841,7 @@ Kérlek válassz egy valós képet!</translation>
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=100, height=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Hinweis: Die beste Bild-Qualität erhalten Sie mit folgenden Seitenverhältnissen: &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Breite = 100, Höhe = 140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Fontos: A jobb minőség érdekében ajánlott kép paraméterek: &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Szélesség = 100 kpt, magasság = 140 kpt.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="213"/>
@@ -896,32 +896,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="774"/>
         <source>Computer Engine</source>
-        <translation>Computer Engine</translation>
+        <translation>Gépi ellenfelek</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="953"/>
         <source>Opponent 5:</source>
-        <translation>Játékos 5:</translation>
+        <translation>Ellenfél 5:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1231"/>
         <source>Opponent 3:</source>
-        <translation>Játékos 3:</translation>
+        <translation>Ellenfél 3:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1397"/>
         <source>Opponent 2:</source>
-        <translation>Játékos 2:</translation>
+        <translation>Ellenfél 2:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1536"/>
         <source>Opponent 1:</source>
-        <translation>Játékos 1:</translation>
+        <translation>Ellenfél 1:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1119"/>
         <source>Opponent 4:</source>
-        <translation>Játékos 4:</translation>
+        <translation>Ellenfél 4:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1692"/>
@@ -931,12 +931,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2125"/>
         <source>Player Nicks</source>
-        <translation>Játékos becenevek</translation>
+        <translation>Játékos beállítások</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1952"/>
         <source>Day(s)</source>
-        <translation>Nap(ok)</translation>
+        <translation>napig</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1982"/>
@@ -966,112 +966,112 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="160"/>
         <source>Own flipside picture:</source>
-        <translation>Eigenes Rückseiten-Bild:</translation>
+        <translation>Saját kártya hátoldal:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="246"/>
         <source>Show fade-out animation for non-winning cards</source>
-        <translation>Zeige Ausblend-Animation für Verliererkarten</translation>
+        <translation>A nem nyertes kártyák eltűnés animációjának mutatása</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="287"/>
         <source>Show intro on startup</source>
-        <translation>Zeige Intro während des Starts</translation>
+        <translation>Intró mutatása játék indításánál</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="294"/>
         <source>Show right toolbox (F11 to switch on/off)</source>
-        <translation>Zeige rechte Toolbox (F11 für an/aus)</translation>
+        <translation>Jobb oldali panel mutatása (F11 - mutat/rejt) </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="260"/>
         <source>Show left toolbox (F10 to switch on/off)</source>
-        <translation>Zeige linke Toolbox (F10 für an/aus)</translation>
+        <translation>Bal oldali panel mutatása (F10 - mutat/rejt) </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="253"/>
         <source>Show statusbar messages</source>
-        <translation>Zeige Statusbar-Nachrichten</translation>
+        <translation>Információs sáv üzeneteinek megjelenítése</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="311"/>
         <source>Show game settings dialog on every new game</source>
-        <translation>Zeige den Dialog Spieleinstellungen bei jedem neuen Spiel</translation>
+        <translation>Játékbeállítások mutatása minden új játék indításánál</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="689"/>
         <source>Hands before raise small blind:</source>
-        <translation>Runden vor der Erhöhung des Small Blind:</translation>
+        <translation>Kisvak emelése előtti körök:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="351"/>
         <source>Number of players:</source>
-        <translation>Anzahl der Spieler:</translation>
+        <translation>Játékosok száma:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="418"/>
         <source>Game Speed:</source>
-        <translation>Spielgeschwindigkeit:</translation>
+        <translation>Játék sebessége:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="432"/>
         <source>Pause between hands (press &quot;start&quot; button to go on)</source>
-        <translation>Pause zwischen den Runden (&quot;Start&quot;-Knopf zum Weiterspielen)</translation>
+        <translation>Szünet a körök között (&quot;Indítás&quot; gomb lenyomására megy tovább)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="642"/>
         <source>Game Speed for computer opponents:</source>
-        <translation>Spielgeschwindigkeit für Computergegner:</translation>
+        <translation>Gépi ellenfelek sebessége:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="665"/>
         <source>Engine Version for computer opponents:</source>
-        <translation>Engine-Version für Computergegener:</translation>
+        <translation>Program verzió (gépi ellenfeleké):</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1900"/>
         <source>Enable/Disable Logging</source>
-        <translation>Loggen an/aus</translation>
+        <translation>Naplózás engedése/tiltása</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1926"/>
         <source>Store log files for</source>
-        <translation>Speichere Logdateien für</translation>
+        <translation>Naplófájl tárolása</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2021"/>
         <source>Write log after every: </source>
-        <translation>Schreibe Logdateien nach jeder/jedem:</translation>
+        <translation>Naplózás minden esemény után:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="239"/>
         <source>Show buttons for small blind and big blind</source>
-        <translation>Zeige Symbole für Small Blind und Big Blind Buttons</translation>
+        <translation>Kisvak és Nagyvak gomb mutatása</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="69"/>
         <source>Play sound effects</source>
-        <translation>Spiele Klangeffekte</translation>
+        <translation>Hangok lejátszása</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="657"/>
         <source>0.4 (current)</source>
-        <translation>0.4 (aktuell)</translation>
+        <translation>0.4 (aktuális)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="524"/>
         <source>Use SCTP</source>
-        <translation>Benutze SCTP</translation>
+        <translation>SCTP használata</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="538"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;Was ist das?&lt;/a&gt;</translation>
+        <translation>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;Mi ez?&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="548"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;Was ist das?&lt;/a&gt;</translation>
+        <translation>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;Mi ez?&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1623"/>
@@ -1082,22 +1082,23 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Hinweis: Die beste Avatar-Qualität erhalten Sie folgenden Seitenverhältnissen: &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Breite = 50, Höhe = 50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Fontos: A jobb minőség érdekében ajánlott kép paraméterek: &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;
+Szélesség = 50 kpt, magasság = 50 kpt.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="19"/>
         <source>Settings</source>
-        <translation>Einstellungen</translation>
+        <translation>Beállítások</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="649"/>
         <source>Maximum number of players:</source>
-        <translation>Maximale Anzahl der Spieler:</translation>
+        <translation>Játékosok maximális száma:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="84"/>
         <source>Sound Volume:</source>
-        <translation>Lautstärke:</translation>
+        <translation>Hangerő:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="97"/>
@@ -1107,27 +1108,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="696"/>
         <source>Timeout for player action (sec):</source>
-        <translation>Zeit für Spieleraktion (Sek.):</translation>
+        <translation>Játékos rendelkezésére álló idő (mp.):</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="814"/>
         <source>Opponent 6:</source>
-        <translation>Gegner 6:</translation>
+        <translation>Ellenfél 6:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2037"/>
         <source>action (high frequent disc access)</source>
-        <translation>Aktion (häufiger Festplattenzugriff)</translation>
+        <translation>Akció (magas lemezhasználat)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2042"/>
         <source>hand (medium disc access)</source>
-        <translation>Runde (mittlerer Festplattenzugriff)</translation>
+        <translation>Kör (közepes lemezhasználat)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2047"/>
         <source>game (low disc access)</source>
-        <translation>Spiel (geringer Festplattenzugriff)</translation>
+        <translation>Játék (alacsony lemezhasználat)</translation>
     </message>
 </context>
 <context>
@@ -1141,8 +1142,8 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="222"/>
         <source>The entered flipside picture doesn&apos;t exists.
 Please enter an valid picture!</source>
-        <translation>Das Rückseitenbild existiert nicht.
-Bitte geben Sie ein gültiges Bild an!</translation>
+        <translation>A kért kártya hátoldal kép nem létezik.
+Kérlek válassz egy valós képet!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="236"/>
@@ -1154,7 +1155,7 @@ Kérlek válassz egy valós mappát!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="254"/>
         <source>Select your flipside picture</source>
-        <translation>Wähle das Rückseitenbild</translation>
+        <translation>Válaszd ki a kártya hátaoldalának képét</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="256"/>

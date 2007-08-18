@@ -1153,7 +1153,4 @@ Please select an valid directory!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
-<context>
-    <name>waitForServerToStartGameDialog</name>
-</context>
 </TS>
