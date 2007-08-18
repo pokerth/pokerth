@@ -747,7 +747,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="14"/>
         <source>About PokerTH 0.5</source>
-        <translation>Info over PokerTH 0.5</translation>
+        <translation>Over PokerTH 0.5</translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/aboutpokerth.ui" line="66"/>
@@ -837,7 +837,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="35"/>
         <source>Name:</source>
-        <translation>Menselijke Speler:</translation>
+        <translation>Naam:</translation>
     </message>
 </context>
 <context>
@@ -845,7 +845,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog.ui" line="13"/>
         <source>Connect to Server</source>
-        <translation>Maak verbinding met de server</translation>
+        <translation>Verbinding maken met de server</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog.ui" line="25"/>
@@ -868,12 +868,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="25"/>
         <source>Network Game Settings</source>
-        <translation>Netwerkspel instellingen</translation>
+        <translation>Instellingen van netwerkspel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="70"/>
         <source>Start Cash:</source>
-        <translation>Startkapitaal:</translation>
+        <translation>Startgeld:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="63"/>
@@ -883,7 +883,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="178"/>
         <source>Create Game</source>
-        <translation>Maak een spel</translation>
+        <translation>Spel maken</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="185"/>
@@ -898,7 +898,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="123"/>
         <source>Timeout for player action (sec):</source>
-        <translation>Wacht op handeling speler gedurende (sec):</translation>
+        <translation>Bedenktijd voor de spelers (sec):</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="77"/>
@@ -916,17 +916,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="13"/>
         <source>Join Network Game</source>
-        <translation>Meedoen met netwerkspel</translation>
+        <translation>Met netwerkspel meedoen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="25"/>
         <source>Connect to Network Game</source>
-        <translation>Maak verbinding met netwerkspel</translation>
+        <translation>Verbinding maken met netwerkspel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="174"/>
         <source>Use IPv6</source>
-        <translation>Gebruik IPv6</translation>
+        <translation>IPv6 gebruiken</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="279"/>
@@ -1006,7 +1006,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="131"/>
         <source>Use SCTP</source>
-        <translation>Gebruik SCTP</translation>
+        <translation>SCTP gebruiken</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="138"/>
@@ -1138,7 +1138,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="6134"/>
         <source>Join Network Game ...</source>
-        <translation>Meedoen met netwerkspel ...</translation>
+        <translation>Met netwerkspel meedoen ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="6142"/>
@@ -1163,7 +1163,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="6100"/>
         <source>Start Local Game ...</source>
-        <translation>Start lokaal spel ...</translation>
+        <translation>Lokaal spel starten ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="6111"/>
@@ -1266,7 +1266,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2398"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation>Onjuiste poort ingesteld (poorten 0-1023 niet toegestaan).</translation>
+        <translation>Ongeldige poort ingesteld (poorten 0-1023 niet toegestaan).</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2403"/>
@@ -1286,12 +1286,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2418"/>
         <source>The server name could not be resolved.</source>
-        <translation>Kan de servernaam nergens opzoeken.</translation>
+        <translation>Kan de servernaam niet opzoeken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2423"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Kan niet verbinden - kies a.u.b. een andere poort.</translation>
+        <translation>Kan niet verbinden - kies een andere poort.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2428"/>
@@ -1328,14 +1328,14 @@ p, li { white-space: pre-wrap; }
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Ongeldig netwerkpakket ontvangen.
-Zorg er a.u.b. voor dat alle spelers dezelfde PokerTH-versie gebruiken.</translation>
+Zorg er voor dat alle spelers dezelfde versie van PokerTH gebruiken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2474"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Interne statusfout.
-Zorg er a.u.b. voor dat alle spelers dezelfde PokerTH-versie gebruiken.</translation>
+Zorg er voor dat alle spelers dezelfde versie van PokerTH gebruiken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2479"/>
@@ -1347,7 +1347,7 @@ Zorg dat u de nieuwste versie van PokerTH heeft.</translation>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2484"/>
         <source>Sorry, this server is already full.</source>
-        <translation>Sorry, deze server is reeds vol.</translation>
+        <translation>Deze server is reeds vol.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2489"/>
@@ -1359,24 +1359,24 @@ Zorg dat u de nieuwste versie van PokerTH heeft.</translation>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Ongeldig wachtwoord bij het verbinden.
-Stel a.u.b. het wachtwoord opnieuw in en probeer opnieuw.</translation>
+Stel het wachtwoord opnieuw in en probeer het opnieuw.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2499"/>
         <source>The password is too long. Please choose another one.</source>
-        <translation>Het wachtwoord is te lang. Kies a.u.b. een ander wachtwoord.</translation>
+        <translation>Het wachtwoord is te lang. Kies een ander wachtwoord.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2503"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
         <translation>Uw spelernaam is al in gebruik door een andere speler.
-Kies a.u.b. een andere naam.</translation>
+Kies een andere naam.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2507"/>
         <source>The player name is either too short or too long. Please choose another one.</source>
-        <translation>De spelersnaam is te kort of te lang. Kies a.u.b. een andere naam.</translation>
+        <translation>De spelersnaam is te kort of te lang. Kies een andere naam.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2526"/>
@@ -1405,7 +1405,7 @@ Please check the server address.
 
 If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
         <translation>Verbinding maken mislukt.
-Controleer a.u.b. het serveradres.
+Controleer het serveradres.
 
 Als de server zich achter een NAT-router bevindt, controleer dan daar of port forwarding goed ingesteld is.</translation>
     </message>
@@ -1435,7 +1435,7 @@ Als de server zich achter een NAT-router bevindt, controleer dan daar of port fo
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="13"/>
         <source>Start Local Game</source>
-        <translation>Start lokaal spel</translation>
+        <translation>Lokaal spel starten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="25"/>
@@ -1450,7 +1450,7 @@ Als de server zich achter een NAT-router bevindt, controleer dan daar of port fo
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="100"/>
         <source>Start Cash:</source>
-        <translation>Startkapitaal:</translation>
+        <translation>Startgeld:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="107"/>
@@ -1473,17 +1473,17 @@ Als de server zich achter een NAT-router bevindt, controleer dan daar of port fo
     <message>
         <location filename="../src/gui/qt/selectavatardialog.ui" line="33"/>
         <source>Please select an avatar</source>
-        <translation>Kies a.u.b. een spelerplaatje</translation>
+        <translation>Kies een spelerplaatje</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/selectavatardialog.ui" line="61"/>
         <source>Select an avatar</source>
-        <translation>Kies een spelerplaatje</translation>
+        <translation>Een spelerplaatje kiezen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/selectavatardialog.ui" line="90"/>
         <source>Load avatar from external file</source>
-        <translation>Laad een spelerplaatje uit een extern bestand</translation>
+        <translation>Een spelerplaatje uit een extern bestand laden</translation>
     </message>
 </context>
 <context>
@@ -1496,24 +1496,24 @@ Als de server zich achter een NAT-router bevindt, controleer dan daar of port fo
     <message>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="136"/>
         <source>Please select an avatar from the list!</source>
-        <translation>Kies a.u.b. een spelerplaatje uit de lijst!</translation>
+        <translation>Kies een spelerplaatje uit de lijst!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="150"/>
         <source>The entered avatar picture doesn&apos;t exists.
 Please enter an valid picture!</source>
-        <translation>Het ingestelde spelerplaatje bestaat niet.
-Stel a.u.b. een geldig plaatje in!</translation>
+        <translation>Het spelerplaatje dat is ingesteld, bestaat niet.
+Stel een geldig plaatje in!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="166"/>
         <source>Select external avatar picture</source>
-        <translation>Kies een extern spelerplaatje</translation>
+        <translation>Een extern spelerplaatje kiezen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="166"/>
         <source>Images (*.png)</source>
-        <translation>Plaatjes (*.png)</translation>
+        <translation>Afbeeldingen (*.png)</translation>
     </message>
 </context>
 <context>
@@ -1544,7 +1544,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="377"/>
         <source>Local Game Default Settings</source>
-        <translation>Standaardinstellingen lokaal spel</translation>
+        <translation>Standaardinstellingen van lokaal spel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="635"/>
@@ -1554,7 +1554,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="672"/>
         <source>Start Cash:</source>
-        <translation>Startkapitaal:</translation>
+        <translation>Startgeld:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="458"/>
@@ -1574,7 +1574,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="531"/>
         <source>Use IPv6</source>
-        <translation>Gebruik IPv6</translation>
+        <translation>IPv6 gebruiken</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="497"/>
@@ -1584,7 +1584,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="574"/>
         <source>Network Game Default Settings</source>
-        <translation>Standaardinstellingen netwerkspel</translation>
+        <translation>Standaardinstellingen van netwerkspel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="774"/>
@@ -1629,12 +1629,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2125"/>
         <source>Player Nicks</source>
-        <translation>Bijnamen spelers</translation>
+        <translation>Spelernamen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1952"/>
         <source>Day(s)</source>
-        <translation>Dag(en)</translation>
+        <translation>dag(en)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1982"/>
@@ -1649,17 +1649,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2115"/>
         <source>Local Game Settings</source>
-        <translation>Instellingen lokaal spel</translation>
+        <translation>Instellingen van lokaal spel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2120"/>
         <source>Network Game Settings</source>
-        <translation>Instellingen netwerkspel</translation>
+        <translation>Instellingen van netwerkspel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="125"/>
         <source>Show flip-card animation</source>
-        <translation>Laat omdraaiende kaarten-animatie zien</translation>
+        <translation>Omdraaiende kaarten-animatie weergeven</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="160"/>
@@ -1669,32 +1669,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="246"/>
         <source>Show fade-out animation for non-winning cards</source>
-        <translation>Laat fade out-animatie zien van niet-winnende kaarten</translation>
+        <translation>Fade out-animatie van niet-winnende kaarten weergeven</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="287"/>
         <source>Show intro on startup</source>
-        <translation>Laat introductiescherm zien bij starten</translation>
+        <translation>Introductiescherm weergeven bij starten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="294"/>
         <source>Show right toolbox (F11 to switch on/off)</source>
-        <translation>Laat rechter hulpscherm zien (F11 om aan/uit te zetten)</translation>
+        <translation>Rechter hulpscherm weergeven (F11 om aan/uit te zetten)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="260"/>
         <source>Show left toolbox (F10 to switch on/off)</source>
-        <translation>Laat linker hulpscherm zien (F10 om aan/uit te zetten)</translation>
+        <translation>Linker hulpscherm weergeven (F10 om aan/uit te zetten)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="253"/>
         <source>Show statusbar messages</source>
-        <translation>Laat berichten zien in statusbalk</translation>
+        <translation>Berichten weergeven in statusbalk</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="311"/>
         <source>Show game settings dialog on every new game</source>
-        <translation>Laat instellingenvenster zien voor elk nieuw spel</translation>
+        <translation>Instellingenvenster laten zien voor elk nieuw spel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="689"/>
@@ -1714,7 +1714,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="432"/>
         <source>Pause between hands (press &quot;start&quot; button to go on)</source>
-        <translation>Stopzetten tussen rondes (Druk op &quot;Start&quot;-knop om door te gaan)</translation>
+        <translation>Stopzetten tussen rondes (druk op &quot;Start&quot;-knop om door te gaan)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="642"/>
@@ -1729,7 +1729,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1900"/>
         <source>Enable/Disable Logging</source>
-        <translation>Maak logbestanden</translation>
+        <translation>Logbestanden schrijven</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1926"/>
@@ -1739,17 +1739,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2021"/>
         <source>Write log after every: </source>
-        <translation>Schrijf naar het logbestand na elke: </translation>
+        <translation>Naar het logbestand schrijven na elke: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="239"/>
         <source>Show buttons for small blind and big blind</source>
-        <translation>Laat buttons zien voor kleine blind en grote blind</translation>
+        <translation>Buttons voor kleine blind en grote blind weergeven</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="69"/>
         <source>Play sound effects</source>
-        <translation>Laat geluidseffecten horen</translation>
+        <translation>Geluidseffecten afspelen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="657"/>
@@ -1759,7 +1759,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="524"/>
         <source>Use SCTP</source>
-        <translation>Gebruik SCTP</translation>
+        <translation>SCTP gebruiken</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="538"/>
@@ -1805,7 +1805,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="696"/>
         <source>Timeout for player action (sec):</source>
-        <translation>Wacht op handeling speler gedurende (sec):</translation>
+        <translation>Bedenktijd voor de spelers (sec):</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2037"/>
@@ -1834,25 +1834,25 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="222"/>
         <source>The entered flipside picture doesn&apos;t exists.
 Please enter an valid picture!</source>
-        <translation>Het ingestelde plaatje voor de kaartachterkant bestaat niet.
-Stel a.u.b. een geldig plaatje in!</translation>
+        <translation>Het plaatje dat is ingesteld voor de kaartachterkant bestaat niet.
+Stel een geldig plaatje in!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="236"/>
         <source>The log file directory doesn&apos;t exists.
 Please select an valid directory!</source>
         <translation>De map voor logbestanden bestaat niet.
-Kies a.u.b. een geldige map!</translation>
+Kies een geldige map!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="254"/>
         <source>Select your flipside picture</source>
-        <translation>Kies uw plaatje voor de kaartachterkant</translation>
+        <translation>Uw plaatje voor de kaartachterkant kiezen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="256"/>
         <source>Images (*.png)</source>
-        <translation>Plaatjes (*.png)</translation>
+        <translation>Afbeeldingen (*.png)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="328"/>
@@ -1865,7 +1865,7 @@ Kies a.u.b. een geldige map!</translation>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="13"/>
         <source>Start Network Game</source>
-        <translation>Start netwerkspel</translation>
+        <translation>Netwerkspel starten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="33"/>
@@ -1875,7 +1875,7 @@ Kies a.u.b. een geldige map!</translation>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="106"/>
         <source>Start Game</source>
-        <translation>Start spel</translation>
+        <translation>Spel starten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="113"/>
@@ -1890,7 +1890,7 @@ Kies a.u.b. een geldige map!</translation>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="60"/>
         <source>Kick</source>
-        <translation>Verwijder</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="77"/>
