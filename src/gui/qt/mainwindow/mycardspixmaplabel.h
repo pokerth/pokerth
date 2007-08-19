@@ -12,9 +12,12 @@
 #ifndef MYCARDSPIXMAPLABEL_H
 #define MYCARDSPIXMAPLABEL_H
 
+#include <iostream>
+
 #include <QtGui>
 #include <QtCore>
 
+#include "mainwindowimpl.h"
 
 class MyCardsPixmapLabel : public QLabel
 {
@@ -23,6 +26,8 @@ public:
     MyCardsPixmapLabel(QFrame*);
 
     ~MyCardsPixmapLabel();
+
+	void setMyW ( mainWindowImpl* theValue ) { myW = theValue; }
 
 	void setIsFlipside(bool theValue){ isFlipside = theValue;}
 	bool getIsFlipside() const{ return isFlipside;}
@@ -39,17 +44,28 @@ public:
 	QPixmap *front;
 	QPixmap *flipside;
 
+signals:
+	void signalFastFlipCards(bool);
+
 
 public slots:
 	
 	void setPixmap ( const QPixmap &, const bool );
+// 	void setFrontPixmap ( const QPixmap & );
+
 	void nextFadeOutFrame();
 	void nextFlipCardsFrame();
-
-// 	bool event ( QEvent * );
 	
+	void fastFlipCards(bool front);
+
+// 	void mouseMoveEvent ( QMouseEvent *); 
+	
+	void mousePressEvent ( QMouseEvent *);
+	void mouseReleaseEvent ( QMouseEvent *);
 
 private: 
+
+	mainWindowImpl* myW;	
 
 	qreal frameOpacity;
 	qreal opacityRaiseIntervall;
@@ -61,12 +77,16 @@ private:
 	QTimer *fadeOutTimer;
 	QTimer *flipCardsTimer;	
 
-	
 	bool isFlipside;
 	bool fadeOutAction;
 	bool flipCardsAction1;
 	bool flipCardsAction2;
 	bool stopFlipCards;
+	
+	bool mousePress;	
+	bool fastFlipCardsFront;	
+
+friend class mainWindowImpl;
 };
 
 #endif

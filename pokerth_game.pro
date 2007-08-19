@@ -116,6 +116,7 @@ HEADERS += \
 		src/gui/qt/mainwindow/mainwindowimpl.h \
 		src/gui/qt/mainwindow/mycardspixmaplabel.h \
 		src/gui/qt/mainwindow/mysetlabel.h \
+		src/gui/qt/mainwindow/mystatuslabel.h \
 		src/gui/qt/mainwindow/myrighttabwidget.h \
 		src/gui/qt/mainwindow/mylefttabwidget.h \
 		src/gui/qt/mainwindow/startsplash/startsplash.h \
@@ -158,6 +159,7 @@ SOURCES += \
 		src/gui/qt/mainwindow/mainwindowimpl.cpp \
 		src/gui/qt/mainwindow/mycardspixmaplabel.cpp \
 		src/gui/qt/mainwindow/mysetlabel.cpp \
+		src/gui/qt/mainwindow/mystatuslabel.cpp \
 		src/gui/qt/mainwindow/myrighttabwidget.cpp \
 		src/gui/qt/mainwindow/mylefttabwidget.cpp \
 		src/gui/qt/mainwindow/startsplash/startsplash.cpp \
@@ -262,7 +264,7 @@ mac{
 #CONFIG += qt thread embed_manifest_exe release
 CONFIG += qt thread embed_manifest_exe warn_on debug
 UI_DIR = uics
-TARGET = bin/pokerth_game
+TARGET = bin/pokerth
 MOC_DIR = mocs
 OBJECTS_DIR = obj
 QT += 

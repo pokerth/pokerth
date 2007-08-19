@@ -140,6 +140,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	pixmapLabel_card0b->setScaledContents(true);
 	pixmapLabel_card0b->setGeometry(QRect(39, 0, 80, 111));	
 
+	pixmapLabel_card0b->setMyW(this);
+	pixmapLabel_card0a->setMyW(this);
+
 	pixmapLabel_card1a = new MyCardsPixmapLabel(frame_Cards1);
     	pixmapLabel_card1a->setObjectName(QString::fromUtf8("pixmapLabel_card1a"));
 	pixmapLabel_card1a->setScaledContents(true);
@@ -370,6 +373,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	actionLabelArray[4] = textLabel_Status4;
 	actionLabelArray[5] = textLabel_Status5;
 	actionLabelArray[6] = textLabel_Status6;
+
+	textLabel_Status0->setMyW(this);
 
 	// GroupBoxArray init
 	groupBoxArray[0] = groupBox0;
@@ -1310,7 +1315,10 @@ void mainWindowImpl::dealHoleCards() {
 					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
 					
 				} 
-				else holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
+				else {
+					holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
+/*					holeCardsArray[i][j]->setStyleSheet("QLabel:hover { background-image:url(:/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");*/
+				}
 			}
 			else {
 				
@@ -2673,6 +2681,12 @@ void mainWindowImpl::networkGameModification() {
 	tabWidget_Left->setCurrentIndex(1);
 	myChat->clearNewGame();
 
+}
+
+void mainWindowImpl::mouseOverFlipCards(bool front) {
+
+	holeCardsArray[0][0]->signalFastFlipCards(front);
+	holeCardsArray[0][1]->signalFastFlipCards(front);
 }
 
 void mainWindowImpl::closeEvent(QCloseEvent *event) { quitPokerTH(); }

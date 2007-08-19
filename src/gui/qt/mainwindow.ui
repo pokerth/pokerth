@@ -1668,7 +1668,7 @@
            <height>111</height>
           </rect>
          </property>
-         <widget class="QLabel" name="textLabel_Status0" >
+         <widget class="MyStatusLabel" name="textLabel_Status0" >
           <property name="geometry" >
            <rect>
             <x>9</x>
@@ -6068,7 +6068,7 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>30</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView" >
@@ -6181,6 +6181,11 @@
    <class>MyRightTabWidget</class>
    <extends>QTabWidget</extends>
    <header>myrighttabwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MyStatusLabel</class>
+   <extends>QLabel</extends>
+   <header>mystatuslabel.h</header>
   </customwidget>
   <customwidget>
    <class>MySetLabel</class>

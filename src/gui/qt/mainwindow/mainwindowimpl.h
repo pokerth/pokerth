@@ -275,6 +275,8 @@ public slots:
 	void localGameModification();
 	void networkGameModification();
 
+	void mouseOverFlipCards(bool front);
+
 	void quitPokerTH();
 	
 

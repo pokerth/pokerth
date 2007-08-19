@@ -14,13 +14,17 @@
 // using namespace std;
 
 MyCardsPixmapLabel::MyCardsPixmapLabel(QFrame* parent)
- : QLabel(parent)
+ : QLabel(parent), myW(NULL)
 {
+
+	this->setMouseTracking(TRUE);
+
 	fadeOutAction = FALSE;
 	flipCardsAction1 = FALSE;
 	flipCardsAction2 = FALSE;
 
-
+	mousePress = FALSE;		
+	fastFlipCardsFront = FALSE;
 	
 // 	rotationIntervall = 0.03;
 	
@@ -33,6 +37,8 @@ MyCardsPixmapLabel::MyCardsPixmapLabel(QFrame* parent)
 	connect(fadeOutTimer, SIGNAL(timeout()), this, SLOT(nextFadeOutFrame()));
 	flipCardsTimer = new QTimer;
 	connect(flipCardsTimer, SIGNAL(timeout()), this, SLOT(nextFlipCardsFrame()));
+
+	connect(this, SIGNAL(signalFastFlipCards(bool)), this, SLOT(fastFlipCards(bool)));
 }
 
 
@@ -187,14 +193,44 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event) {
 		painter3.drawPixmap(0,0, tmpFront);
 	}
 
-	
+	if (fastFlipCardsFront) { QPainter painter(this);
+			painter.setBrush(QColor(0,0,0));
+			if(objectName().contains("pixmapLabel_card0")) {
+				painter.drawRect(10,10,20,20); 
+			}
+	}
+
 }
 
-// bool MyCardsPixmapLabel::event ( QEvent * event )  { 
-// 
-// 	if(event->type() == QEvent::MouseMove) { event->ignore();  }
-// 	QLabel::event(event);
-// }
+void MyCardsPixmapLabel::fastFlipCards(bool front){
 
+	if (front) {
+		fastFlipCardsFront = TRUE;	
+		update();
+	}
+	else {
+		fastFlipCardsFront = FALSE;	
+		update();
+	}
+}
 
+void MyCardsPixmapLabel::mousePressEvent(QMouseEvent * event) {
 
+	if (!mousePress && objectName().contains("pixmapLabel_card0")) {
+			mousePress = TRUE;	
+			myW->mouseOverFlipCards(TRUE);
+			
+	}
+
+QLabel::mousePressEvent(event);
+}
+
+void MyCardsPixmapLabel::mouseReleaseEvent(QMouseEvent * event) {
+
+	if (mousePress && objectName().contains("pixmapLabel_card0")) {
+		mousePress = FALSE;	
+		myW->mouseOverFlipCards(FALSE);
+	}	
+
+QLabel::mouseReleaseEvent(event);
+}
