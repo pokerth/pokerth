@@ -24,7 +24,7 @@
 #include <localenginefactory.h>
 #include <clientenginefactory.h>
 #include <net/clientthread.h>
-#include <net/serverthread.h>
+#include <net/serveracceptthread.h>
 
 #include <sstream>
 
@@ -35,7 +35,7 @@ using namespace std;
 
 Session::Session(GuiInterface *g, ConfigFile *c)
 : currentGameID(0), myNetClient(0), myNetServer(0), myGui(g), myConfig(c)
-{	
+{
 	
 }
 
@@ -164,7 +164,7 @@ void Session::startNetworkServer(const GameData &gameData)
 		assert(false);
 		return;
 	}
-	myNetServer = new ServerThread(*myGui, myConfig);
+	myNetServer = new ServerAcceptThread(*myGui, myConfig);
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,

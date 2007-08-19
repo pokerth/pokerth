@@ -29,7 +29,7 @@ class GuiInterface;
 class Game;
 class ConfigFile;
 class ClientThread;
-class ServerThread;
+class ServerAcceptThread;
 
 class Session{
 public:
@@ -70,7 +70,7 @@ private:
 	int currentGameID;
 
 	ClientThread *myNetClient;
-	ServerThread *myNetServer;
+	ServerAcceptThread *myNetServer;
 
 	boost::shared_ptr<Game> currentGame;
 	GuiInterface *myGui;

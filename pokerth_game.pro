@@ -89,7 +89,8 @@ HEADERS += \
 		src/net/netpacket.h \
 		src/net/resolverthread.h \
 		src/net/senderthread.h \
-		src/net/serverthread.h \
+		src/net/serveracceptthread.h \
+		src/net/serverlobbythread.h \
 		src/net/socket_helper.h \
 		src/net/socket_msg.h \
 		src/net/socket_startup.h \

@@ -440,11 +440,11 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 		// Everything is fine - we are in the lobby.
 		NetPacketInitAck::Data initAckData;
 		packet->ToNetPacketInitAck()->GetData(initAckData);
-		client.SetGuiPlayerId(initAckData.yourPlayerUniqueId);
+		client.SetGuiPlayerId(initAckData.playerId);
 
 		// Player number is 0 on init. Will be set when the game starts.
 		boost::shared_ptr<PlayerData> playerData(
-			new PlayerData(initAckData.yourPlayerUniqueId, 0, PLAYER_TYPE_HUMAN, PLAYER_RIGHTS_NORMAL));
+			new PlayerData(initAckData.playerId, 0, PLAYER_TYPE_HUMAN, PLAYER_RIGHTS_NORMAL));
 		playerData->SetName(context.GetPlayerName());
 		client.AddPlayerData(playerData);
 

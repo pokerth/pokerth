@@ -56,7 +56,8 @@ HEADERS += \
 		src/net/netpacket.h \
 		src/net/resolverthread.h \
 		src/net/senderthread.h \
-		src/net/serverthread.h \
+		src/net/serveracceptthread.h \
+		src/net/serverlobbythread.h \
 		src/net/socket_helper.h \
 		src/net/socket_msg.h \
 		src/net/socket_startup.h \
@@ -126,13 +127,13 @@ SOURCES += \
 		src/net/common/resolverthread.cpp \
 		src/net/common/senderthread.cpp \
 		src/net/common/sendercallback.cpp \
-		src/net/common/serverthread.cpp \
 		src/net/common/servercontext.cpp \
 		src/net/common/serverexception.cpp \
-		src/net/common/serverrecvthread.cpp \
-		src/net/common/serverrecvstate.cpp \
+		src/net/common/serveracceptthread.cpp \
+		src/net/common/serverlobbythread.cpp \
 		src/net/common/servercallback.cpp \
 		src/net/common/sessiondata.cpp \
+		src/net/common/sessionmanager.cpp \
 		src/net/common/socket_startup_cmn.cpp \
 		src/net/common/socket_helper_cmn.cpp \
 		src/net/common/clientexception.cpp \
