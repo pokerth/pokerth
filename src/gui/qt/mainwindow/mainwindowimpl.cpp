@@ -1093,7 +1093,7 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 
 		if (playerAction == 1) { // FOLD
 
-			if (playerID == 0) {
+			if (playerID == 0 && !myConfig->readConfigInt("AntiPeekMode")) {
 				holeCardsArray[0][0]->startFadeOut(10); 
 				holeCardsArray[0][1]->startFadeOut(10); 
 			}
@@ -1311,9 +1311,15 @@ void mainWindowImpl::dealHoleCards() {
 		for(j=0; j<2; j++) {
 			if(currentGame->getPlayerArray()[i]->getMyActiveStatus()) { 
 				if ((i == 0) || DEBUG_MODE) {
-					tempCardsPixmapArray[j].load(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");
-					holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
-					
+					if(myConfig->readConfigInt("AntiPeekMode")) {
+						holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
+						tempCardsPixmapArray[j].load(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");
+						holeCardsArray[i][j]->setFrontPixmap(tempCardsPixmapArray[j]);
+					}
+					else {
+						tempCardsPixmapArray[j].load(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");
+						holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
+					}
 				} 
 				else {
 					holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
@@ -1327,6 +1333,8 @@ void mainWindowImpl::dealHoleCards() {
 			}
 		}
 	}
+	//fix press mouse button during bankrupt with anti-peek-mode
+	this->mouseOverFlipCards(FALSE);
 }
 
 void mainWindowImpl::dealBeRoCards(int myBeRoID) {	
@@ -1885,7 +1893,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 					currentHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
-						if(i) {
+						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
 												
 								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
@@ -1910,7 +1918,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 					currentHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
-						if(i) {
+						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {		
 								tempCardsPixmapArray[j].load(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");
 								holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
@@ -2171,7 +2179,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 					currentHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
 					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
-						if(i) {
+						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
 								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
 							}
@@ -2196,7 +2204,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 					currentHand->getPlayerArray()[i]->getMyCards(temp2CardsIntArray);	
 					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
-						if(i) {
+						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
 								
 								tempCardsPixmapArray[j].load(":/cards/resources/graphics/cards/"+QString::number(temp2CardsIntArray[j], 10)+".png");
@@ -2314,6 +2322,9 @@ void mainWindowImpl::nextRoundCleanGui() {
 	
 	//Clear Statusbarmessage
 	statusBar()->clearMessage();
+
+	//fix press mouse button during bankrupt with anti-peek-mode
+	this->mouseOverFlipCards(FALSE);
 }
 
 void mainWindowImpl::stopTimer() {
@@ -2685,8 +2696,12 @@ void mainWindowImpl::networkGameModification() {
 
 void mainWindowImpl::mouseOverFlipCards(bool front) {
 
-	holeCardsArray[0][0]->signalFastFlipCards(front);
-	holeCardsArray[0][1]->signalFastFlipCards(front);
+	if(mySession->getCurrentGameID()) {
+		if(myConfig->readConfigInt("AntiPeekMode") && mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[0]->getMyActiveStatus() && mySession->getCurrentGame()->getPlayerArray()[0]->getMyAction() != PLAYER_ACTION_FOLD) {
+			holeCardsArray[0][0]->signalFastFlipCards(front);
+			holeCardsArray[0][1]->signalFastFlipCards(front);
+		}
+	}
 }
 
 void mainWindowImpl::closeEvent(QCloseEvent *event) { quitPokerTH(); }

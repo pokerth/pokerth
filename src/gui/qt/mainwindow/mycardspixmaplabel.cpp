@@ -147,6 +147,11 @@ void MyCardsPixmapLabel::setPixmap(const QPixmap &pic, const bool flipsideIs) {
 
 }
 
+void MyCardsPixmapLabel::setFrontPixmap ( const QPixmap &pic ) {
+
+	myHiddenFront = pic;
+}
+
 void MyCardsPixmapLabel::paintEvent(QPaintEvent * event) {
 
 	if (!(flipCardsAction1 || flipCardsAction2)) {
@@ -193,13 +198,12 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event) {
 		painter3.drawPixmap(0,0, tmpFront);
 	}
 
-	if (fastFlipCardsFront) { QPainter painter(this);
-			painter.setBrush(QColor(0,0,0));
-			if(objectName().contains("pixmapLabel_card0")) {
-				painter.drawRect(10,10,20,20); 
-			}
+	if (fastFlipCardsFront && !fadeOutAction && !flipCardsAction1 && !flipCardsAction2) { 
+		if(objectName().contains("pixmapLabel_card0")) {
+			QPainter painter4(this);
+			painter4.drawPixmap(0,0, myHiddenFront.scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation)); 
+		}
 	}
-
 }
 
 void MyCardsPixmapLabel::fastFlipCards(bool front){

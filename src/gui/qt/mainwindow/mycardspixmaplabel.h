@@ -51,7 +51,7 @@ signals:
 public slots:
 	
 	void setPixmap ( const QPixmap &, const bool );
-// 	void setFrontPixmap ( const QPixmap & );
+	void setFrontPixmap ( const QPixmap & );
 
 	void nextFadeOutFrame();
 	void nextFlipCardsFrame();
@@ -85,6 +85,8 @@ private:
 	
 	bool mousePress;	
 	bool fastFlipCardsFront;	
+
+	QPixmap myHiddenFront;
 
 friend class mainWindowImpl;
 };
