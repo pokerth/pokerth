@@ -103,6 +103,7 @@ ServerGameThread::SendToAllPlayers(boost::shared_ptr<NetPacket> packet)
 void
 ServerGameThread::Main()
 {
+	SetState(SERVER_INITIAL_STATE::Instance());
 	GetSender().Run();
 
 	try
@@ -167,6 +168,7 @@ ServerGameThread::InternalStartGame()
 void
 ServerGameThread::InternalKickPlayer(unsigned playerId)
 {
+// TODO
 //	SessionWrapper tmpSession = GetSessionByUniquePlayerId(uniqueId);
 //	SessionError(tmpSession, ERR_NET_PLAYER_KICKED);
 }
@@ -174,6 +176,7 @@ ServerGameThread::InternalKickPlayer(unsigned playerId)
 void
 ServerGameThread::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
 {
+	// TODO
 	m_computerPlayers.push_back(player);
 }
 

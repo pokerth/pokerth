@@ -25,8 +25,6 @@
 #include <gui/guiinterface.h>
 #include <gamedata.h>
 
-#include <deque>
-
 #define GAME_THREAD_TERMINATE_TIMEOUT	200
 
 
@@ -61,8 +59,6 @@ public:
 	const GameData &GetGameData() const;
 
 protected:
-
-	typedef std::deque<SessionWrapper > SessionQueue;
 
 	// Main function of the thread.
 	virtual void Main();
