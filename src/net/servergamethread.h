@@ -25,6 +25,8 @@
 #include <gui/guiinterface.h>
 #include <gamedata.h>
 
+#include <deque>
+
 #define GAME_THREAD_TERMINATE_TIMEOUT	200
 
 
@@ -40,19 +42,27 @@ class Game;
 class ServerGameThread : public Thread
 {
 public:
-	ServerGameThread(ServerLobbyThread &lobbyThread, GuiInterface &gui, ConfigFile *playerConfig);
+	ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const std::string &name, GuiInterface &gui, ConfigFile *playerConfig);
 	virtual ~ServerGameThread();
 
 	void Init(const std::string &pwd, const GameData &gameData);
 
-	void AddSession(SessionWrapper session);
+	u_int32_t GetId() const;
+	const std::string &GetName() const;
+
+	bool AddSession(SessionWrapper session);
 
 	ServerCallback &GetCallback();
 	GameState GetCurRound() const;
 
 	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
 
+	bool CheckPassword(const std::string &password) const;
+	const GameData &GetGameData() const;
+
 protected:
+
+	typedef std::deque<SessionWrapper > SessionQueue;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -72,8 +82,6 @@ protected:
 	size_t GetCurNumberOfPlayers() const;
 	void AssignPlayerNumbers();
 
-	unsigned GetNextGameId();
-
 	SessionManager &GetSessionManager();
 	const SessionManager &GetSessionManager() const;
 	ServerLobbyThread &GetLobbyThread();
@@ -86,15 +94,14 @@ protected:
 
 	Game &GetGame();
 	const Game &GetGame() const;
-	const GameData &GetGameData() const;
 
 	const StartData &GetStartData() const;
 	void SetStartData(const StartData &startData);
 
-	bool CheckPassword(const std::string &password) const;
-
 	ServerSenderCallback &GetSenderCallback();
 	GuiInterface &GetGui();
+
+	unsigned GetNextGameNum();
 
 private:
 
@@ -107,13 +114,15 @@ private:
 	std::auto_ptr<ServerSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
 
-	GameData m_gameData;
-	StartData m_startData;
-	std::auto_ptr<Game> m_game;
-	unsigned m_gameId;
-	std::string m_password;
-	ConfigFile *m_playerConfig;
-	ServerGameState *m_curState;
+	GameData			m_gameData;
+	StartData			m_startData;
+	std::auto_ptr<Game>	m_game;
+	const u_int32_t		m_id;
+	std::string			m_name;
+	std::string			m_password;
+	ConfigFile		   *m_playerConfig;
+	ServerGameState	   *m_curState;
+	unsigned			m_gameNum;
 
 friend class AbstractServerGameStateReceiving;
 friend class AbstractServerGameStateRunning;

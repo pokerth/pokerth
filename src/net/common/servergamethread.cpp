@@ -50,12 +50,13 @@ private:
 };
 
 
-ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, GuiInterface &gui, ConfigFile *playerConfig)
-: m_lobbyThread(lobbyThread), m_gui(gui), m_gameId(0), m_playerConfig(playerConfig), m_curState(NULL)
+ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, GuiInterface &gui, ConfigFile *playerConfig)
+: m_lobbyThread(lobbyThread), m_gui(gui), m_id(id), m_name(name), m_playerConfig(playerConfig), m_curState(NULL), m_gameNum(1)
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
 	m_receiver.reset(new ReceiverHelper);
+	SetState(SERVER_INITIAL_STATE::Instance());
 }
 
 ServerGameThread::~ServerGameThread()
@@ -69,10 +70,22 @@ ServerGameThread::Init(const string &pwd, const GameData &gameData)
 	m_gameData = gameData;
 }
 
-void
+u_int32_t
+ServerGameThread::GetId() const
+{
+	return m_id;
+}
+
+const std::string &
+ServerGameThread::GetName() const
+{
+	return m_name;
+}
+
+bool
 ServerGameThread::AddSession(SessionWrapper session)
 {
-	GetState().HandleNewSession(*this, session);
+	return GetState().HandleNewSession(*this, session);
 }
 
 GameState
@@ -90,7 +103,6 @@ ServerGameThread::SendToAllPlayers(boost::shared_ptr<NetPacket> packet)
 void
 ServerGameThread::Main()
 {
-	SetState(SERVER_INITIAL_STATE::Instance());
 	GetSender().Run();
 
 	try
@@ -149,7 +161,7 @@ ServerGameThread::InternalStartGame()
 
 	SetStartData(startData);
 
-	m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), GetNextGameId()));
+	m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), GetNextGameNum()));
 }
 
 void
@@ -260,12 +272,6 @@ ServerGameThread::AssignPlayerNumbers()
 	}
 }
 
-unsigned
-ServerGameThread::GetNextGameId()
-{
-	return m_gameId++;
-}
-
 SessionManager &
 ServerGameThread::GetSessionManager()
 {
@@ -367,5 +373,11 @@ GuiInterface &
 ServerGameThread::GetGui()
 {
 	return m_gui;
+}
+
+unsigned
+ServerGameThread::GetNextGameNum()
+{
+	return m_gameNum++;
 }
 

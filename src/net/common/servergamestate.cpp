@@ -215,9 +215,10 @@ ServerGameStateInit::~ServerGameStateInit()
 {
 }
 
-void
+bool
 ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper session)
 {
+	bool retVal = false;
 	if (session.sessionData.get() && session.playerData.get())
 	{
 		size_t curNumPlayers = server.GetCurNumberOfPlayers();
@@ -253,8 +254,10 @@ ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper s
 			session.sessionData->SetState(SessionData::Game);
 			// Accept session.
 			server.GetSessionManager().AddSession(session);
+			retVal = true;
 		}
 	}
+	return retVal;
 }
 
 int
@@ -321,11 +324,11 @@ AbstractServerGameStateRunning::~AbstractServerGameStateRunning()
 {
 }
 
-void
+bool
 AbstractServerGameStateRunning::HandleNewSession(ServerGameThread &server, SessionWrapper session)
 {
 	// Do not accept new sessions in this state.
-	server.RejectSession(session);
+	return false;
 }
 
 //-----------------------------------------------------------------------------

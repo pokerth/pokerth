@@ -37,6 +37,7 @@
 class SenderThread;
 class ReceiverHelper;
 class ServerSenderCallback;
+class ServerGameThread;
 class ConfigFile;
 struct GameData;
 class Game;
@@ -53,6 +54,7 @@ public:
 	void CloseSessionDelayed(SessionWrapper session);
 
 	u_int32_t GetNextUniquePlayerId();
+	u_int32_t GetNextGameId();
 	ServerCallback &GetCallback();
 
 protected:
@@ -60,6 +62,7 @@ protected:
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
 	typedef std::list<SessionWrapper> SessionList;
 	typedef std::list<std::pair<boost::microsec_timer, boost::shared_ptr<SessionData> > > CloseSessionList;
+	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -98,6 +101,8 @@ private:
 	CloseSessionList m_closeSessionList;
 	mutable boost::mutex m_closeSessionListMutex;
 
+	GameMap m_gameMap;
+
 	std::auto_ptr<ReceiverHelper> m_receiver;
 	std::auto_ptr<SenderThread> m_sender;
 	std::auto_ptr<ServerSenderCallback> m_senderCallback;
@@ -106,6 +111,7 @@ private:
 	std::string m_password;
 	ConfigFile *m_playerConfig;
 	u_int32_t m_curUniquePlayerId;
+	u_int32_t m_curGameId;
 };
 
 #endif

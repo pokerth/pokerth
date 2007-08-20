@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include <net/serverlobbythread.h>
+#include <net/servergamethread.h>
 #include <net/serverexception.h>
 #include <net/senderthread.h>
 #include <net/sendercallback.h>
@@ -54,7 +55,7 @@ private:
 
 
 ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig)
-: m_gui(gui), m_playerConfig(playerConfig)
+: m_gui(gui), m_playerConfig(playerConfig), m_curUniquePlayerId(0), m_curGameId(0)
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
@@ -96,6 +97,12 @@ u_int32_t
 ServerLobbyThread::GetNextUniquePlayerId()
 {
 	return m_curUniquePlayerId++;
+}
+
+u_int32_t
+ServerLobbyThread::GetNextGameId()
+{
+	return m_curGameId++;
 }
 
 void
@@ -250,11 +257,65 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 void
 ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const NetPacketCreateGame &tmpPacket)
 {
+	// Create a new game.
+	NetPacketCreateGame::Data createGameData;
+	tmpPacket.GetData(createGameData);
+
+	boost::shared_ptr<ServerGameThread> game(
+		new ServerGameThread(*this, GetNextGameId(), createGameData.gameName, GetGui(), m_playerConfig));
+	game->Init(createGameData.password, createGameData.gameData);
+
+	// Add session to the game.
+	if (game->AddSession(session))
+	{
+		// Remove session from the lobby.
+		m_sessionManager.RemoveSession(session.sessionData->GetSocket());
+
+		// Add game to list.
+		m_gameMap.insert(GameMap::value_type(game->GetId(), game));
+
+		// Start the game.
+		game->Run();
+
+		// Send ack to client.
+		boost::shared_ptr<NetPacket> createGameAck(new NetPacketCreateGameAck);
+		NetPacketCreateGameAck::Data createGameAckData;
+		createGameAckData.gameId = game->GetId();
+		static_cast<NetPacketCreateGameAck *>(createGameAck.get())->SetData(createGameAckData);
+		GetSender().Send(session.sessionData->GetSocket(), createGameAck);
+	}
 }
 
 void
 ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const NetPacketJoinGame &tmpPacket)
 {
+	// Join an existing game.
+	NetPacketJoinGame::Data joinGameData;
+	tmpPacket.GetData(joinGameData);
+
+	GameMap::iterator pos = m_gameMap.find(joinGameData.gameId);
+
+	// TODO: handle errors
+	if (pos != m_gameMap.end())
+	{
+		ServerGameThread &game = *pos->second;
+		if (game.CheckPassword(joinGameData.password))
+		{
+			// Add session to the game.
+			if (game.AddSession(session))
+			{
+				// Remove session from the lobby.
+				m_sessionManager.RemoveSession(session.sessionData->GetSocket());
+
+				// Send ack to client.
+				boost::shared_ptr<NetPacket> joinGameAck(new NetPacketJoinGameAck);
+				NetPacketJoinGameAck::Data joinGameAckData;
+				joinGameAckData.gameData = game.GetGameData();
+				static_cast<NetPacketJoinGameAck *>(joinGameAck.get())->SetData(joinGameAckData);
+				GetSender().Send(session.sessionData->GetSocket(), joinGameAck);
+			}
+		}
+	}
 }
 
 void

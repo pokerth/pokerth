@@ -47,7 +47,7 @@ public:
 	virtual void Init() = 0;
 
 	// Handling of a new TCP connection.
-	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session) = 0;
+	virtual bool HandleNewSession(ServerGameThread &server, SessionWrapper session) = 0;
 
 	// Main processing function of the current state.
 	virtual int Process(ServerGameThread &server) = 0;
@@ -95,7 +95,7 @@ public:
 	virtual ~AbstractServerGameStateRunning();
 
 	// Reject new connections.
-	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session);
+	virtual bool HandleNewSession(ServerGameThread &server, SessionWrapper session);
 
 protected:
 
@@ -113,7 +113,7 @@ public:
 
 	virtual void Init() {}
 	// 
-	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session);
+	virtual bool HandleNewSession(ServerGameThread &server, SessionWrapper session);
 
 protected:
 
