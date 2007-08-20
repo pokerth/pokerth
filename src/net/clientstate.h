@@ -201,6 +201,24 @@ protected:
 	virtual int InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet);
 };
 
+// State: Wait for Join.
+class ClientStateWaitJoin : public AbstractClientStateReceiving
+{
+public:
+	// Access the state singleton.
+	static ClientStateWaitJoin &Instance();
+
+	virtual ~ClientStateWaitJoin();
+
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateWaitJoin();
+
+	virtual int InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet);
+};
+
 // State: Wait for start of the game or start info.
 class ClientStateWaitGame : public AbstractClientStateReceiving
 {

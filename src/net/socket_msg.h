@@ -72,7 +72,8 @@
 #define MSG_SOCK_LAST					MSG_SOCK_SESSION_DONE
 
 // The following messages are game messages.
-#define MSG_NET_GAME_CLIENT_START		5
+#define MSG_NET_GAME_CLIENT_JOIN		5
+#define MSG_NET_GAME_CLIENT_START		6
 #define MSG_NET_GAME_CLIENT_HAND_START	7
 #define MSG_NET_GAME_CLIENT_HAND_END	8
 #define MSG_NET_GAME_CLIENT_END			9

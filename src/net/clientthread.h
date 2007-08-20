@@ -56,6 +56,8 @@ public:
 	void SendStartEvent();
 	void SendPlayerAction();
 	void SendChatMessage(const std::string &msg);
+	void SendJoinGame(const std::string &name);
+	void SendCreateGame(const GameData &gameData);
 
 	ClientCallback &GetCallback();
 	GuiInterface &GetGui();
@@ -122,6 +124,7 @@ friend class ClientStateStartConnect;
 friend class ClientStateConnecting;
 friend class ClientStateStartSession;
 friend class ClientStateWaitSession;
+friend class ClientStateWaitJoin;
 friend class ClientStateWaitGame;
 friend class ClientStateWaitHand;
 friend class ClientStateRunHand;

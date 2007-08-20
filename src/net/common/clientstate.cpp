@@ -448,8 +448,47 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 		playerData->SetName(context.GetPlayerName());
 		client.AddPlayerData(playerData);
 
-		client.SetState(ClientStateWaitGame::Instance());
+		client.SetState(ClientStateWaitJoin::Instance());
 		retVal = MSG_SOCK_SESSION_DONE;
+	}
+
+	return retVal;
+}
+
+//-----------------------------------------------------------------------------
+
+ClientStateWaitJoin &
+ClientStateWaitJoin::Instance()
+{
+	static ClientStateWaitJoin state;
+	return state;
+}
+
+ClientStateWaitJoin::ClientStateWaitJoin()
+{
+}
+
+ClientStateWaitJoin::~ClientStateWaitJoin()
+{
+}
+
+int
+ClientStateWaitJoin::InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet)
+{
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
+
+	if (packet->ToNetPacketJoinGameAck())
+	{
+		// Successfully joined a game.
+		NetPacketJoinGameAck::Data joinGameAckData;
+		packet->ToNetPacketJoinGameAck()->GetData(joinGameAckData);
+		client.SetGameData(joinGameAckData.gameData);
+		boost::shared_ptr<PlayerData> tmpPlayer = client.GetPlayerDataByUniqueId(client.GetGuiPlayerId());
+		assert(tmpPlayer.get());
+		tmpPlayer->SetRights(joinGameAckData.prights);
+
+		client.SetState(ClientStateWaitGame::Instance());
+		retVal = MSG_NET_GAME_CLIENT_JOIN;
 	}
 
 	return retVal;

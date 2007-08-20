@@ -146,6 +146,18 @@ ClientThread::SendChatMessage(const std::string &msg)
 	}
 }
 
+void
+ClientThread::SendJoinGame(const std::string &name)
+{
+	// TODO
+}
+
+void
+ClientThread::SendCreateGame(const GameData &gameData)
+{
+	// TODO
+}
+
 ClientCallback &
 ClientThread::GetCallback()
 {
