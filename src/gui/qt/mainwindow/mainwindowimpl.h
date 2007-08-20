@@ -49,6 +49,7 @@ class connectToServerDialogImpl;
 class createNetworkGameDialogImpl;
 class startNetworkGameDialogImpl;
 class changeHumanPlayerNameDialogImpl;
+class gameLobbyDialogImpl;
 
 class QColor;
 
@@ -168,6 +169,7 @@ public slots:
 	void callSettingsDialog();
 	void callCreateNetworkGameDialog();
 	void callJoinNetworkGameDialog();
+	void callGameLobbyDialog();
 
 	void myBetRaise();
 	void myFoldAllin();
@@ -378,6 +380,8 @@ private:
 	connectToServerDialogImpl *myConnectToServerDialog;
 	startNetworkGameDialogImpl *myStartNetworkGameDialog;
 	createNetworkGameDialogImpl *myCreateNetworkGameDialog;
+	gameLobbyDialogImpl *myGameLobbyDialog;
+
 
 	//Sound
 	SDLPlayer *mySDLPlayer;

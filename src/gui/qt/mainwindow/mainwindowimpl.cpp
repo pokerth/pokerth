@@ -28,6 +28,7 @@
 #include "createnetworkgamedialogimpl.h"
 #include "startnetworkgamedialogimpl.h"
 #include "changehumanplayernamedialogimpl.h"
+#include "gamelobbydialogimpl.h"
 
 #include "startsplash.h"
 #include "mycardspixmaplabel.h"
@@ -528,7 +529,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	myStartNetworkGameDialog = new startNetworkGameDialogImpl(this, myConfig);
 	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this, myConfig);
 	myAboutPokerthDialog = new aboutPokerthImpl(this);
-
+	myGameLobbyDialog = new gameLobbyDialogImpl(this, myConfig);
+	
 	myStartNetworkGameDialog->setMyW(this);
 
 // 	//ShortCuts 
@@ -578,6 +580,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect( actionSettings, SIGNAL( triggered() ), this, SLOT( callSettingsDialog() ) );
 	connect( actionJoin_network_Game, SIGNAL( triggered() ), this, SLOT( callJoinNetworkGameDialog() ) );
 	connect( actionCreate_network_Game, SIGNAL( triggered() ), this, SLOT( callCreateNetworkGameDialog() ) );
+	connect( actionInternet_Game, SIGNAL( triggered() ), this, SLOT( callGameLobbyDialog() ) );
 	connect( actionQuit, SIGNAL( triggered() ), this, SLOT( quitPokerTH() ) );
 	connect( actionFullScreen, SIGNAL( triggered() ), this, SLOT( switchFullscreen() ) );
 	connect( actionShowHideChat, SIGNAL( triggered() ), this, SLOT( switchChatWindow() ) );
@@ -801,6 +804,11 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 			showNetworkStartDialog();
 		}
 	}
+}
+
+void mainWindowImpl::callGameLobbyDialog() {
+
+	myGameLobbyDialog->exec(); 
 }
 
 void mainWindowImpl::callSettingsDialog() {

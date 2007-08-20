@@ -6084,9 +6084,16 @@
     <property name="title" >
      <string>Game</string>
     </property>
+    <widget class="QMenu" name="menuNetwork_Game" >
+     <property name="title" >
+      <string>Network Game</string>
+     </property>
+     <addaction name="actionCreate_network_Game" />
+     <addaction name="actionJoin_network_Game" />
+    </widget>
     <addaction name="actionNewGame" />
-    <addaction name="actionCreate_network_Game" />
-    <addaction name="actionJoin_network_Game" />
+    <addaction name="menuNetwork_Game" />
+    <addaction name="actionInternet_Game" />
     <addaction name="actionSettings" />
     <addaction name="actionAboutPokerth" />
     <addaction name="actionQuit" />
@@ -6173,6 +6180,11 @@
    </property>
    <property name="shortcut" >
     <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionInternet_Game" >
+   <property name="text" >
+    <string>Internet Game ...</string>
    </property>
   </action>
  </widget>

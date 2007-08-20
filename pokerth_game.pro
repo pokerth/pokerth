@@ -33,7 +33,8 @@ INCLUDEPATH += . \
 		src/gui/qt/settingsdialog \
 		src/gui/qt/settingsdialog/selectavatardialog \
 		src/gui/qt/startnetworkgamedialog \
-		src/gui/qt/changehumanplayernamedialog
+		src/gui/qt/changehumanplayernamedialog \
+		src/gui/qt/gamelobbydialog
 
 DEPENDPATH += . \
 		src \
@@ -63,7 +64,8 @@ DEPENDPATH += . \
 		src/gui/qt/settingsdialog \
 		src/gui/qt/settingsdialog/selectavatardialog \
 		src/gui/qt/startnetworkgamedialog \
-		src/gui/qt/changehumanplayernamedialog
+		src/gui/qt/changehumanplayernamedialog \
+		src/gui/qt/gamelobbydialog
 
 # Input
 HEADERS += \
@@ -136,6 +138,7 @@ HEADERS += \
 		src/gui/qt/settingsdialog/selectavatardialog/myavatarlistitem.h \
 		src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.h \
 		src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.h \
+		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.h \
 		src/gui/qttoolsinterface.h \
 		src/gui/qt/qttools/qttoolswrapper.h \
 		src/gui/qt/qttools/qthelper/qthelper.h \
@@ -151,7 +154,8 @@ FORMS += \
 		src/gui/qt/settingsdialog.ui \
 		src/gui/qt/selectavatardialog.ui \
 		src/gui/qt/startnetworkgamedialog.ui \
-		src/gui/qt/changehumanplayernamedialog.ui
+		src/gui/qt/changehumanplayernamedialog.ui \
+		src/gui/qt/gamelobbydialog.ui
 
 SOURCES += \
 		src/pokerth.cpp \
@@ -177,7 +181,8 @@ SOURCES += \
 		src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp \
 		src/gui/qt/settingsdialog/selectavatardialog/myavatarlistitem.cpp \
 		src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp \
-		src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.cpp
+		src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.cpp \
+		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp
 
 RESOURCES += src/gui/qt/resources.qrc
 
