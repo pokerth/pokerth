@@ -25,6 +25,8 @@
 #include <gui/guiinterface.h>
 #include <gamedata.h>
 
+#include <deque>
+
 #define GAME_THREAD_TERMINATE_TIMEOUT	200
 
 
@@ -48,7 +50,7 @@ public:
 	u_int32_t GetId() const;
 	const std::string &GetName() const;
 
-	bool AddSession(SessionWrapper session);
+	void AddSession(SessionWrapper session);
 
 	ServerCallback &GetCallback();
 	GameState GetCurRound() const;
@@ -59,6 +61,8 @@ public:
 	const GameData &GetGameData() const;
 
 protected:
+
+	typedef std::deque<SessionWrapper> SessionQueue;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -100,6 +104,9 @@ protected:
 	unsigned GetNextGameNum();
 
 private:
+
+	SessionQueue m_sessionQueue;
+	mutable boost::mutex m_sessionQueueMutex;
 
 	SessionManager m_sessionManager;
 	PlayerDataList m_computerPlayers;

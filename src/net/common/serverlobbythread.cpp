@@ -265,25 +265,16 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const NetPa
 		new ServerGameThread(*this, GetNextGameId(), createGameData.gameName, GetGui(), m_playerConfig));
 	game->Init(createGameData.password, createGameData.gameData);
 
+	// Remove session from the lobby.
+	m_sessionManager.RemoveSession(session.sessionData->GetSocket());
 	// Add session to the game.
-	if (game->AddSession(session))
-	{
-		// Remove session from the lobby.
-		m_sessionManager.RemoveSession(session.sessionData->GetSocket());
+	game->AddSession(session);
 
-		// Add game to list.
-		m_gameMap.insert(GameMap::value_type(game->GetId(), game));
+	// Add game to list.
+	m_gameMap.insert(GameMap::value_type(game->GetId(), game));
 
-		// Start the game.
-		game->Run();
-
-		// Send ack to client.
-		boost::shared_ptr<NetPacket> createGameAck(new NetPacketCreateGameAck);
-		NetPacketCreateGameAck::Data createGameAckData;
-		createGameAckData.gameId = game->GetId();
-		static_cast<NetPacketCreateGameAck *>(createGameAck.get())->SetData(createGameAckData);
-		GetSender().Send(session.sessionData->GetSocket(), createGameAck);
-	}
+	// Start the game.
+	game->Run();
 }
 
 void
@@ -301,19 +292,10 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const NetPack
 		ServerGameThread &game = *pos->second;
 		if (game.CheckPassword(joinGameData.password))
 		{
+			// Remove session from the lobby.
+			m_sessionManager.RemoveSession(session.sessionData->GetSocket());
 			// Add session to the game.
-			if (game.AddSession(session))
-			{
-				// Remove session from the lobby.
-				m_sessionManager.RemoveSession(session.sessionData->GetSocket());
-
-				// Send ack to client.
-				boost::shared_ptr<NetPacket> joinGameAck(new NetPacketJoinGameAck);
-				NetPacketJoinGameAck::Data joinGameAckData;
-				joinGameAckData.gameData = game.GetGameData();
-				static_cast<NetPacketJoinGameAck *>(joinGameAck.get())->SetData(joinGameAckData);
-				GetSender().Send(session.sessionData->GetSocket(), joinGameAck);
-			}
+			game.AddSession(session);
 		}
 	}
 }

@@ -215,10 +215,9 @@ ServerGameStateInit::~ServerGameStateInit()
 {
 }
 
-bool
+void
 ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper session)
 {
-	bool retVal = false;
 	if (session.sessionData.get() && session.playerData.get())
 	{
 		size_t curNumPlayers = server.GetCurNumberOfPlayers();
@@ -235,29 +234,35 @@ ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper s
 				// First player is admin.
 				session.playerData->SetRights(PLAYER_RIGHTS_ADMIN);
 			}
-			else
-			{
-				// Send notifications for connected players to client.
-				PlayerDataList tmpPlayerList = server.GetSessionManager().GetPlayerDataList();
-				PlayerDataList::iterator player_i = tmpPlayerList.begin();
-				PlayerDataList::iterator player_end = tmpPlayerList.end();
-				while (player_i != player_end)
-				{
-					server.GetSender().Send(session.sessionData->GetSocket(), CreateNetPacketPlayerJoined(*(*player_i)));
-					++player_i;
-				}
 
-				// Send "Player Joined" to other fully connected clients.
-				server.SendToAllPlayers(CreateNetPacketPlayerJoined(*session.playerData));
+			// Send ack to client.
+			boost::shared_ptr<NetPacket> joinGameAck(new NetPacketJoinGameAck);
+			NetPacketJoinGameAck::Data joinGameAckData;
+			joinGameAckData.gameId = server.GetId();
+			joinGameAckData.prights = session.playerData->GetRights();
+			joinGameAckData.gameData = server.GetGameData();
+			static_cast<NetPacketJoinGameAck *>(joinGameAck.get())->SetData(joinGameAckData);
+			server.GetSender().Send(session.sessionData->GetSocket(), joinGameAck);
+
+			// Send notifications for connected players to client.
+			PlayerDataList tmpPlayerList = server.GetSessionManager().GetPlayerDataList();
+			PlayerDataList::iterator player_i = tmpPlayerList.begin();
+			PlayerDataList::iterator player_end = tmpPlayerList.end();
+			while (player_i != player_end)
+			{
+				server.GetSender().Send(session.sessionData->GetSocket(), CreateNetPacketPlayerJoined(*(*player_i)));
+				++player_i;
 			}
+
+			// Send "Player Joined" to other fully connected clients.
+			server.SendToAllPlayers(CreateNetPacketPlayerJoined(*session.playerData));
+
 			// Session is now in game state.
 			session.sessionData->SetState(SessionData::Game);
 			// Accept session.
 			server.GetSessionManager().AddSession(session);
-			retVal = true;
 		}
 	}
-	return retVal;
 }
 
 int
@@ -324,11 +329,11 @@ AbstractServerGameStateRunning::~AbstractServerGameStateRunning()
 {
 }
 
-bool
+void
 AbstractServerGameStateRunning::HandleNewSession(ServerGameThread &server, SessionWrapper session)
 {
 	// Do not accept new sessions in this state.
-	return false;
+	// TODO
 }
 
 //-----------------------------------------------------------------------------

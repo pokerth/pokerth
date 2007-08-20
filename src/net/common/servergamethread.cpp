@@ -56,7 +56,6 @@ ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id,
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
 	m_receiver.reset(new ReceiverHelper);
-	SetState(SERVER_INITIAL_STATE::Instance());
 }
 
 ServerGameThread::~ServerGameThread()
@@ -82,10 +81,12 @@ ServerGameThread::GetName() const
 	return m_name;
 }
 
-bool
+void
 ServerGameThread::AddSession(SessionWrapper session)
 {
-	return GetState().HandleNewSession(*this, session);
+	// Must be thread safe.
+	boost::mutex::scoped_lock lock(m_sessionQueueMutex);
+	m_sessionQueue.push_back(session);
 }
 
 GameState
@@ -110,6 +111,20 @@ ServerGameThread::Main()
 	{
 		while (!ShouldTerminate())
 		{
+			{
+				// Handle one new session at a time.
+				SessionWrapper tmpSession;
+				{
+					boost::mutex::scoped_lock lock(m_sessionQueueMutex);
+					if (!m_sessionQueue.empty())
+					{
+						tmpSession = m_sessionQueue.front();
+						m_sessionQueue.pop_front();
+					}
+				}
+				if (tmpSession.sessionData.get())
+					GetState().HandleNewSession(*this, tmpSession);
+			}
 			// Process current state.
 			GetState().Process(*this);
 		}
