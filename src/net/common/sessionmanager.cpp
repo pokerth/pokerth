@@ -37,17 +37,23 @@ SessionManager::~SessionManager()
 void
 SessionManager::AddSession(boost::shared_ptr<SessionData> sessionData)
 {
+	AddSession(SessionWrapper(sessionData, boost::shared_ptr<PlayerData>()));
+}
+
+void
+SessionManager::AddSession(SessionWrapper session)
+{
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);
 
-	SessionMap::iterator pos = m_sessionMap.lower_bound(sessionData->GetSocket());
+	SessionMap::iterator pos = m_sessionMap.lower_bound(session.sessionData->GetSocket());
 
 	// If pos points to a pair whose key is equivalent to the socket, this handle
 	// already exists within the list.
-	if (pos != m_sessionMap.end() && sessionData->GetSocket() == pos->first)
+	if (pos != m_sessionMap.end() && session.sessionData->GetSocket() == pos->first)
 	{
 		throw ServerException(ERR_SOCK_CONN_EXISTS, 0);
 	}
-	m_sessionMap.insert(pos, SessionMap::value_type(sessionData->GetSocket(), SessionWrapper(sessionData, boost::shared_ptr<PlayerData>())));
+	m_sessionMap.insert(pos, SessionMap::value_type(session.sessionData->GetSocket(), session));
 }
 
 void
@@ -180,6 +186,56 @@ SessionManager::GetSessionByUniquePlayerId(unsigned uniqueId) const
 		++session_i;
 	}
 	return tmpSession;
+}
+
+PlayerDataList
+SessionManager::GetPlayerDataList() const
+{
+	PlayerDataList playerList;
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SessionMap::const_iterator session_i = m_sessionMap.begin();
+	SessionMap::const_iterator session_end = m_sessionMap.end();
+
+	while (session_i != session_end)
+	{
+		// Get all players which are fully connected.
+		if (session_i->second.sessionData->GetState() == SessionData::Established)
+		{
+			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
+			assert(tmpPlayer.get());
+			assert(!tmpPlayer->GetName().empty());
+			playerList.push_back(tmpPlayer);
+		}
+		++session_i;
+	}
+	return playerList;
+}
+
+bool
+SessionManager::IsPlayerConnected(const string &playerName) const
+{
+	bool retVal = false;
+
+	SessionWrapper tmpSession = GetSessionByPlayerName(playerName);
+
+	if (tmpSession.sessionData.get() && tmpSession.playerData.get())
+		retVal = true;
+
+	return retVal;
+}
+
+bool
+SessionManager::IsPlayerConnected(unsigned uniqueId) const
+{
+	bool retVal = false;
+
+	SessionWrapper tmpSession = GetSessionByUniquePlayerId(uniqueId);
+
+	if (tmpSession.sessionData.get() && tmpSession.playerData.get())
+		retVal = true;
+
+	return retVal;
 }
 
 void

@@ -79,6 +79,19 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<ConnectData> data)
 	m_connectQueue.push_back(data);
 }
 
+void
+ServerLobbyThread::CloseSessionDelayed(SessionWrapper session)
+{
+	m_sessionManager.RemoveSession(session.sessionData->GetSocket());
+
+	boost::microsec_timer closeTimer;
+	closeTimer.start();
+	CloseSessionList::value_type closeSessionData(closeTimer, session.sessionData);
+
+	boost::mutex::scoped_lock lock(m_closeSessionListMutex);
+	m_closeSessionList.push_back(closeSessionData);
+}
+
 u_int32_t
 ServerLobbyThread::GetNextUniquePlayerId()
 {
@@ -198,7 +211,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 	}
 
 	// Check whether this player is already connected.
-	if (IsPlayerConnected(initData.playerName))
+	if (m_sessionManager.IsPlayerConnected(initData.playerName))
 	{
 		SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
 		return;
@@ -247,6 +260,8 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const NetPack
 void
 ServerLobbyThread::CloseSessionLoop()
 {
+	boost::mutex::scoped_lock lock(m_closeSessionListMutex);
+
 	CloseSessionList::iterator i = m_closeSessionList.begin();
 	CloseSessionList::iterator end = m_closeSessionList.end();
 
@@ -303,30 +318,6 @@ ServerLobbyThread::SessionError(SessionWrapper session, int errorCode)
 }
 
 void
-ServerLobbyThread::CloseSessionDelayed(SessionWrapper session)
-{
-	m_sessionManager.RemoveSession(session.sessionData->GetSocket());
-
-	boost::shared_ptr<PlayerData> tmpPlayerData = session.playerData;
-	if (tmpPlayerData.get() && !tmpPlayerData->GetName().empty())
-	{
-		// Send "Player Left" to clients.
-		boost::shared_ptr<NetPacket> thisPlayerLeft(new NetPacketPlayerLeft);
-		NetPacketPlayerLeft::Data thisPlayerLeftData;
-		thisPlayerLeftData.playerId = tmpPlayerData->GetUniqueId();
-		static_cast<NetPacketPlayerLeft *>(thisPlayerLeft.get())->SetData(thisPlayerLeftData);
-		m_sessionManager.SendToAllSessions(GetSender(), thisPlayerLeft);
-
-		GetCallback().SignalNetServerPlayerLeft(tmpPlayerData->GetName());
-	}
-
-	boost::microsec_timer closeTimer;
-	closeTimer.start();
-	CloseSessionList::value_type closeSessionData(closeTimer, session.sessionData);
-	m_closeSessionList.push_back(closeSessionData);
-}
-
-void
 ServerLobbyThread::SendError(SOCKET s, int errorCode)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacketError);
@@ -334,19 +325,6 @@ ServerLobbyThread::SendError(SOCKET s, int errorCode)
 	errorData.errorCode = errorCode;
 	static_cast<NetPacketError *>(packet.get())->SetData(errorData);
 	GetSender().Send(s, packet);
-}
-
-bool
-ServerLobbyThread::IsPlayerConnected(const string &playerName) const
-{
-	bool retVal = false;
-
-	SessionWrapper tmpSession = m_sessionManager.GetSessionByPlayerName(playerName);
-
-	if (tmpSession.sessionData.get() && tmpSession.playerData.get())
-		retVal = true;
-
-	return retVal;
 }
 
 ServerCallback &

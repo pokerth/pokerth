@@ -46,13 +46,18 @@ public:
 	SessionManager();
 	virtual ~SessionManager();
 
-	void AddSession(boost::shared_ptr<SessionData> sessionData); // new Sessions have no player data
+	void AddSession(boost::shared_ptr<SessionData> sessionData); // new Sessions without player data
+	void AddSession(SessionWrapper session);
 	void SetSessionPlayerData(SOCKET session, boost::shared_ptr<PlayerData> playerData);
 	void RemoveSession(SOCKET session);
 
 	SessionWrapper Select(unsigned timeoutMsec);
 	SessionWrapper GetSessionByPlayerName(const std::string playerName) const;
 	SessionWrapper GetSessionByUniquePlayerId(unsigned uniqueId) const;
+
+	PlayerDataList GetPlayerDataList() const;
+	bool IsPlayerConnected(const std::string &playerName) const;
+	bool IsPlayerConnected(unsigned uniqueId) const;
 
 	void Clear();
 	unsigned GetRawSessionCount();

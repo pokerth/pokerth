@@ -42,8 +42,7 @@ ServerAcceptThread::~ServerAcceptThread()
 }
 
 void
-ServerAcceptThread::Init(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd,
-	const GameData &gameData)
+ServerAcceptThread::Init(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd)
 {
 	if (IsRunning())
 		return; // TODO: throw exception

@@ -114,7 +114,12 @@ Game::~Game()
 
 }
 
-HandInterface * Game::getCurrentHand()
+HandInterface *Game::getCurrentHand()
+{
+	return actualHand;
+}
+
+const HandInterface *Game::getCurrentHand() const
 {
 	return actualHand;
 }

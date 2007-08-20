@@ -29,7 +29,7 @@
 class SessionData
 {
 public:
-	enum State { Init, Established };
+	enum State { Init, Established, Game };
 
 	SessionData(SOCKET sockfd, unsigned id);
 	~SessionData();

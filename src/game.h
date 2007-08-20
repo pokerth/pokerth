@@ -48,6 +48,7 @@ public:
 	void startHand();
 
 	HandInterface *getCurrentHand();
+	const HandInterface *getCurrentHand() const;
 
 	std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() {return playerArray;}
 

@@ -62,6 +62,8 @@ public:
 	{return m_type;}
 	PlayerRights GetRights() const
 	{return m_rights;}
+	void SetRights(PlayerRights rights)
+	{m_rights = rights;}
 	unsigned GetUniqueId() const
 	{return m_uniqueId;}
 	int GetNumber() const

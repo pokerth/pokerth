@@ -41,8 +41,7 @@ public:
 	virtual ~ServerAcceptThread();
 
 	// Set the parameters.
-	void Init(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd,
-		const GameData &gameData);
+	void Init(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd);
 
 	ServerCallback &GetCallback();
 	GuiInterface &GetGui();

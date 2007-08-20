@@ -16,72 +16,80 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network server receive thread. */
+/* Network server game thread. */
 
-#ifndef _SERVERRECVTHREAD_H_
-#define _SERVERRECVTHREAD_H_
+#ifndef _SERVERGAMETHREAD_H_
+#define _SERVERGAMETHREAD_H_
 
-#include <net/connectdata.h>
 #include <net/sessionmanager.h>
-#include <net/netpacket.h>
 #include <gui/guiinterface.h>
 #include <gamedata.h>
 
-#include <deque>
-#include <list>
-#include <core/boost/timer.hpp>
-
-#define LOBBY_THREAD_TERMINATE_TIMEOUT	200
+#define GAME_THREAD_TERMINATE_TIMEOUT	200
 
 
 class SenderThread;
 class ReceiverHelper;
+class ServerLobbyThread;
 class ServerSenderCallback;
+class ServerGameState;
 class ConfigFile;
 struct GameData;
 class Game;
 
-class ServerLobbyThread : public Thread
+class ServerGameThread : public Thread
 {
 public:
-	ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig);
-	virtual ~ServerLobbyThread();
+	ServerGameThread(ServerLobbyThread &lobbyThread, GuiInterface &gui, ConfigFile *playerConfig);
+	virtual ~ServerGameThread();
 
-	void Init(const std::string &pwd);
+	void Init(const std::string &pwd, const GameData &gameData);
 
-	void AddConnection(boost::shared_ptr<ConnectData> data);
-	void CloseSessionDelayed(SessionWrapper session);
+	void AddSession(SessionWrapper session);
 
-	u_int32_t GetNextUniquePlayerId();
 	ServerCallback &GetCallback();
+	GameState GetCurRound() const;
+
+	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
 
 protected:
-
-	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
-	typedef std::list<SessionWrapper> SessionList;
-	typedef std::list<std::pair<boost::microsec_timer, boost::shared_ptr<SessionData> > > CloseSessionList;
 
 	// Main function of the thread.
 	virtual void Main();
 
-	void ProcessLoop();
-	void HandleNetPacketInit(SessionWrapper session, const NetPacketInit &tmpPacket);
-	void HandleNetPacketCreateGame(SessionWrapper session, const NetPacketCreateGame &tmpPacket);
-	void HandleNetPacketJoinGame(SessionWrapper session, const NetPacketJoinGame &tmpPacket);
-	void CloseSessionLoop();
+	void InternalStartGame();
+	void InternalKickPlayer(unsigned playerId);
 
-	void HandleNewConnection(boost::shared_ptr<ConnectData> connData);
-
-	SOCKET Select();
-
-	void CleanupConnectQueue();
-	void CleanupSessionMap();
+	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
+	void ResetComputerPlayerList();
 
 	void SessionError(SessionWrapper session, int errorCode);
+	void CloseSessionDelayed(SessionWrapper session);
 	void SendError(SOCKET s, int errorCode);
+	void RejectSession(SessionWrapper session);
+
+	void RemoveDisconnectedPlayers();
+	size_t GetCurNumberOfPlayers() const;
+	void AssignPlayerNumbers();
+
+	unsigned GetNextGameId();
+
+	SessionManager &GetSessionManager();
+	const SessionManager &GetSessionManager() const;
+	ServerLobbyThread &GetLobbyThread();
+
+	ServerGameState &GetState();
+	void SetState(ServerGameState &newState);
 
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
+
+	Game &GetGame();
+	const Game &GetGame() const;
+	const GameData &GetGameData() const;
+
+	const StartData &GetStartData() const;
+	void SetStartData(const StartData &startData);
 
 	bool CheckPassword(const std::string &password) const;
 
@@ -90,22 +98,35 @@ protected:
 
 private:
 
-	ConnectQueue m_connectQueue;
-	mutable boost::mutex m_connectQueueMutex;
-
 	SessionManager m_sessionManager;
+	PlayerDataList m_computerPlayers;
 
-	CloseSessionList m_closeSessionList;
-	mutable boost::mutex m_closeSessionListMutex;
-
+	ServerLobbyThread &m_lobbyThread;
 	std::auto_ptr<ReceiverHelper> m_receiver;
 	std::auto_ptr<SenderThread> m_sender;
 	std::auto_ptr<ServerSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
 
+	GameData m_gameData;
+	StartData m_startData;
+	std::auto_ptr<Game> m_game;
+	unsigned m_gameId;
 	std::string m_password;
 	ConfigFile *m_playerConfig;
-	u_int32_t m_curUniquePlayerId;
+	ServerGameState *m_curState;
+
+friend class AbstractServerGameStateReceiving;
+friend class AbstractServerGameStateRunning;
+friend class ServerGameStateInit;
+friend class ServerGameStateStartGame;
+friend class ServerGameStateStartHand;
+friend class ServerGameStateStartRound;
+friend class ServerGameStateWaitPlayerAction;
+friend class ServerGameStateComputerAction;
+friend class ServerGameStateDealCardsDelay;
+friend class ServerGameStateShowCardsDelay;
+friend class ServerGameStateNextHandDelay;
+friend class ServerGameStateNextGameDelay;
 };
 
 #endif
