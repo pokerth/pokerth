@@ -828,6 +828,10 @@ void mainWindowImpl::callGameLobbyDialog() {
 	{
 		showNetworkStartDialog();
 	}
+	else
+	{
+		mySession->terminateNetworkClient();
+	}
 }
 
 void mainWindowImpl::callSettingsDialog() {
