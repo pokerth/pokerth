@@ -46,18 +46,24 @@ void gameLobbyDialogImpl::createGame()
 {
 	assert(mySession);
 
-	// TODO: don't use hardcoded values
-	GameData gameData;
-	// Set Game Data
-	gameData.maxNumberOfPlayers = myConfig->readConfigInt("NumberOfPlayers");
-	gameData.startMoney = myConfig->readConfigInt("StartCash");
-	gameData.smallBlind = myConfig->readConfigInt("SmallBlind");
-	gameData.handsBeforeRaise = myConfig->readConfigInt("HandsBeforeRaiseSmallBlind");
-	//Speeds 
-	gameData.guiSpeed = myConfig->readConfigInt("GameSpeed");
+	myCreateInternetGameDialog = new createInternetGameDialogImpl(this, myConfig);
+	myCreateInternetGameDialog->exec();
+	
+	if (myCreateInternetGameDialog->result() == QDialog::Accepted ) {
+	
+		GameData gameData;
+		// Set Game Data
+		gameData.maxNumberOfPlayers = myCreateInternetGameDialog->spinBox_quantityPlayers->value();
+		gameData.startMoney = myCreateInternetGameDialog->spinBox_startCash->value();
+		gameData.smallBlind = myCreateInternetGameDialog->spinBox_smallBlind->value();
+		gameData.handsBeforeRaise = myCreateInternetGameDialog->spinBox_handsBeforeRaiseSmallBlind->value();
+		gameData.guiSpeed = myCreateInternetGameDialog->spinBox_gameSpeed->value();
+		gameData.playerActionTimeoutSec = myCreateInternetGameDialog->spinBox_netTimeOutPlayerAction->value();
+		
+		mySession->clientCreateGame(gameData, myConfig->readConfigString("MyName") + "'s game", "");
 
-	mySession->clientCreateGame(gameData, myConfig->readConfigString("MyName") + "'s game", "");
-
+		accept();
+	}
 }
 
 void gameLobbyDialogImpl::joinGame()

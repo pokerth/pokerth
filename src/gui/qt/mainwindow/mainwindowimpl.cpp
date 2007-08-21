@@ -755,9 +755,7 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		gameData.startMoney = myCreateNetworkGameDialog->spinBox_startCash->value();
 		gameData.smallBlind = myCreateNetworkGameDialog->spinBox_smallBlind->value();
 		gameData.handsBeforeRaise = myCreateNetworkGameDialog->spinBox_handsBeforeRaiseSmallBlind->value();
-		//temporarely static until ai is enabled in network
-// 		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
-		gameData.guiSpeed = 4;
+		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
 		gameData.playerActionTimeoutSec = myCreateNetworkGameDialog->spinBox_netTimeOutPlayerAction->value();
 
 		myStartNetworkGameDialog->setSession(&getSession());

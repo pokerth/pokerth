@@ -1,16 +1,16 @@
 <ui version="4.0" >
- <class>createNetworkGameDialog</class>
- <widget class="QDialog" name="createNetworkGameDialog" >
+ <class>createInternetGameDialog</class>
+ <widget class="QDialog" name="createInternetGameDialog" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>290</width>
-    <height>272</height>
+    <width>297</width>
+    <height>305</height>
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Create Network Game</string>
+   <string>Create Game</string>
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
@@ -22,7 +22,7 @@
    <item row="0" column="0" >
     <widget class="QGroupBox" name="groupBox" >
      <property name="title" >
-      <string>Network Game Settings</string>
+      <string>Game Settings</string>
      </property>
      <layout class="QGridLayout" >
       <property name="margin" >
@@ -148,6 +148,30 @@
         </property>
        </widget>
       </item>
+      <item row="6" column="0" colspan="4" >
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QCheckBox" name="checkBox_Password" >
+          <property name="text" >
+           <string>Password:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_Password" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
      </layout>
     </widget>
    </item>
@@ -205,12 +229,12 @@
   <connection>
    <sender>pushButton_createGame</sender>
    <signal>clicked()</signal>
-   <receiver>createNetworkGameDialog</receiver>
+   <receiver>createInternetGameDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>223</x>
-     <y>292</y>
+     <x>205</x>
+     <y>294</y>
     </hint>
     <hint type="destinationlabel" >
      <x>87</x>
@@ -221,16 +245,32 @@
   <connection>
    <sender>pushButton_cancel</sender>
    <signal>clicked()</signal>
-   <receiver>createNetworkGameDialog</receiver>
+   <receiver>createInternetGameDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>304</x>
-     <y>292</y>
+     <x>286</x>
+     <y>294</y>
     </hint>
     <hint type="destinationlabel" >
      <x>288</x>
      <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_Password</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEdit_Password</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>76</x>
+     <y>239</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>146</x>
+     <y>235</y>
     </hint>
    </hints>
   </connection>

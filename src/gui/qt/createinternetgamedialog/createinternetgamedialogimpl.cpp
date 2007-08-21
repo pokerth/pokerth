@@ -17,11 +17,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "createnetworkgamedialogimpl.h"
+#include "createinternetgamedialogimpl.h"
 #include "session.h"
 #include "configfile.h"
 
-createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, ConfigFile *c)
+createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, ConfigFile *c)
       : QDialog(parent), myConfig(c)
 {
 
@@ -40,21 +40,21 @@ createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, Config
 }
 
 
-void createNetworkGameDialogImpl::exec() { 
+void createInternetGameDialogImpl::exec() { 
 	
 	fillFormular();
 	QDialog::exec();
 }
 
-void createNetworkGameDialogImpl::createGame() {
+void createInternetGameDialogImpl::createGame() {
 	
 }
 
-void createNetworkGameDialogImpl::cancel() {
+void createInternetGameDialogImpl::cancel() {
 	
 }
 
-void createNetworkGameDialogImpl::fillFormular() {
+void createInternetGameDialogImpl::fillFormular() {
 	
 	//Network Game Settings
 	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
@@ -66,13 +66,13 @@ void createNetworkGameDialogImpl::fillFormular() {
 	spinBox_netTimeOutPlayerAction->setValue(myConfig->readConfigInt("NetTimeOutPlayerAction"));
 }
 
-void createNetworkGameDialogImpl::showDialog() { 
+void createInternetGameDialogImpl::showDialog() { 
 	
 	fillFormular();
 	exec();
 }
 
-void createNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
+void createInternetGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 
 
 	if (event->key() == 16777220) { pushButton_createGame->click(); } //ENTER 

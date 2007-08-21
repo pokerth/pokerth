@@ -125,21 +125,5 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>pushButton_CreateGame</sender>
-   <signal>clicked()</signal>
-   <receiver>gameLobbyDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>271</x>
-     <y>193</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>125</x>
-     <y>188</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
 </ui>

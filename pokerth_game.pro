@@ -28,6 +28,7 @@ INCLUDEPATH += . \
 		src/gui/qt/mainwindow/chat \
 		src/gui/qt/aboutpokerth \
 		src/gui/qt/createnetworkgamedialog \
+		src/gui/qt/createinternetgamedialog \
 		src/gui/qt/joinnetworkgamedialog \
 		src/gui/qt/newlocalgamedialog \
 		src/gui/qt/settingsdialog \
@@ -56,6 +57,7 @@ DEPENDPATH += . \
 		src/gui/qt/mainwindow/chat \
 		src/gui/qt/aboutpokerth \
 		src/gui/qt/connecttoserverdialog \
+		src/gui/qt/createinternetgamedialog \
 		src/gui/qt/createnetworkgamedialog \
 		src/gui/qt/joinnetworkgamedialog \
 		src/gui/qt/qttools \
@@ -129,6 +131,7 @@ HEADERS += \
 		src/gui/qt/aboutpokerth/aboutpokerthimpl.h \
 		src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.h \
 		src/gui/qt/createnetworkgamedialog/createnetworkgamedialogimpl.h \
+		src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.h \
 		src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.h \
 		src/gui/qt/newlocalgamedialog/newgamedialogimpl.h \
 		src/gui/qt/settingsdialog/settingsdialogimpl.h \
@@ -149,6 +152,7 @@ FORMS += \
 		src/gui/qt/aboutpokerth.ui \
 		src/gui/qt/connecttoserverdialog.ui \
 		src/gui/qt/createnetworkgamedialog.ui \
+		src/gui/qt/createinternetgamedialog.ui \
 		src/gui/qt/joinnetworkgamedialog.ui \
 		src/gui/qt/newgamedialog.ui \
 		src/gui/qt/settingsdialog.ui \
@@ -173,6 +177,7 @@ SOURCES += \
 		src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp \
 		src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp \
 		src/gui/qt/createnetworkgamedialog/createnetworkgamedialogimpl.cpp \
+		src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp \
 		src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp \
 		src/gui/qt/newlocalgamedialog/newgamedialogimpl.cpp \
 		src/gui/qt/settingsdialog/settingsdialogimpl.cpp \

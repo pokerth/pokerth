@@ -17,6 +17,8 @@
 #include <QtGui>
 #include <QtCore>
 
+#include "createinternetgamedialogimpl.h"
+
 class Session;
 class ConfigFile;
 
@@ -48,6 +50,8 @@ private:
 
 	ConfigFile *myConfig;	
 	Session *mySession;
+
+	createInternetGameDialogImpl *myCreateInternetGameDialog;
 };
 
 #endif
