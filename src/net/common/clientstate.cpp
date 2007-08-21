@@ -433,7 +433,6 @@ int
 ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
-	ClientContext &context = client.GetContext();
 
 	if (packet->ToNetPacketInitAck())
 	{
@@ -441,12 +440,6 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 		NetPacketInitAck::Data initAckData;
 		packet->ToNetPacketInitAck()->GetData(initAckData);
 		client.SetGuiPlayerId(initAckData.playerId);
-
-		// Player number is 0 on init. Will be set when the game starts.
-		boost::shared_ptr<PlayerData> playerData(
-			new PlayerData(initAckData.playerId, 0, PLAYER_TYPE_HUMAN, PLAYER_RIGHTS_NORMAL));
-		playerData->SetName(context.GetPlayerName());
-		client.AddPlayerData(playerData);
 
 		client.SetState(ClientStateWaitJoin::Instance());
 		retVal = MSG_SOCK_SESSION_DONE;
@@ -476,6 +469,7 @@ int
 ClientStateWaitJoin::InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
+	ClientContext &context = client.GetContext();
 
 	if (packet->ToNetPacketGameListNew())
 	{
@@ -490,9 +484,12 @@ ClientStateWaitJoin::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		NetPacketJoinGameAck::Data joinGameAckData;
 		packet->ToNetPacketJoinGameAck()->GetData(joinGameAckData);
 		client.SetGameData(joinGameAckData.gameData);
-		boost::shared_ptr<PlayerData> tmpPlayer = client.GetPlayerDataByUniqueId(client.GetGuiPlayerId());
-		assert(tmpPlayer.get());
-		tmpPlayer->SetRights(joinGameAckData.prights);
+
+		// Player number is 0 on init. Will be set when the game starts.
+		boost::shared_ptr<PlayerData> playerData(
+			new PlayerData(client.GetGuiPlayerId(), 0, PLAYER_TYPE_HUMAN, joinGameAckData.prights));
+		playerData->SetName(context.GetPlayerName());
+		client.AddPlayerData(playerData);
 
 		client.SetState(ClientStateWaitGame::Instance());
 		retVal = MSG_NET_GAME_CLIENT_JOIN;

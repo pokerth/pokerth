@@ -144,7 +144,7 @@ SessionManager::GetSessionByPlayerName(const string playerName) const
 	while (session_i != session_end)
 	{
 		// Check all players which are fully connected.
-		if (session_i->second.sessionData->GetState() == SessionData::Established)
+		if (session_i->second.sessionData->GetState() != SessionData::Init)
 		{
 			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
 			assert(tmpPlayer.get());
@@ -172,7 +172,7 @@ SessionManager::GetSessionByUniquePlayerId(unsigned uniqueId) const
 	while (session_i != session_end)
 	{
 		// Check all players which are fully connected.
-		if (session_i->second.sessionData->GetState() == SessionData::Established)
+		if (session_i->second.sessionData->GetState() != SessionData::Init)
 		{
 			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
 			assert(tmpPlayer.get());
@@ -199,8 +199,8 @@ SessionManager::GetPlayerDataList() const
 
 	while (session_i != session_end)
 	{
-		// Get all players which are fully connected.
-		if (session_i->second.sessionData->GetState() == SessionData::Established)
+		// Get all players in the game.
+		if (session_i->second.sessionData->GetState() == SessionData::Game)
 		{
 			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
 			assert(tmpPlayer.get());
@@ -255,7 +255,7 @@ SessionManager::GetRawSessionCount()
 }
 
 void
-SessionManager::SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet)
+SessionManager::SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state)
 {
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);
 
@@ -266,15 +266,15 @@ SessionManager::SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPac
 	{
 		assert(i->second.sessionData.get());
 
-		// Send each fully connected client a copy of the packet.
-		if (i->second.sessionData->GetState() == SessionData::Established)
+		// Send each client (with a certain state) a copy of the packet.
+		if (i->second.sessionData->GetState() == state)
 			sender.Send(i->first, boost::shared_ptr<NetPacket>(packet->Clone()));
 		++i;
 	}
 }
 
 void
-SessionManager::SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SOCKET except)
+SessionManager::SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SOCKET except, SessionData::State state)
 {
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);
 
@@ -284,7 +284,7 @@ SessionManager::SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<
 	while (i != end)
 	{
 		// Send each fully connected client but one a copy of the packet.
-		if (i->second.sessionData->GetState() == SessionData::Established)
+		if (i->second.sessionData->GetState() == state)
 			if (i->first != except)
 				sender.Send(i->first, boost::shared_ptr<NetPacket>(packet->Clone()));
 		++i;

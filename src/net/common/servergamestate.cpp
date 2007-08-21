@@ -62,7 +62,7 @@ static void SendPlayerAction(ServerGameThread &server, boost::shared_ptr<PlayerI
 	actionDoneData.totalPlayerBet = player->getMySet();
 	actionDoneData.playerMoney = player->getMyCash();
 	static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
-	server.SendToAllPlayers(notifyActionDone);
+	server.SendToAllPlayers(notifyActionDone, SessionData::Game);
 }
 
 static void SendNewRoundCards(ServerGameThread &server, Game &curGame, int state)
@@ -81,7 +81,7 @@ static void SendNewRoundCards(ServerGameThread &server, Game &curGame, int state
 			for (int num = 0; num < 3; num++)
 				notifyCardsData.flopCards[num] = static_cast<u_int16_t>(cards[num]);
 			static_cast<NetPacketDealFlopCards *>(notifyCards.get())->SetData(notifyCardsData);
-			server.SendToAllPlayers(notifyCards);
+			server.SendToAllPlayers(notifyCards, SessionData::Game);
 		} break;
 		case GAME_STATE_TURN: {
 			// deal turn card
@@ -91,7 +91,7 @@ static void SendNewRoundCards(ServerGameThread &server, Game &curGame, int state
 			NetPacketDealTurnCard::Data notifyCardsData;
 			notifyCardsData.turnCard = static_cast<u_int16_t>(cards[3]);
 			static_cast<NetPacketDealTurnCard *>(notifyCards.get())->SetData(notifyCardsData);
-			server.SendToAllPlayers(notifyCards);
+			server.SendToAllPlayers(notifyCards, SessionData::Game);
 		} break;
 		case GAME_STATE_RIVER: {
 			// deal river card
@@ -101,7 +101,7 @@ static void SendNewRoundCards(ServerGameThread &server, Game &curGame, int state
 			NetPacketDealRiverCard::Data notifyCardsData;
 			notifyCardsData.riverCard = static_cast<u_int16_t>(cards[4]);
 			static_cast<NetPacketDealRiverCard *>(notifyCards.get())->SetData(notifyCardsData);
-			server.SendToAllPlayers(notifyCards);
+			server.SendToAllPlayers(notifyCards, SessionData::Game);
 		} break;
 		default: {
 			// 
@@ -163,7 +163,7 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 					outChatData.playerId = session.playerData->GetUniqueId();
 					outChatData.text = inChatData.text;
 					static_cast<NetPacketChatText *>(outChat.get())->SetData(outChatData);
-					server.SendToAllPlayers(outChat);
+					server.SendToAllPlayers(outChat, SessionData::Game);
 				}
 			}
 			else
@@ -255,7 +255,7 @@ ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper s
 			}
 
 			// Send "Player Joined" to other fully connected clients.
-			server.SendToAllPlayers(CreateNetPacketPlayerJoined(*session.playerData));
+			server.SendToAllPlayers(CreateNetPacketPlayerJoined(*session.playerData), SessionData::Game);
 
 			// Session is now in game state.
 			session.sessionData->SetState(SessionData::Game);
@@ -381,7 +381,7 @@ ServerGameStateStartGame::Process(ServerGameThread &server)
 
 	static_cast<NetPacketGameStart *>(answer.get())->SetData(gameStartData);
 
-	server.SendToAllPlayers(answer);
+	server.SendToAllPlayers(answer, SessionData::Game);
 	server.SetState(ServerGameStateStartHand::Instance());
 
 	return MSG_NET_GAME_SERVER_START;
@@ -458,7 +458,7 @@ ServerGameStateStartHand::Process(ServerGameThread &server)
 			actionDoneData.totalPlayerBet = playerArray[i]->getMySet();
 			actionDoneData.playerMoney = playerArray[i]->getMyCash();
 			static_cast<NetPacketPlayersActionDone *>(notifySmallBlind.get())->SetData(actionDoneData);
-			server.SendToAllPlayers(notifySmallBlind);
+			server.SendToAllPlayers(notifySmallBlind, SessionData::Game);
 			break;
 		}
 	}
@@ -474,7 +474,7 @@ ServerGameStateStartHand::Process(ServerGameThread &server)
 			actionDoneData.totalPlayerBet = playerArray[i]->getMySet();
 			actionDoneData.playerMoney = playerArray[i]->getMyCash();
 			static_cast<NetPacketPlayersActionDone *>(notifyBigBlind.get())->SetData(actionDoneData);
-			server.SendToAllPlayers(notifyBigBlind);
+			server.SendToAllPlayers(notifyBigBlind, SessionData::Game);
 			break;
 		}
 	}
@@ -550,7 +550,7 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 				++i;
 			}
 			static_cast<NetPacketAllInShowCards *>(allIn.get())->SetData(allInData);
-			server.SendToAllPlayers(allIn);
+			server.SendToAllPlayers(allIn, SessionData::Game);
 			curGame.getCurrentHand()->setCardsShown(true);
 
 			server.SetState(ServerGameStateShowCardsDelay::Instance());
@@ -581,7 +581,7 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 			playersTurnData.playerId = curPlayer->getMyUniqueID();
 			static_cast<NetPacketPlayersTurn *>(notification.get())->SetData(playersTurnData);
 
-			server.SendToAllPlayers(notification);
+			server.SendToAllPlayers(notification, SessionData::Game);
 
 			server.SetState(ServerGameStateWaitPlayerAction::Instance());
 
@@ -607,7 +607,7 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 				endHandData.playerMoney = player->getMyCash();
 				static_cast<NetPacketEndOfHandHideCards *>(endHand.get())->SetData(endHandData);
 
-				server.SendToAllPlayers(endHand);
+				server.SendToAllPlayers(endHand, SessionData::Game);
 			}
 			else
 			{
@@ -642,7 +642,7 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 				}
 				static_cast<NetPacketEndOfHandShowCards *>(endHand.get())->SetData(endHandData);
 
-				server.SendToAllPlayers(endHand);
+				server.SendToAllPlayers(endHand, SessionData::Game);
 			}
 
 			// Remove disconnected players. This is the one and only place to do this.
@@ -655,6 +655,7 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 				if (curGame.getCurrentHand()->getPlayerArray()[i]->getMyCash() > 0) 
 					playersPositiveCashCounter++;
 			}
+			// TODO: this is not an assert - terminate game if true.
 			assert(playersPositiveCashCounter);
 			if (playersPositiveCashCounter == 1)
 			{
@@ -1019,7 +1020,7 @@ ServerGameStateNextGameDelay::Process(ServerGameThread &server)
 		endGameData.winnerPlayerId = winnerPlayer->getMyUniqueID();
 		static_cast<NetPacketEndOfGame *>(endGame.get())->SetData(endGameData);
 
-		server.SendToAllPlayers(endGame);
+		server.SendToAllPlayers(endGame, SessionData::Game);
 
 		// Wait for the start of a new game.
 		server.SetState(ServerGameStateInit::Instance());

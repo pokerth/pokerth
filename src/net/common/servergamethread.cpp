@@ -96,9 +96,9 @@ ServerGameThread::GetCurRound() const
 }
 
 void
-ServerGameThread::SendToAllPlayers(boost::shared_ptr<NetPacket> packet)
+ServerGameThread::SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::State state)
 {
-	GetSessionManager().SendToAllSessions(GetSender(), packet);
+	GetSessionManager().SendToAllSessions(GetSender(), packet, state);
 }
 
 void
@@ -224,7 +224,7 @@ ServerGameThread::CloseSessionDelayed(SessionWrapper session)
 		NetPacketPlayerLeft::Data thisPlayerLeftData;
 		thisPlayerLeftData.playerId = tmpPlayerData->GetUniqueId();
 		static_cast<NetPacketPlayerLeft *>(thisPlayerLeft.get())->SetData(thisPlayerLeftData);
-		GetSessionManager().SendToAllSessions(GetSender(), thisPlayerLeft);
+		GetSessionManager().SendToAllSessions(GetSender(), thisPlayerLeft, SessionData::Game);
 
 		GetCallback().SignalNetServerPlayerLeft(tmpPlayerData->GetName());
 	}

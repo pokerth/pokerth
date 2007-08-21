@@ -55,7 +55,7 @@ public:
 	ServerCallback &GetCallback();
 	GameState GetCurRound() const;
 
-	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet);
+	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::State state);
 
 	bool CheckPassword(const std::string &password) const;
 	const GameData &GetGameData() const;

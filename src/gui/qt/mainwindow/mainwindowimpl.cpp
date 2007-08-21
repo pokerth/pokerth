@@ -824,6 +824,9 @@ void mainWindowImpl::callGameLobbyDialog() {
 
 	if (myGameLobbyDialog->result() == QDialog::Accepted)
 	{
+		myStartNetworkGameDialog->setSession(&getSession());
+		myStartNetworkGameDialog->treeWidget->clear();
+
 		showNetworkStartDialog();
 	}
 }
