@@ -121,7 +121,7 @@ private:
 	StartData			m_startData;
 	std::auto_ptr<Game>	m_game;
 	const u_int32_t		m_id;
-	std::string			m_name;
+	const std::string	m_name;
 	std::string			m_password;
 	ConfigFile		   *m_playerConfig;
 	ServerGameState	   *m_curState;

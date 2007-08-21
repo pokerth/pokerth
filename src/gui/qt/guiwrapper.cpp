@@ -119,6 +119,10 @@ void GuiWrapper::SignalNetClientPlayerLeft(const string &playerName)
 	myW->signalNetClientPlayerLeft(tmpName);
 	myLog->signalLogPlayerLeftMsg(tmpName);
 }
+
+void GuiWrapper::SignalNetClientGameListNew(const string &gameName) { myW->signalNetClientGameListNew(QString::fromUtf8(gameName.c_str())); }
+void GuiWrapper::SignalNetClientGameListRemove(const string &gameName) { myW->signalNetClientGameListRemove(QString::fromUtf8(gameName.c_str())); }
+
 void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { myW->signalNetClientGameStart(game); }
 void GuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { myChat->signalChatMessage(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
 void GuiWrapper::SignalNetClientWaitDialog() { myW->signalShowNetworkStartDialog(); }

@@ -147,15 +147,42 @@ ClientThread::SendChatMessage(const std::string &msg)
 }
 
 void
-ClientThread::SendJoinGame(const std::string &name)
+ClientThread::SendJoinGame(const std::string &name, const std::string &password)
 {
-	// TODO
+	// Warning: This function is called in the context of the GUI thread.
+	// Create a network packet to request joining a game.
+	boost::shared_ptr<NetPacket> join(new NetPacketJoinGame);
+	NetPacketJoinGame::Data joinData;
+	joinData.password = password;
+	try
+	{
+		joinData.gameId = GetGameIdByName(name);
+		static_cast<NetPacketJoinGame *>(join.get())->SetData(joinData);
+		GetSender().Send(GetContext().GetSocket(), join);
+	} catch (const NetException &)
+	{
+		// TODO
+	}
 }
 
 void
-ClientThread::SendCreateGame(const GameData &gameData)
+ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password)
 {
-	// TODO
+	// Warning: This function is called in the context of the GUI thread.
+	// Create a network packet to request creating a new game.
+	boost::shared_ptr<NetPacket> create(new NetPacketCreateGame);
+	NetPacketCreateGame::Data createData;
+	createData.gameData = gameData;
+	createData.gameName = name;
+	createData.password = password;
+	try
+	{
+		static_cast<NetPacketCreateGame *>(create.get())->SetData(createData);
+		GetSender().Send(GetContext().GetSocket(), create);
+	} catch (const NetException &)
+	{
+		// TODO
+	}
 }
 
 ClientCallback &
@@ -442,5 +469,27 @@ ClientThread::RemoveDisconnectedPlayers()
 			}
 		}
 	}
+}
+
+unsigned
+ClientThread::GetGameIdByName(const std::string &name) const
+{
+	// Find the game.
+	bool retVal = false;
+	boost::mutex::scoped_lock lock(m_gameMapMutex);
+	GameMap::const_iterator pos = m_gameMap.find(name);
+	if (pos == m_gameMap.end())
+		throw NetException(ERR_NET_UNKNOWN_GAME, 0);
+	return pos->second;
+}
+
+void
+ClientThread::AddGameInformation(const std::string &name, unsigned id)
+{
+	{
+		boost::mutex::scoped_lock lock(m_gameMapMutex);
+		m_gameMap.insert(GameMap::value_type(name, id));
+	}
+	GetCallback().SignalNetClientGameListNew(name);
 }
 

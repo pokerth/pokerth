@@ -72,6 +72,7 @@ protected:
 	void HandleNetPacketCreateGame(SessionWrapper session, const NetPacketCreateGame &tmpPacket);
 	void HandleNetPacketJoinGame(SessionWrapper session, const NetPacketJoinGame &tmpPacket);
 	void CloseSessionLoop();
+	void TerminateGames();
 
 	void HandleNewConnection(boost::shared_ptr<ConnectData> connData);
 
@@ -90,6 +91,8 @@ protected:
 
 	ServerSenderCallback &GetSenderCallback();
 	GuiInterface &GetGui();
+
+	static boost::shared_ptr<NetPacket> CreateNetPacketGameListNew(const ServerGameThread &game);
 
 private:
 

@@ -48,6 +48,8 @@ public:
 	void startNetworkClient(const std::string &serverAddress, unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd);
 	void startNetworkClientForLocalServer();
 	void terminateNetworkClient();
+	void clientCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
+	void clientJoinGame(const std::string &name, const std::string &password);
 
 	void startNetworkServer(const GameData &gameData);
 	void sendStartEvent();

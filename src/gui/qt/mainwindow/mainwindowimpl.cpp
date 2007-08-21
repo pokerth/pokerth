@@ -652,6 +652,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetClientSelfJoined(QString, int)), myStartNetworkGameDialog, SLOT(joinedNetworkGame(QString, int)));
 	connect(this, SIGNAL(signalNetClientPlayerJoined(QString, int)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString, int)));
 	connect(this, SIGNAL(signalNetClientPlayerLeft(QString)), myStartNetworkGameDialog, SLOT(removePlayer(QString)));
+	connect(this, SIGNAL(signalNetClientGameListNew(QString)), myGameLobbyDialog, SLOT(addGame(QString)));
+	connect(this, SIGNAL(signalNetClientGameListRemove(QString)), myGameLobbyDialog, SLOT(removeGame(QString)));
 
 	// Errors are handled globally, not within one dialog.
 	connect(this, SIGNAL(signalNetClientError(int, int)), this, SLOT(networkError(int, int)));
@@ -808,7 +810,22 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 
 void mainWindowImpl::callGameLobbyDialog() {
 
+	mySession->terminateNetworkClient();
+	if (myServerGuiInterface.get())
+		myServerGuiInterface->getSession().terminateNetworkServer();
+
+	myGameLobbyDialog->setSession(&getSession());
+	myGameLobbyDialog->treeWidget_GameList->clear();
+
+	// Just for testing
+	mySession->startNetworkClientForLocalServer();
+
 	myGameLobbyDialog->exec(); 
+
+	if (myGameLobbyDialog->result() == QDialog::Accepted)
+	{
+		showNetworkStartDialog();
+	}
 }
 
 void mainWindowImpl::callSettingsDialog() {

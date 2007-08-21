@@ -477,7 +477,14 @@ ClientStateWaitJoin::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 
-	if (packet->ToNetPacketJoinGameAck())
+	if (packet->ToNetPacketGameListNew())
+	{
+		// A new game was created on the server.
+		NetPacketGameListNew::Data gameListNewData;
+		packet->ToNetPacketGameListNew()->GetData(gameListNewData);
+		client.AddGameInformation(gameListNewData.gameName, gameListNewData.gameId);
+	}
+	else if (packet->ToNetPacketJoinGameAck())
 	{
 		// Successfully joined a game.
 		NetPacketJoinGameAck::Data joinGameAckData;

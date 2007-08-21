@@ -129,6 +129,8 @@ signals:
 	void signalNetClientSelfJoined(QString playerName, int rights);
 	void signalNetClientPlayerJoined(QString playerName, int rights);
 	void signalNetClientPlayerLeft(QString playerName);
+	void signalNetClientGameListNew(QString gameName);
+	void signalNetClientGameListRemove(QString gameName);
 	void signalNetClientGameStart(boost::shared_ptr<Game> game);
 
 public slots:

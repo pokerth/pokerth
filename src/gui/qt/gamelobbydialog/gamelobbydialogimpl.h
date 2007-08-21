@@ -13,10 +13,12 @@
 #define GAMELOBBYDIALOGIMPL_H
 
 #include <ui_gamelobbydialog.h>
-#include "configfile.h"
 
 #include <QtGui>
 #include <QtCore>
+
+class Session;
+class ConfigFile;
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
@@ -24,18 +26,26 @@
 class gameLobbyDialogImpl: public QDialog, public Ui::gameLobbyDialog {
 Q_OBJECT
 public:
-    gameLobbyDialogImpl(QWidget *parent = 0, ConfigFile* = 0);
+	gameLobbyDialogImpl(QWidget *parent = 0, ConfigFile* = 0);
 
-    ~gameLobbyDialogImpl();
-	
+	~gameLobbyDialogImpl();
+
 	void exec();
+
+	void setSession(Session *session);
 
 public slots:
 
-private:
-		
-	ConfigFile *myConfig;	
+	void createGame();
+	void joinGame();
 
+	void addGame(QString gameName);
+	void removeGame(QString gameName);
+
+private:
+
+	ConfigFile *myConfig;	
+	Session *mySession;
 };
 
 #endif

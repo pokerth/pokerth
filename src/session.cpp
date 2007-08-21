@@ -157,6 +157,20 @@ void Session::terminateNetworkClient()
 	myNetClient = 0;
 }
 
+void Session::clientCreateGame(const GameData &gameData, const string &name, const string &password)
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendCreateGame(gameData, name, password);
+}
+
+void Session::clientJoinGame(const std::string &name, const std::string &password)
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendJoinGame(name, password);
+}
+
 void Session::startNetworkServer(const GameData &gameData)
 {
 	if (myNetServer)

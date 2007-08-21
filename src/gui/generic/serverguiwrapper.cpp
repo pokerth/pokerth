@@ -111,6 +111,8 @@ void ServerGuiWrapper::SignalNetClientError(int errorID, int osErrorID) { if (my
 void ServerGuiWrapper::SignalNetClientSelfJoined(const string &playerName, PlayerRights rights) { if (myClientcb) myClientcb->SignalNetClientSelfJoined(playerName, rights); }
 void ServerGuiWrapper::SignalNetClientPlayerJoined(const string &playerName, PlayerRights rights) { if (myClientcb) myClientcb->SignalNetClientPlayerJoined(playerName, rights); }
 void ServerGuiWrapper::SignalNetClientPlayerLeft(const string &playerName) { if (myClientcb) myClientcb->SignalNetClientPlayerLeft(playerName); }
+void ServerGuiWrapper::SignalNetClientGameListNew(const string &gameName) { if (myClientcb) myClientcb->SignalNetClientGameListNew(gameName); }
+void ServerGuiWrapper::SignalNetClientGameListRemove(const string &gameName) { if (myClientcb) myClientcb->SignalNetClientGameListRemove(gameName); }
 void ServerGuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { if (myClientcb) myClientcb->SignalNetClientGameStart(game); }
 void ServerGuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { if (myClientcb) myClientcb->SignalNetClientChatMsg(playerName, msg); }
 void ServerGuiWrapper::SignalNetClientWaitDialog() { if (myClientcb) myClientcb->SignalNetClientWaitDialog(); }

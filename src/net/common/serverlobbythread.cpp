@@ -137,6 +137,9 @@ ServerLobbyThread::Main()
 	{
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 	}
+
+	TerminateGames();
+
 	GetSender().SignalTermination();
 	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);
 
@@ -239,13 +242,13 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 	GetSender().Send(session.sessionData->GetSocket(), initAck);
 
 	// Send the game list to the client.
-	/*GameThreadList::iterator game_i = m_gameList.begin();
-	GameThreadList::iterator game_end = m_gameList.end();
+	GameMap::const_iterator game_i = m_gameMap.begin();
+	GameMap::const_iterator game_end = m_gameMap.end();
 	while (game_i != game_end)
 	{
-		GetSender().Send(session.sessionData->GetSocket(), CreateNetPacketGameListUpdate(*(*game_i)));
+		GetSender().Send(session.sessionData->GetSocket(), CreateNetPacketGameListNew(*game_i->second));
 		++game_i;
-	}*/
+	}
 
 	// Set player data for session.
 	m_sessionManager.SetSessionPlayerData(session.sessionData->GetSocket(), tmpPlayerData);
@@ -315,6 +318,21 @@ ServerLobbyThread::CloseSessionLoop()
 		if (cur->first.elapsed().total_seconds() >= SERVER_CLOSE_SESSION_DELAY_SEC)
 			m_closeSessionList.erase(cur);
 	}
+}
+
+void
+ServerLobbyThread::TerminateGames()
+{
+	GameMap::iterator i = m_gameMap.begin();
+	GameMap::iterator end = m_gameMap.end();
+
+	while (i != end)
+	{
+		i->second->SignalTermination();
+		i->second->Join(GAME_THREAD_TERMINATE_TIMEOUT);
+		++i;
+	}
+	m_gameMap.clear();
 }
 
 void
@@ -407,5 +425,17 @@ GuiInterface &
 ServerLobbyThread::GetGui()
 {
 	return m_gui;
+}
+
+boost::shared_ptr<NetPacket>
+ServerLobbyThread::CreateNetPacketGameListNew(const ServerGameThread &game)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacketGameListNew);
+	NetPacketGameListNew::Data packetData;
+	packetData.gameId = game.GetId();
+	packetData.gameMode = GAME_MODE_CREATED;
+	packetData.gameName = game.GetName();
+	static_cast<NetPacketGameListNew *>(packet.get())->SetData(packetData);
+	return packet;
 }
 

@@ -36,6 +36,9 @@ public:
 	virtual void SignalNetClientGameInfo(int actionID) = 0;
 	virtual void SignalNetClientError(int errorID, int osErrorID) = 0;
 
+	virtual void SignalNetClientGameListNew(const std::string &gameName) = 0;
+	virtual void SignalNetClientGameListRemove(const std::string &gameName) = 0;
+
 	virtual void SignalNetClientGameStart(boost::shared_ptr<Game> game) = 0;
 	virtual void SignalNetClientSelfJoined(const std::string &playerName, PlayerRights rights) = 0;
 	virtual void SignalNetClientPlayerJoined(const std::string &playerName, PlayerRights rights) = 0;

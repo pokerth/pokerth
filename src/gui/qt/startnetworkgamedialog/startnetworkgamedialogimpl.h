@@ -35,6 +35,8 @@ Q_OBJECT
 public:
     startNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *config = 0);
 
+	void setSession(Session *session);
+
 public slots:
 
 	void setMyW ( mainWindowImpl* theValue ) { myW = theValue; }
@@ -49,8 +51,6 @@ public slots:
 	void playerSelected(QTreeWidgetItem*, int);
 	void kickPlayer();
 	void checkPlayerQuantity();
-
-	void setSession(Session *session);
 
 	void keyPressEvent ( QKeyEvent*);
 

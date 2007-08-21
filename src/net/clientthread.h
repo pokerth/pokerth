@@ -56,14 +56,14 @@ public:
 	void SendStartEvent();
 	void SendPlayerAction();
 	void SendChatMessage(const std::string &msg);
-	void SendJoinGame(const std::string &name);
-	void SendCreateGame(const GameData &gameData);
+	void SendJoinGame(const std::string &name, const std::string &password);
+	void SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
 
 	ClientCallback &GetCallback();
 	GuiInterface &GetGui();
 
 protected:
-	typedef std::map<unsigned, std::string> PlayerMap;
+	typedef std::map<std::string, unsigned> GameMap;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -97,6 +97,9 @@ protected:
 
 	void RemoveDisconnectedPlayers();
 
+	unsigned GetGameIdByName(const std::string &name) const;
+	void AddGameInformation(const std::string &name, unsigned id);
+
 private:
 
 	std::auto_ptr<ClientContext> m_context;
@@ -110,6 +113,9 @@ private:
 	GameData m_gameData;
 	StartData m_startData;
 	PlayerDataList m_playerDataList;
+
+	GameMap m_gameMap;
+	mutable boost::mutex m_gameMapMutex;
 
 	boost::shared_ptr<Game> m_game;
 

@@ -98,6 +98,8 @@ public:
 	void SignalNetClientChatMsg(const std::string &playerName, const std::string &msg);
 	void SignalNetClientWaitDialog();
 
+	void SignalNetClientGameListNew(const std::string &gameName);
+	void SignalNetClientGameListRemove(const std::string &gameName);
 	void SignalNetClientGameStart(boost::shared_ptr<Game> game);
 
 	void SignalNetServerSuccess(int actionID);

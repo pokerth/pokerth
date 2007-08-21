@@ -23,7 +23,7 @@
 #include <net/socket_msg.h>
 
 startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFile *config)
-      : QDialog(parent), myConfig(config), isAdmin(false), myW(0)
+      : QDialog(parent), myW(NULL), isAdmin(false), myConfig(config), mySession(NULL)
 {
 	setupUi(this);
 
