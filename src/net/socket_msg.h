@@ -58,7 +58,6 @@
 #define ERR_NET_INVALID_ROUND			114
 #define ERR_NET_PLAYER_KICKED			115
 #define ERR_NET_INVALID_PLAYER_COUNT	116
-#define ERR_NET_PLAYER_NOT_IN_GAME		117
 
 // This is an internal message which is not reported.
 #define MSG_SOCK_INTERNAL_PENDING		0

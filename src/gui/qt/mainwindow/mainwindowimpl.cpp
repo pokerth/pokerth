@@ -2567,8 +2567,22 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 			  myChangeHumanPlayerNameDialog->exec(); }
 		break;
 		case ERR_NET_INVALID_PLAYER_NAME:
-			{ myChangeHumanPlayerNameDialog->label_Message->setText(tr("The player name is either too short or too long. Please choose another one."));
+			{ myChangeHumanPlayerNameDialog->label_Message->setText(tr("The player name is too short, too long or reserved. Please choose another one."));
 			  myChangeHumanPlayerNameDialog->exec(); }
+		break;
+		case ERR_NET_INVALID_GAME_NAME:
+			{ myChangeHumanPlayerNameDialog->label_Message->setText(tr("The game name is either too short or too long. Please choose another one."));
+			  myChangeHumanPlayerNameDialog->exec(); }
+		break;
+		case ERR_NET_UNKNOWN_GAME:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The game could not be found."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_INVALID_CHAT_TEXT:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The chat text is invalid."),
+				QMessageBox::Close); }
 		break;
 		case ERR_NET_UNKNOWN_PLAYER_ID:
 			{ QMessageBox::warning(this, tr("Network Error"),
@@ -2590,6 +2604,7 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 				QMessageBox::Close); }
 	}
 	// close dialogs
+	myGameLobbyDialog->reject();
 	myConnectToServerDialog->reject();
 	myStartNetworkGameDialog->reject();
 }
