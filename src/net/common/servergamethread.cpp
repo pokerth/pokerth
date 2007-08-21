@@ -109,7 +109,7 @@ ServerGameThread::Main()
 
 	try
 	{
-		while (!ShouldTerminate())
+		do
 		{
 			{
 				// Handle one new session at a time.
@@ -127,13 +127,15 @@ ServerGameThread::Main()
 			}
 			// Process current state.
 			GetState().Process(*this);
-		}
+		} while (!ShouldTerminate() && GetSessionManager().HasSessions());
 	} catch (const NetException &e)
 	{
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 	}
 	GetSender().SignalTermination();
 	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);
+
+	GetLobbyThread().RemoveGame(GetId());
 }
 
 void

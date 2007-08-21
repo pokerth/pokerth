@@ -93,6 +93,13 @@ ServerLobbyThread::CloseSessionDelayed(SessionWrapper session)
 	m_closeSessionList.push_back(closeSessionData);
 }
 
+void
+ServerLobbyThread::RemoveGame(unsigned id)
+{
+	boost::mutex::scoped_lock lock(m_removeGameListMutex);
+	m_removeGameList.push_back(id);
+}
+
 u_int32_t
 ServerLobbyThread::GetNextUniquePlayerId()
 {
@@ -132,6 +139,8 @@ ServerLobbyThread::Main()
 			ProcessLoop();
 			// Close sessions.
 			CloseSessionLoop();
+			// Remove games.
+			RemoveGameLoop();
 		}
 	} catch (const NetException &e)
 	{
@@ -221,7 +230,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 	}
 
 	// Check whether this player is already connected.
-	if (m_sessionManager.IsPlayerConnected(initData.playerName))
+	if (IsPlayerConnected(initData.playerName))
 	{
 		SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
 		return;
@@ -289,7 +298,6 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const NetPack
 
 	GameMap::iterator pos = m_gameMap.find(joinGameData.gameId);
 
-	// TODO: handle errors
 	if (pos != m_gameMap.end())
 	{
 		ServerGameThread &game = *pos->second;
@@ -300,6 +308,14 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const NetPack
 			// Add session to the game.
 			game.AddSession(session);
 		}
+		else
+		{
+			SessionError(session, ERR_NET_INVALID_PASSWORD);
+		}
+	}
+	else
+	{
+		SessionError(session, ERR_NET_UNKNOWN_GAME);
 	}
 }
 
@@ -318,6 +334,30 @@ ServerLobbyThread::CloseSessionLoop()
 		if (cur->first.elapsed().total_seconds() >= SERVER_CLOSE_SESSION_DELAY_SEC)
 			m_closeSessionList.erase(cur);
 	}
+}
+
+void
+ServerLobbyThread::RemoveGameLoop()
+{
+	boost::mutex::scoped_lock lock(m_removeGameListMutex);
+
+	RemoveGameList::iterator i = m_removeGameList.begin();
+	RemoveGameList::iterator end = m_removeGameList.end();
+
+	// Synchronously remove games which have been closed.
+	while (i != end)
+	{
+		GameMap::iterator pos = m_gameMap.find(*i);
+		if (pos != m_gameMap.end())
+		{
+			boost::shared_ptr<ServerGameThread> tmpGame = pos->second;
+			tmpGame->SignalTermination();
+			tmpGame->Join(GAME_THREAD_TERMINATE_TIMEOUT);
+			m_gameMap.erase(pos);
+		}
+		++i;
+	}
+	m_removeGameList.clear();
 }
 
 void
@@ -425,6 +465,30 @@ GuiInterface &
 ServerLobbyThread::GetGui()
 {
 	return m_gui;
+}
+
+bool
+ServerLobbyThread::IsPlayerConnected(const string &name)
+{
+	bool retVal = false;
+
+	retVal = m_sessionManager.IsPlayerConnected(name);
+
+	if (!retVal)
+	{
+		GameMap::const_iterator game_i = m_gameMap.begin();
+		GameMap::const_iterator game_end = m_gameMap.end();
+		while (game_i != game_end)
+		{
+			if (game_i->second->GetSessionManager().IsPlayerConnected(name))
+			{
+				retVal = true;
+				break;
+			}
+			++game_i;
+		}
+	}
+	return retVal;
 }
 
 boost::shared_ptr<NetPacket>

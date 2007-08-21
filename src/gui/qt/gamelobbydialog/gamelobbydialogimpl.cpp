@@ -21,6 +21,9 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
+	connect( treeWidget_GameList, SIGNAL( itemClicked ( QTreeWidgetItem*, int) ), this, SLOT( gameSelected(QTreeWidgetItem*, int) ) );
+
+	pushButton_JoinGame->setEnabled(false);
 }
 
 void gameLobbyDialogImpl::exec()
@@ -53,18 +56,28 @@ void gameLobbyDialogImpl::createGame()
 	//Speeds 
 	gameData.guiSpeed = myConfig->readConfigInt("GameSpeed");
 
-	mySession->clientCreateGame(gameData, "default", "");
+	mySession->clientCreateGame(gameData, myConfig->readConfigString("MyName") + "'s game", "");
 
 	accept();
 }
 
 void gameLobbyDialogImpl::joinGame()
 {
-	assert(mySession);
+	QTreeWidgetItem *item = treeWidget_GameList->currentItem();
+	if (item)
+	{
+		QString gameName = item->text(0);
 
-	mySession->clientJoinGame("default", "");
+		assert(mySession);
+		mySession->clientJoinGame(gameName.toUtf8().constData(), "");
 
-	accept();
+		accept();
+	}
+}
+
+void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem*, int)
+{
+	pushButton_JoinGame->setEnabled(true);
 }
 
 void gameLobbyDialogImpl::addGame(QString gameName)

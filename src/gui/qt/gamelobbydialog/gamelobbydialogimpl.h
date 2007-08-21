@@ -39,6 +39,8 @@ public slots:
 	void createGame();
 	void joinGame();
 
+	void gameSelected(QTreeWidgetItem*, int);
+
 	void addGame(QString gameName);
 	void removeGame(QString gameName);
 

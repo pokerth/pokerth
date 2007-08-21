@@ -53,6 +53,8 @@ public:
 	void AddConnection(boost::shared_ptr<ConnectData> data);
 	void CloseSessionDelayed(SessionWrapper session);
 
+	void RemoveGame(unsigned id);
+
 	u_int32_t GetNextUniquePlayerId();
 	u_int32_t GetNextGameId();
 	ServerCallback &GetCallback();
@@ -63,6 +65,7 @@ protected:
 	typedef std::list<SessionWrapper> SessionList;
 	typedef std::list<std::pair<boost::microsec_timer, boost::shared_ptr<SessionData> > > CloseSessionList;
 	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
+	typedef std::list<unsigned> RemoveGameList;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -72,6 +75,8 @@ protected:
 	void HandleNetPacketCreateGame(SessionWrapper session, const NetPacketCreateGame &tmpPacket);
 	void HandleNetPacketJoinGame(SessionWrapper session, const NetPacketJoinGame &tmpPacket);
 	void CloseSessionLoop();
+	void RemoveGameLoop();
+
 	void TerminateGames();
 
 	void HandleNewConnection(boost::shared_ptr<ConnectData> connData);
@@ -92,6 +97,8 @@ protected:
 	ServerSenderCallback &GetSenderCallback();
 	GuiInterface &GetGui();
 
+	bool IsPlayerConnected(const std::string &name);
+
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListNew(const ServerGameThread &game);
 
 private:
@@ -103,6 +110,9 @@ private:
 
 	CloseSessionList m_closeSessionList;
 	mutable boost::mutex m_closeSessionListMutex;
+
+	RemoveGameList m_removeGameList;
+	mutable boost::mutex m_removeGameListMutex;
 
 	GameMap m_gameMap;
 

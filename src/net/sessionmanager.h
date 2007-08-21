@@ -46,6 +46,8 @@ public:
 	SessionManager();
 	virtual ~SessionManager();
 
+	bool HasSessions() const;
+
 	void AddSession(boost::shared_ptr<SessionData> sessionData); // new Sessions without player data
 	void AddSession(SessionWrapper session);
 	void SetSessionPlayerData(SOCKET session, boost::shared_ptr<PlayerData> playerData);

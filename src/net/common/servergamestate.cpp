@@ -655,9 +655,13 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 				if (curGame.getCurrentHand()->getPlayerArray()[i]->getMyCash() > 0) 
 					playersPositiveCashCounter++;
 			}
-			// TODO: this is not an assert - terminate game if true.
-			assert(playersPositiveCashCounter);
-			if (playersPositiveCashCounter == 1)
+			if (!playersPositiveCashCounter)
+			{
+				// No more players left - restart.
+				server.SetState(SERVER_INITIAL_STATE::Instance());
+				retVal = MSG_NET_GAME_SERVER_END;
+			}
+			else if (playersPositiveCashCounter == 1)
 			{
 				// View a dialog for a new game - delayed.
 				server.SetState(ServerGameStateNextGameDelay::Instance());

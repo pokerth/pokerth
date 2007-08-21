@@ -32,8 +32,8 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFi
 	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
 	connect( treeWidget, SIGNAL( itemClicked ( QTreeWidgetItem*, int) ), this, SLOT( playerSelected(QTreeWidgetItem*, int) ) );
 
-	pushButton_Kick->setEnabled(FALSE);
-	pushButton_startGame->setEnabled(FALSE);
+	pushButton_Kick->setEnabled(false);
+	pushButton_startGame->setEnabled(false);
 }
 
 void startNetworkGameDialogImpl::startGame() {

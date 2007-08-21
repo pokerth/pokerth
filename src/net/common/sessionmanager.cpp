@@ -34,6 +34,13 @@ SessionManager::~SessionManager()
 	Clear();
 }
 
+bool
+SessionManager::HasSessions() const
+{
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	return !m_sessionMap.empty();
+}
+
 void
 SessionManager::AddSession(boost::shared_ptr<SessionData> sessionData)
 {

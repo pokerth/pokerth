@@ -60,6 +60,9 @@ public:
 	bool CheckPassword(const std::string &password) const;
 	const GameData &GetGameData() const;
 
+	const SessionManager &GetSessionManager() const;
+	SessionManager &GetSessionManager();
+
 protected:
 
 	typedef std::deque<SessionWrapper> SessionQueue;
@@ -82,8 +85,6 @@ protected:
 	size_t GetCurNumberOfPlayers() const;
 	void AssignPlayerNumbers();
 
-	SessionManager &GetSessionManager();
-	const SessionManager &GetSessionManager() const;
 	ServerLobbyThread &GetLobbyThread();
 
 	ServerGameState &GetState();
