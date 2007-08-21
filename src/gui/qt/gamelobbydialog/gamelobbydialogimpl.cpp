@@ -58,7 +58,6 @@ void gameLobbyDialogImpl::createGame()
 
 	mySession->clientCreateGame(gameData, myConfig->readConfigString("MyName") + "'s game", "");
 
-	accept();
 }
 
 void gameLobbyDialogImpl::joinGame()
