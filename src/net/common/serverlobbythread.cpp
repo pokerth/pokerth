@@ -282,8 +282,8 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const NetPa
 	// Add session to the game.
 	game->AddSession(session);
 
-	// Add game to list.
-	m_gameMap.insert(GameMap::value_type(game->GetId(), game));
+	// Add game to list of games.
+	InternalAddGame(game);
 
 	// Start the game.
 	game->Run();
@@ -353,11 +353,29 @@ ServerLobbyThread::RemoveGameLoop()
 			boost::shared_ptr<ServerGameThread> tmpGame = pos->second;
 			tmpGame->SignalTermination();
 			tmpGame->Join(GAME_THREAD_TERMINATE_TIMEOUT);
-			m_gameMap.erase(pos);
+			InternalRemoveGame(tmpGame);
 		}
 		++i;
 	}
 	m_removeGameList.clear();
+}
+
+void
+ServerLobbyThread::InternalAddGame(boost::shared_ptr<ServerGameThread> game)
+{
+	// Add game to list.
+	m_gameMap.insert(GameMap::value_type(game->GetId(), game));
+	// Notify all players.
+	m_sessionManager.SendToAllSessions(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Established);
+}
+
+void
+ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGameThread> game)
+{
+	// Remove game from list.
+	m_gameMap.erase(game->GetId());
+	// Notify all players.
+	m_sessionManager.SendToAllSessions(GetSender(), CreateNetPacketGameListUpdate(*game, GAME_MODE_CLOSED), SessionData::Established);
 }
 
 void
@@ -500,6 +518,17 @@ ServerLobbyThread::CreateNetPacketGameListNew(const ServerGameThread &game)
 	packetData.gameMode = GAME_MODE_CREATED;
 	packetData.gameName = game.GetName();
 	static_cast<NetPacketGameListNew *>(packet.get())->SetData(packetData);
+	return packet;
+}
+
+boost::shared_ptr<NetPacket>
+ServerLobbyThread::CreateNetPacketGameListUpdate(const ServerGameThread &game, GameMode mode)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacketGameListUpdate);
+	NetPacketGameListUpdate::Data packetData;
+	packetData.gameId = game.GetId();
+	packetData.gameMode = mode;
+	static_cast<NetPacketGameListUpdate *>(packet.get())->SetData(packetData);
 	return packet;
 }
 

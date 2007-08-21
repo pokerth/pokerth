@@ -475,21 +475,48 @@ unsigned
 ClientThread::GetGameIdByName(const std::string &name) const
 {
 	// Find the game.
-	bool retVal = false;
 	boost::mutex::scoped_lock lock(m_gameMapMutex);
-	GameMap::const_iterator pos = m_gameMap.find(name);
-	if (pos == m_gameMap.end())
+	GameMap::const_iterator i = m_gameMap.begin();
+	GameMap::const_iterator end = m_gameMap.end();
+	while (i != end)
+	{
+		if (i->second == name)
+			break;
+		++i;
+	}
+
+	if (i == end)
 		throw NetException(ERR_NET_UNKNOWN_GAME, 0);
-	return pos->second;
+	return i->first;
 }
 
 void
-ClientThread::AddGameInformation(const std::string &name, unsigned id)
+ClientThread::AddGameInformation(unsigned id, const std::string &name)
 {
+	if (!name.empty())
+	{
+		{
+			boost::mutex::scoped_lock lock(m_gameMapMutex);
+			m_gameMap.insert(GameMap::value_type(id, name));
+		}
+		GetCallback().SignalNetClientGameListNew(name);
+	}
+}
+
+void
+ClientThread::RemoveGameInformation(unsigned id)
+{
+	string name;
 	{
 		boost::mutex::scoped_lock lock(m_gameMapMutex);
-		m_gameMap.insert(GameMap::value_type(name, id));
+		GameMap::iterator pos = m_gameMap.find(id);
+		if (pos != m_gameMap.end())
+		{
+			name = pos->second;
+			m_gameMap.erase(pos);
+		}
 	}
-	GetCallback().SignalNetClientGameListNew(name);
+	if (!name.empty())
+		GetCallback().SignalNetClientGameListRemove(name);
 }
 

@@ -816,6 +816,8 @@ void mainWindowImpl::callGameLobbyDialog() {
 
 	myGameLobbyDialog->setSession(&getSession());
 	myGameLobbyDialog->treeWidget_GameList->clear();
+	myStartNetworkGameDialog->treeWidget->clear();
+	myStartNetworkGameDialog->setSession(&getSession());
 
 	// Just for testing
 	mySession->startNetworkClientForLocalServer();
@@ -824,9 +826,6 @@ void mainWindowImpl::callGameLobbyDialog() {
 
 	if (myGameLobbyDialog->result() == QDialog::Accepted)
 	{
-		myStartNetworkGameDialog->setSession(&getSession());
-		myStartNetworkGameDialog->treeWidget->clear();
-
 		showNetworkStartDialog();
 	}
 }

@@ -476,7 +476,15 @@ ClientStateWaitJoin::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		// A new game was created on the server.
 		NetPacketGameListNew::Data gameListNewData;
 		packet->ToNetPacketGameListNew()->GetData(gameListNewData);
-		client.AddGameInformation(gameListNewData.gameName, gameListNewData.gameId);
+		client.AddGameInformation(gameListNewData.gameId, gameListNewData.gameName);
+	}
+	else if (packet->ToNetPacketGameListUpdate())
+	{
+		// An existing game was updated on the server.
+		NetPacketGameListUpdate::Data gameListUpdateData;
+		packet->ToNetPacketGameListUpdate()->GetData(gameListUpdateData);
+		if (gameListUpdateData.gameMode == GAME_MODE_CLOSED)
+			client.RemoveGameInformation(gameListUpdateData.gameId);
 	}
 	else if (packet->ToNetPacketJoinGameAck())
 	{

@@ -77,6 +77,9 @@ protected:
 	void CloseSessionLoop();
 	void RemoveGameLoop();
 
+	void InternalAddGame(boost::shared_ptr<ServerGameThread> game);
+	void InternalRemoveGame(boost::shared_ptr<ServerGameThread> game);
+
 	void TerminateGames();
 
 	void HandleNewConnection(boost::shared_ptr<ConnectData> connData);
@@ -100,6 +103,7 @@ protected:
 	bool IsPlayerConnected(const std::string &name);
 
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListNew(const ServerGameThread &game);
+	static boost::shared_ptr<NetPacket> CreateNetPacketGameListUpdate(const ServerGameThread &game, GameMode mode);
 
 private:
 

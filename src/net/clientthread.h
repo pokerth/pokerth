@@ -63,7 +63,7 @@ public:
 	GuiInterface &GetGui();
 
 protected:
-	typedef std::map<std::string, unsigned> GameMap;
+	typedef std::map<unsigned, std::string> GameMap;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -98,7 +98,8 @@ protected:
 	void RemoveDisconnectedPlayers();
 
 	unsigned GetGameIdByName(const std::string &name) const;
-	void AddGameInformation(const std::string &name, unsigned id);
+	void AddGameInformation(unsigned id, const std::string &name);
+	void RemoveGameInformation(unsigned id);
 
 private:
 
