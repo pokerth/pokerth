@@ -24,7 +24,7 @@
 #include <vector>
 #include <string>
 
-#include <boost/shared_ptr.hpp>
+#include <boost/thread.hpp>
 
 enum ConfigState { NONEXISTING, OLD };
 enum ConfigType { CONFIG_TYPE_INT, CONFIG_TYPE_STRING };
@@ -38,19 +38,20 @@ public:
 	~ConfigFile();
 	
 	void fillBuffer();
-	void writeBuffer();
+	void writeBuffer() const;
 
 	void updateConfig(ConfigState);
 
-	std::string readConfigString(std::string varName);
+	std::string readConfigString(std::string varName) const;
 	void writeConfigString(std::string varName, std::string varCont);
 
-	int readConfigInt(std::string varName);
+	int readConfigInt(std::string varName) const;
 	void writeConfigInt(std::string varName, int varCont);
 
 
 private:
-	
+
+	mutable boost::mutex m_configMutex;
 
 	struct ConfigInfo
 	{

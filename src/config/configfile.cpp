@@ -232,6 +232,8 @@ ConfigFile::~ConfigFile()
 
 void ConfigFile::fillBuffer() {
 
+	boost::mutex::scoped_lock lock(m_configMutex);
+
 	size_t i;
 	string tempString("");
 
@@ -257,7 +259,9 @@ void ConfigFile::fillBuffer() {
 	}
 }
 
-void ConfigFile::writeBuffer() {
+void ConfigFile::writeBuffer() const {
+
+	boost::mutex::scoped_lock lock(m_configMutex);
 
 	//write buffer to disc if enabled
 	if(!noWriteAccess) {
@@ -285,7 +289,9 @@ void ConfigFile::writeBuffer() {
 }
 
 void ConfigFile::updateConfig(ConfigState myConfigState) {
-	
+
+	boost::mutex::scoped_lock lock(m_configMutex);
+
 	size_t i;
 	
 	if(myConfigState == NONEXISTING) {
@@ -369,10 +375,12 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 	}
 }
 
-string ConfigFile::readConfigString(string varName)
+string ConfigFile::readConfigString(string varName) const
 {
+	boost::mutex::scoped_lock lock(m_configMutex);
+
 	size_t i;
-  	string tempString("");
+	string tempString("");
 
 // 	TiXmlDocument doc(configFileName); 
 // 	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
@@ -404,11 +412,13 @@ string ConfigFile::readConfigString(string varName)
 	return tempString;
  }
 
-int ConfigFile::readConfigInt(string varName)
+int ConfigFile::readConfigInt(string varName) const
 {
+	boost::mutex::scoped_lock lock(m_configMutex);
+
 	size_t i;
-  	string tempString("");
-  	int tempInt=0;
+	string tempString("");
+	int tempInt=0;
 
 // 	cout << varName << " : " << tempInt << "\n";
 // 	TiXmlDocument doc(configFileName); 
@@ -436,7 +446,7 @@ int ConfigFile::readConfigInt(string varName)
 	for (i=0; i<configBufferList.size(); i++) {	
 
 		if (configBufferList[i].name == varName) {
-			tempString = configBufferList[i].defaultValue;	
+			tempString = configBufferList[i].defaultValue;
 		}
 	}
 	
@@ -449,7 +459,9 @@ int ConfigFile::readConfigInt(string varName)
 
 
 void ConfigFile::writeConfigInt(string varName, int varCont)
- {	
+{
+	boost::mutex::scoped_lock lock(m_configMutex);
+
 	size_t i;
 	string tempString;
 	ostringstream intToString;
@@ -464,7 +476,9 @@ void ConfigFile::writeConfigInt(string varName, int varCont)
 }
 
 void ConfigFile::writeConfigString(string varName, string varCont)
- {
+{
+	boost::mutex::scoped_lock lock(m_configMutex);
+
 	size_t i;
 	for (i=0; i<configBufferList.size(); i++) {	
 		if (configBufferList[i].name == varName) { configBufferList[i].defaultValue = varCont; }
