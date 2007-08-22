@@ -766,6 +766,8 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 
 		myStartNetworkGameDialog->setMaxPlayerNumber(gameData.maxNumberOfPlayers);
 
+		myStartNetworkGameDialog->setWindowTitle("Start Network Game");
+
 		showNetworkStartDialog();
 	}
 
@@ -801,6 +803,8 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 		else {
 			//needed for join and ready sounds - TODO
 			//myStartNetworkGameDialog->setMaxPlayerNumber(gameData.maxNumberOfPlayers);
+			myStartNetworkGameDialog->setWindowTitle("Start Network Game");
+
 			showNetworkStartDialog();
 		}
 	}
@@ -824,6 +828,9 @@ void mainWindowImpl::callGameLobbyDialog() {
 
 	if (myGameLobbyDialog->result() == QDialog::Accepted)
 	{
+		if(myGameLobbyDialog->getCurrentGameName() != "") {	
+		myStartNetworkGameDialog->setWindowTitle(myGameLobbyDialog->getCurrentGameName());
+	}
 		showNetworkStartDialog();
 	}
 	else
@@ -937,7 +944,6 @@ void mainWindowImpl::initGui(int speed)
 
 void mainWindowImpl::showNetworkStartDialog()
 {
-	myStartNetworkGameDialog->setWindowTitle(myGameLobbyDialog->getCurrentGameName());
 	myStartNetworkGameDialog->exec();
 
 	if (myStartNetworkGameDialog->result() == QDialog::Accepted ) {
