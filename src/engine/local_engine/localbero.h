@@ -36,6 +36,8 @@ public:
 	void nextPlayer();
 	void run();
 
+	void postRiverRun() {};
+
 protected:
 
 	HandInterface* getMyHand() const { return myHand; }

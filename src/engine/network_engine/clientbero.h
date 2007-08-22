@@ -53,6 +53,8 @@ public:
 	void nextPlayer();
 	void run();
 
+	void postRiverRun();
+
 private:
 
 	const GameState myBeRoID;

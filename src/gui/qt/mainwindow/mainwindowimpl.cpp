@@ -1894,7 +1894,7 @@ void mainWindowImpl::riverAnimation2() { riverAnimation2Timer->start(nextPlayerS
 void mainWindowImpl::riverAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->nextPlayer(); }
 
 void mainWindowImpl::postRiverAnimation1() { postRiverAnimation1Timer->start(nextPlayerSpeed2); }
-void mainWindowImpl::postRiverAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
+void mainWindowImpl::postRiverAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->postRiverRun(); }
 
 void mainWindowImpl::postRiverRunAnimation1() {	postRiverRunAnimation1Timer->start(postRiverRunAnimationSpeed); }
 

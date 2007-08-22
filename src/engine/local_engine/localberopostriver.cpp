@@ -34,7 +34,7 @@ LocalBeRoPostRiver::~LocalBeRoPostRiver()
 }
 
 
-void LocalBeRoPostRiver::run() {
+void LocalBeRoPostRiver::postRiverRun() {
 	
 	int i;
 
