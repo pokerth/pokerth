@@ -937,6 +937,7 @@ void mainWindowImpl::initGui(int speed)
 
 void mainWindowImpl::showNetworkStartDialog()
 {
+	myStartNetworkGameDialog->setWindowTitle(myGameLobbyDialog->getCurrentGameName());
 	myStartNetworkGameDialog->exec();
 
 	if (myStartNetworkGameDialog->result() == QDialog::Accepted ) {

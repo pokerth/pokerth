@@ -15,7 +15,7 @@
 #include "gamedata.h"
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
- : QDialog(parent), myConfig(c)
+ : QDialog(parent), myConfig(c), currentGameName("")
 {
     setupUi(this);
 
@@ -62,6 +62,8 @@ void gameLobbyDialogImpl::createGame()
 		
 		mySession->clientCreateGame(gameData, myConfig->readConfigString("MyName") + "'s game", "");
 
+		currentGameName = QString::fromUtf8(myConfig->readConfigString("MyName").c_str()) + QString("'s game");
+
 		accept();
 	}
 }
@@ -80,9 +82,11 @@ void gameLobbyDialogImpl::joinGame()
 	}
 }
 
-void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem*, int)
+void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, int)
 {
 	pushButton_JoinGame->setEnabled(true);
+
+	currentGameName = item->text(0);
 }
 
 void gameLobbyDialogImpl::addGame(QString gameName)

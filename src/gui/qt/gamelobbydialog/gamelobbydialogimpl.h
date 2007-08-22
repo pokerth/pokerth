@@ -46,12 +46,17 @@ public slots:
 	void addGame(QString gameName);
 	void removeGame(QString gameName);
 
+	void setCurrentGameName ( const QString& theValue ) { currentGameName = theValue; }
+	QString getCurrentGameName() const { return currentGameName; }	
+
 private:
 
 	ConfigFile *myConfig;	
 	Session *mySession;
 
 	createInternetGameDialogImpl *myCreateInternetGameDialog;
+
+	QString currentGameName;
 };
 
 #endif
