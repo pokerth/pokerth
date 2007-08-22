@@ -514,7 +514,7 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 	// Main game loop.
 	int curRound = curGame.getCurrentHand()->getActualRound();
 	curGame.getCurrentHand()->switchRounds();
-	if (!curGame.getCurrentHand()->getAllInCondition() && curGame.getCurrentHand()->getActualRound() != GAME_STATE_POST_RIVER)
+	if (!curGame.getCurrentHand()->getAllInCondition())
 		curGame.getCurrentHand()->getCurrentBeRo()->run();
 	int newRound = curGame.getCurrentHand()->getActualRound();
 
@@ -590,7 +590,7 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 		else // hand is over
 		{
 			// Engine will find out who won.
-			curGame.getCurrentHand()->getCurrentBeRo()->run();
+			curGame.getCurrentHand()->getCurrentBeRo()->postRiverRun();
 
 			// Retrieve active players. If only one player is left, no cards are shown.
 			std::list<boost::shared_ptr<PlayerInterface> > activePlayers = GetActivePlayers(curGame);
