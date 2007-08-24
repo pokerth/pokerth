@@ -31,7 +31,6 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
   cardsShown(false), bettingRoundsPlayed(0)
 {
 
-
 	int i, j, k;
 
 	CardsValue myCardsValue;
@@ -100,15 +99,15 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!   testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
 
-		if(DEBUG_MODE) {
+	if(DEBUG_MODE) {
 	
 		int temp5Array[5];
 	
-		tempBoardArray[0] = 28;
-		tempBoardArray[1] = 45;
-		tempBoardArray[2] = 33;
-		tempBoardArray[3] = 4;
-		tempBoardArray[4] = 49;
+		tempBoardArray[0] = 25;
+		tempBoardArray[1] = 37;
+		tempBoardArray[2] = 20;
+		tempBoardArray[3] = 49;
+		tempBoardArray[4] = 39;
 	
 		myBoard->setMyCards(tempBoardArray);
 	
@@ -117,9 +116,11 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 		tempPlayerAndBoardArray[4] = tempBoardArray[2];
 		tempPlayerAndBoardArray[5] = tempBoardArray[3];
 		tempPlayerAndBoardArray[6] = tempBoardArray[4];
+
+		// player0
 	
-		tempPlayerArray[0] = 47;
-		tempPlayerArray[1] = 12;
+		tempPlayerArray[0] = 0;
+		tempPlayerArray[1] = 7;
 		tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 		tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 	
@@ -133,8 +134,10 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	// 	}
 	// 	cout << endl;
 	
-		tempPlayerArray[0] = 31;
-		tempPlayerArray[1] = 18;
+		// player1
+
+		tempPlayerArray[0] = 51;
+		tempPlayerArray[1] = 24;
 		tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 		tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 	
@@ -143,8 +146,10 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	
 		playerArray[1]->setMyBestHandPosition(temp5Array);
 	
-		tempPlayerArray[0] = 24;
-		tempPlayerArray[1] = 48;
+		// player2
+
+		tempPlayerArray[0] = 13;
+		tempPlayerArray[1] = 43;
 		tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 		tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 	
@@ -168,7 +173,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	// 	}
 
 
-		dealerPosition = 0;
+		dealerPosition = 2;
 
 	}
 
