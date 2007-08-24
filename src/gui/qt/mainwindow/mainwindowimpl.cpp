@@ -843,7 +843,7 @@ void mainWindowImpl::callSettingsDialog() {
 
 	mySettingsDialog->exec();
 	
-	if (mySettingsDialog->getSettingsCorrect()) {
+	if (mySettingsDialog->result() == QDialog::Accepted && mySettingsDialog->getSettingsCorrect()) {
 		//Toolbox verstecken?
 		if (myConfig->readConfigInt("ShowLeftToolBox")) { groupBox_LeftToolBox->show(); }
 		else { groupBox_LeftToolBox->hide(); }
