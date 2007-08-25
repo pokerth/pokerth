@@ -121,6 +121,8 @@ unix:!mac{
 	LIBPATH += lib
 	LIBS += -lpokerth_lib
 	LIBS += -lcrypto
+	TARGETDEPS += ./lib/libpokerth_lib.a
+	
 	## My release static libs
 	#LIBS += -lcrypto
 }

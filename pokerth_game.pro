@@ -236,6 +236,8 @@ unix: !mac{
 	LIBPATH += lib
 	LIBS += -lpokerth_lib
 	LIBS += -lcrypto -lSDL_mixer
+	TARGETDEPS += ./lib/libpokerth_lib.a
+
 	## My release static libs
 	#LIBS += -lcrypto -lSDL_mixer -lSDL -lmikmod
 }
