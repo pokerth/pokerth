@@ -346,6 +346,28 @@ void LocalPlayer::preflopEngine() {
 			case 1: { 
 
 				switch(actualHand->getMyID()) {
+					case 1: {
+						myAction = PLAYER_ACTION_CALL;
+					}
+					break;
+					case 2: {
+						myAction = PLAYER_ACTION_CALL;
+// 						raise = 120;
+					}
+					break;
+					default: {
+					}
+				}
+
+			}
+			break;
+			case 2: { 
+
+				switch(actualHand->getMyID()) {
+					case 1: {
+						myAction = PLAYER_ACTION_FOLD;
+					}
+					break;
 					case 2: {
 						myAction = PLAYER_ACTION_RAISE;
 						raise = 120;
@@ -356,8 +378,6 @@ void LocalPlayer::preflopEngine() {
 				}
 
 			}
-			break;
-			case 2: { myAction = PLAYER_ACTION_FOLD; }
 			break;
 			case 3: { myAction = PLAYER_ACTION_FOLD; }
 			break;

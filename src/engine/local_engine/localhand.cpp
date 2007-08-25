@@ -81,7 +81,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 			// myBestHandPosition auf Fehler ueberpruefen
 			for(j=0; j<5; j++) {
 				if (bestHandPos[j] == -1) {
-					cout << "ERROR get myBestHandPosition in localhand.cpp" << endl;
+					cout << "ERROR getMyBestHandPosition in localhand.cpp" << endl;
 				}
 			}
 
