@@ -764,7 +764,7 @@ p, li { white-space: pre-wrap; }
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="5" column="0" >
+       <item row="7" column="0" >
         <spacer>
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -776,6 +776,26 @@ p, li { white-space: pre-wrap; }
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QLabel" name="label_43" >
+         <property name="text" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Nimbus Sans L'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-style:italic;">Note: Default &lt;/span>&lt;span style=" font-weight:600; font-style:italic;">Game Settings&lt;/span>&lt;span style=" font-style:italic;"> like "&lt;/span>Maximum number of players", "&lt;span style=" font-style:italic;">Start Cash" and "Small Blind" will be used &lt;/span>&lt;span style=" font-weight:600; font-style:italic;">from Network Game Settings.&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+         <property name="wordWrap" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="Line" name="line_9" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
        </item>
        <item row="4" column="0" >
         <widget class="QGroupBox" name="groupBox_4" >
@@ -820,9 +840,6 @@ p, li { white-space: pre-wrap; }
            <widget class="QLineEdit" name="lineEdit_InternetServerAddress" >
             <property name="maxLength" >
              <number>60</number>
-            </property>
-            <property name="echoMode" >
-             <enum>QLineEdit::Password</enum>
             </property>
            </widget>
           </item>
@@ -879,6 +896,33 @@ p, li { white-space: pre-wrap; }
          </property>
         </spacer>
        </item>
+       <item row="6" column="0" >
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="checkBox_UseInternetGamePassword" >
+           <property name="text" >
+            <string>Use password for private game:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_InternetGamePassword" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="echoMode" >
+            <enum>QLineEdit::Password</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
        <item row="0" column="0" >
         <widget class="QLabel" name="label_30" >
          <property name="font" >
@@ -892,25 +936,21 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="1" column="0" >
-        <widget class="Line" name="line_9" >
+       <item row="5" column="0" >
+        <spacer>
          <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
+          <enum>Qt::Vertical</enum>
          </property>
-        </widget>
-       </item>
-       <item row="2" column="0" >
-        <widget class="QLabel" name="label_43" >
-         <property name="text" >
-          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Nimbus Sans L'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-style:italic;">Note: &lt;/span>&lt;span style=" font-weight:600; font-style:italic;">Game Settings&lt;/span>&lt;span style=" font-style:italic;"> like "&lt;/span>Maximum number of players", "&lt;span style=" font-style:italic;">Start Cash" and "Small Blind" will be used &lt;/span>&lt;span style=" font-weight:600; font-style:italic;">from Network Game Settings.&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Fixed</enum>
          </property>
-         <property name="wordWrap" >
-          <bool>true</bool>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>10</height>
+          </size>
          </property>
-        </widget>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -2271,6 +2311,23 @@ p, li { white-space: pre-wrap; }
      </widget>
     </widget>
    </item>
+   <item row="1" column="0" colspan="2" >
+    <widget class="Line" name="line" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2" >
+    <widget class="QDialogButtonBox" name="buttonBox" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons" >
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0" >
     <widget class="QListWidget" name="listWidget" >
      <property name="minimumSize" >
@@ -2320,23 +2377,6 @@ p, li { white-space: pre-wrap; }
        <string>Log Messages</string>
       </property>
      </item>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2" >
-    <widget class="Line" name="line" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
     </widget>
    </item>
   </layout>
@@ -2486,6 +2526,22 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel" >
      <x>599</x>
      <y>497</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_UseInternetGamePassword</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEdit_InternetGamePassword</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>294</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>462</x>
+     <y>300</y>
     </hint>
    </hints>
   </connection>

@@ -169,6 +169,12 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("ServerUseIpv6", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerUseSctp", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerPort", CONFIG_TYPE_INT, "7234"));
+	configList.push_back(ConfigInfo("InternetServerAddress", CONFIG_TYPE_STRING, "pokerth.dyndns.org"));
+	configList.push_back(ConfigInfo("InternetServerPort", CONFIG_TYPE_INT, "7234"));
+	configList.push_back(ConfigInfo("InternetServerUseIpv6", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("InternetServerUseSctp", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("UseInternetGamePassword", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("InternetGamePassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("MyName", CONFIG_TYPE_STRING, "Human Player"));
 	configList.push_back(ConfigInfo("MyAvatar", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("Opponent1Name", CONFIG_TYPE_STRING, "Player 1"));
