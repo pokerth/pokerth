@@ -72,6 +72,7 @@ protected:
 
 	void ProcessLoop();
 	void HandleNetPacketInit(SessionWrapper session, const NetPacketInit &tmpPacket);
+	void HandleNetPacketRetrievePlayerInfo(SessionWrapper session, const NetPacketRetrievePlayerInfo &tmpPacket);
 	void HandleNetPacketCreateGame(SessionWrapper session, const NetPacketCreateGame &tmpPacket);
 	void HandleNetPacketJoinGame(SessionWrapper session, const NetPacketJoinGame &tmpPacket);
 	void CloseSessionLoop();

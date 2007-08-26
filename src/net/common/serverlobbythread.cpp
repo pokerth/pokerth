@@ -190,7 +190,9 @@ ServerLobbyThread::ProcessLoop()
 				SessionError(session, ERR_SOCK_INVALID_STATE);
 			else
 			{
-				if (packet->ToNetPacketCreateGame())
+				if (packet->ToNetPacketRetrievePlayerInfo())
+					HandleNetPacketRetrievePlayerInfo(session, *packet->ToNetPacketRetrievePlayerInfo());
+				else if (packet->ToNetPacketCreateGame())
 					HandleNetPacketCreateGame(session, *packet->ToNetPacketCreateGame());
 				else if (packet->ToNetPacketJoinGame())
 					HandleNetPacketJoinGame(session, *packet->ToNetPacketJoinGame());
@@ -264,6 +266,41 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 
 	// Session is now established.
 	session.sessionData->SetState(SessionData::Established);
+}
+
+void
+ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, const NetPacketRetrievePlayerInfo &tmpPacket)
+{
+	NetPacketRetrievePlayerInfo::Data request;
+	tmpPacket.GetData(request);
+
+	// Find player in lobby or in a game.
+	SessionWrapper tmpSession = m_sessionManager.GetSessionByUniquePlayerId(request.playerId);
+	if (!tmpSession.sessionData.get() || !tmpSession.playerData.get())
+	{
+		GameMap::const_iterator game_i = m_gameMap.begin();
+		GameMap::const_iterator game_end = m_gameMap.end();
+		while (game_i != game_end)
+		{
+			tmpSession = game_i->second->GetSessionManager().GetSessionByUniquePlayerId(request.playerId);
+			if (tmpSession.sessionData.get() && tmpSession.playerData.get())
+				break;
+			++game_i;
+		}
+	}
+
+	if (tmpSession.sessionData.get() && tmpSession.playerData.get())
+	{
+		// Send player info to client.
+		boost::shared_ptr<NetPacket> info(new NetPacketPlayerInfo);
+		NetPacketPlayerInfo::Data infoData;
+		infoData.playerId = tmpSession.playerData->GetUniqueId();
+		infoData.playerInfo.ptype = tmpSession.playerData->GetType();
+		infoData.playerInfo.playerName = tmpSession.playerData->GetName();
+		static_cast<NetPacketPlayerInfo *>(info.get())->SetData(infoData);
+		GetSender().Send(session.sessionData->GetSocket(), info);
+	}
+	// TODO: handle error
 }
 
 void
@@ -517,6 +554,7 @@ ServerLobbyThread::CreateNetPacketGameListNew(const ServerGameThread &game)
 	packetData.gameId = game.GetId();
 	packetData.gameMode = GAME_MODE_CREATED;
 	packetData.gameName = game.GetName();
+	packetData.gameData = game.GetGameData();
 	static_cast<NetPacketGameListNew *>(packet.get())->SetData(packetData);
 	return packet;
 }

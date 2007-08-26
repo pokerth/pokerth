@@ -101,6 +101,7 @@ public:
 	void SignalNetClientError(int errorID, int osErrorID);
 	void SignalNetClientSelfJoined(const std::string &playerName, PlayerRights rights);
 	void SignalNetClientPlayerJoined(const std::string &playerName, PlayerRights rights);
+	void SignalNetClientPlayerChanged(const std::string &oldPlayerName, const std::string &newPlayerName);
 	void SignalNetClientPlayerLeft(const std::string &playerName);
 	void SignalNetClientChatMsg(const std::string &playerName, const std::string &msg);
 	void SignalNetClientWaitDialog();

@@ -47,6 +47,7 @@ public slots:
 	void refresh(int actionID);
 	void joinedNetworkGame(QString playerName, int rights);
 	void addConnectedPlayer(QString playerName, int rights);
+	void updatePlayer(QString oldPlayerName, QString newPlayerName);
 	void removePlayer(QString playerName);
 	void playerSelected(QTreeWidgetItem*, int);
 	void kickPlayer();

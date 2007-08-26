@@ -300,6 +300,53 @@ ClientThread::SendPacketLoop()
 	}
 }
 
+PlayerInfo
+ClientThread::GetCachedPlayerInfo(unsigned id) const
+{
+	PlayerInfoMap::const_iterator pos = m_playerInfoMap.find(id);
+	if (pos == m_playerInfoMap.end())
+		throw NetException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+	return pos->second;
+}
+
+void
+ClientThread::RequestPlayerInfo(unsigned id, const PlayerInfo &tempInfo)
+{
+	boost::shared_ptr<NetPacket> req(new NetPacketRetrievePlayerInfo);
+	NetPacketRetrievePlayerInfo::Data reqData;
+	reqData.playerId = id;
+	static_cast<NetPacketRetrievePlayerInfo *>(req.get())->SetData(reqData);
+	GetSender().Send(GetContext().GetSocket(), req);
+
+	m_playerInfoMap[id] = tempInfo;
+}
+
+void
+ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
+{
+	PlayerInfoMap::iterator pos = m_playerInfoMap.find(id);
+
+	// Update info cache.
+	if (pos != m_playerInfoMap.end())
+	{
+		GetCallback().SignalNetClientPlayerChanged(pos->second.playerName, info.playerName);
+
+		pos->second = info;
+	}
+	else
+	{
+		m_playerInfoMap.insert(PlayerInfoMap::value_type(id, info));
+	}
+
+	// Update player data for current game.
+	boost::shared_ptr<PlayerData> playerData = GetPlayerDataByUniqueId(id);
+	if (playerData.get())
+	{
+		playerData->SetName(info.playerName);
+		playerData->SetType(info.ptype);
+	}
+}
+
 const ClientContext &
 ClientThread::GetContext() const
 {

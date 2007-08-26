@@ -74,6 +74,14 @@ void startNetworkGameDialogImpl::addConnectedPlayer(QString playerName, int righ
 	checkPlayerQuantity();
 }
 
+void startNetworkGameDialogImpl::updatePlayer(QString oldPlayerName, QString newPlayerName)
+{
+	QList<QTreeWidgetItem *> list = treeWidget->findItems(oldPlayerName, Qt::MatchExactly, 0);
+	if(!list.empty()) { 
+		list[0]->setText(0, newPlayerName);
+	}
+}
+
 void startNetworkGameDialogImpl::removePlayer(QString playerName) {
 
 	QList<QTreeWidgetItem *> list = treeWidget->findItems(playerName, Qt::MatchExactly, 0);

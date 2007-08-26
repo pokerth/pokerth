@@ -40,6 +40,13 @@ enum PlayerRights
 	PLAYER_RIGHTS_ADMIN
 };
 
+struct PlayerInfo
+{
+	PlayerInfo() : ptype(PLAYER_TYPE_HUMAN) {}
+	std::string		playerName;
+	PlayerType		ptype;
+};
+
 class PlayerData
 {
 public:
@@ -60,6 +67,8 @@ public:
 	{m_netSessionData = session;}
 	PlayerType GetType() const
 	{return m_type;}
+	void SetType(PlayerType type)
+	{m_type = type;}
 	PlayerRights GetRights() const
 	{return m_rights;}
 	void SetRights(PlayerRights rights)

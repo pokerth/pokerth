@@ -651,7 +651,13 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetClientGameInfo(int)), myStartNetworkGameDialog, SLOT(refresh(int)));
 	connect(this, SIGNAL(signalNetClientSelfJoined(QString, int)), myStartNetworkGameDialog, SLOT(joinedNetworkGame(QString, int)));
 	connect(this, SIGNAL(signalNetClientPlayerJoined(QString, int)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString, int)));
+	connect(this, SIGNAL(signalNetClientPlayerChanged(QString, QString)), myStartNetworkGameDialog, SLOT(updatePlayer(QString, QString)));
 	connect(this, SIGNAL(signalNetClientPlayerLeft(QString)), myStartNetworkGameDialog, SLOT(removePlayer(QString)));
+
+	connect(this, SIGNAL(signalNetClientSelfJoined(QString, int)), myGameLobbyDialog, SLOT(joinedNetworkGame(QString, int)));
+	connect(this, SIGNAL(signalNetClientPlayerJoined(QString, int)), myGameLobbyDialog, SLOT(addConnectedPlayer(QString, int)));
+	connect(this, SIGNAL(signalNetClientPlayerChanged(QString, QString)), myGameLobbyDialog, SLOT(updatePlayer(QString, QString)));
+	connect(this, SIGNAL(signalNetClientPlayerLeft(QString)), myGameLobbyDialog, SLOT(removePlayer(QString)));
 	connect(this, SIGNAL(signalNetClientGameListNew(QString)), myGameLobbyDialog, SLOT(addGame(QString)));
 	connect(this, SIGNAL(signalNetClientGameListRemove(QString)), myGameLobbyDialog, SLOT(removeGame(QString)));
 

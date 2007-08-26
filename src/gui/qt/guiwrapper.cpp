@@ -113,6 +113,10 @@ void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->signalNetClientGam
 void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myW->signalNetClientError(errorID, osErrorID); }
 void GuiWrapper::SignalNetClientSelfJoined(const string &playerName, PlayerRights rights) { myW->signalNetClientSelfJoined(QString::fromUtf8(playerName.c_str()), rights); }
 void GuiWrapper::SignalNetClientPlayerJoined(const string &playerName, PlayerRights rights) { myW->signalNetClientPlayerJoined(QString::fromUtf8(playerName.c_str()), rights); }
+void GuiWrapper::SignalNetClientPlayerChanged(const string &oldPlayerName, const string &newPlayerName)
+{
+	myW->signalNetClientPlayerChanged(QString::fromUtf8(oldPlayerName.c_str()), QString::fromUtf8(newPlayerName.c_str()));
+}
 void GuiWrapper::SignalNetClientPlayerLeft(const string &playerName)
 {
 	QString tmpName(QString::fromUtf8(playerName.c_str()));

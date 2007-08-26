@@ -148,8 +148,26 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 		// Process packet if one was received.
 		if (packet.get())
 		{
+			if (packet->ToNetPacketRetrievePlayerInfo())
+			{
+				NetPacketRetrievePlayerInfo::Data reqData;
+				packet->ToNetPacketRetrievePlayerInfo()->GetData(reqData);
+
+				SessionWrapper tmpSession = server.GetSessionManager().GetSessionByUniquePlayerId(reqData.playerId);
+				if (tmpSession.sessionData.get() && tmpSession.playerData.get())
+				{
+					// Send player info to client.
+					boost::shared_ptr<NetPacket> info(new NetPacketPlayerInfo);
+					NetPacketPlayerInfo::Data infoData;
+					infoData.playerId = tmpSession.playerData->GetUniqueId();
+					infoData.playerInfo.ptype = tmpSession.playerData->GetType();
+					infoData.playerInfo.playerName = tmpSession.playerData->GetName();
+					static_cast<NetPacketPlayerInfo *>(info.get())->SetData(infoData);
+					server.GetSender().Send(session.sessionData->GetSocket(), info);
+				}
+			}
 			// Chat text is always allowed.
-			if (packet->ToNetPacketSendChatText())
+			else if (packet->ToNetPacketSendChatText())
 			{
 				if (session.playerData.get()) // Only forward if this player is known.
 				{
@@ -312,8 +330,6 @@ ServerGameStateInit::CreateNetPacketPlayerJoined(const PlayerData &playerData)
 	boost::shared_ptr<NetPacket> thisPlayerJoined(new NetPacketPlayerJoined);
 	NetPacketPlayerJoined::Data thisPlayerJoinedData;
 	thisPlayerJoinedData.playerId = playerData.GetUniqueId();
-	thisPlayerJoinedData.playerName = playerData.GetName();
-	thisPlayerJoinedData.ptype = playerData.GetType();
 	thisPlayerJoinedData.prights = playerData.GetRights();
 	static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
 	return thisPlayerJoined;

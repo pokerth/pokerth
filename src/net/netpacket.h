@@ -44,6 +44,10 @@ class NetPacketInit;
 class NetPacketInitAck;
 class NetPacketGameListNew;
 class NetPacketGameListUpdate;
+class NetPacketGameListPlayerJoined;
+class NetPacketGameListPlayerLeft;
+class NetPacketRetrievePlayerInfo;
+class NetPacketPlayerInfo;
 class NetPacketCreateGame;
 class NetPacketJoinGame;
 class NetPacketJoinGameAck;
@@ -89,6 +93,10 @@ public:
 	virtual const NetPacketInitAck *ToNetPacketInitAck() const;
 	virtual const NetPacketGameListNew *ToNetPacketGameListNew() const;
 	virtual const NetPacketGameListUpdate *ToNetPacketGameListUpdate() const;
+	virtual const NetPacketGameListPlayerJoined *ToNetPacketGameListPlayerJoined() const;
+	virtual const NetPacketGameListPlayerLeft *ToNetPacketGameListPlayerLeft() const;
+	virtual const NetPacketRetrievePlayerInfo *ToNetPacketRetrievePlayerInfo() const;
+	virtual const NetPacketPlayerInfo *ToNetPacketPlayerInfo() const;
 	virtual const NetPacketCreateGame *ToNetPacketCreateGame() const;
 	virtual const NetPacketJoinGame *ToNetPacketJoinGame() const;
 	virtual const NetPacketJoinGameAck *ToNetPacketJoinGameAck() const;
@@ -185,6 +193,7 @@ public:
 		u_int32_t		gameId;
 		GameMode		gameMode;
 		std::string		gameName;
+		GameData		gameData;
 	};
 
 	NetPacketGameListNew();
@@ -220,6 +229,101 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketGameListUpdate *ToNetPacketGameListUpdate() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketGameListPlayerJoined : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		gameId;
+		u_int32_t		playerId;
+	};
+
+	NetPacketGameListPlayerJoined();
+	virtual ~NetPacketGameListPlayerJoined();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketGameListPlayerJoined *ToNetPacketGameListPlayerJoined() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketGameListPlayerLeft : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		gameId;
+		u_int32_t		playerId;
+	};
+
+	NetPacketGameListPlayerLeft();
+	virtual ~NetPacketGameListPlayerLeft();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketGameListPlayerLeft *ToNetPacketGameListPlayerLeft() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketRetrievePlayerInfo : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		playerId;
+	};
+
+	NetPacketRetrievePlayerInfo();
+	virtual ~NetPacketRetrievePlayerInfo();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketRetrievePlayerInfo *ToNetPacketRetrievePlayerInfo() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketPlayerInfo : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		playerId;
+		PlayerInfo		playerInfo;
+	};
+
+	NetPacketPlayerInfo();
+	virtual ~NetPacketPlayerInfo();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketPlayerInfo *ToNetPacketPlayerInfo() const;
 
 protected:
 
@@ -306,9 +410,7 @@ public:
 	struct Data
 	{
 		u_int32_t		playerId;
-		PlayerType		ptype;
 		PlayerRights	prights;
-		std::string		playerName;
 	};
 
 	NetPacketPlayerJoined();

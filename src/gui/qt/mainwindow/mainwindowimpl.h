@@ -128,6 +128,7 @@ signals:
 	void signalNetServerError(int errorID, int osErrorID);
 	void signalNetClientSelfJoined(QString playerName, int rights);
 	void signalNetClientPlayerJoined(QString playerName, int rights);
+	void signalNetClientPlayerChanged(QString oldPlayerName, QString newPlayerName);
 	void signalNetClientPlayerLeft(QString playerName);
 	void signalNetClientGameListNew(QString gameName);
 	void signalNetClientGameListRemove(QString gameName);

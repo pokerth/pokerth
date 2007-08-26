@@ -31,6 +31,8 @@
 #include <game.h>
 #include <playerinterface.h>
 
+#include <sstream>
+
 using namespace std;
 
 #define CLIENT_WAIT_TIMEOUT_MSEC	50
@@ -378,7 +380,13 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 
 	if (tmpPacket.get())
 	{
-		if (tmpPacket->ToNetPacketError())
+		if (tmpPacket->ToNetPacketPlayerInfo())
+		{
+			NetPacketPlayerInfo::Data infoData;
+			tmpPacket->ToNetPacketPlayerInfo()->GetData(infoData);
+			client.SetPlayerInfo(infoData.playerId, infoData.playerInfo);
+		}
+		else if (tmpPacket->ToNetPacketError())
 		{
 			// Server reported an error.
 			NetPacketError::Data errorData;
@@ -564,9 +572,27 @@ ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		NetPacketPlayerJoined::Data netPlayerData;
 		packet->ToNetPacketPlayerJoined()->GetData(netPlayerData);
 
-		boost::shared_ptr<PlayerData> playerData(
-			new PlayerData(netPlayerData.playerId, 0, netPlayerData.ptype, netPlayerData.prights));
-		playerData->SetName(netPlayerData.playerName);
+		boost::shared_ptr<PlayerData> playerData;
+		try
+		{
+			PlayerInfo info = client.GetCachedPlayerInfo(netPlayerData.playerId);
+			playerData.reset(
+				new PlayerData(netPlayerData.playerId, 0, info.ptype, netPlayerData.prights));
+			playerData->SetName(info.playerName);
+		} catch (const NetException &)
+		{
+			ostringstream name;
+			name << "#" << netPlayerData.playerId;
+
+			// Request player info.
+			PlayerInfo info;
+			info.playerName = name.str();
+			client.RequestPlayerInfo(netPlayerData.playerId, info);
+			// Use temporary data until the PlayerInfo request is completed.
+			playerData.reset(
+				new PlayerData(netPlayerData.playerId, 0, info.ptype, netPlayerData.prights));
+			playerData->SetName(info.playerName);
+		}
 		client.AddPlayerData(playerData);
 	}
 

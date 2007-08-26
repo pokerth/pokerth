@@ -68,12 +68,17 @@ public:
 protected:
 	typedef std::map<unsigned, std::string> GameMap;
 	typedef std::list<boost::shared_ptr<NetPacket> > NetPacketList;
+	typedef std::map<unsigned, PlayerInfo> PlayerInfoMap;
 
 	// Main function of the thread.
 	virtual void Main();
 
 	void AddPacket(boost::shared_ptr<NetPacket> packet);
 	void SendPacketLoop();
+
+	PlayerInfo GetCachedPlayerInfo(unsigned id) const;
+	void RequestPlayerInfo(unsigned id, const PlayerInfo &tempInfo);
+	void SetPlayerInfo(unsigned id, const PlayerInfo &info);
 
 	const ClientContext &GetContext() const;
 	ClientContext &GetContext();
@@ -132,6 +137,7 @@ private:
 	mutable boost::mutex m_gameMapMutex;
 
 	boost::shared_ptr<Game> m_game;
+	PlayerInfoMap m_playerInfoMap;
 
 	unsigned m_curGameId;
 	unsigned m_guiPlayerId;

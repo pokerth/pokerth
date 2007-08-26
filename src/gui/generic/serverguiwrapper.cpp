@@ -110,6 +110,7 @@ void ServerGuiWrapper::SignalNetClientGameInfo(int actionID) { if (myClientcb) m
 void ServerGuiWrapper::SignalNetClientError(int errorID, int osErrorID) { if (myClientcb) myClientcb->SignalNetClientError(errorID, osErrorID); }
 void ServerGuiWrapper::SignalNetClientSelfJoined(const string &playerName, PlayerRights rights) { if (myClientcb) myClientcb->SignalNetClientSelfJoined(playerName, rights); }
 void ServerGuiWrapper::SignalNetClientPlayerJoined(const string &playerName, PlayerRights rights) { if (myClientcb) myClientcb->SignalNetClientPlayerJoined(playerName, rights); }
+void ServerGuiWrapper::SignalNetClientPlayerChanged(const std::string &oldPlayerName, const std::string &newPlayerName) { if (myClientcb) myClientcb->SignalNetClientPlayerChanged(oldPlayerName, newPlayerName); }
 void ServerGuiWrapper::SignalNetClientPlayerLeft(const string &playerName) { if (myClientcb) myClientcb->SignalNetClientPlayerLeft(playerName); }
 void ServerGuiWrapper::SignalNetClientGameListNew(const string &gameName) { if (myClientcb) myClientcb->SignalNetClientGameListNew(gameName); }
 void ServerGuiWrapper::SignalNetClientGameListRemove(const string &gameName) { if (myClientcb) myClientcb->SignalNetClientGameListRemove(gameName); }
