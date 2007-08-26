@@ -27,6 +27,7 @@
 #include <gamedata.h>
 #include <string>
 #include <memory>
+#include <boost/shared_ptr.hpp>
 
 class ClientContext;
 class ClientState;
@@ -34,6 +35,7 @@ class SenderThread;
 class ReceiverHelper;
 class ClientSenderCallback;
 class Game;
+class NetPacket;
 
 class ClientThread : public Thread
 {
@@ -56,6 +58,7 @@ public:
 	void SendStartEvent();
 	void SendPlayerAction();
 	void SendChatMessage(const std::string &msg);
+	void SendJoinFirstGame(const std::string &password);
 	void SendJoinGame(const std::string &name, const std::string &password);
 	void SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
 
@@ -64,9 +67,13 @@ public:
 
 protected:
 	typedef std::map<unsigned, std::string> GameMap;
+	typedef std::list<boost::shared_ptr<NetPacket> > NetPacketList;
 
 	// Main function of the thread.
 	virtual void Main();
+
+	void AddPacket(boost::shared_ptr<NetPacket> packet);
+	void SendPacketLoop();
 
 	const ClientContext &GetContext() const;
 	ClientContext &GetContext();
@@ -101,7 +108,13 @@ protected:
 	void AddGameInformation(unsigned id, const std::string &name);
 	void RemoveGameInformation(unsigned id);
 
+	bool IsSessionEstablished() const;
+	void SetSessionEstablished(bool flag);
+
 private:
+
+	NetPacketList m_outPacketList;
+	mutable boost::mutex m_outPacketListMutex;
 
 	std::auto_ptr<ClientContext> m_context;
 	std::auto_ptr<ClientSenderCallback> m_senderCallback;
@@ -122,6 +135,7 @@ private:
 
 	unsigned m_curGameId;
 	unsigned m_guiPlayerId;
+	bool m_sessionEstablished;
 
 friend class AbstractClientStateReceiving;
 friend class ClientStateInit;

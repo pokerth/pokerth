@@ -31,6 +31,8 @@
 #define NET_CLIENT_TERMINATE_TIMEOUT_MSEC	1000
 #define NET_SERVER_TERMINATE_TIMEOUT_MSEC	1000
 
+#define NET_DEFAULT_GAME					"default"
+
 using namespace std;
 
 Session::Session(GuiInterface *g, ConfigFile *c)
@@ -105,6 +107,24 @@ GuiInterface *Session::getGui()
 	return myGui;
 }
 
+void Session::startInternetClient()
+{
+	if (myNetClient || !myGui)
+	{
+		assert(false);
+		return;
+	}
+	myNetClient = new ClientThread(*myGui);
+	myNetClient->Init(
+		myConfig->readConfigString("InternetServerAddress"),
+		myConfig->readConfigInt("InternetServerPort"),
+		myConfig->readConfigInt("InternetServerUseIpv6") == 1,
+		myConfig->readConfigInt("InternetServerUseSctp") == 1,
+		myConfig->readConfigString("InternetServerPassword"),
+		myConfig->readConfigString("MyName"));
+	myNetClient->Run();
+}
+
 void Session::startNetworkClient(const string &serverAddress, unsigned serverPort, bool ipv6, bool sctp, const string &pwd)
 {
 	if (myNetClient || !myGui)
@@ -121,9 +141,10 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 		pwd,
 		myConfig->readConfigString("MyName"));
 	myNetClient->Run();
+	myNetClient->SendJoinFirstGame("");
 }
 
-void Session::startNetworkClientForLocalServer()
+void Session::startNetworkClientForLocalServer(const GameData &gameData)
 {
 	if (myNetClient || !myGui)
 	{
@@ -141,6 +162,7 @@ void Session::startNetworkClientForLocalServer()
 		myConfig->readConfigString("ServerPassword"),
 		myConfig->readConfigString("MyName"));
 	myNetClient->Run();
+	myNetClient->SendCreateGame(gameData, NET_DEFAULT_GAME, "");
 }
 
 void Session::terminateNetworkClient()
@@ -171,7 +193,7 @@ void Session::clientJoinGame(const std::string &name, const std::string &passwor
 	myNetClient->SendJoinGame(name, password);
 }
 
-void Session::startNetworkServer(const GameData &gameData)
+void Session::startNetworkServer()
 {
 	if (myNetServer)
 	{

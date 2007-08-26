@@ -45,13 +45,14 @@ public:
 
 	GuiInterface *getGui();
 
+	void startInternetClient();
 	void startNetworkClient(const std::string &serverAddress, unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd);
-	void startNetworkClientForLocalServer();
+	void startNetworkClientForLocalServer(const GameData &gameData);
 	void terminateNetworkClient();
 	void clientCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
 	void clientJoinGame(const std::string &name, const std::string &password);
 
-	void startNetworkServer(const GameData &gameData);
+	void startNetworkServer();
 	void sendStartEvent();
 	void terminateNetworkServer();
 	void waitForNetworkServer(unsigned timeoutMsec);

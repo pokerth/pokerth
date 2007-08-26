@@ -78,15 +78,7 @@ main(int argc, char *argv[])
 		myServerGuiInterface->setSession(session);
 	}
 
-	GameData gameData;
-	gameData.maxNumberOfPlayers = myConfig->readConfigInt("NetNumberOfPlayers");
-	gameData.startMoney = myConfig->readConfigInt("NetStartCash");
-	gameData.smallBlind = myConfig->readConfigInt("NetSmallBlind");
-	gameData.handsBeforeRaise = myConfig->readConfigInt("NetHandsBeforeRaiseSmallBlind");
-	gameData.guiSpeed = 4;
-	gameData.playerActionTimeoutSec = myConfig->readConfigInt("NetTimeOutPlayerAction");
-
-	myServerGuiInterface->getSession().startNetworkServer(gameData);
+	myServerGuiInterface->getSession().startNetworkServer();
 	while (!g_pokerthTerminate)
 	{
 		myServerGuiInterface->getSession().waitForNetworkServer(100);

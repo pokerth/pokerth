@@ -53,7 +53,7 @@ private:
 
 
 ClientThread::ClientThread(GuiInterface &gui)
-: m_curState(NULL), m_gui(gui), m_curGameId(1), m_guiPlayerId(0)
+: m_curState(NULL), m_gui(gui), m_curGameId(1), m_guiPlayerId(0), m_sessionEstablished(false)
 {
 	m_context.reset(new ClientContext);
 	m_senderCallback.reset(new ClientSenderCallback(*this));
@@ -95,7 +95,8 @@ ClientThread::SendKickPlayer(const string &playerName)
 		NetPacketKickPlayer::Data requestData;
 		requestData.playerId = tmpPlayer->GetUniqueId();
 		static_cast<NetPacketKickPlayer *>(request.get())->SetData(requestData);
-		GetSender().Send(GetContext().GetSocket(), request);
+		boost::mutex::scoped_lock lock(m_outPacketListMutex);
+		m_outPacketList.push_back(request);
 	}
 }
 
@@ -105,8 +106,9 @@ ClientThread::SendStartEvent()
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet for the server start event.
 	boost::shared_ptr<NetPacket> startEvent(new NetPacketStartEvent);
-	// The sender is thread-safe, so just dump the packet.
-	GetSender().Send(GetContext().GetSocket(), startEvent);
+	// Just dump the packet.
+	boost::mutex::scoped_lock lock(m_outPacketListMutex);
+	m_outPacketList.push_back(startEvent);
 }
 
 void
@@ -123,9 +125,15 @@ ClientThread::SendPlayerAction()
 		actionData.playerBet = GetGame()->getPlayerArray()[0]->getMyLastRelativeSet();
 	else
 		actionData.playerBet = 0;
-	static_cast<NetPacketPlayersAction *>(action.get())->SetData(actionData);
-	// The sender is thread-safe, so just dump the packet.
-	GetSender().Send(GetContext().GetSocket(), action);
+	try
+	{
+		static_cast<NetPacketPlayersAction *>(action.get())->SetData(actionData);
+		// Just dump the packet.
+		boost::mutex::scoped_lock lock(m_outPacketListMutex);
+		m_outPacketList.push_back(action);
+	} catch (const NetException &)
+	{
+	}
 }
 
 void
@@ -139,10 +147,31 @@ ClientThread::SendChatMessage(const std::string &msg)
 	try
 	{
 		static_cast<NetPacketSendChatText *>(chat.get())->SetData(chatData);
-		// The sender is thread-safe, so just dump the packet.
-		GetSender().Send(GetContext().GetSocket(), chat);
+		// Just dump the packet.
+		boost::mutex::scoped_lock lock(m_outPacketListMutex);
+		m_outPacketList.push_back(chat);
 	} catch (const NetException &)
 	{
+	}
+}
+
+void
+ClientThread::SendJoinFirstGame(const std::string &password)
+{
+	// Warning: This function is called in the context of the GUI thread.
+	// Create a network packet to request joining a game.
+	boost::shared_ptr<NetPacket> join(new NetPacketJoinGame);
+	NetPacketJoinGame::Data joinData;
+	joinData.gameId = 0;
+	joinData.password = password;
+	try
+	{
+		static_cast<NetPacketJoinGame *>(join.get())->SetData(joinData);
+		boost::mutex::scoped_lock lock(m_outPacketListMutex);
+		m_outPacketList.push_back(join);
+	} catch (const NetException &)
+	{
+		// TODO
 	}
 }
 
@@ -158,7 +187,8 @@ ClientThread::SendJoinGame(const std::string &name, const std::string &password)
 	{
 		joinData.gameId = GetGameIdByName(name);
 		static_cast<NetPacketJoinGame *>(join.get())->SetData(joinData);
-		GetSender().Send(GetContext().GetSocket(), join);
+		boost::mutex::scoped_lock lock(m_outPacketListMutex);
+		m_outPacketList.push_back(join);
 	} catch (const NetException &)
 	{
 		// TODO
@@ -178,7 +208,8 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 	try
 	{
 		static_cast<NetPacketCreateGame *>(create.get())->SetData(createData);
-		GetSender().Send(GetContext().GetSocket(), create);
+		boost::mutex::scoped_lock lock(m_outPacketListMutex);
+		m_outPacketList.push_back(create);
 	} catch (const NetException &)
 	{
 		// TODO
@@ -232,6 +263,8 @@ ClientThread::Main()
 					GetCallback().SignalNetClientGameStart(m_game);
 				}
 			}
+			if (IsSessionEstablished())
+				SendPacketLoop();
 		}
 	} catch (const NetException &e)
 	{
@@ -239,6 +272,32 @@ ClientThread::Main()
 	}
 	GetSender().SignalTermination();
 	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);
+}
+
+void
+ClientThread::AddPacket(boost::shared_ptr<NetPacket> packet)
+{
+	boost::mutex::scoped_lock lock(m_outPacketListMutex);
+	m_outPacketList.push_back(packet);
+}
+
+void
+ClientThread::SendPacketLoop()
+{
+	boost::mutex::scoped_lock lock(m_outPacketListMutex);
+
+	if (!m_outPacketList.empty())
+	{
+		NetPacketList::iterator i = m_outPacketList.begin();
+		NetPacketList::iterator end = m_outPacketList.end();
+
+		while (i != end)
+		{
+			GetSender().Send(GetContext().GetSocket(), *i);
+			++i;
+		}
+		m_outPacketList.clear();
+	}
 }
 
 const ClientContext &
@@ -518,5 +577,17 @@ ClientThread::RemoveGameInformation(unsigned id)
 	}
 	if (!name.empty())
 		GetCallback().SignalNetClientGameListRemove(name);
+}
+
+bool
+ClientThread::IsSessionEstablished() const
+{
+	return m_sessionEstablished;
+}
+
+void
+ClientThread::SetSessionEstablished(bool flag)
+{
+	m_sessionEstablished = flag;
 }
 

@@ -761,8 +761,8 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		myStartNetworkGameDialog->setSession(&getSession());
 		myStartNetworkGameDialog->treeWidget->clear();
 
-		myServerGuiInterface->getSession().startNetworkServer(gameData);
-		mySession->startNetworkClientForLocalServer();
+		myServerGuiInterface->getSession().startNetworkServer();
+		mySession->startNetworkClientForLocalServer(gameData);
 
 		myStartNetworkGameDialog->setMaxPlayerNumber(gameData.maxNumberOfPlayers);
 
@@ -821,8 +821,8 @@ void mainWindowImpl::callGameLobbyDialog() {
 	myStartNetworkGameDialog->treeWidget->clear();
 	myStartNetworkGameDialog->setSession(&getSession());
 
-	// Just for testing
-	mySession->startNetworkClientForLocalServer();
+	// Start client for dedicated server.
+	mySession->startInternetClient();
 
 	myGameLobbyDialog->exec(); 
 

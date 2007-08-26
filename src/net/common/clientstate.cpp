@@ -442,6 +442,7 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 		client.SetGuiPlayerId(initAckData.playerId);
 
 		client.SetState(ClientStateWaitJoin::Instance());
+		client.SetSessionEstablished(true);
 		retVal = MSG_SOCK_SESSION_DONE;
 	}
 
