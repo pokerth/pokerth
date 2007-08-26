@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>636</width>
+    <width>730</width>
     <height>584</height>
    </rect>
   </property>
@@ -19,7 +19,81 @@
    <property name="spacing" >
     <number>6</number>
    </property>
-   <item rowspan="4" row="0" column="1" >
+   <item row="3" column="2" >
+    <widget class="Line" name="line_2" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>1</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0" colspan="3" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>181</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_CreateGame" >
+       <property name="text" >
+        <string>Create Game</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_JoinGame" >
+       <property name="text" >
+        <string>Join Game</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0" colspan="3" >
+    <widget class="QTreeWidget" name="treeWidget_GameList" >
+     <column>
+      <property name="text" >
+       <string>Game</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Player</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item rowspan="4" row="0" column="3" >
     <widget class="QGroupBox" name="groupBox_2" >
      <property name="title" >
       <string>Game Info</string>
@@ -139,13 +213,6 @@ p, li { white-space: pre-wrap; }
      </layout>
     </widget>
    </item>
-   <item row="2" column="0" >
-    <widget class="Line" name="line" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="0" >
     <widget class="QGroupBox" name="groupBox" >
      <property name="title" >
@@ -167,56 +234,28 @@ p, li { white-space: pre-wrap; }
      </layout>
     </widget>
    </item>
-   <item row="0" column="0" >
-    <widget class="QTreeWidget" name="treeWidget_GameList" >
-     <column>
-      <property name="text" >
-       <string>Game</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>Player</string>
-      </property>
-     </column>
+   <item row="2" column="0" >
+    <widget class="Line" name="line" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
     </widget>
    </item>
-   <item row="1" column="0" >
-    <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
+   <item row="2" column="1" colspan="2" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="spacing" >
-      <number>6</number>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Fixed</enum>
      </property>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>181</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_CreateGame" >
-       <property name="text" >
-        <string>Create Game</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_JoinGame" >
-       <property name="text" >
-        <string>Join Game</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>10</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
