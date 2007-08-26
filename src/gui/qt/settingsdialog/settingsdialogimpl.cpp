@@ -121,6 +121,7 @@ void settingsDialogImpl::exec() {
 	//Internet Game Settings
 	lineEdit_InternetServerAddress->setText(QString::fromUtf8(myConfig->readConfigString("InternetServerAddress").c_str()));
 	spinBox_InternetServerPort->setValue(myConfig->readConfigInt("InternetServerPort"));
+	lineEdit_InternetServerPassword->setText(QString::fromUtf8(myConfig->readConfigString("InternetServerPassword").c_str()));
 	checkBox_InternetServerUseIpv6->setChecked(myConfig->readConfigInt("InternetServerUseIpv6"));
 	checkBox_InternetServerUseSctp->setChecked(myConfig->readConfigInt("InternetServerUseSctp"));
 	checkBox_UseInternetGamePassword->setChecked(myConfig->readConfigInt("UseInternetGamePassword"));
@@ -212,6 +213,7 @@ void settingsDialogImpl::isAccepted() {
 	//Internet Game Settings
 	myConfig->writeConfigString("InternetServerAddress", lineEdit_InternetServerAddress->text().toUtf8().constData());
 	myConfig->writeConfigInt("InternetServerPort", spinBox_InternetServerPort->value());
+	myConfig->writeConfigString("InternetServerPassword", lineEdit_InternetServerPassword->text().toUtf8().constData());
 	myConfig->writeConfigInt("InternetServerUseIpv6", checkBox_InternetServerUseIpv6->isChecked());
 	myConfig->writeConfigInt("InternetServerUseSctp", checkBox_InternetServerUseSctp->isChecked());
 	myConfig->writeConfigInt("UseInternetGamePassword", checkBox_UseInternetGamePassword->isChecked());

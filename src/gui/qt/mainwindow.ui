@@ -6186,19 +6186,12 @@
    <property name="text" >
     <string>Internet Game ...</string>
    </property>
+   <property name="shortcut" >
+    <string>Ctrl+I</string>
+   </property>
   </action>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>MyRightTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>myrighttabwidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>MyStatusLabel</class>
-   <extends>QLabel</extends>
-   <header>mystatuslabel.h</header>
-  </customwidget>
   <customwidget>
    <class>MySetLabel</class>
    <extends>QLabel</extends>
@@ -6208,6 +6201,16 @@
    <class>MyLeftTabWidget</class>
    <extends>QTabWidget</extends>
    <header>mylefttabwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MyRightTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>myrighttabwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MyStatusLabel</class>
+   <extends>QLabel</extends>
+   <header>mystatuslabel.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

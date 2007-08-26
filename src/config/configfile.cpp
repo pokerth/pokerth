@@ -51,7 +51,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
 	}
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 27;
+	configRev = 28;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -171,6 +171,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("ServerPort", CONFIG_TYPE_INT, "7234"));
 	configList.push_back(ConfigInfo("InternetServerAddress", CONFIG_TYPE_STRING, "pokerth.dyndns.org"));
 	configList.push_back(ConfigInfo("InternetServerPort", CONFIG_TYPE_INT, "7234"));
+	configList.push_back(ConfigInfo("InternetServerPassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("InternetServerUseIpv6", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("InternetServerUseSctp", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("UseInternetGamePassword", CONFIG_TYPE_INT, "0"));

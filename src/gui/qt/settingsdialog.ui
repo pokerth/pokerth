@@ -809,10 +809,27 @@ p, li { white-space: pre-wrap; }
           <property name="spacing" >
            <number>6</number>
           </property>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label_41" >
+          <item row="4" column="0" >
+           <widget class="QCheckBox" name="checkBox_InternetServerUseSctp" >
             <property name="text" >
-             <string>Server Address:</string>
+             <string>Use SCTP</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" >
+           <widget class="QCheckBox" name="checkBox_InternetServerUseIpv6" >
+            <property name="text" >
+             <string>Use IPv6</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1" >
+           <widget class="QLabel" name="label_32" >
+            <property name="text" >
+             <string>&lt;a href="http://en.wikipedia.org/wiki/Ipv6">What is this?&lt;/a></string>
+            </property>
+            <property name="openExternalLinks" >
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -820,6 +837,16 @@ p, li { white-space: pre-wrap; }
            <widget class="QLabel" name="label_31" >
             <property name="text" >
              <string>Server Port:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1" >
+           <widget class="QLabel" name="label_42" >
+            <property name="text" >
+             <string>&lt;a href="http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol">What is this?&lt;/a></string>
+            </property>
+            <property name="openExternalLinks" >
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -836,6 +863,13 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_41" >
+            <property name="text" >
+             <string>Server Address:</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="1" >
            <widget class="QLineEdit" name="lineEdit_InternetServerAddress" >
             <property name="maxLength" >
@@ -843,37 +877,17 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
-          <item row="3" column="1" >
-           <widget class="QLabel" name="label_42" >
+          <item row="2" column="0" >
+           <widget class="QLabel" name="label_44" >
             <property name="text" >
-             <string>&lt;a href="http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol">What is this?&lt;/a></string>
-            </property>
-            <property name="openExternalLinks" >
-             <bool>true</bool>
+             <string>Server Password:</string>
             </property>
            </widget>
           </item>
           <item row="2" column="1" >
-           <widget class="QLabel" name="label_32" >
-            <property name="text" >
-             <string>&lt;a href="http://en.wikipedia.org/wiki/Ipv6">What is this?&lt;/a></string>
-            </property>
-            <property name="openExternalLinks" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" >
-           <widget class="QCheckBox" name="checkBox_InternetServerUseIpv6" >
-            <property name="text" >
-             <string>Use IPv6</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" >
-           <widget class="QCheckBox" name="checkBox_InternetServerUseSctp" >
-            <property name="text" >
-             <string>Use SCTP</string>
+           <widget class="QLineEdit" name="lineEdit_InternetServerPassword" >
+            <property name="echoMode" >
+             <enum>QLineEdit::Password</enum>
             </property>
            </widget>
           </item>
