@@ -1544,6 +1544,12 @@ void mainWindowImpl::dealRiverCards2() {
 }
 
 void mainWindowImpl::meInAction() {
+
+	//fix buttons if escape is pressed during raise or bet
+	spinBox_set->hide();
+	pushButton_BetRaise->show();
+	myActionIsRaise = 0;
+	myActionIsBet = 0;
 	
 	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
 		statusBar()->showMessage(tr("F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise"), 15000);
@@ -1837,6 +1843,10 @@ void mainWindowImpl::myActionDone() {
 
 	if (!mySession->isNetworkClientRunning())
 		nextPlayerAnimation();
+
+	//prevent escape button working while allIn
+	myActionIsRaise = 0;
+	myActionIsBet = 0;
 }
 
 void mainWindowImpl::nextPlayerAnimation() {
@@ -2622,7 +2632,7 @@ void mainWindowImpl::networkStart(boost::shared_ptr<Game> game)
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
-// 	cout << event->key() << endl;
+	cout << event->key() << endl;
 	
 	bool ctrlPressed = FALSE;
 
@@ -2638,6 +2648,10 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	} //CTRL
 // 	if (event->key() == 65) {  pixmapLabel_card0a->setUpdatesEnabled(FALSE); }     
 // 	if (event->key() == 66) {  label_logo->hide();	}
+
+	if (event->key() == Qt::Key_Escape && (myActionIsBet || myActionIsRaise)) { 
+		meInAction(); 
+	} 
 }
 
 // bool mainWindowImpl::event ( QEvent * event )  { 
