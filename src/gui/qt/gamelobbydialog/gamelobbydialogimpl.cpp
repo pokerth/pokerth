@@ -24,6 +24,16 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	connect( treeWidget_GameList, SIGNAL( itemClicked ( QTreeWidgetItem*, int) ), this, SLOT( gameSelected(QTreeWidgetItem*, int) ) );
 
 	pushButton_JoinGame->setEnabled(false);
+	
+	pushButton_Leave->hide();
+	pushButton_Kick->hide();
+	pushButton_StartGame->hide();
+	
+	
+	treeWidget_GameList->setColumnWidth(0,250);
+	treeWidget_GameList->setColumnWidth(1,75);
+	treeWidget_GameList->setColumnWidth(2,70);
+	
 }
 
 void gameLobbyDialogImpl::exec()
@@ -87,6 +97,9 @@ void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, int)
 	pushButton_JoinGame->setEnabled(true);
 
 	currentGameName = item->text(0);
+
+	groupBox_GameInfo->setEnabled(TRUE);
+	groupBox_GameInfo->setTitle("Game Info - " + item->text(0));
 }
 
 void gameLobbyDialogImpl::addGame(QString gameName)

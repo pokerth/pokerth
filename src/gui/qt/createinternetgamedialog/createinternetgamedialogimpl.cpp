@@ -32,6 +32,7 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 	connect( pushButton_cancel, SIGNAL( clicked() ), this, SLOT( cancel() ) );
 	connect( pushButton_createGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 
+	connect( checkBox_Password, SIGNAL( toggled(bool) ), this, SLOT( clearGamePassword(bool)) ); 
 	//temporarely unused until ai is enabled in network
 // 	label_5->hide();
 // 	spinBox_gameSpeed->hide();
@@ -82,4 +83,9 @@ void createInternetGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 
 	if (event->key() == 16777220) { pushButton_createGame->click(); } //ENTER 
 	
+}
+
+void createInternetGameDialogImpl::clearGamePassword(bool clear) {
+
+	if(!clear) { lineEdit_Password->clear(); }
 }

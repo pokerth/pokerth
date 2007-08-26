@@ -42,6 +42,8 @@ public slots:
 	void fillFormular();
 	void showDialog();
 	void keyPressEvent ( QKeyEvent * event );
+	void clearGamePassword(bool);
+
 private:
 		
 	ConfigFile *myConfig;	
