@@ -57,6 +57,8 @@ public slots:
 
 	void callSelectAvatarDialog() { mySelectAvatarDialogImpl->exec(); } 
 
+	void clearInternetGamePassword(bool);
+
 private:
 	
 	bool playerNickIsChanged;

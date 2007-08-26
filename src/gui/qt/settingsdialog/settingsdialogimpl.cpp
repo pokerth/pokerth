@@ -51,7 +51,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( pushButton_Opponent5Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile5()) );
 	connect( pushButton_Opponent6Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile6()) );
 
-// 	connect( checkBox_showIntro, SIGNAL( clicked() ), this, SLOT( callSelectAvatarDialog()) ); 
+	connect( checkBox_UseInternetGamePassword, SIGNAL( toggled(bool) ), this, SLOT( clearInternetGamePassword(bool)) ); 
 
 	//temporarely unused until ai is enabled in network
 // 	label_36->hide();
@@ -124,7 +124,9 @@ void settingsDialogImpl::exec() {
 	checkBox_InternetServerUseIpv6->setChecked(myConfig->readConfigInt("InternetServerUseIpv6"));
 	checkBox_InternetServerUseSctp->setChecked(myConfig->readConfigInt("InternetServerUseSctp"));
 	checkBox_UseInternetGamePassword->setChecked(myConfig->readConfigInt("UseInternetGamePassword"));
-	lineEdit_InternetGamePassword->setText(QString::fromUtf8(myConfig->readConfigString("InternetGamePassword").c_str()));
+	if(myConfig->readConfigInt("UseInternetGamePassword")) {
+		lineEdit_InternetGamePassword->setText(QString::fromUtf8(myConfig->readConfigString("InternetGamePassword").c_str()));
+	}
 
 	//Interface
 	checkBox_showLeftToolbox->setChecked(myConfig->readConfigInt("ShowLeftToolBox"));
@@ -346,3 +348,8 @@ void settingsDialogImpl::setLogDir()
 		
      	if (!dir.isEmpty()) lineEdit_logDir->setText(dir);
  }
+
+void settingsDialogImpl::clearInternetGamePassword(bool clear) {
+
+	if(!clear) { lineEdit_InternetGamePassword->clear(); }
+}

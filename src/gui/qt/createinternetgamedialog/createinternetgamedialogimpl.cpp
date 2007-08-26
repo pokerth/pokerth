@@ -64,6 +64,11 @@ void createInternetGameDialogImpl::fillFormular() {
 	//temporarely unused until ai is enabled in network
 	spinBox_gameSpeed->setValue(myConfig->readConfigInt("NetGameSpeed"));
 	spinBox_netTimeOutPlayerAction->setValue(myConfig->readConfigInt("NetTimeOutPlayerAction"));
+	checkBox_Password->setChecked(myConfig->readConfigInt("UseInternetGamePassword"));
+	if(myConfig->readConfigInt("UseInternetGamePassword")) {
+		lineEdit_Password->setText(QString::fromUtf8(myConfig->readConfigString("InternetGamePassword").c_str()));
+	}
+
 }
 
 void createInternetGameDialogImpl::showDialog() { 

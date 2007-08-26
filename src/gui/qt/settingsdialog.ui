@@ -2536,12 +2536,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>294</x>
-     <y>299</y>
+     <x>409</x>
+     <y>334</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>462</x>
-     <y>300</y>
+     <x>580</x>
+     <y>336</y>
     </hint>
    </hints>
   </connection>
