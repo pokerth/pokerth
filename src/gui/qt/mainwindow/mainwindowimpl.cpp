@@ -2632,7 +2632,7 @@ void mainWindowImpl::networkStart(boost::shared_ptr<Game> game)
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
-	cout << event->key() << endl;
+// 	cout << event->key() << endl;
 	
 	bool ctrlPressed = FALSE;
 
