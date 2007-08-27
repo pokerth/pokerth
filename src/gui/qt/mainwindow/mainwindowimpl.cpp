@@ -210,7 +210,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	
 	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
 		QPixmap tmpFlipside(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
-		flipside = new QPixmap(tmpFlipside.scaled(QSize(57, 80)));
+		flipside = new QPixmap(tmpFlipside.scaled(QSize(80, 111),Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 	}
 	else { flipside->load(":/cards/resources/graphics/cards/flipside.png"); }
 
