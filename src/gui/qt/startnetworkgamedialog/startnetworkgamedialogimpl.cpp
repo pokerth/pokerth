@@ -31,6 +31,7 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFi
 	connect( pushButton_startGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
 	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
 	connect( treeWidget, SIGNAL( itemClicked ( QTreeWidgetItem*, int) ), this, SLOT( playerSelected(QTreeWidgetItem*, int) ) );
+	connect( treeWidget, SIGNAL( clear () ), this, SLOT( clearPlayers() ) );
 
 	pushButton_Kick->setEnabled(false);
 	pushButton_startGame->setEnabled(false);
@@ -114,18 +115,23 @@ void startNetworkGameDialogImpl::kickPlayer() {
 			mySession->kickPlayer(playerName.toUtf8().constData());
 		}
 	}
-	pushButton_Kick->setEnabled(FALSE);
+	pushButton_Kick->setEnabled(false);
 }
 
 void startNetworkGameDialogImpl::checkPlayerQuantity() {
 
 	if (treeWidget->topLevelItemCount() >= 2 && isAdmin) {
-		pushButton_startGame->setEnabled(TRUE);
+		pushButton_startGame->setEnabled(true);
 	}
 	else {
-		pushButton_startGame->setEnabled(FALSE);
+		pushButton_startGame->setEnabled(false);
 	}
 
+}
+
+void startNetworkGameDialogImpl::clearPlayers()
+{
+	pushButton_Kick->setEnabled(false);
 }
 
 void startNetworkGameDialogImpl::setSession(Session *session)

@@ -1010,7 +1010,7 @@ NetPacketGameListNew::Clone() const
 void
 NetPacketGameListNew::SetData(const NetPacketGameListNew::Data &inData)
 {
-	u_int16_t gameNameLen = (u_int16_t)inData.gameName.length();
+	u_int16_t gameNameLen = (u_int16_t)inData.gameInfo.name.length();
 
 	// Some basic checks, so we don't use up too much memory.
 	// The constructed packet will also be checked.
@@ -1025,17 +1025,17 @@ NetPacketGameListNew::SetData(const NetPacketGameListNew::Data &inData)
 
 	// Set the data.
 	tmpData->gameId					= htonl(inData.gameId);
-	tmpData->gameMode				= htons(inData.gameMode);
+	tmpData->gameMode				= htons(inData.gameInfo.mode);
 	tmpData->gameNameLength			= htons(gameNameLen);
-	tmpData->maxNumberOfPlayers		= htons(inData.gameData.maxNumberOfPlayers);
-	tmpData->smallBlind				= htons(inData.gameData.smallBlind);
-	tmpData->handsBeforeRaise		= htons(inData.gameData.handsBeforeRaise);
-	tmpData->proposedGuiSpeed		= htons(inData.gameData.guiSpeed);
-	tmpData->playerActionTimeout	= htons(inData.gameData.playerActionTimeoutSec);
-	tmpData->startMoney				= htonl(inData.gameData.startMoney);
+	tmpData->maxNumberOfPlayers		= htons(inData.gameInfo.data.maxNumberOfPlayers);
+	tmpData->smallBlind				= htons(inData.gameInfo.data.smallBlind);
+	tmpData->handsBeforeRaise		= htons(inData.gameInfo.data.handsBeforeRaise);
+	tmpData->proposedGuiSpeed		= htons(inData.gameInfo.data.guiSpeed);
+	tmpData->playerActionTimeout	= htons(inData.gameInfo.data.playerActionTimeoutSec);
+	tmpData->startMoney				= htonl(inData.gameInfo.data.startMoney);
 
 	char *gameNamePtr = (char *)tmpData + sizeof(NetPacketGameListNewData);
-	memcpy(gameNamePtr, inData.gameName.c_str(), gameNameLen);
+	memcpy(gameNamePtr, inData.gameInfo.name.c_str(), gameNameLen);
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -1047,18 +1047,18 @@ NetPacketGameListNew::GetData(NetPacketGameListNew::Data &outData) const
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketGameListNewData *tmpData = (NetPacketGameListNewData *)GetRawData();
 
-	outData.gameId							= ntohl(tmpData->gameId);
-	outData.gameMode						= static_cast<GameMode>(ntohs(tmpData->gameMode));
-	u_int16_t gameNameLen					= ntohs(tmpData->gameNameLength);
-	outData.gameData.maxNumberOfPlayers		= ntohs(tmpData->maxNumberOfPlayers);
-	outData.gameData.smallBlind				= ntohs(tmpData->smallBlind);
-	outData.gameData.handsBeforeRaise		= ntohs(tmpData->handsBeforeRaise);
-	outData.gameData.guiSpeed				= ntohs(tmpData->proposedGuiSpeed);
-	outData.gameData.playerActionTimeoutSec	= ntohs(tmpData->playerActionTimeout);
-	outData.gameData.startMoney				= ntohl(tmpData->startMoney);
+	outData.gameId								= ntohl(tmpData->gameId);
+	outData.gameInfo.mode						= static_cast<GameMode>(ntohs(tmpData->gameMode));
+	u_int16_t gameNameLen						= ntohs(tmpData->gameNameLength);
+	outData.gameInfo.data.maxNumberOfPlayers	= ntohs(tmpData->maxNumberOfPlayers);
+	outData.gameInfo.data.smallBlind			= ntohs(tmpData->smallBlind);
+	outData.gameInfo.data.handsBeforeRaise		= ntohs(tmpData->handsBeforeRaise);
+	outData.gameInfo.data.guiSpeed				= ntohs(tmpData->proposedGuiSpeed);
+	outData.gameInfo.data.playerActionTimeoutSec= ntohs(tmpData->playerActionTimeout);
+	outData.gameInfo.data.startMoney			= ntohl(tmpData->startMoney);
 
 	char *gameNamePtr = (char *)tmpData + sizeof(NetPacketGameListNewData);
-	outData.gameName = string(gameNamePtr, gameNameLen);
+	outData.gameInfo.name = string(gameNamePtr, gameNameLen);
 }
 
 const NetPacketGameListNew *

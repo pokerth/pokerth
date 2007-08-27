@@ -49,6 +49,8 @@ public slots:
 	void setCurrentGameName ( const QString& theValue ) { currentGameName = theValue; }
 	QString getCurrentGameName() const { return currentGameName; }	
 
+	void clearGames();
+
 private:
 
 	ConfigFile *myConfig;	

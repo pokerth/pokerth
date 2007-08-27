@@ -225,6 +225,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 	// Partly, this is also done in netpacket.
 	// However, some disallowed names are checked only here.
 	if (initData.playerName.empty() || initData.playerName.size() > MAX_NAME_SIZE
+		|| initData.playerName[0] == '#'
 		|| initData.playerName.substr(0, sizeof(SERVER_COMPUTER_PLAYER_NAME) - 1) == SERVER_COMPUTER_PLAYER_NAME)
 	{
 		SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
@@ -552,9 +553,9 @@ ServerLobbyThread::CreateNetPacketGameListNew(const ServerGameThread &game)
 	boost::shared_ptr<NetPacket> packet(new NetPacketGameListNew);
 	NetPacketGameListNew::Data packetData;
 	packetData.gameId = game.GetId();
-	packetData.gameMode = GAME_MODE_CREATED;
-	packetData.gameName = game.GetName();
-	packetData.gameData = game.GetGameData();
+	packetData.gameInfo.mode = GAME_MODE_CREATED;
+	packetData.gameInfo.name = game.GetName();
+	packetData.gameInfo.data = game.GetGameData();
 	static_cast<NetPacketGameListNew *>(packet.get())->SetData(packetData);
 	return packet;
 }

@@ -68,6 +68,8 @@ public:
 	bool isNetworkClientRunning() const; // TODO hack
 	bool isNetworkServerRunning() const; // TODO hack
 
+	GameInfo getClientGameInfo(const std::string &game);
+
 private:
 
 	int currentGameID;

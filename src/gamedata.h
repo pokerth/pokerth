@@ -21,6 +21,8 @@
 #ifndef _GAMEDATA_H_
 #define _GAMEDATA_H_
 
+#include <string>
+
 enum GameMode
 {
 	GAME_MODE_CREATED = 1,
@@ -39,6 +41,15 @@ struct GameData
 	int handsBeforeRaise;
 	int guiSpeed;
 	int playerActionTimeoutSec;
+};
+
+struct GameInfo
+{
+	GameInfo() : mode(GAME_MODE_CREATED), isPasswordProtected(false) {}
+	std::string name;
+	GameData data;
+	GameMode mode;
+	bool isPasswordProtected;
 };
 
 struct StartData

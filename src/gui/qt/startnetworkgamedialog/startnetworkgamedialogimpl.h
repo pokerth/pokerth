@@ -52,12 +52,13 @@ public slots:
 	void playerSelected(QTreeWidgetItem*, int);
 	void kickPlayer();
 	void checkPlayerQuantity();
+	void clearPlayers();
 
 	void keyPressEvent ( QKeyEvent*);
 
 	void setMaxPlayerNumber ( int theValue ) { maxPlayerNumber = theValue; label_maxPlayerNumber->setText(QString::number(theValue,10)); }
 	int getMaxPlayerNumber() const { return maxPlayerNumber; }
-	
+
 
 private: 
 

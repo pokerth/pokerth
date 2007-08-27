@@ -121,7 +121,8 @@ void GuiWrapper::SignalNetClientPlayerLeft(const string &playerName)
 {
 	QString tmpName(QString::fromUtf8(playerName.c_str()));
 	myW->signalNetClientPlayerLeft(tmpName);
-	myLog->signalLogPlayerLeftMsg(tmpName);
+	if (!playerName.empty() && playerName[0] != '#')
+		myLog->signalLogPlayerLeftMsg(tmpName);
 }
 
 void GuiWrapper::SignalNetClientGameListNew(const string &gameName) { myW->signalNetClientGameListNew(QString::fromUtf8(gameName.c_str())); }

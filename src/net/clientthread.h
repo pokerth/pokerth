@@ -62,11 +62,13 @@ public:
 	void SendJoinGame(const std::string &name, const std::string &password);
 	void SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
 
+	GameInfo GetGameInfo(const std::string &game) const;
+
 	ClientCallback &GetCallback();
 	GuiInterface &GetGui();
 
 protected:
-	typedef std::map<unsigned, std::string> GameMap;
+	typedef std::map<unsigned, GameInfo> GameInfoMap;
 	typedef std::list<boost::shared_ptr<NetPacket> > NetPacketList;
 	typedef std::map<unsigned, PlayerInfo> PlayerInfoMap;
 
@@ -110,8 +112,8 @@ protected:
 	void RemoveDisconnectedPlayers();
 
 	unsigned GetGameIdByName(const std::string &name) const;
-	void AddGameInformation(unsigned id, const std::string &name);
-	void RemoveGameInformation(unsigned id);
+	void AddGameInfo(unsigned id, const GameInfo &info);
+	void RemoveGameInfo(unsigned id);
 
 	bool IsSessionEstablished() const;
 	void SetSessionEstablished(bool flag);
@@ -133,8 +135,8 @@ private:
 	StartData m_startData;
 	PlayerDataList m_playerDataList;
 
-	GameMap m_gameMap;
-	mutable boost::mutex m_gameMapMutex;
+	GameInfoMap m_gameInfoMap;
+	mutable boost::mutex m_gameInfoMapMutex;
 
 	boost::shared_ptr<Game> m_game;
 	PlayerInfoMap m_playerInfoMap;

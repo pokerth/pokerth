@@ -22,6 +22,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
 	connect( treeWidget_GameList, SIGNAL( itemClicked ( QTreeWidgetItem*, int) ), this, SLOT( gameSelected(QTreeWidgetItem*, int) ) );
+	connect( treeWidget_GameList, SIGNAL( clear () ), this, SLOT( clearGames() ) );
 
 	pushButton_JoinGame->setEnabled(false);
 	
@@ -98,8 +99,16 @@ void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, int)
 
 	currentGameName = item->text(0);
 
-	groupBox_GameInfo->setEnabled(TRUE);
-	groupBox_GameInfo->setTitle("Game Info - " + item->text(0));
+	groupBox_GameInfo->setEnabled(true);
+	groupBox_GameInfo->setTitle(tr("Game Info") + " - " + currentGameName);
+
+	assert(mySession);
+	GameInfo info = mySession->getClientGameInfo(currentGameName.toUtf8().constData());
+	label_SmallBlind->setText(QString::number(info.data.smallBlind));
+	label_StartCash->setText(QString::number(info.data.startMoney));
+	label_MaximumNumberOfPlayers->setText(QString::number(info.data.maxNumberOfPlayers));
+	label_HandsToRaiseSmallBlind->setText(QString::number(info.data.handsBeforeRaise));
+	label_TimeoutForPlayerAction->setText(QString::number(info.data.playerActionTimeoutSec));
 }
 
 void gameLobbyDialogImpl::addGame(QString gameName)
@@ -114,5 +123,19 @@ void gameLobbyDialogImpl::removeGame(QString gameName)
 	if(!list.empty()) { 
 		treeWidget_GameList->takeTopLevelItem(treeWidget_GameList->indexOfTopLevelItem(list[0]));
 	}
+}
+
+void gameLobbyDialogImpl::clearGames()
+{
+	pushButton_JoinGame->setEnabled(false);
+	groupBox_GameInfo->setTitle(tr("Game Info"));
+	groupBox_GameInfo->setEnabled(false);
+	currentGameName = "";
+
+	label_SmallBlind->setText("");
+	label_StartCash->setText("");
+	label_MaximumNumberOfPlayers->setText("");
+	label_HandsToRaiseSmallBlind->setText("");
+	label_TimeoutForPlayerAction->setText("");
 }
 

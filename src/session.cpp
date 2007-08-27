@@ -275,3 +275,10 @@ bool Session::isNetworkServerRunning() const
 	// TODO
 	return myNetServer != NULL;
 }
+
+GameInfo Session::getClientGameInfo(const string &game)
+{
+	assert(myNetClient);
+	return myNetClient->GetGameInfo(game);
+}
+

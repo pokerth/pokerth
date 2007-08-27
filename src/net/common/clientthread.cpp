@@ -216,6 +216,26 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 	}
 }
 
+GameInfo
+ClientThread::GetGameInfo(const string &game) const
+{
+	GameInfo tmpInfo;
+	try
+	{
+		unsigned id = GetGameIdByName(game);
+
+		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+		GameInfoMap::const_iterator pos = m_gameInfoMap.find(id);
+		if (pos != m_gameInfoMap.end())
+		{
+			tmpInfo = pos->second;
+		}
+	} catch (const NetException &)
+	{
+	}
+	return tmpInfo;
+}
+
 ClientCallback &
 ClientThread::GetCallback()
 {
@@ -469,7 +489,13 @@ ClientThread::RemovePlayerData(unsigned playerId)
 	}
 
 	if (!playerName.empty())
+	{
+		// Remove name and id string.
 		GetCallback().SignalNetClientPlayerLeft(playerName);
+		ostringstream name;
+		name << "#" << playerId;
+		GetCallback().SignalNetClientPlayerLeft(name.str());
+	}
 }
 
 void
@@ -581,12 +607,12 @@ unsigned
 ClientThread::GetGameIdByName(const std::string &name) const
 {
 	// Find the game.
-	boost::mutex::scoped_lock lock(m_gameMapMutex);
-	GameMap::const_iterator i = m_gameMap.begin();
-	GameMap::const_iterator end = m_gameMap.end();
+	boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+	GameInfoMap::const_iterator i = m_gameInfoMap.begin();
+	GameInfoMap::const_iterator end = m_gameInfoMap.end();
 	while (i != end)
 	{
-		if (i->second == name)
+		if (i->second.name == name)
 			break;
 		++i;
 	}
@@ -597,29 +623,26 @@ ClientThread::GetGameIdByName(const std::string &name) const
 }
 
 void
-ClientThread::AddGameInformation(unsigned id, const std::string &name)
+ClientThread::AddGameInfo(unsigned id, const GameInfo &info)
 {
-	if (!name.empty())
 	{
-		{
-			boost::mutex::scoped_lock lock(m_gameMapMutex);
-			m_gameMap.insert(GameMap::value_type(id, name));
-		}
-		GetCallback().SignalNetClientGameListNew(name);
+		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+		m_gameInfoMap.insert(GameInfoMap::value_type(id, info));
 	}
+	GetCallback().SignalNetClientGameListNew(info.name);
 }
 
 void
-ClientThread::RemoveGameInformation(unsigned id)
+ClientThread::RemoveGameInfo(unsigned id)
 {
 	string name;
 	{
-		boost::mutex::scoped_lock lock(m_gameMapMutex);
-		GameMap::iterator pos = m_gameMap.find(id);
-		if (pos != m_gameMap.end())
+		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+		GameInfoMap::iterator pos = m_gameInfoMap.find(id);
+		if (pos != m_gameInfoMap.end())
 		{
-			name = pos->second;
-			m_gameMap.erase(pos);
+			name = pos->second.name;
+			m_gameInfoMap.erase(pos);
 		}
 	}
 	if (!name.empty())

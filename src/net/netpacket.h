@@ -191,9 +191,7 @@ public:
 	struct Data
 	{
 		u_int32_t		gameId;
-		GameMode		gameMode;
-		std::string		gameName;
-		GameData		gameData;
+		GameInfo		gameInfo;
 	};
 
 	NetPacketGameListNew();
