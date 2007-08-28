@@ -58,7 +58,10 @@ TerminateHandler(int signal)
 
 // TODO: Hack
 #ifndef _WIN32
-int daemon();
+	#include <unistd.h>
+	#ifndef daemon
+		int daemon(int, int);
+	#endif
 #endif
 
 int
@@ -70,7 +73,7 @@ main(int argc, char *argv[])
 
 	// TODO: Hack
 #ifndef _WIN32
-	daemon();
+	daemon(0, 0);
 #endif
 
 	signal(SIGTERM, TerminateHandler);

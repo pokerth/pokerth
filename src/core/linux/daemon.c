@@ -28,8 +28,10 @@
 #include <errno.h>
 
 
+#ifndef daemon
+
 int
-daemon()
+daemon(int nochdir, int noclose)
 {
 	int maxfd, fd = 0;
 
@@ -61,22 +63,23 @@ daemon()
 	}
 
 
-	chdir("/"); /* Change working directory. */
+	if (!nochdir)
+		chdir("/"); /* Change working directory. */
 
-	/* Close all open handles. */
-	maxfd = sysconf(_SC_OPEN_MAX);
-	while (fd < maxfd)
-		close(fd++);
+	if (!noclose)
+	{
+		/* Close all open handles. */
+		maxfd = sysconf(_SC_OPEN_MAX);
+		while (fd < maxfd)
+			close(fd++);
 
-	/* Use /dev/null as stdin/stdout/stderr. */
-	open("/dev/null", O_RDWR);
-	dup(0);
-	dup(0);
-
-	/* Set default permissions for created files. */
-	umask(027);
+		/* Use /dev/null as stdin/stdout/stderr. */
+		open("/dev/null", O_RDWR);
+		dup(0);
+		dup(0);
+	}
 	
 	return 0;
 }
 
-
+#endif
