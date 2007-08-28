@@ -107,6 +107,7 @@ win32{
 }
 !win32{
 	DEPENDPATH += src/net/linux/ src/core/linux
+	SOURCES += src/core/linux/daemon.c
 }
 
 unix:!mac{

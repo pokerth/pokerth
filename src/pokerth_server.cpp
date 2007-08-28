@@ -56,12 +56,22 @@ TerminateHandler(int signal)
 	g_pokerthTerminate = 1;
 }
 
+// TODO: Hack
+#ifndef _WIN32
+int daemon();
+#endif
+
 int
 main(int argc, char *argv[])
 {
 	ENABLE_LEAK_CHECK();
 
 	//_CrtSetBreakAlloc(164);
+
+	// TODO: Hack
+#ifndef _WIN32
+	daemon();
+#endif
 
 	signal(SIGTERM, TerminateHandler);
 	signal(SIGINT, TerminateHandler);
