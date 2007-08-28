@@ -51,6 +51,7 @@ class startNetworkGameDialogImpl;
 class changeHumanPlayerNameDialogImpl;
 class gameLobbyDialogImpl;
 
+class QtHelper;
 class QColor;
 
 class SDLPlayer;

@@ -3,9 +3,12 @@
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
-INSTALLS += TARGET 
-TARGET.files += bin/*
-TARGET.path = /usr/bin/
+CONFIG += qt thread embed_manifest_exe release
+#CONFIG += qt thread embed_manifest_exe warn_on debug
+UI_DIR = uics
+MOC_DIR = mocs
+OBJECTS_DIR = obj
+TARGET = pokerth
 
 INCLUDEPATH += . \
 		src \
@@ -205,7 +208,6 @@ TRANSLATIONS = \
 		ts/pokerth_it.ts \
 		ts/pokerth_nl.ts
 
-
 win32{
 	DEPENDPATH += src/net/win32/ src/core/win32
 	INCLUDEPATH += ../boost/ ../SDL/include ../SDL_mixer
@@ -240,6 +242,17 @@ unix: !mac{
 
 	## My release static libs
 	#LIBS += -lcrypto -lSDL_mixer -lSDL -lmikmod
+
+	#### INSTALL ####
+
+	targets.files += pokerth
+	targets.path = /usr/bin/
+	
+	data.path = /usr/share/pokerth/data
+	data.files = data/* 
+	
+	INSTALLS += targets data
+
 }
 
 mac{
@@ -273,12 +286,3 @@ mac{
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers		
 }
-
-#CONFIG += qt thread embed_manifest_exe release
-CONFIG += qt thread embed_manifest_exe warn_on debug
-UI_DIR = uics
-TARGET = bin/pokerth
-MOC_DIR = mocs
-OBJECTS_DIR = obj
-QT += 
-# QMAKE_CXXFLAGS_DEBUG += -g

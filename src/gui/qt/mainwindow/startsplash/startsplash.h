@@ -13,6 +13,7 @@
 #define STARTSPLASH_H
 
 #include "mainwindowimpl.h"
+#include "qthelper.h"
 
 #include <QtGui>
 #include <QtCore>
@@ -38,6 +39,7 @@ public slots:
 private:
 
 	mainWindowImpl *myW;
+	QtHelper *myQtHelper;
 
 };
 

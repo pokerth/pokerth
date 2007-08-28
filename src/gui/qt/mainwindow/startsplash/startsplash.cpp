@@ -78,7 +78,8 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 	versionFont.setFamily("Nimbus Sans L");
 	versionFont.setPixelSize(12);
 
-	QPixmap logo(":/graphics/resources/graphics/logoChip3D.png");
+// 	std::cout << myQtHelper->getDataPath().toStdString() << endl;
+	QPixmap logo(myQtHelper->getDataPath()+"gfx/logoChip3D.png");
 
 	if(frameNo >= 52 && frameNo < 55) {
 	

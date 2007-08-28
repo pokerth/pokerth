@@ -42,6 +42,7 @@
 #include "game.h"
 #include "session.h"
 #include "tools.h"
+#include "qthelper.h"
 
 #include "configfile.h"
 #include "sdlplayer.h"

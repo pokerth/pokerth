@@ -16,7 +16,8 @@
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
 */
-class QtHelper{
+class QtHelper : public QObject{
+Q_OBJECT
 public:
     QtHelper();
 
@@ -24,6 +25,8 @@ public:
 
     std::string stringToUtf8(const std::string &);
     std::string getDefaultLanguage();
+
+    QString getDataPath();
 
 };
 
