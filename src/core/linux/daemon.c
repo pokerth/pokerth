@@ -20,6 +20,14 @@
 #error This source code is not for Win32.
 #endif
 
+#include <unistd.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <errno.h>
+
+
 int
 daemon()
 {
