@@ -549,6 +549,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	myGameLobbyDialog = new gameLobbyDialogImpl(this, myConfig);
 	
 	myStartNetworkGameDialog->setMyW(this);
+	myGameLobbyDialog->setMyW(this);
 
 // 	//ShortCuts 
 // 	QShortcut *quitPokerTHKeys = new QShortcut(QKeySequence(Qt::Key_Control + Qt::Key_Q), this);

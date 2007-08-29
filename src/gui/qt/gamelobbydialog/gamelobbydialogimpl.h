@@ -18,6 +18,9 @@
 #include <QtCore>
 
 #include "createinternetgamedialogimpl.h"
+#include "sdlplayer.h"
+#include "mainwindowimpl.h"
+
 
 class Session;
 class ConfigFile;
@@ -35,7 +38,8 @@ public:
 	void exec();
 
 	void setSession(Session *session);
-
+	void setMyW ( mainWindowImpl* theValue ) { myW = theValue; }
+	
 public slots:
 
 	void createGame();
@@ -50,15 +54,22 @@ public slots:
 	QString getCurrentGameName() const { return currentGameName; }	
 
 	void clearGames();
+	void checkPlayerQuantity();
+
+	void joinedNetworkGame(QString, int);
+	void addConnectedPlayer(QString, int);
+	void updatePlayer(QString, QString);
+	void removePlayer(QString);
 
 private:
-
+	
+	mainWindowImpl* myW;
 	ConfigFile *myConfig;	
 	Session *mySession;
-
 	createInternetGameDialogImpl *myCreateInternetGameDialog;
 
 	QString currentGameName;
+	bool isAdmin;
 };
 
 #endif

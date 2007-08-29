@@ -59,6 +59,7 @@ public slots:
 	void setMaxPlayerNumber ( int theValue ) { maxPlayerNumber = theValue; label_maxPlayerNumber->setText(QString::number(theValue,10)); }
 	int getMaxPlayerNumber() const { return maxPlayerNumber; }
 
+	void exec();
 
 private: 
 

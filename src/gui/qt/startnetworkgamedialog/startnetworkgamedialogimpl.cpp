@@ -37,6 +37,14 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFi
 	pushButton_startGame->setEnabled(false);
 }
 
+void startNetworkGameDialogImpl::exec() {
+	
+	GameInfo info = mySession->getClientGameInfo("default");
+	label_maxPlayerNumber->setText(QString::number(info.data.maxNumberOfPlayers));
+
+	QDialog::exec();
+}
+
 void startNetworkGameDialogImpl::startGame() {
 	assert(mySession);
 	mySession->sendStartEvent();

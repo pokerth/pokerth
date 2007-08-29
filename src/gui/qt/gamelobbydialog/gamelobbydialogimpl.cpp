@@ -15,7 +15,7 @@
 #include "gamedata.h"
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
- : QDialog(parent), myConfig(c), currentGameName("")
+ : QDialog(parent), myW(NULL), myConfig(c), currentGameName(""), isAdmin(false)
 {
     setupUi(this);
 
@@ -141,3 +141,55 @@ void gameLobbyDialogImpl::clearGames()
 	label_TimeoutForPlayerAction->setText("");
 }
 
+void gameLobbyDialogImpl::checkPlayerQuantity() {
+
+// 	if (treeWidget->topLevelItemCount() >= 2 && isAdmin) {
+// 		pushButton_startGame->setEnabled(true);
+// 	}
+// 	else {
+// 		pushButton_startGame->setEnabled(false);
+// 	}
+
+}
+
+void gameLobbyDialogImpl::joinedNetworkGame(QString playerName, int rights) {
+
+	isAdmin = rights == PLAYER_RIGHTS_ADMIN;
+	addConnectedPlayer(playerName, rights);
+}
+
+
+void gameLobbyDialogImpl::addConnectedPlayer(QString playerName, int rights) {
+
+	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_connectedPlayers,0);
+	item->setData(0, 0, playerName);
+
+	GameInfo info = mySession->getClientGameInfo(currentGameName.toUtf8().constData());
+
+	if(treeWidget_connectedPlayers->topLevelItemCount() != info.data.maxNumberOfPlayers) {
+		myW->getMySDLPlayer()->playSound("playerconnected", 0);
+	}
+	else {
+		myW->getMySDLPlayer()->playSound("onlinegameready", 0);
+	}
+
+	checkPlayerQuantity();
+}
+
+void gameLobbyDialogImpl::updatePlayer(QString oldPlayerName, QString newPlayerName) {
+
+	QList<QTreeWidgetItem *> list = treeWidget_connectedPlayers->findItems(oldPlayerName, Qt::MatchExactly, 0);
+	if(!list.empty()) { 
+		list[0]->setText(0, newPlayerName);
+	}
+
+}
+
+void gameLobbyDialogImpl::removePlayer(QString playerName) {
+
+	QList<QTreeWidgetItem *> list = treeWidget_connectedPlayers->findItems(playerName, Qt::MatchExactly, 0);
+	if(!list.empty()) { 
+		 treeWidget_connectedPlayers->takeTopLevelItem(treeWidget_connectedPlayers->indexOfTopLevelItem(list[0]));
+	}
+
+}

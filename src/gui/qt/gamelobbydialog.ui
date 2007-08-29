@@ -144,7 +144,7 @@
        </spacer>
       </item>
       <item row="0" column="0" >
-       <widget class="QTreeWidget" name="treeWidget" >
+       <widget class="QTreeWidget" name="treeWidget_connectedPlayers" >
         <property name="minimumSize" >
          <size>
           <width>221</width>
