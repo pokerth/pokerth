@@ -29,6 +29,7 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 
 	 setupUi(this);
 	
+	myQtHelper = new QtHelper;
 
 // 	listWidget->setViewMode(QListView::IconMode);
 // 	listWidget->setIconSize(QSize(50,50));
@@ -45,39 +46,39 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 // 	int i;
 // 	for (i=0; i<30; i++) {
 // 		MyAvatarListItem *myItem = new MyAvatarListItem(listWidget);
-// // 		myItem->setIcon(QIcon(QPixmap(":/guiv2/resources/guiv2/genereticAvatar.png").scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
-// 		myItem->setMyLink(":/guiv2/resources/guiv2/genereticAvatar.png");
+// // 		myItem->setIcon(QIcon(QPixmap(myQtHelper->getDataPath() +"gfx/gui/table/default/genereticAvatar.png").scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
+// 		myItem->setMyLink(myQtHelper->getDataPath() +"gfx/gui/table/default/genereticAvatar.png");
 // 		myItem->setText("PokerTH");
 // 		listWidget->addItem(myItem);
 // 	};
 
 	QStringList avatarList;
 
-	avatarList << ":avatar/resources/avatar/Mona_Lisa.png";
-        avatarList << ":avatar/resources/avatar/Catherine_russia.png";
-        avatarList << ":avatar/resources/avatar/Elisabeth1.png";
-	avatarList << ":avatar/resources/avatar/George_Washington.png";	
-	avatarList << ":avatar/resources/avatar/Louis_XIV.png";
-	avatarList << ":avatar/resources/avatar/Sissi.png";
-	avatarList << ":avatar/resources/avatar/Columbus.png";
-        avatarList << ":avatar/resources/avatar/Napoleon.png";
-	avatarList << ":avatar/resources/avatar/Martin_Luther_King.png";
-        avatarList << ":avatar/resources/avatar/PopeInnocentX.png";
-        avatarList << ":avatar/resources/avatar/Pope_Clement_VII.png";
-        avatarList << ":avatar/resources/avatar/James_Watt.png";
-        avatarList << ":avatar/resources/avatar/albert_einstein.png";
-        avatarList << ":avatar/resources/avatar/bach.png";
-	avatarList << ":avatar/resources/avatar/mozart.png";
-        avatarList << ":avatar/resources/avatar/goethe.png";
-        avatarList << ":avatar/resources/avatar/linus.png";
-        avatarList << ":avatar/resources/avatar/marc.png";
-	avatarList << ":avatar/resources/avatar/viktoria.png";
-	avatarList << ":avatar/resources/avatar/benedikt.png";
-	avatarList << ":avatar/resources/avatar/Kapitan.png";
-	avatarList << ":avatar/resources/avatar/florian.png";	
-	avatarList << ":avatar/resources/avatar/felix.png";
-	avatarList << ":avatar/resources/avatar/lotodore.png";
-        avatarList << ":avatar/resources/avatar/clipart1.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Mona_Lisa.png";
+        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Catherine_russia.png";
+        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Elisabeth1.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/George_Washington.png";	
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Louis_XIV.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Sissi.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Columbus.png";
+        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Napoleon.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Martin_Luther_King.png";
+        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/PopeInnocentX.png";
+        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Pope_Clement_VII.png";
+        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/James_Watt.png";
+        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/albert_einstein.png";
+        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/bach.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/mozart.png";
+        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/goethe.png";
+        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/linus.png";
+        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/marc.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/viktoria.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/benedikt.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Kapitan.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/florian.png";	
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/felix.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/lotodore.png";
+        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/clipart1.png";
 	
 	int i;
 	for (i=0; i<avatarList.size(); i++) {

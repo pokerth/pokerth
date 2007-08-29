@@ -25,6 +25,8 @@
 #include <QtCore>
 #include <QtGui>
 
+#include "qthelper.h"
+
 class ConfigFile;
 class selectAvatarDialogImpl;
 
@@ -51,6 +53,8 @@ public slots:
 private:
 	
 	ConfigFile* myConfig;
+	QtHelper *myQtHelper;
+
 	bool settingsCorrect;
 	QString externalAvatar;
 	QString avatarDir;

@@ -192,8 +192,6 @@ SOURCES += \
 		src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.cpp \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp
 
-RESOURCES += src/gui/qt/resources.qrc
-
 TRANSLATIONS = \
 		ts/pokerth_de.ts \
 		ts/pokerth_es.ts \

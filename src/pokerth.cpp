@@ -36,6 +36,8 @@
 #include <QtGui>
 #include <QtCore>
 
+#include "qthelper.h"
+
 #include <cstdlib>
 #include <ctime>
 
@@ -66,7 +68,7 @@ int main( int argc, char **argv )
 {
 	//create defaultconfig
 	ConfigFile *myConfig = new ConfigFile(argc, argv);
-
+	QtHelper *myQtHelper = new QtHelper;
 	//ENABLE_LEAK_CHECK();
 
 	//_CrtSetBreakAlloc(49937);
@@ -79,14 +81,12 @@ int main( int argc, char **argv )
 	// set PlastiqueStyle even for mac-version to prevent artefacts on styled widgets
 	a.setStyle(new QPlastiqueStyle);
 	
-	Q_INIT_RESOURCE(resources);
-
 	QTranslator qtTranslator;
-        qtTranslator.load(QString(":/translations/resources/translations/qt_") + QString::fromStdString(myConfig->readConfigString("Language")));
+        qtTranslator.load(QString(myQtHelper->getDataPath() +"translations/qt_") + QString::fromStdString(myConfig->readConfigString("Language")));
         a.installTranslator(&qtTranslator);
 
 	QTranslator translator;
-	translator.load(QString(":/translations/resources/translations/pokerth_") + QString::fromStdString(myConfig->readConfigString("Language")));
+	translator.load(QString(myQtHelper->getDataPath() +"translations/pokerth_") + QString::fromStdString(myConfig->readConfigString("Language")));
 	a.installTranslator(&translator);
 	
 

@@ -28,6 +28,9 @@ StartSplash::StartSplash(mainWindowImpl *parent)
 	QFontDatabase::addApplicationFont (myQtHelper->getDataPath() +"fonts/c059013l.pfb");
 	QFontDatabase::addApplicationFont (myQtHelper->getDataPath() +"fonts/andybold.ttf");	
 
+	logo = myQtHelper->getDataPath()+"gfx/gui/misc/logoChip3D.png";
+
+
 	frameNo = 52;
 	opacityCounter = 13;
 	opacity = 1.0;
@@ -80,9 +83,6 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 	QFont versionFont;
 	versionFont.setFamily("Nimbus Sans L");
 	versionFont.setPixelSize(12);
-
-// 	std::cout << myQtHelper->getDataPath().toStdString() << endl;
-	QPixmap logo(myQtHelper->getDataPath()+"gfx/logoChip3D.png");
 
 	if(frameNo >= 52 && frameNo < 55) {
 	

@@ -501,9 +501,6 @@
   <property name="windowTitle" >
    <string>PokerTH 0.5 - The Open-Source Texas Holdem Engine</string>
   </property>
-  <property name="styleSheet" >
-   <string>QMainWindow { background-image: url(:/guiv2/resources/guiv2/table.png); background-position: bottom center; background-origin: content; }</string>
-  </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QGridLayout" >
     <property name="margin" >
@@ -586,9 +583,6 @@
             <width>197</width>
             <height>195</height>
            </size>
-          </property>
-          <property name="styleSheet" >
-           <string>QGroupBox { background-image: url(:/graphics/resources/graphics/toolboxFrameBG.png) }</string>
           </property>
           <layout class="QGridLayout" >
            <property name="margin" >
@@ -843,10 +837,7 @@
                 <number>0</number>
                </property>
                <item row="0" column="0" >
-                <widget class="QLabel" name="label" >
-                 <property name="pixmap" >
-                  <pixmap resource="resources.qrc" >:/graphics/resources/graphics/handRanking_release.png</pixmap>
-                 </property>
+                <widget class="QLabel" name="label_Handranking" >
                  <property name="alignment" >
                   <set>Qt::AlignCenter</set>
                  </property>
@@ -1865,9 +1856,6 @@
             <width>197</width>
             <height>195</height>
            </size>
-          </property>
-          <property name="styleSheet" >
-           <string>QGroupBox { background-image: url(:/graphics/resources/graphics/toolboxFrameBG.png) }</string>
           </property>
           <layout class="QGridLayout" >
            <property name="margin" >
@@ -4849,54 +4837,6 @@
           <height>185</height>
          </size>
         </property>
-        <widget class="QLabel" name="label_6" >
-         <property name="geometry" >
-          <rect>
-           <x>178</x>
-           <y>60</y>
-           <width>90</width>
-           <height>124</height>
-          </rect>
-         </property>
-         <property name="pixmap" >
-          <pixmap resource="resources.qrc" >:/guiv2/resources/guiv2/cardholder_03.png</pixmap>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_8" >
-         <property name="geometry" >
-          <rect>
-           <x>370</x>
-           <y>60</y>
-           <width>90</width>
-           <height>124</height>
-          </rect>
-         </property>
-         <property name="pixmap" >
-          <pixmap resource="resources.qrc" >:/guiv2/resources/guiv2/cardholder_07.png</pixmap>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_CardHolder0" >
-         <property name="geometry" >
-          <rect>
-           <x>0</x>
-           <y>60</y>
-           <width>90</width>
-           <height>124</height>
-          </rect>
-         </property>
-         <property name="pixmap" >
-          <pixmap resource="resources.qrc" >:/guiv2/resources/guiv2/cardholder_03.png</pixmap>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
         <widget class="QFrame" name="frame" >
          <property name="geometry" >
           <rect>
@@ -5517,22 +5457,6 @@
           </item>
          </layout>
         </widget>
-        <widget class="QLabel" name="label_5" >
-         <property name="geometry" >
-          <rect>
-           <x>89</x>
-           <y>60</y>
-           <width>90</width>
-           <height>124</height>
-          </rect>
-         </property>
-         <property name="pixmap" >
-          <pixmap resource="resources.qrc" >:/guiv2/resources/guiv2/cardholder_03.png</pixmap>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
         <widget class="QLabel" name="textLabel_handLabel" >
          <property name="geometry" >
           <rect>
@@ -5610,7 +5534,55 @@
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="label_7" >
+        <widget class="QLabel" name="label_CardHolder0" >
+         <property name="geometry" >
+          <rect>
+           <x>0</x>
+           <y>60</y>
+           <width>90</width>
+           <height>124</height>
+          </rect>
+         </property>
+         <property name="pixmap" >
+          <pixmap/>
+         </property>
+         <property name="scaledContents" >
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_CardHolder1" >
+         <property name="geometry" >
+          <rect>
+           <x>89</x>
+           <y>60</y>
+           <width>90</width>
+           <height>124</height>
+          </rect>
+         </property>
+         <property name="pixmap" >
+          <pixmap/>
+         </property>
+         <property name="scaledContents" >
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_CardHolder2" >
+         <property name="geometry" >
+          <rect>
+           <x>178</x>
+           <y>60</y>
+           <width>90</width>
+           <height>124</height>
+          </rect>
+         </property>
+         <property name="pixmap" >
+          <pixmap/>
+         </property>
+         <property name="scaledContents" >
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_CardHolder3" >
          <property name="geometry" >
           <rect>
            <x>274</x>
@@ -5620,7 +5592,23 @@
           </rect>
          </property>
          <property name="pixmap" >
-          <pixmap resource="resources.qrc" >:/guiv2/resources/guiv2/cardholder_05.png</pixmap>
+          <pixmap/>
+         </property>
+         <property name="scaledContents" >
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_CardHolder4" >
+         <property name="geometry" >
+          <rect>
+           <x>370</x>
+           <y>60</y>
+           <width>90</width>
+           <height>124</height>
+          </rect>
+         </property>
+         <property name="pixmap" >
+          <pixmap/>
          </property>
          <property name="scaledContents" >
           <bool>true</bool>

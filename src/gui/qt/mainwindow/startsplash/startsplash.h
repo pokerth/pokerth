@@ -40,6 +40,7 @@ private:
 
 	mainWindowImpl *myW;
 	QtHelper *myQtHelper;
+	QPixmap logo;
 
 };
 

@@ -29,6 +29,7 @@
 
 #include <string>
 #include "configfile.h"
+#include "qthelper.h"
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
@@ -59,6 +60,7 @@ private:
 	bool audioEnabled;
 
 	ConfigFile *myConfig;
+	QtHelper *myQtHelper;
 
 };
 
