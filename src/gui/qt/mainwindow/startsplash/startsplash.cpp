@@ -22,13 +22,16 @@
 StartSplash::StartSplash(mainWindowImpl *parent)
  : QSplashScreen(parent), myW(parent)
 {
-	QFontDatabase::addApplicationFont (":fonts/resources/fonts/c059013l.pfb");
-	QFontDatabase::addApplicationFont (":fonts/resources/fonts/andybold.ttf");	
+	
+	myQtHelper = new QtHelper;
+
+	QFontDatabase::addApplicationFont (myQtHelper->getDataPath() +"fonts/c059013l.pfb");
+	QFontDatabase::addApplicationFont (myQtHelper->getDataPath() +"fonts/andybold.ttf");	
 
 	frameNo = 52;
 	opacityCounter = 13;
 	opacity = 1.0;
-	
+
 	QTimer *timer = new QTimer;
 	connect(timer, SIGNAL(timeout()), this, SLOT(nextAnimationFrame()));
 	timer->start(40);

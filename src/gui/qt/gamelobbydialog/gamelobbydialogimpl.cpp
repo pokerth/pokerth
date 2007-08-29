@@ -34,6 +34,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	treeWidget_GameList->setColumnWidth(0,250);
 	treeWidget_GameList->setColumnWidth(1,75);
 	treeWidget_GameList->setColumnWidth(2,70);
+
+	lineEdit_ChatInput->setFocus();
 	
 }
 

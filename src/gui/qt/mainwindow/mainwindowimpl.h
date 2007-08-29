@@ -390,6 +390,9 @@ private:
 	//Sound
 	SDLPlayer *mySDLPlayer;
 
+	QtHelper *myQtHelper;
+
+
 	int distributePotAnimCounter;
 
 	//Speed

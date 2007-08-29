@@ -14,6 +14,7 @@
 
 
 #include <iostream>
+#include "game_defs.h"
 
 #include "berointerface.h"
 #include "handinterface.h"

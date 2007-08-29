@@ -70,15 +70,16 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	}
 	////////////////////////////
 
-	
+	myQtHelper = new QtHelper;
+
 // Resourcen abladen 
-	QFile preflopValuesFile(":data/resources/data/preflopValues");
+	QFile preflopValuesFile(myQtHelper->getDataPath() +"misc/preflopValues");
 	QFile preflopValuesFileDest(QString::fromUtf8(myConfig->readConfigString("DataDir").c_str())+QString("preflopValues"));
 // 	if(!preflopValuesFileDest.exists()) {
 	preflopValuesFile.copy(QString::fromUtf8(myConfig->readConfigString("DataDir").c_str())+QString("preflopValues"));
 // 	}
 
-	QFile flopValuesFile(":data/resources/data/flopValues");
+	QFile flopValuesFile(myQtHelper->getDataPath() +"misc/flopValues");
 	QFile flopValuesFileDest(QString::fromUtf8(myConfig->readConfigString("DataDir").c_str())+QString("flopValues"));
 // 	if(!flopValuesFileDest.exists()) {
 	flopValuesFile.copy(QString::fromUtf8(myConfig->readConfigString("DataDir").c_str())+QString("flopValues"));
@@ -93,8 +94,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 // 	else { QFont tmpFont("Arial",9); }
 
 #else 
-	QFontDatabase::addApplicationFont (":fonts/resources/fonts/n019003l.pfb");
-	QFontDatabase::addApplicationFont (":fonts/resources/fonts/VeraBd.ttf");
+	QFontDatabase::addApplicationFont (myQtHelper->getDataPath() +"fonts/n019003l.pfb");
+	QFontDatabase::addApplicationFont (myQtHelper->getDataPath() +"fonts/VeraBd.ttf");
 // 	QFont tmpFont("Nimbus Sans L",9);
 	QFont tmpFont1;
 	tmpFont1.setFamily("Nimbus Sans L");
@@ -207,13 +208,13 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 
 	//Flipside festlegen;
-	flipside = new QPixmap(":/cards/resources/graphics/cards/flipside.png");
+	flipside = new QPixmap(myQtHelper->getDataPath() +"gfx/cards/default/flipside.png");
 	
 	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
 		QPixmap tmpFlipside(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
 		flipside = new QPixmap(tmpFlipside.scaled(QSize(80, 111),Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 	}
-	else { flipside->load(":/cards/resources/graphics/cards/flipside.png"); }
+	else { flipside->load(myQtHelper->getDataPath() +"gfx/cards/default/flipside.png"); }
 
 	//Flipside Animation noch nicht erledigt
 	flipHolecardsAllInAlreadyDone = FALSE;
@@ -895,7 +896,7 @@ void mainWindowImpl::callSettingsDialog() {
 			QPixmap tmpFlipside(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
 			flipside = new QPixmap(tmpFlipside.scaled(QSize(57, 80)));
 		}
-		else { flipside->load(":/cards/resources/graphics/cards/flipside.png"); }
+		else { flipside->load(myQtHelper->getDataPath() +"gfx/cards/default/flipside.png"); }
 
 		if(mySession->getCurrentGame()) {
 			//blind buttons refresh
@@ -1356,11 +1357,11 @@ void mainWindowImpl::dealHoleCards() {
 				if ((i == 0) || DEBUG_MODE) {
 					if(myConfig->readConfigInt("AntiPeekMode")) {
 						holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
-						tempCardsPixmapArray[j].load(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");
+						tempCardsPixmapArray[j].load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
 						holeCardsArray[i][j]->setFrontPixmap(tempCardsPixmapArray[j]);
 					}
 					else {
-						tempCardsPixmapArray[j].load(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");
+						tempCardsPixmapArray[j].load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
 						holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
 					}
 				} 
@@ -1420,7 +1421,7 @@ void mainWindowImpl::dealFlopCards4() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(":/cards/resources/graphics/cards/"+QString::number(tempBoardCardsArray[0], 10)+".png");
+	tempCardsPixmap.load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempBoardCardsArray[0], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
@@ -1440,7 +1441,7 @@ void mainWindowImpl::dealFlopCards5() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(":/cards/resources/graphics/cards/"+QString::number(tempBoardCardsArray[1], 10)+".png");
+	tempCardsPixmap.load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempBoardCardsArray[1], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 	
 	//Config? mit oder ohne Eye-Candy?
@@ -1460,7 +1461,7 @@ void mainWindowImpl::dealFlopCards6() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(":/cards/resources/graphics/cards/"+QString::number(tempBoardCardsArray[2], 10)+".png");
+	tempCardsPixmap.load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempBoardCardsArray[2], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 	
 	//Config? mit oder ohne Eye-Candy?
@@ -1493,7 +1494,7 @@ void mainWindowImpl::dealTurnCards2() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(":/cards/resources/graphics/cards/"+QString::number(tempBoardCardsArray[3], 10)+".png");
+	tempCardsPixmap.load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempBoardCardsArray[3], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
@@ -1528,7 +1529,7 @@ void mainWindowImpl::dealRiverCards2() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(":/cards/resources/graphics/cards/"+QString::number(tempBoardCardsArray[4], 10)+".png");
+	tempCardsPixmap.load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempBoardCardsArray[4], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
@@ -1949,7 +1950,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
 												
-								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
 							}	
 						}
 						//set Player value (logging)
@@ -1973,7 +1974,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
 						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {		
-								tempCardsPixmapArray[j].load(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");
+								tempCardsPixmapArray[j].load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
 								holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
 								
 							}	
@@ -2234,7 +2235,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
 						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
-								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(":/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
 							}
 						}
 						//set Player value (logging)
@@ -2260,7 +2261,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
 								
-								tempCardsPixmapArray[j].load(":/cards/resources/graphics/cards/"+QString::number(temp2CardsIntArray[j], 10)+".png");
+								tempCardsPixmapArray[j].load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(temp2CardsIntArray[j], 10)+".png");
 								holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
 							}	
 						}
