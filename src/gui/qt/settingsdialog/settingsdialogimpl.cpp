@@ -30,6 +30,10 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 {
 
   setupUi(this);
+	
+	QtHelper *myQtHelper = new QtHelper;
+
+	pushButton_openFlipsidePicture->setIcon(QIcon(QPixmap(myQtHelper->getDataPath()+"gfx/gui/misc/fileopen16.png")));
 
 	if (myConfig->readConfigInt("CLA_NoWriteAccess")) { groupBox_logOnOff->setDisabled(TRUE); }
 

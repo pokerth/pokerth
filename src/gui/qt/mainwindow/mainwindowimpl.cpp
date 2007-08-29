@@ -998,8 +998,8 @@ void mainWindowImpl::refreshSet() {
 void mainWindowImpl::refreshButton() {
 
 	QPixmap dealerButton(myQtHelper->getDataPath() +"gfx/gui/table/default/dealerPuck.png");
-	QPixmap smallblindButton(myQtHelper->getDataPath() +"gfx/gui/misc/smallblindPuck.png");
-	QPixmap bigblindButton(myQtHelper->getDataPath() +"gfx/gui/misc/bigblindPuck.png");
+	QPixmap smallblindButton(myQtHelper->getDataPath() +"gfx/gui/table/default/smallblindPuck.png");
+	QPixmap bigblindButton(myQtHelper->getDataPath() +"gfx/gui/table/default/bigblindPuck.png");
 	QPixmap onePix(myQtHelper->getDataPath() +"gfx/gui/misc/1px.png");
 
 	int i;

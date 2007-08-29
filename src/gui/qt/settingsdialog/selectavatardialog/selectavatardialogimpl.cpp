@@ -31,6 +31,8 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 	
 	myQtHelper = new QtHelper;
 
+	pushButton_OpenAvatarFile->setIcon(QIcon(QPixmap(myQtHelper->getDataPath()+"gfx/gui/misc/fileopen16.png")));
+
 // 	listWidget->setViewMode(QListView::IconMode);
 // 	listWidget->setIconSize(QSize(50,50));
 // 	listWidget->setLayoutDirection(Qt::LeftToRight);
