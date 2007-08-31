@@ -1,11 +1,11 @@
-These are the instructions to compile PokerTH on Windows using MSVC Express Edition.
+These are the instructions to compile PokerTH on Windows using MSVC 2005 Express Edition.
 
 1. Get and install MSVC 2005 Express Edition (English version is strongly recommended).
 
 2. Get and install Service Pack 1 for MSVC 2005 Express Edition
 
 3. Get and install a QT related Hotfix for MSVC 2005 SP1:
-http://hotfix.xable.net/download
+http://thehotfixshare.net/board/index.php?automodule=downloads&showcat=21
 English - Visual Studio 2005 - VS80sp1-KB930859-X86-ENU.exe
 
 More information on this:
@@ -27,7 +27,7 @@ http://sourceforge.net/projects/qtwin
 
 6. Apply the patch and compile QT, make sure you set the proper environment variables.
 These pages might help:
-http://qtnode.net/wiki/Qt4_with_Visual_Studio
+http://qtnode.net/wiki?title=Qt4_with_Visual_Studio
 http://321soft.de/321soft/iframe.php?inhalt=qttut [German only]
 
 7. Get boost and bjam and compile boost
@@ -37,10 +37,13 @@ Now the worst part:
 (this is a bit tricky, contact me for binaries if you wish)
 
 9. Run
+qmake -tp vc pokerth_lib.pro
+qmake -tp vc pokerth_game.pro
+qmake -tp vc pokerth_server.pro
 qmake -tp vc
 in the pokerth directory
 
-10. Open the vcproj file, and Build All.
+10. Open the sln file, and Build All.
 
 
 
