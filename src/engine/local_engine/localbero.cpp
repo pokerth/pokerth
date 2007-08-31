@@ -63,6 +63,7 @@ void LocalBeRo::run() {
 				break;
 				case GAME_STATE_RIVER: myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
 				break;
+				default: { cout << "ERROR in localbero.cpp - wrong myBeRoID" << endl;}
 			}
 			logBoardCardsDone = 1;
 
@@ -107,7 +108,9 @@ void LocalBeRo::run() {
 				myHand->setBettingRoundsPlayed(myBeRoID);
 			}
 			
-			if( !(myHand->getActualQuantityPlayers() < 3 && firstHeadsUpRound == 1) ) { 
+			//// !!!!!!!!!!!!! very buggy, rule breaking -> TODO !!!!!!!!!!!!!!!! //////////////
+
+			if( !(myHand->getActualQuantityPlayers() < 3 && firstHeadsUpRound == 1) || myHand->getPlayerArray()[playersTurn]->getMyActiveStatus() == 0 ) { 
 // 			not first round in heads up (for headsup dealer is smallblind so it is dealers turn)
 		
 				// naechsten Spieler ermitteln
@@ -115,8 +118,11 @@ void LocalBeRo::run() {
 				for(i=0; (i<MAX_NUMBER_OF_PLAYERS && !(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6) || i==0; i++) {
 					playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
 				}
+				firstHeadsUpRound = 0; 
 			}
 			else { firstHeadsUpRound = 0; }
+
+			////// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ////////////////
 
 			//Spieler-Position vor SmallBlind-Position ermitteln 
 			int activePlayerBeforeSmallBlind = smallBlindPosition;

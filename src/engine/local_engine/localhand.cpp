@@ -37,7 +37,6 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 	myBoard->setHand(this);
 
-
 	for(i=0; i<startQuantityPlayers; i++) {
 		playerArray[i]->setHand(this);
 	// myFlipCards auf 0 setzen
@@ -173,9 +172,6 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 		// 	for(i=0; i<4; i++) {
 		// 		cout << i << ": " << playerArray[i]->getMyCardsValueInt() << endl;
 		// 	}
-	
-	
-			dealerPosition = 2;
 
 		}
 

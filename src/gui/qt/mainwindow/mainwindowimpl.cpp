@@ -742,6 +742,9 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	int tmpDealerPos = 0;
 	startData.numberOfPlayers = gameData.maxNumberOfPlayers;
 	Tools::getRandNumber(0, startData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
+	if(DEBUG_MODE) {
+		tmpDealerPos = 2;
+	}
 	startData.startDealerPlayerId = static_cast<unsigned>(tmpDealerPos);
 
 	//some gui modifications
@@ -1407,7 +1410,7 @@ void mainWindowImpl::dealBeRoCards(int myBeRoID) {
 		break;
 		case 3: { dealRiverCards0(); }
 		break;
-		default: { cout << "dealBeRoCards Error" << endl; }
+		default: { cout << "dealBeRoCards() Error" << endl; }
 	}
 }
 
@@ -1897,7 +1900,7 @@ void mainWindowImpl::beRoAnimation2(int myBeRoID) {
 		break;
 		case 3: { riverAnimation2(); }
 		break;
-		default: { cout << "beRoAnimation2 Error" << endl; }
+		default: { cout << "beRoAnimation2() Error" << endl; }
 	}
 }
 

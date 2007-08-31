@@ -128,8 +128,8 @@ unix:!mac{
 	#LIBS += -lcrypto
 }
 
-CONFIG += qt thread console embed_manifest_exe release
-#CONFIG += qt thread console embed_manifest_exe warn_on debug
+#CONFIG += qt thread console embed_manifest_exe release
+CONFIG += qt thread console embed_manifest_exe warn_on debug
 UI_DIR = uics
 TARGET = bin/pokerth_server
 MOC_DIR = mocs

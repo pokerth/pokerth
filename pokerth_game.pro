@@ -3,8 +3,8 @@
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
-CONFIG += qt thread embed_manifest_exe release
-#CONFIG += qt thread embed_manifest_exe warn_on debug
+#CONFIG += qt thread embed_manifest_exe release
+CONFIG += qt thread embed_manifest_exe warn_on debug
 UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = obj
