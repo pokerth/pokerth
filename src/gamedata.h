@@ -21,7 +21,7 @@
 #ifndef _GAMEDATA_H_
 #define _GAMEDATA_H_
 
-#include <string>
+#include <playerdata.h>
 
 enum GameMode
 {
@@ -49,6 +49,7 @@ struct GameInfo
 	std::string name;
 	GameData data;
 	GameMode mode;
+	PlayerIdList players;
 	bool isPasswordProtected;
 };
 

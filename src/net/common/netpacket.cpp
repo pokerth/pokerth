@@ -61,6 +61,8 @@ using namespace std;
 
 #define NET_TYPE_ERROR							0x0400
 
+#define NET_GAME_FLAG_PASSWORD_PROTECTED		0x01
+
 #define NET_PLAYER_FLAG_HUMAN					0x01
 #define NET_PLAYER_FLAG_ADMIN					0x02
 
@@ -112,6 +114,8 @@ struct GCC_PACKED NetPacketGameListNewData
 	u_int32_t			gameId;
 	u_int16_t			gameMode;
 	u_int16_t			gameNameLength;
+	u_int16_t			curNumberOfPlayers;
+	u_int16_t			gameFlags;
 	u_int16_t			maxNumberOfPlayers;
 	u_int16_t			smallBlind;
 	u_int16_t			handsBeforeRaise;
@@ -1011,6 +1015,7 @@ void
 NetPacketGameListNew::SetData(const NetPacketGameListNew::Data &inData)
 {
 	u_int16_t gameNameLen = (u_int16_t)inData.gameInfo.name.length();
+	u_int16_t curNumPlayers = (u_int16_t)inData.gameInfo.players.size();
 
 	// Some basic checks, so we don't use up too much memory.
 	// The constructed packet will also be checked.
@@ -1019,7 +1024,10 @@ NetPacketGameListNew::SetData(const NetPacketGameListNew::Data &inData)
 
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
-		(sizeof(NetPacketGameListNewData) + ADD_PADDING(gameNameLen)));
+		(sizeof(NetPacketGameListNewData)
+		+ ADD_PADDING(gameNameLen)
+		+ curNumPlayers * sizeof(unsigned)
+		));
 
 	NetPacketGameListNewData *tmpData = (NetPacketGameListNewData *)GetRawData();
 
@@ -1027,6 +1035,8 @@ NetPacketGameListNew::SetData(const NetPacketGameListNew::Data &inData)
 	tmpData->gameId					= htonl(inData.gameId);
 	tmpData->gameMode				= htons(inData.gameInfo.mode);
 	tmpData->gameNameLength			= htons(gameNameLen);
+	tmpData->curNumberOfPlayers		= htons(curNumPlayers);
+	tmpData->gameFlags				= htons(inData.gameInfo.isPasswordProtected ? NET_GAME_FLAG_PASSWORD_PROTECTED : 0);
 	tmpData->maxNumberOfPlayers		= htons(inData.gameInfo.data.maxNumberOfPlayers);
 	tmpData->smallBlind				= htons(inData.gameInfo.data.smallBlind);
 	tmpData->handsBeforeRaise		= htons(inData.gameInfo.data.handsBeforeRaise);
@@ -1036,6 +1046,19 @@ NetPacketGameListNew::SetData(const NetPacketGameListNew::Data &inData)
 
 	char *gameNamePtr = (char *)tmpData + sizeof(NetPacketGameListNewData);
 	memcpy(gameNamePtr, inData.gameInfo.name.c_str(), gameNameLen);
+
+	PlayerIdList::const_iterator i = inData.gameInfo.players.begin();
+	PlayerIdList::const_iterator end = inData.gameInfo.players.end();
+
+	// Copy the player list to continous memory
+	unsigned *tmpPlayer =
+		(unsigned *)((char *)tmpData + sizeof(NetPacketGameListNewData) + ADD_PADDING(gameNameLen));
+	while (i != end)
+	{
+		*tmpPlayer = htonl(*i);
+		++tmpPlayer;
+		++i;
+	}
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -1050,6 +1073,8 @@ NetPacketGameListNew::GetData(NetPacketGameListNew::Data &outData) const
 	outData.gameId								= ntohl(tmpData->gameId);
 	outData.gameInfo.mode						= static_cast<GameMode>(ntohs(tmpData->gameMode));
 	u_int16_t gameNameLen						= ntohs(tmpData->gameNameLength);
+	u_int16_t curNumPlayers						= ntohs(tmpData->curNumberOfPlayers);
+	outData.gameInfo.isPasswordProtected		= ntohs(tmpData->gameFlags) == NET_GAME_FLAG_PASSWORD_PROTECTED;
 	outData.gameInfo.data.maxNumberOfPlayers	= ntohs(tmpData->maxNumberOfPlayers);
 	outData.gameInfo.data.smallBlind			= ntohs(tmpData->smallBlind);
 	outData.gameInfo.data.handsBeforeRaise		= ntohs(tmpData->handsBeforeRaise);
@@ -1059,6 +1084,16 @@ NetPacketGameListNew::GetData(NetPacketGameListNew::Data &outData) const
 
 	char *gameNamePtr = (char *)tmpData + sizeof(NetPacketGameListNewData);
 	outData.gameInfo.name = string(gameNamePtr, gameNameLen);
+
+	unsigned *tmpPlayer =
+		(unsigned *)((char *)tmpData + sizeof(NetPacketGameListNewData) + ADD_PADDING(gameNameLen));
+
+	// Store all available players.
+	for (int i = 0; i < curNumPlayers; i++)
+	{
+		outData.gameInfo.players.push_back(*tmpPlayer);
+		++tmpPlayer;
+	}
 }
 
 const NetPacketGameListNew *
@@ -1073,10 +1108,12 @@ NetPacketGameListNew::InternalCheck(const NetPacketHeader* data) const
 	u_int16_t dataLen = ntohs(data->length);
 	NetPacketGameListNewData *tmpData = (NetPacketGameListNewData *)data;
 	int gameNameLength = ntohs(tmpData->gameNameLength);
+	int curNumPlayers = ntohs(tmpData->curNumberOfPlayers);
 	// Exact checking of dynamic packet size.
 	if (dataLen !=
 		sizeof(NetPacketGameListNewData)
-		+ ADD_PADDING(gameNameLength))
+		+ ADD_PADDING(gameNameLength)
+		+ curNumPlayers * sizeof(unsigned))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}

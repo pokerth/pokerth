@@ -93,6 +93,7 @@ private:
 	boost::shared_ptr<SessionData>	m_netSessionData;
 };
 
+typedef std::list<unsigned> PlayerIdList;
 typedef std::list<boost::shared_ptr<PlayerData> > PlayerDataList;
 typedef std::map<unsigned, boost::shared_ptr<PlayerData> > PlayerDataMap;
 

@@ -556,6 +556,7 @@ ServerLobbyThread::CreateNetPacketGameListNew(const ServerGameThread &game)
 	packetData.gameInfo.mode = GAME_MODE_CREATED;
 	packetData.gameInfo.name = game.GetName();
 	packetData.gameInfo.data = game.GetGameData();
+	packetData.gameInfo.players = game.GetSessionManager().GetPlayerIdList();
 	static_cast<NetPacketGameListNew *>(packet.get())->SetData(packetData);
 	return packet;
 }

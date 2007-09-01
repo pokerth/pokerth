@@ -219,6 +219,27 @@ SessionManager::GetPlayerDataList() const
 	return playerList;
 }
 
+PlayerIdList
+SessionManager::GetPlayerIdList() const
+{
+	PlayerIdList playerList;
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SessionMap::const_iterator session_i = m_sessionMap.begin();
+	SessionMap::const_iterator session_end = m_sessionMap.end();
+
+	while (session_i != session_end)
+	{
+		// Get all players in the game.
+		if (session_i->second.sessionData->GetState() == SessionData::Game)
+		{
+			playerList.push_back(session_i->second.playerData->GetUniqueId());
+		}
+		++session_i;
+	}
+	return playerList;
+}
+
 bool
 SessionManager::IsPlayerConnected(const string &playerName) const
 {

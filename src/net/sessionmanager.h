@@ -58,6 +58,7 @@ public:
 	SessionWrapper GetSessionByUniquePlayerId(unsigned uniqueId) const;
 
 	PlayerDataList GetPlayerDataList() const;
+	PlayerIdList GetPlayerIdList() const;
 	bool IsPlayerConnected(const std::string &playerName) const;
 	bool IsPlayerConnected(unsigned uniqueId) const;
 

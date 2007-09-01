@@ -85,6 +85,8 @@ Server Notification: Game List New
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|           Game Mode           |       Game Name Length        |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|   Current Number of Players   |          Game Flags           |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                            Game ID                            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|     Max Number of Players     |          Small Blind          |
@@ -100,6 +102,12 @@ Server Notification: Game List New
 	|                               +-------------------------------+
 	/                               |            padding            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                        Player ID Slot #1                      |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                                                               \
+	\                    Additional Player Slots                    /
+	/                                                               |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 Game List notifications will be automatically sent if the player
 is in the lobby. If a game is joined/started, no more messages
 will be sent. As soon as the player leaves a game without
@@ -109,6 +117,8 @@ Game Mode:
 	1: Game Created
 	2: Game Started
 	3: Game Closed (only for Game List Update)
+Game Flags:
+	0x01 set: Game is password protected
 
 
 Server Notification: Game List Update
