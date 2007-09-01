@@ -100,80 +100,145 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 	if(DEBUG_MODE) {
 
-		if(myID==1) {
+		int temp5Array[5];
+
+		switch(myID) {
+
+			case 1: {
 		
-			int temp5Array[5];
+				tempBoardArray[0] = 43;
+				tempBoardArray[1] = 22;
+				tempBoardArray[2] = 35;
+				tempBoardArray[3] = 39;
+				tempBoardArray[4] = 13;
+			
+				myBoard->setMyCards(tempBoardArray);
+			
+				tempPlayerAndBoardArray[2] = tempBoardArray[0];
+				tempPlayerAndBoardArray[3] = tempBoardArray[1];
+				tempPlayerAndBoardArray[4] = tempBoardArray[2];
+				tempPlayerAndBoardArray[5] = tempBoardArray[3];
+				tempPlayerAndBoardArray[6] = tempBoardArray[4];
 		
-			tempBoardArray[0] = 38;
-			tempBoardArray[1] = 19;
-			tempBoardArray[2] = 21;
-			tempBoardArray[3] = 11;
-			tempBoardArray[4] = 45;
+				// player0
+			
+				tempPlayerArray[0] = 1;
+				tempPlayerArray[1] = 9;
+				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+			
+				playerArray[0]->setMyCards(tempPlayerArray);
+				playerArray[0]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+			
+				playerArray[0]->setMyBestHandPosition(temp5Array);
+
+				// player1
 		
-			myBoard->setMyCards(tempBoardArray);
+				tempPlayerArray[0] = 3;
+				tempPlayerArray[1] = 4;
+				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+			
+				playerArray[1]->setMyCards(tempPlayerArray);
+				playerArray[1]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+			
+				playerArray[1]->setMyBestHandPosition(temp5Array);
+			
+				// player2
 		
-			tempPlayerAndBoardArray[2] = tempBoardArray[0];
-			tempPlayerAndBoardArray[3] = tempBoardArray[1];
-			tempPlayerAndBoardArray[4] = tempBoardArray[2];
-			tempPlayerAndBoardArray[5] = tempBoardArray[3];
-			tempPlayerAndBoardArray[6] = tempBoardArray[4];
+				tempPlayerArray[0] = 7;
+				tempPlayerArray[1] = 17;
+				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+			
+				playerArray[2]->setMyCards(tempPlayerArray);
+				playerArray[2]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+			
+				playerArray[2]->setMyBestHandPosition(temp5Array);
 	
-			// player0
+				// player3
+			
+				tempPlayerArray[0] = 26;
+				tempPlayerArray[1] = 28;
+				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+			
+				playerArray[3]->setMyCards(tempPlayerArray);
+				playerArray[3]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+			
+				playerArray[3]->setMyBestHandPosition(temp5Array);
+
+			} break;
+			case 2: {
 		
-			tempPlayerArray[0] = 9;
-			tempPlayerArray[1] = 14;
-			tempPlayerAndBoardArray[0] = tempPlayerArray[0];
-			tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+				tempBoardArray[0] = 32;
+				tempBoardArray[1] = 26;
+				tempBoardArray[2] = 28;
+				tempBoardArray[3] = 38;
+				tempBoardArray[4] = 7;
+			
+				myBoard->setMyCards(tempBoardArray);
+			
+				tempPlayerAndBoardArray[2] = tempBoardArray[0];
+				tempPlayerAndBoardArray[3] = tempBoardArray[1];
+				tempPlayerAndBoardArray[4] = tempBoardArray[2];
+				tempPlayerAndBoardArray[5] = tempBoardArray[3];
+				tempPlayerAndBoardArray[6] = tempBoardArray[4];
 		
-			playerArray[0]->setMyCards(tempPlayerArray);
-			playerArray[0]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+				// player0
+			
+				tempPlayerArray[0] = 45;
+				tempPlayerArray[1] = 35;
+				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+			
+				playerArray[0]->setMyCards(tempPlayerArray);
+				playerArray[0]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+			
+				playerArray[0]->setMyBestHandPosition(temp5Array);
+			
+				// player1
 		
-			playerArray[0]->setMyBestHandPosition(temp5Array);
-		
-		// 	for(i=0; i<5; i++) {
-		// 		cout << temp5Array[i] << " ";
-		// 	}
-		// 	cout << endl;
-		
-			// player1
-	
-			tempPlayerArray[0] = 44;
-			tempPlayerArray[1] = 27;
-			tempPlayerAndBoardArray[0] = tempPlayerArray[0];
-			tempPlayerAndBoardArray[1] = tempPlayerArray[1];
-		
-			playerArray[1]->setMyCards(tempPlayerArray);
-			playerArray[1]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
-		
-			playerArray[1]->setMyBestHandPosition(temp5Array);
-		
-			// player2
-	
-			tempPlayerArray[0] = 51;
-			tempPlayerArray[1] = 22;
-			tempPlayerAndBoardArray[0] = tempPlayerArray[0];
-			tempPlayerAndBoardArray[1] = tempPlayerArray[1];
-		
-			playerArray[2]->setMyCards(tempPlayerArray);
-			playerArray[2]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
-		
-			playerArray[2]->setMyBestHandPosition(temp5Array);
-		
-// 			tempPlayerArray[0] = 19;
-// 			tempPlayerArray[1] = 51;
-// 			tempPlayerAndBoardArray[0] = tempPlayerArray[0];
-// 			tempPlayerAndBoardArray[1] = tempPlayerArray[1];
-		
-// 			playerArray[3]->setMyCards(tempPlayerArray);
-// 			playerArray[3]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+				tempPlayerArray[0] = 34;
+				tempPlayerArray[1] = 39;
+				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+			
+				playerArray[1]->setMyCards(tempPlayerArray);
+				playerArray[1]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+			
+				playerArray[1]->setMyBestHandPosition(temp5Array);
+			
+// 				// player2
 // 		
-// 			playerArray[3]->setMyBestHandPosition(temp5Array);
-		
-		// 	for(i=0; i<4; i++) {
-		// 		cout << i << ": " << playerArray[i]->getMyCardsValueInt() << endl;
-		// 	}
+// 				tempPlayerArray[0] = 7;
+// 				tempPlayerArray[1] = 17;
+// 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+// 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+// 			
+// 				playerArray[2]->setMyCards(tempPlayerArray);
+// 				playerArray[2]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+// 			
+// 				playerArray[2]->setMyBestHandPosition(temp5Array);
+// 	
+// 				// player3
+// 			
+// 				tempPlayerArray[0] = 26;
+// 				tempPlayerArray[1] = 28;
+// 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+// 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+// 			
+// 				playerArray[3]->setMyCards(tempPlayerArray);
+// 				playerArray[3]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+// 			
+// 				playerArray[3]->setMyBestHandPosition(temp5Array);
+
+			} break;
+			default: {}
 
 		}
+
+
 
 	}
 

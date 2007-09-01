@@ -24,6 +24,8 @@ LocalBeRo::LocalBeRo(HandInterface* hi, int id, int qP, int dP, int sB, GameStat
 		if (myHand->getPlayerArray()[i]->getMyButton() == 2) smallBlindPosition = i;
 	}
 
+	cout << smallBlindPosition << endl;
+
 }		
 
 
@@ -115,7 +117,7 @@ void LocalBeRo::run() {
 		
 				// naechsten Spieler ermitteln
 				int i;
-				for(i=0; (i<MAX_NUMBER_OF_PLAYERS && !(myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6) || i==0; i++) {
+				for(i=0; (i<MAX_NUMBER_OF_PLAYERS && ((myHand->getPlayerArray()[playersTurn]->getMyActiveStatus()) == 0 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==1 || (myHand->getPlayerArray()[playersTurn]->getMyAction())==6)) || i==0; i++) {
 					playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
 				}
 				firstHeadsUpRound = 0; 
@@ -138,7 +140,9 @@ void LocalBeRo::run() {
 			myHand->getGuiInterface()->refreshAction(playersTurn,0);
 
 			// wenn wir letzter aktiver Spieler vor SmallBlind sind, dann flopFirstRound zuende
-			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind) { firstRound = 0; }
+			// ausnahme bei heads up !!! --> TODO
+			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind && myHand->getActualQuantityPlayers() >= 3) { firstRound = 0; }
+			if(myHand->getActualQuantityPlayers() < 3 && (myHand->getPlayerArray()[playersTurn]->getMyID() == dealerPosition || myHand->getPlayerArray()[playersTurn]->getMyID() == smallBlindPosition)) { firstRound = 0; }
 
 			if(playersTurn == 0) {
 				// Wir sind dran
