@@ -28,9 +28,8 @@
 
 using namespace std;
 
-typedef int (WSAAPI * getaddrinfow_ptr_t)(const wchar_t *nodename, const wchar_t* servname,
-			const ADDRINFOW *hints, PADDRINFOW *res);
-typedef void (WSAAPI * freeaddrinfow_ptr_t)(PADDRINFOW ai);
+typedef int  (WSAAPI * getaddrinfo_ptr_t)  (const char *, const char* , const struct addrinfo *, struct addrinfo **);
+typedef void (WSAAPI * freeaddrinfo_ptr_t) (struct addrinfo*);
 
 static wstring
 utf8ToWchar(const char *str)
@@ -78,7 +77,7 @@ bool
 socket_resolve(const char *str, const char *port, int addrFamily, int sockType, int protocol, struct sockaddr *addr, int addrLen)
 {
 	bool retVal = false;
-	bool useUnicodeCall = false;
+	bool useGetaddrinfo = false;
 
 	if (str && *str != 0)
 	{
@@ -86,28 +85,25 @@ socket_resolve(const char *str, const char *port, int addrFamily, int sockType, 
 
 		if (hWsock)
 		{
-			// Determine functions at runtime, because some windows systems do not
-			// support the unicode version of getaddrinfo.
-			getaddrinfow_ptr_t getaddrinfow_ptr = (getaddrinfow_ptr_t)::GetProcAddress(hWsock, "GetAddrInfoW");
-			freeaddrinfow_ptr_t freeaddrinfow_ptr = (freeaddrinfow_ptr_t)::GetProcAddress(hWsock, "FreeAddrInfoW");
+			// Determine functions at runtime, because windows systems < XP do not
+			// support getaddrinfo.
+			getaddrinfo_ptr_t getaddrinfo_ptr = (getaddrinfo_ptr_t)::GetProcAddress(hWsock, "getaddrinfo");
+			freeaddrinfo_ptr_t freeaddrinfo_ptr = (freeaddrinfo_ptr_t)::GetProcAddress(hWsock, "freeaddrinfo");
 
-			if (getaddrinfow_ptr && freeaddrinfow_ptr)
+			if (getaddrinfo_ptr && freeaddrinfo_ptr)
 			{
-				useUnicodeCall = true;
+				useGetaddrinfo = true;
 
-				// convert str from UTF-8 to UTF-16 (Win32 byte order)
-				wstring wstr(utf8ToWchar(str));
-				wstring wport(utf8ToWchar(port));
-				ADDRINFOW aiHints;
-				ADDRINFOW *aiList = NULL;
+				struct addrinfo aiHints;
+				struct addrinfo *aiList = NULL;
 
 				memset(&aiHints, 0, sizeof(aiHints));
 				aiHints.ai_family = addrFamily;
 				aiHints.ai_socktype = sockType;
 				aiHints.ai_protocol = protocol;
 
-				// resolve the name (unicode).
-				bool success = (getaddrinfow_ptr(wstr.c_str(), wport.c_str(), &aiHints, &aiList) == 0);
+				// Try to resolve the name.
+				bool success = (getaddrinfo_ptr(str, port, &aiHints, &aiList) == 0);
 
 				if (success && aiList)
 				{
@@ -116,15 +112,22 @@ socket_resolve(const char *str, const char *port, int addrFamily, int sockType, 
 						memcpy(addr, aiList->ai_addr, aiList->ai_addrlen);
 						retVal = true;
 					}
-					freeaddrinfow_ptr(aiList);
+					freeaddrinfo_ptr(aiList);
 				}
 			}
 			::FreeLibrary(hWsock);
 		}
-		// If we cannot use the unicode function (OS older than XP SP 2),
-		// we call the "classic" getaddrinfo.
-		if (!useUnicodeCall)
-			retVal = internal_socket_resolve(str, port, addrFamily, sockType, protocol, addr, addrLen);
+		// If we cannot use getaddrinfo (OS older than XP),
+		// we call the "classic" gethostbyname.
+		if (!useGetaddrinfo && protocol == AF_INET)
+		{
+			struct hostent *host = gethostbyname(str);
+			if (host && host->h_addr_list)
+			{
+				memcpy(addr, host->h_addr_list, host->h_length);
+				retVal = true;
+			}
+		}
 	}
 	return retVal;
 }

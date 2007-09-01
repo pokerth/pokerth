@@ -209,15 +209,20 @@ TRANSLATIONS = \
 win32{
 	DEPENDPATH += src/net/win32/ src/core/win32
 	INCLUDEPATH += ../boost/ ../SDL/include ../SDL_mixer
+	INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include
 	LIBPATH += ../boost/stage/lib
-	debug {
-		LIBPATH += Debug/lib ../SDL/VisualC/SDL/Debug ../SDL/VisualC/SDLmain/Debug ../SDL_mixer/VisualC/Debug
-	}
-	!debug {
+
+	release {
 		LIBPATH += Release/lib ../SDL/VisualC/SDL/Release ../SDL/VisualC/SDLmain/Release ../SDL_mixer/VisualC/Release
 	}
-	LIBS += pokerth_lib.lib
-	LIBS += gdi32.lib comdlg32.lib oleaut32.lib imm32.lib winmm.lib winspool.lib ole32.lib uuid.lib user32.lib msimg32.lib shell32.lib kernel32.lib ws2_32.lib advapi32.lib sdl.lib sdlmain.lib sdl_mixer.lib
+	!release {
+		LIBPATH += Debug/lib ../SDL/VisualC/SDL/Debug ../SDL/VisualC/SDLmain/Debug ../SDL_mixer/VisualC/Debug
+	}
+	LIBPATH += ../SDL/lib ../SDL_mixer/lib
+
+	LIBS += -lpokerth_lib
+	LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32 -lsdl -lsdlmain -lsdl_mixer
+	LIBS += -lboost_thread-mgw34-mt-1_34_1
 	RC_FILE = pokerth.rc
 }
 !win32{

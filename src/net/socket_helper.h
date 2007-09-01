@@ -35,10 +35,17 @@
 #define SOCKET_ERR_NOTCONN		WSAENOTCONN
 #define SOCKET_ERR_NOTSOCK		WSAENOTSOCK
 
-typedef unsigned __int16		u_int16_t;
-typedef unsigned __int32		u_int32_t;
-typedef __int16					int16_t;
-typedef __int32					int32_t;
+#ifdef __GNUC__ /* mingw provides stdint.h */
+	#include <stdint.h>
+	typedef uint16_t			u_int16_t;
+	typedef uint32_t			u_int32_t;
+#else
+	typedef unsigned __int16	u_int16_t;
+	typedef unsigned __int32	u_int32_t;
+	typedef __int16				int16_t;
+	typedef __int32				int32_t;
+#endif
+
 typedef unsigned char			u_char;
 
 #else
@@ -86,11 +93,6 @@ bool socket_resolve(const char *str, const char *port, int addrFamily, int sockT
  * Set the port in the sockaddr structure.
  */
 bool socket_set_port(unsigned port, int addrFamily, struct sockaddr *addr, int addrLen);
-
-/**
- * Internal function (common for all OSs).
- */
-bool internal_socket_resolve(const char *str, const char *port, int addrFamily, int sockType, int protocol, struct sockaddr *addr, int addrLen);
 
 #endif
 

@@ -44,35 +44,3 @@ socket_set_port(unsigned port, int addrFamily, struct sockaddr *addr, int addrLe
 	return retVal;
 }
 
-bool
-internal_socket_resolve(const char *str, const char *port, int addrFamily, int sockType, int protocol, struct sockaddr *addr, int addrLen)
-{
-	bool retVal = false;
-
-	if (str && *str != 0)
-	{
-		struct addrinfo aiHints;
-		struct addrinfo *aiList = NULL;
-
-		memset(&aiHints, 0, sizeof(aiHints));
-		aiHints.ai_family = addrFamily;
-		aiHints.ai_socktype = sockType;
-		aiHints.ai_protocol = protocol;
-
-		// Try to resolve the name.
-		// Will (hopefully) use UTF-8 if called on Linux.
-		bool success = (getaddrinfo(str, port, &aiHints, &aiList) == 0);
-
-		if (success && aiList)
-		{
-			if ((int)aiList->ai_addrlen <= addrLen)
-			{
-				memcpy(addr, aiList->ai_addr, aiList->ai_addrlen);
-				retVal = true;
-			}
-			freeaddrinfo(aiList);
-		}
-	}
-	return retVal;
-}
-

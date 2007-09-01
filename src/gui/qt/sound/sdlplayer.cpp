@@ -11,6 +11,16 @@
 //
 #include "sdlplayer.h"
 
+// Include SDL here and not in headers to prevent
+// conflicts with QT includes.
+#if (defined _WIN32) || (defined __APPLE__)
+	#include <SDL.h>
+	#include <SDL_mixer.h>
+#else
+	#include <SDL/SDL.h>
+	#include <SDL/SDL_mixer.h>
+#endif
+
 #include <iostream>
 
 using namespace std;
@@ -35,10 +45,10 @@ void SDLPlayer::initAudio() {
 
 	if (!audioEnabled && myConfig->readConfigInt("PlaySoundEffects"))
 	{
-		audio_rate = 44100;
-		audio_format = AUDIO_S16; /* 16-bit stereo */
-		audio_channels = 2;
-		audio_buffers = 4096;
+		int		audio_rate = 44100;
+		Uint16	audio_format = AUDIO_S16; /* 16-bit stereo */
+		int		audio_channels = 2;
+		int		audio_buffers = 4096;
 		sound = NULL;
 
 		if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) == 0) {
