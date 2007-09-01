@@ -222,7 +222,9 @@ win32{
 
 	LIBS += -lpokerth_lib
 	LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32 -lsdl -lsdlmain -lsdl_mixer
-	LIBS += -lboost_thread-mgw34-mt-1_34_1
+	exists( ../boost/stage/lib/boost_thread-mgw34-mt-1_34_1.a ){
+		LIBS += -lboost_thread-mgw34-mt-1_34_1
+	}
 	RC_FILE = pokerth.rc
 }
 !win32{
