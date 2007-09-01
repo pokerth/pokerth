@@ -119,12 +119,15 @@ socket_resolve(const char *str, const char *port, int addrFamily, int sockType, 
 		}
 		// If we cannot use getaddrinfo (OS older than XP),
 		// we call the "classic" gethostbyname.
-		if (!useGetaddrinfo && protocol == AF_INET)
+		if (!useGetaddrinfo && addrFamily == AF_INET)
 		{
 			struct hostent *host = gethostbyname(str);
 			if (host && host->h_addr_list)
 			{
-				memcpy(addr, host->h_addr_list, host->h_length);
+				struct sockaddr_in *addr_in = (struct sockaddr_in *)addr;
+				addr_in->sin_family = AF_INET;
+				addr_in->sin_port = htons(atoi(port));
+				memcpy(&addr_in->sin_addr, host->h_addr_list[0], host->h_length);
 				retVal = true;
 			}
 		}
