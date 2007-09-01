@@ -24,8 +24,6 @@ LocalBeRo::LocalBeRo(HandInterface* hi, int id, int qP, int dP, int sB, GameStat
 		if (myHand->getPlayerArray()[i]->getMyButton() == 2) smallBlindPosition = i;
 	}
 
-	cout << smallBlindPosition << endl;
-
 }		
 
 
