@@ -1430,56 +1430,6 @@
           <number>5</number>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_FoldAllin" >
-         <property name="geometry" >
-          <rect>
-           <x>232</x>
-           <y>122</y>
-           <width>55</width>
-           <height>55</height>
-          </rect>
-         </property>
-         <property name="palette" >
-          <palette>
-           <active>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>128</red>
-               <green>128</green>
-               <blue>128</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
-         <property name="focusPolicy" >
-          <enum>Qt::NoFocus</enum>
-         </property>
-        </widget>
         <widget class="QLabel" name="label_Avatar0" >
          <property name="geometry" >
           <rect>
@@ -1684,6 +1634,56 @@
            <enum>Qt::NoTextInteraction</enum>
           </property>
          </widget>
+        </widget>
+        <widget class="QPushButton" name="pushButton_FoldAllin" >
+         <property name="geometry" >
+          <rect>
+           <x>232</x>
+           <y>122</y>
+           <width>55</width>
+           <height>55</height>
+          </rect>
+         </property>
+         <property name="palette" >
+          <palette>
+           <active>
+            <colorrole role="ButtonText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="ButtonText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>240</red>
+               <green>240</green>
+               <blue>240</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="ButtonText" >
+             <brush brushstyle="SolidPattern" >
+              <color alpha="255" >
+               <red>128</red>
+               <green>128</green>
+               <blue>128</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
+         <property name="focusPolicy" >
+          <enum>Qt::NoFocus</enum>
+         </property>
         </widget>
         <widget class="QPushButton" name="pushButton_CallCheckSet" >
          <property name="geometry" >
@@ -6056,7 +6056,7 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>29</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView" >
@@ -6204,9 +6204,7 @@
  <tabstops>
   <tabstop>spinBox_set</tabstop>
  </tabstops>
- <resources>
-  <include location="resources.qrc" />
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>horizontalSlider_speed</sender>

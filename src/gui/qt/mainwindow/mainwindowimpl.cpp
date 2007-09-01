@@ -493,17 +493,17 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	//Groupbox Background 
 	for (i=1; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+		groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 	}
-	groupBoxArray[0]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
+	groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
 
 		//Human player button
-	pushButton_BetRaise->setStyleSheet("QPushButton { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_03.png); font-family: \"Bitstream Vera Sans\"; font-size: 11px }");
-	pushButton_CallCheckSet->setStyleSheet("QPushButton { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_05.png); font-family: \"Bitstream Vera Sans\"; font-size: 11px }"); 
-	pushButton_FoldAllin->setStyleSheet("QPushButton { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_07.png); font-family: \"Bitstream Vera Sans\"; font-size: 11px }"); 
+	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_03.png); font-family: \"Bitstream Vera Sans\"; font-size: 11px }");
+	pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_05.png); font-family: \"Bitstream Vera Sans\"; font-size: 11px }"); 
+	pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_07.png); font-family: \"Bitstream Vera Sans\"; font-size: 11px }"); 
 
-	groupBox_RightToolBox->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/misc/toolboxFrameBG.png) }");
-	groupBox_LeftToolBox->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/misc/toolboxFrameBG.png) }");
+	groupBox_RightToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/misc/toolboxFrameBG.png) }");
+	groupBox_LeftToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/misc/toolboxFrameBG.png) }");
 
 
 	//raise actionLable above just inserted mypixmaplabel
@@ -1198,37 +1198,37 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 			if(currentHand->getPlayerArray()[i]->getMyTurn()) {
 				//Groupbox glow wenn der Spiele dran ist. 
 				if(i==0) {
-					groupBoxArray[0]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxActiveGlow.png) }"); 
+					groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxActiveGlow.png) }"); 
 				}
 				else {
-					groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
+					groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
 				}
 	
 			} else {
 				//Groupbox auf Hintergrundfarbe setzen wenn der Spiele nicht dran aber aktiv ist. 
 				if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
 					if(i==0) {
-						groupBoxArray[0]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
+						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
 						//show buttons
 						for(j=0; j<3; j++) {
 							userWidgetsArray[j]->show();
 						}
 					}
 					else {
-						groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+						groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 					}	
 				}
 				//Groupbox verdunkeln wenn der Spiele inactive ist.  
 				else {
 					if(i==0) {
-						groupBoxArray[0]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
+						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
 						//hide buttons
 						for(j=0; j<4; j++) {
 							userWidgetsArray[j]->hide();
 						}
 					}
 					else {
-						groupBoxArray[i]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+						groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 					}
 				}
 			}
@@ -1240,48 +1240,48 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 		//inactive
 		case 0: { 
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
 					//hide buttons
 					for(j=0; j<4; j++) {
 						userWidgetsArray[j]->hide();
 					}					
 				}
 				else {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 				}
 			}
 		break;
 		//active but fold
 		case 1: {
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
 					//show buttons
 					for(j=0; j<3; j++) {
 						userWidgetsArray[j]->show();
 					}		
 				}
 				else {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 				}
 			}
 		break;
 		//active in action
 		case 2:  {
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxActiveGlow.png) }"); 
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxActiveGlow.png) }"); 
 				}
 				else {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
 				}
 			}
 		break;
 		//active not in action
 		case 3:  {
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
 				}
 				else {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 				}
 			}
 		break;
