@@ -15,7 +15,7 @@
 #include "gamedata.h"
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
- : QDialog(parent), myW(NULL), myConfig(c), currentGameName(""), isAdmin(false)
+ : QDialog(parent), myW(NULL), mySession(NULL), myConfig(c), currentGameName(""), isAdmin(false)
 {
     setupUi(this);
 
@@ -164,6 +164,7 @@ void gameLobbyDialogImpl::addConnectedPlayer(QString playerName, int rights) {
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_connectedPlayers,0);
 	item->setData(0, 0, playerName);
 
+	assert(mySession);
 	GameInfo info = mySession->getClientGameInfo(currentGameName.toUtf8().constData());
 
 	if(treeWidget_connectedPlayers->topLevelItemCount() != info.data.maxNumberOfPlayers) {

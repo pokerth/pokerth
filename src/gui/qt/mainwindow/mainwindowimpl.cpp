@@ -785,6 +785,8 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
 		gameData.playerActionTimeoutSec = myCreateNetworkGameDialog->spinBox_netTimeOutPlayerAction->value();
 
+		myGameLobbyDialog->setSession(&getSession());
+		myGameLobbyDialog->treeWidget_GameList->clear();
 		myStartNetworkGameDialog->setSession(&getSession());
 		myStartNetworkGameDialog->treeWidget->clear();
 
@@ -810,6 +812,8 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 		if (myServerGuiInterface.get())
 			myServerGuiInterface->getSession().terminateNetworkServer();
 
+		myGameLobbyDialog->setSession(&getSession());
+		myGameLobbyDialog->treeWidget_GameList->clear();
 		myStartNetworkGameDialog->setSession(&getSession());
 		myStartNetworkGameDialog->treeWidget->clear();
 		// Maybe use QUrl::toPunycode.
