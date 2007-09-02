@@ -97,12 +97,8 @@ win32{
 	INCLUDEPATH += ../boost/
 	LIBPATH += ../boost/stage/lib
 
-	release {
-		LIBPATH += Release/lib
-	}
-	!release {
-		LIBPATH += Debug/lib
-	}
+	#LIBPATH += Release/lib
+	LIBPATH += Debug/lib
 
 	LIBS += -lpokerth_lib
 	LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32

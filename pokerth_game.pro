@@ -212,12 +212,8 @@ win32{
 	INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include
 	LIBPATH += ../boost/stage/lib
 
-	release {
-		LIBPATH += Release/lib ../SDL/VisualC/SDL/Release ../SDL/VisualC/SDLmain/Release ../SDL_mixer/VisualC/Release
-	}
-	!release {
-		LIBPATH += Debug/lib ../SDL/VisualC/SDL/Debug ../SDL/VisualC/SDLmain/Debug ../SDL_mixer/VisualC/Debug
-	}
+	#LIBPATH += Release/lib ../SDL/VisualC/SDL/Release ../SDL/VisualC/SDLmain/Release ../SDL_mixer/VisualC/Release
+	LIBPATH += Debug/lib ../SDL/VisualC/SDL/Debug ../SDL/VisualC/SDLmain/Debug ../SDL_mixer/VisualC/Debug
 	LIBPATH += ../SDL/lib ../SDL_mixer/lib
 
 	LIBS += -lpokerth_lib
