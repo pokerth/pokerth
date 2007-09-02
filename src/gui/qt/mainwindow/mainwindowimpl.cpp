@@ -419,63 +419,66 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	//Schriftart und Schriftgrößen für Widgets festlegen 
 #ifdef _WIN32
 	tmpFont1.setPixelSize(11);
-	textBrowser_Log->setFont(tmpFont1);
+	textBrowser_Log->setStyleSheet("QTextBrowser { font-family: \"Nimbus Sans L\"; font-size: 11px; font-color: white; background-color: #285200;}");
 #else
 	tmpFont1.setPixelSize(10);
-	textBrowser_Log->setFont(tmpFont1);
-	textBrowser_Chat->setFont(tmpFont1);	
-	lineEdit_ChatInput->setFont(tmpFont1);	
+	textBrowser_Log->setStyleSheet("QTextBrowser { font-family: \"Nimbus Sans L\"; font-size: 10px; font-color: white; background-color: #285200; }");
+	textBrowser_Chat->setStyleSheet("QTextBrowser { font-family: \"Nimbus Sans L\"; font-size: 10px; font-color: white; background-color: #285200;  }");
+	lineEdit_ChatInput->setStyleSheet("QLineEdit { font-family: \"Nimbus Sans L\"; font-size: 10px; font-color: white; background-color: #285200;  }");
 #endif
+
+#ifdef __APPLE__
+	tmpFont1.setPixelSize(11);
+	tabWidget_Right->setStyleSheet("QTabWidget { font-family: \"Nimbus Sans L\"; font-size: 11px; font-color: white; background-color: #285200;  }");
+	tabWidget_Left->setStyleSheet("QTabWidget { font-family: \"Nimbus Sans L\"; font-size: 11px; font-color: white; background-color: #285200;  }");
+#else
+	tmpFont1.setPixelSize(10);
+	tabWidget_Right->setStyleSheet("QTabWidget { font-family: \"Nimbus Sans L\"; font-size: 10px; font-color: white; background-color: #285200;  }");
+	tabWidget_Left->setStyleSheet("QTabWidget { font-family: \"Nimbus Sans L\"; font-size: 10px; font-color: white; background-color: #285200;  }");
+#endif
+
+
 	QFont tmpFont2;
 	tmpFont2.setFamily("Bitstream Vera Sans");
 
 	tmpFont2.setPixelSize(10);
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		cashTopLabelArray[i]->setFont(tmpFont2);
-		cashLabelArray[i]->setFont(tmpFont2);
+		cashTopLabelArray[i]->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 10px }");
+		cashLabelArray[i]->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 10px }");
 	}
 
 	spinBox_set->setFont(tmpFont2);
 
-#ifdef __APPLE__
-	tmpFont1.setPixelSize(11);
-	tabWidget_Right->setFont(tmpFont1);
-	tabWidget_Left->setFont(tmpFont1);
-#else
-	tmpFont1.setPixelSize(10);
-	tabWidget_Right->setFont(tmpFont1);
-	tabWidget_Left->setFont(tmpFont1);
-#endif
 
 	tmpFont2.setPixelSize(12);
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		setLabelArray[i]->setFont(tmpFont2);
+		setLabelArray[i]->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 12px }");
 	}
 
 	tmpFont2.setPixelSize(13);
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		playerNameLabelArray[i]->setFont(tmpFont2);
+		playerNameLabelArray[i]->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
 	}
 
-	label_Sets->setFont(tmpFont2);
-	label_Total->setFont(tmpFont2);
-	textLabel_Sets->setFont(tmpFont2);
-	textLabel_Pot->setFont(tmpFont2);
-	label_handNumber->setFont(tmpFont2);
-	label_gameNumber->setFont(tmpFont2);
-	textLabel_handNumber->setFont(tmpFont2);
-	textLabel_gameNumber->setFont(tmpFont2);
+	label_Sets->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
+	label_Total->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
+	textLabel_Sets->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
+	textLabel_Pot->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
+	label_handNumber->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
+	label_gameNumber->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
+	textLabel_handNumber->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
+	textLabel_gameNumber->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
 
 // 	tmpFont2.setPixelSize(15);
 	tmpFont2.setPixelSize(17);
 	tmpFont2.setBold(TRUE);
-	textLabel_handLabel->setFont(tmpFont2);
+	textLabel_handLabel->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 17px }");
 
 	tmpFont2.setPixelSize(18);
-	label_Pot->setFont(tmpFont2);
+	label_Pot->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 18px }");
 
 
 	//Widgets Grafiken setzen

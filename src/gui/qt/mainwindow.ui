@@ -10,9 +10,7 @@
    </rect>
   </property>
   <property name="sizePolicy" >
-   <sizepolicy>
-    <hsizetype>0</hsizetype>
-    <vsizetype>0</vsizetype>
+   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -29,484 +27,27 @@
     <height>1200</height>
    </size>
   </property>
-  <property name="palette" >
-   <palette>
-    <active>
-     <colorrole role="WindowText" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>240</red>
-        <green>240</green>
-        <blue>240</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Button" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>20</red>
-        <green>83</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Light" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Midlight" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Dark" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>85</red>
-        <green>85</green>
-        <blue>85</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Mid" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>199</red>
-        <green>199</green>
-        <blue>199</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Text" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>240</red>
-        <green>240</green>
-        <blue>240</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="BrightText" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="ButtonText" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>111</red>
-        <green>160</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Base" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>20</red>
-        <green>83</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Window" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>20</red>
-        <green>83</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Shadow" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>111</red>
-        <green>160</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Highlight" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>103</red>
-        <green>141</green>
-        <blue>178</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="HighlightedText" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Link" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>0</red>
-        <green>0</green>
-        <blue>238</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="LinkVisited" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>82</red>
-        <green>24</green>
-        <blue>139</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="AlternateBase" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>232</red>
-        <green>232</green>
-        <blue>232</blue>
-       </color>
-      </brush>
-     </colorrole>
-    </active>
-    <inactive>
-     <colorrole role="WindowText" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>240</red>
-        <green>240</green>
-        <blue>240</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Button" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>20</red>
-        <green>83</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Light" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Midlight" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Dark" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>85</red>
-        <green>85</green>
-        <blue>85</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Mid" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>199</red>
-        <green>199</green>
-        <blue>199</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Text" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>240</red>
-        <green>240</green>
-        <blue>240</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="BrightText" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="ButtonText" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>111</red>
-        <green>160</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Base" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>20</red>
-        <green>83</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Window" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>20</red>
-        <green>83</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Shadow" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>111</red>
-        <green>160</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Highlight" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>103</red>
-        <green>141</green>
-        <blue>178</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="HighlightedText" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Link" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>0</red>
-        <green>0</green>
-        <blue>238</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="LinkVisited" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>82</red>
-        <green>24</green>
-        <blue>139</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="AlternateBase" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>232</red>
-        <green>232</green>
-        <blue>232</blue>
-       </color>
-      </brush>
-     </colorrole>
-    </inactive>
-    <disabled>
-     <colorrole role="WindowText" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>128</red>
-        <green>128</green>
-        <blue>128</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Button" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>20</red>
-        <green>83</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Light" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Midlight" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Dark" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>85</red>
-        <green>85</green>
-        <blue>85</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Mid" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>199</red>
-        <green>199</green>
-        <blue>199</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Text" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>199</red>
-        <green>199</green>
-        <blue>199</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="BrightText" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="ButtonText" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>128</red>
-        <green>128</green>
-        <blue>128</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Base" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>20</red>
-        <green>83</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Window" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>20</red>
-        <green>83</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Shadow" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>111</red>
-        <green>160</green>
-        <blue>0</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Highlight" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>86</red>
-        <green>117</green>
-        <blue>148</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="HighlightedText" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Link" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>0</red>
-        <green>0</green>
-        <blue>238</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="LinkVisited" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>82</red>
-        <green>24</green>
-        <blue>139</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="AlternateBase" >
-      <brush brushstyle="SolidPattern" >
-       <color alpha="255" >
-        <red>232</red>
-        <green>232</green>
-        <blue>232</blue>
-       </color>
-      </brush>
-     </colorrole>
-    </disabled>
-   </palette>
-  </property>
   <property name="windowTitle" >
    <string>PokerTH 0.5 - The Open-Source Texas Holdem Engine</string>
   </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QGridLayout" >
-    <property name="margin" >
+    <property name="leftMargin" >
      <number>9</number>
     </property>
-    <property name="spacing" >
+    <property name="topMargin" >
+     <number>9</number>
+    </property>
+    <property name="rightMargin" >
+     <number>9</number>
+    </property>
+    <property name="bottomMargin" >
+     <number>9</number>
+    </property>
+    <property name="horizontalSpacing" >
+     <number>6</number>
+    </property>
+    <property name="verticalSpacing" >
      <number>6</number>
     </property>
     <item row="3" column="0" >
@@ -524,18 +65,36 @@
     </item>
     <item row="4" column="0" >
      <layout class="QHBoxLayout" >
-      <property name="margin" >
+      <property name="spacing" >
        <number>0</number>
       </property>
-      <property name="spacing" >
+      <property name="leftMargin" >
+       <number>0</number>
+      </property>
+      <property name="topMargin" >
+       <number>0</number>
+      </property>
+      <property name="rightMargin" >
+       <number>0</number>
+      </property>
+      <property name="bottomMargin" >
        <number>0</number>
       </property>
       <item>
        <layout class="QVBoxLayout" >
-        <property name="margin" >
+        <property name="spacing" >
          <number>0</number>
         </property>
-        <property name="spacing" >
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
          <number>0</number>
         </property>
         <item>
@@ -585,240 +144,26 @@
            </size>
           </property>
           <layout class="QGridLayout" >
-           <property name="margin" >
+           <property name="leftMargin" >
             <number>9</number>
            </property>
-           <property name="spacing" >
+           <property name="topMargin" >
+            <number>9</number>
+           </property>
+           <property name="rightMargin" >
+            <number>9</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>9</number>
+           </property>
+           <property name="horizontalSpacing" >
+            <number>5</number>
+           </property>
+           <property name="verticalSpacing" >
             <number>5</number>
            </property>
            <item row="0" column="0" >
             <widget class="MyLeftTabWidget" name="tabWidget_Left" >
-             <property name="palette" >
-              <palette>
-               <active>
-                <colorrole role="WindowText" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>240</red>
-                   <green>240</green>
-                   <blue>240</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Button" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Light" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>255</red>
-                   <green>255</green>
-                   <blue>255</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Text" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>240</red>
-                   <green>240</green>
-                   <blue>240</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="ButtonText" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>111</red>
-                   <green>160</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Base" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Window" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Shadow" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>111</red>
-                   <green>160</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-               </active>
-               <inactive>
-                <colorrole role="WindowText" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>240</red>
-                   <green>240</green>
-                   <blue>240</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Button" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Light" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>255</red>
-                   <green>255</green>
-                   <blue>255</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Text" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>240</red>
-                   <green>240</green>
-                   <blue>240</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="ButtonText" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>111</red>
-                   <green>160</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Base" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Window" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Shadow" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>111</red>
-                   <green>160</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-               </inactive>
-               <disabled>
-                <colorrole role="WindowText" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>128</red>
-                   <green>128</green>
-                   <blue>128</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Button" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Light" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>111</red>
-                   <green>139</green>
-                   <blue>100</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Text" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>111</red>
-                   <green>139</green>
-                   <blue>100</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="ButtonText" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>111</red>
-                   <green>139</green>
-                   <blue>100</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Base" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Window" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Shadow" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>111</red>
-                   <green>139</green>
-                   <blue>100</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-               </disabled>
-              </palette>
-             </property>
              <property name="tabShape" >
               <enum>QTabWidget::Rounded</enum>
              </property>
@@ -830,10 +175,22 @@
                <string>Hands</string>
               </attribute>
               <layout class="QGridLayout" >
-               <property name="margin" >
+               <property name="leftMargin" >
                 <number>0</number>
                </property>
-               <property name="spacing" >
+               <property name="topMargin" >
+                <number>0</number>
+               </property>
+               <property name="rightMargin" >
+                <number>0</number>
+               </property>
+               <property name="bottomMargin" >
+                <number>0</number>
+               </property>
+               <property name="horizontalSpacing" >
+                <number>0</number>
+               </property>
+               <property name="verticalSpacing" >
                 <number>0</number>
                </property>
                <item row="0" column="0" >
@@ -850,10 +207,22 @@
                <string>Chat</string>
               </attribute>
               <layout class="QGridLayout" >
-               <property name="margin" >
+               <property name="leftMargin" >
                 <number>0</number>
                </property>
-               <property name="spacing" >
+               <property name="topMargin" >
+                <number>0</number>
+               </property>
+               <property name="rightMargin" >
+                <number>0</number>
+               </property>
+               <property name="bottomMargin" >
+                <number>0</number>
+               </property>
+               <property name="horizontalSpacing" >
+                <number>0</number>
+               </property>
+               <property name="verticalSpacing" >
                 <number>0</number>
                </property>
                <item row="0" column="0" >
@@ -1245,10 +614,22 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>0</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>0</number>
           </property>
           <item row="1" column="0" >
@@ -1631,7 +1012,7 @@
            <set>Qt::AlignCenter</set>
           </property>
           <property name="textInteractionFlags" >
-           <enum>Qt::NoTextInteraction</enum>
+           <set>Qt::NoTextInteraction</set>
           </property>
          </widget>
         </widget>
@@ -1805,10 +1186,19 @@
       </item>
       <item>
        <layout class="QVBoxLayout" >
-        <property name="margin" >
+        <property name="spacing" >
          <number>0</number>
         </property>
-        <property name="spacing" >
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
          <number>0</number>
         </property>
         <item>
@@ -1858,132 +1248,26 @@
            </size>
           </property>
           <layout class="QGridLayout" >
-           <property name="margin" >
+           <property name="leftMargin" >
             <number>9</number>
            </property>
-           <property name="spacing" >
+           <property name="topMargin" >
+            <number>9</number>
+           </property>
+           <property name="rightMargin" >
+            <number>9</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>9</number>
+           </property>
+           <property name="horizontalSpacing" >
+            <number>6</number>
+           </property>
+           <property name="verticalSpacing" >
             <number>6</number>
            </property>
            <item row="0" column="0" >
             <widget class="MyRightTabWidget" name="tabWidget_Right" >
-             <property name="palette" >
-              <palette>
-               <active>
-                <colorrole role="WindowText" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>240</red>
-                   <green>240</green>
-                   <blue>240</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Button" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Base" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Window" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-               </active>
-               <inactive>
-                <colorrole role="WindowText" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>240</red>
-                   <green>240</green>
-                   <blue>240</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Button" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Base" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Window" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-               </inactive>
-               <disabled>
-                <colorrole role="WindowText" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>128</red>
-                   <green>128</green>
-                   <blue>128</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Button" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Base" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-                <colorrole role="Window" >
-                 <brush brushstyle="SolidPattern" >
-                  <color alpha="255" >
-                   <red>20</red>
-                   <green>83</green>
-                   <blue>0</blue>
-                  </color>
-                 </brush>
-                </colorrole>
-               </disabled>
-              </palette>
-             </property>
              <property name="tabShape" >
               <enum>QTabWidget::Rounded</enum>
              </property>
@@ -1995,240 +1279,26 @@
                <string>Log</string>
               </attribute>
               <layout class="QGridLayout" >
-               <property name="margin" >
+               <property name="leftMargin" >
                 <number>0</number>
                </property>
-               <property name="spacing" >
+               <property name="topMargin" >
+                <number>0</number>
+               </property>
+               <property name="rightMargin" >
+                <number>0</number>
+               </property>
+               <property name="bottomMargin" >
+                <number>0</number>
+               </property>
+               <property name="horizontalSpacing" >
+                <number>0</number>
+               </property>
+               <property name="verticalSpacing" >
                 <number>0</number>
                </property>
                <item row="0" column="0" >
                 <widget class="QTextBrowser" name="textBrowser_Log" >
-                 <property name="palette" >
-                  <palette>
-                   <active>
-                    <colorrole role="WindowText" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>240</red>
-                       <green>240</green>
-                       <blue>240</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Button" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>40</red>
-                       <green>82</green>
-                       <blue>0</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Light" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>240</red>
-                       <green>240</green>
-                       <blue>240</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Text" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>240</red>
-                       <green>240</green>
-                       <blue>240</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="BrightText" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>240</red>
-                       <green>240</green>
-                       <blue>240</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Base" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>29</red>
-                       <green>59</green>
-                       <blue>0</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Window" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>29</red>
-                       <green>59</green>
-                       <blue>0</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="HighlightedText" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>240</red>
-                       <green>240</green>
-                       <blue>240</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                   </active>
-                   <inactive>
-                    <colorrole role="WindowText" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>240</red>
-                       <green>240</green>
-                       <blue>240</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Button" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>40</red>
-                       <green>82</green>
-                       <blue>0</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Light" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>240</red>
-                       <green>240</green>
-                       <blue>240</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Text" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>240</red>
-                       <green>240</green>
-                       <blue>240</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="BrightText" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>240</red>
-                       <green>240</green>
-                       <blue>240</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Base" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>29</red>
-                       <green>59</green>
-                       <blue>0</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Window" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>29</red>
-                       <green>59</green>
-                       <blue>0</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="HighlightedText" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>240</red>
-                       <green>240</green>
-                       <blue>240</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                   </inactive>
-                   <disabled>
-                    <colorrole role="WindowText" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>128</red>
-                       <green>128</green>
-                       <blue>128</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Button" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>40</red>
-                       <green>82</green>
-                       <blue>0</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Light" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>240</red>
-                       <green>240</green>
-                       <blue>240</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Text" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>199</red>
-                       <green>199</green>
-                       <blue>199</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="BrightText" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>240</red>
-                       <green>240</green>
-                       <blue>240</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Base" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>29</red>
-                       <green>59</green>
-                       <blue>0</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="Window" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>29</red>
-                       <green>59</green>
-                       <blue>0</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                    <colorrole role="HighlightedText" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>240</red>
-                       <green>240</green>
-                       <blue>240</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                   </disabled>
-                  </palette>
-                 </property>
                  <property name="focusPolicy" >
                   <enum>Qt::NoFocus</enum>
                  </property>
@@ -2243,11 +1313,20 @@
            </item>
            <item row="1" column="0" >
             <layout class="QHBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
-             </property>
              <property name="spacing" >
               <number>6</number>
+             </property>
+             <property name="leftMargin" >
+              <number>0</number>
+             </property>
+             <property name="topMargin" >
+              <number>0</number>
+             </property>
+             <property name="rightMargin" >
+              <number>0</number>
+             </property>
+             <property name="bottomMargin" >
+              <number>0</number>
              </property>
              <item>
               <widget class="QLabel" name="label_10" >
@@ -2400,9 +1479,7 @@
              <item>
               <widget class="QSlider" name="horizontalSlider_speed" >
                <property name="sizePolicy" >
-                <sizepolicy>
-                 <hsizetype>5</hsizetype>
-                 <vsizetype>7</vsizetype>
+                <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -2744,10 +1821,19 @@
     </item>
     <item row="0" column="0" >
      <layout class="QHBoxLayout" >
-      <property name="margin" >
+      <property name="spacing" >
        <number>0</number>
       </property>
-      <property name="spacing" >
+      <property name="leftMargin" >
+       <number>0</number>
+      </property>
+      <property name="topMargin" >
+       <number>0</number>
+      </property>
+      <property name="rightMargin" >
+       <number>0</number>
+      </property>
+      <property name="bottomMargin" >
        <number>0</number>
       </property>
       <item>
@@ -2796,10 +1882,22 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>0</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>0</number>
           </property>
           <item row="1" column="0" >
@@ -2929,10 +2027,22 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>0</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>0</number>
           </property>
           <item row="0" column="0" >
@@ -3194,10 +2304,22 @@
           </rect>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>0</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>0</number>
           </property>
           <item row="1" column="0" >
@@ -3336,10 +2458,22 @@
           </rect>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>0</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>0</number>
           </property>
           <item row="0" column="0" >
@@ -3633,10 +2767,22 @@
           </rect>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>0</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>0</number>
           </property>
           <item row="1" column="0" >
@@ -3775,10 +2921,22 @@
           </rect>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>0</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>0</number>
           </property>
           <item row="0" column="0" >
@@ -4008,10 +3166,22 @@
           </rect>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>0</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>0</number>
           </property>
           <item row="1" column="0" >
@@ -4150,10 +3320,22 @@
           </rect>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>0</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>0</number>
           </property>
           <item row="0" column="0" >
@@ -4392,19 +3574,37 @@
     </item>
     <item row="2" column="0" >
      <layout class="QHBoxLayout" >
-      <property name="margin" >
+      <property name="spacing" >
        <number>0</number>
       </property>
-      <property name="spacing" >
+      <property name="leftMargin" >
+       <number>0</number>
+      </property>
+      <property name="topMargin" >
+       <number>0</number>
+      </property>
+      <property name="rightMargin" >
+       <number>0</number>
+      </property>
+      <property name="bottomMargin" >
        <number>0</number>
       </property>
       <item>
        <layout class="QVBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
+        </property>
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
         </property>
         <item>
          <widget class="QGroupBox" name="groupBox1" >
@@ -4433,10 +3633,22 @@
             </rect>
            </property>
            <layout class="QGridLayout" >
-            <property name="margin" >
+            <property name="leftMargin" >
              <number>0</number>
             </property>
-            <property name="spacing" >
+            <property name="topMargin" >
+             <number>0</number>
+            </property>
+            <property name="rightMargin" >
+             <number>0</number>
+            </property>
+            <property name="bottomMargin" >
+             <number>0</number>
+            </property>
+            <property name="horizontalSpacing" >
+             <number>0</number>
+            </property>
+            <property name="verticalSpacing" >
              <number>0</number>
             </property>
             <item row="0" column="0" >
@@ -4461,10 +3673,22 @@
             </rect>
            </property>
            <layout class="QGridLayout" >
-            <property name="margin" >
+            <property name="leftMargin" >
              <number>0</number>
             </property>
-            <property name="spacing" >
+            <property name="topMargin" >
+             <number>0</number>
+            </property>
+            <property name="rightMargin" >
+             <number>0</number>
+            </property>
+            <property name="bottomMargin" >
+             <number>0</number>
+            </property>
+            <property name="horizontalSpacing" >
+             <number>0</number>
+            </property>
+            <property name="verticalSpacing" >
              <number>0</number>
             </property>
             <item row="1" column="0" >
@@ -4818,9 +4042,7 @@
       <item>
        <widget class="QFrame" name="frame_Board" >
         <property name="sizePolicy" >
-         <sizepolicy>
-          <hsizetype>0</hsizetype>
-          <vsizetype>0</vsizetype>
+         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -4859,10 +4081,22 @@
           </size>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>0</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>0</number>
           </property>
           <item row="0" column="0" >
@@ -5101,18 +4335,39 @@
           </rect>
          </property>
          <layout class="QGridLayout" >
-          <property name="margin" >
+          <property name="leftMargin" >
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="topMargin" >
+           <number>0</number>
+          </property>
+          <property name="rightMargin" >
+           <number>0</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing" >
+           <number>0</number>
+          </property>
+          <property name="verticalSpacing" >
            <number>0</number>
           </property>
           <item row="0" column="0" >
            <layout class="QVBoxLayout" >
-            <property name="margin" >
+            <property name="spacing" >
              <number>0</number>
             </property>
-            <property name="spacing" >
+            <property name="leftMargin" >
+             <number>0</number>
+            </property>
+            <property name="topMargin" >
+             <number>0</number>
+            </property>
+            <property name="rightMargin" >
+             <number>0</number>
+            </property>
+            <property name="bottomMargin" >
              <number>0</number>
             </property>
             <item>
@@ -5191,10 +4446,22 @@
             </item>
             <item>
              <layout class="QGridLayout" >
-              <property name="margin" >
+              <property name="leftMargin" >
                <number>0</number>
               </property>
-              <property name="spacing" >
+              <property name="topMargin" >
+               <number>0</number>
+              </property>
+              <property name="rightMargin" >
+               <number>0</number>
+              </property>
+              <property name="bottomMargin" >
+               <number>0</number>
+              </property>
+              <property name="horizontalSpacing" >
+               <number>0</number>
+              </property>
+              <property name="verticalSpacing" >
                <number>0</number>
               </property>
               <item row="1" column="1" >
@@ -5631,11 +4898,20 @@
       </item>
       <item>
        <layout class="QVBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
+        </property>
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
         </property>
         <item>
          <widget class="QGroupBox" name="groupBox6" >
@@ -5664,10 +4940,22 @@
             </rect>
            </property>
            <layout class="QGridLayout" >
-            <property name="margin" >
+            <property name="leftMargin" >
              <number>0</number>
             </property>
-            <property name="spacing" >
+            <property name="topMargin" >
+             <number>0</number>
+            </property>
+            <property name="rightMargin" >
+             <number>0</number>
+            </property>
+            <property name="bottomMargin" >
+             <number>0</number>
+            </property>
+            <property name="horizontalSpacing" >
+             <number>0</number>
+            </property>
+            <property name="verticalSpacing" >
              <number>0</number>
             </property>
             <item row="1" column="0" >
@@ -5806,10 +5094,22 @@
             </rect>
            </property>
            <layout class="QGridLayout" >
-            <property name="margin" >
+            <property name="leftMargin" >
              <number>0</number>
             </property>
-            <property name="spacing" >
+            <property name="topMargin" >
+             <number>0</number>
+            </property>
+            <property name="rightMargin" >
+             <number>0</number>
+            </property>
+            <property name="bottomMargin" >
+             <number>0</number>
+            </property>
+            <property name="horizontalSpacing" >
+             <number>0</number>
+            </property>
+            <property name="verticalSpacing" >
              <number>0</number>
             </property>
             <item row="0" column="0" >
@@ -6189,11 +5489,13 @@
    <class>MyLeftTabWidget</class>
    <extends>QTabWidget</extends>
    <header>mylefttabwidget.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>MyRightTabWidget</class>
    <extends>QTabWidget</extends>
    <header>myrighttabwidget.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>MyStatusLabel</class>
