@@ -12,7 +12,7 @@
 #include "clientbero.h"
 
 ClientBeRo::ClientBeRo(HandInterface* hi, int id, int qP, int dP, int sB, GameState gS)
-: BeRoInterface(), myHand(hi), highestCardsValue(0), myBeRoID(gS), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRound(1), playersTurn(dP)
+: BeRoInterface(), myHand(hi), highestCardsValue(0), myBeRoID(gS), smallBlindPosition(0), smallBlind(sB), highestSet(0), firstRound(1), playersTurn(dP), minimumRaise(0)
 {
 }
 
@@ -122,6 +122,19 @@ ClientBeRo::getSmallBlind() const
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return smallBlind;
 }
+
+void
+ClientBeRo::setMinimumRaise ( int theValue )
+{
+	minimumRaise = theValue;
+}
+
+int
+ClientBeRo::getMinimumRaise() const
+{
+	return minimumRaise;
+}
+
 
 void
 ClientBeRo::resetFirstRun()

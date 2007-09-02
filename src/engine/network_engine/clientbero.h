@@ -48,6 +48,10 @@ public:
 	void setSmallBlind(int theValue);
 	int getSmallBlind() const;
 
+	void setMinimumRaise ( int theValue );
+	int getMinimumRaise() const;
+
+
 	void resetFirstRun();
 
 	void nextPlayer();
@@ -69,6 +73,8 @@ private:
 	bool firstRound;
 	int smallBlindPosition;
 	int smallBlind;
+
+	int minimumRaise;
 
 	int lastActionPlayer;
 };

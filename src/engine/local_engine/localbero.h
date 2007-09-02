@@ -38,6 +38,7 @@ public:
 	void run();
 
 	void postRiverRun() {};
+	
 
 protected:
 
@@ -64,6 +65,9 @@ protected:
 	void setLastActionPlayer ( int theValue ) { lastActionPlayer = theValue; }
 	int getLastActionPlayer() const { return lastActionPlayer; }
 	
+	void setMinimumRaise ( int theValue ) { minimumRaise = theValue; }
+	int getMinimumRaise() const { return minimumRaise; }
+
 
 private:
 
@@ -77,6 +81,7 @@ private:
 
 	int smallBlind;
 	int highestSet;
+	int minimumRaise;
 
 	bool firstRun;
 	bool firstRound;

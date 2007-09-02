@@ -37,6 +37,10 @@ public:
 	virtual void setLastActionPlayer( int theValue ) =0;
 	virtual int getLastActionPlayer() const =0;
 
+	virtual void setMinimumRaise (int) =0;
+	virtual int getMinimumRaise() const =0;
+
+
 	virtual void resetFirstRun() =0;
 
 	virtual void nextPlayer() =0;
