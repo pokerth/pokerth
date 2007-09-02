@@ -233,7 +233,6 @@ ClientThread::GetGameInfo(unsigned gameId) const
 PlayerInfo
 ClientThread::GetPlayerInfo(unsigned playerId) const
 {
-	boost::mutex::scoped_lock lock(m_playerInfoMapMutex);
 	PlayerInfo info;
 	if (!GetCachedPlayerInfo(playerId, info))
 	{
@@ -366,8 +365,6 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 		boost::mutex::scoped_lock lock(m_playerInfoMapMutex);
 		m_playerInfoMap[id] = info;
 	}
-	GetCallback().SignalNetClientPlayerChanged(id, info.playerName);
-
 	// Update player data for current game.
 	boost::shared_ptr<PlayerData> playerData = GetPlayerDataByUniqueId(id);
 	if (playerData.get())
@@ -375,6 +372,8 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 		playerData->SetName(info.playerName);
 		playerData->SetType(info.ptype);
 	}
+
+	GetCallback().SignalNetClientPlayerChanged(id, info.playerName);
 }
 
 const ClientContext &
