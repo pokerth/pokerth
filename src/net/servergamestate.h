@@ -126,7 +126,6 @@ protected:
 
 private:
 
-	u_int32_t m_curUniquePlayerId;
 	static boost::thread_specific_ptr<ServerGameStateInit>	Ptr;
 };
 

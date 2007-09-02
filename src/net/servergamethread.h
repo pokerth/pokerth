@@ -60,8 +60,9 @@ public:
 	bool CheckPassword(const std::string &password) const;
 	const GameData &GetGameData() const;
 
-	const SessionManager &GetSessionManager() const;
-	SessionManager &GetSessionManager();
+	boost::shared_ptr<PlayerData> GetPlayerDataByUniqueId(unsigned playerId) const;
+	PlayerIdList GetPlayerIdList() const;
+	bool IsPlayerConnected(const std::string &name) const;
 
 protected:
 
@@ -72,6 +73,8 @@ protected:
 
 	void InternalStartGame();
 	void InternalKickPlayer(unsigned playerId);
+
+	PlayerDataList GetFullPlayerDataList() const;
 
 	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
 	void ResetComputerPlayerList();
@@ -104,13 +107,17 @@ protected:
 
 	unsigned GetNextGameNum();
 
+	const SessionManager &GetSessionManager() const;
+	SessionManager &GetSessionManager();
+
 private:
 
 	SessionQueue m_sessionQueue;
 	mutable boost::mutex m_sessionQueueMutex;
 
 	SessionManager m_sessionManager;
-	PlayerDataList m_computerPlayers;
+	PlayerDataList m_computerPlayerList;
+	mutable boost::mutex m_computerPlayerListMutex;
 
 	ServerLobbyThread &m_lobbyThread;
 	std::auto_ptr<ReceiverHelper> m_receiver;

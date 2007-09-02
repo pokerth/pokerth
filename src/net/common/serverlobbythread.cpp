@@ -127,6 +127,7 @@ ServerLobbyThread::RemoveGame(unsigned id)
 u_int32_t
 ServerLobbyThread::GetNextUniquePlayerId()
 {
+	boost::mutex::scoped_lock lock(m_curUniquePlayerIdMutex);
 	return m_curUniquePlayerId++;
 }
 
@@ -300,28 +301,28 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 	tmpPacket.GetData(request);
 
 	// Find player in lobby or in a game.
-	SessionWrapper tmpSession = m_sessionManager.GetSessionByUniquePlayerId(request.playerId);
-	if (!tmpSession.sessionData.get() || !tmpSession.playerData.get())
+	boost::shared_ptr<PlayerData> tmpPlayer = m_sessionManager.GetSessionByUniquePlayerId(request.playerId).playerData;
+	if (!tmpPlayer.get())
 	{
 		GameMap::const_iterator game_i = m_gameMap.begin();
 		GameMap::const_iterator game_end = m_gameMap.end();
 		while (game_i != game_end)
 		{
-			tmpSession = game_i->second->GetSessionManager().GetSessionByUniquePlayerId(request.playerId);
-			if (tmpSession.sessionData.get() && tmpSession.playerData.get())
+			tmpPlayer = game_i->second->GetPlayerDataByUniqueId(request.playerId);
+			if (tmpPlayer.get())
 				break;
 			++game_i;
 		}
 	}
 
-	if (tmpSession.sessionData.get() && tmpSession.playerData.get())
+	if (tmpPlayer.get())
 	{
 		// Send player info to client.
 		boost::shared_ptr<NetPacket> info(new NetPacketPlayerInfo);
 		NetPacketPlayerInfo::Data infoData;
-		infoData.playerId = tmpSession.playerData->GetUniqueId();
-		infoData.playerInfo.ptype = tmpSession.playerData->GetType();
-		infoData.playerInfo.playerName = tmpSession.playerData->GetName();
+		infoData.playerId = tmpPlayer->GetUniqueId();
+		infoData.playerInfo.ptype = tmpPlayer->GetType();
+		infoData.playerInfo.playerName = tmpPlayer->GetName();
 		static_cast<NetPacketPlayerInfo *>(info.get())->SetData(infoData);
 		GetSender().Send(session.sessionData->GetSocket(), info);
 	}
@@ -560,7 +561,7 @@ ServerLobbyThread::IsPlayerConnected(const string &name)
 		GameMap::const_iterator game_end = m_gameMap.end();
 		while (game_i != game_end)
 		{
-			if (game_i->second->GetSessionManager().IsPlayerConnected(name))
+			if (game_i->second->IsPlayerConnected(name))
 			{
 				retVal = true;
 				break;
@@ -580,7 +581,7 @@ ServerLobbyThread::CreateNetPacketGameListNew(const ServerGameThread &game)
 	packetData.gameInfo.mode = GAME_MODE_CREATED;
 	packetData.gameInfo.name = game.GetName();
 	packetData.gameInfo.data = game.GetGameData();
-	packetData.gameInfo.players = game.GetSessionManager().GetPlayerIdList();
+	packetData.gameInfo.players = game.GetPlayerIdList();
 	static_cast<NetPacketGameListNew *>(packet.get())->SetData(packetData);
 	return packet;
 }

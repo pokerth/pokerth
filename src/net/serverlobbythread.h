@@ -130,8 +130,10 @@ private:
 
 	std::string m_password;
 	ConfigFile *m_playerConfig;
-	u_int32_t m_curUniquePlayerId;
 	u_int32_t m_curGameId;
+
+	u_int32_t m_curUniquePlayerId;
+	mutable boost::mutex m_curUniquePlayerIdMutex;
 };
 
 #endif

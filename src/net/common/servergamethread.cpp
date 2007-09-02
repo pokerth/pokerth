@@ -146,7 +146,7 @@ ServerGameThread::InternalStartGame()
 
 	// Initialize the game.
 	GuiInterface &gui = GetGui();
-	PlayerDataList playerData = GetSessionManager().GetPlayerDataList();
+	PlayerDataList playerData = GetFullPlayerDataList();
 
 	// Create EngineFactory
 	boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(m_playerConfig)); // LocalEngine erstellen
@@ -185,22 +185,81 @@ ServerGameThread::InternalStartGame()
 void
 ServerGameThread::InternalKickPlayer(unsigned playerId)
 {
-// TODO
-//	SessionWrapper tmpSession = GetSessionByUniquePlayerId(uniqueId);
-//	SessionError(tmpSession, ERR_NET_PLAYER_KICKED);
+	SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(playerId);
+	SessionError(tmpSession, ERR_NET_PLAYER_KICKED);
+}
+
+PlayerDataList
+ServerGameThread::GetFullPlayerDataList() const
+{
+	PlayerDataList playerList(GetSessionManager().GetPlayerDataList());
+	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
+	copy(m_computerPlayerList.begin(), m_computerPlayerList.end(), back_inserter(playerList));
+
+	return playerList;
+}
+
+boost::shared_ptr<PlayerData>
+ServerGameThread::GetPlayerDataByUniqueId(unsigned playerId) const
+{
+	boost::shared_ptr<PlayerData> tmpPlayer;
+	SessionWrapper session = GetSessionManager().GetSessionByUniquePlayerId(playerId);
+	if (session.playerData.get())
+	{
+		tmpPlayer = session.playerData;
+	}
+	else
+	{
+		boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
+		PlayerDataList::const_iterator i = m_computerPlayerList.begin();
+		PlayerDataList::const_iterator end = m_computerPlayerList.end();
+		while (i != end)
+		{
+			if ((*i)->GetUniqueId() == playerId)
+			{
+				tmpPlayer = *i;
+				break;
+			}
+			++i;
+		}
+	}
+	return tmpPlayer;
+}
+
+PlayerIdList
+ServerGameThread::GetPlayerIdList() const
+{
+	PlayerIdList idList(GetSessionManager().GetPlayerIdList());
+	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
+	PlayerDataList::const_iterator i = m_computerPlayerList.begin();
+	PlayerDataList::const_iterator end = m_computerPlayerList.end();
+	while (i != end)
+	{
+		idList.push_back((*i)->GetUniqueId());
+		++i;
+	}
+
+	return idList;
+}
+
+bool
+ServerGameThread::IsPlayerConnected(const std::string &name) const
+{
+	return GetSessionManager().IsPlayerConnected(name);
 }
 
 void
 ServerGameThread::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
 {
-	// TODO
-	m_computerPlayers.push_back(player);
+	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
+	m_computerPlayerList.push_back(player);
 }
 
 void
 ServerGameThread::ResetComputerPlayerList()
 {
-	m_computerPlayers.clear();
+	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
+	m_computerPlayerList.clear();
 }
 
 void
@@ -271,7 +330,7 @@ ServerGameThread::RemoveDisconnectedPlayers()
 size_t
 ServerGameThread::GetCurNumberOfPlayers() const
 {
-	return GetSessionManager().GetPlayerDataList().size();
+	return GetFullPlayerDataList().size();
 }
 
 void
@@ -279,7 +338,7 @@ ServerGameThread::AssignPlayerNumbers()
 {
 	int playerNumber = 0;
 
-	PlayerDataList playerList = GetSessionManager().GetPlayerDataList();
+	PlayerDataList playerList = GetFullPlayerDataList();
 	PlayerDataList::iterator player_i = playerList.begin();
 	PlayerDataList::iterator player_end = playerList.end();
 

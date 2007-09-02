@@ -226,7 +226,6 @@ ServerGameStateInit::Instance()
 }
 
 ServerGameStateInit::ServerGameStateInit()
-: m_curUniquePlayerId(0)
 {
 }
 
@@ -264,7 +263,7 @@ ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper s
 			server.GetSender().Send(session.sessionData->GetSocket(), joinGameAck);
 
 			// Send notifications for connected players to client.
-			PlayerDataList tmpPlayerList = server.GetSessionManager().GetPlayerDataList();
+			PlayerDataList tmpPlayerList = server.GetFullPlayerDataList();
 			PlayerDataList::iterator player_i = tmpPlayerList.begin();
 			PlayerDataList::iterator player_end = tmpPlayerList.end();
 			while (player_i != player_end)
@@ -295,20 +294,20 @@ ServerGameStateInit::InternalProcess(ServerGameThread &server, SessionWrapper se
 	if (packet->ToNetPacketStartEvent())
 	{
 		server.ResetComputerPlayerList();
-/*		int remainingSlots = server.GetGameData().maxNumberOfPlayers - server.GetCurNumberOfPlayers();
+		int remainingSlots = server.GetGameData().maxNumberOfPlayers - server.GetCurNumberOfPlayers();
 		for (int i = 1; i <= remainingSlots; i++)
 		{
 			boost::shared_ptr<PlayerData> tmpPlayerData(
-				new PlayerData(m_curUniquePlayerId++, 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL));
+				new PlayerData(server.GetLobbyThread().GetNextUniquePlayerId(), 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL));
 
 			ostringstream name;
 			name << SERVER_COMPUTER_PLAYER_NAME << i;
 			tmpPlayerData->SetName(name.str());
+			server.AddComputerPlayer(tmpPlayerData);
 
 			// Send "Player Joined" to other fully connected clients.
-			server.SendToAllPlayers(CreateNetPacketPlayerJoined(*tmpPlayerData));
-			server.AddComputerPlayer(tmpPlayerData);
-		}*/
+			server.SendToAllPlayers(CreateNetPacketPlayerJoined(*tmpPlayerData), SessionData::Game);
+		}
 
 		server.InternalStartGame();
 		server.SetState(SERVER_START_GAME_STATE::Instance());
@@ -387,7 +386,7 @@ ServerGameStateStartGame::Process(ServerGameThread &server)
 
 	// Send player order to clients.
 	// Assume player list is sorted by number.
-	PlayerDataList tmpPlayerList = server.GetSessionManager().GetPlayerDataList();
+	PlayerDataList tmpPlayerList = server.GetFullPlayerDataList();
 	PlayerDataList::iterator player_i = tmpPlayerList.begin();
 	PlayerDataList::iterator player_end = tmpPlayerList.end();
 	while (player_i != player_end)
