@@ -155,7 +155,7 @@ void LocalPlayer::action() {
 
 
 void LocalPlayer::preflopEngine() {
-	
+
 	int bet = 0;
 	int raise = 0;
 	int cBluff;
@@ -338,11 +338,13 @@ void LocalPlayer::preflopEngine() {
 	}
 
 	// minimum raise setting and resetting
-	if(myAction == 5 && raise < actualHand->getCurrentBeRo()->getMinimumRaise()) {
-		raise = actualHand->getCurrentBeRo()->getMinimumRaise();
-	}
-	actualHand->getCurrentBeRo()->setMinimumRaise(raise);
+	if(myAction == 5) {
 
+		if(raise < actualHand->getCurrentBeRo()->getMinimumRaise()) {
+			raise = actualHand->getCurrentBeRo()->getMinimumRaise();
+		}
+		actualHand->getCurrentBeRo()->setMinimumRaise(raise);
+	}
 	
 
 // 	cout << myID << ": " << myOdds << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << "Bluff: " << sBluffStatus << endl;
@@ -634,10 +636,17 @@ void LocalPlayer::flopEngine() {
 	}
 
 	// minimum raise setting and resetting
-	if(myAction == 5 && raise < actualHand->getCurrentBeRo()->getMinimumRaise()) {
-		raise = actualHand->getCurrentBeRo()->getMinimumRaise();
+	if(myAction == 5) {
+
+		if(raise < actualHand->getCurrentBeRo()->getMinimumRaise()) {
+			raise = actualHand->getCurrentBeRo()->getMinimumRaise();
+		}
+		actualHand->getCurrentBeRo()->setMinimumRaise(raise);
+
 	}
-	actualHand->getCurrentBeRo()->setMinimumRaise(raise);
+
+	if(myAction == 4) { actualHand->getCurrentBeRo()->setMinimumRaise(bet); }
+
 
 	if(DEBUG_MODE) {
 		switch(myID) {
@@ -967,7 +976,6 @@ void LocalPlayer::flopEngine() {
 
 void LocalPlayer::turnEngine() {
 
-
 // 		int tempArray[6];
 // 		int boardCards[5];
 // 		int i;
@@ -1202,10 +1210,17 @@ void LocalPlayer::turnEngine() {
 	}
 
 	// minimum raise setting and resetting
-	if(myAction == 5 && raise < actualHand->getCurrentBeRo()->getMinimumRaise()) {
-		raise = actualHand->getCurrentBeRo()->getMinimumRaise();
+	if(myAction == 5) {
+
+		if(raise < actualHand->getCurrentBeRo()->getMinimumRaise()) {
+			raise = actualHand->getCurrentBeRo()->getMinimumRaise();
+		}
+		actualHand->getCurrentBeRo()->setMinimumRaise(raise);
+
 	}
-	actualHand->getCurrentBeRo()->setMinimumRaise(raise);
+
+	if(myAction == 4) { actualHand->getCurrentBeRo()->setMinimumRaise(bet); }
+
 
 	if(DEBUG_MODE) {
 
@@ -1518,10 +1533,17 @@ void LocalPlayer::riverEngine() {
 	}
 
 	// minimum raise setting and resetting
-	if(myAction == 5 && raise < actualHand->getCurrentBeRo()->getMinimumRaise()) {
-		raise = actualHand->getCurrentBeRo()->getMinimumRaise();
+	if(myAction == 5) {
+
+		if(raise < actualHand->getCurrentBeRo()->getMinimumRaise()) {
+			raise = actualHand->getCurrentBeRo()->getMinimumRaise();
+		}
+		actualHand->getCurrentBeRo()->setMinimumRaise(raise);
+
 	}
-	actualHand->getCurrentBeRo()->setMinimumRaise(raise);
+
+	if(myAction == 4) { actualHand->getCurrentBeRo()->setMinimumRaise(bet); }
+
 
 	if(DEBUG_MODE) {
 		switch(myID) {

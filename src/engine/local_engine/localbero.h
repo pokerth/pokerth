@@ -32,6 +32,9 @@ public:
 	int getHighestCardsValue() const { std::cout << "getHighestCardsValue() in wrong BeRo" << std::endl; return 0; }
 	void setHighestCardsValue(int theValue) { }
 
+	void setMinimumRaise ( int theValue ) { minimumRaise = theValue; }
+	int getMinimumRaise() const { return minimumRaise; }
+
 	void resetFirstRun() { firstRun = false; }
 
 	void nextPlayer();
@@ -65,8 +68,7 @@ protected:
 	void setLastActionPlayer ( int theValue ) { lastActionPlayer = theValue; }
 	int getLastActionPlayer() const { return lastActionPlayer; }
 	
-	void setMinimumRaise ( int theValue ) { minimumRaise = theValue; }
-	int getMinimumRaise() const { return minimumRaise; }
+
 
 
 private:
