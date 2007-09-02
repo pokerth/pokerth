@@ -750,7 +750,7 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	startData.numberOfPlayers = gameData.maxNumberOfPlayers;
 	Tools::getRandNumber(0, startData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
 	if(DEBUG_MODE) {
-		tmpDealerPos = 2;
+// 		tmpDealerPos = 2;
 	}
 	startData.startDealerPlayerId = static_cast<unsigned>(tmpDealerPos);
 
@@ -1761,8 +1761,7 @@ void mainWindowImpl::myBet(){
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
-	if (currentHand->getActualRound() <= 2 ) { spinBox_set->setMinimum(currentHand->getSmallBlind()*2); }
-	else { spinBox_set->setMinimum(currentHand->getSmallBlind()*4); }
+	spinBox_set->setMinimum(currentHand->getSmallBlind()*2);
 	
 	spinBox_set->setMaximum(currentHand->getPlayerArray()[0]->getMyCash());
 	spinBox_set->setValue(spinBox_set->minimum());
@@ -1782,9 +1781,7 @@ void mainWindowImpl::myRaise(){
 	int tempHighestSet = 0;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
-	tempHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
-
-	spinBox_set->setMinimum(tempHighestSet*2 - currentHand->getPlayerArray()[0]->getMySet());
+	spinBox_set->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getPlayerArray()[0]->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
 	spinBox_set->setMaximum(currentHand->getPlayerArray()[0]->getMyCash());
 	spinBox_set->setValue(spinBox_set->minimum());
 	spinBox_set->setFocus();
@@ -1808,14 +1805,14 @@ void mainWindowImpl::mySet(){
 		currentHand->getPlayerArray()[0]->setMyAction(6);
 	}
 	
-	currentHand->getCurrentBeRo()->setHighestSet(currentHand->getPlayerArray()[0]->getMySet());
-	
 	if(myActionIsRaise) {
 		//do not if allIn
 		if(currentHand->getPlayerArray()[0]->getMyAction() != 6) {
 			currentHand->getPlayerArray()[0]->setMyAction(5);
 		}
 		myActionIsRaise = 0;
+
+		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getPlayerArray()[0]->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
 	}
 	
 	if(myActionIsBet) {
@@ -1824,7 +1821,11 @@ void mainWindowImpl::mySet(){
 			currentHand->getPlayerArray()[0]->setMyAction(4);
 		}		
 		myActionIsBet = 0;
+
+		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getPlayerArray()[0]->getMySet());
 	}
+
+	currentHand->getCurrentBeRo()->setHighestSet(currentHand->getPlayerArray()[0]->getMySet());
 
 	currentHand->getPlayerArray()[0]->setMyTurn(0);
 
@@ -1848,7 +1849,12 @@ void mainWindowImpl::myAllIn(){
 	currentHand->getPlayerArray()[0]->setMyCash(0);
 	currentHand->getPlayerArray()[0]->setMyAction(6);
 	
-	if(currentHand->getPlayerArray()[0]->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { currentHand->getCurrentBeRo()->setHighestSet(currentHand->getPlayerArray()[0]->getMySet());}
+	if(currentHand->getPlayerArray()[0]->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
+		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getPlayerArray()[0]->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
+
+		currentHand->getCurrentBeRo()->setHighestSet(currentHand->getPlayerArray()[0]->getMySet());
+
+	}
 
 	currentHand->getPlayerArray()[0]->setMyTurn(0);
 
