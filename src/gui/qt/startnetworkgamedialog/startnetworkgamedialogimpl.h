@@ -45,14 +45,14 @@ public slots:
 	void startGame();
 	void cancel();
 	void refresh(int actionID);
-	void joinedNetworkGame(QString playerName, int rights);
-	void addConnectedPlayer(QString playerName, int rights);
-	void updatePlayer(QString oldPlayerName, QString newPlayerName);
-	void removePlayer(QString playerName);
-	void playerSelected(QTreeWidgetItem*, int);
+	void joinedNetworkGame(unsigned playerId, QString playerName, int rights);
+	void addConnectedPlayer(unsigned playerId, QString playerName, int rights);
+	void updatePlayer(unsigned playerId, QString newPlayerName);
+	void removePlayer(unsigned playerId, QString playerName);
+	void playerSelected(QTreeWidgetItem*, QTreeWidgetItem*);
 	void kickPlayer();
 	void checkPlayerQuantity();
-	void clearPlayers();
+	void clearDialog();
 
 	void keyPressEvent ( QKeyEvent*);
 

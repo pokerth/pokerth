@@ -30,9 +30,6 @@ public:
 
 	virtual void SignalNetServerSuccess(int actionID) = 0;
 	virtual void SignalNetServerError(int errorID, int osErrorID) = 0;
-
-	virtual void SignalNetServerPlayerJoined(const std::string &playerName) = 0;
-	virtual void SignalNetServerPlayerLeft(const std::string &playerName) = 0;
 };
 
 #endif

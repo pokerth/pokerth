@@ -28,6 +28,7 @@
 #include <game.h>
 
 #include <boost/lambda/lambda.hpp>
+#include <sstream>
 #include <cassert>
 
 using namespace std;
@@ -217,23 +218,31 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 }
 
 GameInfo
-ClientThread::GetGameInfo(const string &game) const
+ClientThread::GetGameInfo(unsigned gameId) const
 {
 	GameInfo tmpInfo;
-	try
+	boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+	GameInfoMap::const_iterator pos = m_gameInfoMap.find(gameId);
+	if (pos != m_gameInfoMap.end())
 	{
-		unsigned id = GetGameIdByName(game);
-
-		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
-		GameInfoMap::const_iterator pos = m_gameInfoMap.find(id);
-		if (pos != m_gameInfoMap.end())
-		{
-			tmpInfo = pos->second;
-		}
-	} catch (const NetException &)
-	{
+		tmpInfo = pos->second;
 	}
 	return tmpInfo;
+}
+
+PlayerInfo
+ClientThread::GetPlayerInfo(unsigned playerId) const
+{
+	boost::mutex::scoped_lock lock(m_playerInfoMapMutex);
+	PlayerInfo info;
+	if (!GetCachedPlayerInfo(playerId, info))
+	{
+		ostringstream name;
+		name << "#" << playerId;
+
+		info.playerName = name.str();
+	}
+	return info;
 }
 
 ClientCallback &
@@ -320,43 +329,44 @@ ClientThread::SendPacketLoop()
 	}
 }
 
-PlayerInfo
-ClientThread::GetCachedPlayerInfo(unsigned id) const
+bool
+ClientThread::GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const
 {
+	bool retVal = false;
+
+	boost::mutex::scoped_lock lock(m_playerInfoMapMutex);
 	PlayerInfoMap::const_iterator pos = m_playerInfoMap.find(id);
-	if (pos == m_playerInfoMap.end())
-		throw NetException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
-	return pos->second;
+	if (pos != m_playerInfoMap.end())
+	{
+		info = pos->second;
+		retVal = true;
+	}
+	return retVal;
 }
 
 void
-ClientThread::RequestPlayerInfo(unsigned id, const PlayerInfo &tempInfo)
+ClientThread::RequestPlayerInfo(unsigned id)
 {
-	boost::shared_ptr<NetPacket> req(new NetPacketRetrievePlayerInfo);
-	NetPacketRetrievePlayerInfo::Data reqData;
-	reqData.playerId = id;
-	static_cast<NetPacketRetrievePlayerInfo *>(req.get())->SetData(reqData);
-	GetSender().Send(GetContext().GetSocket(), req);
+	if (find(m_playerInfoRequestList.begin(), m_playerInfoRequestList.end(), id) == m_playerInfoRequestList.end())
+	{
+		boost::shared_ptr<NetPacket> req(new NetPacketRetrievePlayerInfo);
+		NetPacketRetrievePlayerInfo::Data reqData;
+		reqData.playerId = id;
+		static_cast<NetPacketRetrievePlayerInfo *>(req.get())->SetData(reqData);
+		GetSender().Send(GetContext().GetSocket(), req);
 
-	m_playerInfoMap[id] = tempInfo;
+		m_playerInfoRequestList.push_back(id);
+	}
 }
 
 void
 ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 {
-	PlayerInfoMap::iterator pos = m_playerInfoMap.find(id);
-
-	// Update info cache.
-	if (pos != m_playerInfoMap.end())
 	{
-		GetCallback().SignalNetClientPlayerChanged(pos->second.playerName, info.playerName);
-
-		pos->second = info;
+		boost::mutex::scoped_lock lock(m_playerInfoMapMutex);
+		m_playerInfoMap[id] = info;
 	}
-	else
-	{
-		m_playerInfoMap.insert(PlayerInfoMap::value_type(id, info));
-	}
+	GetCallback().SignalNetClientPlayerChanged(id, info.playerName);
 
 	// Update player data for current game.
 	boost::shared_ptr<PlayerData> playerData = GetPlayerDataByUniqueId(id);
@@ -464,16 +474,16 @@ ClientThread::AddPlayerData(boost::shared_ptr<PlayerData> playerData)
 	{
 		m_playerDataList.push_back(playerData);
 		if (playerData->GetUniqueId() == GetGuiPlayerId())
-			GetCallback().SignalNetClientSelfJoined(playerData->GetName(), playerData->GetRights());
+			GetCallback().SignalNetClientSelfJoined(playerData->GetUniqueId(), playerData->GetName(), playerData->GetRights());
 		else
-			GetCallback().SignalNetClientPlayerJoined(playerData->GetName(), playerData->GetRights());
+			GetCallback().SignalNetClientPlayerJoined(playerData->GetUniqueId(), playerData->GetName(), playerData->GetRights());
 	}
 }
 
 void
 ClientThread::RemovePlayerData(unsigned playerId)
 {
-	string playerName;
+	boost::shared_ptr<PlayerData> tmpData;
 
 	PlayerDataList::iterator i = m_playerDataList.begin();
 	PlayerDataList::iterator end = m_playerDataList.end();
@@ -481,20 +491,17 @@ ClientThread::RemovePlayerData(unsigned playerId)
 	{
 		if ((*i)->GetUniqueId() == playerId)
 		{
-			playerName = (*i)->GetName();
+			tmpData = *i;
 			m_playerDataList.erase(i);
 			break;
 		}
 		++i;
 	}
 
-	if (!playerName.empty())
+	if (tmpData.get())
 	{
-		// Remove name and id string.
-		GetCallback().SignalNetClientPlayerLeft(playerName);
-		ostringstream name;
-		name << "#" << playerId;
-		GetCallback().SignalNetClientPlayerLeft(name.str());
+		// Remove player from gui.
+		GetCallback().SignalNetClientPlayerLeft(tmpData->GetUniqueId(), tmpData->GetName());
 	}
 }
 
@@ -623,22 +630,22 @@ ClientThread::GetGameIdByName(const std::string &name) const
 }
 
 void
-ClientThread::AddGameInfo(unsigned id, const GameInfo &info)
+ClientThread::AddGameInfo(unsigned gameId, const GameInfo &info)
 {
 	{
 		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
-		m_gameInfoMap.insert(GameInfoMap::value_type(id, info));
+		m_gameInfoMap.insert(GameInfoMap::value_type(gameId, info));
 	}
-	GetCallback().SignalNetClientGameListNew(info.name);
+	GetCallback().SignalNetClientGameListNew(gameId, info.name);
 }
 
 void
-ClientThread::RemoveGameInfo(unsigned id)
+ClientThread::RemoveGameInfo(unsigned gameId)
 {
 	string name;
 	{
 		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
-		GameInfoMap::iterator pos = m_gameInfoMap.find(id);
+		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
 		if (pos != m_gameInfoMap.end())
 		{
 			name = pos->second.name;
@@ -646,7 +653,41 @@ ClientThread::RemoveGameInfo(unsigned id)
 		}
 	}
 	if (!name.empty())
-		GetCallback().SignalNetClientGameListRemove(name);
+		GetCallback().SignalNetClientGameListRemove(gameId, name);
+}
+
+void
+ClientThread::ModifyGameInfoAddPlayer(unsigned gameId, unsigned playerId)
+{
+	bool playerAdded = false;
+	{
+		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
+		if (pos != m_gameInfoMap.end())
+		{
+			pos->second.players.push_back(playerId);
+			playerAdded = true;
+		}
+	}
+	if (playerAdded)
+		GetCallback().SignalNetClientGameListPlayerJoined(gameId, playerId);
+}
+
+void
+ClientThread::ModifyGameInfoRemovePlayer(unsigned gameId, unsigned playerId)
+{
+	bool playerRemoved = false;
+	{
+		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
+		if (pos != m_gameInfoMap.end())
+		{
+			pos->second.players.remove(playerId);
+			playerRemoved = true;
+		}
+	}
+	if (playerRemoved)
+		GetCallback().SignalNetClientGameListPlayerLeft(gameId, playerId);
 }
 
 bool

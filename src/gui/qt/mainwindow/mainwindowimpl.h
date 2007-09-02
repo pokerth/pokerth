@@ -127,12 +127,14 @@ signals:
 	void signalNetClientGameInfo(int actionID);
 	void signalNetClientError(int errorID, int osErrorID);
 	void signalNetServerError(int errorID, int osErrorID);
-	void signalNetClientSelfJoined(QString playerName, int rights);
-	void signalNetClientPlayerJoined(QString playerName, int rights);
-	void signalNetClientPlayerChanged(QString oldPlayerName, QString newPlayerName);
-	void signalNetClientPlayerLeft(QString playerName);
-	void signalNetClientGameListNew(QString gameName);
-	void signalNetClientGameListRemove(QString gameName);
+	void signalNetClientSelfJoined(unsigned playerId, QString playerName, int rights);
+	void signalNetClientPlayerJoined(unsigned playerId, QString playerName, int rights);
+	void signalNetClientPlayerChanged(unsigned playerId, QString newPlayerName);
+	void signalNetClientPlayerLeft(unsigned playerId, QString playerName);
+	void signalNetClientGameListNew(unsigned gameId, QString gameName);
+	void signalNetClientGameListRemove(unsigned gameId, QString gameName);
+	void signalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
+	void signalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
 	void signalNetClientGameStart(boost::shared_ptr<Game> game);
 
 public slots:

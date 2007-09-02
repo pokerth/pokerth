@@ -99,22 +99,22 @@ public:
 	void SignalNetClientConnect(int actionID);
 	void SignalNetClientGameInfo(int actionID);
 	void SignalNetClientError(int errorID, int osErrorID);
-	void SignalNetClientSelfJoined(const std::string &playerName, PlayerRights rights);
-	void SignalNetClientPlayerJoined(const std::string &playerName, PlayerRights rights);
-	void SignalNetClientPlayerChanged(const std::string &oldPlayerName, const std::string &newPlayerName);
-	void SignalNetClientPlayerLeft(const std::string &playerName);
+	void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, PlayerRights rights);
+	void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, PlayerRights rights);
+	void SignalNetClientPlayerChanged(unsigned playerId, const std::string &newPlayerName);
+	void SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName);
 	void SignalNetClientChatMsg(const std::string &playerName, const std::string &msg);
 	void SignalNetClientWaitDialog();
 
-	void SignalNetClientGameListNew(const std::string &gameName);
-	void SignalNetClientGameListRemove(const std::string &gameName);
+	void SignalNetClientGameListNew(unsigned gameId, const std::string &gameName);
+	void SignalNetClientGameListRemove(unsigned gameId, const std::string &gameName);
+	void SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
+	void SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
 
 	void SignalNetClientGameStart(boost::shared_ptr<Game> game);
 
 	void SignalNetServerSuccess(int actionID);
 	void SignalNetServerError(int errorID, int osErrorID);
-	void SignalNetServerPlayerJoined(const std::string &playerName);
-	void SignalNetServerPlayerLeft(const std::string &playerName);
 
 private:
 

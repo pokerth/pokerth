@@ -1091,7 +1091,7 @@ NetPacketGameListNew::GetData(NetPacketGameListNew::Data &outData) const
 	// Store all available players.
 	for (int i = 0; i < curNumPlayers; i++)
 	{
-		outData.gameInfo.players.push_back(*tmpPlayer);
+		outData.gameInfo.players.push_back(ntohl(*tmpPlayer));
 		++tmpPlayer;
 	}
 }

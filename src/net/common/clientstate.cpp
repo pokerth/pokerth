@@ -485,6 +485,21 @@ ClientStateWaitJoin::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		// A new game was created on the server.
 		NetPacketGameListNew::Data gameListNewData;
 		packet->ToNetPacketGameListNew()->GetData(gameListNewData);
+
+		// Request player info for players if needed.
+		PlayerIdList::const_iterator i = gameListNewData.gameInfo.players.begin();
+		PlayerIdList::const_iterator end = gameListNewData.gameInfo.players.end();
+		while (i != end)
+		{
+			PlayerInfo info;
+			if (!client.GetCachedPlayerInfo(*i, info))
+			{
+				// Request player info.
+				client.RequestPlayerInfo(*i);
+			}
+			++i;
+		}
+
 		client.AddGameInfo(gameListNewData.gameId, gameListNewData.gameInfo);
 	}
 	else if (packet->ToNetPacketGameListUpdate())
@@ -494,6 +509,24 @@ ClientStateWaitJoin::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		packet->ToNetPacketGameListUpdate()->GetData(gameListUpdateData);
 		if (gameListUpdateData.gameMode == GAME_MODE_CLOSED)
 			client.RemoveGameInfo(gameListUpdateData.gameId);
+	}
+	else if (packet->ToNetPacketGameListPlayerJoined())
+	{
+		NetPacketGameListPlayerJoined::Data playerJoinedData;
+		packet->ToNetPacketGameListPlayerJoined()->GetData(playerJoinedData);
+		client.ModifyGameInfoAddPlayer(playerJoinedData.gameId, playerJoinedData.playerId);
+		// Request player info if needed.
+		PlayerInfo info;
+		if (!client.GetCachedPlayerInfo(playerJoinedData.playerId, info))
+		{
+			client.RequestPlayerInfo(playerJoinedData.playerId);
+		}
+	}
+	else if (packet->ToNetPacketGameListPlayerLeft())
+	{
+		NetPacketGameListPlayerLeft::Data playerLeftData;
+		packet->ToNetPacketGameListPlayerLeft()->GetData(playerLeftData);
+		client.ModifyGameInfoRemovePlayer(playerLeftData.gameId, playerLeftData.playerId);
 	}
 	else if (packet->ToNetPacketJoinGameAck())
 	{
@@ -573,25 +606,24 @@ ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		packet->ToNetPacketPlayerJoined()->GetData(netPlayerData);
 
 		boost::shared_ptr<PlayerData> playerData;
-		try
+		PlayerInfo info;
+		if (client.GetCachedPlayerInfo(netPlayerData.playerId, info))
 		{
-			PlayerInfo info = client.GetCachedPlayerInfo(netPlayerData.playerId);
 			playerData.reset(
 				new PlayerData(netPlayerData.playerId, 0, info.ptype, netPlayerData.prights));
 			playerData->SetName(info.playerName);
-		} catch (const NetException &)
+		}
+		else
 		{
 			ostringstream name;
 			name << "#" << netPlayerData.playerId;
 
 			// Request player info.
-			PlayerInfo info;
-			info.playerName = name.str();
-			client.RequestPlayerInfo(netPlayerData.playerId, info);
+			client.RequestPlayerInfo(netPlayerData.playerId);
 			// Use temporary data until the PlayerInfo request is completed.
 			playerData.reset(
-				new PlayerData(netPlayerData.playerId, 0, info.ptype, netPlayerData.prights));
-			playerData->SetName(info.playerName);
+				new PlayerData(netPlayerData.playerId, 0, PLAYER_TYPE_HUMAN, netPlayerData.prights));
+			playerData->SetName(name.str());
 		}
 		client.AddPlayerData(playerData);
 	}

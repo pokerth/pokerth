@@ -94,6 +94,30 @@ ServerLobbyThread::CloseSessionDelayed(SessionWrapper session)
 }
 
 void
+ServerLobbyThread::NotifyPlayerJoinedGame(unsigned gameId, unsigned playerId)
+{
+	// Send notification to players in lobby.
+	boost::shared_ptr<NetPacket> packet(new NetPacketGameListPlayerJoined);
+	NetPacketGameListPlayerJoined::Data packetData;
+	packetData.gameId = gameId;
+	packetData.playerId = playerId;
+	static_cast<NetPacketGameListPlayerJoined *>(packet.get())->SetData(packetData);
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+}
+
+void
+ServerLobbyThread::NotifyPlayerLeftGame(unsigned gameId, unsigned playerId)
+{
+	// Send notification to players in lobby.
+	boost::shared_ptr<NetPacket> packet(new NetPacketGameListPlayerLeft);
+	NetPacketGameListPlayerLeft::Data packetData;
+	packetData.gameId = gameId;
+	packetData.playerId = playerId;
+	static_cast<NetPacketGameListPlayerLeft *>(packet.get())->SetData(packetData);
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+}
+
+void
 ServerLobbyThread::RemoveGame(unsigned id)
 {
 	boost::mutex::scoped_lock lock(m_removeGameListMutex);

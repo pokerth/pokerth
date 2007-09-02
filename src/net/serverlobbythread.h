@@ -52,6 +52,8 @@ public:
 
 	void AddConnection(boost::shared_ptr<ConnectData> data);
 	void CloseSessionDelayed(SessionWrapper session);
+	void NotifyPlayerJoinedGame(unsigned gameId, unsigned playerId);
+	void NotifyPlayerLeftGame(unsigned gameId, unsigned playerId);
 
 	void RemoveGame(unsigned id);
 

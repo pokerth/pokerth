@@ -21,26 +21,12 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
-	connect( treeWidget_GameList, SIGNAL( itemClicked ( QTreeWidgetItem*, int) ), this, SLOT( gameSelected(QTreeWidgetItem*, int) ) );
-	connect( treeWidget_GameList, SIGNAL( clear () ), this, SLOT( clearGames() ) );
-
-	pushButton_JoinGame->setEnabled(false);
-	
-	pushButton_Leave->hide();
-	pushButton_Kick->hide();
-	pushButton_StartGame->hide();
-	
-	
-	treeWidget_GameList->setColumnWidth(0,250);
-	treeWidget_GameList->setColumnWidth(1,75);
-	treeWidget_GameList->setColumnWidth(2,70);
-
-	lineEdit_ChatInput->setFocus();
-	
+	connect( treeWidget_GameList, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( gameSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 }
 
 void gameLobbyDialogImpl::exec()
 {
+	clearDialog();
 
 	QDialog::exec();
 }
@@ -95,41 +81,82 @@ void gameLobbyDialogImpl::joinGame()
 	}
 }
 
-void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, int)
+void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, QTreeWidgetItem*)
 {
-	pushButton_JoinGame->setEnabled(true);
+	if (item)
+	{
+		pushButton_JoinGame->setEnabled(true);
 
-	currentGameName = item->text(0);
+		currentGameName = item->text(0);
 
-	groupBox_GameInfo->setEnabled(true);
-	groupBox_GameInfo->setTitle(tr("Game Info") + " - " + currentGameName);
+		groupBox_GameInfo->setEnabled(true);
+		groupBox_GameInfo->setTitle(tr("Game Info") + " - " + currentGameName);
 
-	assert(mySession);
-	GameInfo info = mySession->getClientGameInfo(currentGameName.toUtf8().constData());
-	label_SmallBlind->setText(QString::number(info.data.smallBlind));
-	label_StartCash->setText(QString::number(info.data.startMoney));
-	label_MaximumNumberOfPlayers->setText(QString::number(info.data.maxNumberOfPlayers));
-	label_HandsToRaiseSmallBlind->setText(QString::number(info.data.handsBeforeRaise));
-	label_TimeoutForPlayerAction->setText(QString::number(info.data.playerActionTimeoutSec));
-}
+		assert(mySession);
+		GameInfo info(mySession->getClientGameInfo(item->data(0, Qt::UserRole).toUInt()));
+		label_SmallBlind->setText(QString::number(info.data.smallBlind));
+		label_StartCash->setText(QString::number(info.data.startMoney));
+		label_MaximumNumberOfPlayers->setText(QString::number(info.data.maxNumberOfPlayers));
+		label_HandsToRaiseSmallBlind->setText(QString::number(info.data.handsBeforeRaise));
+		label_TimeoutForPlayerAction->setText(QString::number(info.data.playerActionTimeoutSec));
 
-void gameLobbyDialogImpl::addGame(QString gameName)
-{
-	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_GameList,0);
-	item->setData(0, 0, gameName);
-}
-
-void gameLobbyDialogImpl::removeGame(QString gameName)
-{
-	QList<QTreeWidgetItem *> list = treeWidget_GameList->findItems(gameName, Qt::MatchExactly, 0);
-	if(!list.empty()) { 
-		treeWidget_GameList->takeTopLevelItem(treeWidget_GameList->indexOfTopLevelItem(list[0]));
+		treeWidget_connectedPlayers->clear();
+		PlayerIdList::const_iterator i = info.players.begin();
+		PlayerIdList::const_iterator end = info.players.end();
+		while (i != end)
+		{
+			PlayerInfo info(mySession->getClientPlayerInfo(*i));
+			addConnectedPlayer(*i, QString::fromUtf8(info.playerName.c_str()), PLAYER_RIGHTS_NORMAL);
+			++i;
+		}
 	}
 }
 
-void gameLobbyDialogImpl::clearGames()
+void gameLobbyDialogImpl::addGame(unsigned gameId, QString gameName)
 {
-	pushButton_JoinGame->setEnabled(false);
+
+	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_GameList, 0);
+	item->setData(0, Qt::UserRole, gameId);
+	item->setData(0, Qt::DisplayRole, gameName);
+}
+
+void gameLobbyDialogImpl::removeGame(unsigned gameId, QString)
+{
+	QTreeWidgetItemIterator it(treeWidget_GameList);
+	while (*it) {
+		if ((*it)->data(0, Qt::UserRole) == gameId)
+		{
+			treeWidget_GameList->takeTopLevelItem(treeWidget_GameList->indexOfTopLevelItem(*it));
+			break;
+		}
+		++it;
+	}
+}
+
+void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
+{
+	QTreeWidgetItem *item = treeWidget_GameList->currentItem();
+	if (item && item->data(0, Qt::UserRole) == gameId)
+	{
+		assert(mySession);
+		PlayerInfo info(mySession->getClientPlayerInfo(playerId));
+		addConnectedPlayer(playerId, QString::fromUtf8(info.playerName.c_str()), PLAYER_RIGHTS_NORMAL);
+	}
+}
+
+void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
+{
+	QTreeWidgetItem *item = treeWidget_GameList->currentItem();
+	if (item && item->data(0, Qt::UserRole) == gameId)
+	{
+		assert(mySession);
+		PlayerInfo info(mySession->getClientPlayerInfo(playerId));
+		removePlayer(playerId, QString::fromUtf8(info.playerName.c_str()));
+	}
+}
+
+void gameLobbyDialogImpl::clearDialog()
+{
 	groupBox_GameInfo->setTitle(tr("Game Info"));
 	groupBox_GameInfo->setEnabled(false);
 	currentGameName = "";
@@ -139,6 +166,20 @@ void gameLobbyDialogImpl::clearGames()
 	label_MaximumNumberOfPlayers->setText("");
 	label_HandsToRaiseSmallBlind->setText("");
 	label_TimeoutForPlayerAction->setText("");
+
+	treeWidget_GameList->clear();
+	treeWidget_connectedPlayers->clear();
+	
+	pushButton_JoinGame->setEnabled(false);
+	pushButton_Leave->hide();
+	pushButton_Kick->hide();
+	pushButton_StartGame->hide();
+
+	treeWidget_GameList->setColumnWidth(0,250);
+	treeWidget_GameList->setColumnWidth(1,75);
+	treeWidget_GameList->setColumnWidth(2,70);
+
+	lineEdit_ChatInput->setFocus();
 }
 
 void gameLobbyDialogImpl::checkPlayerQuantity() {
@@ -152,19 +193,20 @@ void gameLobbyDialogImpl::checkPlayerQuantity() {
 
 }
 
-void gameLobbyDialogImpl::joinedNetworkGame(QString playerName, int rights) {
+void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerName, int rights) {
 
 	isAdmin = rights == PLAYER_RIGHTS_ADMIN;
-	addConnectedPlayer(playerName, rights);
+	addConnectedPlayer(playerId, playerName, rights);
 }
 
 
-void gameLobbyDialogImpl::addConnectedPlayer(QString playerName, int rights) {
+void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerName, int rights) {
 
-	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_connectedPlayers,0);
-	item->setData(0, 0, playerName);
+	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_connectedPlayers, 0);
+	item->setData(0, Qt::UserRole, playerId);
+	item->setData(0, Qt::DisplayRole, playerName);
 
-	assert(mySession);
+/*	assert(mySession);
 	GameInfo info = mySession->getClientGameInfo(currentGameName.toUtf8().constData());
 
 	if(treeWidget_connectedPlayers->topLevelItemCount() != info.data.maxNumberOfPlayers) {
@@ -172,25 +214,36 @@ void gameLobbyDialogImpl::addConnectedPlayer(QString playerName, int rights) {
 	}
 	else {
 		myW->getMySDLPlayer()->playSound("onlinegameready", 0);
+	}*/
+
+	checkPlayerQuantity();
+}
+
+void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName) {
+
+	QTreeWidgetItemIterator it(treeWidget_connectedPlayers);
+	while (*it) {
+		if ((*it)->data(0, Qt::UserRole) == playerId)
+		{
+			(*it)->setData(0, Qt::DisplayRole, newPlayerName);
+			break;
+		}
+		++it;
+	}
+}
+
+void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString) {
+
+	QTreeWidgetItemIterator it(treeWidget_connectedPlayers);
+	while (*it) {
+		if ((*it)->data(0, Qt::UserRole) == playerId)
+		{
+			treeWidget_connectedPlayers->takeTopLevelItem(treeWidget_connectedPlayers->indexOfTopLevelItem(*it));
+			break;
+		}
+		++it;
 	}
 
 	checkPlayerQuantity();
 }
 
-void gameLobbyDialogImpl::updatePlayer(QString oldPlayerName, QString newPlayerName) {
-
-	QList<QTreeWidgetItem *> list = treeWidget_connectedPlayers->findItems(oldPlayerName, Qt::MatchExactly, 0);
-	if(!list.empty()) { 
-		list[0]->setText(0, newPlayerName);
-	}
-
-}
-
-void gameLobbyDialogImpl::removePlayer(QString playerName) {
-
-	QList<QTreeWidgetItem *> list = treeWidget_connectedPlayers->findItems(playerName, Qt::MatchExactly, 0);
-	if(!list.empty()) { 
-		 treeWidget_connectedPlayers->takeTopLevelItem(treeWidget_connectedPlayers->indexOfTopLevelItem(list[0]));
-	}
-
-}

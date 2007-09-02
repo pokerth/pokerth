@@ -227,11 +227,10 @@ ServerGameThread::CloseSessionDelayed(SessionWrapper session)
 		thisPlayerLeftData.playerId = tmpPlayerData->GetUniqueId();
 		static_cast<NetPacketPlayerLeft *>(thisPlayerLeft.get())->SetData(thisPlayerLeftData);
 		GetSessionManager().SendToAllSessions(GetSender(), thisPlayerLeft, SessionData::Game);
-
-		GetCallback().SignalNetServerPlayerLeft(tmpPlayerData->GetName());
 	}
 
 	GetLobbyThread().CloseSessionDelayed(session);
+	GetLobbyThread().NotifyPlayerLeftGame(GetId(), session.playerData->GetUniqueId());
 }
 
 void

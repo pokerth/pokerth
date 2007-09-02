@@ -45,21 +45,24 @@ public slots:
 	void createGame();
 	void joinGame();
 
-	void gameSelected(QTreeWidgetItem*, int);
+	void gameSelected(QTreeWidgetItem*, QTreeWidgetItem*);
 
-	void addGame(QString gameName);
-	void removeGame(QString gameName);
+	void addGame(unsigned gameId, QString gameName);
+	void removeGame(unsigned gameId, QString gameName);
+	void gameAddPlayer(unsigned gameId, unsigned playerId);
+	void gameRemovePlayer(unsigned gameId, unsigned playerId);
 
 	void setCurrentGameName ( const QString& theValue ) { currentGameName = theValue; }
 	QString getCurrentGameName() const { return currentGameName; }	
 
-	void clearGames();
 	void checkPlayerQuantity();
 
-	void joinedNetworkGame(QString, int);
-	void addConnectedPlayer(QString, int);
-	void updatePlayer(QString, QString);
-	void removePlayer(QString);
+	void joinedNetworkGame(unsigned, QString, int);
+	void addConnectedPlayer(unsigned, QString, int);
+	void updatePlayer(unsigned, QString);
+	void removePlayer(unsigned, QString);
+
+	void clearDialog();
 
 private:
 	

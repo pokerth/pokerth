@@ -19,6 +19,7 @@
 
 #include <net/servergamestate.h>
 #include <net/servergamethread.h>
+#include <net/serverlobbythread.h>
 #include <net/receiverhelper.h>
 #include <net/senderthread.h>
 #include <net/netpacket.h>
@@ -279,6 +280,9 @@ ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper s
 			session.sessionData->SetState(SessionData::Game);
 			// Accept session.
 			server.GetSessionManager().AddSession(session);
+
+			// Notify lobby.
+			server.GetLobbyThread().NotifyPlayerJoinedGame(server.GetId(), session.playerData->GetUniqueId());
 		}
 	}
 }

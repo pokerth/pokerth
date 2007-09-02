@@ -36,14 +36,16 @@ public:
 	virtual void SignalNetClientGameInfo(int actionID) = 0;
 	virtual void SignalNetClientError(int errorID, int osErrorID) = 0;
 
-	virtual void SignalNetClientGameListNew(const std::string &gameName) = 0;
-	virtual void SignalNetClientGameListRemove(const std::string &gameName) = 0;
+	virtual void SignalNetClientGameListNew(unsigned gameId, const std::string &gameName) = 0;
+	virtual void SignalNetClientGameListRemove(unsigned gameId, const std::string &gameName) = 0;
+	virtual void SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) = 0;
+	virtual void SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) = 0;
 
 	virtual void SignalNetClientGameStart(boost::shared_ptr<Game> game) = 0;
-	virtual void SignalNetClientSelfJoined(const std::string &playerName, PlayerRights rights) = 0;
-	virtual void SignalNetClientPlayerJoined(const std::string &playerName, PlayerRights rights) = 0;
-	virtual void SignalNetClientPlayerChanged(const std::string &oldPlayerName, const std::string &newPlayerName) = 0;
-	virtual void SignalNetClientPlayerLeft(const std::string &playerName) = 0;
+	virtual void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, PlayerRights rights) = 0;
+	virtual void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, PlayerRights rights) = 0;
+	virtual void SignalNetClientPlayerChanged(unsigned playerId, const std::string &newPlayerName) = 0;
+	virtual void SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName) = 0;
 
 	virtual void SignalNetClientChatMsg(const std::string &playerName, const std::string &msg) = 0;
 	virtual void SignalNetClientWaitDialog() = 0;

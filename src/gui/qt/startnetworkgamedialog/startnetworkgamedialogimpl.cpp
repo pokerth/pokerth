@@ -30,16 +30,14 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFi
 	connect( pushButton_cancel, SIGNAL( clicked() ), this, SLOT( cancel() ) );
 	connect( pushButton_startGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
 	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
-	connect( treeWidget, SIGNAL( itemClicked ( QTreeWidgetItem*, int) ), this, SLOT( playerSelected(QTreeWidgetItem*, int) ) );
-	connect( treeWidget, SIGNAL( clear () ), this, SLOT( clearPlayers() ) );
-
-	pushButton_Kick->setEnabled(false);
-	pushButton_startGame->setEnabled(false);
+	connect( treeWidget, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 }
 
 void startNetworkGameDialogImpl::exec() {
-	
-	GameInfo info = mySession->getClientGameInfo("default");
+
+	clearDialog();
+
+	GameInfo info = mySession->getClientGameInfo(0);
 	label_maxPlayerNumber->setText(QString::number(info.data.maxNumberOfPlayers));
 
 	QDialog::exec();
@@ -62,17 +60,18 @@ void startNetworkGameDialogImpl::refresh(int actionID) {
 	}
 }
 
-void startNetworkGameDialogImpl::joinedNetworkGame(QString playerName, int rights) {
+void startNetworkGameDialogImpl::joinedNetworkGame(unsigned playerId, QString playerName, int rights) {
 
 	isAdmin = rights == PLAYER_RIGHTS_ADMIN;
-	addConnectedPlayer(playerName, rights);
+	addConnectedPlayer(playerId, playerName, rights);
 }
 
-void startNetworkGameDialogImpl::addConnectedPlayer(QString playerName, int rights) {
+void startNetworkGameDialogImpl::addConnectedPlayer(unsigned playerId, QString playerName, int rights) {
 
-	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget,0);
-	item->setData(0, 0, playerName);
-	
+	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget, 0);
+	item->setData(0, Qt::UserRole, playerId);
+	item->setData(0, Qt::DisplayRole, playerName);
+
 	if(treeWidget->topLevelItemCount() != maxPlayerNumber) {
 		myW->getMySDLPlayer()->playSound("playerconnected", 0);
 	}
@@ -83,27 +82,38 @@ void startNetworkGameDialogImpl::addConnectedPlayer(QString playerName, int righ
 	checkPlayerQuantity();
 }
 
-void startNetworkGameDialogImpl::updatePlayer(QString oldPlayerName, QString newPlayerName)
+void startNetworkGameDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
 {
-	QList<QTreeWidgetItem *> list = treeWidget->findItems(oldPlayerName, Qt::MatchExactly, 0);
-	if(!list.empty()) { 
-		list[0]->setText(0, newPlayerName);
+	QTreeWidgetItemIterator it(treeWidget);
+	while (*it) {
+		if ((*it)->data(0, Qt::UserRole) == playerId)
+		{
+			(*it)->setData(0, Qt::DisplayRole, newPlayerName);
+			break;
+		}
+		++it;
 	}
 }
 
-void startNetworkGameDialogImpl::removePlayer(QString playerName) {
+void startNetworkGameDialogImpl::removePlayer(unsigned playerId, QString) {
 
-	QList<QTreeWidgetItem *> list = treeWidget->findItems(playerName, Qt::MatchExactly, 0);
-	if(!list.empty()) { 
-		treeWidget->takeTopLevelItem(treeWidget->indexOfTopLevelItem(list[0]));
+	QTreeWidgetItemIterator it(treeWidget);
+	while (*it) {
+		if ((*it)->data(0, Qt::UserRole) == playerId)
+		{
+			treeWidget->takeTopLevelItem(treeWidget->indexOfTopLevelItem(*it));
+			break;
+		}
+		++it;
 	}
 
 	checkPlayerQuantity();
 }
 
-void startNetworkGameDialogImpl::playerSelected(QTreeWidgetItem*, int) {
+void startNetworkGameDialogImpl::playerSelected(QTreeWidgetItem* item, QTreeWidgetItem*) {
 
-	pushButton_Kick->setEnabled(isAdmin);
+	if (item)
+		pushButton_Kick->setEnabled(isAdmin);
 }
 
 void startNetworkGameDialogImpl::kickPlayer() {
@@ -137,9 +147,11 @@ void startNetworkGameDialogImpl::checkPlayerQuantity() {
 
 }
 
-void startNetworkGameDialogImpl::clearPlayers()
+void startNetworkGameDialogImpl::clearDialog()
 {
 	pushButton_Kick->setEnabled(false);
+	pushButton_startGame->setEnabled(false);
+	treeWidget->clear();
 }
 
 void startNetworkGameDialogImpl::setSession(Session *session)

@@ -670,17 +670,21 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	connect(this, SIGNAL(signalNetClientConnect(int)), myConnectToServerDialog, SLOT(refresh(int)));
 	connect(this, SIGNAL(signalNetClientGameInfo(int)), myStartNetworkGameDialog, SLOT(refresh(int)));
-	connect(this, SIGNAL(signalNetClientSelfJoined(QString, int)), myStartNetworkGameDialog, SLOT(joinedNetworkGame(QString, int)));
-	connect(this, SIGNAL(signalNetClientPlayerJoined(QString, int)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(QString, int)));
-	connect(this, SIGNAL(signalNetClientPlayerChanged(QString, QString)), myStartNetworkGameDialog, SLOT(updatePlayer(QString, QString)));
-	connect(this, SIGNAL(signalNetClientPlayerLeft(QString)), myStartNetworkGameDialog, SLOT(removePlayer(QString)));
 
-	connect(this, SIGNAL(signalNetClientSelfJoined(QString, int)), myGameLobbyDialog, SLOT(joinedNetworkGame(QString, int)));
-	connect(this, SIGNAL(signalNetClientPlayerJoined(QString, int)), myGameLobbyDialog, SLOT(addConnectedPlayer(QString, int)));
-	connect(this, SIGNAL(signalNetClientPlayerChanged(QString, QString)), myGameLobbyDialog, SLOT(updatePlayer(QString, QString)));
-	connect(this, SIGNAL(signalNetClientPlayerLeft(QString)), myGameLobbyDialog, SLOT(removePlayer(QString)));
-	connect(this, SIGNAL(signalNetClientGameListNew(QString)), myGameLobbyDialog, SLOT(addGame(QString)));
-	connect(this, SIGNAL(signalNetClientGameListRemove(QString)), myGameLobbyDialog, SLOT(removeGame(QString)));
+	connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, int)), myStartNetworkGameDialog, SLOT(joinedNetworkGame(unsigned, QString, int)));
+	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, int)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(unsigned, QString, int)));
+	connect(this, SIGNAL(signalNetClientPlayerChanged(unsigned, QString)), myStartNetworkGameDialog, SLOT(updatePlayer(unsigned, QString)));
+	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned, QString)), myStartNetworkGameDialog, SLOT(removePlayer(unsigned, QString)));
+
+	connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, int)), myGameLobbyDialog, SLOT(joinedNetworkGame(unsigned, QString, int)));
+	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, int)), myGameLobbyDialog, SLOT(addConnectedPlayer(unsigned, QString, int)));
+	connect(this, SIGNAL(signalNetClientPlayerChanged(unsigned, QString)), myGameLobbyDialog, SLOT(updatePlayer(unsigned, QString)));
+	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned, QString)), myGameLobbyDialog, SLOT(removePlayer(unsigned, QString)));
+
+	connect(this, SIGNAL(signalNetClientGameListNew(unsigned, QString)), myGameLobbyDialog, SLOT(addGame(unsigned, QString)));
+	connect(this, SIGNAL(signalNetClientGameListRemove(unsigned, QString)), myGameLobbyDialog, SLOT(removeGame(unsigned, QString)));
+	connect(this, SIGNAL(signalNetClientGameListPlayerJoined(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameAddPlayer(unsigned, unsigned)));
+	connect(this, SIGNAL(signalNetClientGameListPlayerLeft(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameRemovePlayer(unsigned, unsigned)));
 
 	// Errors are handled globally, not within one dialog.
 	connect(this, SIGNAL(signalNetClientError(int, int)), this, SLOT(networkError(int, int)));
@@ -789,9 +793,7 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		gameData.playerActionTimeoutSec = myCreateNetworkGameDialog->spinBox_netTimeOutPlayerAction->value();
 
 		myGameLobbyDialog->setSession(&getSession());
-		myGameLobbyDialog->treeWidget_GameList->clear();
 		myStartNetworkGameDialog->setSession(&getSession());
-		myStartNetworkGameDialog->treeWidget->clear();
 
 		myServerGuiInterface->getSession().startNetworkServer();
 		mySession->startNetworkClientForLocalServer(gameData);
@@ -816,9 +818,7 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 			myServerGuiInterface->getSession().terminateNetworkServer();
 
 		myGameLobbyDialog->setSession(&getSession());
-		myGameLobbyDialog->treeWidget_GameList->clear();
 		myStartNetworkGameDialog->setSession(&getSession());
-		myStartNetworkGameDialog->treeWidget->clear();
 		// Maybe use QUrl::toPunycode.
 		mySession->startNetworkClient(
 			myJoinNetworkGameDialog->lineEdit_ipAddress->text().toUtf8().constData(),
@@ -851,8 +851,6 @@ void mainWindowImpl::callGameLobbyDialog() {
 		myServerGuiInterface->getSession().terminateNetworkServer();
 
 	myGameLobbyDialog->setSession(&getSession());
-	myGameLobbyDialog->treeWidget_GameList->clear();
-	myStartNetworkGameDialog->treeWidget->clear();
 	myStartNetworkGameDialog->setSession(&getSession());
 
 	// Start client for dedicated server.
