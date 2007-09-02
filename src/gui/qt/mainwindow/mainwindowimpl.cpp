@@ -419,22 +419,22 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	//Schriftart und Schriftgrößen für Widgets festlegen 
 #ifdef _WIN32
 	tmpFont1.setPixelSize(11);
-	textBrowser_Log->setStyleSheet("QTextBrowser { font-family: \"Nimbus Sans L\"; font-size: 11px; font-color: white; background-color: #285200;}");
+	textBrowser_Log->setStyleSheet("QTextBrowser { font-family: \"Nimbus Sans L\"; font-size: 11px; color: white; background-color: #285200; border-color: #669900;}");
 #else
 	tmpFont1.setPixelSize(10);
-	textBrowser_Log->setStyleSheet("QTextBrowser { font-family: \"Nimbus Sans L\"; font-size: 10px; font-color: white; background-color: #285200; }");
-	textBrowser_Chat->setStyleSheet("QTextBrowser { font-family: \"Nimbus Sans L\"; font-size: 10px; font-color: white; background-color: #285200;  }");
-	lineEdit_ChatInput->setStyleSheet("QLineEdit { font-family: \"Nimbus Sans L\"; font-size: 10px; font-color: white; background-color: #285200;  }");
+	textBrowser_Log->setStyleSheet("QTextBrowser { font-family: \"Nimbus Sans L\"; font-size: 10px; color: white; background-color: #285200; border-color: #669900; }");
+	textBrowser_Chat->setStyleSheet("QTextBrowser { font-family: \"Nimbus Sans L\"; font-size: 10px; color: white; background-color: #285200; border-color: #669900;  }");
+	lineEdit_ChatInput->setStyleSheet("QLineEdit { font-family: \"Nimbus Sans L\"; font-size: 10px; color: white; background-color: #285200; border-color: #669900;  }");
 #endif
 
 #ifdef __APPLE__
 	tmpFont1.setPixelSize(11);
-	tabWidget_Right->setStyleSheet("QTabWidget { font-family: \"Nimbus Sans L\"; font-size: 11px; font-color: white; background-color: #285200;  }");
-	tabWidget_Left->setStyleSheet("QTabWidget { font-family: \"Nimbus Sans L\"; font-size: 11px; font-color: white; background-color: #285200;  }");
+	tabWidget_Right->setStyleSheet("QTabWidget { font-family: \"Nimbus Sans L\"; font-size: 11px; font-color: white; border-color: #669900; }");
+	tabWidget_Left->setStyleSheet("QTabWidget { font-family: \"Nimbus Sans L\"; font-size: 11px; font-color: white; border-color: #669900;}");
 #else
 	tmpFont1.setPixelSize(10);
-	tabWidget_Right->setStyleSheet("QTabWidget { font-family: \"Nimbus Sans L\"; font-size: 10px; font-color: white; background-color: #285200;  }");
-	tabWidget_Left->setStyleSheet("QTabWidget { font-family: \"Nimbus Sans L\"; font-size: 10px; font-color: white; background-color: #285200;  }");
+	tabWidget_Right->setStyleSheet("QTabWidget::pane { font-family: \"Nimbus Sans L\"; font-size: 10px; border-color: #669900; }");
+	tabWidget_Left->setStyleSheet("QTabWidget::pane { font-family: \"Nimbus Sans L\"; font-size: 10px; border-color: #669900; }");
 #endif
 
 

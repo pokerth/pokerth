@@ -14,11 +14,23 @@
 #ifndef SDLPLAYER_H
 #define SDLPLAYER_H
 
-#include <string>
 #include "configfile.h"
 #include "qthelper.h"
 
-struct Mix_Chunk;
+// Include SDL here and not in headers to prevent
+// conflicts with QT includes.
+#if (defined _WIN32) || (defined __APPLE__)
+	#include <SDL.h>
+	#include <SDL_mixer.h>
+#else
+	#include <SDL/SDL.h>
+	#include <SDL/SDL_mixer.h>
+#endif
+
+#include <iostream>
+#include <string>
+
+// struct Mix_Chunk;
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
