@@ -52,6 +52,7 @@ public slots:
 public:
 	QStringList translateCardsValueCode(int cardsValueCode);
 	QStringList translateCardCode(int cardCode);
+	QString determineHandName(int cardsValueInt);
 
 	void writeLogFileStream(QString string);
 

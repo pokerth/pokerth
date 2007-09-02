@@ -310,108 +310,7 @@ void Log::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int card
 
 	if (cardsValueInt != -1) {
 	
-		QString tempHandName;
-// 		int sameHandCounter = 0;
-// 		int difference = 0;
-// 		int tempHighestCardsValueInt = 0;
-// 
-// 		//erste Ziffer : Blattname
-// 		int firstPart = cardsValueInt/100000000;
-// 		//zweite und dritte Ziffer : Kicker, highest Card, usw.
-// 		int secondPart = cardsValueInt/1000000 - firstPart*100;
-// 		//vierte und fünfte Ziffer
-// 		int thirdPart = cardsValueInt/10000 - firstPart*10000 - secondPart*100;
-// 		// usw
-// 		int fourthPart = cardsValueInt/100 - firstPart*1000000 - secondPart*10000 - thirdPart*100;
-// 		//
-// 		int fifthPart = cardsValueInt - firstPart*100000000 - secondPart*1000000 - thirdPart*10000 - fourthPart*100;
-// 		// fuer highest Card
-// 		int fifthPartA = cardsValueInt/10 - firstPart*10000000 - secondPart*100000 - thirdPart*1000 - fourthPart*10;
-// 		int fifthPartB = cardsValueInt - firstPart*100000000 - secondPart*1000000 - thirdPart*10000 - fourthPart*100 - fifthPartA*10;
-
-		switch(cardsValueInt/100000000) {
-			// Royal Flush
-			case 9: {
-				tempHandName = translateCardsValueCode(cardsValueInt).at(0);
-			}
-			break;
-			// Straight Flush
-			case 8: {
-				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
-			}
-			break;
-			// Vierling
-			case 7: {
-				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
-			}
-			break;
-			// Full House
-			case 6: {
-				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1)+translateCardsValueCode(cardsValueInt).at(2);
-			}
-			break;
-			// Flush
-			case 5: {
-				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
-			}
-			break;
-			// Straight
-			case 4: {
-				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
-			}
-			break;
-			// Drilling
-			case 3: {
-
-				// Kicker anzeigen?
-// 				for(i=0; i<5; i++) {
-// 					if(currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) {
-// 						sameHandCounter++;
-// 						if(currentHand->getPlayerArray()[i]->getMyCardsValueInt() > tempHighestCardsValueInt) {
-// 							tempHighestCardsValueInt = currentHand->getPlayerArray()[i]->getMyCardsValueInt();
-// 						}
-// 					}
-// 				}
-
-				// Unterschied ermitteln
-// 				for(i=0; i<5; i++) {
-// 					if(currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) {
-// 						sameHandCounter++;
-// 						if(currentHand->getPlayerArray()[i]->getMyCardsValueInt() > tempHighestCardsValueInt) {
-// 							tempHighestCardsValueInt = currentHand->getPlayerArray()[i]->getMyCardsValueInt();
-// 						}
-// 					}
-// 				}
-
-
-// 				if(sameHandCounter==1) {
-					tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
-/*				} else {
-					if(cardsValueInt == tempHighestCardsValueInt) {
-						for(i=0; i<5; i++) {
-							if(currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) ;
-						}
-					}
-				}*/
-			}
-			break;
-			// Doppelpaar
-			case 2: {
-				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1)+translateCardsValueCode(cardsValueInt).at(2);
-			}
-			break;
-			// Paar
-			case 1: {
-				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
-			}
-			break;
-			// highestCard
-			case 0: {
-				tempHandName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
-			}
-			break;
-			default: {}
-		}
+		QString tempHandName = determineHandName(cardsValueInt);
 
 		myW->textBrowser_Log->append(playerName+" "+showHas+" \""+tempHandName+"\"");
 
@@ -1166,6 +1065,122 @@ QStringList Log::translateCardsValueCode(int cardsValueCode) {
 
 
 	return cardString;
+
+}
+
+QString Log::determineHandName(int cardsValueInt) {
+
+	// collect cardsValueInt of all players who will show their cards
+// 	myW->getSession()->getCurrentGame();
+
+
+	QString handName;
+
+
+
+// 		int sameHandCounter = 0;
+// 		int difference = 0;
+// 		int tempHighestCardsValueInt = 0;
+// 
+// 		//erste Ziffer : Blattname
+// 		int firstPart = cardsValueInt/100000000;
+// 		//zweite und dritte Ziffer : Kicker, highest Card, usw.
+// 		int secondPart = cardsValueInt/1000000 - firstPart*100;
+// 		//vierte und fünfte Ziffer
+// 		int thirdPart = cardsValueInt/10000 - firstPart*10000 - secondPart*100;
+// 		// usw
+// 		int fourthPart = cardsValueInt/100 - firstPart*1000000 - secondPart*10000 - thirdPart*100;
+// 		//
+// 		int fifthPart = cardsValueInt - firstPart*100000000 - secondPart*1000000 - thirdPart*10000 - fourthPart*100;
+// 		// fuer highest Card
+// 		int fifthPartA = cardsValueInt/10 - firstPart*10000000 - secondPart*100000 - thirdPart*1000 - fourthPart*10;
+// 		int fifthPartB = cardsValueInt - firstPart*100000000 - secondPart*1000000 - thirdPart*10000 - fourthPart*100 - fifthPartA*10;
+
+	switch(cardsValueInt/100000000) {
+		// Royal Flush
+		case 9: {
+			handName = translateCardsValueCode(cardsValueInt).at(0);
+		}
+		break;
+		// Straight Flush
+		case 8: {
+			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+		}
+		break;
+		// Vierling
+		case 7: {
+			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+		}
+		break;
+		// Full House
+		case 6: {
+			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1)+translateCardsValueCode(cardsValueInt).at(2);
+		}
+		break;
+		// Flush
+		case 5: {
+			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+		}
+		break;
+		// Straight
+		case 4: {
+			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+		}
+		break;
+		// Drilling
+		case 3: {
+
+				// Kicker anzeigen?
+// 				for(i=0; i<5; i++) {
+// 					if(currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) {
+// 						sameHandCounter++;
+// 						if(currentHand->getPlayerArray()[i]->getMyCardsValueInt() > tempHighestCardsValueInt) {
+// 							tempHighestCardsValueInt = currentHand->getPlayerArray()[i]->getMyCardsValueInt();
+// 						}
+// 					}
+// 				}
+
+				// Unterschied ermitteln
+// 				for(i=0; i<5; i++) {
+// 					if(currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) {
+// 						sameHandCounter++;
+// 						if(currentHand->getPlayerArray()[i]->getMyCardsValueInt() > tempHighestCardsValueInt) {
+// 							tempHighestCardsValueInt = currentHand->getPlayerArray()[i]->getMyCardsValueInt();
+// 						}
+// 					}
+// 				}
+
+
+// 				if(sameHandCounter==1) {
+			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+/*				} else {
+					if(cardsValueInt == tempHighestCardsValueInt) {
+						for(i=0; i<5; i++) {
+							if(currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) ;
+						}
+					}
+				}*/
+		}
+		break;
+			// Doppelpaar
+		case 2: {
+			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1)+translateCardsValueCode(cardsValueInt).at(2);
+		}
+		break;
+			// Paar
+		case 1: {
+			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+		}
+		break;
+		// highestCard
+		case 0: {
+			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+		}
+		break;
+		default: {}
+	}
+
+	return handName;
 
 }
 
