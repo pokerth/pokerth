@@ -108,9 +108,15 @@ void LocalBeRo::run() {
 				myHand->setBettingRoundsPlayed(myBeRoID);
 			}
 			
-			//// !!!!!!!!!!!!! very buggy, rule breaking -> TODO !!!!!!!!!!!!!!!! //////////////
+			//// !!!!!!!!!!!!!!!!1!!!! very buggy, rule breaking -> TODO !!!!!!!!!!!!11!!!!!!!! //////////////
 
-			if( !(myHand->getActualQuantityPlayers() < 3 && firstHeadsUpRound == 1) || myHand->getPlayerArray()[playersTurn]->getMyActiveStatus() == 0 ) { 
+			//// headsup:
+			//// preflop: dealer is small blind and begins
+			//// flop, trun, river: big blind begins
+
+			//// !!!!!!!!! attention: exception if player failed before !!!!!!!!
+
+// 			if( !(myHand->getActualQuantityPlayers() < 3 && firstHeadsUpRound == 1) || myHand->getPlayerArray()[playersTurn]->getMyActiveStatus() == 0 ) { 
 // 			not first round in heads up (for headsup dealer is smallblind so it is dealers turn)
 		
 				// naechsten Spieler ermitteln
@@ -119,10 +125,10 @@ void LocalBeRo::run() {
 					playersTurn = (playersTurn+1)%(MAX_NUMBER_OF_PLAYERS);
 				}
 				firstHeadsUpRound = 0; 
-			}
-			else { firstHeadsUpRound = 0; }
+// 			}
+// 			else { firstHeadsUpRound = 0; }
 
-			////// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ////////////////
+			////// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ////////////////
 
 			//Spieler-Position vor SmallBlind-Position ermitteln 
 			int activePlayerBeforeSmallBlind = smallBlindPosition;
