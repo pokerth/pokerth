@@ -17,13 +17,9 @@
 #include "configfile.h"
 #include "qthelper.h"
 
-// Include SDL here and not in headers to prevent
-// conflicts with QT includes.
 #if (defined _WIN32) || (defined __APPLE__)
-	#include <SDL.h>
 	#include <SDL_mixer.h>
 #else
-	#include <SDL/SDL.h>
 	#include <SDL/SDL_mixer.h>
 #endif
 
