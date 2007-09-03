@@ -138,20 +138,28 @@ void startNetworkGameDialogImpl::kickPlayer() {
 
 void startNetworkGameDialogImpl::checkPlayerQuantity() {
 
-	if (treeWidget->topLevelItemCount() >= 2 && isAdmin) {
-		pushButton_startGame->setEnabled(true);
+	if(isAdmin){
+		pushButton_Kick->show();
+		pushButton_startGame->show();
+		checkBox_fillUpWithComputerOpponents->show();
+		
+		if (treeWidget->topLevelItemCount() >= 2) {
+			pushButton_startGame->setEnabled(true);
+		}
+		else {
+			pushButton_startGame->setEnabled(false);
+		}
 	}
-	else {
-		pushButton_startGame->setEnabled(false);
-	}
-
 }
 
 void startNetworkGameDialogImpl::clearDialog()
 {
+	pushButton_Kick->hide();
+	pushButton_startGame->hide();
 	pushButton_Kick->setEnabled(false);
 	pushButton_startGame->setEnabled(false);
 	treeWidget->clear();
+	checkBox_fillUpWithComputerOpponents->hide();
 }
 
 void startNetworkGameDialogImpl::setSession(Session *session)

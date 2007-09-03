@@ -164,6 +164,9 @@
            </property>
            <item row="0" column="0" >
             <widget class="MyLeftTabWidget" name="tabWidget_Left" >
+             <property name="focusPolicy" >
+              <enum>Qt::NoFocus</enum>
+             </property>
              <property name="currentIndex" >
               <number>0</number>
              </property>
@@ -947,6 +950,9 @@
            </property>
            <item row="0" column="0" >
             <widget class="MyRightTabWidget" name="tabWidget_Right" >
+             <property name="focusPolicy" >
+              <enum>Qt::NoFocus</enum>
+             </property>
              <property name="currentIndex" >
               <number>0</number>
              </property>
@@ -975,43 +981,6 @@
                </property>
                <item row="0" column="0" >
                 <widget class="QTextBrowser" name="textBrowser_Log" >
-                 <property name="palette" >
-                  <palette>
-                   <active>
-                    <colorrole role="Button" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>30</red>
-                       <green>80</green>
-                       <blue>0</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                   </active>
-                   <inactive>
-                    <colorrole role="Button" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>30</red>
-                       <green>80</green>
-                       <blue>0</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                   </inactive>
-                   <disabled>
-                    <colorrole role="Button" >
-                     <brush brushstyle="SolidPattern" >
-                      <color alpha="255" >
-                       <red>30</red>
-                       <green>80</green>
-                       <blue>0</blue>
-                      </color>
-                     </brush>
-                    </colorrole>
-                   </disabled>
-                  </palette>
-                 </property>
                  <property name="focusPolicy" >
                   <enum>Qt::NoFocus</enum>
                  </property>

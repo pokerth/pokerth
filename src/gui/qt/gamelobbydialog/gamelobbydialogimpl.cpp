@@ -174,6 +174,7 @@ void gameLobbyDialogImpl::clearDialog()
 	pushButton_Leave->hide();
 	pushButton_Kick->hide();
 	pushButton_StartGame->hide();
+	checkBox_fillUpWithComputerOpponents->hide();
 
 	treeWidget_GameList->setColumnWidth(0,250);
 	treeWidget_GameList->setColumnWidth(1,75);

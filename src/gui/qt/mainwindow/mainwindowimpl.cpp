@@ -414,6 +414,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 11px; color: white; background-color: #1D3B00; border:none; }");
 #else
 	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: white; background-color: #1D3B00; border:none; }");
+// 	textBrowser_Log->verticalScrollBar()->setStyleSheet("background: yellow");
+// 	textBrowser_Log->verticalScrollBar()->setAutoFillBackground ( TRUE );
 	textBrowser_Chat->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: white; background-color: #1D3B00; border:none; }");
 	lineEdit_ChatInput->setStyleSheet("QLineEdit { "+ font1String +" font-size: 10px; color: white; background-color: #1D3B00; border-top: 2px solid #286400; }");
 #endif
