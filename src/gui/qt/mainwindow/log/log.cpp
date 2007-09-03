@@ -1294,16 +1294,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 			// 1.same hands existing
 			if(!(sameHandCardsValueInt.empty())) {
 				// first kicker?
-				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 					if(((*it)/10000) == (myCardsValueInt/10000)) {
 						equal = true;
+						it++;
 					} else {
 						different = true;
-						sameHandCardsValueInt.erase(it);
-						// last list element ?
-						if(sameHandCardsValueInt.empty()) {
-							break;
-						}
+						it = sameHandCardsValueInt.erase(it);
 					}
 				}
 				if(different) {
@@ -1333,16 +1330,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 			// 1.same hands existing
 			if(!(sameHandCardsValueInt.empty())) {
 				// first kicker?
-				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 					if(((*it)/10000) == (myCardsValueInt/10000)) {
 						equal = true;
+						it++;
 					} else {
 						different = true;
-						sameHandCardsValueInt.erase(it);
-						// last list element ?
-						if(sameHandCardsValueInt.empty()) {
-							break;
-						}
+						it = sameHandCardsValueInt.erase(it);
 					}
 				}
 				if(different) {
@@ -1353,16 +1347,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 					different = false;
 					equal = false;
 					// second kicker?
-					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 						if(((*it)/100) == (myCardsValueInt/100)) {
 							equal = true;
+							it++;
 						} else {
 							different = true;
-							sameHandCardsValueInt.erase(it);
-							// last list element ?
-							if(sameHandCardsValueInt.empty()) {
-								break;
-							}
+							it = sameHandCardsValueInt.erase(it);
 						}
 					}
 					if(different) {
@@ -1373,16 +1364,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 						different = false;
 						equal = false;
 						// third kicker?
-						for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+						for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 							if(((*it)/10) == (myCardsValueInt/10)) {
 								equal = true;
+								it++;
 							} else {
 								different = true;
 								sameHandCardsValueInt.erase(it);
-								// last list element ?
-								if(sameHandCardsValueInt.empty()) {
-									break;
-								}
 							}
 						}
 						if(different) {
@@ -1393,16 +1381,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 							different = false;
 							equal = false;
 							// third kicker?
-							for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+							for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 								if((*it) == myCardsValueInt) {
 									equal = true;
+									it++;
 								} else {
 									different = true;
-									sameHandCardsValueInt.erase(it);
-									// last list element ?
-									if(sameHandCardsValueInt.empty()) {
-										break;
-									}
+									it = sameHandCardsValueInt.erase(it);
 								}
 							}
 							if(different) {
@@ -1433,16 +1418,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 			// 1.same hands existing
 			if(!(sameHandCardsValueInt.empty())) {
 				// first kicker?
-				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 					if(((*it)/10000) == (myCardsValueInt/10000)) {
 						equal = true;
+						it++;
 					} else {
 						different = true;
-						sameHandCardsValueInt.erase(it);
-						// last list element ?
-						if(sameHandCardsValueInt.empty()) {
-							break;
-						}
+						it = sameHandCardsValueInt.erase(it);
 					}
 				}
 				if(different) {
@@ -1453,16 +1435,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 					different = false;
 					equal = false;
 					// second kicker?
-					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 						if(((*it)/100) == (myCardsValueInt/100)) {
 							equal = true;
+							it++;
 						} else {
 							different = true;
-							sameHandCardsValueInt.erase(it);
-							// last list element ?
-							if(sameHandCardsValueInt.empty()) {
-								break;
-							}
+							it = sameHandCardsValueInt.erase(it);
 						}
 					}
 					if(different) {
@@ -1487,16 +1466,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 			// 1.same hands existing
 			if(!(sameHandCardsValueInt.empty())) {
 				// first kicker?
-				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 					if(((*it)/100) == (myCardsValueInt/100)) {
 						equal = true;
+						it++;
 					} else {
 						different = true;
-						sameHandCardsValueInt.erase(it);
-						// last list element ?
-						if(sameHandCardsValueInt.empty()) {
-							break;
-						}
+						it = sameHandCardsValueInt.erase(it);
 					}
 				}
 				if(different) {
@@ -1521,16 +1497,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 			// 1.same hands existing
 			if(!(sameHandCardsValueInt.empty())) {
 				// first kicker?
-				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 					if(((*it)/10000) == (myCardsValueInt/10000)) {
 						equal = true;
+						it++;
 					} else {
 						different = true;
-						sameHandCardsValueInt.erase(it);
-						// last list element ?
-						if(sameHandCardsValueInt.empty()) {
-							break;
-						}
+						it = sameHandCardsValueInt.erase(it);
 					}
 				}
 				if(different) {
@@ -1541,16 +1514,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 					different = false;
 					equal = false;
 					// second kicker?
-					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 						if(((*it)/100) == (myCardsValueInt/100)) {
 							equal = true;
+							it++;
 						} else {
 							different = true;
-							sameHandCardsValueInt.erase(it);
-							// last list element ?
-							if(sameHandCardsValueInt.empty()) {
-								break;
-							}
+							it = sameHandCardsValueInt.erase(it);
 						}
 					}
 					if(different) {
@@ -1561,16 +1531,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 						different = false;
 						equal = false;
 						// third kicker?
-						for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+						for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 							if((*it) == myCardsValueInt) {
 								equal = true;
+								it++;
 							} else {
 								different = true;
-								sameHandCardsValueInt.erase(it);
-								// last list element ?
-								if(sameHandCardsValueInt.empty()) {
-									break;
-								}
+								it = sameHandCardsValueInt.erase(it);
 							}
 						}
 						if(different) {
@@ -1596,16 +1563,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 			// 1.same hands existing
 			if(!(sameHandCardsValueInt.empty())) {
 				// first kicker?
-				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 					if(((*it)/10000) == (myCardsValueInt/10000)) {
 						equal = true;
+						it++;
 					} else {
 						different = true;
-						sameHandCardsValueInt.erase(it);
-						// last list element ?
-						if(sameHandCardsValueInt.empty()) {
-							break;
-						}
+						it = sameHandCardsValueInt.erase(it);
 					}
 				}
 				if(different) {
@@ -1616,16 +1580,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 					different = false;
 					equal = false;
 					// second kicker?
-					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 						if(((*it)/100) == (myCardsValueInt/100)) {
 							equal = true;
+							it++;
 						} else {
 							different = true;
-							sameHandCardsValueInt.erase(it);
-							// last list element ?
-							if(sameHandCardsValueInt.empty()) {
-								break;
-							}
+							it = sameHandCardsValueInt.erase(it);
 						}
 					}
 					if(different) {
@@ -1636,16 +1597,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 						different = false;
 						equal = false;
 						// third kicker?
-						for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+						for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 							if(((*it)/10) == (myCardsValueInt/10)) {
 								equal = true;
+								it++;
 							} else {
 								different = true;
 								sameHandCardsValueInt.erase(it);
-								// last list element ?
-								if(sameHandCardsValueInt.empty()) {
-									break;
-								}
 							}
 						}
 						if(different) {
@@ -1656,16 +1614,13 @@ QString Log::determineHandName(int myCardsValueInt) {
 							different = false;
 							equal = false;
 							// third kicker?
-							for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+							for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 								if((*it) == myCardsValueInt) {
 									equal = true;
+									it++;
 								} else {
 									different = true;
-									sameHandCardsValueInt.erase(it);
-									// last list element ?
-									if(sameHandCardsValueInt.empty()) {
-										break;
-									}
+									it = sameHandCardsValueInt.erase(it);
 								}
 							}
 							if(different) {

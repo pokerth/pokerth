@@ -357,7 +357,7 @@ void LocalPlayer::preflopEngine() {
 
 				switch(actualHand->getMyID()) {
 					case 1: {
-// 						myAction = PLAYER_ACTION_CALL;
+						myAction = PLAYER_ACTION_CALL;
 					}
 					break;
 					case 2: {
