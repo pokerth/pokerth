@@ -619,7 +619,7 @@ void LocalPlayer::flopEngine() {
 			Tools::getRandNumber(1,8,1,&rand,0);
 			bet = rand*actualHand->getSmallBlind();
 			// bet zu klein
-			if(bet == 0) {
+			if(bet < 2*actualHand->getSmallBlind()) {
 				bet = 2*actualHand->getSmallBlind();
 			}
 			// all in bei nur wenigen Chips
@@ -1193,7 +1193,7 @@ void LocalPlayer::turnEngine() {
 			Tools::getRandNumber(1,8,1,&rand,0);
 			bet = rand*actualHand->getSmallBlind();
 			// bet zu klein
-			if(bet == 0) {
+			if(bet < 2*actualHand->getSmallBlind()) {
 				bet = 2*actualHand->getSmallBlind();
 			}
 			// all in bei nur wenigen Chips
@@ -1516,7 +1516,7 @@ void LocalPlayer::riverEngine() {
 			Tools::getRandNumber(1,8,1,&rand,0);
 			bet = rand*actualHand->getSmallBlind();
 			// bet zu klein
-			if(bet == 0) {
+			if(bet < 2*actualHand->getSmallBlind()) {
 				bet = 2*actualHand->getSmallBlind();
 			}
 			// all in bei nur wenigen Chips
