@@ -80,6 +80,19 @@ int main( int argc, char **argv )
 
 	// set PlastiqueStyle even for mac-version to prevent artefacts on styled widgets
 	a.setStyle(new QPlastiqueStyle);
+
+	//set QApplication default font	
+#ifdef _WIN32
+	QString font1String("font-family: \"Arial\";");
+
+#else 
+	QFontDatabase::addApplicationFont (myQtHelper->getDataPath() +"fonts/n019003l.pfb");
+	QFontDatabase::addApplicationFont (myQtHelper->getDataPath() +"fonts/VeraBd.ttf");
+
+	QString font1String("font-family: \"Nimbus Sans L\";");
+#endif
+	a.setStyleSheet("QApplication { " + font1String + " font-size: 12px; }");
+
 	
 	QTranslator qtTranslator;
         qtTranslator.load(QString(myQtHelper->getDataPath() +"translations/qt_") + QString::fromStdString(myConfig->readConfigString("Language")));

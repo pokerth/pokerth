@@ -85,24 +85,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	flopValuesFile.copy(QString::fromUtf8(myConfig->readConfigString("DataDir").c_str())+QString("flopValues"));
 // 	}
 
-// 	Schriftart laden und für Dialoge setzen
-#ifdef _WIN32
-	QFont tmpFont1;
-	tmpFont1.setFamily("Arial");
-	tmpFont1.setPixelSize(12);
-// 	if(this->logicalDpiX() > 105) { tmpFont.setFont("Arial",8); }
-// 	else { QFont tmpFont("Arial",9); }
-
-#else 
-	QFontDatabase::addApplicationFont (myQtHelper->getDataPath() +"fonts/n019003l.pfb");
-	QFontDatabase::addApplicationFont (myQtHelper->getDataPath() +"fonts/VeraBd.ttf");
-// 	QFont tmpFont("Nimbus Sans L",9);
-	QFont tmpFont1;
-	tmpFont1.setFamily("Nimbus Sans L");
-	tmpFont1.setPixelSize(12);
-#endif
-	QApplication::setFont(tmpFont1);
-
 	setupUi(this);
 
 	//pixmapCardsLabel erstellen und ins Layout einfügen!
@@ -416,69 +398,67 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	inactive.setRgb(83,141,107);
 	highlight.setRgb(151,214,109);
 
+
+
+// 	Schriftart laden und für Dialoge setzen
+#ifdef _WIN32
+	QString font1String("font-family: \"Arial\";");
+// 	if(this->logicalDpiX() > 105) { tmpFont.setFont("Arial",8); }
+// 	else { QFont tmpFont("Arial",9); }
+#else 
+	QString font1String("font-family: \"Nimbus Sans L\";");
+#endif
+
 	//Schriftart und Schriftgrößen für Widgets festlegen 
 #ifdef _WIN32
-	tmpFont1.setPixelSize(11);
-	textBrowser_Log->setStyleSheet("QTextBrowser { font-family: \"Nimbus Sans L\"; font-size: 11px; color: white; background-color: #285200; border-color: #669900;}");
+	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 11px; color: white; background-color: #1D3B00; border:none; }");
 #else
-	tmpFont1.setPixelSize(10);
-	textBrowser_Log->setStyleSheet("QTextBrowser { font-family: \"Nimbus Sans L\"; font-size: 10px; color: white; background-color: #285200; border-color: #669900; }");
-	textBrowser_Chat->setStyleSheet("QTextBrowser { font-family: \"Nimbus Sans L\"; font-size: 10px; color: white; background-color: #285200; border-color: #669900;  }");
-	lineEdit_ChatInput->setStyleSheet("QLineEdit { font-family: \"Nimbus Sans L\"; font-size: 10px; color: white; background-color: #285200; border-color: #669900;  }");
+	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: white; background-color: #1D3B00; border:none; }");
+	textBrowser_Chat->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: white; background-color: #1D3B00; border:none; }");
+	lineEdit_ChatInput->setStyleSheet("QLineEdit { "+ font1String +" font-size: 10px; color: white; background-color: #1D3B00; border-top: 2px solid #286400; }");
 #endif
 
 #ifdef __APPLE__
-	tmpFont1.setPixelSize(11);
-	tabWidget_Right->setStyleSheet("QTabWidget { font-family: \"Nimbus Sans L\"; font-size: 11px; font-color: white; border-color: #669900; }");
-	tabWidget_Left->setStyleSheet("QTabWidget { font-family: \"Nimbus Sans L\"; font-size: 11px; font-color: white; border-color: #669900;}");
+// 	tabWidget_Right->setStyleSheet("QTabWidget { "+ font1String +" font-size: 11px; background-color: #145300; }");
+// 	tabWidget_Left->setStyleSheet("QTabWidget { "+ font1String +" font-size: 11px; background-color: #145300;}");
 #else
-	tmpFont1.setPixelSize(10);
-	tabWidget_Right->setStyleSheet("QTabWidget::pane { font-family: \"Nimbus Sans L\"; font-size: 10px; border-color: #669900; }");
-	tabWidget_Left->setStyleSheet("QTabWidget::pane { font-family: \"Nimbus Sans L\"; font-size: 10px; border-color: #669900; }");
+// 	tabWidget_Right->setStyleSheet("QTabWidget::pane { "+ font1String +" font-size: 10px; background-color: #145300; border: 1px solid #286400; border-radius: 2px; }");
+// 	tabWidget_Left->setStyleSheet("QTabWidget::pane { border: 1px solid #286400; border-radius: 2px; background-color: #145300; }");
 #endif
 
 
-	QFont tmpFont2;
-	tmpFont2.setFamily("Bitstream Vera Sans");
-
-	tmpFont2.setPixelSize(10);
+	QString font2String("font-family: \"Bitstream Vera Sans\";");
+	
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		cashTopLabelArray[i]->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 10px }");
-		cashLabelArray[i]->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 10px }");
+		cashTopLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px }");
+		cashLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px }");
 	}
 
-	spinBox_set->setFont(tmpFont2);
+	spinBox_set->setStyleSheet("QSpinBox { "+ font2String +" font-size: 10px }");
 
-
-	tmpFont2.setPixelSize(12);
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		setLabelArray[i]->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 12px }");
+		setLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 12px }");
 	}
 
-	tmpFont2.setPixelSize(13);
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		playerNameLabelArray[i]->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
+		playerNameLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
 	}
 
-	label_Sets->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
-	label_Total->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
-	textLabel_Sets->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
-	textLabel_Pot->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
-	label_handNumber->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
-	label_gameNumber->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
-	textLabel_handNumber->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
-	textLabel_gameNumber->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 13px }");
+	label_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
+	label_Total->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
+	textLabel_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
+	textLabel_Pot->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
+	label_handNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
+	label_gameNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
+	textLabel_handNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
+	textLabel_gameNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
 
-// 	tmpFont2.setPixelSize(15);
-	tmpFont2.setPixelSize(17);
-	tmpFont2.setBold(TRUE);
-	textLabel_handLabel->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 17px }");
+	textLabel_handLabel->setStyleSheet("QLabel { "+ font2String +" font-size: 17px; font-weight: bold; }");
 
-	tmpFont2.setPixelSize(18);
-	label_Pot->setStyleSheet("QLabel { font-family: \"Bitstream Vera Sans\"; font-size: 18px }");
+	label_Pot->setStyleSheet("QLabel { "+ font2String +" font-size: 18px; font-weight: bold;  }");
 
 
 	//Widgets Grafiken setzen
@@ -492,6 +472,12 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	//Widgets Grafiken per Stylesheets setzen
 	this->setStyleSheet("QMainWindow { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/table.png); background-position: bottom center; background-origin: content;}");
+
+	menubar->setStyleSheet("QMenuBar { background-color: #145300; } QMenuBar::item { color: #669800; }");
+
+	pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
+	
+	horizontalSlider_speed->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #286400; height: 3px; background: #689700; } QSlider::handle:horizontal { background: #689700; border: 1px solid #286400; width: 10px; border-radius: 3px; }");
 
 	//Groupbox Background 
 	for (i=1; i<MAX_NUMBER_OF_PLAYERS; i++) {
@@ -2748,17 +2734,14 @@ void mainWindowImpl::switchFullscreen() {
 
 void mainWindowImpl::blinkingStartButtonAnimationAction() {
 	
-	QPalette tempPalette = pushButton_break->palette();
+	QString style = pushButton_break->styleSheet();
 
-	if(tempPalette.color(QPalette::Button).red()==40) {
-		tempPalette.setColor(QPalette::Button, QColor(113,162,0));
-		tempPalette.setColor(QPalette::ButtonText, QColor(0,0,0));
+	if(style.contains("QPushButton { background-color: #145300;")) {
+		pushButton_break->setStyleSheet("QPushButton { background-color: #6E9E00; color: black;}");
 	}
 	else {
-		tempPalette.setColor(QPalette::Button, QColor(40,82,0));
-		tempPalette.setColor(QPalette::ButtonText, QColor(240,240,240));
+		pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
 	}
-	pushButton_break->setPalette(tempPalette);
 }
 
 void mainWindowImpl::sendChatMessage() { myChat->sendMessage(); }
