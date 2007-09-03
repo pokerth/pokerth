@@ -958,101 +958,101 @@ QStringList Log::translateCardsValueCode(int cardsValueCode) {
 			}
 			// Kicker 2
 			switch(thirdPart) {
-				case 12: cardString << ", Ace kicker";
+				case 12: cardString << "Ace";
 				break;
-				case 11: cardString << ", King kicker";
+				case 11: cardString << "King";
 				break;
-				case 10: cardString << ", Queen kicker";
+				case 10: cardString << "Queen";
 				break;
-				case 9: cardString << ", Jack kicker";
+				case 9: cardString << "Jack";
 				break;
-				case 8: cardString << ", Ten kicker";
+				case 8: cardString << "Ten";
 				break;
-				case 7: cardString << ", Nine kicker";
+				case 7: cardString << "Nine";
 				break;
-				case 6: cardString << ", Eight kicker";
+				case 6: cardString << "Eight";
 				break;
-				case 5: cardString << ", Seven kicker";
+				case 5: cardString << "Seven";
 				break;
-				case 4: cardString << ", Six kicker";
+				case 4: cardString << "Six";
 				break;
-				case 3: cardString << ", Five kicker";
+				case 3: cardString << "Five";
 				break;
-				case 2: cardString << ", Four kicker";
+				case 2: cardString << "Four";
 				break;
-				case 1: cardString << ", Three kicker";
+				case 1: cardString << "Three";
 				break;
 				default: cardString << "ERROR";
 			}
 			//Kicker 3
 			switch(fourthPart) {
-				case 12: cardString << ", Ace kicker";
+				case 12: cardString << "Ace";
 				break;
-				case 11: cardString << ", King kicker";
+				case 11: cardString << "King";
 				break;
-				case 10: cardString << ", Queen kicker";
+				case 10: cardString << "Queen";
 				break;
-				case 9: cardString << ", Jack kicker";
+				case 9: cardString << "Jack";
 				break;
-				case 8: cardString << ", Ten kicker";
+				case 8: cardString << "Ten";
 				break;
-				case 7: cardString << ", Nine kicker";
+				case 7: cardString << "Nine";
 				break;
-				case 6: cardString << ", Eight kicker";
+				case 6: cardString << "Eight";
 				break;
-				case 5: cardString << ", Seven kicker";
+				case 5: cardString << "Seven";
 				break;
-				case 4: cardString << ", Six kicker";
+				case 4: cardString << "Six";
 				break;
-				case 3: cardString << ", Five kicker";
+				case 3: cardString << "Five";
 				break;
-				case 2: cardString << ", Four kicker";
+				case 2: cardString << "Four";
 				break;
-				case 1: cardString << ", Three kicker";
+				case 1: cardString << "Three";
 				break;
 				default: cardString << "ERROR";
 			}
 			//Kicker 4
 			switch(fifthPartA) {
-				case 9: cardString << ", Jack kicker";
+				case 9: cardString << "Jack";
 				break;
-				case 8: cardString << ", Ten kicker";
+				case 8: cardString << "Ten";
 				break;
-				case 7: cardString << ", Nine kicker";
+				case 7: cardString << "Nine";
 				break;
-				case 6: cardString << ", Eight kicker";
+				case 6: cardString << "Eight";
 				break;
-				case 5: cardString << ", Seven kicker";
+				case 5: cardString << "Seven";
 				break;
-				case 4: cardString << ", Six kicker";
+				case 4: cardString << "Six";
 				break;
-				case 3: cardString << ", Five kicker";
+				case 3: cardString << "Five";
 				break;
-				case 2: cardString << ", Four kicker";
+				case 2: cardString << "Four";
 				break;
-				case 1: cardString << ", Three kicker";
+				case 1: cardString << "Three";
 				break;
 				default: cardString << "ERROR";
 			}
 			//Kicker 5
 			switch(fifthPartB) {
-				case 9: cardString << ", Jack kicker";
+				case 9: cardString << "Jack";
 				break;
-				case 8: cardString << ", Ten kicker";
+				case 8: cardString << "Ten";
 				break;
-				case 7: cardString << ", Nine kicker";
+				case 7: cardString << "Nine";
 				break;
-				case 6: cardString << ", Eight kicker";
+				case 6: cardString << "Eight";
 				break;
-				case 5: cardString << ", Seven kicker";
+				case 5: cardString << "Seven";
 				break;
-				case 4: cardString << ", Six kicker";
+				case 4: cardString << "Six";
 				break;
-				case 3: cardString << ", Five kicker";
+				case 3: cardString << "Five";
 				break;
-				case 2: cardString << ", Four kicker";
+				case 2: cardString << "Four";
 				break;
-				case 1: cardString << ", Three kicker";
+				case 1: cardString << "Three";
 				break;
 				default: cardString << "ERROR";
 			}
@@ -1068,113 +1068,180 @@ QStringList Log::translateCardsValueCode(int cardsValueCode) {
 
 }
 
-QString Log::determineHandName(int cardsValueInt) {
+QString Log::determineHandName(int myCardsValueInt) {
+
+	size_t i;
+
+	list<int> shownCardsValueInt;
+	list<int> sameHandCardsValueInt;
+	bool different = false;
+	bool equal = false;
 
 	// collect cardsValueInt of all players who will show their cards
-// 	myW->getSession()->getCurrentGame();
+	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
+	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+		if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD) {
+			shownCardsValueInt.push_back(currentHand->getPlayerArray()[i]->getMyCardsValueInt());
+		}
+	}
 
+	// erase own cardsValueInt
+	list<int>::iterator it;
+	for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
+		if((*it) == myCardsValueInt) {
+			shownCardsValueInt.erase(it);
+			break;
+		}
+	}
+
+// 	for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
+// 		cout << *it << endl;
+// 	}
+// 
+// 	cout << endl;
 
 	QString handName;
 
-
-
-// 		int sameHandCounter = 0;
-// 		int difference = 0;
-// 		int tempHighestCardsValueInt = 0;
-// 
-// 		//erste Ziffer : Blattname
-// 		int firstPart = cardsValueInt/100000000;
-// 		//zweite und dritte Ziffer : Kicker, highest Card, usw.
-// 		int secondPart = cardsValueInt/1000000 - firstPart*100;
-// 		//vierte und fünfte Ziffer
-// 		int thirdPart = cardsValueInt/10000 - firstPart*10000 - secondPart*100;
-// 		// usw
-// 		int fourthPart = cardsValueInt/100 - firstPart*1000000 - secondPart*10000 - thirdPart*100;
-// 		//
-// 		int fifthPart = cardsValueInt - firstPart*100000000 - secondPart*1000000 - thirdPart*10000 - fourthPart*100;
-// 		// fuer highest Card
-// 		int fifthPartA = cardsValueInt/10 - firstPart*10000000 - secondPart*100000 - thirdPart*1000 - fourthPart*10;
-// 		int fifthPartB = cardsValueInt - firstPart*100000000 - secondPart*1000000 - thirdPart*10000 - fourthPart*100 - fifthPartA*10;
-
-	switch(cardsValueInt/100000000) {
+	switch(myCardsValueInt/100000000) {
 		// Royal Flush
 		case 9: {
-			handName = translateCardsValueCode(cardsValueInt).at(0);
+			handName = translateCardsValueCode(myCardsValueInt).at(0);
 		}
 		break;
 		// Straight Flush
 		case 8: {
-			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 		}
 		break;
-		// Vierling
+		// Four of a kind
 		case 7: {
-			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 		}
 		break;
 		// Full House
 		case 6: {
-			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1)+translateCardsValueCode(cardsValueInt).at(2);
+			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1)+translateCardsValueCode(myCardsValueInt).at(2);
 		}
 		break;
 		// Flush
 		case 5: {
-			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 		}
 		break;
 		// Straight
 		case 4: {
-			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 		}
 		break;
-		// Drilling
+		// Three of a kind
 		case 3: {
-
-				// Kicker anzeigen?
-// 				for(i=0; i<5; i++) {
-// 					if(currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) {
-// 						sameHandCounter++;
-// 						if(currentHand->getPlayerArray()[i]->getMyCardsValueInt() > tempHighestCardsValueInt) {
-// 							tempHighestCardsValueInt = currentHand->getPlayerArray()[i]->getMyCardsValueInt();
-// 						}
-// 					}
-// 				}
-
-				// Unterschied ermitteln
-// 				for(i=0; i<5; i++) {
-// 					if(currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) {
-// 						sameHandCounter++;
-// 						if(currentHand->getPlayerArray()[i]->getMyCardsValueInt() > tempHighestCardsValueInt) {
-// 							tempHighestCardsValueInt = currentHand->getPlayerArray()[i]->getMyCardsValueInt();
-// 						}
-// 					}
-// 				}
-
-
-// 				if(sameHandCounter==1) {
-			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
-/*				} else {
-					if(cardsValueInt == tempHighestCardsValueInt) {
-						for(i=0; i<5; i++) {
-							if(currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000 == 3 && currentHand->getPlayerArray()[i]->getMyCardsValueInt()/1000000 - (int)(currentHand->getPlayerArray()[i]->getMyCardsValueInt()/100000000)*100 == secondPart) ;
-						}
-					}
-				}*/
+			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 		}
 		break;
-			// Doppelpaar
+		// Two Pairs
 		case 2: {
-			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1)+translateCardsValueCode(cardsValueInt).at(2);
+			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1)+translateCardsValueCode(myCardsValueInt).at(2);
 		}
 		break;
-			// Paar
+		// Pair
 		case 1: {
-			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 		}
 		break;
 		// highestCard
 		case 0: {
-			handName = translateCardsValueCode(cardsValueInt).at(0)+translateCardsValueCode(cardsValueInt).at(1);
+
+			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
+
+			// same hand detection
+			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
+				if(((*it)/1000000) == (myCardsValueInt/1000000)) {
+					sameHandCardsValueInt.push_back(*it);
+				}
+			}
+
+			// 1.same hands existing
+			if(!(sameHandCardsValueInt.empty())) {
+				// first kicker?
+				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+					if(((*it)/10000) == (myCardsValueInt/10000)) {
+						equal = true;
+					} else {
+						different = true;
+						sameHandCardsValueInt.erase(it);
+						// last list element ?
+						if(sameHandCardsValueInt.empty()) {
+							break;
+						}
+					}
+				}
+				if(different) {
+					handName += ", second card " + translateCardsValueCode(myCardsValueInt).at(2);
+				}
+				// 2.there are still same hands
+				if(equal) {
+					different = false;
+					equal = false;
+					// second kicker?
+					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+						if(((*it)/100) == (myCardsValueInt/100)) {
+							equal = true;
+						} else {
+							different = true;
+							sameHandCardsValueInt.erase(it);
+							// last list element ?
+							if(sameHandCardsValueInt.empty()) {
+								break;
+							}
+						}
+					}
+					if(different) {
+						handName += ", third card " + translateCardsValueCode(myCardsValueInt).at(3);
+					}
+					// 3.there are still same hands
+					if(equal) {
+						different = false;
+						equal = false;
+						// third kicker?
+						for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+							if(((*it)/10) == (myCardsValueInt/10)) {
+								equal = true;
+							} else {
+								different = true;
+								sameHandCardsValueInt.erase(it);
+								// last list element ?
+								if(sameHandCardsValueInt.empty()) {
+									break;
+								}
+							}
+						}
+						if(different) {
+							handName += ", fourth card " + translateCardsValueCode(myCardsValueInt).at(4);
+						}
+						// 4.there are still same hands
+						if(equal) {
+							different = false;
+							equal = false;
+							// third kicker?
+							for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); it++) {
+								if((*it) == myCardsValueInt) {
+									equal = true;
+								} else {
+									different = true;
+									sameHandCardsValueInt.erase(it);
+									// last list element ?
+									if(sameHandCardsValueInt.empty()) {
+										break;
+									}
+								}
+							}
+							if(different) {
+								handName += ", fifth card " + translateCardsValueCode(myCardsValueInt).at(5);
+							}
+						}
+					}
+				}
+			}
 		}
 		break;
 		default: {}
