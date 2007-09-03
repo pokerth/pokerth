@@ -352,7 +352,7 @@ void
 AbstractServerGameStateRunning::HandleNewSession(ServerGameThread &server, SessionWrapper session)
 {
 	// Do not accept new sessions in this state.
-	// TODO
+	server.SessionError(session, ERR_NET_GAME_ALREADY_RUNNING);
 }
 
 //-----------------------------------------------------------------------------

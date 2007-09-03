@@ -165,7 +165,7 @@ ClientPlayer::getMyLastRelativeSet() const
 }
 
 void
-ClientPlayer::setMyAction(int theValue, bool blind)
+ClientPlayer::setMyAction(int theValue, bool /*blind*/)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	myAction = theValue;
@@ -421,20 +421,20 @@ ClientPlayer::riverEngine()
 
 
 void
-ClientPlayer::evaluation(int bet, int raise)
+ClientPlayer::evaluation(int /*bet*/, int /*raise*/)
 {
 }
 
 
 int
-ClientPlayer::preflopCardsValue(int* cards)
+ClientPlayer::preflopCardsValue(int* /*cards*/)
 {
 	return 0;
 }
 
 
 int
-ClientPlayer::flopCardsValue(int* cards)
+ClientPlayer::flopCardsValue(int* /*cards*/)
 {
 	return 0;
 }
@@ -446,7 +446,7 @@ ClientPlayer::readFile()
 }
 
 int
-ClientPlayer::turnCardsValue(int* cards)
+ClientPlayer::turnCardsValue(int* /*cards*/)
 {
 	return 0;
 }

@@ -123,6 +123,8 @@ public:
 
 protected:
 
+	NetPacket &operator=(const NetPacket& right); // not allowed
+
 	void Check(const NetPacketHeader *data) const;
 	virtual void InternalCheck(const NetPacketHeader *data) const = 0;
 

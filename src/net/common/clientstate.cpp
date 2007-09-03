@@ -570,7 +570,6 @@ int
 ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
-	ClientContext &context = client.GetContext();
 
 	if (packet->ToNetPacketGameStart())
 	{
@@ -653,7 +652,6 @@ int
 ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
-	ClientContext &context = client.GetContext();
 
 	if (packet->ToNetPacketHandStart())
 	{
@@ -717,7 +715,6 @@ int
 ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
-	ClientContext &context = client.GetContext();
 
 	if (packet.get())
 	{
@@ -1095,7 +1092,7 @@ ClientStateFinal::~ClientStateFinal()
 }
 
 int
-ClientStateFinal::Process(ClientThread &client)
+ClientStateFinal::Process(ClientThread &/*client*/)
 {
 	Thread::Msleep(10);
 

@@ -121,9 +121,9 @@ void joinNetworkGameDialogImpl::fillServerProfileList() {
 	TiXmlElement* profile = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).FirstChild().ToElement();
 	if ( profile ) {
 
-                for( profile; profile; profile = profile->NextSiblingElement()) {
+		for( ; profile; profile = profile->NextSiblingElement()) {
 			
-		   	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget,0);
+			QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget,0);
 			item->setData(0, 0, QString::fromUtf8(profile->Attribute("Name")));
 			item->setData(1, 0, QString::fromUtf8(profile->Attribute("Address")));
 			item->setData(2, 0, profile->Attribute("Port"));

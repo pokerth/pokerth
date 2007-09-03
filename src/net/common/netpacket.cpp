@@ -981,7 +981,7 @@ NetPacketInitAck::ToNetPacketInitAck() const
 }
 
 void
-NetPacketInitAck::InternalCheck(const NetPacketHeader* data) const
+NetPacketInitAck::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }
@@ -1186,9 +1186,8 @@ NetPacketGameListUpdate::ToNetPacketGameListUpdate() const
 }
 
 void
-NetPacketGameListUpdate::InternalCheck(const NetPacketHeader* data) const
+NetPacketGameListUpdate::InternalCheck(const NetPacketHeader*) const
 {
-	// Nothing to do.
 }
 
 //-----------------------------------------------------------------------------
@@ -1246,7 +1245,7 @@ NetPacketGameListPlayerJoined::ToNetPacketGameListPlayerJoined() const
 }
 
 void
-NetPacketGameListPlayerJoined::InternalCheck(const NetPacketHeader* data) const
+NetPacketGameListPlayerJoined::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }
@@ -1306,7 +1305,7 @@ NetPacketGameListPlayerLeft::ToNetPacketGameListPlayerLeft() const
 }
 
 void
-NetPacketGameListPlayerLeft::InternalCheck(const NetPacketHeader* data) const
+NetPacketGameListPlayerLeft::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }
@@ -1364,7 +1363,7 @@ NetPacketRetrievePlayerInfo::ToNetPacketRetrievePlayerInfo() const
 }
 
 void
-NetPacketRetrievePlayerInfo::InternalCheck(const NetPacketHeader* data) const
+NetPacketRetrievePlayerInfo::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }
@@ -1748,7 +1747,6 @@ NetPacketJoinGameAck::ToNetPacketJoinGameAck() const
 void
 NetPacketJoinGameAck::InternalCheck(const NetPacketHeader* data) const
 {
-	u_int16_t dataLen = ntohs(data->length);
 	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)data;
 	// Semantic checks
 	int maxNumPlayers = ntohs(tmpData->maxNumberOfPlayers);
@@ -1820,7 +1818,7 @@ NetPacketPlayerJoined::ToNetPacketPlayerJoined() const
 }
 
 void
-NetPacketPlayerJoined::InternalCheck(const NetPacketHeader* data) const
+NetPacketPlayerJoined::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }
@@ -1878,7 +1876,7 @@ NetPacketPlayerLeft::ToNetPacketPlayerLeft() const
 }
 
 void
-NetPacketPlayerLeft::InternalCheck(const NetPacketHeader* data) const
+NetPacketPlayerLeft::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }
@@ -1936,7 +1934,7 @@ NetPacketKickPlayer::ToNetPacketKickPlayer() const
 }
 
 void
-NetPacketKickPlayer::InternalCheck(const NetPacketHeader* data) const
+NetPacketKickPlayer::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }
@@ -1973,7 +1971,7 @@ NetPacketStartEvent::ToNetPacketStartEvent() const
 }
 
 void
-NetPacketStartEvent::InternalCheck(const NetPacketHeader* data) const
+NetPacketStartEvent::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }
@@ -2907,7 +2905,7 @@ NetPacketEndOfHandHideCards::ToNetPacketEndOfHandHideCards() const
 }
 
 void
-NetPacketEndOfHandHideCards::InternalCheck(const NetPacketHeader* data) const
+NetPacketEndOfHandHideCards::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }
@@ -2963,7 +2961,7 @@ NetPacketEndOfGame::ToNetPacketEndOfGame() const
 }
 
 void
-NetPacketEndOfGame::InternalCheck(const NetPacketHeader* data) const
+NetPacketEndOfGame::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }
@@ -3265,7 +3263,7 @@ NetPacketError::ToNetPacketError() const
 }
 
 void
-NetPacketError::InternalCheck(const NetPacketHeader* data) const
+NetPacketError::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }

@@ -40,7 +40,7 @@ public:
 	ClientSenderCallback(ClientThread &client) : m_client(client) {}
 	virtual ~ClientSenderCallback() {}
 
-	virtual void SignalNetError(SOCKET sock, int errorID, int osErrorID)
+	virtual void SignalNetError(SOCKET /*sock*/, int errorID, int osErrorID)
 	{
 		// For now, we ignore the socket.
 		// Just signal the error.
