@@ -193,7 +193,7 @@ ServerLobbyThread::ProcessLoop()
 		try
 		{
 			// Receive the next packet.
-			packet = GetReceiver().Recv(session.sessionData->GetSocket());
+			packet = GetReceiver().Recv(session.sessionData->GetSocket(), session.sessionData->GetReceiveBuffer());
 		} catch (const NetException &)
 		{
 			// On error: Close this session.

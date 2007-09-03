@@ -376,7 +376,8 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 
 	// delegate to receiver helper class
-	boost::shared_ptr<NetPacket> tmpPacket = client.GetReceiver().Recv(client.GetContext().GetSocket());
+	boost::shared_ptr<NetPacket> tmpPacket =
+		client.GetReceiver().Recv(client.GetContext().GetSocket(), client.GetContext().GetReceiveBuffer());
 
 	if (tmpPacket.get())
 	{

@@ -139,7 +139,7 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 		try
 		{
 			// Receive the packet.
-			packet = server.GetReceiver().Recv(session.sessionData->GetSocket());
+			packet = server.GetReceiver().Recv(session.sessionData->GetSocket(), session.sessionData->GetReceiveBuffer());
 		} catch (const NetException &)
 		{
 			server.CloseSessionDelayed(session);

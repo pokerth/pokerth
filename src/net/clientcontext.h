@@ -22,7 +22,7 @@
 #define _CLIENTCONTEXT_H_
 
 #include <net/netcontext.h>
-
+#include <net/receivebuffer.h>
 
 class ClientContext : public NetContext
 {
@@ -67,6 +67,9 @@ public:
 	int GetClientSockaddrSize() const
 	{return m_addrFamily == AF_INET6 ? sizeof(sockaddr_in6) : sizeof(sockaddr_in);}
 
+	ReceiveBuffer &GetReceiveBuffer()
+	{return m_receiveBuffer;}
+
 private:
 	SOCKET				m_sockfd;
 	int					m_protocol;
@@ -76,6 +79,7 @@ private:
 	std::string			m_password;
 	sockaddr_storage	m_clientSockaddr;
 	std::string			m_playerName;
+	ReceiveBuffer		m_receiveBuffer;
 };
 
 #endif

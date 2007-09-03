@@ -26,7 +26,6 @@ using namespace std;
 
 
 ReceiverHelper::ReceiverHelper()
-: m_socket(INVALID_SOCKET), m_tmpInBufSize(0)
 {
 }
 
@@ -34,25 +33,14 @@ ReceiverHelper::~ReceiverHelper()
 {
 }
 
-void
-ReceiverHelper::Init(SOCKET socket)
-{
-	if (!IS_VALID_SOCKET(socket))
-		return; // TODO: throw exception
-
-	m_socket = socket;
-}
-
 boost::shared_ptr<NetPacket>
-ReceiverHelper::Recv(SOCKET sock)
+ReceiverHelper::Recv(SOCKET sock, ReceiveBuffer &buf)
 {
-	boost::shared_ptr<NetPacket> tmpPacket(InternalGetPacket());
-
-	if (!tmpPacket.get())
+	if (buf.receivedPackets.empty())
 	{
-		unsigned bufSize = RECV_BUF_SIZE - m_tmpInBufSize;
+		int bufSize = RECV_BUF_SIZE - buf.recvBufUsed;
 
-		if (bufSize) // check if there is room in the input buffer
+		if (bufSize > 0) // check if there is room in the input buffer
 		{
 			fd_set readSet;
 			struct timeval timeout;
@@ -69,7 +57,7 @@ ReceiverHelper::Recv(SOCKET sock)
 			}
 			if (selectResult > 0) // recv is possible
 			{
-				int bytesRecvd = recv(sock, m_tmpInBuf + m_tmpInBufSize, bufSize, 0);
+				int bytesRecvd = recv(sock, buf.recvBuf + buf.recvBufUsed, bufSize, 0);
 
 				if (!IS_VALID_RECV(bytesRecvd))
 				{
@@ -81,37 +69,49 @@ ReceiverHelper::Recv(SOCKET sock)
 				}
 				else
 				{
-					m_tmpInBufSize += bytesRecvd;
-					tmpPacket = InternalGetPacket();
+					buf.recvBufUsed += bytesRecvd;
+					InternalGetPackets(buf);
 				}
 			}
 		}
 	}
+	boost::shared_ptr<NetPacket> tmpPacket;
+	if (!buf.receivedPackets.empty())
+	{
+		tmpPacket = buf.receivedPackets.front();
+		buf.receivedPackets.pop_front();
+	}
 	return tmpPacket;
 }
 
-boost::shared_ptr<NetPacket>
-ReceiverHelper::InternalGetPacket()
+void
+ReceiverHelper::InternalGetPackets(ReceiveBuffer &buf)
 {
-	boost::shared_ptr<NetPacket> tmpPacket;
-
-	// This is necessary, because we use TCP.
-	// Packets may be received in multiple chunks or
-	// several packets may be received at once.
-	if (m_tmpInBufSize >= MIN_PACKET_SIZE)
+	bool dataAvailable = true;
+	do
 	{
-		try
+		boost::shared_ptr<NetPacket> tmpPacket;
+		// This is necessary, because we use TCP.
+		// Packets may be received in multiple chunks or
+		// several packets may be received at once.
+		if (buf.recvBufUsed >= MIN_PACKET_SIZE)
 		{
-			// This call will also handle the memmove stuff, i.e.
-			// buffering for partial packets.
-			tmpPacket = NetPacket::Create(m_tmpInBuf, m_tmpInBufSize);
-		} catch (const NetException &)
-		{
-			// Reset buffer on error.
-			m_tmpInBufSize = 0;
-			// TODO: log error/increase error counter.
+			try
+			{
+				// This call will also handle the memmove stuff, i.e.
+				// buffering for partial packets.
+				tmpPacket = NetPacket::Create(buf.recvBuf, buf.recvBufUsed);
+			} catch (const NetException &)
+			{
+				// Reset buffer on error.
+				buf.recvBufUsed = 0;
+				// TODO: log error/increase error counter.
+			}
 		}
-	}
-	return tmpPacket;
+		if (tmpPacket.get())
+			buf.receivedPackets.push_back(tmpPacket);
+		else
+			dataAvailable = false;
+	} while(dataAvailable);
 }
 

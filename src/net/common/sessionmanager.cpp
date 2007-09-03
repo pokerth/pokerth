@@ -95,44 +95,55 @@ SessionManager::Select(unsigned timeoutMsec)
 
 		while (i != end)
 		{
+			// Collect all sockets.
 			SOCKET tmpSock = i->first;
 			FD_SET(tmpSock, &rdset);
 			if (tmpSock > maxSock || maxSock == INVALID_SOCKET)
 				maxSock = tmpSock;
+
+			// Check if a packet is available.
+			if (!i->second.sessionData->GetReceiveBuffer().receivedPackets.empty())
+			{
+				retSession = i->second;
+				break;
+			}
 			++i;
 		}
 	}
 
-	if (maxSock == INVALID_SOCKET)
+	if (!retSession.sessionData.get())
 	{
-		Thread::Msleep(timeoutMsec); // just sleep if there is no session
-	}
-	else
-	{
-		// wait for data
-		struct timeval timeout;
-		timeout.tv_sec = timeoutMsec / 1000;
-		timeout.tv_usec = (timeoutMsec % 1000) * 1000;
-		int selectResult = select(maxSock + 1, &rdset, NULL, NULL, &timeout);
-		if (!IS_VALID_SELECT(selectResult))
+		if (maxSock == INVALID_SOCKET)
 		{
-			throw ServerException(ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
+			Thread::Msleep(timeoutMsec); // just sleep if there is no session
 		}
-		if (selectResult > 0) // one (or more) of the sockets is readable
+		else
 		{
-			// Check which socket is readable, return the first.
-			boost::mutex::scoped_lock lock(m_sessionMapMutex);
-			SessionMap::iterator i = m_sessionMap.begin();
-			SessionMap::iterator end = m_sessionMap.end();
-
-			while (i != end)
+			// wait for data
+			struct timeval timeout;
+			timeout.tv_sec = timeoutMsec / 1000;
+			timeout.tv_usec = (timeoutMsec % 1000) * 1000;
+			int selectResult = select(maxSock + 1, &rdset, NULL, NULL, &timeout);
+			if (!IS_VALID_SELECT(selectResult))
 			{
-				if (FD_ISSET(i->first, &rdset))
+				throw ServerException(ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
+			}
+			if (selectResult > 0) // one (or more) of the sockets is readable
+			{
+				// Check which socket is readable, return the first.
+				boost::mutex::scoped_lock lock(m_sessionMapMutex);
+				SessionMap::iterator i = m_sessionMap.begin();
+				SessionMap::iterator end = m_sessionMap.end();
+
+				while (i != end)
 				{
-					retSession = i->second;
-					break;
+					if (FD_ISSET(i->first, &rdset))
+					{
+						retSession = i->second;
+						break;
+					}
+					++i;
 				}
-				++i;
 			}
 		}
 	}

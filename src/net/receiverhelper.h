@@ -23,14 +23,12 @@
 
 #include <net/socket_helper.h>
 #include <net/netpacket.h>
+#include <net/receivebuffer.h>
 
 #include <deque>
 #include <boost/shared_ptr.hpp>
 
-// MUST be larger than MAX_PACKET_SIZE
-#define RECV_BUF_SIZE		10 * MAX_PACKET_SIZE
 #define RECV_TIMEOUT_MSEC	50
-
 
 class ReceiverHelper
 {
@@ -41,17 +39,10 @@ public:
 	// Set the socket from which to receive data.
 	void Init(SOCKET socket);
 
-	boost::shared_ptr<NetPacket> Recv(SOCKET sock);
+	boost::shared_ptr<NetPacket> Recv(SOCKET sock, ReceiveBuffer &buf);
 
 protected:
-	boost::shared_ptr<NetPacket> InternalGetPacket();
-
-private:
-
-	SOCKET m_socket;
-
-	char m_tmpInBuf[RECV_BUF_SIZE];
-	unsigned m_tmpInBufSize;
+	void InternalGetPackets(ReceiveBuffer &buf);
 };
 
 #endif

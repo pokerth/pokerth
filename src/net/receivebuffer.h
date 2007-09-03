@@ -16,49 +16,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Session data (a session is a valid client connection). */
+/* Buffer for ReceiveHelper. */
 
-#ifndef _SESSIONDATA_H_
-#define _SESSIONDATA_H_
+#ifndef _RECEIVEBUFFER_H_
+#define _RECEIVEBUFFER_H_
 
-#include <net/socket_helper.h>
-#include <net/receivebuffer.h>
-#include <string>
+#include <net/netpacket.h>
+#include <list>
 
-#define SESSION_ID_INIT			0
+// MUST be larger than MAX_PACKET_SIZE
+#define RECV_BUF_SIZE		2 * MAX_PACKET_SIZE
 
-class SessionData
+typedef std::list<boost::shared_ptr<NetPacket> > NetPacketList;
+
+struct ReceiveBuffer
 {
-public:
-	enum State { Init, Established, Game };
-
-	SessionData(SOCKET sockfd, unsigned id);
-	~SessionData();
-
-	unsigned GetId() const
-	{return m_id;}
-	State GetState() const
-	{return m_state;}
-	void SetState(State state)
-	{m_state = state;}
-
-	SOCKET GetSocket() const
-	{return m_sockfd;}
-
-	const std::string &GetClientAddr() const
-	{return m_clientAddr;}
-	void SetClientAddr(const std::string &addr)
-	{m_clientAddr = addr;}
-
-	ReceiveBuffer &GetReceiveBuffer()
-	{return m_receiveBuffer;}
-
-private:
-	SOCKET							m_sockfd;
-	unsigned						m_id;
-	State							m_state;
-	std::string						m_clientAddr;
-	ReceiveBuffer					m_receiveBuffer;
+	ReceiveBuffer() : recvBufUsed(0) {}
+	NetPacketList					receivedPackets;
+	char							recvBuf[RECV_BUF_SIZE];
+	unsigned						recvBufUsed;
 };
 
 #endif
