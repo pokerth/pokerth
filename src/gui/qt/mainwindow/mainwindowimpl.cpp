@@ -477,7 +477,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
 	
-	horizontalSlider_speed->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #286400; height: 3px; background: #689700; } QSlider::handle:horizontal { background: #689700; border: 1px solid #286400; width: 10px; border-radius: 3px; }");
+// 	horizontalSlider_speed->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #286400; height: 3px; background: #689700; } QSlider::handle:horizontal { background: #689700; border: 1px solid #286400; width: 10px; margin: -8px 0; border-radius: 3px; }");
+
+	statusbar->setStyleSheet(" QStatusBar { "+ font1String +" font-size: 12px; color: white; }");
 
 	//Groupbox Background 
 	for (i=1; i<MAX_NUMBER_OF_PLAYERS; i++) {
