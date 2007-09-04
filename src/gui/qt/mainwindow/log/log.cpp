@@ -1284,7 +1284,7 @@ QString Log::determineHandName(int myCardsValueInt) {
 
 			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 
-			// same hand detection
+/*			// same hand detection
 			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
 				if(((*it)/1000000) == (myCardsValueInt/1000000)) {
 					sameHandCardsValueInt.push_back(*it);
@@ -1308,6 +1308,7 @@ QString Log::determineHandName(int myCardsValueInt) {
 				}
 
 			}
+*/
 		}
 		break;
 		// Full House
@@ -1320,7 +1321,7 @@ QString Log::determineHandName(int myCardsValueInt) {
 
 			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 
-			// same hand detection
+/*			// same hand detection
 			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
 				if(((*it)/1000000) == (myCardsValueInt/1000000)) {
 					sameHandCardsValueInt.push_back(*it);
@@ -1397,6 +1398,7 @@ QString Log::determineHandName(int myCardsValueInt) {
 					}
 				}
 			}
+*/
 		}
 		break;
 		// Straight
@@ -1408,7 +1410,7 @@ QString Log::determineHandName(int myCardsValueInt) {
 		case 3: {
 			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 
-			// same hand detection
+/*			// same hand detection
 			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
 				if(((*it)/1000000) == (myCardsValueInt/1000000)) {
 					sameHandCardsValueInt.push_back(*it);
@@ -1449,6 +1451,7 @@ QString Log::determineHandName(int myCardsValueInt) {
 					}
 				}
 			}
+*/
 		}
 		break;
 		// Two Pairs
@@ -1456,7 +1459,7 @@ QString Log::determineHandName(int myCardsValueInt) {
 
 			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1)+translateCardsValueCode(myCardsValueInt).at(2);
 
-			// same hand detection
+/*			// same hand detection
 			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
 				if(((*it)/10000) == (myCardsValueInt/10000)) {
 					sameHandCardsValueInt.push_back(*it);
@@ -1480,6 +1483,7 @@ QString Log::determineHandName(int myCardsValueInt) {
 				}
 
 			}
+*/
 		}
 		break;
 		// Pair
@@ -1487,7 +1491,7 @@ QString Log::determineHandName(int myCardsValueInt) {
 
 			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 
-			// same hand detection
+/*			// same hand detection
 			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
 				if(((*it)/1000000) == (myCardsValueInt/1000000)) {
 					sameHandCardsValueInt.push_back(*it);
@@ -1546,6 +1550,7 @@ QString Log::determineHandName(int myCardsValueInt) {
 					}
 				}
 			}
+*/
 		}
 		break;
 		// highestCard
@@ -1553,7 +1558,7 @@ QString Log::determineHandName(int myCardsValueInt) {
 
 			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 
-			// same hand detection
+/*			// same hand detection
 			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
 				if(((*it)/1000000) == (myCardsValueInt/1000000)) {
 					sameHandCardsValueInt.push_back(*it);
@@ -1630,6 +1635,7 @@ QString Log::determineHandName(int myCardsValueInt) {
 					}
 				}
 			}
+*/
 		}
 		break;
 		default: {}
