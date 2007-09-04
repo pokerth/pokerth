@@ -108,7 +108,6 @@ SOURCES += \
 		src/core/tinyxml/tinyxml.cpp \
 		src/core/tinyxml/tinyxmlerror.cpp \
 		src/core/tinyxml/tinyxmlparser.cpp \
-		src/core/libircclient/src/libircclient.c \
 		src/engine/local_engine/cardsvalue.cpp \
 		src/engine/local_engine/localboard.cpp \
 		src/engine/local_engine/localenginefactory.cpp \
