@@ -15,6 +15,7 @@ INCLUDEPATH += . \
 		src/engine/network_engine \
 		src/config \
 		src/core/tinyxml \
+		src/core/libircclient/include \
 		src/core
 
 DEPENDPATH += . \
@@ -28,6 +29,9 @@ DEPENDPATH += . \
 		src/net \
 		src/core/common \
 		src/core/tinyxml \
+		src/core/libircclient \
+		src/core/libircclient/src \
+		src/core/libircclient/include \
 		src/engine/local_engine \
 		src/engine/network_engine \
 		src/net/common \
@@ -65,6 +69,7 @@ HEADERS += \
 		src/net/socket_startup.h \
 		src/core/tinyxml/tinystr.h \
 		src/core/tinyxml/tinyxml.h \
+		src/core/libircclient/include/libircclient.h \
 		src/engine/local_engine/cardsvalue.h \
 		src/engine/local_engine/localboard.h \
 		src/engine/local_engine/localenginefactory.h \
@@ -103,6 +108,7 @@ SOURCES += \
 		src/core/tinyxml/tinyxml.cpp \
 		src/core/tinyxml/tinyxmlerror.cpp \
 		src/core/tinyxml/tinyxmlparser.cpp \
+		src/core/libircclient/src/libircclient.c \
 		src/engine/local_engine/cardsvalue.cpp \
 		src/engine/local_engine/localboard.cpp \
 		src/engine/local_engine/localenginefactory.cpp \
@@ -147,7 +153,7 @@ SOURCES += \
 		src/gui/qttoolsinterface.cpp \
 		src/gui/qt/qttools/qttoolswrapper.cpp \
 		src/gui/qt/qttools/qthelper/qthelper.cpp \
-		src/gui/generic/serverguiwrapper.cpp 
+		src/gui/generic/serverguiwrapper.cpp
 
 win32{
 	DEPENDPATH += src/net/win32/ src/core/win32
