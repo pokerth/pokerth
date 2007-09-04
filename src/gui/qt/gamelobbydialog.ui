@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>683</width>
+    <width>694</width>
     <height>567</height>
    </rect>
   </property>
@@ -164,6 +164,18 @@
     <widget class="QGroupBox" name="groupBox_GameInfo" >
      <property name="enabled" >
       <bool>false</bool>
+     </property>
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize" >
+      <size>
+       <width>270</width>
+       <height>0</height>
+      </size>
      </property>
      <property name="maximumSize" >
       <size>
@@ -428,6 +440,9 @@ p, li { white-space: pre-wrap; }
       <spacer>
        <property name="orientation" >
         <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
        </property>
        <property name="sizeHint" >
         <size>

@@ -13,24 +13,75 @@
    <string>Start Network Game</string>
   </property>
   <layout class="QGridLayout" >
-   <property name="leftMargin" >
-    <number>9</number>
-   </property>
-   <property name="topMargin" >
-    <number>9</number>
-   </property>
-   <property name="rightMargin" >
-    <number>9</number>
-   </property>
-   <property name="bottomMargin" >
-    <number>9</number>
-   </property>
-   <property name="horizontalSpacing" >
-    <number>6</number>
-   </property>
-   <property name="verticalSpacing" >
-    <number>6</number>
-   </property>
+   <item row="0" column="0" >
+    <widget class="QTreeWidget" name="treeWidget" >
+     <column>
+      <property name="text" >
+       <string>Connected Players</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QCheckBox" name="checkBox_fillUpWithComputerOpponents" >
+     <property name="text" >
+      <string>Fill up with computer opponents</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <property name="leftMargin" >
+      <number>0</number>
+     </property>
+     <property name="topMargin" >
+      <number>0</number>
+     </property>
+     <property name="rightMargin" >
+      <number>0</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label" >
+       <property name="text" >
+        <string>Maximum number of players:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_maxPlayerNumber" >
+       <property name="text" >
+        <string>0</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_Kick" >
+       <property name="text" >
+        <string>Kick</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
    <item row="3" column="0" >
     <widget class="QGroupBox" name="groupBox" >
      <property name="title" >
@@ -117,79 +168,9 @@
      </item>
     </layout>
    </item>
-   <item row="0" column="0" >
-    <widget class="QTreeWidget" name="treeWidget" >
-     <column>
-      <property name="text" >
-       <string>Connected Players</string>
-      </property>
-     </column>
-    </widget>
-   </item>
-   <item row="2" column="0" >
-    <layout class="QHBoxLayout" >
-     <property name="spacing" >
-      <number>6</number>
-     </property>
-     <property name="leftMargin" >
-      <number>0</number>
-     </property>
-     <property name="topMargin" >
-      <number>0</number>
-     </property>
-     <property name="rightMargin" >
-      <number>0</number>
-     </property>
-     <property name="bottomMargin" >
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="label" >
-       <property name="text" >
-        <string>Maximum number of players:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_maxPlayerNumber" >
-       <property name="text" >
-        <string>0</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_Kick" >
-       <property name="text" >
-        <string>Kick</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="1" column="0" >
-    <widget class="QCheckBox" name="checkBox_fillUpWithComputerOpponents" >
-     <property name="text" >
-      <string>Fill up with computer opponents</string>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <tabstops>
-  <tabstop>treeWidget</tabstop>
   <tabstop>pushButton_Kick</tabstop>
   <tabstop>pushButton_startGame</tabstop>
   <tabstop>pushButton_cancel</tabstop>
