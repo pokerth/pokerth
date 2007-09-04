@@ -72,6 +72,25 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	myQtHelper = new QtHelper;
 
+
+#ifdef _WIN32
+	QFont tmpFont1;
+	tmpFont1.setFamily("Arial");
+	tmpFont1.setPixelSize(12);
+// 	if(this->logicalDpiX() > 105) { tmpFont.setFont("Arial",8); }
+// 	else { QFont tmpFont("Arial",9); }
+
+#else 
+	QFontDatabase::addApplicationFont (myQtHelper->getDataPath() +"fonts/n019003l.pfb");
+	QFontDatabase::addApplicationFont (myQtHelper->getDataPath() +"fonts/VeraBd.ttf");
+// 	QFont tmpFont("Nimbus Sans L",9);
+	QFont tmpFont1;
+	tmpFont1.setFamily("Nimbus Sans L");
+	tmpFont1.setPixelSize(12);
+#endif
+	QApplication::setFont(tmpFont1);
+
+
 	setupUi(this);
 
 	//pixmapCardsLabel erstellen und ins Layout einfügen!
