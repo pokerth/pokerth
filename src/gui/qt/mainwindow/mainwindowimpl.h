@@ -131,8 +131,8 @@ signals:
 	void signalNetClientPlayerJoined(unsigned playerId, QString playerName, int rights);
 	void signalNetClientPlayerChanged(unsigned playerId, QString newPlayerName);
 	void signalNetClientPlayerLeft(unsigned playerId, QString playerName);
-	void signalNetClientGameListNew(unsigned gameId, QString gameName);
-	void signalNetClientGameListRemove(unsigned gameId, QString gameName);
+	void signalNetClientGameListNew(unsigned gameId);
+	void signalNetClientGameListRemove(unsigned gameId);
 	void signalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
 	void signalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
 	void signalNetClientGameStart(boost::shared_ptr<Game> game);

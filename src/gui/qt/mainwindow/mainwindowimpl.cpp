@@ -658,8 +658,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetClientPlayerChanged(unsigned, QString)), myGameLobbyDialog, SLOT(updatePlayer(unsigned, QString)));
 	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned, QString)), myGameLobbyDialog, SLOT(removePlayer(unsigned, QString)));
 
-	connect(this, SIGNAL(signalNetClientGameListNew(unsigned, QString)), myGameLobbyDialog, SLOT(addGame(unsigned, QString)));
-	connect(this, SIGNAL(signalNetClientGameListRemove(unsigned, QString)), myGameLobbyDialog, SLOT(removeGame(unsigned, QString)));
+	connect(this, SIGNAL(signalNetClientGameListNew(unsigned)), myGameLobbyDialog, SLOT(addGame(unsigned)));
+	connect(this, SIGNAL(signalNetClientGameListRemove(unsigned)), myGameLobbyDialog, SLOT(removeGame(unsigned)));
 	connect(this, SIGNAL(signalNetClientGameListPlayerJoined(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameAddPlayer(unsigned, unsigned)));
 	connect(this, SIGNAL(signalNetClientGameListPlayerLeft(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameRemovePlayer(unsigned, unsigned)));
 
@@ -833,18 +833,26 @@ void mainWindowImpl::callGameLobbyDialog() {
 	// Start client for dedicated server.
 	mySession->startInternetClient();
 
-	myGameLobbyDialog->exec(); 
+	//Dialog mit Statusbalken
+	myConnectToServerDialog->exec();
 
-	if (myGameLobbyDialog->result() == QDialog::Accepted)
-	{
-		if(myGameLobbyDialog->getCurrentGameName() != "") {	
-		myStartNetworkGameDialog->setWindowTitle(myGameLobbyDialog->getCurrentGameName());
-	}
-		showNetworkStartDialog();
+	if (myConnectToServerDialog->result() == QDialog::Rejected ) {
+		mySession->terminateNetworkClient();
 	}
 	else
 	{
-		mySession->terminateNetworkClient();
+		myGameLobbyDialog->exec(); 
+
+		if (myGameLobbyDialog->result() == QDialog::Accepted)
+		{
+			if(myGameLobbyDialog->getCurrentGameName() != "")
+				myStartNetworkGameDialog->setWindowTitle(myGameLobbyDialog->getCurrentGameName());
+			showNetworkStartDialog();
+		}
+		else
+		{
+			mySession->terminateNetworkClient();
+		}
 	}
 }
 

@@ -31,6 +31,7 @@ Q_OBJECT
 public:
     connectToServerDialogImpl(QWidget *parent = 0);
 
+	void exec();
 
 public slots:
 

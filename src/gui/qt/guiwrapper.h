@@ -106,8 +106,8 @@ public:
 	void SignalNetClientChatMsg(const std::string &playerName, const std::string &msg);
 	void SignalNetClientWaitDialog();
 
-	void SignalNetClientGameListNew(unsigned gameId, const std::string &gameName);
-	void SignalNetClientGameListRemove(unsigned gameId, const std::string &gameName);
+	void SignalNetClientGameListNew(unsigned gameId);
+	void SignalNetClientGameListRemove(unsigned gameId);
 	void SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
 	void SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
 

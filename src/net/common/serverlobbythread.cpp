@@ -337,8 +337,13 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const NetPa
 	tmpPacket.GetData(createGameData);
 
 	boost::shared_ptr<ServerGameThread> game(
-		new ServerGameThread(*this, GetNextGameId(), createGameData.gameName, GetGui(), m_playerConfig));
-	game->Init(createGameData.password, createGameData.gameData);
+		new ServerGameThread(
+			*this, GetNextGameId(),
+			createGameData.gameName,
+			createGameData.password,
+			GetGui(),
+			m_playerConfig));
+	game->Init(createGameData.gameData);
 
 	// Remove session from the lobby.
 	m_sessionManager.RemoveSession(session.sessionData->GetSocket());
@@ -582,6 +587,7 @@ ServerLobbyThread::CreateNetPacketGameListNew(const ServerGameThread &game)
 	packetData.gameInfo.name = game.GetName();
 	packetData.gameInfo.data = game.GetGameData();
 	packetData.gameInfo.players = game.GetPlayerIdList();
+	packetData.gameInfo.isPasswordProtected = game.IsPasswordProtected();
 	static_cast<NetPacketGameListNew *>(packet.get())->SetData(packetData);
 	return packet;
 }

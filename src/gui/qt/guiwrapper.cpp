@@ -125,8 +125,8 @@ void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &play
 		myLog->signalLogPlayerLeftMsg(tmpName);
 }
 
-void GuiWrapper::SignalNetClientGameListNew(unsigned gameId, const string &gameName) { myW->signalNetClientGameListNew(gameId, QString::fromUtf8(gameName.c_str())); }
-void GuiWrapper::SignalNetClientGameListRemove(unsigned gameId, const string &gameName) { myW->signalNetClientGameListRemove(gameId, QString::fromUtf8(gameName.c_str())); }
+void GuiWrapper::SignalNetClientGameListNew(unsigned gameId) { myW->signalNetClientGameListNew(gameId); }
+void GuiWrapper::SignalNetClientGameListRemove(unsigned gameId) { myW->signalNetClientGameListRemove(gameId); }
 void GuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) { myW->signalNetClientGameListPlayerJoined(gameId, playerId); }
 void GuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) { myW->signalNetClientGameListPlayerLeft(gameId, playerId); }
 

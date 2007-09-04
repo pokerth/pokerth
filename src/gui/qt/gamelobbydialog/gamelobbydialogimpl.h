@@ -46,9 +46,10 @@ public slots:
 	void joinGame();
 
 	void gameSelected(QTreeWidgetItem*, QTreeWidgetItem*);
+	void updateGameItem(QTreeWidgetItem *item, unsigned gameId);
 
-	void addGame(unsigned gameId, QString gameName);
-	void removeGame(unsigned gameId, QString gameName);
+	void addGame(unsigned gameId);
+	void removeGame(unsigned gameId);
 	void gameAddPlayer(unsigned gameId, unsigned playerId);
 	void gameRemovePlayer(unsigned gameId, unsigned playerId);
 

@@ -50,8 +50,8 @@ private:
 };
 
 
-ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, GuiInterface &gui, ConfigFile *playerConfig)
-: m_lobbyThread(lobbyThread), m_gui(gui), m_id(id), m_name(name), m_playerConfig(playerConfig), m_curState(NULL), m_gameNum(1)
+ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, const string &pwd, GuiInterface &gui, ConfigFile *playerConfig)
+: m_lobbyThread(lobbyThread), m_gui(gui), m_id(id), m_name(name), m_password(pwd), m_playerConfig(playerConfig), m_curState(NULL), m_gameNum(1)
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
@@ -63,9 +63,8 @@ ServerGameThread::~ServerGameThread()
 }
 
 void
-ServerGameThread::Init(const string &pwd, const GameData &gameData)
+ServerGameThread::Init(const GameData &gameData)
 {
-	m_password = pwd;
 	m_gameData = gameData;
 }
 
@@ -432,6 +431,12 @@ void
 ServerGameThread::SetStartData(const StartData &startData)
 {
 	m_startData = startData;
+}
+
+bool
+ServerGameThread::IsPasswordProtected() const
+{
+	return !m_password.empty();
 }
 
 bool

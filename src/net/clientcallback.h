@@ -36,8 +36,8 @@ public:
 	virtual void SignalNetClientGameInfo(int actionID) = 0;
 	virtual void SignalNetClientError(int errorID, int osErrorID) = 0;
 
-	virtual void SignalNetClientGameListNew(unsigned gameId, const std::string &gameName) = 0;
-	virtual void SignalNetClientGameListRemove(unsigned gameId, const std::string &gameName) = 0;
+	virtual void SignalNetClientGameListNew(unsigned gameId) = 0;
+	virtual void SignalNetClientGameListRemove(unsigned gameId) = 0;
 	virtual void SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) = 0;
 	virtual void SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) = 0;
 

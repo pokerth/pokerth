@@ -59,7 +59,7 @@ void gameLobbyDialogImpl::createGame()
 		gameData.guiSpeed = myCreateInternetGameDialog->spinBox_gameSpeed->value();
 		gameData.playerActionTimeoutSec = myCreateInternetGameDialog->spinBox_netTimeOutPlayerAction->value();
 		
-		mySession->clientCreateGame(gameData, myConfig->readConfigString("MyName") + "'s game", "");
+		mySession->clientCreateGame(gameData, myConfig->readConfigString("MyName") + "'s game", myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
 
 		currentGameName = QString::fromUtf8(myConfig->readConfigString("MyName").c_str()) + QString("'s game");
 
@@ -112,15 +112,30 @@ void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, QTreeWidgetItem*)
 	}
 }
 
-void gameLobbyDialogImpl::addGame(unsigned gameId, QString gameName)
+void gameLobbyDialogImpl::updateGameItem(QTreeWidgetItem *item, unsigned gameId)
 {
+	assert(mySession);
+	GameInfo info(mySession->getClientGameInfo(gameId));
 
-	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_GameList, 0);
 	item->setData(0, Qt::UserRole, gameId);
-	item->setData(0, Qt::DisplayRole, gameName);
+	item->setData(0, Qt::DisplayRole, QString::fromUtf8(info.name.c_str()));
+
+	QString playerStr;
+	playerStr.sprintf("%u/%u", info.players.size(), info.data.maxNumberOfPlayers);
+	item->setData(1, Qt::DisplayRole, playerStr);
+
+	if (info.isPasswordProtected)
+		item->setData(2, Qt::DisplayRole, "X");
 }
 
-void gameLobbyDialogImpl::removeGame(unsigned gameId, QString)
+void gameLobbyDialogImpl::addGame(unsigned gameId)
+{
+	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_GameList, 0);
+
+	updateGameItem(item, gameId);
+}
+
+void gameLobbyDialogImpl::removeGame(unsigned gameId)
 {
 	QTreeWidgetItemIterator it(treeWidget_GameList);
 	while (*it) {
@@ -142,6 +157,16 @@ void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
 		PlayerInfo info(mySession->getClientPlayerInfo(playerId));
 		addConnectedPlayer(playerId, QString::fromUtf8(info.playerName.c_str()), PLAYER_RIGHTS_NORMAL);
 	}
+
+	QTreeWidgetItemIterator it(treeWidget_GameList);
+	while (*it) {
+		if ((*it)->data(0, Qt::UserRole) == gameId)
+		{
+			updateGameItem(*it, gameId);
+			break;
+		}
+		++it;
+	}
 }
 
 void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
@@ -152,6 +177,16 @@ void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
 		assert(mySession);
 		PlayerInfo info(mySession->getClientPlayerInfo(playerId));
 		removePlayer(playerId, QString::fromUtf8(info.playerName.c_str()));
+	}
+
+	QTreeWidgetItemIterator it(treeWidget_GameList);
+	while (*it) {
+		if ((*it)->data(0, Qt::UserRole) == gameId)
+		{
+			updateGameItem(*it, gameId);
+			break;
+		}
+		++it;
 	}
 }
 

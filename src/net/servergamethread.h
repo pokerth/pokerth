@@ -42,10 +42,10 @@ class Game;
 class ServerGameThread : public Thread
 {
 public:
-	ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const std::string &name, GuiInterface &gui, ConfigFile *playerConfig);
+	ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const std::string &name, const std::string &pwd, GuiInterface &gui, ConfigFile *playerConfig);
 	virtual ~ServerGameThread();
 
-	void Init(const std::string &pwd, const GameData &gameData);
+	void Init(const GameData &gameData);
 
 	u_int32_t GetId() const;
 	const std::string &GetName() const;
@@ -57,6 +57,7 @@ public:
 
 	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::State state);
 
+	bool IsPasswordProtected() const;
 	bool CheckPassword(const std::string &password) const;
 	const GameData &GetGameData() const;
 
@@ -130,7 +131,7 @@ private:
 	std::auto_ptr<Game>	m_game;
 	const u_int32_t		m_id;
 	const std::string	m_name;
-	std::string			m_password;
+	const std::string	m_password;
 	ConfigFile		   *m_playerConfig;
 	ServerGameState	   *m_curState;
 	unsigned			m_gameNum;

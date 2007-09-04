@@ -112,8 +112,8 @@ void ServerGuiWrapper::SignalNetClientSelfJoined(unsigned playerId, const std::s
 void ServerGuiWrapper::SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, PlayerRights rights) { if (myClientcb) myClientcb->SignalNetClientPlayerJoined(playerId, playerName, rights); }
 void ServerGuiWrapper::SignalNetClientPlayerChanged(unsigned playerId, const std::string &newPlayerName) { if (myClientcb) myClientcb->SignalNetClientPlayerChanged(playerId, newPlayerName); }
 void ServerGuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName) { if (myClientcb) myClientcb->SignalNetClientPlayerLeft(playerId, playerName); }
-void ServerGuiWrapper::SignalNetClientGameListNew(unsigned gameId, const string &gameName) { if (myClientcb) myClientcb->SignalNetClientGameListNew(gameId, gameName); }
-void ServerGuiWrapper::SignalNetClientGameListRemove(unsigned gameId, const string &gameName) { if (myClientcb) myClientcb->SignalNetClientGameListRemove(gameId, gameName); }
+void ServerGuiWrapper::SignalNetClientGameListNew(unsigned gameId) { if (myClientcb) myClientcb->SignalNetClientGameListNew(gameId); }
+void ServerGuiWrapper::SignalNetClientGameListRemove(unsigned gameId) { if (myClientcb) myClientcb->SignalNetClientGameListRemove(gameId); }
 void ServerGuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) { if (myClientcb) myClientcb->SignalNetClientGameListPlayerJoined(gameId, playerId); }
 void ServerGuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) { if (myClientcb) myClientcb->SignalNetClientGameListPlayerLeft(gameId, playerId); }
 void ServerGuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { if (myClientcb) myClientcb->SignalNetClientGameStart(game); }

@@ -635,7 +635,7 @@ ClientThread::AddGameInfo(unsigned gameId, const GameInfo &info)
 		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
 		m_gameInfoMap.insert(GameInfoMap::value_type(gameId, info));
 	}
-	GetCallback().SignalNetClientGameListNew(gameId, info.name);
+	GetCallback().SignalNetClientGameListNew(gameId);
 }
 
 void
@@ -652,7 +652,7 @@ ClientThread::RemoveGameInfo(unsigned gameId)
 		}
 	}
 	if (!name.empty())
-		GetCallback().SignalNetClientGameListRemove(gameId, name);
+		GetCallback().SignalNetClientGameListRemove(gameId);
 }
 
 void
