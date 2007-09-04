@@ -55,7 +55,7 @@ private:
 
 
 ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig)
-: m_gui(gui), m_playerConfig(playerConfig), m_curUniquePlayerId(0), m_curGameId(0)
+: m_gui(gui), m_playerConfig(playerConfig), m_curGameId(0), m_curUniquePlayerId(0)
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));

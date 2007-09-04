@@ -31,16 +31,17 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFi
 	connect( pushButton_startGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
 	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
 	connect( treeWidget, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
+
+	clearDialog();
 }
 
 void startNetworkGameDialogImpl::exec() {
-
-	clearDialog();
 
 	GameInfo info = mySession->getClientGameInfo(0);
 	label_maxPlayerNumber->setText(QString::number(info.data.maxNumberOfPlayers));
 
 	QDialog::exec();
+	clearDialog();
 }
 
 void startNetworkGameDialogImpl::startGame() {
