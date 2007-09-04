@@ -72,19 +72,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	myQtHelper = new QtHelper;
 
-// Resourcen abladen 
-	QFile preflopValuesFile(myQtHelper->getDataPath() +"misc/preflopValues");
-	QFile preflopValuesFileDest(QString::fromUtf8(myConfig->readConfigString("DataDir").c_str())+QString("preflopValues"));
-// 	if(!preflopValuesFileDest.exists()) {
-	preflopValuesFile.copy(QString::fromUtf8(myConfig->readConfigString("DataDir").c_str())+QString("preflopValues"));
-// 	}
-
-	QFile flopValuesFile(myQtHelper->getDataPath() +"misc/flopValues");
-	QFile flopValuesFileDest(QString::fromUtf8(myConfig->readConfigString("DataDir").c_str())+QString("flopValues"));
-// 	if(!flopValuesFileDest.exists()) {
-	flopValuesFile.copy(QString::fromUtf8(myConfig->readConfigString("DataDir").c_str())+QString("flopValues"));
-// 	}
-
 	setupUi(this);
 
 	//pixmapCardsLabel erstellen und ins Layout einfügen!

@@ -165,7 +165,7 @@ public:
 	int flopCardsValue(int*);
 	int turnCardsValue(int*);
 
-	void readFile();
+	void calcMyOdds();
 
 	void evaluation(int, int);
 
