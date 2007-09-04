@@ -21,7 +21,7 @@ http://www.microsoft.com/downloads/details.aspx?FamilyID=c2b1e300-f358-4523-b479
 Update (not required):
 http://www.microsoft.com/downloads/details.aspx?familyid=FF6467E6-5BBA-4BF5-B562-9199BE864D29&displaylang=en
 
-5. Get open source QT 4.2.3 from Trolltech and the MSVC patch from the Sourceforge page:
+5. Get open source QT 4.3.0 from Trolltech and the MSVC patch from the Sourceforge page:
 
 http://sourceforge.net/projects/qtwin
 
