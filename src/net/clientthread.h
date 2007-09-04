@@ -96,8 +96,8 @@ protected:
 	void SetGameData(const GameData &gameData);
 	const StartData &GetStartData() const;
 	void SetStartData(const StartData &startData);
-	int GetGuiPlayerId() const;
-	void SetGuiPlayerId(int guiPlayerId);
+	unsigned GetGuiPlayerId() const;
+	void SetGuiPlayerId(unsigned guiPlayerId);
 
 	boost::shared_ptr<Game> GetGame();
 

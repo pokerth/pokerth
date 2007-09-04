@@ -47,7 +47,7 @@ utf8ToWchar(const char *str)
 			{
 				wchar_t *wstr = new wchar_t[reqLen];
 				wstr[0] = L'\0';
-				if (::MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, str, len, wstr, reqLen) == reqLen)
+				if (::MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, str, len, wstr, reqLen) == (int)reqLen)
 					retStr = wstr;
 				delete[] wstr;
 			}

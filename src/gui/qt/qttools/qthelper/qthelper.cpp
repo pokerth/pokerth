@@ -56,3 +56,4 @@ QString QtHelper::getDataPath()
 
     	return QDir::cleanPath(path) + "/";
 }
+

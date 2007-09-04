@@ -359,3 +359,4 @@ void settingsDialogImpl::clearInternetGamePassword(bool clear) {
 
 	if(!clear) { lineEdit_InternetGamePassword->clear(); }
 }
+

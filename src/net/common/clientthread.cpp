@@ -282,7 +282,7 @@ ClientThread::Main()
 					boost::shared_ptr<EngineFactory> factory(new ClientEngineFactory); // LocalEngine erstellen
 
 					MapPlayerDataList();
-					if (GetPlayerDataList().size() != GetStartData().numberOfPlayers)
+					if (GetPlayerDataList().size() != (unsigned)GetStartData().numberOfPlayers)
 						throw NetException(ERR_NET_INVALID_PLAYER_COUNT, 0);
 					m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameId++));
 					// Initialize GUI speed.
@@ -441,14 +441,14 @@ ClientThread::SetStartData(const StartData &startData)
 	m_startData = startData;
 }
 
-int
+unsigned
 ClientThread::GetGuiPlayerId() const
 {
 	return m_guiPlayerId;
 }
 
 void
-ClientThread::SetGuiPlayerId(int guiPlayerId)
+ClientThread::SetGuiPlayerId(unsigned guiPlayerId)
 {
 	m_guiPlayerId = guiPlayerId;
 }

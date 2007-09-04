@@ -1763,7 +1763,6 @@ void mainWindowImpl::myRaise(){
 	pushButton_FoldAllin->setText("All-In"); 
 	spinBox_set->show();
 
-	int tempHighestSet = 0;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
 	spinBox_set->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getPlayerArray()[0]->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());

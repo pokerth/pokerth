@@ -89,3 +89,4 @@ void createInternetGameDialogImpl::clearGamePassword(bool clear) {
 
 	if(!clear) { lineEdit_Password->clear(); }
 }
+

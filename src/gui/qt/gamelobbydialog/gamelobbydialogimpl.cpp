@@ -15,7 +15,7 @@
 #include "gamedata.h"
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
- : QDialog(parent), myW(NULL), mySession(NULL), myConfig(c), currentGameName(""), isAdmin(false)
+ : QDialog(parent), myW(NULL), myConfig(c), mySession(NULL), currentGameName(""), isAdmin(false)
 {
     setupUi(this);
 
