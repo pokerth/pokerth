@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by FThauer FHammer   *
+ *   Copyright (C) 2006 by FThauer FHammer LMay   *
  *   f.thauer@web.de   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,7 +46,7 @@ void startNetworkGameDialogImpl::exec() {
 
 void startNetworkGameDialogImpl::startGame() {
 	assert(mySession);
-	mySession->sendStartEvent();
+	mySession->sendStartEvent(checkBox_fillUpWithComputerOpponents->isChecked());
 }
 
 void startNetworkGameDialogImpl::cancel() {
@@ -131,7 +131,7 @@ void startNetworkGameDialogImpl::kickPlayer() {
 		}
 		else {
 			assert(mySession);
-			mySession->kickPlayer(playerName.toUtf8().constData());
+			mySession->kickPlayer(item->data(0, Qt::UserRole).toUInt());
 		}
 	}
 	pushButton_Kick->setEnabled(false);

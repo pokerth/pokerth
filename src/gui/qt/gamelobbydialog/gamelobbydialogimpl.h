@@ -63,6 +63,12 @@ public slots:
 	void updatePlayer(unsigned, QString);
 	void removePlayer(unsigned, QString);
 
+	void playerSelected(QTreeWidgetItem*, QTreeWidgetItem*);
+	void refresh(int actionID);
+	void startGame();
+	void kickPlayer();
+
+	void gameModeDialogUpdate();
 	void clearDialog();
 
 private:

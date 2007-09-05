@@ -18,7 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "connecttoserverdialogimpl.h"
-// #include "configfile.h"
 #include <net/socket_msg.h>
 
 connectToServerDialogImpl::connectToServerDialogImpl(QWidget *parent)
@@ -38,23 +37,26 @@ void connectToServerDialogImpl::exec()
 
 void connectToServerDialogImpl::refresh(int actionID) {
 
+	bool skip = false;
 	switch (actionID) {
 
-	case MSG_SOCK_INIT_DONE: { label_actionMessage->setText("Resolving address..."); }
-	break;
-	case MSG_SOCK_RESOLVE_DONE: { label_actionMessage->setText("Connecting to server..."); }
-	break;
-	case MSG_SOCK_CONNECT_DONE: { label_actionMessage->setText("Starting session..."); }
-	break;
-	case MSG_SOCK_SESSION_DONE: { label_actionMessage->setText("Connection established!"); }
-	break;
-
-	default:  { label_actionMessage->setText("Please wait..."); }
+		case MSG_SOCK_INIT_DONE: { label_actionMessage->setText(tr("Resolving address...")); }
+		break;
+		case MSG_SOCK_RESOLVE_DONE: { label_actionMessage->setText(tr("Connecting to server...")); }
+		break;
+		case MSG_SOCK_CONNECT_DONE: { label_actionMessage->setText(tr("Starting session...")); }
+		break;
+		case MSG_SOCK_SESSION_DONE: { label_actionMessage->setText(tr("Connection established!")); }
+		break;
+		default: skip = true;
 	}
 
-	progressBar->setValue(actionID*(100/MSG_SOCK_LIMIT_CONNECT));
+	if (!skip)
+	{
+		progressBar->setValue(actionID*(100/MSG_SOCK_LIMIT_CONNECT));
 
-	if (actionID == MSG_SOCK_LIMIT_CONNECT)
-		QTimer::singleShot(1000, this, SLOT(accept()));
+		if (actionID == MSG_SOCK_LIMIT_CONNECT)
+			QTimer::singleShot(1000, this, SLOT(accept()));
+	}
 }
 

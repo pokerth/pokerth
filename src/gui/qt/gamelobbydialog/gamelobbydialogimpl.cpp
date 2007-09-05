@@ -4,7 +4,7 @@
 // Description: 
 //
 //
-// Author: FThauer FHammer <webmaster@pokerth.net>, (C) 2007
+// Author: FThauer FHammer LMay <webmaster@pokerth.net>, (C) 2007
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -13,6 +13,7 @@
 #include "session.h"
 #include "configfile.h"
 #include "gamedata.h"
+#include <net/socket_msg.h>
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
  : QDialog(parent), myW(NULL), myConfig(c), mySession(NULL), currentGameName(""), isAdmin(false)
@@ -22,6 +23,9 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
 	connect( treeWidget_GameList, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( gameSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
+	connect( pushButton_StartGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
+	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
+	connect( treeWidget_connectedPlayers, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 
 	clearDialog();
 }
@@ -50,7 +54,7 @@ void gameLobbyDialogImpl::createGame()
 	myCreateInternetGameDialog->exec();
 	
 	if (myCreateInternetGameDialog->result() == QDialog::Accepted ) {
-	
+
 		GameData gameData;
 		// Set Game Data
 		gameData.maxNumberOfPlayers = myCreateInternetGameDialog->spinBox_quantityPlayers->value();
@@ -59,12 +63,19 @@ void gameLobbyDialogImpl::createGame()
 		gameData.handsBeforeRaise = myCreateInternetGameDialog->spinBox_handsBeforeRaiseSmallBlind->value();
 		gameData.guiSpeed = myCreateInternetGameDialog->spinBox_gameSpeed->value();
 		gameData.playerActionTimeoutSec = myCreateInternetGameDialog->spinBox_netTimeOutPlayerAction->value();
-		
-		mySession->clientCreateGame(gameData, myConfig->readConfigString("MyName") + "'s game", myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
 
 		currentGameName = QString::fromUtf8(myConfig->readConfigString("MyName").c_str()) + QString("'s game");
 
-		accept();
+		// Update dialog
+		gameModeDialogUpdate();
+
+		label_SmallBlind->setText(QString::number(gameData.smallBlind));
+		label_StartCash->setText(QString::number(gameData.startMoney));
+		label_MaximumNumberOfPlayers->setText(QString::number(gameData.maxNumberOfPlayers));
+		label_HandsToRaiseSmallBlind->setText(QString::number(gameData.handsBeforeRaise));
+		label_TimeoutForPlayerAction->setText(QString::number(gameData.playerActionTimeoutSec));
+
+		mySession->clientCreateGame(gameData, myConfig->readConfigString("MyName") + "'s game", myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
 	}
 }
 
@@ -73,12 +84,19 @@ void gameLobbyDialogImpl::joinGame()
 	QTreeWidgetItem *item = treeWidget_GameList->currentItem();
 	if (item)
 	{
-		QString gameName = item->text(0);
-
 		assert(mySession);
-		mySession->clientJoinGame(gameName.toUtf8().constData(), "");
+		mySession->clientJoinGame(item->data(0, Qt::UserRole).toUInt(), "");
 
-		accept();
+		// Update dialog
+		gameModeDialogUpdate();
+	}
+}
+
+void gameLobbyDialogImpl::refresh(int actionID) {
+
+	if (actionID == MSG_NET_GAME_CLIENT_START)
+	{
+		QTimer::singleShot(500, this, SLOT(accept()));
 	}
 }
 
@@ -204,13 +222,17 @@ void gameLobbyDialogImpl::clearDialog()
 	label_TimeoutForPlayerAction->setText("");
 
 	treeWidget_GameList->clear();
+	treeWidget_GameList->show();
 	treeWidget_connectedPlayers->clear();
 	
-	pushButton_JoinGame->setEnabled(false);
 	pushButton_Leave->hide();
 	pushButton_Kick->hide();
+	pushButton_Kick->setEnabled(false);
 	pushButton_StartGame->hide();
 	checkBox_fillUpWithComputerOpponents->hide();
+	pushButton_CreateGame->show();
+	pushButton_JoinGame->show();
+	pushButton_JoinGame->setEnabled(false);
 
 	treeWidget_GameList->setColumnWidth(0,250);
 	treeWidget_GameList->setColumnWidth(1,75);
@@ -221,13 +243,18 @@ void gameLobbyDialogImpl::clearDialog()
 
 void gameLobbyDialogImpl::checkPlayerQuantity() {
 
-// 	if (treeWidget->topLevelItemCount() >= 2 && isAdmin) {
-// 		pushButton_startGame->setEnabled(true);
-// 	}
-// 	else {
-// 		pushButton_startGame->setEnabled(false);
-// 	}
-
+	if(isAdmin){
+		pushButton_Kick->show();
+		pushButton_StartGame->show();
+		checkBox_fillUpWithComputerOpponents->show();
+		
+		if (treeWidget_connectedPlayers->topLevelItemCount() >= 2) {
+			pushButton_StartGame->setEnabled(true);
+		}
+		else {
+			pushButton_StartGame->setEnabled(false);
+		}
+	}
 }
 
 void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerName, int rights) {
@@ -282,5 +309,46 @@ void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString) {
 	}
 
 	checkPlayerQuantity();
+}
+
+void gameLobbyDialogImpl::gameModeDialogUpdate() {
+	groupBox_GameInfo->setEnabled(true);
+	groupBox_GameInfo->setTitle(currentGameName);
+	treeWidget_GameList->clear();
+	treeWidget_GameList->hide();
+	treeWidget_connectedPlayers->clear();
+	pushButton_CreateGame->hide();
+	pushButton_JoinGame->hide();
+	pushButton_Leave->show();
+}
+
+void gameLobbyDialogImpl::playerSelected(QTreeWidgetItem* item, QTreeWidgetItem*) {
+
+	if (item)
+		pushButton_Kick->setEnabled(isAdmin);
+}
+
+void gameLobbyDialogImpl::startGame() {
+	assert(mySession);
+	mySession->sendStartEvent(checkBox_fillUpWithComputerOpponents->isChecked());
+}
+
+void gameLobbyDialogImpl::kickPlayer() {
+
+	QTreeWidgetItem *item = treeWidget_connectedPlayers->currentItem();
+	if (item)
+	{
+		QString playerName = item->text(0);
+		if(playerName == QString::fromUtf8(myConfig->readConfigString("MyName").c_str())) {
+			{ QMessageBox::warning(this, tr("Server Error"),
+					tr("You should not kick yourself from this game!"),
+					QMessageBox::Close); }
+		}
+		else {
+			assert(mySession);
+			mySession->kickPlayer(item->data(0, Qt::UserRole).toUInt());
+		}
+	}
+	pushButton_Kick->setEnabled(false);
 }
 

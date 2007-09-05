@@ -186,11 +186,11 @@ void Session::clientCreateGame(const GameData &gameData, const string &name, con
 	myNetClient->SendCreateGame(gameData, name, password);
 }
 
-void Session::clientJoinGame(const std::string &name, const std::string &password)
+void Session::clientJoinGame(unsigned gameId, const std::string &password)
 {
 	if (!myNetClient)
 		return; // only act if client is running.
-	myNetClient->SendJoinGame(name, password);
+	myNetClient->SendJoinGame(gameId, password);
 }
 
 void Session::startNetworkServer()
@@ -234,11 +234,11 @@ void Session::waitForNetworkServer(unsigned timeoutMsec)
 	}
 }
 
-void Session::sendStartEvent()
+void Session::sendStartEvent(bool fillUpWithCpuPlayers)
 {
 	if (!myNetClient)
 		return; // only act if client is running.
-	myNetClient->SendStartEvent();
+	myNetClient->SendStartEvent(fillUpWithCpuPlayers);
 }
 
 void Session::sendClientPlayerAction()
@@ -255,11 +255,11 @@ void Session::sendChatMessage(const std::string &message)
 	myNetClient->SendChatMessage(message);
 }
 
-void Session::kickPlayer(const std::string &playerName)
+void Session::kickPlayer(unsigned playerId)
 {
 	if (!myNetClient)
 		return; // only act if client is running.
-	myNetClient->SendKickPlayer(playerName);
+	myNetClient->SendKickPlayer(playerId);
 }
 
 bool Session::isNetworkClientRunning() const

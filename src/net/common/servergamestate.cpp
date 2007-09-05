@@ -293,20 +293,27 @@ ServerGameStateInit::InternalProcess(ServerGameThread &server, SessionWrapper se
 
 	if (packet->ToNetPacketStartEvent())
 	{
+		NetPacketStartEvent::Data startData;
+		packet->ToNetPacketStartEvent()->GetData(startData);
+
 		server.ResetComputerPlayerList();
-		int remainingSlots = server.GetGameData().maxNumberOfPlayers - server.GetCurNumberOfPlayers();
-		for (int i = 1; i <= remainingSlots; i++)
+
+		if (startData.fillUpWithCpuPlayers)
 		{
-			boost::shared_ptr<PlayerData> tmpPlayerData(
-				new PlayerData(server.GetLobbyThread().GetNextUniquePlayerId(), 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL));
+			int remainingSlots = server.GetGameData().maxNumberOfPlayers - server.GetCurNumberOfPlayers();
+			for (int i = 1; i <= remainingSlots; i++)
+			{
+				boost::shared_ptr<PlayerData> tmpPlayerData(
+					new PlayerData(server.GetLobbyThread().GetNextUniquePlayerId(), 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL));
 
-			ostringstream name;
-			name << SERVER_COMPUTER_PLAYER_NAME << i;
-			tmpPlayerData->SetName(name.str());
-			server.AddComputerPlayer(tmpPlayerData);
+				ostringstream name;
+				name << SERVER_COMPUTER_PLAYER_NAME << i;
+				tmpPlayerData->SetName(name.str());
+				server.AddComputerPlayer(tmpPlayerData);
 
-			// Send "Player Joined" to other fully connected clients.
-			server.SendToAllPlayers(CreateNetPacketPlayerJoined(*tmpPlayerData), SessionData::Game);
+				// Send "Player Joined" to other fully connected clients.
+				server.SendToAllPlayers(CreateNetPacketPlayerJoined(*tmpPlayerData), SessionData::Game);
+			}
 		}
 
 		server.InternalStartGame();

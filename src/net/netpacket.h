@@ -477,11 +477,18 @@ protected:
 class NetPacketStartEvent : public NetPacket
 {
 public:
+	struct Data
+	{
+		bool	fillUpWithCpuPlayers;
+	};
 
 	NetPacketStartEvent();
 	virtual ~NetPacketStartEvent();
 
 	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
 
 	virtual const NetPacketStartEvent *ToNetPacketStartEvent() const;
 

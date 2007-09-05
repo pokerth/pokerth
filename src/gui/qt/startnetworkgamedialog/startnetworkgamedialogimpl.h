@@ -33,7 +33,7 @@ class ConfigFile;
 class startNetworkGameDialogImpl: public QDialog, public Ui::startNetworkGameDialog {
 Q_OBJECT
 public:
-    startNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *config = 0);
+	startNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *config = 0);
 
 	void setSession(Session *session);
 

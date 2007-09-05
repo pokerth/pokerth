@@ -41,20 +41,21 @@ using namespace std;
 #define NET_TYPE_PLAYER_JOINED					0x000C
 #define NET_TYPE_PLAYER_LEFT					0x000D
 #define NET_TYPE_KICK_PLAYER					0x000E
-#define NET_TYPE_START_EVENT					0x000F
-#define NET_TYPE_GAME_START						0x0010
-#define NET_TYPE_HAND_START						0x0011
-#define NET_TYPE_PLAYERS_TURN					0x0012
-#define NET_TYPE_PLAYERS_ACTION					0x0013
-#define NET_TYPE_PLAYERS_ACTION_DONE			0x0014
-#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x0015
-#define NET_TYPE_DEAL_FLOP_CARDS				0x0016
-#define NET_TYPE_DEAL_TURN_CARD					0x0017
-#define NET_TYPE_DEAL_RIVER_CARD				0x0018
-#define NET_TYPE_ALL_IN_SHOW_CARDS				0x0019
-#define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x001A
-#define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x001B
-#define NET_TYPE_END_OF_GAME					0x001C
+#define NET_TYPE_LEAVE_CURRENT_GAME				0x000F
+#define NET_TYPE_START_EVENT					0x0010
+#define NET_TYPE_GAME_START						0x0011
+#define NET_TYPE_HAND_START						0x0012
+#define NET_TYPE_PLAYERS_TURN					0x0013
+#define NET_TYPE_PLAYERS_ACTION					0x0014
+#define NET_TYPE_PLAYERS_ACTION_DONE			0x0015
+#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x0016
+#define NET_TYPE_DEAL_FLOP_CARDS				0x0017
+#define NET_TYPE_DEAL_TURN_CARD					0x0018
+#define NET_TYPE_DEAL_RIVER_CARD				0x0019
+#define NET_TYPE_ALL_IN_SHOW_CARDS				0x001A
+#define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x001B
+#define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x001C
+#define NET_TYPE_END_OF_GAME					0x001D
 
 #define NET_TYPE_SEND_CHAT_TEXT					0x0200
 #define NET_TYPE_CHAT_TEXT						0x0201
@@ -65,6 +66,8 @@ using namespace std;
 
 #define NET_PLAYER_FLAG_HUMAN					0x01
 #define NET_PLAYER_FLAG_ADMIN					0x02
+
+#define NET_START_FLAG_FILL_WITH_CPU_PLAYERS	0x01
 
 #define NET_ERR_JOIN_GAME_VERSION_NOT_SUPPORTED	0x0001
 #define NET_ERR_JOIN_GAME_SERVER_FULL			0x0002
@@ -216,9 +219,17 @@ struct GCC_PACKED NetPacketKickPlayerData
 	u_int32_t			playerId;
 };
 
+struct GCC_PACKED NetPacketLeaveCurrentGameData
+{
+	NetPacketHeader		head;
+	u_int32_t			reserved;
+};
+
 struct GCC_PACKED NetPacketStartEventData
 {
 	NetPacketHeader		head;
+	u_int16_t			startFlags;
+	u_int16_t			reserved;
 };
 
 struct GCC_PACKED NetPacketGameStartData
@@ -1962,6 +1973,27 @@ NetPacketStartEvent::Clone() const
 		// Need to return the new packet anyway.
 	}
 	return newPacket;
+}
+
+void
+NetPacketStartEvent::SetData(const NetPacketStartEvent::Data &inData)
+{
+	NetPacketStartEventData *tmpData = (NetPacketStartEventData *)GetRawData();
+
+	// Set the data.
+	tmpData->startFlags = htons(inData.fillUpWithCpuPlayers ? NET_START_FLAG_FILL_WITH_CPU_PLAYERS : 0);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketStartEvent::GetData(NetPacketStartEvent::Data &outData) const
+{
+	// We assume that the data is valid. Validity has already been checked.
+	NetPacketStartEventData *tmpData = (NetPacketStartEventData *)GetRawData();
+
+	outData.fillUpWithCpuPlayers = (ntohs(tmpData->startFlags) & NET_START_FLAG_FILL_WITH_CPU_PLAYERS);
 }
 
 const NetPacketStartEvent *

@@ -87,29 +87,32 @@ ClientThread::Init(
 }
 
 void
-ClientThread::SendKickPlayer(const string &playerName)
+ClientThread::SendKickPlayer(unsigned playerId)
 {
-	boost::shared_ptr<PlayerData> tmpPlayer = GetPlayerDataByName(playerName);
-	if (tmpPlayer.get())
-	{
-		boost::shared_ptr<NetPacket> request(new NetPacketKickPlayer);
-		NetPacketKickPlayer::Data requestData;
-		requestData.playerId = tmpPlayer->GetUniqueId();
-		static_cast<NetPacketKickPlayer *>(request.get())->SetData(requestData);
-		boost::mutex::scoped_lock lock(m_outPacketListMutex);
-		m_outPacketList.push_back(request);
-	}
+	boost::shared_ptr<NetPacket> request(new NetPacketKickPlayer);
+	NetPacketKickPlayer::Data requestData;
+	requestData.playerId = playerId;
+	static_cast<NetPacketKickPlayer *>(request.get())->SetData(requestData);
+	boost::mutex::scoped_lock lock(m_outPacketListMutex);
+	m_outPacketList.push_back(request);
 }
 
 void
-ClientThread::SendStartEvent()
+ClientThread::SendStartEvent(bool fillUpWithCpuPlayers)
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet for the server start event.
-	boost::shared_ptr<NetPacket> startEvent(new NetPacketStartEvent);
-	// Just dump the packet.
-	boost::mutex::scoped_lock lock(m_outPacketListMutex);
-	m_outPacketList.push_back(startEvent);
+	boost::shared_ptr<NetPacket> start(new NetPacketStartEvent);
+	NetPacketStartEvent::Data startData;
+	startData.fillUpWithCpuPlayers = fillUpWithCpuPlayers;
+	try
+	{
+		static_cast<NetPacketStartEvent *>(start.get())->SetData(startData);
+		boost::mutex::scoped_lock lock(m_outPacketListMutex);
+		m_outPacketList.push_back(start);
+	} catch (const NetException &)
+	{
+	}
 }
 
 void
@@ -177,16 +180,16 @@ ClientThread::SendJoinFirstGame(const std::string &password)
 }
 
 void
-ClientThread::SendJoinGame(const std::string &name, const std::string &password)
+ClientThread::SendJoinGame(unsigned gameId, const std::string &password)
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet to request joining a game.
 	boost::shared_ptr<NetPacket> join(new NetPacketJoinGame);
 	NetPacketJoinGame::Data joinData;
 	joinData.password = password;
+	joinData.gameId = gameId;
 	try
 	{
-		joinData.gameId = GetGameIdByName(name);
 		static_cast<NetPacketJoinGame *>(join.get())->SetData(joinData);
 		boost::mutex::scoped_lock lock(m_outPacketListMutex);
 		m_outPacketList.push_back(join);

@@ -50,10 +50,10 @@ public:
 	void startNetworkClientForLocalServer(const GameData &gameData);
 	void terminateNetworkClient();
 	void clientCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
-	void clientJoinGame(const std::string &name, const std::string &password);
+	void clientJoinGame(unsigned gameId, const std::string &password);
 
 	void startNetworkServer();
-	void sendStartEvent();
+	void sendStartEvent(bool fillUpWithCpuPlayers);
 	void terminateNetworkServer();
 	void waitForNetworkServer(unsigned timeoutMsec);
 
@@ -63,7 +63,7 @@ public:
 	int getCurrentGameID() const { return currentGameID; }
 
 	void sendChatMessage(const std::string &message);
-	void kickPlayer(const std::string &playerName);
+	void kickPlayer(unsigned playerId);
 
 	bool isNetworkClientRunning() const; // TODO hack
 	bool isNetworkServerRunning() const; // TODO hack

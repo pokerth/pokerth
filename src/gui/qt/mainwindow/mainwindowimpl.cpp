@@ -647,6 +647,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	connect(this, SIGNAL(signalNetClientConnect(int)), myConnectToServerDialog, SLOT(refresh(int)));
 	connect(this, SIGNAL(signalNetClientGameInfo(int)), myStartNetworkGameDialog, SLOT(refresh(int)));
+	connect(this, SIGNAL(signalNetClientGameInfo(int)), myGameLobbyDialog, SLOT(refresh(int)));
 
 	connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, int)), myStartNetworkGameDialog, SLOT(joinedNetworkGame(unsigned, QString, int)));
 	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, int)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(unsigned, QString, int)));
@@ -845,9 +846,8 @@ void mainWindowImpl::callGameLobbyDialog() {
 
 		if (myGameLobbyDialog->result() == QDialog::Accepted)
 		{
-			if(myGameLobbyDialog->getCurrentGameName() != "")
-				myStartNetworkGameDialog->setWindowTitle(myGameLobbyDialog->getCurrentGameName());
-			showNetworkStartDialog();
+			//some gui modifications
+			networkGameModification();
 		}
 		else
 		{

@@ -54,12 +54,12 @@ public:
 		const std::string &pwd,
 		const std::string &playerName);
 
-	void SendKickPlayer(const std::string &playerName);
-	void SendStartEvent();
+	void SendKickPlayer(unsigned playerId);
+	void SendStartEvent(bool fillUpWithCpuPlayers);
 	void SendPlayerAction();
 	void SendChatMessage(const std::string &msg);
 	void SendJoinFirstGame(const std::string &password);
-	void SendJoinGame(const std::string &name, const std::string &password);
+	void SendJoinGame(unsigned gameId, const std::string &password);
 	void SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
 
 	GameInfo GetGameInfo(unsigned playerId) const;
