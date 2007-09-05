@@ -23,7 +23,7 @@
 
 #include <net/servergamethread.h>
 #include <playerdata.h>
-#include <core/boost/timer.hpp>
+#include <core/boost/timers.hpp>
 
 
 #ifdef _MSC_VER
@@ -78,14 +78,14 @@ public:
 
 	virtual void Init();
 
-	const boost::microsec_timer &GetTimer() const {return m_timer;}
+	const boost::timers::portable::microsec_timer &GetTimer() const {return m_timer;}
 
 protected:
 
 	AbstractServerGameStateTimer();
 
 private:
-	boost::microsec_timer m_timer;
+	boost::timers::portable::microsec_timer m_timer;
 };
 
 // Abstract State: Game is running.

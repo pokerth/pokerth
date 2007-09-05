@@ -29,7 +29,7 @@
 
 #include <deque>
 #include <list>
-#include <core/boost/timer.hpp>
+#include <core/boost/timers.hpp>
 
 #define LOBBY_THREAD_TERMINATE_TIMEOUT	200
 
@@ -65,7 +65,7 @@ protected:
 
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
 	typedef std::list<SessionWrapper> SessionList;
-	typedef std::list<std::pair<boost::microsec_timer, boost::shared_ptr<SessionData> > > CloseSessionList;
+	typedef std::list<std::pair<boost::timers::portable::microsec_timer, boost::shared_ptr<SessionData> > > CloseSessionList;
 	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
 	typedef std::list<unsigned> RemoveGameList;
 

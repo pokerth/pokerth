@@ -16,7 +16,7 @@
 
 #include <QtGui>
 #include <QtCore>
-#include <core/boost/timer.hpp>
+#include <core/boost/timers.hpp>
 #include "sdlplayer.h"
 
 class mainWindowImpl;
@@ -51,7 +51,7 @@ private:
 	
 // 	boost::shared_ptr<SDLPlayer> mySDLPlayer;
 
-	boost::microsec_timer realTimer;
+	boost::timers::portable::microsec_timer realTimer;
 
 	bool timeOutAnimation;
 

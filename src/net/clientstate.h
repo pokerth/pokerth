@@ -24,7 +24,7 @@
 #include <net/socket_helper.h> // needed for correct order of header files.
 #include <string>
 #include <memory>
-#include <core/boost/timer.hpp>
+#include <core/boost/timers.hpp>
 
 #define CLIENT_INITIAL_STATE ClientStateInit
 
@@ -114,8 +114,6 @@ public:
 
 	virtual ~ClientStateStartConnect();
 
-	void SetTimer(boost::microsec_timer timer);
-
 	// Call connect.
 	virtual int Process(ClientThread &client);
 
@@ -134,7 +132,7 @@ public:
 
 	virtual ~ClientStateConnecting();
 
-	void SetTimer(const boost::microsec_timer &timer);
+	void SetTimer(const boost::timers::portable::microsec_timer &timer);
 
 	// "Poll" for the completion of the TCP/IP connect call.
 	virtual int Process(ClientThread &client);
@@ -146,7 +144,7 @@ protected:
 
 private:
 
-	boost::microsec_timer m_connectTimer;
+	boost::timers::portable::microsec_timer m_connectTimer;
 };
 
 // State: Session init.

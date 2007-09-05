@@ -85,7 +85,7 @@ ServerLobbyThread::CloseSessionDelayed(SessionWrapper session)
 {
 	m_sessionManager.RemoveSession(session.sessionData->GetSocket());
 
-	boost::microsec_timer closeTimer;
+	boost::timers::portable::microsec_timer closeTimer;
 	closeTimer.start();
 	CloseSessionList::value_type closeSessionData(closeTimer, session.sessionData);
 

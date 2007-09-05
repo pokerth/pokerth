@@ -247,7 +247,7 @@ ClientStateStartConnect::Process(ClientThread &client)
 		int errCode = SOCKET_ERRNO();
 		if (errCode == SOCKET_ERR_WOULDBLOCK)
 		{
-			boost::microsec_timer connectTimer;
+			boost::timers::portable::microsec_timer connectTimer;
 			connectTimer.start();
 			ClientStateConnecting::Instance().SetTimer(connectTimer);
 			client.SetState(ClientStateConnecting::Instance());
@@ -278,7 +278,7 @@ ClientStateConnecting::~ClientStateConnecting()
 }
 
 void
-ClientStateConnecting::SetTimer(const boost::microsec_timer &timer)
+ClientStateConnecting::SetTimer(const boost::timers::portable::microsec_timer &timer)
 {
 	m_connectTimer = timer;
 }
