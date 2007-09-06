@@ -420,30 +420,30 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		cashTopLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px; color: #F0F0F0; }");
-		cashLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px; color: #F0F0F0; }");
+		cashTopLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px; font-weight: bold; color: #F0F0F0; }");
+		cashLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px; font-weight: bold; color: #F0F0F0; }");
 	}
 
-	spinBox_set->setStyleSheet("QSpinBox { "+ font2String +" font-size: 10px; background-color: #1D3B00; color: #F0F0F0; }");
+	spinBox_set->setStyleSheet("QSpinBox { "+ font2String +" font-size: 10px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; }");
 
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		setLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 12px; color: #F0F0F0; }");
+		setLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 12px; font-weight: bold; color: #F0F0F0; }");
 	}
 
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		playerNameLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #F0F0F0; }");
+		playerNameLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #F0F0F0; }");
 	}
 
-	label_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900;  }");
-	label_Total->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900; }");
-	textLabel_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900;  }");
-	textLabel_Pot->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900;  }");
-	label_handNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900;  }");
-	label_gameNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900;  }");
-	textLabel_handNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900;  }");
-	textLabel_gameNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900;  }");
+	label_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900;  }");
+	label_Total->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900; }");
+	textLabel_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900;  }");
+	textLabel_Pot->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900;  }");
+	label_handNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900;  }");
+	label_gameNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900;  }");
+	label_handNumberValue->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900;  }");
+	label_gameNumberValue->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900;  }");
 
 	textLabel_handLabel->setStyleSheet("QLabel { "+ font2String +" font-size: 17px; font-weight: bold; color: #669900;  }");
 
@@ -1306,8 +1306,8 @@ void mainWindowImpl::refreshGameLabels(int gameState) {
 		}
 	}
 
-	textLabel_handNumber->setText(QString::number(mySession->getCurrentGame()->getCurrentHand()->getMyID(),10));
-	textLabel_gameNumber->setText(QString::number(mySession->getCurrentGame()->getMyGameID(),10));
+	label_handNumberValue->setText(QString::number(mySession->getCurrentGame()->getCurrentHand()->getMyID(),10));
+	label_gameNumberValue->setText(QString::number(mySession->getCurrentGame()->getMyGameID(),10));
 }
 
 void mainWindowImpl::refreshAll() {
