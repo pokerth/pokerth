@@ -398,13 +398,13 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	//Schriftart und Schriftgrößen für Widgets festlegen 
 #ifdef _WIN32
-	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 11px; color: white; background-color: #1D3B00; border:none; }");
+	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 11px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
 #else
-	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: white; background-color: #1D3B00; border:none; }");
+	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
 // 	textBrowser_Log->verticalScrollBar()->setStyleSheet("background: yellow");
 // 	textBrowser_Log->verticalScrollBar()->setAutoFillBackground ( TRUE );
-	textBrowser_Chat->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: white; background-color: #1D3B00; border:none; }");
-	lineEdit_ChatInput->setStyleSheet("QLineEdit { "+ font1String +" font-size: 10px; color: white; background-color: #1D3B00; border-top: 2px solid #286400; }");
+	textBrowser_Chat->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
+	lineEdit_ChatInput->setStyleSheet("QLineEdit { "+ font1String +" font-size: 10px; color: #F0F0F0; background-color: #1D3B00; border-top: 2px solid #286400; }");
 #endif
 
 #ifdef __APPLE__
@@ -420,34 +420,34 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		cashTopLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px }");
-		cashLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px }");
+		cashTopLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px; color: #F0F0F0; }");
+		cashLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px; color: #F0F0F0; }");
 	}
 
-	spinBox_set->setStyleSheet("QSpinBox { "+ font2String +" font-size: 10px }");
+	spinBox_set->setStyleSheet("QSpinBox { "+ font2String +" font-size: 10px; background-color: #1D3B00; color: #F0F0F0; }");
 
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		setLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 12px }");
+		setLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 12px; color: #F0F0F0; }");
 	}
 
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		playerNameLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
+		playerNameLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #F0F0F0; }");
 	}
 
-	label_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
-	label_Total->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
-	textLabel_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
-	textLabel_Pot->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
-	label_handNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
-	label_gameNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
-	textLabel_handNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
-	textLabel_gameNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px }");
+	label_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900;  }");
+	label_Total->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900; }");
+	textLabel_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900;  }");
+	textLabel_Pot->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900;  }");
+	label_handNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900;  }");
+	label_gameNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900;  }");
+	textLabel_handNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900;  }");
+	textLabel_gameNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; color: #669900;  }");
 
-	textLabel_handLabel->setStyleSheet("QLabel { "+ font2String +" font-size: 17px; font-weight: bold; }");
+	textLabel_handLabel->setStyleSheet("QLabel { "+ font2String +" font-size: 17px; font-weight: bold; color: #669900;  }");
 
-	label_Pot->setStyleSheet("QLabel { "+ font2String +" font-size: 18px; font-weight: bold;  }");
+	label_Pot->setStyleSheet("QLabel { "+ font2String +" font-size: 18px; font-weight: bold; color: #669900;   }");
 
 
 	//Widgets Grafiken setzen
@@ -1739,10 +1739,11 @@ void mainWindowImpl::myCall(){
 
 void mainWindowImpl::myBet(){ 
 
+	spinBox_set->show();
 	pushButton_BetRaise->hide();
 	pushButton_CallCheckSet->setText("Set");
 	pushButton_FoldAllin->setText("All-In"); 
-	spinBox_set->show();
+	
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
@@ -1758,10 +1759,11 @@ void mainWindowImpl::myBet(){
 
 void mainWindowImpl::myRaise(){ 
 
+	spinBox_set->show();
 	pushButton_BetRaise->hide();
 	pushButton_CallCheckSet->setText("Set");
 	pushButton_FoldAllin->setText("All-In"); 
-	spinBox_set->show();
+	
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
