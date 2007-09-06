@@ -934,11 +934,11 @@ void mainWindowImpl::initGui(int speed)
 	//restliche Singleshots killen!!!
 	stopTimer();
 		
-	label_Pot->setText("<span style='font-weight:bold'>Pot</span>");
-	label_Total->setText("<span style='font-weight:bold'>Total:</span>");
-	label_Sets->setText("<span style='font-weight:bold'>Sets:</span>");
-	label_handNumber->setText("<span style='font-weight:bold'>Hand:</span>");
-	label_gameNumber->setText("<span style='font-weight:bold'>Game:</span>");
+	label_Pot->setText("Pot");
+	label_Total->setText("Total:");
+	label_Sets->setText("Sets:");
+	label_handNumber->setText("Hand:");
+	label_gameNumber->setText("Game:");
 	
 	//Tools und Board aufhellen und enablen
 // 	QPalette tempPalette = groupBox_board->palette();
@@ -988,7 +988,7 @@ void mainWindowImpl::refreshSet() {
 	int i;
  	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 		if(mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[i]->getMySet() == 0) setLabelArray[i]->setText("");
-		else setLabelArray[i]->setText("<p align='center'><b>Set:</b> "+QString::number(mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[i]->getMySet(),10)+" $</p>"); 
+		else setLabelArray[i]->setText("Set: "+QString::number(mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[i]->getMySet(),10)+" $"); 
 	}
 }
 
@@ -1170,7 +1170,7 @@ void mainWindowImpl::refreshCash() {
 		if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) { 
 
 			cashLabelArray[i]->setText(QString::number(currentHand->getPlayerArray()[i]->getMyCash(),10)+" $"); 
-			cashTopLabelArray[i]->setText("<b>Cash:</b>"); 
+			cashTopLabelArray[i]->setText("Cash:"); 
 			
 		} else {
 			cashLabelArray[i]->setText(""); 
@@ -1339,8 +1339,8 @@ void mainWindowImpl::refreshChangePlayer() {
 void mainWindowImpl::refreshPot() {
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
-	textLabel_Sets->setText("<span style='font-weight:bold'>"+QString::number(currentHand->getBoard()->getSets(),10)+" $</span>");
-	textLabel_Pot->setText("<span style='font-weight:bold'>"+QString::number(currentHand->getBoard()->getPot(),10)+" $</span>");
+	textLabel_Sets->setText(QString::number(currentHand->getBoard()->getSets(),10)+" $");
+	textLabel_Pot->setText(QString::number(currentHand->getBoard()->getPot(),10)+" $");
 }
 
 void mainWindowImpl::guiUpdateDone() {
@@ -2165,12 +2165,12 @@ void mainWindowImpl::postRiverRunAnimation5() {
 			}
 		}
 		else { 
-			label_Pot->setText("<span style='font-weight:bold'>Pot</span>");
+			label_Pot->setText("Pot");
 
 			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 				if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
-					cashTopLabelArray[i]->setText("<b>Cash:</b>"); 
+					cashTopLabelArray[i]->setText("Cash:"); 
 				}
 			}
 		}
