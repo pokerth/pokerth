@@ -387,6 +387,15 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			tmpPacket->ToNetPacketPlayerInfo()->GetData(infoData);
 			client.SetPlayerInfo(infoData.playerId, infoData.playerInfo);
 		}
+		else if (tmpPacket->ToNetPacketRemovedFromGame())
+		{
+			NetPacketRemovedFromGame::Data removedData;
+			tmpPacket->ToNetPacketRemovedFromGame()->GetData(removedData);
+			client.ClearPlayerDataList();
+			client.ClearGameInfoMap();
+			client.GetCallback().SignalNetClientRemovedFromGame(removedData.removeReason);
+			client.SetState(ClientStateWaitJoin::Instance());
+		}
 		else if (tmpPacket->ToNetPacketError())
 		{
 			// Server reported an error.
@@ -544,6 +553,13 @@ ClientStateWaitJoin::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 
 		client.SetState(ClientStateWaitGame::Instance());
 		retVal = MSG_NET_GAME_CLIENT_JOIN;
+	}
+	else if (packet->ToNetPacketJoinGameFailed())
+	{
+		// Failed to join a game.
+		NetPacketJoinGameFailed::Data joinGameFailedData;
+		packet->ToNetPacketJoinGameFailed()->GetData(joinGameFailedData);
+		client.GetCallback().SignalNetClientNotification(joinGameFailedData.failureCode);
 	}
 
 	return retVal;

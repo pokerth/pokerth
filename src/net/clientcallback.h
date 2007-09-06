@@ -35,6 +35,8 @@ public:
 	virtual void SignalNetClientConnect(int actionID) = 0;
 	virtual void SignalNetClientGameInfo(int actionID) = 0;
 	virtual void SignalNetClientError(int errorID, int osErrorID) = 0;
+	virtual void SignalNetClientNotification(int notificationId) = 0;
+	virtual void SignalNetClientRemovedFromGame(int notificationId) = 0;
 
 	virtual void SignalNetClientGameListNew(unsigned gameId) = 0;
 	virtual void SignalNetClientGameListRemove(unsigned gameId) = 0;

@@ -142,7 +142,7 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 			packet = server.GetReceiver().Recv(session.sessionData->GetSocket(), session.sessionData->GetReceiveBuffer());
 		} catch (const NetException &)
 		{
-			server.CloseSessionDelayed(session);
+			server.RemoveSession(session);
 			return retVal;
 		}
 
@@ -166,6 +166,10 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 					static_cast<NetPacketPlayerInfo *>(info.get())->SetData(infoData);
 					server.GetSender().Send(session.sessionData->GetSocket(), info);
 				}
+			}
+			else if (packet->ToNetPacketLeaveCurrentGame())
+			{
+				server.MoveSessionToLobby(session, NTF_NET_REMOVED_ON_REQUEST);
 			}
 			// Chat text is always allowed.
 			else if (packet->ToNetPacketSendChatText())
@@ -243,7 +247,7 @@ ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper s
 		// Check the number of players.
 		if (curNumPlayers >= (size_t)server.GetGameData().maxNumberOfPlayers)
 		{
-			server.SessionError(session, ERR_NET_SERVER_FULL);
+			server.MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
 		}
 		else
 		{
@@ -359,7 +363,7 @@ void
 AbstractServerGameStateRunning::HandleNewSession(ServerGameThread &server, SessionWrapper session)
 {
 	// Do not accept new sessions in this state.
-	server.SessionError(session, ERR_NET_GAME_ALREADY_RUNNING);
+	server.MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 }
 
 //-----------------------------------------------------------------------------

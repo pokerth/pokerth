@@ -55,6 +55,7 @@ public:
 		const std::string &playerName);
 
 	void SendKickPlayer(unsigned playerId);
+	void SendLeaveCurrentGame();
 	void SendStartEvent(bool fillUpWithCpuPlayers);
 	void SendPlayerAction();
 	void SendChatMessage(const std::string &msg);
@@ -105,6 +106,7 @@ protected:
 
 	void AddPlayerData(boost::shared_ptr<PlayerData> playerData);
 	void RemovePlayerData(unsigned playerId);
+	void ClearPlayerDataList();
 	void MapPlayerDataList();
 	const PlayerDataList &GetPlayerDataList() const;
 	boost::shared_ptr<PlayerData> GetPlayerDataByUniqueId(unsigned id);
@@ -117,6 +119,7 @@ protected:
 	void RemoveGameInfo(unsigned gameId);
 	void ModifyGameInfoAddPlayer(unsigned gameId, unsigned playerId);
 	void ModifyGameInfoRemovePlayer(unsigned gameId, unsigned playerId);
+	void ClearGameInfoMap();
 
 	bool IsSessionEstablished() const;
 	void SetSessionEstablished(bool flag);

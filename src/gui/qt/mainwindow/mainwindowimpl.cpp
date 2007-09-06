@@ -663,9 +663,12 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetClientGameListRemove(unsigned)), myGameLobbyDialog, SLOT(removeGame(unsigned)));
 	connect(this, SIGNAL(signalNetClientGameListPlayerJoined(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameAddPlayer(unsigned, unsigned)));
 	connect(this, SIGNAL(signalNetClientGameListPlayerLeft(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameRemovePlayer(unsigned, unsigned)));
+	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), myGameLobbyDialog, SLOT(removedFromGame(int)));
 
 	// Errors are handled globally, not within one dialog.
 	connect(this, SIGNAL(signalNetClientError(int, int)), this, SLOT(networkError(int, int)));
+	connect(this, SIGNAL(signalNetClientNotification(int)), this, SLOT(networkNotification(int)));
+	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), this, SLOT(networkNotification(int)));
 	connect(this, SIGNAL(signalNetServerError(int, int)), this, SLOT(networkError(int, int)));
 	connect(this, SIGNAL(signalNetClientGameStart(boost::shared_ptr<Game>)), this, SLOT(networkStart(boost::shared_ptr<Game>)));
 
@@ -2587,11 +2590,6 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 				tr("Sorry, this server is already full."),
 				QMessageBox::Close); }
 		break;
-		case ERR_NET_GAME_ALREADY_RUNNING:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Unable to join - the server has already started the game."),
-				QMessageBox::Close); }
-		break;
 		case ERR_NET_INVALID_PASSWORD:
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("Invalid password when joining the game.\nPlease reenter the password and try again."),
@@ -2647,6 +2645,35 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 	myGameLobbyDialog->reject();
 	myConnectToServerDialog->reject();
 	myStartNetworkGameDialog->reject();
+}
+
+void mainWindowImpl::networkNotification(int notificationId)
+{
+	switch (notificationId)
+	{
+		case NTF_NET_REMOVED_KICKED:
+			{ QMessageBox::warning(this, tr("Network Notification"),
+				tr("You were kicked from the game."),
+				QMessageBox::Close); }
+		break;
+		case NTF_NET_REMOVED_GAME_FULL:
+		case NTF_NET_JOIN_GAME_FULL:
+			{ QMessageBox::warning(this, tr("Network Notification"),
+				tr("Sorry, this game is already full."),
+				QMessageBox::Close); }
+		break;
+		case NTF_NET_REMOVED_ALREADY_RUNNING:
+		case NTF_NET_JOIN_ALREADY_RUNNING:
+			{ QMessageBox::warning(this, tr("Network Notification"),
+				tr("Unable to join - the server has already started the game."),
+				QMessageBox::Close); }
+		break;
+		case NTF_NET_JOIN_INVALID_PASSWORD:
+			{ QMessageBox::warning(this, tr("Network Notification"),
+				tr("Invalid password when joining the game.\nPlease reenter the password and try again."),
+				QMessageBox::Close); }
+		break;
+	}
 }
 
 void mainWindowImpl::networkStart(boost::shared_ptr<Game> game)

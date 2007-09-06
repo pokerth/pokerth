@@ -126,6 +126,8 @@ signals:
 	void signalNetClientConnect(int actionID);
 	void signalNetClientGameInfo(int actionID);
 	void signalNetClientError(int errorID, int osErrorID);
+	void signalNetClientNotification(int notificationId);
+	void signalNetClientRemovedFromGame(int notificationId);
 	void signalNetServerError(int errorID, int osErrorID);
 	void signalNetClientSelfJoined(unsigned playerId, QString playerName, int rights);
 	void signalNetClientPlayerJoined(unsigned playerId, QString playerName, int rights);
@@ -276,6 +278,7 @@ public slots:
 	void tabSwitchAction();
 
 	void networkError(int, int);
+	void networkNotification(int);
 	void networkStart(boost::shared_ptr<Game> game);
 
 	void closeEvent(QCloseEvent*);

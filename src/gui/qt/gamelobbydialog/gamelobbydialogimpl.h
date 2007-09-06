@@ -65,7 +65,9 @@ public slots:
 
 	void playerSelected(QTreeWidgetItem*, QTreeWidgetItem*);
 	void refresh(int actionID);
+	void removedFromGame(int reason);
 	void startGame();
+	void leaveGame();
 	void kickPlayer();
 
 	void gameModeDialogUpdate();

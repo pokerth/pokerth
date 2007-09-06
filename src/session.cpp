@@ -234,6 +234,13 @@ void Session::waitForNetworkServer(unsigned timeoutMsec)
 	}
 }
 
+void Session::sendLeaveCurrentGame()
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendLeaveCurrentGame();
+}
+
 void Session::sendStartEvent(bool fillUpWithCpuPlayers)
 {
 	if (!myNetClient)

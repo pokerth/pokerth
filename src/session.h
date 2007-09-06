@@ -53,6 +53,7 @@ public:
 	void clientJoinGame(unsigned gameId, const std::string &password);
 
 	void startNetworkServer();
+	void sendLeaveCurrentGame();
 	void sendStartEvent(bool fillUpWithCpuPlayers);
 	void terminateNetworkServer();
 	void waitForNetworkServer(unsigned timeoutMsec);

@@ -81,6 +81,19 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<ConnectData> data)
 }
 
 void
+ServerLobbyThread::ReAddSession(SessionWrapper session, int reason)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacketRemovedFromGame);
+	NetPacketRemovedFromGame::Data removedData;
+	removedData.removeReason = reason;
+	static_cast<NetPacketRemovedFromGame *>(packet.get())->SetData(removedData);
+	GetSender().Send(session.sessionData->GetSocket(), packet);
+
+	boost::mutex::scoped_lock lock(m_sessionQueueMutex);
+	m_sessionQueue.push_back(session);
+}
+
+void
 ServerLobbyThread::CloseSessionDelayed(SessionWrapper session)
 {
 	m_sessionManager.RemoveSession(session.sessionData->GetSocket());
@@ -160,6 +173,20 @@ ServerLobbyThread::Main()
 				if (tmpData.get())
 					HandleNewConnection(tmpData);
 			}
+			{
+				// Handle one incoming session at a time.
+				SessionWrapper tmpSession;
+				{
+					boost::mutex::scoped_lock lock(m_sessionQueueMutex);
+					if (!m_sessionQueue.empty())
+					{
+						tmpSession = m_sessionQueue.front();
+						m_sessionQueue.pop_front();
+					}
+				}
+				if (tmpSession.sessionData.get() && tmpSession.playerData.get())
+					HandleNewSession(tmpSession);
+			}
 			// Process loop.
 			ProcessLoop();
 			// Close sessions.
@@ -197,7 +224,7 @@ ServerLobbyThread::ProcessLoop()
 		} catch (const NetException &)
 		{
 			// On error: Close this session.
-			CloseSessionDelayed(session);
+			m_sessionManager.RemoveSession(session.sessionData->GetSocket());
 			return;
 		}
 		if (packet.get())
@@ -279,13 +306,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 	GetSender().Send(session.sessionData->GetSocket(), initAck);
 
 	// Send the game list to the client.
-	GameMap::const_iterator game_i = m_gameMap.begin();
-	GameMap::const_iterator game_end = m_gameMap.end();
-	while (game_i != game_end)
-	{
-		GetSender().Send(session.sessionData->GetSocket(), CreateNetPacketGameListNew(*game_i->second));
-		++game_i;
-	}
+	SendGameList(session.sessionData->GetSocket());
 
 	// Set player data for session.
 	m_sessionManager.SetSessionPlayerData(session.sessionData->GetSocket(), tmpPlayerData);
@@ -378,7 +399,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const NetPack
 		}
 		else
 		{
-			SessionError(session, ERR_NET_INVALID_PASSWORD);
+			SendJoinGameFailed(session.sessionData->GetSocket(), NTF_NET_JOIN_INVALID_PASSWORD);
 		}
 	}
 	else
@@ -486,6 +507,35 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 }
 
 void
+ServerLobbyThread::HandleNewSession(SessionWrapper session)
+{
+	if (m_sessionManager.GetRawSessionCount() <= SERVER_MAX_NUM_SESSIONS)
+	{
+		// This session has been temporarily stored - check if no
+		// one else got the player name during that time.
+		if (!m_sessionManager.IsPlayerConnected(session.playerData->GetName()))
+		{
+			// Send the list of games.
+			SendGameList(session.sessionData->GetSocket());
+			// Set state (back) to established.
+			session.sessionData->SetState(SessionData::Established);
+			// Add session to lobby list.
+			m_sessionManager.AddSession(session);
+		}
+		else
+		{
+			// Gracefully close this session.
+			SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
+		}
+	}
+	else
+	{
+		// Gracefully close this session.
+		SessionError(session, ERR_NET_SERVER_FULL);
+	}
+}
+
+void
 ServerLobbyThread::CleanupConnectQueue()
 {
 	boost::mutex::scoped_lock lock(m_connectQueueMutex);
@@ -512,6 +562,28 @@ ServerLobbyThread::SendError(SOCKET s, int errorCode)
 	errorData.errorCode = errorCode;
 	static_cast<NetPacketError *>(packet.get())->SetData(errorData);
 	GetSender().Send(s, packet);
+}
+
+void
+ServerLobbyThread::SendJoinGameFailed(SOCKET s, int reason)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacketJoinGameFailed);
+	NetPacketJoinGameFailed::Data failedData;
+	failedData.failureCode = reason;
+	static_cast<NetPacketJoinGameFailed *>(packet.get())->SetData(failedData);
+	GetSender().Send(s, packet);
+}
+
+void
+ServerLobbyThread::SendGameList(SOCKET s)
+{
+	GameMap::const_iterator game_i = m_gameMap.begin();
+	GameMap::const_iterator game_end = m_gameMap.end();
+	while (game_i != game_end)
+	{
+		GetSender().Send(s, CreateNetPacketGameListNew(*game_i->second));
+		++game_i;
+	}
 }
 
 ServerCallback &

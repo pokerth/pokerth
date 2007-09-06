@@ -98,6 +98,14 @@ ClientThread::SendKickPlayer(unsigned playerId)
 }
 
 void
+ClientThread::SendLeaveCurrentGame()
+{
+	boost::shared_ptr<NetPacket> request(new NetPacketLeaveCurrentGame);
+	boost::mutex::scoped_lock lock(m_outPacketListMutex);
+	m_outPacketList.push_back(request);
+}
+
+void
 ClientThread::SendStartEvent(bool fillUpWithCpuPlayers)
 {
 	// Warning: This function is called in the context of the GUI thread.
@@ -508,6 +516,12 @@ ClientThread::RemovePlayerData(unsigned playerId)
 }
 
 void
+ClientThread::ClearPlayerDataList()
+{
+	m_playerDataList.clear();
+}
+
+void
 ClientThread::MapPlayerDataList()
 {
 	// Retrieve the GUI player.
@@ -690,6 +704,13 @@ ClientThread::ModifyGameInfoRemovePlayer(unsigned gameId, unsigned playerId)
 	}
 	if (playerRemoved)
 		GetCallback().SignalNetClientGameListPlayerLeft(gameId, playerId);
+}
+
+void
+ClientThread::ClearGameInfoMap()
+{
+	boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+	m_gameInfoMap.clear();
 }
 
 bool

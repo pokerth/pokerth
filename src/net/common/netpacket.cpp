@@ -38,24 +38,27 @@ using namespace std;
 #define NET_TYPE_CREATE_GAME					0x0009
 #define NET_TYPE_JOIN_GAME						0x000A
 #define NET_TYPE_JOIN_GAME_ACK					0x000B
-#define NET_TYPE_PLAYER_JOINED					0x000C
-#define NET_TYPE_PLAYER_LEFT					0x000D
-#define NET_TYPE_KICK_PLAYER					0x000E
-#define NET_TYPE_LEAVE_CURRENT_GAME				0x000F
-#define NET_TYPE_START_EVENT					0x0010
-#define NET_TYPE_GAME_START						0x0011
-#define NET_TYPE_HAND_START						0x0012
-#define NET_TYPE_PLAYERS_TURN					0x0013
-#define NET_TYPE_PLAYERS_ACTION					0x0014
-#define NET_TYPE_PLAYERS_ACTION_DONE			0x0015
-#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x0016
-#define NET_TYPE_DEAL_FLOP_CARDS				0x0017
-#define NET_TYPE_DEAL_TURN_CARD					0x0018
-#define NET_TYPE_DEAL_RIVER_CARD				0x0019
-#define NET_TYPE_ALL_IN_SHOW_CARDS				0x001A
-#define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x001B
-#define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x001C
-#define NET_TYPE_END_OF_GAME					0x001D
+#define NET_TYPE_JOIN_GAME_FAILED				0x000C
+#define NET_TYPE_PLAYER_JOINED					0x000D
+#define NET_TYPE_PLAYER_LEFT					0x000E
+#define NET_TYPE_KICK_PLAYER					0x000F
+#define NET_TYPE_LEAVE_CURRENT_GAME				0x0010
+#define NET_TYPE_START_EVENT					0x0011
+#define NET_TYPE_GAME_START						0x0012
+#define NET_TYPE_HAND_START						0x0013
+#define NET_TYPE_PLAYERS_TURN					0x0014
+#define NET_TYPE_PLAYERS_ACTION					0x0015
+#define NET_TYPE_PLAYERS_ACTION_DONE			0x0016
+#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x0017
+#define NET_TYPE_DEAL_FLOP_CARDS				0x0018
+#define NET_TYPE_DEAL_TURN_CARD					0x0019
+#define NET_TYPE_DEAL_RIVER_CARD				0x001A
+#define NET_TYPE_ALL_IN_SHOW_CARDS				0x001B
+#define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x001C
+#define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x001D
+#define NET_TYPE_END_OF_GAME					0x001E
+
+#define NET_TYPE_REMOVED_FROM_GAME				0x0100
 
 #define NET_TYPE_SEND_CHAT_TEXT					0x0200
 #define NET_TYPE_CHAT_TEXT						0x0201
@@ -69,12 +72,26 @@ using namespace std;
 
 #define NET_START_FLAG_FILL_WITH_CPU_PLAYERS	0x01
 
-#define NET_ERR_JOIN_GAME_VERSION_NOT_SUPPORTED	0x0001
-#define NET_ERR_JOIN_GAME_SERVER_FULL			0x0002
-#define NET_ERR_JOIN_GAME_ALREADY_RUNNING		0x0003
-#define NET_ERR_JOIN_GAME_INVALID_PASSWORD		0x0004
-#define NET_ERR_JOIN_GAME_PLAYER_NAME_IN_USE	0x0005
-#define NET_ERR_JOIN_GAME_INVALID_PLAYER_NAME	0x0006
+// Reasons why join game failed.
+#define NET_JOIN_FAILED_GAME_FULL				0x0001
+#define NET_JOIN_FAILED_GAME_ALREADY_RUNNING	0x0002
+#define NET_JOIN_FAILED_INVALID_PASSWORD		0x0003
+#define NET_JOIN_FAILED_OTHER					0xFFFF
+
+// Reasons for being removed from a game.
+#define NET_REMOVED_ON_REQUEST					0x0000
+#define NET_REMOVED_GAME_FULL					0x0001
+#define NET_REMOVED_GAME_ALREADY_RUNNING		0x0002
+#define NET_REMOVED_KICKED						0x0003
+#define NET_REMOVED_OTHER_REASON				0xFFFF
+
+// Internal error codes.
+#define NET_ERR_RESERVED						0x0000
+#define NET_ERR_INIT_VERSION_NOT_SUPPORTED		0x0001
+#define NET_ERR_INIT_SERVER_FULL				0x0002
+#define NET_ERR_INIT_INVALID_PASSWORD			0x0004
+#define NET_ERR_INIT_PLAYER_NAME_IN_USE			0x0005
+#define NET_ERR_INIT_INVALID_PLAYER_NAME		0x0006
 #define NET_ERR_GENERAL_INVALID_PACKET			0xFF01
 #define NET_ERR_GENERAL_INVALID_STATE			0xFF02
 #define NET_ERR_GENERAL_PLAYER_KICKED			0xFF03
@@ -197,6 +214,13 @@ struct GCC_PACKED NetPacketJoinGameAckData
 	u_int16_t			proposedGuiSpeed;
 	u_int16_t			playerActionTimeout;
 	u_int32_t			startMoney;
+};
+
+struct GCC_PACKED NetPacketJoinGameFailedData
+{
+	NetPacketHeader		head;
+	u_int16_t			failureReason;
+	u_int16_t			reserved;
 };
 
 struct GCC_PACKED NetPacketPlayerJoinedData
@@ -362,6 +386,13 @@ struct GCC_PACKED NetPacketEndOfGameData
 	u_int32_t			winnerPlayerId;
 };
 
+struct GCC_PACKED NetPacketRemovedFromGameData
+{
+	NetPacketHeader		head;
+	u_int16_t			removeReason;
+	u_int16_t			reserved;
+};
+
 struct GCC_PACKED NetPacketSendChatTextData
 {
 	NetPacketHeader		head;
@@ -380,7 +411,7 @@ struct GCC_PACKED NetPacketChatTextData
 struct GCC_PACKED NetPacketErrorData
 {
 	NetPacketHeader		head;
-	u_int16_t			reason;
+	u_int16_t			errorReason;
 	u_int16_t			reserved;
 };
 
@@ -450,6 +481,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 				case NET_TYPE_JOIN_GAME_ACK:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketJoinGameAck);
 					break;
+				case NET_TYPE_JOIN_GAME_FAILED:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketJoinGameFailed);
+					break;
 				case NET_TYPE_PLAYER_JOINED:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayerJoined);
 					break;
@@ -458,6 +492,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_KICK_PLAYER:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketKickPlayer);
+					break;
+				case NET_TYPE_LEAVE_CURRENT_GAME:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketLeaveCurrentGame);
 					break;
 				case NET_TYPE_START_EVENT:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketStartEvent);
@@ -500,6 +537,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_END_OF_GAME:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketEndOfGame);
+					break;
+				case NET_TYPE_REMOVED_FROM_GAME:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketRemovedFromGame);
 					break;
 				case NET_TYPE_SEND_CHAT_TEXT:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketSendChatText);
@@ -660,6 +700,12 @@ NetPacket::ToNetPacketJoinGameAck() const
 	return NULL;
 }
 
+const NetPacketJoinGameFailed *
+NetPacket::ToNetPacketJoinGameFailed() const
+{
+	return NULL;
+}
+
 const NetPacketPlayerJoined *
 NetPacket::ToNetPacketPlayerJoined() const
 {
@@ -674,6 +720,12 @@ NetPacket::ToNetPacketPlayerLeft() const
 
 const NetPacketKickPlayer *
 NetPacket::ToNetPacketKickPlayer() const
+{
+	return NULL;
+}
+
+const NetPacketLeaveCurrentGame *
+NetPacket::ToNetPacketLeaveCurrentGame() const
 {
 	return NULL;
 }
@@ -758,6 +810,12 @@ NetPacket::ToNetPacketEndOfHandHideCards() const
 
 const NetPacketEndOfGame *
 NetPacket::ToNetPacketEndOfGame() const
+{
+	return NULL;
+}
+
+const NetPacketRemovedFromGame *
+NetPacket::ToNetPacketRemovedFromGame() const
 {
 	return NULL;
 }
@@ -1776,6 +1834,92 @@ NetPacketJoinGameAck::InternalCheck(const NetPacketHeader* data) const
 
 //-----------------------------------------------------------------------------
 
+NetPacketJoinGameFailed::NetPacketJoinGameFailed()
+: NetPacket(NET_TYPE_JOIN_GAME_FAILED, sizeof(NetPacketJoinGameFailedData), sizeof(NetPacketJoinGameFailedData))
+{
+}
+
+NetPacketJoinGameFailed::~NetPacketJoinGameFailed()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketJoinGameFailed::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketJoinGameFailed);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketJoinGameFailed::SetData(const NetPacketJoinGameFailed::Data &inData)
+{
+	NetPacketJoinGameFailedData *tmpData = (NetPacketJoinGameFailedData *)GetRawData();
+
+	switch (inData.failureCode)
+	{
+	// Join Game Errors.
+		case NTF_NET_JOIN_GAME_FULL :
+			tmpData->failureReason = htons(NET_JOIN_FAILED_GAME_FULL);
+			break;
+		case NTF_NET_JOIN_ALREADY_RUNNING :
+			tmpData->failureReason = htons(NET_JOIN_FAILED_GAME_ALREADY_RUNNING);
+			break;
+		case NTF_NET_JOIN_INVALID_PASSWORD :
+			tmpData->failureReason = htons(NET_JOIN_FAILED_INVALID_PASSWORD);
+			break;
+		default :
+			tmpData->failureReason = htons(NET_JOIN_FAILED_OTHER);
+			break;
+	}
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketJoinGameFailed::GetData(NetPacketJoinGameFailed::Data &outData) const
+{
+	NetPacketJoinGameFailedData *tmpData = (NetPacketJoinGameFailedData *)GetRawData();
+
+	switch (ntohs(tmpData->failureReason))
+	{
+	// Join Game Errors.
+		case NET_JOIN_FAILED_GAME_FULL :
+			outData.failureCode = NTF_NET_JOIN_GAME_FULL;
+			break;
+		case NET_JOIN_FAILED_GAME_ALREADY_RUNNING :
+			outData.failureCode = NTF_NET_JOIN_ALREADY_RUNNING;
+			break;
+		case NET_JOIN_FAILED_INVALID_PASSWORD :
+			outData.failureCode = NTF_NET_JOIN_INVALID_PASSWORD;
+			break;
+		default :
+			outData.failureCode = NTF_NET_INTERNAL;
+			break;
+	}
+}
+
+const NetPacketJoinGameFailed *
+NetPacketJoinGameFailed::ToNetPacketJoinGameFailed() const
+{
+	return this;
+}
+
+void
+NetPacketJoinGameFailed::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
 NetPacketPlayerJoined::NetPacketPlayerJoined()
 : NetPacket(NET_TYPE_PLAYER_JOINED, sizeof(NetPacketPlayerJoinedData), sizeof(NetPacketPlayerJoinedData))
 {
@@ -1946,6 +2090,43 @@ NetPacketKickPlayer::ToNetPacketKickPlayer() const
 
 void
 NetPacketKickPlayer::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketLeaveCurrentGame::NetPacketLeaveCurrentGame()
+: NetPacket(NET_TYPE_LEAVE_CURRENT_GAME, sizeof(NetPacketLeaveCurrentGame), sizeof(NetPacketLeaveCurrentGame))
+{
+}
+
+NetPacketLeaveCurrentGame::~NetPacketLeaveCurrentGame()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketLeaveCurrentGame::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketLeaveCurrentGame);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+const NetPacketLeaveCurrentGame *
+NetPacketLeaveCurrentGame::ToNetPacketLeaveCurrentGame() const
+{
+	return this;
+}
+
+void
+NetPacketLeaveCurrentGame::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }
@@ -3000,6 +3181,97 @@ NetPacketEndOfGame::InternalCheck(const NetPacketHeader*) const
 
 //-----------------------------------------------------------------------------
 
+NetPacketRemovedFromGame::NetPacketRemovedFromGame()
+: NetPacket(NET_TYPE_REMOVED_FROM_GAME, sizeof(NetPacketRemovedFromGameData), sizeof(NetPacketRemovedFromGameData))
+{
+}
+
+NetPacketRemovedFromGame::~NetPacketRemovedFromGame()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketRemovedFromGame::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketRemovedFromGame);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketRemovedFromGame::SetData(const NetPacketRemovedFromGame::Data &inData)
+{
+	NetPacketRemovedFromGameData *tmpData = (NetPacketRemovedFromGameData *)GetRawData();
+
+	switch (inData.removeReason)
+	{
+		case NTF_NET_REMOVED_ON_REQUEST :
+			tmpData->removeReason = htons(NET_REMOVED_ON_REQUEST);
+			break;
+		case NTF_NET_REMOVED_GAME_FULL :
+			tmpData->removeReason = htons(NET_REMOVED_GAME_FULL);
+			break;
+		case NTF_NET_REMOVED_ALREADY_RUNNING :
+			tmpData->removeReason = htons(NET_REMOVED_GAME_ALREADY_RUNNING);
+			break;
+		case NTF_NET_REMOVED_KICKED :
+			tmpData->removeReason = htons(NET_REMOVED_KICKED);
+			break;
+		default :
+			tmpData->removeReason = htons(NET_REMOVED_OTHER_REASON);
+			break;
+	}
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketRemovedFromGame::GetData(NetPacketRemovedFromGame::Data &outData) const
+{
+	NetPacketRemovedFromGameData *tmpData = (NetPacketRemovedFromGameData *)GetRawData();
+
+	switch (ntohs(tmpData->removeReason))
+	{
+	// Removed Errors.
+		case NET_REMOVED_ON_REQUEST :
+			outData.removeReason = NTF_NET_REMOVED_ON_REQUEST;
+			break;
+		case NET_REMOVED_GAME_FULL :
+			outData.removeReason = NTF_NET_REMOVED_GAME_FULL;
+			break;
+		case NET_REMOVED_GAME_ALREADY_RUNNING :
+			outData.removeReason = NTF_NET_REMOVED_ALREADY_RUNNING;
+			break;
+		case NET_REMOVED_KICKED :
+			outData.removeReason = NTF_NET_REMOVED_KICKED;
+			break;
+		default :
+			outData.removeReason = NTF_NET_INTERNAL;
+			break;
+	}
+}
+
+const NetPacketRemovedFromGame *
+NetPacketRemovedFromGame::ToNetPacketRemovedFromGame() const
+{
+	return this;
+}
+
+void
+NetPacketRemovedFromGame::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
 NetPacketSendChatText::NetPacketSendChatText()
 : NetPacket(NET_TYPE_SEND_CHAT_TEXT, sizeof(NetPacketSendChatTextData), MAX_PACKET_SIZE)
 {
@@ -3176,6 +3448,7 @@ NetPacketChatText::InternalCheck(const NetPacketHeader* data) const
 	}
 	// No more checks required - this packet is sent by the server.
 }
+
 //-----------------------------------------------------------------------------
 
 NetPacketError::NetPacketError()
@@ -3208,37 +3481,34 @@ NetPacketError::SetData(const NetPacketError::Data &inData)
 
 	switch (inData.errorCode)
 	{
-	// Join Game Errors.
+	// Init Errors.
 		case ERR_NET_VERSION_NOT_SUPPORTED :
-			tmpData->reason = htons(NET_ERR_JOIN_GAME_VERSION_NOT_SUPPORTED);
+			tmpData->errorReason = htons(NET_ERR_INIT_VERSION_NOT_SUPPORTED);
 			break;
 		case ERR_NET_SERVER_FULL :
-			tmpData->reason = htons(NET_ERR_JOIN_GAME_SERVER_FULL);
-			break;
-		case ERR_NET_GAME_ALREADY_RUNNING :
-			tmpData->reason = htons(NET_ERR_JOIN_GAME_ALREADY_RUNNING);
+			tmpData->errorReason = htons(NET_ERR_INIT_SERVER_FULL);
 			break;
 		case ERR_NET_INVALID_PASSWORD :
-			tmpData->reason = htons(NET_ERR_JOIN_GAME_INVALID_PASSWORD);
+			tmpData->errorReason = htons(NET_ERR_INIT_INVALID_PASSWORD);
 			break;
 		case ERR_NET_PLAYER_NAME_IN_USE :
-			tmpData->reason = htons(NET_ERR_JOIN_GAME_PLAYER_NAME_IN_USE);
+			tmpData->errorReason = htons(NET_ERR_INIT_PLAYER_NAME_IN_USE);
 			break;
 		case ERR_NET_INVALID_PLAYER_NAME :
-			tmpData->reason = htons(NET_ERR_JOIN_GAME_INVALID_PLAYER_NAME);
+			tmpData->errorReason = htons(NET_ERR_INIT_INVALID_PLAYER_NAME);
 			break;
 	// General Errors.
 		case ERR_SOCK_INVALID_PACKET :
-			tmpData->reason = htons(NET_ERR_GENERAL_INVALID_PACKET);
+			tmpData->errorReason = htons(NET_ERR_GENERAL_INVALID_PACKET);
 			break;
 		case ERR_SOCK_INVALID_STATE :
-			tmpData->reason = htons(NET_ERR_GENERAL_INVALID_STATE);
+			tmpData->errorReason = htons(NET_ERR_GENERAL_INVALID_STATE);
 			break;
 		case ERR_NET_PLAYER_KICKED :
-			tmpData->reason = htons(NET_ERR_GENERAL_PLAYER_KICKED);
+			tmpData->errorReason = htons(NET_ERR_GENERAL_PLAYER_KICKED);
 			break;
 		default :
-			tmpData->reason = htons(NET_ERR_OTHER);
+			tmpData->errorReason = htons(NET_ERR_OTHER);
 			break;
 	}
 
@@ -3251,25 +3521,22 @@ NetPacketError::GetData(NetPacketError::Data &outData) const
 {
 	NetPacketErrorData *tmpData = (NetPacketErrorData *)GetRawData();
 
-	switch (ntohs(tmpData->reason))
+	switch (ntohs(tmpData->errorReason))
 	{
-	// Join Game Errors.
-		case NET_ERR_JOIN_GAME_VERSION_NOT_SUPPORTED :
+	// Init Errors.
+		case NET_ERR_INIT_VERSION_NOT_SUPPORTED :
 			outData.errorCode = ERR_NET_VERSION_NOT_SUPPORTED;
 			break;
-		case NET_ERR_JOIN_GAME_SERVER_FULL :
+		case NET_ERR_INIT_SERVER_FULL :
 			outData.errorCode = ERR_NET_SERVER_FULL;
 			break;
-		case NET_ERR_JOIN_GAME_ALREADY_RUNNING :
-			outData.errorCode = ERR_NET_GAME_ALREADY_RUNNING;
-			break;
-		case NET_ERR_JOIN_GAME_INVALID_PASSWORD :
+		case NET_ERR_INIT_INVALID_PASSWORD :
 			outData.errorCode = ERR_NET_INVALID_PASSWORD;
 			break;
-		case NET_ERR_JOIN_GAME_PLAYER_NAME_IN_USE :
+		case NET_ERR_INIT_PLAYER_NAME_IN_USE :
 			outData.errorCode = ERR_NET_PLAYER_NAME_IN_USE;
 			break;
-		case NET_ERR_JOIN_GAME_INVALID_PLAYER_NAME :
+		case NET_ERR_INIT_INVALID_PLAYER_NAME :
 			outData.errorCode = ERR_NET_INVALID_PLAYER_NAME;
 			break;
 	// General Errors.

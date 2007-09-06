@@ -25,6 +25,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	connect( treeWidget_GameList, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( gameSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 	connect( pushButton_StartGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
 	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
+	connect( pushButton_Leave, SIGNAL( clicked() ), this, SLOT( leaveGame() ) );
 	connect( treeWidget_connectedPlayers, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 
 	clearDialog();
@@ -66,9 +67,6 @@ void gameLobbyDialogImpl::createGame()
 
 		currentGameName = QString::fromUtf8(myConfig->readConfigString("MyName").c_str()) + QString("'s game");
 
-		// Update dialog
-		gameModeDialogUpdate();
-
 		label_SmallBlind->setText(QString::number(gameData.smallBlind));
 		label_StartCash->setText(QString::number(gameData.startMoney));
 		label_MaximumNumberOfPlayers->setText(QString::number(gameData.maxNumberOfPlayers));
@@ -86,9 +84,6 @@ void gameLobbyDialogImpl::joinGame()
 	{
 		assert(mySession);
 		mySession->clientJoinGame(item->data(0, Qt::UserRole).toUInt(), "");
-
-		// Update dialog
-		gameModeDialogUpdate();
 	}
 }
 
@@ -98,6 +93,11 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 	{
 		QTimer::singleShot(500, this, SLOT(accept()));
 	}
+}
+
+void gameLobbyDialogImpl::removedFromGame(int reason)
+{
+	clearDialog();
 }
 
 void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, QTreeWidgetItem*)
@@ -259,6 +259,9 @@ void gameLobbyDialogImpl::checkPlayerQuantity() {
 
 void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerName, int rights) {
 
+	// Update dialog
+	gameModeDialogUpdate();
+
 	isAdmin = rights == PLAYER_RIGHTS_ADMIN;
 	addConnectedPlayer(playerId, playerName, rights);
 }
@@ -329,8 +332,15 @@ void gameLobbyDialogImpl::playerSelected(QTreeWidgetItem* item, QTreeWidgetItem*
 }
 
 void gameLobbyDialogImpl::startGame() {
+
 	assert(mySession);
 	mySession->sendStartEvent(checkBox_fillUpWithComputerOpponents->isChecked());
+}
+
+void gameLobbyDialogImpl::leaveGame() {
+
+	assert(mySession);
+	mySession->sendLeaveCurrentGame();
 }
 
 void gameLobbyDialogImpl::kickPlayer() {

@@ -80,10 +80,9 @@ protected:
 	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
 	void ResetComputerPlayerList();
 
+	void RemoveSession(SessionWrapper session);
 	void SessionError(SessionWrapper session, int errorCode);
-	void CloseSessionDelayed(SessionWrapper session);
-	void SendError(SOCKET s, int errorCode);
-	void RejectSession(SessionWrapper session);
+	void MoveSessionToLobby(SessionWrapper session, int reason);
 
 	void RemoveDisconnectedPlayers();
 	size_t GetCurNumberOfPlayers() const;

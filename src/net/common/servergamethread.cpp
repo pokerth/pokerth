@@ -185,7 +185,7 @@ void
 ServerGameThread::InternalKickPlayer(unsigned playerId)
 {
 	SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(playerId);
-	SessionError(tmpSession, ERR_NET_PLAYER_KICKED);
+	MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_KICKED);
 }
 
 PlayerDataList
@@ -262,18 +262,9 @@ ServerGameThread::ResetComputerPlayerList()
 }
 
 void
-ServerGameThread::SessionError(SessionWrapper session, int errorCode)
+ServerGameThread::RemoveSession(SessionWrapper session)
 {
-	if (session.sessionData.get())
-	{
-		SendError(session.sessionData->GetSocket(), errorCode);
-		CloseSessionDelayed(session);
-	}
-}
-
-void
-ServerGameThread::CloseSessionDelayed(SessionWrapper session)
-{
+	assert(session.sessionData.get());
 	GetSessionManager().RemoveSession(session.sessionData->GetSocket());
 
 	boost::shared_ptr<PlayerData> tmpPlayerData = session.playerData;
@@ -285,26 +276,24 @@ ServerGameThread::CloseSessionDelayed(SessionWrapper session)
 		thisPlayerLeftData.playerId = tmpPlayerData->GetUniqueId();
 		static_cast<NetPacketPlayerLeft *>(thisPlayerLeft.get())->SetData(thisPlayerLeftData);
 		GetSessionManager().SendToAllSessions(GetSender(), thisPlayerLeft, SessionData::Game);
+
+		GetLobbyThread().NotifyPlayerLeftGame(GetId(), session.playerData->GetUniqueId());
 	}
-
-	GetLobbyThread().CloseSessionDelayed(session);
-	GetLobbyThread().NotifyPlayerLeftGame(GetId(), session.playerData->GetUniqueId());
 }
 
 void
-ServerGameThread::SendError(SOCKET s, int errorCode)
+ServerGameThread::SessionError(SessionWrapper session, int errorCode)
 {
-	boost::shared_ptr<NetPacket> packet(new NetPacketError);
-	NetPacketError::Data errorData;
-	errorData.errorCode = errorCode;
-	static_cast<NetPacketError *>(packet.get())->SetData(errorData);
-	GetSender().Send(s, packet);
+	assert(session.sessionData.get());
+	RemoveSession(session);
+	GetLobbyThread().SessionError(session, errorCode);
 }
 
 void
-ServerGameThread::RejectSession(SessionWrapper session)
+ServerGameThread::MoveSessionToLobby(SessionWrapper session, int reason)
 {
-	// TODO
+	RemoveSession(session);
+	GetLobbyThread().ReAddSession(session, reason);
 }
 
 void

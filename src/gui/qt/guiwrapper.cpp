@@ -111,6 +111,8 @@ void GuiWrapper::logPlayerWinGame(std::string playerName, int gameID) { myLog->s
 void GuiWrapper::SignalNetClientConnect(int actionID) { myW->signalNetClientConnect(actionID); }
 void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->signalNetClientGameInfo(actionID); }
 void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myW->signalNetClientError(errorID, osErrorID); }
+void GuiWrapper::SignalNetClientNotification(int notificationId) { myW->signalNetClientNotification(notificationId); }
+void GuiWrapper::SignalNetClientRemovedFromGame(int notificationId) { myW->signalNetClientRemovedFromGame(notificationId); }
 void GuiWrapper::SignalNetClientSelfJoined(unsigned playerId, const string &playerName, PlayerRights rights) { myW->signalNetClientSelfJoined(playerId, QString::fromUtf8(playerName.c_str()), rights); }
 void GuiWrapper::SignalNetClientPlayerJoined(unsigned playerId, const string &playerName, PlayerRights rights) { myW->signalNetClientPlayerJoined(playerId, QString::fromUtf8(playerName.c_str()), rights); }
 void GuiWrapper::SignalNetClientPlayerChanged(unsigned playerId, const string &newPlayerName)

@@ -51,9 +51,11 @@ class NetPacketPlayerInfo;
 class NetPacketCreateGame;
 class NetPacketJoinGame;
 class NetPacketJoinGameAck;
+class NetPacketJoinGameFailed;
 class NetPacketPlayerJoined;
 class NetPacketPlayerLeft;
 class NetPacketKickPlayer;
+class NetPacketLeaveCurrentGame;
 class NetPacketStartEvent;
 class NetPacketGameStart;
 class NetPacketHandStart;
@@ -68,6 +70,7 @@ class NetPacketAllInShowCards;
 class NetPacketEndOfHandShowCards;
 class NetPacketEndOfHandHideCards;
 class NetPacketEndOfGame;
+class NetPacketRemovedFromGame;
 class NetPacketSendChatText;
 class NetPacketChatText;
 class NetPacketError;
@@ -100,9 +103,11 @@ public:
 	virtual const NetPacketCreateGame *ToNetPacketCreateGame() const;
 	virtual const NetPacketJoinGame *ToNetPacketJoinGame() const;
 	virtual const NetPacketJoinGameAck *ToNetPacketJoinGameAck() const;
+	virtual const NetPacketJoinGameFailed *ToNetPacketJoinGameFailed() const;
 	virtual const NetPacketPlayerJoined *ToNetPacketPlayerJoined() const;
 	virtual const NetPacketPlayerLeft *ToNetPacketPlayerLeft() const;
 	virtual const NetPacketKickPlayer *ToNetPacketKickPlayer() const;
+	virtual const NetPacketLeaveCurrentGame *ToNetPacketLeaveCurrentGame() const;
 	virtual const NetPacketStartEvent *ToNetPacketStartEvent() const;
 	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
 	virtual const NetPacketHandStart *ToNetPacketHandStart() const;
@@ -117,6 +122,7 @@ public:
 	virtual const NetPacketEndOfHandShowCards *ToNetPacketEndOfHandShowCards() const;
 	virtual const NetPacketEndOfHandHideCards *ToNetPacketEndOfHandHideCards() const;
 	virtual const NetPacketEndOfGame *ToNetPacketEndOfGame() const;
+	virtual const NetPacketRemovedFromGame *ToNetPacketRemovedFromGame() const;
 	virtual const NetPacketSendChatText *ToNetPacketSendChatText() const;
 	virtual const NetPacketChatText *ToNetPacketChatText() const;
 	virtual const NetPacketError *ToNetPacketError() const;
@@ -404,6 +410,29 @@ protected:
 	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
+class NetPacketJoinGameFailed : public NetPacket
+{
+public:
+	struct Data
+	{
+		int		failureCode;
+	};
+
+	NetPacketJoinGameFailed();
+	virtual ~NetPacketJoinGameFailed();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketJoinGameFailed *ToNetPacketJoinGameFailed() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
 class NetPacketPlayerJoined : public NetPacket
 {
 public:
@@ -468,6 +497,22 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketKickPlayer *ToNetPacketKickPlayer() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketLeaveCurrentGame : public NetPacket
+{
+public:
+
+	NetPacketLeaveCurrentGame();
+	virtual ~NetPacketLeaveCurrentGame();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	virtual const NetPacketLeaveCurrentGame *ToNetPacketLeaveCurrentGame() const;
 
 protected:
 
@@ -832,6 +877,29 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketEndOfGame *ToNetPacketEndOfGame() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketRemovedFromGame : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int16_t	removeReason;
+	};
+
+	NetPacketRemovedFromGame();
+	virtual ~NetPacketRemovedFromGame();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketRemovedFromGame *ToNetPacketRemovedFromGame() const;
 
 protected:
 

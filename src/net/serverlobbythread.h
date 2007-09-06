@@ -51,7 +51,8 @@ public:
 	void Init(const std::string &pwd);
 
 	void AddConnection(boost::shared_ptr<ConnectData> data);
-	void CloseSessionDelayed(SessionWrapper session);
+	void ReAddSession(SessionWrapper session, int reason);
+	void SessionError(SessionWrapper session, int errorCode);
 	void NotifyPlayerJoinedGame(unsigned gameId, unsigned playerId);
 	void NotifyPlayerLeftGame(unsigned gameId, unsigned playerId);
 
@@ -64,6 +65,7 @@ public:
 protected:
 
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
+	typedef std::deque<SessionWrapper> SessionQueue;
 	typedef std::list<SessionWrapper> SessionList;
 	typedef std::list<std::pair<boost::timers::portable::microsec_timer, boost::shared_ptr<SessionData> > > CloseSessionList;
 	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
@@ -86,14 +88,17 @@ protected:
 	void TerminateGames();
 
 	void HandleNewConnection(boost::shared_ptr<ConnectData> connData);
+	void HandleNewSession(SessionWrapper session);
 
 	SOCKET Select();
 
 	void CleanupConnectQueue();
 	void CleanupSessionMap();
 
-	void SessionError(SessionWrapper session, int errorCode);
+	void CloseSessionDelayed(SessionWrapper session);
 	void SendError(SOCKET s, int errorCode);
+	void SendJoinGameFailed(SOCKET s, int reason);
+	void SendGameList(SOCKET s);
 
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
@@ -112,6 +117,9 @@ private:
 
 	ConnectQueue m_connectQueue;
 	mutable boost::mutex m_connectQueueMutex;
+
+	SessionQueue m_sessionQueue;
+	mutable boost::mutex m_sessionQueueMutex;
 
 	SessionManager m_sessionManager;
 
