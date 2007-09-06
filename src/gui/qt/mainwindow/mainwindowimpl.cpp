@@ -478,9 +478,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
 
 		//Human player button
-	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_03.png); font-family: \"Bitstream Vera Sans\"; font-size: 11px }");
-	pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_05.png); font-family: \"Bitstream Vera Sans\"; font-size: 11px }"); 
-	pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_07.png); font-family: \"Bitstream Vera Sans\"; font-size: 11px }"); 
+	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_03.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }");
+	pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_05.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
+	pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_07.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
 
 	groupBox_RightToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/misc/toolboxFrameBG.png) }");
 	groupBox_LeftToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/misc/toolboxFrameBG.png) }");
