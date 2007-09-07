@@ -5,137 +5,42 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>694</width>
-    <height>567</height>
+    <width>875</width>
+    <height>610</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Game Lobby</string>
   </property>
   <layout class="QGridLayout" >
-   <property name="leftMargin" >
-    <number>9</number>
-   </property>
-   <property name="topMargin" >
-    <number>9</number>
-   </property>
-   <property name="rightMargin" >
-    <number>9</number>
-   </property>
-   <property name="bottomMargin" >
-    <number>9</number>
-   </property>
-   <property name="horizontalSpacing" >
-    <number>6</number>
-   </property>
-   <property name="verticalSpacing" >
-    <number>6</number>
-   </property>
-   <item row="2" column="0" >
-    <layout class="QGridLayout" >
-     <property name="leftMargin" >
-      <number>0</number>
+   <item rowspan="4" row="0" column="0" >
+    <widget class="QTreeWidget" name="treeWidget_NickList" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Fixed" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <property name="topMargin" >
-      <number>0</number>
+     <property name="minimumSize" >
+      <size>
+       <width>165</width>
+       <height>0</height>
+      </size>
      </property>
-     <property name="rightMargin" >
-      <number>0</number>
+     <property name="maximumSize" >
+      <size>
+       <width>165</width>
+       <height>16777215</height>
+      </size>
      </property>
-     <property name="bottomMargin" >
-      <number>0</number>
-     </property>
-     <property name="horizontalSpacing" >
-      <number>6</number>
-     </property>
-     <property name="verticalSpacing" >
-      <number>6</number>
-     </property>
-     <item row="1" column="0" >
-      <widget class="QGroupBox" name="groupBox" >
-       <property name="title" >
-        <string>Lobby-Chat</string>
-       </property>
-       <layout class="QGridLayout" >
-        <property name="leftMargin" >
-         <number>7</number>
-        </property>
-        <property name="topMargin" >
-         <number>7</number>
-        </property>
-        <property name="rightMargin" >
-         <number>7</number>
-        </property>
-        <property name="bottomMargin" >
-         <number>7</number>
-        </property>
-        <property name="horizontalSpacing" >
-         <number>0</number>
-        </property>
-        <property name="verticalSpacing" >
-         <number>0</number>
-        </property>
-        <item row="0" column="0" >
-         <widget class="QTextBrowser" name="textBrowser_ChatDisplay" />
-        </item>
-        <item row="1" column="0" >
-         <widget class="QLineEdit" name="lineEdit_ChatInput" />
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item row="0" column="0" >
-      <widget class="Line" name="line" >
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1" >
-      <layout class="QHBoxLayout" >
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <property name="leftMargin" >
-        <number>0</number>
-       </property>
-       <property name="topMargin" >
-        <number>0</number>
-       </property>
-       <property name="rightMargin" >
-        <number>0</number>
-       </property>
-       <property name="bottomMargin" >
-        <number>0</number>
-       </property>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType" >
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>2</width>
-           <height>238</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="Line" name="line_2" >
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
+     <column>
+      <property name="text" >
+       <string>Available Players</string>
+      </property>
+     </column>
+    </widget>
    </item>
-   <item row="0" column="0" >
+   <item row="0" column="1" >
     <widget class="QTreeWidget" name="treeWidget_GameList" >
      <property name="minimumSize" >
       <size>
@@ -160,7 +65,7 @@
      </column>
     </widget>
    </item>
-   <item rowspan="3" row="0" column="1" >
+   <item rowspan="4" row="0" column="2" >
     <widget class="QGroupBox" name="groupBox_GameInfo" >
      <property name="enabled" >
       <bool>false</bool>
@@ -390,7 +295,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0" >
+   <item row="1" column="1" >
     <layout class="QHBoxLayout" >
      <property name="spacing" >
       <number>6</number>
@@ -438,6 +343,46 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="2" column="1" >
+    <widget class="Line" name="line" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" >
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string>Lobby-Chat</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="leftMargin" >
+       <number>7</number>
+      </property>
+      <property name="topMargin" >
+       <number>7</number>
+      </property>
+      <property name="rightMargin" >
+       <number>7</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>7</number>
+      </property>
+      <property name="horizontalSpacing" >
+       <number>0</number>
+      </property>
+      <property name="verticalSpacing" >
+       <number>0</number>
+      </property>
+      <item row="0" column="0" >
+       <widget class="QTextBrowser" name="textBrowser_ChatDisplay" />
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLineEdit" name="lineEdit_ChatInput" />
+      </item>
+     </layout>
+    </widget>
    </item>
   </layout>
  </widget>
