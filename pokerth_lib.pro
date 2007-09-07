@@ -70,6 +70,7 @@ HEADERS += \
 		src/core/tinyxml/tinystr.h \
 		src/core/tinyxml/tinyxml.h \
 		src/core/libircclient/include/libircclient.h \
+		src/core/libircclient/include/config.h \
 		src/engine/local_engine/cardsvalue.h \
 		src/engine/local_engine/localboard.h \
 		src/engine/local_engine/localenginefactory.h \
@@ -108,6 +109,7 @@ SOURCES += \
 		src/core/tinyxml/tinyxml.cpp \
 		src/core/tinyxml/tinyxmlerror.cpp \
 		src/core/tinyxml/tinyxmlparser.cpp \
+		src/core/libircclient/src/libircclient.c \
 		src/engine/local_engine/cardsvalue.cpp \
 		src/engine/local_engine/localboard.cpp \
 		src/engine/local_engine/localenginefactory.cpp \

@@ -191,22 +191,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="43"/>
         <source>Resolving address...</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse auflösen...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="45"/>
         <source>Connecting to server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mit Server verbinden...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="47"/>
         <source>Starting session...</source>
-        <translation type="unfinished"></translation>
+        <translation>Starte Session...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="49"/>
         <source>Connection established!</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindung aufgebaut!</translation>
     </message>
 </context>
 <context>
@@ -220,11 +220,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="61"/>
         <source>Game Speed for computer opponents:</source>
         <translation>Spielgeschwindigkeit für Computergegner:</translation>
-    </message>
-    <message>
-        <location filename="../../../../src/gui/qt/createinternetgamedialog.ui" line="54"/>
-        <source>Hands before raise small blind:</source>
-        <translation type="obsolete">Runden vor der Erhöhung des Small Blind:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="85"/>
@@ -259,12 +254,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="78"/>
         <source>Hands before raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Runden vor Erhöhung der Blinds:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="145"/>
         <source>Small Blind:</source>
-        <translation type="unfinished">Small Blind:</translation>
+        <translation>Small Blind:</translation>
     </message>
 </context>
 <context>
@@ -300,11 +295,6 @@ p, li { white-space: pre-wrap; }
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../../../../src/gui/qt/createnetworkgamedialog.ui" line="130"/>
-        <source>Hands before raise small blind:</source>
-        <translation type="obsolete">Runden vor der Erhöhung des Small Blind:</translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="85"/>
         <source>Timeout for player action (sec):</source>
         <translation>Zeit für Spieleraktion (Sek.):</translation>
@@ -322,7 +312,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="78"/>
         <source>Hands before raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Runden vor Erhöhung der Blinds:</translation>
     </message>
 </context>
 <context>
@@ -403,29 +393,24 @@ p, li { white-space: pre-wrap; }
         <translation>Entfernen</translation>
     </message>
     <message>
-        <location filename="../../../../src/gui/qt/gamelobbydialog.ui" line="301"/>
-        <source>Leave</source>
-        <translation type="obsolete">Verlassen</translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="57"/>
         <source>Lobby-Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Lobby-Chat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="297"/>
         <source>Hands before raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Runden vor Erhöhung der Blinds:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="318"/>
         <source>Small Blind:</source>
-        <translation type="unfinished">Small Blind:</translation>
+        <translation>Small Blind:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="384"/>
         <source>Leave Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Spiel verlassen</translation>
     </message>
 </context>
 <context>
@@ -433,22 +418,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="69"/>
         <source>game</source>
-        <translation type="unfinished"></translation>
+        <translation>Spiel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="94"/>
-        <source>Join a private Game</source>
-        <translation type="unfinished"></translation>
+        <source>Joining a private Game</source>
+        <translation>Einem Privatspiel beitreten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="95"/>
-        <source>You like to join a private game. Please enter the password!</source>
-        <translation type="unfinished"></translation>
+        <source>You are about to join a private game. Please enter the password!</source>
+        <translation>Dies ist ein Privatspiel. Bitte Kennwort eingeben!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="230"/>
         <source>Game Info</source>
-        <translation type="unfinished">Spieldaten</translation>
+        <translation>Spieldaten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="369"/>
@@ -458,7 +443,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="370"/>
         <source>You should not kick yourself from this game!</source>
-        <translation type="unfinished">Sie sollten sich nicht selbst des Spieles verweisen ;)!</translation>
+        <translation>Sie sollten sich nicht selbst des Spieles verweisen ;)!</translation>
     </message>
 </context>
 <context>
@@ -806,7 +791,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2755"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+I</translation>
     </message>
 </context>
 <context>
@@ -1065,14 +1050,9 @@ Wenn der Server hinter einem NAT-Router betrieben wird, stellen Sie sicher, dass
         <translation>Anzahl der Spieler:</translation>
     </message>
     <message>
-        <location filename="../../../../src/gui/qt/newgamedialog.ui" line="127"/>
-        <source>Hands before raise small blind:</source>
-        <translation type="obsolete">Runden vor der Erhöhung des Small Blind:</translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="151"/>
         <source>Hands before raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Runden vor Erhöhung der Blinds:</translation>
     </message>
 </context>
 <context>
@@ -1169,9 +1149,9 @@ p, li { white-space: pre-wrap; }
         <translation>Engine Version:</translation>
     </message>
     <message>
-        <location filename="../../../../src/gui/qt/settingsdialog.ui" line="475"/>
-        <source>Server Settings</source>
-        <translation type="obsolete">Servereinstellungen</translation>
+        <location filename="../../../../src/gui/qt/settingsdialog.ui" line="584"/>
+        <source>Network Server Settings</source>
+        <translation>Servereinstellungen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1086"/>
@@ -1187,11 +1167,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="1010"/>
         <source>Server Password:</source>
         <translation>Server Passwort:</translation>
-    </message>
-    <message>
-        <location filename="../../../../src/gui/qt/settingsdialog.ui" line="574"/>
-        <source>Network Game Default Settings</source>
-        <translation type="obsolete">Einstellungen für Netzwerkspiel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1198"/>
@@ -1309,11 +1284,6 @@ p, li { white-space: pre-wrap; }
         <translation>Zeige den Dialog Spieleinstellungen bei jedem neuen Spiel</translation>
     </message>
     <message>
-        <location filename="../../../../src/gui/qt/settingsdialog.ui" line="689"/>
-        <source>Hands before raise small blind:</source>
-        <translation type="obsolete">Runden vor der Erhöhung des Small Blind:</translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="451"/>
         <source>Number of players:</source>
         <translation>Anzahl der Spieler:</translation>
@@ -1392,7 +1362,7 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Hinweis: Die beste Avatar-Qualität erhalten Sie folgenden Seitenverhältnissen: &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Breite = 50, Höhe = 50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Hinweis: Die beste Avatar-Qualität erhalten Sie mit folgenden Seitenverhältnissen: &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Breite = 50, Höhe = 50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="19"/>
@@ -1452,7 +1422,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="819"/>
         <source>Hands before raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Runden vor Erhöhung der Blinds:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="584"/>
@@ -1465,27 +1435,30 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Default &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Game Settings&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; like &quot;&lt;/span&gt;Maximum number of players&quot;, &quot;&lt;span style=&quot; font-style:italic;&quot;&gt;Start Cash&quot; and &quot;Small Blind&quot; will be used &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;from Network Game Settings.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Hinweis: Standard-&lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Spieleinstellungen&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; - wie &quot;&lt;/span&gt;Maximale Anzahl Spieler&quot;, &quot;&lt;span style=&quot; font-style:italic;&quot;&gt;Startgeld&quot; und &quot;Small Blind&quot; - werden von den &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Einstellungen für Netzwerkspiel&lt;/span&gt; &lt;span style=&quot; font-style:italic;&quot;&gt;übernommen.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="918"/>
         <source>Internet Server Settings (Dedicated Server)</source>
-        <translation type="unfinished"></translation>
+        <translation>Internetserver-Einstellungen (dedizierter Server)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1069"/>
         <source>Server Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Serveradresse:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1044"/>
         <source>Use password for private game:</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutze Passwort für Privatspiele:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1063"/>
         <source>Lobby Chat Settings (IRC Server)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lobby-Chat-Einstellungen (IRC-Server)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1076"/>
@@ -1495,7 +1468,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1106"/>
         <source>Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1113"/>
@@ -1585,7 +1558,7 @@ Bitte wählen Sie ein gültiges Verzeichnis!</translation>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="28"/>
         <source>Fill up with computer opponents</source>
-        <translation type="unfinished">Mit Computergegnern auffüllen</translation>
+        <translation>Mit Computergegnern auffüllen</translation>
     </message>
 </context>
 <context>
