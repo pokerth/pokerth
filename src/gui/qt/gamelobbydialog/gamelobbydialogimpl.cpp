@@ -81,25 +81,22 @@ void gameLobbyDialogImpl::createGame()
 
 void gameLobbyDialogImpl::joinGame()
 {
+	assert(mySession);
 	QTreeWidgetItem *item = treeWidget_GameList->currentItem();
 	if (item)
 	{
-		assert(mySession);
-
-		int isPrivate = 1;
+		unsigned gameId = item->data(0, Qt::UserRole).toUInt();
+		GameInfo info(mySession->getClientGameInfo(gameId));
+		bool ok = true;
+		QString password;
 		//if private ask for password
-		if(isPrivate) {
-
-			bool ok;
-			QString password = QInputDialog::getText(this, tr("Join a private Game"),
-								tr("You like to join a private game. Please enter the password!"), QLineEdit::Password, (""), &ok);
-			if (ok && !password.isEmpty()) {
-// 				std::cout << password.toStdString() << "\n";
-			}
-				
+		if (info.isPasswordProtected) {
+			password = QInputDialog::getText(this, tr("Joining a private Game"),
+								tr("You are about to join a private game. Please enter the password!"), QLineEdit::Password, (""), &ok);
 		}
 
-		mySession->clientJoinGame(item->data(0, Qt::UserRole).toUInt(), "");
+		if (ok)
+			mySession->clientJoinGame(gameId, password.toUtf8().constData());
 	}
 }
 
