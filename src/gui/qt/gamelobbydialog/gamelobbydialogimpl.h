@@ -26,6 +26,7 @@
 
 class Session;
 class ConfigFile;
+class LobbyChat;
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
@@ -40,6 +41,8 @@ public:
 	void exec();
 
 	void setSession(Session *session);
+	Session& getSession() { return *mySession; }
+
 	void setMyW ( mainWindowImpl* theValue ) { myW = theValue; }
 	
 public slots:
@@ -76,6 +79,9 @@ public slots:
 	void clearDialog();
 
 	void sendChatMessage();
+	void checkChatInputLength(QString string);
+	
+	void keyPressEvent(QKeyEvent * event); 
 
 private:
 	
@@ -83,6 +89,7 @@ private:
 	ConfigFile *myConfig;	
 	Session *mySession;
 	createInternetGameDialogImpl *myCreateInternetGameDialog;
+	LobbyChat *myChat;
 
 	QString currentGameName;
 	bool isAdmin;

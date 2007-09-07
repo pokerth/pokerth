@@ -30,7 +30,7 @@ MyLeftTabWidget::MyLeftTabWidget(QGroupBox *parent)
 	int padding = 4;
 #else 
 	QString font1String("font-family: \"Nimbus Sans L\";");
-	int padding = 0;
+	int padding = -1;
 #endif
 
 	QTabBar *myTabBar = this->tabBar();

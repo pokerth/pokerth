@@ -10,15 +10,18 @@
 //
 //
 #include "gamelobbydialogimpl.h"
+#include "lobbychat.h"
 #include "session.h"
 #include "configfile.h"
 #include "gamedata.h"
 #include <net/socket_msg.h>
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
- : QDialog(parent), myW(NULL), myConfig(c), mySession(NULL), currentGameName(""), isAdmin(false)
+ : QDialog(parent), myW(NULL), myConfig(c), mySession(NULL), currentGameName(""), isAdmin(false), myChat(NULL)
 {
     setupUi(this);
+
+	myChat = new LobbyChat(this);
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
@@ -28,7 +31,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	connect( pushButton_Leave, SIGNAL( clicked() ), this, SLOT( leaveGame() ) );
 	connect( treeWidget_connectedPlayers, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
-
+	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), this, SLOT( checkChatInputLength(QString) ) );
+	
 	clearDialog();
 }
 
@@ -41,6 +45,9 @@ void gameLobbyDialogImpl::exec()
 
 gameLobbyDialogImpl::~gameLobbyDialogImpl()
 {
+	delete myChat;
+	myChat = NULL;
+
 }
 
 void gameLobbyDialogImpl::setSession(Session *session)
@@ -251,6 +258,7 @@ void gameLobbyDialogImpl::clearDialog()
 	treeWidget_GameList->setColumnWidth(1,75);
 	treeWidget_GameList->setColumnWidth(2,70);
 
+	pushButton_CreateGame->clearFocus();
 	lineEdit_ChatInput->setFocus();
 }
 
@@ -375,4 +383,10 @@ void gameLobbyDialogImpl::kickPlayer() {
 	pushButton_Kick->setEnabled(false);
 }
 
-void gameLobbyDialogImpl::sendChatMessage() { /*myChat->sendMessage();*/ }
+void gameLobbyDialogImpl::sendChatMessage() { myChat->sendMessage(); }
+void gameLobbyDialogImpl::checkChatInputLength(QString string) { myChat->checkInputLength(string); }
+
+void gameLobbyDialogImpl::keyPressEvent ( QKeyEvent * event ) {
+
+	if (event->key() == Qt::Key_Enter) {}
+}
