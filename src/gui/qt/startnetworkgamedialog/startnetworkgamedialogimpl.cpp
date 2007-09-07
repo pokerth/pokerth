@@ -31,6 +31,8 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFi
 	connect( pushButton_startGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
 	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
 	connect( treeWidget, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
+	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
+
 
 	clearDialog();
 }
@@ -174,3 +176,5 @@ void startNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == 16777220) { pushButton_startGame->click(); } //ENTER 
 	
 }
+
+void startNetworkGameDialogImpl::sendChatMessage() { /*myChat->sendMessage();*/ }

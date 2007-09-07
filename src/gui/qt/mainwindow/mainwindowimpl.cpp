@@ -401,8 +401,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 11px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
 #else
 	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
-// 	textBrowser_Log->verticalScrollBar()->setStyleSheet("background: yellow");
+// 	textBrowser_Log->verticalScrollBar()->setPalette(QColor(0,20,20));
 // 	textBrowser_Log->verticalScrollBar()->setAutoFillBackground ( TRUE );
+
 	textBrowser_Chat->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
 	lineEdit_ChatInput->setStyleSheet("QLineEdit { "+ font1String +" font-size: 10px; color: #F0F0F0; background-color: #1D3B00; border-top: 2px solid #286400; }");
 #endif
@@ -1742,8 +1743,8 @@ void mainWindowImpl::myCall(){
 
 void mainWindowImpl::myBet(){ 
 
-	spinBox_set->show();
 	pushButton_BetRaise->hide();
+	spinBox_set->show();
 	pushButton_CallCheckSet->setText("Set");
 	pushButton_FoldAllin->setText("All-In"); 
 	
@@ -1762,8 +1763,8 @@ void mainWindowImpl::myBet(){
 
 void mainWindowImpl::myRaise(){ 
 
-	spinBox_set->show();
 	pushButton_BetRaise->hide();
+	spinBox_set->show();
 	pushButton_CallCheckSet->setText("Set");
 	pushButton_FoldAllin->setText("All-In"); 
 	

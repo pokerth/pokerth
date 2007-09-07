@@ -27,6 +27,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
 	connect( pushButton_Leave, SIGNAL( clicked() ), this, SLOT( leaveGame() ) );
 	connect( treeWidget_connectedPlayers, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
+	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
 
 	clearDialog();
 }
@@ -65,7 +66,8 @@ void gameLobbyDialogImpl::createGame()
 		gameData.guiSpeed = myCreateInternetGameDialog->spinBox_gameSpeed->value();
 		gameData.playerActionTimeoutSec = myCreateInternetGameDialog->spinBox_netTimeOutPlayerAction->value();
 
-		currentGameName = QString::fromUtf8(myConfig->readConfigString("MyName").c_str()) + QString("'s game");
+		QString gameString(tr("game"));
+		currentGameName = QString::fromUtf8(myConfig->readConfigString("MyName").c_str()) + QString("'s "+ gameString);
 
 		label_SmallBlind->setText(QString::number(gameData.smallBlind));
 		label_StartCash->setText(QString::number(gameData.startMoney));
@@ -73,7 +75,7 @@ void gameLobbyDialogImpl::createGame()
 		label_HandsToRaiseSmallBlind->setText(QString::number(gameData.handsBeforeRaise));
 		label_TimeoutForPlayerAction->setText(QString::number(gameData.playerActionTimeoutSec));
 
-		mySession->clientCreateGame(gameData, myConfig->readConfigString("MyName") + "'s game", myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
+		mySession->clientCreateGame(gameData, myConfig->readConfigString("MyName") + "'s "+ gameString.toUtf8().constData(), myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
 	}
 }
 
@@ -83,6 +85,20 @@ void gameLobbyDialogImpl::joinGame()
 	if (item)
 	{
 		assert(mySession);
+
+		int isPrivate = 1;
+		//if private ask for password
+		if(isPrivate) {
+
+			bool ok;
+			QString password = QInputDialog::getText(this, tr("Join a private Game"),
+								tr("You like to join a private game. Please enter the password!"), QLineEdit::Password, (""), &ok);
+			if (ok && !password.isEmpty()) {
+// 				std::cout << password.toStdString() << "\n";
+			}
+				
+		}
+
 		mySession->clientJoinGame(item->data(0, Qt::UserRole).toUInt(), "");
 	}
 }
@@ -362,3 +378,4 @@ void gameLobbyDialogImpl::kickPlayer() {
 	pushButton_Kick->setEnabled(false);
 }
 
+void gameLobbyDialogImpl::sendChatMessage() { /*myChat->sendMessage();*/ }

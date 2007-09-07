@@ -17,6 +17,8 @@
 #include <QtGui>
 #include <QtCore>
 
+#include <iostream>
+
 #include "createinternetgamedialogimpl.h"
 #include "sdlplayer.h"
 #include "mainwindowimpl.h"
@@ -72,6 +74,8 @@ public slots:
 
 	void gameModeDialogUpdate();
 	void clearDialog();
+
+	void sendChatMessage();
 
 private:
 	

@@ -61,6 +61,8 @@ public slots:
 
 	void exec();
 
+	void sendChatMessage();
+
 private: 
 
 	mainWindowImpl* myW;

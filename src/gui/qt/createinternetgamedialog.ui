@@ -5,18 +5,30 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>297</width>
-    <height>305</height>
+    <width>303</width>
+    <height>316</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Create Game</string>
   </property>
   <layout class="QGridLayout" >
-   <property name="margin" >
+   <property name="leftMargin" >
     <number>9</number>
    </property>
-   <property name="spacing" >
+   <property name="topMargin" >
+    <number>9</number>
+   </property>
+   <property name="rightMargin" >
+    <number>9</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>9</number>
+   </property>
+   <property name="horizontalSpacing" >
+    <number>6</number>
+   </property>
+   <property name="verticalSpacing" >
     <number>6</number>
    </property>
    <item row="0" column="0" >
@@ -25,10 +37,22 @@
       <string>Game Settings</string>
      </property>
      <layout class="QGridLayout" >
-      <property name="margin" >
+      <property name="leftMargin" >
        <number>9</number>
       </property>
-      <property name="spacing" >
+      <property name="topMargin" >
+       <number>9</number>
+      </property>
+      <property name="rightMargin" >
+       <number>9</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>9</number>
+      </property>
+      <property name="horizontalSpacing" >
+       <number>6</number>
+      </property>
+      <property name="verticalSpacing" >
        <number>6</number>
       </property>
       <item row="4" column="0" colspan="3" >
@@ -51,7 +75,7 @@
       <item row="3" column="0" colspan="2" >
        <widget class="QLabel" name="label_4" >
         <property name="text" >
-         <string>Hands before raise small blind:</string>
+         <string>Hands before raise blinds:</string>
         </property>
        </widget>
       </item>
@@ -64,11 +88,11 @@
       </item>
       <item row="5" column="2" colspan="2" >
        <widget class="QSpinBox" name="spinBox_netTimeOutPlayerAction" >
-        <property name="maximum" >
-         <number>60</number>
-        </property>
         <property name="minimum" >
          <number>5</number>
+        </property>
+        <property name="maximum" >
+         <number>60</number>
         </property>
         <property name="value" >
          <number>20</number>
@@ -77,11 +101,11 @@
       </item>
       <item row="0" column="1" colspan="3" >
        <widget class="QSpinBox" name="spinBox_quantityPlayers" >
-        <property name="maximum" >
-         <number>7</number>
-        </property>
         <property name="minimum" >
          <number>2</number>
+        </property>
+        <property name="maximum" >
+         <number>7</number>
         </property>
         <property name="value" >
          <number>7</number>
@@ -90,11 +114,11 @@
       </item>
       <item row="1" column="1" colspan="3" >
        <widget class="QSpinBox" name="spinBox_startCash" >
-        <property name="maximum" >
-         <number>5000</number>
-        </property>
         <property name="minimum" >
          <number>1000</number>
+        </property>
+        <property name="maximum" >
+         <number>5000</number>
         </property>
         <property name="value" >
          <number>2000</number>
@@ -124,11 +148,11 @@
       </item>
       <item row="2" column="1" colspan="3" >
        <widget class="QSpinBox" name="spinBox_smallBlind" >
-        <property name="maximum" >
-         <number>500</number>
-        </property>
         <property name="minimum" >
          <number>5</number>
+        </property>
+        <property name="maximum" >
+         <number>500</number>
         </property>
         <property name="value" >
          <number>10</number>
@@ -137,11 +161,11 @@
       </item>
       <item row="4" column="3" >
        <widget class="QSpinBox" name="spinBox_gameSpeed" >
-        <property name="maximum" >
-         <number>11</number>
-        </property>
         <property name="minimum" >
          <number>1</number>
+        </property>
+        <property name="maximum" >
+         <number>11</number>
         </property>
         <property name="value" >
          <number>4</number>
@@ -150,11 +174,20 @@
       </item>
       <item row="6" column="0" colspan="4" >
        <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
+        </property>
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
         </property>
         <item>
          <widget class="QCheckBox" name="checkBox_Password" >
@@ -180,11 +213,20 @@
    </item>
    <item row="1" column="0" >
     <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
+     </property>
+     <property name="leftMargin" >
+      <number>0</number>
+     </property>
+     <property name="topMargin" >
+      <number>0</number>
+     </property>
+     <property name="rightMargin" >
+      <number>0</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>0</number>
      </property>
      <item>
       <spacer>
