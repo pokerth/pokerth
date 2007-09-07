@@ -76,7 +76,7 @@
      <item>
       <widget class="QPushButton" name="pushButton_Kick" >
        <property name="text" >
-        <string>Kick</string>
+        <string>Kick Player</string>
        </property>
       </widget>
      </item>
