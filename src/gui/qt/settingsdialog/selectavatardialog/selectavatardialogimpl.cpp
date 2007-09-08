@@ -145,8 +145,19 @@ void selectAvatarDialogImpl::isAccepted() {
 	
 	if(groupBox_2->isChecked()) {
 		if(QFile::QFile(lineEdit->text()).exists()) { 
-			externalAvatar = lineEdit->text();
-			settingsCorrect = TRUE;
+
+			if(QFile::QFile(lineEdit->text()).size() <= 30720 ) {
+				externalAvatar = lineEdit->text();
+				settingsCorrect = TRUE;
+			}
+			else { QMessageBox::warning(this, tr("Avatar File Error"),
+				tr("The file size of the chosen picture is too big. (max. 30KB)\n"
+				"Please choose a smaller picture!"),
+				QMessageBox::Ok);
+				settingsCorrect = FALSE; 
+				externalAvatar = "";
+
+			 }
 		}
 		else { QMessageBox::warning(this, tr("Avatar File Error"),
 			tr("The entered avatar picture doesn't exists.\n"
