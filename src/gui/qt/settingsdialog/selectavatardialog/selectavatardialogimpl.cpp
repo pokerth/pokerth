@@ -166,7 +166,7 @@ void selectAvatarDialogImpl::isRejected() { settingsCorrect = FALSE;  }
 void selectAvatarDialogImpl::setExternalAvatar() {
 	
 	if (avatarDir == "") avatarDir = QDir::homePath();
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Select external avatar picture"), avatarDir, tr("Images (*.png)"));
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Select external avatar picture"), avatarDir, tr("Images (*.png *.jpg *.gif)"));
 
      	if (!fileName.isEmpty()) {
      		lineEdit->setText(fileName);	
