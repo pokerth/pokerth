@@ -42,7 +42,6 @@
 #include "game.h"
 #include "session.h"
 #include "tools.h"
-#include "qthelper.h"
 
 #include "configfile.h"
 #include "sdlplayer.h"
@@ -70,7 +69,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	}
 	////////////////////////////
 
-	myQtHelper = new QtHelper;
+	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
 	setupUi(this);
 
@@ -177,13 +176,13 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 
 	//Flipside festlegen;
-	flipside = new QPixmap(myQtHelper->getDataPath() +"gfx/cards/default/flipside.png");
+	flipside = new QPixmap(myAppDataPath +"gfx/cards/default/flipside.png");
 	
 	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
 		QPixmap tmpFlipside(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
 		flipside = new QPixmap(tmpFlipside.scaled(QSize(80, 111),Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 	}
-	else { flipside->load(myQtHelper->getDataPath() +"gfx/cards/default/flipside.png"); }
+	else { flipside->load(myAppDataPath +"gfx/cards/default/flipside.png"); }
 
 	//Flipside Animation noch nicht erledigt
 	flipHolecardsAllInAlreadyDone = FALSE;
@@ -452,16 +451,16 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 
 	//Widgets Grafiken setzen
-	label_CardHolder0->setPixmap(myQtHelper->getDataPath() + "gfx/gui/table/default/cardholder_flop.png");
-	label_CardHolder1->setPixmap(myQtHelper->getDataPath() + "gfx/gui/table/default/cardholder_flop.png");
-	label_CardHolder2->setPixmap(myQtHelper->getDataPath() + "gfx/gui/table/default/cardholder_flop.png");
-	label_CardHolder3->setPixmap(myQtHelper->getDataPath() + "gfx/gui/table/default/cardholder_turn.png");
-	label_CardHolder4->setPixmap(myQtHelper->getDataPath() + "gfx/gui/table/default/cardholder_river.png");
+	label_CardHolder0->setPixmap(myAppDataPath + "gfx/gui/table/default/cardholder_flop.png");
+	label_CardHolder1->setPixmap(myAppDataPath + "gfx/gui/table/default/cardholder_flop.png");
+	label_CardHolder2->setPixmap(myAppDataPath + "gfx/gui/table/default/cardholder_flop.png");
+	label_CardHolder3->setPixmap(myAppDataPath + "gfx/gui/table/default/cardholder_turn.png");
+	label_CardHolder4->setPixmap(myAppDataPath + "gfx/gui/table/default/cardholder_river.png");
 
-	label_Handranking->setPixmap(myQtHelper->getDataPath() + "gfx/gui/misc/handRanking.png");
+	label_Handranking->setPixmap(myAppDataPath + "gfx/gui/misc/handRanking.png");
 
 	//Widgets Grafiken per Stylesheets setzen
-	this->setStyleSheet("QMainWindow { background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/table.png); background-position: bottom center; background-origin: content;}");
+	this->setStyleSheet("QMainWindow { background-image: url(" + myAppDataPath +"gfx/gui/table/default/table.png); background-position: bottom center; background-origin: content;}");
 
 	menubar->setStyleSheet("QMenuBar { background-color: #145300; } QMenuBar::item { color: #669800; }");
 
@@ -474,17 +473,17 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	//Groupbox Background 
 	for (i=1; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+		groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 	}
-	groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
+	groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
 
 		//Human player button
-	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_03.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }");
-	pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_05.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
-	pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playeraction_07.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
+	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }");
+	pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
+	pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
 
-	groupBox_RightToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/misc/toolboxFrameBG.png) }");
-	groupBox_LeftToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/misc/toolboxFrameBG.png) }");
+	groupBox_RightToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/misc/toolboxFrameBG.png) }");
+	groupBox_LeftToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/misc/toolboxFrameBG.png) }");
 
 
 	//raise actionLable above just inserted mypixmaplabel
@@ -505,7 +504,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	//windowicon
 // 	QString windowIconString();
-	this->setWindowIcon(QIcon(myQtHelper->getDataPath()+"gfx/gui/misc/windowicon.png")); 
+	this->setWindowIcon(QIcon(myAppDataPath+"gfx/gui/misc/windowicon.png")); 
 
 	//Statusbar 
 	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
@@ -909,7 +908,7 @@ void mainWindowImpl::callSettingsDialog() {
 			QPixmap tmpFlipside(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
 			flipside = new QPixmap(tmpFlipside.scaled(QSize(57, 80)));
 		}
-		else { flipside->load(myQtHelper->getDataPath() +"gfx/cards/default/flipside.png"); }
+		else { flipside->load(myAppDataPath +"gfx/cards/default/flipside.png"); }
 
 		if(mySession->getCurrentGame()) {
 			//blind buttons refresh
@@ -995,10 +994,10 @@ void mainWindowImpl::refreshSet() {
 
 void mainWindowImpl::refreshButton() {
 
-	QPixmap dealerButton(myQtHelper->getDataPath() +"gfx/gui/table/default/dealerPuck.png");
-	QPixmap smallblindButton(myQtHelper->getDataPath() +"gfx/gui/table/default/smallblindPuck.png");
-	QPixmap bigblindButton(myQtHelper->getDataPath() +"gfx/gui/table/default/bigblindPuck.png");
-	QPixmap onePix(myQtHelper->getDataPath() +"gfx/gui/misc/1px.png");
+	QPixmap dealerButton(myAppDataPath +"gfx/gui/table/default/dealerPuck.png");
+	QPixmap smallblindButton(myAppDataPath +"gfx/gui/table/default/smallblindPuck.png");
+	QPixmap bigblindButton(myAppDataPath +"gfx/gui/table/default/bigblindPuck.png");
+	QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
 
 	int i;
 	int k;
@@ -1067,7 +1066,7 @@ void mainWindowImpl::refreshPlayerName() {
 
 void mainWindowImpl::refreshPlayerAvatar() {
 
-	QPixmap onePix(myQtHelper->getDataPath() +"gfx/gui/misc/1px.png");
+	QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
 	int i;
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
@@ -1077,7 +1076,7 @@ void mainWindowImpl::refreshPlayerAvatar() {
 
 			if(!i) {
 				if(currentHand->getPlayerArray()[0]->getMyAvatar() == "" || !QFile::QFile(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyAvatar().c_str())).exists()) {
-					playerAvatarLabelArray[0]->setPixmap(QPixmap(myQtHelper->getDataPath() +"gfx/gui/table/default/genereticAvatar.png"));
+					playerAvatarLabelArray[0]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png"));
 				}
 				else {
 					playerAvatarLabelArray[0]->setPixmap(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyAvatar().c_str()));
@@ -1085,7 +1084,7 @@ void mainWindowImpl::refreshPlayerAvatar() {
 			}
 			else {				
 				if(currentHand->getPlayerArray()[i]->getMyAvatar() == ""  || !QFile::QFile(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyAvatar().c_str())).exists()) {
-					playerAvatarLabelArray[i]->setPixmap(QPixmap(myQtHelper->getDataPath() +"gfx/gui/table/default/genereticAvatar.png"));
+					playerAvatarLabelArray[i]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png"));
 				}
 				else {
 					playerAvatarLabelArray[i]->setPixmap(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyAvatar().c_str()));
@@ -1100,7 +1099,7 @@ void mainWindowImpl::refreshPlayerAvatar() {
 
 void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 
-	QPixmap onePix(myQtHelper->getDataPath() +"gfx/gui/misc/1px.png");
+	QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
 	QPixmap action;
 
 	QStringList actionArray;
@@ -1120,7 +1119,7 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 			else {
 // 				if(i!=0 || ( i==0 && currentHand->getPlayerArray()[0]->getMyAction() != 1) ) {
 					//paint action pixmap
-					actionLabelArray[i]->setPixmap(QPixmap(myQtHelper->getDataPath() +"gfx/gui/table/default/action_"+actionArray[currentHand->getPlayerArray()[i]->getMyAction()]+".png"));			
+					actionLabelArray[i]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_"+actionArray[currentHand->getPlayerArray()[i]->getMyAction()]+".png"));			
 // 				}		
 			}
 					
@@ -1142,7 +1141,7 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 		else {
 		
 	// 		paint action pixmap and raise
-			actionLabelArray[playerID]->setPixmap(QPixmap(myQtHelper->getDataPath() +"gfx/gui/table/default/action_"+actionArray[playerAction]+".png"));			
+			actionLabelArray[playerID]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_"+actionArray[playerAction]+".png"));			
 
 			//play sounds if exist
 			mySDLPlayer->playSound(actionArray[playerAction].toStdString(), playerID);
@@ -1192,37 +1191,37 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 			if(currentHand->getPlayerArray()[i]->getMyTurn()) {
 				//Groupbox glow wenn der Spiele dran ist. 
 				if(i==0) {
-					groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxActiveGlow.png) }"); 
+					groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxActiveGlow.png) }"); 
 				}
 				else {
-					groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
+					groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
 				}
 	
 			} else {
 				//Groupbox auf Hintergrundfarbe setzen wenn der Spiele nicht dran aber aktiv ist. 
 				if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
 					if(i==0) {
-						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
+						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
 						//show buttons
 						for(j=0; j<3; j++) {
 							userWidgetsArray[j]->show();
 						}
 					}
 					else {
-						groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+						groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 					}	
 				}
 				//Groupbox verdunkeln wenn der Spiele inactive ist.  
 				else {
 					if(i==0) {
-						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
+						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
 						//hide buttons
 						for(j=0; j<4; j++) {
 							userWidgetsArray[j]->hide();
 						}
 					}
 					else {
-						groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+						groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 					}
 				}
 			}
@@ -1234,48 +1233,48 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 		//inactive
 		case 0: { 
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
 					//hide buttons
 					for(j=0; j<4; j++) {
 						userWidgetsArray[j]->hide();
 					}					
 				}
 				else {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 				}
 			}
 		break;
 		//active but fold
 		case 1: {
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
 					//show buttons
 					for(j=0; j<3; j++) {
 						userWidgetsArray[j]->show();
 					}		
 				}
 				else {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 				}
 			}
 		break;
 		//active in action
 		case 2:  {
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxActiveGlow.png) }"); 
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxActiveGlow.png) }"); 
 				}
 				else {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
 				}
 			}
 		break;
 		//active not in action
 		case 3:  {
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
 				}
 				else {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myQtHelper->getDataPath() +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 				}
 			}
 		break;
@@ -1354,7 +1353,7 @@ void mainWindowImpl::waitForGuiUpdateDone() {
 
 void mainWindowImpl::dealHoleCards() {
 
-	QPixmap onePix(myQtHelper->getDataPath() +"gfx/gui/misc/1px.png");
+	QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
 
 	//TempArrays
 	QPixmap tempCardsPixmapArray[2];
@@ -1370,11 +1369,11 @@ void mainWindowImpl::dealHoleCards() {
 				if ((i == 0) || DEBUG_MODE) {
 					if(myConfig->readConfigInt("AntiPeekMode")) {
 						holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
-						tempCardsPixmapArray[j].load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
+						tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
 						holeCardsArray[i][j]->setFrontPixmap(tempCardsPixmapArray[j]);
 					}
 					else {
-						tempCardsPixmapArray[j].load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
+						tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
 						holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
 					}
 				} 
@@ -1434,7 +1433,7 @@ void mainWindowImpl::dealFlopCards4() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempBoardCardsArray[0], 10)+".png");
+	tempCardsPixmap.load(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[0], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
@@ -1454,7 +1453,7 @@ void mainWindowImpl::dealFlopCards5() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempBoardCardsArray[1], 10)+".png");
+	tempCardsPixmap.load(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[1], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 	
 	//Config? mit oder ohne Eye-Candy?
@@ -1474,7 +1473,7 @@ void mainWindowImpl::dealFlopCards6() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempBoardCardsArray[2], 10)+".png");
+	tempCardsPixmap.load(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[2], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 	
 	//Config? mit oder ohne Eye-Candy?
@@ -1507,7 +1506,7 @@ void mainWindowImpl::dealTurnCards2() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempBoardCardsArray[3], 10)+".png");
+	tempCardsPixmap.load(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[3], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
@@ -1542,7 +1541,7 @@ void mainWindowImpl::dealRiverCards2() {
 	int tempBoardCardsArray[5];
 	QPixmap tempCardsPixmap;
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempBoardCardsArray[4], 10)+".png");
+	tempCardsPixmap.load(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[4], 10)+".png");
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
@@ -1970,7 +1969,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
 												
-								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
 							}	
 						}
 						//set Player value (logging)
@@ -1982,7 +1981,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				//Ohne Eye-Candy		
 			
 				//Karten der aktiven Spieler umdrehen
-				QPixmap onePix(myQtHelper->getDataPath() +"gfx/gui/misc/1px.png");
+				QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
 			
 				//TempArrays
 				QPixmap tempCardsPixmapArray[2];
@@ -1994,7 +1993,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
 						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {		
-								tempCardsPixmapArray[j].load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
+								tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
 								holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
 								
 							}	
@@ -2058,7 +2057,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 // 			QPalette tempPalette = groupBoxArray[i]->palette();
 // 			tempPalette.setColor(QPalette::Window, highlight);
 // 			groupBoxArray[i]->setPalette(tempPalette);
-			actionLabelArray[i]->setPixmap(QPixmap(myQtHelper->getDataPath() +"gfx/gui/table/default/action_winner.png"));
+			actionLabelArray[i]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_winner.png"));
 
 			//show winnercards if more than one player is active
 			if ( currentHand->getActivePlayersCounter() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
@@ -2255,7 +2254,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
 						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
-								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
 							}
 						}
 						//set Player value (logging)
@@ -2268,7 +2267,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 				//Ohne Eye-Candy		
 		
 				//Karten der aktiven Spieler umdrehen
-				QPixmap onePix(myQtHelper->getDataPath() +"gfx/gui/misc/1px.png");
+				QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
 				
 				//TempArrays
 				QPixmap tempCardsPixmapArray[2];
@@ -2281,7 +2280,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
 								
-								tempCardsPixmapArray[j].load(myQtHelper->getDataPath() +"gfx/cards/default/"+QString::number(temp2CardsIntArray[j], 10)+".png");
+								tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(temp2CardsIntArray[j], 10)+".png");
 								holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
 							}	
 						}
@@ -2339,7 +2338,7 @@ void mainWindowImpl::nextRoundCleanGui() {
 	int i,j;
 
 	// GUI bereinigen - Bilder löschen, Animationen unterbrechen
-	QPixmap onePix(myQtHelper->getDataPath() +"gfx/gui/misc/1px.png");
+	QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
 	for (i=0; i<5; i++ ) { 
 		boardCardsArray[i]->setPixmap(onePix, FALSE); 
 		boardCardsArray[i]->setFadeOutAction(FALSE); 

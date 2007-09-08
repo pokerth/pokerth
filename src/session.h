@@ -30,6 +30,7 @@ class Game;
 class ConfigFile;
 class ClientThread;
 class ServerAcceptThread;
+class AvatarManager;
 
 class Session{
 public:
@@ -78,6 +79,7 @@ private:
 
 	ClientThread *myNetClient;
 	ServerAcceptThread *myNetServer;
+	boost::shared_ptr<AvatarManager> myAvatarManager;
 
 	boost::shared_ptr<Game> currentGame;
 	GuiInterface *myGui;

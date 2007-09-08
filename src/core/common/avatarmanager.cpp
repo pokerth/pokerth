@@ -126,11 +126,17 @@ AvatarManager::InternalReadDirectory(const std::string &dir)
 		if (is_regular(i->status()))
 		{
 			string md5sum(basename(i->path()));
-			MD5Buf tmpBuf;
-			if (tmpBuf.FromString(md5sum))
+			MD5Buf md5buf;
+			string fileName(i->path().file_string());
+			bool success = true;
+			if (!md5buf.FromString(md5sum))
 			{
-				m_avatars.insert(AvatarMap::value_type(tmpBuf, i->path().file_string()));
+				// sigh. File name is not an md5 sum. Calculate on our own...
+				if (!CryptHelper::MD5Sum(fileName, md5buf))
+					success = false;
 			}
+			if (success)
+				m_avatars.insert(AvatarMap::value_type(md5buf, fileName));
 		}
 		++i;
 	}

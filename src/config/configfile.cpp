@@ -28,6 +28,8 @@
 #include <direct.h>
 #endif
 
+#include <boost/filesystem.hpp>
+
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
@@ -47,7 +49,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 
 	myQtToolsInterface = new QtToolsWrapper;
 
-	for (i=0; i<argc; i++) {
+	for (i=1; i<argc; i++) {
 		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
 	}
 	// !!!! Revisionsnummer der Configdefaults !!!!!
@@ -141,6 +143,8 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 		claNoWriteAccess = "1";
 	}
 
+	boost::filesystem::path startPath(argv[0]);
+
 	ostringstream tempIntToString;
 	tempIntToString << configRev;
 	configList.push_back(ConfigInfo("ConfigRevision", CONFIG_TYPE_INT, tempIntToString.str()));
@@ -207,7 +211,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("LogStoreDuration", CONFIG_TYPE_INT, "2"));
 	configList.push_back(ConfigInfo("LogInterval", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("UserDataDir", CONFIG_TYPE_STRING, dataDir));
-	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, myQtToolsInterface->getDataPathStdString()));
+	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, myQtToolsInterface->getDataPathStdString(startPath.remove_leaf().directory_string())));
 	configList.push_back(ConfigInfo("CacheDir", CONFIG_TYPE_STRING, cacheDir));	
 	configList.push_back(ConfigInfo("CLA_NoWriteAccess", CONFIG_TYPE_INT, claNoWriteAccess));
 

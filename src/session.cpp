@@ -25,6 +25,7 @@
 #include <clientenginefactory.h>
 #include <net/clientthread.h>
 #include <net/serveracceptthread.h>
+#include <core/avatarmanager.h>
 
 #include <sstream>
 
@@ -38,7 +39,7 @@ using namespace std;
 Session::Session(GuiInterface *g, ConfigFile *c)
 : currentGameID(0), myNetClient(0), myNetServer(0), myGui(g), myConfig(c)
 {
-	
+	myAvatarManager.reset(new AvatarManager);
 }
 
 

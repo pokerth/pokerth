@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "qttoolswrapper.h"
+#include <qthelper.h>
 
 using namespace std;
 
@@ -38,5 +39,5 @@ QtToolsWrapper::~QtToolsWrapper()
 
 std::string QtToolsWrapper::stringToUtf8(const std::string &myString) { return myQtHelper->stringToUtf8(myString); }
 std::string QtToolsWrapper::getDefaultLanguage() { return myQtHelper->getDefaultLanguage(); }
-std::string QtToolsWrapper::getDataPathStdString() { return myQtHelper->getDataPathStdString(); }
+std::string QtToolsWrapper::getDataPathStdString(const std::string &appPath) { return myQtHelper->getDataPathStdString(appPath); }
 

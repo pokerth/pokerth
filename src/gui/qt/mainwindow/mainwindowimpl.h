@@ -51,7 +51,6 @@ class startNetworkGameDialogImpl;
 class changeHumanPlayerNameDialogImpl;
 class gameLobbyDialogImpl;
 
-class QtHelper;
 class QColor;
 
 class SDLPlayer;
@@ -394,8 +393,7 @@ private:
 
 	//Sound
 	SDLPlayer *mySDLPlayer;
-
-	QtHelper *myQtHelper;
+	QString myAppDataPath;
 
 
 	int distributePotAnimCounter;

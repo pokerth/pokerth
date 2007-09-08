@@ -45,7 +45,11 @@ Additional values for major version = 2:
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|        Password Length        |      Player Name Length       |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|                            Reserved                           |
+	|         Privacy Flags         |           Reserved            |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                                                               |
+	\                Avatar MD5 (optional, 16 Bytes)                /
+	|                                                               +
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                                                               |
 	\                      Password (UTF-8)                         /
@@ -57,6 +61,8 @@ Additional values for major version = 2:
 	|                               +-------------------------------+
 	/                               |            padding            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+Privacy Flags:
+	0x01 set: Show avatar (insert Avatar MD5).
 
 
 Server Reply: Init ACK
@@ -183,6 +189,10 @@ Server Reply: Player Info
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|         Player Flags          |      Player Name Length       |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                                                               |
+	\                Avatar MD5 (optional, 16 Bytes)                /
+	|                                                               +
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                                                               \
 	\                     Player Name (UTF-8)                       /
 	|                               +-------------------------------+
@@ -190,6 +200,7 @@ Server Reply: Player Info
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 Player Flags:
 	0x01 set: Player is human
+	0x02 set: Player has avatar
 
 
 Client Request: Create Game

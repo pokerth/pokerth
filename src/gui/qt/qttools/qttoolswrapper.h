@@ -21,7 +21,6 @@
 #define QTTOOLSWRAPPER_H
 
 #include <qttoolsinterface.h>
-#include <qthelper.h>
 
 #include <string>
 
@@ -36,7 +35,7 @@ public:
 
 	std::string stringToUtf8(const std::string &myString);
 	std::string getDefaultLanguage();
-	std::string getDataPathStdString();
+	std::string getDataPathStdString(const std::string &appPath);
 
 private: 
 	
