@@ -89,11 +89,16 @@ MD5Buf::FromString(const std::string &text)
 }
 
 bool
-MD5Buf::operator==(const MD5Buf &other)
+MD5Buf::operator==(const MD5Buf &other) const
 {
 	return memcmp(data, other.data, MD5_DATA_SIZE) == 0;
 }
 
+bool
+MD5Buf::operator<(const MD5Buf &other) const
+{
+	return memcmp(data, other.data, MD5_DATA_SIZE) < 0;
+}
 
 bool
 CryptHelper::MD5Sum(const std::string &fileName, MD5Buf &buf)

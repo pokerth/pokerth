@@ -16,33 +16,36 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Helper class for crypt functions. */
+/* A manager for avatar files, MD5sums and a cache. */
 
-#ifndef _CRYPTHELPER_H_
-#define _CRYPTHELPER_H_
+#ifndef _AVATARMANAGER_H_
+#define _AVATARMANAGER_H_
 
-#include <string>
+#include <core/crypthelper.h>
+#include <map>
 
-#define MD5_DATA_SIZE		16
-
-struct MD5Buf
-{
-	MD5Buf();
-
-	std::string ToString() const;
-	bool FromString(const std::string &text);
-
-	bool operator==(const MD5Buf &other) const;
-	bool operator<(const MD5Buf &other) const;
-
-	unsigned char data[MD5_DATA_SIZE];
-};
-
-class CryptHelper
+class AvatarManager
 {
 public:
 
-	static bool MD5Sum(const std::string &fileName, MD5Buf &buf);
+	AvatarManager();
+	~AvatarManager();
+
+	bool Init(const std::string &dataDir, const std::string &cacheDir);
+
+	bool GetHashForAvatar(const std::string &fileName, MD5Buf &md5buf);
+	bool GetAvatarFileName(const MD5Buf &md5buf, std::string &fileName) const;
+	bool StoreAvatarInCache(const MD5Buf &md5buf, const std::string &fileExtension, const unsigned char *data, unsigned size);
+
+protected:
+	typedef std::map<MD5Buf, std::string> AvatarMap;
+
+	void InternalReadDirectory(const std::string &dir);
+
+private:
+	AvatarMap			m_avatars;
+
+	std::string			m_cacheDir;
 };
 
 #endif

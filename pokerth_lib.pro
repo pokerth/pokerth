@@ -45,6 +45,7 @@ HEADERS += \
 		src/config/configfile.h \
 		src/core/thread.h \
 		src/core/crypthelper.h \
+		src/core/avatarmanager.h \
 		src/engine/boardinterface.h \
 		src/engine/enginefactory.h \
 		src/engine/handinterface.h \
@@ -106,6 +107,7 @@ SOURCES += \
 		src/gui/guiinterface.cpp \
 		src/core/common/thread.cpp \
 		src/core/common/crypthelper.cpp \
+		src/core/avatarmanager.cpp \
 		src/core/tinyxml/tinystr.cpp \
 		src/core/tinyxml/tinyxml.cpp \
 		src/core/tinyxml/tinyxmlerror.cpp \
