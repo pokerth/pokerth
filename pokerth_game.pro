@@ -3,7 +3,7 @@
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
-CONFIG += qt thread embed_manifest_exe release
+CONFIG += qt thread embed_manifest_exe warn_on release
 #CONFIG += qt thread embed_manifest_exe warn_on debug
 UI_DIR = uics
 MOC_DIR = mocs
@@ -215,8 +215,8 @@ win32{
 	INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include ../OpenSSL/include
 	LIBPATH += ../boost/stage/lib ../OpenSSL/lib
 
-	#LIBPATH += Release/lib ../SDL/VisualC/SDL/Release ../SDL/VisualC/SDLmain/Release ../SDL_mixer/VisualC/Release
-	LIBPATH += Debug/lib ../SDL/VisualC/SDL/Debug ../SDL/VisualC/SDLmain/Debug ../SDL_mixer/VisualC/Debug
+	LIBPATH += Release/lib ../SDL/VisualC/SDL/Release ../SDL/VisualC/SDLmain/Release ../SDL_mixer/VisualC/Release
+	#LIBPATH += Debug/lib ../SDL/VisualC/SDL/Debug ../SDL/VisualC/SDLmain/Debug ../SDL_mixer/VisualC/Debug
 	LIBPATH += ../SDL/lib ../SDL_mixer/lib
 
 	LIBS += -lpokerth_lib

@@ -96,8 +96,8 @@ win32{
 	INCLUDEPATH += ../boost/ ../OpenSSL/include
 	LIBPATH += ../boost/stage/lib ../OpenSSL/lib
 
-	#LIBPATH += Release/lib
-	LIBPATH += Debug/lib
+	LIBPATH += Release/lib
+	#LIBPATH += Debug/lib
 
 	LIBS += -lpokerth_lib
 	LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32
@@ -136,7 +136,7 @@ unix:!mac{
 	#LIBS += -lcrypto
 }
 
-#CONFIG += qt thread console embed_manifest_exe release
+#CONFIG += qt thread console embed_manifest_exe warn_on release
 CONFIG += qt thread console embed_manifest_exe warn_on debug
 UI_DIR = uics
 TARGET = bin/pokerth_server
