@@ -25,7 +25,6 @@
 #include <net/netpacket.h>
 #include <net/socket_msg.h>
 #include <net/netexception.h>
-#include <core/rand.h>
 #include <gamedata.h>
 #include <game.h>
 #include <playerinterface.h>

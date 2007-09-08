@@ -161,7 +161,7 @@ win32{
 	SOURCES += src/core/win32/rand.cpp \
 		src/net/win32/socket_helper.cpp \
 		src/net/win32/socket_startup.cpp
-	INCLUDEPATH += ../boost/ ../SDL/include ../SDL_mixer
+	INCLUDEPATH += ../boost/ ../OpenSSL/include
 }
 !win32{
 	DEPENDPATH += src/net/linux/ src/core/linux

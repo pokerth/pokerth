@@ -81,7 +81,6 @@ HEADERS += \
 		src/playerdata.h \
 		src/gamedata.h \
 		src/config/configfile.h \
-		src/core/rand.h \
 		src/core/thread.h \
 		src/engine/boardinterface.h \
 		src/engine/enginefactory.h \
@@ -213,14 +212,15 @@ TRANSLATIONS = \
 win32{
 	DEPENDPATH += src/net/win32/ src/core/win32
 	INCLUDEPATH += ../boost/ ../SDL/include ../SDL_mixer
-	INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include
-	LIBPATH += ../boost/stage/lib
+	INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include ../OpenSSL/include
+	LIBPATH += ../boost/stage/lib ../OpenSSL/lib
 
 	#LIBPATH += Release/lib ../SDL/VisualC/SDL/Release ../SDL/VisualC/SDLmain/Release ../SDL_mixer/VisualC/Release
 	LIBPATH += Debug/lib ../SDL/VisualC/SDL/Debug ../SDL/VisualC/SDLmain/Debug ../SDL_mixer/VisualC/Debug
 	LIBPATH += ../SDL/lib ../SDL_mixer/lib
 
 	LIBS += -lpokerth_lib
+	LIBS += -lssleay32MT
 	LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32 -lsdl -lsdlmain -lsdl_mixer
 	exists( ../boost/stage/lib/libboost_thread-mgw34-mt-1_34_1.a ){
 		LIBS += -lboost_thread-mgw34-mt-1_34_1

@@ -17,8 +17,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#define NOMINMAX // for Windows
+
 #include "tools.h"
-#include <core/rand.h>
+#include <openssl/rand.h>
+
+#include <limits>
 
 using namespace std;
 
@@ -34,7 +38,10 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 
 		for (i=0; i<howMany; i++) {
 
-			RandomBytes(rand_buf,4);
+			if(!RAND_bytes(rand_buf, 4))
+			{
+				RAND_pseudo_bytes(rand_buf, 4); 
+			}
 
 			randNumber = 0;
 			for(j=0; j<4; j++) {
@@ -55,7 +62,10 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 		int counter(0);
 		while (counter < howMany) {
 
-			RandomBytes(rand_buf,4);
+			if(!RAND_bytes(rand_buf, 4))
+			{
+				RAND_pseudo_bytes(rand_buf, 4); 
+			}
 
 			randNumber = 0;
 			for(j=0; j<4; j++) {

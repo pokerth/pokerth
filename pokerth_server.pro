@@ -43,7 +43,6 @@ HEADERS += \
 		src/playerdata.h \
 		src/gamedata.h \
 		src/config/configfile.h \
-		src/core/rand.h \
 		src/core/thread.h \
 		src/engine/boardinterface.h \
 		src/engine/enginefactory.h \
@@ -94,8 +93,8 @@ SOURCES += \
 
 win32{
 	DEPENDPATH += src/net/win32/ src/core/win32
-	INCLUDEPATH += ../boost/
-	LIBPATH += ../boost/stage/lib
+	INCLUDEPATH += ../boost/ ../OpenSSL/include
+	LIBPATH += ../boost/stage/lib ../OpenSSL/lib
 
 	#LIBPATH += Release/lib
 	LIBPATH += Debug/lib

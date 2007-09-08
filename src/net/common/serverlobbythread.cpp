@@ -24,7 +24,7 @@
 #include <net/sendercallback.h>
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
-#include <core/rand.h>
+#include <openssl/rand.h>
 
 #include <boost/lambda/lambda.hpp>
 
@@ -490,7 +490,12 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 		// Create a random session id.
 		// This id can be used to reconnect to the server if the connection was lost.
 		unsigned sessionId;
-		RandomBytes((unsigned char *)&sessionId, sizeof(sessionId)); // TODO: check for collisions.
+
+		 // TODO: check for collisions.
+		if(!RAND_bytes((unsigned char *)&sessionId, sizeof(sessionId)))
+		{
+			RAND_pseudo_bytes((unsigned char *)&sessionId, sizeof(sessionId)); 
+		}
 
 		// Create a new session.
 		boost::shared_ptr<SessionData> sessionData(new SessionData(connData->ReleaseSocket(), sessionId));
