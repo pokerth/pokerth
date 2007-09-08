@@ -43,8 +43,8 @@ HEADERS += \
 		src/playerdata.h \
 		src/gamedata.h \
 		src/config/configfile.h \
-		src/core/rand.h \
 		src/core/thread.h \
+		src/core/crypthelper.h \
 		src/engine/boardinterface.h \
 		src/engine/enginefactory.h \
 		src/engine/handinterface.h \
@@ -105,6 +105,7 @@ SOURCES += \
 		src/engine/berointerface.cpp \
 		src/gui/guiinterface.cpp \
 		src/core/common/thread.cpp \
+		src/core/common/crypthelper.cpp \
 		src/core/tinyxml/tinystr.cpp \
 		src/core/tinyxml/tinyxml.cpp \
 		src/core/tinyxml/tinyxmlerror.cpp \
