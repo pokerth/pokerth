@@ -56,31 +56,31 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 
 	QStringList avatarList;
 
-	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Mona_Lisa.png";
-        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Catherine_russia.png";
-        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Elisabeth1.png";
-	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/George_Washington.png";	
-	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Louis_XIV.png";
-	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Sissi.png";
-	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Columbus.png";
-        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Napoleon.png";
-	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Martin_Luther_King.png";
-        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/PopeInnocentX.png";
-        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Pope_Clement_VII.png";
-        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/James_Watt.png";
-        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/albert_einstein.png";
-        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/bach.png";
-	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/mozart.png";
-        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/goethe.png";
-        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/linus.png";
-        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/marc.png";
-	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/viktoria.png";
-	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/benedikt.png";
-	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/Kapitan.png";
-	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/florian.png";	
-	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/felix.png";
-	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/lotodore.png";
-        avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/clipart1.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/95df673e5ee4d02f0f95d5c7ff091cfb.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/490ed3a748f6f4d6c261436198f2368f.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/e3e1ae15f7d808fce16c26c049e2cbe9.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/237c518f2bb6ac99f6eb1012e18460b9.png";	
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/9f49fc3d6062ddc08dc6bbd9ef9b399d.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/bed234c6672d512bdb4c2768f0b3f90c.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/d6f8a45e9243b7e7e4e2c8e41df1c9f5.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/ef0975f38a367a45cb8042b438957304.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/bc28d08c451a775f9e332c14a397096b.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/cbd2e0c6ee579fb8e0f3942639cf988d.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/d66940c138c207c68a338769d683e691.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/16b702a87f681c4343486523a1a867e8.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/45e16bc214942321a3814fb43a84a88e.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/d21268e1d2ec969367ee5b54bd34738b.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/14e3f39cc775608bcecf5597248b3558.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/0c04318e6fa54534935e3e6cfe12c4a1.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/6ecea83d9fac6b4cae97e2fccd09a5f6.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/d90bd3fbbe3671ebac5f9f223d0c6d65.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/93dec21823a314fb8ef2261b7aa75ae5.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/74672ebfa2ab02968386c4e441a08668.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/e54e67ebd5265cf549362a2cda5a999c.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/da34195981d255656f39c05481de3b6a.png";	
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/6ad16e2c3e4b8e4e6da47032d4372f4b.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/c018b15b8164a303b9395b1e89c51004.png";
+	avatarList << myQtHelper->getDataPath() +"gfx/avatars/default/0c24b06358f7b308d6b47c59ebace73d.png";
 	
 	int i;
 	for (i=0; i<avatarList.size(); i++) {

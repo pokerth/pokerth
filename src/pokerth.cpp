@@ -111,6 +111,7 @@ int main( int argc, char **argv )
 	boost::shared_ptr<GuiInterface> myGuiInterface(new GuiWrapper(myConfig));
 	{
 		boost::shared_ptr<Session> session(new Session(myGuiInterface.get(), myConfig));
+		session->init(); // TODO handle error
 		myGuiInterface->setSession(session);
 	}
 

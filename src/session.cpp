@@ -51,6 +51,10 @@ Session::~Session()
 	myConfig = 0;
 }
 
+bool Session::init()
+{
+	return myAvatarManager->Init(myConfig->readConfigString("AppDataDir"), myConfig->readConfigString("CacheDir"));
+}
 
 void Session::startLocalGame(const GameData &gameData, const StartData &startData) {
 

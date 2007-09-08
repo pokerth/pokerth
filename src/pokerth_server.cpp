@@ -88,6 +88,7 @@ main(int argc, char *argv[])
 	boost::shared_ptr<GuiInterface> myServerGuiInterface(new ServerGuiWrapper(myConfig, NULL, NULL));
 	{
 		boost::shared_ptr<Session> session(new Session(myServerGuiInterface.get(), myConfig));
+		session->init(); // TODO handle error
 		myServerGuiInterface->setSession(session);
 	}
 
