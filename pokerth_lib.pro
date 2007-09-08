@@ -107,7 +107,7 @@ SOURCES += \
 		src/gui/guiinterface.cpp \
 		src/core/common/thread.cpp \
 		src/core/common/crypthelper.cpp \
-		src/core/avatarmanager.cpp \
+		src/core/common/avatarmanager.cpp \
 		src/core/tinyxml/tinystr.cpp \
 		src/core/tinyxml/tinyxml.cpp \
 		src/core/tinyxml/tinyxmlerror.cpp \
@@ -161,15 +161,13 @@ SOURCES += \
 
 win32{
 	DEPENDPATH += src/net/win32/ src/core/win32
-	SOURCES += src/core/win32/rand.cpp \
-		src/net/win32/socket_helper.cpp \
+	SOURCES += src/net/win32/socket_helper.cpp \
 		src/net/win32/socket_startup.cpp
 	INCLUDEPATH += ../boost/ ../OpenSSL/include
 }
 !win32{
 	DEPENDPATH += src/net/linux/ src/core/linux
-	SOURCES += src/core/linux/rand.cpp \
-		src/net/linux/socket_helper.cpp \
+	SOURCES += src/net/linux/socket_helper.cpp \
 		src/net/linux/socket_startup.cpp 
 }
 
@@ -188,7 +186,7 @@ mac{
 	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers		
 }
 
-CONFIG += staticlib qt thread release
+CONFIG += staticlib qt thread warn_on release
 #CONFIG += staticlib qt thread warn_on debug
 UI_DIR = uics
 TARGET = lib/pokerth_lib
