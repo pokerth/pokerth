@@ -450,43 +450,6 @@
            <height>55</height>
           </rect>
          </property>
-         <property name="palette" >
-          <palette>
-           <active>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>128</red>
-               <green>128</green>
-               <blue>128</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
          <property name="focusPolicy" >
           <enum>Qt::NoFocus</enum>
          </property>
@@ -500,43 +463,6 @@
            <height>55</height>
           </rect>
          </property>
-         <property name="palette" >
-          <palette>
-           <active>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>128</red>
-               <green>128</green>
-               <blue>128</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
          <property name="focusPolicy" >
           <enum>Qt::NoFocus</enum>
          </property>
@@ -549,43 +475,6 @@
            <width>55</width>
            <height>55</height>
           </rect>
-         </property>
-         <property name="palette" >
-          <palette>
-           <active>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>240</red>
-               <green>240</green>
-               <blue>240</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="ButtonText" >
-             <brush brushstyle="SolidPattern" >
-              <color alpha="255" >
-               <red>128</red>
-               <green>128</green>
-               <blue>128</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
          </property>
          <property name="focusPolicy" >
           <enum>Qt::NoFocus</enum>
