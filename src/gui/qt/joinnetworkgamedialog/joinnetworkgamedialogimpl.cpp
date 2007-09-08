@@ -69,7 +69,7 @@ void joinNetworkGameDialogImpl::exec() {
 
 	if (myConfig->readConfigInt("CLA_NoWriteAccess") == 0 ) { 
 	//if discwrite-access
-		myServerProfilesFile = myConfig->readConfigString("DataDir")+"serverprofiles.xml";
+		myServerProfilesFile = myConfig->readConfigString("UserDataDir")+"serverprofiles.xml";
 	
 		//Anlegen wenn noch nicht existiert!
 		QFile serverProfilesfile(QString::fromUtf8(myServerProfilesFile.c_str()));

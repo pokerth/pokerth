@@ -27,6 +27,7 @@ public:
     std::string getDefaultLanguage();
 
     QString getDataPath();
+    std::string getDataPathStdString();	
 
 };
 

@@ -36,6 +36,7 @@ public:
 
 	std::string stringToUtf8(const std::string &myString);
 	std::string getDefaultLanguage();
+	std::string getDataPathStdString();
 
 private: 
 	

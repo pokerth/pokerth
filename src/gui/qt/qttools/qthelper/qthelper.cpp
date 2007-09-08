@@ -57,3 +57,7 @@ QString QtHelper::getDataPath()
     	return QDir::cleanPath(path) + "/";
 }
 
+std::string QtHelper::getDataPathStdString()
+{
+    	return getDataPath().toUtf8().constData();
+}

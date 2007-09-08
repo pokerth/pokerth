@@ -67,6 +67,7 @@ private:
 	std::string configFileName;
 	std::string logDir;
 	std::string dataDir;
+	std::string cacheDir;
 	int configRev;
 	bool noWriteAccess;
 

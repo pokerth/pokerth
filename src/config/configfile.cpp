@@ -51,7 +51,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
 	}
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 30;
+	configRev = 32;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -98,10 +98,14 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 		////define data-dir
 		dataDir = configFileName;
 		dataDir += "data\\";
+		////define cache-dir
+		cacheDir = configFileName;
+		cacheDir += "cache\\";
 		//create directories on first start of app
 		mkdir(configFileName.c_str());
 		mkdir(logDir.c_str());
 		mkdir(dataDir.c_str());
+		mkdir(cacheDir.c_str());
 	
 		
 #else
@@ -116,11 +120,14 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 			////define data-dir
 			dataDir = configFileName;
 			dataDir += "data/";
+			////define cache-dir
+			cacheDir = configFileName;
+			cacheDir += "cache\\";
 			//create directories on first start of app
 			mkdir(configFileName.c_str(), MODUS) ;
 			mkdir(logDir.c_str(), MODUS);
 			mkdir(dataDir.c_str(), MODUS);
-	
+			mkdir(cacheDir.c_str(), MODUS);
 		}
 	
 #endif
@@ -199,7 +206,9 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("LogDir", CONFIG_TYPE_STRING, logDir));
 	configList.push_back(ConfigInfo("LogStoreDuration", CONFIG_TYPE_INT, "2"));
 	configList.push_back(ConfigInfo("LogInterval", CONFIG_TYPE_INT, "0"));
-	configList.push_back(ConfigInfo("DataDir", CONFIG_TYPE_STRING, dataDir));
+	configList.push_back(ConfigInfo("UserDataDir", CONFIG_TYPE_STRING, dataDir));
+	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, myQtToolsInterface->getDataPathStdString()));
+	configList.push_back(ConfigInfo("CacheDir", CONFIG_TYPE_STRING, cacheDir));	
 	configList.push_back(ConfigInfo("CLA_NoWriteAccess", CONFIG_TYPE_INT, claNoWriteAccess));
 
 	//fill tempList firstTime
