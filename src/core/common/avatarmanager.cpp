@@ -19,14 +19,10 @@
 
 #include "avatarmanager.h"
 
-#ifdef _WIN32
-	#include <boost/filesystem.hpp>
-#else
-	#include <boost/filesystem/operations.hpp>   // includes path.hpp
-	#include <boost/filesystem/convenience.hpp>
-#endif
-
+#include <boost/filesystem.hpp>
 #include <openssl/md5.h>
+
+#include <fstream>
 
 using namespace std;
 using namespace boost::filesystem;

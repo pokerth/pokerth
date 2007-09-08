@@ -122,7 +122,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 			dataDir += "data/";
 			////define cache-dir
 			cacheDir = configFileName;
-			cacheDir += "cache\\";
+			cacheDir += "cache/";
 			//create directories on first start of app
 			mkdir(configFileName.c_str(), MODUS) ;
 			mkdir(logDir.c_str(), MODUS);
