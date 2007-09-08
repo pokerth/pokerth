@@ -29,9 +29,9 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 
 	 setupUi(this);
 	
-	myQtHelper = new QtHelper;
+	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
-	pushButton_OpenAvatarFile->setIcon(QIcon(QPixmap(myQtHelper->getDataPath()+"gfx/gui/misc/fileopen16.png")));
+	pushButton_OpenAvatarFile->setIcon(QIcon(QPixmap(myAppDataPath+"gfx/gui/misc/fileopen16.png")));
 
 // 	listWidget->setViewMode(QListView::IconMode);
 // 	listWidget->setIconSize(QSize(50,50));

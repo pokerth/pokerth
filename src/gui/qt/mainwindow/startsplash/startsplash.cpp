@@ -19,16 +19,19 @@
  ***************************************************************************/
 #include "startsplash.h"
 
-StartSplash::StartSplash(mainWindowImpl *parent)
- : QSplashScreen(parent), myW(parent)
+#include "configfile.h"
+#include "mainwindowimpl.h"
+
+StartSplash::StartSplash(mainWindowImpl *parent, ConfigFile *c)
+ : QSplashScreen(parent), myW(parent), myConfig(c)
 {
 	
-	myQtHelper = new QtHelper;
+	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
-	QFontDatabase::addApplicationFont (myQtHelper->getDataPath() +"fonts/c059013l.pfb");
-	QFontDatabase::addApplicationFont (myQtHelper->getDataPath() +"fonts/andybold.ttf");	
+	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/c059013l.pfb");
+	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/andybold.ttf");	
 
-	logo = myQtHelper->getDataPath()+"gfx/gui/misc/logoChip3D.png";
+	logo = myAppDataPath+"gfx/gui/misc/logoChip3D.png";
 
 
 	frameNo = 52;

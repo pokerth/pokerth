@@ -15,7 +15,6 @@
 #define SDLPLAYER_H
 
 #include "configfile.h"
-#include "qthelper.h"
 
 #if (defined _WIN32) || (defined __APPLE__)
 	#include <SDL_mixer.h>
@@ -53,7 +52,7 @@ private:
 	bool audioEnabled;
 
 	ConfigFile *myConfig;
-	QtHelper *myQtHelper;
+	QString myAppDataPath;
 
 };
 

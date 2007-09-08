@@ -25,7 +25,7 @@ SDLPlayer::SDLPlayer(ConfigFile *c)
 	SDL_Init(SDL_INIT_AUDIO);
 	initAudio();
 
-	myQtHelper = new QtHelper;
+	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 }
 
 
@@ -56,7 +56,7 @@ void SDLPlayer::playSound(string audioString, int playerID) {
 
 	if(audioEnabled && myConfig->readConfigInt("PlaySoundEffects")) {
 		
-		QFile myFile(myQtHelper->getDataPath() + "sounds/default/" + QString::fromStdString(audioString)+".wav");
+		QFile myFile(myAppDataPath + "sounds/default/" + QString::fromStdString(audioString)+".wav");
 	
 		if(myFile.open(QIODevice::ReadOnly)) {
 	

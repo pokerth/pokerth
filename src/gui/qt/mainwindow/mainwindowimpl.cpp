@@ -2477,7 +2477,7 @@ void mainWindowImpl::breakButtonClicked() {
 
 void mainWindowImpl::paintStartSplash() {
 
-	StartSplash *mySplash = new StartSplash(this);	
+	StartSplash *mySplash = new StartSplash(this, myConfig);	
 
 #ifdef __APPLE__
   int offset = 305;

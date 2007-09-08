@@ -23,8 +23,6 @@
 #include "ui_settingsdialog.h"
 #include "selectavatardialogimpl.h"
 
-#include "qthelper.h"
-
 #include <QtCore>
 #include <QtGui>
 
@@ -68,6 +66,7 @@ private:
 	
 	ConfigFile* myConfig;
 	selectAvatarDialogImpl* mySelectAvatarDialogImpl;
+	QString myAppDataPath;
 
 };
 

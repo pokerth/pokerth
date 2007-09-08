@@ -12,17 +12,16 @@
 #ifndef STARTSPLASH_H
 #define STARTSPLASH_H
 
-#include "mainwindowimpl.h"
-#include "qthelper.h"
-
 #include <QtGui>
 #include <QtCore>
 
+class mainWindowImpl;
+class ConfigFile;
 class StartSplash : public QSplashScreen
 {
 Q_OBJECT
 public:
-    StartSplash(mainWindowImpl *);
+    StartSplash(mainWindowImpl *, ConfigFile*);
 
     ~StartSplash();
 	
@@ -39,8 +38,9 @@ public slots:
 private:
 
 	mainWindowImpl *myW;
-	QtHelper *myQtHelper;
-	QPixmap logo;
+	QString myAppDataPath;
+	QPixmap logo;	
+	ConfigFile *myConfig;
 
 };
 
