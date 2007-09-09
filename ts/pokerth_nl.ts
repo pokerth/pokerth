@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="en_US">
+<!DOCTYPE TS><TS version="1.1" language="nl_NL">
+<defaultcodec></defaultcodec>
 <context>
     <name>aboutPokerth</name>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="33"/>
         <source>About</source>
-        <translation>Beschrijving</translation>
+        <translation>Info</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="96"/>
@@ -747,7 +748,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="14"/>
         <source>About PokerTH 0.5</source>
-        <translation>Informatie over PokerTH 0.5</translation>
+        <translation>Info over PokerTH 0.5</translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/aboutpokerth.ui" line="66"/>
@@ -937,7 +938,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="78"/>
         <source>Hands before raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rondes voordat de blinds stijgen:</translation>
     </message>
 </context>
 <context>
@@ -995,7 +996,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="78"/>
         <source>Hands before raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rondes voordat de blinds stijgen:</translation>
     </message>
 </context>
 <context>
@@ -1006,44 +1007,44 @@ p, li { white-space: pre-wrap; }
         <translation>Spellobby</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="57"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="357"/>
         <source>Lobby-Chat</source>
         <translation>Lobby - Chatten</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="148"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="53"/>
         <source>Game</source>
         <translation>Spel</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="153"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="58"/>
         <source>Player</source>
         <translation>Speler</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="158"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="63"/>
         <source>Private</source>
         <translation>Privé</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="187"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="92"/>
         <source>Game Info</source>
         <translation>Spelinformatie</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="200"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="105"/>
         <source>Connected Players</source>
         <translation>Spelers met verbinding</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="261"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="166"/>
         <source>Start Game</source>
         <translation>Spel starten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="268"/>
         <source>Kick</source>
-        <translation>Verwijderen</translation>
+        <translation type="obsolete">Verwijderen</translation>
     </message>
     <message>
         <location filename="../../../../Desktop" line="136833136"/>
@@ -1106,17 +1107,17 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Bedenktijd voor de spelers (sec):&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="208"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="113"/>
         <source>Fill up with computer opponents</source>
-        <translation>De tafel vol maken met computertegenstanders</translation>
+        <translation>Tafel bijvullen met computertegenstanders</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="429"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="334"/>
         <source>Create Game</source>
         <translation>Spel maken</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="436"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="341"/>
         <source>Join Game</source>
         <translation>Meedoen met spel</translation>
     </message>
@@ -1126,67 +1127,77 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Rondes voordat blinds omhooggaan:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="311"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="216"/>
         <source>Maximum number of players:</source>
         <translation>Maximale aantal spelers:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="318"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="223"/>
         <source>Small Blind:</source>
         <translation>Kleine blind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="346"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="251"/>
         <source>Start Cash:</source>
         <translation>Startgeld:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="353"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="258"/>
         <source>Timeout for player action (sec):</source>
         <translation>Bedenktijd voor de spelers (sec):</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="297"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="202"/>
         <source>Hands before raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rondes voordat de blinds stijgen:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="384"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="289"/>
         <source>Leave Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Spel verlaten</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="38"/>
+        <source>Available Players</source>
+        <translation>Beschikbare spelers</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="173"/>
+        <source>Kick Player</source>
+        <translation>Speler verwijderen</translation>
     </message>
 </context>
 <context>
     <name>gameLobbyDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="230"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="234"/>
         <source>Game Info</source>
         <translation>Spelinformatie</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="369"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="374"/>
         <source>Server Error</source>
         <translation>Serverfout</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="370"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="375"/>
         <source>You should not kick yourself from this game!</source>
         <translation>U mag zichzelf niet uit dit spel verwijderen!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="69"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="76"/>
         <source>game</source>
-        <translation type="unfinished"></translation>
+        <translation>spel</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="94"/>
-        <source>Join a private Game</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="101"/>
+        <source>Joining a private Game</source>
+        <translation>Meedoen met een privéspel</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="95"/>
-        <source>You like to join a private game. Please enter the password!</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="102"/>
+        <source>You are about to join a private game. Please enter the password!</source>
+        <translation>U wilt meedoen met een privéspel. Voer het wachtwoord in!</translation>
     </message>
 </context>
 <context>
@@ -1320,7 +1331,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="257"/>
         <source>Could not load server-profiles-file:
 </source>
-        <translation type="unfinished">Kan het serverprofielbestand niet laden:
+        <translation>Kan het serverprofielbestand niet laden:
 </translation>
     </message>
     <message>
@@ -1331,7 +1342,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="201"/>
         <source>A profile with the name: &quot;</source>
-        <translation type="unfinished">Een profiel met de naam: &quot;</translation>
+        <translation>Een profiel met de naam: &quot;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="241"/>
@@ -1352,7 +1363,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="268"/>
         <source>Could not save server-profiles-file:
 </source>
-        <translation type="unfinished">Kan het serverprofielbestand niet opslaan:
+        <translation>Kan het serverprofielbestand niet opslaan:
 </translation>
     </message>
 </context>
@@ -1401,7 +1412,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2688"/>
         <source>About PokerTH ...</source>
-        <translation>Informatie over PokerTH ...</translation>
+        <translation>Info over PokerTH ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2693"/>
@@ -1803,7 +1814,7 @@ Als de server zich achter een NAT-router bevindt, controleer dan daar of port fo
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="151"/>
         <source>Hands before raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rondes voordat de blinds stijgen:</translation>
     </message>
 </context>
 <context>
@@ -1811,12 +1822,12 @@ Als de server zich achter een NAT-router bevindt, controleer dan daar of port fo
     <message>
         <location filename="../src/gui/qt/selectavatardialog.ui" line="33"/>
         <source>Please select an avatar</source>
-        <translation>Kies een avatar</translation>
+        <translation>Selecteer een avatar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/selectavatardialog.ui" line="61"/>
         <source>Select an avatar</source>
-        <translation>Een avatar kiezen</translation>
+        <translation>Een avatar selecteren</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/selectavatardialog.ui" line="90"/>
@@ -1834,7 +1845,7 @@ Als de server zich achter een NAT-router bevindt, controleer dan daar of port fo
     <message>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="139"/>
         <source>Please select an avatar from the list!</source>
-        <translation>Kies een avatar uit de lijst!</translation>
+        <translation>Selecteer een avatar uit de lijst!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="153"/>
@@ -1846,7 +1857,7 @@ Stel een geldige afbeelding in!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="169"/>
         <source>Select external avatar picture</source>
-        <translation>Een externe avatar kiezen</translation>
+        <translation>Een externe avatar selecteren</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="169"/>
@@ -2209,32 +2220,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2668"/>
         <source>QLabel { font-weight: bold;  }</source>
-        <translation type="unfinished"></translation>
+        <translation>QLabel { font-weight: bold;  }</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="819"/>
         <source>Hands before raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rondes voordat de blinds stijgen:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1063"/>
         <source>Lobby Chat Settings (IRC Server)</source>
-        <translation type="unfinished"></translation>
+        <translation>Instellingen voor het chatten in de lobby (IRC-server)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1076"/>
         <source>chat.freenode.net</source>
-        <translation type="unfinished"></translation>
+        <translation>chat.freenode.net</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1106"/>
         <source>Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanaal:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1113"/>
         <source>#pokerth</source>
-        <translation type="unfinished"></translation>
+        <translation>#pokerth</translation>
     </message>
 </context>
 <context>
@@ -2261,7 +2272,7 @@ Selecteer een geldige map!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="285"/>
         <source>Select your flipside picture</source>
-        <translation>Uw afbeelding voor de kaartachterkant kiezen</translation>
+        <translation>Uw afbeelding voor de kaartachterkant selecteren</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="287"/>
@@ -2304,7 +2315,7 @@ Selecteer een geldige map!</translation>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="79"/>
         <source>Kick</source>
-        <translation>Verwijderen</translation>
+        <translation type="obsolete">Verwijderen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="20"/>
@@ -2319,7 +2330,12 @@ Selecteer een geldige map!</translation>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="28"/>
         <source>Fill up with computer opponents</source>
-        <translation>De tafel vol maken met computertegenstanders</translation>
+        <translation>Tafel bijvullen met computertegenstanders</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="79"/>
+        <source>Kick Player</source>
+        <translation>Speler verwijderen</translation>
     </message>
 </context>
 <context>
