@@ -296,6 +296,8 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 		new PlayerData(GetNextUniquePlayerId(), 0, PLAYER_TYPE_HUMAN, PLAYER_RIGHTS_NORMAL));
 	tmpPlayerData->SetName(initData.playerName);
 	tmpPlayerData->SetNetSessionData(session.sessionData);
+	if (initData.showAvatar)
+		tmpPlayerData->SetAvatarFile(initData.avatar.ToString());
 
 	// Send ACK to client.
 	boost::shared_ptr<NetPacket> initAck(new NetPacketInitAck);
@@ -344,6 +346,9 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 		infoData.playerId = tmpPlayer->GetUniqueId();
 		infoData.playerInfo.ptype = tmpPlayer->GetType();
 		infoData.playerInfo.playerName = tmpPlayer->GetName();
+		infoData.playerInfo.hasAvatar = !tmpPlayer->GetAvatarFile().empty();
+		if (infoData.playerInfo.hasAvatar)
+			infoData.playerInfo.avatar.FromString(tmpPlayer->GetAvatarFile());
 		static_cast<NetPacketPlayerInfo *>(info.get())->SetData(infoData);
 		GetSender().Send(session.sessionData->GetSocket(), info);
 	}

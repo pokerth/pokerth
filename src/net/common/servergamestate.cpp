@@ -157,11 +157,15 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 				if (tmpSession.sessionData.get() && tmpSession.playerData.get())
 				{
 					// Send player info to client.
+					// TODO this is a copy and paste
 					boost::shared_ptr<NetPacket> info(new NetPacketPlayerInfo);
 					NetPacketPlayerInfo::Data infoData;
 					infoData.playerId = tmpSession.playerData->GetUniqueId();
 					infoData.playerInfo.ptype = tmpSession.playerData->GetType();
 					infoData.playerInfo.playerName = tmpSession.playerData->GetName();
+					infoData.playerInfo.hasAvatar = !tmpSession.playerData->GetAvatarFile().empty();
+					if (infoData.playerInfo.hasAvatar)
+						infoData.playerInfo.avatar.FromString(tmpSession.playerData->GetAvatarFile());
 					static_cast<NetPacketPlayerInfo *>(info.get())->SetData(infoData);
 					server.GetSender().Send(session.sessionData->GetSocket(), info);
 				}

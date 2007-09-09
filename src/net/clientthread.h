@@ -36,11 +36,12 @@ class ReceiverHelper;
 class ClientSenderCallback;
 class Game;
 class NetPacket;
+class AvatarManager;
 
 class ClientThread : public Thread
 {
 public:
-	ClientThread(GuiInterface &gui);
+	ClientThread(GuiInterface &gui, AvatarManager &avatarManager);
 	virtual ~ClientThread();
 
 	// Set the parameters. Does not do any error checking.
@@ -52,7 +53,8 @@ public:
 		bool ipv6,
 		bool sctp,
 		const std::string &pwd,
-		const std::string &playerName);
+		const std::string &playerName,
+		const std::string &avatarFile);
 
 	void SendKickPlayer(unsigned playerId);
 	void SendLeaveCurrentGame();
@@ -68,6 +70,7 @@ public:
 
 	ClientCallback &GetCallback();
 	GuiInterface &GetGui();
+	AvatarManager &GetAvatarManager();
 
 protected:
 	typedef std::map<unsigned, GameInfo> GameInfoMap;
@@ -133,6 +136,7 @@ private:
 	std::auto_ptr<ClientSenderCallback> m_senderCallback;
 	ClientState *m_curState;
 	GuiInterface &m_gui;
+	AvatarManager &m_avatarManager;
 
 	std::auto_ptr<SenderThread> m_sender;
 	std::auto_ptr<ReceiverHelper> m_receiver;

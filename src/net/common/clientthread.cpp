@@ -24,6 +24,7 @@
 #include <net/receiverhelper.h>
 #include <net/clientexception.h>
 #include <net/socket_msg.h>
+#include <core/avatarmanager.h>
 #include <clientenginefactory.h>
 #include <game.h>
 
@@ -53,8 +54,9 @@ private:
 };
 
 
-ClientThread::ClientThread(GuiInterface &gui)
-: m_curState(NULL), m_gui(gui), m_curGameId(1), m_guiPlayerId(0), m_sessionEstablished(false)
+ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager)
+: m_curState(NULL), m_gui(gui), m_avatarManager(avatarManager),
+  m_curGameId(1), m_guiPlayerId(0), m_sessionEstablished(false)
 {
 	m_context.reset(new ClientContext);
 	m_senderCallback.reset(new ClientSenderCallback(*this));
@@ -68,7 +70,8 @@ ClientThread::~ClientThread()
 
 void
 ClientThread::Init(
-	const string &serverAddress, unsigned serverPort, bool ipv6, bool sctp, const string &pwd, const string &playerName)
+	const string &serverAddress, unsigned serverPort, bool ipv6, bool sctp,
+	const string &pwd, const string &playerName, const string &avatarFile)
 {
 	if (IsRunning())
 	{
@@ -84,6 +87,7 @@ ClientThread::Init(
 	context.SetServerPort(serverPort);
 	context.SetPassword(pwd);
 	context.SetPlayerName(playerName);
+	context.SetAvatarFile(avatarFile);
 }
 
 void
@@ -267,6 +271,12 @@ ClientThread::GetGui()
 	return m_gui;
 }
 
+AvatarManager &
+ClientThread::GetAvatarManager()
+{
+	return m_avatarManager;
+}
+
 void
 ClientThread::Main()
 {
@@ -382,6 +392,12 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 	{
 		playerData->SetName(info.playerName);
 		playerData->SetType(info.ptype);
+		if (info.hasAvatar)
+		{
+			string avatarFile;
+			if (GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile))
+				playerData->SetAvatarFile(avatarFile);
+		}
 	}
 
 	GetCallback().SignalNetClientPlayerChanged(id, info.playerName);

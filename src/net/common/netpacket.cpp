@@ -68,9 +68,11 @@ using namespace std;
 #define NET_GAME_FLAG_PASSWORD_PROTECTED		0x01
 
 #define NET_PLAYER_FLAG_HUMAN					0x01
-#define NET_PLAYER_FLAG_ADMIN					0x02
+#define NET_PLAYER_FLAG_HAS_AVATAR				0x02
 
 #define NET_START_FLAG_FILL_WITH_CPU_PLAYERS	0x01
+
+#define NET_PRIVACY_FLAG_SHOW_AVATAR			0x01
 
 // Reasons why join game failed.
 #define NET_JOIN_FAILED_GAME_FULL				0x0001
@@ -118,7 +120,8 @@ struct GCC_PACKED NetPacketInitData
 	u_int16_t			requestedVersionMinor;
 	u_int16_t			passwordLength;
 	u_int16_t			playerNameLength;
-	u_int32_t			reserved;
+	u_int16_t			privacyFlags;
+	u_int16_t			reserved;
 };
 
 struct GCC_PACKED NetPacketInitAckData
@@ -926,16 +929,29 @@ NetPacketInit::SetData(const NetPacketInit::Data &inData)
 	if (passwordLen > MAX_PASSWORD_SIZE)
 		throw NetException(ERR_NET_INVALID_PASSWORD_STR, 0);
 
+	int avatarSize = inData.showAvatar ? MD5_DATA_SIZE : 0;
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
-		(sizeof(NetPacketInitData) + ADD_PADDING(playerNameLen) + ADD_PADDING(passwordLen)));
+		(sizeof(NetPacketInitData)
+		+ avatarSize
+		+ ADD_PADDING(playerNameLen)
+		+ ADD_PADDING(passwordLen)));
 
 	NetPacketInitData *tmpData = (NetPacketInitData *)GetRawData();
 
 	// Set the data.
 	tmpData->passwordLength = htons(passwordLen);
 	tmpData->playerNameLength = htons(playerNameLen);
-	char *passwordPtr = (char *)tmpData + sizeof(NetPacketInitData);
+
+	if (inData.showAvatar)
+	{
+		// Store MD5 sum of avatar.
+		tmpData->privacyFlags = htons(NET_PRIVACY_FLAG_SHOW_AVATAR);
+		char *avatarPtr = (char *)tmpData + sizeof(NetPacketInitData);
+		memcpy(avatarPtr, inData.avatar.data, MD5_DATA_SIZE);
+	}
+
+	char *passwordPtr = (char *)tmpData + sizeof(NetPacketInitData) + avatarSize;
 	memcpy(passwordPtr, inData.password.c_str(), passwordLen);
 	memcpy(passwordPtr + ADD_PADDING(passwordLen), inData.playerName.c_str(), playerNameLen);
 
@@ -952,8 +968,17 @@ NetPacketInit::GetData(NetPacketInit::Data &outData) const
 	outData.versionMajor = ntohs(tmpData->requestedVersionMajor);
 	outData.versionMinor = ntohs(tmpData->requestedVersionMinor);
 
+	outData.showAvatar = ntohs(tmpData->privacyFlags) & NET_PRIVACY_FLAG_SHOW_AVATAR;
+
+	if (outData.showAvatar)
+	{
+		char *avatarPtr = (char *)tmpData + sizeof(NetPacketInitData);
+		memcpy(outData.avatar.data, avatarPtr, MD5_DATA_SIZE);
+	}
+
+	int avatarSize = outData.showAvatar ? MD5_DATA_SIZE : 0;
 	u_int16_t passwordLen = ntohs(tmpData->passwordLength);
-	char *passwordPtr = (char *)tmpData + sizeof(NetPacketInitData);
+	char *passwordPtr = (char *)tmpData + sizeof(NetPacketInitData) + avatarSize;
 	outData.password = string(passwordPtr, passwordLen);
 	outData.playerName = string(passwordPtr + ADD_PADDING(passwordLen), ntohs(tmpData->playerNameLength));
 }
@@ -971,12 +996,14 @@ NetPacketInit::InternalCheck(const NetPacketHeader* data) const
 	NetPacketInitData *tmpData = (NetPacketInitData *)data;
 	int passwordLength = ntohs(tmpData->passwordLength);
 	int playerNameLength = ntohs(tmpData->playerNameLength);
+	int avatarSize = ntohs(tmpData->privacyFlags) & NET_PRIVACY_FLAG_SHOW_AVATAR ? MD5_DATA_SIZE : 0;
 	// Generous checking of dynamic packet size -
 	// larger packets are allowed.
 	// This is because the version number is in this packet,
 	// and later versions might provide larger packets.
 	if (dataLen <
 		sizeof(NetPacketInitData)
+		+ avatarSize
 		+ ADD_PADDING(passwordLength)
 		+ ADD_PADDING(playerNameLength))
 	{
@@ -990,7 +1017,7 @@ NetPacketInit::InternalCheck(const NetPacketHeader* data) const
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check name string.
-	char *namePtr = (char *)tmpData + sizeof(NetPacketInitData) + ADD_PADDING(passwordLength);
+	char *namePtr = (char *)tmpData + sizeof(NetPacketInitData) + avatarSize + ADD_PADDING(passwordLength);
 	if (namePtr[0] == 0)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
@@ -1470,17 +1497,27 @@ NetPacketPlayerInfo::SetData(const NetPacketPlayerInfo::Data &inData)
 	if (!playerNameLen || playerNameLen > MAX_NAME_SIZE)
 		throw NetException(ERR_NET_INVALID_PLAYER_NAME, 0);
 
+	int avatarSize = inData.playerInfo.hasAvatar ? MD5_DATA_SIZE : 0;
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
-		(sizeof(NetPacketPlayerInfoData) + ADD_PADDING(playerNameLen)));
+		(sizeof(NetPacketPlayerInfoData) + avatarSize + ADD_PADDING(playerNameLen)));
 
 	NetPacketPlayerInfoData *tmpData = (NetPacketPlayerInfoData *)GetRawData();
 
 	// Set the data.
 	tmpData->playerId			= htonl(inData.playerId);
-	tmpData->playerFlags		= htons(inData.playerInfo.ptype);
 	tmpData->playerNameLength	= htons(playerNameLen);
-	char *namePtr = (char *)tmpData + sizeof(NetPacketPlayerInfoData);
+
+	u_int16_t tmpPlayerFlags = inData.playerInfo.ptype == PLAYER_TYPE_HUMAN ? NET_PLAYER_FLAG_HUMAN : 0;
+	if (inData.playerInfo.hasAvatar)
+	{
+		tmpPlayerFlags |= NET_PLAYER_FLAG_HAS_AVATAR;
+		char *avatarPtr = (char *)tmpData + sizeof(NetPacketPlayerInfoData);
+		memcpy(avatarPtr, inData.playerInfo.avatar.data, MD5_DATA_SIZE);
+	}
+	tmpData->playerFlags		= htons(tmpPlayerFlags);
+
+	char *namePtr = (char *)tmpData + sizeof(NetPacketPlayerInfoData) + avatarSize;
 	memcpy(namePtr, inData.playerInfo.playerName.c_str(), playerNameLen);
 
 	// Check the packet - just in case.
@@ -1494,8 +1531,19 @@ NetPacketPlayerInfo::GetData(NetPacketPlayerInfo::Data &outData) const
 	NetPacketPlayerInfoData *tmpData = (NetPacketPlayerInfoData *)GetRawData();
 
 	outData.playerId = ntohl(tmpData->playerId);
-	outData.playerInfo.ptype = static_cast<PlayerType>(ntohs(tmpData->playerFlags));
-	char *namePtr = (char *)tmpData + sizeof(NetPacketPlayerInfoData);
+	u_int16_t tmpPlayerFlags = ntohs(tmpData->playerFlags);
+	outData.playerInfo.ptype = (tmpPlayerFlags & NET_PLAYER_FLAG_HUMAN) ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
+	outData.playerInfo.hasAvatar = (tmpPlayerFlags & NET_PLAYER_FLAG_HAS_AVATAR) ? true : false;
+
+	if (outData.playerInfo.hasAvatar)
+	{
+		char *avatarPtr = (char *)tmpData + sizeof(NetPacketPlayerInfoData);
+		memcpy(outData.playerInfo.avatar.data, avatarPtr, MD5_DATA_SIZE);
+	}
+
+	int avatarSize = outData.playerInfo.hasAvatar ? MD5_DATA_SIZE : 0;
+
+	char *namePtr = (char *)tmpData + avatarSize + sizeof(NetPacketPlayerInfoData);
 	outData.playerInfo.playerName = string(namePtr, ntohs(tmpData->playerNameLength));
 }
 
@@ -1511,9 +1559,11 @@ NetPacketPlayerInfo::InternalCheck(const NetPacketHeader* data) const
 	u_int16_t dataLen = ntohs(data->length);
 	NetPacketPlayerInfoData *tmpData = (NetPacketPlayerInfoData *)data;
 	int playerNameLength = ntohs(tmpData->playerNameLength);
+	int avatarSize = (ntohs(tmpData->playerFlags) & NET_PLAYER_FLAG_HAS_AVATAR) ? MD5_DATA_SIZE : 0;
 	// Exact checking this time.
 	if (dataLen !=
 		sizeof(NetPacketPlayerInfoData)
+		+ avatarSize
 		+ ADD_PADDING(playerNameLength))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);

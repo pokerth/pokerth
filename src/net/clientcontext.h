@@ -63,6 +63,10 @@ public:
 	{return m_playerName;}
 	void SetPlayerName(const std::string &playerName)
 	{m_playerName = playerName;}
+	const std::string &GetAvatarFile() const
+	{return m_avatarFile;}
+	void SetAvatarFile(const std::string &avatarFile)
+	{m_avatarFile = avatarFile;}
 
 	int GetClientSockaddrSize() const
 	{return m_addrFamily == AF_INET6 ? sizeof(sockaddr_in6) : sizeof(sockaddr_in);}
@@ -79,6 +83,7 @@ private:
 	std::string			m_password;
 	sockaddr_storage	m_clientSockaddr;
 	std::string			m_playerName;
+	std::string			m_avatarFile;
 	ReceiveBuffer		m_receiveBuffer;
 };
 

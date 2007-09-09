@@ -21,6 +21,7 @@
 #ifndef _PLAYERDATA_H_
 #define _PLAYERDATA_H_
 
+#include <core/crypthelper.h>
 #include <string>
 #include <list>
 #include <map>
@@ -45,6 +46,8 @@ struct PlayerInfo
 	PlayerInfo() : ptype(PLAYER_TYPE_HUMAN) {}
 	std::string		playerName;
 	PlayerType		ptype;
+	bool			hasAvatar;
+	MD5Buf			avatar;
 };
 
 class PlayerData

@@ -27,6 +27,7 @@
 #include <net/clientexception.h>
 #include <net/socket_helper.h>
 #include <net/socket_msg.h>
+#include <core/avatarmanager.h>
 
 #include <game.h>
 #include <playerinterface.h>
@@ -349,6 +350,12 @@ ClientStateStartSession::Process(ClientThread &client)
 	NetPacketInit::Data initData;
 	initData.password = context.GetPassword();
 	initData.playerName = context.GetPlayerName();
+	string avatarFile = context.GetAvatarFile();
+	if (!avatarFile.empty())
+	{
+		if (client.GetAvatarManager().GetHashForAvatar(avatarFile, initData.avatar))
+			initData.showAvatar = true;
+	}
 
 	boost::shared_ptr<NetPacket> packet(new NetPacketInit);
 	((NetPacketInit *)packet.get())->SetData(initData);
@@ -549,6 +556,7 @@ ClientStateWaitJoin::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		boost::shared_ptr<PlayerData> playerData(
 			new PlayerData(client.GetGuiPlayerId(), 0, PLAYER_TYPE_HUMAN, joinGameAckData.prights));
 		playerData->SetName(context.GetPlayerName());
+		playerData->SetAvatarFile(context.GetAvatarFile());
 		client.AddPlayerData(playerData);
 
 		client.SetState(ClientStateWaitGame::Instance());
@@ -628,6 +636,12 @@ ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 			playerData.reset(
 				new PlayerData(netPlayerData.playerId, 0, info.ptype, netPlayerData.prights));
 			playerData->SetName(info.playerName);
+			if (info.hasAvatar)
+			{
+				string avatarFile;
+				if (client.GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile))
+					playerData->SetAvatarFile(avatarFile);
+			}
 		}
 		else
 		{

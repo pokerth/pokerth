@@ -119,14 +119,15 @@ void Session::startInternetClient()
 		assert(false);
 		return;
 	}
-	myNetClient = new ClientThread(*myGui);
+	myNetClient = new ClientThread(*myGui, *myAvatarManager);
 	myNetClient->Init(
 		myConfig->readConfigString("InternetServerAddress"),
 		myConfig->readConfigInt("InternetServerPort"),
 		myConfig->readConfigInt("InternetServerUseIpv6") == 1,
 		myConfig->readConfigInt("InternetServerUseSctp") == 1,
 		myConfig->readConfigString("InternetServerPassword"),
-		myConfig->readConfigString("MyName"));
+		myConfig->readConfigString("MyName"),
+		myConfig->readConfigString("MyAvatar"));
 	myNetClient->Run();
 }
 
@@ -137,14 +138,15 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 		assert(false);
 		return;
 	}
-	myNetClient = new ClientThread(*myGui);
+	myNetClient = new ClientThread(*myGui, *myAvatarManager);
 	myNetClient->Init(
 		serverAddress,
 		serverPort,
 		ipv6,
 		sctp,
 		pwd,
-		myConfig->readConfigString("MyName"));
+		myConfig->readConfigString("MyName"),
+		myConfig->readConfigString("MyAvatar"));
 	myNetClient->Run();
 	myNetClient->SendJoinFirstGame("");
 }
@@ -156,7 +158,7 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
 		assert(false);
 		return;
 	}
-	myNetClient = new ClientThread(*myGui);
+	myNetClient = new ClientThread(*myGui, *myAvatarManager);
 	bool useIpv6 = myConfig->readConfigInt("ServerUseIpv6") == 1;
 	const char *loopbackAddr = useIpv6 ? "::1" : "127.0.0.1";
 	myNetClient->Init(
@@ -165,7 +167,8 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
 		useIpv6,
 		myConfig->readConfigInt("ServerUseSctp") == 1,
 		myConfig->readConfigString("ServerPassword"),
-		myConfig->readConfigString("MyName"));
+		myConfig->readConfigString("MyName"),
+		myConfig->readConfigString("MyAvatar"));
 	myNetClient->Run();
 	myNetClient->SendCreateGame(gameData, NET_DEFAULT_GAME, "");
 }

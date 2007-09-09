@@ -25,6 +25,7 @@
 #include <game_defs.h>
 #include <gamedata.h>
 #include <net/socket_helper.h>
+#include <core/crypthelper.h>
 
 #define NET_VERSION_MAJOR			2
 #define NET_VERSION_MINOR			0
@@ -152,6 +153,8 @@ public:
 		int versionMinor;
 		std::string playerName;
 		std::string password;
+		bool showAvatar;
+		MD5Buf avatar;
 	};
 
 	NetPacketInit();
