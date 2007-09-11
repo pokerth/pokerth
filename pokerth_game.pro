@@ -274,7 +274,7 @@ unix: !mac{
 	TARGETDEPS += ./lib/libpokerth_lib.a
 
 	## My release static libs
-	#LIBS += -lcrypto -lSDL_mixer -lSDL -lmikmod
+	#LIBS += -lcrypto_static -lSDL_mixer_static -lSDL -lmikmod
 
 	#### INSTALL ####
 

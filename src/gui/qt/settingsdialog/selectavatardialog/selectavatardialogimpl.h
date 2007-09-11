@@ -46,6 +46,8 @@ public slots:
 	void setExternalAvatar();
 
 	bool getSettingsCorrect() const	{ return settingsCorrect;}
+
+	void refreshAvatarView();
 	
 
 private:
@@ -56,6 +58,9 @@ private:
 	QString externalAvatar;
 	QString avatarDir;
 	QString myAppDataPath;
+	QStringList miscAvatarList;
+	QStringList peopleAvatarList;
+
 
 };
 

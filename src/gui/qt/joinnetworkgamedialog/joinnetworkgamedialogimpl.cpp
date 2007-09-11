@@ -198,7 +198,7 @@ void joinNetworkGameDialogImpl::saveServerProfile() {
 		if( testProfile ) {
 			// Wenn der Name schon existiert --> Überschreiben?
 			QMessageBox msgBox(QMessageBox::Warning, tr("Save Server Profile Error"),
-				tr("A profile with the name: \""+lineEdit_profileName->text().toAscii()+"\" already exists.\nWould you like to overwrite ?"), QMessageBox::Yes | QMessageBox::No, this);
+				QString(tr("A profile with the name: %1 already exists.\nWould you like to overwrite ?")).arg(lineEdit_profileName->text()), QMessageBox::Yes | QMessageBox::No, this);
 			switch (msgBox.exec()) {
 
 				case QMessageBox::Yes: {
