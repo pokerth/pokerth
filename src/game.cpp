@@ -138,7 +138,7 @@ void Game::initHand()
 	actualHandID++;
 
 	// smallBlind alle x Runden erhöhen
-	if(actualHandID%(startHandsBeforeRaiseSmallBlind+1) == 0) { actualSmallBlind *= 2; }
+	if((actualHandID-1)%startHandsBeforeRaiseSmallBlind == 0 && actualHandID > 1) { actualSmallBlind *= 2; }
 
 	
 
