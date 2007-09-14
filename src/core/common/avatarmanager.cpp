@@ -43,6 +43,7 @@ AvatarManager::Init(const std::string &dataDir, const std::string &cacheDir)
 	try
 	{
 		InternalReadDirectory(dataDir + "gfx/avatars/default/people/");
+		InternalReadDirectory(dataDir + "gfx/avatars/default/misc/");
 		InternalReadDirectory(cacheDir);
 		m_cacheDir = cacheDir;
 		retVal = true;
