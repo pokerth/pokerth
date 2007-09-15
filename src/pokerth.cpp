@@ -36,6 +36,8 @@
 #include <QtGui>
 #include <QtCore>
 
+#include <QtPlugin>
+
 #include <cstdlib>
 #include <ctime>
 
@@ -56,6 +58,10 @@
 #ifndef ENABLE_LEAK_CHECK
 	#define ENABLE_LEAK_CHECK()
 #endif
+
+Q_IMPORT_PLUGIN(qjpeg)
+Q_IMPORT_PLUGIN(qgif)
+
 
 using namespace std;
 
