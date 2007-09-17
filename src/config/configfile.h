@@ -76,6 +76,8 @@ private:
 
 	ConfigState myConfigState;
 	QtToolsInterface *myQtToolsInterface;
+
+	char **myArgv;
 };
 
 #endif

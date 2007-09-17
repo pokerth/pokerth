@@ -45,6 +45,8 @@ class QtToolsWrapper;
 
 ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 {
+
+	myArgv = argv;
 	int i;
 
 	myQtToolsInterface = new QtToolsWrapper;
@@ -53,7 +55,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
 	}
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 34;
+	configRev = 35;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -148,6 +150,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	ostringstream tempIntToString;
 	tempIntToString << configRev;
 	configList.push_back(ConfigInfo("ConfigRevision", CONFIG_TYPE_INT, tempIntToString.str()));
+	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, myQtToolsInterface->getDataPathStdString(startPath.remove_leaf().directory_string())));
 	configList.push_back(ConfigInfo("Language", CONFIG_TYPE_INT, myQtToolsInterface->getDefaultLanguage()));
 	configList.push_back(ConfigInfo("ShowLeftToolBox", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("ShowRightToolBox", CONFIG_TYPE_INT, "1"));
@@ -212,7 +215,6 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("LogStoreDuration", CONFIG_TYPE_INT, "2"));
 	configList.push_back(ConfigInfo("LogInterval", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("UserDataDir", CONFIG_TYPE_STRING, dataDir));
-	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, myQtToolsInterface->getDataPathStdString(startPath.remove_leaf().directory_string())));
 	configList.push_back(ConfigInfo("CacheDir", CONFIG_TYPE_STRING, cacheDir));	
 	configList.push_back(ConfigInfo("CLA_NoWriteAccess", CONFIG_TYPE_INT, claNoWriteAccess));
 
@@ -231,12 +233,20 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 			updateConfig(myConfigState); 
 		}
 		else { 
-		//Prüfen ob die Revision stimmt ansonsten löschen und neue anlegen 
-			int temp = 0;
+		//Check if config revision and AppDataDir is ok. Otherwise --> update()
+			int tempRevision = 0;
+			string tempAppDataPath ("");
+	
 			TiXmlHandle docHandle( &doc );		
-			TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "ConfigRevision" ).ToElement();
-			if ( conf ) { conf->QueryIntAttribute("value", &temp ); }
-			if (temp < configRev) { /*löschen()*/ 
+			TiXmlElement* confRevision = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "ConfigRevision" ).ToElement();
+			if ( confRevision ) { confRevision->QueryIntAttribute("value", &tempRevision ); }
+			TiXmlElement* confAppDataPath = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "AppDataDir" ).ToElement();
+			if ( confAppDataPath ) { 
+				const char *tmpStr = confAppDataPath->Attribute("value");
+				if (tmpStr) tempAppDataPath = tmpStr;
+			}
+
+			if (tempRevision < configRev || tempAppDataPath != myQtToolsInterface->getDataPathStdString(startPath.remove_leaf().directory_string()) ) { /*löschen()*/ 
 				myConfigState = OLD;
 				updateConfig(myConfigState) ;
 			}
@@ -317,6 +327,7 @@ void ConfigFile::writeBuffer() const {
 void ConfigFile::updateConfig(ConfigState myConfigState) {
 
 	boost::mutex::scoped_lock lock(m_configMutex);
+	boost::filesystem::path startPath(myArgv[0]);
 
 	size_t i;
 	
@@ -366,24 +377,34 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 			config = new TiXmlElement( "Configuration" );  
 			root->LinkEndChild( config ); 
 
+			//change configRev and AppDataPath				
 			TiXmlElement * confElement0 = new TiXmlElement( "ConfigRevision" ); 
 			config->LinkEndChild( confElement0 );
 			confElement0->SetAttribute("value", configRev);
 
+			TiXmlElement * confElement1 = new TiXmlElement( "AppDataDir" ); 
+			config->LinkEndChild( confElement1 );
+			confElement1->SetAttribute("value", myQtToolsInterface->getDataPathStdString(startPath.remove_leaf().directory_string()));
+
 			TiXmlHandle docHandle( &oldDoc );	
 
-			// not i=0 because ConfigRevision is already set ^^
-			for (i=1; i<configList.size(); i++) {	
+			
+			for (i=0; i<configList.size(); i++) {	
+
 				TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).ToElement();
 				
 				if ( conf ) {
-					// if element is already there --> take over the saved values
-					TiXmlElement *tmpElement = new TiXmlElement(configList[i].name);
-					config->LinkEndChild( tmpElement );
-				
-					const char *tmpStr = conf->Attribute("value");
-					if (tmpStr) tempString = tmpStr;
-					tmpElement->SetAttribute("value", tempString);
+					// not for ConfigRevision and AppDataDir becaus it was already set ^
+					if(configList[i].name != "ConfigRevision" && configList[i].name != "AppDataDir") {
+
+						// if element is already there --> take over the saved values
+						TiXmlElement *tmpElement = new TiXmlElement(configList[i].name);
+						config->LinkEndChild( tmpElement );
+					
+						const char *tmpStr = conf->Attribute("value");
+						if (tmpStr) tempString = tmpStr;
+						tmpElement->SetAttribute("value", tempString);
+					}
 				}	
 				else {
 					// if element is not there --> set it with defaultValue

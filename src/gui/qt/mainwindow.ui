@@ -145,22 +145,22 @@
           </property>
           <layout class="QGridLayout" >
            <property name="leftMargin" >
-            <number>9</number>
+            <number>6</number>
            </property>
            <property name="topMargin" >
-            <number>9</number>
+            <number>6</number>
            </property>
            <property name="rightMargin" >
-            <number>9</number>
+            <number>6</number>
            </property>
            <property name="bottomMargin" >
-            <number>9</number>
+            <number>6</number>
            </property>
            <property name="horizontalSpacing" >
-            <number>5</number>
+            <number>1</number>
            </property>
            <property name="verticalSpacing" >
-            <number>5</number>
+            <number>1</number>
            </property>
            <item row="0" column="0" >
             <widget class="MyLeftTabWidget" name="tabWidget_Left" >
@@ -563,22 +563,22 @@
           </property>
           <layout class="QGridLayout" >
            <property name="leftMargin" >
-            <number>9</number>
+            <number>6</number>
            </property>
            <property name="topMargin" >
-            <number>9</number>
+            <number>6</number>
            </property>
            <property name="rightMargin" >
-            <number>9</number>
+            <number>6</number>
            </property>
            <property name="bottomMargin" >
-            <number>9</number>
+            <number>6</number>
            </property>
            <property name="horizontalSpacing" >
-            <number>6</number>
+            <number>1</number>
            </property>
            <property name="verticalSpacing" >
-            <number>6</number>
+            <number>1</number>
            </property>
            <item row="0" column="0" >
             <widget class="MyRightTabWidget" name="tabWidget_Right" >

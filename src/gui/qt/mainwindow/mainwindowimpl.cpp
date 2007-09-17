@@ -400,7 +400,11 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 11px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
 #else
 	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
-// 	textBrowser_Log->verticalScrollBar()->setPalette(QColor(0,20,20));
+	
+// 	QScrollBar *myLogScrollBar = textBrowser_Log->verticalScrollBar();
+// 	myLogScrollBar->setStyleSheet("QScrollBar { border: 2px solid grey; background: #32CC99; height: 15px; margin: 0px 20px 0 20px;} QScrollBar::handle { background: white; min-width: 20px;} QScrollBar::add-line { border: 2px solid grey; background: #32CC99; width: 20px; subcontrol-position: right; subcontrol-origin: margin; } QScrollBar::sub-line {border: 2px solid grey; background: #32CC99; width: 20px; subcontrol-position: left; subcontrol-origin: margin;}");
+// 	textBrowser_Log->setVerticalScrollBar(myLogScrollBar);
+
 // 	textBrowser_Log->verticalScrollBar()->setAutoFillBackground ( TRUE );
 
 	textBrowser_Chat->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
