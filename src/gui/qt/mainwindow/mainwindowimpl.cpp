@@ -2808,8 +2808,8 @@ void mainWindowImpl::tabSwitchAction() {
 void mainWindowImpl::localGameModification() {
 	
 	tabWidget_Left->setCurrentIndex(0);
-	tabWidget_Left->disableTab(1, TRUE);
-	
+	tabWidget_Left->removeTab(1);
+
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
 		setLabelArray[i]->stopTimeOutAnimation();
@@ -2818,7 +2818,7 @@ void mainWindowImpl::localGameModification() {
 
 void mainWindowImpl::networkGameModification() {
 	
-	tabWidget_Left->disableTab(1, FALSE);	
+	tabWidget_Left->insertTab(1, tab_Chat, QString(tr("Chat")));
 	tabWidget_Left->setCurrentIndex(1);
 	myChat->clearNewGame();
 
