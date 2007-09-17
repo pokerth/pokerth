@@ -147,6 +147,7 @@ void settingsDialogImpl::exec() {
 	checkBox_showFlipCardsAnimation->setChecked(myConfig->readConfigInt("ShowFlipCardsAnimation"));
 	checkBox_showBlindButtons->setChecked(myConfig->readConfigInt("ShowBlindButtons"));
 	checkBox_antiPeekMode->setChecked(myConfig->readConfigInt("AntiPeekMode"));
+	checkBox_alternateFKeysUserActionMode->setChecked(myConfig->readConfigInt("AlternateFKeysUserActionMode"));
 	checkBox_playSoundEffects->setChecked(myConfig->readConfigInt("PlaySoundEffects"));
 	horizontalSlider_soundVolume->setValue(myConfig->readConfigInt("SoundVolume"));
 	radioButton_flipsideTux->setChecked(myConfig->readConfigInt("FlipsideTux"));
@@ -241,6 +242,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("ShowFlipCardsAnimation", checkBox_showFlipCardsAnimation->isChecked());
 	myConfig->writeConfigInt("ShowBlindButtons", checkBox_showBlindButtons->isChecked());
 	myConfig->writeConfigInt("AntiPeekMode", checkBox_antiPeekMode->isChecked());
+	myConfig->writeConfigInt("AlternateFKeysUserActionMode", checkBox_alternateFKeysUserActionMode->isChecked());
 	myConfig->writeConfigInt("PlaySoundEffects", checkBox_playSoundEffects->isChecked());
 	myConfig->writeConfigInt("SoundVolume", horizontalSlider_soundVolume->value());
 	myConfig->writeConfigInt("FlipsideTux", radioButton_flipsideTux->isChecked());

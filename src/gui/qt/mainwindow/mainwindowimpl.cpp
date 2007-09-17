@@ -1572,7 +1572,11 @@ void mainWindowImpl::meInAction() {
 	myActionIsBet = 0;
 	
 	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
-		statusBar()->showMessage(tr("F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise"), 15000);
+		if ( myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0 ) {
+			statusBar()->showMessage(tr("F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise"), 15000);
+		} else {
+			statusBar()->showMessage(tr("F1 - Bet/Raise | F2 - Check/Call | F3 - Fold/All-In"), 15000);
+		}
 	}
 	Game *currentGame = mySession->getCurrentGame();
 	HandInterface *currentHand = currentGame->getCurrentHand();
@@ -2688,9 +2692,21 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	bool ctrlPressed = FALSE;
 
 	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return ) { if(spinBox_set->hasFocus()) pushButton_CallCheckSet->click(); } //ENTER 
-	if (event->key() == Qt::Key_F1) { pushButton_FoldAllin->click(); } 
+        if (event->key() == Qt::Key_F1) {
+		if (myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0) {
+			pushButton_FoldAllin->click();
+		} else {
+			pushButton_BetRaise->click();
+		}
+	}
 	if (event->key() == Qt::Key_F2) { pushButton_CallCheckSet->click(); } 
-	if (event->key() == Qt::Key_F3) { pushButton_BetRaise->click(); } 
+	if (event->key() == Qt::Key_F3 ) {
+		if (myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0) {
+			pushButton_BetRaise->click();
+		} else {
+			pushButton_FoldAllin->click();
+		}
+	}
 // 	if (event->key() == Qt::Key_S) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction"),TRUE); } //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
