@@ -1642,6 +1642,21 @@ void mainWindowImpl::meInAction() {
 	break;
 	default: {}
 	}
+
+	switch (playingMode) {
+		case 0: // Manual mode
+			break;
+		case 1: // Auto check / call all
+			myCallCheckSet();
+			break;
+		case 2: // Auto check / fold all
+			if (pushButton_CallCheckSet->text() == "Check") { 
+				myCheck();
+			} else {
+				myFold();
+			}
+			break;
+	}
 }
 
 void mainWindowImpl::startTimeoutAnimation(int playerId, int timeoutSec) {
@@ -2711,6 +2726,18 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 			pushButton_FoldAllin->click();
 		}
 	}
+ 	if (event->key() == Qt::Key_F4) {
+ 		playingMode = 0;
+ 		statusBar()->showMessage(tr("Manual mode set. You've got to choose yourself now."), 5000);
+ 	}
+ 	if (event->key() == Qt::Key_F5) {
+ 		playingMode = 1;
+ 		statusBar()->showMessage(tr("Auto mode set: Check or call any."), 5000);
+ 	}
+ 	if (event->key() == Qt::Key_F6) {
+ 		playingMode = 2;
+ 		statusBar()->showMessage(tr("Auto mode set: Check or fold."), 5000);
+ 	}
 // 	if (event->key() == Qt::Key_S) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction"),TRUE); } //s	
 	if (event->key() == 16777249) { 
 		pushButton_break->click(); 
@@ -2818,6 +2845,10 @@ void mainWindowImpl::localGameModification() {
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
 		setLabelArray[i]->stopTimeOutAnimation();
 	}
+
+	//Set the playing mode to "manual"
+	playingMode = 0;
+
 }
 
 void mainWindowImpl::networkGameModification() {
@@ -2825,6 +2856,9 @@ void mainWindowImpl::networkGameModification() {
 	tabWidget_Left->insertTab(1, tab_Chat, QString(tr("Chat")));
 	tabWidget_Left->setCurrentIndex(1);
 	myChat->clearNewGame();
+
+	//Set the playing mode to "manual"
+	playingMode = 0;
 
 }
 

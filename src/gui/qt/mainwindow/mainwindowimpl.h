@@ -299,6 +299,7 @@ private:
 	Log *myLog;
 	Chat *myChat;
 	ConfigFile *myConfig;
+	int playingMode;
 
 	//Logo 
 	QLabel *label_logoleft;
