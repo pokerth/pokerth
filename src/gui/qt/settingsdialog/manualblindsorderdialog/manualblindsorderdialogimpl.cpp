@@ -43,11 +43,35 @@ void manualBlindsOrderDialogImpl::exec() {
 void manualBlindsOrderDialogImpl::addBlindValueToList() {
 
 	listWidget_blinds->addItem(QString::number(spinBox_input->value(),10));
-	listWidget_blinds->sortItems();
+	sortBlindsList();
 }
 
 void manualBlindsOrderDialogImpl::removeBlindFromList() {
 
-	listWidget_blinds->removeItemWidget(listWidget_blinds->currentItem());
-	listWidget_blinds->sortItems();
+	listWidget_blinds->takeItem(listWidget_blinds->currentRow());
+	sortBlindsList();
+}
+
+void manualBlindsOrderDialogImpl::sortBlindsList() {
+
+	int i;
+	QList<int> tempIntList;
+	QStringList tempStringList;
+	bool ok = TRUE;
+		
+	for(i=0; i<listWidget_blinds->count(); i++) {
+// 		std::cout << listWidget_blinds->item(i)->text().toInt(&ok,10) << "\n";
+		tempIntList << listWidget_blinds->item(i)->text().toInt(&ok,10);		
+	}
+
+	qStableSort(tempIntList.begin(), tempIntList.end());
+// 
+	for(i=0; i<tempIntList.count(); i++) {
+// 		
+// 		std::cout << tempIntList[i] << "\n";
+		tempStringList << QString::number(tempIntList[i],10);
+	}
+// 	
+	listWidget_blinds->clear();
+	listWidget_blinds->addItems(tempStringList);
 }

@@ -40,6 +40,7 @@ public slots:
 	
 	void addBlindValueToList();
 	void removeBlindFromList();
+	void sortBlindsList();
 
 private:
 	
