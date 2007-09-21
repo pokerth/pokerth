@@ -31,6 +31,8 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
   setupUi(this);
 
+	myManualBlindsOrderDialog = new manualBlindsOrderDialogImpl;
+
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
 	pushButton_openFlipsidePicture->setIcon(QIcon(QPixmap(myAppDataPath+"gfx/gui/misc/fileopen16.png")));
@@ -55,6 +57,9 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( pushButton_Opponent4Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile4()) );
 	connect( pushButton_Opponent5Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile5()) );
 	connect( pushButton_Opponent6Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile6()) );
+
+	connect( pushButton_editManualBlindsOrder, SIGNAL( clicked() ), this, SLOT( callManualBlindsOrderDialog()) );
+	connect( pushButton_netEditManualBlindsOrder, SIGNAL( clicked() ), this, SLOT( callNetManualBlindsOrderDialog()) );
 
 	connect( checkBox_UseInternetGamePassword, SIGNAL( toggled(bool) ), this, SLOT( clearInternetGamePassword(bool)) ); 
 
@@ -103,8 +108,13 @@ void settingsDialogImpl::exec() {
 	//Local Game Settings
 	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NumberOfPlayers"));
 	spinBox_startCash->setValue(myConfig->readConfigInt("StartCash"));
-	spinBox_smallBlind->setValue(myConfig->readConfigInt("SmallBlind"));
-	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig->readConfigInt("HandsBeforeRaiseSmallBlind"));
+	spinBox_firstSmallBlind->setValue(myConfig->readConfigInt("FirstSmallBlind"));
+	radioButton_raiseBlindsAtHands->setChecked(myConfig->readConfigInt("RaiseBlindsAtHands"));
+	radioButton_raiseBlindsAtMinutes->setChecked(myConfig->readConfigInt("RaiseBlindsAtMinutes"));
+	spinBox_raiseSmallBlindEveryHands->setValue(myConfig->readConfigInt("RaiseSmallBlindEveryHands"));
+	spinBox_raiseSmallBlindEveryMinutes->setValue(myConfig->readConfigInt("RaiseSmallBlindEveryMinutes"));
+	radioButton_alwaysDoubleBlinds->setChecked(myConfig->readConfigInt("AlwaysDoubleBlinds"));
+	radioButton_manualBlindsOrder->setChecked(myConfig->readConfigInt("ManualBlindsOrder"));
 	spinBox_gameSpeed->setValue(myConfig->readConfigInt("GameSpeed"));
 	checkBox_pauseBetweenHands->setChecked(myConfig->readConfigInt("PauseBetweenHands"));
 	checkBox_showGameSettingsDialogOnNewGame->setChecked(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame"));
@@ -113,8 +123,13 @@ void settingsDialogImpl::exec() {
 	//Network Game Settings
 	spinBox_netQuantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
 	spinBox_netStartCash->setValue(myConfig->readConfigInt("NetStartCash"));
-	spinBox_netSmallBlind->setValue(myConfig->readConfigInt("NetSmallBlind"));
-	spinBox_netHandsBeforeRaiseSmallBlind->setValue(myConfig->readConfigInt("NetHandsBeforeRaiseSmallBlind"));
+	spinBox_netFirstSmallBlind->setValue(myConfig->readConfigInt("NetFirstSmallBlind"));
+	radioButton_netRaiseBlindsAtHands->setChecked(myConfig->readConfigInt("NetRaiseBlindsAtHands"));
+	radioButton_netRaiseBlindsAtMinutes->setChecked(myConfig->readConfigInt("NetRaiseBlindsAtMinutes"));
+	spinBox_netRaiseSmallBlindEveryHands->setValue(myConfig->readConfigInt("NetRaiseSmallBlindEveryHands"));
+	spinBox_netRaiseSmallBlindEveryMinutes->setValue(myConfig->readConfigInt("NetRaiseSmallBlindEveryMinutes"));
+	radioButton_netAlwaysDoubleBlinds->setChecked(myConfig->readConfigInt("NetAlwaysDoubleBlinds"));
+	radioButton_netManualBlindsOrder->setChecked(myConfig->readConfigInt("NetManualBlindsOrder"));
 	spinBox_netGameSpeed->setValue(myConfig->readConfigInt("NetGameSpeed"));
 	comboBox_netEngineVersion->setCurrentIndex(myConfig->readConfigInt("NetEngineVersion"));
 	spinBox_netTimeOutPlayerAction->setValue(myConfig->readConfigInt("NetTimeOutPlayerAction"));
@@ -200,8 +215,13 @@ void settingsDialogImpl::isAccepted() {
 // 	Local Game Settings
 	myConfig->writeConfigInt("NumberOfPlayers", spinBox_quantityPlayers->value());
 	myConfig->writeConfigInt("StartCash", spinBox_startCash->value());
-	myConfig->writeConfigInt("SmallBlind", spinBox_smallBlind->value());
-	myConfig->writeConfigInt("HandsBeforeRaiseSmallBlind", spinBox_handsBeforeRaiseSmallBlind->value());
+	myConfig->writeConfigInt("FirstSmallBlind", spinBox_firstSmallBlind->value());
+	myConfig->writeConfigInt("RaiseBlindsAtHands", radioButton_raiseBlindsAtHands->isChecked());
+	myConfig->writeConfigInt("RaiseBlindsAtMinutes", radioButton_raiseBlindsAtMinutes->isChecked());
+	myConfig->writeConfigInt("RaiseSmallBlindEveryHands", spinBox_raiseSmallBlindEveryHands->value());
+	myConfig->writeConfigInt("RaiseSmallBlindEveryMinutes", spinBox_raiseSmallBlindEveryMinutes->value());
+	myConfig->writeConfigInt("AlwaysDoubleBlinds", radioButton_alwaysDoubleBlinds->isChecked());
+	myConfig->writeConfigInt("ManualBlindsOrder", radioButton_manualBlindsOrder->isChecked());
 	myConfig->writeConfigInt("GameSpeed", spinBox_gameSpeed->value());
 	myConfig->writeConfigInt("EngineVersion", comboBox_engineVersion->currentIndex());
 	myConfig->writeConfigInt("PauseBetweenHands", checkBox_pauseBetweenHands->isChecked());
@@ -210,8 +230,13 @@ void settingsDialogImpl::isAccepted() {
 	//Network Game Settings
 	myConfig->writeConfigInt("NetNumberOfPlayers", spinBox_netQuantityPlayers->value());
 	myConfig->writeConfigInt("NetStartCash", spinBox_netStartCash->value());
-	myConfig->writeConfigInt("NetSmallBlind", spinBox_netSmallBlind->value());
-	myConfig->writeConfigInt("NetHandsBeforeRaiseSmallBlind", spinBox_netHandsBeforeRaiseSmallBlind->value());
+	myConfig->writeConfigInt("NetFirstSmallBlind", spinBox_netFirstSmallBlind->value());
+	myConfig->writeConfigInt("NetRaiseBlindsAtHands", radioButton_netRaiseBlindsAtHands->isChecked());
+	myConfig->writeConfigInt("NetRaiseBlindsAtMinutes", radioButton_netRaiseBlindsAtMinutes->isChecked());
+	myConfig->writeConfigInt("NetRaiseSmallBlindEveryHands", spinBox_netRaiseSmallBlindEveryHands->value());
+	myConfig->writeConfigInt("NetRaiseSmallBlindEveryMinutes", spinBox_netRaiseSmallBlindEveryMinutes->value());
+	myConfig->writeConfigInt("NetAlwaysDoubleBlinds", radioButton_netAlwaysDoubleBlinds->isChecked());
+	myConfig->writeConfigInt("NetManualBlindsOrder", radioButton_netManualBlindsOrder->isChecked());
 	myConfig->writeConfigInt("NetGameSpeed", spinBox_netGameSpeed->value());
 	myConfig->writeConfigInt("NetEngineVersion", comboBox_netEngineVersion->currentIndex());
 	myConfig->writeConfigInt("NetTimeOutPlayerAction", spinBox_netTimeOutPlayerAction->value());
@@ -371,3 +396,5 @@ void settingsDialogImpl::clearInternetGamePassword(bool clear) {
 	if(!clear) { lineEdit_InternetGamePassword->clear(); }
 }
 
+void settingsDialogImpl::callManualBlindsOrderDialog() { myManualBlindsOrderDialog->exec(); }
+void settingsDialogImpl::callNetManualBlindsOrderDialog() { myManualBlindsOrderDialog->exec(); }

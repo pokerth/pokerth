@@ -17,65 +17,37 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef SETTINGSDIALOGIMPL_H
-#define SETTINGSDIALOGIMPL_H
-
-#include "ui_settingsdialog.h"
-#include "selectavatardialogimpl.h"
 #include "manualblindsorderdialogimpl.h"
+#include "configfile.h"
+#include <iostream>
 
-#include <QtCore>
-#include <QtGui>
 
-class ConfigFile;
-class selectAvatarDialogImpl;
-class manualBlindsOrderDialogImpl;
+manualBlindsOrderDialogImpl::manualBlindsOrderDialogImpl(QWidget *parent, ConfigFile *c)
+    : QDialog(parent), myConfig(c), settingsCorrect(TRUE)
+{
 
-class settingsDialogImpl: public QDialog, public Ui::settingsDialog {
-Q_OBJECT
-public:
-    settingsDialogImpl(QWidget *parent = 0, ConfigFile *c = 0, selectAvatarDialogImpl *s = 0);
+	 setupUi(this);
+
+	connect( pushButton_add, SIGNAL( clicked() ), this, SLOT( addBlindValueToList() ) );
+	connect( pushButton_delete, SIGNAL( clicked() ), this, SLOT( removeBlindFromList() ) );
 	
-	void exec();
+}
 
-	void setPlayerNickIsChanged(bool theValue){ playerNickIsChanged = theValue;}
-	bool getPlayerNickIsChanged() const{ return playerNickIsChanged;}
+void manualBlindsOrderDialogImpl::exec() {
 
-	bool getSettingsCorrect() const{ return settingsCorrect;}
 
-public slots:
+	QDialog::exec();
+}
 
-	void isAccepted();
-	void playerNickChanged() { setPlayerNickIsChanged(TRUE); };
-	void setFlipsidePicFileName();
-	void setLogDir();
-	void setAvatarFile0();
-	void setAvatarFile1();
-	void setAvatarFile2();
-	void setAvatarFile3();
-	void setAvatarFile4();
-	void setAvatarFile5();
-	void setAvatarFile6();
 
-	void callManualBlindsOrderDialog();
-	void callNetManualBlindsOrderDialog();
+void manualBlindsOrderDialogImpl::addBlindValueToList() {
 
-	void callSelectAvatarDialog() { mySelectAvatarDialogImpl->exec(); } 
+	listWidget_blinds->addItem(QString::number(spinBox_input->value(),10));
+	listWidget_blinds->sortItems();
+}
 
-	void clearInternetGamePassword(bool);
+void manualBlindsOrderDialogImpl::removeBlindFromList() {
 
-	
-
-private:
-	
-	bool playerNickIsChanged;
-	bool settingsCorrect;
-	
-	ConfigFile* myConfig;
-	selectAvatarDialogImpl* mySelectAvatarDialogImpl;
-	manualBlindsOrderDialogImpl* myManualBlindsOrderDialog;
-	QString myAppDataPath;
-
-};
-
-#endif
+	listWidget_blinds->removeItemWidget(listWidget_blinds->currentItem());
+	listWidget_blinds->sortItems();
+}

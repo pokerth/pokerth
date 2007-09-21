@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>632</width>
-    <height>571</height>
+    <height>606</height>
    </rect>
   </property>
   <property name="minimumSize" >
@@ -394,68 +394,260 @@ p, li { white-space: pre-wrap; }
      </widget>
      <widget class="QWidget" name="page_2" >
       <layout class="QGridLayout" >
-       <property name="leftMargin" >
-        <number>9</number>
-       </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
-        <number>9</number>
-       </property>
-       <property name="horizontalSpacing" >
-        <number>6</number>
-       </property>
-       <property name="verticalSpacing" >
-        <number>6</number>
-       </property>
-       <item row="9" column="0" colspan="2" >
-        <widget class="QCheckBox" name="checkBox_showGameSettingsDialogOnNewGame" >
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_5" >
+         <property name="styleSheet" >
+          <string>QLabel { font-weight: bold;  }</string>
+         </property>
          <property name="text" >
-          <string>Show game settings dialog on every new game</string>
+          <string>Local Game Settings</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="1" >
-        <widget class="QSpinBox" name="spinBox_gameSpeed" >
-         <property name="minimum" >
-          <number>1</number>
-         </property>
-         <property name="maximum" >
-          <number>11</number>
-         </property>
-         <property name="singleStep" >
-          <number>1</number>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1" >
-        <widget class="QSpinBox" name="spinBox_quantityPlayers" >
-         <property name="minimum" >
-          <number>2</number>
-         </property>
-         <property name="maximum" >
-          <number>7</number>
-         </property>
-         <property name="value" >
-          <number>7</number>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" >
-        <widget class="QLabel" name="label_14" >
-         <property name="text" >
-          <string>Hands before raise blinds:</string>
+       <item row="1" column="0" >
+        <widget class="Line" name="line_3" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
        <item row="2" column="0" >
-        <widget class="QLabel" name="label_4" >
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QLabel" name="label_4" >
+           <property name="text" >
+            <string>Number of players:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_quantityPlayers" >
+           <property name="minimum" >
+            <number>2</number>
+           </property>
+           <property name="maximum" >
+            <number>7</number>
+           </property>
+           <property name="value" >
+            <number>7</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0" >
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QLabel" name="label_2" >
+           <property name="text" >
+            <string>Start Cash:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_startCash" >
+           <property name="minimum" >
+            <number>1000</number>
+           </property>
+           <property name="maximum" >
+            <number>5000</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="4" column="0" >
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QLabel" name="label_3" >
+           <property name="text" >
+            <string>First small blind:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_firstSmallBlind" >
+           <property name="minimum" >
+            <number>5</number>
+           </property>
+           <property name="maximum" >
+            <number>500</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="5" column="0" >
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QGroupBox" name="groupBox_6" >
+           <property name="title" >
+            <string>Raise blinds:</string>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="leftMargin" >
+             <number>9</number>
+            </property>
+            <property name="topMargin" >
+             <number>0</number>
+            </property>
+            <property name="bottomMargin" >
+             <number>9</number>
+            </property>
+            <item row="0" column="0" >
+             <widget class="QRadioButton" name="radioButton_raiseBlindsAtHands" >
+              <property name="text" >
+               <string>Every:</string>
+              </property>
+              <property name="checked" >
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" >
+             <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryHands" />
+            </item>
+            <item row="0" column="2" >
+             <widget class="QLabel" name="label_47" >
+              <property name="sizePolicy" >
+               <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text" >
+               <string>hands</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" >
+             <widget class="QRadioButton" name="radioButton_raiseBlindsAtMinutes" >
+              <property name="text" >
+               <string>Every:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" >
+             <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryMinutes" />
+            </item>
+            <item row="1" column="2" >
+             <widget class="QLabel" name="label_50" >
+              <property name="sizePolicy" >
+               <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text" >
+               <string>minutes</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_7" >
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="title" >
+            <string>Raise mode:</string>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="topMargin" >
+             <number>0</number>
+            </property>
+            <item row="0" column="0" >
+             <widget class="QRadioButton" name="radioButton_alwaysDoubleBlinds" >
+              <property name="text" >
+               <string>Always double blinds</string>
+              </property>
+              <property name="checked" >
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" >
+             <widget class="QRadioButton" name="radioButton_manualBlindsOrder" >
+              <property name="text" >
+               <string>Manual blinds order:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" >
+             <widget class="QPushButton" name="pushButton_editManualBlindsOrder" >
+              <property name="enabled" >
+               <bool>false</bool>
+              </property>
+              <property name="text" >
+               <string>Edit ...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="6" column="0" >
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QLabel" name="label" >
+           <property name="text" >
+            <string>Game Speed:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_gameSpeed" >
+           <property name="minimum" >
+            <number>1</number>
+           </property>
+           <property name="maximum" >
+            <number>11</number>
+           </property>
+           <property name="singleStep" >
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="7" column="0" >
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QLabel" name="label_17" >
+           <property name="text" >
+            <string>Engine Version:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_engineVersion" >
+           <item>
+            <property name="text" >
+             <string>0.4 (current)</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="8" column="0" >
+        <widget class="QCheckBox" name="checkBox_pauseBetweenHands" >
          <property name="text" >
-          <string>Number of players:</string>
+          <string>Pause between hands (press "start" button to go on)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0" >
+        <widget class="QCheckBox" name="checkBox_showGameSettingsDialogOnNewGame" >
+         <property name="text" >
+          <string>Show game settings dialog on every new game</string>
          </property>
         </widget>
        </item>
@@ -467,125 +659,284 @@ p, li { white-space: pre-wrap; }
          <property name="sizeHint" >
           <size>
            <width>20</width>
-           <height>20</height>
+           <height>141</height>
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="0" column="0" colspan="2" >
-        <widget class="QLabel" name="label_5" >
-         <property name="styleSheet" >
-          <string>QLabel { font-weight: bold;  }</string>
-         </property>
-         <property name="text" >
-          <string>Local Game Settings</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="2" >
-        <widget class="Line" name="line_3" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1" >
-        <widget class="QSpinBox" name="spinBox_smallBlind" >
-         <property name="minimum" >
-          <number>5</number>
-         </property>
-         <property name="maximum" >
-          <number>500</number>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" >
-        <widget class="QLabel" name="label_3" >
-         <property name="text" >
-          <string>Small Blind:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1" >
-        <widget class="QSpinBox" name="spinBox_startCash" >
-         <property name="minimum" >
-          <number>1000</number>
-         </property>
-         <property name="maximum" >
-          <number>5000</number>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" >
-        <widget class="QLabel" name="label" >
-         <property name="text" >
-          <string>Game Speed:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" >
-        <widget class="QLabel" name="label_2" >
-         <property name="text" >
-          <string>Start Cash:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0" colspan="2" >
-        <widget class="QCheckBox" name="checkBox_pauseBetweenHands" >
-         <property name="text" >
-          <string>Pause between hands (press "start" button to go on)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1" >
-        <widget class="QSpinBox" name="spinBox_handsBeforeRaiseSmallBlind" >
-         <property name="minimum" >
-          <number>1</number>
-         </property>
-         <property name="value" >
-          <number>9</number>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1" >
-        <widget class="QComboBox" name="comboBox_engineVersion" >
-         <item>
-          <property name="text" >
-           <string>0.4 (current)</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="7" column="0" >
-        <widget class="QLabel" name="label_17" >
-         <property name="text" >
-          <string>Engine Version:</string>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="page_4" >
       <layout class="QGridLayout" >
-       <property name="leftMargin" >
-        <number>9</number>
-       </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
-        <number>9</number>
-       </property>
-       <property name="horizontalSpacing" >
-        <number>6</number>
-       </property>
-       <property name="verticalSpacing" >
-        <number>6</number>
-       </property>
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_34" >
+         <property name="styleSheet" >
+          <string>QLabel { font-weight: bold;  }</string>
+         </property>
+         <property name="text" >
+          <string>Network Game Settings</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="Line" name="line_5" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QLabel" name="label_15" >
+           <property name="text" >
+            <string>Maximum number of players:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_netQuantityPlayers" >
+           <property name="minimum" >
+            <number>2</number>
+           </property>
+           <property name="maximum" >
+            <number>7</number>
+           </property>
+           <property name="value" >
+            <number>7</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0" >
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QLabel" name="label_13" >
+           <property name="text" >
+            <string>Start Cash:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_netStartCash" >
+           <property name="minimum" >
+            <number>1000</number>
+           </property>
+           <property name="maximum" >
+            <number>5000</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
        <item row="4" column="0" >
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QLabel" name="label_35" >
+           <property name="text" >
+            <string>First small blind:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_netFirstSmallBlind" >
+           <property name="minimum" >
+            <number>5</number>
+           </property>
+           <property name="maximum" >
+            <number>500</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="5" column="0" >
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QGroupBox" name="groupBox_8" >
+           <property name="title" >
+            <string>Raise blinds:</string>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="topMargin" >
+             <number>0</number>
+            </property>
+            <item row="0" column="0" >
+             <widget class="QRadioButton" name="radioButton_netRaiseBlindsAtHands" >
+              <property name="text" >
+               <string>Every:</string>
+              </property>
+              <property name="checked" >
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" >
+             <widget class="QSpinBox" name="spinBox_netRaiseSmallBlindEveryHands" />
+            </item>
+            <item row="0" column="2" >
+             <widget class="QLabel" name="label_51" >
+              <property name="sizePolicy" >
+               <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text" >
+               <string>hands</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" >
+             <widget class="QRadioButton" name="radioButton_netRaiseBlindsAtMinutes" >
+              <property name="text" >
+               <string>Every:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" >
+             <widget class="QSpinBox" name="spinBox_netRaiseSmallBlindEveryMinutes" />
+            </item>
+            <item row="1" column="2" >
+             <widget class="QLabel" name="label_52" >
+              <property name="sizePolicy" >
+               <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text" >
+               <string>minutes</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_9" >
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="title" >
+            <string>Raise mode:</string>
+           </property>
+           <layout class="QGridLayout" >
+            <property name="topMargin" >
+             <number>0</number>
+            </property>
+            <item row="0" column="0" >
+             <widget class="QRadioButton" name="radioButton_netAlwaysDoubleBlinds" >
+              <property name="text" >
+               <string>Always double blinds</string>
+              </property>
+              <property name="checked" >
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" >
+             <widget class="QRadioButton" name="radioButton_netManualBlindsOrder" >
+              <property name="text" >
+               <string>Manual blinds order:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" >
+             <widget class="QPushButton" name="pushButton_netEditManualBlindsOrder" >
+              <property name="enabled" >
+               <bool>false</bool>
+              </property>
+              <property name="text" >
+               <string>Edit ...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="6" column="0" >
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QLabel" name="label_36" >
+           <property name="text" >
+            <string>Game Speed for computer opponents:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_netGameSpeed" >
+           <property name="minimum" >
+            <number>1</number>
+           </property>
+           <property name="maximum" >
+            <number>11</number>
+           </property>
+           <property name="singleStep" >
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="7" column="0" >
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QLabel" name="label_18" >
+           <property name="text" >
+            <string>Engine Version for computer opponents:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_netEngineVersion" >
+           <item>
+            <property name="text" >
+             <string>0.4 (current)</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="8" column="0" >
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QLabel" name="label_40" >
+           <property name="text" >
+            <string>Timeout for player action (sec):</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_netTimeOutPlayerAction" >
+           <property name="minimum" >
+            <number>5</number>
+           </property>
+           <property name="maximum" >
+            <number>60</number>
+           </property>
+           <property name="value" >
+            <number>20</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="9" column="0" >
+        <widget class="Line" name="line_7" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0" >
         <widget class="QGroupBox" name="groupBox_2" >
          <property name="title" >
           <string>Network Server Settings</string>
@@ -595,7 +946,7 @@ p, li { white-space: pre-wrap; }
            <number>9</number>
           </property>
           <property name="topMargin" >
-           <number>9</number>
+           <number>0</number>
           </property>
           <property name="rightMargin" >
            <number>9</number>
@@ -683,180 +1034,7 @@ p, li { white-space: pre-wrap; }
          </layout>
         </widget>
        </item>
-       <item row="1" column="0" >
-        <widget class="Line" name="line_5" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_34" >
-         <property name="styleSheet" >
-          <string>QLabel { font-weight: bold;  }</string>
-         </property>
-         <property name="text" >
-          <string>Network Game Settings</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" >
-        <layout class="QGridLayout" >
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
-          <number>0</number>
-         </property>
-         <property name="horizontalSpacing" >
-          <number>6</number>
-         </property>
-         <property name="verticalSpacing" >
-          <number>6</number>
-         </property>
-         <item row="3" column="1" >
-          <widget class="QSpinBox" name="spinBox_netHandsBeforeRaiseSmallBlind" >
-           <property name="minimum" >
-            <number>1</number>
-           </property>
-           <property name="value" >
-            <number>9</number>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1" >
-          <widget class="QSpinBox" name="spinBox_netStartCash" >
-           <property name="minimum" >
-            <number>1000</number>
-           </property>
-           <property name="maximum" >
-            <number>5000</number>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1" >
-          <widget class="QSpinBox" name="spinBox_netQuantityPlayers" >
-           <property name="minimum" >
-            <number>2</number>
-           </property>
-           <property name="maximum" >
-            <number>7</number>
-           </property>
-           <property name="value" >
-            <number>7</number>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1" >
-          <widget class="QSpinBox" name="spinBox_netGameSpeed" >
-           <property name="minimum" >
-            <number>1</number>
-           </property>
-           <property name="maximum" >
-            <number>11</number>
-           </property>
-           <property name="singleStep" >
-            <number>1</number>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0" >
-          <widget class="QLabel" name="label_35" >
-           <property name="text" >
-            <string>Small Blind:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0" >
-          <widget class="QLabel" name="label_36" >
-           <property name="text" >
-            <string>Game Speed for computer opponents:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label_15" >
-           <property name="text" >
-            <string>Maximum number of players:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1" >
-          <widget class="QComboBox" name="comboBox_netEngineVersion" >
-           <item>
-            <property name="text" >
-             <string>0.4 (current)</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="5" column="0" >
-          <widget class="QLabel" name="label_18" >
-           <property name="text" >
-            <string>Engine Version for computer opponents:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" >
-          <widget class="QLabel" name="label_13" >
-           <property name="text" >
-            <string>Start Cash:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1" >
-          <widget class="QSpinBox" name="spinBox_netSmallBlind" >
-           <property name="minimum" >
-            <number>5</number>
-           </property>
-           <property name="maximum" >
-            <number>500</number>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0" >
-          <widget class="QLabel" name="label_33" >
-           <property name="text" >
-            <string>Hands before raise blinds:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="0" >
-          <widget class="QLabel" name="label_40" >
-           <property name="text" >
-            <string>Timeout for player action (sec):</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="1" >
-          <widget class="QSpinBox" name="spinBox_netTimeOutPlayerAction" >
-           <property name="minimum" >
-            <number>5</number>
-           </property>
-           <property name="maximum" >
-            <number>60</number>
-           </property>
-           <property name="value" >
-            <number>20</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="3" column="0" >
-        <widget class="Line" name="line_7" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" >
+       <item row="11" column="0" >
         <spacer>
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -2800,16 +2978,14 @@ p, li { white-space: pre-wrap; }
   <tabstop>pushButton_openFlipsidePicture</tabstop>
   <tabstop>spinBox_quantityPlayers</tabstop>
   <tabstop>spinBox_startCash</tabstop>
-  <tabstop>spinBox_smallBlind</tabstop>
-  <tabstop>spinBox_handsBeforeRaiseSmallBlind</tabstop>
+  <tabstop>spinBox_firstSmallBlind</tabstop>
   <tabstop>spinBox_gameSpeed</tabstop>
   <tabstop>comboBox_engineVersion</tabstop>
   <tabstop>checkBox_pauseBetweenHands</tabstop>
   <tabstop>checkBox_showGameSettingsDialogOnNewGame</tabstop>
   <tabstop>spinBox_netQuantityPlayers</tabstop>
   <tabstop>spinBox_netStartCash</tabstop>
-  <tabstop>spinBox_netSmallBlind</tabstop>
-  <tabstop>spinBox_netHandsBeforeRaiseSmallBlind</tabstop>
+  <tabstop>spinBox_netFirstSmallBlind</tabstop>
   <tabstop>spinBox_netGameSpeed</tabstop>
   <tabstop>comboBox_netEngineVersion</tabstop>
   <tabstop>spinBox_netTimeOutPlayerAction</tabstop>
@@ -2862,12 +3038,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>308</x>
-     <y>356</y>
+     <x>360</x>
+     <y>395</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>540</x>
-     <y>355</y>
+     <x>571</x>
+     <y>395</y>
     </hint>
    </hints>
   </connection>
@@ -2878,12 +3054,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>308</x>
-     <y>356</y>
+     <x>360</x>
+     <y>395</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>567</x>
-     <y>356</y>
+     <x>600</x>
+     <y>396</y>
     </hint>
    </hints>
   </connection>
@@ -2894,8 +3070,8 @@ p, li { white-space: pre-wrap; }
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>480</x>
-     <y>578</y>
+     <x>489</x>
+     <y>596</y>
     </hint>
     <hint type="destinationlabel" >
      <x>354</x>
@@ -2910,8 +3086,8 @@ p, li { white-space: pre-wrap; }
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>568</x>
-     <y>578</y>
+     <x>577</x>
+     <y>596</y>
     </hint>
     <hint type="destinationlabel" >
      <x>599</x>
@@ -2926,11 +3102,11 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>409</x>
+     <x>314</x>
      <y>327</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>600</x>
+     <x>515</x>
      <y>328</y>
     </hint>
    </hints>
@@ -2948,6 +3124,38 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel" >
      <x>310</x>
      <y>89</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_manualBlindsOrder</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>pushButton_editManualBlindsOrder</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>557</x>
+     <y>219</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>498</x>
+     <y>248</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_netManualBlindsOrder</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>pushButton_netEditManualBlindsOrder</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>463</x>
+     <y>212</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>521</x>
+     <y>244</y>
     </hint>
    </hints>
   </connection>

@@ -60,8 +60,8 @@ void createInternetGameDialogImpl::fillFormular() {
 	//Network Game Settings
 	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
 	spinBox_startCash->setValue(myConfig->readConfigInt("NetStartCash"));
-	spinBox_smallBlind->setValue(myConfig->readConfigInt("NetSmallBlind"));
-	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig->readConfigInt("NetHandsBeforeRaiseSmallBlind"));
+	spinBox_smallBlind->setValue(myConfig->readConfigInt("NetFirstSmallBlind"));
+	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig->readConfigInt("NetRaiseSmallBlindEveryHands"));
 	//temporarely unused until ai is enabled in network
 	spinBox_gameSpeed->setValue(myConfig->readConfigInt("NetGameSpeed"));
 	spinBox_netTimeOutPlayerAction->setValue(myConfig->readConfigInt("NetTimeOutPlayerAction"));

@@ -33,9 +33,9 @@ void newGameDialogImpl::exec() {
 
 	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NumberOfPlayers"));
 	spinBox_startCash->setValue(myConfig->readConfigInt("StartCash"));
-	spinBox_smallBlind->setValue(myConfig->readConfigInt("SmallBlind"));
+	spinBox_smallBlind->setValue(myConfig->readConfigInt("FirstSmallBlind"));
 	spinBox_gameSpeed->setValue(myConfig->readConfigInt("GameSpeed"));
-	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig->readConfigInt("HandsBeforeRaiseSmallBlind"));
+	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig->readConfigInt("RaiseSmallBlindEveryHands"));
 
 	QDialog::exec();
 	

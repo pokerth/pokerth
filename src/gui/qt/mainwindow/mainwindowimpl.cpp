@@ -724,8 +724,8 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 		// Set Game Data
 		gameData.maxNumberOfPlayers = myConfig->readConfigInt("NumberOfPlayers");
 		gameData.startMoney = myConfig->readConfigInt("StartCash");
-		gameData.smallBlind = myConfig->readConfigInt("SmallBlind");
-		gameData.handsBeforeRaise = myConfig->readConfigInt("HandsBeforeRaiseSmallBlind");
+		gameData.smallBlind = myConfig->readConfigInt("FirstSmallBlind");
+		gameData.handsBeforeRaise = myConfig->readConfigInt("RaiseSmallBlindEveryHands");
 		//Speeds 
 		gameData.guiSpeed = myConfig->readConfigInt("GameSpeed");
 	}

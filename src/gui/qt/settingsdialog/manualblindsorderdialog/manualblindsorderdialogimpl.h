@@ -17,65 +17,35 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef SETTINGSDIALOGIMPL_H
-#define SETTINGSDIALOGIMPL_H
+#ifndef MANUALBLINDSORDERDIALOGIMPL_H
+#define MANUALBLINDSORDERDIALOGIMPL_H
 
-#include "ui_settingsdialog.h"
-#include "selectavatardialogimpl.h"
-#include "manualblindsorderdialogimpl.h"
+#include "ui_manualblindsorderdialog.h"
 
 #include <QtCore>
 #include <QtGui>
 
 class ConfigFile;
-class selectAvatarDialogImpl;
-class manualBlindsOrderDialogImpl;
 
-class settingsDialogImpl: public QDialog, public Ui::settingsDialog {
+class manualBlindsOrderDialogImpl: public QDialog, public Ui::manualBlindsOrderDialog {
 Q_OBJECT
 public:
-    settingsDialogImpl(QWidget *parent = 0, ConfigFile *c = 0, selectAvatarDialogImpl *s = 0);
+    manualBlindsOrderDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
 	
 	void exec();
 
-	void setPlayerNickIsChanged(bool theValue){ playerNickIsChanged = theValue;}
-	bool getPlayerNickIsChanged() const{ return playerNickIsChanged;}
-
-	bool getSettingsCorrect() const{ return settingsCorrect;}
-
-public slots:
-
-	void isAccepted();
-	void playerNickChanged() { setPlayerNickIsChanged(TRUE); };
-	void setFlipsidePicFileName();
-	void setLogDir();
-	void setAvatarFile0();
-	void setAvatarFile1();
-	void setAvatarFile2();
-	void setAvatarFile3();
-	void setAvatarFile4();
-	void setAvatarFile5();
-	void setAvatarFile6();
-
-	void callManualBlindsOrderDialog();
-	void callNetManualBlindsOrderDialog();
-
-	void callSelectAvatarDialog() { mySelectAvatarDialogImpl->exec(); } 
-
-	void clearInternetGamePassword(bool);
-
 	
+public slots:
+	bool getSettingsCorrect() const	{ return settingsCorrect;}
+	
+	void addBlindValueToList();
+	void removeBlindFromList();
 
 private:
 	
-	bool playerNickIsChanged;
-	bool settingsCorrect;
-	
 	ConfigFile* myConfig;
-	selectAvatarDialogImpl* mySelectAvatarDialogImpl;
-	manualBlindsOrderDialogImpl* myManualBlindsOrderDialog;
-	QString myAppDataPath;
 
+	bool settingsCorrect;
 };
 
 #endif

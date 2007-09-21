@@ -55,7 +55,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
 	}
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 35;
+	configRev = 37;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -168,16 +168,26 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("FlipsideOwnFile", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("NumberOfPlayers", CONFIG_TYPE_INT, "7"));
 	configList.push_back(ConfigInfo("StartCash", CONFIG_TYPE_INT, "3000"));
-	configList.push_back(ConfigInfo("SmallBlind", CONFIG_TYPE_INT, "10"));
-	configList.push_back(ConfigInfo("HandsBeforeRaiseSmallBlind", CONFIG_TYPE_INT, "8"));
+	configList.push_back(ConfigInfo("FirstSmallBlind", CONFIG_TYPE_INT, "10"));
+	configList.push_back(ConfigInfo("RaiseBlindsAtHands", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("RaiseBlindsAtMinutes", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("RaiseSmallBlindEveryHands", CONFIG_TYPE_INT, "8"));
+	configList.push_back(ConfigInfo("RaiseSmallBlindEveryMinutes", CONFIG_TYPE_INT, "5"));
+	configList.push_back(ConfigInfo("AlwaysDoubleBlinds", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("ManualBlindsOrder", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("GameSpeed", CONFIG_TYPE_INT, "4"));
 	configList.push_back(ConfigInfo("EngineVersion", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("PauseBetweenHands", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ShowGameSettingsDialogOnNewGame", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("NetNumberOfPlayers", CONFIG_TYPE_INT, "7"));
 	configList.push_back(ConfigInfo("NetStartCash", CONFIG_TYPE_INT, "3000"));
-	configList.push_back(ConfigInfo("NetSmallBlind", CONFIG_TYPE_INT, "10"));
-	configList.push_back(ConfigInfo("NetHandsBeforeRaiseSmallBlind", CONFIG_TYPE_INT, "8"));
+	configList.push_back(ConfigInfo("NetFirstSmallBlind", CONFIG_TYPE_INT, "10"));
+	configList.push_back(ConfigInfo("NetRaiseBlindsAtHands", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("NetRaiseBlindsAtMinutes", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("NetRaiseSmallBlindEveryHands", CONFIG_TYPE_INT, "8"));
+	configList.push_back(ConfigInfo("NetRaiseSmallBlindEveryMinutes", CONFIG_TYPE_INT, "5"));
+	configList.push_back(ConfigInfo("NetAlwaysDoubleBlinds", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("NetManualBlindsOrder", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("NetGameSpeed", CONFIG_TYPE_INT, "4"));
 	configList.push_back(ConfigInfo("NetEngineVersion", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("NetTimeOutPlayerAction", CONFIG_TYPE_INT, "20"));
@@ -429,26 +439,6 @@ string ConfigFile::readConfigString(string varName) const
 	size_t i;
 	string tempString("");
 
-// 	TiXmlDocument doc(configFileName); 
-// 	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
-// 	TiXmlHandle docHandle( &doc );		
-// 
-// 	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
-// 	if ( conf ) { 
-// 		const char *tmpStr = conf->Attribute("value");
-// 		if (tmpStr) tempString = tmpStr;
-//         } /*else {
-// 		//Wenn nicht gefunden eines neues Anlegen
-// 		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
-// 		if ( config ) { 		
-// 			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
-// 			config->LinkEndChild( confElement1 );
-// 			confElement1->SetAttribute("value", defaultValue);
-// 			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
-// 
-// 			return readConfigString(varName, defaultValue);
-// 		}
-// 	}*/
 	for (i=0; i<configBufferList.size(); i++) {	
 
 		if (configBufferList[i].name == varName) {
@@ -466,29 +456,6 @@ int ConfigFile::readConfigInt(string varName) const
 	size_t i;
 	string tempString("");
 	int tempInt=0;
-
-// 	cout << varName << " : " << tempInt << "\n";
-// 	TiXmlDocument doc(configFileName); 
-// 	if(!doc.LoadFile()) {	cout << "Could Not Load Config-File!!! " << configFileName << "\n"; }
-// 	TiXmlHandle docHandle( &doc );		
-// 	
-// 	TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( varName ).ToElement();
-// 	if ( conf ) {
-// // 		cout << varName << " : " << tempInt << "\n";
-// 		conf->QueryIntAttribute("value", &tempInt );
-// // 		cout << varName << " : " << tempInt << "\n";
-//         } /*else {
-// // 		Wenn nicht gefunden eines neues Anlegen
-// 		TiXmlElement* config = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).ToElement();	
-// 		if ( config ) { 		
-// 			TiXmlElement * confElement1 = new TiXmlElement( varName ); 
-// 			config->LinkEndChild( confElement1 );
-// 			confElement1->SetAttribute("value", defaultValue);
-// 			if(!doc.SaveFile()) {	cout << "Could Not Save Config-File!!! " << configFileName << "\n"; }
-// 
-// 			return readConfigInt(varName, defaultValue);
-// 		}
-// 	}*/
 
 	for (i=0; i<configBufferList.size(); i++) {	
 

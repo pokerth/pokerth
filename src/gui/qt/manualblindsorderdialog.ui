@@ -1,0 +1,185 @@
+<ui version="4.0" >
+ <class>manualBlindsOrderDialog</class>
+ <widget class="QDialog" name="manualBlindsOrderDialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>248</width>
+    <height>407</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Manual Blinds Order</string>
+  </property>
+  <layout class="QGridLayout" >
+   <item row="0" column="0" >
+    <layout class="QGridLayout" >
+     <property name="horizontalSpacing" >
+      <number>4</number>
+     </property>
+     <item rowspan="2" row="0" column="0" >
+      <widget class="QListWidget" name="listWidget_blinds" >
+       <property name="sortingEnabled" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" >
+      <widget class="QPushButton" name="pushButton_delete" >
+       <property name="text" >
+        <string>Delete</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" >
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>20</width>
+         <height>121</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="2" column="0" >
+      <widget class="QSpinBox" name="spinBox_input" >
+       <property name="maximum" >
+        <number>9999</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" >
+      <widget class="QPushButton" name="pushButton_add" >
+       <property name="text" >
+        <string>Add</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string>After this:</string>
+     </property>
+     <layout class="QGridLayout" >
+      <item row="0" column="0" >
+       <widget class="QRadioButton" name="radioButton_alwaysDoubleBlinds" >
+        <property name="text" >
+         <string>Always double blinds</string>
+        </property>
+        <property name="checked" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <layout class="QHBoxLayout" >
+        <item>
+         <widget class="QRadioButton" name="radioButton_alwaysRaiseAbout" >
+          <property name="text" >
+           <string>Always raise about:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinBox_AfterThisAlwaysRaiseValue" />
+        </item>
+        <item>
+         <widget class="QLabel" name="label" >
+          <property name="text" >
+           <string>$</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0" >
+       <widget class="QRadioButton" name="radioButton_stayAtLastBlind" >
+        <property name="text" >
+         <string>Stay at last blind</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0" >
+    <widget class="QDialogButtonBox" name="buttonBox" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons" >
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>listWidget_blinds</tabstop>
+  <tabstop>spinBox_input</tabstop>
+  <tabstop>pushButton_add</tabstop>
+  <tabstop>pushButton_delete</tabstop>
+  <tabstop>radioButton_alwaysDoubleBlinds</tabstop>
+  <tabstop>radioButton_alwaysRaiseAbout</tabstop>
+  <tabstop>spinBox_AfterThisAlwaysRaiseValue</tabstop>
+  <tabstop>radioButton_stayAtLastBlind</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>manualBlindsOrderDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>228</x>
+     <y>394</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>manualBlindsOrderDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>270</x>
+     <y>400</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_alwaysRaiseAbout</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>spinBox_AfterThisAlwaysRaiseValue</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>109</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>173</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
