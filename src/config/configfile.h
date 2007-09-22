@@ -27,7 +27,7 @@
 #include <boost/thread.hpp>
 
 enum ConfigState { NONEXISTING, OLD };
-enum ConfigType { CONFIG_TYPE_INT, CONFIG_TYPE_STRING };
+enum ConfigType { CONFIG_TYPE_INT, CONFIG_TYPE_STRING, CONFIG_TYPE_INT_LIST };
 
 class QtToolsInterface;
 
@@ -46,8 +46,9 @@ public:
 	void writeConfigString(std::string varName, std::string varCont);
 
 	int readConfigInt(std::string varName) const;
+	std::list<int> readConfigIntList(std::string varName) const;
 	void writeConfigInt(std::string varName, int varCont);
-
+	void writeConfigIntList(std::string varName, std::list<int> varCont);
 
 private:
 
@@ -55,10 +56,12 @@ private:
 
 	struct ConfigInfo
 	{
-		ConfigInfo(const std::string &n, ConfigType t, const std::string &d) : name(n), type(t), defaultValue(d) {}
+		ConfigInfo(const std::string &n, ConfigType t, const std::string &d, const std::list<std::string> &l =std::list<std::string>()) : name(n), type(t), defaultValue(d), defaultListValue(l) {}
 		std::string name;
 		ConfigType type;
 		std::string defaultValue;
+		std::list<std::string> defaultListValue;
+		
 	};
 	
 	std::vector<ConfigInfo> configList;
