@@ -35,7 +35,7 @@ public:
 	LocalBoard();
 	~LocalBoard();
 
-	void setPlayer(std::vector<boost::shared_ptr<PlayerInterface> >);
+	void setPlayerLists(std::vector<boost::shared_ptr<PlayerInterface> >, PlayerList, PlayerList);
 	void setHand(HandInterface*);
 
 	void setMyCards(int* theValue) { int i; for(i=0; i<5; i++) myCards[i] = theValue[i]; }
@@ -54,6 +54,9 @@ public:
 
 private:
 	std::vector<boost::shared_ptr<PlayerInterface> > playerArray;
+	PlayerList activePlayerList;
+	PlayerList runningPlayerList;
+
 	HandInterface *currentHand;
 
 	int myCards[5];

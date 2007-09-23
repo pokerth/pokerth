@@ -42,7 +42,7 @@ LocalEngineFactory::~LocalEngineFactory()
 }
 
 
-HandInterface* LocalEngineFactory::createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > p, int id, int sP, int aP, int dP, int sB,int sC) { return new LocalHand(f, g, b, p, id, sP, aP, dP, sB, sC); }
+HandInterface* LocalEngineFactory::createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl, PlayerList apl, PlayerList rpl, int id, int sP, int aP, int dP, int sB,int sC) { return new LocalHand(f, g, b, sl, apl, rpl, id, sP, aP, dP, sB, sC); }
 
 BoardInterface* LocalEngineFactory::createBoard() { return new LocalBoard; }
 

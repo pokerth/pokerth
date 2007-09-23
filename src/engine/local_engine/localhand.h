@@ -34,7 +34,7 @@
 
 class LocalHand : public HandInterface{
 public:
-	LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, std::vector<boost::shared_ptr<PlayerInterface> >, int, int, int, int, int, int);
+	LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, std::vector<boost::shared_ptr<PlayerInterface> >, PlayerList, PlayerList, int, int, int, int, int, int);
 	~LocalHand();
 
 	void start();
@@ -94,7 +94,11 @@ private:
 	boost::shared_ptr<EngineFactory> myFactory;
 	GuiInterface *myGui;
 	BoardInterface *myBoard;
+
 	std::vector<boost::shared_ptr<PlayerInterface> > playerArray;
+	PlayerList activePlayerList;
+	PlayerList runningPlayerList;
+
 	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
 	int myID;

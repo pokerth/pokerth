@@ -35,6 +35,8 @@ class EngineFactory;
 struct GameData;
 struct StartData;
 
+typedef std::list<boost::shared_ptr<PlayerInterface> > PlayerList;
+
 class Game {
 
 public:
@@ -51,6 +53,8 @@ public:
 	const HandInterface *getCurrentHand() const;
 
 	std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() {return playerArray;}
+	std::list<boost::shared_ptr<PlayerInterface> > getActivePlayerList() {return activePlayerList;}
+	std::list<boost::shared_ptr<PlayerInterface> > getRunningPlayerList() {return runningPlayerList;}
 
 	//Zufgriff Startvariablen
 	void setStartQuantityPlayers(int theValue) { startQuantityPlayers = theValue; }
@@ -83,7 +87,11 @@ private:
 	GuiInterface *myGui;
 	HandInterface *actualHand;
 	BoardInterface *actualBoard;
-	std::vector<boost::shared_ptr<PlayerInterface> > playerArray;
+
+	std::vector<boost::shared_ptr<PlayerInterface> > playerArray; // available seats --> seatList !!! TODO
+	std::list<boost::shared_ptr<PlayerInterface> > activePlayerList; // used seats
+	std::list<boost::shared_ptr<PlayerInterface> > runningPlayerList; // nonfolded and nonallin active players
+	
 // 	boost::shared_ptr<PlayerInterface> playerArray[MAX_NUMBER_OF_PLAYERS];
 
 	//Startvariablen	

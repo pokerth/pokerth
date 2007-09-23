@@ -26,8 +26,8 @@
 
 using namespace std;
 
-LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > p, int id, int sP, int aP, int dP, int sB,int sC)
-: myFactory(f), myGui(g),  myBoard(b), playerArray(p), myBeRo(0), myID(id), actualQuantityPlayers(aP), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), activePlayersCounter(aP), lastPlayersTurn(0), allInCondition(0),
+LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl, PlayerList apl, PlayerList rpl, int id, int sP, int aP, int dP, int sB,int sC)
+: myFactory(f), myGui(g),  myBoard(b), playerArray(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), actualQuantityPlayers(aP), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), activePlayersCounter(aP), lastPlayersTurn(0), allInCondition(0),
   cardsShown(false), bettingRoundsPlayed(0)
 {
 
@@ -50,8 +50,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	}
 
 	// Karten generieren und Board sowie Player zuweisen
-	int *cardsArray = new int[2*actualQuantityPlayers+5];
-	Tools::getRandNumber(0, 51, 2*actualQuantityPlayers+5, cardsArray, 1);
+	int *cardsArray = new int[2*activePlayerList.size()+5];
+	Tools::getRandNumber(0, 51, 2*activePlayerList.size()+5, cardsArray, 1);
 	int tempBoardArray[5];
 	int tempPlayerArray[2];
 	int tempPlayerAndBoardArray[7];

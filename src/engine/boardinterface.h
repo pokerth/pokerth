@@ -21,10 +21,13 @@
 #define BOARDINTERFACE_H
 
 #include <vector>
+#include <list>
 #include <boost/shared_ptr.hpp>
 
 class PlayerInterface;
 class HandInterface;
+
+typedef std::list<boost::shared_ptr<PlayerInterface> > PlayerList;
 
 class BoardInterface {
 
@@ -32,7 +35,7 @@ public:
    
     	virtual ~BoardInterface();
 // 
-	virtual void setPlayer(std::vector<boost::shared_ptr<PlayerInterface> >) =0;
+	virtual void setPlayerLists(std::vector<boost::shared_ptr<PlayerInterface> >, PlayerList, PlayerList) =0;
 	virtual void setHand(HandInterface*) =0;
 // 
 	virtual void setMyCards(int* theValue) =0;

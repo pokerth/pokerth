@@ -33,7 +33,11 @@ LocalBoard::~LocalBoard()
 {
 }
 
-void LocalBoard::setPlayer(std::vector<boost::shared_ptr<PlayerInterface> > p) { playerArray = p; }
+void LocalBoard::setPlayerLists(std::vector<boost::shared_ptr<PlayerInterface> > sl, PlayerList apl, PlayerList rpl) {
+	playerArray = sl;
+	activePlayerList = apl;
+	runningPlayerList = rpl;
+}
 
 void LocalBoard::setHand(HandInterface* br) { currentHand = br; }
 
