@@ -856,17 +856,23 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 	
 		if(myID==0) { 
 // 			myActiveStatus=0;
-// 			myCash=11980;
+			myCash=14800;
 		}
 	
 		if(myID==1) {
-// 			myCash=4505;
+			myCash=400;
 		}
 		if(myID==2) {
-// 			myCash=9985;
+			myCash=4950;
 		}
 		if(myID==3) {
-// 			myCash=8530;
+			myCash=5250;
+		}
+		if(myID==4) {
+			myCash=5100;
+		}
+		if(myID==5) {
+			myCash=4500;
 		}
 
 	}
@@ -1195,7 +1201,7 @@ void LocalPlayer::preflopEngine() {
 
 				switch(actualHand->getMyID()) {
 					case 1: {
-// 						myAction = PLAYER_ACTION_CALL;
+						myAction = PLAYER_ACTION_FOLD;
 // 						raise = 20;
 // 						if(mySet >= 40) {
 // 							myAction = PLAYER_ACTION_CALL;
@@ -1217,7 +1223,15 @@ void LocalPlayer::preflopEngine() {
 			}
 			break;
 			case 3: {
-// 				myAction = PLAYER_ACTION_CALL;
+				myAction = PLAYER_ACTION_CALL;
+			}
+			break;
+			case 4: {
+				myAction = PLAYER_ACTION_CALL;
+			}
+			break;
+			case 5: {
+				myAction = PLAYER_ACTION_FOLD;
 			}
 			break;
 			default: {}
