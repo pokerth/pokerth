@@ -22,8 +22,8 @@
 
 #include "configfile.h"
 #include <net/socket_startup.h>
-#include <iostream>
 
+using namespace std;
 
 settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAvatarDialogImpl *s)
     : QDialog(parent), myConfig(c), mySelectAvatarDialogImpl(s)
@@ -31,7 +31,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
   setupUi(this);
 
-	myManualBlindsOrderDialog = new manualBlindsOrderDialogImpl;
+	myManualBlindsOrderDialog = new manualBlindsOrderDialogImpl; 	
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
@@ -182,6 +182,21 @@ void settingsDialogImpl::exec() {
 	checkBox_useIpv6->setEnabled(socket_has_ipv6());
 	checkBox_useSctp->setEnabled(socket_has_sctp());
 
+	//Manual Blinds Order Dialog (local)
+	myManualBlindsList = myConfig->readConfigIntList("ManualBlindsList");
+	myAfterMBAlwaysDoubleBlinds = myConfig->readConfigInt("AfterMBAlwaysDoubleBlinds");
+	myAfterMBAlwaysRaiseAbout = myConfig->readConfigInt("AfterMBAlwaysRaiseAbout");
+	myAfterMBAlwaysRaiseValue = myConfig->readConfigInt("AfterMBAlwaysRaiseValue");
+	myAfterMBStayAtLastBlind = myConfig->readConfigInt("AfterMBStayAtLastBlind");
+	
+	//Manual Blinds Order Dialog (network)
+	myNetManualBlindsList = myConfig->readConfigIntList("NetManualBlindsList");
+	myNetAfterMBAlwaysDoubleBlinds = myConfig->readConfigInt("NetAfterMBAlwaysDoubleBlinds");
+	myNetAfterMBAlwaysRaiseAbout = myConfig->readConfigInt("NetAfterMBAlwaysRaiseAbout");
+	myNetAfterMBAlwaysRaiseValue = myConfig->readConfigInt("NetAfterMBAlwaysRaiseValue");
+	myNetAfterMBStayAtLastBlind = myConfig->readConfigInt("NetAfterMBStayAtLastBlind");
+	
+
 	QDialog::exec();
 
 }
@@ -300,6 +315,21 @@ void settingsDialogImpl::isAccepted() {
 		myConfig->writeConfigInt("LogInterval", comboBox_logInterval->currentIndex());
 	}
 
+	//Manual Blinds Order Dialog (local)
+	myConfig->writeConfigIntList("ManualBlindsList",myManualBlindsList);
+	myConfig->writeConfigInt("AfterMBAlwaysDoubleBlinds",myAfterMBAlwaysDoubleBlinds);
+	myConfig->writeConfigInt("AfterMBAlwaysRaiseAbout",myAfterMBAlwaysRaiseAbout);
+	myConfig->writeConfigInt("AfterMBAlwaysRaiseValue",myAfterMBAlwaysRaiseValue);
+	myConfig->writeConfigInt("AfterMBStayAtLastBlind",myAfterMBStayAtLastBlind);
+
+	//Manual Blinds Order Dialog (network)
+	myConfig->writeConfigIntList("NetManualBlindsList",myNetManualBlindsList);
+	myConfig->writeConfigInt("NetAfterMBAlwaysDoubleBlinds",myNetAfterMBAlwaysDoubleBlinds);
+	myConfig->writeConfigInt("NetAfterMBAlwaysRaiseAbout",myNetAfterMBAlwaysRaiseAbout);
+	myConfig->writeConfigInt("NetAfterMBAlwaysRaiseValue",myNetAfterMBAlwaysRaiseValue);
+	myConfig->writeConfigInt("NetAfterMBStayAtLastBlind",myNetAfterMBStayAtLastBlind);
+
+
 	//write buffer to disc 
 	myConfig->writeBuffer();
 
@@ -396,5 +426,68 @@ void settingsDialogImpl::clearInternetGamePassword(bool clear) {
 	if(!clear) { lineEdit_InternetGamePassword->clear(); }
 }
 
-void settingsDialogImpl::callManualBlindsOrderDialog() { myManualBlindsOrderDialog->exec(); }
-void settingsDialogImpl::callNetManualBlindsOrderDialog() { myManualBlindsOrderDialog->exec(); }
+void settingsDialogImpl::callManualBlindsOrderDialog() { 
+	
+	myManualBlindsOrderDialog->listWidget_blinds->clear();
+	myManualBlindsOrderDialog->spinBox_input->setMinimum(spinBox_firstSmallBlind->value()+1);
+
+	list<int>::iterator it1;
+	for(it1= myManualBlindsList.begin(); it1 != myManualBlindsList.end(); it1++) {
+		myManualBlindsOrderDialog->listWidget_blinds->addItem(QString::number(*it1,10));
+	}
+	myManualBlindsOrderDialog->sortBlindsList();
+
+	myManualBlindsOrderDialog->radioButton_alwaysDoubleBlinds->setChecked(myAfterMBAlwaysDoubleBlinds);
+	myManualBlindsOrderDialog->radioButton_alwaysRaiseAbout->setChecked(myAfterMBAlwaysRaiseAbout);
+	myManualBlindsOrderDialog->spinBox_alwaysRaiseValue->setValue(myAfterMBAlwaysRaiseValue);
+	myManualBlindsOrderDialog->radioButton_stayAtLastBlind->setChecked(myAfterMBStayAtLastBlind);
+
+	myManualBlindsOrderDialog->exec(); 
+	if(myManualBlindsOrderDialog->result() == QDialog::Accepted) {
+				
+		bool ok = TRUE;
+		int i;
+		myManualBlindsList.clear();
+		for(i=0; i<myManualBlindsOrderDialog->listWidget_blinds->count(); i++) {
+			myManualBlindsList.push_back(myManualBlindsOrderDialog->listWidget_blinds->item(i)->text().toInt(&ok,10));		
+		}
+
+		myAfterMBAlwaysDoubleBlinds = myManualBlindsOrderDialog->radioButton_alwaysDoubleBlinds->isChecked();
+		myAfterMBAlwaysRaiseAbout = 	myManualBlindsOrderDialog->radioButton_alwaysRaiseAbout->isChecked();
+		myAfterMBAlwaysRaiseValue = myManualBlindsOrderDialog->spinBox_alwaysRaiseValue->value();
+		myAfterMBStayAtLastBlind = myManualBlindsOrderDialog->radioButton_stayAtLastBlind->isChecked();
+	}
+}
+
+void settingsDialogImpl::callNetManualBlindsOrderDialog() { 
+
+	myManualBlindsOrderDialog->listWidget_blinds->clear();
+	myManualBlindsOrderDialog->spinBox_input->setMinimum(spinBox_netFirstSmallBlind->value()+1);
+
+	list<int>::iterator it1;
+	for(it1= myNetManualBlindsList.begin(); it1 != myNetManualBlindsList.end(); it1++) {
+		myManualBlindsOrderDialog->listWidget_blinds->addItem(QString::number(*it1,10));
+	}
+	myManualBlindsOrderDialog->sortBlindsList();
+	
+	myManualBlindsOrderDialog->radioButton_alwaysDoubleBlinds->setChecked(myNetAfterMBAlwaysDoubleBlinds);
+	myManualBlindsOrderDialog->radioButton_alwaysRaiseAbout->setChecked(myNetAfterMBAlwaysRaiseAbout);
+	myManualBlindsOrderDialog->spinBox_alwaysRaiseValue->setValue(myNetAfterMBAlwaysRaiseValue);
+	myManualBlindsOrderDialog->radioButton_stayAtLastBlind->setChecked(myNetAfterMBStayAtLastBlind);
+
+	myManualBlindsOrderDialog->exec(); 
+	if(myManualBlindsOrderDialog->result() == QDialog::Accepted) {
+
+		bool ok = TRUE;
+		int i;
+		myNetManualBlindsList.clear();
+		for(i=0; i<myManualBlindsOrderDialog->listWidget_blinds->count(); i++) {
+			myNetManualBlindsList.push_back(myManualBlindsOrderDialog->listWidget_blinds->item(i)->text().toInt(&ok,10));		
+		}
+		
+		myNetAfterMBAlwaysDoubleBlinds = myManualBlindsOrderDialog->radioButton_alwaysDoubleBlinds->isChecked();
+		myNetAfterMBAlwaysRaiseAbout = 	myManualBlindsOrderDialog->radioButton_alwaysRaiseAbout->isChecked();
+		myNetAfterMBAlwaysRaiseValue = myManualBlindsOrderDialog->spinBox_alwaysRaiseValue->value();
+		myNetAfterMBStayAtLastBlind = myManualBlindsOrderDialog->radioButton_stayAtLastBlind->isChecked();
+	}
+}

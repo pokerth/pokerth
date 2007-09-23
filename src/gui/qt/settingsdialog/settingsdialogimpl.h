@@ -27,6 +27,10 @@
 #include <QtCore>
 #include <QtGui>
 
+#include <boost/shared_ptr.hpp>
+#include <vector>
+#include <iostream>
+
 class ConfigFile;
 class selectAvatarDialogImpl;
 class manualBlindsOrderDialogImpl;
@@ -65,15 +69,26 @@ public slots:
 	void clearInternetGamePassword(bool);
 
 	
-
 private:
 	
 	bool playerNickIsChanged;
 	bool settingsCorrect;
+
+	bool myAfterMBAlwaysDoubleBlinds;
+	bool myNetAfterMBAlwaysDoubleBlinds;
+	bool myAfterMBAlwaysRaiseAbout;
+	bool myNetAfterMBAlwaysRaiseAbout;
+	bool myAfterMBStayAtLastBlind;
+	bool myNetAfterMBStayAtLastBlind;
+	int myAfterMBAlwaysRaiseValue;
+	int myNetAfterMBAlwaysRaiseValue;
+	std::list<int> myManualBlindsList;
+	std::list<int> myNetManualBlindsList;
 	
 	ConfigFile* myConfig;
 	selectAvatarDialogImpl* mySelectAvatarDialogImpl;
-	manualBlindsOrderDialogImpl* myManualBlindsOrderDialog;
+	manualBlindsOrderDialogImpl *myManualBlindsOrderDialog; 
+
 	QString myAppDataPath;
 
 };

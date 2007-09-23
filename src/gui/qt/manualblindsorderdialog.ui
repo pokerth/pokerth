@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>248</width>
-    <height>437</height>
+    <height>426</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -63,6 +63,12 @@
       <string>After this:</string>
      </property>
      <layout class="QGridLayout" >
+      <property name="topMargin" >
+       <number>2</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>2</number>
+      </property>
       <item row="0" column="0" >
        <widget class="QRadioButton" name="radioButton_alwaysDoubleBlinds" >
         <property name="text" >
@@ -83,7 +89,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinBox_AfterThisAlwaysRaiseValue" />
+         <widget class="QSpinBox" name="spinBox_alwaysRaiseValue" />
         </item>
         <item>
          <widget class="QLabel" name="label" >
@@ -123,7 +129,7 @@
   <tabstop>pushButton_delete</tabstop>
   <tabstop>radioButton_alwaysDoubleBlinds</tabstop>
   <tabstop>radioButton_alwaysRaiseAbout</tabstop>
-  <tabstop>spinBox_AfterThisAlwaysRaiseValue</tabstop>
+  <tabstop>spinBox_alwaysRaiseValue</tabstop>
   <tabstop>radioButton_stayAtLastBlind</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
@@ -164,7 +170,7 @@
   <connection>
    <sender>radioButton_alwaysRaiseAbout</sender>
    <signal>toggled(bool)</signal>
-   <receiver>spinBox_AfterThisAlwaysRaiseValue</receiver>
+   <receiver>spinBox_alwaysRaiseValue</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
