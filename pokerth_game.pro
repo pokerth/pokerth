@@ -5,7 +5,10 @@ CODECFORSRC = UTF-8
 
 CONFIG += qt thread embed_manifest_exe warn_on release
 #CONFIG += qt thread embed_manifest_exe warn_on debug
-QTPLUGIN += qjpeg qgif
+
+#Uncomment this for RELEASE
+#QTPLUGIN += qjpeg qgif
+
 UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = obj
