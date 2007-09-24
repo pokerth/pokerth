@@ -38,6 +38,9 @@ class ClientHand : public HandInterface
 		void start();
 
 		std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() const;
+		PlayerList getActivePlayerList() const {return activePlayerList;}
+		PlayerList getRunningPlayerList() const {return runningPlayerList;}
+
 		BoardInterface* getBoard() const;
 		boost::shared_ptr<BeRoInterface> getPreflop() const;
 		boost::shared_ptr<BeRoInterface> getFlop() const;
@@ -70,9 +73,6 @@ class ClientHand : public HandInterface
 		void setStartCash ( int theValue );
 		int getStartCash() const;
 
-		void setActivePlayersCounter ( int theValue );
-		int getActivePlayersCounter() const;
-
 		void setBettingRoundsPlayed ( int theValue );
 		int getBettingRoundsPlayed() const;
 
@@ -99,7 +99,6 @@ class ClientHand : public HandInterface
 		std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
 		int myID;
-		int actualQuantityPlayers;
 		int startQuantityPlayers;
 		int dealerPosition; // -1 -> neutral
 		int actualRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river

@@ -11,7 +11,7 @@
 //
 #include "clientbero.h"
 
-ClientBeRo::ClientBeRo(HandInterface* hi, int /*id*/, int /*qP*/, int dP, int sB, GameState gS)
+ClientBeRo::ClientBeRo(HandInterface* hi, int /*id*/, int dP, int sB, GameState gS)
 : BeRoInterface(), myBeRoID(gS), myHand(hi), highestCardsValue(0), playersTurn(dP), highestSet(0), firstRound(true), smallBlindPosition(0), smallBlind(sB), minimumRaise(0)
 {
 }

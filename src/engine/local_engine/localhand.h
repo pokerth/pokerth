@@ -40,6 +40,9 @@ public:
 	void start();
 
 	std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() const { return playerArray; }
+	PlayerList getActivePlayerList() const {return activePlayerList;}
+	PlayerList getRunningPlayerList() const {return runningPlayerList;}
+
 	BoardInterface* getBoard() const { return myBoard; }
 	boost::shared_ptr<BeRoInterface> getPreflop() const { return myBeRo[GAME_STATE_PREFLOP]; }
 	boost::shared_ptr<BeRoInterface> getFlop() const { return myBeRo[GAME_STATE_FLOP]; }
@@ -50,9 +53,6 @@ public:
 
 	void setMyID(int theValue) { myID = theValue; }
 	int getMyID() const { return myID; }
-	
-	void setActualQuantityPlayers(int theValue) { actualQuantityPlayers = theValue; }
-	int getActualQuantityPlayers() const { return actualQuantityPlayers; }
 
 	void setStartQuantityPlayers(int theValue) { startQuantityPlayers = theValue; }
 	int getStartQuantityPlayers() const { return startQuantityPlayers; }
@@ -71,9 +71,6 @@ public:
 
 	void setStartCash(int theValue)	{ startCash = theValue; }
 	int getStartCash() const { return startCash;	}
-
-	void setActivePlayersCounter(int theValue) { activePlayersCounter = theValue; }
-	int getActivePlayersCounter() const { return activePlayersCounter; }
 	
 	void setBettingRoundsPlayed(int theValue) { bettingRoundsPlayed = theValue; }
 	int getBettingRoundsPlayed() const { return bettingRoundsPlayed; }
@@ -102,13 +99,11 @@ private:
 	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
 	int myID;
-	int actualQuantityPlayers;
 	int startQuantityPlayers;
 	int dealerPosition; // -1 -> neutral
 	int actualRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
 	int smallBlind;
 	int startCash;
-	int activePlayersCounter;
 
 	int lastPlayersTurn;
 

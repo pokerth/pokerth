@@ -22,7 +22,7 @@
 using namespace std;
 
 ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl, PlayerList apl, PlayerList rpl, int id, int sP, int aP, int dP, int sB,int sC)
-: myFactory(f), myGui(g),  myBoard(b), playerArray(sl), activePlayerList(apl), runningPlayerList(rpl), myID(id), actualQuantityPlayers(aP), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0),
+: myFactory(f), myGui(g),  myBoard(b), playerArray(sl), activePlayerList(apl), runningPlayerList(rpl), myID(id), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0),
   smallBlind(sB), startCash(sC), activePlayersCounter(aP), lastPlayersTurn(0), allInCondition(0),
   cardsShown(false), bettingRoundsPlayed(0)
 {
@@ -54,7 +54,7 @@ ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, Boar
 	// the rest of the buttons are assigned later as received from the server.
 
 	// Preflop, Flop, Turn und River erstellen
-	myBeRo = myFactory->createBeRo(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
+	myBeRo = myFactory->createBeRo(this, myID, dealerPosition, smallBlind);
 }
 
 
@@ -129,20 +129,6 @@ ClientHand::getMyID() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return myID;
-}
-
-void
-ClientHand::setActualQuantityPlayers(int theValue)
-{
-	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	actualQuantityPlayers = theValue;
-}
-
-int
-ClientHand::getActualQuantityPlayers() const
-{
-	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	return actualQuantityPlayers;
 }
 
 void
@@ -227,20 +213,6 @@ ClientHand::getStartCash() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return startCash;
-}
-
-void
-ClientHand::setActivePlayersCounter(int theValue)
-{
-	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	activePlayersCounter = theValue;
-}
-
-int
-ClientHand::getActivePlayersCounter() const
-{
-	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	return activePlayersCounter;
 }
 
 void

@@ -24,7 +24,7 @@
 
 using namespace std;
 
-LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int qP, int dP, int sB) : LocalBeRo(hi, id, qP, dP, sB, GAME_STATE_PREFLOP), bigBlindPosition(0)
+LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int dP, int sB) : LocalBeRo(hi, id, dP, sB, GAME_STATE_PREFLOP), bigBlindPosition(0)
 
 {
 	setHighestSet(2*getSmallBlind());

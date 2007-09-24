@@ -27,11 +27,12 @@
 using namespace std;
 
 LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl, PlayerList apl, PlayerList rpl, int id, int sP, int aP, int dP, int sB,int sC)
-: myFactory(f), myGui(g),  myBoard(b), playerArray(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), actualQuantityPlayers(aP), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), activePlayersCounter(aP), lastPlayersTurn(0), allInCondition(0),
+: myFactory(f), myGui(g),  myBoard(b), playerArray(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), lastPlayersTurn(0), allInCondition(0),
   cardsShown(false), bettingRoundsPlayed(0)
 {
 
 	int i, j, k;
+	PlayerList::iterator it;
 
 	CardsValue myCardsValue;
 
@@ -55,6 +56,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	int tempBoardArray[5];
 	int tempPlayerArray[2];
 	int tempPlayerAndBoardArray[7];
+	int bestHandPos[5];
 	int sBluff;
 	for(i=0; i<5; i++) {
 		tempBoardArray[i] = cardsArray[i];
@@ -63,40 +65,37 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 	k = 0;
 	myBoard->setMyCards(tempBoardArray);
-	for(i=0; i<startQuantityPlayers; i++) {
-		if(playerArray[i]->getMyActiveStatus() != 0) {
+	for(it=activePlayerList.begin(); it!=activePlayerList.end(); it++, k++) {
 
-			int bestHandPos[5];
-			playerArray[i]->getMyBestHandPosition(bestHandPos);
+		(*it)->getMyBestHandPosition(bestHandPos);
 
-			for(j=0; j<2; j++) {
-				tempPlayerArray[j] = cardsArray[2*k+j+5];
-				tempPlayerAndBoardArray[j] = cardsArray[2*k+j+5];
+		for(j=0; j<2; j++) {
+			tempPlayerArray[j] = cardsArray[2*k+j+5];
+			tempPlayerAndBoardArray[j] = cardsArray[2*k+j+5];
+		}
+
+		(*it)->setMyCards(tempPlayerArray);
+		(*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray, bestHandPos));
+		(*it)->setMyBestHandPosition(bestHandPos);
+
+		// myBestHandPosition auf Fehler ueberpruefen
+		for(j=0; j<5; j++) {
+			if (bestHandPos[j] == -1) {
+				cout << "ERROR getMyBestHandPosition in localhand.cpp" << endl;
 			}
-			playerArray[i]->setMyCards(tempPlayerArray);
-			playerArray[i]->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray, bestHandPos));
-			playerArray[i]->setMyBestHandPosition(bestHandPos);
+		}
 
-			// myBestHandPosition auf Fehler ueberpruefen
-			for(j=0; j<5; j++) {
-				if (bestHandPos[j] == -1) {
-					cout << "ERROR getMyBestHandPosition in localhand.cpp" << endl;
-				}
-			}
-
-			// sBluff für alle aktiver Spieler außer human player setzen
-			if(i) {
-				Tools::getRandNumber(1,100,1,&sBluff,0);
-				playerArray[i]->setSBluff(sBluff);
-				playerArray[i]->setSBluffStatus(0);
-			}
-
-			k++;
+		// sBluff für alle aktiver Spieler außer human player setzen
+		if(it!=activePlayerList.begin()) {
+			Tools::getRandNumber(1,100,1,&sBluff,0);
+			(*it)->setSBluff(sBluff);
+			(*it)->setSBluffStatus(0);
 		}
 	}
+
 	delete[] cardsArray;
 
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!   testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!   DEBUGGER   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
 
 	if(DEBUG_MODE) {
 
@@ -260,7 +259,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	// Dealer, SB, BB bestimmen
 	assignButtons();
 
-	myBeRo = myFactory->createBeRo(this, myID, actualQuantityPlayers, dealerPosition, smallBlind);
+	myBeRo = myFactory->createBeRo(this, myID, dealerPosition, smallBlind);
 }
 
 
@@ -286,12 +285,7 @@ void LocalHand::start() {
 void LocalHand::assignButtons() {
 
 	int i,j;
-
-	//Aktive Spieler zählen
-	int activePlayersCounter = 0;
-	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
-		if (playerArray[i]->getMyActiveStatus() == 1) activePlayersCounter++;
-	}
+	PlayerList::iterator it;
 
 	// alle Buttons loeschen
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { playerArray[i]->setMyButton(0); }
@@ -306,7 +300,7 @@ void LocalHand::assignButtons() {
 
 		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
 		if(playerArray[i]->getMyActiveStatus())	{
-			if(activePlayersCounter > 2) playerArray[i]->setMyButton(2); //small blind normal
+			if(activePlayerList.size() > 2) playerArray[i]->setMyButton(2); //small blind normal
 			else playerArray[i]->setMyButton(3); //big blind in heads up		
 		}
 	}
@@ -316,41 +310,45 @@ void LocalHand::assignButtons() {
 
 		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
 		if(playerArray[i]->getMyActiveStatus())	{
-			if(activePlayersCounter > 2) playerArray[i]->setMyButton(3); //big blind normal
+			if(activePlayerList.size() > 2) playerArray[i]->setMyButton(3); //big blind normal
 			else playerArray[i]->setMyButton(2); //small blind in heads up
 			
 		}
 	}
 
 	//do sets
-	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+	for (it=activePlayerList.begin(); it!=activePlayerList.end(); it++) { 
 
-		if(playerArray[i]->getMyButton() == 2) { 
 		//small blind
-			// mit SmallBlind All In ?
-			if(playerArray[i]->getMyCash() <= smallBlind) {
+		if((*it)->getMyButton() == 2) { 
 
-				playerArray[i]->setMySet(playerArray[i]->getMyCash());
+			// All in ?
+			if((*it)->getMyCash() <= smallBlind) {
+
+				(*it)->setMySet((*it)->getMyCash());
 				// 1 to do not log this
-				playerArray[i]->setMyAction(6,1);
+				(*it)->setMyAction(6,1);
+				// delete this player from runningPlayerList
+				it = runningPlayerList.erase(it);
 
 			}
-			// sonst
-			else { playerArray[i]->setMySet(smallBlind); }
+			else { (*it)->setMySet(smallBlind); }
 		} 
 
-		if(playerArray[i]->getMyButton() == 3) { 
 		//big blind
-			// mit BigBlind All In ?
-			if(playerArray[i]->getMyCash() <= 2*smallBlind) {
+		if((*it)->getMyButton() == 3) { 
 
-				playerArray[i]->setMySet(playerArray[i]->getMyCash());
+			// all in ?
+			if((*it)->getMyCash() <= 2*smallBlind) {
+
+				(*it)->setMySet((*it)->getMyCash());
 				// 1 to do not log this
-				playerArray[i]->setMyAction(6,1);
+				(*it)->setMyAction(6,1);
+				// delete this player from runningPlayerList
+				it = runningPlayerList.erase(it);
 
 			}
-			// sonst
-			else { playerArray[i]->setMySet(2*smallBlind);	}
+			else { (*it)->setMySet(2*smallBlind);	}
 		}
 
 	}
@@ -359,25 +357,17 @@ void LocalHand::assignButtons() {
 
 void LocalHand::switchRounds() {
 
-	
 	int i;
-
-// 	cout <<" ------- HandID: " << myID << " | actualround: " << actualRound << " ---------" << endl;
-
-	//Aktive Spieler z�len
-	activePlayersCounter = 0;
-	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
-		if (playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyActiveStatus() == 1) activePlayersCounter++;
-	}
+	PlayerList::iterator it;
 
 	// Anzahl der Spieler ermitteln, welche All In sind
 	int allInPlayersCounter = 0;
-		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-			if (playerArray[i]->getMyAction() == 6) allInPlayersCounter++;
+	for (it=activePlayerList.begin(); it!=activePlayerList.end(); it++) {
+		if ((*it)->getMyAction() == 6) allInPlayersCounter++;
 	}
 	 
 	//wenn nur noch einer nicht-folded dann gleich den Pot verteilen
-	if(activePlayersCounter==1) {
+	if(activePlayerList.size()==1) {
 		myBoard->collectPot();	
 		myGui->refreshPot();
 		myGui->refreshSet();
@@ -387,31 +377,22 @@ void LocalHand::switchRounds() {
 	// fr All In Prozedur mssen mindestens zwei aktive Player vorhanden sein
 	else {
 
-// 		cout << "activplayerscounter: " << activePlayersCounter << " | allInPlayersCounter: " << allInPlayersCounter << " | " << endl;
-
 		// 1) wenn alle All In
-		if(allInPlayersCounter == activePlayersCounter) {
-			allInCondition = 1;
+		if(allInPlayersCounter == activePlayerList.size()) {
+			allInCondition = true;
 		}
 
 		// 2) alle bis auf einen All In und der hat HighestSet
-		int tempHighestSet;
-		if(allInPlayersCounter+1 == activePlayersCounter) {
-			for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
-				// Spieler ermitteln, der noch nicht All In ist
-				if(playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyAction() != 6 && playerArray[i]->getMyActiveStatus() == 1) {	
-					tempHighestSet = 0;
-					tempHighestSet = myBeRo[actualRound]->getHighestSet();
-// 					cout << "tempHighestSet: " << tempHighestSet << "playerArray[i]->getMySet(): " << playerArray[i]->getMySet() << endl;
-					
-					if(playerArray[i]->getMySet() >= tempHighestSet) {
-						allInCondition = 1;
-					}
+		if(allInPlayersCounter+1 == activePlayerList.size()) {
 
-				}
+			if( (*(runningPlayerList.begin()))->getMySet() >= myBeRo[actualRound]->getHighestSet() ) {
+				allInCondition = 1;
+			}
 
-				// HeadsUp-Ausnahme -> spieler ermitteln, der all in ist und als bb nur weniger als sb setzen konnte
-				if(activePlayersCounter==2 && playerArray[i]->getMyAction() == 6 && playerArray[i]->getMyActiveStatus() == 1 && playerArray[i]->getMyButton()==3 && playerArray[i]->getMySet()<=smallBlind) {
+			// HeadsUp-Ausnahme -> spieler ermitteln, der all in ist und als bb nur weniger als sb setzen konnte
+			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+
+				if(activePlayerList.size()==2 && playerArray[i]->getMyAction() == 6 && playerArray[i]->getMyActiveStatus() == 1 && playerArray[i]->getMyButton()==3 && playerArray[i]->getMySet()<=smallBlind) {
 						allInCondition = 1;
 				}
 
@@ -439,7 +420,7 @@ void LocalHand::switchRounds() {
 	
 	}
 
-	//unhighlight actual players groupbox
+	//unhighlight current players groupbox
 	if(playerArray[lastPlayersTurn]->getMyActiveStatus() == 1) myGui->refreshGroupbox(lastPlayersTurn,1);
 
 	myGui->refreshGameLabels((GameState)getActualRound());

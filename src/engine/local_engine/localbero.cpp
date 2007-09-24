@@ -13,8 +13,8 @@
 
 using namespace std;
 
-LocalBeRo::LocalBeRo(HandInterface* hi, int id, int qP, int dP, int sB, GameState gS)
-: BeRoInterface(), myHand(hi), myBeRoID(gS), myID(id), actualQuantityPlayers(qP), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), minimumRaise(2*sB), firstRun(1), firstRound(1), firstHeadsUpRound(1), playersTurn(dP), logBoardCardsDone(0)
+LocalBeRo::LocalBeRo(HandInterface* hi, int id, int dP, int sB, GameState gS)
+: BeRoInterface(), myHand(hi), myBeRoID(gS), myID(id), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(0), minimumRaise(2*sB), firstRun(1), firstRound(1), firstHeadsUpRound(1), playersTurn(dP), logBoardCardsDone(0)
 {
 
 	int i;
@@ -145,8 +145,8 @@ void LocalBeRo::run() {
 
 			// wenn wir letzter aktiver Spieler vor SmallBlind sind, dann flopFirstRound zuende
 			// ausnahme bei heads up !!! --> TODO
-			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind && myHand->getActualQuantityPlayers() >= 3) { firstRound = 0; }
-			if(myHand->getActualQuantityPlayers() < 3 && (myHand->getPlayerArray()[playersTurn]->getMyID() == dealerPosition || myHand->getPlayerArray()[playersTurn]->getMyID() == smallBlindPosition)) { firstRound = 0; }
+			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind && myHand->getActivePlayerList().size() >= 3) { firstRound = 0; }
+			if(myHand->getActivePlayerList().size() < 3 && (myHand->getPlayerArray()[playersTurn]->getMyID() == dealerPosition || myHand->getPlayerArray()[playersTurn]->getMyID() == smallBlindPosition)) { firstRound = 0; }
 
 			if(playersTurn == 0) {
 				// Wir sind dran

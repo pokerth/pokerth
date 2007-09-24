@@ -24,7 +24,7 @@
 */
 class LocalBeRo : public BeRoInterface{
 public:
-	LocalBeRo(HandInterface* hi, int id, int qP, int dP, int sB, GameState gS);
+	LocalBeRo(HandInterface* hi, int id, int dP, int sB, GameState gS);
 	~LocalBeRo();
 
 	GameState getMyBeRoID() const { return myBeRoID; }
@@ -77,7 +77,6 @@ private:
 
 	const GameState myBeRoID;
 	int myID;
-	int actualQuantityPlayers;
 	int dealerPosition;
 	int smallBlindPosition;
 

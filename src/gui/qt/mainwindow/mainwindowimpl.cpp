@@ -2083,7 +2083,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 			actionLabelArray[i]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_winner.png"));
 
 			//show winnercards if more than one player is active
-			if ( currentHand->getActivePlayersCounter() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
+			if ( currentHand->getActivePlayerList().size() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
 
 				int j;
 				int bestHandPos[5];
@@ -2150,7 +2150,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 		}
 		else {
 			
-			if( currentHand->getActivePlayersCounter() != 1 && currentHand->getPlayerArray()[i]->getMyAction() != 1 &&  currentHand->getPlayerArray()[i]->getMyActiveStatus() && myConfig->readConfigInt("ShowFadeOutCardsAnimation") ) {
+			if( currentHand->getActivePlayerList().size() != 1 && currentHand->getPlayerArray()[i]->getMyAction() != 1 &&  currentHand->getPlayerArray()[i]->getMyActiveStatus() && myConfig->readConfigInt("ShowFadeOutCardsAnimation") ) {
     	
 			//aufgedeckte Gegner auch ausblenden
 				holeCardsArray[i][0]->startFadeOut(guiGameSpeed);

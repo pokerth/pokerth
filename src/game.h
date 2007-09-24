@@ -52,9 +52,9 @@ public:
 	HandInterface *getCurrentHand();
 	const HandInterface *getCurrentHand() const;
 
-	std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() {return playerArray;}
-	std::list<boost::shared_ptr<PlayerInterface> > getActivePlayerList() {return activePlayerList;}
-	std::list<boost::shared_ptr<PlayerInterface> > getRunningPlayerList() {return runningPlayerList;}
+	std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() const {return playerArray;}
+	PlayerList getActivePlayerList() const {return activePlayerList;}
+	PlayerList getRunningPlayerList() const {return runningPlayerList;}
 
 	//Zufgriff Startvariablen
 	void setStartQuantityPlayers(int theValue) { startQuantityPlayers = theValue; }
@@ -89,8 +89,8 @@ private:
 	BoardInterface *actualBoard;
 
 	std::vector<boost::shared_ptr<PlayerInterface> > playerArray; // available seats --> seatList !!! TODO
-	std::list<boost::shared_ptr<PlayerInterface> > activePlayerList; // used seats
-	std::list<boost::shared_ptr<PlayerInterface> > runningPlayerList; // nonfolded and nonallin active players
+	PlayerList activePlayerList; // used seats
+	PlayerList runningPlayerList; // nonfolded and nonallin active players
 	
 // 	boost::shared_ptr<PlayerInterface> playerArray[MAX_NUMBER_OF_PLAYERS];
 

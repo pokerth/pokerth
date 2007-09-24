@@ -987,7 +987,7 @@ void LocalPlayer::preflopEngine() {
 	int cBluff;
 
 	// temporär solange preflopValue und flopValue noch nicht bereinigt für sechs und sieben spieler
-	int players = actualHand->getActualQuantityPlayers();
+	int players = actualHand->getActivePlayerList().size();
 	if(players > 5) players = 5;
 
 	// myOdds auslesen
@@ -1018,7 +1018,7 @@ void LocalPlayer::preflopEngine() {
 //	cout << myID << ": " << myHoleCardsValue << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << myCards[0] << " " << myCards[1] << endl;
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
-	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActualQuantityPlayers())*21.0);
+	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList().size())*21.0);
 
 // 	cout << aggValue << "  ";
 
@@ -1122,7 +1122,7 @@ void LocalPlayer::preflopEngine() {
 // 	cout << sBluff << endl;
 
 	// auf sBluff testen --> raise statt call oder fold
-	if((sBluff < 100/(((actualHand->getActualQuantityPlayers()-2)*6)+3) && myOdds < myNiveau[2] && actualHand->getCurrentBeRo()->getHighestSet() == 2*actualHand->getSmallBlind() && sBluffStatus == 0) || sBluffStatus == 1) {
+	if((sBluff < 100/(((actualHand->getActivePlayerList().size()-2)*6)+3) && myOdds < myNiveau[2] && actualHand->getCurrentBeRo()->getHighestSet() == 2*actualHand->getSmallBlind() && sBluffStatus == 0) || sBluffStatus == 1) {
 
 // 		cout << "sBLUFF!" << endl;
 		sBluffStatus = 1;
@@ -1143,7 +1143,7 @@ void LocalPlayer::preflopEngine() {
 		// Standard-Raise-Routine
 		else {
 			// raise-Betrag ermitteln
-			raise = (sBluff/(8-actualHand->getActualQuantityPlayers()))*actualHand->getSmallBlind();
+			raise = (sBluff/(8-actualHand->getActivePlayerList().size()))*actualHand->getSmallBlind();
 			// raise-Betrag zu klein -> mindestens Standard-raise
 // 			if(raise < actualHand->getCurrentBeRo()->getHighestSet()) {
 // 				raise = actualHand->getCurrentBeRo()->getHighestSet();
@@ -1255,7 +1255,7 @@ void LocalPlayer::flopEngine() {
 	int rand;
 
 	// übergang solange preflopValue und flopValue noch nicht bereinigt
-	int players = actualHand->getActualQuantityPlayers();
+	int players = actualHand->getActivePlayerList().size();
 	if(players > 5) players = 5;
 
 	calcMyOdds();
@@ -1273,7 +1273,7 @@ void LocalPlayer::flopEngine() {
 	if(individualHighestSet > myCash) individualHighestSet = myCash;
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist
-	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActualQuantityPlayers())*21.0);
+	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList().size())*21.0);
 
 	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
 		for(i=0; i<3; i++) {
@@ -1716,7 +1716,7 @@ void LocalPlayer::flopEngine() {
 // 					switch(info[3]) {
 // 						case 2: {}
 // 						case 1: {
-// 							if(actualHand->getActualQuantityPlayers() == 2) {
+// 							if(actualHand->getActivePlayerList().size() == 2) {
 // 								bet = (1-myDude4)*2*actualHand->getSmallBlind();
 // 								if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
 // 								myAction = 4;
@@ -1836,14 +1836,14 @@ void LocalPlayer::turnEngine() {
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
 	// 1. Fold -- Call
-	myNiveau[0] = 53 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	myNiveau[0] = 53 + myDude4/* - 6*(actualHand->getActivePlayerList().size() - 2)*/;
 	// 2. Check -- Bet
-	myNiveau[1] = 56 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	myNiveau[1] = 56 + myDude4/* - 6*(actualHand->getActivePlayerList().size() - 2)*/;
 	// 3. Call -- Raise
-	myNiveau[2] = 69 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	myNiveau[2] = 69 + myDude4/* - 6*(actualHand->getActivePlayerList().size() - 2)*/;
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist
-	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActualQuantityPlayers())*21.0);
+	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList().size())*21.0);
 
 	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
 		for(i=0; i<3; i++) {
@@ -2172,14 +2172,14 @@ void LocalPlayer::riverEngine() {
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
 	// 1. Fold -- Call
-	myNiveau[0] = 53 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	myNiveau[0] = 53 + myDude4/* - 6*(actualHand->getActivePlayerList().size() - 2)*/;
 	// 2. Check -- Bet
-	myNiveau[1] = 56 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	myNiveau[1] = 56 + myDude4/* - 6*(actualHand->getActivePlayerList().size() - 2)*/;
 	// 3. Call -- Raise
-	myNiveau[2] = 69 + myDude4/* - 6*(actualHand->getActualQuantityPlayers() - 2)*/;
+	myNiveau[2] = 69 + myDude4/* - 6*(actualHand->getActivePlayerList().size() - 2)*/;
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist
-	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActualQuantityPlayers())*21.0);
+	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList().size())*21.0);
 
 	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
 		for(i=0; i<3; i++) {
@@ -3226,7 +3226,7 @@ void LocalPlayer::calcMyOdds() {
 			handCode = preflopCardsValue(myCards);
 		
 			// übergang solange preflopValue und flopValue noch nicht bereinigt
-			int players = actualHand->getActualQuantityPlayers();
+			int players = actualHand->getActivePlayerList().size();
 			if(players > 5) players = 5;
 			// paranoia
 			if(players < 2) players = 2;
@@ -3259,7 +3259,7 @@ void LocalPlayer::calcMyOdds() {
 		// 		cout << "\t" << handCode << endl;
 		
 			// übergang solange preflopValue und flopValue noch nicht bereinigt
-			int players = actualHand->getActualQuantityPlayers();
+			int players = actualHand->getActivePlayerList().size();
 			if(players > 5) players = 5;
 			// paranoia
 			if(players < 2) players = 2;

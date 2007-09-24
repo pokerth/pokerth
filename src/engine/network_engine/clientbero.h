@@ -22,7 +22,7 @@ class HandInterface;
 */
 class ClientBeRo : public BeRoInterface{
 public:
-	ClientBeRo(HandInterface* hi, int id, int qP, int dP, int sB, GameState gS);
+	ClientBeRo(HandInterface* hi, int id, int dP, int sB, GameState gS);
 	~ClientBeRo();
 
 	GameState getMyBeRoID() const;

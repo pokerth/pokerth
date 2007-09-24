@@ -25,7 +25,7 @@
 
 using namespace std;
 
-LocalBeRoPostRiver::LocalBeRoPostRiver(HandInterface* hi, int id, int qP, int dP, int sB) : LocalBeRo(hi, id, qP, dP, sB, GAME_STATE_POST_RIVER), highestCardsValue(0)
+LocalBeRoPostRiver::LocalBeRoPostRiver(HandInterface* hi, int id, int dP, int sB) : LocalBeRo(hi, id, dP, sB, GAME_STATE_POST_RIVER), highestCardsValue(0)
 {
 }
 
@@ -49,7 +49,7 @@ void LocalBeRoPostRiver::postRiverRun() {
 	}
 
 	// Durchschnittsets des human player ermitteln
-	getMyHand()->getPlayerArray()[0]->setMyAverageSets(((getMyHand()->getPlayerArray()[0]->getMyRoundStartCash())-(getMyHand()->getPlayerArray()[0]->getMyCash()))/(getMyHand()->getBettingRoundsPlayed()+1));
+// 	getMyHand()->getPlayerArray()[0]->setMyAverageSets(((getMyHand()->getPlayerArray()[0]->getMyRoundStartCash())-(getMyHand()->getPlayerArray()[0]->getMyCash()))/(getMyHand()->getBettingRoundsPlayed()+1));
 
 	// Aggressivität des human player ermitteln
 	// anzahl der player die möglichkeit haben am pot teilzuhaben

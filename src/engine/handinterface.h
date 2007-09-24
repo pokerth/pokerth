@@ -37,6 +37,9 @@ public:
 	virtual void start() = 0;
 
 	virtual std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() const =0;
+	virtual PlayerList getActivePlayerList() const =0;
+	virtual PlayerList getRunningPlayerList() const =0;
+
 	virtual BoardInterface* getBoard() const =0;
 	virtual boost::shared_ptr<BeRoInterface> getPreflop() const =0;
 	virtual boost::shared_ptr<BeRoInterface> getFlop() const =0;
@@ -48,9 +51,6 @@ public:
 	virtual void setMyID(int theValue) =0;
 	virtual int getMyID() const =0;
 	
-	virtual void setActualQuantityPlayers(int theValue) =0;
-	virtual int getActualQuantityPlayers() const =0;
-
 	virtual void setStartQuantityPlayers(int theValue) =0;
 	virtual int getStartQuantityPlayers() const =0;
 
@@ -68,9 +68,6 @@ public:
 
 	virtual void setStartCash(int theValue) =0;
 	virtual int getStartCash() const =0;
-
-	virtual void setActivePlayersCounter(int theValue) =0;
-	virtual int getActivePlayersCounter() const =0;
 
 	virtual void setBettingRoundsPlayed(int theValue) =0;
 	virtual int getBettingRoundsPlayed() const =0;
