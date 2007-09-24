@@ -35,7 +35,8 @@ class EngineFactory;
 struct GameData;
 struct StartData;
 
-typedef std::list<boost::shared_ptr<PlayerInterface> > PlayerList;
+typedef boost::shared_ptr<std::list<boost::shared_ptr<PlayerInterface> > > PlayerList;
+typedef std::list<boost::shared_ptr<PlayerInterface> >::iterator PlayerListIterator;
 
 class Game {
 

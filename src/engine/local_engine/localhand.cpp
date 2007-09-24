@@ -26,13 +26,13 @@
 
 using namespace std;
 
-LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl, PlayerList apl, PlayerList rpl, int id, int sP, int aP, int dP, int sB,int sC)
+LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC)
 : myFactory(f), myGui(g),  myBoard(b), playerArray(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), lastPlayersTurn(0), allInCondition(0),
   cardsShown(false), bettingRoundsPlayed(0)
 {
 
 	int i, j, k;
-	PlayerList::iterator it;
+	PlayerListIterator it;
 
 	CardsValue myCardsValue;
 
@@ -51,8 +51,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	}
 
 	// Karten generieren und Board sowie Player zuweisen
-	int *cardsArray = new int[2*activePlayerList.size()+5];
-	Tools::getRandNumber(0, 51, 2*activePlayerList.size()+5, cardsArray, 1);
+	int *cardsArray = new int[2*activePlayerList->size()+5];
+	Tools::getRandNumber(0, 51, 2*activePlayerList->size()+5, cardsArray, 1);
 	int tempBoardArray[5];
 	int tempPlayerArray[2];
 	int tempPlayerAndBoardArray[7];
@@ -65,7 +65,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 	k = 0;
 	myBoard->setMyCards(tempBoardArray);
-	for(it=activePlayerList.begin(); it!=activePlayerList.end(); it++, k++) {
+	for(it=activePlayerList->begin(); it!=activePlayerList->end(); it++, k++) {
 
 		(*it)->getMyBestHandPosition(bestHandPos);
 
@@ -85,8 +85,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 			}
 		}
 
-		// sBluff für alle aktiver Spieler außer human player setzen
-		if(it!=activePlayerList.begin()) {
+		// sBluff für alle aktiver Spieler außer human player setzen --> TODO for ai-player in internet
+		if((*it)->getMyID() != 0) {
 			Tools::getRandNumber(1,100,1,&sBluff,0);
 			(*it)->setSBluff(sBluff);
 			(*it)->setSBluffStatus(0);
@@ -285,7 +285,7 @@ void LocalHand::start() {
 void LocalHand::assignButtons() {
 
 	int i,j;
-	PlayerList::iterator it;
+	PlayerListIterator it;
 
 	// alle Buttons loeschen
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { playerArray[i]->setMyButton(0); }
@@ -300,7 +300,7 @@ void LocalHand::assignButtons() {
 
 		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
 		if(playerArray[i]->getMyActiveStatus())	{
-			if(activePlayerList.size() > 2) playerArray[i]->setMyButton(2); //small blind normal
+			if(activePlayerList->size() > 2) playerArray[i]->setMyButton(2); //small blind normal
 			else playerArray[i]->setMyButton(3); //big blind in heads up		
 		}
 	}
@@ -310,14 +310,14 @@ void LocalHand::assignButtons() {
 
 		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
 		if(playerArray[i]->getMyActiveStatus())	{
-			if(activePlayerList.size() > 2) playerArray[i]->setMyButton(3); //big blind normal
+			if(activePlayerList->size() > 2) playerArray[i]->setMyButton(3); //big blind normal
 			else playerArray[i]->setMyButton(2); //small blind in heads up
 			
 		}
 	}
 
 	//do sets
-	for (it=activePlayerList.begin(); it!=activePlayerList.end(); it++) { 
+	for (it=activePlayerList->begin(); it!=activePlayerList->end(); it++) { 
 
 		//small blind
 		if((*it)->getMyButton() == 2) { 
@@ -329,7 +329,7 @@ void LocalHand::assignButtons() {
 				// 1 to do not log this
 				(*it)->setMyAction(6,1);
 				// delete this player from runningPlayerList
-				it = runningPlayerList.erase(it);
+				it = runningPlayerList->erase(it);
 
 			}
 			else { (*it)->setMySet(smallBlind); }
@@ -345,7 +345,7 @@ void LocalHand::assignButtons() {
 				// 1 to do not log this
 				(*it)->setMyAction(6,1);
 				// delete this player from runningPlayerList
-				it = runningPlayerList.erase(it);
+				it = runningPlayerList->erase(it);
 
 			}
 			else { (*it)->setMySet(2*smallBlind);	}
@@ -358,17 +358,17 @@ void LocalHand::assignButtons() {
 void LocalHand::switchRounds() {
 
 	int i;
-	PlayerList::iterator it;
+	PlayerListIterator it;
 
 	// Anzahl der Spieler ermitteln, welche All In sind
 	int allInPlayersCounter = 0;
-	for (it=activePlayerList.begin(); it!=activePlayerList.end(); it++) {
+	for (it=activePlayerList->begin(); it!=activePlayerList->end(); it++) {
 		if ((*it)->getMyAction() == 6) allInPlayersCounter++;
 	}
 
 	// TODO -> runningPlayerList.size()
 	int nonFoldPlayerCounter = 0;
-	for (it=activePlayerList.begin(); it!=activePlayerList.end(); it++) {
+	for (it=activePlayerList->begin(); it!=activePlayerList->end(); it++) {
 		if ((*it)->getMyAction() != 1) nonFoldPlayerCounter++;
 	}
 
@@ -407,7 +407,7 @@ void LocalHand::switchRounds() {
 			// HeadsUp-Ausnahme -> spieler ermitteln, der all in ist und als bb nur weniger als sb setzen konnte
 			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-				if(activePlayerList.size()==2 && playerArray[i]->getMyAction() == 6 && playerArray[i]->getMyActiveStatus() == 1 && playerArray[i]->getMyButton()==3 && playerArray[i]->getMySet()<=smallBlind) {
+				if(activePlayerList->size()==2 && playerArray[i]->getMyAction() == 6 && playerArray[i]->getMyActiveStatus() == 1 && playerArray[i]->getMyButton()==3 && playerArray[i]->getMySet()<=smallBlind) {
 						allInCondition = 1;
 				}
 

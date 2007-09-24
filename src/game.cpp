@@ -71,6 +71,9 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 
 
 	// Player erstellen
+	activePlayerList = PlayerList(new std::list<boost::shared_ptr<PlayerInterface> >);
+	runningPlayerList = PlayerList(new std::list<boost::shared_ptr<PlayerInterface> >);
+
 	player_i = playerDataList.begin();
 	player_end = playerDataList.end();
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
@@ -98,8 +101,8 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		// fill player lists
 		playerArray.push_back(tmpPlayer);
 		if(startQuantityPlayers > i) {
-			activePlayerList.push_back(tmpPlayer);
-			runningPlayerList.push_back(tmpPlayer);
+			activePlayerList->push_back(tmpPlayer);
+			runningPlayerList->push_back(tmpPlayer);
 		}
 
 		
@@ -110,7 +113,6 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 	}
 	actualBoard->setPlayerLists(playerArray, activePlayerList, runningPlayerList);
 }
-
 
 Game::~Game()
 {
@@ -150,17 +152,17 @@ void Game::initHand()
 	if((actualHandID-1)%startHandsBeforeRaiseSmallBlind == 0 && actualHandID > 1) { actualSmallBlind *= 2; }
 
 	// Spieler mit leerem Cash auf inactive setzen
-	PlayerList::iterator it;
+	PlayerListIterator it;
 
-	for(it = activePlayerList.begin(); it != activePlayerList.end(); it++) {
+	for(it = activePlayerList->begin(); it != activePlayerList->end(); it++) {
 		if((*it)->getMyCash() == 0) {
 			(*it)->setMyActiveStatus(0);
-			it = activePlayerList.erase(it);
+			it = activePlayerList->erase(it);
 		}
 	}
 
 	// Anzahl noch aktiver Spieler ermitteln
-	actualQuantityPlayers = activePlayerList.size(); // TODO -> delete !!!
+	actualQuantityPlayers = activePlayerList->size(); // TODO -> delete !!!
 
 	//Spieler Action auf 0 setzen
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
@@ -168,7 +170,7 @@ void Game::initHand()
 	}
 
 	// Hand erstellen
-	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, activePlayerList, runningPlayerList, actualHandID, startQuantityPlayers, actualQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
+	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, activePlayerList, runningPlayerList, actualHandID, startQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
 
 
 	// Dealer-Button weiterschieben --> Achtung inactive

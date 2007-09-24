@@ -145,8 +145,8 @@ void LocalBeRo::run() {
 
 			// wenn wir letzter aktiver Spieler vor SmallBlind sind, dann flopFirstRound zuende
 			// ausnahme bei heads up !!! --> TODO
-			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind && myHand->getActivePlayerList().size() >= 3) { firstRound = 0; }
-			if(myHand->getActivePlayerList().size() < 3 && (myHand->getPlayerArray()[playersTurn]->getMyID() == dealerPosition || myHand->getPlayerArray()[playersTurn]->getMyID() == smallBlindPosition)) { firstRound = 0; }
+			if(myHand->getPlayerArray()[playersTurn]->getMyID() == activePlayerBeforeSmallBlind && myHand->getActivePlayerList()->size() >= 3) { firstRound = 0; }
+			if(myHand->getActivePlayerList()->size() < 3 && (myHand->getPlayerArray()[playersTurn]->getMyID() == dealerPosition || myHand->getPlayerArray()[playersTurn]->getMyID() == smallBlindPosition)) { firstRound = 0; }
 
 			if(playersTurn == 0) {
 				// Wir sind dran

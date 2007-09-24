@@ -27,7 +27,8 @@
 class PlayerInterface;
 class HandInterface;
 
-typedef std::list<boost::shared_ptr<PlayerInterface> > PlayerList;
+typedef boost::shared_ptr<std::list<boost::shared_ptr<PlayerInterface> > > PlayerList;
+typedef std::list<boost::shared_ptr<PlayerInterface> >::iterator PlayerListIterator;
 
 class BoardInterface {
 

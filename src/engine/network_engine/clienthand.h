@@ -32,7 +32,7 @@
 class ClientHand : public HandInterface
 {
 	public:
-		ClientHand ( boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, std::vector<boost::shared_ptr<PlayerInterface> >, PlayerList, PlayerList , int, int, int, int, int, int );
+		ClientHand ( boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, std::vector<boost::shared_ptr<PlayerInterface> >, PlayerList, PlayerList , int, int, int, int, int );
 		~ClientHand();
 
 		void start();
