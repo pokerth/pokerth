@@ -365,9 +365,15 @@ void LocalHand::switchRounds() {
 	for (it=activePlayerList.begin(); it!=activePlayerList.end(); it++) {
 		if ((*it)->getMyAction() == 6) allInPlayersCounter++;
 	}
-	 
+
+	// TODO -> runningPlayerList.size()
+	int nonFoldPlayerCounter = 0;
+	for (it=activePlayerList.begin(); it!=activePlayerList.end(); it++) {
+		if ((*it)->getMyAction() != 1) nonFoldPlayerCounter++;
+	}
+
 	//wenn nur noch einer nicht-folded dann gleich den Pot verteilen
-	if(activePlayerList.size()==1) {
+	if(nonFoldPlayerCounter==1) {
 		myBoard->collectPot();	
 		myGui->refreshPot();
 		myGui->refreshSet();
@@ -378,16 +384,25 @@ void LocalHand::switchRounds() {
 	else {
 
 		// 1) wenn alle All In
-		if(allInPlayersCounter == activePlayerList.size()) {
+		if(allInPlayersCounter == nonFoldPlayerCounter) {
 			allInCondition = true;
 		}
 
 		// 2) alle bis auf einen All In und der hat HighestSet
-		if(allInPlayersCounter+1 == activePlayerList.size()) {
+		if(allInPlayersCounter+1 == nonFoldPlayerCounter) {
 
-			if( (*(runningPlayerList.begin()))->getMySet() >= myBeRo[actualRound]->getHighestSet() ) {
-				allInCondition = 1;
+			// TODO -> runningPlayerList s.u.
+			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+
+				if(playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyAction() != 6 && playerArray[i]->getMyActiveStatus() == 1 && playerArray[i]->getMySet() >= myBeRo[actualRound]->getHighestSet()) {
+						allInCondition = 1;
+				}
+
 			}
+
+// 			if( (*(runningPlayerList.begin()))->getMySet() >= myBeRo[actualRound]->getHighestSet() ) {
+// 				allInCondition = 1;
+// 			}
 
 			// HeadsUp-Ausnahme -> spieler ermitteln, der all in ist und als bb nur weniger als sb setzen konnte
 			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
