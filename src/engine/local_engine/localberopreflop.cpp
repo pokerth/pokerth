@@ -35,7 +35,6 @@ LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int dP, int sB) : 
 	bigBlindPositionIt = getMyHand()->getActivePlayerList()->begin();
 
 	for(bigBlindPositionIt=getMyHand()->getActivePlayerList()->begin(); bigBlindPositionIt!=getMyHand()->getActivePlayerList()->end(); bigBlindPositionIt++) {
-		cout << "playerID: " << (*bigBlindPositionIt)->getMyID() << " Button: " << (*bigBlindPositionIt)->getMyButton() << endl;
 		if((*bigBlindPositionIt)->getMyButton() == BUTTON_BIG_BLIND) break;
 	}
 
@@ -75,7 +74,10 @@ void LocalBeRoPreflop::run() {
 		// falls BigBlind, dann PreflopFirstRound zuende
 		if(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyButton() == BUTTON_BIG_BLIND && (*bigBlindPositionIt)->getMySet() < 2*getSmallBlind()) setFirstRound(0);
 		// if next player is small blind and only all-in-big-blind with <= 2*smallblind is nonfold too
-
+		if(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyButton() == BUTTON_SMALL_BLIND && (*bigBlindPositionIt)->getMySet() < 2*getSmallBlind() && 		getMyHand()->getRunningPlayerList()->size() == 1) {
+			setFirstRound(0);
+			allHighestSet = true;
+		}
 	}
 
 	// prfen, ob Preflop wirklich dran ist
