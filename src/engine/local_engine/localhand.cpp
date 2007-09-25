@@ -370,12 +370,16 @@ void LocalHand::switchRounds() {
 // 	cout << "playerID begin switchRounds(): " << getCurrentBeRo()->get
 
 	int i;
-	PlayerListIterator it;
+	PlayerListIterator it, it_1;
 
 	// refresh runningPlayerList
 	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); ) {
 		if((*it)->getMyAction() == 1 || (*it)->getMyAction() == 6) {
 			it = runningPlayerList->erase(it);
+			it_1 = it;
+			if(it_1 == runningPlayerList->begin()) it_1 = runningPlayerList->end();
+			it_1--;
+			getCurrentBeRo()->setCurrentPlayersTurnIt(it_1);
 		} else {
 			it++;
 		}

@@ -25,19 +25,16 @@
 using namespace std;
 
 LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int dP, int sB) : LocalBeRo(hi, id, dP, sB, GAME_STATE_PREFLOP)
-
 {
 	setHighestSet(2*getSmallBlind());
 
-	// determine bigBlindPlayer
-	bigBlindPositionIt = getMyHand()->getActivePlayerList()->begin();
-
+	// determine bigBlindPosition
 	for(bigBlindPositionIt=getMyHand()->getActivePlayerList()->begin(); bigBlindPositionIt!=getMyHand()->getActivePlayerList()->end(); bigBlindPositionIt++) {
 		if((*bigBlindPositionIt)->getMyButton() == BUTTON_BIG_BLIND) break;
 	}
 
 	// search player in runningPlayerList before first action player -> run() determine next player who will do first action
-	PlayerListIterator it_1, it_2;
+	PlayerListIterator it_1, it_2, it_3;
 
 	// search bigBlindPosition in runningPlayerList
 	it_1 = find(getMyHand()->getRunningPlayerList()->begin(), getMyHand()->getRunningPlayerList()->end(), *bigBlindPositionIt);
@@ -50,14 +47,21 @@ LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int dP, int sB) : 
 
 			// search smallBlindPosition in runningPlayerList
 			PlayerListIterator smallBlindPositionIt = bigBlindPositionIt;
+			if(smallBlindPositionIt == getMyHand()->getActivePlayerList()->begin()) smallBlindPositionIt = getMyHand()->getActivePlayerList()->end();
 			smallBlindPositionIt--;
 			it_2 = find(getMyHand()->getRunningPlayerList()->begin(), getMyHand()->getRunningPlayerList()->end(), *smallBlindPositionIt);
 
 			// smallBlindPlayer not found in runningPlayerList (he is all in) -> next active player before smallBlindPlayer is running player before first action player
 			if(it_2 == getMyHand()->getRunningPlayerList()->end()) {
 				it_2 = smallBlindPositionIt;
+				if(it_2 == getMyHand()->getActivePlayerList()->begin()) it_2 = getMyHand()->getActivePlayerList()->end();
 				it_2--;
-				setLastPlayersTurnIt(it_2);
+				it_3 = find(getMyHand()->getRunningPlayerList()->begin(), getMyHand()->getRunningPlayerList()->end(), *it_2);
+				if(it_3 == getMyHand()->getRunningPlayerList()->end()) {
+					cout << "ERROR - lastPlayersTurnIt-detection in localBeRoPreflop" << endl;
+				} else {
+					setLastPlayersTurnIt(it_3);
+				}
 			}
 			// smallBlindPlayer found in runningPlayerList -> running player before first action player
 			else {
