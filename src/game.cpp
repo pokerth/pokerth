@@ -35,8 +35,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
   startQuantityPlayers(startData.numberOfPlayers),
   startCash(gameData.startMoney), startSmallBlind(gameData.smallBlind),
   startHandsBeforeRaiseSmallBlind(gameData.handsBeforeRaise),
-  myGameID(gameId), actualQuantityPlayers(startData.numberOfPlayers),
-  actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(0)
+  myGameID(gameId), actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(0)
 {
 // 	cout << "Create Game Object" << "\n";
 	int i;
@@ -102,13 +101,11 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		playerArray.push_back(tmpPlayer);
 		if(startQuantityPlayers > i) {
 			activePlayerList->push_back(tmpPlayer);
-			runningPlayerList->push_back(tmpPlayer);
+// 			runningPlayerList->push_back(tmpPlayer);
 		}
 
-		
+		(*runningPlayerList) = (*activePlayerList);
 
-
-// 		playerArray[i] = myFactory->createPlayer(actualBoard, i, uniqueId, type, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0);
 		playerArray[i]->setNetSessionData(myNetSession);
 	}
 	actualBoard->setPlayerLists(playerArray, activePlayerList, runningPlayerList);
@@ -161,12 +158,15 @@ void Game::initHand()
 		}
 	}
 
-	// Anzahl noch aktiver Spieler ermitteln
-	actualQuantityPlayers = activePlayerList->size(); // TODO -> delete !!!
-
 	//Spieler Action auf 0 setzen
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 		playerArray[i]->setMyAction(0);
+	}
+
+	runningPlayerList->clear();
+
+	for(it=activePlayerList->begin(); it!=activePlayerList->end(); it++) {
+		runningPlayerList->push_back(*it);
 	}
 
 	// Hand erstellen

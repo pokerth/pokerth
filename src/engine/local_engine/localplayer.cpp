@@ -969,6 +969,16 @@ void LocalPlayer::action() {
 
 	myTurn = 0;
 // 	cout << "jetzt" << endl;
+
+	if(myAction == 1 || myAction == 6) {
+		PlayerListIterator it;
+		for(it=actualHand->getRunningPlayerList()->begin(); it!=actualHand->getRunningPlayerList()->end(); it++) {
+			if((*it)->getMyID() == myID) {
+				(*it).reset();
+				it = actualHand->getRunningPlayerList()->erase(it);
+			}
+		}
+	}
 	
 	//set that i was the last active player. need this for unhighlighting groupbox
 	actualHand->setLastPlayersTurn(myID);

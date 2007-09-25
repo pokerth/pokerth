@@ -29,16 +29,10 @@ LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int dP, int sB) : 
 {
 	setHighestSet(2*getSmallBlind());
 
-// // 	BigBlind ermitteln 
-// 	bigBlindPosition = getDealerPosition();
-	bigBlindPosition = getMyHand()->getActivePlayerList()->begin();
-
-// 	int i;
-// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS && getMyHand()->getPlayerArray()[bigBlindPosition]->getMyButton() != BUTTON_BIG_BLIND; i++) {
-// 		bigBlindPosition = (bigBlindPosition+1)%(MAX_NUMBER_OF_PLAYERS);
-// 	}
-
+// // 	BigBlind ermitteln
 	PlayerListIterator it;
+
+	bigBlindPosition = getMyHand()->getActivePlayerList()->begin();
 
 	for(it=getMyHand()->getActivePlayerList()->begin(); it!=getMyHand()->getActivePlayerList()->end(); it++) {
 		if((*it)->getMyButton() == BUTTON_BIG_BLIND) {
@@ -63,23 +57,18 @@ LocalBeRoPreflop::~LocalBeRoPreflop()
 void LocalBeRoPreflop::run() {
 
 	int i;
-	bool allHighestSet = 1;
+	bool allHighestSet = true;
+	PlayerListIterator it;
+	PlayerList runningPlayerList = getMyHand()->getRunningPlayerList();
 
-	// prfe, ob alle Sets gleich sind ( falls nicht, dann allHighestSet = 0 )
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		if(getMyHand()->getPlayerArray()[i]->getMyActiveStatus() && getMyHand()->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD && getMyHand()->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_ALLIN)	{
-			if(getHighestSet() != getMyHand()->getPlayerArray()[i]->getMySet()) { allHighestSet=0; }
+	// test if all running players have same sets (else allHighestSet = false)
+	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); it++) {
+		if(getHighestSet() != (*it)->getMySet()) {
+			allHighestSet = false;
 		}
 	}
 
-	// BigBlind ermitteln
-// 	bigBlindPosition = getDealerPosition();
-
-// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS && getMyHand()->getPlayerArray()[bigBlindPosition]->getMyButton() != BUTTON_BIG_BLIND; i++) {
-// 		bigBlindPosition = (bigBlindPosition+1)%(MAX_NUMBER_OF_PLAYERS);
-// 	}
-
-	// naechsten Spieler ermitteln
+	// determine next player
 	for(i=0; (i<MAX_NUMBER_OF_PLAYERS && (!(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyActiveStatus()) || getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyAction() == PLAYER_ACTION_FOLD || getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyAction() == PLAYER_ACTION_ALLIN)) || i==0; i++) {
 
 		setPlayersTurn((getPlayersTurn()+1)%(MAX_NUMBER_OF_PLAYERS));

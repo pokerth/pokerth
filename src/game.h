@@ -69,10 +69,6 @@ public:
 
 	int getMyGameID() const	{ return myGameID; }
 
-	//Zufgriff Laufvariablen
-	void setActualQuantityPlayers(int theValue) { actualQuantityPlayers = theValue; }
-	int getActualQuantityPlayers() const { return actualQuantityPlayers; }
-
 	void setActualSmallBlind(int theValue) { actualSmallBlind = theValue; }
 	int getActualSmallBlind() const { return actualSmallBlind; }
 
@@ -104,7 +100,6 @@ private:
 	int guiPlayerNum;
 
 	//Laufvariablen
-	int actualQuantityPlayers;
 	int actualSmallBlind;
 	int actualHandID;
 	int dealerPosition;
