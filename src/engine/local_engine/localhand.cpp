@@ -316,8 +316,8 @@ void LocalHand::assignButtons() {
 		}
 	}
 
-	//do sets
-	for (it=activePlayerList->begin(); it!=activePlayerList->end(); it++) { 
+	//do sets --> TODO switch?
+	for (it=runningPlayerList->begin(); it!=runningPlayerList->end(); ) { 
 
 		//small blind
 		if((*it)->getMyButton() == 2) { 
@@ -332,23 +332,33 @@ void LocalHand::assignButtons() {
 				it = runningPlayerList->erase(it);
 
 			}
-			else { (*it)->setMySet(smallBlind); }
-		} 
-
-		//big blind
-		if((*it)->getMyButton() == 3) { 
-
-			// all in ?
-			if((*it)->getMyCash() <= 2*smallBlind) {
-
-				(*it)->setMySet((*it)->getMyCash());
-				// 1 to do not log this
-				(*it)->setMyAction(6,1);
-				// delete this player from runningPlayerList
-				it = runningPlayerList->erase(it);
-
+			else {
+				(*it)->setMySet(smallBlind);
+				it++;
 			}
-			else { (*it)->setMySet(2*smallBlind);	}
+		} else {
+
+			//big blind
+			if((*it)->getMyButton() == 3) { 
+	
+				// all in ?
+				if((*it)->getMyCash() <= 2*smallBlind) {
+	
+					(*it)->setMySet((*it)->getMyCash());
+					// 1 to do not log this
+					(*it)->setMyAction(6,1);
+					// delete this player from runningPlayerList
+					it = runningPlayerList->erase(it);
+	
+				}
+				else {
+					(*it)->setMySet(2*smallBlind);
+					it++;
+				}
+			} else {
+				it++;
+			}
+
 		}
 
 	}
@@ -361,9 +371,11 @@ void LocalHand::switchRounds() {
 	PlayerListIterator it;
 
 	// refresh runningPlayerList
-	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); it++) {
+	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); ) {
 		if((*it)->getMyAction() == 1 || (*it)->getMyAction() == 6) {
 			it = runningPlayerList->erase(it);
+		} else {
+			it++;
 		}
 	}
 

@@ -32,16 +32,17 @@ LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int dP, int sB) : 
 // // 	BigBlind ermitteln
 	PlayerListIterator it;
 
-	bigBlindPosition = getMyHand()->getActivePlayerList()->begin();
+	bigBlindPositionIt = getMyHand()->getActivePlayerList()->begin();
 
-	for(it=getMyHand()->getActivePlayerList()->begin(); it!=getMyHand()->getActivePlayerList()->end(); it++) {
-		if((*it)->getMyButton() == BUTTON_BIG_BLIND) {
-			bigBlindPosition = it;
-		}
+	for(bigBlindPositionIt=getMyHand()->getActivePlayerList()->begin(); bigBlindPositionIt!=getMyHand()->getActivePlayerList()->end(); bigBlindPositionIt++) {
+		cout << "playerID: " << (*bigBlindPositionIt)->getMyID() << " Button: " << (*bigBlindPositionIt)->getMyButton() << endl;
+		if((*bigBlindPositionIt)->getMyButton() == BUTTON_BIG_BLIND) break;
 	}
 
+	if(bigBlindPositionIt == getMyHand()->getActivePlayerList()->end()) cout << "!!!" << endl;
+
 // // 	erste Spielernummer fr preflopRun() setzen
-	setPlayersTurn((*bigBlindPosition)->getMyID());
+	setPlayersTurn((*bigBlindPositionIt)->getMyID());
 
 }
 
@@ -72,7 +73,8 @@ void LocalBeRoPreflop::run() {
 
 		setPlayersTurn((getPlayersTurn()+1)%(MAX_NUMBER_OF_PLAYERS));
 		// falls BigBlind, dann PreflopFirstRound zuende
-		if(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyButton() == BUTTON_BIG_BLIND && (*bigBlindPosition)->getMySet() < 2*getSmallBlind()) setFirstRound(0);
+		if(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyButton() == BUTTON_BIG_BLIND && (*bigBlindPositionIt)->getMySet() < 2*getSmallBlind()) setFirstRound(0);
+		// if next player is small blind and only all-in-big-blind with <= 2*smallblind is nonfold too
 
 	}
 

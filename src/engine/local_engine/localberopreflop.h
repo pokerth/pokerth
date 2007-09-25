@@ -34,7 +34,7 @@ public:
 	void run();
 
 private:
-	PlayerListIterator bigBlindPosition;
+	PlayerListIterator bigBlindPositionIt;
 };
 
 #endif

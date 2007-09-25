@@ -150,19 +150,16 @@ void Game::initHand()
 	// Spieler mit leerem Cash auf inactive setzen
 	PlayerListIterator it;
 
-// 	cout << "id: " << actualHandID << endl;
-
-	for(it=activePlayerList->begin(); it!=activePlayerList->end(); it++) {
-
-// 		cout << "player" << (*it)->getMyID() << ": " << (*it)->getMyCash() << endl;
+	for(it=activePlayerList->begin(); it!=activePlayerList->end(); ) {
 
 		if((*it)->getMyCash() == 0) {
+// 			cout << "playerID: " << (*it)->getMyID() << endl;
 			(*it)->setMyActiveStatus(0);
 			it = activePlayerList->erase(it);
+		} else {
+			it++;
 		}
 	}
-
-// 	cout << activePlayerList->size() << endl;
 
 	//Spieler Action auf 0 setzen
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
