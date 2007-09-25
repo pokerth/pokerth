@@ -59,10 +59,9 @@ void LocalBeRoPreflop::run() {
 	int i;
 	bool allHighestSet = true;
 	PlayerListIterator it;
-	PlayerList runningPlayerList = getMyHand()->getRunningPlayerList();
 
 	// test if all running players have same sets (else allHighestSet = false)
-	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); it++) {
+	for(it=getMyHand()->getRunningPlayerList()->begin(); it!=getMyHand()->getRunningPlayerList()->end(); it++) {
 		if(getHighestSet() != (*it)->getMySet()) {
 			allHighestSet = false;
 		}

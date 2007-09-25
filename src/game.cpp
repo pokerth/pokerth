@@ -101,7 +101,6 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		playerArray.push_back(tmpPlayer);
 		if(startQuantityPlayers > i) {
 			activePlayerList->push_back(tmpPlayer);
-// 			runningPlayerList->push_back(tmpPlayer);
 		}
 
 		(*runningPlayerList) = (*activePlayerList);
@@ -164,10 +163,7 @@ void Game::initHand()
 	}
 
 	runningPlayerList->clear();
-
-	for(it=activePlayerList->begin(); it!=activePlayerList->end(); it++) {
-		runningPlayerList->push_back(*it);
-	}
+	(*runningPlayerList) = (*activePlayerList);
 
 	// Hand erstellen
 	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, activePlayerList, runningPlayerList, actualHandID, startQuantityPlayers, dealerPosition, actualSmallBlind, startCash);

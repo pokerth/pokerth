@@ -360,6 +360,13 @@ void LocalHand::switchRounds() {
 	int i;
 	PlayerListIterator it;
 
+	// refresh runningPlayerList
+	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); it++) {
+		if((*it)->getMyAction() == 1 || (*it)->getMyAction() == 6) {
+			it = runningPlayerList->erase(it);
+		}
+	}
+
 	// Anzahl der Spieler ermitteln, welche All In sind
 	int allInPlayersCounter = 0;
 	for (it=activePlayerList->begin(); it!=activePlayerList->end(); it++) {
