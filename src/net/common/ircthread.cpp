@@ -25,13 +25,16 @@ using namespace std;
 
 struct IrcContext
 {
+	IrcContext(IrcThread &t) : ircThread(t), session(NULL), serverPort(0) {}
+	IrcThread &ircThread;
+	irc_session_t *session;
 	string serverAddress;
 	unsigned serverPort;
 	string nick;
 	string channel;
 };
 
-void event_connect (irc_session_t * session, const char * event, const char * origin, const char ** params, unsigned int count)
+void event_connect(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned count)
 {
 	IrcContext *ctx = (IrcContext *) irc_get_ctx(session);
 
@@ -39,9 +42,10 @@ void event_connect (irc_session_t * session, const char * event, const char * or
 }
 
 
-IrcThread::IrcThread()
+IrcThread::IrcThread(IrcCallback &callback)
+: m_callback(callback)
 {
-	m_context.reset(new IrcContext);
+	m_context.reset(new IrcContext(*this));
 }
 
 IrcThread::~IrcThread()
@@ -60,14 +64,9 @@ IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6
 	context.serverPort		= serverPort;
 	context.nick			= nick;
 	context.channel			= channel;
-}
 
-void
-IrcThread::Main()
-{
+	// Initialize libirc stuff.
 	irc_callbacks_t callbacks;
-	irc_session_t *s;
-
 	memset (&callbacks, 0, sizeof(callbacks));
 
 	callbacks.event_connect = event_connect;
@@ -91,14 +90,32 @@ IrcThread::Main()
 	//callbacks.event_dcc_chat_req
 	//callbacks.event_dcc_send_req
 
-	s = irc_create_session(&callbacks);
+	context.session = irc_create_session(&callbacks);
 
+	if (context.session)
+	{
+		irc_set_ctx(context.session, &context);
+		// We want nicknames only, strip them from nick!host.
+		irc_option_set(context.session, LIBIRC_OPTION_STRIPNICKS);
+	}
+}
+
+void
+IrcThread::SignalTermination()
+{
+	Thread::SignalTermination();
+	irc_cmd_quit(GetContext().session, NULL);
+}
+
+void
+IrcThread::Main()
+{
+	IrcContext &context = GetContext();
+	irc_session_t *s = context.session;
 	if (s)
 	{
-		irc_set_ctx(s, &GetContext());
-
-		if (irc_connect(s, GetContext().serverAddress.c_str(), GetContext().serverPort, 0, GetContext().nick.c_str(), 0, 0) == 0)
-			irc_run (s);
+		if (irc_connect(s, context.serverAddress.c_str(), context.serverPort, 0, context.nick.c_str(), 0, 0) == 0)
+			irc_run(s);
 	}
 }
 
@@ -114,5 +131,11 @@ IrcThread::GetContext()
 {
 	assert(m_context.get());
 	return *m_context;
+}
+
+IrcCallback &
+IrcThread::GetCallback()
+{
+	return m_callback;
 }
 

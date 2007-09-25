@@ -42,7 +42,7 @@ public:
 	void Run();
 
 	// Signal that the thread should be terminated
-	void SignalTermination();
+	virtual void SignalTermination();
 
 	// Wait for the termination of the thread.
 	// Only one Thread should wait for the termination!

@@ -16,41 +16,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* IRC thread for the lobby. */
-
-#ifndef _IRCTHREAD_H_
-#define _IRCTHREAD_H_
 
 #include <net/irccallback.h>
-#include <core/thread.h>
-#include <string>
 
-struct IrcContext;
 
-class IrcThread : public Thread
+IrcCallback::~IrcCallback()
 {
-public:
-	IrcThread(IrcCallback &callback);
-	virtual ~IrcThread();
+}
 
-	// Set the parameters.
-	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &nick, const std::string &channel);
-
-	virtual void SignalTermination();
-
-protected:
-
-	// Main function of the thread.
-	virtual void Main();
-
-	const IrcContext &GetContext() const;
-	IrcContext &GetContext();
-
-	IrcCallback &GetCallback();
-
-private:
-	std::auto_ptr<IrcContext> m_context;
-	IrcCallback &m_callback;
-};
-
-#endif
