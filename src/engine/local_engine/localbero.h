@@ -30,7 +30,7 @@ public:
 	GameState getMyBeRoID() const { return myBeRoID; }
 
 	int getHighestCardsValue() const { std::cout << "getHighestCardsValue() in wrong BeRo" << std::endl; return 0; }
-	void setHighestCardsValue(int theValue) { }
+	void setHighestCardsValue(int /*theValue*/) { }
 
 	void setMinimumRaise ( int theValue ) { minimumRaise = theValue; }
 	int getMinimumRaise() const { return minimumRaise; }
@@ -51,7 +51,13 @@ protected:
 	void setDealerPosition(int theValue) { dealerPosition = theValue; }
 
 	void setPlayersTurn(int theValue) { playersTurn = theValue; }
-	int getPlayersTurn() const { return playersTurn; }
+	int getPlayersTurn() const { return playersTurn;}
+
+	void setCurrentPlayersTurnIt(PlayerListIterator theValue) { currentPlayersTurnIt = theValue; }
+	PlayerListIterator getCurrentPlayersTurnIt() const { return currentPlayersTurnIt; }
+
+	void setLastPlayersTurnIt(PlayerListIterator theValue) { lastPlayersTurnIt = theValue; }
+	PlayerListIterator getLastPlayersTurnIt() const { return lastPlayersTurnIt; }
 	
 	void setHighestSet(int theValue) { highestSet = theValue; }
 	int getHighestSet() const { return highestSet;}
@@ -87,7 +93,10 @@ private:
 	bool firstRun;
 	bool firstRound;
 	bool firstHeadsUpRound;
-	int playersTurn;
+
+	int playersTurn; // TODO -> delete
+	PlayerListIterator currentPlayersTurnIt; // iterator for runningPlayerList
+	PlayerListIterator lastPlayersTurnIt; // iterator for runningPlayerList
 
 	bool logBoardCardsDone;
 

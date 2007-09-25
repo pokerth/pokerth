@@ -68,6 +68,30 @@ ClientBeRo::getPlayersTurn() const
 }
 
 void
+ClientBeRo::setCurrentPlayersTurnIt(PlayerListIterator theValue)
+{
+	currentPlayersTurnIt = theValue;
+}
+
+PlayerListIterator
+ClientBeRo::getCurrentPlayersTurnIt() const
+{
+	return currentPlayersTurnIt;
+}
+
+void
+ClientBeRo::setLastPlayersTurnIt(PlayerListIterator theValue)
+{
+	lastPlayersTurnIt = theValue;
+}
+
+PlayerListIterator
+ClientBeRo::getLastPlayersTurnIt() const
+{
+	return lastPlayersTurnIt;
+}
+
+void
 ClientBeRo::setHighestSet(int theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);

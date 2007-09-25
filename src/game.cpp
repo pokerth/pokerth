@@ -210,8 +210,11 @@ boost::shared_ptr<PlayerInterface> Game::getPlayerByUniqueId(unsigned id)
 
 boost::shared_ptr<PlayerInterface> Game::getCurrentPlayer()
 {
-	int curPlayerNum = getCurrentHand()->getCurrentBeRo()->getPlayersTurn();
-	assert(curPlayerNum < getStartQuantityPlayers());
-	return getPlayerArray()[curPlayerNum];
+// 	int curPlayerNum = getCurrentHand()->getCurrentBeRo()->getPlayersTurn();
+// 	assert(curPlayerNum < getStartQuantityPlayers());
+// 	return getPlayerArray()[curPlayerNum];
+
+	// TODO -> checking
+	return (*(getCurrentHand()->getCurrentBeRo()->getCurrentPlayersTurnIt()));
 }
 

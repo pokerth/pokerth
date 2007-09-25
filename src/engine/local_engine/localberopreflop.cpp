@@ -29,19 +29,90 @@ LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int dP, int sB) : 
 {
 	setHighestSet(2*getSmallBlind());
 
-// // 	BigBlind ermitteln
-	PlayerListIterator it;
-
+	// determine bigBlindPlayer
 	bigBlindPositionIt = getMyHand()->getActivePlayerList()->begin();
 
 	for(bigBlindPositionIt=getMyHand()->getActivePlayerList()->begin(); bigBlindPositionIt!=getMyHand()->getActivePlayerList()->end(); bigBlindPositionIt++) {
 		if((*bigBlindPositionIt)->getMyButton() == BUTTON_BIG_BLIND) break;
 	}
 
-	if(bigBlindPositionIt == getMyHand()->getActivePlayerList()->end()) cout << "!!!" << endl;
+	// search player in runningPlayerList before first action player -> run() determine next player who will do first action
+	PlayerListIterator it_1, it_2;
 
-// // 	erste Spielernummer fr preflopRun() setzen
-	setPlayersTurn((*bigBlindPositionIt)->getMyID());
+	// search bigBlindPosition in runningPlayerList
+	it_1 = find(getMyHand()->getRunningPlayerList()->begin(), getMyHand()->getRunningPlayerList()->end(), *bigBlindPositionIt);
+
+	// more than 2 players are still active -> runningPlayerList is not empty
+	if(getMyHand()->getActivePlayerList()->size() > 2) {
+
+		// bigBlindPlayer not found in runningPlayerList (he is all in) -> bigBlindPlayer is not the running player before first action player
+		if(it_1 == getMyHand()->getRunningPlayerList()->end()) {
+
+			// search smallBlindPosition in runningPlayerList
+			PlayerListIterator smallBlindPositionIt = bigBlindPositionIt;
+			smallBlindPositionIt--;
+			it_2 = find(getMyHand()->getRunningPlayerList()->begin(), getMyHand()->getRunningPlayerList()->end(), *smallBlindPositionIt);
+
+			// smallBlindPlayer not found in runningPlayerList (he is all in) -> next active player before smallBlindPlayer is running player before first action player
+			if(it_2 == getMyHand()->getRunningPlayerList()->end()) {
+				it_2 = smallBlindPositionIt;
+				it_2--;
+				setLastPlayersTurnIt(it_2);
+			}
+			// smallBlindPlayer found in runningPlayerList -> running player before first action player
+			else {
+				setLastPlayersTurnIt(it_2);
+			}
+		}
+		// bigBlindPlayer found in runningPlayerList -> player before first action player
+		else {
+			setLastPlayersTurnIt(it_1);
+		}
+	}
+	// heads up -> dealer/smallBlindPlayer is first action player and bigBlindPlayer is player before
+	else {
+		setLastPlayersTurnIt(it_1);
+	}
+
+	setCurrentPlayersTurnIt(getLastPlayersTurnIt());
+
+	cout << "playerID constructor preflopRun(): " << (*(getCurrentPlayersTurnIt()))->getMyID() << endl;
+
+
+	/////////////// testing
+
+
+
+
+	it_1 = find(getMyHand()->getRunningPlayerList()->begin(), getMyHand()->getRunningPlayerList()->end(), *bigBlindPositionIt);
+
+	// bigBlindPosition is not all in
+// 	if(it!=getMyHand()->getRunningPlayerList()->end()) {
+// 		
+// 	}
+
+
+// 	if(it_1!=getMyHand()->getRunningPlayerList()->end()) {
+// 		cout << getMyHand()->getMyID() << ": " << "gefunden!" << endl;
+// 		cout << "\t PlayerID: " << (*it_1)->getMyID() << endl;
+// 		it_2 = it_1;
+// 		if(it_1 == getMyHand()->getRunningPlayerList()->begin()) it_1 = getMyHand()->getRunningPlayerList()->end();
+// 		it_1--;
+// 		cout << "\t PlayerID vor bigBlind: " << (*it_1)->getMyID() << endl;
+// 		cout << "\t PlayerID vor bigBlind: " << (*it_2)->getMyID() << endl;
+// 	} else {
+// 		cout << getMyHand()->getMyID() << ": "  << "nicht gefunden" << endl;
+// 		
+// 	}
+
+
+	//////////////// old
+
+	// set first runningPlayer before bigBlindPlayer to playersTurn -> run() determine next one who will do first action
+// 	setPlayersTurn((*bigBlindPositionIt)->getMyID());
+
+
+
 
 }
 
@@ -60,6 +131,8 @@ void LocalBeRoPreflop::run() {
 	bool allHighestSet = true;
 	PlayerListIterator it;
 
+
+
 	// test if all running players have same sets (else allHighestSet = false)
 	for(it=getMyHand()->getRunningPlayerList()->begin(); it!=getMyHand()->getRunningPlayerList()->end(); it++) {
 		if(getHighestSet() != (*it)->getMySet()) {
@@ -68,17 +141,41 @@ void LocalBeRoPreflop::run() {
 	}
 
 	// determine next player
-	for(i=0; (i<MAX_NUMBER_OF_PLAYERS && (!(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyActiveStatus()) || getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyAction() == PLAYER_ACTION_FOLD || getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyAction() == PLAYER_ACTION_ALLIN)) || i==0; i++) {
 
-		setPlayersTurn((getPlayersTurn()+1)%(MAX_NUMBER_OF_PLAYERS));
-		// falls BigBlind, dann PreflopFirstRound zuende
-		if(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyButton() == BUTTON_BIG_BLIND && (*bigBlindPositionIt)->getMySet() < 2*getSmallBlind()) setFirstRound(0);
-		// if next player is small blind and only all-in-big-blind with <= 2*smallblind is nonfold too
-		if(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyButton() == BUTTON_SMALL_BLIND && (*bigBlindPositionIt)->getMySet() < 2*getSmallBlind() && 		getMyHand()->getRunningPlayerList()->size() == 1) {
-			setFirstRound(0);
+	cout << "playerID begin preflopRun(): " << (*(getCurrentPlayersTurnIt()))->getMyID() << endl;
+
+	it = getCurrentPlayersTurnIt();
+
+	it++;
+
+	setCurrentPlayersTurnIt(it);
+
+	if(getCurrentPlayersTurnIt() == getMyHand()->getRunningPlayerList()->end()) setCurrentPlayersTurnIt(getMyHand()->getRunningPlayerList()->begin());
+
+	if(getCurrentPlayersTurnIt() == getMyHand()->getRunningPlayerList()->end()) cout << "!!!" << endl;
+
+	cout << "playerID middle preflopRun(): " << (*(getCurrentPlayersTurnIt()))->getMyID() << endl;
+
+	// exceptions
+		// if next player is small blind and only all-in-big-blind with less than smallblind amount is nonfold too -> preflop is over
+		if((*(getCurrentPlayersTurnIt()))->getMyButton() == BUTTON_SMALL_BLIND && (*bigBlindPositionIt)->getMySet() <= getSmallBlind() && getMyHand()->getRunningPlayerList()->size() == 1) {
+			setFirstRound(false);
 			allHighestSet = true;
 		}
-	}
+
+
+	// determine next player
+// 	for(i=0; (i<MAX_NUMBER_OF_PLAYERS && (!(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyActiveStatus()) || getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyAction() == PLAYER_ACTION_FOLD || getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyAction() == PLAYER_ACTION_ALLIN)) || i==0; i++) {
+// 
+// 		setPlayersTurn((getPlayersTurn()+1)%(MAX_NUMBER_OF_PLAYERS));
+// 		// falls BigBlind, dann PreflopFirstRound zuende
+// 		if(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyButton() == BUTTON_BIG_BLIND && (*bigBlindPositionIt)->getMySet() < 2*getSmallBlind()) setFirstRound(false);
+// 		// if next player is small blind and only all-in-big-blind with <= 2*smallblind is nonfold too
+// 		if(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyButton() == BUTTON_SMALL_BLIND && (*bigBlindPositionIt)->getMySet() <= getSmallBlind() && 		getMyHand()->getRunningPlayerList()->size() == 1) {
+// 			setFirstRound(false);
+// 			allHighestSet = true;
+// 		}
+// 	}
 
 	// prfen, ob Preflop wirklich dran ist
 	if(!getFirstRound() && allHighestSet) { 
@@ -88,9 +185,15 @@ void LocalBeRoPreflop::run() {
 		getMyHand()->setActualRound(GAME_STATE_FLOP);
 		
 		//Action loeschen und ActionButtons refresh
-		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-			if(getMyHand()->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD && getMyHand()->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_ALLIN) getMyHand()->getPlayerArray()[i]->setMyAction(PLAYER_ACTION_NONE);
+		for(it=getMyHand()->getRunningPlayerList()->begin(); it!=getMyHand()->getRunningPlayerList()->end(); it++) {
+			(*it)->setMyAction(PLAYER_ACTION_NONE);
 		}
+
+		//Action loeschen und ActionButtons refresh
+// 		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 			if(getMyHand()->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD && getMyHand()->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_ALLIN) getMyHand()->getPlayerArray()[i]->setMyAction(PLAYER_ACTION_NONE);
+// 		}
+
 		//Sets in den Pot verschieben und Sets = 0 und Pot-refresh
 		getMyHand()->getBoard()->collectSets();
 		getMyHand()->getBoard()->collectPot();
@@ -106,14 +209,27 @@ void LocalBeRoPreflop::run() {
 		// Preflop ist wirklich dran
 
 		// falls BigBlind, dann PreflopFirstRound zuende
-		if(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyButton() == BUTTON_BIG_BLIND) setFirstRound(0);
+// 		if(getMyHand()->getPlayerArray()[getPlayersTurn()]->getMyButton() == BUTTON_BIG_BLIND) setFirstRound(0);
 
-		getMyHand()->getPlayerArray()[getPlayersTurn()]->setMyTurn(1);
+		// lastPlayersTurn -> PreflopFirstRound is over
+		if( (*(getCurrentPlayersTurnIt())) == (*(getLastPlayersTurnIt())) ) {
+			setFirstRound(false);
+		}
+
+// 		getMyHand()->getPlayerArray()[getPlayersTurn()]->setMyTurn(1);
+
+		(*(getCurrentPlayersTurnIt()))->setMyTurn(true);
+
 		//highlight active players groupbox and clear action
-		getMyHand()->getGuiInterface()->refreshGroupbox(getPlayersTurn(),2);
-		getMyHand()->getGuiInterface()->refreshAction(getPlayersTurn(),PLAYER_ACTION_NONE);
+// 		getMyHand()->getGuiInterface()->refreshGroupbox(getPlayersTurn(),2);
+// 		getMyHand()->getGuiInterface()->refreshAction(getPlayersTurn(),PLAYER_ACTION_NONE);
 
-		if(getPlayersTurn() == 0) {
+		//highlight active players groupbox and clear action
+		getMyHand()->getGuiInterface()->refreshGroupbox( (*(getCurrentPlayersTurnIt()))->getMyID() , 2 );
+		getMyHand()->getGuiInterface()->refreshAction( (*(getCurrentPlayersTurnIt()))->getMyID() , PLAYER_ACTION_NONE );
+
+
+		if((*(getCurrentPlayersTurnIt()))->getMyID() == 0) {
 			// Wir sind dran
 			getMyHand()->getGuiInterface()->meInAction();
 		}

@@ -12,11 +12,16 @@
 #ifndef BEROINTERFACE_H
 #define BEROINTERFACE_H
 
+#include <boost/shared_ptr.hpp>
+#include <list>
+
 #include "game_defs.h"
 
-/**
-	@author FThauer FHammer <webmaster@pokerth.net>
-*/
+class PlayerInterface;
+
+typedef boost::shared_ptr<std::list<boost::shared_ptr<PlayerInterface> > > PlayerList;
+typedef std::list<boost::shared_ptr<PlayerInterface> >::iterator PlayerListIterator;
+
 class BeRoInterface{
 public:
 
@@ -24,9 +29,11 @@ public:
 	
 	virtual GameState getMyBeRoID() const =0;
 
-
 	virtual void setPlayersTurn(int) =0;
 	virtual int getPlayersTurn() const =0;
+
+	virtual void setCurrentPlayersTurnIt(PlayerListIterator) =0;
+	virtual PlayerListIterator getCurrentPlayersTurnIt() const =0;
 	
 	virtual void setHighestSet(int) =0;
 	virtual int getHighestSet() const =0;

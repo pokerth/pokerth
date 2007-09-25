@@ -35,6 +35,12 @@ public:
 
 	void setPlayersTurn(int theValue);
 	int getPlayersTurn() const;
+
+	void setCurrentPlayersTurnIt(PlayerListIterator theValue);
+	PlayerListIterator getCurrentPlayersTurnIt() const;
+
+	void setLastPlayersTurnIt(PlayerListIterator theValue);
+	PlayerListIterator getLastPlayersTurnIt() const;
 	
 	void setHighestSet(int theValue);
 	int getHighestSet() const;
@@ -68,7 +74,11 @@ private:
 	HandInterface *myHand;
 
 	int highestCardsValue;
-	int playersTurn;
+
+	int playersTurn; // TODO -> delete
+	PlayerListIterator currentPlayersTurnIt; // iterator for runningPlayerList
+	PlayerListIterator lastPlayersTurnIt; // iterator for runningPlayerList
+
 	int highestSet;
 	bool firstRound;
 	int smallBlindPosition;
