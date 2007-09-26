@@ -186,9 +186,9 @@ void LocalBeRoPreflop::run() {
 
 
 
-	cout << "size: " << getMyHand()->getRunningPlayerList()->size() << endl;
+// 	cout << "size: " << getMyHand()->getRunningPlayerList()->size() << endl;
 
-	cout << "currentPlayerID: " << getCurrentPlayersTurnId() << endl;
+// 	cout << "currentPlayerID: " << getCurrentPlayersTurnId() << endl;
 
 	PlayerListConstIterator currentPlayersTurnIt = getMyHand()->getRunningPlayerIt( getCurrentPlayersTurnId() );
 	assert( currentPlayersTurnIt != getMyHand()->getRunningPlayerList()->end() );

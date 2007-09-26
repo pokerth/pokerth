@@ -390,7 +390,7 @@ void LocalHand::switchRounds() {
 		if ((*it_c)->getMyAction() == 6) allInPlayersCounter++;
 	}
 
-	cout << "allInPlayersCounter: " << allInPlayersCounter << endl;
+// 	cout << "allInPlayersCounter: " << allInPlayersCounter << endl;
 
 	// TODO -> runningPlayerList.size()
 	int nonFoldPlayerCounter = 0;
@@ -398,7 +398,7 @@ void LocalHand::switchRounds() {
 		if ((*it_c)->getMyAction() != 1) nonFoldPlayerCounter++;
 	}
 
-	cout << "nonFoldPlayerCounter: " << nonFoldPlayerCounter << endl;
+// 	cout << "nonFoldPlayerCounter: " << nonFoldPlayerCounter << endl;
 
 	//wenn nur noch einer nicht-folded dann gleich den Pot verteilen
 	if(nonFoldPlayerCounter==1) {
@@ -524,14 +524,14 @@ PlayerListIterator LocalHand::getRunningPlayerIt(unsigned uniqueId) const {
 
 	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); it++) {
 
-		cout << (*it)->getMyUniqueID() << " ";
+// 		cout << (*it)->getMyUniqueID() << " ";
 
 		if((*it)->getMyUniqueID() == uniqueId) {
 			break;
 		}
 	}
 
-	cout << endl;
+// 	cout << endl;
 
 	return it;
 
