@@ -36,7 +36,12 @@ public:
 	// Set the parameters.
 	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &nick, const std::string &channel);
 
+	// Send a chat message to the channel.
+	void SendChatMessage(const std::string &msg);
+
 	virtual void SignalTermination();
+
+	IrcCallback &GetCallback();
 
 protected:
 
@@ -45,8 +50,6 @@ protected:
 
 	const IrcContext &GetContext() const;
 	IrcContext &GetContext();
-
-	IrcCallback &GetCallback();
 
 private:
 	std::auto_ptr<IrcContext> m_context;

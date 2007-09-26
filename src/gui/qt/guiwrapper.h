@@ -118,6 +118,8 @@ public:
 	void SignalNetServerSuccess(int actionID);
 	void SignalNetServerError(int errorID, int osErrorID);
 
+	void SignalIrcChatMsg(const std::string &nickName, const std::string &msg);
+
 private:
 
 	Log *myLog;

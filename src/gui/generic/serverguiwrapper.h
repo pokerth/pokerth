@@ -27,7 +27,7 @@ class Session;
 class ServerGuiWrapper : public GuiInterface
 {
 public:
-	ServerGuiWrapper(ConfigFile *config, ClientCallback *clientcb, ServerCallback *servercb);
+	ServerGuiWrapper(ConfigFile *config, ClientCallback *clientcb, ServerCallback *servercb, IrcCallback *irccb);
 	~ServerGuiWrapper();
 
 	void initGui(int speed);
@@ -110,6 +110,8 @@ public:
 	void SignalNetServerSuccess(int actionID);
 	void SignalNetServerError(int errorID, int osErrorID);
 
+	void SignalIrcChatMsg(const std::string &nickName, const std::string &msg);
+
 private:
 
 	boost::shared_ptr<Session> mySession;
@@ -117,6 +119,7 @@ private:
 
 	ClientCallback *myClientcb;
 	ServerCallback *myServercb;
+	IrcCallback *myIrccb;
 };
 
 #endif

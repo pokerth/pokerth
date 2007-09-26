@@ -38,7 +38,11 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 
 void gameLobbyDialogImpl::exec()
 {
+	assert(mySession);
+	mySession->terminateIrcClient();
+	mySession->startIrcClient();
 	QDialog::exec();
+	mySession->terminateIrcClient();
 	clearDialog();
 }
 
@@ -384,9 +388,10 @@ void gameLobbyDialogImpl::kickPlayer() {
 }
 
 void gameLobbyDialogImpl::sendChatMessage() { myChat->sendMessage(); }
+void gameLobbyDialogImpl::displayChatMessage(QString nickName, QString msg) { myChat->receiveMessage(nickName, msg); }
 void gameLobbyDialogImpl::checkChatInputLength(QString string) { myChat->checkInputLength(string); }
 
 void gameLobbyDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 
-	if (event->key() == Qt::Key_Enter) {}
+	if (event->key() == Qt::Key_Enter) { sendChatMessage(); }
 }

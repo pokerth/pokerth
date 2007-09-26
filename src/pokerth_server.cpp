@@ -85,7 +85,7 @@ main(int argc, char *argv[])
 	socket_startup();
 
 	// Create pseudo Gui Wrapper for the server.
-	boost::shared_ptr<GuiInterface> myServerGuiInterface(new ServerGuiWrapper(myConfig, NULL, NULL));
+	boost::shared_ptr<GuiInterface> myServerGuiInterface(new ServerGuiWrapper(myConfig, NULL, NULL, NULL));
 	{
 		boost::shared_ptr<Session> session(new Session(myServerGuiInterface.get(), myConfig));
 		session->init(); // TODO handle error

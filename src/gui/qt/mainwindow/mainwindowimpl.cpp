@@ -676,6 +676,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetServerError(int, int)), this, SLOT(networkError(int, int)));
 	connect(this, SIGNAL(signalNetClientGameStart(boost::shared_ptr<Game>)), this, SLOT(networkStart(boost::shared_ptr<Game>)));
 
+	connect(this, SIGNAL(signalIrcChatMessage(QString, QString)), myGameLobbyDialog, SLOT(displayChatMessage(QString, QString)));
+
 	//Sound
 	mySDLPlayer = new SDLPlayer(myConfig);
 
@@ -758,7 +760,7 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		if (!myServerGuiInterface.get())
 		{
 			// Create pseudo Gui Wrapper for the server.
-			myServerGuiInterface.reset(new ServerGuiWrapper(myConfig, mySession->getGui(), mySession->getGui()));
+			myServerGuiInterface.reset(new ServerGuiWrapper(myConfig, mySession->getGui(), mySession->getGui(), mySession->getGui()));
 			{
 				boost::shared_ptr<Session> session(new Session(myServerGuiInterface.get(), myConfig));
 				myServerGuiInterface->setSession(session);

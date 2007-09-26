@@ -79,6 +79,7 @@ public slots:
 	void clearDialog();
 
 	void sendChatMessage();
+	void displayChatMessage(QString nickName, QString msg);
 	void checkChatInputLength(QString string);
 	
 	void keyPressEvent(QKeyEvent * event); 

@@ -138,6 +138,8 @@ signals:
 	void signalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
 	void signalNetClientGameStart(boost::shared_ptr<Game> game);
 
+	void signalIrcChatMessage(QString nickName, QString msg);
+
 public slots:
 
 	void initGui(int speed);

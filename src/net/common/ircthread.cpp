@@ -34,11 +34,25 @@ struct IrcContext
 	string channel;
 };
 
-void event_connect(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned count)
+void
+irc_connect(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned count)
 {
-	IrcContext *ctx = (IrcContext *) irc_get_ctx(session);
+	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
-	irc_cmd_join(session, ctx->channel.c_str(), 0);
+	irc_cmd_join(session, context->channel.c_str(), 0);
+}
+
+void
+irc_channel(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned count)
+{
+	IrcContext *context = (IrcContext *) irc_get_ctx(session);
+
+	if (context->channel == params[0]) // check whether this message is for our channel
+	{
+		// Signal the message (if any) to GUI.
+		if (params[1] && *params[1] != 0)
+			context->ircThread.GetCallback().SignalIrcChatMsg(origin, params[1]);
+	}
 }
 
 
@@ -69,7 +83,7 @@ IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6
 	irc_callbacks_t callbacks;
 	memset (&callbacks, 0, sizeof(callbacks));
 
-	callbacks.event_connect = event_connect;
+	callbacks.event_connect = irc_connect;
 	//callbacks.event_join
 	//callbacks.event_nick
 	//callbacks.event_quit
@@ -77,7 +91,7 @@ IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6
 	//callbacks.event_mode
 	//callbacks.event_topic
 	//callbacks.event_kick
-	//callbacks.event_channel
+	callbacks.event_channel = irc_channel;
 	//callbacks.event_privmsg
 	//callbacks.event_notice
 	//callbacks.event_invite
@@ -98,6 +112,13 @@ IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6
 		// We want nicknames only, strip them from nick!host.
 		irc_option_set(context.session, LIBIRC_OPTION_STRIPNICKS);
 	}
+}
+
+void
+IrcThread::SendChatMessage(const std::string &msg)
+{
+	IrcContext &context = GetContext();
+	irc_cmd_msg(context.session, context.channel.c_str(), msg.c_str());
 }
 
 void

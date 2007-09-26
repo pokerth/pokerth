@@ -28,7 +28,7 @@ class IrcCallback
 public:
 	virtual ~IrcCallback();
 
-	virtual void SignalIrcPlayerJoined(const std::string &nickName) = 0;
+	virtual void SignalIrcChatMsg(const std::string &nickName, const std::string &msg) = 0;
 };
 
 #endif

@@ -25,19 +25,21 @@
 #include <clientenginefactory.h>
 #include <net/clientthread.h>
 #include <net/serveracceptthread.h>
+#include <net/ircthread.h>
 #include <core/avatarmanager.h>
 
 #include <sstream>
 
 #define NET_CLIENT_TERMINATE_TIMEOUT_MSEC	1000
-#define NET_SERVER_TERMINATE_TIMEOUT_MSEC	1000
+#define NET_SERVER_TERMINATE_TIMEOUT_MSEC	2000
+#define NET_IRC_TERMINATE_TIMEOUT_MSEC		2000
 
 #define NET_DEFAULT_GAME					"default"
 
 using namespace std;
 
 Session::Session(GuiInterface *g, ConfigFile *c)
-: currentGameID(0), myNetClient(0), myNetServer(0), myGui(g), myConfig(c)
+: currentGameID(0), myNetClient(NULL), myNetServer(NULL), myIrcThread(NULL), myGui(g), myConfig(c)
 {
 	myAvatarManager.reset(new AvatarManager);
 }
@@ -47,6 +49,7 @@ Session::~Session()
 {
 	terminateNetworkClient();
 	terminateNetworkServer();
+	terminateIrcClient();
 	delete myConfig;
 	myConfig = 0;
 }
@@ -240,6 +243,44 @@ void Session::waitForNetworkServer(unsigned timeoutMsec)
 		delete myNetServer;
 		myNetServer = 0;
 	}
+}
+
+void Session::startIrcClient()
+{
+	if (myIrcThread || !myGui)
+	{
+		assert(false);
+		return;
+	}
+	myIrcThread = new IrcThread(*myGui);
+	myIrcThread->Init(
+		myConfig->readConfigString("IRCServerAddress"),
+		myConfig->readConfigInt("IRCServerPort"),
+		myConfig->readConfigInt("IRCServerUseIpv6") == 1,
+		myConfig->readConfigString("MyName"),
+		myConfig->readConfigString("IRCChannel"));
+	myIrcThread->Run();
+}
+
+void Session::sendIrcChatMessage(const std::string &message)
+{
+	if (!myIrcThread)
+		return;
+	myIrcThread->SendChatMessage(message);
+}
+
+void Session::terminateIrcClient()
+{
+	if (!myIrcThread)
+		return; // already terminated
+	myIrcThread->SignalTermination();
+	// Give the thread some time to terminate.
+	if (myIrcThread->Join(NET_IRC_TERMINATE_TIMEOUT_MSEC))
+		delete myIrcThread;
+	else
+		assert(false);
+	// If termination fails, leave a memory leak to prevent a crash.
+	myIrcThread = 0;
 }
 
 void Session::sendLeaveCurrentGame()

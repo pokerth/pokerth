@@ -30,6 +30,7 @@ class Game;
 class ConfigFile;
 class ClientThread;
 class ServerAcceptThread;
+class IrcThread;
 class AvatarManager;
 
 class Session{
@@ -61,6 +62,10 @@ public:
 	void terminateNetworkServer();
 	void waitForNetworkServer(unsigned timeoutMsec);
 
+	void startIrcClient();
+	void sendIrcChatMessage(const std::string &message);
+	void terminateIrcClient();
+
 	void sendClientPlayerAction();
 
 	void setCurrentGameID(int theValue) { currentGameID = theValue; }
@@ -81,6 +86,7 @@ private:
 
 	ClientThread *myNetClient;
 	ServerAcceptThread *myNetServer;
+	IrcThread *myIrcThread;
 	boost::shared_ptr<AvatarManager> myAvatarManager;
 
 	boost::shared_ptr<Game> currentGame;

@@ -68,6 +68,8 @@ HEADERS += \
 		src/net/socket_helper.h \
 		src/net/socket_msg.h \
 		src/net/socket_startup.h \
+		src/net/irccallback.h \
+		src/net/ircthread.h \
 		src/core/tinyxml/tinystr.h \
 		src/core/tinyxml/tinyxml.h \
 		src/core/libircclient/include/libircclient.h \
@@ -154,6 +156,8 @@ SOURCES += \
 		src/net/common/netcontext.cpp \
 		src/net/common/netexception.cpp \
 		src/net/common/receiverhelper.cpp \
+		src/net/common/irccallback.cpp \
+		src/net/common/ircthread.cpp \
 		src/gui/qttoolsinterface.cpp \
 		src/gui/qt/qttools/qttoolswrapper.cpp \
 		src/gui/qt/qttools/qthelper/qthelper.cpp \

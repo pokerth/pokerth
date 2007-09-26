@@ -38,8 +38,12 @@ LobbyChat::~LobbyChat()
 
 void LobbyChat::sendMessage() {
 
-	myLobby->getSession().sendChatMessage(myLobby->lineEdit_ChatInput->text().toUtf8().constData());
+	QString tmpMsg(myLobby->lineEdit_ChatInput->text());
+	myLobby->getSession().sendIrcChatMessage(tmpMsg.toUtf8().constData());
 	myLobby->lineEdit_ChatInput->setText("");
+
+	// TODO: just temporary instead of callback
+	receiveMessage("(me)", tmpMsg);
 }
 
 void LobbyChat::receiveMessage(QString playerName, QString message) { 

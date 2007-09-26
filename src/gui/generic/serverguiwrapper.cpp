@@ -24,8 +24,8 @@
 using namespace std;
 
 
-ServerGuiWrapper::ServerGuiWrapper(ConfigFile *config, ClientCallback *clientcb, ServerCallback *servercb)
-: myConfig(config), myClientcb(clientcb), myServercb(servercb)
+ServerGuiWrapper::ServerGuiWrapper(ConfigFile *config, ClientCallback *clientcb, ServerCallback *servercb, IrcCallback *irccb)
+: myConfig(config), myClientcb(clientcb), myServercb(servercb), myIrccb(irccb)
 {
 }
 
@@ -125,3 +125,4 @@ void ServerGuiWrapper::SignalNetClientWaitDialog() { if (myClientcb) myClientcb-
 void ServerGuiWrapper::SignalNetServerSuccess(int actionID) { if (myServercb) myServercb->SignalNetServerSuccess(actionID); }
 void ServerGuiWrapper::SignalNetServerError(int errorID, int osErrorID) { if (myServercb) myServercb->SignalNetServerError(errorID, osErrorID); }
 
+void ServerGuiWrapper::SignalIrcChatMsg(const string &nickName, const string &msg) { if (myIrccb) myIrccb->SignalIrcChatMsg(nickName, msg); }
