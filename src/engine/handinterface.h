@@ -40,6 +40,9 @@ public:
 	virtual PlayerList getActivePlayerList() const =0;
 	virtual PlayerList getRunningPlayerList() const =0;
 
+	virtual PlayerListIterator getActivePlayerIt(unsigned) const =0;
+	virtual PlayerListIterator getRunningPlayerIt(unsigned) const =0;
+
 	virtual BoardInterface* getBoard() const =0;
 	virtual boost::shared_ptr<BeRoInterface> getPreflop() const =0;
 	virtual boost::shared_ptr<BeRoInterface> getFlop() const =0;

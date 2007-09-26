@@ -41,6 +41,9 @@ class ClientHand : public HandInterface
 		PlayerList getActivePlayerList() const {return activePlayerList;}
 		PlayerList getRunningPlayerList() const {return runningPlayerList;}
 
+		PlayerListIterator getActivePlayerIt(unsigned) const;
+		PlayerListIterator getRunningPlayerIt(unsigned) const;
+
 		BoardInterface* getBoard() const;
 		boost::shared_ptr<BeRoInterface> getPreflop() const;
 		boost::shared_ptr<BeRoInterface> getFlop() const;

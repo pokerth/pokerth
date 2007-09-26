@@ -28,14 +28,14 @@ class HandInterface;
 class LocalBeRoPreflop : public LocalBeRo{
  
 public:
-	LocalBeRoPreflop(HandInterface*, int, int, int);
+	LocalBeRoPreflop(HandInterface*, int, unsigned, int);
 	~LocalBeRoPreflop();
 
 	void run();
 
 private:
-	PlayerListIterator bigBlindPositionIt; // iterator for activePlayerList
-	unsigned bigBlindPosition;
+// 	PlayerListIterator bigBlindPositionIt; // iterator for activePlayerList
+// 	unsigned bigBlindPositionId;
 };
 
 #endif

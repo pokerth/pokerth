@@ -103,7 +103,7 @@ private:
 	//Laufvariablen
 	int actualSmallBlind;
 	int actualHandID;
-	int dealerPosition;
+	unsigned dealerPosition;
 };
 
 #endif

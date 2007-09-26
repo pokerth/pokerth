@@ -26,7 +26,7 @@
 
 using namespace std;
 
-LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC)
+LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl, PlayerList apl, PlayerList rpl, int id, int sP, unsigned dP, int sB,int sC)
 : myFactory(f), myGui(g),  myBoard(b), playerArray(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), lastPlayersTurn(0), allInCondition(false),
   cardsShown(false), bettingRoundsPlayed(0)
 {
@@ -493,5 +493,33 @@ void LocalHand::switchRounds() {
 	
 
 	}
+
+}
+
+PlayerListIterator LocalHand::getActivePlayerIt(unsigned uniqueId) const {
+
+	PlayerListIterator it;
+
+	for(it=activePlayerList->begin(); it!=activePlayerList->end(); it++) {
+		if((*it)->getMyUniqueID() == uniqueId) {
+			break;
+		}
+	}
+
+	return it;
+
+}
+
+PlayerListIterator LocalHand::getRunningPlayerIt(unsigned uniqueId) const {
+
+	PlayerListIterator it;
+
+	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); it++) {
+		if((*it)->getMyUniqueID() == uniqueId) {
+			break;
+		}
+	}
+
+	return it;
 
 }

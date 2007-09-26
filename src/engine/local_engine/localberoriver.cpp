@@ -25,7 +25,7 @@
 
 using namespace std;
 
-LocalBeRoRiver::LocalBeRoRiver(HandInterface* hi, int id, int dP, int sB) : LocalBeRo(hi, id, dP, sB, GAME_STATE_RIVER)
+LocalBeRoRiver::LocalBeRoRiver(HandInterface* hi, int id, unsigned dP, int sB) : LocalBeRo(hi, id, dP, sB, GAME_STATE_RIVER)
 {
 }
 

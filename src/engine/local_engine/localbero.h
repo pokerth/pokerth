@@ -24,7 +24,7 @@
 */
 class LocalBeRo : public BeRoInterface{
 public:
-	LocalBeRo(HandInterface* hi, int id, int dP, int sB, GameState gS);
+	LocalBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState gS);
 	~LocalBeRo();
 
 	GameState getMyBeRoID() const { return myBeRoID; }
@@ -53,11 +53,11 @@ protected:
 	void setPlayersTurn(int theValue) { playersTurn = theValue; }
 	int getPlayersTurn() const { return playersTurn;}
 
-	void setCurrentPlayersTurn(unsigned theValue) { currentPlayersTurn = theValue; }
-	unsigned getCurrentPlayersTurn() const { return currentPlayersTurn;}
+	void setCurrentPlayersTurnId(unsigned theValue) { currentPlayersTurnId = theValue; }
+	unsigned getCurrentPlayersTurnId() const { return currentPlayersTurnId;}
 
-	void setFirstRoundLastPlayersTurn(unsigned theValue) { firstRoundLastPlayersTurn = theValue; }
-	unsigned getFirstRoundLastPlayersTurn() const { return firstRoundLastPlayersTurn;}
+	void setFirstRoundLastPlayersTurnId(unsigned theValue) { firstRoundLastPlayersTurnId = theValue; }
+	unsigned getFirstRoundLastPlayersTurnId() const { return firstRoundLastPlayersTurnId;}
 
 	void setCurrentPlayersTurnIt(PlayerListIterator theValue) { currentPlayersTurnIt = theValue; }
 	PlayerListIterator getCurrentPlayersTurnIt() const { return currentPlayersTurnIt; }
@@ -70,6 +70,17 @@ protected:
 
 	void setFirstRound(bool theValue) { firstRound = theValue;}
 	bool getFirstRound() const {  return firstRound;}
+
+
+	void setDealerPositionId(unsigned theValue) { dealerPositionId = theValue;}
+	unsigned getDealerPositionId() const { return dealerPositionId; }
+
+	void setSmallBlindPositionId(unsigned theValue) { smallBlindPositionId = theValue;}
+	unsigned getSmallBlindPositionId() const { return smallBlindPositionId; }
+
+	void setBigBlindPositionId(unsigned theValue) { bigBlindPositionId = theValue;}
+	unsigned getBigBlindPositionId() const { return bigBlindPositionId; }
+
 
 	void setSmallBlindPosition(int theValue) { smallBlindPosition = theValue;}
 	int getSmallBlindPosition() const { return smallBlindPosition; }
@@ -92,6 +103,11 @@ private:
 	int dealerPosition;
 	int smallBlindPosition;
 
+	unsigned dealerPositionId;
+	unsigned smallBlindPositionId;
+	unsigned bigBlindPositionId;
+
+
 	int smallBlind;
 	int highestSet;
 	int minimumRaise;
@@ -104,8 +120,8 @@ private:
 	PlayerListIterator currentPlayersTurnIt; // iterator for runningPlayerList
 	PlayerListIterator lastPlayersTurnIt; // iterator for runningPlayerList
 
-	unsigned currentPlayersTurn;
-	unsigned firstRoundLastPlayersTurn;
+	unsigned currentPlayersTurnId;
+	unsigned firstRoundLastPlayersTurnId;
 
 	bool logBoardCardsDone;
 

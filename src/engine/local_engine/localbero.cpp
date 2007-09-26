@@ -13,11 +13,35 @@
 
 using namespace std;
 
-LocalBeRo::LocalBeRo(HandInterface* hi, int id, int dP, int sB, GameState gS)
-: BeRoInterface(), myHand(hi), myBeRoID(gS), myID(id), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(false), minimumRaise(2*sB), firstRun(true), firstRound(true), firstHeadsUpRound(true), currentPlayersTurn(0), firstRoundLastPlayersTurn(0), logBoardCardsDone(false)
+LocalBeRo::LocalBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState gS)
+: BeRoInterface(), myHand(hi), myBeRoID(gS), myID(id), dealerPosition(dP), smallBlindPosition(0), dealerPositionId(dP), smallBlindPositionId(0), bigBlindPositionId(0), smallBlind(sB), highestSet(false), minimumRaise(2*sB), firstRun(true), firstRound(true), firstHeadsUpRound(true), currentPlayersTurnId(0), firstRoundLastPlayersTurnId(0), logBoardCardsDone(false)
 {
 	currentPlayersTurnIt = myHand->getRunningPlayerList()->begin();
 	lastPlayersTurnIt = myHand->getRunningPlayerList()->begin();
+
+	PlayerListConstIterator it_c;
+
+	// determine bigBlindPosition
+	for(it_c=myHand->getActivePlayerList()->begin(); it_c!=myHand->getActivePlayerList()->end(); it_c++) {
+		if((*it_c)->getMyButton() == BUTTON_BIG_BLIND) {
+			bigBlindPositionId = (*it_c)->getMyUniqueID();
+			break;
+		}
+	}
+	assert(it_c!=myHand->getActivePlayerList()->end());
+
+	// determine smallBlindPosition
+	for(it_c=myHand->getActivePlayerList()->begin(); it_c!=myHand->getActivePlayerList()->end(); it_c++) {
+		if((*it_c)->getMyButton() == BUTTON_SMALL_BLIND) {
+			smallBlindPositionId = (*it_c)->getMyUniqueID();
+			break;
+		}
+	}
+	assert(it_c!=myHand->getActivePlayerList()->end());
+
+
+
+
 
 // 	int i;
 
@@ -40,7 +64,10 @@ void LocalBeRo::nextPlayer() {
 	
 // 	cout << "playerID in nextPlayer(): " << (*currentPlayersTurnIt)->getMyID() << endl;
 
-	(*currentPlayersTurnIt)->action();
+	PlayerListConstIterator currentPlayersTurnConstIt = myHand->getRunningPlayerIt(currentPlayersTurnId);
+	assert( currentPlayersTurnConstIt != myHand->getRunningPlayerList()->end() );
+
+	(*currentPlayersTurnConstIt)->action();
 
 }
 

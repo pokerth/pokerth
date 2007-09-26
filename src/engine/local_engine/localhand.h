@@ -34,7 +34,7 @@
 
 class LocalHand : public HandInterface{
 public:
-	LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, std::vector<boost::shared_ptr<PlayerInterface> >, PlayerList, PlayerList, int, int, int, int, int);
+	LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, std::vector<boost::shared_ptr<PlayerInterface> >, PlayerList, PlayerList, int, int, unsigned, int, int);
 	~LocalHand();
 
 	void start();
@@ -42,6 +42,9 @@ public:
 	std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() const { return playerArray; }
 	PlayerList getActivePlayerList() const {return activePlayerList;}
 	PlayerList getRunningPlayerList() const {return runningPlayerList;}
+
+	PlayerListIterator getActivePlayerIt(unsigned) const;
+	PlayerListIterator getRunningPlayerIt(unsigned) const;
 
 	BoardInterface* getBoard() const { return myBoard; }
 	boost::shared_ptr<BeRoInterface> getPreflop() const { return myBeRo[GAME_STATE_PREFLOP]; }
@@ -100,7 +103,7 @@ private:
 
 	int myID;
 	int startQuantityPlayers;
-	int dealerPosition; // -1 -> neutral
+	unsigned dealerPosition; // -1 -> neutral
 	int actualRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
 	int smallBlind;
 	int startCash;

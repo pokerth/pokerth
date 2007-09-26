@@ -24,7 +24,7 @@
 
 using namespace std;
 
-LocalBeRoTurn::LocalBeRoTurn(HandInterface* hi, int id, int dP, int sB) : LocalBeRo(hi, id, dP, sB, GAME_STATE_TURN)
+LocalBeRoTurn::LocalBeRoTurn(HandInterface* hi, int id, unsigned dP, int sB) : LocalBeRo(hi, id, dP, sB, GAME_STATE_TURN)
 {
 }
 

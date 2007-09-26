@@ -76,6 +76,34 @@ ClientHand::getPlayerArray() const
 	return playerArray;
 }
 
+PlayerListIterator
+ClientHand::getActivePlayerIt(unsigned uniqueId) const
+{
+	PlayerListIterator it;
+
+	for(it=activePlayerList->begin(); it!=activePlayerList->end(); it++) {
+		if((*it)->getMyUniqueID() == uniqueId) {
+			break;
+		}
+	}
+
+	return it;
+}
+
+PlayerListIterator
+ClientHand::getRunningPlayerIt(unsigned uniqueId) const
+{
+	PlayerListIterator it;
+
+	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); it++) {
+		if((*it)->getMyUniqueID() == uniqueId) {
+			break;
+		}
+	}
+
+	return it;
+}
+
 BoardInterface*
 ClientHand::getBoard() const
 {
