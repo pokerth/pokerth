@@ -2083,7 +2083,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 			actionLabelArray[i]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_winner.png"));
 
 			//show winnercards if more than one player is active
-			if ( currentHand->getActivePlayerList()->size() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
+			if ( currentHand->getRunningPlayerList()->size() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
 
 				int j;
 				int bestHandPos[5];
@@ -2407,10 +2407,7 @@ void mainWindowImpl::nextRoundCleanGui() {
 	
 	//Clean breakbutton
 	blinkingStartButtonAnimationTimer->stop();
-	QPalette tempPalette = pushButton_break->palette();
-	tempPalette.setColor(QPalette::Button, QColor(40,82,0));
-	tempPalette.setColor(QPalette::ButtonText, QColor(240,240,240));
-	pushButton_break->setPalette(tempPalette);
+	pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
 	blinkingStartButtonAnimationTimer->stop();
 	QFontMetrics tempMetrics = this->fontMetrics();
 	int width = tempMetrics.width(tr("Stop"));
@@ -2484,11 +2481,7 @@ void mainWindowImpl::breakButtonClicked() {
 	else { 
 		blinkingStartButtonAnimationTimer->stop();
 		//Set default Color
-		QPalette tempPalette = pushButton_break->palette();
-		tempPalette.setColor(QPalette::Button, QColor(40,82,0));
-		tempPalette.setColor(QPalette::ButtonText, QColor(240,240,240));
-		pushButton_break->setPalette(tempPalette);
-
+		pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
 		QFontMetrics tempMetrics = this->fontMetrics();
 		int width = tempMetrics.width(tr("Stop"));
 		pushButton_break->setMinimumSize(width+10,20);

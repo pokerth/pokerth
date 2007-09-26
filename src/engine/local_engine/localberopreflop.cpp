@@ -146,7 +146,7 @@ void LocalBeRoPreflop::run() {
 
 	// determine next player
 
-	cout << "playerID begin preflopRun(): " << (*(getCurrentPlayersTurnIt()))->getMyID() << endl;
+// 	cout << "playerID begin preflopRun(): " << (*(getCurrentPlayersTurnIt()))->getMyID() << endl;
 
 	it = getCurrentPlayersTurnIt();
 
@@ -156,9 +156,9 @@ void LocalBeRoPreflop::run() {
 
 	if(getCurrentPlayersTurnIt() == getMyHand()->getRunningPlayerList()->end()) setCurrentPlayersTurnIt(getMyHand()->getRunningPlayerList()->begin());
 
-	if(getCurrentPlayersTurnIt() == getMyHand()->getRunningPlayerList()->end()) cout << "!!!" << endl;
+// 	if(getCurrentPlayersTurnIt() == getMyHand()->getRunningPlayerList()->end()) cout << "!!!" << endl;
 
-	cout << "playerID middle preflopRun(): " << (*(getCurrentPlayersTurnIt()))->getMyID() << endl;
+// 	cout << "playerID middle preflopRun(): " << (*(getCurrentPlayersTurnIt()))->getMyID() << endl;
 
 	// exceptions
 		// if next player is small blind and only all-in-big-blind with less than smallblind amount is nonfold too -> preflop is over
