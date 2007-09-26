@@ -24,13 +24,22 @@
 
 using namespace std;
 
-LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int dP, int sB) : LocalBeRo(hi, id, dP, sB, GAME_STATE_PREFLOP)
+LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int dP, int sB) : LocalBeRo(hi, id, dP, sB, GAME_STATE_PREFLOP), bigBlindPosition(0)
 {
+	PlayerListConstIterator it_c;
+
 	setHighestSet(2*getSmallBlind());
 
 	// determine bigBlindPosition
 	for(bigBlindPositionIt=getMyHand()->getActivePlayerList()->begin(); bigBlindPositionIt!=getMyHand()->getActivePlayerList()->end(); bigBlindPositionIt++) {
 		if((*bigBlindPositionIt)->getMyButton() == BUTTON_BIG_BLIND) break;
+	}
+
+	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); it_c++) {
+		if((*it_c)->getMyButton() == BUTTON_BIG_BLIND) {
+			bigBlindPosition = (*it_c)->getMyUniqueID();
+			break;
+		};
 	}
 
 	// search player in runningPlayerList before first action player -> run() determine next player who will do first action
@@ -80,7 +89,7 @@ LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, int dP, int sB) : 
 
 	setCurrentPlayersTurnIt(getLastPlayersTurnIt());
 
-	cout << "playerID constructor preflopRun(): " << (*(getCurrentPlayersTurnIt()))->getMyID() << endl;
+// 	cout << "playerID constructor beropreflop: " << (*(getCurrentPlayersTurnIt()))->getMyID() << endl;
 
 
 	/////////////// testing

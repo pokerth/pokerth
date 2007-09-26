@@ -35,6 +35,7 @@ public:
 
 private:
 	PlayerListIterator bigBlindPositionIt; // iterator for activePlayerList
+	unsigned bigBlindPosition;
 };
 
 #endif

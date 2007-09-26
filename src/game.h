@@ -37,6 +37,7 @@ struct StartData;
 
 typedef boost::shared_ptr<std::list<boost::shared_ptr<PlayerInterface> > > PlayerList;
 typedef std::list<boost::shared_ptr<PlayerInterface> >::iterator PlayerListIterator;
+typedef std::list<boost::shared_ptr<PlayerInterface> >::const_iterator PlayerListConstIterator;
 
 class Game {
 

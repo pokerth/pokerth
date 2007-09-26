@@ -976,7 +976,7 @@ void LocalPlayer::action() {
 	actualHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
 	actualHand->getGuiInterface()->nextPlayerAnimation();
 
-	cout << "playerID in action(): " << (*(actualHand->getCurrentBeRo()->getCurrentPlayersTurnIt()))->getMyID() << endl;
+// 	cout << "playerID in action(): " << (*(actualHand->getCurrentBeRo()->getCurrentPlayersTurnIt()))->getMyID() << endl;
 }
 
 

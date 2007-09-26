@@ -69,9 +69,10 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 	actualBoard = myFactory->createBoard();
 
 
-	// Player erstellen
 	activePlayerList = PlayerList(new std::list<boost::shared_ptr<PlayerInterface> >);
 	runningPlayerList = PlayerList(new std::list<boost::shared_ptr<PlayerInterface> >);
+
+	// Player erstellen
 
 	player_i = playerDataList.begin();
 	player_end = playerDataList.end();
@@ -135,6 +136,7 @@ void Game::initHand()
 {
 
 	int i;
+	PlayerListConstIterator it_c;
 
 	// eventuell vorhandene Hand löschen
 	if(actualHand) {
@@ -147,10 +149,20 @@ void Game::initHand()
 	// smallBlind alle x Runden erhöhen
 	if((actualHandID-1)%startHandsBeforeRaiseSmallBlind == 0 && actualHandID > 1) { actualSmallBlind *= 2; }
 
-	// Spieler mit leerem Cash auf inactive setzen
-	PlayerListIterator it;
+	//Spieler Action auf 0 setzen
+// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 		playerArray[i]->setMyAction(0);
+// 	}
 
-	for(it=activePlayerList->begin(); it!=activePlayerList->end(); ) {
+	//Spieler Action auf 0 setzen
+	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+		(*it_c)->setMyAction(PLAYER_ACTION_NONE);
+	}
+
+	// Spieler mit leerem Cash auf inactive setzen
+	PlayerListIterator it = activePlayerList->begin();
+
+	while( it!=activePlayerList->end() ) {
 
 		if((*it)->getMyCash() == 0) {
 // 			cout << "playerID: " << (*it)->getMyID() << endl;
@@ -161,11 +173,6 @@ void Game::initHand()
 		}
 	}
 
-	//Spieler Action auf 0 setzen
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		playerArray[i]->setMyAction(0);
-	}
-
 	runningPlayerList->clear();
 	(*runningPlayerList) = (*activePlayerList);
 
@@ -173,13 +180,11 @@ void Game::initHand()
 	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, activePlayerList, runningPlayerList, actualHandID, startQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
 
 
-	// Dealer-Button weiterschieben --> Achtung inactive
+	// Dealer-Button weiterschieben --> Achtung inactive -> TODO exception-rule !!!
 	for(i=0; (i<MAX_NUMBER_OF_PLAYERS && !(playerArray[dealerPosition]->getMyActiveStatus())) || i==0; i++) {
 	
 		dealerPosition = (dealerPosition+1)%(MAX_NUMBER_OF_PLAYERS);
 	}
-
-	// Abfrage Cash==0 -> player inactive -> actualQuantityPlayer--
 }
 
 void Game::startHand()

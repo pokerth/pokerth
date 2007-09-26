@@ -2082,8 +2082,8 @@ void mainWindowImpl::postRiverRunAnimation3() {
 // 			groupBoxArray[i]->setPalette(tempPalette);
 			actionLabelArray[i]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_winner.png"));
 
-			//show winnercards if more than one player is active
-			if ( currentHand->getRunningPlayerList()->size() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
+			//show winnercards if more than one player is active TODO
+			if ( currentHand->getActivePlayerList()->size() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
 
 				int j;
 				int bestHandPos[5];

@@ -14,7 +14,7 @@
 using namespace std;
 
 LocalBeRo::LocalBeRo(HandInterface* hi, int id, int dP, int sB, GameState gS)
-: BeRoInterface(), myHand(hi), myBeRoID(gS), myID(id), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(false), minimumRaise(2*sB), firstRun(true), firstRound(true), firstHeadsUpRound(true), logBoardCardsDone(false)
+: BeRoInterface(), myHand(hi), myBeRoID(gS), myID(id), dealerPosition(dP), smallBlindPosition(0), smallBlind(sB), highestSet(false), minimumRaise(2*sB), firstRun(true), firstRound(true), firstHeadsUpRound(true), currentPlayersTurn(0), firstRoundLastPlayersTurn(0), logBoardCardsDone(false)
 {
 	currentPlayersTurnIt = myHand->getRunningPlayerList()->begin();
 	lastPlayersTurnIt = myHand->getRunningPlayerList()->begin();
@@ -38,7 +38,7 @@ void LocalBeRo::nextPlayer() {
 // 	myHand->getPlayerArray()[playersTurn]->action();
 
 	
-	cout << "playerID in nextPlayer(): " << (*currentPlayersTurnIt)->getMyID() << endl;
+// 	cout << "playerID in nextPlayer(): " << (*currentPlayersTurnIt)->getMyID() << endl;
 
 	(*currentPlayersTurnIt)->action();
 

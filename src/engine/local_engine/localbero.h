@@ -53,6 +53,12 @@ protected:
 	void setPlayersTurn(int theValue) { playersTurn = theValue; }
 	int getPlayersTurn() const { return playersTurn;}
 
+	void setCurrentPlayersTurn(unsigned theValue) { currentPlayersTurn = theValue; }
+	unsigned getCurrentPlayersTurn() const { return currentPlayersTurn;}
+
+	void setFirstRoundLastPlayersTurn(unsigned theValue) { firstRoundLastPlayersTurn = theValue; }
+	unsigned getFirstRoundLastPlayersTurn() const { return firstRoundLastPlayersTurn;}
+
 	void setCurrentPlayersTurnIt(PlayerListIterator theValue) { currentPlayersTurnIt = theValue; }
 	PlayerListIterator getCurrentPlayersTurnIt() const { return currentPlayersTurnIt; }
 
@@ -97,6 +103,9 @@ private:
 	int playersTurn; // TODO -> delete
 	PlayerListIterator currentPlayersTurnIt; // iterator for runningPlayerList
 	PlayerListIterator lastPlayersTurnIt; // iterator for runningPlayerList
+
+	unsigned currentPlayersTurn;
+	unsigned firstRoundLastPlayersTurn;
 
 	bool logBoardCardsDone;
 
