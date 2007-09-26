@@ -174,6 +174,7 @@ void LocalBeRoPreflop::run() {
 	for(it_c=getMyHand()->getRunningPlayerList()->begin(); it_c!=getMyHand()->getRunningPlayerList()->end(); it_c++) {
 		if(getHighestSet() != (*it_c)->getMySet()) {
 			allHighestSet = false;
+			break;
 		}
 	}
 
@@ -183,7 +184,13 @@ void LocalBeRoPreflop::run() {
 
 // 	it++;
 
-	PlayerListIterator currentPlayersTurnIt = getMyHand()->getRunningPlayerIt( getCurrentPlayersTurnId() );
+
+
+	cout << "size: " << getMyHand()->getRunningPlayerList()->size() << endl;
+
+	cout << "currentPlayerID: " << getCurrentPlayersTurnId() << endl;
+
+	PlayerListConstIterator currentPlayersTurnIt = getMyHand()->getRunningPlayerIt( getCurrentPlayersTurnId() );
 	assert( currentPlayersTurnIt != getMyHand()->getRunningPlayerList()->end() );
 
 	currentPlayersTurnIt++;

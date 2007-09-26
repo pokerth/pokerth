@@ -92,6 +92,30 @@ ClientBeRo::getLastPlayersTurnIt() const
 }
 
 void
+ClientBeRo::setCurrentPlayersTurnId(unsigned theValue)
+{
+	currentPlayersTurnId = theValue;
+}
+
+unsigned
+ClientBeRo::getCurrentPlayersTurnId() const
+{
+	return currentPlayersTurnId;
+}
+
+void
+ClientBeRo::setFirstRoundLastPlayersTurnId(unsigned theValue)
+{
+	firstRoundLastPlayersTurnId = theValue;
+}
+
+unsigned
+ClientBeRo::getFirstRoundLastPlayersTurnId() const
+{
+	return firstRoundLastPlayersTurnId;
+}
+
+void
 ClientBeRo::setHighestSet(int theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);

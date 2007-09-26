@@ -364,17 +364,21 @@ void LocalHand::switchRounds() {
 // 	cout << "playerID begin switchRounds(): " << getCurrentBeRo()->get
 
 	int i;
-	PlayerListIterator it;
+	PlayerListIterator it, it_1;
 	PlayerListConstIterator it_c;
 
 	// refresh runningPlayerList
 	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); ) {
 		if((*it)->getMyAction() == 1 || (*it)->getMyAction() == 6) {
 			it = runningPlayerList->erase(it);
-// 			it_1 = it;
-// 			if(it_1 == runningPlayerList->begin()) it_1 = runningPlayerList->end();
-// 			it_1--;
-// 			getCurrentBeRo()->setCurrentPlayersTurnIt(it_1);
+			if(!(runningPlayerList->empty())) {
+
+				it_1 = it;
+				if(it_1 == runningPlayerList->begin()) it_1 = runningPlayerList->end();
+				it_1--;
+				getCurrentBeRo()->setCurrentPlayersTurnId((*it_1)->getMyUniqueID());
+
+			}
 		} else {
 			it++;
 		}
@@ -386,11 +390,15 @@ void LocalHand::switchRounds() {
 		if ((*it_c)->getMyAction() == 6) allInPlayersCounter++;
 	}
 
+	cout << "allInPlayersCounter: " << allInPlayersCounter << endl;
+
 	// TODO -> runningPlayerList.size()
 	int nonFoldPlayerCounter = 0;
 	for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
 		if ((*it_c)->getMyAction() != 1) nonFoldPlayerCounter++;
 	}
+
+	cout << "nonFoldPlayerCounter: " << nonFoldPlayerCounter << endl;
 
 	//wenn nur noch einer nicht-folded dann gleich den Pot verteilen
 	if(nonFoldPlayerCounter==1) {
@@ -515,10 +523,15 @@ PlayerListIterator LocalHand::getRunningPlayerIt(unsigned uniqueId) const {
 	PlayerListIterator it;
 
 	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); it++) {
+
+		cout << (*it)->getMyUniqueID() << " ";
+
 		if((*it)->getMyUniqueID() == uniqueId) {
 			break;
 		}
 	}
+
+	cout << endl;
 
 	return it;
 

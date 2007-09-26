@@ -36,6 +36,12 @@ public:
 	void setPlayersTurn(int theValue);
 	int getPlayersTurn() const;
 
+	void setCurrentPlayersTurnId(unsigned theValue);
+	unsigned getCurrentPlayersTurnId() const;
+
+	void setFirstRoundLastPlayersTurnId(unsigned theValue);
+	unsigned getFirstRoundLastPlayersTurnId() const;
+
 	void setCurrentPlayersTurnIt(PlayerListIterator theValue);
 	PlayerListIterator getCurrentPlayersTurnIt() const;
 
@@ -78,6 +84,10 @@ private:
 	int playersTurn; // TODO -> delete
 	PlayerListIterator currentPlayersTurnIt; // iterator for runningPlayerList
 	PlayerListIterator lastPlayersTurnIt; // iterator for runningPlayerList
+
+	unsigned currentPlayersTurnId;
+	unsigned firstRoundLastPlayersTurnId;
+
 
 	int highestSet;
 	bool firstRound;

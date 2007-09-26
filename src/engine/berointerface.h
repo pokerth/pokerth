@@ -32,6 +32,9 @@ public:
 	virtual void setPlayersTurn(int) =0;
 	virtual int getPlayersTurn() const =0;
 
+	virtual void setCurrentPlayersTurnId(unsigned) =0;
+	virtual unsigned getCurrentPlayersTurnId() const =0;
+
 	virtual void setCurrentPlayersTurnIt(PlayerListIterator) =0;
 	virtual PlayerListIterator getCurrentPlayersTurnIt() const =0;
 	
