@@ -677,7 +677,11 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetServerError(int, int)), this, SLOT(networkError(int, int)));
 	connect(this, SIGNAL(signalNetClientGameStart(boost::shared_ptr<Game>)), this, SLOT(networkStart(boost::shared_ptr<Game>)));
 
-	connect(this, SIGNAL(signalIrcChatMessage(QString, QString)), myGameLobbyDialog, SLOT(displayChatMessage(QString, QString)));
+	connect(this, SIGNAL(signalIrcConnect(QString)), myGameLobbyDialog, SIGNAL(signalChatConnect(QString)));
+	connect(this, SIGNAL(signalIrcSelfJoined(QString, QString)), myGameLobbyDialog, SIGNAL(signalChatSelfJoined(QString, QString)));
+	connect(this, SIGNAL(signalIrcPlayerJoined(QString)), myGameLobbyDialog, SIGNAL(signalChatPlayerJoined(QString)));
+	connect(this, SIGNAL(signalIrcPlayerLeft(QString)), myGameLobbyDialog, SIGNAL(signalChatPlayerLeft(QString)));
+	connect(this, SIGNAL(signalIrcChatMessage(QString, QString)), myGameLobbyDialog, SIGNAL(signalChatMessage(QString, QString)));
 
 	//Sound
 	mySDLPlayer = new SDLPlayer(myConfig);

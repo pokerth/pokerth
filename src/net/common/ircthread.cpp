@@ -20,6 +20,8 @@
 #include <net/ircthread.h>
 
 #include <libircclient.h>
+#include <sstream>
+#include <cctype>
 
 using namespace std;
 
@@ -34,16 +36,78 @@ struct IrcContext
 	string channel;
 };
 
-void
-irc_connect(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned count)
+void irc_auto_rename_nick(irc_session_t *session)
 {
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
+	// Automatically rename the nick on collision.
+	// First: Try to append the string "Lobby".
+	if (context->nick.find("|Lobby") == string::npos)
+		context->nick = context->nick + "|Lobby";
+	else
+	{
+		// This didn't work out. Append a number or increment it.
+		string::reverse_iterator end = context->nick.rbegin();
+		if (!context->nick.empty() && isdigit(*end))
+		{
+			if (*end != '9')
+				*end = (*end) + 1;
+			else
+				context->nick = context->nick + "0";
+		}
+		else
+			context->nick = context->nick + "1";
+	}
+	irc_cmd_nick(session, context->nick.c_str());
+}
+
+void irc_notify_player_list(irc_session_t *session, const char *players)
+{
+	IrcContext *context = (IrcContext *) irc_get_ctx(session);
+
+	istringstream input(players);
+	string name;
+	input >> name;
+	while (!input.fail() && !input.eof())
+	{
+		if (name != context->nick)
+			context->ircThread.GetCallback().SignalIrcPlayerJoined(name);
+		input >> name;
+	}
+}
+
+void
+irc_event_connect(irc_session_t *session, const char *irc_event, const char *origin, const char **params, unsigned count)
+{
+	IrcContext *context = (IrcContext *) irc_get_ctx(session);
+
+	context->ircThread.GetCallback().SignalIrcConnect(origin);
 	irc_cmd_join(session, context->channel.c_str(), 0);
 }
 
 void
-irc_channel(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned count)
+irc_event_join(irc_session_t *session, const char *irc_event, const char *origin, const char **params, unsigned count)
+{
+	// someone joined the channel.
+	IrcContext *context = (IrcContext *) irc_get_ctx(session);
+
+	if (context->nick == origin)
+		context->ircThread.GetCallback().SignalIrcSelfJoined(context->nick, context->channel);
+	else
+		context->ircThread.GetCallback().SignalIrcPlayerJoined(origin);
+}
+
+void
+irc_event_leave(irc_session_t *session, const char *irc_event, const char *origin, const char **params, unsigned count)
+{
+	// someone left the channel.
+	IrcContext *context = (IrcContext *) irc_get_ctx(session);
+
+	context->ircThread.GetCallback().SignalIrcPlayerLeft(origin);
+}
+
+void
+irc_event_channel(irc_session_t *session, const char *irc_event, const char *origin, const char **params, unsigned count)
 {
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
@@ -55,6 +119,23 @@ irc_channel(irc_session_t *session, const char *event, const char *origin, const
 	}
 }
 
+void
+irc_event_numeric(irc_session_t * session, unsigned irc_event, const char *origin, const char **params, unsigned count)
+{
+	switch (irc_event)
+	{
+		case LIBIRC_RFC_ERR_NICKNAMEINUSE :
+		case LIBIRC_RFC_ERR_NICKCOLLISION :
+			irc_auto_rename_nick(session);
+			break;
+		case LIBIRC_RFC_RPL_TOPIC :
+			break;
+		case LIBIRC_RFC_RPL_NAMREPLY :
+			if (count >= 4)
+				irc_notify_player_list(session, params[3]);
+			break;
+	}
+}
 
 IrcThread::IrcThread(IrcCallback &callback)
 : m_callback(callback)
@@ -69,7 +150,7 @@ IrcThread::~IrcThread()
 void
 IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &nick, const std::string &channel)
 {
-	if (IsRunning())
+	if (IsRunning() || serverAddress.empty() || nick.empty() || channel.empty())
 		return; // TODO: throw exception
 
 	IrcContext &context = GetContext();
@@ -83,15 +164,15 @@ IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6
 	irc_callbacks_t callbacks;
 	memset (&callbacks, 0, sizeof(callbacks));
 
-	callbacks.event_connect = irc_connect;
-	//callbacks.event_join
+	callbacks.event_connect = irc_event_connect;
+	callbacks.event_join = irc_event_join;
 	//callbacks.event_nick
-	//callbacks.event_quit
-	//callbacks.event_part
+	callbacks.event_quit = irc_event_leave;
+	callbacks.event_part = irc_event_leave;
 	//callbacks.event_mode
 	//callbacks.event_topic
 	//callbacks.event_kick
-	callbacks.event_channel = irc_channel;
+	callbacks.event_channel = irc_event_channel;
 	//callbacks.event_privmsg
 	//callbacks.event_notice
 	//callbacks.event_invite
@@ -99,7 +180,7 @@ IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6
 	//callbacks.event_ctcp_rep
 	//callbacks.event_ctcp_action
 	//callbacks.event_unknown
-	//callbacks.event_numeric
+	callbacks.event_numeric = irc_event_numeric;
 
 	//callbacks.event_dcc_chat_req
 	//callbacks.event_dcc_send_req

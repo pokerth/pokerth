@@ -35,19 +35,21 @@ public:
 
 	~LobbyChat();
 
-signals:
-	void signalChatMessage(QString playerName, QString msg);
-
 public slots:
 	
 	void sendMessage();
-	void receiveMessage(QString playerName, QString msg);
+	void connected(QString server);
+	void selfJoined(QString ownName, QString channel);
+	void playerJoined(QString playerName);
+	void playerLeft(QString playerName);
+	void displayMessage(QString playerName, QString msg);
 	void checkInputLength(QString);
 	void clearChat();
 		
 private:
 	gameLobbyDialogImpl *myLobby;
-	
+
+	QString myNick;
 // friend class GuiWrapper;
 };
 

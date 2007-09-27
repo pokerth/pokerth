@@ -110,6 +110,10 @@ public:
 	void SignalNetServerSuccess(int actionID);
 	void SignalNetServerError(int errorID, int osErrorID);
 
+	void SignalIrcConnect(const std::string &server);
+	void SignalIrcSelfJoined(const std::string &nickName, const std::string &channel);
+	void SignalIrcPlayerJoined(const std::string &nickName);
+	void SignalIrcPlayerLeft(const std::string &nickName);
 	void SignalIrcChatMsg(const std::string &nickName, const std::string &msg);
 
 private:

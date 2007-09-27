@@ -44,7 +44,14 @@ public:
 	Session& getSession() { return *mySession; }
 
 	void setMyW ( mainWindowImpl* theValue ) { myW = theValue; }
-	
+
+signals:
+	void signalChatConnect(QString server);
+	void signalChatSelfJoined(QString nickName, QString channel);
+	void signalChatPlayerJoined(QString nickName);
+	void signalChatPlayerLeft(QString nickName);
+	void signalChatMessage(QString nickName, QString msg);
+
 public slots:
 
 	void createGame();
@@ -79,7 +86,6 @@ public slots:
 	void clearDialog();
 
 	void sendChatMessage();
-	void displayChatMessage(QString nickName, QString msg);
 	void checkChatInputLength(QString string);
 	
 	void keyPressEvent(QKeyEvent * event); 

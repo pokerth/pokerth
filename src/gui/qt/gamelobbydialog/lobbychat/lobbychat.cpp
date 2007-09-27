@@ -27,8 +27,6 @@ using namespace std;
 
 LobbyChat::LobbyChat(gameLobbyDialogImpl* l) : myLobby(l)
 {
-
-	connect(this, SIGNAL(signalChatMessage(QString, QString)), this, SLOT(receiveMessage(QString, QString)));
 }
 
 LobbyChat::~LobbyChat()
@@ -38,15 +36,48 @@ LobbyChat::~LobbyChat()
 
 void LobbyChat::sendMessage() {
 
-	QString tmpMsg(myLobby->lineEdit_ChatInput->text());
-	myLobby->getSession().sendIrcChatMessage(tmpMsg.toUtf8().constData());
-	myLobby->lineEdit_ChatInput->setText("");
+	if (myNick.size())
+	{
+		QString tmpMsg(myLobby->lineEdit_ChatInput->text());
+		if (tmpMsg.size())
+		{
+			myLobby->getSession().sendIrcChatMessage(tmpMsg.toUtf8().constData());
+			myLobby->lineEdit_ChatInput->setText("");
 
-	// TODO: just temporary instead of callback
-	receiveMessage("(me)", tmpMsg);
+			displayMessage(myNick, tmpMsg);
+		}
+	}
 }
 
-void LobbyChat::receiveMessage(QString playerName, QString message) { 
+void LobbyChat::connected(QString server)
+{
+	myLobby->textBrowser_ChatDisplay->append(tr("Successfully connected to") + " " + server + ".");
+}
+
+void LobbyChat::selfJoined(QString ownName, QString channel)
+{
+	myNick = ownName;
+	myLobby->textBrowser_ChatDisplay->append(tr("Joined channel:") + " " + channel + " " + tr("as user") + " " + ownName + ".");
+	myLobby->textBrowser_ChatDisplay->append("");
+	playerJoined(ownName);
+	myLobby->lineEdit_ChatInput->setEnabled(true);
+	myLobby->lineEdit_ChatInput->setFocus();
+}
+
+void LobbyChat::playerJoined(QString playerName)
+{
+	QTreeWidgetItem *item = new QTreeWidgetItem(myLobby->treeWidget_NickList, 0);
+	item->setData(0, Qt::DisplayRole, playerName);
+}
+
+void LobbyChat::playerLeft(QString playerName)
+{
+	QList<QTreeWidgetItem *> tmpList(myLobby->treeWidget_NickList->findItems(playerName, Qt::MatchExactly));
+	if (!tmpList.empty())
+		myLobby->treeWidget_NickList->takeTopLevelItem(myLobby->treeWidget_NickList->indexOfTopLevelItem(tmpList.front()));
+}
+
+void LobbyChat::displayMessage(QString playerName, QString message) { 
 
 	myLobby->textBrowser_ChatDisplay->append(playerName + ": " + message); 
 }
@@ -58,7 +89,11 @@ void LobbyChat::checkInputLength(QString string) {
 
 void LobbyChat::clearChat() {
 
+	myNick = "";
+	myLobby->treeWidget_NickList->clear();
 	myLobby->textBrowser_ChatDisplay->clear();
+	myLobby->textBrowser_ChatDisplay->append(tr("Connecting to IRC server..."));
+	myLobby->lineEdit_ChatInput->setEnabled(false);
 /*	QStringList wordList;
 	wordList << "alpha" << "omega" << "omicron" << "zeta";*/
 	

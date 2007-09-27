@@ -125,4 +125,8 @@ void ServerGuiWrapper::SignalNetClientWaitDialog() { if (myClientcb) myClientcb-
 void ServerGuiWrapper::SignalNetServerSuccess(int actionID) { if (myServercb) myServercb->SignalNetServerSuccess(actionID); }
 void ServerGuiWrapper::SignalNetServerError(int errorID, int osErrorID) { if (myServercb) myServercb->SignalNetServerError(errorID, osErrorID); }
 
+void ServerGuiWrapper::SignalIrcConnect(const string &server) { if (myIrccb) myIrccb->SignalIrcConnect(server); }
+void ServerGuiWrapper::SignalIrcSelfJoined(const string &nickName, const std::string &channel) { if (myIrccb) myIrccb->SignalIrcSelfJoined(nickName, channel); }
+void ServerGuiWrapper::SignalIrcPlayerJoined(const string &nickName) { if (myIrccb) myIrccb->SignalIrcPlayerJoined(nickName); }
+void ServerGuiWrapper::SignalIrcPlayerLeft(const string &nickName) { if (myIrccb) myIrccb->SignalIrcPlayerLeft(nickName); }
 void ServerGuiWrapper::SignalIrcChatMsg(const string &nickName, const string &msg) { if (myIrccb) myIrccb->SignalIrcChatMsg(nickName, msg); }

@@ -33,7 +33,13 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	connect( treeWidget_connectedPlayers, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), this, SLOT( checkChatInputLength(QString) ) );
-	
+
+	connect( this, SIGNAL( signalChatConnect(QString) ), myChat, SLOT( connected (QString) ) );
+	connect( this, SIGNAL( signalChatSelfJoined(QString, QString) ), myChat, SLOT( selfJoined (QString, QString) ) );
+	connect( this, SIGNAL( signalChatPlayerJoined (QString) ), myChat, SLOT( playerJoined (QString) ) );
+	connect( this, SIGNAL( signalChatPlayerLeft (QString) ), myChat, SLOT( playerLeft (QString) ) );
+	connect( this, SIGNAL( signalChatMessage (QString, QString) ), myChat, SLOT( displayMessage (QString, QString) ) );
+
 	clearDialog();
 }
 
@@ -75,7 +81,7 @@ void gameLobbyDialogImpl::createGame()
 		gameData.startMoney = myCreateInternetGameDialog->spinBox_startCash->value();
 		gameData.smallBlind = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
 		gameData.handsBeforeRaise = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
-	gameData.guiSpeed = myCreateInternetGameDialog->spinBox_gameSpeed->value();
+		gameData.guiSpeed = myCreateInternetGameDialog->spinBox_gameSpeed->value();
 		gameData.guiSpeed = myCreateInternetGameDialog->spinBox_gameSpeed->value();
 		gameData.playerActionTimeoutSec = myCreateInternetGameDialog->spinBox_netTimeOutPlayerAction->value();
 
@@ -267,6 +273,7 @@ void gameLobbyDialogImpl::clearDialog()
 
 	pushButton_CreateGame->clearFocus();
 	lineEdit_ChatInput->setFocus();
+	myChat->clearChat();
 }
 
 void gameLobbyDialogImpl::checkPlayerQuantity() {
@@ -391,7 +398,6 @@ void gameLobbyDialogImpl::kickPlayer() {
 }
 
 void gameLobbyDialogImpl::sendChatMessage() { myChat->sendMessage(); }
-void gameLobbyDialogImpl::displayChatMessage(QString nickName, QString msg) { myChat->receiveMessage(nickName, msg); }
 void gameLobbyDialogImpl::checkChatInputLength(QString string) { myChat->checkInputLength(string); }
 
 void gameLobbyDialogImpl::keyPressEvent ( QKeyEvent * event ) {

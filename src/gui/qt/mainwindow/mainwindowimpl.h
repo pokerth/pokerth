@@ -138,6 +138,10 @@ signals:
 	void signalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
 	void signalNetClientGameStart(boost::shared_ptr<Game> game);
 
+	void signalIrcConnect(QString server);
+	void signalIrcSelfJoined(QString nickName, QString channel);
+	void signalIrcPlayerJoined(QString nickName);
+	void signalIrcPlayerLeft(QString nickName);
 	void signalIrcChatMessage(QString nickName, QString msg);
 
 public slots:

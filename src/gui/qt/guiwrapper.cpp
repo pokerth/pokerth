@@ -139,5 +139,9 @@ void GuiWrapper::SignalNetClientWaitDialog() { myW->signalShowNetworkStartDialog
 void GuiWrapper::SignalNetServerSuccess(int actionID) { }
 void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { myW->signalNetServerError(errorID, osErrorID); }
 
+void GuiWrapper::SignalIrcConnect(const string &server) { myW->signalIrcConnect(QString::fromUtf8(server.c_str())); }
+void GuiWrapper::SignalIrcSelfJoined(const string &nickName, const string &channel) { myW->signalIrcSelfJoined(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(channel.c_str())); }
+void GuiWrapper::SignalIrcPlayerJoined(const std::string &nickName) { myW->signalIrcPlayerJoined(QString::fromUtf8(nickName.c_str())); }
+void GuiWrapper::SignalIrcPlayerLeft(const std::string &nickName) { myW->signalIrcPlayerLeft(QString::fromUtf8(nickName.c_str())); }
 void GuiWrapper::SignalIrcChatMsg(const std::string &nickName, const std::string &msg) { myW->signalIrcChatMessage(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(msg.c_str())); }
 

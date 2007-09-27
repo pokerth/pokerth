@@ -334,13 +334,17 @@ bool Session::isNetworkServerRunning() const
 
 GameInfo Session::getClientGameInfo(unsigned playerId)
 {
-	assert(myNetClient);
-	return myNetClient->GetGameInfo(playerId);
+	GameInfo info;
+	if (myNetClient)
+		info = myNetClient->GetGameInfo(playerId);
+	return info;
 }
 
 PlayerInfo Session::getClientPlayerInfo(unsigned playerId)
 {
-	assert(myNetClient);
-	return myNetClient->GetPlayerInfo(playerId);
+	PlayerInfo info;
+	if (myNetClient)
+		info = myNetClient->GetPlayerInfo(playerId);
+	return info;
 }
 
