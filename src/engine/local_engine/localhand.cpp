@@ -26,22 +26,29 @@
 
 using namespace std;
 
-LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl, PlayerList apl, PlayerList rpl, int id, int sP, unsigned dP, int sB,int sC)
-: myFactory(f), myGui(g),  myBoard(b), playerArray(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), lastPlayersTurn(0), allInCondition(false),
+LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl_old, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, unsigned dP, int sB,int sC)
+: myFactory(f), myGui(g),  myBoard(b), playerArray(sl_old), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), lastPlayersTurn(0), allInCondition(false),
   cardsShown(false), bettingRoundsPlayed(0)
 {
 
 	int i, j, k;
+	PlayerListIterator it;
 	PlayerListConstIterator it_c;
 
 	CardsValue myCardsValue;
 
 	myBoard->setHand(this);
 
-	for(i=0; i<startQuantityPlayers; i++) {
-		playerArray[i]->setHand(this);
+// 	for(i=0; i<startQuantityPlayers; i++) {
+// 		playerArray[i]->setHand(this);
+// 	// myFlipCards auf 0 setzen
+// 		playerArray[i]->setMyCardsFlip(0, 0);
+// 	}
+
+	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+		(*it)->setHand(this);
 	// myFlipCards auf 0 setzen
-		playerArray[i]->setMyCardsFlip(0, 0);
+		(*it)->setMyCardsFlip(0, 0);
 	}
 
 
@@ -286,36 +293,98 @@ void LocalHand::start() {
 void LocalHand::assignButtons() {
 
 	int i,j;
+	PlayerListIterator it;
 	PlayerListConstIterator it_c;
 
 	// alle Buttons loeschen
-	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { playerArray[i]->setMyButton(0); }
+// 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { playerArray[i]->setMyButton(0); }
+
+	// alle Buttons loeschen
+	for (it=seatsList->begin(); it!=seatsList->end(); it++) {
+		(*it)->setMyButton(BUTTON_NONE);
+	}
 
 	// DealerButton zuweisen
-	playerArray[dealerPosition]->setMyButton(1);
+// 	playerArray[dealerPosition]->setMyButton(1);
+
+	// DealerButton zuweisen
+	it = getSeatIt(dealerPosition);
+	assert(it != seatsList->end() );
+	(*it)->setMyButton(BUTTON_DEALER);
+
 
 	// assign Small Blind next to dealer. ATTENTION: in heads up it is big blind
-	i = dealerPosition;
+// 	i = dealerPosition;
+// 
+// 	for(j=0; (j<MAX_NUMBER_OF_PLAYERS && !(playerArray[i]->getMyActiveStatus())) || j==0; j++) {
+// 
+// 		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
+// 		if(playerArray[i]->getMyActiveStatus())	{
+// 			if(activePlayerList->size() > 2) playerArray[i]->setMyButton(2); //small blind normal
+// 			else playerArray[i]->setMyButton(3); //big blind in heads up		
+// 		}
+// 	}
 
-	for(j=0; (j<MAX_NUMBER_OF_PLAYERS && !(playerArray[i]->getMyActiveStatus())) || j==0; j++) {
-
-		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
-		if(playerArray[i]->getMyActiveStatus())	{
-			if(activePlayerList->size() > 2) playerArray[i]->setMyButton(2); //small blind normal
-			else playerArray[i]->setMyButton(3); //big blind in heads up		
-		}
-	}
 
 	// assign big blind next to small blind. ATTENTION: in heads up it is small blind
-	for(j=0; (j<MAX_NUMBER_OF_PLAYERS && !(playerArray[i]->getMyActiveStatus())) || j==0; j++) {
+// 	for(j=0; (j<MAX_NUMBER_OF_PLAYERS && !(playerArray[i]->getMyActiveStatus())) || j==0; j++) {
+// 
+// 		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
+// 		if(playerArray[i]->getMyActiveStatus())	{
+// 			if(activePlayerList->size() > 2) playerArray[i]->setMyButton(3); //big blind normal
+// 			else playerArray[i]->setMyButton(2); //small blind in heads up
+// 			
+// 		}
+// 	}
 
-		i = (i+1)%(MAX_NUMBER_OF_PLAYERS);
-		if(playerArray[i]->getMyActiveStatus())	{
-			if(activePlayerList->size() > 2) playerArray[i]->setMyButton(3); //big blind normal
-			else playerArray[i]->setMyButton(2); //small blind in heads up
-			
+
+
+	// assign Small Blind next to dealer. ATTENTION: in heads up it is big blind
+	// assign big blind next to small blind. ATTENTION: in heads up it is small blind
+	bool nextActivePlayerFound = false;
+	PlayerListIterator dealerPositionIt = getSeatIt(dealerPosition);
+	assert( dealerPositionIt != seatsList->end() );
+
+	for(i=0; i<seatsList->size(); i++) {
+
+		dealerPositionIt++;
+		if(dealerPositionIt == seatsList->end()) dealerPositionIt = seatsList->begin();
+
+		it = getActivePlayerIt( (*dealerPositionIt)->getMyUniqueID() );
+		if(it != activePlayerList->end() ) {
+			nextActivePlayerFound = true;
+			if(activePlayerList->size() > 2) (*it)->setMyButton(2); //small blind normal
+			else (*it)->setMyButton(3); //big blind in heads up
+
+			it++;
+			if(it == activePlayerList->end()) it = activePlayerList->begin();
+
+			if(activePlayerList->size() > 2) (*it)->setMyButton(3); //big blind normal
+			else (*it)->setMyButton(2); //small blind in heads up
+
+			break;
 		}
+
 	}
+	assert(nextActivePlayerFound);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	//do sets --> TODO switch?
 	for (it_c=runningPlayerList->begin(); it_c!=runningPlayerList->end(); it_c++) { 
@@ -501,6 +570,20 @@ void LocalHand::switchRounds() {
 	
 
 	}
+
+}
+
+PlayerListIterator LocalHand::getSeatIt(unsigned uniqueId) const {
+
+	PlayerListIterator it;
+
+	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+		if((*it)->getMyUniqueID() == uniqueId) {
+			break;
+		}
+	}
+
+	return it;
 
 }
 

@@ -40,6 +40,7 @@ public:
 	virtual PlayerList getActivePlayerList() const =0;
 	virtual PlayerList getRunningPlayerList() const =0;
 
+	virtual PlayerListIterator getSeatIt(unsigned) const =0;
 	virtual PlayerListIterator getActivePlayerIt(unsigned) const =0;
 	virtual PlayerListIterator getRunningPlayerIt(unsigned) const =0;
 

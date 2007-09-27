@@ -68,7 +68,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 	// Board erstellen
 	actualBoard = myFactory->createBoard();
 
-
+	seatsList = PlayerList(new std::list<boost::shared_ptr<PlayerInterface> >);
 	activePlayerList = PlayerList(new std::list<boost::shared_ptr<PlayerInterface> >);
 	runningPlayerList = PlayerList(new std::list<boost::shared_ptr<PlayerInterface> >);
 
@@ -98,17 +98,21 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		// create Player Objects
 		boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(actualBoard, i, uniqueId, type, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0);
 
+		tmpPlayer->setNetSessionData(myNetSession);
+
 		// fill player lists
-		playerArray.push_back(tmpPlayer);
+		playerArray.push_back(tmpPlayer); // delete
+		seatsList->push_back(tmpPlayer);
 		if(startQuantityPlayers > i) {
 			activePlayerList->push_back(tmpPlayer);
 		}
 
 		(*runningPlayerList) = (*activePlayerList);
 
-		playerArray[i]->setNetSessionData(myNetSession);
+		playerArray[i]->setNetSessionData(myNetSession); // delete
+		
 	}
-	actualBoard->setPlayerLists(playerArray, activePlayerList, runningPlayerList);
+	actualBoard->setPlayerLists(playerArray, seatsList, activePlayerList, runningPlayerList); // delete playerArray
 }
 
 Game::~Game()
@@ -135,7 +139,7 @@ const HandInterface *Game::getCurrentHand() const
 void Game::initHand()
 {
 
-	int i;
+	size_t i;
 	PlayerListConstIterator it_c;
 
 	// eventuell vorhandene Hand löschen
@@ -177,14 +181,36 @@ void Game::initHand()
 	(*runningPlayerList) = (*activePlayerList);
 
 	// Hand erstellen
-	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, activePlayerList, runningPlayerList, actualHandID, startQuantityPlayers, dealerPosition, actualSmallBlind, startCash);
+	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, seatsList, activePlayerList, runningPlayerList, actualHandID, startQuantityPlayers, dealerPosition, actualSmallBlind, startCash); // delete playerArray
 
+
+	// Dealer-Button weiterschieben --> Achtung inactive -> TODO exception-rule !!! DELETE
+// 	for(i=0; (i<MAX_NUMBER_OF_PLAYERS && !(playerArray[dealerPosition]->getMyActiveStatus())) || i==0; i++) {
+// 	
+// 		dealerPosition = (dealerPosition+1)%(MAX_NUMBER_OF_PLAYERS);
+// 	}
 
 	// Dealer-Button weiterschieben --> Achtung inactive -> TODO exception-rule !!!
-	for(i=0; (i<MAX_NUMBER_OF_PLAYERS && !(playerArray[dealerPosition]->getMyActiveStatus())) || i==0; i++) {
-	
-		dealerPosition = (dealerPosition+1)%(MAX_NUMBER_OF_PLAYERS);
+	bool nextDealerFound = false;
+	PlayerListConstIterator dealerPositionIt = actualHand->getSeatIt(dealerPosition);
+	assert( dealerPositionIt != seatsList->end() );
+
+	for(i=0; i<seatsList->size(); i++) {
+
+		dealerPositionIt++;
+		if(dealerPositionIt == seatsList->end()) dealerPositionIt = seatsList->begin();
+
+		it = actualHand->getActivePlayerIt( (*dealerPositionIt)->getMyUniqueID() );
+		if(it != activePlayerList->end() ) {
+			nextDealerFound = true;
+			dealerPosition = (*it)->getMyUniqueID();
+			break;
+		}
+
 	}
+	assert(nextDealerFound);
+
+
 }
 
 void Game::startHand()
@@ -201,6 +227,7 @@ void Game::startHand()
 
 boost::shared_ptr<PlayerInterface> Game::getPlayerByUniqueId(unsigned id)
 {
+	// TODO playerLists
 	boost::shared_ptr<PlayerInterface> tmpPlayer;
 	for (int i = 0; i < startQuantityPlayers; i++)
 	{
@@ -215,11 +242,9 @@ boost::shared_ptr<PlayerInterface> Game::getPlayerByUniqueId(unsigned id)
 
 boost::shared_ptr<PlayerInterface> Game::getCurrentPlayer()
 {
-// 	int curPlayerNum = getCurrentHand()->getCurrentBeRo()->getPlayersTurn();
-// 	assert(curPlayerNum < getStartQuantityPlayers());
-// 	return getPlayerArray()[curPlayerNum];
-
-	// TODO -> checking
-	return (*(getCurrentHand()->getCurrentBeRo()->getCurrentPlayersTurnIt()));
+	// TODO playerLists
+	int curPlayerNum = getCurrentHand()->getCurrentBeRo()->getPlayersTurn();
+	assert(curPlayerNum < getStartQuantityPlayers());
+	return getPlayerArray()[curPlayerNum];
 }
 

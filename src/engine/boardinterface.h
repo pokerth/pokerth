@@ -37,7 +37,7 @@ public:
    
     	virtual ~BoardInterface();
 // 
-	virtual void setPlayerLists(std::vector<boost::shared_ptr<PlayerInterface> >, PlayerList, PlayerList) =0;
+	virtual void setPlayerLists(std::vector<boost::shared_ptr<PlayerInterface> >, PlayerList, PlayerList, PlayerList) =0;
 	virtual void setHand(HandInterface*) =0;
 // 
 	virtual void setMyCards(int* theValue) =0;

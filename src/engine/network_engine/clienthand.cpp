@@ -21,8 +21,8 @@
 
 using namespace std;
 
-ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC)
-: myFactory(f), myGui(g),  myBoard(b), playerArray(sl), activePlayerList(apl), runningPlayerList(rpl), myID(id), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0),
+ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl_old, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC)
+: myFactory(f), myGui(g),  myBoard(b), playerArray(sl_old), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myID(id), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0),
   smallBlind(sB), startCash(sC), lastPlayersTurn(0), allInCondition(0),
   cardsShown(false), bettingRoundsPlayed(0)
 {
@@ -74,6 +74,20 @@ std::vector<boost::shared_ptr<PlayerInterface> >
 ClientHand::getPlayerArray() const
 {
 	return playerArray;
+}
+
+PlayerListIterator
+ClientHand::getSeatIt(unsigned uniqueId) const
+{
+	PlayerListIterator it;
+
+	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+		if((*it)->getMyUniqueID() == uniqueId) {
+			break;
+		}
+	}
+
+	return it;
 }
 
 PlayerListIterator
