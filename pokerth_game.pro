@@ -43,6 +43,7 @@ INCLUDEPATH += . \
 		src/gui/qt/settingsdialog/manualblindsorderdialog \
 		src/gui/qt/startnetworkgamedialog \
 		src/gui/qt/changehumanplayernamedialog \
+		src/gui/qt/changecompleteblindsdialog \
 		src/gui/qt/gamelobbydialog \
 		src/gui/qt/gamelobbydialog/lobbychat
 
@@ -77,6 +78,7 @@ DEPENDPATH += . \
 		src/gui/qt/settingsdialog/manualblindsorderdialog \
 		src/gui/qt/startnetworkgamedialog \
 		src/gui/qt/changehumanplayernamedialog \
+		src/gui/qt/changecompleteblindsdialog \
 		src/gui/qt/gamelobbydialog \
 		src/gui/qt/gamelobbydialog/lobbychat
 
@@ -152,6 +154,7 @@ HEADERS += \
 		src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.h \
 		src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.h \
 		src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.h \
+		src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.h \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.h \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.h \
 		src/gui/qttoolsinterface.h \
@@ -171,6 +174,7 @@ FORMS += \
 		src/gui/qt/selectavatardialog.ui \
 		src/gui/qt/startnetworkgamedialog.ui \
 		src/gui/qt/changehumanplayernamedialog.ui \
+		src/gui/qt/changecompleteblindsdialog.ui \
 		src/gui/qt/gamelobbydialog.ui \
 		src/gui/qt/manualblindsorderdialog.ui
 
@@ -201,6 +205,7 @@ SOURCES += \
 		src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp \
 		src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp \
 		src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.cpp \
+		src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp
 
