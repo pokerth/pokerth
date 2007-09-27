@@ -1025,7 +1025,7 @@ QStringList Log::translateCardsValueCode(int cardsValueCode) {
 		break;
 		// Pair
 		case 1: {
-			cardString << "Pair, ";
+			cardString << "One Pair, ";
 			// Pair
 			switch(secondPart) {
 				case 12: cardString << "Aces";
@@ -1150,7 +1150,7 @@ QStringList Log::translateCardsValueCode(int cardsValueCode) {
 		break;
 		// Highest Card
 		case 0:  {
-			cardString << "Highest Card, ";
+			cardString << "High Card, ";
 			// Kicker 1
 			switch(secondPart) {
 				case 12: cardString << "Ace";

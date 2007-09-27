@@ -853,26 +853,40 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 
 	// !!!!!!!!!!!!!!!!!!!!!!!! testing !!!!!!!!!!!!!!!!!!!!!!!!
 	if(DEBUG_MODE) {
+
+		switch(myUniqueID) {
 	
-		if(myID==0) { 
-// 			myActiveStatus=0;
-// 			myCash=14800;
-		}
-	
-		if(myID==1) {
-// 			myCash=400;
-		}
-		if(myID==2) {
-			myCash=50;
-		}
-		if(myID==3) {
-// 			myCash=5250;
-		}
-		if(myID==4) {
-// 			myCash=5100;
-		}
-		if(myID==5) {
-// 			myCash=4500;
+			case 0: {
+	// 			myActiveStatus=0;
+				myCash=4600;
+			} break;
+			case 1: {
+	// 			myActiveStatus=0;
+				myCash=4400;
+			} break;
+			case 2: {
+	// 			myActiveStatus=0;
+				myCash=800;
+			} break;
+			case 3: {
+	// 			myActiveStatus=0;
+				myCash=4000;
+			} break;
+			case 4: {
+	// 			myActiveStatus=0;
+				myCash=4200;
+			} break;
+			case 5: {
+	// 			myActiveStatus=0;
+	// 			myCash=14800;
+			} break;
+			case 6: {
+	// 			myActiveStatus=0;
+	// 			myCash=14800;
+			} break;
+			default: {
+			}
+
 		}
 
 	}
@@ -1187,14 +1201,15 @@ void LocalPlayer::preflopEngine() {
 // 	cout << myID << ": " << myOdds << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << "Bluff: " << sBluffStatus << endl;
 
 	if(DEBUG_MODE) {
-		switch(myID) {
+		switch(myUniqueID) {
 			case 0: {}
 			break;
 			case 1: { 
+				// player 1
 
 				switch(actualHand->getMyID()) {
 					case 1: {
-// 						myAction = PLAYER_ACTION_CALL;
+						myAction = PLAYER_ACTION_FOLD;
 					}
 					break;
 					case 2: {
@@ -1209,10 +1224,11 @@ void LocalPlayer::preflopEngine() {
 			}
 			break;
 			case 2: { 
+				// player 2
 
 				switch(actualHand->getMyID()) {
 					case 1: {
-// 						myAction = PLAYER_ACTION_FOLD;
+						myAction = PLAYER_ACTION_FOLD;
 // 						raise = 20;
 // 						if(mySet >= 40) {
 // 							myAction = PLAYER_ACTION_CALL;
@@ -1234,11 +1250,49 @@ void LocalPlayer::preflopEngine() {
 			}
 			break;
 			case 3: {
-// 				myAction = PLAYER_ACTION_CALL;
+				switch(actualHand->getMyID()) {
+					case 1: {
+						myAction = PLAYER_ACTION_CALL;
+// 						raise = 20;
+// 						if(mySet >= 40) {
+// 							myAction = PLAYER_ACTION_CALL;
+// 						}
+					}
+					break;
+					case 2: {
+// 						myAction = PLAYER_ACTION_RAISE;
+// 						raise = 50;
+// 						if(mySet >= 70) {
+// 							myAction = PLAYER_ACTION_CALL;
+// 						}
+					}
+					break;
+					default: {
+					}
+				}
 			}
 			break;
 			case 4: {
-// 				myAction = PLAYER_ACTION_CALL;
+				switch(actualHand->getMyID()) {
+					case 1: {
+						myAction = PLAYER_ACTION_CALL;
+// 						raise = 20;
+						if(mySet > 0) {
+							myAction = PLAYER_ACTION_FOLD;
+						}
+					}
+					break;
+					case 2: {
+						myAction = PLAYER_ACTION_FOLD;
+// 						raise = 50;
+// 						if(mySet >= 70) {
+// 							myAction = PLAYER_ACTION_CALL;
+// 						}
+					}
+					break;
+					default: {
+					}
+				}
 			}
 			break;
 			case 5: {
@@ -1508,7 +1562,7 @@ void LocalPlayer::flopEngine() {
 
 
 	if(DEBUG_MODE) {
-		switch(myID) {
+		switch(myUniqueID) {
 			case 0: {
 			} break;
 			case 1: { 
@@ -2100,7 +2154,7 @@ void LocalPlayer::turnEngine() {
 
 	if(DEBUG_MODE) {
 
-		switch(myID) {
+		switch(myUniqueID) {
 
 			case 0: {
 			} 
@@ -2438,7 +2492,7 @@ void LocalPlayer::riverEngine() {
 
 
 	if(DEBUG_MODE) {
-		switch(myID) {
+		switch(myUniqueID) {
 			case 0: {
 			} break;
 			case 1: { 

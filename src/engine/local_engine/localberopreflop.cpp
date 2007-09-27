@@ -212,18 +212,25 @@ void LocalBeRoPreflop::run() {
 
 
 
-
+	PlayerListConstIterator currentPlayersTurnConstIt;
 	// exceptions
-		// if next player is small blind and only all-in-big-blind with less than smallblind amount is nonfold too -> preflop is over
-		PlayerListConstIterator bigBlindPositionIt = getMyHand()->getActivePlayerIt(getBigBlindPositionId());
-		assert(bigBlindPositionIt != getMyHand()->getActivePlayerList()->end());
-
-		PlayerListConstIterator currentPlayersTurnConstIt = getMyHand()->getRunningPlayerIt( getCurrentPlayersTurnId() );
-		assert(currentPlayersTurnConstIt != getMyHand()->getRunningPlayerList()->end());	
-
-		if((*currentPlayersTurnConstIt)->getMyButton() == BUTTON_SMALL_BLIND && (*bigBlindPositionIt)->getMySet() <= getSmallBlind() && getMyHand()->getRunningPlayerList()->size() == 1) {
-			setFirstRound(false);
-			allHighestSet = true;
+		// if in first Preflop Round next player is small blind and only all-in-big-blind with less than smallblind amount is nonfold too -> preflop is over
+		if(getFirstRound()) {
+			PlayerListConstIterator bigBlindPositionIt = getMyHand()->getActivePlayerIt(getBigBlindPositionId());
+			assert(bigBlindPositionIt != getMyHand()->getActivePlayerList()->end());
+	
+			currentPlayersTurnConstIt = getMyHand()->getRunningPlayerIt( getCurrentPlayersTurnId() );
+			assert(currentPlayersTurnConstIt != getMyHand()->getRunningPlayerList()->end());
+	
+			int nonFoldPlayerCounter = 0;
+			for (it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); it_c++) {
+				if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonFoldPlayerCounter++;
+			}
+	
+			if((*currentPlayersTurnConstIt)->getMyButton() == BUTTON_SMALL_BLIND && (*bigBlindPositionIt)->getMySet() <= getSmallBlind() && nonFoldPlayerCounter == 2) {
+				setFirstRound(false);
+				allHighestSet = true;
+			}
 		}
 
 
@@ -301,6 +308,8 @@ void LocalBeRoPreflop::run() {
 
 // 		getMyHand()->getPlayerArray()[getPlayersTurn()]->setMyTurn(1);
 
+		currentPlayersTurnConstIt = getMyHand()->getRunningPlayerIt( getCurrentPlayersTurnId() );
+		assert(currentPlayersTurnConstIt != getMyHand()->getRunningPlayerList()->end());
 		(*currentPlayersTurnConstIt)->setMyTurn(true);
 
 // 		(*(getCurrentPlayersTurnIt()))->setMyTurn(true);
