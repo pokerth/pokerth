@@ -134,11 +134,12 @@ ClientThread::SendPlayerAction()
 	// Create a network packet containing the current player action.
 	boost::shared_ptr<NetPacket> action(new NetPacketPlayersAction);
 	NetPacketPlayersAction::Data actionData;
+	boost::shared_ptr<PlayerInterface> myPlayer = GetGame()->getSeatsList()->front();
 	actionData.gameState = static_cast<GameState>(GetGame()->getCurrentHand()->getActualRound());
-	actionData.playerAction = static_cast<PlayerAction>(GetGame()->getPlayerArray()[0]->getMyAction());
+	actionData.playerAction = static_cast<PlayerAction>(myPlayer->getMyAction());
 	// Only send last bet if not fold/checked.
 	if (actionData.playerAction != PLAYER_ACTION_FOLD && actionData.playerAction != PLAYER_ACTION_CHECK)
-		actionData.playerBet = GetGame()->getPlayerArray()[0]->getMyLastRelativeSet();
+		actionData.playerBet = myPlayer->getMyLastRelativeSet();
 	else
 		actionData.playerBet = 0;
 	try

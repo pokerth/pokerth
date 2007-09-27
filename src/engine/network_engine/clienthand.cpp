@@ -26,32 +26,29 @@ ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, Boar
   smallBlind(sB), startCash(sC), lastPlayersTurn(0), allInCondition(0),
   cardsShown(false), bettingRoundsPlayed(0)
 {
-	activePlayersCounter = activePlayerList->size();
-
-	int i;
-	lastPlayersTurn = 0;
+	PlayerListIterator it;
 
 	myBoard->setHand(this);
 
-
-	for(i=0; i<startQuantityPlayers; i++) {
-		playerArray[i]->setHand(this);
+	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+		(*it)->setHand(this);
 	// myFlipCards auf 0 setzen
-		playerArray[i]->setMyCardsFlip(0, 0);
+		(*it)->setMyCardsFlip(0, 0);
 	}
-
 
 	// roundStartCashArray fuellen
 	// cardsvalue zuruecksetzen
 	// remove all buttons
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		playerArray[i]->setMyRoundStartCash(playerArray[i]->getMyCash());
-		playerArray[i]->setMyCardsValueInt(0);
-		playerArray[i]->setMyButton(0);
-	}
+	for(it=activePlayerList->begin(); it!=activePlayerList->end(); it++) {
 
-	// assign dealer button
-	playerArray[dealerPosition]->setMyButton(1);
+		boost::shared_ptr<PlayerInterface> tmpPlayer = *it;
+
+		tmpPlayer->setMyRoundStartCash(tmpPlayer->getMyCash());
+		tmpPlayer->setMyCardsValueInt(0);
+		tmpPlayer->setMyButton(0);
+		if (tmpPlayer->getMyUniqueID() == dealerPosition)
+			tmpPlayer->setMyButton(1);
+	}
 
 	// the rest of the buttons are assigned later as received from the server.
 
@@ -127,25 +124,25 @@ ClientHand::getBoard() const
 boost::shared_ptr<BeRoInterface>
 ClientHand::getPreflop() const
 {
-	return myBeRo[actualRound];
+	return myBeRo[GAME_STATE_PREFLOP];
 }
 
 boost::shared_ptr<BeRoInterface>
 ClientHand::getFlop() const
 {
-	return myBeRo[actualRound];
+	return myBeRo[GAME_STATE_FLOP];
 }
 
 boost::shared_ptr<BeRoInterface>
 ClientHand::getTurn() const
 {
-	return myBeRo[actualRound];
+	return myBeRo[GAME_STATE_TURN];
 }
 
 boost::shared_ptr<BeRoInterface>
 ClientHand::getRiver() const
 {
-	return myBeRo[actualRound];
+	return myBeRo[GAME_STATE_RIVER];
 }
 
 boost::shared_ptr<BeRoInterface>
@@ -305,10 +302,24 @@ void
 ClientHand::switchRounds()
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	// update active players counter.
-	activePlayersCounter = 0;
-	for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++) { 
-		if (playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyActiveStatus() == 1) activePlayersCounter++;
+
+	PlayerListIterator it, it_1;
+
+	// refresh runningPlayerList
+	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); ) {
+		if((*it)->getMyAction() == PLAYER_ACTION_FOLD || (*it)->getMyAction() == PLAYER_ACTION_ALLIN) {
+			it = runningPlayerList->erase(it);
+			if(!(runningPlayerList->empty())) {
+
+				it_1 = it;
+				if(it_1 == runningPlayerList->begin()) it_1 = runningPlayerList->end();
+				it_1--;
+				getCurrentBeRo()->setCurrentPlayersTurnId((*it_1)->getMyUniqueID());
+
+			}
+		} else {
+			it++;
+		}
 	}
 }
 

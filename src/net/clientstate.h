@@ -267,11 +267,8 @@ protected:
 
 	virtual int InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet);
 
-	static int GetHighestSet(Game &curGame);
-	static void SetHighestSet(Game &curGame, int highestSet);
-	static int GetPlayersTurn(Game &curGame);
-	static void SetPlayersTurn(Game &curGame, int playersTurn);
 	static void ResetPlayerActions(Game &curGame);
+	static void ResetPlayerSets(Game &curGame);
 };
 
 // State: Final (just for testing, should not be used).

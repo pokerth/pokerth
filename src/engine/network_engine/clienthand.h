@@ -109,7 +109,6 @@ class ClientHand : public HandInterface
 		int actualRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
 		int smallBlind;
 		int startCash;
-		int activePlayersCounter;
 
 		int lastPlayersTurn;
 

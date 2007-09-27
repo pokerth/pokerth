@@ -694,7 +694,7 @@ ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		int myCards[2];
 		myCards[0] = (int)tmpData.yourCards[0];
 		myCards[1] = (int)tmpData.yourCards[1];
-		client.GetGame()->getPlayerArray()[0]->setMyCards(myCards);
+		client.GetGame()->getSeatsList()->front()->setMyCards(myCards);
 		client.GetGame()->initHand();
 		client.GetGame()->startHand();
 		client.GetGui().dealHoleCards();
@@ -780,8 +780,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			curGame->getCurrentHand()->switchRounds();
 
 			// Update highest set
-			if (tmpPlayer->getMySet() > GetHighestSet(*curGame))
-				SetHighestSet(*curGame, tmpPlayer->getMySet());
+			if (tmpPlayer->getMySet() > curGame->getCurrentHand()->getCurrentBeRo()->getHighestSet())
+				curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(tmpPlayer->getMySet());
 
 			// Stop the timeout for the player.
 			client.GetGui().stopTimeoutAnimation(tmpPlayer->getMyID());
@@ -817,7 +817,9 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			}
 
 			// Next player's turn.
-			SetPlayersTurn(*curGame, tmpPlayer->getMyID());
+			curGame->getCurrentHand()->getCurrentBeRo()->setCurrentPlayersTurnId(tmpPlayer->getMyID());
+			// TODO: remove this
+			curGame->getCurrentHand()->getCurrentBeRo()->setPlayersTurn(tmpPlayer->getMyID());
 
 			// Mark current player in GUI.
 			int guiStatus = 2;
@@ -910,8 +912,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 		{
 			curGame->getCurrentHand()->getBoard()->collectPot();
 			// Reset player sets
-			for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
-				curGame->getPlayerArray()[i]->setMySetNull();
+			ResetPlayerSets(*curGame);
 			client.GetGui().refreshPot();
 			client.GetGui().refreshSet();
 			// Synchronize with GUI.
@@ -939,8 +940,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 		{
 			curGame->getCurrentHand()->getBoard()->collectPot();
 			// Reset player sets
-			for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
-				curGame->getPlayerArray()[i]->setMySetNull();
+			ResetPlayerSets(*curGame);
 			client.GetGui().refreshPot();
 			client.GetGui().refreshSet();
 			// Synchronize with GUI.
@@ -994,113 +994,32 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 	return retVal;
 }
 
-
-int
-ClientStateRunHand::GetHighestSet(Game &curGame)
-{
-	int highestSet = 0;
-	// TODO: no switch needed here if game states are polymorphic
-	switch(curGame.getCurrentHand()->getActualRound()) {
-		case GAME_STATE_PREFLOP: {
-			highestSet = curGame.getCurrentHand()->getPreflop()->getHighestSet();
-		} break;
-		case GAME_STATE_FLOP: {
-			highestSet = curGame.getCurrentHand()->getFlop()->getHighestSet();
-		} break;
-		case GAME_STATE_TURN: {
-			highestSet = curGame.getCurrentHand()->getTurn()->getHighestSet();
-		} break;
-		case GAME_STATE_RIVER: {
-			highestSet = curGame.getCurrentHand()->getRiver()->getHighestSet();
-		} break;
-		default: {
-			// 
-		}
-	}
-	return highestSet;
-}
-
-void
-ClientStateRunHand::SetHighestSet(Game &curGame, int highestSet)
-{
-	// TODO: no switch needed here if game states are polymorphic
-	switch(curGame.getCurrentHand()->getActualRound()) {
-		case GAME_STATE_PREFLOP: {
-			curGame.getCurrentHand()->getPreflop()->setHighestSet(highestSet);
-		} break;
-		case GAME_STATE_FLOP: {
-			curGame.getCurrentHand()->getFlop()->setHighestSet(highestSet);
-		} break;
-		case GAME_STATE_TURN: {
-			curGame.getCurrentHand()->getTurn()->setHighestSet(highestSet);
-		} break;
-		case GAME_STATE_RIVER: {
-			curGame.getCurrentHand()->getRiver()->setHighestSet(highestSet);
-		} break;
-		default: {
-			// 
-		}
-	}
-}
-
-int
-ClientStateRunHand::GetPlayersTurn(Game &curGame)
-{
-	int playersTurn = 0;
-	// TODO: no switch needed here if game states are polymorphic
-	switch(curGame.getCurrentHand()->getActualRound()) {
-		case GAME_STATE_PREFLOP: {
-			playersTurn = curGame.getCurrentHand()->getPreflop()->getPlayersTurn();
-		} break;
-		case GAME_STATE_FLOP: {
-			playersTurn = curGame.getCurrentHand()->getFlop()->getPlayersTurn();
-		} break;
-		case GAME_STATE_TURN: {
-			playersTurn = curGame.getCurrentHand()->getTurn()->getPlayersTurn();
-		} break;
-		case GAME_STATE_RIVER: {
-			playersTurn = curGame.getCurrentHand()->getRiver()->getPlayersTurn();
-		} break;
-		default: {
-			// 
-		}
-	}
-	return playersTurn;
-}
-
-void
-ClientStateRunHand::SetPlayersTurn(Game &curGame, int playersTurn)
-{
-	// TODO: no switch needed here if game states are polymorphic
-	switch(curGame.getCurrentHand()->getActualRound()) {
-		case GAME_STATE_PREFLOP: {
-			curGame.getCurrentHand()->getPreflop()->setPlayersTurn(playersTurn);
-		} break;
-		case GAME_STATE_FLOP: {
-			curGame.getCurrentHand()->getFlop()->setPlayersTurn(playersTurn);
-		} break;
-		case GAME_STATE_TURN: {
-			curGame.getCurrentHand()->getTurn()->setPlayersTurn(playersTurn);
-		} break;
-		case GAME_STATE_RIVER: {
-			curGame.getCurrentHand()->getRiver()->setPlayersTurn(playersTurn);
-		} break;
-		default: {
-			// 
-		}
-	}
-}
-
 void
 ClientStateRunHand::ResetPlayerActions(Game &curGame)
 {
 	// Reset player actions
-	for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
+	PlayerListIterator i = curGame.getSeatsList()->begin();
+	PlayerListIterator end = curGame.getSeatsList()->end();
+
+	while (i != end)
 	{
-		int action = curGame.getPlayerArray()[i]->getMyAction();
+		int action = (*i)->getMyAction();
 		if (action != 1 && action != 6)
-			curGame.getPlayerArray()[i]->setMyAction(0);
-		curGame.getPlayerArray()[i]->setMySetNull();
+			(*i)->setMyAction(0);
+		(*i)->setMySetNull();
+		++i;
+	}
+}
+
+void
+ClientStateRunHand::ResetPlayerSets(Game &curGame)
+{
+	PlayerListIterator i = curGame.getSeatsList()->begin();
+	PlayerListIterator end = curGame.getSeatsList()->end();
+	while (i != end)
+	{
+		(*i)->setMySetNull();
+		++i;
 	}
 }
 

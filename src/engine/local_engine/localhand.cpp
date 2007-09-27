@@ -33,7 +33,6 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 	int i, j, k;
 	PlayerListIterator it;
-	PlayerListConstIterator it_c;
 
 	CardsValue myCardsValue;
 
@@ -72,19 +71,19 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 	k = 0;
 	myBoard->setMyCards(tempBoardArray);
-	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++, k++) {
+	for(it=activePlayerList->begin(); it!=activePlayerList->end(); it++, k++) {
 
-		(*it_c)->getMyBestHandPosition(bestHandPos);
+		(*it)->getMyBestHandPosition(bestHandPos);
 
 		for(j=0; j<2; j++) {
 			tempPlayerArray[j] = cardsArray[2*k+j+5];
 			tempPlayerAndBoardArray[j] = cardsArray[2*k+j+5];
 		}
 
-		(*it_c)->setMyCards(tempPlayerArray);
-		(*it_c)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray, bestHandPos));
-		(*it_c)->setMyBestHandPosition(bestHandPos);
-		(*it_c)->setMyRoundStartCash((*it_c)->getMyCash());
+		(*it)->setMyCards(tempPlayerArray);
+		(*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray, bestHandPos));
+		(*it)->setMyBestHandPosition(bestHandPos);
+		(*it)->setMyRoundStartCash((*it)->getMyCash());
 
 		// myBestHandPosition auf Fehler ueberpruefen
 		for(j=0; j<5; j++) {
@@ -94,10 +93,10 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 		}
 
 		// sBluff für alle aktiver Spieler außer human player setzen --> TODO for ai-player in internet
-		if((*it_c)->getMyID() != 0) {
+		if((*it)->getMyID() != 0) {
 			Tools::getRandNumber(1,100,1,&sBluff,0);
-			(*it_c)->setSBluff(sBluff);
-			(*it_c)->setSBluffStatus(0);
+			(*it)->setSBluff(sBluff);
+			(*it)->setSBluffStatus(0);
 		}
 	}
 
@@ -432,7 +431,6 @@ void LocalHand::switchRounds() {
 
 // 	cout << "playerID begin switchRounds(): " << getCurrentBeRo()->get
 
-	int i;
 	PlayerListIterator it, it_1;
 	PlayerListConstIterator it_c;
 

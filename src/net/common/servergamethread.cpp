@@ -302,15 +302,18 @@ ServerGameThread::RemoveDisconnectedPlayers()
 	// This should only be called between hands.
 	if (m_game.get())
 	{
-		for (int i = 0; i < m_game->getStartQuantityPlayers(); i++)
+		PlayerListIterator i = m_game->getSeatsList()->begin();
+		PlayerListIterator end = m_game->getSeatsList()->end();
+		while (i != end)
 		{
-			boost::shared_ptr<PlayerInterface> tmpPlayer = m_game->getPlayerArray()[i];
+			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
 			if (!GetSessionManager().IsPlayerConnected(tmpPlayer->getMyUniqueID()) && tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN)
 			{
+				// Setting player cash to 0 will deactivate the player.
 				tmpPlayer->setMyCash(0);
-				tmpPlayer->setMyActiveStatus(false);
 				tmpPlayer->setNetSessionData(boost::shared_ptr<SessionData>());
 			}
+			++i;
 		}
 	}
 }

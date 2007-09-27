@@ -50,20 +50,14 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 	PlayerDataList::const_iterator player_i = playerDataList.begin();
 	PlayerDataList::const_iterator player_end = playerDataList.end();
 
-	bool dealerFound = false;
-	i = 0;
 	while (player_i != player_end)
 	{
 		if ((*player_i)->GetUniqueId() == startData.startDealerPlayerId)
-		{
-			dealerPosition = i;
-			dealerFound = true;
 			break;
-		}
 		++player_i;
-		++i;
 	}
-	assert(dealerFound);
+	assert(player_i != player_end);
+	dealerPosition = startData.startDealerPlayerId;
 
 	// Board erstellen
 	actualBoard = myFactory->createBoard();
@@ -227,24 +221,25 @@ void Game::startHand()
 
 boost::shared_ptr<PlayerInterface> Game::getPlayerByUniqueId(unsigned id)
 {
-	// TODO playerLists
 	boost::shared_ptr<PlayerInterface> tmpPlayer;
-	for (int i = 0; i < startQuantityPlayers; i++)
+	PlayerListIterator i = getSeatsList()->begin();
+	PlayerListIterator end = getSeatsList()->end();
+	while (i != end)
 	{
-		if (playerArray[i]->getMyUniqueID() == id)
+		if ((*i)->getMyUniqueID() == id)
 		{
-			tmpPlayer = playerArray[i];
+			tmpPlayer = *i;
 			break;
 		}
+		++i;
 	}
 	return tmpPlayer;
 }
 
 boost::shared_ptr<PlayerInterface> Game::getCurrentPlayer()
 {
-	// TODO playerLists
-	int curPlayerNum = getCurrentHand()->getCurrentBeRo()->getPlayersTurn();
-	assert(curPlayerNum < getStartQuantityPlayers());
-	return getPlayerArray()[curPlayerNum];
+	boost::shared_ptr<PlayerInterface> tmpPlayer = getPlayerByUniqueId(getCurrentHand()->getCurrentBeRo()->getCurrentPlayersTurnId());
+	assert(tmpPlayer.get());
+	return tmpPlayer;
 }
 

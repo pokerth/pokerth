@@ -455,61 +455,75 @@ ServerGameStateStartHand::Process(ServerGameThread &server)
 	curGame.getCurrentHand()->getTurn()->resetFirstRun();
 	curGame.getCurrentHand()->getRiver()->resetFirstRun();
 
-	std::vector<boost::shared_ptr<PlayerInterface> >playerArray = curGame.getPlayerArray();
+	// Consider all players, even inactive.
+	PlayerListIterator i = curGame.getSeatsList()->begin();
+	PlayerListIterator end = curGame.getSeatsList()->end();
 
 	// Send cards to all players.
-	for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
+	while (i != end)
 	{
 		// also send to inactive players, but not to disconnected players.
-		if (playerArray[i]->getNetSessionData().get())
+		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
+		if (tmpPlayer->getNetSessionData().get())
 		{
 			int cards[2];
-			playerArray[i]->getMyCards(cards);
+			tmpPlayer->getMyCards(cards);
 			boost::shared_ptr<NetPacket> notifyCards(new NetPacketHandStart);
 			NetPacketHandStart::Data handStartData;
 			handStartData.yourCards[0] = static_cast<unsigned>(cards[0]);
 			handStartData.yourCards[1] = static_cast<unsigned>(cards[1]);
 			static_cast<NetPacketHandStart *>(notifyCards.get())->SetData(handStartData);
 
-			server.GetSender().Send(playerArray[i]->getNetSessionData()->GetSocket(), notifyCards);
+			server.GetSender().Send(tmpPlayer->getNetSessionData()->GetSocket(), notifyCards);
 		}
+		++i;
 	}
 
 	// Start hand.
 	curGame.startHand();
 
 	// Auto small blind / big blind at the beginning of hand.
-	for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
+	i = curGame.getActivePlayerList()->begin();
+	end = curGame.getActivePlayerList()->end();
+
+	while (i != end)
 	{
-		if(playerArray[i]->getMyButton() == BUTTON_SMALL_BLIND)
+		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
+		if (tmpPlayer->getMyButton() == BUTTON_SMALL_BLIND)
 		{
 			boost::shared_ptr<NetPacket> notifySmallBlind(new NetPacketPlayersActionDone);
 			NetPacketPlayersActionDone::Data actionDoneData;
 			actionDoneData.gameState = GAME_STATE_PREFLOP_SMALL_BLIND;
-			actionDoneData.playerId = playerArray[i]->getMyUniqueID();
-			actionDoneData.playerAction = (PlayerAction)playerArray[i]->getMyAction();
-			actionDoneData.totalPlayerBet = playerArray[i]->getMySet();
-			actionDoneData.playerMoney = playerArray[i]->getMyCash();
+			actionDoneData.playerId = tmpPlayer->getMyUniqueID();
+			actionDoneData.playerAction = (PlayerAction)tmpPlayer->getMyAction();
+			actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
+			actionDoneData.playerMoney = tmpPlayer->getMyCash();
 			static_cast<NetPacketPlayersActionDone *>(notifySmallBlind.get())->SetData(actionDoneData);
 			server.SendToAllPlayers(notifySmallBlind, SessionData::Game);
 			break;
 		}
+		++i;
 	}
-	for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
+
+	i = curGame.getActivePlayerList()->begin();
+	end = curGame.getActivePlayerList()->end();
+	while (i != end)
 	{
-		if(playerArray[i]->getMyButton() == BUTTON_BIG_BLIND)
+		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
+		if (tmpPlayer->getMyButton() == BUTTON_BIG_BLIND)
 		{
 			boost::shared_ptr<NetPacket> notifyBigBlind(new NetPacketPlayersActionDone);
 			NetPacketPlayersActionDone::Data actionDoneData;
 			actionDoneData.gameState = GAME_STATE_PREFLOP_BIG_BLIND;
-			actionDoneData.playerId = playerArray[i]->getMyUniqueID();
-			actionDoneData.playerAction = (PlayerAction)playerArray[i]->getMyAction();
-			actionDoneData.totalPlayerBet = playerArray[i]->getMySet();
-			actionDoneData.playerMoney = playerArray[i]->getMyCash();
+			actionDoneData.playerId = tmpPlayer->getMyUniqueID();
+			actionDoneData.playerAction = (PlayerAction)tmpPlayer->getMyAction();
+			actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
+			actionDoneData.playerMoney = tmpPlayer->getMyCash();
 			static_cast<NetPacketPlayersActionDone *>(notifyBigBlind.get())->SetData(actionDoneData);
 			server.SendToAllPlayers(notifyBigBlind, SessionData::Game);
 			break;
 		}
+		++i;
 	}
 
 	server.SetState(ServerGameStateStartRound::Instance());
@@ -555,19 +569,19 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 	if (newRound != curRound && newRound != GAME_STATE_POST_RIVER)
 	{
 		assert(newRound > curRound);
-		// Retrieve active players. If only one player is left, no cards are shown.
-		std::list<boost::shared_ptr<PlayerInterface> > activePlayers = GetActivePlayers(curGame);
+		// Retrieve non-fold players. If only one player is left, no cards are shown.
+		PlayerList runningPlayers = curGame.getRunningPlayerList();
 
 		if (curGame.getCurrentHand()->getAllInCondition()
 			&& !curGame.getCurrentHand()->getCardsShown()
-			&& activePlayers.size() > 1)
+			&& runningPlayers->size() > 1)
 		{
 			// Send cards of all active players to all players (all in).
 			boost::shared_ptr<NetPacket> allIn(new NetPacketAllInShowCards);
 			NetPacketAllInShowCards::Data allInData;
 
-			std::list<boost::shared_ptr<PlayerInterface> >::iterator i = activePlayers.begin();
-			std::list<boost::shared_ptr<PlayerInterface> >::iterator end = activePlayers.end();
+			PlayerListConstIterator i = runningPlayers->begin();
+			PlayerListConstIterator end = runningPlayers->end();
 
 			while (i != end)
 			{
@@ -625,14 +639,14 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 			// Engine will find out who won.
 			curGame.getCurrentHand()->getCurrentBeRo()->postRiverRun();
 
-			// Retrieve active players. If only one player is left, no cards are shown.
-			std::list<boost::shared_ptr<PlayerInterface> > activePlayers = GetActivePlayers(curGame);
-			// if (activePlayers.empty()) TODO throw exception
+			// Retrieve non-fold players. If only one player is left, no cards are shown.
+			PlayerList runningPlayers = curGame.getRunningPlayerList();
+			// if (runningPlayers.empty()) TODO throw exception
 
-			if (activePlayers.size() == 1)
+			if (runningPlayers->size() == 1)
 			{
 				// End of Hand, but keep cards hidden.
-				boost::shared_ptr<PlayerInterface> player = activePlayers.front();
+				boost::shared_ptr<PlayerInterface> player = runningPlayers->front();
 				boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandHideCards);
 				NetPacketEndOfHandHideCards::Data endHandData;
 				endHandData.playerId = player->getMyUniqueID();
@@ -648,8 +662,8 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 				boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandShowCards);
 				NetPacketEndOfHandShowCards::Data endHandData;
 
-				std::list<boost::shared_ptr<PlayerInterface> >::iterator i = activePlayers.begin();
-				std::list<boost::shared_ptr<PlayerInterface> >::iterator end = activePlayers.end();
+				PlayerListConstIterator i = runningPlayers->begin();
+				PlayerListConstIterator end = runningPlayers->end();
 
 				while (i != end)
 				{
@@ -683,10 +697,15 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 
 			// Start next hand - if enough players are left.
 			int playersPositiveCashCounter = 0;
-			for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
+
+			PlayerListIterator i = curGame.getSeatsList()->begin();
+			PlayerListIterator end = curGame.getSeatsList()->end();
+
+			while (i != end)
 			{
-				if (curGame.getCurrentHand()->getPlayerArray()[i]->getMyCash() > 0) 
+				if ((*i)->getMyCash() > 0) 
 					playersPositiveCashCounter++;
+				++i;
 			}
 			if (!playersPositiveCashCounter)
 			{
@@ -708,21 +727,6 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 		}
 	}
 	return retVal;
-}
-
-std::list<boost::shared_ptr<PlayerInterface> >
-ServerGameStateStartRound::GetActivePlayers(Game &curGame)
-{
-	std::list<boost::shared_ptr<PlayerInterface> > activePlayers;
-	for (int i = 0; i < curGame.getStartQuantityPlayers() ; i++)
-	{ 
-		if (curGame.getPlayerArray()[i]->getMyActiveStatus()
-			&& curGame.getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD)
-		{
-			activePlayers.push_back(curGame.getPlayerArray()[i]);
-		}
-	}
-	return activePlayers;
 }
 
 //-----------------------------------------------------------------------------
@@ -1045,11 +1049,14 @@ ServerGameStateNextGameDelay::Process(ServerGameThread &server)
 		Game &curGame = server.GetGame();
 		// The game has ended. Notify all clients.
 		boost::shared_ptr<PlayerInterface> winnerPlayer;
-		for (int i = 0; i < curGame.getStartQuantityPlayers(); i++)
+		PlayerListIterator i = curGame.getActivePlayerList()->begin();
+		PlayerListIterator end = curGame.getActivePlayerList()->end();
+		while (i != end)
 		{
-			winnerPlayer = curGame.getCurrentHand()->getPlayerArray()[i];
+			winnerPlayer = *i;
 			if (winnerPlayer->getMyCash() > 0)
 				break;
+			++i;
 		}
 
 		boost::shared_ptr<NetPacket> endGame(new NetPacketEndOfGame);

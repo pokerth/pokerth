@@ -44,12 +44,14 @@ ClientBeRo::setHighestCardsValue(int theValue)
 void
 ClientBeRo::setLastActionPlayer ( int theValue )
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	lastActionPlayer = theValue;
 }
 
 int
 ClientBeRo::getLastActionPlayer() const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return lastActionPlayer;
 }
 
@@ -70,48 +72,56 @@ ClientBeRo::getPlayersTurn() const
 void
 ClientBeRo::setCurrentPlayersTurnIt(PlayerListIterator theValue)
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	currentPlayersTurnIt = theValue;
 }
 
 PlayerListIterator
 ClientBeRo::getCurrentPlayersTurnIt() const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return currentPlayersTurnIt;
 }
 
 void
 ClientBeRo::setLastPlayersTurnIt(PlayerListIterator theValue)
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	lastPlayersTurnIt = theValue;
 }
 
 PlayerListIterator
 ClientBeRo::getLastPlayersTurnIt() const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return lastPlayersTurnIt;
 }
 
 void
 ClientBeRo::setCurrentPlayersTurnId(unsigned theValue)
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	currentPlayersTurnId = theValue;
 }
 
 unsigned
 ClientBeRo::getCurrentPlayersTurnId() const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return currentPlayersTurnId;
 }
 
 void
 ClientBeRo::setFirstRoundLastPlayersTurnId(unsigned theValue)
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	firstRoundLastPlayersTurnId = theValue;
 }
 
 unsigned
 ClientBeRo::getFirstRoundLastPlayersTurnId() const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return firstRoundLastPlayersTurnId;
 }
 
@@ -174,12 +184,14 @@ ClientBeRo::getSmallBlind() const
 void
 ClientBeRo::setMinimumRaise ( int theValue )
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	minimumRaise = theValue;
 }
 
 int
 ClientBeRo::getMinimumRaise() const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return minimumRaise;
 }
 

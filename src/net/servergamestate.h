@@ -196,8 +196,6 @@ protected:
 	// Protected constructor - this is a singleton.
 	ServerGameStateStartRound();
 
-	static std::list<boost::shared_ptr<PlayerInterface> > GetActivePlayers(Game &curGame);
-
 private:
 
 	static boost::thread_specific_ptr<ServerGameStateStartRound>	Ptr;
