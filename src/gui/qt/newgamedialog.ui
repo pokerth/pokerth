@@ -5,96 +5,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>280</width>
-    <height>249</height>
+    <width>236</width>
+    <height>278</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Start Local Game</string>
   </property>
   <layout class="QGridLayout" >
-   <property name="leftMargin" >
-    <number>9</number>
-   </property>
-   <property name="topMargin" >
-    <number>9</number>
-   </property>
-   <property name="rightMargin" >
-    <number>9</number>
-   </property>
-   <property name="bottomMargin" >
-    <number>9</number>
-   </property>
-   <property name="horizontalSpacing" >
-    <number>6</number>
-   </property>
-   <property name="verticalSpacing" >
-    <number>6</number>
-   </property>
    <item row="0" column="0" >
     <widget class="QGroupBox" name="groupBox" >
      <property name="title" >
       <string>Local Game Settings</string>
      </property>
      <layout class="QGridLayout" >
-      <property name="leftMargin" >
-       <number>9</number>
-      </property>
-      <property name="topMargin" >
-       <number>9</number>
-      </property>
-      <property name="rightMargin" >
-       <number>9</number>
-      </property>
-      <property name="bottomMargin" >
-       <number>9</number>
-      </property>
-      <property name="horizontalSpacing" >
-       <number>6</number>
-      </property>
-      <property name="verticalSpacing" >
-       <number>6</number>
-      </property>
-      <item row="4" column="1" colspan="2" >
-       <widget class="QSpinBox" name="spinBox_gameSpeed" >
-        <property name="minimum" >
-         <number>1</number>
-        </property>
-        <property name="maximum" >
-         <number>11</number>
-        </property>
-        <property name="value" >
-         <number>4</number>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" >
-       <widget class="QLabel" name="label_5" >
+      <item row="0" column="0" >
+       <widget class="QLabel" name="label" >
         <property name="text" >
-         <string>Game Speed:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="2" >
-       <widget class="QSpinBox" name="spinBox_handsBeforeRaiseSmallBlind" >
-        <property name="minimum" >
-         <number>1</number>
-        </property>
-        <property name="value" >
-         <number>9</number>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1" colspan="2" >
-       <widget class="QSpinBox" name="spinBox_smallBlind" >
-        <property name="minimum" >
-         <number>5</number>
-        </property>
-        <property name="maximum" >
-         <number>500</number>
-        </property>
-        <property name="value" >
-         <number>10</number>
+         <string>Number of players:</string>
         </property>
        </widget>
       </item>
@@ -111,24 +39,10 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label" >
-        <property name="text" >
-         <string>Number of players:</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0" >
        <widget class="QLabel" name="label_2" >
         <property name="text" >
          <string>Start Cash:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" >
-       <widget class="QLabel" name="label_3" >
-        <property name="text" >
-         <string>Small Blind:</string>
         </property>
        </widget>
       </item>
@@ -145,10 +59,52 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="0" colspan="3" >
+       <widget class="QGroupBox" name="groupBox_2" >
+        <property name="title" >
+         <string>Blinds</string>
+        </property>
+        <layout class="QGridLayout" >
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <item row="0" column="0" >
+          <widget class="QRadioButton" name="radioButton_useSavedBlindsSettings" >
+           <property name="text" >
+            <string>Use saved blinds settings</string>
+           </property>
+           <property name="checked" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" >
+          <widget class="QRadioButton" name="radioButton_changeBlindsSettings" >
+           <property name="text" >
+            <string>Change blinds settings ...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
       <item row="3" column="0" colspan="2" >
-       <widget class="QLabel" name="label_4" >
+       <widget class="QLabel" name="label_5" >
         <property name="text" >
-         <string>Hands before raise blinds:</string>
+         <string>Game Speed:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2" >
+       <widget class="QSpinBox" name="spinBox_gameSpeed" >
+        <property name="minimum" >
+         <number>1</number>
+        </property>
+        <property name="maximum" >
+         <number>11</number>
+        </property>
+        <property name="value" >
+         <number>4</number>
         </property>
        </widget>
       </item>
@@ -170,8 +126,6 @@
  <tabstops>
   <tabstop>spinBox_quantityPlayers</tabstop>
   <tabstop>spinBox_startCash</tabstop>
-  <tabstop>spinBox_smallBlind</tabstop>
-  <tabstop>spinBox_handsBeforeRaiseSmallBlind</tabstop>
   <tabstop>spinBox_gameSpeed</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>

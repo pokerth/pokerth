@@ -17,35 +17,36 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef NEWGAMEDIALOGIMPL_H
-#define NEWGAMEDIALOGIMPL_H
+#ifndef CHANGECOMPLETEBLINDSDIALOGIMPL_H
+#define CHANGECOMPLETEBLINDSDIALOGIMPL_H
 
-#include "ui_newgamedialog.h"
+#include "ui_changecompleteblindsdialog.h"
 
-#include <QtGui>
 #include <QtCore>
-
+#include <QtGui>
 
 class ConfigFile;
-class changeCompleteBlindsDialogImpl;
 
-class newGameDialogImpl: public QDialog, public Ui::newGameDialog {
+class changeCompleteBlindsDialogImpl: public QDialog, public Ui::changeCompleteBlindsDialog {
 Q_OBJECT
 public:
-    newGameDialogImpl(QWidget *parent = 0, ConfigFile* = 0);
-
+    changeCompleteBlindsDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
+	
 	void exec();
-	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() { return myChangeCompleteBlindsDialog; }
 
+	
 public slots:
-
-	void callChangeBlindsDialog(bool);
+	bool getSettingsCorrect() const	{ return settingsCorrect;}
+	
+	void addBlindValueToList();
+	void removeBlindFromList();
+	void sortBlindsList();
 
 private:
-		
-	ConfigFile *myConfig;	
-	changeCompleteBlindsDialogImpl *myChangeCompleteBlindsDialog;
+	
+	ConfigFile* myConfig;
 
+	bool settingsCorrect;
 };
 
 #endif

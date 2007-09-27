@@ -20,6 +20,8 @@
 #include "createinternetgamedialogimpl.h"
 #include "session.h"
 #include "configfile.h"
+#include "changecompleteblindsdialogimpl.h"
+
 
 createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, ConfigFile *c)
       : QDialog(parent), myConfig(c)
@@ -27,11 +29,13 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 
     setupUi(this);
 
+	myChangeCompleteBlindsDialog = new changeCompleteBlindsDialogImpl;
+
 	fillFormular();
 
+	connect( radioButton_changeBlindsSettings, SIGNAL( clicked(bool) ), this, SLOT( callChangeBlindsDialog(bool) ) );
 	connect( pushButton_cancel, SIGNAL( clicked() ), this, SLOT( cancel() ) );
 	connect( pushButton_createGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
-
 	connect( checkBox_Password, SIGNAL( toggled(bool) ), this, SLOT( clearGamePassword(bool)) ); 
 	//temporarely unused until ai is enabled in network
 // 	label_5->hide();
@@ -60,8 +64,6 @@ void createInternetGameDialogImpl::fillFormular() {
 	//Network Game Settings
 	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
 	spinBox_startCash->setValue(myConfig->readConfigInt("NetStartCash"));
-	spinBox_smallBlind->setValue(myConfig->readConfigInt("NetFirstSmallBlind"));
-	spinBox_handsBeforeRaiseSmallBlind->setValue(myConfig->readConfigInt("NetRaiseSmallBlindEveryHands"));
 	//temporarely unused until ai is enabled in network
 	spinBox_gameSpeed->setValue(myConfig->readConfigInt("NetGameSpeed"));
 	spinBox_netTimeOutPlayerAction->setValue(myConfig->readConfigInt("NetTimeOutPlayerAction"));
@@ -70,6 +72,30 @@ void createInternetGameDialogImpl::fillFormular() {
 		lineEdit_Password->setText(QString::fromUtf8(myConfig->readConfigString("InternetGamePassword").c_str()));
 	}
 
+	//fill changeCompleteBlindsDialog
+	myChangeCompleteBlindsDialog->spinBox_firstSmallBlind->setValue(myConfig->readConfigInt("NetFirstSmallBlind"));
+	myChangeCompleteBlindsDialog->radioButton_raiseBlindsAtHands->setChecked(myConfig->readConfigInt("NetRaiseBlindsAtHands"));
+	myChangeCompleteBlindsDialog->radioButton_raiseBlindsAtMinutes->setChecked(myConfig->readConfigInt("NetRaiseBlindsAtMinutes"));
+	myChangeCompleteBlindsDialog->spinBox_raiseSmallBlindEveryHands->setValue(myConfig->readConfigInt("NetRaiseSmallBlindEveryHands"));
+	myChangeCompleteBlindsDialog->spinBox_raiseSmallBlindEveryMinutes->setValue(myConfig->readConfigInt("NetRaiseSmallBlindEveryMinutes"));
+	myChangeCompleteBlindsDialog->radioButton_alwaysDoubleBlinds->setChecked(myConfig->readConfigInt("NetAlwaysDoubleBlinds"));
+	myChangeCompleteBlindsDialog->radioButton_manualBlindsOrder->setChecked(myConfig->readConfigInt("NetManualBlindsOrder"));
+
+	myChangeCompleteBlindsDialog->listWidget_blinds->clear();
+	myChangeCompleteBlindsDialog->spinBox_input->setMinimum(myChangeCompleteBlindsDialog->spinBox_firstSmallBlind->value()+1);
+
+	std::list<int> myBlindsList = myConfig->readConfigIntList("NetManualBlindsList");
+	std::list<int>::iterator it1;
+	
+	for(it1= myBlindsList.begin(); it1 != myBlindsList.end(); it1++) {
+		myChangeCompleteBlindsDialog->listWidget_blinds->addItem(QString::number(*it1,10));
+	}
+	myChangeCompleteBlindsDialog->sortBlindsList();
+	
+	myChangeCompleteBlindsDialog->radioButton_afterThisAlwaysDoubleBlinds->setChecked(myConfig->readConfigInt("NetAfterMBAlwaysDoubleBlinds"));
+	myChangeCompleteBlindsDialog->radioButton_afterThisAlwaysRaiseAbout->setChecked(myConfig->readConfigInt("NetAfterMBAlwaysRaiseAbout"));
+	myChangeCompleteBlindsDialog->spinBox_afterThisAlwaysRaiseValue->setValue(myConfig->readConfigInt("NetAfterMBAlwaysRaiseValue"));
+	myChangeCompleteBlindsDialog->radioButton_afterThisStayAtLastBlind->setChecked(myConfig->readConfigInt("NetAfterMBStayAtLastBlind"));
 }
 
 void createInternetGameDialogImpl::showDialog() { 
@@ -90,3 +116,14 @@ void createInternetGameDialogImpl::clearGamePassword(bool clear) {
 	if(!clear) { lineEdit_Password->clear(); }
 }
 
+void createInternetGameDialogImpl::callChangeBlindsDialog(bool show) {
+
+	if(show) {
+		myChangeCompleteBlindsDialog->exec();
+		if(myChangeCompleteBlindsDialog->result() == QDialog::Accepted ) {}
+		else {
+			radioButton_useSavedBlindsSettings->setChecked(TRUE);
+		}
+
+	}
+}

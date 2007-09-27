@@ -11,6 +11,7 @@
 //
 #include "gamelobbydialogimpl.h"
 #include "lobbychat.h"
+#include "changecompleteblindsdialogimpl.h"
 #include "session.h"
 #include "configfile.h"
 #include "gamedata.h"
@@ -72,8 +73,9 @@ void gameLobbyDialogImpl::createGame()
 		// Set Game Data
 		gameData.maxNumberOfPlayers = myCreateInternetGameDialog->spinBox_quantityPlayers->value();
 		gameData.startMoney = myCreateInternetGameDialog->spinBox_startCash->value();
-		gameData.smallBlind = myCreateInternetGameDialog->spinBox_smallBlind->value();
-		gameData.handsBeforeRaise = myCreateInternetGameDialog->spinBox_handsBeforeRaiseSmallBlind->value();
+		gameData.smallBlind = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
+		gameData.handsBeforeRaise = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
+	gameData.guiSpeed = myCreateInternetGameDialog->spinBox_gameSpeed->value();
 		gameData.guiSpeed = myCreateInternetGameDialog->spinBox_gameSpeed->value();
 		gameData.playerActionTimeoutSec = myCreateInternetGameDialog->spinBox_netTimeOutPlayerAction->value();
 
@@ -258,9 +260,10 @@ void gameLobbyDialogImpl::clearDialog()
 	pushButton_JoinGame->show();
 	pushButton_JoinGame->setEnabled(false);
 
-	treeWidget_GameList->setColumnWidth(0,250);
-	treeWidget_GameList->setColumnWidth(1,75);
+	treeWidget_GameList->setColumnWidth(0,195);
+	treeWidget_GameList->setColumnWidth(1,70);
 	treeWidget_GameList->setColumnWidth(2,70);
+	treeWidget_GameList->setColumnWidth(3,60);
 
 	pushButton_CreateGame->clearFocus();
 	lineEdit_ChatInput->setFocus();

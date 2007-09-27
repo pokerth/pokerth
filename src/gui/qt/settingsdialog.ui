@@ -505,7 +505,11 @@ p, li { white-space: pre-wrap; }
              </widget>
             </item>
             <item row="0" column="1" >
-             <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryHands" />
+             <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryHands" >
+              <property name="minimum" >
+               <number>1</number>
+              </property>
+             </widget>
             </item>
             <item row="0" column="2" >
              <widget class="QLabel" name="label_47" >
@@ -528,7 +532,11 @@ p, li { white-space: pre-wrap; }
              </widget>
             </item>
             <item row="1" column="1" >
-             <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryMinutes" />
+             <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryMinutes" >
+              <property name="minimum" >
+               <number>1</number>
+              </property>
+             </widget>
             </item>
             <item row="1" column="2" >
              <widget class="QLabel" name="label_50" >
@@ -773,7 +781,11 @@ p, li { white-space: pre-wrap; }
              </widget>
             </item>
             <item row="0" column="1" >
-             <widget class="QSpinBox" name="spinBox_netRaiseSmallBlindEveryHands" />
+             <widget class="QSpinBox" name="spinBox_netRaiseSmallBlindEveryHands" >
+              <property name="minimum" >
+               <number>1</number>
+              </property>
+             </widget>
             </item>
             <item row="0" column="2" >
              <widget class="QLabel" name="label_51" >
@@ -796,7 +808,11 @@ p, li { white-space: pre-wrap; }
              </widget>
             </item>
             <item row="1" column="1" >
-             <widget class="QSpinBox" name="spinBox_netRaiseSmallBlindEveryMinutes" />
+             <widget class="QSpinBox" name="spinBox_netRaiseSmallBlindEveryMinutes" >
+              <property name="minimum" >
+               <number>1</number>
+              </property>
+             </widget>
             </item>
             <item row="1" column="2" >
              <widget class="QLabel" name="label_52" >

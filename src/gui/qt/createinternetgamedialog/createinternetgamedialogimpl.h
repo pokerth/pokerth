@@ -27,6 +27,7 @@
 
 class Session;
 class ConfigFile;
+class changeCompleteBlindsDialogImpl;
 
 class createInternetGameDialogImpl: public QDialog, public Ui::createInternetGameDialog {
 Q_OBJECT
@@ -34,6 +35,7 @@ public:
     createInternetGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
 
 	void exec();
+	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() { return myChangeCompleteBlindsDialog; }
 
 public slots:
 
@@ -44,9 +46,11 @@ public slots:
 	void keyPressEvent ( QKeyEvent * event );
 	void clearGamePassword(bool);
 
+	void callChangeBlindsDialog(bool);
 private:
 		
 	ConfigFile *myConfig;	
+	changeCompleteBlindsDialogImpl *myChangeCompleteBlindsDialog;
 };
 
 #endif

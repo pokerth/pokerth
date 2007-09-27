@@ -28,6 +28,7 @@
 #include "createnetworkgamedialogimpl.h"
 #include "startnetworkgamedialogimpl.h"
 #include "changehumanplayernamedialogimpl.h"
+#include "changecompleteblindsdialogimpl.h"
 #include "gamelobbydialogimpl.h"
 
 #include "startsplash.h"
@@ -716,8 +717,8 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 		// Set Game Data
 		gameData.maxNumberOfPlayers = v->spinBox_quantityPlayers->value();
 		gameData.startMoney = v->spinBox_startCash->value();
-		gameData.smallBlind = v->spinBox_smallBlind->value();
-		gameData.handsBeforeRaise = v->spinBox_handsBeforeRaiseSmallBlind->value();
+		gameData.smallBlind = v->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
+		gameData.handsBeforeRaise = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
 		//Speeds 
 		gameData.guiSpeed = v->spinBox_gameSpeed->value();
 	}
@@ -774,9 +775,9 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		GameData gameData;
 		gameData.maxNumberOfPlayers = myCreateNetworkGameDialog->spinBox_quantityPlayers->value();
 		gameData.startMoney = myCreateNetworkGameDialog->spinBox_startCash->value();
-		gameData.smallBlind = myCreateNetworkGameDialog->spinBox_smallBlind->value();
-		gameData.handsBeforeRaise = myCreateNetworkGameDialog->spinBox_handsBeforeRaiseSmallBlind->value();
-		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
+		gameData.smallBlind = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
+		gameData.handsBeforeRaise = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
+	gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
 		gameData.playerActionTimeoutSec = myCreateNetworkGameDialog->spinBox_netTimeOutPlayerAction->value();
 
 		myGameLobbyDialog->setSession(&getSession());

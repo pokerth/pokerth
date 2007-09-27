@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>303</width>
-    <height>294</height>
+    <width>277</width>
+    <height>314</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -19,6 +19,9 @@
       <string>Network Game Settings</string>
      </property>
      <layout class="QGridLayout" >
+      <property name="topMargin" >
+       <number>9</number>
+      </property>
       <item row="0" column="0" >
        <widget class="QLabel" name="label" >
         <property name="text" >
@@ -59,51 +62,43 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0" >
-       <widget class="QLabel" name="label_3" >
-        <property name="text" >
-         <string>Small Blind:</string>
+      <item row="2" column="0" colspan="4" >
+       <widget class="QGroupBox" name="groupBox_2" >
+        <property name="title" >
+         <string>Blinds</string>
         </property>
+        <layout class="QGridLayout" >
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <item row="0" column="0" >
+          <widget class="QRadioButton" name="radioButton_useSavedBlindsSettings" >
+           <property name="text" >
+            <string>Use saved blinds settings</string>
+           </property>
+           <property name="checked" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" >
+          <widget class="QRadioButton" name="radioButton_changeBlindsSettings" >
+           <property name="text" >
+            <string>Change blinds settings ...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
-      <item row="2" column="1" colspan="3" >
-       <widget class="QSpinBox" name="spinBox_smallBlind" >
-        <property name="minimum" >
-         <number>5</number>
-        </property>
-        <property name="maximum" >
-         <number>500</number>
-        </property>
-        <property name="value" >
-         <number>10</number>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" colspan="2" >
-       <widget class="QLabel" name="label_4" >
-        <property name="text" >
-         <string>Hands before raise blinds:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="2" colspan="2" >
-       <widget class="QSpinBox" name="spinBox_handsBeforeRaiseSmallBlind" >
-        <property name="minimum" >
-         <number>1</number>
-        </property>
-        <property name="value" >
-         <number>9</number>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" colspan="3" >
+      <item row="3" column="0" colspan="3" >
        <widget class="QLabel" name="label_5" >
         <property name="text" >
          <string>Game Speed for computer opponents:</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="3" >
+      <item row="3" column="3" >
        <widget class="QSpinBox" name="spinBox_gameSpeed" >
         <property name="minimum" >
          <number>1</number>
@@ -116,14 +111,14 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0" colspan="2" >
+      <item row="4" column="0" colspan="2" >
        <widget class="QLabel" name="label_6" >
         <property name="text" >
          <string>Timeout for player action (sec):</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="2" colspan="2" >
+      <item row="4" column="2" colspan="2" >
        <widget class="QSpinBox" name="spinBox_netTimeOutPlayerAction" >
         <property name="minimum" >
          <number>5</number>
@@ -190,8 +185,6 @@
  <tabstops>
   <tabstop>spinBox_quantityPlayers</tabstop>
   <tabstop>spinBox_startCash</tabstop>
-  <tabstop>spinBox_smallBlind</tabstop>
-  <tabstop>spinBox_handsBeforeRaiseSmallBlind</tabstop>
   <tabstop>spinBox_gameSpeed</tabstop>
   <tabstop>spinBox_netTimeOutPlayerAction</tabstop>
   <tabstop>pushButton_createGame</tabstop>
