@@ -985,6 +985,7 @@ void LocalPlayer::preflopEngine() {
 	int bet = 0;
 	int raise = 0;
 	int cBluff;
+	PlayerListConstIterator it_c;
 
 	// temporär solange preflopValue und flopValue noch nicht bereinigt für sechs und sieben spieler
 	int players = actualHand->getActivePlayerList()->size();
@@ -1018,14 +1019,24 @@ void LocalPlayer::preflopEngine() {
 //	cout << myID << ": " << myHoleCardsValue << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << myCards[0] << " " << myCards[1] << endl;
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
-	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+// 	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+// 
+// 	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
+// 		myNiveau[0] -= aggValue;
+// 		myNiveau[2] -= aggValue;
+// 	}
 
-// 	cout << aggValue << "  ";
 
 
-	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
-		myNiveau[0] -= aggValue;
-		myNiveau[2] -= aggValue;
+	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
+	it_c = actualHand->getActivePlayerIt(0);
+	if( it_c != actualHand->getActivePlayerList()->end() ) {
+		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
+			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+			myNiveau[0] -= aggValue;
+			myNiveau[2] -= aggValue;
+		}
+
 	}
 
 	
@@ -1253,6 +1264,7 @@ void LocalPlayer::flopEngine() {
 	int cBluff;
 	int pBluff;
 	int rand;
+	PlayerListConstIterator it_c;
 
 	// übergang solange preflopValue und flopValue noch nicht bereinigt
 	int players = actualHand->getActivePlayerList()->size();
@@ -1273,13 +1285,26 @@ void LocalPlayer::flopEngine() {
 	if(individualHighestSet > myCash) individualHighestSet = myCash;
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist
-	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+// 	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+// 
+// 	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
+// 		for(i=0; i<3; i++) {
+// 			myNiveau[i] -= aggValue;
+// 		}
+// 	}
 
-	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
-		for(i=0; i<3; i++) {
-			myNiveau[i] -= aggValue;
+	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
+	it_c = actualHand->getActivePlayerIt(0);
+	if( it_c != actualHand->getActivePlayerList()->end() ) {
+		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
+			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+			for(i=0; i<3; i++) {
+				myNiveau[i] -= aggValue;
+			}
 		}
+
 	}
+
 
 	// Check-Bluff generieren
 	Tools::getRandNumber(1,100,1,&cBluff,0);
@@ -1831,6 +1856,7 @@ void LocalPlayer::turnEngine() {
 	int cBluff;
 	int pBluff;
 	int rand;
+	PlayerListConstIterator it_c;
 
 	calcMyOdds();
 
@@ -1843,13 +1869,29 @@ void LocalPlayer::turnEngine() {
 	myNiveau[2] = 69 + myDude4/* - 6*(actualHand->getActivePlayerList().size() - 2)*/;
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist
-	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+// 	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+// 
+// 	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
+// 		for(i=0; i<3; i++) {
+// 			myNiveau[i] -= aggValue;
+// 		}
+// 	}
 
-	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
-		for(i=0; i<3; i++) {
-			myNiveau[i] -= aggValue;
+
+
+	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
+	it_c = actualHand->getActivePlayerIt(0);
+	if( it_c != actualHand->getActivePlayerList()->end() ) {
+		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
+			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+			for(i=0; i<3; i++) {
+				myNiveau[i] -= aggValue;
+			}
 		}
+
 	}
+
+
 	
 //	cout << "Spieler " << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << "\t Agg " << aggValue << " " << endl;
 
@@ -2167,6 +2209,7 @@ void LocalPlayer::riverEngine() {
 	int i;
 	int rand;
 	int pBluff;
+	PlayerListConstIterator it_c;
 
 	calcMyOdds();
 
@@ -2179,13 +2222,28 @@ void LocalPlayer::riverEngine() {
 	myNiveau[2] = 69 + myDude4/* - 6*(actualHand->getActivePlayerList().size() - 2)*/;
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist
-	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+// 	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+// 
+// 	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
+// 		for(i=0; i<3; i++) {
+// 			myNiveau[i] -= aggValue;
+// 		}
+// 	}
 
-	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
-		for(i=0; i<3; i++) {
-			myNiveau[i] -= aggValue;
+
+	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
+	it_c = actualHand->getActivePlayerIt(0);
+	if( it_c != actualHand->getActivePlayerList()->end() ) {
+		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
+			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+			for(i=0; i<3; i++) {
+				myNiveau[i] -= aggValue;
+			}
 		}
+
 	}
+
+
 	
 //	cout << "Spieler " << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << "\t Agg " << aggValue << " " << endl;
 
@@ -4245,8 +4303,8 @@ void LocalPlayer::riverEngine3() {
 	
 		// temp fr das Vielfache des Small Blind, sodass HighestSet zu hoch ist
 		int tempFold;
-		tempFold = (actualHand->getPlayerArray()[0]->getMyAverageSets())/(6*actualHand->getSmallBlind());
-		// Tools::getRandNumber(4,6,1,&tempFold,0);
+// 		tempFold = (actualHand->getPlayerArray()[0]->getMyAverageSets())/(6*actualHand->getSmallBlind());
+		Tools::getRandNumber(4,6,1,&tempFold,0);
 	
 		// FOLD
 		// --> wenn potential negativ oder HighestSet zu hoch

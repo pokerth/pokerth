@@ -36,7 +36,7 @@ public:
 
 	virtual void start() = 0;
 
-	virtual std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() const =0;
+	virtual std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() const =0; // delete
 	virtual PlayerList getActivePlayerList() const =0;
 	virtual PlayerList getRunningPlayerList() const =0;
 

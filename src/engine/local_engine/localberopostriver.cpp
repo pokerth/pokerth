@@ -38,15 +38,31 @@ void LocalBeRoPostRiver::run() {
 
 void LocalBeRoPostRiver::postRiverRun() {
 	
-	int i;
+// 	int i;
+	PlayerListConstIterator it_c;
+	PlayerListIterator it;
 
 	//berechnen welcher Spieler gewonnen hat
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 
+// 		if(getMyHand()->getPlayerArray()[i]->getMyActiveStatus() && getMyHand()->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD && getMyHand()->getPlayerArray()[i]->getMyCardsValueInt() > highestCardsValue ) { 
+// 			highestCardsValue = getMyHand()->getPlayerArray()[i]->getMyCardsValueInt(); 
+// 		}
+// 	}
 
-		if(getMyHand()->getPlayerArray()[i]->getMyActiveStatus() && getMyHand()->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD && getMyHand()->getPlayerArray()[i]->getMyCardsValueInt() > highestCardsValue ) { 
-			highestCardsValue = getMyHand()->getPlayerArray()[i]->getMyCardsValueInt(); 
+
+
+	//berechnen welcher Spieler gewonnen hat
+	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); it_c++) {
+
+		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() > highestCardsValue ) { 
+			highestCardsValue = (*it_c)->getMyCardsValueInt(); 
 		}
 	}
+
+
+
+
 
 	// Durchschnittsets des human player ermitteln
 // 	getMyHand()->getPlayerArray()[0]->setMyAverageSets(((getMyHand()->getPlayerArray()[0]->getMyRoundStartCash())-(getMyHand()->getPlayerArray()[0]->getMyCash()))/(getMyHand()->getBettingRoundsPlayed()+1));
@@ -54,14 +70,31 @@ void LocalBeRoPostRiver::postRiverRun() {
 	// Aggressivität des human player ermitteln
 	// anzahl der player die möglichkeit haben am pot teilzuhaben
 	int potPlayers = 0;
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		if(getMyHand()->getPlayerArray()[i]->getMyActiveStatus() && getMyHand()->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD) {
+// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 		if(getMyHand()->getPlayerArray()[i]->getMyActiveStatus() && getMyHand()->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD) {
+// 			potPlayers++;
+// 		}
+// 	}
+
+
+	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); it_c++) {
+		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
 			potPlayers++;
 		}
 	}
 
+
 	// prüfen ob nur noch der human player an der verteilung teilnimmt und myAggressive für human player setzen
-	getMyHand()->getPlayerArray()[0]->setMyAggressive(potPlayers == 1 && getMyHand()->getPlayerArray()[0]->getMyActiveStatus() && getMyHand()->getPlayerArray()[0]->getMyAction() != PLAYER_ACTION_FOLD);
+// 	getMyHand()->getPlayerArray()[0]->setMyAggressive(potPlayers == 1 && getMyHand()->getPlayerArray()[0]->getMyActiveStatus() && getMyHand()->getPlayerArray()[0]->getMyAction() != PLAYER_ACTION_FOLD);
+
+
+	// prüfen ob nur noch der human player an der verteilung teilnimmt und myAggressive für human player setzen
+	it = getMyHand()->getActivePlayerIt(0);
+	if( it != getMyHand()->getActivePlayerList()->end() ) {
+		if( potPlayers == 1 && (*it)->getMyAction() != PLAYER_ACTION_FOLD ) {
+			(*it)->setMyAggressive(true);
+		}
+	}
 
 // 	cout << "myAggressive: " << getMyHand()->getPlayerArray()[0]->getMyAggressive() << endl;
 
@@ -74,6 +107,8 @@ void LocalBeRoPostRiver::postRiverRun() {
 	//starte die Animaionsreihe
 	getMyHand()->getGuiInterface()->postRiverRunAnimation1();	
 }
+
+/*
 
 void LocalBeRoPostRiver::distributePot() {
 
@@ -346,3 +381,5 @@ void LocalBeRoPostRiver::distributePot() {
 
 
 }
+
+*/

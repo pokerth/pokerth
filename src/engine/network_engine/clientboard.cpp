@@ -99,8 +99,10 @@ ClientBoard::collectSets()
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	sets = 0;
-	for (int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
-		sets += playerArray[i]->getMySet();
+	PlayerListConstIterator it_c;
+	for (it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++)
+		sets += (*it_c)->getMySet();
+
 }
 
 void

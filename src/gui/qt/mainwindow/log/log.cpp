@@ -147,11 +147,13 @@ void Log::logPlayerActionMsg(QString msg, int action, int setValue) {
 
 void Log::logNewGameHandMsg(int gameID, int handID) {
 
-	int i, j ,k;
+// 	int i, j, k;
+	PlayerListConstIterator it_c;
 	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
 
 	myW->textBrowser_Log->append("<b>## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##</b>");
-	
+
+
 	if(myConfig->readConfigInt("LogOnOff")) {
 	//if write logfiles is enabled
 		
@@ -160,67 +162,121 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 		logFileStreamString += "CASH: ";
 	
 		//Aktive Spieler zählen
-		int activePlayersCounter = 0;
-		for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
-			if (currentHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
-		}
-		k = 0;
-		if(activePlayersCounter > 2) { 
+// 		int activePlayersCounter = 0;
+// 		for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
+// 			if (currentHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
+// 		}
+		int k = 0;
+// 		if(currentHand->getActivePlayerList()->size() > 2) { 
+// 	
+// 			for(i=0; i<currentHand->getStartQuantityPlayers(); i++) {
+// 	
+// 				if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
+// 				//print cash only for active players
+// 					
+// 	
+// 					if(currentHand->getPlayerArray()[i]->getMyButton() == 1) {
+// 						if(k==1) { logFileStreamString += ", "; }
+// 						k=1;
+// 						logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+" (Dealer): "+QString::number(currentHand->getPlayerArray()[i]->getMyCash(),10)+"$";
+// 					}
+// 					else {
+// 						if(k==1) { logFileStreamString += ", "; }
+// 						k=1;
+// 						logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+": "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
+// 					}
+// 				}
+// 			}
+// 		}
+// 		else {
+// 			for(i=0; i<currentHand->getStartQuantityPlayers(); i++) {
+// 				if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
+// 				//print cash only for active players
+// 					if(currentHand->getPlayerArray()[i]->getMyButton() == 2) {
+// 						if(k==1) { logFileStreamString += ", "; }
+// 						k=1;
+// 						logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+" (Dealer): "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
+// 					}
+// 					else {
+// 						if(k==1) { logFileStreamString += ", "; }
+// 						k=1;
+// 						logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+": "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
+// 					}
+// 				}
+// 			}
+// 		}
+
+		//print cash only for active players
+		for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+
+			if(currentHand->getActivePlayerList()->size() > 2) { 
 	
-			for(i=0; i<currentHand->getStartQuantityPlayers(); i++) {
-	
-				if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
-				//print cash only for active players
-					
-	
-					if(currentHand->getPlayerArray()[i]->getMyButton() == 1) {
-						if(k==1) { logFileStreamString += ", "; }
-						k=1;
-						logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+" (Dealer): "+QString::number(currentHand->getPlayerArray()[i]->getMyCash(),10)+"$";
-					}
-					else {
-						if(k==1) { logFileStreamString += ", "; }
-						k=1;
-						logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+": "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
-					}
+				if((*it_c)->getMyButton() == BUTTON_DEALER) {
+					if(k==1) { logFileStreamString += ", "; }
+					k=1;
+					logFileStreamString += QString::fromUtf8((*it_c)->getMyName().c_str())+" (Dealer): "+QString::number((*it_c)->getMyCash(),10)+"$";
+				}
+				else {
+					if(k==1) { logFileStreamString += ", "; }
+					k=1;
+					logFileStreamString += QString::fromUtf8((*it_c)->getMyName().c_str())+": "+QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10)+"$";
 				}
 			}
-		}
-		else {
-			for(i=0; i<currentHand->getStartQuantityPlayers(); i++) {
-				if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
-				//print cash only for active players
-					if(currentHand->getPlayerArray()[i]->getMyButton() == 2) {
-						if(k==1) { logFileStreamString += ", "; }
-						k=1;
-						logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+" (Dealer): "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
-					}
-					else {
-						if(k==1) { logFileStreamString += ", "; }
-						k=1;
-						logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyName().c_str())+": "+QString::number(currentHand->getPlayerArray()[i]->getMyCash()+currentHand->getPlayerArray()[i]->getMySet(),10)+"$";
-					}
+			// heads up
+			else {
+
+				if((*it_c)->getMyButton() == BUTTON_SMALL_BLIND) {
+					if(k==1) { logFileStreamString += ", "; }
+					k=1;
+					logFileStreamString += QString::fromUtf8((*it_c)->getMyName().c_str())+" (Dealer): "+QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10)+"$";
+				}
+				else {
+					if(k==1) { logFileStreamString += ", "; }
+					k=1;
+					logFileStreamString += QString::fromUtf8((*it_c)->getMyName().c_str())+": "+QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10)+"$";
 				}
 			}
 		}
 		logFileStreamString += "</br>BLINDS: ";
-		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 		
+// 			j = 0;
+// 			//Aktive Spieler zählen
+// 			int activePlayersCounter = 0;
+// 			for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
+// 				if (currentHand->getPlayerArray()[k]->getMyAction() != 1 && currentHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
+// 			}
+// 		
+// 			switch (currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyButton()) {
+// 				case 2 : logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyName().c_str())+" ("+QString::number(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMySet(),10)+"$), ";
+// 				break;
+// 				case 3 : logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyName().c_str())+" ("+QString::number(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMySet(),10)+"$)";	
+// 				break;
+// 				default :;	
+// 			}			
+// 		}
+
+
+
+
+
+		for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
 		
-			j = 0;
-			//Aktive Spieler zählen
-			int activePlayersCounter = 0;
-			for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
-				if (currentHand->getPlayerArray()[k]->getMyAction() != 1 && currentHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
-			}
-		
-			switch (currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyButton()) {
-				case 2 : logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyName().c_str())+" ("+QString::number(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMySet(),10)+"$), ";
+			switch ( (*it_c)->getMyButton() ) {
+				case 2 : logFileStreamString += QString::fromUtf8((*it_c)->getMyName().c_str())+" ("+QString::number((*it_c)->getMySet(),10)+"$), ";
 				break;
-				case 3 : logFileStreamString += QString::fromUtf8(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMyName().c_str())+" ("+QString::number(currentHand->getPlayerArray()[(i+currentHand->getDealerPosition()+j)%MAX_NUMBER_OF_PLAYERS]->getMySet(),10)+"$)";	
+				case 3 : logFileStreamString += QString::fromUtf8((*it_c)->getMyName().c_str())+" ("+QString::number((*it_c)->getMySet(),10)+"$)";	
 				break;
 				default :;	
 			}			
 		}
+
+
+
+
+
+
+
 	
 		logFileStreamString += "</br></br><b>PREFLOP</b>";
 		logFileStreamString += "</br>\n";
@@ -245,8 +301,12 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 void Log::logPlayerWinsMsg(int playerID, int pot) {
 
 	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
-	
-	myW->textBrowser_Log->append(QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!! ");
+
+// 	myW->textBrowser_Log->append(QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!! ");
+
+	PlayerListConstIterator playerConstIt = currentHand->getActivePlayerIt(playerID);
+	assert( playerConstIt != currentHand->getActivePlayerList()->end() );
+	myW->textBrowser_Log->append(QString::fromUtf8((*playerConstIt)->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!! ");
 	
 	if(myConfig->readConfigInt("LogOnOff")) {
 	//if write logfiles is enabled
@@ -258,7 +318,9 @@ void Log::logPlayerWinsMsg(int playerID, int pot) {
 	// 	else {
 
 			
-			logFileStreamString += "</br><i>"+QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
+// 		logFileStreamString += "</br><i>"+QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
+
+		logFileStreamString += "</br><i>"+QString::fromUtf8((*playerConstIt)->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
 
 		if(myConfig->readConfigInt("LogInterval") == 0) {	
 			writeLogFileStream(logFileStreamString);
@@ -1245,12 +1307,21 @@ QString Log::determineHandName(int myCardsValueInt) {
 	list<int> sameHandCardsValueInt;
 	bool different = false;
 	bool equal = false;
+	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
+	PlayerListConstIterator it_c;
 
 	// collect cardsValueInt of all players who will show their cards
-	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD) {
-			shownCardsValueInt.push_back(currentHand->getPlayerArray()[i]->getMyCardsValueInt());
+// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 		if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != PLAYER_ACTION_FOLD) {
+// 			shownCardsValueInt.push_back(currentHand->getPlayerArray()[i]->getMyCardsValueInt());
+// 		}
+// 	}
+
+
+	// collect cardsValueInt of all players who will show their cards
+	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+			shownCardsValueInt.push_back( (*it_c)->getMyCardsValueInt());
 		}
 	}
 

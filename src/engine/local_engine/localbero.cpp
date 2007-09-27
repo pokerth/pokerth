@@ -292,8 +292,17 @@ void LocalBeRo::run() {
 			// aktuelle bero ist wirklich dran
 
 			// Anzahl der effektiv gespielten Runden (des human player) erhöhen
-			if(myHand->getPlayerArray()[0]->getMyActiveStatus() && myHand->getPlayerArray()[0]->getMyAction() != 1) {
-				myHand->setBettingRoundsPlayed(myBeRoID);
+// 			if(myHand->getPlayerArray()[0]->getMyActiveStatus() && myHand->getPlayerArray()[0]->getMyAction() != 1) {
+// 				myHand->setBettingRoundsPlayed(myBeRoID);
+// 			}
+
+			// Anzahl der effektiv gespielten Runden (des human player) erhöhen
+			it_c = myHand->getActivePlayerIt(0);
+			if( it_c != myHand->getActivePlayerList()->end() ) {
+				// human player is active
+				if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
+					myHand->setBettingRoundsPlayed(myBeRoID);
+				}
 			}
 			
 			//// !!!!!!!!!!!!!!!!1!!!! very buggy, rule breaking -> TODO !!!!!!!!!!!!11!!!!!!!! //////////////
