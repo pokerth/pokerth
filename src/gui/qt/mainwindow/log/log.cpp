@@ -30,7 +30,9 @@ using namespace std;
 Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), myLogFile(0)
 {
 	myW->setLog(this);
-
+	
+	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
+	
 	connect(this, SIGNAL(signalLogPlayerActionMsg(QString, int, int)), this, SLOT(logPlayerActionMsg(QString, int, int)));
 	connect(this, SIGNAL(signalLogNewGameHandMsg(int, int)), this, SLOT(logNewGameHandMsg(int, int)));
 	connect(this, SIGNAL(signalLogPlayerWinsMsg(int, int)), this, SLOT(logPlayerWinsMsg(int, int)));
@@ -51,7 +53,7 @@ Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), m
 			myLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh.mm.ss")+".html");
 	
 			//Logo-Pixmap extrahieren
-			QPixmap::QPixmap(":graphics/resources/graphics/logoChip3D.png").save(myLogDir->absolutePath()+"/logo.png");
+			QPixmap::QPixmap(myAppDataPath +"gfx/gui/misc/logoChip3D.png").save(myLogDir->absolutePath()+"/logo.png");
 	
 	// 		myW->textBrowser_Log->append(myLogFile->fileName());
 	
@@ -146,6 +148,7 @@ void Log::logPlayerActionMsg(QString msg, int action, int setValue) {
 void Log::logNewGameHandMsg(int gameID, int handID) {
 
 	int i, j ,k;
+	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
 
 	myW->textBrowser_Log->append("<b>## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##</b>");
 	
@@ -153,11 +156,11 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	//if write logfiles is enabled
 		
 		logFileStreamString += "<p><b>####################&#160;&#160;&#160;Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+"&#160;&#160;&#160;####################</b></br>";
+		logFileStreamString += "BLIND LEVEL: "+QString::number(currentHand->getSmallBlind())+"$/"+QString::number(currentHand->getSmallBlind()*2)+"$</br>";
 		logFileStreamString += "CASH: ";
 	
 		//Aktive Spieler zählen
 		int activePlayersCounter = 0;
-		HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
 		for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
 			if (currentHand->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
 		}

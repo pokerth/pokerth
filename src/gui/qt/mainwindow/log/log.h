@@ -75,6 +75,7 @@ private:
 	QDir *myLogDir;
 	QFile *myLogFile;
 	QString logFileStreamString;
+	QString myAppDataPath;
 
 friend class GuiWrapper;
 };
