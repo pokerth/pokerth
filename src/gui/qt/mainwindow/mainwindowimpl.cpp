@@ -717,8 +717,17 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 		// Set Game Data
 		gameData.maxNumberOfPlayers = v->spinBox_quantityPlayers->value();
 		gameData.startMoney = v->spinBox_startCash->value();
-		gameData.smallBlind = v->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
-		gameData.handsBeforeRaise = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
+		gameData.smallBlind = v->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value(); //TODO remove
+		gameData.firstSmallBlind = v->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
+		if(v->getChangeCompleteBlindsDialog()->radioButton_raiseBlindsAtHands->isChecked()) gameData.raiseIntervallMode = RAISE_ON_HANDNUMBER;
+		else gameData.raiseIntervallMode = RAISE_ON_MINUTES;
+		gameData.raiseSmallBlindEveryHandsValue = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
+		gameData.handsBeforeRaise = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value(); //TODO remove
+		gameData.raiseSmallBlindEveryMinutesValue = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryMinutes->value();
+		if(v->getChangeCompleteBlindsDialog()->radioButton_alwaysDoubleBlinds->isChecked()) gameData.raiseMode = DOUBLE_BLINDS;
+		else gameData.raiseMode = MANUAL_BLINDS_ORDER;
+
+		
 		//Speeds 
 		gameData.guiSpeed = v->spinBox_gameSpeed->value();
 	}

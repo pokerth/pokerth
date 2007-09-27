@@ -30,14 +30,40 @@ enum GameMode
 	GAME_MODE_CLOSED
 };
 
+enum RaiseIntervallMode
+{
+	RAISE_ON_HANDNUMBER,
+	RAISE_ON_MINUTES
+};
+
+enum RaiseMode
+{
+	DOUBLE_BLINDS,
+	MANUAL_BLINDS_ORDER
+};
+
+enum AfterManualBlindsMode
+{
+	AFTERMB_DOUBLE_BLINDS,
+	AFTERMB_RAISE_ABOUT,
+	AFTERMB_STAY_AT_LAST_BLIND
+};
+
 // For the sake of simplicity, this is a struct.
 struct GameData
 {
-	GameData() : maxNumberOfPlayers(0), startMoney(0), smallBlind(0),
-		handsBeforeRaise(1), guiSpeed(4), playerActionTimeoutSec(20) {}
+	GameData() : maxNumberOfPlayers(0), startMoney(0), smallBlind(0), firstSmallBlind(0), raiseIntervallMode(RAISE_ON_HANDNUMBER), raiseSmallBlindEveryHandsValue(8), raiseSmallBlindEveryMinutesValue(0), raiseMode(DOUBLE_BLINDS), afterManualBlindsMode(AFTERMB_DOUBLE_BLINDS), afterMBAlwaysRaiseValue(0), handsBeforeRaise(1), guiSpeed(4), playerActionTimeoutSec(20) {}
 	int maxNumberOfPlayers;
 	int startMoney;
 	int smallBlind;
+	int firstSmallBlind;
+	RaiseIntervallMode raiseIntervallMode;
+	int raiseSmallBlindEveryHandsValue;
+	int raiseSmallBlindEveryMinutesValue;
+	RaiseMode raiseMode;
+	std::list<int> manualBlindsList;
+	AfterManualBlindsMode afterManualBlindsMode;
+	int afterMBAlwaysRaiseValue;
 	int handsBeforeRaise;
 	int guiSpeed;
 	int playerActionTimeoutSec;
