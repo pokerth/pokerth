@@ -3,8 +3,8 @@
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
-CONFIG += qt thread embed_manifest_exe warn_on release
-#CONFIG += qt thread embed_manifest_exe warn_on debug
+#CONFIG += qt thread embed_manifest_exe warn_on release
+CONFIG += qt thread embed_manifest_exe warn_on debug
 
 #Uncomment this for RELEASE
 #QTPLUGIN += qjpeg qgif
@@ -221,6 +221,7 @@ TRANSLATIONS = \
 		ts/pokerth_pl.ts \
 		ts/pokerth_ptbr.ts \
 		ts/pokerth_it.ts \
+		ts/pokerth_tr.ts \
 		ts/pokerth_nl.ts
 
 win32{
