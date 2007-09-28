@@ -214,24 +214,25 @@ void LocalBeRoPreflop::run() {
 
 	PlayerListConstIterator currentPlayersTurnConstIt;
 	// exceptions
-		// if in first Preflop Round next player is small blind and only all-in-big-blind with less than smallblind amount is nonfold too -> preflop is over
-		if(getFirstRound()) {
-			PlayerListConstIterator bigBlindPositionIt = getMyHand()->getActivePlayerIt(getBigBlindPositionId());
-			assert(bigBlindPositionIt != getMyHand()->getActivePlayerList()->end());
-	
-			currentPlayersTurnConstIt = getMyHand()->getRunningPlayerIt( getCurrentPlayersTurnId() );
-			assert(currentPlayersTurnConstIt != getMyHand()->getRunningPlayerList()->end());
-	
-			int nonFoldPlayerCounter = 0;
-			for (it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); it_c++) {
-				if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonFoldPlayerCounter++;
-			}
-	
-			if((*currentPlayersTurnConstIt)->getMyButton() == BUTTON_SMALL_BLIND && (*bigBlindPositionIt)->getMySet() <= getSmallBlind() && nonFoldPlayerCounter == 2) {
-				setFirstRound(false);
-				allHighestSet = true;
-			}
-		}
+		// no.1: if in first Preflop Round next player is small blind and only all-in-big-blind with less than smallblind amount is nonfold too -> preflop is over
+// 		if(getFirstRound()) {
+// 			PlayerListConstIterator bigBlindPositionIt = getMyHand()->getActivePlayerIt(getBigBlindPositionId());
+// 			assert(bigBlindPositionIt != getMyHand()->getActivePlayerList()->end());
+// 	
+// 			currentPlayersTurnConstIt = getMyHand()->getRunningPlayerIt( getCurrentPlayersTurnId() );
+// 			assert(currentPlayersTurnConstIt != getMyHand()->getRunningPlayerList()->end());
+// 	
+// 			int nonFoldPlayerCounter = 0;
+// 			for (it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); it_c++) {
+// 				if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonFoldPlayerCounter++;
+// 			}
+// 	
+// 			if((*currentPlayersTurnConstIt)->getMyButton() == BUTTON_SMALL_BLIND && (*bigBlindPositionIt)->getMySet() <= getSmallBlind() && nonFoldPlayerCounter == 2) {
+// 				setFirstRound(false);
+// 				allHighestSet = true;
+// 				getMyHand()->setAllInCondition(true);
+// 			}
+// 		}
 
 
 
@@ -267,6 +268,9 @@ void LocalBeRoPreflop::run() {
 		// Preflop nicht dran, weil wir nicht mehr in erster PreflopRunde und alle Sets gleich sind
 		//also gehe in Flop
 		getMyHand()->setActualRound(GAME_STATE_FLOP);
+
+		// exception no.1 - see above
+// 		if(getMyHand()->getAllInCondition()) getMyHand()->setActualRound(GAME_STATE_PREFLOP);;
 		
 		//Action loeschen und ActionButtons refresh
 		for(it_c=getMyHand()->getRunningPlayerList()->begin(); it_c!=getMyHand()->getRunningPlayerList()->end(); it_c++) {

@@ -36,6 +36,9 @@ public:
 	void setPlayersTurn(int theValue);
 	int getPlayersTurn() const;
 
+	unsigned getSmallBlindPositionId() const;
+	unsigned getBigBlindPositionId() const;
+
 	void setCurrentPlayersTurnId(unsigned theValue);
 	unsigned getCurrentPlayersTurnId() const;
 
@@ -84,6 +87,9 @@ private:
 	int playersTurn; // TODO -> delete
 	PlayerListIterator currentPlayersTurnIt; // iterator for runningPlayerList
 	PlayerListIterator lastPlayersTurnIt; // iterator for runningPlayerList
+
+	unsigned smallBlindPositionId;
+	unsigned bigBlindPositionId;
 
 	unsigned currentPlayersTurnId;
 	unsigned firstRoundLastPlayersTurnId;

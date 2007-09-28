@@ -195,11 +195,11 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 			} break;
 			case 2: {
 		
-				tempBoardArray[0] = 41;
-				tempBoardArray[1] = 51;
-				tempBoardArray[2] = 6;
-				tempBoardArray[3] = 26;
-				tempBoardArray[4] = 11;
+				tempBoardArray[0] = 48;
+				tempBoardArray[1] = 21;
+				tempBoardArray[2] = 4;
+				tempBoardArray[3] = 9;
+				tempBoardArray[4] = 0;
 			
 				myBoard->setMyCards(tempBoardArray);
 			
@@ -212,21 +212,21 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player0
 				it = seatsList->begin();
 			
-				tempPlayerArray[0] = 9;
-				tempPlayerArray[1] = 5;
-				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
-				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
-			
-				(*it)->setMyCards(tempPlayerArray);
-				(*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
-			
-				(*it)->setMyBestHandPosition(temp5Array);
+// 				tempPlayerArray[0] = 9;
+// 				tempPlayerArray[1] = 5;
+// 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+// 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+// 			
+// 				(*it)->setMyCards(tempPlayerArray);
+// 				(*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+// 			
+// 				(*it)->setMyBestHandPosition(temp5Array);
 
 				// player1
 				it++;
 		
-				tempPlayerArray[0] = 15;
-				tempPlayerArray[1] = 10;
+				tempPlayerArray[0] = 47;
+				tempPlayerArray[1] = 22;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -238,15 +238,15 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player2
 				it++;
 		
-				tempPlayerArray[0] = 33;
-				tempPlayerArray[1] = 27;
-				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
-				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
-			
-				(*it)->setMyCards(tempPlayerArray);
-				(*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
-			
-				(*it)->setMyBestHandPosition(temp5Array);
+// 				tempPlayerArray[0] = 33;
+// 				tempPlayerArray[1] = 27;
+// 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+// 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+// 			
+// 				(*it)->setMyCards(tempPlayerArray);
+// 				(*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+// 			
+// 				(*it)->setMyBestHandPosition(temp5Array);
 	
 				// player3
 				it++;
@@ -274,6 +274,18 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 // 			
 // 				(*it)->setMyBestHandPosition(temp5Array);
 
+				// player5
+				it++;
+			
+				tempPlayerArray[0] = 27;
+				tempPlayerArray[1] = 10;
+				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+			
+				(*it)->setMyCards(tempPlayerArray);
+				(*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+			
+				(*it)->setMyBestHandPosition(temp5Array);
 
 			} break;
 			default: {}
@@ -522,7 +534,7 @@ void LocalHand::switchRounds() {
 			for(it_c=runningPlayerList->begin(); it_c!=runningPlayerList->end(); it_c++) {
 
 				if((*it_c)->getMySet() >= myBeRo[actualRound]->getHighestSet()) {
-						allInCondition = 1;
+						allInCondition = true;
 				}
 
 			}
@@ -542,11 +554,24 @@ void LocalHand::switchRounds() {
 
 
 
+			// exception
+				// no.1: if in first Preflop Round next player is small blind and only all-in-big-blind with less than smallblind amount is nonfold too -> preflop is over
+			PlayerListConstIterator smallBlindIt_c = getRunningPlayerIt(myBeRo[actualRound]->getSmallBlindPositionId());
+			PlayerListConstIterator bigBlindIt_c = getActivePlayerIt(myBeRo[actualRound]->getBigBlindPositionId());
+			if(smallBlindIt_c!=runningPlayerList->end() &&  bigBlindIt_c!=activePlayerList->end() && actualRound == GAME_STATE_PREFLOP && myBeRo[actualRound]->getFirstRound() && nonFoldPlayerCounter == 2) {
+				if( (*bigBlindIt_c)->getMySet() <= smallBlind ) { 
+					allInCondition = true;
+				}
+			}
+
+
+
+
 			// HeadsUp-Ausnahme -> spieler ermitteln, der all in ist und als bb nur weniger als sb setzen konnte
 			for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
 
 				if(activePlayerList->size()==2 && (*it_c)->getMyAction() == PLAYER_ACTION_ALLIN && (*it_c)->getMyButton()==BUTTON_BIG_BLIND && (*it_c)->getMySet()<=smallBlind) {
-						allInCondition = 1;
+						allInCondition = true;
 				}
 
 			}

@@ -37,6 +37,9 @@ public:
 
 	virtual void setCurrentPlayersTurnIt(PlayerListIterator) =0;
 	virtual PlayerListIterator getCurrentPlayersTurnIt() const =0;
+
+	virtual unsigned getSmallBlindPositionId() const =0;
+	virtual unsigned getBigBlindPositionId() const =0;
 	
 	virtual void setHighestSet(int) =0;
 	virtual int getHighestSet() const =0;
@@ -50,6 +53,7 @@ public:
 	virtual void setMinimumRaise (int) =0;
 	virtual int getMinimumRaise() const =0;
 
+	virtual bool getFirstRound() const =0;
 
 	virtual void resetFirstRun() =0;
 

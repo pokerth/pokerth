@@ -857,31 +857,24 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 		switch(myUniqueID) {
 	
 			case 0: {
-	// 			myActiveStatus=0;
-				myCash=4600;
+				myCash=0;
 			} break;
 			case 1: {
-	// 			myActiveStatus=0;
-				myCash=4400;
+				myCash=104;
 			} break;
 			case 2: {
-	// 			myActiveStatus=0;
-				myCash=800;
+				myCash=80;
 			} break;
 			case 3: {
-	// 			myActiveStatus=0;
-				myCash=4000;
+				myCash=1280;
 			} break;
 			case 4: {
-	// 			myActiveStatus=0;
-				myCash=4200;
+				myCash=0;
 			} break;
 			case 5: {
-	// 			myActiveStatus=0;
-	// 			myCash=14800;
+				myCash=336;
 			} break;
 			case 6: {
-	// 			myActiveStatus=0;
 	// 			myCash=14800;
 			} break;
 			default: {
@@ -1236,7 +1229,7 @@ void LocalPlayer::preflopEngine() {
 					}
 					break;
 					case 2: {
-// 						myAction = PLAYER_ACTION_RAISE;
+						myAction = PLAYER_ACTION_FOLD;
 // 						raise = 50;
 // 						if(mySet >= 70) {
 // 							myAction = PLAYER_ACTION_CALL;
@@ -1252,7 +1245,7 @@ void LocalPlayer::preflopEngine() {
 			case 3: {
 				switch(actualHand->getMyID()) {
 					case 1: {
-						myAction = PLAYER_ACTION_CALL;
+						myAction = PLAYER_ACTION_FOLD;
 // 						raise = 20;
 // 						if(mySet >= 40) {
 // 							myAction = PLAYER_ACTION_CALL;
@@ -1260,7 +1253,7 @@ void LocalPlayer::preflopEngine() {
 					}
 					break;
 					case 2: {
-// 						myAction = PLAYER_ACTION_RAISE;
+						myAction = PLAYER_ACTION_FOLD;
 // 						raise = 50;
 // 						if(mySet >= 70) {
 // 							myAction = PLAYER_ACTION_CALL;
@@ -1275,15 +1268,15 @@ void LocalPlayer::preflopEngine() {
 			case 4: {
 				switch(actualHand->getMyID()) {
 					case 1: {
-						myAction = PLAYER_ACTION_CALL;
+// 						myAction = PLAYER_ACTION_CALL;
 // 						raise = 20;
-						if(mySet > 0) {
-							myAction = PLAYER_ACTION_FOLD;
-						}
+// 						if(mySet > 0) {
+// 							myAction = PLAYER_ACTION_FOLD;
+// 						}
 					}
 					break;
 					case 2: {
-						myAction = PLAYER_ACTION_FOLD;
+// 						myAction = PLAYER_ACTION_FOLD;
 // 						raise = 50;
 // 						if(mySet >= 70) {
 // 							myAction = PLAYER_ACTION_CALL;

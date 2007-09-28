@@ -97,6 +97,18 @@ ClientBeRo::getLastPlayersTurnIt() const
 	return lastPlayersTurnIt;
 }
 
+unsigned
+ClientBeRo::getSmallBlindPositionId() const
+{
+	return smallBlindPositionId;
+}
+
+unsigned
+ClientBeRo::getBigBlindPositionId() const
+{
+	return bigBlindPositionId;
+}
+
 void
 ClientBeRo::setCurrentPlayersTurnId(unsigned theValue)
 {
