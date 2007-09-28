@@ -860,22 +860,22 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 				myCash=0;
 			} break;
 			case 1: {
-				myCash=104;
+				myCash=2520;
 			} break;
 			case 2: {
-				myCash=80;
-			} break;
-			case 3: {
-				myCash=1280;
-			} break;
-			case 4: {
 				myCash=0;
 			} break;
+			case 3: {
+				myCash=0;
+			} break;
+			case 4: {
+				myCash=14700;
+			} break;
 			case 5: {
-				myCash=336;
+				myCash=3780;
 			} break;
 			case 6: {
-	// 			myCash=14800;
+				myCash=0;
 			} break;
 			default: {
 			}
@@ -1202,7 +1202,8 @@ void LocalPlayer::preflopEngine() {
 
 				switch(actualHand->getMyID()) {
 					case 1: {
-						myAction = PLAYER_ACTION_FOLD;
+						myAction = PLAYER_ACTION_RAISE;
+						raise = 3000;
 					}
 					break;
 					case 2: {
@@ -1221,7 +1222,7 @@ void LocalPlayer::preflopEngine() {
 
 				switch(actualHand->getMyID()) {
 					case 1: {
-						myAction = PLAYER_ACTION_FOLD;
+// 						myAction = PLAYER_ACTION_FOLD;
 // 						raise = 20;
 // 						if(mySet >= 40) {
 // 							myAction = PLAYER_ACTION_CALL;
@@ -1229,7 +1230,7 @@ void LocalPlayer::preflopEngine() {
 					}
 					break;
 					case 2: {
-						myAction = PLAYER_ACTION_FOLD;
+// 						myAction = PLAYER_ACTION_FOLD;
 // 						raise = 50;
 // 						if(mySet >= 70) {
 // 							myAction = PLAYER_ACTION_CALL;
@@ -1245,7 +1246,7 @@ void LocalPlayer::preflopEngine() {
 			case 3: {
 				switch(actualHand->getMyID()) {
 					case 1: {
-						myAction = PLAYER_ACTION_FOLD;
+// 						myAction = PLAYER_ACTION_FOLD;
 // 						raise = 20;
 // 						if(mySet >= 40) {
 // 							myAction = PLAYER_ACTION_CALL;
@@ -1253,7 +1254,7 @@ void LocalPlayer::preflopEngine() {
 					}
 					break;
 					case 2: {
-						myAction = PLAYER_ACTION_FOLD;
+// 						myAction = PLAYER_ACTION_FOLD;
 // 						raise = 50;
 // 						if(mySet >= 70) {
 // 							myAction = PLAYER_ACTION_CALL;
@@ -1268,7 +1269,7 @@ void LocalPlayer::preflopEngine() {
 			case 4: {
 				switch(actualHand->getMyID()) {
 					case 1: {
-// 						myAction = PLAYER_ACTION_CALL;
+						myAction = PLAYER_ACTION_FOLD;
 // 						raise = 20;
 // 						if(mySet > 0) {
 // 							myAction = PLAYER_ACTION_FOLD;
