@@ -18,7 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "game.h"
-#include "gamedata.h"
 
 #include <enginefactory.h>
 #include <guiinterface.h>
@@ -29,13 +28,13 @@
 using namespace std;
 
 Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
-		   const PlayerDataList &playerDataList, const GameData &gameData,
+		   const PlayerDataList &playerDataList, const GameData gameData,
 		   const StartData &startData, int gameId)
 : myFactory(factory), myGui(gui), actualHand(0), actualBoard(0),
   startQuantityPlayers(startData.numberOfPlayers),
   startCash(gameData.startMoney), startSmallBlind(gameData.smallBlind),
   startHandsBeforeRaiseSmallBlind(gameData.handsBeforeRaise),
-  myGameID(gameId), actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(0)
+  myGameID(gameId), actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(0), lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData)
 {
 // 	cout << "Create Game Object" << "\n";
 	int i;
@@ -107,6 +106,10 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		
 	}
 	actualBoard->setPlayerLists(playerArray, seatsList, activePlayerList, runningPlayerList); // delete playerArray
+
+	//start timer
+	blindsTimer.reset();
+	blindsTimer.start();
 }
 
 Game::~Game()
@@ -144,8 +147,8 @@ void Game::initHand()
 	
 	actualHandID++;
 
-	// smallBlind alle x Runden erhöhen
-	if((actualHandID-1)%startHandsBeforeRaiseSmallBlind == 0 && actualHandID > 1) { actualSmallBlind *= 2; }
+	// calculate smallBlind
+	raiseBlinds();
 
 	//Spieler Action auf 0 setzen
 // 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
@@ -243,3 +246,81 @@ boost::shared_ptr<PlayerInterface> Game::getCurrentPlayer()
 	return tmpPlayer;
 }
 
+void Game::raiseBlinds() {
+
+// 	cout << "timer minutes " << blindsTimer.elapsed().total_seconds()/60 << "\n";
+// 	cout << "gameData.raiseIntervallMode " << myGameData.raiseIntervallMode << "\n";
+// 	cout << "gameData.raiseMode " << myGameData.raiseMode << "\n";
+// 	cout << "gameData.afterManualBlindsMode " << myGameData.afterManualBlindsMode << "\n";
+
+	bool raiseBlinds = false;
+
+	if (myGameData.raiseIntervallMode == RAISE_ON_HANDNUMBER) {
+
+		if (lastHandBlindsRaised + myGameData.raiseSmallBlindEveryHandsValue <= actualHandID) {
+			raiseBlinds = true;
+			lastHandBlindsRaised = actualHandID;
+
+			cout << "raise now on hands \n";
+		}
+	}
+	else {
+		if (lastTimeBlindsRaised + myGameData.raiseSmallBlindEveryMinutesValue <= blindsTimer.elapsed().total_seconds()/60) {
+			raiseBlinds = true;
+			lastTimeBlindsRaised = blindsTimer.elapsed().total_seconds()/60;
+
+			cout << "raise now on minutes \n";
+		}
+	}
+
+	if (raiseBlinds) {
+
+		// At this point, the blinds must be raised
+		// Now we check how the blinds should be raised
+	
+		if (myGameData.raiseMode == DOUBLE_BLINDS) { 
+			actualSmallBlind *= 2; 
+			cout << "double small blind \n";
+		}	
+		else {
+			// Increase the position of the list
+			list<int> blindsList = myGameData.manualBlindsList;
+			list<int>::iterator it;
+			
+			if(!blindsList.empty()) {
+				it = find(blindsList.begin(), blindsList.end(), actualSmallBlind);
+				if(it !=  blindsList.end()) { 
+					it++;
+					cout << "increase position in blindslist \n";
+				}
+				else { 
+					cout << "blindslist exceeds\n"; 
+					if(actualSmallBlind == myGameData.firstSmallBlind) {
+						it = blindsList.begin();
+					}
+				}	
+			}
+			else {	cout << "blindslist is empty \n"; }
+			// Check if we can get an element of the list or the position exceeds the lis
+			if (blindsList.empty() || it ==  blindsList.end()) {
+				
+				// The position exceeds the list
+				if (myGameData.afterManualBlindsMode == AFTERMB_DOUBLE_BLINDS) { 
+					actualSmallBlind *= 2; 
+					cout << "after blindslist double blind\n";
+				}
+				else {
+					if(myGameData.afterManualBlindsMode == AFTERMB_RAISE_ABOUT) { 
+						actualSmallBlind += myGameData.afterMBAlwaysRaiseValue;
+						cout << "after blindslist increase about x \n";
+					}
+					else { /* Stay at last blind */ cout << "after blindslist stay at last blind \n"; }
+				}				
+			} else {
+				// Grab the blinds amount from the list
+				actualSmallBlind = *it;
+				cout << "set new small blind from blindslist \n";
+			}
+		}
+	}
+}

@@ -723,14 +723,39 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 		gameData.startMoney = v->spinBox_startCash->value();
 		gameData.smallBlind = v->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value(); //TODO remove
 		gameData.firstSmallBlind = v->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
-		if(v->getChangeCompleteBlindsDialog()->radioButton_raiseBlindsAtHands->isChecked()) gameData.raiseIntervallMode = RAISE_ON_HANDNUMBER;
-		else gameData.raiseIntervallMode = RAISE_ON_MINUTES;
-		gameData.raiseSmallBlindEveryHandsValue = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
-		gameData.handsBeforeRaise = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value(); //TODO remove
-		gameData.raiseSmallBlindEveryMinutesValue = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryMinutes->value();
-		if(v->getChangeCompleteBlindsDialog()->radioButton_alwaysDoubleBlinds->isChecked()) gameData.raiseMode = DOUBLE_BLINDS;
-		else gameData.raiseMode = MANUAL_BLINDS_ORDER;
-
+		
+		if(v->getChangeCompleteBlindsDialog()->radioButton_raiseBlindsAtHands->isChecked()) { 
+			gameData.raiseIntervallMode = RAISE_ON_HANDNUMBER;
+			gameData.raiseSmallBlindEveryHandsValue = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
+			gameData.handsBeforeRaise = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value(); //TODO remove
+		}
+		else { 
+			gameData.raiseIntervallMode = RAISE_ON_MINUTES; 
+			gameData.raiseSmallBlindEveryMinutesValue = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryMinutes->value();
+		}
+		
+		if(v->getChangeCompleteBlindsDialog()->radioButton_alwaysDoubleBlinds->isChecked()) { 
+			gameData.raiseMode = DOUBLE_BLINDS; 
+		}
+		else { 
+			gameData.raiseMode = MANUAL_BLINDS_ORDER;
+			list<int> tempBlindList;
+			int i;
+			bool ok = TRUE;
+			for(i=0; i<v->getChangeCompleteBlindsDialog()->listWidget_blinds->count(); i++) {
+				tempBlindList.push_back(v->getChangeCompleteBlindsDialog()->listWidget_blinds->item(i)->text().toInt(&ok,10));		
+			}
+			gameData.manualBlindsList = tempBlindList;
+			
+			if(v->getChangeCompleteBlindsDialog()->radioButton_afterThisAlwaysDoubleBlinds->isChecked()) { gameData.afterManualBlindsMode = AFTERMB_DOUBLE_BLINDS; }
+			else {
+				if(v->getChangeCompleteBlindsDialog()->radioButton_afterThisAlwaysRaiseAbout->isChecked()) {
+					gameData.afterManualBlindsMode = AFTERMB_RAISE_ABOUT;
+					gameData.afterMBAlwaysRaiseValue = v->getChangeCompleteBlindsDialog()->spinBox_afterThisAlwaysRaiseValue->value();
+				}
+				else { gameData.afterManualBlindsMode = AFTERMB_STAY_AT_LAST_BLIND; }	
+			}
+		}
 		
 		//Speeds 
 		gameData.guiSpeed = v->spinBox_gameSpeed->value();
@@ -740,8 +765,37 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 		// Set Game Data
 		gameData.maxNumberOfPlayers = myConfig->readConfigInt("NumberOfPlayers");
 		gameData.startMoney = myConfig->readConfigInt("StartCash");
-		gameData.smallBlind = myConfig->readConfigInt("FirstSmallBlind");
-		gameData.handsBeforeRaise = myConfig->readConfigInt("RaiseSmallBlindEveryHands");
+		gameData.smallBlind = myConfig->readConfigInt("FirstSmallBlind"); //TODO remove
+		gameData.handsBeforeRaise = myConfig->readConfigInt("RaiseSmallBlindEveryHands"); //TODO remove
+
+		gameData.firstSmallBlind =  myConfig->readConfigInt("FirstSmallBlind");
+	
+		if(myConfig->readConfigInt("RaiseBlindsAtHands")) { 
+			gameData.raiseIntervallMode = RAISE_ON_HANDNUMBER;
+			gameData.raiseSmallBlindEveryHandsValue = myConfig->readConfigInt("RaiseSmallBlindEveryHands");
+			gameData.handsBeforeRaise = myConfig->readConfigInt("RaiseSmallBlindEveryHands"); //TODO remove
+		}
+		else { 
+			gameData.raiseIntervallMode = RAISE_ON_MINUTES; 
+			gameData.raiseSmallBlindEveryMinutesValue = myConfig->readConfigInt("RaiseSmallBlindEveryMinutes");
+		}
+		
+		if(myConfig->readConfigInt("AlwaysDoubleBlinds")) { 
+			gameData.raiseMode = DOUBLE_BLINDS; 
+		}
+		else { 
+			gameData.raiseMode = MANUAL_BLINDS_ORDER;
+			gameData.manualBlindsList = myConfig->readConfigIntList("ManualBlindsList");
+			
+			if(myConfig->readConfigInt("AfterMBAlwaysDoubleBlinds")) { gameData.afterManualBlindsMode = AFTERMB_DOUBLE_BLINDS; }
+			else {
+				if(myConfig->readConfigInt("AfterMBAlwaysRaiseAbout")) {
+					gameData.afterManualBlindsMode = AFTERMB_RAISE_ABOUT;
+					gameData.afterMBAlwaysRaiseValue = myConfig->readConfigInt("AfterMBAlwaysRaiseValue");
+				}
+				else { gameData.afterManualBlindsMode = AFTERMB_STAY_AT_LAST_BLIND; }	
+			}
+		}
 		//Speeds 
 		gameData.guiSpeed = myConfig->readConfigInt("GameSpeed");
 	}
@@ -788,9 +842,43 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		GameData gameData;
 		gameData.maxNumberOfPlayers = myCreateNetworkGameDialog->spinBox_quantityPlayers->value();
 		gameData.startMoney = myCreateNetworkGameDialog->spinBox_startCash->value();
-		gameData.smallBlind = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
-		gameData.handsBeforeRaise = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
-	gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
+		gameData.smallBlind = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();//TODO remove
+		gameData.firstSmallBlind = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
+		
+		if(myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->radioButton_raiseBlindsAtHands->isChecked()) { 
+			gameData.raiseIntervallMode = RAISE_ON_HANDNUMBER;
+			gameData.raiseSmallBlindEveryHandsValue = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
+			gameData.handsBeforeRaise = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value(); //TODO remove
+		}
+		else { 
+			gameData.raiseIntervallMode = RAISE_ON_MINUTES; 
+			gameData.raiseSmallBlindEveryMinutesValue = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryMinutes->value();
+		}
+		
+		if(myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->radioButton_alwaysDoubleBlinds->isChecked()) { 
+			gameData.raiseMode = DOUBLE_BLINDS; 
+		}
+		else { 
+			gameData.raiseMode = MANUAL_BLINDS_ORDER;
+			list<int> tempBlindList;
+			int i;
+			bool ok = TRUE;
+			for(i=0; i<myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->listWidget_blinds->count(); i++) {
+				tempBlindList.push_back(myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->listWidget_blinds->item(i)->text().toInt(&ok,10));		
+			}
+			gameData.manualBlindsList = tempBlindList;
+			
+			if(myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->radioButton_afterThisAlwaysDoubleBlinds->isChecked()) { gameData.afterManualBlindsMode = AFTERMB_DOUBLE_BLINDS; }
+			else {
+				if(myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->radioButton_afterThisAlwaysRaiseAbout->isChecked()) {
+					gameData.afterManualBlindsMode = AFTERMB_RAISE_ABOUT;
+					gameData.afterMBAlwaysRaiseValue = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_afterThisAlwaysRaiseValue->value();
+				}
+				else { gameData.afterManualBlindsMode = AFTERMB_STAY_AT_LAST_BLIND; }	
+			}
+		}
+
+		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
 		gameData.playerActionTimeoutSec = myCreateNetworkGameDialog->spinBox_netTimeOutPlayerAction->value();
 
 		myGameLobbyDialog->setSession(&getSession());
@@ -2856,7 +2944,7 @@ void mainWindowImpl::localGameModification() {
 	}
 
 	//Set the playing mode to "manual"
-	playingMode = 0;
+	playingMode = 1;
 
 }
 

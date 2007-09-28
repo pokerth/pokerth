@@ -21,11 +21,13 @@
 #define GAME_H
 
 #include "game_defs.h"
+#include "gamedata.h"
 #include "playerdata.h"
 #include "configfile.h"
 
 #include <string>
 #include <boost/shared_ptr.hpp>
+#include <core/boost/timers.hpp>
 
 class GuiInterface;
 class HandInterface;
@@ -43,7 +45,7 @@ class Game {
 
 public:
 	Game(GuiInterface *gui, boost::shared_ptr<EngineFactory> factory,
-		const PlayerDataList &playerDataList, const GameData &gameData,
+		const PlayerDataList &playerDataList, const GameData gameData,
 		const StartData &startData, int gameId);
 
 	~Game();
@@ -80,6 +82,8 @@ public:
 	boost::shared_ptr<PlayerInterface> getPlayerByUniqueId(unsigned id);
 	boost::shared_ptr<PlayerInterface> getCurrentPlayer();
 
+	void raiseBlinds();
+
 private:
 	boost::shared_ptr<EngineFactory> myFactory;
 
@@ -106,6 +110,12 @@ private:
 	int actualSmallBlind;
 	int actualHandID;
 	unsigned dealerPosition;
+	int lastHandBlindsRaised;
+	int lastTimeBlindsRaised;
+	const GameData myGameData;
+
+	//timer
+	boost::timers::portable::second_timer blindsTimer;
 };
 
 #endif

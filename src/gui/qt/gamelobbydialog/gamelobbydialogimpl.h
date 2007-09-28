@@ -96,10 +96,10 @@ private:
 	ConfigFile *myConfig;	
 	Session *mySession;
 	createInternetGameDialogImpl *myCreateInternetGameDialog;
-	LobbyChat *myChat;
-
 	QString currentGameName;
 	bool isAdmin;
+	LobbyChat *myChat;
+
 };
 
 #endif

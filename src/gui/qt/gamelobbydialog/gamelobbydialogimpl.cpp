@@ -79,9 +79,42 @@ void gameLobbyDialogImpl::createGame()
 		// Set Game Data
 		gameData.maxNumberOfPlayers = myCreateInternetGameDialog->spinBox_quantityPlayers->value();
 		gameData.startMoney = myCreateInternetGameDialog->spinBox_startCash->value();
-		gameData.smallBlind = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
-		gameData.handsBeforeRaise = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
-		gameData.guiSpeed = myCreateInternetGameDialog->spinBox_gameSpeed->value();
+		gameData.smallBlind = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();//TODO remove
+		gameData.firstSmallBlind = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
+		
+		if(myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->radioButton_raiseBlindsAtHands->isChecked()) { 
+			gameData.raiseIntervallMode = RAISE_ON_HANDNUMBER;
+			gameData.raiseSmallBlindEveryHandsValue = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
+			gameData.handsBeforeRaise = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value(); //TODO remove
+		}
+		else { 
+			gameData.raiseIntervallMode = RAISE_ON_MINUTES; 
+			gameData.raiseSmallBlindEveryMinutesValue = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryMinutes->value();
+		}
+		
+		if(myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->radioButton_alwaysDoubleBlinds->isChecked()) { 
+			gameData.raiseMode = DOUBLE_BLINDS; 
+		}
+		else { 
+			gameData.raiseMode = MANUAL_BLINDS_ORDER;
+			std::list<int> tempBlindList;
+			int i;
+			bool ok = TRUE;
+			for(i=0; i<myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->listWidget_blinds->count(); i++) {
+				tempBlindList.push_back(myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->listWidget_blinds->item(i)->text().toInt(&ok,10));		
+			}
+			gameData.manualBlindsList = tempBlindList;
+			
+			if(myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->radioButton_afterThisAlwaysDoubleBlinds->isChecked()) { gameData.afterManualBlindsMode = AFTERMB_DOUBLE_BLINDS; }
+			else {
+				if(myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->radioButton_afterThisAlwaysRaiseAbout->isChecked()) {
+					gameData.afterManualBlindsMode = AFTERMB_RAISE_ABOUT;
+					gameData.afterMBAlwaysRaiseValue = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_afterThisAlwaysRaiseValue->value();
+				}
+				else { gameData.afterManualBlindsMode = AFTERMB_STAY_AT_LAST_BLIND; }	
+			}
+		}
+
 		gameData.guiSpeed = myCreateInternetGameDialog->spinBox_gameSpeed->value();
 		gameData.playerActionTimeoutSec = myCreateInternetGameDialog->spinBox_netTimeOutPlayerAction->value();
 
