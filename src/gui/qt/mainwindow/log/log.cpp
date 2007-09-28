@@ -237,6 +237,7 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 				}
 			}
 		}
+		// log blinds
 		logFileStreamString += "</br>BLINDS: ";
 // 		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 // 		
@@ -260,16 +261,35 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 
 
 
-		for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
-		
-			switch ( (*it_c)->getMyButton() ) {
-				case 2 : logFileStreamString += QString::fromUtf8((*it_c)->getMyName().c_str())+" ("+QString::number((*it_c)->getMySet(),10)+"$), ";
-				break;
-				case 3 : logFileStreamString += QString::fromUtf8((*it_c)->getMyName().c_str())+" ("+QString::number((*it_c)->getMySet(),10)+"$)";	
-				break;
-				default :;	
-			}			
+
+// 		for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+// 		
+// 			switch ( (*it_c)->getMyButton() ) {
+// 				case 2 : logFileStreamString += QString::fromUtf8((*it_c)->getMyName().c_str())+" ("+QString::number((*it_c)->getMySet(),10)+"$), ";
+// 				break;
+// 				case 3 : logFileStreamString += QString::fromUtf8((*it_c)->getMyName().c_str())+" ("+QString::number((*it_c)->getMySet(),10)+"$)";	
+// 				break;
+// 				default : ;
+// 			}			
+// 		}
+
+
+
+
+
+
+		// smallBlind
+		it_c = currentHand->getActivePlayerIt(currentHand->getCurrentBeRo()->getSmallBlindPositionId());
+		if(it_c != currentHand->getActivePlayerList()->end()) {
+			logFileStreamString += QString::fromUtf8((*it_c)->getMyName().c_str())+" ("+QString::number((*it_c)->getMySet(),10)+"$), ";
 		}
+
+		// bigBlind
+		it_c = currentHand->getActivePlayerIt(currentHand->getCurrentBeRo()->getBigBlindPositionId());
+		if(it_c != currentHand->getActivePlayerList()->end()) {
+			logFileStreamString += QString::fromUtf8((*it_c)->getMyName().c_str())+" ("+QString::number((*it_c)->getMySet(),10)+"$)";
+		}
+
 
 
 
@@ -1301,7 +1321,7 @@ QStringList Log::translateCardsValueCode(int cardsValueCode) {
 
 QString Log::determineHandName(int myCardsValueInt) {
 
-	size_t i;
+// 	size_t i;
 
 	list<int> shownCardsValueInt;
 	list<int> sameHandCardsValueInt;
