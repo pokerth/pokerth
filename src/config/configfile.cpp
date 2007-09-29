@@ -318,7 +318,7 @@ void ConfigFile::fillBuffer() {
 
 						TiXmlElement* confList = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).FirstChild().ToElement();
 						
-						for( confList; confList; confList=confList->NextSiblingElement()) {
+						for( ; confList; confList=confList->NextSiblingElement()) {
 							tempStringList2.push_back(confList->Attribute("value"));
 						}
 						
@@ -484,7 +484,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 
 								TiXmlElement* oldConfList = oldDocHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).FirstChild().ToElement();
 						
-								for( oldConfList; oldConfList; oldConfList=oldConfList->NextSiblingElement()) {
+								for( ; oldConfList; oldConfList=oldConfList->NextSiblingElement()) {
 									tempStringList2.push_back(oldConfList->Attribute("value"));
 								}
 							
