@@ -216,7 +216,10 @@ IrcThread::Main()
 	if (s)
 	{
 		if (irc_connect(s, context.serverAddress.c_str(), context.serverPort, 0, context.nick.c_str(), 0, 0) == 0)
-			irc_run(s);
+		{
+			if (!ShouldTerminate())
+				irc_run(s);
+		}
 	}
 }
 
