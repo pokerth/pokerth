@@ -805,7 +805,7 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	startData.numberOfPlayers = gameData.maxNumberOfPlayers;
 	Tools::getRandNumber(0, startData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
 	if(DEBUG_MODE) {
-		tmpDealerPos = 5;
+		tmpDealerPos = 6;
 	}
 	startData.startDealerPlayerId = static_cast<unsigned>(tmpDealerPos);
 

@@ -131,8 +131,9 @@ void LocalBeRoPreflop::run() {
 			}
 
 
+		} else {
+			setFirstRoundLastPlayersTurnId( getBigBlindPositionId() );
 		}
-		setFirstRoundLastPlayersTurnId( getBigBlindPositionId() );
 	}
 
 	setCurrentPlayersTurnId( getFirstRoundLastPlayersTurnId() );
