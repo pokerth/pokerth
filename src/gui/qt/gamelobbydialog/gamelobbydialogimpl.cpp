@@ -21,7 +21,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
  : QDialog(parent), myW(NULL), myConfig(c), mySession(NULL), currentGameName(""), isAdmin(false), inGame(false), myChat(NULL)
 {
     setupUi(this);
-
+	
 	myChat = new LobbyChat(this);
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
@@ -210,10 +210,15 @@ void gameLobbyDialogImpl::updateGameItem(QTreeWidgetItem *item, unsigned gameId)
 	item->setData(1, Qt::DisplayRole, playerStr);
 
 	if (info.mode == GAME_MODE_STARTED)
-		item->setData(2, Qt::DisplayRole, "X");
+		item->setData(2, Qt::DisplayRole, tr("running"));
+	else 
+		item->setData(2, Qt::DisplayRole, tr("registering"));
 
+	QString myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
+
+// 	QIcon(myAppDataPath+"lock.png")
 	if (info.isPasswordProtected)
-		item->setData(3, Qt::DisplayRole, "X");
+		item->setIcon(3, QIcon(myAppDataPath+"lock.png"));
 }
 
 void gameLobbyDialogImpl::addGame(unsigned gameId)
