@@ -1465,7 +1465,7 @@ QString Log::determineHandName(int myCardsValueInt) {
 								it++;
 							} else {
 								different = true;
-								sameHandCardsValueInt.erase(it);
+								it = sameHandCardsValueInt.erase(it);
 							}
 						}
 						if(different) {
