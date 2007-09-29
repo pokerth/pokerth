@@ -216,9 +216,8 @@ void gameLobbyDialogImpl::updateGameItem(QTreeWidgetItem *item, unsigned gameId)
 
 	QString myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
-// 	QIcon(myAppDataPath+"lock.png")
 	if (info.isPasswordProtected)
-		item->setIcon(3, QIcon(myAppDataPath+"lock.png"));
+		item->setIcon(3, QIcon(myAppDataPath+"gfx/gui/misc/lock.png"));
 }
 
 void gameLobbyDialogImpl::addGame(unsigned gameId)
