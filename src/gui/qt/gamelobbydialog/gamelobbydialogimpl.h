@@ -102,6 +102,7 @@ private:
 	bool isAdmin;
 	bool inGame;
 	LobbyChat *myChat;
+	QString myAppDataPath;
 
 };
 

@@ -24,6 +24,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	
 	myChat = new LobbyChat(this);
 
+	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
+
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
 	connect( treeWidget_GameList, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( gameSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
@@ -213,8 +215,6 @@ void gameLobbyDialogImpl::updateGameItem(QTreeWidgetItem *item, unsigned gameId)
 		item->setData(2, Qt::DisplayRole, tr("running"));
 	else 
 		item->setData(2, Qt::DisplayRole, tr("registering"));
-
-	QString myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
 	if (info.isPasswordProtected)
 		item->setIcon(3, QIcon(myAppDataPath+"gfx/gui/misc/lock.png"));
