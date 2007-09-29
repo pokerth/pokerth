@@ -68,6 +68,8 @@ void LobbyChat::playerJoined(QString playerName)
 {
 	QTreeWidgetItem *item = new QTreeWidgetItem(myLobby->treeWidget_NickList, 0);
 	item->setData(0, Qt::DisplayRole, playerName);
+
+	myLobby->treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
 }
 
 void LobbyChat::playerLeft(QString playerName)
@@ -75,6 +77,8 @@ void LobbyChat::playerLeft(QString playerName)
 	QList<QTreeWidgetItem *> tmpList(myLobby->treeWidget_NickList->findItems(playerName, Qt::MatchExactly));
 	if (!tmpList.empty())
 		myLobby->treeWidget_NickList->takeTopLevelItem(myLobby->treeWidget_NickList->indexOfTopLevelItem(tmpList.front()));
+
+	myLobby->treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
 }
 
 void LobbyChat::displayMessage(QString playerName, QString message) { 

@@ -183,6 +183,7 @@ public slots:
 	void callCreateNetworkGameDialog();
 	void callJoinNetworkGameDialog();
 	void callGameLobbyDialog();
+	void joinGameLobby();
 
 	void myBetRaise();
 	void myFoldAllin();

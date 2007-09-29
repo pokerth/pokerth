@@ -33,6 +33,15 @@
        <height>16777215</height>
       </size>
      </property>
+     <property name="indentation" >
+      <number>5</number>
+     </property>
+     <property name="rootIsDecorated" >
+      <bool>false</bool>
+     </property>
+     <property name="sortingEnabled" >
+      <bool>true</bool>
+     </property>
      <column>
       <property name="text" >
        <string>Available Players</string>

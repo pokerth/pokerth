@@ -935,26 +935,42 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 
 void mainWindowImpl::callGameLobbyDialog() {
 
+	//Avoid join Lobby with "Human Player" nick
+	if(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()) == QString("Human Player")) {
+		myChangeHumanPlayerNameDialog->label_Message->setText(tr("You cannot join Internet-Game-Lobby with \"Human Player\" as nickname.\nPlease choose another one."));
+		myChangeHumanPlayerNameDialog->exec();
+
+		if(myChangeHumanPlayerNameDialog->result() == QDialog::Accepted) {
+			joinGameLobby();
+		}
+	}
+	else {	
+		joinGameLobby();
+	}
+}
+
+void mainWindowImpl::joinGameLobby() {
+
+// Join Lobby
 	mySession->terminateNetworkClient();
 	if (myServerGuiInterface.get())
 		myServerGuiInterface->getSession().terminateNetworkServer();
-
-	myGameLobbyDialog->setSession(&getSession());
-	myStartNetworkGameDialog->setSession(&getSession());
-
+		myGameLobbyDialog->setSession(&getSession());
+		myStartNetworkGameDialog->setSession(&getSession());
+	
 	// Start client for dedicated server.
 	mySession->startInternetClient();
-
+	
 	//Dialog mit Statusbalken
 	myConnectToServerDialog->exec();
-
+	
 	if (myConnectToServerDialog->result() == QDialog::Rejected ) {
 		mySession->terminateNetworkClient();
 	}
 	else
 	{
 		myGameLobbyDialog->exec(); 
-
+	
 		if (myGameLobbyDialog->result() == QDialog::Accepted)
 		{
 			//some gui modifications
