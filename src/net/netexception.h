@@ -21,21 +21,15 @@
 #ifndef _NETEXCEPTION_H_
 #define _NETEXCEPTION_H_
 
+#include "pokerthexception.h"
 
-class NetException
+class NetException : public PokerTHException
 {
 public:
 
 	NetException(int errorId, int osErrorCode)
-		: m_errorId(errorId), m_osErrorCode(osErrorCode) {}
+		: PokerTHException(errorId, osErrorCode) {}
 	virtual ~NetException();
-
-	int GetErrorId() const {return m_errorId;}
-	int GetOsErrorCode() const {return m_osErrorCode;}
-
-private:
-	int m_errorId;
-	int m_osErrorCode;
 };
 
 #endif

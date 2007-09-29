@@ -96,6 +96,7 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
 	currentGame->initHand();
 	currentGame->startHand();
 	// SPIEL-SCHLEIFE
+
 }
 
 void Session::startClientGame(boost::shared_ptr<Game> game)

@@ -28,7 +28,7 @@
 using namespace std;
 
 Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
-		   const PlayerDataList &playerDataList, const GameData gameData,
+		   const PlayerDataList &playerDataList, const GameData &gameData,
 		   const StartData &startData, int gameId)
 : myFactory(factory), myGui(gui), actualHand(0), actualBoard(0),
   startQuantityPlayers(startData.numberOfPlayers),
@@ -37,7 +37,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
   myGameID(gameId), actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(0), lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData)
 {
 	if(DEBUG_MODE) {
-		startSmallBlind = 5120;
+		startSmallBlind = 160;
 		actualSmallBlind = startSmallBlind;
 	}
 

@@ -805,7 +805,7 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	startData.numberOfPlayers = gameData.maxNumberOfPlayers;
 	Tools::getRandNumber(0, startData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
 	if(DEBUG_MODE) {
-		tmpDealerPos = 4;
+		tmpDealerPos = 5;
 	}
 	startData.startDealerPlayerId = static_cast<unsigned>(tmpDealerPos);
 
@@ -2944,7 +2944,7 @@ void mainWindowImpl::localGameModification() {
 	}
 
 	//Set the playing mode to "manual"
-	playingMode = 1;
+	playingMode = 0;
 
 }
 

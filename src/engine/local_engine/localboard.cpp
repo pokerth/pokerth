@@ -21,6 +21,7 @@
 
 #include "handinterface.h"
 #include <game_defs.h>
+#include "localexception.h"
 
 using namespace std;
 

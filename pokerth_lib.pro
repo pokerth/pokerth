@@ -46,6 +46,7 @@ HEADERS += \
 		src/core/thread.h \
 		src/core/crypthelper.h \
 		src/core/avatarmanager.h \
+		src/core/pokerthexception.h \
 		src/engine/boardinterface.h \
 		src/engine/enginefactory.h \
 		src/engine/handinterface.h \
@@ -70,6 +71,7 @@ HEADERS += \
 		src/net/socket_startup.h \
 		src/net/irccallback.h \
 		src/net/ircthread.h \
+		src/net/netexception.h \
 		src/core/tinyxml/tinystr.h \
 		src/core/tinyxml/tinyxml.h \
 		src/core/libircclient/include/libircclient.h \
@@ -86,6 +88,7 @@ HEADERS += \
 		src/engine/local_engine/localberopostriver.h \
 		src/engine/local_engine/tools.h \
 		src/engine/local_engine/localbero.h \
+		src/engine/local_engine/localexception.h \
 		src/engine/network_engine/clientboard.h \
 		src/engine/network_engine/clientenginefactory.h \
 		src/engine/network_engine/clienthand.h \
@@ -110,6 +113,7 @@ SOURCES += \
 		src/core/common/thread.cpp \
 		src/core/common/crypthelper.cpp \
 		src/core/common/avatarmanager.cpp \
+		src/core/common/pokerthexception.cpp \
 		src/core/tinyxml/tinystr.cpp \
 		src/core/tinyxml/tinyxml.cpp \
 		src/core/tinyxml/tinyxmlerror.cpp \
@@ -127,6 +131,7 @@ SOURCES += \
 		src/engine/local_engine/localberopostriver.cpp \
 		src/engine/local_engine/tools.cpp \
 		src/engine/local_engine/localbero.cpp \
+		src/engine/local_engine/localexception.cpp \
 		src/engine/network_engine/clientboard.cpp \
 		src/engine/network_engine/clientenginefactory.cpp \
 		src/engine/network_engine/clienthand.cpp \

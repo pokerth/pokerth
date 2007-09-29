@@ -45,7 +45,7 @@ class Game {
 
 public:
 	Game(GuiInterface *gui, boost::shared_ptr<EngineFactory> factory,
-		const PlayerDataList &playerDataList, const GameData gameData,
+		const PlayerDataList &playerDataList, const GameData &gameData,
 		const StartData &startData, int gameId);
 
 	~Game();

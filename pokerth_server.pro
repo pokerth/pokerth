@@ -86,76 +86,80 @@ HEADERS += \
 		src/gui/qttoolsinterface.h \
 		src/gui/qt/qttools/qttoolswrapper.h \
 		src/gui/qt/qttools/qthelper/qthelper.h \
-		src/gui/generic/serverguiwrapper.h
+		src/gui/generic/serverguiwrapper.h \
+ src/core/pokerthexception.h \
+ src/engine/local_engine/localexception.h
 
 SOURCES += \
-		src/pokerth_server.cpp
+		src/pokerth_server.cpp \
+ src/core/common/pokerthexception.cpp \
+ src/engine/local_engine/localexception.cpp
 
-win32{
-	DEPENDPATH += src/net/win32/ src/core/win32
-	INCLUDEPATH += ../boost/ ../OpenSSL/include
-	LIBPATH += ../boost/stage/lib ../OpenSSL/lib
+win32 {
+    DEPENDPATH += src/net/win32/ src/core/win32
+    INCLUDEPATH += ../boost/ ../OpenSSL/include
+    LIBPATH += ../boost/stage/lib ../OpenSSL/lib
 
-	LIBPATH += Release/lib
-	#LIBPATH += Debug/lib
+    LIBPATH += Release/lib
+    #LIBPATH += Debug/lib
 
-	LIBS += -lpokerth_lib
-	LIBS += -lssleay32
-	LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32
-	exists( ../boost/stage/lib/libboost_thread-mgw34-mt-1_34_1.a ){
-		LIBS += -lboost_thread-mgw34-mt-1_34_1
-	}
-	exists( ../boost/stage/lib/libboost_filesystem-mgw34-mt-1_34_1.a ){
-		LIBS += -lboost_filesystem-mgw34-mt-1_34_1
-	}
+    LIBS += -lpokerth_lib
+    LIBS += -lssleay32
+    LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32
+    exists( ../boost/stage/lib/libboost_thread-mgw34-mt-1_34_1.a ){
+        LIBS += -lboost_thread-mgw34-mt-1_34_1
+    }
+    exists( ../boost/stage/lib/libboost_filesystem-mgw34-mt-1_34_1.a ){
+        LIBS += -lboost_filesystem-mgw34-mt-1_34_1
+    }
 }
-!win32{
-	DEPENDPATH += src/net/linux/ src/core/linux
-	SOURCES += src/core/linux/daemon.c
+!win32 {
+    DEPENDPATH += src/net/linux/ src/core/linux
+    SOURCES += src/core/linux/daemon.c
 }
 
-unix:!mac{
-	exists( /usr/lib/libboost_thread-mt.so ) {
-		message("Found libboost_thread-mt")
-		LIBS += -lboost_thread-mt
-	}
-	exists( /usr/lib64/libboost_thread-mt.so ) {
-		message("Found libboost_thread-mt")
-		LIBS += -lboost_thread-mt
-	}
-	exists( /usr/lib/libboost_thread.so ) {
-		message("Found libboost_thread")
-		LIBS += -lboost_thread
-	}
-	exists( /usr/lib64/libboost_thread.so ) {
-		message("Found libboost_thread")
-		LIBS += -lboost_thread
-	}
-	
-	exists( /usr/lib/libboost_filesystem-mt.so ){
-		message("Found libboost_filesystem-mt")
-		LIBS += -lboost_filesystem-mt
-	}
-	exists( /usr/lib64/libboost_filesystem-mt.so ){
-		message("Found libboost_filesystem-mt")
-		LIBS += -lboost_filesystem-mt
-	}
-	exists( /usr/lib/libboost_filesystem.so ){
-		message("Found libboost_filesystem")
-		LIBS += -lboost_filesystem
-	}
-	exists( /usr/lib64/libboost_filesystem.so ){
-		message("Found libboost_filesystem")
-		LIBS += -lboost_filesystem
-	}
-	LIBPATH += lib
-	LIBS += -lpokerth_lib
-	LIBS += -lcrypto
-	TARGETDEPS += ./lib/libpokerth_lib.a
-	
-	## My release static libs
-	#LIBS += -lcrypto
-}
+unix : !mac {
+        exists( /usr/lib/libboost_thread-mt.so ){
+            message("Found libboost_thread-mt")
+            LIBS += -lboost_thread-mt
+        }
+        exists( /usr/lib64/libboost_thread-mt.so ){
+            message("Found libboost_thread-mt")
+            LIBS += -lboost_thread-mt
+        }
+        exists( /usr/lib/libboost_thread.so ){
+            message("Found libboost_thread")
+            LIBS += -lboost_thread
+        }
+        exists( /usr/lib64/libboost_thread.so ){
+            message("Found libboost_thread")
+            LIBS += -lboost_thread
+        }
+
+        exists( /usr/lib/libboost_filesystem-mt.so ){
+            message("Found libboost_filesystem-mt")
+            LIBS += -lboost_filesystem-mt
+        }
+        exists( /usr/lib64/libboost_filesystem-mt.so ){
+            message("Found libboost_filesystem-mt")
+            LIBS += -lboost_filesystem-mt
+        }
+        exists( /usr/lib/libboost_filesystem.so ){
+            message("Found libboost_filesystem")
+            LIBS += -lboost_filesystem
+        }
+        exists( /usr/lib64/libboost_filesystem.so ){
+            message("Found libboost_filesystem")
+            LIBS += -lboost_filesystem
+        }
+        LIBPATH += lib
+        LIBS += -lpokerth_lib
+        LIBS += -lcrypto
+        TARGETDEPS += ./lib/libpokerth_lib.a
+
+        ## My release static libs
+        #LIBS += -lcrypto
+    }
 
 #CONFIG += qt thread console embed_manifest_exe warn_on release
 CONFIG += qt thread console embed_manifest_exe warn_on debug
