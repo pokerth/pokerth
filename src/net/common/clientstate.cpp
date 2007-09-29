@@ -399,7 +399,6 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			NetPacketRemovedFromGame::Data removedData;
 			tmpPacket->ToNetPacketRemovedFromGame()->GetData(removedData);
 			client.ClearPlayerDataList();
-			client.ClearGameInfoMap();
 			client.GetCallback().SignalNetClientRemovedFromGame(removedData.removeReason);
 			client.SetState(ClientStateWaitJoin::Instance());
 		}
@@ -429,6 +428,54 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 
 			// Signal to GUI and remove from data list.
 			client.RemovePlayerData(playerLeftData.playerId);
+		}
+		else if (tmpPacket->ToNetPacketGameListNew())
+		{
+			// A new game was created on the server.
+			NetPacketGameListNew::Data gameListNewData;
+			tmpPacket->ToNetPacketGameListNew()->GetData(gameListNewData);
+
+			// Request player info for players if needed.
+			PlayerIdList::const_iterator i = gameListNewData.gameInfo.players.begin();
+			PlayerIdList::const_iterator end = gameListNewData.gameInfo.players.end();
+			while (i != end)
+			{
+				PlayerInfo info;
+				if (!client.GetCachedPlayerInfo(*i, info))
+				{
+					// Request player info.
+					client.RequestPlayerInfo(*i);
+				}
+				++i;
+			}
+
+			client.AddGameInfo(gameListNewData.gameId, gameListNewData.gameInfo);
+		}
+		else if (tmpPacket->ToNetPacketGameListUpdate())
+		{
+			// An existing game was updated on the server.
+			NetPacketGameListUpdate::Data gameListUpdateData;
+			tmpPacket->ToNetPacketGameListUpdate()->GetData(gameListUpdateData);
+			if (gameListUpdateData.gameMode == GAME_MODE_CLOSED)
+				client.RemoveGameInfo(gameListUpdateData.gameId);
+		}
+		else if (tmpPacket->ToNetPacketGameListPlayerJoined())
+		{
+			NetPacketGameListPlayerJoined::Data playerJoinedData;
+			tmpPacket->ToNetPacketGameListPlayerJoined()->GetData(playerJoinedData);
+			client.ModifyGameInfoAddPlayer(playerJoinedData.gameId, playerJoinedData.playerId);
+			// Request player info if needed.
+			PlayerInfo info;
+			if (!client.GetCachedPlayerInfo(playerJoinedData.playerId, info))
+			{
+				client.RequestPlayerInfo(playerJoinedData.playerId);
+			}
+		}
+		else if (tmpPacket->ToNetPacketGameListPlayerLeft())
+		{
+			NetPacketGameListPlayerLeft::Data playerLeftData;
+			tmpPacket->ToNetPacketGameListPlayerLeft()->GetData(playerLeftData);
+			client.ModifyGameInfoRemovePlayer(playerLeftData.gameId, playerLeftData.playerId);
 		}
 		else
 			retVal = InternalProcess(client, tmpPacket);
@@ -497,55 +544,7 @@ ClientStateWaitJoin::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 	ClientContext &context = client.GetContext();
 
-	if (packet->ToNetPacketGameListNew())
-	{
-		// A new game was created on the server.
-		NetPacketGameListNew::Data gameListNewData;
-		packet->ToNetPacketGameListNew()->GetData(gameListNewData);
-
-		// Request player info for players if needed.
-		PlayerIdList::const_iterator i = gameListNewData.gameInfo.players.begin();
-		PlayerIdList::const_iterator end = gameListNewData.gameInfo.players.end();
-		while (i != end)
-		{
-			PlayerInfo info;
-			if (!client.GetCachedPlayerInfo(*i, info))
-			{
-				// Request player info.
-				client.RequestPlayerInfo(*i);
-			}
-			++i;
-		}
-
-		client.AddGameInfo(gameListNewData.gameId, gameListNewData.gameInfo);
-	}
-	else if (packet->ToNetPacketGameListUpdate())
-	{
-		// An existing game was updated on the server.
-		NetPacketGameListUpdate::Data gameListUpdateData;
-		packet->ToNetPacketGameListUpdate()->GetData(gameListUpdateData);
-		if (gameListUpdateData.gameMode == GAME_MODE_CLOSED)
-			client.RemoveGameInfo(gameListUpdateData.gameId);
-	}
-	else if (packet->ToNetPacketGameListPlayerJoined())
-	{
-		NetPacketGameListPlayerJoined::Data playerJoinedData;
-		packet->ToNetPacketGameListPlayerJoined()->GetData(playerJoinedData);
-		client.ModifyGameInfoAddPlayer(playerJoinedData.gameId, playerJoinedData.playerId);
-		// Request player info if needed.
-		PlayerInfo info;
-		if (!client.GetCachedPlayerInfo(playerJoinedData.playerId, info))
-		{
-			client.RequestPlayerInfo(playerJoinedData.playerId);
-		}
-	}
-	else if (packet->ToNetPacketGameListPlayerLeft())
-	{
-		NetPacketGameListPlayerLeft::Data playerLeftData;
-		packet->ToNetPacketGameListPlayerLeft()->GetData(playerLeftData);
-		client.ModifyGameInfoRemovePlayer(playerLeftData.gameId, playerLeftData.playerId);
-	}
-	else if (packet->ToNetPacketJoinGameAck())
+	if (packet->ToNetPacketJoinGameAck())
 	{
 		// Successfully joined a game.
 		NetPacketJoinGameAck::Data joinGameAckData;

@@ -29,6 +29,8 @@
 #include <localenginefactory.h>
 #include <tools.h>
 
+#include <boost/bind.hpp>
+
 using namespace std;
 
 
@@ -98,6 +100,22 @@ void
 ServerGameThread::SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::State state)
 {
 	GetSessionManager().SendToAllSessions(GetSender(), packet, state);
+}
+
+void
+ServerGameThread::RemoveAllSessions()
+{
+	// Called from lobby thread.
+	// Clean up ALL sessions which are left.
+	ServerLobbyThread &lobbyThread = GetLobbyThread();
+	boost::mutex::scoped_lock lock(m_sessionQueueMutex);
+	while (!m_sessionQueue.empty())
+	{
+		SessionWrapper tmpSession = m_sessionQueue.front();
+		m_sessionQueue.pop_front();
+		lobbyThread.RemoveSessionFromGame(tmpSession);
+	}
+	GetSessionManager().ForEach(boost::bind(&ServerLobbyThread::RemoveSessionFromGame, boost::ref(lobbyThread), _1));
 }
 
 void
@@ -262,7 +280,7 @@ ServerGameThread::ResetComputerPlayerList()
 }
 
 void
-ServerGameThread::RemoveSession(SessionWrapper session)
+ServerGameThread::GracefulRemoveSession(SessionWrapper session)
 {
 	assert(session.sessionData.get());
 	GetSessionManager().RemoveSession(session.sessionData->GetSocket());
@@ -282,17 +300,24 @@ ServerGameThread::RemoveSession(SessionWrapper session)
 }
 
 void
+ServerGameThread::ErrorRemoveSession(SessionWrapper session)
+{
+	GetLobbyThread().RemoveSessionFromGame(session);
+	GracefulRemoveSession(session);
+}
+
+void
 ServerGameThread::SessionError(SessionWrapper session, int errorCode)
 {
 	assert(session.sessionData.get());
-	RemoveSession(session);
+	ErrorRemoveSession(session);
 	GetLobbyThread().SessionError(session, errorCode);
 }
 
 void
 ServerGameThread::MoveSessionToLobby(SessionWrapper session, int reason)
 {
-	RemoveSession(session);
+	GracefulRemoveSession(session);
 	GetLobbyThread().ReAddSession(session, reason);
 }
 

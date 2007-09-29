@@ -52,9 +52,13 @@ public:
 
 	void AddConnection(boost::shared_ptr<ConnectData> data);
 	void ReAddSession(SessionWrapper session, int reason);
+	void MoveSessionToGame(ServerGameThread &game, SessionWrapper session);
+	void RemoveSessionFromGame(SessionWrapper session);
 	void SessionError(SessionWrapper session, int errorCode);
 	void NotifyPlayerJoinedGame(unsigned gameId, unsigned playerId);
 	void NotifyPlayerLeftGame(unsigned gameId, unsigned playerId);
+
+	void HandleGameRetrievePlayerInfo(SessionWrapper session, const NetPacketRetrievePlayerInfo &tmpPacket);
 
 	void RemoveGame(unsigned id);
 
@@ -88,7 +92,7 @@ protected:
 	void TerminateGames();
 
 	void HandleNewConnection(boost::shared_ptr<ConnectData> connData);
-	void HandleNewSession(SessionWrapper session);
+	void HandleReAddedSession(SessionWrapper session);
 
 	SOCKET Select();
 
@@ -122,6 +126,7 @@ private:
 	mutable boost::mutex m_sessionQueueMutex;
 
 	SessionManager m_sessionManager;
+	SessionManager m_gameSessionManager;
 
 	CloseSessionList m_closeSessionList;
 	mutable boost::mutex m_closeSessionListMutex;

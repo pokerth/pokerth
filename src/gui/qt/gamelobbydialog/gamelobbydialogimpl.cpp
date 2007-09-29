@@ -18,7 +18,7 @@
 #include <net/socket_msg.h>
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
- : QDialog(parent), myW(NULL), myConfig(c), mySession(NULL), currentGameName(""), isAdmin(false), myChat(NULL)
+ : QDialog(parent), myW(NULL), myConfig(c), mySession(NULL), currentGameName(""), isAdmin(false), inGame(false), myChat(NULL)
 {
     setupUi(this);
 
@@ -50,7 +50,6 @@ void gameLobbyDialogImpl::exec()
 	mySession->startIrcClient();
 	QDialog::exec();
 	mySession->terminateIrcClient();
-	clearDialog();
 }
 
 
@@ -162,12 +161,14 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 
 void gameLobbyDialogImpl::removedFromGame(int reason)
 {
-	clearDialog();
+	inGame = false;
+	isAdmin = false;
+	leftGameDialogUpdate();
 }
 
 void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, QTreeWidgetItem*)
 {
-	if (item)
+	if (!inGame && item)
 	{
 		pushButton_JoinGame->setEnabled(true);
 
@@ -234,12 +235,15 @@ void gameLobbyDialogImpl::removeGame(unsigned gameId)
 
 void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
 {
-	QTreeWidgetItem *item = treeWidget_GameList->currentItem();
-	if (item && item->data(0, Qt::UserRole) == gameId)
+	if (!inGame)
 	{
-		assert(mySession);
-		PlayerInfo info(mySession->getClientPlayerInfo(playerId));
-		addConnectedPlayer(playerId, QString::fromUtf8(info.playerName.c_str()), PLAYER_RIGHTS_NORMAL);
+		QTreeWidgetItem *item = treeWidget_GameList->currentItem();
+		if (item && item->data(0, Qt::UserRole) == gameId)
+		{
+			assert(mySession);
+			PlayerInfo info(mySession->getClientPlayerInfo(playerId));
+			addConnectedPlayer(playerId, QString::fromUtf8(info.playerName.c_str()), PLAYER_RIGHTS_NORMAL);
+		}
 	}
 
 	QTreeWidgetItemIterator it(treeWidget_GameList);
@@ -255,12 +259,15 @@ void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
 
 void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
 {
-	QTreeWidgetItem *item = treeWidget_GameList->currentItem();
-	if (item && item->data(0, Qt::UserRole) == gameId)
+	if (!inGame)
 	{
-		assert(mySession);
-		PlayerInfo info(mySession->getClientPlayerInfo(playerId));
-		removePlayer(playerId, QString::fromUtf8(info.playerName.c_str()));
+		QTreeWidgetItem *item = treeWidget_GameList->currentItem();
+		if (item && item->data(0, Qt::UserRole) == gameId)
+		{
+			assert(mySession);
+			PlayerInfo info(mySession->getClientPlayerInfo(playerId));
+			removePlayer(playerId, QString::fromUtf8(info.playerName.c_str()));
+		}
 	}
 
 	QTreeWidgetItemIterator it(treeWidget_GameList);
@@ -307,6 +314,8 @@ void gameLobbyDialogImpl::clearDialog()
 	pushButton_CreateGame->clearFocus();
 	lineEdit_ChatInput->setFocus();
 	myChat->clearChat();
+	inGame = false;
+	isAdmin = false;
 }
 
 void gameLobbyDialogImpl::checkPlayerQuantity() {
@@ -328,7 +337,8 @@ void gameLobbyDialogImpl::checkPlayerQuantity() {
 void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerName, int rights) {
 
 	// Update dialog
-	gameModeDialogUpdate();
+	inGame = true;
+	joinedGameDialogUpdate();
 
 	isAdmin = rights == PLAYER_RIGHTS_ADMIN;
 	addConnectedPlayer(playerId, playerName, rights);
@@ -382,15 +392,41 @@ void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString) {
 	checkPlayerQuantity();
 }
 
-void gameLobbyDialogImpl::gameModeDialogUpdate() {
+void gameLobbyDialogImpl::joinedGameDialogUpdate() {
 	groupBox_GameInfo->setEnabled(true);
 	groupBox_GameInfo->setTitle(currentGameName);
-	treeWidget_GameList->clear();
-	treeWidget_GameList->hide();
 	treeWidget_connectedPlayers->clear();
 	pushButton_CreateGame->hide();
 	pushButton_JoinGame->hide();
 	pushButton_Leave->show();
+}
+
+void gameLobbyDialogImpl::leftGameDialogUpdate() {
+
+	// un-select current game.
+	treeWidget_GameList->clearSelection();
+
+	groupBox_GameInfo->setTitle(tr("Game Info"));
+	groupBox_GameInfo->setEnabled(false);
+	currentGameName = "";
+
+	label_SmallBlind->setText("");
+	label_StartCash->setText("");
+	label_MaximumNumberOfPlayers->setText("");
+	label_HandsToRaiseSmallBlind->setText("");
+	label_TimeoutForPlayerAction->setText("");
+
+	treeWidget_connectedPlayers->clear();
+	pushButton_StartGame->hide();
+	pushButton_Leave->hide();
+	pushButton_Kick->hide();
+	pushButton_Kick->setEnabled(false);
+	checkBox_fillUpWithComputerOpponents->hide();
+	pushButton_CreateGame->show();
+	pushButton_JoinGame->show();
+	pushButton_JoinGame->setEnabled(false);
+
+	lineEdit_ChatInput->setFocus();
 }
 
 void gameLobbyDialogImpl::playerSelected(QTreeWidgetItem* item, QTreeWidgetItem*) {

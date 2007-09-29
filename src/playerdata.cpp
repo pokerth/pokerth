@@ -24,7 +24,112 @@ PlayerData::PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRig
 {
 }
 
+PlayerData::PlayerData(const PlayerData &other)
+: m_uniqueId(other.GetUniqueId()), m_number(other.GetNumber()), m_name(other.GetName()),
+  m_avatarFile(other.GetAvatarFile()), m_type(other.GetType()), m_rights(other.GetRights()),
+  m_netSessionData(other.GetNetSessionData())
+{
+}
+
 PlayerData::~PlayerData()
 {
+}
+
+const std::string &
+PlayerData::GetName() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_name;
+}
+
+void
+PlayerData::SetName(const std::string &name)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_name = name;
+}
+
+const std::string &
+PlayerData::GetAvatarFile() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_avatarFile;
+}
+
+void
+PlayerData::SetAvatarFile(const std::string &avatarFile)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_avatarFile = avatarFile;
+}
+
+boost::shared_ptr<SessionData>
+PlayerData::GetNetSessionData() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_netSessionData;
+}
+
+void
+PlayerData::SetNetSessionData(boost::shared_ptr<SessionData> session)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_netSessionData = session;
+}
+
+PlayerType
+PlayerData::GetType() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_type;
+}
+
+void
+PlayerData::SetType(PlayerType type)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_type = type;
+}
+
+PlayerRights
+PlayerData::GetRights() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_rights;
+}
+
+void
+PlayerData::SetRights(PlayerRights rights)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_rights = rights;
+}
+
+unsigned
+PlayerData::GetUniqueId() const
+{
+	// const value - no mutex needed.
+	return m_uniqueId;
+}
+
+int
+PlayerData::GetNumber() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_number;
+}
+
+void
+PlayerData::SetNumber(int number)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_number = number;
+}
+
+bool
+PlayerData::operator<(const PlayerData &other) const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_number < other.GetNumber();
 }
 

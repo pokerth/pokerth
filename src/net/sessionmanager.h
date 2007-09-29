@@ -25,6 +25,7 @@
 #include <playerdata.h>
 #include <core/thread.h>
 
+#include <boost/function.hpp>
 #include <map>
 #include <string>
 
@@ -61,6 +62,8 @@ public:
 	PlayerIdList GetPlayerIdList() const;
 	bool IsPlayerConnected(const std::string &playerName) const;
 	bool IsPlayerConnected(unsigned uniqueId) const;
+
+	void ForEach(boost::function<void (SessionWrapper)> func);
 
 	void Clear();
 	unsigned GetRawSessionCount();

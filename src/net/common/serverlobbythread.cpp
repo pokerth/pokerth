@@ -29,7 +29,7 @@
 #include <boost/lambda/lambda.hpp>
 
 #define SERVER_CLOSE_SESSION_DELAY_SEC	10
-#define SERVER_MAX_NUM_SESSIONS			64 // Maximum number of idle users in lobby.
+#define SERVER_MAX_NUM_SESSIONS			512 // Maximum number of idle users in lobby.
 
 #define SERVER_COMPUTER_PLAYER_NAME				"Computer"
 
@@ -94,9 +94,30 @@ ServerLobbyThread::ReAddSession(SessionWrapper session, int reason)
 }
 
 void
+ServerLobbyThread::MoveSessionToGame(ServerGameThread &game, SessionWrapper session)
+{
+	// Remove session from the lobby.
+	m_sessionManager.RemoveSession(session.sessionData->GetSocket());
+	// Session is now in game state.
+	session.sessionData->SetState(SessionData::Game);
+	// Store it in the list of game sessions.
+	m_gameSessionManager.AddSession(session);
+	// Add session to the game.
+	game.AddSession(session);
+}
+
+void
+ServerLobbyThread::RemoveSessionFromGame(SessionWrapper session)
+{
+	// Just remove the session. Only for fatal errors.
+	m_gameSessionManager.RemoveSession(session.sessionData->GetSocket());
+}
+
+void
 ServerLobbyThread::CloseSessionDelayed(SessionWrapper session)
 {
 	m_sessionManager.RemoveSession(session.sessionData->GetSocket());
+	m_gameSessionManager.RemoveSession(session.sessionData->GetSocket());
 
 	boost::timers::portable::microsec_timer closeTimer;
 	closeTimer.start();
@@ -116,6 +137,7 @@ ServerLobbyThread::NotifyPlayerJoinedGame(unsigned gameId, unsigned playerId)
 	packetData.playerId = playerId;
 	static_cast<NetPacketGameListPlayerJoined *>(packet.get())->SetData(packetData);
 	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
 }
 
 void
@@ -128,6 +150,14 @@ ServerLobbyThread::NotifyPlayerLeftGame(unsigned gameId, unsigned playerId)
 	packetData.playerId = playerId;
 	static_cast<NetPacketGameListPlayerLeft *>(packet.get())->SetData(packetData);
 	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
+}
+
+void
+ServerLobbyThread::HandleGameRetrievePlayerInfo(SessionWrapper session, const NetPacketRetrievePlayerInfo &tmpPacket)
+{
+	// Someone within a game requested player info.
+	HandleNetPacketRetrievePlayerInfo(session, tmpPacket);
 }
 
 void
@@ -185,7 +215,7 @@ ServerLobbyThread::Main()
 					}
 				}
 				if (tmpSession.sessionData.get() && tmpSession.playerData.get())
-					HandleNewSession(tmpSession);
+					HandleReAddedSession(tmpSession);
 			}
 			// Process loop.
 			ProcessLoop();
@@ -205,7 +235,6 @@ ServerLobbyThread::Main()
 	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);
 
 	CleanupConnectQueue();
-	m_sessionManager.Clear();
 }
 
 void
@@ -326,17 +355,7 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 	// Find player in lobby or in a game.
 	boost::shared_ptr<PlayerData> tmpPlayer = m_sessionManager.GetSessionByUniquePlayerId(request.playerId).playerData;
 	if (!tmpPlayer.get())
-	{
-		GameMap::const_iterator game_i = m_gameMap.begin();
-		GameMap::const_iterator game_end = m_gameMap.end();
-		while (game_i != game_end)
-		{
-			tmpPlayer = game_i->second->GetPlayerDataByUniqueId(request.playerId);
-			if (tmpPlayer.get())
-				break;
-			++game_i;
-		}
-	}
+		tmpPlayer = m_gameSessionManager.GetSessionByUniquePlayerId(request.playerId).playerData;
 
 	if (tmpPlayer.get())
 	{
@@ -371,10 +390,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const NetPa
 			m_playerConfig));
 	game->Init(createGameData.gameData);
 
-	// Remove session from the lobby.
-	m_sessionManager.RemoveSession(session.sessionData->GetSocket());
-	// Add session to the game.
-	game->AddSession(session);
+	MoveSessionToGame(*game, session);
 
 	// Add game to list of games.
 	InternalAddGame(game);
@@ -397,10 +413,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const NetPack
 		ServerGameThread &game = *pos->second;
 		if (game.CheckPassword(joinGameData.password))
 		{
-			// Remove session from the lobby.
-			m_sessionManager.RemoveSession(session.sessionData->GetSocket());
-			// Add session to the game.
-			game.AddSession(session);
+			MoveSessionToGame(game, session);
 		}
 		else
 		{
@@ -461,6 +474,7 @@ ServerLobbyThread::InternalAddGame(boost::shared_ptr<ServerGameThread> game)
 	m_gameMap.insert(GameMap::value_type(game->GetId(), game));
 	// Notify all players.
 	m_sessionManager.SendToAllSessions(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Game);
 }
 
 void
@@ -468,8 +482,11 @@ ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGameThread> game)
 {
 	// Remove game from list.
 	m_gameMap.erase(game->GetId());
+	// Remove all sessions left in the game.
+	game->RemoveAllSessions();
 	// Notify all players.
 	m_sessionManager.SendToAllSessions(GetSender(), CreateNetPacketGameListUpdate(*game, GAME_MODE_CLOSED), SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), CreateNetPacketGameListUpdate(*game, GAME_MODE_CLOSED), SessionData::Game);
 }
 
 void
@@ -517,26 +534,17 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 }
 
 void
-ServerLobbyThread::HandleNewSession(SessionWrapper session)
+ServerLobbyThread::HandleReAddedSession(SessionWrapper session)
 {
+	// Remove session from game session list.
+	m_gameSessionManager.RemoveSession(session.sessionData->GetSocket());
+
 	if (m_sessionManager.GetRawSessionCount() <= SERVER_MAX_NUM_SESSIONS)
 	{
-		// This session has been temporarily stored - check if no
-		// one else got the player name during that time.
-		if (!m_sessionManager.IsPlayerConnected(session.playerData->GetName()))
-		{
-			// Send the list of games.
-			SendGameList(session.sessionData->GetSocket());
-			// Set state (back) to established.
-			session.sessionData->SetState(SessionData::Established);
-			// Add session to lobby list.
-			m_sessionManager.AddSession(session);
-		}
-		else
-		{
-			// Gracefully close this session.
-			SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
-		}
+		// Set state (back) to established.
+		session.sessionData->SetState(SessionData::Established);
+		// Add session to lobby list.
+		m_sessionManager.AddSession(session);
 	}
 	else
 	{
@@ -643,19 +651,8 @@ ServerLobbyThread::IsPlayerConnected(const string &name)
 	retVal = m_sessionManager.IsPlayerConnected(name);
 
 	if (!retVal)
-	{
-		GameMap::const_iterator game_i = m_gameMap.begin();
-		GameMap::const_iterator game_end = m_gameMap.end();
-		while (game_i != game_end)
-		{
-			if (game_i->second->IsPlayerConnected(name))
-			{
-				retVal = true;
-				break;
-			}
-			++game_i;
-		}
-	}
+		retVal = m_gameSessionManager.IsPlayerConnected(name);
+
 	return retVal;
 }
 

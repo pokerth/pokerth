@@ -70,8 +70,7 @@ void irc_notify_player_list(irc_session_t *session, const char *players)
 	input >> name;
 	while (!input.fail() && !input.eof())
 	{
-		if (name != context->nick)
-			context->ircThread.GetCallback().SignalIrcPlayerJoined(name);
+		context->ircThread.GetCallback().SignalIrcPlayerJoined(name);
 		input >> name;
 	}
 }

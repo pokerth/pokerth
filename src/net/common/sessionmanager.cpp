@@ -278,6 +278,21 @@ SessionManager::IsPlayerConnected(unsigned uniqueId) const
 }
 
 void
+SessionManager::ForEach(boost::function<void (SessionWrapper)> func)
+{
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SessionMap::iterator i = m_sessionMap.begin();
+	SessionMap::iterator end = m_sessionMap.end();
+
+	while (i != end)
+	{
+		func((*i).second);
+		++i;
+	}
+}
+
+void
 SessionManager::Clear()
 {
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);

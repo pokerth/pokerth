@@ -26,6 +26,7 @@
 #include <list>
 #include <map>
 #include <boost/shared_ptr.hpp>
+#include <boost/thread.hpp>
 
 class SessionData;
 
@@ -54,46 +55,35 @@ class PlayerData
 {
 public:
 	PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRights rights);
+	PlayerData(const PlayerData &other);
 	~PlayerData();
 
-	const std::string &GetName() const
-	{return m_name;}
-	void SetName(const std::string &name)
-	{m_name = name;}
-	const std::string &GetAvatarFile() const
-	{return m_avatarFile;}
-	void SetAvatarFile(const std::string &avatarFile)
-	{m_avatarFile = avatarFile;}
-	boost::shared_ptr<SessionData> GetNetSessionData()
-	{return m_netSessionData;}
-	void SetNetSessionData(boost::shared_ptr<SessionData> session)
-	{m_netSessionData = session;}
-	PlayerType GetType() const
-	{return m_type;}
-	void SetType(PlayerType type)
-	{m_type = type;}
-	PlayerRights GetRights() const
-	{return m_rights;}
-	void SetRights(PlayerRights rights)
-	{m_rights = rights;}
-	unsigned GetUniqueId() const
-	{return m_uniqueId;}
-	int GetNumber() const
-	{return m_number;}
-	void SetNumber(int number)
-	{m_number = number;}
+	const std::string &GetName() const;
+	void SetName(const std::string &name);
+	const std::string &GetAvatarFile() const;
+	void SetAvatarFile(const std::string &avatarFile);
+	boost::shared_ptr<SessionData> GetNetSessionData() const;
+	void SetNetSessionData(boost::shared_ptr<SessionData> session);
+	PlayerType GetType() const;
+	void SetType(PlayerType type);
+	PlayerRights GetRights() const;
+	void SetRights(PlayerRights rights);
+	unsigned GetUniqueId() const;
+	int GetNumber() const;
+	void SetNumber(int number);
 
-	bool operator<(const PlayerData &other)
-	{return m_number < other.GetNumber();}
+	bool operator<(const PlayerData &other) const;
 
 private:
-	unsigned						m_uniqueId;
+	const unsigned					m_uniqueId;
 	int								m_number;
 	std::string						m_name;
 	std::string						m_avatarFile;
 	PlayerType						m_type;
 	PlayerRights					m_rights;
 	boost::shared_ptr<SessionData>	m_netSessionData;
+
+	mutable boost::mutex			m_dataMutex;
 };
 
 typedef std::list<unsigned> PlayerIdList;

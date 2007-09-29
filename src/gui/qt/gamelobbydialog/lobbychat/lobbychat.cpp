@@ -59,7 +59,6 @@ void LobbyChat::selfJoined(QString ownName, QString channel)
 	myNick = ownName;
 	myLobby->textBrowser_ChatDisplay->append(tr("Joined channel:") + " " + channel + " " + tr("as user") + " " + ownName + ".");
 	myLobby->textBrowser_ChatDisplay->append("");
-	playerJoined(ownName);
 	myLobby->lineEdit_ChatInput->setEnabled(true);
 	myLobby->lineEdit_ChatInput->setFocus();
 }

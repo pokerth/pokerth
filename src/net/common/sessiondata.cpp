@@ -30,3 +30,52 @@ SessionData::~SessionData()
 		CLOSESOCKET(m_sockfd);
 }
 
+unsigned
+SessionData::GetId() const
+{
+	// const value - no mutex needed.
+	return m_id;
+}
+
+SessionData::State
+SessionData::GetState() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_state;
+}
+
+void
+SessionData::SetState(SessionData::State state)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_state = state;
+}
+
+SOCKET
+SessionData::GetSocket() const
+{
+	// value never modified - no mutex needed.
+	return m_sockfd;
+}
+
+const std::string &
+SessionData::GetClientAddr() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_clientAddr;
+}
+
+void
+SessionData::SetClientAddr(const std::string &addr)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_clientAddr = addr;
+}
+
+ReceiveBuffer &
+SessionData::GetReceiveBuffer()
+{
+	// mutex protection, if needed, within buffer.
+	return m_receiveBuffer;
+}
+

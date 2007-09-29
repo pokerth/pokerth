@@ -82,7 +82,8 @@ public slots:
 	void leaveGame();
 	void kickPlayer();
 
-	void gameModeDialogUpdate();
+	void joinedGameDialogUpdate();
+	void leftGameDialogUpdate();
 	void clearDialog();
 
 	void sendChatMessage();
@@ -98,6 +99,7 @@ private:
 	createInternetGameDialogImpl *myCreateInternetGameDialog;
 	QString currentGameName;
 	bool isAdmin;
+	bool inGame;
 	LobbyChat *myChat;
 
 };

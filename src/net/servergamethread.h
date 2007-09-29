@@ -56,6 +56,7 @@ public:
 	GameState GetCurRound() const;
 
 	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::State state);
+	void RemoveAllSessions();
 
 	bool IsPasswordProtected() const;
 	bool CheckPassword(const std::string &password) const;
@@ -80,7 +81,8 @@ protected:
 	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
 	void ResetComputerPlayerList();
 
-	void RemoveSession(SessionWrapper session);
+	void GracefulRemoveSession(SessionWrapper session);
+	void ErrorRemoveSession(SessionWrapper session);
 	void SessionError(SessionWrapper session, int errorCode);
 	void MoveSessionToLobby(SessionWrapper session, int reason);
 

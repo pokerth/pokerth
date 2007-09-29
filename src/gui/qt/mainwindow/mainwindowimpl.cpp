@@ -884,6 +884,9 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		myGameLobbyDialog->setSession(&getSession());
 		myStartNetworkGameDialog->setSession(&getSession());
 
+		// Clear network game dialog.
+		myStartNetworkGameDialog->clearDialog();
+
 		myServerGuiInterface->getSession().startNetworkServer();
 		mySession->startNetworkClientForLocalServer(gameData);
 
@@ -908,6 +911,8 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 
 		myGameLobbyDialog->setSession(&getSession());
 		myStartNetworkGameDialog->setSession(&getSession());
+		// Clear network game dialog
+		myStartNetworkGameDialog->clearDialog();
 		// Maybe use QUrl::toPunycode.
 		mySession->startNetworkClient(
 			myJoinNetworkGameDialog->lineEdit_ipAddress->text().toUtf8().constData(),
@@ -957,7 +962,9 @@ void mainWindowImpl::joinGameLobby() {
 		myServerGuiInterface->getSession().terminateNetworkServer();
 		myGameLobbyDialog->setSession(&getSession());
 		myStartNetworkGameDialog->setSession(&getSession());
-	
+
+	// Clear Lobby dialog.
+	myGameLobbyDialog->clearDialog();
 	// Start client for dedicated server.
 	mySession->startInternetClient();
 	

@@ -43,7 +43,6 @@ void startNetworkGameDialogImpl::exec() {
 	label_maxPlayerNumber->setText(QString::number(info.data.maxNumberOfPlayers));
 
 	QDialog::exec();
-	clearDialog();
 }
 
 void startNetworkGameDialogImpl::startGame() {

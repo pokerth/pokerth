@@ -24,6 +24,7 @@
 #include <net/socket_helper.h>
 #include <net/receivebuffer.h>
 #include <string>
+#include <boost/thread.hpp>
 
 #define SESSION_ID_INIT			0
 
@@ -35,30 +36,25 @@ public:
 	SessionData(SOCKET sockfd, unsigned id);
 	~SessionData();
 
-	unsigned GetId() const
-	{return m_id;}
-	State GetState() const
-	{return m_state;}
-	void SetState(State state)
-	{m_state = state;}
+	unsigned GetId() const;
+	State GetState() const;
+	void SetState(State state);
 
-	SOCKET GetSocket() const
-	{return m_sockfd;}
+	SOCKET GetSocket() const;
 
-	const std::string &GetClientAddr() const
-	{return m_clientAddr;}
-	void SetClientAddr(const std::string &addr)
-	{m_clientAddr = addr;}
+	const std::string &GetClientAddr() const;
+	void SetClientAddr(const std::string &addr);
 
-	ReceiveBuffer &GetReceiveBuffer()
-	{return m_receiveBuffer;}
+	ReceiveBuffer &GetReceiveBuffer();
 
 private:
 	SOCKET							m_sockfd;
-	unsigned						m_id;
+	const unsigned					m_id;
 	State							m_state;
 	std::string						m_clientAddr;
 	ReceiveBuffer					m_receiveBuffer;
+
+	mutable boost::mutex			m_dataMutex;
 };
 
 #endif

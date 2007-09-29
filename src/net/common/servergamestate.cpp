@@ -141,7 +141,7 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 			packet = server.GetReceiver().Recv(session.sessionData->GetSocket(), session.sessionData->GetReceiveBuffer());
 		} catch (const NetException &)
 		{
-			server.RemoveSession(session);
+			server.ErrorRemoveSession(session);
 			return retVal;
 		}
 
@@ -150,25 +150,8 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 		{
 			if (packet->ToNetPacketRetrievePlayerInfo())
 			{
-				NetPacketRetrievePlayerInfo::Data reqData;
-				packet->ToNetPacketRetrievePlayerInfo()->GetData(reqData);
-
-				SessionWrapper tmpSession = server.GetSessionManager().GetSessionByUniquePlayerId(reqData.playerId);
-				if (tmpSession.sessionData.get() && tmpSession.playerData.get())
-				{
-					// Send player info to client.
-					// TODO this is a copy and paste
-					boost::shared_ptr<NetPacket> info(new NetPacketPlayerInfo);
-					NetPacketPlayerInfo::Data infoData;
-					infoData.playerId = tmpSession.playerData->GetUniqueId();
-					infoData.playerInfo.ptype = tmpSession.playerData->GetType();
-					infoData.playerInfo.playerName = tmpSession.playerData->GetName();
-					infoData.playerInfo.hasAvatar = !tmpSession.playerData->GetAvatarFile().empty();
-					if (infoData.playerInfo.hasAvatar)
-						infoData.playerInfo.avatar.FromString(tmpSession.playerData->GetAvatarFile());
-					static_cast<NetPacketPlayerInfo *>(info.get())->SetData(infoData);
-					server.GetSender().Send(session.sessionData->GetSocket(), info);
-				}
+				// Delegate to Lobby.
+				server.GetLobbyThread().HandleGameRetrievePlayerInfo(session, *packet->ToNetPacketRetrievePlayerInfo());
 			}
 			else if (packet->ToNetPacketLeaveCurrentGame())
 			{
@@ -282,8 +265,6 @@ ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper s
 			// Send "Player Joined" to other fully connected clients.
 			server.SendToAllPlayers(CreateNetPacketPlayerJoined(*session.playerData), SessionData::Game);
 
-			// Session is now in game state.
-			session.sessionData->SetState(SessionData::Game);
 			// Accept session.
 			server.GetSessionManager().AddSession(session);
 
