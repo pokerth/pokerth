@@ -266,7 +266,7 @@ void Game::raiseBlinds() {
 			raiseBlinds = true;
 			lastHandBlindsRaised = actualHandID;
 
-			cout << "raise now on hands \n";
+// 			cout << "raise now on hands \n";
 		}
 	}
 	else {
@@ -274,7 +274,7 @@ void Game::raiseBlinds() {
 			raiseBlinds = true;
 			lastTimeBlindsRaised = blindsTimer.elapsed().total_seconds()/60;
 
-			cout << "raise now on minutes \n";
+// 			cout << "raise now on minutes \n";
 		}
 	}
 
@@ -285,7 +285,7 @@ void Game::raiseBlinds() {
 	
 		if (myGameData.raiseMode == DOUBLE_BLINDS) { 
 			actualSmallBlind *= 2; 
-			cout << "double small blind \n";
+// 			cout << "double small blind \n";
 		}	
 		else {
 			// Increase the position of the list
@@ -296,35 +296,35 @@ void Game::raiseBlinds() {
 				it = find(blindsList.begin(), blindsList.end(), actualSmallBlind);
 				if(it !=  blindsList.end()) { 
 					it++;
-					cout << "increase position in blindslist \n";
+// 					cout << "increase position in blindslist \n";
 				}
 				else { 
-					cout << "blindslist exceeds\n"; 
+// 					cout << "blindslist exceeds\n"; 
 					if(actualSmallBlind == myGameData.firstSmallBlind) {
 						it = blindsList.begin();
 					}
 				}	
 			}
-			else {	cout << "blindslist is empty \n"; }
+// 			else {	cout << "blindslist is empty \n"; }
 			// Check if we can get an element of the list or the position exceeds the lis
 			if (blindsList.empty() || it ==  blindsList.end()) {
 				
 				// The position exceeds the list
 				if (myGameData.afterManualBlindsMode == AFTERMB_DOUBLE_BLINDS) { 
 					actualSmallBlind *= 2; 
-					cout << "after blindslist double blind\n";
+// 					cout << "after blindslist double blind\n";
 				}
 				else {
 					if(myGameData.afterManualBlindsMode == AFTERMB_RAISE_ABOUT) { 
 						actualSmallBlind += myGameData.afterMBAlwaysRaiseValue;
-						cout << "after blindslist increase about x \n";
+// 						cout << "after blindslist increase about x \n";
 					}
-					else { /* Stay at last blind */ cout << "after blindslist stay at last blind \n"; }
+// 					else { /* Stay at last blind */ cout << "after blindslist stay at last blind \n"; }
 				}				
 			} else {
 				// Grab the blinds amount from the list
 				actualSmallBlind = *it;
-				cout << "set new small blind from blindslist \n";
+// 				cout << "set new small blind from blindslist \n";
 			}
 		}
 	}

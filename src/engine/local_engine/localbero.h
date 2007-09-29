@@ -68,6 +68,9 @@ protected:
 	void setHighestSet(int theValue) { highestSet = theValue; }
 	int getHighestSet() const { return highestSet;}
 
+	void setFirstRun(bool theValue) { firstRun = theValue;}
+	bool getFirstRun() const {  return firstRun;}
+
 	void setFirstRound(bool theValue) { firstRound = theValue;}
 	bool getFirstRound() const {  return firstRound;}
 

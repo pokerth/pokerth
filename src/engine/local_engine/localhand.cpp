@@ -485,6 +485,7 @@ void LocalHand::switchRounds() {
 	// refresh runningPlayerList
 	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); ) {
 		if((*it)->getMyAction() == PLAYER_ACTION_FOLD || (*it)->getMyAction() == PLAYER_ACTION_ALLIN) {
+
 			it = runningPlayerList->erase(it);
 			if(!(runningPlayerList->empty())) {
 

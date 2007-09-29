@@ -30,6 +30,31 @@ LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, unsigned dP, int s
 
 	setHighestSet(2*getSmallBlind());
 
+
+
+
+}
+
+
+
+LocalBeRoPreflop::~LocalBeRoPreflop()
+{
+
+
+
+}
+
+void LocalBeRoPreflop::run() {
+
+	if(getFirstRun()) {
+
+
+
+
+
+
+
+
 	// determine bigBlindPosition -> old: delete
 // 	for(bigBlindPositionIt=getMyHand()->getActivePlayerList()->begin(); bigBlindPositionIt!=getMyHand()->getActivePlayerList()->end(); bigBlindPositionIt++) {
 // 		if((*bigBlindPositionIt)->getMyButton() == BUTTON_BIG_BLIND) break;
@@ -150,18 +175,22 @@ LocalBeRoPreflop::LocalBeRoPreflop(HandInterface* hi, int id, unsigned dP, int s
 
 
 
-}
 
 
 
-LocalBeRoPreflop::~LocalBeRoPreflop()
-{
 
 
 
-}
 
-void LocalBeRoPreflop::run() {
+		setFirstRun(false);
+	}
+
+
+
+
+
+
+
 
 	int i;
 	bool allHighestSet = true;
@@ -262,6 +291,8 @@ void LocalBeRoPreflop::run() {
 // 		}
 // 	}
 
+// 	cout << "firstRound. " << getFirstRound() << " - allHighestSet: " << allHighestSet << endl;
+	
 	// prfen, ob Preflop wirklich dran ist
 	if(!getFirstRound() && allHighestSet) { 
 
