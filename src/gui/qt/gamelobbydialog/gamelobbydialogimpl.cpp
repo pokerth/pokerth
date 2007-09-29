@@ -209,8 +209,11 @@ void gameLobbyDialogImpl::updateGameItem(QTreeWidgetItem *item, unsigned gameId)
 	playerStr.sprintf("%u/%u", info.players.size(), info.data.maxNumberOfPlayers);
 	item->setData(1, Qt::DisplayRole, playerStr);
 
-	if (info.isPasswordProtected)
+	if (info.mode == GAME_MODE_STARTED)
 		item->setData(2, Qt::DisplayRole, "X");
+
+	if (info.isPasswordProtected)
+		item->setData(3, Qt::DisplayRole, "X");
 }
 
 void gameLobbyDialogImpl::addGame(unsigned gameId)
@@ -218,6 +221,19 @@ void gameLobbyDialogImpl::addGame(unsigned gameId)
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_GameList, 0);
 
 	updateGameItem(item, gameId);
+}
+
+void gameLobbyDialogImpl::updateGameMode(unsigned gameId, int /*newMode*/)
+{
+	QTreeWidgetItemIterator it(treeWidget_GameList);
+	while (*it) {
+		if ((*it)->data(0, Qt::UserRole) == gameId)
+		{
+			updateGameItem(*it, gameId);
+			break;
+		}
+		++it;
+	}
 }
 
 void gameLobbyDialogImpl::removeGame(unsigned gameId)

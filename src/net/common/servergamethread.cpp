@@ -158,6 +158,8 @@ ServerGameThread::Main()
 void
 ServerGameThread::InternalStartGame()
 {
+	GetLobbyThread().NotifyStartingGame(GetId());
+
 	// Set order of players.
 	AssignPlayerNumbers();
 
@@ -180,19 +182,16 @@ ServerGameThread::InternalStartGame()
 	PlayerDataList::const_iterator player_i = playerData.begin();
 	PlayerDataList::const_iterator player_end = playerData.end();
 
-	bool randDealerFound = false;
+	int tmpPos = 0;
 	while (player_i != player_end)
 	{
-		if ((*player_i)->GetNumber() == tmpDealerPos)
-		{
-			// Get ID of the dealer.
-			startData.startDealerPlayerId = static_cast<unsigned>((*player_i)->GetUniqueId());
-			randDealerFound = true;
+		startData.startDealerPlayerId = static_cast<unsigned>((*player_i)->GetUniqueId());
+		if (tmpPos == tmpDealerPos)
 			break;
-		}
+		++tmpPos;
 		++player_i;
 	}
-	assert(randDealerFound); // TODO: Throw exception.
+	assert(player_i != player_end);
 
 	SetStartData(startData);
 

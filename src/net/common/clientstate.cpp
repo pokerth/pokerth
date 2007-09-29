@@ -458,6 +458,8 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			tmpPacket->ToNetPacketGameListUpdate()->GetData(gameListUpdateData);
 			if (gameListUpdateData.gameMode == GAME_MODE_CLOSED)
 				client.RemoveGameInfo(gameListUpdateData.gameId);
+			else
+				client.UpdateGameInfoMode(gameListUpdateData.gameId, gameListUpdateData.gameMode);
 		}
 		else if (tmpPacket->ToNetPacketGameListPlayerJoined())
 		{

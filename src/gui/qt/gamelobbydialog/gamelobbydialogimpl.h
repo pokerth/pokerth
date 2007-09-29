@@ -61,6 +61,7 @@ public slots:
 	void updateGameItem(QTreeWidgetItem *item, unsigned gameId);
 
 	void addGame(unsigned gameId);
+	void updateGameMode(unsigned gameId, int newMode);
 	void removeGame(unsigned gameId);
 	void gameAddPlayer(unsigned gameId, unsigned playerId);
 	void gameRemovePlayer(unsigned gameId, unsigned playerId);

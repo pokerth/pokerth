@@ -673,19 +673,36 @@ ClientThread::AddGameInfo(unsigned gameId, const GameInfo &info)
 }
 
 void
-ClientThread::RemoveGameInfo(unsigned gameId)
+ClientThread::UpdateGameInfoMode(unsigned gameId, GameMode mode)
 {
-	string name;
+	bool found = false;
 	{
 		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
 		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
 		if (pos != m_gameInfoMap.end())
 		{
-			name = pos->second.name;
+			found = true;
+			(*pos).second.mode = mode;
+		}
+	}
+	if (found)
+		GetCallback().SignalNetClientGameListUpdateMode(gameId, mode);
+}
+
+void
+ClientThread::RemoveGameInfo(unsigned gameId)
+{
+	bool found = false;
+	{
+		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
+		if (pos != m_gameInfoMap.end())
+		{
+			found = true;
 			m_gameInfoMap.erase(pos);
 		}
 	}
-	if (!name.empty())
+	if (found)
 		GetCallback().SignalNetClientGameListRemove(gameId);
 }
 

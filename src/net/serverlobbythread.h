@@ -57,6 +57,7 @@ public:
 	void SessionError(SessionWrapper session, int errorCode);
 	void NotifyPlayerJoinedGame(unsigned gameId, unsigned playerId);
 	void NotifyPlayerLeftGame(unsigned gameId, unsigned playerId);
+	void NotifyStartingGame(unsigned gameId);
 
 	void HandleGameRetrievePlayerInfo(SessionWrapper session, const NetPacketRetrievePlayerInfo &tmpPacket);
 
@@ -115,7 +116,7 @@ protected:
 	bool IsPlayerConnected(const std::string &name);
 
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListNew(const ServerGameThread &game);
-	static boost::shared_ptr<NetPacket> CreateNetPacketGameListUpdate(const ServerGameThread &game, GameMode mode);
+	static boost::shared_ptr<NetPacket> CreateNetPacketGameListUpdate(unsigned gameId, GameMode mode);
 
 private:
 

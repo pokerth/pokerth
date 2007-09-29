@@ -116,6 +116,7 @@ void ServerGuiWrapper::SignalNetClientPlayerChanged(unsigned playerId, const std
 void ServerGuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName) { if (myClientcb) myClientcb->SignalNetClientPlayerLeft(playerId, playerName); }
 void ServerGuiWrapper::SignalNetClientGameListNew(unsigned gameId) { if (myClientcb) myClientcb->SignalNetClientGameListNew(gameId); }
 void ServerGuiWrapper::SignalNetClientGameListRemove(unsigned gameId) { if (myClientcb) myClientcb->SignalNetClientGameListRemove(gameId); }
+void ServerGuiWrapper::SignalNetClientGameListUpdateMode(unsigned gameId, GameMode mode) { if (myClientcb) myClientcb->SignalNetClientGameListUpdateMode(gameId, mode); }
 void ServerGuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) { if (myClientcb) myClientcb->SignalNetClientGameListPlayerJoined(gameId, playerId); }
 void ServerGuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) { if (myClientcb) myClientcb->SignalNetClientGameListPlayerLeft(gameId, playerId); }
 void ServerGuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { if (myClientcb) myClientcb->SignalNetClientGameStart(game); }

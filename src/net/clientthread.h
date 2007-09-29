@@ -119,6 +119,7 @@ protected:
 
 	unsigned GetGameIdByName(const std::string &name) const;
 	void AddGameInfo(unsigned gameId, const GameInfo &info);
+	void UpdateGameInfoMode(unsigned gameId, GameMode mode);
 	void RemoveGameInfo(unsigned gameId);
 	void ModifyGameInfoAddPlayer(unsigned gameId, unsigned playerId);
 	void ModifyGameInfoRemovePlayer(unsigned gameId, unsigned playerId);

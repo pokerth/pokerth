@@ -24,6 +24,7 @@
 #include <string>
 #include <boost/shared_ptr.hpp>
 #include <playerdata.h>
+#include <gamedata.h>
 
 class Game;
 
@@ -40,6 +41,7 @@ public:
 
 	virtual void SignalNetClientGameListNew(unsigned gameId) = 0;
 	virtual void SignalNetClientGameListRemove(unsigned gameId) = 0;
+	virtual void SignalNetClientGameListUpdateMode(unsigned gameId, GameMode mode) = 0;
 	virtual void SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) = 0;
 	virtual void SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) = 0;
 

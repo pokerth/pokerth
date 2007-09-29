@@ -154,6 +154,14 @@ ServerLobbyThread::NotifyPlayerLeftGame(unsigned gameId, unsigned playerId)
 }
 
 void
+ServerLobbyThread::NotifyStartingGame(unsigned gameId)
+{
+	boost::shared_ptr<NetPacket> packet = CreateNetPacketGameListUpdate(gameId, GAME_MODE_STARTED);
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
+}
+
+void
 ServerLobbyThread::HandleGameRetrievePlayerInfo(SessionWrapper session, const NetPacketRetrievePlayerInfo &tmpPacket)
 {
 	// Someone within a game requested player info.
@@ -485,8 +493,9 @@ ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGameThread> game)
 	// Remove all sessions left in the game.
 	game->RemoveAllSessions();
 	// Notify all players.
-	m_sessionManager.SendToAllSessions(GetSender(), CreateNetPacketGameListUpdate(*game, GAME_MODE_CLOSED), SessionData::Established);
-	m_gameSessionManager.SendToAllSessions(GetSender(), CreateNetPacketGameListUpdate(*game, GAME_MODE_CLOSED), SessionData::Game);
+	boost::shared_ptr<NetPacket> packet = CreateNetPacketGameListUpdate(game->GetId(), GAME_MODE_CLOSED);
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
 }
 
 void
@@ -672,11 +681,11 @@ ServerLobbyThread::CreateNetPacketGameListNew(const ServerGameThread &game)
 }
 
 boost::shared_ptr<NetPacket>
-ServerLobbyThread::CreateNetPacketGameListUpdate(const ServerGameThread &game, GameMode mode)
+ServerLobbyThread::CreateNetPacketGameListUpdate(unsigned gameId, GameMode mode)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacketGameListUpdate);
 	NetPacketGameListUpdate::Data packetData;
-	packetData.gameId = game.GetId();
+	packetData.gameId = gameId;
 	packetData.gameMode = mode;
 	static_cast<NetPacketGameListUpdate *>(packet.get())->SetData(packetData);
 	return packet;

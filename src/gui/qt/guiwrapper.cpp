@@ -129,6 +129,7 @@ void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &play
 
 void GuiWrapper::SignalNetClientGameListNew(unsigned gameId) { myW->signalNetClientGameListNew(gameId); }
 void GuiWrapper::SignalNetClientGameListRemove(unsigned gameId) { myW->signalNetClientGameListRemove(gameId); }
+void GuiWrapper::SignalNetClientGameListUpdateMode(unsigned gameId, GameMode mode) { myW->signalNetClientGameListUpdateMode(gameId, mode); }
 void GuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) { myW->signalNetClientGameListPlayerJoined(gameId, playerId); }
 void GuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) { myW->signalNetClientGameListPlayerLeft(gameId, playerId); }
 
