@@ -91,9 +91,7 @@ HEADERS += \
  src/engine/local_engine/localexception.h
 
 SOURCES += \
-		src/pokerth_server.cpp \
- src/core/common/pokerthexception.cpp \
- src/engine/local_engine/localexception.cpp
+		src/pokerth_server.cpp
 
 win32 {
     DEPENDPATH += src/net/win32/ src/core/win32
@@ -109,8 +107,14 @@ win32 {
     exists( ../boost/stage/lib/libboost_thread-mgw34-mt-1_34_1.a ){
         LIBS += -lboost_thread-mgw34-mt-1_34_1
     }
+    exists( ../boost/stage/lib/libboost_thread-mgw42-mt-1_34_1.a ){
+        LIBS += -lboost_thread-mgw42-mt-1_34_1
+    }
     exists( ../boost/stage/lib/libboost_filesystem-mgw34-mt-1_34_1.a ){
         LIBS += -lboost_filesystem-mgw34-mt-1_34_1
+    }
+    exists( ../boost/stage/lib/libboost_filesystem-mgw42-mt-1_34_1.a ){
+        LIBS += -lboost_filesystem-mgw42-mt-1_34_1
     }
 }
 !win32 {

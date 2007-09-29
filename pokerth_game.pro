@@ -240,8 +240,14 @@ win32{
 	exists( ../boost/stage/lib/libboost_thread-mgw34-mt-1_34_1.a ){
 		LIBS += -lboost_thread-mgw34-mt-1_34_1
 	}
+	exists( ../boost/stage/lib/libboost_thread-mgw42-mt-1_34_1.a ){
+		LIBS += -lboost_thread-mgw42-mt-1_34_1
+	}
 	exists( ../boost/stage/lib/libboost_filesystem-mgw34-mt-1_34_1.a ){
 		LIBS += -lboost_filesystem-mgw34-mt-1_34_1
+	}
+	exists( ../boost/stage/lib/libboost_filesystem-mgw42-mt-1_34_1.a ){
+		LIBS += -lboost_filesystem-mgw42-mt-1_34_1
 	}
 	RC_FILE = pokerth.rc
 }
