@@ -82,12 +82,12 @@ void gameLobbyDialogImpl::createGame()
 		gameData.firstSmallBlind = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
 		
 		if(myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->radioButton_raiseBlindsAtHands->isChecked()) { 
-			gameData.raiseIntervallMode = RAISE_ON_HANDNUMBER;
+			gameData.raiseIntervalMode = RAISE_ON_HANDNUMBER;
 			gameData.raiseSmallBlindEveryHandsValue = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
 			gameData.handsBeforeRaise = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value(); //TODO remove
 		}
 		else { 
-			gameData.raiseIntervallMode = RAISE_ON_MINUTES; 
+			gameData.raiseIntervalMode = RAISE_ON_MINUTES; 
 			gameData.raiseSmallBlindEveryMinutesValue = myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryMinutes->value();
 		}
 		

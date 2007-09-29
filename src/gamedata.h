@@ -30,7 +30,7 @@ enum GameMode
 	GAME_MODE_CLOSED
 };
 
-enum RaiseIntervallMode
+enum RaiseIntervalMode
 {
 	RAISE_ON_HANDNUMBER,
 	RAISE_ON_MINUTES
@@ -52,12 +52,12 @@ enum AfterManualBlindsMode
 // For the sake of simplicity, this is a struct.
 struct GameData
 {
-	GameData() : maxNumberOfPlayers(0), startMoney(0), smallBlind(0), firstSmallBlind(0), raiseIntervallMode(RAISE_ON_HANDNUMBER), raiseSmallBlindEveryHandsValue(8), raiseSmallBlindEveryMinutesValue(0), raiseMode(DOUBLE_BLINDS), afterManualBlindsMode(AFTERMB_DOUBLE_BLINDS), afterMBAlwaysRaiseValue(0), handsBeforeRaise(1), guiSpeed(4), playerActionTimeoutSec(20) {}
+	GameData() : maxNumberOfPlayers(0), startMoney(0), smallBlind(0), firstSmallBlind(0), raiseIntervalMode(RAISE_ON_HANDNUMBER), raiseSmallBlindEveryHandsValue(8), raiseSmallBlindEveryMinutesValue(0), raiseMode(DOUBLE_BLINDS), afterManualBlindsMode(AFTERMB_DOUBLE_BLINDS), afterMBAlwaysRaiseValue(0), handsBeforeRaise(1), guiSpeed(4), playerActionTimeoutSec(20) {}
 	int maxNumberOfPlayers;
 	int startMoney;
 	int smallBlind;
 	int firstSmallBlind;
-	RaiseIntervallMode raiseIntervallMode;
+	RaiseIntervalMode raiseIntervalMode;
 	int raiseSmallBlindEveryHandsValue;
 	int raiseSmallBlindEveryMinutesValue;
 	RaiseMode raiseMode;

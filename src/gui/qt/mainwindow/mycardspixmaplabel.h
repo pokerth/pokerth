@@ -68,7 +68,7 @@ private:
 	mainWindowImpl* myW;	
 
 	qreal frameOpacity;
-	qreal opacityRaiseIntervall;
+	qreal opacityRaiseInterval;
 
 	qreal flipCardsScaleIntervall;
 	qreal frameFlipCardsAction1Size;

@@ -51,9 +51,9 @@ void MyCardsPixmapLabel::startFadeOut(int speed) {
 	
 	frameOpacity = 0.0;
 
-	if(speed <= 4) { opacityRaiseIntervall = 0.01; }
-	if(speed > 4 && speed <= 7) { opacityRaiseIntervall = 0.02; }
-	if(speed > 7 && speed <= 10) { opacityRaiseIntervall = 0.04; }
+	if(speed <= 4) { opacityRaiseInterval = 0.01; }
+	if(speed > 4 && speed <= 7) { opacityRaiseInterval = 0.02; }
+	if(speed > 7 && speed <= 10) { opacityRaiseInterval = 0.04; }
 
 	if(speed != 11) {
 		fadeOutAction = TRUE;
@@ -67,7 +67,7 @@ void MyCardsPixmapLabel::startFadeOut(int speed) {
 void MyCardsPixmapLabel::nextFadeOutFrame() {
 
 	if (frameOpacity < 0.75) {
-		frameOpacity += opacityRaiseIntervall;
+		frameOpacity += opacityRaiseInterval;
      		update();
 	}
 	else { 

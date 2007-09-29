@@ -254,13 +254,13 @@ boost::shared_ptr<PlayerInterface> Game::getCurrentPlayer()
 void Game::raiseBlinds() {
 
 // 	cout << "timer minutes " << blindsTimer.elapsed().total_seconds()/60 << "\n";
-// 	cout << "gameData.raiseIntervallMode " << myGameData.raiseIntervallMode << "\n";
+// 	cout << "gameData.RaiseIntervalMode " << myGameData.RaiseIntervalMode << "\n";
 // 	cout << "gameData.raiseMode " << myGameData.raiseMode << "\n";
 // 	cout << "gameData.afterManualBlindsMode " << myGameData.afterManualBlindsMode << "\n";
 
 	bool raiseBlinds = false;
 
-	if (myGameData.raiseIntervallMode == RAISE_ON_HANDNUMBER) {
+	if (myGameData.raiseIntervalMode == RAISE_ON_HANDNUMBER) {
 
 		if (lastHandBlindsRaised + myGameData.raiseSmallBlindEveryHandsValue <= actualHandID) {
 			raiseBlinds = true;
