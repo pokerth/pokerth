@@ -30,6 +30,8 @@
 #include <playerinterface.h>
 #include <handinterface.h>
 
+#include <boost/bind.hpp>
+
 #include <sstream>
 
 using namespace std;
@@ -551,18 +553,19 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 	{
 		assert(newRound > curRound);
 		// Retrieve non-fold players. If only one player is left, no cards are shown.
-		PlayerList runningPlayers = curGame.getRunningPlayerList();
+		list<boost::shared_ptr<PlayerInterface> > nonFoldPlayers = *curGame.getActivePlayerList();
+		nonFoldPlayers.remove_if(boost::bind(&PlayerInterface::getMyAction, _1) == PLAYER_ACTION_FOLD);
 
 		if (curGame.getCurrentHand()->getAllInCondition()
 			&& !curGame.getCurrentHand()->getCardsShown()
-			&& runningPlayers->size() > 1)
+			&& nonFoldPlayers.size() > 1)
 		{
 			// Send cards of all active players to all players (all in).
 			boost::shared_ptr<NetPacket> allIn(new NetPacketAllInShowCards);
 			NetPacketAllInShowCards::Data allInData;
 
-			PlayerListConstIterator i = runningPlayers->begin();
-			PlayerListConstIterator end = runningPlayers->end();
+			PlayerListConstIterator i = nonFoldPlayers.begin();
+			PlayerListConstIterator end = nonFoldPlayers.end();
 
 			while (i != end)
 			{
@@ -621,13 +624,14 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 			curGame.getCurrentHand()->getCurrentBeRo()->postRiverRun();
 
 			// Retrieve non-fold players. If only one player is left, no cards are shown.
-			PlayerList runningPlayers = curGame.getRunningPlayerList();
-			// if (runningPlayers.empty()) TODO throw exception
+			list<boost::shared_ptr<PlayerInterface> > nonFoldPlayers = *curGame.getActivePlayerList();
+			nonFoldPlayers.remove_if(boost::bind(&PlayerInterface::getMyAction, _1) == PLAYER_ACTION_FOLD);
+			// if (nonFoldPlayers.empty()) TODO throw exception
 
-			if (runningPlayers->size() == 1)
+			if (nonFoldPlayers.size() == 1)
 			{
 				// End of Hand, but keep cards hidden.
-				boost::shared_ptr<PlayerInterface> player = runningPlayers->front();
+				boost::shared_ptr<PlayerInterface> player = nonFoldPlayers.front();
 				boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandHideCards);
 				NetPacketEndOfHandHideCards::Data endHandData;
 				endHandData.playerId = player->getMyUniqueID();
@@ -643,8 +647,8 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 				boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandShowCards);
 				NetPacketEndOfHandShowCards::Data endHandData;
 
-				PlayerListConstIterator i = runningPlayers->begin();
-				PlayerListConstIterator end = runningPlayers->end();
+				PlayerListConstIterator i = nonFoldPlayers.begin();
+				PlayerListConstIterator end = nonFoldPlayers.end();
 
 				while (i != end)
 				{

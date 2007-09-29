@@ -158,8 +158,6 @@ ServerGameThread::Main()
 void
 ServerGameThread::InternalStartGame()
 {
-	GetLobbyThread().NotifyStartingGame(GetId());
-
 	// Set order of players.
 	AssignPlayerNumbers();
 
@@ -196,6 +194,8 @@ ServerGameThread::InternalStartGame()
 	SetStartData(startData);
 
 	m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), GetNextGameNum()));
+
+	GetLobbyThread().NotifyStartingGame(GetId());
 }
 
 void
@@ -262,6 +262,12 @@ bool
 ServerGameThread::IsPlayerConnected(const std::string &name) const
 {
 	return GetSessionManager().IsPlayerConnected(name);
+}
+
+bool
+ServerGameThread::IsRunning() const
+{
+	return m_game.get() != NULL;
 }
 
 void

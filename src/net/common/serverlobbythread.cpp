@@ -671,7 +671,7 @@ ServerLobbyThread::CreateNetPacketGameListNew(const ServerGameThread &game)
 	boost::shared_ptr<NetPacket> packet(new NetPacketGameListNew);
 	NetPacketGameListNew::Data packetData;
 	packetData.gameId = game.GetId();
-	packetData.gameInfo.mode = GAME_MODE_CREATED;
+	packetData.gameInfo.mode = game.IsRunning() ? GAME_MODE_STARTED : GAME_MODE_CREATED;
 	packetData.gameInfo.name = game.GetName();
 	packetData.gameInfo.data = game.GetGameData();
 	packetData.gameInfo.players = game.GetPlayerIdList();

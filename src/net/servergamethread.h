@@ -66,6 +66,8 @@ public:
 	PlayerIdList GetPlayerIdList() const;
 	bool IsPlayerConnected(const std::string &name) const;
 
+	bool IsRunning() const;
+
 protected:
 
 	typedef std::deque<SessionWrapper> SessionQueue;
@@ -129,7 +131,7 @@ private:
 
 	GameData			m_gameData;
 	StartData			m_startData;
-	std::auto_ptr<Game>	m_game;
+	boost::shared_ptr<Game>	m_game;
 	const u_int32_t		m_id;
 	const std::string	m_name;
 	const std::string	m_password;
