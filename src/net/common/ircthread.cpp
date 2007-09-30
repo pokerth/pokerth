@@ -354,8 +354,12 @@ IrcThread::Main()
 
 				if (irc_process_select_descriptors(s, &readSet, &writeSet) != 0)
 				{
-					HandleIrcError(irc_errno(s));
-					break;
+					int errorCode = irc_errno(s);
+					if (errorCode)
+					{
+						HandleIrcError(errorCode);
+						break;
+					}
 				}
 			}
 		}
