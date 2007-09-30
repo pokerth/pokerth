@@ -31,11 +31,12 @@ using namespace std;
 
 struct IrcContext
 {
-	IrcContext(IrcThread &t) : ircThread(t), session(NULL), serverPort(0) {}
+	IrcContext(IrcThread &t) : ircThread(t), session(NULL), serverPort(0), useIPv6(false) {}
 	IrcThread &ircThread;
 	irc_session_t *session;
 	string serverAddress;
 	unsigned serverPort;
+	bool useIPv6;
 	string nick;
 	string channel;
 };
@@ -87,7 +88,7 @@ void irc_handle_server_error(irc_session_t *session, unsigned irc_error_code)
 }
 
 void
-irc_event_connect(irc_session_t *session, const char *irc_event, const char *origin, const char **params, unsigned count)
+irc_event_connect(irc_session_t *session, const char */*irc_event*/, const char *origin, const char **/*params*/, unsigned /*count*/)
 {
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
@@ -96,7 +97,7 @@ irc_event_connect(irc_session_t *session, const char *irc_event, const char *ori
 }
 
 void
-irc_event_join(irc_session_t *session, const char *irc_event, const char *origin, const char **params, unsigned count)
+irc_event_join(irc_session_t *session, const char */*irc_event*/, const char *origin, const char **/*params*/, unsigned /*count*/)
 {
 	// someone joined the channel.
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
@@ -108,12 +109,12 @@ irc_event_join(irc_session_t *session, const char *irc_event, const char *origin
 }
 
 void
-irc_event_nick(irc_session_t *session, const char *irc_event, const char *origin, const char **params, unsigned count)
+irc_event_nick(irc_session_t *session, const char */*irc_event*/, const char *origin, const char **params, unsigned count)
 {
 	// someone changed his/her nick
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
-	if (context->nick != params[0]) // only act if this was not an auto-rename
+	if (count && context->nick != params[0]) // only act if this was not an auto-rename
 	{
 		if (context->nick == origin)
 			context->nick = params[0];
@@ -122,7 +123,7 @@ irc_event_nick(irc_session_t *session, const char *irc_event, const char *origin
 }
 
 void
-irc_event_kick(irc_session_t *session, const char *irc_event, const char *origin, const char **params, unsigned count)
+irc_event_kick(irc_session_t *session, const char */*irc_event*/, const char *origin, const char **params, unsigned count)
 {
 	// someone got kicked
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
@@ -140,7 +141,7 @@ irc_event_kick(irc_session_t *session, const char *irc_event, const char *origin
 }
 
 void
-irc_event_leave(irc_session_t *session, const char *irc_event, const char *origin, const char **params, unsigned count)
+irc_event_leave(irc_session_t *session, const char */*irc_event*/, const char *origin, const char **/*params*/, unsigned /*count*/)
 {
 	// someone left the channel.
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
@@ -149,20 +150,20 @@ irc_event_leave(irc_session_t *session, const char *irc_event, const char *origi
 }
 
 void
-irc_event_channel(irc_session_t *session, const char *irc_event, const char *origin, const char **params, unsigned count)
+irc_event_channel(irc_session_t *session, const char */*irc_event*/, const char *origin, const char **params, unsigned count)
 {
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
-	if (context->channel == params[0]) // check whether this message is for our channel
+	if (count >= 2 && context->channel == params[0]) // check whether this message is for our channel
 	{
 		// Signal the message (if any) to GUI.
-		if (params[1] && *params[1] != 0)
+		if (*params[1] != 0)
 			context->ircThread.GetCallback().SignalIrcChatMsg(origin, params[1]);
 	}
 }
 
 void
-irc_event_numeric(irc_session_t * session, unsigned irc_event, const char *origin, const char **params, unsigned count)
+irc_event_numeric(irc_session_t * session, unsigned irc_event, const char */*origin*/, const char **params, unsigned count)
 {
 	switch (irc_event)
 	{
@@ -254,6 +255,7 @@ IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6
 
 	context.serverAddress	= serverAddress;
 	context.serverPort		= serverPort;
+	context.useIPv6			= ipv6;
 	context.nick			= nick;
 	context.channel			= channel;
 

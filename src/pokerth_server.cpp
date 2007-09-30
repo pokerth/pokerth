@@ -51,7 +51,7 @@ using namespace std;
 volatile int g_pokerthTerminate = 0;
 
 void
-TerminateHandler(int signal)
+TerminateHandler(int /*signal*/)
 {
 	g_pokerthTerminate = 1;
 }

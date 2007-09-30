@@ -862,7 +862,7 @@ ServerGameStateComputerAction::Process(ServerGameThread &server)
 }
 
 int
-ServerGameStateComputerAction::InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGameStateComputerAction::InternalProcess(ServerGameThread &/*server*/, SessionWrapper /*session*/, boost::shared_ptr<NetPacket> /*packet*/)
 {
 	return MSG_SOCK_INTERNAL_PENDING;
 }
@@ -917,7 +917,7 @@ ServerGameStateDealCardsDelay::Process(ServerGameThread &server)
 }
 
 int
-ServerGameStateDealCardsDelay::InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGameStateDealCardsDelay::InternalProcess(ServerGameThread &/*server*/, SessionWrapper /*session*/, boost::shared_ptr<NetPacket> /*packet*/)
 {
 	return MSG_SOCK_INTERNAL_PENDING;
 }
@@ -961,7 +961,7 @@ ServerGameStateShowCardsDelay::Process(ServerGameThread &server)
 }
 
 int
-ServerGameStateShowCardsDelay::InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGameStateShowCardsDelay::InternalProcess(ServerGameThread &/*server*/, SessionWrapper /*session*/, boost::shared_ptr<NetPacket> /*packet*/)
 {
 	return MSG_SOCK_INTERNAL_PENDING;
 }
@@ -999,7 +999,7 @@ ServerGameStateNextHandDelay::Process(ServerGameThread &server)
 }
 
 int
-ServerGameStateNextHandDelay::InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGameStateNextHandDelay::InternalProcess(ServerGameThread &/*server*/, SessionWrapper /*session*/, boost::shared_ptr<NetPacket> /*packet*/)
 {
 	return MSG_SOCK_INTERNAL_PENDING;
 }
@@ -1060,7 +1060,7 @@ ServerGameStateNextGameDelay::Process(ServerGameThread &server)
 }
 
 int
-ServerGameStateNextGameDelay::InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGameStateNextGameDelay::InternalProcess(ServerGameThread &/*server*/, SessionWrapper /*session*/, boost::shared_ptr<NetPacket> /*packet*/)
 {
 	return MSG_SOCK_INTERNAL_PENDING;
 }
@@ -1087,7 +1087,7 @@ ServerGameStateFinal::~ServerGameStateFinal()
 }
 
 int
-ServerGameStateFinal::InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGameStateFinal::InternalProcess(ServerGameThread &/*server*/, SessionWrapper /*session*/, boost::shared_ptr<NetPacket> /*packet*/)
 {
 	return MSG_SOCK_INTERNAL_PENDING;
 }

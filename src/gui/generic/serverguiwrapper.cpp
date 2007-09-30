@@ -33,7 +33,7 @@ ServerGuiWrapper::~ServerGuiWrapper()
 {
 }
 
-void ServerGuiWrapper::initGui(int speed) {}
+void ServerGuiWrapper::initGui(int /*speed*/) {}
 
 Session &ServerGuiWrapper::getSession()
 {
@@ -50,21 +50,21 @@ void ServerGuiWrapper::refreshSet() const {}
 
 void ServerGuiWrapper::refreshCash() const {}
 
-void ServerGuiWrapper::refreshAction(int playerID, int playerAction) const {}
+void ServerGuiWrapper::refreshAction(int /*playerID*/, int /*playerAction*/) const {}
 
 void ServerGuiWrapper::refreshChangePlayer() const {}
 
 void ServerGuiWrapper::refreshAll() const {}
 
 void ServerGuiWrapper::refreshPot() const {}
-void ServerGuiWrapper::refreshGroupbox(int playerID, int status) const {}
+void ServerGuiWrapper::refreshGroupbox(int /*playerID*/, int /*status*/) const {}
 void ServerGuiWrapper::refreshPlayerName() const {}
 void ServerGuiWrapper::refreshButton() const {}
-void ServerGuiWrapper::refreshGameLabels(GameState state) const {}
+void ServerGuiWrapper::refreshGameLabels(GameState /*state*/) const {}
 
 void ServerGuiWrapper::waitForGuiUpdateDone() const {}
 
-void ServerGuiWrapper::dealBeRoCards(int myBeRoID) {}
+void ServerGuiWrapper::dealBeRoCards(int /*myBeRoID*/) {}
 void ServerGuiWrapper::dealHoleCards() {}
 void ServerGuiWrapper::dealFlopCards() {}
 void ServerGuiWrapper::dealTurnCard() {}
@@ -72,7 +72,7 @@ void ServerGuiWrapper::dealRiverCard() {}
 
 void ServerGuiWrapper::nextPlayerAnimation() {}
 
-void ServerGuiWrapper::beRoAnimation2(int myBeRoID) {}
+void ServerGuiWrapper::beRoAnimation2(int /*myBeRoID*/) {}
 
 void ServerGuiWrapper::preflopAnimation1() {}
 void ServerGuiWrapper::preflopAnimation2() {}
@@ -95,15 +95,15 @@ void ServerGuiWrapper::nextRoundCleanGui() {}
 
 void ServerGuiWrapper::meInAction() {}
 void ServerGuiWrapper::disableMyButtons() {}
-void ServerGuiWrapper::startTimeoutAnimation(int playerId, int timeoutSec) {}
-void ServerGuiWrapper::stopTimeoutAnimation(int playerId) {}
+void ServerGuiWrapper::startTimeoutAnimation(int /*playerId*/, int /*timeoutSec*/) {}
+void ServerGuiWrapper::stopTimeoutAnimation(int /*playerId*/) {}
 
-void ServerGuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) {}
-void ServerGuiWrapper::logNewGameHandMsg(int gameID, int handID) {}
-void ServerGuiWrapper::logPlayerWinsMsg(int playerID, int pot) {}
-void ServerGuiWrapper::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4, int card5) {}
-void ServerGuiWrapper::logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt, std::string showHas) {}
-void ServerGuiWrapper::logPlayerWinGame(std::string playerName, int gameID) {}
+void ServerGuiWrapper::logPlayerActionMsg(string /*playerName*/, int /*action*/, int /*setValue*/) {}
+void ServerGuiWrapper::logNewGameHandMsg(int /*gameID*/, int /*handID*/) {}
+void ServerGuiWrapper::logPlayerWinsMsg(int /*playerID*/, int /*pot*/) {}
+void ServerGuiWrapper::logDealBoardCardsMsg(int /*roundID*/, int /*card1*/, int /*card2*/, int /*card3*/, int /*card4*/, int /*card5*/) {}
+void ServerGuiWrapper::logFlipHoleCardsMsg(std::string /*playerName*/, int /*card1*/, int /*card2*/, int /*cardsValueInt*/, std::string /*showHas*/) {}
+void ServerGuiWrapper::logPlayerWinGame(std::string /*playerName*/, int /*gameID*/) {}
 
 void ServerGuiWrapper::SignalNetClientConnect(int actionID) { if (myClientcb) myClientcb->SignalNetClientConnect(actionID); }
 void ServerGuiWrapper::SignalNetClientGameInfo(int actionID) { if (myClientcb) myClientcb->SignalNetClientGameInfo(actionID); }

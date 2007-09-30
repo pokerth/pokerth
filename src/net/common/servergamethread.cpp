@@ -40,7 +40,7 @@ public:
 	ServerSenderCallback(ServerGameThread &server) : m_server(server) {}
 	virtual ~ServerSenderCallback() {}
 
-	virtual void SignalNetError(SOCKET sock, int errorID, int osErrorID)
+	virtual void SignalNetError(SOCKET /*sock*/, int /*errorID*/, int /*osErrorID*/)
 	{
 		// We just ignore send errors for now, on server side.
 		// A serious send error should trigger a read error or a read

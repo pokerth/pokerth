@@ -24,7 +24,7 @@
 
 
 bool
-socket_string_to_addr(const char *str, int addrFamily, struct sockaddr * addr, int addrLen)
+socket_string_to_addr(const char *str, int addrFamily, struct sockaddr *addr, int /*addrLen*/)
 {
 	if (addrFamily == AF_INET)
 		return (inet_pton(addrFamily, str, &((struct sockaddr_in *)addr)->sin_addr) == 1);
