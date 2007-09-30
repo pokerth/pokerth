@@ -70,7 +70,7 @@ public slots:
 	
 	void checkProperNetFirstSmallBlind(int);
 	void checkProperFirstSmallBlind(int);
-
+	void setFirstSmallBlindMargin() ;
 	
 private:
 	

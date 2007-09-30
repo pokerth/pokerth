@@ -23,6 +23,7 @@
 #include "configfile.h"
 #include <net/socket_startup.h>
 
+
 using namespace std;
 
 settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAvatarDialogImpl *s)
@@ -66,7 +67,8 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( spinBox_netFirstSmallBlind, SIGNAL( valueChanged(int) ), this, SLOT ( checkProperNetFirstSmallBlind(int)));
 	connect( spinBox_firstSmallBlind, SIGNAL( valueChanged(int) ), this, SLOT ( checkProperFirstSmallBlind(int)));
 
-	//temporarely unused until ai is enabled in network
+	connect( radioButton_netManualBlindsOrder, SIGNAL( toggled(bool) ), this, SLOT( setFirstSmallBlindMargin() ));
+	connect( radioButton_manualBlindsOrder, SIGNAL( toggled(bool) ), this, SLOT( setFirstSmallBlindMargin() ));	//temporarely unused until ai is enabled in network
 // 	label_36->hide();
 // 	spinBox_netGameSpeed->hide();
 // 
@@ -198,7 +200,8 @@ void settingsDialogImpl::exec() {
 	myNetAfterMBAlwaysRaiseAbout = myConfig->readConfigInt("NetAfterMBAlwaysRaiseAbout");
 	myNetAfterMBAlwaysRaiseValue = myConfig->readConfigInt("NetAfterMBAlwaysRaiseValue");
 	myNetAfterMBStayAtLastBlind = myConfig->readConfigInt("NetAfterMBStayAtLastBlind");
-	
+
+	setFirstSmallBlindMargin();	
 
 	QDialog::exec();
 
@@ -432,7 +435,7 @@ void settingsDialogImpl::clearInternetGamePassword(bool clear) {
 void settingsDialogImpl::callManualBlindsOrderDialog() { 
 	
 	myManualBlindsOrderDialog->listWidget_blinds->clear();
-	myManualBlindsOrderDialog->spinBox_input->setMinimum(spinBox_firstSmallBlind->value()+1);
+	myManualBlindsOrderDialog->spinBox_input->setMinimum(spinBox_firstSmallBlind->value());
 
 	list<int>::iterator it1;
 	for(it1= myManualBlindsList.begin(); it1 != myManualBlindsList.end(); it1++) {
@@ -459,13 +462,15 @@ void settingsDialogImpl::callManualBlindsOrderDialog() {
 		myAfterMBAlwaysRaiseAbout = 	myManualBlindsOrderDialog->radioButton_alwaysRaiseAbout->isChecked();
 		myAfterMBAlwaysRaiseValue = myManualBlindsOrderDialog->spinBox_alwaysRaiseValue->value();
 		myAfterMBStayAtLastBlind = myManualBlindsOrderDialog->radioButton_stayAtLastBlind->isChecked();
+
+		setFirstSmallBlindMargin();
 	}
 }
 
 void settingsDialogImpl::callNetManualBlindsOrderDialog() { 
 
 	myManualBlindsOrderDialog->listWidget_blinds->clear();
-	myManualBlindsOrderDialog->spinBox_input->setMinimum(spinBox_netFirstSmallBlind->value()+1);
+	myManualBlindsOrderDialog->spinBox_input->setMinimum(spinBox_netFirstSmallBlind->value());
 
 	list<int>::iterator it1;
 	for(it1= myNetManualBlindsList.begin(); it1 != myNetManualBlindsList.end(); it1++) {
@@ -492,27 +497,45 @@ void settingsDialogImpl::callNetManualBlindsOrderDialog() {
 		myNetAfterMBAlwaysRaiseAbout = 	myManualBlindsOrderDialog->radioButton_alwaysRaiseAbout->isChecked();
 		myNetAfterMBAlwaysRaiseValue = myManualBlindsOrderDialog->spinBox_alwaysRaiseValue->value();
 		myNetAfterMBStayAtLastBlind = myManualBlindsOrderDialog->radioButton_stayAtLastBlind->isChecked();
+
+		setFirstSmallBlindMargin();
 	}
 }
 
 
 void settingsDialogImpl::checkProperNetFirstSmallBlind(int currentSB) {
 
-	if(currentSB > myNetManualBlindsList.front()) {
-
-		QMessageBox::warning(this, tr("Blinds Error"),
-				tr("The first element in your manual-blinds-list is smaller than the first-blind-value you want to set.\nPlease check your manual-blinds-list."),
-				QMessageBox::Close);
-	}
 }
 
 
 void settingsDialogImpl::checkProperFirstSmallBlind(int currentSB) {
 
-	if(currentSB > myManualBlindsList.front()) {
+}
 
-		QMessageBox::warning(this, tr("Blinds Error"),
-				tr("The first element in your manual-blinds-list is smaller than the first-blind-value you want to set.\nPlease check your manual-blinds-list."),
+void settingsDialogImpl::setFirstSmallBlindMargin() {
+
+	if(radioButton_manualBlindsOrder->isChecked() && !myManualBlindsList.empty()) {
+		if(spinBox_firstSmallBlind->value() > myManualBlindsList.front()) {
+			QMessageBox::warning(this, tr("Blinds Error"),
+				tr("The first element in your manual-blinds-list \nis smaller than current first-small-blind!\nThis first-small-blind-value will be set to maximum allowed value."),
 				QMessageBox::Close);
+		}
+		spinBox_firstSmallBlind->setMaximum(myManualBlindsList.front());
 	}
+	else {
+		spinBox_firstSmallBlind->setMaximum(9999);
+	}
+	if(radioButton_netManualBlindsOrder->isChecked() && !myNetManualBlindsList.empty()) {
+		if(spinBox_netFirstSmallBlind->value() > myNetManualBlindsList.front()) {
+			QMessageBox::warning(this, tr("Blinds Error"),
+				tr("The first element in your manual-blinds-list \nis smaller than current first-small-blind!\nThis first-small-blind-value will be set to maximum allowed value."),
+				QMessageBox::Close);
+		}
+		spinBox_netFirstSmallBlind->setMaximum(myNetManualBlindsList.front());
+	}	
+	else {
+		spinBox_netFirstSmallBlind->setMaximum(9999);
+	}
+	
+
 }
