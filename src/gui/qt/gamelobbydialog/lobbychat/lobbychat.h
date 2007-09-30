@@ -41,11 +41,16 @@ public slots:
 	void connected(QString server);
 	void selfJoined(QString ownName, QString channel);
 	void playerJoined(QString playerName);
+	void playerChanged(QString oldNick, QString newNick);
+	void playerKicked(QString nickName, QString byWhom, QString reason);
 	void playerLeft(QString playerName);
 	void displayMessage(QString playerName, QString msg);
 	void checkInputLength(QString);
 	void clearChat();
-		
+
+	void chatError(int errorCode);
+	void chatServerError(int errorCode);
+
 private:
 	gameLobbyDialogImpl *myLobby;
 

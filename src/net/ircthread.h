@@ -49,6 +49,8 @@ protected:
 	// Main function of the thread.
 	virtual void Main();
 
+	void HandleIrcError(int errorCode);
+
 	const IrcContext &GetContext() const;
 	IrcContext &GetContext();
 

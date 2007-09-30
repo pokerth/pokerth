@@ -20,6 +20,7 @@
 #include <net/ircthread.h>
 
 #include <net/socket_helper.h>
+#include <net/socket_msg.h>
 #include <libircclient.h>
 #include <sstream>
 #include <cctype>
@@ -78,6 +79,13 @@ void irc_notify_player_list(irc_session_t *session, const char *players)
 	}
 }
 
+void irc_handle_server_error(irc_session_t *session, unsigned irc_error_code)
+{
+	IrcContext *context = (IrcContext *) irc_get_ctx(session);
+
+	context->ircThread.GetCallback().SignalIrcServerError(irc_error_code);
+}
+
 void
 irc_event_connect(irc_session_t *session, const char *irc_event, const char *origin, const char **params, unsigned count)
 {
@@ -97,6 +105,36 @@ irc_event_join(irc_session_t *session, const char *irc_event, const char *origin
 		context->ircThread.GetCallback().SignalIrcSelfJoined(context->nick, context->channel);
 	else
 		context->ircThread.GetCallback().SignalIrcPlayerJoined(origin);
+}
+
+void
+irc_event_nick(irc_session_t *session, const char *irc_event, const char *origin, const char **params, unsigned count)
+{
+	// someone changed his/her nick
+	IrcContext *context = (IrcContext *) irc_get_ctx(session);
+
+	if (context->nick != params[0]) // only act if this was not an auto-rename
+	{
+		if (context->nick == origin)
+			context->nick = params[0];
+		context->ircThread.GetCallback().SignalIrcPlayerChanged(origin, params[0]);
+	}
+}
+
+void
+irc_event_kick(irc_session_t *session, const char *irc_event, const char *origin, const char **params, unsigned count)
+{
+	// someone got kicked
+	IrcContext *context = (IrcContext *) irc_get_ctx(session);
+
+	string byWhom(origin);
+	string who;
+	string reason;
+	if (count >= 2)
+		who = params[1];
+	if (count >= 3)
+		reason = params[2];
+	context->ircThread.GetCallback().SignalIrcPlayerKicked(who, byWhom, reason);
 }
 
 void
@@ -136,6 +174,58 @@ irc_event_numeric(irc_session_t * session, unsigned irc_event, const char *origi
 			if (count >= 4)
 				irc_notify_player_list(session, params[3]);
 			break;
+		case LIBIRC_RFC_ERR_NOSUCHNICK :
+		case LIBIRC_RFC_ERR_NOSUCHCHANNEL :
+		case LIBIRC_RFC_ERR_CANNOTSENDTOCHAN :
+		case LIBIRC_RFC_ERR_TOOMANYCHANNELS :
+		case LIBIRC_RFC_ERR_WASNOSUCHNICK :
+		case LIBIRC_RFC_ERR_TOOMANYTARGETS :
+		case LIBIRC_RFC_ERR_NOSUCHSERVICE :
+		case LIBIRC_RFC_ERR_NOORIGIN :
+		case LIBIRC_RFC_ERR_NORECIPIENT :
+		case LIBIRC_RFC_ERR_NOTEXTTOSEND :
+		case LIBIRC_RFC_ERR_NOTOPLEVEL :
+		case LIBIRC_RFC_ERR_WILDTOPLEVEL :
+		case LIBIRC_RFC_ERR_BADMASK :
+		case LIBIRC_RFC_ERR_UNKNOWNCOMMAND :
+		case LIBIRC_RFC_ERR_NOMOTD :
+		case LIBIRC_RFC_ERR_NOADMININFO :
+		case LIBIRC_RFC_ERR_FILEERROR :
+		case LIBIRC_RFC_ERR_NONICKNAMEGIVEN :
+		case LIBIRC_RFC_ERR_ERRONEUSNICKNAME :
+		case LIBIRC_RFC_ERR_UNAVAILRESOURCE :
+		case LIBIRC_RFC_ERR_USERNOTINCHANNEL :
+		case LIBIRC_RFC_ERR_NOTONCHANNEL :
+		case LIBIRC_RFC_ERR_USERONCHANNEL :
+		case LIBIRC_RFC_ERR_NOLOGIN :
+		case LIBIRC_RFC_ERR_SUMMONDISABLED :
+		case LIBIRC_RFC_ERR_USERSDISABLED :
+		case LIBIRC_RFC_ERR_NOTREGISTERED :
+		case LIBIRC_RFC_ERR_NEEDMOREPARAMS :
+		case LIBIRC_RFC_ERR_ALREADYREGISTRED :
+		case LIBIRC_RFC_ERR_NOPERMFORHOST :
+		case LIBIRC_RFC_ERR_PASSWDMISMATCH :
+		case LIBIRC_RFC_ERR_YOUREBANNEDCREEP :
+		case LIBIRC_RFC_ERR_YOUWILLBEBANNED :
+		case LIBIRC_RFC_ERR_KEYSET :
+		case LIBIRC_RFC_ERR_CHANNELISFULL :
+		case LIBIRC_RFC_ERR_UNKNOWNMODE :
+		case LIBIRC_RFC_ERR_INVITEONLYCHAN :
+		case LIBIRC_RFC_ERR_BANNEDFROMCHAN :
+		case LIBIRC_RFC_ERR_BADCHANNELKEY :
+		case LIBIRC_RFC_ERR_BADCHANMASK :
+		case LIBIRC_RFC_ERR_NOCHANMODES :
+		case LIBIRC_RFC_ERR_BANLISTFULL :
+		case LIBIRC_RFC_ERR_NOPRIVILEGES :
+		case LIBIRC_RFC_ERR_CHANOPRIVSNEEDED :
+		case LIBIRC_RFC_ERR_CANTKILLSERVER :
+		case LIBIRC_RFC_ERR_RESTRICTED :
+		case LIBIRC_RFC_ERR_UNIQOPPRIVSNEEDED :
+		case LIBIRC_RFC_ERR_NOOPERHOST :
+		case LIBIRC_RFC_ERR_UMODEUNKNOWNFLAG :
+		case LIBIRC_RFC_ERR_USERSDONTMATCH :
+			irc_handle_server_error(session, irc_event);
+			break;
 	}
 }
 
@@ -147,6 +237,9 @@ IrcThread::IrcThread(IrcCallback &callback)
 
 IrcThread::~IrcThread()
 {
+	IrcContext &context = GetContext();
+	if (context.session)
+		irc_destroy_session(context.session);
 }
 
 void
@@ -168,12 +261,12 @@ IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6
 
 	callbacks.event_connect = irc_event_connect;
 	callbacks.event_join = irc_event_join;
-	//callbacks.event_nick
+	callbacks.event_nick = irc_event_nick;
 	callbacks.event_quit = irc_event_leave;
 	callbacks.event_part = irc_event_leave;
 	//callbacks.event_mode
 	//callbacks.event_topic
-	//callbacks.event_kick
+	callbacks.event_kick = irc_event_kick;
 	callbacks.event_channel = irc_event_channel;
 	//callbacks.event_privmsg
 	//callbacks.event_notice
@@ -219,7 +312,9 @@ IrcThread::Main()
 	irc_session_t *s = context.session;
 	if (s)
 	{
-		if (irc_connect(s, context.serverAddress.c_str(), context.serverPort, 0, context.nick.c_str(), 0, 0) == 0)
+		if (irc_connect(s, context.serverAddress.c_str(), context.serverPort, 0, context.nick.c_str(), 0, 0) != 0)
+			HandleIrcError(irc_errno(s));
+		else
 		{
 			// Main loop.
 			while (irc_is_connected(s))
@@ -251,19 +346,50 @@ IrcThread::Main()
 				int selectResult = select(maxfd + 1, &readSet, &writeSet, 0, &timeout);
 				if (!IS_VALID_SELECT(selectResult))
 				{
-					//todo
+					GetCallback().SignalIrcError(ERR_IRC_SELECT_FAILED);
 					break;
 				}
 
 				if (irc_process_select_descriptors(s, &readSet, &writeSet) != 0)
 				{
-					//todo
+					HandleIrcError(irc_errno(s));
 					break;
 				}
 			}
 		}
-		irc_destroy_session(s);
 	}
+}
+
+void
+IrcThread::HandleIrcError(int errorCode)
+{
+	int internalErrorCode = ERR_IRC_INTERNAL;
+	switch(errorCode)
+	{
+		case LIBIRC_ERR_RESOLV:
+		case LIBIRC_ERR_SOCKET:
+		case LIBIRC_ERR_CONNECT:
+			internalErrorCode = ERR_IRC_CONNECT_FAILED;
+			break;
+		case LIBIRC_ERR_INVAL:
+		case LIBIRC_ERR_STATE:
+			internalErrorCode = ERR_IRC_INVALID_PARAM;
+			break;
+		case LIBIRC_ERR_CLOSED:
+		case LIBIRC_ERR_TERMINATED:
+			internalErrorCode = ERR_IRC_TERMINATED;
+			break;
+		case LIBIRC_ERR_READ:
+			internalErrorCode = ERR_IRC_RECV_FAILED;
+			break;
+		case LIBIRC_ERR_WRITE:
+			internalErrorCode = ERR_IRC_SEND_FAILED;
+			break;
+		case LIBIRC_ERR_TIMEOUT:
+			internalErrorCode = ERR_IRC_TIMEOUT;
+			break;
+	}
+	GetCallback().SignalIrcError(internalErrorCode);
 }
 
 const IrcContext &

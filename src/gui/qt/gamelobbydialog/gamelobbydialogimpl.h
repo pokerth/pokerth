@@ -40,17 +40,12 @@ public:
 
 	void exec();
 
+	LobbyChat *getLobbyChat() { return myChat; }
+
 	void setSession(Session *session);
 	Session& getSession() { return *mySession; }
 
 	void setMyW ( mainWindowImpl* theValue ) { myW = theValue; }
-
-signals:
-	void signalChatConnect(QString server);
-	void signalChatSelfJoined(QString nickName, QString channel);
-	void signalChatPlayerJoined(QString nickName);
-	void signalChatPlayerLeft(QString nickName);
-	void signalChatMessage(QString nickName, QString msg);
 
 public slots:
 

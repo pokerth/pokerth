@@ -36,12 +36,6 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), this, SLOT( checkChatInputLength(QString) ) );
 
-	connect( this, SIGNAL( signalChatConnect(QString) ), myChat, SLOT( connected (QString) ) );
-	connect( this, SIGNAL( signalChatSelfJoined(QString, QString) ), myChat, SLOT( selfJoined (QString, QString) ) );
-	connect( this, SIGNAL( signalChatPlayerJoined (QString) ), myChat, SLOT( playerJoined (QString) ) );
-	connect( this, SIGNAL( signalChatPlayerLeft (QString) ), myChat, SLOT( playerLeft (QString) ) );
-	connect( this, SIGNAL( signalChatMessage (QString, QString) ), myChat, SLOT( displayMessage (QString, QString) ) );
-
 	clearDialog();
 }
 

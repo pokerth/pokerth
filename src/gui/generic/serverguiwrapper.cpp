@@ -129,5 +129,9 @@ void ServerGuiWrapper::SignalNetServerError(int errorID, int osErrorID) { if (my
 void ServerGuiWrapper::SignalIrcConnect(const string &server) { if (myIrccb) myIrccb->SignalIrcConnect(server); }
 void ServerGuiWrapper::SignalIrcSelfJoined(const string &nickName, const std::string &channel) { if (myIrccb) myIrccb->SignalIrcSelfJoined(nickName, channel); }
 void ServerGuiWrapper::SignalIrcPlayerJoined(const string &nickName) { if (myIrccb) myIrccb->SignalIrcPlayerJoined(nickName); }
+void ServerGuiWrapper::SignalIrcPlayerChanged(const string &oldNick, const string &newNick) { if (myIrccb) myIrccb->SignalIrcPlayerChanged(oldNick, newNick); }
+void ServerGuiWrapper::SignalIrcPlayerKicked(const string &nickName, const string &byWhom, const string &reason) { if (myIrccb) myIrccb->SignalIrcPlayerKicked(nickName, byWhom, reason); }
 void ServerGuiWrapper::SignalIrcPlayerLeft(const string &nickName) { if (myIrccb) myIrccb->SignalIrcPlayerLeft(nickName); }
 void ServerGuiWrapper::SignalIrcChatMsg(const string &nickName, const string &msg) { if (myIrccb) myIrccb->SignalIrcChatMsg(nickName, msg); }
+void ServerGuiWrapper::SignalIrcError(int errorCode) { if (myIrccb) myIrccb->SignalIrcError(errorCode); }
+void ServerGuiWrapper::SignalIrcServerError(int errorCode) {if (myIrccb) myIrccb->SignalIrcServerError(errorCode); }

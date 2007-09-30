@@ -18,6 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "lobbychat.h"
+#define IN_INCLUDE_LIBIRC_H
+#include <core/libircclient/include/libirc_rfcnumeric.h>
+#include <net/socket_msg.h>
 
 #include "gamelobbydialogimpl.h"
 #include "session.h"
@@ -71,6 +74,29 @@ void LobbyChat::playerJoined(QString playerName)
 	myLobby->treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
 }
 
+void LobbyChat::playerChanged(QString oldNick, QString newNick)
+{
+	QList<QTreeWidgetItem *> tmpList(myLobby->treeWidget_NickList->findItems(oldNick, Qt::MatchExactly));
+	if (!tmpList.empty())
+		tmpList.front()->setData(0, Qt::DisplayRole, newNick);
+
+	if (myNick == oldNick)
+		myNick = newNick;
+}
+
+void LobbyChat::playerKicked(QString nickName, QString byWhom, QString reason)
+{
+	if (myNick == nickName)
+	{
+		myLobby->accept();
+		QMessageBox::warning(myLobby, tr("Network Notification"),
+			tr("You were kicked from the server."),
+				QMessageBox::Close);
+	}
+	else
+		myLobby->textBrowser_ChatDisplay->append(nickName + " " + tr("was kicked from the server by") + " " + byWhom + " (" + reason + ")");
+}
+
 void LobbyChat::playerLeft(QString playerName)
 {
 	QList<QTreeWidgetItem *> tmpList(myLobby->treeWidget_NickList->findItems(playerName, Qt::MatchExactly));
@@ -106,3 +132,92 @@ void LobbyChat::clearChat() {
 // // 	lineEdit_ChatInput->setCompleter(completer);
 	
 }
+
+void LobbyChat::chatError(int errorCode)
+{
+	QString errorMsg;
+	switch (errorCode)
+	{
+		case ERR_IRC_INTERNAL :
+		case ERR_IRC_SELECT_FAILED :
+		case ERR_IRC_RECV_FAILED :
+		case ERR_IRC_SEND_FAILED :
+		case ERR_IRC_INVALID_PARAM :
+			errorMsg = tr("An internal IRC error has occured:") + " " + QString::number(errorCode);
+			break;
+		case ERR_IRC_CONNECT_FAILED :
+			errorMsg = tr("Could not connect to the IRC server. Chat will be unavailable.");
+			break;
+		case ERR_IRC_TERMINATED :
+			errorMsg = tr("The IRC server terminated the connection. Chat will be unavailable.");
+			break;
+		case ERR_IRC_TIMEOUT :
+			errorMsg = tr("An IRC action timed out.");
+			break;
+	}
+	if (errorMsg.size())
+		myLobby->textBrowser_ChatDisplay->append(errorMsg); 
+}
+
+void LobbyChat::chatServerError(int errorCode)
+{
+	QString errorMsg;
+	switch (errorCode)
+	{
+		case LIBIRC_RFC_ERR_NOSUCHNICK :
+		case LIBIRC_RFC_ERR_NOSUCHCHANNEL :
+		case LIBIRC_RFC_ERR_CANNOTSENDTOCHAN :
+		case LIBIRC_RFC_ERR_TOOMANYCHANNELS :
+		case LIBIRC_RFC_ERR_WASNOSUCHNICK :
+		case LIBIRC_RFC_ERR_TOOMANYTARGETS :
+		case LIBIRC_RFC_ERR_NOSUCHSERVICE :
+		case LIBIRC_RFC_ERR_NOORIGIN :
+		case LIBIRC_RFC_ERR_NORECIPIENT :
+		case LIBIRC_RFC_ERR_NOTEXTTOSEND :
+		case LIBIRC_RFC_ERR_NOTOPLEVEL :
+		case LIBIRC_RFC_ERR_WILDTOPLEVEL :
+		case LIBIRC_RFC_ERR_BADMASK :
+		case LIBIRC_RFC_ERR_UNKNOWNCOMMAND :
+		case LIBIRC_RFC_ERR_NOMOTD :
+		case LIBIRC_RFC_ERR_NOADMININFO :
+		case LIBIRC_RFC_ERR_FILEERROR :
+		case LIBIRC_RFC_ERR_NONICKNAMEGIVEN :
+		case LIBIRC_RFC_ERR_ERRONEUSNICKNAME :
+		case LIBIRC_RFC_ERR_UNAVAILRESOURCE :
+		case LIBIRC_RFC_ERR_USERNOTINCHANNEL :
+		case LIBIRC_RFC_ERR_NOTONCHANNEL :
+		case LIBIRC_RFC_ERR_USERONCHANNEL :
+		case LIBIRC_RFC_ERR_NOLOGIN :
+		case LIBIRC_RFC_ERR_SUMMONDISABLED :
+		case LIBIRC_RFC_ERR_USERSDISABLED :
+		case LIBIRC_RFC_ERR_NOTREGISTERED :
+		case LIBIRC_RFC_ERR_NEEDMOREPARAMS :
+		case LIBIRC_RFC_ERR_ALREADYREGISTRED :
+		case LIBIRC_RFC_ERR_NOPERMFORHOST :
+		case LIBIRC_RFC_ERR_PASSWDMISMATCH :
+		case LIBIRC_RFC_ERR_YOUREBANNEDCREEP :
+		case LIBIRC_RFC_ERR_YOUWILLBEBANNED :
+		case LIBIRC_RFC_ERR_KEYSET :
+		case LIBIRC_RFC_ERR_CHANNELISFULL :
+		case LIBIRC_RFC_ERR_UNKNOWNMODE :
+		case LIBIRC_RFC_ERR_INVITEONLYCHAN :
+		case LIBIRC_RFC_ERR_BANNEDFROMCHAN :
+		case LIBIRC_RFC_ERR_BADCHANNELKEY :
+		case LIBIRC_RFC_ERR_BADCHANMASK :
+		case LIBIRC_RFC_ERR_NOCHANMODES :
+		case LIBIRC_RFC_ERR_BANLISTFULL :
+		case LIBIRC_RFC_ERR_NOPRIVILEGES :
+		case LIBIRC_RFC_ERR_CHANOPRIVSNEEDED :
+		case LIBIRC_RFC_ERR_CANTKILLSERVER :
+		case LIBIRC_RFC_ERR_RESTRICTED :
+		case LIBIRC_RFC_ERR_UNIQOPPRIVSNEEDED :
+		case LIBIRC_RFC_ERR_NOOPERHOST :
+		case LIBIRC_RFC_ERR_UMODEUNKNOWNFLAG :
+		case LIBIRC_RFC_ERR_USERSDONTMATCH :
+			errorMsg = tr("The IRC server reported an error:") + " " + QString::number(errorCode);
+			break;
+	}
+//	if (errorMsg.size())
+//		myLobby->textBrowser_ChatDisplay->append(errorMsg); 
+}
+

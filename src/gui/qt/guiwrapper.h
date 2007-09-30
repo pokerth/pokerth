@@ -122,8 +122,12 @@ public:
 	void SignalIrcConnect(const std::string &server);
 	void SignalIrcSelfJoined(const std::string &nickName, const std::string &channel);
 	void SignalIrcPlayerJoined(const std::string &nickName);
+	void SignalIrcPlayerChanged(const std::string &oldNick, const std::string &newNick);
+	void SignalIrcPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason);
 	void SignalIrcPlayerLeft(const std::string &nickName);
 	void SignalIrcChatMsg(const std::string &nickName, const std::string &msg);
+	void SignalIrcError(int errorCode);
+	void SignalIrcServerError(int errorCode);
 
 private:
 

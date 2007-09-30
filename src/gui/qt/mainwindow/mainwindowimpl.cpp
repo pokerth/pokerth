@@ -30,6 +30,7 @@
 #include "changehumanplayernamedialogimpl.h"
 #include "changecompleteblindsdialogimpl.h"
 #include "gamelobbydialogimpl.h"
+#include "lobbychat.h"
 
 #include "startsplash.h"
 #include "mycardspixmaplabel.h"
@@ -678,11 +679,15 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetServerError(int, int)), this, SLOT(networkError(int, int)));
 	connect(this, SIGNAL(signalNetClientGameStart(boost::shared_ptr<Game>)), this, SLOT(networkStart(boost::shared_ptr<Game>)));
 
-	connect(this, SIGNAL(signalIrcConnect(QString)), myGameLobbyDialog, SIGNAL(signalChatConnect(QString)));
-	connect(this, SIGNAL(signalIrcSelfJoined(QString, QString)), myGameLobbyDialog, SIGNAL(signalChatSelfJoined(QString, QString)));
-	connect(this, SIGNAL(signalIrcPlayerJoined(QString)), myGameLobbyDialog, SIGNAL(signalChatPlayerJoined(QString)));
-	connect(this, SIGNAL(signalIrcPlayerLeft(QString)), myGameLobbyDialog, SIGNAL(signalChatPlayerLeft(QString)));
-	connect(this, SIGNAL(signalIrcChatMessage(QString, QString)), myGameLobbyDialog, SIGNAL(signalChatMessage(QString, QString)));
+	connect(this, SIGNAL(signalIrcConnect(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(connected(QString)));
+	connect(this, SIGNAL(signalIrcSelfJoined(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(selfJoined(QString, QString)));
+	connect(this, SIGNAL(signalIrcPlayerJoined(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerJoined(QString)));
+	connect(this, SIGNAL(signalIrcPlayerChanged(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerChanged(QString, QString)));
+	connect(this, SIGNAL(signalIrcPlayerKicked(QString, QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerKicked(QString, QString, QString)));
+	connect(this, SIGNAL(signalIrcPlayerLeft(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerLeft(QString)));
+	connect(this, SIGNAL(signalIrcChatMessage(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(displayMessage(QString, QString)));
+	connect(this, SIGNAL(signalIrcError(int)), myGameLobbyDialog->getLobbyChat(), SLOT(chatError(int)));
+	connect(this, SIGNAL(signalIrcServerError(int)), myGameLobbyDialog->getLobbyChat(), SLOT(chatServerError(int)));
 
 	//Sound
 	mySDLPlayer = new SDLPlayer(myConfig);

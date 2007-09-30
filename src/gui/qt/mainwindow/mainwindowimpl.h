@@ -142,8 +142,12 @@ signals:
 	void signalIrcConnect(QString server);
 	void signalIrcSelfJoined(QString nickName, QString channel);
 	void signalIrcPlayerJoined(QString nickName);
+	void signalIrcPlayerChanged(QString oldNick, QString newNick);
+	void signalIrcPlayerKicked(QString nickName, QString byWhom, QString reason);
 	void signalIrcPlayerLeft(QString nickName);
 	void signalIrcChatMessage(QString nickName, QString msg);
+	void signalIrcError(int errorCode);
+	void signalIrcServerError(int errorCode);
 
 public slots:
 

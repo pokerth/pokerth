@@ -31,8 +31,12 @@ public:
 	virtual void SignalIrcConnect(const std::string &server) = 0;
 	virtual void SignalIrcSelfJoined(const std::string &nickName, const std::string &channel) = 0;
 	virtual void SignalIrcPlayerJoined(const std::string &nickName) = 0;
+	virtual void SignalIrcPlayerChanged(const std::string &oldNick, const std::string &newNick) = 0;
+	virtual void SignalIrcPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason) = 0;
 	virtual void SignalIrcPlayerLeft(const std::string &nickName) = 0;
 	virtual void SignalIrcChatMsg(const std::string &nickName, const std::string &msg) = 0;
+	virtual void SignalIrcError(int errorCode) = 0;
+	virtual void SignalIrcServerError(int errorCode) = 0;
 };
 
 #endif
