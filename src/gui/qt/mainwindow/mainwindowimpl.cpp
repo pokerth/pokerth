@@ -1247,7 +1247,7 @@ void mainWindowImpl::refreshButton() {
 			if( currentHand->getActivePlayerList()->size() > 2 ) {
 				switch ( (*it_c)->getMyButton() ) {
 				
-					case 1 : buttonLabelArray[(*it_c)->getMyButton()]->setPixmap(dealerButton); 
+					case 1 : buttonLabelArray[(*it_c)->getMyID()]->setPixmap(dealerButton); 
 					break;
 					case 2 : { 	
 						if ( myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[(*it_c)->getMyID()]->setPixmap(smallblindButton); 
@@ -1266,7 +1266,7 @@ void mainWindowImpl::refreshButton() {
 			else {
 				switch ((*it_c)->getMyButton()) {
 			
-					case 2 : buttonLabelArray[i]->setPixmap(dealerButton); 
+					case 2 : buttonLabelArray[(*it_c)->getMyID()]->setPixmap(dealerButton); 
 					break;
 					case 3 : { 
 						if (myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[(*it_c)->getMyID()]->setPixmap(bigblindButton); 				
