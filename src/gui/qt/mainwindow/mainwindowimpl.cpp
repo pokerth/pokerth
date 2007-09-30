@@ -1384,29 +1384,74 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 
 	if(playerID == -1 || playerAction == -1) {
 
-		int i;
-		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+// 		int i;
+// 		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+// 			
+// 			//if no action --> clear Pixmap 
+// 			if(currentHand->getPlayerArray()[i]->getMyAction() == 0) {
+// 				actionLabelArray[i]->setPixmap(onePix);	
+// 			}
+// 			else {
+// // 				if(i!=0 || ( i==0 && currentHand->getPlayerArray()[0]->getMyAction() != 1) ) {
+// 					//paint action pixmap
+// 					actionLabelArray[i]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_"+actionArray[currentHand->getPlayerArray()[i]->getMyAction()]+".png"));			
+// // 				}		
+// 			}
+// 					
+// 			if (currentHand->getPlayerArray()[i]->getMyAction()==1) { 
+// 	// 			groupBoxArray[i]->setDisabled(TRUE);
+// 				
+// 				if(i != 0) {
+// 					holeCardsArray[i][0]->setPixmap(onePix, FALSE);
+// 					holeCardsArray[i][1]->setPixmap(onePix, FALSE);
+// 				}
+// 			}
+// 		}
+
+
+
+
+
+
+
+
+
+		PlayerListConstIterator it_c;
+		for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
 			
 			//if no action --> clear Pixmap 
-			if(currentHand->getPlayerArray()[i]->getMyAction() == 0) {
-				actionLabelArray[i]->setPixmap(onePix);	
+			if( (*it_c)->getMyAction() == 0) {
+				actionLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);	
 			}
 			else {
 // 				if(i!=0 || ( i==0 && currentHand->getPlayerArray()[0]->getMyAction() != 1) ) {
 					//paint action pixmap
-					actionLabelArray[i]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_"+actionArray[currentHand->getPlayerArray()[i]->getMyAction()]+".png"));			
+					actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_"+actionArray[(*it_c)->getMyAction()]+".png"));			
 // 				}		
 			}
 					
-			if (currentHand->getPlayerArray()[i]->getMyAction()==1) { 
+			if ((*it_c)->getMyAction()==1) { 
 	// 			groupBoxArray[i]->setDisabled(TRUE);
 				
-				if(i != 0) {
-					holeCardsArray[i][0]->setPixmap(onePix, FALSE);
-					holeCardsArray[i][1]->setPixmap(onePix, FALSE);
+				if((*it_c)->getMyID() != 0) {
+					holeCardsArray[(*it_c)->getMyID()][0]->setPixmap(onePix, FALSE);
+					holeCardsArray[(*it_c)->getMyID()][1]->setPixmap(onePix, FALSE);
 				}
 			}
 		}
+
+
+
+
+
+
+
+
+
+
+
+
+
 	} 
 	else {
 		//if no action --> clear Pixmap 
@@ -1439,44 +1484,117 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 
 void mainWindowImpl::refreshCash() {
 
-	int i;
+// 	int i;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
-	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
-		if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) { 
+// 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+// 		if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) { 
+// 
+// 			cashLabelArray[i]->setText(QString::number(currentHand->getPlayerArray()[i]->getMyCash(),10)+" $"); 
+// 			cashTopLabelArray[i]->setText("Cash:"); 
+// 			
+// 		} else {
+// 			cashLabelArray[i]->setText(""); 
+// 			cashTopLabelArray[i]->setText("");
+// 		}
+// 	}
 
-			cashLabelArray[i]->setText(QString::number(currentHand->getPlayerArray()[i]->getMyCash(),10)+" $"); 
-			cashTopLabelArray[i]->setText("Cash:"); 
+
+	PlayerListConstIterator it_c;
+	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
+		if((*it_c)->getMyActiveStatus()) { 
+
+			cashLabelArray[(*it_c)->getMyID()]->setText(QString::number((*it_c)->getMyCash(),10)+" $"); 
+			cashTopLabelArray[(*it_c)->getMyID()]->setText("Cash:"); 
 			
 		} else {
-			cashLabelArray[i]->setText(""); 
-			cashTopLabelArray[i]->setText("");
+			cashLabelArray[(*it_c)->getMyID()]->setText(""); 
+			cashTopLabelArray[(*it_c)->getMyID()]->setText("");
 		}
 	}
+
+
+
+
 }
 
 void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 
-	int i,j;
+// 	int i;
+	int j;
 
 	if(playerID == -1 || status == -1) {
 
+// 		HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+// 		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+// 	
+// 			if(currentHand->getPlayerArray()[i]->getMyTurn()) {
+// 				//Groupbox glow wenn der Spiele dran ist. 
+// 				if(i==0) {
+// 					groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxActiveGlow.png) }"); 
+// 				}
+// 				else {
+// 					groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
+// 				}
+// 	
+// 			} else {
+// 				//Groupbox auf Hintergrundfarbe setzen wenn der Spiele nicht dran aber aktiv ist. 
+// 				if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
+// 					if(i==0) {
+// 						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
+// 						//show buttons
+// 						for(j=0; j<3; j++) {
+// 							userWidgetsArray[j]->show();
+// 						}
+// 					}
+// 					else {
+// 						groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+// 					}	
+// 				}
+// 				//Groupbox verdunkeln wenn der Spiele inactive ist.  
+// 				else {
+// 					if(i==0) {
+// 						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
+// 						//hide buttons
+// 						for(j=0; j<4; j++) {
+// 							userWidgetsArray[j]->hide();
+// 						}
+// 					}
+// 					else {
+// 						groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+// 					}
+// 				}
+// 			}
+// 		}
+
+
+
+
+
+
+
+
+
+
+
+
 		HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+		PlayerListConstIterator it_c;
+		for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
 	
-			if(currentHand->getPlayerArray()[i]->getMyTurn()) {
+			if((*it_c)->getMyTurn()) {
 				//Groupbox glow wenn der Spiele dran ist. 
-				if(i==0) {
+				if((*it_c)->getMyID()==0) {
 					groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxActiveGlow.png) }"); 
 				}
 				else {
-					groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
+					groupBoxArray[(*it_c)->getMyID()]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
 				}
 	
 			} else {
 				//Groupbox auf Hintergrundfarbe setzen wenn der Spiele nicht dran aber aktiv ist. 
-				if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) {
-					if(i==0) {
+				if((*it_c)->getMyActiveStatus()) {
+					if((*it_c)->getMyID()==0) {
 						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
 						//show buttons
 						for(j=0; j<3; j++) {
@@ -1484,12 +1602,12 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 						}
 					}
 					else {
-						groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+						groupBoxArray[(*it_c)->getMyID()]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 					}	
 				}
 				//Groupbox verdunkeln wenn der Spiele inactive ist.  
 				else {
-					if(i==0) {
+					if((*it_c)->getMyID()==0) {
 						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
 						//hide buttons
 						for(j=0; j<4; j++) {
@@ -1497,11 +1615,24 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 						}
 					}
 					else {
-						groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+						groupBoxArray[(*it_c)->getMyID()]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 					}
 				}
 			}
 		}
+
+
+
+
+
+
+
+
+
+
+
+
+
 	}
 	else {
 		switch(status) {
@@ -1588,13 +1719,25 @@ void mainWindowImpl::refreshGameLabels(int gameState) {
 
 void mainWindowImpl::refreshAll() {
 	
-	int i;
+// 	int i;
 	
 	refreshSet();
 	refreshButton();
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		refreshAction( i, mySession->getCurrentGame()->getPlayerArray()[i]->getMyAction());
+// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 		refreshAction( i, mySession->getCurrentGame()->getPlayerArray()[i]->getMyAction());
+// 	}
+
+
+	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	PlayerListConstIterator it_c;
+	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
+		refreshAction( (*it_c)->getMyID(), (*it_c)->getMyAction());
 	}
+
+
+
+
+
 	refreshCash();
 	refreshGroupbox();
 	refreshPlayerName();
@@ -1603,12 +1746,20 @@ void mainWindowImpl::refreshAll() {
 
 void mainWindowImpl::refreshChangePlayer() {
 
-	int i;
+// 	int i;
 
 	refreshSet();
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		refreshAction( i, mySession->getCurrentGame()->getPlayerArray()[i]->getMyAction());
+// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 		refreshAction( i, mySession->getCurrentGame()->getPlayerArray()[i]->getMyAction());
+// 	}
+
+	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	PlayerListConstIterator it_c;
+	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
+		refreshAction( (*it_c)->getMyID(), (*it_c)->getMyAction());
 	}
+
+
 	refreshCash();
 }
 
@@ -1636,35 +1787,80 @@ void mainWindowImpl::dealHoleCards() {
 	int tempCardsIntArray[2];
 	
 	// Karten der Gegner und eigene Karten austeilen
-	int i, j;
+// 	int i;
+	int j;
 	Game *currentGame = mySession->getCurrentGame();
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		currentGame->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
+// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 		currentGame->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
+// 		for(j=0; j<2; j++) {
+// 			if(currentGame->getPlayerArray()[i]->getMyActiveStatus()) { 
+// 				if ((i == 0) || DEBUG_MODE) {
+// 					if(myConfig->readConfigInt("AntiPeekMode")) {
+// 						holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
+// 						tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
+// 						holeCardsArray[i][j]->setFrontPixmap(tempCardsPixmapArray[j]);
+// 					}
+// 					else {
+// 						tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
+// 						holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
+// 					}
+// 				} 
+// 				else {
+// 					holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
+// /*					holeCardsArray[i][j]->setStyleSheet("QLabel:hover { background-image:url(:/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");*/
+// 				}
+// 			}
+// 			else {
+// 				
+// 				holeCardsArray[i][j]->setPixmap(onePix, FALSE);
+// //					holeCardsArray[i][j]->repaint();
+// 			}
+// 		}
+// 	}
+
+
+
+
+
+
+
+	PlayerListConstIterator it_c;
+	for(it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
+		(*it_c)->getMyCards(tempCardsIntArray);	
 		for(j=0; j<2; j++) {
-			if(currentGame->getPlayerArray()[i]->getMyActiveStatus()) { 
-				if ((i == 0) || DEBUG_MODE) {
+			if((*it_c)->getMyActiveStatus()) { 
+				if (( (*it_c)->getMyID() == 0) || DEBUG_MODE) {
 					if(myConfig->readConfigInt("AntiPeekMode")) {
-						holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
+						holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(*flipside, TRUE);
 						tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
-						holeCardsArray[i][j]->setFrontPixmap(tempCardsPixmapArray[j]);
+						holeCardsArray[(*it_c)->getMyID()][j]->setFrontPixmap(tempCardsPixmapArray[j]);
 					}
 					else {
 						tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
-						holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
+						holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
 					}
 				} 
 				else {
-					holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
+					holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(*flipside, TRUE);
 /*					holeCardsArray[i][j]->setStyleSheet("QLabel:hover { background-image:url(:/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");*/
 				}
 			}
 			else {
 				
-				holeCardsArray[i][j]->setPixmap(onePix, FALSE);
+				holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(onePix, FALSE);
 //					holeCardsArray[i][j]->repaint();
 			}
 		}
 	}
+
+
+
+
+
+
+
+
+
 	//fix press mouse button during bankrupt with anti-peek-mode
 	this->mouseOverFlipCards(FALSE);
 }
@@ -1860,9 +2056,9 @@ void mainWindowImpl::meInAction() {
 	switch (currentHand->getActualRound()) {
 
 	case 0: {
-		if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+		if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 
-		if (currentGame->getPlayerArray()[0]->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getPlayerArray()[0]->getMyButton() == 3) { pushButton_CallCheckSet->setText("Check"); }
+		if (currentGame->getSeatsList()->front()->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getSeatsList()->front()->getMyButton() == 3) { pushButton_CallCheckSet->setText("Check"); }
 		else { pushButton_CallCheckSet->setText("Call"); }
 		pushButton_FoldAllin->setText("Fold"); 
 	}
@@ -1876,9 +2072,9 @@ void mainWindowImpl::meInAction() {
 			pushButton_CallCheckSet->setText("Check");
 			pushButton_BetRaise->setText("Bet"); 
 		}
-		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getPlayerArray()[0]->getMySet()) {
+		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
 			pushButton_CallCheckSet->setText("Call");
-			if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 		}
 	}
 	break;
@@ -1891,9 +2087,9 @@ void mainWindowImpl::meInAction() {
 			pushButton_CallCheckSet->setText("Check");
 			pushButton_BetRaise->setText("Bet"); 
 		}
-		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getPlayerArray()[0]->getMySet()) {
+		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
 			pushButton_CallCheckSet->setText("Call");
-			if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 		}
 	}
 	break;
@@ -1906,9 +2102,9 @@ void mainWindowImpl::meInAction() {
 			pushButton_CallCheckSet->setText("Check");
 			pushButton_BetRaise->setText("Bet");
 		}
-		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getPlayerArray()[0]->getMySet()) {
+		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
 			pushButton_CallCheckSet->setText("Call");
-			if (currentGame->getPlayerArray()[0]->getMyCash()+currentGame->getPlayerArray()[0]->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
 		}
 	}
 	break;
@@ -1977,8 +2173,8 @@ void mainWindowImpl::myCallCheckSet() {
 void mainWindowImpl::myFold(){
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-	currentHand->getPlayerArray()[0]->setMyAction(1);
-	currentHand->getPlayerArray()[0]->setMyTurn(0);
+	currentHand->getSeatsList()->front()->setMyAction(1);
+	currentHand->getSeatsList()->front()->setMyTurn(0);
 
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setLastPlayersTurn(0);
@@ -1992,8 +2188,8 @@ void mainWindowImpl::myFold(){
 void mainWindowImpl::myCheck() {
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 	
-	currentHand->getPlayerArray()[0]->setMyTurn(0);
-	currentHand->getPlayerArray()[0]->setMyAction(2);
+	currentHand->getSeatsList()->front()->setMyTurn(0);
+	currentHand->getSeatsList()->front()->setMyAction(2);
 
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setLastPlayersTurn(0);
@@ -2011,17 +2207,17 @@ void mainWindowImpl::myCall(){
 	
 	tempHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 
-	if (currentHand->getPlayerArray()[0]->getMyCash()+currentHand->getPlayerArray()[0]->getMySet() <= tempHighestSet) {
+	if (currentHand->getSeatsList()->front()->getMyCash()+currentHand->getSeatsList()->front()->getMySet() <= tempHighestSet) {
 
-		currentHand->getPlayerArray()[0]->setMySet(currentHand->getPlayerArray()[0]->getMyCash());
-		currentHand->getPlayerArray()[0]->setMyCash(0);
-		currentHand->getPlayerArray()[0]->setMyAction(6);
+		currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
+		currentHand->getSeatsList()->front()->setMyCash(0);
+		currentHand->getSeatsList()->front()->setMyAction(6);
 	}
 	else {	
-		currentHand->getPlayerArray()[0]->setMySet(tempHighestSet - currentHand->getPlayerArray()[0]->getMySet());
-		currentHand->getPlayerArray()[0]->setMyAction(3);
+		currentHand->getSeatsList()->front()->setMySet(tempHighestSet - currentHand->getSeatsList()->front()->getMySet());
+		currentHand->getSeatsList()->front()->setMyAction(3);
 	}
-	currentHand->getPlayerArray()[0]->setMyTurn(0);
+	currentHand->getSeatsList()->front()->setMyTurn(0);
 
 	currentHand->getBoard()->collectSets();
 	refreshPot();
@@ -2047,7 +2243,7 @@ void mainWindowImpl::myBet(){
 
 	spinBox_set->setMinimum(currentHand->getSmallBlind()*2);
 	
-	spinBox_set->setMaximum(currentHand->getPlayerArray()[0]->getMyCash());
+	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	spinBox_set->setValue(spinBox_set->minimum());
 	spinBox_set->setFocus();
 	spinBox_set->selectAll();
@@ -2065,8 +2261,8 @@ void mainWindowImpl::myRaise(){
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
-	spinBox_set->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getPlayerArray()[0]->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
-	spinBox_set->setMaximum(currentHand->getPlayerArray()[0]->getMyCash());
+	spinBox_set->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
+	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	spinBox_set->setValue(spinBox_set->minimum());
 	spinBox_set->setFocus();
 	spinBox_set->selectAll();
@@ -2077,41 +2273,41 @@ void mainWindowImpl::myRaise(){
 void mainWindowImpl::mySet(){
 	
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-	int tempCash = currentHand->getPlayerArray()[0]->getMyCash();
+	int tempCash = currentHand->getSeatsList()->front()->getMyCash();
 
 // 	cout << "Set-Value " << spinBox_set->value() << endl; 
-	currentHand->getPlayerArray()[0]->setMySet(spinBox_set->value());
+	currentHand->getSeatsList()->front()->setMySet(spinBox_set->value());
 // 	cout << "MySET " << currentHand->getPlayerArray()[0]->getMySet() << endl;
 	if (spinBox_set->value() >= tempCash ) {
 
-		currentHand->getPlayerArray()[0]->setMySet(currentHand->getPlayerArray()[0]->getMyCash());
-		currentHand->getPlayerArray()[0]->setMyCash(0);
-		currentHand->getPlayerArray()[0]->setMyAction(6);
+		currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
+		currentHand->getSeatsList()->front()->setMyCash(0);
+		currentHand->getSeatsList()->front()->setMyAction(6);
 	}
 	
 	if(myActionIsRaise) {
 		//do not if allIn
-		if(currentHand->getPlayerArray()[0]->getMyAction() != 6) {
-			currentHand->getPlayerArray()[0]->setMyAction(5);
+		if(currentHand->getSeatsList()->front()->getMyAction() != 6) {
+			currentHand->getSeatsList()->front()->setMyAction(5);
 		}
 		myActionIsRaise = 0;
 
-		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getPlayerArray()[0]->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
+		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
 	}
 	
 	if(myActionIsBet) {
 		//do not if allIn
-		if(currentHand->getPlayerArray()[0]->getMyAction() != 6) {
-			currentHand->getPlayerArray()[0]->setMyAction(4);
+		if(currentHand->getSeatsList()->front()->getMyAction() != 6) {
+			currentHand->getSeatsList()->front()->setMyAction(4);
 		}		
 		myActionIsBet = 0;
 
-		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getPlayerArray()[0]->getMySet());
+		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet());
 	}
 
-	currentHand->getCurrentBeRo()->setHighestSet(currentHand->getPlayerArray()[0]->getMySet());
+	currentHand->getCurrentBeRo()->setHighestSet(currentHand->getSeatsList()->front()->getMySet());
 
-	currentHand->getPlayerArray()[0]->setMyTurn(0);
+	currentHand->getSeatsList()->front()->setMyTurn(0);
 
 	currentHand->getBoard()->collectSets();
 	refreshPot();
@@ -2129,18 +2325,18 @@ void mainWindowImpl::myAllIn(){
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
-	currentHand->getPlayerArray()[0]->setMySet(currentHand->getPlayerArray()[0]->getMyCash());
-	currentHand->getPlayerArray()[0]->setMyCash(0);
-	currentHand->getPlayerArray()[0]->setMyAction(6);
+	currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
+	currentHand->getSeatsList()->front()->setMyCash(0);
+	currentHand->getSeatsList()->front()->setMyAction(6);
 	
-	if(currentHand->getPlayerArray()[0]->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getPlayerArray()[0]->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
+	if(currentHand->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
+		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
 
-		currentHand->getCurrentBeRo()->setHighestSet(currentHand->getPlayerArray()[0]->getMySet());
+		currentHand->getCurrentBeRo()->setHighestSet(currentHand->getSeatsList()->front()->getMySet());
 
 	}
 
-	currentHand->getPlayerArray()[0]->setMyTurn(0);
+	currentHand->getSeatsList()->front()->setMyTurn(0);
 
 	currentHand->getBoard()->collectSets();
 	refreshPot();
@@ -2177,7 +2373,16 @@ void mainWindowImpl::nextPlayerAnimation() {
 
 	//refresh Change Player
 	refreshSet();
-	refreshAction(currentHand->getLastPlayersTurn(), currentHand->getPlayerArray()[currentHand->getLastPlayersTurn()]->getMyAction());
+// 	refreshAction(currentHand->getLastPlayersTurn(), currentHand->getPlayerArray()[currentHand->getLastPlayersTurn()]->getMyAction());
+
+	PlayerListConstIterator it_c;
+	for(it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
+		if((*it_c)->getMyID() == currentHand->getLastPlayersTurn()) break;
+	}
+
+	refreshAction(currentHand->getLastPlayersTurn(), (*it_c)->getMyAction());
+
+
 	refreshCash();
 
 	nextPlayerAnimationTimer->start(nextPlayerSpeed1);
@@ -2232,16 +2437,117 @@ void mainWindowImpl::postRiverRunAnimation1() {	postRiverRunAnimation1Timer->sta
 
 void mainWindowImpl::postRiverRunAnimation2() {
 
-	int i;
+// 	int i;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
 	//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
-	int activePlayersCounter = 0;
-	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
-		if (currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus()) activePlayersCounter++;
+// 	int activePlayersCounter = 0;
+// 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+// 		if (currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus()) activePlayersCounter++;
+// 	}
+
+
+	int nonfoldPlayersCounter = 0;
+	PlayerListConstIterator it_c;
+	for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
+		if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonfoldPlayersCounter++;
 	}
 
-	if(activePlayersCounter!=1) { 
+
+
+// 	if(nonfoldPlayersCounter!=1) { 
+// 		 
+// 		if(!flipHolecardsAllInAlreadyDone) {
+// 
+// //TODO - Turn cards like in the rules
+// 
+// // 			postRiverRunAnimation2_flipHoleCards1Timer->start(nextPlayerSpeed2);
+// 
+// // 			//Config? mit oder ohne Eye-Candy?
+// 			if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
+// 				// mit Eye-Candy
+// 		
+// 				//TempArrays
+// 				int tempCardsIntArray[2];
+// 		
+// 				int i, j;
+// 				
+// 				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 					currentHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
+// 					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
+// 						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
+// 							for(j=0; j<2; j++) {
+// 												
+// 								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+// 							}	
+// 						}
+// 						//set Player value (logging)
+// 						currentHand->getPlayerArray()[i]->setMyCardsFlip(1,1);
+// 					}
+// 				}	
+// 			}
+// 			else {
+// 				//Ohne Eye-Candy		
+// 			
+// 				//Karten der aktiven Spieler umdrehen
+// 				QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
+// 			
+// 				//TempArrays
+// 				QPixmap tempCardsPixmapArray[2];
+// 				int tempCardsIntArray[2];
+// 			
+// 				int i, j;
+// 				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 					currentHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
+// 					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
+// 						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
+// 							for(j=0; j<2; j++) {		
+// 								tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
+// 								holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
+// 								
+// 							}	
+// 						}
+// 						//set Player value (logging)
+// 						currentHand->getPlayerArray()[i]->setMyCardsFlip(1,1);
+// 					}
+// 				}
+// 			}
+// 		//Wenn einmal umgedreht dann fertig!!	
+// 		flipHolecardsAllInAlreadyDone = TRUE;
+// 		}
+// 		else {
+// 			int tempCardsIntArray[2];
+// 			int i;
+// 			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 				currentHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
+// 				if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
+// 				
+// 					//set Player value (logging)
+// 					currentHand->getPlayerArray()[i]->setMyCardsFlip(1,3);
+// 				}
+// 			}	
+// 		}
+// 		postRiverRunAnimation2Timer->start(postRiverRunAnimationSpeed);
+// 	}
+// 	else { postRiverRunAnimation3(); }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	if(nonfoldPlayersCounter!=1) { 
 		 
 		if(!flipHolecardsAllInAlreadyDone) {
 
@@ -2256,19 +2562,19 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				//TempArrays
 				int tempCardsIntArray[2];
 		
-				int i, j;
+				int j;
 				
-				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-					currentHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
-					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
-						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
+					for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
+					(*it_c)->getMyCards(tempCardsIntArray);	
+					if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) { 
+						if((*it_c)->getMyAction() || ((*it_c)->getMyAction()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
 												
-								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+								holeCardsArray[(*it_c)->getMyAction()][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
 							}	
 						}
 						//set Player value (logging)
-						currentHand->getPlayerArray()[i]->setMyCardsFlip(1,1);
+						(*it_c)->setMyCardsFlip(1,1);
 					}
 				}	
 			}
@@ -2282,19 +2588,19 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				QPixmap tempCardsPixmapArray[2];
 				int tempCardsIntArray[2];
 			
-				int i, j;
-				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-					currentHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
-					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
-						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
+				int j;
+					for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
+					(*it_c)->getMyCards(tempCardsIntArray);	
+					if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) { 
+						if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {		
 								tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
-								holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
+								holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
 								
 							}	
 						}
 						//set Player value (logging)
-						currentHand->getPlayerArray()[i]->setMyCardsFlip(1,1);
+						(*it_c)->setMyCardsFlip(1,1);
 					}
 				}
 			}
@@ -2303,19 +2609,30 @@ void mainWindowImpl::postRiverRunAnimation2() {
 		}
 		else {
 			int tempCardsIntArray[2];
-			int i;
-			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-				currentHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
-				if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
+// 			int i;
+				for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
+				(*it_c)->getMyCards(tempCardsIntArray);	
+					if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) { 
 				
 					//set Player value (logging)
-					currentHand->getPlayerArray()[i]->setMyCardsFlip(1,3);
+					(*it_c)->setMyCardsFlip(1,3);
 				}
 			}	
 		}
 		postRiverRunAnimation2Timer->start(postRiverRunAnimationSpeed);
 	}
 	else { postRiverRunAnimation3(); }
+
+
+
+
+
+
+
+
+
+
+
 }
 
 // TODO
@@ -2342,24 +2659,119 @@ void mainWindowImpl::postRiverRunAnimation2_flipHoleCards2() {
 
 void mainWindowImpl::postRiverRunAnimation3() {
 
-	int i;
+// 	int i;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 	//Alle Winner erhellen und "Winner" schreiben
-	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
+
+// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 
+// 		if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
+// 
+// // 			QPalette tempPalette = groupBoxArray[i]->palette();
+// // 			tempPalette.setColor(QPalette::Window, highlight);
+// // 			groupBoxArray[i]->setPalette(tempPalette);
+// 			actionLabelArray[i]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_winner.png"));
+// 
+// 			//show winnercards if more than one player is active TODO
+// 			if ( currentHand->getActivePlayerList()->size() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
+// 
+// 				int j;
+// 				int bestHandPos[5];
+// 				currentHand->getPlayerArray()[i]->getMyBestHandPosition(bestHandPos);
+// 
+// 				//index 0 testen --> Karte darf nicht im MyBestHand Position Array drin sein, es darf nicht nur ein Spieler Aktiv sein, die Config fordert die Animation
+// 				bool index0 = TRUE;
+// 				for(j=0; j<5; j++) {			
+// 	// 				cout <<  (currentHand->getPlayerArray()[i]->getMyBestHandPosition())[j] << endl;
+// 					if (bestHandPos[j] == 0 ) { index0 = FALSE; }
+// 				}
+// 				if (index0) { holeCardsArray[i][0]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index0" << endl;*/}
+// 				//index 1 testen
+// 				bool index1 = TRUE;
+// 				for(j=0; j<5; j++) {
+// 					if (bestHandPos[j] == 1 ) { index1 = FALSE; }
+// 				}
+// 				if (index1) { holeCardsArray[i][1]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index1" << endl;*/}
+// 				//index 2 testen
+// 				bool index2 = TRUE;
+// 				for(j=0; j<5; j++) {
+// 					if (bestHandPos[j] == 2 ) { index2 = FALSE; }
+// 				}
+// 				if (index2) { boardCardsArray[0]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index2" << endl;*/}
+// 				//index 3 testen
+// 				bool index3 = TRUE;
+// 				for(j=0; j<5; j++) {
+// 					if (bestHandPos[j] == 3 ) { index3 = FALSE; }
+// 				}
+// 				if (index3) { boardCardsArray[1]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index3" << endl;*/}
+// 				//index 4 testen
+// 				bool index4 = TRUE;
+// 				for(j=0; j<5; j++) {
+// 					if (bestHandPos[j] == 4 ) { index4 = FALSE; }
+// 				}
+// 				if (index4) { boardCardsArray[2]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index4" << endl;*/}
+// 				//index 5 testen
+// 				bool index5 = TRUE;
+// 				for(j=0; j<5; j++) {
+// 					if (bestHandPos[j] == 5 ) { index5 = FALSE; }
+// 				}
+// 				if (index5) { boardCardsArray[3]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index5" << endl;*/}
+// 				//index 6 testen
+// 				bool index6 = TRUE;
+// 				for(j=0; j<5; j++) {
+// 					if (bestHandPos[j] == 6 ) { index6 = FALSE; }
+// 				}
+// 				if (index6) { boardCardsArray[4]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index6" << endl;*/}
+// 			}	
+// 			//Pot-Verteilung Loggen 
+// 			//Pro Spieler den Cash aus dem Player und dem Label auslesen. Player_cash - Label_cash = Gewinnsumme
+// 			bool toIntBool = TRUE;
+// 			int pot =  currentHand->getPlayerArray()[i]->getMyCash() - cashLabelArray[i]->text().remove(" $").toInt(&toIntBool,10) ;
+// 			//Wenn River dann auch das Blatt loggen!
+// // 			if (textLabel_handLabel->text() == "River") {
+// 
+// 			//set Player value (logging)
+// 			currentHand->getPlayerArray()[i]->setMyWinnerState(1, pot);
+// 
+// // 			}
+// // 			else {
+// // 				myLog->logPlayerWinsMsg(i, pot);
+// // 			}
+// 		}
+// 		else {
+// 			
+// 			if( currentHand->getActivePlayerList()->size() != 1 && currentHand->getPlayerArray()[i]->getMyAction() != 1 &&  currentHand->getPlayerArray()[i]->getMyActiveStatus() && myConfig->readConfigInt("ShowFadeOutCardsAnimation") ) {
+//     	
+// 			//aufgedeckte Gegner auch ausblenden
+// 				holeCardsArray[i][0]->startFadeOut(guiGameSpeed);
+// 				holeCardsArray[i][1]->startFadeOut(guiGameSpeed);
+// 			}
+// 		}
+// 	}
+
+
+
+
+
+
+
+
+	PlayerListConstIterator it_c;
+	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
 // 			QPalette tempPalette = groupBoxArray[i]->palette();
 // 			tempPalette.setColor(QPalette::Window, highlight);
 // 			groupBoxArray[i]->setPalette(tempPalette);
-			actionLabelArray[i]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_winner.png"));
+			actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_winner.png"));
 
 			//show winnercards if more than one player is active TODO
 			if ( currentHand->getActivePlayerList()->size() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
 
 				int j;
 				int bestHandPos[5];
-				currentHand->getPlayerArray()[i]->getMyBestHandPosition(bestHandPos);
+				(*it_c)->getMyBestHandPosition(bestHandPos);
 
 				//index 0 testen --> Karte darf nicht im MyBestHand Position Array drin sein, es darf nicht nur ein Spieler Aktiv sein, die Config fordert die Animation
 				bool index0 = TRUE;
@@ -2367,13 +2779,13 @@ void mainWindowImpl::postRiverRunAnimation3() {
 	// 				cout <<  (currentHand->getPlayerArray()[i]->getMyBestHandPosition())[j] << endl;
 					if (bestHandPos[j] == 0 ) { index0 = FALSE; }
 				}
-				if (index0) { holeCardsArray[i][0]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index0" << endl;*/}
+				if (index0) { holeCardsArray[(*it_c)->getMyID()][0]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index0" << endl;*/}
 				//index 1 testen
 				bool index1 = TRUE;
 				for(j=0; j<5; j++) {
 					if (bestHandPos[j] == 1 ) { index1 = FALSE; }
 				}
-				if (index1) { holeCardsArray[i][1]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index1" << endl;*/}
+				if (index1) { holeCardsArray[(*it_c)->getMyID()][1]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index1" << endl;*/}
 				//index 2 testen
 				bool index2 = TRUE;
 				for(j=0; j<5; j++) {
@@ -2408,12 +2820,12 @@ void mainWindowImpl::postRiverRunAnimation3() {
 			//Pot-Verteilung Loggen 
 			//Pro Spieler den Cash aus dem Player und dem Label auslesen. Player_cash - Label_cash = Gewinnsumme
 			bool toIntBool = TRUE;
-			int pot =  currentHand->getPlayerArray()[i]->getMyCash() - cashLabelArray[i]->text().remove(" $").toInt(&toIntBool,10) ;
+			int pot =  (*it_c)->getMyCash() - cashLabelArray[(*it_c)->getMyID()]->text().remove(" $").toInt(&toIntBool,10) ;
 			//Wenn River dann auch das Blatt loggen!
 // 			if (textLabel_handLabel->text() == "River") {
 
 			//set Player value (logging)
-			currentHand->getPlayerArray()[i]->setMyWinnerState(1, pot);
+			(*it_c)->setMyWinnerState(1, pot);
 
 // 			}
 // 			else {
@@ -2422,14 +2834,23 @@ void mainWindowImpl::postRiverRunAnimation3() {
 		}
 		else {
 			
-			if( currentHand->getActivePlayerList()->size() != 1 && currentHand->getPlayerArray()[i]->getMyAction() != 1 &&  currentHand->getPlayerArray()[i]->getMyActiveStatus() && myConfig->readConfigInt("ShowFadeOutCardsAnimation") ) {
+			if( currentHand->getActivePlayerList()->size() != 1 && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && myConfig->readConfigInt("ShowFadeOutCardsAnimation") ) {
     	
 			//aufgedeckte Gegner auch ausblenden
-				holeCardsArray[i][0]->startFadeOut(guiGameSpeed);
-				holeCardsArray[i][1]->startFadeOut(guiGameSpeed);
+				holeCardsArray[(*it_c)->getMyID()][0]->startFadeOut(guiGameSpeed);
+				holeCardsArray[(*it_c)->getMyID()][1]->startFadeOut(guiGameSpeed);
 			}
 		}
 	}
+
+
+
+
+
+
+
+
+
 	
 	postRiverRunAnimation3Timer->start(postRiverRunAnimationSpeed/2);
 }
@@ -2442,30 +2863,64 @@ void mainWindowImpl::postRiverRunAnimation4() {
 
 void mainWindowImpl::postRiverRunAnimation5() {
 
-	int i;
+// 	int i;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
 	//CashTopLabel und PotLabel blinken lassen
+// 	if (distributePotAnimCounter<10) {
+// 		
+// 		if (distributePotAnimCounter==0 || distributePotAnimCounter==2 || distributePotAnimCounter==4 || distributePotAnimCounter==6 || distributePotAnimCounter==8) { 
+// 
+// 			label_Pot->setText("");
+// 	
+// 			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 				if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
+// 
+// 					cashTopLabelArray[i]->setText("");
+// 				}
+// 			}
+// 		}
+// 		else { 
+// 			label_Pot->setText("Pot");
+// 
+// 			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 				if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
+// 
+// 					cashTopLabelArray[i]->setText("Cash:"); 
+// 				}
+// 			}
+// 		}
+// 		
+// 		distributePotAnimCounter++;
+// 	}
+// 	else {
+// 		potDistributeTimer->stop();
+// 		postRiverRunAnimation5Timer->start(gameSpeed);	
+// 	}
+
+
+	PlayerListConstIterator it_c;
+
 	if (distributePotAnimCounter<10) {
 		
 		if (distributePotAnimCounter==0 || distributePotAnimCounter==2 || distributePotAnimCounter==4 || distributePotAnimCounter==6 || distributePotAnimCounter==8) { 
 
 			label_Pot->setText("");
 	
-			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-				if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
+			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
-					cashTopLabelArray[i]->setText("");
+					cashTopLabelArray[(*it_c)->getMyID()]->setText("");
 				}
 			}
 		}
 		else { 
 			label_Pot->setText("Pot");
 
-			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-				if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
+			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
-					cashTopLabelArray[i]->setText("Cash:"); 
+					cashTopLabelArray[(*it_c)->getMyID()]->setText("Cash:"); 
 				}
 			}
 		}
@@ -2476,11 +2931,13 @@ void mainWindowImpl::postRiverRunAnimation5() {
 		potDistributeTimer->stop();
 		postRiverRunAnimation5Timer->start(gameSpeed);	
 	}
+
+
 }
 
 void mainWindowImpl::postRiverRunAnimation6() {
 
-	int i;
+// 	int i;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
 	refreshCash();
@@ -2493,17 +2950,27 @@ void mainWindowImpl::postRiverRunAnimation6() {
 
 	// wenn nur noch ein Spieler aktive "neues Spiel"-Dialog anzeigen
 	int playersPositiveCashCounter = 0;
-	for (i=0; i<mySession->getCurrentGame()->getStartQuantityPlayers(); i++) { 
+// 	for (i=0; i<mySession->getCurrentGame()->getStartQuantityPlayers(); i++) { 
+// // 		cout << "player 0 cash: " << currentHand->getPlayerArray()[0]->getMyCash()
+// 
+// 		if (currentHand->getPlayerArray()[i]->getMyCash() > 0) 
+// 		playersPositiveCashCounter++;
+// 	}
+
+	PlayerListConstIterator it_c;
+	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
 // 		cout << "player 0 cash: " << currentHand->getPlayerArray()[0]->getMyCash()
 
-		if (currentHand->getPlayerArray()[i]->getMyCash() > 0) 
-		playersPositiveCashCounter++;
+		if ((*it_c)->getMyCash() > 0) playersPositiveCashCounter++;
 	}
+
+
+
 	if (playersPositiveCashCounter==1) {
 
 // 		for (i=0; i<mySession->getCurrentGame()->getStartQuantityPlayers(); i++) { 
 // // 		cout << "player 0 cash: " << currentHand->getPlayerArray()[0]->getMyCash()
-// 			if (currentHand->getPlayerArray()[i]->getMyCash() > 0) {
+// 			if (currentHand->get/*PlayerArray*/()[i]->getMyCash() > 0) {
 // 				(statisticArray[currentHand->getPlayerArray()[i]->getMyDude4()+7])++;
 // 			}
 // 		}
@@ -2523,17 +2990,85 @@ void mainWindowImpl::postRiverRunAnimation6() {
 
 void mainWindowImpl::flipHolecardsAllIn() {
 
-	int i;
+// 	int i;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+
+// 	if(!flipHolecardsAllInAlreadyDone) {
+// 		//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
+// 		int activePlayersCounter = 0;
+// 		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+// 			if (currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1) activePlayersCounter++;
+// 		}
+// 		
+// 		if(activePlayersCounter!=1) { 
+// 			
+// 			//Config? mit oder ohne Eye-Candy?
+// 			if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
+// 				// mit Eye-Candy
+// 	
+// 				//TempArrays
+// 				int tempCardsIntArray[2];
+// 	
+// 				int i, j;
+// 	
+// 				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 					currentHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
+// 					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
+// 						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
+// 							for(j=0; j<2; j++) {
+// 								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+// 							}
+// 						}
+// 						//set Player value (logging)
+// 						currentHand->getPlayerArray()[i]->setMyCardsFlip(1,2);
+// 						
+// 					}
+// 				}
+// 			}
+// 			else {
+// 				//Ohne Eye-Candy		
+// 		
+// 				//Karten der aktiven Spieler umdrehen
+// 				QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
+// 				
+// 				//TempArrays
+// 				QPixmap tempCardsPixmapArray[2];
+// 				int temp2CardsIntArray[2];
+// 				
+// 				int i, j;
+// 				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 					currentHand->getPlayerArray()[i]->getMyCards(temp2CardsIntArray);	
+// 					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
+// 						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
+// 							for(j=0; j<2; j++) {
+// 								
+// 								tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(temp2CardsIntArray[j], 10)+".png");
+// 								holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
+// 							}	
+// 						}
+// 						//set Player value (logging)
+// 						currentHand->getPlayerArray()[i]->setMyCardsFlip(1,2);
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+
+
+
+
+
+
 
 	if(!flipHolecardsAllInAlreadyDone) {
 		//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
-		int activePlayersCounter = 0;
-		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
-			if (currentHand->getPlayerArray()[i]->getMyAction() != 1 && currentHand->getPlayerArray()[i]->getMyActiveStatus() == 1) activePlayersCounter++;
+		int nonfoldPlayersCounter = 0;
+		PlayerListConstIterator it_c;
+		for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
+			if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonfoldPlayersCounter++;
 		}
 		
-		if(activePlayersCounter!=1) { 
+		if(nonfoldPlayersCounter!=1) { 
 			
 			//Config? mit oder ohne Eye-Candy?
 			if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
@@ -2542,18 +3077,18 @@ void mainWindowImpl::flipHolecardsAllIn() {
 				//TempArrays
 				int tempCardsIntArray[2];
 	
-				int i, j;
+				int j;
 	
-				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-					currentHand->getPlayerArray()[i]->getMyCards(tempCardsIntArray);	
-					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
-						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
+				for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
+					(*it_c)->getMyCards(tempCardsIntArray);	
+					if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) { 
+						if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
-								holeCardsArray[i][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+								holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
 							}
 						}
 						//set Player value (logging)
-						currentHand->getPlayerArray()[i]->setMyCardsFlip(1,2);
+						(*it_c)->setMyCardsFlip(1,2);
 						
 					}
 				}
@@ -2568,24 +3103,30 @@ void mainWindowImpl::flipHolecardsAllIn() {
 				QPixmap tempCardsPixmapArray[2];
 				int temp2CardsIntArray[2];
 				
-				int i, j;
-				for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-					currentHand->getPlayerArray()[i]->getMyCards(temp2CardsIntArray);	
-					if(currentHand->getPlayerArray()[i]->getMyActiveStatus() && currentHand->getPlayerArray()[i]->getMyAction() != 1) { 
-						if(i || (i==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
+				int j;
+				for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
+					(*it_c)->getMyCards(temp2CardsIntArray);	
+					if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) { 
+						if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
 								
 								tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(temp2CardsIntArray[j], 10)+".png");
-								holeCardsArray[i][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
+								holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
 							}	
 						}
 						//set Player value (logging)
-						currentHand->getPlayerArray()[i]->setMyCardsFlip(1,2);
+						(*it_c)->setMyCardsFlip(1,2);
 					}
 				}
 			}
 		}
 	}	
+
+
+
+
+
+	
 	
 	//Wenn einmal umgedreht dann fertig!!	
 	flipHolecardsAllInAlreadyDone = TRUE;
@@ -2597,11 +3138,11 @@ void mainWindowImpl::showMyCards() {
 	int tempCardsIntArray[2];
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
-	currentHand->getPlayerArray()[0]->getMyCards(tempCardsIntArray);	
-	if( currentHand->getPlayerArray()[0]->getMyCardsFlip() == 0 &&  currentHand->getActualRound() == 4 && currentHand->getPlayerArray()[0]->getMyActiveStatus() && currentHand->getPlayerArray()[0]->getMyAction() != 1) { 
+	currentHand->getSeatsList()->front()->getMyCards(tempCardsIntArray);	
+	if( currentHand->getSeatsList()->front()->getMyCardsFlip() == 0 &&  currentHand->getActualRound() == 4 && currentHand->getSeatsList()->front()->getMyActiveStatus() && currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD) { 
 
 		//set Player value (logging)	
-		currentHand->getPlayerArray()[0]->setMyCardsFlip(1,1);
+		currentHand->getSeatsList()->front()->setMyCardsFlip(1,1);
 	}
 }
 
@@ -2650,7 +3191,7 @@ void mainWindowImpl::nextRoundCleanGui() {
 // 	label_Pot->setPalette(labelPalette);
 
 	// for startNewGame during human player is active
-	if(mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[0]->getMyActiveStatus() == 1) {
+	if(mySession->getCurrentGame()->getCurrentHand()->getSeatsList()->front()->getMyActiveStatus() == 1) {
 		disableMyButtons();
 	}
 // 	QPalette tempPalette = frame_Pot->palette();
@@ -3112,7 +3653,7 @@ void mainWindowImpl::localGameModification() {
 	}
 
 	//Set the playing mode to "manual"
-	playingMode = 1;
+	playingMode = 0;
 
 }
 
@@ -3130,7 +3671,7 @@ void mainWindowImpl::networkGameModification() {
 void mainWindowImpl::mouseOverFlipCards(bool front) {
 
 	if(mySession->getCurrentGameID()) {
-		if(myConfig->readConfigInt("AntiPeekMode") && mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[0]->getMyActiveStatus() && mySession->getCurrentGame()->getPlayerArray()[0]->getMyAction() != PLAYER_ACTION_FOLD) {
+		if(myConfig->readConfigInt("AntiPeekMode") && mySession->getCurrentGame()->getCurrentHand()->getSeatsList()->front()->getMyActiveStatus() && mySession->getCurrentGame()->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD) {
 			holeCardsArray[0][0]->signalFastFlipCards(front);
 			holeCardsArray[0][1]->signalFastFlipCards(front);
 		}
