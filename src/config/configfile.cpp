@@ -55,7 +55,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
 	}
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 42;
+	configRev = 44;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -161,11 +161,13 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("ShowBlindButtons", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("AntiPeekMode", CONFIG_TYPE_INT, "0"));		
 	configList.push_back(ConfigInfo("AlternateFKeysUserActionMode", CONFIG_TYPE_INT, "0"));		
-	configList.push_back(ConfigInfo("PlaySoundEffects", CONFIG_TYPE_INT, "1"));
-	configList.push_back(ConfigInfo("SoundVolume", CONFIG_TYPE_INT, "8"));
 	configList.push_back(ConfigInfo("FlipsideTux", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("FlipsideOwn", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("FlipsideOwnFile", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("PlaySoundEffects", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("SoundVolume", CONFIG_TYPE_INT, "8"));
+	configList.push_back(ConfigInfo("PlayGameActions", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("PlayLobbyChatNotification", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("NumberOfPlayers", CONFIG_TYPE_INT, "7"));
 	configList.push_back(ConfigInfo("StartCash", CONFIG_TYPE_INT, "3000"));
 	configList.push_back(ConfigInfo("FirstSmallBlind", CONFIG_TYPE_INT, "10"));
@@ -181,7 +183,6 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("AfterMBAlwaysRaiseValue", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("AfterMBStayAtLastBlind", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("GameSpeed", CONFIG_TYPE_INT, "4"));
-	configList.push_back(ConfigInfo("EngineVersion", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("PauseBetweenHands", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ShowGameSettingsDialogOnNewGame", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("NetNumberOfPlayers", CONFIG_TYPE_INT, "7"));
@@ -199,7 +200,6 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("NetAfterMBAlwaysRaiseValue", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("NetAfterMBStayAtLastBlind", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("NetGameSpeed", CONFIG_TYPE_INT, "4"));
-	configList.push_back(ConfigInfo("NetEngineVersion", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("NetTimeOutPlayerAction", CONFIG_TYPE_INT, "20"));
 	configList.push_back(ConfigInfo("ServerPassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("ServerUseIpv6", CONFIG_TYPE_INT, "0"));

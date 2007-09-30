@@ -72,8 +72,6 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 // 	label_36->hide();
 // 	spinBox_netGameSpeed->hide();
 // 
-// 	label_18->hide();
-// 	comboBox_netEngineVersion->hide();
 }
 
 void settingsDialogImpl::exec() {
@@ -123,7 +121,6 @@ void settingsDialogImpl::exec() {
 	spinBox_gameSpeed->setValue(myConfig->readConfigInt("GameSpeed"));
 	checkBox_pauseBetweenHands->setChecked(myConfig->readConfigInt("PauseBetweenHands"));
 	checkBox_showGameSettingsDialogOnNewGame->setChecked(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame"));
-	comboBox_engineVersion->setCurrentIndex(myConfig->readConfigInt("EngineVersion"));
 	
 	//Network Game Settings
 	spinBox_netQuantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
@@ -136,7 +133,6 @@ void settingsDialogImpl::exec() {
 	radioButton_netAlwaysDoubleBlinds->setChecked(myConfig->readConfigInt("NetAlwaysDoubleBlinds"));
 	radioButton_netManualBlindsOrder->setChecked(myConfig->readConfigInt("NetManualBlindsOrder"));
 	spinBox_netGameSpeed->setValue(myConfig->readConfigInt("NetGameSpeed"));
-	comboBox_netEngineVersion->setCurrentIndex(myConfig->readConfigInt("NetEngineVersion"));
 	spinBox_netTimeOutPlayerAction->setValue(myConfig->readConfigInt("NetTimeOutPlayerAction"));
 	spinBox_serverPort->setValue(myConfig->readConfigInt("ServerPort"));
 	lineEdit_serverPassword->setText(QString::fromUtf8(myConfig->readConfigString("ServerPassword").c_str()));
@@ -168,8 +164,6 @@ void settingsDialogImpl::exec() {
 	checkBox_showBlindButtons->setChecked(myConfig->readConfigInt("ShowBlindButtons"));
 	checkBox_antiPeekMode->setChecked(myConfig->readConfigInt("AntiPeekMode"));
 	checkBox_alternateFKeysUserActionMode->setChecked(myConfig->readConfigInt("AlternateFKeysUserActionMode"));
-	checkBox_playSoundEffects->setChecked(myConfig->readConfigInt("PlaySoundEffects"));
-	horizontalSlider_soundVolume->setValue(myConfig->readConfigInt("SoundVolume"));
 	radioButton_flipsideTux->setChecked(myConfig->readConfigInt("FlipsideTux"));
 	radioButton_flipsideOwn->setChecked(myConfig->readConfigInt("FlipsideOwn"));
 	if(radioButton_flipsideOwn->isChecked()) { 
@@ -177,6 +171,12 @@ void settingsDialogImpl::exec() {
 		pushButton_openFlipsidePicture->setEnabled(TRUE);
 	}
 	lineEdit_OwnFlipsideFilename->setText(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
+
+	//Sound
+	groupBox_playSoundEffects->setChecked(myConfig->readConfigInt("PlaySoundEffects"));
+	horizontalSlider_soundVolume->setValue(myConfig->readConfigInt("SoundVolume"));
+	checkBox_playGameActions->setChecked(myConfig->readConfigInt("PlayGameActions"));
+	checkBox_playLobbyChatNotification->setChecked(myConfig->readConfigInt("PlayLobbyChatNotification"));	
 
 	//Log 
 	groupBox_logOnOff->setChecked(myConfig->readConfigInt("LogOnOff"));
@@ -244,7 +244,6 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("AlwaysDoubleBlinds", radioButton_alwaysDoubleBlinds->isChecked());
 	myConfig->writeConfigInt("ManualBlindsOrder", radioButton_manualBlindsOrder->isChecked());
 	myConfig->writeConfigInt("GameSpeed", spinBox_gameSpeed->value());
-	myConfig->writeConfigInt("EngineVersion", comboBox_engineVersion->currentIndex());
 	myConfig->writeConfigInt("PauseBetweenHands", checkBox_pauseBetweenHands->isChecked());
 	myConfig->writeConfigInt("ShowGameSettingsDialogOnNewGame", checkBox_showGameSettingsDialogOnNewGame->isChecked());
 
@@ -259,7 +258,6 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("NetAlwaysDoubleBlinds", radioButton_netAlwaysDoubleBlinds->isChecked());
 	myConfig->writeConfigInt("NetManualBlindsOrder", radioButton_netManualBlindsOrder->isChecked());
 	myConfig->writeConfigInt("NetGameSpeed", spinBox_netGameSpeed->value());
-	myConfig->writeConfigInt("NetEngineVersion", comboBox_netEngineVersion->currentIndex());
 	myConfig->writeConfigInt("NetTimeOutPlayerAction", spinBox_netTimeOutPlayerAction->value());
 	myConfig->writeConfigInt("ServerPort", spinBox_serverPort->value());
 	myConfig->writeConfigString("ServerPassword", lineEdit_serverPassword->text().toUtf8().constData());
@@ -289,8 +287,6 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("ShowBlindButtons", checkBox_showBlindButtons->isChecked());
 	myConfig->writeConfigInt("AntiPeekMode", checkBox_antiPeekMode->isChecked());
 	myConfig->writeConfigInt("AlternateFKeysUserActionMode", checkBox_alternateFKeysUserActionMode->isChecked());
-	myConfig->writeConfigInt("PlaySoundEffects", checkBox_playSoundEffects->isChecked());
-	myConfig->writeConfigInt("SoundVolume", horizontalSlider_soundVolume->value());
 	myConfig->writeConfigInt("FlipsideTux", radioButton_flipsideTux->isChecked());
 	myConfig->writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());
 
@@ -303,6 +299,12 @@ void settingsDialogImpl::isAccepted() {
 			settingsCorrect = FALSE; 
 		}
 	}
+
+	//Sound
+	myConfig->writeConfigInt("PlaySoundEffects", groupBox_playSoundEffects->isChecked());
+	myConfig->writeConfigInt("SoundVolume", horizontalSlider_soundVolume->value());
+	myConfig->writeConfigInt("PlayGameActions", checkBox_playGameActions->isChecked());	
+	myConfig->writeConfigInt("PlayLobbyChatNotification", checkBox_playLobbyChatNotification->isChecked());	
 
 //	Log
 	myConfig->writeConfigInt("LogOnOff", groupBox_logOnOff->isChecked());

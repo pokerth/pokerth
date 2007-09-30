@@ -280,99 +280,6 @@ p, li { white-space: pre-wrap; }
      </widget>
      <widget class="QWidget" name="page_6" >
       <layout class="QGridLayout" >
-       <property name="leftMargin" >
-        <number>9</number>
-       </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
-        <number>9</number>
-       </property>
-       <property name="horizontalSpacing" >
-        <number>6</number>
-       </property>
-       <property name="verticalSpacing" >
-        <number>6</number>
-       </property>
-       <item row="2" column="0" >
-        <widget class="QCheckBox" name="checkBox_playSoundEffects" >
-         <property name="text" >
-          <string>Play sound effects</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" >
-        <layout class="QHBoxLayout" >
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="label_25" >
-           <property name="text" >
-            <string>Sound Volume:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_soundVolume" >
-           <property name="minimumSize" >
-            <size>
-             <width>20</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text" >
-            <string>10</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSlider" name="horizontalSlider_soundVolume" >
-           <property name="minimum" >
-            <number>1</number>
-           </property>
-           <property name="maximum" >
-            <number>10</number>
-           </property>
-           <property name="value" >
-            <number>8</number>
-           </property>
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="4" column="0" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>281</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="0" column="0" >
         <widget class="QLabel" name="label_26" >
          <property name="styleSheet" >
@@ -389,6 +296,115 @@ p, li { white-space: pre-wrap; }
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QGroupBox" name="groupBox_playSoundEffects" >
+         <property name="title" >
+          <string>Play sound effects</string>
+         </property>
+         <property name="checkable" >
+          <bool>true</bool>
+         </property>
+         <property name="checked" >
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" >
+          <item row="0" column="0" >
+           <layout class="QHBoxLayout" >
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <property name="leftMargin" >
+             <number>0</number>
+            </property>
+            <property name="topMargin" >
+             <number>0</number>
+            </property>
+            <property name="rightMargin" >
+             <number>0</number>
+            </property>
+            <property name="bottomMargin" >
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_25" >
+              <property name="text" >
+               <string>Sound Volume:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_soundVolume" >
+              <property name="minimumSize" >
+               <size>
+                <width>20</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text" >
+               <string>10</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="horizontalSlider_soundVolume" >
+              <property name="minimum" >
+               <number>1</number>
+              </property>
+              <property name="maximum" >
+               <number>10</number>
+              </property>
+              <property name="value" >
+               <number>8</number>
+              </property>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QGroupBox" name="groupBox_10" >
+            <property name="title" >
+             <string>Sound Categories </string>
+            </property>
+            <layout class="QGridLayout" >
+             <property name="topMargin" >
+              <number>0</number>
+             </property>
+             <item row="0" column="0" >
+              <widget class="QCheckBox" name="checkBox_playGameActions" >
+               <property name="text" >
+                <string>Play game actions sounds like "check", "call", "raise"</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" >
+              <widget class="QCheckBox" name="checkBox_playLobbyChatNotification" >
+               <property name="text" >
+                <string>Play notifications for lobby chat</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="3" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>400</width>
+           <height>321</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -639,40 +655,20 @@ p, li { white-space: pre-wrap; }
         </layout>
        </item>
        <item row="7" column="0" >
-        <layout class="QHBoxLayout" >
-         <item>
-          <widget class="QLabel" name="label_17" >
-           <property name="text" >
-            <string>Engine Version:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox_engineVersion" >
-           <item>
-            <property name="text" >
-             <string>0.4 (current)</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="8" column="0" >
         <widget class="QCheckBox" name="checkBox_pauseBetweenHands" >
          <property name="text" >
           <string>Pause between hands (press "start" button to go on)</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="0" >
+       <item row="8" column="0" >
         <widget class="QCheckBox" name="checkBox_showGameSettingsDialogOnNewGame" >
          <property name="text" >
           <string>Show game settings dialog on every new game</string>
          </property>
         </widget>
        </item>
-       <item row="10" column="0" >
+       <item row="9" column="0" >
         <spacer>
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -680,7 +676,7 @@ p, li { white-space: pre-wrap; }
          <property name="sizeHint" >
           <size>
            <width>400</width>
-           <height>161</height>
+           <height>181</height>
           </size>
          </property>
         </spacer>
@@ -930,26 +926,6 @@ p, li { white-space: pre-wrap; }
        <item row="7" column="0" >
         <layout class="QHBoxLayout" >
          <item>
-          <widget class="QLabel" name="label_18" >
-           <property name="text" >
-            <string>Engine Version for computer opponents:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox_netEngineVersion" >
-           <item>
-            <property name="text" >
-             <string>0.4 (current)</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="8" column="0" >
-        <layout class="QHBoxLayout" >
-         <item>
           <widget class="QLabel" name="label_40" >
            <property name="text" >
             <string>Timeout for player action (sec):</string>
@@ -971,14 +947,14 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </item>
-       <item row="9" column="0" >
+       <item row="8" column="0" >
         <widget class="Line" name="line_7" >
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="10" column="0" >
+       <item row="9" column="0" >
         <widget class="QGroupBox" name="groupBox_2" >
          <property name="title" >
           <string>Network Server Settings</string>
@@ -1076,7 +1052,7 @@ p, li { white-space: pre-wrap; }
          </layout>
         </widget>
        </item>
-       <item row="11" column="0" >
+       <item row="10" column="0" >
         <spacer>
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -1084,7 +1060,7 @@ p, li { white-space: pre-wrap; }
          <property name="sizeHint" >
           <size>
            <width>400</width>
-           <height>16</height>
+           <height>41</height>
           </size>
          </property>
         </spacer>
@@ -3022,14 +2998,12 @@ p, li { white-space: pre-wrap; }
   <tabstop>spinBox_startCash</tabstop>
   <tabstop>spinBox_firstSmallBlind</tabstop>
   <tabstop>spinBox_gameSpeed</tabstop>
-  <tabstop>comboBox_engineVersion</tabstop>
   <tabstop>checkBox_pauseBetweenHands</tabstop>
   <tabstop>checkBox_showGameSettingsDialogOnNewGame</tabstop>
   <tabstop>spinBox_netQuantityPlayers</tabstop>
   <tabstop>spinBox_netStartCash</tabstop>
   <tabstop>spinBox_netFirstSmallBlind</tabstop>
   <tabstop>spinBox_netGameSpeed</tabstop>
-  <tabstop>comboBox_netEngineVersion</tabstop>
   <tabstop>spinBox_netTimeOutPlayerAction</tabstop>
   <tabstop>spinBox_serverPort</tabstop>
   <tabstop>lineEdit_serverPassword</tabstop>

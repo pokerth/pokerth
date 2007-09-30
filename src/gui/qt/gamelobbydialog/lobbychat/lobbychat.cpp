@@ -118,7 +118,8 @@ void LobbyChat::displayMessage(QString playerName, QString message) {
 	QString tempMsg;
 	if(message.contains(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()), Qt::CaseInsensitive)) {
 		tempMsg = QString("<b>"+message+"</b>");
-		myLobby->getMyW()->getMySDLPlayer()->playSound("lobbychatnotify",0);
+		if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) 
+			myLobby->getMyW()->getMySDLPlayer()->playSound("lobbychatnotify",0);
 	}
 	else {
 		tempMsg = message;
