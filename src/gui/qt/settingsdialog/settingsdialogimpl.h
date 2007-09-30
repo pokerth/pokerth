@@ -67,6 +67,9 @@ public slots:
 	void callSelectAvatarDialog() { mySelectAvatarDialogImpl->exec(); } 
 
 	void clearInternetGamePassword(bool);
+	
+	void checkProperNetFirstSmallBlind(int);
+	void checkProperFirstSmallBlind(int);
 
 	
 private:

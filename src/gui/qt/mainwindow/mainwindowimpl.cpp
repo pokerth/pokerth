@@ -3106,7 +3106,7 @@ void mainWindowImpl::localGameModification() {
 	}
 
 	//Set the playing mode to "manual"
-	playingMode = 0;
+	playingMode = 1;
 
 }
 

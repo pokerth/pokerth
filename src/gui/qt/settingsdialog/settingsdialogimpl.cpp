@@ -63,6 +63,9 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
 	connect( checkBox_UseInternetGamePassword, SIGNAL( toggled(bool) ), this, SLOT( clearInternetGamePassword(bool)) ); 
 
+	connect( spinBox_netFirstSmallBlind, SIGNAL( valueChanged(int) ), this, SLOT ( checkProperNetFirstSmallBlind(int)));
+	connect( spinBox_firstSmallBlind, SIGNAL( valueChanged(int) ), this, SLOT ( checkProperFirstSmallBlind(int)));
+
 	//temporarely unused until ai is enabled in network
 // 	label_36->hide();
 // 	spinBox_netGameSpeed->hide();
@@ -489,5 +492,27 @@ void settingsDialogImpl::callNetManualBlindsOrderDialog() {
 		myNetAfterMBAlwaysRaiseAbout = 	myManualBlindsOrderDialog->radioButton_alwaysRaiseAbout->isChecked();
 		myNetAfterMBAlwaysRaiseValue = myManualBlindsOrderDialog->spinBox_alwaysRaiseValue->value();
 		myNetAfterMBStayAtLastBlind = myManualBlindsOrderDialog->radioButton_stayAtLastBlind->isChecked();
+	}
+}
+
+
+void settingsDialogImpl::checkProperNetFirstSmallBlind(int currentSB) {
+
+	if(currentSB > myNetManualBlindsList.front()) {
+
+		QMessageBox::warning(this, tr("Blinds Error"),
+				tr("The first element in your manual-blinds-list is smaller than the first-blind-value you want to set.\nPlease check your manual-blinds-list."),
+				QMessageBox::Close);
+	}
+}
+
+
+void settingsDialogImpl::checkProperFirstSmallBlind(int currentSB) {
+
+	if(currentSB > myManualBlindsList.front()) {
+
+		QMessageBox::warning(this, tr("Blinds Error"),
+				tr("The first element in your manual-blinds-list is smaller than the first-blind-value you want to set.\nPlease check your manual-blinds-list."),
+				QMessageBox::Close);
 	}
 }
