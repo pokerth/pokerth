@@ -64,6 +64,7 @@ public slots:
 	void setCurrentGameName ( const QString& theValue ) { currentGameName = theValue; }
 	QString getCurrentGameName() const { return currentGameName; }	
 
+	mainWindowImpl* getMyW() const { return myW; }
 	void checkPlayerQuantity();
 
 	void joinedNetworkGame(unsigned, QString, int);
@@ -87,6 +88,8 @@ public slots:
 	
 	void keyPressEvent(QKeyEvent * event); 
 	void hideShowGameDescription(bool show);
+
+	
 
 private:
 	

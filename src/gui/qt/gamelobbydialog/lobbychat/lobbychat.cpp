@@ -116,11 +116,9 @@ void LobbyChat::playerLeft(QString playerName)
 void LobbyChat::displayMessage(QString playerName, QString message) { 
 	
 	QString tempMsg;
-	cout << message.toStdString() << endl; 
-	cout << QString::fromUtf8(myConfig->readConfigString("MyName").c_str()).toStdString() << endl;
-
 	if(message.contains(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()), Qt::CaseInsensitive)) {
 		tempMsg = QString("<b>"+message+"</b>");
+		myLobby->getMyW()->getMySDLPlayer()->playSound("lobbychatnotify",0);
 	}
 	else {
 		tempMsg = message;
