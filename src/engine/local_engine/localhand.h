@@ -40,6 +40,7 @@ public:
 	void start();
 
 	std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() const { return playerArray; }
+	PlayerList getSeatsList() const {return seatsList;}
 	PlayerList getActivePlayerList() const {return activePlayerList;}
 	PlayerList getRunningPlayerList() const {return runningPlayerList;}
 

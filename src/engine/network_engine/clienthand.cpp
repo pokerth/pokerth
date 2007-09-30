@@ -73,6 +73,24 @@ ClientHand::getPlayerArray() const
 	return playerArray;
 }
 
+PlayerList
+ClientHand::getSeatsList() const
+{
+	return activePlayerList;
+}
+
+PlayerList
+ClientHand::getActivePlayerList() const
+{
+	return activePlayerList;
+}
+
+PlayerList
+ClientHand::getRunningPlayerList() const
+{
+	return runningPlayerList;
+}
+
 PlayerListIterator
 ClientHand::getSeatIt(unsigned uniqueId) const
 {

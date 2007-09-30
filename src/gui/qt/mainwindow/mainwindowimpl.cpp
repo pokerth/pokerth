@@ -1006,14 +1006,33 @@ void mainWindowImpl::callSettingsDialog() {
 		//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
 		if (mySettingsDialog->getPlayerNickIsChanged() && mySession->getCurrentGame() && !mySession->isNetworkClientRunning()) { 
 
+
+
+// 			HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+// 			currentHand->getPlayerArray()[0]->setMyName(mySettingsDialog->lineEdit_HumanPlayerName->text().toUtf8().constData());
+// 			currentHand->getPlayerArray()[1]->setMyName(mySettingsDialog->lineEdit_Opponent1Name->text().toUtf8().constData());
+// 			currentHand->getPlayerArray()[2]->setMyName(mySettingsDialog->lineEdit_Opponent2Name->text().toUtf8().constData());
+// 			currentHand->getPlayerArray()[3]->setMyName(mySettingsDialog->lineEdit_Opponent3Name->text().toUtf8().constData());
+// 			currentHand->getPlayerArray()[4]->setMyName(mySettingsDialog->lineEdit_Opponent4Name->text().toUtf8().constData());
+// 			currentHand->getPlayerArray()[5]->setMyName(mySettingsDialog->lineEdit_Opponent5Name->text().toUtf8().constData());
+// 			currentHand->getPlayerArray()[6]->setMyName(mySettingsDialog->lineEdit_Opponent6Name->text().toUtf8().constData());
+// 			mySettingsDialog->setPlayerNickIsChanged(FALSE);
+// 
+// 			refreshPlayerName();
+
+
+
+
+
 			HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-			currentHand->getPlayerArray()[0]->setMyName(mySettingsDialog->lineEdit_HumanPlayerName->text().toUtf8().constData());
-			currentHand->getPlayerArray()[1]->setMyName(mySettingsDialog->lineEdit_Opponent1Name->text().toUtf8().constData());
-			currentHand->getPlayerArray()[2]->setMyName(mySettingsDialog->lineEdit_Opponent2Name->text().toUtf8().constData());
-			currentHand->getPlayerArray()[3]->setMyName(mySettingsDialog->lineEdit_Opponent3Name->text().toUtf8().constData());
-			currentHand->getPlayerArray()[4]->setMyName(mySettingsDialog->lineEdit_Opponent4Name->text().toUtf8().constData());
-			currentHand->getPlayerArray()[5]->setMyName(mySettingsDialog->lineEdit_Opponent5Name->text().toUtf8().constData());
-			currentHand->getPlayerArray()[6]->setMyName(mySettingsDialog->lineEdit_Opponent6Name->text().toUtf8().constData());
+			PlayerListIterator it = currentHand->getSeatsList()->begin();
+			(*it)->setMyName(mySettingsDialog->lineEdit_HumanPlayerName->text().toUtf8().constData());
+			(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent1Name->text().toUtf8().constData());
+			(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent2Name->text().toUtf8().constData());
+			(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent3Name->text().toUtf8().constData());
+			(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent4Name->text().toUtf8().constData());
+			(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent5Name->text().toUtf8().constData());
+			(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent6Name->text().toUtf8().constData());
 			mySettingsDialog->setPlayerNickIsChanged(FALSE);
 
 			refreshPlayerName();
@@ -1021,17 +1040,46 @@ void mainWindowImpl::callSettingsDialog() {
 	
 		if(mySession->getCurrentGame() && !mySession->isNetworkClientRunning()) {
 
+// 			HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+// 			currentHand->getPlayerArray()[0]->setMyAvatar(mySettingsDialog->pushButton_HumanPlayerAvatar->getMyLink().toUtf8().constData());
+// 			currentHand->getPlayerArray()[1]->setMyAvatar(mySettingsDialog->pushButton_Opponent1Avatar->getMyLink().toUtf8().constData());
+// 			currentHand->getPlayerArray()[2]->setMyAvatar(mySettingsDialog->pushButton_Opponent2Avatar->getMyLink().toUtf8().constData());
+// 			currentHand->getPlayerArray()[3]->setMyAvatar(mySettingsDialog->pushButton_Opponent3Avatar->getMyLink().toUtf8().constData());
+// 			currentHand->getPlayerArray()[4]->setMyAvatar(mySettingsDialog->pushButton_Opponent4Avatar->getMyLink().toUtf8().constData());
+// 			currentHand->getPlayerArray()[5]->setMyAvatar(mySettingsDialog->pushButton_Opponent5Avatar->getMyLink().toUtf8().constData());
+// 			currentHand->getPlayerArray()[6]->setMyAvatar(mySettingsDialog->pushButton_Opponent6Avatar->getMyLink().toUtf8().constData());
+// 
+// 			//avatar refresh
+// 			refreshPlayerAvatar();		
+
+
+
+
+
+
+
+
+
+
 			HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-			currentHand->getPlayerArray()[0]->setMyAvatar(mySettingsDialog->pushButton_HumanPlayerAvatar->getMyLink().toUtf8().constData());
-			currentHand->getPlayerArray()[1]->setMyAvatar(mySettingsDialog->pushButton_Opponent1Avatar->getMyLink().toUtf8().constData());
-			currentHand->getPlayerArray()[2]->setMyAvatar(mySettingsDialog->pushButton_Opponent2Avatar->getMyLink().toUtf8().constData());
-			currentHand->getPlayerArray()[3]->setMyAvatar(mySettingsDialog->pushButton_Opponent3Avatar->getMyLink().toUtf8().constData());
-			currentHand->getPlayerArray()[4]->setMyAvatar(mySettingsDialog->pushButton_Opponent4Avatar->getMyLink().toUtf8().constData());
-			currentHand->getPlayerArray()[5]->setMyAvatar(mySettingsDialog->pushButton_Opponent5Avatar->getMyLink().toUtf8().constData());
-			currentHand->getPlayerArray()[6]->setMyAvatar(mySettingsDialog->pushButton_Opponent6Avatar->getMyLink().toUtf8().constData());
+			PlayerListIterator it = currentHand->getSeatsList()->begin();
+			(*it)->setMyAvatar(mySettingsDialog->pushButton_HumanPlayerAvatar->getMyLink().toUtf8().constData());
+			(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent1Avatar->getMyLink().toUtf8().constData());
+			(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent2Avatar->getMyLink().toUtf8().constData());
+			(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent3Avatar->getMyLink().toUtf8().constData());
+			(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent4Avatar->getMyLink().toUtf8().constData());
+			(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent5Avatar->getMyLink().toUtf8().constData());
+			(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent6Avatar->getMyLink().toUtf8().constData());
 
 			//avatar refresh
 			refreshPlayerAvatar();		
+
+
+
+
+
+
+
 		}
 
 		//Flipside refresh
@@ -1117,11 +1165,21 @@ void mainWindowImpl::setSession(boost::shared_ptr<Session> session) { mySession 
 //refresh-Funktionen
 void mainWindowImpl::refreshSet() {
 	
-	int i;
- 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
-		if(mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[i]->getMySet() == 0) setLabelArray[i]->setText("");
-		else setLabelArray[i]->setText("Set: "+QString::number(mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[i]->getMySet(),10)+" $"); 
+// 	int i;
+//  	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+// 		if(mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[i]->getMySet() == 0) setLabelArray[i]->setText("");
+// 		else setLabelArray[i]->setText("Set: "+QString::number(mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[i]->getMySet(),10)+" $"); 
+// 	}
+
+	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+
+	PlayerListIterator it;
+ 	for (it=currentHand->getSeatsList()->begin(); it!=currentHand->getSeatsList()->end(); it++) { 
+		if( (*it)->getMySet() == 0 ) setLabelArray[ (*it)->getMyID() ]->setText("");
+		else setLabelArray[(*it)->getMyID()]->setText("Set: "+QString::number( (*it)->getMySet(),10)+" $"); 
 	}
+
+
 }
 
 void mainWindowImpl::refreshButton() {

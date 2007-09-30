@@ -38,8 +38,9 @@ class ClientHand : public HandInterface
 		void start();
 
 		std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() const;
-		PlayerList getActivePlayerList() const {return activePlayerList;}
-		PlayerList getRunningPlayerList() const {return runningPlayerList;}
+		PlayerList getSeatsList() const;
+		PlayerList getActivePlayerList() const;
+		PlayerList getRunningPlayerList() const;
 
 		PlayerListIterator getSeatIt(unsigned) const;
 		PlayerListIterator getActivePlayerIt(unsigned) const;
