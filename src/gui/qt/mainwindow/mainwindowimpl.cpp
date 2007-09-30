@@ -2753,11 +2753,17 @@ void mainWindowImpl::postRiverRunAnimation3() {
 
 
 
-
-
-
-
+	int nonfoldPlayerCounter = 0;
 	PlayerListConstIterator it_c;
+
+	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+			nonfoldPlayerCounter++;
+		}
+	} 
+
+
+
 	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
 		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
@@ -2767,7 +2773,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 			actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_winner.png"));
 
 			//show winnercards if more than one player is active TODO
-			if ( currentHand->getActivePlayerList()->size() != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
+			if ( nonfoldPlayerCounter != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
 
 				int j;
 				int bestHandPos[5];
