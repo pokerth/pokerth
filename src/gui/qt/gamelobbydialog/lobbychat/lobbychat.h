@@ -25,13 +25,14 @@
 
 class gameLobbyDialogImpl;
 class Session;
+class ConfigFile;
 
 class LobbyChat : public QObject
 {
 Q_OBJECT
 
 public:
-	LobbyChat(gameLobbyDialogImpl*);
+	LobbyChat(gameLobbyDialogImpl*, ConfigFile*);
 
 	~LobbyChat();
 
@@ -53,8 +54,10 @@ public slots:
 
 private:
 	gameLobbyDialogImpl *myLobby;
+	ConfigFile *myConfig;
 
 	QString myNick;
+	
 // friend class GuiWrapper;
 };
 

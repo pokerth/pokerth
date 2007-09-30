@@ -22,7 +22,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 {
     setupUi(this);
 	
-	myChat = new LobbyChat(this);
+	myChat = new LobbyChat(this, myConfig);
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
@@ -214,7 +214,7 @@ void gameLobbyDialogImpl::updateGameItem(QTreeWidgetItem *item, unsigned gameId)
 	if (info.mode == GAME_MODE_STARTED)
 		item->setData(2, Qt::DisplayRole, tr("running"));
 	else 
-		item->setData(2, Qt::DisplayRole, tr("registering"));
+		item->setData(2, Qt::DisplayRole, tr("open"));
 
 	if (info.isPasswordProtected)
 		item->setIcon(3, QIcon(myAppDataPath+"gfx/gui/misc/lock.png"));

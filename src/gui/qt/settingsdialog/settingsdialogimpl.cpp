@@ -459,7 +459,7 @@ void settingsDialogImpl::callManualBlindsOrderDialog() {
 		}
 
 		myAfterMBAlwaysDoubleBlinds = myManualBlindsOrderDialog->radioButton_alwaysDoubleBlinds->isChecked();
-		myAfterMBAlwaysRaiseAbout = 	myManualBlindsOrderDialog->radioButton_alwaysRaiseAbout->isChecked();
+		myAfterMBAlwaysRaiseAbout = myManualBlindsOrderDialog->radioButton_alwaysRaiseAbout->isChecked();
 		myAfterMBAlwaysRaiseValue = myManualBlindsOrderDialog->spinBox_alwaysRaiseValue->value();
 		myAfterMBStayAtLastBlind = myManualBlindsOrderDialog->radioButton_stayAtLastBlind->isChecked();
 

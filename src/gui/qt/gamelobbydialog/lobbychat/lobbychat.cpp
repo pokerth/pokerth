@@ -24,11 +24,12 @@
 
 #include "gamelobbydialogimpl.h"
 #include "session.h"
+#include "configfile.h"
 
 using namespace std;
 
 
-LobbyChat::LobbyChat(gameLobbyDialogImpl* l) : myLobby(l)
+LobbyChat::LobbyChat(gameLobbyDialogImpl* l, ConfigFile *c) : myLobby(l), myConfig(c)
 {
 }
 
@@ -113,8 +114,18 @@ void LobbyChat::playerLeft(QString playerName)
 }
 
 void LobbyChat::displayMessage(QString playerName, QString message) { 
+	
+	QString tempMsg;
+	cout << message.toStdString() << endl; 
+	cout << QString::fromUtf8(myConfig->readConfigString("MyName").c_str()).toStdString() << endl;
 
-	myLobby->textBrowser_ChatDisplay->append(playerName + ": " + message); 
+	if(message.contains(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()), Qt::CaseInsensitive)) {
+		tempMsg = QString("<b>"+message+"</b>");
+	}
+	else {
+		tempMsg = message;
+	}
+	myLobby->textBrowser_ChatDisplay->append(playerName + ": " + tempMsg); 
 }
 
 void LobbyChat::checkInputLength(QString string) {
