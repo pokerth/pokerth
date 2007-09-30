@@ -23,6 +23,7 @@
 
 #include <net/irccallback.h>
 #include <core/thread.h>
+#include <core/boost/timers.hpp>
 #include <string>
 
 struct IrcContext;
@@ -52,8 +53,10 @@ protected:
 	IrcContext &GetContext();
 
 private:
-	std::auto_ptr<IrcContext> m_context;
+	boost::shared_ptr<IrcContext> m_context;
 	IrcCallback &m_callback;
+
+	boost::timers::portable::microsec_timer m_terminationTimer;
 };
 
 #endif

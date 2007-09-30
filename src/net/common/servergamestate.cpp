@@ -190,6 +190,7 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 //-----------------------------------------------------------------------------
 
 AbstractServerGameStateTimer::AbstractServerGameStateTimer()
+: m_timer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
 {
 }
 

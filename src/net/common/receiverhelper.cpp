@@ -17,6 +17,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifdef _WIN32
+	#define FD_SETSIZE 512
+#endif
+
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
 #include <net/netexception.h>

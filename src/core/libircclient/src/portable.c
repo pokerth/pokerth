@@ -42,8 +42,8 @@
 		#endif
 	#endif 
 #else
+	#include <winsock2.h>
 	#include <windows.h>
-	#include <winsock.h>
 	#include <time.h>
 	#include <stdio.h>
 	#include <stdarg.h>

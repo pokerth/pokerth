@@ -249,7 +249,6 @@ ClientStateStartConnect::Process(ClientThread &client)
 		if (errCode == SOCKET_ERR_WOULDBLOCK)
 		{
 			boost::timers::portable::microsec_timer connectTimer;
-			connectTimer.start();
 			ClientStateConnecting::Instance().SetTimer(connectTimer);
 			client.SetState(ClientStateConnecting::Instance());
 			retVal = MSG_SOCK_INTERNAL_PENDING;

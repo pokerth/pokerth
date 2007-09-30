@@ -14,6 +14,7 @@
  * $Id: libircclient.c 42 2004-10-10 16:16:15Z gyunaev $
  */
 
+
 #include "portable.c"
 #include "sockets.c"
 
@@ -24,6 +25,11 @@
 #include "errors.c"
 #include "colors.c"
 #include "dcc.c"
+
+#ifdef _MSC_VER
+	#undef strdup
+	#define strdup _strdup
+#endif
 
 #define IS_DEBUG_ENABLED(s)	((s)->option & LIBIRC_OPTION_DEBUG)
 

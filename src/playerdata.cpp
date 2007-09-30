@@ -66,14 +66,14 @@ PlayerData::SetAvatarFile(const std::string &avatarFile)
 boost::shared_ptr<SessionData>
 PlayerData::GetNetSessionData() const
 {
-	boost::mutex::scoped_lock lock(m_dataMutex);
+	// setting/getting boost::shared_ptr is thread safe.
 	return m_netSessionData;
 }
 
 void
 PlayerData::SetNetSessionData(boost::shared_ptr<SessionData> session)
 {
-	boost::mutex::scoped_lock lock(m_dataMutex);
+	// setting/getting boost::shared_ptr is thread safe.
 	m_netSessionData = session;
 }
 

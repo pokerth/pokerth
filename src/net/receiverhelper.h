@@ -28,8 +28,6 @@
 #include <deque>
 #include <boost/shared_ptr.hpp>
 
-#define RECV_TIMEOUT_MSEC	50
-
 class ReceiverHelper
 {
 public:

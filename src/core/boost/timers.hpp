@@ -13,6 +13,7 @@
 // Speeds up compilation a bit on msvc
 #if (defined _MSC_VER) && (_MSC_VER >= 1200)
 #pragma once
+#define _WINSOCKAPI_
 #endif
 
 #include <boost/config.hpp>

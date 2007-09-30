@@ -49,7 +49,7 @@
 	#include <sys/select.h>	/* fd_set */
 	#include <netinet/in.h>	/* sockaddr_in */
 #else
-	#include <winsock.h>
+	#include <winsock2.h>
 #endif
 
 #ifdef	__cplusplus

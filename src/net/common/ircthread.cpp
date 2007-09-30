@@ -19,11 +19,14 @@
 
 #include <net/ircthread.h>
 
+#include <net/socket_helper.h>
 #include <libircclient.h>
 #include <sstream>
 #include <cctype>
 
 using namespace std;
+
+#define IRC_WAIT_TERMINATION_MSEC 500
 
 struct IrcContext
 {
@@ -137,7 +140,7 @@ irc_event_numeric(irc_session_t * session, unsigned irc_event, const char *origi
 }
 
 IrcThread::IrcThread(IrcCallback &callback)
-: m_callback(callback)
+: m_callback(callback), m_terminationTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
 {
 	m_context.reset(new IrcContext(*this));
 }
@@ -212,14 +215,54 @@ void
 IrcThread::Main()
 {
 	IrcContext &context = GetContext();
+
 	irc_session_t *s = context.session;
 	if (s)
 	{
 		if (irc_connect(s, context.serverAddress.c_str(), context.serverPort, 0, context.nick.c_str(), 0, 0) == 0)
 		{
-			if (!ShouldTerminate())
-				irc_run(s);
+			// Main loop.
+			while (irc_is_connected(s))
+			{
+				// Handle thread termination - gracefully.
+				if (!m_terminationTimer.is_running())
+				{
+					if (ShouldTerminate())
+						m_terminationTimer.start();
+				}
+				else
+				{
+					if (m_terminationTimer.elapsed().total_milliseconds() > IRC_WAIT_TERMINATION_MSEC)
+						break;
+				}
+				
+				struct timeval timeout;
+				fd_set readSet, writeSet;
+				int maxfd = 0;
+
+
+				FD_ZERO(&readSet);
+				FD_ZERO(&writeSet);
+				timeout.tv_sec = 0;
+				timeout.tv_usec = RECV_TIMEOUT_MSEC * 1000;
+
+				irc_add_select_descriptors(s, &readSet, &writeSet, &maxfd);
+
+				int selectResult = select(maxfd + 1, &readSet, &writeSet, 0, &timeout);
+				if (!IS_VALID_SELECT(selectResult))
+				{
+					//todo
+					break;
+				}
+
+				if (irc_process_select_descriptors(s, &readSet, &writeSet) != 0)
+				{
+					//todo
+					break;
+				}
+			}
 		}
+		irc_destroy_session(s);
 	}
 }
 

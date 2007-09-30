@@ -69,6 +69,8 @@ typedef unsigned char			u_char;
 #define IS_VALID_SEND(_s)		((_s) != SOCKET_ERROR)
 #define IS_VALID_SELECT(_s)		((_s) != SOCKET_ERROR)
 
+#define RECV_TIMEOUT_MSEC	50
+
 #ifdef IPPROTO_SCTP
 	#define SOCKET_IPPROTO_SCTP		IPPROTO_SCTP
 #else
