@@ -135,6 +135,8 @@ irc_event_kick(irc_session_t *session, const char *irc_event, const char *origin
 	if (count >= 3)
 		reason = params[2];
 	context->ircThread.GetCallback().SignalIrcPlayerKicked(who, byWhom, reason);
+	if (!who.empty())
+		context->ircThread.GetCallback().SignalIrcPlayerLeft(who);
 }
 
 void
