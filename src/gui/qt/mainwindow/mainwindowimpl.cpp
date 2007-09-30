@@ -1173,10 +1173,10 @@ void mainWindowImpl::refreshSet() {
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
-	PlayerListIterator it;
- 	for (it=currentHand->getSeatsList()->begin(); it!=currentHand->getSeatsList()->end(); it++) { 
-		if( (*it)->getMySet() == 0 ) setLabelArray[ (*it)->getMyID() ]->setText("");
-		else setLabelArray[(*it)->getMyID()]->setText("Set: "+QString::number( (*it)->getMySet(),10)+" $"); 
+	PlayerListConstIterator it_c;
+ 	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
+		if( (*it_c)->getMySet() == 0 ) setLabelArray[ (*it_c)->getMyID() ]->setText("");
+		else setLabelArray[(*it_c)->getMyID()]->setText("Set: "+QString::number( (*it_c)->getMySet(),10)+" $"); 
 	}
 
 
@@ -1192,66 +1192,127 @@ void mainWindowImpl::refreshButton() {
 	int i;
 	int k;
 	//Aktive Spieler zählen
-	int activePlayersCounter = 0;
-	for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
-		if (mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
-	}
+// 	int activePlayersCounter = 0;
+// 	for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
+// 		if (mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
+// 	}
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
-	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
-		if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) { 
-			if(activePlayersCounter > 2) {
-				switch (currentHand->getPlayerArray()[i]->getMyButton()) {
+	PlayerListConstIterator it_c;
+
+// 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+// 		if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) { 
+// 			if(activePlayersCounter > 2) {
+// 				switch (currentHand->getPlayerArray()[i]->getMyButton()) {
+// 				
+// 				case 1 : buttonLabelArray[i]->setPixmap(dealerButton); 
+// 				break;
+// 				case 2 : { 	
+// 						if ( myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[i]->setPixmap(smallblindButton); 
+// 						else { buttonLabelArray[i]->setPixmap(onePix); }					  
+// 					 }
+// 				break;
+// 				case 3 : { 
+// 						if (myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[i]->setPixmap(bigblindButton); 				
+// 						else { buttonLabelArray[i]->setPixmap(onePix); }					  
+// 					 }
+// 				break;
+// 				default: buttonLabelArray[i]->setPixmap(onePix);
+// 				
+// 				}
+// 			}
+// 			else {
+// 				switch (currentHand->getPlayerArray()[i]->getMyButton()) {
+// 			
+// 				case 2 : buttonLabelArray[i]->setPixmap(dealerButton); 
+// 				break;
+// 				case 3 : { 
+// 						if (myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[i]->setPixmap(bigblindButton); 				
+// 						else { buttonLabelArray[i]->setPixmap(onePix); }					  
+// 					 }
+// 				break;
+// 				default: buttonLabelArray[i]->setPixmap(onePix);
+// 				
+// 				}
+// 			}	
+// 		}
+// 		else { buttonLabelArray[i]->setPixmap(onePix); }
+// 	}
+
+
+
+	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
+		if( (*it_c)->getMyActiveStatus() ) { 
+			if( currentHand->getActivePlayerList()->size() > 2 ) {
+				switch ( (*it_c)->getMyButton() ) {
 				
-				case 1 : buttonLabelArray[i]->setPixmap(dealerButton); 
-				break;
-				case 2 : { 	
-						if ( myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[i]->setPixmap(smallblindButton); 
-						else { buttonLabelArray[i]->setPixmap(onePix); }					  
+					case 1 : buttonLabelArray[i]->setPixmap(dealerButton); 
+					break;
+					case 2 : { 	
+						if ( myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[(*it_c)->getMyID()]->setPixmap(smallblindButton); 
+						else { buttonLabelArray[(*it_c)->getMyID()]->setPixmap(onePix); }					  
+						 }
+					break;
+					case 3 : { 
+						if (myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[(*it_c)->getMyID()]->setPixmap(bigblindButton); 				
+						else { buttonLabelArray[(*it_c)->getMyID()]->setPixmap(onePix); }					  
 					 }
-				break;
-				case 3 : { 
-						if (myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[i]->setPixmap(bigblindButton); 				
-						else { buttonLabelArray[i]->setPixmap(onePix); }					  
-					 }
-				break;
-				default: buttonLabelArray[i]->setPixmap(onePix);
+					break;
+					default: buttonLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);
 				
 				}
 			}
 			else {
-				switch (currentHand->getPlayerArray()[i]->getMyButton()) {
+				switch ((*it_c)->getMyButton()) {
 			
-				case 2 : buttonLabelArray[i]->setPixmap(dealerButton); 
-				break;
-				case 3 : { 
-						if (myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[i]->setPixmap(bigblindButton); 				
-						else { buttonLabelArray[i]->setPixmap(onePix); }					  
+					case 2 : buttonLabelArray[i]->setPixmap(dealerButton); 
+					break;
+					case 3 : { 
+						if (myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[(*it_c)->getMyID()]->setPixmap(bigblindButton); 				
+						else { buttonLabelArray[(*it_c)->getMyID()]->setPixmap(onePix); }					  
 					 }
-				break;
-				default: buttonLabelArray[i]->setPixmap(onePix);
+					break;
+					default: buttonLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);
 				
 				}
 			}	
 		}
-		else { buttonLabelArray[i]->setPixmap(onePix); }
+		else { buttonLabelArray[(*it_c)->getMyID()]->setPixmap(onePix); }
 	}
+
+
+
 }
 
 void mainWindowImpl::refreshPlayerName() {
 
-	int i;
-	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		if(mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[i]->getMyActiveStatus()) { 
-			playerNameLabelArray[i]->setText(QString::fromUtf8(mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[i]->getMyName().c_str()));
+// 	int i;
+// 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 		if(mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[i]->getMyActiveStatus()) { 
+// 			playerNameLabelArray[i]->setText(QString::fromUtf8(mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[i]->getMyName().c_str()));
+// 			
+// 		} else {
+// 			playerNameLabelArray[i]->setText(""); 
+// 		
+// 		}
+// 		
+// 	}
+
+	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+
+	PlayerListConstIterator it_c;
+	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
+		if((*it_c)->getMyActiveStatus()) { 
+			playerNameLabelArray[(*it_c)->getMyID()]->setText(QString::fromUtf8((*it_c)->getMyName().c_str()));
 			
 		} else {
-			playerNameLabelArray[i]->setText(""); 
+			playerNameLabelArray[(*it_c)->getMyID()]->setText(""); 
 		
 		}
 		
 	}
+
 }
 
 void mainWindowImpl::refreshPlayerAvatar() {
@@ -1261,30 +1322,49 @@ void mainWindowImpl::refreshPlayerAvatar() {
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
-	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-		if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) { 
+// 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+// 		if(currentHand->getPlayerArray()[i]->getMyActiveStatus()) { 
+// 
+// 			if(!i) {
+// 				if(currentHand->getPlayerArray()[0]->getMyAvatar() == "" || !QFile::QFile(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyAvatar().c_str())).exists()) {
+// 					playerAvatarLabelArray[0]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png"));
+// 				}
+// 				else {
+// 					playerAvatarLabelArray[0]->setPixmap(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyAvatar().c_str()));
+// 				}
+// 			}
+// 			else {				
+// 				if(currentHand->getPlayerArray()[i]->getMyAvatar() == "" || !QFile::QFile(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyAvatar().c_str())).exists()) {
+// 					playerAvatarLabelArray[i]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png"));
+// 				}
+// 				else {
+// 					playerAvatarLabelArray[i]->setPixmap(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyAvatar().c_str()));
+// 				}
+// 			}
+// 		}	
+// 		else {
+// 			playerAvatarLabelArray[i]->setPixmap(onePix);
+// 		}		
+// 	}
 
-			if(!i) {
-				if(currentHand->getPlayerArray()[0]->getMyAvatar() == "" || !QFile::QFile(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyAvatar().c_str())).exists()) {
-					playerAvatarLabelArray[0]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png"));
-				}
-				else {
-					playerAvatarLabelArray[0]->setPixmap(QString::fromUtf8(currentHand->getPlayerArray()[0]->getMyAvatar().c_str()));
-				}
+
+	PlayerListConstIterator it_c;
+	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
+		if((*it_c)->getMyActiveStatus()) { 
+
+			if((*it_c)->getMyAvatar() == "" || !QFile::QFile(QString::fromUtf8((*it_c)->getMyAvatar().c_str())).exists()) {
+				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png"));
 			}
-			else {				
-				if(currentHand->getPlayerArray()[i]->getMyAvatar() == ""  || !QFile::QFile(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyAvatar().c_str())).exists()) {
-					playerAvatarLabelArray[i]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png"));
-				}
-				else {
-					playerAvatarLabelArray[i]->setPixmap(QString::fromUtf8(currentHand->getPlayerArray()[i]->getMyAvatar().c_str()));
-				}
+			else {
+				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QString::fromUtf8((*it_c)->getMyAvatar().c_str()));
 			}
 		}	
 		else {
-			playerAvatarLabelArray[i]->setPixmap(onePix);
+			playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);
 		}		
 	}
+
+
 }
 
 void mainWindowImpl::refreshAction(int playerID, int playerAction) {
