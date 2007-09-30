@@ -1189,8 +1189,8 @@ void mainWindowImpl::refreshButton() {
 	QPixmap bigblindButton(myAppDataPath +"gfx/gui/table/default/bigblindPuck.png");
 	QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
 
-	int i;
-	int k;
+//	int i;
+//	int k;
 	//Aktive Spieler zählen
 // 	int activePlayersCounter = 0;
 // 	for (k=0; k<MAX_NUMBER_OF_PLAYERS; k++) { 
@@ -1318,7 +1318,7 @@ void mainWindowImpl::refreshPlayerName() {
 void mainWindowImpl::refreshPlayerAvatar() {
 
 	QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
-	int i;
+//	int i;
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
