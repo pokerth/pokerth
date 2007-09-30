@@ -551,6 +551,19 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
+            <item row="2" column="1" >
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>20</width>
+                <height>10</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
            </layout>
           </widget>
          </item>
@@ -666,8 +679,8 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="sizeHint" >
           <size>
-           <width>20</width>
-           <height>141</height>
+           <width>400</width>
+           <height>161</height>
           </size>
          </property>
         </spacer>
@@ -826,6 +839,19 @@ p, li { white-space: pre-wrap; }
                <string>minutes</string>
               </property>
              </widget>
+            </item>
+            <item row="2" column="1" >
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>20</width>
+                <height>10</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>
@@ -1057,8 +1083,8 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="sizeHint" >
           <size>
-           <width>20</width>
-           <height>40</height>
+           <width>400</width>
+           <height>16</height>
           </size>
          </property>
         </spacer>

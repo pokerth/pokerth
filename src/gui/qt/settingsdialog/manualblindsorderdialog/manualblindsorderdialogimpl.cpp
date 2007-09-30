@@ -42,8 +42,14 @@ void manualBlindsOrderDialogImpl::exec() {
 
 void manualBlindsOrderDialogImpl::addBlindValueToList() {
 
-	listWidget_blinds->addItem(QString::number(spinBox_input->value(),10));
-	sortBlindsList();
+	if(listWidget_blinds->count() == 30) { 
+		QMessageBox::warning(this, tr("Manual Blinds Order"),
+			tr("You cannot set more than 30 manual blinds."),
+			QMessageBox::Close); }
+	else {
+		listWidget_blinds->addItem(QString::number(spinBox_input->value(),10));
+		sortBlindsList();
+	}
 }
 
 void manualBlindsOrderDialogImpl::removeBlindFromList() {

@@ -47,6 +47,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 
 void gameLobbyDialogImpl::exec()
 {
+	hideShowGameDescription(FALSE);
+
 	assert(mySession);
 	mySession->terminateIrcClient();
 	mySession->startIrcClient();
@@ -122,6 +124,8 @@ void gameLobbyDialogImpl::createGame()
 		QString gameString(tr("game"));
 		currentGameName = QString::fromUtf8(myConfig->readConfigString("MyName").c_str()) + QString("'s "+ gameString);
 
+		hideShowGameDescription(TRUE);
+
 		label_SmallBlind->setText(QString::number(gameData.smallBlind));
 		label_StartCash->setText(QString::number(gameData.startMoney));
 		label_MaximumNumberOfPlayers->setText(QString::number(gameData.maxNumberOfPlayers));
@@ -181,6 +185,8 @@ void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, QTreeWidgetItem*)
 
 		assert(mySession);
 		GameInfo info(mySession->getClientGameInfo(item->data(0, Qt::UserRole).toUInt()));
+
+		hideShowGameDescription(TRUE);		
 		label_SmallBlind->setText(QString::number(info.data.smallBlind));
 		label_StartCash->setText(QString::number(info.data.startMoney));
 		label_MaximumNumberOfPlayers->setText(QString::number(info.data.maxNumberOfPlayers));
@@ -307,6 +313,7 @@ void gameLobbyDialogImpl::clearDialog()
 	groupBox_GameInfo->setEnabled(false);
 	currentGameName = "";
 
+	hideShowGameDescription(FALSE);		
 	label_SmallBlind->setText("");
 	label_StartCash->setText("");
 	label_MaximumNumberOfPlayers->setText("");
@@ -430,6 +437,7 @@ void gameLobbyDialogImpl::leftGameDialogUpdate() {
 	groupBox_GameInfo->setEnabled(false);
 	currentGameName = "";
 
+	hideShowGameDescription(FALSE);		
 	label_SmallBlind->setText("");
 	label_StartCash->setText("");
 	label_MaximumNumberOfPlayers->setText("");
@@ -492,4 +500,23 @@ void gameLobbyDialogImpl::checkChatInputLength(QString string) { myChat->checkIn
 void gameLobbyDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 
 	if (event->key() == Qt::Key_Enter) { sendChatMessage(); }
+}
+
+void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
+
+	if(show) {
+		label_gameDesc1->show();
+		label_gameDesc2->show();
+		label_gameDesc3->show();
+		label_gameDesc4->show();
+		label_gameDesc5->show();
+	
+	}
+	else {
+		label_gameDesc1->hide();
+		label_gameDesc2->hide();
+		label_gameDesc3->hide();
+		label_gameDesc4->hide();
+		label_gameDesc5->hide();
+	}
 }

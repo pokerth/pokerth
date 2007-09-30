@@ -91,6 +91,7 @@ public slots:
 	void checkChatInputLength(QString string);
 	
 	void keyPressEvent(QKeyEvent * event); 
+	void hideShowGameDescription(bool show);
 
 private:
 	
