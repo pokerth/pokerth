@@ -79,6 +79,12 @@ void LobbyChat::playerChanged(QString oldNick, QString newNick)
 	QList<QTreeWidgetItem *> tmpList(myLobby->treeWidget_NickList->findItems(oldNick, Qt::MatchExactly));
 	if (!tmpList.empty())
 		tmpList.front()->setData(0, Qt::DisplayRole, newNick);
+	else
+	{
+		tmpList = myLobby->treeWidget_NickList->findItems("@" + oldNick, Qt::MatchExactly);
+		if (!tmpList.empty())
+			tmpList.front()->setData(0, Qt::DisplayRole, "@" + newNick);
+	}
 
 	if (myNick == oldNick)
 		myNick = newNick;
