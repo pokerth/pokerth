@@ -52,7 +52,7 @@ public:
 
 private:
 
-	mutable boost::mutex m_configMutex;
+	mutable boost::recursive_mutex m_configMutex;
 
 	struct ConfigInfo
 	{

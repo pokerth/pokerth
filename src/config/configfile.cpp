@@ -288,7 +288,7 @@ ConfigFile::~ConfigFile()
 
 void ConfigFile::fillBuffer() {
 
-	boost::mutex::scoped_lock lock(m_configMutex);
+	boost::recursive_mutex::scoped_lock lock(m_configMutex);
 
 	size_t i;
 	string tempString1("");
@@ -337,7 +337,7 @@ void ConfigFile::fillBuffer() {
 
 void ConfigFile::writeBuffer() const {
 
-	boost::mutex::scoped_lock lock(m_configMutex);
+	boost::recursive_mutex::scoped_lock lock(m_configMutex);
 
 	//write buffer to disc if enabled
 	if(!noWriteAccess) {
@@ -380,7 +380,7 @@ void ConfigFile::writeBuffer() const {
 
 void ConfigFile::updateConfig(ConfigState myConfigState) {
 
-	boost::mutex::scoped_lock lock(m_configMutex);
+	boost::recursive_mutex::scoped_lock lock(m_configMutex);
 	boost::filesystem::path startPath(myArgv[0]);
 
 	size_t i;
@@ -531,7 +531,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 
 string ConfigFile::readConfigString(string varName) const
 {
-	boost::mutex::scoped_lock lock(m_configMutex);
+	boost::recursive_mutex::scoped_lock lock(m_configMutex);
 
 	size_t i;
 	string tempString("");
@@ -548,7 +548,7 @@ string ConfigFile::readConfigString(string varName) const
 
 int ConfigFile::readConfigInt(string varName) const
 {
-	boost::mutex::scoped_lock lock(m_configMutex);
+	boost::recursive_mutex::scoped_lock lock(m_configMutex);
 
 	size_t i;
 	string tempString("");
@@ -570,7 +570,7 @@ int ConfigFile::readConfigInt(string varName) const
 
 list<int> ConfigFile::readConfigIntList(string varName) const
 {
-	boost::mutex::scoped_lock lock(m_configMutex);
+	boost::recursive_mutex::scoped_lock lock(m_configMutex);
 
 	size_t i;
 	list<string> tempStringList;
@@ -602,7 +602,7 @@ list<int> ConfigFile::readConfigIntList(string varName) const
 
 void ConfigFile::writeConfigInt(string varName, int varCont)
 {
-	boost::mutex::scoped_lock lock(m_configMutex);
+	boost::recursive_mutex::scoped_lock lock(m_configMutex);
 
 	size_t i;
 	string tempString;
@@ -620,7 +620,7 @@ void ConfigFile::writeConfigInt(string varName, int varCont)
 
 void ConfigFile::writeConfigIntList(string varName, list<int> varCont)
 {
-	boost::mutex::scoped_lock lock(m_configMutex);
+	boost::recursive_mutex::scoped_lock lock(m_configMutex);
 
 	size_t i;
 	ostringstream intToString;
@@ -647,7 +647,7 @@ void ConfigFile::writeConfigIntList(string varName, list<int> varCont)
 
 void ConfigFile::writeConfigString(string varName, string varCont)
 {
-	boost::mutex::scoped_lock lock(m_configMutex);
+	boost::recursive_mutex::scoped_lock lock(m_configMutex);
 
 	size_t i;
 	for (i=0; i<configBufferList.size(); i++) {	
