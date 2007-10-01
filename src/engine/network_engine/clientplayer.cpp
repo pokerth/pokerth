@@ -380,7 +380,7 @@ ClientPlayer::setMyWinnerState(bool theValue, int pot)
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	myWinnerState = theValue;
 	if(theValue)
-		actualHand->getGuiInterface()->logPlayerWinsMsg(myID, pot);
+		actualHand->getGuiInterface()->logPlayerWinsMsg(myName, pot);
 }
 
 bool

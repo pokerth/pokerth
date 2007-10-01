@@ -143,7 +143,7 @@ public:
 
 	void setMyWinnerState ( bool theValue, int pot ) {
 		myWinnerState = theValue;
-		if(theValue) actualHand->getGuiInterface()->logPlayerWinsMsg(myID, pot);	
+		if(theValue) actualHand->getGuiInterface()->logPlayerWinsMsg(myName, pot);	
 	}
 	bool getMyWinnerState() const { return myWinnerState;}
 	

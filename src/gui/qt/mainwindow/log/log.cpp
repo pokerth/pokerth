@@ -35,7 +35,7 @@ Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), m
 	
 	connect(this, SIGNAL(signalLogPlayerActionMsg(QString, int, int)), this, SLOT(logPlayerActionMsg(QString, int, int)));
 	connect(this, SIGNAL(signalLogNewGameHandMsg(int, int)), this, SLOT(logNewGameHandMsg(int, int)));
-	connect(this, SIGNAL(signalLogPlayerWinsMsg(int, int)), this, SLOT(logPlayerWinsMsg(int, int)));
+	connect(this, SIGNAL(signalLogPlayerWinsMsg(QString, int)), this, SLOT(logPlayerWinsMsg(QString, int)));
 	connect(this, SIGNAL(signalLogDealBoardCardsMsg(int, int, int, int, int, int)), this, SLOT(logDealBoardCardsMsg(int, int, int, int, int, int)));
 	connect(this, SIGNAL(signalLogFlipHoleCardsMsg(QString, int, int, int, QString)), this, SLOT(logFlipHoleCardsMsg(QString, int, int, int, QString)));
 	connect(this, SIGNAL(signalLogPlayerLeftMsg(QString)), this, SLOT(logPlayerLeftMsg(QString)));
@@ -318,15 +318,15 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	}
 }
 
-void Log::logPlayerWinsMsg(int playerID, int pot) {
+void Log::logPlayerWinsMsg(QString playerName, int pot) {
 
-	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
+// 	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
 
 // 	myW->textBrowser_Log->append(QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!! ");
 
-	PlayerListConstIterator playerConstIt = currentHand->getActivePlayerIt(playerID);
-	assert( playerConstIt != currentHand->getActivePlayerList()->end() );
-	myW->textBrowser_Log->append(QString::fromUtf8((*playerConstIt)->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!! ");
+// 	PlayerListConstIterator playerConstIt = currentHand->getActivePlayerIt(playerID);
+// 	assert( playerConstIt != currentHand->getActivePlayerList()->end() );
+	myW->textBrowser_Log->append(playerName+" wins "+QString::number(pot,10)+"$!!! ");
 	
 	if(myConfig->readConfigInt("LogOnOff")) {
 	//if write logfiles is enabled
@@ -340,7 +340,7 @@ void Log::logPlayerWinsMsg(int playerID, int pot) {
 			
 // 		logFileStreamString += "</br><i>"+QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
 
-		logFileStreamString += "</br><i>"+QString::fromUtf8((*playerConstIt)->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
+		logFileStreamString += "</br><i>"+playerName+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
 
 		if(myConfig->readConfigInt("LogInterval") == 0) {	
 			writeLogFileStream(logFileStreamString);

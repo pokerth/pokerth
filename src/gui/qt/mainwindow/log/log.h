@@ -42,7 +42,7 @@ public:
 public slots:
 	void logPlayerActionMsg(QString playerName, int action, int setValue);
 	void logNewGameHandMsg(int gameID, int handID);
-	void logPlayerWinsMsg(int playerID, int pot);
+	void logPlayerWinsMsg(QString playerName, int pot);
 	void logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1);
 	void logFlipHoleCardsMsg(QString playerName, int card1, int card2, int cardsValueInt = -1, QString showHas = "shows");
 	void logPlayerLeftMsg(QString playerName);
@@ -59,7 +59,7 @@ public:
 signals:
 	void signalLogPlayerActionMsg(QString playerName, int action, int setValue);
 	void signalLogNewGameHandMsg(int gameID, int handID);
-	void signalLogPlayerWinsMsg(int playerID, int pot);
+	void signalLogPlayerWinsMsg(QString playerName, int pot);
 	void signalLogDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1);
 	void signalLogFlipHoleCardsMsg(QString playerName, int card1, int card2, int cardsValueInt = -1, QString showHas = "shows");
 	void signalLogPlayerLeftMsg(QString playerName);
