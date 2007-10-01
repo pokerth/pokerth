@@ -58,7 +58,6 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	logOnOffDefault = "1";
 	claNoWriteAccess = "0";
 
-
 	if(!noWriteAccess) {
 		// Pfad und Dateinamen setzen
 #ifdef _WIN32

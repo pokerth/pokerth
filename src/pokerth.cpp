@@ -70,8 +70,7 @@ class Game;
 
 int main( int argc, char **argv )
 {
-	//create defaultconfig
-	ConfigFile *myConfig = new ConfigFile(argc, argv);
+	
 	//ENABLE_LEAK_CHECK();
 
 	//_CrtSetBreakAlloc(49937);
@@ -79,6 +78,9 @@ int main( int argc, char **argv )
 	
 	/////// can be removed for non-qt-guis ////////////
 	QApplication a( argc, argv );
+
+	//create defaultconfig
+	ConfigFile *myConfig = new ConfigFile(argc, argv);
 
 	// set PlastiqueStyle even for mac-version to prevent artefacts on styled widgets
 	a.setStyle(new QPlastiqueStyle);

@@ -31,7 +31,6 @@ public:
 	std::string stringToUtf8(const std::string &);
 	std::string getDefaultLanguage();
 
-	QString getDataPath();
 	std::string getDataPathStdString(const char *argv0);
 };
 

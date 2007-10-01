@@ -10,7 +10,6 @@ UI_DIR = uics
 TARGET = bin/pokerth_server
 MOC_DIR = mocs
 OBJECTS_DIR = obj
-# QMAKE_CXXFLAGS_DEBUG += -g
 DEFINES += POKERTH_DEDICATED_SERVER
 
 INSTALLS += TARGET
@@ -135,7 +134,7 @@ win32 {
 !win32 {
     DEPENDPATH += src/net/linux/ src/core/linux
     SOURCES += src/core/linux/daemon.c
-    SOURCES += src/core/win32/convhelper.cpp
+    SOURCES += src/core/linux/convhelper.cpp
 }
 
 unix : !mac {

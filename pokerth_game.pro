@@ -301,7 +301,7 @@ unix: !mac{
 
 	#### INSTALL ####
 
-	targets.files += pokerth
+	targets.files = pokerth
 	targets.path = /usr/bin/
 	
 	data.path = /usr/share/pokerth/data
