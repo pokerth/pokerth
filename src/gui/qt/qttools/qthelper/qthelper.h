@@ -16,7 +16,6 @@
 #error This file is not for the server.
 #endif
 
-#include <QtCore>
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
 */

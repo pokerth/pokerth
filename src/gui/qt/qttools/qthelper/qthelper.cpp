@@ -10,6 +10,7 @@
 //
 //
 #include "qthelper.h"
+#include <QtCore>
 #include <iostream>
 
 QtHelper::QtHelper()
