@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by FThauer FHammer   *
- *   f.thauer@web.de   *
+ *   Copyright (C) 2007 by Lothar May                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,30 +16,36 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef QTTOOLSWRAPPER_H
-#define QTTOOLSWRAPPER_H
 
-#include <qttoolsinterface.h>
+#include "nonqthelper.h"
 
-#include <string>
+#include <core/convhelper.h>
+#include <boost/filesystem.hpp>
 
-class QtHelper;
-
-class QtToolsWrapper : public QtToolsInterface
+NonQtHelper::NonQtHelper()
 {
-public:
-    QtToolsWrapper();
+}
 
-    ~QtToolsWrapper();
 
-	std::string stringToUtf8(const std::string &myString);
-	std::string getDefaultLanguage();
-	std::string getDataPathStdString(const char *argv0);
+NonQtHelper::~NonQtHelper()
+{
+}
 
-private: 
-	
-	QtHelper *myQtHelper;
-	
-};
+std::string
+NonQtHelper::stringToUtf8(const std::string &myString)
+{
+	return ConvHelper::NativeToUtf8(myString);
+}
 
-#endif
+std::string
+NonQtHelper::getDefaultLanguage()
+{
+	return "en";
+}
+
+std::string
+NonQtHelper::getDataPathStdString(const char *argv0)
+{
+	boost::filesystem::path startPath(argv0);
+	return stringToUtf8(startPath.remove_leaf().directory_string() + "data/");
+}

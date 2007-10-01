@@ -18,9 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "qttoolswrapper.h"
+#include "nonqttoolswrapper.h"
 
-#include <qthelper/qthelper.h>
+#include <nonqthelper/nonqthelper.h>
 
 
 using namespace std;
@@ -28,23 +28,23 @@ using namespace std;
 
 QtToolsInterface *CreateQtToolsWrapper()
 {
-	return new QtToolsWrapper;
+	return new NonQtToolsWrapper;
 }
 
-QtToolsWrapper::QtToolsWrapper() : myQtHelper(0)
+NonQtToolsWrapper::NonQtToolsWrapper() : myQtHelper(0)
 {
 
-	myQtHelper = new QtHelper();
+	myQtHelper = new NonQtHelper();
 }
 
 
-QtToolsWrapper::~QtToolsWrapper()
+NonQtToolsWrapper::~NonQtToolsWrapper()
 {
 	delete myQtHelper;
 	myQtHelper = 0;
 }
 
-std::string QtToolsWrapper::stringToUtf8(const std::string &myString) { return myQtHelper->stringToUtf8(myString); }
-std::string QtToolsWrapper::getDefaultLanguage() { return myQtHelper->getDefaultLanguage(); }
-std::string QtToolsWrapper::getDataPathStdString(const char * argv0) { return myQtHelper->getDataPathStdString(argv0); }
+std::string NonQtToolsWrapper::stringToUtf8(const std::string &myString) { return myQtHelper->stringToUtf8(myString); }
+std::string NonQtToolsWrapper::getDefaultLanguage() { return myQtHelper->getDefaultLanguage(); }
+std::string NonQtToolsWrapper::getDataPathStdString(const char * argv0) { return myQtHelper->getDataPathStdString(argv0); }
 

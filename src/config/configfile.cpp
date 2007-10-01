@@ -18,8 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "configfile.h"
-
-#include <qttoolswrapper.h>
+#include <qttoolsinterface.h>
 
 #define MODUS 0711
 
@@ -27,8 +26,6 @@
 #include <windows.h>
 #include <direct.h>
 #endif
-
-#include <boost/filesystem.hpp>
 
 #include <iostream>
 #include <sstream>
@@ -40,16 +37,16 @@
 
 using namespace std;
 
-class QtToolsWrapper;
+QtToolsInterface *CreateQtToolsWrapper();
 
 
 ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 {
 
-	myArgv = argv;
+	myArgv0 = argv[0];
 	int i;
 
-	myQtToolsInterface = new QtToolsWrapper;
+	myQtToolsInterface = CreateQtToolsWrapper();
 
 	for (i=1; i<argc; i++) {
 		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
@@ -145,12 +142,10 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 		claNoWriteAccess = "1";
 	}
 
-	boost::filesystem::path startPath(argv[0]);
-
 	ostringstream tempIntToString;
 	tempIntToString << configRev;
 	configList.push_back(ConfigInfo("ConfigRevision", CONFIG_TYPE_INT, tempIntToString.str()));
-	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, myQtToolsInterface->getDataPathStdString(startPath.remove_leaf().directory_string())));
+	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, myQtToolsInterface->getDataPathStdString(argv[0])));
 	configList.push_back(ConfigInfo("Language", CONFIG_TYPE_INT, myQtToolsInterface->getDefaultLanguage()));
 	configList.push_back(ConfigInfo("ShowLeftToolBox", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("ShowRightToolBox", CONFIG_TYPE_INT, "1"));
@@ -266,7 +261,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 				if (tmpStr) tempAppDataPath = tmpStr;
 			}
 
-			if (tempRevision < configRev || tempAppDataPath != myQtToolsInterface->getDataPathStdString(startPath.remove_leaf().directory_string()) ) { /*löschen()*/ 
+			if (tempRevision < configRev || tempAppDataPath != myQtToolsInterface->getDataPathStdString(argv[0]) ) { /*löschen()*/ 
 				myConfigState = OLD;
 				updateConfig(myConfigState) ;
 			}
@@ -381,7 +376,6 @@ void ConfigFile::writeBuffer() const {
 void ConfigFile::updateConfig(ConfigState myConfigState) {
 
 	boost::recursive_mutex::scoped_lock lock(m_configMutex);
-	boost::filesystem::path startPath(myArgv[0]);
 
 	size_t i;
 	
@@ -453,7 +447,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 
 			TiXmlElement * confElement1 = new TiXmlElement( "AppDataDir" ); 
 			config->LinkEndChild( confElement1 );
-			confElement1->SetAttribute("value", myQtToolsInterface->getDataPathStdString(startPath.remove_leaf().directory_string()));
+			confElement1->SetAttribute("value", myQtToolsInterface->getDataPathStdString(myArgv0));
 
 			TiXmlHandle oldDocHandle( &oldDoc );	
 

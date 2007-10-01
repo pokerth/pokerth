@@ -88,7 +88,7 @@ void irc_handle_server_error(irc_session_t *session, unsigned irc_error_code)
 }
 
 void
-irc_event_connect(irc_session_t *session, const char */*irc_event*/, const char *origin, const char **/*params*/, unsigned /*count*/)
+irc_event_connect(irc_session_t *session, const char * /*irc_event*/, const char *origin, const char ** /*params*/, unsigned /*count*/)
 {
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
@@ -97,7 +97,7 @@ irc_event_connect(irc_session_t *session, const char */*irc_event*/, const char 
 }
 
 void
-irc_event_join(irc_session_t *session, const char */*irc_event*/, const char *origin, const char **/*params*/, unsigned /*count*/)
+irc_event_join(irc_session_t *session, const char * /*irc_event*/, const char *origin, const char ** /*params*/, unsigned /*count*/)
 {
 	// someone joined the channel.
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
@@ -109,7 +109,7 @@ irc_event_join(irc_session_t *session, const char */*irc_event*/, const char *or
 }
 
 void
-irc_event_nick(irc_session_t *session, const char */*irc_event*/, const char *origin, const char **params, unsigned count)
+irc_event_nick(irc_session_t *session, const char * /*irc_event*/, const char *origin, const char **params, unsigned count)
 {
 	// someone changed his/her nick
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
@@ -123,7 +123,7 @@ irc_event_nick(irc_session_t *session, const char */*irc_event*/, const char *or
 }
 
 void
-irc_event_kick(irc_session_t *session, const char */*irc_event*/, const char *origin, const char **params, unsigned count)
+irc_event_kick(irc_session_t *session, const char * /*irc_event*/, const char *origin, const char **params, unsigned count)
 {
 	// someone got kicked
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
@@ -141,7 +141,7 @@ irc_event_kick(irc_session_t *session, const char */*irc_event*/, const char *or
 }
 
 void
-irc_event_leave(irc_session_t *session, const char */*irc_event*/, const char *origin, const char **/*params*/, unsigned /*count*/)
+irc_event_leave(irc_session_t *session, const char * /*irc_event*/, const char *origin, const char ** /*params*/, unsigned /*count*/)
 {
 	// someone left the channel.
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
@@ -150,7 +150,7 @@ irc_event_leave(irc_session_t *session, const char */*irc_event*/, const char *o
 }
 
 void
-irc_event_channel(irc_session_t *session, const char */*irc_event*/, const char *origin, const char **params, unsigned count)
+irc_event_channel(irc_session_t *session, const char * /*irc_event*/, const char *origin, const char **params, unsigned count)
 {
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
@@ -163,7 +163,7 @@ irc_event_channel(irc_session_t *session, const char */*irc_event*/, const char 
 }
 
 void
-irc_event_numeric(irc_session_t * session, unsigned irc_event, const char */*origin*/, const char **params, unsigned count)
+irc_event_numeric(irc_session_t * session, unsigned irc_event, const char * /*origin*/, const char **params, unsigned count)
 {
 	switch (irc_event)
 	{

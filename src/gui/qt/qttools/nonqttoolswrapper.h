@@ -17,21 +17,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef QTTOOLSWRAPPER_H
-#define QTTOOLSWRAPPER_H
+#ifndef NONQTTOOLSWRAPPER_H
+#define NONQTTOOLSWRAPPER_H
 
 #include <qttoolsinterface.h>
 
 #include <string>
 
-class QtHelper;
+class NonQtHelper;
 
-class QtToolsWrapper : public QtToolsInterface
+class NonQtToolsWrapper : public QtToolsInterface
 {
 public:
-    QtToolsWrapper();
-
-    ~QtToolsWrapper();
+	NonQtToolsWrapper();
+	~NonQtToolsWrapper();
 
 	std::string stringToUtf8(const std::string &myString);
 	std::string getDefaultLanguage();
@@ -39,7 +38,7 @@ public:
 
 private: 
 	
-	QtHelper *myQtHelper;
+	NonQtHelper *myQtHelper;
 	
 };
 

@@ -12,23 +12,27 @@
 #ifndef QTHELPER_H
 #define QTHELPER_H
 
+#ifdef POKERTH_DEDICATED_SERVER
+#error This file is not for the server.
+#endif
+
 #include <QtCore>
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
 */
-class QtHelper : public QObject{
-Q_OBJECT
+class QtHelper
+{
+
 public:
-    QtHelper();
+	QtHelper();
 
-    ~QtHelper();
+	~QtHelper();
 
-    std::string stringToUtf8(const std::string &);
-    std::string getDefaultLanguage();
+	std::string stringToUtf8(const std::string &);
+	std::string getDefaultLanguage();
 
-    QString getDataPath();
-	std::string getDataPathStdString(const std::string &appPath);	
-
+	QString getDataPath();
+	std::string getDataPathStdString(const char *argv0);
 };
 
 #endif

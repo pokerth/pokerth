@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by FThauer FHammer   *
- *   f.thauer@web.de   *
+ *   Copyright (C) 2007 by Lothar May                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,30 +16,29 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef QTTOOLSWRAPPER_H
-#define QTTOOLSWRAPPER_H
 
-#include <qttoolsinterface.h>
+#ifndef NONQTHELPER_H
+#define NONQTHELPER_H
+
+#ifndef POKERTH_DEDICATED_SERVER
+#error This file is only for the server.
+#endif
 
 #include <string>
 
-class QtHelper;
-
-class QtToolsWrapper : public QtToolsInterface
+class NonQtHelper
 {
+
 public:
-    QtToolsWrapper();
+	NonQtHelper();
 
-    ~QtToolsWrapper();
+	~NonQtHelper();
 
-	std::string stringToUtf8(const std::string &myString);
+	std::string stringToUtf8(const std::string &);
 	std::string getDefaultLanguage();
-	std::string getDataPathStdString(const char *argv0);
 
-private: 
-	
-	QtHelper *myQtHelper;
-	
+	std::string getDataPathStdString(const char *argv0);
 };
+
 
 #endif

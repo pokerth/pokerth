@@ -9,7 +9,6 @@ INCLUDEPATH += . \
 		src/gui \
 		src/gui/qt \
 		src/gui/qt/qttools \
-		src/gui/qt/qttools/qthelper \
 		src/net \
 		src/engine/local_engine \
 		src/engine/network_engine \
@@ -95,8 +94,6 @@ HEADERS += \
 		src/engine/network_engine/clientplayer.h \
 		src/engine/network_engine/clientbero.h \
 		src/gui/qttoolsinterface.h \
-		src/gui/qt/qttools/qttoolswrapper.h \
-		src/gui/qt/qttools/qthelper/qthelper.h \
 		src/gui/generic/serverguiwrapper.h
 
 SOURCES += \
@@ -163,10 +160,8 @@ SOURCES += \
 		src/net/common/receiverhelper.cpp \
 		src/net/common/irccallback.cpp \
 		src/net/common/ircthread.cpp \
-		src/gui/qttoolsinterface.cpp \
-		src/gui/qt/qttools/qttoolswrapper.cpp \
-		src/gui/qt/qttools/qthelper/qthelper.cpp \
-		src/gui/generic/serverguiwrapper.cpp
+		src/gui/generic/serverguiwrapper.cpp \
+		src/gui/qttoolsinterface.cpp
 
 win32{
 	DEPENDPATH += src/net/win32/ src/core/win32

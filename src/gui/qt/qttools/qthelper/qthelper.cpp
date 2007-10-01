@@ -11,6 +11,7 @@
 //
 #include "qthelper.h"
 
+
 QtHelper::QtHelper()
 {
 }
@@ -32,7 +33,7 @@ std::string QtHelper::getDefaultLanguage() { return QLocale::system().name().toS
 
 QString QtHelper::getDataPath()
 {
-	QString path = QCoreApplication::instance()->applicationDirPath();
+	QString path(QCoreApplication::instance()->applicationDirPath());
 
 #ifdef _WIN32 
 	path += "/data/";
@@ -57,9 +58,9 @@ QString QtHelper::getDataPath()
 	return QDir::cleanPath(path)  + "/";
 }
 
-std::string QtHelper::getDataPathStdString(const std::string &appPath)
+std::string QtHelper::getDataPathStdString(const char * /*argv0*/)
 {
-	QString path(appPath.c_str());
+	QString path(QCoreApplication::instance()->applicationDirPath());
 
 #ifdef _WIN32 
 	path += "/data/";

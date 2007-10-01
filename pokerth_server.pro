@@ -3,6 +3,16 @@
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
+#CONFIG += thread console embed_manifest_exe warn_on release
+CONFIG += thread console embed_manifest_exe warn_on debug
+
+UI_DIR = uics
+TARGET = bin/pokerth_server
+MOC_DIR = mocs
+OBJECTS_DIR = obj
+# QMAKE_CXXFLAGS_DEBUG += -g
+DEFINES += POKERTH_DEDICATED_SERVER
+
 INSTALLS += TARGET
 TARGET.files += bin/*
 TARGET.path = /usr/bin/
@@ -13,7 +23,7 @@ INCLUDEPATH += . \
 		src/gui \
 		src/gui/qt \
 		src/gui/qt/qttools \
-		src/gui/qt/qttools/qthelper \
+		src/gui/qt/qttools/nonqthelper \
 		src/net \
 		src/engine/local_engine \
 		src/engine/network_engine \
@@ -66,6 +76,8 @@ HEADERS += \
 		src/net/socket_startup.h \
 		src/core/tinyxml/tinystr.h \
 		src/core/tinyxml/tinyxml.h \
+		src/core/pokerthexception.h \
+		src/core/convhelper.h \
 		src/engine/local_engine/cardsvalue.h \
 		src/engine/local_engine/localboard.h \
 		src/engine/local_engine/localenginefactory.h \
@@ -84,18 +96,21 @@ HEADERS += \
 		src/engine/network_engine/clientplayer.h \
 		src/engine/network_engine/clientbero.h \
 		src/gui/qttoolsinterface.h \
-		src/gui/qt/qttools/qttoolswrapper.h \
-		src/gui/qt/qttools/qthelper/qthelper.h \
-		src/gui/generic/serverguiwrapper.h \
- src/core/pokerthexception.h \
- src/engine/local_engine/localexception.h
+		src/gui/qt/qttools/nonqttoolswrapper.h \
+		src/gui/qt/qttools/nonqthelper/nonqthelper.h \
+		src/gui/generic/serverguiwrapper.h
 
 SOURCES += \
-		src/pokerth_server.cpp
+		src/pokerth_server.cpp \
+		src/gui/qt/qttools/nonqttoolswrapper.cpp \
+		src/gui/qt/qttools/nonqthelper/nonqthelper.cpp
 
 win32 {
     DEPENDPATH += src/net/win32/ src/core/win32
     INCLUDEPATH += ../boost/ ../OpenSSL/include
+
+    SOURCES += src/core/win32/convhelper.cpp
+
     LIBPATH += ../boost/stage/lib ../OpenSSL/lib
 
     LIBPATH += Release/lib
@@ -120,6 +135,7 @@ win32 {
 !win32 {
     DEPENDPATH += src/net/linux/ src/core/linux
     SOURCES += src/core/linux/daemon.c
+    SOURCES += src/core/win32/convhelper.cpp
 }
 
 unix : !mac {
@@ -164,12 +180,3 @@ unix : !mac {
         ## My release static libs
         #LIBS += -lcrypto
     }
-
-#CONFIG += qt thread console embed_manifest_exe warn_on release
-CONFIG += qt thread console embed_manifest_exe warn_on debug
-UI_DIR = uics
-TARGET = bin/pokerth_server
-MOC_DIR = mocs
-OBJECTS_DIR = obj
-QT -= gui
-# QMAKE_CXXFLAGS_DEBUG += -g

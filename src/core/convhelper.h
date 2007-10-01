@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by FThauer FHammer   *
- *   f.thauer@web.de   *
+ *   Copyright (C) 2007 by Lothar May                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,30 +16,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef QTTOOLSWRAPPER_H
-#define QTTOOLSWRAPPER_H
+/* Helper class for character conversion functions. */
 
-#include <qttoolsinterface.h>
+#ifndef _CRYPTHELPER_H_
+#define _CRYPTHELPER_H_
 
 #include <string>
 
-class QtHelper;
-
-class QtToolsWrapper : public QtToolsInterface
+class ConvHelper
 {
 public:
-    QtToolsWrapper();
 
-    ~QtToolsWrapper();
-
-	std::string stringToUtf8(const std::string &myString);
-	std::string getDefaultLanguage();
-	std::string getDataPathStdString(const char *argv0);
-
-private: 
-	
-	QtHelper *myQtHelper;
-	
+	static std::string NativeToUtf8(const std::string &inStr);
+	static std::string Utf8ToNative(const std::string &inStr);
 };
 
 #endif

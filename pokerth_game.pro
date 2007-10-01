@@ -182,6 +182,8 @@ SOURCES += \
 		src/pokerth.cpp \
 		src/gui/qt/sound/sdlplayer.cpp \
 		src/gui/qt/guiwrapper.cpp \
+		src/gui/qt/qttools/qttoolswrapper.cpp \
+		src/gui/qt/qttools/qthelper/qthelper.cpp \
 		src/gui/qt/mainwindow/mainwindowimpl.cpp \
 		src/gui/qt/mainwindow/mycardspixmaplabel.cpp \
 		src/gui/qt/mainwindow/mysetlabel.cpp \
