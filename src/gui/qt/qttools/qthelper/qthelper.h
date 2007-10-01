@@ -16,6 +16,7 @@
 #error This file is not for the server.
 #endif
 
+#include <string>
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
 */

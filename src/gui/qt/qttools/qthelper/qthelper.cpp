@@ -13,6 +13,7 @@
 #include <QtCore>
 #include <iostream>
 
+
 QtHelper::QtHelper()
 {
 }
