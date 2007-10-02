@@ -161,7 +161,7 @@ void Game::initHand()
 // 	}
 
 	//Spieler Action auf 0 setzen
-	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+	for(it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
 		(*it_c)->setMyAction(PLAYER_ACTION_NONE);
 	}
 

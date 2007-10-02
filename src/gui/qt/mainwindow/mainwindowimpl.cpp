@@ -1029,8 +1029,8 @@ void mainWindowImpl::callSettingsDialog() {
 
 
 
-			HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-			PlayerListIterator it = currentHand->getSeatsList()->begin();
+			Game *currentGame = mySession->getCurrentGame();
+			PlayerListIterator it = currentGame->getSeatsList()->begin();
 			(*it)->setMyName(mySettingsDialog->lineEdit_HumanPlayerName->text().toUtf8().constData());
 			(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent1Name->text().toUtf8().constData());
 			(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent2Name->text().toUtf8().constData());
@@ -1066,8 +1066,8 @@ void mainWindowImpl::callSettingsDialog() {
 
 
 
-			HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-			PlayerListIterator it = currentHand->getSeatsList()->begin();
+			Game *currentGame = mySession->getCurrentGame();
+			PlayerListIterator it = currentGame->getSeatsList()->begin();
 			(*it)->setMyAvatar(mySettingsDialog->pushButton_HumanPlayerAvatar->getMyLink().toUtf8().constData());
 			(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent1Avatar->getMyLink().toUtf8().constData());
 			(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent2Avatar->getMyLink().toUtf8().constData());
@@ -1176,10 +1176,10 @@ void mainWindowImpl::refreshSet() {
 // 		else setLabelArray[i]->setText("Set: "+QString::number(mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[i]->getMySet(),10)+" $"); 
 // 	}
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	Game *currentGame = mySession->getCurrentGame();
 
 	PlayerListConstIterator it_c;
- 	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
+ 	for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) { 
 		if( (*it_c)->getMySet() == 0 ) setLabelArray[ (*it_c)->getMyID() ]->setText("");
 		else setLabelArray[(*it_c)->getMyID()]->setText("Set: "+QString::number( (*it_c)->getMySet(),10)+" $"); 
 	}
@@ -1202,7 +1202,7 @@ void mainWindowImpl::refreshButton() {
 // 		if (mySession->getCurrentGame()->getCurrentHand()->getPlayerArray()[k]->getMyActiveStatus() == 1) activePlayersCounter++;
 // 	}
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	Game *currentGame = mySession->getCurrentGame();
 
 	PlayerListConstIterator it_c;
 
@@ -1247,9 +1247,9 @@ void mainWindowImpl::refreshButton() {
 
 
 
-	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
+	for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) { 
 		if( (*it_c)->getMyActiveStatus() ) { 
-			if( currentHand->getActivePlayerList()->size() > 2 ) {
+			if( currentGame->getActivePlayerList()->size() > 2 ) {
 				switch ( (*it_c)->getMyButton() ) {
 				
 					case 1 : buttonLabelArray[(*it_c)->getMyID()]->setPixmap(dealerButton); 

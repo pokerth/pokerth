@@ -700,6 +700,8 @@ ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		client.GetGui().dealHoleCards();
 		client.GetGui().refreshGameLabels(GAME_STATE_PREFLOP);
 		client.GetGui().refreshPot();
+		client.GetGui().waitForGuiUpdateDone();
+
 		client.SetState(ClientStateRunHand::Instance());
 
 		retVal = MSG_NET_GAME_CLIENT_HAND_START;

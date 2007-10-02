@@ -76,7 +76,7 @@ ClientHand::getPlayerArray() const
 PlayerList
 ClientHand::getSeatsList() const
 {
-	return activePlayerList;
+	return seatsList;
 }
 
 PlayerList
