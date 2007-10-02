@@ -682,24 +682,16 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 			server.RemoveDisconnectedPlayers();
 
 			// Start next hand - if enough players are left.
-			int playersPositiveCashCounter = 0;
+			list<boost::shared_ptr<PlayerInterface> > playersWithCash = *curGame.getActivePlayerList();
+			playersWithCash.remove_if(boost::bind(&PlayerInterface::getMyCash, _1) < 1);
 
-			PlayerListIterator i = curGame.getSeatsList()->begin();
-			PlayerListIterator end = curGame.getSeatsList()->end();
-
-			while (i != end)
-			{
-				if ((*i)->getMyCash() > 0) 
-					playersPositiveCashCounter++;
-				++i;
-			}
-			if (!playersPositiveCashCounter)
+			if (playersWithCash.empty())
 			{
 				// No more players left - restart.
 				server.SetState(SERVER_INITIAL_STATE::Instance());
 				retVal = MSG_NET_GAME_SERVER_END;
 			}
-			else if (playersPositiveCashCounter == 1)
+			else if (playersWithCash.size() == 1)
 			{
 				// View a dialog for a new game - delayed.
 				server.SetState(ServerGameStateNextGameDelay::Instance());
