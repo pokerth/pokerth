@@ -3,6 +3,15 @@
 TEMPLATE = lib
 CODECFORSRC = UTF-8
 
+#CONFIG += staticlib thread warn_on release
+CONFIG += staticlib thread warn_on debug
+
+UI_DIR = uics
+TARGET = lib/pokerth_lib
+MOC_DIR = mocs
+OBJECTS_DIR = obj
+QT -= core gui
+
 INCLUDEPATH += . \
 		src \
 		src/engine \
@@ -189,12 +198,3 @@ mac{
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers		
 }
-
-#CONFIG += staticlib thread warn_on release
-CONFIG += staticlib thread warn_on debug
-UI_DIR = uics
-TARGET = lib/pokerth_lib
-MOC_DIR = mocs
-OBJECTS_DIR = obj
-QT -= core gui
-# QMAKE_CXXFLAGS_DEBUG += -g
