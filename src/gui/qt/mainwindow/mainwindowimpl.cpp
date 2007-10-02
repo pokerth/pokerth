@@ -2570,7 +2570,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 						if((*it_c)->getMyAction() || ((*it_c)->getMyAction()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
 												
-								holeCardsArray[(*it_c)->getMyAction()][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+								holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
 							}	
 						}
 						//set Player value (logging)
