@@ -531,7 +531,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	myConnectToServerDialog = new connectToServerDialogImpl(this);
 	myStartNetworkGameDialog = new startNetworkGameDialogImpl(this, myConfig);
 	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this, myConfig);
-	myAboutPokerthDialog = new aboutPokerthImpl(this);
+	myAboutPokerthDialog = new aboutPokerthImpl(this, myConfig);
 	myGameLobbyDialog = new gameLobbyDialogImpl(this, myConfig);
 	
 	myStartNetworkGameDialog->setMyW(this);

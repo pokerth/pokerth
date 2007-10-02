@@ -22,11 +22,17 @@
 
 #include "ui_aboutpokerth.h"
 
+class ConfigFile;
 
 class aboutPokerthImpl: public QDialog, public Ui::aboutPokerth {
 Q_OBJECT
 public:
-    aboutPokerthImpl(QWidget *parent = 0);
+    aboutPokerthImpl(QWidget *parent = 0, ConfigFile *c =0);
+
+private:
+
+	ConfigFile *myConfig;
+	QString myAppDataPath;
 };
 
 #endif

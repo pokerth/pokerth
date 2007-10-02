@@ -18,19 +18,25 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "aboutpokerthimpl.h"
+#include "configfile.h"
 
-aboutPokerthImpl::aboutPokerthImpl(QWidget *parent)
-    : QDialog(parent)
+aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
+    : QDialog(parent), myConfig(c)
 {
 
 	 setupUi(this);
+
+	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 	
-	QPalette myPalette = textBrowser->palette();
+	QPalette myPalette = textBrowser_licence->palette();
 	QColor myColor = myPalette.color(QPalette::Window);
 	myPalette.setColor(QPalette::Base, myColor);
-	textBrowser->setPalette(myPalette);
+	textBrowser_licence->setPalette(myPalette);
 	textBrowser_2->setPalette(myPalette);
 	textBrowser_3->setPalette(myPalette);
 	textBrowser_4->setPalette(myPalette);
+
+	textBrowser_licence->setSource(QUrl(myAppDataPath+"misc/gpl2.html"));
+	label_logo->setPixmap(QPixmap(myAppDataPath+"gfx/gui/misc/logoChip3D.png"));
 	
 }
