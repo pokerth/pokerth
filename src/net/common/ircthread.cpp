@@ -363,6 +363,7 @@ IrcThread::Main()
 						break;
 					}
 				}
+				Msleep(10); // paranoia
 			}
 		}
 	}
