@@ -143,6 +143,7 @@ void Game::initHand()
 
 	size_t i;
 	PlayerListConstIterator it_c;
+	PlayerListIterator it, it_2;
 
 	// eventuell vorhandene Hand löschen
 	if(actualHand) {
@@ -166,7 +167,7 @@ void Game::initHand()
 	}
 
 	// Spieler mit leerem Cash auf inactive setzen
-	PlayerListIterator it = activePlayerList->begin();
+	it = activePlayerList->begin();
 
 	while( it!=activePlayerList->end() ) {
 
@@ -178,6 +179,22 @@ void Game::initHand()
 			it++;
 		}
 	}
+
+// TODO HACK
+	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); it++) {
+		if (!(*it)->getMyActiveStatus())
+		{
+			if ((*it)->getMyUniqueID() == getCurrentHand()->getCurrentBeRo()->getCurrentPlayersTurnId())
+			{
+				it_2 = it;
+				it_2++;
+				if (it_2 == runningPlayerList->end())
+					it_2 = runningPlayerList->begin();
+				getCurrentHand()->getCurrentBeRo()->setCurrentPlayersTurnId((*it_2)->getMyUniqueID());
+			}
+		}
+	}
+
 
 	runningPlayerList->clear();
 	(*runningPlayerList) = (*activePlayerList);
