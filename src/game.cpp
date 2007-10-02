@@ -181,15 +181,15 @@ void Game::initHand()
 	}
 
 // TODO HACK
-	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); it++) {
+	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
 		if (!(*it)->getMyActiveStatus())
 		{
 			if ((*it)->getMyUniqueID() == getCurrentHand()->getCurrentBeRo()->getCurrentPlayersTurnId())
 			{
 				it_2 = it;
 				it_2++;
-				if (it_2 == runningPlayerList->end())
-					it_2 = runningPlayerList->begin();
+				if (it_2 == seatsList->end())
+					it_2 = seatsList->begin();
 				getCurrentHand()->getCurrentBeRo()->setCurrentPlayersTurnId((*it_2)->getMyUniqueID());
 			}
 		}
