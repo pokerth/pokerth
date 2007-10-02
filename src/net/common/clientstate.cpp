@@ -979,7 +979,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 				// TODO use moneyWon
 				++i;
 			}
-			curGame->getCurrentHand()->getRiver()->setHighestCardsValue(highestValueOfCards);
+			curGame->getCurrentHand()->getCurrentBeRo()->setHighestCardsValue(highestValueOfCards);
 			curGame->getCurrentHand()->getBoard()->setPot(0);
 
 			client.GetGui().postRiverRunAnimation1();
