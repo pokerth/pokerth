@@ -36,7 +36,10 @@ public:
 	void setPlayersTurn(int theValue);
 	int getPlayersTurn() const;
 
+	void setSmallBlindPositionId(unsigned theValue);
 	unsigned getSmallBlindPositionId() const;
+
+	void setBigBlindPositionId(unsigned theValue);
 	unsigned getBigBlindPositionId() const;
 
 	void setCurrentPlayersTurnId(unsigned theValue);

@@ -38,9 +38,12 @@ public:
 	virtual void setCurrentPlayersTurnIt(PlayerListIterator) =0;
 	virtual PlayerListIterator getCurrentPlayersTurnIt() const =0;
 
+	virtual void setSmallBlindPositionId(unsigned) =0;
 	virtual unsigned getSmallBlindPositionId() const =0;
+
+	virtual void setBigBlindPositionId(unsigned) =0;
 	virtual unsigned getBigBlindPositionId() const =0;
-	
+
 	virtual void setHighestSet(int) =0;
 	virtual int getHighestSet() const =0;
 

@@ -760,9 +760,15 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 			if (actionDoneData.gameState == GAME_STATE_PREFLOP_SMALL_BLIND)
+			{
+				curGame->getCurrentHand()->getCurrentBeRo()->setSmallBlindPositionId(tmpPlayer->getMyUniqueID());
 				tmpPlayer->setMyButton(BUTTON_SMALL_BLIND);
+			}
 			else if (actionDoneData.gameState == GAME_STATE_PREFLOP_BIG_BLIND)
+			{
+				curGame->getCurrentHand()->getCurrentBeRo()->setBigBlindPositionId(tmpPlayer->getMyUniqueID());
 				tmpPlayer->setMyButton(BUTTON_BIG_BLIND);
+			}
 			else // no blind -> log
 			{
 				if (actionDoneData.playerAction)

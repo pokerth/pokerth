@@ -97,10 +97,24 @@ ClientBeRo::getLastPlayersTurnIt() const
 	return lastPlayersTurnIt;
 }
 
+void
+ClientBeRo::setSmallBlindPositionId(unsigned theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	smallBlindPositionId = theValue;
+}
+
 unsigned
 ClientBeRo::getSmallBlindPositionId() const
 {
 	return smallBlindPositionId;
+}
+
+void
+ClientBeRo::setBigBlindPositionId(unsigned theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	bigBlindPositionId = theValue;
 }
 
 unsigned
