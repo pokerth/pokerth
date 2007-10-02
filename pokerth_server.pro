@@ -11,6 +11,7 @@ TARGET = bin/pokerth_server
 MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += POKERTH_DEDICATED_SERVER
+QT -= core gui
 
 INSTALLS += TARGET
 TARGET.files += bin/*

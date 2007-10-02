@@ -190,8 +190,8 @@ mac{
 	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers		
 }
 
-#CONFIG += staticlib qt thread warn_on release
-CONFIG += staticlib qt thread warn_on debug
+#CONFIG += staticlib thread warn_on release
+CONFIG += staticlib thread warn_on debug
 UI_DIR = uics
 TARGET = lib/pokerth_lib
 MOC_DIR = mocs
