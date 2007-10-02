@@ -24,8 +24,6 @@
 #include <gui/generic/serverguiwrapper.h>
 #include <net/socket_startup.h>
 
-#include <QtCore>
-
 #include <csignal>
 
 #ifdef _MSC_VER
