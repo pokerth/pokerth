@@ -196,5 +196,5 @@ UI_DIR = uics
 TARGET = lib/pokerth_lib
 MOC_DIR = mocs
 OBJECTS_DIR = obj
-QT += 
+QT -= core gui
 # QMAKE_CXXFLAGS_DEBUG += -g
