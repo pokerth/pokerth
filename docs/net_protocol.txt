@@ -77,10 +77,10 @@ Server Reply: Init ACK
 	|                         Your Player ID                        |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-Player ID:
-	Unique Player ID
 Session ID:
 	Unique Session ID which is not known by other players
+Player ID:
+	Unique Player ID
 
 
 Server Notification: Game List New
@@ -116,9 +116,8 @@ Server Notification: Game List New
 	/                                                               |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 Game List notifications will be automatically sent if the player
-is in the lobby. If a game is joined/started, no more messages
-will be sent. As soon as the player leaves a game without
-disconnecting, Game List notifications will be sent again.
+is in the lobby. The player remains in the lobby at all times
+while connected to the server.
 
 Game Mode:
 	1: Game Created
@@ -212,13 +211,21 @@ Client Request: Create Game
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|        Password Length        |       Game Name Length        |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|     Max Number of Players     |          Small Blind          |
+	|     Max Number of Players     |       First Small Blind       |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|      Hands before raise       |       Proposed GUI Speed      |
+	|      Raise Interval Mode      |   Raise Small Blind Interval  |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|     Player Action Timeout     |           Reserved            |
+	|           Raise Mode          |        End Raise Mode         |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|  End Raise Small Blind Value  |    Number of Manual Blinds    |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|      Proposed GUI Speed       |     Player Action Timeout     |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                          Start Money                          |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	\     Manual Blind Slot #1      |     Manual Blind Slot #2      /
+	|                               +-------------------------------+
+	/     Manual Blind Slot #n      |            padding            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                                                               |
 	\                      Password (UTF-8)                         /
@@ -236,6 +243,8 @@ Proposed GUI Speed:
 	1-11
 Player Action Timeout:
 	# seconds
+Manual Blind Slots
+	can be 0, up to a number of 30.
 
 
 Client Request: Join Game
@@ -261,17 +270,27 @@ Server Reply: Join Game Ack
 	 0                   1                   2                   3
 	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|        Message Type = 11      |     Message Length = 24       |
+	|        Message Type = 11      |        Message Length         |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                            Game ID                            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|         Player Rights         |     Max Number of Players     |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|          Small Blind          |      Hands before raise       |
+	|       First Small Blind       |      Raise Interval Mode      |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|       Proposed GUI Speed      |     Player Action Timeout     |
+	|   Raise Small Blind Interval  |           Raise Mode          |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|        End Raise Mode         |  End Raise Small Blind Value  |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|    Number of Manual Blinds    |       Proposed GUI Speed      |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|     Player Action Timeout     |          Reserved             |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                          Start Money                          |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	\     Manual Blind Slot #1      |     Manual Blind Slot #2      /
+	|                               +-------------------------------+
+	/     Manual Blind Slot #n      |            padding            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 
