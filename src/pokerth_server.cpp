@@ -93,7 +93,8 @@ main(int argc, char *argv[])
 	myServerGuiInterface->getSession().startNetworkServer();
 	while (!g_pokerthTerminate)
 	{
-		myServerGuiInterface->getSession().waitForNetworkServer(100);
+		if (myServerGuiInterface->getSession().waitForNetworkServer(100))
+			g_pokerthTerminate = true;
 	}
 	myServerGuiInterface->getSession().terminateNetworkServer();
 

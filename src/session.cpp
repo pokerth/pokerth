@@ -235,15 +235,21 @@ void Session::terminateNetworkServer()
 	myNetServer = 0;
 }
 
-void Session::waitForNetworkServer(unsigned timeoutMsec)
+bool Session::waitForNetworkServer(unsigned timeoutMsec)
 {
+	bool retVal = false;
 	if (!myNetServer)
-		return; // already terminated
-	if (myNetServer->Join(timeoutMsec))
+		retVal = true; // already terminated
+	else
 	{
-		delete myNetServer;
-		myNetServer = 0;
+		if (myNetServer->Join(timeoutMsec))
+		{
+			delete myNetServer;
+			myNetServer = 0;
+			retVal = true;
+		}
 	}
+	return retVal;
 }
 
 void Session::startIrcClient()

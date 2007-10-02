@@ -60,7 +60,7 @@ public:
 	void sendLeaveCurrentGame();
 	void sendStartEvent(bool fillUpWithCpuPlayers);
 	void terminateNetworkServer();
-	void waitForNetworkServer(unsigned timeoutMsec);
+	bool waitForNetworkServer(unsigned timeoutMsec);
 
 	void startIrcClient();
 	void sendIrcChatMessage(const std::string &message);
