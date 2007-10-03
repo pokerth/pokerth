@@ -378,7 +378,7 @@ void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerNa
 	item->setData(0, Qt::UserRole, playerId);
 	item->setData(0, Qt::DisplayRole, playerName);
 
-	if(this->isVisible() && inGame && && myConfig->readConfigInt("PlayNetworkGameNotification")) {
+	if(this->isVisible() && inGame && myConfig->readConfigInt("PlayNetworkGameNotification")) {
 		if(treeWidget_connectedPlayers->topLevelItemCount() < label_MaximumNumberOfPlayers->text().toInt()) {
 			myW->getMySDLPlayer()->playSound("playerconnected", 0);
 		}
