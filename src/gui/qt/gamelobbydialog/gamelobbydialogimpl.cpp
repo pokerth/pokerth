@@ -124,27 +124,8 @@ void gameLobbyDialogImpl::createGame()
 		label_StartCash->setText(QString::number(gameData.startMoney));
 		label_MaximumNumberOfPlayers->setText(QString::number(gameData.maxNumberOfPlayers));
 
-		if(gameData.raiseIntervalMode == RAISE_ON_HANDNUMBER) { label_blindsRaiseIntervall->setText(QString::number(gameData.raiseSmallBlindEveryHandsValue)+" "+tr("hands")); }
-		else { label_blindsRaiseIntervall->setText(QString::number(gameData.raiseSmallBlindEveryMinutesValue)+" "+tr("minutes")); }
-		if(gameData.raiseMode == DOUBLE_BLINDS) { 
-			label_blindsRaiseMode->setText(tr("double blinds")); 
-			label_blindsList->hide();
-			label_gameDesc6->hide();
-		}
-		else { 
-			label_blindsRaiseMode->setText(tr("manual blinds order"));
-			label_blindsList->show();
-			label_gameDesc6->show();
-			
-			QString blindsListString;
-			std::list<int>::iterator it1;
-			for(it1= gameData.manualBlindsList.begin(); it1 != gameData.manualBlindsList.end(); it1++) {
-				blindsListString.append(QString::number(*it1,10)).append(", ");
-			}
-			blindsListString.remove(blindsListString.length()-2,2);
-			label_blindsList->setText(blindsListString);
-		}
-		
+		updateDialogBlinds(gameData);
+
 		label_TimeoutForPlayerAction->setText(QString::number(gameData.playerActionTimeoutSec));
 
 		mySession->clientCreateGame(gameData, myConfig->readConfigString("MyName") + "'s "+ gameString.toUtf8().constData(), myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
@@ -206,26 +187,7 @@ void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, QTreeWidgetItem*)
 		label_StartCash->setText(QString::number(info.data.startMoney));
 		label_MaximumNumberOfPlayers->setText(QString::number(info.data.maxNumberOfPlayers));
 
-		if(info.data.raiseIntervalMode == RAISE_ON_HANDNUMBER) { label_blindsRaiseIntervall->setText(QString::number(info.data.raiseSmallBlindEveryHandsValue)+" "+tr("hands")); }
-		else { label_blindsRaiseIntervall->setText(QString::number(info.data.raiseSmallBlindEveryMinutesValue)+" "+tr("minutes")); }
-		if(info.data.raiseMode == DOUBLE_BLINDS) { 
-			label_blindsRaiseMode->setText(tr("double blinds")); 
-			label_blindsList->hide();
-			label_gameDesc6->hide();
-		}
-		else { 
-			label_blindsRaiseMode->setText(tr("manual blinds order"));
-			label_blindsList->show();
-			label_gameDesc6->show();
-			
-			QString blindsListString;
-			std::list<int>::iterator it1;
-			for(it1= info.data.manualBlindsList.begin(); it1 != info.data.manualBlindsList.end(); it1++) {
-				blindsListString.append(QString::number(*it1,10)).append(", ");
-			}
-			blindsListString.remove(blindsListString.length()-2,2);
-			label_blindsList->setText(blindsListString);
-		}
+		updateDialogBlinds(info.data);
 
 		label_TimeoutForPlayerAction->setText(QString::number(info.data.playerActionTimeoutSec));
 
@@ -495,6 +457,30 @@ void gameLobbyDialogImpl::leftGameDialogUpdate() {
 	pushButton_JoinGame->setEnabled(false);
 
 	lineEdit_ChatInput->setFocus();
+}
+
+void gameLobbyDialogImpl::updateDialogBlinds(const GameData &gameData) {
+
+	if(gameData.raiseIntervalMode == RAISE_ON_HANDNUMBER) { label_blindsRaiseIntervall->setText(QString::number(gameData.raiseSmallBlindEveryHandsValue)+" "+tr("hands")); }
+	else { label_blindsRaiseIntervall->setText(QString::number(gameData.raiseSmallBlindEveryMinutesValue)+" "+tr("minutes")); }
+	if(gameData.raiseMode == DOUBLE_BLINDS) { 
+		label_blindsRaiseMode->setText(tr("double blinds")); 
+		label_blindsList->hide();
+		label_gameDesc6->hide();
+	}
+	else { 
+		label_blindsRaiseMode->setText(tr("manual blinds order"));
+		label_blindsList->show();
+		label_gameDesc6->show();
+		
+		QString blindsListString;
+		std::list<int>::const_iterator it1;
+		for(it1= gameData.manualBlindsList.begin(); it1 != gameData.manualBlindsList.end(); it1++) {
+			blindsListString.append(QString::number(*it1,10)).append(", ");
+		}
+		blindsListString.remove(blindsListString.length()-2,2);
+		label_blindsList->setText(blindsListString);
+	}
 }
 
 void gameLobbyDialogImpl::playerSelected(QTreeWidgetItem* item, QTreeWidgetItem*) {

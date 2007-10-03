@@ -19,6 +19,7 @@
 
 #include <iostream>
 
+#include <gamedata.h>
 #include "createinternetgamedialogimpl.h"
 #include "sdlplayer.h"
 #include "mainwindowimpl.h"
@@ -80,6 +81,7 @@ public slots:
 
 	void joinedGameDialogUpdate();
 	void leftGameDialogUpdate();
+	void updateDialogBlinds(const GameData &gameData);
 	void clearDialog();
 
 	void sendChatMessage();
