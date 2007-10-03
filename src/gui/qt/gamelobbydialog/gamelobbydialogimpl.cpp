@@ -123,7 +123,28 @@ void gameLobbyDialogImpl::createGame()
 		label_SmallBlind->setText(QString::number(gameData.smallBlind));
 		label_StartCash->setText(QString::number(gameData.startMoney));
 		label_MaximumNumberOfPlayers->setText(QString::number(gameData.maxNumberOfPlayers));
-		label_HandsToRaiseSmallBlind->setText(QString::number(gameData.handsBeforeRaise));
+
+		if(gameData.raiseIntervalMode == RAISE_ON_HANDNUMBER) { label_blindsRaiseIntervall->setText(QString::number(gameData.raiseSmallBlindEveryHandsValue)+" "+tr("hands")); }
+		else { label_blindsRaiseIntervall->setText(QString::number(gameData.raiseSmallBlindEveryMinutesValue)+" "+tr("minutes")); }
+		if(gameData.raiseMode == DOUBLE_BLINDS) { 
+			label_blindsRaiseMode->setText(tr("double blinds")); 
+			label_blindsList->hide();
+			label_gameDesc6->hide();
+		}
+		else { 
+			label_blindsRaiseMode->setText(tr("manual blinds order"));
+			label_blindsList->show();
+			label_gameDesc6->show();
+			
+			QString blindsListString;
+			std::list<int>::iterator it1;
+			for(it1= gameData.manualBlindsList.begin(); it1 != gameData.manualBlindsList.end(); it1++) {
+				blindsListString.append(QString::number(*it1,10)).append(", ");
+			}
+			blindsListString.remove(blindsListString.length()-2,2);
+			label_blindsList->setText(blindsListString);
+		}
+		
 		label_TimeoutForPlayerAction->setText(QString::number(gameData.playerActionTimeoutSec));
 
 		mySession->clientCreateGame(gameData, myConfig->readConfigString("MyName") + "'s "+ gameString.toUtf8().constData(), myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
@@ -184,7 +205,28 @@ void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, QTreeWidgetItem*)
 		label_SmallBlind->setText(QString::number(info.data.smallBlind));
 		label_StartCash->setText(QString::number(info.data.startMoney));
 		label_MaximumNumberOfPlayers->setText(QString::number(info.data.maxNumberOfPlayers));
-		label_HandsToRaiseSmallBlind->setText(QString::number(info.data.handsBeforeRaise));
+
+		if(info.data.raiseIntervalMode == RAISE_ON_HANDNUMBER) { label_blindsRaiseIntervall->setText(QString::number(info.data.raiseSmallBlindEveryHandsValue)+" "+tr("hands")); }
+		else { label_blindsRaiseIntervall->setText(QString::number(info.data.raiseSmallBlindEveryMinutesValue)+" "+tr("minutes")); }
+		if(info.data.raiseMode == DOUBLE_BLINDS) { 
+			label_blindsRaiseMode->setText(tr("double blinds")); 
+			label_blindsList->hide();
+			label_gameDesc6->hide();
+		}
+		else { 
+			label_blindsRaiseMode->setText(tr("manual blinds order"));
+			label_blindsList->show();
+			label_gameDesc6->show();
+			
+			QString blindsListString;
+			std::list<int>::iterator it1;
+			for(it1= info.data.manualBlindsList.begin(); it1 != info.data.manualBlindsList.end(); it1++) {
+				blindsListString.append(QString::number(*it1,10)).append(", ");
+			}
+			blindsListString.remove(blindsListString.length()-2,2);
+			label_blindsList->setText(blindsListString);
+		}
+
 		label_TimeoutForPlayerAction->setText(QString::number(info.data.playerActionTimeoutSec));
 
 		treeWidget_connectedPlayers->clear();
@@ -311,7 +353,9 @@ void gameLobbyDialogImpl::clearDialog()
 	label_SmallBlind->setText("");
 	label_StartCash->setText("");
 	label_MaximumNumberOfPlayers->setText("");
-	label_HandsToRaiseSmallBlind->setText("");
+	label_blindsRaiseIntervall->setText("");
+	label_blindsRaiseMode->setText("");
+	label_blindsList->setText("");
 	label_TimeoutForPlayerAction->setText("");
 
 	treeWidget_GameList->clear();
@@ -435,7 +479,9 @@ void gameLobbyDialogImpl::leftGameDialogUpdate() {
 	label_SmallBlind->setText("");
 	label_StartCash->setText("");
 	label_MaximumNumberOfPlayers->setText("");
-	label_HandsToRaiseSmallBlind->setText("");
+	label_blindsRaiseIntervall->setText("");
+	label_blindsRaiseMode->setText("");
+	label_blindsList->setText("");
 	label_TimeoutForPlayerAction->setText("");
 
 	treeWidget_connectedPlayers->clear();
@@ -504,7 +550,8 @@ void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
 		label_gameDesc3->show();
 		label_gameDesc4->show();
 		label_gameDesc5->show();
-	
+		label_gameDesc6->show();
+		label_gameDesc7->show();
 	}
 	else {
 		label_gameDesc1->hide();
@@ -512,5 +559,7 @@ void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
 		label_gameDesc3->hide();
 		label_gameDesc4->hide();
 		label_gameDesc5->hide();
+		label_gameDesc6->hide();
+		label_gameDesc7->hide();
 	}
 }

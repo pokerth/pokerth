@@ -23,7 +23,6 @@
 #include "sdlplayer.h"
 #include "mainwindowimpl.h"
 
-
 class Session;
 class ConfigFile;
 class LobbyChat;
