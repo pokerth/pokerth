@@ -424,6 +424,14 @@ void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString) {
 
 void gameLobbyDialogImpl::newGameAdmin(unsigned playerId, QString)
 {
+	QTreeWidgetItemIterator it(treeWidget_connectedPlayers);
+	while (*it) {
+		if ((*it)->data(0, Qt::UserRole) == playerId) {
+			(*it)->setBackground(0, QBrush(QColor(169,255,140)));
+		}
+		++it;
+	}
+
 	if (myPlayerId == playerId)
 	{
 		isAdmin = true;
