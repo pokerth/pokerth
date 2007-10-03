@@ -145,12 +145,6 @@ void Game::initHand()
 	PlayerListConstIterator it_c;
 	PlayerListIterator it, it_2;
 
-	// eventuell vorhandene Hand löschen
-	if(actualHand) {
-		delete actualHand;
-		actualHand = 0;
-	}
-	
 	actualHandID++;
 
 	// calculate smallBlind
@@ -180,21 +174,27 @@ void Game::initHand()
 		}
 	}
 
+	// eventuell vorhandene Hand löschen
+	if(actualHand) {
+
 // TODO HACK
-	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
-		if (!(*it)->getMyActiveStatus())
-		{
-			if ((*it)->getMyUniqueID() == getCurrentHand()->getCurrentBeRo()->getCurrentPlayersTurnId())
+		for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+			if (!(*it)->getMyActiveStatus())
 			{
-				it_2 = it;
-				it_2++;
-				if (it_2 == seatsList->end())
-					it_2 = seatsList->begin();
-				getCurrentHand()->getCurrentBeRo()->setCurrentPlayersTurnId((*it_2)->getMyUniqueID());
+				if ((*it)->getMyUniqueID() == getCurrentHand()->getCurrentBeRo()->getCurrentPlayersTurnId())
+				{
+					it_2 = it;
+					it_2++;
+					if (it_2 == seatsList->end())
+						it_2 = seatsList->begin();
+					getCurrentHand()->getCurrentBeRo()->setCurrentPlayersTurnId((*it_2)->getMyUniqueID());
+				}
 			}
 		}
-	}
 
+		delete actualHand;
+		actualHand = 0;
+	}
 
 	runningPlayerList->clear();
 	(*runningPlayerList) = (*activePlayerList);
