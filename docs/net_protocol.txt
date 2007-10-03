@@ -25,7 +25,7 @@ PokerTH general message format:
 	|                               +-------------------------------+
 	/                               |            padding            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-Minimum length is 8. Maximum length is 256.
+Minimum length is 8. Maximum length is 264.
 
 
 Client Request: Init
