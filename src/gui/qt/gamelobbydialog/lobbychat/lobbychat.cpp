@@ -137,7 +137,7 @@ void LobbyChat::clearChat() {
 	myNick = "";
 	myLobby->treeWidget_NickList->clear();
 	myLobby->textBrowser_ChatDisplay->clear();
-	myLobby->textBrowser_ChatDisplay->append(tr("Connecting to IRC server..."));
+	myLobby->textBrowser_ChatDisplay->append(tr("Connecting to Chat server..."));
 	myLobby->lineEdit_ChatInput->setEnabled(false);
 /*	QStringList wordList;
 	wordList << "alpha" << "omega" << "omicron" << "zeta";*/
