@@ -101,6 +101,8 @@ void ServerGuiWrapper::stopTimeoutAnimation(int /*playerId*/) {}
 void ServerGuiWrapper::logPlayerActionMsg(string /*playerName*/, int /*action*/, int /*setValue*/) {}
 void ServerGuiWrapper::logNewGameHandMsg(int /*gameID*/, int /*handID*/) {}
 void ServerGuiWrapper::logPlayerWinsMsg(std::string /*playerName*/, int /*pot*/) {}
+void ServerGuiWrapper::logNewBlindsSetsMsg(int /*gameID*/, int /*sbSet*/, int /*bbSet*/, std::string /*sbName*/, std::string /*bbName*/) {}
+	
 void ServerGuiWrapper::logDealBoardCardsMsg(int /*roundID*/, int /*card1*/, int /*card2*/, int /*card3*/, int /*card4*/, int /*card5*/) {}
 void ServerGuiWrapper::logFlipHoleCardsMsg(std::string /*playerName*/, int /*card1*/, int /*card2*/, int /*cardsValueInt*/, std::string /*showHas*/) {}
 void ServerGuiWrapper::logPlayerWinGame(std::string /*playerName*/, int /*gameID*/) {}

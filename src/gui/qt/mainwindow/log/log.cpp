@@ -35,6 +35,7 @@ Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), m
 	
 	connect(this, SIGNAL(signalLogPlayerActionMsg(QString, int, int)), this, SLOT(logPlayerActionMsg(QString, int, int)));
 	connect(this, SIGNAL(signalLogNewGameHandMsg(int, int)), this, SLOT(logNewGameHandMsg(int, int)));
+	connect(this, SIGNAL(signalLogNewBlindsSetsMsg(int, int, int, QString, QString)), this, SLOT(logNewBlindsSetsMsg(int, int, int, QString, QString)));
 	connect(this, SIGNAL(signalLogPlayerWinsMsg(QString, int)), this, SLOT(logPlayerWinsMsg(QString, int)));
 	connect(this, SIGNAL(signalLogDealBoardCardsMsg(int, int, int, int, int, int)), this, SLOT(logDealBoardCardsMsg(int, int, int, int, int, int)));
 	connect(this, SIGNAL(signalLogFlipHoleCardsMsg(QString, int, int, int, QString)), this, SLOT(logFlipHoleCardsMsg(QString, int, int, int, QString)));
@@ -237,7 +238,7 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 				}
 			}
 		}
-		// log blinds
+/*		// log blinds
 		logFileStreamString += "</br>BLINDS: ";
 // 		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 // 		
@@ -276,7 +277,8 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 
 
 
-
+		cout << "SB: " << currentHand->getCurrentBeRo()->getSmallBlindPositionId() << endl;
+		cout << "BB: " << currentHand->getCurrentBeRo()->getBigBlindPositionId() << endl;	
 
 		// smallBlind
 		it_c = currentHand->getActivePlayerIt(currentHand->getCurrentBeRo()->getSmallBlindPositionId());
@@ -299,7 +301,51 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 
 	
 		logFileStreamString += "</br></br><b>PREFLOP</b>";
+		logFileStreamString += "</br>\n";*/
+	/*
+		if(myConfig->readConfigInt("LogInterval") < 2) {
+// 		write for log after every action and after every hand
+			writeLogFileStream(logFileStreamString);
+			logFileStreamString = "";
+		}
+		else {
+// 		write for log after every game
+			if(gameID > lastGameID) {
+				writeLogFileStream(logFileStreamString);
+				logFileStreamString = "";
+				lastGameID = gameID;
+			}
+		}*/
+
+	}
+}
+
+void Log::logNewBlindsSetsMsg(int gameID, int sbSet, int bbSet, QString sbName, QString bbName) {
+
+		// log blinds
+		logFileStreamString += "</br>BLINDS: ";
+/*
+		cout << "SB: " << sbName << endl;
+		cout << "BB: " << bbName << endl;	*/
+
+// 		smallBlind
+// 		it_c = currentHand->getActivePlayerIt(currentHand->getCurrentBeRo()->getSmallBlindPositionId());
+// 		if(it_c != currentHand->getActivePlayerList()->end()) {
+// 			logFileStreamString += QString::fromUtf8((*it_c)->getMyName().c_str())+" ("+QString::number((*it_c)->getMySet(),10)+"$), ";
+// 		}*/
+
+		logFileStreamString += sbName+" ("+QString::number(sbSet,10)+"$), ";
+
+		// bigBlind
+// 		it_c = currentHand->getActivePlayerIt(currentHand->getCurrentBeRo()->getBigBlindPositionId());
+// 		if(it_c != currentHand->getActivePlayerList()->end()) {
+// 			logFileStreamString += QString::fromUtf8((*it_c)->getMyName().c_str())+" ("+QString::number((*it_c)->getMySet(),10)+"$)";
+// 		}
+		logFileStreamString += bbName+" ("+QString::number(bbSet,10)+"$)";
+	
+		logFileStreamString += "</br></br><b>PREFLOP</b>";
 		logFileStreamString += "</br>\n";
+
 	
 		if(myConfig->readConfigInt("LogInterval") < 2) {
 // 		write for log after every action and after every hand
@@ -314,8 +360,6 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 				lastGameID = gameID;
 			}
 		}
-
-	}
 }
 
 void Log::logPlayerWinsMsg(QString playerName, int pot) {

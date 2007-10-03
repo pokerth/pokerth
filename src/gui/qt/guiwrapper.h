@@ -91,6 +91,7 @@ public:
 
 	void logPlayerActionMsg(std::string playerName, int action, int setValue) ;
 	void logNewGameHandMsg(int gameID, int handID) ;
+	void logNewBlindsSetsMsg(int gameID, int sbSet, int bbSet, std::string sbName, std::string bbName);
 	void logPlayerWinsMsg(std::string playerName, int pot);
 	void logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1);
 	void logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt = -1, std::string showHas = "shows");
