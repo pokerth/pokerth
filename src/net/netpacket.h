@@ -56,6 +56,7 @@ class NetPacketJoinGameAck;
 class NetPacketJoinGameFailed;
 class NetPacketPlayerJoined;
 class NetPacketPlayerLeft;
+class NetPacketGameAdminChanged;
 class NetPacketKickPlayer;
 class NetPacketLeaveCurrentGame;
 class NetPacketStartEvent;
@@ -108,6 +109,7 @@ public:
 	virtual const NetPacketJoinGameFailed *ToNetPacketJoinGameFailed() const;
 	virtual const NetPacketPlayerJoined *ToNetPacketPlayerJoined() const;
 	virtual const NetPacketPlayerLeft *ToNetPacketPlayerLeft() const;
+	virtual const NetPacketGameAdminChanged *ToNetPacketGameAdminChanged() const;
 	virtual const NetPacketKickPlayer *ToNetPacketKickPlayer() const;
 	virtual const NetPacketLeaveCurrentGame *ToNetPacketLeaveCurrentGame() const;
 	virtual const NetPacketStartEvent *ToNetPacketStartEvent() const;
@@ -478,6 +480,29 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketPlayerLeft *ToNetPacketPlayerLeft() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketGameAdminChanged : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t	playerId;
+	};
+
+	NetPacketGameAdminChanged();
+	virtual ~NetPacketGameAdminChanged();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketGameAdminChanged *ToNetPacketGameAdminChanged() const;
 
 protected:
 

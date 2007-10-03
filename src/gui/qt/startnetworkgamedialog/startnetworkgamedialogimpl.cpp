@@ -23,7 +23,7 @@
 #include <net/socket_msg.h>
 
 startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFile *config)
-      : QDialog(parent), myW(NULL), isAdmin(false), myConfig(config), mySession(NULL)
+      : QDialog(parent), myW(NULL), myPlayerId(0), isAdmin(false), myConfig(config), mySession(NULL)
 {
 	setupUi(this);
 
@@ -64,6 +64,7 @@ void startNetworkGameDialogImpl::refresh(int actionID) {
 
 void startNetworkGameDialogImpl::joinedNetworkGame(unsigned playerId, QString playerName, int rights) {
 
+	myPlayerId = playerId;
 	isAdmin = rights == PLAYER_RIGHTS_ADMIN;
 	addConnectedPlayer(playerId, playerName, rights);
 }
@@ -116,6 +117,15 @@ void startNetworkGameDialogImpl::removePlayer(unsigned playerId, QString) {
 	checkPlayerQuantity();
 }
 
+void startNetworkGameDialogImpl::newGameAdmin(unsigned playerId, QString)
+{
+	if (myPlayerId == playerId)
+	{
+		isAdmin = true;
+		checkPlayerQuantity();
+	}
+}
+
 void startNetworkGameDialogImpl::playerSelected(QTreeWidgetItem* item, QTreeWidgetItem*) {
 
 	if (item)
@@ -166,6 +176,8 @@ void startNetworkGameDialogImpl::clearDialog()
 	pushButton_startGame->setEnabled(false);
 	treeWidget->clear();
 	checkBox_fillUpWithComputerOpponents->hide();
+
+	myPlayerId = 0;
 }
 
 void startNetworkGameDialogImpl::setSession(Session *session)

@@ -401,14 +401,6 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			client.GetCallback().SignalNetClientRemovedFromGame(removedData.removeReason);
 			client.SetState(ClientStateWaitJoin::Instance());
 		}
-		else if (tmpPacket->ToNetPacketError())
-		{
-			// Server reported an error.
-			NetPacketError::Data errorData;
-			tmpPacket->ToNetPacketError()->GetData(errorData);
-			// Show the error.
-			throw ClientException(errorData.errorCode, 0);
-		}
 		else if (tmpPacket->ToNetPacketChatText())
 		{
 			// Chat message - display it in the GUI.
@@ -427,6 +419,15 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 
 			// Signal to GUI and remove from data list.
 			client.RemovePlayerData(playerLeftData.playerId);
+		}
+		else if (tmpPacket->ToNetPacketGameAdminChanged())
+		{
+			// New admin for the game.
+			NetPacketGameAdminChanged::Data adminChangedData;
+			tmpPacket->ToNetPacketGameAdminChanged()->GetData(adminChangedData);
+
+			// Set new game admin and signal to GUI.
+			client.SetNewGameAdmin(adminChangedData.playerId);
 		}
 		else if (tmpPacket->ToNetPacketGameListNew())
 		{
@@ -477,6 +478,14 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			NetPacketGameListPlayerLeft::Data playerLeftData;
 			tmpPacket->ToNetPacketGameListPlayerLeft()->GetData(playerLeftData);
 			client.ModifyGameInfoRemovePlayer(playerLeftData.gameId, playerLeftData.playerId);
+		}
+		else if (tmpPacket->ToNetPacketError())
+		{
+			// Server reported an error.
+			NetPacketError::Data errorData;
+			tmpPacket->ToNetPacketError()->GetData(errorData);
+			// Show the error.
+			throw ClientException(errorData.errorCode, 0);
 		}
 		else
 			retVal = InternalProcess(client, tmpPacket);

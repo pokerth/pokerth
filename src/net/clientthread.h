@@ -86,6 +86,7 @@ protected:
 	bool GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const;
 	void RequestPlayerInfo(unsigned id);
 	void SetPlayerInfo(unsigned id, const PlayerInfo &info);
+	void SetNewGameAdmin(unsigned id);
 
 	const ClientContext &GetContext() const;
 	ClientContext &GetContext();

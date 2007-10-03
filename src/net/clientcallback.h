@@ -50,6 +50,7 @@ public:
 	virtual void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, PlayerRights rights) = 0;
 	virtual void SignalNetClientPlayerChanged(unsigned playerId, const std::string &newPlayerName) = 0;
 	virtual void SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName) = 0;
+	virtual void SignalNetClientNewGameAdmin(unsigned playerId, const std::string &playerName) = 0;
 
 	virtual void SignalNetClientChatMsg(const std::string &playerName, const std::string &msg) = 0;
 	virtual void SignalNetClientWaitDialog() = 0;

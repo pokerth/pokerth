@@ -41,22 +41,23 @@ using namespace std;
 #define NET_TYPE_JOIN_GAME_FAILED				0x000C
 #define NET_TYPE_PLAYER_JOINED					0x000D
 #define NET_TYPE_PLAYER_LEFT					0x000E
-#define NET_TYPE_KICK_PLAYER					0x000F
-#define NET_TYPE_LEAVE_CURRENT_GAME				0x0010
-#define NET_TYPE_START_EVENT					0x0011
-#define NET_TYPE_GAME_START						0x0012
-#define NET_TYPE_HAND_START						0x0013
-#define NET_TYPE_PLAYERS_TURN					0x0014
-#define NET_TYPE_PLAYERS_ACTION					0x0015
-#define NET_TYPE_PLAYERS_ACTION_DONE			0x0016
-#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x0017
-#define NET_TYPE_DEAL_FLOP_CARDS				0x0018
-#define NET_TYPE_DEAL_TURN_CARD					0x0019
-#define NET_TYPE_DEAL_RIVER_CARD				0x001A
-#define NET_TYPE_ALL_IN_SHOW_CARDS				0x001B
-#define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x001C
-#define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x001D
-#define NET_TYPE_END_OF_GAME					0x001E
+#define NET_TYPE_GAME_ADMIN_CHANGED				0x000F
+#define NET_TYPE_KICK_PLAYER					0x0010
+#define NET_TYPE_LEAVE_CURRENT_GAME				0x0011
+#define NET_TYPE_START_EVENT					0x0012
+#define NET_TYPE_GAME_START						0x0013
+#define NET_TYPE_HAND_START						0x0014
+#define NET_TYPE_PLAYERS_TURN					0x0015
+#define NET_TYPE_PLAYERS_ACTION					0x0016
+#define NET_TYPE_PLAYERS_ACTION_DONE			0x0017
+#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x0018
+#define NET_TYPE_DEAL_FLOP_CARDS				0x0019
+#define NET_TYPE_DEAL_TURN_CARD					0x001A
+#define NET_TYPE_DEAL_RIVER_CARD				0x001B
+#define NET_TYPE_ALL_IN_SHOW_CARDS				0x001C
+#define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x001D
+#define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x001E
+#define NET_TYPE_END_OF_GAME					0x001F
 
 #define NET_TYPE_REMOVED_FROM_GAME				0x0100
 
@@ -234,6 +235,12 @@ struct GCC_PACKED NetPacketPlayerJoinedData
 };
 
 struct GCC_PACKED NetPacketPlayerLeftData
+{
+	NetPacketHeader		head;
+	u_int32_t			playerId;
+};
+
+struct GCC_PACKED NetPacketGameAdminChangedData
 {
 	NetPacketHeader		head;
 	u_int32_t			playerId;
@@ -582,6 +589,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 				case NET_TYPE_PLAYER_LEFT:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayerLeft);
 					break;
+				case NET_TYPE_GAME_ADMIN_CHANGED:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameAdminChanged);
+					break;
 				case NET_TYPE_KICK_PLAYER:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketKickPlayer);
 					break;
@@ -806,6 +816,12 @@ NetPacket::ToNetPacketPlayerJoined() const
 
 const NetPacketPlayerLeft *
 NetPacket::ToNetPacketPlayerLeft() const
+{
+	return NULL;
+}
+
+const NetPacketGameAdminChanged *
+NetPacket::ToNetPacketGameAdminChanged() const
 {
 	return NULL;
 }
@@ -2185,6 +2201,65 @@ NetPacketPlayerLeft::ToNetPacketPlayerLeft() const
 
 void
 NetPacketPlayerLeft::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+
+//-----------------------------------------------------------------------------
+
+NetPacketGameAdminChanged::NetPacketGameAdminChanged()
+: NetPacket(NET_TYPE_GAME_ADMIN_CHANGED, sizeof(NetPacketGameAdminChangedData), sizeof(NetPacketGameAdminChangedData))
+{
+}
+
+NetPacketGameAdminChanged::~NetPacketGameAdminChanged()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketGameAdminChanged::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketGameAdminChanged);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketGameAdminChanged::SetData(const NetPacketGameAdminChanged::Data &inData)
+{
+	NetPacketGameAdminChangedData *tmpData = (NetPacketGameAdminChangedData *)GetRawData();
+
+	// Set the data.
+	tmpData->playerId = htonl(inData.playerId);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketGameAdminChanged::GetData(NetPacketGameAdminChanged::Data &outData) const
+{
+	// We assume that the data is valid. Validity has already been checked.
+	NetPacketGameAdminChangedData *tmpData = (NetPacketGameAdminChangedData *)GetRawData();
+
+	outData.playerId = ntohl(tmpData->playerId);
+}
+
+const NetPacketGameAdminChanged *
+NetPacketGameAdminChanged::ToNetPacketGameAdminChanged() const
+{
+	return this;
+}
+
+void
+NetPacketGameAdminChanged::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }

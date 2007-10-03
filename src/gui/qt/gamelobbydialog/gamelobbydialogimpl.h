@@ -71,6 +71,7 @@ public slots:
 	void addConnectedPlayer(unsigned, QString, int);
 	void updatePlayer(unsigned, QString);
 	void removePlayer(unsigned, QString);
+	void newGameAdmin(unsigned, QString);
 
 	void playerSelected(QTreeWidgetItem*, QTreeWidgetItem*);
 	void refresh(int actionID);
@@ -99,6 +100,7 @@ private:
 	Session *mySession;
 	createInternetGameDialogImpl *myCreateInternetGameDialog;
 	QString currentGameName;
+	unsigned myPlayerId;
 	bool isAdmin;
 	bool inGame;
 	LobbyChat *myChat;

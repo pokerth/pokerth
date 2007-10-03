@@ -132,6 +132,7 @@ signals:
 	void signalNetClientPlayerJoined(unsigned playerId, QString playerName, int rights);
 	void signalNetClientPlayerChanged(unsigned playerId, QString newPlayerName);
 	void signalNetClientPlayerLeft(unsigned playerId, QString playerName);
+	void signalNetClientNewGameAdmin(unsigned playerId, QString playerName);
 	void signalNetClientGameListNew(unsigned gameId);
 	void signalNetClientGameListRemove(unsigned gameId);
 	void signalNetClientGameListUpdateMode(unsigned gameId, int mode);

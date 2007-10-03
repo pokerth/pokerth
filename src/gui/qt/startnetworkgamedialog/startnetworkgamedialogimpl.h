@@ -49,6 +49,8 @@ public slots:
 	void addConnectedPlayer(unsigned playerId, QString playerName, int rights);
 	void updatePlayer(unsigned playerId, QString newPlayerName);
 	void removePlayer(unsigned playerId, QString playerName);
+	void newGameAdmin(unsigned playerId, QString playerName);
+
 	void playerSelected(QTreeWidgetItem*, QTreeWidgetItem*);
 	void kickPlayer();
 	void checkPlayerQuantity();
@@ -67,6 +69,7 @@ private:
 
 	mainWindowImpl* myW;
 	int maxPlayerNumber;
+	unsigned myPlayerId;
 	bool isAdmin;
 	ConfigFile *myConfig;
 	Session *mySession;

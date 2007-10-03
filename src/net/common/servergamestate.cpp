@@ -312,10 +312,14 @@ ServerGameStateInit::InternalProcess(ServerGameThread &server, SessionWrapper se
 	}
 	else if (packet->ToNetPacketKickPlayer())
 	{
-		NetPacketKickPlayer::Data kickPlayerData;
-		packet->ToNetPacketKickPlayer()->GetData(kickPlayerData);
+		// Only admins are allowed to kick.
+		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN)
+		{
+			NetPacketKickPlayer::Data kickPlayerData;
+			packet->ToNetPacketKickPlayer()->GetData(kickPlayerData);
 
-		server.InternalKickPlayer(kickPlayerData.playerId);
+			server.InternalKickPlayer(kickPlayerData.playerId);
+		}
 	}
 	else
 	{

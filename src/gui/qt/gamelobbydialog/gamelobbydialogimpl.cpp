@@ -18,7 +18,7 @@
 #include <net/socket_msg.h>
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
- : QDialog(parent), myW(NULL), myConfig(c), mySession(NULL), currentGameName(""), isAdmin(false), inGame(false), myChat(NULL)
+ : QDialog(parent), myW(NULL), myConfig(c), mySession(NULL), currentGameName(""), myPlayerId(0), isAdmin(false), inGame(false), myChat(NULL)
 {
     setupUi(this);
 	
@@ -343,6 +343,7 @@ void gameLobbyDialogImpl::clearDialog()
 	myChat->clearChat();
 	inGame = false;
 	isAdmin = false;
+	myPlayerId = 0;
 }
 
 void gameLobbyDialogImpl::checkPlayerQuantity() {
@@ -367,6 +368,7 @@ void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerNam
 	inGame = true;
 	joinedGameDialogUpdate();
 
+	myPlayerId = playerId;
 	isAdmin = rights == PLAYER_RIGHTS_ADMIN;
 	addConnectedPlayer(playerId, playerName, rights);
 }
@@ -416,6 +418,15 @@ void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString) {
 	}
 
 	checkPlayerQuantity();
+}
+
+void gameLobbyDialogImpl::newGameAdmin(unsigned playerId, QString)
+{
+	if (myPlayerId == playerId)
+	{
+		isAdmin = true;
+		checkPlayerQuantity();
+	}
 }
 
 void gameLobbyDialogImpl::joinedGameDialogUpdate() {

@@ -404,6 +404,18 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 	GetCallback().SignalNetClientPlayerChanged(id, info.playerName);
 }
 
+void
+ClientThread::SetNewGameAdmin(unsigned id)
+{
+	// Update player data for current game.
+	boost::shared_ptr<PlayerData> playerData = GetPlayerDataByUniqueId(id);
+	if (playerData.get())
+	{
+		playerData->SetRights(PLAYER_RIGHTS_ADMIN);
+		GetCallback().SignalNetClientNewGameAdmin(id, playerData->GetName());
+	}
+}
+
 const ClientContext &
 ClientThread::GetContext() const
 {
