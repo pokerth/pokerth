@@ -165,7 +165,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">Authors: &lt;/span>&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">     Felix Hammer (&lt;a href="mailto:doitux@pokerth.net">&lt;span style=" text-decoration: underline; color:#0000ff;">doitux@pokerth.net&lt;/span>&lt;/a>)&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          - initial idea, basic architecture, gui implementation, linux package, webmaster@pokerth.net&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          - initial idea, basic architecture, gui implementation, linux package&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">     Florian Thauer (&lt;a href="mailto:floty@pokerth.net">&lt;span style=" text-decoration: underline; color:#0000ff;">floty@pokerth.net&lt;/span>&lt;/a>)&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          - initial idea, basic architecture, engine development&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">     Lothar May (&lt;a href="mailto:lotodore@pokerth.net">&lt;span style=" text-decoration: underline; color:#0000ff;">lotodore@pokerth.net&lt;/span>&lt;/a>)&lt;/p>
@@ -174,6 +174,9 @@ p, li { white-space: pre-wrap; }
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          - gui graphics design, webdesign&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">     Erhard List (&lt;a href="mailto:dunkanx@pokerth.net">&lt;span style=" text-decoration: underline; color:#0000ff;">dunkanx@pokerth.net&lt;/span>&lt;/a>)&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">          - MacOS package&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+         <property name="openExternalLinks" >
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -208,8 +211,7 @@ p, li { white-space: pre-wrap; }
           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
 &lt;/style>&lt;/head>&lt;body style=" font-family:'Nimbus Sans L'; font-size:9pt; font-weight:400; font-style:normal;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&amp;lt;your translator name&amp;gt; - &amp;lt;your language&amp;gt;&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">     &amp;lt;if you like your mail address&amp;gt;&lt;/p>&lt;/body>&lt;/html></string>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">!!!Please replace this with your translator name!!! - !!!Please replace this with your language!!! - !!!If you like please replace this with your mail address (otherwise please remove)!!!&lt;/p>&lt;/body>&lt;/html></string>
          </property>
          <property name="openExternalLinks" >
           <bool>true</bool>
