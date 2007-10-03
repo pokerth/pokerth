@@ -131,6 +131,21 @@ struct GCC_PACKED NetPacketInitAckData
 	u_int32_t			playerId;
 };
 
+struct GCC_PACKED GameInfoData
+{
+	u_int16_t			maxNumberOfPlayers;
+	u_int16_t			firstSmallBlind;
+	u_int16_t			raiseIntervalMode;
+	u_int16_t			raiseSmallBlindInterval;
+	u_int16_t			raiseMode;
+	u_int16_t			endRaiseMode;
+	u_int16_t			endRaiseSmallBlindValue;
+	u_int16_t			numberOfManualBlinds;
+	u_int16_t			proposedGuiSpeed;
+	u_int16_t			playerActionTimeout;
+	u_int32_t			startMoney;
+};
+
 struct GCC_PACKED NetPacketGameListNewData
 {
 	NetPacketHeader		head;
@@ -139,13 +154,7 @@ struct GCC_PACKED NetPacketGameListNewData
 	u_int16_t			gameNameLength;
 	u_int16_t			curNumberOfPlayers;
 	u_int16_t			gameFlags;
-	u_int16_t			maxNumberOfPlayers;
-	u_int16_t			smallBlind;
-	u_int16_t			handsBeforeRaise;
-	u_int16_t			proposedGuiSpeed;
-	u_int16_t			playerActionTimeout;
-	u_int16_t			reserved;
-	u_int32_t			startMoney;
+	GameInfoData		gameData;
 };
 
 struct GCC_PACKED NetPacketGameListUpdateData
@@ -189,17 +198,7 @@ struct GCC_PACKED NetPacketCreateGameData
 	NetPacketHeader		head;
 	u_int16_t			passwordLength;
 	u_int16_t			gameNameLength;
-	u_int16_t			maxNumberOfPlayers;
-	u_int16_t			firstSmallBlind;
-	u_int16_t			raiseIntervalMode;
-	u_int16_t			raiseSmallBlindInterval;
-	u_int16_t			raiseMode;
-	u_int16_t			endRaiseMode;
-	u_int16_t			endRaiseSmallBlindValue;
-	u_int16_t			numberOfManualBlinds;
-	u_int16_t			proposedGuiSpeed;
-	u_int16_t			playerActionTimeout;
-	u_int32_t			startMoney;
+	GameInfoData		gameData;
 };
 
 struct GCC_PACKED NetPacketJoinGameData
@@ -215,18 +214,8 @@ struct GCC_PACKED NetPacketJoinGameAckData
 	NetPacketHeader		head;
 	u_int32_t			gameId;
 	u_int16_t			playerRights;
-	u_int16_t			maxNumberOfPlayers;
-	u_int16_t			firstSmallBlind;
-	u_int16_t			raiseIntervalMode;
-	u_int16_t			raiseSmallBlindInterval;
-	u_int16_t			raiseMode;
-	u_int16_t			endRaiseMode;
-	u_int16_t			endRaiseSmallBlindValue;
-	u_int16_t			numberOfManualBlinds;
-	u_int16_t			proposedGuiSpeed;
-	u_int16_t			playerActionTimeout;
 	u_int16_t			reserved;
-	u_int32_t			startMoney;
+	GameInfoData		gameData;
 };
 
 struct GCC_PACKED NetPacketJoinGameFailedData
@@ -432,6 +421,96 @@ struct GCC_PACKED NetPacketErrorData
 	#pragma pack(pop)
 #endif
 
+// Helper functions
+
+void SetGameInfoData(const GameData &inData, GameInfoData *outData)
+{
+	assert(outData);
+
+	u_int16_t numManualBlinds = (u_int16_t)inData.manualBlindsList.size();
+	int manualBlindsSize = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
+
+	outData->maxNumberOfPlayers			= htons(inData.maxNumberOfPlayers);
+	outData->firstSmallBlind			= htons(inData.firstSmallBlind);
+	outData->raiseIntervalMode			= htons(inData.raiseIntervalMode);
+	outData->raiseSmallBlindInterval	= inData.raiseIntervalMode == RAISE_ON_HANDNUMBER
+		? htons(inData.raiseSmallBlindEveryHandsValue) : htons(inData.raiseSmallBlindEveryMinutesValue);
+	outData->raiseMode					= htons(inData.raiseMode);
+	outData->endRaiseMode				= htons(inData.afterManualBlindsMode);
+	outData->endRaiseSmallBlindValue	= htons(inData.afterMBAlwaysRaiseValue);
+	outData->numberOfManualBlinds		= htons(numManualBlinds);
+	outData->proposedGuiSpeed			= htons(inData.guiSpeed);
+	outData->playerActionTimeout		= htons(inData.playerActionTimeoutSec);
+	outData->startMoney					= htonl(inData.startMoney);
+
+	if (numManualBlinds)
+	{
+		u_int16_t *manualBlindsPtr = (u_int16_t *)((char *)outData + sizeof(GameInfoData));
+		list<int>::const_iterator i = inData.manualBlindsList.begin();
+		list<int>::const_iterator end = inData.manualBlindsList.end();
+		while (i != end)
+		{
+			*manualBlindsPtr = htons(*i);
+			++manualBlindsPtr;
+			++i;
+		}
+	}
+}
+
+void GetGameInfoData(const GameInfoData *inData, GameData &outData)
+{
+	assert(inData);
+
+	u_int16_t numManualBlinds = ntohs(inData->numberOfManualBlinds);
+	int manualBlindsSize = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
+
+	outData.maxNumberOfPlayers			= ntohs(inData->maxNumberOfPlayers);
+	outData.firstSmallBlind				= ntohs(inData->firstSmallBlind);
+/*remove me*/		outData.smallBlind					= ntohs(inData->firstSmallBlind); // TODO remove
+	outData.raiseIntervalMode			= static_cast<RaiseIntervalMode>(ntohs(inData->raiseIntervalMode));
+	outData.raiseSmallBlindEveryHandsValue = outData.raiseSmallBlindEveryMinutesValue = 0;
+	if (outData.raiseIntervalMode == RAISE_ON_HANDNUMBER)
+		outData.raiseSmallBlindEveryHandsValue = ntohs(inData->raiseSmallBlindInterval);
+	else
+		outData.raiseSmallBlindEveryMinutesValue = ntohs(inData->raiseSmallBlindInterval);
+	outData.raiseMode					= static_cast<RaiseMode>(ntohs(inData->raiseMode));
+	outData.afterManualBlindsMode		= static_cast<AfterManualBlindsMode>(ntohs(inData->endRaiseMode));
+	outData.afterMBAlwaysRaiseValue		= ntohs(inData->endRaiseSmallBlindValue);
+	outData.guiSpeed					= ntohs(inData->proposedGuiSpeed);
+	outData.playerActionTimeoutSec		= ntohs(inData->playerActionTimeout);
+	outData.startMoney					= ntohl(inData->startMoney);
+
+	if (numManualBlinds)
+	{
+		const u_int16_t *manualBlindsPtr = (const u_int16_t *)((const char *)inData + sizeof(GameInfoData));
+		for (u_int16_t i = 0; i < numManualBlinds; i++)
+		{
+			outData.manualBlindsList.push_back(*manualBlindsPtr);
+			++manualBlindsPtr;
+		}
+	}
+}
+
+void
+CheckGameInfoData(const GameInfoData *tmpData)
+{
+	// Semantic checks
+	int maxNumPlayers = ntohs(tmpData->maxNumberOfPlayers);
+	int proposedGuiSpeed = ntohs(tmpData->proposedGuiSpeed);
+	if (maxNumPlayers < MIN_NUMBER_OF_PLAYERS
+		|| maxNumPlayers > MAX_NUMBER_OF_PLAYERS
+		|| !ntohs(tmpData->firstSmallBlind)
+		|| !ntohs(tmpData->raiseIntervalMode)
+		|| !ntohs(tmpData->raiseSmallBlindInterval)
+		|| !ntohs(tmpData->raiseMode)
+		|| !ntohs(tmpData->endRaiseMode)
+		|| proposedGuiSpeed < MIN_GUI_SPEED
+		|| proposedGuiSpeed > MAX_GUI_SPEED
+		|| !ntohl(tmpData->startMoney))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+}
 
 boost::shared_ptr<NetPacket>
 NetPacket::Create(char *data, unsigned &dataSize)
@@ -1122,15 +1201,21 @@ NetPacketGameListNew::SetData(const NetPacketGameListNew::Data &inData)
 {
 	u_int16_t gameNameLen = (u_int16_t)inData.gameInfo.name.length();
 	u_int16_t curNumPlayers = (u_int16_t)inData.gameInfo.players.size();
+	u_int16_t numManualBlinds = (u_int16_t)inData.gameInfo.data.manualBlindsList.size();
+
+	int manualBlindsSize = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
 
 	// Some basic checks, so we don't use up too much memory.
 	// The constructed packet will also be checked.
 	if (!gameNameLen || gameNameLen > MAX_NAME_SIZE)
 		throw NetException(ERR_NET_INVALID_GAME_NAME, 0);
+	if (numManualBlinds > MAX_NUM_MANUAL_BLINDS)
+		throw NetException(ERR_NET_TOO_MANY_MANUAL_BLINDS, 0);
 
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
 		(sizeof(NetPacketGameListNewData)
+		+ manualBlindsSize
 		+ ADD_PADDING(gameNameLen)
 		+ curNumPlayers * sizeof(unsigned)
 		));
@@ -1143,14 +1228,10 @@ NetPacketGameListNew::SetData(const NetPacketGameListNew::Data &inData)
 	tmpData->gameNameLength			= htons(gameNameLen);
 	tmpData->curNumberOfPlayers		= htons(curNumPlayers);
 	tmpData->gameFlags				= htons(inData.gameInfo.isPasswordProtected ? NET_GAME_FLAG_PASSWORD_PROTECTED : 0);
-	tmpData->maxNumberOfPlayers		= htons(inData.gameInfo.data.maxNumberOfPlayers);
-	tmpData->smallBlind				= htons(inData.gameInfo.data.firstSmallBlind);
-	tmpData->handsBeforeRaise		= htons(inData.gameInfo.data.raiseSmallBlindEveryHandsValue);
-	tmpData->proposedGuiSpeed		= htons(inData.gameInfo.data.guiSpeed);
-	tmpData->playerActionTimeout	= htons(inData.gameInfo.data.playerActionTimeoutSec);
-	tmpData->startMoney				= htonl(inData.gameInfo.data.startMoney);
 
-	char *gameNamePtr = (char *)tmpData + sizeof(NetPacketGameListNewData);
+	SetGameInfoData(inData.gameInfo.data, &tmpData->gameData);
+
+	char *gameNamePtr = (char *)tmpData + sizeof(NetPacketGameListNewData) + manualBlindsSize;
 	memcpy(gameNamePtr, inData.gameInfo.name.c_str(), gameNameLen);
 
 	PlayerIdList::const_iterator i = inData.gameInfo.players.begin();
@@ -1176,23 +1257,21 @@ NetPacketGameListNew::GetData(NetPacketGameListNew::Data &outData) const
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketGameListNewData *tmpData = (NetPacketGameListNewData *)GetRawData();
 
+	u_int16_t numManualBlinds = ntohs(tmpData->gameData.numberOfManualBlinds);
+	int manualBlindsSize = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
+
 	outData.gameId								= ntohl(tmpData->gameId);
 	outData.gameInfo.mode						= static_cast<GameMode>(ntohs(tmpData->gameMode));
 	u_int16_t gameNameLen						= ntohs(tmpData->gameNameLength);
 	u_int16_t curNumPlayers						= ntohs(tmpData->curNumberOfPlayers);
 	outData.gameInfo.isPasswordProtected		= ntohs(tmpData->gameFlags) == NET_GAME_FLAG_PASSWORD_PROTECTED;
-	outData.gameInfo.data.maxNumberOfPlayers	= ntohs(tmpData->maxNumberOfPlayers);
-	outData.gameInfo.data.firstSmallBlind		= ntohs(tmpData->smallBlind);
-	outData.gameInfo.data.raiseSmallBlindEveryHandsValue = ntohs(tmpData->handsBeforeRaise);
-	outData.gameInfo.data.guiSpeed				= ntohs(tmpData->proposedGuiSpeed);
-	outData.gameInfo.data.playerActionTimeoutSec= ntohs(tmpData->playerActionTimeout);
-	outData.gameInfo.data.startMoney			= ntohl(tmpData->startMoney);
 
-	char *gameNamePtr = (char *)tmpData + sizeof(NetPacketGameListNewData);
+	GetGameInfoData(&tmpData->gameData, outData.gameInfo.data);
+
+	char *gameNamePtr = (char *)tmpData + sizeof(NetPacketGameListNewData) + manualBlindsSize;
 	outData.gameInfo.name = string(gameNamePtr, gameNameLen);
 
-	unsigned *tmpPlayer =
-		(unsigned *)((char *)tmpData + sizeof(NetPacketGameListNewData) + ADD_PADDING(gameNameLen));
+	unsigned *tmpPlayer = (unsigned *)(gameNamePtr + ADD_PADDING(gameNameLen));
 
 	// Store all available players.
 	for (int i = 0; i < curNumPlayers; i++)
@@ -1215,11 +1294,19 @@ NetPacketGameListNew::InternalCheck(const NetPacketHeader* data) const
 	NetPacketGameListNewData *tmpData = (NetPacketGameListNewData *)data;
 	int gameNameLength = ntohs(tmpData->gameNameLength);
 	int curNumPlayers = ntohs(tmpData->curNumberOfPlayers);
+	u_int16_t numManualBlinds = ntohs(tmpData->gameData.numberOfManualBlinds);
+	int manualBlindsLength = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
 	// Exact checking of dynamic packet size.
 	if (dataLen !=
 		sizeof(NetPacketGameListNewData)
+		+ manualBlindsLength
 		+ ADD_PADDING(gameNameLength)
 		+ curNumPlayers * sizeof(unsigned))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check manual blind list size
+	if (numManualBlinds > MAX_NUM_MANUAL_BLINDS)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
@@ -1637,31 +1724,8 @@ NetPacketCreateGame::SetData(const NetPacketCreateGame::Data &inData)
 	// Set the data.
 	tmpData->passwordLength				= htons(passwordLen);
 	tmpData->gameNameLength				= htons(gameNameLen);
-	tmpData->maxNumberOfPlayers			= htons(inData.gameData.maxNumberOfPlayers);
-	tmpData->firstSmallBlind			= htons(inData.gameData.firstSmallBlind);
-	tmpData->raiseIntervalMode			= htons(inData.gameData.raiseIntervalMode);
-	tmpData->raiseSmallBlindInterval		= inData.gameData.raiseIntervalMode == RAISE_ON_HANDNUMBER
-		? htons(inData.gameData.raiseSmallBlindEveryHandsValue) : htons(inData.gameData.raiseSmallBlindEveryMinutesValue);
-	tmpData->raiseMode					= htons(inData.gameData.raiseMode);
-	tmpData->endRaiseMode				= htons(inData.gameData.afterManualBlindsMode);
-	tmpData->endRaiseSmallBlindValue	= htons(inData.gameData.afterMBAlwaysRaiseValue);
-	tmpData->numberOfManualBlinds		= htons(numManualBlinds);
-	tmpData->proposedGuiSpeed			= htons(inData.gameData.guiSpeed);
-	tmpData->playerActionTimeout		= htons(inData.gameData.playerActionTimeoutSec);
-	tmpData->startMoney					= htonl(inData.gameData.startMoney);
 
-	if (numManualBlinds)
-	{
-		u_int16_t *manualBlindsPtr = (u_int16_t *)((char *)tmpData + sizeof(NetPacketCreateGameData));
-		list<int>::const_iterator i = inData.gameData.manualBlindsList.begin();
-		list<int>::const_iterator end = inData.gameData.manualBlindsList.end();
-		while (i != end)
-		{
-			*manualBlindsPtr = htons(*i);
-			++manualBlindsPtr;
-			++i;
-		}
-	}
+	SetGameInfoData(inData.gameData, &tmpData->gameData);
 
 	char *passwordPtr = (char *)tmpData + sizeof(NetPacketCreateGameData) + manualBlindsSize;
 	memcpy(passwordPtr, inData.password.c_str(), passwordLen);
@@ -1677,34 +1741,10 @@ NetPacketCreateGame::GetData(NetPacketCreateGame::Data &outData) const
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketCreateGameData *tmpData = (NetPacketCreateGameData *)GetRawData();
 
-	u_int16_t numManualBlinds = ntohs(tmpData->numberOfManualBlinds);
+	u_int16_t numManualBlinds = ntohs(tmpData->gameData.numberOfManualBlinds);
 	int manualBlindsSize = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
 
-	outData.gameData.maxNumberOfPlayers			= ntohs(tmpData->maxNumberOfPlayers);
-	outData.gameData.firstSmallBlind			= ntohs(tmpData->firstSmallBlind);
-		outData.gameData.smallBlind			= ntohs(tmpData->firstSmallBlind); // TODO remove
-	outData.gameData.raiseIntervalMode			= static_cast<RaiseIntervalMode>(ntohs(tmpData->raiseIntervalMode));
-	outData.gameData.raiseSmallBlindEveryHandsValue = outData.gameData.raiseSmallBlindEveryMinutesValue = 0;
-	if (outData.gameData.raiseIntervalMode == RAISE_ON_HANDNUMBER)
-		outData.gameData.raiseSmallBlindEveryHandsValue = ntohs(tmpData->raiseSmallBlindInterval);
-	else
-		outData.gameData.raiseSmallBlindEveryMinutesValue = ntohs(tmpData->raiseSmallBlindInterval);
-	outData.gameData.raiseMode					= static_cast<RaiseMode>(ntohs(tmpData->raiseMode));
-	outData.gameData.afterManualBlindsMode		= static_cast<AfterManualBlindsMode>(ntohs(tmpData->endRaiseMode));
-	outData.gameData.afterMBAlwaysRaiseValue	= ntohs(tmpData->endRaiseSmallBlindValue);
-	outData.gameData.guiSpeed					= ntohs(tmpData->proposedGuiSpeed);
-	outData.gameData.playerActionTimeoutSec		= ntohs(tmpData->playerActionTimeout);
-	outData.gameData.startMoney					= ntohl(tmpData->startMoney);
-
-	if (numManualBlinds)
-	{
-		u_int16_t *manualBlindsPtr = (u_int16_t *)((char *)tmpData + sizeof(NetPacketCreateGameData));
-		for (u_int16_t i = 0; i < numManualBlinds; i++)
-		{
-			outData.gameData.manualBlindsList.push_back(*manualBlindsPtr);
-			++manualBlindsPtr;
-		}
-	}
+	GetGameInfoData(&tmpData->gameData, outData.gameData);
 
 	u_int16_t passwordLen = ntohs(tmpData->passwordLength);
 	char *passwordPtr = (char *)tmpData + manualBlindsSize + sizeof(NetPacketCreateGameData);
@@ -1725,7 +1765,7 @@ NetPacketCreateGame::InternalCheck(const NetPacketHeader* data) const
 	NetPacketCreateGameData *tmpData = (NetPacketCreateGameData *)data;
 	int passwordLength = ntohs(tmpData->passwordLength);
 	int gameNameLength = ntohs(tmpData->gameNameLength);
-	int numManualBlinds = ntohs(tmpData->numberOfManualBlinds);
+	int numManualBlinds = ntohs(tmpData->gameData.numberOfManualBlinds);
 	int manualBlindsLength = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
 	// Exact checking of dynamic packet size.
 	if (dataLen <
@@ -1754,22 +1794,7 @@ NetPacketCreateGame::InternalCheck(const NetPacketHeader* data) const
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
-	// Semantic checks
-	int maxNumPlayers = ntohs(tmpData->maxNumberOfPlayers);
-	int proposedGuiSpeed = ntohs(tmpData->proposedGuiSpeed);
-	if (maxNumPlayers < MIN_NUMBER_OF_PLAYERS
-		|| maxNumPlayers > MAX_NUMBER_OF_PLAYERS
-		|| !ntohs(tmpData->firstSmallBlind)
-		|| !ntohs(tmpData->raiseIntervalMode)
-		|| !ntohs(tmpData->raiseSmallBlindInterval)
-		|| !ntohs(tmpData->raiseMode)
-		|| !ntohs(tmpData->endRaiseMode)
-		|| proposedGuiSpeed < MIN_GUI_SPEED
-		|| proposedGuiSpeed > MAX_GUI_SPEED
-		|| !ntohl(tmpData->startMoney))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
+	CheckGameInfoData(&tmpData->gameData);
 }
 
 //-----------------------------------------------------------------------------
@@ -1908,31 +1933,8 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 	// Set the data.
 	tmpData->gameId						= htonl(inData.gameId);
 	tmpData->playerRights				= htons(inData.prights);
-	tmpData->maxNumberOfPlayers			= htons(inData.gameData.maxNumberOfPlayers);
-	tmpData->firstSmallBlind			= htons(inData.gameData.firstSmallBlind);
-	tmpData->raiseIntervalMode			= htons(inData.gameData.raiseIntervalMode);
-	tmpData->raiseSmallBlindInterval		= inData.gameData.raiseIntervalMode == RAISE_ON_HANDNUMBER
-		? htons(inData.gameData.raiseSmallBlindEveryHandsValue) : htons(inData.gameData.raiseSmallBlindEveryMinutesValue);
-	tmpData->raiseMode					= htons(inData.gameData.raiseMode);
-	tmpData->endRaiseMode				= htons(inData.gameData.afterManualBlindsMode);
-	tmpData->endRaiseSmallBlindValue	= htons(inData.gameData.afterMBAlwaysRaiseValue);
-	tmpData->numberOfManualBlinds		= htons(numManualBlinds);
-	tmpData->proposedGuiSpeed			= htons(inData.gameData.guiSpeed);
-	tmpData->playerActionTimeout		= htons(inData.gameData.playerActionTimeoutSec);
-	tmpData->startMoney					= htonl(inData.gameData.startMoney);
 
-	if (numManualBlinds)
-	{
-		u_int16_t *manualBlindsPtr = (u_int16_t *)((char *)tmpData + sizeof(NetPacketJoinGameAckData));
-		list<int>::const_iterator i = inData.gameData.manualBlindsList.begin();
-		list<int>::const_iterator end = inData.gameData.manualBlindsList.end();
-		while (i != end)
-		{
-			*manualBlindsPtr = htons(*i);
-			++manualBlindsPtr;
-			++i;
-		}
-	}
+	SetGameInfoData(inData.gameData, &tmpData->gameData);
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -1944,36 +1946,13 @@ NetPacketJoinGameAck::GetData(NetPacketJoinGameAck::Data &outData) const
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)GetRawData();
 
-	u_int16_t numManualBlinds = ntohs(tmpData->numberOfManualBlinds);
+	u_int16_t numManualBlinds = ntohs(tmpData->gameData.numberOfManualBlinds);
 	int manualBlindsSize = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
 
 	outData.gameId								= ntohl(tmpData->gameId);
 	outData.prights								= static_cast<PlayerRights>(ntohs(tmpData->playerRights));
-	outData.gameData.maxNumberOfPlayers			= ntohs(tmpData->maxNumberOfPlayers);
-	outData.gameData.firstSmallBlind			= ntohs(tmpData->firstSmallBlind);
-		outData.gameData.smallBlind			= ntohs(tmpData->firstSmallBlind); // TODO remove
-	outData.gameData.raiseIntervalMode			= static_cast<RaiseIntervalMode>(ntohs(tmpData->raiseIntervalMode));
-	outData.gameData.raiseSmallBlindEveryHandsValue = outData.gameData.raiseSmallBlindEveryMinutesValue = 0;
-	if (outData.gameData.raiseIntervalMode == RAISE_ON_HANDNUMBER)
-		outData.gameData.raiseSmallBlindEveryHandsValue = ntohs(tmpData->raiseSmallBlindInterval);
-	else
-		outData.gameData.raiseSmallBlindEveryMinutesValue = ntohs(tmpData->raiseSmallBlindInterval);
-	outData.gameData.raiseMode					= static_cast<RaiseMode>(ntohs(tmpData->raiseMode));
-	outData.gameData.afterManualBlindsMode		= static_cast<AfterManualBlindsMode>(ntohs(tmpData->endRaiseMode));
-	outData.gameData.afterMBAlwaysRaiseValue	= ntohs(tmpData->endRaiseSmallBlindValue);
-	outData.gameData.guiSpeed					= ntohs(tmpData->proposedGuiSpeed);
-	outData.gameData.playerActionTimeoutSec		= ntohs(tmpData->playerActionTimeout);
-	outData.gameData.startMoney					= ntohl(tmpData->startMoney);
 
-	if (numManualBlinds)
-	{
-		u_int16_t *manualBlindsPtr = (u_int16_t *)((char *)tmpData + sizeof(NetPacketJoinGameAckData));
-		for (u_int16_t i = 0; i < numManualBlinds; i++)
-		{
-			outData.gameData.manualBlindsList.push_back(*manualBlindsPtr);
-			++manualBlindsPtr;
-		}
-	}
+	GetGameInfoData(&tmpData->gameData, outData.gameData);
 }
 
 const NetPacketJoinGameAck *
@@ -1987,7 +1966,7 @@ NetPacketJoinGameAck::InternalCheck(const NetPacketHeader* data) const
 {
 	u_int16_t dataLen = ntohs(data->length);
 	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)data;
-	int numManualBlinds = ntohs(tmpData->numberOfManualBlinds);
+	int numManualBlinds = ntohs(tmpData->gameData.numberOfManualBlinds);
 	int manualBlindsLength = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
 	// Exact checking of dynamic packet size.
 	if (dataLen <
@@ -2003,21 +1982,7 @@ NetPacketJoinGameAck::InternalCheck(const NetPacketHeader* data) const
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Semantic checks
-	int maxNumPlayers = ntohs(tmpData->maxNumberOfPlayers);
-	int proposedGuiSpeed = ntohs(tmpData->proposedGuiSpeed);
-	if (maxNumPlayers < MIN_NUMBER_OF_PLAYERS
-		|| maxNumPlayers > MAX_NUMBER_OF_PLAYERS
-		|| !ntohs(tmpData->firstSmallBlind)
-		|| !ntohs(tmpData->raiseIntervalMode)
-		|| !ntohs(tmpData->raiseSmallBlindInterval)
-		|| !ntohs(tmpData->raiseMode)
-		|| !ntohs(tmpData->endRaiseMode)
-		|| proposedGuiSpeed < MIN_GUI_SPEED
-		|| proposedGuiSpeed > MAX_GUI_SPEED
-		|| !ntohl(tmpData->startMoney))
-	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
-	}
+	CheckGameInfoData(&tmpData->gameData);
 }
 
 //-----------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 Changelog:
+10-03-2007: Added basic structure: Game Info Block
 09-05-2007: Minimum packet length is now definitely 8.
 08-26-2007: Server sends player name only on request.
             Player id is used in all other cases.
@@ -83,6 +84,27 @@ Player ID:
 	Unique Player ID
 
 
+Basic Structure: Game Info Block
+
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|     Max Number of Players     |       First Small Blind       |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|      Raise Interval Mode      |   Raise Small Blind Interval  |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|           Raise Mode          |        End Raise Mode         |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|  End Raise Small Blind Value  |    Number of Manual Blinds    |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|      Proposed GUI Speed       |     Player Action Timeout     |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                          Start Money                          |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	\     Manual Blind Slot #1      |     Manual Blind Slot #2      /
+	|                               +-------------------------------+
+	/     Manual Blind Slot #n      |            padding            |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+
 Server Notification: Game List New
 
 	 0                   1                   2                   3
@@ -96,13 +118,9 @@ Server Notification: Game List New
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                            Game ID                            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|     Max Number of Players     |          Small Blind          |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|      Hands before raise       |       Proposed GUI Speed      |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|     Player Action Timeout     |           Reserved            |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|                          Start Money                          |
+	|                                                               |
+	\                       Game Info Block                         /
+	|                                                               +
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                                                               \
 	\                      Game Name (UTF-8)                        /
@@ -211,21 +229,9 @@ Client Request: Create Game
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|        Password Length        |       Game Name Length        |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|     Max Number of Players     |       First Small Blind       |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|      Raise Interval Mode      |   Raise Small Blind Interval  |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|           Raise Mode          |        End Raise Mode         |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|  End Raise Small Blind Value  |    Number of Manual Blinds    |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|      Proposed GUI Speed       |     Player Action Timeout     |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|                          Start Money                          |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	\     Manual Blind Slot #1      |     Manual Blind Slot #2      /
-	|                               +-------------------------------+
-	/     Manual Blind Slot #n      |            padding            |
+	|                                                               |
+	\                       Game Info Block                         /
+	|                                                               +
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                                                               |
 	\                      Password (UTF-8)                         /
@@ -274,23 +280,11 @@ Server Reply: Join Game Ack
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                            Game ID                            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|         Player Rights         |     Max Number of Players     |
+	|         Player Rights         |          Reserved             |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|       First Small Blind       |      Raise Interval Mode      |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|   Raise Small Blind Interval  |           Raise Mode          |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|        End Raise Mode         |  End Raise Small Blind Value  |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|    Number of Manual Blinds    |       Proposed GUI Speed      |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|     Player Action Timeout     |          Reserved             |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|                          Start Money                          |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	\     Manual Blind Slot #1      |     Manual Blind Slot #2      /
-	|                               +-------------------------------+
-	/     Manual Blind Slot #n      |            padding            |
+	|                                                               |
+	\                       Game Info Block                         /
+	|                                                               +
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 
