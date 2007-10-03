@@ -378,15 +378,14 @@ void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerNa
 	item->setData(0, Qt::UserRole, playerId);
 	item->setData(0, Qt::DisplayRole, playerName);
 
-/*	assert(mySession);
-	GameInfo info = mySession->getClientGameInfo(currentGameName.toUtf8().constData());
-
-	if(treeWidget_connectedPlayers->topLevelItemCount() != info.data.maxNumberOfPlayers) {
-		myW->getMySDLPlayer()->playSound("playerconnected", 0);
+	if(this->isVisible() && inGame && && myConfig->readConfigInt("PlayNetworkGameNotification")) {
+		if(treeWidget_connectedPlayers->topLevelItemCount() < label_MaximumNumberOfPlayers->text().toInt()) {
+			myW->getMySDLPlayer()->playSound("playerconnected", 0);
+		}
+		else {
+			myW->getMySDLPlayer()->playSound("onlinegameready", 0);
+		}
 	}
-	else {
-		myW->getMySDLPlayer()->playSound("onlinegameready", 0);
-	}*/
 
 	checkPlayerQuantity();
 }
