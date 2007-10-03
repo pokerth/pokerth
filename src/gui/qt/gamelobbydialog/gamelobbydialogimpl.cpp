@@ -379,6 +379,8 @@ void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerNa
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_connectedPlayers, 0);
 	item->setData(0, Qt::UserRole, playerId);
 	item->setData(0, Qt::DisplayRole, playerName);
+	
+	if(rights == PLAYER_RIGHTS_ADMIN) item->setBackground(0, QBrush(QColor(169,255,140)));
 
 	if(this->isVisible() && inGame && myConfig->readConfigInt("PlayNetworkGameNotification")) {
 		if(treeWidget_connectedPlayers->topLevelItemCount() < label_MaximumNumberOfPlayers->text().toInt()) {
