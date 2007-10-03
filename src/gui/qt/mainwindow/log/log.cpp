@@ -35,12 +35,14 @@ Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), m
 	
 	connect(this, SIGNAL(signalLogPlayerActionMsg(QString, int, int)), this, SLOT(logPlayerActionMsg(QString, int, int)));
 	connect(this, SIGNAL(signalLogNewGameHandMsg(int, int)), this, SLOT(logNewGameHandMsg(int, int)));
-	connect(this, SIGNAL(signalLogNewBlindsSetsMsg(int, int, int, QString, QString)), this, SLOT(logNewBlindsSetsMsg(int, int, int, QString, QString)));
+	connect(this, SIGNAL(signalLogNewBlindsSetsMsg(int, int, QString, QString)), this, SLOT(logNewBlindsSetsMsg(int, int, QString, QString)));
 	connect(this, SIGNAL(signalLogPlayerWinsMsg(QString, int)), this, SLOT(logPlayerWinsMsg(QString, int)));
 	connect(this, SIGNAL(signalLogDealBoardCardsMsg(int, int, int, int, int, int)), this, SLOT(logDealBoardCardsMsg(int, int, int, int, int, int)));
 	connect(this, SIGNAL(signalLogFlipHoleCardsMsg(QString, int, int, int, QString)), this, SLOT(logFlipHoleCardsMsg(QString, int, int, int, QString)));
 	connect(this, SIGNAL(signalLogPlayerLeftMsg(QString)), this, SLOT(logPlayerLeftMsg(QString)));
 	connect(this, SIGNAL(signalLogPlayerWinGame(QString, int)), this, SLOT(logPlayerWinGame(QString, int))); 
+	connect(this, SIGNAL(signalFlushLogAtGame(int)), this, SLOT(flushLogAtGame(int))); 
+	connect(this, SIGNAL(signalFlushLogAtHand()), this, SLOT(flushLogAtHand())); 
 
 
 	logFileStreamString = "";
@@ -320,7 +322,7 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	}
 }
 
-void Log::logNewBlindsSetsMsg(int gameID, int sbSet, int bbSet, QString sbName, QString bbName) {
+void Log::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbName) {
 
 		// log blinds
 		logFileStreamString += "</br>BLINDS: ";
@@ -345,21 +347,6 @@ void Log::logNewBlindsSetsMsg(int gameID, int sbSet, int bbSet, QString sbName, 
 	
 		logFileStreamString += "</br></br><b>PREFLOP</b>";
 		logFileStreamString += "</br>\n";
-
-	
-		if(myConfig->readConfigInt("LogInterval") < 2) {
-// 		write for log after every action and after every hand
-			writeLogFileStream(logFileStreamString);
-			logFileStreamString = "";
-		}
-		else {
-// 		write for log after every game
-			if(gameID > lastGameID) {
-				writeLogFileStream(logFileStreamString);
-				logFileStreamString = "";
-				lastGameID = gameID;
-			}
-		}
 }
 
 void Log::logPlayerWinsMsg(QString playerName, int pot) {
@@ -1797,3 +1784,20 @@ void Log::writeLogFileStream(QString streamString) {
 	else { cout << "could not find log-file to write log-messages!" << endl; }
 }
 
+void Log::flushLogAtHand() { 	
+
+	if(myConfig->readConfigInt("LogInterval") < 2) {
+// 	write for log after every action and after every hand
+		writeLogFileStream(logFileStreamString);
+		logFileStreamString = "";
+	}
+}
+
+void Log::flushLogAtGame(int gameID) { 	
+//	write for log after every game
+	if(gameID > lastGameID) {
+		writeLogFileStream(logFileStreamString);
+		logFileStreamString = "";
+		lastGameID = gameID;
+	}
+}

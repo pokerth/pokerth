@@ -241,15 +241,8 @@ void Game::startHand()
 
 	//Log new Hand
 	myGui->logNewGameHandMsg(myGameID, actualHandID);
-	//Log blinds sets for new Hand
-	PlayerListConstIterator it_sB, it_bB;
-	it_sB = actualHand->getActivePlayerIt(actualHand->getCurrentBeRo()->getSmallBlindPositionId());
-	it_bB = actualHand->getActivePlayerIt(actualHand->getCurrentBeRo()->getBigBlindPositionId());
-	if(it_sB != actualHand->getActivePlayerList()->end() && it_bB != actualHand->getActivePlayerList()->end()) {
-		myGui->logNewBlindsSetsMsg(myGameID, (*it_sB)->getMySet(), (*it_bB)->getMySet(), (*it_sB)->getMyName().c_str(), (*it_bB)->getMyName().c_str());
-	}	
-	else { cout << "Log Error: cannot find sBID or bBID" << "\n"; }
-	
+	myGui->flushLogAtGame(myGameID);	
+
 	actualHand->start();
 }
 

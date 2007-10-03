@@ -338,7 +338,15 @@ LocalHand::~LocalHand()
 
 void LocalHand::start() {
 
-	/////////////////////
+	//Log blinds sets for new Hand
+	PlayerListConstIterator it_sB, it_bB;
+	it_sB = getActivePlayerIt(getCurrentBeRo()->getSmallBlindPositionId());
+	it_bB = getActivePlayerIt(getCurrentBeRo()->getBigBlindPositionId());
+	if(it_sB != getActivePlayerList()->end() && it_bB != getActivePlayerList()->end()) {
+		myGui->logNewBlindsSetsMsg((*it_sB)->getMySet(), (*it_bB)->getMySet(), (*it_sB)->getMyName().c_str(), (*it_bB)->getMyName().c_str());
+	}	
+	else { cout << "Log Error: cannot find sBID or bBID" << "\n"; }
+	myGui->flushLogAtHand();	
 
 	// Karten austeilen
 	myGui->dealHoleCards();

@@ -767,6 +767,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(actionDoneData.playerId);
 			if (!tmpPlayer)
 				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+			
+			bool isBigBlind = false;
 
 			if (actionDoneData.gameState == GAME_STATE_PREFLOP_SMALL_BLIND)
 			{
@@ -777,6 +779,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			{
 				curGame->getCurrentHand()->getCurrentBeRo()->setBigBlindPositionId(tmpPlayer->getMyUniqueID());
 				tmpPlayer->setMyButton(BUTTON_BIG_BLIND);
+				isBigBlind = true;
 			}
 			else // no blind -> log
 			{
@@ -799,6 +802,12 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			// Update highest set
 			if (tmpPlayer->getMySet() > curGame->getCurrentHand()->getCurrentBeRo()->getHighestSet())
 				curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(tmpPlayer->getMySet());
+
+			//log blinds sets after setting bigblind-button
+			if (isBigBlind) {
+				client.GetGui().logNewBlindsSetsMsg(curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getCurrentBeRo()->getSmallBlindPositionId())->getMySet(), curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getCurrentBeRo()->getBigBlindPositionId())->getMySet(), curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getCurrentBeRo()->getSmallBlindPositionId())->getMyName(),  curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getCurrentBeRo()->getBigBlindPositionId())->getMyName());
+				client.GetGui().flushLogAtHand();		
+			}
 
 			// Stop the timeout for the player.
 			client.GetGui().stopTimeoutAnimation(tmpPlayer->getMyID());
