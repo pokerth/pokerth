@@ -27,15 +27,18 @@
 #include <net/socket_helper.h>
 #include <core/crypthelper.h>
 
+#include <vector>
+
 #define NET_VERSION_MAJOR			2
 #define NET_VERSION_MINOR			0
 
 #define MIN_PACKET_SIZE				4
-#define MAX_PACKET_SIZE				256
+#define MAX_PACKET_SIZE				264
 #define MAX_NAME_SIZE				64
 #define MAX_PASSWORD_SIZE			64
 #define MAX_NUM_MANUAL_BLINDS		30
 #define MAX_CHAT_TEXT_SIZE			128
+#define MAX_FILE_DATA_SIZE			256
 #define MAX_NUM_PLAYER_RESULTS		MAX_NUMBER_OF_PLAYERS
 #define MAX_NUM_PLAYER_CARDS		MAX_NUMBER_OF_PLAYERS
 
@@ -44,6 +47,9 @@ struct NetPacketHeader;
 
 class NetPacketInit;
 class NetPacketInitAck;
+class NetPacketRetrieveAvatar;
+class NetPacketAvatarHeader;
+class NetPacketAvatarFile;
 class NetPacketGameListNew;
 class NetPacketGameListUpdate;
 class NetPacketGameListPlayerJoined;
@@ -97,6 +103,9 @@ public:
 
 	virtual const NetPacketInit *ToNetPacketInit() const;
 	virtual const NetPacketInitAck *ToNetPacketInitAck() const;
+	virtual const NetPacketRetrieveAvatar *ToNetPacketRetrieveAvatar() const;
+	virtual const NetPacketAvatarHeader *ToNetPacketAvatarHeader() const;
+	virtual const NetPacketAvatarFile *ToNetPacketAvatarFile() const;
 	virtual const NetPacketGameListNew *ToNetPacketGameListNew() const;
 	virtual const NetPacketGameListUpdate *ToNetPacketGameListUpdate() const;
 	virtual const NetPacketGameListPlayerJoined *ToNetPacketGameListPlayerJoined() const;
@@ -193,6 +202,79 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketInitAck *ToNetPacketInitAck() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketRetrieveAvatar : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		requestId;
+		MD5Buf			avatar;
+	};
+
+	NetPacketRetrieveAvatar();
+	virtual ~NetPacketRetrieveAvatar();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketRetrieveAvatar *ToNetPacketRetrieveAvatar() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketAvatarHeader : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		requestId;
+		u_int32_t		avatarFileSize;
+		AvatarFileType	avatarFileType;
+	};
+
+	NetPacketAvatarHeader();
+	virtual ~NetPacketAvatarHeader();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketAvatarHeader *ToNetPacketAvatarHeader() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketAvatarFile : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t					requestId;
+		std::vector<unsigned char>	fileData;
+	};
+
+	NetPacketAvatarFile();
+	virtual ~NetPacketAvatarFile();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketAvatarFile *ToNetPacketAvatarFile() const;
 
 protected:
 

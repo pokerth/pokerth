@@ -42,6 +42,13 @@ enum PlayerRights
 	PLAYER_RIGHTS_ADMIN
 };
 
+enum AvatarFileType
+{
+	AVATAR_TYPE_PNG = 1,
+	AVATAR_TYPE_JPG,
+	AVATAR_TYPE_GIF
+};
+
 struct PlayerInfo
 {
 	PlayerInfo() : ptype(PLAYER_TYPE_HUMAN) {}

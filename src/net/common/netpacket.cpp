@@ -29,35 +29,38 @@ using namespace std;
 
 #define NET_TYPE_INIT							0x0001
 #define NET_TYPE_INIT_ACK						0x0002
-#define NET_TYPE_GAME_LIST_NEW					0x0003
-#define NET_TYPE_GAME_LIST_UPDATE				0x0004
-#define NET_TYPE_GAME_LIST_PLAYER_JOINED		0x0005
-#define NET_TYPE_GAME_LIST_PLAYER_LEFT			0x0006
-#define NET_TYPE_RETRIEVE_PLAYER_INFO			0x0007
-#define NET_TYPE_PLAYER_INFO					0x0008
-#define NET_TYPE_CREATE_GAME					0x0009
-#define NET_TYPE_JOIN_GAME						0x000A
-#define NET_TYPE_JOIN_GAME_ACK					0x000B
-#define NET_TYPE_JOIN_GAME_FAILED				0x000C
-#define NET_TYPE_PLAYER_JOINED					0x000D
-#define NET_TYPE_PLAYER_LEFT					0x000E
-#define NET_TYPE_GAME_ADMIN_CHANGED				0x000F
-#define NET_TYPE_KICK_PLAYER					0x0010
-#define NET_TYPE_LEAVE_CURRENT_GAME				0x0011
-#define NET_TYPE_START_EVENT					0x0012
-#define NET_TYPE_GAME_START						0x0013
-#define NET_TYPE_HAND_START						0x0014
-#define NET_TYPE_PLAYERS_TURN					0x0015
-#define NET_TYPE_PLAYERS_ACTION					0x0016
-#define NET_TYPE_PLAYERS_ACTION_DONE			0x0017
-#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x0018
-#define NET_TYPE_DEAL_FLOP_CARDS				0x0019
-#define NET_TYPE_DEAL_TURN_CARD					0x001A
-#define NET_TYPE_DEAL_RIVER_CARD				0x001B
-#define NET_TYPE_ALL_IN_SHOW_CARDS				0x001C
-#define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x001D
-#define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x001E
-#define NET_TYPE_END_OF_GAME					0x001F
+#define NET_TYPE_RETRIEVE_AVATAR				0x0003
+#define NET_TYPE_AVATAR_HEADER					0x0004
+#define NET_TYPE_AVATAR_FILE					0x0005
+#define NET_TYPE_GAME_LIST_NEW					0x0010
+#define NET_TYPE_GAME_LIST_UPDATE				0x0011
+#define NET_TYPE_GAME_LIST_PLAYER_JOINED		0x0012
+#define NET_TYPE_GAME_LIST_PLAYER_LEFT			0x0013
+#define NET_TYPE_RETRIEVE_PLAYER_INFO			0x0020
+#define NET_TYPE_PLAYER_INFO					0x0021
+#define NET_TYPE_CREATE_GAME					0x0030
+#define NET_TYPE_JOIN_GAME						0x0031
+#define NET_TYPE_JOIN_GAME_ACK					0x0032
+#define NET_TYPE_JOIN_GAME_FAILED				0x0033
+#define NET_TYPE_PLAYER_JOINED					0x0034
+#define NET_TYPE_PLAYER_LEFT					0x0035
+#define NET_TYPE_GAME_ADMIN_CHANGED				0x0036
+#define NET_TYPE_KICK_PLAYER					0x0040
+#define NET_TYPE_LEAVE_CURRENT_GAME				0x0041
+#define NET_TYPE_START_EVENT					0x0042
+#define NET_TYPE_GAME_START						0x0050
+#define NET_TYPE_HAND_START						0x0051
+#define NET_TYPE_PLAYERS_TURN					0x0052
+#define NET_TYPE_PLAYERS_ACTION					0x0053
+#define NET_TYPE_PLAYERS_ACTION_DONE			0x0054
+#define NET_TYPE_PLAYERS_ACTION_REJECTED		0x0055
+#define NET_TYPE_DEAL_FLOP_CARDS				0x0060
+#define NET_TYPE_DEAL_TURN_CARD					0x0061
+#define NET_TYPE_DEAL_RIVER_CARD				0x0062
+#define NET_TYPE_ALL_IN_SHOW_CARDS				0x0063
+#define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x0064
+#define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x0065
+#define NET_TYPE_END_OF_GAME					0x0070
 
 #define NET_TYPE_REMOVED_FROM_GAME				0x0100
 
@@ -130,6 +133,28 @@ struct GCC_PACKED NetPacketInitAckData
 	NetPacketHeader		head;
 	u_int32_t			sessionId;
 	u_int32_t			playerId;
+};
+
+struct GCC_PACKED NetPacketRetrieveAvatarData
+{
+	NetPacketHeader		head;
+	u_int32_t			requestId;
+	unsigned char		avatarMD5[MD5_DATA_SIZE];
+};
+
+struct GCC_PACKED NetPacketAvatarHeaderData
+{
+	NetPacketHeader		head;
+	u_int32_t			requestId;
+	u_int32_t			avatarFileSize;
+	u_int16_t			avatarFileType;
+	u_int16_t			reserved;
+};
+
+struct GCC_PACKED NetPacketAvatarFileData
+{
+	NetPacketHeader		head;
+	u_int32_t			requestId;
 };
 
 struct GCC_PACKED GameInfoData
@@ -553,6 +578,15 @@ NetPacket::Create(char *data, unsigned &dataSize)
 				case NET_TYPE_INIT_ACK:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketInitAck);
 					break;
+				case NET_TYPE_RETRIEVE_AVATAR:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketRetrieveAvatar);
+					break;
+				case NET_TYPE_AVATAR_HEADER:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketAvatarHeader);
+					break;
+				case NET_TYPE_AVATAR_FILE:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketAvatarFile);
+					break;
 				case NET_TYPE_GAME_LIST_NEW:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameListNew);
 					break;
@@ -744,6 +778,24 @@ NetPacket::ToNetPacketInit() const
 
 const NetPacketInitAck *
 NetPacket::ToNetPacketInitAck() const
+{
+	return NULL;
+}
+
+const NetPacketRetrieveAvatar *
+NetPacket::ToNetPacketRetrieveAvatar() const
+{
+	return NULL;
+}
+
+const NetPacketAvatarHeader *
+NetPacket::ToNetPacketAvatarHeader() const
+{
+	return NULL;
+}
+
+const NetPacketAvatarFile *
+NetPacket::ToNetPacketAvatarFile() const
 {
 	return NULL;
 }
@@ -1183,6 +1235,196 @@ NetPacketInitAck::ToNetPacketInitAck() const
 
 void
 NetPacketInitAck::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketRetrieveAvatar::NetPacketRetrieveAvatar()
+: NetPacket(NET_TYPE_RETRIEVE_AVATAR, sizeof(NetPacketRetrieveAvatarData), sizeof(NetPacketRetrieveAvatarData))
+{
+}
+
+NetPacketRetrieveAvatar::~NetPacketRetrieveAvatar()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketRetrieveAvatar::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketRetrieveAvatar);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketRetrieveAvatar::SetData(const NetPacketRetrieveAvatar::Data &inData)
+{
+	NetPacketRetrieveAvatarData *tmpData = (NetPacketRetrieveAvatarData *)GetRawData();
+
+	tmpData->requestId				= htonl(inData.requestId);
+	memcpy(tmpData->avatarMD5, inData.avatar.data, MD5_DATA_SIZE);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketRetrieveAvatar::GetData(NetPacketRetrieveAvatar::Data &outData) const
+{
+	NetPacketRetrieveAvatarData *tmpData = (NetPacketRetrieveAvatarData *)GetRawData();
+
+	outData.requestId				= ntohl(tmpData->requestId);
+	memcpy(outData.avatar.data, tmpData->avatarMD5, MD5_DATA_SIZE);
+}
+
+const NetPacketRetrieveAvatar *
+NetPacketRetrieveAvatar::ToNetPacketRetrieveAvatar() const
+{
+	return this;
+}
+
+void
+NetPacketRetrieveAvatar::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketAvatarHeader::NetPacketAvatarHeader()
+: NetPacket(NET_TYPE_AVATAR_HEADER, sizeof(NetPacketAvatarHeaderData), sizeof(NetPacketAvatarHeaderData))
+{
+}
+
+NetPacketAvatarHeader::~NetPacketAvatarHeader()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketAvatarHeader::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketAvatarHeader);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketAvatarHeader::SetData(const NetPacketAvatarHeader::Data &inData)
+{
+	NetPacketAvatarHeaderData *tmpData = (NetPacketAvatarHeaderData *)GetRawData();
+
+	tmpData->requestId				= htonl(inData.requestId);
+	tmpData->avatarFileSize			= htonl(inData.avatarFileSize);
+	tmpData->avatarFileType			= htons(inData.avatarFileType);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketAvatarHeader::GetData(NetPacketAvatarHeader::Data &outData) const
+{
+	NetPacketAvatarHeaderData *tmpData = (NetPacketAvatarHeaderData *)GetRawData();
+
+	outData.requestId				= ntohl(tmpData->requestId);
+	outData.avatarFileSize			= ntohl(tmpData->avatarFileSize);
+	outData.avatarFileType			= static_cast<AvatarFileType>(ntohl(tmpData->avatarFileType));
+}
+
+const NetPacketAvatarHeader *
+NetPacketAvatarHeader::ToNetPacketAvatarHeader() const
+{
+	return this;
+}
+
+void
+NetPacketAvatarHeader::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketAvatarFile::NetPacketAvatarFile()
+: NetPacket(NET_TYPE_AVATAR_FILE, sizeof(NetPacketAvatarFileData), MAX_PACKET_SIZE)
+{
+}
+
+NetPacketAvatarFile::~NetPacketAvatarFile()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketAvatarFile::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketAvatarFile);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketAvatarFile::SetData(const NetPacketAvatarFile::Data &inData)
+{
+	NetPacketAvatarFileData *tmpData = (NetPacketAvatarFileData *)GetRawData();
+	int fileDataSize = static_cast<int>(inData.fileData.size());
+
+	if (fileDataSize > MAX_FILE_DATA_SIZE)
+		throw NetException(ERR_NET_BUF_INVALID_SIZE, 0);
+
+	Resize((u_int16_t)
+		(sizeof(NetPacketAvatarFileData)
+		+ fileDataSize));
+
+	tmpData->requestId				= htonl(inData.requestId);
+
+	char *avatarDataPtr = (char *)tmpData + sizeof(NetPacketAvatarFileData);
+	memcpy(avatarDataPtr, &inData.fileData[0], fileDataSize);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketAvatarFile::GetData(NetPacketAvatarFile::Data &outData) const
+{
+	NetPacketAvatarFileData *tmpData = (NetPacketAvatarFileData *)GetRawData();
+
+	outData.requestId				= ntohl(tmpData->requestId);
+
+	int fileDataSize = GetLen() - sizeof(NetPacketAvatarFileData);
+	char *avatarDataPtr = (char *)tmpData + sizeof(NetPacketAvatarFileData);
+	outData.fileData.resize(fileDataSize);
+	memcpy(&outData.fileData[0], avatarDataPtr, fileDataSize);
+}
+
+const NetPacketAvatarFile *
+NetPacketAvatarFile::ToNetPacketAvatarFile() const
+{
+	return this;
+}
+
+void
+NetPacketAvatarFile::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }
