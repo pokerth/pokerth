@@ -52,7 +52,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
 	}
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 45;
+	configRev = 46;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -207,6 +207,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("InternetServerUseSctp", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("UseInternetGamePassword", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("InternetGamePassword", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("UseIRCLobbyChat", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("IRCServerAddress", CONFIG_TYPE_STRING, "chat.freenode.net"));
 	configList.push_back(ConfigInfo("IRCServerPort", CONFIG_TYPE_INT, "6667"));
 	configList.push_back(ConfigInfo("IRCChannel", CONFIG_TYPE_STRING, "#pokerth-lobby"));

@@ -46,6 +46,14 @@ void gameLobbyDialogImpl::exec()
 	assert(mySession);
 	mySession->terminateIrcClient();
 	mySession->startIrcClient();
+	
+	if(myConfig->readConfigInt("UseIRCLobbyChat"))  { 
+		groupBox_lobbyChat->show(); 
+	}
+	else { 
+		groupBox_lobbyChat->hide(); 
+	}
+
 	QDialog::exec();
 	mySession->terminateIrcClient();
 }

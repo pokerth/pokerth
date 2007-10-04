@@ -41,6 +41,18 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
 	if (myConfig->readConfigInt("CLA_NoWriteAccess")) { groupBox_logOnOff->setDisabled(TRUE); }
 
+	comboBox_switchLanguage->addItem(tr("Dutch"),"nl");
+	comboBox_switchLanguage->addItem(tr("English"),"en");
+	comboBox_switchLanguage->addItem(tr("French"),"fr");
+	comboBox_switchLanguage->addItem(tr("German"),"de");
+	comboBox_switchLanguage->addItem(tr("Hungarian"),"hu");
+	comboBox_switchLanguage->addItem(tr("Italien"),"it");
+	comboBox_switchLanguage->addItem(tr("Norse"),"no");
+	comboBox_switchLanguage->addItem(tr("Portuguese"),"ptbr");
+	comboBox_switchLanguage->addItem(tr("Russian"),"ru");
+	comboBox_switchLanguage->addItem(tr("Solvak"),"sk");
+	comboBox_switchLanguage->addItem(tr("Turkish"),"tr");
+
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
 	connect( lineEdit_HumanPlayerName, SIGNAL( textChanged( const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( lineEdit_Opponent1Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
@@ -69,6 +81,8 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
 	connect( radioButton_netManualBlindsOrder, SIGNAL( toggled(bool) ), this, SLOT( setFirstSmallBlindMargin() ));
 	connect( radioButton_manualBlindsOrder, SIGNAL( toggled(bool) ), this, SLOT( setFirstSmallBlindMargin() ));	//temporarely unused until ai is enabled in network
+
+	connect( comboBox_switchLanguage, SIGNAL( currentIndexChanged (int) ), this, SLOT ( setLanguageChanged(int) ));
 // 	label_36->hide();
 // 	spinBox_netGameSpeed->hide();
 // 
@@ -82,6 +96,7 @@ void settingsDialogImpl::exec() {
 // 	page_4->hide();
 
 	playerNickIsChanged = FALSE;
+	languageIsChanged = FALSE;
 
 	//Player Nicks
 	lineEdit_HumanPlayerName->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
@@ -149,12 +164,15 @@ void settingsDialogImpl::exec() {
 	if(myConfig->readConfigInt("UseInternetGamePassword")) {
 		lineEdit_InternetGamePassword->setText(QString::fromUtf8(myConfig->readConfigString("InternetGamePassword").c_str()));
 	}
+	groupBox_lobbyChat->setChecked(myConfig->readConfigInt("UseIRCLobbyChat"));
 	lineEdit_IRCServerAddress->setText(QString::fromUtf8(myConfig->readConfigString("IRCServerAddress").c_str()));
 	spinBox_IRCServerPort->setValue(myConfig->readConfigInt("IRCServerPort"));
 	lineEdit_IRCChannel->setText(QString::fromUtf8(myConfig->readConfigString("IRCChannel").c_str()));
 	checkBox_IRCServerUseIpv6->setChecked(myConfig->readConfigInt("IRCServerUseIpv6"));
 
 	//Interface
+
+	comboBox_switchLanguage->setCurrentIndex(comboBox_switchLanguage->findData(QString::fromUtf8(myConfig->readConfigString("Language").c_str()).section('_', 0, 0)));
 	checkBox_showLeftToolbox->setChecked(myConfig->readConfigInt("ShowLeftToolBox"));
 	checkBox_showRightToolbox->setChecked(myConfig->readConfigInt("ShowRightToolBox"));
 	checkBox_showStatusbarMessages->setChecked(myConfig->readConfigInt("ShowStatusbarMessages"));
@@ -273,12 +291,14 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("InternetServerUseSctp", checkBox_InternetServerUseSctp->isChecked());
 	myConfig->writeConfigInt("UseInternetGamePassword", checkBox_UseInternetGamePassword->isChecked());
 	myConfig->writeConfigString("InternetGamePassword", lineEdit_InternetGamePassword->text().toUtf8().constData());
+	myConfig->writeConfigInt("UseIRCLobbyChat", groupBox_lobbyChat->isChecked());
 	myConfig->writeConfigString("IRCServerAddress", lineEdit_IRCServerAddress->text().toUtf8().constData());
 	myConfig->writeConfigInt("IRCServerPort", spinBox_IRCServerPort->value());
 	myConfig->writeConfigString("IRCChannel", lineEdit_IRCChannel->text().toUtf8().constData());
 	myConfig->writeConfigInt("IRCServerUseIpv6", checkBox_IRCServerUseIpv6->isChecked());
 	
 // 	Interface
+	myConfig->writeConfigString("Language", comboBox_switchLanguage->itemData(comboBox_switchLanguage->currentIndex()).toString().toUtf8().constData());
 	myConfig->writeConfigInt("ShowLeftToolBox", checkBox_showLeftToolbox->isChecked());
 	myConfig->writeConfigInt("ShowRightToolBox", checkBox_showRightToolbox->isChecked());
 	myConfig->writeConfigInt("ShowStatusbarMessages", checkBox_showStatusbarMessages->isChecked());	
@@ -342,6 +362,12 @@ void settingsDialogImpl::isAccepted() {
 
 	//write buffer to disc 
 	myConfig->writeBuffer();
+
+	if(languageIsChanged) {
+		QMessageBox::information(this, tr("Language Changed"),
+			tr("You have changed application language to %1.\nPlease restart PokerTH to load new language!").arg(comboBox_switchLanguage->itemText(changedLanguageIndex)),
+			QMessageBox::Ok);
+	}
 
 	//Wenn alles richtig eingegeben wurde --> Dialog schließen
 	if(settingsCorrect) { this->hide(); }
@@ -542,4 +568,11 @@ void settingsDialogImpl::setFirstSmallBlindMargin() {
 	}
 	
 
+}
+
+void settingsDialogImpl::setLanguageChanged(int index) {
+
+	languageIsChanged = TRUE;
+	changedLanguageIndex = index;
+	
 }

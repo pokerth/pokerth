@@ -71,6 +71,8 @@ public slots:
 	void checkProperNetFirstSmallBlind(int);
 	void checkProperFirstSmallBlind(int);
 	void setFirstSmallBlindMargin() ;
+
+	void setLanguageChanged(int);
 	
 private:
 	
@@ -93,6 +95,9 @@ private:
 	manualBlindsOrderDialogImpl *myManualBlindsOrderDialog; 
 
 	QString myAppDataPath;
+
+	bool languageIsChanged;
+	int changedLanguageIndex;
 
 };
 
