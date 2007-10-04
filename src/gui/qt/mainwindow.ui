@@ -613,6 +613,43 @@
                </property>
                <item row="0" column="0" >
                 <widget class="QTextBrowser" name="textBrowser_Log" >
+                 <property name="palette" >
+                  <palette>
+                   <active>
+                    <colorrole role="Button" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>102</red>
+                       <green>153</green>
+                       <blue>0</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </active>
+                   <inactive>
+                    <colorrole role="Button" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>102</red>
+                       <green>153</green>
+                       <blue>0</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </inactive>
+                   <disabled>
+                    <colorrole role="Button" >
+                     <brush brushstyle="SolidPattern" >
+                      <color alpha="255" >
+                       <red>102</red>
+                       <green>153</green>
+                       <blue>0</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                   </disabled>
+                  </palette>
+                 </property>
                  <property name="focusPolicy" >
                   <enum>Qt::NoFocus</enum>
                  </property>
@@ -2522,7 +2559,7 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>29</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView" >

@@ -1,6 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="pt_BR">
 <context>
+    <name>LobbyChat</name>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="58"/>
+        <source>Successfully connected to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="64"/>
+        <source>Joined channel:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="64"/>
+        <source>as user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="99"/>
+        <source>Network Notification</source>
+        <translation type="unfinished">Notificação de Rede</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="100"/>
+        <source>You were kicked from the server.</source>
+        <translation type="unfinished">Você foi chutado pelo servidor.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="104"/>
+        <source>was kicked from the server by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="140"/>
+        <source>Connecting to Chat server...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="162"/>
+        <source>An internal IRC error has occured:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="165"/>
+        <source>Could not connect to the IRC server. Chat will be unavailable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="168"/>
+        <source>The IRC server terminated the connection. Chat will be unavailable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="171"/>
+        <source>An IRC action timed out.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="233"/>
+        <source>The IRC server reported an error:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context encoding="UTF-8">
     <name>aboutPokerth</name>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="177"/>
@@ -18,7 +81,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
@@ -40,7 +103,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;© 2006-2007, FHammer &amp;amp; FThauer&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;PokerTH 0.5&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Jogo de Poker para o popular &quot;Texas Holdem&quot; Poker&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Um jogador com até 6 pc-oponentes&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Jogos Multiplayer em rede&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Escrito em C++ / QT4&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;© 2006-2007, FHammer &amp;amp; FThauer&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -65,7 +128,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - gui graphics design, webdesign&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Erhard List (&lt;a href=&quot;mailto:dunkanx@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;dunkanx@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOS package&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Página do Projeto: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Autores: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Felix Hammer (&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - Idéia Inicial, arquitetura básica, guia de implementação, pacote linux, webmaster@pokerth.net&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Florian Thauer (&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - Idéa Inicial, arquitetura básica, desenvolvimento de estrutura&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Lothar May (&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - Desenvolvimento da Rede, pacote windows&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Oskar Lindqvist (&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - guia gráfico de design, webdesign&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Erhard List (&lt;a href=&quot;mailto:dunkanx@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;dunkanx@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - pacote MacOS&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -75,7 +138,7 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;lt;your translator name&amp;gt; - &amp;lt;your language&amp;gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &amp;lt;if you like your mail address&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;lt;Maxputo&amp;gt; - &amp;lt;PortuguêsBR&amp;gt;&lt;/p&gt;
@@ -431,39 +494,118 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Este Software e publicado sob os termos GPL v2:&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;<byte value="x9"/>    GNU GENERAL PUBLIC LICENSE&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;<byte value="x9"/>       Versão 2, Junho 1991&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt; Copyright (C) 1989, 1991 Free Software Foundation, Inc.,&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt; 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt; Qualquer um pode copiar e distribuir as copias&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt; do documento desta licença, mas mudanças não são permitidas.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;<byte value="x9"/>    Preamble&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  A licença para a maioria dos softwares que são projetados para&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt; remover sua autoria e mudá-lo.  Por contrato, de GNU General Public&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;A licença garante sua liberdade para compartilhar livremente e mudar&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;o software--tenha certeza de que o software e livre para todos os usuários. Esta&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;General Public License é aplicada na maioria dos Softwares Livre&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Foundation&apos;s software e para qualquer outro programa que use direitos autorais e&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;escreva a frase.  (Este e outros softwares livre da Foundation&apos;s software é coberto pelo&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;GNU Lesser General Public License instead.)  Você também pode usar&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;em seus programas.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  Quando falamos em software livre, estamos referindo a liberdade, não a&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;preço.  A General Public Licenses foi escrita para garantir que você&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;tenha a liberdade para distribuir cópias do software livre (e mudar de acordo &lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;com a sua vontade), você receberá o código ou começar um novo&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;se você quiser, assim você pode mudar o software ou partes dele&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;em novos softwares livre; e saiba que você pode fazer estás alterações.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  Para proteger seus direitos, você precisa fazer restrição de proibido&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;para que qualquer um aceite ou não estas condições.&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Estas restrições traduz certas responsabilidades para você caso você&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;distribua cópias do software, ou se você modificá-lo.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  Por exemplo, se você distribuir cópias de tal programa, sendo&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;grátis ou por um preço, você deve dar todos os direitos que&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;você tem. Você deve certificar-se de que eles, também, receberam ou pegaram o&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;código fonte. E você deve mostrar-lhes estes termos assim que sabem dos seus&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;direitos.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  Para proteger seuys direitos faça dois passos: (1) copyright do software, e&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(2) ofereça esta licença  caso deseje que esta de permissão legal pela cópia,&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;distribua e/ou modifique o software.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  também, para a proteção dos autores e a sua, nós queremos ter a certeza&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;que não há nenhuma garantia para este software&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;livre.  Se o software for modificado por outra pessoa, nós&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;queremos esclarecer ao receptor que este não é original, então&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;qualquer problema introduzidos por terceiros não refletirá no original e na&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;reputação dos autores.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  Finalmente, todo software livre é ameaçado constatemente pela patente de&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;softwares.  Nós desejamos evitar o perigo da redistribuição de um software livre&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;para que este individualmente venha a obter patente, de fato fazendo o&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;proprietário do software. Para previnir isto, nós fizemos é deixar claro que&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;que a patente é livre para qualquer um que venha a usar o software ou parte dele.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  Os termos e as condições precisos para a cópia, a distribuição e&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;modificação siga..&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;<byte value="x9"/>    GNU GENERAL PUBLIC LICENSE&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  0. This License applies to any program or other work which contains&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;a notice placed by the copyright holder saying it may be distributed&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;under the terms of this General Public License.  The &quot;Program&quot;, below,&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;refers to any such program or work, and a &quot;work based on the Program&quot;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;means either the Program or any derivative work under copyright law:&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;that is to say, a work containing the Program or a portion of it,&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;either verbatim or with modifications and/or translated into another&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;language.  (Hereinafter, translation is included without limitation in&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;the term &quot;modification&quot;.)  Each licensee is addressed as &quot;you&quot;.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Activities other than copying, distribution and modification are not&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;covered by this License; they are outside its scope.  The act of&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;running the Program is not restricted, and the output from the Program&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;is covered only if its contents constitute a work based on the&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Program (independent of having been made by running the Program).&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Whether that is true depends on what the Program does.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  1. You may copy and distribute verbatim copies of the Program&apos;s&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;source code as you receive it, in any medium, provided that you&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;conspicuously and appropriately publish on each copy an appropriate&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;copyright notice and disclaimer of warranty; keep intact all the&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;notices that refer to this License and to the absence of any warranty;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;and give any other recipients of the Program a copy of this License&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;along with the Program.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You may charge a fee for the physical act of transferring a copy, and&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;you may at your option offer warranty protection in exchange for a fee.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  2. You may modify your copy or copies of the Program or any portion&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;of it, thus forming a work based on the Program, and copy and&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;distribute such modifications or work under the terms of Section 1&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;above, provided that you also meet all of these conditions:&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    a) You must cause the modified files to carry prominent notices&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    stating that you changed the files and the date of any change.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    b) You must cause any work that you distribute or publish, that in&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    whole or in part contains or is derived from the Program or any&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    part thereof, to be licensed as a whole at no charge to all third&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    parties under the terms of this License.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    c) If the modified program normally reads commands interactively&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    when run, you must cause it, when started running for such&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    interactive use in the most ordinary way, to print or display an&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    announcement including an appropriate copyright notice and a&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    notice that there is no warranty (or else, saying that you provide&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    a warranty) and that users may redistribute the program under&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    these conditions, and telling the user how to view a copy of this&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    License.  (Exception: if the Program itself is interactive but&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    does not normally print such an announcement, your work based on&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    the Program is not required to print an announcement.)&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;These requirements apply to the modified work as a whole.  If&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;identifiable sections of that work are not derived from the Program,&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;and can be reasonably considered independent and separate works in&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;themselves, then this License, and its terms, do not apply to those&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;sections when you distribute them as separate works.  But when you&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;distribute the same sections as part of a whole which is a work based&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;on the Program, the distribution of the whole must be on the terms of&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;this License, whose permissions for other licensees extend to the&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;entire whole, and thus to each and every part regardless of who wrote it.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Thus, it is not the intent of this section to claim rights or contest&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;your rights to work written entirely by you; rather, the intent is to&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;exercise the right to control the distribution of derivative or&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;collective works based on the Program.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In addition, mere aggregation of another work not based on the Program&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;with the Program (or with a work based on the Program) on a volume of&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;a storage or distribution medium does not bring the other work under&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;the scope of this License.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  3. You may copy and distribute the Program (or a work based on it,&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;under Section 2) in object code or executable form under the terms of&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Sections 1 and 2 above provided that you also do one of the following:&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    a) Accompany it with the complete corresponding machine-readable&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    source code, which must be distributed under the terms of Sections&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    1 and 2 above on a medium customarily used for software interchange; or,&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    b) Accompany it with a written offer, valid for at least three&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    years, to give any third party, for a charge no more than your&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    cost of physically performing source distribution, a complete&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    machine-readable copy of the corresponding source code, to be&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    distributed under the terms of Sections 1 and 2 above on a medium&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    customarily used for software interchange; or,&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    c) Accompany it with the information you received as to the offer&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    to distribute corresponding source code.  (This alternative is&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    allowed only for noncommercial distribution and only if you&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    received the program in object code or executable form with such&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    an offer, in accord with Subsection b above.)&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;The source code for a work means the preferred form of the work for&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;making modifications to it.  For an executable work, complete source&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;code means all the source code for all modules it contains, plus any&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;associated interface definition files, plus the scripts used to&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;control compilation and installation of the executable.  However, as a&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;special exception, the source code distributed need not include&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;anything that is normally distributed (in either source or binary&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;form) with the major components (compiler, kernel, and so on) of the&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;operating system on which the executable runs, unless that component&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;itself accompanies the executable.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;If distribution of executable or object code is made by offering&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;access to copy from a designated place, then offering equivalent&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;access to copy the source code from the same place counts as&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;distribution of the source code, even though third parties are not&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;compelled to copy the source along with the object code.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  4. You may not copy, modify, sublicense, or distribute the Program&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;except as expressly provided under this License.  Any attempt&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;otherwise to copy, modify, sublicense or distribute the Program is&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;void, and will automatically terminate your rights under this License.&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;However, parties who have received copies, or rights, from you under&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;this License will not have their licenses terminated so long as such&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;parties remain in full compliance.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  5. You are not required to accept this License, since you have not&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;signed it.  However, nothing else grants you permission to modify or&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;distribute the Program or its derivative works.  These actions are&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;prohibited by law if you do not accept this License.  Therefore, by&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;modifying or distributing the Program (or any work based on the&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Program), you indicate your acceptance of this License to do so, and&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;all its terms and conditions for copying, distributing or modifying&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;the Program or works based on it.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  6. Each time you redistribute the Program (or any work based on the&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Program), the recipient automatically receives a license from the&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;original licensor to copy, distribute or modify the Program subject to&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;these terms and conditions.  You may not impose any further&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;restrictions on the recipients&apos; exercise of the rights granted herein.&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You are not responsible for enforcing compliance by third parties to&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;this License.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  7. If, as a consequence of a court judgment or allegation of patent&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;infringement or for any other reason (not limited to patent issues),&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;conditions are imposed on you (whether by court order, agreement or&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;otherwise) that contradict the conditions of this License, they do not&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;excuse you from the conditions of this License.  If you cannot&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;distribute so as to satisfy simultaneously your obligations under this&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;License and any other pertinent obligations, then as a consequence you&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;may not distribute the Program at all.  For example, if a patent&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;license would not permit royalty-free redistribution of the Program by&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;all those who receive copies directly or indirectly through you, then&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;the only way you could satisfy both it and this License would be to&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;refrain entirely from distribution of the Program.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;If any portion of this section is held invalid or unenforceable under&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;any particular circumstance, the balance of the section is intended to&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;apply and the section as a whole is intended to apply in other&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;circumstances.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;It is not the purpose of this section to induce you to infringe any&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;patents or other property right claims or to contest validity of any&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;such claims; this section has the sole purpose of protecting the&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;integrity of the free software distribution system, which is&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;implemented by public license practices.  Many people have made&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;generous contributions to the wide range of software distributed&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;through that system in reliance on consistent application of that&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;system; it is up to the author/donor to decide if he or she is willing&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to distribute software through any other system and a licensee cannot&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;impose that choice.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This section is intended to make thoroughly clear what is believed to&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;be a consequence of the rest of this License.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  8. If the distribution and/or use of the Program is restricted in&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;certain countries either by patents or by copyrighted interfaces, the&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;original copyright holder who places the Program under this License&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;may add an explicit geographical distribution limitation excluding&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;those countries, so that distribution is permitted only in or among&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;countries not thus excluded.  In such case, this License incorporates&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;the limitation as if written in the body of this License.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  9. The Free Software Foundation may publish revised and/or new versions&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;of the General Public License from time to time.  Such new versions will&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;be similar in spirit to the present version, but may differ in detail to&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;address new problems or concerns.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Each version is given a distinguishing version number.  If the Program&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;specifies a version number of this License which applies to it and &quot;any&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;later version&quot;, you have the option of following the terms and conditions&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;either of that version or of any later version published by the Free&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Software Foundation.  If the Program does not specify a version number of&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;this License, you may choose any version ever published by the Free Software&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Foundation.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  10. If you wish to incorporate parts of the Program into other free&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;programs whose distribution conditions are different, write to the author&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to ask for permission.  For software which is copyrighted by the Free&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Software Foundation, write to the Free Software Foundation; we sometimes&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;make exceptions for this.  Our decision will be guided by the two goals&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;of preserving the free status of all derivatives of our free software and&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;of promoting the sharing and reuse of software generally.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;<byte value="x9"/>    NO WARRANTY&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  11. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHEN&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;PROVIDE THE PROGRAM &quot;AS IS&quot; WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK AS&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THE&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;REPAIR OR CORRECTION.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  12. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;REDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES,&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;POSSIBILITY OF SUCH DAMAGES.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;<byte value="x9"/>     END OF TERMS AND CONDITIONS&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;<byte value="x9"/>    How to Apply These Terms to Your New Programs&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  If you develop a new program, and you want it to be of the greatest&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;possible use to the public, the best way to achieve this is to make it&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;free software which everyone can redistribute and change under these terms.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  To do so, attach the following notices to the program.  It is safest&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to attach them to the start of each source file to most effectively&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;convey the exclusion of warranty; and each file should have at least&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;the &quot;copyright&quot; line and a pointer to where the full notice is found.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    &amp;lt;one line to give the program&apos;s name and a brief idea of what it does.&amp;gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    Copyright (C) &amp;lt;year&amp;gt;  &amp;lt;name of author&amp;gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    This program is free software; you can redistribute it and/or modify&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    it under the terms of the GNU General Public License as published by&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    the Free Software Foundation; either version 2 of the License, or&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    (at your option) any later version.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    This program is distributed in the hope that it will be useful,&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    but WITHOUT ANY WARRANTY; without even the implied warranty of&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    GNU General Public License for more details.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    You should have received a copy of the GNU General Public License along&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    with this program; if not, write to the Free Software Foundation, Inc.,&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Also add information on how to contact you by electronic and paper mail.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;If the program is interactive, make it output a short notice like this&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;when it starts in an interactive mode:&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    Gnomovision version 69, Copyright (C) year name of author&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    Gnomovision comes with ABSOLUTELY NO WARRANTY; for details type `show w&apos;.&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    This is free software, and you are welcome to redistribute it&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    under certain conditions; type `show c&apos; for details.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;The hypothetical commands `show w&apos; and `show c&apos; should show the appropriate&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;parts of the General Public License.  Of course, the commands you use may&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;be called something other than `show w&apos; and `show c&apos;; they could even be&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;mouse-clicks or menu items--whatever suits your program.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You should also get your employer (if you work as a programmer) or your&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;school, if any, to sign a &quot;copyright disclaimer&quot; for the program, if&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;necessary.  Here is a sample; alter the names:&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  Yoyodyne, Inc., hereby disclaims all copyright interest in the program&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  `Gnomovision&apos; (which makes passes at compilers) written by James Hacker.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &amp;lt;signature of Ty Coon&amp;gt;, 1 April 1989&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  Ty Coon, President of Vice&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This General Public License does not permit incorporating your program into&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;proprietary programs.  If your program is a subroutine library, you may&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;consider it more useful to permit linking proprietary applications with the&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;library.  If this is what you want to do, use the GNU Lesser General&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Public License instead of this License.&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="33"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="45"/>
         <source>About</source>
         <translation>Sobre</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="14"/>
         <source>About PokerTH 0.5</source>
-        <translation>Sobre PokerTH 0.5</translation>
+        <translation type="obsolete">Sobre PokerTH 0.5</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="245"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="341"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="201"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="273"/>
         <source>License</source>
         <translation>Licença</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="96"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="130"/>
         <source>Project</source>
         <translation>Projeto</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="165"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="225"/>
         <source>Thanks to</source>
         <translation>Obrigado a</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="138"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="187"/>
         <source>Translation</source>
         <translation>Tradução</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="14"/>
+        <source>About PokerTH 0.6</source>
+        <translation type="unfinished">Sobre PokerTH 0.6</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="51"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;PokerTH 0.6&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="74"/>
+        <source>- Poker Engine for the popular &quot;Texas Holdem&quot; Poker
+- Singleplayer games with up to 6 computer-opponents
+- Multiplayer network games
+- Coded in C++ / QT4
+
+
+© 2006-2007, FHammer, FThauer, LMay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="116"/>
+        <source>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="157"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Projectpage: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Authors: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Felix Hammer (&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - initial idea, basic architecture, gui implementation, linux package&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Florian Thauer (&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - initial idea, basic architecture, engine development&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Lothar May (&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - network development, windows package&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Oskar Lindqvist (&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - gui graphics design, webdesign&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Erhard List (&lt;a href=&quot;mailto:dunkanx@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;dunkanx@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOS package&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="211"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;!!!Please replace this with your translator name!!! - !!!Please replace this with your language!!! - !!!If you like please replace this with your mail address (otherwise please remove)!!!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="249"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;     - &lt;span style=&quot; font-weight:400;&quot;&gt;for different popular avatar picture resources&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Viktoria, Benedikt, Erhard, Felix, Florian, Linus, Lothar, Mark&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for avatar pictures&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for different gpl lizensed sounds&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -471,83 +613,96 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="13"/>
         <source>Change Blinds Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Mudar Configurações de Apostas</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="21"/>
         <source>First small blind:</source>
-        <translation type="unfinished"></translation>
+        <translation>Primeiro small blind:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="40"/>
         <source>Raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Aumentar blinds:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="85"/>
         <source>Every:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sempre:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="78"/>
         <source>hands</source>
-        <translation type="unfinished"></translation>
+        <translation>Mãos</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="105"/>
         <source>minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>minutos</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="121"/>
         <source>Raise mode:</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo aumentar:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="228"/>
         <source>Always double blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Sempre duplo blinds</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="153"/>
         <source>Manual blinds order:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordem manual de blinds:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="167"/>
         <source>Delete</source>
-        <translation type="unfinished">Apagar</translation>
+        <translation>Apagar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="194"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="216"/>
         <source>After this:</source>
-        <translation type="unfinished"></translation>
+        <translation>Depois disto:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="240"/>
         <source>Always raise about:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sempre aumentar sobre:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="250"/>
         <source>$</source>
-        <translation type="unfinished"></translation>
+        <translation>$</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="259"/>
         <source>Stay at last blind</source>
+        <translation>Ficar com o último blind</translation>
+    </message>
+</context>
+<context>
+    <name>changeCompleteBlindsDialogImpl</name>
+    <message>
+        <location filename="../src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="46"/>
+        <source>Manual Blinds Order</source>
+        <translation type="unfinished">Ordem manual de blinds</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="47"/>
+        <source>You cannot set more than 30 manual blinds.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>changeHumanPlayerNameDialog</name>
     <message>
-        <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="35"/>
+        <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="43"/>
         <source>Name:</source>
         <translation>Nome:</translation>
     </message>
@@ -580,22 +735,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="43"/>
         <source>Resolving address...</source>
-        <translation type="unfinished"></translation>
+        <translation>Rosolvendo endereço...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="45"/>
         <source>Connecting to server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Conectando ao servidor...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="47"/>
         <source>Starting session...</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciando sessão...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="49"/>
         <source>Connection established!</source>
-        <translation type="unfinished"></translation>
+        <translation>Conexão estabelecida!</translation>
     </message>
 </context>
 <context>
@@ -603,27 +758,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="221"/>
         <source>Create Game</source>
-        <translation type="unfinished">Criar Jogo</translation>
+        <translation>Criar Jogo</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="112"/>
         <source>Game Speed for computer opponents:</source>
-        <translation type="unfinished">Velocidade do Jogo para Oponentes Computador:</translation>
+        <translation>Velocidade do Jogo para Oponentes Computador:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="132"/>
         <source>Timeout for player action (sec):</source>
-        <translation type="unfinished">Tempo esgotado para ação do jogador (sec):</translation>
+        <translation>Tempo esgotado para ação do jogador (sec):</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="43"/>
         <source>Maximum number of players:</source>
-        <translation type="unfinished">Número máximo de jogadores:</translation>
+        <translation>Número máximo de jogadores:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="63"/>
         <source>Start Cash:</source>
-        <translation type="unfinished">Dinheiro Inicial:</translation>
+        <translation>Dinheiro Inicial:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="145"/>
@@ -633,37 +788,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="169"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Senha:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="228"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="13"/>
         <source>Create Internet Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Criar jogo de internet</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="37"/>
         <source>Internet Game Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurações para jogos de internet</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="83"/>
         <source>Blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Blinds</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="92"/>
         <source>Use saved blinds settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Usar configurações de blinds salvo</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="102"/>
         <source>Change blinds settings ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Alterar configurações de blinds ...</translation>
     </message>
 </context>
 <context>
@@ -721,17 +876,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="68"/>
         <source>Blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Blinds</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="77"/>
         <source>Use saved blinds settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Usar configurações de blinds salvo</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="87"/>
         <source>Change blinds settings ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Alterar configurações de blinds ...</translation>
     </message>
 </context>
 <context>
@@ -739,42 +894,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="13"/>
         <source>Game Lobby</source>
-        <translation type="unfinished"></translation>
+        <translation>Sala de Jogo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="362"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="432"/>
         <source>Lobby-Chat</source>
-        <translation type="unfinished">Sala-Bate Papo</translation>
+        <translation>Sala-Bate Papo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="53"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="62"/>
         <source>Game</source>
-        <translation type="unfinished">Jogo</translation>
+        <translation>Jogo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="68"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="77"/>
         <source>Private</source>
-        <translation type="unfinished"></translation>
+        <translation>Privado</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="97"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="106"/>
         <source>Game Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Info de jogo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="110"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="119"/>
         <source>Connected Players</source>
-        <translation type="unfinished">Jogadores Conectados</translation>
+        <translation>Jogadores Conectados</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="118"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="127"/>
         <source>Fill up with computer opponents</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar oponentes computadores</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="171"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="152"/>
         <source>Start Game</source>
-        <translation type="unfinished">Iniciar Jogo</translation>
+        <translation>Iniciar Jogo</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="268"/>
@@ -784,94 +939,159 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="207"/>
         <source>Hands before raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Hands antes de aumentar o blind:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="221"/>
         <source>Maximum number of players:</source>
-        <translation type="unfinished">Número máximo de jogadores:</translation>
+        <translation type="obsolete">Número máximo de jogadores:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="228"/>
         <source>Small Blind:</source>
-        <translation type="unfinished">Small Blind:</translation>
+        <translation type="obsolete">Small Blind:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="256"/>
         <source>Start Cash:</source>
-        <translation type="unfinished">Dinheiro Inicial:</translation>
+        <translation type="obsolete">Dinheiro Inicial:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="263"/>
         <source>Timeout for player action (sec):</source>
-        <translation type="unfinished">Tempo esgotado para ação do jogador (sec):</translation>
+        <translation type="obsolete">Tempo esgotado para ação do jogador (sec):</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="294"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="355"/>
         <source>Leave Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Deixar o Jogo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="339"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="416"/>
         <source>Create Game</source>
-        <translation type="unfinished">Criar Jogo</translation>
+        <translation>Criar Jogo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="346"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="423"/>
         <source>Join Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrar no Jogo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="38"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="47"/>
         <source>Available Players</source>
-        <translation type="unfinished"></translation>
+        <translation>Jogadores disponiveis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="58"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="67"/>
         <source>Players</source>
-        <translation type="unfinished"></translation>
+        <translation>Jogadores</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="178"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="159"/>
         <source>Kick Player</source>
+        <translation>Chutar Jogador</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="72"/>
+        <source>State</source>
+        <translation>Estado</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="170"/>
+        <source>Maximum number of players: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="63"/>
-        <source>State</source>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="188"/>
+        <source>Start Cash: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="206"/>
+        <source>First small blind: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="224"/>
+        <source>Blinds raise intervall: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="245"/>
+        <source>Blinds raise mode: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="272"/>
+        <source>Manual blinds list:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="299"/>
+        <source>Timeout for player action (sec): </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>gameLobbyDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="82"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="118"/>
         <source>game</source>
-        <translation type="unfinished"></translation>
+        <translation>jogo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="240"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="456"/>
         <source>Game Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Info de jogo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="381"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="531"/>
         <source>Server Error</source>
-        <translation type="unfinished">Erro de Servidor</translation>
+        <translation>Erro de Servidor</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="382"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="532"/>
         <source>You should not kick yourself from this game!</source>
-        <translation type="unfinished">Você não pode se chutar deste jogo!</translation>
+        <translation>Você não pode se chutar deste jogo!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="107"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="147"/>
         <source>Joining a private Game</source>
+        <translation>Entrando num jogo privado</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="148"/>
+        <source>You are about to join a private game. Please enter the password!</source>
+        <translation>Você esta prestes a entrar em um jogo privado. Por favor entre com a senha!</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="219"/>
+        <source>running</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="108"/>
-        <source>You are about to join a private game. Please enter the password!</source>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="221"/>
+        <source>open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="484"/>
+        <source>hands</source>
+        <translation type="unfinished">Mãos</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="485"/>
+        <source>minutes</source>
+        <translation type="unfinished">minutos</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="487"/>
+        <source>double blinds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="492"/>
+        <source>manual blinds order</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1045,13 +1265,14 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="201"/>
         <source>A profile with the name: %1 already exists.
 Would you like to overwrite ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Um perfil com este nome: %1 já existe.
+Você gostaria de substituir ?</translation>
     </message>
 </context>
 <context>
     <name>mainWindow</name>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2577"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2614"/>
         <source>About PokerTH ...</source>
         <translation>Sobre PokerTH ...</translation>
     </message>
@@ -1061,57 +1282,57 @@ Would you like to overwrite ?</source>
         <translation>Bate Papo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2587"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2624"/>
         <source>Create Network Game ...</source>
         <translation>Criar Jogo em rede ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2606"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2643"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2628"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2665"/>
         <source>Ctrl+H</source>
         <translation>Ctrl+H</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2598"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2635"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2636"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2673"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2564"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2601"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2590"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2627"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2572"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2609"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2614"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2651"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2603"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2640"/>
         <source>Fullscreen</source>
         <translation>Tela Cheia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2539"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2576"/>
         <source>Game</source>
         <translation>Jogo</translation>
     </message>
@@ -1121,7 +1342,7 @@ Would you like to overwrite ?</source>
         <translation>Hands</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2595"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2632"/>
         <source>Join Network Game ...</source>
         <translation>Entrar em jogo de rede ...</translation>
     </message>
@@ -1146,102 +1367,102 @@ Would you like to overwrite ?</source>
         <translation type="obsolete">QMainWindow { background-image: url(:/guiv2/resources/guiv2/table.png); background-position: bottom center; background-origin: content; }</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2569"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2606"/>
         <source>Quit</source>
         <translation>Sair</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2582"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2619"/>
         <source>Settings ...</source>
         <translation>Configurações ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2611"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2648"/>
         <source>Show/Hide Chat Window</source>
         <translation>Mostrar/Esconder Janela de Bate Papo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2625"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2662"/>
         <source>Show/Hide Hands Window</source>
         <translation>Mostrar/Esconder Janela de Hands</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2633"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2670"/>
         <source>Show/Hide Log Window</source>
         <translation>Mostrar/Esconder Janela de Registro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="712"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="749"/>
         <source>Speed:</source>
         <translation>Velocidade:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2561"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2598"/>
         <source>Start Local Game ...</source>
         <translation>Iniciar Jogo Local ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="921"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="958"/>
         <source>Stop</source>
         <translation>Parar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2530"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2567"/>
         <source>View</source>
         <translation>Visualizar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="31"/>
         <source>PokerTH 0.6 - The Open-Source Texas Holdem Engine</source>
-        <translation type="unfinished">PokerTH 0.5 - Jogo Texas Holdem Open-Source {0.6 ?}</translation>
+        <translation>PokerTH 0.6 - Jogo Texas Holdem Open-Source</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2543"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2580"/>
         <source>Network Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Jogo em Rede</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2641"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2678"/>
         <source>Internet Game ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Jogo na internet ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2644"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2681"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+I</translation>
     </message>
 </context>
 <context>
     <name>mainWindowImpl</name>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2660"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3478"/>
         <source>An internal error occured.</source>
         <translation>Um erro interno ocorreu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2594"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3412"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Um pacote inválido foi recebido.
 Por favor tenha certeza de que todos os jogadores usam a mesma versão do PokerTH.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2523"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3341"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
         <translation>Porta inválida adicionada (portas 0-1023 não são permitidas).</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2548"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3366"/>
         <source>Bind failed - please choose a different port.</source>
         <translation>A conexão falhou - por favor escolha uma porta diferente.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="518"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="519"/>
         <source>Cmd+N to start a new game</source>
         <translation>Cmd+N para começar um novo jogo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2568"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3386"/>
         <source>Connection timed out.
 Please check the server address.
 
@@ -1252,111 +1473,111 @@ Por favor verifique o endereço do servidor.
 Caso o servidor esteja atrás de um NAT-Router, tenha certeza de que a porta esteja configurada no servidor.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2584"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3402"/>
         <source>Connection was closed by the server.</source>
         <translation>Conexão foi fechada pelo servidor.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2563"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3381"/>
         <source>Could not connect to the server.</source>
         <translation>Não foi possível conectar ao servidor.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2528"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3346"/>
         <source>Could not create a socket for TCP communication.</source>
         <translation>Não foi possível criar um socket para comunicação por TCP.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2533"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3351"/>
         <source>Could not set the IP address.</source>
         <translation>Não foi possível adicionar o endereço IP.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2538"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3356"/>
         <source>Could not set the port for this type of address.</source>
         <translation>Não foi possível adicionar a porta para este endereço.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="520"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="521"/>
         <source>Ctrl+N to start a new game</source>
         <translation>Ctrl+N para começar um novo jogo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1583"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2050"/>
         <source>F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise</source>
         <translation>F1 - Desistir/Apostar Tudo | F2 - Check/Call | F3 - Aposta/Aumentar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2553"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3371"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
         <translation>Erro interno de rede: &quot;listen&quot; falhou.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2573"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3391"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
         <translation>Erro interno de rede: &quot;selecionar&quot; falhou.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2578"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3396"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
         <translation>Erro interno de rede: &quot;enviar&quot; falhou.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2589"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3407"/>
         <source>Internal network error: Duplicate TCP connection.</source>
         <translation>Erro interno de rede: Conexão TCP duplicada.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2599"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3417"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Erro interno de estado.
 Por favor tenha certeza de que todos os jogadores usam a mesma versão do PokerTH.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2692"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3510"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Senha inválida ao tentar entrar no jogo.
 Por favor redigite a senha e tente novamente.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2659"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3477"/>
         <source>Network Error</source>
         <translation>Erro de Rede</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2518"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3336"/>
         <source>Server address was not set.</source>
         <translation>Endereço de servidor não foi adicionado.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2558"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3376"/>
         <source>Server execution was terminated.</source>
         <translation>Execusão do servidor foi terminada.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2609"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3427"/>
         <source>Sorry, this server is already full.</source>
         <translation>Desculpe, este servidor está cheio.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2353"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3171"/>
         <source>Start</source>
         <translation>Começar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2492"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3310"/>
         <source>Stop</source>
         <translation>Parar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2656"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3474"/>
         <source>The client player count is invalid.</source>
         <translation>A conta do cliente é invalida.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2619"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3437"/>
         <source>The password is too long. Please choose another one.</source>
         <translation>A senha é muito longa. Por favor escolha outra.</translation>
     </message>
@@ -1366,97 +1587,103 @@ Por favor redigite a senha e tente novamente.</translation>
         <translation type="obsolete">O nome do jogador é muito pequeno ou muito longo. Por favor escolha outro.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2604"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3422"/>
         <source>The PokerTH server does not support this version of the game.
 Please update PokerTH.</source>
         <translation>O serivodor da PokerTH não suporta esta versão do jogo.
 Por favor atualize o PokerTH.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2543"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3361"/>
         <source>The server name could not be resolved.</source>
         <translation>O nome do servidor não pode ser resovildo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2646"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3464"/>
         <source>The server referred to an unknown player. Aborting.</source>
         <translation>O servidor refere-se a um jogador desconhecido. Abortando.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2687"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3505"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Impossível entrar - o servidor já começou o jogo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2651"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3469"/>
         <source>You were kicked from the server.</source>
         <translation>Você foi chutado pelo servidor.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2623"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3441"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
         <translation>Seu nome está sendo usado por outro jogador.
 Por favor escolha um nome diferente.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2627"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3445"/>
         <source>The player name is too short, too long or reserved. Please choose another one.</source>
-        <translation type="unfinished"></translation>
+        <translation>O nome do jogador é muito curto, longo ou reservado. Por favor escolha outro.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2631"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3449"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation type="unfinished"></translation>
+        <translation>O nome do jogo é muito curto ou longo. Por favor escolha outro.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2636"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3454"/>
         <source>The game could not be found.</source>
-        <translation type="unfinished"></translation>
+        <translation>O jogo não pode ser encontrado.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2641"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3459"/>
         <source>The chat text is invalid.</source>
-        <translation type="unfinished"></translation>
+        <translation>O texto do bate-papo é invalido.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2691"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3509"/>
         <source>Network Notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Notificação de Rede</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2675"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3493"/>
         <source>You were kicked from the game.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você foi chutado do jogo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2681"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3499"/>
         <source>Sorry, this game is already full.</source>
-        <translation type="unfinished"></translation>
+        <translation>Desculpe, este jogo está cheio.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1585"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2052"/>
         <source>F1 - Bet/Raise | F2 - Check/Call | F3 - Fold/All-In</source>
-        <translation type="unfinished"></translation>
+        <translation>F1 - Bet/Aumentar | F2 - Check/Call | F3 - Desistir/Apostar tudo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2852"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3670"/>
         <source>Chat</source>
-        <translation type="unfinished">Bate Papo</translation>
+        <translation>Bate Papo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2727"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3545"/>
         <source>Manual mode set. You&apos;ve got to choose yourself now.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo manual configurado. Você precisa se escolher agora.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2731"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3549"/>
         <source>Auto mode set: Check or call any.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo Auto configurado: Qualquer Check ou Call.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2735"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3553"/>
         <source>Auto mode set: Check or fold.</source>
+        <translation>Modo Auto Configurado: Check ou desistir.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="953"/>
+        <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
+Please choose another one.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1465,41 +1692,54 @@ Por favor escolha um nome diferente.</translation>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="13"/>
         <source>Manual Blinds Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordem manual de blinds</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="27"/>
         <source>Delete</source>
-        <translation type="unfinished">Apagar</translation>
+        <translation>Apagar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="54"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="63"/>
         <source>After this:</source>
-        <translation type="unfinished"></translation>
+        <translation>Depois disto:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="75"/>
         <source>Always double blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Sempre duplo blinds</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="87"/>
         <source>Always raise about:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sempre aumentar sobre:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="97"/>
         <source>$</source>
-        <translation type="unfinished"></translation>
+        <translation>$</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="106"/>
         <source>Stay at last blind</source>
+        <translation>Ficar com o último blind</translation>
+    </message>
+</context>
+<context>
+    <name>manualBlindsOrderDialogImpl</name>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="46"/>
+        <source>Manual Blinds Order</source>
+        <translation type="unfinished">Ordem manual de blinds</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="47"/>
+        <source>You cannot set more than 30 manual blinds.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1543,17 +1783,17 @@ Por favor escolha um nome diferente.</translation>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="65"/>
         <source>Blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Blinds</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="74"/>
         <source>Use saved blinds settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Usar configurações de blinds salvo</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="84"/>
         <source>Change blinds settings ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Alterar configurações de blinds ...</translation>
     </message>
 </context>
 <context>
@@ -1576,12 +1816,12 @@ Por favor escolha um nome diferente.</translation>
     <message>
         <location filename="../src/gui/qt/selectavatardialog.ui" line="50"/>
         <source>People</source>
-        <translation type="unfinished"></translation>
+        <translation>Pessoas</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/selectavatardialog.ui" line="55"/>
         <source>Miscellaneous</source>
-        <translation type="unfinished"></translation>
+        <translation>Variado</translation>
     </message>
 </context>
 <context>
@@ -1617,28 +1857,29 @@ Por favor entre com uma imagem válida!</translation>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="239"/>
         <source>The file size of the chosen picture is too big. (max. 30KB)
 Please choose a smaller picture!</source>
-        <translation type="unfinished"></translation>
+        <translation>O arquivo selecionado para a imagem é muito grande (max. 30KB)
+Por favor escolha outra imagem!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="264"/>
         <source>Images (*.png *.jpg *.gif)</source>
-        <translation type="unfinished"></translation>
+        <translation>Imagens (*.png *.jpg *.gif)</translation>
     </message>
 </context>
 <context>
     <name>settingsDialog</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1328"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1410"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://pt.wikipedia.org/wiki/Ipv6&quot;&gt;O que é isso?&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1174"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1253"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://pt.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;O que é isso?&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2350"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2432"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -1649,7 +1890,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Nota: A melhor qualidade do avatar com rátio de imagem &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=50, height=50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="174"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="311"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -1662,70 +1903,70 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="917"/>
         <source>0.4 (current)</source>
-        <translation>0.4 (Atual)</translation>
+        <translation type="obsolete">0.4 (Atual)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="341"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="415"/>
         <source>10</source>
         <translation>10</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2846"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2928"/>
         <source>action (high frequent disc access)</source>
         <translation>Ação (acesso fregüente elevado de disco)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1399"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1481"/>
         <source>Computer Engine</source>
         <translation>Computador</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2754"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2836"/>
         <source>Day(s)</source>
         <translation>Dia(s)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="189"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="326"/>
         <source>Default</source>
         <translation>Original</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2681"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2763"/>
         <source>Enable/Disable Logging</source>
         <translation>Ativar/Desativar Registros</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="909"/>
         <source>Engine Version for computer opponents:</source>
-        <translation>Versão de inteligência dos oponentes computadores:</translation>
+        <translation type="obsolete">Versão de inteligência dos oponentes computadores:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="633"/>
         <source>Engine Version:</source>
-        <translation>Versão do jogo:</translation>
+        <translation type="obsolete">Versão do jogo:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="81"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="218"/>
         <source>Flipside of Cards</source>
         <translation>Lado oposto das Cartas</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2856"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2938"/>
         <source>game (low disc access)</source>
         <translation>Jogo (acesso a disco baixo)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="885"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="984"/>
         <source>Game Speed for computer opponents:</source>
         <translation>Velocidade do Jogo para Oponentes Computador:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="609"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="715"/>
         <source>Game Speed:</source>
         <translation>Velocidade do Jogo:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2851"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2933"/>
         <source>hand (medium disc access)</source>
         <translation>hand (acesso a disco médio)</translation>
     </message>
@@ -1735,12 +1976,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Hands antes de aumentar o small blind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2438"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2520"/>
         <source>Human Player:</source>
         <translation>Jogador Humano:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2933"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3015"/>
         <source>Interface</source>
         <translation>Interface</translation>
     </message>
@@ -1750,22 +1991,22 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Configurações Originais de Jogo Local</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2943"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3025"/>
         <source>Local Game Settings</source>
         <translation>Configurações de Jogo Local</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2793"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2875"/>
         <source>Log File Directory: </source>
         <translation>Diretório de registro de arquivo:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2963"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3045"/>
         <source>Log Messages</source>
         <translation>Mensagens do Registro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="701"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="787"/>
         <source>Maximum number of players:</source>
         <translation>Número máximo de jogadores:</translation>
     </message>
@@ -1775,72 +2016,72 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Configurações originais para Jogo em Rede</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2948"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3030"/>
         <source>Network Game Settings</source>
         <translation>Configurações para Jogo em Rede</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="419"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="512"/>
         <source>Number of players:</source>
         <translation>Número de jogadores:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2256"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2338"/>
         <source>Opponent 1:</source>
         <translation>Oponente 1:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2102"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2184"/>
         <source>Opponent 2:</source>
         <translation>Oponente 2:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1923"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2005"/>
         <source>Opponent 3:</source>
         <translation>Oponente 3:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1794"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1876"/>
         <source>Opponent 4:</source>
         <translation>Oponente 4:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1615"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1697"/>
         <source>Opponent 5:</source>
         <translation>Oponente 5:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1461"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1543"/>
         <source>Opponent 6:</source>
         <translation>Oponente 6:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="139"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="276"/>
         <source>Own flipside picture:</source>
         <translation>Sua imagem do lado oposto:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="651"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="737"/>
         <source>Pause between hands (press &quot;start&quot; button to go on)</source>
         <translation>Pausa entre as hands (pressione o botão &quot;iniciar&quot; para continuar)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="304"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="373"/>
         <source>Play sound effects</source>
         <translation>Ouvir efeitos sonoros</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2958"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3040"/>
         <source>Player Nicks</source>
         <translation>Apelidos de jogadores</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1211"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1290"/>
         <source>Server Password:</source>
         <translation>Senha do Servidor:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1287"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1369"/>
         <source>Server Port:</source>
         <translation>Porta do Servidor:</translation>
     </message>
@@ -1855,42 +2096,42 @@ p, li { white-space: pre-wrap; }
         <translation>Configurações</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="268"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="197"/>
         <source>Show buttons for small blind and big blind</source>
         <translation>Mostrar botões para small blind e big blind</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="261"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="183"/>
         <source>Show fade-out animation for non-winning cards</source>
         <translation>Mostrar animação de fade-out para não ganhadores</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="275"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="190"/>
         <source>Show flip-card animation</source>
         <translation>Mostrar animação de flip-card</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="658"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="744"/>
         <source>Show game settings dialog on every new game</source>
         <translation>Mostrar diálogo de configurações do jogo a novo jogo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="223"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="155"/>
         <source>Show intro on startup</source>
         <translation>Mostrar introdução ao iniciar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="247"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="162"/>
         <source>Show left toolbox (F10 to switch on/off)</source>
         <translation>Mostrar caixa de ferramentas a esquerda (F10 para ligar/desligar)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="216"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="169"/>
         <source>Show right toolbox (F11 to switch on/off)</source>
         <translation>Mostrar caixa de ferramentas a direita (F11 para ligar/desligar)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="254"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="176"/>
         <source>Show statusbar messages</source>
         <translation>Mostrar barra de status de mensagens</translation>
     </message>
@@ -1900,156 +2141,246 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Small Blind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="328"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="402"/>
         <source>Sound Volume:</source>
         <translation>Volume de Som:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="725"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="811"/>
         <source>Start Cash:</source>
         <translation>Dinheiro Inicial:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2728"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2810"/>
         <source>Store log files for</source>
         <translation>Armazenar arquivos de registro para</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="929"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1008"/>
         <source>Timeout for player action (sec):</source>
         <translation>Tempo esgotado para ação do jogador (sec):</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1321"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1403"/>
         <source>Use IPv6</source>
         <translation>Usar IPv6</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1143"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1222"/>
         <source>Use SCTP</source>
         <translation>Usar SCTP</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2829"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2911"/>
         <source>Write log after every: </source>
         <translation>Escrever o registro todas as vezes após:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="202"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="204"/>
         <source>Show own cards only on mouse click</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar suas cartas apenas com o click do mouse</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2869"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2951"/>
         <source>QLabel { font-weight: bold;  }</source>
-        <translation type="unfinished"></translation>
+        <translation>QLabel { font-weight: bold;  }</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2938"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3020"/>
         <source>Sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Som</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="958"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1037"/>
         <source>Network Server Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurações do Servidor de rede</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2953"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3035"/>
         <source>Internet Game Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurações para jogos de internet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1090"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1169"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Default &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Game Settings&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; like &quot;&lt;/span&gt;Maximum number of players&quot;, &quot;&lt;span style=&quot; font-style:italic;&quot;&gt;Start Cash&quot; and &quot;Small Blind&quot; will be used &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;from Network Game Settings.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Nota: Padrão &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Configurações de Jogo&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; Como &quot;&lt;/span&gt;Numero máximo de jogadores&quot;, &quot;&lt;span style=&quot; font-style:italic;&quot;&gt;Dinheiro incial&quot; e &quot;Small Blind&quot; serão usados &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;para configurações de jogos em rede.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1119"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1198"/>
         <source>Internet Server Settings (Dedicated Server)</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurações de Servidor da Internet (Servidor Dedicado)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1270"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1352"/>
         <source>Server Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Endereço de Servidor:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1245"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1324"/>
         <source>Use password for private game:</source>
-        <translation type="unfinished"></translation>
+        <translation>Usar senha para jogo privado:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1264"/>
         <source>Lobby Chat Settings (IRC Server)</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Conigurações de Sala de Bate-Papo (Servidor IRC)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1277"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1359"/>
         <source>chat.freenode.net</source>
-        <translation type="unfinished"></translation>
+        <translation>chat.freenode.net</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1307"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1389"/>
         <source>Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1314"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1396"/>
         <source>#pokerth</source>
-        <translation type="unfinished"></translation>
+        <translation>#pokerth</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="209"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="211"/>
         <source>Reverse order of F-Keys (F1 - F3)</source>
-        <translation type="unfinished"></translation>
+        <translation>Reverter as ordens das teclas F* (F1 - F3)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="746"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="832"/>
         <source>First small blind:</source>
-        <translation type="unfinished"></translation>
+        <translation>Primeiro small blind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="767"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="853"/>
         <source>Raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Aumentar blinds:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="806"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="892"/>
         <source>Every:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sempre:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="799"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="885"/>
         <source>hands</source>
-        <translation type="unfinished"></translation>
+        <translation>Mãos</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="826"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="912"/>
         <source>minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>minutos</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="842"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="941"/>
         <source>Raise mode:</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo aumentar:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="851"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="950"/>
         <source>Always double blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Sempre duplo blinds</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="861"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="960"/>
         <source>Manual blinds order:</source>
+        <translation>Ordem manual de blinds:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="970"/>
+        <source>Edit ...</source>
+        <translation>Editar ...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="69"/>
+        <source>Language:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="871"/>
-        <source>Edit ...</source>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="77"/>
+        <source>Dutch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="82"/>
+        <source>English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="87"/>
+        <source>French</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="92"/>
+        <source>German</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="97"/>
+        <source>Hungarian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="102"/>
+        <source>Italian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="107"/>
+        <source>Norse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="112"/>
+        <source>Portuguese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="117"/>
+        <source>Russian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="122"/>
+        <source>Slovak</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="127"/>
+        <source>Spanish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="132"/>
+        <source>Turkish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="440"/>
+        <source>Sound Categories </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="449"/>
+        <source>Play game actions sounds like &quot;check&quot;, &quot;call&quot;, &quot;raise&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="456"/>
+        <source>Play lobby chat notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="463"/>
+        <source>Play network/internet game notifications like &quot;player joined the game&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1343"/>
+        <source>Lobby Chat (IRC Server)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2061,37 +2392,49 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Imagens (*.png)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="416"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="426"/>
         <source>Open Directory</source>
         <translation>Abrir Diretório</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="342"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="352"/>
         <source>Select your flipside picture</source>
         <translation>Selecionar sua imagem do lado oposto</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="307"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="317"/>
         <source>Settings Error</source>
         <translation>Erro de Configuração</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="295"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="298"/>
         <source>The entered flipside picture doesn&apos;t exists.
 Please enter an valid picture!</source>
         <translation>A imagem do Lado Oposto do baralho não existe.
 Por favor entre com uma imagem válida!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="309"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="319"/>
         <source>The log file directory doesn&apos;t exists.
 Please select an valid directory!</source>
         <translation>O diretório do arquivo de registro não existe.
 Por favor selecione um diretório valido!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="344"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="354"/>
         <source>Images (*.png *.jpg *.gif)</source>
+        <translation>Imagens (*.png *.jpg *.gif)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="534"/>
+        <source>Blinds Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="535"/>
+        <source>The first element in your manual-blinds-list 
+is smaller than current first-small-blind!
+This first-small-blind-value will be set to maximum allowed value.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2140,23 +2483,23 @@ Por favor selecione um diretório valido!</translation>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="28"/>
         <source>Fill up with computer opponents</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar oponentes computadores</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="79"/>
         <source>Kick Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Chutar Jogador</translation>
     </message>
 </context>
 <context>
     <name>startNetworkGameDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="130"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="143"/>
         <source>Server Error</source>
         <translation>Erro de Servidor</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="131"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="144"/>
         <source>You should not kick yourself from this game!</source>
         <translation>Você não pode se chutar deste jogo!</translation>
     </message>
