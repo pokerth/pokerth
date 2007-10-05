@@ -2976,7 +2976,7 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text" >
-       <string>Player Nicks</string>
+       <string>Player Nicks/Avatars</string>
       </property>
      </item>
      <item>

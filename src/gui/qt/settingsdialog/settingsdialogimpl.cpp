@@ -388,10 +388,10 @@ void settingsDialogImpl::setFlipsidePicFileName()
 void settingsDialogImpl::setAvatarFile0() {
 
 	callSelectAvatarDialog();
-	pushButton_HumanPlayerAvatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-	
-	pushButton_HumanPlayerAvatar->setIcon(QIcon(pushButton_HumanPlayerAvatar->getMyLink()));
-	
+	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
+		pushButton_HumanPlayerAvatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
+		pushButton_HumanPlayerAvatar->setIcon(QIcon(pushButton_HumanPlayerAvatar->getMyLink()));
+	}
 }
 
 void settingsDialogImpl::setAvatarFile1() {
