@@ -32,6 +32,7 @@ using namespace std;
 #define NET_TYPE_RETRIEVE_AVATAR				0x0003
 #define NET_TYPE_AVATAR_HEADER					0x0004
 #define NET_TYPE_AVATAR_FILE					0x0005
+#define NET_TYPE_AVATAR_END						0x0006
 #define NET_TYPE_GAME_LIST_NEW					0x0010
 #define NET_TYPE_GAME_LIST_UPDATE				0x0011
 #define NET_TYPE_GAME_LIST_PLAYER_JOINED		0x0012
@@ -152,6 +153,12 @@ struct GCC_PACKED NetPacketAvatarHeaderData
 };
 
 struct GCC_PACKED NetPacketAvatarFileData
+{
+	NetPacketHeader		head;
+	u_int32_t			requestId;
+};
+
+struct GCC_PACKED NetPacketAvatarEndData
 {
 	NetPacketHeader		head;
 	u_int32_t			requestId;
@@ -587,6 +594,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 				case NET_TYPE_AVATAR_FILE:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketAvatarFile);
 					break;
+				case NET_TYPE_AVATAR_END:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketAvatarEnd);
+					break;
 				case NET_TYPE_GAME_LIST_NEW:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameListNew);
 					break;
@@ -796,6 +806,12 @@ NetPacket::ToNetPacketAvatarHeader() const
 
 const NetPacketAvatarFile *
 NetPacket::ToNetPacketAvatarFile() const
+{
+	return NULL;
+}
+
+const NetPacketAvatarEnd *
+NetPacket::ToNetPacketAvatarEnd() const
 {
 	return NULL;
 }
@@ -1425,6 +1441,62 @@ NetPacketAvatarFile::ToNetPacketAvatarFile() const
 
 void
 NetPacketAvatarFile::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketAvatarEnd::NetPacketAvatarEnd()
+: NetPacket(NET_TYPE_AVATAR_END, sizeof(NetPacketAvatarEndData), sizeof(NetPacketAvatarEndData))
+{
+}
+
+NetPacketAvatarEnd::~NetPacketAvatarEnd()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketAvatarEnd::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketAvatarEnd);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketAvatarEnd::SetData(const NetPacketAvatarEnd::Data &inData)
+{
+	NetPacketAvatarEndData *tmpData = (NetPacketAvatarEndData *)GetRawData();
+
+	tmpData->requestId				= htonl(inData.requestId);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketAvatarEnd::GetData(NetPacketAvatarEnd::Data &outData) const
+{
+	NetPacketAvatarEndData *tmpData = (NetPacketAvatarEndData *)GetRawData();
+
+	outData.requestId				= ntohl(tmpData->requestId);
+}
+
+const NetPacketAvatarEnd *
+NetPacketAvatarEnd::ToNetPacketAvatarEnd() const
+{
+	return this;
+}
+
+void
+NetPacketAvatarEnd::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }

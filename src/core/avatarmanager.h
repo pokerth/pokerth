@@ -24,6 +24,14 @@
 #include <core/crypthelper.h>
 #include <map>
 
+#include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
+
+#define MAX_AVATAR_FILE_SIZE	30720
+
+struct AvatarFileState;
+class NetPacket;
+
 class AvatarManager
 {
 public:
@@ -32,6 +40,11 @@ public:
 	~AvatarManager();
 
 	bool Init(const std::string &dataDir, const std::string &cacheDir);
+
+	boost::shared_ptr<AvatarFileState> OpenAvatarFileForChunkRead(const std::string &fileName, unsigned &outFileSize);
+	unsigned ChunkReadAvatarFile(boost::shared_ptr<AvatarFileState> fileState, unsigned char *data, unsigned chunkSize);
+
+	bool SendAvatarFile(const std::string &fileName, unsigned requestId, boost::function<void (boost::shared_ptr<NetPacket>)> sender);
 
 	bool GetHashForAvatar(const std::string &fileName, MD5Buf &md5buf);
 	bool GetAvatarFileName(const MD5Buf &md5buf, std::string &fileName) const;

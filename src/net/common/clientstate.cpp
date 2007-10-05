@@ -527,6 +527,13 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 		client.SetSessionEstablished(true);
 		retVal = MSG_SOCK_SESSION_DONE;
 	}
+	else if (packet->ToNetPacketRetrieveAvatar())
+	{
+		NetPacketRetrieveAvatar::Data retrieveAvatarData;
+		packet->ToNetPacketRetrieveAvatar()->GetData(retrieveAvatarData);
+
+		// Before letting us join the lobby, the server requests our avatar.
+	}
 
 	return retVal;
 }

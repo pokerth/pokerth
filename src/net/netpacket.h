@@ -50,6 +50,7 @@ class NetPacketInitAck;
 class NetPacketRetrieveAvatar;
 class NetPacketAvatarHeader;
 class NetPacketAvatarFile;
+class NetPacketAvatarEnd;
 class NetPacketGameListNew;
 class NetPacketGameListUpdate;
 class NetPacketGameListPlayerJoined;
@@ -106,6 +107,7 @@ public:
 	virtual const NetPacketRetrieveAvatar *ToNetPacketRetrieveAvatar() const;
 	virtual const NetPacketAvatarHeader *ToNetPacketAvatarHeader() const;
 	virtual const NetPacketAvatarFile *ToNetPacketAvatarFile() const;
+	virtual const NetPacketAvatarEnd *ToNetPacketAvatarEnd() const;
 	virtual const NetPacketGameListNew *ToNetPacketGameListNew() const;
 	virtual const NetPacketGameListUpdate *ToNetPacketGameListUpdate() const;
 	virtual const NetPacketGameListPlayerJoined *ToNetPacketGameListPlayerJoined() const;
@@ -275,6 +277,29 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketAvatarFile *ToNetPacketAvatarFile() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketAvatarEnd : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		requestId;
+	};
+
+	NetPacketAvatarEnd();
+	virtual ~NetPacketAvatarEnd();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketAvatarEnd *ToNetPacketAvatarEnd() const;
 
 protected:
 
