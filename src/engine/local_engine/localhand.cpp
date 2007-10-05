@@ -112,11 +112,11 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 			case 1: {		
 
-				tempBoardArray[0] = 22;
-				tempBoardArray[1] = 15;
-				tempBoardArray[2] = 24;
-				tempBoardArray[3] = 30;
-				tempBoardArray[4] = 23;
+				tempBoardArray[0] = 32;
+				tempBoardArray[1] = 24;
+				tempBoardArray[2] = 31;
+				tempBoardArray[3] = 47;
+				tempBoardArray[4] = 19;
 			
 				myBoard->setMyCards(tempBoardArray);
 			
@@ -129,15 +129,15 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player0
 				it = seatsList->begin();
 			
-// 				tempPlayerArray[0] = 51;
-// 				tempPlayerArray[1] = 20;
-// 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
-// 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
-// 			
-// 				(*it)->setMyCards(tempPlayerArray);
-// 				(*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
-// 			
-// 				(*it)->setMyBestHandPosition(temp5Array);
+				tempPlayerArray[0] = 12;
+				tempPlayerArray[1] = 44;
+				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+			
+				(*it)->setMyCards(tempPlayerArray);
+				(*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+			
+				(*it)->setMyBestHandPosition(temp5Array);
 
 				// player1
 				it++;
@@ -155,8 +155,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player2
 				it++;
 		
-				tempPlayerArray[0] = 35;
-				tempPlayerArray[1] = 18;
+				tempPlayerArray[0] = 49;
+				tempPlayerArray[1] = 34;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -181,15 +181,15 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player4
 				it++;
 			
-// 				tempPlayerArray[0] = 25;
-// 				tempPlayerArray[1] = 16;
-// 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
-// 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
-// 			
-// 				(*it)->setMyCards(tempPlayerArray);
-// 				(*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
-// 			
-// 				(*it)->setMyBestHandPosition(temp5Array);
+				tempPlayerArray[0] = 45;
+				tempPlayerArray[1] = 8;
+				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+			
+				(*it)->setMyCards(tempPlayerArray);
+				(*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+			
+				(*it)->setMyBestHandPosition(temp5Array);
 
 				// player5
 				it++;
@@ -207,15 +207,15 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player6
 				it++;
 			
-				tempPlayerArray[0] = 13;
-				tempPlayerArray[1] = 49;
-				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
-				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
-			
-				(*it)->setMyCards(tempPlayerArray);
-				(*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
-			
-				(*it)->setMyBestHandPosition(temp5Array);
+// 				tempPlayerArray[0] = 13;
+// 				tempPlayerArray[1] = 49;
+// 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+// 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+// 			
+// 				(*it)->setMyCards(tempPlayerArray);
+// 				(*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+// 			
+// 				(*it)->setMyBestHandPosition(temp5Array);
 
 
 			} break;

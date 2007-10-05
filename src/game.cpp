@@ -37,7 +37,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
   myGameID(gameId), actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(0), lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData)
 {
 	if(DEBUG_MODE) {
-		startSmallBlind = 20;
+		startSmallBlind = 10;
 		actualSmallBlind = startSmallBlind;
 	}
 

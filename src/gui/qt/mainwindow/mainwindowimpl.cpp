@@ -813,7 +813,7 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	startData.numberOfPlayers = gameData.maxNumberOfPlayers;
 	Tools::getRandNumber(0, startData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
 	if(DEBUG_MODE) {
-		tmpDealerPos = 3;
+		tmpDealerPos = 1;
 	}
 	startData.startDealerPlayerId = static_cast<unsigned>(tmpDealerPos);
 
@@ -2566,10 +2566,10 @@ void mainWindowImpl::postRiverRunAnimation2() {
 		
 				int j;
 				
-					for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
+				for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
 					(*it_c)->getMyCards(tempCardsIntArray);	
 					if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) { 
-						if((*it_c)->getMyAction() || ((*it_c)->getMyAction()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
+						if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
 												
 								holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
