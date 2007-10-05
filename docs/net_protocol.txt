@@ -136,7 +136,7 @@ Server/Client Reply: Avatar File
 [Additional blocks will be sent if data is more than 256 Bytes.]
 
 
-Server/Client Reply: End of Avatar
+Server/Client Reply: Avatar End
 
 	 0                   1                   2                   3
 	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
