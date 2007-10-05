@@ -1182,8 +1182,10 @@ void mainWindowImpl::refreshSet() {
 
 	PlayerListConstIterator it_c;
  	for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) { 
-		if( (*it_c)->getMySet() == 0 ) setLabelArray[ (*it_c)->getMyID() ]->setText("");
-		else setLabelArray[(*it_c)->getMyID()]->setText("Set: "+QString::number( (*it_c)->getMySet(),10)+" $"); 
+		if( (*it_c)->getMySet() == 0 )
+			setLabelArray[(*it_c)->getMyID()]->setText("");
+		else
+			setLabelArray[(*it_c)->getMyID()]->setText("Set: "+QString::number((*it_c)->getMySet(),10)+" $"); 
 	}
 
 
@@ -1257,14 +1259,18 @@ void mainWindowImpl::refreshButton() {
 					case 1 : buttonLabelArray[(*it_c)->getMyID()]->setPixmap(dealerButton); 
 					break;
 					case 2 : { 	
-						if ( myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[(*it_c)->getMyID()]->setPixmap(smallblindButton); 
-						else { buttonLabelArray[(*it_c)->getMyID()]->setPixmap(onePix); }					  
-						 }
+						if(myConfig->readConfigInt("ShowBlindButtons"))
+							buttonLabelArray[(*it_c)->getMyID()]->setPixmap(smallblindButton); 
+						else
+							buttonLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);				  
+					}
 					break;
 					case 3 : { 
-						if (myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[(*it_c)->getMyID()]->setPixmap(bigblindButton); 				
-						else { buttonLabelArray[(*it_c)->getMyID()]->setPixmap(onePix); }					  
-					 }
+						if(myConfig->readConfigInt("ShowBlindButtons"))
+							buttonLabelArray[(*it_c)->getMyID()]->setPixmap(bigblindButton); 				
+						else
+							buttonLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);				  
+					}
 					break;
 					default: buttonLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);
 				
@@ -1276,9 +1282,11 @@ void mainWindowImpl::refreshButton() {
 					case 2 : buttonLabelArray[(*it_c)->getMyID()]->setPixmap(dealerButton); 
 					break;
 					case 3 : { 
-						if (myConfig->readConfigInt("ShowBlindButtons")) buttonLabelArray[(*it_c)->getMyID()]->setPixmap(bigblindButton); 				
-						else { buttonLabelArray[(*it_c)->getMyID()]->setPixmap(onePix); }					  
-					 }
+						if(myConfig->readConfigInt("ShowBlindButtons"))
+							buttonLabelArray[(*it_c)->getMyID()]->setPixmap(bigblindButton);
+						else
+							buttonLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);
+					}
 					break;
 					default: buttonLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);
 				
@@ -2452,7 +2460,8 @@ void mainWindowImpl::postRiverRunAnimation2() {
 	int nonfoldPlayersCounter = 0;
 	PlayerListConstIterator it_c;
 	for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
-		if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonfoldPlayersCounter++;
+		if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD)
+			nonfoldPlayersCounter++;
 	}
 
 
