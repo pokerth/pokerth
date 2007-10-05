@@ -96,8 +96,7 @@ void settingsDialogImpl::exec() {
 // 	page_4->hide();
 
 	playerNickIsChanged = FALSE;
-	languageIsChanged = FALSE;
-
+	
 	//Player Nicks
 	lineEdit_HumanPlayerName->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
 	pushButton_HumanPlayerAvatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("MyAvatar").c_str()));
@@ -221,6 +220,9 @@ void settingsDialogImpl::exec() {
 	myNetAfterMBStayAtLastBlind = myConfig->readConfigInt("NetAfterMBStayAtLastBlind");
 
 	setFirstSmallBlindMargin();	
+
+	//set this AFTER switch combobox like config-settings. This IS a currentIndexChanged() ;-)
+	languageIsChanged = FALSE;
 
 	QDialog::exec();
 
