@@ -603,7 +603,7 @@ QStringList Log::translateCardCode(int cardCode) {
 		break;
 		case 7: cardString << "9";
 		break;
-		case 8: cardString << "10";
+		case 8: cardString << "T";
 		break;
 		case 9: cardString << "J";
 		break;
@@ -1163,7 +1163,7 @@ QStringList Log::translateCardsValueCode(int cardsValueCode) {
 			}
 		}
 		break;
-		// Pair
+		// One Pair
 		case 1: {
 			cardString << "One Pair, ";
 			// Pair
