@@ -813,12 +813,10 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			tmpPlayer->setMyAction(actionDoneData.playerAction);
 			tmpPlayer->setMySetAbsolute(actionDoneData.totalPlayerBet);
 			tmpPlayer->setMyCash(actionDoneData.playerMoney);
+			curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(actionDoneData.highestSet);
 			curGame->getCurrentHand()->getBoard()->collectSets();
 			curGame->getCurrentHand()->switchRounds();
 
-			// Update highest set
-			if (tmpPlayer->getMySet() > curGame->getCurrentHand()->getCurrentBeRo()->getHighestSet())
-				curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(tmpPlayer->getMySet());
 
 			//log blinds sets after setting bigblind-button
 			if (isBigBlind) {

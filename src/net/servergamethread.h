@@ -68,6 +68,10 @@ public:
 
 	bool IsRunning() const;
 
+	// should be protected, but is needed in function.
+	const Game &GetGame() const;
+	Game &GetGame();
+
 protected:
 
 	typedef std::deque<SessionWrapper> SessionQueue;
@@ -99,9 +103,6 @@ protected:
 
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
-
-	Game &GetGame();
-	const Game &GetGame() const;
 
 	const StartData &GetStartData() const;
 	void SetStartData(const StartData &startData);

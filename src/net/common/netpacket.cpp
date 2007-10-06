@@ -341,6 +341,7 @@ struct GCC_PACKED NetPacketPlayersActionDoneData
 	u_int16_t			playerAction;
 	u_int32_t			totalPlayerBet;
 	u_int32_t			playerMoney;
+	u_int32_t			highestSet;
 };
 
 struct GCC_PACKED NetPacketPlayersActionRejectedData
@@ -3067,6 +3068,7 @@ NetPacketPlayersActionDone::SetData(const NetPacketPlayersActionDone::Data &inDa
 	tmpData->playerAction	= htons(inData.playerAction);
 	tmpData->totalPlayerBet	= htonl(inData.totalPlayerBet);
 	tmpData->playerMoney	= htonl(inData.playerMoney);
+	tmpData->highestSet		= htonl(inData.highestSet);
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -3082,6 +3084,7 @@ NetPacketPlayersActionDone::GetData(NetPacketPlayersActionDone::Data &outData) c
 	outData.playerAction	= static_cast<PlayerAction>(ntohs(tmpData->playerAction));
 	outData.totalPlayerBet	= ntohl(tmpData->totalPlayerBet);
 	outData.playerMoney		= ntohl(tmpData->playerMoney);
+	outData.highestSet		= ntohl(tmpData->highestSet);
 }
 
 const NetPacketPlayersActionDone *

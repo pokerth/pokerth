@@ -63,6 +63,7 @@ static void SendPlayerAction(ServerGameThread &server, boost::shared_ptr<PlayerI
 	actionDoneData.playerAction = static_cast<PlayerAction>(player->getMyAction());
 	actionDoneData.totalPlayerBet = player->getMySet();
 	actionDoneData.playerMoney = player->getMyCash();
+	actionDoneData.highestSet = server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
 	static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
 	server.SendToAllPlayers(notifyActionDone, SessionData::Game);
 }
@@ -486,6 +487,7 @@ ServerGameStateStartHand::Process(ServerGameThread &server)
 			actionDoneData.playerAction = (PlayerAction)tmpPlayer->getMyAction();
 			actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
 			actionDoneData.playerMoney = tmpPlayer->getMyCash();
+			actionDoneData.highestSet = server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
 			static_cast<NetPacketPlayersActionDone *>(notifySmallBlind.get())->SetData(actionDoneData);
 			server.SendToAllPlayers(notifySmallBlind, SessionData::Game);
 			break;
@@ -507,6 +509,7 @@ ServerGameStateStartHand::Process(ServerGameThread &server)
 			actionDoneData.playerAction = (PlayerAction)tmpPlayer->getMyAction();
 			actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
 			actionDoneData.playerMoney = tmpPlayer->getMyCash();
+			actionDoneData.highestSet = server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
 			static_cast<NetPacketPlayersActionDone *>(notifyBigBlind.get())->SetData(actionDoneData);
 			server.SendToAllPlayers(notifyBigBlind, SessionData::Game);
 			break;
