@@ -32,6 +32,8 @@
 #include <game.h>
 #include <playerinterface.h>
 
+#include <boost/bind.hpp>
+
 #include <sstream>
 
 using namespace std;
@@ -529,10 +531,18 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 	}
 	else if (packet->ToNetPacketRetrieveAvatar())
 	{
+		// Before letting us join the lobby, the server requests our avatar.
 		NetPacketRetrieveAvatar::Data retrieveAvatarData;
 		packet->ToNetPacketRetrieveAvatar()->GetData(retrieveAvatarData);
 
-		// Before letting us join the lobby, the server requests our avatar.
+		NetPacketList tmpList;
+		if (client.GetAvatarManager().AvatarFileToNetPackets(
+			client.GetContext().GetAvatarFile(),
+			retrieveAvatarData.requestId,
+			tmpList))
+		{
+			client.GetSender().SendLowPrio(client.GetContext().GetSocket(), tmpList);
+		}
 	}
 
 	return retVal;

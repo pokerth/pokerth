@@ -28,6 +28,7 @@
 #include <core/crypthelper.h>
 
 #include <vector>
+#include <list>
 
 #define NET_VERSION_MAJOR			2
 #define NET_VERSION_MINOR			0
@@ -157,6 +158,8 @@ private:
 	const u_int16_t m_initialSize;
 	const u_int16_t m_maxSize;
 };
+
+typedef std::list<boost::shared_ptr<NetPacket> > NetPacketList;
 
 class NetPacketInit : public NetPacket
 {

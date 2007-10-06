@@ -31,7 +31,8 @@
 
 #define SENDER_THREAD_TERMINATE_TIMEOUT		200
 #define SEND_TIMEOUT_MSEC					10
-#define SEND_QUEUE_SIZE						500
+#define SEND_QUEUE_SIZE						1000
+#define SEND_LOW_PRIO_QUEUE_SIZE			50000
 
 class SenderThread : public Thread
 {
@@ -40,19 +41,30 @@ public:
 	virtual ~SenderThread();
 
 	void Send(SOCKET sock, boost::shared_ptr<NetPacket> packet);
+	void Send(SOCKET sock, const NetPacketList &packetList);
+
+	void SendLowPrio(SOCKET sock, boost::shared_ptr<NetPacket> packet);
+	void SendLowPrio(SOCKET sock, const NetPacketList &packetList);
 
 protected:
+	typedef std::pair<boost::shared_ptr<NetPacket>, SOCKET> SendData;
+	typedef std::deque<SendData> SendDataDeque;
 
 	// Main function of the thread.
 	virtual void Main();
+
+	void InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, SOCKET sock, boost::shared_ptr<NetPacket> packet);
+	void InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, SOCKET sock, const NetPacketList &packetList);
 
 private:
 
 	SOCKET m_curSocket;
 
-	typedef std::pair<boost::shared_ptr<NetPacket>, SOCKET> SendData;
 	std::deque<SendData> m_outBuf;
 	mutable boost::mutex m_outBufMutex;
+
+	std::deque<SendData> m_lowPrioOutBuf;
+	mutable boost::mutex m_lowPrioOutBufMutex;
 
 	char m_tmpOutBuf[MAX_PACKET_SIZE];
 	unsigned m_tmpOutBufSize;

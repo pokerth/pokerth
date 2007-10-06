@@ -18,12 +18,19 @@
  ***************************************************************************/
 
 #include "avatarmanager.h"
-#include <net/netpacket.h>
 
 #include <boost/filesystem.hpp>
 #include <openssl/md5.h>
 
 #include <fstream>
+#include <cstring>
+
+// Not using boost::algorithm here because of STL issues.
+#ifdef _MSC_VER
+#define STRCASECMP _stricmp
+#else
+#define STRCASECMP strcasecmp
+#endif
 
 using namespace std;
 using namespace boost::filesystem;
@@ -59,12 +66,21 @@ AvatarManager::Init(const std::string &dataDir, const std::string &cacheDir)
 }
 
 boost::shared_ptr<AvatarFileState>
-AvatarManager::OpenAvatarFileForChunkRead(const std::string &fileName, unsigned &outFileSize)
+AvatarManager::OpenAvatarFileForChunkRead(const std::string &fileName, unsigned &outFileSize, AvatarFileType &outFileType)
 {
 	outFileSize = 0;
+	outFileType = AVATAR_FILE_TYPE_UNKNOWN;
 	boost::shared_ptr<AvatarFileState> retVal;
 	try
 	{
+		path filePath(fileName);
+		string ext(extension(filePath));
+		if (STRCASECMP(ext.c_str(), ".png") == 0)
+			outFileType = AVATAR_FILE_TYPE_PNG;
+		else if (STRCASECMP(ext.c_str(), ".jpg") == 0 || STRCASECMP(ext.c_str(), ".jpeg") == 0)
+			outFileType = AVATAR_FILE_TYPE_JPG;
+		else if (STRCASECMP(ext.c_str(), ".gif") == 0)
+			outFileType = AVATAR_FILE_TYPE_GIF;
 		boost::shared_ptr<AvatarFileState> fileState(new AvatarFileState);
 		fileState->inputStream.open(fileName.c_str(), ios_base::in | ios_base::binary);
 		if (!fileState->inputStream.fail())
@@ -108,20 +124,21 @@ AvatarManager::ChunkReadAvatarFile(boost::shared_ptr<AvatarFileState> fileState,
 }
 
 bool
-AvatarManager::SendAvatarFile(const string &fileName, unsigned requestId, boost::function<void (boost::shared_ptr<NetPacket>)> sender)
+AvatarManager::AvatarFileToNetPackets(const string &fileName, unsigned requestId, NetPacketList &packets)
 {
 	bool retVal = false;
 	unsigned fileSize;
-	boost::shared_ptr<AvatarFileState> tmpState = OpenAvatarFileForChunkRead(fileName, fileSize);
-	if (tmpState.get() && fileSize)
+	AvatarFileType fileType;
+	boost::shared_ptr<AvatarFileState> tmpState = OpenAvatarFileForChunkRead(fileName, fileSize, fileType);
+	if (tmpState.get() && fileSize && fileType != AVATAR_FILE_TYPE_UNKNOWN)
 	{
 		boost::shared_ptr<NetPacket> avatarHeader(new NetPacketAvatarHeader);
 		NetPacketAvatarHeader::Data avatarHeaderData;
 		avatarHeaderData.requestId = requestId;
 		avatarHeaderData.avatarFileSize = fileSize;
-		avatarHeaderData.avatarFileType = AVATAR_TYPE_PNG; // TODO
+		avatarHeaderData.avatarFileType = fileType;
 		static_cast<NetPacketAvatarHeader *>(avatarHeader.get())->SetData(avatarHeaderData);
-		sender(avatarHeader);
+		packets.push_back(avatarHeader);
 
 		unsigned numBytes = 0;
 		unsigned totalBytesRead = 0;
@@ -137,7 +154,7 @@ AvatarManager::SendAvatarFile(const string &fileName, unsigned requestId, boost:
 				avatarFileData.requestId = requestId;
 				totalBytesRead += numBytes;
 				static_cast<NetPacketAvatarFile *>(avatarFile.get())->SetData(avatarFileData);
-				sender(avatarFile);
+				packets.push_back(avatarFile);
 			}
 		} while (numBytes);
 		// TODO error handling if numBytes != totalBytesRead
@@ -145,7 +162,7 @@ AvatarManager::SendAvatarFile(const string &fileName, unsigned requestId, boost:
 		NetPacketAvatarEnd::Data avatarEndData;
 		avatarEndData.requestId = requestId;
 		static_cast<NetPacketAvatarEnd *>(avatarEnd.get())->SetData(avatarEndData);
-		sender(avatarEnd);
+		packets.push_back(avatarEnd);
 		retVal = true;
 	}
 	// else TODO error handling
@@ -197,13 +214,26 @@ AvatarManager::GetAvatarFileName(const MD5Buf &md5buf, std::string &fileName) co
 }
 
 bool
-AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, const std::string &fileExtension, const unsigned char *data, unsigned size)
+AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFileType, const unsigned char *data, unsigned size)
 {
 	bool retVal = false;
 	try
 	{
+		string ext;
+		switch (avatarFileType)
+		{
+			case AVATAR_FILE_TYPE_PNG:
+				ext = ".png";
+				break;
+			case AVATAR_FILE_TYPE_JPG:
+				ext = ".jpg";
+				break;
+			case AVATAR_FILE_TYPE_GIF:
+				ext = ".gif";
+				break;
+		}
 		path tmpPath(m_cacheDir);
-		tmpPath /= (md5buf.ToString() + "." + fileExtension);
+		tmpPath /= (md5buf.ToString() + ext);
 		string fileName(tmpPath.file_string());
 		ofstream o(fileName.c_str(), ios_base::out | ios_base::binary);
 		o.write((const char *)data, size);

@@ -22,6 +22,8 @@
 #include <net/socket_msg.h>
 #include <cstring>
 
+#include <boost/bind.hpp>
+
 using namespace std;
 
 
@@ -40,10 +42,62 @@ SenderThread::Send(SOCKET sock, boost::shared_ptr<NetPacket> packet)
 	if (packet.get() && IS_VALID_SOCKET(sock))
 	{
 		boost::mutex::scoped_lock lock(m_outBufMutex);
-		if (m_outBuf.size() < SEND_QUEUE_SIZE) // Queue is limited in size.
-			m_outBuf.push_back(std::make_pair(packet, sock));
-		// TODO: Throw exception if failed.
+		InternalStore(m_outBuf, SEND_QUEUE_SIZE, sock, packet);
 	}
+}
+
+void
+SenderThread::Send(SOCKET sock, const NetPacketList &packetList)
+{
+	if (!packetList.empty() && IS_VALID_SOCKET(sock))
+	{
+		boost::mutex::scoped_lock lock(m_outBufMutex);
+		InternalStore(m_outBuf, SEND_QUEUE_SIZE, sock, packetList);
+	}
+}
+
+void
+SenderThread::SendLowPrio(SOCKET sock, boost::shared_ptr<NetPacket> packet)
+{
+	if (packet.get() && IS_VALID_SOCKET(sock))
+	{
+		boost::mutex::scoped_lock lock(m_lowPrioOutBufMutex);
+		InternalStore(m_lowPrioOutBuf, SEND_LOW_PRIO_QUEUE_SIZE, sock, packet);
+	}
+}
+
+void
+SenderThread::SendLowPrio(SOCKET sock, const NetPacketList &packetList)
+{
+	if (!packetList.empty() && IS_VALID_SOCKET(sock))
+	{
+		boost::mutex::scoped_lock lock(m_lowPrioOutBufMutex);
+		InternalStore(m_lowPrioOutBuf, SEND_LOW_PRIO_QUEUE_SIZE, sock, packetList);
+	}
+}
+
+void
+SenderThread::InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, SOCKET sock, boost::shared_ptr<NetPacket> packet)
+{
+	if (sendQueue.size() < maxQueueSize) // Queue is limited in size.
+		sendQueue.push_back(std::make_pair(packet, sock));
+	// TODO: Throw exception if failed.
+}
+
+void
+SenderThread::InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, SOCKET sock, const NetPacketList &packetList)
+{
+	if (sendQueue.size() + packetList.size() < maxQueueSize)
+	{
+		NetPacketList::const_iterator i = packetList.begin();
+		NetPacketList::const_iterator end = packetList.end();
+		while (i != end)
+		{
+			sendQueue.push_back(std::make_pair(*i, sock));
+			++i;
+		}
+	}
+	// TODO: Throw exception if failed.
 }
 
 void
@@ -57,12 +111,24 @@ SenderThread::Main()
 		if (!m_tmpOutBufSize)
 		{
 			SendData tmpData;
+			// Check main queue first.
 			{
 				boost::mutex::scoped_lock lock(m_outBufMutex);
 				if (!m_outBuf.empty())
 				{
 					tmpData = m_outBuf.front();
 					m_outBuf.pop_front();
+				}
+			}
+
+			// Check low prio queue only if there is nothing in the main queue.
+			if (!tmpData.first.get())
+			{
+				boost::mutex::scoped_lock lock(m_lowPrioOutBufMutex);
+				if (!m_lowPrioOutBuf.empty())
+				{
+					tmpData = m_lowPrioOutBuf.front();
+					m_lowPrioOutBuf.pop_front();
 				}
 			}
 
