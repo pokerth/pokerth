@@ -342,8 +342,8 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	if(myConfig->readConfigInt("LogOnOff")) {
 	//if write logfiles is enabled
 		
-		logFileStreamString += "<p><b>####################&#160;&#160;&#160;Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+"&#160;&#160;&#160;####################</b></br>";
-		logFileStreamString += "</br>BLIND LEVEL: "+QString::number(currentHand->getSmallBlind())+"$/"+QString::number(currentHand->getSmallBlind()*2)+"$</br></br>";
+		logFileStreamString += "<table><tr><td width=\"600\" align=\"center\"><hr noshade size=\"3\"><b>Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+"</b></td><td></td></tr></table>";
+		logFileStreamString += "<p>BLIND LEVEL: "+QString::number(currentHand->getSmallBlind())+"$/"+QString::number(currentHand->getSmallBlind()*2)+"$</br>";
 
 		//print cash only for active players
 		for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
@@ -374,7 +374,7 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 void Log::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbName) {
 
 		// log blinds
-	logFileStreamString += "</br>BLINDS: ";
+	logFileStreamString += "BLINDS: ";
 /*
 		cout << "SB: " << sbName << endl;
 		cout << "BB: " << bbName << endl;	*/
@@ -411,7 +411,7 @@ void Log::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbNa
 
 // 				logFileStreamString += "</br></br>DEALER: " + QString::fromUtf8((*it_c)->getMyName().c_str());
 
-				logFileStreamString += "</br></br>" + QString::fromUtf8((*it_c)->getMyName().c_str()) + " starts as dealer.";
+				logFileStreamString += "</br>" + QString::fromUtf8((*it_c)->getMyName().c_str()) + " starts as dealer.";
 
 				break;
 			}
@@ -419,7 +419,7 @@ void Log::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbNa
 			if((*it_c)->getMyButton() == BUTTON_SMALL_BLIND) {
 // 				logFileStreamString += "</br></br>DEALER: " + QString::fromUtf8((*it_c)->getMyName().c_str());
 
-				logFileStreamString += "</br></br>" + QString::fromUtf8((*it_c)->getMyName().c_str()) + " starts as dealer.";
+				logFileStreamString += "</br>" + QString::fromUtf8((*it_c)->getMyName().c_str()) + " starts as dealer.";
 
 				break;
 			}
