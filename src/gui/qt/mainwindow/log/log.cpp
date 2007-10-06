@@ -343,7 +343,7 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	//if write logfiles is enabled
 		
 		logFileStreamString += "<table><tr><td width=\"600\" align=\"center\"><hr noshade size=\"3\"><b>Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+"</b></td><td></td></tr></table>";
-		logFileStreamString += "<p>BLIND LEVEL: "+QString::number(currentHand->getSmallBlind())+"$/"+QString::number(currentHand->getSmallBlind()*2)+"$</br>";
+		logFileStreamString += "<p style=\"font-size:smaller\">BLIND LEVEL: "+QString::number(currentHand->getSmallBlind())+"$/"+QString::number(currentHand->getSmallBlind()*2)+"$</br>";
 
 		//print cash only for active players
 		for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
