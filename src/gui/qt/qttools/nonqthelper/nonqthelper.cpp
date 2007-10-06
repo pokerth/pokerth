@@ -47,5 +47,7 @@ std::string
 NonQtHelper::getDataPathStdString(const char *argv0)
 {
 	boost::filesystem::path startPath(argv0);
-	return stringToUtf8(startPath.remove_leaf().directory_string() + "data/");
+	startPath = startPath.remove_leaf();
+	startPath /= "data";
+	return stringToUtf8(startPath.directory_string());
 }
