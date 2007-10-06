@@ -113,6 +113,7 @@ private:
 	int lastHandBlindsRaised;
 	int lastTimeBlindsRaised;
 	const GameData myGameData;
+	std::list<int> blindsList;
 
 	//timer
 	boost::timers::portable::second_timer blindsTimer;

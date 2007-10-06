@@ -36,6 +36,10 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
   startHandsBeforeRaiseSmallBlind(gameData.handsBeforeRaise),
   myGameID(gameId), actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(0), lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData)
 {
+
+	blindsList = myGameData.manualBlindsList;
+
+
 	if(DEBUG_MODE) {
 		startSmallBlind = 10;
 		actualSmallBlind = startSmallBlind;
@@ -308,25 +312,31 @@ void Game::raiseBlinds() {
 		}	
 		else {
 			// Increase the position of the list
-			list<int> blindsList = myGameData.manualBlindsList;
-			list<int>::iterator it;
+/*			list<int> blindsList = myGameData.manualBlindsList;*/
+// 			list<int>::iterator it;
 			
 			if(!blindsList.empty()) {
-				it = find(blindsList.begin(), blindsList.end(), actualSmallBlind);
-				if(it !=  blindsList.end()) { 
-					it++;
+
+				actualSmallBlind = blindsList.front();
+				blindsList.pop_front();
+
+// 				it = find(blindsList.begin(), blindsList.end(), actualSmallBlind);
+// 				if(it !=  blindsList.end()) { 
+// 					it++;
 // 					cout << "increase position in blindslist \n";
-				}
-				else { 
+// 				}
+// 				else { 
 // 					cout << "blindslist exceeds\n"; 
-					if(actualSmallBlind == myGameData.firstSmallBlind) {
-						it = blindsList.begin();
-					}
-				}	
+// 					if(actualSmallBlind == myGameData.firstSmallBlind) {
+// 						it = blindsList.begin();
+// 					}
+// 				}	
 			}
 // 			else {	cout << "blindslist is empty \n"; }
 			// Check if we can get an element of the list or the position exceeds the lis
-			if (blindsList.empty() || it ==  blindsList.end()) {
+// 			if (blindsList.empty() || it ==  blindsList.end()) {
+
+			else {
 				
 				// The position exceeds the list
 				if (myGameData.afterManualBlindsMode == AFTERMB_DOUBLE_BLINDS) { 
@@ -340,9 +350,9 @@ void Game::raiseBlinds() {
 					}
 // 					else { /* Stay at last blind */ cout << "after blindslist stay at last blind \n"; }
 				}				
-			} else {
+// 			} else {
 				// Grab the blinds amount from the list
-				actualSmallBlind = *it;
+// 				actualSmallBlind = *it;
 // 				cout << "set new small blind from blindslist \n";
 			}
 		}
