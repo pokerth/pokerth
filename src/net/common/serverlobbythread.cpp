@@ -24,11 +24,12 @@
 #include <net/sendercallback.h>
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
+#include <core/avatarmanager.h>
 #include <openssl/rand.h>
 
 #include <boost/lambda/lambda.hpp>
 
-#define SERVER_CLOSE_SESSION_DELAY_SEC	10
+#define SERVER_CLOSE_SESSION_DELAY_SEC	1
 #define SERVER_MAX_NUM_SESSIONS			512 // Maximum number of idle users in lobby.
 
 #define SERVER_COMPUTER_PLAYER_NAME				"Computer"
@@ -54,8 +55,9 @@ private:
 };
 
 
-ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig)
-: m_gui(gui), m_playerConfig(playerConfig), m_curGameId(0), m_curUniquePlayerId(0)
+ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager)
+: m_gui(gui), m_avatarManager(avatarManager), m_playerConfig(playerConfig),
+  m_curGameId(0), m_curUniquePlayerId(0), m_curRequestId(0)
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
@@ -174,6 +176,12 @@ ServerLobbyThread::RemoveGame(unsigned id)
 	m_removeGameList.push_back(id);
 }
 
+AvatarManager &
+ServerLobbyThread::GetAvatarManager()
+{
+	return m_avatarManager;
+}
+
 u_int32_t
 ServerLobbyThread::GetNextUniquePlayerId()
 {
@@ -265,17 +273,24 @@ ServerLobbyThread::ProcessLoop()
 		}
 		if (packet.get())
 		{
-			if (packet->ToNetPacketInit())
+			if (session.sessionData->GetState() == SessionData::Init)
 			{
-				// Session should be in initial state.
-				if (session.sessionData->GetState() != SessionData::Init)
-					SessionError(session, ERR_SOCK_INVALID_STATE);
-				else
+				if (packet->ToNetPacketInit())
 					HandleNetPacketInit(session, *packet->ToNetPacketInit());
+				else if (packet->ToNetPacketAvatarHeader())
+					HandleNetPacketAvatarHeader(session, *packet->ToNetPacketAvatarHeader());
+				else
+					SessionError(session, ERR_SOCK_INVALID_STATE);
 			}
-			// Session should be established.
-			else if (session.sessionData->GetState() != SessionData::Established)
-				SessionError(session, ERR_SOCK_INVALID_STATE);
+			else if (session.sessionData->GetState() == SessionData::ReceivingAvatar)
+			{
+				if (packet->ToNetPacketAvatarFile())
+					HandleNetPacketAvatarFile(session, *packet->ToNetPacketAvatarFile());
+				else if (packet->ToNetPacketAvatarEnd())
+					HandleNetPacketAvatarEnd(session, *packet->ToNetPacketAvatarEnd());
+				else
+					SessionError(session, ERR_SOCK_INVALID_STATE);
+			}
 			else
 			{
 				if (packet->ToNetPacketRetrievePlayerInfo())
@@ -284,6 +299,8 @@ ServerLobbyThread::ProcessLoop()
 					HandleNetPacketCreateGame(session, *packet->ToNetPacketCreateGame());
 				else if (packet->ToNetPacketJoinGame())
 					HandleNetPacketJoinGame(session, *packet->ToNetPacketJoinGame());
+				else
+					SessionError(session, ERR_SOCK_INVALID_STATE);
 			}
 		}
 	}
@@ -333,24 +350,80 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 	tmpPlayerData->SetName(initData.playerName);
 	tmpPlayerData->SetNetSessionData(session.sessionData);
 	if (initData.showAvatar)
-		tmpPlayerData->SetAvatarFile(initData.avatar.ToString());
-
-	// Send ACK to client.
-	boost::shared_ptr<NetPacket> initAck(new NetPacketInitAck);
-	NetPacketInitAck::Data initAckData;
-	initAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
-	initAckData.playerId = tmpPlayerData->GetUniqueId();
-	static_cast<NetPacketInitAck *>(initAck.get())->SetData(initAckData);
-	GetSender().Send(session.sessionData->GetSocket(), initAck);
-
-	// Send the game list to the client.
-	SendGameList(session.sessionData->GetSocket());
+		tmpPlayerData->SetAvatarMD5(initData.avatar);
 
 	// Set player data for session.
 	m_sessionManager.SetSessionPlayerData(session.sessionData->GetSocket(), tmpPlayerData);
+	session.playerData = tmpPlayerData;
 
-	// Session is now established.
-	session.sessionData->SetState(SessionData::Established);
+	if (!GetAvatarManager().HasAvatar(initData.avatar))
+		RequestPlayerAvatar(session);
+	else
+		EstablishSession(session);
+}
+
+void
+ServerLobbyThread::HandleNetPacketAvatarHeader(SessionWrapper session, const NetPacketAvatarHeader &tmpPacket)
+{
+	if (session.playerData.get())
+	{
+		NetPacketAvatarHeader::Data headerData;
+		tmpPacket.GetData(headerData);
+
+		if (headerData.avatarFileSize && headerData.avatarFileSize <= MAX_AVATAR_FILE_SIZE)
+		{
+			boost::shared_ptr<AvatarData> tmpAvatarData(new AvatarData);
+			tmpAvatarData->fileData.reserve(headerData.avatarFileSize);
+			tmpAvatarData->fileType = headerData.avatarFileType;
+			tmpAvatarData->reportedSize = headerData.avatarFileSize;
+			// Ignore request id for now.
+
+			session.playerData->SetNetAvatarData(tmpAvatarData);
+
+			// Session is now receiving an avatar.
+			session.sessionData->SetState(SessionData::ReceivingAvatar);
+		}
+		// TODO error handling
+	}
+}
+
+void
+ServerLobbyThread::HandleNetPacketAvatarFile(SessionWrapper session, const NetPacketAvatarFile &tmpPacket)
+{
+	if (session.playerData.get())
+	{
+		NetPacketAvatarFile::Data data;
+		tmpPacket.GetData(data);
+
+		boost::shared_ptr<AvatarData> tmpAvatar = session.playerData->GetNetAvatarData();
+		if (tmpAvatar.get() && tmpAvatar->fileData.size() + data.fileData.size() <= tmpAvatar->reportedSize)
+		{
+			std::copy(data.fileData.begin(), data.fileData.end(), back_inserter(tmpAvatar->fileData));
+		}
+	}
+}
+
+void
+ServerLobbyThread::HandleNetPacketAvatarEnd(SessionWrapper session, const NetPacketAvatarEnd &tmpPacket)
+{
+	if (session.playerData.get())
+	{
+		boost::shared_ptr<AvatarData> tmpAvatar = session.playerData->GetNetAvatarData();
+		MD5Buf avatarMD5 = session.playerData->GetAvatarMD5();
+		if (!avatarMD5.IsZero() && tmpAvatar.get())
+		{
+			unsigned avatarSize = (unsigned)tmpAvatar->fileData.size();
+			if (avatarSize == tmpAvatar->reportedSize)
+			{
+				GetAvatarManager().StoreAvatarInCache(avatarMD5, tmpAvatar->fileType, &tmpAvatar->fileData[0], avatarSize);
+				// Free memory.
+				session.playerData->SetNetAvatarData(boost::shared_ptr<AvatarData>());
+				// Init finished - start session.
+				EstablishSession(session);
+			}
+			// TODO error handling
+		}
+	}
 }
 
 void
@@ -372,9 +445,9 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 		infoData.playerId = tmpPlayer->GetUniqueId();
 		infoData.playerInfo.ptype = tmpPlayer->GetType();
 		infoData.playerInfo.playerName = tmpPlayer->GetName();
-		infoData.playerInfo.hasAvatar = !tmpPlayer->GetAvatarFile().empty();
+		infoData.playerInfo.hasAvatar = !tmpPlayer->GetAvatarMD5().IsZero();
 		if (infoData.playerInfo.hasAvatar)
-			infoData.playerInfo.avatar.FromString(tmpPlayer->GetAvatarFile());
+			infoData.playerInfo.avatar = tmpPlayer->GetAvatarMD5();
 		static_cast<NetPacketPlayerInfo *>(info.get())->SetData(infoData);
 		GetSender().Send(session.sessionData->GetSocket(), info);
 	}
@@ -431,6 +504,38 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const NetPack
 	{
 		SessionError(session, ERR_NET_UNKNOWN_GAME);
 	}
+}
+
+void
+ServerLobbyThread::EstablishSession(SessionWrapper session)
+{
+	assert(session.playerData.get());
+	// Send ACK to client.
+	boost::shared_ptr<NetPacket> initAck(new NetPacketInitAck);
+	NetPacketInitAck::Data initAckData;
+	initAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
+	initAckData.playerId = session.playerData->GetUniqueId();
+	static_cast<NetPacketInitAck *>(initAck.get())->SetData(initAckData);
+	GetSender().Send(session.sessionData->GetSocket(), initAck);
+
+	// Send the game list to the client.
+	SendGameList(session.sessionData->GetSocket());
+
+	// Session is now established.
+	session.sessionData->SetState(SessionData::Established);
+}
+
+void
+ServerLobbyThread::RequestPlayerAvatar(SessionWrapper session)
+{
+	assert(session.playerData.get());
+	// Ask the client to send its avatar.
+	boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
+	NetPacketRetrieveAvatar::Data retrieveAvatarData;
+	retrieveAvatarData.requestId = m_curRequestId++;
+	retrieveAvatarData.avatar = session.playerData->GetAvatarMD5();
+	static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
+	GetSender().Send(session.sessionData->GetSocket(), retrieveAvatar);
 }
 
 void

@@ -89,6 +89,12 @@ MD5Buf::FromString(const std::string &text)
 }
 
 bool
+MD5Buf::IsZero() const
+{
+	return *this == MD5Buf();
+}
+
+bool
 MD5Buf::operator==(const MD5Buf &other) const
 {
 	return memcmp(data, other.data, MD5_DATA_SIZE) == 0;

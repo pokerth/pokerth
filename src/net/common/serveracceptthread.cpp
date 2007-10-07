@@ -30,11 +30,11 @@
 
 using namespace std;
 
-ServerAcceptThread::ServerAcceptThread(GuiInterface &gui, ConfigFile *config)
+ServerAcceptThread::ServerAcceptThread(GuiInterface &gui, ConfigFile *config, AvatarManager &avatarManager)
 : m_gui(gui)
 {
 	m_context.reset(new ServerContext);
-	m_lobbyThread.reset(new ServerLobbyThread(gui, config));
+	m_lobbyThread.reset(new ServerLobbyThread(gui, config, avatarManager));
 }
 
 ServerAcceptThread::~ServerAcceptThread()

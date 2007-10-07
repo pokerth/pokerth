@@ -26,6 +26,7 @@
 #include <core/crypthelper.h>
 #include <map>
 
+#include <boost/thread.hpp>
 #include <boost/shared_ptr.hpp>
 
 #define MAX_AVATAR_FILE_SIZE	30720
@@ -46,19 +47,25 @@ public:
 
 	bool AvatarFileToNetPackets(const std::string &fileName, unsigned requestId, NetPacketList &packets);
 
-	bool GetHashForAvatar(const std::string &fileName, MD5Buf &md5buf);
+	bool GetHashForAvatar(const std::string &fileName, MD5Buf &md5buf) const;
 	bool GetAvatarFileName(const MD5Buf &md5buf, std::string &fileName) const;
+	bool HasAvatar(const MD5Buf &md5buf) const;
 	bool StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFileType, const unsigned char *data, unsigned size);
 
 protected:
 	typedef std::map<MD5Buf, std::string> AvatarMap;
 
-	void InternalReadDirectory(const std::string &dir);
+	bool InternalReadDirectory(const std::string &dir, AvatarMap &avatars);
 
 private:
-	AvatarMap			m_avatars;
+	mutable boost::mutex	m_avatarsMutex;
+	AvatarMap				m_avatars;
 
-	std::string			m_cacheDir;
+	mutable boost::mutex	m_cachedAvatarsMutex;
+	AvatarMap				m_cachedAvatars;
+
+	mutable boost::mutex	m_cacheDirMutex;
+	std::string				m_cacheDir;
 };
 
 #endif

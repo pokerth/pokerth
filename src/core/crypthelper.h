@@ -31,6 +31,7 @@ struct MD5Buf
 
 	std::string ToString() const;
 	bool FromString(const std::string &text);
+	bool IsZero() const;
 
 	bool operator==(const MD5Buf &other) const;
 	bool operator<(const MD5Buf &other) const;

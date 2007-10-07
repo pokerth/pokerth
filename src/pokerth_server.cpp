@@ -69,6 +69,9 @@ main(int argc, char *argv[])
 
 	//_CrtSetBreakAlloc(164);
 
+	//create defaultconfig
+	ConfigFile *myConfig = new ConfigFile(argc, argv);
+
 	// TODO: Hack
 #ifndef _WIN32
 	daemon(0, 0);
@@ -76,9 +79,6 @@ main(int argc, char *argv[])
 
 	signal(SIGTERM, TerminateHandler);
 	signal(SIGINT, TerminateHandler);
-
-	//create defaultconfig
-	ConfigFile *myConfig = new ConfigFile(argc, argv);
 
 	socket_startup();
 

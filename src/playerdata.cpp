@@ -19,6 +19,8 @@
 
 #include <playerdata.h>
 
+using namespace std;
+
 PlayerData::PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRights rights)
 : m_uniqueId(uniqueId), m_number(number), m_type(type), m_rights(rights)
 {
@@ -35,7 +37,7 @@ PlayerData::~PlayerData()
 {
 }
 
-const std::string &
+string
 PlayerData::GetName() const
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
@@ -49,7 +51,7 @@ PlayerData::SetName(const std::string &name)
 	m_name = name;
 }
 
-const std::string &
+string
 PlayerData::GetAvatarFile() const
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
@@ -61,6 +63,19 @@ PlayerData::SetAvatarFile(const std::string &avatarFile)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	m_avatarFile = avatarFile;
+}
+
+MD5Buf
+PlayerData::GetAvatarMD5() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_avatarMD5;
+}
+void
+PlayerData::SetAvatarMD5(const MD5Buf &avatarMD5)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_avatarMD5 = avatarMD5;
 }
 
 boost::shared_ptr<SessionData>
@@ -75,6 +90,18 @@ PlayerData::SetNetSessionData(boost::shared_ptr<SessionData> session)
 {
 	// setting/getting boost::shared_ptr is thread safe.
 	m_netSessionData = session;
+}
+
+boost::shared_ptr<AvatarData>
+PlayerData::GetNetAvatarData() const
+{
+	return m_netAvatarData;
+}
+
+void
+PlayerData::SetNetAvatarData(boost::shared_ptr<AvatarData> avatarData)
+{
+	m_netAvatarData = avatarData;
 }
 
 PlayerType

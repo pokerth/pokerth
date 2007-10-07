@@ -39,13 +39,14 @@ class ReceiverHelper;
 class ServerSenderCallback;
 class ServerGameThread;
 class ConfigFile;
+class AvatarManager;
 struct GameData;
 class Game;
 
 class ServerLobbyThread : public Thread
 {
 public:
-	ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig);
+	ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager);
 	virtual ~ServerLobbyThread();
 
 	void Init(const std::string &pwd);
@@ -67,6 +68,8 @@ public:
 	u_int32_t GetNextGameId();
 	ServerCallback &GetCallback();
 
+	AvatarManager &GetAvatarManager();
+
 protected:
 
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
@@ -81,9 +84,14 @@ protected:
 
 	void ProcessLoop();
 	void HandleNetPacketInit(SessionWrapper session, const NetPacketInit &tmpPacket);
+	void HandleNetPacketAvatarHeader(SessionWrapper session, const NetPacketAvatarHeader &tmpPacket);
+	void HandleNetPacketAvatarFile(SessionWrapper session, const NetPacketAvatarFile &tmpPacket);
+	void HandleNetPacketAvatarEnd(SessionWrapper session, const NetPacketAvatarEnd &tmpPacket);
 	void HandleNetPacketRetrievePlayerInfo(SessionWrapper session, const NetPacketRetrievePlayerInfo &tmpPacket);
 	void HandleNetPacketCreateGame(SessionWrapper session, const NetPacketCreateGame &tmpPacket);
 	void HandleNetPacketJoinGame(SessionWrapper session, const NetPacketJoinGame &tmpPacket);
+	void EstablishSession(SessionWrapper session);
+	void RequestPlayerAvatar(SessionWrapper session);
 	void CloseSessionLoop();
 	void RemoveGameLoop();
 
@@ -141,6 +149,7 @@ private:
 	std::auto_ptr<SenderThread> m_sender;
 	std::auto_ptr<ServerSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
+	AvatarManager &m_avatarManager;
 
 	std::string m_password;
 	ConfigFile *m_playerConfig;
@@ -148,6 +157,8 @@ private:
 
 	u_int32_t m_curUniquePlayerId;
 	mutable boost::mutex m_curUniquePlayerIdMutex;
+
+	u_int32_t m_curRequestId;
 };
 
 #endif

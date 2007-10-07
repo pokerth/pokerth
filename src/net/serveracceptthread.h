@@ -32,12 +32,13 @@ class ServerLobbyThread;
 class ServerSenderCallback;
 class SenderThread;
 class ConfigFile;
+class AvatarManager;
 struct GameData;
 
 class ServerAcceptThread : public Thread
 {
 public:
-	ServerAcceptThread(GuiInterface &gui, ConfigFile *config);
+	ServerAcceptThread(GuiInterface &gui, ConfigFile *config, AvatarManager &avatarManager);
 	virtual ~ServerAcceptThread();
 
 	// Set the parameters.

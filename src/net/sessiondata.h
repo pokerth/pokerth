@@ -31,7 +31,7 @@
 class SessionData
 {
 public:
-	enum State { Init, Established, Game };
+	enum State { Init, ReceivingAvatar, Established, Game };
 
 	SessionData(SOCKET sockfd, unsigned id);
 	~SessionData();

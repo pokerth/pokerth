@@ -20,6 +20,7 @@
 #include "avatarmanager.h"
 
 #include <boost/filesystem.hpp>
+#include <boost/lambda/lambda.hpp>
 #include <openssl/md5.h>
 
 #include <fstream>
@@ -51,18 +52,20 @@ AvatarManager::~AvatarManager()
 bool
 AvatarManager::Init(const std::string &dataDir, const std::string &cacheDir)
 {
-	bool retVal = false;
-	try
 	{
-		InternalReadDirectory(dataDir + "gfx/avatars/default/people/");
-		InternalReadDirectory(dataDir + "gfx/avatars/default/misc/");
-		InternalReadDirectory(cacheDir);
+		boost::mutex::scoped_lock lock(m_cacheDirMutex);
 		m_cacheDir = cacheDir;
-		retVal = true;
-	} catch (...)
-	{
 	}
-	return retVal;
+	{
+		boost::mutex::scoped_lock lock(m_avatarsMutex);
+		InternalReadDirectory(dataDir + "gfx/avatars/default/people/", m_avatars);
+		InternalReadDirectory(dataDir + "gfx/avatars/default/misc/", m_avatars);
+	}
+	{
+		boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
+		InternalReadDirectory(cacheDir, m_cachedAvatars);
+	}
+	return true; // TODO handle errors
 }
 
 boost::shared_ptr<AvatarFileState>
@@ -170,31 +173,50 @@ AvatarManager::AvatarFileToNetPackets(const string &fileName, unsigned requestId
 }
 
 bool
-AvatarManager::GetHashForAvatar(const std::string &fileName, MD5Buf &md5buf)
+AvatarManager::GetHashForAvatar(const std::string &fileName, MD5Buf &md5buf) const
 {
 	bool found = false;
-
 	if (exists(fileName))
 	{
-		AvatarMap::const_iterator i = m_avatars.begin();
-		AvatarMap::const_iterator end = m_avatars.end();
-		while (i != end)
+		// Scan default avatars first.
 		{
-			if (i->second == fileName)
+			boost::mutex::scoped_lock lock(m_avatarsMutex);
+			AvatarMap::const_iterator i = m_avatars.begin();
+			AvatarMap::const_iterator end = m_avatars.end();
+			while (i != end)
 			{
-				md5buf = i->first;
-				found = true;
-				break;
+				if (i->second == fileName)
+				{
+					md5buf = i->first;
+					found = true;
+					break;
+				}
+				++i;
 			}
-			++i;
 		}
+		// Check cached avatars next.
+		if (!found)
+		{
+			boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
+			AvatarMap::const_iterator i = m_cachedAvatars.begin();
+			AvatarMap::const_iterator end = m_cachedAvatars.end();
+			while (i != end)
+			{
+				if (i->second == fileName)
+				{
+					md5buf = i->first;
+					found = true;
+					break;
+				}
+				++i;
+			}
+		}
+
+		// Calculate md5 sum if not found.
 		if (!found)
 		{
 			if (CryptHelper::MD5Sum(fileName, md5buf))
-			{
-				m_avatars.insert(AvatarMap::value_type(md5buf, fileName));
 				found = true;
-			}
 		}
 	}
 	return found;
@@ -204,13 +226,33 @@ bool
 AvatarManager::GetAvatarFileName(const MD5Buf &md5buf, std::string &fileName) const
 {
 	bool retVal = false;
-	AvatarMap::const_iterator pos = m_avatars.find(md5buf);
-	if (pos != m_avatars.end())
 	{
-		fileName = pos->second;
-		retVal = true;
+		boost::mutex::scoped_lock lock(m_avatarsMutex);
+		AvatarMap::const_iterator pos = m_avatars.find(md5buf);
+		if (pos != m_avatars.end())
+		{
+			fileName = pos->second;
+			retVal = true;
+		}
+	}
+	if (!retVal)
+	{
+		boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
+		AvatarMap::const_iterator pos = m_cachedAvatars.find(md5buf);
+		if (pos != m_cachedAvatars.end())
+		{
+			fileName = pos->second;
+			retVal = true;
+		}
 	}
 	return retVal;
+}
+
+bool
+AvatarManager::HasAvatar(const MD5Buf &md5buf) const
+{
+	string tmpFile;
+	return GetAvatarFileName(md5buf, tmpFile);
 }
 
 bool
@@ -237,7 +279,10 @@ AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFil
 		string fileName(tmpPath.file_string());
 		ofstream o(fileName.c_str(), ios_base::out | ios_base::binary);
 		o.write((const char *)data, size);
-		m_avatars.insert(AvatarMap::value_type(md5buf, fileName));
+		{
+			boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
+			m_cachedAvatars.insert(AvatarMap::value_type(md5buf, fileName));
+		}
 		retVal = true;
 	} catch (...)
 	{
@@ -245,30 +290,39 @@ AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFil
 	return retVal;
 }
 
-void
-AvatarManager::InternalReadDirectory(const std::string &dir)
+bool
+AvatarManager::InternalReadDirectory(const std::string &dir, AvatarMap &avatars)
 {
-	directory_iterator i(dir);
-	directory_iterator end;
-
-	while (i != end)
+	bool retVal = true;
+	try
 	{
-		if (is_regular(i->status()))
+		// This method is not thread safe. Only call after locking the map.
+		directory_iterator i(dir);
+		directory_iterator end;
+
+		while (i != end)
 		{
-			string md5sum(basename(i->path()));
-			MD5Buf md5buf;
-			string fileName(i->path().file_string());
-			bool success = true;
-			if (!md5buf.FromString(md5sum))
+			if (is_regular(i->status()))
 			{
-				// sigh. File name is not an md5 sum. Calculate on our own...
-				if (!CryptHelper::MD5Sum(fileName, md5buf))
-					success = false;
+				string md5sum(basename(i->path()));
+				MD5Buf md5buf;
+				string fileName(i->path().file_string());
+				bool success = true;
+				if (!md5buf.FromString(md5sum))
+				{
+					// sigh. File name is not an md5 sum. Calculate on our own...
+					if (!CryptHelper::MD5Sum(fileName, md5buf))
+						success = false;
+				}
+				if (success)
+					avatars.insert(AvatarMap::value_type(md5buf, fileName));
 			}
-			if (success)
-				m_avatars.insert(AvatarMap::value_type(md5buf, fileName));
+			++i;
 		}
-		++i;
+	} catch (...)
+	{
+		retVal = false;
 	}
+	return retVal;
 }
 

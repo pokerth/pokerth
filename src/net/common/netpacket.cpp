@@ -1359,7 +1359,7 @@ NetPacketAvatarHeader::GetData(NetPacketAvatarHeader::Data &outData) const
 
 	outData.requestId				= ntohl(tmpData->requestId);
 	outData.avatarFileSize			= ntohl(tmpData->avatarFileSize);
-	outData.avatarFileType			= static_cast<AvatarFileType>(ntohl(tmpData->avatarFileType));
+	outData.avatarFileType			= static_cast<AvatarFileType>(ntohs(tmpData->avatarFileType));
 }
 
 const NetPacketAvatarHeader *
@@ -1402,7 +1402,6 @@ NetPacketAvatarFile::Clone() const
 void
 NetPacketAvatarFile::SetData(const NetPacketAvatarFile::Data &inData)
 {
-	NetPacketAvatarFileData *tmpData = (NetPacketAvatarFileData *)GetRawData();
 	int fileDataSize = static_cast<int>(inData.fileData.size());
 
 	if (fileDataSize > MAX_FILE_DATA_SIZE)
@@ -1411,6 +1410,8 @@ NetPacketAvatarFile::SetData(const NetPacketAvatarFile::Data &inData)
 	Resize((u_int16_t)
 		(sizeof(NetPacketAvatarFileData)
 		+ fileDataSize));
+
+	NetPacketAvatarFileData *tmpData = (NetPacketAvatarFileData *)GetRawData();
 
 	tmpData->requestId				= htonl(inData.requestId);
 

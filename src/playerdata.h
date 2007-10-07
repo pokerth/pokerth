@@ -24,6 +24,7 @@
 #include <core/crypthelper.h>
 #include <string>
 #include <list>
+#include <vector>
 #include <map>
 #include <boost/shared_ptr.hpp>
 #include <boost/thread.hpp>
@@ -50,6 +51,14 @@ enum AvatarFileType
 	AVATAR_FILE_TYPE_GIF
 };
 
+struct AvatarData
+{
+	AvatarData() : fileType(AVATAR_FILE_TYPE_UNKNOWN), reportedSize(0) {}
+	std::vector<unsigned char>	fileData;
+	AvatarFileType				fileType;
+	unsigned					reportedSize;
+};
+
 struct PlayerInfo
 {
 	PlayerInfo() : ptype(PLAYER_TYPE_HUMAN) {}
@@ -66,12 +75,16 @@ public:
 	PlayerData(const PlayerData &other);
 	~PlayerData();
 
-	const std::string &GetName() const;
+	std::string GetName() const;
 	void SetName(const std::string &name);
-	const std::string &GetAvatarFile() const;
+	std::string GetAvatarFile() const;
 	void SetAvatarFile(const std::string &avatarFile);
+	MD5Buf GetAvatarMD5() const;
+	void SetAvatarMD5(const MD5Buf &avatarMD5);
 	boost::shared_ptr<SessionData> GetNetSessionData() const;
 	void SetNetSessionData(boost::shared_ptr<SessionData> session);
+	boost::shared_ptr<AvatarData> GetNetAvatarData() const;
+	void SetNetAvatarData(boost::shared_ptr<AvatarData> avatarData);
 	PlayerType GetType() const;
 	void SetType(PlayerType type);
 	PlayerRights GetRights() const;
@@ -87,9 +100,11 @@ private:
 	int								m_number;
 	std::string						m_name;
 	std::string						m_avatarFile;
+	MD5Buf							m_avatarMD5;
 	PlayerType						m_type;
 	PlayerRights					m_rights;
 	boost::shared_ptr<SessionData>	m_netSessionData;
+	boost::shared_ptr<AvatarData>	m_netAvatarData;
 
 	mutable boost::mutex			m_dataMutex;
 };

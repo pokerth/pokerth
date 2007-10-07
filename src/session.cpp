@@ -212,7 +212,7 @@ void Session::startNetworkServer()
 		assert(false);
 		return;
 	}
-	myNetServer = new ServerAcceptThread(*myGui, myConfig);
+	myNetServer = new ServerAcceptThread(*myGui, myConfig, *myAvatarManager);
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
