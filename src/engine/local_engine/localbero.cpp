@@ -49,19 +49,6 @@ LocalBeRo::LocalBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState g
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // 	int i;
 
 	//SmallBlind-Position ermitteln 
@@ -92,109 +79,117 @@ void LocalBeRo::nextPlayer() {
 
 void LocalBeRo::run() {
 
-	if (firstRun || firstRunGui) {
+	if(firstRunGui) {
+		firstRunGui = false;
+		myHand->getGuiInterface()->dealBeRoCards(myBeRoID);
+	}
+	else {
 
-		// HACK
-		if(firstRunGui) {
-			firstRunGui = false;
-			myHand->getGuiInterface()->dealBeRoCards(myBeRoID);
-		}
+		if(firstRun) {
 
-		firstRun = false;
-/*
-
-		// determine smallBlindPosition
-		PlayerListIterator smallBlindPositionIt;
+			firstRun = false;
 	
-		for(smallBlindPositionIt=myHand->getActivePlayerList()->begin(); smallBlindPositionIt!=myHand->getActivePlayerList()->end(); smallBlindPositionIt++) {
-			if((*smallBlindPositionIt)->getMyButton() == BUTTON_SMALL_BLIND) break;
-		}
-	
-		// determine running player before smallBlind (for heads up: determine dealer/smallblind)
-		PlayerListIterator it_1, it_2;
-		size_t i;
-	
-		// running player before smallBlind
-		if(myHand->getActivePlayerList()->size() > 2) {
-			it_1 = smallBlindPositionIt;
-			for(i=0; i<myHand->getActivePlayerList()->size(); i++) {	
-				if(it_1 == myHand->getActivePlayerList()->begin()) it_1 = myHand->getActivePlayerList()->end();
-				it_1--;
-				it_2 = find(myHand->getRunningPlayerList()->begin(), myHand->getRunningPlayerList()->end(), *it_1);
-				// running player found
-				if(it_2 != myHand->getRunningPlayerList()->end()) {
-					lastPlayersTurnIt = it_2;
-					break;
-				}
-			}
-		}
-		// heads up: bigBlind begins -> dealer/smallBlind is running player before bigBlind
-		else {
-			it_1 = find(myHand->getRunningPlayerList()->begin(), myHand->getRunningPlayerList()->end(), *smallBlindPositionIt);
-			if( it_1 == myHand->getRunningPlayerList()->end() ) {
-				cout << "ERROR - lastPlayersTurnIt-detection in localBeRo" << endl;
-			}
-			// smallBlind found
-			else {
-				lastPlayersTurnIt = it_1;
-			}
-		}
-	
-		currentPlayersTurnIt = lastPlayersTurnIt;
-
-
-
-*/
-
-
-
-
-
-
-
-		if(!(myHand->getAllInCondition())) {
-	
-	
+	/*
 	
 			// determine smallBlindPosition
-	// 		PlayerListIterator smallBlindPositionIt;
+			PlayerListIterator smallBlindPositionIt;
 		
-	// 		for(smallBlindPositionIt=myHand->getActivePlayerList()->begin(); smallBlindPositionIt!=myHand->getActivePlayerList()->end(); smallBlindPositionIt++) {
-	// 			if((*smallBlindPositionIt)->getMyButton() == BUTTON_SMALL_BLIND) break;
-	// 		}
+			for(smallBlindPositionIt=myHand->getActivePlayerList()->begin(); smallBlindPositionIt!=myHand->getActivePlayerList()->end(); smallBlindPositionIt++) {
+				if((*smallBlindPositionIt)->getMyButton() == BUTTON_SMALL_BLIND) break;
+			}
 		
 			// determine running player before smallBlind (for heads up: determine dealer/smallblind)
 			PlayerListIterator it_1, it_2;
 			size_t i;
 		
 			// running player before smallBlind
-			bool runningPlayerFound = false;
 			if(myHand->getActivePlayerList()->size() > 2) {
-	
-				it_1 = myHand->getActivePlayerIt(smallBlindPositionId);
-				assert( it_1 != myHand->getActivePlayerList()->end() );
-	
+				it_1 = smallBlindPositionIt;
 				for(i=0; i<myHand->getActivePlayerList()->size(); i++) {	
-	
 					if(it_1 == myHand->getActivePlayerList()->begin()) it_1 = myHand->getActivePlayerList()->end();
 					it_1--;
-	
-					it_2 = myHand->getRunningPlayerIt((*it_1)->getMyUniqueID());
+					it_2 = find(myHand->getRunningPlayerList()->begin(), myHand->getRunningPlayerList()->end(), *it_1);
 					// running player found
 					if(it_2 != myHand->getRunningPlayerList()->end()) {
-						firstRoundLastPlayersTurnId = (*it_2)->getMyUniqueID();
-						runningPlayerFound = true;
+						lastPlayersTurnIt = it_2;
 						break;
 					}
 				}
-				assert(runningPlayerFound);
 			}
 			// heads up: bigBlind begins -> dealer/smallBlind is running player before bigBlind
 			else {
-				firstRoundLastPlayersTurnId = smallBlindPositionId;
+				it_1 = find(myHand->getRunningPlayerList()->begin(), myHand->getRunningPlayerList()->end(), *smallBlindPositionIt);
+				if( it_1 == myHand->getRunningPlayerList()->end() ) {
+					cout << "ERROR - lastPlayersTurnIt-detection in localBeRo" << endl;
+				}
+				// smallBlind found
+				else {
+					lastPlayersTurnIt = it_1;
+				}
 			}
 		
-			currentPlayersTurnId = firstRoundLastPlayersTurnId;
+			currentPlayersTurnIt = lastPlayersTurnIt;
+	
+	
+	
+	*/
+	
+	
+	
+	
+	
+	
+	
+			if(!(myHand->getAllInCondition())) {
+		
+		
+		
+				// determine smallBlindPosition
+		// 		PlayerListIterator smallBlindPositionIt;
+			
+		// 		for(smallBlindPositionIt=myHand->getActivePlayerList()->begin(); smallBlindPositionIt!=myHand->getActivePlayerList()->end(); smallBlindPositionIt++) {
+		// 			if((*smallBlindPositionIt)->getMyButton() == BUTTON_SMALL_BLIND) break;
+		// 		}
+			
+				// determine running player before smallBlind (for heads up: determine dealer/smallblind)
+				PlayerListIterator it_1, it_2;
+				size_t i;
+			
+				// running player before smallBlind
+				bool runningPlayerFound = false;
+				if(myHand->getActivePlayerList()->size() > 2) {
+		
+					it_1 = myHand->getActivePlayerIt(smallBlindPositionId);
+					assert( it_1 != myHand->getActivePlayerList()->end() );
+		
+					for(i=0; i<myHand->getActivePlayerList()->size(); i++) {	
+		
+						if(it_1 == myHand->getActivePlayerList()->begin()) it_1 = myHand->getActivePlayerList()->end();
+						it_1--;
+		
+						it_2 = myHand->getRunningPlayerIt((*it_1)->getMyUniqueID());
+						// running player found
+						if(it_2 != myHand->getRunningPlayerList()->end()) {
+							firstRoundLastPlayersTurnId = (*it_2)->getMyUniqueID();
+							runningPlayerFound = true;
+							break;
+						}
+					}
+					assert(runningPlayerFound);
+				}
+				// heads up: bigBlind begins -> dealer/smallBlind is running player before bigBlind
+				else {
+					firstRoundLastPlayersTurnId = smallBlindPositionId;
+				}
+			
+				currentPlayersTurnId = firstRoundLastPlayersTurnId;
+		
+		
+		
+			}
+	
+	
+	
 	
 	
 	
@@ -209,17 +204,6 @@ void LocalBeRo::run() {
 
 
 
-
-
-
-
-
-
-
-
-	}
-
-	else {
 
 		//log the turned cards
 		if(!logBoardCardsDone) {
