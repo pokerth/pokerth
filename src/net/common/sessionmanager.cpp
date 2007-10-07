@@ -311,6 +311,21 @@ SessionManager::CountReadySessions() const
 }
 
 void
+SessionManager::ResetAllReadyFlags()
+{
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SessionMap::iterator i = m_sessionMap.begin();
+	SessionMap::iterator end = m_sessionMap.end();
+
+	while (i != end)
+	{
+		(*i).second.sessionData->ResetReadyFlag();
+		++i;
+	}
+}
+
+void
 SessionManager::Clear()
 {
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);

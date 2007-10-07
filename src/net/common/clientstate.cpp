@@ -815,6 +815,7 @@ ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		myCards[1] = (int)tmpData.yourCards[1];
 		client.GetGame()->getSeatsList()->front()->setMyCards(myCards);
 		client.GetGame()->initHand();
+		client.GetGame()->getCurrentHand()->setSmallBlind(tmpData.smallBlind);
 		client.GetGame()->startHand();
 		client.GetGui().dealHoleCards();
 		client.GetGui().refreshGameLabels(GAME_STATE_PREFLOP);
@@ -952,6 +953,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 
 			// Next player's turn.
 			curGame->getCurrentHand()->getCurrentBeRo()->setCurrentPlayersTurnId(tmpPlayer->getMyID());
+			curGame->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(turnData.minimumRaise);
 			// TODO: remove this
 			curGame->getCurrentHand()->getCurrentBeRo()->setPlayersTurn(tmpPlayer->getMyID());
 

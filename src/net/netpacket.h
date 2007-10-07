@@ -737,6 +737,7 @@ public:
 	struct Data
 	{
 		u_int16_t	yourCards[2];
+		u_int32_t	smallBlind;
 	};
 
 	NetPacketHandStart();
@@ -761,6 +762,7 @@ public:
 	{
 		GameState	gameState;
 		u_int32_t	playerId;
+		u_int32_t	minimumRaise;
 	};
 
 	NetPacketPlayersTurn();

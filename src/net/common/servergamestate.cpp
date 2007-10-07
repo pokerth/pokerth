@@ -419,6 +419,7 @@ ServerGameStateWaitAck::InternalProcess(ServerGameThread &server, SessionWrapper
 		if (server.GetSessionManager().CountReadySessions() == server.GetSessionManager().GetRawSessionCount())
 		{
 			// Everyone is ready.
+			server.GetSessionManager().ResetAllReadyFlags();
 			server.SetState(SERVER_START_GAME_STATE::Instance());
 			retVal = MSG_SOCK_INIT_DONE;
 		}
@@ -505,8 +506,6 @@ ServerGameStateStartHand::~ServerGameStateStartHand()
 int
 ServerGameStateStartHand::Process(ServerGameThread &server)
 {
-	boost::shared_ptr<NetPacket> answer(new NetPacketHandStart);
-
 	// Initialize hand.
 	Game &curGame = server.GetGame();
 	curGame.initHand();
@@ -533,6 +532,7 @@ ServerGameStateStartHand::Process(ServerGameThread &server)
 			NetPacketHandStart::Data handStartData;
 			handStartData.yourCards[0] = static_cast<unsigned>(cards[0]);
 			handStartData.yourCards[1] = static_cast<unsigned>(cards[1]);
+			handStartData.smallBlind = curGame.getCurrentHand()->getSmallBlind();
 			static_cast<NetPacketHandStart *>(notifyCards.get())->SetData(handStartData);
 
 			server.GetSender().Send(tmpPlayer->getNetSessionData()->GetSocket(), notifyCards);
@@ -690,6 +690,7 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 			NetPacketPlayersTurn::Data playersTurnData;
 			playersTurnData.gameState = (GameState)curGame.getCurrentHand()->getActualRound();
 			playersTurnData.playerId = curPlayer->getMyUniqueID();
+			playersTurnData.minimumRaise = curGame.getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
 			static_cast<NetPacketPlayersTurn *>(notification.get())->SetData(playersTurnData);
 
 			server.SendToAllPlayers(notification, SessionData::Game);

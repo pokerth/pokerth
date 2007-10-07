@@ -322,12 +322,14 @@ struct GCC_PACKED NetPacketHandStartData
 	NetPacketHeader		head;
 	u_int16_t			yourCard1;
 	u_int16_t			yourCard2;
+	u_int32_t			smallBlind;
 };
 
 struct GCC_PACKED NetPacketPlayersTurnData
 {
 	NetPacketHeader		head;
 	u_int32_t			playerId;
+	u_int32_t			minimumRaise;
 	u_int16_t			gameState;
 	u_int16_t			reserved;
 };
@@ -2923,6 +2925,7 @@ NetPacketHandStart::SetData(const NetPacketHandStart::Data &inData)
 
 	tmpData->yourCard1		= htons(inData.yourCards[0]);
 	tmpData->yourCard2		= htons(inData.yourCards[1]);
+	tmpData->smallBlind		= htonl(inData.smallBlind);
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -2935,6 +2938,7 @@ NetPacketHandStart::GetData(NetPacketHandStart::Data &outData) const
 
 	outData.yourCards[0]		= ntohs(tmpData->yourCard1);
 	outData.yourCards[1]		= ntohs(tmpData->yourCard2);
+	outData.smallBlind			= ntohl(tmpData->smallBlind);
 }
 
 const NetPacketHandStart *
@@ -2985,6 +2989,7 @@ NetPacketPlayersTurn::SetData(const NetPacketPlayersTurn::Data &inData)
 
 	tmpData->playerId	= htonl(inData.playerId);
 	tmpData->gameState	= htons(inData.gameState);
+	tmpData->minimumRaise	= htonl(inData.minimumRaise);
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -2997,6 +3002,7 @@ NetPacketPlayersTurn::GetData(NetPacketPlayersTurn::Data &outData) const
 
 	outData.playerId	= ntohl(tmpData->playerId);
 	outData.gameState	= static_cast<GameState>(ntohs(tmpData->gameState));
+	outData.minimumRaise	= ntohl(tmpData->minimumRaise);
 }
 
 const NetPacketPlayersTurn *
