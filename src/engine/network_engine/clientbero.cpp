@@ -223,7 +223,7 @@ ClientBeRo::getMinimumRaise() const
 
 
 void
-ClientBeRo::resetFirstRun()
+ClientBeRo::skipFirstRunGui()
 {
 }
 

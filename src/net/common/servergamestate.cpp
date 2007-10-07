@@ -440,9 +440,9 @@ ServerGameStateStartHand::Process(ServerGameThread &server)
 	curGame.initHand();
 
 	// HACK: Skip GUI notification run
-	curGame.getCurrentHand()->getFlop()->resetFirstRun();
-	curGame.getCurrentHand()->getTurn()->resetFirstRun();
-	curGame.getCurrentHand()->getRiver()->resetFirstRun();
+	curGame.getCurrentHand()->getFlop()->skipFirstRunGui();
+	curGame.getCurrentHand()->getTurn()->skipFirstRunGui();
+	curGame.getCurrentHand()->getRiver()->skipFirstRunGui();
 
 	// Consider all players, even inactive.
 	PlayerListIterator i = curGame.getSeatsList()->begin();

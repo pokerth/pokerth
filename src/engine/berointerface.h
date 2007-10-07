@@ -58,7 +58,7 @@ public:
 
 	virtual bool getFirstRound() const =0;
 
-	virtual void resetFirstRun() =0;
+	virtual void skipFirstRunGui() =0;
 
 	virtual void nextPlayer() =0;
 	virtual void run() =0;

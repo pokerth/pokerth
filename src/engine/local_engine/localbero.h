@@ -35,7 +35,7 @@ public:
 	void setMinimumRaise ( int theValue ) { minimumRaise = theValue; }
 	int getMinimumRaise() const { return minimumRaise; }
 
-	void resetFirstRun() { firstRun = false; }
+	void skipFirstRunGui() { firstRunGui = false; }
 
 	void nextPlayer();
 	void run();
@@ -116,6 +116,7 @@ private:
 	int minimumRaise;
 
 	bool firstRun;
+	bool firstRunGui; // HACK
 	bool firstRound;
 	bool firstHeadsUpRound;
 

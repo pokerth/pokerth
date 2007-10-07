@@ -70,7 +70,7 @@ public:
 	int getMinimumRaise() const;
 
 
-	void resetFirstRun();
+	void skipFirstRunGui();
 
 	void nextPlayer();
 	void run();

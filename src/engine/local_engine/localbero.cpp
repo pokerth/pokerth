@@ -14,7 +14,7 @@
 using namespace std;
 
 LocalBeRo::LocalBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState gS)
-: BeRoInterface(), myHand(hi), myBeRoID(gS), myID(id), dealerPosition(dP), smallBlindPosition(0), dealerPositionId(dP), smallBlindPositionId(0), bigBlindPositionId(0), smallBlind(sB), highestSet(false), minimumRaise(2*sB), firstRun(true), firstRound(true), firstHeadsUpRound(true), currentPlayersTurnId(0), firstRoundLastPlayersTurnId(0), logBoardCardsDone(false)
+: BeRoInterface(), myHand(hi), myBeRoID(gS), myID(id), dealerPosition(dP), smallBlindPosition(0), dealerPositionId(dP), smallBlindPositionId(0), bigBlindPositionId(0), smallBlind(sB), highestSet(false), minimumRaise(2*sB), firstRun(true), firstRunGui(true), firstRound(true), firstHeadsUpRound(true), currentPlayersTurnId(0), firstRoundLastPlayersTurnId(0), logBoardCardsDone(false)
 {
 	currentPlayersTurnIt = myHand->getRunningPlayerList()->begin();
 	lastPlayersTurnIt = myHand->getRunningPlayerList()->begin();
@@ -92,11 +92,15 @@ void LocalBeRo::nextPlayer() {
 
 void LocalBeRo::run() {
 
-	if (firstRun) {
+	if (firstRun || firstRunGui) {
 
-		myHand->getGuiInterface()->dealBeRoCards(myBeRoID);
+		// HACK
+		if(firstRunGui) {
+			firstRunGui = false;
+			myHand->getGuiInterface()->dealBeRoCards(myBeRoID);
+		}
+
 		firstRun = false;
-
 /*
 
 		// determine smallBlindPosition
