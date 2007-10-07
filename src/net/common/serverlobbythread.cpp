@@ -170,6 +170,13 @@ ServerLobbyThread::HandleGameRetrievePlayerInfo(SessionWrapper session, const Ne
 }
 
 void
+ServerLobbyThread::HandleGameRetrieveAvatar(SessionWrapper session, const NetPacketRetrieveAvatar &tmpPacket)
+{
+	// Someone within a game requested an avatar.
+	HandleNetPacketRetrieveAvatar(session, tmpPacket);
+}
+
+void
 ServerLobbyThread::RemoveGame(unsigned id)
 {
 	boost::mutex::scoped_lock lock(m_removeGameListMutex);
@@ -295,6 +302,8 @@ ServerLobbyThread::ProcessLoop()
 			{
 				if (packet->ToNetPacketRetrievePlayerInfo())
 					HandleNetPacketRetrievePlayerInfo(session, *packet->ToNetPacketRetrievePlayerInfo());
+				else if (packet->ToNetPacketRetrieveAvatar())
+					HandleNetPacketRetrieveAvatar(session, *packet->ToNetPacketRetrieveAvatar());
 				else if (packet->ToNetPacketCreateGame())
 					HandleNetPacketCreateGame(session, *packet->ToNetPacketCreateGame());
 				else if (packet->ToNetPacketJoinGame())
@@ -356,7 +365,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 	m_sessionManager.SetSessionPlayerData(session.sessionData->GetSocket(), tmpPlayerData);
 	session.playerData = tmpPlayerData;
 
-	if (!GetAvatarManager().HasAvatar(initData.avatar))
+	if (initData.showAvatar && !GetAvatarManager().HasAvatar(initData.avatar))
 		RequestPlayerAvatar(session);
 	else
 		EstablishSession(session);
@@ -416,6 +425,7 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(SessionWrapper session, const NetPac
 			if (avatarSize == tmpAvatar->reportedSize)
 			{
 				GetAvatarManager().StoreAvatarInCache(avatarMD5, tmpAvatar->fileType, &tmpAvatar->fileData[0], avatarSize);
+				// TODO log error
 				// Free memory.
 				session.playerData->SetNetAvatarData(boost::shared_ptr<AvatarData>());
 				// Init finished - start session.
@@ -452,6 +462,21 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 		GetSender().Send(session.sessionData->GetSocket(), info);
 	}
 	// TODO: handle error
+}
+
+void
+ServerLobbyThread::HandleNetPacketRetrieveAvatar(SessionWrapper session, const NetPacketRetrieveAvatar &tmpPacket)
+{
+	NetPacketRetrieveAvatar::Data request;
+	tmpPacket.GetData(request);
+
+	string tmpFile;
+	if (GetAvatarManager().GetAvatarFileName(request.avatar, tmpFile))
+	{
+		NetPacketList tmpPackets;
+		if (GetAvatarManager().AvatarFileToNetPackets(tmpFile, request.requestId, tmpPackets))
+			GetSender().SendLowPrio(session.sessionData->GetSocket(), tmpPackets);
+	}
 }
 
 void

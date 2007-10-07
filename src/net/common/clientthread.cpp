@@ -387,6 +387,7 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 		boost::mutex::scoped_lock lock(m_playerInfoMapMutex);
 		m_playerInfoMap[id] = info;
 	}
+
 	// Update player data for current game.
 	boost::shared_ptr<PlayerData> playerData = GetPlayerDataByUniqueId(id);
 	if (playerData.get())
@@ -397,11 +398,15 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 		{
 			string avatarFile;
 			if (GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile))
+			{
 				playerData->SetAvatarFile(avatarFile);
+			}
 		}
 	}
 
+	// Notify GUI
 	GetCallback().SignalNetClientPlayerChanged(id, info.playerName);
+
 }
 
 void
@@ -414,6 +419,52 @@ ClientThread::SetNewGameAdmin(unsigned id)
 		playerData->SetRights(PLAYER_RIGHTS_ADMIN);
 		GetCallback().SignalNetClientNewGameAdmin(id, playerData->GetName());
 	}
+}
+
+void
+ClientThread::AddTempAvatarData(unsigned playerId, unsigned avatarSize, AvatarFileType type)
+{
+	boost::shared_ptr<AvatarData> tmpAvatar(new AvatarData);
+	tmpAvatar->fileData.reserve(avatarSize);
+	tmpAvatar->fileType = type;
+	tmpAvatar->reportedSize = avatarSize;
+
+	m_tempAvatarMap[playerId] = tmpAvatar;
+}
+
+void
+ClientThread::StoreInTempAvatarData(unsigned playerId, const vector<unsigned char> &data)
+{
+	AvatarDataMap::iterator pos = m_tempAvatarMap.find(playerId);
+	if (pos == m_tempAvatarMap.end())
+		throw NetException(ERR_NET_INVALID_REQUEST_ID, 0);
+	// We trust the server (concerning size of the data).
+	std::copy(data.begin(), data.end(), back_inserter(pos->second->fileData));
+}
+
+void
+ClientThread::CompleteTempAvatarData(unsigned playerId)
+{
+	AvatarDataMap::iterator pos = m_tempAvatarMap.find(playerId);
+	if (pos == m_tempAvatarMap.end())
+		throw NetException(ERR_NET_INVALID_REQUEST_ID, 0);
+
+	boost::shared_ptr<AvatarData> tmpAvatar = pos->second;
+	unsigned avatarSize = (unsigned)tmpAvatar->fileData.size();
+	if (avatarSize != tmpAvatar->reportedSize)
+		throw NetException(ERR_NET_WRONG_AVATAR_SIZE, 0);
+
+	PlayerInfo tmpPlayerInfo;
+	if (!GetCachedPlayerInfo(playerId, tmpPlayerInfo))
+		throw NetException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+
+	GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, tmpAvatar->fileType, &tmpAvatar->fileData[0], avatarSize);
+	// TODO log error
+	// Free memory.
+	m_tempAvatarMap.erase(pos);
+
+	// Update player info, but never re-request avatar.
+	SetPlayerInfo(playerId, tmpPlayerInfo);
 }
 
 const ClientContext &

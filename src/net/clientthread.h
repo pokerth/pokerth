@@ -76,6 +76,7 @@ protected:
 	typedef std::map<unsigned, GameInfo> GameInfoMap;
 	typedef std::list<boost::shared_ptr<NetPacket> > NetPacketList;
 	typedef std::map<unsigned, PlayerInfo> PlayerInfoMap;
+	typedef std::map<unsigned, boost::shared_ptr<AvatarData> > AvatarDataMap;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -87,6 +88,10 @@ protected:
 	void RequestPlayerInfo(unsigned id);
 	void SetPlayerInfo(unsigned id, const PlayerInfo &info);
 	void SetNewGameAdmin(unsigned id);
+
+	void AddTempAvatarData(unsigned playerId, unsigned avatarSize, AvatarFileType type);
+	void StoreInTempAvatarData(unsigned playerId, const std::vector<unsigned char> &data);
+	void CompleteTempAvatarData(unsigned playerId);
 
 	const ClientContext &GetContext() const;
 	ClientContext &GetContext();
@@ -155,6 +160,8 @@ private:
 	PlayerInfoMap m_playerInfoMap;
 	mutable boost::mutex m_playerInfoMapMutex;
 	PlayerIdList m_playerInfoRequestList;
+
+	AvatarDataMap m_tempAvatarMap;
 
 	unsigned m_curGameId;
 	unsigned m_guiPlayerId;

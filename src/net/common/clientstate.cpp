@@ -352,6 +352,7 @@ ClientStateStartSession::Process(ClientThread &client)
 	initData.password = context.GetPassword();
 	initData.playerName = context.GetPlayerName();
 	string avatarFile = context.GetAvatarFile();
+	initData.showAvatar = false;
 	if (!avatarFile.empty())
 	{
 		if (client.GetAvatarManager().GetHashForAvatar(avatarFile, initData.avatar))
@@ -394,6 +395,16 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			NetPacketPlayerInfo::Data infoData;
 			tmpPacket->ToNetPacketPlayerInfo()->GetData(infoData);
 			client.SetPlayerInfo(infoData.playerId, infoData.playerInfo);
+			// Retrieve avatar if needed.
+			if (infoData.playerInfo.hasAvatar && !client.GetAvatarManager().HasAvatar(infoData.playerInfo.avatar))
+			{
+				boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
+				NetPacketRetrieveAvatar::Data retrieveAvatarData;
+				retrieveAvatarData.requestId = infoData.playerId;
+				retrieveAvatarData.avatar = infoData.playerInfo.avatar;
+				static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
+				client.GetSender().Send(client.GetContext().GetSocket(), retrieveAvatar);
+			}
 		}
 		else if (tmpPacket->ToNetPacketRemovedFromGame())
 		{
@@ -481,6 +492,24 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			tmpPacket->ToNetPacketGameListPlayerLeft()->GetData(playerLeftData);
 			client.ModifyGameInfoRemovePlayer(playerLeftData.gameId, playerLeftData.playerId);
 		}
+		else if (tmpPacket->ToNetPacketAvatarHeader())
+		{
+			NetPacketAvatarHeader::Data headerData;
+			tmpPacket->ToNetPacketAvatarHeader()->GetData(headerData);
+			client.AddTempAvatarData(headerData.requestId, headerData.avatarFileSize, headerData.avatarFileType);
+		}
+		else if (tmpPacket->ToNetPacketAvatarFile())
+		{
+			NetPacketAvatarFile::Data fileData;
+			tmpPacket->ToNetPacketAvatarFile()->GetData(fileData);
+			client.StoreInTempAvatarData(fileData.requestId, fileData.fileData);
+		}
+		else if (tmpPacket->ToNetPacketAvatarEnd())
+		{
+			NetPacketAvatarEnd::Data endData;
+			tmpPacket->ToNetPacketAvatarEnd()->GetData(endData);
+			client.CompleteTempAvatarData(endData.requestId);
+		}
 		else if (tmpPacket->ToNetPacketError())
 		{
 			// Server reported an error.
@@ -543,6 +572,7 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 		{
 			client.GetSender().SendLowPrio(client.GetContext().GetSocket(), tmpList);
 		}
+		// TODO handle error
 	}
 
 	return retVal;
