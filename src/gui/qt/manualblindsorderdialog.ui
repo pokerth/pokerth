@@ -89,7 +89,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinBox_alwaysRaiseValue" />
+         <widget class="QSpinBox" name="spinBox_alwaysRaiseValue" >
+          <property name="maximum" >
+           <number>9999</number>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QLabel" name="label" >

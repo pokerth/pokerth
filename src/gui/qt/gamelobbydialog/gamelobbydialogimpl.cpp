@@ -26,6 +26,12 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
+	chatInputCompleterNickList = new QStringList;
+	chatInputCompleter = new QCompleter(*chatInputCompleterNickList);
+	chatInputCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+ 	lineEdit_ChatInput->setCompleter(chatInputCompleter);
+
+
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
 	connect( treeWidget_GameList, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( gameSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
@@ -576,4 +582,16 @@ void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
 		label_gameDesc6->hide();
 		label_gameDesc7->hide();
 	}
+}
+
+void gameLobbyDialogImpl::updateChatInputCompleter() {
+	
+	chatInputCompleterNickList->clear();
+
+	int i;
+	for (i=0; i < treeWidget_NickList->topLevelItemCount(); i++) {
+		chatInputCompleterNickList->append(treeWidget_NickList->itemAt(0,i)->text(0));
+	}
+
+	
 }
