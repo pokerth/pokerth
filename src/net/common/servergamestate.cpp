@@ -46,6 +46,7 @@ using namespace std;
 #define SERVER_SHOW_CARDS_DELAY_SEC				2
 #define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		2
 #define SERVER_COMPUTER_ACTION_DELAY_SEC		2
+#define SERVER_START_GAME_TIMEOUT_SEC			10
 
 #define SERVER_COMPUTER_PLAYER_NAME				"Computer"
 
@@ -286,35 +287,41 @@ ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper s
 int
 ServerGameStateInit::InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
-	int retVal = MSG_SOCK_INIT_DONE;
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
 
 	if (packet->ToNetPacketStartEvent())
 	{
-		NetPacketStartEvent::Data startData;
-		packet->ToNetPacketStartEvent()->GetData(startData);
-
-		server.ResetComputerPlayerList();
-
-		if (startData.fillUpWithCpuPlayers)
+		// Only admins are allowed to start the game.
+		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN)
 		{
-			int remainingSlots = server.GetGameData().maxNumberOfPlayers - server.GetCurNumberOfPlayers();
-			for (int i = 1; i <= remainingSlots; i++)
+			NetPacketStartEvent::Data startData;
+			packet->ToNetPacketStartEvent()->GetData(startData);
+
+			// Fill up with computer players.
+			server.ResetComputerPlayerList();
+
+			if (startData.fillUpWithCpuPlayers)
 			{
-				boost::shared_ptr<PlayerData> tmpPlayerData(
-					new PlayerData(server.GetLobbyThread().GetNextUniquePlayerId(), 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL));
+				int remainingSlots = server.GetGameData().maxNumberOfPlayers - server.GetCurNumberOfPlayers();
+				for (int i = 1; i <= remainingSlots; i++)
+				{
+					boost::shared_ptr<PlayerData> tmpPlayerData(
+						new PlayerData(server.GetLobbyThread().GetNextUniquePlayerId(), 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL));
 
-				ostringstream name;
-				name << SERVER_COMPUTER_PLAYER_NAME << i;
-				tmpPlayerData->SetName(name.str());
-				server.AddComputerPlayer(tmpPlayerData);
+					ostringstream name;
+					name << SERVER_COMPUTER_PLAYER_NAME << i;
+					tmpPlayerData->SetName(name.str());
+					server.AddComputerPlayer(tmpPlayerData);
 
-				// Send "Player Joined" to other fully connected clients.
-				server.SendToAllPlayers(CreateNetPacketPlayerJoined(*tmpPlayerData), SessionData::Game);
+					// Send "Player Joined" to other fully connected clients.
+					server.SendToAllPlayers(CreateNetPacketPlayerJoined(*tmpPlayerData), SessionData::Game);
+				}
 			}
-		}
+			// Wait for all players to confirm start of game.
+			server.SendToAllPlayers(boost::shared_ptr<NetPacket>(packet->Clone()), SessionData::Game);
 
-		server.InternalStartGame();
-		server.SetState(SERVER_START_GAME_STATE::Instance());
+			server.SetState(ServerGameStateWaitAck::Instance());
+		}
 	}
 	else if (packet->ToNetPacketKickPlayer())
 	{
@@ -365,6 +372,64 @@ AbstractServerGameStateRunning::HandleNewSession(ServerGameThread &server, Sessi
 
 //-----------------------------------------------------------------------------
 
+boost::thread_specific_ptr<ServerGameStateWaitAck> ServerGameStateWaitAck::Ptr;
+
+ServerGameStateWaitAck &
+ServerGameStateWaitAck::Instance()
+{
+	if (!Ptr.get())
+		Ptr.reset(new ServerGameStateWaitAck);
+
+	return *Ptr;
+}
+
+ServerGameStateWaitAck::ServerGameStateWaitAck()
+{
+}
+
+ServerGameStateWaitAck::~ServerGameStateWaitAck()
+{
+}
+
+int
+ServerGameStateWaitAck::Process(ServerGameThread &server)
+{
+	int retVal;
+
+	if (GetTimer().elapsed().total_seconds() >= SERVER_START_GAME_TIMEOUT_SEC)
+	{
+		// On timeout: start anyway.
+		server.SetState(SERVER_START_GAME_STATE::Instance());
+		retVal = MSG_SOCK_INIT_DONE;
+	}
+	else
+		retVal = AbstractServerGameStateReceiving::Process(server);
+
+	return retVal;
+}
+
+int
+ServerGameStateWaitAck::InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+{
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
+
+	if (packet->ToNetPacketStartEventAck())
+	{
+		session.sessionData->SetReadyFlag();
+		if (server.GetSessionManager().CountReadySessions() == server.GetSessionManager().GetRawSessionCount())
+		{
+			// Everyone is ready.
+			server.SetState(SERVER_START_GAME_STATE::Instance());
+			retVal = MSG_SOCK_INIT_DONE;
+		}
+		retVal = MSG_SOCK_INIT_DONE;
+	}
+
+	return retVal;
+}
+
+//-----------------------------------------------------------------------------
+
 boost::thread_specific_ptr<ServerGameStateStartGame> ServerGameStateStartGame::Ptr;
 
 ServerGameStateStartGame &
@@ -387,6 +452,8 @@ ServerGameStateStartGame::~ServerGameStateStartGame()
 int
 ServerGameStateStartGame::Process(ServerGameThread &server)
 {
+	server.InternalStartGame();
+
 	boost::shared_ptr<NetPacket> answer(new NetPacketGameStart);
 
 	NetPacketGameStart::Data gameStartData;

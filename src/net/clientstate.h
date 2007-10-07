@@ -234,6 +234,41 @@ protected:
 	virtual int InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet);
 };
 
+// State: Synchronize on game start.
+class ClientStateSynchronizeStart : public AbstractClientStateReceiving
+{
+public:
+	// Access the state singleton.
+	static ClientStateSynchronizeStart &Instance();
+
+	virtual ~ClientStateSynchronizeStart();
+
+	virtual int Process(ClientThread &client);
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateSynchronizeStart();
+
+	virtual int InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet);
+};
+
+// State: Wait for game start.
+class ClientStateWaitStart : public AbstractClientStateReceiving
+{
+public:
+	// Access the state singleton.
+	static ClientStateWaitStart &Instance();
+
+	virtual ~ClientStateWaitStart();
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateWaitStart();
+
+	virtual int InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet);
+};
+
 // State: Wait for start of the next hand.
 class ClientStateWaitHand : public AbstractClientStateReceiving
 {

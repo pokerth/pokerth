@@ -64,6 +64,7 @@ public:
 	bool IsPlayerConnected(unsigned uniqueId) const;
 
 	void ForEach(boost::function<void (SessionWrapper)> func);
+	unsigned CountReadySessions() const;
 
 	void Clear();
 	unsigned GetRawSessionCount();

@@ -42,6 +42,10 @@ public:
 
 	SOCKET GetSocket() const;
 
+	void SetReadyFlag();
+	void ResetReadyFlag();
+	bool IsReady() const;
+
 	const std::string &GetClientAddr() const;
 	void SetClientAddr(const std::string &addr);
 
@@ -53,6 +57,7 @@ private:
 	State							m_state;
 	std::string						m_clientAddr;
 	ReceiveBuffer					m_receiveBuffer;
+	bool							m_readyFlag;
 
 	mutable boost::mutex			m_dataMutex;
 };

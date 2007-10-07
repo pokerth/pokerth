@@ -152,6 +152,7 @@ ServerGameThread::Main()
 	GetSender().SignalTermination();
 	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);
 
+	ResetComputerPlayerList();
 	GetLobbyThread().RemoveGame(GetId());
 }
 
@@ -273,14 +274,27 @@ ServerGameThread::IsRunning() const
 void
 ServerGameThread::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
 {
-	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
-	m_computerPlayerList.push_back(player);
+	{
+		boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
+		m_computerPlayerList.push_back(player);
+	}
+	GetLobbyThread().AddComputerPlayer(player);
 }
 
 void
 ServerGameThread::ResetComputerPlayerList()
 {
 	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
+
+	PlayerDataList::iterator i = m_computerPlayerList.begin();
+	PlayerDataList::iterator end = m_computerPlayerList.end();
+
+	while (i != end)
+	{
+		GetLobbyThread().RemoveComputerPlayer(*i);
+		++i;
+	}
+
 	m_computerPlayerList.clear();
 }
 

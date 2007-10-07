@@ -381,7 +381,7 @@ ClientThread::RequestPlayerInfo(unsigned id)
 }
 
 void
-ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
+ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info, bool retrieveAvatar)
 {
 	{
 		boost::mutex::scoped_lock lock(m_playerInfoMapMutex);
@@ -403,6 +403,23 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 			}
 		}
 	}
+
+	// Retrieve avatar if needed.
+	if (retrieveAvatar && info.hasAvatar && !GetAvatarManager().HasAvatar(info.avatar))
+	{
+		boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
+		NetPacketRetrieveAvatar::Data retrieveAvatarData;
+		retrieveAvatarData.requestId = id;
+		retrieveAvatarData.avatar = info.avatar;
+		static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
+		GetSender().Send(GetContext().GetSocket(), retrieveAvatar);
+
+		// Insert empty value in list to synchronize waiting.
+		m_tempAvatarMap[id] = boost::shared_ptr<AvatarData>();
+	}
+
+	// Remove from request list.
+	m_playerInfoRequestList.remove(id);
 
 	// Notify GUI
 	GetCallback().SignalNetClientPlayerChanged(id, info.playerName);
@@ -464,7 +481,7 @@ ClientThread::CompleteTempAvatarData(unsigned playerId)
 	m_tempAvatarMap.erase(pos);
 
 	// Update player info, but never re-request avatar.
-	SetPlayerInfo(playerId, tmpPlayerInfo);
+	SetPlayerInfo(playerId, tmpPlayerInfo, false);
 }
 
 const ClientContext &
@@ -820,5 +837,11 @@ void
 ClientThread::SetSessionEstablished(bool flag)
 {
 	m_sessionEstablished = flag;
+}
+
+bool
+ClientThread::IsSynchronized() const
+{
+	return (m_playerInfoRequestList.empty() && m_tempAvatarMap.empty());
 }
 

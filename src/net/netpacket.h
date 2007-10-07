@@ -68,6 +68,7 @@ class NetPacketGameAdminChanged;
 class NetPacketKickPlayer;
 class NetPacketLeaveCurrentGame;
 class NetPacketStartEvent;
+class NetPacketStartEventAck;
 class NetPacketGameStart;
 class NetPacketHandStart;
 class NetPacketPlayersTurn;
@@ -125,6 +126,7 @@ public:
 	virtual const NetPacketKickPlayer *ToNetPacketKickPlayer() const;
 	virtual const NetPacketLeaveCurrentGame *ToNetPacketLeaveCurrentGame() const;
 	virtual const NetPacketStartEvent *ToNetPacketStartEvent() const;
+	virtual const NetPacketStartEventAck *ToNetPacketStartEventAck() const;
 	virtual const NetPacketGameStart *ToNetPacketGameStart() const;
 	virtual const NetPacketHandStart *ToNetPacketHandStart() const;
 	virtual const NetPacketPlayersTurn *ToNetPacketPlayersTurn() const;
@@ -675,6 +677,22 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketStartEvent *ToNetPacketStartEvent() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketStartEventAck : public NetPacket
+{
+public:
+
+	NetPacketStartEventAck();
+	virtual ~NetPacketStartEventAck();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	virtual const NetPacketStartEventAck *ToNetPacketStartEventAck() const;
 
 protected:
 

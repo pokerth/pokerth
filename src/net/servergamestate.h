@@ -129,6 +129,30 @@ private:
 	static boost::thread_specific_ptr<ServerGameStateInit>	Ptr;
 };
 
+// Wait for Ack of start event.
+class ServerGameStateWaitAck : public AbstractServerGameStateReceiving, public AbstractServerGameStateRunning, public AbstractServerGameStateTimer
+{
+public:
+	// Access the state singleton.
+	static ServerGameStateWaitAck &Instance();
+
+	virtual ~ServerGameStateWaitAck();
+
+	// Timeout if waiting takes too long.
+	virtual int Process(ServerGameThread &server);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ServerGameStateWaitAck();
+
+	virtual int InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+
+private:
+
+	static boost::thread_specific_ptr<ServerGameStateWaitAck>	Ptr;
+};
+
 // State: Start server game.
 class ServerGameStateStartGame : public AbstractServerGameStateRunning
 {

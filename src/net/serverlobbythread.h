@@ -63,6 +63,9 @@ public:
 	void HandleGameRetrievePlayerInfo(SessionWrapper session, const NetPacketRetrievePlayerInfo &tmpPacket);
 	void HandleGameRetrieveAvatar(SessionWrapper session, const NetPacketRetrieveAvatar &tmpPacket);
 
+	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
+	void RemoveComputerPlayer(boost::shared_ptr<PlayerData> player);
+
 	void RemoveGame(unsigned id);
 
 	u_int32_t GetNextUniquePlayerId();
@@ -144,6 +147,9 @@ private:
 
 	RemoveGameList m_removeGameList;
 	mutable boost::mutex m_removeGameListMutex;
+
+	PlayerDataMap m_computerPlayers;
+	mutable boost::mutex m_computerPlayersMutex;
 
 	GameMap m_gameMap;
 

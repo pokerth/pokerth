@@ -49,6 +49,7 @@ using namespace std;
 #define NET_TYPE_KICK_PLAYER					0x0040
 #define NET_TYPE_LEAVE_CURRENT_GAME				0x0041
 #define NET_TYPE_START_EVENT					0x0042
+#define NET_TYPE_START_EVENT_ACK				0x0043
 #define NET_TYPE_GAME_START						0x0050
 #define NET_TYPE_HAND_START						0x0051
 #define NET_TYPE_PLAYERS_TURN					0x0052
@@ -295,6 +296,12 @@ struct GCC_PACKED NetPacketStartEventData
 	NetPacketHeader		head;
 	u_int16_t			startFlags;
 	u_int16_t			reserved;
+};
+
+struct GCC_PACKED NetPacketStartEventAckData
+{
+	NetPacketHeader		head;
+	u_int32_t			reserved;
 };
 
 struct GCC_PACKED NetPacketGameStartData
@@ -646,6 +653,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 				case NET_TYPE_START_EVENT:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketStartEvent);
 					break;
+				case NET_TYPE_START_EVENT_ACK:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketStartEventAck);
+					break;
 				case NET_TYPE_GAME_START:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameStart);
 					break;
@@ -909,6 +919,12 @@ NetPacket::ToNetPacketLeaveCurrentGame() const
 
 const NetPacketStartEvent *
 NetPacket::ToNetPacketStartEvent() const
+{
+	return NULL;
+}
+
+const NetPacketStartEventAck *
+NetPacket::ToNetPacketStartEventAck() const
 {
 	return NULL;
 }
@@ -2641,7 +2657,7 @@ NetPacketKickPlayer::InternalCheck(const NetPacketHeader*) const
 //-----------------------------------------------------------------------------
 
 NetPacketLeaveCurrentGame::NetPacketLeaveCurrentGame()
-: NetPacket(NET_TYPE_LEAVE_CURRENT_GAME, sizeof(NetPacketLeaveCurrentGame), sizeof(NetPacketLeaveCurrentGame))
+: NetPacket(NET_TYPE_LEAVE_CURRENT_GAME, sizeof(NetPacketLeaveCurrentGameData), sizeof(NetPacketLeaveCurrentGameData))
 {
 }
 
@@ -2729,6 +2745,43 @@ NetPacketStartEvent::ToNetPacketStartEvent() const
 
 void
 NetPacketStartEvent::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketStartEventAck::NetPacketStartEventAck()
+: NetPacket(NET_TYPE_START_EVENT_ACK, sizeof(NetPacketStartEventAckData), sizeof(NetPacketStartEventAckData))
+{
+}
+
+NetPacketStartEventAck::~NetPacketStartEventAck()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketStartEventAck::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketStartEventAck);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+const NetPacketStartEventAck *
+NetPacketStartEventAck::ToNetPacketStartEventAck() const
+{
+	return this;
+}
+
+void
+NetPacketStartEventAck::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }

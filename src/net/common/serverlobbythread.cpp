@@ -177,6 +177,20 @@ ServerLobbyThread::HandleGameRetrieveAvatar(SessionWrapper session, const NetPac
 }
 
 void
+ServerLobbyThread::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
+{
+	boost::mutex::scoped_lock lock(m_computerPlayersMutex);
+	m_computerPlayers.insert(PlayerDataMap::value_type(player->GetUniqueId(), player));
+}
+
+void
+ServerLobbyThread::RemoveComputerPlayer(boost::shared_ptr<PlayerData> player)
+{
+	boost::mutex::scoped_lock lock(m_computerPlayersMutex);
+	m_computerPlayers.erase(player->GetUniqueId());
+}
+
+void
 ServerLobbyThread::RemoveGame(unsigned id)
 {
 	boost::mutex::scoped_lock lock(m_removeGameListMutex);
@@ -446,6 +460,13 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 	boost::shared_ptr<PlayerData> tmpPlayer = m_sessionManager.GetSessionByUniquePlayerId(request.playerId).playerData;
 	if (!tmpPlayer.get())
 		tmpPlayer = m_gameSessionManager.GetSessionByUniquePlayerId(request.playerId).playerData;
+	if (!tmpPlayer.get())
+	{
+		boost::mutex::scoped_lock lock(m_computerPlayersMutex);
+		PlayerDataMap::const_iterator pos = m_computerPlayers.find(request.playerId);
+		if (pos != m_computerPlayers.end())
+			tmpPlayer = pos->second;
+	}
 
 	if (tmpPlayer.get())
 	{

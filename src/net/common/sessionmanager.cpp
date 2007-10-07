@@ -292,6 +292,24 @@ SessionManager::ForEach(boost::function<void (SessionWrapper)> func)
 	}
 }
 
+unsigned
+SessionManager::CountReadySessions() const
+{
+	unsigned counter = 0;
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SessionMap::const_iterator i = m_sessionMap.begin();
+	SessionMap::const_iterator end = m_sessionMap.end();
+
+	while (i != end)
+	{
+		if ((*i).second.sessionData->IsReady())
+			++counter;
+		++i;
+	}
+	return counter;
+}
+
 void
 SessionManager::Clear()
 {

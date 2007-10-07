@@ -86,7 +86,7 @@ protected:
 
 	bool GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const;
 	void RequestPlayerInfo(unsigned id);
-	void SetPlayerInfo(unsigned id, const PlayerInfo &info);
+	void SetPlayerInfo(unsigned id, const PlayerInfo &info, bool retrieveAvatar = true);
 	void SetNewGameAdmin(unsigned id);
 
 	void AddTempAvatarData(unsigned playerId, unsigned avatarSize, AvatarFileType type);
@@ -134,6 +134,8 @@ protected:
 	bool IsSessionEstablished() const;
 	void SetSessionEstablished(bool flag);
 
+	bool IsSynchronized() const;
+
 private:
 
 	NetPacketList m_outPacketList;
@@ -177,6 +179,8 @@ friend class ClientStateStartSession;
 friend class ClientStateWaitSession;
 friend class ClientStateWaitJoin;
 friend class ClientStateWaitGame;
+friend class ClientStateSynchronizeStart;
+friend class ClientStateWaitStart;
 friend class ClientStateWaitHand;
 friend class ClientStateRunHand;
 friend class ClientStateFinal;

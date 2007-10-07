@@ -395,16 +395,6 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			NetPacketPlayerInfo::Data infoData;
 			tmpPacket->ToNetPacketPlayerInfo()->GetData(infoData);
 			client.SetPlayerInfo(infoData.playerId, infoData.playerInfo);
-			// Retrieve avatar if needed.
-			if (infoData.playerInfo.hasAvatar && !client.GetAvatarManager().HasAvatar(infoData.playerInfo.avatar))
-			{
-				boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
-				NetPacketRetrieveAvatar::Data retrieveAvatarData;
-				retrieveAvatarData.requestId = infoData.playerId;
-				retrieveAvatarData.avatar = infoData.playerInfo.avatar;
-				static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
-				client.GetSender().Send(client.GetContext().GetSocket(), retrieveAvatar);
-			}
 		}
 		else if (tmpPacket->ToNetPacketRemovedFromGame())
 		{
@@ -651,33 +641,9 @@ ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 
-	if (packet->ToNetPacketGameStart())
+	if (packet->ToNetPacketStartEvent())
 	{
-		// Start the network game as client.
-		NetPacketGameStart::Data gameStartData;
-		packet->ToNetPacketGameStart()->GetData(gameStartData);
-
-		client.SetStartData(gameStartData.startData);
-
-		// Set player numbers using the game start data slots.
-		NetPacketGameStart::PlayerSlotList::const_iterator slot_i = gameStartData.playerSlots.begin();
-		NetPacketGameStart::PlayerSlotList::const_iterator slot_end = gameStartData.playerSlots.end();
-		int num = 0;
-
-		while (slot_i != slot_end)
-		{
-			unsigned playerId = (*slot_i).playerId;
-			boost::shared_ptr<PlayerData> tmpPlayer = client.GetPlayerDataByUniqueId(playerId);
-			if (!tmpPlayer.get())
-				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
-			tmpPlayer->SetNumber(num);
-
-			++num;
-			++slot_i;
-		}
-
-		client.SetState(ClientStateWaitHand::Instance());
-		retVal = MSG_NET_GAME_CLIENT_START;
+		client.SetState(ClientStateSynchronizeStart::Instance());
 	}
 	else if (packet->ToNetPacketPlayerJoined())
 	{
@@ -712,6 +678,103 @@ ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 			playerData->SetName(name.str());
 		}
 		client.AddPlayerData(playerData);
+	}
+
+	return retVal;
+}
+
+//-----------------------------------------------------------------------------
+
+ClientStateSynchronizeStart &
+ClientStateSynchronizeStart::Instance()
+{
+	static ClientStateSynchronizeStart state;
+	return state;
+}
+
+ClientStateSynchronizeStart::ClientStateSynchronizeStart()
+{
+}
+
+ClientStateSynchronizeStart::~ClientStateSynchronizeStart()
+{
+}
+
+int
+ClientStateSynchronizeStart::Process(ClientThread &client)
+{
+	int retVal = AbstractClientStateReceiving::Process(client);
+
+	if (client.IsSynchronized())
+	{
+		boost::shared_ptr<NetPacket> startAck(new NetPacketStartEventAck);
+		client.GetSender().Send(client.GetContext().GetSocket(), startAck);
+		client.SetState(ClientStateWaitStart::Instance());
+	}
+
+	return retVal;
+}
+
+int
+ClientStateSynchronizeStart::InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet)
+{
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
+
+	if (packet->ToNetPacketGameStart())
+		throw ClientException(ERR_NET_START_TIMEOUT, 0);
+
+	return retVal;
+}
+
+//-----------------------------------------------------------------------------
+
+ClientStateWaitStart &
+ClientStateWaitStart::Instance()
+{
+	static ClientStateWaitStart state;
+	return state;
+}
+
+ClientStateWaitStart::ClientStateWaitStart()
+{
+}
+
+ClientStateWaitStart::~ClientStateWaitStart()
+{
+}
+
+int
+ClientStateWaitStart::InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet)
+{
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
+
+	if (packet->ToNetPacketGameStart())
+	{
+		// Start the network game as client.
+		NetPacketGameStart::Data gameStartData;
+		packet->ToNetPacketGameStart()->GetData(gameStartData);
+
+		client.SetStartData(gameStartData.startData);
+
+		// Set player numbers using the game start data slots.
+		NetPacketGameStart::PlayerSlotList::const_iterator slot_i = gameStartData.playerSlots.begin();
+		NetPacketGameStart::PlayerSlotList::const_iterator slot_end = gameStartData.playerSlots.end();
+		int num = 0;
+
+		while (slot_i != slot_end)
+		{
+			unsigned playerId = (*slot_i).playerId;
+			boost::shared_ptr<PlayerData> tmpPlayer = client.GetPlayerDataByUniqueId(playerId);
+			if (!tmpPlayer.get())
+				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+			tmpPlayer->SetNumber(num);
+
+			++num;
+			++slot_i;
+		}
+
+		client.SetState(ClientStateWaitHand::Instance());
+		retVal = MSG_NET_GAME_CLIENT_START;
 	}
 
 	return retVal;

@@ -20,7 +20,7 @@
 #include <net/sessiondata.h>
 
 SessionData::SessionData(SOCKET sockfd, unsigned id)
-: m_sockfd(sockfd), m_id(id), m_state(SessionData::Init)
+: m_sockfd(sockfd), m_id(id), m_state(SessionData::Init), m_readyFlag(false)
 {
 }
 
@@ -56,6 +56,27 @@ SessionData::GetSocket() const
 {
 	// value never modified - no mutex needed.
 	return m_sockfd;
+}
+
+void
+SessionData::SetReadyFlag()
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_readyFlag = true;
+}
+
+void
+SessionData::ResetReadyFlag()
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_readyFlag = false;
+}
+
+bool
+SessionData::IsReady() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_readyFlag;
 }
 
 const std::string &
