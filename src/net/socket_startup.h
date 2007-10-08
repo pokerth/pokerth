@@ -25,6 +25,7 @@ void socket_cleanup();
 
 bool socket_has_sctp();
 bool socket_has_ipv6();
+bool socket_has_dual_stack();
 
 #endif
 

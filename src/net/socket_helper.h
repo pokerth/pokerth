@@ -35,6 +35,10 @@
 #define SOCKET_ERR_NOTCONN		WSAENOTCONN
 #define SOCKET_ERR_NOTSOCK		WSAENOTSOCK
 
+#ifndef IPV6_V6ONLY
+	#define IPV6_V6ONLY			27
+#endif
+
 #ifdef __GNUC__ /* mingw provides stdint.h */
 	#include <stdint.h>
 	typedef uint16_t			u_int16_t;

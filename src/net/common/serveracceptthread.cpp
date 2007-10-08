@@ -24,6 +24,7 @@
 #include <net/socket_helper.h>
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
+#include <net/socket_startup.h>
 
 #define ACCEPT_TIMEOUT_MSEC			50
 #define NET_SERVER_LISTEN_BACKLOG	5
@@ -50,7 +51,9 @@ ServerAcceptThread::Init(unsigned serverPort, bool ipv6, bool sctp, const std::s
 	ServerContext &context = GetContext();
 
 	context.SetProtocol(sctp ? SOCKET_IPPROTO_SCTP : 0);
-	context.SetAddrFamily(ipv6 ? AF_INET6 : AF_INET);
+	// If a "dual stack" is available, the pokerth server always uses ipv6.
+	// In this case, ipv4 requests will be mapped to ipv6.
+	context.SetAddrFamily(socket_has_dual_stack() ? AF_INET6 : (ipv6 ? AF_INET6 : AF_INET));
 	context.SetServerPort(serverPort);
 
 	GetLobbyThread().Init(pwd);
@@ -105,11 +108,14 @@ ServerAcceptThread::Listen()
 	if (IOCTLSOCKET(context.GetSocket(), FIONBIO, &mode) == SOCKET_ERROR)
 		throw ServerException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 
-	// The following two calls are optional. If they fail, we don't care.
+	// The following three calls are optional. If they fail, we don't care.
 	int reuse = 1;
 	setsockopt(context.GetSocket(), SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(reuse));
 	int nodelay = 1;
 	setsockopt(context.GetSocket(), SOL_SOCKET, TCP_NODELAY, (char *)&nodelay, sizeof(nodelay));
+	// Enable dual-stack socket on Windows Vista.
+	int ipv6only = 0;
+	setsockopt(context.GetSocket(), IPPROTO_IPV6, IPV6_V6ONLY, (char *)&ipv6only, sizeof(ipv6only));
 
 	context.GetServerSockaddr()->ss_family = context.GetAddrFamily();
 

@@ -47,3 +47,19 @@ socket_has_ipv6()
 	return true;
 }
 
+bool
+socket_has_dual_stack()
+{
+	bool retVal = false;
+	SOCKET test = socket(AF_INET6, SOCK_STREAM, 0);
+
+	if (test != INVALID_SOCKET)
+	{
+		int ipv6only = 0;
+		if (setsockopt(test, IPPROTO_IPV6, IPV6_V6ONLY, (char *)&ipv6only, sizeof(ipv6only)) == 0)
+			retVal = true;
+		CLOSESOCKET(test);
+	}
+	return retVal;
+}
+
