@@ -204,7 +204,8 @@ int irc_connect6 (irc_session_t * session,
 {
 #if defined (ENABLE_IPV6)
 	struct sockaddr_in6 saddr;
-	struct addrinfo ainfo, *res;
+	struct addrinfo ainfo, *res = NULL;
+	char portStr[64];
 #if defined (_WIN32)
 	int addrlen = sizeof(saddr);
 	HMODULE hWsock;
@@ -212,6 +213,7 @@ int irc_connect6 (irc_session_t * session,
 	freeaddrinfo_ptr_t freeaddrinfo_ptr;
 	int resolvesuccess = 0;
 #endif
+	itoa(port, portStr, 10);
 
 	// Check and copy all the specified fields
 	if ( !server || !nick )
@@ -241,8 +243,6 @@ int irc_connect6 (irc_session_t * session,
 	memset( &saddr, 0, sizeof(saddr) );
 	saddr.sin6_family = AF_INET6;
 	saddr.sin6_port = htons (port);	
-	saddr.sin6_flowinfo = 0;
-	saddr.sin6_scope_id = 0;
 
 #if defined (_WIN32)
 	if ( WSAStringToAddressA( (LPSTR)server, AF_INET6, NULL, (struct sockaddr *)&saddr, &addrlen ) == SOCKET_ERROR )
@@ -251,8 +251,8 @@ int irc_connect6 (irc_session_t * session,
 
 		if (hWsock)
 		{
-			// Determine functions at runtime, because windows systems < XP do not
-			// support getaddrinfo.
+			/* Determine functions at runtime, because windows systems < XP do not
+			 * support getaddrinfo. */
 			getaddrinfo_ptr = (getaddrinfo_ptr_t)GetProcAddress(hWsock, "getaddrinfo");
 			freeaddrinfo_ptr = (freeaddrinfo_ptr_t)GetProcAddress(hWsock, "freeaddrinfo");
 
@@ -262,13 +262,11 @@ int irc_connect6 (irc_session_t * session,
 				ainfo.ai_family = AF_INET6;
 				ainfo.ai_socktype = SOCK_STREAM;
 				ainfo.ai_protocol = 0;
-				ainfo.ai_addrlen = sizeof( saddr );
-				ainfo.ai_addr = (struct sockaddr *) &saddr;
 
-				if ( getaddrinfo_ptr(server, 0, &ainfo, &res) == 0);
+				if ( getaddrinfo_ptr(server, portStr, &ainfo, &res) == 0 && res )
 				{
 					resolvesuccess = 1;
-					memcpy( &saddr.sin6_addr, res->ai_addr, sizeof( saddr.sin6_addr ) );
+					memcpy( &saddr, res->ai_addr, res->ai_addrlen );
 					freeaddrinfo_ptr( res );
 				}
 			}
@@ -287,16 +285,14 @@ int irc_connect6 (irc_session_t * session,
 		ainfo.ai_family = AF_INET6;
 		ainfo.ai_socktype = SOCK_STREAM;
 		ainfo.ai_protocol = 0;
-		ainfo.ai_addrlen = sizeof( saddr );
-		ainfo.ai_addr = (struct sockaddr *) &saddr;
 
-		if ( getaddrinfo( server, 0, &ainfo, &res ) )
+		if ( getaddrinfo( server, portStr, &ainfo, &res ) || !res )
 		{
 			session->lasterror = LIBIRC_ERR_RESOLV;
 			return 1;
 		}
 		
-		memcpy( &saddr.sin6_addr, res->ai_addr, sizeof( saddr.sin6_addr ) );
+		memcpy( &saddr, res->ai_addr, res->ai_addrlen );
 		freeaddrinfo( res );
 	}
 #endif
@@ -718,7 +714,7 @@ int irc_process_select_descriptors (irc_session_t * session, fd_set *in_set, fd_
 	{
 		// Now we have to determine whether the socket is connected 
 		// or the connect is failed
-		struct sockaddr_in saddr, laddr;
+		struct sockaddr_storage saddr, laddr;
 		socklen_t slen = sizeof(saddr);
 		socklen_t llen = sizeof(laddr);
 
@@ -731,7 +727,10 @@ int irc_process_select_descriptors (irc_session_t * session, fd_set *in_set, fd_
 			return 1;
 		}
 
-		memcpy (&session->local_addr, &laddr.sin_addr, sizeof(session->local_addr));
+		if (saddr.ss_family == AF_INET)
+			memcpy (&session->local_addr, &((struct sockaddr_in *)&laddr)->sin_addr, sizeof(struct in_addr));
+		else
+			memcpy (&session->local_addr, &((struct sockaddr_in6 *)&laddr)->sin6_addr, sizeof(struct in_addr6));
 
 #if defined (ENABLE_DEBUG)
 		if ( IS_DEBUG_ENABLED(session) )
