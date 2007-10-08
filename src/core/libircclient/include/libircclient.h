@@ -50,6 +50,7 @@
 	#include <netinet/in.h>	/* sockaddr_in */
 #else
 	#include <winsock2.h>
+	#include <ws2tcpip.h>
 #endif
 
 #ifdef	__cplusplus
@@ -228,6 +229,13 @@ int irc_connect (irc_session_t * session,
 			const char * username,
 			const char * realname);
 
+int irc_connect6 (irc_session_t * session, 
+			const char * server, 
+			unsigned short port,
+			const char * server_password,
+			const char * nick,
+			const char * username,
+			const char * realname);
 
 /*!
  * \fn void irc_disconnect (irc_session_t * session)

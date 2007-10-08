@@ -10,6 +10,7 @@ UI_DIR = uics
 TARGET = lib/pokerth_lib
 MOC_DIR = mocs
 OBJECTS_DIR = obj
+DEFINES += ENABLE_IPV6
 QT -= core gui
 
 INCLUDEPATH += . \

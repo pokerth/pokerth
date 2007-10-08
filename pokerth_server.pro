@@ -11,6 +11,7 @@ TARGET = bin/pokerth_server
 MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += POKERTH_DEDICATED_SERVER
+DEFINES += ENABLE_IPV6
 QT -= core gui
 
 INSTALLS += TARGET

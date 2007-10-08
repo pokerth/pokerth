@@ -43,6 +43,7 @@
 	#endif 
 #else
 	#include <winsock2.h>
+	#include <ws2tcpip.h>
 	#include <windows.h>
 	#include <time.h>
 	#include <stdio.h>

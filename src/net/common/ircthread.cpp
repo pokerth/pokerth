@@ -316,7 +316,13 @@ IrcThread::Main()
 	irc_session_t *s = context.session;
 	if (s)
 	{
-		if (irc_connect(s, context.serverAddress.c_str(), context.serverPort, 0, context.nick.c_str(), 0, 0) != 0)
+		bool connected = false;
+		if (context.useIPv6)
+			connected = irc_connect6(s, context.serverAddress.c_str(), context.serverPort, 0, context.nick.c_str(), 0, 0) == 0;
+		else
+			connected = irc_connect(s, context.serverAddress.c_str(), context.serverPort, 0, context.nick.c_str(), 0, 0) == 0;
+
+		if (!connected)
 			HandleIrcError(irc_errno(s));
 		else
 		{

@@ -11,7 +11,7 @@
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public 
  * License for more details.
  *
- * $Id: sockets.c 53 2004-10-17 11:16:03Z gyunaev $
+ * $Id: sockets.c 53M 2007-09-16 23:57:59Z (local) $
  */
 
 /*
@@ -28,8 +28,9 @@
 	typedef int				socket_t;
 
 #else
+	#include <winsock2.h>
+	#include <ws2tcpip.h>
 	#include <windows.h>
-	#include <winsock.h>
 
 	#define IS_SOCKET_ERROR(a)	((a)==SOCKET_ERROR)
 
@@ -37,7 +38,6 @@
 	#define EINPROGRESS		WSAEINPROGRESS
 	#define EINTR			WSAEINTR
 
-	typedef unsigned int	socklen_t;
 	typedef SOCKET			socket_t;
 
 #endif
@@ -59,7 +59,7 @@ static int socket_error()
 
 static int socket_create (int domain, int type, socket_t * sock)
 {
-	*sock = socket (PF_INET, SOCK_STREAM, 0);
+	*sock = socket (domain, type, 0);
 	return IS_SOCKET_ERROR(*sock) ? 1 : 0;
 }
 

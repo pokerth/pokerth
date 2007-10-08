@@ -12,6 +12,7 @@ CONFIG += qt thread embed_manifest_exe warn_on debug
 UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = obj
+DEFINES += ENABLE_IPV6
 TARGET = pokerth
 
 INCLUDEPATH += . \

@@ -11,7 +11,7 @@
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public 
  * License for more details.
  *
- * $Id: libirc_session.h 18 2004-09-14 19:50:10Z gyunaev $
+ * $Id: libirc_session.h 18M 2007-09-17 01:14:31Z (local) $
  */
 
 
@@ -54,7 +54,11 @@ struct irc_session_s
 	char		  * username;
 	char		  *	nick;
 
+#if defined( ENABLE_IPV6 )
+	struct in6_addr	local_addr;
+#else
 	struct in_addr	local_addr;
+#endif
 	irc_dcc_t		dcc_last_id;
 	irc_dcc_session_t * dcc_sessions;
 	port_mutex_t	mutex_dcc;

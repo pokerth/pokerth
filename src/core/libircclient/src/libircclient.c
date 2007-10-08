@@ -11,9 +11,8 @@
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public 
  * License for more details.
  *
- * $Id: libircclient.c 42 2004-10-10 16:16:15Z gyunaev $
+ * $Id: libircclient.c 42M 2007-09-17 01:15:57Z (local) $
  */
-
 
 #include "portable.c"
 #include "sockets.c"
@@ -27,9 +26,16 @@
 #include "dcc.c"
 
 #ifdef _MSC_VER
+	/*
+
+	 * The debugger of MSVC 2005 does not like strdup.
+	 * It complains about heap corruption when free is called.
+	 * Use _strdup instead.
+	 */
 	#undef strdup
 	#define strdup _strdup
 #endif
+
 
 #define IS_DEBUG_ENABLED(s)	((s)->option & LIBIRC_OPTION_DEBUG)
 
@@ -133,9 +139,10 @@ int irc_connect (irc_session_t * session,
 	session->nick = strdup (nick);
 	session->server = strdup (server);
 
-	memset (&saddr, 0, sizeof(saddr));
+	// IPv4 address resolving
+	memset( &saddr, 0, sizeof(saddr) );
 	saddr.sin_family = AF_INET;
-	saddr.sin_port = htons (port);
+	saddr.sin_port = htons (port);		
 	saddr.sin_addr.s_addr = inet_addr (server);
 
     if ( saddr.sin_addr.s_addr == INADDR_NONE )
@@ -150,7 +157,7 @@ int irc_connect (irc_session_t * session,
       		hp = 0;
 #else
       	hp = gethostbyname (server);
-#endif
+#endif // HAVE_GETHOSTBYNAME_R
 		if ( !hp )
 		{
 			session->lasterror = LIBIRC_ERR_RESOLV;
@@ -161,7 +168,7 @@ int irc_connect (irc_session_t * session,
     }
 
     // create the IRC server socket
-	if ( socket_create (PF_INET, SOCK_STREAM, &session->sock)
+	if ( socket_create( PF_INET, SOCK_STREAM, &session->sock)
 	|| socket_make_nonblocking (&session->sock) )
 	{
 		session->lasterror = LIBIRC_ERR_SOCKET;
@@ -178,6 +185,144 @@ int irc_connect (irc_session_t * session,
     session->state = LIBIRC_STATE_CONNECTING;
     session->motd_received = 0; // reset in case of reconnect
 	return 0;
+}
+
+
+
+#if defined (ENABLE_IPV6) && defined (_WIN32)
+	typedef int  (WSAAPI * getaddrinfo_ptr_t)  (const char *, const char* , const struct addrinfo *, struct addrinfo **);
+	typedef void (WSAAPI * freeaddrinfo_ptr_t) (struct addrinfo*);
+#endif
+
+int irc_connect6 (irc_session_t * session,
+			const char * server, 
+			unsigned short port,
+			const char * server_password,
+			const char * nick,
+			const char * username,
+			const char * realname)
+{
+#if defined (ENABLE_IPV6)
+	struct sockaddr_in6 saddr;
+	struct addrinfo ainfo, *res;
+#if defined (_WIN32)
+	int addrlen = sizeof(saddr);
+	HMODULE hWsock;
+	getaddrinfo_ptr_t getaddrinfo_ptr;
+	freeaddrinfo_ptr_t freeaddrinfo_ptr;
+	int resolvesuccess = 0;
+#endif
+
+	// Check and copy all the specified fields
+	if ( !server || !nick )
+	{
+		session->lasterror = LIBIRC_ERR_INVAL;
+		return 1;
+	}
+
+	if ( session->state != LIBIRC_STATE_INIT )
+	{
+		session->lasterror = LIBIRC_ERR_STATE;
+		return 1;
+	}
+
+	if ( username )
+		session->username = strdup (username);
+
+	if ( server_password )
+		session->server_password = strdup (server_password);
+
+	if ( realname )
+		session->realname = strdup (realname);
+
+	session->nick = strdup (nick);
+	session->server = strdup (server);
+
+	memset( &saddr, 0, sizeof(saddr) );
+	saddr.sin6_family = AF_INET6;
+	saddr.sin6_port = htons (port);	
+	saddr.sin6_flowinfo = 0;
+	saddr.sin6_scope_id = 0;
+
+#if defined (_WIN32)
+	if ( WSAStringToAddressA( (LPSTR)server, AF_INET6, NULL, (struct sockaddr *)&saddr, &addrlen ) == SOCKET_ERROR )
+	{
+		hWsock = LoadLibraryA("ws2_32");
+
+		if (hWsock)
+		{
+			// Determine functions at runtime, because windows systems < XP do not
+			// support getaddrinfo.
+			getaddrinfo_ptr = (getaddrinfo_ptr_t)GetProcAddress(hWsock, "getaddrinfo");
+			freeaddrinfo_ptr = (freeaddrinfo_ptr_t)GetProcAddress(hWsock, "freeaddrinfo");
+
+			if (getaddrinfo_ptr && freeaddrinfo_ptr)
+			{
+				memset(&ainfo, 0, sizeof(ainfo));
+				ainfo.ai_family = AF_INET6;
+				ainfo.ai_socktype = SOCK_STREAM;
+				ainfo.ai_protocol = 0;
+				ainfo.ai_addrlen = sizeof( saddr );
+				ainfo.ai_addr = (struct sockaddr *) &saddr;
+
+				if ( getaddrinfo_ptr(server, 0, &ainfo, &res) == 0);
+				{
+					resolvesuccess = 1;
+					memcpy( &saddr.sin6_addr, res->ai_addr, sizeof( saddr.sin6_addr ) );
+					freeaddrinfo_ptr( res );
+				}
+			}
+			FreeLibrary(hWsock);
+		}
+		if (!resolvesuccess)
+		{
+			session->lasterror = LIBIRC_ERR_RESOLV;
+			return 1;
+		}
+	}
+#else
+	if ( inet_pton( AF_INET6, server, (void*) &saddr.sin6_addr ) <= 0 )
+	{		
+		memset( &ainfo, 0, sizeof(ainfo) );
+		ainfo.ai_family = AF_INET6;
+		ainfo.ai_socktype = SOCK_STREAM;
+		ainfo.ai_protocol = 0;
+		ainfo.ai_addrlen = sizeof( saddr );
+		ainfo.ai_addr = (struct sockaddr *) &saddr;
+
+		if ( getaddrinfo( server, 0, &ainfo, &res ) )
+		{
+			session->lasterror = LIBIRC_ERR_RESOLV;
+			return 1;
+		}
+		
+		memcpy( &saddr.sin6_addr, res->ai_addr, sizeof( saddr.sin6_addr ) );
+		freeaddrinfo( res );
+	}
+#endif
+	
+	// create the IRC server socket
+	if ( socket_create( PF_INET6, SOCK_STREAM, &session->sock)
+	|| socket_make_nonblocking (&session->sock) )
+	{
+		session->lasterror = LIBIRC_ERR_SOCKET;
+		return 1;
+	}
+
+    // and connect to the IRC server
+    if ( socket_connect (&session->sock, (struct sockaddr *) &saddr, sizeof(saddr)) )
+    {
+    	session->lasterror = LIBIRC_ERR_CONNECT;
+		return 1;
+    }
+
+    session->state = LIBIRC_STATE_CONNECTING;
+    session->motd_received = 0; // reset in case of reconnect
+	return 0;
+#else
+	session->lasterror = LIBIRC_ERR_NOIPV6;
+	return 1;
+#endif	
 }
 
 
@@ -279,7 +424,7 @@ static void libirc_process_incoming_data (irc_session_t * session, int process_l
 	memcpy (buf, session->incoming_buf, process_length);
 	buf[process_length] = '\0';
 
-	memset (params, 0, sizeof(params));
+	memset ((char *)params, 0, sizeof(params));
 	p = buf;
 
     /*
