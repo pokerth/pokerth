@@ -833,6 +833,9 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 // 
 	if (myCreateNetworkGameDialog->result() == QDialog::Accepted ) {
 
+		// Stop local game.
+		stopTimer();
+
 		if (!myServerGuiInterface.get())
 		{
 			// Create pseudo Gui Wrapper for the server.
@@ -913,6 +916,9 @@ void mainWindowImpl::callJoinNetworkGameDialog() {
 
 	if (myJoinNetworkGameDialog->result() == QDialog::Accepted ) {
 
+		// Stop local game.
+		stopTimer();
+
 		mySession->terminateNetworkClient();
 		if (myServerGuiInterface.get())
 			myServerGuiInterface->getSession().terminateNetworkServer();
@@ -963,6 +969,9 @@ void mainWindowImpl::callGameLobbyDialog() {
 }
 
 void mainWindowImpl::joinGameLobby() {
+
+	// Stop local game.
+	stopTimer();
 
 // Join Lobby
 	mySession->terminateNetworkClient();
