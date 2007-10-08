@@ -165,8 +165,6 @@ private:
 
 	u_int32_t m_curUniquePlayerId;
 	mutable boost::mutex m_curUniquePlayerIdMutex;
-
-	u_int32_t m_curRequestId;
 };
 
 #endif

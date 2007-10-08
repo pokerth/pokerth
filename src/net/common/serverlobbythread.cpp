@@ -57,7 +57,7 @@ private:
 
 ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager)
 : m_gui(gui), m_avatarManager(avatarManager), m_playerConfig(playerConfig),
-  m_curGameId(0), m_curUniquePlayerId(0), m_curRequestId(0)
+  m_curGameId(0), m_curUniquePlayerId(0)
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
@@ -578,7 +578,7 @@ ServerLobbyThread::RequestPlayerAvatar(SessionWrapper session)
 	// Ask the client to send its avatar.
 	boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
 	NetPacketRetrieveAvatar::Data retrieveAvatarData;
-	retrieveAvatarData.requestId = m_curRequestId++;
+	retrieveAvatarData.requestId = session.playerData->GetUniqueId();
 	retrieveAvatarData.avatar = session.playerData->GetAvatarMD5();
 	static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
 	GetSender().Send(session.sessionData->GetSocket(), retrieveAvatar);
