@@ -605,7 +605,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	//Nachrichten Thread-Save
 	connect(this, SIGNAL(signalInitGui(int)), this, SLOT(initGui(int)));
 
-	connect(this, SIGNAL(signalShowNetworkStartDialog()), this, SLOT(showNetworkStartDialog()));
+	connect(this, SIGNAL(signalShowClientDialog()), this, SLOT(showClientDialog()));
 
 	connect(this, SIGNAL(signalRefreshSet()), this, SLOT(refreshSet()));
 	connect(this, SIGNAL(signalRefreshCash()), this, SLOT(refreshCash()));
@@ -984,17 +984,7 @@ void mainWindowImpl::joinGameLobby() {
 	}
 	else
 	{
-		myGameLobbyDialog->exec(); 
-	
-		if (myGameLobbyDialog->result() == QDialog::Accepted)
-		{
-			//some gui modifications
-			networkGameModification();
-		}
-		else
-		{
-			mySession->terminateNetworkClient();
-		}
+		showLobbyDialog();
 	}
 }
 
@@ -1149,6 +1139,14 @@ void mainWindowImpl::initGui(int speed)
 	}
 }
 
+void mainWindowImpl::showClientDialog()
+{
+	if (mySession->GetGameType() == Session::GAME_TYPE_NETWORK)
+		showNetworkStartDialog();
+	else if (mySession->GetGameType() == Session::GAME_TYPE_INTERNET)
+		showLobbyDialog();
+}
+
 void mainWindowImpl::showNetworkStartDialog()
 {
 	myStartNetworkGameDialog->exec();
@@ -1162,6 +1160,21 @@ void mainWindowImpl::showNetworkStartDialog()
 		mySession->terminateNetworkClient();
 		if (myServerGuiInterface)
 			myServerGuiInterface->getSession().terminateNetworkServer();
+	}
+}
+
+void mainWindowImpl::showLobbyDialog()
+{
+	myGameLobbyDialog->exec(); 
+
+	if (myGameLobbyDialog->result() == QDialog::Accepted)
+	{
+		//some gui modifications
+		networkGameModification();
+	}
+	else
+	{
+		mySession->terminateNetworkClient();
 	}
 }
 

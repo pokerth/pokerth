@@ -140,7 +140,7 @@ void GuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned pla
 
 void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { myW->signalNetClientGameStart(game); }
 void GuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { myChat->signalChatMessage(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
-void GuiWrapper::SignalNetClientWaitDialog() { myW->signalShowNetworkStartDialog(); }
+void GuiWrapper::SignalNetClientWaitDialog() { myW->signalShowClientDialog(); }
 
 void GuiWrapper::SignalNetServerSuccess(int actionID) { }
 void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { myW->signalNetServerError(errorID, osErrorID); }

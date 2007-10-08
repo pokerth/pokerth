@@ -163,6 +163,14 @@ ServerLobbyThread::NotifyStartingGame(unsigned gameId)
 }
 
 void
+ServerLobbyThread::NotifyReopeningGame(unsigned gameId)
+{
+	boost::shared_ptr<NetPacket> packet = CreateNetPacketGameListUpdate(gameId, GAME_MODE_CREATED);
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
+}
+
+void
 ServerLobbyThread::HandleGameRetrievePlayerInfo(SessionWrapper session, const NetPacketRetrievePlayerInfo &tmpPacket)
 {
 	// Someone within a game requested player info.

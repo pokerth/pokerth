@@ -39,7 +39,8 @@
 using namespace std;
 
 Session::Session(GuiInterface *g, ConfigFile *c)
-: currentGameID(0), myNetClient(NULL), myNetServer(NULL), myIrcThread(NULL), myGui(g), myConfig(c)
+: currentGameID(0), myNetClient(NULL), myNetServer(NULL), myIrcThread(NULL),
+  myGui(g), myConfig(c), myGameType(GAME_TYPE_NONE)
 {
 	myAvatarManager.reset(new AvatarManager);
 }
@@ -49,7 +50,6 @@ Session::~Session()
 {
 	terminateNetworkClient();
 	terminateNetworkServer();
-	terminateIrcClient();
 	delete myConfig;
 	myConfig = 0;
 }
@@ -60,6 +60,8 @@ bool Session::init()
 }
 
 void Session::startLocalGame(const GameData &gameData, const StartData &startData) {
+
+	myGameType = GAME_TYPE_LOCAL;
 
 	currentGame.reset();
 	currentGameID++;
@@ -96,7 +98,6 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
 	currentGame->initHand();
 	currentGame->startHand();
 	// SPIEL-SCHLEIFE
-
 }
 
 void Session::startClientGame(boost::shared_ptr<Game> game)
@@ -116,13 +117,29 @@ GuiInterface *Session::getGui()
 	return myGui;
 }
 
+Session::GameType Session::GetGameType()
+{
+	return myGameType;
+}
+
 void Session::startInternetClient()
 {
-	if (myNetClient || !myGui)
+	if (myNetClient || myIrcThread || !myGui)
 	{
 		assert(false);
 		return;
 	}
+	myGameType = GAME_TYPE_INTERNET;
+
+	myIrcThread = new IrcThread(*myGui);
+	myIrcThread->Init(
+		myConfig->readConfigString("IRCServerAddress"),
+		myConfig->readConfigInt("IRCServerPort"),
+		myConfig->readConfigInt("IRCServerUseIpv6") == 1,
+		myConfig->readConfigString("MyName"),
+		myConfig->readConfigString("IRCChannel"));
+	myIrcThread->Run();
+
 	myNetClient = new ClientThread(*myGui, *myAvatarManager);
 	myNetClient->Init(
 		myConfig->readConfigString("InternetServerAddress"),
@@ -142,6 +159,8 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 		assert(false);
 		return;
 	}
+	myGameType = GAME_TYPE_NETWORK;
+
 	myNetClient = new ClientThread(*myGui, *myAvatarManager);
 	myNetClient->Init(
 		serverAddress,
@@ -162,6 +181,8 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
 		assert(false);
 		return;
 	}
+	myGameType = GAME_TYPE_NETWORK;
+
 	myNetClient = new ClientThread(*myGui, *myAvatarManager);
 	bool useIpv6 = myConfig->readConfigInt("ServerUseIpv6") == 1;
 	const char *loopbackAddr = useIpv6 ? "::1" : "127.0.0.1";
@@ -182,13 +203,18 @@ void Session::terminateNetworkClient()
 	if (!myNetClient)
 		return; // already terminated
 	myNetClient->SignalTermination();
-	// Give the thread some time to terminate.
+	if (myIrcThread)
+		myIrcThread->SignalTermination();
+	// Give the threads some time to terminate.
 	if (myNetClient->Join(NET_CLIENT_TERMINATE_TIMEOUT_MSEC))
-	{
 		delete myNetClient;
-	}
+	if (myIrcThread && myIrcThread->Join(NET_IRC_TERMINATE_TIMEOUT_MSEC))
+		delete myIrcThread;
+
 	// If termination fails, leave a memory leak to prevent a crash.
 	myNetClient = 0;
+	myIrcThread = 0;
+	myGameType = GAME_TYPE_NONE;
 }
 
 void Session::clientCreateGame(const GameData &gameData, const string &name, const string &password)
@@ -252,42 +278,11 @@ bool Session::waitForNetworkServer(unsigned timeoutMsec)
 	return retVal;
 }
 
-void Session::startIrcClient()
-{
-	if (myIrcThread || !myGui)
-	{
-		assert(false);
-		return;
-	}
-	myIrcThread = new IrcThread(*myGui);
-	myIrcThread->Init(
-		myConfig->readConfigString("IRCServerAddress"),
-		myConfig->readConfigInt("IRCServerPort"),
-		myConfig->readConfigInt("IRCServerUseIpv6") == 1,
-		myConfig->readConfigString("MyName"),
-		myConfig->readConfigString("IRCChannel"));
-	myIrcThread->Run();
-}
-
 void Session::sendIrcChatMessage(const std::string &message)
 {
 	if (!myIrcThread)
 		return;
 	myIrcThread->SendChatMessage(message);
-}
-
-void Session::terminateIrcClient()
-{
-	if (!myIrcThread)
-		return; // already terminated
-	myIrcThread->SignalTermination();
-	// Give the thread some time to terminate.
-	if (myIrcThread->Join(NET_IRC_TERMINATE_TIMEOUT_MSEC))
-		delete myIrcThread;
-	else
-		assert(false);
-	// If termination fails, leave a memory leak to prevent a crash.
-	myIrcThread = 0;
 }
 
 void Session::sendLeaveCurrentGame()

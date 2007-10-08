@@ -40,6 +40,8 @@ public:
 
 	~Session();
 
+	enum GameType { GAME_TYPE_NONE, GAME_TYPE_LOCAL, GAME_TYPE_NETWORK, GAME_TYPE_INTERNET };
+
 	bool init();
 
 	void startLocalGame(const GameData &gameData, const StartData &startData);
@@ -48,6 +50,8 @@ public:
 	Game *getCurrentGame();
 
 	GuiInterface *getGui();
+
+	GameType GetGameType();
 
 	void startInternetClient();
 	void startNetworkClient(const std::string &serverAddress, unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd);
@@ -62,9 +66,7 @@ public:
 	void terminateNetworkServer();
 	bool waitForNetworkServer(unsigned timeoutMsec);
 
-	void startIrcClient();
 	void sendIrcChatMessage(const std::string &message);
-	void terminateIrcClient();
 
 	void sendClientPlayerAction();
 
@@ -92,6 +94,7 @@ private:
 	boost::shared_ptr<Game> currentGame;
 	GuiInterface *myGui;
 	ConfigFile *myConfig;
+	GameType myGameType;
 };
 
 

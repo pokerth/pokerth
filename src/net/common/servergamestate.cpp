@@ -1126,6 +1126,7 @@ ServerGameStateNextGameDelay::Process(ServerGameThread &server)
 
 		// Wait for the start of a new game.
 		server.SetState(ServerGameStateInit::Instance());
+		server.GetLobbyThread().NotifyReopeningGame(server.GetId());
 	}
 
 	return retVal;
