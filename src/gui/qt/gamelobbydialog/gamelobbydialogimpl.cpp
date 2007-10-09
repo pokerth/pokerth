@@ -41,8 +41,6 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 
 void gameLobbyDialogImpl::exec()
 {
-	hideShowGameDescription(FALSE);
-
 	if(myConfig->readConfigInt("UseIRCLobbyChat"))  { 
 		groupBox_lobbyChat->show(); 
 	}
@@ -347,6 +345,8 @@ void gameLobbyDialogImpl::clearDialog()
 	inGame = false;
 	isAdmin = false;
 	myPlayerId = 0;
+
+	hideShowGameDescription(FALSE);
 }
 
 void gameLobbyDialogImpl::checkPlayerQuantity() {
