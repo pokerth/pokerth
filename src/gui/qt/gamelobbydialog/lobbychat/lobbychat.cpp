@@ -34,7 +34,7 @@ LobbyChat::LobbyChat(gameLobbyDialogImpl* l, ConfigFile *c) : myLobby(l), myConf
 
 	chatInputCompleter = new QCompleter(myLobby->treeWidget_NickList->model());
 	chatInputCompleter->setCaseSensitivity(Qt::CaseInsensitive);
-	chatInputCompleter->setCompletionMode(QCompleter::InlineCompletion);
+	chatInputCompleter->setCompletionMode(QCompleter::PopupCompletion);
  	myLobby->lineEdit_ChatInput->setCompleter(chatInputCompleter);
 
 }
