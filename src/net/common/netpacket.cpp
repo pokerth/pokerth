@@ -477,7 +477,6 @@ void SetGameInfoData(const GameData &inData, GameInfoData *outData)
 	assert(outData);
 
 	u_int16_t numManualBlinds = (u_int16_t)inData.manualBlindsList.size();
-	int manualBlindsSize = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
 
 	outData->maxNumberOfPlayers			= htons(inData.maxNumberOfPlayers);
 	outData->firstSmallBlind			= htons(inData.firstSmallBlind);
@@ -511,7 +510,6 @@ void GetGameInfoData(const GameInfoData *inData, GameData &outData)
 	assert(inData);
 
 	u_int16_t numManualBlinds = ntohs(inData->numberOfManualBlinds);
-	int manualBlindsSize = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
 
 	outData.maxNumberOfPlayers			= ntohs(inData->maxNumberOfPlayers);
 	outData.firstSmallBlind				= ntohs(inData->firstSmallBlind);
@@ -2295,9 +2293,6 @@ NetPacketJoinGameAck::GetData(NetPacketJoinGameAck::Data &outData) const
 {
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)GetRawData();
-
-	u_int16_t numManualBlinds = ntohs(tmpData->gameData.numberOfManualBlinds);
-	int manualBlindsSize = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
 
 	outData.gameId								= ntohl(tmpData->gameId);
 	outData.prights								= static_cast<PlayerRights>(ntohs(tmpData->playerRights));
