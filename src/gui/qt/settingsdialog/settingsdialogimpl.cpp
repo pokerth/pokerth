@@ -46,11 +46,11 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	comboBox_switchLanguage->addItem(tr("French"),"fr");
 	comboBox_switchLanguage->addItem(tr("German"),"de");
 	comboBox_switchLanguage->addItem(tr("Hungarian"),"hu");
-	comboBox_switchLanguage->addItem(tr("Italien"),"it");
+	comboBox_switchLanguage->addItem(tr("Italian"),"it");
 	comboBox_switchLanguage->addItem(tr("Norse"),"no");
 	comboBox_switchLanguage->addItem(tr("Portuguese"),"ptbr");
 	comboBox_switchLanguage->addItem(tr("Russian"),"ru");
-	comboBox_switchLanguage->addItem(tr("Solvak"),"sk");
+	comboBox_switchLanguage->addItem(tr("Slovak"),"sk");
 	comboBox_switchLanguage->addItem(tr("Turkish"),"tr");
 
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
@@ -316,7 +316,7 @@ void settingsDialogImpl::isAccepted() {
 	if(radioButton_flipsideOwn->isChecked()) {
 		if(QFile::QFile(lineEdit_OwnFlipsideFilename->text()).exists() && lineEdit_OwnFlipsideFilename->text() != "") {myConfig->writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toUtf8().constData()); }
 		else {	QMessageBox::warning(this, tr("Settings Error"),
-			tr("The entered flipside picture doesn't exists.\n"
+			tr("The entered flipside picture doesn't exist.\n"
 			"Please enter an valid picture!"),
 			QMessageBox::Ok);
 			settingsCorrect = FALSE; 
@@ -337,7 +337,7 @@ void settingsDialogImpl::isAccepted() {
 		if(QDir::QDir(lineEdit_logDir->text()).exists() && lineEdit_logDir->text() != "") { myConfig->writeConfigString("LogDir", lineEdit_logDir->text().toUtf8().constData());	}
 		else { 
 			QMessageBox::warning(this, tr("Settings Error"),
-			tr("The log file directory doesn't exists.\n"
+			tr("The log file directory doesn't exist.\n"
 			"Please select an valid directory!"),
 			QMessageBox::Ok);
 			settingsCorrect = FALSE; 

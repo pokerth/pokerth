@@ -221,7 +221,7 @@
         <item>
          <widget class="QLabel" name="label_gameDesc4" >
           <property name="text" >
-           <string>Blinds raise intervall: </string>
+           <string>Blinds raise interval: </string>
           </property>
           <property name="alignment" >
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>

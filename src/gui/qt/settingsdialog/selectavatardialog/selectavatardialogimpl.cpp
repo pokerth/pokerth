@@ -244,7 +244,7 @@ void selectAvatarDialogImpl::isAccepted() {
 			 }
 		}
 		else { QMessageBox::warning(this, tr("Avatar File Error"),
-			tr("The entered avatar picture doesn't exists.\n"
+			tr("The entered avatar picture doesn't exist.\n"
 			"Please enter an valid picture!"),
 			QMessageBox::Ok);
 			settingsCorrect = FALSE; 
