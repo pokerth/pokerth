@@ -381,6 +381,7 @@ void LocalBeRo::run() {
 				myHand->getGuiInterface()->meInAction();
 			}
 			else {
+
 				//Gegner sind dran
 				myHand->getGuiInterface()->beRoAnimation2(myBeRoID);
 			}

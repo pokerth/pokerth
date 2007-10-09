@@ -150,6 +150,8 @@ public:
 
 
 	void action();
+
+	int checkMyAction(int targetAction, int targetBet, int alreadySet, int myCash, int highestSet, int minimumRaise, int smallBlind);
 	
 	void preflopEngine();
 	void flopEngine();

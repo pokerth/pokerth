@@ -934,6 +934,11 @@ void LocalPlayer::setHand(HandInterface* br) { actualHand = br; }
 
 void LocalPlayer::action() {
 
+// 	int myOldCash = myCash;
+// 	int oldHighestSet = actualHand->getCurrentBeRo()->getHighestSet();
+// 	int oldMinimumRaise = actualHand->getCurrentBeRo()->getMinimumRaise();
+// 	int myOldSet = mySet;
+
 	switch(actualHand->getActualRound()) {
 		case 0: {
 
@@ -974,6 +979,9 @@ void LocalPlayer::action() {
 		default: {}
 	}
 
+// 	cout << checkMyAction(myAction, mySet - myOldSet, myOldSet, myOldCash, oldHighestSet, oldMinimumRaise, actualHand->getSmallBlind()) << endl;
+
+
 	myTurn = 0;
 // 	cout << "jetzt" << endl;
 	
@@ -986,6 +994,52 @@ void LocalPlayer::action() {
 // 	cout << "playerID in action(): " << (*(actualHand->getCurrentBeRo()->getCurrentPlayersTurnIt()))->getMyID() << endl;
 }
 
+int LocalPlayer::checkMyAction(int targetAction, int targetBet, int alreadySet, int myCash, int highestSet, int minimumRaise, int smallBlind) {
+
+	switch(targetAction) {
+		case PLAYER_ACTION_FOLD: {
+			return 0;
+		} break;
+		case PLAYER_ACTION_CHECK: {
+			if(alreadySet == highestSet) {
+				return 0;
+			}
+		} break;
+		case PLAYER_ACTION_CALL: {
+			if(alreadySet < highestSet && targetBet <= myCash) {
+				// not all in
+				if(myCash + alreadySet >= highestSet && targetBet == highestSet - alreadySet) {
+					return 0;	
+				}
+				// all in
+				if(myCash + alreadySet <= highestSet) {
+					return 0;
+				}
+			}
+		} break;
+		case PLAYER_ACTION_BET: {
+			if(highestSet == 0 && targetBet <= myCash && targetBet >= 2*smallBlind) {
+				return 0;
+			}
+		} break;
+		case PLAYER_ACTION_RAISE: {
+			if(highestSet > 0 && targetBet >= minimumRaise && targetBet <= myCash) {
+				return 0;
+			}
+		} break;
+		case PLAYER_ACTION_ALLIN: {
+			if(targetBet == myCash) {
+				return 0;
+			}
+		} break;
+		default: {
+
+		}
+	}
+
+	return 1;
+
+}
 
 void LocalPlayer::preflopEngine() {
 
