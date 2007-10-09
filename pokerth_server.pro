@@ -119,6 +119,7 @@ win32 {
 
     LIBS += -lpokerth_lib
     LIBS += -lssleay32
+	LIBS += -llibeay32
     LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32
     exists( ../boost/stage/lib/libboost_thread-mgw34-mt-1_34_1.a ){
         LIBS += -lboost_thread-mgw34-mt-1_34_1

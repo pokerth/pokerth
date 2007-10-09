@@ -14,23 +14,17 @@ http://support.microsoft.com/kb/930198
 4. Get and install a new Microsoft Platform SDK
 
 This step can be left out if you use MSVC 2005 Professional instead of the Express Edition.
-
-For example this version:
-[about 1 GB download, sorry I cannot tell you which packages are required]
-http://www.microsoft.com/downloads/details.aspx?FamilyID=c2b1e300-f358-4523-b479-f53d234cdccf&DisplayLang=en
-Update (not required):
+[about 1 GB download]
 http://www.microsoft.com/downloads/details.aspx?familyid=FF6467E6-5BBA-4BF5-B562-9199BE864D29&displaylang=en
 
-5. Get open source QT 4.3.0 from Trolltech and the MSVC patch from the Sourceforge page:
+5. Get open source QT 4.3.2 [zip file] from Trolltech.
+It supports MSVC 2005, no patch is needed.
+http://trolltech.com/developer/downloads/qt/windows
 
-http://sourceforge.net/projects/qtwin
-
-6. Apply the patch and compile QT, make sure you set the proper environment variables.
-These pages might help:
-http://qtnode.net/wiki?title=Qt4_with_Visual_Studio
-http://321soft.de/321soft/iframe.php?inhalt=qttut [German only]
+6. Compile QT, make sure you set the QTDIR environment variable before.
 
 7. Get boost and bjam and compile boost
+See http://www.boost.org/more/getting_started/windows.html
 
 Now the worst part:
 8. Get and compile(!) (do not use precompiled version) SDL and SDL_mixer
@@ -40,11 +34,18 @@ Now the worst part:
 qmake -tp vc pokerth_lib.pro
 qmake -tp vc pokerth_game.pro
 qmake -tp vc pokerth_server.pro
-qmake -tp vc
 in the pokerth directory
 
-10. Open the sln file, and Build All.
+10. Create an sln file and add the three projects.
 
+11. Set the project dependencies (pokerth_game and pokerth depend on pokerth_lib).
 
+12. Set the "Program Database File Name" in the Properties section C/C++
+for each project to a unique name.
+
+13. Edit the library directories and the linker dependencies of the Debug
+configuration, make them point to debug locations.
+
+14. Rebuild Solution.
 
 2007 by Lothar May
