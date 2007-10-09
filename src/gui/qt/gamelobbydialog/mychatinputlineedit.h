@@ -26,7 +26,7 @@ public:
 
 public slots:
 	
-	void keyPressEvent( QKeyEvent * event );
+// 	void keyPressEvent( QKeyEvent * event );
 
 private: 
 
