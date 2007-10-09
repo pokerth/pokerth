@@ -532,7 +532,7 @@ void GetGameInfoData(const GameInfoData *inData, GameData &outData)
 		const u_int16_t *manualBlindsPtr = (const u_int16_t *)((const char *)inData + sizeof(GameInfoData));
 		for (u_int16_t i = 0; i < numManualBlinds; i++)
 		{
-			outData.manualBlindsList.push_back(*manualBlindsPtr);
+			outData.manualBlindsList.push_back(ntohs(*manualBlindsPtr));
 			++manualBlindsPtr;
 		}
 	}
