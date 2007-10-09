@@ -205,7 +205,7 @@ int irc_connect6 (irc_session_t * session,
 #if defined (ENABLE_IPV6)
 	struct sockaddr_in6 saddr;
 	struct addrinfo ainfo, *res = NULL;
-	char portStr[64];
+	char portStr[32];
 #if defined (_WIN32)
 	int addrlen = sizeof(saddr);
 	HMODULE hWsock;
@@ -213,7 +213,7 @@ int irc_connect6 (irc_session_t * session,
 	freeaddrinfo_ptr_t freeaddrinfo_ptr;
 	int resolvesuccess = 0;
 #endif
-	itoa(port, portStr, 10);
+	sprintf(portStr, "%u", (unsigned)port);
 
 	// Check and copy all the specified fields
 	if ( !server || !nick )
@@ -730,7 +730,7 @@ int irc_process_select_descriptors (irc_session_t * session, fd_set *in_set, fd_
 		if (saddr.ss_family == AF_INET)
 			memcpy (&session->local_addr, &((struct sockaddr_in *)&laddr)->sin_addr, sizeof(struct in_addr));
 		else
-			memcpy (&session->local_addr, &((struct sockaddr_in6 *)&laddr)->sin6_addr, sizeof(struct in_addr6));
+			memcpy (&session->local_addr, &((struct sockaddr_in6 *)&laddr)->sin6_addr, sizeof(struct in6_addr));
 
 #if defined (ENABLE_DEBUG)
 		if ( IS_DEBUG_ENABLED(session) )
