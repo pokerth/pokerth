@@ -1587,7 +1587,7 @@ NetPacketGameListNew::SetData(const NetPacketGameListNew::Data &inData)
 
 	// Copy the player list to continous memory
 	unsigned *tmpPlayer =
-		(unsigned *)((char *)tmpData + sizeof(NetPacketGameListNewData) + ADD_PADDING(gameNameLen));
+		(unsigned *)(gameNamePtr + ADD_PADDING(gameNameLen));
 	while (i != end)
 	{
 		*tmpPlayer = htonl(*i);
@@ -1665,7 +1665,7 @@ NetPacketGameListNew::InternalCheck(const NetPacketHeader* data) const
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check name string.
-	char *namePtr = (char *)tmpData + sizeof(NetPacketGameListNewData);
+	char *namePtr = (char *)tmpData + sizeof(NetPacketGameListNewData) + manualBlindsLength;
 	if (namePtr[0] == 0)
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
