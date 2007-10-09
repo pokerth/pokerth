@@ -317,13 +317,15 @@ ServerGameThread::GracefulRemoveSession(SessionWrapper session)
 		if (tmpPlayerData->GetRights() == PLAYER_RIGHTS_ADMIN)
 		{
 			// Find new admin for the game
-			PlayerIdList idList(GetSessionManager().GetPlayerIdList());
-			if (!idList.empty())
+			PlayerDataList playerList(GetSessionManager().GetPlayerDataList());
+			if (!playerList.empty())
 			{
+				boost::shared_ptr<PlayerData> newAdmin = playerList.front();
+				newAdmin->SetRights(PLAYER_RIGHTS_ADMIN);
 				// Send "Game Admin Changed" to clients.
 				boost::shared_ptr<NetPacket> adminChanged(new NetPacketGameAdminChanged);
 				NetPacketGameAdminChanged::Data adminChangedData;
-				adminChangedData.playerId = idList.front(); // Choose next player as admin.
+				adminChangedData.playerId = newAdmin->GetUniqueId(); // Choose next player as admin.
 				static_cast<NetPacketGameAdminChanged *>(adminChanged.get())->SetData(adminChangedData);
 				GetSessionManager().SendToAllSessions(GetSender(), adminChanged, SessionData::Game);
 			}
