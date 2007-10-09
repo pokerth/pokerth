@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Game Lobby</string>
+   <string>Internet Game Lobby</string>
   </property>
   <layout class="QGridLayout" >
    <item rowspan="3" row="0" column="0" >
@@ -454,13 +454,20 @@
        <widget class="QTextBrowser" name="textBrowser_ChatDisplay" />
       </item>
       <item row="1" column="0" >
-       <widget class="QLineEdit" name="lineEdit_ChatInput" />
+       <widget class="MyChatInputLineEdit" name="lineEdit_ChatInput" />
       </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyChatInputLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>mychatinputlineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>treeWidget_GameList</tabstop>
   <tabstop>pushButton_CreateGame</tabstop>

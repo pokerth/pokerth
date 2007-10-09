@@ -88,10 +88,10 @@ public slots:
 	void sendChatMessage();
 	void checkChatInputLength(QString string);
 	
-	void keyPressEvent(QKeyEvent * event); 
+	void keyPressEvent(QKeyEvent * keyEvent); 
+	bool event(QEvent * event); 
 	void hideShowGameDescription(bool show);
 
-	void updateChatInputCompleter();
 
 private:
 	
@@ -105,9 +105,8 @@ private:
 	bool inGame;
 	LobbyChat *myChat;
 	QString myAppDataPath;
-	QStringList *chatInputCompleterNickList;
-	QCompleter *chatInputCompleter;
-
+	int keyUpCounter;
+	
 };
 
 #endif

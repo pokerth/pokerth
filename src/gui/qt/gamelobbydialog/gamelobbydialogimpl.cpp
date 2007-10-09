@@ -18,19 +18,13 @@
 #include <net/socket_msg.h>
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
- : QDialog(parent), myW(NULL), myConfig(c), mySession(NULL), currentGameName(""), myPlayerId(0), isAdmin(false), inGame(false), myChat(NULL)
+ : QDialog(parent), myW(NULL), myConfig(c), mySession(NULL), currentGameName(""), myPlayerId(0), isAdmin(false), inGame(false), myChat(NULL), keyUpCounter(0)
 {
     setupUi(this);
 	
 	myChat = new LobbyChat(this, myConfig);
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
-
-	chatInputCompleterNickList = new QStringList;
-	chatInputCompleter = new QCompleter(*chatInputCompleterNickList);
-	chatInputCompleter->setCaseSensitivity(Qt::CaseInsensitive);
- 	lineEdit_ChatInput->setCompleter(chatInputCompleter);
-
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
@@ -554,7 +548,27 @@ void gameLobbyDialogImpl::checkChatInputLength(QString string) { myChat->checkIn
 
 void gameLobbyDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 
-	if (event->key() == Qt::Key_Enter) { sendChatMessage(); }
+// 	std::cout << "key" << "\n";
+
+	if (event->key() == Qt::Key_Enter && lineEdit_ChatInput->hasFocus()) { myChat->sendMessage(); }
+
+	if (event->key() == Qt::Key_Up && lineEdit_ChatInput->hasFocus()) { 
+		if((keyUpCounter + 1) <= myChat->getChatLinesHistorySize()) { keyUpCounter++; }
+// 		std::cout << "Up keyUpCounter: " << keyUpCounter << "\n";
+		myChat->showChatHistoryIndex(keyUpCounter); 
+	}
+	else if(event->key() == Qt::Key_Down && lineEdit_ChatInput->hasFocus()) { 
+		if((keyUpCounter - 1) > 0) { keyUpCounter--; }
+// 		std::cout << "Down keyUpCounter: " << keyUpCounter << "\n";
+		myChat->showChatHistoryIndex(keyUpCounter); 
+	}
+	else { keyUpCounter = 0; }
+
+	
+}
+
+bool gameLobbyDialogImpl::event ( QEvent * event ) { 
+
 }
 
 void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
@@ -577,16 +591,4 @@ void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
 		label_gameDesc6->hide();
 		label_gameDesc7->hide();
 	}
-}
-
-void gameLobbyDialogImpl::updateChatInputCompleter() {
-	
-	chatInputCompleterNickList->clear();
-
-	int i;
-	for (i=0; i < treeWidget_NickList->topLevelItemCount(); i++) {
-		chatInputCompleterNickList->append(treeWidget_NickList->itemAt(0,i)->text(0));
-	}
-
-	
 }

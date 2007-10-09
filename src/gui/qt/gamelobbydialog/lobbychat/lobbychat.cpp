@@ -31,6 +31,12 @@ using namespace std;
 
 LobbyChat::LobbyChat(gameLobbyDialogImpl* l, ConfigFile *c) : myLobby(l), myConfig(c)
 {
+
+	chatInputCompleter = new QCompleter(myLobby->treeWidget_NickList->model());
+	chatInputCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+	chatInputCompleter->setCompletionMode(QCompleter::InlineCompletion);
+ 	myLobby->lineEdit_ChatInput->setCompleter(chatInputCompleter);
+
 }
 
 LobbyChat::~LobbyChat()
@@ -42,6 +48,7 @@ void LobbyChat::sendMessage() {
 
 	if (myNick.size())
 	{
+		fillChatLinesHistory(myLobby->lineEdit_ChatInput->text());
 		QString tmpMsg(myLobby->lineEdit_ChatInput->text());
 		if (tmpMsg.size())
 		{
@@ -237,3 +244,22 @@ void LobbyChat::chatServerError(int errorCode)
 //		myLobby->textBrowser_ChatDisplay->append(errorMsg); 
 }
 
+void LobbyChat::fillChatLinesHistory(QString fillString) {
+
+	chatLinesHistory << fillString;
+	if(chatLinesHistory.size() > 50) chatLinesHistory.removeFirst();
+
+// 	QStringList::const_iterator constIterator;
+//      	for (constIterator = chatLinesHistory.constBegin(); constIterator != chatLinesHistory.constEnd(); ++constIterator) {
+//          	cout << (*constIterator).toLocal8Bit().constData() << endl;
+// 	}
+}
+
+void LobbyChat::showChatHistoryIndex(int index) { 
+
+	if(index <= chatLinesHistory.size() && index > 0) {
+
+// 		cout << chatLinesHistory.size() << " : " <<  index << endl;
+		myLobby->lineEdit_ChatInput->setText(chatLinesHistory.at(chatLinesHistory.size()-(index)));  
+	}
+}

@@ -22,6 +22,7 @@
 
 #include <string>
 #include <QtCore>
+#include <QtGui>
 
 class gameLobbyDialogImpl;
 class Session;
@@ -52,12 +53,21 @@ public slots:
 	void chatError(int errorCode);
 	void chatServerError(int errorCode);
 
+	void fillChatLinesHistory(QString fillString);
+	void showChatHistoryIndex(int index);
+
+	int getChatLinesHistorySize() { return chatLinesHistory.size(); }
+
 private:
 	gameLobbyDialogImpl *myLobby;
 	ConfigFile *myConfig;
 
 	QString myNick;
 	
+	QStringList chatLinesHistory;
+	QCompleter *chatInputCompleter;
+
+
 // friend class GuiWrapper;
 };
 
