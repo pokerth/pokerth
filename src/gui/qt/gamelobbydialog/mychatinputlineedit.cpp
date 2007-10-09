@@ -28,5 +28,5 @@ void MyChatInputLineEdit::keyPressEvent( QKeyEvent * event ) {
 
 	if (event->key() == Qt::Key_Tab && this->hasSelectedText()) {  }
 
-	QLineEdit::event(event);
+	QLineEdit::keyPressEvent(event);
 }
