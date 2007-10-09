@@ -882,13 +882,33 @@ ServerGameStateWaitPlayerAction::PerformPlayerAction(ServerGameThread &server, b
 	// Only change the player bet if action is not fold/check
 	if (action != PLAYER_ACTION_FOLD && action != PLAYER_ACTION_CHECK)
 	{
+
 		player->setMySet(bet);
 
+		// update minimumRaise
+		switch(action) {
+			case PLAYER_ACTION_BET: {
+				curGame.getCurrentHand()->getCurrentBeRo()->setMinimumRaise(bet);
+			} break;
+			case PLAYER_ACTION_RAISE: {
+				curGame.getCurrentHand()->getCurrentBeRo()->setMinimumRaise(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet());
+			} break;
+			case PLAYER_ACTION_ALLIN: {
+				if(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() > curGame.getCurrentHand()->getCurrentBeRo()->getMinimumRaise()) {
+					curGame.getCurrentHand()->getCurrentBeRo()->setMinimumRaise(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet());
+				}
+			} break;
+			default: {
+			}
+		}
+
+		// update highestSet
 		if (player->getMySet() > curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet())
 			curGame.getCurrentHand()->getCurrentBeRo()->setHighestSet(player->getMySet());
 		// Update total sets.
 		curGame.getCurrentHand()->getBoard()->collectSets();
 	}
+
 
 	SendPlayerAction(server, player);
 }
