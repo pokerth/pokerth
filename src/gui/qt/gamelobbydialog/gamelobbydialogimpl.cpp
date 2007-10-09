@@ -569,7 +569,7 @@ void gameLobbyDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 
 bool gameLobbyDialogImpl::event ( QEvent * event ) { 
 
-	QDialog::event(event);
+	return QDialog::event(event);
 }
 
 void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
