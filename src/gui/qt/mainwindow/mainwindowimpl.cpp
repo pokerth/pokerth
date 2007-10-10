@@ -729,13 +729,11 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 		// Set Game Data
 		gameData.maxNumberOfPlayers = v->spinBox_quantityPlayers->value();
 		gameData.startMoney = v->spinBox_startCash->value();
-		gameData.smallBlind = v->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value(); //TODO remove
 		gameData.firstSmallBlind = v->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
 		
 		if(v->getChangeCompleteBlindsDialog()->radioButton_raiseBlindsAtHands->isChecked()) { 
 			gameData.raiseIntervalMode = RAISE_ON_HANDNUMBER;
 			gameData.raiseSmallBlindEveryHandsValue = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
-			gameData.handsBeforeRaise = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value(); //TODO remove
 		}
 		else { 
 			gameData.raiseIntervalMode = RAISE_ON_MINUTES; 
@@ -773,15 +771,11 @@ void mainWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 		// Set Game Data
 		gameData.maxNumberOfPlayers = myConfig->readConfigInt("NumberOfPlayers");
 		gameData.startMoney = myConfig->readConfigInt("StartCash");
-		gameData.smallBlind = myConfig->readConfigInt("FirstSmallBlind"); //TODO remove
-		gameData.handsBeforeRaise = myConfig->readConfigInt("RaiseSmallBlindEveryHands"); //TODO remove
-
 		gameData.firstSmallBlind =  myConfig->readConfigInt("FirstSmallBlind");
 	
 		if(myConfig->readConfigInt("RaiseBlindsAtHands")) { 
 			gameData.raiseIntervalMode = RAISE_ON_HANDNUMBER;
 			gameData.raiseSmallBlindEveryHandsValue = myConfig->readConfigInt("RaiseSmallBlindEveryHands");
-			gameData.handsBeforeRaise = myConfig->readConfigInt("RaiseSmallBlindEveryHands"); //TODO remove
 		}
 		else { 
 			gameData.raiseIntervalMode = RAISE_ON_MINUTES; 
@@ -853,13 +847,11 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 		GameData gameData;
 		gameData.maxNumberOfPlayers = myCreateNetworkGameDialog->spinBox_quantityPlayers->value();
 		gameData.startMoney = myCreateNetworkGameDialog->spinBox_startCash->value();
-		gameData.smallBlind = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();//TODO remove
 		gameData.firstSmallBlind = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
 		
 		if(myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->radioButton_raiseBlindsAtHands->isChecked()) { 
 			gameData.raiseIntervalMode = RAISE_ON_HANDNUMBER;
 			gameData.raiseSmallBlindEveryHandsValue = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
-			gameData.handsBeforeRaise = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value(); //TODO remove
 		}
 		else { 
 			gameData.raiseIntervalMode = RAISE_ON_MINUTES; 

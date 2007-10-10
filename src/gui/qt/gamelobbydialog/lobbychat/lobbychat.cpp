@@ -29,13 +29,13 @@
 using namespace std;
 
 
-LobbyChat::LobbyChat(gameLobbyDialogImpl* l, ConfigFile *c) : myLobby(l), myConfig(c)
+LobbyChat::LobbyChat(gameLobbyDialogImpl* l, ConfigFile *c) : myLobby(l), myConfig(c), nickAutoCompletitionCounter(0), chatTextEdited(FALSE)
 {
 
-	chatInputCompleter = new QCompleter(myLobby->treeWidget_NickList->model());
-// 	chatInputCompleter->setCaseSensitivity(Qt::CaseInsensitive);
-// 	chatInputCompleter->setCompletionMode(QCompleter::PopupCompletion);
-//  	myLobby->lineEdit_ChatInput->setCompleter(chatInputCompleter);
+// 	chatInputCompleter = new QCompleter(myLobby->treeWidget_NickList->model());
+// // 	chatInputCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+// // 	chatInputCompleter->setCompletionMode(QCompleter::PopupCompletion);
+// //  	myLobby->lineEdit_ChatInput->setCompleter(chatInputCompleter);
 
 }
 
@@ -146,14 +146,6 @@ void LobbyChat::clearChat() {
 	myLobby->textBrowser_ChatDisplay->clear();
 	myLobby->textBrowser_ChatDisplay->append(tr("Connecting to Chat server..."));
 	myLobby->lineEdit_ChatInput->setEnabled(false);
-/*	QStringList wordList;
-	wordList << "alpha" << "omega" << "omicron" << "zeta";*/
-	
-// 	QCompleter *completer = new QCompleter(wordList, this);
-// 	completer->setCaseSensitivity(Qt::CaseInsensitive);
-// 	completer->setCompletionMode(QCompleter::InlineCompletion);
-// // 	lineEdit_ChatInput->setCompleter(completer);
-	
 }
 
 void LobbyChat::chatError(int errorCode)
@@ -271,11 +263,14 @@ void LobbyChat::nickAutoCompletition() {
 // 	QList<QTreeWidgetItem*> matchItemsList = myLobby->treeWidget_NickList->findItems(myChatStringList.last(),Qt::MatchStartsWith);
 // 	QListIterator<QTreeWidgetItem*> it(matchItemsList);
 
-	QTreeWidgetItemIterator it(myLobby->treeWidget_NickList);
-	while (*it) {
-		if ((*it)->text(0).startsWith(myChatStringList.last()) && myChatStringList.last() != "")
-		matchStringList << (*it)->text(0);
-		++it;
+
+	if(nickAutoCompletitionCounter == 0) {
+		QTreeWidgetItemIterator it(myLobby->treeWidget_NickList);
+		while (*it) {
+			if ((*it)->text(0).startsWith(myChatStringList.last(), Qt::CaseInsensitive) && myChatStringList.last() != "")
+			matchStringList << (*it)->text(0);
+			++it;
+		}
 	}
 
 // 	QStringList::const_iterator constIterator;
@@ -283,13 +278,32 @@ void LobbyChat::nickAutoCompletition() {
 //          	cout << (*constIterator).toLocal8Bit().constData() << endl;
 // 	}
 
-	if(!matchStringList.isEmpty()) {
+	if(!matchStringList.isEmpty() || nickAutoCompletitionCounter > 0) {
+		
 		myChatStringList.removeLast();
-		if(myChatStringList.isEmpty())	
-			myLobby->lineEdit_ChatInput->setText(myChatStringList.join(" ")+matchStringList.first()+": ");
+
+		if(nickAutoCompletitionCounter == 0) {
+		//first one
+			lastChatString = myChatStringList.join(" ");
+			lastMatchStringList = matchStringList;
+		}
+
+		if(nickAutoCompletitionCounter == lastMatchStringList.size()) nickAutoCompletitionCounter = 0;
+
+// 		cout << nickAutoCompletitionCounter << "\n";
+			
+		if(lastChatString == "")	
+			myLobby->lineEdit_ChatInput->setText(lastMatchStringList.at(nickAutoCompletitionCounter)+": ");
 		else 
-			myLobby->lineEdit_ChatInput->setText(myChatStringList.join(" ")+" "+matchStringList.first()+": ");
+			myLobby->lineEdit_ChatInput->setText(lastChatString+" "+lastMatchStringList.at(nickAutoCompletitionCounter)+" ");
+		
+		nickAutoCompletitionCounter++;	
 	}
 
 }
 
+void LobbyChat::setChatTextEdited() {
+
+	chatTextEdited = TRUE;
+	nickAutoCompletitionCounter = 0;
+}

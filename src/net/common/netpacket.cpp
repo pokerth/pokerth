@@ -526,7 +526,6 @@ void GetGameInfoData(const GameInfoData *inData, GameData &outData)
 	outData.guiSpeed					= ntohs(inData->proposedGuiSpeed);
 	outData.playerActionTimeoutSec		= ntohs(inData->playerActionTimeout);
 	outData.firstSmallBlind				= ntohl(inData->firstSmallBlind);
-/*remove me*/		outData.smallBlind					= ntohs(inData->firstSmallBlind); // TODO remove
 	outData.afterMBAlwaysRaiseValue		= ntohl(inData->endRaiseSmallBlindValue);
 	outData.startMoney					= ntohl(inData->startMoney);
 

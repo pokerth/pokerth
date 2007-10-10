@@ -59,6 +59,8 @@ public slots:
 	int getChatLinesHistorySize() { return chatLinesHistory.size(); }
 	void nickAutoCompletition();
 
+	void setChatTextEdited();
+
 private:
 	gameLobbyDialogImpl *myLobby;
 	ConfigFile *myConfig;
@@ -67,7 +69,12 @@ private:
 	
 	QStringList chatLinesHistory;
 	QCompleter *chatInputCompleter;
+	
+	QString lastChatString;
+	QStringList lastMatchStringList;
+	int nickAutoCompletitionCounter;
 
+	bool chatTextEdited;
 
 // friend class GuiWrapper;
 };
