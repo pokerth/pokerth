@@ -202,8 +202,13 @@ void settingsDialogImpl::exec() {
 	spinBox_logStoreDuration->setValue(myConfig->readConfigInt("LogStoreDuration"));
 	comboBox_logInterval->setCurrentIndex(myConfig->readConfigInt("LogInterval"));
 
-	checkBox_useIpv6->setEnabled(socket_has_ipv6());
-	checkBox_useSctp->setEnabled(socket_has_sctp());
+	bool tmpHasIpv6 = socket_has_ipv6();
+	bool tmpHasSctp = socket_has_sctp();
+	checkBox_useIpv6->setEnabled(tmpHasIpv6);
+	checkBox_useSctp->setEnabled(tmpHasSctp);
+	checkBox_InternetServerUseIpv6->setEnabled(tmpHasIpv6);
+	checkBox_InternetServerUseSctp->setEnabled(tmpHasSctp);
+	checkBox_IRCServerUseIpv6->setEnabled(tmpHasIpv6);
 
 	//Manual Blinds Order Dialog (local)
 	myManualBlindsList = myConfig->readConfigIntList("ManualBlindsList");
