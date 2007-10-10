@@ -52,12 +52,14 @@ class NetPacketRetrieveAvatar;
 class NetPacketAvatarHeader;
 class NetPacketAvatarFile;
 class NetPacketAvatarEnd;
+class NetPacketUnknownAvatar;
 class NetPacketGameListNew;
 class NetPacketGameListUpdate;
 class NetPacketGameListPlayerJoined;
 class NetPacketGameListPlayerLeft;
 class NetPacketRetrievePlayerInfo;
 class NetPacketPlayerInfo;
+class NetPacketUnknownPlayerId;
 class NetPacketCreateGame;
 class NetPacketJoinGame;
 class NetPacketJoinGameAck;
@@ -110,12 +112,14 @@ public:
 	virtual const NetPacketAvatarHeader *ToNetPacketAvatarHeader() const;
 	virtual const NetPacketAvatarFile *ToNetPacketAvatarFile() const;
 	virtual const NetPacketAvatarEnd *ToNetPacketAvatarEnd() const;
+	virtual const NetPacketUnknownAvatar *ToNetPacketUnknownAvatar() const;
 	virtual const NetPacketGameListNew *ToNetPacketGameListNew() const;
 	virtual const NetPacketGameListUpdate *ToNetPacketGameListUpdate() const;
 	virtual const NetPacketGameListPlayerJoined *ToNetPacketGameListPlayerJoined() const;
 	virtual const NetPacketGameListPlayerLeft *ToNetPacketGameListPlayerLeft() const;
 	virtual const NetPacketRetrievePlayerInfo *ToNetPacketRetrievePlayerInfo() const;
 	virtual const NetPacketPlayerInfo *ToNetPacketPlayerInfo() const;
+	virtual const NetPacketUnknownPlayerId *ToNetPacketUnknownPlayerId() const;
 	virtual const NetPacketCreateGame *ToNetPacketCreateGame() const;
 	virtual const NetPacketJoinGame *ToNetPacketJoinGame() const;
 	virtual const NetPacketJoinGameAck *ToNetPacketJoinGameAck() const;
@@ -311,6 +315,29 @@ protected:
 	virtual void InternalCheck(const NetPacketHeader* data) const;
 };
 
+class NetPacketUnknownAvatar : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		requestId;
+	};
+
+	NetPacketUnknownAvatar();
+	virtual ~NetPacketUnknownAvatar();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketUnknownAvatar *ToNetPacketUnknownAvatar() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
 class NetPacketGameListNew : public NetPacket
 {
 public:
@@ -448,6 +475,29 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketPlayerInfo *ToNetPacketPlayerInfo() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketUnknownPlayerId : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		playerId;
+	};
+
+	NetPacketUnknownPlayerId();
+	virtual ~NetPacketUnknownPlayerId();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketUnknownPlayerId *ToNetPacketUnknownPlayerId() const;
 
 protected:
 

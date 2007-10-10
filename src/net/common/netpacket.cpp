@@ -33,12 +33,14 @@ using namespace std;
 #define NET_TYPE_AVATAR_HEADER					0x0004
 #define NET_TYPE_AVATAR_FILE					0x0005
 #define NET_TYPE_AVATAR_END						0x0006
+#define NET_TYPE_UNKNOWN_AVATAR					0x0007
 #define NET_TYPE_GAME_LIST_NEW					0x0010
 #define NET_TYPE_GAME_LIST_UPDATE				0x0011
 #define NET_TYPE_GAME_LIST_PLAYER_JOINED		0x0012
 #define NET_TYPE_GAME_LIST_PLAYER_LEFT			0x0013
 #define NET_TYPE_RETRIEVE_PLAYER_INFO			0x0020
 #define NET_TYPE_PLAYER_INFO					0x0021
+#define NET_TYPE_UNKNOWN_PLAYER_ID				0x0022
 #define NET_TYPE_CREATE_GAME					0x0030
 #define NET_TYPE_JOIN_GAME						0x0031
 #define NET_TYPE_JOIN_GAME_ACK					0x0032
@@ -168,6 +170,12 @@ struct GCC_PACKED NetPacketAvatarEndData
 	u_int32_t			requestId;
 };
 
+struct GCC_PACKED NetPacketUnknownAvatarData
+{
+	NetPacketHeader		head;
+	u_int32_t			requestId;
+};
+
 struct GCC_PACKED GameInfoData
 {
 	u_int16_t			maxNumberOfPlayers;
@@ -228,6 +236,12 @@ struct GCC_PACKED NetPacketPlayerInfoData
 	u_int32_t			playerId;
 	u_int16_t			playerFlags;
 	u_int16_t			playerNameLength;
+};
+
+struct GCC_PACKED NetPacketUnknownPlayerIdData
+{
+	NetPacketHeader		head;
+	u_int32_t			playerId;
 };
 
 struct GCC_PACKED NetPacketCreateGameData
@@ -607,6 +621,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 				case NET_TYPE_AVATAR_END:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketAvatarEnd);
 					break;
+				case NET_TYPE_UNKNOWN_AVATAR:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketUnknownAvatar);
+					break;
 				case NET_TYPE_GAME_LIST_NEW:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameListNew);
 					break;
@@ -624,6 +641,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_PLAYER_INFO:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketPlayerInfo);
+					break;
+				case NET_TYPE_UNKNOWN_PLAYER_ID:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketUnknownPlayerId);
 					break;
 				case NET_TYPE_CREATE_GAME:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketCreateGame);
@@ -829,6 +849,12 @@ NetPacket::ToNetPacketAvatarEnd() const
 	return NULL;
 }
 
+const NetPacketUnknownAvatar *
+NetPacket::ToNetPacketUnknownAvatar() const
+{
+	return NULL;
+}
+
 const NetPacketGameListNew *
 NetPacket::ToNetPacketGameListNew() const
 {
@@ -861,6 +887,12 @@ NetPacket::ToNetPacketRetrievePlayerInfo() const
 
 const NetPacketPlayerInfo *
 NetPacket::ToNetPacketPlayerInfo() const
+{
+	return NULL;
+}
+
+const NetPacketUnknownPlayerId *
+NetPacket::ToNetPacketUnknownPlayerId() const
 {
 	return NULL;
 }
@@ -1523,6 +1555,62 @@ NetPacketAvatarEnd::InternalCheck(const NetPacketHeader*) const
 
 //-----------------------------------------------------------------------------
 
+NetPacketUnknownAvatar::NetPacketUnknownAvatar()
+: NetPacket(NET_TYPE_UNKNOWN_AVATAR, sizeof(NetPacketUnknownAvatarData), sizeof(NetPacketUnknownAvatarData))
+{
+}
+
+NetPacketUnknownAvatar::~NetPacketUnknownAvatar()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketUnknownAvatar::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketUnknownAvatar);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketUnknownAvatar::SetData(const NetPacketUnknownAvatar::Data &inData)
+{
+	NetPacketUnknownAvatarData *tmpData = (NetPacketUnknownAvatarData *)GetRawData();
+
+	tmpData->requestId				= htonl(inData.requestId);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketUnknownAvatar::GetData(NetPacketUnknownAvatar::Data &outData) const
+{
+	NetPacketUnknownAvatarData *tmpData = (NetPacketUnknownAvatarData *)GetRawData();
+
+	outData.requestId				= ntohl(tmpData->requestId);
+}
+
+const NetPacketUnknownAvatar *
+NetPacketUnknownAvatar::ToNetPacketUnknownAvatar() const
+{
+	return this;
+}
+
+void
+NetPacketUnknownAvatar::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
 NetPacketGameListNew::NetPacketGameListNew()
 : NetPacket(NET_TYPE_GAME_LIST_NEW, sizeof(NetPacketGameListNewData), MAX_PACKET_SIZE)
 {
@@ -2023,6 +2111,63 @@ NetPacketPlayerInfo::InternalCheck(const NetPacketHeader* data) const
 	}
 }
 
+//-----------------------------------------------------------------------------
+
+NetPacketUnknownPlayerId::NetPacketUnknownPlayerId()
+: NetPacket(NET_TYPE_UNKNOWN_PLAYER_ID, sizeof(NetPacketUnknownPlayerIdData), sizeof(NetPacketUnknownPlayerIdData))
+{
+}
+
+NetPacketUnknownPlayerId::~NetPacketUnknownPlayerId()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketUnknownPlayerId::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketUnknownPlayerId);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketUnknownPlayerId::SetData(const NetPacketUnknownPlayerId::Data &inData)
+{
+	NetPacketUnknownPlayerIdData *tmpData = (NetPacketUnknownPlayerIdData *)GetRawData();
+
+	// Set the data.
+	tmpData->playerId		= htonl(inData.playerId);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketUnknownPlayerId::GetData(NetPacketUnknownPlayerId::Data &outData) const
+{
+	// We assume that the data is valid. Validity has already been checked.
+	NetPacketUnknownPlayerIdData *tmpData = (NetPacketUnknownPlayerIdData *)GetRawData();
+
+	outData.playerId		= ntohl(tmpData->playerId);
+}
+
+const NetPacketUnknownPlayerId *
+NetPacketUnknownPlayerId::ToNetPacketUnknownPlayerId() const
+{
+	return this;
+}
+
+void
+NetPacketUnknownPlayerId::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
 //-----------------------------------------------------------------------------
 
 NetPacketCreateGame::NetPacketCreateGame()
