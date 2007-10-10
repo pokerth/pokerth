@@ -839,10 +839,10 @@ public:
 
 	struct Data
 	{
-		GameState		gameState;
-		PlayerAction	playerAction;
-		u_int32_t		playerBet;
-		int				rejectionReason;
+		GameState			gameState;
+		PlayerAction		playerAction;
+		u_int32_t			playerBet;
+		PlayerActionCode	rejectionReason;
 	};
 
 	NetPacketPlayersActionRejected();

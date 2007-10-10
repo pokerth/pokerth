@@ -555,14 +555,15 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 		packet->ToNetPacketRetrieveAvatar()->GetData(retrieveAvatarData);
 
 		NetPacketList tmpList;
-		if (client.GetAvatarManager().AvatarFileToNetPackets(
+		int avatarError = client.GetAvatarManager().AvatarFileToNetPackets(
 			client.GetContext().GetAvatarFile(),
 			retrieveAvatarData.requestId,
-			tmpList))
-		{
+			tmpList);
+
+		if (!avatarError)
 			client.GetSender().SendLowPrio(client.GetContext().GetSocket(), tmpList);
-		}
-		// TODO handle error
+		else
+			throw NetException(avatarError, 0);
 	}
 
 	return retVal;
@@ -716,7 +717,7 @@ ClientStateSynchronizeStart::Process(ClientThread &client)
 }
 
 int
-ClientStateSynchronizeStart::InternalProcess(ClientThread &client, boost::shared_ptr<NetPacket> packet)
+ClientStateSynchronizeStart::InternalProcess(ClientThread &/*client*/, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 

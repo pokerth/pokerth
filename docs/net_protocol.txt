@@ -587,17 +587,9 @@ Server Reply: Player's Action Rejected
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 Rejection Reason:
-	0x0001 - Fold makes no sense.
-	0x0002 - Check not allowed.
-	0x0003 - Call not allowed.
-	0x0004 - Bet not allowed.
-	0x0005 - Raise not allowed.
-	0x0006 - All in not allowed.
-	0x0007 - Invalid game state.
-	0x0008 - Invalid bet for this game state.
-	0x0009 - Bet too small.
-	0x0010 - Bet too large.
-	0xFFFF - Other reason
+	0x0001 - Invalid Game State.
+	0x0002 - Not your turn.
+	0x0003 - Action not allowed.
 
 
 Server Notification: Deal Flop Cards
@@ -787,6 +779,9 @@ Error Reason:
 	0x0004 - Init - Invalid Password
 	0x0005 - Init - Player Name already in use
 	0x0006 - Init - Invalid Player Name
+	0x0010 - Avatar - Too large
+	0x0011 - Avatar - Wrong size
+	0x0020 - Join Game - Unknown Game
 	0xFF01 - General Error - Invalid packet
 	0xFF02 - General Error - Invalid state
 	0xFF03 - General Error - Kicked from the server

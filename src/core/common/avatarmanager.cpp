@@ -22,6 +22,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <openssl/md5.h>
+#include <net/socket_msg.h>
 
 #include <fstream>
 #include <cstring>
@@ -52,20 +53,25 @@ AvatarManager::~AvatarManager()
 bool
 AvatarManager::Init(const std::string &dataDir, const std::string &cacheDir)
 {
+	bool retVal = true;
+	bool tmpRet;
 	{
 		boost::mutex::scoped_lock lock(m_cacheDirMutex);
 		m_cacheDir = cacheDir;
 	}
 	{
 		boost::mutex::scoped_lock lock(m_avatarsMutex);
-		InternalReadDirectory(dataDir + "gfx/avatars/default/people/", m_avatars);
-		InternalReadDirectory(dataDir + "gfx/avatars/default/misc/", m_avatars);
+		tmpRet = InternalReadDirectory(dataDir + "gfx/avatars/default/people/", m_avatars);
+		retVal = retVal && tmpRet;
+		tmpRet = InternalReadDirectory(dataDir + "gfx/avatars/default/misc/", m_avatars);
+		retVal = retVal && tmpRet;
 	}
 	{
 		boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
-		InternalReadDirectory(cacheDir, m_cachedAvatars);
+		tmpRet = InternalReadDirectory(cacheDir, m_cachedAvatars);
+		retVal = retVal && tmpRet;
 	}
-	return true; // TODO handle errors
+	return retVal;
 }
 
 boost::shared_ptr<AvatarFileState>
@@ -126,10 +132,10 @@ AvatarManager::ChunkReadAvatarFile(boost::shared_ptr<AvatarFileState> fileState,
 	return retVal;
 }
 
-bool
+int
 AvatarManager::AvatarFileToNetPackets(const string &fileName, unsigned requestId, NetPacketList &packets)
 {
-	bool retVal = false;
+	int retVal = ERR_NET_INVALID_AVATAR_FILE;
 	unsigned fileSize;
 	AvatarFileType fileType;
 	boost::shared_ptr<AvatarFileState> tmpState = OpenAvatarFileForChunkRead(fileName, fileSize, fileType);
@@ -160,15 +166,19 @@ AvatarManager::AvatarFileToNetPackets(const string &fileName, unsigned requestId
 				packets.push_back(avatarFile);
 			}
 		} while (numBytes);
-		// TODO error handling if numBytes != totalBytesRead
-		boost::shared_ptr<NetPacket> avatarEnd(new NetPacketAvatarEnd);
-		NetPacketAvatarEnd::Data avatarEndData;
-		avatarEndData.requestId = requestId;
-		static_cast<NetPacketAvatarEnd *>(avatarEnd.get())->SetData(avatarEndData);
-		packets.push_back(avatarEnd);
-		retVal = true;
+
+		if (fileSize != totalBytesRead)
+			retVal = ERR_NET_WRONG_AVATAR_SIZE;
+		else
+		{
+			boost::shared_ptr<NetPacket> avatarEnd(new NetPacketAvatarEnd);
+			NetPacketAvatarEnd::Data avatarEndData;
+			avatarEndData.requestId = requestId;
+			static_cast<NetPacketAvatarEnd *>(avatarEnd.get())->SetData(avatarEndData);
+			packets.push_back(avatarEnd);
+			retVal = 0;
+		}
 	}
-	// else TODO error handling
 	return retVal;
 }
 

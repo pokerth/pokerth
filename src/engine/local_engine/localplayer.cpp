@@ -994,41 +994,41 @@ void LocalPlayer::action() {
 // 	cout << "playerID in action(): " << (*(actualHand->getCurrentBeRo()->getCurrentPlayersTurnIt()))->getMyID() << endl;
 }
 
-int LocalPlayer::checkMyAction(int targetAction, int targetBet, int alreadySet, int myCash, int highestSet, int minimumRaise, int smallBlind) {
+int LocalPlayer::checkMyAction(int targetAction, int targetBet, int highestSet, int minimumRaise, int smallBlind) {
 
 	switch(targetAction) {
 		case PLAYER_ACTION_FOLD: {
 			return 0;
 		} break;
 		case PLAYER_ACTION_CHECK: {
-			if(alreadySet == highestSet) {
+			if(getMySet() == highestSet) {
 				return 0;
 			}
 		} break;
 		case PLAYER_ACTION_CALL: {
-			if(alreadySet < highestSet && targetBet <= myCash) {
+			if(getMySet() < highestSet && targetBet <= getMyCash()) {
 				// not all in
-				if(myCash + alreadySet >= highestSet && targetBet == highestSet - alreadySet) {
+				if(getMyCash() + getMySet() >= highestSet && targetBet == highestSet - getMySet()) {
 					return 0;	
 				}
 				// all in
-				if(myCash + alreadySet <= highestSet) {
+				if(getMyCash() + getMySet() <= highestSet) {
 					return 0;
 				}
 			}
 		} break;
 		case PLAYER_ACTION_BET: {
-			if(highestSet == 0 && targetBet <= myCash && targetBet >= 2*smallBlind) {
+			if(highestSet == 0 && targetBet <= getMyCash() && targetBet >= 2*smallBlind) {
 				return 0;
 			}
 		} break;
 		case PLAYER_ACTION_RAISE: {
-			if(highestSet > 0 && targetBet >= minimumRaise && targetBet <= myCash) {
+			if(highestSet > 0 && targetBet >= minimumRaise && targetBet <= getMyCash()) {
 				return 0;
 			}
 		} break;
 		case PLAYER_ACTION_ALLIN: {
-			if(targetBet == myCash) {
+			if(targetBet == getMyCash()) {
 				return 0;
 			}
 		} break;

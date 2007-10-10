@@ -45,7 +45,7 @@ public:
 	boost::shared_ptr<AvatarFileState> OpenAvatarFileForChunkRead(const std::string &fileName, unsigned &outFileSize, AvatarFileType &outFileType);
 	unsigned ChunkReadAvatarFile(boost::shared_ptr<AvatarFileState> fileState, unsigned char *data, unsigned chunkSize);
 
-	bool AvatarFileToNetPackets(const std::string &fileName, unsigned requestId, NetPacketList &packets);
+	int AvatarFileToNetPackets(const std::string &fileName, unsigned requestId, NetPacketList &packets);
 
 	bool GetHashForAvatar(const std::string &fileName, MD5Buf &md5buf) const;
 	bool GetAvatarFileName(const MD5Buf &md5buf, std::string &fileName) const;

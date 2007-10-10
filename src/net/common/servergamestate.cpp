@@ -683,8 +683,10 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 
 			// Retrieve current player.
 			boost::shared_ptr<PlayerInterface> curPlayer = curGame.getCurrentPlayer();
-			assert(curPlayer.get()); // TODO throw exception
-			assert(curPlayer->getMyActiveStatus()); // TODO throw exception
+			if (!curPlayer.get())
+				throw NetException(ERR_NET_NO_CURRENT_PLAYER, 0);
+			if (!curPlayer->getMyActiveStatus())
+				throw NetException(ERR_NET_PLAYER_NOT_ACTIVE, 0);
 
 			boost::shared_ptr<NetPacket> notification(new NetPacketPlayersTurn);
 			NetPacketPlayersTurn::Data playersTurnData;
@@ -707,7 +709,6 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 			// Retrieve non-fold players. If only one player is left, no cards are shown.
 			list<boost::shared_ptr<PlayerInterface> > nonFoldPlayers = *curGame.getActivePlayerList();
 			nonFoldPlayers.remove_if(boost::bind(&PlayerInterface::getMyAction, _1) == PLAYER_ACTION_FOLD);
-			// if (nonFoldPlayers.empty()) TODO throw exception
 
 			if (nonFoldPlayers.size() == 1)
 			{
@@ -813,20 +814,20 @@ ServerGameStateWaitPlayerAction::Process(ServerGameThread &server)
 {
 	int retVal;
 
-	boost::shared_ptr<PlayerInterface> tmpPlayer = server.GetGame().getCurrentPlayer();
-	assert(tmpPlayer.get());
-	assert(!tmpPlayer->getMyName().empty());
+	boost::shared_ptr<PlayerInterface> curPlayer = server.GetGame().getCurrentPlayer();
+	if (!curPlayer.get())
+		throw NetException(ERR_NET_NO_CURRENT_PLAYER, 0);
 
 	// If the player is computer controlled, let the engine act.
-	if (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER)
+	if (curPlayer->getMyType() == PLAYER_TYPE_COMPUTER)
 	{
 		server.SetState(ServerGameStateComputerAction::Instance());
 		retVal = MSG_SOCK_INTERNAL_PENDING;
 	}
 	// If the player we are waiting for left, continue without him.
-	else if (!server.GetSessionManager().IsPlayerConnected(tmpPlayer->getMyName()))
+	else if (!server.GetSessionManager().IsPlayerConnected(curPlayer->getMyName()))
 	{
-		PerformPlayerAction(server, tmpPlayer, PLAYER_ACTION_FOLD, 0);
+		PerformPlayerAction(server, curPlayer, PLAYER_ACTION_FOLD, 0);
 
 		server.SetState(ServerGameStateStartRound::Instance());
 		retVal = MSG_NET_GAME_SERVER_ACTION;
@@ -834,10 +835,10 @@ ServerGameStateWaitPlayerAction::Process(ServerGameThread &server)
 	else if (GetTimer().elapsed().total_seconds() >= server.GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC)
 	{
 		// Player did not act fast enough. Act for him.
-		if (server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet() == tmpPlayer->getMySet())
-			PerformPlayerAction(server, tmpPlayer, PLAYER_ACTION_CHECK, 0);
+		if (server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet() == curPlayer->getMySet())
+			PerformPlayerAction(server, curPlayer, PLAYER_ACTION_CHECK, 0);
 		else
-			PerformPlayerAction(server, tmpPlayer, PLAYER_ACTION_FOLD, 0);
+			PerformPlayerAction(server, curPlayer, PLAYER_ACTION_FOLD, 0);
 
 		server.SetState(ServerGameStateStartRound::Instance());
 		retVal = MSG_NET_GAME_SERVER_ACTION;
@@ -857,17 +858,55 @@ ServerGameStateWaitPlayerAction::InternalProcess(ServerGameThread &server, Sessi
 	{
 		NetPacketPlayersAction::Data actionData;
 		packet->ToNetPacketPlayersAction()->GetData(actionData);
-		
+
 		Game &curGame = server.GetGame();
 		boost::shared_ptr<PlayerInterface> tmpPlayer = curGame.getPlayerByUniqueId(session.playerData->GetUniqueId());
-		assert(tmpPlayer.get()); // TODO throw exception
-		// TODO: check whether this is the correct player
-		// TODO: check game state
+		if (!tmpPlayer.get())
+			throw NetException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
-		PerformPlayerAction(server, tmpPlayer, actionData.playerAction, actionData.playerBet);
+		// Check whether this is the correct round.
+		PlayerActionCode code = ACTION_CODE_VALID;
+		if (curGame.getCurrentHand()->getActualRound() != actionData.gameState)
+			code = ACTION_CODE_INVALID_STATE;
 
-		server.SetState(ServerGameStateStartRound::Instance());
-		retVal = MSG_NET_GAME_SERVER_ACTION;
+		// Check whether this is the correct player.
+		boost::shared_ptr<PlayerInterface> curPlayer = server.GetGame().getCurrentPlayer();
+		if (code == ACTION_CODE_VALID
+			&& (curPlayer->getMyUniqueID() != tmpPlayer->getMyUniqueID()))
+		{
+			code = ACTION_CODE_NOT_YOUR_TURN;
+		}
+
+		// Check whether the action is valid.
+		if (code == ACTION_CODE_VALID
+			&& (tmpPlayer->checkMyAction(
+					actionData.playerAction,
+					actionData.playerBet,
+					curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet(),
+					curGame.getCurrentHand()->getCurrentBeRo()->getMinimumRaise(),
+					curGame.getCurrentHand()->getSmallBlind()) != 0))
+		{
+			code = ACTION_CODE_NOT_ALLOWED;
+		}
+
+		if (code == ACTION_CODE_VALID)
+		{
+			PerformPlayerAction(server, tmpPlayer, actionData.playerAction, actionData.playerBet);
+			server.SetState(ServerGameStateStartRound::Instance());
+			retVal = MSG_NET_GAME_SERVER_ACTION;
+		}
+		else
+		{
+			// Send reject message.
+			boost::shared_ptr<NetPacket> reject(new NetPacketPlayersActionRejected);
+			NetPacketPlayersActionRejected::Data rejectData;
+			rejectData.gameState = actionData.gameState;
+			rejectData.playerAction = actionData.playerAction;
+			rejectData.playerBet = actionData.playerBet;
+			rejectData.rejectionReason = code;
+			static_cast<NetPacketPlayersActionRejected *>(reject.get())->SetData(rejectData);
+			server.GetSender().Send(session.sessionData->GetSocket(), reject);
+		}
 	}
 
 	return retVal;

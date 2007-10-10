@@ -395,6 +395,11 @@ ClientPlayer::action()
 {
 }
 
+int
+ClientPlayer::checkMyAction(int /*targetAction*/, int /*targetBet*/, int /*highestSet*/, int /*minimumRaise*/, int /*smallBlind*/)
+{
+	return 0;
+}
 
 void
 ClientPlayer::preflopEngine()

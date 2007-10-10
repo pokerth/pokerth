@@ -414,7 +414,8 @@ ServerLobbyThread::HandleNetPacketAvatarHeader(SessionWrapper session, const Net
 			// Session is now receiving an avatar.
 			session.sessionData->SetState(SessionData::ReceivingAvatar);
 		}
-		// TODO error handling
+		else
+			SessionError(session, ERR_NET_AVATAR_TOO_LARGE);
 	}
 }
 
@@ -435,7 +436,7 @@ ServerLobbyThread::HandleNetPacketAvatarFile(SessionWrapper session, const NetPa
 }
 
 void
-ServerLobbyThread::HandleNetPacketAvatarEnd(SessionWrapper session, const NetPacketAvatarEnd &tmpPacket)
+ServerLobbyThread::HandleNetPacketAvatarEnd(SessionWrapper session, const NetPacketAvatarEnd &/*tmpPacket*/)
 {
 	if (session.playerData.get())
 	{
@@ -453,7 +454,8 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(SessionWrapper session, const NetPac
 				// Init finished - start session.
 				EstablishSession(session);
 			}
-			// TODO error handling
+			else
+				SessionError(session, ERR_NET_WRONG_AVATAR_SIZE);
 		}
 	}
 }
@@ -505,6 +507,7 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(SessionWrapper session, const N
 		NetPacketList tmpPackets;
 		if (GetAvatarManager().AvatarFileToNetPackets(tmpFile, request.requestId, tmpPackets))
 			GetSender().SendLowPrio(session.sessionData->GetSocket(), tmpPackets);
+		// TODO handle error
 	}
 }
 
