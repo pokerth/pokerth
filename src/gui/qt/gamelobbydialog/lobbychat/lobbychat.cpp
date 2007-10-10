@@ -33,9 +33,9 @@ LobbyChat::LobbyChat(gameLobbyDialogImpl* l, ConfigFile *c) : myLobby(l), myConf
 {
 
 	chatInputCompleter = new QCompleter(myLobby->treeWidget_NickList->model());
-	chatInputCompleter->setCaseSensitivity(Qt::CaseInsensitive);
-	chatInputCompleter->setCompletionMode(QCompleter::PopupCompletion);
- 	myLobby->lineEdit_ChatInput->setCompleter(chatInputCompleter);
+// 	chatInputCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+// 	chatInputCompleter->setCompletionMode(QCompleter::PopupCompletion);
+//  	myLobby->lineEdit_ChatInput->setCompleter(chatInputCompleter);
 
 }
 
@@ -249,10 +249,7 @@ void LobbyChat::fillChatLinesHistory(QString fillString) {
 	chatLinesHistory << fillString;
 	if(chatLinesHistory.size() > 50) chatLinesHistory.removeFirst();
 
-// 	QStringList::const_iterator constIterator;
-//      	for (constIterator = chatLinesHistory.constBegin(); constIterator != chatLinesHistory.constEnd(); ++constIterator) {
-//          	cout << (*constIterator).toLocal8Bit().constData() << endl;
-// 	}
+
 }
 
 void LobbyChat::showChatHistoryIndex(int index) { 
@@ -263,3 +260,36 @@ void LobbyChat::showChatHistoryIndex(int index) {
 		myLobby->lineEdit_ChatInput->setText(chatLinesHistory.at(chatLinesHistory.size()-(index)));  
 	}
 }
+
+void LobbyChat::nickAutoCompletition() {
+
+	QString myChatString = myLobby->lineEdit_ChatInput->text();
+	QStringList myChatStringList = myChatString.split(" ");
+// 	qDebug(myChatStringList.last().toLocal8Bit().constData());
+
+	QStringList matchStringList;
+// 	QList<QTreeWidgetItem*> matchItemsList = myLobby->treeWidget_NickList->findItems(myChatStringList.last(),Qt::MatchStartsWith);
+// 	QListIterator<QTreeWidgetItem*> it(matchItemsList);
+
+	QTreeWidgetItemIterator it(myLobby->treeWidget_NickList);
+	while (*it) {
+		if ((*it)->text(0).startsWith(myChatStringList.last()) && myChatStringList.last() != "")
+		matchStringList << (*it)->text(0);
+		++it;
+	}
+
+// 	QStringList::const_iterator constIterator;
+//      	for (constIterator = matchStringList.constBegin(); constIterator != matchStringList.constEnd(); ++constIterator) {
+//          	cout << (*constIterator).toLocal8Bit().constData() << endl;
+// 	}
+
+	if(!matchStringList.isEmpty()) {
+		myChatStringList.removeLast();
+		if(myChatStringList.isEmpty())	
+			myLobby->lineEdit_ChatInput->setText(myChatStringList.join(" ")+matchStringList.first()+": ");
+		else 
+			myLobby->lineEdit_ChatInput->setText(myChatStringList.join(" ")+" "+matchStringList.first()+": ");
+	}
+
+}
+

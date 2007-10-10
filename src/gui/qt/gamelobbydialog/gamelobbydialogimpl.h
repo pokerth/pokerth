@@ -106,6 +106,9 @@ private:
 	LobbyChat *myChat;
 	QString myAppDataPath;
 	int keyUpCounter;
+
+ protected:
+         bool eventFilter(QObject *obj, QEvent *event);
 	
 };
 

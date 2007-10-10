@@ -57,6 +57,7 @@ public slots:
 	void showChatHistoryIndex(int index);
 
 	int getChatLinesHistorySize() { return chatLinesHistory.size(); }
+	void nickAutoCompletition();
 
 private:
 	gameLobbyDialogImpl *myLobby;

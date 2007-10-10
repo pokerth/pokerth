@@ -36,6 +36,9 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), this, SLOT( checkChatInputLength(QString) ) );
 
+
+	lineEdit_ChatInput->installEventFilter(this);
+
 	clearDialog();
 }
 
@@ -564,7 +567,23 @@ void gameLobbyDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 	}
 	else { keyUpCounter = 0; }
 
+// 	if (event->key() == Qt::Key_Tab) event->ignore(); else { /*blah*/ }
+
 	
+}
+
+bool gameLobbyDialogImpl::eventFilter(QObject *obj, QEvent *event)
+{
+	QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+
+	if (obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) 
+	{
+		myChat->nickAutoCompletition();
+		return true;
+	} else {
+		// pass the event on to the parent class
+		return QDialog::eventFilter(obj, event);
+	}
 }
 
 bool gameLobbyDialogImpl::event ( QEvent * event ) { 
