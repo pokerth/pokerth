@@ -1,4 +1,5 @@
 Changelog:
+10-10-2007: All blinds are 32 Bit now.
 10-03-2007: Added basic structure: Game Info Block
 09-05-2007: Minimum packet length is now definitely 8.
 08-26-2007: Server sends player name only on request.
@@ -150,21 +151,23 @@ Server/Client Reply: Avatar End
 Basic Structure: Game Info Block
 
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|     Max Number of Players     |       First Small Blind       |
+	|     Max Number of Players     |      Raise Interval Mode      |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|      Raise Interval Mode      |   Raise Small Blind Interval  |
+	|   Raise Small Blind Interval  |           Raise Mode          |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|           Raise Mode          |        End Raise Mode         |
-	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|  End Raise Small Blind Value  |    Number of Manual Blinds    |
+	|        End Raise Mode         |    Number of Manual Blinds    |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|      Proposed GUI Speed       |     Player Action Timeout     |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                       First Small Blind                       |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|                   End Raise Small Blind Value                 |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                          Start Money                          |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	\     Manual Blind Slot #1      |     Manual Blind Slot #2      /
-	|                               +-------------------------------+
-	/     Manual Blind Slot #n      |            padding            |
+	|                                                               \
+	\                       Manual Blind Slots                      /
+	/                                                               |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 

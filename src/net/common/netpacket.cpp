@@ -168,15 +168,15 @@ struct GCC_PACKED NetPacketAvatarEndData
 struct GCC_PACKED GameInfoData
 {
 	u_int16_t			maxNumberOfPlayers;
-	u_int16_t			firstSmallBlind;
 	u_int16_t			raiseIntervalMode;
 	u_int16_t			raiseSmallBlindInterval;
 	u_int16_t			raiseMode;
 	u_int16_t			endRaiseMode;
-	u_int16_t			endRaiseSmallBlindValue;
 	u_int16_t			numberOfManualBlinds;
 	u_int16_t			proposedGuiSpeed;
 	u_int16_t			playerActionTimeout;
+	u_int32_t			firstSmallBlind;
+	u_int32_t			endRaiseSmallBlindValue;
 	u_int32_t			startMoney;
 };
 
@@ -479,26 +479,26 @@ void SetGameInfoData(const GameData &inData, GameInfoData *outData)
 	u_int16_t numManualBlinds = (u_int16_t)inData.manualBlindsList.size();
 
 	outData->maxNumberOfPlayers			= htons(inData.maxNumberOfPlayers);
-	outData->firstSmallBlind			= htons(inData.firstSmallBlind);
 	outData->raiseIntervalMode			= htons(inData.raiseIntervalMode);
 	outData->raiseSmallBlindInterval	= inData.raiseIntervalMode == RAISE_ON_HANDNUMBER
 		? htons(inData.raiseSmallBlindEveryHandsValue) : htons(inData.raiseSmallBlindEveryMinutesValue);
 	outData->raiseMode					= htons(inData.raiseMode);
 	outData->endRaiseMode				= htons(inData.afterManualBlindsMode);
-	outData->endRaiseSmallBlindValue	= htons(inData.afterMBAlwaysRaiseValue);
 	outData->numberOfManualBlinds		= htons(numManualBlinds);
 	outData->proposedGuiSpeed			= htons(inData.guiSpeed);
 	outData->playerActionTimeout		= htons(inData.playerActionTimeoutSec);
+	outData->endRaiseSmallBlindValue	= htonl(inData.afterMBAlwaysRaiseValue);
+	outData->firstSmallBlind			= htonl(inData.firstSmallBlind);
 	outData->startMoney					= htonl(inData.startMoney);
 
 	if (numManualBlinds)
 	{
-		u_int16_t *manualBlindsPtr = (u_int16_t *)((char *)outData + sizeof(GameInfoData));
+		u_int32_t *manualBlindsPtr = (u_int32_t *)((char *)outData + sizeof(GameInfoData));
 		list<int>::const_iterator i = inData.manualBlindsList.begin();
 		list<int>::const_iterator end = inData.manualBlindsList.end();
 		while (i != end)
 		{
-			*manualBlindsPtr = htons(*i);
+			*manualBlindsPtr = htonl(*i);
 			++manualBlindsPtr;
 			++i;
 		}
@@ -512,8 +512,6 @@ void GetGameInfoData(const GameInfoData *inData, GameData &outData)
 	u_int16_t numManualBlinds = ntohs(inData->numberOfManualBlinds);
 
 	outData.maxNumberOfPlayers			= ntohs(inData->maxNumberOfPlayers);
-	outData.firstSmallBlind				= ntohs(inData->firstSmallBlind);
-/*remove me*/		outData.smallBlind					= ntohs(inData->firstSmallBlind); // TODO remove
 	outData.raiseIntervalMode			= static_cast<RaiseIntervalMode>(ntohs(inData->raiseIntervalMode));
 	outData.raiseSmallBlindEveryHandsValue = outData.raiseSmallBlindEveryMinutesValue = 0;
 	if (outData.raiseIntervalMode == RAISE_ON_HANDNUMBER)
@@ -522,17 +520,19 @@ void GetGameInfoData(const GameInfoData *inData, GameData &outData)
 		outData.raiseSmallBlindEveryMinutesValue = ntohs(inData->raiseSmallBlindInterval);
 	outData.raiseMode					= static_cast<RaiseMode>(ntohs(inData->raiseMode));
 	outData.afterManualBlindsMode		= static_cast<AfterManualBlindsMode>(ntohs(inData->endRaiseMode));
-	outData.afterMBAlwaysRaiseValue		= ntohs(inData->endRaiseSmallBlindValue);
 	outData.guiSpeed					= ntohs(inData->proposedGuiSpeed);
 	outData.playerActionTimeoutSec		= ntohs(inData->playerActionTimeout);
+	outData.firstSmallBlind				= ntohl(inData->firstSmallBlind);
+/*remove me*/		outData.smallBlind					= ntohs(inData->firstSmallBlind); // TODO remove
+	outData.afterMBAlwaysRaiseValue		= ntohl(inData->endRaiseSmallBlindValue);
 	outData.startMoney					= ntohl(inData->startMoney);
 
 	if (numManualBlinds)
 	{
-		const u_int16_t *manualBlindsPtr = (const u_int16_t *)((const char *)inData + sizeof(GameInfoData));
+		const u_int32_t *manualBlindsPtr = (const u_int32_t *)((const char *)inData + sizeof(GameInfoData));
 		for (u_int16_t i = 0; i < numManualBlinds; i++)
 		{
-			outData.manualBlindsList.push_back(ntohs(*manualBlindsPtr));
+			outData.manualBlindsList.push_back(ntohl(*manualBlindsPtr));
 			++manualBlindsPtr;
 		}
 	}
@@ -546,13 +546,13 @@ CheckGameInfoData(const GameInfoData *tmpData)
 	int proposedGuiSpeed = ntohs(tmpData->proposedGuiSpeed);
 	if (maxNumPlayers < MIN_NUMBER_OF_PLAYERS
 		|| maxNumPlayers > MAX_NUMBER_OF_PLAYERS
-		|| !ntohs(tmpData->firstSmallBlind)
 		|| !ntohs(tmpData->raiseIntervalMode)
 		|| !ntohs(tmpData->raiseSmallBlindInterval)
 		|| !ntohs(tmpData->raiseMode)
 		|| !ntohs(tmpData->endRaiseMode)
 		|| proposedGuiSpeed < MIN_GUI_SPEED
 		|| proposedGuiSpeed > MAX_GUI_SPEED
+		|| !ntohl(tmpData->firstSmallBlind)
 		|| !ntohl(tmpData->startMoney))
 	{
 		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
@@ -1551,7 +1551,7 @@ NetPacketGameListNew::SetData(const NetPacketGameListNew::Data &inData)
 	u_int16_t curNumPlayers = (u_int16_t)inData.gameInfo.players.size();
 	u_int16_t numManualBlinds = (u_int16_t)inData.gameInfo.data.manualBlindsList.size();
 
-	int manualBlindsSize = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
+	int manualBlindsSize = numManualBlinds * sizeof(u_int32_t);
 
 	// Some basic checks, so we don't use up too much memory.
 	// The constructed packet will also be checked.
@@ -1606,7 +1606,7 @@ NetPacketGameListNew::GetData(NetPacketGameListNew::Data &outData) const
 	NetPacketGameListNewData *tmpData = (NetPacketGameListNewData *)GetRawData();
 
 	u_int16_t numManualBlinds = ntohs(tmpData->gameData.numberOfManualBlinds);
-	int manualBlindsSize = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
+	int manualBlindsSize = numManualBlinds * sizeof(u_int32_t);
 
 	outData.gameId								= ntohl(tmpData->gameId);
 	outData.gameInfo.mode						= static_cast<GameMode>(ntohs(tmpData->gameMode));
@@ -1643,7 +1643,7 @@ NetPacketGameListNew::InternalCheck(const NetPacketHeader* data) const
 	int gameNameLength = ntohs(tmpData->gameNameLength);
 	int curNumPlayers = ntohs(tmpData->curNumberOfPlayers);
 	u_int16_t numManualBlinds = ntohs(tmpData->gameData.numberOfManualBlinds);
-	int manualBlindsLength = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
+	int manualBlindsLength = numManualBlinds * sizeof(u_int32_t);
 	// Exact checking of dynamic packet size.
 	if (dataLen !=
 		sizeof(NetPacketGameListNewData)
@@ -2062,7 +2062,7 @@ NetPacketCreateGame::SetData(const NetPacketCreateGame::Data &inData)
 	if (numManualBlinds > MAX_NUM_MANUAL_BLINDS)
 		throw NetException(ERR_NET_TOO_MANY_MANUAL_BLINDS, 0);
 
-	int manualBlindsSize = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
+	int manualBlindsSize = numManualBlinds * sizeof(u_int32_t);
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
 		(sizeof(NetPacketCreateGameData) + manualBlindsSize + ADD_PADDING(gameNameLen) + ADD_PADDING(passwordLen)));
@@ -2090,7 +2090,7 @@ NetPacketCreateGame::GetData(NetPacketCreateGame::Data &outData) const
 	NetPacketCreateGameData *tmpData = (NetPacketCreateGameData *)GetRawData();
 
 	u_int16_t numManualBlinds = ntohs(tmpData->gameData.numberOfManualBlinds);
-	int manualBlindsSize = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
+	int manualBlindsSize = numManualBlinds * sizeof(u_int32_t);
 
 	GetGameInfoData(&tmpData->gameData, outData.gameData);
 
@@ -2114,7 +2114,7 @@ NetPacketCreateGame::InternalCheck(const NetPacketHeader* data) const
 	int passwordLength = ntohs(tmpData->passwordLength);
 	int gameNameLength = ntohs(tmpData->gameNameLength);
 	int numManualBlinds = ntohs(tmpData->gameData.numberOfManualBlinds);
-	int manualBlindsLength = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
+	int manualBlindsLength = numManualBlinds * sizeof(u_int32_t);
 	// Exact checking of dynamic packet size.
 	if (dataLen <
 		sizeof(NetPacketCreateGameData)
@@ -2271,7 +2271,7 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 	if (numManualBlinds > MAX_NUM_MANUAL_BLINDS)
 		throw NetException(ERR_NET_TOO_MANY_MANUAL_BLINDS, 0);
 
-	int manualBlindsSize = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
+	int manualBlindsSize = numManualBlinds * sizeof(u_int32_t);
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
 		(sizeof(NetPacketJoinGameAckData) + manualBlindsSize));
@@ -2312,7 +2312,7 @@ NetPacketJoinGameAck::InternalCheck(const NetPacketHeader* data) const
 	u_int16_t dataLen = ntohs(data->length);
 	NetPacketJoinGameAckData *tmpData = (NetPacketJoinGameAckData *)data;
 	int numManualBlinds = ntohs(tmpData->gameData.numberOfManualBlinds);
-	int manualBlindsLength = ADD_PADDING(numManualBlinds * sizeof(u_int16_t));
+	int manualBlindsLength = numManualBlinds * sizeof(u_int32_t);
 	// Exact checking of dynamic packet size.
 	if (dataLen <
 		sizeof(NetPacketJoinGameAckData)
