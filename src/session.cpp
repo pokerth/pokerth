@@ -131,14 +131,17 @@ void Session::startInternetClient()
 	}
 	myGameType = GAME_TYPE_INTERNET;
 
-	myIrcThread = new IrcThread(*myGui);
-	myIrcThread->Init(
-		myConfig->readConfigString("IRCServerAddress"),
-		myConfig->readConfigInt("IRCServerPort"),
-		myConfig->readConfigInt("IRCServerUseIpv6") == 1,
-		myConfig->readConfigString("MyName"),
-		myConfig->readConfigString("IRCChannel"));
-	myIrcThread->Run();
+	if (myConfig->readConfigInt("UseIRCLobbyChat"))
+	{
+		myIrcThread = new IrcThread(*myGui);
+		myIrcThread->Init(
+			myConfig->readConfigString("IRCServerAddress"),
+			myConfig->readConfigInt("IRCServerPort"),
+			myConfig->readConfigInt("IRCServerUseIpv6") == 1,
+			myConfig->readConfigString("MyName"),
+			myConfig->readConfigString("IRCChannel"));
+		myIrcThread->Run();
+	}
 
 	myNetClient = new ClientThread(*myGui, *myAvatarManager);
 	myNetClient->Init(
