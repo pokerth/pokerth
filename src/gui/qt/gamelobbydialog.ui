@@ -454,20 +454,13 @@
        <widget class="QTextBrowser" name="textBrowser_ChatDisplay" />
       </item>
       <item row="1" column="0" >
-       <widget class="MyChatInputLineEdit" name="lineEdit_ChatInput" />
+       <widget class="QLineEdit" name="lineEdit_ChatInput" />
       </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>MyChatInputLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>mychatinputlineedit.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>treeWidget_GameList</tabstop>
   <tabstop>pushButton_CreateGame</tabstop>

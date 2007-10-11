@@ -29,6 +29,7 @@ INCLUDEPATH += . \
 		src/core \
 		src/gui/qt/sound \
 		src/gui/qt/qttools \
+		src/gui/qt/chattools \
 		src/gui/qt/qttools/qthelper \
 		src/gui/qt/mainwindow \
 		src/gui/qt/mainwindow/startsplash \
@@ -62,6 +63,7 @@ DEPENDPATH += . \
 		src/gui/qt \
 		src/net/common \
 		src/gui/qt/sound \
+		src/gui/qt/chattools \
 		src/gui/qt/mainwindow \
 		src/gui/qt/mainwindow/startsplash \
 		src/gui/qt/mainwindow/log \
@@ -130,6 +132,7 @@ HEADERS += \
 		src/engine/network_engine/clienthand.h \
 		src/engine/network_engine/clientplayer.h \
 		src/engine/network_engine/clientbero.h \
+		src/gui/qt/chattools/chattools.h \
 		src/gui/qt/sound/sdlplayer.h \
 		src/gui/qt/mainwindow/mainwindowimpl.h \
 		src/gui/qt/mainwindow/mycardspixmaplabel.h \
@@ -157,7 +160,6 @@ HEADERS += \
 		src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.h \
 		src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.h \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.h \
-		src/gui/qt/gamelobbydialog/mychatinputlineedit.h \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.h \
 		src/gui/qttoolsinterface.h \
 		src/gui/qt/qttools/qttoolswrapper.h \
@@ -182,6 +184,7 @@ FORMS += \
 
 SOURCES += \
 		src/pokerth.cpp \
+		src/gui/qt/chattools/chattools.cpp \
 		src/gui/qt/sound/sdlplayer.cpp \
 		src/gui/qt/guiwrapper.cpp \
 		src/gui/qt/qttools/qttoolswrapper.cpp \
@@ -211,7 +214,6 @@ SOURCES += \
 		src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.cpp \
 		src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp \
-		src/gui/qt/gamelobbydialog/mychatinputlineedit.cpp \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp
 
 TRANSLATIONS = \

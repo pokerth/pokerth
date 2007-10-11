@@ -25,18 +25,14 @@
 #include "gamelobbydialogimpl.h"
 #include "session.h"
 #include "configfile.h"
+#include "chattools.h"
 
 using namespace std;
 
 
-LobbyChat::LobbyChat(gameLobbyDialogImpl* l, ConfigFile *c) : myLobby(l), myConfig(c), nickAutoCompletitionCounter(0), chatTextEdited(FALSE)
+LobbyChat::LobbyChat(gameLobbyDialogImpl* l, ConfigFile *c) : myLobby(l), myConfig(c)
 {
-
-// 	chatInputCompleter = new QCompleter(myLobby->treeWidget_NickList->model());
-// // 	chatInputCompleter->setCaseSensitivity(Qt::CaseInsensitive);
-// // 	chatInputCompleter->setCompletionMode(QCompleter::PopupCompletion);
-// //  	myLobby->lineEdit_ChatInput->setCompleter(chatInputCompleter);
-
+	myChatTools = new ChatTools(myLobby->lineEdit_ChatInput, myLobby->treeWidget_NickList);
 }
 
 LobbyChat::~LobbyChat()
@@ -236,72 +232,8 @@ void LobbyChat::chatServerError(int errorCode)
 //		myLobby->textBrowser_ChatDisplay->append(errorMsg); 
 }
 
-void LobbyChat::fillChatLinesHistory(QString fillString) {
-
-	chatLinesHistory << fillString;
-	if(chatLinesHistory.size() > 50) chatLinesHistory.removeFirst();
-
-
-}
-
-void LobbyChat::showChatHistoryIndex(int index) { 
-
-	if(index <= chatLinesHistory.size()) {
-
-// 		cout << chatLinesHistory.size() << " : " <<  index << endl;
-		if(index > 0)
-			myLobby->lineEdit_ChatInput->setText(chatLinesHistory.at(chatLinesHistory.size()-(index)));  
-		else
-			myLobby->lineEdit_ChatInput->setText("");
-	}
-}
-
-void LobbyChat::nickAutoCompletition() {
-
-	QString myChatString = myLobby->lineEdit_ChatInput->text();
-	QStringList myChatStringList = myChatString.split(" ");
-
-	QStringList matchStringList;
-
-	if(nickAutoCompletitionCounter == 0) {
-		QTreeWidgetItemIterator it(myLobby->treeWidget_NickList);
-		while (*it) {
-			if ((*it)->text(0).startsWith(myChatStringList.last(), Qt::CaseInsensitive) && myChatStringList.last() != "")
-			matchStringList << (*it)->text(0);
-			++it;
-		}
-	}
-
-// 	QStringList::const_iterator constIterator;
-//      	for (constIterator = matchStringList.constBegin(); constIterator != matchStringList.constEnd(); ++constIterator) {
-//          	cout << (*constIterator).toLocal8Bit().constData() << endl;
-// 	}
-
-	if(!matchStringList.isEmpty() || nickAutoCompletitionCounter > 0) {
-		
-		myChatStringList.removeLast();
-
-		if(nickAutoCompletitionCounter == 0) {
-		//first one
-			lastChatString = myChatStringList.join(" ");
-			lastMatchStringList = matchStringList;
-		}
-
-		if(nickAutoCompletitionCounter == lastMatchStringList.size()) nickAutoCompletitionCounter = 0;
-
-// 		cout << nickAutoCompletitionCounter << "\n";
-			
-		if(lastChatString == "")	
-			myLobby->lineEdit_ChatInput->setText(lastMatchStringList.at(nickAutoCompletitionCounter)+": ");
-		else 
-			myLobby->lineEdit_ChatInput->setText(lastChatString+" "+lastMatchStringList.at(nickAutoCompletitionCounter)+" ");
-		
-		nickAutoCompletitionCounter++;	
-	}
-}
-
-void LobbyChat::setChatTextEdited() {
-
-	chatTextEdited = TRUE;
-	nickAutoCompletitionCounter = 0;
-}
+void LobbyChat::fillChatLinesHistory(QString fillString) { myChatTools->fillChatLinesHistory(fillString); }
+int LobbyChat::getChatLinesHistorySize() { return myChatTools->getChatLinesHistorySize(); }
+void LobbyChat::showChatHistoryIndex(int index) { myChatTools->showChatHistoryIndex(index); }
+void LobbyChat::nickAutoCompletition() { myChatTools->nickAutoCompletition(); }
+void LobbyChat::setChatTextEdited() { myChatTools->setChatTextEdited(); }

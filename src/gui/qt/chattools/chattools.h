@@ -17,57 +17,40 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef LOBBYCHAT_H
-#define LOBBYCHAT_H
+#ifndef CHATTOOLS_H
+#define CHATTOOLS_H
 
 #include <string>
 #include <QtCore>
 #include <QtGui>
 
-class gameLobbyDialogImpl;
-class Session;
-class ConfigFile;
-class ChatTools;
-
-class LobbyChat : public QObject
+class ChatTools : public QObject
 {
 Q_OBJECT
 
 public:
-	LobbyChat(gameLobbyDialogImpl*, ConfigFile*);
+	ChatTools(QLineEdit* l, QTreeWidget *t = NULL, QStringList *s = NULL);
 
-	~LobbyChat();
+	~ChatTools();
 
 public slots:
 	
-	void sendMessage();
-	void connected(QString server);
-	void selfJoined(QString ownName, QString channel);
-	void playerJoined(QString playerName);
-	void playerChanged(QString oldNick, QString newNick);
-	void playerKicked(QString nickName, QString byWhom, QString reason);
-	void playerLeft(QString playerName);
-	void displayMessage(QString playerName, QString msg);
-	void checkInputLength(QString);
-	void clearChat();
-
-	void chatError(int errorCode);
-	void chatServerError(int errorCode);
-
-	ChatTools* getMyChatTools() const { return myChatTools; }
-
 	void fillChatLinesHistory(QString fillString);
 	void showChatHistoryIndex(int index);
-	int getChatLinesHistorySize();
+	int getChatLinesHistorySize() { return chatLinesHistory.size(); }
+	
 	void nickAutoCompletition();
 	void setChatTextEdited();
 
 private:
-	gameLobbyDialogImpl *myLobby;
-	ConfigFile *myConfig;
+	QStringList chatLinesHistory;
+	QString lastChatString;
+	QStringList lastMatchStringList;
+	int nickAutoCompletitionCounter;
 
-	QString myNick;
-	ChatTools *myChatTools;
+	QLineEdit* myLineEdit;
+	QTreeWidget *myNickTreeWidget;
+	QStringList *myNickStringList;
 // friend class GuiWrapper;
 };
 
