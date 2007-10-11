@@ -80,6 +80,8 @@ protected:
 	virtual void Main();
 
 	void InternalStartGame();
+	void ResetGame();
+
 	void InternalKickPlayer(unsigned playerId);
 
 	PlayerDataList GetFullPlayerDataList() const;
@@ -88,6 +90,7 @@ protected:
 	void ResetComputerPlayerList();
 
 	void GracefulRemoveSession(SessionWrapper session);
+	void RemovePlayerData(boost::shared_ptr<PlayerData> player);
 	void ErrorRemoveSession(SessionWrapper session);
 	void SessionError(SessionWrapper session, int errorCode);
 	void MoveSessionToLobby(SessionWrapper session, int reason);

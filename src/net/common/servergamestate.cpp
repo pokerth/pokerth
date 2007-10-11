@@ -1184,6 +1184,8 @@ ServerGameStateNextGameDelay::Process(ServerGameThread &server)
 		server.SendToAllPlayers(endGame, SessionData::Game);
 
 		// Wait for the start of a new game.
+		server.ResetComputerPlayerList();
+		server.ResetGame();
 		server.SetState(ServerGameStateInit::Instance());
 		server.GetLobbyThread().NotifyReopeningGame(server.GetId());
 	}
