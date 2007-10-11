@@ -87,11 +87,13 @@ protected:
 	bool GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const;
 	void RequestPlayerInfo(unsigned id);
 	void SetPlayerInfo(unsigned id, const PlayerInfo &info, bool retrieveAvatar = true);
+	void SetUnknownPlayer(unsigned id);
 	void SetNewGameAdmin(unsigned id);
 
 	void AddTempAvatarData(unsigned playerId, unsigned avatarSize, AvatarFileType type);
 	void StoreInTempAvatarData(unsigned playerId, const std::vector<unsigned char> &data);
 	void CompleteTempAvatarData(unsigned playerId);
+	void SetUnknownAvatar(unsigned playerId);
 
 	const ClientContext &GetContext() const;
 	ClientContext &GetContext();

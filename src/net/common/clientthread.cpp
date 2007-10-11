@@ -418,12 +418,20 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info, bool retrieveAv
 		m_tempAvatarMap[id] = boost::shared_ptr<AvatarData>();
 	}
 
-	// Remove from request list.
+	// Remove it from the request list.
 	m_playerInfoRequestList.remove(id);
 
 	// Notify GUI
 	GetCallback().SignalNetClientPlayerChanged(id, info.playerName);
 
+}
+
+void
+ClientThread::SetUnknownPlayer(unsigned id)
+{
+	// Just remove it from the request list.
+	m_playerInfoRequestList.remove(id);
+	// TODO log error
 }
 
 void
@@ -482,6 +490,13 @@ ClientThread::CompleteTempAvatarData(unsigned playerId)
 
 	// Update player info, but never re-request avatar.
 	SetPlayerInfo(playerId, tmpPlayerInfo, false);
+}
+
+void
+ClientThread::SetUnknownAvatar(unsigned playerId)
+{
+	m_tempAvatarMap.erase(playerId);
+	// TODO log error
 }
 
 const ClientContext &

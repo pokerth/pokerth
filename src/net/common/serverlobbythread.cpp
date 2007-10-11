@@ -308,6 +308,8 @@ ServerLobbyThread::ProcessLoop()
 					HandleNetPacketInit(session, *packet->ToNetPacketInit());
 				else if (packet->ToNetPacketAvatarHeader())
 					HandleNetPacketAvatarHeader(session, *packet->ToNetPacketAvatarHeader());
+				else if (packet->ToNetPacketUnknownAvatar())
+					HandleNetPacketUnknownAvatar(session, *packet->ToNetPacketUnknownAvatar());
 				else
 					SessionError(session, ERR_SOCK_INVALID_STATE);
 			}
@@ -420,6 +422,18 @@ ServerLobbyThread::HandleNetPacketAvatarHeader(SessionWrapper session, const Net
 }
 
 void
+ServerLobbyThread::HandleNetPacketUnknownAvatar(SessionWrapper session, const NetPacketUnknownAvatar &/*tmpPacket*/)
+{
+	if (session.playerData.get())
+	{
+		// Free memory (just in case).
+		session.playerData->SetNetAvatarData(boost::shared_ptr<AvatarData>());
+		// Start session.
+		EstablishSession(session);
+	}
+}
+
+void
 ServerLobbyThread::HandleNetPacketAvatarFile(SessionWrapper session, const NetPacketAvatarFile &tmpPacket)
 {
 	if (session.playerData.get())
@@ -492,12 +506,21 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 		static_cast<NetPacketPlayerInfo *>(info.get())->SetData(infoData);
 		GetSender().Send(session.sessionData->GetSocket(), info);
 	}
-	// TODO: handle error
+	else
+	{
+		// Unknown player id - notify client.
+		boost::shared_ptr<NetPacket> unknown(new NetPacketUnknownPlayerId);
+		NetPacketUnknownPlayerId::Data unknownData;
+		unknownData.playerId = request.playerId;
+		static_cast<NetPacketUnknownPlayerId *>(unknown.get())->SetData(unknownData);
+		GetSender().Send(session.sessionData->GetSocket(), unknown);
+	}
 }
 
 void
 ServerLobbyThread::HandleNetPacketRetrieveAvatar(SessionWrapper session, const NetPacketRetrieveAvatar &tmpPacket)
 {
+	bool avatarFound = false;
 	NetPacketRetrieveAvatar::Data request;
 	tmpPacket.GetData(request);
 
@@ -506,8 +529,21 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(SessionWrapper session, const N
 	{
 		NetPacketList tmpPackets;
 		if (GetAvatarManager().AvatarFileToNetPackets(tmpFile, request.requestId, tmpPackets))
+		{
+			avatarFound = true;
 			GetSender().SendLowPrio(session.sessionData->GetSocket(), tmpPackets);
-		// TODO handle error
+		}
+		// TODO Log error
+	}
+
+	if (!avatarFound)
+	{
+		// Notify client we didn't find the avatar.
+		boost::shared_ptr<NetPacket> unknown(new NetPacketUnknownAvatar);
+		NetPacketUnknownAvatar::Data unknownData;
+		unknownData.requestId = request.requestId;
+		static_cast<NetPacketUnknownAvatar *>(unknown.get())->SetData(unknownData);
+		GetSender().Send(session.sessionData->GetSocket(), unknown);
 	}
 }
 

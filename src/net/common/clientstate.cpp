@@ -396,6 +396,12 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			tmpPacket->ToNetPacketPlayerInfo()->GetData(infoData);
 			client.SetPlayerInfo(infoData.playerId, infoData.playerInfo);
 		}
+		else if (tmpPacket->ToNetPacketUnknownPlayerId())
+		{
+			NetPacketUnknownPlayerId::Data unknownIdData;
+			tmpPacket->ToNetPacketUnknownPlayerId()->GetData(unknownIdData);
+			client.SetUnknownPlayer(unknownIdData.playerId);
+		}
 		else if (tmpPacket->ToNetPacketRemovedFromGame())
 		{
 			NetPacketRemovedFromGame::Data removedData;
@@ -499,6 +505,12 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			NetPacketAvatarEnd::Data endData;
 			tmpPacket->ToNetPacketAvatarEnd()->GetData(endData);
 			client.CompleteTempAvatarData(endData.requestId);
+		}
+		else if (tmpPacket->ToNetPacketUnknownAvatar())
+		{
+			NetPacketUnknownAvatar::Data unknownAvatarData;
+			tmpPacket->ToNetPacketUnknownAvatar()->GetData(unknownAvatarData);
+			client.SetUnknownAvatar(unknownAvatarData.requestId);
 		}
 		else if (tmpPacket->ToNetPacketError())
 		{
