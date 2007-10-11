@@ -246,10 +246,13 @@ void LobbyChat::fillChatLinesHistory(QString fillString) {
 
 void LobbyChat::showChatHistoryIndex(int index) { 
 
-	if(index <= chatLinesHistory.size() && index > 0) {
+	if(index <= chatLinesHistory.size()) {
 
 // 		cout << chatLinesHistory.size() << " : " <<  index << endl;
-		myLobby->lineEdit_ChatInput->setText(chatLinesHistory.at(chatLinesHistory.size()-(index)));  
+		if(index > 0)
+			myLobby->lineEdit_ChatInput->setText(chatLinesHistory.at(chatLinesHistory.size()-(index)));  
+		else
+			myLobby->lineEdit_ChatInput->setText("");
 	}
 }
 
@@ -257,12 +260,8 @@ void LobbyChat::nickAutoCompletition() {
 
 	QString myChatString = myLobby->lineEdit_ChatInput->text();
 	QStringList myChatStringList = myChatString.split(" ");
-// 	qDebug(myChatStringList.last().toLocal8Bit().constData());
 
 	QStringList matchStringList;
-// 	QList<QTreeWidgetItem*> matchItemsList = myLobby->treeWidget_NickList->findItems(myChatStringList.last(),Qt::MatchStartsWith);
-// 	QListIterator<QTreeWidgetItem*> it(matchItemsList);
-
 
 	if(nickAutoCompletitionCounter == 0) {
 		QTreeWidgetItemIterator it(myLobby->treeWidget_NickList);
@@ -299,7 +298,6 @@ void LobbyChat::nickAutoCompletition() {
 		
 		nickAutoCompletitionCounter++;	
 	}
-
 }
 
 void LobbyChat::setChatTextEdited() {

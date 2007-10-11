@@ -3690,7 +3690,9 @@ void mainWindowImpl::localGameModification() {
 
 void mainWindowImpl::networkGameModification() {
 	
-	tabWidget_Left->insertTab(1, tab_Chat, QString(tr("Chat")));
+	if(tabWidget_Left->widget(1) != tab_Chat) 
+		tabWidget_Left->insertTab(1, tab_Chat, QString(tr("Chat")));
+	
 	tabWidget_Left->setCurrentIndex(1);
 	myChat->clearNewGame();
 

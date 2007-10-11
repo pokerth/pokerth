@@ -560,7 +560,7 @@ void gameLobbyDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 		myChat->showChatHistoryIndex(keyUpCounter); 
 	}
 	else if(event->key() == Qt::Key_Down && lineEdit_ChatInput->hasFocus()) { 
-		if((keyUpCounter - 1) > 0) { keyUpCounter--; }
+		if((keyUpCounter - 1) >= 0) { keyUpCounter--; }
 // 		std::cout << "Down keyUpCounter: " << keyUpCounter << "\n";
 		myChat->showChatHistoryIndex(keyUpCounter); 
 	}
