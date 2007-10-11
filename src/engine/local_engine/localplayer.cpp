@@ -1194,7 +1194,7 @@ void LocalPlayer::preflopEngine() {
 // 	cout << sBluff << endl;
 
 	// auf sBluff testen --> raise statt call oder fold
-	if((sBluff < 100/(((actualHand->getActivePlayerList()->size()-2)*6)+3) && myOdds < myNiveau[2] && actualHand->getCurrentBeRo()->getHighestSet() == 2*actualHand->getSmallBlind() && sBluffStatus == 0) || sBluffStatus == 1) {
+	if((sBluff < 100/((((int)actualHand->getActivePlayerList()->size()-2)*6)+3) && myOdds < myNiveau[2] && actualHand->getCurrentBeRo()->getHighestSet() == 2*actualHand->getSmallBlind() && sBluffStatus == 0) || sBluffStatus == 1) {
 
 // 		cout << "sBLUFF!" << endl;
 		sBluffStatus = 1;

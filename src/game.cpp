@@ -34,7 +34,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
   startQuantityPlayers(startData.numberOfPlayers),
   startCash(gameData.startMoney), startSmallBlind(gameData.smallBlind),
   startHandsBeforeRaiseSmallBlind(gameData.handsBeforeRaise),
-  myGameID(gameId), actualSmallBlind(gameData.smallBlind), actualHandID(0), dealerPosition(0), lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData)
+  myGameID(gameId), actualSmallBlind(gameData.firstSmallBlind), actualHandID(0), dealerPosition(0), lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData)
 {
 
 	blindsList = myGameData.manualBlindsList;
