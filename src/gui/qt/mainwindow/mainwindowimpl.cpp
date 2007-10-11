@@ -3350,10 +3350,9 @@ void mainWindowImpl::paintStartSplash() {
 }
 
 
-void mainWindowImpl::networkError(int errorID, int osErrorID) {
+void mainWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 
 	switch (errorID) {
-
 		case ERR_SOCK_SERVERADDR_NOT_SET:
 			{QMessageBox::warning(this, tr("Network Error"),
 				tr("Server address was not set."),
@@ -3469,8 +3468,9 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 			  myChangeHumanPlayerNameDialog->exec(); }
 		break;
 		case ERR_NET_INVALID_GAME_NAME:
-			{ myChangeHumanPlayerNameDialog->label_Message->setText(tr("The game name is either too short or too long. Please choose another one."));
-			  myChangeHumanPlayerNameDialog->exec(); }
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The game name is either too short or too long. Please choose another one."),
+				QMessageBox::Close); }
 		break;
 		case ERR_NET_UNKNOWN_GAME:
 			{ QMessageBox::warning(this, tr("Network Error"),
@@ -3487,6 +3487,16 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 				tr("The server referred to an unknown player. Aborting."),
 				QMessageBox::Close); }
 		break;
+		case ERR_NET_NO_CURRENT_PLAYER:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal error: The current player could not be found."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_PLAYER_NOT_ACTIVE:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal error: The current player is not active."),
+				QMessageBox::Close); }
+		break;
 		case ERR_NET_PLAYER_KICKED:
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("You were kicked from the server."),
@@ -3495,6 +3505,32 @@ void mainWindowImpl::networkError(int errorID, int osErrorID) {
 		case ERR_NET_INVALID_PLAYER_COUNT:
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("The client player count is invalid."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_TOO_MANY_MANUAL_BLINDS:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Too many manual blinds were set. Please reconfigure the manual blinds."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_INVALID_AVATAR_FILE:
+		case ERR_NET_WRONG_AVATAR_SIZE:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("An invalid avatar file was configured. Please choose a different avatar."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_AVATAR_TOO_LARGE:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The selected avatar file is too large. Please choose a different avatar."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_INVALID_REQUEST_ID:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The server requested a non-existing avatar."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_START_TIMEOUT:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not start game: Synchronization failed."),
 				QMessageBox::Close); }
 		break;
 		default:  { QMessageBox::warning(this, tr("Network Error"),
@@ -3711,7 +3747,7 @@ void mainWindowImpl::mouseOverFlipCards(bool front) {
 	}
 }
 
-void mainWindowImpl::closeEvent(QCloseEvent *event) { quitPokerTH(); }
+void mainWindowImpl::closeEvent(QCloseEvent */*event*/) { quitPokerTH(); }
 
 void mainWindowImpl::quitPokerTH() {
 
