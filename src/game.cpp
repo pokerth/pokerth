@@ -32,7 +32,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		   const StartData &startData, int gameId)
 : myFactory(factory), myGui(gui), actualHand(0), actualBoard(0),
   startQuantityPlayers(startData.numberOfPlayers),
-  startCash(gameData.startMoney), startSmallBlind(gameData.smallBlind),
+  startCash(gameData.startMoney), startSmallBlind(gameData.firstSmallBlind),
   startHandsBeforeRaiseSmallBlind(gameData.handsBeforeRaise),
   myGameID(gameId), actualSmallBlind(gameData.firstSmallBlind), actualHandID(0), dealerPosition(0), lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData)
 {

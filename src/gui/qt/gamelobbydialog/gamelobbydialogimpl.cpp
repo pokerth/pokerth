@@ -123,7 +123,7 @@ void gameLobbyDialogImpl::createGame()
 
 		hideShowGameDescription(TRUE);
 
-		label_SmallBlind->setText(QString::number(gameData.smallBlind));
+		label_SmallBlind->setText(QString::number(gameData.firstSmallBlind));
 		label_StartCash->setText(QString::number(gameData.startMoney));
 		label_MaximumNumberOfPlayers->setText(QString::number(gameData.maxNumberOfPlayers));
 
