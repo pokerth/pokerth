@@ -26,7 +26,7 @@ PokerTH general message format:
 	|                               +-------------------------------+
 	/                               |            padding            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-Minimum length is 8. Maximum length is 264.
+Minimum length is 8. Maximum length is 268.
 
 
 Client Request: Init
@@ -135,9 +135,12 @@ Server/Client Reply: Avatar File
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                           Request ID                          |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|        Avatar Block Size      |           Reserved            |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                                                               |
 	\                Avatar File Data (up to 256 Bytes)             /
-	|                                                               +
+	|                               +-------------------------------+
+	/                               |            padding            |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 [Additional blocks will be sent if data is more than 256 Bytes.]
 

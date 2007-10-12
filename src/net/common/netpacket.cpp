@@ -165,6 +165,8 @@ struct GCC_PACKED NetPacketAvatarFileData
 {
 	NetPacketHeader		head;
 	u_int32_t			requestId;
+	u_int16_t			blockSize;
+	u_int16_t			reserved;
 };
 
 struct GCC_PACKED NetPacketAvatarEndData
@@ -1483,11 +1485,12 @@ NetPacketAvatarFile::SetData(const NetPacketAvatarFile::Data &inData)
 
 	Resize((u_int16_t)
 		(sizeof(NetPacketAvatarFileData)
-		+ fileDataSize));
+		+ ADD_PADDING(fileDataSize)));
 
 	NetPacketAvatarFileData *tmpData = (NetPacketAvatarFileData *)GetRawData();
 
 	tmpData->requestId				= htonl(inData.requestId);
+	tmpData->blockSize				= htons(fileDataSize);
 
 	char *avatarDataPtr = (char *)tmpData + sizeof(NetPacketAvatarFileData);
 	memcpy(avatarDataPtr, &inData.fileData[0], fileDataSize);
@@ -1502,8 +1505,8 @@ NetPacketAvatarFile::GetData(NetPacketAvatarFile::Data &outData) const
 	NetPacketAvatarFileData *tmpData = (NetPacketAvatarFileData *)GetRawData();
 
 	outData.requestId				= ntohl(tmpData->requestId);
+	int fileDataSize				= ntohs(tmpData->blockSize);
 
-	int fileDataSize = GetLen() - sizeof(NetPacketAvatarFileData);
 	char *avatarDataPtr = (char *)tmpData + sizeof(NetPacketAvatarFileData);
 	outData.fileData.resize(fileDataSize);
 	memcpy(&outData.fileData[0], avatarDataPtr, fileDataSize);
@@ -1516,9 +1519,23 @@ NetPacketAvatarFile::ToNetPacketAvatarFile() const
 }
 
 void
-NetPacketAvatarFile::InternalCheck(const NetPacketHeader*) const
+NetPacketAvatarFile::InternalCheck(const NetPacketHeader *data) const
 {
-	// Nothing to do.
+	u_int16_t dataLen = ntohs(data->length);
+	NetPacketAvatarFileData *tmpData = (NetPacketAvatarFileData *)data;
+	int fileDataSize = ntohs(tmpData->blockSize);
+
+	// Exact checking of dynamic packet size.
+	if (dataLen !=
+		sizeof(NetPacketAvatarFileData)
+		+ ADD_PADDING(fileDataSize))
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
+	if (!fileDataSize || fileDataSize > MAX_FILE_DATA_SIZE)
+	{
+		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+	}
 }
 
 //-----------------------------------------------------------------------------

@@ -34,7 +34,7 @@
 #define NET_VERSION_MINOR			0
 
 #define MIN_PACKET_SIZE				4
-#define MAX_PACKET_SIZE				264
+#define MAX_PACKET_SIZE				268
 #define MAX_NAME_SIZE				64
 #define MAX_PASSWORD_SIZE			64
 #define MAX_NUM_MANUAL_BLINDS		30
