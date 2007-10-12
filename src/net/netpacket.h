@@ -200,6 +200,8 @@ class NetPacketInitAck : public NetPacket
 public:
 	struct Data
 	{
+		u_int16_t		latestGameVersion;
+		u_int16_t		latestBetaRevision;
 		u_int32_t		sessionId;
 		u_int32_t		playerId;
 	};

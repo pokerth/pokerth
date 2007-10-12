@@ -606,6 +606,8 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 	// Send ACK to client.
 	boost::shared_ptr<NetPacket> initAck(new NetPacketInitAck);
 	NetPacketInitAck::Data initAckData;
+	initAckData.latestGameVersion = POKERTH_VERSION;
+	initAckData.latestBetaRevision = POKERTH_BETA_REVISION;
 	initAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
 	initAckData.playerId = session.playerData->GetUniqueId();
 	static_cast<NetPacketInitAck *>(initAck.get())->SetData(initAckData);

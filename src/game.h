@@ -102,7 +102,6 @@ private:
 	int startQuantityPlayers;
 	int startCash;
 	int startSmallBlind;
-	int startHandsBeforeRaiseSmallBlind;
 	int myGameID;
 	int guiPlayerNum;
 

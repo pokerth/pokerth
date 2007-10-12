@@ -554,6 +554,12 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 		// Everything is fine - we are in the lobby.
 		NetPacketInitAck::Data initAckData;
 		packet->ToNetPacketInitAck()->GetData(initAckData);
+		// Check current game version.
+		if (initAckData.latestGameVersion != POKERTH_VERSION)
+			client.GetCallback().SignalNetClientNotification(NTF_NET_NEW_RELEASE_AVAILABLE);
+		else if (POKERTH_BETA_REVISION && initAckData.latestBetaRevision != POKERTH_BETA_REVISION)
+			client.GetCallback().SignalNetClientNotification(NTF_NET_OUTDATED_BETA);
+
 		client.SetGuiPlayerId(initAckData.playerId);
 
 		client.SetState(ClientStateWaitJoin::Instance());

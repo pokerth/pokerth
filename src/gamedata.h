@@ -52,10 +52,9 @@ enum AfterManualBlindsMode
 // For the sake of simplicity, this is a struct.
 struct GameData
 {
-	GameData() : maxNumberOfPlayers(0), startMoney(0), smallBlind(0), firstSmallBlind(0), raiseIntervalMode(RAISE_ON_HANDNUMBER), raiseSmallBlindEveryHandsValue(8), raiseSmallBlindEveryMinutesValue(0), raiseMode(DOUBLE_BLINDS), afterManualBlindsMode(AFTERMB_DOUBLE_BLINDS), afterMBAlwaysRaiseValue(0), handsBeforeRaise(1), guiSpeed(4), playerActionTimeoutSec(20) {}
+	GameData() : maxNumberOfPlayers(0), startMoney(0), firstSmallBlind(0), raiseIntervalMode(RAISE_ON_HANDNUMBER), raiseSmallBlindEveryHandsValue(8), raiseSmallBlindEveryMinutesValue(1), raiseMode(DOUBLE_BLINDS), afterManualBlindsMode(AFTERMB_DOUBLE_BLINDS), afterMBAlwaysRaiseValue(0), guiSpeed(4), playerActionTimeoutSec(20) {}
 	int maxNumberOfPlayers;
 	int startMoney;
-		int smallBlind; // deprecated
 	int firstSmallBlind;
 	RaiseIntervalMode raiseIntervalMode;
 	int raiseSmallBlindEveryHandsValue;
@@ -64,7 +63,6 @@ struct GameData
 	std::list<int> manualBlindsList;
 	AfterManualBlindsMode afterManualBlindsMode;
 	int afterMBAlwaysRaiseValue;
-		int handsBeforeRaise; // deprecated
 	int guiSpeed;
 	int playerActionTimeoutSec;
 };

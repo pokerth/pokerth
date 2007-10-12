@@ -87,6 +87,10 @@
 #define NTF_NET_JOIN_ALREADY_RUNNING	207
 #define NTF_NET_JOIN_INVALID_PASSWORD	208
 
+// Notifications - version
+#define NTF_NET_NEW_RELEASE_AVAILABLE	209
+#define NTF_NET_OUTDATED_BETA			210
+
 // This is an internal message which is not reported.
 #define MSG_SOCK_INTERNAL_PENDING		0
 

@@ -186,7 +186,7 @@ void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, QTreeWidgetItem*)
 		GameInfo info(mySession->getClientGameInfo(item->data(0, Qt::UserRole).toUInt()));
 
 		hideShowGameDescription(TRUE);		
-		label_SmallBlind->setText(QString::number(info.data.smallBlind));
+		label_SmallBlind->setText(QString::number(info.data.firstSmallBlind));
 		label_StartCash->setText(QString::number(info.data.startMoney));
 		label_MaximumNumberOfPlayers->setText(QString::number(info.data.maxNumberOfPlayers));
 

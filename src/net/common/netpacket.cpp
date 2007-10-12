@@ -138,6 +138,8 @@ struct GCC_PACKED NetPacketInitData
 struct GCC_PACKED NetPacketInitAckData
 {
 	NetPacketHeader		head;
+	u_int16_t			latestGameVersion;
+	u_int16_t			latestBetaRevision;
 	u_int32_t			sessionId;
 	u_int32_t			playerId;
 };
@@ -1278,6 +1280,8 @@ NetPacketInitAck::SetData(const NetPacketInitAck::Data &inData)
 {
 	NetPacketInitAckData *tmpData = (NetPacketInitAckData *)GetRawData();
 
+	tmpData->latestGameVersion		= htons(inData.latestGameVersion);
+	tmpData->latestBetaRevision		= htons(inData.latestBetaRevision);
 	tmpData->sessionId				= htonl(inData.sessionId);
 	tmpData->playerId				= htonl(inData.playerId);
 
@@ -1290,6 +1294,8 @@ NetPacketInitAck::GetData(NetPacketInitAck::Data &outData) const
 {
 	NetPacketInitAckData *tmpData = (NetPacketInitAckData *)GetRawData();
 
+	outData.latestGameVersion		= ntohs(tmpData->latestGameVersion);
+	outData.latestBetaRevision		= ntohs(tmpData->latestBetaRevision);
 	outData.sessionId				= ntohl(tmpData->sessionId);
 	outData.playerId				= ntohl(tmpData->playerId);
 }
