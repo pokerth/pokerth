@@ -27,7 +27,7 @@ MyLeftTabWidget::MyLeftTabWidget(QGroupBox *parent)
 
 #ifdef _WIN32
 	QString font1String("font-family: \"Arial\";");
-	int padding = 3;
+	int padding = 1;
 #else 
 	QString font1String("font-family: \"Nimbus Sans L\";");
 	int padding = -1;

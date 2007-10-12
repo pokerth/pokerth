@@ -60,7 +60,7 @@
    <item row="1" column="0" >
     <widget class="QGroupBox" name="groupBox" >
      <property name="title" >
-      <string>After this:</string>
+      <string>Afterwards:</string>
      </property>
      <layout class="QGridLayout" >
       <property name="topMargin" >
@@ -84,7 +84,7 @@
         <item>
          <widget class="QRadioButton" name="radioButton_alwaysRaiseAbout" >
           <property name="text" >
-           <string>Always raise about:</string>
+           <string>Always raise by:</string>
           </property>
          </widget>
         </item>
@@ -107,7 +107,7 @@
       <item row="2" column="0" >
        <widget class="QRadioButton" name="radioButton_stayAtLastBlind" >
         <property name="text" >
-         <string>Stay at last blind</string>
+         <string>Keep last blind</string>
         </property>
        </widget>
       </item>

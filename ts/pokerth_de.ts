@@ -3,64 +3,64 @@
 <context>
     <name>LobbyChat</name>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="65"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="61"/>
         <source>Successfully connected to</source>
-        <translation type="unfinished"></translation>
+        <translation>Erfolgreich verbunden mit</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="71"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="67"/>
         <source>Joined channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal beigetreten:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="71"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="67"/>
         <source>as user</source>
-        <translation type="unfinished"></translation>
+        <translation>als Benutzer</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="106"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="102"/>
         <source>Network Notification</source>
-        <translation type="unfinished">Netzwerkbenachrichtigung</translation>
+        <translation>Netzwerkbenachrichtigung</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="103"/>
+        <source>You were kicked from the server.</source>
+        <translation>Sie wurden des Servers verwiesen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="107"/>
-        <source>You were kicked from the server.</source>
-        <translation type="unfinished">Sie wurden des Servers verwiesen (kick).</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="111"/>
         <source>was kicked from the server by</source>
-        <translation type="unfinished"></translation>
+        <translation>wurde des Servers verwiesen von</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="147"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="143"/>
         <source>Connecting to Chat server...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mit dem Chatserver verbinden...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="169"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="157"/>
         <source>An internal IRC error has occured:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein interner IRC-Fehler ist aufgetreten:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="172"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="160"/>
         <source>Could not connect to the IRC server. Chat will be unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Konnte nicht mit dem IRC-Server verbinden. Der Chat wird nicht verfügbar sein.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="175"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="163"/>
         <source>The IRC server terminated the connection. Chat will be unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der IRC-Server hat die Verbindung abgebrochen. Der Chat wird nicht verfügbar sein.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="178"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="166"/>
         <source>An IRC action timed out.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Zeitlimit für eine IRC-Aktion wurde überschritten.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="240"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="228"/>
         <source>The IRC server reported an error:</source>
-        <translation type="unfinished"></translation>
+        <translation>Der IRC-Server meldete einen Fehler:</translation>
     </message>
 </context>
 <context encoding="UTF-8">
@@ -136,7 +136,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="14"/>
         <source>About PokerTH 0.6</source>
-        <translation type="unfinished">Über PokerTH 0.6</translation>
+        <translation>Über PokerTH 0.6</translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/aboutpokerth.ui" line="66"/>
@@ -228,7 +228,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;PokerTH 0.6&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../src/gui/qt/aboutpokerth.ui" line="74"/>
@@ -239,12 +239,18 @@ p, li { white-space: pre-wrap; }
 
 
 © 2006-2007, FHammer, FThauer, LMay</source>
-        <translation type="unfinished"></translation>
+        <translation>- Poker-Engine für die populäre &quot;Texas Holdem&quot;-Pokervariante
+- Einzelspieler-Poker mit bis zu sechs Computergegnern
+- Mehrspieler-Netzwerkspiele
+- Programmiert in C++ / QT4
+
+
+© 2006-2007, FHammer, FThauer, LMay</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="116"/>
         <source>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="157"/>
@@ -268,7 +274,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - gui graphics design, webdesign&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Erhard List (&lt;a href=&quot;mailto:dunkanx@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;dunkanx@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOS package&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="211"/>
@@ -276,7 +282,10 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;!!!Please replace this with your translator name!!! - !!!Please replace this with your language!!! - !!!If you like please replace this with your mail address (otherwise please remove)!!!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Mirko Albrecht - deutsch&lt;br /&gt;Felix Hammer - deutsch&lt;br /&gt;Bernd17 - deutsch&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="249"/>
@@ -297,7 +306,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -305,76 +314,91 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="13"/>
         <source>Change Blinds Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Blinds-Einstellungen ändern</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="21"/>
         <source>First small blind:</source>
-        <translation type="unfinished"></translation>
+        <translation>Erster Small Blind:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="40"/>
         <source>Raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Erhöhe Blinds:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="85"/>
         <source>Every:</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="78"/>
         <source>hands</source>
-        <translation type="unfinished"></translation>
+        <translation>Runden</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="105"/>
         <source>minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>Minuten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="121"/>
         <source>Raise mode:</source>
-        <translation type="unfinished"></translation>
+        <translation>Erhöhungs-Modus:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="228"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="225"/>
         <source>Always double blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Blinds immer verdoppeln</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="153"/>
         <source>Manual blinds order:</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigene Blinds-Reihenfolge:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="167"/>
         <source>Delete</source>
-        <translation type="unfinished">Löschen</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="194"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="216"/>
         <source>After this:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Anschließend:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="240"/>
         <source>Always raise about:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Immer erhöhen um:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="254"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="251"/>
         <source>$</source>
-        <translation type="unfinished"></translation>
+        <translation>$</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="263"/>
         <source>Stay at last blind</source>
+        <translation type="obsolete">Beim letzten Blind bleiben</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="216"/>
+        <source>Afterwards:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="237"/>
+        <source>Always raise by:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="260"/>
+        <source>Keep last blind</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -383,12 +407,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="46"/>
         <source>Manual Blinds Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigene Blinds-Reihenfolge</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="47"/>
         <source>You cannot set more than 30 manual blinds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie können nicht mehr als 30 manuelle Blinds setzen.</translation>
     </message>
 </context>
 <context>
@@ -500,27 +524,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="13"/>
         <source>Create Internet Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Internetspiel erstellen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="37"/>
         <source>Internet Game Settings</source>
-        <translation type="unfinished">Einstellungen für Internetspiel</translation>
+        <translation>Einstellungen für Internetspiel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="83"/>
         <source>Blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Blinds</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="92"/>
         <source>Use saved blinds settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Gespeicherte Blinds-Einstellungen benutzen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="102"/>
         <source>Change blinds settings ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Blinds-Einstellungen ändern...</translation>
     </message>
 </context>
 <context>
@@ -578,17 +602,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="68"/>
         <source>Blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Blinds</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="77"/>
         <source>Use saved blinds settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Gespeicherte Blinds-Einstellungen benutzen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="87"/>
         <source>Change blinds settings ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Blinds-Einstellungen ändern...</translation>
     </message>
 </context>
 <context>
@@ -696,52 +720,52 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="159"/>
         <source>Kick Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Spieler entfernen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="72"/>
         <source>State</source>
-        <translation type="unfinished"></translation>
+        <translation>Status</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="170"/>
         <source>Maximum number of players: </source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale Spieleranzahl: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="188"/>
         <source>Start Cash: </source>
-        <translation type="unfinished"></translation>
+        <translation>Startgeld: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="206"/>
         <source>First small blind: </source>
-        <translation type="unfinished"></translation>
+        <translation>Erster Small Blind: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="245"/>
         <source>Blinds raise mode: </source>
-        <translation type="unfinished"></translation>
+        <translation>Blindserhöhungs-Modus: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="272"/>
         <source>Manual blinds list:</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigene Blinds-Liste:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="299"/>
         <source>Timeout for player action (sec): </source>
-        <translation type="unfinished"></translation>
+        <translation>Zeit für Spieleraktion (Sek.): </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="13"/>
         <source>Internet Game Lobby</source>
-        <translation type="unfinished"></translation>
+        <translation>Internetspiel-Lobby</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="224"/>
         <source>Blinds raise interval: </source>
-        <translation type="unfinished"></translation>
+        <translation>Blindserhöhungs-Intervall: </translation>
     </message>
 </context>
 <context>
@@ -762,49 +786,49 @@ p, li { white-space: pre-wrap; }
         <translation>Dies ist ein Privatspiel. Bitte Kennwort eingeben!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="459"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="461"/>
         <source>Game Info</source>
         <translation>Spieldaten</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="534"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="536"/>
         <source>Server Error</source>
         <translation>Serverfehler</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="535"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="537"/>
         <source>You should not kick yourself from this game!</source>
         <translation>Sie sollten sich nicht selbst des Spieles verweisen ;)!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="222"/>
         <source>running</source>
-        <translation type="unfinished"></translation>
+        <translation>läuft</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="224"/>
         <source>open</source>
-        <translation type="unfinished"></translation>
+        <translation>offen</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="487"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="489"/>
         <source>hands</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="488"/>
-        <source>minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>Runden</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="490"/>
-        <source>double blinds</source>
-        <translation type="unfinished"></translation>
+        <source>minutes</source>
+        <translation>Minuten</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="495"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="492"/>
+        <source>double blinds</source>
+        <translation>Blinds verdoppeln</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="497"/>
         <source>manual blinds order</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigene Blinds-Reihenfolge</translation>
     </message>
 </context>
 <context>
@@ -822,7 +846,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="174"/>
         <source>Use IPv6</source>
-        <translation>Benutze IPv6</translation>
+        <translation>IPv6 benutzen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="279"/>
@@ -902,7 +926,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="131"/>
         <source>Use SCTP</source>
-        <translation>Benutze SCTP</translation>
+        <translation>SCTP benutzen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="138"/>
@@ -975,7 +999,8 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="201"/>
         <source>A profile with the name: %1 already exists.
 Would you like to overwrite ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Profil mit dem Namen: %1 existiert bereits.
+Möchten Sie es überschreiben ?</translation>
     </message>
 </context>
 <context>
@@ -1003,7 +1028,7 @@ Would you like to overwrite ?</source>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2601"/>
         <source>Ctrl+N</source>
-        <translation>Ctrl+N</translation>
+        <translation>Strg+N</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2606"/>
@@ -1038,7 +1063,7 @@ Would you like to overwrite ?</source>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="175"/>
         <source>Hands</source>
-        <translation>Blätter</translation>
+        <translation>Runden</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="207"/>
@@ -1068,7 +1093,7 @@ Would you like to overwrite ?</source>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2609"/>
         <source>Ctrl+Q</source>
-        <translation>Ctrl+Q</translation>
+        <translation>Strg+Q</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2648"/>
@@ -1088,32 +1113,32 @@ Would you like to overwrite ?</source>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2627"/>
         <source>Ctrl+O</source>
-        <translation>Ctrl+O</translation>
+        <translation>Strg+O</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2635"/>
         <source>Ctrl+J</source>
-        <translation>Ctrl+J</translation>
+        <translation>Strg+J</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2643"/>
         <source>Ctrl+F</source>
-        <translation>Ctrl+F</translation>
+        <translation>Strg+F</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2651"/>
         <source>Ctrl+T</source>
-        <translation>Ctrl+T</translation>
+        <translation>Strg+T</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2665"/>
         <source>Ctrl+H</source>
-        <translation>Ctrl+H</translation>
+        <translation>Strg+H</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2673"/>
         <source>Ctrl+L</source>
-        <translation>Ctrl+L</translation>
+        <translation>Strg+L</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="31"/>
@@ -1123,7 +1148,7 @@ Would you like to overwrite ?</source>
     <message>
         <location filename="../src/gui/qt/mainwindow.ui" line="2681"/>
         <source>Ctrl+I</source>
-        <translation>Ctrl+I</translation>
+        <translation>Strg+I</translation>
     </message>
 </context>
 <context>
@@ -1134,132 +1159,132 @@ Would you like to overwrite ?</source>
         <translation>Strg+N um ein neues Spiel zu starten</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2080"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2072"/>
         <source>F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise</source>
         <translation>F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3508"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3536"/>
         <source>Network Error</source>
         <translation>Netzwerkfehler</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3367"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3358"/>
         <source>Server address was not set.</source>
         <translation>Serveradresse wurde nicht angegeben.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3372"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3363"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
         <translation>Ein ungültiger Port wurde angegeben (Ports 0-1023 sind nicht erlaubt).</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3377"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3368"/>
         <source>Could not create a socket for TCP communication.</source>
         <translation>Socket für TCP-Übertragung kann nicht erstellt werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3382"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3373"/>
         <source>Could not set the IP address.</source>
         <translation>IP-Adresse kann nicht gesetzt werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3387"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3378"/>
         <source>Could not set the port for this type of address.</source>
         <translation>Der Port für diesen Adresstyp kann nicht gesetzt werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3392"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3383"/>
         <source>The server name could not be resolved.</source>
         <translation>Der Servername kann nicht aufgelöst werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3397"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3388"/>
         <source>Bind failed - please choose a different port.</source>
         <translation>Verbindung fehlgeschlagen - bitte einen anderen Port wählen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3402"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3393"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
         <translation>Interner Netzwerkfehler: &quot;Lauschen&quot; fehlgeschlagen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3407"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3398"/>
         <source>Server execution was terminated.</source>
         <translation>Serverbetrieb wurde beendet.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3412"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3403"/>
         <source>Could not connect to the server.</source>
         <translation>Keine Verbindung zum Server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3422"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3413"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
         <translation>Interner Netzwerkfehler: &quot;Auswahl&quot; fehlgeschlagen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3427"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3418"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
         <translation>Interner Netzwerkfehler: &quot;Senden&quot; fehlgeschlagen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3438"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3429"/>
         <source>Internal network error: Duplicate TCP connection.</source>
         <translation>Interner Netzwerkfehler: Doppelte TCP-Verbindung.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3443"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3434"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Ein ungültiges Netzwerkpaket wurde empfangen.
 Bitte stellen Sie sicher, dass alle Spieler die gleiche Version von PokerTH benutzen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3448"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3439"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Interner Status Fehler.
 Bitte stellen Sie sicher, dass alle Spieler die gleiche Version von PokerTH benutzen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3453"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3444"/>
         <source>The PokerTH server does not support this version of the game.
 Please update PokerTH.</source>
         <translation>Der PokerTH-Server unterstützt diese Version des Spiels nicht.
 Führen Sie bitte ein Update von PokerTH durch.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3458"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3449"/>
         <source>Sorry, this server is already full.</source>
         <translation>Schade, der Server ist  bereits voll.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3536"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3564"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Betreten nicht möglich - Der Server hat bereits ein Spiel gestartet.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3541"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3569"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Ungültiges Paßwort beim Betreten des Spieltisches.
 Bitte geben Sie ihr Paßwort erneut ein und probieren Sie es nocheinmal.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3468"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3459"/>
         <source>The password is too long. Please choose another one.</source>
         <translation>Das Paßwort ist zu lang. Bitte wählen Sie ein Kürzeres.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3472"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3463"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
         <translation>Ihr Spielername wird bereits von einem anderen Spieler benutzt.
 Bitte wählen Sie einen anderen Namen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3509"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3537"/>
         <source>An internal error occured.</source>
         <translation>Ein interner Fehler ist aufgetreten. </translation>
     </message>
@@ -1269,17 +1294,17 @@ Bitte wählen Sie einen anderen Namen.</translation>
         <translation>⌘N zum Start eines neuen Spiels</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3202"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3194"/>
         <source>Start</source>
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3341"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3333"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3417"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3408"/>
         <source>Connection timed out.
 Please check the server address.
 
@@ -1289,89 +1314,125 @@ Bitte überprüfen Sie die Serveradresse.
 Wenn der Server hinter einem NAT-Router betrieben wird, stellen Sie sicher, dass serverseitig die Portweiterleitung aktiviert wurde.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3433"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3424"/>
         <source>Connection was closed by the server.</source>
-        <translation>Der Server  hat die Verbindung beendet.</translation>
+        <translation>Der Server hat die Verbindung beendet.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3495"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3487"/>
         <source>The server referred to an unknown player. Aborting.</source>
         <translation>Der Server verweist den unbekannten Spieler des Tisches. Abbruch.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3500"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3502"/>
         <source>You were kicked from the server.</source>
-        <translation>Sie wurden des Servers verwiesen (kick).</translation>
+        <translation>Sie wurden des Servers verwiesen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3505"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3507"/>
         <source>The client player count is invalid.</source>
         <translation>Die Anzahl der Mitspieler ist ungültig.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3476"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3467"/>
         <source>The player name is too short, too long or reserved. Please choose another one.</source>
         <translation>Der Spielername ist entweder zu kurz, zu lang oder reserviert. Bitte wählen Sie einen anderen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3480"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3472"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
         <translation>Der Spielname ist entweder zu kurz oder zu lang. Bitte wählen Sie einen anderen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3485"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3477"/>
         <source>The game could not be found.</source>
         <translation>Das Spiel konnte nicht gefunden werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3490"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3482"/>
         <source>The chat text is invalid.</source>
         <translation>Der Chattext ist ungültig.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3540"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3568"/>
         <source>Network Notification</source>
         <translation>Netzwerkbenachrichtigung</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3524"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3552"/>
         <source>You were kicked from the game.</source>
         <translation>Sie wurden des Spiels verwiesen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3530"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3558"/>
         <source>Sorry, this game is already full.</source>
         <translation>Sorry, dieses Spiel ist bereits voll.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2082"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2074"/>
         <source>F1 - Bet/Raise | F2 - Check/Call | F3 - Fold/All-In</source>
-        <translation type="unfinished"></translation>
+        <translation>F1 - Bet/Raise | F2 - Check/Call | F3 - Fold/All-In</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3701"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3730"/>
         <source>Chat</source>
-        <translation type="unfinished">Chat</translation>
+        <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3576"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3604"/>
         <source>Manual mode set. You&apos;ve got to choose yourself now.</source>
-        <translation type="unfinished"></translation>
+        <translation>Manueller Modus aktiv. Sie müssen nun selbst auswählen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3580"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3608"/>
         <source>Auto mode set: Check or call any.</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatischer Modus aktiv: Immer Check oder Call.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3584"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3612"/>
         <source>Auto mode set: Check or fold.</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatischer Modus aktiv: Immer Check oder Fold.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="959"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="951"/>
         <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
 Please choose another one.</source>
+        <translation>Sie können die Internetspiel-Lobby nicht mit &quot;Human Player&quot; als Nicknamen beitreten.
+Bitte wählen Sie einen anderen Nicknamen.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3492"/>
+        <source>Internal error: The current player could not be found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3497"/>
+        <source>Internal error: The current player is not active.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3512"/>
+        <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3518"/>
+        <source>An invalid avatar file was configured. Please choose a different avatar.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3523"/>
+        <source>The selected avatar file is too large. Please choose a different avatar.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3528"/>
+        <source>The server requested a non-existing avatar.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3533"/>
+        <source>Could not start game: Synchronization failed.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1380,41 +1441,56 @@ Please choose another one.</source>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="13"/>
         <source>Manual Blinds Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigene Blinds-Reihenfolge</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="27"/>
         <source>Delete</source>
-        <translation type="unfinished">Löschen</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="54"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="63"/>
         <source>After this:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Anschließend:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="75"/>
         <source>Always double blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Blinds immer verdoppeln</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="87"/>
         <source>Always raise about:</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Immer erhöhen um:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="101"/>
         <source>$</source>
-        <translation type="unfinished"></translation>
+        <translation>$</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="110"/>
         <source>Stay at last blind</source>
+        <translation type="obsolete">Beim letzten Blind bleiben</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="63"/>
+        <source>Afterwards:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="87"/>
+        <source>Always raise by:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="110"/>
+        <source>Keep last blind</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1423,12 +1499,12 @@ Please choose another one.</source>
     <message>
         <location filename="../src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="46"/>
         <source>Manual Blinds Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigene Blinds-Reihenfolge</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="47"/>
         <source>You cannot set more than 30 manual blinds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie können nicht mehr als 30 manuelle Blinds setzen.</translation>
     </message>
 </context>
 <context>
@@ -1471,17 +1547,17 @@ Please choose another one.</source>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="65"/>
         <source>Blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Blinds</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="74"/>
         <source>Use saved blinds settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Gespeicherte Blinds-Einstellungen benutzen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/newgamedialog.ui" line="84"/>
         <source>Change blinds settings ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Blinds-Einstellungen ändern...</translation>
     </message>
 </context>
 <context>
@@ -1504,12 +1580,12 @@ Please choose another one.</source>
     <message>
         <location filename="../src/gui/qt/selectavatardialog.ui" line="50"/>
         <source>People</source>
-        <translation type="unfinished"></translation>
+        <translation>Persönlichkeiten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/selectavatardialog.ui" line="55"/>
         <source>Miscellaneous</source>
-        <translation type="unfinished"></translation>
+        <translation>Verschiedenes</translation>
     </message>
 </context>
 <context>
@@ -1545,18 +1621,20 @@ Bitte wähle ein gültiges Avatar-Bild!</translation>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="239"/>
         <source>The file size of the chosen picture is too big. (max. 30KB)
 Please choose a smaller picture!</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei des gewählten Bildes ist zu groß (maximal 30 kB).
+Bitte ein kleineres Bild auswählen!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="264"/>
         <source>Images (*.png *.jpg *.gif)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilder (*.png *.jpg *.gif)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="248"/>
         <source>The entered avatar picture doesn&apos;t exist.
 Please enter an valid picture!</source>
-        <translation type="unfinished"></translation>
+        <translation>Das gewählte Avatar-Bild existiert nicht.
+Bitte wähle ein gültiges Avatar-Bild!</translation>
     </message>
 </context>
 <context>
@@ -1602,7 +1680,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="976"/>
         <source>Network Server Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen für Netzwerkspiel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1308"/>
@@ -1612,7 +1690,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1342"/>
         <source>Use IPv6</source>
-        <translation>Benutze IPv6</translation>
+        <translation>IPv6 benutzen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1229"/>
@@ -1792,7 +1870,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1161"/>
         <source>Use SCTP</source>
-        <translation>Benutze SCTP</translation>
+        <translation>SCTP benutzen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1349"/>
@@ -1863,7 +1941,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2890"/>
         <source>QLabel { font-weight: bold;  }</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2959"/>
@@ -1881,7 +1959,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Default &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Game Settings&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; like &quot;&lt;/span&gt;Maximum number of players&quot;, &quot;&lt;span style=&quot; font-style:italic;&quot;&gt;Start Cash&quot; and &quot;Small Blind&quot; will be used &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;from Network Game Settings.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Hinweis: Standard-&lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Spieleinstellungen&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; - wie &quot;&lt;/span&gt;Maximale Anzahl Spieler&quot;, &quot;&lt;span style=&quot; font-style:italic;&quot;&gt;Startgeld&quot; und &quot;Small Blind&quot; - werden von den &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Einstellungen für Netzwerkspiel&lt;/span&gt; &lt;span style=&quot; font-style:italic;&quot;&gt;übernommen.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
@@ -1924,93 +2002,101 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="150"/>
         <source>Reverse order of F-Keys (F1 - F3)</source>
-        <translation type="unfinished"></translation>
+        <translation>F-Tasten-Reihenfolge umkehren (F1 - F3)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="771"/>
         <source>First small blind:</source>
-        <translation type="unfinished"></translation>
+        <translation>Erster Small Blind:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="792"/>
         <source>Raise blinds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Erhöhe Blinds:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="831"/>
         <source>Every:</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="824"/>
         <source>hands</source>
-        <translation type="unfinished"></translation>
+        <translation>Runden</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="851"/>
         <source>minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>Minuten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="880"/>
         <source>Raise mode:</source>
-        <translation type="unfinished"></translation>
+        <translation>Erhöhungs-Modus:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="889"/>
         <source>Always double blinds</source>
-        <translation type="unfinished"></translation>
+        <translation>Blinds immer verdoppeln</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="899"/>
         <source>Manual blinds order:</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigene Blinds-Reihenfolge:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="909"/>
         <source>Edit ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bearbeiten...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="69"/>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="379"/>
         <source>Sound Categories </source>
-        <translation type="unfinished"></translation>
+        <translation>Klangkategorie </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="388"/>
         <source>Play game actions sounds like &quot;check&quot;, &quot;call&quot;, &quot;raise&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Spielaktionen wie Check, Call und Raise als Klang wiedergeben</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="395"/>
         <source>Play lobby chat notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Lobbychat-Hinweismeldungen abspielen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="402"/>
         <source>Play network/internet game notifications like &quot;player joined the game&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerk-/Internetspiel-Hinweismeldungen wie &quot;Spieler trat Spiel bei&quot; wiedergeben</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1282"/>
         <source>Enable/Disable Lobby Chat (IRC Server)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lobbychat (IRC-Server) aktivieren/deaktivieren</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2979"/>
         <source>Player Nicks/Avatars</source>
+        <translation>Spielernicknamen/-avatare</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1108"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Default &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Game Settings&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; like &quot;Maximum number of players&quot;, &quot;Start Cash&quot; and &quot;Small Blind&quot; will be used &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;from Network Game Settings.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>settingsDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="339"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="344"/>
         <source>Settings Error</source>
         <translation>Einstellungsfehler</translation>
     </message>
@@ -2029,7 +2115,7 @@ Please select an valid directory!</source>
 Bitte wählen Sie ein gültiges Verzeichnis!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="380"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="385"/>
         <source>Select your flipside picture</source>
         <translation>Wähle das Rückseitenbild</translation>
     </message>
@@ -2039,104 +2125,109 @@ Bitte wählen Sie ein gültiges Verzeichnis!</translation>
         <translation type="obsolete">Bilder (*.png)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="454"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="459"/>
         <source>Open Directory</source>
         <translation>Öffne Verzeichnis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="382"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="387"/>
         <source>Images (*.png *.jpg *.gif)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilder (*.png *.jpg *.gif)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="562"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="567"/>
         <source>Blinds Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Blinds-Fehler</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="563"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="568"/>
         <source>The first element in your manual-blinds-list 
 is smaller than current first-small-blind!
 This first-small-blind-value will be set to maximum allowed value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der erste Eintrag in der manuellen Blinds-Liste 
+ist kleiner als der derzeitige erste Small Blind!
+Der erste Small-Blind wird auf den größten erlaubten Wert gesetzt.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="44"/>
         <source>Dutch</source>
-        <translation type="unfinished"></translation>
+        <translation>Nederlands (Holländisch)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="45"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>English (Englisch)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="46"/>
         <source>French</source>
-        <translation type="unfinished"></translation>
+        <translation>Français (Französisch)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="47"/>
         <source>German</source>
-        <translation type="unfinished"></translation>
+        <translation>Deutsch</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="48"/>
         <source>Hungarian</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hungarian (Ungarisch)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="50"/>
         <source>Norse</source>
-        <translation type="unfinished"></translation>
+        <translation>Norse</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="51"/>
         <source>Portuguese</source>
-        <translation type="unfinished"></translation>
+        <translation>Português (Portugiesisch)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="52"/>
         <source>Russian</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Russian (Russisch)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="54"/>
         <source>Turkish</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Turkish (Türkisch)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="369"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="374"/>
         <source>Language Changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache geändert</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="370"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="375"/>
         <source>You have changed application language to %1.
 Please restart PokerTH to load new language!</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie haben die Sprache auf %1 geändert.
+Bitte starten Sie PokerTH neu um die neue Sprache zu laden!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="49"/>
         <source>Italian</source>
-        <translation type="unfinished"></translation>
+        <translation>Italiano (Italienisch)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
         <source>Slovak</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Slovak (Slowakisch)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="320"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="325"/>
         <source>The entered flipside picture doesn&apos;t exist.
 Please enter an valid picture!</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Rückseitenbild existiert nicht.
+Bitte geben Sie ein gültiges Bild an!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="341"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="346"/>
         <source>The log file directory doesn&apos;t exist.
 Please select an valid directory!</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Logdateien-Verzeichnis existiert nicht.
+Bitte wählen Sie ein gültiges Verzeichnis!</translation>
     </message>
 </context>
 <context>
@@ -2189,7 +2280,7 @@ Please select an valid directory!</source>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="79"/>
         <source>Kick Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Spieler entfernen</translation>
     </message>
 </context>
 <context>

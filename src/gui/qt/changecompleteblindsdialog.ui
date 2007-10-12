@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>435</width>
+    <width>454</width>
     <height>397</height>
    </rect>
   </property>
@@ -213,14 +213,11 @@
       <item row="1" column="1" >
        <widget class="QGroupBox" name="groupBox" >
         <property name="title" >
-         <string>After this:</string>
+         <string>Afterwards:</string>
         </property>
         <layout class="QGridLayout" >
          <property name="topMargin" >
-          <number>2</number>
-         </property>
-         <property name="bottomMargin" >
-          <number>2</number>
+          <number>0</number>
          </property>
          <item row="0" column="0" >
           <widget class="QRadioButton" name="radioButton_afterThisAlwaysDoubleBlinds" >
@@ -237,7 +234,7 @@
            <item>
             <widget class="QRadioButton" name="radioButton_afterThisAlwaysRaiseAbout" >
              <property name="text" >
-              <string>Always raise about:</string>
+              <string>Always raise by:</string>
              </property>
             </widget>
            </item>
@@ -260,7 +257,7 @@
          <item row="2" column="0" >
           <widget class="QRadioButton" name="radioButton_afterThisStayAtLastBlind" >
            <property name="text" >
-            <string>Stay at last blind</string>
+            <string>Keep last blind</string>
            </property>
           </widget>
          </item>
