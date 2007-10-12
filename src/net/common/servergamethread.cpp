@@ -52,8 +52,9 @@ private:
 };
 
 
-ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, const string &pwd, GuiInterface &gui, ConfigFile *playerConfig)
-: m_lobbyThread(lobbyThread), m_gui(gui), m_id(id), m_name(name), m_password(pwd), m_playerConfig(playerConfig), m_curState(NULL), m_gameNum(1)
+ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, const string &pwd, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
+: m_lobbyThread(lobbyThread), m_adminPlayerId(adminPlayerId), m_gui(gui), m_id(id),
+  m_name(name), m_password(pwd), m_playerConfig(playerConfig), m_curState(NULL), m_gameNum(1)
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
@@ -277,6 +278,20 @@ ServerGameThread::IsRunning() const
 	return m_game.get() != NULL;
 }
 
+unsigned
+ServerGameThread::GetAdminPlayerId() const
+{
+	boost::mutex::scoped_lock lock(m_adminPlayerIdMutex);
+	return m_adminPlayerId;
+}
+
+void
+ServerGameThread::SetAdminPlayerId(unsigned playerId)
+{
+	boost::mutex::scoped_lock lock(m_adminPlayerIdMutex);
+	m_adminPlayerId = playerId;
+}
+
 void
 ServerGameThread::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
 {
@@ -321,13 +336,6 @@ ServerGameThread::GracefulRemoveSession(SessionWrapper session)
 void
 ServerGameThread::RemovePlayerData(boost::shared_ptr<PlayerData> player)
 {
-	// Send "Player Left" to clients.
-	boost::shared_ptr<NetPacket> thisPlayerLeft(new NetPacketPlayerLeft);
-	NetPacketPlayerLeft::Data thisPlayerLeftData;
-	thisPlayerLeftData.playerId = player->GetUniqueId();
-	static_cast<NetPacketPlayerLeft *>(thisPlayerLeft.get())->SetData(thisPlayerLeftData);
-	GetSessionManager().SendToAllSessions(GetSender(), thisPlayerLeft, SessionData::Game);
-
 	if (player->GetRights() == PLAYER_RIGHTS_ADMIN)
 	{
 		// Find new admin for the game
@@ -335,6 +343,7 @@ ServerGameThread::RemovePlayerData(boost::shared_ptr<PlayerData> player)
 		if (!playerList.empty())
 		{
 			boost::shared_ptr<PlayerData> newAdmin = playerList.front();
+			SetAdminPlayerId(newAdmin->GetUniqueId());
 			newAdmin->SetRights(PLAYER_RIGHTS_ADMIN);
 			// Send "Game Admin Changed" to clients.
 			boost::shared_ptr<NetPacket> adminChanged(new NetPacketGameAdminChanged);
@@ -342,10 +351,19 @@ ServerGameThread::RemovePlayerData(boost::shared_ptr<PlayerData> player)
 			adminChangedData.playerId = newAdmin->GetUniqueId(); // Choose next player as admin.
 			static_cast<NetPacketGameAdminChanged *>(adminChanged.get())->SetData(adminChangedData);
 			GetSessionManager().SendToAllSessions(GetSender(), adminChanged, SessionData::Game);
+
+			GetLobbyThread().NotifyGameAdminChanged(GetId(), newAdmin->GetUniqueId());
 		}
 	}
 	// Reset player rights.
 	player->SetRights(PLAYER_RIGHTS_NORMAL);
+
+	// Send "Player Left" to clients.
+	boost::shared_ptr<NetPacket> thisPlayerLeft(new NetPacketPlayerLeft);
+	NetPacketPlayerLeft::Data thisPlayerLeftData;
+	thisPlayerLeftData.playerId = player->GetUniqueId();
+	static_cast<NetPacketPlayerLeft *>(thisPlayerLeft.get())->SetData(thisPlayerLeftData);
+	GetSessionManager().SendToAllSessions(GetSender(), thisPlayerLeft, SessionData::Game);
 
 	GetLobbyThread().NotifyPlayerLeftGame(GetId(), player->GetUniqueId());
 }

@@ -42,7 +42,8 @@ class Game;
 class ServerGameThread : public Thread
 {
 public:
-	ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const std::string &name, const std::string &pwd, GuiInterface &gui, ConfigFile *playerConfig);
+	ServerGameThread(
+		ServerLobbyThread &lobbyThread, u_int32_t id, const std::string &name, const std::string &pwd, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig);
 	virtual ~ServerGameThread();
 
 	void Init(const GameData &gameData);
@@ -67,6 +68,9 @@ public:
 	bool IsPlayerConnected(const std::string &name) const;
 
 	bool IsRunning() const;
+
+	unsigned GetAdminPlayerId() const;
+	void SetAdminPlayerId(unsigned playerId);
 
 	// should be protected, but is needed in function.
 	const Game &GetGame() const;
@@ -126,6 +130,9 @@ private:
 	SessionManager m_sessionManager;
 	PlayerDataList m_computerPlayerList;
 	mutable boost::mutex m_computerPlayerListMutex;
+
+	unsigned m_adminPlayerId;
+	mutable boost::mutex m_adminPlayerIdMutex;
 
 	ServerLobbyThread &m_lobbyThread;
 	std::auto_ptr<ReceiverHelper> m_receiver;

@@ -115,6 +115,7 @@ public:
 	void SignalNetClientGameListNew(unsigned gameId);
 	void SignalNetClientGameListRemove(unsigned gameId);
 	void SignalNetClientGameListUpdateMode(unsigned gameId, GameMode mode);
+	void SignalNetClientGameListUpdateAdmin(unsigned gameId, unsigned adminPlayerId);
 	void SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
 	void SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
 

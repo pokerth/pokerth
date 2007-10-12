@@ -136,6 +136,7 @@ signals:
 	void signalNetClientGameListNew(unsigned gameId);
 	void signalNetClientGameListRemove(unsigned gameId);
 	void signalNetClientGameListUpdateMode(unsigned gameId, int mode);
+	void signalNetClientGameListUpdateAdmin(unsigned gameId, unsigned adminPlayerId);
 	void signalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
 	void signalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
 	void signalNetClientGameStart(boost::shared_ptr<Game> game);

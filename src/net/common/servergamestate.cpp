@@ -247,9 +247,9 @@ ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper s
 		}
 		else
 		{
-			if (curNumPlayers == 0)
+			if (session.playerData->GetUniqueId() == server.GetAdminPlayerId())
 			{
-				// First player is admin.
+				// This is the admin player.
 				session.playerData->SetRights(PLAYER_RIGHTS_ADMIN);
 			}
 

@@ -785,6 +785,23 @@ ClientThread::UpdateGameInfoMode(unsigned gameId, GameMode mode)
 }
 
 void
+ClientThread::UpdateGameInfoAdmin(unsigned gameId, unsigned adminPlayerId)
+{
+	bool found = false;
+	{
+		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
+		if (pos != m_gameInfoMap.end())
+		{
+			found = true;
+			(*pos).second.adminPlayerId = adminPlayerId;
+		}
+	}
+	if (found)
+		GetCallback().SignalNetClientGameListUpdateAdmin(gameId, adminPlayerId);
+}
+
+void
 ClientThread::RemoveGameInfo(unsigned gameId)
 {
 	bool found = false;

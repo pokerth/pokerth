@@ -155,6 +155,19 @@ ServerLobbyThread::NotifyPlayerLeftGame(unsigned gameId, unsigned playerId)
 }
 
 void
+ServerLobbyThread::NotifyGameAdminChanged(unsigned gameId, unsigned newAdminPlayerId)
+{
+	// Send notification to players in lobby.
+	boost::shared_ptr<NetPacket> packet(new NetPacketGameListAdminChanged);
+	NetPacketGameListAdminChanged::Data packetData;
+	packetData.gameId = gameId;
+	packetData.newAdminplayerId = newAdminPlayerId;
+	static_cast<NetPacketGameListAdminChanged *>(packet.get())->SetData(packetData);
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
+}
+
+void
 ServerLobbyThread::NotifyStartingGame(unsigned gameId)
 {
 	boost::shared_ptr<NetPacket> packet = CreateNetPacketGameListUpdate(gameId, GAME_MODE_STARTED);
@@ -556,9 +569,11 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const NetPa
 
 	boost::shared_ptr<ServerGameThread> game(
 		new ServerGameThread(
-			*this, GetNextGameId(),
+			*this,
+			GetNextGameId(),
 			createGameData.gameName,
 			createGameData.password,
+			session.playerData->GetUniqueId(),
 			GetGui(),
 			m_playerConfig));
 	game->Init(createGameData.gameData);
@@ -870,6 +885,7 @@ ServerLobbyThread::CreateNetPacketGameListNew(const ServerGameThread &game)
 	boost::shared_ptr<NetPacket> packet(new NetPacketGameListNew);
 	NetPacketGameListNew::Data packetData;
 	packetData.gameId = game.GetId();
+	packetData.gameInfo.adminPlayerId = game.GetAdminPlayerId();
 	packetData.gameInfo.mode = game.IsRunning() ? GAME_MODE_STARTED : GAME_MODE_CREATED;
 	packetData.gameInfo.name = game.GetName();
 	packetData.gameInfo.data = game.GetGameData();

@@ -199,8 +199,9 @@ void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, QTreeWidgetItem*)
 		PlayerIdList::const_iterator end = info.players.end();
 		while (i != end)
 		{
-			PlayerInfo info(mySession->getClientPlayerInfo(*i));
-			addConnectedPlayer(*i, QString::fromUtf8(info.playerName.c_str()), PLAYER_RIGHTS_NORMAL);
+			PlayerRights tmpRights = info.adminPlayerId == *i ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL;
+			PlayerInfo playerInfo(mySession->getClientPlayerInfo(*i));
+			addConnectedPlayer(*i, QString::fromUtf8(playerInfo.playerName.c_str()), tmpRights);
 			++i;
 		}
 	}
@@ -247,6 +248,11 @@ void gameLobbyDialogImpl::updateGameMode(unsigned gameId, int /*newMode*/)
 	}
 }
 
+void gameLobbyDialogImpl::updateGameAdmin(unsigned /*gameId*/, unsigned adminPlayerId)
+{
+	newGameAdmin(adminPlayerId, "");
+}
+
 void gameLobbyDialogImpl::removeGame(unsigned gameId)
 {
 	QTreeWidgetItemIterator it(treeWidget_GameList);
@@ -268,8 +274,11 @@ void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
 		if (item && item->data(0, Qt::UserRole) == gameId)
 		{
 			assert(mySession);
-			PlayerInfo info(mySession->getClientPlayerInfo(playerId));
-			addConnectedPlayer(playerId, QString::fromUtf8(info.playerName.c_str()), PLAYER_RIGHTS_NORMAL);
+			GameInfo info(mySession->getClientGameInfo(gameId));
+			PlayerRights tmpRights = info.adminPlayerId == playerId ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL;
+			PlayerInfo playerInfo(mySession->getClientPlayerInfo(playerId));
+
+			addConnectedPlayer(playerId, QString::fromUtf8(playerInfo.playerName.c_str()), tmpRights);
 		}
 	}
 
@@ -437,7 +446,7 @@ void gameLobbyDialogImpl::newGameAdmin(unsigned playerId, QString)
 		++it;
 	}
 
-	if (myPlayerId == playerId)
+	if (inGame && myPlayerId == playerId)
 	{
 		isAdmin = true;
 		checkPlayerQuantity();

@@ -58,6 +58,7 @@ public:
 	void SessionError(SessionWrapper session, int errorCode);
 	void NotifyPlayerJoinedGame(unsigned gameId, unsigned playerId);
 	void NotifyPlayerLeftGame(unsigned gameId, unsigned playerId);
+	void NotifyGameAdminChanged(unsigned gameId, unsigned newAdminPlayerId);
 	void NotifyStartingGame(unsigned gameId);
 	void NotifyReopeningGame(unsigned gameId);
 

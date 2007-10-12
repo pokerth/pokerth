@@ -57,6 +57,7 @@ public slots:
 
 	void addGame(unsigned gameId);
 	void updateGameMode(unsigned gameId, int newMode);
+	void updateGameAdmin(unsigned gameId, unsigned adminPlayerId);
 	void removeGame(unsigned gameId);
 	void gameAddPlayer(unsigned gameId, unsigned playerId);
 	void gameRemovePlayer(unsigned gameId, unsigned playerId);

@@ -69,10 +69,11 @@ struct GameData
 
 struct GameInfo
 {
-	GameInfo() : mode(GAME_MODE_CREATED), isPasswordProtected(false) {}
+	GameInfo() : mode(GAME_MODE_CREATED), adminPlayerId(0), isPasswordProtected(false) {}
 	std::string name;
 	GameData data;
 	GameMode mode;
+	unsigned adminPlayerId;
 	PlayerIdList players;
 	bool isPasswordProtected;
 };

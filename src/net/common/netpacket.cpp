@@ -38,6 +38,7 @@ using namespace std;
 #define NET_TYPE_GAME_LIST_UPDATE				0x0011
 #define NET_TYPE_GAME_LIST_PLAYER_JOINED		0x0012
 #define NET_TYPE_GAME_LIST_PLAYER_LEFT			0x0013
+#define NET_TYPE_GAME_LIST_ADMIN_CHANGED		0x0014
 #define NET_TYPE_RETRIEVE_PLAYER_INFO			0x0020
 #define NET_TYPE_PLAYER_INFO					0x0021
 #define NET_TYPE_UNKNOWN_PLAYER_ID				0x0022
@@ -197,6 +198,7 @@ struct GCC_PACKED NetPacketGameListNewData
 {
 	NetPacketHeader		head;
 	u_int32_t			gameId;
+	u_int32_t			adminPlayerId;
 	u_int16_t			gameMode;
 	u_int16_t			gameNameLength;
 	u_int16_t			curNumberOfPlayers;
@@ -224,6 +226,13 @@ struct GCC_PACKED NetPacketGameListPlayerLeftData
 	NetPacketHeader		head;
 	u_int32_t			gameId;
 	u_int32_t			playerId;
+};
+
+struct GCC_PACKED NetPacketGameListAdminChangedData
+{
+	NetPacketHeader		head;
+	u_int32_t			gameId;
+	u_int32_t			newAdminPlayerId;
 };
 
 struct GCC_PACKED NetPacketRetrievePlayerInfoData
@@ -638,6 +647,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 				case NET_TYPE_GAME_LIST_PLAYER_LEFT:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameListPlayerLeft);
 					break;
+				case NET_TYPE_GAME_LIST_ADMIN_CHANGED:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketGameListAdminChanged);
+					break;
 				case NET_TYPE_RETRIEVE_PLAYER_INFO:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketRetrievePlayerInfo);
 					break;
@@ -877,6 +889,12 @@ NetPacket::ToNetPacketGameListPlayerJoined() const
 
 const NetPacketGameListPlayerLeft *
 NetPacket::ToNetPacketGameListPlayerLeft() const
+{
+	return NULL;
+}
+
+const NetPacketGameListAdminChanged *
+NetPacket::ToNetPacketGameListAdminChanged() const
 {
 	return NULL;
 }
@@ -1668,6 +1686,7 @@ NetPacketGameListNew::SetData(const NetPacketGameListNew::Data &inData)
 
 	// Set the data.
 	tmpData->gameId					= htonl(inData.gameId);
+	tmpData->adminPlayerId			= htonl(inData.gameInfo.adminPlayerId);
 	tmpData->gameMode				= htons(inData.gameInfo.mode);
 	tmpData->gameNameLength			= htons(gameNameLen);
 	tmpData->curNumberOfPlayers		= htons(curNumPlayers);
@@ -1705,6 +1724,7 @@ NetPacketGameListNew::GetData(NetPacketGameListNew::Data &outData) const
 	int manualBlindsSize = numManualBlinds * sizeof(u_int32_t);
 
 	outData.gameId								= ntohl(tmpData->gameId);
+	outData.gameInfo.adminPlayerId				= ntohl(tmpData->adminPlayerId);
 	outData.gameInfo.mode						= static_cast<GameMode>(ntohs(tmpData->gameMode));
 	u_int16_t gameNameLen						= ntohs(tmpData->gameNameLength);
 	u_int16_t curNumPlayers						= ntohs(tmpData->curNumberOfPlayers);
@@ -1943,6 +1963,66 @@ NetPacketGameListPlayerLeft::ToNetPacketGameListPlayerLeft() const
 
 void
 NetPacketGameListPlayerLeft::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketGameListAdminChanged::NetPacketGameListAdminChanged()
+: NetPacket(NET_TYPE_GAME_LIST_ADMIN_CHANGED, sizeof(NetPacketGameListAdminChangedData), sizeof(NetPacketGameListAdminChangedData))
+{
+}
+
+NetPacketGameListAdminChanged::~NetPacketGameListAdminChanged()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketGameListAdminChanged::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketGameListAdminChanged);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketGameListAdminChanged::SetData(const NetPacketGameListAdminChanged::Data &inData)
+{
+	NetPacketGameListAdminChangedData *tmpData = (NetPacketGameListAdminChangedData *)GetRawData();
+
+	// Set the data.
+	tmpData->gameId				= htonl(inData.gameId);
+	tmpData->newAdminPlayerId	= htonl(inData.newAdminplayerId);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketGameListAdminChanged::GetData(NetPacketGameListAdminChanged::Data &outData) const
+{
+	// We assume that the data is valid. Validity has already been checked.
+	NetPacketGameListAdminChangedData *tmpData = (NetPacketGameListAdminChangedData *)GetRawData();
+
+	outData.gameId				= ntohl(tmpData->gameId);
+	outData.newAdminplayerId	= ntohl(tmpData->newAdminPlayerId);
+}
+
+const NetPacketGameListAdminChanged *
+NetPacketGameListAdminChanged::ToNetPacketGameListAdminChanged() const
+{
+	return this;
+}
+
+void
+NetPacketGameListAdminChanged::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }

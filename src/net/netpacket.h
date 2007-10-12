@@ -57,6 +57,7 @@ class NetPacketGameListNew;
 class NetPacketGameListUpdate;
 class NetPacketGameListPlayerJoined;
 class NetPacketGameListPlayerLeft;
+class NetPacketGameListAdminChanged;
 class NetPacketRetrievePlayerInfo;
 class NetPacketPlayerInfo;
 class NetPacketUnknownPlayerId;
@@ -117,6 +118,7 @@ public:
 	virtual const NetPacketGameListUpdate *ToNetPacketGameListUpdate() const;
 	virtual const NetPacketGameListPlayerJoined *ToNetPacketGameListPlayerJoined() const;
 	virtual const NetPacketGameListPlayerLeft *ToNetPacketGameListPlayerLeft() const;
+	virtual const NetPacketGameListAdminChanged *ToNetPacketGameListAdminChanged() const;
 	virtual const NetPacketRetrievePlayerInfo *ToNetPacketRetrievePlayerInfo() const;
 	virtual const NetPacketPlayerInfo *ToNetPacketPlayerInfo() const;
 	virtual const NetPacketUnknownPlayerId *ToNetPacketUnknownPlayerId() const;
@@ -430,6 +432,30 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketGameListPlayerLeft *ToNetPacketGameListPlayerLeft() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketGameListAdminChanged : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t		gameId;
+		u_int32_t		newAdminplayerId;
+	};
+
+	NetPacketGameListAdminChanged();
+	virtual ~NetPacketGameListAdminChanged();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketGameListAdminChanged *ToNetPacketGameListAdminChanged() const;
 
 protected:
 
