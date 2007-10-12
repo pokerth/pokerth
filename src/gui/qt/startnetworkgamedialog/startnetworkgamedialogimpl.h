@@ -29,6 +29,7 @@
 
 class Session;
 class ConfigFile;
+class ChatTools;
 
 class startNetworkGameDialogImpl: public QDialog, public Ui::startNetworkGameDialog {
 Q_OBJECT
@@ -56,23 +57,28 @@ public slots:
 	void checkPlayerQuantity();
 	void clearDialog();
 
+	void receiveChatMsg(QString playerName, QString message);
+
 	void keyPressEvent ( QKeyEvent*);
+	bool eventFilter(QObject *obj, QEvent *event);
+
 
 	void setMaxPlayerNumber ( int theValue ) { maxPlayerNumber = theValue; label_maxPlayerNumber->setText(QString::number(theValue,10)); }
 	int getMaxPlayerNumber() const { return maxPlayerNumber; }
 
 	void exec();
 
-	void sendChatMessage();
-
 private: 
 
 	mainWindowImpl* myW;
 	int maxPlayerNumber;
+	int keyUpDownChatCounter;
 	unsigned myPlayerId;
 	bool isAdmin;
 	ConfigFile *myConfig;
 	Session *mySession;
+	ChatTools *myChat;
+	
 };
 
 #endif

@@ -20,19 +20,25 @@
 #include "startnetworkgamedialogimpl.h"
 #include "session.h"
 #include "configfile.h"
+#include "chattools.h"
 #include <net/socket_msg.h>
 
 startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFile *config)
-      : QDialog(parent), myW(NULL), myPlayerId(0), isAdmin(false), myConfig(config), mySession(NULL)
+      : QDialog(parent), myW(NULL), keyUpDownChatCounter(0), myPlayerId(0), isAdmin(false), myConfig(config), mySession(NULL), myChat(NULL)
 {
 	setupUi(this);
+
+	myChat = new ChatTools(lineEdit_ChatInput, treeWidget, textBrowser_ChatDisplay);
+
+	lineEdit_ChatInput->installEventFilter(this);
 
 	connect( pushButton_cancel, SIGNAL( clicked() ), this, SLOT( cancel() ) );
 	connect( pushButton_startGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
 	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
 	connect( treeWidget, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
-	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
-
+	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), myChat, SLOT( sendMessage() ) );
+	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), myChat, SLOT( checkInputLength(QString) ) );
+	connect( lineEdit_ChatInput, SIGNAL( textEdited (QString) ), myChat, SLOT( setChatTextEdited() ) );
 
 	clearDialog();
 }
@@ -175,6 +181,7 @@ void startNetworkGameDialogImpl::clearDialog()
 	pushButton_Kick->setEnabled(false);
 	pushButton_startGame->setEnabled(false);
 	treeWidget->clear();
+	myChat->clearChat();
 	checkBox_fillUpWithComputerOpponents->hide();
 
 	myPlayerId = 0;
@@ -187,9 +194,33 @@ void startNetworkGameDialogImpl::setSession(Session *session)
 
 void startNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 
-
-	if (event->key() == 16777220) { pushButton_startGame->click(); } //ENTER 
-	
+	if (event->key() == Qt::Key_Up && lineEdit_ChatInput->hasFocus()) { 
+		if((keyUpDownChatCounter + 1) <= myChat->getChatLinesHistorySize()) { keyUpDownChatCounter++; }
+// 		std::cout << "Up keyUpDownChatCounter: " << keyUpDownChatCounter << "\n";
+		myChat->showChatHistoryIndex(keyUpDownChatCounter); 
+	}
+	else if(event->key() == Qt::Key_Down && lineEdit_ChatInput->hasFocus()) { 
+		if((keyUpDownChatCounter - 1) >= 0) { keyUpDownChatCounter--; }
+// 		std::cout << "Down keyUpDownChatCounter: " << keyUpDownChatCounter << "\n";
+		myChat->showChatHistoryIndex(keyUpDownChatCounter); 
+	}
+	else { keyUpDownChatCounter = 0; }
 }
 
-void startNetworkGameDialogImpl::sendChatMessage() { /*myChat->sendMessage();*/ }
+bool startNetworkGameDialogImpl::eventFilter(QObject *obj, QEvent *event)
+{
+	QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+
+	if (obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) 
+	{
+		myChat->nickAutoCompletition();
+		return true;
+	} else {
+		// pass the event on to the parent class
+		return QDialog::eventFilter(obj, event);
+	}
+}
+
+void startNetworkGameDialogImpl::receiveChatMsg(QString playerName, QString message) {
+	myChat->receiveMessage(playerName, message);
+}

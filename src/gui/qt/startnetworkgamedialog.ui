@@ -85,7 +85,7 @@
    <item row="3" column="0" >
     <widget class="QGroupBox" name="groupBox" >
      <property name="title" >
-      <string>Lobby-Chat</string>
+      <string>Chat</string>
      </property>
      <layout class="QGridLayout" >
       <property name="leftMargin" >

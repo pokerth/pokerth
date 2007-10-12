@@ -29,11 +29,16 @@ class ChatTools : public QObject
 Q_OBJECT
 
 public:
-	ChatTools(QLineEdit* l, QTreeWidget *t = NULL);
+	ChatTools(QLineEdit* l, QTreeWidget *t = NULL, QTextBrowser *b = NULL);
 
 	~ChatTools();
 
 public slots:
+	
+	void sendMessage();
+	void receiveMessage(QString playerName, QString message);
+	void clearChat();
+	void checkInputLength(QString string);
 	
 	void fillChatLinesHistory(QString fillString);
 	void showChatHistoryIndex(int index);
@@ -53,6 +58,8 @@ private:
 	QLineEdit* myLineEdit;
 	QTreeWidget *myNickTreeWidget;
 	QStringList myNickStringList;
+	QTextBrowser* myTextBrowser;
+
 // friend class GuiWrapper;
 };
 

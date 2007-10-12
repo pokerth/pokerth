@@ -23,7 +23,7 @@
 using namespace std;
 
 
-ChatTools::ChatTools(QLineEdit* l, QTreeWidget *t) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL)
+ChatTools::ChatTools(QLineEdit* l, QTreeWidget *t, QTextBrowser *b) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL), myTextBrowser(b)
 {
 
 }
@@ -31,6 +31,30 @@ ChatTools::ChatTools(QLineEdit* l, QTreeWidget *t) : nickAutoCompletitionCounter
 ChatTools::~ChatTools()
 {
 
+}
+
+void ChatTools::sendMessage() {
+	
+	fillChatLinesHistory(myLineEdit->text());
+// 	myW->getSession().sendChatMessage(myW->lineEdit_ChatInput->text().toUtf8().constData());
+	myLineEdit->setText("");
+}
+
+void ChatTools::receiveMessage(QString playerName, QString message) { 
+
+	if(myTextBrowser)
+		myTextBrowser->append(playerName + ": " + message); 
+}
+
+void ChatTools::clearChat() {
+
+	if(myTextBrowser)
+		myTextBrowser->clear();
+}
+
+void ChatTools::checkInputLength(QString string) {
+
+	 if(string.toUtf8().length() > 120) myLineEdit->setMaxLength(string.length());  
 }
 
 void ChatTools::fillChatLinesHistory(QString fillString) {
