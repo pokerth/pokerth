@@ -28,10 +28,8 @@ using namespace std;
 
 Chat::Chat(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c)
 {
-	myW->setChat(this);
-
 	myChatTools = new ChatTools(myW->lineEdit_ChatInput);
-	connect(this, SIGNAL(signalChatMessage(QString, QString)), this, SLOT(receiveMessage(QString, QString)));
+
 }
 
 Chat::~Chat()
@@ -41,7 +39,8 @@ Chat::~Chat()
 }
 
 void Chat::sendMessage() {
-
+	
+	fillChatLinesHistory(myW->lineEdit_ChatInput->text());
 	myW->getSession().sendChatMessage(myW->lineEdit_ChatInput->text().toUtf8().constData());
 	myW->lineEdit_ChatInput->setText("");
 }

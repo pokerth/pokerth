@@ -35,8 +35,6 @@ GuiWrapper::GuiWrapper(ConfigFile *c) : myLog(0), myW(0), myConfig(c)
 	myW = new mainWindowImpl(myConfig);
 	myW->show();
 	myLog = new Log(myW, myConfig);
-	myChat = new Chat(myW, myConfig);
-
 }
 
 
@@ -140,7 +138,7 @@ void GuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned p
 void GuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) { myW->signalNetClientGameListPlayerLeft(gameId, playerId); }
 
 void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { myW->signalNetClientGameStart(game); }
-void GuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { myChat->signalChatMessage(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
+void GuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { myW->signalNetClientChatMsg(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
 void GuiWrapper::SignalNetClientWaitDialog() { myW->signalShowClientDialog(); }
 
 void GuiWrapper::SignalNetServerSuccess(int /*actionID*/) { }

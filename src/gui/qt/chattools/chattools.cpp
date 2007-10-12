@@ -63,7 +63,7 @@ void ChatTools::nickAutoCompletition() {
 	if(nickAutoCompletitionCounter == 0) {
 
 		if(myNickTreeWidget) {
-			cout << "use Treewidget niclist" << endl;
+// 			cout << "use Treewidget niclist" << endl;
 			QTreeWidgetItemIterator it(myNickTreeWidget);
 			while (*it) {
 				if ((*it)->text(0).startsWith(myChatStringList.last(), Qt::CaseInsensitive) && myChatStringList.last() != "")
@@ -73,11 +73,14 @@ void ChatTools::nickAutoCompletition() {
 		}
 
 		if(!myNickStringList.isEmpty()) {
-			cout << "use static nickList" << endl;
+// 			cout << "use static nickList" << endl;
 
 			QStringListIterator it(myNickStringList);
-     			while (it.hasNext())
-          			cout << it.next().toLocal8Bit().constData() << endl;
+     			while (it.hasNext()) {
+				QString next = it.next();
+          			if (next.startsWith(myChatStringList.last(), Qt::CaseInsensitive) && myChatStringList.last() != "")
+					matchStringList << next;
+			}
 			//TODO code for static nickList
 		}
 	}
@@ -91,6 +94,8 @@ void ChatTools::nickAutoCompletition() {
 		
 		myChatStringList.removeLast();
 
+// 		cout << nickAutoCompletitionCounter << endl;
+
 		if(nickAutoCompletitionCounter == 0) {
 		//first one
 			lastChatString = myChatStringList.join(" ");
@@ -98,6 +103,8 @@ void ChatTools::nickAutoCompletition() {
 		}
 
 		if(nickAutoCompletitionCounter == lastMatchStringList.size()) nickAutoCompletitionCounter = 0;
+
+		cout << nickAutoCompletitionCounter << endl;
 
 // 		cout << nickAutoCompletitionCounter << "\n";
 			

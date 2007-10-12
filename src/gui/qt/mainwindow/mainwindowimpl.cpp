@@ -59,7 +59,7 @@
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
-     : QMainWindow(parent), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), breakAfterActualHand(FALSE)
+     : QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), breakAfterActualHand(FALSE)
 {
 	int i;
 
@@ -533,9 +533,11 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this, myConfig);
 	myAboutPokerthDialog = new aboutPokerthImpl(this, myConfig);
 	myGameLobbyDialog = new gameLobbyDialogImpl(this, myConfig);
-	
+
 	myStartNetworkGameDialog->setMyW(this);
 	myGameLobbyDialog->setMyW(this);
+
+	myChat = new Chat(this, myConfig);
 
 // 	//ShortCuts 
 // 	QShortcut *quitPokerTHKeys = new QShortcut(QKeySequence(Qt::Key_Control + Qt::Key_Q), this);
@@ -602,6 +604,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect( tabWidget_Left, SIGNAL( currentChanged(int) ), this, SLOT( tabSwitchAction() ) );
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), this, SLOT( checkChatInputLength(QString) ) );
+	connect( lineEdit_ChatInput, SIGNAL( textEdited (QString) ), myChat, SLOT( setChatTextEdited() ) );
 
 	//Nachrichten Thread-Save
 	connect(this, SIGNAL(signalInitGui(int)), this, SLOT(initGui(int)));
@@ -682,6 +685,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), this, SLOT(networkNotification(int)));
 	connect(this, SIGNAL(signalNetServerError(int, int)), this, SLOT(networkError(int, int)));
 	connect(this, SIGNAL(signalNetClientGameStart(boost::shared_ptr<Game>)), this, SLOT(networkStart(boost::shared_ptr<Game>)));
+
+	//Chat Messages	
+	connect(this, SIGNAL(signalNetClientChatMsg(QString, QString)), myChat, SLOT(receiveMessage(QString, QString)));
 
 	connect(this, SIGNAL(signalIrcConnect(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(connected(QString)));
 	connect(this, SIGNAL(signalIrcSelfJoined(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(selfJoined(QString, QString)));

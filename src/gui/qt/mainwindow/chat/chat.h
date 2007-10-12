@@ -37,9 +37,6 @@ public:
 
 	~Chat();
 
-signals:
-	void signalChatMessage(QString playerName, QString msg);
-
 public slots:
 	
 	void sendMessage();

@@ -67,8 +67,7 @@ public:
 	void setSession(boost::shared_ptr<Session> session);
 
 	void setLog(Log* l) { myLog = l; }
-	void setChat(Chat* c) { myChat = c; }
-
+	
 	SDLPlayer* getMySDLPlayer() const { return mySDLPlayer; }
 	
 	void setSpeeds();
@@ -140,6 +139,7 @@ signals:
 	void signalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
 	void signalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
 	void signalNetClientGameStart(boost::shared_ptr<Game> game);
+	void signalNetClientChatMsg(QString nickName, QString msg);
 
 	void signalIrcConnect(QString server);
 	void signalIrcSelfJoined(QString nickName, QString channel);
