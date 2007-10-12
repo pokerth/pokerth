@@ -3548,6 +3548,11 @@ void mainWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 				tr("Could not start game: Synchronization failed."),
 				QMessageBox::Close); }
 		break;
+		case ERR_NET_SERVER_MAINTENANCE:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The server is down for maintenance. Please try again later."),
+				QMessageBox::Close); }
+		break;
 		default:  { QMessageBox::warning(this, tr("Network Error"),
 				tr("An internal error occured."),
 				QMessageBox::Close); }

@@ -103,6 +103,7 @@ using namespace std;
 #define NET_ERR_INIT_INVALID_PASSWORD			0x0004
 #define NET_ERR_INIT_PLAYER_NAME_IN_USE			0x0005
 #define NET_ERR_INIT_INVALID_PLAYER_NAME		0x0006
+#define NET_ERR_INIT_SERVER_MAINTENANCE			0x0007
 #define NET_ERR_AVATAR_TOO_LARGE				0x0010
 #define NET_ERR_AVATAR_WRONG_SIZE				0x0011
 #define NET_ERR_JOIN_GAME_UNKNOWN_GAME			0x0020
@@ -4347,6 +4348,9 @@ NetPacketError::SetData(const NetPacketError::Data &inData)
 		case ERR_NET_INVALID_PLAYER_NAME :
 			tmpData->errorReason = htons(NET_ERR_INIT_INVALID_PLAYER_NAME);
 			break;
+		case ERR_NET_SERVER_MAINTENANCE :
+			tmpData->errorReason = htons(NET_ERR_INIT_SERVER_MAINTENANCE);
+			break;
 		case ERR_NET_AVATAR_TOO_LARGE :
 			tmpData->errorReason = htons(NET_ERR_AVATAR_TOO_LARGE);
 			break;
@@ -4398,6 +4402,9 @@ NetPacketError::GetData(NetPacketError::Data &outData) const
 			break;
 		case NET_ERR_INIT_INVALID_PLAYER_NAME :
 			outData.errorCode = ERR_NET_INVALID_PLAYER_NAME;
+			break;
+		case NET_ERR_INIT_SERVER_MAINTENANCE :
+			outData.errorCode = ERR_NET_SERVER_MAINTENANCE;
 			break;
 		case NET_ERR_AVATAR_TOO_LARGE :
 			outData.errorCode = ERR_NET_AVATAR_TOO_LARGE;

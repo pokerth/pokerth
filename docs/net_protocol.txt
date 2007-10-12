@@ -826,6 +826,7 @@ Error Reason:
 	0x0004 - Init - Invalid Password
 	0x0005 - Init - Player Name already in use
 	0x0006 - Init - Invalid Player Name
+	0x0007 - Init - Server Maintenance
 	0x0010 - Avatar - Too large
 	0x0011 - Avatar - Wrong size
 	0x0020 - Join Game - Unknown Game
