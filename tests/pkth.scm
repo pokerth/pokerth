@@ -188,53 +188,57 @@
 ;;; Header constructors
 ;;;
 
-(define (pkth-create-packet type data)
-  (append
-   (uint16->bytes type)
-   (uint16->bytes (+ pkth-header-length-common (apply + (map length data))))
-   (apply append data)))
+(define pkth-create-packet
+  (lambda (type data)
+    (append
+     (uint16->bytes type)
+     (uint16->bytes (+ pkth-header-length-common (apply + (map length data))))
+     (apply append data))))
 
-(define (pkth-create-md5 m0 m1 m2 m3 m4 m5 m6 m7 m8 m9 mA mB mC mD mE mF)
-  (append
-   (uint8->bytes m0)
-   (uint8->bytes m1)
-   (uint8->bytes m2)
-   (uint8->bytes m3)
-   (uint8->bytes m4)
-   (uint8->bytes m5)
-   (uint8->bytes m6)
-   (uint8->bytes m7)
-   (uint8->bytes m8)
-   (uint8->bytes m9)
-   (uint8->bytes mA)
-   (uint8->bytes mB)
-   (uint8->bytes mC)
-   (uint8->bytes mD)
-   (uint8->bytes mE)
-   (uint8->bytes mF)))
+(define pkth-create-md5
+  (lambda (m0 m1 m2 m3 m4 m5 m6 m7 m8 m9 mA mB mC mD mE mF)
+    (append
+     (uint8->bytes m0)
+     (uint8->bytes m1)
+     (uint8->bytes m2)
+     (uint8->bytes m3)
+     (uint8->bytes m4)
+     (uint8->bytes m5)
+     (uint8->bytes m6)
+     (uint8->bytes m7)
+     (uint8->bytes m8)
+     (uint8->bytes m9)
+     (uint8->bytes mA)
+     (uint8->bytes mB)
+     (uint8->bytes mC)
+     (uint8->bytes mD)
+     (uint8->bytes mE)
+     (uint8->bytes mF))))
 
-(define (pkth-create-init-ex version-major version-minor privacy-flags avatar-md5 password player-name)
-  (pkth-create-packet
-   pkth-type-init
-   (list
-    (uint16->bytes version-major)
-    (uint16->bytes version-minor)
-    (uint16->bytes (string-length password))
-    (uint16->bytes (string-length player-name))
-    (uint16->bytes privacy-flags)
-    (uint16->bytes 0)
-    avatar-md5
-    (append-padding (string->bytes password))
-    (append-padding (string->bytes player-name)))))
+(define pkth-create-init-ex
+  (lambda (version-major version-minor privacy-flags avatar-md5 password player-name)
+    (pkth-create-packet
+     pkth-type-init
+     (list
+      (uint16->bytes version-major)
+      (uint16->bytes version-minor)
+      (uint16->bytes (string-length password))
+      (uint16->bytes (string-length player-name))
+      (uint16->bytes privacy-flags)
+      (uint16->bytes 0)
+      avatar-md5
+      (append-padding (string->bytes password))
+      (append-padding (string->bytes player-name))))))
 
-(define (pkth-create-init avatar-md5 password player-name)
-  (pkth-create-init-ex
-   pkth-version-major
-   pkth-version-minor
-   (if (null? avatar-md5) 0 pkth-privacy-flag-show-avatar)
-   avatar-md5
-   password
-   player-name))
+(define pkth-create-init
+  (lambda (avatar-md5 password player-name)
+    (pkth-create-init-ex
+     pkth-version-major
+     pkth-version-minor
+     (if (null? avatar-md5) 0 pkth-privacy-flag-show-avatar)
+     avatar-md5
+     password
+     player-name)))
 
 #!
 (pkth-create-init
@@ -247,21 +251,23 @@
  "hallo")
 !#
 
-(define (pkth-create-init-ack-ex game-version beta-revision session-id player-id)
-  (pkth-create-packet
-   pkth-type-init-ack
-   (list
-    (uint16->bytes game-version)
-    (uint16->bytes beta-revision)
-    (uint32->bytes session-id)
-    (uint32->bytes player-id))))
+(define pkth-create-init-ack-ex
+  (lambda (game-version beta-revision session-id player-id)
+    (pkth-create-packet
+     pkth-type-init-ack
+     (list
+      (uint16->bytes game-version)
+      (uint16->bytes beta-revision)
+      (uint32->bytes session-id)
+      (uint32->bytes player-id)))))
 
-(define (pkth-create-init-ack session-id player-id)
-  (pkth-create-init-ack-ex
-   pkth-game-version
-   pkth-beta-revision
-   session-id
-   player-id))
+(define pkth-create-init-ack
+  (lambda (session-id player-id)
+    (pkth-create-init-ack-ex
+     pkth-game-version
+     pkth-beta-revision
+     session-id
+     player-id)))
 
 #!
 (pkth-create-init-ack #x66666666 #x88888888)
@@ -285,6 +291,53 @@
 (pkth-assert-length '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16) 16)
 !#
 
+(define pkth-is-valid-type?
+  (lambda (type)
+    (or
+     (= type pkth-type-init)
+     (= type pkth-type-init-ack)
+     (= type pkth-type-retrieve-avatar)
+     (= type pkth-type-avatar-header)
+     (= type pkth-type-avatar-file)
+     (= type pkth-type-avatar-end)
+     (= type pkth-type-unknown-avatar)
+     (= type pkth-type-game-list-new)
+     (= type pkth-type-game-list-update)
+     (= type pkth-type-game-list-player-joined)
+     (= type pkth-type-game-list-player-left)
+     (= type pkth-type-game-list-admin-changed)
+     (= type pkth-type-retrieve-player-info)
+     (= type pkth-type-player-info)
+     (= type pkth-type-unknown-player-id)
+     (= type pkth-type-create-game)
+     (= type pkth-type-join-game)
+     (= type pkth-type-join-game-ack)
+     (= type pkth-type-join-game-failed)
+     (= type pkth-type-player-joined)
+     (= type pkth-type-player-left)
+     (= type pkth-type-game-admin-changed)
+     (= type pkth-type-kick-player)
+     (= type pkth-type-leave-current-game)
+     (= type pkth-type-start-event)
+     (= type pkth-type-start-event-ack)
+     (= type pkth-type-game-start)
+     (= type pkth-type-hand-start)
+     (= type pkth-type-players-turn)
+     (= type pkth-type-players-action)
+     (= type pkth-type-players-action-done)
+     (= type pkth-type-players-action-rejected)
+     (= type pkth-type-deal-flop-cards)
+     (= type pkth-type-deal-turn-card)
+     (= type pkth-type-deal-river-card)
+     (= type pkth-type-all-in-show-cards)
+     (= type pkth-type-end-of-hand-show-cards)
+     (= type pkth-type-end-of-hand-hide-cards)
+     (= type pkth-type-end-of-game)
+     (= type pkth-type-removed-from-game)
+     (= type pkth-type-send-chat-text)
+     (= type pkth-type-chat-text)
+     (= type pkth-type-error))))
+
 ;;;
 ;;; Packet getter functions
 ;;;
@@ -292,7 +345,9 @@
 (define pkth-get-type
   (lambda (message)
     (pkth-assert-minimal-length message)
-    (bytes->uint16 (list-head (list-tail message pkth-offset-type) pkth-length-type))))
+    (let ((type (bytes->uint16 (list-head (list-tail message pkth-offset-type) pkth-length-type))))
+      (test-assert (pkth-is-valid-type? type))
+      type)))
 
 (define pkth-get-length
   (lambda (message)
@@ -303,6 +358,186 @@
   (lambda (message)
     (pkth-assert-minimal-length message)
     (list-tail message pkth-offset-data)))
+
+;;;
+;;; Type check functions
+;;;
+
+(define pkth-is-type-init?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-init)))
+
+(define pkth-is-type-init-ack?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-init-ack)))
+
+(define pkth-is-type-retrieve-avatar?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-retrieve-avatar)))
+
+(define pkth-is-type-avatar-header?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-avatar-header)))
+
+(define pkth-is-type-avatar-file?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-avatar-file)))
+
+(define pkth-is-type-avatar-end?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-avatar-end)))
+
+(define pkth-is-type-unknown-avatar?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-unknown-avatar)))
+
+(define pkth-is-type-game-list-new?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-game-list-new)))
+
+(define pkth-is-type-game-list-update?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-game-list-update)))
+
+(define pkth-is-type-game-list-player-joined?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-game-list-player-joined)))
+
+(define pkth-is-type-game-list-player-left?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-game-list-player-left)))
+
+(define pkth-is-type-game-list-admin-changed?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-game-list-admin-changed)))
+
+(define pkth-is-type-retrieve-player-info?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-retrieve-player-info)))
+
+(define pkth-is-type-player-info?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-player-info)))
+
+(define pkth-is-type-unknown-player-id?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-unknown-player-id)))
+
+(define pkth-is-type-unknown-player-id?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-unknown-player-id)))
+
+(define pkth-is-type-create-game?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-create-game)))
+
+(define pkth-is-type-join-game?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-join-game)))
+
+(define pkth-is-type-join-game-ack?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-join-game-ack)))
+
+(define pkth-is-type-join-game-failed?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-join-game-failed)))
+
+(define pkth-is-type-player-joined?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-player-joined)))
+
+(define pkth-is-type-player-left?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-player-left)))
+
+(define pkth-is-type-game-admin-changed?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-game-admin-changed)))
+
+(define pkth-is-type-kick-player?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-kick-player)))
+
+(define pkth-is-type-leave-current-game?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-leave-current-game)))
+
+(define pkth-is-type-start-event?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-start-event)))
+
+(define pkth-is-type-start-event-ack?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-start-event-ack)))
+
+(define pkth-is-type-game-start?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-game-start)))
+
+(define pkth-is-type-hand-start?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-hand-start)))
+
+(define pkth-is-type-players-turn?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-players-turn)))
+
+(define pkth-is-type-players-action?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-players-action)))
+
+(define pkth-is-type-players-action-done?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-players-action-done)))
+
+(define pkth-is-type-players-action-rejected?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-players-action-rejected)))
+
+(define pkth-is-type-deal-flop-cards?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-deal-flop-cards)))
+
+(define pkth-is-type-deal-turn-card?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-deal-turn-card)))
+
+(define pkth-is-type-deal-river-card?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-deal-river-card)))
+
+(define pkth-is-type-all-in-show-cards?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-all-in-show-cards)))
+
+(define pkth-is-type-end-of-hand-show-cards?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-end-of-hand-show-cards)))
+
+(define pkth-is-type-end-of-hand-hide-cards?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-end-of-hand-hide-cards)))
+
+(define pkth-is-type-end-of-game?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-end-of-game)))
+
+(define pkth-is-type-removed-from-game?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-removed-from-game)))
+
+(define pkth-is-type-send-chat-text?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-send-chat-text)))
+
+(define pkth-is-type-chat-text?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-chat-text)))
+
+(define pkth-is-type-error?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-error)))
 
 ;;; pkth-type-init
 
