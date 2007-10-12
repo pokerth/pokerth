@@ -250,6 +250,7 @@ struct GCC_PACKED NetPacketPlayerInfoData
 	u_int32_t			playerId;
 	u_int16_t			playerFlags;
 	u_int16_t			playerNameLength;
+	u_int32_t			reserved;
 };
 
 struct GCC_PACKED NetPacketUnknownPlayerIdData
