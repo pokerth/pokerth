@@ -50,37 +50,49 @@
 (define pkth-version-major                      2)
 (define pkth-version-minor                      0)
 
+;;; PokerTH game version
+(define pkth-game-version                       #x0006)
+(define pkth-beta-revision                      #x0000)
+
 (define pkth-type-init                          #x0001)
 (define pkth-type-init-ack                      #x0002)
-(define pkth-type-game-list-new                 #x0003)
-(define pkth-type-game-list-update              #x0004)
-(define pkth-type-game-list-player-joined       #x0005)
-(define pkth-type-game-list-player-left         #x0006)
-(define pkth-type-retrieve-player-info          #x0007)
-(define pkth-type-player-info                   #x0008)
-(define pkth-type-create-game                   #x0009)
-(define pkth-type-join-game                     #x000A)
-(define pkth-type-join-game-ack                 #x000B)
-(define pkth-type-join-game-failed              #x000C)
-(define pkth-type-player-joined                 #x000D)
-(define pkth-type-player-left                   #x000E)
-(define pkth-type-game-admin-changed            #x000F)
-(define pkth-type-kick-player                   #x0010)
-(define pkth-type-leave-current-game            #x0011)
-(define pkth-type-start-event                   #x0012)
-(define pkth-type-game-start                    #x0013)
-(define pkth-type-hand-start                    #x0014)
-(define pkth-type-players-turn                  #x0015)
-(define pkth-type-players-action                #x0016)
-(define pkth-type-players-action-done           #x0017)
-(define pkth-type-players-action-rejected       #x0018)
-(define pkth-type-deal-flop-cards               #x0019)
-(define pkth-type-deal-turn-card                #x001A)
-(define pkth-type-deal-river-card               #x001B)
-(define pkth-type-all-in-show-cards             #x001C)
-(define pkth-type-end-of-hand-show-cards        #x001D)
-(define pkth-type-end-of-hand-hide-cards        #x001E)
-(define pkth-type-end-of-game                   #x001F)
+(define pkth-type-retrieve-avatar               #x0003)
+(define pkth-type-avatar-header                 #x0004)
+(define pkth-type-avatar-file                   #x0005)
+(define pkth-type-avatar-end                    #x0006)
+(define pkth-type-unknown-avatar                #x0007)
+(define pkth-type-game-list-new                 #x0010)
+(define pkth-type-game-list-update              #x0011)
+(define pkth-type-game-list-player-joined       #x0012)
+(define pkth-type-game-list-player-left         #x0013)
+(define pkth-type-game-list-admin-changed       #x0014)
+(define pkth-type-retrieve-player-info          #x0020)
+(define pkth-type-player-info                   #x0021)
+(define pkth-type-unknown-player-id             #x0022)
+(define pkth-type-create-game                   #x0030)
+(define pkth-type-join-game                     #x0031)
+(define pkth-type-join-game-ack                 #x0032)
+(define pkth-type-join-game-failed              #x0033)
+(define pkth-type-player-joined                 #x0034)
+(define pkth-type-player-left                   #x0035)
+(define pkth-type-game-admin-changed            #x0036)
+(define pkth-type-kick-player                   #x0040)
+(define pkth-type-leave-current-game            #x0041)
+(define pkth-type-start-event                   #x0042)
+(define pkth-type-start-event-ack               #x0043)
+(define pkth-type-game-start                    #x0050)
+(define pkth-type-hand-start                    #x0051)
+(define pkth-type-players-turn                  #x0052)
+(define pkth-type-players-action                #x0053)
+(define pkth-type-players-action-done           #x0054)
+(define pkth-type-players-action-rejected       #x0055)
+(define pkth-type-deal-flop-cards               #x0060)
+(define pkth-type-deal-turn-card                #x0061)
+(define pkth-type-deal-river-card               #x0062)
+(define pkth-type-all-in-show-cards             #x0063)
+(define pkth-type-end-of-hand-show-cards        #x0064)
+(define pkth-type-end-of-hand-hide-cards        #x0065)
+(define pkth-type-end-of-game                   #x0070)
 
 (define pkth-type-removed-from-game             #x0100)
 
@@ -118,6 +130,10 @@
 (define pkth-err-init-invalid-password          #x0004)
 (define pkth-err-init-player-name-in-use        #x0005)
 (define pkth-err-init-invalid-player-name       #x0006)
+(define pkth-err-init-server-maintenance        #x0007)
+(define pkth-err-avatar-too-large               #x0010)
+(define pkth-err-avatar-wrong-size              #x0011)
+(define pkth-err-join-game-unknown-game         #x0020)
 (define pkth-err-general-invalid-packet         #xFF01)
 (define pkth-err-general-invalid-state          #xFF02)
 (define pkth-err-general-player-kicked          #xFF03)
@@ -159,12 +175,14 @@
 (define pkth-init-offset-password               (+ pkth-init-offset-avatar-md5 pkth-length-md5))
 
 ;;; Value offsets pkth-type-init-ack
-(define pkth-init-ack-offset-session-id         pkth-offset-data)
+(define pkth-init-ack-offset-game-version       pkth-offset-data)
+(define pkth-init-ack-offset-beta-revision      (+ pkth-init-ack-offset-game-version pkth-length-version))
+(define pkth-init-ack-offset-session-id         (+ pkth-init-ack-offset-beta-revision pkth-length-version))
 (define pkth-init-ack-offset-player-id          (+ pkth-init-ack-offset-session-id pkth-length-session-id))
 
 ;;; Minimum/maximum packet length
 (define pkth-minimum-message-length             8)
-(define pkth-maximum-message-length             264)
+(define pkth-maximum-message-length             268)
 
 ;;;
 ;;; Header constructors
@@ -209,26 +227,44 @@
     (append-padding (string->bytes password))
     (append-padding (string->bytes player-name)))))
 
-(define (pkth-create-init privacy-flags avatar-md5 password player-name)
-  (pkth-create-init-ex pkth-version-major pkth-version-minor privacy-flags avatar-md5 password player-name))
+(define (pkth-create-init avatar-md5 password player-name)
+  (pkth-create-init-ex
+   pkth-version-major
+   pkth-version-minor
+   (if (null? avatar-md5) 0 pkth-privacy-flag-show-avatar)
+   avatar-md5
+   password
+   player-name))
 
 #!
 (pkth-create-init
- pkth-privacy-flag-show-avatar
  (pkth-create-md5 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16)
+ ""
+ "hallo")
+(pkth-create-init
+ '()
  ""
  "hallo")
 !#
 
-(define (pkth-create-init-ack session-id player-id)
+(define (pkth-create-init-ack-ex game-version beta-revision session-id player-id)
   (pkth-create-packet
    pkth-type-init-ack
    (list
+    (uint16->bytes game-version)
+    (uint16->bytes beta-revision)
     (uint32->bytes session-id)
     (uint32->bytes player-id))))
 
+(define (pkth-create-init-ack session-id player-id)
+  (pkth-create-init-ack-ex
+   pkth-game-version
+   pkth-beta-revision
+   session-id
+   player-id))
+
 #!
-(pkth-create-init-ack #x6666 #x8888)
+(pkth-create-init-ack #x66666666 #x88888888)
 !#
 
 (define pkth-assert-minimal-length
@@ -276,7 +312,6 @@
    sock
    (bytes->string
     (pkth-create-init
-     pkth-privacy-flag-show-avatar
      (pkth-create-md5 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16)
      ""
      "hallo")))
