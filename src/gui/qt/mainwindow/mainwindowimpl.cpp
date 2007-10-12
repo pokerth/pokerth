@@ -1355,10 +1355,9 @@ void mainWindowImpl::refreshPlayerName() {
 QStringList mainWindowImpl::getPlayerNicksList() {
 
 	QStringList list;
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 	PlayerListConstIterator it_c;
 	
-	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
+	for (it_c=mySession->getCurrentGame()->getSeatsList()->begin(); it_c!=mySession->getCurrentGame()->getSeatsList()->end(); it_c++) {
 		list << QString::fromUtf8((*it_c)->getMyName().c_str());		
 	}
 	

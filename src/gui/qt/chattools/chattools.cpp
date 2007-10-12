@@ -104,8 +104,6 @@ void ChatTools::nickAutoCompletition() {
 
 		if(nickAutoCompletitionCounter == lastMatchStringList.size()) nickAutoCompletitionCounter = 0;
 
-		cout << nickAutoCompletitionCounter << endl;
-
 // 		cout << nickAutoCompletitionCounter << "\n";
 			
 		if(lastChatString == "")	
