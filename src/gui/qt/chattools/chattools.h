@@ -29,7 +29,7 @@ class ChatTools : public QObject
 Q_OBJECT
 
 public:
-	ChatTools(QLineEdit* l, QTreeWidget *t = NULL, QStringList *s = NULL);
+	ChatTools(QLineEdit* l, QTreeWidget *t = NULL);
 
 	~ChatTools();
 
@@ -42,6 +42,8 @@ public slots:
 	void nickAutoCompletition();
 	void setChatTextEdited();
 
+	void setPlayerNicksList(QStringList value) { myNickStringList = value; }
+
 private:
 	QStringList chatLinesHistory;
 	QString lastChatString;
@@ -50,7 +52,7 @@ private:
 
 	QLineEdit* myLineEdit;
 	QTreeWidget *myNickTreeWidget;
-	QStringList *myNickStringList;
+	QStringList myNickStringList;
 // friend class GuiWrapper;
 };
 

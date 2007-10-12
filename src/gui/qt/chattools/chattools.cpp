@@ -23,7 +23,7 @@
 using namespace std;
 
 
-ChatTools::ChatTools(QLineEdit* l, QTreeWidget *t, QStringList *s) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(s)
+ChatTools::ChatTools(QLineEdit* l, QTreeWidget *t) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL)
 {
 
 }
@@ -63,6 +63,7 @@ void ChatTools::nickAutoCompletition() {
 	if(nickAutoCompletitionCounter == 0) {
 
 		if(myNickTreeWidget) {
+			cout << "use Treewidget niclist" << endl;
 			QTreeWidgetItemIterator it(myNickTreeWidget);
 			while (*it) {
 				if ((*it)->text(0).startsWith(myChatStringList.last(), Qt::CaseInsensitive) && myChatStringList.last() != "")
@@ -71,7 +72,12 @@ void ChatTools::nickAutoCompletition() {
 			}
 		}
 
-		if(myNickStringList) {
+		if(!myNickStringList.isEmpty()) {
+			cout << "use static nickList" << endl;
+
+			QStringListIterator it(myNickStringList);
+     			while (it.hasNext())
+          			cout << it.next().toLocal8Bit().constData() << endl;
 			//TODO code for static nickList
 		}
 	}

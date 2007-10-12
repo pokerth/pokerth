@@ -167,6 +167,7 @@ public slots:
 	void refreshGroupbox(int =-1, int =-1);
 	void refreshAll();
 	void refreshPlayerName();
+	QStringList getPlayerNicksList();
 	void refreshGameLabels(int);
 	void refreshButton();
 	void refreshPlayerAvatar();
@@ -278,7 +279,7 @@ public slots:
 	void breakButtonClicked();
 
 	void keyPressEvent ( QKeyEvent*);
-// 	bool event ( QEvent * );
+	bool eventFilter(QObject *obj, QEvent *event);
 
 	void switchChatWindow();
 	void switchHelpWindow();
@@ -445,6 +446,9 @@ private:
 	int statisticArray[15];
 
 	QSemaphore guiUpdateSemaphore;
+
+	int keyUpDownChatCounter;
+	
 
 friend class GuiWrapper;
 };

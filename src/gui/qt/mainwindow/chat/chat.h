@@ -21,13 +21,12 @@
 #define CHAT_H
 
 #include <string>
-
-#include "configfile.h"
-
 #include <QtCore>
 
 
 class mainWindowImpl;
+class ChatTools;
+class ConfigFile;
 
 class Chat : public QObject
 {
@@ -48,12 +47,21 @@ public slots:
 	void checkInvisible();
 	void checkInputLength(QString);
 	void clearNewGame();
+
+	ChatTools* getMyChatTools() const { return myChatTools; }
+
+	void fillChatLinesHistory(QString fillString);
+	void showChatHistoryIndex(int index);
+	int getChatLinesHistorySize();
+	void nickAutoCompletition();
+	void setChatTextEdited();
+	void setPlayerNicksList(QStringList);
 		
 private:
 	
 	mainWindowImpl *myW;
 	ConfigFile *myConfig;
-	
+	ChatTools *myChatTools;
 
 	
 friend class GuiWrapper;

@@ -541,6 +541,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 // 	QShortcut *quitPokerTHKeys = new QShortcut(QKeySequence(Qt::Key_Control + Qt::Key_Q), this);
 // 	connect( quitPokerTHKeys, SIGNAL(activated() ), actionQuit, SLOT( trigger() ) );
 
+	lineEdit_ChatInput->installEventFilter(this);
 
 	//Connects
 	connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
@@ -1342,6 +1343,19 @@ void mainWindowImpl::refreshPlayerName() {
 		
 	}
 
+}
+
+QStringList mainWindowImpl::getPlayerNicksList() {
+
+	QStringList list;
+	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	PlayerListConstIterator it_c;
+	
+	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
+		list << QString::fromUtf8((*it_c)->getMyName().c_str());		
+	}
+	
+	return list;
 }
 
 void mainWindowImpl::refreshPlayerAvatar() {
@@ -3575,6 +3589,9 @@ void mainWindowImpl::networkNotification(int notificationId)
 void mainWindowImpl::networkStart(boost::shared_ptr<Game> game)
 {
 	mySession->startClientGame(game);
+
+	//send playerNicksList to chat for nick-autocompletition
+	myChat->setPlayerNicksList(getPlayerNicksList());
 }
 
 void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
@@ -3611,24 +3628,41 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
  		playingMode = 2;
  		statusBar()->showMessage(tr("Auto mode set: Check or fold."), 5000);
  	}
-// 	if (event->key() == Qt::Key_S) { setLabelArray[0]->startTimeOutAnimation(myConfig->readConfigInt("NetTimeOutPlayerAction"),TRUE); } //s	
-	if (event->key() == 16777249) { 
+	if (event->key() == 16777249) {  //CTRL
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;
-// 		QTimer::SingleShot
-	} //CTRL
-// 	if (event->key() == 65) {  pixmapLabel_card0a->setUpdatesEnabled(FALSE); }     
-// 	if (event->key() == 66) {  label_logo->hide();	}
-
+	} 
 	if (event->key() == Qt::Key_Escape && (myActionIsBet || myActionIsRaise)) { 
 		meInAction(); 
 	} 
+	if (event->key() == Qt::Key_Up && lineEdit_ChatInput->hasFocus()) { 
+		if((keyUpDownChatCounter + 1) <= myChat->getChatLinesHistorySize()) { keyUpDownChatCounter++; }
+// 		std::cout << "Up keyUpDownChatCounter: " << keyUpDownChatCounter << "\n";
+		myChat->showChatHistoryIndex(keyUpDownChatCounter); 
+	}
+	else if(event->key() == Qt::Key_Down && lineEdit_ChatInput->hasFocus()) { 
+		if((keyUpDownChatCounter - 1) >= 0) { keyUpDownChatCounter--; }
+// 		std::cout << "Down keyUpDownChatCounter: " << keyUpDownChatCounter << "\n";
+		myChat->showChatHistoryIndex(keyUpDownChatCounter); 
+	}
+	else { keyUpDownChatCounter = 0; }
+	
+
 }
 
-// bool mainWindowImpl::event ( QEvent * event )  { 
+bool mainWindowImpl::eventFilter(QObject *obj, QEvent *event)
+{
+	QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-// 	if(event->type() == QEvent::MouseMove) { event->setAccepted ( FALSE );  }
-// }
+	if (obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) 
+	{
+		myChat->nickAutoCompletition();
+		return true;
+	} else {
+		// pass the event on to the parent class
+		return QMainWindow::eventFilter(obj, event);
+	}
+}
 
 void mainWindowImpl::switchChatWindow() {
 

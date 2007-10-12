@@ -21,6 +21,8 @@
 
 #include "mainwindowimpl.h"
 #include "session.h"
+#include "chattools.h"
+#include "configfile.h"
 
 using namespace std;
 
@@ -28,6 +30,7 @@ Chat::Chat(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c)
 {
 	myW->setChat(this);
 
+	myChatTools = new ChatTools(myW->lineEdit_ChatInput);
 	connect(this, SIGNAL(signalChatMessage(QString, QString)), this, SLOT(receiveMessage(QString, QString)));
 }
 
@@ -69,12 +72,15 @@ void Chat::checkInputLength(QString string) {
 void Chat::clearNewGame() {
 
 	myW->textBrowser_Chat->clear();
-/*	QStringList wordList;
-	wordList << "alpha" << "omega" << "omicron" << "zeta";*/
-	
-// 	QCompleter *completer = new QCompleter(wordList, this);
-// 	completer->setCaseSensitivity(Qt::CaseInsensitive);
-// 	completer->setCompletionMode(QCompleter::InlineCompletion);
-// // 	lineEdit_ChatInput->setCompleter(completer);
-	
 }
+
+void Chat::setPlayerNicksList(QStringList nickList) {
+	//fill playerNicksList for nick-autocompletition		
+	myChatTools->setPlayerNicksList(nickList);
+}
+
+void Chat::fillChatLinesHistory(QString fillString) { myChatTools->fillChatLinesHistory(fillString); }
+int Chat::getChatLinesHistorySize() { return myChatTools->getChatLinesHistorySize(); }
+void Chat::showChatHistoryIndex(int index) { myChatTools->showChatHistoryIndex(index); }
+void Chat::nickAutoCompletition() { myChatTools->nickAutoCompletition(); }
+void Chat::setChatTextEdited() { myChatTools->setChatTextEdited(); }
