@@ -190,6 +190,7 @@ void startNetworkGameDialogImpl::clearDialog()
 void startNetworkGameDialogImpl::setSession(Session *session)
 {
 	mySession = session;
+	myChat->setSession(mySession);
 }
 
 void startNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {

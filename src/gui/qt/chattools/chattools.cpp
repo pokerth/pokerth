@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "chattools.h"
+#include "session.h"
 #include <iostream>
 
 using namespace std;
@@ -36,8 +37,11 @@ ChatTools::~ChatTools()
 void ChatTools::sendMessage() {
 	
 	fillChatLinesHistory(myLineEdit->text());
-// 	myW->getSession().sendChatMessage(myW->lineEdit_ChatInput->text().toUtf8().constData());
-	myLineEdit->setText("");
+	if(mySession) {
+		mySession->sendChatMessage(myLineEdit->text().toUtf8().constData());
+		myLineEdit->setText("");
+	}
+	else { cout << "Session is not valid" << endl;}
 }
 
 void ChatTools::receiveMessage(QString playerName, QString message) { 

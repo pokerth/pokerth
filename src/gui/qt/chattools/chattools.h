@@ -24,6 +24,8 @@
 #include <QtCore>
 #include <QtGui>
 
+class Session;
+
 class ChatTools : public QObject
 {
 Q_OBJECT
@@ -32,6 +34,8 @@ public:
 	ChatTools(QLineEdit* l, QTreeWidget *t = NULL, QTextBrowser *b = NULL);
 
 	~ChatTools();
+
+       	void setSession(Session *session) { mySession = session; }
 
 public slots:
 	
@@ -55,11 +59,11 @@ private:
 	QStringList lastMatchStringList;
 	int nickAutoCompletitionCounter;
 
-	QLineEdit* myLineEdit;
+	QLineEdit *myLineEdit;
 	QTreeWidget *myNickTreeWidget;
 	QStringList myNickStringList;
-	QTextBrowser* myTextBrowser;
-
+	QTextBrowser *myTextBrowser;
+	Session *mySession; 
 // friend class GuiWrapper;
 };
 
