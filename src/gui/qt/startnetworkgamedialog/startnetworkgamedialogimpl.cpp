@@ -28,7 +28,7 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFi
 {
 	setupUi(this);
 
-	myChat = new ChatTools(lineEdit_ChatInput, treeWidget, textBrowser_ChatDisplay);
+	myChat = new ChatTools(lineEdit_ChatInput, myConfig, treeWidget, textBrowser_ChatDisplay, 1);
 
 	lineEdit_ChatInput->installEventFilter(this);
 

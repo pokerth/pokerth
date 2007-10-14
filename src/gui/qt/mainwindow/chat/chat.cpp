@@ -28,7 +28,7 @@ using namespace std;
 
 Chat::Chat(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c)
 {
-	myChatTools = new ChatTools(myW->lineEdit_ChatInput);
+	myChatTools = new ChatTools(myW->lineEdit_ChatInput, myConfig);
 
 }
 

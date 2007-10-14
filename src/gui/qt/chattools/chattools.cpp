@@ -19,12 +19,13 @@
  ***************************************************************************/
 #include "chattools.h"
 #include "session.h"
+#include "configfile.h"
 #include <iostream>
 
 using namespace std;
 
 
-ChatTools::ChatTools(QLineEdit* l, QTreeWidget *t, QTextBrowser *b) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL), myTextBrowser(b)
+ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, QTreeWidget *t, QTextBrowser *b, int notifyMode) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL), myTextBrowser(b), myNotifyMode(notifyMode), myConfig(c)
 {
 
 }
@@ -46,8 +47,26 @@ void ChatTools::sendMessage() {
 
 void ChatTools::receiveMessage(QString playerName, QString message) { 
 
-	if(myTextBrowser)
-		myTextBrowser->append(playerName + ": " + message); 
+	if(myTextBrowser) {
+
+		QString tempMsg;
+		if(message.contains(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()), Qt::CaseInsensitive)) {
+
+			switch (myNotifyMode) {
+				case 0: tempMsg = message;
+				break;
+				case 1:	tempMsg = QString("<b>"+message+"</b>");
+				break;
+				case 2: tempMsg = QString("<span style=\"color:#FFFF00;\">"+message+"</span>");
+				break;
+				default:;
+			}
+			myTextBrowser->append(playerName + ": " + tempMsg);
+		}
+		else {
+			myTextBrowser->append(playerName + ": " + message); 
+		}
+	}
 }
 
 void ChatTools::clearChat() {

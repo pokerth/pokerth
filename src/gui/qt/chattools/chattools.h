@@ -25,13 +25,14 @@
 #include <QtGui>
 
 class Session;
+class ConfigFile;
 
 class ChatTools : public QObject
 {
 Q_OBJECT
 
 public:
-	ChatTools(QLineEdit* l, QTreeWidget *t = NULL, QTextBrowser *b = NULL);
+	ChatTools(QLineEdit* l, ConfigFile *c, QTreeWidget *t = NULL, QTextBrowser *b = NULL, int notifyMode = 0);
 
 	~ChatTools();
 
@@ -64,6 +65,10 @@ private:
 	QStringList myNickStringList;
 	QTextBrowser *myTextBrowser;
 	Session *mySession; 
+	int myNotifyMode; // 0 == no notification, 1 == bold notification, 2 == yellow notification	
+	ConfigFile *myConfig;
+
+
 // friend class GuiWrapper;
 };
 
