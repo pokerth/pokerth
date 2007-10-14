@@ -3598,13 +3598,13 @@ void mainWindowImpl::networkNotification(int notificationId)
 		case NTF_NET_NEW_RELEASE_AVAILABLE:
 			// TODO use dialog with link to pokerth.net
 			{ QMessageBox::information(this, tr("Network Notification"),
-				tr("A new release of PokerTH is available. Please go to http://www.pokerth.net/ and download the latest version."),
+				tr("A new release of PokerTH is available. Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net/<a/> and download the latest version."),
 				QMessageBox::Close); }
 		break;
 		case NTF_NET_OUTDATED_BETA:
 			// TODO use dialog with link to pokerth.net
 			{ QMessageBox::information(this, tr("Network Notification"),
-				tr("This beta release of PokerTH is outdated. Please go to http://www.pokerth.net/ and download the latest version."),
+				tr("This beta release of PokerTH is outdated. Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net/<a/> and download the latest version."),
 				QMessageBox::Close); }
 		break;
 	}
