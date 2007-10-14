@@ -446,7 +446,7 @@ void Log::logPlayerWinsMsg(QString playerName, int pot) {
 
 // 	PlayerListConstIterator playerConstIt = currentHand->getActivePlayerIt(playerID);
 // 	assert( playerConstIt != currentHand->getActivePlayerList()->end() );
-	myW->textBrowser_Log->append("<span style=\"color:#FFFF00; font-weight:bold\">"+playerName+" wins "+QString::number(pot,10)+"$!</span><br>");
+	myW->textBrowser_Log->append("<span style=\"color:#FFFF00;\">"+playerName+" wins "+QString::number(pot,10)+"$!</span><br>");
 	
 	if(myConfig->readConfigInt("LogOnOff")) {
 	//if write logfiles is enabled
