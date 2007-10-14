@@ -32,7 +32,7 @@ using namespace std;
 
 LobbyChat::LobbyChat(gameLobbyDialogImpl* l, ConfigFile *c) : myLobby(l), myConfig(c)
 {
-	myChatTools = new ChatTools(myLobby->lineEdit_ChatInput, myConfig, myLobby->treeWidget_NickList);
+	myChatTools = new ChatTools(myLobby->lineEdit_ChatInput, myConfig, 1, myLobby->textBrowser_ChatDisplay, myLobby->treeWidget_NickList);
 }
 
 LobbyChat::~LobbyChat()

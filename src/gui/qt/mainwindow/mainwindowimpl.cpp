@@ -3678,7 +3678,7 @@ bool mainWindowImpl::eventFilter(QObject *obj, QEvent *event)
 {
 	QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-	if (obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) 
+	if (/*obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && */event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) 
 	{
 		myChat->nickAutoCompletition();
 		return true;

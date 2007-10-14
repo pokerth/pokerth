@@ -28,7 +28,7 @@ using namespace std;
 
 Chat::Chat(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c)
 {
-	myChatTools = new ChatTools(myW->lineEdit_ChatInput, myConfig);
+	myChatTools = new ChatTools(myW->lineEdit_ChatInput, myConfig, 2, myW->textBrowser_Chat);
 
 }
 
@@ -47,7 +47,7 @@ void Chat::sendMessage() {
 
 void Chat::receiveMessage(QString playerName, QString message) { 
 
-	myW->textBrowser_Chat->append(playerName + ": " + message); 
+	myChatTools->receiveMessage(playerName, message); 
 	checkInvisible();
 }
 

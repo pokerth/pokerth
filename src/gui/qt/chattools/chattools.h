@@ -32,7 +32,7 @@ class ChatTools : public QObject
 Q_OBJECT
 
 public:
-	ChatTools(QLineEdit* l, ConfigFile *c, QTreeWidget *t = NULL, QTextBrowser *b = NULL, int notifyMode = 0);
+	ChatTools(QLineEdit* l, ConfigFile *c, int notifyMode = 0, QTextBrowser *b = NULL, QTreeWidget *t = NULL );
 
 	~ChatTools();
 

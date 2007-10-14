@@ -25,7 +25,7 @@
 using namespace std;
 
 
-ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, QTreeWidget *t, QTextBrowser *b, int notifyMode) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL), myTextBrowser(b), myNotifyMode(notifyMode), myConfig(c)
+ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, int notifyMode, QTextBrowser *b, QTreeWidget *t) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL), myTextBrowser(b), myNotifyMode(notifyMode), myConfig(c)
 {
 
 }
