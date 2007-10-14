@@ -19,6 +19,9 @@
  ***************************************************************************/
 #include "localberopreflop.h"
 
+#include "localexception.h"
+#include "engine_msg.h"
+
 #include <handinterface.h>
 #include <game_defs.h>
 
@@ -87,7 +90,9 @@ void LocalBeRoPreflop::run() {
 			if(smallBlindPositionIt == getMyHand()->getRunningPlayerList()->end()) {
 
 				it = getMyHand()->getActivePlayerIt(getSmallBlindPositionId());
-				assert(it != getMyHand()->getActivePlayerList()->end());
+				if(it == getMyHand()->getActivePlayerList()->end()) {
+					throw LocalException(ERR_ACTIVE_PLAYER_NOT_FOUND);
+				}
 
 				if(it == getMyHand()->getActivePlayerList()->begin()) it = getMyHand()->getActivePlayerList()->end();
 				it--;
@@ -221,7 +226,9 @@ void LocalBeRoPreflop::run() {
 // 	cout << "currentPlayerID: " << getCurrentPlayersTurnId() << endl;
 
 	PlayerListConstIterator currentPlayersTurnIt = getMyHand()->getRunningPlayerIt( getCurrentPlayersTurnId() );
-	assert( currentPlayersTurnIt != getMyHand()->getRunningPlayerList()->end() );
+	if(currentPlayersTurnIt == getMyHand()->getRunningPlayerList()->end()) {
+		throw LocalException(ERR_RUNNING_PLAYER_NOT_FOUND);
+	}
 
 	currentPlayersTurnIt++;
 	if(currentPlayersTurnIt == getMyHand()->getRunningPlayerList()->end()) currentPlayersTurnIt = getMyHand()->getRunningPlayerList()->begin();
@@ -344,9 +351,11 @@ void LocalBeRoPreflop::run() {
 
 // 		getMyHand()->getPlayerArray()[getPlayersTurn()]->setMyTurn(1);
 
-		currentPlayersTurnConstIt = getMyHand()->getRunningPlayerIt( getCurrentPlayersTurnId() );
-		assert(currentPlayersTurnConstIt != getMyHand()->getRunningPlayerList()->end());
-		(*currentPlayersTurnConstIt)->setMyTurn(true);
+		currentPlayersTurnIt = getMyHand()->getRunningPlayerIt( getCurrentPlayersTurnId() );
+		if(currentPlayersTurnIt == getMyHand()->getRunningPlayerList()->end()) {
+			throw LocalException(ERR_RUNNING_PLAYER_NOT_FOUND);
+		}
+		(*currentPlayersTurnIt)->setMyTurn(true);
 
 // 		(*(getCurrentPlayersTurnIt()))->setMyTurn(true);
 

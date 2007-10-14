@@ -1,15 +1,26 @@
-//
-// C++ Implementation: localbero
-//
-// Description: 
-//
-//
-// Author: FThauer FHammer <webmaster@pokerth.net>, (C) 2007
-//
-// Copyright: See COPYING file that comes with this distribution
-//
-//
+/***************************************************************************
+ *   Copyright (C) 2006 by FThauer FHammer   *
+ *   f.thauer@web.de   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 #include "localbero.h"
+
+#include "localexception.h"
+#include "engine_msg.h"
 
 using namespace std;
 
@@ -28,7 +39,9 @@ LocalBeRo::LocalBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState g
 			break;
 		}
 	}
-	assert(it_c!=myHand->getActivePlayerList()->end());
+	if(it_c == myHand->getActivePlayerList()->end()) {
+		throw LocalException(ERR_ACTIVE_PLAYER_NOT_FOUND);
+	}
 
 	// determine smallBlindPosition
 	for(it_c=myHand->getActivePlayerList()->begin(); it_c!=myHand->getActivePlayerList()->end(); it_c++) {
@@ -37,7 +50,9 @@ LocalBeRo::LocalBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState g
 			break;
 		}
 	}
-	assert(it_c!=myHand->getActivePlayerList()->end());
+	if(it_c == myHand->getActivePlayerList()->end()) {
+		throw LocalException(ERR_ACTIVE_PLAYER_NOT_FOUND);
+	}
 
 
 
@@ -71,7 +86,9 @@ void LocalBeRo::nextPlayer() {
 // 	cout << "playerID in nextPlayer(): " << (*currentPlayersTurnIt)->getMyID() << endl;
 
 	PlayerListConstIterator currentPlayersTurnConstIt = myHand->getRunningPlayerIt(currentPlayersTurnId);
-	assert( currentPlayersTurnConstIt != myHand->getRunningPlayerList()->end() );
+	if(currentPlayersTurnConstIt == myHand->getRunningPlayerList()->end()) {
+		throw LocalException(ERR_RUNNING_PLAYER_NOT_FOUND);
+	}
 
 	(*currentPlayersTurnConstIt)->action();
 
@@ -156,11 +173,13 @@ void LocalBeRo::run() {
 				size_t i;
 			
 				// running player before smallBlind
-				bool runningPlayerFound = false;
+				bool formerRunningPlayerFound = false;
 				if(myHand->getActivePlayerList()->size() > 2) {
 		
 					it_1 = myHand->getActivePlayerIt(smallBlindPositionId);
-					assert( it_1 != myHand->getActivePlayerList()->end() );
+					if(it_1 == myHand->getActivePlayerList()->end()) {
+						throw LocalException(ERR_ACTIVE_PLAYER_NOT_FOUND);
+					}
 		
 					for(i=0; i<myHand->getActivePlayerList()->size(); i++) {	
 		
@@ -171,11 +190,13 @@ void LocalBeRo::run() {
 						// running player found
 						if(it_2 != myHand->getRunningPlayerList()->end()) {
 							firstRoundLastPlayersTurnId = (*it_2)->getMyUniqueID();
-							runningPlayerFound = true;
+							formerRunningPlayerFound = true;
 							break;
 						}
 					}
-					assert(runningPlayerFound);
+					if(!formerRunningPlayerFound) {
+						throw LocalException(ERR_FORMER_RUNNING_PLAYER_NOT_FOUND);
+					}
 				}
 				// heads up: bigBlind begins -> dealer/smallBlind is running player before bigBlind
 				else {
@@ -321,7 +342,9 @@ void LocalBeRo::run() {
 
 				// determine next running player
 				PlayerListConstIterator currentPlayersTurnIt = myHand->getRunningPlayerIt( currentPlayersTurnId );
-				assert( currentPlayersTurnIt != myHand->getRunningPlayerList()->end() );
+				if(currentPlayersTurnIt == myHand->getRunningPlayerList()->end()) {
+					throw LocalException(ERR_RUNNING_PLAYER_NOT_FOUND);
+				}
 			
 				currentPlayersTurnIt++;
 				if(currentPlayersTurnIt == myHand->getRunningPlayerList()->end()) currentPlayersTurnIt = myHand->getRunningPlayerList()->begin();
@@ -362,7 +385,9 @@ void LocalBeRo::run() {
 // 			if(myHand->getActivePlayerList()->size() < 3 && (myHand->getPlayerArray()[playersTurn]->getMyID() == dealerPosition || myHand->getPlayerArray()[playersTurn]->getMyID() == smallBlindPosition)) { firstRound = 0; }
 
 			currentPlayersTurnIt = myHand->getRunningPlayerIt( currentPlayersTurnId );
-			assert( currentPlayersTurnIt != myHand->getRunningPlayerList()->end() );
+			if(currentPlayersTurnIt == myHand->getRunningPlayerList()->end()) {
+				throw LocalException(ERR_RUNNING_PLAYER_NOT_FOUND);
+			}
 
 			(*currentPlayersTurnIt)->setMyTurn(true);
 

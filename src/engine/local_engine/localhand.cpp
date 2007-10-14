@@ -22,6 +22,9 @@
 #include "cardsvalue.h"
 #include <game_defs.h>
 
+#include "localexception.h"
+#include "engine_msg.h"
+
 #include <iostream>
 
 using namespace std;
@@ -377,7 +380,9 @@ void LocalHand::assignButtons() {
 
 	// DealerButton zuweisen
 	it = getSeatIt(dealerPosition);
-	assert(it != seatsList->end() );
+	if(it == seatsList->end()) {
+		throw LocalException(ERR_SEAT_NOT_FOUND);
+	}
 	(*it)->setMyButton(BUTTON_DEALER);
 
 
@@ -411,7 +416,9 @@ void LocalHand::assignButtons() {
 	// assign big blind next to small blind. ATTENTION: in heads up it is small blind
 	bool nextActivePlayerFound = false;
 	PlayerListIterator dealerPositionIt = getSeatIt(dealerPosition);
-	assert( dealerPositionIt != seatsList->end() );
+	if(dealerPositionIt == seatsList->end()) {
+		throw LocalException(ERR_SEAT_NOT_FOUND);
+	}
 
 	for(i=0; i<seatsList->size(); i++) {
 
@@ -434,7 +441,9 @@ void LocalHand::assignButtons() {
 		}
 
 	}
-	assert(nextActivePlayerFound);
+	if(!nextActivePlayerFound) {
+		throw LocalException(ERR_NEXT_ACTIVE_PLAYER_NOT_FOUND);
+	}
 
 
 

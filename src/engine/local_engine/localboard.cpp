@@ -22,6 +22,7 @@
 #include "handinterface.h"
 #include <game_defs.h>
 #include "localexception.h"
+#include "engine_msg.h"
 
 using namespace std;
 
@@ -158,7 +159,9 @@ void LocalBoard::distributePot() {
 
 			// determine the number of level winners
 			winnerCount = potLevel.size()-2;
-			assert(winnerCount);
+			if (!winnerCount) {
+				throw LocalException(ERR_NO_WINNER);
+			}
 
 			// distribute the pot level sum to level winners
 			mod = (potLevel[1])%winnerCount;
@@ -170,7 +173,9 @@ void LocalBoard::distributePot() {
 
 				for(j=2; j<potLevel.size(); j++) {
 					it = currentHand->getSeatIt(potLevel[j]);
-					assert(it != seatsList->end());
+					if(it == seatsList->end()) {
+						throw LocalException(ERR_SEAT_NOT_FOUND);
+					}
 					(*it)->setMyCash( (*it)->getMyCash() + ((potLevel[1])/winnerCount));
 				}
 
@@ -205,7 +210,9 @@ void LocalBoard::distributePot() {
 
 
 					it = currentHand->getSeatIt(winnerPointer);
-					assert(it != seatsList->end());
+					if(it == seatsList->end()) {
+						throw LocalException(ERR_SEAT_NOT_FOUND);
+					}
 					if(j<mod) {
 						(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount) + 1);
 					} else {

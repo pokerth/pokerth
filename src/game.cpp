@@ -22,6 +22,9 @@
 #include <enginefactory.h>
 #include <guiinterface.h>
 
+#include "localexception.h"
+#include "engine_msg.h"
+
 #include <iostream>
 #include <sstream>
 
@@ -199,7 +202,9 @@ void Game::initHand()
 	// Dealer-Button weiterschieben --> Achtung inactive -> TODO exception-rule !!!
 	bool nextDealerFound = false;
 	PlayerListConstIterator dealerPositionIt = actualHand->getSeatIt(dealerPosition);
-	assert( dealerPositionIt != seatsList->end() );
+	if(dealerPositionIt == seatsList->end()) {
+		throw LocalException(ERR_SEAT_NOT_FOUND);
+	}
 
 	for(i=0; i<seatsList->size(); i++) {
 
@@ -214,7 +219,9 @@ void Game::initHand()
 		}
 
 	}
-	assert(nextDealerFound);
+	if(!nextDealerFound) {
+		throw LocalException(ERR_NEXT_DEALER_NOT_FOUND);
+	}
 
 
 }
