@@ -66,7 +66,8 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 			break;
 		++player_i;
 	}
-	assert(player_i != player_end);
+	if (player_i == player_end)
+		throw LocalException(ERR_DEALER_NOT_FOUND);
 	dealerPosition = startData.startDealerPlayerId;
 
 	// Board erstellen
@@ -228,8 +229,6 @@ void Game::initHand()
 
 void Game::startHand()
 {
-	assert(actualHand);
-
 	//GUI bereinigen 
 	myGui->nextRoundCleanGui();
 
@@ -260,7 +259,8 @@ boost::shared_ptr<PlayerInterface> Game::getPlayerByUniqueId(unsigned id)
 boost::shared_ptr<PlayerInterface> Game::getCurrentPlayer()
 {
 	boost::shared_ptr<PlayerInterface> tmpPlayer = getPlayerByUniqueId(getCurrentHand()->getCurrentBeRo()->getCurrentPlayersTurnId());
-	assert(tmpPlayer.get());
+	if (!tmpPlayer.get())
+		throw LocalException(ERR_CURRENT_PLAYER_NOT_FOUND);
 	return tmpPlayer;
 }
 
