@@ -154,7 +154,7 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	PlayerListConstIterator it_c;
 	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
 
-	myW->textBrowser_Log->append("<b>## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##</b>");
+	myW->textBrowser_Log->append("<span style=\"font-size:large; font-weight:bold\">## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##</span>");
 
 
 // 	if(myConfig->readConfigInt("LogOnOff")) {
@@ -446,7 +446,7 @@ void Log::logPlayerWinsMsg(QString playerName, int pot) {
 
 // 	PlayerListConstIterator playerConstIt = currentHand->getActivePlayerIt(playerID);
 // 	assert( playerConstIt != currentHand->getActivePlayerList()->end() );
-	myW->textBrowser_Log->append(playerName+" wins "+QString::number(pot,10)+"$!!! ");
+	myW->textBrowser_Log->append("<span style=\"color:#FFFF00; font-weight:bold\">"+playerName+" wins "+QString::number(pot,10)+"$!</span><br>");
 	
 	if(myConfig->readConfigInt("LogOnOff")) {
 	//if write logfiles is enabled
