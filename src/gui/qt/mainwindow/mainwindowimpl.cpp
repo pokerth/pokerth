@@ -488,6 +488,11 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
 	pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
 
+// 	away radiobuttons
+	radioButton_manualAction->setStyleSheet("QRadioButton { color:#F0F0F0; }  QRadioButton::indicator::checked {image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07.png }");
+// 	radioButton_autoCheckFold->setStyleSheet("QLabel { color: #F0F0F0; }");
+// 	radioButton_autoCheckCallAny->setStyleSheet("QLabel { color: #F0F0F0;  }");
+
 	groupBox_RightToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/misc/toolboxFrameBG.png) }");
 	groupBox_LeftToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/misc/toolboxFrameBG.png) }");
 
@@ -605,6 +610,10 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), this, SLOT( checkChatInputLength(QString) ) );
 	connect( lineEdit_ChatInput, SIGNAL( textEdited (QString) ), myChat, SLOT( setChatTextEdited() ) );
+
+	connect( radioButton_manualAction, SIGNAL( clicked() ) , this, SLOT( changePlayingMode() ) );
+	connect( radioButton_autoCheckFold, SIGNAL( clicked() ) , this, SLOT( changePlayingMode() ) );
+	connect( radioButton_autoCheckCallAny, SIGNAL( clicked() ), this, SLOT( changePlayingMode() ) );
 
 	//Nachrichten Thread-Save
 	connect(this, SIGNAL(signalInitGui(int)), this, SLOT(initGui(int)));
@@ -3486,7 +3495,7 @@ void mainWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 			  myChangeHumanPlayerNameDialog->exec(); }
 		break;
 		case ERR_NET_INVALID_PLAYER_NAME:
-			{ myChangeHumanPlayerNameDialog->label_Message->setText(tr("The player name is too short, too long or reserved. Please choose another one."));
+			{ myChangeHumanPlayerNameDialog->label_Message->setText(tr("The player name is too short, too long or invalid. Please choose another one."));
 			  myChangeHumanPlayerNameDialog->exec(); }
 		break;
 		case ERR_NET_INVALID_GAME_NAME:
@@ -3639,18 +3648,9 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 			pushButton_FoldAllin->click();
 		}
 	}
- 	if (event->key() == Qt::Key_F4) {
- 		playingMode = 0;
- 		statusBar()->showMessage(tr("Manual mode set. You've got to choose yourself now."), 5000);
- 	}
- 	if (event->key() == Qt::Key_F5) {
- 		playingMode = 1;
- 		statusBar()->showMessage(tr("Auto mode set: Check or call any."), 5000);
- 	}
- 	if (event->key() == Qt::Key_F6) {
- 		playingMode = 2;
- 		statusBar()->showMessage(tr("Auto mode set: Check or fold."), 5000);
- 	}
+ 	if (event->key() == Qt::Key_F4) { radioButton_manualAction->click(); }
+ 	if (event->key() == Qt::Key_F5) { radioButton_autoCheckFold->click(); }
+  	if (event->key() == Qt::Key_F6) { radioButton_autoCheckCallAny->click(); }
 	if (event->key() == 16777249) {  //CTRL
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;
@@ -3671,6 +3671,28 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	else { keyUpDownChatCounter = 0; }
 	
 
+}
+
+void mainWindowImpl::changePlayingMode() {
+
+	int mode;
+
+	if(radioButton_manualAction->isChecked()) { mode=0; }
+	if(radioButton_autoCheckFold->isChecked()) { mode=1; }
+	if(radioButton_autoCheckCallAny->isChecked()) { mode=2; }
+	
+
+	switch (mode) {
+
+		case 0: { statusBar()->showMessage(tr("Manual mode set. You've got to choose yourself now."), 5000); }
+		break;
+		case 1: { statusBar()->showMessage(tr("Auto mode set: Check or call any."), 5000); }
+		break;
+		case 2: { statusBar()->showMessage(tr("Auto mode set: Check or fold."), 5000); }
+		break;
+		default: { cout << "changePlayingMode ERROR!!!!" << endl; }
+
+	}
 }
 
 bool mainWindowImpl::eventFilter(QObject *obj, QEvent *event)

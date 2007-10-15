@@ -304,6 +304,8 @@ public slots:
 
 	void mouseOverFlipCards(bool front);
 
+	void changePlayingMode();
+
 	void quitPokerTH();
 	
 
