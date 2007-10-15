@@ -377,6 +377,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 	// However, some disallowed names are checked only here.
 	if (initData.playerName.empty() || initData.playerName.size() > MAX_NAME_SIZE
 		|| initData.playerName[0] == '#'
+		|| initData.playerName[0] == ' '
 		|| initData.playerName.substr(0, sizeof(SERVER_COMPUTER_PLAYER_NAME) - 1) == SERVER_COMPUTER_PLAYER_NAME)
 	{
 		SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
