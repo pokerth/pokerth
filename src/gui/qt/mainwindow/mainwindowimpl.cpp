@@ -845,6 +845,7 @@ void mainWindowImpl::callCreateNetworkGameDialog() {
 			myServerGuiInterface.reset(new ServerGuiWrapper(myConfig, mySession->getGui(), mySession->getGui(), mySession->getGui()));
 			{
 				boost::shared_ptr<Session> session(new Session(myServerGuiInterface.get(), myConfig));
+				session->init(mySession->getAvatarManager());
 				myServerGuiInterface->setSession(session);
 			}
 		}
@@ -1151,9 +1152,9 @@ void mainWindowImpl::initGui(int speed)
 
 void mainWindowImpl::showClientDialog()
 {
-	if (mySession->GetGameType() == Session::GAME_TYPE_NETWORK)
+	if (mySession->getGameType() == Session::GAME_TYPE_NETWORK)
 		showNetworkStartDialog();
-	else if (mySession->GetGameType() == Session::GAME_TYPE_INTERNET)
+	else if (mySession->getGameType() == Session::GAME_TYPE_INTERNET)
 		showLobbyDialog();
 }
 

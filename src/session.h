@@ -42,16 +42,18 @@ public:
 
 	enum GameType { GAME_TYPE_NONE, GAME_TYPE_LOCAL, GAME_TYPE_NETWORK, GAME_TYPE_INTERNET };
 
+	// Only one of the two inits should be called.
 	bool init();
+	void init(boost::shared_ptr<AvatarManager> manager);
 
 	void startLocalGame(const GameData &gameData, const StartData &startData);
 	void startClientGame(boost::shared_ptr<Game> game);
 
 	Game *getCurrentGame();
-
 	GuiInterface *getGui();
+	GameType getGameType();
 
-	GameType GetGameType();
+	boost::shared_ptr<AvatarManager> getAvatarManager();
 
 	void startInternetClient();
 	void startNetworkClient(const std::string &serverAddress, unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd);

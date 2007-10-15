@@ -42,7 +42,6 @@ Session::Session(GuiInterface *g, ConfigFile *c)
 : currentGameID(0), myNetClient(NULL), myNetServer(NULL), myIrcThread(NULL),
   myGui(g), myConfig(c), myGameType(GAME_TYPE_NONE)
 {
-	myAvatarManager.reset(new AvatarManager);
 }
 
 
@@ -56,7 +55,13 @@ Session::~Session()
 
 bool Session::init()
 {
+	myAvatarManager.reset(new AvatarManager);
 	return myAvatarManager->Init(myConfig->readConfigString("AppDataDir"), myConfig->readConfigString("CacheDir"));
+}
+
+void Session::init(boost::shared_ptr<AvatarManager> manager)
+{
+	myAvatarManager = manager;
 }
 
 void Session::startLocalGame(const GameData &gameData, const StartData &startData) {
@@ -117,9 +122,14 @@ GuiInterface *Session::getGui()
 	return myGui;
 }
 
-Session::GameType Session::GetGameType()
+Session::GameType Session::getGameType()
 {
 	return myGameType;
+}
+
+boost::shared_ptr<AvatarManager> Session::getAvatarManager()
+{
+	return myAvatarManager;
 }
 
 void Session::startInternetClient()
