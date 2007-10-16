@@ -489,9 +489,11 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
 
 // 	away radiobuttons
-	radioButton_manualAction->setStyleSheet("QRadioButton { color:#F0F0F0; }  QRadioButton::indicator::checked {image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07.png }");
-// 	radioButton_autoCheckFold->setStyleSheet("QLabel { color: #F0F0F0; }");
-// 	radioButton_autoCheckCallAny->setStyleSheet("QLabel { color: #F0F0F0;  }");
+	QString radioButtonString("QRadioButton { color: #F0F0F0; } QRadioButton::indicator { width: 13px; height: 13px; } QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png); }");
+
+	radioButton_manualAction->setStyleSheet(radioButtonString);
+	radioButton_autoCheckFold->setStyleSheet(radioButtonString);
+	radioButton_autoCheckCallAny->setStyleSheet(radioButtonString);
 
 	groupBox_RightToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/misc/toolboxFrameBG.png) }");
 	groupBox_LeftToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/misc/toolboxFrameBG.png) }");
@@ -3678,8 +3680,8 @@ void mainWindowImpl::changePlayingMode() {
 	int mode;
 
 	if(radioButton_manualAction->isChecked()) { mode=0; }
-	if(radioButton_autoCheckFold->isChecked()) { mode=1; }
-	if(radioButton_autoCheckCallAny->isChecked()) { mode=2; }
+	if(radioButton_autoCheckFold->isChecked()) { mode=2; }
+	if(radioButton_autoCheckCallAny->isChecked()) { mode=1; }
 	
 
 	switch (mode) {
@@ -3693,6 +3695,8 @@ void mainWindowImpl::changePlayingMode() {
 		default: { cout << "changePlayingMode ERROR!!!!" << endl; }
 
 	}
+
+	playingMode = mode;
 }
 
 bool mainWindowImpl::eventFilter(QObject *obj, QEvent *event)
@@ -3799,7 +3803,7 @@ void mainWindowImpl::localGameModification() {
 	}
 
 	//Set the playing mode to "manual"
-	playingMode = 0;
+	radioButton_manualAction->click();
 
 }
 
@@ -3812,7 +3816,7 @@ void mainWindowImpl::networkGameModification() {
 	myChat->clearNewGame();
 
 	//Set the playing mode to "manual"
-	playingMode = 0;
+	radioButton_manualAction->click();
 
 }
 

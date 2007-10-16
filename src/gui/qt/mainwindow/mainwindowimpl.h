@@ -318,8 +318,7 @@ private:
 	Log *myLog;
 	Chat *myChat;
 	ConfigFile *myConfig;
-	int playingMode;
-
+	
 	//Logo 
 	QLabel *label_logoleft;
 	QLabel *label_logoright;
@@ -417,6 +416,8 @@ private:
 
 
 	int distributePotAnimCounter;
+	int playingMode;
+
 
 	//Speed
 	int guiGameSpeed;
