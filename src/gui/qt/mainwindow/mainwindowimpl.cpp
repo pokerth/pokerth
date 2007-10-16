@@ -409,10 +409,10 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 // 	textBrowser_Log->setVerticalScrollBar(myLogScrollBar);
 
 // 	textBrowser_Log->verticalScrollBar()->setAutoFillBackground ( TRUE );
-
+#endif
 	textBrowser_Chat->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
 	lineEdit_ChatInput->setStyleSheet("QLineEdit { "+ font1String +" font-size: 10px; color: #F0F0F0; background-color: #1D3B00; border-top: 2px solid #286400; }");
-#endif
+
 
 #ifdef __APPLE__
 // 	tabWidget_Right->setStyleSheet("QTabWidget { "+ font1String +" font-size: 11px; background-color: #145300; }");
