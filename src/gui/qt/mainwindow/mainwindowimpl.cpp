@@ -2345,6 +2345,7 @@ void mainWindowImpl::myBet(){
 	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	spinBox_set->setValue(spinBox_set->minimum());
+	horizontalSlider_bet->setSingleStep(10);
 	if(lineEdit_ChatInput->text() == "") { 
 		spinBox_set->setFocus();
 		spinBox_set->selectAll();
@@ -2362,6 +2363,7 @@ void mainWindowImpl::myRaise(){
 	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	spinBox_set->setValue(spinBox_set->minimum());
+	horizontalSlider_bet->setSingleStep(10);
 	if(lineEdit_ChatInput->text() == "") { 
 		spinBox_set->setFocus();
 		spinBox_set->selectAll();
@@ -3681,7 +3683,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	
 	bool ctrlPressed = FALSE;
 
-	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return ) { if(spinBox_set->hasFocus()) pushButton_CallCheckSet->click(); } //ENTER 
+	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return ) { if(spinBox_set->hasFocus()) pushButton_BetRaise->click(); } //ENTER 
         if (event->key() == Qt::Key_F1) {
 		if (myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0) {
 			pushButton_FoldAllin->click();

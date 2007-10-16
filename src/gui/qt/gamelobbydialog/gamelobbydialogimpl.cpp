@@ -26,6 +26,14 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
+	//wait start game message
+	waitStartGameMsgBox.setText(tr("Starting game. Please wait ..."));
+	waitStartGameMsgBox.setWindowModality(Qt::NonModal);
+	waitStartGameMsgBox.setStandardButtons(QMessageBox::NoButton);
+
+	waitStartGameMsgBoxTimer = new QTimer(this);
+	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
+
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
 	connect( treeWidget_GameList, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( gameSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
@@ -36,6 +44,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), this, SLOT( checkChatInputLength(QString) ) );
 	connect( lineEdit_ChatInput, SIGNAL( textEdited (QString) ), myChat, SLOT( setChatTextEdited() ) );
+	connect( waitStartGameMsgBoxTimer, SIGNAL(timeout()), this, SLOT( showWaitStartGameMsgBox() ));
 
 
 	lineEdit_ChatInput->installEventFilter(this);
@@ -160,6 +169,8 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 
 	if (actionID == MSG_NET_GAME_CLIENT_START)
 	{
+		waitStartGameMsgBoxTimer->stop();
+		waitStartGameMsgBox.hide();
 		QTimer::singleShot(500, this, SLOT(accept()));
 	}
 }
@@ -526,6 +537,7 @@ void gameLobbyDialogImpl::playerSelected(QTreeWidgetItem* item, QTreeWidgetItem*
 void gameLobbyDialogImpl::startGame() {
 
 	assert(mySession);
+	waitStartGameMsgBoxTimer->start(500);
 	mySession->sendStartEvent(checkBox_fillUpWithComputerOpponents->isChecked());
 }
 
@@ -620,3 +632,8 @@ void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
 		label_gameDesc7->hide();
 	}
 }
+
+void gameLobbyDialogImpl::showWaitStartGameMsgBox() { waitStartGameMsgBox.show(); }
+
+
+

@@ -93,6 +93,8 @@ public slots:
 	bool event(QEvent * event); 
 	void hideShowGameDescription(bool show);
 
+	void showWaitStartGameMsgBox();
+
 
 private:
 	
@@ -107,6 +109,8 @@ private:
 	LobbyChat *myChat;
 	QString myAppDataPath;
 	int keyUpCounter;
+	QMessageBox waitStartGameMsgBox;
+	QTimer *waitStartGameMsgBoxTimer;
 
  protected:
          bool eventFilter(QObject *obj, QEvent *event);
