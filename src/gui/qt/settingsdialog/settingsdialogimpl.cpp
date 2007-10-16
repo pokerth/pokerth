@@ -238,7 +238,7 @@ void settingsDialogImpl::isAccepted() {
 	settingsCorrect = TRUE;
 
 // 	Player Nicks
-	myConfig->writeConfigString("MyName", lineEdit_HumanPlayerName->text().toUtf8().constData());
+	myConfig->writeConfigString("MyName", lineEdit_HumanPlayerName->text().trimmed().toUtf8().constData());
 	myConfig->writeConfigString("MyAvatar", pushButton_HumanPlayerAvatar->getMyLink().toUtf8().constData());  
 	
 	myConfig->writeConfigString("Opponent1Name", lineEdit_Opponent1Name->text().toUtf8().constData());
