@@ -201,6 +201,7 @@ public slots:
 
 	void myFold();
 	void myCheck();
+	int getMyCallAmount();
 	void myCall();
 	void myBet();
 	void mySet();

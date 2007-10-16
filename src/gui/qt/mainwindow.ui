@@ -23,8 +23,8 @@
   </property>
   <property name="maximumSize" >
    <size>
-    <width>1980</width>
-    <height>1200</height>
+    <width>1000</width>
+    <height>680</height>
    </size>
   </property>
   <property name="windowTitle" >
@@ -1896,24 +1896,42 @@
         <property name="enabled" >
          <bool>true</bool>
         </property>
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize" >
+         <size>
+          <width>384</width>
+          <height>211</height>
+         </size>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>384</width>
+          <height>211</height>
+         </size>
+        </property>
         <property name="title" >
          <string/>
         </property>
         <layout class="QGridLayout" >
          <property name="leftMargin" >
-          <number>26</number>
+          <number>28</number>
          </property>
          <property name="topMargin" >
           <number>26</number>
          </property>
          <property name="rightMargin" >
-          <number>20</number>
+          <number>15</number>
          </property>
          <property name="bottomMargin" >
           <number>26</number>
          </property>
          <property name="horizontalSpacing" >
-          <number>10</number>
+          <number>14</number>
          </property>
          <item rowspan="2" row="0" column="0" >
           <widget class="QLabel" name="textLabel_Button0" >
@@ -1939,6 +1957,12 @@
          </item>
          <item row="0" column="1" >
           <widget class="MySetLabel" name="textLabel_Set0" >
+           <property name="maximumSize" >
+            <size>
+             <width>16777215</width>
+             <height>20</height>
+            </size>
+           </property>
            <property name="alignment" >
             <set>Qt::AlignCenter</set>
            </property>
@@ -2409,8 +2433,14 @@
          </item>
          <item row="4" column="1" >
           <widget class="QLabel" name="label_PlayerName0" >
+           <property name="maximumSize" >
+            <size>
+             <width>16777215</width>
+             <height>23</height>
+            </size>
+           </property>
            <property name="alignment" >
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
            </property>
           </widget>
          </item>

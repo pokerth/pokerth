@@ -430,9 +430,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 		cashTopLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px; font-weight: bold; color: #F0F0F0; }");
 		cashLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px; font-weight: bold; color: #F0F0F0; }");
 	}
-
-	spinBox_set->setStyleSheet("QSpinBox { "+ font2String +" font-size: 10px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; }");
-
+	
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
 		setLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 12px; font-weight: bold; color: #F0F0F0; }");
@@ -484,10 +482,13 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	}
 	groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 
 
-		//Human player button
+	//Human player button
 	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }");
 	pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
 	pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
+
+	spinBox_set->setStyleSheet("QSpinBox { "+ font2String +" font-size: 10px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; } QSpinBox:disabled { background-color: #316300; color: #6d7b5f }");
+
 
 // 	away radiobuttons
 	QString radioButtonString("QRadioButton { color: #F0F0F0; } QRadioButton::indicator { width: 13px; height: 13px; } QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png); }");
@@ -602,7 +603,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect( actionShowHideHelp, SIGNAL( triggered() ), this, SLOT( switchHelpWindow() ) );
 	connect( actionShowHideLog, SIGNAL( triggered() ), this, SLOT( switchLogWindow() ) );
 
-	connect( pushButton_BetRaise, SIGNAL( clicked() ), this, SLOT( myBetRaise() ) );
+	connect( pushButton_BetRaise, SIGNAL( clicked() ), this, SLOT( mySet() ) );
 	connect( pushButton_FoldAllin, SIGNAL( clicked() ), this, SLOT( myFoldAllin() ) );
 	connect( pushButton_CallCheckSet, SIGNAL( clicked() ), this, SLOT( myCallCheckSet() ) );
 
@@ -2118,10 +2119,12 @@ void mainWindowImpl::meInAction() {
 	switch (currentHand->getActualRound()) {
 
 	case 0: {
-		if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+		if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { 
+			pushButton_BetRaise->setText("Raise"); 
+		}
 
 		if (currentGame->getSeatsList()->front()->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getSeatsList()->front()->getMyButton() == 3) { pushButton_CallCheckSet->setText("Check"); }
-		else { pushButton_CallCheckSet->setText("Call"); }
+		else { pushButton_CallCheckSet->setText("Call "+QString::number(getMyCallAmount())+"$" ); }
 		pushButton_FoldAllin->setText("Fold"); 
 	}
 	break;
@@ -2132,11 +2135,13 @@ void mainWindowImpl::meInAction() {
 // 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
 		if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 			pushButton_CallCheckSet->setText("Check");
-			pushButton_BetRaise->setText("Bet"); 
+			pushButton_BetRaise->setText("Bet"); 		
 		}
 		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-			pushButton_CallCheckSet->setText("Call");
-			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+			pushButton_CallCheckSet->setText("Call "+QString::number(getMyCallAmount())+"$" );
+			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
+				pushButton_BetRaise->setText("Raise"); 
+			}
 		}
 	}
 	break;
@@ -2150,8 +2155,10 @@ void mainWindowImpl::meInAction() {
 			pushButton_BetRaise->setText("Bet"); 
 		}
 		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-			pushButton_CallCheckSet->setText("Call");
-			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+			pushButton_CallCheckSet->setText("Call "+QString::number(getMyCallAmount())+"$" );
+			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
+				pushButton_BetRaise->setText("Raise"); 
+			}
 		}
 	}
 	break;
@@ -2165,13 +2172,17 @@ void mainWindowImpl::meInAction() {
 			pushButton_BetRaise->setText("Bet");
 		}
 		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-			pushButton_CallCheckSet->setText("Call");
-			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { pushButton_BetRaise->setText("Raise"); }
+			pushButton_CallCheckSet->setText("Call "+QString::number(getMyCallAmount())+"$" );
+			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
+				pushButton_BetRaise->setText("Raise"); 
+			}
 		}
 	}
 	break;
 	default: {}
 	}
+
+	myBetRaise();
 
 	switch (playingMode) {
 		case 0: // Manual mode
@@ -2220,19 +2231,29 @@ void mainWindowImpl::disableMyButtons() {
 
 void mainWindowImpl::myBetRaise() {
 	
-	if(pushButton_BetRaise->text() == "Raise") { myRaise(); }
-	if(pushButton_BetRaise->text() == "Bet") { myBet(); }
+	if(pushButton_BetRaise->text() == "Raise") { 
+		myRaise(); 
+	}
+	else if(pushButton_BetRaise->text() == "Bet") { 
+		myBet(); 
+	}
+	else {
+		spinBox_set->setMinimum(0);
+		horizontalSlider_bet->setMinimum(0);
+		spinBox_set->setValue(0);
+		horizontalSlider_bet->setValue(0);
+		spinBox_set->setDisabled(TRUE);
+		horizontalSlider_bet->setDisabled(TRUE);
+	}
 }
 
 void mainWindowImpl::myFoldAllin() {
 	if(pushButton_FoldAllin->text() == "Fold") { myFold(); }
-	if(pushButton_FoldAllin->text() == "All-In") { myAllIn(); }
 }
 
 void mainWindowImpl::myCallCheckSet() {
-	if(pushButton_CallCheckSet->text() == "Call") { myCall(); }
+	if(pushButton_CallCheckSet->text().startsWith("Call")) { myCall(); }
 	if(pushButton_CallCheckSet->text() == "Check") { myCheck(); }
-	if(pushButton_CallCheckSet->text() == "Set") { mySet(); }
 }
 
 
@@ -2264,6 +2285,21 @@ void mainWindowImpl::myCheck() {
 
 	//Spiel läuft weiter
 	myActionDone();
+}
+
+int mainWindowImpl::getMyCallAmount() {
+        int tempHighestSet = 0;
+        HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+
+        tempHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
+
+        if (currentHand->getPlayerArray()[0]->getMyCash()+currentHand->getPlayerArray()[0]->getMySet() <= tempHighestSet) {
+
+                return currentHand->getPlayerArray()[0]->getMyCash();
+        }
+        else {
+                return tempHighestSet - currentHand->getPlayerArray()[0]->getMySet();
+        }
 }
 
 void mainWindowImpl::myCall(){
@@ -2299,12 +2335,6 @@ void mainWindowImpl::myCall(){
 
 void mainWindowImpl::myBet(){ 
 
-// 	pushButton_BetRaise->hide();
-// 	spinBox_set->show();
-	pushButton_CallCheckSet->setText("Set");
-	pushButton_FoldAllin->setText("All-In"); 
-	
-
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
 	spinBox_set->setMinimum(currentHand->getSmallBlind()*2);
@@ -2320,100 +2350,101 @@ void mainWindowImpl::myBet(){
 
 void mainWindowImpl::myRaise(){ 
 
-// 	pushButton_BetRaise->hide();
-// 	spinBox_set->show();
-	pushButton_CallCheckSet->setText("Set");
-	pushButton_FoldAllin->setText("All-In"); 
-	
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
 	spinBox_set->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
+	horizontalSlider_bet->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
 	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
+	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	spinBox_set->setValue(spinBox_set->minimum());
 	spinBox_set->setFocus();
 	spinBox_set->selectAll();
 	
 	myActionIsRaise = 1;
+
 }
 
 void mainWindowImpl::mySet(){
 	
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-	int tempCash = currentHand->getSeatsList()->front()->getMyCash();
+	if(pushButton_BetRaise->text() != "") {
 
-// 	cout << "Set-Value " << spinBox_set->value() << endl; 
-	currentHand->getSeatsList()->front()->setMySet(spinBox_set->value());
-// 	cout << "MySET " << currentHand->getPlayerArray()[0]->getMySet() << endl;
-	if (spinBox_set->value() >= tempCash ) {
-
-		currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
-		currentHand->getSeatsList()->front()->setMyCash(0);
-		currentHand->getSeatsList()->front()->setMyAction(6);
-	}
+		HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+		int tempCash = currentHand->getSeatsList()->front()->getMyCash();
 	
-	if(myActionIsRaise) {
-		//do not if allIn
-		if(currentHand->getSeatsList()->front()->getMyAction() != 6) {
-			currentHand->getSeatsList()->front()->setMyAction(5);
+	// 	cout << "Set-Value " << spinBox_set->value() << endl; 
+		currentHand->getSeatsList()->front()->setMySet(spinBox_set->value());
+	// 	cout << "MySET " << currentHand->getPlayerArray()[0]->getMySet() << endl;
+		if (spinBox_set->value() >= tempCash ) {
+	
+			currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
+			currentHand->getSeatsList()->front()->setMyCash(0);
+			currentHand->getSeatsList()->front()->setMyAction(6);
 		}
-		myActionIsRaise = 0;
-
-		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
-	}
+		
+		if(myActionIsRaise) {
+			//do not if allIn
+			if(currentHand->getSeatsList()->front()->getMyAction() != 6) {
+				currentHand->getSeatsList()->front()->setMyAction(5);
+			}
+			myActionIsRaise = 0;
 	
-	if(myActionIsBet) {
-		//do not if allIn
-		if(currentHand->getSeatsList()->front()->getMyAction() != 6) {
-			currentHand->getSeatsList()->front()->setMyAction(4);
-		}		
-		myActionIsBet = 0;
-
-		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet());
+			currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
+		}
+		
+		if(myActionIsBet) {
+			//do not if allIn
+			if(currentHand->getSeatsList()->front()->getMyAction() != 6) {
+				currentHand->getSeatsList()->front()->setMyAction(4);
+			}		
+			myActionIsBet = 0;
+	
+			currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet());
+		}
+	
+		currentHand->getCurrentBeRo()->setHighestSet(currentHand->getSeatsList()->front()->getMySet());
+	
+		currentHand->getSeatsList()->front()->setMyTurn(0);
+	
+		currentHand->getBoard()->collectSets();
+		refreshPot();
+	
+		statusBar()->clearMessage();
+	
+		//set that i was the last active player. need this for unhighlighting groupbox
+		currentHand->setLastPlayersTurn(0);
+	
+		//Spiel läuft weiter
+		myActionDone();
 	}
-
-	currentHand->getCurrentBeRo()->setHighestSet(currentHand->getSeatsList()->front()->getMySet());
-
-	currentHand->getSeatsList()->front()->setMyTurn(0);
-
-	currentHand->getBoard()->collectSets();
-	refreshPot();
-
-	statusBar()->clearMessage();
-
-	//set that i was the last active player. need this for unhighlighting groupbox
-	currentHand->setLastPlayersTurn(0);
-
-	//Spiel läuft weiter
-	myActionDone();
 }
 
 void mainWindowImpl::myAllIn(){
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-
-	currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
-	currentHand->getSeatsList()->front()->setMyCash(0);
-	currentHand->getSeatsList()->front()->setMyAction(6);
-	
-	if(currentHand->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
-
-		currentHand->getCurrentBeRo()->setHighestSet(currentHand->getSeatsList()->front()->getMySet());
-
-	}
-
-	currentHand->getSeatsList()->front()->setMyTurn(0);
-
-	currentHand->getBoard()->collectSets();
-	refreshPot();
-	
-	statusBar()->clearMessage();
-
-	//set that i was the last active player. need this for unhighlighting groupbox
-	currentHand->setLastPlayersTurn(0);
-
-	//Spiel läuft weiter
-	myActionDone();
+// 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+// 
+// 	currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
+// 	currentHand->getSeatsList()->front()->setMyCash(0);
+// 	currentHand->getSeatsList()->front()->setMyAction(6);
+// 	
+// 	if(currentHand->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
+// 		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
+// 
+// 		currentHand->getCurrentBeRo()->setHighestSet(currentHand->getSeatsList()->front()->getMySet());
+// 
+// 	}
+// 
+// 	currentHand->getSeatsList()->front()->setMyTurn(0);
+// 
+// 	currentHand->getBoard()->collectSets();
+// 	refreshPot();
+// 	
+// 	statusBar()->clearMessage();
+// 
+// 	//set that i was the last active player. need this for unhighlighting groupbox
+// 	currentHand->setLastPlayersTurn(0);
+// 
+// 	//Spiel läuft weiter
+// 	myActionDone();
 }
 
 void mainWindowImpl::myActionDone() {
