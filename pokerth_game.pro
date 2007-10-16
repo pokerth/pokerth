@@ -272,13 +272,17 @@ unix: !mac{
 		message("Found libboost_thread-mt")
 		LIBS += -lboost_thread-mt
 	}
-	exists( /usr/lib/libboost_thread.so ){
-		message("Found libboost_thread")
-		LIBS += -lboost_thread
+	!exists( /usr/lib/libboost_thread-mt.so ){
+		exists( /usr/lib/libboost_thread.so ){
+			message("Found libboost_thread")
+			LIBS += -lboost_thread
+		}
 	}
-	exists( /usr/lib64/libboost_thread.so ){
-		message("Found libboost_thread")
-		LIBS += -lboost_thread
+	!exists( /usr/lib64/libboost_thread-mt.so ){
+		exists( /usr/lib64/libboost_thread.so ){
+			message("Found libboost_thread")
+			LIBS += -lboost_thread
+		}
 	}
 
 	exists( /usr/lib/libboost_filesystem-mt.so ){
@@ -289,13 +293,17 @@ unix: !mac{
 		message("Found libboost_filesystem-mt")
 		LIBS += -lboost_filesystem-mt
 	}
-	exists( /usr/lib/libboost_filesystem.so ){
-		message("Found libboost_filesystem")
-		LIBS += -lboost_filesystem
+	!exists( /usr/lib/libboost_filesystem-mt.so ){
+		exists( /usr/lib/libboost_filesystem.so ){
+			message("Found libboost_filesystem")
+			LIBS += -lboost_filesystem
+		}
 	}
-	exists( /usr/lib64/libboost_filesystem.so ){
-		message("Found libboost_filesystem")
-		LIBS += -lboost_filesystem
+	!exists( /usr/lib64/libboost_filesystem-mt.so ){
+		exists( /usr/lib64/libboost_filesystem.so ){
+			message("Found libboost_filesystem")
+			LIBS += -lboost_filesystem
+		}
 	}
 	LIBPATH += lib
 	LIBS += -lpokerth_lib
