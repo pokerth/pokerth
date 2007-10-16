@@ -2218,7 +2218,8 @@ void mainWindowImpl::disableMyButtons() {
 	//clear userWidgets
 	spinBox_set->setMinimum(0);
 	horizontalSlider_bet->setMinimum(0);
-	spinBox_set->setValue(0);
+// 	spinBox_set->setValue(0);
+	spinBox_set->clear();
 	horizontalSlider_bet->setValue(0);
 	spinBox_set->setDisabled(TRUE);
 	horizontalSlider_bet->setDisabled(TRUE);
@@ -2227,6 +2228,8 @@ void mainWindowImpl::disableMyButtons() {
 	pushButton_BetRaise->setText("");
 	pushButton_CallCheckSet->setText("");
 	pushButton_FoldAllin->setText("");
+
+	
 }
 
 void mainWindowImpl::myBetRaise() {
@@ -2342,8 +2345,10 @@ void mainWindowImpl::myBet(){
 	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	spinBox_set->setValue(spinBox_set->minimum());
-	spinBox_set->setFocus();
-	spinBox_set->selectAll();
+	if(lineEdit_ChatInput->text() == "") { 
+		spinBox_set->setFocus();
+		spinBox_set->selectAll();
+	}
 
 	myActionIsBet = 1;
 }
@@ -2357,9 +2362,11 @@ void mainWindowImpl::myRaise(){
 	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	spinBox_set->setValue(spinBox_set->minimum());
-	spinBox_set->setFocus();
-	spinBox_set->selectAll();
-	
+	if(lineEdit_ChatInput->text() == "") { 
+		spinBox_set->setFocus();
+		spinBox_set->selectAll();
+	}
+
 	myActionIsRaise = 1;
 
 }
