@@ -283,17 +283,22 @@ AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFil
 			case AVATAR_FILE_TYPE_GIF:
 				ext = ".gif";
 				break;
+			case AVATAR_FILE_TYPE_UNKNOWN:
+				break;
 		}
-		path tmpPath(m_cacheDir);
-		tmpPath /= (md5buf.ToString() + ext);
-		string fileName(tmpPath.file_string());
-		ofstream o(fileName.c_str(), ios_base::out | ios_base::binary);
-		o.write((const char *)data, size);
+		if (!ext.empty())
 		{
-			boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
-			m_cachedAvatars.insert(AvatarMap::value_type(md5buf, fileName));
+			path tmpPath(m_cacheDir);
+			tmpPath /= (md5buf.ToString() + ext);
+			string fileName(tmpPath.file_string());
+			ofstream o(fileName.c_str(), ios_base::out | ios_base::binary);
+			o.write((const char *)data, size);
+			{
+				boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
+				m_cachedAvatars.insert(AvatarMap::value_type(md5buf, fileName));
+			}
+			retVal = true;
 		}
-		retVal = true;
 	} catch (...)
 	{
 	}
