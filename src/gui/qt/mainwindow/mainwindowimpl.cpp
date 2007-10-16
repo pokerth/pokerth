@@ -207,9 +207,10 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	userWidgetsArray[1] = pushButton_CallCheckSet;
 	userWidgetsArray[2] = pushButton_FoldAllin;
 	userWidgetsArray[3] = spinBox_set;
+	userWidgetsArray[4] = horizontalSlider_bet;
 
 	//hide userWidgets
-	for(i=0; i<4; i++) {
+	for(i=0; i<5; i++) {
 		userWidgetsArray[i]->hide();
 	}
 
@@ -481,12 +482,12 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 		groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
 	}
-	groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
+	groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 
 
 		//Human player button
-	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }");
-	pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
-	pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
+	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }");
+	pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
+	pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
 
 // 	away radiobuttons
 	QString radioButtonString("QRadioButton { color: #F0F0F0; } QRadioButton::indicator { width: 13px; height: 13px; } QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png); }");
@@ -1147,7 +1148,7 @@ void mainWindowImpl::initGui(int speed)
 	groupBox_LeftToolBox->setDisabled(FALSE);	
 		
 	//show human player buttons
-	for(int i=0; i<3; i++) {
+	for(int i=0; i<5; i++) {
 		userWidgetsArray[i]->show();
 	}
 	
@@ -1642,7 +1643,7 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 			if((*it_c)->getMyTurn()) {
 				//Groupbox glow wenn der Spiele dran ist. 
 				if((*it_c)->getMyID()==0) {
-					groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxActiveGlow.png) }"); 
+					groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxActiveGlow_0.6.png) }"); 
 				}
 				else {
 					groupBoxArray[(*it_c)->getMyID()]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
@@ -1652,9 +1653,9 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 				//Groupbox auf Hintergrundfarbe setzen wenn der Spiele nicht dran aber aktiv ist. 
 				if((*it_c)->getMyActiveStatus()) {
 					if((*it_c)->getMyID()==0) {
-						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
+						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 
 						//show buttons
-						for(j=0; j<3; j++) {
+						for(j=0; j<5; j++) {
 							userWidgetsArray[j]->show();
 						}
 					}
@@ -1665,9 +1666,9 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 				//Groupbox verdunkeln wenn der Spiele inactive ist.  
 				else {
 					if((*it_c)->getMyID()==0) {
-						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 
+						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 
 						//hide buttons
-						for(j=0; j<4; j++) {
+						for(j=0; j<5; j++) {
 							userWidgetsArray[j]->hide();
 						}
 					}
@@ -1697,9 +1698,9 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 		//inactive
 		case 0: { 
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 	
 					//hide buttons
-					for(j=0; j<4; j++) {
+					for(j=0; j<5; j++) {
 						userWidgetsArray[j]->hide();
 					}					
 				}
@@ -1711,9 +1712,9 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 		//active but fold
 		case 1: {
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 	
 					//show buttons
-					for(j=0; j<3; j++) {
+					for(j=0; j<5; j++) {
 						userWidgetsArray[j]->show();
 					}		
 				}
@@ -1725,7 +1726,7 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 		//active in action
 		case 2:  {
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxActiveGlow.png) }"); 
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxActiveGlow_0.6.png) }"); 
 				}
 				else {
 					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
@@ -1735,7 +1736,7 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 		//active not in action
 		case 3:  {
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow.png) }"); 	
+					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 	
 				}
 				else {
 					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
@@ -2095,8 +2096,12 @@ void mainWindowImpl::dealRiverCards2() {
 void mainWindowImpl::meInAction() {
 
 	//fix buttons if escape is pressed during raise or bet
-	spinBox_set->hide();
-	pushButton_BetRaise->show();
+// 	spinBox_set->hide();
+// 	pushButton_BetRaise->show();
+
+	horizontalSlider_bet->setEnabled(TRUE);
+	spinBox_set->setEnabled(TRUE);
+
 	myActionIsRaise = 0;
 	myActionIsBet = 0;
 	
@@ -2201,9 +2206,13 @@ void mainWindowImpl::disableMyButtons() {
 
 	//clear userWidgets
 	spinBox_set->setMinimum(0);
+	horizontalSlider_bet->setMinimum(0);
 	spinBox_set->setValue(0);
-	spinBox_set->hide();
-	pushButton_BetRaise->show();
+	horizontalSlider_bet->setValue(0);
+	spinBox_set->setDisabled(TRUE);
+	horizontalSlider_bet->setDisabled(TRUE);
+// 	spinBox_set->hide();
+// 	pushButton_BetRaise->show();
 	pushButton_BetRaise->setText("");
 	pushButton_CallCheckSet->setText("");
 	pushButton_FoldAllin->setText("");
@@ -2290,8 +2299,8 @@ void mainWindowImpl::myCall(){
 
 void mainWindowImpl::myBet(){ 
 
-	pushButton_BetRaise->hide();
-	spinBox_set->show();
+// 	pushButton_BetRaise->hide();
+// 	spinBox_set->show();
 	pushButton_CallCheckSet->setText("Set");
 	pushButton_FoldAllin->setText("All-In"); 
 	
@@ -2299,8 +2308,9 @@ void mainWindowImpl::myBet(){
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
 	spinBox_set->setMinimum(currentHand->getSmallBlind()*2);
-	
+	horizontalSlider_bet->setMinimum(currentHand->getSmallBlind()*2);
 	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
+	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	spinBox_set->setValue(spinBox_set->minimum());
 	spinBox_set->setFocus();
 	spinBox_set->selectAll();
@@ -2310,12 +2320,11 @@ void mainWindowImpl::myBet(){
 
 void mainWindowImpl::myRaise(){ 
 
-	pushButton_BetRaise->hide();
-	spinBox_set->show();
+// 	pushButton_BetRaise->hide();
+// 	spinBox_set->show();
 	pushButton_CallCheckSet->setText("Set");
 	pushButton_FoldAllin->setText("All-In"); 
 	
-
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
 	spinBox_set->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());

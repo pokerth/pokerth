@@ -382,7 +382,7 @@ private:
 	QTimer *blinkingStartButtonAnimationTimer;
 	
 
-	QWidget *userWidgetsArray[4];
+	QWidget *userWidgetsArray[5];
 	QLabel *buttonLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *cashLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *cashTopLabelArray[MAX_NUMBER_OF_PLAYERS];
