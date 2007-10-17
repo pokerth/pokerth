@@ -180,6 +180,7 @@ public slots:
 	void dealHoleCards();
 
 	//Spieler-Funktionen
+	void provideMyActions();
 	void meInAction();
 	void disableMyButtons();
 	void startTimeoutAnimation(int playerId, int timoutSec);
@@ -305,6 +306,8 @@ public slots:
 
 	void mouseOverFlipCards(bool front);
 
+	void myButtonsCheckable(bool state);
+
 	void changePlayingMode();
 
 	void quitPokerTH();
@@ -418,7 +421,9 @@ private:
 
 	int distributePotAnimCounter;
 	int playingMode;
-
+	
+	QString font2String;
+	QString font1String;
 
 	//Speed
 	int guiGameSpeed;

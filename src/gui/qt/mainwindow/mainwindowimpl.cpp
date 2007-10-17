@@ -391,12 +391,14 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 // 	Schriftart laden und für Dialoge setzen
 #ifdef _WIN32
-	QString font1String("font-family: \"Arial\";");
+	font1String = "font-family: \"Arial\";";
 // 	if(this->logicalDpiX() > 105) { tmpFont.setFont("Arial",8); }
 // 	else { QFont tmpFont("Arial",9); }
 #else 
-	QString font1String("font-family: \"Nimbus Sans L\";");
+	font1String = "font-family: \"Nimbus Sans L\";";
 #endif
+
+	font2String = "font-family: \"Bitstream Vera Sans\";";
 
 	//Schriftart und Schriftgrößen für Widgets festlegen 
 #ifdef _WIN32
@@ -422,9 +424,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 // 	tabWidget_Left->setStyleSheet("QTabWidget::pane { border: 1px solid #286400; border-radius: 2px; background-color: #145300; }");
 #endif
 
-
-	QString font2String("font-family: \"Bitstream Vera Sans\";");
-	
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
 		cashTopLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px; font-weight: bold; color: #F0F0F0; }");
@@ -483,7 +482,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 
 
 	//Human player button
-	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }");
+	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; QPushButton }");
 	pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
 	pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
 
@@ -2095,25 +2094,9 @@ void mainWindowImpl::dealRiverCards2() {
 	}
 }
 
-void mainWindowImpl::meInAction() {
+void mainWindowImpl::provideMyActions() {
 
-	//fix buttons if escape is pressed during raise or bet
-// 	spinBox_set->hide();
-// 	pushButton_BetRaise->show();
-
-	horizontalSlider_bet->setEnabled(TRUE);
-	spinBox_set->setEnabled(TRUE);
-
-	myActionIsRaise = 0;
-	myActionIsBet = 0;
 	
-	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
-		if ( myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0 ) {
-			statusBar()->showMessage(tr("F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise"), 15000);
-		} else {
-			statusBar()->showMessage(tr("F1 - Bet/Raise | F2 - Check/Call | F3 - Fold/All-In"), 15000);
-		}
-	}
 	Game *currentGame = mySession->getCurrentGame();
 	HandInterface *currentHand = currentGame->getCurrentHand();
 
@@ -2182,7 +2165,32 @@ void mainWindowImpl::meInAction() {
 	break;
 	default: {}
 	}
+}
 
+void mainWindowImpl::meInAction() {
+
+	//fix buttons if escape is pressed during raise or bet
+// 	spinBox_set->hide();
+// 	pushButton_BetRaise->show();
+
+	myButtonsCheckable(FALSE);
+	
+	horizontalSlider_bet->setEnabled(TRUE);
+	spinBox_set->setEnabled(TRUE);
+
+	myActionIsRaise = 0;
+	myActionIsBet = 0;
+	
+	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
+		if ( myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0 ) {
+			statusBar()->showMessage(tr("F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise"), 15000);
+		} else {
+			statusBar()->showMessage(tr("F1 - Bet/Raise | F2 - Check/Call | F3 - Fold/All-In"), 15000);
+		}
+	}
+
+	provideMyActions();
+	
 	myBetRaise();
 
 	switch (playingMode) {
@@ -2226,9 +2234,11 @@ void mainWindowImpl::disableMyButtons() {
 	horizontalSlider_bet->setDisabled(TRUE);
 // 	spinBox_set->hide();
 // 	pushButton_BetRaise->show();
-	pushButton_BetRaise->setText("");
-	pushButton_CallCheckSet->setText("");
-	pushButton_FoldAllin->setText("");
+// 	pushButton_BetRaise->setText("");
+// 	pushButton_CallCheckSet->setText("");
+// 	pushButton_FoldAllin->setText("");
+
+	myButtonsCheckable(TRUE);
 
 	
 }
@@ -2252,12 +2262,17 @@ void mainWindowImpl::myBetRaise() {
 }
 
 void mainWindowImpl::myFoldAllin() {
-	if(pushButton_FoldAllin->text() == "Fold") { myFold(); }
+	if(!pushButton_FoldAllin->isCheckable()) {
+		if(pushButton_FoldAllin->text() == "Fold") { myFold(); }
+	}
 }
 
 void mainWindowImpl::myCallCheckSet() {
-	if(pushButton_CallCheckSet->text().startsWith("Call")) { myCall(); }
-	if(pushButton_CallCheckSet->text() == "Check") { myCheck(); }
+
+	if(!pushButton_CallCheckSet->isCheckable()) {
+		if(pushButton_CallCheckSet->text().startsWith("Call")) { myCall(); }
+		if(pushButton_CallCheckSet->text() == "Check") { myCheck(); }	
+	}
 }
 
 
@@ -2376,7 +2391,7 @@ void mainWindowImpl::myRaise(){
 
 void mainWindowImpl::mySet(){
 	
-	if(pushButton_BetRaise->text() != "") {
+	if(!pushButton_BetRaise->isCheckable() && pushButton_BetRaise->text() != "") {
 
 		HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 		int tempCash = currentHand->getSeatsList()->front()->getMyCash();
@@ -2488,10 +2503,11 @@ void mainWindowImpl::nextPlayerAnimation() {
 	}
 
 	refreshAction(currentHand->getLastPlayersTurn(), (*it_c)->getMyAction());
-
-
 	refreshCash();
 
+	//refresh actions for human player
+	provideMyActions();
+	
 	nextPlayerAnimationTimer->start(nextPlayerSpeed1);
 }
 
@@ -3884,6 +3900,34 @@ void mainWindowImpl::mouseOverFlipCards(bool front) {
 			holeCardsArray[0][0]->signalFastFlipCards(front);
 			holeCardsArray[0][1]->signalFastFlipCards(front);
 		}
+	}
+}
+
+void mainWindowImpl::myButtonsCheckable(bool state) {
+
+	if(state) {
+		//checkable
+
+		pushButton_BetRaise->setCheckable(TRUE);
+		pushButton_CallCheckSet->setCheckable(TRUE);
+		pushButton_FoldAllin->setCheckable(TRUE);
+
+		//design
+		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #28E74B; }");
+		pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #009DFF; }"); 
+		pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #FF1E1E; }"); 
+	}
+	else {
+		//not checkable
+
+		pushButton_BetRaise->setCheckable(FALSE);
+		pushButton_CallCheckSet->setCheckable(FALSE);
+		pushButton_FoldAllin->setCheckable(FALSE);
+		
+		//design
+		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; QPushButton }");
+		pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
+		pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
 	}
 }
 
