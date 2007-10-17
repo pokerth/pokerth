@@ -553,6 +553,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 // 	connect( quitPokerTHKeys, SIGNAL(activated() ), actionQuit, SLOT( trigger() ) );
 
 	lineEdit_ChatInput->installEventFilter(this);
+	this->installEventFilter(this);
 
 	//Connects
 	connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
@@ -3756,7 +3757,14 @@ bool mainWindowImpl::eventFilter(QObject *obj, QEvent *event)
 	{
 		myChat->nickAutoCompletition();
 		return true;
-	} else {
+	}
+	else if (event->type() == QEvent::Close) 
+	{
+		event->ignore();
+		quitPokerTH();
+		return true; 
+	}
+	else {
 		// pass the event on to the parent class
 		return QMainWindow::eventFilter(obj, event);
 	}
@@ -3879,15 +3887,21 @@ void mainWindowImpl::mouseOverFlipCards(bool front) {
 	}
 }
 
-void mainWindowImpl::closeEvent(QCloseEvent * /*event*/) { quitPokerTH(); }
+void mainWindowImpl::closeEvent(QCloseEvent* /*event*/) { quitPokerTH(); }
 
 void mainWindowImpl::quitPokerTH() {
 
-	mySession->terminateNetworkClient();
-	if (myServerGuiInterface.get()) myServerGuiInterface->getSession().terminateNetworkServer();
+	if (myServerGuiInterface.get() && myServerGuiInterface->getSession().isNetworkServerRunning()) {
 
+		QMessageBox msgBox(QMessageBox::Warning, tr("Closing PokerTH during network game"),
+	                   	tr("You are the hosting server. Do you want to close PokerTH anyway?"), QMessageBox::Yes | QMessageBox::No, this);
 
-// 	cout << "PokerTH finished" << endl;
-	qApp->quit();
+		if (msgBox.exec() == QMessageBox::Yes ) {
+			mySession->terminateNetworkClient();
+			if (myServerGuiInterface.get()) myServerGuiInterface->getSession().terminateNetworkServer();
+			qApp->quit();
+		}		
+	}
+	else { qApp->quit();}
 }
 
