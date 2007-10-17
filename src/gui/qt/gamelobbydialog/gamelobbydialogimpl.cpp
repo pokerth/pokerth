@@ -300,7 +300,7 @@ void gameLobbyDialogImpl::refreshGameStats() {
 
 void gameLobbyDialogImpl::refreshPlayerStats() {
 
-	label_nickListCounter->setText("| "+tr("nicks in chat: %1").arg(treeWidget_NickList->topLevelItemCount()));
+	label_nickListCounter->setText("| "+tr("players in chat: %1").arg(treeWidget_NickList->topLevelItemCount()));
 	label_connectedPlayersCounter->setText(tr("connected players: %1").arg(0));
 }
 

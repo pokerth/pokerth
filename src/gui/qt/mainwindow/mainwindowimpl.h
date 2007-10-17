@@ -196,9 +196,13 @@ public slots:
 	void callGameLobbyDialog();
 	void joinGameLobby();
 
+	void pushButtonBetRaiseClicked(bool checked);
+	void pushButtonCallCheckClicked(bool checked);
+	void pushButtonFoldClicked(bool checked);
+	void pushButtonAllInClicked(bool checked);
+
 	void myBetRaise();
-	void myFoldAllin();
-	void myCallCheckSet();
+	void myCallCheck();
 
 	void myFold();
 	void myCheck();
@@ -386,7 +390,7 @@ private:
 	QTimer *blinkingStartButtonAnimationTimer;
 	
 
-	QWidget *userWidgetsArray[5];
+	QWidget *userWidgetsArray[6];
 	QLabel *buttonLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *cashLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *cashTopLabelArray[MAX_NUMBER_OF_PLAYERS];

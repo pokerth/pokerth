@@ -204,13 +204,14 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 			
 	// userWidgetsArray init
 	userWidgetsArray[0] = pushButton_BetRaise;
-	userWidgetsArray[1] = pushButton_CallCheckSet;
-	userWidgetsArray[2] = pushButton_FoldAllin;
+	userWidgetsArray[1] = pushButton_CallCheck;
+	userWidgetsArray[2] = pushButton_Fold;
 	userWidgetsArray[3] = spinBox_set;
 	userWidgetsArray[4] = horizontalSlider_bet;
+	userWidgetsArray[5] = pushButton_AllIn;
 
 	//hide userWidgets
-	for(i=0; i<5; i++) {
+	for(i=0; i<6; i++) {
 		userWidgetsArray[i]->hide();
 	}
 
@@ -483,11 +484,12 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	//Human player button
 	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; QPushButton }");
-	pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
-	pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
+	pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
+	pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
 
 	spinBox_set->setStyleSheet("QSpinBox { "+ font2String +" font-size: 10px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; } QSpinBox:disabled { background-color: #316300; color: #6d7b5f }");
 
+	pushButton_AllIn->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
 
 // 	away radiobuttons
 	QString radioButtonString("QRadioButton { color: #F0F0F0; } QRadioButton::indicator { width: 13px; height: 13px; } QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png); }");
@@ -603,9 +605,10 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect( actionShowHideHelp, SIGNAL( triggered() ), this, SLOT( switchHelpWindow() ) );
 	connect( actionShowHideLog, SIGNAL( triggered() ), this, SLOT( switchLogWindow() ) );
 
-	connect( pushButton_BetRaise, SIGNAL( clicked() ), this, SLOT( mySet() ) );
-	connect( pushButton_FoldAllin, SIGNAL( clicked() ), this, SLOT( myFoldAllin() ) );
-	connect( pushButton_CallCheckSet, SIGNAL( clicked() ), this, SLOT( myCallCheckSet() ) );
+	connect( pushButton_BetRaise, SIGNAL( clicked(bool) ), this, SLOT( pushButtonBetRaiseClicked(bool) ) );
+	connect( pushButton_Fold, SIGNAL( clicked(bool) ), this, SLOT( pushButtonFoldClicked(bool) ) );
+	connect( pushButton_CallCheck, SIGNAL( clicked(bool) ), this, SLOT( pushButtonCallCheckClicked(bool) ) );
+	connect( pushButton_AllIn, SIGNAL( clicked(bool) ), this, SLOT(pushButtonAllInClicked(bool) ) );
 
 	connect ( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
 	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
@@ -1149,7 +1152,7 @@ void mainWindowImpl::initGui(int speed)
 	groupBox_LeftToolBox->setDisabled(FALSE);	
 		
 	//show human player buttons
-	for(int i=0; i<5; i++) {
+	for(int i=0; i<6; i++) {
 		userWidgetsArray[i]->show();
 	}
 	
@@ -1656,7 +1659,7 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 					if((*it_c)->getMyID()==0) {
 						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 
 						//show buttons
-						for(j=0; j<5; j++) {
+						for(j=0; j<6; j++) {
 							userWidgetsArray[j]->show();
 						}
 					}
@@ -1669,7 +1672,7 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 					if((*it_c)->getMyID()==0) {
 						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 
 						//hide buttons
-						for(j=0; j<5; j++) {
+						for(j=0; j<6; j++) {
 							userWidgetsArray[j]->hide();
 						}
 					}
@@ -1701,7 +1704,7 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 				if (!playerID) {
 					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 	
 					//hide buttons
-					for(j=0; j<5; j++) {
+					for(j=0; j<6; j++) {
 						userWidgetsArray[j]->hide();
 					}					
 				}
@@ -1715,7 +1718,7 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 				if (!playerID) {
 					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 	
 					//show buttons
-					for(j=0; j<5; j++) {
+					for(j=0; j<6; j++) {
 						userWidgetsArray[j]->show();
 					}		
 				}
@@ -2107,22 +2110,22 @@ void mainWindowImpl::provideMyActions() {
 			pushButton_BetRaise->setText("Raise"); 
 		}
 
-		if (currentGame->getSeatsList()->front()->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getSeatsList()->front()->getMyButton() == 3) { pushButton_CallCheckSet->setText("Check"); }
-		else { pushButton_CallCheckSet->setText("Call "+QString::number(getMyCallAmount())+"$" ); }
-		pushButton_FoldAllin->setText("Fold"); 
+		if (currentGame->getSeatsList()->front()->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getSeatsList()->front()->getMyButton() == 3) { pushButton_CallCheck->setText("Check"); }
+		else { pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" ); }
+		pushButton_Fold->setText("Fold"); 
 	}
 	break;
 	case 1: {
 	
-		pushButton_FoldAllin->setText("Fold"); 
+		pushButton_Fold->setText("Fold"); 
 
 // 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
 		if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
-			pushButton_CallCheckSet->setText("Check");
+			pushButton_CallCheck->setText("Check");
 			pushButton_BetRaise->setText("Bet"); 		
 		}
 		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-			pushButton_CallCheckSet->setText("Call "+QString::number(getMyCallAmount())+"$" );
+			pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" );
 			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
 				pushButton_BetRaise->setText("Raise"); 
 			}
@@ -2131,15 +2134,15 @@ void mainWindowImpl::provideMyActions() {
 	break;
 	case 2: {
 	
-		pushButton_FoldAllin->setText("Fold"); 
+		pushButton_Fold->setText("Fold"); 
 
 // 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
 		if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
-			pushButton_CallCheckSet->setText("Check");
+			pushButton_CallCheck->setText("Check");
 			pushButton_BetRaise->setText("Bet"); 
 		}
 		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-			pushButton_CallCheckSet->setText("Call "+QString::number(getMyCallAmount())+"$" );
+			pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" );
 			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
 				pushButton_BetRaise->setText("Raise"); 
 			}
@@ -2148,15 +2151,15 @@ void mainWindowImpl::provideMyActions() {
 	break;
 	case 3: {
 	
-		pushButton_FoldAllin->setText("Fold"); 
+		pushButton_Fold->setText("Fold"); 
 
 // 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
 		if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
-			pushButton_CallCheckSet->setText("Check");
+			pushButton_CallCheck->setText("Check");
 			pushButton_BetRaise->setText("Bet");
 		}
 		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-			pushButton_CallCheckSet->setText("Call "+QString::number(getMyCallAmount())+"$" );
+			pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" );
 			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
 				pushButton_BetRaise->setText("Raise"); 
 			}
@@ -2183,9 +2186,9 @@ void mainWindowImpl::meInAction() {
 	
 	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
 		if ( myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0 ) {
-			statusBar()->showMessage(tr("F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise"), 15000);
+			statusBar()->showMessage(tr("F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In"), 15000);
 		} else {
-			statusBar()->showMessage(tr("F1 - Bet/Raise | F2 - Check/Call | F3 - Fold/All-In"), 15000);
+			statusBar()->showMessage(tr("F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold"), 15000);
 		}
 	}
 
@@ -2197,10 +2200,10 @@ void mainWindowImpl::meInAction() {
 		case 0: // Manual mode
 			break;
 		case 1: // Auto check / call all
-			myCallCheckSet();
+			myCallCheck();
 			break;
 		case 2: // Auto check / fold all
-			if (pushButton_CallCheckSet->text() == "Check") { 
+			if (pushButton_CallCheck->text() == "Check") { 
 				myCheck();
 			} else {
 				myFold();
@@ -2235,8 +2238,8 @@ void mainWindowImpl::disableMyButtons() {
 // 	spinBox_set->hide();
 // 	pushButton_BetRaise->show();
 // 	pushButton_BetRaise->setText("");
-// 	pushButton_CallCheckSet->setText("");
-// 	pushButton_FoldAllin->setText("");
+// 	pushButton_CallCheck->setText("");
+// 	pushButton_Fold->setText("");
 
 	myButtonsCheckable(TRUE);
 
@@ -2261,34 +2264,29 @@ void mainWindowImpl::myBetRaise() {
 	}
 }
 
-void mainWindowImpl::myFoldAllin() {
-	if(!pushButton_FoldAllin->isCheckable()) {
-		if(pushButton_FoldAllin->text() == "Fold") { myFold(); }
-	}
-}
+void mainWindowImpl::myCallCheck() {
 
-void mainWindowImpl::myCallCheckSet() {
-
-	if(!pushButton_CallCheckSet->isCheckable()) {
-		if(pushButton_CallCheckSet->text().startsWith("Call")) { myCall(); }
-		if(pushButton_CallCheckSet->text() == "Check") { myCheck(); }	
-	}
+	if(pushButton_CallCheck->text().startsWith("Call")) { myCall(); }
+	if(pushButton_CallCheck->text() == "Check") { myCheck(); }	
 }
 
 
 void mainWindowImpl::myFold(){
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-	currentHand->getSeatsList()->front()->setMyAction(1);
-	currentHand->getSeatsList()->front()->setMyTurn(0);
+	if(pushButton_Fold->text() == "Fold") {
 
-	//set that i was the last active player. need this for unhighlighting groupbox
-	currentHand->setLastPlayersTurn(0);
+		HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+		currentHand->getSeatsList()->front()->setMyAction(1);
+		currentHand->getSeatsList()->front()->setMyTurn(0);
 	
-	statusBar()->clearMessage();
-
-	//Spiel läuft weiter
-	myActionDone();
+		//set that i was the last active player. need this for unhighlighting groupbox
+		currentHand->setLastPlayersTurn(0);
+		
+		statusBar()->clearMessage();
+	
+		//Spiel läuft weiter
+		myActionDone();
+	}
 }
 
 void mainWindowImpl::myCheck() {
@@ -2391,7 +2389,7 @@ void mainWindowImpl::myRaise(){
 
 void mainWindowImpl::mySet(){
 	
-	if(!pushButton_BetRaise->isCheckable() && pushButton_BetRaise->text() != "") {
+	if(pushButton_BetRaise->text() != "") {
 
 		HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 		int tempCash = currentHand->getSeatsList()->front()->getMyCash();
@@ -2445,31 +2443,92 @@ void mainWindowImpl::mySet(){
 
 void mainWindowImpl::myAllIn(){
 
-// 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-// 
-// 	currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
-// 	currentHand->getSeatsList()->front()->setMyCash(0);
-// 	currentHand->getSeatsList()->front()->setMyAction(6);
-// 	
-// 	if(currentHand->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-// 		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
-// 
-// 		currentHand->getCurrentBeRo()->setHighestSet(currentHand->getSeatsList()->front()->getMySet());
-// 
-// 	}
-// 
-// 	currentHand->getSeatsList()->front()->setMyTurn(0);
-// 
-// 	currentHand->getBoard()->collectSets();
-// 	refreshPot();
-// 	
-// 	statusBar()->clearMessage();
-// 
-// 	//set that i was the last active player. need this for unhighlighting groupbox
-// 	currentHand->setLastPlayersTurn(0);
-// 
-// 	//Spiel läuft weiter
-// 	myActionDone();
+	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+
+	currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
+	currentHand->getSeatsList()->front()->setMyCash(0);
+	currentHand->getSeatsList()->front()->setMyAction(6);
+	
+	if(currentHand->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
+		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
+
+		currentHand->getCurrentBeRo()->setHighestSet(currentHand->getSeatsList()->front()->getMySet());
+
+	}
+
+	currentHand->getSeatsList()->front()->setMyTurn(0);
+
+	currentHand->getBoard()->collectSets();
+	refreshPot();
+	
+	statusBar()->clearMessage();
+
+	//set that i was the last active player. need this for unhighlighting groupbox
+	currentHand->setLastPlayersTurn(0);
+
+	//Spiel läuft weiter
+	myActionDone();
+}
+
+
+void mainWindowImpl::pushButtonBetRaiseClicked(bool checked) {
+
+	if (pushButton_BetRaise->isCheckable()) {
+		if(checked) {
+			pushButton_CallCheck->setChecked(FALSE);
+			pushButton_Fold->setChecked(FALSE);
+			pushButton_AllIn->setChecked(FALSE);
+		}
+		else {}
+	}
+	else {
+		mySet();
+	}
+}
+
+void mainWindowImpl::pushButtonCallCheckClicked(bool checked) {
+
+	if (pushButton_CallCheck->isCheckable()) {
+		if(checked) {
+			pushButton_Fold->setChecked(FALSE);
+			pushButton_BetRaise->setChecked(FALSE);
+			pushButton_AllIn->setChecked(FALSE);
+		}
+		else {}
+	}
+	else {
+		myCallCheck();
+	}
+}
+
+void mainWindowImpl::pushButtonFoldClicked(bool checked) {
+
+	if (pushButton_Fold->isCheckable()) {
+		if(checked) {
+			pushButton_CallCheck->setChecked(FALSE);
+			pushButton_BetRaise->setChecked(FALSE);
+			pushButton_AllIn->setChecked(FALSE);
+		}
+		else {}
+	}
+	else {
+		myFold();
+	}
+}
+
+void mainWindowImpl::pushButtonAllInClicked(bool checked) {
+
+	if (pushButton_AllIn->isCheckable()) {
+		if(checked) {
+			pushButton_CallCheck->setChecked(FALSE);
+			pushButton_BetRaise->setChecked(FALSE);
+			pushButton_Fold->setChecked(FALSE);
+		}
+		else {}
+	}
+	else {
+		myAllIn();
+	}
 }
 
 void mainWindowImpl::myActionDone() {
@@ -3720,22 +3779,36 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return ) { if(spinBox_set->hasFocus()) pushButton_BetRaise->click(); } //ENTER 
         if (event->key() == Qt::Key_F1) {
 		if (myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0) {
-			pushButton_FoldAllin->click();
+			pushButton_Fold->click();
+		} else {
+			pushButton_AllIn->click();
+		}
+	}
+	if (event->key() == Qt::Key_F2) { 
+		if (myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0) {
+			pushButton_CallCheck->click();
 		} else {
 			pushButton_BetRaise->click();
 		}
-	}
-	if (event->key() == Qt::Key_F2) { pushButton_CallCheckSet->click(); } 
+
+	} 
 	if (event->key() == Qt::Key_F3 ) {
 		if (myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0) {
 			pushButton_BetRaise->click();
 		} else {
-			pushButton_FoldAllin->click();
+			pushButton_CallCheck->click();
 		}
 	}
- 	if (event->key() == Qt::Key_F4) { radioButton_manualAction->click(); }
- 	if (event->key() == Qt::Key_F5) { radioButton_autoCheckFold->click(); }
-  	if (event->key() == Qt::Key_F6) { radioButton_autoCheckCallAny->click(); }
+	if (event->key() == Qt::Key_F4) {
+		if (myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0) {
+			pushButton_AllIn->click();
+		} else {
+			pushButton_Fold->click();
+		}
+	}
+	if (event->key() == Qt::Key_F5) { radioButton_manualAction->click(); }
+ 	if (event->key() == Qt::Key_F6) { radioButton_autoCheckFold->click(); }
+  	if (event->key() == Qt::Key_F7) { radioButton_autoCheckCallAny->click(); }
 	if (event->key() == 16777249) {  //CTRL
 		pushButton_break->click(); 
 		ctrlPressed = TRUE;
@@ -3926,25 +3999,27 @@ void mainWindowImpl::myButtonsCheckable(bool state) {
 		//checkable
 
 		pushButton_BetRaise->setCheckable(TRUE);
-		pushButton_CallCheckSet->setCheckable(TRUE);
-		pushButton_FoldAllin->setCheckable(TRUE);
+		pushButton_CallCheck->setCheckable(TRUE);
+		pushButton_Fold->setCheckable(TRUE);
+		pushButton_AllIn->setCheckable(TRUE);
 
 		//design
 		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #28E74B; }");
-		pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #009DFF; }"); 
-		pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #FF1E1E; }"); 
+		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #009DFF; }"); 
+		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #FF1E1E; }"); 
 	}
 	else {
 		//not checkable
 
 		pushButton_BetRaise->setCheckable(FALSE);
-		pushButton_CallCheckSet->setCheckable(FALSE);
-		pushButton_FoldAllin->setCheckable(FALSE);
+		pushButton_CallCheck->setCheckable(FALSE);
+		pushButton_Fold->setCheckable(FALSE);
+		pushButton_AllIn->setCheckable(FALSE);
 		
 		//design
 		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; QPushButton }");
-		pushButton_CallCheckSet->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
-		pushButton_FoldAllin->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
+		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
+		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
 	}
 }
 
