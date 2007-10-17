@@ -50,6 +50,8 @@ public:
 	void collectPot() ;
 
 	void distributePot();
+
+	std::list<int> getWinners() const { return winners; }
 	
 
 private:
@@ -59,6 +61,8 @@ private:
 	PlayerList runningPlayerList;
 
 	HandInterface *currentHand;
+
+	std::list<int> winners;
 
 	int myCards[5];
 	int pot;

@@ -43,7 +43,8 @@ public slots:
 	void logPlayerActionMsg(QString playerName, int action, int setValue);
 	void logNewGameHandMsg(int gameID, int handID);
 	void logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbName);
-	void logPlayerWinsMsg(QString playerName, int pot);
+	void logPlayerWinsMsg(QString playerName, int pot, bool main);
+	void logPlayerSitsOut(QString playerName);
 	void logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1);
 	void logFlipHoleCardsMsg(QString playerName, int card1, int card2, int cardsValueInt = -1, QString showHas = "shows");
 	void logPlayerLeftMsg(QString playerName);
@@ -63,7 +64,8 @@ signals:
 	void signalLogPlayerActionMsg(QString playerName, int action, int setValue);
 	void signalLogNewGameHandMsg(int gameID, int handID);
 	void signalLogNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbName);
-	void signalLogPlayerWinsMsg(QString playerName, int pot);
+	void signalLogPlayerWinsMsg(QString playerName, int pot, bool main);
+	void signalLogPlayerSitsOut(QString playerName);
 	void signalLogDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1);
 	void signalLogFlipHoleCardsMsg(QString playerName, int card1, int card2, int cardsValueInt = -1, QString showHas = "shows");
 	void signalLogPlayerLeftMsg(QString playerName);

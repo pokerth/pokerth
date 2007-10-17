@@ -73,6 +73,8 @@ void LocalBoard::collectPot() {
 
 void LocalBoard::distributePot() {
 
+	winners.clear();
+
 	size_t i,j,k,l;
 	PlayerListIterator it;
 	PlayerListConstIterator it_c;
@@ -177,11 +179,14 @@ void LocalBoard::distributePot() {
 						throw LocalException(ERR_SEAT_NOT_FOUND);
 					}
 					(*it)->setMyCash( (*it)->getMyCash() + ((potLevel[1])/winnerCount));
+
+					// filling winners vector
+					winners.push_back((*it)->getMyID());
 				}
 
 			}
 			// pot level sum not divisible by winnerCount
-			// --> distribution after smallBlind (perhaps lastActionPlayer? - TODO)
+			// --> distribution after smallBlind
 			else {
 
 				winnerPointer = currentHand->getDealerPosition();
@@ -215,8 +220,12 @@ void LocalBoard::distributePot() {
 					}
 					if(j<mod) {
 						(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount) + 1);
+						// filling winners vector
+						winners.push_back((*it)->getMyID());
 					} else {
 						(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount));
+						// filling winners vector
+						winners.push_back((*it)->getMyID());
 					}
 				}
 			}
@@ -240,6 +249,11 @@ void LocalBoard::distributePot() {
 
 		}
 	}
+
+	// winners sort and unique 
+	winners.sort();
+	winners.unique();
+
 
 	// ERROR-Outputs
 

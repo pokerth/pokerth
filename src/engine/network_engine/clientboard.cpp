@@ -119,4 +119,10 @@ ClientBoard::distributePot()
 
 }
 
+std::list<int>
+ClientBoard::getWinners() const
+{
+	return winners;
+}
+
 

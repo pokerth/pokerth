@@ -36,7 +36,8 @@ Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), m
 	connect(this, SIGNAL(signalLogPlayerActionMsg(QString, int, int)), this, SLOT(logPlayerActionMsg(QString, int, int)));
 	connect(this, SIGNAL(signalLogNewGameHandMsg(int, int)), this, SLOT(logNewGameHandMsg(int, int)));
 	connect(this, SIGNAL(signalLogNewBlindsSetsMsg(int, int, QString, QString)), this, SLOT(logNewBlindsSetsMsg(int, int, QString, QString)));
-	connect(this, SIGNAL(signalLogPlayerWinsMsg(QString, int)), this, SLOT(logPlayerWinsMsg(QString, int)));
+	connect(this, SIGNAL(signalLogPlayerWinsMsg(QString, int, bool)), this, SLOT(logPlayerWinsMsg(QString, int, bool)));
+	connect(this, SIGNAL(signalLogPlayerSitsOut(QString)), this, SLOT(logPlayerSitsOut(QString)));
 	connect(this, SIGNAL(signalLogDealBoardCardsMsg(int, int, int, int, int, int)), this, SLOT(logDealBoardCardsMsg(int, int, int, int, int, int)));
 	connect(this, SIGNAL(signalLogFlipHoleCardsMsg(QString, int, int, int, QString)), this, SLOT(logFlipHoleCardsMsg(QString, int, int, int, QString)));
 	connect(this, SIGNAL(signalLogPlayerLeftMsg(QString)), this, SLOT(logPlayerLeftMsg(QString)));
@@ -66,7 +67,7 @@ Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), m
 			stream << "<head>\n";
 			stream << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf8\">";
 			stream << "</head>\n";
-			stream << "<body>\n";
+			stream << "<body style=\"font-size:smaller\">\n";
 			stream << "<img src='logo.png'>\n";
 			stream << "<h3><b>Log-File for PokerTH 0.6 Session started on "+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
 	// 		stream << "</body>\n";
@@ -125,7 +126,7 @@ void Log::logPlayerActionMsg(QString msg, int action, int setValue) {
 		break;
 		case 4: msg += " bets ";
 		break;
-		case 5: msg += " sets ";
+		case 5: msg += " bets ";
 		break;
 		case 6: msg += " is all in with ";
 		break;
@@ -341,9 +342,9 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 
 	if(myConfig->readConfigInt("LogOnOff")) {
 	//if write logfiles is enabled
-		
+
 		logFileStreamString += "<table><tr><td width=\"600\" align=\"center\"><hr noshade size=\"3\"><b>Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+"</b></td><td></td></tr></table>";
-		logFileStreamString += "<p style=\"font-size:smaller\">BLIND LEVEL: "+QString::number(currentHand->getSmallBlind())+"$/"+QString::number(currentHand->getSmallBlind()*2)+"$</br>";
+		logFileStreamString += "BLIND LEVEL: "+QString::number(currentHand->getSmallBlind())+"$/"+QString::number(currentHand->getSmallBlind()*2)+"$</br>";
 
 		//print cash only for active players
 		for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
@@ -438,7 +439,7 @@ void Log::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbNa
 	logFileStreamString += "</br>\n";
 }
 
-void Log::logPlayerWinsMsg(QString playerName, int pot) {
+void Log::logPlayerWinsMsg(QString playerName, int pot, bool main) {
 
 // 	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
 
@@ -446,7 +447,11 @@ void Log::logPlayerWinsMsg(QString playerName, int pot) {
 
 // 	PlayerListConstIterator playerConstIt = currentHand->getActivePlayerIt(playerID);
 // 	assert( playerConstIt != currentHand->getActivePlayerList()->end() );
-	myW->textBrowser_Log->append("<span style=\"color:#FFFF00;\">"+playerName+" wins "+QString::number(pot,10)+"$!</span><br>");
+	if(main) {
+		myW->textBrowser_Log->append("<span style=\"color:#FFFF00;\">"+playerName+" wins "+QString::number(pot,10)+"$</span>");
+	} else {
+		myW->textBrowser_Log->append("<span style=\"color:#FFFFCC;\">"+playerName+" wins "+QString::number(pot,10)+"$ (side pot)</span>");
+	}
 	
 	if(myConfig->readConfigInt("LogOnOff")) {
 	//if write logfiles is enabled
@@ -460,7 +465,12 @@ void Log::logPlayerWinsMsg(QString playerName, int pot) {
 			
 // 		logFileStreamString += "</br><i>"+QString::fromUtf8(currentHand->getPlayerArray()[playerID]->getMyName().c_str())+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
 
-		logFileStreamString += "</br><i>"+playerName+" wins "+QString::number(pot,10)+"$!!!</i></p>\n";
+		logFileStreamString += "</br><i>"+playerName+" wins "+QString::number(pot,10)+"$";
+		if(!main) {
+			logFileStreamString += " (side pot)";
+		}
+		logFileStreamString += "</i>\n";
+
 
 		if(myConfig->readConfigInt("LogInterval") == 0) {	
 			writeLogFileStream(logFileStreamString);
@@ -468,6 +478,24 @@ void Log::logPlayerWinsMsg(QString playerName, int pot) {
 		}
 	}
 }
+
+
+void Log::logPlayerSitsOut(QString playerName) {
+
+	myW->textBrowser_Log->append("<i><span style=\"color:#FF6633;\">"+playerName+" sits out</span></i>");
+	
+	if(myConfig->readConfigInt("LogOnOff")) {
+
+		logFileStreamString += "</br><i><span style=\"font-size:smaller;\">"+playerName+" sits out</span></i>\n";
+
+
+		if(myConfig->readConfigInt("LogInterval") == 0) {	
+			writeLogFileStream(logFileStreamString);
+			logFileStreamString = "";
+		}
+	}
+}
+
 
 void Log::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4, int card5) {  
 	

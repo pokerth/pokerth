@@ -50,6 +50,8 @@ public:
 
 	void distributePot();
 
+	std::list<int> getWinners() const;
+
 private:
 	mutable boost::recursive_mutex m_syncMutex;
 
@@ -59,6 +61,8 @@ private:
 	PlayerList runningPlayerList;
 
 	HandInterface *actualHand;
+
+	std::list<int> winners;
 
 	int myCards[5];
 	int pot;

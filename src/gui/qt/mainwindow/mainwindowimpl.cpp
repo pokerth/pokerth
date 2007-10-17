@@ -2887,6 +2887,8 @@ void mainWindowImpl::postRiverRunAnimation3() {
 	} 
 
 
+	list<int> winners = currentHand->getBoard()->getWinners();
+
 
 	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
 		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
@@ -2955,7 +2957,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 // 			if (textLabel_handLabel->text() == "River") {
 
 			//set Player value (logging)
-			(*it_c)->setMyWinnerState(1, pot);
+			(*it_c)->setMyWinnerState(true, pot);
 
 // 			}
 // 			else {
@@ -2963,7 +2965,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 // 			}
 		}
 		else {
-			
+
 			if( currentHand->getActivePlayerList()->size() != 1 && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && myConfig->readConfigInt("ShowFadeOutCardsAnimation") ) {
     	
 			//aufgedeckte Gegner auch ausblenden
@@ -2973,14 +2975,29 @@ void mainWindowImpl::postRiverRunAnimation3() {
 		}
 	}
 
+	// log side pot winners -> TODO
+	list<int>::iterator it_int;
+	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() != currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
+			for(it_int = winners.begin(); it_int != winners.end(); it_int++) {
+				if((*it_int) == (*it_c)->getMyID()) {
+					bool toIntBool = TRUE;
+					int pot =  (*it_c)->getMyCash() - cashLabelArray[(*it_c)->getMyID()]->text().remove(" $").toInt(&toIntBool,10);
+					(*it_c)->setMyWinnerState(false, pot);
+				}
+			}
 
+		}
+	}
 
+	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+		if((*it_c)->getMyCash() == 0) {
+			currentHand->getGuiInterface()->logPlayerSitsOut((*it_c)->getMyName());
+		}
+	}
 
-
-
-
-
+	textBrowser_Log->append("");
 	
 	postRiverRunAnimation3Timer->start(postRiverRunAnimationSpeed/2);
 }

@@ -53,6 +53,8 @@ public:
 
 	virtual void distributePot() =0;
 
+	virtual std::list<int> getWinners() const =0;
+
 
 };
 

@@ -142,8 +142,8 @@ public:
 	bool getSBluffStatus() const { return sBluffStatus; }
 
 	void setMyWinnerState ( bool theValue, int pot ) {
-		myWinnerState = theValue;
-		if(theValue) actualHand->getGuiInterface()->logPlayerWinsMsg(myName, pot);	
+		if(theValue) myWinnerState = theValue;
+		actualHand->getGuiInterface()->logPlayerWinsMsg(myName, pot, theValue);	
 	}
 	bool getMyWinnerState() const { return myWinnerState;}
 	
