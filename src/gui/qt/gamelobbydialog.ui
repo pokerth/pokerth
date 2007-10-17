@@ -13,6 +13,12 @@
    <string>Internet Game Lobby</string>
   </property>
   <layout class="QGridLayout" >
+   <property name="bottomMargin" >
+    <number>4</number>
+   </property>
+   <property name="verticalSpacing" >
+    <number>4</number>
+   </property>
    <item rowspan="3" row="0" column="0" >
     <widget class="QTreeWidget" name="treeWidget_NickList" >
      <property name="sizePolicy" >
@@ -458,6 +464,44 @@
       </item>
      </layout>
     </widget>
+   </item>
+   <item row="3" column="0" colspan="3" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QLabel" name="label_connectedPlayersCounter" >
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_nickListCounter" >
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_runningGamesCounter" >
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_openGamesCounter" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

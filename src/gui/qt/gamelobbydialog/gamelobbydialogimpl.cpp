@@ -237,6 +237,8 @@ void gameLobbyDialogImpl::updateGameItem(QTreeWidgetItem *item, unsigned gameId)
 
 	if (info.isPasswordProtected)
 		item->setIcon(3, QIcon(myAppDataPath+"gfx/gui/misc/lock.png"));
+
+	refreshGameStats();
 }
 
 void gameLobbyDialogImpl::addGame(unsigned gameId)
@@ -275,6 +277,31 @@ void gameLobbyDialogImpl::removeGame(unsigned gameId)
 		}
 		++it;
 	}
+	
+	refreshGameStats();
+}
+
+void gameLobbyDialogImpl::refreshGameStats() {
+
+	int runningGamesCounter = 0;
+	int openGamesCounter = 0;
+
+	QTreeWidgetItemIterator it(treeWidget_GameList);
+	while (*it) {
+		if ((*it)->data(2, Qt::DisplayRole) ==  tr("running")) { runningGamesCounter++; }
+		if ((*it)->data(2, Qt::DisplayRole) ==  tr("open")) { openGamesCounter++; }
+		++it;
+	}
+
+	label_openGamesCounter->setText("| "+tr("running games: %1").arg(runningGamesCounter));
+	label_runningGamesCounter->setText("| "+tr("open games: %1").arg(openGamesCounter));
+
+}
+
+void gameLobbyDialogImpl::refreshPlayerStats() {
+
+	label_nickListCounter->setText("| "+tr("nicks in chat: %1").arg(treeWidget_NickList->topLevelItemCount()));
+	label_connectedPlayersCounter->setText(tr("connected players: %1").arg(0));
 }
 
 void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)

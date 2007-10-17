@@ -76,6 +76,8 @@ void LobbyChat::playerJoined(QString playerName)
 	item->setData(0, Qt::DisplayRole, playerName);
 
 	myLobby->treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
+
+	myLobby->refreshPlayerStats();
 }
 
 void LobbyChat::playerChanged(QString oldNick, QString newNick)
@@ -114,6 +116,8 @@ void LobbyChat::playerLeft(QString playerName)
 		myLobby->treeWidget_NickList->takeTopLevelItem(myLobby->treeWidget_NickList->indexOfTopLevelItem(tmpList.front()));
 
 	myLobby->treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
+
+	myLobby->refreshPlayerStats();
 }
 
 void LobbyChat::displayMessage(QString playerName, QString message) { 
