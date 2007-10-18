@@ -1929,6 +1929,10 @@ void mainWindowImpl::dealHoleCards() {
 
 void mainWindowImpl::dealBeRoCards(int myBeRoID) {	
 
+	uncheckMyButtons();
+	myButtonsCheckable(FALSE);
+	clearMyButtons();
+
 	switch(myBeRoID) {
 
 		case 1: { dealFlopCards0(); }
@@ -2099,6 +2103,12 @@ void mainWindowImpl::dealRiverCards2() {
 
 void mainWindowImpl::provideMyActions() {
 
+	QString pushButtonFoldString;
+	QString pushButtonBetRaiseString;
+	QString lastPushButtonBetRaiseString = pushButton_BetRaise->text();
+	QString pushButtonCallCheckString;
+	QString lastPushButtonCallCheckString = pushButton_CallCheck->text();
+	
 	
 	Game *currentGame = mySession->getCurrentGame();
 	HandInterface *currentHand = currentGame->getCurrentHand();
@@ -2124,32 +2134,34 @@ void mainWindowImpl::provideMyActions() {
 	
 		case 0: {
 			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { 
-				pushButton_BetRaise->setText("Raise"); 
+				pushButtonBetRaiseString = "Raise"; 
 			}
 	
-			if (currentGame->getSeatsList()->front()->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getSeatsList()->front()->getMyButton() == 3) { pushButton_CallCheck->setText("Check"); }
-			else { pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" ); }
-			pushButton_Fold->setText("Fold"); 
+			if (currentGame->getSeatsList()->front()->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getSeatsList()->front()->getMyButton() == 3) { pushButtonCallCheckString = "Check"; }
+			else { pushButtonCallCheckString = "Call "+QString::number(getMyCallAmount())+"$"; }
+			
+			pushButtonFoldString = "Fold"; 
 		}
 		break;
 		case 1: {
 		
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable()) { 
-				pushButton_Fold->setText("Check / Fold"); 
+				pushButtonFoldString = "Check / Fold"; 
 			}
-			else { pushButton_Fold->setText("Fold"); }
+			else { pushButtonFoldString = "Fold"; }
 	
 	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 	
-				if(pushButton_CallCheck->isCheckable()) { pushButton_CallCheck->setText("Check / Call"); }
-				else { pushButton_CallCheck->setText("Check"); }
-				pushButton_BetRaise->setText("Bet"); 		
+				if(pushButton_CallCheck->isCheckable()) { pushButtonCallCheckString = "Check / Call"; }
+				else { pushButtonCallCheckString = "Check"; }
+
+				pushButtonBetRaiseString = "Bet"; 
 			}
 			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-				pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" );
+				pushButtonCallCheckString = "Call "+QString::number(getMyCallAmount())+"$" ;
 				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-					pushButton_BetRaise->setText("Raise"); 
+					pushButtonBetRaiseString = "Raise";
 				}
 			}
 		}
@@ -2157,21 +2169,21 @@ void mainWindowImpl::provideMyActions() {
 		case 2: {
 		
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable()) { 
-				pushButton_Fold->setText("Check / Fold"); 
+				pushButtonFoldString = "Check / Fold"; 
 			}
-			else { pushButton_Fold->setText("Fold"); }
+			else { pushButtonFoldString = "Fold"; }
 	
 	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 	
-				if(pushButton_CallCheck->isCheckable()) { pushButton_CallCheck->setText("Check / Call"); }
-				else { pushButton_CallCheck->setText("Check"); }
-				pushButton_BetRaise->setText("Bet"); 		
+				if(pushButton_CallCheck->isCheckable()) { pushButtonCallCheckString = "Check / Call"; }
+				else { pushButtonCallCheckString = "Check"; }
+				pushButtonBetRaiseString = "Bet"; 		
 			}
 			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-				pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" );
+				pushButtonCallCheckString = "Call "+QString::number(getMyCallAmount())+"$" ;
 				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-					pushButton_BetRaise->setText("Raise"); 
+					pushButtonBetRaiseString = "Raise";
 				}
 			}
 		}
@@ -2179,21 +2191,21 @@ void mainWindowImpl::provideMyActions() {
 		case 3: {
 		
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable()) { 
-				pushButton_Fold->setText("Check / Fold"); 
+				pushButtonFoldString = "Check / Fold"; 
 			}
-			else { pushButton_Fold->setText("Fold"); }
+			else { pushButtonFoldString = "Fold"; }
 	
 	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 	
-				if(pushButton_CallCheck->isCheckable()) { pushButton_CallCheck->setText("Check / Call"); }
-				else { pushButton_CallCheck->setText("Check"); }
-				pushButton_BetRaise->setText("Bet"); 		
+				if(pushButton_CallCheck->isCheckable()) { pushButtonCallCheckString = "Check / Call"; }
+				else { pushButtonCallCheckString = "Check"; }
+				pushButtonBetRaiseString = "Bet"; 		
 			}
 			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-				pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" );
+				pushButtonCallCheckString = "Call "+QString::number(getMyCallAmount())+"$" ;
 				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-					pushButton_BetRaise->setText("Raise"); 
+					pushButtonBetRaiseString = "Raise";
 				}
 			}
 		}
@@ -2201,6 +2213,14 @@ void mainWindowImpl::provideMyActions() {
 		default: {}
 		}
 	
+		//if text changed on checked button --> uncheck to prevent unwanted actions
+		if((pushButtonCallCheckString != lastPushButtonCallCheckString && pushButton_CallCheck->isChecked()) || (pushButtonBetRaiseString != lastPushButtonBetRaiseString && pushButton_BetRaise->isChecked()) ) { uncheckMyButtons(); }
+
+		pushButton_Fold->setText(pushButtonFoldString);
+		pushButton_BetRaise->setText(pushButtonBetRaiseString);
+		pushButton_CallCheck->setText(pushButtonCallCheckString);
+
+
 		myBetRaise();
 	}
 }
@@ -2283,9 +2303,6 @@ void mainWindowImpl::disableMyButtons() {
 // 	pushButton_BetRaise->setText("");
 // 	pushButton_CallCheck->setText("");
 // 	pushButton_Fold->setText("");
-
-	myButtonsCheckable(TRUE);
-
 	
 }
 
@@ -2549,7 +2566,9 @@ void mainWindowImpl::pushButtonBetRaiseClicked(bool checked) {
 				radioButton_manualAction->click();
 
 		}
-		else {}
+		else {
+			pushButtonBetRaiseIsChecked = FALSE;
+		}
 	}
 	else {
 		mySet();
@@ -2573,7 +2592,9 @@ void mainWindowImpl::pushButtonCallCheckClicked(bool checked) {
 			if(!radioButton_manualAction->isChecked())
 				radioButton_manualAction->click();
 		}
-		else {}
+		else {
+			pushButtonCallCheckIsChecked = FALSE;
+		}
 	}
 	else {
 		myCallCheck();
@@ -2597,7 +2618,9 @@ void mainWindowImpl::pushButtonFoldClicked(bool checked) {
 			if(!radioButton_manualAction->isChecked())
 				radioButton_manualAction->click();
 		}
-		else {}
+		else {
+			pushButtonFoldIsChecked = FALSE;
+		}
 	}
 	else {
 		myFold();
@@ -2621,7 +2644,9 @@ void mainWindowImpl::pushButtonAllInClicked(bool checked) {
 			if(!radioButton_manualAction->isChecked())
 				radioButton_manualAction->click();
 		}
-		else {}
+		else {
+			pushButtonAllInIsChecked = FALSE;
+		}
 	}
 	else {
 		myAllIn();
@@ -2662,8 +2687,16 @@ void mainWindowImpl::nextPlayerAnimation() {
 	refreshCash();
 
 	//refresh actions for human player
-	provideMyActions();
 	
+	if(currentHand->getLastPlayersTurn() == 0) {
+		myButtonsCheckable(FALSE);
+		clearMyButtons();
+	}
+	else {
+		myButtonsCheckable(TRUE);
+		provideMyActions();
+	}
+
 	nextPlayerAnimationTimer->start(nextPlayerSpeed1);
 }
 
@@ -2715,6 +2748,10 @@ void mainWindowImpl::postRiverAnimation1Action() { mySession->getCurrentGame()->
 void mainWindowImpl::postRiverRunAnimation1() {	postRiverRunAnimation1Timer->start(postRiverRunAnimationSpeed); }
 
 void mainWindowImpl::postRiverRunAnimation2() {
+	
+	uncheckMyButtons();
+	myButtonsCheckable(FALSE);
+	clearMyButtons();
 
 // 	int i;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
@@ -3535,6 +3572,8 @@ void mainWindowImpl::nextRoundCleanGui() {
 
 	//fix press mouse button during bankrupt with anti-peek-mode
 	this->mouseOverFlipCards(FALSE);
+
+	uncheckMyButtons();
 }
 
 void mainWindowImpl::stopTimer() {
@@ -4088,6 +4127,21 @@ void mainWindowImpl::mouseOverFlipCards(bool front) {
 			holeCardsArray[0][1]->signalFastFlipCards(front);
 		}
 	}
+}
+
+void mainWindowImpl::uncheckMyButtons() {
+
+	pushButton_BetRaise->setChecked(FALSE);
+	pushButton_CallCheck->setChecked(FALSE);
+	pushButton_Fold->setChecked(FALSE);
+	pushButton_AllIn->setChecked(FALSE);
+}
+
+void mainWindowImpl::clearMyButtons() {
+
+	pushButton_BetRaise->setText("");
+	pushButton_CallCheck->setText("");
+	pushButton_Fold->setText("");
 }
 
 void mainWindowImpl::myButtonsCheckable(bool state) {
