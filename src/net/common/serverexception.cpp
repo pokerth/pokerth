@@ -20,7 +20,7 @@
 #include <net/serverexception.h>
 
 
-ServerException::~ServerException()
+ServerException::~ServerException() throw()
 {
 }
 

@@ -20,7 +20,7 @@
 #include "localexception.h"
 
 
-LocalException::~LocalException()
+LocalException::~LocalException() throw()
 {
 }
 

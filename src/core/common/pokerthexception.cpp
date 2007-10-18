@@ -32,12 +32,12 @@ PokerTHException::PokerTHException(const char *sourcefile, int sourceline, int e
 	m_msg = msgStream.str();
 }
 
-PokerTHException::~PokerTHException()
+PokerTHException::~PokerTHException() throw()
 {
 }
 
 const char *
-PokerTHException::what() const
+PokerTHException::what() const throw()
 {
 	return m_msg.c_str();
 }

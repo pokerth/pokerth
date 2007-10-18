@@ -20,7 +20,7 @@
 #include <net/clientexception.h>
 
 
-ClientException::~ClientException()
+ClientException::~ClientException() throw()
 {
 }
 

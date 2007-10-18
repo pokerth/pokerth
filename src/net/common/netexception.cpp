@@ -20,7 +20,7 @@
 #include <net/netexception.h>
 
 
-NetException::~NetException()
+NetException::~NetException() throw()
 {
 }
 
