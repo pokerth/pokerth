@@ -29,7 +29,7 @@ public:
 
 	NetException(const char *sourcefile, int sourceline, int errorId, int osErrorCode)
 		: PokerTHException(sourcefile, sourceline, errorId, osErrorCode) {}
-	virtual ~NetException();
+	virtual ~NetException() throw();
 };
 
 #endif
