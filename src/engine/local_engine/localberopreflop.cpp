@@ -306,10 +306,10 @@ void LocalBeRoPreflop::run() {
 
 		// Preflop nicht dran, weil wir nicht mehr in erster PreflopRunde und alle Sets gleich sind
 		//also gehe in Flop
-		getMyHand()->setActualRound(GAME_STATE_FLOP);
+		getMyHand()->setCurrentRound(GAME_STATE_FLOP);
 
 		// exception no.1 - see above
-// 		if(getMyHand()->getAllInCondition()) getMyHand()->setActualRound(GAME_STATE_PREFLOP);;
+// 		if(getMyHand()->getAllInCondition()) getMyHand()->setCurrentRound(GAME_STATE_PREFLOP);;
 		
 		//Action loeschen und ActionButtons refresh
 		for(it_c=getMyHand()->getRunningPlayerList()->begin(); it_c!=getMyHand()->getRunningPlayerList()->end(); it_c++) {

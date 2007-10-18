@@ -967,10 +967,10 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 			// Set round.
-			if (curGame->getCurrentHand()->getActualRound() != turnData.gameState)
+			if (curGame->getCurrentHand()->getCurrentRound() != turnData.gameState)
 			{
 				ResetPlayerActions(*curGame);
-				curGame->getCurrentHand()->setActualRound(turnData.gameState);
+				curGame->getCurrentHand()->setCurrentRound(turnData.gameState);
 				// Refresh actions.
 				client.GetGui().refreshSet();
 				client.GetGui().refreshAction();

@@ -132,8 +132,8 @@ private:
 	mutable boost::recursive_mutex m_syncMutex;
 
 	ConfigFile *myConfig;
-	HandInterface *actualHand;
-	BoardInterface *actualBoard;
+	HandInterface *currentHand;
+	BoardInterface *currentBoard;
 
 	CardsValue *myCardsValue;
 

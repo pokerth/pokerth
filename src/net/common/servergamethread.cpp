@@ -94,7 +94,7 @@ ServerGameThread::AddSession(SessionWrapper session)
 GameState
 ServerGameThread::GetCurRound() const
 {
-	return static_cast<GameState>(GetGame().getCurrentHand()->getActualRound());
+	return static_cast<GameState>(GetGame().getCurrentHand()->getCurrentRound());
 }
 
 void

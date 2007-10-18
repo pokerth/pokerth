@@ -54,7 +54,7 @@ public:
 	boost::shared_ptr<BeRoInterface> getTurn() const { return myBeRo[GAME_STATE_TURN]; }
 	boost::shared_ptr<BeRoInterface> getRiver() const { return myBeRo[GAME_STATE_RIVER]; }
 	GuiInterface* getGuiInterface() const { return myGui; }
-	boost::shared_ptr<BeRoInterface> getCurrentBeRo() const { return myBeRo[actualRound]; }
+	boost::shared_ptr<BeRoInterface> getCurrentBeRo() const { return myBeRo[currentRound]; }
 
 	void setMyID(int theValue) { myID = theValue; }
 	int getMyID() const { return myID; }
@@ -62,8 +62,8 @@ public:
 	void setStartQuantityPlayers(int theValue) { startQuantityPlayers = theValue; }
 	int getStartQuantityPlayers() const { return startQuantityPlayers; }
 
-	void setActualRound(int theValue) { actualRound = theValue; }
-	int getActualRound() const { return actualRound; }
+	void setCurrentRound(int theValue) { currentRound = theValue; }
+	int getCurrentRound() const { return currentRound; }
 
 	void setDealerPosition(int theValue) { dealerPosition = theValue; }
 	int getDealerPosition() const { return dealerPosition; }
@@ -107,7 +107,7 @@ private:
 	int myID;
 	int startQuantityPlayers;
 	unsigned dealerPosition; // -1 -> neutral
-	int actualRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
+	int currentRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
 	int smallBlind;
 	int startCash;
 

@@ -24,7 +24,7 @@
 using namespace std;
 
 ClientBoard::ClientBoard()
-: playerArray(0), actualHand(0), pot(0), sets(0)
+: playerArray(0), currentHand(0), pot(0), sets(0)
 {
 }
 
@@ -47,7 +47,7 @@ void
 ClientBoard::setHand(HandInterface* br)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	actualHand = br;
+	currentHand = br;
 }
 
 void

@@ -73,11 +73,11 @@ public:
 
 	int getMyGameID() const	{ return myGameID; }
 
-	void setActualSmallBlind(int theValue) { actualSmallBlind = theValue; }
-	int getActualSmallBlind() const { return actualSmallBlind; }
+	void setCurrentSmallBlind(int theValue) { currentSmallBlind = theValue; }
+	int getCurrentSmallBlind() const { return currentSmallBlind; }
 
-	void setActualHandID(int theValue) { actualHandID = theValue; }
-	int getActualHandID() const { return actualHandID; }
+	void setCurrentHandID(int theValue) { currentHandID = theValue; }
+	int getCurrentHandID() const { return currentHandID; }
 
 	boost::shared_ptr<PlayerInterface> getPlayerByUniqueId(unsigned id);
 	boost::shared_ptr<PlayerInterface> getCurrentPlayer();
@@ -88,8 +88,8 @@ private:
 	boost::shared_ptr<EngineFactory> myFactory;
 
 	GuiInterface *myGui;
-	HandInterface *actualHand;
-	BoardInterface *actualBoard;
+	HandInterface *currentHand;
+	BoardInterface *currentBoard;
 
 	std::vector<boost::shared_ptr<PlayerInterface> > playerArray; // available seats --> seatList !!! TODO // delete
 	PlayerList seatsList;
@@ -106,8 +106,8 @@ private:
 	int guiPlayerNum;
 
 	//Laufvariablen
-	int actualSmallBlind;
-	int actualHandID;
+	int currentSmallBlind;
+	int currentHandID;
 	unsigned dealerPosition;
 	int lastHandBlindsRaised;
 	int lastTimeBlindsRaised;

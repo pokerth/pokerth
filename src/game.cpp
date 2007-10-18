@@ -33,10 +33,10 @@ using namespace std;
 Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		   const PlayerDataList &playerDataList, const GameData &gameData,
 		   const StartData &startData, int gameId)
-: myFactory(factory), myGui(gui), actualHand(0), actualBoard(0),
+: myFactory(factory), myGui(gui), currentHand(0), currentBoard(0),
   startQuantityPlayers(startData.numberOfPlayers),
   startCash(gameData.startMoney), startSmallBlind(gameData.firstSmallBlind),
-  myGameID(gameId), actualSmallBlind(gameData.firstSmallBlind), actualHandID(0), dealerPosition(0), lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData)
+  myGameID(gameId), currentSmallBlind(gameData.firstSmallBlind), currentHandID(0), dealerPosition(0), lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData)
 {
 
 	blindsList = myGameData.manualBlindsList;
@@ -44,13 +44,13 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 
 	if(DEBUG_MODE) {
 		startSmallBlind = 10;
-		actualSmallBlind = startSmallBlind;
+		currentSmallBlind = startSmallBlind;
 	}
 
 // 	cout << "Create Game Object" << "\n";
 	int i;
 
-	actualHandID = 0;
+	currentHandID = 0;
 
 // 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 // 		playerArray[i] = 0;
@@ -71,7 +71,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 	dealerPosition = startData.startDealerPlayerId;
 
 	// Board erstellen
-	actualBoard = myFactory->createBoard();
+	currentBoard = myFactory->createBoard();
 
 	seatsList = PlayerList(new std::list<boost::shared_ptr<PlayerInterface> >);
 	activePlayerList = PlayerList(new std::list<boost::shared_ptr<PlayerInterface> >);
@@ -101,7 +101,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		}
 
 		// create Player Objects
-		boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(actualBoard, i, uniqueId, type, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0);
+		boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(currentBoard, i, uniqueId, type, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0);
 
 		tmpPlayer->setNetSessionData(myNetSession);
 
@@ -117,7 +117,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		playerArray[i]->setNetSessionData(myNetSession); // delete
 		
 	}
-	actualBoard->setPlayerLists(playerArray, seatsList, activePlayerList, runningPlayerList); // delete playerArray
+	currentBoard->setPlayerLists(playerArray, seatsList, activePlayerList, runningPlayerList); // delete playerArray
 
 	//start timer
 	blindsTimer.reset();
@@ -128,21 +128,21 @@ Game::~Game()
 {
 // 	cout << "Delete Game Object" << "\n";
 
-	delete actualBoard;
-	actualBoard = 0;
-	delete actualHand;
-	actualHand = 0;
+	delete currentBoard;
+	currentBoard = 0;
+	delete currentHand;
+	currentHand = 0;
 
 }
 
 HandInterface *Game::getCurrentHand()
 {
-	return actualHand;
+	return currentHand;
 }
 
 const HandInterface *Game::getCurrentHand() const
 {
-	return actualHand;
+	return currentHand;
 }
 
 void Game::initHand()
@@ -152,7 +152,7 @@ void Game::initHand()
 	PlayerListConstIterator it_c;
 	PlayerListIterator it, it_2;
 
-	actualHandID++;
+	currentHandID++;
 
 	// calculate smallBlind
 	raiseBlinds();
@@ -182,16 +182,16 @@ void Game::initHand()
 	}
 
 	// eventuell vorhandene Hand löschen
-	if(actualHand) {
-		delete actualHand;
-		actualHand = 0;
+	if(currentHand) {
+		delete currentHand;
+		currentHand = 0;
 	}
 
 	runningPlayerList->clear();
 	(*runningPlayerList) = (*activePlayerList);
 
 	// Hand erstellen
-	actualHand = myFactory->createHand(myFactory, myGui, actualBoard, playerArray, seatsList, activePlayerList, runningPlayerList, actualHandID, startQuantityPlayers, dealerPosition, actualSmallBlind, startCash); // delete playerArray
+	currentHand = myFactory->createHand(myFactory, myGui, currentBoard, playerArray, seatsList, activePlayerList, runningPlayerList, currentHandID, startQuantityPlayers, dealerPosition, currentSmallBlind, startCash); // delete playerArray
 
 
 	// Dealer-Button weiterschieben --> Achtung inactive -> TODO exception-rule !!! DELETE
@@ -202,7 +202,7 @@ void Game::initHand()
 
 	// Dealer-Button weiterschieben --> Achtung inactive -> TODO exception-rule !!!
 	bool nextDealerFound = false;
-	PlayerListConstIterator dealerPositionIt = actualHand->getSeatIt(dealerPosition);
+	PlayerListConstIterator dealerPositionIt = currentHand->getSeatIt(dealerPosition);
 	if(dealerPositionIt == seatsList->end()) {
 		throw LocalException(ERR_SEAT_NOT_FOUND);
 	}
@@ -212,7 +212,7 @@ void Game::initHand()
 		dealerPositionIt++;
 		if(dealerPositionIt == seatsList->end()) dealerPositionIt = seatsList->begin();
 
-		it = actualHand->getActivePlayerIt( (*dealerPositionIt)->getMyUniqueID() );
+		it = currentHand->getActivePlayerIt( (*dealerPositionIt)->getMyUniqueID() );
 		if(it != activePlayerList->end() ) {
 			nextDealerFound = true;
 			dealerPosition = (*it)->getMyUniqueID();
@@ -233,10 +233,10 @@ void Game::startHand()
 	myGui->nextRoundCleanGui();
 
 	//Log new Hand
-	myGui->logNewGameHandMsg(myGameID, actualHandID);
+	myGui->logNewGameHandMsg(myGameID, currentHandID);
 	myGui->flushLogAtGame(myGameID);	
 
-	actualHand->start();
+	currentHand->start();
 }
 
 boost::shared_ptr<PlayerInterface> Game::getPlayerByUniqueId(unsigned id)
@@ -275,9 +275,9 @@ void Game::raiseBlinds() {
 
 	if (myGameData.raiseIntervalMode == RAISE_ON_HANDNUMBER) {
 
-		if (lastHandBlindsRaised + myGameData.raiseSmallBlindEveryHandsValue <= actualHandID) {
+		if (lastHandBlindsRaised + myGameData.raiseSmallBlindEveryHandsValue <= currentHandID) {
 			raiseBlinds = true;
-			lastHandBlindsRaised = actualHandID;
+			lastHandBlindsRaised = currentHandID;
 
 // 			cout << "raise now on hands \n";
 		}
@@ -297,7 +297,7 @@ void Game::raiseBlinds() {
 		// Now we check how the blinds should be raised
 	
 		if (myGameData.raiseMode == DOUBLE_BLINDS) { 
-			actualSmallBlind *= 2; 
+			currentSmallBlind *= 2; 
 // 			cout << "double small blind \n";
 		}	
 		else {
@@ -307,17 +307,17 @@ void Game::raiseBlinds() {
 			
 			if(!blindsList.empty()) {
 
-				actualSmallBlind = blindsList.front();
+				currentSmallBlind = blindsList.front();
 				blindsList.pop_front();
 
-// 				it = find(blindsList.begin(), blindsList.end(), actualSmallBlind);
+// 				it = find(blindsList.begin(), blindsList.end(), currentSmallBlind);
 // 				if(it !=  blindsList.end()) { 
 // 					it++;
 // 					cout << "increase position in blindslist \n";
 // 				}
 // 				else { 
 // 					cout << "blindslist exceeds\n"; 
-// 					if(actualSmallBlind == myGameData.firstSmallBlind) {
+// 					if(currentSmallBlind == myGameData.firstSmallBlind) {
 // 						it = blindsList.begin();
 // 					}
 // 				}	
@@ -330,19 +330,19 @@ void Game::raiseBlinds() {
 				
 				// The position exceeds the list
 				if (myGameData.afterManualBlindsMode == AFTERMB_DOUBLE_BLINDS) { 
-					actualSmallBlind *= 2; 
+					currentSmallBlind *= 2; 
 // 					cout << "after blindslist double blind\n";
 				}
 				else {
 					if(myGameData.afterManualBlindsMode == AFTERMB_RAISE_ABOUT) { 
-						actualSmallBlind += myGameData.afterMBAlwaysRaiseValue;
+						currentSmallBlind += myGameData.afterMBAlwaysRaiseValue;
 // 						cout << "after blindslist increase about x \n";
 					}
 // 					else { /* Stay at last blind */ cout << "after blindslist stay at last blind \n"; }
 				}				
 // 			} else {
 				// Grab the blinds amount from the list
-// 				actualSmallBlind = *it;
+// 				currentSmallBlind = *it;
 // 				cout << "set new small blind from blindslist \n";
 			}
 		}

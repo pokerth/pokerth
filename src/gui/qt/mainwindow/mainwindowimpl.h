@@ -454,7 +454,7 @@ private:
 	bool pushButtonAllInIsChecked;
 	bool myButtonsAreCheckable;
 
-	bool breakAfterActualHand;
+	bool breakAfterCurrentHand;
 	
 	bool flipHolecardsAllInAlreadyDone;
 

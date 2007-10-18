@@ -622,11 +622,11 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 	Game &curGame = server.GetGame();
 
 	// Main game loop.
-	int curRound = curGame.getCurrentHand()->getActualRound();
+	int curRound = curGame.getCurrentHand()->getCurrentRound();
 	curGame.getCurrentHand()->switchRounds();
 	if (!curGame.getCurrentHand()->getAllInCondition())
 		curGame.getCurrentHand()->getCurrentBeRo()->run();
-	int newRound = curGame.getCurrentHand()->getActualRound();
+	int newRound = curGame.getCurrentHand()->getCurrentRound();
 
 	// If round changes, deal cards if needed.
 	if (newRound != curRound && newRound != GAME_STATE_POST_RIVER)
@@ -690,7 +690,7 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 
 			boost::shared_ptr<NetPacket> notification(new NetPacketPlayersTurn);
 			NetPacketPlayersTurn::Data playersTurnData;
-			playersTurnData.gameState = (GameState)curGame.getCurrentHand()->getActualRound();
+			playersTurnData.gameState = (GameState)curGame.getCurrentHand()->getCurrentRound();
 			playersTurnData.playerId = curPlayer->getMyUniqueID();
 			playersTurnData.minimumRaise = curGame.getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
 			static_cast<NetPacketPlayersTurn *>(notification.get())->SetData(playersTurnData);
@@ -866,7 +866,7 @@ ServerGameStateWaitPlayerAction::InternalProcess(ServerGameThread &server, Sessi
 
 		// Check whether this is the correct round.
 		PlayerActionCode code = ACTION_CODE_VALID;
-		if (curGame.getCurrentHand()->getActualRound() != actionData.gameState)
+		if (curGame.getCurrentHand()->getCurrentRound() != actionData.gameState)
 			code = ACTION_CODE_INVALID_STATE;
 
 		// Check whether this is the correct player.
@@ -1029,7 +1029,7 @@ ServerGameStateDealCardsDelay::Process(ServerGameThread &server)
 	int allInDelay = curGame.getCurrentHand()->getAllInCondition() ? SERVER_DEAL_ADD_ALL_IN_DELAY_SEC : 0;
 	int delay = 0;
 
-	switch(curGame.getCurrentHand()->getActualRound())
+	switch(curGame.getCurrentHand()->getCurrentRound())
 	{
 		case GAME_STATE_FLOP:
 			delay = SERVER_DEAL_FLOP_CARDS_DELAY_SEC;
@@ -1082,7 +1082,7 @@ ServerGameStateShowCardsDelay::Process(ServerGameThread &server)
 	if (GetTimer().elapsed().total_seconds() >= SERVER_SHOW_CARDS_DELAY_SEC)
 	{
 		Game &curGame = server.GetGame();
-		SendNewRoundCards(server, curGame, curGame.getCurrentHand()->getActualRound());
+		SendNewRoundCards(server, curGame, curGame.getCurrentHand()->getCurrentRound());
 
 		server.SetState(ServerGameStateDealCardsDelay::Instance());
 		retVal = MSG_NET_GAME_SERVER_CARDS_DELAY;

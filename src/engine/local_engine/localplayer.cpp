@@ -848,7 +848,7 @@ static const RoundData FlopValues[] =
 #define NUM_FLOP_VALUES (sizeof(FlopValues)/sizeof(RoundData))
 
 LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
-: PlayerInterface(), myConfig(c), actualHand(0), actualBoard(b), myCardsValue(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), sBluff(0), sBluffStatus(0)
+: PlayerInterface(), myConfig(c), currentHand(0), currentBoard(b), myCardsValue(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), sBluff(0), sBluffStatus(0)
 {
 
 	// !!!!!!!!!!!!!!!!!!!!!!!! testing !!!!!!!!!!!!!!!!!!!!!!!!
@@ -929,24 +929,24 @@ LocalPlayer::~LocalPlayer()
 }
 
 
-void LocalPlayer::setHand(HandInterface* br) { actualHand = br; }
+void LocalPlayer::setHand(HandInterface* br) { currentHand = br; }
 
 
 void LocalPlayer::action() {
 
 // 	int myOldCash = myCash;
-// 	int oldHighestSet = actualHand->getCurrentBeRo()->getHighestSet();
-// 	int oldMinimumRaise = actualHand->getCurrentBeRo()->getMinimumRaise();
+// 	int oldHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
+// 	int oldMinimumRaise = currentHand->getCurrentBeRo()->getMinimumRaise();
 // 	int myOldSet = mySet;
 
-	switch(actualHand->getActualRound()) {
+	switch(currentHand->getCurrentRound()) {
 		case 0: {
 
 			if(myConfig->readConfigInt("EngineVersion")) preflopEngine3();
 			else preflopEngine();
 
-			actualBoard->collectSets();
-			actualHand->getGuiInterface()->refreshPot();
+			currentBoard->collectSets();
+			currentHand->getGuiInterface()->refreshPot();
 
 		} break;
 		case 1: {
@@ -954,8 +954,8 @@ void LocalPlayer::action() {
 			if(myConfig->readConfigInt("EngineVersion")) flopEngine3();
 			else flopEngine();
 
-			actualBoard->collectSets();
-			actualHand->getGuiInterface()->refreshPot();
+			currentBoard->collectSets();
+			currentHand->getGuiInterface()->refreshPot();
 
 		} break;
 		case 2: {
@@ -963,8 +963,8 @@ void LocalPlayer::action() {
 			if(myConfig->readConfigInt("EngineVersion")) turnEngine3();
 			else turnEngine();
 
-			actualBoard->collectSets();
-			actualHand->getGuiInterface()->refreshPot();
+			currentBoard->collectSets();
+			currentHand->getGuiInterface()->refreshPot();
 
 		} break;
 		case 3: {
@@ -972,26 +972,26 @@ void LocalPlayer::action() {
 			if(myConfig->readConfigInt("EngineVersion")) riverEngine3();
 			else riverEngine();
 
-			actualBoard->collectSets();
-			actualHand->getGuiInterface()->refreshPot();
+			currentBoard->collectSets();
+			currentHand->getGuiInterface()->refreshPot();
 
 		} break;
 		default: {}
 	}
 
-// 	cout << checkMyAction(myAction, mySet - myOldSet, myOldSet, myOldCash, oldHighestSet, oldMinimumRaise, actualHand->getSmallBlind()) << endl;
+// 	cout << checkMyAction(myAction, mySet - myOldSet, myOldSet, myOldCash, oldHighestSet, oldMinimumRaise, currentHand->getSmallBlind()) << endl;
 
 
 	myTurn = 0;
 // 	cout << "jetzt" << endl;
 	
 	//set that i was the last active player. need this for unhighlighting groupbox
-	actualHand->setLastPlayersTurn(myID);
+	currentHand->setLastPlayersTurn(myID);
 
-	actualHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
-	actualHand->getGuiInterface()->nextPlayerAnimation();
+	currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
+	currentHand->getGuiInterface()->nextPlayerAnimation();
 
-// 	cout << "playerID in action(): " << (*(actualHand->getCurrentBeRo()->getCurrentPlayersTurnIt()))->getMyID() << endl;
+// 	cout << "playerID in action(): " << (*(currentHand->getCurrentBeRo()->getCurrentPlayersTurnIt()))->getMyID() << endl;
 }
 
 int LocalPlayer::checkMyAction(int targetAction, int targetBet, int highestSet, int minimumRaise, int smallBlind) {
@@ -1049,7 +1049,7 @@ void LocalPlayer::preflopEngine() {
 	PlayerListConstIterator it_c;
 
 	// temporär solange preflopValue und flopValue noch nicht bereinigt für sechs und sieben spieler
-	int players = actualHand->getActivePlayerList()->size();
+	int players = currentHand->getActivePlayerList()->size();
 	if(players > 5) players = 5;
 
 	// myOdds auslesen
@@ -1062,7 +1062,7 @@ void LocalPlayer::preflopEngine() {
 	myNiveau[2] = 54 + myDude4 - 7*(players - 2);
 
 	// eigenes mögliches highestSet
-	int individualHighestSet = actualHand->getCurrentBeRo()->getHighestSet();
+	int individualHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 	if(individualHighestSet > myCash) individualHighestSet = myCash;
 
 	// Verhaeltnis Set / Cash für call	
@@ -1080,9 +1080,9 @@ void LocalPlayer::preflopEngine() {
 //	cout << myID << ": " << myHoleCardsValue << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << myCards[0] << " " << myCards[1] << endl;
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
-// 	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+// 	int aggValue = (int)(((currentHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
 // 
-// 	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
+// 	if(currentHand->getPlayerArray()[0]->getMyActiveStatus() && currentHand->getPlayerArray()[0]->getMyAction() != 1) {
 // 		myNiveau[0] -= aggValue;
 // 		myNiveau[2] -= aggValue;
 // 	}
@@ -1090,10 +1090,10 @@ void LocalPlayer::preflopEngine() {
 
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
-	it_c = actualHand->getActivePlayerIt(0);
-	if( it_c != actualHand->getActivePlayerList()->end() ) {
+	it_c = currentHand->getActivePlayerIt(0);
+	if( it_c != currentHand->getActivePlayerList()->end() ) {
 		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
-			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
 			myNiveau[0] -= aggValue;
 			myNiveau[2] -= aggValue;
 		}
@@ -1112,7 +1112,7 @@ void LocalPlayer::preflopEngine() {
 	if(myOdds >= myNiveau[2]) {
 
 		// raise-loop unterbinden -> d.h. entweder call oder bei superblatt all in
-		if(actualHand->getCurrentBeRo()->getHighestSet() >= 12*actualHand->getSmallBlind()) {
+		if(currentHand->getCurrentBeRo()->getHighestSet() >= 12*currentHand->getSmallBlind()) {
 			// all in
 			if(myOdds >= myNiveau[2] + 8) {
 				raise = myCash;
@@ -1121,7 +1121,7 @@ void LocalPlayer::preflopEngine() {
 			// nur call
 			else {
 				// all in bei knappem call
-				if(myCash-actualHand->getCurrentBeRo()->getHighestSet() <= (myCash*1)/5) {
+				if(myCash-currentHand->getCurrentBeRo()->getHighestSet() <= (myCash*1)/5) {
 					raise = myCash;
 					myAction = 5;
 				} else {
@@ -1132,13 +1132,13 @@ void LocalPlayer::preflopEngine() {
 		// Standard-Raise-Routine
 		} else {
 			// raise-Betrag ermitteln
-			raise = (((int)myOdds-myNiveau[2])/2)*2*actualHand->getSmallBlind();
+			raise = (((int)myOdds-myNiveau[2])/2)*2*currentHand->getSmallBlind();
 			// raise-Betrag zu klein -> mindestens Standard-raise
-// 			if(raise < actualHand->getCurrentBeRo()->getHighestSet()) {
-// 				raise = actualHand->getCurrentBeRo()->getHighestSet();
+// 			if(raise < currentHand->getCurrentBeRo()->getHighestSet()) {
+// 				raise = currentHand->getCurrentBeRo()->getHighestSet();
 // 			}
 			// all in bei nur wenigen Chips oder knappem raise
-			if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4)/5) {
+			if(myCash/(2*currentHand->getSmallBlind()) <= 6 || raise >= (myCash*4)/5) {
 				raise = myCash;
 			}
 			myAction = 5;
@@ -1148,33 +1148,33 @@ void LocalPlayer::preflopEngine() {
 		if(cBluff > 90) {
 			myAction = 3;
 			// bigBlind --> check
-			if(myButton == 3 && mySet == actualHand->getCurrentBeRo()->getHighestSet()) myAction = 2;
+			if(myButton == 3 && mySet == currentHand->getCurrentBeRo()->getHighestSet()) myAction = 2;
 		}
 		if(cBluff > 80 && myOdds >= myNiveau[2] + 4) {
 			myAction = 3;
 			// bigBlind --> check
-			if(myButton == 3 && mySet == actualHand->getCurrentBeRo()->getHighestSet()) myAction = 2;
+			if(myButton == 3 && mySet == currentHand->getCurrentBeRo()->getHighestSet()) myAction = 2;
 		}
 		if(cBluff > 70 && myOdds >= myNiveau[2] + 8) {
 			myAction = 3;
 			// bigBlind --> check
-			if(myButton == 3 && mySet == actualHand->getCurrentBeRo()->getHighestSet()) myAction = 2;
+			if(myButton == 3 && mySet == currentHand->getCurrentBeRo()->getHighestSet()) myAction = 2;
 		}
 		if(cBluff > 60 && myOdds >= myNiveau[2] + 12) {
 			myAction = 3;
 			// bigBlind --> check
-			if(myButton == 3 && mySet == actualHand->getCurrentBeRo()->getHighestSet()) myAction = 2;
+			if(myButton == 3 && mySet == currentHand->getCurrentBeRo()->getHighestSet()) myAction = 2;
 		}
 
 	}
 	else {
 		// call
-		if(myOdds >= myNiveau[0] || (mySet >= actualHand->getCurrentBeRo()->getHighestSet()/2 && myOdds >= myNiveau[0]-8)) {
+		if(myOdds >= myNiveau[0] || (mySet >= currentHand->getCurrentBeRo()->getHighestSet()/2 && myOdds >= myNiveau[0]-8)) {
 			// bigBlind --> check
-			if(myButton == 3 && mySet == actualHand->getCurrentBeRo()->getHighestSet()) myAction = 2;
+			if(myButton == 3 && mySet == currentHand->getCurrentBeRo()->getHighestSet()) myAction = 2;
 			else {
 				// all in bei knappem call
-				if(myCash-actualHand->getCurrentBeRo()->getHighestSet() <= (myCash*1)/5) {
+				if(myCash-currentHand->getCurrentBeRo()->getHighestSet() <= (myCash*1)/5) {
 					raise = myCash;
 					myAction = 5;
 				}
@@ -1186,7 +1186,7 @@ void LocalPlayer::preflopEngine() {
 		// fold
 		else {
 			// bigBlind -> check
-			if(myButton == 3 && mySet == actualHand->getCurrentBeRo()->getHighestSet()) myAction = 2;
+			if(myButton == 3 && mySet == currentHand->getCurrentBeRo()->getHighestSet()) myAction = 2;
 			else myAction = 1;
 		}
 	}
@@ -1194,41 +1194,41 @@ void LocalPlayer::preflopEngine() {
 // 	cout << sBluff << endl;
 
 	// auf sBluff testen --> raise statt call oder fold
-	if((sBluff < 100/((((int)actualHand->getActivePlayerList()->size()-2)*6)+3) && myOdds < myNiveau[2] && actualHand->getCurrentBeRo()->getHighestSet() == 2*actualHand->getSmallBlind() && sBluffStatus == 0) || sBluffStatus == 1) {
+	if((sBluff < 100/((((int)currentHand->getActivePlayerList()->size()-2)*6)+3) && myOdds < myNiveau[2] && currentHand->getCurrentBeRo()->getHighestSet() == 2*currentHand->getSmallBlind() && sBluffStatus == 0) || sBluffStatus == 1) {
 
 // 		cout << "sBLUFF!" << endl;
 		sBluffStatus = 1;
 
 		// Gegner raisen ebenfalls -> call
-		if(actualHand->getCurrentBeRo()->getHighestSet() >= 4*actualHand->getSmallBlind()) {
+		if(currentHand->getCurrentBeRo()->getHighestSet() >= 4*currentHand->getSmallBlind()) {
 			// all in bei knappem call
-			if(myCash-actualHand->getCurrentBeRo()->getHighestSet() <= (myCash*1)/6) {
+			if(myCash-currentHand->getCurrentBeRo()->getHighestSet() <= (myCash*1)/6) {
 				raise = myCash;
 				myAction = 5;
 			}
 			else {
 				myAction = 3;
 				// bigBlind --> check
-				if(myButton == 3 && mySet == actualHand->getCurrentBeRo()->getHighestSet()) myAction = 2;
+				if(myButton == 3 && mySet == currentHand->getCurrentBeRo()->getHighestSet()) myAction = 2;
 			}
 		}
 		// Standard-Raise-Routine
 		else {
 			// raise-Betrag ermitteln
-			raise = (sBluff/(8-actualHand->getActivePlayerList()->size()))*actualHand->getSmallBlind();
+			raise = (sBluff/(8-currentHand->getActivePlayerList()->size()))*currentHand->getSmallBlind();
 			// raise-Betrag zu klein -> mindestens Standard-raise
-// 			if(raise < actualHand->getCurrentBeRo()->getHighestSet()) {
-// 				raise = actualHand->getCurrentBeRo()->getHighestSet();
+// 			if(raise < currentHand->getCurrentBeRo()->getHighestSet()) {
+// 				raise = currentHand->getCurrentBeRo()->getHighestSet();
 // 			}
 			// all in bei nur wenigen Chips oder knappem raise
-			if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4)/5) {
+			if(myCash/(2*currentHand->getSmallBlind()) <= 6 || raise >= (myCash*4)/5) {
 				raise = myCash;
 			}
 			myAction = 5;
 		}
 
 		// extrem hoher set der gegner -> bluff beenden
-		if((actualHand->getCurrentBeRo()->getHighestSet() >= 12*actualHand->getSmallBlind() && myOdds < myNiveau[0]) || (actualHand->getCurrentBeRo()->getHighestSet() >= 20*actualHand->getSmallBlind() && myOdds < myNiveau[2])) {
+		if((currentHand->getCurrentBeRo()->getHighestSet() >= 12*currentHand->getSmallBlind() && myOdds < myNiveau[0]) || (currentHand->getCurrentBeRo()->getHighestSet() >= 20*currentHand->getSmallBlind() && myOdds < myNiveau[2])) {
 			myAction = 1;
 		}
 
@@ -1238,10 +1238,10 @@ void LocalPlayer::preflopEngine() {
 	// minimum raise setting and resetting
 	if(myAction == 5) {
 
-		if(raise < actualHand->getCurrentBeRo()->getMinimumRaise()) {
-			raise = actualHand->getCurrentBeRo()->getMinimumRaise();
+		if(raise < currentHand->getCurrentBeRo()->getMinimumRaise()) {
+			raise = currentHand->getCurrentBeRo()->getMinimumRaise();
 		}
-		actualHand->getCurrentBeRo()->setMinimumRaise(raise);
+		currentHand->getCurrentBeRo()->setMinimumRaise(raise);
 	}
 	
 
@@ -1254,7 +1254,7 @@ void LocalPlayer::preflopEngine() {
 			case 1: { 
 				// player 1
 
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_CALL;
 // 						raise = 3000;
@@ -1274,7 +1274,7 @@ void LocalPlayer::preflopEngine() {
 			case 2: { 
 				// player 2
 
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_CALL;
 // 						raise = 20;
@@ -1298,7 +1298,7 @@ void LocalPlayer::preflopEngine() {
 			}
 			break;
 			case 3: {
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_FOLD;
 // 						raise = 20;
@@ -1321,7 +1321,7 @@ void LocalPlayer::preflopEngine() {
 			}
 			break;
 			case 4: {
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_CALL;
 // 						raise = 20;
@@ -1377,7 +1377,7 @@ void LocalPlayer::flopEngine() {
 	PlayerListConstIterator it_c;
 
 	// übergang solange preflopValue und flopValue noch nicht bereinigt
-	int players = actualHand->getActivePlayerList()->size();
+	int players = currentHand->getActivePlayerList()->size();
 	if(players > 5) players = 5;
 
 	calcMyOdds();
@@ -1391,23 +1391,23 @@ void LocalPlayer::flopEngine() {
 	myNiveau[2] = 69 + myDude4 - 7*(players - 2);
 
 	// eigenes mögliches highestSet
-	int individualHighestSet = actualHand->getCurrentBeRo()->getHighestSet();
+	int individualHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 	if(individualHighestSet > myCash) individualHighestSet = myCash;
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist
-// 	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+// 	int aggValue = (int)(((currentHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
 // 
-// 	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
+// 	if(currentHand->getPlayerArray()[0]->getMyActiveStatus() && currentHand->getPlayerArray()[0]->getMyAction() != 1) {
 // 		for(i=0; i<3; i++) {
 // 			myNiveau[i] -= aggValue;
 // 		}
 // 	}
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
-	it_c = actualHand->getActivePlayerIt(0);
-	if( it_c != actualHand->getActivePlayerList()->end() ) {
+	it_c = currentHand->getActivePlayerIt(0);
+	if( it_c != currentHand->getActivePlayerList()->end() ) {
 		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
-			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
 			for(i=0; i<3; i++) {
 				myNiveau[i] -= aggValue;
 			}
@@ -1420,7 +1420,7 @@ void LocalPlayer::flopEngine() {
 	Tools::getRandNumber(1,100,1,&cBluff,0);
 
 	// aktiv oder passiv?
-	if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+	if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 
 		// Verhaeltnis Set / Cash für call
 		if(myCash/individualHighestSet >= 25) {
@@ -1438,7 +1438,7 @@ void LocalPlayer::flopEngine() {
 		if(myOdds >= myNiveau[2]) {
 	
 			// raise-loop unterbinden -> d.h. entweder call oder bei superblatt all in
-			if(actualHand->getCurrentBeRo()->getHighestSet() >= 12*actualHand->getSmallBlind()) {
+			if(currentHand->getCurrentBeRo()->getHighestSet() >= 12*currentHand->getSmallBlind()) {
 				// all in
 				if(myOdds >= myNiveau[2] + 15) {
 					raise = myCash;
@@ -1447,7 +1447,7 @@ void LocalPlayer::flopEngine() {
 				// nur call
 				else {
 					// all in bei knappem call
-					if(myCash-actualHand->getCurrentBeRo()->getHighestSet() <= (myCash*1)/5) {
+					if(myCash-currentHand->getCurrentBeRo()->getHighestSet() <= (myCash*1)/5) {
 						raise = myCash;
 						myAction = 5;
 					} else {
@@ -1458,13 +1458,13 @@ void LocalPlayer::flopEngine() {
 			// Standard-Raise-Routine
 			} else {
 				// raise-Betrag ermitteln
-				raise = (((int)myOdds-myNiveau[2])/5)*2*actualHand->getSmallBlind();
+				raise = (((int)myOdds-myNiveau[2])/5)*2*currentHand->getSmallBlind();
 				// raise-Betrag zu klein -> mindestens Standard-raise
-// 				if(raise < actualHand->getCurrentBeRo()->getHighestSet()) {
-// 					raise = actualHand->getCurrentBeRo()->getHighestSet();
+// 				if(raise < currentHand->getCurrentBeRo()->getHighestSet()) {
+// 					raise = currentHand->getCurrentBeRo()->getHighestSet();
 // 				}
 				// all in bei nur wenigen Chips oder knappem raise
-				if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4.0)/5.0) {
+				if(myCash/(2*currentHand->getSmallBlind()) <= 6 || raise >= (myCash*4.0)/5.0) {
 					raise = myCash;
 				}
 				myAction = 5;
@@ -1479,9 +1479,9 @@ void LocalPlayer::flopEngine() {
 		}
 		else {
 			// call -> über niveau0, schon einiges gesetzt im flop, schon einiges insgesamt gesetzt 
-			if(myOdds >= myNiveau[0] || (mySet >= actualHand->getCurrentBeRo()->getHighestSet()/2 && myOdds >= myNiveau[0]-5) || (myRoundStartCash-myCash > individualHighestSet && myNiveau[0]-3)) {
+			if(myOdds >= myNiveau[0] || (mySet >= currentHand->getCurrentBeRo()->getHighestSet()/2 && myOdds >= myNiveau[0]-5) || (myRoundStartCash-myCash > individualHighestSet && myNiveau[0]-3)) {
 				// all in bei knappem call
-				if(actualHand->getCurrentBeRo()->getHighestSet() > (myCash*3.0)/4.0) {
+				if(currentHand->getCurrentBeRo()->getHighestSet() > (myCash*3.0)/4.0) {
 					raise = myCash;
 					myAction = 5;
 				}
@@ -1496,13 +1496,13 @@ void LocalPlayer::flopEngine() {
 	else {
 		// bet
 		if(myOdds >= myNiveau[1]) {
-			bet = (((int)myOdds-myNiveau[1])/8)*2*actualHand->getSmallBlind();
+			bet = (((int)myOdds-myNiveau[1])/8)*2*currentHand->getSmallBlind();
 			// bet zu klein
 			if(bet == 0) {
-				bet = 2*actualHand->getSmallBlind();
+				bet = 2*currentHand->getSmallBlind();
 			}
 			// all in bei nur wenigen Chips
-			if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+			if(myCash/(2*currentHand->getSmallBlind()) <= 6) {
 				bet = myCash;
 			}
 			// all in bei knappem bet
@@ -1525,13 +1525,13 @@ void LocalPlayer::flopEngine() {
 				// Position-Bluff generieren
 				Tools::getRandNumber(1,100,1,&pBluff,0);
 				if(pBluff <= 16) {
-					bet = (pBluff/4)*2*actualHand->getSmallBlind();
+					bet = (pBluff/4)*2*currentHand->getSmallBlind();
 					// bet zu klein
 					if(bet == 0) {
-						bet = 2*actualHand->getSmallBlind();
+						bet = 2*currentHand->getSmallBlind();
 					}
 					// all in bei nur wenigen Chips
-					if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+					if(myCash/(2*currentHand->getSmallBlind()) <= 6) {
 						bet = myCash;
 					}
 					// all in bei knappem bet
@@ -1548,34 +1548,34 @@ void LocalPlayer::flopEngine() {
 	// auf sBluffStatus testen --> raise statt call und bet statt check
 
 	// aktiv oder passiv?
-	if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+	if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 
 		if(sBluffStatus && myOdds < myNiveau[2]) {
 	
 	// 		cout << "sBLUFF!" << endl;
 	
 			// Gegner setzen -> call
-			if(actualHand->getCurrentBeRo()->getHighestSet() >= 4*actualHand->getSmallBlind()) {
+			if(currentHand->getCurrentBeRo()->getHighestSet() >= 4*currentHand->getSmallBlind()) {
 				myAction = 3;
 			}
 			// Standard-Raise-Routine
 			else {
 				// raise-Betrag ermitteln
 				Tools::getRandNumber(1,8,1,&rand,0);
-				raise = rand*actualHand->getSmallBlind();
+				raise = rand*currentHand->getSmallBlind();
 				// raise-Betrag zu klein -> mindestens Standard-raise
-// 				if(raise < actualHand->getCurrentBeRo()->getHighestSet()) {
-// 					raise = actualHand->getCurrentBeRo()->getHighestSet();
+// 				if(raise < currentHand->getCurrentBeRo()->getHighestSet()) {
+// 					raise = currentHand->getCurrentBeRo()->getHighestSet();
 // 				}
 				// all in bei nur wenigen Chips oder knappem raise
-				if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4)/5) {
+				if(myCash/(2*currentHand->getSmallBlind()) <= 6 || raise >= (myCash*4)/5) {
 					raise = myCash;
 				}
 				myAction = 5;
 			}
 
 			// extrem hoher set der gegner -> bluff beenden
-			if(actualHand->getCurrentBeRo()->getHighestSet() >= 10*actualHand->getSmallBlind()) {
+			if(currentHand->getCurrentBeRo()->getHighestSet() >= 10*currentHand->getSmallBlind()) {
 				myAction = 1;
 			}
 		}
@@ -1586,13 +1586,13 @@ void LocalPlayer::flopEngine() {
 	// 		cout << "sBLUFF!" << endl;
 
 			Tools::getRandNumber(1,8,1,&rand,0);
-			bet = rand*actualHand->getSmallBlind();
+			bet = rand*currentHand->getSmallBlind();
 			// bet zu klein
-			if(bet < 2*actualHand->getSmallBlind()) {
-				bet = 2*actualHand->getSmallBlind();
+			if(bet < 2*currentHand->getSmallBlind()) {
+				bet = 2*currentHand->getSmallBlind();
 			}
 			// all in bei nur wenigen Chips
-			if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+			if(myCash/(2*currentHand->getSmallBlind()) <= 6) {
 				bet = myCash;
 			}
 			// all in bei knappem bet
@@ -1607,14 +1607,14 @@ void LocalPlayer::flopEngine() {
 	// minimum raise setting and resetting
 	if(myAction == 5) {
 
-		if(raise < actualHand->getCurrentBeRo()->getMinimumRaise()) {
-			raise = actualHand->getCurrentBeRo()->getMinimumRaise();
+		if(raise < currentHand->getCurrentBeRo()->getMinimumRaise()) {
+			raise = currentHand->getCurrentBeRo()->getMinimumRaise();
 		}
-		actualHand->getCurrentBeRo()->setMinimumRaise(raise);
+		currentHand->getCurrentBeRo()->setMinimumRaise(raise);
 
 	}
 
-	if(myAction == 4) { actualHand->getCurrentBeRo()->setMinimumRaise(bet); }
+	if(myAction == 4) { currentHand->getCurrentBeRo()->setMinimumRaise(bet); }
 
 
 	if(DEBUG_MODE) {
@@ -1623,10 +1623,10 @@ void LocalPlayer::flopEngine() {
 			} break;
 			case 1: { 
 
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_CHECK;
-// 						if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_CALL;
 // 						}
 					} break;
@@ -1640,7 +1640,7 @@ void LocalPlayer::flopEngine() {
 			} break;
 			case 2: { 
 
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_CHECK;
 // 						bet = 10;
@@ -1648,7 +1648,7 @@ void LocalPlayer::flopEngine() {
 // 						if(mySet >= 40) {
 // 							myAction = PLAYER_ACTION_CALL;
 // 						}
-// 						if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_CALL;
 // 						}
 					}
@@ -1668,11 +1668,11 @@ void LocalPlayer::flopEngine() {
 			}
 			break;
 			case 3: {
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 // 						myAction = PLAYER_ACTION_BET;
 // 						bet = 80;
-// 						if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_CALL;
 // 						}
 					}
@@ -1693,11 +1693,11 @@ void LocalPlayer::flopEngine() {
 			}
 			break;
 			case 4: {
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_CHECK;
 // 						bet = 80;
-// 						if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_FOLD;
 // 						}
 					}
@@ -1718,11 +1718,11 @@ void LocalPlayer::flopEngine() {
 			}
 			break;
 			case 5: {
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_CHECK;
 // 						bet = 80;
-// 						if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_FOLD;
 // 						}
 					}
@@ -1766,7 +1766,7 @@ void LocalPlayer::flopEngine() {
 // 		
 // 
 // 		for(i=0; i<2; i++) tempArray[i] = myCards[i];
-// 		actualBoard->getMyCards(boardCards);
+// 		currentBoard->getMyCards(boardCards);
 // 		for(i=0; i<3; i++) tempArray[2+i] = boardCards[i];
 // 
 // 		for(i=0; i<4; i++) info[i] = -1;
@@ -1779,7 +1779,7 @@ void LocalPlayer::flopEngine() {
 // 		flopCardsValue(tempArray);
 // 
 // 		// aktive Situation --> check / bet
-// 		if(actualHand->getCurrentBeRo()->getHighestSet() == 0) {
+// 		if(currentHand->getCurrentBeRo()->getHighestSet() == 0) {
 // 
 // 			switch(info[0]) {
 // 				case 9: {}
@@ -1793,15 +1793,15 @@ void LocalPlayer::flopEngine() {
 // 						myAction = 2;
 // 					}
 // 					else {
-// 						if(myCash/(2*actualHand->getSmallBlind()) <= 8) {
+// 						if(myCash/(2*currentHand->getSmallBlind()) <= 8) {
 // 							myAction = 6;
 // 						} else {
 // 							if(cBluff < 60) {
-// 								bet = (7-myDude4)*2*actualHand->getSmallBlind();
+// 								bet = (7-myDude4)*2*currentHand->getSmallBlind();
 // 							} else {
-// 								bet = (((100-cBluff)/20)+2)*actualHand->getSmallBlind();
+// 								bet = (((100-cBluff)/20)+2)*currentHand->getSmallBlind();
 // 							}
-// 							if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 							if(bet < 2*currentHand->getSmallBlind()) bet = 2*currentHand->getSmallBlind();
 // 							myAction = 4;
 // 						}
 // 					}
@@ -1815,15 +1815,15 @@ void LocalPlayer::flopEngine() {
 // 								myAction = 2;
 // 							}
 // 							else {
-// 								if(myCash/(2*actualHand->getSmallBlind()) <= 8) {
+// 								if(myCash/(2*currentHand->getSmallBlind()) <= 8) {
 // 									myAction = 6;
 // 								} else {
 // 									if(cBluff < 60) {
-// 										bet = (5-myDude4)*2*actualHand->getSmallBlind();
+// 										bet = (5-myDude4)*2*currentHand->getSmallBlind();
 // 									} else {
-// 										bet = (((100-cBluff)/20)+2)*actualHand->getSmallBlind();
+// 										bet = (((100-cBluff)/20)+2)*currentHand->getSmallBlind();
 // 									}
-// 									if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 									if(bet < 2*currentHand->getSmallBlind()) bet = 2*currentHand->getSmallBlind();
 // 									myAction = 4;
 // 								}
 // 							}
@@ -1835,15 +1835,15 @@ void LocalPlayer::flopEngine() {
 // 								myAction = 2;
 // 							}
 // 							else {
-// 								if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+// 								if(myCash/(2*currentHand->getSmallBlind()) <= 6) {
 // 									myAction = 6;
 // 								} else {
 // 									if(cBluff < 60) {
-// 										bet = (3-myDude4)*2*actualHand->getSmallBlind();
+// 										bet = (3-myDude4)*2*currentHand->getSmallBlind();
 // 									} else {
-// 										bet = (((100-cBluff)/20)+2)*actualHand->getSmallBlind();
+// 										bet = (((100-cBluff)/20)+2)*currentHand->getSmallBlind();
 // 									}
-// 									if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 									if(bet < 2*currentHand->getSmallBlind()) bet = 2*currentHand->getSmallBlind();
 // 									myAction = 4;
 // 								}
 // 							}
@@ -1852,8 +1852,8 @@ void LocalPlayer::flopEngine() {
 // 						default: {
 // 							Tools::getRandNumber(0,100,1,&sBluff,0);
 // 							if(info[1] >= 10 && sBluff <= 40) {
-// 								bet = (sBluff/10)*2*actualHand->getSmallBlind();
-// 								if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 								bet = (sBluff/10)*2*currentHand->getSmallBlind();
+// 								if(bet < 2*currentHand->getSmallBlind()) bet = 2*currentHand->getSmallBlind();
 // 								myAction = 4;
 // 							}
 // 							else {
@@ -1871,11 +1871,11 @@ void LocalPlayer::flopEngine() {
 // 								myAction = 2;
 // 							}
 // 							else {
-// 								if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+// 								if(myCash/(2*currentHand->getSmallBlind()) <= 6) {
 // 									myAction = 6;
 // 								} else {
-// 									bet = (cBluff/20)*2*actualHand->getSmallBlind();
-// 									if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 									bet = (cBluff/20)*2*currentHand->getSmallBlind();
+// 									if(bet < 2*currentHand->getSmallBlind()) bet = 2*currentHand->getSmallBlind();
 // 									myAction = 4;
 // 								}
 // 							}
@@ -1887,11 +1887,11 @@ void LocalPlayer::flopEngine() {
 // 								myAction = 2;
 // 							}
 // 							else {
-// 								if(myCash/(2*actualHand->getSmallBlind()) <= 5) {
+// 								if(myCash/(2*currentHand->getSmallBlind()) <= 5) {
 // 									myAction = 6;
 // 								} else {
-// 									bet = (cBluff/30)*2*actualHand->getSmallBlind();
-// 									if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 									bet = (cBluff/30)*2*currentHand->getSmallBlind();
+// 									if(bet < 2*currentHand->getSmallBlind()) bet = 2*currentHand->getSmallBlind();
 // 									myAction = 4;
 // 								}
 // 							}
@@ -1905,9 +1905,9 @@ void LocalPlayer::flopEngine() {
 // 					switch(info[3]) {
 // 						case 2: {}
 // 						case 1: {
-// 							if(actualHand->getActivePlayerList().size() == 2) {
-// 								bet = (1-myDude4)*2*actualHand->getSmallBlind();
-// 								if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 							if(currentHand->getActivePlayerList().size() == 2) {
+// 								bet = (1-myDude4)*2*currentHand->getSmallBlind();
+// 								if(bet < 2*currentHand->getSmallBlind()) bet = 2*currentHand->getSmallBlind();
 // 								myAction = 4;
 // 
 // 							}
@@ -1915,7 +1915,7 @@ void LocalPlayer::flopEngine() {
 // 								switch(info[1]) {
 // 									case 3: {
 // 										if(sBluff <= 10) {
-// 											bet = (sBluff/5 + 2)*actualHand->getSmallBlind();
+// 											bet = (sBluff/5 + 2)*currentHand->getSmallBlind();
 // 											myAction = 4;
 // 										}
 // 										else {
@@ -1925,7 +1925,7 @@ void LocalPlayer::flopEngine() {
 // 									break;
 // 									case 2: {
 // 										if(sBluff <= 15) {
-// 											bet = (sBluff/5 + 2)*actualHand->getSmallBlind();
+// 											bet = (sBluff/5 + 2)*currentHand->getSmallBlind();
 // 											myAction = 4;
 // 										}
 // 										else {
@@ -1935,7 +1935,7 @@ void LocalPlayer::flopEngine() {
 // 									break;
 // 									case 1: {
 // 										if(sBluff <= 50) {
-// 											bet = (sBluff/15 + 2)*actualHand->getSmallBlind();
+// 											bet = (sBluff/15 + 2)*currentHand->getSmallBlind();
 // 											myAction = 4;
 // 										}
 // 										else {
@@ -1944,11 +1944,11 @@ void LocalPlayer::flopEngine() {
 // 									}
 // 									break;
 // 									default: {
-// 										if(myCash/(2*actualHand->getSmallBlind()) <= 5) {
+// 										if(myCash/(2*currentHand->getSmallBlind()) <= 5) {
 // 											myAction = 6;
 // 										} else {
-// 											bet = (sBluff/15)*2*actualHand->getSmallBlind();
-// 											if(bet < 2*actualHand->getSmallBlind()) bet = 2*actualHand->getSmallBlind();
+// 											bet = (sBluff/15)*2*currentHand->getSmallBlind();
+// 											if(bet < 2*currentHand->getSmallBlind()) bet = 2*currentHand->getSmallBlind();
 // 											myAction = 4;
 // 										}
 // 									}
@@ -2004,7 +2004,7 @@ void LocalPlayer::turnEngine() {
 // 		int i;
 
 // 		for(i=0; i<2; i++) tempArray[i] = myCards[i];
-// 		actualBoard->getMyCards(boardCards);
+// 		currentBoard->getMyCards(boardCards);
 // 		for(i=0; i<4; i++) tempArray[2+i] = boardCards[i];
 
 // 		for(i=0; i<5; i++) cout << tempArray[i] << " ";
@@ -2026,16 +2026,16 @@ void LocalPlayer::turnEngine() {
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
 	// 1. Fold -- Call
-	myNiveau[0] = 53 + myDude4/* - 6*(actualHand->getActivePlayerList().size() - 2)*/;
+	myNiveau[0] = 53 + myDude4/* - 6*(currentHand->getActivePlayerList().size() - 2)*/;
 	// 2. Check -- Bet
-	myNiveau[1] = 56 + myDude4/* - 6*(actualHand->getActivePlayerList().size() - 2)*/;
+	myNiveau[1] = 56 + myDude4/* - 6*(currentHand->getActivePlayerList().size() - 2)*/;
 	// 3. Call -- Raise
-	myNiveau[2] = 69 + myDude4/* - 6*(actualHand->getActivePlayerList().size() - 2)*/;
+	myNiveau[2] = 69 + myDude4/* - 6*(currentHand->getActivePlayerList().size() - 2)*/;
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist
-// 	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+// 	int aggValue = (int)(((currentHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
 // 
-// 	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
+// 	if(currentHand->getPlayerArray()[0]->getMyActiveStatus() && currentHand->getPlayerArray()[0]->getMyAction() != 1) {
 // 		for(i=0; i<3; i++) {
 // 			myNiveau[i] -= aggValue;
 // 		}
@@ -2044,10 +2044,10 @@ void LocalPlayer::turnEngine() {
 
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
-	it_c = actualHand->getActivePlayerIt(0);
-	if( it_c != actualHand->getActivePlayerList()->end() ) {
+	it_c = currentHand->getActivePlayerIt(0);
+	if( it_c != currentHand->getActivePlayerList()->end() ) {
 		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
-			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
 			for(i=0; i<3; i++) {
 				myNiveau[i] -= aggValue;
 			}
@@ -2061,14 +2061,14 @@ void LocalPlayer::turnEngine() {
 
 
 	// eigenes mögliches highestSet
-	int individualHighestSet = actualHand->getCurrentBeRo()->getHighestSet();
+	int individualHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 	if(individualHighestSet > myCash) individualHighestSet = myCash;
 
 	// Check-Bluff generieren
 	Tools::getRandNumber(1,100,1,&cBluff,0);
 
 	// aktiv oder passiv?
-	if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+	if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 
 //		Verhaeltnis Set / Cash
 		if(myCash/individualHighestSet >= 25) {
@@ -2086,7 +2086,7 @@ void LocalPlayer::turnEngine() {
 		if(myOdds >= myNiveau[2]) {
 	
 			// raise-loop unterbinden -> d.h. entweder call oder bei superblatt all in
-			if(actualHand->getCurrentBeRo()->getHighestSet() >= 12*actualHand->getSmallBlind()) {
+			if(currentHand->getCurrentBeRo()->getHighestSet() >= 12*currentHand->getSmallBlind()) {
 				// all in
 				if(myOdds >= myNiveau[2] + 15) {
 					raise = myCash;
@@ -2095,7 +2095,7 @@ void LocalPlayer::turnEngine() {
 					// nur call
 				else {
 					// all in bei knappem call
-					if(myCash-actualHand->getCurrentBeRo()->getHighestSet() <= (myCash*1)/5) {
+					if(myCash-currentHand->getCurrentBeRo()->getHighestSet() <= (myCash*1)/5) {
 						raise = myCash;
 						myAction = 5;
 					} else {
@@ -2106,13 +2106,13 @@ void LocalPlayer::turnEngine() {
 			// Standard-Raise-Routine
 			} else {
 				// raise-Betrag ermitteln
-				raise = (((int)myOdds-myNiveau[2])/4)*2*actualHand->getSmallBlind();
+				raise = (((int)myOdds-myNiveau[2])/4)*2*currentHand->getSmallBlind();
 				// raise-Betrag zu klein -> mindestens Standard-raise
-// 				if(raise < actualHand->getCurrentBeRo()->getHighestSet()) {
-// 					raise = actualHand->getCurrentBeRo()->getHighestSet();
+// 				if(raise < currentHand->getCurrentBeRo()->getHighestSet()) {
+// 					raise = currentHand->getCurrentBeRo()->getHighestSet();
 // 				}
 				// all in bei nur wenigen Chips oder knappem raise
-				if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4.0)/5.0) {
+				if(myCash/(2*currentHand->getSmallBlind()) <= 6 || raise >= (myCash*4.0)/5.0) {
 					raise = myCash;
 				}
 				myAction = 5;
@@ -2125,9 +2125,9 @@ void LocalPlayer::turnEngine() {
 		}
 		else {
 			// call -> über niveau0, schon einiges gesetzt im flop, schon einiges insgesamt gesetzt 
-			if(myOdds >= myNiveau[0] || (mySet >= actualHand->getCurrentBeRo()->getHighestSet()/2 && myOdds >= myNiveau[0]-5) || (myRoundStartCash-myCash > individualHighestSet && myNiveau[0]-3)) {
+			if(myOdds >= myNiveau[0] || (mySet >= currentHand->getCurrentBeRo()->getHighestSet()/2 && myOdds >= myNiveau[0]-5) || (myRoundStartCash-myCash > individualHighestSet && myNiveau[0]-3)) {
 				// all in bei knappem call
-				if(actualHand->getCurrentBeRo()->getHighestSet() > (myCash*3.0)/4.0) {
+				if(currentHand->getCurrentBeRo()->getHighestSet() > (myCash*3.0)/4.0) {
 					raise = myCash;
 					myAction = 5;
 				}
@@ -2143,12 +2143,12 @@ void LocalPlayer::turnEngine() {
 	else {
 		// bet
 		if(myOdds >= myNiveau[1]) {
-			bet = (((int)myOdds-myNiveau[1])/6)*2*actualHand->getSmallBlind();
+			bet = (((int)myOdds-myNiveau[1])/6)*2*currentHand->getSmallBlind();
 			if(bet == 0) {
-				bet = 2*actualHand->getSmallBlind();
+				bet = 2*currentHand->getSmallBlind();
 			}
 			// all in bei nur wenigen Chips
-			if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+			if(myCash/(2*currentHand->getSmallBlind()) <= 6) {
 				bet = myCash;
 			}
 			// all in bei knappem bet
@@ -2171,13 +2171,13 @@ void LocalPlayer::turnEngine() {
 				// Position-Bluff generieren
 				Tools::getRandNumber(1,100,1,&pBluff,0);
 				if(pBluff <= 16) {
-					bet = (pBluff/4)*2*actualHand->getSmallBlind();
+					bet = (pBluff/4)*2*currentHand->getSmallBlind();
 					// bet zu klein
 					if(bet == 0) {
-						bet = 2*actualHand->getSmallBlind();
+						bet = 2*currentHand->getSmallBlind();
 					}
 					// all in bei nur wenigen Chips
-					if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+					if(myCash/(2*currentHand->getSmallBlind()) <= 6) {
 						bet = myCash;
 					}
 					// all in bei knappem bet
@@ -2193,34 +2193,34 @@ void LocalPlayer::turnEngine() {
 	// auf sBluffStatus testen --> raise statt call und bet statt check
 
 	// aktiv oder passiv?
-	if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+	if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 
 		if(sBluffStatus && myOdds < myNiveau[2]) {
 	
 	// 		cout << "sBLUFF!" << endl;
 	
 			// Gegner setzen -> call
-			if(actualHand->getCurrentBeRo()->getHighestSet() >= 4*actualHand->getSmallBlind()) {
+			if(currentHand->getCurrentBeRo()->getHighestSet() >= 4*currentHand->getSmallBlind()) {
 				myAction = 3;
 			}
 			// Standard-Raise-Routine
 			else {
 				// raise-Betrag ermitteln
 				Tools::getRandNumber(1,8,1,&rand,0);
-				raise = rand*actualHand->getSmallBlind();
+				raise = rand*currentHand->getSmallBlind();
 				// raise-Betrag zu klein -> mindestens Standard-raise
-// 				if(raise < actualHand->getCurrentBeRo()->getHighestSet()) {
-// 					raise = actualHand->getCurrentBeRo()->getHighestSet();
+// 				if(raise < currentHand->getCurrentBeRo()->getHighestSet()) {
+// 					raise = currentHand->getCurrentBeRo()->getHighestSet();
 // 				}
 				// all in bei nur wenigen Chips oder knappem raise
-				if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4)/5) {
+				if(myCash/(2*currentHand->getSmallBlind()) <= 6 || raise >= (myCash*4)/5) {
 					raise = myCash;
 				}
 				myAction = 5;
 			}
 
 			// extrem hoher set der gegner -> bluff beenden
-			if(actualHand->getCurrentBeRo()->getHighestSet() >= 10*actualHand->getSmallBlind()) {
+			if(currentHand->getCurrentBeRo()->getHighestSet() >= 10*currentHand->getSmallBlind()) {
 				myAction = 1;
 			}
 		}
@@ -2231,13 +2231,13 @@ void LocalPlayer::turnEngine() {
 	// 		cout << "sBLUFF!" << endl;
 
 			Tools::getRandNumber(1,8,1,&rand,0);
-			bet = rand*actualHand->getSmallBlind();
+			bet = rand*currentHand->getSmallBlind();
 			// bet zu klein
-			if(bet < 2*actualHand->getSmallBlind()) {
-				bet = 2*actualHand->getSmallBlind();
+			if(bet < 2*currentHand->getSmallBlind()) {
+				bet = 2*currentHand->getSmallBlind();
 			}
 			// all in bei nur wenigen Chips
-			if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+			if(myCash/(2*currentHand->getSmallBlind()) <= 6) {
 				bet = myCash;
 			}
 			// all in bei knappem bet
@@ -2252,14 +2252,14 @@ void LocalPlayer::turnEngine() {
 	// minimum raise setting and resetting
 	if(myAction == 5) {
 
-		if(raise < actualHand->getCurrentBeRo()->getMinimumRaise()) {
-			raise = actualHand->getCurrentBeRo()->getMinimumRaise();
+		if(raise < currentHand->getCurrentBeRo()->getMinimumRaise()) {
+			raise = currentHand->getCurrentBeRo()->getMinimumRaise();
 		}
-		actualHand->getCurrentBeRo()->setMinimumRaise(raise);
+		currentHand->getCurrentBeRo()->setMinimumRaise(raise);
 
 	}
 
-	if(myAction == 4) { actualHand->getCurrentBeRo()->setMinimumRaise(bet); }
+	if(myAction == 4) { currentHand->getCurrentBeRo()->setMinimumRaise(bet); }
 
 
 	if(DEBUG_MODE) {
@@ -2271,10 +2271,10 @@ void LocalPlayer::turnEngine() {
 			break;
 			case 1: { 
 
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_FOLD;
-// 						if(actualHand->getCurrentBeRo()->getHighestSet() > 100) {
+// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 100) {
 // 							myAction = PLAYER_ACTION_FOLD;
 // 						}
 					}
@@ -2291,12 +2291,12 @@ void LocalPlayer::turnEngine() {
 			break;
 			case 2: { 
 
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_BET;
 // 						raise = 40;
 						bet = 40;
-// 						if(actualHand->getCurrentBeRo()->getHighestSet() > 100) {
+// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 100) {
 // 							myAction = PLAYER_ACTION_CALL;
 // 						}
 					}
@@ -2316,11 +2316,11 @@ void LocalPlayer::turnEngine() {
 			}
 			break;
 			case 3: {
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 // 						myAction = PLAYER_ACTION_FOLD;
 // 						bet = 10;
-// 						if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_CALL;
 // 						}
 					}
@@ -2341,11 +2341,11 @@ void LocalPlayer::turnEngine() {
 			}
 			break;
 			case 4: {
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_CALL;
 // 						bet = 10;
-// 						if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_CALL;
 // 						}
 					}
@@ -2366,11 +2366,11 @@ void LocalPlayer::turnEngine() {
 			}
 			break;
 			case 5: {
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_CALL;
 // 						bet = 10;
-// 						if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_CALL;
 // 						}
 					}
@@ -2408,7 +2408,7 @@ void LocalPlayer::riverEngine() {
 // 	int i;
 
 // 	for(i=0; i<2; i++) tempArray[i] = myCards[i];
-// 	actualBoard->getMyCards(boardCards);
+// 	currentBoard->getMyCards(boardCards);
 // 	for(i=0; i<4; i++) tempArray[2+i] = boardCards[i];
 
 // 	for(i=0; i<5; i++) cout << tempArray[i] << " ";
@@ -2430,16 +2430,16 @@ void LocalPlayer::riverEngine() {
 
 	// Niveaus setzen + Dude + Anzahl Gegenspieler
 	// 1. Fold -- Call
-	myNiveau[0] = 53 + myDude4/* - 6*(actualHand->getActivePlayerList().size() - 2)*/;
+	myNiveau[0] = 53 + myDude4/* - 6*(currentHand->getActivePlayerList().size() - 2)*/;
 	// 2. Check -- Bet
-	myNiveau[1] = 56 + myDude4/* - 6*(actualHand->getActivePlayerList().size() - 2)*/;
+	myNiveau[1] = 56 + myDude4/* - 6*(currentHand->getActivePlayerList().size() - 2)*/;
 	// 3. Call -- Raise
-	myNiveau[2] = 69 + myDude4/* - 6*(actualHand->getActivePlayerList().size() - 2)*/;
+	myNiveau[2] = 69 + myDude4/* - 6*(currentHand->getActivePlayerList().size() - 2)*/;
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist
-// 	int aggValue = (int)(((actualHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+// 	int aggValue = (int)(((currentHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
 // 
-// 	if(actualHand->getPlayerArray()[0]->getMyActiveStatus() && actualHand->getPlayerArray()[0]->getMyAction() != 1) {
+// 	if(currentHand->getPlayerArray()[0]->getMyActiveStatus() && currentHand->getPlayerArray()[0]->getMyAction() != 1) {
 // 		for(i=0; i<3; i++) {
 // 			myNiveau[i] -= aggValue;
 // 		}
@@ -2447,10 +2447,10 @@ void LocalPlayer::riverEngine() {
 
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
-	it_c = actualHand->getActivePlayerIt(0);
-	if( it_c != actualHand->getActivePlayerList()->end() ) {
+	it_c = currentHand->getActivePlayerIt(0);
+	if( it_c != currentHand->getActivePlayerList()->end() ) {
 		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
-			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/actualHand->getActivePlayerList()->size())*21.0);
+			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
 			for(i=0; i<3; i++) {
 				myNiveau[i] -= aggValue;
 			}
@@ -2463,11 +2463,11 @@ void LocalPlayer::riverEngine() {
 //	cout << "Spieler " << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << "\t Agg " << aggValue << " " << endl;
 
 	// eigenes mögliches highestSet
-	int individualHighestSet = actualHand->getCurrentBeRo()->getHighestSet();
+	int individualHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 	if(individualHighestSet > myCash) individualHighestSet = myCash;
 
 	// aktiv oder passiv?
-	if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+	if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 
 		// Verhaeltnis Set / Cash
 		if(myCash/individualHighestSet >= 25) {
@@ -2484,7 +2484,7 @@ void LocalPlayer::riverEngine() {
 		// raise (bei hohem Niveau)
 		if(myOdds >= myNiveau[2]) {
 			// raise-loop unterbinden -> d.h. entweder call oder bei superblatt all in
-			if(actualHand->getCurrentBeRo()->getHighestSet() >= 12*actualHand->getSmallBlind()) {
+			if(currentHand->getCurrentBeRo()->getHighestSet() >= 12*currentHand->getSmallBlind()) {
 				// all in
 				if(myOdds >= myNiveau[2] + 15) {
 					raise = myCash;
@@ -2493,7 +2493,7 @@ void LocalPlayer::riverEngine() {
 				// nur call
 				else {
 					// all in bei knappem call
-					if(myCash-actualHand->getCurrentBeRo()->getHighestSet() <= (myCash*1)/5) {
+					if(myCash-currentHand->getCurrentBeRo()->getHighestSet() <= (myCash*1)/5) {
 						raise = myCash;
 						myAction = 5;
 					} else {
@@ -2504,13 +2504,13 @@ void LocalPlayer::riverEngine() {
 			// Standard-Raise-Routine
 			else {
 				// raise-Betrag ermitteln
-				raise = (((int)myOdds-myNiveau[2])/2)*2*actualHand->getSmallBlind();
+				raise = (((int)myOdds-myNiveau[2])/2)*2*currentHand->getSmallBlind();
 				// raise-Betrag zu klein -> mindestens Standard-raise
-// 				if(raise < actualHand->getCurrentBeRo()->getHighestSet()) {
-// 					raise = actualHand->getCurrentBeRo()->getHighestSet();
+// 				if(raise < currentHand->getCurrentBeRo()->getHighestSet()) {
+// 					raise = currentHand->getCurrentBeRo()->getHighestSet();
 // 				}
 				// all in bei nur wenigen Chips
-				if(myCash/(2*actualHand->getSmallBlind()) <= 8) {
+				if(myCash/(2*currentHand->getSmallBlind()) <= 8) {
 					raise = myCash;
 				}
 				myAction = 5;
@@ -2518,9 +2518,9 @@ void LocalPlayer::riverEngine() {
 		}
 		else {
 			// call -> über niveau0, schon einiges gesetzt im flop, schon einiges insgesamt gesetzt 
-			if(myOdds >= myNiveau[0] || (mySet >= actualHand->getCurrentBeRo()->getHighestSet()/2 && myOdds >= myNiveau[0]-5) || (myRoundStartCash-myCash > individualHighestSet && myNiveau[0]-3)) {
+			if(myOdds >= myNiveau[0] || (mySet >= currentHand->getCurrentBeRo()->getHighestSet()/2 && myOdds >= myNiveau[0]-5) || (myRoundStartCash-myCash > individualHighestSet && myNiveau[0]-3)) {
 				// all in bei knappem call
-				if(myCash-actualHand->getCurrentBeRo()->getHighestSet() <= (myCash*1)/4) {
+				if(myCash-currentHand->getCurrentBeRo()->getHighestSet() <= (myCash*1)/4) {
 					raise = myCash;
 					myAction = 5;
 				}
@@ -2535,12 +2535,12 @@ void LocalPlayer::riverEngine() {
 	else {
 		// bet
 		if(myOdds >= myNiveau[1]) {
-			bet = (((int)myOdds-myNiveau[1])/3)*2*actualHand->getSmallBlind();
+			bet = (((int)myOdds-myNiveau[1])/3)*2*currentHand->getSmallBlind();
 			if(bet == 0) {
-				bet = 2*actualHand->getSmallBlind();
+				bet = 2*currentHand->getSmallBlind();
 			}
 			// all in bei nur wenigen Chips
-			if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+			if(myCash/(2*currentHand->getSmallBlind()) <= 6) {
 				raise = myCash;
 			}
 			// all in bei knappem bet
@@ -2557,13 +2557,13 @@ void LocalPlayer::riverEngine() {
 				// Position-Bluff generieren
 				Tools::getRandNumber(1,100,1,&pBluff,0);
 				if(pBluff <= 20) {
-					bet = (pBluff/4)*2*actualHand->getSmallBlind();
+					bet = (pBluff/4)*2*currentHand->getSmallBlind();
 					// bet zu klein
 					if(bet == 0) {
-						bet = 2*actualHand->getSmallBlind();
+						bet = 2*currentHand->getSmallBlind();
 					}
 					// all in bei nur wenigen Chips
-					if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+					if(myCash/(2*currentHand->getSmallBlind()) <= 6) {
 						bet = myCash;
 					}
 					// all in bei knappem bet
@@ -2576,41 +2576,41 @@ void LocalPlayer::riverEngine() {
 		}
 
 		// lastPlayerAction für Karten umblättern reihenfolge setzrn
-		actualHand->getCurrentBeRo()->setLastActionPlayer(myID);
+		currentHand->getCurrentBeRo()->setLastActionPlayer(myID);
 
 	}
 
 	// auf sBluffStatus testen --> raise statt call und bet statt check
 
 	// aktiv oder passiv?
-	if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+	if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 
 		if(sBluffStatus && myOdds < myNiveau[2]) {
 	
 	// 		cout << "sBLUFF!" << endl;
 	
 			// Gegner setzen -> call
-			if(actualHand->getCurrentBeRo()->getHighestSet() >= 4*actualHand->getSmallBlind()) {
+			if(currentHand->getCurrentBeRo()->getHighestSet() >= 4*currentHand->getSmallBlind()) {
 				myAction = 3;
 			}
 			// Standard-Raise-Routine
 			else {
 				// raise-Betrag ermitteln
 				Tools::getRandNumber(1,8,1,&rand,0);
-				raise = rand*actualHand->getSmallBlind();
+				raise = rand*currentHand->getSmallBlind();
 				// raise-Betrag zu klein -> mindestens Standard-raise
-// 				if(raise < actualHand->getCurrentBeRo()->getHighestSet()) {
-// 					raise = actualHand->getCurrentBeRo()->getHighestSet();
+// 				if(raise < currentHand->getCurrentBeRo()->getHighestSet()) {
+// 					raise = currentHand->getCurrentBeRo()->getHighestSet();
 // 				}
 				// all in bei nur wenigen Chips oder knappem raise
-				if(myCash/(2*actualHand->getSmallBlind()) <= 6 || raise >= (myCash*4)/5) {
+				if(myCash/(2*currentHand->getSmallBlind()) <= 6 || raise >= (myCash*4)/5) {
 					raise = myCash;
 				}
 				myAction = 5;
 			}
 
 			// extrem hoher set der gegner -> bluff beenden
-			if(actualHand->getCurrentBeRo()->getHighestSet() >= 10*actualHand->getSmallBlind()) {
+			if(currentHand->getCurrentBeRo()->getHighestSet() >= 10*currentHand->getSmallBlind()) {
 				myAction = 1;
 			}
 		}
@@ -2621,13 +2621,13 @@ void LocalPlayer::riverEngine() {
 	// 		cout << "sBLUFF!" << endl;
 
 			Tools::getRandNumber(1,8,1,&rand,0);
-			bet = rand*actualHand->getSmallBlind();
+			bet = rand*currentHand->getSmallBlind();
 			// bet zu klein
-			if(bet < 2*actualHand->getSmallBlind()) {
-				bet = 2*actualHand->getSmallBlind();
+			if(bet < 2*currentHand->getSmallBlind()) {
+				bet = 2*currentHand->getSmallBlind();
 			}
 			// all in bei nur wenigen Chips
-			if(myCash/(2*actualHand->getSmallBlind()) <= 6) {
+			if(myCash/(2*currentHand->getSmallBlind()) <= 6) {
 				bet = myCash;
 			}
 			// all in bei knappem bet
@@ -2642,14 +2642,14 @@ void LocalPlayer::riverEngine() {
 	// minimum raise setting and resetting
 	if(myAction == 5) {
 
-		if(raise < actualHand->getCurrentBeRo()->getMinimumRaise()) {
-			raise = actualHand->getCurrentBeRo()->getMinimumRaise();
+		if(raise < currentHand->getCurrentBeRo()->getMinimumRaise()) {
+			raise = currentHand->getCurrentBeRo()->getMinimumRaise();
 		}
-		actualHand->getCurrentBeRo()->setMinimumRaise(raise);
+		currentHand->getCurrentBeRo()->setMinimumRaise(raise);
 
 	}
 
-	if(myAction == 4) { actualHand->getCurrentBeRo()->setMinimumRaise(bet); }
+	if(myAction == 4) { currentHand->getCurrentBeRo()->setMinimumRaise(bet); }
 
 
 	if(DEBUG_MODE) {
@@ -2658,10 +2658,10 @@ void LocalPlayer::riverEngine() {
 			} break;
 			case 1: { 
 
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 // 						myAction = PLAYER_ACTION_CALL;
-// 						if(actualHand->getCurrentBeRo()->getHighestSet() > 100) {
+// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 100) {
 // 							myAction = PLAYER_ACTION_FOLD;
 // 						}
 					} break;
@@ -2675,12 +2675,12 @@ void LocalPlayer::riverEngine() {
 			} break;
 			case 2: { 
 
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_BET;
 						bet = 100;
 // 						raise = 40;
-						if(actualHand->getCurrentBeRo()->getHighestSet() > 100) {
+						if(currentHand->getCurrentBeRo()->getHighestSet() > 100) {
 							myAction = PLAYER_ACTION_CALL;
 						}
 					}
@@ -2700,11 +2700,11 @@ void LocalPlayer::riverEngine() {
 			}
 			break;
 			case 3: {
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 // 						myAction = PLAYER_ACTION_BET;
 // 						bet = 120;
-// 						if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_RAISE;
 // 							raise = 10000;
 // 						}
@@ -2726,12 +2726,12 @@ void LocalPlayer::riverEngine() {
 			}
 			break;
 			case 4: {
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_RAISE;
 						raise = 300;
 // 						bet = 120;
-// 						if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_RAISE;
 // 							raise = 10000;
 // 						}
@@ -2753,11 +2753,11 @@ void LocalPlayer::riverEngine() {
 			}
 			break;
 			case 5: {
-				switch(actualHand->getMyID()) {
+				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_FOLD;
 // 						bet = 120;
-// 						if(actualHand->getCurrentBeRo()->getHighestSet() > 0) {
+// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_RAISE;
 // 							raise = 10000;
 // 						}
@@ -2796,7 +2796,7 @@ void LocalPlayer::evaluation(int bet, int raise) {
 
 	int highestSet = 0;
 
-	highestSet = actualHand->getCurrentBeRo()->getHighestSet();
+	highestSet = currentHand->getCurrentBeRo()->getHighestSet();
 
 
 // 	cout << "myAction(evaluation): " << myAction << endl;
@@ -2871,7 +2871,7 @@ void LocalPlayer::evaluation(int bet, int raise) {
 
 // 	cout << "highestSet(ende evaluation): " << highestSet << endl;
 
-	actualHand->getCurrentBeRo()->setHighestSet(highestSet);
+	currentHand->getCurrentBeRo()->setHighestSet(highestSet);
 		
 }
 
@@ -3546,14 +3546,14 @@ void LocalPlayer::calcMyOdds() {
 
 	int handCode;
 
-	switch(actualHand->getActualRound()) {
+	switch(currentHand->getCurrentRound()) {
 
 		case 0: {
 			
 			handCode = preflopCardsValue(myCards);
 		
 			// übergang solange preflopValue und flopValue noch nicht bereinigt
-			int players = actualHand->getActivePlayerList()->size();
+			int players = currentHand->getActivePlayerList()->size();
 			if(players > 5) players = 5;
 			// paranoia
 			if(players < 2) players = 2;
@@ -3576,7 +3576,7 @@ void LocalPlayer::calcMyOdds() {
 			int i;
 		
 			for(i=0; i<2; i++) tempArray[i] = myCards[i];
-			actualBoard->getMyCards(boardCards);
+			currentBoard->getMyCards(boardCards);
 			for(i=0; i<3; i++) tempArray[2+i] = boardCards[i];
 		
 		// 		cout << myID << ": ";
@@ -3586,7 +3586,7 @@ void LocalPlayer::calcMyOdds() {
 		// 		cout << "\t" << handCode << endl;
 		
 			// übergang solange preflopValue und flopValue noch nicht bereinigt
-			int players = actualHand->getActivePlayerList()->size();
+			int players = currentHand->getActivePlayerList()->size();
 			if(players > 5) players = 5;
 			// paranoia
 			if(players < 2) players = 2;
@@ -3619,7 +3619,7 @@ void LocalPlayer::calcMyOdds() {
 			int tempBoardCardsArray[5];
 			int tempMyCardsArray[7];
 			int tempOpponentCardsArray[7];
-			actualBoard->getMyCards(tempBoardCardsArray);
+			currentBoard->getMyCards(tempBoardCardsArray);
 		
 			tempMyCardsArray[0] = myCards[0];
 			tempMyCardsArray[1] = myCards[1];
@@ -3675,7 +3675,7 @@ void LocalPlayer::calcMyOdds() {
 			int tempBoardCardsArray[5];
 			int tempMyCardsArray[7];
 			int tempOpponentCardsArray[7];
-			actualBoard->getMyCards(tempBoardCardsArray);
+			currentBoard->getMyCards(tempBoardCardsArray);
 		
 			tempMyCardsArray[0] = myCards[0];
 			tempMyCardsArray[1] = myCards[1];
@@ -3719,7 +3719,7 @@ void LocalPlayer::calcMyOdds() {
 
 		}
 		break;
-		default: cout <<"ERROR - wrong init of actualRound" << endl;
+		default: cout <<"ERROR - wrong init of currentRound" << endl;
 
 
 	}
@@ -3990,7 +3990,7 @@ int LocalPlayer::turnCardsValue(int* cards) {
 
 void LocalPlayer::preflopEngine3() {
 	
-	// 	cout << "nextID " << actualHand->getPlayerArray()[(myID+1)%5]->getMyID() << endl;
+	// 	cout << "nextID " << currentHand->getPlayerArray()[(myID+1)%5]->getMyID() << endl;
 	
 		int raise = 0;
 	
@@ -4007,32 +4007,32 @@ void LocalPlayer::preflopEngine3() {
 		// Potential
 		int potential = 10*(4*(myCardsValue->holeCardsClass(myCards[0], myCards[1]))+1*tempRand)/50-myDude;
 	
-		int setToHighest = actualHand->getCurrentBeRo()->getHighestSet() - mySet;
+		int setToHighest = currentHand->getCurrentBeRo()->getHighestSet() - mySet;
 	
 		// temp fr das Vielfache des Small Blind, sodass HighestSet zu hoch ist
 		int tempFold;
-	// 	tempFold = (actualHand->getPlayerArray()[0]->getMyAverageSets())/(8*actualHand->getSmallBlind());
+	// 	tempFold = (currentHand->getPlayerArray()[0]->getMyAverageSets())/(8*currentHand->getSmallBlind());
 		Tools::getRandNumber(2,3,1,&tempFold,0);
 	
 		// FOLD --> wenn Potential negativ oder HighestSet zu hoch
-		if( (potential*setToHighest<0 || (setToHighest > tempFold * actualHand->getSmallBlind() &&  potential<1) || (setToHighest > 2 * tempFold * actualHand->getSmallBlind() &&  potential<2) || (setToHighest > 4 * tempFold * actualHand->getSmallBlind() &&  potential<3) || (setToHighest > 10 * tempFold * actualHand->getSmallBlind() &&  potential<4))  && myCardsValue->holeCardsClass(myCards[0], myCards[1]) < 9 && bluff > 15) {
+		if( (potential*setToHighest<0 || (setToHighest > tempFold * currentHand->getSmallBlind() &&  potential<1) || (setToHighest > 2 * tempFold * currentHand->getSmallBlind() &&  potential<2) || (setToHighest > 4 * tempFold * currentHand->getSmallBlind() &&  potential<3) || (setToHighest > 10 * tempFold * currentHand->getSmallBlind() &&  potential<4))  && myCardsValue->holeCardsClass(myCards[0], myCards[1]) < 9 && bluff > 15) {
 			myAction=1;
 		}
 		else {
 			// RAISE --> wenn hohes Potential
-			if(potential >= 4 && 6 * actualHand->getSmallBlind() >= actualHand->getCurrentBeRo()->getHighestSet() || bluff <= 6) {
+			if(potential >= 4 && 6 * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet() || bluff <= 6) {
 				// extrem hohes Potential --> groÃ¯Â¿År Raise
 				if(potential>=6 || bluff <= 2) {
 	
 					// bluff - raise
-					if(bluff <=2  && 4 * actualHand->getSmallBlind() > actualHand->getCurrentBeRo()->getHighestSet()) {
-						raise = 3 * actualHand->getCurrentBeRo()->getHighestSet();
+					if(bluff <=2  && 4 * currentHand->getSmallBlind() > currentHand->getCurrentBeRo()->getHighestSet()) {
+						raise = 3 * currentHand->getCurrentBeRo()->getHighestSet();
 					}
 					else {
 						// bluff - call
 						if(bluff >= 98) {
 							// All In
-							if(actualHand->getCurrentBeRo()->getHighestSet() >= myCash) {
+							if(currentHand->getCurrentBeRo()->getHighestSet() >= myCash) {
 		
 								mySet += myCash;
 								myCash = 0;
@@ -4041,16 +4041,16 @@ void LocalPlayer::preflopEngine3() {
 							}
 							// sonst
 							else {
-								myCash = myCash - actualHand->getCurrentBeRo()->getHighestSet() + mySet;
-								mySet = actualHand->getCurrentBeRo()->getHighestSet();
+								myCash = myCash - currentHand->getCurrentBeRo()->getHighestSet() + mySet;
+								mySet = currentHand->getCurrentBeRo()->getHighestSet();
 								myAction = 3;
 							}
 						} else {
 							// doch nich raisen, sondern nur checken, weil highestSets bereits sehr hoch !!!
-							if(! (4 * actualHand->getSmallBlind() > actualHand->getCurrentBeRo()->getHighestSet())) {
+							if(! (4 * currentHand->getSmallBlind() > currentHand->getCurrentBeRo()->getHighestSet())) {
 	
 								// All In
-								if(actualHand->getCurrentBeRo()->getHighestSet() >= myCash) {
+								if(currentHand->getCurrentBeRo()->getHighestSet() >= myCash) {
 				
 									mySet += myCash;
 									myCash = 0;
@@ -4059,28 +4059,28 @@ void LocalPlayer::preflopEngine3() {
 								}
 								// sonst
 								else {
-									myCash = myCash - actualHand->getCurrentBeRo()->getHighestSet() + mySet;
-									mySet = actualHand->getCurrentBeRo()->getHighestSet();
+									myCash = myCash - currentHand->getCurrentBeRo()->getHighestSet() + mySet;
+									mySet = currentHand->getCurrentBeRo()->getHighestSet();
 									myAction = 3;
 								}
 	
 							}
-							else raise = (potential - 4 ) * 2 * actualHand->getCurrentBeRo()->getHighestSet();
+							else raise = (potential - 4 ) * 2 * currentHand->getCurrentBeRo()->getHighestSet();
 						}
 					}
 				}
 				// hohes Potential --> gemäßigter Raise
 				else {
 					// bluff - raise
-					if(bluff <= 6 && 4 * actualHand->getSmallBlind() > actualHand->getCurrentBeRo()->getHighestSet()) {
-						raise = 2*actualHand->getCurrentBeRo()->getHighestSet();
+					if(bluff <= 6 && 4 * currentHand->getSmallBlind() > currentHand->getCurrentBeRo()->getHighestSet()) {
+						raise = 2*currentHand->getCurrentBeRo()->getHighestSet();
 					}
 					else {
 						// bluff - call
 						if(bluff >= 93) {
 	
 							// All In
-							if(actualHand->getCurrentBeRo()->getHighestSet() >= myCash) {
+							if(currentHand->getCurrentBeRo()->getHighestSet() >= myCash) {
 			
 								mySet += myCash;
 								myCash = 0;
@@ -4089,17 +4089,17 @@ void LocalPlayer::preflopEngine3() {
 							}
 							// sonst
 							else {
-								myCash = myCash - actualHand->getCurrentBeRo()->getHighestSet() + mySet;
-								mySet = actualHand->getCurrentBeRo()->getHighestSet();
+								myCash = myCash - currentHand->getCurrentBeRo()->getHighestSet() + mySet;
+								mySet = currentHand->getCurrentBeRo()->getHighestSet();
 								myAction = 3;
 							}
 						}
 						else {
 							// doch nich raisen, sondern nur checken, weil highestSets bereits sehr hoch !!!
-							if(! (4 * actualHand->getSmallBlind() > actualHand->getCurrentBeRo()->getHighestSet())) {
+							if(! (4 * currentHand->getSmallBlind() > currentHand->getCurrentBeRo()->getHighestSet())) {
 	
 								// All In
-								if(actualHand->getCurrentBeRo()->getHighestSet() >= myCash) {
+								if(currentHand->getCurrentBeRo()->getHighestSet() >= myCash) {
 				
 									mySet += myCash;
 									myCash = 0;
@@ -4108,32 +4108,32 @@ void LocalPlayer::preflopEngine3() {
 								}
 								// sonst
 								else {
-									myCash = myCash - actualHand->getCurrentBeRo()->getHighestSet() + mySet;
-									mySet = actualHand->getCurrentBeRo()->getHighestSet();
+									myCash = myCash - currentHand->getCurrentBeRo()->getHighestSet() + mySet;
+									mySet = currentHand->getCurrentBeRo()->getHighestSet();
 									myAction = 3;
 								}
 							}
-							else raise = (potential - 3 ) * actualHand->getCurrentBeRo()->getHighestSet();
+							else raise = (potential - 3 ) * currentHand->getCurrentBeRo()->getHighestSet();
 						}
 					}
 				}
 		
 				if (raise > 0) {
 					// All In
-					if(actualHand->getCurrentBeRo()->getHighestSet() + raise >= myCash) {
+					if(currentHand->getCurrentBeRo()->getHighestSet() + raise >= myCash) {
 	
 						mySet += myCash;
 						myCash = 0;
 						myAction = 6;
-						if(mySet > actualHand->getCurrentBeRo()->getHighestSet()) actualHand->getCurrentBeRo()->setHighestSet(mySet);
+						if(mySet > currentHand->getCurrentBeRo()->getHighestSet()) currentHand->getCurrentBeRo()->setHighestSet(mySet);
 	
 					}
 					// sonst
 					else {
 	
-						myCash = myCash + mySet - actualHand->getCurrentBeRo()->getHighestSet() - raise;
-						mySet = actualHand->getCurrentBeRo()->getHighestSet() + raise;
-						actualHand->getCurrentBeRo()->setHighestSet(mySet);
+						myCash = myCash + mySet - currentHand->getCurrentBeRo()->getHighestSet() - raise;
+						mySet = currentHand->getCurrentBeRo()->getHighestSet() + raise;
+						currentHand->getCurrentBeRo()->setHighestSet(mySet);
 						myAction = 5;
 					}
 				}
@@ -4141,13 +4141,13 @@ void LocalPlayer::preflopEngine3() {
 			//CHECK und CALL
 			else {
 				// CHECK --> wenn alle Sets glieich bei BigBlind und nich zu hohem Potential
-				if(mySet == actualHand->getCurrentBeRo()->getHighestSet()) {
+				if(mySet == currentHand->getCurrentBeRo()->getHighestSet()) {
 					myAction = 2;
 				}
 				// CALL --> bei normalen Potential
 				else {
 					// All In
-					if(actualHand->getCurrentBeRo()->getHighestSet() >= myCash) {
+					if(currentHand->getCurrentBeRo()->getHighestSet() >= myCash) {
 	
 						mySet += myCash;
 						myCash = 0;
@@ -4156,8 +4156,8 @@ void LocalPlayer::preflopEngine3() {
 					}
 					// sonst
 					else {
-						myCash = myCash - actualHand->getCurrentBeRo()->getHighestSet() + mySet;
-						mySet = actualHand->getCurrentBeRo()->getHighestSet();
+						myCash = myCash - currentHand->getCurrentBeRo()->getHighestSet() + mySet;
+						mySet = currentHand->getCurrentBeRo()->getHighestSet();
 						myAction = 3;
 					}
 				}
@@ -4173,7 +4173,7 @@ void LocalPlayer::flopEngine3() {
 		int tempBoardCardsArray[5];
 		int tempMyCardsArray[7];
 		int tempOpponentCardsArray[7];
-		actualBoard->getMyCards(tempBoardCardsArray);
+		currentBoard->getMyCards(tempBoardCardsArray);
 	
 		tempMyCardsArray[0] = myCards[0];
 		tempMyCardsArray[1] = myCards[1];
@@ -4240,20 +4240,20 @@ void LocalPlayer::flopEngine3() {
 	// 	Potential
 		int potential = (10*(5*(int)(percent*100.)+10*tempRand*2))/700-myDude;
 	
-		int setToHighest = actualHand->getCurrentBeRo()->getHighestSet() - mySet;
+		int setToHighest = currentHand->getCurrentBeRo()->getHighestSet() - mySet;
 	
 		// temp fr das Vielfache des Small Blind, sodass HighestSet zu hoch ist
 		int tempFold;
-	// 	tempFold = (actualHand->getPlayerArray()[0]->getMyAverageSets())/(8*actualHand->getSmallBlind());
+	// 	tempFold = (currentHand->getPlayerArray()[0]->getMyAverageSets())/(8*currentHand->getSmallBlind());
 		Tools::getRandNumber(2,3,1,&tempFold,0);
 	
 		// FOLD --> wenn potential negativ oder HighestSet zu hoch
-		if(( potential*setToHighest<0 || (setToHighest > tempFold * actualHand->getSmallBlind() &&  potential<1) || (setToHighest > 3 * tempFold * actualHand->getSmallBlind() &&  potential<2) || (setToHighest > 9 * tempFold * actualHand->getSmallBlind() &&  potential<3) || (setToHighest > 20*tempFold * actualHand->getSmallBlind() &&  potential<4) || (setToHighest > 40 *tempFold * actualHand->getSmallBlind() &&  potential<5)) && percent < 0.90 && bluff > 18) {
+		if(( potential*setToHighest<0 || (setToHighest > tempFold * currentHand->getSmallBlind() &&  potential<1) || (setToHighest > 3 * tempFold * currentHand->getSmallBlind() &&  potential<2) || (setToHighest > 9 * tempFold * currentHand->getSmallBlind() &&  potential<3) || (setToHighest > 20*tempFold * currentHand->getSmallBlind() &&  potential<4) || (setToHighest > 40 *tempFold * currentHand->getSmallBlind() &&  potential<5)) && percent < 0.90 && bluff > 18) {
 			myAction=1;
 		}
 		else {
 			// CHECK und BET --> wenn noch keiner was gesetzt hat
-			if(actualHand->getCurrentBeRo()->getHighestSet() == 0) {
+			if(currentHand->getCurrentBeRo()->getHighestSet() == 0) {
 				// CHECK --> wenn Potential klein oder check-bluff sonst bet oder bet-bluff
 				if((potential<3 || bluff >= 80) && bluff > 15) {
 					// check
@@ -4261,11 +4261,11 @@ void LocalPlayer::flopEngine3() {
 				}
 				// BET --> wenn Potential hoch
 				else {
-					if(bluff <= 5) mySet = (bluff+1) * actualHand->getSmallBlind();
+					if(bluff <= 5) mySet = (bluff+1) * currentHand->getSmallBlind();
 					else {
-						if(bluff <=15 ) mySet = 4 * actualHand->getSmallBlind();
+						if(bluff <=15 ) mySet = 4 * currentHand->getSmallBlind();
 						// je höher das Potential, desto höher der Einsatz (zur Basis SmallBlind)
-						else mySet = (potential-1) * 2 * actualHand->getSmallBlind();
+						else mySet = (potential-1) * 2 * currentHand->getSmallBlind();
 					}
 					
 					// All In
@@ -4280,35 +4280,35 @@ void LocalPlayer::flopEngine3() {
 						myCash -= mySet;
 						myAction = 4;
 					}
-					actualHand->getCurrentBeRo()->setHighestSet(mySet);
+					currentHand->getCurrentBeRo()->setHighestSet(mySet);
 				}
 	
 			}
 			// CALL und RAISE --> wenn bereits gesetzt wurde
 			else {	
 				// RAISE --> wenn Potential besonders gut
-				if((potential >=4 && 2 * tempFold * actualHand->getSmallBlind() >= actualHand->getCurrentBeRo()->getHighestSet()) || (bluff <= 5 && 4 * tempFold * actualHand->getSmallBlind() >= actualHand->getCurrentBeRo()->getHighestSet())) {
+				if((potential >=4 && 2 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet()) || (bluff <= 5 && 4 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet())) {
 	
 					// bluff - raise
-					if(bluff <=5) raise = ((bluff+1)/2) * actualHand->getCurrentBeRo()->getHighestSet();
+					if(bluff <=5) raise = ((bluff+1)/2) * currentHand->getCurrentBeRo()->getHighestSet();
 					// Betrag, der ber dem aktuell HighestSet gesetzt werden soll
-					else raise = ((potential - 2 ) / 2) * actualHand->getCurrentBeRo()->getHighestSet();
+					else raise = ((potential - 2 ) / 2) * currentHand->getCurrentBeRo()->getHighestSet();
 	
 					// All In
-					if(actualHand->getCurrentBeRo()->getHighestSet() + raise >= myCash) {
+					if(currentHand->getCurrentBeRo()->getHighestSet() + raise >= myCash) {
 	
 						mySet += myCash;
 						myCash = 0;
 						myAction = 6;
-						if(mySet > actualHand->getCurrentBeRo()->getHighestSet()) actualHand->getCurrentBeRo()->setHighestSet(mySet);
+						if(mySet > currentHand->getCurrentBeRo()->getHighestSet()) currentHand->getCurrentBeRo()->setHighestSet(mySet);
 	
 					}
 					// sonst
 					else {
 	
-						myCash = myCash + mySet - actualHand->getCurrentBeRo()->getHighestSet() - raise;
-						mySet = actualHand->getCurrentBeRo()->getHighestSet() + raise;
-						actualHand->getCurrentBeRo()->setHighestSet(mySet);
+						myCash = myCash + mySet - currentHand->getCurrentBeRo()->getHighestSet() - raise;
+						mySet = currentHand->getCurrentBeRo()->getHighestSet() + raise;
+						currentHand->getCurrentBeRo()->setHighestSet(mySet);
 						myAction = 5;
 					}
 				}
@@ -4316,7 +4316,7 @@ void LocalPlayer::flopEngine3() {
 				else {
 	
 					// All In
-					if(actualHand->getCurrentBeRo()->getHighestSet() >= myCash) {
+					if(currentHand->getCurrentBeRo()->getHighestSet() >= myCash) {
 	
 						mySet += myCash;
 						myCash = 0;
@@ -4325,8 +4325,8 @@ void LocalPlayer::flopEngine3() {
 					}
 					// sonst
 					else {
-						myCash = myCash - actualHand->getCurrentBeRo()->getHighestSet() + mySet;
-						mySet = actualHand->getCurrentBeRo()->getHighestSet();
+						myCash = myCash - currentHand->getCurrentBeRo()->getHighestSet() + mySet;
+						mySet = currentHand->getCurrentBeRo()->getHighestSet();
 						myAction = 3;
 					}
 				}
@@ -4344,7 +4344,7 @@ void LocalPlayer::turnEngine3() {
 		int tempBoardCardsArray[5];
 		int tempMyCardsArray[7];
 		int tempOpponentCardsArray[7];
-		actualBoard->getMyCards(tempBoardCardsArray);
+		currentBoard->getMyCards(tempBoardCardsArray);
 	
 		tempMyCardsArray[0] = myCards[0];
 		tempMyCardsArray[1] = myCards[1];
@@ -4406,21 +4406,21 @@ void LocalPlayer::turnEngine3() {
 	// 	Potential
 		int potential = (10*(5*(int)(percent*100.)+10*tempRand*2))/700-myDude;
 	
-		int setToHighest = actualHand->getCurrentBeRo()->getHighestSet() - mySet;
+		int setToHighest = currentHand->getCurrentBeRo()->getHighestSet() - mySet;
 	
 		// temp fr das Vielfache des Small Blind, sodass HighestSet zu hoch ist
 		int tempFold;
-	// 	tempFold = (actualHand->getPlayerArray()[0]->getMyAverageSets())/(7*actualHand->getSmallBlind());
+	// 	tempFold = (currentHand->getPlayerArray()[0]->getMyAverageSets())/(7*currentHand->getSmallBlind());
 		Tools::getRandNumber(3,4,1,&tempFold,0);
 	
 		// FOLD
 		// --> wenn potential negativ oder HighestSet zu hoch
-		if( (potential*setToHighest<0 || (setToHighest > tempFold * actualHand->getSmallBlind() &&  potential<1) || (setToHighest > 3 * tempFold * actualHand->getSmallBlind() &&  potential<2) || (setToHighest > 9 * tempFold * actualHand->getSmallBlind() &&  potential<3) || (setToHighest > 20*tempFold * actualHand->getSmallBlind() &&  potential<4) || (setToHighest > 40 *tempFold * actualHand->getSmallBlind() &&  potential<5)) && percent < 0.90 && bluff > 15) {
+		if( (potential*setToHighest<0 || (setToHighest > tempFold * currentHand->getSmallBlind() &&  potential<1) || (setToHighest > 3 * tempFold * currentHand->getSmallBlind() &&  potential<2) || (setToHighest > 9 * tempFold * currentHand->getSmallBlind() &&  potential<3) || (setToHighest > 20*tempFold * currentHand->getSmallBlind() &&  potential<4) || (setToHighest > 40 *tempFold * currentHand->getSmallBlind() &&  potential<5)) && percent < 0.90 && bluff > 15) {
 			myAction=1;
 		}
 		else {
 			// CHECK und BET --> wenn noch keiner was gesetzt hat
-			if(actualHand->getCurrentBeRo()->getHighestSet() == 0) {
+			if(currentHand->getCurrentBeRo()->getHighestSet() == 0) {
 				// CHECK --> wenn Potential klein
 				if((potential<2 || bluff >= 80) && bluff > 10) {
 					// check
@@ -4429,11 +4429,11 @@ void LocalPlayer::turnEngine3() {
 				// BET --> wenn Potential hoch
 				else {
 	
-					if(bluff <= 3) mySet = bluff * 2 * actualHand->getSmallBlind();
+					if(bluff <= 3) mySet = bluff * 2 * currentHand->getSmallBlind();
 					else {
-						if(bluff <=10 ) mySet = ((bluff+2)/3) * actualHand->getSmallBlind();
+						if(bluff <=10 ) mySet = ((bluff+2)/3) * currentHand->getSmallBlind();
 						// je hÃ¯Â¿Åer das Potential, desto hÃ¯Â¿Åher der Einsatz (zur Basis SmallBlind)
-						else mySet = (potential-1) * 3 * actualHand->getSmallBlind();
+						else mySet = (potential-1) * 3 * currentHand->getSmallBlind();
 					}
 	
 					// All In
@@ -4448,42 +4448,42 @@ void LocalPlayer::turnEngine3() {
 						myCash -= mySet;
 						myAction = 4;
 					}
-					actualHand->getCurrentBeRo()->setHighestSet(mySet);
+					currentHand->getCurrentBeRo()->setHighestSet(mySet);
 				}
 	
 			}
 			// CALL und RAISE --> wenn bereits gesetzt wurde
 			else {	
 				// RAISE --> wenn Potential besonders gut
-				if(potential >=4 && 2 * tempFold * actualHand->getSmallBlind() >= actualHand->getCurrentBeRo()->getHighestSet() || (bluff <= 4 && 3 * tempFold * actualHand->getSmallBlind() >= actualHand->getCurrentBeRo()->getHighestSet())) {
+				if(potential >=4 && 2 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet() || (bluff <= 4 && 3 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet())) {
 	
 					// bluff - raise
-					if(bluff <= 4) raise = ((bluff+1)/2) * actualHand->getCurrentBeRo()->getHighestSet();
+					if(bluff <= 4) raise = ((bluff+1)/2) * currentHand->getCurrentBeRo()->getHighestSet();
 					// Betrag, der ber dem aktuell HighestSet gesetzt werden soll
-					else raise = ( potential - 3 ) * actualHand->getCurrentBeRo()->getHighestSet();
+					else raise = ( potential - 3 ) * currentHand->getCurrentBeRo()->getHighestSet();
 	
 					// All In
-					if(actualHand->getCurrentBeRo()->getHighestSet() + raise >= myCash) {
+					if(currentHand->getCurrentBeRo()->getHighestSet() + raise >= myCash) {
 	
 						mySet += myCash;
 						myCash = 0;
 						myAction = 6;
-						if(mySet > actualHand->getCurrentBeRo()->getHighestSet()) actualHand->getCurrentBeRo()->setHighestSet(mySet);
+						if(mySet > currentHand->getCurrentBeRo()->getHighestSet()) currentHand->getCurrentBeRo()->setHighestSet(mySet);
 	
 					}
 					// sonst
 					else {
 	
-						myCash = myCash + mySet - actualHand->getCurrentBeRo()->getHighestSet() - raise;
-						mySet = actualHand->getCurrentBeRo()->getHighestSet() + raise;
-						actualHand->getCurrentBeRo()->setHighestSet(mySet);
+						myCash = myCash + mySet - currentHand->getCurrentBeRo()->getHighestSet() - raise;
+						mySet = currentHand->getCurrentBeRo()->getHighestSet() + raise;
+						currentHand->getCurrentBeRo()->setHighestSet(mySet);
 						myAction = 5;
 					}
 				}
 				// CALL --> bei normalen Potential
 				else {
 					// All In
-					if(actualHand->getCurrentBeRo()->getHighestSet() >= myCash) {
+					if(currentHand->getCurrentBeRo()->getHighestSet() >= myCash) {
 	
 						mySet += myCash;
 						myCash = 0;
@@ -4492,8 +4492,8 @@ void LocalPlayer::turnEngine3() {
 					}
 					// sonst
 					else {
-						myCash = myCash - actualHand->getCurrentBeRo()->getHighestSet() + mySet;
-						mySet = actualHand->getCurrentBeRo()->getHighestSet();
+						myCash = myCash - currentHand->getCurrentBeRo()->getHighestSet() + mySet;
+						mySet = currentHand->getCurrentBeRo()->getHighestSet();
 						myAction = 3;
 					}
 				}
@@ -4510,7 +4510,7 @@ void LocalPlayer::riverEngine3() {
 		int tempBoardCardsArray[5];
 		int tempMyCardsArray[7];
 		int tempOpponentCardsArray[7];
-		actualBoard->getMyCards(tempBoardCardsArray);
+		currentBoard->getMyCards(tempBoardCardsArray);
 	
 		tempMyCardsArray[0] = myCards[0];
 		tempMyCardsArray[1] = myCards[1];
@@ -4568,21 +4568,21 @@ void LocalPlayer::riverEngine3() {
 	// 	Potential
 		int potential = (10*(5*(int)(percent*100.)+10*tempRand*1))/600-myDude;
 	
-		int setToHighest = actualHand->getCurrentBeRo()->getHighestSet() - mySet;
+		int setToHighest = currentHand->getCurrentBeRo()->getHighestSet() - mySet;
 	
 		// temp fr das Vielfache des Small Blind, sodass HighestSet zu hoch ist
 		int tempFold;
-// 		tempFold = (actualHand->getPlayerArray()[0]->getMyAverageSets())/(6*actualHand->getSmallBlind());
+// 		tempFold = (currentHand->getPlayerArray()[0]->getMyAverageSets())/(6*currentHand->getSmallBlind());
 		Tools::getRandNumber(4,6,1,&tempFold,0);
 	
 		// FOLD
 		// --> wenn potential negativ oder HighestSet zu hoch
-		if( (potential*setToHighest<0 || (setToHighest > tempFold * actualHand->getSmallBlind() &&  potential<1) || (setToHighest > 3 * tempFold * actualHand->getSmallBlind() &&  potential<2) || (setToHighest > 9 * tempFold * actualHand->getSmallBlind() &&  potential<3) || (setToHighest > 20*tempFold * actualHand->getSmallBlind() &&  potential<4) || (setToHighest > 40 *tempFold * actualHand->getSmallBlind() &&  potential<5)) && percent < 0.90 && bluff > 15) {
+		if( (potential*setToHighest<0 || (setToHighest > tempFold * currentHand->getSmallBlind() &&  potential<1) || (setToHighest > 3 * tempFold * currentHand->getSmallBlind() &&  potential<2) || (setToHighest > 9 * tempFold * currentHand->getSmallBlind() &&  potential<3) || (setToHighest > 20*tempFold * currentHand->getSmallBlind() &&  potential<4) || (setToHighest > 40 *tempFold * currentHand->getSmallBlind() &&  potential<5)) && percent < 0.90 && bluff > 15) {
 			myAction=1;
 		}
 		else {
 			// CHECK und BET --> wenn noch keiner was gesetzt hat
-			if(actualHand->getCurrentBeRo()->getHighestSet() == 0) {
+			if(currentHand->getCurrentBeRo()->getHighestSet() == 0) {
 				// CHECK --> wenn Potential klein
 				if((potential<2 || bluff >= 92) && bluff > 15) {
 					// check
@@ -4591,11 +4591,11 @@ void LocalPlayer::riverEngine3() {
 				// BET --> wenn Potential hoch
 				else {
 	
-					if(bluff <= 5) mySet = (bluff+3) * actualHand->getSmallBlind();
+					if(bluff <= 5) mySet = (bluff+3) * currentHand->getSmallBlind();
 					else {
-						if(bluff <= 15 ) mySet = ((bluff-1)/5) * 2 * actualHand->getSmallBlind();
+						if(bluff <= 15 ) mySet = ((bluff-1)/5) * 2 * currentHand->getSmallBlind();
 						// je hÃ¯Â¿Åer das Potential, desto hÃ¯Â¿Åher der Einsatz (zur Basis SmallBlind)
-						else mySet = (potential-1) * 4 * actualHand->getSmallBlind();
+						else mySet = (potential-1) * 4 * currentHand->getSmallBlind();
 					}
 	
 					// All In
@@ -4610,42 +4610,42 @@ void LocalPlayer::riverEngine3() {
 						myCash -= mySet;
 						myAction = 4;
 					}
-					actualHand->getCurrentBeRo()->setHighestSet(mySet);
+					currentHand->getCurrentBeRo()->setHighestSet(mySet);
 				}
 	
 			}
 			// CALL und RAISE --> wenn bereits gesetzt wurde
 			else {	
 				// RAISE --> wenn Potential besonders gut
-				if(potential >=4 && 2 * tempFold * actualHand->getSmallBlind() >= actualHand->getCurrentBeRo()->getHighestSet() || (bluff <= 2 && 4 * tempFold * actualHand->getSmallBlind() >= actualHand->getCurrentBeRo()->getHighestSet())) {
+				if(potential >=4 && 2 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet() || (bluff <= 2 && 4 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet())) {
 	
 					// bluff - raise
-					if(bluff <= 2 ) raise = bluff * actualHand->getCurrentBeRo()->getHighestSet();
+					if(bluff <= 2 ) raise = bluff * currentHand->getCurrentBeRo()->getHighestSet();
 					// Betrag, der ber dem aktuell HighestSet gesetzt werden soll
-					else raise = ( potential - 3 ) * actualHand->getCurrentBeRo()->getHighestSet();
+					else raise = ( potential - 3 ) * currentHand->getCurrentBeRo()->getHighestSet();
 	
 					// All In
-					if(actualHand->getCurrentBeRo()->getHighestSet() + raise >= myCash) {
+					if(currentHand->getCurrentBeRo()->getHighestSet() + raise >= myCash) {
 	
 						mySet += myCash;
 						myCash = 0;
 						myAction = 6;
-						if(mySet > actualHand->getCurrentBeRo()->getHighestSet()) actualHand->getCurrentBeRo()->setHighestSet(mySet);
+						if(mySet > currentHand->getCurrentBeRo()->getHighestSet()) currentHand->getCurrentBeRo()->setHighestSet(mySet);
 	
 					}
 					// sonst
 					else {
 	
-						myCash = myCash + mySet - actualHand->getCurrentBeRo()->getHighestSet() - raise;
-						mySet = actualHand->getCurrentBeRo()->getHighestSet() + raise;
-						actualHand->getCurrentBeRo()->setHighestSet(mySet);
+						myCash = myCash + mySet - currentHand->getCurrentBeRo()->getHighestSet() - raise;
+						mySet = currentHand->getCurrentBeRo()->getHighestSet() + raise;
+						currentHand->getCurrentBeRo()->setHighestSet(mySet);
 						myAction = 5;
 					}
 				}
 				// CALL --> bei normalen Potential
 				else {
 					// All In
-					if(actualHand->getCurrentBeRo()->getHighestSet() >= myCash) {
+					if(currentHand->getCurrentBeRo()->getHighestSet() >= myCash) {
 	
 						mySet += myCash;
 						myCash = 0;
@@ -4654,8 +4654,8 @@ void LocalPlayer::riverEngine3() {
 					}
 					// sonst
 					else {
-						myCash = myCash - actualHand->getCurrentBeRo()->getHighestSet() + mySet;
-						mySet = actualHand->getCurrentBeRo()->getHighestSet();
+						myCash = myCash - currentHand->getCurrentBeRo()->getHighestSet() + mySet;
+						mySet = currentHand->getCurrentBeRo()->getHighestSet();
 						myAction = 3;
 					}
 				}

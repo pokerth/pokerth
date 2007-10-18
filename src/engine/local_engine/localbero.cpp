@@ -274,7 +274,7 @@ void LocalBeRo::run() {
 	
 			// aktuelle bero nicht dran, weil alle Sets gleich sind
 			//also gehe in naechste bero
-			myHand->setActualRound(myBeRoID+1);
+			myHand->setCurrentRound(myBeRoID+1);
 
 			//Action loeschen und ActionButtons refresh
 // 			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
@@ -322,7 +322,7 @@ void LocalBeRo::run() {
 
 			//// !!!!!!!!! attention: exception if player failed before !!!!!!!!
 
-// 			if( !(myHand->getActualQuantityPlayers() < 3 && firstHeadsUpRound == 1) || myHand->getPlayerArray()[playersTurn]->getMyActiveStatus() == 0 ) { 
+// 			if( !(myHand->getCurrentQuantityPlayers() < 3 && firstHeadsUpRound == 1) || myHand->getPlayerArray()[playersTurn]->getMyActiveStatus() == 0 ) { 
 // 			not first round in heads up (for headsup dealer is smallblind so it is dealers turn)
 		
 				// naechsten Spieler ermitteln

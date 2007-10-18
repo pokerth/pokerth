@@ -23,7 +23,7 @@ using namespace std;
 
 
 ClientPlayer::ClientPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
-: PlayerInterface(), myConfig(c), actualHand(0), actualBoard(b), myCardsValue(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), sBluff(0), sBluffStatus(0)
+: PlayerInterface(), myConfig(c), currentHand(0), currentBoard(b), myCardsValue(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), sBluff(0), sBluffStatus(0)
 {
 }
 
@@ -37,7 +37,7 @@ void
 ClientPlayer::setHand(HandInterface* br)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	actualHand = br;
+	currentHand = br;
 }
 
 int
@@ -244,11 +244,11 @@ ClientPlayer::setMyCardsFlip(bool theValue, int state)
 	// log flipping cards
 	if (myCardsFlip) {
 		switch(state) {
-			case 1: actualHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt);
+			case 1: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt);
 			break;
-			case 2: actualHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1]);
+			case 2: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1]);
 			break;
-			case 3: actualHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt, "has");
+			case 3: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt, "has");
 			break;
 			default: ;
 		}
@@ -379,7 +379,7 @@ ClientPlayer::setMyWinnerState(bool theValue, int pot)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	if(theValue) myWinnerState = theValue;
-	actualHand->getGuiInterface()->logPlayerWinsMsg(myName, pot, theValue);
+	currentHand->getGuiInterface()->logPlayerWinsMsg(myName, pot, theValue);
 }
 
 bool

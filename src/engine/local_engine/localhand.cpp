@@ -30,7 +30,7 @@
 using namespace std;
 
 LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl_old, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, unsigned dP, int sB,int sC)
-: myFactory(f), myGui(g),  myBoard(b), playerArray(sl_old), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0), smallBlind(sB), startCash(sC), lastPlayersTurn(0), allInCondition(false),
+: myFactory(f), myGui(g),  myBoard(b), playerArray(sl_old), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), currentRound(0), smallBlind(sB), startCash(sC), lastPlayersTurn(0), allInCondition(false),
   cardsShown(false), bettingRoundsPlayed(0)
 {
 
@@ -551,7 +551,7 @@ void LocalHand::switchRounds() {
 		myBoard->collectPot();	
 		myGui->refreshPot();
 		myGui->refreshSet();
-		actualRound = 4; 
+		currentRound = 4; 
 	}
 	// prfen der All In Kondition
 	// fr All In Prozedur mssen mindestens zwei aktive Player vorhanden sein
@@ -568,7 +568,7 @@ void LocalHand::switchRounds() {
 			// TODO -> runningPlayerList s.u.
 // 			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 // 
-// 				if(playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyAction() != 6 && playerArray[i]->getMyActiveStatus() == 1 && playerArray[i]->getMySet() >= myBeRo[actualRound]->getHighestSet()) {
+// 				if(playerArray[i]->getMyAction() != 1 && playerArray[i]->getMyAction() != 6 && playerArray[i]->getMyActiveStatus() == 1 && playerArray[i]->getMySet() >= myBeRo[currentRound]->getHighestSet()) {
 // 						allInCondition = 1;
 // 				}
 // 
@@ -577,13 +577,13 @@ void LocalHand::switchRounds() {
 
 			for(it_c=runningPlayerList->begin(); it_c!=runningPlayerList->end(); it_c++) {
 
-				if((*it_c)->getMySet() >= myBeRo[actualRound]->getHighestSet()) {
+				if((*it_c)->getMySet() >= myBeRo[currentRound]->getHighestSet()) {
 						allInCondition = true;
 				}
 
 			}
 
-// 			if( (*(runningPlayerList.begin()))->getMySet() >= myBeRo[actualRound]->getHighestSet() ) {
+// 			if( (*(runningPlayerList.begin()))->getMySet() >= myBeRo[currentRound]->getHighestSet() ) {
 // 				allInCondition = 1;
 // 			}
 
@@ -600,9 +600,9 @@ void LocalHand::switchRounds() {
 
 			// exception
 				// no.1: if in first Preflop Round next player is small blind and only all-in-big-blind with less than smallblind amount and other all-in players with less than small blind are nonfold too -> preflop is over
-			PlayerListConstIterator smallBlindIt_c = getRunningPlayerIt(myBeRo[actualRound]->getSmallBlindPositionId());
-			PlayerListConstIterator bigBlindIt_c = getActivePlayerIt(myBeRo[actualRound]->getBigBlindPositionId());
-			if(smallBlindIt_c!=runningPlayerList->end() &&  bigBlindIt_c!=activePlayerList->end() && actualRound == GAME_STATE_PREFLOP && myBeRo[actualRound]->getFirstRound()) {
+			PlayerListConstIterator smallBlindIt_c = getRunningPlayerIt(myBeRo[currentRound]->getSmallBlindPositionId());
+			PlayerListConstIterator bigBlindIt_c = getActivePlayerIt(myBeRo[currentRound]->getBigBlindPositionId());
+			if(smallBlindIt_c!=runningPlayerList->end() &&  bigBlindIt_c!=activePlayerList->end() && currentRound == GAME_STATE_PREFLOP && myBeRo[currentRound]->getFirstRound()) {
 				// determine player who are all in with less than small blind amount
 				int tempCounter = 0;
 				for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
@@ -637,15 +637,15 @@ void LocalHand::switchRounds() {
 		myGui->refreshSet();
 		myGui->flipHolecardsAllIn();
 		
-		if (actualRound < 4) // do not increment past 4
-			actualRound++;
+		if (currentRound < 4) // do not increment past 4
+			currentRound++;
 		
 		//log board cards for allin
-		if(actualRound >= 1) {
+		if(currentRound >= 1) {
 			int tempBoardCardsArray[5];
 			
 			myBoard->getMyCards(tempBoardCardsArray);
-			myGui->logDealBoardCardsMsg(actualRound, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
+			myGui->logDealBoardCardsMsg(currentRound, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
 		}
 	
 	}
@@ -664,13 +664,13 @@ void LocalHand::switchRounds() {
 	}
 
 
-	myGui->refreshGameLabels((GameState)getActualRound());
+	myGui->refreshGameLabels((GameState)getCurrentRound());
 // 	/*/*/*/*cout <<*/*/*/*/ "NextPlayerSpeed1 stop" << endl;
 // 
 
 
 // 	cout << "NextPlayerSpeed2 start" << endl;
-	switch(actualRound) {
+	switch(currentRound) {
 		case 0: {
 			// Preflop starten
 			myGui->preflopAnimation1();

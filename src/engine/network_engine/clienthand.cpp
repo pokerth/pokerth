@@ -22,7 +22,7 @@
 using namespace std;
 
 ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl_old, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC)
-: myFactory(f), myGui(g),  myBoard(b), playerArray(sl_old), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myID(id), startQuantityPlayers(sP), dealerPosition(dP), actualRound(0),
+: myFactory(f), myGui(g),  myBoard(b), playerArray(sl_old), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myID(id), startQuantityPlayers(sP), dealerPosition(dP), currentRound(0),
   smallBlind(sB), startCash(sC), lastPlayersTurn(0), allInCondition(0),
   cardsShown(false), bettingRoundsPlayed(0)
 {
@@ -166,7 +166,7 @@ ClientHand::getRiver() const
 boost::shared_ptr<BeRoInterface>
 ClientHand::getCurrentBeRo() const
 {
-	return myBeRo[actualRound];
+	return myBeRo[currentRound];
 }
 
 
@@ -205,17 +205,17 @@ ClientHand::getStartQuantityPlayers() const
 }
 
 void
-ClientHand::setActualRound(int theValue)
+ClientHand::setCurrentRound(int theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	actualRound = theValue;
+	currentRound = theValue;
 }
 
 int
-ClientHand::getActualRound() const
+ClientHand::getCurrentRound() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	return actualRound;
+	return currentRound;
 }
 
 void

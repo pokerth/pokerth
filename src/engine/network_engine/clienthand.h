@@ -57,14 +57,14 @@ class ClientHand : public HandInterface
 		void setMyID ( int theValue );
 		int getMyID() const;
 
-		void setActualQuantityPlayers ( int theValue );
-		int getActualQuantityPlayers() const;
+		void setCurrentQuantityPlayers ( int theValue );
+		int getCurrentQuantityPlayers() const;
 
 		void setStartQuantityPlayers ( int theValue );
 		int getStartQuantityPlayers() const;
 
-		void setActualRound ( int theValue );
-		int getActualRound() const;
+		void setCurrentRound ( int theValue );
+		int getCurrentRound() const;
 
 		void setDealerPosition ( int theValue );
 		int getDealerPosition() const;
@@ -106,8 +106,8 @@ class ClientHand : public HandInterface
 
 		int myID;
 		int startQuantityPlayers;
-		int dealerPosition; // -1 -> neutral
-		int actualRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
+		unsigned dealerPosition;
+		int currentRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
 		int smallBlind;
 		int startCash;
 

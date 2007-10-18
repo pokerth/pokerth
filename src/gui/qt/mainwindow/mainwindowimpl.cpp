@@ -59,7 +59,7 @@
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
-     : QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(FALSE), pushButtonCallCheckIsChecked(FALSE), pushButtonFoldIsChecked(FALSE), pushButtonAllInIsChecked(FALSE), myButtonsAreCheckable(FALSE), breakAfterActualHand(FALSE)
+     : QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(FALSE), pushButtonCallCheckIsChecked(FALSE), pushButtonFoldIsChecked(FALSE), pushButtonAllInIsChecked(FALSE), myButtonsAreCheckable(FALSE), breakAfterCurrentHand(FALSE)
 {
 	int i;
 
@@ -2120,7 +2120,7 @@ void mainWindowImpl::provideMyActions() {
 		horizontalSlider_bet->setEnabled(TRUE);
 		spinBox_set->setEnabled(TRUE);	
 
-		switch (currentHand->getActualRound()) {
+		switch (currentHand->getCurrentRound()) {
 	
 		case 0: {
 			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { 
@@ -3432,7 +3432,7 @@ void mainWindowImpl::showMyCards() {
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
 	currentHand->getSeatsList()->front()->getMyCards(tempCardsIntArray);	
-	if( currentHand->getSeatsList()->front()->getMyCardsFlip() == 0 &&  currentHand->getActualRound() == 4 && currentHand->getSeatsList()->front()->getMyActiveStatus() && currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD) { 
+	if( currentHand->getSeatsList()->front()->getMyCardsFlip() == 0 &&  currentHand->getCurrentRound() == 4 && currentHand->getSeatsList()->front()->getMyActiveStatus() && currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD) { 
 
 		//set Player value (logging)	
 		currentHand->getSeatsList()->front()->setMyCardsFlip(1,1);
@@ -3442,7 +3442,7 @@ void mainWindowImpl::showMyCards() {
 
 void mainWindowImpl::startNewHand() {
 
-	if( !breakAfterActualHand){
+	if( !breakAfterCurrentHand){
 		mySession->getCurrentGame()->initHand();
 		mySession->getCurrentGame()->startHand();
 	}
@@ -3454,7 +3454,7 @@ void mainWindowImpl::startNewHand() {
 		pushButton_break->setMinimumSize(width+10,20);
 
 		pushButton_break->setText(tr("Start"));
-		breakAfterActualHand=FALSE;
+		breakAfterCurrentHand=FALSE;
 
 		blinkingStartButtonAnimationTimer->start(500);		
 	}
@@ -3508,7 +3508,7 @@ void mainWindowImpl::nextRoundCleanGui() {
 	else { 
 		//FIX STRG+N Bug
 		pushButton_break->setEnabled(TRUE); 
-		breakAfterActualHand=FALSE;
+		breakAfterCurrentHand=FALSE;
 	}
 	
 	//Clean breakbutton
@@ -3582,7 +3582,7 @@ void mainWindowImpl::breakButtonClicked() {
 
 	if (pushButton_break->text() == tr("Stop")) {
 		pushButton_break->setDisabled(TRUE);
-		breakAfterActualHand=TRUE;
+		breakAfterCurrentHand=TRUE;
 	}
 	else { 
 		blinkingStartButtonAnimationTimer->stop();

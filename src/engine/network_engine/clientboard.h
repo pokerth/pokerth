@@ -60,7 +60,7 @@ private:
 	PlayerList activePlayerList;
 	PlayerList runningPlayerList;
 
-	HandInterface *actualHand;
+	HandInterface *currentHand;
 
 	std::list<int> winners;
 
