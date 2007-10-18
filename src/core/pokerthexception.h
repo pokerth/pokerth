@@ -29,7 +29,7 @@ class PokerTHException : public std::exception
 public:
 
 	PokerTHException(const char *sourcefile, int sourceline, int errorId, int osErrorCode);
-	virtual ~PokerTHException();
+	virtual ~PokerTHException() throw();
 
 	int GetErrorId() const {return m_errorId;}
 	int GetOsErrorCode() const {return m_osErrorCode;}
