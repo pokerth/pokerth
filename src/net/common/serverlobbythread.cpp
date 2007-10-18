@@ -417,7 +417,7 @@ ServerLobbyThread::HandleNetPacketAvatarHeader(SessionWrapper session, const Net
 		NetPacketAvatarHeader::Data headerData;
 		tmpPacket.GetData(headerData);
 
-		if (headerData.avatarFileSize && headerData.avatarFileSize <= MAX_AVATAR_FILE_SIZE)
+		if (headerData.avatarFileSize >= MIN_AVATAR_FILE_SIZE && headerData.avatarFileSize <= MAX_AVATAR_FILE_SIZE)
 		{
 			boost::shared_ptr<AvatarData> tmpAvatarData(new AvatarData);
 			tmpAvatarData->fileData.reserve(headerData.avatarFileSize);

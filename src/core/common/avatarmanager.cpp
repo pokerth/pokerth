@@ -27,6 +27,15 @@
 #include <fstream>
 #include <cstring>
 
+#define PNG_HEADER "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a"
+#define PNG_HEADER_SIZE (sizeof(PNG_HEADER) - 1)
+#define JPG_HEADER "\xff\xd8"
+#define JPG_HEADER_SIZE (sizeof(JPG_HEADER) - 1)
+#define GIF_HEADER_1 "GIF87a"
+#define GIF_HEADER_2 "GIF89a"
+#define GIF_HEADER_SIZE (sizeof(GIF_HEADER_1) - 1)
+#define MAX_HEADER_SIZE PNG_HEADER_SIZE
+
 // Not using boost::algorithm here because of STL issues.
 #ifdef _MSC_VER
 #define STRCASECMP _stricmp
@@ -103,8 +112,16 @@ AvatarManager::OpenAvatarFileForChunkRead(const std::string &fileName, unsigned 
 			fileState->inputStream.seekg(0, ios_base::beg);
 			std::streamoff posDiff(endPos - startPos);
 			outFileSize = (unsigned)posDiff;
-			if (outFileSize <= MAX_AVATAR_FILE_SIZE)
-				retVal = fileState;
+			if (outFileSize >= MIN_AVATAR_FILE_SIZE && outFileSize <= MAX_AVATAR_FILE_SIZE)
+			{
+				// Validate type of file by verifying image header.
+				unsigned char fileHeader[MAX_HEADER_SIZE];
+				fileState->inputStream.read((char *)fileHeader, sizeof(fileHeader));
+				fileState->inputStream.seekg(0, ios_base::beg);
+
+				if (IsValidAvatarFileType(outFileType, fileHeader, sizeof(fileHeader)))
+					retVal = fileState;
+			}
 		}
 	} catch (...)
 	{
@@ -288,21 +305,60 @@ AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFil
 		}
 		if (!ext.empty())
 		{
-			path tmpPath(m_cacheDir);
-			tmpPath /= (md5buf.ToString() + ext);
-			string fileName(tmpPath.file_string());
-			ofstream o(fileName.c_str(), ios_base::out | ios_base::binary);
-			o.write((const char *)data, size);
+			// Check header before storing file.
+			if (IsValidAvatarFileType(avatarFileType, data, size))
 			{
-				boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
-				m_cachedAvatars.insert(AvatarMap::value_type(md5buf, fileName));
+				path tmpPath(m_cacheDir);
+				tmpPath /= (md5buf.ToString() + ext);
+				string fileName(tmpPath.file_string());
+				ofstream o(fileName.c_str(), ios_base::out | ios_base::binary);
+				o.write((const char *)data, size);
+				{
+					boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
+					m_cachedAvatars.insert(AvatarMap::value_type(md5buf, fileName));
+				}
+				retVal = true;
 			}
-			retVal = true;
 		}
 	} catch (...)
 	{
 	}
 	return retVal;
+}
+
+bool
+AvatarManager::IsValidAvatarFileType(AvatarFileType avatarFileType, const unsigned char *fileHeader, unsigned fileHeaderSize)
+{
+	bool validType = false;
+
+	switch (avatarFileType)
+	{
+		case AVATAR_FILE_TYPE_PNG:
+			if (fileHeaderSize >= PNG_HEADER_SIZE
+				&& memcmp(fileHeader, PNG_HEADER, PNG_HEADER_SIZE) == 0)
+			{
+				validType = true;
+			}
+			break;
+		case AVATAR_FILE_TYPE_JPG:
+			if (fileHeaderSize >= JPG_HEADER_SIZE
+				&& memcmp(fileHeader, JPG_HEADER, JPG_HEADER_SIZE) == 0)
+			{
+				validType = true;
+			}
+			break;
+		case AVATAR_FILE_TYPE_GIF:
+			if (fileHeaderSize >= GIF_HEADER_SIZE
+				&& (memcmp(fileHeader, GIF_HEADER_1, GIF_HEADER_SIZE) == 0
+					|| memcmp(fileHeader, GIF_HEADER_2, GIF_HEADER_SIZE) == 0))
+			{
+				validType = true;
+			}
+			break;
+		case AVATAR_FILE_TYPE_UNKNOWN:
+			break;
+	}
+	return validType;
 }
 
 bool

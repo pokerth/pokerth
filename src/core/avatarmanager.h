@@ -29,6 +29,7 @@
 #include <boost/thread.hpp>
 #include <boost/shared_ptr.hpp>
 
+#define MIN_AVATAR_FILE_SIZE	32
 #define MAX_AVATAR_FILE_SIZE	30720
 
 struct AvatarFileState;
@@ -51,6 +52,8 @@ public:
 	bool GetAvatarFileName(const MD5Buf &md5buf, std::string &fileName) const;
 	bool HasAvatar(const MD5Buf &md5buf) const;
 	bool StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFileType, const unsigned char *data, unsigned size);
+
+	static bool IsValidAvatarFileType(AvatarFileType avatarFileType, const unsigned char *fileHeader, unsigned fileHeaderSize);
 
 protected:
 	typedef std::map<MD5Buf, std::string> AvatarMap;
