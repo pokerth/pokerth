@@ -178,6 +178,10 @@ ServerAcceptThread::AcceptLoop()
 		{
 			throw ServerException(__FILE__, __LINE__, ERR_SOCK_ACCEPT_FAILED, SOCKET_ERRNO());
 		}
+		// Optional call - don't check return value.
+		// Enable keepalive - won't be of much use but better than nothing.
+		int keepalive = 1;
+		setsockopt(tmpData->GetSocket(), SOL_SOCKET, SO_KEEPALIVE, (char *)&keepalive, sizeof(keepalive));
 
 		GetLobbyThread().AddConnection(tmpData);
 	}
