@@ -146,7 +146,7 @@ ServerGameThread::Main()
 			// Process current state.
 			GetState().Process(*this);
 		} while (!ShouldTerminate() && GetSessionManager().HasSessions());
-	} catch (const NetException &e)
+	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 	}

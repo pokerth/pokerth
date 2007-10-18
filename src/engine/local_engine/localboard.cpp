@@ -162,7 +162,7 @@ void LocalBoard::distributePot() {
 			// determine the number of level winners
 			winnerCount = potLevel.size()-2;
 			if (!winnerCount) {
-				throw LocalException(ERR_NO_WINNER);
+				throw LocalException(__FILE__, __LINE__, ERR_NO_WINNER);
 			}
 
 			// distribute the pot level sum to level winners
@@ -176,7 +176,7 @@ void LocalBoard::distributePot() {
 				for(j=2; j<potLevel.size(); j++) {
 					it = currentHand->getSeatIt(potLevel[j]);
 					if(it == seatsList->end()) {
-						throw LocalException(ERR_SEAT_NOT_FOUND);
+						throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 					}
 					(*it)->setMyCash( (*it)->getMyCash() + ((potLevel[1])/winnerCount));
 
@@ -216,7 +216,7 @@ void LocalBoard::distributePot() {
 
 					it = currentHand->getSeatIt(winnerPointer);
 					if(it == seatsList->end()) {
-						throw LocalException(ERR_SEAT_NOT_FOUND);
+						throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 					}
 					if(j<mod) {
 						(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount) + 1);

@@ -84,7 +84,7 @@ ServerAcceptThread::Main()
 			// The main server thread is simple. It only accepts connections.
 			AcceptLoop();
 		}
-	} catch (const NetException &e)
+	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 	}
@@ -98,15 +98,15 @@ ServerAcceptThread::Listen()
 	ServerContext &context = GetContext();
 
 	if (context.GetServerPort() < 1024)
-		throw ServerException(ERR_SOCK_INVALID_PORT, 0);
+		throw ServerException(__FILE__, __LINE__, ERR_SOCK_INVALID_PORT, 0);
 
 	context.SetSocket(socket(context.GetAddrFamily(), SOCK_STREAM, context.GetProtocol()));
 	if (!IS_VALID_SOCKET(context.GetSocket()))
-		throw ServerException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
+		throw ServerException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 
 	unsigned long mode = 1;
 	if (IOCTLSOCKET(context.GetSocket(), FIONBIO, &mode) == SOCKET_ERROR)
-		throw ServerException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
+		throw ServerException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 
 	// The following three calls are optional. If they fail, we don't care.
 	int reuse = 1;
@@ -126,7 +126,7 @@ ServerAcceptThread::Listen()
 			(struct sockaddr *)context.GetServerSockaddr(),
 			context.GetServerSockaddrSize()))
 	{
-		throw ServerException(ERR_SOCK_SET_ADDR_FAILED, 0);
+		throw ServerException(__FILE__, __LINE__, ERR_SOCK_SET_ADDR_FAILED, 0);
 	}
 	if (!socket_set_port(
 			context.GetServerPort(),
@@ -134,7 +134,7 @@ ServerAcceptThread::Listen()
 			(struct sockaddr *)context.GetServerSockaddr(),
 			context.GetServerSockaddrSize()))
 	{
-		throw ServerException(ERR_SOCK_SET_PORT_FAILED, 0);
+		throw ServerException(__FILE__, __LINE__, ERR_SOCK_SET_PORT_FAILED, 0);
 	}
 
 	if (!IS_VALID_BIND(bind(
@@ -142,12 +142,12 @@ ServerAcceptThread::Listen()
 			(const struct sockaddr *)context.GetServerSockaddr(),
 			context.GetServerSockaddrSize())))
 	{
-		throw ServerException(ERR_SOCK_BIND_FAILED, SOCKET_ERRNO());
+		throw ServerException(__FILE__, __LINE__, ERR_SOCK_BIND_FAILED, SOCKET_ERRNO());
 	}
 
 	if (!IS_VALID_LISTEN(listen(context.GetSocket(), NET_SERVER_LISTEN_BACKLOG)))
 	{
-		throw ServerException(ERR_SOCK_LISTEN_FAILED, SOCKET_ERRNO());
+		throw ServerException(__FILE__, __LINE__, ERR_SOCK_LISTEN_FAILED, SOCKET_ERRNO());
 	}
 }
 
@@ -167,7 +167,7 @@ ServerAcceptThread::AcceptLoop()
 	int selectResult = select(context.GetSocket() + 1, &readSet, NULL, NULL, &timeout);
 	if (!IS_VALID_SELECT(selectResult))
 	{
-		throw ServerException(ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
+		throw ServerException(__FILE__, __LINE__, ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
 	}
 	if (selectResult > 0) // accept is possible
 	{
@@ -176,7 +176,7 @@ ServerAcceptThread::AcceptLoop()
 
 		if (!IS_VALID_SOCKET(tmpData->GetSocket()))
 		{
-			throw ServerException(ERR_SOCK_ACCEPT_FAILED, SOCKET_ERRNO());
+			throw ServerException(__FILE__, __LINE__, ERR_SOCK_ACCEPT_FAILED, SOCKET_ERRNO());
 		}
 
 		GetLobbyThread().AddConnection(tmpData);

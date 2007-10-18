@@ -27,8 +27,8 @@ class LocalException : public PokerTHException
 {
 public:
 
-	LocalException(int errorId)
-		: PokerTHException(errorId, 0) {}
+	LocalException(const char *sourcefile, int sourceline, int errorId)
+		: PokerTHException(sourcefile, sourceline, errorId, 0) {}
 	virtual ~LocalException();
 };
 

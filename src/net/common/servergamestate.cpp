@@ -24,7 +24,7 @@
 #include <net/senderthread.h>
 #include <net/netpacket.h>
 #include <net/socket_msg.h>
-#include <net/netexception.h>
+#include <net/serverexception.h>
 #include <gamedata.h>
 #include <game.h>
 #include <playerinterface.h>
@@ -684,9 +684,9 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 			// Retrieve current player.
 			boost::shared_ptr<PlayerInterface> curPlayer = curGame.getCurrentPlayer();
 			if (!curPlayer.get())
-				throw NetException(ERR_NET_NO_CURRENT_PLAYER, 0);
+				throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
 			if (!curPlayer->getMyActiveStatus())
-				throw NetException(ERR_NET_PLAYER_NOT_ACTIVE, 0);
+				throw ServerException(__FILE__, __LINE__, ERR_NET_PLAYER_NOT_ACTIVE, 0);
 
 			boost::shared_ptr<NetPacket> notification(new NetPacketPlayersTurn);
 			NetPacketPlayersTurn::Data playersTurnData;
@@ -816,7 +816,7 @@ ServerGameStateWaitPlayerAction::Process(ServerGameThread &server)
 
 	boost::shared_ptr<PlayerInterface> curPlayer = server.GetGame().getCurrentPlayer();
 	if (!curPlayer.get())
-		throw NetException(ERR_NET_NO_CURRENT_PLAYER, 0);
+		throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
 
 	// If the player is computer controlled, let the engine act.
 	if (curPlayer->getMyType() == PLAYER_TYPE_COMPUTER)
@@ -862,7 +862,7 @@ ServerGameStateWaitPlayerAction::InternalProcess(ServerGameThread &server, Sessi
 		Game &curGame = server.GetGame();
 		boost::shared_ptr<PlayerInterface> tmpPlayer = curGame.getPlayerByUniqueId(session.playerData->GetUniqueId());
 		if (!tmpPlayer.get())
-			throw NetException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+			throw ServerException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 		// Check whether this is the correct round.
 		PlayerActionCode code = ACTION_CODE_VALID;

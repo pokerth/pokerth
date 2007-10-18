@@ -26,7 +26,6 @@
 #include "engine_msg.h"
 
 #include <iostream>
-#include <sstream>
 
 using namespace std;
 
@@ -67,7 +66,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		++player_i;
 	}
 	if (player_i == player_end)
-		throw LocalException(ERR_DEALER_NOT_FOUND);
+		throw LocalException(__FILE__, __LINE__, ERR_DEALER_NOT_FOUND);
 	dealerPosition = startData.startDealerPlayerId;
 
 	// Board erstellen
@@ -204,7 +203,7 @@ void Game::initHand()
 	bool nextDealerFound = false;
 	PlayerListConstIterator dealerPositionIt = currentHand->getSeatIt(dealerPosition);
 	if(dealerPositionIt == seatsList->end()) {
-		throw LocalException(ERR_SEAT_NOT_FOUND);
+		throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 	}
 
 	for(i=0; i<seatsList->size(); i++) {
@@ -221,7 +220,7 @@ void Game::initHand()
 
 	}
 	if(!nextDealerFound) {
-		throw LocalException(ERR_NEXT_DEALER_NOT_FOUND);
+		throw LocalException(__FILE__, __LINE__, ERR_NEXT_DEALER_NOT_FOUND);
 	}
 
 
@@ -260,7 +259,7 @@ boost::shared_ptr<PlayerInterface> Game::getCurrentPlayer()
 {
 	boost::shared_ptr<PlayerInterface> tmpPlayer = getPlayerByUniqueId(getCurrentHand()->getCurrentBeRo()->getCurrentPlayersTurnId());
 	if (!tmpPlayer.get())
-		throw LocalException(ERR_CURRENT_PLAYER_NOT_FOUND);
+		throw LocalException(__FILE__, __LINE__, ERR_CURRENT_PLAYER_NOT_FOUND);
 	return tmpPlayer;
 }
 

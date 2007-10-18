@@ -27,8 +27,8 @@ class ClientException : public NetException
 {
 public:
 
-	ClientException(int errorId, int osErrorCode)
-		: NetException(errorId, osErrorCode) {}
+	ClientException(const char *sourcefile, int sourceline, int errorId, int osErrorCode)
+		: NetException(sourcefile, sourceline, errorId, osErrorCode) {}
 
 	virtual ~ClientException();
 };

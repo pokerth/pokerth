@@ -57,7 +57,7 @@ ReceiverHelper::Recv(SOCKET sock, ReceiveBuffer &buf)
 			int selectResult = select(sock + 1, &readSet, NULL, NULL, &timeout);
 			if (!IS_VALID_SELECT(selectResult))
 			{
-				throw NetException(ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
+				throw NetException(__FILE__, __LINE__, ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
 			}
 			if (selectResult > 0) // recv is possible
 			{
@@ -65,11 +65,11 @@ ReceiverHelper::Recv(SOCKET sock, ReceiveBuffer &buf)
 
 				if (!IS_VALID_RECV(bytesRecvd))
 				{
-					throw NetException(ERR_SOCK_RECV_FAILED, SOCKET_ERRNO());
+					throw NetException(__FILE__, __LINE__, ERR_SOCK_RECV_FAILED, SOCKET_ERRNO());
 				}
 				else if (bytesRecvd == 0)
 				{
-					throw NetException(ERR_SOCK_CONN_RESET, 0);
+					throw NetException(__FILE__, __LINE__, ERR_SOCK_CONN_RESET, 0);
 				}
 				else
 				{

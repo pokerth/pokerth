@@ -281,7 +281,7 @@ ServerLobbyThread::Main()
 			// Remove games.
 			RemoveGameLoop();
 		}
-	} catch (const NetException &e)
+	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 	}

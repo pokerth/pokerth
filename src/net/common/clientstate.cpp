@@ -69,18 +69,18 @@ ClientStateInit::Process(ClientThread &client)
 	ClientContext &context = client.GetContext();
 
 	if (context.GetServerAddr().empty())
-		throw ClientException(ERR_SOCK_SERVERADDR_NOT_SET, 0);
+		throw ClientException(__FILE__, __LINE__, ERR_SOCK_SERVERADDR_NOT_SET, 0);
 
 	if (context.GetServerPort() < 1024)
-		throw ClientException(ERR_SOCK_INVALID_PORT, 0);
+		throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_PORT, 0);
 
 	context.SetSocket(socket(context.GetAddrFamily(), SOCK_STREAM, context.GetProtocol()));
 	if (!IS_VALID_SOCKET(context.GetSocket()))
-		throw ClientException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
+		throw ClientException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 
 	unsigned long mode = 1;
 	if (IOCTLSOCKET(context.GetSocket(), FIONBIO, &mode) == SOCKET_ERROR)
-		throw ClientException(ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
+		throw ClientException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 
 	// The following call is optional - the return value is not checked.
 	int nodelay = 1;
@@ -126,7 +126,7 @@ ClientStateStartResolve::Process(ClientThread &client)
 	{
 		// Success - but we still need to set the port.
 		if (!socket_set_port(context.GetServerPort(), context.GetAddrFamily(), (struct sockaddr *)context.GetClientSockaddr(), context.GetClientSockaddrSize()))
-			throw ClientException(ERR_SOCK_SET_PORT_FAILED, 0);
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_SET_PORT_FAILED, 0);
 
 		// No need to resolve - start connecting.
 		client.SetState(ClientStateStartConnect::Instance());
@@ -181,7 +181,7 @@ ClientStateResolving::Process(ClientThread &client)
 	int retVal;
 
 	if (!m_resolver)
-		throw ClientException(ERR_SOCK_RESOLVE_FAILED, 0);
+		throw ClientException(__FILE__, __LINE__, ERR_SOCK_RESOLVE_FAILED, 0);
 
 	if (m_resolver->Join(CLIENT_WAIT_TIMEOUT_MSEC))
 	{
@@ -190,7 +190,7 @@ ClientStateResolving::Process(ClientThread &client)
 		Cleanup(); // Not required, but better keep things clean.
 
 		if (!success)
-			throw ClientException(ERR_SOCK_RESOLVE_FAILED, 0);
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_RESOLVE_FAILED, 0);
 
 		client.SetState(ClientStateStartConnect::Instance());
 		retVal = MSG_SOCK_RESOLVE_DONE;
@@ -256,7 +256,7 @@ ClientStateStartConnect::Process(ClientThread &client)
 			retVal = MSG_SOCK_INTERNAL_PENDING;
 		}
 		else
-			throw ClientException(ERR_SOCK_CONNECT_FAILED, SOCKET_ERRNO());
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, SOCKET_ERRNO());
 	}
 
 	return retVal;
@@ -308,19 +308,19 @@ ClientStateConnecting::Process(ClientThread &client)
 		socklen_t tmpSize = sizeof(connectResult);
 		getsockopt(context.GetSocket(), SOL_SOCKET, SO_ERROR, (char *)&connectResult, &tmpSize);
 		if (connectResult != 0)
-			throw ClientException(ERR_SOCK_CONNECT_FAILED, connectResult);
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, connectResult);
 		client.SetState(ClientStateStartSession::Instance());
 		retVal = MSG_SOCK_CONNECT_DONE;
 	}
 	else if (selectResult == 0) // timeout
 	{
 		if (m_connectTimer.elapsed().total_seconds() >= CLIENT_CONNECT_TIMEOUT_SEC)
-			throw ClientException(ERR_SOCK_CONNECT_TIMEOUT, 0);
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_TIMEOUT, 0);
 		else
 			retVal = MSG_SOCK_INTERNAL_PENDING;
 	}
 	else
-		throw ClientException(ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
+		throw ClientException(__FILE__, __LINE__, ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
 
 
 	return retVal;
@@ -524,7 +524,7 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			NetPacketError::Data errorData;
 			tmpPacket->ToNetPacketError()->GetData(errorData);
 			// Show the error.
-			throw ClientException(errorData.errorCode, 0);
+			throw ClientException(__FILE__, __LINE__, errorData.errorCode, 0);
 		}
 		else
 			retVal = InternalProcess(client, tmpPacket);
@@ -587,7 +587,7 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 		if (!avatarError)
 			client.GetSender().SendLowPrio(client.GetContext().GetSocket(), tmpList);
 		else
-			throw NetException(avatarError, 0);
+			throw ClientException(__FILE__, __LINE__, avatarError, 0);
 	}
 
 	return retVal;
@@ -746,7 +746,7 @@ ClientStateSynchronizeStart::InternalProcess(ClientThread &/*client*/, boost::sh
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 
 	if (packet->ToNetPacketGameStart())
-		throw ClientException(ERR_NET_START_TIMEOUT, 0);
+		throw ClientException(__FILE__, __LINE__, ERR_NET_START_TIMEOUT, 0);
 
 	return retVal;
 }
@@ -791,7 +791,7 @@ ClientStateWaitStart::InternalProcess(ClientThread &client, boost::shared_ptr<Ne
 			unsigned playerId = (*slot_i).playerId;
 			boost::shared_ptr<PlayerData> tmpPlayer = client.GetPlayerDataByUniqueId(playerId);
 			if (!tmpPlayer.get())
-				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 			tmpPlayer->SetNumber(num);
 
 			++num;
@@ -860,7 +860,7 @@ ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 			packet->ToNetPacketEndOfGame()->GetData(endData);
 			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(endData.winnerPlayerId);
 			if (!tmpPlayer)
-				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 			client.GetGui().logPlayerWinGame(tmpPlayer->getMyName(), curGame->getMyGameID());
 			client.GetCallback().SignalNetClientWaitDialog();
 			client.SetState(ClientStateWaitGame::Instance());
@@ -902,7 +902,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			packet->ToNetPacketPlayersActionDone()->GetData(actionDoneData);
 			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(actionDoneData.playerId);
 			if (!tmpPlayer)
-				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 			
 			bool isBigBlind = false;
 
@@ -964,7 +964,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			packet->ToNetPacketPlayersTurn()->GetData(turnData);
 			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(turnData.playerId);
 			if (!tmpPlayer)
-				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 			// Set round.
 			if (curGame->getCurrentHand()->getCurrentRound() != turnData.gameState)
@@ -1059,7 +1059,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			{
 				boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId((*i).playerId);
 				if (!tmpPlayer)
-					throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+					throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 				int tmpCards[2];
 				tmpCards[0] = static_cast<int>((*i).cards[0]);
@@ -1085,7 +1085,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 
 			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(endHandData.playerId);
 			if (!tmpPlayer)
-				throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 			tmpPlayer->setMyCash(endHandData.playerMoney);
 			// TODO use moneyWon
@@ -1121,7 +1121,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			{
 				boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId((*i).playerId);
 				if (!tmpPlayer)
-					throw ClientException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+					throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 				int tmpCards[2];
 				int bestHandPos[5];

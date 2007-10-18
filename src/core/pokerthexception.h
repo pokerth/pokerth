@@ -21,21 +21,26 @@
 #ifndef _POKERTHEXCEPTION_H_
 #define _POKERTHEXCEPTION_H_
 
+#include <exception>
+#include <string>
 
-class PokerTHException
+class PokerTHException : public std::exception
 {
 public:
 
-	PokerTHException(int errorId, int osErrorCode)
-		: m_errorId(errorId), m_osErrorCode(osErrorCode) {}
+	PokerTHException(const char *sourcefile, int sourceline, int errorId, int osErrorCode);
 	virtual ~PokerTHException();
 
 	int GetErrorId() const {return m_errorId;}
 	int GetOsErrorCode() const {return m_osErrorCode;}
 
+	virtual const char *what() const;
+
 private:
 	int m_errorId;
 	int m_osErrorCode;
+
+	std::string m_msg;
 };
 
 #endif

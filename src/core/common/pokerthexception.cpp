@@ -18,8 +18,27 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "pokerthexception.h"
+#include <sstream>
+
+using namespace std;
+
+PokerTHException::PokerTHException(const char *sourcefile, int sourceline, int errorId, int osErrorCode)
+: m_errorId(errorId), m_osErrorCode(osErrorCode)
+{
+	ostringstream msgStream;
+	msgStream << sourcefile << " (" << sourceline << "): Error " << errorId;
+	if (osErrorCode)
+		msgStream << " (system error " << osErrorCode << ")";
+	m_msg = msgStream.str();
+}
 
 PokerTHException::~PokerTHException()
 {
+}
+
+const char *
+PokerTHException::what() const
+{
+	return m_msg.c_str();
 }
 

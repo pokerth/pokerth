@@ -58,7 +58,7 @@ SessionManager::AddSession(SessionWrapper session)
 	// already exists within the list.
 	if (pos != m_sessionMap.end() && session.sessionData->GetSocket() == pos->first)
 	{
-		throw ServerException(ERR_SOCK_CONN_EXISTS, 0);
+		throw ServerException(__FILE__, __LINE__, ERR_SOCK_CONN_EXISTS, 0);
 	}
 	m_sessionMap.insert(pos, SessionMap::value_type(session.sessionData->GetSocket(), session));
 }
@@ -126,7 +126,7 @@ SessionManager::Select(unsigned timeoutMsec)
 			int selectResult = select(maxSock + 1, &rdset, NULL, NULL, &timeout);
 			if (!IS_VALID_SELECT(selectResult))
 			{
-				throw ServerException(ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
+				throw ServerException(__FILE__, __LINE__, ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
 			}
 			if (selectResult > 0) // one (or more) of the sockets is readable
 			{

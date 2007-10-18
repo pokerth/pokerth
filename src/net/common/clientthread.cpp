@@ -305,7 +305,7 @@ ClientThread::Main()
 
 					MapPlayerDataList();
 					if (GetPlayerDataList().size() != (unsigned)GetStartData().numberOfPlayers)
-						throw NetException(ERR_NET_INVALID_PLAYER_COUNT, 0);
+						throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
 					m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameId++));
 					// Initialize GUI speed.
 					GetGui().initGui(GetGameData().guiSpeed);
@@ -316,7 +316,7 @@ ClientThread::Main()
 			if (IsSessionEstablished())
 				SendPacketLoop();
 		}
-	} catch (const NetException &e)
+	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
 	}
@@ -462,7 +462,7 @@ ClientThread::StoreInTempAvatarData(unsigned playerId, const vector<unsigned cha
 {
 	AvatarDataMap::iterator pos = m_tempAvatarMap.find(playerId);
 	if (pos == m_tempAvatarMap.end())
-		throw NetException(ERR_NET_INVALID_REQUEST_ID, 0);
+		throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_REQUEST_ID, 0);
 	// We trust the server (concerning size of the data).
 	std::copy(data.begin(), data.end(), back_inserter(pos->second->fileData));
 }
@@ -472,16 +472,16 @@ ClientThread::CompleteTempAvatarData(unsigned playerId)
 {
 	AvatarDataMap::iterator pos = m_tempAvatarMap.find(playerId);
 	if (pos == m_tempAvatarMap.end())
-		throw NetException(ERR_NET_INVALID_REQUEST_ID, 0);
+		throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_REQUEST_ID, 0);
 
 	boost::shared_ptr<AvatarData> tmpAvatar = pos->second;
 	unsigned avatarSize = (unsigned)tmpAvatar->fileData.size();
 	if (avatarSize != tmpAvatar->reportedSize)
-		throw NetException(ERR_NET_WRONG_AVATAR_SIZE, 0);
+		throw ClientException(__FILE__, __LINE__, ERR_NET_WRONG_AVATAR_SIZE, 0);
 
 	PlayerInfo tmpPlayerInfo;
 	if (!GetCachedPlayerInfo(playerId, tmpPlayerInfo))
-		throw NetException(ERR_NET_UNKNOWN_PLAYER_ID, 0);
+		throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 	GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, tmpAvatar->fileType, &tmpAvatar->fileData[0], avatarSize);
 	// TODO log error
@@ -772,7 +772,7 @@ ClientThread::GetGameIdByName(const std::string &name) const
 	}
 
 	if (i == end)
-		throw NetException(ERR_NET_UNKNOWN_GAME, 0);
+		throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_GAME, 0);
 	return i->first;
 }
 

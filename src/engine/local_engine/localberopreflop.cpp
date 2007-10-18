@@ -91,7 +91,7 @@ void LocalBeRoPreflop::run() {
 
 				it = getMyHand()->getActivePlayerIt(getSmallBlindPositionId());
 				if(it == getMyHand()->getActivePlayerList()->end()) {
-					throw LocalException(ERR_ACTIVE_PLAYER_NOT_FOUND);
+					throw LocalException(__FILE__, __LINE__, ERR_ACTIVE_PLAYER_NOT_FOUND);
 				}
 
 				if(it == getMyHand()->getActivePlayerList()->begin()) it = getMyHand()->getActivePlayerList()->end();
@@ -227,7 +227,7 @@ void LocalBeRoPreflop::run() {
 
 	PlayerListConstIterator currentPlayersTurnIt = getMyHand()->getRunningPlayerIt( getCurrentPlayersTurnId() );
 	if(currentPlayersTurnIt == getMyHand()->getRunningPlayerList()->end()) {
-		throw LocalException(ERR_RUNNING_PLAYER_NOT_FOUND);
+		throw LocalException(__FILE__, __LINE__, ERR_RUNNING_PLAYER_NOT_FOUND);
 	}
 
 	currentPlayersTurnIt++;
@@ -353,7 +353,7 @@ void LocalBeRoPreflop::run() {
 
 		currentPlayersTurnIt = getMyHand()->getRunningPlayerIt( getCurrentPlayersTurnId() );
 		if(currentPlayersTurnIt == getMyHand()->getRunningPlayerList()->end()) {
-			throw LocalException(ERR_RUNNING_PLAYER_NOT_FOUND);
+			throw LocalException(__FILE__, __LINE__, ERR_RUNNING_PLAYER_NOT_FOUND);
 		}
 		(*currentPlayersTurnIt)->setMyTurn(true);
 

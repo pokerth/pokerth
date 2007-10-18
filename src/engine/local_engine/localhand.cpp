@@ -381,7 +381,7 @@ void LocalHand::assignButtons() {
 	// DealerButton zuweisen
 	it = getSeatIt(dealerPosition);
 	if(it == seatsList->end()) {
-		throw LocalException(ERR_SEAT_NOT_FOUND);
+		throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 	}
 	(*it)->setMyButton(BUTTON_DEALER);
 
@@ -417,7 +417,7 @@ void LocalHand::assignButtons() {
 	bool nextActivePlayerFound = false;
 	PlayerListIterator dealerPositionIt = getSeatIt(dealerPosition);
 	if(dealerPositionIt == seatsList->end()) {
-		throw LocalException(ERR_SEAT_NOT_FOUND);
+		throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 	}
 
 	for(i=0; i<seatsList->size(); i++) {
@@ -442,7 +442,7 @@ void LocalHand::assignButtons() {
 
 	}
 	if(!nextActivePlayerFound) {
-		throw LocalException(ERR_NEXT_ACTIVE_PLAYER_NOT_FOUND);
+		throw LocalException(__FILE__, __LINE__, ERR_NEXT_ACTIVE_PLAYER_NOT_FOUND);
 	}
 
 

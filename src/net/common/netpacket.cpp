@@ -586,7 +586,7 @@ CheckGameInfoData(const GameInfoData *tmpData)
 		|| !ntohl(tmpData->firstSmallBlind)
 		|| !ntohl(tmpData->startMoney))
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 }
 
@@ -598,7 +598,7 @@ NetPacket::Create(char *data, unsigned &dataSize)
 	// Check minimum requirements.
 	if (!data || dataSize < sizeof(NetPacketHeader))
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 
 	NetPacketHeader *tmpHeader = (NetPacketHeader *)data;
@@ -608,7 +608,7 @@ NetPacket::Create(char *data, unsigned &dataSize)
 	if (tmpLen < sizeof(NetPacketHeader)
 		|| tmpLen > MAX_PACKET_SIZE)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	else if (dataSize >= tmpLen)
 	{
@@ -748,7 +748,7 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketError);
 					break;
 				default:
-					throw NetException(ERR_SOCK_INVALID_TYPE, 0);
+					throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_TYPE, 0);
 			}
 			if (tmpPacket.get())
 				tmpPacket->SetRawData(tmpHeader);
@@ -810,7 +810,7 @@ NetPacket::SetRawData(const NetPacketHeader *p)
 	u_int16_t tmpLen = ntohs(p->length);
 	if (ntohs(p->type) != GetType())
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check whether the data is valid.
 	Check(p);
@@ -1097,12 +1097,12 @@ NetPacket::Resize(u_int16_t newLen)
 	if (newLen != oldLen)
 	{
 		if (newLen < sizeof(NetPacketHeader))
-			throw NetException(ERR_SOCK_INTERNAL, 0);
+			throw NetException(__FILE__, __LINE__, ERR_SOCK_INTERNAL, 0);
 		else
 		{
 			NetPacketHeader *newData = (NetPacketHeader *)malloc(newLen);
 			if (!newData)
-				throw NetException(ERR_SOCK_INTERNAL, 0);
+				throw NetException(__FILE__, __LINE__, ERR_SOCK_INTERNAL, 0);
 			else
 			{
 				// Copy as much data as possible.
@@ -1130,7 +1130,7 @@ NetPacket::Check(const NetPacketHeader *data) const
 	u_int16_t dataLen = ntohs(data->length);
 	if (dataLen < m_initialSize || dataLen > m_maxSize)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 
 	InternalCheck(data);
@@ -1173,9 +1173,9 @@ NetPacketInit::SetData(const NetPacketInit::Data &inData)
 	// Some basic checks, so we don't use up too much memory.
 	// The constructed packet will also be checked.
 	if (!playerNameLen || playerNameLen > MAX_NAME_SIZE)
-		throw NetException(ERR_NET_INVALID_PLAYER_NAME, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_NAME, 0);
 	if (passwordLen > MAX_PASSWORD_SIZE)
-		throw NetException(ERR_NET_INVALID_PASSWORD_STR, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD_STR, 0);
 
 	int avatarSize = inData.showAvatar ? MD5_DATA_SIZE : 0;
 	// Resize the packet so that the data fits in.
@@ -1255,20 +1255,20 @@ NetPacketInit::InternalCheck(const NetPacketHeader* data) const
 		+ ADD_PADDING(passwordLength)
 		+ ADD_PADDING(playerNameLength))
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check string sizes.
 	if (passwordLength > MAX_PASSWORD_SIZE
 		|| !playerNameLength
 		|| playerNameLength > MAX_NAME_SIZE)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check name string.
 	char *namePtr = (char *)tmpData + sizeof(NetPacketInitData) + avatarSize + ADD_PADDING(passwordLength);
 	if (namePtr[0] == 0)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 }
 
@@ -1483,7 +1483,7 @@ NetPacketAvatarFile::SetData(const NetPacketAvatarFile::Data &inData)
 	int fileDataSize = static_cast<int>(inData.fileData.size());
 
 	if (fileDataSize > MAX_FILE_DATA_SIZE)
-		throw NetException(ERR_NET_BUF_INVALID_SIZE, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_BUF_INVALID_SIZE, 0);
 
 	Resize((u_int16_t)
 		(sizeof(NetPacketAvatarFileData)
@@ -1532,11 +1532,11 @@ NetPacketAvatarFile::InternalCheck(const NetPacketHeader *data) const
 		sizeof(NetPacketAvatarFileData)
 		+ ADD_PADDING(fileDataSize))
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	if (!fileDataSize || fileDataSize > MAX_FILE_DATA_SIZE)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 }
 
@@ -1689,9 +1689,9 @@ NetPacketGameListNew::SetData(const NetPacketGameListNew::Data &inData)
 	// Some basic checks, so we don't use up too much memory.
 	// The constructed packet will also be checked.
 	if (!gameNameLen || gameNameLen > MAX_NAME_SIZE)
-		throw NetException(ERR_NET_INVALID_GAME_NAME, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_INVALID_GAME_NAME, 0);
 	if (numManualBlinds > MAX_NUM_MANUAL_BLINDS)
-		throw NetException(ERR_NET_TOO_MANY_MANUAL_BLINDS, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_TOO_MANY_MANUAL_BLINDS, 0);
 
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
@@ -1786,24 +1786,24 @@ NetPacketGameListNew::InternalCheck(const NetPacketHeader* data) const
 		+ ADD_PADDING(gameNameLength)
 		+ curNumPlayers * sizeof(unsigned))
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check manual blind list size
 	if (numManualBlinds > MAX_NUM_MANUAL_BLINDS)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check string size.
 	if (!gameNameLength
 		|| gameNameLength > MAX_NAME_SIZE)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check name string.
 	char *namePtr = (char *)tmpData + sizeof(NetPacketGameListNewData) + manualBlindsLength;
 	if (namePtr[0] == 0)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 }
 
@@ -2135,7 +2135,7 @@ NetPacketPlayerInfo::SetData(const NetPacketPlayerInfo::Data &inData)
 	u_int16_t playerNameLen = (u_int16_t)inData.playerInfo.playerName.length();
 
 	if (!playerNameLen || playerNameLen > MAX_NAME_SIZE)
-		throw NetException(ERR_NET_INVALID_PLAYER_NAME, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_NAME, 0);
 
 	int avatarSize = inData.playerInfo.hasAvatar ? MD5_DATA_SIZE : 0;
 	// Resize the packet so that the data fits in.
@@ -2206,13 +2206,13 @@ NetPacketPlayerInfo::InternalCheck(const NetPacketHeader* data) const
 		+ avatarSize
 		+ ADD_PADDING(playerNameLength))
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check string sizes.
 	if (!playerNameLength
 		|| playerNameLength > MAX_NAME_SIZE)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 }
 
@@ -2308,11 +2308,11 @@ NetPacketCreateGame::SetData(const NetPacketCreateGame::Data &inData)
 	// Some basic checks, so we don't use up too much memory.
 	// The constructed packet will also be checked.
 	if (!gameNameLen || gameNameLen > MAX_NAME_SIZE)
-		throw NetException(ERR_NET_INVALID_PLAYER_NAME, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_NAME, 0);
 	if (passwordLen > MAX_PASSWORD_SIZE)
-		throw NetException(ERR_NET_INVALID_PASSWORD_STR, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD_STR, 0);
 	if (numManualBlinds > MAX_NUM_MANUAL_BLINDS)
-		throw NetException(ERR_NET_TOO_MANY_MANUAL_BLINDS, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_TOO_MANY_MANUAL_BLINDS, 0);
 
 	int manualBlindsSize = numManualBlinds * sizeof(u_int32_t);
 	// Resize the packet so that the data fits in.
@@ -2374,25 +2374,25 @@ NetPacketCreateGame::InternalCheck(const NetPacketHeader* data) const
 		+ ADD_PADDING(passwordLength)
 		+ ADD_PADDING(gameNameLength))
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check manual blind list size
 	if (numManualBlinds > MAX_NUM_MANUAL_BLINDS)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check string sizes.
 	if (passwordLength > MAX_PASSWORD_SIZE
 		|| !gameNameLength
 		|| gameNameLength > MAX_NAME_SIZE)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check name string.
 	char *namePtr = (char *)tmpData + sizeof(NetPacketCreateGameData) + manualBlindsLength + ADD_PADDING(passwordLength);
 	if (namePtr[0] == 0)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	CheckGameInfoData(&tmpData->gameData);
 }
@@ -2430,7 +2430,7 @@ NetPacketJoinGame::SetData(const NetPacketJoinGame::Data &inData)
 	// Some basic checks, so we don't use up too much memory.
 	// The constructed packet will also be checked.
 	if (passwordLen > MAX_PASSWORD_SIZE)
-		throw NetException(ERR_NET_INVALID_PASSWORD_STR, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD_STR, 0);
 
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
@@ -2479,12 +2479,12 @@ NetPacketJoinGame::InternalCheck(const NetPacketHeader* data) const
 		sizeof(NetPacketJoinGameData)
 		+ ADD_PADDING(passwordLength))
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check string size.
 	if (passwordLength > MAX_PASSWORD_SIZE)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 }
 
@@ -2521,7 +2521,7 @@ NetPacketJoinGameAck::SetData(const NetPacketJoinGameAck::Data &inData)
 	// Some basic checks, so we don't use up too much memory.
 	// The constructed packet will also be checked.
 	if (numManualBlinds > MAX_NUM_MANUAL_BLINDS)
-		throw NetException(ERR_NET_TOO_MANY_MANUAL_BLINDS, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_TOO_MANY_MANUAL_BLINDS, 0);
 
 	int manualBlindsSize = numManualBlinds * sizeof(u_int32_t);
 	// Resize the packet so that the data fits in.
@@ -2570,13 +2570,13 @@ NetPacketJoinGameAck::InternalCheck(const NetPacketHeader* data) const
 		sizeof(NetPacketJoinGameAckData)
 		+ manualBlindsLength)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 
 	// Check manual blind list size
 	if (numManualBlinds > MAX_NUM_MANUAL_BLINDS)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Semantic checks
 	CheckGameInfoData(&tmpData->gameData);
@@ -3067,7 +3067,7 @@ NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
 
 	// Basic checking.
 	if (numPlayers < MIN_NUMBER_OF_PLAYERS || numPlayers > MAX_NUMBER_OF_PLAYERS || numPlayers != inData.startData.numberOfPlayers)
-		throw NetException(ERR_NET_INVALID_PLAYER_COUNT, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
 
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
@@ -3135,7 +3135,7 @@ NetPacketGameStart::InternalCheck(const NetPacketHeader* data) const
 		sizeof(NetPacketGameStartData)
 		+ numPlayers * sizeof(PlayerSlotData))
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Semantic checks not needed.
 }
@@ -3200,7 +3200,7 @@ NetPacketHandStart::InternalCheck(const NetPacketHeader* data) const
 	NetPacketHandStartData *tmpData = (NetPacketHandStartData *)data;
 	if (ntohs(tmpData->yourCard1) > 51 || ntohs(tmpData->yourCard2) > 51)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 }
 
@@ -3265,7 +3265,7 @@ NetPacketPlayersTurn::InternalCheck(const NetPacketHeader* data) const
 	NetPacketPlayersTurnData *tmpData = (NetPacketPlayersTurnData *)data;
 	if (ntohs(tmpData->gameState) > GAME_STATE_RIVER)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 }
 
@@ -3330,12 +3330,12 @@ NetPacketPlayersAction::InternalCheck(const NetPacketHeader* data) const
 	// Check whether the state is valid.
 	if (ntohs(tmpData->gameState) > GAME_STATE_RIVER)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check whether the player action is valid.
 	if (ntohs(tmpData->playerAction) > PLAYER_ACTION_ALLIN)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Semantic checks are done by the server process.
 }
@@ -3410,12 +3410,12 @@ NetPacketPlayersActionDone::InternalCheck(const NetPacketHeader* data) const
 		&& gameState != GAME_STATE_PREFLOP_SMALL_BLIND
 		&& gameState != GAME_STATE_PREFLOP_BIG_BLIND)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check whether the player action is valid.
 	if (ntohs(tmpData->playerAction) > PLAYER_ACTION_ALLIN)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 }
 
@@ -3482,16 +3482,16 @@ NetPacketPlayersActionRejected::InternalCheck(const NetPacketHeader* data) const
 	NetPacketPlayersActionRejectedData *tmpData = (NetPacketPlayersActionRejectedData *)data;
 	if (ntohs(tmpData->gameState) > GAME_STATE_RIVER)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check whether the player action is valid.
 	if (ntohs(tmpData->playerAction) > PLAYER_ACTION_ALLIN)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	if (!ntohs(tmpData->rejectionReason))
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 }
 
@@ -3555,7 +3555,7 @@ NetPacketDealFlopCards::InternalCheck(const NetPacketHeader* data) const
 	NetPacketDealFlopCardsData *tmpData = (NetPacketDealFlopCardsData *)data;
 	if (ntohs(tmpData->flopCard1) > 51 || ntohs(tmpData->flopCard2) > 51 || ntohs(tmpData->flopCard3) > 51)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 }
 
@@ -3615,7 +3615,7 @@ NetPacketDealTurnCard::InternalCheck(const NetPacketHeader* data) const
 	NetPacketDealTurnCardData *tmpData = (NetPacketDealTurnCardData *)data;
 	if (ntohs(tmpData->turnCard) > 51)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 }
 
@@ -3675,7 +3675,7 @@ NetPacketDealRiverCard::InternalCheck(const NetPacketHeader* data) const
 	NetPacketDealRiverCardData *tmpData = (NetPacketDealRiverCardData *)data;
 	if (ntohs(tmpData->riverCard) > 51)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 }
 
@@ -3710,7 +3710,7 @@ NetPacketAllInShowCards::SetData(const NetPacketAllInShowCards::Data &inData)
 	u_int16_t numPlayerCards = (u_int16_t)inData.playerCards.size();
 
 	if (!numPlayerCards || numPlayerCards > MAX_NUM_PLAYER_CARDS)
-		throw NetException(ERR_NET_INVALID_PLAYER_CARDS, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_CARDS, 0);
 
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
@@ -3780,11 +3780,11 @@ NetPacketAllInShowCards::InternalCheck(const NetPacketHeader* data) const
 		sizeof(NetPacketAllInShowCardsData)
 		+ numPlayerCards * sizeof(PlayerCardsData))
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	if (ntohs(tmpData->numberOfPlayerCards) > MAX_NUMBER_OF_PLAYERS)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Semantic checks not needed, this packet is sent by the server.
 }
@@ -3820,7 +3820,7 @@ NetPacketEndOfHandShowCards::SetData(const NetPacketEndOfHandShowCards::Data &in
 	u_int16_t numPlayerResults = (u_int16_t)inData.playerResults.size();
 
 	if (!numPlayerResults || numPlayerResults > MAX_NUM_PLAYER_RESULTS)
-		throw NetException(ERR_NET_INVALID_PLAYER_RESULTS, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_RESULTS, 0);
 
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
@@ -3906,11 +3906,11 @@ NetPacketEndOfHandShowCards::InternalCheck(const NetPacketHeader* data) const
 		sizeof(NetPacketEndOfHandShowCardsData)
 		+ numPlayerResults * sizeof(PlayerResultData))
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	if (ntohs(tmpData->numberOfPlayerResults) > MAX_NUMBER_OF_PLAYERS)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Semantic checks not needed, this packet is sent by the server.
 }
@@ -4153,7 +4153,7 @@ NetPacketSendChatText::SetData(const NetPacketSendChatText::Data &inData)
 	u_int16_t textLen = (u_int16_t)inData.text.length();
 
 	if (!textLen || textLen > MAX_CHAT_TEXT_SIZE)
-		throw NetException(ERR_NET_INVALID_CHAT_TEXT, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_INVALID_CHAT_TEXT, 0);
 
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
@@ -4197,19 +4197,19 @@ NetPacketSendChatText::InternalCheck(const NetPacketHeader* data) const
 		sizeof(NetPacketSendChatTextData)
 		+ ADD_PADDING(textLength))
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check string size.
 	if (!textLength
 		|| textLength > MAX_CHAT_TEXT_SIZE)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check text string.
 	char *textPtr = (char *)tmpData + sizeof(NetPacketSendChatTextData);
 	if (textPtr[0] == 0)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 }
 
@@ -4244,7 +4244,7 @@ NetPacketChatText::SetData(const NetPacketChatText::Data &inData)
 	u_int16_t textLen = (u_int16_t)inData.text.length();
 
 	if (!textLen || textLen > MAX_CHAT_TEXT_SIZE)
-		throw NetException(ERR_NET_INVALID_CHAT_TEXT, 0);
+		throw NetException(__FILE__, __LINE__, ERR_NET_INVALID_CHAT_TEXT, 0);
 
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
@@ -4290,13 +4290,13 @@ NetPacketChatText::InternalCheck(const NetPacketHeader* data) const
 		sizeof(NetPacketChatTextData)
 		+ ADD_PADDING(textLength))
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// Check string size.
 	if (!textLength
 		|| textLength > MAX_CHAT_TEXT_SIZE)
 	{
-		throw NetException(ERR_SOCK_INVALID_PACKET, 0);
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 	}
 	// No more checks required - this packet is sent by the server.
 }

@@ -27,8 +27,8 @@ class NetException : public PokerTHException
 {
 public:
 
-	NetException(int errorId, int osErrorCode)
-		: PokerTHException(errorId, osErrorCode) {}
+	NetException(const char *sourcefile, int sourceline, int errorId, int osErrorCode)
+		: PokerTHException(sourcefile, sourceline, errorId, osErrorCode) {}
 	virtual ~NetException();
 };
 

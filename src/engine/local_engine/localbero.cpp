@@ -40,7 +40,7 @@ LocalBeRo::LocalBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState g
 		}
 	}
 	if(it_c == myHand->getActivePlayerList()->end()) {
-		throw LocalException(ERR_ACTIVE_PLAYER_NOT_FOUND);
+		throw LocalException(__FILE__, __LINE__, ERR_ACTIVE_PLAYER_NOT_FOUND);
 	}
 
 	// determine smallBlindPosition
@@ -51,7 +51,7 @@ LocalBeRo::LocalBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState g
 		}
 	}
 	if(it_c == myHand->getActivePlayerList()->end()) {
-		throw LocalException(ERR_ACTIVE_PLAYER_NOT_FOUND);
+		throw LocalException(__FILE__, __LINE__, ERR_ACTIVE_PLAYER_NOT_FOUND);
 	}
 
 
@@ -87,7 +87,7 @@ void LocalBeRo::nextPlayer() {
 
 	PlayerListConstIterator currentPlayersTurnConstIt = myHand->getRunningPlayerIt(currentPlayersTurnId);
 	if(currentPlayersTurnConstIt == myHand->getRunningPlayerList()->end()) {
-		throw LocalException(ERR_RUNNING_PLAYER_NOT_FOUND);
+		throw LocalException(__FILE__, __LINE__, ERR_RUNNING_PLAYER_NOT_FOUND);
 	}
 
 	(*currentPlayersTurnConstIt)->action();
@@ -178,7 +178,7 @@ void LocalBeRo::run() {
 		
 					it_1 = myHand->getActivePlayerIt(smallBlindPositionId);
 					if(it_1 == myHand->getActivePlayerList()->end()) {
-						throw LocalException(ERR_ACTIVE_PLAYER_NOT_FOUND);
+						throw LocalException(__FILE__, __LINE__, ERR_ACTIVE_PLAYER_NOT_FOUND);
 					}
 		
 					for(i=0; i<myHand->getActivePlayerList()->size(); i++) {	
@@ -195,7 +195,7 @@ void LocalBeRo::run() {
 						}
 					}
 					if(!formerRunningPlayerFound) {
-						throw LocalException(ERR_FORMER_RUNNING_PLAYER_NOT_FOUND);
+						throw LocalException(__FILE__, __LINE__, ERR_FORMER_RUNNING_PLAYER_NOT_FOUND);
 					}
 				}
 				// heads up: bigBlind begins -> dealer/smallBlind is running player before bigBlind
@@ -343,7 +343,7 @@ void LocalBeRo::run() {
 				// determine next running player
 				PlayerListConstIterator currentPlayersTurnIt = myHand->getRunningPlayerIt( currentPlayersTurnId );
 				if(currentPlayersTurnIt == myHand->getRunningPlayerList()->end()) {
-					throw LocalException(ERR_RUNNING_PLAYER_NOT_FOUND);
+					throw LocalException(__FILE__, __LINE__, ERR_RUNNING_PLAYER_NOT_FOUND);
 				}
 			
 				currentPlayersTurnIt++;
@@ -386,7 +386,7 @@ void LocalBeRo::run() {
 
 			currentPlayersTurnIt = myHand->getRunningPlayerIt( currentPlayersTurnId );
 			if(currentPlayersTurnIt == myHand->getRunningPlayerList()->end()) {
-				throw LocalException(ERR_RUNNING_PLAYER_NOT_FOUND);
+				throw LocalException(__FILE__, __LINE__, ERR_RUNNING_PLAYER_NOT_FOUND);
 			}
 
 			(*currentPlayersTurnIt)->setMyTurn(true);
