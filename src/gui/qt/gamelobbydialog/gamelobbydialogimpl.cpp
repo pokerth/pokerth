@@ -62,6 +62,8 @@ void gameLobbyDialogImpl::exec()
 		groupBox_lobbyChat->hide(); 
 	}
 
+	waitStartGameMsgBox->hide();
+
 	QDialog::exec();
 }
 
