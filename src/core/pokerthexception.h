@@ -34,7 +34,7 @@ public:
 	int GetErrorId() const {return m_errorId;}
 	int GetOsErrorCode() const {return m_osErrorCode;}
 
-	virtual const char *what() const;
+	virtual const char *what() const throw();
 
 private:
 	int m_errorId;
