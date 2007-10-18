@@ -567,7 +567,7 @@ void gameLobbyDialogImpl::startGame() {
 
 	assert(mySession);
 	mySession->sendStartEvent(checkBox_fillUpWithComputerOpponents->isChecked());
-	waitStartGameMsgBoxTimer->start(500);
+	waitStartGameMsgBoxTimer->start(1000);
 }
 
 void gameLobbyDialogImpl::leaveGame() {
