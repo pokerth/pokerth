@@ -62,10 +62,10 @@ void gameLobbyDialogImpl::exec()
 		groupBox_lobbyChat->hide(); 
 	}
 
+	QDialog::exec();
+
 	waitStartGameMsgBoxTimer->stop();
 	waitStartGameMsgBox->hide();
-
-	QDialog::exec();
 }
 
 
@@ -173,8 +173,6 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 
 	if (actionID == MSG_NET_GAME_CLIENT_START)
 	{
-		waitStartGameMsgBoxTimer->stop();
-		waitStartGameMsgBox->hide();
 		QTimer::singleShot(500, this, SLOT(accept()));
 	}
 }
@@ -568,8 +566,8 @@ void gameLobbyDialogImpl::playerSelected(QTreeWidgetItem* item, QTreeWidgetItem*
 void gameLobbyDialogImpl::startGame() {
 
 	assert(mySession);
-	waitStartGameMsgBoxTimer->start(500);
 	mySession->sendStartEvent(checkBox_fillUpWithComputerOpponents->isChecked());
+	waitStartGameMsgBoxTimer->start(500);
 }
 
 void gameLobbyDialogImpl::leaveGame() {
@@ -667,8 +665,6 @@ void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
 void gameLobbyDialogImpl::showWaitStartGameMsgBox() { 
 	waitStartGameMsgBox->show();
 	waitStartGameMsgBox->raise();
-     	waitStartGameMsgBox->activateWindow();
- }
-
-
+	waitStartGameMsgBox->activateWindow();
+}
 
