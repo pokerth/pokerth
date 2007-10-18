@@ -448,6 +448,12 @@ private:
 	bool myActionIsBet;
 	bool myActionIsRaise;
 
+	bool pushButtonBetRaiseIsChecked;
+	bool pushButtonCallCheckIsChecked;
+	bool pushButtonFoldIsChecked;
+	bool pushButtonAllInIsChecked;
+	bool myButtonsAreCheckable;
+
 	bool breakAfterActualHand;
 	
 	bool flipHolecardsAllInAlreadyDone;

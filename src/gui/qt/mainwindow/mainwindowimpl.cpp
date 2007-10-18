@@ -59,7 +59,7 @@
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
-     : QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), breakAfterActualHand(FALSE)
+     : QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(FALSE), pushButtonCallCheckIsChecked(FALSE), pushButtonFoldIsChecked(FALSE), pushButtonAllInIsChecked(FALSE), myButtonsAreCheckable(FALSE), breakAfterActualHand(FALSE)
 {
 	int i;
 
@@ -483,9 +483,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 
 
 	//Human player button
-	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; QPushButton }");
-	pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
-	pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
+	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6_checked.png); }");
+	pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6_checked.png); }");
+	pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6_checked.png); }");
 
 	spinBox_set->setStyleSheet("QSpinBox { "+ font2String +" font-size: 10px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; } QSpinBox:disabled { background-color: #316300; color: #6d7b5f }");
 
@@ -2103,70 +2103,105 @@ void mainWindowImpl::provideMyActions() {
 	Game *currentGame = mySession->getCurrentGame();
 	HandInterface *currentHand = currentGame->getCurrentHand();
 
-	switch (currentHand->getActualRound()) {
-
-	case 0: {
-		if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { 
-			pushButton_BetRaise->setText("Raise"); 
-		}
-
-		if (currentGame->getSeatsList()->front()->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getSeatsList()->front()->getMyButton() == 3) { pushButton_CallCheck->setText("Check"); }
-		else { pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" ); }
-		pushButton_Fold->setText("Fold"); 
-	}
-	break;
-	case 1: {
+	if(/*pushButton_BetRaise->isCheckable() && */(currentHand->getSeatsList()->front()->getMyAction() == PLAYER_ACTION_ALLIN || currentHand->getSeatsList()->front()->getMyAction() == PLAYER_ACTION_FOLD)) {
 	
-		pushButton_Fold->setText("Fold"); 
+		pushButton_BetRaise->setText("");
+		pushButton_CallCheck->setText("");
+		pushButton_Fold->setText("");	
 
-// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
-		if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
-			pushButton_CallCheck->setText("Check");
-			pushButton_BetRaise->setText("Bet"); 		
-		}
-		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-			pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" );
-			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
+		pushButton_AllIn->setDisabled(TRUE);
+		horizontalSlider_bet->setDisabled(TRUE);
+		spinBox_set->setDisabled(TRUE);
+
+		myButtonsCheckable(FALSE);
+	}
+	else {	
+		pushButton_AllIn->setEnabled(TRUE);		
+		horizontalSlider_bet->setEnabled(TRUE);
+		spinBox_set->setEnabled(TRUE);	
+
+		switch (currentHand->getActualRound()) {
+	
+		case 0: {
+			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { 
 				pushButton_BetRaise->setText("Raise"); 
 			}
-		}
-	}
-	break;
-	case 2: {
 	
-		pushButton_Fold->setText("Fold"); 
-
-// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
-		if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
-			pushButton_CallCheck->setText("Check");
-			pushButton_BetRaise->setText("Bet"); 
+			if (currentGame->getSeatsList()->front()->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getSeatsList()->front()->getMyButton() == 3) { pushButton_CallCheck->setText("Check"); }
+			else { pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" ); }
+			pushButton_Fold->setText("Fold"); 
 		}
-		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-			pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" );
-			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-				pushButton_BetRaise->setText("Raise"); 
+		break;
+		case 1: {
+		
+			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable()) { 
+				pushButton_Fold->setText("Check / Fold"); 
+			}
+			else { pushButton_Fold->setText("Fold"); }
+	
+	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
+			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
+	
+				if(pushButton_CallCheck->isCheckable()) { pushButton_CallCheck->setText("Check / Call"); }
+				else { pushButton_CallCheck->setText("Check"); }
+				pushButton_BetRaise->setText("Bet"); 		
+			}
+			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
+				pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" );
+				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
+					pushButton_BetRaise->setText("Raise"); 
+				}
 			}
 		}
-	}
-	break;
-	case 3: {
+		break;
+		case 2: {
+		
+			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable()) { 
+				pushButton_Fold->setText("Check / Fold"); 
+			}
+			else { pushButton_Fold->setText("Fold"); }
 	
-		pushButton_Fold->setText("Fold"); 
-
-// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
-		if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
-			pushButton_CallCheck->setText("Check");
-			pushButton_BetRaise->setText("Bet");
-		}
-		if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-			pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" );
-			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-				pushButton_BetRaise->setText("Raise"); 
+	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
+			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
+	
+				if(pushButton_CallCheck->isCheckable()) { pushButton_CallCheck->setText("Check / Call"); }
+				else { pushButton_CallCheck->setText("Check"); }
+				pushButton_BetRaise->setText("Bet"); 		
+			}
+			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
+				pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" );
+				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
+					pushButton_BetRaise->setText("Raise"); 
+				}
 			}
 		}
-	}
-	break;
-	default: {}
+		break;
+		case 3: {
+		
+			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable()) { 
+				pushButton_Fold->setText("Check / Fold"); 
+			}
+			else { pushButton_Fold->setText("Fold"); }
+	
+	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
+			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
+	
+				if(pushButton_CallCheck->isCheckable()) { pushButton_CallCheck->setText("Check / Call"); }
+				else { pushButton_CallCheck->setText("Check"); }
+				pushButton_BetRaise->setText("Bet"); 		
+			}
+			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
+				pushButton_CallCheck->setText("Call "+QString::number(getMyCallAmount())+"$" );
+				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
+					pushButton_BetRaise->setText("Raise"); 
+				}
+			}
+		}
+		break;
+		default: {}
+		}
+	
+		myBetRaise();
 	}
 }
 
@@ -2191,11 +2226,17 @@ void mainWindowImpl::meInAction() {
 			statusBar()->showMessage(tr("F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold"), 15000);
 		}
 	}
-
+		
+	//paint actions on buttons
 	provideMyActions();
 	
-	myBetRaise();
+	//do remembered action
+	if( pushButtonBetRaiseIsChecked ) { pushButton_BetRaise->click(); pushButtonBetRaiseIsChecked = FALSE;}
+	if( pushButtonCallCheckIsChecked )  { pushButton_CallCheck->click(); pushButtonCallCheckIsChecked = FALSE;}
+	if( pushButtonFoldIsChecked ) { pushButton_Fold->click(); pushButtonFoldIsChecked = FALSE;}
+	if( pushButtonAllInIsChecked ) { pushButton_AllIn->click(); pushButtonAllInIsChecked = FALSE;}
 
+	//automatic mode
 	switch (playingMode) {
 		case 0: // Manual mode
 			break;
@@ -2227,14 +2268,16 @@ void mainWindowImpl::stopTimeoutAnimation(int playerId) {
 
 void mainWindowImpl::disableMyButtons() {
 
+	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+
 	//clear userWidgets
 	spinBox_set->setMinimum(0);
 	horizontalSlider_bet->setMinimum(0);
-// 	spinBox_set->setValue(0);
-	spinBox_set->clear();
-	horizontalSlider_bet->setValue(0);
-	spinBox_set->setDisabled(TRUE);
-	horizontalSlider_bet->setDisabled(TRUE);
+	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
+	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
+	spinBox_set->setValue(0);
+// 	spinBox_set->setDisabled(TRUE);
+// 	horizontalSlider_bet->setDisabled(TRUE);
 // 	spinBox_set->hide();
 // 	pushButton_BetRaise->show();
 // 	pushButton_BetRaise->setText("");
@@ -2255,12 +2298,12 @@ void mainWindowImpl::myBetRaise() {
 		myBet(); 
 	}
 	else {
-		spinBox_set->setMinimum(0);
-		horizontalSlider_bet->setMinimum(0);
-		spinBox_set->setValue(0);
-		horizontalSlider_bet->setValue(0);
-		spinBox_set->setDisabled(TRUE);
-		horizontalSlider_bet->setDisabled(TRUE);
+// 		spinBox_set->setMinimum(0);
+// 		horizontalSlider_bet->setMinimum(0);
+// 		spinBox_set->setValue(0);
+// 		horizontalSlider_bet->setValue(0);
+// 		spinBox_set->setDisabled(TRUE);
+// 		horizontalSlider_bet->setDisabled(TRUE);
 	}
 }
 
@@ -2354,11 +2397,15 @@ void mainWindowImpl::myBet(){
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
+	
 	spinBox_set->setMinimum(currentHand->getSmallBlind()*2);
 	horizontalSlider_bet->setMinimum(currentHand->getSmallBlind()*2);
 	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
-	spinBox_set->setValue(spinBox_set->minimum());
+	
+// 	if(!myButtonsAreCheckable) 
+// 		spinBox_set->setValue(spinBox_set->minimum());
+	
 	horizontalSlider_bet->setSingleStep(10);
 	if(lineEdit_ChatInput->text() == "") { 
 		spinBox_set->setFocus();
@@ -2376,7 +2423,10 @@ void mainWindowImpl::myRaise(){
 	horizontalSlider_bet->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
 	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
-	spinBox_set->setValue(spinBox_set->minimum());
+	
+// 	if(!myButtonsAreCheckable && spinBox_set->value != spinBox_set->minimum()) 
+// 		spinBox_set->setValue(spinBox_set->minimum());
+
 	horizontalSlider_bet->setSingleStep(10);
 	if(lineEdit_ChatInput->text() == "") { 
 		spinBox_set->setFocus();
@@ -2478,6 +2528,16 @@ void mainWindowImpl::pushButtonBetRaiseClicked(bool checked) {
 			pushButton_CallCheck->setChecked(FALSE);
 			pushButton_Fold->setChecked(FALSE);
 			pushButton_AllIn->setChecked(FALSE);
+			
+			pushButtonCallCheckIsChecked = FALSE;
+			pushButtonFoldIsChecked = FALSE;
+			pushButtonAllInIsChecked = FALSE;
+		
+			pushButtonBetRaiseIsChecked = TRUE;
+
+			if(!radioButton_manualAction->isChecked())
+				radioButton_manualAction->click();
+
 		}
 		else {}
 	}
@@ -2493,6 +2553,15 @@ void mainWindowImpl::pushButtonCallCheckClicked(bool checked) {
 			pushButton_Fold->setChecked(FALSE);
 			pushButton_BetRaise->setChecked(FALSE);
 			pushButton_AllIn->setChecked(FALSE);
+
+			pushButtonAllInIsChecked = FALSE;
+			pushButtonFoldIsChecked = FALSE;
+			pushButtonBetRaiseIsChecked = FALSE;
+		
+			pushButtonCallCheckIsChecked = TRUE;
+			
+			if(!radioButton_manualAction->isChecked())
+				radioButton_manualAction->click();
 		}
 		else {}
 	}
@@ -2508,6 +2577,15 @@ void mainWindowImpl::pushButtonFoldClicked(bool checked) {
 			pushButton_CallCheck->setChecked(FALSE);
 			pushButton_BetRaise->setChecked(FALSE);
 			pushButton_AllIn->setChecked(FALSE);
+			
+			pushButtonAllInIsChecked = FALSE;
+			pushButtonCallCheckIsChecked = FALSE;
+			pushButtonBetRaiseIsChecked = FALSE;
+		
+			pushButtonFoldIsChecked = TRUE;
+			
+			if(!radioButton_manualAction->isChecked())
+				radioButton_manualAction->click();
 		}
 		else {}
 	}
@@ -2523,6 +2601,15 @@ void mainWindowImpl::pushButtonAllInClicked(bool checked) {
 			pushButton_CallCheck->setChecked(FALSE);
 			pushButton_BetRaise->setChecked(FALSE);
 			pushButton_Fold->setChecked(FALSE);
+
+			pushButtonFoldIsChecked = FALSE;
+			pushButtonCallCheckIsChecked = FALSE;
+			pushButtonBetRaiseIsChecked = FALSE;
+		
+			pushButtonAllInIsChecked = TRUE;
+
+			if(!radioButton_manualAction->isChecked())
+				radioButton_manualAction->click();
 		}
 		else {}
 	}
@@ -4004,9 +4091,11 @@ void mainWindowImpl::myButtonsCheckable(bool state) {
 		pushButton_AllIn->setCheckable(TRUE);
 
 		//design
-		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #28E74B; }");
-		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #009DFF; }"); 
-		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #FF1E1E; }"); 
+		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #7DFF95;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6_checked.png); }");
+		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #7DCDFF;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6_checked.png); }");
+		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #FF7D7D;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6_checked.png); }");
+
+		myButtonsAreCheckable = TRUE;
 	}
 	else {
 		//not checkable
@@ -4017,10 +4106,13 @@ void mainWindowImpl::myButtonsCheckable(bool state) {
 		pushButton_AllIn->setCheckable(FALSE);
 		
 		//design
-		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; QPushButton }");
-		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
-		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0; }"); 
+		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6_checked.png); }");
+		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6_checked.png); }");
+		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6_checked.png); }");
+
+		myButtonsAreCheckable = FALSE;
 	}
+
 }
 
 void mainWindowImpl::closeEvent(QCloseEvent* /*event*/) { quitPokerTH(); }
