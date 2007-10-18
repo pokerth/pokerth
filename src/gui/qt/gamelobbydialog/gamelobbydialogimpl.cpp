@@ -27,9 +27,10 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
 	//wait start game message
-	waitStartGameMsgBox.setText(tr("Starting game. Please wait ..."));
-	waitStartGameMsgBox.setWindowModality(Qt::NonModal);
-	waitStartGameMsgBox.setStandardButtons(QMessageBox::NoButton);
+	waitStartGameMsgBox = new QMessageBox(this);
+	waitStartGameMsgBox->setText(tr("Starting game. Please wait ..."));
+	waitStartGameMsgBox->setWindowModality(Qt::NonModal);
+	waitStartGameMsgBox->setStandardButtons(QMessageBox::NoButton);
 
 	waitStartGameMsgBoxTimer = new QTimer(this);
 	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
@@ -170,7 +171,7 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 	if (actionID == MSG_NET_GAME_CLIENT_START)
 	{
 		waitStartGameMsgBoxTimer->stop();
-		waitStartGameMsgBox.hide();
+		waitStartGameMsgBox->hide();
 		QTimer::singleShot(500, this, SLOT(accept()));
 	}
 }
@@ -660,7 +661,11 @@ void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
 	}
 }
 
-void gameLobbyDialogImpl::showWaitStartGameMsgBox() { waitStartGameMsgBox.show(); }
+void gameLobbyDialogImpl::showWaitStartGameMsgBox() { 
+	waitStartGameMsgBox->show();
+	waitStartGameMsgBox->raise();
+     	waitStartGameMsgBox->activateWindow();
+ }
 
 
 

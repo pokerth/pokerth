@@ -112,7 +112,7 @@ private:
 	LobbyChat *myChat;
 	QString myAppDataPath;
 	int keyUpCounter;
-	QMessageBox waitStartGameMsgBox;
+	QMessageBox *waitStartGameMsgBox;
 	QTimer *waitStartGameMsgBoxTimer;
 
  protected:
