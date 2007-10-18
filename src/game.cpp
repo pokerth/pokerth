@@ -106,7 +106,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		tmpPlayer->setNetSessionData(myNetSession);
 
 		// fill player lists
-		playerArray.push_back(tmpPlayer); // delete
+// 		playerArray.push_back(tmpPlayer); // delete
 		seatsList->push_back(tmpPlayer);
 		if(startQuantityPlayers > i) {
 			activePlayerList->push_back(tmpPlayer);
@@ -114,10 +114,10 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 
 		(*runningPlayerList) = (*activePlayerList);
 
-		playerArray[i]->setNetSessionData(myNetSession); // delete
+// 		playerArray[i]->setNetSessionData(myNetSession); // delete
 		
 	}
-	currentBoard->setPlayerLists(playerArray, seatsList, activePlayerList, runningPlayerList); // delete playerArray
+	currentBoard->setPlayerLists(/*playerArray,*/ seatsList, activePlayerList, runningPlayerList); // delete playerArray
 
 	//start timer
 	blindsTimer.reset();
@@ -191,7 +191,7 @@ void Game::initHand()
 	(*runningPlayerList) = (*activePlayerList);
 
 	// Hand erstellen
-	currentHand = myFactory->createHand(myFactory, myGui, currentBoard, playerArray, seatsList, activePlayerList, runningPlayerList, currentHandID, startQuantityPlayers, dealerPosition, currentSmallBlind, startCash); // delete playerArray
+	currentHand = myFactory->createHand(myFactory, myGui, currentBoard, /*playerArray,*/ seatsList, activePlayerList, runningPlayerList, currentHandID, startQuantityPlayers, dealerPosition, currentSmallBlind, startCash); // delete playerArray
 
 
 	// Dealer-Button weiterschieben --> Achtung inactive -> TODO exception-rule !!! DELETE

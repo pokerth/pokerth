@@ -21,8 +21,8 @@
 
 using namespace std;
 
-ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, std::vector<boost::shared_ptr<PlayerInterface> > sl_old, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC)
-: myFactory(f), myGui(g),  myBoard(b), playerArray(sl_old), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myID(id), startQuantityPlayers(sP), dealerPosition(dP), currentRound(0),
+ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, /*std::vector<boost::shared_ptr<PlayerInterface> > sl_old,*/ PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC)
+: myFactory(f), myGui(g),  myBoard(b), /*playerArray(sl_old),*/ seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myID(id), startQuantityPlayers(sP), dealerPosition(dP), currentRound(0),
   smallBlind(sB), startCash(sC), lastPlayersTurn(0), allInCondition(0),
   cardsShown(false), bettingRoundsPlayed(0)
 {
@@ -67,11 +67,11 @@ ClientHand::start()
 {
 }
 
-std::vector<boost::shared_ptr<PlayerInterface> >
-ClientHand::getPlayerArray() const
-{
-	return playerArray;
-}
+// std::vector<boost::shared_ptr<PlayerInterface> >
+// ClientHand::getPlayerArray() const
+// {
+// 	return playerArray;
+// }
 
 PlayerList
 ClientHand::getSeatsList() const

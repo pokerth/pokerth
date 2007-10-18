@@ -2353,13 +2353,23 @@ int mainWindowImpl::getMyCallAmount() {
 
         tempHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 
-        if (currentHand->getPlayerArray()[0]->getMyCash()+currentHand->getPlayerArray()[0]->getMySet() <= tempHighestSet) {
+//         if (currentHand->getPlayerArray()[0]->getMyCash()+currentHand->getPlayerArray()[0]->getMySet() <= tempHighestSet) {
+// 
+//                 return currentHand->getPlayerArray()[0]->getMyCash();
+//         }
+//         else {
+//                 return tempHighestSet - currentHand->getPlayerArray()[0]->getMySet();
+//         }
 
-                return currentHand->getPlayerArray()[0]->getMyCash();
+        if (currentHand->getSeatsList()->front()->getMyCash()+currentHand->getSeatsList()->front()->getMySet() <= tempHighestSet) {
+
+                return currentHand->getSeatsList()->front()->getMyCash();
         }
         else {
-                return tempHighestSet - currentHand->getPlayerArray()[0]->getMySet();
+                return tempHighestSet - currentHand->getSeatsList()->front()->getMySet();
         }
+
+
 }
 
 void mainWindowImpl::myCall(){

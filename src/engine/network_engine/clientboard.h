@@ -34,7 +34,7 @@ public:
 	ClientBoard();
 	~ClientBoard();
 
-	void setPlayerLists(std::vector<boost::shared_ptr<PlayerInterface> >, PlayerList, PlayerList, PlayerList);
+	void setPlayerLists(/*std::vector<boost::shared_ptr<PlayerInterface> >,*/ PlayerList, PlayerList, PlayerList);
 	void setHand(HandInterface*);
 
 	void setMyCards(int* theValue);
@@ -55,7 +55,7 @@ public:
 private:
 	mutable boost::recursive_mutex m_syncMutex;
 
-	std::vector<boost::shared_ptr<PlayerInterface> > playerArray; // delete
+// 	std::vector<boost::shared_ptr<PlayerInterface> > playerArray; // delete
 	PlayerList seatsList;
 	PlayerList activePlayerList;
 	PlayerList runningPlayerList;

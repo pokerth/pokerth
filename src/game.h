@@ -56,7 +56,7 @@ public:
 	HandInterface *getCurrentHand();
 	const HandInterface *getCurrentHand() const;
 
-	std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() const {return playerArray;}
+// 	std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() const {return playerArray;}
 	PlayerList getSeatsList() const {return seatsList;}
 	PlayerList getActivePlayerList() const {return activePlayerList;}
 	PlayerList getRunningPlayerList() const {return runningPlayerList;}
@@ -91,7 +91,7 @@ private:
 	HandInterface *currentHand;
 	BoardInterface *currentBoard;
 
-	std::vector<boost::shared_ptr<PlayerInterface> > playerArray; // available seats --> seatList !!! TODO // delete
+// 	std::vector<boost::shared_ptr<PlayerInterface> > playerArray; // available seats --> seatList !!! TODO // delete
 	PlayerList seatsList;
 	PlayerList activePlayerList; // used seats
 	PlayerList runningPlayerList; // nonfolded and nonallin active players

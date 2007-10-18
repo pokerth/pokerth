@@ -26,7 +26,7 @@
 
 using namespace std;
 
-LocalBoard::LocalBoard() : BoardInterface(), playerArray(0), currentHand(0), pot(0), sets(0)
+LocalBoard::LocalBoard() : BoardInterface(), /*playerArray(0),*/ currentHand(0), pot(0), sets(0)
 {
 }
 
@@ -35,8 +35,8 @@ LocalBoard::~LocalBoard()
 {
 }
 
-void LocalBoard::setPlayerLists(std::vector<boost::shared_ptr<PlayerInterface> > sl_old, PlayerList sl, PlayerList apl, PlayerList rpl) {
-	playerArray = sl_old; // delete
+void LocalBoard::setPlayerLists(/*std::vector<boost::shared_ptr<PlayerInterface> > sl_old, */PlayerList sl, PlayerList apl, PlayerList rpl) {
+// 	playerArray = sl_old; // delete
 	seatsList = sl;
 	activePlayerList = apl;
 	runningPlayerList = rpl;
