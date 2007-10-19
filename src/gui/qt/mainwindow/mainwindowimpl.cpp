@@ -3337,7 +3337,7 @@ void mainWindowImpl::postRiverRunAnimation6() {
 // 	}
 
 	PlayerListConstIterator it_c;
-	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
+	for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
 // 		cout << "player 0 cash: " << currentHand->getPlayerArray()[0]->getMyCash()
 
 		if ((*it_c)->getMyCash() > 0) playersPositiveCashCounter++;
