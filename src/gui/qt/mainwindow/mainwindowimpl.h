@@ -310,6 +310,7 @@ public slots:
 
 	void mouseOverFlipCards(bool front);
 
+	void updateMyButtonsState();
 	void uncheckMyButtons();
 	void resetMyButtonsCheckStateMemory();
 	void clearMyButtons();

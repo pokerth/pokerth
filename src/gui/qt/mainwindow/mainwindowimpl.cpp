@@ -2389,19 +2389,13 @@ void mainWindowImpl::nextPlayerAnimation() {
 		if((*it_c)->getMyID() == currentHand->getLastPlayersTurn()) break;
 	}
 
-	refreshAction(currentHand->getLastPlayersTurn(), (*it_c)->getMyAction());
+	if(currentHand->getLastPlayersTurn() != -1) {
+		refreshAction(currentHand->getLastPlayersTurn(), (*it_c)->getMyAction());
+	}
 	refreshCash();
 
 	//refresh actions for human player
-	
-	if(currentHand->getLastPlayersTurn() == 0) {
-		myButtonsCheckable(FALSE);
-		clearMyButtons();
-	}
-	else {
-		myButtonsCheckable(TRUE);
-		provideMyActions();
-	}
+	updateMyButtonsState();
 
 	nextPlayerAnimationTimer->start(nextPlayerSpeed1);
 }
@@ -3529,6 +3523,20 @@ void mainWindowImpl::mouseOverFlipCards(bool front) {
 			holeCardsArray[0][0]->signalFastFlipCards(front);
 			holeCardsArray[0][1]->signalFastFlipCards(front);
 		}
+	}
+}
+
+void mainWindowImpl::updateMyButtonsState() {
+
+	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+
+	if(currentHand->getLastPlayersTurn() == 0) {
+		myButtonsCheckable(FALSE);
+		clearMyButtons();
+	}
+	else {
+		myButtonsCheckable(TRUE);
+		provideMyActions();
 	}
 }
 

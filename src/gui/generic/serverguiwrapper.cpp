@@ -95,6 +95,7 @@ void ServerGuiWrapper::nextRoundCleanGui() {}
 
 void ServerGuiWrapper::meInAction() {}
 void ServerGuiWrapper::disableMyButtons() {}
+void ServerGuiWrapper::updateMyButtonsState() {}
 void ServerGuiWrapper::startTimeoutAnimation(int /*playerId*/, int /*timeoutSec*/) {}
 void ServerGuiWrapper::stopTimeoutAnimation(int /*playerId*/) {}
 

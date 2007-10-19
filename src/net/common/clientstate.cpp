@@ -935,7 +935,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(actionDoneData.highestSet);
 			curGame->getCurrentHand()->getBoard()->collectSets();
 			curGame->getCurrentHand()->switchRounds();
-
+			curGame->getCurrentHand()->setLastPlayersTurn(tmpPlayer->getMyID());
 
 			//log blinds sets after setting bigblind-button
 			if (isBigBlind) {
@@ -957,6 +957,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			client.GetGui().refreshSet();
 			client.GetGui().refreshCash();
 			client.GetGui().refreshButton();
+			client.GetGui().updateMyButtonsState();
 		}
 		else if (packet->ToNetPacketPlayersTurn())
 		{
@@ -1011,7 +1012,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			client.GetGui().refreshGameLabels(GAME_STATE_FLOP);
 			client.GetGui().refreshPot();
 			client.GetGui().refreshSet();
-			client.GetGui().dealFlopCards();
+			client.GetGui().dealBeRoCards(1);
 		}
 		else if (packet->ToNetPacketDealTurnCard())
 		{
@@ -1027,7 +1028,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			client.GetGui().refreshGameLabels(GAME_STATE_TURN);
 			client.GetGui().refreshPot();
 			client.GetGui().refreshSet();
-			client.GetGui().dealTurnCard();
+			client.GetGui().dealBeRoCards(2);
 		}
 		else if (packet->ToNetPacketDealRiverCard())
 		{
@@ -1043,7 +1044,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			client.GetGui().refreshGameLabels(GAME_STATE_RIVER);
 			client.GetGui().refreshPot();
 			client.GetGui().refreshSet();
-			client.GetGui().dealRiverCard();
+			client.GetGui().dealBeRoCards(3);
 		}
 		else if (packet->ToNetPacketAllInShowCards())
 		{

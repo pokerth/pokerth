@@ -86,6 +86,7 @@ public:
 
 	void meInAction();
 	void disableMyButtons();
+	void updateMyButtonsState();
 	void startTimeoutAnimation(int playerId, int timeoutSec);
 	void stopTimeoutAnimation(int playerId);
 

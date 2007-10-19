@@ -88,6 +88,7 @@ public:
 // 	virtual void userWidgetsBackgroudColor() const=0;
 // 	virtual void timerBlockerFalse() const=0;
 	virtual void meInAction()=0;
+	virtual	void updateMyButtonsState()=0;
 	virtual void disableMyButtons()=0;
 	virtual void startTimeoutAnimation(int playerId, int timeoutSec) =0;
 	virtual void stopTimeoutAnimation(int playerId) =0;
