@@ -95,7 +95,7 @@ void GuiWrapper::flipHolecardsAllIn() { myW->signalFlipHolecardsAllIn(); }
 void GuiWrapper::nextRoundCleanGui() { myW->signalNextRoundCleanGui(); }
 
 void GuiWrapper::meInAction() { myW->signalMeInAction(); }
-void GuiWrapper::updateMyButtonsState() { myW->updateMyButtonsState(); }
+void GuiWrapper::updateMyButtonsState() { myW->signalUpdateMyButtonsState(); }
 void GuiWrapper::disableMyButtons() { myW->signalDisableMyButtons(); }
 void GuiWrapper::startTimeoutAnimation(int playerId, int timeoutSec) { myW->signalStartTimeoutAnimation(playerId, timeoutSec); }
 void GuiWrapper::stopTimeoutAnimation(int playerId) { myW->signalStopTimeoutAnimation(playerId); }

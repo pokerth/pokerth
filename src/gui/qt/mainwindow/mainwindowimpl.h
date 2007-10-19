@@ -91,6 +91,7 @@ signals:
 	void signalGuiUpdateDone();
 
 	void signalMeInAction();
+	void signalUpdateMyButtonsState();
 	void signalDisableMyButtons();
 	void signalStartTimeoutAnimation(int playerId, int timeoutSec);
 	void signalStopTimeoutAnimation(int playerId);

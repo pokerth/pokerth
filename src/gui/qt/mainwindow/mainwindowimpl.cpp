@@ -642,6 +642,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	connect(this, SIGNAL(signalMeInAction()), this, SLOT(meInAction()));
 	connect(this, SIGNAL(signalDisableMyButtons()), this, SLOT(disableMyButtons()));
+	connect(this, SIGNAL(signalUpdateMyButtonsState()), this, SLOT(updateMyButtonsState()));
 	connect(this, SIGNAL(signalStartTimeoutAnimation(int, int)), this, SLOT(startTimeoutAnimation(int, int)));
 	connect(this, SIGNAL(signalStopTimeoutAnimation(int)), this, SLOT(stopTimeoutAnimation(int)));
 
