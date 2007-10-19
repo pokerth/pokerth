@@ -38,7 +38,6 @@ void LocalBeRoPostRiver::run() {
 
 void LocalBeRoPostRiver::postRiverRun() {
 
-	int i;
 	PlayerListConstIterator it_c;
 	PlayerListIterator it;
 
