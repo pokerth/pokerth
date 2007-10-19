@@ -1931,7 +1931,12 @@ void mainWindowImpl::dealBeRoCards(int myBeRoID) {
 
 	uncheckMyButtons();
 	myButtonsCheckable(FALSE);
+	resetMyButtonsCheckStateMemory();
 	clearMyButtons();
+
+	pushButton_AllIn->setDisabled(TRUE);
+	horizontalSlider_bet->setDisabled(TRUE);
+	spinBox_set->setDisabled(TRUE);
 
 	switch(myBeRoID) {
 
@@ -2113,7 +2118,8 @@ void mainWindowImpl::provideMyActions() {
 	Game *currentGame = mySession->getCurrentGame();
 	HandInterface *currentHand = currentGame->getCurrentHand();
 
-	if(/*pushButton_BetRaise->isCheckable() && */(currentHand->getSeatsList()->front()->getMyAction() == PLAYER_ACTION_ALLIN || currentHand->getSeatsList()->front()->getMyAction() == PLAYER_ACTION_FOLD)) {
+	//really disabled buttons if human player is fold/all-in or 
+	if(/*pushButton_BetRaise->isCheckable() && */(currentHand->getSeatsList()->front()->getMyAction() == PLAYER_ACTION_ALLIN || currentHand->getSeatsList()->front()->getMyAction() == PLAYER_ACTION_FOLD || (currentGame->getSeatsList()->front()->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (currentGame->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_NONE)))) {
 	
 		pushButton_BetRaise->setText("");
 		pushButton_CallCheck->setText("");
@@ -2153,7 +2159,7 @@ void mainWindowImpl::provideMyActions() {
 	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 	
-				if(pushButton_CallCheck->isCheckable()) { pushButtonCallCheckString = "Check / Call"; }
+				if(pushButton_CallCheck->isCheckable()) { pushButtonCallCheckString = "Check"; }
 				else { pushButtonCallCheckString = "Check"; }
 
 				pushButtonBetRaiseString = "Bet"; 
@@ -2176,7 +2182,7 @@ void mainWindowImpl::provideMyActions() {
 	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 	
-				if(pushButton_CallCheck->isCheckable()) { pushButtonCallCheckString = "Check / Call"; }
+				if(pushButton_CallCheck->isCheckable()) { pushButtonCallCheckString = "Check"; }
 				else { pushButtonCallCheckString = "Check"; }
 				pushButtonBetRaiseString = "Bet"; 		
 			}
@@ -2198,7 +2204,7 @@ void mainWindowImpl::provideMyActions() {
 	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 	
-				if(pushButton_CallCheck->isCheckable()) { pushButtonCallCheckString = "Check / Call"; }
+				if(pushButton_CallCheck->isCheckable()) { pushButtonCallCheckString = "Check"; }
 				else { pushButtonCallCheckString = "Check"; }
 				pushButtonBetRaiseString = "Bet"; 		
 			}
@@ -2214,7 +2220,19 @@ void mainWindowImpl::provideMyActions() {
 		}
 	
 		//if text changed on checked button --> uncheck to prevent unwanted actions
-		if((pushButtonCallCheckString != lastPushButtonCallCheckString && pushButton_CallCheck->isChecked()) || (pushButtonBetRaiseString != lastPushButtonBetRaiseString && pushButton_BetRaise->isChecked()) ) { uncheckMyButtons(); }
+		if((pushButtonCallCheckString != lastPushButtonCallCheckString && pushButton_CallCheck->isChecked()) || (pushButtonBetRaiseString != lastPushButtonBetRaiseString && pushButton_BetRaise->isChecked()) ) { 
+		
+			cout << "jo" << endl;
+			uncheckMyButtons(); 
+			resetMyButtonsCheckStateMemory();
+		}
+
+		if(pushButtonBetRaiseString == "") {
+
+			pushButton_AllIn->setDisabled(TRUE);
+			horizontalSlider_bet->setDisabled(TRUE);
+			spinBox_set->setDisabled(TRUE);
+		}
 
 		pushButton_Fold->setText(pushButtonFoldString);
 		pushButton_BetRaise->setText(pushButtonBetRaiseString);
@@ -2247,13 +2265,23 @@ void mainWindowImpl::meInAction() {
 		}
 	}
 		
+	QString lastPushButtonFoldString = pushButton_Fold->text();
+
 	//paint actions on buttons
 	provideMyActions();
 	
 	//do remembered action
 	if( pushButtonBetRaiseIsChecked ) { pushButton_BetRaise->click(); pushButtonBetRaiseIsChecked = FALSE;}
 	if( pushButtonCallCheckIsChecked )  { pushButton_CallCheck->click(); pushButtonCallCheckIsChecked = FALSE;}
-	if( pushButtonFoldIsChecked ) { pushButton_Fold->click(); pushButtonFoldIsChecked = FALSE;}
+	if( pushButtonFoldIsChecked ) { 
+		if(lastPushButtonFoldString == "Check / Fold" && pushButton_CallCheck->text() == "Check") {
+			pushButton_CallCheck->click();
+		}
+		else {
+			pushButton_Fold->click(); 
+		}
+		pushButtonFoldIsChecked = FALSE;
+	}
 	if( pushButtonAllInIsChecked ) { pushButton_AllIn->click(); pushButtonAllInIsChecked = FALSE;}
 
 	//automatic mode
@@ -2296,6 +2324,11 @@ void mainWindowImpl::disableMyButtons() {
 	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	spinBox_set->setValue(0);
+
+	pushButton_AllIn->setDisabled(TRUE);
+	horizontalSlider_bet->setDisabled(TRUE);
+	spinBox_set->setDisabled(TRUE);
+
 // 	spinBox_set->setDisabled(TRUE);
 // 	horizontalSlider_bet->setDisabled(TRUE);
 // 	spinBox_set->hide();
@@ -2752,6 +2785,12 @@ void mainWindowImpl::postRiverRunAnimation2() {
 	uncheckMyButtons();
 	myButtonsCheckable(FALSE);
 	clearMyButtons();
+	resetMyButtonsCheckStateMemory();
+
+	pushButton_AllIn->setDisabled(TRUE);
+	horizontalSlider_bet->setDisabled(TRUE);
+	spinBox_set->setDisabled(TRUE);
+
 
 // 	int i;
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
@@ -3573,7 +3612,14 @@ void mainWindowImpl::nextRoundCleanGui() {
 	//fix press mouse button during bankrupt with anti-peek-mode
 	this->mouseOverFlipCards(FALSE);
 
+	pushButton_AllIn->setDisabled(TRUE);
+	horizontalSlider_bet->setDisabled(TRUE);
+	spinBox_set->setDisabled(TRUE);
+
 	uncheckMyButtons();
+	myButtonsCheckable(FALSE);
+	resetMyButtonsCheckStateMemory();
+	clearMyButtons();
 }
 
 void mainWindowImpl::stopTimer() {
@@ -4135,6 +4181,15 @@ void mainWindowImpl::uncheckMyButtons() {
 	pushButton_CallCheck->setChecked(FALSE);
 	pushButton_Fold->setChecked(FALSE);
 	pushButton_AllIn->setChecked(FALSE);
+
+}
+
+void mainWindowImpl::resetMyButtonsCheckStateMemory() {
+
+	pushButtonCallCheckIsChecked = FALSE;
+	pushButtonFoldIsChecked = FALSE;
+	pushButtonAllInIsChecked = FALSE;
+	pushButtonBetRaiseIsChecked = FALSE;
 }
 
 void mainWindowImpl::clearMyButtons() {
