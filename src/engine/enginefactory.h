@@ -33,7 +33,7 @@ public:
     
 	virtual ~EngineFactory();
 		
-	virtual HandInterface* createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, /*std::vector<boost::shared_ptr<PlayerInterface> > sl_old,*/ PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC) =0;
+	virtual HandInterface* createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC) =0;
 	virtual BoardInterface* createBoard() =0;
 	virtual boost::shared_ptr<PlayerInterface> createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB) =0;
 	virtual std::vector<boost::shared_ptr<BeRoInterface> > createBeRo(HandInterface* hi, int id, unsigned dP, int sB) =0;

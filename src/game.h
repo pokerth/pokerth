@@ -56,12 +56,10 @@ public:
 	HandInterface *getCurrentHand();
 	const HandInterface *getCurrentHand() const;
 
-// 	std::vector<boost::shared_ptr<PlayerInterface> > getPlayerArray() const {return playerArray;}
 	PlayerList getSeatsList() const {return seatsList;}
 	PlayerList getActivePlayerList() const {return activePlayerList;}
 	PlayerList getRunningPlayerList() const {return runningPlayerList;}
 
-	//Zufgriff Startvariablen
 	void setStartQuantityPlayers(int theValue) { startQuantityPlayers = theValue; }
 	int getStartQuantityPlayers() const { return startQuantityPlayers; }
 	
@@ -91,21 +89,18 @@ private:
 	HandInterface *currentHand;
 	BoardInterface *currentBoard;
 
-// 	std::vector<boost::shared_ptr<PlayerInterface> > playerArray; // available seats --> seatList !!! TODO // delete
 	PlayerList seatsList;
 	PlayerList activePlayerList; // used seats
 	PlayerList runningPlayerList; // nonfolded and nonallin active players
-	
-// 	boost::shared_ptr<PlayerInterface> playerArray[MAX_NUMBER_OF_PLAYERS];
 
-	//Startvariablen	
+	// start variables
 	int startQuantityPlayers;
 	int startCash;
 	int startSmallBlind;
 	int myGameID;
 	int guiPlayerNum;
 
-	//Laufvariablen
+	// running variables
 	int currentSmallBlind;
 	int currentHandID;
 	unsigned dealerPosition;

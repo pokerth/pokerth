@@ -1080,16 +1080,6 @@ void LocalPlayer::preflopEngine() {
 //	cout << myID << ": " << myHoleCardsValue << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << myCards[0] << " " << myCards[1] << endl;
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
-// 	int aggValue = (int)(((currentHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
-// 
-// 	if(currentHand->getPlayerArray()[0]->getMyActiveStatus() && currentHand->getPlayerArray()[0]->getMyAction() != 1) {
-// 		myNiveau[0] -= aggValue;
-// 		myNiveau[2] -= aggValue;
-// 	}
-
-
-
-	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
 	it_c = currentHand->getActivePlayerIt(0);
 	if( it_c != currentHand->getActivePlayerList()->end() ) {
 		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
@@ -1393,15 +1383,6 @@ void LocalPlayer::flopEngine() {
 	// eigenes mögliches highestSet
 	int individualHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 	if(individualHighestSet > myCash) individualHighestSet = myCash;
-
-	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist
-// 	int aggValue = (int)(((currentHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
-// 
-// 	if(currentHand->getPlayerArray()[0]->getMyActiveStatus() && currentHand->getPlayerArray()[0]->getMyAction() != 1) {
-// 		for(i=0; i<3; i++) {
-// 			myNiveau[i] -= aggValue;
-// 		}
-// 	}
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
 	it_c = currentHand->getActivePlayerIt(0);
@@ -2032,17 +2013,6 @@ void LocalPlayer::turnEngine() {
 	// 3. Call -- Raise
 	myNiveau[2] = 69 + myDude4/* - 6*(currentHand->getActivePlayerList().size() - 2)*/;
 
-	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist
-// 	int aggValue = (int)(((currentHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
-// 
-// 	if(currentHand->getPlayerArray()[0]->getMyActiveStatus() && currentHand->getPlayerArray()[0]->getMyAction() != 1) {
-// 		for(i=0; i<3; i++) {
-// 			myNiveau[i] -= aggValue;
-// 		}
-// 	}
-
-
-
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
 	it_c = currentHand->getActivePlayerIt(0);
 	if( it_c != currentHand->getActivePlayerList()->end() ) {
@@ -2435,16 +2405,6 @@ void LocalPlayer::riverEngine() {
 	myNiveau[1] = 56 + myDude4/* - 6*(currentHand->getActivePlayerList().size() - 2)*/;
 	// 3. Call -- Raise
 	myNiveau[2] = 69 + myDude4/* - 6*(currentHand->getActivePlayerList().size() - 2)*/;
-
-	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist
-// 	int aggValue = (int)(((currentHand->getPlayerArray()[0]->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
-// 
-// 	if(currentHand->getPlayerArray()[0]->getMyActiveStatus() && currentHand->getPlayerArray()[0]->getMyAction() != 1) {
-// 		for(i=0; i<3; i++) {
-// 			myNiveau[i] -= aggValue;
-// 		}
-// 	}
-
 
 	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
 	it_c = currentHand->getActivePlayerIt(0);

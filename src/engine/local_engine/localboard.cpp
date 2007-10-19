@@ -26,17 +26,15 @@
 
 using namespace std;
 
-LocalBoard::LocalBoard() : BoardInterface(), /*playerArray(0),*/ currentHand(0), pot(0), sets(0)
+LocalBoard::LocalBoard() : BoardInterface(), currentHand(0), pot(0), sets(0)
 {
 }
-
 
 LocalBoard::~LocalBoard()
 {
 }
 
-void LocalBoard::setPlayerLists(/*std::vector<boost::shared_ptr<PlayerInterface> > sl_old, */PlayerList sl, PlayerList apl, PlayerList rpl) {
-// 	playerArray = sl_old; // delete
+void LocalBoard::setPlayerLists(PlayerList sl, PlayerList apl, PlayerList rpl) {
 	seatsList = sl;
 	activePlayerList = apl;
 	runningPlayerList = rpl;
@@ -47,22 +45,18 @@ void LocalBoard::setHand(HandInterface* br) { currentHand = br; }
 void LocalBoard::collectSets() {
 
 	sets = 0;
-// 	int i;
-// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) sets += playerArray[i]->getMySet();  //delete
 
 	PlayerListConstIterator it_c;
 	for(it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
 		sets += (*it_c)->getMySet();
 	}
 
-
 }
 
 void LocalBoard::collectPot() { 
-// 	int i;
+
 	pot += sets; 
 	sets = 0;
-// 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++){ playerArray[i]->setMySetNull(); }
 
 	PlayerListIterator it;
 	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
@@ -80,16 +74,6 @@ void LocalBoard::distributePot() {
 	PlayerListConstIterator it_c;
 
 	// filling player sets vector
-// 	vector<int> playerSets;
-// 	for(i=0; i<(size_t)MAX_NUMBER_OF_PLAYERS; i++) {
-// 		if(playerArray[i]->getMyActiveStatus()) {
-// 			playerSets.push_back(((playerArray[i]->getMyRoundStartCash())-(playerArray[i]->getMyCash())));
-// 		} else {
-// 			playerSets.push_back(0);
-// 		}
-// 	}
-
-	// filling player sets vector
 	vector<int> playerSets;
 	for(it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
 		if((*it_c)->getMyActiveStatus()) {
@@ -98,7 +82,6 @@ void LocalBoard::distributePot() {
 			playerSets.push_back(0);
 		}
 	}
-
 
 	// sort player sets asc
 	vector<int> playerSetsSort = playerSets;
@@ -130,30 +113,14 @@ void LocalBoard::distributePot() {
 			potLevel.push_back((playerSetsSort.size()-i)*potLevel[0]);
 
 			// determine level highestCardsValue
-// 			for(j=0; j<MAX_NUMBER_OF_PLAYERS; j++) {
-// 				if(playerArray[j]->getMyCardsValueInt() > highestCardsValue && playerArray[j]->getMyActiveStatus() && playerArray[j]->getMyAction() != PLAYER_ACTION_FOLD && playerSets[j] >= potLevel[0]) { 
-// 					highestCardsValue = playerArray[j]->getMyCardsValueInt(); 
-// 				}
-// 			}
-
-			// determine level highestCardsValue
-			j=0;
-			for(it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++,j++) {
+			for(it_c=seatsList->begin(), j=0; it_c!=seatsList->end(); it_c++,j++) {
 				if((*it_c)->getMyActiveStatus() && (*it_c)->getMyCardsValueInt() > highestCardsValue && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && playerSets[j] >= potLevel[0]) { 
 					highestCardsValue = (*it_c)->getMyCardsValueInt(); 
 				}
 			}
 
 			// level winners
-// 			for(j=0; j<MAX_NUMBER_OF_PLAYERS; j++) {
-// 				if(highestCardsValue == playerArray[j]->getMyCardsValueInt() && playerArray[j]->getMyActiveStatus() && playerArray[j]->getMyAction() != PLAYER_ACTION_FOLD && playerSets[j] >= potLevel[0]) {
-// 					potLevel.push_back(playerArray[j]->getMyID());
-// 				}
-// 			}
-
-			// level winners
-			j=0;
-			for(it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++,j++) {
+			for(it_c=seatsList->begin(), j=0; it_c!=seatsList->end(); it_c++,j++) {
 				if((*it_c)->getMyActiveStatus() && highestCardsValue == (*it_c)->getMyCardsValueInt() && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && playerSets[j] >= potLevel[0]) {
 					potLevel.push_back((*it_c)->getMyUniqueID());
 				}
@@ -169,9 +136,6 @@ void LocalBoard::distributePot() {
 			mod = (potLevel[1])%winnerCount;
 			// pot level sum divisible by winnerCount
 			if(mod == 0) {
-// 				for(j=2; j<potLevel.size(); j++) {
-// 					playerArray[potLevel[j]]->setMyCash(playerArray[potLevel[j]]->getMyCash() + ((potLevel[1])/winnerCount));
-// 				}
 
 				for(j=2; j<potLevel.size(); j++) {
 					it = currentHand->getSeatIt(potLevel[j]);
@@ -206,13 +170,6 @@ void LocalBoard::distributePot() {
 						}
 
 					}
-
-// 					if(j<mod) {
-// 						playerArray[winnerPointer]->setMyCash(playerArray[winnerPointer]->getMyCash() + (int)((potLevel[1])/winnerCount) + 1);
-// 					} else {
-// 						playerArray[winnerPointer]->setMyCash(playerArray[winnerPointer]->getMyCash() + (int)((potLevel[1])/winnerCount));
-// 					}
-
 
 					it = currentHand->getSeatIt(winnerPointer);
 					if(it == seatsList->end()) {
@@ -260,18 +217,12 @@ void LocalBoard::distributePot() {
 	if(pot!=0) cout << "distributePot-ERROR: Pot = " << pot << endl;
 
 	int sum = 0;
-// 	for(i=0; i<(size_t)MAX_NUMBER_OF_PLAYERS; i++) {
-// 		if(playerArray[i]->getMyActiveStatus())
-// 			sum += playerArray[i]->getMyCash();
-// 	}
 
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
 		sum += (*it_c)->getMyCash();
 	}
 
-
 	if(sum != (currentHand->getStartQuantityPlayers() * currentHand->getStartCash()))
 		cout << "distributePot-ERROR: PlayersSumCash = " << sum << endl;
 
 }
-

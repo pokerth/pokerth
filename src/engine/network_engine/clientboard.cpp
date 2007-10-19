@@ -24,7 +24,7 @@
 using namespace std;
 
 ClientBoard::ClientBoard()
-: /*playerArray(0),*/ currentHand(0), pot(0), sets(0)
+: currentHand(0), pot(0), sets(0)
 {
 }
 
@@ -34,10 +34,9 @@ ClientBoard::~ClientBoard()
 }
 
 void
-ClientBoard::setPlayerLists(/*std::vector<boost::shared_ptr<PlayerInterface> > sl_old,*/ PlayerList sl,  PlayerList apl, PlayerList rpl)
+ClientBoard::setPlayerLists(PlayerList sl,  PlayerList apl, PlayerList rpl)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-// 	playerArray = sl_old; // delete
 	seatsList = sl;
 	activePlayerList = apl;
 	runningPlayerList = rpl;
