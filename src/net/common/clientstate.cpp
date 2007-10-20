@@ -990,6 +990,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			else if (tmpPlayer->getMyAction() == PLAYER_ACTION_FOLD)
 				guiStatus = 1;
 			client.GetGui().refreshGroupbox(tmpPlayer->getMyID(), guiStatus);
+			client.GetGui().refreshAction(tmpPlayer->getMyID(), PLAYER_ACTION_NONE);
 
 			// Start displaying the timeout for the player.
 			client.GetGui().startTimeoutAnimation(tmpPlayer->getMyID(), client.GetGameData().playerActionTimeoutSec);
