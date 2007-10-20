@@ -113,6 +113,8 @@ ServerLobbyThread::RemoveSessionFromGame(SessionWrapper session)
 {
 	// Just remove the session. Only for fatal errors.
 	m_gameSessionManager.RemoveSession(session.sessionData->GetSocket());
+	// Update stats (if needed).
+	BroadcastStatisticsUpdate();
 }
 
 void
@@ -126,6 +128,9 @@ ServerLobbyThread::CloseSessionDelayed(SessionWrapper session)
 
 	boost::mutex::scoped_lock lock(m_closeSessionListMutex);
 	m_closeSessionList.push_back(closeSessionData);
+
+	// Update stats (if needed).
+	BroadcastStatisticsUpdate();
 }
 
 void
@@ -311,6 +316,8 @@ ServerLobbyThread::ProcessLoop()
 		{
 			// On error: Close this session.
 			m_sessionManager.RemoveSession(session.sessionData->GetSocket());
+			// Update stats (if needed).
+			BroadcastStatisticsUpdate();
 			return;
 		}
 		if (packet.get())
