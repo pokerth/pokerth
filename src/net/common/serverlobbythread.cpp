@@ -57,7 +57,7 @@ private:
 
 ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager)
 : m_gui(gui), m_avatarManager(avatarManager), m_playerConfig(playerConfig),
-  m_curGameId(0), m_curUniquePlayerId(0)
+  m_curGameId(0), m_curUniquePlayerId(0), m_totalPlayersLoggedIn(0), m_totalGamesStarted(0)
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
@@ -634,6 +634,10 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 
 	// Session is now established.
 	session.sessionData->SetState(SessionData::Established);
+
+	++m_totalPlayersLoggedIn;
+
+	BroadcastStatisticsUpdate();
 }
 
 void
@@ -698,6 +702,9 @@ ServerLobbyThread::InternalAddGame(boost::shared_ptr<ServerGameThread> game)
 	// Notify all players.
 	m_sessionManager.SendToAllSessions(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Established);
 	m_gameSessionManager.SendToAllSessions(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Game);
+
+	++m_totalGamesStarted;
+	BroadcastStatisticsUpdate();
 }
 
 void
@@ -826,6 +833,26 @@ ServerLobbyThread::SendGameList(SOCKET s)
 		GetSender().Send(s, CreateNetPacketGameListNew(*game_i->second));
 		++game_i;
 	}
+}
+
+void
+ServerLobbyThread::BroadcastStatisticsUpdate()
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacketStatisticsChanged);
+	NetPacketStatisticsChanged::Data statData;
+
+	unsigned curNumberOfPlayersOnServer = m_sessionManager.GetRawSessionCount() + m_gameSessionManager.GetRawSessionCount();
+	if (curNumberOfPlayersOnServer != m_lastStatData.numberOfPlayersOnServer)
+		m_lastStatData.numberOfPlayersOnServer = statData.stats.numberOfPlayersOnServer = curNumberOfPlayersOnServer;
+	if (m_totalPlayersLoggedIn != m_lastStatData.totalPlayersEverLoggedIn)
+		m_lastStatData.totalPlayersEverLoggedIn = statData.stats.totalPlayersEverLoggedIn = m_totalPlayersLoggedIn;
+	if (m_totalGamesStarted != m_lastStatData.totalGamesEverStarted)
+		m_lastStatData.totalGamesEverStarted = statData.stats.totalGamesEverStarted = m_totalGamesStarted;
+
+	static_cast<NetPacketStatisticsChanged *>(packet.get())->SetData(statData);
+
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
 }
 
 ServerCallback &

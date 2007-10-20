@@ -105,6 +105,7 @@ public:
 	void SignalNetClientGameInfo(int actionID);
 	void SignalNetClientError(int errorID, int osErrorID);
 	void SignalNetClientNotification(int notificationId);
+	void SignalNetClientStatsUpdate(const ServerStats &stats);
 	void SignalNetClientRemovedFromGame(int notificationId);
 	void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, PlayerRights rights);
 	void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, PlayerRights rights);

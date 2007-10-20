@@ -110,6 +110,7 @@ int main( int argc, char **argv )
 
 	qRegisterMetaType<unsigned>("unsigned");
 	qRegisterMetaType<boost::shared_ptr<Game> >("boost::shared_ptr<Game>");
+	qRegisterMetaType<ServerStats>("ServerStats");
 	///////////////////////////////////////////////////	
 
 

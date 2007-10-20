@@ -67,6 +67,7 @@ public:
 
 	GameInfo GetGameInfo(unsigned playerId) const;
 	PlayerInfo GetPlayerInfo(unsigned playerId) const;
+	ServerStats GetStatData() const;
 
 	ClientCallback &GetCallback();
 	GuiInterface &GetGui();
@@ -134,6 +135,8 @@ protected:
 	void ModifyGameInfoRemovePlayer(unsigned gameId, unsigned playerId);
 	void ClearGameInfoMap();
 
+	void UpdateStatData(const ServerStats &stats);
+
 	bool IsSessionEstablished() const;
 	void SetSessionEstablished(bool flag);
 
@@ -171,6 +174,9 @@ private:
 	unsigned m_curGameId;
 	unsigned m_guiPlayerId;
 	bool m_sessionEstablished;
+
+	mutable boost::mutex m_curStatsMutex;
+	ServerStats m_curStats;
 
 friend class AbstractClientStateReceiving;
 friend class ClientStateInit;

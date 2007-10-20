@@ -61,7 +61,9 @@ public slots:
 	void removeGame(unsigned gameId);
 	void gameAddPlayer(unsigned gameId, unsigned playerId);
 	void gameRemovePlayer(unsigned gameId, unsigned playerId);
-	
+
+	void updateStats(ServerStats stats);
+
 	void refreshGameStats();
 	void refreshPlayerStats();
 

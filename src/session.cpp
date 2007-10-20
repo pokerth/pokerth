@@ -363,3 +363,11 @@ PlayerInfo Session::getClientPlayerInfo(unsigned playerId)
 	return info;
 }
 
+ServerStats Session::getClientStats()
+{
+	ServerStats stats;
+	if (myNetClient)
+		stats = myNetClient->GetStatData();
+	return stats;
+}
+

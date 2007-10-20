@@ -518,6 +518,12 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			tmpPacket->ToNetPacketUnknownAvatar()->GetData(unknownAvatarData);
 			client.SetUnknownAvatar(unknownAvatarData.requestId);
 		}
+		else if (tmpPacket->ToNetPacketStatisticsChanged())
+		{
+			NetPacketStatisticsChanged::Data statData;
+			tmpPacket->ToNetPacketStatisticsChanged()->GetData(statData);
+			client.UpdateStatData(statData.stats);
+		}
 		else if (tmpPacket->ToNetPacketError())
 		{
 			// Server reported an error.

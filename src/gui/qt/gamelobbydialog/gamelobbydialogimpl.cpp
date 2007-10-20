@@ -302,8 +302,9 @@ void gameLobbyDialogImpl::refreshGameStats() {
 
 void gameLobbyDialogImpl::refreshPlayerStats() {
 
+	ServerStats stats = mySession->getClientStats();
 	label_nickListCounter->setText("| "+tr("players in chat: %1").arg(treeWidget_NickList->topLevelItemCount()));
-	label_connectedPlayersCounter->setText(tr("connected players: %1").arg(0));
+	label_connectedPlayersCounter->setText(tr("connected players: %1").arg(stats.numberOfPlayersOnServer));
 }
 
 void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
@@ -355,6 +356,11 @@ void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
 		}
 		++it;
 	}
+}
+
+void gameLobbyDialogImpl::updateStats(ServerStats /*stats*/)
+{
+	refreshPlayerStats();
 }
 
 void gameLobbyDialogImpl::clearDialog()

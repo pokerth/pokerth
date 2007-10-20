@@ -83,6 +83,7 @@ public:
 
 	GameInfo getClientGameInfo(unsigned gameId);
 	PlayerInfo getClientPlayerInfo(unsigned playerId);
+	ServerStats getClientStats();
 
 private:
 

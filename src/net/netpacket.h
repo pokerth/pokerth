@@ -85,6 +85,7 @@ class NetPacketAllInShowCards;
 class NetPacketEndOfHandShowCards;
 class NetPacketEndOfHandHideCards;
 class NetPacketEndOfGame;
+class NetPacketStatisticsChanged;
 class NetPacketRemovedFromGame;
 class NetPacketSendChatText;
 class NetPacketChatText;
@@ -146,6 +147,7 @@ public:
 	virtual const NetPacketEndOfHandShowCards *ToNetPacketEndOfHandShowCards() const;
 	virtual const NetPacketEndOfHandHideCards *ToNetPacketEndOfHandHideCards() const;
 	virtual const NetPacketEndOfGame *ToNetPacketEndOfGame() const;
+	virtual const NetPacketStatisticsChanged *ToNetPacketStatisticsChanged() const;
 	virtual const NetPacketRemovedFromGame *ToNetPacketRemovedFromGame() const;
 	virtual const NetPacketSendChatText *ToNetPacketSendChatText() const;
 	virtual const NetPacketChatText *ToNetPacketChatText() const;
@@ -1115,6 +1117,29 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketEndOfGame *ToNetPacketEndOfGame() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketStatisticsChanged : public NetPacket
+{
+public:
+	struct Data
+	{
+		ServerStats stats;
+	};
+
+	NetPacketStatisticsChanged();
+	virtual ~NetPacketStatisticsChanged();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketStatisticsChanged *ToNetPacketStatisticsChanged() const;
 
 protected:
 

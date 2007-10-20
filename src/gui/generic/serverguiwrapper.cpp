@@ -115,6 +115,7 @@ void ServerGuiWrapper::SignalNetClientConnect(int actionID) { if (myClientcb) my
 void ServerGuiWrapper::SignalNetClientGameInfo(int actionID) { if (myClientcb) myClientcb->SignalNetClientGameInfo(actionID); }
 void ServerGuiWrapper::SignalNetClientError(int errorID, int osErrorID) { if (myClientcb) myClientcb->SignalNetClientError(errorID, osErrorID); }
 void ServerGuiWrapper::SignalNetClientNotification(int notificationId) { if (myClientcb) myClientcb->SignalNetClientNotification(notificationId); }
+void ServerGuiWrapper::SignalNetClientStatsUpdate(const ServerStats &stats) { if (myClientcb) myClientcb->SignalNetClientStatsUpdate(stats); }
 void ServerGuiWrapper::SignalNetClientRemovedFromGame(int notificationId) { if (myClientcb) myClientcb->SignalNetClientRemovedFromGame(notificationId); }
 void ServerGuiWrapper::SignalNetClientSelfJoined(unsigned playerId, const string &playerName, PlayerRights rights) { if (myClientcb) myClientcb->SignalNetClientSelfJoined(playerId, playerName, rights); }
 void ServerGuiWrapper::SignalNetClientPlayerJoined(unsigned playerId, const string &playerName, PlayerRights rights) { if (myClientcb) myClientcb->SignalNetClientPlayerJoined(playerId, playerName, rights); }

@@ -66,6 +66,7 @@ using namespace std;
 #define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x0064
 #define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x0065
 #define NET_TYPE_END_OF_GAME					0x0070
+#define NET_TYPE_STATISTICS_CHANGED				0x0080
 
 #define NET_TYPE_REMOVED_FROM_GAME				0x0100
 
@@ -111,6 +112,11 @@ using namespace std;
 #define NET_ERR_GENERAL_INVALID_STATE			0xFF02
 #define NET_ERR_GENERAL_PLAYER_KICKED			0xFF03
 #define NET_ERR_OTHER							0xFFFF
+
+// Statistics types
+#define NET_STAT_CUR_PLAYERS_ON_SERVER			0x0001
+#define NET_STAT_TOTAL_PLAYERS_EVER_ON_SERVER	0x0002
+#define NET_STAT_TOTAL_GAMES_EVER_ON_SERVER		0x0003
 
 #ifdef _MSC_VER
 	#pragma pack(push, 1)
@@ -469,6 +475,19 @@ struct GCC_PACKED NetPacketEndOfGameData
 	u_int32_t			winnerPlayerId;
 };
 
+struct GCC_PACKED StatisticsData
+{
+	u_int32_t			statisticsType;
+	u_int32_t			statisticsValue;
+};
+
+struct GCC_PACKED NetPacketStatisticsChangedData
+{
+	NetPacketHeader		head;
+	u_int16_t			numberOfStatistics;
+	u_int16_t			reserved;
+};
+
 struct GCC_PACKED NetPacketRemovedFromGameData
 {
 	NetPacketHeader		head;
@@ -734,6 +753,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_END_OF_GAME:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketEndOfGame);
+					break;
+				case NET_TYPE_STATISTICS_CHANGED:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketStatisticsChanged);
 					break;
 				case NET_TYPE_REMOVED_FROM_GAME:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketRemovedFromGame);
@@ -1061,6 +1083,12 @@ NetPacket::ToNetPacketEndOfHandHideCards() const
 
 const NetPacketEndOfGame *
 NetPacket::ToNetPacketEndOfGame() const
+{
+	return NULL;
+}
+
+const NetPacketStatisticsChanged *
+NetPacket::ToNetPacketStatisticsChanged() const
 {
 	return NULL;
 }
@@ -4029,6 +4057,127 @@ void
 NetPacketEndOfGame::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketStatisticsChanged::NetPacketStatisticsChanged()
+: NetPacket(NET_TYPE_STATISTICS_CHANGED, sizeof(NetPacketStatisticsChangedData), MAX_PACKET_SIZE)
+{
+}
+
+NetPacketStatisticsChanged::~NetPacketStatisticsChanged()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketStatisticsChanged::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketStatisticsChanged);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketStatisticsChanged::SetData(const NetPacketStatisticsChanged::Data &inData)
+{
+	u_int16_t numValues = 0;
+	if (inData.stats.numberOfPlayersOnServer)
+		++numValues;
+	if (inData.stats.totalPlayersEverLoggedIn)
+		++numValues;
+	if (inData.stats.totalGamesEverStarted)
+		++numValues;
+
+	// Resize the packet so that the data fits in.
+	Resize((u_int16_t)
+		(sizeof(NetPacketStatisticsChangedData) + numValues * sizeof(StatisticsData)));
+
+	NetPacketStatisticsChangedData *tmpData = (NetPacketStatisticsChangedData *)GetRawData();
+
+	tmpData->numberOfStatistics			= htons(numValues);
+
+	StatisticsData *curStatisticsData =
+		(StatisticsData *)((char *)tmpData + sizeof(NetPacketStatisticsChangedData));
+
+	if (inData.stats.numberOfPlayersOnServer)
+	{
+		curStatisticsData->statisticsType	= htonl(NET_STAT_CUR_PLAYERS_ON_SERVER);
+		curStatisticsData->statisticsValue	= htonl(inData.stats.numberOfPlayersOnServer);
+		++curStatisticsData;
+	}
+	if (inData.stats.totalPlayersEverLoggedIn)
+	{
+		curStatisticsData->statisticsType	= htonl(NET_STAT_TOTAL_PLAYERS_EVER_ON_SERVER);
+		curStatisticsData->statisticsValue	= htonl(inData.stats.totalPlayersEverLoggedIn);
+		++curStatisticsData;
+	}
+	if (inData.stats.totalGamesEverStarted)
+	{
+		curStatisticsData->statisticsType	= htonl(NET_STAT_TOTAL_GAMES_EVER_ON_SERVER);
+		curStatisticsData->statisticsValue	= htonl(inData.stats.totalGamesEverStarted);
+	}
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketStatisticsChanged::GetData(NetPacketStatisticsChanged::Data &outData) const
+{
+	NetPacketStatisticsChangedData *tmpData = (NetPacketStatisticsChangedData *)GetRawData();
+
+	u_int16_t numStatistics = ntohs(tmpData->numberOfStatistics);
+	StatisticsData *curStatisticsData =
+		(StatisticsData *)((char *)tmpData + sizeof(NetPacketStatisticsChangedData));
+
+	for (int i = 0; i < numStatistics; i++)
+	{
+		switch(ntohl(curStatisticsData->statisticsType))
+		{
+			case NET_STAT_CUR_PLAYERS_ON_SERVER:
+				outData.stats.numberOfPlayersOnServer = ntohl(curStatisticsData->statisticsValue);
+				break;
+			case NET_STAT_TOTAL_PLAYERS_EVER_ON_SERVER:
+				outData.stats.totalPlayersEverLoggedIn = ntohl(curStatisticsData->statisticsValue);
+				break;
+			case NET_STAT_TOTAL_GAMES_EVER_ON_SERVER:
+				outData.stats.totalGamesEverStarted = ntohl(curStatisticsData->statisticsValue);
+				break;
+		}
+	}
+}
+
+const NetPacketStatisticsChanged *
+NetPacketStatisticsChanged::ToNetPacketStatisticsChanged() const
+{
+	return this;
+}
+
+void
+NetPacketStatisticsChanged::InternalCheck(const NetPacketHeader *data) const
+{
+	u_int16_t dataLen = ntohs(data->length);
+	NetPacketStatisticsChangedData *tmpData = (NetPacketStatisticsChangedData *)data;
+	int numStatistics = ntohs(tmpData->numberOfStatistics);
+
+	if (dataLen !=
+		sizeof(NetPacketStatisticsChangedData)
+		+ numStatistics * sizeof(StatisticsData))
+	{
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
+	}
+	if (!numStatistics)
+	{
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Semantic checks not needed, this packet is sent by the server.
 }
 
 //-----------------------------------------------------------------------------

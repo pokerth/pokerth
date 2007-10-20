@@ -126,6 +126,7 @@ signals:
 	void signalNetClientGameInfo(int actionID);
 	void signalNetClientError(int errorID, int osErrorID);
 	void signalNetClientNotification(int notificationId);
+	void signalNetClientStatsUpdate(ServerStats stats);
 	void signalNetClientRemovedFromGame(int notificationId);
 	void signalNetServerError(int errorID, int osErrorID);
 	void signalNetClientSelfJoined(unsigned playerId, QString playerName, int rights);

@@ -67,4 +67,12 @@ enum Button {
 	BUTTON_SMALL_BLIND,
 	BUTTON_BIG_BLIND };
 
+struct ServerStats
+{
+	ServerStats() : numberOfPlayersOnServer(0), totalPlayersEverLoggedIn(0), totalGamesEverStarted(0) {}
+	unsigned numberOfPlayersOnServer;
+	unsigned totalPlayersEverLoggedIn;
+	unsigned totalGamesEverStarted;
+};
+
 #endif

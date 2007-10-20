@@ -120,6 +120,7 @@ protected:
 	void SendError(SOCKET s, int errorCode);
 	void SendJoinGameFailed(SOCKET s, int reason);
 	void SendGameList(SOCKET s);
+	void BroadcastStatisticsUpdate();
 
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
@@ -168,6 +169,10 @@ private:
 
 	u_int32_t m_curUniquePlayerId;
 	mutable boost::mutex m_curUniquePlayerIdMutex;
+
+	unsigned m_totalPlayersLoggedIn;
+	unsigned m_totalGamesStarted;
+	ServerStats m_lastStatData;
 };
 
 #endif

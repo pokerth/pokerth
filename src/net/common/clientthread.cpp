@@ -860,6 +860,29 @@ ClientThread::ClearGameInfoMap()
 	m_gameInfoMap.clear();
 }
 
+void
+ClientThread::UpdateStatData(const ServerStats &stats)
+{
+	boost::mutex::scoped_lock lock(m_curStatsMutex);
+	if (stats.numberOfPlayersOnServer)
+		m_curStats.numberOfPlayersOnServer = stats.numberOfPlayersOnServer;
+
+	if (stats.totalPlayersEverLoggedIn)
+		m_curStats.totalPlayersEverLoggedIn = stats.totalPlayersEverLoggedIn;
+
+	if (stats.totalGamesEverStarted)
+		m_curStats.totalGamesEverStarted = stats.totalGamesEverStarted;
+
+	GetCallback().SignalNetClientStatsUpdate(m_curStats);
+}
+
+ServerStats
+ClientThread::GetStatData() const
+{
+	boost::mutex::scoped_lock lock(m_curStatsMutex);
+	return m_curStats;
+}
+
 bool
 ClientThread::IsSessionEstablished() const
 {
