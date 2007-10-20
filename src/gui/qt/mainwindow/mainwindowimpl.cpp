@@ -1920,7 +1920,7 @@ void mainWindowImpl::provideMyActions() {
 		pushButton_Fold->setText(pushButtonFoldString);
 		pushButton_BetRaise->setText(pushButtonBetRaiseString);
 		pushButton_CallCheck->setText(pushButtonCallCheckString);
-
+		pushButton_AllIn->setText("All-In");
 
 		myBetRaise();
 	}
@@ -3499,6 +3499,8 @@ void mainWindowImpl::localGameModification() {
 		setLabelArray[i]->stopTimeOutAnimation();
 	}
 
+	pushButton_break->show();
+
 	//Set the playing mode to "manual"
 	radioButton_manualAction->click();
 
@@ -3511,6 +3513,8 @@ void mainWindowImpl::networkGameModification() {
 	
 	tabWidget_Left->setCurrentIndex(1);
 	myChat->clearNewGame();
+
+	pushButton_break->hide();
 
 	//Set the playing mode to "manual"
 	radioButton_manualAction->click();

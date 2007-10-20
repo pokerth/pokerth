@@ -2051,7 +2051,7 @@
               </property>
               <property name="sizeHint" >
                <size>
-                <width>16</width>
+                <width>13</width>
                 <height>20</height>
                </size>
               </property>
@@ -2169,9 +2169,6 @@
                   </property>
                   <property name="focusPolicy" >
                    <enum>Qt::NoFocus</enum>
-                  </property>
-                  <property name="text" >
-                   <string>All In</string>
                   </property>
                  </widget>
                 </item>
@@ -2296,7 +2293,7 @@
               </property>
               <property name="sizeHint" >
                <size>
-                <width>16</width>
+                <width>13</width>
                 <height>20</height>
                </size>
               </property>
@@ -2694,7 +2691,7 @@
               <widget class="QLabel" name="label_11" >
                <property name="minimumSize" >
                 <size>
-                 <width>16</width>
+                 <width>18</width>
                  <height>0</height>
                 </size>
                </property>
@@ -2770,7 +2767,7 @@
              <item>
               <widget class="QSlider" name="horizontalSlider_speed" >
                <property name="sizePolicy" >
-                <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+                <sizepolicy vsizetype="Expanding" hsizetype="MinimumExpanding" >
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
