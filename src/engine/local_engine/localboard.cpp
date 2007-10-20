@@ -221,8 +221,4 @@ void LocalBoard::distributePot() {
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
 		sum += (*it_c)->getMyCash();
 	}
-
-	if(sum != (currentHand->getStartQuantityPlayers() * currentHand->getStartCash()))
-		cout << "distributePot-ERROR: PlayersSumCash = " << sum << endl;
-
 }
