@@ -460,7 +460,8 @@ private:
 	bool myButtonsAreCheckable;
 
 	bool breakAfterCurrentHand;
-	
+	bool currentGameOver;	
+
 	bool flipHolecardsAllInAlreadyDone;
 
 	QColor active;

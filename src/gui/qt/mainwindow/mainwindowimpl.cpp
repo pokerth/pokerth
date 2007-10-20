@@ -59,7 +59,7 @@
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
-     : QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(FALSE), pushButtonCallCheckIsChecked(FALSE), pushButtonFoldIsChecked(FALSE), pushButtonAllInIsChecked(FALSE), myButtonsAreCheckable(FALSE), breakAfterCurrentHand(FALSE)
+     : QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(FALSE), pushButtonCallCheckIsChecked(FALSE), pushButtonFoldIsChecked(FALSE), pushButtonAllInIsChecked(FALSE), myButtonsAreCheckable(FALSE), breakAfterCurrentHand(FALSE), currentGameOver(FALSE)
 {
 	int i;
 
@@ -1174,7 +1174,7 @@ void mainWindowImpl::refreshSet() {
 		if( (*it_c)->getMySet() == 0 )
 			setLabelArray[(*it_c)->getMyID()]->setText("");
 		else
-			setLabelArray[(*it_c)->getMyID()]->setText("Set: "+QString::number((*it_c)->getMySet(),10)+" $"); 
+			setLabelArray[(*it_c)->getMyID()]->setText("Bet: "+QString::number((*it_c)->getMySet(),10)+" $"); 
 	}
 
 
@@ -2775,12 +2775,22 @@ void mainWindowImpl::postRiverRunAnimation6() {
 		if ((*it_c)->getMyCash() > 0) playersPositiveCashCounter++;
 	}
 
-
-
 	if (playersPositiveCashCounter==1) {
 
-		callNewGameDialog();	
-		//Bei Cancel nichts machen!!!
+		if( !DEBUG_MODE ) {
+			currentGameOver = TRUE;
+	
+			pushButton_break->setDisabled(FALSE);
+			QFontMetrics tempMetrics = this->fontMetrics();
+			int width = tempMetrics.width(tr("Start"));
+			pushButton_break->setMinimumSize(width+10,20);
+			pushButton_break->setText(tr("Start"));
+			blinkingStartButtonAnimationTimer->start(500);		
+		}
+		else {
+			callNewGameDialog();	
+			//Bei Cancel nichts machen!!!
+		}
 		return;
 	} 
 	
@@ -3040,7 +3050,15 @@ void mainWindowImpl::breakButtonClicked() {
 		pushButton_break->setMinimumSize(width+10,20);
 
 		pushButton_break->setText(tr("Stop"));
-		startNewHand();
+
+		if(currentGameOver) {
+			currentGameOver = FALSE;
+			callNewGameDialog();	
+			//Bei Cancel nichts machen!!!
+		}
+		else {
+			startNewHand();
+		}
 	}
 }
 
