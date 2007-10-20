@@ -52,7 +52,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
 	}
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 46;
+	configRev = 47;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -146,6 +146,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("ConfigRevision", CONFIG_TYPE_INT, tempIntToString.str()));
 	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, myQtToolsInterface->getDataPathStdString(argv[0])));
 	configList.push_back(ConfigInfo("Language", CONFIG_TYPE_INT, myQtToolsInterface->getDefaultLanguage()));
+	configList.push_back(ConfigInfo("InternetServerAddressIRCChannelUpdateDone", CONFIG_TYPE_INT, "1")); //HACK
 	configList.push_back(ConfigInfo("ShowLeftToolBox", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("ShowRightToolBox", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("ShowStatusbarMessages", CONFIG_TYPE_INT, "1"));
@@ -200,7 +201,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("ServerUseIpv6", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerUseSctp", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerPort", CONFIG_TYPE_INT, "7234"));
-	configList.push_back(ConfigInfo("InternetServerAddress", CONFIG_TYPE_STRING, "pokerth.dyndns.org"));
+	configList.push_back(ConfigInfo("InternetServerAddress", CONFIG_TYPE_STRING, "pokerth.6dns.org"));
 	configList.push_back(ConfigInfo("InternetServerPort", CONFIG_TYPE_INT, "7234"));
 	configList.push_back(ConfigInfo("InternetServerPassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("InternetServerUseIpv6", CONFIG_TYPE_INT, "0"));
@@ -452,42 +453,45 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 
 			TiXmlHandle oldDocHandle( &oldDoc );	
 
-			
 			for (i=0; i<configList.size(); i++) {	
 
 				TiXmlElement* oldConf = oldDocHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).ToElement();
 				
-				if ( oldConf ) {
-					// not for ConfigRevision and AppDataDir becaus it was already set ^
+				//HACK remove after 0.6
+				TiXmlElement* ISAIRCChannelUpdateDone = oldDocHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "InternetServerAddressIRCChannelUpdateDone" ).ToElement();
+								
+				if ( oldConf && (ISAIRCChannelUpdateDone || !(configList[i].name == "IRCChannel" || (configList[i].name == "InternetServerAddress" ))) /*HACK remove after 0.6*/ ) {
+				// if element is already there --> take over the saved values
+					
 					if(configList[i].name != "ConfigRevision" && configList[i].name != "AppDataDir") {
-
-						// if element is already there --> take over the saved values
+							// dont update ConfigRevision and AppDataDir becaus it was already set ^
+	
 						TiXmlElement *tmpElement = new TiXmlElement(configList[i].name);
 						config->LinkEndChild( tmpElement );
-					
+						
 						const char *tmpStr1 = oldConf->Attribute("value");
 						if (tmpStr1) tempString1 = tmpStr1;
 						tmpElement->SetAttribute("value", tempString1);
-
+	
 						//for lists copy elements
 						const char *tmpStr2 = oldConf->Attribute("type");
 						if (tmpStr2) {
 							tempString2 = tmpStr2; 
 							if(tempString2 == "list") {
-				
+					
 								list<string> tempStringList2;
-
+	
 								TiXmlElement* oldConfList = oldDocHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).FirstChild().ToElement();
-						
+							
 								for( ; oldConfList; oldConfList=oldConfList->NextSiblingElement()) {
 									tempStringList2.push_back(oldConfList->Attribute("value"));
-								}
-							
+									}
+								
 								tmpElement->SetAttribute("type", "list");
 								list<string> tempList = tempStringList2;
 								list<string>::iterator it;
 								for(it = tempList.begin(); it != tempList.end(); it++) {
-							
+								
 									TiXmlElement *tmpSubElement = new TiXmlElement(tempString1);
 									tmpElement->LinkEndChild( tmpSubElement );
 									tmpSubElement->SetAttribute("value", *it);
