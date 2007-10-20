@@ -45,9 +45,6 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFi
 
 void startNetworkGameDialogImpl::exec() {
 
-	GameInfo info = mySession->getClientGameInfo(0);
-	label_maxPlayerNumber->setText(QString::number(info.data.maxNumberOfPlayers));
-
 	QDialog::exec();
 }
 
@@ -132,6 +129,12 @@ void startNetworkGameDialogImpl::newGameAdmin(unsigned playerId, QString)
 	}
 }
 
+void startNetworkGameDialogImpl::gameCreated(unsigned /*gameId*/)
+{
+	GameInfo info = mySession->getClientGameInfo(0);
+	label_maxPlayerNumber->setText(QString::number(info.data.maxNumberOfPlayers));
+}
+
 void startNetworkGameDialogImpl::playerSelected(QTreeWidgetItem* item, QTreeWidgetItem*) {
 
 	if (item)
@@ -183,6 +186,7 @@ void startNetworkGameDialogImpl::clearDialog()
 	treeWidget->clear();
 	myChat->clearChat();
 	checkBox_fillUpWithComputerOpponents->hide();
+	label_maxPlayerNumber->setText(QString::number(0));
 
 	myPlayerId = 0;
 }

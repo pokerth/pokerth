@@ -52,6 +52,8 @@ public slots:
 	void removePlayer(unsigned playerId, QString playerName);
 	void newGameAdmin(unsigned playerId, QString playerName);
 
+	void gameCreated(unsigned gameId);
+
 	void playerSelected(QTreeWidgetItem*, QTreeWidgetItem*);
 	void kickPlayer();
 	void checkPlayerQuantity();
