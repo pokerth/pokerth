@@ -315,6 +315,9 @@ ServerGameStateInit::InternalProcess(ServerGameThread &server, SessionWrapper se
 
 					// Send "Player Joined" to other fully connected clients.
 					server.SendToAllPlayers(CreateNetPacketPlayerJoined(*tmpPlayerData), SessionData::Game);
+
+					// Notify lobby.
+					server.GetLobbyThread().NotifyPlayerJoinedGame(server.GetId(), tmpPlayerData->GetUniqueId());
 				}
 			}
 			// Wait for all players to confirm start of game.
