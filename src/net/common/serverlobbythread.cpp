@@ -856,10 +856,18 @@ ServerLobbyThread::BroadcastStatisticsUpdate()
 	if (m_totalGamesStarted != m_lastStatData.totalGamesEverStarted)
 		m_lastStatData.totalGamesEverStarted = statData.stats.totalGamesEverStarted = m_totalGamesStarted;
 
-	static_cast<NetPacketStatisticsChanged *>(packet.get())->SetData(statData);
+	if (curNumberOfPlayersOnServer)
+	{
+		try {
+			static_cast<NetPacketStatisticsChanged *>(packet.get())->SetData(statData);
 
-	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
-	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
+			m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+			m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
+		} catch (const NetException &)
+		{
+			// TODO log error.
+		}
+	}
 }
 
 ServerCallback &
