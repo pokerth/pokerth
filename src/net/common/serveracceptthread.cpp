@@ -79,7 +79,7 @@ ServerAcceptThread::Main()
 		Listen();
 		GetLobbyThread().Run();
 
-		while (!ShouldTerminate())
+		while (!ShouldTerminate() && !GetLobbyThread().Join(0))
 		{
 			// The main server thread is simple. It only accepts connections.
 			AcceptLoop();
