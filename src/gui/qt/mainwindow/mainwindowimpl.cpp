@@ -1907,7 +1907,7 @@ void mainWindowImpl::provideMyActions() {
 		//if text changed on checked button --> uncheck to prevent unwanted actions
 		if((pushButtonCallCheckString != lastPushButtonCallCheckString && pushButton_CallCheck->isChecked()) || (pushButtonBetRaiseString != lastPushButtonBetRaiseString && pushButton_BetRaise->isChecked()) ) { 
 		
-			cout << "jo" << endl;
+//			cout << "jo" << endl;
 			uncheckMyButtons(); 
 			resetMyButtonsCheckStateMemory();
 		}

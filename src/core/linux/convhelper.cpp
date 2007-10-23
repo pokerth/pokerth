@@ -18,13 +18,13 @@
  ***************************************************************************/
 
 #include "convhelper.h"
+#include <core/loghelper.h>
 
 #ifdef _WIN32
 #error This file is not for Windows.
 #endif
 
 #include <string>
-#include <iostream>
 
 #include <iconv.h>
 #include <errno.h>
@@ -47,13 +47,13 @@ ConvHelper::NativeToUtf8(const std::string &inStr)
 	iconv_t conversion = iconv_open("UTF-8", "ISO-8859-1");
 
 	if (conversion == (iconv_t)(-1))
-		cout << "iconv_open() failed: " << strerror(errno) << endl;
+		LOG_ERROR("iconv_open() failed: " << strerror(errno));
 	else
 	{
 		size_t retval = iconv(conversion, &inbuf, &insize, &outbuf, &outsize);
 
 		if (retval == -1)
-			cout << "iconv() failed: " << strerror(errno) << endl;
+			LOG_ERROR("iconv() failed: " << strerror(errno));
 		retStr = string(c_outbuf, c_outsize - outsize);
 	}
 	delete[] c_outbuf;
@@ -77,13 +77,13 @@ ConvHelper::Utf8ToNative(const std::string &inStr)
 	iconv_t conversion = iconv_open("ISO-8859-1", "UTF-8");
 
 	if (conversion == (iconv_t)(-1))
-		cout << "iconv_open() failed: " << strerror(errno) << endl;
+		LOG_ERROR("iconv_open() failed: " << strerror(errno));
 	else
 	{
 		size_t retval = iconv(conversion, &inbuf, &insize, &outbuf, &outsize);
 
 		if (retval == -1)
-			cout << "iconv() failed: " << strerror(errno) << endl;
+			LOG_ERROR("iconv() failed: " << strerror(errno));
 		retStr = string(c_outbuf, c_outsize - outsize);
 	}
 	delete[] c_outbuf;

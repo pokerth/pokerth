@@ -21,6 +21,7 @@
 #include "tools.h"
 #include "cardsvalue.h"
 #include <game_defs.h>
+#include <core/loghelper.h>
 
 #include "localexception.h"
 #include "engine_msg.h"
@@ -79,7 +80,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 		// error-check
 		for(j=0; j<5; j++) {
 			if (bestHandPos[j] == -1) {
-				cout << "ERROR getMyBestHandPosition in localhand.cpp" << endl;
+				LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR getMyBestHandPosition");
 			}
 		}
 
@@ -336,7 +337,7 @@ void LocalHand::start() {
 	if(it_sB != getActivePlayerList()->end() && it_bB != getActivePlayerList()->end()) {
 		myGui->logNewBlindsSetsMsg((*it_sB)->getMySet(), (*it_bB)->getMySet(), (*it_sB)->getMyName().c_str(), (*it_bB)->getMyName().c_str());
 	}	
-	else { cout << "Log Error: cannot find sBID or bBID" << "\n"; }
+	else { LOG_ERROR(__FILE__ << " (" << __LINE__ << "): Log Error: cannot find sBID or bBID"); }
 	myGui->flushLogAtHand();	
 
 	// deal cards

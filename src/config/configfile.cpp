@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "configfile.h"
 #include <qttoolsinterface.h>
+#include <core/loghelper.h>
 
 #define MODUS 0711
 
@@ -325,7 +326,7 @@ void ConfigFile::fillBuffer() {
 				
 				
 			}	
-			else {	cout << "Could not find the element to fill the config-buffer with!";	}
+			else { LOG_ERROR("Could not find the root element in the config file!"); }
 				
 // 			cout << configBufferList[i].name << " " << configBufferList[i].defaultValue << endl;
 		}
@@ -522,7 +523,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 			}	
 			newDoc.SaveFile( configFileName );
 		}
-		else { 	cout << "cannot update config file. did not found it" << endl;	}
+		else { LOG_ERROR("Cannot update config file: Unable to load configuration."); }
 
 		
 	}

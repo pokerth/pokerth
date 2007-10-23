@@ -25,6 +25,7 @@
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
 #include <core/avatarmanager.h>
+#include <core/loghelper.h>
 #include <openssl/rand.h>
 
 #include <boost/lambda/lambda.hpp>
@@ -289,6 +290,7 @@ ServerLobbyThread::Main()
 	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
+		LOG_ERROR(e.what());
 	}
 
 	TerminateGames();

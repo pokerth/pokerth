@@ -22,8 +22,10 @@
 #include "tools.h"
 #include "cardsvalue.h"
 #include <configfile.h>
+#include <core/loghelper.h>
 
 #include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -3524,7 +3526,7 @@ void LocalPlayer::calcMyOdds() {
 					break;
 				}
 			}
-			if(myOdds == -1) cout << "ERROR myOdds - " << handCode << endl;
+			if (myOdds == -1) LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR myOdds - " << handCode);
 
 		}
 		break;
@@ -3559,8 +3561,10 @@ void LocalPlayer::calcMyOdds() {
 					}
 				}
 				if(myOdds == -1) {
-					cout << "ERROR" << endl;
-					for(i=0; i<5; i++) cout << tempArray[i] << " ";
+					ostringstream logger;
+					logger << "ERROR myOdds is -1: ";
+					for(i=0; i<5; i++) logger << tempArray[i] << " ";
+					LOG_ERROR(__FILE__ << " (" << __LINE__ << "): " << logger.str());
 // 					cout << "\t" << handCode << "\t" << myID << endl;
 				} else {
 		// 			cout << myHoleCardsValue << endl;
@@ -3679,7 +3683,7 @@ void LocalPlayer::calcMyOdds() {
 
 		}
 		break;
-		default: cout <<"ERROR - wrong init of currentRound" << endl;
+		default: LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR - wrong init of currentRound");
 
 
 	}

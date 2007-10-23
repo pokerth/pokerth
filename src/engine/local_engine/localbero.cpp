@@ -21,6 +21,7 @@
 
 #include "localexception.h"
 #include "engine_msg.h"
+#include <core/loghelper.h>
 
 using namespace std;
 
@@ -59,6 +60,12 @@ LocalBeRo::LocalBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState g
 
 LocalBeRo::~LocalBeRo()
 {
+}
+
+int LocalBeRo::getHighestCardsValue() const
+{
+	LOG_ERROR(__FILE__ << " (" << __LINE__ << "): getHighestCardsValue() in wrong BeRo");
+	return 0;
 }
 
 void LocalBeRo::nextPlayer() {
@@ -137,7 +144,7 @@ void LocalBeRo::run() {
 				break;
 				case GAME_STATE_RIVER: myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
 				break;
-				default: { cout << "ERROR in localbero.cpp - wrong myBeRoID" << endl;}
+				default: { LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR - wrong myBeRoID"); }
 			}
 			logBoardCardsDone = true;
 

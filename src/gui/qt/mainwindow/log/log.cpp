@@ -102,7 +102,7 @@ Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), m
 			}
 	
 		} 
-		else {	cout << "Log directory doesn't exists. Cannot create log files"; }
+		else {	cout << "Log directory doesn't exist. Cannot create log files"; }
 	}
 }
 
@@ -1624,9 +1624,9 @@ void Log::writeLogFileStream(QString streamString) {
 			stream << streamString;
 			myLogFile->close();
 		}
-		else { cout << "could not open log-file to write log-messages!" << endl; }
+		else { cout << "Could not open log-file to write log-messages!" << endl; }
 	}
-	else { cout << "could not find log-file to write log-messages!" << endl; }
+	else { cout << "Could not find log-file to write log-messages!" << endl; }
 }
 
 void Log::flushLogAtHand() { 	

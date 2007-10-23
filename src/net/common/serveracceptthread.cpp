@@ -25,6 +25,7 @@
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
 #include <net/socket_startup.h>
+#include <core/loghelper.h>
 
 #define ACCEPT_TIMEOUT_MSEC			50
 #define NET_SERVER_LISTEN_BACKLOG	5
@@ -87,6 +88,7 @@ ServerAcceptThread::Main()
 	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
+		LOG_ERROR(e.what());
 	}
 	GetLobbyThread().SignalTermination();
 	GetLobbyThread().Join(LOBBY_THREAD_TERMINATE_TIMEOUT);

@@ -21,7 +21,6 @@
 #define LOCALBERO_H
 
 
-#include <iostream>
 #include "game_defs.h"
 
 #include "berointerface.h"
@@ -34,7 +33,7 @@ public:
 
 	GameState getMyBeRoID() const { return myBeRoID; }
 
-	int getHighestCardsValue() const { std::cout << "getHighestCardsValue() in wrong BeRo" << std::endl; return 0; }
+	int getHighestCardsValue() const;
 	void setHighestCardsValue(int /*theValue*/) { }
 
 	void setMinimumRaise ( int theValue ) { minimumRaise = theValue; }

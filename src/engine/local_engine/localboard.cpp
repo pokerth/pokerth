@@ -21,6 +21,7 @@
 
 #include "handinterface.h"
 #include <game_defs.h>
+#include <core/loghelper.h>
 #include "localexception.h"
 #include "engine_msg.h"
 
@@ -214,7 +215,7 @@ void LocalBoard::distributePot() {
 
 	// ERROR-Outputs
 
-	if(pot!=0) cout << "distributePot-ERROR: Pot = " << pot << endl;
+	if(pot!=0) LOG_ERROR(__FILE__ << " (" << __LINE__ << "): distributePot-ERROR: Pot = " << pot);
 
 	int sum = 0;
 
