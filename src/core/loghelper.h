@@ -31,7 +31,7 @@
 			{ \
 				std::ostringstream outStream; \
 				outStream << e << std::endl; \
-				syslog(LOG_ERR, "%s", outStream.str()); \
+				syslog(LOG_ERR, "%s", outStream.str().c_str()); \
 			} \
 			while(false)
 		#define LOG_MSG(e) \
@@ -39,7 +39,7 @@
 			{ \
 				std::ostringstream outStream; \
 				outStream << e << std::endl; \
-				syslog(LOG_INFO, "%s", outStream.str()); \
+				syslog(LOG_INFO, "%s", outStream.str().c_str()); \
 			} \
 			while(false)
 	#endif
