@@ -34,12 +34,22 @@
 				syslog(LOG_ERR, "%s", outStream.str()); \
 			} \
 			while(false)
+		#define LOG_MSG(e) \
+			do \
+			{ \
+				std::ostringstream outStream; \
+				outStream << e << std::endl; \
+				syslog(LOG_INFO, "%s", outStream.str()); \
+			} \
+			while(false)
 	#endif
 #endif
 
 #ifndef LOG_ERROR
 	#include <iostream>
 	#define LOG_ERROR(e) \
+		std::cout << e << std::endl
+	#define LOG_MSG(e) \
 		std::cout << e << std::endl
 #endif
 

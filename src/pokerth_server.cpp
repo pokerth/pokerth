@@ -23,6 +23,7 @@
 #include "configfile.h"
 #include <gui/generic/serverguiwrapper.h>
 #include <net/socket_startup.h>
+#include <core/loghelper.h>
 
 #include <csignal>
 
@@ -67,7 +68,7 @@ main(int argc, char *argv[])
 {
 	ENABLE_LEAK_CHECK();
 
-	//_CrtSetBreakAlloc(164);
+//	_CrtSetBreakAlloc(4772);
 
 	//create defaultconfig
 	ConfigFile *myConfig = new ConfigFile(argc, argv);
@@ -82,13 +83,15 @@ main(int argc, char *argv[])
 
 	socket_startup();
 
+	LOG_MSG("Starting PokerTH dedicated server. Availability: IPv6 "
+		<< socket_has_ipv6() << ", SCTP " << socket_has_sctp() << ", Dual Stack " << socket_has_dual_stack() << ".");
+
 	// Create pseudo Gui Wrapper for the server.
 	boost::shared_ptr<GuiInterface> myServerGuiInterface(new ServerGuiWrapper(myConfig, NULL, NULL, NULL));
-	{
-		boost::shared_ptr<Session> session(new Session(myServerGuiInterface.get(), myConfig));
-		session->init(); // TODO handle error
-		myServerGuiInterface->setSession(session);
-	}
+	boost::shared_ptr<Session> session(new Session(myServerGuiInterface.get(), myConfig));
+	if (!session->init())
+		LOG_ERROR("Missing files - please check your directory settings!");
+	myServerGuiInterface->setSession(session);
 
 	myServerGuiInterface->getSession().startNetworkServer();
 	while (!g_pokerthTerminate)
@@ -98,6 +101,7 @@ main(int argc, char *argv[])
 	}
 	myServerGuiInterface->getSession().terminateNetworkServer();
 
+	LOG_MSG("Terminating PokerTH dedicated server.");
 	socket_cleanup();
 	return 0;
 }

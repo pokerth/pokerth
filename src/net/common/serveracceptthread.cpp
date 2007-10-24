@@ -47,7 +47,10 @@ void
 ServerAcceptThread::Init(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd)
 {
 	if (IsRunning())
-		return; // TODO: throw exception
+	{
+		assert(false);
+		return;
+	}
 
 	ServerContext &context = GetContext();
 

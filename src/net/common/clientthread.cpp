@@ -25,6 +25,7 @@
 #include <net/clientexception.h>
 #include <net/socket_msg.h>
 #include <core/avatarmanager.h>
+#include <core/loghelper.h>
 #include <clientenginefactory.h>
 #include <game.h>
 
@@ -122,8 +123,9 @@ ClientThread::SendStartEvent(bool fillUpWithCpuPlayers)
 		static_cast<NetPacketStartEvent *>(start.get())->SetData(startData);
 		boost::mutex::scoped_lock lock(m_outPacketListMutex);
 		m_outPacketList.push_back(start);
-	} catch (const NetException &)
+	} catch (const NetException &e)
 	{
+		LOG_ERROR("ClientThread::SendStartEvent: " << e.what());
 	}
 }
 
@@ -148,8 +150,9 @@ ClientThread::SendPlayerAction()
 		// Just dump the packet.
 		boost::mutex::scoped_lock lock(m_outPacketListMutex);
 		m_outPacketList.push_back(action);
-	} catch (const NetException &)
+	} catch (const NetException &e)
 	{
+		LOG_ERROR("ClientThread::SendPlayerAction: " << e.what());
 	}
 }
 
@@ -167,8 +170,9 @@ ClientThread::SendChatMessage(const std::string &msg)
 		// Just dump the packet.
 		boost::mutex::scoped_lock lock(m_outPacketListMutex);
 		m_outPacketList.push_back(chat);
-	} catch (const NetException &)
+	} catch (const NetException &e)
 	{
+		LOG_ERROR("ClientThread::SendChatMessage: " << e.what());
 	}
 }
 
@@ -186,9 +190,9 @@ ClientThread::SendJoinFirstGame(const std::string &password)
 		static_cast<NetPacketJoinGame *>(join.get())->SetData(joinData);
 		boost::mutex::scoped_lock lock(m_outPacketListMutex);
 		m_outPacketList.push_back(join);
-	} catch (const NetException &)
+	} catch (const NetException &e)
 	{
-		// TODO
+		LOG_ERROR("ClientThread::SendJoinFirstGame: " << e.what());
 	}
 }
 
@@ -206,9 +210,9 @@ ClientThread::SendJoinGame(unsigned gameId, const std::string &password)
 		static_cast<NetPacketJoinGame *>(join.get())->SetData(joinData);
 		boost::mutex::scoped_lock lock(m_outPacketListMutex);
 		m_outPacketList.push_back(join);
-	} catch (const NetException &)
+	} catch (const NetException &e)
 	{
-		// TODO
+		LOG_ERROR("ClientThread::SendJoinGame: " << e.what());
 	}
 }
 
@@ -227,9 +231,9 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 		static_cast<NetPacketCreateGame *>(create.get())->SetData(createData);
 		boost::mutex::scoped_lock lock(m_outPacketListMutex);
 		m_outPacketList.push_back(create);
-	} catch (const NetException &)
+	} catch (const NetException &e)
 	{
-		// TODO
+		LOG_ERROR("ClientThread::SendCreateGame: " << e.what());
 	}
 }
 
@@ -431,7 +435,7 @@ ClientThread::SetUnknownPlayer(unsigned id)
 {
 	// Just remove it from the request list.
 	m_playerInfoRequestList.remove(id);
-	// TODO log error
+	LOG_ERROR("Server reported unknown player id: " << id);
 }
 
 void
@@ -483,8 +487,9 @@ ClientThread::CompleteTempAvatarData(unsigned playerId)
 	if (!GetCachedPlayerInfo(playerId, tmpPlayerInfo))
 		throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
-	GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, tmpAvatar->fileType, &tmpAvatar->fileData[0], avatarSize);
-	// TODO log error
+	if (!GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, tmpAvatar->fileType, &tmpAvatar->fileData[0], avatarSize))
+		LOG_ERROR("Failed to store avatar in cache directory.");
+
 	// Free memory.
 	m_tempAvatarMap.erase(pos);
 
@@ -496,7 +501,7 @@ void
 ClientThread::SetUnknownAvatar(unsigned playerId)
 {
 	m_tempAvatarMap.erase(playerId);
-	// TODO log error
+	LOG_ERROR("Server reported unknown avatar for player: " << playerId);
 }
 
 const ClientContext &

@@ -511,7 +511,7 @@ AvatarManager::InternalReadDirectory(const std::string &dir, AvatarMap &avatars)
 		}
 	} catch (...)
 	{
-		LOG_ERROR("Exception caught when trying to scan cache directory.");
+		LOG_ERROR("Exception caught when trying to scan avatar directory.");
 		retVal = false;
 	}
 	return retVal;

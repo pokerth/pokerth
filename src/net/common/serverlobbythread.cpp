@@ -484,8 +484,9 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(SessionWrapper session, const NetPac
 			unsigned avatarSize = (unsigned)tmpAvatar->fileData.size();
 			if (avatarSize == tmpAvatar->reportedSize)
 			{
-				GetAvatarManager().StoreAvatarInCache(avatarMD5, tmpAvatar->fileType, &tmpAvatar->fileData[0], avatarSize);
-				// TODO log error
+				if (!GetAvatarManager().StoreAvatarInCache(avatarMD5, tmpAvatar->fileType, &tmpAvatar->fileData[0], avatarSize))
+					LOG_ERROR("Failed to store avatar in cache directory.");
+
 				// Free memory.
 				session.playerData->SetNetAvatarData(boost::shared_ptr<AvatarData>());
 				// Init finished - start session.
@@ -551,12 +552,13 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(SessionWrapper session, const N
 	if (GetAvatarManager().GetAvatarFileName(request.avatar, tmpFile))
 	{
 		NetPacketList tmpPackets;
-		if (GetAvatarManager().AvatarFileToNetPackets(tmpFile, request.requestId, tmpPackets))
+		if (GetAvatarManager().AvatarFileToNetPackets(tmpFile, request.requestId, tmpPackets) == 0)
 		{
 			avatarFound = true;
 			GetSender().SendLowPrio(session.sessionData->GetSocket(), tmpPackets);
 		}
-		// TODO Log error
+		else
+			LOG_ERROR("Failed to read avatar file for network transmission.");
 	}
 
 	if (!avatarFound)
@@ -865,9 +867,10 @@ ServerLobbyThread::BroadcastStatisticsUpdate()
 
 			m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
 			m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
-		} catch (const NetException &)
+		} catch (const NetException &e)
 		{
-			// TODO log error.
+			// Ignore errors for now.
+			//LOG_ERROR("ServerLobbyThread::BroadcastStatisticsUpdate: " << e.what());
 		}
 	}
 }
