@@ -24,13 +24,23 @@
 #include <playerdata.h>
 #include <net/netpacket.h>
 #include <core/crypthelper.h>
+#include <ctime>
 #include <map>
+#include <list>
 
 #include <boost/thread.hpp>
 #include <boost/shared_ptr.hpp>
 
 #define MIN_AVATAR_FILE_SIZE	32
 #define MAX_AVATAR_FILE_SIZE	30720
+
+#ifdef POKERTH_DEDICATED_SERVER
+	#define MAX_NUMBER_OF_FILES		1024
+	#define MAX_AVATAR_CACHE_AGE	2592000  // 1 Month
+#else
+	#define MAX_NUMBER_OF_FILES		256
+	#define MAX_AVATAR_CACHE_AGE	2592000
+#endif
 
 struct AvatarFileState;
 
@@ -55,8 +65,12 @@ public:
 
 	static bool IsValidAvatarFileType(AvatarFileType avatarFileType, const unsigned char *fileHeader, unsigned fileHeaderSize);
 
+	void RemoveOldAvatarCacheEntries();
+
 protected:
 	typedef std::map<MD5Buf, std::string> AvatarMap;
+	typedef std::list<MD5Buf> AvatarList;
+	typedef std::map<std::time_t, MD5Buf> TimeAvatarMap;
 
 	bool InternalReadDirectory(const std::string &dir, AvatarMap &avatars);
 

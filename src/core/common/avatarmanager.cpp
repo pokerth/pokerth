@@ -23,6 +23,7 @@
 #include <boost/lambda/lambda.hpp>
 #include <openssl/md5.h>
 #include <net/socket_msg.h>
+#include <core/loghelper.h>
 
 #include <fstream>
 #include <cstring>
@@ -64,22 +65,28 @@ AvatarManager::Init(const std::string &dataDir, const std::string &cacheDir)
 {
 	bool retVal = true;
 	bool tmpRet;
+	path tmpCachePath(cacheDir);
+	path tmpDataPath(dataDir);
 	{
 		boost::mutex::scoped_lock lock(m_cacheDirMutex);
-		m_cacheDir = cacheDir;
+		m_cacheDir = tmpCachePath.directory_string();
 	}
 	{
 		boost::mutex::scoped_lock lock(m_avatarsMutex);
-		tmpRet = InternalReadDirectory(dataDir + "gfx/avatars/default/people/", m_avatars);
+		tmpRet = InternalReadDirectory((tmpDataPath / "gfx/avatars/default/people/").directory_string(), m_avatars);
 		retVal = retVal && tmpRet;
-		tmpRet = InternalReadDirectory(dataDir + "gfx/avatars/default/misc/", m_avatars);
+		tmpRet = InternalReadDirectory((tmpDataPath / "gfx/avatars/default/misc/").directory_string(), m_avatars);
 		retVal = retVal && tmpRet;
 	}
+	if (cacheDir.empty() || tmpCachePath.empty())
+		LOG_ERROR("Cache directory was not set!");
+	else
 	{
 		boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
-		tmpRet = InternalReadDirectory(cacheDir, m_cachedAvatars);
+		tmpRet = InternalReadDirectory(tmpCachePath.directory_string(), m_cachedAvatars);
 		retVal = retVal && tmpRet;
 	}
+
 	return retVal;
 }
 
@@ -125,6 +132,7 @@ AvatarManager::OpenAvatarFileForChunkRead(const std::string &fileName, unsigned 
 		}
 	} catch (...)
 	{
+		LOG_ERROR("Exception caught when trying to open avatar.");
 	}
 	return retVal;
 }
@@ -144,6 +152,7 @@ AvatarManager::ChunkReadAvatarFile(boost::shared_ptr<AvatarFileState> fileState,
 			}
 		} catch (...)
 		{
+			LOG_ERROR("Exception caught when trying to read avatar.");
 		}
 	}
 	return retVal;
@@ -286,6 +295,11 @@ bool
 AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFileType, const unsigned char *data, unsigned size)
 {
 	bool retVal = false;
+	string cacheDir;
+	{
+		boost::mutex::scoped_lock lock(m_cacheDirMutex);
+		cacheDir = m_cacheDir;
+	}
 	try
 	{
 		string ext;
@@ -303,25 +317,29 @@ AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFil
 			case AVATAR_FILE_TYPE_UNKNOWN:
 				break;
 		}
-		if (!ext.empty())
+		if (!ext.empty() && !cacheDir.empty())
 		{
 			// Check header before storing file.
 			if (IsValidAvatarFileType(avatarFileType, data, size))
 			{
-				path tmpPath(m_cacheDir);
+				path tmpPath(cacheDir);
 				tmpPath /= (md5buf.ToString() + ext);
 				string fileName(tmpPath.file_string());
 				ofstream o(fileName.c_str(), ios_base::out | ios_base::binary);
-				o.write((const char *)data, size);
+				if (!o.fail())
 				{
-					boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
-					m_cachedAvatars.insert(AvatarMap::value_type(md5buf, fileName));
+					o.write((const char *)data, size);
+					{
+						boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
+						m_cachedAvatars.insert(AvatarMap::value_type(md5buf, fileName));
+					}
+					retVal = true;
 				}
-				retVal = true;
 			}
 		}
 	} catch (...)
 	{
+		LOG_ERROR("Exception caught when trying to store avatar.");
 	}
 	return retVal;
 }
@@ -361,6 +379,111 @@ AvatarManager::IsValidAvatarFileType(AvatarFileType avatarFileType, const unsign
 	return validType;
 }
 
+void
+AvatarManager::RemoveOldAvatarCacheEntries()
+{
+	string cacheDir;
+	{
+		boost::mutex::scoped_lock lock(m_cacheDirMutex);
+		cacheDir = m_cacheDir;
+	}
+	try
+	{
+		path cachePath(cacheDir);
+		cacheDir = cachePath.directory_string();
+		// Never delete anything if we do not have a special cache dir set.
+		if (!cacheDir.empty())
+		{
+			boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
+
+			// First pass: Remove files which no longer exist.
+			// Count files and record age.
+			AvatarList removeList;
+			TimeAvatarMap timeMap;
+			unsigned fileCount = 0;
+			{
+				AvatarMap::const_iterator i = m_cachedAvatars.begin();
+				AvatarMap::const_iterator end = m_cachedAvatars.end();
+				while (i != end)
+				{
+					bool keepFile = false;
+					path filePath(i->second);
+					string fileString(filePath.file_string());
+					// Only consider files which are definitely in the cache dir.
+					if (fileString.size() > cacheDir.size() && fileString.substr(0, cacheDir.size()) == cacheDir)
+					{
+						// Only consider files with MD5 as file name.
+						MD5Buf tmpBuf;
+						if (exists(filePath) && tmpBuf.FromString(basename(filePath)))
+						{
+							++fileCount;
+							timeMap.insert(TimeAvatarMap::value_type(last_write_time(filePath), i->first));
+							keepFile = true;
+						}
+					}
+					if (!keepFile)
+						removeList.push_back(i->first);
+
+					++i;
+				}
+			}
+
+			{
+				AvatarList::const_iterator i = removeList.begin();
+				AvatarList::const_iterator end = removeList.end();
+				while (i != end)
+				{
+					m_cachedAvatars.erase(*i);
+					++i;
+				}
+				removeList.clear();
+			}
+
+			// Remove and physically delete files in one of the
+			// following cases:
+			// 1. More than MAX_NUMBER_OF_FILES files are present
+			//    - delete until only MAX_NUMBER_OF_FILES/2 are left.
+			// 2. Files are older than 30 days.
+
+			if (m_cachedAvatars.size() > MAX_NUMBER_OF_FILES)
+			{
+				while (!timeMap.empty() && m_cachedAvatars.size() > MAX_NUMBER_OF_FILES / 2)
+				{
+					TimeAvatarMap::iterator i = timeMap.begin();
+					AvatarMap::iterator pos = m_cachedAvatars.find(i->second);
+					if (pos != m_cachedAvatars.end())
+					{
+						path tmpPath(pos->second);
+						remove(tmpPath);
+						m_cachedAvatars.erase(pos);
+					}
+					timeMap.erase(i);
+				}
+			}
+
+			// Get reference time.
+			time_t curTime = time(NULL);
+			while (!timeMap.empty() && !m_cachedAvatars.empty())
+			{
+				TimeAvatarMap::iterator i = timeMap.begin();
+				if (curTime - i->first < MAX_AVATAR_CACHE_AGE)
+					break;
+				AvatarMap::iterator pos = m_cachedAvatars.find(i->second);
+				if (pos != m_cachedAvatars.end())
+				{
+					path tmpPath(pos->second);
+					remove(tmpPath);
+					m_cachedAvatars.erase(pos);
+				}
+				timeMap.erase(i);
+			}
+		}
+	} catch (...)
+	{
+		LOG_ERROR("Exception caught while cleaning up cache.");
+	}
+}
+
 bool
 AvatarManager::InternalReadDirectory(const std::string &dir, AvatarMap &avatars)
 {
@@ -388,6 +511,7 @@ AvatarManager::InternalReadDirectory(const std::string &dir, AvatarMap &avatars)
 		}
 	} catch (...)
 	{
+		LOG_ERROR("Exception caught when trying to scan cache directory.");
 		retVal = false;
 	}
 	return retVal;

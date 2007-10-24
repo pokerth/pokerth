@@ -56,7 +56,9 @@ Session::~Session()
 bool Session::init()
 {
 	myAvatarManager.reset(new AvatarManager);
-	return myAvatarManager->Init(myConfig->readConfigString("AppDataDir"), myConfig->readConfigString("CacheDir"));
+	bool retVal = myAvatarManager->Init(myConfig->readConfigString("AppDataDir"), myConfig->readConfigString("CacheDir"));
+	myAvatarManager->RemoveOldAvatarCacheEntries();
+	return retVal;
 }
 
 void Session::init(boost::shared_ptr<AvatarManager> manager)
