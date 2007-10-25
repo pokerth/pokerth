@@ -22,6 +22,7 @@
 #include <net/socket_helper.h>
 #include <net/socket_msg.h>
 #include <libircclient.h>
+#include <boost/algorithm/string/predicate.hpp>
 #include <sstream>
 #include <cctype>
 #include <cstring>
@@ -29,13 +30,6 @@
 using namespace std;
 
 #define IRC_WAIT_TERMINATION_MSEC 500
-
-// Not using boost::algorithm here because of STL issues.
-#ifdef _MSC_VER
-#define STRCASECMP _stricmp
-#else
-#define STRCASECMP strcasecmp
-#endif
 
 
 struct IrcContext
@@ -163,7 +157,7 @@ irc_event_channel(irc_session_t *session, const char * /*irc_event*/, const char
 {
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
-	if (count >= 2 && STRCASECMP(context->channel.c_str(),params[0]) == 0) // check whether this message is for our channel
+	if (count >= 2 && boost::algorithm::iequals(context->channel, params[0]) == 0) // check whether this message is for our channel
 	{
 		// Signal the message (if any) to GUI.
 		if (*params[1] != 0)

@@ -18,12 +18,13 @@
  ***************************************************************************/
 
 #include "avatarmanager.h"
+#include <net/socket_msg.h>
+#include <core/loghelper.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/lambda/lambda.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 #include <openssl/md5.h>
-#include <net/socket_msg.h>
-#include <core/loghelper.h>
 
 #include <fstream>
 #include <cstring>
@@ -37,12 +38,6 @@
 #define GIF_HEADER_SIZE (sizeof(GIF_HEADER_1) - 1)
 #define MAX_HEADER_SIZE PNG_HEADER_SIZE
 
-// Not using boost::algorithm here because of STL issues.
-#ifdef _MSC_VER
-#define STRCASECMP _stricmp
-#else
-#define STRCASECMP strcasecmp
-#endif
 
 using namespace std;
 using namespace boost::filesystem;
@@ -100,11 +95,11 @@ AvatarManager::OpenAvatarFileForChunkRead(const std::string &fileName, unsigned 
 	{
 		path filePath(fileName);
 		string ext(extension(filePath));
-		if (STRCASECMP(ext.c_str(), ".png") == 0)
+		if (boost::algorithm::iequals(ext, ".png") == 0)
 			outFileType = AVATAR_FILE_TYPE_PNG;
-		else if (STRCASECMP(ext.c_str(), ".jpg") == 0 || STRCASECMP(ext.c_str(), ".jpeg") == 0)
+		else if (boost::algorithm::iequals(ext, ".jpg") == 0 || boost::algorithm::iequals(ext, ".jpeg") == 0)
 			outFileType = AVATAR_FILE_TYPE_JPG;
-		else if (STRCASECMP(ext.c_str(), ".gif") == 0)
+		else if (boost::algorithm::iequals(ext, ".gif") == 0)
 			outFileType = AVATAR_FILE_TYPE_GIF;
 		boost::shared_ptr<AvatarFileState> fileState(new AvatarFileState);
 		fileState->inputStream.open(fileName.c_str(), ios_base::in | ios_base::binary);
