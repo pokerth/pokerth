@@ -114,6 +114,12 @@ void LobbyChat::playerLeft(QString playerName)
 	QList<QTreeWidgetItem *> tmpList(myLobby->treeWidget_NickList->findItems(playerName, Qt::MatchExactly));
 	if (!tmpList.empty())
 		myLobby->treeWidget_NickList->takeTopLevelItem(myLobby->treeWidget_NickList->indexOfTopLevelItem(tmpList.front()));
+	else
+	{
+		tmpList = myLobby->treeWidget_NickList->findItems("@" + playerName, Qt::MatchExactly);
+		if (!tmpList.empty())
+			myLobby->treeWidget_NickList->takeTopLevelItem(myLobby->treeWidget_NickList->indexOfTopLevelItem(tmpList.front()));
+	}
 
 	myLobby->treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
 
