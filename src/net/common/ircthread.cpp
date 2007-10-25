@@ -157,7 +157,7 @@ irc_event_channel(irc_session_t *session, const char * /*irc_event*/, const char
 {
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
-	if (count >= 2 && boost::algorithm::iequals(context->channel, params[0]) == 0) // check whether this message is for our channel
+	if (count >= 2 && boost::algorithm::iequals(context->channel, params[0])) // check whether this message is for our channel
 	{
 		// Signal the message (if any) to GUI.
 		if (*params[1] != 0)

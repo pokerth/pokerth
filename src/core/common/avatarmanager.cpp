@@ -95,11 +95,11 @@ AvatarManager::OpenAvatarFileForChunkRead(const std::string &fileName, unsigned 
 	{
 		path filePath(fileName);
 		string ext(extension(filePath));
-		if (boost::algorithm::iequals(ext, ".png") == 0)
+		if (boost::algorithm::iequals(ext, ".png"))
 			outFileType = AVATAR_FILE_TYPE_PNG;
-		else if (boost::algorithm::iequals(ext, ".jpg") == 0 || boost::algorithm::iequals(ext, ".jpeg") == 0)
+		else if (boost::algorithm::iequals(ext, ".jpg") || boost::algorithm::iequals(ext, ".jpeg"))
 			outFileType = AVATAR_FILE_TYPE_JPG;
-		else if (boost::algorithm::iequals(ext, ".gif") == 0)
+		else if (boost::algorithm::iequals(ext, ".gif"))
 			outFileType = AVATAR_FILE_TYPE_GIF;
 		boost::shared_ptr<AvatarFileState> fileState(new AvatarFileState);
 		fileState->inputStream.open(fileName.c_str(), ios_base::in | ios_base::binary);
