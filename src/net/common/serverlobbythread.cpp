@@ -30,10 +30,11 @@
 
 #include <boost/lambda/lambda.hpp>
 
-#define SERVER_CLOSE_SESSION_DELAY_SEC	1
-#define SERVER_MAX_NUM_SESSIONS			512 // Maximum number of idle users in lobby.
+#define SERVER_CLOSE_SESSION_DELAY_SEC		1
+#define SERVER_MAX_NUM_SESSIONS				512		// Maximum number of idle users in lobby.
+#define SERVER_CACHE_CLEANUP_INTERVAL_SEC	86400	// 1 day
 
-#define SERVER_COMPUTER_PLAYER_NAME				"Computer"
+#define SERVER_COMPUTER_PLAYER_NAME			"Computer"
 
 using namespace std;
 
@@ -286,6 +287,8 @@ ServerLobbyThread::Main()
 			CloseSessionLoop();
 			// Remove games.
 			RemoveGameLoop();
+			// Cleanup cache.
+			CleanupAvatarCache();
 		}
 	} catch (const PokerTHException &e)
 	{
@@ -706,6 +709,19 @@ ServerLobbyThread::RemoveGameLoop()
 }
 
 void
+ServerLobbyThread::CleanupAvatarCache()
+{
+	// Only act on timer and if there are no sessions.
+	if (m_cacheCleanupTimer.elapsed().total_seconds() > SERVER_CACHE_CLEANUP_INTERVAL_SEC
+		&& !m_sessionManager.HasSessions() && !m_gameSessionManager.HasSessions())
+	{
+		m_avatarManager.RemoveOldAvatarCacheEntries();
+		m_cacheCleanupTimer.reset();
+		m_cacheCleanupTimer.start();
+	}
+}
+
+void
 ServerLobbyThread::InternalAddGame(boost::shared_ptr<ServerGameThread> game)
 {
 	// Add game to list.
@@ -867,7 +883,7 @@ ServerLobbyThread::BroadcastStatisticsUpdate()
 
 			m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
 			m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
-		} catch (const NetException &e)
+		} catch (const NetException &)
 		{
 			// Ignore errors for now.
 			//LOG_ERROR("ServerLobbyThread::BroadcastStatisticsUpdate: " << e.what());

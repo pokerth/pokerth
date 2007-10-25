@@ -29,6 +29,14 @@
 #include <fstream>
 #include <cstring>
 
+#ifdef POKERTH_DEDICATED_SERVER
+	#define MAX_NUMBER_OF_FILES		1024
+	#define MAX_AVATAR_CACHE_AGE	2592000  // 1 Month
+#else
+	#define MAX_NUMBER_OF_FILES		256
+	#define MAX_AVATAR_CACHE_AGE	2592000
+#endif
+
 #define PNG_HEADER "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a"
 #define PNG_HEADER_SIZE (sizeof(PNG_HEADER) - 1)
 #define JPG_HEADER "\xff\xd8"

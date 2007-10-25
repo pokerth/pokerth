@@ -34,14 +34,6 @@
 #define MIN_AVATAR_FILE_SIZE	32
 #define MAX_AVATAR_FILE_SIZE	30720
 
-#ifdef POKERTH_DEDICATED_SERVER
-	#define MAX_NUMBER_OF_FILES		1024
-	#define MAX_AVATAR_CACHE_AGE	2592000  // 1 Month
-#else
-	#define MAX_NUMBER_OF_FILES		256
-	#define MAX_AVATAR_CACHE_AGE	2592000
-#endif
-
 struct AvatarFileState;
 
 class AvatarManager

@@ -102,6 +102,7 @@ protected:
 	void RequestPlayerAvatar(SessionWrapper session);
 	void CloseSessionLoop();
 	void RemoveGameLoop();
+	void CleanupAvatarCache();
 
 	void InternalAddGame(boost::shared_ptr<ServerGameThread> game);
 	void InternalRemoveGame(boost::shared_ptr<ServerGameThread> game);
@@ -173,6 +174,8 @@ private:
 	unsigned m_totalPlayersLoggedIn;
 	unsigned m_totalGamesStarted;
 	ServerStats m_lastStatData;
+
+	boost::timers::portable::microsec_timer m_cacheCleanupTimer;
 };
 
 #endif
