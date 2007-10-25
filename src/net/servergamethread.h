@@ -43,10 +43,8 @@ class ServerGameThread : public Thread
 {
 public:
 	ServerGameThread(
-		ServerLobbyThread &lobbyThread, u_int32_t id, const std::string &name, const std::string &pwd, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig);
+		ServerLobbyThread &lobbyThread, u_int32_t id, const std::string &name, const std::string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig);
 	virtual ~ServerGameThread();
-
-	void Init(const GameData &gameData);
 
 	u_int32_t GetId() const;
 	const std::string &GetName() const;
@@ -140,7 +138,7 @@ private:
 	std::auto_ptr<ServerSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
 
-	GameData			m_gameData;
+	const GameData		m_gameData;
 	StartData			m_startData;
 	boost::shared_ptr<Game>	m_game;
 	const u_int32_t		m_id;

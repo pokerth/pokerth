@@ -588,10 +588,10 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const NetPa
 			GetNextGameId(),
 			createGameData.gameName,
 			createGameData.password,
+			createGameData.gameData,
 			session.playerData->GetUniqueId(),
 			GetGui(),
 			m_playerConfig));
-	game->Init(createGameData.gameData);
 
 	MoveSessionToGame(*game, session);
 

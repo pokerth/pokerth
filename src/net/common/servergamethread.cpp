@@ -52,9 +52,10 @@ private:
 };
 
 
-ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, const string &pwd, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
+ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
 : m_lobbyThread(lobbyThread), m_adminPlayerId(adminPlayerId), m_gui(gui), m_id(id),
-  m_name(name), m_password(pwd), m_playerConfig(playerConfig), m_curState(NULL), m_gameNum(1)
+  m_name(name), m_password(pwd), m_gameData(gameData), m_playerConfig(playerConfig),
+  m_curState(NULL), m_gameNum(1)
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
@@ -63,12 +64,6 @@ ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id,
 
 ServerGameThread::~ServerGameThread()
 {
-}
-
-void
-ServerGameThread::Init(const GameData &gameData)
-{
-	m_gameData = gameData;
 }
 
 u_int32_t
