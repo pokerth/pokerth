@@ -37,6 +37,25 @@
 (load "test.scm")
 ;;; Software timer
 (load "timer.scm")
+(define m2pa-var-forward-seq                #xFFFFFF)
+
+;;; Helper constants
+
+(define helper-direction-recv               1)
+(define helper-direction-send               2)
+
+;;; Helper variables
+
+(define helper-var-last-display-msg         '())
+(define helper-var-last-display-direction   0)
+(define helper-var-display-newline          #f)
+
+(define helper-init-vars
+  (lambda ()
+    (set! helper-var-last-display-msg '())
+    (set! helper-var-last-display-direction 0)
+    (set! helper-var-display-newline #f)
+    ))
 
 (define predicate?
   (lambda (pred data)
@@ -94,6 +113,25 @@
     ret))
 !#
 
+(define msg-display
+ (lambda (message direction)
+   (if (and (equal? message helper-var-last-display-msg) (= direction helper-var-last-display-direction))
+       (begin
+         (display ".")
+         (set! helper-var-display-newline #t))
+       (begin
+         (if helper-var-display-newline
+             (begin
+               (display "\n")
+               (set! helper-var-display-newline #f)))
+         (if (= direction helper-direction-recv)
+             (display "<-")
+             (display "->"))
+         (set! helper-var-last-display-msg (list-copy message))
+         (set! helper-var-last-display-direction direction)
+         (display message)
+         (display "\n")))))
+ 
 ;;;
 ;;; Padding helper functions
 ;;;

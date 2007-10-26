@@ -39,11 +39,13 @@
 (load "sock.scm")
 ;;; Helper functions
 (load "helper.scm")
+;;; Network configuration
+(load "pkth_config.scm")
 
 ;;; SCTP Payload Protocol Identifier for PKTH
 (define pkth-ppid                               0)
 
-;;; SCTP Port for PKTH
+;;; TCP/SCTP Port for PKTH
 (define pkth-port                               7234)
 
 ;;; PKTH protocol version
@@ -152,6 +154,7 @@
 
 ;;; Value lengths
 (define pkth-length-version                     2)
+(define pkth-length-revision                    2)
 (define pkth-length-string-length               2)
 (define pkth-length-flags                       2)
 (define pkth-length-reserved                    2)
@@ -178,7 +181,7 @@
 ;;; Value offsets pkth-type-init-ack
 (define pkth-init-ack-offset-game-version       pkth-offset-data)
 (define pkth-init-ack-offset-beta-revision      (+ pkth-init-ack-offset-game-version pkth-length-version))
-(define pkth-init-ack-offset-session-id         (+ pkth-init-ack-offset-beta-revision pkth-length-version))
+(define pkth-init-ack-offset-session-id         (+ pkth-init-ack-offset-beta-revision pkth-length-revision))
 (define pkth-init-ack-offset-player-id          (+ pkth-init-ack-offset-session-id pkth-length-session-id))
 
 ;;; Minimum/maximum packet length
@@ -348,7 +351,6 @@
   (lambda (message)
     (pkth-assert-minimal-length message)
     (let ((type (bytes->uint16 (list-head (list-tail message pkth-offset-type) pkth-length-type))))
-      (test-assert (pkth-is-valid-type? type))
       type)))
 
 (define pkth-get-length
@@ -360,6 +362,28 @@
   (lambda (message)
     (pkth-assert-minimal-length message)
     (list-tail message pkth-offset-data)))
+
+;;; init-ack
+
+(define pkth-get-init-ack-game-version
+  (lambda (message)
+    (pkth-assert-length message (+ pkth-header-length-common pkth-length-version))
+    (bytes->uint16 (list-head (pkth-get-data message) pkth-length-version))))
+
+(define pkth-get-init-ack-beta-revision
+  (lambda (message)
+    (pkth-assert-length message (+ pkth-header-length-common pkth-init-ack-offset-beta-revision pkth-length-revision))
+    (bytes->uint16 (list-head (list-tail (pkth-get-data message) pkth-init-ack-offset-beta-revision) pkth-length-revision))))
+
+(define pkth-get-init-ack-session-id
+  (lambda (message)
+    (pkth-assert-length message (+ pkth-header-length-common pkth-init-ack-offset-session-id pkth-length-session-id))
+    (bytes->uint32 (list-head (list-tail (pkth-get-data message) pkth-init-ack-offset-session-id) pkth-length-session-id))))
+
+(define pkth-get-init-ack-player-id
+  (lambda (message)
+    (pkth-assert-length message (+ pkth-header-length-common pkth-init-ack-offset-player-id pkth-length-player-id))
+    (bytes->uint32 (list-head (list-tail (pkth-get-data message) pkth-init-ack-offset-player-id) pkth-length-player-id))))
 
 ;;;
 ;;; Type check functions
@@ -547,15 +571,85 @@
 
 ;;; pkth-type-init
 
+;;;
+;;; I/O functions
+;;;
+
+;;; Close helper
+(define pkth-has-sock #f)
+(define pkth-sock 0)
+(define pkth-recv-buf "")
+
+(define pkth-close
+  (lambda ()
+    (if pkth-has-sock
+        (begin
+          (sock-close pkth-sock)
+          (set! pkth-has-sock #f)
+          (set! pkth-recv-buf "")))))
+
+;;; Connect to server according to config.
+(define pkth-connect
+  (lambda ()
+    (pkth-close)
+    (helper-init-vars)
+    (let ((sock (sock-create-tcp PKTH_CONF_CONNECT_ADDR_FAMILY)))
+      (sock-bind sock PKTH_CONF_CONNECT_LOCAL_ADDR PKTH_CONF_CONNECT_LOCAL_PORT)
+      (sock-connect sock PKTH_CONF_CONNECT_REMOTE_ADDR PKTH_CONF_CONNECT_REMOTE_PORT)
+      (set! pkth-sock sock)
+      (set! pkth-has-sock #t)
+      sock)))
+
+(define pkth-send-message-nolog
+  (lambda (socket message)
+    (sock-send socket (bytes->string message))))
+
+(define pkth-send-message
+  (lambda (socket message)
+    (msg-display message helper-direction-send)
+    (pkth-send-message-nolog socket message)))
+
+; The recv function for PKTH is somewhat more complicated, because
+; TCP has to be supported. We have to check for message boundaries.
+(define pkth-recv-message
+  (lambda (socket)
+    (let ((ret 0))
+      (do ((abort #f))
+          (abort)
+          (let ((buflen (string-length pkth-recv-buf)))
+            (if (>= buflen pkth-header-length-common)
+                (begin
+                  (let ((packetlen (pkth-get-length (string->bytes pkth-recv-buf))))
+                    (if (<= packetlen buflen)
+                        (begin
+                          (set! abort #t)
+                          (let ((packet (string-copy (substring pkth-recv-buf 0 packetlen))))
+                            (set! pkth-recv-buf (string-drop pkth-recv-buf packetlen))
+                            (set! ret (string->bytes packet))
+                            (test-assert (pkth-is-valid-type? (pkth-get-type ret)) "Invalid PKTH message type.")
+                            (msg-display ret helper-direction-recv))))))))
+          (if (not abort)
+              (let ((buf (make-string pkth-maximum-message-length)))
+                (let ((recvret (sock-recv! socket buf)))
+                  (let ((tmpbuf (substring buf 0 (car recvret))))
+                    (if (string-null? tmpbuf) ; Abort if connection closed.
+                        (begin
+                          (set! pkth-recv-buf "")
+                          (set! abort #t)
+                          (set! ret #f))
+                        (begin
+                          (set! pkth-recv-buf (string-append pkth-recv-buf tmpbuf)))))))))
+      ret)))
+
 #!
-(let ((sock (sock-connect (sock-create-tcp AF_INET) "127.0.0.1" pkth-port)))
-  (sock-send
+(let ((sock (pkth-connect)))
+  (pkth-send-message
    sock
-   (bytes->string
-    (pkth-create-init
-     (pkth-create-md5 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16)
-     ""
-     "hallo")))
+   (pkth-create-init
+    (pkth-create-md5 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16)
+    ""
+    "hallo"))
+  (pkth-recv-message sock)
   (sleep 1)
-  (sock-close sock))
+  (pkth-close))
 !#
