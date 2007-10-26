@@ -82,6 +82,7 @@ protected:
 	typedef std::deque<SessionWrapper> SessionQueue;
 	typedef std::list<SessionWrapper> SessionList;
 	typedef std::list<std::pair<boost::timers::portable::microsec_timer, boost::shared_ptr<SessionData> > > CloseSessionList;
+	typedef std::map<SOCKET, boost::timers::portable::microsec_timer> InitTimerSessionMap;
 	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
 	typedef std::list<unsigned> RemoveGameList;
 
@@ -100,6 +101,8 @@ protected:
 	void HandleNetPacketJoinGame(SessionWrapper session, const NetPacketJoinGame &tmpPacket);
 	void EstablishSession(SessionWrapper session);
 	void RequestPlayerAvatar(SessionWrapper session);
+	void NewConnectionLoop();
+	void NewSessionLoop();
 	void CloseSessionLoop();
 	void RemoveGameLoop();
 	void CleanupAvatarCache();
@@ -146,6 +149,8 @@ private:
 
 	SessionManager m_sessionManager;
 	SessionManager m_gameSessionManager;
+
+	InitTimerSessionMap m_initTimerSessionMap;
 
 	CloseSessionList m_closeSessionList;
 	mutable boost::mutex m_closeSessionListMutex;

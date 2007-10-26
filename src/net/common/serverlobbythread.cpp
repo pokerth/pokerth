@@ -33,6 +33,7 @@
 #define SERVER_CLOSE_SESSION_DELAY_SEC		1
 #define SERVER_MAX_NUM_SESSIONS				512		// Maximum number of idle users in lobby.
 #define SERVER_CACHE_CLEANUP_INTERVAL_SEC	86400	// 1 day
+#define SERVER_INIT_SESSION_TIMEOUT_SEC		20
 
 #define SERVER_COMPUTER_PLAYER_NAME			"Computer"
 
@@ -122,6 +123,7 @@ ServerLobbyThread::RemoveSessionFromGame(SessionWrapper session)
 void
 ServerLobbyThread::CloseSessionDelayed(SessionWrapper session)
 {
+	m_initTimerSessionMap.erase(session.sessionData->GetSocket());
 	m_sessionManager.RemoveSession(session.sessionData->GetSocket());
 	m_gameSessionManager.RemoveSession(session.sessionData->GetSocket());
 
@@ -253,35 +255,11 @@ ServerLobbyThread::Main()
 	{
 		while (!ShouldTerminate())
 		{
-			{
-				// Handle one incoming connection at a time.
-				boost::shared_ptr<ConnectData> tmpData;
-				{
-					boost::mutex::scoped_lock lock(m_connectQueueMutex);
-					if (!m_connectQueue.empty())
-					{
-						tmpData = m_connectQueue.front();
-						m_connectQueue.pop_front();
-					}
-				}
-				if (tmpData.get())
-					HandleNewConnection(tmpData);
-			}
-			{
-				// Handle one incoming session at a time.
-				SessionWrapper tmpSession;
-				{
-					boost::mutex::scoped_lock lock(m_sessionQueueMutex);
-					if (!m_sessionQueue.empty())
-					{
-						tmpSession = m_sessionQueue.front();
-						m_sessionQueue.pop_front();
-					}
-				}
-				if (tmpSession.sessionData.get() && tmpSession.playerData.get())
-					HandleReAddedSession(tmpSession);
-			}
-			// Process loop.
+			// Process new connections.
+			NewConnectionLoop();
+			// Process re-added sessions.
+			NewSessionLoop();
+			// Main loop.
 			ProcessLoop();
 			// Close sessions.
 			CloseSessionLoop();
@@ -320,6 +298,7 @@ ServerLobbyThread::ProcessLoop()
 		} catch (const NetException &)
 		{
 			// On error: Close this session.
+			m_initTimerSessionMap.erase(session.sessionData->GetSocket());
 			m_sessionManager.RemoveSession(session.sessionData->GetSocket());
 			// Update stats (if needed).
 			BroadcastStatisticsUpdate();
@@ -647,6 +626,7 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 	SendGameList(session.sessionData->GetSocket());
 
 	// Session is now established.
+	m_initTimerSessionMap.erase(session.sessionData->GetSocket());
 	session.sessionData->SetState(SessionData::Established);
 
 	++m_totalPlayersLoggedIn;
@@ -668,19 +648,72 @@ ServerLobbyThread::RequestPlayerAvatar(SessionWrapper session)
 }
 
 void
+ServerLobbyThread::NewConnectionLoop()
+{
+	// Handle one incoming connection at a time.
+	boost::shared_ptr<ConnectData> tmpData;
+	{
+		boost::mutex::scoped_lock lock(m_connectQueueMutex);
+		if (!m_connectQueue.empty())
+		{
+			tmpData = m_connectQueue.front();
+			m_connectQueue.pop_front();
+		}
+	}
+	if (tmpData.get())
+		HandleNewConnection(tmpData);
+}
+
+void
+ServerLobbyThread::NewSessionLoop()
+{
+	// Handle one incoming session at a time.
+	SessionWrapper tmpSession;
+	{
+		boost::mutex::scoped_lock lock(m_sessionQueueMutex);
+		if (!m_sessionQueue.empty())
+		{
+			tmpSession = m_sessionQueue.front();
+			m_sessionQueue.pop_front();
+		}
+	}
+	if (tmpSession.sessionData.get() && tmpSession.playerData.get())
+		HandleReAddedSession(tmpSession);
+}
+
+void
 ServerLobbyThread::CloseSessionLoop()
 {
-	boost::mutex::scoped_lock lock(m_closeSessionListMutex);
-
-	CloseSessionList::iterator i = m_closeSessionList.begin();
-	CloseSessionList::iterator end = m_closeSessionList.end();
-
-	while (i != end)
 	{
-		CloseSessionList::iterator cur = i++;
+		InitTimerSessionMap::iterator i = m_initTimerSessionMap.begin();
+		InitTimerSessionMap::iterator end = m_initTimerSessionMap.end();
 
-		if (cur->first.elapsed().total_seconds() >= SERVER_CLOSE_SESSION_DELAY_SEC)
-			m_closeSessionList.erase(cur);
+		// Remove sessions if they do not initialize within a certain period.
+		while (i != end)
+		{
+			InitTimerSessionMap::iterator next = i;
+			++next;
+			if (i->second.elapsed().total_seconds() > SERVER_INIT_SESSION_TIMEOUT_SEC)
+			{
+				m_sessionManager.RemoveSession(i->first);
+				m_initTimerSessionMap.erase(i);
+			}
+			i = next;
+		}
+	}
+	{
+		boost::mutex::scoped_lock lock(m_closeSessionListMutex);
+
+		CloseSessionList::iterator i = m_closeSessionList.begin();
+		CloseSessionList::iterator end = m_closeSessionList.end();
+
+		while (i != end)
+		{
+			CloseSessionList::iterator cur = i++;
+
+			if (cur->first.elapsed().total_seconds() >= SERVER_CLOSE_SESSION_DELAY_SEC)
+				m_closeSessionList.erase(cur);
+		}
 	}
 }
 
@@ -780,6 +813,7 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 		// Create a new session.
 		boost::shared_ptr<SessionData> sessionData(new SessionData(connData->ReleaseSocket(), sessionId));
 		m_sessionManager.AddSession(sessionData);
+		m_initTimerSessionMap[sessionData->GetSocket()] = boost::timers::portable::microsec_timer();
 	}
 	else
 	{
