@@ -37,7 +37,6 @@
 (load "test.scm")
 ;;; Software timer
 (load "timer.scm")
-(define m2pa-var-forward-seq                #xFFFFFF)
 
 ;;; Helper constants
 
