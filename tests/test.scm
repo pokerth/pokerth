@@ -68,14 +68,14 @@
     (catch 'badex
         (lambda ()
           ((cdr data)) ; call test
-          (display "PASSED\n"))
+          (display "PASSED\n\n"))
       (lambda (key)
-        (display "FAILED\n")))))
+        (display "FAILED\n\n")))))
 
 (define test-run-all
   (lambda (test-list)
     (display "\nTest Run: All Tests\n")
-    (map test-run-single test-list)
+    (map-in-order test-run-single test-list)
     (display "\nDone.\n")))
 
 #!

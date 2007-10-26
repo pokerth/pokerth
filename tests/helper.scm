@@ -48,22 +48,32 @@
       (primitive-eval (append '(or) (map predicate? predicate-list data-list))))))
 
 (define wait-for-message
-  (lambda (socket recv-function predicate-list ignore-predicate-list timeout-msec)
-    (let ((t (timer-create timeout-msec)) (ret #f))
+  (lambda (sock recv-function predicate-list ignore-predicate-list timeout-msec)
+    (let ((t (timer-create timeout-msec)))
       (set! t (timer-start t))
       (do ((abort #f))
           (abort)
-          (if (sock-select-read socket 10)
+          (if (sock-select-read sock 10)
               (begin
-                (let ((msg (recv-function socket)))
+                (let ((msg (recv-function sock)))
                   (if (predicate-one-true? predicate-list msg)
                       (begin
-                        (set! abort #t)
-                        (test-assert (not (predicate-one-true? ignore-predicate-list msg)) "Invalid message received.")
-                        (set! ret #t))))))
+                        (set! abort #t))
+                      (begin
+                        (if (not (predicate-one-true? ignore-predicate-list msg))
+                            (begin
+                              (test-assert #f "The upper message was received but not expected."))))
+                      ))))
           (if (timer-expired? t)
-              (set! abort #t)))
-      ret)))
+              (begin
+                (set! abort #t)
+                (test-assert (null? predicate-list) "Expected message not received within time interval!"))))
+      )))
+
+(define wait-for-message-in-interval
+  (lambda (sock recv-function predicate-list ignore-predicate-list delay-before-msec until-msec)
+    (wait-for-message sock recv-function '() ignore-predicate-list delay-before-msec)
+    (wait-for-message sock recv-function predicate-list ignore-predicate-list (- until-msec delay-before-msec))))
 
 #!
 (define recv-message

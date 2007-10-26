@@ -93,6 +93,7 @@
 (define pkth-type-end-of-hand-show-cards        #x0064)
 (define pkth-type-end-of-hand-hide-cards        #x0065)
 (define pkth-type-end-of-game                   #x0070)
+(define pkth-type-statistics-changed            #x0080)
 
 (define pkth-type-removed-from-game             #x0100)
 
@@ -333,6 +334,7 @@
      (= type pkth-type-end-of-hand-show-cards)
      (= type pkth-type-end-of-hand-hide-cards)
      (= type pkth-type-end-of-game)
+     (= type pkth-type-statistics-changed)
      (= type pkth-type-removed-from-game)
      (= type pkth-type-send-chat-text)
      (= type pkth-type-chat-text)
@@ -522,6 +524,10 @@
 (define pkth-is-type-end-of-game?
   (lambda (message)
     (= (pkth-get-type message) pkth-type-end-of-game)))
+
+(define pkth-is-type-statistics-changed?
+  (lambda (message)
+    (= (pkth-get-type message) pkth-type-statistics-changed)))
 
 (define pkth-is-type-removed-from-game?
   (lambda (message)

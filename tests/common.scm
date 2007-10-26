@@ -33,7 +33,7 @@
 ;;; USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
 ;;; OF SUCH DAMAGE.
 
-;;; $Id: common.scm,v 1.4 2006/01/18 01:00:30 tuexen Exp $
+;;; $Id: common.scm,v 1.6 2007/10/15 17:11:29 lmay Exp $
 
 ;;; Load the SCTP API needed.
 (use-modules (net sctp))

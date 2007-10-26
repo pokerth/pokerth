@@ -80,6 +80,7 @@
   (lambda (sock local-addr local-port)
     (let ((af (cdr sock)))
       (setsockopt (car sock) SOL_SOCKET SO_REUSEADDR 1)
+      (setsockopt (car sock) SOL_SOCKET SO_LINGER (cons 1 60))
       (bind (car sock) af (inet-pton af local-addr) local-port)
       sock)))
 
@@ -138,8 +139,8 @@
 (define sock-recv-sctp!
   (lambda (sock buf)
     (let ((ret (sctp-recvmsg! (car sock) buf)))
-      (let ((info (list-ref ret 3))) ; Return number of bytes and PPID
-        (cons (car ret) (ntohl (list-ref info 2)))))))
+      (let ((info (list-ref ret 3))) ; Return number of bytes, stream # and PPID
+        (list (car ret) (ntohs (car info)) (ntohl (list-ref info 2)))))))
 
  #!
 (sock-send (car (sock-accept (sock-bind-listen (sock-create-tcp AF_INET) "127.0.0.1" 5555 5))) "Hallo")
