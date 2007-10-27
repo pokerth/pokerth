@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "aboutpokerthimpl.h"
 #include "configfile.h"
+#include <QtCore>
+
 
 aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
     : QDialog(parent), myConfig(c)
@@ -36,7 +38,7 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	textBrowser_3->setPalette(myPalette);
 	textBrowser_4->setPalette(myPalette);
 
-	textBrowser_licence->setSource(QUrl(myAppDataPath+"misc/gpl2.html"));
+	textBrowser_licence->setSource(QUrl(QDir::toNativeSeparators(myAppDataPath+"misc/gpl2.html")));
 	label_logo->setPixmap(QPixmap(myAppDataPath+"gfx/gui/misc/logoChip3D.png"));
 	
 }

@@ -3632,6 +3632,10 @@ void mainWindowImpl::myButtonsCheckable(bool state) {
 
 void mainWindowImpl::closeEvent(QCloseEvent* /*event*/) { quitPokerTH(); }
 
+void mainWindowImpl::showMaximized () {
+	showFullScreen ();
+}
+
 void mainWindowImpl::quitPokerTH() {
 
 	if (myServerGuiInterface.get() && myServerGuiInterface->getSession().isNetworkServerRunning()) {

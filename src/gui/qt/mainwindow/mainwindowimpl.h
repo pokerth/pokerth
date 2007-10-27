@@ -319,7 +319,8 @@ public slots:
 	void myButtonsCheckable(bool state);
 
 	void changePlayingMode();
-
+	
+	void showMaximized ();
 	void quitPokerTH();
 	
 
