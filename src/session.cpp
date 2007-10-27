@@ -335,6 +335,15 @@ void Session::kickPlayer(unsigned playerId)
 	myNetClient->SendKickPlayer(playerId);
 }
 
+void Session::kickPlayer(const string &playerName)
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	unsigned playerId;
+	if (myNetClient->GetPlayerIdFromName(playerName, playerId))
+		kickPlayer(playerId);
+}
+
 bool Session::isNetworkClientRunning() const
 {
 	// This, and every place which calls this, is a HACK.

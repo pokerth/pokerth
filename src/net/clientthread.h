@@ -67,6 +67,7 @@ public:
 
 	GameInfo GetGameInfo(unsigned playerId) const;
 	PlayerInfo GetPlayerInfo(unsigned playerId) const;
+	bool GetPlayerIdFromName(const std::string &playerName, unsigned &playerId) const;
 	ServerStats GetStatData() const;
 
 	ClientCallback &GetCallback();

@@ -264,6 +264,28 @@ ClientThread::GetPlayerInfo(unsigned playerId) const
 	return info;
 }
 
+bool
+ClientThread::GetPlayerIdFromName(const string &playerName, unsigned &playerId) const
+{
+	bool retVal = false;
+
+	boost::mutex::scoped_lock lock(m_playerInfoMapMutex);
+	PlayerInfoMap::const_iterator i = m_playerInfoMap.begin();
+	PlayerInfoMap::const_iterator end = m_playerInfoMap.end();
+
+	while (i != end)
+	{
+		if (i->second.playerName == playerName)
+		{
+			playerId = i->first;
+			retVal = true;
+			break;
+		}
+		++i;
+	}
+	return retVal;
+}
+
 ClientCallback &
 ClientThread::GetCallback()
 {
