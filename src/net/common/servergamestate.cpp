@@ -166,6 +166,10 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 			{
 				server.MoveSessionToLobby(session, NTF_NET_REMOVED_ON_REQUEST);
 			}
+			else if (packet->ToNetPacketKickPlayer())
+			{
+				server.MoveSessionToLobby(session, NTF_NET_REMOVED_KICKED);
+			}
 			// Chat text is always allowed.
 			else if (packet->ToNetPacketSendChatText())
 			{
