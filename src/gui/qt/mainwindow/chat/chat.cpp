@@ -21,6 +21,8 @@
 
 #include "mainwindowimpl.h"
 #include "session.h"
+#include "game.h"
+#include "playerinterface.h"
 #include "chattools.h"
 #include "configfile.h"
 
@@ -40,6 +42,26 @@ Chat::~Chat()
 
 void Chat::sendMessage() {
 	
+	//filter /kick commando
+	if(myW->lineEdit_ChatInput->text().startsWith("/kick")) {
+		QString playerToKick = myW->lineEdit_ChatInput->text().section(" ",1,1);
+		
+		myW->lineEdit_ChatInput->setText("");
+		if(myW->getSession().getClientGameInfo(myW->getSession().getCurrentGame()->getMyGameID()).adminPlayerId == myW->getSession().getCurrentGame()->getSeatsList()->front()->getMyUniqueID()) {
+
+			if(playerToKick.toUtf8().constData() == myW->getSession().getCurrentGame()->getSeatsList()->front()->getMyName()) {
+				myW->textBrowser_Chat->append("<span style=\"color:#ff0000;\">"+tr("You cannot kick yourself!")+"</span>");	
+			}
+			else {
+				myW->getSession().kickPlayer(playerToKick.toUtf8().constData());
+			}
+		}
+		else {
+			myW->textBrowser_Chat->append("<span style=\"color:#ff0000;\">"+tr("You cannot kick any player - You are not game admin!")+"</span>");
+		}
+		return;
+	}
+
 	fillChatLinesHistory(myW->lineEdit_ChatInput->text());
 	myW->getSession().sendChatMessage(myW->lineEdit_ChatInput->text().toUtf8().constData());
 	myW->lineEdit_ChatInput->setText("");
