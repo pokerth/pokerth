@@ -407,6 +407,7 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			NetPacketRemovedFromGame::Data removedData;
 			tmpPacket->ToNetPacketRemovedFromGame()->GetData(removedData);
 			client.ClearPlayerDataList();
+			client.GetCallback().SignalNetClientWaitDialog();
 			client.GetCallback().SignalNetClientRemovedFromGame(removedData.removeReason);
 			client.SetState(ClientStateWaitJoin::Instance());
 		}

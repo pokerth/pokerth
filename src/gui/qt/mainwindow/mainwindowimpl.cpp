@@ -1126,9 +1126,15 @@ void mainWindowImpl::initGui(int speed)
 void mainWindowImpl::showClientDialog()
 {
 	if (mySession->getGameType() == Session::GAME_TYPE_NETWORK)
-		showNetworkStartDialog();
+	{
+		if (!myStartNetworkGameDialog->isVisible())
+			showNetworkStartDialog();
+	}
 	else if (mySession->getGameType() == Session::GAME_TYPE_INTERNET)
-		showLobbyDialog();
+	{
+		if (!myGameLobbyDialog->isVisible())
+			showLobbyDialog();
+	}
 }
 
 void mainWindowImpl::showNetworkStartDialog()
