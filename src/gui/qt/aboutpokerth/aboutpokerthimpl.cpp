@@ -38,7 +38,18 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	textBrowser_3->setPalette(myPalette);
 	textBrowser_4->setPalette(myPalette);
 
-	textBrowser_licence->setSource(QUrl(QDir::toNativeSeparators(myAppDataPath+"misc/gpl2.html")));
+// 	textBrowser_licence->setSource(QUrl(QDir::toNativeSeparators(myAppDataPath+"misc/gpl2.html")));
+	QFile gplFile(QDir::toNativeSeparators(myAppDataPath+"misc/gpl2.html"));
+	QString gplString;
+	if(gplFile.exists()) {
+		if (gplFile.open( QIODevice::ReadWrite)) {
+			QTextStream stream( &gplFile );
+			gplString = stream.readAll();
+			textBrowser_licence->setHtml(gplString);
+		}
+	}
+	
+	
 	label_logo->setPixmap(QPixmap(myAppDataPath+"gfx/gui/misc/logoChip3D.png"));
 	
 }
