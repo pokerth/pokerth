@@ -168,7 +168,14 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 			}
 			else if (packet->ToNetPacketKickPlayer())
 			{
-				server.MoveSessionToLobby(session, NTF_NET_REMOVED_KICKED);
+				// Only admins are allowed to kick.
+				if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN)
+				{
+					NetPacketKickPlayer::Data kickPlayerData;
+					packet->ToNetPacketKickPlayer()->GetData(kickPlayerData);
+
+					server.InternalKickPlayer(kickPlayerData.playerId);
+				}
 			}
 			// Chat text is always allowed.
 			else if (packet->ToNetPacketSendChatText())
@@ -328,17 +335,6 @@ ServerGameStateInit::InternalProcess(ServerGameThread &server, SessionWrapper se
 			server.SendToAllPlayers(boost::shared_ptr<NetPacket>(packet->Clone()), SessionData::Game);
 
 			server.SetState(ServerGameStateWaitAck::Instance());
-		}
-	}
-	else if (packet->ToNetPacketKickPlayer())
-	{
-		// Only admins are allowed to kick.
-		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN)
-		{
-			NetPacketKickPlayer::Data kickPlayerData;
-			packet->ToNetPacketKickPlayer()->GetData(kickPlayerData);
-
-			server.InternalKickPlayer(kickPlayerData.playerId);
 		}
 	}
 	else
