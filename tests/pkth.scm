@@ -381,7 +381,8 @@
 !#
 
 (define pkth-is-valid-type?
-  (lambda (type)
+  (lambda (message)
+    (let ((type (pkth-get-type message)))
     (or
      (= type pkth-type-init)
      (= type pkth-type-init-ack)
@@ -426,7 +427,7 @@
      (= type pkth-type-removed-from-game)
      (= type pkth-type-send-chat-text)
      (= type pkth-type-chat-text)
-     (= type pkth-type-error))))
+     (= type pkth-type-error)))))
 
 ;;;
 ;;; Packet getter functions
@@ -695,7 +696,7 @@
                           (let ((packet (string-copy (substring helper-var-recv-buf 0 packetlen))))
                             (set! helper-var-recv-buf (string-drop helper-var-recv-buf packetlen))
                             (set! ret (string->bytes packet))
-                            (test-assert (pkth-is-valid-type? (pkth-get-type ret)) "Invalid PKTH message type.")
+                            (test-assert (pkth-is-valid-type? ret) "Invalid PKTH message type.")
                             (msg-display ret helper-direction-recv)
                             )))))))
           (if (not abort)
