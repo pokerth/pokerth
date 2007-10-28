@@ -188,6 +188,20 @@
 (define pkth-minimum-message-length             8)
 (define pkth-maximum-message-length             268)
 
+;;; Receive buf length
+(define pkth-buf-length                         #xffff)
+
+;;; Game info constants
+(define pkth-raise-interval-mode-on-hand        1)
+(define pkth-raise-interval-mode-on-minute      2)
+
+(define pkth-raise-mode-double-blinds           1)
+(define pkth-raise-mode-manual-blinds-order     2)
+
+(define pkth-end-raise-mode-double-blinds       1)
+(define pkth-end-raise-mode-raise               2)
+(define pkth-end-raise-mode-keep-last-blind     3)
+
 ;;;
 ;;; Header constructors
 ;;;
@@ -218,6 +232,34 @@
      (uint8->bytes mD)
      (uint8->bytes mE)
      (uint8->bytes mF))))
+
+(define pkth-create-game-info
+  (lambda (max-num-players raise-interval-mode raise-small-blind-interval raise-mode
+           end-raise-mode proposed-gui-speed player-action-timeout
+           first-small-blind end-raise-small-blind-value start-money manual-blind-slots)
+    (append
+     (uint16->bytes max-num-players)
+     (uint16->bytes raise-interval-mode)
+     (uint16->bytes raise-small-blind-interval)
+     (uint16->bytes raise-mode)
+     (uint16->bytes end-raise-mode)
+     (uint16->bytes (length manual-blind-slots))
+     (uint16->bytes proposed-gui-speed)
+     (uint16->bytes player-action-timeout)
+     (uint32->bytes first-small-blind)
+     (uint32->bytes end-raise-small-blind-value)
+     (uint32->bytes start-money)
+     manual-blind-slots)))
+
+(define pkth-create-player-info
+  (lambda (player-id player-flags player-name avatar-md5)
+    (append
+     (uint32->bytes player-id)
+     (uint16->bytes player-flags)
+     (uint16->bytes (string-length player-name))
+     (uint32->bytes 0)
+     avatar-md5
+     (append-padding (string->bytes player-name)))))
 
 (define pkth-create-init-ex
   (lambda (version-major version-minor privacy-flags avatar-md5 password player-name)
@@ -272,6 +314,49 @@
      pkth-beta-revision
      session-id
      player-id)))
+
+(define pkth-create-create-game
+  (lambda (game-info game-name game-password)
+    (pkth-create-packet
+     pkth-type-create-game
+     (list
+      (uint16->bytes (string-length game-password))
+      (uint16->bytes (string-length game-name))
+      game-info
+      (append-padding (string->bytes game-password))
+      (append-padding (string->bytes game-name))))))
+
+(define pkth-create-join-game
+  (lambda (game-id game-password)
+    (pkth-create-packet
+     pkth-type-join-game
+     (list
+      (uint32->bytes game-id)
+      (uint16->bytes (string-length game-password))
+      (uint16->bytes 0)
+      (append-padding (string->bytes game-password))))))
+
+(define pkth-create-leave-current-game
+  (lambda ()
+    (pkth-create-packet
+     pkth-type-leave-current-game
+     (list
+      (uint32->bytes 0)))))
+
+(define pkth-create-start-event
+  (lambda (start-flags)
+    (pkth-create-packet
+     pkth-type-start-event
+     (list
+      (uint16->bytes start-flags)
+      (uint16->bytes 0)))))
+
+(define pkth-create-start-event-ack
+  (lambda ()
+    (pkth-create-packet
+     pkth-type-start-event-ack
+     (list
+      (uint32->bytes 0)))))
 
 #!
 (pkth-create-init-ack #x66666666 #x88888888)
@@ -575,29 +660,13 @@
 ;;; I/O functions
 ;;;
 
-;;; Close helper
-(define pkth-has-sock #f)
-(define pkth-sock 0)
-(define pkth-recv-buf "")
-
-(define pkth-close
-  (lambda ()
-    (if pkth-has-sock
-        (begin
-          (sock-close pkth-sock)
-          (set! pkth-has-sock #f)
-          (set! pkth-recv-buf "")))))
-
 ;;; Connect to server according to config.
 (define pkth-connect
   (lambda ()
-    (pkth-close)
-    (helper-init-vars)
+    (set! helper-var-recv-buf "")
     (let ((sock (sock-create-tcp PKTH_CONF_CONNECT_ADDR_FAMILY)))
       (sock-bind sock PKTH_CONF_CONNECT_LOCAL_ADDR PKTH_CONF_CONNECT_LOCAL_PORT)
       (sock-connect sock PKTH_CONF_CONNECT_REMOTE_ADDR PKTH_CONF_CONNECT_REMOTE_PORT)
-      (set! pkth-sock sock)
-      (set! pkth-has-sock #t)
       sock)))
 
 (define pkth-send-message-nolog
@@ -616,29 +685,31 @@
     (let ((ret 0))
       (do ((abort #f))
           (abort)
-          (let ((buflen (string-length pkth-recv-buf)))
+          (let ((buflen (string-length helper-var-recv-buf)))
             (if (>= buflen pkth-header-length-common)
                 (begin
-                  (let ((packetlen (pkth-get-length (string->bytes pkth-recv-buf))))
+                  (let ((packetlen (pkth-get-length (string->bytes helper-var-recv-buf))))
                     (if (<= packetlen buflen)
                         (begin
                           (set! abort #t)
-                          (let ((packet (string-copy (substring pkth-recv-buf 0 packetlen))))
-                            (set! pkth-recv-buf (string-drop pkth-recv-buf packetlen))
+                          (let ((packet (string-copy (substring helper-var-recv-buf 0 packetlen))))
+                            (set! helper-var-recv-buf (string-drop helper-var-recv-buf packetlen))
                             (set! ret (string->bytes packet))
                             (test-assert (pkth-is-valid-type? (pkth-get-type ret)) "Invalid PKTH message type.")
-                            (msg-display ret helper-direction-recv))))))))
+                            (msg-display ret helper-direction-recv)
+                            )))))))
           (if (not abort)
-              (let ((buf (make-string pkth-maximum-message-length)))
+              (let ((buf (make-string pkth-buf-length)))
                 (let ((recvret (sock-recv! socket buf)))
                   (let ((tmpbuf (substring buf 0 (car recvret))))
                     (if (string-null? tmpbuf) ; Abort if connection closed.
                         (begin
-                          (set! pkth-recv-buf "")
+                          (set! helper-var-recv-buf "")
                           (set! abort #t)
                           (set! ret #f))
                         (begin
-                          (set! pkth-recv-buf (string-append pkth-recv-buf tmpbuf)))))))))
+                          (set! helper-var-recv-buf (string-append helper-var-recv-buf tmpbuf))
+                          )))))))
       ret)))
 
 #!

@@ -48,6 +48,7 @@
 (define helper-var-last-display-msg         '())
 (define helper-var-last-display-direction   0)
 (define helper-var-display-newline          #f)
+(define helper-var-recv-buf                 "")
 
 (define helper-init-vars
   (lambda ()
@@ -71,7 +72,7 @@
       (set! t (timer-start t))
       (do ((abort #f))
           (abort)
-          (if (sock-select-read sock 10)
+          (if (or (not (string-null? helper-var-recv-buf)) (sock-select-read sock 10))
               (begin
                 (let ((msg (recv-function sock)))
                   (if (predicate-one-true? predicate-list msg)
