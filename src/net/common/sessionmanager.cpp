@@ -206,21 +206,6 @@ SessionManager::GetSessionByUniquePlayerId(unsigned uniqueId) const
 	return tmpSession;
 }
 
-bool
-SessionManager::GetSocketForSession(SessionId session, SOCKET &outSocket)
-{
-	bool retVal = false;
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
-	SessionMap::iterator pos = m_sessionMap.find(session);
-
-	if (pos != m_sessionMap.end())
-	{
-		outSocket = pos->second.sessionData->GetSocket();
-		retVal = true;
-	}
-	return retVal;
-}
-
 PlayerDataList
 SessionManager::GetPlayerDataList() const
 {
@@ -370,7 +355,7 @@ SessionManager::SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPac
 
 		// Send each client (with a certain state) a copy of the packet.
 		if (i->second.sessionData->GetState() == state)
-			sender.Send(i->first, boost::shared_ptr<NetPacket>(packet->Clone()));
+			sender.Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
 		++i;
 	}
 }
@@ -388,7 +373,7 @@ SessionManager::SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<
 		// Send each fully connected client but one a copy of the packet.
 		if (i->second.sessionData->GetState() == state)
 			if (i->first != except)
-				sender.Send(i->first, boost::shared_ptr<NetPacket>(packet->Clone()));
+				sender.Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
 		++i;
 	}
 }

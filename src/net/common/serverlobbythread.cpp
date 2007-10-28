@@ -46,10 +46,6 @@ public:
 	ServerSenderCallback(ServerLobbyThread &server) : m_server(server) {}
 	virtual ~ServerSenderCallback() {}
 
-	virtual bool GetSocketForSession(SessionId session, SOCKET &outSocket)
-	{
-		return m_server.GetSocketForSession(session, outSocket);
-	}
 	virtual void SignalNetError(SessionId /*session*/, int /*errorID*/, int /*osErrorID*/)
 	{
 		// We just ignore send errors for now, on server side.
@@ -97,7 +93,7 @@ ServerLobbyThread::ReAddSession(SessionWrapper session, int reason)
 	NetPacketRemovedFromGame::Data removedData;
 	removedData.removeReason = reason;
 	static_cast<NetPacketRemovedFromGame *>(packet.get())->SetData(removedData);
-	GetSender().Send(session.sessionData->GetId(), packet);
+	GetSender().Send(session.sessionData, packet);
 
 	boost::mutex::scoped_lock lock(m_sessionQueueMutex);
 	m_sessionQueue.push_back(session);
@@ -120,7 +116,9 @@ void
 ServerLobbyThread::RemoveSessionFromGame(SessionWrapper session)
 {
 	// Just remove the session. Only for fatal errors.
-	CloseSessionDelayed(session);
+	m_gameSessionManager.RemoveSession(session.sessionData->GetId());
+	// Update stats (if needed).
+	BroadcastStatisticsUpdate();
 }
 
 void
@@ -230,15 +228,6 @@ ServerLobbyThread::RemoveGame(unsigned id)
 	m_removeGameList.push_back(id);
 }
 
-bool
-ServerLobbyThread::GetSocketForSession(SessionId session, SOCKET &outSocket)
-{
-	bool retVal = m_sessionManager.GetSocketForSession(session, outSocket);
-	if (!retVal)
-		retVal = m_gameSessionManager.GetSocketForSession(session, outSocket);
-	return retVal;
-}
-
 AvatarManager &
 ServerLobbyThread::GetAvatarManager()
 {
@@ -310,7 +299,10 @@ ServerLobbyThread::ProcessLoop()
 		} catch (const NetException &)
 		{
 			// On error: Close this session.
-			CloseSessionDelayed(session);
+			m_initTimerSessionMap.erase(session.sessionData->GetId());
+			m_sessionManager.RemoveSession(session.sessionData->GetId());
+			// Update stats (if needed).
+			BroadcastStatisticsUpdate();
 			return;
 		}
 		if (packet.get())
@@ -519,7 +511,7 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 		if (infoData.playerInfo.hasAvatar)
 			infoData.playerInfo.avatar = tmpPlayer->GetAvatarMD5();
 		static_cast<NetPacketPlayerInfo *>(info.get())->SetData(infoData);
-		GetSender().Send(session.sessionData->GetId(), info);
+		GetSender().Send(session.sessionData, info);
 	}
 	else
 	{
@@ -528,7 +520,7 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 		NetPacketUnknownPlayerId::Data unknownData;
 		unknownData.playerId = request.playerId;
 		static_cast<NetPacketUnknownPlayerId *>(unknown.get())->SetData(unknownData);
-		GetSender().Send(session.sessionData->GetId(), unknown);
+		GetSender().Send(session.sessionData, unknown);
 	}
 }
 
@@ -546,7 +538,7 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(SessionWrapper session, const N
 		if (GetAvatarManager().AvatarFileToNetPackets(tmpFile, request.requestId, tmpPackets) == 0)
 		{
 			avatarFound = true;
-			GetSender().SendLowPrio(session.sessionData->GetId(), tmpPackets);
+			GetSender().SendLowPrio(session.sessionData, tmpPackets);
 		}
 		else
 			LOG_ERROR("Failed to read avatar file for network transmission.");
@@ -559,7 +551,7 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(SessionWrapper session, const N
 		NetPacketUnknownAvatar::Data unknownData;
 		unknownData.requestId = request.requestId;
 		static_cast<NetPacketUnknownAvatar *>(unknown.get())->SetData(unknownData);
-		GetSender().Send(session.sessionData->GetId(), unknown);
+		GetSender().Send(session.sessionData, unknown);
 	}
 }
 
@@ -608,7 +600,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const NetPack
 		}
 		else
 		{
-			SendJoinGameFailed(session.sessionData->GetId(), NTF_NET_JOIN_INVALID_PASSWORD);
+			SendJoinGameFailed(session.sessionData, NTF_NET_JOIN_INVALID_PASSWORD);
 		}
 	}
 	else
@@ -629,10 +621,10 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 	initAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
 	initAckData.playerId = session.playerData->GetUniqueId();
 	static_cast<NetPacketInitAck *>(initAck.get())->SetData(initAckData);
-	GetSender().Send(session.sessionData->GetId(), initAck);
+	GetSender().Send(session.sessionData, initAck);
 
 	// Send the game list to the client.
-	SendGameList(session.sessionData->GetId());
+	SendGameList(session.sessionData);
 
 	// Session is now established.
 	m_initTimerSessionMap.erase(session.sessionData->GetId());
@@ -653,7 +645,7 @@ ServerLobbyThread::RequestPlayerAvatar(SessionWrapper session)
 	retrieveAvatarData.requestId = session.playerData->GetUniqueId();
 	retrieveAvatarData.avatar = session.playerData->GetAvatarMD5();
 	static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
-	GetSender().Send(session.sessionData->GetId(), retrieveAvatar);
+	GetSender().Send(session.sessionData, retrieveAvatar);
 }
 
 void
@@ -867,13 +859,13 @@ ServerLobbyThread::SessionError(SessionWrapper session, int errorCode)
 {
 	if (session.sessionData.get())
 	{
-		SendError(session.sessionData->GetId(), errorCode);
+		SendError(session.sessionData, errorCode);
 		CloseSessionDelayed(session);
 	}
 }
 
 void
-ServerLobbyThread::SendError(SessionId s, int errorCode)
+ServerLobbyThread::SendError(boost::shared_ptr<SessionData> s, int errorCode)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacketError);
 	NetPacketError::Data errorData;
@@ -883,7 +875,7 @@ ServerLobbyThread::SendError(SessionId s, int errorCode)
 }
 
 void
-ServerLobbyThread::SendJoinGameFailed(SessionId s, int reason)
+ServerLobbyThread::SendJoinGameFailed(boost::shared_ptr<SessionData> s, int reason)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacketJoinGameFailed);
 	NetPacketJoinGameFailed::Data failedData;
@@ -893,7 +885,7 @@ ServerLobbyThread::SendJoinGameFailed(SessionId s, int reason)
 }
 
 void
-ServerLobbyThread::SendGameList(SessionId s)
+ServerLobbyThread::SendGameList(boost::shared_ptr<SessionData> s)
 {
 	GameMap::const_iterator game_i = m_gameMap.begin();
 	GameMap::const_iterator game_end = m_gameMap.end();

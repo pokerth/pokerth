@@ -362,7 +362,7 @@ ClientStateStartSession::Process(ClientThread &client)
 	boost::shared_ptr<NetPacket> packet(new NetPacketInit);
 	((NetPacketInit *)packet.get())->SetData(initData);
 	
-	client.GetSender().Send(context.GetSessionId(), packet);
+	client.GetSender().Send(context.GetSessionData(), packet);
 
 	client.SetState(ClientStateWaitSession::Instance());
 
@@ -592,7 +592,7 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 			tmpList);
 
 		if (!avatarError)
-			client.GetSender().SendLowPrio(client.GetContext().GetSessionId(), tmpList);
+			client.GetSender().SendLowPrio(client.GetContext().GetSessionData(), tmpList);
 		else
 			throw ClientException(__FILE__, __LINE__, avatarError, 0);
 	}
@@ -740,7 +740,7 @@ ClientStateSynchronizeStart::Process(ClientThread &client)
 	if (client.IsSynchronized())
 	{
 		boost::shared_ptr<NetPacket> startAck(new NetPacketStartEventAck);
-		client.GetSender().Send(client.GetContext().GetSessionId(), startAck);
+		client.GetSender().Send(client.GetContext().GetSessionData(), startAck);
 		client.SetState(ClientStateWaitStart::Instance());
 	}
 

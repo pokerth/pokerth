@@ -70,8 +70,6 @@ public:
 
 	void RemoveGame(unsigned id);
 
-	bool GetSocketForSession(SessionId session, SOCKET &outSocket);
-
 	u_int32_t GetNextUniquePlayerId();
 	u_int32_t GetNextGameId();
 	ServerCallback &GetCallback();
@@ -123,9 +121,9 @@ protected:
 	void CleanupSessionMap();
 
 	void CloseSessionDelayed(SessionWrapper session);
-	void SendError(SessionId s, int errorCode);
-	void SendJoinGameFailed(SessionId s, int reason);
-	void SendGameList(SessionId s);
+	void SendError(boost::shared_ptr<SessionData> s, int errorCode);
+	void SendJoinGameFailed(boost::shared_ptr<SessionData> s, int reason);
+	void SendGameList(boost::shared_ptr<SessionData> s);
 	void BroadcastStatisticsUpdate();
 
 	SenderThread &GetSender();

@@ -34,10 +34,7 @@ public:
 	virtual SOCKET GetSocket() const;
 	void SetSocket(SOCKET sockfd);
 
-	SessionId GetSessionId() const
-	{return m_sessionId;}
-	void SetSessionId(SessionId sessionId)
-	{m_sessionId = sessionId;}
+	boost::shared_ptr<SessionData> GetSessionData() const;
 	int GetProtocol() const
 	{return m_protocol;}
 	void SetProtocol(int protocol)
@@ -78,8 +75,7 @@ public:
 	{return m_receiveBuffer;}
 
 private:
-	SOCKET				m_sockfd;
-	SessionId			m_sessionId;
+	boost::shared_ptr<SessionData> m_sessionData;
 	int					m_protocol;
 	int					m_addrFamily;
 	std::string			m_serverAddr;

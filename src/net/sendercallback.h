@@ -29,7 +29,6 @@ class SenderCallback
 public:
 	virtual ~SenderCallback();
 
-	virtual bool GetSocketForSession(SessionId session, SOCKET &outSocket) = 0;
 	virtual void SignalNetError(SessionId session, int errorID, int osErrorID) = 0;
 };
 

@@ -40,10 +40,6 @@ public:
 	GameSenderCallback(ServerGameThread &server) : m_server(server) {}
 	virtual ~GameSenderCallback() {}
 
-	virtual bool GetSocketForSession(SessionId session, SOCKET &outSocket)
-	{
-		return m_server.GetSessionManager().GetSocketForSession(session, outSocket);
-	}
 	virtual void SignalNetError(SessionId /*session*/, int /*errorID*/, int /*osErrorID*/)
 	{
 		// We just ignore send errors for now, on server side.

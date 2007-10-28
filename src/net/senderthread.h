@@ -41,25 +41,25 @@ public:
 	SenderThread(SenderCallback &cb);
 	virtual ~SenderThread();
 
-	void Send(SessionId session, boost::shared_ptr<NetPacket> packet);
-	void Send(SessionId session, const NetPacketList &packetList);
+	void Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+	void Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
 
-	void SendLowPrio(SessionId session, boost::shared_ptr<NetPacket> packet);
-	void SendLowPrio(SessionId session, const NetPacketList &packetList);
+	void SendLowPrio(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+	void SendLowPrio(boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
 
 protected:
-	typedef std::pair<boost::shared_ptr<NetPacket>, SessionId> SendData;
+	typedef std::pair<boost::shared_ptr<NetPacket>, boost::shared_ptr<SessionData> > SendData;
 	typedef std::deque<SendData> SendDataDeque;
 
 	// Main function of the thread.
 	virtual void Main();
 
-	void InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, SessionId session, boost::shared_ptr<NetPacket> packet);
-	void InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, SessionId session, const NetPacketList &packetList);
+	void InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+	void InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
 
 private:
 
-	SessionId m_curSession;
+	boost::shared_ptr<SessionData> m_curSession;
 
 	std::deque<SendData> m_outBuf;
 	mutable boost::mutex m_outBufMutex;

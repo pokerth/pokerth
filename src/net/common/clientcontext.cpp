@@ -20,26 +20,31 @@
 #include <net/clientcontext.h>
 
 ClientContext::ClientContext()
-: m_sockfd(INVALID_SOCKET), m_sessionId(SESSION_ID_GENERIC), m_protocol(0), m_addrFamily(AF_INET), m_serverPort(0)
+: m_protocol(0), m_addrFamily(AF_INET), m_serverPort(0)
 {
 	bzero(&m_clientSockaddr, sizeof(m_clientSockaddr));
 }
 
 ClientContext::~ClientContext()
 {
-	if (m_sockfd != INVALID_SOCKET)
-		CLOSESOCKET(m_sockfd);
 }
 
 SOCKET
 ClientContext::GetSocket() const
 {
-	return m_sockfd;
+	assert(m_sessionData.get());
+	return m_sessionData->GetSocket();
 }
 
 void
 ClientContext::SetSocket(SOCKET sockfd)
 {
-	m_sockfd = sockfd;
+	m_sessionData.reset(new SessionData(sockfd, SESSION_ID_GENERIC));
+}
+
+boost::shared_ptr<SessionData>
+ClientContext::GetSessionData() const
+{
+	return m_sessionData;
 }
 
