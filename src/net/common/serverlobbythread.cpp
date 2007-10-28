@@ -120,9 +120,7 @@ void
 ServerLobbyThread::RemoveSessionFromGame(SessionWrapper session)
 {
 	// Just remove the session. Only for fatal errors.
-	m_gameSessionManager.RemoveSession(session.sessionData->GetId());
-	// Update stats (if needed).
-	BroadcastStatisticsUpdate();
+	CloseSessionDelayed(session);
 }
 
 void
@@ -312,10 +310,7 @@ ServerLobbyThread::ProcessLoop()
 		} catch (const NetException &)
 		{
 			// On error: Close this session.
-			m_initTimerSessionMap.erase(session.sessionData->GetId());
-			m_sessionManager.RemoveSession(session.sessionData->GetId());
-			// Update stats (if needed).
-			BroadcastStatisticsUpdate();
+			CloseSessionDelayed(session);
 			return;
 		}
 		if (packet.get())
