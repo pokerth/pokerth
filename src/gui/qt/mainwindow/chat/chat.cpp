@@ -47,7 +47,7 @@ void Chat::sendMessage() {
 		QString playerToKick = myW->lineEdit_ChatInput->text().section(" ",1,1);
 		
 		myW->lineEdit_ChatInput->setText("");
-		if(myW->getSession().getClientGameInfo(myW->getSession().getCurrentGame()->getMyGameID()).adminPlayerId == myW->getSession().getCurrentGame()->getSeatsList()->front()->getMyUniqueID()) {
+		if(myW->getSession().getClientGameInfo(myW->getSession().getClientCurrentGameId()).adminPlayerId == myW->getSession().getCurrentGame()->getSeatsList()->front()->getMyUniqueID()) {
 
 			if(playerToKick.toUtf8().constData() == myW->getSession().getCurrentGame()->getSeatsList()->front()->getMyName()) {
 				myW->textBrowser_Chat->append("<span style=\"color:#ff0000;\">"+tr("You cannot kick yourself!")+"</span>");	

@@ -628,6 +628,7 @@ ClientStateWaitJoin::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		// Successfully joined a game.
 		NetPacketJoinGameAck::Data joinGameAckData;
 		packet->ToNetPacketJoinGameAck()->GetData(joinGameAckData);
+		client.SetGameId(joinGameAckData.gameId);
 		client.SetGameData(joinGameAckData.gameData);
 
 		// Player number is 0 on init. Will be set when the game starts.

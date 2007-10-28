@@ -65,10 +65,11 @@ public:
 	void SendJoinGame(unsigned gameId, const std::string &password);
 	void SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
 
-	GameInfo GetGameInfo(unsigned playerId) const;
+	GameInfo GetGameInfo(unsigned gameId) const;
 	PlayerInfo GetPlayerInfo(unsigned playerId) const;
 	bool GetPlayerIdFromName(const std::string &playerName, unsigned &playerId) const;
 	ServerStats GetStatData() const;
+	unsigned GetGameId() const;
 
 	ClientCallback &GetCallback();
 	GuiInterface &GetGui();
@@ -106,6 +107,7 @@ protected:
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
 
+	void SetGameId(unsigned id);
 	const GameData &GetGameData() const;
 	void SetGameData(const GameData &gameData);
 	const StartData &GetStartData() const;
@@ -170,9 +172,12 @@ private:
 	mutable boost::mutex m_playerInfoMapMutex;
 	PlayerIdList m_playerInfoRequestList;
 
+	unsigned m_curGameId;
+	mutable boost::mutex m_curGameIdMutex;
+
 	AvatarDataMap m_tempAvatarMap;
 
-	unsigned m_curGameId;
+	unsigned m_curGameNum;
 	unsigned m_guiPlayerId;
 	bool m_sessionEstablished;
 

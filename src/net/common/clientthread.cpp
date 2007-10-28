@@ -56,7 +56,7 @@ private:
 
 ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager)
 : m_curState(NULL), m_gui(gui), m_avatarManager(avatarManager),
-  m_curGameId(1), m_guiPlayerId(0), m_sessionEstablished(false)
+  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false)
 {
 	m_context.reset(new ClientContext);
 	m_senderCallback.reset(new ClientSenderCallback(*this));
@@ -331,7 +331,7 @@ ClientThread::Main()
 					MapPlayerDataList();
 					if (GetPlayerDataList().size() != (unsigned)GetStartData().numberOfPlayers)
 						throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
-					m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameId++));
+					m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameNum++));
 					// Initialize GUI speed.
 					GetGui().initGui(GetGameData().guiSpeed);
 					// Signal start of game to GUI.
@@ -564,6 +564,20 @@ ClientThread::GetReceiver()
 {
 	assert(m_receiver.get());
 	return *m_receiver;
+}
+
+unsigned
+ClientThread::GetGameId() const
+{
+	boost::mutex::scoped_lock lock(m_curGameIdMutex);
+	return m_curGameId;
+}
+
+void
+ClientThread::SetGameId(unsigned id)
+{
+	boost::mutex::scoped_lock lock(m_curGameIdMutex);
+	m_curGameId = id;
 }
 
 const GameData &

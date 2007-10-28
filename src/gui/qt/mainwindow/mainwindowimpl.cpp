@@ -3547,7 +3547,7 @@ void mainWindowImpl::networkGameModification() {
 
 void mainWindowImpl::mouseOverFlipCards(bool front) {
 
-	if(mySession->getCurrentGameID()) {
+	if(mySession->getCurrentGame()) {
 		if(myConfig->readConfigInt("AntiPeekMode") && mySession->getCurrentGame()->getCurrentHand()->getSeatsList()->front()->getMyActiveStatus() && mySession->getCurrentGame()->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD) {
 			holeCardsArray[0][0]->signalFastFlipCards(front);
 			holeCardsArray[0][1]->signalFastFlipCards(front);

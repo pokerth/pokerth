@@ -39,7 +39,7 @@
 using namespace std;
 
 Session::Session(GuiInterface *g, ConfigFile *c)
-: currentGameID(0), myNetClient(NULL), myNetServer(NULL), myIrcThread(NULL),
+: currentGameNum(0), myNetClient(NULL), myNetServer(NULL), myIrcThread(NULL),
   myGui(g), myConfig(c), myGameType(GAME_TYPE_NONE)
 {
 }
@@ -71,7 +71,7 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
 	myGameType = GAME_TYPE_LOCAL;
 
 	currentGame.reset();
-	currentGameID++;
+	currentGameNum++;
 
 	myGui->initGui(gameData.guiSpeed);
 
@@ -99,7 +99,7 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
 	// EngineFactory erstellen
 	boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(myConfig)); // LocalEngine erstellen
 
-	currentGame.reset(new Game(myGui, factory, playerDataList, gameData, startData, currentGameID));
+	currentGame.reset(new Game(myGui, factory, playerDataList, gameData, startData, currentGameNum));
 
 	//// SPIEL-SCHLEIFE
 	currentGame->initHand();
@@ -109,7 +109,7 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
 
 void Session::startClientGame(boost::shared_ptr<Game> game)
 {
-	currentGameID++;
+	currentGameNum++;
 
 	currentGame = game;
 }
@@ -358,7 +358,7 @@ bool Session::isNetworkServerRunning() const
 	return myNetServer != NULL;
 }
 
-GameInfo Session::getClientGameInfo(unsigned playerId)
+GameInfo Session::getClientGameInfo(unsigned playerId) const
 {
 	GameInfo info;
 	if (myNetClient)
@@ -366,7 +366,7 @@ GameInfo Session::getClientGameInfo(unsigned playerId)
 	return info;
 }
 
-PlayerInfo Session::getClientPlayerInfo(unsigned playerId)
+PlayerInfo Session::getClientPlayerInfo(unsigned playerId) const
 {
 	PlayerInfo info;
 	if (myNetClient)
@@ -374,11 +374,19 @@ PlayerInfo Session::getClientPlayerInfo(unsigned playerId)
 	return info;
 }
 
-ServerStats Session::getClientStats()
+ServerStats Session::getClientStats() const
 {
 	ServerStats stats;
 	if (myNetClient)
 		stats = myNetClient->GetStatData();
 	return stats;
+}
+
+unsigned Session::getClientCurrentGameId() const
+{
+	unsigned id = 0;
+	if (myNetClient)
+		id = myNetClient->GetGameId();
+	return id;
 }
 

@@ -72,9 +72,6 @@ public:
 
 	void sendClientPlayerAction();
 
-	void setCurrentGameID(int theValue) { currentGameID = theValue; }
-	int getCurrentGameID() const { return currentGameID; }
-
 	void sendChatMessage(const std::string &message);
 	void kickPlayer(unsigned playerId);
 	void kickPlayer(const std::string &playerName);
@@ -82,13 +79,14 @@ public:
 	bool isNetworkClientRunning() const; // TODO hack
 	bool isNetworkServerRunning() const; // TODO hack
 
-	GameInfo getClientGameInfo(unsigned gameId);
-	PlayerInfo getClientPlayerInfo(unsigned playerId);
-	ServerStats getClientStats();
+	GameInfo getClientGameInfo(unsigned gameId) const;
+	PlayerInfo getClientPlayerInfo(unsigned playerId) const;
+	ServerStats getClientStats() const;
+	unsigned getClientCurrentGameId() const;
 
 private:
 
-	int currentGameID;
+	int currentGameNum;
 
 	ClientThread *myNetClient;
 	ServerAcceptThread *myNetServer;
