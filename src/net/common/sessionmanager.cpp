@@ -52,19 +52,19 @@ SessionManager::AddSession(SessionWrapper session)
 {
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);
 
-	SessionMap::iterator pos = m_sessionMap.lower_bound(session.sessionData->GetSocket());
+	SessionMap::iterator pos = m_sessionMap.lower_bound(session.sessionData->GetId());
 
 	// If pos points to a pair whose key is equivalent to the socket, this handle
 	// already exists within the list.
-	if (pos != m_sessionMap.end() && session.sessionData->GetSocket() == pos->first)
+	if (pos != m_sessionMap.end() && session.sessionData->GetId() == pos->first)
 	{
 		throw ServerException(__FILE__, __LINE__, ERR_SOCK_CONN_EXISTS, 0);
 	}
-	m_sessionMap.insert(pos, SessionMap::value_type(session.sessionData->GetSocket(), session));
+	m_sessionMap.insert(pos, SessionMap::value_type(session.sessionData->GetId(), session));
 }
 
 void
-SessionManager::SetSessionPlayerData(SOCKET session, boost::shared_ptr<PlayerData> playerData)
+SessionManager::SetSessionPlayerData(SessionId session, boost::shared_ptr<PlayerData> playerData)
 {
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);
 	SessionMap::iterator pos = m_sessionMap.find(session);
@@ -74,7 +74,7 @@ SessionManager::SetSessionPlayerData(SOCKET session, boost::shared_ptr<PlayerDat
 }
 
 void
-SessionManager::RemoveSession(SOCKET session)
+SessionManager::RemoveSession(SessionId session)
 {
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);
 	m_sessionMap.erase(session);
@@ -96,7 +96,7 @@ SessionManager::Select(unsigned timeoutMsec)
 		while (i != end)
 		{
 			// Collect all sockets.
-			SOCKET tmpSock = i->first;
+			SOCKET tmpSock = i->second.sessionData->GetSocket();
 			FD_SET(tmpSock, &rdset);
 			if (tmpSock > maxSock || maxSock == INVALID_SOCKET)
 				maxSock = tmpSock;
@@ -137,7 +137,7 @@ SessionManager::Select(unsigned timeoutMsec)
 
 				while (i != end)
 				{
-					if (FD_ISSET(i->first, &rdset))
+					if (FD_ISSET(i->second.sessionData->GetSocket(), &rdset))
 					{
 						retSession = i->second;
 						break;
@@ -204,6 +204,21 @@ SessionManager::GetSessionByUniquePlayerId(unsigned uniqueId) const
 		++session_i;
 	}
 	return tmpSession;
+}
+
+bool
+SessionManager::GetSocketForSession(SessionId session, SOCKET &outSocket)
+{
+	bool retVal = false;
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	SessionMap::iterator pos = m_sessionMap.find(session);
+
+	if (pos != m_sessionMap.end())
+	{
+		outSocket = pos->second.sessionData->GetSocket();
+		retVal = true;
+	}
+	return retVal;
 }
 
 PlayerDataList
@@ -361,7 +376,7 @@ SessionManager::SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPac
 }
 
 void
-SessionManager::SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SOCKET except, SessionData::State state)
+SessionManager::SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state)
 {
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);
 

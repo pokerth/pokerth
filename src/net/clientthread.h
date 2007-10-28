@@ -194,6 +194,7 @@ friend class ClientStateWaitStart;
 friend class ClientStateWaitHand;
 friend class ClientStateRunHand;
 friend class ClientStateFinal;
+friend class ClientSenderCallback;
 };
 
 #endif

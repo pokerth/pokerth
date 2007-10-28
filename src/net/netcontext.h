@@ -31,7 +31,6 @@ public:
 	virtual ~NetContext();
 
 	virtual SOCKET GetSocket() const = 0;
-	virtual u_int32_t GetId() const = 0;
 };
 
 #endif

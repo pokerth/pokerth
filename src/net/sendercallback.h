@@ -21,6 +21,7 @@
 #ifndef _SENDERCALLBACK_H_
 #define _SENDERCALLBACK_H_
 
+#include <net/sessiondata.h>
 #include <net/socket_helper.h>
 
 class SenderCallback
@@ -28,7 +29,8 @@ class SenderCallback
 public:
 	virtual ~SenderCallback();
 
-	virtual void SignalNetError(SOCKET sock, int errorID, int osErrorID) = 0;
+	virtual bool GetSocketForSession(SessionId session, SOCKET &outSocket) = 0;
+	virtual void SignalNetError(SessionId session, int errorID, int osErrorID) = 0;
 };
 
 #endif

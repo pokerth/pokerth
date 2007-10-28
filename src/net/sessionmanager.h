@@ -51,12 +51,14 @@ public:
 
 	void AddSession(boost::shared_ptr<SessionData> sessionData); // new Sessions without player data
 	void AddSession(SessionWrapper session);
-	void SetSessionPlayerData(SOCKET session, boost::shared_ptr<PlayerData> playerData);
-	void RemoveSession(SOCKET session);
+	void SetSessionPlayerData(SessionId session, boost::shared_ptr<PlayerData> playerData);
+	void RemoveSession(SessionId session);
 
 	SessionWrapper Select(unsigned timeoutMsec);
 	SessionWrapper GetSessionByPlayerName(const std::string playerName) const;
 	SessionWrapper GetSessionByUniquePlayerId(unsigned uniqueId) const;
+
+	bool GetSocketForSession(SessionId session, SOCKET &outSocket);
 
 	PlayerDataList GetPlayerDataList() const;
 	PlayerIdList GetPlayerIdList() const;
@@ -72,11 +74,11 @@ public:
 	unsigned GetRawSessionCount();
 
 	void SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
-	void SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SOCKET except, SessionData::State state);
+	void SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state);
 
 protected:
 
-	typedef std::map<SOCKET, SessionWrapper> SessionMap;
+	typedef std::map<SessionId, SessionWrapper> SessionMap;
 
 private:
 

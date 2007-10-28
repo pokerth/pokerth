@@ -23,6 +23,7 @@
 
 #include <net/netcontext.h>
 #include <net/receivebuffer.h>
+#include <net/sessiondata.h>
 
 class ClientContext : public NetContext
 {
@@ -31,10 +32,12 @@ public:
 	virtual ~ClientContext();
 
 	virtual SOCKET GetSocket() const;
-	virtual u_int32_t GetId() const;
-
 	void SetSocket(SOCKET sockfd);
 
+	SessionId GetSessionId() const
+	{return m_sessionId;}
+	void SetSessionId(SessionId sessionId)
+	{m_sessionId = sessionId;}
 	int GetProtocol() const
 	{return m_protocol;}
 	void SetProtocol(int protocol)
@@ -76,6 +79,7 @@ public:
 
 private:
 	SOCKET				m_sockfd;
+	SessionId			m_sessionId;
 	int					m_protocol;
 	int					m_addrFamily;
 	std::string			m_serverAddr;

@@ -34,13 +34,17 @@
 using namespace std;
 
 
-class ServerSenderCallback : public SenderCallback
+class GameSenderCallback : public SenderCallback
 {
 public:
-	ServerSenderCallback(ServerGameThread &server) : m_server(server) {}
-	virtual ~ServerSenderCallback() {}
+	GameSenderCallback(ServerGameThread &server) : m_server(server) {}
+	virtual ~GameSenderCallback() {}
 
-	virtual void SignalNetError(SOCKET /*sock*/, int /*errorID*/, int /*osErrorID*/)
+	virtual bool GetSocketForSession(SessionId session, SOCKET &outSocket)
+	{
+		return m_server.GetSessionManager().GetSocketForSession(session, outSocket);
+	}
+	virtual void SignalNetError(SessionId /*session*/, int /*errorID*/, int /*osErrorID*/)
 	{
 		// We just ignore send errors for now, on server side.
 		// A serious send error should trigger a read error or a read
@@ -57,7 +61,7 @@ ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id,
   m_name(name), m_password(pwd), m_gameData(gameData), m_playerConfig(playerConfig),
   m_curState(NULL), m_gameNum(1)
 {
-	m_senderCallback.reset(new ServerSenderCallback(*this));
+	m_senderCallback.reset(new GameSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
 	m_receiver.reset(new ReceiverHelper);
 }
@@ -319,7 +323,7 @@ void
 ServerGameThread::GracefulRemoveSession(SessionWrapper session)
 {
 	assert(session.sessionData.get());
-	GetSessionManager().RemoveSession(session.sessionData->GetSocket());
+	GetSessionManager().RemoveSession(session.sessionData->GetId());
 
 	boost::shared_ptr<PlayerData> tmpPlayerData = session.playerData;
 	if (tmpPlayerData.get() && !tmpPlayerData->GetName().empty())
@@ -526,7 +530,7 @@ ServerGameThread::CheckPassword(const string &password) const
 	return (password == m_password);
 }
 
-ServerSenderCallback &
+GameSenderCallback &
 ServerGameThread::GetSenderCallback()
 {
 	assert(m_senderCallback.get());

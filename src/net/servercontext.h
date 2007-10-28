@@ -31,7 +31,6 @@ public:
 	virtual ~ServerContext();
 
 	virtual SOCKET GetSocket() const;
-	virtual u_int32_t GetId() const;
 
 	void SetSocket(SOCKET sockfd);
 

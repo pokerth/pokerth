@@ -26,17 +26,26 @@
 #include <string>
 #include <boost/thread.hpp>
 
-#define SESSION_ID_INIT			0
+#define INVALID_SESSION			0
+#define SESSION_ID_INIT			INVALID_SESSION
+#define SESSION_ID_GENERIC		0xFFFFFFFF
+
+typedef unsigned SessionId;
+/*struct SessionId
+{
+	unsigned id;
+};*/
+
 
 class SessionData
 {
 public:
 	enum State { Init, ReceivingAvatar, Established, Game };
 
-	SessionData(SOCKET sockfd, unsigned id);
+	SessionData(SOCKET sockfd, SessionId id);
 	~SessionData();
 
-	unsigned GetId() const;
+	SessionId GetId() const;
 	State GetState() const;
 	void SetState(State state);
 
@@ -53,7 +62,7 @@ public:
 
 private:
 	SOCKET							m_sockfd;
-	const unsigned					m_id;
+	const SessionId					m_id;
 	State							m_state;
 	std::string						m_clientAddr;
 	ReceiveBuffer					m_receiveBuffer;

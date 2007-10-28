@@ -70,6 +70,8 @@ public:
 
 	void RemoveGame(unsigned id);
 
+	bool GetSocketForSession(SessionId session, SOCKET &outSocket);
+
 	u_int32_t GetNextUniquePlayerId();
 	u_int32_t GetNextGameId();
 	ServerCallback &GetCallback();
@@ -82,7 +84,7 @@ protected:
 	typedef std::deque<SessionWrapper> SessionQueue;
 	typedef std::list<SessionWrapper> SessionList;
 	typedef std::list<std::pair<boost::timers::portable::microsec_timer, boost::shared_ptr<SessionData> > > CloseSessionList;
-	typedef std::map<SOCKET, boost::timers::portable::microsec_timer> InitTimerSessionMap;
+	typedef std::map<SessionId, boost::timers::portable::microsec_timer> InitTimerSessionMap;
 	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
 	typedef std::list<unsigned> RemoveGameList;
 
@@ -121,9 +123,9 @@ protected:
 	void CleanupSessionMap();
 
 	void CloseSessionDelayed(SessionWrapper session);
-	void SendError(SOCKET s, int errorCode);
-	void SendJoinGameFailed(SOCKET s, int reason);
-	void SendGameList(SOCKET s);
+	void SendError(SessionId s, int errorCode);
+	void SendJoinGameFailed(SessionId s, int reason);
+	void SendGameList(SessionId s);
 	void BroadcastStatisticsUpdate();
 
 	SenderThread &GetSender();
@@ -165,7 +167,7 @@ private:
 
 	std::auto_ptr<ReceiverHelper> m_receiver;
 	std::auto_ptr<SenderThread> m_sender;
-	std::auto_ptr<ServerSenderCallback> m_senderCallback;
+	boost::shared_ptr<ServerSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
 	AvatarManager &m_avatarManager;
 
@@ -174,6 +176,7 @@ private:
 	u_int32_t m_curGameId;
 
 	u_int32_t m_curUniquePlayerId;
+	u_int32_t m_curSessionId;
 	mutable boost::mutex m_curUniquePlayerIdMutex;
 
 	unsigned m_totalPlayersLoggedIn;

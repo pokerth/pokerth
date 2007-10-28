@@ -42,9 +42,14 @@ public:
 	ClientSenderCallback(ClientThread &client) : m_client(client) {}
 	virtual ~ClientSenderCallback() {}
 
-	virtual void SignalNetError(SOCKET /*sock*/, int errorID, int osErrorID)
+	virtual bool GetSocketForSession(SessionId session, SOCKET &outSocket)
 	{
-		// For now, we ignore the socket.
+		assert(session == m_client.GetContext().GetSessionId());
+		outSocket = m_client.GetContext().GetSocket();
+		return true;
+	}
+	virtual void SignalNetError(SessionId /*session*/, int errorID, int osErrorID)
+	{
 		// Just signal the error.
 		// We assume that the client thread will be terminated.
 		m_client.GetCallback().SignalNetClientError(errorID, osErrorID);
@@ -369,7 +374,7 @@ ClientThread::SendPacketLoop()
 
 		while (i != end)
 		{
-			GetSender().Send(GetContext().GetSocket(), *i);
+			GetSender().Send(GetContext().GetSessionId(), *i);
 			++i;
 		}
 		m_outPacketList.clear();
@@ -400,7 +405,7 @@ ClientThread::RequestPlayerInfo(unsigned id)
 		NetPacketRetrievePlayerInfo::Data reqData;
 		reqData.playerId = id;
 		static_cast<NetPacketRetrievePlayerInfo *>(req.get())->SetData(reqData);
-		GetSender().Send(GetContext().GetSocket(), req);
+		GetSender().Send(GetContext().GetSessionId(), req);
 
 		m_playerInfoRequestList.push_back(id);
 	}
@@ -438,7 +443,7 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info, bool retrieveAv
 		retrieveAvatarData.requestId = id;
 		retrieveAvatarData.avatar = info.avatar;
 		static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
-		GetSender().Send(GetContext().GetSocket(), retrieveAvatar);
+		GetSender().Send(GetContext().GetSessionId(), retrieveAvatar);
 
 		// Insert empty value in list to synchronize waiting.
 		m_tempAvatarMap[id] = boost::shared_ptr<AvatarData>();

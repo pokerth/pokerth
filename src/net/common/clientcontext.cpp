@@ -20,7 +20,7 @@
 #include <net/clientcontext.h>
 
 ClientContext::ClientContext()
-: m_sockfd(INVALID_SOCKET), m_protocol(0), m_addrFamily(AF_INET), m_serverPort(0)
+: m_sockfd(INVALID_SOCKET), m_sessionId(SESSION_ID_GENERIC), m_protocol(0), m_addrFamily(AF_INET), m_serverPort(0)
 {
 	bzero(&m_clientSockaddr, sizeof(m_clientSockaddr));
 }
@@ -35,13 +35,6 @@ SOCKET
 ClientContext::GetSocket() const
 {
 	return m_sockfd;
-}
-
-u_int32_t
-ClientContext::GetId() const
-{
-	// Id is unused for clients.
-	return 0;
 }
 
 void

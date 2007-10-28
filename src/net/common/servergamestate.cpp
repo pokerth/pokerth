@@ -271,7 +271,7 @@ ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper s
 			joinGameAckData.prights = session.playerData->GetRights();
 			joinGameAckData.gameData = server.GetGameData();
 			static_cast<NetPacketJoinGameAck *>(joinGameAck.get())->SetData(joinGameAckData);
-			server.GetSender().Send(session.sessionData->GetSocket(), joinGameAck);
+			server.GetSender().Send(session.sessionData->GetId(), joinGameAck);
 
 			// Send notifications for connected players to client.
 			PlayerDataList tmpPlayerList = server.GetFullPlayerDataList();
@@ -279,7 +279,7 @@ ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper s
 			PlayerDataList::iterator player_end = tmpPlayerList.end();
 			while (player_i != player_end)
 			{
-				server.GetSender().Send(session.sessionData->GetSocket(), CreateNetPacketPlayerJoined(*(*player_i)));
+				server.GetSender().Send(session.sessionData->GetId(), CreateNetPacketPlayerJoined(*(*player_i)));
 				++player_i;
 			}
 
@@ -538,7 +538,7 @@ ServerGameStateStartHand::Process(ServerGameThread &server)
 			handStartData.smallBlind = curGame.getCurrentHand()->getSmallBlind();
 			static_cast<NetPacketHandStart *>(notifyCards.get())->SetData(handStartData);
 
-			server.GetSender().Send(tmpPlayer->getNetSessionData()->GetSocket(), notifyCards);
+			server.GetSender().Send(tmpPlayer->getNetSessionData()->GetId(), notifyCards);
 		}
 		++i;
 	}
@@ -908,7 +908,7 @@ ServerGameStateWaitPlayerAction::InternalProcess(ServerGameThread &server, Sessi
 			rejectData.playerBet = actionData.playerBet;
 			rejectData.rejectionReason = code;
 			static_cast<NetPacketPlayersActionRejected *>(reject.get())->SetData(rejectData);
-			server.GetSender().Send(session.sessionData->GetSocket(), reject);
+			server.GetSender().Send(session.sessionData->GetId(), reject);
 		}
 	}
 

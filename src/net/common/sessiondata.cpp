@@ -19,7 +19,7 @@
 
 #include <net/sessiondata.h>
 
-SessionData::SessionData(SOCKET sockfd, unsigned id)
+SessionData::SessionData(SOCKET sockfd, SessionId id)
 : m_sockfd(sockfd), m_id(id), m_state(SessionData::Init), m_readyFlag(false)
 {
 }
@@ -30,7 +30,7 @@ SessionData::~SessionData()
 		CLOSESOCKET(m_sockfd);
 }
 
-unsigned
+SessionId
 SessionData::GetId() const
 {
 	// const value - no mutex needed.

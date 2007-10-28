@@ -37,13 +37,6 @@ ServerContext::GetSocket() const
 	return m_sockfd;
 }
 
-u_int32_t
-ServerContext::GetId() const
-{
-	// Id is unused for main server thread.
-	return 0;
-}
-
 void
 ServerContext::SetSocket(SOCKET sockfd)
 {

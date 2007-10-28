@@ -28,7 +28,7 @@ using namespace std;
 
 
 SenderThread::SenderThread(SenderCallback &cb)
-: m_curSocket(INVALID_SOCKET), m_tmpOutBufSize(0), m_callback(cb)
+: m_curSession(INVALID_SESSION), m_tmpOutBufSize(0), m_callback(cb)
 {
 }
 
@@ -37,55 +37,55 @@ SenderThread::~SenderThread()
 }
 
 void
-SenderThread::Send(SOCKET sock, boost::shared_ptr<NetPacket> packet)
+SenderThread::Send(SessionId session, boost::shared_ptr<NetPacket> packet)
 {
-	if (packet.get() && IS_VALID_SOCKET(sock))
+	if (packet.get() && session != INVALID_SESSION)
 	{
 		boost::mutex::scoped_lock lock(m_outBufMutex);
-		InternalStore(m_outBuf, SEND_QUEUE_SIZE, sock, packet);
+		InternalStore(m_outBuf, SEND_QUEUE_SIZE, session, packet);
 	}
 }
 
 void
-SenderThread::Send(SOCKET sock, const NetPacketList &packetList)
+SenderThread::Send(SessionId session, const NetPacketList &packetList)
 {
-	if (!packetList.empty() && IS_VALID_SOCKET(sock))
+	if (!packetList.empty() && session != INVALID_SESSION)
 	{
 		boost::mutex::scoped_lock lock(m_outBufMutex);
-		InternalStore(m_outBuf, SEND_QUEUE_SIZE, sock, packetList);
+		InternalStore(m_outBuf, SEND_QUEUE_SIZE, session, packetList);
 	}
 }
 
 void
-SenderThread::SendLowPrio(SOCKET sock, boost::shared_ptr<NetPacket> packet)
+SenderThread::SendLowPrio(SessionId session, boost::shared_ptr<NetPacket> packet)
 {
-	if (packet.get() && IS_VALID_SOCKET(sock))
+	if (packet.get() && session != INVALID_SESSION)
 	{
 		boost::mutex::scoped_lock lock(m_lowPrioOutBufMutex);
-		InternalStore(m_lowPrioOutBuf, SEND_LOW_PRIO_QUEUE_SIZE, sock, packet);
+		InternalStore(m_lowPrioOutBuf, SEND_LOW_PRIO_QUEUE_SIZE, session, packet);
 	}
 }
 
 void
-SenderThread::SendLowPrio(SOCKET sock, const NetPacketList &packetList)
+SenderThread::SendLowPrio(SessionId session, const NetPacketList &packetList)
 {
-	if (!packetList.empty() && IS_VALID_SOCKET(sock))
+	if (!packetList.empty() && session != INVALID_SESSION)
 	{
 		boost::mutex::scoped_lock lock(m_lowPrioOutBufMutex);
-		InternalStore(m_lowPrioOutBuf, SEND_LOW_PRIO_QUEUE_SIZE, sock, packetList);
+		InternalStore(m_lowPrioOutBuf, SEND_LOW_PRIO_QUEUE_SIZE, session, packetList);
 	}
 }
 
 void
-SenderThread::InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, SOCKET sock, boost::shared_ptr<NetPacket> packet)
+SenderThread::InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, SessionId session, boost::shared_ptr<NetPacket> packet)
 {
 	if (sendQueue.size() < maxQueueSize) // Queue is limited in size.
-		sendQueue.push_back(std::make_pair(packet, sock));
+		sendQueue.push_back(std::make_pair(packet, session));
 	// TODO: Throw exception if failed.
 }
 
 void
-SenderThread::InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, SOCKET sock, const NetPacketList &packetList)
+SenderThread::InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, SessionId session, const NetPacketList &packetList)
 {
 	if (sendQueue.size() + packetList.size() < maxQueueSize)
 	{
@@ -93,7 +93,7 @@ SenderThread::InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, SOC
 		NetPacketList::const_iterator end = packetList.end();
 		while (i != end)
 		{
-			sendQueue.push_back(std::make_pair(*i, sock));
+			sendQueue.push_back(std::make_pair(*i, session));
 			++i;
 		}
 	}
@@ -134,8 +134,8 @@ SenderThread::Main()
 
 			if (tmpData.first.get())
 			{
-				if (IS_VALID_SOCKET(tmpData.second))
-					m_curSocket = tmpData.second;
+				if (tmpData.second != INVALID_SESSION)
+					m_curSession = tmpData.second;
 
 				u_int16_t tmpLen = tmpData.first->GetLen();
 				if (tmpLen <= MAX_PACKET_SIZE)
@@ -147,35 +147,25 @@ SenderThread::Main()
 		}
 		if (m_tmpOutBufSize)
 		{
-			fd_set writeSet;
-			struct timeval timeout;
-
-			FD_ZERO(&writeSet);
-			FD_SET(m_curSocket, &writeSet);
-
-			timeout.tv_sec  = 0;
-			timeout.tv_usec = SEND_TIMEOUT_MSEC * 1000;
-			int selectResult = select(m_curSocket + 1, NULL, &writeSet, NULL, &timeout);
-			if (!IS_VALID_SELECT(selectResult))
+			SOCKET tmpSocket;
+			if (!m_callback.GetSocketForSession(m_curSession, tmpSocket))
 			{
-				// Never assume that this is a fatal error.
-				int errCode = SOCKET_ERRNO();
-				if (errCode != SOCKET_ERR_WOULDBLOCK)
-				{
-					// Skip this packet - this is bad, and is therefore reported.
-					// Ignore invalid or not connected sockets.
-					if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
-						m_callback.SignalNetError(m_curSocket, ERR_SOCK_SELECT_FAILED, errCode);
-					m_tmpOutBufSize = 0;
-				}
-				Msleep(SEND_TIMEOUT_MSEC);
+				// Invalid session - skip.
+				m_tmpOutBufSize = 0;
+				m_curSession = INVALID_SESSION;
 			}
-			if (selectResult > 0) // send is possible
+			else
 			{
-				// send next chunk of data
-				int bytesSent = send(m_curSocket, m_tmpOutBuf, m_tmpOutBufSize, 0);
+				fd_set writeSet;
+				struct timeval timeout;
 
-				if (!IS_VALID_SEND(bytesSent))
+				FD_ZERO(&writeSet);
+				FD_SET(tmpSocket, &writeSet);
+
+				timeout.tv_sec  = 0;
+				timeout.tv_usec = SEND_TIMEOUT_MSEC * 1000;
+				int selectResult = select(tmpSocket + 1, NULL, &writeSet, NULL, &timeout);
+				if (!IS_VALID_SELECT(selectResult))
 				{
 					// Never assume that this is a fatal error.
 					int errCode = SOCKET_ERRNO();
@@ -184,19 +174,42 @@ SenderThread::Main()
 						// Skip this packet - this is bad, and is therefore reported.
 						// Ignore invalid or not connected sockets.
 						if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
-							m_callback.SignalNetError(m_curSocket, ERR_SOCK_SEND_FAILED, errCode);
+							m_callback.SignalNetError(m_curSession, ERR_SOCK_SELECT_FAILED, errCode);
 						m_tmpOutBufSize = 0;
+						m_curSession = INVALID_SESSION;
 					}
 					Msleep(SEND_TIMEOUT_MSEC);
 				}
-				else if ((unsigned)bytesSent < m_tmpOutBufSize)
+				if (selectResult > 0) // send is possible
 				{
-					m_tmpOutBufSize -= (unsigned)bytesSent;
-					memmove(m_tmpOutBuf, m_tmpOutBuf + bytesSent, m_tmpOutBufSize);
-				}
-				else
-				{
-					m_tmpOutBufSize = 0;
+					// send next chunk of data
+					int bytesSent = send(tmpSocket, m_tmpOutBuf, m_tmpOutBufSize, 0);
+
+					if (!IS_VALID_SEND(bytesSent))
+					{
+						// Never assume that this is a fatal error.
+						int errCode = SOCKET_ERRNO();
+						if (errCode != SOCKET_ERR_WOULDBLOCK)
+						{
+							// Skip this packet - this is bad, and is therefore reported.
+							// Ignore invalid or not connected sockets.
+							if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
+								m_callback.SignalNetError(m_curSession, ERR_SOCK_SEND_FAILED, errCode);
+							m_tmpOutBufSize = 0;
+							m_curSession = INVALID_SESSION;
+						}
+						Msleep(SEND_TIMEOUT_MSEC);
+					}
+					else if ((unsigned)bytesSent < m_tmpOutBufSize)
+					{
+						m_tmpOutBufSize -= (unsigned)bytesSent;
+						memmove(m_tmpOutBuf, m_tmpOutBuf + bytesSent, m_tmpOutBufSize);
+					}
+					else
+					{
+						m_tmpOutBufSize = 0;
+						m_curSession = INVALID_SESSION;
+					}
 				}
 			}
 		}

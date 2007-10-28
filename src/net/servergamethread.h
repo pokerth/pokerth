@@ -33,7 +33,7 @@
 class SenderThread;
 class ReceiverHelper;
 class ServerLobbyThread;
-class ServerSenderCallback;
+class GameSenderCallback;
 class ServerGameState;
 class ConfigFile;
 struct GameData;
@@ -112,7 +112,7 @@ protected:
 	const StartData &GetStartData() const;
 	void SetStartData(const StartData &startData);
 
-	ServerSenderCallback &GetSenderCallback();
+	GameSenderCallback &GetSenderCallback();
 	GuiInterface &GetGui();
 
 	unsigned GetNextGameNum();
@@ -135,7 +135,7 @@ private:
 	ServerLobbyThread &m_lobbyThread;
 	std::auto_ptr<ReceiverHelper> m_receiver;
 	std::auto_ptr<SenderThread> m_sender;
-	std::auto_ptr<ServerSenderCallback> m_senderCallback;
+	boost::shared_ptr<GameSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
 
 	const GameData		m_gameData;
@@ -161,6 +161,7 @@ friend class ServerGameStateDealCardsDelay;
 friend class ServerGameStateShowCardsDelay;
 friend class ServerGameStateNextHandDelay;
 friend class ServerGameStateNextGameDelay;
+friend class GameSenderCallback;
 };
 
 #endif
