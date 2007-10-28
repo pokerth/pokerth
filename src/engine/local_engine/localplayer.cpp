@@ -928,6 +928,7 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 
 LocalPlayer::~LocalPlayer()
 {
+	delete myCardsValue;
 }
 
 
