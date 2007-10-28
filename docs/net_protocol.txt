@@ -188,6 +188,16 @@ Basic Structure: Game Info Block
 	\                       Manual Blind Slots                      /
 	/                                                               |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+Raise Interval Mode:
+	0x01: Raise on hand number
+	0x02: Raise on timer (minutes)
+Raise Mode:
+	0x01: Double blinds
+	0x02: Manual blinds order
+End Raise Mode:
+	0x01: Double blinds
+	0x02: Raise by End Value
+	0x03: Keep last blind
 
 
 Server Notification: Game List New
