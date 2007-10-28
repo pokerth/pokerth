@@ -41,6 +41,7 @@ Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), m
 	connect(this, SIGNAL(signalLogDealBoardCardsMsg(int, int, int, int, int, int)), this, SLOT(logDealBoardCardsMsg(int, int, int, int, int, int)));
 	connect(this, SIGNAL(signalLogFlipHoleCardsMsg(QString, int, int, int, QString)), this, SLOT(logFlipHoleCardsMsg(QString, int, int, int, QString)));
 	connect(this, SIGNAL(signalLogPlayerLeftMsg(QString)), this, SLOT(logPlayerLeftMsg(QString)));
+	connect(this, SIGNAL(signalLogNewGameAdminMsg(QString)), this, SLOT(logNewGameAdminMsg(QString)));
 	connect(this, SIGNAL(signalLogPlayerWinGame(QString, int)), this, SLOT(logPlayerWinGame(QString, int))); 
 	connect(this, SIGNAL(signalFlushLogAtGame(int)), this, SLOT(flushLogAtGame(int))); 
 	connect(this, SIGNAL(signalFlushLogAtHand()), this, SLOT(flushLogAtHand())); 
@@ -333,6 +334,22 @@ void Log::logPlayerLeftMsg(QString playerName) {
 		}
 	}
 }
+
+void Log::logNewGameAdminMsg(QString playerName) {
+
+	myW->textBrowser_Log->append( "<i><span style=\"color:#69FF33;\">"+playerName+" is game admin now!</span></i>");
+	
+	if(myConfig->readConfigInt("LogOnOff")) {
+	
+		logFileStreamString += "<i>"+playerName+" is game admin now!</i><br>\n";
+
+		if(myConfig->readConfigInt("LogInterval") == 0) {	
+			writeLogFileStream(logFileStreamString);
+			logFileStreamString = "";
+		}
+	}
+}
+
 
 void Log::logPlayerWinGame(QString playerName, int gameID) {
 

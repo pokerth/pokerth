@@ -469,7 +469,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	menubar->setStyleSheet("QMenuBar { background-color: #145300; } QMenuBar::item { color: #669800; }");
 
-	pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
+	pushButton_break->setStyleSheet("QPushButton:enabled { background-color: #145300; color: white;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
 	
 // 	horizontalSlider_speed->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #286400; height: 3px; background: #689700; } QSlider::handle:horizontal { background: #689700; border: 1px solid #286400; width: 10px; margin: -8px 0; border-radius: 3px; }");
 
@@ -489,7 +489,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	spinBox_set->setStyleSheet("QSpinBox { "+ font2String +" font-size: 10px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; } QSpinBox:disabled { background-color: #316300; color: #6d7b5f }");
 
-	pushButton_AllIn->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
+	pushButton_AllIn->setStyleSheet("QPushButton:enabled { background-color: #145300; color: white;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
 
 // 	away radiobuttons
 	QString radioButtonString("QRadioButton { color: #F0F0F0; } QRadioButton::indicator { width: 13px; height: 13px; } QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png); }");

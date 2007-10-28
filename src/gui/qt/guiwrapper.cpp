@@ -131,7 +131,13 @@ void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &play
 	if (!playerName.empty() && playerName[0] != '#')
 		myLog->signalLogPlayerLeftMsg(tmpName);
 }
-void GuiWrapper::SignalNetClientNewGameAdmin(unsigned playerId, const string &playerName) { myW->signalNetClientNewGameAdmin(playerId, QString::fromUtf8(playerName.c_str())); }
+void GuiWrapper::SignalNetClientNewGameAdmin(unsigned playerId, const string &playerName) { 
+
+	myW->signalNetClientNewGameAdmin(playerId, QString::fromUtf8(playerName.c_str())); 
+	if (!playerName.empty() && playerName[0] != '#')
+		myLog->signalLogNewGameAdminMsg(QString::fromUtf8(playerName.c_str()));
+
+}
 
 void GuiWrapper::SignalNetClientGameListNew(unsigned gameId) { myW->signalNetClientGameListNew(gameId); }
 void GuiWrapper::SignalNetClientGameListRemove(unsigned gameId) { myW->signalNetClientGameListRemove(gameId); }
