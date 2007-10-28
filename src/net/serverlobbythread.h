@@ -81,7 +81,6 @@ protected:
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
 	typedef std::deque<SessionWrapper> SessionQueue;
 	typedef std::list<SessionWrapper> SessionList;
-	typedef std::list<std::pair<boost::timers::portable::microsec_timer, boost::shared_ptr<SessionData> > > CloseSessionList;
 	typedef std::map<SessionId, boost::timers::portable::microsec_timer> InitTimerSessionMap;
 	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
 	typedef std::list<unsigned> RemoveGameList;
@@ -120,7 +119,7 @@ protected:
 	void CleanupConnectQueue();
 	void CleanupSessionMap();
 
-	void CloseSessionDelayed(SessionWrapper session);
+	void CloseSession(SessionWrapper session);
 	void SendError(boost::shared_ptr<SessionData> s, int errorCode);
 	void SendJoinGameFailed(boost::shared_ptr<SessionData> s, int reason);
 	void SendGameList(boost::shared_ptr<SessionData> s);
@@ -151,9 +150,6 @@ private:
 	SessionManager m_gameSessionManager;
 
 	InitTimerSessionMap m_initTimerSessionMap;
-
-	CloseSessionList m_closeSessionList;
-	mutable boost::mutex m_closeSessionListMutex;
 
 	RemoveGameList m_removeGameList;
 	mutable boost::mutex m_removeGameListMutex;

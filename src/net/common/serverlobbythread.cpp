@@ -30,7 +30,6 @@
 
 #include <boost/lambda/lambda.hpp>
 
-#define SERVER_CLOSE_SESSION_DELAY_SEC		1
 #define SERVER_MAX_NUM_SESSIONS				512		// Maximum number of idle users in lobby.
 #define SERVER_CACHE_CLEANUP_INTERVAL_SEC	86400	// 1 day
 #define SERVER_INIT_SESSION_TIMEOUT_SEC		20
@@ -116,23 +115,15 @@ void
 ServerLobbyThread::RemoveSessionFromGame(SessionWrapper session)
 {
 	// Just remove the session. Only for fatal errors.
-	m_gameSessionManager.RemoveSession(session.sessionData->GetId());
-	// Update stats (if needed).
-	BroadcastStatisticsUpdate();
+	CloseSession(session);
 }
 
 void
-ServerLobbyThread::CloseSessionDelayed(SessionWrapper session)
+ServerLobbyThread::CloseSession(SessionWrapper session)
 {
 	m_initTimerSessionMap.erase(session.sessionData->GetId());
 	m_sessionManager.RemoveSession(session.sessionData->GetId());
 	m_gameSessionManager.RemoveSession(session.sessionData->GetId());
-
-	boost::timers::portable::microsec_timer closeTimer;
-	CloseSessionList::value_type closeSessionData(closeTimer, session.sessionData);
-
-	boost::mutex::scoped_lock lock(m_closeSessionListMutex);
-	m_closeSessionList.push_back(closeSessionData);
 
 	// Update stats (if needed).
 	BroadcastStatisticsUpdate();
@@ -299,10 +290,7 @@ ServerLobbyThread::ProcessLoop()
 		} catch (const NetException &)
 		{
 			// On error: Close this session.
-			m_initTimerSessionMap.erase(session.sessionData->GetId());
-			m_sessionManager.RemoveSession(session.sessionData->GetId());
-			// Update stats (if needed).
-			BroadcastStatisticsUpdate();
+			CloseSession(session);
 			return;
 		}
 		if (packet.get())
@@ -702,20 +690,6 @@ ServerLobbyThread::CloseSessionLoop()
 			i = next;
 		}
 	}
-	{
-		boost::mutex::scoped_lock lock(m_closeSessionListMutex);
-
-		CloseSessionList::iterator i = m_closeSessionList.begin();
-		CloseSessionList::iterator end = m_closeSessionList.end();
-
-		while (i != end)
-		{
-			CloseSessionList::iterator cur = i++;
-
-			if (cur->first.elapsed().total_seconds() >= SERVER_CLOSE_SESSION_DELAY_SEC)
-				m_closeSessionList.erase(cur);
-		}
-	}
 }
 
 void
@@ -860,7 +834,7 @@ ServerLobbyThread::SessionError(SessionWrapper session, int errorCode)
 	if (session.sessionData.get())
 	{
 		SendError(session.sessionData, errorCode);
-		CloseSessionDelayed(session);
+		CloseSession(session);
 	}
 }
 
