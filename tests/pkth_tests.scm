@@ -147,7 +147,7 @@
              (display "Waiting for Game Start...\n")
              (wait-for-message sock pkth-recv-message (list pkth-is-type-game-start?) (list pkth-is-type-statistics-changed? pkth-is-type-game-list-player-joined? pkth-is-type-game-list-update?) 5000)
              (display "Waiting for Hand Start...\n")
-             (wait-for-message sock pkth-recv-message (list pkth-is-type-hand-start?) (list pkth-is-type-statistics-changed? pkth-is-type-game-list-player-joined?) 5000)
+             (wait-for-message sock pkth-recv-message (list pkth-is-type-hand-start?) (list pkth-is-type-statistics-changed? pkth-is-type-game-list-player-joined? pkth-is-type-game-list-update?) 5000)
              (display "Waiting for Players Turn...\n")
              (wait-for-message sock pkth-recv-message (list pkth-is-type-players-turn?) (list pkth-is-type-statistics-changed? pkth-is-type-game-list-player-joined? pkth-is-type-players-action-done? pkth-is-type-game-list-update?) 5000)
              (pkth-send-message sock (pkth-create-leave-current-game))
