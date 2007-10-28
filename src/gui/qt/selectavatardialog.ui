@@ -128,7 +128,10 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>groupBox</tabstop>
+  <tabstop>comboBox_avatarViewCategorie</tabstop>
   <tabstop>listWidget</tabstop>
+  <tabstop>groupBox_2</tabstop>
   <tabstop>lineEdit</tabstop>
   <tabstop>pushButton_OpenAvatarFile</tabstop>
   <tabstop>buttonBox</tabstop>

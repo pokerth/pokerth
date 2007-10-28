@@ -280,6 +280,13 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>spinBox_firstSmallBlind</tabstop>
+  <tabstop>radioButton_raiseBlindsAtHands</tabstop>
+  <tabstop>spinBox_raiseSmallBlindEveryHands</tabstop>
+  <tabstop>radioButton_raiseBlindsAtMinutes</tabstop>
+  <tabstop>spinBox_raiseSmallBlindEveryMinutes</tabstop>
+  <tabstop>radioButton_alwaysDoubleBlinds</tabstop>
+  <tabstop>radioButton_manualBlindsOrder</tabstop>
   <tabstop>listWidget_blinds</tabstop>
   <tabstop>spinBox_input</tabstop>
   <tabstop>pushButton_add</tabstop>

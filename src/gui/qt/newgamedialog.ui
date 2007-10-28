@@ -126,6 +126,8 @@
  <tabstops>
   <tabstop>spinBox_quantityPlayers</tabstop>
   <tabstop>spinBox_startCash</tabstop>
+  <tabstop>radioButton_useSavedBlindsSettings</tabstop>
+  <tabstop>radioButton_changeBlindsSettings</tabstop>
   <tabstop>spinBox_gameSpeed</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>

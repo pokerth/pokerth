@@ -3002,6 +3002,7 @@ p, li { white-space: pre-wrap; }
  </customwidgets>
  <tabstops>
   <tabstop>listWidget</tabstop>
+  <tabstop>comboBox_switchLanguage</tabstop>
   <tabstop>checkBox_showIntro</tabstop>
   <tabstop>checkBox_showLeftToolbox</tabstop>
   <tabstop>checkBox_showRightToolbox</tabstop>
@@ -3009,25 +3010,58 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkBox_showFadeOutCardsAnimation</tabstop>
   <tabstop>checkBox_showFlipCardsAnimation</tabstop>
   <tabstop>checkBox_showBlindButtons</tabstop>
+  <tabstop>checkBox_antiPeekMode</tabstop>
+  <tabstop>checkBox_alternateFKeysUserActionMode</tabstop>
   <tabstop>radioButton_flipsideTux</tabstop>
   <tabstop>radioButton_flipsideOwn</tabstop>
   <tabstop>lineEdit_OwnFlipsideFilename</tabstop>
   <tabstop>pushButton_openFlipsidePicture</tabstop>
+  <tabstop>groupBox_playSoundEffects</tabstop>
+  <tabstop>horizontalSlider_soundVolume</tabstop>
+  <tabstop>checkBox_playGameActions</tabstop>
+  <tabstop>checkBox_playLobbyChatNotification</tabstop>
+  <tabstop>checkBox_playNetworkGameNotification</tabstop>
   <tabstop>spinBox_quantityPlayers</tabstop>
   <tabstop>spinBox_startCash</tabstop>
   <tabstop>spinBox_firstSmallBlind</tabstop>
+  <tabstop>radioButton_raiseBlindsAtHands</tabstop>
+  <tabstop>spinBox_raiseSmallBlindEveryHands</tabstop>
+  <tabstop>radioButton_raiseBlindsAtMinutes</tabstop>
+  <tabstop>spinBox_raiseSmallBlindEveryMinutes</tabstop>
+  <tabstop>radioButton_alwaysDoubleBlinds</tabstop>
+  <tabstop>radioButton_manualBlindsOrder</tabstop>
+  <tabstop>pushButton_editManualBlindsOrder</tabstop>
   <tabstop>spinBox_gameSpeed</tabstop>
   <tabstop>checkBox_pauseBetweenHands</tabstop>
   <tabstop>checkBox_showGameSettingsDialogOnNewGame</tabstop>
   <tabstop>spinBox_netQuantityPlayers</tabstop>
   <tabstop>spinBox_netStartCash</tabstop>
   <tabstop>spinBox_netFirstSmallBlind</tabstop>
+  <tabstop>radioButton_netRaiseBlindsAtHands</tabstop>
+  <tabstop>spinBox_netRaiseSmallBlindEveryHands</tabstop>
+  <tabstop>radioButton_netRaiseBlindsAtMinutes</tabstop>
+  <tabstop>spinBox_netRaiseSmallBlindEveryMinutes</tabstop>
+  <tabstop>radioButton_netAlwaysDoubleBlinds</tabstop>
+  <tabstop>radioButton_netManualBlindsOrder</tabstop>
+  <tabstop>pushButton_netEditManualBlindsOrder</tabstop>
   <tabstop>spinBox_netGameSpeed</tabstop>
   <tabstop>spinBox_netTimeOutPlayerAction</tabstop>
   <tabstop>spinBox_serverPort</tabstop>
   <tabstop>lineEdit_serverPassword</tabstop>
   <tabstop>checkBox_useIpv6</tabstop>
   <tabstop>checkBox_useSctp</tabstop>
+  <tabstop>lineEdit_InternetServerAddress</tabstop>
+  <tabstop>spinBox_InternetServerPort</tabstop>
+  <tabstop>lineEdit_InternetServerPassword</tabstop>
+  <tabstop>checkBox_InternetServerUseIpv6</tabstop>
+  <tabstop>checkBox_InternetServerUseSctp</tabstop>
+  <tabstop>checkBox_UseInternetGamePassword</tabstop>
+  <tabstop>lineEdit_InternetGamePassword</tabstop>
+  <tabstop>groupBox_lobbyChat</tabstop>
+  <tabstop>lineEdit_IRCServerAddress</tabstop>
+  <tabstop>spinBox_IRCServerPort</tabstop>
+  <tabstop>lineEdit_IRCChannel</tabstop>
+  <tabstop>checkBox_IRCServerUseIpv6</tabstop>
   <tabstop>pushButton_HumanPlayerAvatar</tabstop>
   <tabstop>lineEdit_HumanPlayerName</tabstop>
   <tabstop>pushButton_Opponent1Avatar</tabstop>
@@ -3042,6 +3076,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>lineEdit_Opponent5Name</tabstop>
   <tabstop>pushButton_Opponent6Avatar</tabstop>
   <tabstop>lineEdit_Opponent6Name</tabstop>
+  <tabstop>groupBox_logOnOff</tabstop>
   <tabstop>lineEdit_logDir</tabstop>
   <tabstop>pushButton_openLogDir</tabstop>
   <tabstop>spinBox_logStoreDuration</tabstop>
@@ -3073,12 +3108,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>360</x>
-     <y>395</y>
+     <x>361</x>
+     <y>366</y>
     </hint>
     <hint type="destinationlabel" >
      <x>571</x>
-     <y>395</y>
+     <y>366</y>
     </hint>
    </hints>
   </connection>
@@ -3089,12 +3124,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>360</x>
-     <y>395</y>
+     <x>361</x>
+     <y>366</y>
     </hint>
     <hint type="destinationlabel" >
      <x>600</x>
-     <y>396</y>
+     <y>368</y>
     </hint>
    </hints>
   </connection>
@@ -3137,12 +3172,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>314</x>
-     <y>327</y>
+     <x>304</x>
+     <y>38</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>515</x>
-     <y>328</y>
+     <x>304</x>
+     <y>38</y>
     </hint>
    </hints>
   </connection>
@@ -3153,12 +3188,12 @@ p, li { white-space: pre-wrap; }
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>539</x>
-     <y>86</y>
+     <x>304</x>
+     <y>38</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>310</x>
-     <y>89</y>
+     <x>304</x>
+     <y>38</y>
     </hint>
    </hints>
   </connection>
@@ -3169,12 +3204,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>557</x>
-     <y>219</y>
+     <x>304</x>
+     <y>38</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>498</x>
-     <y>248</y>
+     <x>304</x>
+     <y>38</y>
     </hint>
    </hints>
   </connection>
@@ -3185,12 +3220,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>463</x>
-     <y>212</y>
+     <x>304</x>
+     <y>38</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>521</x>
-     <y>244</y>
+     <x>304</x>
+     <y>38</y>
     </hint>
    </hints>
   </connection>

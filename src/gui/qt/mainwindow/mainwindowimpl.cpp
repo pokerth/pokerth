@@ -3419,13 +3419,11 @@ bool mainWindowImpl::eventFilter(QObject *obj, QEvent *event)
 {
 	QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-	if (/*obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && */event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) 
-	{
+	if (/*obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && */event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) {
 		myChat->nickAutoCompletition();
 		return true;
 	}
-	else if (event->type() == QEvent::Close) 
-	{
+	else if (event->type() == QEvent::Close) {
 		event->ignore();
 		quitPokerTH();
 		return true; 
@@ -3633,7 +3631,7 @@ void mainWindowImpl::myButtonsCheckable(bool state) {
 void mainWindowImpl::closeEvent(QCloseEvent* /*event*/) { quitPokerTH(); }
 
 void mainWindowImpl::showMaximized () {
-	showFullScreen ();
+	this->showFullScreen ();
 }
 
 void mainWindowImpl::quitPokerTH() {

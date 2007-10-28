@@ -171,7 +171,11 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>treeWidget</tabstop>
+  <tabstop>checkBox_fillUpWithComputerOpponents</tabstop>
   <tabstop>pushButton_Kick</tabstop>
+  <tabstop>textBrowser_ChatDisplay</tabstop>
+  <tabstop>lineEdit_ChatInput</tabstop>
   <tabstop>pushButton_startGame</tabstop>
   <tabstop>pushButton_cancel</tabstop>
  </tabstops>

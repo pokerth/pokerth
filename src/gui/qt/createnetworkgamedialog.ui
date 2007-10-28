@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>277</width>
+    <width>305</width>
     <height>314</height>
    </rect>
   </property>
@@ -185,6 +185,8 @@
  <tabstops>
   <tabstop>spinBox_quantityPlayers</tabstop>
   <tabstop>spinBox_startCash</tabstop>
+  <tabstop>radioButton_useSavedBlindsSettings</tabstop>
+  <tabstop>radioButton_changeBlindsSettings</tabstop>
   <tabstop>spinBox_gameSpeed</tabstop>
   <tabstop>spinBox_netTimeOutPlayerAction</tabstop>
   <tabstop>pushButton_createGame</tabstop>
