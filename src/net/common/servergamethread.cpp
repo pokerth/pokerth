@@ -25,6 +25,7 @@
 #include <net/sendercallback.h>
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
+#include <core/loghelper.h>
 #include <game.h>
 #include <localenginefactory.h>
 #include <tools.h>
