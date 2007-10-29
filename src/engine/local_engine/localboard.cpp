@@ -146,7 +146,7 @@ void LocalBoard::distributePot() {
 					(*it)->setMyCash( (*it)->getMyCash() + ((potLevel[1])/winnerCount));
 
 					// filling winners vector
-					winners.push_back((*it)->getMyID());
+					winners.push_back((*it)->getMyUniqueID());
 				}
 
 			}
@@ -188,11 +188,11 @@ void LocalBoard::distributePot() {
 					if(j<mod) {
 						(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount) + 1);
 						// filling winners vector
-						winners.push_back((*it)->getMyID());
+						winners.push_back((*it)->getMyUniqueID());
 					} else {
 						(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount));
 						// filling winners vector
-						winners.push_back((*it)->getMyID());
+						winners.push_back((*it)->getMyUniqueID());
 					}
 				}
 			}
