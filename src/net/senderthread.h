@@ -30,7 +30,7 @@
 #include <deque>
 #include <boost/shared_ptr.hpp>
 
-#define SENDER_THREAD_TERMINATE_TIMEOUT		10000
+#define SENDER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
 #define SEND_TIMEOUT_MSEC					10
 #define SEND_QUEUE_SIZE						1000
 #define SEND_LOW_PRIO_QUEUE_SIZE			50000
@@ -56,6 +56,8 @@ protected:
 
 	void InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 	void InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
+
+	void RemoveCurSendData();
 
 private:
 

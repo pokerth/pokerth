@@ -22,10 +22,12 @@
 #include <net/socket_msg.h>
 #include <cstring>
 
+#include <core/boost/timers.hpp>
 #include <boost/bind.hpp>
 
 using namespace std;
 
+#define SEND_TIMEOUT_MSEC		2000
 
 SenderThread::SenderThread(SenderCallback &cb)
 : m_tmpOutBufSize(0), m_callback(cb)
@@ -100,11 +102,26 @@ SenderThread::InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, boo
 	// TODO: Throw exception if failed.
 }
 
+void 
+SenderThread::RemoveCurSendData()
+{
+	m_tmpOutBufSize = 0;
+	m_curSession.reset();
+	// TODO use callback to remove session.
+}
+
 void
 SenderThread::Main()
 {
+	boost::timers::portable::microsec_timer sendTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start);
+
 	while (!ShouldTerminate())
 	{
+		if (sendTimer.is_running() && sendTimer.elapsed().total_milliseconds() > SEND_TIMEOUT_MSEC)
+		{
+			RemoveCurSendData();
+			sendTimer.reset();
+		}
 		// Send remaining bytes of output buffer OR
 		// copy ONE packet to output buffer.
 		// For reasons of simplicity, only one packet is sent at a time.
@@ -135,13 +152,15 @@ SenderThread::Main()
 			if (tmpData.first.get())
 			{
 				if (tmpData.second.get())
-					m_curSession = tmpData.second;
-
-				u_int16_t tmpLen = tmpData.first->GetLen();
-				if (tmpLen <= MAX_PACKET_SIZE)
 				{
-					m_tmpOutBufSize = tmpLen;
-					memcpy(m_tmpOutBuf, tmpData.first->GetRawData(), tmpLen);
+					u_int16_t tmpLen = tmpData.first->GetLen();
+					if (tmpLen <= MAX_PACKET_SIZE)
+					{
+						m_curSession = tmpData.second;
+						m_tmpOutBufSize = tmpLen;
+						memcpy(m_tmpOutBuf, tmpData.first->GetRawData(), tmpLen);
+						sendTimer.restart();
+					}
 				}
 			}
 		}
@@ -167,8 +186,7 @@ SenderThread::Main()
 					// Ignore invalid or not connected sockets.
 					if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
 						m_callback.SignalNetError(m_curSession->GetId(), ERR_SOCK_SELECT_FAILED, errCode);
-					m_tmpOutBufSize = 0;
-					m_curSession.reset();
+					RemoveCurSendData();
 				}
 				Msleep(SEND_TIMEOUT_MSEC);
 			}
@@ -187,8 +205,7 @@ SenderThread::Main()
 						// Ignore invalid or not connected sockets.
 						if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
 							m_callback.SignalNetError(m_curSession->GetId(), ERR_SOCK_SEND_FAILED, errCode);
-						m_tmpOutBufSize = 0;
-						m_curSession.reset();
+						RemoveCurSendData();
 					}
 					Msleep(SEND_TIMEOUT_MSEC);
 				}
@@ -201,6 +218,7 @@ SenderThread::Main()
 				{
 					m_tmpOutBufSize = 0;
 					m_curSession.reset();
+					sendTimer.reset();
 				}
 			}
 		}
