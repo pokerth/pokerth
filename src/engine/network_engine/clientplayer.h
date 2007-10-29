@@ -89,6 +89,9 @@ public:
 	void setMyRoundStartCash(int theValue);
 	int getMyRoundStartCash() const;
 
+	void setLastMoneyWon ( int theValue );
+	int getLastMoneyWon() const;
+
 	void setMyAverageSets(int theValue);
 	int getMyAverageSets() const;
 
@@ -163,6 +166,7 @@ private:
 	bool myTurn; // 0 = no, 1 = yes
 	bool myCardsFlip; // 0 = cards are not fliped, 1 = cards are already flipped,
 	int myRoundStartCash;
+	int lastMoneyWon;
 
 	int myAverageSets[4];
 	bool myAggressive[7];

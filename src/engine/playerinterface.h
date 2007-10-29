@@ -89,6 +89,9 @@ public:
 	virtual void setMyAverageSets(int theValue) =0;
 	virtual int getMyAverageSets() const =0;
 
+	virtual void setLastMoneyWon ( int theValue ) =0;
+	virtual int getLastMoneyWon() const =0;
+
 	virtual void setMyAggressive(bool theValue) =0;
 	virtual int getMyAggressive() const =0;
 

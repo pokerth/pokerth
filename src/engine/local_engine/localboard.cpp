@@ -76,12 +76,13 @@ void LocalBoard::distributePot() {
 
 	// filling player sets vector
 	vector<unsigned> playerSets;
-	for(it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
-		if((*it_c)->getMyActiveStatus()) {
-			playerSets.push_back( ( ((*it_c)->getMyRoundStartCash()) - ((*it_c)->getMyCash()) ) );
+	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+		if((*it)->getMyActiveStatus()) {
+			playerSets.push_back( ( ((*it)->getMyRoundStartCash()) - ((*it)->getMyCash()) ) );
 		} else {
 			playerSets.push_back(0);
 		}
+		(*it)->setLastMoneyWon(0);
 	}
 
 	// sort player sets asc
@@ -147,6 +148,7 @@ void LocalBoard::distributePot() {
 
 					// filling winners vector
 					winners.push_back((*it)->getMyUniqueID());
+					(*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + (potLevel[1])/winnerCount );
 				}
 
 			}
@@ -189,10 +191,12 @@ void LocalBoard::distributePot() {
 						(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount) + 1);
 						// filling winners vector
 						winners.push_back((*it)->getMyUniqueID());
+						(*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + ((potLevel[1])/winnerCount) + 1 );
 					} else {
 						(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount));
 						// filling winners vector
 						winners.push_back((*it)->getMyUniqueID());
+						(*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + (potLevel[1])/winnerCount );
 					}
 				}
 			}

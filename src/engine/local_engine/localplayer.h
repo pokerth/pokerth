@@ -117,6 +117,9 @@ public:
 	void setMyRoundStartCash(int theValue) { myRoundStartCash = theValue;}
 	int getMyRoundStartCash() const { return myRoundStartCash; }
 
+	void setLastMoneyWon ( int theValue ) { lastMoneyWon = theValue; }
+	int getLastMoneyWon() const { return lastMoneyWon; }
+
 	void setMyAverageSets(int theValue) { myAverageSets[0] = myAverageSets[1]; myAverageSets[1] = myAverageSets[2]; myAverageSets[2] = myAverageSets[3]; myAverageSets[3] = theValue; }
 	int getMyAverageSets() const { return (myAverageSets[0]+myAverageSets[1]+myAverageSets[2]+myAverageSets[3])/4; }
 	
@@ -173,6 +176,7 @@ public:
 
 	void setNetSessionData(boost::shared_ptr<SessionData> session);
 	boost::shared_ptr<SessionData> getNetSessionData();
+	
 
 	
 
@@ -210,6 +214,7 @@ private:
 	bool myTurn; // 0 = no, 1 = yes
 	bool myCardsFlip; // 0 = cards are not fliped, 1 = cards are already flipped,
 	int myRoundStartCash;
+	int lastMoneyWon;
 
 	int myAverageSets[4];
 	bool myAggressive[7];

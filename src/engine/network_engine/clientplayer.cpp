@@ -307,6 +307,18 @@ ClientPlayer::getMyRoundStartCash() const
 }
 
 void
+ClientPlayer::setLastMoneyWon ( int theValue )
+{
+	lastMoneyWon = theValue;
+}
+
+int
+ClientPlayer::getLastMoneyWon() const
+{
+	return lastMoneyWon;
+}
+
+void
 ClientPlayer::setMyAverageSets(int theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
