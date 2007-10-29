@@ -58,7 +58,7 @@
                 (make-list 1024 0)))))
     (sock-close sock)
     ))
-(set! pkth-test-list (test-register pkth-test-list "PKTH: Init with too large packets" pkth-test-init-packet-too-large))
+;(set! pkth-test-list (test-register pkth-test-list "PKTH: Init with too large packets" pkth-test-init-packet-too-large))
 
 (define (pkth-test-init)
   (dotimes (n 1024)
@@ -68,7 +68,7 @@
              (wait-for-message sock pkth-recv-message (list pkth-is-type-init-ack?) '() 5000)
              (sock-close sock))))
 
-(set! pkth-test-list (test-register pkth-test-list "PKTH: Init" pkth-test-init))
+;(set! pkth-test-list (test-register pkth-test-list "PKTH: Init" pkth-test-init))
 
 (define (pkth-test-create-destroy-game)
   (let ((sock (pkth-connect)))
@@ -109,7 +109,7 @@
              )
     (sock-close sock)
     ))
-(set! pkth-test-list (test-register pkth-test-list "PKTH Test 2: Creating and destroying games" pkth-test-create-destroy-game))
+;(set! pkth-test-list (test-register pkth-test-list "PKTH Test 2: Creating and destroying games" pkth-test-create-destroy-game))
 
 (define (pkth-test-start-leave-game)
   (let ((sock (pkth-connect)))
@@ -156,15 +156,15 @@
              )
     (sock-close sock)
     ))
-(set! pkth-test-list (test-register pkth-test-list "PKTH Test 3: Starting and leaving games" pkth-test-start-leave-game))
+;(set! pkth-test-list (test-register pkth-test-list "PKTH Test 3: Starting and leaving games" pkth-test-start-leave-game))
 
 (define (pkth-test-run-game)
   (let ((sock (pkth-connect)))
-    (pkth-send-message sock (pkth-create-init '() "" "client1"))
+    (pkth-send-message sock (pkth-create-init '() "" (pkth-create-random-name)))
     (display "Waiting for Init-Ack...\n")
     (wait-for-message sock pkth-recv-message (list pkth-is-type-init-ack?) '() 5000)
     (display "Starting and leaving loads of games...\n")
-    (dotimes (n 1)
+    (dotimes (n 512)
              (pkth-send-message sock
                                 (pkth-create-create-game
                                  (pkth-create-game-info
@@ -180,28 +180,26 @@
                                   2000 ; start money
                                   '() ; manual blinds
                                   )
-                                 "test game"
+                                 (pkth-create-random-name)
                                  "test password"
                                  ))
-             (display "Waiting for Game List New / Join Game Ack / Game List Player Joined...\n")
-             (wait-for-message sock pkth-recv-message (list pkth-is-type-game-list-new? pkth-is-type-join-game-ack? pkth-is-type-game-list-player-joined?) (list pkth-is-type-statistics-changed? pkth-is-type-game-list-update? pkth-is-type-game-list-player-left?) 5000)
-             (wait-for-message sock pkth-recv-message (list pkth-is-type-game-list-new? pkth-is-type-join-game-ack? pkth-is-type-game-list-player-joined?) (list pkth-is-type-statistics-changed? pkth-is-type-game-list-update? pkth-is-type-game-list-player-left?) 5000)
-             (wait-for-message sock pkth-recv-message (list pkth-is-type-game-list-new? pkth-is-type-join-game-ack? pkth-is-type-game-list-player-joined?) (list pkth-is-type-statistics-changed? pkth-is-type-game-list-update? pkth-is-type-game-list-player-left?) 5000)
+             (display "Join Game Ack...\n")
+             (wait-for-message sock pkth-recv-message (list pkth-is-type-join-game-ack?) (list pkth-is-type-statistics-changed? pkth-is-type-game-list-all?) 5000)
              (pkth-send-message sock (pkth-create-start-event pkth-start-flag-fill-with-cpu-players))
              (display "Waiting for Start Event...\n")
-             (wait-for-message sock pkth-recv-message (list pkth-is-type-start-event?) (list pkth-is-type-statistics-changed? pkth-is-type-player-joined? pkth-is-type-game-list-player-joined? pkth-is-type-game-list-update?) 5000)
+             (wait-for-message sock pkth-recv-message (list pkth-is-type-start-event?) (list pkth-is-type-statistics-changed? pkth-is-type-player-joined? pkth-is-type-game-list-all?) 5000)
              (pkth-send-message sock (pkth-create-start-event-ack))
              (display "Waiting for Game Start...\n")
-             (wait-for-message sock pkth-recv-message (list pkth-is-type-game-start?) (list pkth-is-type-statistics-changed? pkth-is-type-game-list-player-joined? pkth-is-type-game-list-update?) 5000)
+             (wait-for-message sock pkth-recv-message (list pkth-is-type-game-start?) (list pkth-is-type-statistics-changed? pkth-is-type-game-list-all?) 5000)
              (display "Waiting for End Of Game...\n")
              (wait-for-message sock pkth-recv-message (list pkth-is-type-end-of-game?) (list pkth-is-valid-type?) 5000000)
              (pkth-send-message sock (pkth-create-leave-current-game))
              (display "Waiting for Removed From Game...\n")
-             (wait-for-message sock pkth-recv-message (list pkth-is-type-removed-from-game?) (list pkth-is-type-statistics-changed? pkth-is-type-game-list-player-joined? pkth-is-type-game-list-update? pkth-is-type-game-list-player-left?) 5000)
+             (wait-for-message sock pkth-recv-message (list pkth-is-type-removed-from-game?) (list pkth-is-type-statistics-changed? pkth-is-type-player-left? pkth-is-type-game-list-all?) 5000)
              )
     (sock-close sock)
     ))
-;(set! pkth-test-list (test-register pkth-test-list "PKTH Test 4: Running games" pkth-test-run-game))
+(set! pkth-test-list (test-register pkth-test-list "PKTH Test 4: Running games" pkth-test-run-game))
 
 (test-run-all pkth-test-list)
 

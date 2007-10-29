@@ -261,6 +261,13 @@
      avatar-md5
      (append-padding (string->bytes player-name)))))
 
+(define pkth-create-random-name
+  (lambda ()
+    (let ((name (list 84 101 115 116)) (randstate (seed->random-state (cdr (gettimeofday)))))
+      (dotimes (n 10)
+               (append! name (list (+ 48 (random 10 randstate)))))
+      (bytes->string name))))
+
 (define pkth-create-init-ex
   (lambda (version-major version-minor privacy-flags avatar-md5 password player-name)
     (pkth-create-packet
@@ -654,6 +661,18 @@
 (define pkth-is-type-error?
   (lambda (message)
     (= (pkth-get-type message) pkth-type-error)))
+
+;;; Multiple types
+
+(define pkth-is-type-game-list-all?
+  (lambda (message)
+    (let ((type (pkth-get-type message)))
+    (or
+     (= type pkth-type-game-list-new)
+     (= type pkth-type-game-list-update)
+     (= type pkth-type-game-list-player-joined)
+     (= type pkth-type-game-list-player-left)
+     (= type pkth-type-game-list-admin-changed)))))
 
 ;;; pkth-type-init
 
