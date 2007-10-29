@@ -17,7 +17,7 @@
 #include <QtGui>
 #include <QtCore>
 
-#include "mainwindowimpl.h"
+class mainWindowImpl;
 
 class MyCardsPixmapLabel : public QLabel
 {

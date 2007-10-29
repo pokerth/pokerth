@@ -319,6 +319,7 @@ public slots:
 	void myButtonsCheckable(bool state);
 
 	void changePlayingMode();
+	void changeSpinBoxBetValue(int);
 	
 	void showMaximized ();
 	void quitPokerTH();
@@ -333,30 +334,6 @@ private:
 	Chat *myChat;
 	ConfigFile *myConfig;
 	
-	//Logo 
-	QLabel *label_logoleft;
-	QLabel *label_logoright;
-
-	//MyPixmapCardsLabel
-	MyCardsPixmapLabel *pixmapLabel_cardBoard0;
-	MyCardsPixmapLabel *pixmapLabel_cardBoard1;
-	MyCardsPixmapLabel *pixmapLabel_cardBoard2;
-	MyCardsPixmapLabel *pixmapLabel_cardBoard3;
-	MyCardsPixmapLabel *pixmapLabel_cardBoard4;
-	MyCardsPixmapLabel *pixmapLabel_card0a;
-	MyCardsPixmapLabel *pixmapLabel_card0b;
-	MyCardsPixmapLabel *pixmapLabel_card1a;
-	MyCardsPixmapLabel *pixmapLabel_card1b;
-	MyCardsPixmapLabel *pixmapLabel_card2a;
-	MyCardsPixmapLabel *pixmapLabel_card2b;
-	MyCardsPixmapLabel *pixmapLabel_card3a;
-	MyCardsPixmapLabel *pixmapLabel_card3b;
-	MyCardsPixmapLabel *pixmapLabel_card4a;
-	MyCardsPixmapLabel *pixmapLabel_card4b;
-	MyCardsPixmapLabel *pixmapLabel_card5a;
-	MyCardsPixmapLabel *pixmapLabel_card5b;
-	MyCardsPixmapLabel *pixmapLabel_card6a;
-	MyCardsPixmapLabel *pixmapLabel_card6b;
 	//Timer
 	QTimer *potDistributeTimer;
 	QTimer *timer;

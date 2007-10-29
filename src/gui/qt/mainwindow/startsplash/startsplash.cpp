@@ -281,7 +281,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 	painter.setOpacity(1.0);
 	painter.setFont(versionFont);
 	painter.setPen(QColor(102,153,0));
-	painter.drawText(312,230,100,20,4,"Version 0.6");
+	painter.drawText(295,230,100,20,4,"Version 0.6-beta");
 	painter.setOpacity(opacity);
 
 }

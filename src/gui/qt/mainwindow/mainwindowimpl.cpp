@@ -53,6 +53,8 @@
 
 #include <net/socket_msg.h>
 
+#include "math.h"
+
 #define FORMATLEFT(X) "<p align='center'>(X)"
 #define FORMATRIGHT(X) "(X)</p>"
 
@@ -75,107 +77,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	setupUi(this);
 
-	//pixmapCardsLabel erstellen und ins Layout einfügen!
-	pixmapLabel_cardBoard0 = new MyCardsPixmapLabel(frame_Board);
-	pixmapLabel_cardBoard0->setObjectName(QString::fromUtf8("pixmapLabel_BoardCard0"));
-	pixmapLabel_cardBoard0->setScaledContents(true);
-	pixmapLabel_cardBoard0->setGeometry(QRect(6, 64, 79, 114));
-
-	pixmapLabel_cardBoard1 = new MyCardsPixmapLabel(frame_Board);
-    	pixmapLabel_cardBoard1->setObjectName(QString::fromUtf8("pixmapLabel_BoardCard1"));
-    	pixmapLabel_cardBoard1->setScaledContents(true);
-	pixmapLabel_cardBoard1->setGeometry(QRect(95, 64, 79, 114));
-
-	pixmapLabel_cardBoard2 = new MyCardsPixmapLabel(frame_Board);
-    	pixmapLabel_cardBoard2->setObjectName(QString::fromUtf8("pixmapLabel_BoardCard2"));
-    	pixmapLabel_cardBoard2->setScaledContents(true);
-	pixmapLabel_cardBoard2->setGeometry(QRect(184, 64, 79, 114));
-
-	pixmapLabel_cardBoard3 = new MyCardsPixmapLabel(frame_Board);
-    	pixmapLabel_cardBoard3->setObjectName(QString::fromUtf8("pixmapLabel_BoardCard3"));
-    	pixmapLabel_cardBoard3->setScaledContents(true);
-	pixmapLabel_cardBoard3->setGeometry(QRect(280, 64, 79, 114));
-	
-	pixmapLabel_cardBoard4 = new MyCardsPixmapLabel(frame_Board);
-    	pixmapLabel_cardBoard4->setObjectName(QString::fromUtf8("pixmapLabel_BoardCard4"));
-   	pixmapLabel_cardBoard4->setScaledContents(true);
-	pixmapLabel_cardBoard4->setGeometry(QRect(376, 64, 79, 114));
-
-
-	pixmapLabel_card0a = new MyCardsPixmapLabel(frame_Cards0);
-    	pixmapLabel_card0a->setObjectName(QString::fromUtf8("pixmapLabel_card0a"));
-	pixmapLabel_card0a->setScaledContents(true);
-	pixmapLabel_card0a->setGeometry(QRect(0, 0, 80, 111));
-// 	pixmapLabel_card0a->setFocusPolicy(Qt::NoFocus);
-
-   	pixmapLabel_card0b = new MyCardsPixmapLabel(frame_Cards0);
-    	pixmapLabel_card0b->setObjectName(QString::fromUtf8("pixmapLabel_card0b"));
-	pixmapLabel_card0b->setScaledContents(true);
-	pixmapLabel_card0b->setGeometry(QRect(39, 0, 80, 111));	
-
+	//Player0 pixmapCardsLabel needs Myw
 	pixmapLabel_card0b->setMyW(this);
 	pixmapLabel_card0a->setMyW(this);
-
-	pixmapLabel_card1a = new MyCardsPixmapLabel(frame_Cards1);
-    	pixmapLabel_card1a->setObjectName(QString::fromUtf8("pixmapLabel_card1a"));
-	pixmapLabel_card1a->setScaledContents(true);
-	pixmapLabel_card1a->setGeometry(QRect(0, 0, 80, 111));
-
-   	pixmapLabel_card1b = new MyCardsPixmapLabel(frame_Cards1);
-    	pixmapLabel_card1b->setObjectName(QString::fromUtf8("pixmapLabel_card1b"));
-	pixmapLabel_card1b->setScaledContents(true);
-	pixmapLabel_card1b->setGeometry(QRect(39, 0, 80, 111));
-
-	pixmapLabel_card2a = new MyCardsPixmapLabel(frame_Cards2);
-    	pixmapLabel_card2a->setObjectName(QString::fromUtf8("pixmapLabel_card2a"));
-	pixmapLabel_card2a->setScaledContents(true);
-	pixmapLabel_card2a->setGeometry(QRect(0, 0, 80, 111));
-
-	pixmapLabel_card2b = new MyCardsPixmapLabel(frame_Cards2);
-    	pixmapLabel_card2b->setObjectName(QString::fromUtf8("pixmapLabel_card2b"));
-	pixmapLabel_card2b->setScaledContents(true);
-	pixmapLabel_card2b->setGeometry(QRect(39, 0, 80, 111));
-
-	pixmapLabel_card3a = new MyCardsPixmapLabel(frame_Cards3);
-    	pixmapLabel_card3a->setObjectName(QString::fromUtf8("pixmapLabel_card3a"));
-	pixmapLabel_card3a->setScaledContents(true);
-	pixmapLabel_card3a->setGeometry(QRect(0, 0, 80, 111));
-
-	pixmapLabel_card3b = new MyCardsPixmapLabel(frame_Cards3);
-    	pixmapLabel_card3b->setObjectName(QString::fromUtf8("pixmapLabel_card3b"));
-	pixmapLabel_card3b->setScaledContents(true);
-	pixmapLabel_card3b->setGeometry(QRect(39, 0, 80, 111));
-
-	pixmapLabel_card4a = new MyCardsPixmapLabel(frame_Cards4);
-    	pixmapLabel_card4a->setObjectName(QString::fromUtf8("pixmapLabel_card4a"));
-	pixmapLabel_card4a->setScaledContents(true);
-	pixmapLabel_card4a->setGeometry(QRect(0, 0, 80, 111));
-
-	pixmapLabel_card4b = new MyCardsPixmapLabel(frame_Cards4);
-    	pixmapLabel_card4b->setObjectName(QString::fromUtf8("pixmapLabel_card4b"));
-	pixmapLabel_card4b->setScaledContents(true);
-	pixmapLabel_card4b->setGeometry(QRect(39, 0, 80, 111));
-
-	pixmapLabel_card5a = new MyCardsPixmapLabel(frame_Cards5);
-    	pixmapLabel_card5a->setObjectName(QString::fromUtf8("pixmapLabel_card5a"));
-	pixmapLabel_card5a->setScaledContents(true);
-	pixmapLabel_card5a->setGeometry(QRect(0, 0, 80, 111));
-
-	pixmapLabel_card5b = new MyCardsPixmapLabel(frame_Cards5);
-    	pixmapLabel_card5b->setObjectName(QString::fromUtf8("pixmapLabel_card5b"));
-	pixmapLabel_card5b->setScaledContents(true);
-	pixmapLabel_card5b->setGeometry(QRect(39, 0, 80, 111));
-
-	pixmapLabel_card6a = new MyCardsPixmapLabel(frame_Cards6);
-    	pixmapLabel_card6a->setObjectName(QString::fromUtf8("pixmapLabel_card6a"));
-	pixmapLabel_card6a->setScaledContents(true);
-	pixmapLabel_card6a->setGeometry(QRect(0, 0, 80, 111));
-
-	pixmapLabel_card6b = new MyCardsPixmapLabel(frame_Cards6);
-    	pixmapLabel_card6b->setObjectName(QString::fromUtf8("pixmapLabel_card6b"));
-	pixmapLabel_card6b->setScaledContents(true);
-	pixmapLabel_card6b->setGeometry(QRect(39, 0, 80, 111));
-
 
 	//Flipside festlegen;
 	flipside = new QPixmap(myAppDataPath +"gfx/cards/default/flipside.png");
@@ -609,9 +513,11 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect( pushButton_Fold, SIGNAL( clicked(bool) ), this, SLOT( pushButtonFoldClicked(bool) ) );
 	connect( pushButton_CallCheck, SIGNAL( clicked(bool) ), this, SLOT( pushButtonCallCheckClicked(bool) ) );
 	connect( pushButton_AllIn, SIGNAL( clicked(bool) ), this, SLOT(pushButtonAllInClicked(bool) ) );
-
-	connect ( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
-	connect ( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
+	
+	connect( horizontalSlider_bet, SIGNAL( valueChanged(int)), this, SLOT ( changeSpinBoxBetValue(int) ) );
+	
+	connect( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
+	connect( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
 
 	connect( tabWidget_Left, SIGNAL( currentChanged(int) ), this, SLOT( tabSwitchAction() ) );
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
@@ -2015,19 +1921,12 @@ void mainWindowImpl::disableMyButtons() {
 	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	spinBox_set->setValue(0);
+	horizontalSlider_bet->setValue(0);
 
 	pushButton_AllIn->setDisabled(TRUE);
 	horizontalSlider_bet->setDisabled(TRUE);
 	spinBox_set->setDisabled(TRUE);
 
-// 	spinBox_set->setDisabled(TRUE);
-// 	horizontalSlider_bet->setDisabled(TRUE);
-// 	spinBox_set->hide();
-// 	pushButton_BetRaise->show();
-// 	pushButton_BetRaise->setText("");
-// 	pushButton_CallCheck->setText("");
-// 	pushButton_Fold->setText("");
-	
 }
 
 void mainWindowImpl::myBetRaise() {
@@ -2038,14 +1937,7 @@ void mainWindowImpl::myBetRaise() {
 	else if(pushButton_BetRaise->text() == "Bet") { 
 		myBet(); 
 	}
-	else {
-// 		spinBox_set->setMinimum(0);
-// 		horizontalSlider_bet->setMinimum(0);
-// 		spinBox_set->setValue(0);
-// 		horizontalSlider_bet->setValue(0);
-// 		spinBox_set->setDisabled(TRUE);
-// 		horizontalSlider_bet->setDisabled(TRUE);
-	}
+	else {}
 }
 
 void mainWindowImpl::myCallCheck() {
@@ -3663,3 +3555,11 @@ void mainWindowImpl::quitPokerTH() {
 // 
 // 	QMainWindow::paintEvent(event);
 // }
+
+void mainWindowImpl::changeSpinBoxBetValue(int value) {
+
+	if(spinBox_set->maximum() <= 1000 )
+		spinBox_set->setValue((int)((value/10)*10));
+	else
+		spinBox_set->setValue((int)((value/50)*50));
+}

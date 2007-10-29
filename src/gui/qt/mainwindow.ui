@@ -22,7 +22,7 @@
    </size>
   </property>
   <property name="windowTitle" >
-   <string>PokerTH 0.6 - The Open-Source Texas Holdem Engine</string>
+   <string>PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</string>
   </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QGridLayout" >
@@ -191,6 +191,32 @@
           </property>
           <property name="alignment" >
            <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card2a" >
+          <property name="geometry" >
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>80</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="scaledContents" >
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card2b" >
+          <property name="geometry" >
+           <rect>
+            <x>39</x>
+            <y>0</y>
+            <width>80</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="scaledContents" >
+           <bool>true</bool>
           </property>
          </widget>
         </widget>
@@ -392,6 +418,32 @@
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
+         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card3a" >
+          <property name="geometry" >
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>80</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="scaledContents" >
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card3b" >
+          <property name="geometry" >
+           <rect>
+            <x>39</x>
+            <y>0</y>
+            <width>80</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="scaledContents" >
+           <bool>true</bool>
+          </property>
+         </widget>
         </widget>
         <widget class="QLabel" name="label_Avatar3" >
          <property name="geometry" >
@@ -496,6 +548,32 @@
           </property>
           <property name="alignment" >
            <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card4a" >
+          <property name="geometry" >
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>80</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="scaledContents" >
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card4b" >
+          <property name="geometry" >
+           <rect>
+            <x>39</x>
+            <y>0</y>
+            <width>80</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="scaledContents" >
+           <bool>true</bool>
           </property>
          </widget>
         </widget>
@@ -790,6 +868,32 @@
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
+         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card5a" >
+          <property name="geometry" >
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>80</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="scaledContents" >
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card5b" >
+          <property name="geometry" >
+           <rect>
+            <x>39</x>
+            <y>0</y>
+            <width>80</width>
+            <height>111</height>
+           </rect>
+          </property>
+          <property name="scaledContents" >
+           <bool>true</bool>
+          </property>
+         </widget>
         </widget>
         <widget class="QLabel" name="label_Avatar5" >
          <property name="geometry" >
@@ -1036,6 +1140,32 @@
             </property>
             <property name="alignment" >
              <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+           <widget class="MyCardsPixmapLabel" name="pixmapLabel_card1a" >
+            <property name="geometry" >
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>80</width>
+              <height>111</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="MyCardsPixmapLabel" name="pixmapLabel_card1b" >
+            <property name="geometry" >
+             <rect>
+              <x>39</x>
+              <y>0</y>
+              <width>80</width>
+              <height>111</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
             </property>
            </widget>
           </widget>
@@ -1384,6 +1514,71 @@
           <bool>true</bool>
          </property>
         </widget>
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard0" >
+         <property name="geometry" >
+          <rect>
+           <x>6</x>
+           <y>64</y>
+           <width>79</width>
+           <height>114</height>
+          </rect>
+         </property>
+         <property name="scaledContents" >
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard1" >
+         <property name="geometry" >
+          <rect>
+           <x>95</x>
+           <y>64</y>
+           <width>79</width>
+           <height>114</height>
+          </rect>
+         </property>
+         <property name="scaledContents" >
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard2" >
+         <property name="geometry" >
+          <rect>
+           <x>184</x>
+           <y>64</y>
+           <width>79</width>
+           <height>114</height>
+          </rect>
+         </property>
+         <property name="scaledContents" >
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard3" >
+         <property name="geometry" >
+          <rect>
+           <x>280</x>
+           <y>64</y>
+           <width>79</width>
+           <height>114</height>
+          </rect>
+         </property>
+         <property name="scaledContents" >
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard4" >
+         <property name="geometry" >
+          <rect>
+           <x>376</x>
+           <y>64</y>
+           <width>79</width>
+           <height>114</height>
+          </rect>
+         </property>
+         <property name="scaledContents" >
+          <bool>true</bool>
+         </property>
+        </widget>
        </widget>
       </item>
       <item>
@@ -1555,6 +1750,32 @@
             </property>
             <property name="alignment" >
              <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+           <widget class="MyCardsPixmapLabel" name="pixmapLabel_card6a" >
+            <property name="geometry" >
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>80</width>
+              <height>111</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="MyCardsPixmapLabel" name="pixmapLabel_card6b" >
+            <property name="geometry" >
+             <rect>
+              <x>39</x>
+              <y>0</y>
+              <width>80</width>
+              <height>111</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
             </property>
            </widget>
           </widget>
@@ -2271,6 +2492,12 @@
                  <property name="orientation" >
                   <enum>Qt::Horizontal</enum>
                  </property>
+                 <property name="tickPosition" >
+                  <enum>QSlider::NoTicks</enum>
+                 </property>
+                 <property name="tickInterval" >
+                  <number>10</number>
+                 </property>
                 </widget>
                </item>
               </layout>
@@ -2424,6 +2651,32 @@
             </property>
             <property name="textInteractionFlags" >
              <set>Qt::NoTextInteraction</set>
+            </property>
+           </widget>
+           <widget class="MyCardsPixmapLabel" name="pixmapLabel_card0a" >
+            <property name="geometry" >
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>80</width>
+              <height>111</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="MyCardsPixmapLabel" name="pixmapLabel_card0b" >
+            <property name="geometry" >
+             <rect>
+              <x>39</x>
+              <y>0</y>
+              <width>80</width>
+              <height>111</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
             </property>
            </widget>
           </widget>
@@ -3106,6 +3359,11 @@
    <extends>QLabel</extends>
    <header>mystatuslabel.h</header>
   </customwidget>
+  <customwidget>
+   <class>MyCardsPixmapLabel</class>
+   <extends>QLabel</extends>
+   <header>mycardspixmaplabel.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>spinBox_set</tabstop>
@@ -3123,40 +3381,8 @@
      <y>624</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>808</x>
+     <x>800</x>
      <y>638</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>horizontalSlider_bet</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_set</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>585</x>
-     <y>509</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>579</x>
-     <y>479</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox_set</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>horizontalSlider_bet</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>621</x>
-     <y>479</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>621</x>
-     <y>509</y>
     </hint>
    </hints>
   </connection>

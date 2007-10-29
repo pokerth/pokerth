@@ -10,7 +10,7 @@
 //
 //
 #include "mycardspixmaplabel.h"
-
+#include "mainwindowimpl.h"
 // using namespace std;
 
 MyCardsPixmapLabel::MyCardsPixmapLabel(QFrame* parent)
@@ -168,10 +168,10 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event) {
 	
 		painter.setOpacity(frameOpacity);
 	// 	painter.drawRect(this->geometry());
-		if(objectName().contains("pixmapLabel_card"))
-		painter.drawRect(-1,-1,81,112);
+		if(objectName().contains("pixmapLabel_cardBoard"))
+			painter.drawRect(-1,-1,80,115);
 		else
-		painter.drawRect(-1,-1,80,115);
+			painter.drawRect(-1,-1,81,112);
 		
 	}
 
