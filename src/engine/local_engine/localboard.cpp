@@ -75,7 +75,7 @@ void LocalBoard::distributePot() {
 	PlayerListConstIterator it_c;
 
 	// filling player sets vector
-	vector<int> playerSets;
+	vector<unsigned> playerSets;
 	for(it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
 		if((*it_c)->getMyActiveStatus()) {
 			playerSets.push_back( ( ((*it_c)->getMyRoundStartCash()) - ((*it_c)->getMyCash()) ) );
@@ -85,11 +85,11 @@ void LocalBoard::distributePot() {
 	}
 
 	// sort player sets asc
-	vector<int> playerSetsSort = playerSets;
+	vector<unsigned> playerSetsSort = playerSets;
 	sort(playerSetsSort.begin(), playerSetsSort.end());
 
 	// potLevel[0] = amount, potLevel[1] = sum, potLevel[2..n] = winner
-	vector<int> potLevel;
+	vector<unsigned> potLevel;
 
 	// temp var
 	int highestCardsValue;
@@ -154,7 +154,11 @@ void LocalBoard::distributePot() {
 			// --> distribution after smallBlind
 			else {
 
-				winnerPointer = currentHand->getDealerPosition();
+// 				winnerPointer = currentHand->getDealerPosition();
+				it = currentHand->getSeatIt(currentHand->getDealerPosition());
+				if(it == seatsList->end()) {
+					throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
+				}
 
 				for(j=0; j<winnerCount; j++) {
 
@@ -162,20 +166,25 @@ void LocalBoard::distributePot() {
 
 					for(k=0; k<MAX_NUMBER_OF_PLAYERS && !winnerHit; k++){
 
-						winnerPointer = (winnerPointer+1)%(MAX_NUMBER_OF_PLAYERS);
+// 						winnerPointer = (winnerPointer+1)%(MAX_NUMBER_OF_PLAYERS);
 
-						winnerHit = false;
+// 						winnerHit = false;
+
+						it++;
+						if(it == seatsList->end())
+							it = seatsList->begin();
 
 						for(l=2; l<potLevel.size(); l++) {
-							if(winnerPointer == potLevel[l]) winnerHit = true;
+// 							if(winnerPointer == potLevel[l]) winnerHit = true;
+							if((*it)->getMyUniqueID() == potLevel[l]) winnerHit = true;
 						}
 
 					}
 
-					it = currentHand->getSeatIt(winnerPointer);
-					if(it == seatsList->end()) {
-						throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
-					}
+// 					it = currentHand->getSeatIt(winnerPointer);
+// 					if(it == seatsList->end()) {
+// 						throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
+// 					}
 					if(j<mod) {
 						(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount) + 1);
 						// filling winners vector
