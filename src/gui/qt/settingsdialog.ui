@@ -147,7 +147,7 @@
        <item row="11" column="0" >
         <widget class="QCheckBox" name="checkBox_alternateFKeysUserActionMode" >
          <property name="text" >
-          <string>Reverse order of F-Keys (F1 - F3)</string>
+          <string>Reverse order of F-Keys (F1 - F4)</string>
          </property>
         </widget>
        </item>
