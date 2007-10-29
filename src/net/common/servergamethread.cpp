@@ -144,6 +144,7 @@ ServerGameThread::Main()
 	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
+		LOG_ERROR(e.what());
 	}
 	GetSender().SignalTermination();
 	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);
