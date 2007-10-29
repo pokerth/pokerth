@@ -323,8 +323,7 @@ public slots:
 	void showMaximized ();
 	void quitPokerTH();
 	
-
-	
+// 	void paintEvent(QPaintEvent *);
 
 private: 
 

@@ -3650,3 +3650,16 @@ void mainWindowImpl::quitPokerTH() {
 	else { qApp->quit();}
 }
 
+// void mainWindowImpl::paintEvent(QPaintEvent *event) {
+//  
+// 	QPainter painter(this);
+// 	QPixmap pm;	
+// 	QPixmapCache::setCacheLimit(2048);
+// 	if (!QPixmapCache::find("my_big_image", pm)) {
+// 		pm.load(myAppDataPath +"gfx/gui/table/default/table.png");
+// 		QPixmapCache::insert("my_big_image", pm);
+// 	}
+// 	painter.drawPixmap(0, 0, pm);
+// 
+// 	QMainWindow::paintEvent(event);
+// }

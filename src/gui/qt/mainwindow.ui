@@ -9,12 +9,6 @@
     <height>680</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="minimumSize" >
    <size>
     <width>1000</width>
@@ -23,8 +17,8 @@
   </property>
   <property name="maximumSize" >
    <size>
-    <width>1000</width>
-    <height>680</height>
+    <width>1920</width>
+    <height>1280</height>
    </size>
   </property>
   <property name="windowTitle" >
