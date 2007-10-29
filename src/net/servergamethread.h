@@ -27,7 +27,7 @@
 
 #include <deque>
 
-#define GAME_THREAD_TERMINATE_TIMEOUT	4000
+#define GAME_THREAD_TERMINATE_TIMEOUT	20000
 
 
 class SenderThread;
