@@ -52,7 +52,8 @@ public:
 	void distributePot();
 
 	std::list<int> getWinners() const { return winners; }
-	
+	void setWinners(const std::list<int> &w) { winners = w; }
+
 
 private:
 	PlayerList seatsList;

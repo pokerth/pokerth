@@ -51,6 +51,7 @@ public:
 	void distributePot();
 
 	std::list<int> getWinners() const;
+	void setWinners(const std::list<int> &winners);
 
 private:
 	mutable boost::recursive_mutex m_syncMutex;

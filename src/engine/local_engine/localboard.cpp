@@ -95,7 +95,7 @@ void LocalBoard::distributePot() {
 	int highestCardsValue;
 	size_t winnerCount;
 	size_t mod;
-	int winnerPointer;
+//	int winnerPointer;
 	bool winnerHit;
 
 	// level loop

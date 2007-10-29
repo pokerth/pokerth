@@ -54,7 +54,7 @@ public:
 	virtual void distributePot() =0;
 
 	virtual std::list<int> getWinners() const =0;
-
+	virtual void setWinners(const std::list<int> &winners) =0;
 
 };
 
