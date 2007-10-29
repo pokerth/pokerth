@@ -269,7 +269,8 @@ ServerLobbyThread::Main()
 	TerminateGames();
 
 	GetSender().SignalTermination();
-	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);
+	if (!GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT))
+		LOG_ERROR("Fatal error: Unable to terminated Sender Thread in Lobby.");
 
 	CleanupConnectQueue();
 }
@@ -708,7 +709,8 @@ ServerLobbyThread::RemoveGameLoop()
 		{
 			boost::shared_ptr<ServerGameThread> tmpGame = pos->second;
 			tmpGame->SignalTermination();
-			tmpGame->Join(GAME_THREAD_TERMINATE_TIMEOUT);
+			if (!tmpGame->Join(GAME_THREAD_TERMINATE_TIMEOUT))
+				throw ServerException(__FILE__, __LINE__, ERR_NET_GAME_TERMINATION_FAILED, 0);
 			InternalRemoveGame(tmpGame);
 		}
 		++i;

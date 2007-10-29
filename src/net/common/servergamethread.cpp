@@ -148,7 +148,8 @@ ServerGameThread::Main()
 		LOG_ERROR(e.what());
 	}
 	GetSender().SignalTermination();
-	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);
+	if (!GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT))
+		LOG_ERROR("Fatal error: Unable to terminated Sender Thread in Game.");
 
 	ResetComputerPlayerList();
 	GetLobbyThread().RemoveGame(GetId());
