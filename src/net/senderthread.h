@@ -30,7 +30,7 @@
 #include <deque>
 #include <boost/shared_ptr.hpp>
 
-#define SENDER_THREAD_TERMINATE_TIMEOUT		200
+#define SENDER_THREAD_TERMINATE_TIMEOUT		2000
 #define SEND_TIMEOUT_MSEC					10
 #define SEND_QUEUE_SIZE						1000
 #define SEND_LOW_PRIO_QUEUE_SIZE			50000
