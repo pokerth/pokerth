@@ -27,7 +27,7 @@
 
 using namespace std;
 
-#define SEND_TIMEOUT_MSEC		2000
+#define SEND_ERROR_TIMEOUT_MSEC		2000
 
 SenderThread::SenderThread(SenderCallback &cb)
 : m_tmpOutBufSize(0), m_callback(cb)
@@ -117,7 +117,7 @@ SenderThread::Main()
 
 	while (!ShouldTerminate())
 	{
-		if (sendTimer.is_running() && sendTimer.elapsed().total_milliseconds() > SEND_TIMEOUT_MSEC)
+		if (sendTimer.is_running() && sendTimer.elapsed().total_milliseconds() > SEND_ERROR_TIMEOUT_MSEC)
 		{
 			RemoveCurSendData();
 			sendTimer.reset();

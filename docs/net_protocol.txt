@@ -738,7 +738,6 @@ PlayerResult Record
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                          Player Money                         |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-(Money Won is currently set to 0.)
 
 
 Server Notification: End Of Hand Hide Cards
@@ -754,7 +753,6 @@ Server Notification: End Of Hand Hide Cards
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                          Player Money                         |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-(Money Won is currently set to 0.)
 
 
 Server Notification: End Of Game

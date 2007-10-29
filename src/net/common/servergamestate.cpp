@@ -734,7 +734,7 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 				boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandHideCards);
 				NetPacketEndOfHandHideCards::Data endHandData;
 				endHandData.playerId = player->getMyUniqueID();
-				endHandData.moneyWon = 0; // TODO
+				endHandData.moneyWon = player->getLastMoneyWon();
 				endHandData.playerMoney = player->getMyCash();
 				static_cast<NetPacketEndOfHandHideCards *>(endHand.get())->SetData(endHandData);
 
@@ -765,7 +765,7 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 						tmpPlayerResult.bestHandPos[num] = bestHandPos[num];
 
 					tmpPlayerResult.valueOfCards = (*i)->getMyCardsValueInt();
-					tmpPlayerResult.moneyWon = 0; // TODO
+					tmpPlayerResult.moneyWon = (*i)->getLastMoneyWon();
 					tmpPlayerResult.playerMoney = (*i)->getMyCash();
 
 					endHandData.playerResults.push_back(tmpPlayerResult);
