@@ -36,17 +36,31 @@
 
 using namespace std;
 
-#define SERVER_WAIT_TIMEOUT_MSEC				50
-#define SERVER_DELAY_NEXT_HAND_SEC				10
-#define SERVER_DELAY_NEXT_GAME_SEC				10
-#define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		5
-#define SERVER_DEAL_TURN_CARD_DELAY_SEC			2
-#define SERVER_DEAL_RIVER_CARD_DELAY_SEC		2
-#define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		2
-#define SERVER_SHOW_CARDS_DELAY_SEC				2
-#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		2
-#define SERVER_COMPUTER_ACTION_DELAY_SEC		2
+//#define SERVER_TEST
+
 #define SERVER_START_GAME_TIMEOUT_SEC			10
+
+#ifdef SERVER_TEST
+	#define SERVER_DELAY_NEXT_HAND_SEC				0
+	#define SERVER_DELAY_NEXT_GAME_SEC				0
+	#define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		0
+	#define SERVER_DEAL_TURN_CARD_DELAY_SEC			0
+	#define SERVER_DEAL_RIVER_CARD_DELAY_SEC		0
+	#define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		0
+	#define SERVER_SHOW_CARDS_DELAY_SEC				0
+	#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		0
+	#define SERVER_COMPUTER_ACTION_DELAY_SEC		0
+#else
+	#define SERVER_DELAY_NEXT_HAND_SEC				10
+	#define SERVER_DELAY_NEXT_GAME_SEC				10
+	#define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		5
+	#define SERVER_DEAL_TURN_CARD_DELAY_SEC			2
+	#define SERVER_DEAL_RIVER_CARD_DELAY_SEC		2
+	#define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		2
+	#define SERVER_SHOW_CARDS_DELAY_SEC				2
+	#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		2
+	#define SERVER_COMPUTER_ACTION_DELAY_SEC		2
+#endif
 
 #define SERVER_COMPUTER_PLAYER_NAME				"Computer"
 
@@ -835,7 +849,11 @@ ServerGameStateWaitPlayerAction::Process(ServerGameThread &server)
 		server.SetState(ServerGameStateStartRound::Instance());
 		retVal = MSG_NET_GAME_SERVER_ACTION;
 	}
+#ifdef SERVER_TEST
+	else if (true)
+#else
 	else if (GetTimer().elapsed().total_seconds() >= server.GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC)
+#endif
 	{
 		// Player did not act fast enough. Act for him.
 		if (server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet() == curPlayer->getMySet())
