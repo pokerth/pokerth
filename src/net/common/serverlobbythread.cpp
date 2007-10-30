@@ -121,7 +121,10 @@ ServerLobbyThread::RemoveSessionFromGame(SessionWrapper session)
 void
 ServerLobbyThread::CloseSession(SessionWrapper session)
 {
-	m_initTimerSessionMap.erase(session.sessionData->GetId());
+	{
+		boost::mutex::scoped_lock lock(m_initTimerSessionMapMutex);
+		m_initTimerSessionMap.erase(session.sessionData->GetId());
+	}
 	m_sessionManager.RemoveSession(session.sessionData->GetId());
 	m_gameSessionManager.RemoveSession(session.sessionData->GetId());
 
@@ -616,10 +619,16 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 	SendGameList(session.sessionData);
 
 	// Session is now established.
-	m_initTimerSessionMap.erase(session.sessionData->GetId());
+	{
+		boost::mutex::scoped_lock lock(m_initTimerSessionMapMutex);
+		m_initTimerSessionMap.erase(session.sessionData->GetId());
+	}
 	session.sessionData->SetState(SessionData::Established);
 
-	++m_totalPlayersLoggedIn;
+	{
+		boost::mutex::scoped_lock lock(m_statMutex);
+		++m_totalPlayersLoggedIn;
+	}
 
 	BroadcastStatisticsUpdate();
 }
@@ -674,22 +683,21 @@ ServerLobbyThread::NewSessionLoop()
 void
 ServerLobbyThread::CloseSessionLoop()
 {
-	{
-		InitTimerSessionMap::iterator i = m_initTimerSessionMap.begin();
-		InitTimerSessionMap::iterator end = m_initTimerSessionMap.end();
+	boost::mutex::scoped_lock lock(m_initTimerSessionMapMutex);
+	InitTimerSessionMap::iterator i = m_initTimerSessionMap.begin();
+	InitTimerSessionMap::iterator end = m_initTimerSessionMap.end();
 
-		// Remove sessions if they do not initialize within a certain period.
-		while (i != end)
+	// Remove sessions if they do not initialize within a certain period.
+	while (i != end)
+	{
+		InitTimerSessionMap::iterator next = i;
+		++next;
+		if (i->second.elapsed().total_seconds() > SERVER_INIT_SESSION_TIMEOUT_SEC)
 		{
-			InitTimerSessionMap::iterator next = i;
-			++next;
-			if (i->second.elapsed().total_seconds() > SERVER_INIT_SESSION_TIMEOUT_SEC)
-			{
-				m_sessionManager.RemoveSession(i->first);
-				m_initTimerSessionMap.erase(i);
-			}
-			i = next;
+			m_sessionManager.RemoveSession(i->first);
+			m_initTimerSessionMap.erase(i);
 		}
+		i = next;
 	}
 }
 
@@ -740,7 +748,10 @@ ServerLobbyThread::InternalAddGame(boost::shared_ptr<ServerGameThread> game)
 	m_sessionManager.SendToAllSessionsLowPrio(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Established);
 	m_gameSessionManager.SendToAllSessionsLowPrio(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Game);
 
-	++m_totalGamesStarted;
+	{
+		boost::mutex::scoped_lock lock(m_statMutex);
+		++m_totalGamesStarted;
+	}
 	BroadcastStatisticsUpdate();
 }
 
@@ -791,6 +802,7 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 
 	if (m_sessionManager.GetRawSessionCount() <= SERVER_MAX_NUM_SESSIONS)
 	{
+		boost::mutex::scoped_lock lock(m_initTimerSessionMapMutex);
 		m_initTimerSessionMap[sessionData->GetId()] = boost::timers::portable::microsec_timer();
 	}
 	else
@@ -877,14 +889,16 @@ ServerLobbyThread::BroadcastStatisticsUpdate()
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacketStatisticsChanged);
 	NetPacketStatisticsChanged::Data statData;
-
 	unsigned curNumberOfPlayersOnServer = m_sessionManager.GetRawSessionCount() + m_gameSessionManager.GetRawSessionCount();
-	if (curNumberOfPlayersOnServer != m_lastStatData.numberOfPlayersOnServer)
-		m_lastStatData.numberOfPlayersOnServer = statData.stats.numberOfPlayersOnServer = curNumberOfPlayersOnServer;
-	if (m_totalPlayersLoggedIn != m_lastStatData.totalPlayersEverLoggedIn)
-		m_lastStatData.totalPlayersEverLoggedIn = statData.stats.totalPlayersEverLoggedIn = m_totalPlayersLoggedIn;
-	if (m_totalGamesStarted != m_lastStatData.totalGamesEverStarted)
-		m_lastStatData.totalGamesEverStarted = statData.stats.totalGamesEverStarted = m_totalGamesStarted;
+	{
+		boost::mutex::scoped_lock lock(m_statMutex);
+		if (curNumberOfPlayersOnServer != m_lastStatData.numberOfPlayersOnServer)
+			m_lastStatData.numberOfPlayersOnServer = statData.stats.numberOfPlayersOnServer = curNumberOfPlayersOnServer;
+		if (m_totalPlayersLoggedIn != m_lastStatData.totalPlayersEverLoggedIn)
+			m_lastStatData.totalPlayersEverLoggedIn = statData.stats.totalPlayersEverLoggedIn = m_totalPlayersLoggedIn;
+		if (m_totalGamesStarted != m_lastStatData.totalGamesEverStarted)
+			m_lastStatData.totalGamesEverStarted = statData.stats.totalGamesEverStarted = m_totalGamesStarted;
+	}
 
 	if (curNumberOfPlayersOnServer)
 	{

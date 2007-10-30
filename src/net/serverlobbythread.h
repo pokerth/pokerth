@@ -150,6 +150,7 @@ private:
 	SessionManager m_gameSessionManager;
 
 	InitTimerSessionMap m_initTimerSessionMap;
+	mutable boost::mutex m_initTimerSessionMapMutex;
 
 	RemoveGameList m_removeGameList;
 	mutable boost::mutex m_removeGameListMutex;
@@ -173,9 +174,11 @@ private:
 	u_int32_t m_curSessionId;
 	mutable boost::mutex m_curUniquePlayerIdMutex;
 
+
+	ServerStats m_lastStatData;
 	unsigned m_totalPlayersLoggedIn;
 	unsigned m_totalGamesStarted;
-	ServerStats m_lastStatData;
+	mutable boost::mutex m_statMutex;
 
 	boost::timers::portable::microsec_timer m_cacheCleanupTimer;
 };

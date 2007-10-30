@@ -22,6 +22,7 @@
 #include <net/socket_msg.h>
 #include <net/socket_helper.h>
 #include <cstring>
+#include <cassert>
 
 #include <core/boost/timers.hpp>
 #include <boost/bind.hpp>
@@ -203,15 +204,15 @@ SenderThread::Main()
 						Msleep(SEND_TIMEOUT_MSEC);
 					}
 				}
-				else
+				else // other errors than would block
 				{
 					// Skip this packet - this is bad, and is therefore reported.
 					// Ignore invalid or not connected sockets.
 					if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
 						m_callback.SignalNetError(m_curSession->GetId(), ERR_SOCK_SEND_FAILED, errCode);
 					RemoveCurSendData();
+					Msleep(SEND_TIMEOUT_MSEC);
 				}
-				Msleep(SEND_TIMEOUT_MSEC);
 			}
 			else if ((unsigned)bytesSent < m_tmpOutBufSize)
 			{
@@ -225,6 +226,7 @@ SenderThread::Main()
 			}
 			else
 			{
+				assert(bytesSent == m_tmpOutBufSize);
 				m_tmpOutBufSize = 0;
 				m_curSession.reset();
 				sendTimer.reset();
