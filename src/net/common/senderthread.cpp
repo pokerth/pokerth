@@ -27,7 +27,7 @@
 
 using namespace std;
 
-#define SEND_ERROR_TIMEOUT_MSEC		2000
+#define SEND_ERROR_TIMEOUT_MSEC		20000
 
 SenderThread::SenderThread(SenderCallback &cb)
 : m_tmpOutBufSize(0), m_callback(cb)

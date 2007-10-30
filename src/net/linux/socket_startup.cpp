@@ -26,10 +26,14 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <csignal>
+
+using namespace std;
 
 bool
 socket_startup()
 {
+	signal(SIGPIPE, SIG_IGN);
 	return true;
 }
 
