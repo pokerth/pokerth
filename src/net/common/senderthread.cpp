@@ -20,6 +20,7 @@
 #include <net/senderthread.h>
 #include <net/sendercallback.h>
 #include <net/socket_msg.h>
+#include <net/socket_helper.h>
 #include <cstring>
 
 #include <core/boost/timers.hpp>
@@ -27,7 +28,10 @@
 
 using namespace std;
 
-#define SEND_ERROR_TIMEOUT_MSEC		20000
+#define SEND_ERROR_TIMEOUT_MSEC				20000
+#define SEND_TIMEOUT_MSEC					10
+#define SEND_QUEUE_SIZE						1000
+#define SEND_LOW_PRIO_QUEUE_SIZE			50000
 
 SenderThread::SenderThread(SenderCallback &cb)
 : m_tmpOutBufSize(0), m_callback(cb)
@@ -193,7 +197,7 @@ SenderThread::Main()
 			if (selectResult > 0) // send is possible
 			{
 				// send next chunk of data
-				int bytesSent = send(tmpSocket, m_tmpOutBuf, m_tmpOutBufSize, 0);
+				int bytesSent = send(tmpSocket, m_tmpOutBuf, m_tmpOutBufSize, SOCKET_SEND_FLAGS);
 
 				if (!IS_VALID_SEND(bytesSent))
 				{

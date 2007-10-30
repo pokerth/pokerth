@@ -22,7 +22,6 @@
 #define _SENDERTHREAD_H_
 
 #include <core/thread.h>
-#include <net/socket_helper.h>
 #include <net/sessiondata.h>
 #include <net/netpacket.h>
 #include <net/sendercallback.h>
@@ -31,9 +30,6 @@
 #include <boost/shared_ptr.hpp>
 
 #define SENDER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
-#define SEND_TIMEOUT_MSEC					10
-#define SEND_QUEUE_SIZE						1000
-#define SEND_LOW_PRIO_QUEUE_SIZE			50000
 
 class SenderThread : public Thread
 {
