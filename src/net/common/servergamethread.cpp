@@ -54,8 +54,8 @@ private:
 
 
 ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
-: m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui), m_id(id),
-  m_gameData(gameData), m_name(name), m_password(pwd), m_playerConfig(playerConfig),
+: m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
+  m_gameData(gameData), m_id(id), m_name(name), m_password(pwd), m_playerConfig(playerConfig),
   m_curState(NULL), m_gameNum(1)
 {
 	m_senderCallback.reset(new GameSenderCallback(*this));
