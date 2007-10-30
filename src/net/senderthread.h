@@ -67,6 +67,7 @@ private:
 
 	char m_tmpOutBuf[MAX_PACKET_SIZE];
 	unsigned m_tmpOutBufSize;
+	bool m_tmpIsLowPrio;
 
 	SenderCallback &m_callback;
 };

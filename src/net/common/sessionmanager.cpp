@@ -361,6 +361,25 @@ SessionManager::SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPac
 }
 
 void
+SessionManager::SendToAllSessionsLowPrio(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state)
+{
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SessionMap::iterator i = m_sessionMap.begin();
+	SessionMap::iterator end = m_sessionMap.end();
+
+	while (i != end)
+	{
+		assert(i->second.sessionData.get());
+
+		// Send each client (with a certain state) a copy of the packet.
+		if (i->second.sessionData->GetState() == state)
+			sender.SendLowPrio(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
+		++i;
+	}
+}
+
+void
 SessionManager::SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state)
 {
 	boost::mutex::scoped_lock lock(m_sessionMapMutex);

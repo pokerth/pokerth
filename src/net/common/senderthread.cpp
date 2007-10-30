@@ -28,13 +28,14 @@
 
 using namespace std;
 
-#define SEND_ERROR_TIMEOUT_MSEC				20000
+#define SEND_ERROR_NORMAL_TIMEOUT_MSEC		20000
+#define SEND_ERROR_LOW_PRIO_TIMEOUT_MSEC	10000
 #define SEND_TIMEOUT_MSEC					10
 #define SEND_QUEUE_SIZE						1000
 #define SEND_LOW_PRIO_QUEUE_SIZE			50000
 
 SenderThread::SenderThread(SenderCallback &cb)
-: m_tmpOutBufSize(0), m_callback(cb)
+: m_tmpOutBufSize(0), m_tmpIsLowPrio(false), m_callback(cb)
 {
 }
 
@@ -121,11 +122,6 @@ SenderThread::Main()
 
 	while (!ShouldTerminate())
 	{
-		if (sendTimer.is_running() && sendTimer.elapsed().total_milliseconds() > SEND_ERROR_TIMEOUT_MSEC)
-		{
-			RemoveCurSendData();
-			sendTimer.reset();
-		}
 		// Send remaining bytes of output buffer OR
 		// copy ONE packet to output buffer.
 		// For reasons of simplicity, only one packet is sent at a time.
@@ -139,6 +135,7 @@ SenderThread::Main()
 				{
 					tmpData = m_outBuf.front();
 					m_outBuf.pop_front();
+					m_tmpIsLowPrio = false;
 				}
 			}
 
@@ -150,6 +147,7 @@ SenderThread::Main()
 				{
 					tmpData = m_lowPrioOutBuf.front();
 					m_lowPrioOutBuf.pop_front();
+					m_tmpIsLowPrio = true;
 				}
 			}
 
@@ -171,63 +169,92 @@ SenderThread::Main()
 		if (m_tmpOutBufSize)
 		{
 			SOCKET tmpSocket = m_curSession->GetSocket();
-			fd_set writeSet;
-			struct timeval timeout;
 
-			FD_ZERO(&writeSet);
-			FD_SET(tmpSocket, &writeSet);
+			// send next chunk of data
+			int bytesSent = send(tmpSocket, m_tmpOutBuf, m_tmpOutBufSize, SOCKET_SEND_FLAGS);
 
-			timeout.tv_sec  = 0;
-			timeout.tv_usec = SEND_TIMEOUT_MSEC * 1000;
-			int selectResult = select(tmpSocket + 1, NULL, &writeSet, NULL, &timeout);
-			if (!IS_VALID_SELECT(selectResult))
+			if (!IS_VALID_SEND(bytesSent))
 			{
 				// Never assume that this is a fatal error.
 				int errCode = SOCKET_ERRNO();
-				if (errCode != SOCKET_ERR_WOULDBLOCK)
+				if (errCode == SOCKET_ERR_WOULDBLOCK)
+				{
+					fd_set writeSet;
+					struct timeval timeout;
+
+					FD_ZERO(&writeSet);
+					FD_SET(tmpSocket, &writeSet);
+
+					timeout.tv_sec  = 0;
+					timeout.tv_usec = SEND_TIMEOUT_MSEC * 1000;
+					int selectResult = select(tmpSocket + 1, NULL, &writeSet, NULL, &timeout);
+					if (!IS_VALID_SELECT(selectResult))
+					{
+						// Never assume that this is a fatal error.
+						int errCode = SOCKET_ERRNO();
+						if (errCode != SOCKET_ERR_WOULDBLOCK)
+						{
+							// Skip this packet - this is bad, and is therefore reported.
+							// Ignore invalid or not connected sockets.
+							if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
+								m_callback.SignalNetError(m_curSession->GetId(), ERR_SOCK_SELECT_FAILED, errCode);
+							RemoveCurSendData();
+						}
+						Msleep(SEND_TIMEOUT_MSEC);
+					}
+				}
+				else
 				{
 					// Skip this packet - this is bad, and is therefore reported.
 					// Ignore invalid or not connected sockets.
 					if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
-						m_callback.SignalNetError(m_curSession->GetId(), ERR_SOCK_SELECT_FAILED, errCode);
+						m_callback.SignalNetError(m_curSession->GetId(), ERR_SOCK_SEND_FAILED, errCode);
 					RemoveCurSendData();
 				}
 				Msleep(SEND_TIMEOUT_MSEC);
 			}
-			if (selectResult > 0) // send is possible
+			else if ((unsigned)bytesSent < m_tmpOutBufSize)
 			{
-				// send next chunk of data
-				int bytesSent = send(tmpSocket, m_tmpOutBuf, m_tmpOutBufSize, SOCKET_SEND_FLAGS);
-
-				if (!IS_VALID_SEND(bytesSent))
-				{
-					// Never assume that this is a fatal error.
-					int errCode = SOCKET_ERRNO();
-					if (errCode != SOCKET_ERR_WOULDBLOCK)
-					{
-						// Skip this packet - this is bad, and is therefore reported.
-						// Ignore invalid or not connected sockets.
-						if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
-							m_callback.SignalNetError(m_curSession->GetId(), ERR_SOCK_SEND_FAILED, errCode);
-						RemoveCurSendData();
-					}
-					Msleep(SEND_TIMEOUT_MSEC);
-				}
-				else if ((unsigned)bytesSent < m_tmpOutBufSize)
+				if (bytesSent)
 				{
 					m_tmpOutBufSize -= (unsigned)bytesSent;
 					memmove(m_tmpOutBuf, m_tmpOutBuf + bytesSent, m_tmpOutBufSize);
 				}
 				else
-				{
-					m_tmpOutBufSize = 0;
-					m_curSession.reset();
-					sendTimer.reset();
-				}
+					Msleep(SEND_TIMEOUT_MSEC);
+			}
+			else
+			{
+				m_tmpOutBufSize = 0;
+				m_curSession.reset();
+				sendTimer.reset();
 			}
 		}
 		else
 			Msleep(SEND_TIMEOUT_MSEC);
+
+		// Check whether the send timed out.
+		if (sendTimer.is_running())
+		{
+			bool doRemove = false;
+
+			unsigned msec = static_cast<unsigned>(sendTimer.elapsed().total_milliseconds());
+			if (m_tmpIsLowPrio)
+			{
+				if (msec > SEND_ERROR_LOW_PRIO_TIMEOUT_MSEC)
+					doRemove = true;
+			}
+			else
+			{
+				if (msec > SEND_ERROR_NORMAL_TIMEOUT_MSEC)
+					doRemove = true;
+			}
+			if (doRemove)
+			{
+				RemoveCurSendData();
+				sendTimer.reset();
+			}
+		}
 	}
 }
 
