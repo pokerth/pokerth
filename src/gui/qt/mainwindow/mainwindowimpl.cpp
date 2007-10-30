@@ -3067,9 +3067,12 @@ void mainWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 				QMessageBox::Close); }
 		break;
 		case ERR_NET_VERSION_NOT_SUPPORTED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("The PokerTH server does not support this version of the game.\nPlease go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net/<a/> and download the latest version."),
-				QMessageBox::Close); }
+			{	QMessageBox msgBox(QMessageBox::Warning, tr("Network Error"),
+				tr("The PokerTH server does not support this version of the game.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
+				QMessageBox::Close, this); 
+				msgBox.setTextFormat(Qt::RichText);
+				msgBox.exec();
+			}
 		break;
 		case ERR_NET_SERVER_FULL:
 			{ QMessageBox::warning(this, tr("Network Error"),
@@ -3202,14 +3205,20 @@ void mainWindowImpl::networkNotification(int notificationId)
 				QMessageBox::Close); }
 		break;
 		case NTF_NET_NEW_RELEASE_AVAILABLE:
-			{ QMessageBox::information(this, tr("Network Notification"),
-				tr("A new release of PokerTH is available.\nPlease go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net/<a/> and download the latest version."),
-				QMessageBox::Close); }
+			{	QMessageBox msgBox(QMessageBox::Information, tr("Network Notification"),
+				tr("A new release of PokerTH is available.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
+				QMessageBox::Close, this); 
+				msgBox.setTextFormat(Qt::RichText);
+				msgBox.exec();
+			}
 		break;
 		case NTF_NET_OUTDATED_BETA:
-			{ QMessageBox::information(this, tr("Network Notification"),
-				tr("This beta release of PokerTH is outdated.\nPlease go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net/<a/> and download the latest version."),
-				QMessageBox::Close); }
+			{	QMessageBox msgBox(QMessageBox::Information, tr("Network Notification"),
+				tr("This beta release of PokerTH is outdated.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
+				QMessageBox::Close, this); 
+				msgBox.setTextFormat(Qt::RichText);
+				msgBox.exec();
+			}
 		break;
 	}
 }
