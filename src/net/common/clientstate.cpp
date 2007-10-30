@@ -1097,8 +1097,12 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 			tmpPlayer->setMyCash(endHandData.playerMoney);
+			tmpPlayer->setLastMoneyWon(endHandData.moneyWon);
+			list<int> winnerList;
+			winnerList.push_back(tmpPlayer->getMyUniqueID());
 
 			curGame->getCurrentHand()->getBoard()->setPot(0);
+			curGame->getCurrentHand()->getBoard()->setWinners(winnerList);
 
 			client.GetGui().postRiverRunAnimation1();
 
@@ -1145,9 +1149,10 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 				if (tmpPlayer->getMyCardsValueInt() > highestValueOfCards)
 					highestValueOfCards = tmpPlayer->getMyCardsValueInt();
 				tmpPlayer->setMyCash((*i).playerMoney);
-
+				tmpPlayer->setLastMoneyWon((*i).moneyWon);
 				if ((*i).moneyWon)
 					winnerList.push_back((*i).playerId);
+
 				++i;
 			}
 			curGame->getCurrentHand()->getCurrentBeRo()->setHighestCardsValue(highestValueOfCards);
