@@ -160,6 +160,7 @@ HEADERS += \
 		src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.h \
 		src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.h \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.h \
+		src/gui/qt/gamelobbydialog/mygamelisttreewidget.h \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.h \
 		src/gui/qttoolsinterface.h \
 		src/gui/qt/qttools/qttoolswrapper.h \
@@ -214,6 +215,7 @@ SOURCES += \
 		src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.cpp \
 		src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp \
+		src/gui/qt/gamelobbydialog/mygamelisttreewidget.cpp \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp
 
 TRANSLATIONS = \

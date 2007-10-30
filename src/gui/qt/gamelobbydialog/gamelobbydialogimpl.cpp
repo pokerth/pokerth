@@ -35,6 +35,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	waitStartGameMsgBoxTimer = new QTimer(this);
 	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
 
+	treeWidget_GameList->setGameListBackgroundImage(myAppDataPath +"gfx/gui/misc/background_gamelist.png");
+
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
 	connect( treeWidget_GameList, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( gameSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
@@ -404,6 +406,34 @@ void gameLobbyDialogImpl::clearDialog()
 	myPlayerId = 0;
 
 	hideShowGameDescription(FALSE);
+/*
+
+	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_GameList, 0);
+	item->setData(0, Qt::DisplayRole, "lololol");
+	QTreeWidgetItem *item1 = new QTreeWidgetItem(treeWidget_GameList, 0);
+	item1->setData(0, Qt::DisplayRole, "lololol");
+	QTreeWidgetItem *item2 = new QTreeWidgetItem(treeWidget_GameList, 0);
+	item2->setData(0, Qt::DisplayRole, "lololol");
+	QTreeWidgetItem *item3 = new QTreeWidgetItem(treeWidget_GameList, 0);
+	item3->setData(0, Qt::DisplayRole, "lololol");	
+QTreeWidgetItem *item4 = new QTreeWidgetItem(treeWidget_GameList, 0);
+	item4->setData(0, Qt::DisplayRole, "lololol");
+QTreeWidgetItem *item5 = new QTreeWidgetItem(treeWidget_GameList, 0);
+	item5->setData(0, Qt::DisplayRole, "lololol");
+QTreeWidgetItem *item6 = new QTreeWidgetItem(treeWidget_GameList, 0);
+	item6->setData(0, Qt::DisplayRole, "lololol");
+QTreeWidgetItem *item7 = new QTreeWidgetItem(treeWidget_GameList, 0);
+	item7->setData(0, Qt::DisplayRole, "lololol");
+QTreeWidgetItem *item8 = new QTreeWidgetItem(treeWidget_GameList, 0);
+	item8->setData(0, Qt::DisplayRole, "lololol");
+QTreeWidgetItem *item9 = new QTreeWidgetItem(treeWidget_GameList, 0);
+	item9->setData(0, Qt::DisplayRole, "lololol");
+QTreeWidgetItem *item10 = new QTreeWidgetItem(treeWidget_GameList, 0);
+	item10->setData(0, Qt::DisplayRole, "lololol");
+QTreeWidgetItem *item11 = new QTreeWidgetItem(treeWidget_GameList, 0);
+	item11->setData(0, Qt::DisplayRole, "lololol");
+QTreeWidgetItem *item12 = new QTreeWidgetItem(treeWidget_GameList, 0);
+	item12->setData(0, Qt::DisplayRole, "lololol");*/
 }
 
 void gameLobbyDialogImpl::checkPlayerQuantity() {

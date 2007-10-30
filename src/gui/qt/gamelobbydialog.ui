@@ -56,12 +56,15 @@
     </widget>
    </item>
    <item row="0" column="1" >
-    <widget class="QTreeWidget" name="treeWidget_GameList" >
+    <widget class="MyGameListTreeWidget" name="treeWidget_GameList" >
      <property name="minimumSize" >
       <size>
        <width>400</width>
        <height>0</height>
       </size>
+     </property>
+     <property name="horizontalScrollBarPolicy" >
+      <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
      <column>
       <property name="text" >
@@ -505,6 +508,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyGameListTreeWidget</class>
+   <extends>QTreeWidget</extends>
+   <header>mygamelisttreewidget.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>treeWidget_GameList</tabstop>
   <tabstop>pushButton_CreateGame</tabstop>
