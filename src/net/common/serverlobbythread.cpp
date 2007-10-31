@@ -426,6 +426,7 @@ ServerLobbyThread::HandleNetPacketUnknownAvatar(SessionWrapper session, const Ne
 	{
 		// Free memory (just in case).
 		session.playerData->SetNetAvatarData(boost::shared_ptr<AvatarData>());
+		session.playerData->SetAvatarMD5(MD5Buf());
 		// Start session.
 		EstablishSession(session);
 	}
