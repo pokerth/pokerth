@@ -380,8 +380,8 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 		new PlayerData(GetNextUniquePlayerId(), 0, PLAYER_TYPE_HUMAN, PLAYER_RIGHTS_NORMAL));
 	tmpPlayerData->SetName(initData.playerName);
 	tmpPlayerData->SetNetSessionData(session.sessionData);
-	if (initData.showAvatar)
-		tmpPlayerData->SetAvatarMD5(initData.avatar);
+//	if (initData.showAvatar)
+//		tmpPlayerData->SetAvatarMD5(initData.avatar);
 
 	// Set player data for session.
 	m_sessionManager.SetSessionPlayerData(session.sessionData->GetId(), tmpPlayerData);
