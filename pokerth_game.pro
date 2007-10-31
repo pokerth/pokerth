@@ -231,6 +231,7 @@ TRANSLATIONS = \
 		ts/pokerth_ptbr.ts \
 		ts/pokerth_it.ts \
 		ts/pokerth_tr.ts \
+		ts/pokerth_sv.ts \
 		ts/pokerth_nl.ts
 
 win32{
