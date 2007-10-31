@@ -461,7 +461,10 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(SessionWrapper session, const NetPac
 			if (avatarSize == tmpAvatar->reportedSize)
 			{
 				if (!GetAvatarManager().StoreAvatarInCache(avatarMD5, tmpAvatar->fileType, &tmpAvatar->fileData[0], avatarSize))
+				{
+					session.playerData->SetAvatarMD5(MD5Buf());
 					LOG_ERROR("Failed to store avatar in cache directory.");
+				}
 
 				// Free memory.
 				session.playerData->SetNetAvatarData(boost::shared_ptr<AvatarData>());

@@ -75,6 +75,8 @@ private:
 
 	mutable boost::mutex	m_cacheDirMutex;
 	std::string				m_cacheDir;
+
+	mutable boost::mutex	m_loadMutex;
 };
 
 #endif

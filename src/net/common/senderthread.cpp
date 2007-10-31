@@ -32,8 +32,8 @@ using namespace std;
 #define SEND_ERROR_NORMAL_TIMEOUT_MSEC		20000
 #define SEND_ERROR_LOW_PRIO_TIMEOUT_MSEC	10000
 #define SEND_TIMEOUT_MSEC					10
-#define SEND_QUEUE_SIZE						1000
-#define SEND_LOW_PRIO_QUEUE_SIZE			50000
+#define SEND_QUEUE_SIZE						10000
+#define SEND_LOW_PRIO_QUEUE_SIZE			10000000
 
 SenderThread::SenderThread(SenderCallback &cb)
 : m_tmpOutBufSize(0), m_tmpIsLowPrio(false), m_callback(cb)
