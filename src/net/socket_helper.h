@@ -28,42 +28,43 @@
 #endif
 
 #ifdef _WIN32
-#define CLOSESOCKET				closesocket
-#define IOCTLSOCKET				ioctlsocket
-#define SOCKET_ERRNO()			WSAGetLastError()
-#define SOCKET_ERR_WOULDBLOCK	WSAEWOULDBLOCK
-#define SOCKET_ERR_NOTCONN		WSAENOTCONN
-#define SOCKET_ERR_NOTSOCK		WSAENOTSOCK
-#define SOCKET_SEND_FLAGS		0
+#define CLOSESOCKET						closesocket
+#define IOCTLSOCKET						ioctlsocket
+#define SOCKET_ERRNO()					WSAGetLastError()
+#define IS_SOCKET_ERR_WOULDBLOCK(_e)	((_e) == WSAEWOULDBLOCK)
+#define SOCKET_ERR_NOTCONN				WSAENOTCONN
+#define SOCKET_ERR_NOTSOCK				WSAENOTSOCK
+#define SOCKET_SEND_FLAGS				0
 
 #ifndef IPV6_V6ONLY
-	#define IPV6_V6ONLY			27
+	#define IPV6_V6ONLY					27
 #endif
 
 #ifdef __GNUC__ /* mingw provides stdint.h */
 	#include <stdint.h>
-	typedef uint16_t			u_int16_t;
-	typedef uint32_t			u_int32_t;
+	typedef uint16_t					u_int16_t;
+	typedef uint32_t					u_int32_t;
 #else
-	typedef unsigned __int16	u_int16_t;
-	typedef unsigned __int32	u_int32_t;
-	typedef __int16				int16_t;
-	typedef __int32				int32_t;
+	typedef unsigned __int16			u_int16_t;
+	typedef unsigned __int32			u_int32_t;
+	typedef __int16						int16_t;
+	typedef __int32						int32_t;
 #endif
 
-typedef unsigned char			u_char;
+typedef unsigned char					u_char;
 
 #else
-#define SOCKET					int
-#define SOCKET_ERROR			-1
-#define INVALID_SOCKET			-1
-#define CLOSESOCKET				close
-#define SOCKET_ERRNO()			errno
-#define IOCTLSOCKET				ioctl
-#define SOCKET_ERR_WOULDBLOCK	EINPROGRESS
-#define SOCKET_ERR_NOTCONN		ENOTCONN
-#define SOCKET_ERR_NOTSOCK		ENOTSOCK
-#define SOCKET_SEND_FLAGS		MSG_NOSIGNAL
+#define SOCKET							int
+#define SOCKET_ERROR					-1
+#define INVALID_SOCKET					-1
+#define CLOSESOCKET						close
+#define SOCKET_ERRNO()					errno
+#define IOCTLSOCKET						ioctl
+#define SOCKET_ERR_NOTCONN				ENOTCONN
+#define SOCKET_ERR_NOTSOCK				ENOTSOCK
+#define SOCKET_SEND_FLAGS				MSG_NOSIGNAL
+
+#define IS_SOCKET_ERR_WOULDBLOCK(_e)	((_e) == EINPROGRESS || (_e) == EAGAIN)
 
 #endif
 

@@ -387,9 +387,9 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 	m_sessionManager.SetSessionPlayerData(session.sessionData->GetId(), tmpPlayerData);
 	session.playerData = tmpPlayerData;
 
-	if (initData.showAvatar && !GetAvatarManager().HasAvatar(initData.avatar))
-		RequestPlayerAvatar(session);
-	else
+//	if (initData.showAvatar && !GetAvatarManager().HasAvatar(initData.avatar))
+//		RequestPlayerAvatar(session);
+//	else
 		EstablishSession(session);
 }
 

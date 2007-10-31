@@ -66,7 +66,7 @@ ReceiverHelper::Recv(SOCKET sock, ReceiveBuffer &buf)
 				if (!IS_VALID_RECV(bytesRecvd))
 				{
 					int errCode = SOCKET_ERRNO();
-					if (errCode != SOCKET_ERR_WOULDBLOCK)
+					if (!IS_SOCKET_ERR_WOULDBLOCK(errCode))
 						throw NetException(__FILE__, __LINE__, ERR_SOCK_RECV_FAILED, SOCKET_ERRNO());
 				}
 				else if (bytesRecvd == 0)

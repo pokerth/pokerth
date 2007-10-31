@@ -178,7 +178,7 @@ SenderThread::Main()
 			{
 				// Never assume that this is a fatal error.
 				int errCode = SOCKET_ERRNO();
-				if (errCode == SOCKET_ERR_WOULDBLOCK)
+				if (IS_SOCKET_ERR_WOULDBLOCK(errCode))
 				{
 					fd_set writeSet;
 					struct timeval timeout;
@@ -193,7 +193,7 @@ SenderThread::Main()
 					{
 						// Never assume that this is a fatal error.
 						int errCode = SOCKET_ERRNO();
-						if (errCode != SOCKET_ERR_WOULDBLOCK)
+						if (!IS_SOCKET_ERR_WOULDBLOCK(errCode))
 						{
 							// Skip this packet - this is bad, and is therefore reported.
 							// Ignore invalid or not connected sockets.
