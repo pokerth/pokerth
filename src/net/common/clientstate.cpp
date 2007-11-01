@@ -1018,6 +1018,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			tmpCards[3] = tmpCards[4] = 0;
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 			curGame->getCurrentHand()->getBoard()->collectPot();
+			curGame->getCurrentHand()->setLastPlayersTurn(-1);
 
 			client.GetGui().logDealBoardCardsMsg(GAME_STATE_FLOP, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 			client.GetGui().refreshGameLabels(GAME_STATE_FLOP);
@@ -1034,6 +1035,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			tmpCards[3] = static_cast<int>(cardsData.turnCard);
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 			curGame->getCurrentHand()->getBoard()->collectPot();
+			curGame->getCurrentHand()->setLastPlayersTurn(-1);
 
 			client.GetGui().logDealBoardCardsMsg(GAME_STATE_TURN, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 			client.GetGui().refreshGameLabels(GAME_STATE_TURN);
@@ -1050,6 +1052,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			tmpCards[4] = static_cast<int>(cardsData.riverCard);
 			curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 			curGame->getCurrentHand()->getBoard()->collectPot();
+			curGame->getCurrentHand()->setLastPlayersTurn(-1);
 
 			client.GetGui().logDealBoardCardsMsg(GAME_STATE_RIVER, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 			client.GetGui().refreshGameLabels(GAME_STATE_RIVER);
