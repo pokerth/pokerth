@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>875</width>
-    <height>610</height>
+    <height>618</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -120,8 +120,20 @@
         <property name="minimumSize" >
          <size>
           <width>221</width>
-          <height>0</height>
+          <height>221</height>
          </size>
+        </property>
+        <property name="midLineWidth" >
+         <number>1</number>
+        </property>
+        <property name="iconSize" >
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="indentation" >
+         <number>15</number>
         </property>
         <column>
          <property name="text" >

@@ -79,6 +79,8 @@ public slots:
 	void removePlayer(unsigned, QString);
 	void newGameAdmin(unsigned, QString);
 
+	void refreshConnectedPlayerAvatars();
+
 	void playerSelected(QTreeWidgetItem*, QTreeWidgetItem*);
 	void refresh(int actionID);
 	void removedFromGame(int reason);

@@ -36,6 +36,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
 
 	treeWidget_GameList->setGameListBackgroundImage(myAppDataPath +"gfx/gui/misc/background_gamelist.png");
+// 	treeWidget_connectedPlayers->setSpacing(1);
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
@@ -459,6 +460,7 @@ void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerNa
 	}
 
 	checkPlayerQuantity();
+	refreshConnectedPlayerAvatars();
 }
 
 void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName) {
@@ -472,6 +474,7 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
 		}
 		++it;
 	}
+	refreshConnectedPlayerAvatars();
 }
 
 void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString) {
@@ -503,6 +506,24 @@ void gameLobbyDialogImpl::newGameAdmin(unsigned playerId, QString)
 	{
 		isAdmin = true;
 		checkPlayerQuantity();
+	}
+}
+
+void gameLobbyDialogImpl::refreshConnectedPlayerAvatars() {
+
+	QTreeWidgetItemIterator it(treeWidget_connectedPlayers);
+	while (*it) {
+
+		std::string myAvatarFileName;
+		PlayerInfo playerInfo(mySession->getClientPlayerInfo((*it)->data(0, Qt::UserRole).toInt()));
+		mySession->getAvatarFile(playerInfo.avatar, myAvatarFileName);
+		QString myAvatarString(QString::fromUtf8(myAvatarFileName.c_str()));
+		
+		if(QFile::QFile(myAvatarString).exists()) {
+			(*it)->setIcon(0, QIcon(myAvatarString));
+		}
+		
+		++it;
 	}
 }
 
