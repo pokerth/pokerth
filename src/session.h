@@ -24,6 +24,7 @@
 #include "game_defs.h"
 #include <string>
 #include <boost/shared_ptr.hpp>
+#include <core/crypthelper.h>
 
 class GuiInterface;
 class Game;
@@ -83,6 +84,8 @@ public:
 	PlayerInfo getClientPlayerInfo(unsigned playerId) const;
 	ServerStats getClientStats() const;
 	unsigned getClientCurrentGameId() const;
+
+	bool getAvatarFile(const MD5Buf &avatarMD5, std::string &fileName);
 
 private:
 
