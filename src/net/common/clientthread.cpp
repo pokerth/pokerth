@@ -512,6 +512,13 @@ ClientThread::CompleteTempAvatarData(unsigned playerId)
 
 			// Update player info, but never re-request avatar.
 			SetPlayerInfo(playerId, tmpPlayerInfo, false);
+
+			string fileName;
+			if (GetAvatarManager().GetAvatarFileName(tmpPlayerInfo.avatar, fileName))
+			{
+				// Dynamically update avatar in GUI.
+				GetGui().setPlayerAvatar(playerId, fileName);
+			}
 		}
 	}
 	// Free memory.
