@@ -438,9 +438,6 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info, bool retrieveAv
 		retrieveAvatarData.avatar = info.avatar;
 		static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
 		GetSender().Send(GetContext().GetSessionData(), retrieveAvatar);
-
-		// Insert empty value in list to synchronize waiting.
-		m_tempAvatarMap[id] = boost::shared_ptr<AvatarData>();
 	}
 
 	// Remove it from the request list.
@@ -502,20 +499,23 @@ ClientThread::CompleteTempAvatarData(unsigned playerId)
 	boost::shared_ptr<AvatarData> tmpAvatar = pos->second;
 	unsigned avatarSize = (unsigned)tmpAvatar->fileData.size();
 	if (avatarSize != tmpAvatar->reportedSize)
-		throw ClientException(__FILE__, __LINE__, ERR_NET_WRONG_AVATAR_SIZE, 0);
+		LOG_ERROR("Client received invalid avatar file size!");
+	else
+	{
+		PlayerInfo tmpPlayerInfo;
+		if (!GetCachedPlayerInfo(playerId, tmpPlayerInfo))
+			LOG_ERROR("Client received invalid player id!");
+		else
+		{
+			if (!GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, tmpAvatar->fileType, &tmpAvatar->fileData[0], avatarSize))
+				LOG_ERROR("Failed to store avatar in cache directory.");
 
-	PlayerInfo tmpPlayerInfo;
-	if (!GetCachedPlayerInfo(playerId, tmpPlayerInfo))
-		throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
-
-	if (!GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, tmpAvatar->fileType, &tmpAvatar->fileData[0], avatarSize))
-		LOG_ERROR("Failed to store avatar in cache directory.");
-
+			// Update player info, but never re-request avatar.
+			SetPlayerInfo(playerId, tmpPlayerInfo, false);
+		}
+	}
 	// Free memory.
 	m_tempAvatarMap.erase(pos);
-
-	// Update player info, but never re-request avatar.
-	SetPlayerInfo(playerId, tmpPlayerInfo, false);
 }
 
 void
@@ -938,6 +938,6 @@ ClientThread::SetSessionEstablished(bool flag)
 bool
 ClientThread::IsSynchronized() const
 {
-	return (m_playerInfoRequestList.empty() && m_tempAvatarMap.empty());
+	return m_playerInfoRequestList.empty();
 }
 
