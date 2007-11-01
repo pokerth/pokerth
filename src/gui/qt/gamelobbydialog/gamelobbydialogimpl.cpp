@@ -134,8 +134,8 @@ void gameLobbyDialogImpl::createGame()
 		gameData.guiSpeed = myCreateInternetGameDialog->spinBox_gameSpeed->value();
 		gameData.playerActionTimeoutSec = myCreateInternetGameDialog->spinBox_netTimeOutPlayerAction->value();
 
-		QString gameString(tr("game"));
-		currentGameName = QString::fromUtf8(myConfig->readConfigString("MyName").c_str()) + QString("'s "+ gameString);
+		QString gameString(tr("%1's game"));
+		currentGameName = gameString.arg(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
 
 		hideShowGameDescription(TRUE);
 
@@ -147,7 +147,7 @@ void gameLobbyDialogImpl::createGame()
 
 		label_TimeoutForPlayerAction->setText(QString::number(gameData.playerActionTimeoutSec));
 
-		mySession->clientCreateGame(gameData, myConfig->readConfigString("MyName") + "'s "+ gameString.toUtf8().constData(), myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
+		mySession->clientCreateGame(gameData, currentGameName.toUtf8().constData(), myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
 	}
 }
 

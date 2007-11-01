@@ -701,22 +701,22 @@ p, li { white-space: pre-wrap; }
         <translation>Oyun Bilgisi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="128"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="140"/>
         <source>Connected Players</source>
         <translation>Bağlı Oyuncular</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="136"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="148"/>
         <source>Fill up with computer opponents</source>
         <translation>Bilgisayar rakipleri ile doldur</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="161"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="173"/>
         <source>Start Game</source>
         <translation>Oyunu Başlat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="168"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="180"/>
         <source>Kick Player</source>
         <translation>Oyuncu At</translation>
     </message>
@@ -731,52 +731,52 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Small Blind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="364"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="376"/>
         <source>Leave Game</source>
         <translation>Oyunu Terket</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="425"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="437"/>
         <source>Create Game</source>
         <translation>Oyun Yarat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="432"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="444"/>
         <source>Join Game</source>
         <translation>Oyuna Gir</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="441"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="453"/>
         <source>Lobby-Chat</source>
         <translation>Kulis-Söyleşisi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="179"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="191"/>
         <source>Maximum number of players: </source>
         <translation>En fazla oyuncu sayısı: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="197"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="209"/>
         <source>Start Cash: </source>
         <translation>Paraya Çevir: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="215"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="227"/>
         <source>First small blind: </source>
         <translation>İlk küçük teklif: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="254"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="266"/>
         <source>Blinds raise mode: </source>
         <translation>Teklif Yükseltme kipi:  </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="281"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="293"/>
         <source>Manual blinds list:</source>
         <translation>Elle yapılan teklif listesi:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="308"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="320"/>
         <source>Timeout for player action (sec): </source>
         <translation>Oyuncu hamlesi için zaman aşımı (sn): </translation>
     </message>
@@ -786,7 +786,7 @@ p, li { white-space: pre-wrap; }
         <translation>İnternet Oyun Kulisi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="233"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="245"/>
         <source>Blinds raise interval: </source>
         <translation>Teklif yükseltme aralığı: </translation>
     </message>
@@ -796,60 +796,60 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="136"/>
         <source>game</source>
-        <translation>oyun</translation>
+        <translation type="obsolete">oyun</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="165"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="166"/>
         <source>Joining a private Game</source>
         <translation>Özel bir oyuna giriliyor</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="166"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="167"/>
         <source>You are about to join a private game. Please enter the password!</source>
         <translation>Özel bir oyuna girmek üzeresiniz. Lütven parolanızı giriniz!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="546"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="551"/>
         <source>Game Info</source>
         <translation>Oyun Bilgisi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="622"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="627"/>
         <source>Server Error</source>
         <translation>Sunucu Hatası</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="623"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="628"/>
         <source>You should not kick yourself from this game!</source>
         <translation>Bu oyunda kendi kendinizi tekmeleyemezsiniz!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="295"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="296"/>
         <source>running</source>
         <translation>çalışıyor</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="296"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="297"/>
         <source>open</source>
         <translation>aç</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="574"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="579"/>
         <source>hands</source>
         <translation>eller</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="575"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="580"/>
         <source>minutes</source>
         <translation>dakika</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="577"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="582"/>
         <source>double blinds</source>
         <translation>çifte teklif</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="582"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="587"/>
         <source>manual blinds order</source>
         <translation>el ile teklif istemi</translation>
     </message>
@@ -859,24 +859,29 @@ p, li { white-space: pre-wrap; }
         <translation>Oyun başlatılıyor. Lütfen bekleyin...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="300"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="413"/>
         <source>running games: %1</source>
         <translation>Çalışan oyunlar: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="301"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="414"/>
         <source>open games: %1</source>
         <translation>açık oyunlar: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="308"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="411"/>
         <source>players in chat: %1</source>
         <translation>söyleşideki oyuncular: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="309"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="412"/>
         <source>connected players: %1</source>
         <translation>bağlı oyuncular: %1</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="137"/>
+        <source>%1&apos;s game</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1269,94 +1274,94 @@ Would you like to overwrite ?</source>
         <translation type="obsolete">F1 - Katla/Hepsini | F2 - Denetle/Çağır | F3 - Bahis/Yükselt</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2804"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2824"/>
         <source>Start</source>
         <translation>Başlat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2952"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2972"/>
         <source>Stop</source>
         <translation>Dur</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3171"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3191"/>
         <source>Network Error</source>
         <translation>Ağ Hatası</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2985"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3005"/>
         <source>Server address was not set.</source>
         <translation>Sunucu adresi belirtilmedi.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2990"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3010"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
         <translation>Geçersiz bağlantı noktası belirtilmiş (0-1023 arasındaki bağlantı noktaları kullanılamaz).</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2995"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3015"/>
         <source>Could not create a socket for TCP communication.</source>
         <translation>TCP iletişimi için bir yuva oluşturulamadı.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3000"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3020"/>
         <source>Could not set the IP address.</source>
         <translation>IP adresi ayarlanamadı.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3005"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3025"/>
         <source>Could not set the port for this type of address.</source>
         <translation>Bu çeşit bir adres için bağlantı noktası ayarlanamadı.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3010"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3030"/>
         <source>The server name could not be resolved.</source>
         <translation>Sunucu ismi çözümlenemedi.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3015"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3035"/>
         <source>Bind failed - please choose a different port.</source>
         <translation>Bağlama başarısız - lütfen farklı bir bağlantı noktası seçin.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3020"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3040"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
         <translation>Dahili ağ hatası - &quot;dinleme&quot; başarısız.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3025"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3045"/>
         <source>Server execution was terminated.</source>
         <translation>Sunucu işletimi sonlandırıldı.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3030"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3050"/>
         <source>Could not connect to the server.</source>
         <translation>Sunucuya bağlanılamadı.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3040"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3060"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
         <translation>Dahili ağ hatası - &quot;seçim&quot; başarısız.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3045"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3065"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
         <translation>Dahili ağ hatası - &quot;gönder&quot; başarısız.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3056"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3076"/>
         <source>Internal network error: Duplicate TCP connection.</source>
         <translation>Dahili ağ hatası: TCP bağlantısını çoğaltın.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3061"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3081"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Geçersiz bir ağ paketi alındı.
 Lütfen bütün oyuncuların PokerTH ın aynı sürümünü kullandığından emin olun.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3066"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3086"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Dahili durum hatası.
@@ -1370,29 +1375,29 @@ Please update PokerTH.</source>
 Lütfen PokerTH ınızı güncelleyin.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3079"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3099"/>
         <source>Sorry, this server is already full.</source>
         <translation>Üzgünüm, bu sunucu dolu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3199"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3219"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Girilemiyor - sunucu zaten oyuna başladı.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3204"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3224"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Oyuna girişte geçersiz parola.
 Lütfen parolanızı girin ve yeniden deneyin.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3089"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3109"/>
         <source>The password is too long. Please choose another one.</source>
         <translation>Parola çok uzun. Lütfen başka bir tane deneyin.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3093"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3113"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
         <translation>Oyuncu isminiz başka bir oyuncu tarafından kullanılıyor.
@@ -1404,12 +1409,12 @@ Lütfen farklı bir isim seçiniz.</translation>
         <translation type="obsolete">Oyuncu ismi çok uzun veya çok kısa. Lütfen farklı bir isim seçiniz.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3172"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3192"/>
         <source>An internal error occured.</source>
         <translation>Dahili bir hata oluştu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3035"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3055"/>
         <source>Connection timed out.
 Please check the server address.
 
@@ -1420,124 +1425,124 @@ Lütfen sunucu adresini kontrol ediniz.
 Eğer sunucu bir NAT-Router arkasındaysa, sunucu tarafındaki bağlantı noktası yönlendirmesinin ayarlandığından emin olunuz.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3051"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3071"/>
         <source>Connection was closed by the server.</source>
         <translation>Bağlantı, sunucu tarafından kapatıldı.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3117"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3137"/>
         <source>The server referred to an unknown player. Aborting.</source>
         <translation>Sunucu, bilinmeyen bir oyuncuya devredildi. Çıkılıyor.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3132"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3152"/>
         <source>You were kicked from the server.</source>
         <translation>Sunucu tarafından tekmelendiniz.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3137"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3157"/>
         <source>The client player count is invalid.</source>
         <translation>İstemci oyuncu sayısı yanlış.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3102"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3122"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
         <translation>Oyun ismi ya çok uzun yada öok kısa. Lütfen başka birini seçiniz.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3107"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3127"/>
         <source>The game could not be found.</source>
         <translation>Oyun bulunamadı.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3112"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3132"/>
         <source>The chat text is invalid.</source>
         <translation>Söyleşi metni geçersiz.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3216"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3236"/>
         <source>Network Notification</source>
         <translation>Ağ Bildirimi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3187"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3207"/>
         <source>You were kicked from the game.</source>
         <translation>Oyundan atıldınız.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3193"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3213"/>
         <source>Sorry, this game is already full.</source>
         <translation>Üzgünüm, oyun zaten dolu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3306"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3326"/>
         <source>Manual mode set. You&apos;ve got to choose yourself now.</source>
         <translation>El ile kipi ayarlı. Şimdi kendiniz seçmelisiniz.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3308"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3328"/>
         <source>Auto mode set: Check or call any.</source>
         <translation>Oto kip ayarlı: Denetleyin veya herhangi birini çağırın.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3310"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3330"/>
         <source>Auto mode set: Check or fold.</source>
         <translation>Oto kip ayarlı: denetleyin veya katlayın.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3437"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3457"/>
         <source>Chat</source>
         <translation>Sohbet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="886"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="888"/>
         <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
 Please choose another one.</source>
         <translation>&quot;Human Player&quot; sahte ismi ile internet-oyun-lobisine giremezsiniz.
 Lütfen başka bir tane seçiniz.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3122"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3142"/>
         <source>Internal error: The current player could not be found.</source>
         <translation>Dahili hata: Bu oyuncu bulunamadı.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3127"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3147"/>
         <source>Internal error: The current player is not active.</source>
         <translation>Dahili Hata: Bu oyuncu aktif değil.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3142"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3162"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
         <translation>Çok fazla elle teklif ayarlı. Lütfen elle teklifleri eniden yapılandırınız.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3148"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3168"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
         <translation>Geçersiz bir avatar dosyası yapılandırıldı. Lütfen farklı bir avatar seçiniz.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3153"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3173"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
         <translation>Seçili avatar dosyası çok büyük. Lütfen farklı bir avatar seçiniz.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3158"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3178"/>
         <source>The server requested a non-existing avatar.</source>
         <translation>Sunucu, mevcut olmayan bir avatar isteği aldı.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3163"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3183"/>
         <source>Could not start game: Synchronization failed.</source>
         <translation>Oyun başlatılamadı: Eş zamalama yapılamadı.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1859"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1881"/>
         <source>F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In</source>
         <translation>F1 - Katla | F2 - Denetle/Çağır | F3 - Bahis/Yükselt | F4 - Heps içinde</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1861"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1883"/>
         <source>F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold</source>
         <translation>F1 - Hepsi içinde | F2 - Bahis/Yükselt | F3 - Denetle/Çağır | F4 - Katla</translation>
     </message>
@@ -1549,12 +1554,12 @@ Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&
 Lütfen &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; adresinden son sürümü indirin.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3097"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3117"/>
         <source>The player name is too short, too long or invalid. Please choose another one.</source>
         <translation>Bu oyuncu ismi, çok kısa, çok uzun yahut geçersiz. Lütfen başka bir isim seçiniz.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3168"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3188"/>
         <source>The server is down for maintenance. Please try again later.</source>
         <translation>Sunucu bakım sebebiyle kapalı. Lütfen sonra tekrar deneyin.</translation>
     </message>
@@ -1573,27 +1578,27 @@ Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&
 Lütfen &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; adresinden son sürümü indiriniz.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3542"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3562"/>
         <source>Closing PokerTH during network game</source>
         <translation>Ağ oyunu sırasında PokerTH kapatılıyor</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3543"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3563"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
         <translation>Siz ana sunucusunuz. Yinede PokerTH programını kapatmak istiyor musunuz? </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3071"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3091"/>
         <source>The PokerTH server does not support this version of the game.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3209"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3229"/>
         <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3217"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3237"/>
         <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation type="unfinished"></translation>
     </message>
