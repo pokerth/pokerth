@@ -2641,6 +2641,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 		}
 	}
 
+	textBrowser_Log->append("");
 
 	postRiverRunAnimation3Timer->start(postRiverRunAnimationSpeed/2);
 }
