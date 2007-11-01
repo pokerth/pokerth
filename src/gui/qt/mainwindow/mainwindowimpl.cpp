@@ -544,6 +544,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalRefreshButton()), this, SLOT(refreshButton()));
 	connect(this, SIGNAL(signalRefreshGameLabels(int)), this, SLOT(refreshGameLabels(int)));
 	connect(this, SIGNAL(signalSetPlayerAvatar(int, QString)), this, SLOT(setPlayerAvatar(int, QString))); 
+	connect(this, SIGNAL(signalSetPlayerAvatar(int, QString)), myGameLobbyDialog, SLOT(refreshConnectedPlayerAvatars())); 
 
 	connect(this, SIGNAL(signalGuiUpdateDone()), this, SLOT(guiUpdateDone()));
 
@@ -2623,8 +2624,6 @@ void mainWindowImpl::postRiverRunAnimation3() {
 		}
 	}
 
-	textBrowser_Log->append("");
-	
 	postRiverRunAnimation3Timer->start(postRiverRunAnimationSpeed/2);
 }
 

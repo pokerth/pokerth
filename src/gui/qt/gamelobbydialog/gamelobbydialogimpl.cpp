@@ -515,14 +515,21 @@ void gameLobbyDialogImpl::refreshConnectedPlayerAvatars() {
 	while (*it) {
 
 		std::string myAvatarFileName;
-		PlayerInfo playerInfo(mySession->getClientPlayerInfo((*it)->data(0, Qt::UserRole).toInt()));
-		mySession->getAvatarFile(playerInfo.avatar, myAvatarFileName);
-		QString myAvatarString(QString::fromUtf8(myAvatarFileName.c_str()));
+		PlayerInfo playerInfo(mySession->getClientPlayerInfo((*it)->data(0, Qt::UserRole).toUInt()));
 		
-		if(QFile::QFile(myAvatarString).exists()) {
-			(*it)->setIcon(0, QIcon(myAvatarString));
-		}
-		
+		if(mySession->getAvatarFile(playerInfo.avatar, myAvatarFileName)) {
+
+			QString myAvatarString(QString::fromUtf8(myAvatarFileName.c_str()));
+			if(QFile::QFile(myAvatarString).exists()) {
+	
+				QPixmap myAvatarPixmap(25,26);
+				myAvatarPixmap.fill(Qt::transparent);
+				QPixmap tempPixmap(myAvatarString);
+				QPainter p(&myAvatarPixmap);
+				p.drawPixmap (0,0,25,25,tempPixmap);
+				(*it)->setIcon(0, QIcon(myAvatarPixmap));
+			}
+		}		
 		++it;
 	}
 }
