@@ -88,6 +88,8 @@ signals:
 	void signalRefreshButton();
 	void signalRefreshGameLabels(int);
 
+	void signalSetPlayerAvatar(int, QString);
+
 	void signalGuiUpdateDone();
 
 	void signalMeInAction();
@@ -174,6 +176,7 @@ public slots:
 	void refreshGameLabels(int);
 	void refreshButton();
 	void refreshPlayerAvatar();
+	void setPlayerAvatar(int myID, QString myAvatar);
 
 	void guiUpdateDone();
 	void waitForGuiUpdateDone();

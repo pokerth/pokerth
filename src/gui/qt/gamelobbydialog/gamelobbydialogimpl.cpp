@@ -406,34 +406,11 @@ void gameLobbyDialogImpl::clearDialog()
 	myPlayerId = 0;
 
 	hideShowGameDescription(FALSE);
-/*
 
-	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_GameList, 0);
-	item->setData(0, Qt::DisplayRole, "lololol");
-	QTreeWidgetItem *item1 = new QTreeWidgetItem(treeWidget_GameList, 0);
-	item1->setData(0, Qt::DisplayRole, "lololol");
-	QTreeWidgetItem *item2 = new QTreeWidgetItem(treeWidget_GameList, 0);
-	item2->setData(0, Qt::DisplayRole, "lololol");
-	QTreeWidgetItem *item3 = new QTreeWidgetItem(treeWidget_GameList, 0);
-	item3->setData(0, Qt::DisplayRole, "lololol");	
-QTreeWidgetItem *item4 = new QTreeWidgetItem(treeWidget_GameList, 0);
-	item4->setData(0, Qt::DisplayRole, "lololol");
-QTreeWidgetItem *item5 = new QTreeWidgetItem(treeWidget_GameList, 0);
-	item5->setData(0, Qt::DisplayRole, "lololol");
-QTreeWidgetItem *item6 = new QTreeWidgetItem(treeWidget_GameList, 0);
-	item6->setData(0, Qt::DisplayRole, "lololol");
-QTreeWidgetItem *item7 = new QTreeWidgetItem(treeWidget_GameList, 0);
-	item7->setData(0, Qt::DisplayRole, "lololol");
-QTreeWidgetItem *item8 = new QTreeWidgetItem(treeWidget_GameList, 0);
-	item8->setData(0, Qt::DisplayRole, "lololol");
-QTreeWidgetItem *item9 = new QTreeWidgetItem(treeWidget_GameList, 0);
-	item9->setData(0, Qt::DisplayRole, "lololol");
-QTreeWidgetItem *item10 = new QTreeWidgetItem(treeWidget_GameList, 0);
-	item10->setData(0, Qt::DisplayRole, "lololol");
-QTreeWidgetItem *item11 = new QTreeWidgetItem(treeWidget_GameList, 0);
-	item11->setData(0, Qt::DisplayRole, "lololol");
-QTreeWidgetItem *item12 = new QTreeWidgetItem(treeWidget_GameList, 0);
-	item12->setData(0, Qt::DisplayRole, "lololol");*/
+	label_nickListCounter->setText("| "+tr("players in chat: %1").arg(0));
+	label_connectedPlayersCounter->setText(tr("connected players: %1").arg(0));	
+	label_openGamesCounter->setText("| "+tr("running games: %1").arg(0));
+	label_runningGamesCounter->setText("| "+tr("open games: %1").arg(0));
 }
 
 void gameLobbyDialogImpl::checkPlayerQuantity() {

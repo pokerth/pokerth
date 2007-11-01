@@ -543,6 +543,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalRefreshPlayerName()), this, SLOT(refreshPlayerName()));
 	connect(this, SIGNAL(signalRefreshButton()), this, SLOT(refreshButton()));
 	connect(this, SIGNAL(signalRefreshGameLabels(int)), this, SLOT(refreshGameLabels(int)));
+	connect(this, SIGNAL(signalSetPlayerAvatar(int, QString)), this, SLOT(setPlayerAvatar(int, QString))); 
 
 	connect(this, SIGNAL(signalGuiUpdateDone()), this, SLOT(guiUpdateDone()));
 
@@ -1207,6 +1208,24 @@ void mainWindowImpl::refreshPlayerAvatar() {
 	}
 
 }
+
+void mainWindowImpl::setPlayerAvatar(int myID, QString myAvatar) {
+
+	if(mySession->getCurrentGame()) {
+
+		boost::shared_ptr<PlayerInterface> tmpPlayer = mySession->getCurrentGame()->getPlayerByUniqueId(myID);
+		if (tmpPlayer.get()) {
+
+			if(QFile::QFile(myAvatar).exists()) {
+				playerAvatarLabelArray[tmpPlayer->getMyID()]->setPixmap(myAvatar);
+			}
+			else {
+				playerAvatarLabelArray[tmpPlayer->getMyID()]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png"));
+			}	
+		}	
+	}
+}
+
 
 void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 

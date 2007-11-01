@@ -58,6 +58,9 @@ void GuiWrapper::refreshPlayerName() const { myW->signalRefreshPlayerName(); }
 void GuiWrapper::refreshButton() const { myW->signalRefreshButton(); }
 void GuiWrapper::refreshGameLabels(GameState state) const { myW->signalRefreshGameLabels(state); }
 
+void GuiWrapper::setPlayerAvatar(int myUniqueID, const std::string &myAvatar) const { myW->signalSetPlayerAvatar(myUniqueID, QString::fromUtf8(myAvatar.c_str())); }
+
+
 void GuiWrapper::waitForGuiUpdateDone() const
 {
 	myW->signalGuiUpdateDone();

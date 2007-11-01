@@ -62,6 +62,8 @@ void ServerGuiWrapper::refreshPlayerName() const {}
 void ServerGuiWrapper::refreshButton() const {}
 void ServerGuiWrapper::refreshGameLabels(GameState /*state*/) const {}
 
+void ServerGuiWrapper::setPlayerAvatar(int /*myUniqueID*/, const std::string &/*myAvatar*/) const {};
+
 void ServerGuiWrapper::waitForGuiUpdateDone() const {}
 
 void ServerGuiWrapper::dealBeRoCards(int /*myBeRoID*/) {}

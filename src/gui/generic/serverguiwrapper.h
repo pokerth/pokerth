@@ -46,6 +46,8 @@ public:
 	void refreshButton() const;
 	void refreshGameLabels(GameState state) const;
 
+	void setPlayerAvatar(int myUniqueID, const std::string &myAvatar) const;
+
 	void waitForGuiUpdateDone() const;
 
 	void dealBeRoCards(int);

@@ -51,6 +51,8 @@ public:
 	virtual void refreshPlayerName() const=0;
 	virtual void refreshButton() const =0;
 	virtual void refreshGameLabels(GameState state) const=0;
+	
+	virtual void setPlayerAvatar(int myUniqueID, const std::string &myAvatar) const=0;
 
 	virtual void waitForGuiUpdateDone() const=0;
 
