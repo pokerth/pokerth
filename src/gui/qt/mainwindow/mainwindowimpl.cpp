@@ -1534,14 +1534,6 @@ void mainWindowImpl::dealHoleCards() {
 		}
 	}
 
-
-
-
-
-
-
-
-
 	//fix press mouse button during bankrupt with anti-peek-mode
 	this->mouseOverFlipCards(FALSE);
 }
@@ -1652,7 +1644,10 @@ void mainWindowImpl::dealFlopCards6() {
 	// wenn alle All In
 	if(mySession->getCurrentGame()->getCurrentHand()->getAllInCondition()) { dealFlopCards6Timer->start(AllInDealCardsSpeed); }
 	// sonst normale Variante
-	else { dealFlopCards6Timer->start(postDealCardsSpeed);}
+	else { 
+		updateMyButtonsState();
+		dealFlopCards6Timer->start(postDealCardsSpeed);
+	}
 }
 
 void mainWindowImpl::dealTurnCards0() { dealTurnCards0Timer->start(preDealCardsSpeed); }
@@ -1686,7 +1681,11 @@ void mainWindowImpl::dealTurnCards2() {
 	if(mySession->getCurrentGame()->getCurrentHand()->getAllInCondition()) { dealTurnCards2Timer->start(AllInDealCardsSpeed);
 	}
 	// sonst normale Variante
-	else { dealTurnCards2Timer->start(postDealCardsSpeed); }
+	else { 
+		updateMyButtonsState();
+		dealTurnCards2Timer->start(postDealCardsSpeed); 
+
+	}
 }
 
 void mainWindowImpl::dealRiverCards0() { dealRiverCards0Timer->start(preDealCardsSpeed); }
@@ -1720,7 +1719,8 @@ void mainWindowImpl::dealRiverCards2() {
 	// wenn alle All In
 	if(mySession->getCurrentGame()->getCurrentHand()->getAllInCondition()) { dealRiverCards2Timer->start(AllInDealCardsSpeed);	}
 	// sonst normale Variante
-	else {
+	else {		
+		updateMyButtonsState();
 		dealRiverCards2Timer->start(postDealCardsSpeed);
 	}
 }
@@ -2828,7 +2828,8 @@ void mainWindowImpl::startNewHand() {
 	}
 }
 
-void mainWindowImpl::handSwitchRounds() { mySession->getCurrentGame()->getCurrentHand()->switchRounds(); }
+void mainWindowImpl::handSwitchRounds() { mySession->getCurrentGame()->getCurrentHand()->switchRounds(); 
+}
 
 void mainWindowImpl::nextRoundCleanGui() {
 
