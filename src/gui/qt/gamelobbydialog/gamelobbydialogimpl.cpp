@@ -460,7 +460,9 @@ void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerNa
 	}
 
 	checkPlayerQuantity();
-	refreshConnectedPlayerAvatars();
+
+	if (inGame)
+		refreshConnectedPlayerAvatars();
 }
 
 void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName) {
@@ -474,7 +476,9 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
 		}
 		++it;
 	}
-	refreshConnectedPlayerAvatars();
+
+	if (inGame)
+		refreshConnectedPlayerAvatars();
 }
 
 void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString) {
