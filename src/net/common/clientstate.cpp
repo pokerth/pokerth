@@ -1058,6 +1058,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 		}
 		else if (packet->ToNetPacketAllInShowCards())
 		{
+			curGame->getCurrentHand()->setAllInCondition(true);
+
 			NetPacketAllInShowCards::Data allInData;
 			packet->ToNetPacketAllInShowCards()->GetData(allInData);
 
