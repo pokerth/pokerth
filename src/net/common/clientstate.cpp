@@ -937,6 +937,8 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 						actionDoneData.playerAction,
 						actionDoneData.totalPlayerBet - tmpPlayer->getMySet());
 				}
+				// Update last players turn only after the blinds.
+				curGame->getCurrentHand()->setLastPlayersTurn(tmpPlayer->getMyID());
 			}
 
 			tmpPlayer->setMyAction(actionDoneData.playerAction);
@@ -945,7 +947,6 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(actionDoneData.highestSet);
 			curGame->getCurrentHand()->getBoard()->collectSets();
 			curGame->getCurrentHand()->switchRounds();
-			curGame->getCurrentHand()->setLastPlayersTurn(tmpPlayer->getMyID());
 
 			//log blinds sets after setting bigblind-button
 			if (isBigBlind) {
