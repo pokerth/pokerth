@@ -83,6 +83,7 @@ void LocalBeRo::run() {
 
 	if(firstRunGui) {
 		firstRunGui = false;
+		myHand->setLastPlayersTurn(-1);
 		myHand->getGuiInterface()->dealBeRoCards(myBeRoID);
 	}
 	else {
