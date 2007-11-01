@@ -88,10 +88,11 @@ protected:
 	void SendPacketLoop();
 
 	bool GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const;
-	void RequestPlayerInfo(unsigned id);
-	void SetPlayerInfo(unsigned id, const PlayerInfo &info, bool retrieveAvatar = true);
+	void RequestPlayerInfo(unsigned id, bool requestAvatar = false);
+	void SetPlayerInfo(unsigned id, const PlayerInfo &info);
 	void SetUnknownPlayer(unsigned id);
 	void SetNewGameAdmin(unsigned id);
+	void RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info);
 
 	void AddTempAvatarData(unsigned playerId, unsigned avatarSize, AvatarFileType type);
 	void StoreInTempAvatarData(unsigned playerId, const std::vector<unsigned char> &data);
@@ -171,6 +172,8 @@ private:
 	PlayerInfoMap m_playerInfoMap;
 	mutable boost::mutex m_playerInfoMapMutex;
 	PlayerIdList m_playerInfoRequestList;
+	PlayerIdList m_avatarShouldRequestList;
+	PlayerIdList m_avatarHasRequestedList;
 
 	unsigned m_curGameId;
 	mutable boost::mutex m_curGameIdMutex;

@@ -45,6 +45,8 @@ public:
 
 	bool Init(const std::string &dataDir, const std::string &cacheDir);
 
+	void AddSingleAvatar(const std::string &fileName);
+
 	boost::shared_ptr<AvatarFileState> OpenAvatarFileForChunkRead(const std::string &fileName, unsigned &outFileSize, AvatarFileType &outFileType);
 	unsigned ChunkReadAvatarFile(boost::shared_ptr<AvatarFileState> fileState, unsigned char *data, unsigned chunkSize);
 

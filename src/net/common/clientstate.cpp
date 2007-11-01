@@ -696,6 +696,8 @@ ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 				string avatarFile;
 				if (client.GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile))
 					playerData->SetAvatarFile(avatarFile);
+				else
+					client.RetrieveAvatarIfNeeded(netPlayerData.playerId, info);
 			}
 		}
 		else
@@ -704,7 +706,7 @@ ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 			name << "#" << netPlayerData.playerId;
 
 			// Request player info.
-			client.RequestPlayerInfo(netPlayerData.playerId);
+			client.RequestPlayerInfo(netPlayerData.playerId, true);
 			// Use temporary data until the PlayerInfo request is completed.
 			playerData.reset(
 				new PlayerData(netPlayerData.playerId, 0, PLAYER_TYPE_HUMAN, netPlayerData.prights));

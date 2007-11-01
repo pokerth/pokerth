@@ -391,7 +391,7 @@ ClientThread::GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const
 }
 
 void
-ClientThread::RequestPlayerInfo(unsigned id)
+ClientThread::RequestPlayerInfo(unsigned id, bool requestAvatar)
 {
 	if (find(m_playerInfoRequestList.begin(), m_playerInfoRequestList.end(), id) == m_playerInfoRequestList.end())
 	{
@@ -402,11 +402,17 @@ ClientThread::RequestPlayerInfo(unsigned id)
 		GetSender().Send(GetContext().GetSessionData(), req);
 
 		m_playerInfoRequestList.push_back(id);
+
+	}
+	// Remember that we have to request an avatar.
+	if (requestAvatar)
+	{
+		m_avatarShouldRequestList.push_back(id);
 	}
 }
 
 void
-ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info, bool retrieveAvatar)
+ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 {
 	{
 		boost::mutex::scoped_lock lock(m_playerInfoMapMutex);
@@ -429,15 +435,11 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info, bool retrieveAv
 		}
 	}
 
-	// Retrieve avatar if needed.
-	if (retrieveAvatar && info.hasAvatar && !GetAvatarManager().HasAvatar(info.avatar))
+	if (find(m_avatarShouldRequestList.begin(), m_avatarShouldRequestList.end(), id) != m_avatarShouldRequestList.end())
 	{
-		boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
-		NetPacketRetrieveAvatar::Data retrieveAvatarData;
-		retrieveAvatarData.requestId = id;
-		retrieveAvatarData.avatar = info.avatar;
-		static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
-		GetSender().Send(GetContext().GetSessionData(), retrieveAvatar);
+		m_avatarShouldRequestList.remove(id);
+		// Retrieve avatar if needed.
+		RetrieveAvatarIfNeeded(id, info);
 	}
 
 	// Remove it from the request list.
@@ -453,6 +455,7 @@ ClientThread::SetUnknownPlayer(unsigned id)
 {
 	// Just remove it from the request list.
 	m_playerInfoRequestList.remove(id);
+	m_avatarShouldRequestList.remove(id);
 	LOG_ERROR("Server reported unknown player id: " << id);
 }
 
@@ -465,6 +468,24 @@ ClientThread::SetNewGameAdmin(unsigned id)
 	{
 		playerData->SetRights(PLAYER_RIGHTS_ADMIN);
 		GetCallback().SignalNetClientNewGameAdmin(id, playerData->GetName());
+	}
+}
+
+void
+ClientThread::RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info)
+{
+	if (find(m_avatarHasRequestedList.begin(), m_avatarHasRequestedList.end(), id) == m_avatarHasRequestedList.end())
+	{
+		if (info.hasAvatar && !info.avatar.IsZero() && !GetAvatarManager().HasAvatar(info.avatar))
+		{
+			m_avatarHasRequestedList.push_back(id); // Never remove from this list. Only request once.
+			boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
+			NetPacketRetrieveAvatar::Data retrieveAvatarData;
+			retrieveAvatarData.requestId = id;
+			retrieveAvatarData.avatar = info.avatar;
+			static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
+			GetSender().Send(GetContext().GetSessionData(), retrieveAvatar);
+		}
 	}
 }
 
@@ -495,7 +516,6 @@ ClientThread::CompleteTempAvatarData(unsigned playerId)
 	AvatarDataMap::iterator pos = m_tempAvatarMap.find(playerId);
 	if (pos == m_tempAvatarMap.end())
 		throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_REQUEST_ID, 0);
-
 	boost::shared_ptr<AvatarData> tmpAvatar = pos->second;
 	unsigned avatarSize = (unsigned)tmpAvatar->fileData.size();
 	if (avatarSize != tmpAvatar->reportedSize)
@@ -511,7 +531,7 @@ ClientThread::CompleteTempAvatarData(unsigned playerId)
 				LOG_ERROR("Failed to store avatar in cache directory.");
 
 			// Update player info, but never re-request avatar.
-			SetPlayerInfo(playerId, tmpPlayerInfo, false);
+			SetPlayerInfo(playerId, tmpPlayerInfo);
 
 			string fileName;
 			if (GetAvatarManager().GetAvatarFileName(tmpPlayerInfo.avatar, fileName))

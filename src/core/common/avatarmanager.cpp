@@ -20,6 +20,7 @@
 #include "avatarmanager.h"
 #include <net/socket_msg.h>
 #include <core/loghelper.h>
+#include <core/crypthelper.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/lambda/lambda.hpp>
@@ -91,6 +92,33 @@ AvatarManager::Init(const std::string &dataDir, const std::string &cacheDir)
 	}
 
 	return retVal;
+}
+
+void
+AvatarManager::AddSingleAvatar(const std::string &fileName)
+{
+	path filePath(fileName);
+	string tmpFileName(filePath.file_string());
+
+	if (!fileName.empty() && !tmpFileName.empty())
+	{
+		unsigned outFileSize;
+		AvatarFileType outFileType;
+		boost::shared_ptr<AvatarFileState> tmpFileState = OpenAvatarFileForChunkRead(tmpFileName, outFileSize, outFileType);
+
+		// Check whether the avatar file is valid.
+		if (tmpFileState.get())
+		{
+			tmpFileState.reset();
+
+			MD5Buf md5buf;
+			if (CryptHelper::MD5Sum(tmpFileName, md5buf))
+			{
+				boost::mutex::scoped_lock lock(m_avatarsMutex);
+				m_avatars.insert(AvatarMap::value_type(md5buf, tmpFileName));
+			}
+		}
+	}
 }
 
 boost::shared_ptr<AvatarFileState>
