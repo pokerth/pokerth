@@ -1218,7 +1218,7 @@ void mainWindowImpl::setPlayerAvatar(int myID, QString myAvatar) {
 
 			if(QFile::QFile(myAvatar).exists()) {
 				playerAvatarLabelArray[tmpPlayer->getMyID()]->setPixmap(myAvatar);
-				tmpPlayer->setMyAvatar(myAvatar);
+				tmpPlayer->setMyAvatar(myAvatar.toUtf8().constData());
 			}
 			else {
 				playerAvatarLabelArray[tmpPlayer->getMyID()]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png"));
