@@ -35,7 +35,7 @@
 	#define MAX_AVATAR_CACHE_AGE	2592000  // 1 Month
 #else
 	#define MAX_NUMBER_OF_FILES		256
-	#define MAX_AVATAR_CACHE_AGE	2592000
+	#define MAX_AVATAR_CACHE_AGE	86400
 #endif
 
 #define PNG_HEADER "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a"
