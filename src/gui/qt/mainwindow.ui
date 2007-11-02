@@ -2895,6 +2895,19 @@
                  </property>
                 </spacer>
                </item>
+               <item row="4" column="0" >
+                <widget class="QPushButton" name="pushButton_backToLobby" >
+                 <property name="maximumSize" >
+                  <size>
+                   <width>16777215</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="text" >
+                  <string>Back to lobby</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
             </widget>
@@ -3213,7 +3226,7 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>28</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView" >
@@ -3224,6 +3237,7 @@
     <addaction name="actionShowHideChat" />
     <addaction name="actionShowHideHelp" />
     <addaction name="actionShowHideLog" />
+    <addaction name="actionShowHideAway" />
    </widget>
    <widget class="QMenu" name="menuSpiel" >
     <property name="title" >
@@ -3333,6 +3347,14 @@
    </property>
    <property name="shortcut" >
     <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="actionShowHideAway" >
+   <property name="text" >
+    <string>Show/Hide Away Window</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+A</string>
    </property>
   </action>
  </widget>

@@ -374,6 +374,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	menubar->setStyleSheet("QMenuBar { background-color: #145300; } QMenuBar::item { color: #669800; }");
 
 	pushButton_break->setStyleSheet("QPushButton:enabled { background-color: #145300; color: white;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
+
+	pushButton_backToLobby->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
 	
 // 	horizontalSlider_speed->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #286400; height: 3px; background: #689700; } QSlider::handle:horizontal { background: #689700; border: 1px solid #286400; width: 10px; margin: -8px 0; border-radius: 3px; }");
 
@@ -508,12 +510,17 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect( actionShowHideChat, SIGNAL( triggered() ), this, SLOT( switchChatWindow() ) );
 	connect( actionShowHideHelp, SIGNAL( triggered() ), this, SLOT( switchHelpWindow() ) );
 	connect( actionShowHideLog, SIGNAL( triggered() ), this, SLOT( switchLogWindow() ) );
+	connect( actionShowHideAway, SIGNAL( triggered() ), this, SLOT( switchAwayWindow() ) );
+
 
 	connect( pushButton_BetRaise, SIGNAL( clicked(bool) ), this, SLOT( pushButtonBetRaiseClicked(bool) ) );
 	connect( pushButton_Fold, SIGNAL( clicked(bool) ), this, SLOT( pushButtonFoldClicked(bool) ) );
 	connect( pushButton_CallCheck, SIGNAL( clicked(bool) ), this, SLOT( pushButtonCallCheckClicked(bool) ) );
 	connect( pushButton_AllIn, SIGNAL( clicked(bool) ), this, SLOT(pushButtonAllInClicked(bool) ) );
-	
+	connect( pushButton_backToLobby	, SIGNAL( clicked(bool) ), this, SLOT(leaveCurrentNetworkGame() ) );
+
+
+
 	connect( horizontalSlider_bet, SIGNAL( valueChanged(int)), this, SLOT ( changeSpinBoxBetValue(int) ) );
 	
 	connect( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
@@ -3407,10 +3414,31 @@ void mainWindowImpl::switchHelpWindow() {
 
 void mainWindowImpl::switchLogWindow() {
 
+	int tab = 0;
 	if (groupBox_RightToolBox->isHidden()) { 
+		tabWidget_Right->setCurrentIndex(tab);
 		groupBox_RightToolBox->show(); 
-	}	else { 	
-		groupBox_RightToolBox->hide(); 
+	}	else {
+		if (tabWidget_Right->currentIndex() == tab) {
+			groupBox_RightToolBox->hide(); 				
+		} else {
+			tabWidget_Right->setCurrentIndex(tab);			
+		}
+	}
+}
+
+void mainWindowImpl::switchAwayWindow() {
+
+	int tab = 1;
+	if (groupBox_RightToolBox->isHidden()) { 
+		tabWidget_Right->setCurrentIndex(tab);
+		groupBox_RightToolBox->show(); 
+	}	else {
+		if (tabWidget_Right->currentIndex() == tab) {
+			groupBox_RightToolBox->hide(); 				
+		} else {
+			tabWidget_Right->setCurrentIndex(tab);			
+		}
 	}
 }
 
@@ -3465,6 +3493,7 @@ void mainWindowImpl::localGameModification() {
 	}
 
 	pushButton_break->show();
+	pushButton_backToLobby->hide();
 
 	//Set the playing mode to "manual"
 	radioButton_manualAction->click();
@@ -3480,7 +3509,7 @@ void mainWindowImpl::networkGameModification() {
 	myChat->clearNewGame();
 
 	pushButton_break->hide();
-
+	pushButton_backToLobby->show();
 	//Set the playing mode to "manual"
 	radioButton_manualAction->click();
 
@@ -3611,4 +3640,10 @@ void mainWindowImpl::changeSpinBoxBetValue(int value) {
 		spinBox_set->setValue((int)((value/10)*10));
 	else
 		spinBox_set->setValue((int)((value/50)*50));
+}
+
+void mainWindowImpl::leaveCurrentNetworkGame() {
+
+	assert(mySession);
+	mySession->sendLeaveCurrentGame();
 }

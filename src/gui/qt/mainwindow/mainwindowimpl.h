@@ -296,6 +296,7 @@ public slots:
 	void switchChatWindow();
 	void switchHelpWindow();
 	void switchLogWindow();
+	void switchAwayWindow();
 	void switchFullscreen();
 
 	void paintStartSplash();
@@ -303,6 +304,8 @@ public slots:
 	void sendChatMessage();
 	void checkChatInputLength(QString);
 	void tabSwitchAction();
+
+	void leaveCurrentNetworkGame();
 
 	void networkError(int, int);
 	void networkNotification(int);
