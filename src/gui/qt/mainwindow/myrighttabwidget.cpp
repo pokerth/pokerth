@@ -30,12 +30,12 @@ MyRightTabWidget::MyRightTabWidget(QGroupBox *parent)
 	int paddingTop = 1;
 	int paddingSide = 3;
 	
-	QFontMetrics tempMetrics = this->fontMetrics();
-	int tabMinWidth = tempMetrics.width(this->tabText(0));
-	if(tabMinWidth < tempMetrics.width(this->tabText(1)))
-		tabMinWidth = tempMetrics.width(this->tabText(1));
+// 	QFontMetrics tempMetrics = this->fontMetrics();
+// 	int tabMinWidth = tempMetrics.width(this->tabText(0));
+// 	if(tabMinWidth < tempMetrics.width(this->tabText(1)))
+// 		tabMinWidth = tempMetrics.width(this->tabText(1));
 	
-	QString tabMinWidthString(QString::number(tabMinWidth,10)+"px;");
+	QString tabMinWidthString = "8ex;";
 
 #else 
 	QString font1String("font-family: \"Nimbus Sans L\";");

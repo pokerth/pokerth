@@ -2846,7 +2846,7 @@
              </widget>
              <widget class="QWidget" name="tab_away" >
               <attribute name="title" >
-               <string>Away</string>
+               <string> Away </string>
               </attribute>
               <layout class="QGridLayout" >
                <item row="0" column="0" >
