@@ -66,6 +66,9 @@
      <property name="horizontalScrollBarPolicy" >
       <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
+     <property name="sortingEnabled" >
+      <bool>true</bool>
+     </property>
      <column>
       <property name="text" >
        <string>Game</string>
