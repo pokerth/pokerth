@@ -28,25 +28,20 @@ MyRightTabWidget::MyRightTabWidget(QGroupBox *parent)
 #ifdef _WIN32
 	QString font1String("font-family: \"Arial\";");
 	int paddingTop = 1;
-	int paddingSide = 3;
-	
-// 	QFontMetrics tempMetrics = this->fontMetrics();
-// 	int tabMinWidth = tempMetrics.width(this->tabText(0));
-// 	if(tabMinWidth < tempMetrics.width(this->tabText(1)))
-// 		tabMinWidth = tempMetrics.width(this->tabText(1));
-	
-	QString tabMinWidthString = "8ex;";
+	int paddingSide = 10;
+
+	this->setTabText(0, " "+this->tabText(0)+" ");
+	this->setTabText(1, " "+this->tabText(1)+" ");
 
 #else 
 	QString font1String("font-family: \"Nimbus Sans L\";");
 	int paddingTop = 0;
-	int paddingSide = 1;
-	QString tabMinWidthString = "8ex;";
+	int paddingSide = 10;
 #endif
 
 	QTabBar *myTabBar = this->tabBar();
 
-	myTabBar->setStyleSheet("QTabBar::tab{ "+ font1String +" font-size: 11px; color: white; background-color: #145300; border: 2px solid #286400; border-bottom-color: #286400; border-top-left-radius: 4px; border-top-right-radius: 4px; min-width: "+tabMinWidthString+" padding-top: "+QString::number(paddingTop,10)+"px; padding-left:"+QString::number(paddingSide,10)+"px; padding-right:"+QString::number(paddingSide,10)+"px;} QTabBar::tab:selected, QTabBar::tab:hover { background-color: #145300; padding-top: "+QString::number(paddingTop,10)+"px; padding-left:"+QString::number(paddingSide,10)+"px; padding-right:"+QString::number(paddingSide,10)+"px;} QTabBar::tab:selected { border-color: #286400; border-bottom-color: #145300; padding-top: "+QString::number(paddingTop,10)+"px; padding-left:"+QString::number(paddingSide,10)+"px; padding-right:"+QString::number(paddingSide,10)+"px;}  QTabBar::tab:!selected { margin-top: 2px; padding-top: "+QString::number(paddingTop,10)+"px; padding-left:"+QString::number(paddingSide,10)+"px; padding-right:"+QString::number(paddingSide,10)+"px;} QTabBar::tab:selected { margin-left: -4px; margin-right: -4px; padding-top: "+QString::number(paddingTop,10)+"px; padding-left:"+QString::number(paddingSide,10)+"px; padding-right:"+QString::number(paddingSide,10)+"px;} QTabBar::tab:first:selected { margin-left: 0; padding-top: "+QString::number(paddingTop,10)+"px; padding-left:"+QString::number(paddingSide,10)+"px; padding-right:"+QString::number(paddingSide,10)+"px;} QTabBar::tab:last:selected { margin-right: 0; padding-top: "+QString::number(paddingTop,10)+"px; padding-left:"+QString::number(paddingSide,10)+"px; padding-right:"+QString::number(paddingSide,10)+"px;} QTabBar::tab:only-one { margin: 0; } QTabBar::tab:disabled { font-size: 11px; font-weight: 900; color: #144D03; background-color: #144D03; border-left-color: #255704; border-right-color: #255704; border-top-color: #255704; }");
+	myTabBar->setStyleSheet("QTabBar::tab{ "+ font1String +" font-size: 11px; color: white; background-color: #145300; border: 2px solid #286400; border-bottom-color: #286400; border-top-left-radius: 4px; border-top-right-radius: 4px; padding-top: "+QString::number(paddingTop,10)+"px; padding-left:"+QString::number(paddingSide,10)+"px; padding-right:"+QString::number(paddingSide,10)+"px;} QTabBar::tab:selected, QTabBar::tab:hover { background-color: #145300; padding-top: "+QString::number(paddingTop,10)+"px; padding-left:"+QString::number(paddingSide,10)+"px; padding-right:"+QString::number(paddingSide,10)+"px;} QTabBar::tab:selected { border-color: #286400; border-bottom-color: #145300; padding-top: "+QString::number(paddingTop,10)+"px; padding-left:"+QString::number(paddingSide,10)+"px; padding-right:"+QString::number(paddingSide,10)+"px;}  QTabBar::tab:!selected { margin-top: 2px; padding-top: "+QString::number(paddingTop,10)+"px; padding-left:"+QString::number(paddingSide,10)+"px; padding-right:"+QString::number(paddingSide,10)+"px;} QTabBar::tab:selected { margin-left: -4px; margin-right: -4px; padding-top: "+QString::number(paddingTop,10)+"px; padding-left:"+QString::number(paddingSide,10)+"px; padding-right:"+QString::number(paddingSide,10)+"px;} QTabBar::tab:first:selected { margin-left: 0; padding-top: "+QString::number(paddingTop,10)+"px; padding-left:"+QString::number(paddingSide,10)+"px; padding-right:"+QString::number(paddingSide,10)+"px;} QTabBar::tab:last:selected { margin-right: 0; padding-top: "+QString::number(paddingTop,10)+"px; padding-left:"+QString::number(paddingSide,10)+"px; padding-right:"+QString::number(paddingSide,10)+"px;} QTabBar::tab:only-one { margin: 0; } QTabBar::tab:disabled { font-size: 11px; font-weight: 900; color: #144D03; background-color: #144D03; border-left-color: #255704; border-right-color: #255704; border-top-color: #255704; }");
 
 }
 
