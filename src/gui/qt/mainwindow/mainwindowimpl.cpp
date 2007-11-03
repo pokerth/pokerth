@@ -2631,23 +2631,6 @@ void mainWindowImpl::postRiverRunAnimation3() {
 		}
 	}
 
-	
-	int playersPositiveCashCounter = 0;
-	for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
-
-		if ((*it_c)->getMyCash() > 0) {
-			playersPositiveCashCounter++;
-		}
-	}
-	if(playersPositiveCashCounter==1) {
-		for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
-	
-			if ((*it_c)->getMyCash() > 0) {
-				currentHand->getGuiInterface()->logPlayerWinGame((*it_c)->getMyName(),  mySession->getCurrentGame()->getMyGameID());
-			}
-		}
-	}
-
 	textBrowser_Log->append("");
 
 	postRiverRunAnimation3Timer->start(postRiverRunAnimationSpeed/2);
@@ -2722,6 +2705,13 @@ void mainWindowImpl::postRiverRunAnimation6() {
 	}
 
 	if (playersPositiveCashCounter==1) {
+
+		for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
+	
+			if ((*it_c)->getMyCash() > 0) {
+				currentHand->getGuiInterface()->logPlayerWinGame((*it_c)->getMyName(),  mySession->getCurrentGame()->getMyGameID());
+			}
+		}
 
 		if( !DEBUG_MODE ) {
 			currentGameOver = TRUE;
