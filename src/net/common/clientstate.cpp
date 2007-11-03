@@ -991,7 +991,6 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			// Next player's turn.
 			curGame->getCurrentHand()->getCurrentBeRo()->setCurrentPlayersTurnId(tmpPlayer->getMyID());
 			curGame->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(turnData.minimumRaise);
-			curGame->getCurrentHand()->getCurrentBeRo()->setPlayersTurn(tmpPlayer->getMyID());
 
 			// Mark current player in GUI.
 			int guiStatus = 2;
