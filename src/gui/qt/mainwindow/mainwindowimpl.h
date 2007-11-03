@@ -185,7 +185,7 @@ public slots:
 	void dealHoleCards();
 
 	//Spieler-Funktionen
-	void provideMyActions();
+	void provideMyActions(int mode = -1);  //mode 0 == called from dealberocards
 	void meInAction();
 	void disableMyButtons();
 	void startTimeoutAnimation(int playerId, int timoutSec);
@@ -318,7 +318,7 @@ public slots:
 
 	void mouseOverFlipCards(bool front);
 
-	void updateMyButtonsState();
+	void updateMyButtonsState(int mode = -1); //mode 0 == called from dealberocards
 	void uncheckMyButtons();
 	void resetMyButtonsCheckStateMemory();
 	void clearMyButtons();

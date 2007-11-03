@@ -1652,7 +1652,7 @@ void mainWindowImpl::dealFlopCards6() {
 	if(mySession->getCurrentGame()->getCurrentHand()->getAllInCondition()) { dealFlopCards6Timer->start(AllInDealCardsSpeed); }
 	// sonst normale Variante
 	else { 
-		updateMyButtonsState();
+		updateMyButtonsState(0);  //mode 0 == called from dealberocards
 		dealFlopCards6Timer->start(postDealCardsSpeed);
 	}
 }
@@ -1689,7 +1689,7 @@ void mainWindowImpl::dealTurnCards2() {
 	}
 	// sonst normale Variante
 	else { 
-		updateMyButtonsState();
+		updateMyButtonsState(0);  //mode 0 == called from dealberocards
 		dealTurnCards2Timer->start(postDealCardsSpeed); 
 
 	}
@@ -1727,12 +1727,12 @@ void mainWindowImpl::dealRiverCards2() {
 	if(mySession->getCurrentGame()->getCurrentHand()->getAllInCondition()) { dealRiverCards2Timer->start(AllInDealCardsSpeed);	}
 	// sonst normale Variante
 	else {		
-		updateMyButtonsState();
+		updateMyButtonsState(0);  //mode 0 == called from dealberocards
 		dealRiverCards2Timer->start(postDealCardsSpeed);
 	}
 }
 
-void mainWindowImpl::provideMyActions() {
+void mainWindowImpl::provideMyActions(int mode) {
 
 	QString pushButtonFoldString;
 	QString pushButtonBetRaiseString;
@@ -1744,8 +1744,12 @@ void mainWindowImpl::provideMyActions() {
 	Game *currentGame = mySession->getCurrentGame();
 	HandInterface *currentHand = currentGame->getCurrentHand();
 
-	//really disabled buttons if human player is fold/all-in or 
-	if(/*pushButton_BetRaise->isCheckable() && */(currentHand->getSeatsList()->front()->getMyAction() == PLAYER_ACTION_ALLIN || currentHand->getSeatsList()->front()->getMyAction() == PLAYER_ACTION_FOLD || (currentGame->getSeatsList()->front()->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (currentGame->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_NONE)))) {
+// 	cout << "provideMyActions get myAction" << currentHand->getSeatsList()->front()->getMyAction() << endl;
+// 	cout << "provideMyActions get mySet" << currentGame->getSeatsList()->front()->getMySet() << endl;
+// 	cout << "provideMyActions get HighestSet" << currentHand->getCurrentBeRo()->getHighestSet() << endl;
+
+	//really disabled buttons if human player is fold/all-in or ... and not called from dealberocards
+	if(/*pushButton_BetRaise->isCheckable() && */mode != 0 && (currentHand->getSeatsList()->front()->getMyAction() == PLAYER_ACTION_ALLIN || currentHand->getSeatsList()->front()->getMyAction() == PLAYER_ACTION_FOLD || (currentGame->getSeatsList()->front()->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (currentGame->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_NONE)))) {
 	
 		pushButton_BetRaise->setText("");
 		pushButton_CallCheck->setText("");
@@ -3515,8 +3519,8 @@ void mainWindowImpl::mouseOverFlipCards(bool front) {
 	}
 }
 
-void mainWindowImpl::updateMyButtonsState() {
-
+void mainWindowImpl::updateMyButtonsState(int mode) {
+	
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
 	if(currentHand->getLastPlayersTurn() == 0) {
@@ -3525,7 +3529,7 @@ void mainWindowImpl::updateMyButtonsState() {
 	}
 	else {
 		myButtonsCheckable(TRUE);
-		provideMyActions();
+		provideMyActions(mode);
 	}
 }
 
