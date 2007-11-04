@@ -1781,7 +1781,7 @@ void mainWindowImpl::provideMyActions(int mode) {
 		break;
 		case 1: {
 		
-			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable()) { 
+			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable() ) { 
 				pushButtonFoldString = "Check / Fold"; 
 			}
 			else { pushButtonFoldString = "Fold"; }
@@ -1862,6 +1862,25 @@ void mainWindowImpl::provideMyActions(int mode) {
 			pushButton_AllIn->setDisabled(TRUE);
 			horizontalSlider_bet->setDisabled(TRUE);
 			spinBox_set->setDisabled(TRUE);
+		}
+
+		if(mode == 0) {
+			if( currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD ) {
+				pushButtonBetRaiseString = "Bet";
+				pushButtonCallCheckString = "Check"; 
+				if( currentGame->getActivePlayerList()->size() > 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_SMALL_BLIND || ( currentGame->getActivePlayerList()->size() <= 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_BIG_BLIND)) { pushButtonFoldString = "Fold"; }
+				else { pushButtonFoldString = "Check / Fold"; }
+			}
+			else {
+				pushButtonBetRaiseString = "";
+				pushButtonCallCheckString = ""; 		
+				pushButtonFoldString = "";
+				pushButton_AllIn->setDisabled(TRUE);
+				horizontalSlider_bet->setDisabled(TRUE);
+				spinBox_set->setDisabled(TRUE);
+		
+				myButtonsCheckable(FALSE);
+			}
 		}
 
 		pushButton_Fold->setText(pushButtonFoldString);
@@ -3492,6 +3511,8 @@ void mainWindowImpl::localGameModification() {
 	//Set the playing mode to "manual"
 	radioButton_manualAction->click();
 
+	//clear log
+	textBrowser_Log->clear();
 }
 
 void mainWindowImpl::networkGameModification() {
@@ -3507,6 +3528,8 @@ void mainWindowImpl::networkGameModification() {
 	//Set the playing mode to "manual"
 	radioButton_manualAction->click();
 
+	//clear log
+	textBrowser_Log->clear();
 }
 
 void mainWindowImpl::mouseOverFlipCards(bool front) {
