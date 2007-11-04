@@ -10,8 +10,9 @@
 //
 //
 #include "myrighttabwidget.h"
+#include <iostream>
 
-// using namespace std;
+using namespace std;
 
 MyRightTabWidget::MyRightTabWidget(QGroupBox *parent)
  : QTabWidget(parent), myTabBar(0)
@@ -30,19 +31,21 @@ MyRightTabWidget::MyRightTabWidget(QGroupBox *parent)
 	int paddingTop = 1;
 	int paddingSide = 10;
 
-	this->setTabText(0, " "+this->tabText(0)+" ");
-	this->setTabText(1, " "+this->tabText(1)+" ");
-
+// 	this->setTabText(0, " "+this->tabText(0)+" ");
+// 	this->setTabText(1, " "+this->tabText(1)+" ");
+/*
 	QFontMetrics tempMetrics = this->fontMetrics();
 	int minimumTabWidth = tempMetrics.width(QString("W"+this->tabText(0)+"W"));
-	if(minimumTabWidth < tempMetrics.width(QString("W"+this->tabText(1)+"W"))) minimumTabWidth = tempMetrics.width(QString("W"+this->tabText(1)+"W"));
+	if(minimumTabWidth < tempMetrics.width(QString("W"+this->tabText(1)+"W"))) minimumTabWidth = tempMetrics.width(QString("W"+this->tabText(1)+"W"));*/
 
-	QString minimumTabWidthString(" min-width:"+QString::number(minimumTabWidth,10)+"px;");
+// 	QString minimumTabWidthString(" min-width:"+QString::number(minimumTabWidth,10)+"ex;");
+	QString minimumTabWidthString("");
 
 #else 
 	QString font1String("font-family: \"Nimbus Sans L\";");
 	int paddingTop = 0;
 	int paddingSide = 10;
+
 
 	QString minimumTabWidthString("");
 
