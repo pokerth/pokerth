@@ -7,7 +7,7 @@ CONFIG += qt thread embed_manifest_exe warn_on release
 #CONFIG += qt thread embed_manifest_exe warn_on debug
 
 #Uncomment this for RELEASE
-#QTPLUGIN += qjpeg qgif
+QTPLUGIN += qjpeg qgif
 
 UI_DIR = uics
 MOC_DIR = mocs
@@ -308,6 +308,29 @@ unix: !mac{
 			LIBS += -lboost_filesystem
 		}
 	}
+
+	
+	exists( /usr/lib/libboost_regex-mt.so ){
+		message("Found libboost_regex-mt")
+		LIBS += -lboost_regex-mt
+	}
+	exists( /usr/lib64/libboost_regex-mt.so ){
+		message("Found libboost_regex-mt")
+		LIBS += -lboost_regex-mt
+	}
+	!exists( /usr/lib/libboost_regex-mt.so ){
+		exists( /usr/lib/libboost_regex.so ){
+			message("Found libboost_regex")
+			LIBS += -lboost_regex
+		}
+	}
+	!exists( /usr/lib64/libboost_regex-mt.so ){
+		exists( /usr/lib64/libboost_regex.so ){
+			message("Found libboost_regex")
+			LIBS += -lboost_regex
+		}
+	}
+
 	LIBPATH += lib
 	LIBS += -lpokerth_lib
 	LIBS += -lcrypto -lSDL_mixer
