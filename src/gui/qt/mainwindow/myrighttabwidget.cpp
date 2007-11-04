@@ -35,7 +35,7 @@ MyRightTabWidget::MyRightTabWidget(QGroupBox *parent)
 
 	QFontMetrics tempMetrics = this->fontMetrics();
 	int minimumTabWidth = tempMetrics.width(QString("W"+this->tabText(0)+"W"));
-	if(minimumTabWidth < tempMetrics.width(QString("W"+this->tabText(1)+"W")); ) minimumTabWidth = tempMetrics.width(QString("W"+this->tabText(1)+"W"));
+	if(minimumTabWidth < tempMetrics.width(QString("W"+this->tabText(1)+"W"))) minimumTabWidth = tempMetrics.width(QString("W"+this->tabText(1)+"W"));
 
 	QString minimumTabWidthString(" min-width:"+QString::number(minimumTabWidth,10)+"px;");
 
