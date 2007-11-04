@@ -29,12 +29,13 @@
 
 using namespace std;
 
-#define IRC_WAIT_TERMINATION_MSEC 500
+#define IRC_WAIT_TERMINATION_MSEC	500
+#define IRC_MAX_RENAME_TRIES		10
 
 
 struct IrcContext
 {
-	IrcContext(IrcThread &t) : ircThread(t), session(NULL), serverPort(0), useIPv6(false) {}
+	IrcContext(IrcThread &t) : ircThread(t), session(NULL), serverPort(0), useIPv6(false), renameTries(0) {}
 	IrcThread &ircThread;
 	irc_session_t *session;
 	string serverAddress;
@@ -42,31 +43,40 @@ struct IrcContext
 	bool useIPv6;
 	string nick;
 	string channel;
+	unsigned renameTries;
 };
 
 void irc_auto_rename_nick(irc_session_t *session)
 {
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
-	// Automatically rename the nick on collision.
-	// First: Try to append the string "Lobby".
-	if (context->nick.find("|Lobby") == string::npos)
-		context->nick = context->nick + "|Lobby";
-	else
+	if (context->renameTries <= IRC_MAX_RENAME_TRIES) // Limit number of rename tries.
 	{
-		// This didn't work out. Append a number or increment it.
-		string::reverse_iterator end = context->nick.rbegin();
-		if (!context->nick.empty() && isdigit(*end))
+		// Automatically rename the nick on collision.
+		// First: Try to append the string "Lobby".
+		if (context->nick.find("|Lobby") == string::npos)
 		{
-			if (*end != '9')
-				*end = (*end) + 1;
-			else
-				context->nick = context->nick + "0";
+			context->nick = context->nick + "|Lobby";
 		}
 		else
-			context->nick = context->nick + "1";
+		{
+			// This didn't work out. Append a number or increment it.
+			string::reverse_iterator end = context->nick.rbegin();
+			if (!context->nick.empty() && isdigit(*end))
+			{
+				if (*end != '9')
+					*end = (*end) + 1;
+				else
+					context->nick = context->nick + "0";
+			}
+			else
+				context->nick = context->nick + "1";
+		}
+		irc_cmd_nick(session, context->nick.c_str());
+		context->renameTries++;
 	}
-	irc_cmd_nick(session, context->nick.c_str());
+	else
+		irc_cmd_quit(session, NULL);
 }
 
 void irc_notify_player_list(irc_session_t *session, const char *players)
