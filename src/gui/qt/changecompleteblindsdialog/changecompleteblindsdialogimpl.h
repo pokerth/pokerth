@@ -38,6 +38,7 @@ public:
 public slots:
 	bool getSettingsCorrect() const	{ return settingsCorrect;}
 	
+	void updateSpinBoxInputMinimum(int);
 	void addBlindValueToList();
 	void removeBlindFromList();
 	void sortBlindsList();

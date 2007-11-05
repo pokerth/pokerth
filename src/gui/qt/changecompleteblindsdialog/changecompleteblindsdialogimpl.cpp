@@ -30,6 +30,7 @@ changeCompleteBlindsDialogImpl::changeCompleteBlindsDialogImpl(QWidget *parent, 
 
 	connect( pushButton_add, SIGNAL( clicked() ), this, SLOT( addBlindValueToList() ) );
 	connect( pushButton_delete, SIGNAL( clicked() ), this, SLOT( removeBlindFromList() ) );
+	connect( spinBox_firstSmallBlind, SIGNAL( valueChanged(int) ), this, SLOT( updateSpinBoxInputMinimum(int) ) );
 	
 }
 
@@ -39,6 +40,7 @@ void changeCompleteBlindsDialogImpl::exec() {
 	QDialog::exec();
 }
 
+void changeCompleteBlindsDialogImpl::updateSpinBoxInputMinimum(int value) { spinBox_input->setMinimum(value+1); }
 
 void changeCompleteBlindsDialogImpl::addBlindValueToList() {
 

@@ -102,7 +102,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
 		painter.setFont(welcomeFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"W");
+		painter.drawText(48,27,300,45,4,"W");
 		
 	}
 
@@ -114,7 +114,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
 		painter.setFont(welcomeFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"We");
+		painter.drawText(48,27,300,45,4,"We");
 		
 	}
 
@@ -126,7 +126,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
 		painter.setFont(welcomeFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Wel");
+		painter.drawText(48,27,300,45,4,"Wel");
 		
 	}
 
@@ -138,7 +138,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
 		painter.setFont(welcomeFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welc");
+		painter.drawText(48,27,300,45,4,"Welc");
 		
 	}
 
@@ -150,7 +150,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
 		painter.setFont(welcomeFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welco");
+		painter.drawText(48,27,300,45,4,"Welco");
 		
 	}
 
@@ -162,7 +162,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
 		painter.setFont(welcomeFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcom");
+		painter.drawText(48,27,300,45,4,"Welcom");
 		
 	}
 
@@ -174,7 +174,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
 		painter.setFont(welcomeFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcome");
+		painter.drawText(48,27,300,45,4,"Welcome");
 		
 	}
 
@@ -186,7 +186,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
 		painter.setFont(welcomeFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcome t");
+		painter.drawText(48,27,300,45,4,"Welcome t");
 		
 	}
 
@@ -198,7 +198,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
 		painter.setFont(welcomeFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcome to");
+		painter.drawText(48,27,300,45,4,"Welcome to");
 		
 	}
 
@@ -210,7 +210,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
 		painter.setFont(welcomeFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcome to");
+		painter.drawText(48,27,300,45,4,"Welcome to");
 
 		--opacityCounter;
 // 			std::cout << opacity << " " << opacityCounter << "\n";
@@ -229,7 +229,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
 		painter.setFont(welcomeFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcome to");
+		painter.drawText(48,27,300,45,4,"Welcome to");
 
 		painter.drawPixmap(150,85,100,100,logo);
 		
@@ -243,7 +243,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
 		painter.setFont(welcomeFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcome to");
+		painter.drawText(48,27,300,45,4,"Welcome to");
 	
 		painter.drawPixmap(150,85,100,100,logo);
 		
@@ -261,7 +261,7 @@ void StartSplash::paintEvent(QPaintEvent * event) {
 		painter.setRenderHint(QPainter::Antialiasing, TRUE);
 		painter.setFont(welcomeFont);
 		painter.setPen(QColor(255,255,255));
-		painter.drawText(48,30,300,40,4,"Welcome to");
+		painter.drawText(48,27,300,45,4,"Welcome to");
 
 		painter.drawPixmap(150,85,100,100,logo);
 		
