@@ -30,7 +30,7 @@
 using namespace std;
 
 #define IRC_WAIT_TERMINATION_MSEC	500
-#define IRC_MAX_RENAME_TRIES		10
+#define IRC_MAX_RENAME_TRIES		5
 
 
 struct IrcContext
