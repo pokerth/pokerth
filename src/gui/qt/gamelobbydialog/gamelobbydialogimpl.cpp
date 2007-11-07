@@ -180,7 +180,7 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 	}
 }
 
-void gameLobbyDialogImpl::removedFromGame(int reason)
+void gameLobbyDialogImpl::removedFromGame(int /*reason*/)
 {
 	inGame = false;
 	isAdmin = false;

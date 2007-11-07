@@ -72,8 +72,9 @@ void startNetworkGameDialogImpl::joinedNetworkGame(unsigned playerId, QString pl
 	addConnectedPlayer(playerId, playerName, rights);
 }
 
-void startNetworkGameDialogImpl::addConnectedPlayer(unsigned playerId, QString playerName, int rights) {
+void startNetworkGameDialogImpl::addConnectedPlayer(unsigned playerId, QString playerName, int /*rights*/) {
 
+	// TODO mark admin
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget, 0);
 	item->setData(0, Qt::UserRole, playerId);
 	item->setData(0, Qt::DisplayRole, playerName);

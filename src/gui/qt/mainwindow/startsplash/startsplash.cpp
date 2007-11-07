@@ -54,7 +54,7 @@ void StartSplash::nextAnimationFrame() {
      	update();
  }
 
-void StartSplash::paintEvent(QPaintEvent * event) {
+void StartSplash::paintEvent(QPaintEvent * /*event*/) {
 
 	QPainter painter(this);
 

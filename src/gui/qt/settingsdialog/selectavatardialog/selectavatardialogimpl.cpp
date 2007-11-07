@@ -196,9 +196,9 @@ void selectAvatarDialogImpl::refreshAvatarView() {
 	}
 }
 
-void selectAvatarDialogImpl::toggleGroupBox1(bool toogleState) { if(groupBox->isChecked()) groupBox_2->setChecked(FALSE); }
+void selectAvatarDialogImpl::toggleGroupBox1(bool /*toggleState*/) { if(groupBox->isChecked()) groupBox_2->setChecked(FALSE); }
 
-void selectAvatarDialogImpl::toggleGroupBox2(bool toogleState) { if(groupBox_2->isChecked()) groupBox->setChecked(FALSE); }
+void selectAvatarDialogImpl::toggleGroupBox2(bool /*toggleState*/) { if(groupBox_2->isChecked()) groupBox->setChecked(FALSE); }
 
 QString selectAvatarDialogImpl::getAvatarLink() {
 

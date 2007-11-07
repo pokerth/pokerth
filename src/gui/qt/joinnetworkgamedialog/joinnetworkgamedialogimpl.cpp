@@ -151,7 +151,7 @@ void joinNetworkGameDialogImpl::fillServerProfileList() {
 	treeWidget->resizeColumnToContents ( 3 );
 }
 
-void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int column) {
+void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int /*column*/) {
 
 	bool toIntTrue;
 
@@ -166,7 +166,7 @@ void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int column)
 	TiXmlElement* profile = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).FirstChild( item->data(0,0).toString().toStdString() ).ToElement();
 	if ( profile ) {
 
-        	lineEdit_profileName->setText(QString::fromUtf8(profile->Attribute("Name")));
+		lineEdit_profileName->setText(QString::fromUtf8(profile->Attribute("Name")));
 		lineEdit_ipAddress->setText(QString::fromUtf8(profile->Attribute("Address")));
 		lineEdit_password->setText(QString::fromUtf8(profile->Attribute("Password")));
 		spinBox_port->setValue(QString::fromUtf8(profile->Attribute("Port")).toInt(&toIntTrue, 10));
