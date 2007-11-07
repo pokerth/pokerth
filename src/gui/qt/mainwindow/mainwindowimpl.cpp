@@ -930,6 +930,12 @@ void mainWindowImpl::joinGameLobby() {
 
 	//set clean irc nick
 	QString myNick(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+	myNick.replace(QString::fromUtf8("ä"),"ae");
+	myNick.replace(QString::fromUtf8("Ä"),"Ae");
+	myNick.replace(QString::fromUtf8("ü"),"ue");
+	myNick.replace(QString::fromUtf8("Ü"),"Ue");
+	myNick.replace(QString::fromUtf8("ö"),"oe");
+	myNick.replace(QString::fromUtf8("Ö"),"Oe");
 	myNick.replace(QString::fromUtf8("é"),"e");
 	myNick.replace(QString::fromUtf8("è"),"e");
 	myNick.replace(QString::fromUtf8("á"),"a");
