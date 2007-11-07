@@ -946,7 +946,7 @@ void mainWindowImpl::joinGameLobby() {
 	myNick.replace(QString::fromUtf8("Ò"),"O");
 	myNick.replace(QString::fromUtf8("Ú"),"U");
 	myNick.replace(QString::fromUtf8("Ù"),"U");
-	myNick.remove(QRegExp("[^A-Z^a-z^0-9|\\-_\\\\^]*"));
+	myNick.remove(QRegExp("[^A-Z^a-z^0-9|\\-_\\\\^`]*"));
 	myNick = myNick.mid(0,16);
 
  	mySession->setIrcNick(myNick.toUtf8().constData());
@@ -1935,6 +1935,11 @@ void mainWindowImpl::meInAction() {
 	
 	horizontalSlider_bet->setEnabled(TRUE);
 	spinBox_set->setEnabled(TRUE);
+
+	if((mySession->getGameType() == Session::GAME_TYPE_INTERNET || mySession->getGameType() == Session::GAME_TYPE_NETWORK) && lineEdit_ChatInput->text() == "" && myConfig->readConfigInt("EnableBetInputFocusSwitch")) { 
+		spinBox_set->setFocus();
+		spinBox_set->selectAll();
+	}
 	
 	myActionIsRaise = 0;
 	myActionIsBet = 0;
@@ -2024,10 +2029,11 @@ void mainWindowImpl::myBetRaise() {
 	}
 	else {}
 
-	if(lineEdit_ChatInput->text() == "" && !myConfig->readConfigInt("DisableBetInputFocusSwitch")) { 
+	if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) { 
 		spinBox_set->setFocus();
 		spinBox_set->selectAll();
 	}
+
 }
 
 void mainWindowImpl::myCallCheck() {

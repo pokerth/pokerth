@@ -151,6 +151,22 @@
          </property>
         </widget>
        </item>
+       <item row="12" column="0" >
+        <widget class="QGroupBox" name="groupBox_5" >
+         <property name="title" >
+          <string>Network / Internet Game</string>
+         </property>
+         <layout class="QGridLayout" >
+          <item row="0" column="0" >
+           <widget class="QCheckBox" name="checkBox_enableBetInputFocusSwitch" >
+            <property name="text" >
+             <string>Switch keyboard focus to bet-input-field if it's your turn</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item row="13" column="0" >
         <widget class="QGroupBox" name="groupBox" >
          <property name="title" >
@@ -280,26 +296,10 @@ p, li { white-space: pre-wrap; }
          <property name="sizeHint" >
           <size>
            <width>400</width>
-           <height>81</height>
+           <height>111</height>
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="12" column="0" >
-        <widget class="QGroupBox" name="groupBox_5" >
-         <property name="title" >
-          <string>Network / Internet Game</string>
-         </property>
-         <layout class="QGridLayout" >
-          <item row="0" column="0" >
-           <widget class="QCheckBox" name="checkBox_disableBetInputFocusSwitch" >
-            <property name="text" >
-             <string>Don't switch keyboard focus to bet-input-field</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
        </item>
       </layout>
      </widget>
