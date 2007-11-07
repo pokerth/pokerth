@@ -3,8 +3,8 @@
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
-CONFIG += qt thread embed_manifest_exe warn_on release
-#CONFIG += qt thread embed_manifest_exe warn_on debug
+#CONFIG += qt thread embed_manifest_exe warn_on release
+CONFIG += qt thread embed_manifest_exe warn_on debug
 
 #Uncomment this for RELEASE
 QTPLUGIN += qjpeg qgif
@@ -46,6 +46,7 @@ INCLUDEPATH += . \
 		src/gui/qt/startnetworkgamedialog \
 		src/gui/qt/changehumanplayernamedialog \
 		src/gui/qt/changecompleteblindsdialog \
+		src/gui/qt/mymessagedialog \
 		src/gui/qt/gamelobbydialog \
 		src/gui/qt/gamelobbydialog/lobbychat
 
@@ -82,6 +83,7 @@ DEPENDPATH += . \
 		src/gui/qt/startnetworkgamedialog \
 		src/gui/qt/changehumanplayernamedialog \
 		src/gui/qt/changecompleteblindsdialog \
+		src/gui/qt/mymessagedialog \
 		src/gui/qt/gamelobbydialog \
 		src/gui/qt/gamelobbydialog/lobbychat
 
@@ -162,6 +164,7 @@ HEADERS += \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.h \
 		src/gui/qt/gamelobbydialog/mygamelisttreewidget.h \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.h \
+		src/gui/qt/mymessagedialog/mymessagedialogimpl.h \
 		src/gui/qttoolsinterface.h \
 		src/gui/qt/qttools/qttoolswrapper.h \
 		src/gui/qt/qttools/qthelper/qthelper.h \
@@ -181,6 +184,7 @@ FORMS += \
 		src/gui/qt/changehumanplayernamedialog.ui \
 		src/gui/qt/changecompleteblindsdialog.ui \
 		src/gui/qt/gamelobbydialog.ui \
+		src/gui/qt/mymessagedialog.ui \
 		src/gui/qt/manualblindsorderdialog.ui
 
 SOURCES += \
@@ -214,6 +218,7 @@ SOURCES += \
 		src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp \
 		src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.cpp \
 		src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp \
+		src/gui/qt/mymessagedialog/mymessagedialogimpl.cpp \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp \
 		src/gui/qt/gamelobbydialog/mygamelisttreewidget.cpp \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp
@@ -306,28 +311,6 @@ unix: !mac{
 		exists( /usr/lib64/libboost_filesystem.so ){
 			message("Found libboost_filesystem")
 			LIBS += -lboost_filesystem
-		}
-	}
-
-	
-	exists( /usr/lib/libboost_regex-mt.so ){
-		message("Found libboost_regex-mt")
-		LIBS += -lboost_regex-mt
-	}
-	exists( /usr/lib64/libboost_regex-mt.so ){
-		message("Found libboost_regex-mt")
-		LIBS += -lboost_regex-mt
-	}
-	!exists( /usr/lib/libboost_regex-mt.so ){
-		exists( /usr/lib/libboost_regex.so ){
-			message("Found libboost_regex")
-			LIBS += -lboost_regex
-		}
-	}
-	!exists( /usr/lib64/libboost_regex-mt.so ){
-		exists( /usr/lib64/libboost_regex.so ){
-			message("Found libboost_regex")
-			LIBS += -lboost_regex
 		}
 	}
 

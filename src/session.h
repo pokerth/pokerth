@@ -70,6 +70,7 @@ public:
 	bool waitForNetworkServer(unsigned timeoutMsec);
 
 	void sendIrcChatMessage(const std::string &message);
+	void setIrcNick(const std::string &value) { myIrcNick = value; }
 
 	void sendClientPlayerAction();
 
@@ -90,6 +91,8 @@ public:
 private:
 
 	int currentGameNum;
+
+	std::string myIrcNick;
 
 	ClientThread *myNetClient;
 	ServerAcceptThread *myNetServer;

@@ -27,7 +27,6 @@
 #include <net/serveracceptthread.h>
 #include <net/ircthread.h>
 #include <core/avatarmanager.h>
-#include <boost/regex.hpp>
 
 #include <sstream>
 
@@ -149,20 +148,12 @@ void Session::startInternetClient()
 
 	if (myConfig->readConfigInt("UseIRCLobbyChat"))
 	{
-		//testing boost::regexp
-// 		boost::regex pattern (" ",boost::regex_constants::icase|boost::regex_constants::perl);
-// 		std::string stringa (myConfig->readConfigString("MyName"));
-// 		std::string replace ("");
-// 		std::string myNameNewString;
-// 		myNameNewString = boost::regex_replace (stringa, pattern, replace);
-		//testing boost:;regexp
-
 		myIrcThread = new IrcThread(*myGui);
 		myIrcThread->Init(
 			myConfig->readConfigString("IRCServerAddress"),
 			myConfig->readConfigInt("IRCServerPort"),
 			myConfig->readConfigInt("IRCServerUseIpv6") == 1,
-			myConfig->readConfigString("MyName"),
+			myIrcNick,
 			myConfig->readConfigString("IRCChannel"));
 		myIrcThread->Run();
 	}

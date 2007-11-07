@@ -3204,9 +3204,6 @@
                <property name="focusPolicy" >
                 <enum>Qt::NoFocus</enum>
                </property>
-               <property name="text" >
-                <string>Stop</string>
-               </property>
               </widget>
              </item>
             </layout>

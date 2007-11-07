@@ -21,6 +21,7 @@
 
 #include "newgamedialogimpl.h"
 #include "aboutpokerthimpl.h"
+#include "mymessagedialogimpl.h"
 #include "settingsdialogimpl.h"
 #include "selectavatardialogimpl.h"
 #include "joinnetworkgamedialogimpl.h"
@@ -76,6 +77,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
 	setupUi(this);
+
+	//hide until he isnt really used TODO
+	pushButton_backToLobby->hide();
 
 	//Player0 pixmapCardsLabel needs Myw
 	pixmapLabel_card0b->setMyW(this);
@@ -923,6 +927,30 @@ void mainWindowImpl::joinGameLobby() {
 
 	// Clear Lobby dialog.
 	myGameLobbyDialog->clearDialog();
+
+	//set clean irc nick
+	QString myNick(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+	myNick.replace(QString::fromUtf8("é"),"e");
+	myNick.replace(QString::fromUtf8("è"),"e");
+	myNick.replace(QString::fromUtf8("á"),"a");
+	myNick.replace(QString::fromUtf8("à"),"a");	
+	myNick.replace(QString::fromUtf8("ó"),"o");
+	myNick.replace(QString::fromUtf8("ò"),"o");
+	myNick.replace(QString::fromUtf8("ú"),"u");
+	myNick.replace(QString::fromUtf8("ù"),"u");
+	myNick.replace(QString::fromUtf8("É"),"E");
+	myNick.replace(QString::fromUtf8("È"),"E");
+	myNick.replace(QString::fromUtf8("Á"),"A");
+	myNick.replace(QString::fromUtf8("À"),"A");	
+	myNick.replace(QString::fromUtf8("Ó"),"O");
+	myNick.replace(QString::fromUtf8("Ò"),"O");
+	myNick.replace(QString::fromUtf8("Ú"),"U");
+	myNick.replace(QString::fromUtf8("Ù"),"U");
+	myNick.remove(QRegExp("[^A-Z^a-z^0-9|\\-_\\\\^]*"));
+	myNick = myNick.mid(0,16);
+
+ 	mySession->setIrcNick(myNick.toUtf8().constData());
+	
 	// Start client for dedicated server.
 	mySession->startInternetClient();
 	
@@ -2742,14 +2770,16 @@ void mainWindowImpl::postRiverRunAnimation6() {
 		}
 
 		if( !DEBUG_MODE ) {
-			currentGameOver = TRUE;
-	
-			pushButton_break->setDisabled(FALSE);
-			QFontMetrics tempMetrics = this->fontMetrics();
-			int width = tempMetrics.width(tr("Start"));
-			pushButton_break->setMinimumSize(width+10,20);
-			pushButton_break->setText(tr("Start"));
-			blinkingStartButtonAnimationTimer->start(500);		
+
+			if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) {
+				currentGameOver = TRUE;
+				pushButton_break->setDisabled(FALSE);
+				QFontMetrics tempMetrics = this->fontMetrics();
+				int width = tempMetrics.width(tr("Start"));
+				pushButton_break->setMinimumSize(width+10,20);
+				pushButton_break->setText(tr("Start"));
+				blinkingStartButtonAnimationTimer->start(500);		
+			}
 		}
 		else {
 			callNewGameDialog();	
@@ -2859,16 +2889,19 @@ void mainWindowImpl::startNewHand() {
 		mySession->getCurrentGame()->startHand();
 	}
 	else { 
-		pushButton_break->setDisabled(FALSE);
-		
-		QFontMetrics tempMetrics = this->fontMetrics();
-		int width = tempMetrics.width(tr("Start"));
-		pushButton_break->setMinimumSize(width+10,20);
 
-		pushButton_break->setText(tr("Start"));
-		breakAfterCurrentHand=FALSE;
-
-		blinkingStartButtonAnimationTimer->start(500);		
+		if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) {
+			pushButton_break->setDisabled(FALSE);
+			
+			QFontMetrics tempMetrics = this->fontMetrics();
+			int width = tempMetrics.width(tr("Start"));
+			pushButton_break->setMinimumSize(width+10,20);
+	
+			pushButton_break->setText(tr("Start"));
+			breakAfterCurrentHand=FALSE;
+	
+			blinkingStartButtonAnimationTimer->start(500);		
+		}
 	}
 }
 
@@ -2915,7 +2948,7 @@ void mainWindowImpl::nextRoundCleanGui() {
 	flipHolecardsAllInAlreadyDone = FALSE;
 
 	//Wenn Pause zwischen den Hands in der Konfiguration steht den Stop Button drücken!
-	if (myConfig->readConfigInt("PauseBetweenHands") && blinkingStartButtonAnimationTimer->isActive() == FALSE ) { 
+	if (myConfig->readConfigInt("PauseBetweenHands") && blinkingStartButtonAnimationTimer->isActive() == FALSE && mySession->getGameType() == Session::GAME_TYPE_LOCAL) { 
 		pushButton_break->click(); 
 	}
 	else { 
@@ -2925,14 +2958,15 @@ void mainWindowImpl::nextRoundCleanGui() {
 	}
 	
 	//Clean breakbutton
-	blinkingStartButtonAnimationTimer->stop();
-	pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
-	blinkingStartButtonAnimationTimer->stop();
-	QFontMetrics tempMetrics = this->fontMetrics();
-	int width = tempMetrics.width(tr("Stop"));
-	pushButton_break->setMinimumSize(width+10,20);
-       	pushButton_break->setText(tr("Stop"));
-	
+	if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) {
+		blinkingStartButtonAnimationTimer->stop();
+		pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
+		blinkingStartButtonAnimationTimer->stop();
+		QFontMetrics tempMetrics = this->fontMetrics();
+		int width = tempMetrics.width(tr("Stop"));
+		pushButton_break->setMinimumSize(width+10,20);
+		pushButton_break->setText(tr("Stop"));
+	}
 	//Clear Statusbarmessage
 	statusBar()->clearMessage();
 
@@ -3006,7 +3040,11 @@ void mainWindowImpl::breakButtonClicked() {
 		pushButton_break->setDisabled(TRUE);
 		breakAfterCurrentHand=TRUE;
 	}
-	else { 
+	else if (pushButton_break->text() == tr("Lobby")) {
+		leaveCurrentNetworkGame();
+	}
+	else if (pushButton_break->text() == tr("Start")) { 
+
 		blinkingStartButtonAnimationTimer->stop();
 		//Set default Color
 		pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
@@ -3336,8 +3374,10 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
  	if (event->key() == Qt::Key_F6) { radioButton_autoCheckFold->click(); }
   	if (event->key() == Qt::Key_F7) { radioButton_autoCheckCallAny->click(); }
 	if (event->key() == 16777249) {  //CTRL
-		pushButton_break->click(); 
-		ctrlPressed = TRUE;
+		if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) {
+			pushButton_break->click(); 
+			ctrlPressed = TRUE;
+		}
 	} 
 	if (event->key() == Qt::Key_Escape && (myActionIsBet || myActionIsRaise)) { 
 		meInAction(); 
@@ -3510,7 +3550,12 @@ void mainWindowImpl::localGameModification() {
 		setLabelArray[i]->stopTimeOutAnimation();
 	}
 
-	pushButton_break->show();
+// 	pushButton_break->show();
+	QFontMetrics tempMetrics = this->fontMetrics();
+	int width = tempMetrics.width(tr("Stop"));
+	pushButton_break->setText(tr("Stop"));
+	pushButton_break->setMinimumSize(width+10,20);
+
 	pushButton_backToLobby->hide();
 
 	//Set the playing mode to "manual"
@@ -3528,8 +3573,13 @@ void mainWindowImpl::networkGameModification() {
 	tabWidget_Left->setCurrentIndex(1);
 	myChat->clearNewGame();
 
-	pushButton_break->hide();
+// 	pushButton_break->hide();
 	pushButton_backToLobby->show();
+	
+	QFontMetrics tempMetrics = this->fontMetrics();
+	int width = tempMetrics.width(tr("Lobby"));
+	pushButton_break->setText(tr("Lobby"));
+	pushButton_break->setMinimumSize(width+10,20);
 	//Set the playing mode to "manual"
 	radioButton_manualAction->click();
 
@@ -3666,6 +3716,28 @@ void mainWindowImpl::changeSpinBoxBetValue(int value) {
 
 void mainWindowImpl::leaveCurrentNetworkGame() {
 
-	assert(mySession);
-	mySession->sendLeaveCurrentGame();
+	if (mySession->isNetworkClientRunning()) {
+
+		if(myConfig->readConfigInt("DisableBackToLobbyWarning")) {
+
+			assert(mySession);
+			mySession->sendLeaveCurrentGame();
+		}
+		else {
+			myMessageDialogImpl dialog(this);
+			dialog.setWindowTitle(tr("PokerTH - Internet Game Message"));
+			dialog.label_icon->setPixmap(QPixmap(myAppDataPath +"gfx/gui/misc/logoChip3D.png").scaled(50,50,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+			dialog.label->setText(tr("Attention! Do you really want to leave the current game \nand go back to lobby?"));
+				
+			if (dialog.exec() == QDialog::Accepted ) {
+			
+				if(dialog.checkBox->isChecked()) {
+					myConfig->writeConfigInt("DisableBackToLobbyWarning",1);
+					myConfig->writeBuffer();
+				}
+				assert(mySession);
+				mySession->sendLeaveCurrentGame();
+			}
+		}
+	}
 }
