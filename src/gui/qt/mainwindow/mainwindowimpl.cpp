@@ -3728,7 +3728,7 @@ void mainWindowImpl::leaveCurrentNetworkGame() {
 			myMessageDialogImpl dialog(this);
 			dialog.setWindowTitle(tr("PokerTH - Internet Game Message"));
 			dialog.label_icon->setPixmap(QPixmap(myAppDataPath +"gfx/gui/misc/logoChip3D.png").scaled(50,50,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-			dialog.label->setText(tr("Attention! Do you really want to leave the current game \nand go back to lobby?"));
+			dialog.label->setText(tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"));
 				
 			if (dialog.exec() == QDialog::Accepted ) {
 			
