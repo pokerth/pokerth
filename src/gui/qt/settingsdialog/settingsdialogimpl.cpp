@@ -181,6 +181,8 @@ void settingsDialogImpl::exec() {
 	checkBox_showBlindButtons->setChecked(myConfig->readConfigInt("ShowBlindButtons"));
 	checkBox_antiPeekMode->setChecked(myConfig->readConfigInt("AntiPeekMode"));
 	checkBox_alternateFKeysUserActionMode->setChecked(myConfig->readConfigInt("AlternateFKeysUserActionMode"));
+	checkBox_disableBetInputFocusSwitch->setChecked(myConfig->readConfigInt("DisableBetInputFocusSwitch"));
+
 	radioButton_flipsideTux->setChecked(myConfig->readConfigInt("FlipsideTux"));
 	radioButton_flipsideOwn->setChecked(myConfig->readConfigInt("FlipsideOwn"));
 	if(radioButton_flipsideOwn->isChecked()) { 
@@ -315,6 +317,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("ShowBlindButtons", checkBox_showBlindButtons->isChecked());
 	myConfig->writeConfigInt("AntiPeekMode", checkBox_antiPeekMode->isChecked());
 	myConfig->writeConfigInt("AlternateFKeysUserActionMode", checkBox_alternateFKeysUserActionMode->isChecked());
+	myConfig->writeConfigInt("DisableBetInputFocusSwitch", checkBox_disableBetInputFocusSwitch->isChecked());
 	myConfig->writeConfigInt("FlipsideTux", radioButton_flipsideTux->isChecked());
 	myConfig->writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());
 

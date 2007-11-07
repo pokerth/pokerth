@@ -1935,7 +1935,7 @@ void mainWindowImpl::meInAction() {
 	
 	horizontalSlider_bet->setEnabled(TRUE);
 	spinBox_set->setEnabled(TRUE);
-
+	
 	myActionIsRaise = 0;
 	myActionIsBet = 0;
 	
@@ -2023,6 +2023,11 @@ void mainWindowImpl::myBetRaise() {
 		myBet(); 
 	}
 	else {}
+
+	if(lineEdit_ChatInput->text() == "" && !myConfig->readConfigInt("DisableBetInputFocusSwitch")) { 
+		spinBox_set->setFocus();
+		spinBox_set->selectAll();
+	}
 }
 
 void mainWindowImpl::myCallCheck() {
@@ -2127,10 +2132,6 @@ void mainWindowImpl::myBet(){
 // 		spinBox_set->setValue(spinBox_set->minimum());
 	
 	horizontalSlider_bet->setSingleStep(10);
-	if(lineEdit_ChatInput->text() == "") { 
-		spinBox_set->setFocus();
-		spinBox_set->selectAll();
-	}
 
 	myActionIsBet = 1;
 }
@@ -2148,10 +2149,6 @@ void mainWindowImpl::myRaise(){
 // 		spinBox_set->setValue(spinBox_set->minimum());
 
 	horizontalSlider_bet->setSingleStep(10);
-	if(lineEdit_ChatInput->text() == "") { 
-		spinBox_set->setFocus();
-		spinBox_set->selectAll();
-	}
 
 	myActionIsRaise = 1;
 
@@ -3340,7 +3337,11 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	
 	bool ctrlPressed = FALSE;
 
-	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return ) { if(spinBox_set->hasFocus()) pushButton_BetRaise->click(); } //ENTER 
+	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return )  /*ENTER*/  { 
+		if(spinBox_set->hasFocus()) {
+			pushButton_BetRaise->click();
+		}
+	}
         if (event->key() == Qt::Key_F1) {
 		if (myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0) {
 			pushButton_Fold->click();

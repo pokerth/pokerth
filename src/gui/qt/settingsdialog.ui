@@ -151,7 +151,7 @@
          </property>
         </widget>
        </item>
-       <item row="12" column="0" >
+       <item row="13" column="0" >
         <widget class="QGroupBox" name="groupBox" >
          <property name="title" >
           <string>Flipside of Cards</string>
@@ -272,7 +272,7 @@ p, li { white-space: pre-wrap; }
          </layout>
         </widget>
        </item>
-       <item row="13" column="0" >
+       <item row="14" column="0" >
         <spacer>
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -284,6 +284,22 @@ p, li { white-space: pre-wrap; }
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="12" column="0" >
+        <widget class="QGroupBox" name="groupBox_5" >
+         <property name="title" >
+          <string>Network / Internet Game</string>
+         </property>
+         <layout class="QGridLayout" >
+          <item row="0" column="0" >
+           <widget class="QCheckBox" name="checkBox_disableBetInputFocusSwitch" >
+            <property name="text" >
+             <string>Don't switch keyboard focus to bet-input-field</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </widget>
