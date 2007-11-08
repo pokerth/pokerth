@@ -86,13 +86,12 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	pixmapLabel_card0a->setMyW(this);
 
 	//Flipside festlegen;
-	flipside = new QPixmap(myAppDataPath +"gfx/cards/default/flipside.png");
-	
 	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
-		QPixmap tmpFlipside(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
-		flipside = new QPixmap(tmpFlipside.scaled(QSize(80, 111),Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+		flipside = new QPixmap(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
 	}
-	else { flipside->load(myAppDataPath +"gfx/cards/default/flipside.png"); }
+	else { 
+		flipside = new QPixmap(myAppDataPath +"gfx/cards/default/flipside.png");
+	}
 
 	//Flipside Animation noch nicht erledigt
 	flipHolecardsAllInAlreadyDone = FALSE;
@@ -1019,11 +1018,11 @@ void mainWindowImpl::callSettingsDialog() {
 
 		//Flipside refresh
 		if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
-
-			QPixmap tmpFlipside(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
-			flipside = new QPixmap(tmpFlipside.scaled(QSize(57, 80)));
+			flipside = new QPixmap(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
 		}
-		else { flipside->load(myAppDataPath +"gfx/cards/default/flipside.png"); }
+		else { 
+			flipside = new QPixmap(myAppDataPath +"gfx/cards/default/flipside.png");
+		}
 
 		if(mySession->getCurrentGame()) {
 			//blind buttons refresh
@@ -1639,7 +1638,7 @@ void mainWindowImpl::dealFlopCards4() {
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
 		//mit Eye-Candy
-		boardCardsArray[0]->startFlipCards(guiGameSpeed, card, flipside);
+		boardCardsArray[0]->startFlipCards(guiGameSpeed, card, *flipside);
 	}
 	else {
 		//ohne Eye-Candy
@@ -1659,7 +1658,7 @@ void mainWindowImpl::dealFlopCards5() {
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
 		//mit Eye-Candy
-		boardCardsArray[1]->startFlipCards(guiGameSpeed, card, flipside);
+		boardCardsArray[1]->startFlipCards(guiGameSpeed, card, *flipside);
 	}
 	else {
 		//ohne Eye-Candy
@@ -1679,7 +1678,7 @@ void mainWindowImpl::dealFlopCards6() {
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
 		//mit Eye-Candy
-		boardCardsArray[2]->startFlipCards(guiGameSpeed, card, flipside);
+		boardCardsArray[2]->startFlipCards(guiGameSpeed, card, *flipside);
 	}
 	else {
 		//ohne Eye-Candy
@@ -1715,7 +1714,7 @@ void mainWindowImpl::dealTurnCards2() {
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
 		//mit Eye-Candy
-		boardCardsArray[3]->startFlipCards(guiGameSpeed, card, flipside);
+		boardCardsArray[3]->startFlipCards(guiGameSpeed, card, *flipside);
 	}
 	else {
 		//ohne Eye-Candy
@@ -1739,6 +1738,7 @@ void mainWindowImpl::dealRiverCards0() { dealRiverCards0Timer->start(preDealCard
 void mainWindowImpl::dealRiverCards1() {
 
 	boardCardsArray[4]->setPixmap(*flipside, TRUE);
+
 // 	QTimer::singleShot(dealCardsSpeed, this, SLOT( dealRiverCards2() ));
 	dealRiverCards1Timer->start(dealCardsSpeed);
 }
@@ -1754,7 +1754,7 @@ void mainWindowImpl::dealRiverCards2() {
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
 		//mit Eye-Candy
-		boardCardsArray[4]->startFlipCards(guiGameSpeed, card, flipside);
+		boardCardsArray[4]->startFlipCards(guiGameSpeed, card, *flipside);
 	}
 	else {
 		//ohne Eye-Candy
@@ -2485,7 +2485,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 						if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
 												
-								holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+								holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), *flipside);
 							}	
 						}
 						//set Player value (logging)
@@ -2828,7 +2828,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 					if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) { 
 						if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
-								holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), flipside);
+								holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), *flipside);
 							}
 						}
 						//set Player value (logging)

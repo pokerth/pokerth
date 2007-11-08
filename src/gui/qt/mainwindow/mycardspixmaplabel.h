@@ -36,13 +36,10 @@ public:
 	bool getFadeOutAction() const { return fadeOutAction;}
 	
 	void startFadeOut(int);
-	void startFlipCards(int, QPixmap, QPixmap*);
+	void startFlipCards(int, const QPixmap & , const QPixmap &);
 	void stopFlipCardsAnimation();
 	
 	void paintEvent(QPaintEvent * event);
-
-	QPixmap *front;
-	QPixmap *flipside;
 
 signals:
 	void signalFastFlipCards(bool);
@@ -51,7 +48,7 @@ signals:
 public slots:
 	
 	void setPixmap ( const QPixmap &, const bool );
-	void setFrontPixmap ( const QPixmap & );
+	void setFrontPixmap ( const QPixmap &);
 
 	void nextFadeOutFrame();
 	void nextFlipCardsFrame();
@@ -86,6 +83,8 @@ private:
 	bool mousePress;	
 	bool fastFlipCardsFront;	
 
+	QPixmap front;
+	QPixmap flipside;
 	QPixmap myHiddenFront;
 
 friend class mainWindowImpl;
