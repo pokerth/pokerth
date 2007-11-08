@@ -140,7 +140,7 @@
   (lambda (sock buf)
     (let ((ret (sctp-recvmsg! (car sock) buf)))
       (let ((info (list-ref ret 3))) ; Return number of bytes, stream # and PPID
-        (list (car ret) (ntohs (car info)) (ntohl (list-ref info 2)))))))
+        (list (car ret) (car info) (ntohl (list-ref info 2)))))))
 
  #!
 (sock-send (car (sock-accept (sock-bind-listen (sock-create-tcp AF_INET) "127.0.0.1" 5555 5))) "Hallo")

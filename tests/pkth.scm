@@ -263,10 +263,11 @@
 
 (define pkth-create-random-name
   (lambda ()
-    (let ((name (list 84 101 115 116)) (randstate (seed->random-state (cdr (gettimeofday)))))
-      (dotimes (n 10)
-               (append! name (list (+ 48 (random 10 randstate)))))
-      (bytes->string name))))
+    (let ((time (gettimeofday)))
+      (let ((name (list 84 101 115 116)) (randstate (seed->random-state (+ (car time) (cdr time)))))
+        (dotimes (n 10)
+                 (append! name (list (+ 48 (random 10 randstate)))))
+        (bytes->string name)))))
 
 (define pkth-create-init-ex
   (lambda (version-major version-minor privacy-flags avatar-md5 password player-name)
