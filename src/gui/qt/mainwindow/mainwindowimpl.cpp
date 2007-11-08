@@ -309,19 +309,19 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	font2String = "font-family: \"Bitstream Vera Sans\";";
 
 	//Schriftart und Schriftgrößen für Widgets festlegen 
-#ifdef _WIN32
-	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 11px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
-#else
-	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
-	
 // 	QScrollBar *myLogScrollBar = textBrowser_Log->verticalScrollBar();
 // 	myLogScrollBar->setStyleSheet("QScrollBar { border: 2px solid grey; background: #32CC99; height: 15px; margin: 0px 20px 0 20px;} QScrollBar::handle { background: white; min-width: 20px;} QScrollBar::add-line { border: 2px solid grey; background: #32CC99; width: 20px; subcontrol-position: right; subcontrol-origin: margin; } QScrollBar::sub-line {border: 2px solid grey; background: #32CC99; width: 20px; subcontrol-position: left; subcontrol-origin: margin;}");
 // 	textBrowser_Log->setVerticalScrollBar(myLogScrollBar);
 
 // 	textBrowser_Log->verticalScrollBar()->setAutoFillBackground ( TRUE );
+#ifdef _WIN32
+	QString fontsize= "11";
+#else
+	QString fontsize= "10";
 #endif
-	textBrowser_Chat->setStyleSheet("QTextBrowser { "+ font1String +" font-size: 10px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
-	lineEdit_ChatInput->setStyleSheet("QLineEdit { "+ font1String +" font-size: 10px; color: #F0F0F0; background-color: #1D3B00; border-top: 2px solid #286400; }");
+	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+fontsize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
+	textBrowser_Chat->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+fontsize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; }");
+	lineEdit_ChatInput->setStyleSheet("QLineEdit { "+ font1String +" font-size: "+fontsize+"px; color: #F0F0F0; background-color: #1D3B00; border-top: 2px solid #286400; }");
 
 
 #ifdef __APPLE__
@@ -3618,9 +3618,11 @@ void mainWindowImpl::updateMyButtonsState(int mode) {
 		myButtonsCheckable(FALSE);
 		clearMyButtons();
 	}
-	else {
-		myButtonsCheckable(TRUE);
-		provideMyActions(mode);
+	else {	
+		if(mySession->getCurrentGame()->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_ALLIN) { // dont show pre-actions after flip cards when allin
+			myButtonsCheckable(TRUE);
+			provideMyActions(mode);
+		}
 	}
 }
 
