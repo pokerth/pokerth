@@ -176,7 +176,7 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 
 	if (actionID == MSG_NET_GAME_CLIENT_START)
 	{
-		QTimer::singleShot(500, this, SLOT(accept()));
+		this->accept();
 	}
 }
 

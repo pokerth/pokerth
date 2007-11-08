@@ -78,9 +78,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	setupUi(this);
 
-	//hide until he isnt really used TODO
-	pushButton_backToLobby->hide();
-
 	//Player0 pixmapCardsLabel needs Myw
 	pixmapLabel_card0b->setMyW(this);
 	pixmapLabel_card0a->setMyW(this);
@@ -378,7 +375,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	pushButton_break->setStyleSheet("QPushButton:enabled { background-color: #145300; color: white;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
 
-	pushButton_backToLobby->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
+// 	pushButton_backToLobby->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
 	
 // 	horizontalSlider_speed->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #286400; height: 3px; background: #689700; } QSlider::handle:horizontal { background: #689700; border: 1px solid #286400; width: 10px; margin: -8px 0; border-radius: 3px; }");
 
@@ -525,9 +522,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect( pushButton_Fold, SIGNAL( clicked(bool) ), this, SLOT( pushButtonFoldClicked(bool) ) );
 	connect( pushButton_CallCheck, SIGNAL( clicked(bool) ), this, SLOT( pushButtonCallCheckClicked(bool) ) );
 	connect( pushButton_AllIn, SIGNAL( clicked(bool) ), this, SLOT(pushButtonAllInClicked(bool) ) );
-	connect( pushButton_backToLobby	, SIGNAL( clicked(bool) ), this, SLOT(leaveCurrentNetworkGame() ) );
-
-
+// 	connect( pushButton_backToLobby	, SIGNAL( clicked(bool) ), this, SLOT(leaveCurrentNetworkGame() ) );
 
 	connect( horizontalSlider_bet, SIGNAL( valueChanged(int)), this, SLOT ( changeSpinBoxBetValue(int) ) );
 	
@@ -3563,13 +3558,10 @@ void mainWindowImpl::localGameModification() {
 		setLabelArray[i]->stopTimeOutAnimation();
 	}
 
-// 	pushButton_break->show();
 	QFontMetrics tempMetrics = this->fontMetrics();
 	int width = tempMetrics.width(tr("Stop"));
 	pushButton_break->setText(tr("Stop"));
 	pushButton_break->setMinimumSize(width+10,20);
-
-	pushButton_backToLobby->hide();
 
 	//Set the playing mode to "manual"
 	radioButton_manualAction->click();
@@ -3586,9 +3578,6 @@ void mainWindowImpl::networkGameModification() {
 	tabWidget_Left->setCurrentIndex(1);
 	myChat->clearNewGame();
 
-// 	pushButton_break->hide();
-	pushButton_backToLobby->show();
-	
 	QFontMetrics tempMetrics = this->fontMetrics();
 	int width = tempMetrics.width(tr("Lobby"));
 	pushButton_break->setText(tr("Lobby"));
