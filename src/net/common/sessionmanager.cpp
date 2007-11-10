@@ -165,7 +165,8 @@ SessionManager::GetSessionByPlayerName(const string playerName) const
 		if (session_i->second.sessionData->GetState() != SessionData::Init)
 		{
 			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
-			assert(tmpPlayer.get());
+			if (!tmpPlayer.get())
+				throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 			if (tmpPlayer->GetName() == playerName)
 			{
 				tmpSession = session_i->second;
@@ -193,7 +194,8 @@ SessionManager::GetSessionByUniquePlayerId(unsigned uniqueId) const
 		if (session_i->second.sessionData->GetState() != SessionData::Init)
 		{
 			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
-			assert(tmpPlayer.get());
+			if (!tmpPlayer.get())
+				throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 			if (tmpPlayer->GetUniqueId() == uniqueId)
 			{
 				tmpSession = session_i->second;
@@ -221,8 +223,8 @@ SessionManager::GetPlayerDataList() const
 		if (session_i->second.sessionData->GetState() == SessionData::Game)
 		{
 			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
-			assert(tmpPlayer.get());
-			assert(!tmpPlayer->GetName().empty());
+			if (!tmpPlayer.get() || tmpPlayer->GetName().empty())
+				throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 			playerList.push_back(tmpPlayer);
 		}
 		++session_i;
@@ -351,7 +353,8 @@ SessionManager::SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPac
 
 	while (i != end)
 	{
-		assert(i->second.sessionData.get());
+		if (!i->second.sessionData.get())
+			throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 
 		// Send each client (with a certain state) a copy of the packet.
 		if (i->second.sessionData->GetState() == state)
@@ -370,7 +373,8 @@ SessionManager::SendToAllSessionsLowPrio(SenderThread &sender, boost::shared_ptr
 
 	while (i != end)
 	{
-		assert(i->second.sessionData.get());
+		if (!i->second.sessionData.get())
+			throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 
 		// Send each client (with a certain state) a copy of the packet.
 		if (i->second.sessionData->GetState() == state)

@@ -608,7 +608,8 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const NetPack
 void
 ServerLobbyThread::EstablishSession(SessionWrapper session)
 {
-	assert(session.playerData.get());
+	if (!session.playerData.get())
+		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 	// Send ACK to client.
 	boost::shared_ptr<NetPacket> initAck(new NetPacketInitAck);
 	NetPacketInitAck::Data initAckData;
@@ -640,7 +641,8 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 void
 ServerLobbyThread::RequestPlayerAvatar(SessionWrapper session)
 {
-	assert(session.playerData.get());
+	if (!session.playerData.get())
+		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 	// Ask the client to send its avatar.
 	boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
 	NetPacketRetrieveAvatar::Data retrieveAvatarData;

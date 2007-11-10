@@ -69,8 +69,8 @@ using namespace std;
 
 static void SendPlayerAction(ServerGameThread &server, boost::shared_ptr<PlayerInterface> player)
 {
-	assert(player);
-
+	if (!player.get())
+		throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
 	boost::shared_ptr<NetPacket> notifyActionDone(new NetPacketPlayersActionDone);
 	NetPacketPlayersActionDone::Data actionDoneData;
 	actionDoneData.gameState = server.GetCurRound();
@@ -648,7 +648,9 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 	// If round changes, deal cards if needed.
 	if (newRound != curRound && newRound != GAME_STATE_POST_RIVER)
 	{
-		assert(newRound > curRound);
+		if (newRound <= curRound)
+			throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_GAME_ROUND, 0);
+
 		// Retrieve non-fold players. If only one player is left, no cards are shown.
 		list<boost::shared_ptr<PlayerInterface> > nonFoldPlayers = *curGame.getActivePlayerList();
 		nonFoldPlayers.remove_if(boost::bind(&PlayerInterface::getMyAction, _1) == PLAYER_ACTION_FOLD);
@@ -696,7 +698,8 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 	{
 		if (newRound != GAME_STATE_POST_RIVER) // continue hand
 		{
-			assert (!curGame.getCurrentHand()->getAllInCondition()); // this would be an error.
+			if (curGame.getCurrentHand()->getAllInCondition())
+				throw ServerException(__FILE__, __LINE__, ERR_NET_INTERNAL_GAME_ERROR, 0);
 
 			// Retrieve current player.
 			boost::shared_ptr<PlayerInterface> curPlayer = curGame.getCurrentPlayer();
@@ -937,7 +940,8 @@ void
 ServerGameStateWaitPlayerAction::PerformPlayerAction(ServerGameThread &server, boost::shared_ptr<PlayerInterface> player, PlayerAction action, int bet)
 {
 	Game &curGame = server.GetGame();
-	assert(player);
+	if (!player.get())
+		throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
 	player->setMyAction(action);
 	// Only change the player bet if action is not fold/check
 	if (action != PLAYER_ACTION_FOLD && action != PLAYER_ACTION_CHECK)

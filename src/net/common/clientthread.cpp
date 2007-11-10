@@ -269,8 +269,8 @@ ClientThread::GetPlayerIdFromName(const string &playerName, unsigned &playerId) 
 	bool retVal = false;
 
 	boost::mutex::scoped_lock lock(m_playerInfoMapMutex);
-	PlayerInfoMap::const_iterator i = m_playerInfoMap.begin();
-	PlayerInfoMap::const_iterator end = m_playerInfoMap.end();
+	PlayerInfoMap::const_reverse_iterator i = m_playerInfoMap.rbegin();
+	PlayerInfoMap::const_reverse_iterator end = m_playerInfoMap.rend();
 
 	while (i != end)
 	{

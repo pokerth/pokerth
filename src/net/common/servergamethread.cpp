@@ -189,7 +189,8 @@ ServerGameThread::InternalStartGame()
 		++tmpPos;
 		++player_i;
 	}
-	assert(player_i != player_end);
+	if (player_i == player_end)
+		throw ServerException(__FILE__, __LINE__, ERR_NET_DEALER_NOT_FOUND, 0);
 
 	SetStartData(startData);
 
@@ -323,7 +324,8 @@ ServerGameThread::ResetComputerPlayerList()
 void
 ServerGameThread::GracefulRemoveSession(SessionWrapper session)
 {
-	assert(session.sessionData.get());
+	if (!session.sessionData.get())
+		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 	GetSessionManager().RemoveSession(session.sessionData->GetId());
 
 	boost::shared_ptr<PlayerData> tmpPlayerData = session.playerData;
@@ -378,7 +380,8 @@ ServerGameThread::ErrorRemoveSession(SessionWrapper session)
 void
 ServerGameThread::SessionError(SessionWrapper session, int errorCode)
 {
-	assert(session.sessionData.get());
+	if (!session.sessionData.get())
+		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 	ErrorRemoveSession(session);
 	GetLobbyThread().SessionError(session, errorCode);
 }
