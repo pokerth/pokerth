@@ -208,7 +208,9 @@ void
 ServerGameThread::InternalKickPlayer(unsigned playerId)
 {
 	SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(playerId);
-	MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_KICKED);
+	// Only kick if the player was found.
+	if (tmpSession.sessionData.get())
+		MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_KICKED);
 }
 
 PlayerDataList
