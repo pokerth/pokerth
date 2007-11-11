@@ -28,13 +28,22 @@
 #include <core/loghelper.h>
 #include <openssl/rand.h>
 
+#include <fstream>
 #include <boost/lambda/lambda.hpp>
+#include <boost/filesystem.hpp>
 
 #define SERVER_MAX_NUM_SESSIONS				512		// Maximum number of idle users in lobby.
 #define SERVER_CACHE_CLEANUP_INTERVAL_SEC	86400	// 1 day
+#define SERVER_SAVE_STATISTICS_INTERVAL_SEC	60
 #define SERVER_INIT_SESSION_TIMEOUT_SEC		20
 
 #define SERVER_COMPUTER_PLAYER_NAME			"Computer"
+
+#define SERVER_STATISTICS_FILE_NAME				"server_statistics.log"
+#define SERVER_STATISTICS_STR_TOTAL_PLAYERS		"TotalNumPlayersLoggedIn"
+#define SERVER_STATISTICS_STR_TOTAL_GAMES		"TotalNumGamesStarted"
+#define SERVER_STATISTICS_STR_MAX_GAMES			"MaxGamesRunning"
+#define SERVER_STATISTICS_STR_MAX_PLAYERS		"MaxPlayersLoggedIn"
 
 using namespace std;
 
@@ -60,7 +69,7 @@ private:
 ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager)
 : m_gui(gui), m_avatarManager(avatarManager), m_playerConfig(playerConfig),
   m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
-  m_totalPlayersLoggedIn(0), m_totalGamesStarted(0)
+  m_statDataChanged(false)
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
@@ -73,9 +82,20 @@ ServerLobbyThread::~ServerLobbyThread()
 }
 
 void
-ServerLobbyThread::Init(const string &pwd)
+ServerLobbyThread::Init(const string &pwd, const string &logDir)
 {
 	m_password = pwd;
+	// Read previous server statistics.
+	if (!logDir.empty())
+	{
+		boost::filesystem::path logPath(logDir);
+		if (!logDir.empty())
+		{
+			logPath /= SERVER_STATISTICS_FILE_NAME;
+			m_statisticsFileName = logPath.directory_string();
+			ReadStatisticsFile();
+		}
+	}
 }
 
 void
@@ -129,7 +149,7 @@ ServerLobbyThread::CloseSession(SessionWrapper session)
 	m_gameSessionManager.RemoveSession(session.sessionData->GetId());
 
 	// Update stats (if needed).
-	BroadcastStatisticsUpdate();
+	UpdateStatisticsNumberOfPlayers();
 }
 
 void
@@ -177,6 +197,14 @@ ServerLobbyThread::NotifyStartingGame(unsigned gameId)
 	boost::shared_ptr<NetPacket> packet = CreateNetPacketGameListUpdate(gameId, GAME_MODE_STARTED);
 	m_sessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Established);
 	m_gameSessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Game);
+
+	{
+		boost::mutex::scoped_lock lock(m_statMutex);
+		++m_statData.totalGamesEverStarted;
+		if (m_statData.totalGamesEverStarted > m_statData.maxGamesRunning)
+			m_statData.maxGamesRunning = m_statData.totalGamesEverStarted;
+		m_statDataChanged = true;
+	}
 }
 
 void
@@ -262,6 +290,8 @@ ServerLobbyThread::Main()
 			RemoveGameLoop();
 			// Cleanup cache.
 			CleanupAvatarCache();
+			// Save statistics if needed.
+			SaveStatisticsFile();
 		}
 	} catch (const PokerTHException &e)
 	{
@@ -632,10 +662,10 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 
 	{
 		boost::mutex::scoped_lock lock(m_statMutex);
-		++m_totalPlayersLoggedIn;
+		++m_statData.totalPlayersEverLoggedIn;
+		m_statDataChanged = true;
 	}
-
-	BroadcastStatisticsUpdate();
+	UpdateStatisticsNumberOfPlayers();
 }
 
 void
@@ -753,12 +783,6 @@ ServerLobbyThread::InternalAddGame(boost::shared_ptr<ServerGameThread> game)
 	// Notify all players.
 	m_sessionManager.SendToAllSessionsLowPrio(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Established);
 	m_gameSessionManager.SendToAllSessionsLowPrio(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Game);
-
-	{
-		boost::mutex::scoped_lock lock(m_statMutex);
-		++m_totalGamesStarted;
-	}
-	BroadcastStatisticsUpdate();
 }
 
 void
@@ -891,23 +915,32 @@ ServerLobbyThread::SendGameList(boost::shared_ptr<SessionData> s)
 }
 
 void
-ServerLobbyThread::BroadcastStatisticsUpdate()
+ServerLobbyThread::UpdateStatisticsNumberOfPlayers()
 {
-	boost::shared_ptr<NetPacket> packet(new NetPacketStatisticsChanged);
-	NetPacketStatisticsChanged::Data statData;
+	ServerStats stats;
 	unsigned curNumberOfPlayersOnServer = m_sessionManager.GetRawSessionCount() + m_gameSessionManager.GetRawSessionCount();
 	{
 		boost::mutex::scoped_lock lock(m_statMutex);
-		if (curNumberOfPlayersOnServer != m_lastStatData.numberOfPlayersOnServer)
-			m_lastStatData.numberOfPlayersOnServer = statData.stats.numberOfPlayersOnServer = curNumberOfPlayersOnServer;
-		if (m_totalPlayersLoggedIn != m_lastStatData.totalPlayersEverLoggedIn)
-			m_lastStatData.totalPlayersEverLoggedIn = statData.stats.totalPlayersEverLoggedIn = m_totalPlayersLoggedIn;
-		if (m_totalGamesStarted != m_lastStatData.totalGamesEverStarted)
-			m_lastStatData.totalGamesEverStarted = statData.stats.totalGamesEverStarted = m_totalGamesStarted;
+		if (curNumberOfPlayersOnServer != m_statData.numberOfPlayersOnServer)
+		{
+			m_statData.numberOfPlayersOnServer = stats.numberOfPlayersOnServer = curNumberOfPlayersOnServer;
+			if (curNumberOfPlayersOnServer > m_statData.maxPlayersLoggedIn)
+				m_statData.maxPlayersLoggedIn = curNumberOfPlayersOnServer;
+			m_statDataChanged = true;
+		}
 	}
+	// Do not send other stats than number of players for now.
+	BroadcastStatisticsUpdate(stats);
+}
 
-	if (curNumberOfPlayersOnServer)
+void
+ServerLobbyThread::BroadcastStatisticsUpdate(const ServerStats &stats)
+{
+	if (stats.numberOfPlayersOnServer)
 	{
+		boost::shared_ptr<NetPacket> packet(new NetPacketStatisticsChanged);
+		NetPacketStatisticsChanged::Data statData;
+		statData.stats = stats;
 		try {
 			static_cast<NetPacketStatisticsChanged *>(packet.get())->SetData(statData);
 
@@ -918,6 +951,58 @@ ServerLobbyThread::BroadcastStatisticsUpdate()
 			// Ignore errors for now.
 			//LOG_ERROR("ServerLobbyThread::BroadcastStatisticsUpdate: " << e.what());
 		}
+	}
+}
+
+void
+ServerLobbyThread::ReadStatisticsFile()
+{
+	ifstream i(m_statisticsFileName.c_str(), ios_base::in);
+
+	if (!i.fail() && !i.eof())
+	{
+		boost::mutex::scoped_lock lock(m_statMutex);
+		do
+		{
+			string statisticsType;
+			unsigned statisticsValue;
+			i >> statisticsType;
+			i >> statisticsValue;
+			if (statisticsType == SERVER_STATISTICS_STR_TOTAL_PLAYERS)
+				m_statData.totalPlayersEverLoggedIn = statisticsValue;
+			else if (statisticsType == SERVER_STATISTICS_STR_TOTAL_GAMES)
+				m_statData.totalGamesEverStarted = statisticsValue;
+			else if (statisticsType == SERVER_STATISTICS_STR_MAX_PLAYERS)
+				m_statData.maxPlayersLoggedIn = statisticsValue;
+			else if (statisticsType == SERVER_STATISTICS_STR_MAX_GAMES)
+				m_statData.maxGamesRunning = statisticsValue;
+		} while (!i.fail() && !i.eof());
+		m_statDataChanged = false;
+	}
+}
+
+void
+ServerLobbyThread::SaveStatisticsFile()
+{
+	if (m_saveStatisticsTimer.elapsed().total_seconds() > SERVER_SAVE_STATISTICS_INTERVAL_SEC)
+	{
+		{
+			boost::mutex::scoped_lock lock(m_statMutex);
+			if (m_statDataChanged)
+			{
+				ofstream o(m_statisticsFileName.c_str(), ios_base::out | ios_base::trunc);
+				if (!o.fail())
+				{
+					o << SERVER_STATISTICS_STR_TOTAL_PLAYERS " " << m_statData.totalPlayersEverLoggedIn << endl;
+					o << SERVER_STATISTICS_STR_TOTAL_GAMES " " << m_statData.totalGamesEverStarted << endl;
+					o << SERVER_STATISTICS_STR_MAX_PLAYERS " " << m_statData.maxPlayersLoggedIn << endl;
+					o << SERVER_STATISTICS_STR_MAX_GAMES " " << m_statData.maxGamesRunning << endl;
+					m_statDataChanged = false;
+				}
+			}
+		}
+		m_saveStatisticsTimer.reset();
+		m_saveStatisticsTimer.start();
 	}
 }
 

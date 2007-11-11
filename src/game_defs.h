@@ -69,10 +69,14 @@ enum Button {
 
 struct ServerStats
 {
-	ServerStats() : numberOfPlayersOnServer(0), totalPlayersEverLoggedIn(0), totalGamesEverStarted(0) {}
+	ServerStats()
+	: numberOfPlayersOnServer(0), totalPlayersEverLoggedIn(0), totalGamesEverStarted(0),
+	  maxGamesRunning(0), maxPlayersLoggedIn(0) {}
 	unsigned numberOfPlayersOnServer;
 	unsigned totalPlayersEverLoggedIn;
 	unsigned totalGamesEverStarted;
+	unsigned maxGamesRunning;
+	unsigned maxPlayersLoggedIn;
 };
 
 #endif

@@ -44,7 +44,7 @@ ServerAcceptThread::~ServerAcceptThread()
 }
 
 void
-ServerAcceptThread::Init(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd)
+ServerAcceptThread::Init(unsigned serverPort, bool ipv6, bool sctp, const string &pwd, const string &logDir)
 {
 	if (IsRunning())
 	{
@@ -60,7 +60,7 @@ ServerAcceptThread::Init(unsigned serverPort, bool ipv6, bool sctp, const std::s
 	context.SetAddrFamily(socket_has_dual_stack() ? AF_INET6 : (ipv6 ? AF_INET6 : AF_INET));
 	context.SetServerPort(serverPort);
 
-	GetLobbyThread().Init(pwd);
+	GetLobbyThread().Init(pwd, logDir);
 }
 
 ServerCallback &

@@ -261,7 +261,8 @@ void Session::startNetworkServer()
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
 		myConfig->readConfigInt("ServerUseSctp") == 1,
-		myConfig->readConfigString("ServerPassword"));
+		myConfig->readConfigString("ServerPassword"),
+		myConfig->readConfigString("LogDir"));
 	myNetServer->Run();
 }
 

@@ -42,7 +42,7 @@ public:
 	virtual ~ServerAcceptThread();
 
 	// Set the parameters.
-	void Init(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd);
+	void Init(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd, const std::string &logDir);
 
 	ServerCallback &GetCallback();
 	GuiInterface &GetGui();

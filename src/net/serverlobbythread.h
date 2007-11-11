@@ -49,7 +49,7 @@ public:
 	ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager);
 	virtual ~ServerLobbyThread();
 
-	void Init(const std::string &pwd);
+	void Init(const std::string &pwd, const std::string &logDir);
 
 	void AddConnection(boost::shared_ptr<ConnectData> data);
 	void ReAddSession(SessionWrapper session, int reason);
@@ -123,7 +123,11 @@ protected:
 	void SendError(boost::shared_ptr<SessionData> s, int errorCode);
 	void SendJoinGameFailed(boost::shared_ptr<SessionData> s, int reason);
 	void SendGameList(boost::shared_ptr<SessionData> s);
-	void BroadcastStatisticsUpdate();
+	void UpdateStatisticsNumberOfPlayers();
+	void BroadcastStatisticsUpdate(const ServerStats &stats);
+
+	void ReadStatisticsFile();
+	void SaveStatisticsFile();
 
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
@@ -167,6 +171,7 @@ private:
 	AvatarManager &m_avatarManager;
 
 	std::string m_password;
+	std::string m_statisticsFileName;
 	ConfigFile *m_playerConfig;
 	u_int32_t m_curGameId;
 
@@ -175,12 +180,12 @@ private:
 	mutable boost::mutex m_curUniquePlayerIdMutex;
 
 
-	ServerStats m_lastStatData;
-	unsigned m_totalPlayersLoggedIn;
-	unsigned m_totalGamesStarted;
+	ServerStats m_statData;
+	bool m_statDataChanged;
 	mutable boost::mutex m_statMutex;
 
 	boost::timers::portable::microsec_timer m_cacheCleanupTimer;
+	boost::timers::portable::microsec_timer m_saveStatisticsTimer;
 };
 
 #endif
