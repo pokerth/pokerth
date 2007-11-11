@@ -416,6 +416,21 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 {
 	{
 		boost::mutex::scoped_lock lock(m_playerInfoMapMutex);
+		// Remove previous player entry with different id
+		// for the same player name if it exists.
+		// This can only be one entry, since every time a duplicate
+		// name is added one is removed.
+		PlayerInfoMap::iterator i = m_playerInfoMap.begin();
+		PlayerInfoMap::iterator end = m_playerInfoMap.end();
+		while (i != end)
+		{
+			if (i->first != id && i->second.playerName == info.playerName)
+			{
+				m_playerInfoMap.erase(i);
+				break;
+			}
+			++i;
+		}
 		m_playerInfoMap[id] = info;
 	}
 
