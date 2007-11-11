@@ -1106,7 +1106,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 
 			tmpPlayer->setMyCash(endHandData.playerMoney);
 			tmpPlayer->setLastMoneyWon(endHandData.moneyWon);
-			list<int> winnerList;
+			list<unsigned> winnerList;
 			winnerList.push_back(tmpPlayer->getMyUniqueID());
 
 			curGame->getCurrentHand()->getBoard()->setPot(0);
@@ -1137,7 +1137,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			NetPacketEndOfHandShowCards::PlayerResultList::const_iterator end
 				= endHandData.playerResults.end();
 
-			list<int> winnerList;
+			list<unsigned> winnerList;
 			int highestValueOfCards = 0;
 			while (i != end)
 			{

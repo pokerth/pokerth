@@ -51,8 +51,8 @@ public:
 
 	void distributePot();
 
-	std::list<int> getWinners() const { return winners; }
-	void setWinners(const std::list<int> &w) { winners = w; }
+	std::list<unsigned> getWinners() const { return winners; }
+	void setWinners(const std::list<unsigned> &w) { winners = w; }
 
 
 private:
@@ -62,7 +62,7 @@ private:
 
 	HandInterface *currentHand;
 
-	std::list<int> winners;
+	std::list<unsigned> winners;
 
 	int myCards[5];
 	int pot;

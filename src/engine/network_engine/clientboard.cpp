@@ -118,7 +118,7 @@ ClientBoard::distributePot()
 
 }
 
-std::list<int>
+std::list<unsigned>
 ClientBoard::getWinners() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
@@ -126,7 +126,7 @@ ClientBoard::getWinners() const
 }
 
 void
-ClientBoard::setWinners(const std::list<int> &w)
+ClientBoard::setWinners(const std::list<unsigned> &w)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	winners = w;

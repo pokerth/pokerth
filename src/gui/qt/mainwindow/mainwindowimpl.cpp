@@ -2582,7 +2582,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 	} 
 
 
-	list<int> winners = currentHand->getBoard()->getWinners();
+	list<unsigned> winners = currentHand->getBoard()->getWinners();
 
 
 	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
@@ -2645,8 +2645,7 @@ void mainWindowImpl::postRiverRunAnimation3() {
 			}	
 			//Pot-Verteilung Loggen 
 			//Pro Spieler den Cash aus dem Player und dem Label auslesen. Player_cash - Label_cash = Gewinnsumme
-			bool toIntBool = TRUE;
-			int pot =  (*it_c)->getMyCash() - cashLabelArray[(*it_c)->getMyID()]->text().remove(" $").toInt(&toIntBool,10) ;
+			int pot = (*it_c)->getLastMoneyWon();
 			//Wenn River dann auch das Blatt loggen!
 // 			if (textLabel_handLabel->text() == "River") {
 
@@ -2670,14 +2669,13 @@ void mainWindowImpl::postRiverRunAnimation3() {
 	}
 
 	// log side pot winners -> TODO
-	list<int>::iterator it_int;
+	list<unsigned>::iterator it_int;
 	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
 		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() != currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
 			for(it_int = winners.begin(); it_int != winners.end(); it_int++) {
-				if((*it_int) == (*it_c)->getMyID()) {
-					bool toIntBool = TRUE;
-					int pot =  (*it_c)->getMyCash() - cashLabelArray[(*it_c)->getMyID()]->text().remove(" $").toInt(&toIntBool,10);
+				if((*it_int) == (*it_c)->getMyUniqueID()) {
+					int pot = (*it_c)->getLastMoneyWon();
 					(*it_c)->setMyWinnerState(false, pot);
 				}
 			}
