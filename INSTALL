@@ -20,7 +20,7 @@ Basic Installation
 
 Linux:
 
-  1. Type "cd path/to/the/sources". Then do "qmake" to configure the makefile for your system.
+  1. Type "cd path/to/the/sources". Then do for example "/usr/qt/4/bin/qmake" to configure the makefile for your system.
      Pay attention that the QTDIR environment varialbe points to Qt4 not Qt3. For example QTDIR=/usr/qt/4.
      You can set this variable typing: "export QTDIR=/usr/qt/4"
 
