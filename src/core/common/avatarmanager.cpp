@@ -359,7 +359,7 @@ AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFil
 				path tmpPath(cacheDir);
 				tmpPath /= (md5buf.ToString() + ext);
 				string fileName(tmpPath.file_string());
-				ofstream o(fileName.c_str(), ios_base::out | ios_base::binary);
+				ofstream o(fileName.c_str(), ios_base::out | ios_base::binary | ios_base::trunc);
 				if (!o.fail())
 				{
 					o.write((const char *)data, size);
