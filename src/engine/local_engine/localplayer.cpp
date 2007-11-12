@@ -1082,16 +1082,44 @@ void LocalPlayer::preflopEngine() {
 
 //	cout << myID << ": " << myHoleCardsValue << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << myCards[0] << " " << myCards[1] << endl;
 
-	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
-	it_c = currentHand->getActivePlayerIt(0);
-	if( it_c != currentHand->getActivePlayerList()->end() ) {
-		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
-			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
-			myNiveau[0] -= aggValue;
-			myNiveau[2] -= aggValue;
+	// count number of active human players
+	size_t countHumanPlayers = 0;
+	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+		if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN) {
+			countHumanPlayers++;
 		}
-
 	}
+	if(countHumanPlayers) {
+		// local or network game and only one human player is active --> set aggValue
+		if(countHumanPlayers == 1) {
+
+			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+				if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN &&  (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+					int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
+					myNiveau[0] -= aggValue;
+					myNiveau[2] -= aggValue;
+				}
+			}
+		// network game
+		} else {
+			myNiveau[0] -= 3;
+			myNiveau[2] -= 3;
+		}
+	}
+
+
+
+
+	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
+// 	it_c = currentHand->getActivePlayerIt(0);
+// 	if( it_c != currentHand->getActivePlayerList()->end() ) {
+// 		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
+// 			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
+// 			myNiveau[0] -= aggValue;
+// 			myNiveau[2] -= aggValue;
+// 		}
+// 
+// 	}
 
 	
 //	cout << "Spieler " << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << "\t Agg " << aggValue << " " << endl;
@@ -1363,7 +1391,7 @@ void LocalPlayer::flopEngine() {
 
 	int raise = 0;
 	int bet = 0;
-	int i;
+// 	int i;
 	int cBluff;
 	int pBluff;
 	int rand;
@@ -1387,17 +1415,46 @@ void LocalPlayer::flopEngine() {
 	int individualHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 	if(individualHighestSet > myCash) individualHighestSet = myCash;
 
-	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
-	it_c = currentHand->getActivePlayerIt(0);
-	if( it_c != currentHand->getActivePlayerList()->end() ) {
-		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
-			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
-			for(i=0; i<3; i++) {
-				myNiveau[i] -= aggValue;
-			}
-		}
 
+	// count number of active human players
+	size_t countHumanPlayers = 0;
+	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+		if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN) {
+			countHumanPlayers++;
+		}
 	}
+	if(countHumanPlayers) {
+		// local or network game and only one human player is active --> set aggValue
+		if(countHumanPlayers == 1) {
+
+			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+				if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN &&  (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+					int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
+					myNiveau[0] -= aggValue;
+					myNiveau[1] -= aggValue;
+					myNiveau[2] -= aggValue;
+				}
+			}
+		// network game
+		} else {
+			myNiveau[0] -= 3;
+			myNiveau[1] -= 3;
+			myNiveau[2] -= 3;
+		}
+	}
+
+
+	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
+// 	it_c = currentHand->getActivePlayerIt(0);
+// 	if( it_c != currentHand->getActivePlayerList()->end() ) {
+// 		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
+// 			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
+// 			for(i=0; i<3; i++) {
+// 				myNiveau[i] -= aggValue;
+// 			}
+// 		}
+// 
+// 	}
 
 
 	// Check-Bluff generieren
@@ -2000,7 +2057,7 @@ void LocalPlayer::turnEngine() {
 
 	int raise = 0;
 	int bet = 0;
-	int i;
+// 	int i;
 	int cBluff;
 	int pBluff;
 	int rand;
@@ -2016,17 +2073,45 @@ void LocalPlayer::turnEngine() {
 	// 3. Call -- Raise
 	myNiveau[2] = 69 + myDude4/* - 6*(currentHand->getActivePlayerList().size() - 2)*/;
 
-	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
-	it_c = currentHand->getActivePlayerIt(0);
-	if( it_c != currentHand->getActivePlayerList()->end() ) {
-		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
-			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
-			for(i=0; i<3; i++) {
-				myNiveau[i] -= aggValue;
-			}
+	// count number of active human players
+	size_t countHumanPlayers = 0;
+	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+		if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN) {
+			countHumanPlayers++;
 		}
-
 	}
+	if(countHumanPlayers) {
+		// local or network game and only one human player is active --> set aggValue
+		if(countHumanPlayers == 1) {
+
+			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+				if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN &&  (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+					int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
+					myNiveau[0] -= aggValue;
+					myNiveau[1] -= aggValue;
+					myNiveau[2] -= aggValue;
+				}
+			}
+		// network game
+		} else {
+			myNiveau[0] -= 3;
+			myNiveau[1] -= 3;
+			myNiveau[2] -= 3;
+		}
+	}
+
+
+	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
+// 	it_c = currentHand->getActivePlayerIt(0);
+// 	if( it_c != currentHand->getActivePlayerList()->end() ) {
+// 		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
+// 			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
+// 			for(i=0; i<3; i++) {
+// 				myNiveau[i] -= aggValue;
+// 			}
+// 		}
+// 
+// 	}
 
 
 	
@@ -2394,7 +2479,7 @@ void LocalPlayer::riverEngine() {
 
 	int raise = 0;
 	int bet = 0;
-	int i;
+// 	int i;
 	int rand;
 	int pBluff;
 	PlayerListConstIterator it_c;
@@ -2409,17 +2494,45 @@ void LocalPlayer::riverEngine() {
 	// 3. Call -- Raise
 	myNiveau[2] = 69 + myDude4/* - 6*(currentHand->getActivePlayerList().size() - 2)*/;
 
-	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
-	it_c = currentHand->getActivePlayerIt(0);
-	if( it_c != currentHand->getActivePlayerList()->end() ) {
-		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
-			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
-			for(i=0; i<3; i++) {
-				myNiveau[i] -= aggValue;
-			}
-		}
 
+	// count number of active human players
+	size_t countHumanPlayers = 0;
+	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+		if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN) {
+			countHumanPlayers++;
+		}
 	}
+	if(countHumanPlayers) {
+		// local or network game and only one human player is active --> set aggValue
+		if(countHumanPlayers == 1) {
+
+			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+				if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN &&  (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+					int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
+					myNiveau[0] -= aggValue;
+					myNiveau[1] -= aggValue;
+					myNiveau[2] -= aggValue;
+				}
+			}
+		// network game
+		} else {
+			myNiveau[0] -= 3;
+			myNiveau[1] -= 3;
+			myNiveau[2] -= 3;
+		}
+	}
+
+	// Aggresivität des humanPlayers auslesen -> nur wenn er aktiv ist !
+// 	it_c = currentHand->getActivePlayerIt(0);
+// 	if( it_c != currentHand->getActivePlayerList()->end() ) {
+// 		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
+// 			int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
+// 			for(i=0; i<3; i++) {
+// 				myNiveau[i] -= aggValue;
+// 			}
+// 		}
+// 
+// 	}
 
 
 	

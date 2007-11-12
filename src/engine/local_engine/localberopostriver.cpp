@@ -57,13 +57,21 @@ void LocalBeRoPostRiver::postRiverRun() {
 		}
 	}
 
-	// prüfen ob nur noch der human player an der verteilung teilnimmt und myAggressive für human player setzen
-	it = getMyHand()->getActivePlayerIt(0);
-	if( it != getMyHand()->getActivePlayerList()->end() ) {
-		if( potPlayers == 1 && (*it)->getMyAction() != PLAYER_ACTION_FOLD ) {
-			(*it)->setMyAggressive(true);
+	// prüfen ob nur noch human player an der verteilung teilnimmt und myAggressive für human player setzen
+	if(potPlayers == 1) {
+		for(it=getMyHand()->getActivePlayerList()->begin(); it!=getMyHand()->getActivePlayerList()->end(); it++) {
+			if( (*it)->getMyAction() != PLAYER_ACTION_FOLD) {
+				(*it)->setMyAggressive(true);
+			}
 		}
 	}
+
+// 	it = getMyHand()->getActivePlayerIt(0);
+// 	if( it != getMyHand()->getActivePlayerList()->end() ) {
+// 		if( potPlayers == 1 && (*it)->getMyAction() != PLAYER_ACTION_FOLD ) {
+// 			(*it)->setMyAggressive(true);
+// 		}
+// 	}
 
 	// Pot-Verteilung
 	getMyHand()->getBoard()->distributePot();

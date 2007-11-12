@@ -37,7 +37,6 @@ public:
 	void run();
 
 	void postRiverRun();
-// 	void distributePot();
 
 private:
 
