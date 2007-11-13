@@ -271,12 +271,6 @@ void StartSplash::paintEvent(QPaintEvent * /*event*/) {
 
 	}
 
-	if(frameNo >=190) { 
-		this->hide();
-// 		myW->label_logo->show(); 
-
-	}
-
 	//even draw version number
 	painter.setOpacity(1.0);
 	painter.setFont(versionFont);
@@ -284,5 +278,10 @@ void StartSplash::paintEvent(QPaintEvent * /*event*/) {
 	painter.drawText(295,230,100,20,4,"Version 0.6-beta");
 	painter.setOpacity(opacity);
 
+	if(frameNo >=190) { 
+		this->close();
+// 		myW->label_logo->show(); 
+
+	}
 }
 
