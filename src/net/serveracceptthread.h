@@ -25,7 +25,6 @@
 #include <core/thread.h>
 #include <gui/guiinterface.h>
 #include <string>
-#include <memory>
 
 class ServerContext;
 class ServerLobbyThread;
@@ -61,8 +60,8 @@ protected:
 	ServerLobbyThread &GetLobbyThread();
 
 private:
-	std::auto_ptr<ServerContext> m_context;
-	std::auto_ptr<ServerLobbyThread> m_lobbyThread;
+	boost::shared_ptr<ServerContext> m_context;
+	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
 
 	GuiInterface &m_gui;
 };

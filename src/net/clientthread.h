@@ -26,7 +26,6 @@
 #include <playerdata.h>
 #include <gamedata.h>
 #include <string>
-#include <memory>
 #include <boost/shared_ptr.hpp>
 
 class ClientContext;
@@ -151,14 +150,14 @@ private:
 	NetPacketList m_outPacketList;
 	mutable boost::mutex m_outPacketListMutex;
 
-	std::auto_ptr<ClientContext> m_context;
-	std::auto_ptr<ClientSenderCallback> m_senderCallback;
+	boost::shared_ptr<ClientContext> m_context;
+	boost::shared_ptr<ClientSenderCallback> m_senderCallback;
 	ClientState *m_curState;
 	GuiInterface &m_gui;
 	AvatarManager &m_avatarManager;
 
-	std::auto_ptr<SenderThread> m_sender;
-	std::auto_ptr<ReceiverHelper> m_receiver;
+	boost::shared_ptr<SenderThread> m_sender;
+	boost::shared_ptr<ReceiverHelper> m_receiver;
 
 	GameData m_gameData;
 	StartData m_startData;

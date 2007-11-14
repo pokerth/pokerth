@@ -164,8 +164,8 @@ private:
 
 	GameMap m_gameMap;
 
-	std::auto_ptr<ReceiverHelper> m_receiver;
-	std::auto_ptr<SenderThread> m_sender;
+	boost::shared_ptr<ReceiverHelper> m_receiver;
+	boost::shared_ptr<SenderThread> m_sender;
 	boost::shared_ptr<ServerSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
 	AvatarManager &m_avatarManager;

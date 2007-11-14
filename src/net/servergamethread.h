@@ -133,8 +133,8 @@ private:
 	mutable boost::mutex m_adminPlayerIdMutex;
 
 	ServerLobbyThread &m_lobbyThread;
-	std::auto_ptr<ReceiverHelper> m_receiver;
-	std::auto_ptr<SenderThread> m_sender;
+	boost::shared_ptr<ReceiverHelper> m_receiver;
+	boost::shared_ptr<SenderThread> m_sender;
 	boost::shared_ptr<GameSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
 

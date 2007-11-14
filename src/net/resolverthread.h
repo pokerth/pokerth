@@ -23,7 +23,7 @@
 
 #include <core/thread.h>
 #include <string>
-#include <memory>
+#include <boost/shared_ptr.hpp>
 
 class ClientContext;
 
@@ -53,7 +53,7 @@ protected:
 
 private:
 
-	std::auto_ptr<ClientContext> m_context;
+	boost::shared_ptr<ClientContext> m_context;
 	bool m_retVal;
 };
 
