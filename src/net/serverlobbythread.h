@@ -84,6 +84,7 @@ protected:
 	typedef std::map<SessionId, boost::timers::portable::microsec_timer> InitTimerSessionMap;
 	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
 	typedef std::list<unsigned> RemoveGameList;
+	typedef std::list<boost::shared_ptr<SenderThread> > SenderThreadList;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -166,6 +167,7 @@ private:
 
 	boost::shared_ptr<ReceiverHelper> m_receiver;
 	boost::shared_ptr<SenderThread> m_sender;
+	SenderThreadList m_avatarSenderThreadPool;
 	boost::shared_ptr<ServerSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
 	AvatarManager &m_avatarManager;
@@ -186,6 +188,7 @@ private:
 
 	boost::timers::portable::microsec_timer m_cacheCleanupTimer;
 	boost::timers::portable::microsec_timer m_saveStatisticsTimer;
+	boost::timers::portable::microsec_timer m_uptimeTimer;
 };
 
 #endif

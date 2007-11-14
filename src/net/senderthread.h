@@ -43,6 +43,9 @@ public:
 	void SendLowPrio(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 	void SendLowPrio(boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
 
+	unsigned GetNumPacketsInQueue() const;
+	bool operator<(const SenderThread &other) const;
+
 protected:
 	typedef std::pair<boost::shared_ptr<NetPacket>, boost::shared_ptr<SessionData> > SendData;
 	typedef std::deque<SendData> SendDataDeque;
@@ -68,6 +71,7 @@ private:
 	char m_tmpOutBuf[MAX_PACKET_SIZE];
 	unsigned m_tmpOutBufSize;
 	bool m_tmpIsLowPrio;
+	unsigned m_lastInvalidSessionId;
 
 	SenderCallback &m_callback;
 };

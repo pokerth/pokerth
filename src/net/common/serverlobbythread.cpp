@@ -29,13 +29,17 @@
 #include <openssl/rand.h>
 
 #include <fstream>
+#include <algorithm>
 #include <boost/lambda/lambda.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/bind.hpp>
 
 #define SERVER_MAX_NUM_SESSIONS				512		// Maximum number of idle users in lobby.
 #define SERVER_CACHE_CLEANUP_INTERVAL_SEC	86400	// 1 day
 #define SERVER_SAVE_STATISTICS_INTERVAL_SEC	60
 #define SERVER_INIT_SESSION_TIMEOUT_SEC		20
+
+#define SERVER_NUM_AVATAR_SENDER_THREADS	5
 
 #define SERVER_COMPUTER_PLAYER_NAME			"Computer"
 
@@ -73,6 +77,8 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
+	for (int i = 0; i < SERVER_NUM_AVATAR_SENDER_THREADS; i++)
+		m_avatarSenderThreadPool.push_back(boost::shared_ptr<SenderThread>(new SenderThread(GetSenderCallback())));
 	m_receiver.reset(new ReceiverHelper);
 }
 
@@ -273,6 +279,7 @@ void
 ServerLobbyThread::Main()
 {
 	GetSender().Run();
+	for_each(m_avatarSenderThreadPool.begin(), m_avatarSenderThreadPool.end(), boost::mem_fn(&SenderThread::Run));
 
 	try
 	{
@@ -302,8 +309,10 @@ ServerLobbyThread::Main()
 	TerminateGames();
 
 	GetSender().SignalTermination();
-	if (!GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT))
-		LOG_ERROR("Fatal error: Unable to terminated Sender Thread in Lobby.");
+	for_each(m_avatarSenderThreadPool.begin(), m_avatarSenderThreadPool.end(), boost::mem_fn(&SenderThread::SignalTermination));
+
+	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);
+	for_each(m_avatarSenderThreadPool.begin(), m_avatarSenderThreadPool.end(), boost::bind(&SenderThread::Join, _1, SENDER_THREAD_TERMINATE_TIMEOUT));
 
 	CleanupConnectQueue();
 }
@@ -564,7 +573,11 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(SessionWrapper session, const N
 		if (GetAvatarManager().AvatarFileToNetPackets(tmpFile, request.requestId, tmpPackets) == 0)
 		{
 			avatarFound = true;
-			GetSender().SendLowPrio(session.sessionData, tmpPackets);
+			SenderThreadList::iterator pos = min_element(m_avatarSenderThreadPool.begin(), m_avatarSenderThreadPool.end(), *boost::lambda::_1 < *boost::lambda::_2);
+			if (pos != m_avatarSenderThreadPool.end())
+				(*pos)->SendLowPrio(session.sessionData, tmpPackets);
+			else
+				LOG_ERROR("Load balancing for avatar sender threads failed.");
 		}
 		else
 			LOG_ERROR("Failed to read avatar file for network transmission.");

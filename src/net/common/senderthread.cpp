@@ -21,6 +21,7 @@
 #include <net/sendercallback.h>
 #include <net/socket_msg.h>
 #include <net/socket_helper.h>
+#include <core/loghelper.h>
 #include <cstring>
 #include <cassert>
 
@@ -29,8 +30,7 @@
 
 using namespace std;
 
-#define SEND_ERROR_NORMAL_TIMEOUT_MSEC		20000
-#define SEND_ERROR_LOW_PRIO_TIMEOUT_MSEC	10000
+#define SEND_ERROR_TIMEOUT_MSEC				20000
 #define SEND_TIMEOUT_MSEC					10
 #ifdef POKERTH_DEDICATED_SERVER
 	#define SEND_QUEUE_SIZE						10000
@@ -41,7 +41,7 @@ using namespace std;
 #endif
 
 SenderThread::SenderThread(SenderCallback &cb)
-: m_tmpOutBufSize(0), m_tmpIsLowPrio(false), m_callback(cb)
+: m_tmpOutBufSize(0), m_lastInvalidSessionId(INVALID_SESSION), m_callback(cb)
 {
 }
 
@@ -89,6 +89,27 @@ SenderThread::SendLowPrio(boost::shared_ptr<SessionData> session, const NetPacke
 	}
 }
 
+unsigned
+SenderThread::GetNumPacketsInQueue() const
+{
+	unsigned numPackets;
+	{
+		boost::mutex::scoped_lock lock(m_lowPrioOutBufMutex);
+		numPackets = m_lowPrioOutBuf.size();
+	}
+	{
+		boost::mutex::scoped_lock lock(m_outBufMutex);
+		numPackets += m_outBuf.size();
+	}
+	return numPackets;
+}
+
+bool
+SenderThread::operator<(const SenderThread &other) const
+{
+	return GetNumPacketsInQueue() < other.GetNumPacketsInQueue();
+}
+
 void
 SenderThread::InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
@@ -133,6 +154,7 @@ SenderThread::Main()
 		// For reasons of simplicity, only one packet is sent at a time.
 		if (!m_tmpOutBufSize)
 		{
+			bool isLowPrio = false;
 			SendData tmpData;
 			// Check main queue first.
 			{
@@ -141,7 +163,6 @@ SenderThread::Main()
 				{
 					tmpData = m_outBuf.front();
 					m_outBuf.pop_front();
-					m_tmpIsLowPrio = false;
 				}
 			}
 
@@ -153,13 +174,13 @@ SenderThread::Main()
 				{
 					tmpData = m_lowPrioOutBuf.front();
 					m_lowPrioOutBuf.pop_front();
-					m_tmpIsLowPrio = true;
+					isLowPrio = true;
 				}
 			}
 
-			if (tmpData.first.get())
+			if (tmpData.first.get() && tmpData.second.get())
 			{
-				if (tmpData.second.get())
+				if (!isLowPrio || tmpData.second->GetId() != m_lastInvalidSessionId)
 				{
 					u_int16_t tmpLen = tmpData.first->GetLen();
 					if (tmpLen <= MAX_PACKET_SIZE)
@@ -243,21 +264,13 @@ SenderThread::Main()
 		// Check whether the send timed out.
 		if (sendTimer.is_running())
 		{
-			bool doRemove = false;
-
-			unsigned msec = static_cast<unsigned>(sendTimer.elapsed().total_milliseconds());
-			if (m_tmpIsLowPrio)
+			if (sendTimer.elapsed().total_milliseconds() > SEND_ERROR_TIMEOUT_MSEC)
 			{
-				if (msec > SEND_ERROR_LOW_PRIO_TIMEOUT_MSEC)
-					doRemove = true;
-			}
-			else
-			{
-				if (msec > SEND_ERROR_NORMAL_TIMEOUT_MSEC)
-					doRemove = true;
-			}
-			if (doRemove)
-			{
+				if (m_curSession.get())
+				{
+					m_lastInvalidSessionId = m_curSession->GetId();
+					LOG_MSG("Send operation for session " << m_lastInvalidSessionId << " timed out.");
+				}
 				RemoveCurSendData();
 				sendTimer.reset();
 			}
