@@ -62,8 +62,6 @@ using namespace std;
 	#define SERVER_COMPUTER_ACTION_DELAY_SEC		2
 #endif
 
-#define SERVER_COMPUTER_PLAYER_NAME				"Computer"
-
 // Helper functions
 // TODO: these are hacks.
 

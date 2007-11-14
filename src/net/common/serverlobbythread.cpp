@@ -41,8 +41,6 @@
 
 #define SERVER_NUM_AVATAR_SENDER_THREADS	5
 
-#define SERVER_COMPUTER_PLAYER_NAME			"Computer"
-
 #define SERVER_STATISTICS_FILE_NAME				"server_statistics.log"
 #define SERVER_STATISTICS_STR_TOTAL_PLAYERS		"TotalNumPlayersLoggedIn"
 #define SERVER_STATISTICS_STR_TOTAL_GAMES		"TotalNumGamesStarted"

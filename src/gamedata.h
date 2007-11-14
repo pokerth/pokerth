@@ -23,6 +23,8 @@
 
 #include <playerdata.h>
 
+#define SERVER_COMPUTER_PLAYER_NAME			"Computer"
+
 enum GameMode
 {
 	GAME_MODE_CREATED = 1,

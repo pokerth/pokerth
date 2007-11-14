@@ -420,16 +420,20 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 		// for the same player name if it exists.
 		// This can only be one entry, since every time a duplicate
 		// name is added one is removed.
-		PlayerInfoMap::iterator i = m_playerInfoMap.begin();
-		PlayerInfoMap::iterator end = m_playerInfoMap.end();
-		while (i != end)
+		// Only erase non computer player entries.
+		if (info.playerName.substr(0, sizeof(SERVER_COMPUTER_PLAYER_NAME) - 1) != SERVER_COMPUTER_PLAYER_NAME)
 		{
-			if (i->first != id && i->second.playerName == info.playerName)
+			PlayerInfoMap::iterator i = m_playerInfoMap.begin();
+			PlayerInfoMap::iterator end = m_playerInfoMap.end();
+			while (i != end)
 			{
-				m_playerInfoMap.erase(i);
-				break;
+				if (i->first != id && i->second.playerName == info.playerName)
+				{
+					m_playerInfoMap.erase(i);
+					break;
+				}
+				++i;
 			}
-			++i;
 		}
 		m_playerInfoMap[id] = info;
 	}
