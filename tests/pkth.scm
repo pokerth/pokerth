@@ -696,7 +696,7 @@
 
 (define pkth-send-message
   (lambda (socket message)
-    (msg-display message helper-direction-send)
+    ;(msg-display message helper-direction-send)
     (pkth-send-message-nolog socket message)))
 
 ; The recv function for PKTH is somewhat more complicated, because
@@ -717,7 +717,7 @@
                             (set! helper-var-recv-buf (string-drop helper-var-recv-buf packetlen))
                             (set! ret (string->bytes packet))
                             (test-assert (pkth-is-valid-type? ret) "Invalid PKTH message type.")
-                            (msg-display ret helper-direction-recv)
+                            ;(msg-display ret helper-direction-recv)
                             )))))))
           (if (not abort)
               (let ((buf (make-string pkth-buf-length)))
