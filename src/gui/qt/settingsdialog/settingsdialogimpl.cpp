@@ -167,6 +167,7 @@ void settingsDialogImpl::exec() {
 	lineEdit_IRCServerAddress->setText(QString::fromUtf8(myConfig->readConfigString("IRCServerAddress").c_str()));
 	spinBox_IRCServerPort->setValue(myConfig->readConfigInt("IRCServerPort"));
 	lineEdit_IRCChannel->setText(QString::fromUtf8(myConfig->readConfigString("IRCChannel").c_str()));
+	lineEdit_IRCChannelPassword->setText(QString::fromUtf8(myConfig->readConfigString("IRCChannelPassword").c_str()));
 	checkBox_IRCServerUseIpv6->setChecked(myConfig->readConfigInt("IRCServerUseIpv6"));
 
 	//Interface
@@ -304,6 +305,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigString("IRCServerAddress", lineEdit_IRCServerAddress->text().toUtf8().constData());
 	myConfig->writeConfigInt("IRCServerPort", spinBox_IRCServerPort->value());
 	myConfig->writeConfigString("IRCChannel", lineEdit_IRCChannel->text().toUtf8().constData());
+	myConfig->writeConfigString("IRCChannelPassword", lineEdit_IRCChannelPassword->text().toUtf8().constData());
 	myConfig->writeConfigInt("IRCServerUseIpv6", checkBox_IRCServerUseIpv6->isChecked());
 	
 // 	Interface
