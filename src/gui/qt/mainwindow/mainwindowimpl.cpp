@@ -62,7 +62,7 @@
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
-     : QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(FALSE), pushButtonCallCheckIsChecked(FALSE), pushButtonFoldIsChecked(FALSE), pushButtonAllInIsChecked(FALSE), myButtonsAreCheckable(FALSE), breakAfterCurrentHand(FALSE), currentGameOver(FALSE)
+     : QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(FALSE), pushButtonCallCheckIsChecked(FALSE), pushButtonFoldIsChecked(FALSE), pushButtonAllInIsChecked(FALSE), myButtonsAreCheckable(FALSE), breakAfterCurrentHand(FALSE), currentGameOver(FALSE), myLastPreActionBetValue(0)
 {
 	int i;
 
@@ -525,6 +525,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 // 	connect( pushButton_backToLobby	, SIGNAL( clicked(bool) ), this, SLOT(leaveCurrentNetworkGame() ) );
 
 	connect( horizontalSlider_bet, SIGNAL( valueChanged(int)), this, SLOT ( changeSpinBoxBetValue(int) ) );
+	connect( spinBox_set, SIGNAL( valueChanged(int)), this, SLOT ( spinBoxBetValueChanged(int) ) );
 	
 	connect( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
 	connect( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
@@ -1929,6 +1930,10 @@ void mainWindowImpl::provideMyActions(int mode) {
 		pushButton_AllIn->setText("All-In");
 
 		myBetRaise();
+
+		//bet-raise pre-action 
+
+		
 	}
 }
 
@@ -3720,6 +3725,11 @@ void mainWindowImpl::changeSpinBoxBetValue(int value) {
 		spinBox_set->setValue((int)((value/10)*10));
 	else
 		spinBox_set->setValue((int)((value/50)*50));
+}
+
+void mainWindowImpl::spinBoxBetValueChanged(int) {
+
+	if(pushButton_BetRaise->isChecked() && pushButton_BetRaise->isCheckable()) pushButton_BetRaise->click();
 }
 
 void mainWindowImpl::leaveCurrentNetworkGame() {

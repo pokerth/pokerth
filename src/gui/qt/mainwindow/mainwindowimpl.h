@@ -326,6 +326,7 @@ public slots:
 
 	void changePlayingMode();
 	void changeSpinBoxBetValue(int);
+	void spinBoxBetValueChanged(int);
 	
 	void showMaximized ();
 	void quitPokerTH();
@@ -458,6 +459,7 @@ private:
 	QSemaphore guiUpdateSemaphore;
 
 	int keyUpDownChatCounter;
+	int myLastPreActionBetValue;
 	
 
 friend class GuiWrapper;
