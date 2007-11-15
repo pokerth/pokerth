@@ -1198,7 +1198,7 @@ Would you like to overwrite ?</source>
     <message>
         <location filename="E:/src/gui/qt/mainwindow.ui" line="2814"/>
         <source>Log</source>
-        <translation>Журнал сообщений</translation>
+        <translation>Журнал</translation>
     </message>
     <message>
         <location filename="E:/src/gui/qt/mainwindow.ui" line="3234"/>
@@ -1358,12 +1358,12 @@ Would you like to overwrite ?</source>
     <message>
         <location filename="E:/src/gui/qt/mainwindow.ui" line="2871"/>
         <source>Auto-Check / Auto-Fold</source>
-        <translation>Автоматический режим: всегда пропускать / сбрасывать</translation>
+        <translation>Автопропуск / Автосброс</translation>
     </message>
     <message>
         <location filename="E:/src/gui/qt/mainwindow.ui" line="2881"/>
         <source>Auto-Check / Auto-Call-Any</source>
-        <translation>Автоматический режим: всегда пропускать / отвечать</translation>
+        <translation>Автопропуск / Автоответ</translation>
     </message>
     <message>
         <location filename="E:/src/gui/qt/mainwindow.ui" line="25"/>
