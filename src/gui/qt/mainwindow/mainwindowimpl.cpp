@@ -1395,7 +1395,10 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 						//hide buttons
 						for(j=0; j<6; j++) {
 							userWidgetsArray[j]->hide();
-						}
+						}	
+						//disable anti-peek front after player is out
+						holeCardsArray[0][0]->signalFastFlipCards(FALSE);
+						holeCardsArray[0][1]->signalFastFlipCards(FALSE);						
 					}
 					else {
 						groupBoxArray[(*it_c)->getMyID()]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
@@ -1415,6 +1418,9 @@ void mainWindowImpl::refreshGroupbox(int playerID, int status) {
 					for(j=0; j<6; j++) {
 						userWidgetsArray[j]->hide();
 					}					
+					//disable anti-peek front after player is out
+					holeCardsArray[0][0]->signalFastFlipCards(FALSE);
+					holeCardsArray[0][1]->signalFastFlipCards(FALSE);						
 				}
 				else {
 					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
