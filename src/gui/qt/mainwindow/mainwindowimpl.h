@@ -212,6 +212,8 @@ public slots:
 	void myFold();
 	void myCheck();
 	int getMyCallAmount();
+	int getBetRaisePushButtonValue();
+	int getMyBetAmount(int);
 	void myCall();
 	void myBet();
 	void mySet();
@@ -325,8 +327,8 @@ public slots:
 	void myButtonsCheckable(bool state);
 
 	void changePlayingMode();
-	void changeSpinBoxBetValue(int);
-	void spinBoxBetValueChanged(int);
+	void changeLineEditBetValue(int);
+	void lineEditBetValueChanged(QString);
 	
 	void showMaximized ();
 	void quitPokerTH();

@@ -110,7 +110,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	userWidgetsArray[0] = pushButton_BetRaise;
 	userWidgetsArray[1] = pushButton_CallCheck;
 	userWidgetsArray[2] = pushButton_Fold;
-	userWidgetsArray[3] = spinBox_set;
+	userWidgetsArray[3] = lineEdit_betValue;
 	userWidgetsArray[4] = horizontalSlider_bet;
 	userWidgetsArray[5] = pushButton_AllIn;
 
@@ -393,7 +393,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6_checked.png); }");
 	pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6_checked.png); }");
 
-	spinBox_set->setStyleSheet("QSpinBox { "+ font2String +" font-size: 10px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; } QSpinBox:disabled { background-color: #316300; color: #6d7b5f }");
+	lineEdit_betValue->setStyleSheet("QLineEdit { "+ font2String +" font-size: 10px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; } QLineEdit:disabled { background-color: #316300; color: #6d7b5f }");
 
 	pushButton_AllIn->setStyleSheet("QPushButton:enabled { background-color: #145300; color: white;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
 
@@ -422,9 +422,14 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	int width = tempMetrics.width(tr("Stop"));
 	pushButton_break->setMinimumSize(width+10,20);
 
+	//set inputvalidator for lineeditbetvalue
+	QRegExp rx("[\\d]{1,5}");
+ 	QValidator *validator = new QRegExpValidator(rx, this);
+ 	lineEdit_betValue->setValidator(validator);
 
 	//Clear Focus
 	groupBox_LeftToolBox->clearFocus();
+	groupBox_RightToolBox->clearFocus();
 
 	//set Focus to mainwindow
 	this->setFocus();
@@ -524,8 +529,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect( pushButton_AllIn, SIGNAL( clicked(bool) ), this, SLOT(pushButtonAllInClicked(bool) ) );
 // 	connect( pushButton_backToLobby	, SIGNAL( clicked(bool) ), this, SLOT(leaveCurrentNetworkGame() ) );
 
-	connect( horizontalSlider_bet, SIGNAL( valueChanged(int)), this, SLOT ( changeSpinBoxBetValue(int) ) );
-	connect( spinBox_set, SIGNAL( valueChanged(int)), this, SLOT ( spinBoxBetValueChanged(int) ) );
+	connect( horizontalSlider_bet, SIGNAL( valueChanged(int)), this, SLOT ( changeLineEditBetValue(int) ) );
+	connect( lineEdit_betValue, SIGNAL( textChanged(QString)), this, SLOT ( lineEditBetValueChanged(QString) ) );
 	
 	connect( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
 	connect( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
@@ -1594,7 +1599,7 @@ void mainWindowImpl::dealBeRoCards(int myBeRoID) {
 
 	pushButton_AllIn->setDisabled(TRUE);
 	horizontalSlider_bet->setDisabled(TRUE);
-	spinBox_set->setDisabled(TRUE);
+	lineEdit_betValue->setDisabled(TRUE);
 
 	switch(myBeRoID) {
 
@@ -1798,20 +1803,20 @@ void mainWindowImpl::provideMyActions(int mode) {
 
 		pushButton_AllIn->setDisabled(TRUE);
 		horizontalSlider_bet->setDisabled(TRUE);
-		spinBox_set->setDisabled(TRUE);
+		lineEdit_betValue->setDisabled(TRUE);
 
 		myButtonsCheckable(FALSE);
 	}
 	else {	
 		pushButton_AllIn->setEnabled(TRUE);		
 		horizontalSlider_bet->setEnabled(TRUE);
-		spinBox_set->setEnabled(TRUE);	
+		lineEdit_betValue->setEnabled(TRUE);	
 
 		switch (currentHand->getCurrentRound()) {
 	
 		case 0: {
 			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { 
-				pushButtonBetRaiseString = "Raise"; 
+				pushButtonBetRaiseString = "Raise "+QString::number(getMyBetAmount(1))+"$"; 
 			}
 	
 			if (currentGame->getSeatsList()->front()->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getSeatsList()->front()->getMyButton() == 3) { pushButtonCallCheckString = "Check"; }
@@ -1830,15 +1835,13 @@ void mainWindowImpl::provideMyActions(int mode) {
 	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 	
-				if(pushButton_CallCheck->isCheckable()) { pushButtonCallCheckString = "Check"; }
-				else { pushButtonCallCheckString = "Check"; }
-
-				pushButtonBetRaiseString = "Bet"; 
+				pushButtonCallCheckString = "Check";
+				pushButtonBetRaiseString = "Bet "+QString::number(getMyBetAmount(0))+"$";
 			}
 			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
 				pushButtonCallCheckString = "Call "+QString::number(getMyCallAmount())+"$" ;
 				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-					pushButtonBetRaiseString = "Raise";
+					pushButtonBetRaiseString = "Raise "+QString::number(getMyBetAmount(1))+"$";
 				}
 			}
 		}
@@ -1853,14 +1856,13 @@ void mainWindowImpl::provideMyActions(int mode) {
 	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 	
-				if(pushButton_CallCheck->isCheckable()) { pushButtonCallCheckString = "Check"; }
-				else { pushButtonCallCheckString = "Check"; }
-				pushButtonBetRaiseString = "Bet"; 		
+				pushButtonCallCheckString = "Check";
+				pushButtonBetRaiseString = "Bet "+QString::number(getMyBetAmount(0))+"$";
 			}
 			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
 				pushButtonCallCheckString = "Call "+QString::number(getMyCallAmount())+"$" ;
 				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-					pushButtonBetRaiseString = "Raise";
+					pushButtonBetRaiseString = "Raise "+QString::number(getMyBetAmount(1))+"$";
 				}
 			}
 		}
@@ -1875,14 +1877,13 @@ void mainWindowImpl::provideMyActions(int mode) {
 	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 	
-				if(pushButton_CallCheck->isCheckable()) { pushButtonCallCheckString = "Check"; }
-				else { pushButtonCallCheckString = "Check"; }
-				pushButtonBetRaiseString = "Bet"; 		
+				pushButtonCallCheckString = "Check";
+				pushButtonBetRaiseString = "Bet "+QString::number(getMyBetAmount(0))+"$";
 			}
 			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
 				pushButtonCallCheckString = "Call "+QString::number(getMyCallAmount())+"$" ;
 				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-					pushButtonBetRaiseString = "Raise";
+					pushButtonBetRaiseString = "Raise "+QString::number(getMyBetAmount(1))+"$";
 				}
 			}
 		}
@@ -1891,6 +1892,7 @@ void mainWindowImpl::provideMyActions(int mode) {
 		}
 	
 		//if text changed on checked button --> uncheck to prevent unwanted actions
+		//if value changed on bet/raise button --> uncheck to prevent unwanted actions
 		if((pushButtonCallCheckString != lastPushButtonCallCheckString && pushButton_CallCheck->isChecked()) || (pushButtonBetRaiseString != lastPushButtonBetRaiseString && pushButton_BetRaise->isChecked()) ) { 
 		
 //			cout << "jo" << endl;
@@ -1902,12 +1904,12 @@ void mainWindowImpl::provideMyActions(int mode) {
 
 			pushButton_AllIn->setDisabled(TRUE);
 			horizontalSlider_bet->setDisabled(TRUE);
-			spinBox_set->setDisabled(TRUE);
+			lineEdit_betValue->setDisabled(TRUE);
 		}
 
 		if(mode == 0) {
 			if( currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD ) {
-				pushButtonBetRaiseString = "Bet";
+				pushButtonBetRaiseString = "Bet "+QString::number(getMyBetAmount(0))+"$";
 				pushButtonCallCheckString = "Check"; 
 				if( currentGame->getActivePlayerList()->size() > 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_SMALL_BLIND || ( currentGame->getActivePlayerList()->size() <= 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_BIG_BLIND)) { pushButtonFoldString = "Fold"; }
 				else { pushButtonFoldString = "Check / Fold"; }
@@ -1918,7 +1920,7 @@ void mainWindowImpl::provideMyActions(int mode) {
 				pushButtonFoldString = "";
 				pushButton_AllIn->setDisabled(TRUE);
 				horizontalSlider_bet->setDisabled(TRUE);
-				spinBox_set->setDisabled(TRUE);
+				lineEdit_betValue->setDisabled(TRUE);
 		
 				myButtonsCheckable(FALSE);
 			}
@@ -1930,27 +1932,23 @@ void mainWindowImpl::provideMyActions(int mode) {
 		pushButton_AllIn->setText("All-In");
 
 		myBetRaise();
-
-		//bet-raise pre-action 
-
-		
 	}
 }
 
 void mainWindowImpl::meInAction() {
 
 	//fix buttons if escape is pressed during raise or bet
-// 	spinBox_set->hide();
+// 	lineEdit_betValue->hide();
 // 	pushButton_BetRaise->show();
 
 	myButtonsCheckable(FALSE);
 	
 	horizontalSlider_bet->setEnabled(TRUE);
-	spinBox_set->setEnabled(TRUE);
+	lineEdit_betValue->setEnabled(TRUE);
 
 	if((mySession->getGameType() == Session::GAME_TYPE_INTERNET || mySession->getGameType() == Session::GAME_TYPE_NETWORK) && lineEdit_ChatInput->text() == "" && myConfig->readConfigInt("EnableBetInputFocusSwitch")) { 
-		spinBox_set->setFocus();
-		spinBox_set->selectAll();
+		lineEdit_betValue->setFocus();
+		lineEdit_betValue->selectAll();
 	}
 	
 	myActionIsRaise = 0;
@@ -2018,32 +2016,32 @@ void mainWindowImpl::disableMyButtons() {
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
 	//clear userWidgets
-	spinBox_set->setMinimum(0);
+// 	lineEdit_betValue->setMinimum(0);
 	horizontalSlider_bet->setMinimum(0);
-	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
+// 	lineEdit_betValue->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
-	spinBox_set->setValue(0);
+	lineEdit_betValue->clear();
 	horizontalSlider_bet->setValue(0);
 
 	pushButton_AllIn->setDisabled(TRUE);
 	horizontalSlider_bet->setDisabled(TRUE);
-	spinBox_set->setDisabled(TRUE);
+	lineEdit_betValue->setDisabled(TRUE);
 
 }
 
 void mainWindowImpl::myBetRaise() {
 	
-	if(pushButton_BetRaise->text() == "Raise") { 
+	if(pushButton_BetRaise->text().startsWith("Raise")) { 
 		myRaise(); 
 	}
-	else if(pushButton_BetRaise->text() == "Bet") { 
+	else if(pushButton_BetRaise->text().startsWith("Bet")) { 
 		myBet(); 
 	}
 	else {}
 
 	if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) { 
-		spinBox_set->setFocus();
-		spinBox_set->selectAll();
+		lineEdit_betValue->setFocus();
+		lineEdit_betValue->selectAll();
 	}
 
 }
@@ -2105,6 +2103,45 @@ int mainWindowImpl::getMyCallAmount() {
 
 }
 
+int mainWindowImpl::getBetRaisePushButtonValue() {
+
+	QString betValueString = pushButton_BetRaise->text().section(" ",1 ,1);
+	cout << "test1 " << betValueString.toStdString() << endl;
+	int index = betValueString.indexOf("$");
+	betValueString.remove(index,index);
+	cout << "test2 " << betValueString.toStdString() << endl;
+	bool ok;
+	int betValue = betValueString.toInt(&ok,10);
+	cout << "test3 " << betValue << endl;
+	return betValue;
+}
+
+int mainWindowImpl::getMyBetAmount(int mode) {
+
+	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	
+	int betValue = getBetRaisePushButtonValue();
+	int minimum;
+	
+	if(mode == 0) { // bet
+		minimum = currentHand->getSmallBlind()*2;
+	}
+	else if(mode == 1) { // raise
+		minimum = currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise();
+	}
+	else {
+		minimum = -1;
+	}
+	
+	if(betValue < minimum) {
+		return minimum;
+	}
+	else {
+		return betValue;
+	}
+
+}
+
 void mainWindowImpl::myCall(){
 
 	int tempHighestSet = 0;
@@ -2140,15 +2177,8 @@ void mainWindowImpl::myBet(){
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
-	
-	spinBox_set->setMinimum(currentHand->getSmallBlind()*2);
 	horizontalSlider_bet->setMinimum(currentHand->getSmallBlind()*2);
-	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
-	
-// 	if(!myButtonsAreCheckable) 
-// 		spinBox_set->setValue(spinBox_set->minimum());
-	
 	horizontalSlider_bet->setSingleStep(10);
 
 	myActionIsBet = 1;
@@ -2158,14 +2188,8 @@ void mainWindowImpl::myRaise(){
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
-	spinBox_set->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
 	horizontalSlider_bet->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
-	spinBox_set->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
-	
-// 	if(!myButtonsAreCheckable && spinBox_set->value != spinBox_set->minimum()) 
-// 		spinBox_set->setValue(spinBox_set->minimum());
-
 	horizontalSlider_bet->setSingleStep(10);
 
 	myActionIsRaise = 1;
@@ -2179,10 +2203,10 @@ void mainWindowImpl::mySet(){
 		HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 		int tempCash = currentHand->getSeatsList()->front()->getMyCash();
 	
-	// 	cout << "Set-Value " << spinBox_set->value() << endl; 
-		currentHand->getSeatsList()->front()->setMySet(spinBox_set->value());
+		cout << "Set-Value " << getBetRaisePushButtonValue() << endl; 
+		currentHand->getSeatsList()->front()->setMySet(getBetRaisePushButtonValue());
 
-		if (spinBox_set->value() >= tempCash ) {
+		if (getBetRaisePushButtonValue() >= tempCash ) {
 	
 			currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
 			currentHand->getSeatsList()->front()->setMyCash(0);
@@ -2273,9 +2297,12 @@ void mainWindowImpl::pushButtonBetRaiseClicked(bool checked) {
 			if(!radioButton_manualAction->isChecked())
 				radioButton_manualAction->click();
 
+// 			myLastPreActionBetValue = lineEdit_betValue->value();
+
 		}
 		else {
 			pushButtonBetRaiseIsChecked = FALSE;
+			myLastPreActionBetValue = 0;
 		}
 	}
 	else {
@@ -2457,7 +2484,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 
 	pushButton_AllIn->setDisabled(TRUE);
 	horizontalSlider_bet->setDisabled(TRUE);
-	spinBox_set->setDisabled(TRUE);
+	lineEdit_betValue->setDisabled(TRUE);
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
@@ -2988,7 +3015,7 @@ void mainWindowImpl::nextRoundCleanGui() {
 
 	pushButton_AllIn->setDisabled(TRUE);
 	horizontalSlider_bet->setDisabled(TRUE);
-	spinBox_set->setDisabled(TRUE);
+	lineEdit_betValue->setDisabled(TRUE);
 
 	uncheckMyButtons();
 	myButtonsCheckable(FALSE);
@@ -3354,7 +3381,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 	bool ctrlPressed = FALSE;
 
 	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return )  /*ENTER*/  { 
-		if(spinBox_set->hasFocus()) {
+		if(lineEdit_betValue->hasFocus()) {
 			pushButton_BetRaise->click();
 		}
 	}
@@ -3719,17 +3746,23 @@ void mainWindowImpl::quitPokerTH() {
 // 	QMainWindow::paintEvent(event);
 // }
 
-void mainWindowImpl::changeSpinBoxBetValue(int value) {
+void mainWindowImpl::changeLineEditBetValue(int value) {
 
-	if(spinBox_set->maximum() <= 1000 )
-		spinBox_set->setValue((int)((value/10)*10));
+	if(horizontalSlider_bet->maximum() <= 1000 )
+		lineEdit_betValue->setText(QString::number((int)((value/10)*10)));
 	else
-		spinBox_set->setValue((int)((value/50)*50));
+		lineEdit_betValue->setText(QString::number((int)((value/50)*50)));
 }
 
-void mainWindowImpl::spinBoxBetValueChanged(int) {
+void mainWindowImpl::lineEditBetValueChanged(QString valueString) {
 
-	if(pushButton_BetRaise->isChecked() && pushButton_BetRaise->isCheckable()) pushButton_BetRaise->click();
+	bool ok;
+	int betValue = QString(valueString).toInt(&ok, 10);
+	if(betValue > horizontalSlider_bet->minimum()) {
+		QString betRaise = pushButton_BetRaise->text().section(" ",0 ,0);
+		pushButton_BetRaise->setText(betRaise + " " + valueString + "$");
+	}
+	
 }
 
 void mainWindowImpl::leaveCurrentNetworkGame() {
