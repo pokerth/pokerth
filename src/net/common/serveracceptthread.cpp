@@ -106,8 +106,9 @@ ServerAcceptThread::SignalIrcChatMsg(const std::string &nickName, const std::str
 			msgStream >> command;
 			if (command == "kick")
 			{
-				string playerName;
-				msgStream >> playerName;
+				while (msgStream.peek() == ' ')
+					msgStream.get();
+				string playerName(msgStream.str().substr(msgStream.tellg()));
 				if (!playerName.empty())
 				{
 					if (GetLobbyThread().KickPlayerByName(playerName))
