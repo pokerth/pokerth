@@ -1848,7 +1848,7 @@ void mainWindowImpl::provideMyActions(int mode) {
 		break;
 		case 2: {
 		
-			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable()) { 
+			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable() ) { 
 				pushButtonFoldString = "Check / Fold"; 
 			}
 			else { pushButtonFoldString = "Fold"; }
