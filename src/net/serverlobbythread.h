@@ -31,8 +31,8 @@
 #include <list>
 #include <core/boost/timers.hpp>
 
-#define LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC		20000
-#define ADMIN_IRC_TERMINATE_TIMEOUT_MSEC		2000
+#define NET_LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC		20000
+#define NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC		4000
 
 
 class SenderThread;

@@ -30,7 +30,7 @@ class GuiInterface;
 class Game;
 class ConfigFile;
 class ClientThread;
-class ServerAcceptThread;
+class ServerManager;
 class IrcThread;
 class AvatarManager;
 
@@ -67,7 +67,7 @@ public:
 	void sendLeaveCurrentGame();
 	void sendStartEvent(bool fillUpWithCpuPlayers);
 	void terminateNetworkServer();
-	bool waitForNetworkServer(unsigned timeoutMsec);
+	bool pollNetworkServerTerminated();
 
 	void sendIrcChatMessage(const std::string &message);
 	void setIrcNick(const std::string &value) { myIrcNick = value; }
@@ -95,7 +95,7 @@ private:
 	std::string myIrcNick;
 
 	ClientThread *myNetClient;
-	ServerAcceptThread *myNetServer;
+	ServerManager *myNetServer;
 	IrcThread *myClientIrcThread;
 
 	boost::shared_ptr<AvatarManager> myAvatarManager;

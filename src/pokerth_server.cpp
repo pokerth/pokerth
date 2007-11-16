@@ -24,6 +24,7 @@
 #include <gui/generic/serverguiwrapper.h>
 #include <net/socket_startup.h>
 #include <core/loghelper.h>
+#include <core/thread.h>
 
 #include <csignal>
 
@@ -96,7 +97,8 @@ main(int argc, char *argv[])
 	myServerGuiInterface->getSession().startNetworkServer();
 	while (!g_pokerthTerminate)
 	{
-		if (myServerGuiInterface->getSession().waitForNetworkServer(100))
+		Thread::Msleep(100);
+		if (myServerGuiInterface->getSession().pollNetworkServerTerminated())
 			g_pokerthTerminate = true;
 	}
 	myServerGuiInterface->getSession().terminateNetworkServer();

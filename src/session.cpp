@@ -24,14 +24,13 @@
 #include <localenginefactory.h>
 #include <clientenginefactory.h>
 #include <net/clientthread.h>
-#include <net/serveracceptthread.h>
+#include <net/servermanager.h>
 #include <net/ircthread.h>
 #include <core/avatarmanager.h>
 
 #include <sstream>
 
 #define NET_CLIENT_TERMINATE_TIMEOUT_MSEC	1000
-#define NET_SERVER_TERMINATE_TIMEOUT_MSEC	10000
 #define NET_IRC_TERMINATE_TIMEOUT_MSEC		2000
 
 #define NET_DEFAULT_GAME					"default"
@@ -258,7 +257,7 @@ void Session::startNetworkServer()
 		return;
 	}
 
-	myNetServer = new ServerAcceptThread(*myGui, myConfig, *myAvatarManager);
+	myNetServer = new ServerManager(*myGui, myConfig, *myAvatarManager);
 
 	boost::shared_ptr<IrcThread> tmpIrcThread;
 	if (myConfig->readConfigInt("UseAdminIRC"))
@@ -277,40 +276,36 @@ void Session::startNetworkServer()
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
-		myConfig->readConfigInt("ServerUseSctp") == 1,
+		myConfig->readConfigInt("ServerUseSctp") == 1 ? NETWORK_MODE_TCP_SCTP : NETWORK_MODE_TCP,
 		myConfig->readConfigString("ServerPassword"),
 		myConfig->readConfigString("LogDir"),
 		tmpIrcThread
 		);
 
-	myNetServer->Run();
+	myNetServer->RunAll();
 }
 
 void Session::terminateNetworkServer()
 {
 	if (!myNetServer)
 		return; // already terminated
-	myNetServer->SignalTermination();
+	myNetServer->SignalTerminationAll();
 	// Give the thread some time to terminate.
-	if (myNetServer->Join(NET_SERVER_TERMINATE_TIMEOUT_MSEC))
+	if (myNetServer->JoinAll(true))
 		delete myNetServer;
 	// If termination fails, leave a memory leak to prevent a crash.
 	myNetServer = 0;
 }
 
-bool Session::waitForNetworkServer(unsigned timeoutMsec)
+bool Session::pollNetworkServerTerminated()
 {
 	bool retVal = false;
 	if (!myNetServer)
 		retVal = true; // already terminated
 	else
 	{
-		if (myNetServer->Join(timeoutMsec))
-		{
-			delete myNetServer;
-			myNetServer = 0;
+		if (myNetServer->JoinAll(false))
 			retVal = true;
-		}
 	}
 	return retVal;
 }

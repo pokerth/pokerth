@@ -34,6 +34,11 @@
 
 #define POKERTH_BETA_REVISION	5
 
+enum ServerNetworkMode {
+	NETWORK_MODE_TCP = 1,
+	NETWORK_MODE_SCTP = 2,
+	NETWORK_MODE_TCP_SCTP = 3};
+
 enum GameState {
 	GAME_STATE_PREFLOP = 0,
 	GAME_STATE_FLOP,

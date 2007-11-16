@@ -81,6 +81,7 @@ HEADERS += \
 		src/net/irccallback.h \
 		src/net/ircthread.h \
 		src/net/netexception.h \
+		src/net/servermanager.h \
 		src/core/tinyxml/tinystr.h \
 		src/core/tinyxml/tinyxml.h \
 		src/core/libircclient/include/libircclient.h \
@@ -170,6 +171,7 @@ SOURCES += \
 		src/net/common/receiverhelper.cpp \
 		src/net/common/irccallback.cpp \
 		src/net/common/ircthread.cpp \
+		src/net/common/servermanager.cpp \
 		src/gui/generic/serverguiwrapper.cpp \
 		src/gui/qttoolsinterface.cpp
 
