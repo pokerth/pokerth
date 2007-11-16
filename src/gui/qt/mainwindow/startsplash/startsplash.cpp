@@ -29,7 +29,6 @@ StartSplash::StartSplash(mainWindowImpl *parent, ConfigFile *c)
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/c059013l.pfb");
-	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/andybold.ttf");	
 
 	logo = myAppDataPath+"gfx/gui/misc/logoChip3D.png";
 
@@ -65,7 +64,7 @@ void StartSplash::paintEvent(QPaintEvent * /*event*/) {
 #else
 #ifdef __APPLE__ 
         QFont welcomeFont;
-        welcomeFont.setFamily("Andy MT Bold");
+        welcomeFont.setFamily("Century Schoolbook L");
         welcomeFont.setPixelSize(42);
 #else
         QFont welcomeFont;
@@ -75,12 +74,12 @@ void StartSplash::paintEvent(QPaintEvent * /*event*/) {
 #endif
 #ifdef __APPLE__
         QFont haveFont;
-        haveFont.setFamily("Andy MT Bold");
-        haveFont.setPixelSize(36);
+        haveFont.setFamily("Century Schoolbook L");
+        haveFont.setPixelSize(24);
 #else
         QFont haveFont;
-        haveFont.setFamily("Andy MT");
-        haveFont.setPixelSize(36);
+        haveFont.setFamily("Century Schoolbook L");
+        haveFont.setPixelSize(24);
 #endif
 	
 	QFont versionFont;
