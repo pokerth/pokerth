@@ -4092,7 +4092,7 @@ NetPacketStatisticsChanged::SetData(const NetPacketStatisticsChanged::Data &inDa
 		++numValues;
 	if (inData.stats.totalPlayersEverLoggedIn)
 		++numValues;
-	if (inData.stats.totalGamesEverStarted)
+	if (inData.stats.totalGamesEverCreated)
 		++numValues;
 
 	// Resize the packet so that the data fits in.
@@ -4118,10 +4118,10 @@ NetPacketStatisticsChanged::SetData(const NetPacketStatisticsChanged::Data &inDa
 		curStatisticsData->statisticsValue	= htonl(inData.stats.totalPlayersEverLoggedIn);
 		++curStatisticsData;
 	}
-	if (inData.stats.totalGamesEverStarted)
+	if (inData.stats.totalGamesEverCreated)
 	{
 		curStatisticsData->statisticsType	= htonl(NET_STAT_TOTAL_GAMES_EVER_ON_SERVER);
-		curStatisticsData->statisticsValue	= htonl(inData.stats.totalGamesEverStarted);
+		curStatisticsData->statisticsValue	= htonl(inData.stats.totalGamesEverCreated);
 	}
 
 	// Check the packet - just in case.
@@ -4148,7 +4148,7 @@ NetPacketStatisticsChanged::GetData(NetPacketStatisticsChanged::Data &outData) c
 				outData.stats.totalPlayersEverLoggedIn = ntohl(curStatisticsData->statisticsValue);
 				break;
 			case NET_STAT_TOTAL_GAMES_EVER_ON_SERVER:
-				outData.stats.totalGamesEverStarted = ntohl(curStatisticsData->statisticsValue);
+				outData.stats.totalGamesEverCreated = ntohl(curStatisticsData->statisticsValue);
 				break;
 		}
 	}

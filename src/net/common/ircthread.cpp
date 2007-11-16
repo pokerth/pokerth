@@ -43,6 +43,7 @@ struct IrcContext
 	bool useIPv6;
 	string nick;
 	string channel;
+	string channelPassword;
 	unsigned renameTries;
 };
 
@@ -106,7 +107,7 @@ irc_event_connect(irc_session_t *session, const char * /*irc_event*/, const char
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
 	context->ircThread.GetCallback().SignalIrcConnect(origin);
-	irc_cmd_join(session, context->channel.c_str(), 0);
+	irc_cmd_join(session, context->channel.c_str(), context->channelPassword.c_str());
 }
 
 void
@@ -259,7 +260,7 @@ IrcThread::~IrcThread()
 }
 
 void
-IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &nick, const std::string &channel)
+IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &nick, const std::string &channel, const std::string &channelPassword)
 {
 	if (IsRunning() || serverAddress.empty() || nick.empty() || channel.empty())
 		return; // TODO: throw exception
@@ -271,6 +272,7 @@ IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6
 	context.useIPv6			= ipv6;
 	context.nick			= nick;
 	context.channel			= channel;
+	context.channelPassword	= channelPassword;
 
 	// Initialize libirc stuff.
 	irc_callbacks_t callbacks;

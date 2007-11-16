@@ -96,7 +96,8 @@ private:
 
 	ClientThread *myNetClient;
 	ServerAcceptThread *myNetServer;
-	IrcThread *myIrcThread;
+	IrcThread *myClientIrcThread;
+
 	boost::shared_ptr<AvatarManager> myAvatarManager;
 
 	boost::shared_ptr<Game> currentGame;

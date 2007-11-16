@@ -53,7 +53,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
 	}
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 51;
+	configRev = 52;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -216,6 +216,13 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("IRCChannel", CONFIG_TYPE_STRING, "#pokerth-lobby"));
 	configList.push_back(ConfigInfo("IRCChannelPassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("IRCServerUseIpv6", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("UseAdminIRC", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("AdminIRCServerAddress", CONFIG_TYPE_STRING, "chat.freenode.net"));
+	configList.push_back(ConfigInfo("AdminIRCServerPort", CONFIG_TYPE_INT, "6667"));
+	configList.push_back(ConfigInfo("AdminIRCChannel", CONFIG_TYPE_STRING, "#test"));
+	configList.push_back(ConfigInfo("AdminIRCChannelPassword", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("AdminIRCServerUseIpv6", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("AdminIRCServerNick", CONFIG_TYPE_INT, "PokerTH"));
 	configList.push_back(ConfigInfo("MyName", CONFIG_TYPE_STRING, "Human Player"));
 	configList.push_back(ConfigInfo("MyAvatar", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("Opponent1Name", CONFIG_TYPE_STRING, "Player 1"));

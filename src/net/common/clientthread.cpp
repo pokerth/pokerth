@@ -956,8 +956,8 @@ ClientThread::UpdateStatData(const ServerStats &stats)
 	if (stats.totalPlayersEverLoggedIn)
 		m_curStats.totalPlayersEverLoggedIn = stats.totalPlayersEverLoggedIn;
 
-	if (stats.totalGamesEverStarted)
-		m_curStats.totalGamesEverStarted = stats.totalGamesEverStarted;
+	if (stats.totalGamesEverCreated)
+		m_curStats.totalGamesEverCreated = stats.totalGamesEverCreated;
 
 	GetCallback().SignalNetClientStatsUpdate(m_curStats);
 }

@@ -39,7 +39,7 @@
 using namespace std;
 
 Session::Session(GuiInterface *g, ConfigFile *c)
-: currentGameNum(0), myNetClient(NULL), myNetServer(NULL), myIrcThread(NULL),
+: currentGameNum(0), myNetClient(NULL), myNetServer(NULL), myClientIrcThread(NULL),
   myGui(g), myConfig(c), myGameType(GAME_TYPE_NONE)
 {
 }
@@ -139,7 +139,7 @@ boost::shared_ptr<AvatarManager> Session::getAvatarManager()
 
 void Session::startInternetClient()
 {
-	if (myNetClient || myIrcThread || !myGui)
+	if (myNetClient || myClientIrcThread || !myGui)
 	{
 		assert(false);
 		return;
@@ -148,14 +148,15 @@ void Session::startInternetClient()
 
 	if (myConfig->readConfigInt("UseIRCLobbyChat"))
 	{
-		myIrcThread = new IrcThread(*myGui);
-		myIrcThread->Init(
+		myClientIrcThread = new IrcThread(*myGui);
+		myClientIrcThread->Init(
 			myConfig->readConfigString("IRCServerAddress"),
 			myConfig->readConfigInt("IRCServerPort"),
 			myConfig->readConfigInt("IRCServerUseIpv6") == 1,
 			myIrcNick,
-			myConfig->readConfigString("IRCChannel"));
-		myIrcThread->Run();
+			myConfig->readConfigString("IRCChannel"),
+			myConfig->readConfigString("IRCChannelPassword"));
+		myClientIrcThread->Run();
 	}
 
 	myNetClient = new ClientThread(*myGui, *myAvatarManager);
@@ -221,17 +222,17 @@ void Session::terminateNetworkClient()
 	if (!myNetClient)
 		return; // already terminated
 	myNetClient->SignalTermination();
-	if (myIrcThread)
-		myIrcThread->SignalTermination();
+	if (myClientIrcThread)
+		myClientIrcThread->SignalTermination();
 	// Give the threads some time to terminate.
 	if (myNetClient->Join(NET_CLIENT_TERMINATE_TIMEOUT_MSEC))
 		delete myNetClient;
-	if (myIrcThread && myIrcThread->Join(NET_IRC_TERMINATE_TIMEOUT_MSEC))
-		delete myIrcThread;
+	if (myClientIrcThread && myClientIrcThread->Join(NET_IRC_TERMINATE_TIMEOUT_MSEC))
+		delete myClientIrcThread;
 
 	// If termination fails, leave a memory leak to prevent a crash.
 	myNetClient = 0;
-	myIrcThread = 0;
+	myClientIrcThread = 0;
 	myGameType = GAME_TYPE_NONE;
 }
 
@@ -256,13 +257,32 @@ void Session::startNetworkServer()
 		assert(false);
 		return;
 	}
+
 	myNetServer = new ServerAcceptThread(*myGui, myConfig, *myAvatarManager);
+
+	boost::shared_ptr<IrcThread> tmpIrcThread;
+	if (myConfig->readConfigInt("UseAdminIRC"))
+	{
+		tmpIrcThread = boost::shared_ptr<IrcThread>(new IrcThread(*myNetServer));
+
+		tmpIrcThread->Init(
+			myConfig->readConfigString("AdminIRCServerAddress"),
+			myConfig->readConfigInt("AdminIRCServerPort"),
+			myConfig->readConfigInt("AdminIRCServerUseIpv6") == 1,
+			myConfig->readConfigString("AdminIRCServerNick"),
+			myConfig->readConfigString("AdminIRCChannel"),
+			myConfig->readConfigString("AdminIRCChannelPassword"));
+	}
+
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
 		myConfig->readConfigInt("ServerUseSctp") == 1,
 		myConfig->readConfigString("ServerPassword"),
-		myConfig->readConfigString("LogDir"));
+		myConfig->readConfigString("LogDir"),
+		tmpIrcThread
+		);
+
 	myNetServer->Run();
 }
 
@@ -273,9 +293,7 @@ void Session::terminateNetworkServer()
 	myNetServer->SignalTermination();
 	// Give the thread some time to terminate.
 	if (myNetServer->Join(NET_SERVER_TERMINATE_TIMEOUT_MSEC))
-	{
 		delete myNetServer;
-	}
 	// If termination fails, leave a memory leak to prevent a crash.
 	myNetServer = 0;
 }
@@ -299,9 +317,9 @@ bool Session::waitForNetworkServer(unsigned timeoutMsec)
 
 void Session::sendIrcChatMessage(const std::string &message)
 {
-	if (!myIrcThread)
+	if (!myClientIrcThread)
 		return;
-	myIrcThread->SendChatMessage(message);
+	myClientIrcThread->SendChatMessage(message);
 }
 
 void Session::sendLeaveCurrentGame()

@@ -31,7 +31,8 @@
 #include <list>
 #include <core/boost/timers.hpp>
 
-#define LOBBY_THREAD_TERMINATE_TIMEOUT	20000
+#define LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC		20000
+#define ADMIN_IRC_TERMINATE_TIMEOUT_MSEC		2000
 
 
 class SenderThread;
@@ -65,6 +66,8 @@ public:
 	void HandleGameRetrievePlayerInfo(SessionWrapper session, const NetPacketRetrievePlayerInfo &tmpPacket);
 	void HandleGameRetrieveAvatar(SessionWrapper session, const NetPacketRetrieveAvatar &tmpPacket);
 
+	bool KickPlayerByName(const std::string &playerName);
+
 	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
 	void RemoveComputerPlayer(boost::shared_ptr<PlayerData> player);
 
@@ -75,6 +78,8 @@ public:
 	ServerCallback &GetCallback();
 
 	AvatarManager &GetAvatarManager();
+
+	ServerStats GetStats() const;
 
 protected:
 
@@ -105,10 +110,12 @@ protected:
 	void NewSessionLoop();
 	void CloseSessionLoop();
 	void RemoveGameLoop();
+	void KickPlayerLoop();
 	void CleanupAvatarCache();
 
 	void InternalAddGame(boost::shared_ptr<ServerGameThread> game);
 	void InternalRemoveGame(boost::shared_ptr<ServerGameThread> game);
+	void InternalKickPlayer(unsigned playerId);
 
 	void TerminateGames();
 
@@ -159,6 +166,9 @@ private:
 
 	RemoveGameList m_removeGameList;
 	mutable boost::mutex m_removeGameListMutex;
+
+	PlayerIdList m_kickPlayerList;
+	mutable boost::mutex m_kickPlayerListMutex;
 
 	PlayerDataMap m_computerPlayers;
 	mutable boost::mutex m_computerPlayersMutex;

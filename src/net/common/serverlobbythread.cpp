@@ -43,8 +43,8 @@
 
 #define SERVER_STATISTICS_FILE_NAME				"server_statistics.log"
 #define SERVER_STATISTICS_STR_TOTAL_PLAYERS		"TotalNumPlayersLoggedIn"
-#define SERVER_STATISTICS_STR_TOTAL_GAMES		"TotalNumGamesStarted"
-#define SERVER_STATISTICS_STR_MAX_GAMES			"MaxGamesRunning"
+#define SERVER_STATISTICS_STR_TOTAL_GAMES		"TotalNumGamesCreated"
+#define SERVER_STATISTICS_STR_MAX_GAMES			"MaxGamesOpen"
 #define SERVER_STATISTICS_STR_MAX_PLAYERS		"MaxPlayersLoggedIn"
 
 using namespace std;
@@ -201,14 +201,6 @@ ServerLobbyThread::NotifyStartingGame(unsigned gameId)
 	boost::shared_ptr<NetPacket> packet = CreateNetPacketGameListUpdate(gameId, GAME_MODE_STARTED);
 	m_sessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Established);
 	m_gameSessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Game);
-
-	{
-		boost::mutex::scoped_lock lock(m_statMutex);
-		++m_statData.totalGamesEverStarted;
-		if (m_statData.totalGamesEverStarted > m_statData.maxGamesRunning)
-			m_statData.maxGamesRunning = m_statData.totalGamesEverStarted;
-		m_statDataChanged = true;
-	}
 }
 
 void
@@ -231,6 +223,24 @@ ServerLobbyThread::HandleGameRetrieveAvatar(SessionWrapper session, const NetPac
 {
 	// Someone within a game requested an avatar.
 	HandleNetPacketRetrieveAvatar(session, tmpPacket);
+}
+
+bool
+ServerLobbyThread::KickPlayerByName(const std::string &playerName)
+{
+	bool retVal = false;
+	SessionWrapper session = m_sessionManager.GetSessionByPlayerName(playerName);
+	if (!session.sessionData.get())
+		session = m_gameSessionManager.GetSessionByPlayerName(playerName);
+
+	if (session.sessionData.get() && session.playerData.get())
+	{
+		boost::mutex::scoped_lock lock(m_kickPlayerListMutex);
+		m_kickPlayerList.push_back(session.playerData->GetUniqueId());
+		retVal = true;
+	}
+
+	return retVal;
 }
 
 void
@@ -258,6 +268,13 @@ AvatarManager &
 ServerLobbyThread::GetAvatarManager()
 {
 	return m_avatarManager;
+}
+
+ServerStats
+ServerLobbyThread::GetStats() const
+{
+	boost::mutex::scoped_lock lock(m_statMutex);
+	return m_statData;
 }
 
 u_int32_t
@@ -293,6 +310,8 @@ ServerLobbyThread::Main()
 			CloseSessionLoop();
 			// Remove games.
 			RemoveGameLoop();
+			// Kick players.
+			KickPlayerLoop();
 			// Cleanup cache.
 			CleanupAvatarCache();
 			// Save statistics if needed.
@@ -774,6 +793,22 @@ ServerLobbyThread::RemoveGameLoop()
 }
 
 void
+ServerLobbyThread::KickPlayerLoop()
+{
+	boost::mutex::scoped_lock lock(m_kickPlayerListMutex);
+
+	PlayerIdList::iterator i = m_kickPlayerList.begin();
+	PlayerIdList::iterator end = m_kickPlayerList.end();
+
+	while (i != end)
+	{
+		InternalKickPlayer(*i);
+		++i;
+	}
+	m_kickPlayerList.clear();
+}
+
+void
 ServerLobbyThread::CleanupAvatarCache()
 {
 	// Only act on timer and if there are no sessions.
@@ -794,6 +829,15 @@ ServerLobbyThread::InternalAddGame(boost::shared_ptr<ServerGameThread> game)
 	// Notify all players.
 	m_sessionManager.SendToAllSessionsLowPrio(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Established);
 	m_gameSessionManager.SendToAllSessionsLowPrio(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Game);
+
+	{
+		boost::mutex::scoped_lock lock(m_statMutex);
+		++m_statData.totalGamesEverCreated;
+		unsigned numGames = static_cast<unsigned>(m_gameMap.size());
+		if (numGames > m_statData.maxGamesOpen)
+			m_statData.maxGamesOpen = numGames;
+		m_statDataChanged = true;
+	}
 }
 
 void
@@ -807,6 +851,31 @@ ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGameThread> game)
 	boost::shared_ptr<NetPacket> packet = CreateNetPacketGameListUpdate(game->GetId(), GAME_MODE_CLOSED);
 	m_sessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Established);
 	m_gameSessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Game);
+}
+
+void
+ServerLobbyThread::InternalKickPlayer(unsigned playerId)
+{
+	SessionWrapper session = m_sessionManager.GetSessionByUniquePlayerId(playerId);
+	if (session.sessionData.get())
+		SessionError(session, ERR_NET_PLAYER_KICKED);
+	else
+	{
+		// Scan games for the player.
+		GameMap::iterator i = m_gameMap.begin();
+		GameMap::iterator end = m_gameMap.end();
+
+		while (i != end)
+		{
+			boost::shared_ptr<ServerGameThread> tmpGame = i->second;
+			if (tmpGame->GetPlayerDataByUniqueId(playerId).get())
+			{
+				tmpGame->KickPlayer(playerId);
+				break;
+			}
+			++i;
+		}
+	}
 }
 
 void
@@ -982,11 +1051,11 @@ ServerLobbyThread::ReadStatisticsFile()
 			if (statisticsType == SERVER_STATISTICS_STR_TOTAL_PLAYERS)
 				m_statData.totalPlayersEverLoggedIn = statisticsValue;
 			else if (statisticsType == SERVER_STATISTICS_STR_TOTAL_GAMES)
-				m_statData.totalGamesEverStarted = statisticsValue;
+				m_statData.totalGamesEverCreated = statisticsValue;
 			else if (statisticsType == SERVER_STATISTICS_STR_MAX_PLAYERS)
 				m_statData.maxPlayersLoggedIn = statisticsValue;
 			else if (statisticsType == SERVER_STATISTICS_STR_MAX_GAMES)
-				m_statData.maxGamesRunning = statisticsValue;
+				m_statData.maxGamesOpen = statisticsValue;
 		} while (!i.fail() && !i.eof());
 		m_statDataChanged = false;
 	}
@@ -1005,9 +1074,9 @@ ServerLobbyThread::SaveStatisticsFile()
 				if (!o.fail())
 				{
 					o << SERVER_STATISTICS_STR_TOTAL_PLAYERS " " << m_statData.totalPlayersEverLoggedIn << endl;
-					o << SERVER_STATISTICS_STR_TOTAL_GAMES " " << m_statData.totalGamesEverStarted << endl;
+					o << SERVER_STATISTICS_STR_TOTAL_GAMES " " << m_statData.totalGamesEverCreated << endl;
 					o << SERVER_STATISTICS_STR_MAX_PLAYERS " " << m_statData.maxPlayersLoggedIn << endl;
-					o << SERVER_STATISTICS_STR_MAX_GAMES " " << m_statData.maxGamesRunning << endl;
+					o << SERVER_STATISTICS_STR_MAX_GAMES " " << m_statData.maxGamesOpen << endl;
 					m_statDataChanged = false;
 				}
 			}

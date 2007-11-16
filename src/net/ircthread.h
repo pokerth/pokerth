@@ -35,7 +35,7 @@ public:
 	virtual ~IrcThread();
 
 	// Set the parameters.
-	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &nick, const std::string &channel);
+	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &nick, const std::string &channel, const std::string &channelPassword);
 
 	// Send a chat message to the channel.
 	void SendChatMessage(const std::string &msg);

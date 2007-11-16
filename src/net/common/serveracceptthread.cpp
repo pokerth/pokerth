@@ -19,6 +19,7 @@
 
 #include <net/serveracceptthread.h>
 #include <net/servercontext.h>
+#include <net/ircthread.h>
 #include <net/connectdata.h>
 #include <net/serverlobbythread.h>
 #include <net/socket_helper.h>
@@ -26,6 +27,8 @@
 #include <net/socket_msg.h>
 #include <net/socket_startup.h>
 #include <core/loghelper.h>
+
+#include <boost/algorithm/string/predicate.hpp>
 
 #define ACCEPT_TIMEOUT_MSEC			50
 #define NET_SERVER_LISTEN_BACKLOG	5
@@ -44,7 +47,7 @@ ServerAcceptThread::~ServerAcceptThread()
 }
 
 void
-ServerAcceptThread::Init(unsigned serverPort, bool ipv6, bool sctp, const string &pwd, const string &logDir)
+ServerAcceptThread::Init(unsigned serverPort, bool ipv6, bool sctp, const string &pwd, const string &logDir, boost::shared_ptr<IrcThread> ircThread)
 {
 	if (IsRunning())
 	{
@@ -61,6 +64,7 @@ ServerAcceptThread::Init(unsigned serverPort, bool ipv6, bool sctp, const string
 	context.SetServerPort(serverPort);
 
 	GetLobbyThread().Init(pwd, logDir);
+	m_ircThread = ircThread;
 }
 
 ServerCallback &
@@ -76,11 +80,74 @@ ServerAcceptThread::GetGui()
 }
 
 void
+ServerAcceptThread::SignalIrcConnect(const std::string &server)
+{
+	LOG_MSG("Connected to IRC server " << server << ".");
+}
+
+void
+ServerAcceptThread::SignalIrcSelfJoined(const std::string &nickName, const std::string &channel)
+{
+	LOG_MSG("Joined IRC channel " << channel << " as user " << nickName << ".");
+	m_ircNick = nickName;
+}
+
+void
+ServerAcceptThread::SignalIrcChatMsg(const std::string &nickName, const std::string &msg)
+{
+	if (m_ircThread)
+	{
+		istringstream msgStream(msg);
+		string target;
+		msgStream >> target;
+		if (boost::algorithm::iequals(target, m_ircNick + ":"))
+		{
+			string command;
+			msgStream >> command;
+			if (command == "kick")
+			{
+				string playerName;
+				msgStream >> playerName;
+				if (!playerName.empty())
+				{
+					if (GetLobbyThread().KickPlayerByName(playerName))
+						m_ircThread->SendChatMessage(nickName + ": Successfully kicked player \"" + playerName + "\" from the server.");
+					else
+						m_ircThread->SendChatMessage(nickName + ": Player \"" + playerName + "\" was not found on the server.");
+				}
+			}
+			else if (command == "stat")
+			{
+				ServerStats tmpStats = GetLobbyThread().GetStats();
+				ostringstream statStream;
+				statStream
+					<< "Players on Server: " << tmpStats.numberOfPlayersOnServer;
+				m_ircThread->SendChatMessage(statStream.str());
+			}
+			else
+				m_ircThread->SendChatMessage(nickName + ": Invalid command \"" + command + "\".");
+		}
+	}
+}
+
+void
+ServerAcceptThread::SignalIrcError(int errorCode)
+{
+}
+
+void
+ServerAcceptThread::SignalIrcServerError(int errorCode)
+{
+}
+
+void
 ServerAcceptThread::Main()
 {
 	try
 	{
 		Listen();
+		if (m_ircThread)
+			m_ircThread->Run();
 		GetLobbyThread().Run();
 
 		while (!ShouldTerminate() && !GetLobbyThread().Join(0))
@@ -94,7 +161,13 @@ ServerAcceptThread::Main()
 		LOG_ERROR(e.what());
 	}
 	GetLobbyThread().SignalTermination();
-	GetLobbyThread().Join(LOBBY_THREAD_TERMINATE_TIMEOUT);
+	GetLobbyThread().Join(LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC);
+
+	if (m_ircThread)
+	{
+		m_ircThread->SignalTermination();
+		m_ircThread->Join(ADMIN_IRC_TERMINATE_TIMEOUT_MSEC);
+	}
 }
 
 void

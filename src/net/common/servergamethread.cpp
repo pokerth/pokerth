@@ -87,6 +87,13 @@ ServerGameThread::AddSession(SessionWrapper session)
 	m_sessionQueue.push_back(session);
 }
 
+void
+ServerGameThread::KickPlayer(unsigned playerId)
+{
+	boost::mutex::scoped_lock lock(m_kickPlayerListMutex);
+	m_kickPlayerList.push_back(playerId);
+}
+
 GameState
 ServerGameThread::GetCurRound() const
 {
@@ -141,6 +148,7 @@ ServerGameThread::Main()
 			}
 			// Process current state.
 			GetState().Process(*this);
+			KickPlayerLoop();
 		} while (!ShouldTerminate() && GetSessionManager().HasSessions());
 	} catch (const PokerTHException &e)
 	{
@@ -153,6 +161,25 @@ ServerGameThread::Main()
 
 	ResetComputerPlayerList();
 	GetLobbyThread().RemoveGame(GetId());
+}
+
+void
+ServerGameThread::KickPlayerLoop()
+{
+	boost::mutex::scoped_lock lock(m_kickPlayerListMutex);
+
+	PlayerIdList::iterator i = m_kickPlayerList.begin();
+	PlayerIdList::iterator end = m_kickPlayerList.end();
+
+	while (i != end)
+	{
+		SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(*i);
+		// Only kick if the player was found.
+		if (tmpSession.sessionData.get())
+			SessionError(tmpSession, ERR_NET_PLAYER_KICKED);
+		++i;
+	}
+	m_kickPlayerList.clear();
 }
 
 void
