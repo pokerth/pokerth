@@ -62,7 +62,7 @@
 using namespace std;
 
 mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
-     : QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(FALSE), pushButtonCallCheckIsChecked(FALSE), pushButtonFoldIsChecked(FALSE), pushButtonAllInIsChecked(FALSE), myButtonsAreCheckable(FALSE), breakAfterCurrentHand(FALSE), currentGameOver(FALSE), myLastPreActionBetValue(0)
+     : QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(FALSE), pushButtonCallCheckIsChecked(FALSE), pushButtonFoldIsChecked(FALSE), pushButtonAllInIsChecked(FALSE), myButtonsAreCheckable(FALSE), breakAfterCurrentHand(FALSE), currentGameOver(FALSE), betSliderChangedByInput(FALSE), myLastPreActionBetValue(0)
 {
 	int i;
 
@@ -3719,21 +3719,26 @@ void mainWindowImpl::quitPokerTH() {
 void mainWindowImpl::changeLineEditBetValue(int value) {
 
 	int temp;
-
-	if(horizontalSlider_bet->maximum() <= 1000 ) {
-        	temp = (int)((value/10)*10);
-                if(temp < horizontalSlider_bet->minimum())
-                	lineEdit_betValue->setText(QString::number(horizontalSlider_bet->minimum()));
-                else
-			lineEdit_betValue->setText(QString::number(temp));
-        }
-        else {
-        	temp = (int)((value/50)*50);
-                if(temp < horizontalSlider_bet->minimum())
-                	lineEdit_betValue->setText(QString::number(horizontalSlider_bet->minimum()));
-                else
-			lineEdit_betValue->setText(QString::number(temp));
-       	}
+	if(betSliderChangedByInput) {
+		//prevent interval cutting of lineEdit_betValue input from code below
+		betSliderChangedByInput = FALSE;
+	}
+	else {
+		if(horizontalSlider_bet->maximum() <= 1000 ) {
+			temp = (int)((value/10)*10);
+			if(temp < horizontalSlider_bet->minimum())
+				lineEdit_betValue->setText(QString::number(horizontalSlider_bet->minimum()));
+			else
+				lineEdit_betValue->setText(QString::number(temp));
+		}
+		else {
+			temp = (int)((value/50)*50);
+			if(temp < horizontalSlider_bet->minimum())
+				lineEdit_betValue->setText(QString::number(horizontalSlider_bet->minimum()));
+			else
+				lineEdit_betValue->setText(QString::number(temp));
+		}
+	}
     	
 }
 
@@ -3747,13 +3752,19 @@ void mainWindowImpl::lineEditBetValueChanged(QString valueString) {
 
 		if(betValue > horizontalSlider_bet->maximum()) { // print the maximum
 			pushButton_BetRaise->setText(betRaise + " " + QString::number(horizontalSlider_bet->maximum()) + "$");
+			betSliderChangedByInput = TRUE;
+			horizontalSlider_bet->setValue(horizontalSlider_bet->maximum());
 		}
 		else { // really print the value
 			pushButton_BetRaise->setText(betRaise + " " + valueString + "$");
+			betSliderChangedByInput = TRUE;
+			horizontalSlider_bet->setValue(betValue);
 		}
 	}
 	else { // print the minimum
 		pushButton_BetRaise->setText(betRaise + " " + QString::number(horizontalSlider_bet->minimum()) + "$");
+		betSliderChangedByInput = TRUE;
+		horizontalSlider_bet->setValue(horizontalSlider_bet->minimum());
 	}
 	
 }
