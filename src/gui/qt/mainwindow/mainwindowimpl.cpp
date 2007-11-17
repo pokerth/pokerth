@@ -2143,7 +2143,6 @@ int mainWindowImpl::getMyBetAmount(int mode) {
 	else {
 		minimum = -1;
 	}
-	cout << betValue << endl;
 
 	if(betValue < minimum) {
 		return minimum;
@@ -2215,7 +2214,7 @@ void mainWindowImpl::mySet(){
 		HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 		int tempCash = currentHand->getSeatsList()->front()->getMyCash();
 	
-		cout << "Set-Value " << getBetRaisePushButtonValue() << endl; 
+// 		cout << "Set-Value " << getBetRaisePushButtonValue() << endl; 
 		currentHand->getSeatsList()->front()->setMySet(getBetRaisePushButtonValue());
 
 		if (getBetRaisePushButtonValue() >= tempCash ) {

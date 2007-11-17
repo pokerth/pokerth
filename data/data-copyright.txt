@@ -1,10 +1,49 @@
 // Copyright information for files in data/* shipped with PokerTH //
 
+
+>> Items <<					>> Sources <<		
+_________________________________________________________________________________________________________________________________
+
 fonts: 
-	- c059013l.pfb, n019003l.pfb 	--> http://sourceforge.net/project/showfiles.php?group_id=3498
-	- VeraBd.ttf 			--> http://ftp.gnome.org/pub/GNOME/sources/ttf-bitstream-vera/1.10/
+	- c059013l.pfb, n019003l.pfb 		--> http://sourceforge.net/project/showfiles.php?group_id=3498
+	- VeraBd.ttf 				--> http://ftp.gnome.org/pub/GNOME/sources/ttf-bitstream-vera/1.10/
+
 
 sounds/default:
 
-	- yourturn.wav 			--> http://websvn.kde.org/trunk/KDE/kdebase/runtime/knotify/sounds/KDE_Beep_Connect.ogg
-	- lobbychatnotify.wav		--> http://websvn.kde.org/trunk/KDE/kdebase/runtime/knotify/sounds/KDE_Beep.ogg
+	- yourturn.wav 				--> http://websvn.kde.org/trunk/KDE/kdebase/runtime/knotify/sounds/KDE_Beep_Connect.ogg
+	- lobbychatnotify.wav			--> http://websvn.kde.org/trunk/KDE/kdebase/runtime/knotify/sounds/KDE_Beep.ogg
+	- onlinegameready.wav			--> http://kde-look.org/content/show.php/kJazz?content=5099
+	
+	- allin.wav, bet.wav, 
+	raise.wav, check.wav, 
+	call.wav, dealtwocards.waw 		--> donated by pokerth.net user: doc_dos
+
+
+gfx/cards/default: 
+
+	- 0.png - 52.png			--> http://commons.wikimedia.org/wiki/Poker_(cards_deck)
+
+
+gfx/avatars/default/misc:			--> donated by pokerth.net user: ZeiZei
+
+
+gfx/avatars/default/people:
+
+	- 0c04318e6fa54534935e3e6cfe12c4a1.png	--> http://commons.wikimedia.org/wiki/Image:Goethe_(Stieler_1828).jpg
+	- 14e3f39cc775608bcecf5597248b3558.png	--> http://commons.wikimedia.org/wiki/Image:Wolfgang-amadeus-mozart_1.jpg
+	- 490ed3a748f6f4d6c261436198f2368f.png	--> http://commons.wikimedia.org/wiki/Image:Cath2russia.jpg
+	- 95df673e5ee4d02f0f95d5c7ff091cfb.png 	--> http://commons.wikimedia.org/wiki/Image:La_gioconda.jpg
+	- 9f49fc3d6062ddc08dc6bbd9ef9b399d.png 	--> http://commons.wikimedia.org/wiki/Image:Hyacinthe_Rigaud-_Louis_XIV;_Roi_de_France.jpg
+	- bc28d08c451a775f9e332c14a397096b.png	--> http://commons.wikimedia.org/wiki/Image:Martin_Luther_King_Jr_NYWTS.jpg
+	- bed234c6672d512bdb4c2768f0b3f90c.png	--> http://commons.wikimedia.org/wiki/Image:Empress_Elisabeth_of_Austria2.jpg
+	- cbd2e0c6ee579fb8e0f3942639cf988d.png	--> http://commons.wikimedia.org/wiki/Image:PopeInnocentX.jpg
+	- d66940c138c207c68a338769d683e691.png	--> http://commons.wikimedia.org/wiki/Image:Pope_Clement_VII.JPG
+	- d21268e1d2ec969367ee5b54bd34738b.png	--> http://commons.wikimedia.org/wiki/Image:Johann_Sebastian_Bach.jpg
+	- d6f8a45e9243b7e7e4e2c8e41df1c9f5.png	--> http://commons.wikimedia.org/wiki/Image:CristobalColon.jpg
+	- e3e1ae15f7d808fce16c26c049e2cbe9.png	--> http://commons.wikimedia.org/wiki/Image:El_bieta_I_lat_13.jpg
+	- ef0975f38a367a45cb8042b438957304.png	--> http://commons.wikimedia.org/wiki/Image:Napoleon_crop.jpg
+
+	- other avatar pics			--> donated by friends and family
+	
+	
