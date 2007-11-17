@@ -1,6 +1,10 @@
 // Copyright information for files in data/* shipped with PokerTH //
 
 fonts: 
-	- c059013l.pfb, n019003l.pfb --> http://sourceforge.net/project/showfiles.php?group_id=3498
-	- VeraBd.ttf --> http://ftp.gnome.org/pub/GNOME/sources/ttf-bitstream-vera/1.10/
+	- c059013l.pfb, n019003l.pfb 	--> http://sourceforge.net/project/showfiles.php?group_id=3498
+	- VeraBd.ttf 			--> http://ftp.gnome.org/pub/GNOME/sources/ttf-bitstream-vera/1.10/
 
+sounds/default:
+
+	- yourturn.wav 			--> http://websvn.kde.org/trunk/KDE/kdebase/runtime/knotify/sounds/KDE_Beep_Connect.ogg
+	- lobbychatnotify.wav		--> http://websvn.kde.org/trunk/KDE/kdebase/runtime/knotify/sounds/KDE_Beep.ogg

@@ -1891,9 +1891,9 @@ void mainWindowImpl::provideMyActions(int mode) {
 		default: {}
 		}
 	
+		
 		//if text changed on checked button --> uncheck to prevent unwanted actions
-		//if value changed on bet/raise button --> uncheck to prevent unwanted actions
-		if((pushButtonCallCheckString != lastPushButtonCallCheckString && pushButton_CallCheck->isChecked()) || (pushButtonBetRaiseString != lastPushButtonBetRaiseString && pushButton_BetRaise->isChecked()) ) { 
+		if((pushButtonCallCheckString != lastPushButtonCallCheckString && pushButton_CallCheck->isChecked())) { 
 		
 //			cout << "jo" << endl;
 			uncheckMyButtons(); 
@@ -1932,6 +1932,20 @@ void mainWindowImpl::provideMyActions(int mode) {
 		pushButton_AllIn->setText("All-In");
 
 		myBetRaise();
+
+		//if value changed on bet/raise button --> uncheck to prevent unwanted actions
+		QString lastBetValueString = lastPushButtonBetRaiseString.section(" ",1 ,1);
+		int index = lastBetValueString.indexOf("$");
+		lastBetValueString.remove(index,index);
+		bool ok;
+		int lastBetValue = lastBetValueString.toInt(&ok,10);
+		
+		if(lastBetValue < horizontalSlider_bet->minimum() && pushButton_BetRaise->isChecked()) {
+
+			uncheckMyButtons(); 
+			resetMyButtonsCheckStateMemory();
+		}
+
 	}
 }
 
@@ -2129,7 +2143,8 @@ int mainWindowImpl::getMyBetAmount(int mode) {
 	else {
 		minimum = -1;
 	}
-	
+	cout << betValue << endl;
+
 	if(betValue < minimum) {
 		return minimum;
 	}
