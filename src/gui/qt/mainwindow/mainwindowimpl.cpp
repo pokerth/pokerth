@@ -1883,8 +1883,26 @@ void mainWindowImpl::provideMyActions(int mode) {
 		pushButton_CallCheck->setText(pushButtonCallCheckString);
 		pushButton_AllIn->setText("All-In");
 
-		myBetRaise();
+// 		myBetRaise();
+		if(pushButton_BetRaise->text().startsWith("Raise")) { 
+				
+			horizontalSlider_bet->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
+			horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
+			horizontalSlider_bet->setSingleStep(10);
+		
+			myActionIsRaise = 1;
+		}
+		else if(pushButton_BetRaise->text().startsWith("Bet")) { 
+			
+			horizontalSlider_bet->setMinimum(currentHand->getSmallBlind()*2);
+			horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
+			horizontalSlider_bet->setSingleStep(10);
+		
+			myActionIsBet = 1;
+		}
+		else {}
 
+		
 		//if value changed on bet/raise button --> uncheck to prevent unwanted actions
 		QString lastBetValueString = lastPushButtonBetRaiseString.section(" ",1 ,1);
 		int index = lastBetValueString.indexOf("$");
@@ -1899,6 +1917,11 @@ void mainWindowImpl::provideMyActions(int mode) {
 		}
 
 		if((mySession->getGameType() == Session::GAME_TYPE_INTERNET || mySession->getGameType() == Session::GAME_TYPE_NETWORK) && !lineEdit_ChatInput->hasFocus() && myConfig->readConfigInt("EnableBetInputFocusSwitch")) { 
+			lineEdit_betValue->setFocus();
+			lineEdit_betValue->selectAll();
+		}
+
+		if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) { 
 			lineEdit_betValue->setFocus();
 			lineEdit_betValue->selectAll();
 		}
@@ -2002,18 +2025,18 @@ void mainWindowImpl::disableMyButtons() {
 
 void mainWindowImpl::myBetRaise() {
 	
-	if(pushButton_BetRaise->text().startsWith("Raise")) { 
-		myRaise(); 
-	}
-	else if(pushButton_BetRaise->text().startsWith("Bet")) { 
-		myBet(); 
-	}
-	else {}
-
-	if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) { 
-		lineEdit_betValue->setFocus();
-		lineEdit_betValue->selectAll();
-	}
+// 	if(pushButton_BetRaise->text().startsWith("Raise")) { 
+// 		myRaise(); 
+// 	}
+// 	else if(pushButton_BetRaise->text().startsWith("Bet")) { 
+// 		myBet(); 
+// 	}
+// 	else {}
+// 
+// 	if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) { 
+// 		lineEdit_betValue->setFocus();
+// 		lineEdit_betValue->selectAll();
+// 	}
 
 }
 
@@ -2145,24 +2168,24 @@ void mainWindowImpl::myCall(){
 
 void mainWindowImpl::myBet(){ 
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-
-	horizontalSlider_bet->setMinimum(currentHand->getSmallBlind()*2);
-	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
-	horizontalSlider_bet->setSingleStep(10);
-
-	myActionIsBet = 1;
+// 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+// 
+// 	horizontalSlider_bet->setMinimum(currentHand->getSmallBlind()*2);
+// 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
+// 	horizontalSlider_bet->setSingleStep(10);
+// 
+// 	myActionIsBet = 1;
 }
 
 void mainWindowImpl::myRaise(){ 
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-
-	horizontalSlider_bet->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
-	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
-	horizontalSlider_bet->setSingleStep(10);
-
-	myActionIsRaise = 1;
+// 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+// 
+// 	horizontalSlider_bet->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
+// 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
+// 	horizontalSlider_bet->setSingleStep(10);
+// 
+// 	myActionIsRaise = 1;
 
 }
 
