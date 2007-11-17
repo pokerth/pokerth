@@ -1812,9 +1812,9 @@ void mainWindowImpl::provideMyActions(int mode) {
 		horizontalSlider_bet->setEnabled(TRUE);
 		lineEdit_betValue->setEnabled(TRUE);	
 
-		switch (currentHand->getCurrentRound()) {
-	
-		case 0: {
+		//show available actions on buttons
+		if(currentHand->getCurrentRound() == 0) { // preflop
+			
 			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { 
 				pushButtonBetRaiseString = "Raise "+QString::number(getMyBetAmount(1))+"$"; 
 			}
@@ -1823,16 +1823,14 @@ void mainWindowImpl::provideMyActions(int mode) {
 			else { pushButtonCallCheckString = "Call "+QString::number(getMyCallAmount())+"$"; }
 			
 			pushButtonFoldString = "Fold"; 
+
 		}
-		break;
-		case 1: {
-		
+		else { // flop,turn,river
+
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable() ) { 
 				pushButtonFoldString = "Check / Fold"; 
 			}
 			else { pushButtonFoldString = "Fold"; }
-	
-	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 	
 				pushButtonCallCheckString = "Check";
@@ -1845,52 +1843,6 @@ void mainWindowImpl::provideMyActions(int mode) {
 				}
 			}
 		}
-		break;
-		case 2: {
-		
-			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable() ) { 
-				pushButtonFoldString = "Check / Fold"; 
-			}
-			else { pushButtonFoldString = "Fold"; }
-	
-	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
-			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
-	
-				pushButtonCallCheckString = "Check";
-				pushButtonBetRaiseString = "Bet "+QString::number(getMyBetAmount(0))+"$";
-			}
-			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-				pushButtonCallCheckString = "Call "+QString::number(getMyCallAmount())+"$" ;
-				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-					pushButtonBetRaiseString = "Raise "+QString::number(getMyBetAmount(1))+"$";
-				}
-			}
-		}
-		break;
-		case 3: {
-		
-			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable()) { 
-				pushButtonFoldString = "Check / Fold"; 
-			}
-			else { pushButtonFoldString = "Fold"; }
-	
-	// 		cout << "highestSet in meInAction " << currentHand->getCurrentBeRo()->getHighestSet()  << endl;
-			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
-	
-				pushButtonCallCheckString = "Check";
-				pushButtonBetRaiseString = "Bet "+QString::number(getMyBetAmount(0))+"$";
-			}
-			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-				pushButtonCallCheckString = "Call "+QString::number(getMyCallAmount())+"$" ;
-				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-					pushButtonBetRaiseString = "Raise "+QString::number(getMyBetAmount(1))+"$";
-				}
-			}
-		}
-		break;
-		default: {}
-		}
-	
 		
 		//if text changed on checked button --> uncheck to prevent unwanted actions
 		if((pushButtonCallCheckString != lastPushButtonCallCheckString && pushButton_CallCheck->isChecked())) { 
@@ -2134,15 +2086,17 @@ int mainWindowImpl::getMyBetAmount(int mode) {
 	int betValue = getBetRaisePushButtonValue();
 	int minimum;
 	
-	if(mode == 0) { // bet
-		minimum = currentHand->getSmallBlind()*2;
-	}
-	else if(mode == 1) { // raise
-		minimum = currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise();
-	}
-	else {
-		minimum = -1;
-	}
+// 	if(mode == 0) { // bet
+// 		minimum = currentHand->getSmallBlind()*2;
+// 	}
+// 	else if(mode == 1) { // raise
+// 		minimum = currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise();
+// 	}
+// 	else {
+// 		minimum = -1;
+// 	}
+
+	minimum = currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise();
 
 	if(betValue < minimum) {
 		return minimum;
