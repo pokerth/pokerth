@@ -1844,21 +1844,6 @@ void mainWindowImpl::provideMyActions(int mode) {
 			}
 		}
 		
-		//if text changed on checked button --> uncheck to prevent unwanted actions
-		if((pushButtonCallCheckString != lastPushButtonCallCheckString && pushButton_CallCheck->isChecked())) { 
-		
-//			cout << "jo" << endl;
-			uncheckMyButtons(); 
-			resetMyButtonsCheckStateMemory();
-		}
-
-		if(pushButtonBetRaiseString == "") {
-
-			pushButton_AllIn->setDisabled(TRUE);
-			horizontalSlider_bet->setDisabled(TRUE);
-			lineEdit_betValue->setDisabled(TRUE);
-		}
-
 		if(mode == 0) {
 			if( currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD ) {
 				pushButtonBetRaiseString = "Bet "+QString::number(getMyBetAmount(0))+"$";
@@ -1876,6 +1861,21 @@ void mainWindowImpl::provideMyActions(int mode) {
 		
 				myButtonsCheckable(FALSE);
 			}
+		}
+				
+		//if text changed on checked button --> uncheck to prevent unwanted actions
+		if((pushButtonCallCheckString != lastPushButtonCallCheckString && pushButton_CallCheck->isChecked())) { 
+		
+//			cout << "jo" << endl;
+			uncheckMyButtons(); 
+			resetMyButtonsCheckStateMemory();
+		}
+
+		if(pushButtonBetRaiseString == "") {
+
+			pushButton_AllIn->setDisabled(TRUE);
+			horizontalSlider_bet->setDisabled(TRUE);
+			lineEdit_betValue->setDisabled(TRUE);
 		}
 
 		pushButton_Fold->setText(pushButtonFoldString);
@@ -1896,6 +1896,11 @@ void mainWindowImpl::provideMyActions(int mode) {
 
 			uncheckMyButtons(); 
 			resetMyButtonsCheckStateMemory();
+		}
+
+		if((mySession->getGameType() == Session::GAME_TYPE_INTERNET || mySession->getGameType() == Session::GAME_TYPE_NETWORK) && !lineEdit_ChatInput->hasFocus() && myConfig->readConfigInt("EnableBetInputFocusSwitch")) { 
+			lineEdit_betValue->setFocus();
+			lineEdit_betValue->selectAll();
 		}
 
 	}
