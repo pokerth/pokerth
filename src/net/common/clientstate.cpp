@@ -851,6 +851,7 @@ ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 		client.GetGame()->getSeatsList()->front()->setMyCards(myCards);
 		client.GetGame()->initHand();
 		client.GetGame()->getCurrentHand()->setSmallBlind(tmpData.smallBlind);
+		client.GetGame()->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(2 * tmpData.smallBlind);
 		client.GetGame()->startHand();
 		client.GetGui().dealHoleCards();
 		client.GetGui().refreshGameLabels(GAME_STATE_PREFLOP);
