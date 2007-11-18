@@ -423,7 +423,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	pushButton_break->setMinimumSize(width+10,20);
 
 	//set inputvalidator for lineeditbetvalue
-	QRegExp rx("[\\d]{1,5}");
+	QRegExp rx("[1-9]\\d{0,4}");
  	QValidator *validator = new QRegExpValidator(rx, this);
  	lineEdit_betValue->setValidator(validator);
 
@@ -3587,6 +3587,7 @@ void mainWindowImpl::localGameModification() {
 		setLabelArray[i]->stopTimeOutAnimation();
 	}
 
+	pushButton_break->show();
 	QFontMetrics tempMetrics = this->fontMetrics();
 	int width = tempMetrics.width(tr("Stop"));
 	pushButton_break->setText(tr("Stop"));
@@ -3607,10 +3608,17 @@ void mainWindowImpl::networkGameModification() {
 	tabWidget_Left->setCurrentIndex(1);
 	myChat->clearNewGame();
 
-	QFontMetrics tempMetrics = this->fontMetrics();
-	int width = tempMetrics.width(tr("Lobby"));
-	pushButton_break->setText(tr("Lobby"));
-	pushButton_break->setMinimumSize(width+10,20);
+	if(mySession->getGameType() == Session::GAME_TYPE_INTERNET) {
+		pushButton_break->show();
+		QFontMetrics tempMetrics = this->fontMetrics();
+		int width = tempMetrics.width(tr("Lobby"));
+		pushButton_break->setText(tr("Lobby"));
+		pushButton_break->setMinimumSize(width+10,20);
+	}
+	if(mySession->getGameType() == Session::GAME_TYPE_NETWORK) {
+
+		pushButton_break->hide();
+	}
 	//Set the playing mode to "manual"
 	radioButton_manualAction->click();
 
