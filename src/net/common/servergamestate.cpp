@@ -77,6 +77,7 @@ static void SendPlayerAction(ServerGameThread &server, boost::shared_ptr<PlayerI
 	actionDoneData.totalPlayerBet = player->getMySet();
 	actionDoneData.playerMoney = player->getMyCash();
 	actionDoneData.highestSet = server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
+	actionDoneData.minimumRaise = server.GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
 	static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
 	server.SendToAllPlayers(notifyActionDone, SessionData::Game);
 }
@@ -710,7 +711,6 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 			NetPacketPlayersTurn::Data playersTurnData;
 			playersTurnData.gameState = (GameState)curGame.getCurrentHand()->getCurrentRound();
 			playersTurnData.playerId = curPlayer->getMyUniqueID();
-			playersTurnData.minimumRaise = curGame.getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
 			static_cast<NetPacketPlayersTurn *>(notification.get())->SetData(playersTurnData);
 
 			server.SendToAllPlayers(notification, SessionData::Game);

@@ -367,7 +367,6 @@ struct GCC_PACKED NetPacketPlayersTurnData
 {
 	NetPacketHeader		head;
 	u_int32_t			playerId;
-	u_int32_t			minimumRaise;
 	u_int16_t			gameState;
 	u_int16_t			reserved;
 };
@@ -389,6 +388,7 @@ struct GCC_PACKED NetPacketPlayersActionDoneData
 	u_int32_t			totalPlayerBet;
 	u_int32_t			playerMoney;
 	u_int32_t			highestSet;
+	u_int32_t			minimumRaise;
 };
 
 struct GCC_PACKED NetPacketPlayersActionRejectedData
@@ -3264,7 +3264,6 @@ NetPacketPlayersTurn::SetData(const NetPacketPlayersTurn::Data &inData)
 
 	tmpData->playerId	= htonl(inData.playerId);
 	tmpData->gameState	= htons(inData.gameState);
-	tmpData->minimumRaise	= htonl(inData.minimumRaise);
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -3277,7 +3276,6 @@ NetPacketPlayersTurn::GetData(NetPacketPlayersTurn::Data &outData) const
 
 	outData.playerId	= ntohl(tmpData->playerId);
 	outData.gameState	= static_cast<GameState>(ntohs(tmpData->gameState));
-	outData.minimumRaise	= ntohl(tmpData->minimumRaise);
 }
 
 const NetPacketPlayersTurn *
@@ -3404,6 +3402,7 @@ NetPacketPlayersActionDone::SetData(const NetPacketPlayersActionDone::Data &inDa
 	tmpData->totalPlayerBet	= htonl(inData.totalPlayerBet);
 	tmpData->playerMoney	= htonl(inData.playerMoney);
 	tmpData->highestSet		= htonl(inData.highestSet);
+	tmpData->minimumRaise	= htonl(inData.minimumRaise);
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -3420,6 +3419,7 @@ NetPacketPlayersActionDone::GetData(NetPacketPlayersActionDone::Data &outData) c
 	outData.totalPlayerBet	= ntohl(tmpData->totalPlayerBet);
 	outData.playerMoney		= ntohl(tmpData->playerMoney);
 	outData.highestSet		= ntohl(tmpData->highestSet);
+	outData.minimumRaise	= ntohl(tmpData->minimumRaise);
 }
 
 const NetPacketPlayersActionDone *

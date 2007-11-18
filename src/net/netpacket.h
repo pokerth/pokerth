@@ -842,7 +842,6 @@ public:
 	{
 		GameState	gameState;
 		u_int32_t	playerId;
-		u_int32_t	minimumRaise;
 	};
 
 	NetPacketPlayersTurn();
@@ -896,6 +895,7 @@ public:
 		u_int32_t		totalPlayerBet;
 		u_int32_t		playerMoney;
 		u_int32_t		highestSet;
+		u_int32_t		minimumRaise;
 	};
 
 	NetPacketPlayersActionDone();

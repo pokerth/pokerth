@@ -946,6 +946,7 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 			tmpPlayer->setMySetAbsolute(actionDoneData.totalPlayerBet);
 			tmpPlayer->setMyCash(actionDoneData.playerMoney);
 			curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(actionDoneData.highestSet);
+			curGame->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(actionDoneData.minimumRaise);
 			curGame->getCurrentHand()->getBoard()->collectSets();
 			curGame->getCurrentHand()->switchRounds();
 
@@ -991,7 +992,6 @@ ClientStateRunHand::InternalProcess(ClientThread &client, boost::shared_ptr<NetP
 
 			// Next player's turn.
 			curGame->getCurrentHand()->getCurrentBeRo()->setCurrentPlayersTurnId(tmpPlayer->getMyID());
-			curGame->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(turnData.minimumRaise);
 			curGame->getCurrentHand()->getCurrentBeRo()->setPlayersTurn(tmpPlayer->getMyID());
 
 			// Mark current player in GUI.
