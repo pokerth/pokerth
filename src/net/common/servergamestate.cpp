@@ -576,6 +576,7 @@ ServerGameStateStartHand::Process(ServerGameThread &server)
 			actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
 			actionDoneData.playerMoney = tmpPlayer->getMyCash();
 			actionDoneData.highestSet = server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
+			actionDoneData.minimumRaise = server.GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
 			static_cast<NetPacketPlayersActionDone *>(notifySmallBlind.get())->SetData(actionDoneData);
 			server.SendToAllPlayers(notifySmallBlind, SessionData::Game);
 			break;
@@ -598,6 +599,7 @@ ServerGameStateStartHand::Process(ServerGameThread &server)
 			actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
 			actionDoneData.playerMoney = tmpPlayer->getMyCash();
 			actionDoneData.highestSet = server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
+			actionDoneData.minimumRaise = server.GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
 			static_cast<NetPacketPlayersActionDone *>(notifyBigBlind.get())->SetData(actionDoneData);
 			server.SendToAllPlayers(notifyBigBlind, SessionData::Game);
 			break;
