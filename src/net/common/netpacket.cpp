@@ -309,6 +309,8 @@ struct GCC_PACKED NetPacketPlayerLeftData
 {
 	NetPacketHeader		head;
 	u_int32_t			playerId;
+	u_int16_t			leaveReason;
+	u_int16_t			reserved;
 };
 
 struct GCC_PACKED NetPacketGameAdminChangedData
