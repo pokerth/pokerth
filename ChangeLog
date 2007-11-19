@@ -1,17 +1,41 @@
-SVN changes:
+2007-11-18 version 0.6-beta5:
+- bugfixes (dedicated server, anti-peek-mode, sidepot logging)
+- bet/raise redesign 
+- improve actions-preselection
+- gui improvements (e.g. scrollbars, new handranking-gfx) 
+- support for password-protected irc-channels
+ 
+2007-11-11 version 0.6-beta4:
+- bugfixes (ingame-kick; cards background scale distortion; pre-actions during allIn)
 
-- bugfix: reload playernames after settingsdialog also with utf8
-- bugfix: reload playernames for opponent5 and opponent6 after settingsdialog
-- bugfix: wrong font-color for mac-qt
-- bugfix: raise after x hands
-- add version number to title bar and about-dialog 
-- bugfix: utf8-path
-- bugfix: win98 winme crash
-- change: smaller table-background-image (1mb)
-- change: just link against libcrypt not whole libssl
+2007-11-07 version 0.6-beta3:
+- bugfixes
+- new Back-to-Lobby button
+- irc-nick-cleaning to avoid connection troubles
+
+2007-11-01 version 0.6-beta2:
+- bugfixes (avatars are enabled in internet-game again)
+- avatars preview in internet-game-lobby
+
+2007-10-31 version 0.6-beta:
+- Internet Game - Play online games easy on PokerTH-dedicated-Server (no ip addresses or port-fowarding needed anymore)
+- New Input Field (You can now pre-select your wanted action which will be done if it is your turn)
+- Avatars were shown in Network-/Internetgame
+- Lobby-Chat
+- Computer-Players could be added in Network-/Internetgame
+- Blinds values and blinds order completly adjustable
+- Auto-check/fold and Auto-check/call-any options for temporary away situations.
+- New kicker-card-detection for log
+- Improved distribution of the pot
+
+2007-06-17 version 0.5:
+- Play network games with up to 7 people all over the world
+- Internationalization - PokerTH is now available in different languages (German, Dutch, Spanish, Russian and Norwegian)
+- New avatar gallery
+- Sound effects
+- Minimized disc access, optimized speed
 
 2007-04-04 version 0.4:
-
 - feature: settings menu (to do a lot of settings and save preferences)
 - feature: set player names and avatars for computer opponents
 - feature: switch to fullscreen mode
@@ -27,9 +51,7 @@ SVN changes:
 - change: complete new engine design
 - bugfix: a lot of bugfixes
 
-
 2006-10-16 version 0.3:
-
 - change: some changes on game-speed and game-rhythm. game-speed delay near 0 is possible ;)
 - change: gui-language changed from german to english
 - change: some ai-engine changes
@@ -39,20 +61,14 @@ SVN changes:
 - bugfix: #1572742 - "bet-loop"
 - tasks: new published tasks #131988, #131980, #131987, #131978, #131992, #132018
 
-
 2006-10-04 version 0.2.1:
-
 - bugfix: fix the Bug that causes freeze average all 52 rounds. It was a problem with random-number-generation
 
-
 2006-10-04 version 0.2:
-
 - first public release
 - feature: now you can play preflop, flop, turn and river
 - change: its nearly complete portet to qt4
 
-
 2006-05-18 version 0.1:
-
 - first release
 - feature: you can play preflop and river
