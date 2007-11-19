@@ -297,20 +297,12 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 // 	Schriftart laden und für Dialoge setzen
 #ifdef _WIN32
 	font1String = "font-family: \"Arial\";";
-// 	if(this->logicalDpiX() > 105) { tmpFont.setFont("Arial",8); }
-// 	else { QFont tmpFont("Arial",9); }
 #else 
 	font1String = "font-family: \"Nimbus Sans L\";";
 #endif
 
 	font2String = "font-family: \"Bitstream Vera Sans\";";
 
-	//Schriftart und Schriftgrößen für Widgets festlegen 
-// 	QScrollBar *myLogScrollBar = textBrowser_Log->verticalScrollBar();
-// 	myLogScrollBar->setStyleSheet("QScrollBar:vertical { border: 2px solid grey; background: #32CC99; height: 15px; margin: 0px 20px 0 20px; } QScrollBar::handle:vertical { background: white;  min-width: 20px; } QScrollBar::add-line:vertical { border: 2px solid grey; background: #32CC99; width: 20px; subcontrol-position: right; subcontrol-origin: margin;} QScrollBar::sub-line:vertical { border: 2px solid grey; background: #32CC99; width: 20px; subcontrol-position: left; subcontrol-origin: margin; }");
-// 	textBrowser_Log->setVerticalScrollBar(myLogScrollBar);
-
-// 	textBrowser_Log->verticalScrollBar()->setAutoFillBackground ( TRUE );
 #ifdef _WIN32
 	QString fontsize= "11";
 #else
@@ -374,10 +366,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	menubar->setStyleSheet("QMenuBar { background-color: #145300; } QMenuBar::item { color: #669800; }");
 
 	pushButton_break->setStyleSheet("QPushButton:enabled { background-color: #145300; color: white;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
-
-// 	pushButton_backToLobby->setStyleSheet("QPushButton { background-color: #145300; color: white;}");
-	
-// 	horizontalSlider_speed->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #286400; height: 3px; background: #689700; } QSlider::handle:horizontal { background: #689700; border: 1px solid #286400; width: 10px; margin: -8px 0; border-radius: 3px; }");
 
 	statusbar->setStyleSheet(" QStatusBar { "+ font1String +" font-size: 12px; color: white; }");
 
@@ -465,10 +453,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	myChat = new Chat(this, myConfig);
 
-// 	//ShortCuts 
-// 	QShortcut *quitPokerTHKeys = new QShortcut(QKeySequence(Qt::Key_Control + Qt::Key_Q), this);
-// 	connect( quitPokerTHKeys, SIGNAL(activated() ), actionQuit, SLOT( trigger() ) );
-
 	lineEdit_ChatInput->installEventFilter(this);
 	this->installEventFilter(this);
 
@@ -530,8 +514,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect( pushButton_Fold, SIGNAL( clicked(bool) ), this, SLOT( pushButtonFoldClicked(bool) ) );
 	connect( pushButton_CallCheck, SIGNAL( clicked(bool) ), this, SLOT( pushButtonCallCheckClicked(bool) ) );
 	connect( pushButton_AllIn, SIGNAL( clicked(bool) ), this, SLOT(pushButtonAllInClicked(bool) ) );
-// 	connect( pushButton_backToLobby	, SIGNAL( clicked(bool) ), this, SLOT(leaveCurrentNetworkGame() ) );
-
 	connect( horizontalSlider_bet, SIGNAL( valueChanged(int)), this, SLOT ( changeLineEditBetValue(int) ) );
 	connect( lineEdit_betValue, SIGNAL( textChanged(QString)), this, SLOT ( lineEditBetValueChanged(QString) ) );
 	
@@ -664,8 +646,7 @@ void mainWindowImpl::callNewGameDialog() {
 	if(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame")){
 
 		myNewGameDialog->exec();
-		if (myNewGameDialog->result() == QDialog::Accepted ) { startNewLocalGame(myNewGameDialog);	}
-// 		else { startNewLocalGame(); }
+		if (myNewGameDialog->result() == QDialog::Accepted ) { startNewLocalGame(myNewGameDialog); }
 	}
 	// sonst mit gespeicherten Werten starten
 	else { startNewLocalGame(); }
@@ -1071,7 +1052,7 @@ void mainWindowImpl::callSettingsDialog() {
 
 void mainWindowImpl::initGui(int speed)
 {
-	//restliche Singleshots killen!!!
+	//kill running Singleshots!!!
 	stopTimer();
 		
 	label_Pot->setText("Pot");
@@ -1080,10 +1061,6 @@ void mainWindowImpl::initGui(int speed)
 	label_handNumber->setText("Hand:");
 	label_gameNumber->setText("Game:");
 	
-	//Tools und Board aufhellen und enablen
-// 	QPalette tempPalette = groupBox_board->palette();
-// 	tempPalette.setColor(QPalette::Window, active);
-// 	groupBox_board->setPalette(tempPalette);
 	groupBox_RightToolBox->setDisabled(FALSE);
 	groupBox_LeftToolBox->setDisabled(FALSE);	
 		
@@ -1240,9 +1217,7 @@ void mainWindowImpl::refreshPlayerName() {
 			playerNameLabelArray[(*it_c)->getMyID()]->setText(""); 
 		
 		}
-		
 	}
-
 }
 
 QStringList mainWindowImpl::getPlayerNicksList() {
@@ -1278,7 +1253,6 @@ void mainWindowImpl::refreshPlayerAvatar() {
 			playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);
 		}		
 	}
-
 }
 
 void mainWindowImpl::setPlayerAvatar(int myID, QString myAvatar) {
@@ -1326,7 +1300,6 @@ void mainWindowImpl::refreshAction(int playerID, int playerAction) {
 			}
 					
 			if ((*it_c)->getMyAction()==1) { 
-	// 			groupBoxArray[i]->setDisabled(TRUE);
 				
 				if((*it_c)->getMyID() != 0) {
 					holeCardsArray[(*it_c)->getMyID()][0]->setPixmap(onePix, FALSE);
@@ -1380,10 +1353,6 @@ void mainWindowImpl::refreshCash() {
 			cashTopLabelArray[(*it_c)->getMyID()]->setText("");
 		}
 	}
-
-
-
-
 }
 
 void mainWindowImpl::refreshGroupbox(int playerID, int status) {
@@ -1551,7 +1520,6 @@ void mainWindowImpl::refreshChangePlayer() {
 		refreshAction( (*it_c)->getMyID(), (*it_c)->getMyAction());
 	}
 
-
 	refreshCash();
 }
 
@@ -1669,11 +1637,11 @@ void mainWindowImpl::dealFlopCards4() {
 
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
-		//mit Eye-Candy
+		//with Eye-Candy
 		boardCardsArray[0]->startFlipCards(guiGameSpeed, card, *flipside);
 	}
 	else {
-		//ohne Eye-Candy
+		//without Eye-Candy
 		boardCardsArray[0]->setPixmap(card, FALSE);
 	}
 	dealFlopCards4Timer->start(dealCardsSpeed);
@@ -1689,11 +1657,11 @@ void mainWindowImpl::dealFlopCards5() {
 	
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
-		//mit Eye-Candy
+		//with Eye-Candy
 		boardCardsArray[1]->startFlipCards(guiGameSpeed, card, *flipside);
 	}
 	else {
-		//ohne Eye-Candy
+		//without Eye-Candy
 		boardCardsArray[1]->setPixmap(card, FALSE);
 	}
 	dealFlopCards5Timer->start(dealCardsSpeed);
@@ -1709,11 +1677,11 @@ void mainWindowImpl::dealFlopCards6() {
 	
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
-		//mit Eye-Candy
+		//with Eye-Candy
 		boardCardsArray[2]->startFlipCards(guiGameSpeed, card, *flipside);
 	}
 	else {
-		//ohne Eye-Candy
+		//without Eye-Candy
 		boardCardsArray[2]->setPixmap(card, FALSE);
 	}
 	
@@ -1745,11 +1713,11 @@ void mainWindowImpl::dealTurnCards2() {
 
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
-		//mit Eye-Candy
+		//with Eye-Candy
 		boardCardsArray[3]->startFlipCards(guiGameSpeed, card, *flipside);
 	}
 	else {
-		//ohne Eye-Candy
+		//without Eye-Candy
 		boardCardsArray[3]->setPixmap(card, FALSE);
 	}
 	
@@ -1785,11 +1753,11 @@ void mainWindowImpl::dealRiverCards2() {
 
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
-		//mit Eye-Candy
+		//with Eye-Candy
 		boardCardsArray[4]->startFlipCards(guiGameSpeed, card, *flipside);
 	}
 	else {
-		//ohne Eye-Candy
+		//without Eye-Candy
 		boardCardsArray[4]->setPixmap(card, FALSE);
 	}
 
@@ -1841,7 +1809,7 @@ void mainWindowImpl::provideMyActions(int mode) {
 		if(currentHand->getCurrentRound() == 0) { // preflop
 			
 			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { 
-				pushButtonBetRaiseString = "Raise "+QString::number(getMyBetAmount(1))+"$"; 
+				pushButtonBetRaiseString = "Raise "+QString::number(getMyBetAmount())+"$"; 
 			}
 	
 			if (currentGame->getSeatsList()->front()->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getSeatsList()->front()->getMyButton() == 3) { pushButtonCallCheckString = "Check"; }
@@ -1859,19 +1827,19 @@ void mainWindowImpl::provideMyActions(int mode) {
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 	
 				pushButtonCallCheckString = "Check";
-				pushButtonBetRaiseString = "Bet "+QString::number(getMyBetAmount(0))+"$";
+				pushButtonBetRaiseString = "Bet "+QString::number(getMyBetAmount())+"$";
 			}
 			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
 				pushButtonCallCheckString = "Call "+QString::number(getMyCallAmount())+"$" ;
 				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-					pushButtonBetRaiseString = "Raise "+QString::number(getMyBetAmount(1))+"$";
+					pushButtonBetRaiseString = "Raise "+QString::number(getMyBetAmount())+"$";
 				}
 			}
 		}
 		
 		if(mode == 0) {
 			if( currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD ) {
-				pushButtonBetRaiseString = "Bet "+QString::number(getMyBetAmount(0))+"$";
+				pushButtonBetRaiseString = "Bet "+QString::number(getMyBetAmount())+"$";
 				pushButtonCallCheckString = "Check"; 
 				if( currentGame->getActivePlayerList()->size() > 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_SMALL_BLIND || ( currentGame->getActivePlayerList()->size() <= 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_BIG_BLIND)) { pushButtonFoldString = "Fold"; }
 				else { pushButtonFoldString = "Check / Fold"; }
@@ -1956,10 +1924,6 @@ void mainWindowImpl::provideMyActions(int mode) {
 
 void mainWindowImpl::meInAction() {
 
-	//fix buttons if escape is pressed during raise or bet
-// 	lineEdit_betValue->hide();
-// 	pushButton_BetRaise->show();
-
 	myButtonsCheckable(FALSE);
 	
 	horizontalSlider_bet->setEnabled(TRUE);
@@ -2035,34 +1999,13 @@ void mainWindowImpl::disableMyButtons() {
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
 	//clear userWidgets
-// 	lineEdit_betValue->setMinimum(0);
 	horizontalSlider_bet->setMinimum(0);
-// 	lineEdit_betValue->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	lineEdit_betValue->clear();
 	horizontalSlider_bet->setValue(0);
-
 	pushButton_AllIn->setDisabled(TRUE);
 	horizontalSlider_bet->setDisabled(TRUE);
 	lineEdit_betValue->setDisabled(TRUE);
-
-}
-
-void mainWindowImpl::myBetRaise() {
-	
-// 	if(pushButton_BetRaise->text().startsWith("Raise")) { 
-// 		myRaise(); 
-// 	}
-// 	else if(pushButton_BetRaise->text().startsWith("Bet")) { 
-// 		myBet(); 
-// 	}
-// 	else {}
-// 
-// 	if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) { 
-// 		lineEdit_betValue->setFocus();
-// 		lineEdit_betValue->selectAll();
-// 	}
-
 }
 
 void mainWindowImpl::myCallCheck() {
@@ -2070,7 +2013,6 @@ void mainWindowImpl::myCallCheck() {
 	if(pushButton_CallCheck->text().startsWith("Call")) { myCall(); }
 	if(pushButton_CallCheck->text() == "Check") { myCheck(); }	
 }
-
 
 void mainWindowImpl::myFold(){
 
@@ -2118,8 +2060,6 @@ int mainWindowImpl::getMyCallAmount() {
         else {
                 return tempHighestSet - currentHand->getSeatsList()->front()->getMySet();
         }
-
-
 }
 
 int mainWindowImpl::getBetRaisePushButtonValue() {
@@ -2139,16 +2079,6 @@ int mainWindowImpl::getMyBetAmount(int mode) {
 	int betValue = getBetRaisePushButtonValue();
 	int minimum;
 	
-// 	if(mode == 0) { // bet
-// 		minimum = currentHand->getSmallBlind()*2;
-// 	}
-// 	else if(mode == 1) { // raise
-// 		minimum = currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise();
-// 	}
-// 	else {
-// 		minimum = -1;
-// 	}
-
 	minimum = currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise();
 
 	if(betValue < minimum) {
@@ -2157,7 +2087,6 @@ int mainWindowImpl::getMyBetAmount(int mode) {
 	else {
 		return betValue;
 	}
-
 }
 
 void mainWindowImpl::myCall(){
@@ -2189,29 +2118,6 @@ void mainWindowImpl::myCall(){
 
 	//Spiel läuft weiter
 	myActionDone();
-}
-
-void mainWindowImpl::myBet(){ 
-
-// 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-// 
-// 	horizontalSlider_bet->setMinimum(currentHand->getSmallBlind()*2);
-// 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
-// 	horizontalSlider_bet->setSingleStep(10);
-// 
-// 	myActionIsBet = 1;
-}
-
-void mainWindowImpl::myRaise(){ 
-
-// 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
-// 
-// 	horizontalSlider_bet->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
-// 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
-// 	horizontalSlider_bet->setSingleStep(10);
-// 
-// 	myActionIsRaise = 1;
-
 }
 
 void mainWindowImpl::mySet(){
@@ -2545,7 +2451,7 @@ void mainWindowImpl::postRiverRunAnimation2() {
 				}	
 			}
 			else {
-				//Ohne Eye-Candy		
+				//without Eye-Candy		
 			
 				//Karten der aktiven Spieler umdrehen
 				QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
@@ -2588,16 +2494,6 @@ void mainWindowImpl::postRiverRunAnimation2() {
 		postRiverRunAnimation2Timer->start(postRiverRunAnimationSpeed);
 	}
 	else { postRiverRunAnimation3(); }
-
-
-
-
-
-
-
-
-
-
 
 }
 
@@ -2792,8 +2688,6 @@ void mainWindowImpl::postRiverRunAnimation5() {
 		potDistributeTimer->stop();
 		postRiverRunAnimation5Timer->start(gameSpeed);	
 	}
-
-
 }
 
 void mainWindowImpl::postRiverRunAnimation6() {
@@ -2887,7 +2781,7 @@ void mainWindowImpl::flipHolecardsAllIn() {
 				}
 			}
 			else {
-				//Ohne Eye-Candy		
+				//without Eye-Candy		
 		
 				//Karten der aktiven Spieler umdrehen
 				QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
@@ -2914,12 +2808,6 @@ void mainWindowImpl::flipHolecardsAllIn() {
 			}
 		}
 	}	
-
-
-
-
-
-	
 	
 	//Wenn einmal umgedreht dann fertig!!	
 	flipHolecardsAllInAlreadyDone = TRUE;
@@ -2982,25 +2870,14 @@ void mainWindowImpl::nextRoundCleanGui() {
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
 		for ( j=0; j<=1; j++ ) { holeCardsArray[i][j]->setFadeOutAction(FALSE);}
 	}
-		
-// 	QPalette labelPalette = label_Pot->palette();
-// 	labelPalette.setColor(QPalette::WindowText, c);
-// 	label_Pot->setPalette(labelPalette);
 
 	// for startNewGame during human player is active
 	if(mySession->getCurrentGame()->getCurrentHand()->getSeatsList()->front()->getMyActiveStatus() == 1) {
 		disableMyButtons();
 	}
-// 	QPalette tempPalette = frame_Pot->palette();
-// 	tempPalette.setColor(QPalette::Window, active);
-// 	frame_Pot->setPalette(tempPalette);
 
 	textLabel_handLabel->setText("");
 	
-// 	tempPalette = frame_handLabel->palette();
-// 	tempPalette.setColor(QPalette::Window, active);
-// 	frame_handLabel->setPalette(tempPalette);
-
 	refreshAll();
 
 	flipHolecardsAllInAlreadyDone = FALSE;
@@ -3758,20 +3635,6 @@ void mainWindowImpl::quitPokerTH() {
 	else { qApp->quit();}
 }
 
-// void mainWindowImpl::paintEvent(QPaintEvent *event) {
-//  
-// 	QPainter painter(this);
-// 	QPixmap pm;	
-// 	QPixmapCache::setCacheLimit(2048);
-// 	if (!QPixmapCache::find("my_big_image", pm)) {
-// 		pm.load(myAppDataPath +"gfx/gui/table/default/table.png");
-// 		QPixmapCache::insert("my_big_image", pm);
-// 	}
-// 	painter.drawPixmap(0, 0, pm);
-// 
-// 	QMainWindow::paintEvent(event);
-// }
-
 void mainWindowImpl::changeLineEditBetValue(int value) {
 
 	int temp;
@@ -3795,7 +3658,6 @@ void mainWindowImpl::changeLineEditBetValue(int value) {
 				lineEdit_betValue->setText(QString::number(temp));
 		}
 	}
-    	
 }
 
 void mainWindowImpl::lineEditBetValueChanged(QString valueString) {
@@ -3822,7 +3684,6 @@ void mainWindowImpl::lineEditBetValueChanged(QString valueString) {
 		betSliderChangedByInput = TRUE;
 		horizontalSlider_bet->setValue(horizontalSlider_bet->minimum());
 	}
-	
 }
 
 void mainWindowImpl::leaveCurrentNetworkGame() {
