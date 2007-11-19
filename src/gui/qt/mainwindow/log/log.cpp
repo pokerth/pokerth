@@ -70,7 +70,7 @@ Log::Log(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), m
 			stream << "</head>\n";
 			stream << "<body style=\"font-size:smaller\">\n";
 			stream << "<img src='logo.png'>\n";
-			stream << "<h3><b>Log-File for PokerTH 0.6-beta Session started on "+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
+			stream << QString("<h3><b>Log-File for PokerTH %1 Session started on ").arg(POKERTH_BETA_RELEASE_STRING)+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
 			myLogFile->close();
 	
 			//Zu alte Dateien löschen!!!

@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "aboutpokerthimpl.h"
 #include "configfile.h"
+#include "game_defs.h"
 #include <QtCore>
 
 
@@ -51,5 +52,9 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	
 	
 	label_logo->setPixmap(QPixmap(myAppDataPath+"gfx/gui/misc/logoChip3D.png"));
+
+	label_pokerthVersion->setStyleSheet("QLabel { font-size: 16px; font-weight: bold;}");
+	label_pokerthVersion->setText(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
+	this->setWindowTitle(QString(tr("About PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
 	
 }
