@@ -2072,7 +2072,7 @@ int mainWindowImpl::getBetRaisePushButtonValue() {
 	return betValue;
 }
 
-int mainWindowImpl::getMyBetAmount(int mode) {
+int mainWindowImpl::getMyBetAmount() {
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 	

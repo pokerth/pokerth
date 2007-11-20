@@ -206,18 +206,15 @@ public slots:
 	void pushButtonFoldClicked(bool checked);
 	void pushButtonAllInClicked(bool checked);
 
-	void myBetRaise();
 	void myCallCheck();
 
 	void myFold();
 	void myCheck();
 	int getMyCallAmount();
 	int getBetRaisePushButtonValue();
-	int getMyBetAmount(int);
+	int getMyBetAmount();
 	void myCall();
-	void myBet();
 	void mySet();
-	void myRaise();
 	void myAllIn();
 
 	void myActionDone();
