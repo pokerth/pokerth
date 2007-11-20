@@ -185,7 +185,7 @@
 (define pkth-init-ack-offset-player-id          (+ pkth-init-ack-offset-session-id pkth-length-session-id))
 
 ;;; Minimum/maximum packet length
-(define pkth-minimum-message-length             8)
+(define pkth-minimum-message-length             pkth-header-length-common)
 (define pkth-maximum-message-length             268)
 
 ;;; Receive buf length
