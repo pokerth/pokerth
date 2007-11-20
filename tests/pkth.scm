@@ -49,7 +49,7 @@
 (define pkth-port                               7234)
 
 ;;; PKTH protocol version
-(define pkth-version-major                      2)
+(define pkth-version-major                      3)
 (define pkth-version-minor                      0)
 
 ;;; PokerTH game version
