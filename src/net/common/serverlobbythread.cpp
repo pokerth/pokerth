@@ -165,8 +165,8 @@ ServerLobbyThread::NotifyPlayerJoinedGame(unsigned gameId, unsigned playerId)
 	packetData.gameId = gameId;
 	packetData.playerId = playerId;
 	static_cast<NetPacketGameListPlayerJoined *>(packet.get())->SetData(packetData);
-	m_sessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Established);
-	m_gameSessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Game);
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
 }
 
 void
@@ -178,8 +178,8 @@ ServerLobbyThread::NotifyPlayerLeftGame(unsigned gameId, unsigned playerId)
 	packetData.gameId = gameId;
 	packetData.playerId = playerId;
 	static_cast<NetPacketGameListPlayerLeft *>(packet.get())->SetData(packetData);
-	m_sessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Established);
-	m_gameSessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Game);
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
 }
 
 void
@@ -191,24 +191,24 @@ ServerLobbyThread::NotifyGameAdminChanged(unsigned gameId, unsigned newAdminPlay
 	packetData.gameId = gameId;
 	packetData.newAdminplayerId = newAdminPlayerId;
 	static_cast<NetPacketGameListAdminChanged *>(packet.get())->SetData(packetData);
-	m_sessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Established);
-	m_gameSessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Game);
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
 }
 
 void
 ServerLobbyThread::NotifyStartingGame(unsigned gameId)
 {
 	boost::shared_ptr<NetPacket> packet = CreateNetPacketGameListUpdate(gameId, GAME_MODE_STARTED);
-	m_sessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Established);
-	m_gameSessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Game);
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
 }
 
 void
 ServerLobbyThread::NotifyReopeningGame(unsigned gameId)
 {
 	boost::shared_ptr<NetPacket> packet = CreateNetPacketGameListUpdate(gameId, GAME_MODE_CREATED);
-	m_sessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Established);
-	m_gameSessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Game);
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
 }
 
 void
@@ -592,7 +592,7 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(SessionWrapper session, const N
 			avatarFound = true;
 			SenderThreadList::iterator pos = min_element(m_avatarSenderThreadPool.begin(), m_avatarSenderThreadPool.end(), *boost::lambda::_1 < *boost::lambda::_2);
 			if (pos != m_avatarSenderThreadPool.end())
-				(*pos)->SendLowPrio(session.sessionData, tmpPackets);
+				(*pos)->Send(session.sessionData, tmpPackets);
 			else
 				LOG_ERROR("Load balancing for avatar sender threads failed.");
 		}
@@ -827,8 +827,8 @@ ServerLobbyThread::InternalAddGame(boost::shared_ptr<ServerGameThread> game)
 	// Add game to list.
 	m_gameMap.insert(GameMap::value_type(game->GetId(), game));
 	// Notify all players.
-	m_sessionManager.SendToAllSessionsLowPrio(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Established);
-	m_gameSessionManager.SendToAllSessionsLowPrio(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Game);
+	m_sessionManager.SendToAllSessions(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), CreateNetPacketGameListNew(*game), SessionData::Game);
 
 	{
 		boost::mutex::scoped_lock lock(m_statMutex);
@@ -849,8 +849,8 @@ ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGameThread> game)
 	game->RemoveAllSessions();
 	// Notify all players.
 	boost::shared_ptr<NetPacket> packet = CreateNetPacketGameListUpdate(game->GetId(), GAME_MODE_CLOSED);
-	m_sessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Established);
-	m_gameSessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Game);
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
 }
 
 void
@@ -1024,8 +1024,8 @@ ServerLobbyThread::BroadcastStatisticsUpdate(const ServerStats &stats)
 		try {
 			static_cast<NetPacketStatisticsChanged *>(packet.get())->SetData(statData);
 
-			m_sessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Established);
-			m_gameSessionManager.SendToAllSessionsLowPrio(GetSender(), packet, SessionData::Game);
+			m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+			m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
 		} catch (const NetException &)
 		{
 			// Ignore errors for now.

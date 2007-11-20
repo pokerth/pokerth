@@ -592,7 +592,7 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 			tmpList);
 
 		if (!avatarError)
-			client.GetSender().SendLowPrio(client.GetContext().GetSessionData(), tmpList);
+			client.GetSender().Send(client.GetContext().GetSessionData(), tmpList);
 		else
 			throw ClientException(__FILE__, __LINE__, avatarError, 0);
 	}

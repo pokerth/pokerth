@@ -26,7 +26,7 @@
 #include <net/netpacket.h>
 #include <net/sendercallback.h>
 
-#include <deque>
+#include <list>
 #include <boost/shared_ptr.hpp>
 
 #define SENDER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
@@ -40,38 +40,35 @@ public:
 	void Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 	void Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
 
-	void SendLowPrio(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
-	void SendLowPrio(boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
-
 	unsigned GetNumPacketsInQueue() const;
 	bool operator<(const SenderThread &other) const;
 
 protected:
-	typedef std::pair<boost::shared_ptr<NetPacket>, boost::shared_ptr<SessionData> > SendData;
-	typedef std::deque<SendData> SendDataDeque;
+	struct SendData
+	{
+		SendData()
+		: bytesSent(0) {}
+		SendData(boost::shared_ptr<NetPacket> p, boost::shared_ptr<SessionData> s)
+		: packet(p), session(s), bytesSent(0) {}
+		boost::shared_ptr<NetPacket> packet;
+		boost::shared_ptr<SessionData> session;
+		unsigned bytesSent;
+	};
+	typedef std::list<SendData> SendDataList;
 
 	// Main function of the thread.
 	virtual void Main();
 
-	void InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
-	void InternalStore(SendDataDeque &sendQueue, unsigned maxQueueSize, boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
-
-	void RemoveCurSendData();
+	void InternalStore(SendDataList &sendQueue, unsigned maxQueueSize, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+	void InternalStore(SendDataList &sendQueue, unsigned maxQueueSize, boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
 
 private:
 
-	boost::shared_ptr<SessionData> m_curSession;
+	SendDataList m_sendQueue;
+	mutable boost::mutex m_sendQueueMutex;
 
-	std::deque<SendData> m_outBuf;
-	mutable boost::mutex m_outBufMutex;
-
-	std::deque<SendData> m_lowPrioOutBuf;
-	mutable boost::mutex m_lowPrioOutBufMutex;
-
-	char m_tmpOutBuf[MAX_PACKET_SIZE];
-	unsigned m_tmpOutBufSize;
-	bool m_tmpIsLowPrio;
-	unsigned m_lastInvalidSessionId;
+	SendDataList m_stalledQueue;
+	mutable boost::mutex m_stalledQueueMutex;
 
 	SenderCallback &m_callback;
 };

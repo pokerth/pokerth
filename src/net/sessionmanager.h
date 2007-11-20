@@ -74,7 +74,6 @@ public:
 	unsigned GetRawSessionCount();
 
 	void SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
-	void SendToAllSessionsLowPrio(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
 	void SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state);
 
 protected:

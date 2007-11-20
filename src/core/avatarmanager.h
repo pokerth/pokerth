@@ -47,10 +47,10 @@ public:
 
 	void AddSingleAvatar(const std::string &fileName);
 
-	boost::shared_ptr<AvatarFileState> OpenAvatarFileForChunkRead(const std::string &fileName, unsigned &outFileSize, AvatarFileType &outFileType);
-	unsigned ChunkReadAvatarFile(boost::shared_ptr<AvatarFileState> fileState, unsigned char *data, unsigned chunkSize);
+	static boost::shared_ptr<AvatarFileState> OpenAvatarFileForChunkRead(const std::string &fileName, unsigned &outFileSize, AvatarFileType &outFileType);
+	static unsigned ChunkReadAvatarFile(boost::shared_ptr<AvatarFileState> fileState, unsigned char *data, unsigned chunkSize);
 
-	int AvatarFileToNetPackets(const std::string &fileName, unsigned requestId, NetPacketList &packets);
+	static int AvatarFileToNetPackets(const std::string &fileName, unsigned requestId, NetPacketList &packets);
 
 	bool GetHashForAvatar(const std::string &fileName, MD5Buf &md5buf) const;
 	bool GetAvatarFileName(const MD5Buf &md5buf, std::string &fileName) const;
@@ -77,8 +77,6 @@ private:
 
 	mutable boost::mutex	m_cacheDirMutex;
 	std::string				m_cacheDir;
-
-	mutable boost::mutex	m_loadMutex;
 };
 
 #endif

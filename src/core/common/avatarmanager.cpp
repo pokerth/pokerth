@@ -192,9 +192,6 @@ AvatarManager::ChunkReadAvatarFile(boost::shared_ptr<AvatarFileState> fileState,
 int
 AvatarManager::AvatarFileToNetPackets(const string &fileName, unsigned requestId, NetPacketList &packets)
 {
-	// Serialize avatar access for now.
-	boost::mutex::scoped_lock lock(m_loadMutex);
-
 	int retVal = ERR_NET_INVALID_AVATAR_FILE;
 	unsigned fileSize;
 	AvatarFileType fileType;
