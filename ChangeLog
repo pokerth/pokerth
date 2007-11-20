@@ -4,7 +4,8 @@
 - improve actions-preselection
 - gui improvements (e.g. scrollbars, new handranking-gfx) 
 - support for password-protected irc-channels
- 
+- admin irc channel for server
+
 2007-11-11 version 0.6-beta4:
 - bugfixes (ingame-kick; cards background scale distortion; pre-actions during allIn)
 
