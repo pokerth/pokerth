@@ -258,6 +258,8 @@ SenderThread::Main()
 			else
 				Msleep(SEND_TIMEOUT_MSEC);
 		}
+		else
+			Msleep(SEND_TIMEOUT_MSEC);
 	}
 }
 
