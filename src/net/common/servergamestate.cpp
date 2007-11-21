@@ -36,7 +36,7 @@
 
 using namespace std;
 
-#define SERVER_TEST
+//#define SERVER_TEST
 
 #define SERVER_START_GAME_TIMEOUT_SEC			10
 
