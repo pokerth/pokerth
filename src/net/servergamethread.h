@@ -24,6 +24,7 @@
 #include <net/sessionmanager.h>
 #include <gui/guiinterface.h>
 #include <gamedata.h>
+#include <core/boost/timers.hpp>
 
 #include <deque>
 
@@ -108,6 +109,9 @@ protected:
 	ServerGameState &GetState();
 	void SetState(ServerGameState &newState);
 
+	const boost::timers::portable::microsec_timer &GetStateTimer() const;
+	boost::timers::portable::microsec_timer &GetStateTimer();
+
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
 
@@ -153,8 +157,11 @@ private:
 	ServerGameState	   *m_curState;
 	unsigned			m_gameNum;
 
+	boost::timers::portable::microsec_timer m_stateTimer;
+
 friend class AbstractServerGameStateReceiving;
 friend class AbstractServerGameStateRunning;
+friend class AbstractServerGameStateTimer;
 friend class ServerGameStateInit;
 friend class ServerGameStateWaitAck;
 friend class ServerGameStateStartGame;

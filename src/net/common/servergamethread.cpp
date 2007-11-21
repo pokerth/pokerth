@@ -56,7 +56,8 @@ private:
 ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
 : m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
   m_gameData(gameData), m_id(id), m_name(name), m_password(pwd), m_playerConfig(playerConfig),
-  m_curState(NULL), m_gameNum(1)
+  m_curState(NULL), m_gameNum(1),
+  m_stateTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
 {
 	m_senderCallback.reset(new GameSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
@@ -499,8 +500,20 @@ ServerGameThread::GetState()
 void
 ServerGameThread::SetState(ServerGameState &newState)
 {
-	newState.Init();
+	newState.Init(*this);
 	m_curState = &newState;
+}
+
+const boost::timers::portable::microsec_timer &
+ServerGameThread::GetStateTimer() const
+{
+	return m_stateTimer;
+}
+
+boost::timers::portable::microsec_timer &
+ServerGameThread::GetStateTimer()
+{
+	return m_stateTimer;
 }
 
 SenderThread &

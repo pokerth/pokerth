@@ -220,33 +220,26 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 
 //-----------------------------------------------------------------------------
 
-AbstractServerGameStateTimer::AbstractServerGameStateTimer()
-: m_timer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
-{
-}
-
 AbstractServerGameStateTimer::~AbstractServerGameStateTimer()
 {
 }
 
 void
-AbstractServerGameStateTimer::Init()
+AbstractServerGameStateTimer::Init(ServerGameThread & server)
 {
-	m_timer.reset();
-	m_timer.start();
+	// Reset timer.
+	server.GetStateTimer().reset();
+	server.GetStateTimer().start();
 }
 
 //-----------------------------------------------------------------------------
 
-boost::thread_specific_ptr<ServerGameStateInit> ServerGameStateInit::Ptr;
+ServerGameStateInit ServerGameStateInit::m_state;
 
 ServerGameStateInit &
 ServerGameStateInit::Instance()
 {
-	if (!Ptr.get())
-		Ptr.reset(new ServerGameStateInit);
-
-	return *Ptr;
+	return m_state;
 }
 
 ServerGameStateInit::ServerGameStateInit()
@@ -388,15 +381,12 @@ AbstractServerGameStateRunning::HandleNewSession(ServerGameThread &server, Sessi
 
 //-----------------------------------------------------------------------------
 
-boost::thread_specific_ptr<ServerGameStateWaitAck> ServerGameStateWaitAck::Ptr;
+ServerGameStateWaitAck ServerGameStateWaitAck::m_state;
 
 ServerGameStateWaitAck &
 ServerGameStateWaitAck::Instance()
 {
-	if (!Ptr.get())
-		Ptr.reset(new ServerGameStateWaitAck);
-
-	return *Ptr;
+	return m_state;
 }
 
 ServerGameStateWaitAck::ServerGameStateWaitAck()
@@ -412,7 +402,7 @@ ServerGameStateWaitAck::Process(ServerGameThread &server)
 {
 	int retVal;
 
-	if (GetTimer().elapsed().total_seconds() >= SERVER_START_GAME_TIMEOUT_SEC)
+	if (server.GetStateTimer().elapsed().total_seconds() >= SERVER_START_GAME_TIMEOUT_SEC)
 	{
 		// On timeout: start anyway.
 		server.SetState(SERVER_START_GAME_STATE::Instance());
@@ -447,15 +437,12 @@ ServerGameStateWaitAck::InternalProcess(ServerGameThread &server, SessionWrapper
 
 //-----------------------------------------------------------------------------
 
-boost::thread_specific_ptr<ServerGameStateStartGame> ServerGameStateStartGame::Ptr;
+ServerGameStateStartGame ServerGameStateStartGame::m_state;
 
 ServerGameStateStartGame &
 ServerGameStateStartGame::Instance()
 {
-	if (!Ptr.get())
-		Ptr.reset(new ServerGameStateStartGame);
-
-	return *Ptr;
+	return m_state;
 }
 
 ServerGameStateStartGame::ServerGameStateStartGame()
@@ -500,15 +487,12 @@ ServerGameStateStartGame::Process(ServerGameThread &server)
 
 //-----------------------------------------------------------------------------
 
-boost::thread_specific_ptr<ServerGameStateStartHand> ServerGameStateStartHand::Ptr;
+ServerGameStateStartHand ServerGameStateStartHand::m_state;
 
 ServerGameStateStartHand &
 ServerGameStateStartHand::Instance()
 {
-	if (!Ptr.get())
-		Ptr.reset(new ServerGameStateStartHand);
-
-	return *Ptr;
+	return m_state;
 }
 
 ServerGameStateStartHand::ServerGameStateStartHand()
@@ -614,15 +598,12 @@ ServerGameStateStartHand::Process(ServerGameThread &server)
 
 //-----------------------------------------------------------------------------
 
-boost::thread_specific_ptr<ServerGameStateStartRound> ServerGameStateStartRound::Ptr;
+ServerGameStateStartRound ServerGameStateStartRound::m_state;
 
 ServerGameStateStartRound &
 ServerGameStateStartRound::Instance()
 {
-	if (!Ptr.get())
-		Ptr.reset(new ServerGameStateStartRound);
-
-	return *Ptr;
+	return m_state;
 }
 
 ServerGameStateStartRound::ServerGameStateStartRound()
@@ -810,15 +791,12 @@ ServerGameStateStartRound::Process(ServerGameThread &server)
 
 //-----------------------------------------------------------------------------
 
-boost::thread_specific_ptr<ServerGameStateWaitPlayerAction> ServerGameStateWaitPlayerAction::Ptr;
+ServerGameStateWaitPlayerAction ServerGameStateWaitPlayerAction::m_state;
 
 ServerGameStateWaitPlayerAction &
 ServerGameStateWaitPlayerAction::Instance()
 {
-	if (!Ptr.get())
-		Ptr.reset(new ServerGameStateWaitPlayerAction);
-
-	return *Ptr;
+	return m_state;
 }
 
 ServerGameStateWaitPlayerAction::ServerGameStateWaitPlayerAction()
@@ -855,7 +833,7 @@ ServerGameStateWaitPlayerAction::Process(ServerGameThread &server)
 #ifdef SERVER_TEST
 	else if (true)
 #else
-	else if (GetTimer().elapsed().total_seconds() >= server.GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC)
+	else if (server.GetStateTimer().elapsed().total_seconds() >= server.GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC)
 #endif
 	{
 		// Player did not act fast enough. Act for him.
@@ -979,15 +957,12 @@ ServerGameStateWaitPlayerAction::PerformPlayerAction(ServerGameThread &server, b
 
 //-----------------------------------------------------------------------------
 
-boost::thread_specific_ptr<ServerGameStateComputerAction> ServerGameStateComputerAction::Ptr;
+ServerGameStateComputerAction ServerGameStateComputerAction::m_state;
 
 ServerGameStateComputerAction &
 ServerGameStateComputerAction::Instance()
 {
-	if (!Ptr.get())
-		Ptr.reset(new ServerGameStateComputerAction);
-
-	return *Ptr;
+	return m_state;
 }
 
 ServerGameStateComputerAction::ServerGameStateComputerAction()
@@ -1003,7 +978,7 @@ ServerGameStateComputerAction::Process(ServerGameThread &server)
 {
 	int retVal = AbstractServerGameStateReceiving::Process(server);
 
-	if (GetTimer().elapsed().total_seconds() >= SERVER_COMPUTER_ACTION_DELAY_SEC)
+	if (server.GetStateTimer().elapsed().total_seconds() >= SERVER_COMPUTER_ACTION_DELAY_SEC)
 	{
 		boost::shared_ptr<PlayerInterface> tmpPlayer = server.GetGame().getCurrentPlayer();
 
@@ -1025,15 +1000,12 @@ ServerGameStateComputerAction::InternalProcess(ServerGameThread &/*server*/, Ses
 
 //-----------------------------------------------------------------------------
 
-boost::thread_specific_ptr<ServerGameStateDealCardsDelay> ServerGameStateDealCardsDelay::Ptr;
+ServerGameStateDealCardsDelay ServerGameStateDealCardsDelay::m_state;
 
 ServerGameStateDealCardsDelay &
 ServerGameStateDealCardsDelay::Instance()
 {
-	if (!Ptr.get())
-		Ptr.reset(new ServerGameStateDealCardsDelay);
-
-	return *Ptr;
+	return m_state;
 }
 
 ServerGameStateDealCardsDelay::ServerGameStateDealCardsDelay()
@@ -1066,7 +1038,7 @@ ServerGameStateDealCardsDelay::Process(ServerGameThread &server)
 			delay = SERVER_DEAL_RIVER_CARD_DELAY_SEC;
 			break;
 	}
-	if (!delay || GetTimer().elapsed().total_seconds() >= delay)
+	if (!delay || server.GetStateTimer().elapsed().total_seconds() >= delay)
 		server.SetState(ServerGameStateStartRound::Instance());
 
 	return retVal;
@@ -1080,15 +1052,12 @@ ServerGameStateDealCardsDelay::InternalProcess(ServerGameThread &/*server*/, Ses
 
 //-----------------------------------------------------------------------------
 
-boost::thread_specific_ptr<ServerGameStateShowCardsDelay> ServerGameStateShowCardsDelay::Ptr;
+ServerGameStateShowCardsDelay ServerGameStateShowCardsDelay::m_state;
 
 ServerGameStateShowCardsDelay &
 ServerGameStateShowCardsDelay::Instance()
 {
-	if (!Ptr.get())
-		Ptr.reset(new ServerGameStateShowCardsDelay);
-
-	return *Ptr;
+	return m_state;
 }
 
 ServerGameStateShowCardsDelay::ServerGameStateShowCardsDelay()
@@ -1104,7 +1073,7 @@ ServerGameStateShowCardsDelay::Process(ServerGameThread &server)
 {
 	int retVal = AbstractServerGameStateReceiving::Process(server);
 
-	if (GetTimer().elapsed().total_seconds() >= SERVER_SHOW_CARDS_DELAY_SEC)
+	if (server.GetStateTimer().elapsed().total_seconds() >= SERVER_SHOW_CARDS_DELAY_SEC)
 	{
 		Game &curGame = server.GetGame();
 		SendNewRoundCards(server, curGame, curGame.getCurrentHand()->getCurrentRound());
@@ -1124,15 +1093,12 @@ ServerGameStateShowCardsDelay::InternalProcess(ServerGameThread &/*server*/, Ses
 
 //-----------------------------------------------------------------------------
 
-boost::thread_specific_ptr<ServerGameStateNextHandDelay> ServerGameStateNextHandDelay::Ptr;
+ServerGameStateNextHandDelay ServerGameStateNextHandDelay::m_state;
 
 ServerGameStateNextHandDelay &
 ServerGameStateNextHandDelay::Instance()
 {
-	if (!Ptr.get())
-		Ptr.reset(new ServerGameStateNextHandDelay);
-
-	return *Ptr;
+	return m_state;
 }
 
 ServerGameStateNextHandDelay::ServerGameStateNextHandDelay()
@@ -1148,7 +1114,7 @@ ServerGameStateNextHandDelay::Process(ServerGameThread &server)
 {
 	int retVal = AbstractServerGameStateReceiving::Process(server);
 
-	if (GetTimer().elapsed().total_seconds() >= SERVER_DELAY_NEXT_HAND_SEC)
+	if (server.GetStateTimer().elapsed().total_seconds() >= SERVER_DELAY_NEXT_HAND_SEC)
 		server.SetState(ServerGameStateStartHand::Instance());
 
 	return retVal;
@@ -1162,15 +1128,12 @@ ServerGameStateNextHandDelay::InternalProcess(ServerGameThread &/*server*/, Sess
 
 //-----------------------------------------------------------------------------
 
-boost::thread_specific_ptr<ServerGameStateNextGameDelay> ServerGameStateNextGameDelay::Ptr;
+ServerGameStateNextGameDelay ServerGameStateNextGameDelay::m_state;
 
 ServerGameStateNextGameDelay &
 ServerGameStateNextGameDelay::Instance()
 {
-	if (!Ptr.get())
-		Ptr.reset(new ServerGameStateNextGameDelay);
-
-	return *Ptr;
+	return m_state;
 }
 
 ServerGameStateNextGameDelay::ServerGameStateNextGameDelay()
@@ -1186,7 +1149,7 @@ ServerGameStateNextGameDelay::Process(ServerGameThread &server)
 {
 	int retVal = AbstractServerGameStateReceiving::Process(server);
 
-	if (GetTimer().elapsed().total_seconds() >= SERVER_DELAY_NEXT_GAME_SEC)
+	if (server.GetStateTimer().elapsed().total_seconds() >= SERVER_DELAY_NEXT_GAME_SEC)
 	{
 		Game &curGame = server.GetGame();
 		// The game has ended. Notify all clients.
@@ -1226,15 +1189,12 @@ ServerGameStateNextGameDelay::InternalProcess(ServerGameThread &/*server*/, Sess
 
 //-----------------------------------------------------------------------------
 
-boost::thread_specific_ptr<ServerGameStateFinal> ServerGameStateFinal::Ptr;
+ServerGameStateFinal ServerGameStateFinal::m_state;
 
 ServerGameStateFinal &
 ServerGameStateFinal::Instance()
 {
-	if (!Ptr.get())
-		Ptr.reset(new ServerGameStateFinal);
-
-	return *Ptr;
+	return m_state;
 }
 
 ServerGameStateFinal::ServerGameStateFinal()

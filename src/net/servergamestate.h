@@ -44,7 +44,7 @@ public:
 	virtual ~ServerGameState();
 
 	// Initialize after switching to this state.
-	virtual void Init() = 0;
+	virtual void Init(ServerGameThread &server) = 0;
 
 	// Handling of a new session.
 	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session) = 0;
@@ -70,24 +70,6 @@ protected:
 	virtual int InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
 };
 
-// Abstract State: Timer.
-class AbstractServerGameStateTimer : virtual public ServerGameState
-{
-public:
-	virtual ~AbstractServerGameStateTimer();
-
-	virtual void Init();
-
-	const boost::timers::portable::microsec_timer &GetTimer() const {return m_timer;}
-
-protected:
-
-	AbstractServerGameStateTimer();
-
-private:
-	boost::timers::portable::microsec_timer m_timer;
-};
-
 // Abstract State: Game is running.
 class AbstractServerGameStateRunning : virtual public ServerGameState
 {
@@ -102,6 +84,15 @@ protected:
 	AbstractServerGameStateRunning();
 };
 
+// Abstract State: Timer.
+class AbstractServerGameStateTimer : virtual public ServerGameState
+{
+public:
+	virtual ~AbstractServerGameStateTimer();
+
+	virtual void Init(ServerGameThread &server);
+};
+
 // State: Initialization.
 class ServerGameStateInit : public AbstractServerGameStateReceiving
 {
@@ -111,7 +102,7 @@ public:
 
 	virtual ~ServerGameStateInit();
 
-	virtual void Init() {}
+	virtual void Init(ServerGameThread & /*server*/) {}
 	// 
 	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session);
 
@@ -126,7 +117,7 @@ protected:
 
 private:
 
-	static boost::thread_specific_ptr<ServerGameStateInit>	Ptr;
+	static ServerGameStateInit	m_state;
 };
 
 // Wait for Ack of start event.
@@ -150,7 +141,7 @@ protected:
 
 private:
 
-	static boost::thread_specific_ptr<ServerGameStateWaitAck>	Ptr;
+	static ServerGameStateWaitAck	m_state;
 };
 
 // State: Start server game.
@@ -162,7 +153,7 @@ public:
 
 	virtual ~ServerGameStateStartGame();
 
-	virtual void Init() {}
+	virtual void Init(ServerGameThread & /*server*/) {}
 
 	// 
 	virtual int Process(ServerGameThread &server);
@@ -174,7 +165,7 @@ protected:
 
 private:
 
-	static boost::thread_specific_ptr<ServerGameStateStartGame>	Ptr;
+	static ServerGameStateStartGame	m_state;
 };
 
 // State: Start new hand.
@@ -186,7 +177,7 @@ public:
 
 	virtual ~ServerGameStateStartHand();
 
-	virtual void Init() {}
+	virtual void Init(ServerGameThread & /*server*/) {}
 
 	// 
 	virtual int Process(ServerGameThread &server);
@@ -198,7 +189,7 @@ protected:
 
 private:
 
-	static boost::thread_specific_ptr<ServerGameStateStartHand>	Ptr;
+	static ServerGameStateStartHand	m_state;
 };
 
 // State: Start new round.
@@ -210,7 +201,7 @@ public:
 
 	virtual ~ServerGameStateStartRound();
 
-	virtual void Init() {}
+	virtual void Init(ServerGameThread & /*server*/) {}
 
 	// 
 	virtual int Process(ServerGameThread &server);
@@ -222,7 +213,7 @@ protected:
 
 private:
 
-	static boost::thread_specific_ptr<ServerGameStateStartRound>	Ptr;
+	static ServerGameStateStartRound	m_state;
 };
 
 // State: Wait for a player action.
@@ -248,7 +239,7 @@ protected:
 
 private:
 
-	static boost::thread_specific_ptr<ServerGameStateWaitPlayerAction>	Ptr;
+	static ServerGameStateWaitPlayerAction	m_state;
 };
 
 // State: Delay and computer action
@@ -272,7 +263,7 @@ protected:
 
 private:
 
-	static boost::thread_specific_ptr<ServerGameStateComputerAction>	Ptr;
+	static ServerGameStateComputerAction	m_state;
 };
 
 // State: Delay after dealing cards
@@ -296,7 +287,7 @@ protected:
 
 private:
 
-	static boost::thread_specific_ptr<ServerGameStateDealCardsDelay>	Ptr;
+	static ServerGameStateDealCardsDelay	m_state;
 };
 
 // State: Delay after showing cards (all in)
@@ -320,7 +311,7 @@ protected:
 
 private:
 
-	static boost::thread_specific_ptr<ServerGameStateShowCardsDelay>	Ptr;
+	static ServerGameStateShowCardsDelay	m_state;
 };
 
 // State: Delay before next hand.
@@ -344,7 +335,7 @@ protected:
 
 private:
 
-	static boost::thread_specific_ptr<ServerGameStateNextHandDelay>	Ptr;
+	static ServerGameStateNextHandDelay	m_state;
 };
 
 // State: Delay before next hand.
@@ -368,7 +359,7 @@ protected:
 
 private:
 
-	static boost::thread_specific_ptr<ServerGameStateNextGameDelay>	Ptr;
+	static ServerGameStateNextGameDelay	m_state;
 };
 
 // State: Final.
@@ -380,7 +371,7 @@ public:
 
 	virtual ~ServerGameStateFinal();
 
-	virtual void Init() {}
+	virtual void Init(ServerGameThread & /*server*/) {}
 
 protected:
 
@@ -391,7 +382,7 @@ protected:
 
 private:
 
-	static boost::thread_specific_ptr<ServerGameStateFinal>	Ptr;
+	static ServerGameStateFinal	m_state;
 };
 
 #ifdef _MSC_VER
