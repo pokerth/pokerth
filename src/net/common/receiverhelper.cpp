@@ -112,7 +112,7 @@ ReceiverHelper::InternalGetPackets(ReceiveBuffer &buf)
 			{
 				// Reset buffer on error.
 				buf.recvBufUsed = 0;
-				LOG_ERR(e.what());
+				LOG_ERROR(e.what());
 			}
 		}
 		if (tmpPacket.get())
