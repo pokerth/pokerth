@@ -75,10 +75,12 @@ HEADERS += \
 		src/net/socket_helper.h \
 		src/net/socket_msg.h \
 		src/net/socket_startup.h \
+		src/net/net_helper.h \
 		src/core/tinyxml/tinystr.h \
 		src/core/tinyxml/tinyxml.h \
 		src/core/pokerthexception.h \
 		src/core/convhelper.h \
+		src/core/loghelper.h \
 		src/engine/local_engine/cardsvalue.h \
 		src/engine/local_engine/localboard.h \
 		src/engine/local_engine/localenginefactory.h \
@@ -104,7 +106,9 @@ HEADERS += \
 SOURCES += \
 		src/pokerth_server.cpp \
 		src/gui/qt/qttools/nonqttoolswrapper.cpp \
-		src/gui/qt/qttools/nonqthelper/nonqthelper.cpp
+		src/gui/qt/qttools/nonqthelper/nonqthelper.cpp \
+		src/net/common/net_helper_server.cpp \
+		src/core/common/loghelper_server.cpp
 
 win32 {
     DEPENDPATH += src/net/win32/ src/core/win32

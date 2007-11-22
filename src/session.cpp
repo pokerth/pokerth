@@ -56,9 +56,7 @@ bool Session::init()
 {
 	myAvatarManager.reset(new AvatarManager);
 	bool retVal = myAvatarManager->Init(myConfig->readConfigString("AppDataDir"), myConfig->readConfigString("CacheDir"));
-#ifndef POKERTH_DEDICATED_SERVER
 	myAvatarManager->AddSingleAvatar(myConfig->readConfigString("MyAvatar"));
-#endif
 	myAvatarManager->RemoveOldAvatarCacheEntries();
 	return retVal;
 }

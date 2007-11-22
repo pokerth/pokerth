@@ -16,33 +16,39 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Helper class for logging. */
 
-#ifndef _LOGHELPER_H_
-#define _LOGHELPER_H_
-
-#include <string>
-#include <sstream>
-
-void internal_log_err(const std::string &msg);
-void internal_log_msg(const std::string &msg);
-
-#define LOG_ERROR(e) \
-	do \
-	{ \
-		std::ostringstream outStream; \
-		outStream << e << std::endl; \
-		internal_log_err(outStream.str()); \
-	} \
-	while(false)
-#define LOG_MSG(e) \
-	do \
-	{ \
-		std::ostringstream outStream; \
-		outStream << e << std::endl; \
-		internal_log_msg(outStream.str()); \
-	} \
-	while(false)
-
+#ifndef POKERTH_DEDICATED_SERVER
+#error This file is only for the server.
 #endif
+
+#include <core/loghelper.h>
+#ifdef _WIN32
+	#include <iostream>
+#else
+	#include <syslog.h>
+	#include <stdarg.h>
+#endif
+
+
+using namespace std;
+
+void
+internal_log_err(const string &msg)
+{
+#ifdef _WIN32
+	cout << msg;
+#else
+	syslog(LOG_ERR, "%s", msg.c_str());
+#endif
+}
+
+void
+internal_log_msg(const std::string &msg)
+{
+#ifdef _WIN32
+	cout << msg;
+#else
+	syslog(LOG_INFO, "%s", msg.c_str());
+#endif
+}
 

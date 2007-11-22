@@ -95,6 +95,7 @@ HEADERS += \
 		src/gamedata.h \
 		src/config/configfile.h \
 		src/core/thread.h \
+		src/core/loghelper.h \
 		src/engine/boardinterface.h \
 		src/engine/enginefactory.h \
 		src/engine/handinterface.h \
@@ -115,6 +116,7 @@ HEADERS += \
 		src/net/socket_helper.h \
 		src/net/socket_msg.h \
 		src/net/socket_startup.h \
+		src/net/net_helper.h \
 		src/core/tinyxml/tinystr.h \
 		src/core/tinyxml/tinyxml.h \
 		src/engine/local_engine/cardsvalue.h \
@@ -221,7 +223,9 @@ SOURCES += \
 		src/gui/qt/mymessagedialog/mymessagedialogimpl.cpp \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp \
 		src/gui/qt/gamelobbydialog/mygamelisttreewidget.cpp \
-		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp
+		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp \
+		src/net/common/net_helper_client.cpp \
+		src/core/common/loghelper_client.cpp
 
 TRANSLATIONS = \
 		ts/pokerth_de.ts \
