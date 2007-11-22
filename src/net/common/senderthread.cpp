@@ -230,7 +230,7 @@ SenderThread::Main()
 						{
 							// Select was successful - store the packet back in the main queue.
 							boost::mutex::scoped_lock lock(m_sendQueueMutex);
-							m_sendQueue.push_back(tmpData);
+							m_sendQueue.push_front(tmpData);
 						}
 					}
 					else // other errors than would block
@@ -249,7 +249,7 @@ SenderThread::Main()
 						tmpData.bytesSent += bytesSent;
 						// Send was partly successful - store the packet back in the main queue.
 						boost::mutex::scoped_lock lock(m_sendQueueMutex);
-						m_sendQueue.push_back(tmpData);
+						m_sendQueue.push_front(tmpData);
 					}
 					else
 						Msleep(SEND_TIMEOUT_MSEC);
