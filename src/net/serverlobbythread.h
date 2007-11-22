@@ -177,7 +177,6 @@ private:
 
 	boost::shared_ptr<ReceiverHelper> m_receiver;
 	boost::shared_ptr<SenderThread> m_sender;
-	SenderThreadList m_avatarSenderThreadPool;
 	boost::shared_ptr<ServerSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
 	AvatarManager &m_avatarManager;
