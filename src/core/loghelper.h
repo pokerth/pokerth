@@ -24,6 +24,8 @@
 #include <string>
 #include <sstream>
 
+void loghelper_init(const std::string &logDir);
+
 void internal_log_err(const std::string &msg);
 void internal_log_msg(const std::string &msg);
 

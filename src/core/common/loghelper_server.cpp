@@ -21,34 +21,57 @@
 #error This file is only for the server.
 #endif
 
-#include <core/loghelper.h>
-#ifdef _WIN32
-	#include <iostream>
-#else
-	#include <syslog.h>
-	#include <stdarg.h>
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4100)
 #endif
+
+#include <core/loghelper.h>
+#include <fstream>
+#include <boost/filesystem.hpp>
+#include <boost/date_time.hpp>
 
 
 using namespace std;
+using namespace boost::filesystem;
+using namespace boost::posix_time;
+
+#define SERVER_MSG_LOG_FILE_NAME				"server_messages.log"
+
+static string g_logFile;
+
+void
+loghelper_init(const string &logDir)
+{
+	path tmpLogFile(logDir);
+	tmpLogFile /= SERVER_MSG_LOG_FILE_NAME;
+
+	g_logFile = tmpLogFile.directory_string();
+}
 
 void
 internal_log_err(const string &msg)
 {
-#ifdef _WIN32
-	cout << msg;
-#else
-	syslog(LOG_ERR, "%s", msg.c_str());
-#endif
+	if (!g_logFile.empty())
+	{
+		ofstream o(g_logFile.c_str(), ios_base::out | ios_base::app);
+		if (!o.fail())
+			o << second_clock::local_time() << " ERR: " << msg;
+	}
 }
 
 void
 internal_log_msg(const std::string &msg)
 {
-#ifdef _WIN32
-	cout << msg;
-#else
-	syslog(LOG_INFO, "%s", msg.c_str());
-#endif
+	if (!g_logFile.empty())
+	{
+		ofstream o(g_logFile.c_str(), ios_base::out | ios_base::app);
+		if (!o.fail())
+			o << second_clock::local_time() << " MSG: " << msg;
+	}
 }
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 

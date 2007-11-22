@@ -28,6 +28,12 @@
 using namespace std;
 
 void
+loghelper_init(const std::string & /*logDir*/)
+{
+	// Do not log to file as client.
+}
+
+void
 internal_log_err(const string &msg)
 {
 	cout << msg;

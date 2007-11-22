@@ -73,6 +73,7 @@ main(int argc, char *argv[])
 
 	//create defaultconfig
 	ConfigFile *myConfig = new ConfigFile(argc, argv);
+	loghelper_init(myConfig->readConfigString("LogDir"));
 
 	// TODO: Hack
 #ifndef _WIN32
@@ -103,7 +104,7 @@ main(int argc, char *argv[])
 	}
 	myServerGuiInterface->getSession().terminateNetworkServer();
 
-	LOG_MSG("Terminating PokerTH dedicated server.");
+	LOG_MSG("Terminating PokerTH dedicated server." << endl);
 	socket_cleanup();
 	return 0;
 }
