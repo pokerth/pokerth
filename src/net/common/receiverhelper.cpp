@@ -24,6 +24,7 @@
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
 #include <net/netexception.h>
+#include <core/loghelper.h>
 #include <cstring>
 
 using namespace std;
@@ -107,11 +108,11 @@ ReceiverHelper::InternalGetPackets(ReceiveBuffer &buf)
 				// This call will also handle the memmove stuff, i.e.
 				// buffering for partial packets.
 				tmpPacket = NetPacket::Create(buf.recvBuf, buf.recvBufUsed);
-			} catch (const NetException &)
+			} catch (const NetException &e)
 			{
 				// Reset buffer on error.
 				buf.recvBufUsed = 0;
-				// TODO: log error/increase error counter.
+				LOG_ERR(e.what());
 			}
 		}
 		if (tmpPacket.get())
