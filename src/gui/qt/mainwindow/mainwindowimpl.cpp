@@ -3196,7 +3196,7 @@ void mainWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 		break;
 		case ERR_NET_INVALID_REQUEST_ID:
 			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("The server requested a non-existing avatar."),
+				tr("An internal avatar error occured. Please report this to an admin in the lobby chat."),
 				QMessageBox::Close); }
 		break;
 		case ERR_NET_START_TIMEOUT:
