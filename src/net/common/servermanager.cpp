@@ -111,10 +111,26 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 			else if (command == "stat")
 			{
 				ServerStats tmpStats = GetLobbyThread().GetStats();
-				ostringstream statStream;
-				statStream
-					<< "Players on Server: " << tmpStats.numberOfPlayersOnServer;
-				m_ircThread->SendChatMessage(statStream.str());
+				{
+					ostringstream statStream;
+					statStream
+						<< "Players currently on Server.. " << tmpStats.numberOfPlayersOnServer;
+					m_ircThread->SendChatMessage(statStream.str());
+				}
+				{
+					ostringstream statStream;
+					statStream
+						<< "Total players ever logged in. " << tmpStats.totalPlayersEverLoggedIn
+						<< "    (Max at a time: " << tmpStats.maxPlayersLoggedIn << ")";
+					m_ircThread->SendChatMessage(statStream.str());
+				}
+				{
+					ostringstream statStream;
+					statStream
+						<< "Total games ever open........ " << tmpStats.totalGamesEverCreated
+						<< "    (Max at a time: " << tmpStats.maxGamesOpen << ")";
+					m_ircThread->SendChatMessage(statStream.str());
+				}
 			}
 			else
 				m_ircThread->SendChatMessage(nickName + ": Invalid command \"" + command + "\".");
