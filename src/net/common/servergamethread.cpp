@@ -22,7 +22,6 @@
 #include <net/serverlobbythread.h>
 #include <net/serverexception.h>
 #include <net/senderthread.h>
-#include <net/sendercallback.h>
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
 #include <core/loghelper.h>
@@ -35,32 +34,12 @@
 using namespace std;
 
 
-class GameSenderCallback : public SenderCallback
-{
-public:
-	GameSenderCallback(ServerGameThread &server) : m_server(server) {}
-	virtual ~GameSenderCallback() {}
-
-	virtual void SignalNetError(SessionId /*session*/, int /*errorID*/, int /*osErrorID*/)
-	{
-		// We just ignore send errors for now, on server side.
-		// A serious send error should trigger a read error or a read
-		// returning 0 afterwards, and we will handle this error.
-	}
-
-private:
-	ServerGameThread &m_server;
-};
-
-
 ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
 : m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
   m_gameData(gameData), m_id(id), m_name(name), m_password(pwd), m_playerConfig(playerConfig),
   m_curState(NULL), m_gameNum(1),
   m_stateTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
 {
-	m_senderCallback.reset(new GameSenderCallback(*this));
-	m_sender.reset(new SenderThread(GetSenderCallback()));
 	m_receiver.reset(new ReceiverHelper);
 }
 
@@ -127,7 +106,6 @@ void
 ServerGameThread::Main()
 {
 	SetState(SERVER_INITIAL_STATE::Instance());
-	GetSender().Run();
 
 	try
 	{
@@ -156,9 +134,6 @@ ServerGameThread::Main()
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 		LOG_ERROR(e.what());
 	}
-	GetSender().SignalTermination();
-	if (!GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT))
-		LOG_ERROR("Fatal error: Unable to terminated Sender Thread in Game.");
 
 	ResetComputerPlayerList();
 	GetLobbyThread().RemoveGame(GetId());
@@ -519,8 +494,7 @@ ServerGameThread::GetStateTimer()
 SenderThread &
 ServerGameThread::GetSender()
 {
-	assert(m_sender.get());
-	return *m_sender;
+	return GetLobbyThread().GetSender();
 }
 
 ReceiverHelper &
@@ -572,13 +546,6 @@ bool
 ServerGameThread::CheckPassword(const string &password) const
 {
 	return (password == m_password);
-}
-
-GameSenderCallback &
-ServerGameThread::GetSenderCallback()
-{
-	assert(m_senderCallback.get());
-	return *m_senderCallback;
 }
 
 GuiInterface &

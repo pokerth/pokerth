@@ -81,6 +81,8 @@ public:
 
 	ServerStats GetStats() const;
 
+	SenderThread &GetSender();
+
 protected:
 
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
@@ -137,7 +139,6 @@ protected:
 	void ReadStatisticsFile();
 	void SaveStatisticsFile();
 
-	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
 
 	bool CheckPassword(const std::string &password) const;

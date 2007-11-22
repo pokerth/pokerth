@@ -31,10 +31,8 @@
 #define GAME_THREAD_TERMINATE_TIMEOUT	THREAD_WAIT_INFINITE
 
 
-class SenderThread;
 class ReceiverHelper;
 class ServerLobbyThread;
-class GameSenderCallback;
 class ServerGameState;
 class ConfigFile;
 struct GameData;
@@ -118,7 +116,6 @@ protected:
 	const StartData &GetStartData() const;
 	void SetStartData(const StartData &startData);
 
-	GameSenderCallback &GetSenderCallback();
 	GuiInterface &GetGui();
 
 	unsigned GetNextGameNum();
@@ -143,8 +140,6 @@ private:
 
 	ServerLobbyThread &m_lobbyThread;
 	boost::shared_ptr<ReceiverHelper> m_receiver;
-	boost::shared_ptr<SenderThread> m_sender;
-	boost::shared_ptr<GameSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
 
 	const GameData		m_gameData;
@@ -173,7 +168,6 @@ friend class ServerGameStateDealCardsDelay;
 friend class ServerGameStateShowCardsDelay;
 friend class ServerGameStateNextHandDelay;
 friend class ServerGameStateNextGameDelay;
-friend class GameSenderCallback;
 };
 
 #endif
