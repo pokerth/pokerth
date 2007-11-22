@@ -56,7 +56,7 @@ bool Session::init()
 {
 	myAvatarManager.reset(new AvatarManager);
 	bool retVal = myAvatarManager->Init(myConfig->readConfigString("AppDataDir"), myConfig->readConfigString("CacheDir"));
-	myAvatarManager->AddSingleAvatar(myConfig->readConfigString("MyAvatar"));
+	addOwnAvatar(myConfig->readConfigString("MyAvatar"));
 	myAvatarManager->RemoveOldAvatarCacheEntries();
 	return retVal;
 }
@@ -64,6 +64,11 @@ bool Session::init()
 void Session::init(boost::shared_ptr<AvatarManager> manager)
 {
 	myAvatarManager = manager;
+}
+
+void Session::addOwnAvatar(const std::string &avatarFile)
+{
+	myAvatarManager->AddSingleAvatar(avatarFile);
 }
 
 void Session::startLocalGame(const GameData &gameData, const StartData &startData) {

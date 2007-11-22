@@ -967,7 +967,10 @@ void mainWindowImpl::callSettingsDialog() {
 
 		if (myConfig->readConfigInt("ShowRightToolBox")) { groupBox_RightToolBox->show(); }
 		else { groupBox_RightToolBox->hide(); }
-		
+
+		//Add avatar (if set)
+		mySession->addOwnAvatar(myConfig->readConfigString("MyAvatar"));
+
 		//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
 		if (mySettingsDialog->getPlayerNickIsChanged() && mySession->getCurrentGame() && !mySession->isNetworkClientRunning()) { 
 

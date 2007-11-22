@@ -47,6 +47,8 @@ public:
 	bool init();
 	void init(boost::shared_ptr<AvatarManager> manager);
 
+	void addOwnAvatar(const std::string &avatarFile);
+
 	void startLocalGame(const GameData &gameData, const StartData &startData);
 	void startClientGame(boost::shared_ptr<Game> game);
 
