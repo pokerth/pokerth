@@ -51,6 +51,7 @@ public slots:
 
 	void createGame();
 	void joinGame();
+	void joinAnyGame();
 
 	void gameSelected(QTreeWidgetItem*, QTreeWidgetItem*);
 	void updateGameItem(QTreeWidgetItem *item, unsigned gameId);
@@ -101,6 +102,8 @@ public slots:
 	void hideShowGameDescription(bool show);
 
 	void showWaitStartGameMsgBox();
+
+	void joinAnyGameButtonRefresh();
 
 
 private:

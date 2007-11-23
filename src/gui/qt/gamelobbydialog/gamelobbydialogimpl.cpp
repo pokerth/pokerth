@@ -40,10 +40,11 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
-	connect( treeWidget_GameList, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( gameSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
+	connect( pushButton_joinAnyGame, SIGNAL( clicked() ), this, SLOT( joinAnyGame() ) );
 	connect( pushButton_StartGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
 	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
 	connect( pushButton_Leave, SIGNAL( clicked() ), this, SLOT( leaveGame() ) );
+	connect( treeWidget_GameList, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( gameSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 	connect( treeWidget_connectedPlayers, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), this, SLOT( checkChatInputLength(QString) ) );
@@ -170,6 +171,25 @@ void gameLobbyDialogImpl::joinGame()
 		if (ok)
 			mySession->clientJoinGame(gameId, password.toUtf8().constData());
 	}
+}
+
+void gameLobbyDialogImpl::joinAnyGame() {
+
+	bool found = FALSE;
+
+	QTreeWidgetItemIterator it(treeWidget_GameList);
+	while (*it) {
+		if ((*it)->data(2, Qt::DisplayRole) == tr("open") && (*it)->data(3, Qt::UserRole) == 0)
+		{
+			treeWidget_GameList->setCurrentItem((*it));
+			found = TRUE;
+			break;
+		}
+		++it;
+	}
+
+	if(found) { joinGame(); }
+	
 }
 
 void gameLobbyDialogImpl::refresh(int actionID) {
@@ -306,6 +326,9 @@ void gameLobbyDialogImpl::refreshGameStats() {
 	label_openGamesCounter->setText("| "+tr("running games: %1").arg(runningGamesCounter));
 	label_runningGamesCounter->setText("| "+tr("open games: %1").arg(openGamesCounter));
 
+	//refresh joinAnyGameButton state
+	joinAnyGameButtonRefresh();
+
 }
 
 void gameLobbyDialogImpl::refreshPlayerStats() {
@@ -398,6 +421,8 @@ void gameLobbyDialogImpl::clearDialog()
 	pushButton_CreateGame->show();
 	pushButton_JoinGame->show();
 	pushButton_JoinGame->setEnabled(false);
+	pushButton_joinAnyGame->show();
+	pushButton_joinAnyGame->setEnabled(false);
 
 	treeWidget_GameList->setColumnWidth(0,195);
 	treeWidget_GameList->setColumnWidth(1,70);
@@ -549,6 +574,7 @@ void gameLobbyDialogImpl::joinedGameDialogUpdate() {
 	treeWidget_connectedPlayers->clear();
 	pushButton_CreateGame->hide();
 	pushButton_JoinGame->hide();
+	pushButton_joinAnyGame->hide();
 	pushButton_Leave->show();
 }
 
@@ -579,6 +605,8 @@ void gameLobbyDialogImpl::leftGameDialogUpdate() {
 	pushButton_CreateGame->show();
 	pushButton_JoinGame->show();
 	pushButton_JoinGame->setEnabled(false);
+	pushButton_joinAnyGame->show();
+	joinAnyGameButtonRefresh();
 
 	lineEdit_ChatInput->setFocus();
 }
@@ -716,5 +744,20 @@ void gameLobbyDialogImpl::showWaitStartGameMsgBox() {
 	waitStartGameMsgBox->show();
 	waitStartGameMsgBox->raise();
 	waitStartGameMsgBox->activateWindow();
+}
+
+void gameLobbyDialogImpl::joinAnyGameButtonRefresh() {
+
+	int openNonPrivateGamesCounter = 0;
+
+	QTreeWidgetItemIterator it(treeWidget_GameList);
+	while (*it) {
+	
+		if ((*it)->data(2, Qt::DisplayRole) == tr("open") && (*it)->data(3, Qt::UserRole) == 0) { openNonPrivateGamesCounter++; }
+		++it;
+	}
+
+	if(openNonPrivateGamesCounter) pushButton_joinAnyGame->setEnabled(TRUE);
+	else pushButton_joinAnyGame->setEnabled(FALSE);
 }
 

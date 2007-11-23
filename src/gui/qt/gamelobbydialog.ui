@@ -403,6 +403,13 @@
       <number>0</number>
      </property>
      <item>
+      <widget class="QPushButton" name="pushButton_joinAnyGame" >
+       <property name="text" >
+        <string>Join any game</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer>
        <property name="orientation" >
         <enum>Qt::Horizontal</enum>
