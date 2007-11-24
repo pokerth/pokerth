@@ -59,8 +59,8 @@
 
 // //Uncomment this for RELEASE
 // #include <QtPlugin>
-Q_IMPORT_PLUGIN(qjpeg)
-Q_IMPORT_PLUGIN(qgif)
+// Q_IMPORT_PLUGIN(qjpeg)
+// Q_IMPORT_PLUGIN(qgif)
 
 
 using namespace std;
