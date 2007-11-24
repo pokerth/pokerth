@@ -2,7 +2,9 @@
 /* include/config.h.in.  Generated from configure.in by autoheader.  */
 
 /* Define to 1 if you have the `gethostbyname_r' function. */
-#define HAVE_GETHOSTBYNAME_R 1
+#ifndef __APPLE__
+	#define HAVE_GETHOSTBYNAME_R 1
+#endif
 
 /* Define to 1 if you have the `inet_ntoa' function. */
 #define HAVE_INET_NTOA 1

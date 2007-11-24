@@ -82,9 +82,14 @@ ClientStateInit::Process(ClientThread &client)
 	if (IOCTLSOCKET(context.GetSocket(), FIONBIO, &mode) == SOCKET_ERROR)
 		throw ClientException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 
-	// The following call is optional - the return value is not checked.
+	// The following calls are optional - the return value is not checked.
 	int nodelay = 1;
 	setsockopt(context.GetSocket(), SOL_SOCKET, TCP_NODELAY, (char *)&nodelay, sizeof(nodelay));
+
+#ifdef SO_NOSIGPIPE
+	int nosigpipe = 1;
+	setsockopt(context.GetSocket(), SOL_SOCKET, SO_NOSIGPIPE, (char *)&nosigpipe, sizeof(nosigpipe));
+#endif
 
 	client.SetState(ClientStateStartResolve::Instance());
 

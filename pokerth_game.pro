@@ -3,8 +3,8 @@
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
-#CONFIG += qt thread embed_manifest_exe warn_on release
-CONFIG += qt thread embed_manifest_exe warn_on debug
+#CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on release
+CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
 
 #Uncomment this for RELEASE
 #QTPLUGIN += qjpeg qgif
@@ -348,6 +348,8 @@ mac{
 	# on Intel-Mac you have to comment this line out or build will fail.
 	#	QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 
+	LIBPATH += lib
+	LIBS += -lpokerth_lib
 	# Qt static (path is standard for self-compiling qt)
 	#LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtCore.a
 	#LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtGui.a
@@ -359,13 +361,15 @@ mac{
 	LIBS += -framework SDL_mixer
 	# standard path for darwinports
 	# make sure you have a universal version of boost
-	LIBS += /opt/local/lib/libboost_thread.a
+	LIBS += /opt/local/lib/libboost_thread-gcc40-mt-1_34.a
+	LIBS += /opt/local/lib/libboost_filesystem-gcc40-mt-1_34.a
 	# libraries installed on every mac
 	LIBS += -lcrypto -lz -framework Carbon
 	# set the application icon
 	RC_FILE = pokerth.icns
-	LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib 
-	INCLUDEPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/include/
+	LIBPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/lib 
+	INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
-	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers		
+	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
+	INCLUDEPATH += /opt/local/include
 }

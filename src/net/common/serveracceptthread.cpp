@@ -182,10 +182,15 @@ ServerAcceptThread::AcceptLoop()
 		{
 			throw ServerException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 		}
-		// Optional call - don't check return value.
+		// Optional calls - don't check return value.
 		// Enable keepalive - won't be of much use but better than nothing.
 		int keepalive = 1;
 		setsockopt(tmpData->GetSocket(), SOL_SOCKET, SO_KEEPALIVE, (char *)&keepalive, sizeof(keepalive));
+
+#ifdef SO_NOSIGPIPE
+		int nosigpipe = 1;
+		setsockopt(tmpData->GetSocket(), SOL_SOCKET, SO_NOSIGPIPE, (char *)&nosigpipe, sizeof(nosigpipe));
+#endif
 
 		GetLobbyThread().AddConnection(tmpData);
 	}

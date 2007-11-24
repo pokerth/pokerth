@@ -3,8 +3,8 @@
 TEMPLATE = lib
 CODECFORSRC = UTF-8
 
-#CONFIG += staticlib thread warn_on release
-CONFIG += staticlib thread warn_on debug
+#CONFIG += staticlib thread exceptions rtti stl warn_on release
+CONFIG += staticlib thread exceptions rtti stl warn_on debug
 
 UI_DIR = uics
 TARGET = lib/pokerth_lib
@@ -197,7 +197,8 @@ mac{
 	# on Intel-Mac you have to comment this line out or build will fail.
 	#	QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 
-	INCLUDEPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/include/
+	INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
-	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers		
+	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
+	INCLUDEPATH += /opt/local/include
 }

@@ -12,12 +12,14 @@
 
 QT_FW_PATH="/Library/Frameworks"
 SDL_FW_PATH="/Library/Frameworks"
-APPLICATION="./bin/pokerth.app"
+APPLICATION="./pokerth.app"
 BINARY="$APPLICATION/Contents/MacOs/pokerth"
+RESOURCES="$APPLICATION/Contents/Resources/"
 
 # strip binary
 strip $BINARY
 
+cp -R ./data $RESOURCES
 # create framework-path
 BINARY_FW_PATH="$APPLICATION/Contents/Frameworks"
 mkdir $BINARY_FW_PATH

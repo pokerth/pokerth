@@ -3,8 +3,8 @@
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
-#CONFIG += thread console embed_manifest_exe warn_on release
-CONFIG += thread console embed_manifest_exe warn_on debug
+#CONFIG += thread console embed_manifest_exe exceptions rtti stl warn_on release
+CONFIG += thread console embed_manifest_exe exceptions rtti stl warn_on debug
 
 UI_DIR = uics
 TARGET = bin/pokerth_server
@@ -193,4 +193,29 @@ unix : !mac {
 
 	## My release static libs
 	#LIBS += -lcrypto
+}
+
+mac{
+	# make it universal  
+	CONFIG += x86 
+	CONFIG += ppc
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.3
+
+	# for universal-compilation on PPC-Mac uncomment the following line
+	# on Intel-Mac you have to comment this line out or build will fail.
+	#       QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
+
+	LIBPATH += lib
+	LIBS += -lpokerth_lib
+	# standard path for darwinports
+	# make sure you have a universal version of boost
+	LIBS += /opt/local/lib/libboost_thread-gcc40-mt-1_34.a
+	LIBS += /opt/local/lib/libboost_filesystem-gcc40-mt-1_34.a
+	# libraries installed on every mac
+	LIBS += -lcrypto -liconv
+	# set the application icon
+	RC_FILE = pokerth.icns
+	LIBPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/lib 
+	INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
+	INCLUDEPATH += /opt/local/include
 }

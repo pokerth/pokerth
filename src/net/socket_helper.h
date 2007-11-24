@@ -62,7 +62,11 @@ typedef unsigned char					u_char;
 #define IOCTLSOCKET						ioctl
 #define SOCKET_ERR_NOTCONN				ENOTCONN
 #define SOCKET_ERR_NOTSOCK				ENOTSOCK
-#define SOCKET_SEND_FLAGS				MSG_NOSIGNAL
+#ifdef __APPLE__
+	#define SOCKET_SEND_FLAGS			0
+#else
+	#define SOCKET_SEND_FLAGS			MSG_NOSIGNAL
+#endif
 
 #define IS_SOCKET_ERR_WOULDBLOCK(_e)	((_e) == EINPROGRESS || (_e) == EAGAIN)
 
