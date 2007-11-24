@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>236</width>
-    <height>278</height>
+    <height>235</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -23,6 +23,9 @@
        <widget class="QLabel" name="label" >
         <property name="text" >
          <string>Number of players:</string>
+        </property>
+        <property name="buddy" >
+         <cstring>spinBox_quantityPlayers</cstring>
         </property>
        </widget>
       </item>
@@ -43,6 +46,9 @@
        <widget class="QLabel" name="label_2" >
         <property name="text" >
          <string>Start Cash:</string>
+        </property>
+        <property name="buddy" >
+         <cstring>spinBox_startCash</cstring>
         </property>
        </widget>
       </item>
@@ -92,6 +98,9 @@
        <widget class="QLabel" name="label_5" >
         <property name="text" >
          <string>Game Speed:</string>
+        </property>
+        <property name="buddy" >
+         <cstring>spinBox_gameSpeed</cstring>
         </property>
        </widget>
       </item>

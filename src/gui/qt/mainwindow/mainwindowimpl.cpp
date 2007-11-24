@@ -563,7 +563,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	connect(this, SIGNAL(signalNextPlayerAnimation()), this, SLOT(nextPlayerAnimation()));
 
-		;
 	connect(this, SIGNAL(signalBeRoAnimation2(int)), this, SLOT(beRoAnimation2(int)));
 
 	connect(this, SIGNAL(signalPreflopAnimation1()), this, SLOT(preflopAnimation1()));

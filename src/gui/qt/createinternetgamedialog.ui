@@ -42,6 +42,9 @@
         <property name="text" >
          <string>Maximum number of players:</string>
         </property>
+        <property name="buddy" >
+         <cstring>spinBox_quantityPlayers</cstring>
+        </property>
        </widget>
       </item>
       <item row="0" column="1" colspan="3" >
@@ -61,6 +64,9 @@
        <widget class="QLabel" name="label_2" >
         <property name="text" >
          <string>Start Cash:</string>
+        </property>
+        <property name="buddy" >
+         <cstring>spinBox_startCash</cstring>
         </property>
        </widget>
       </item>
@@ -111,6 +117,9 @@
         <property name="text" >
          <string>Game Speed for computer opponents:</string>
         </property>
+        <property name="buddy" >
+         <cstring>spinBox_gameSpeed</cstring>
+        </property>
        </widget>
       </item>
       <item row="3" column="3" >
@@ -130,6 +139,9 @@
        <widget class="QLabel" name="label_6" >
         <property name="text" >
          <string>Timeout for player action (sec):</string>
+        </property>
+        <property name="buddy" >
+         <cstring>spinBox_netTimeOutPlayerAction</cstring>
         </property>
        </widget>
       </item>

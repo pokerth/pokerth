@@ -68,6 +68,9 @@
            <property name="text" >
             <string>Language:</string>
            </property>
+           <property name="buddy" >
+            <cstring>comboBox_switchLanguage</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -466,6 +469,9 @@ p, li { white-space: pre-wrap; }
            <property name="text" >
             <string>Number of players:</string>
            </property>
+           <property name="buddy" >
+            <cstring>spinBox_quantityPlayers</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -490,6 +496,9 @@ p, li { white-space: pre-wrap; }
            <property name="text" >
             <string>Start Cash:</string>
            </property>
+           <property name="buddy" >
+            <cstring>spinBox_startCash</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -510,6 +519,9 @@ p, li { white-space: pre-wrap; }
           <widget class="QLabel" name="label_3" >
            <property name="text" >
             <string>First small blind:</string>
+           </property>
+           <property name="buddy" >
+            <cstring>spinBox_firstSmallBlind</cstring>
            </property>
           </widget>
          </item>
@@ -669,6 +681,9 @@ p, li { white-space: pre-wrap; }
            <property name="text" >
             <string>Game Speed:</string>
            </property>
+           <property name="buddy" >
+            <cstring>spinBox_gameSpeed</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -741,6 +756,9 @@ p, li { white-space: pre-wrap; }
            <property name="text" >
             <string>Maximum number of players:</string>
            </property>
+           <property name="buddy" >
+            <cstring>spinBox_netQuantityPlayers</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -765,6 +783,9 @@ p, li { white-space: pre-wrap; }
            <property name="text" >
             <string>Start Cash:</string>
            </property>
+           <property name="buddy" >
+            <cstring>spinBox_netStartCash</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -785,6 +806,9 @@ p, li { white-space: pre-wrap; }
           <widget class="QLabel" name="label_35" >
            <property name="text" >
             <string>First small blind:</string>
+           </property>
+           <property name="buddy" >
+            <cstring>spinBox_netFirstSmallBlind</cstring>
            </property>
           </widget>
          </item>
@@ -938,6 +962,9 @@ p, li { white-space: pre-wrap; }
            <property name="text" >
             <string>Game Speed for computer opponents:</string>
            </property>
+           <property name="buddy" >
+            <cstring>spinBox_netGameSpeed</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -961,6 +988,9 @@ p, li { white-space: pre-wrap; }
           <widget class="QLabel" name="label_40" >
            <property name="text" >
             <string>Timeout for player action (sec):</string>
+           </property>
+           <property name="buddy" >
+            <cstring>spinBox_netTimeOutPlayerAction</cstring>
            </property>
           </widget>
          </item>
@@ -1025,6 +1055,9 @@ p, li { white-space: pre-wrap; }
             <property name="text" >
              <string>Server Password:</string>
             </property>
+            <property name="buddy" >
+             <cstring>lineEdit_serverPassword</cstring>
+            </property>
            </widget>
           </item>
           <item row="0" column="1" >
@@ -1044,6 +1077,9 @@ p, li { white-space: pre-wrap; }
            <widget class="QLabel" name="label_16" >
             <property name="text" >
              <string>Server Port:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>spinBox_serverPort</cstring>
             </property>
            </widget>
           </item>
@@ -1200,6 +1236,9 @@ p, li { white-space: pre-wrap; }
             <property name="text" >
              <string>Server Port:</string>
             </property>
+            <property name="buddy" >
+             <cstring>spinBox_InternetServerPort</cstring>
+            </property>
            </widget>
           </item>
           <item row="4" column="1" >
@@ -1230,6 +1269,9 @@ p, li { white-space: pre-wrap; }
             <property name="text" >
              <string>Server Address:</string>
             </property>
+            <property name="buddy" >
+             <cstring>lineEdit_InternetServerAddress</cstring>
+            </property>
            </widget>
           </item>
           <item row="0" column="1" >
@@ -1243,6 +1285,9 @@ p, li { white-space: pre-wrap; }
            <widget class="QLabel" name="label_44" >
             <property name="text" >
              <string>Server Password:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>lineEdit_InternetServerPassword</cstring>
             </property>
            </widget>
           </item>
@@ -1306,6 +1351,9 @@ p, li { white-space: pre-wrap; }
             <property name="text" >
              <string>Server Address:</string>
             </property>
+            <property name="buddy" >
+             <cstring>lineEdit_IRCServerAddress</cstring>
+            </property>
            </widget>
           </item>
           <item row="0" column="1" >
@@ -1322,6 +1370,9 @@ p, li { white-space: pre-wrap; }
            <widget class="QLabel" name="label_46" >
             <property name="text" >
              <string>Server Port:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>spinBox_IRCServerPort</cstring>
             </property>
            </widget>
           </item>
@@ -1342,6 +1393,9 @@ p, li { white-space: pre-wrap; }
            <widget class="QLabel" name="label_49" >
             <property name="text" >
              <string>Channel:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>lineEdit_IRCChannel</cstring>
             </property>
            </widget>
           </item>
@@ -1380,6 +1434,9 @@ p, li { white-space: pre-wrap; }
            <widget class="QLabel" name="label_17" >
             <property name="text" >
              <string>Channel Password:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>lineEdit_IRCChannelPassword</cstring>
             </property>
            </widget>
           </item>
@@ -2778,6 +2835,9 @@ p, li { white-space: pre-wrap; }
               <property name="text" >
                <string>Store log files for</string>
               </property>
+              <property name="buddy" >
+               <cstring>spinBox_logStoreDuration</cstring>
+              </property>
              </widget>
             </item>
             <item>
@@ -2843,6 +2903,9 @@ p, li { white-space: pre-wrap; }
               <property name="text" >
                <string>Log File Directory: </string>
               </property>
+              <property name="buddy" >
+               <cstring>lineEdit_logDir</cstring>
+              </property>
              </widget>
             </item>
             <item>
@@ -2881,6 +2944,9 @@ p, li { white-space: pre-wrap; }
               </property>
               <property name="wordWrap" >
                <bool>true</bool>
+              </property>
+              <property name="buddy" >
+               <cstring>comboBox_logInterval</cstring>
               </property>
              </widget>
             </item>
@@ -3042,6 +3108,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkBox_showBlindButtons</tabstop>
   <tabstop>checkBox_antiPeekMode</tabstop>
   <tabstop>checkBox_alternateFKeysUserActionMode</tabstop>
+  <tabstop>checkBox_enableBetInputFocusSwitch</tabstop>
   <tabstop>radioButton_flipsideTux</tabstop>
   <tabstop>radioButton_flipsideOwn</tabstop>
   <tabstop>lineEdit_OwnFlipsideFilename</tabstop>
@@ -3091,20 +3158,21 @@ p, li { white-space: pre-wrap; }
   <tabstop>lineEdit_IRCServerAddress</tabstop>
   <tabstop>spinBox_IRCServerPort</tabstop>
   <tabstop>lineEdit_IRCChannel</tabstop>
+  <tabstop>lineEdit_IRCChannelPassword</tabstop>
   <tabstop>checkBox_IRCServerUseIpv6</tabstop>
   <tabstop>pushButton_HumanPlayerAvatar</tabstop>
   <tabstop>lineEdit_HumanPlayerName</tabstop>
   <tabstop>pushButton_Opponent1Avatar</tabstop>
-  <tabstop>lineEdit_Opponent1Name</tabstop>
   <tabstop>pushButton_Opponent2Avatar</tabstop>
-  <tabstop>lineEdit_Opponent2Name</tabstop>
   <tabstop>pushButton_Opponent3Avatar</tabstop>
+  <tabstop>lineEdit_Opponent1Name</tabstop>
+  <tabstop>lineEdit_Opponent2Name</tabstop>
   <tabstop>lineEdit_Opponent3Name</tabstop>
   <tabstop>pushButton_Opponent4Avatar</tabstop>
-  <tabstop>lineEdit_Opponent4Name</tabstop>
   <tabstop>pushButton_Opponent5Avatar</tabstop>
-  <tabstop>lineEdit_Opponent5Name</tabstop>
   <tabstop>pushButton_Opponent6Avatar</tabstop>
+  <tabstop>lineEdit_Opponent4Name</tabstop>
+  <tabstop>lineEdit_Opponent5Name</tabstop>
   <tabstop>lineEdit_Opponent6Name</tabstop>
   <tabstop>groupBox_logOnOff</tabstop>
   <tabstop>lineEdit_logDir</tabstop>

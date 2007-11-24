@@ -128,9 +128,9 @@
  </widget>
  <tabstops>
   <tabstop>listWidget_blinds</tabstop>
+  <tabstop>pushButton_delete</tabstop>
   <tabstop>spinBox_input</tabstop>
   <tabstop>pushButton_add</tabstop>
-  <tabstop>pushButton_delete</tabstop>
   <tabstop>radioButton_alwaysDoubleBlinds</tabstop>
   <tabstop>radioButton_alwaysRaiseAbout</tabstop>
   <tabstop>spinBox_alwaysRaiseValue</tabstop>

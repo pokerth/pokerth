@@ -13,10 +13,22 @@
    <string>Join Network Game</string>
   </property>
   <layout class="QGridLayout" >
-   <property name="margin" >
+   <property name="leftMargin" >
     <number>9</number>
    </property>
-   <property name="spacing" >
+   <property name="topMargin" >
+    <number>9</number>
+   </property>
+   <property name="rightMargin" >
+    <number>9</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>9</number>
+   </property>
+   <property name="horizontalSpacing" >
+    <number>6</number>
+   </property>
+   <property name="verticalSpacing" >
     <number>6</number>
    </property>
    <item row="0" column="0" >
@@ -25,10 +37,22 @@
       <string>Connect to Network Game</string>
      </property>
      <layout class="QGridLayout" >
-      <property name="margin" >
+      <property name="leftMargin" >
        <number>9</number>
       </property>
-      <property name="spacing" >
+      <property name="topMargin" >
+       <number>9</number>
+      </property>
+      <property name="rightMargin" >
+       <number>9</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>9</number>
+      </property>
+      <property name="horizontalSpacing" >
+       <number>6</number>
+      </property>
+      <property name="verticalSpacing" >
        <number>6</number>
       </property>
       <item row="3" column="0" colspan="5" >
@@ -37,10 +61,22 @@
          <string>Server Profiles</string>
         </property>
         <layout class="QGridLayout" >
-         <property name="margin" >
+         <property name="leftMargin" >
           <number>9</number>
          </property>
-         <property name="spacing" >
+         <property name="topMargin" >
+          <number>9</number>
+         </property>
+         <property name="rightMargin" >
+          <number>9</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>9</number>
+         </property>
+         <property name="horizontalSpacing" >
+          <number>6</number>
+         </property>
+         <property name="verticalSpacing" >
           <number>6</number>
          </property>
          <item row="0" column="0" >
@@ -92,11 +128,20 @@
          </item>
          <item row="1" column="0" >
           <layout class="QHBoxLayout" >
-           <property name="margin" >
-            <number>0</number>
-           </property>
            <property name="spacing" >
             <number>6</number>
+           </property>
+           <property name="leftMargin" >
+            <number>0</number>
+           </property>
+           <property name="topMargin" >
+            <number>0</number>
+           </property>
+           <property name="rightMargin" >
+            <number>0</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>0</number>
            </property>
            <item>
             <widget class="QPushButton" name="pushButton_save" >
@@ -119,11 +164,20 @@
       </item>
       <item row="2" column="3" colspan="2" >
        <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
+        </property>
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
         </property>
         <item>
          <widget class="QCheckBox" name="checkBox_sctp" >
@@ -162,11 +216,20 @@ p, li { white-space: pre-wrap; }
       </item>
       <item row="2" column="0" colspan="2" >
        <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
+        </property>
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
         </property>
         <item>
          <widget class="QCheckBox" name="checkBox_ipv6" >
@@ -237,15 +300,18 @@ p, li { white-space: pre-wrap; }
         <property name="text" >
          <string>Password (optional):</string>
         </property>
+        <property name="buddy" >
+         <cstring>lineEdit_password</cstring>
+        </property>
        </widget>
       </item>
       <item row="1" column="4" >
        <widget class="QSpinBox" name="spinBox_port" >
-        <property name="maximum" >
-         <number>65535</number>
-        </property>
         <property name="minimum" >
          <number>80</number>
+        </property>
+        <property name="maximum" >
+         <number>65535</number>
         </property>
         <property name="value" >
          <number>7234</number>
@@ -257,6 +323,9 @@ p, li { white-space: pre-wrap; }
         <property name="text" >
          <string>Port:</string>
         </property>
+        <property name="buddy" >
+         <cstring>spinBox_port</cstring>
+        </property>
        </widget>
       </item>
       <item row="0" column="0" >
@@ -264,12 +333,18 @@ p, li { white-space: pre-wrap; }
         <property name="text" >
          <string>IP Address / Domain Name:</string>
         </property>
+        <property name="buddy" >
+         <cstring>lineEdit_ipAddress</cstring>
+        </property>
        </widget>
       </item>
       <item row="1" column="0" >
        <widget class="QLabel" name="label_4" >
         <property name="text" >
          <string>Profile Name:</string>
+        </property>
+        <property name="buddy" >
+         <cstring>lineEdit_profileName</cstring>
         </property>
        </widget>
       </item>
@@ -285,11 +360,20 @@ p, li { white-space: pre-wrap; }
    </item>
    <item row="1" column="0" >
     <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
+     </property>
+     <property name="leftMargin" >
+      <number>0</number>
+     </property>
+     <property name="topMargin" >
+      <number>0</number>
+     </property>
+     <property name="rightMargin" >
+      <number>0</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>0</number>
      </property>
      <item>
       <spacer>
