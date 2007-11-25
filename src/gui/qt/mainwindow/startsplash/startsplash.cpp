@@ -28,8 +28,6 @@ StartSplash::StartSplash(mainWindowImpl *parent, ConfigFile *c)
 	
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
-	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/c059013l.pfb");
-
 	logo = myAppDataPath+"gfx/gui/misc/logoChip3D.png";
 
 

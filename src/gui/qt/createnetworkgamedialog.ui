@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>305</width>
-    <height>314</height>
+    <width>275</width>
+    <height>263</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -57,6 +57,12 @@
       </item>
       <item row="1" column="1" colspan="3" >
        <widget class="QSpinBox" name="spinBox_startCash" >
+        <property name="suffix" >
+         <string/>
+        </property>
+        <property name="prefix" >
+         <string>$ </string>
+        </property>
         <property name="minimum" >
          <number>1000</number>
         </property>
@@ -123,7 +129,7 @@
       <item row="4" column="0" colspan="2" >
        <widget class="QLabel" name="label_6" >
         <property name="text" >
-         <string>Timeout for player action (sec):</string>
+         <string>Timeout for player action:</string>
         </property>
         <property name="buddy" >
          <cstring>spinBox_netTimeOutPlayerAction</cstring>
@@ -132,6 +138,9 @@
       </item>
       <item row="4" column="2" colspan="2" >
        <widget class="QSpinBox" name="spinBox_netTimeOutPlayerAction" >
+        <property name="suffix" >
+         <string> s</string>
+        </property>
         <property name="minimum" >
          <number>5</number>
         </property>
