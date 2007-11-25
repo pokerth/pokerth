@@ -297,21 +297,23 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 // 	Schriftart laden und für Dialoge setzen
 #ifdef _WIN32
 	font1String = "font-family: \"Arial\";";
-#else 
-	font1String = "font-family: \"Nimbus Sans L\";";
-#endif
-
 	font2String = "font-family: \"Bitstream Vera Sans\";";
-
-#ifdef _WIN32
 	QString fontsize= "11";
-#else
-	#ifdef __APPLE__
-		QString fontsize= "11";
-	#else
+#else 
+	#ifdef __APPLE__	
+		font1String = "font-family: \"Lucida Grande\";";
+		font2String = "font-family: \"Lucida Grande\";";
 		QString fontsize= "10";
+
+	#else 
+		font1String = "font-family: \"Nimbus Sans L\";";
+		font2String = "font-family: \"Bitstream Vera Sans\";";
+		QString fontsize= "10";
+
 	#endif
 #endif
+
+
 	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+fontsize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; } QScrollBar:vertical { border: 1px solid #104600; background: #135000; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #1B7200; background: #176400; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #208A00; height: 3px; width: 3px; background: #27A800; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
 	textBrowser_Chat->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+fontsize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; } QScrollBar:vertical { border: 1px solid #104600; background: #135000; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #1B7200; background: #176400; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #208A00; height: 3px; width: 3px; background: #27A800; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
 	lineEdit_ChatInput->setStyleSheet("QLineEdit { "+ font1String +" font-size: "+fontsize+"px; color: #F0F0F0; background-color: #1D3B00; border-top: 2px solid #286400; }");
@@ -1144,7 +1146,7 @@ void mainWindowImpl::refreshSet() {
 		if( (*it_c)->getMySet() == 0 )
 			setLabelArray[(*it_c)->getMyID()]->setText("");
 		else
-			setLabelArray[(*it_c)->getMyID()]->setText("Bet: "+QString::number((*it_c)->getMySet(),10)+" $"); 
+			setLabelArray[(*it_c)->getMyID()]->setText("Bet: $"+QString::number((*it_c)->getMySet(),10)); 
 	}
 
 
@@ -1351,7 +1353,7 @@ void mainWindowImpl::refreshCash() {
 	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
 		if((*it_c)->getMyActiveStatus()) { 
 
-			cashLabelArray[(*it_c)->getMyID()]->setText(QString::number((*it_c)->getMyCash(),10)+" $"); 
+			cashLabelArray[(*it_c)->getMyID()]->setText("$"+QString::number((*it_c)->getMyCash(),10)); 
 			cashTopLabelArray[(*it_c)->getMyID()]->setText("Cash:"); 
 			
 		} else {
@@ -1532,8 +1534,8 @@ void mainWindowImpl::refreshChangePlayer() {
 void mainWindowImpl::refreshPot() {
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
-	textLabel_Sets->setText(QString::number(currentHand->getBoard()->getSets(),10)+" $");
-	textLabel_Pot->setText(QString::number(currentHand->getBoard()->getPot(),10)+" $");
+	textLabel_Sets->setText("$"+QString::number(currentHand->getBoard()->getSets(),10));
+	textLabel_Pot->setText("$"+QString::number(currentHand->getBoard()->getPot(),10));
 }
 
 void mainWindowImpl::guiUpdateDone() {
@@ -1815,11 +1817,11 @@ void mainWindowImpl::provideMyActions(int mode) {
 		if(currentHand->getCurrentRound() == 0) { // preflop
 			
 			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { 
-				pushButtonBetRaiseString = "Raise "+QString::number(getMyBetAmount())+"$"; 
+				pushButtonBetRaiseString = "Raise $"+QString::number(getMyBetAmount()); 
 			}
 	
 			if (currentGame->getSeatsList()->front()->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getSeatsList()->front()->getMyButton() == 3) { pushButtonCallCheckString = "Check"; }
-			else { pushButtonCallCheckString = "Call "+QString::number(getMyCallAmount())+"$"; }
+			else { pushButtonCallCheckString = "Call $"+QString::number(getMyCallAmount()); }
 			
 			pushButtonFoldString = "Fold"; 
 
@@ -1833,19 +1835,19 @@ void mainWindowImpl::provideMyActions(int mode) {
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 	
 				pushButtonCallCheckString = "Check";
-				pushButtonBetRaiseString = "Bet "+QString::number(getMyBetAmount())+"$";
+				pushButtonBetRaiseString = "Bet $"+QString::number(getMyBetAmount());
 			}
 			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-				pushButtonCallCheckString = "Call "+QString::number(getMyCallAmount())+"$" ;
+				pushButtonCallCheckString = "Call $"+QString::number(getMyCallAmount());
 				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-					pushButtonBetRaiseString = "Raise "+QString::number(getMyBetAmount())+"$";
+					pushButtonBetRaiseString = "Raise $"+QString::number(getMyBetAmount());
 				}
 			}
 		}
 		
 		if(mode == 0) {
 			if( currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD ) {
-				pushButtonBetRaiseString = "Bet "+QString::number(getMyBetAmount())+"$";
+				pushButtonBetRaiseString = "Bet $"+QString::number(getMyBetAmount());
 				pushButtonCallCheckString = "Check"; 
 				if( currentGame->getActivePlayerList()->size() > 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_SMALL_BLIND || ( currentGame->getActivePlayerList()->size() <= 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_BIG_BLIND)) { pushButtonFoldString = "Fold"; }
 				else { pushButtonFoldString = "Check / Fold"; }
@@ -3675,18 +3677,18 @@ void mainWindowImpl::lineEditBetValueChanged(QString valueString) {
 	if(betValue >= horizontalSlider_bet->minimum()) {
 
 		if(betValue > horizontalSlider_bet->maximum()) { // print the maximum
-			pushButton_BetRaise->setText(betRaise + " " + QString::number(horizontalSlider_bet->maximum()) + "$");
+			pushButton_BetRaise->setText(betRaise + " $" + QString::number(horizontalSlider_bet->maximum()));
 			betSliderChangedByInput = TRUE;
 			horizontalSlider_bet->setValue(horizontalSlider_bet->maximum());
 		}
 		else { // really print the value
-			pushButton_BetRaise->setText(betRaise + " " + valueString + "$");
+			pushButton_BetRaise->setText(betRaise + " $" + valueString);
 			betSliderChangedByInput = TRUE;
 			horizontalSlider_bet->setValue(betValue);
 		}
 	}
 	else { // print the minimum
-		pushButton_BetRaise->setText(betRaise + " " + QString::number(horizontalSlider_bet->minimum()) + "$");
+		pushButton_BetRaise->setText(betRaise + " $" + QString::number(horizontalSlider_bet->minimum()));
 		betSliderChangedByInput = TRUE;
 		horizontalSlider_bet->setValue(horizontalSlider_bet->minimum());
 	}

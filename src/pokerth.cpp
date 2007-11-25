@@ -90,16 +90,17 @@ int main( int argc, char **argv )
 #ifdef _WIN32
 	QString font1String("font-family: \"Arial\";");
 #else 
-	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/n019003l.pfb");
-	QString font1String("font-family: \"Nimbus Sans L\";");
+	#ifdef __APPLE__
+		QString font1String("font-family: \"Lucida Grande\";");
+	#else 
+		QFontDatabase::addApplicationFont (myAppDataPath +"fonts/n019003l.pfb");
+		QString font1String("font-family: \"Nimbus Sans L\";");
+	#endif
 #endif
 	//add OS-independent fonts
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/VeraBd.ttf");
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/c059013l.pfb");
 	
-// 	maybe for macosx	
-// 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/l048016t.pfa"); macosx
-
 	a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 12px; }");
 
 	//Set translations
