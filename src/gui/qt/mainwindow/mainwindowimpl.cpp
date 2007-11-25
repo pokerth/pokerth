@@ -1907,7 +1907,7 @@ void mainWindowImpl::provideMyActions(int mode) {
 		//if value changed on bet/raise button --> uncheck to prevent unwanted actions
 		QString lastBetValueString = lastPushButtonBetRaiseString.section(" ",1 ,1);
 		int index = lastBetValueString.indexOf("$");
-		lastBetValueString.remove(index,index);
+		lastBetValueString.remove(index,1);
 		bool ok;
 		int lastBetValue = lastBetValueString.toInt(&ok,10);
 		
@@ -2074,9 +2074,10 @@ int mainWindowImpl::getBetRaisePushButtonValue() {
 
 	QString betValueString = pushButton_BetRaise->text().section(" ",1 ,1);
 	int index = betValueString.indexOf("$");
-	betValueString.remove(index,index);
+	betValueString.remove(index,1);
 	bool ok;
 	int betValue = betValueString.toInt(&ok,10);
+	
 	return betValue;
 }
 

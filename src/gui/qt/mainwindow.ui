@@ -2054,6 +2054,9 @@
                  <property name="focusPolicy" >
                   <enum>Qt::NoFocus</enum>
                  </property>
+                 <property name="autoFillBackground" >
+                  <bool>true</bool>
+                 </property>
                  <property name="horizontalScrollBarPolicy" >
                   <enum>Qt::ScrollBarAlwaysOff</enum>
                  </property>
@@ -2839,6 +2842,9 @@
                 <widget class="QTextBrowser" name="textBrowser_Log" >
                  <property name="focusPolicy" >
                   <enum>Qt::NoFocus</enum>
+                 </property>
+                 <property name="autoFillBackground" >
+                  <bool>true</bool>
                  </property>
                  <property name="horizontalScrollBarPolicy" >
                   <enum>Qt::ScrollBarAlwaysOff</enum>
