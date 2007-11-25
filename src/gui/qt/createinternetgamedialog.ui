@@ -76,7 +76,7 @@
          <string/>
         </property>
         <property name="prefix" >
-         <string>$ </string>
+         <string>$</string>
         </property>
         <property name="minimum" >
          <number>1000</number>

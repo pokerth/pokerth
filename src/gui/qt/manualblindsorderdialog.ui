@@ -44,7 +44,7 @@
      <item row="2" column="0" >
       <widget class="QSpinBox" name="spinBox_input" >
        <property name="prefix" >
-        <string>$ </string>
+        <string>$</string>
        </property>
        <property name="maximum" >
         <number>5000</number>
@@ -97,7 +97,7 @@
         <item>
          <widget class="QSpinBox" name="spinBox_alwaysRaiseValue" >
           <property name="prefix" >
-           <string>$ </string>
+           <string>$</string>
           </property>
           <property name="maximum" >
            <number>5000</number>

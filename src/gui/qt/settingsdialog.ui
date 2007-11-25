@@ -504,7 +504,7 @@ p, li { white-space: pre-wrap; }
          <item>
           <widget class="QSpinBox" name="spinBox_startCash" >
            <property name="prefix" >
-            <string>$ </string>
+            <string>$</string>
            </property>
            <property name="minimum" >
             <number>1000</number>
@@ -534,7 +534,7 @@ p, li { white-space: pre-wrap; }
          <item>
           <widget class="QSpinBox" name="spinBox_firstSmallBlind" >
            <property name="prefix" >
-            <string>$ </string>
+            <string>$</string>
            </property>
            <property name="minimum" >
             <number>5</number>
@@ -800,7 +800,7 @@ p, li { white-space: pre-wrap; }
          <item>
           <widget class="QSpinBox" name="spinBox_netStartCash" >
            <property name="prefix" >
-            <string>$ </string>
+            <string>$</string>
            </property>
            <property name="minimum" >
             <number>1000</number>
@@ -830,7 +830,7 @@ p, li { white-space: pre-wrap; }
          <item>
           <widget class="QSpinBox" name="spinBox_netFirstSmallBlind" >
            <property name="prefix" >
-            <string>$ </string>
+            <string>$</string>
            </property>
            <property name="minimum" >
             <number>5</number>

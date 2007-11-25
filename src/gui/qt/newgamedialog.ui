@@ -55,7 +55,7 @@
       <item row="1" column="1" colspan="2" >
        <widget class="QSpinBox" name="spinBox_startCash" >
         <property name="prefix" >
-         <string>$ </string>
+         <string>$</string>
         </property>
         <property name="minimum" >
          <number>1000</number>
