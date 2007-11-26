@@ -21,7 +21,7 @@
 #include "changecompleteblindsdialogimpl.h"
 #include "configfile.h"
 
-newGameDialogImpl::newGameDialogImpl(QWidget *parent, ConfigFile *c)
+newGameDialogImpl::newGameDialogImpl(QMainWindow *parent, ConfigFile *c)
       : QDialog(parent), myConfig(c)
 {
 

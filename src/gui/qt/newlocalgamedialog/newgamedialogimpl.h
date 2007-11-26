@@ -32,7 +32,7 @@ class changeCompleteBlindsDialogImpl;
 class newGameDialogImpl: public QDialog, public Ui::newGameDialog {
 Q_OBJECT
 public:
-    newGameDialogImpl(QWidget *parent = 0, ConfigFile* = 0);
+    newGameDialogImpl(QMainWindow *parent = 0, ConfigFile* = 0);
 
 	void exec();
 	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() { return myChangeCompleteBlindsDialog; }
