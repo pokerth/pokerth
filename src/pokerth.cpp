@@ -89,20 +89,20 @@ int main( int argc, char **argv )
 	//set QApplication default font	
 #ifdef _WIN32
 	QString font1String("font-family: \"Arial\";");
+	a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 12px; }");
 #else 
-	#ifdef __APPLE__
-		QString font1String("font-family: \"Lucida Grande\";");
-	#else 
-		QFontDatabase::addApplicationFont (myAppDataPath +"fonts/n019003l.pfb");
-		QString font1String("font-family: \"Nimbus Sans L\";");
-	#endif
+// 	#ifdef __APPLE__
+// 		QString font1String("font-family: \"Lucida Grande\";");
+// 	#else 
+	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/n019003l.pfb");
+	QString font1String("font-family: \"Nimbus Sans L\";");
+// 	#endif
+	a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 12px; }");
 #endif
 	//add OS-independent fonts
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/VeraBd.ttf");
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/c059013l.pfb");
 	
-	a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 12px; }");
-
 	//Set translations
 	QTranslator qtTranslator;
         qtTranslator.load(QString(myAppDataPath +"translations/qt_") + QString::fromStdString(myConfig->readConfigString("Language")));
