@@ -3347,7 +3347,7 @@ void mainWindowImpl::keyPressEvent ( QKeyEvent * event ) {
 
 void mainWindowImpl::changePlayingMode() {
 
-	int mode;
+	int mode = -1;
 
 	if(radioButton_manualAction->isChecked()) { mode=0; }
 	if(radioButton_autoCheckFold->isChecked()) { mode=2; }
