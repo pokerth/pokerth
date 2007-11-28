@@ -29,6 +29,7 @@
 
 #include <deque>
 #include <list>
+#include <boost/date_time.hpp>
 #include <core/boost/timers.hpp>
 
 #define NET_LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC		20000
@@ -80,6 +81,7 @@ public:
 	AvatarManager &GetAvatarManager();
 
 	ServerStats GetStats() const;
+	boost::posix_time::ptime GetStartTime() const;
 
 	SenderThread &GetSender();
 
@@ -198,7 +200,8 @@ private:
 
 	boost::timers::portable::microsec_timer m_cacheCleanupTimer;
 	boost::timers::portable::microsec_timer m_saveStatisticsTimer;
-	boost::timers::portable::microsec_timer m_uptimeTimer;
+
+	const boost::posix_time::ptime m_startTime;
 };
 
 #endif

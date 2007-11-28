@@ -69,7 +69,7 @@ private:
 ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager)
 : m_gui(gui), m_avatarManager(avatarManager), m_playerConfig(playerConfig),
   m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
-  m_statDataChanged(false)
+  m_statDataChanged(false), m_startTime(boost::posix_time::second_clock::local_time())
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
@@ -271,6 +271,12 @@ ServerLobbyThread::GetStats() const
 {
 	boost::mutex::scoped_lock lock(m_statMutex);
 	return m_statData;
+}
+
+boost::posix_time::ptime
+ServerLobbyThread::GetStartTime() const
+{
+	return m_startTime;
 }
 
 u_int32_t
