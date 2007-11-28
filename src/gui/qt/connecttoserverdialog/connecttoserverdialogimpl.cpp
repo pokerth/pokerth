@@ -23,8 +23,9 @@
 connectToServerDialogImpl::connectToServerDialogImpl(QWidget *parent)
       : QDialog(parent)
 {
-
-    setupUi(this);
+	setWindowModality(Qt::ApplicationModal);
+	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+    	setupUi(this);
 }
 
 void connectToServerDialogImpl::exec()

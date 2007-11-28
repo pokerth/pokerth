@@ -23,5 +23,7 @@
 myMessageDialogImpl::myMessageDialogImpl(QWidget *parent)
     : QDialog(parent)
 {
+	setWindowModality(Qt::ApplicationModal);
+	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 	setupUi(this);	
 }

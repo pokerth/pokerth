@@ -26,8 +26,9 @@
 aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
     : QDialog(parent), myConfig(c)
 {
-
-	 setupUi(this);
+	setWindowModality(Qt::ApplicationModal);
+	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+	setupUi(this);
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 	

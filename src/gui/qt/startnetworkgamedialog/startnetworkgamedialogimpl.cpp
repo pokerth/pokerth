@@ -26,6 +26,9 @@
 startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFile *config)
       : QDialog(parent), myW(NULL), keyUpDownChatCounter(0), myPlayerId(0), isAdmin(false), myConfig(config), mySession(NULL), myChat(NULL)
 {
+
+	setWindowModality(Qt::ApplicationModal);
+	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 	setupUi(this);
 
 	myChat = new ChatTools(lineEdit_ChatInput, myConfig, 1, textBrowser_ChatDisplay, treeWidget );

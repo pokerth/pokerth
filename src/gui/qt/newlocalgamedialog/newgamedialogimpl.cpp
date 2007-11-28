@@ -24,7 +24,8 @@
 newGameDialogImpl::newGameDialogImpl(QMainWindow *parent, ConfigFile *c)
       : QDialog(parent), myConfig(c)
 {
-
+	setWindowModality(Qt::ApplicationModal);
+	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
     	setupUi(this);
 	
 	myChangeCompleteBlindsDialog = new changeCompleteBlindsDialogImpl;

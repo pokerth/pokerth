@@ -26,8 +26,9 @@
 createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, ConfigFile *c)
       : QDialog(parent), myConfig(c)
 {
-
-    setupUi(this);
+	setWindowModality(Qt::ApplicationModal);
+	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+    	setupUi(this);
 
 	myChangeCompleteBlindsDialog = new changeCompleteBlindsDialogImpl;
 
