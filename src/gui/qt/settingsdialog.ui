@@ -40,7 +40,7 @@
    <item row="0" column="1" >
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QGridLayout" >
@@ -268,7 +268,7 @@
               <property name="text" >
                <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;/style>&lt;/head>&lt;body style="font-weight:400; font-style:normal; text-decoration:none;">
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-style:italic;">Note: Best quality with image ratio like &lt;/span>&lt;span style=" font-weight:600; font-style:italic;">width=100, height=140.&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
               </property>
               <property name="wordWrap" >
@@ -1180,7 +1180,7 @@ p, li { white-space: pre-wrap; }
          <property name="text" >
           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-size:9pt; font-weight:400; font-style:normal;">
+&lt;/style>&lt;/head>&lt;body style="font-weight:400; font-style:normal;">
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-style:italic;">Note: Default &lt;/span>&lt;span style=" font-weight:600; font-style:italic;">Game Settings&lt;/span>&lt;span style=" font-style:italic;"> like "Maximum number of players", "Start Cash" and "Small Blind" will be used &lt;/span>&lt;span style=" font-weight:600; font-style:italic;">from Network Game Settings.&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
          </property>
          <property name="wordWrap" >
@@ -2478,7 +2478,7 @@ p, li { white-space: pre-wrap; }
          <property name="text" >
           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;/style>&lt;/head>&lt;body style="font-weight:400; font-style:normal; text-decoration:none;">
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-style:italic;">Note: Best avatar quality with image ratio like &lt;/span>&lt;span style=" font-weight:600; font-style:italic;">width=50, height=50.&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
          </property>
          <property name="wordWrap" >

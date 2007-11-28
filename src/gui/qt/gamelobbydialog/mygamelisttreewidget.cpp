@@ -41,14 +41,6 @@ void MyGameListTreeWidget::paintEvent(QPaintEvent *event) {
         QTreeWidget::paintEvent(event);
 }
 
-// bool MyGameListTreeWidget::event(QEvent *event)
-// {
-// 	cout << event->type() << endl;
-// // 	if(event->type() == 12) paintEvent(event);
-// 
-// 	QTreeWidget::event(event);
-// }
-
 void MyGameListTreeWidget::scrollContentsBy ( int dx, int dy ) {
 
 	viewport()->update();

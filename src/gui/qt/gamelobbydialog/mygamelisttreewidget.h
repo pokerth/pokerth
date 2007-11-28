@@ -27,7 +27,6 @@ public:
 public slots:
 	
 	void paintEvent(QPaintEvent *);
-// 	bool event(QEvent *);
 	void setGameListBackgroundImage(QString pmString);
 	void scrollContentsBy ( int dx, int dy );
 
