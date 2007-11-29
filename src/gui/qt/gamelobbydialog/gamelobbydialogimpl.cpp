@@ -38,8 +38,9 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	waitStartGameMsgBoxTimer = new QTimer(this);
 	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
 
-	treeWidget_GameList->setGameListBackgroundImage(myAppDataPath +"gfx/gui/misc/background_gamelist.png");
+// 	treeWidget_GameList->setGameListBackgroundImage(myAppDataPath +"gfx/gui/misc/background_gamelist.png");
 // 	treeWidget_connectedPlayers->setSpacing(1);
+	treeWidget_GameList->setStyleSheet("QTreeWidget {background-color: white; background-image: url("+myAppDataPath +"gfx/gui/misc/background_gamelist.png); background-attachment: scroll;  background-position: top center ; background-repeat: no-repeat;}");
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
@@ -449,6 +450,29 @@ void gameLobbyDialogImpl::clearDialog()
 	label_connectedPlayersCounter->setText(tr("connected players: %1").arg(0));	
 	label_openGamesCounter->setText("| "+tr("running games: %1").arg(0));
 	label_runningGamesCounter->setText("| "+tr("open games: %1").arg(0));
+
+
+// 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item->setData(0, Qt::DisplayRole, "43324434");
+// 	item->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item->setData(2, Qt::DisplayRole, "33223");
+// 
+// 	QTreeWidgetItem *item1 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item1->setData(0, Qt::DisplayRole, "43324434");
+// 	item1->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item1->setData(2, Qt::DisplayRole, "33223");
+// 	QTreeWidgetItem *item2 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item2->setData(0, Qt::DisplayRole, "43324434");
+// 	item2->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item2->setData(2, Qt::DisplayRole, "33223");
+// QTreeWidgetItem *item3 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item3->setData(0, Qt::DisplayRole, "43324434");
+// 	item3->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item3->setData(2, Qt::DisplayRole, "33223");
+// QTreeWidgetItem *item4 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item4->setData(0, Qt::DisplayRole, "43324434");
+// 	item4->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item4->setData(2, Qt::DisplayRole, "33223");
 }
 
 void gameLobbyDialogImpl::checkPlayerQuantity() {
