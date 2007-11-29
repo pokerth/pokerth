@@ -3641,7 +3641,10 @@ void mainWindowImpl::quitPokerTH() {
 			qApp->quit();
 		}		
 	}
-	else { qApp->quit();}
+	else { 
+		stopTimer();
+		qApp->quit();
+	}
 }
 
 void mainWindowImpl::changeLineEditBetValue(int value) {

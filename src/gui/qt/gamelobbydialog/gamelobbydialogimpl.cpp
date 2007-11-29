@@ -39,7 +39,6 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
 
 // 	treeWidget_GameList->setGameListBackgroundImage(myAppDataPath +"gfx/gui/misc/background_gamelist.png");
-// 	treeWidget_connectedPlayers->setSpacing(1);
 	treeWidget_GameList->setStyleSheet("QTreeWidget {background-color: white; background-image: url("+myAppDataPath +"gfx/gui/misc/background_gamelist.png); background-attachment: scroll;  background-position: top center ; background-repeat: no-repeat;}");
 	treeWidget_GameList->setAutoFillBackground(TRUE);
 
