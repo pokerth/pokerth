@@ -52,6 +52,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	comboBox_switchLanguage->addItem(tr("Portuguese"),"ptbr");
 	comboBox_switchLanguage->addItem(tr("Russian"),"ru");
 	comboBox_switchLanguage->addItem(tr("Slovak"),"sk");
+	comboBox_switchLanguage->addItem(tr("Spanish"),"es");
 	comboBox_switchLanguage->addItem(tr("Turkish"),"tr");
 
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
