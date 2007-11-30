@@ -111,11 +111,11 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 			else if (command == "stat")
 			{
 				ServerStats tmpStats = GetLobbyThread().GetStats();
-				boost::posix_time::ptime curTime(boost::posix_time::second_clock::local_time());
 				{
+					boost::posix_time::time_duration timeDiff(boost::posix_time::second_clock::local_time() - GetLobbyThread().GetStartTime());
 					ostringstream statStream;
 					statStream
-						<< "Server uptime................ " << curTime - GetLobbyThread().GetStartTime();
+						<< "Server uptime................ " << timeDiff.hours() / 24 << " days " << timeDiff.hours() % 24 << " hours " << timeDiff.minutes() << " minutes " << timeDiff.seconds() << " seconds";
 					m_ircThread->SendChatMessage(statStream.str());
 				}
 				{
