@@ -70,7 +70,8 @@ ClientThread::~ClientThread()
 
 void
 ClientThread::Init(
-	const string &serverAddress, unsigned serverPort, bool ipv6, bool sctp,
+	const string &serverAddress, const string &alternateServerAddress,
+	unsigned serverPort, bool ipv6, bool sctp,
 	const string &pwd, const string &playerName, const string &avatarFile)
 {
 	if (IsRunning())
@@ -84,6 +85,7 @@ ClientThread::Init(
 	context.SetProtocol(sctp ? SOCKET_IPPROTO_SCTP : 0);
 	context.SetAddrFamily(ipv6 ? AF_INET6 : AF_INET);
 	context.SetServerAddr(serverAddress);
+	context.SetAlternateServerAddr(alternateServerAddress);
 	context.SetServerPort(serverPort);
 	context.SetPassword(pwd);
 	context.SetPlayerName(playerName);

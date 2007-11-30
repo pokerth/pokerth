@@ -162,8 +162,13 @@ void Session::startInternetClient()
 	}
 
 	myNetClient = new ClientThread(*myGui, *myAvatarManager);
+	string internetServerAddr(myConfig->readConfigString("InternetServerAddress"));
+	string alternateServerAddr;
+	if (internetServerAddr == "pokerth.6dns.org")
+		alternateServerAddr = "pokerth.dyndns.org";
 	myNetClient->Init(
-		myConfig->readConfigString("InternetServerAddress"),
+		internetServerAddr,
+		alternateServerAddr,
 		myConfig->readConfigInt("InternetServerPort"),
 		myConfig->readConfigInt("InternetServerUseIpv6") == 1,
 		myConfig->readConfigInt("InternetServerUseSctp") == 1,
@@ -185,6 +190,7 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 	myNetClient = new ClientThread(*myGui, *myAvatarManager);
 	myNetClient->Init(
 		serverAddress,
+		"",
 		serverPort,
 		ipv6,
 		sctp,
@@ -209,6 +215,7 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
 	const char *loopbackAddr = useIpv6 ? "::1" : "127.0.0.1";
 	myNetClient->Init(
 		loopbackAddr,
+		"",
 		myConfig->readConfigInt("ServerPort"),
 		useIpv6,
 		myConfig->readConfigInt("ServerUseSctp") == 1,

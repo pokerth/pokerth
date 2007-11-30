@@ -45,6 +45,7 @@ ResolverThread::Init(const ClientContext &context)
 
 	GetContext().SetAddrFamily(context.GetAddrFamily());
 	GetContext().SetServerAddr(context.GetServerAddr());
+	GetContext().SetAlternateServerAddr(context.GetAlternateServerAddr());
 	GetContext().SetServerPort(context.GetServerPort());
 }
 
@@ -78,6 +79,19 @@ ResolverThread::Main()
 		context.GetProtocol(),
 		(struct sockaddr *)context.GetClientSockaddr(),
 		context.GetClientSockaddrSize());
+
+	if (!m_retVal && !context.GetAlternateServerAddr().empty())
+	{
+		// Try alternate name.
+		m_retVal = socket_resolve(
+			context.GetAlternateServerAddr().c_str(),
+			tmpStr.str().c_str(),
+			context.GetAddrFamily(),
+			SOCK_STREAM,
+			context.GetProtocol(),
+			(struct sockaddr *)context.GetClientSockaddr(),
+			context.GetClientSockaddrSize());
+	}
 }
 
 const ClientContext &

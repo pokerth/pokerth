@@ -47,6 +47,10 @@ public:
 	{return m_serverAddr;}
 	void SetServerAddr(const std::string &serverAddr)
 	{m_serverAddr = serverAddr;}
+	const std::string &GetAlternateServerAddr() const
+	{return m_alternateServerAddr;}
+	void SetAlternateServerAddr(const std::string &serverAddr)
+	{m_alternateServerAddr = serverAddr;}
 	unsigned GetServerPort() const
 	{return m_serverPort;}
 	void SetServerPort(unsigned serverPort)
@@ -79,6 +83,7 @@ private:
 	int					m_protocol;
 	int					m_addrFamily;
 	std::string			m_serverAddr;
+	std::string			m_alternateServerAddr;
 	unsigned			m_serverPort;
 	std::string			m_password;
 	sockaddr_storage	m_clientSockaddr;
