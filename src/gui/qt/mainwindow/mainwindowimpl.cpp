@@ -369,13 +369,13 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	//Widgets Grafiken per Stylesheets setzen
 	this->setStyleSheet("QMainWindow { background-image: url(" + myAppDataPath +"gfx/gui/table/default/table.png); background-position: bottom center; background-origin: content;}");
 
-	menubar->setStyleSheet("QMenuBar { background-color: #145300; } QMenuBar::item { color: #88BE00; }");
+	menubar->setStyleSheet("QMenuBar { background-color: #145300; } QMenuBar::item { color: #99D500; }");
 
-	pushButton_break->setStyleSheet("QPushButton:enabled { background-color: #145300; color: #88BE00;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
-	label_speedString->setStyleSheet("QLabel { color: #88BE00;}");
-	label_speedValue->setStyleSheet("QLabel { color: #88BE00;}");	
+	pushButton_break->setStyleSheet("QPushButton:enabled { background-color: #145300; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
+	label_speedString->setStyleSheet("QLabel { color: #99D500;}");
+	label_speedValue->setStyleSheet("QLabel { color: #99D500;}");	
 
-	statusbar->setStyleSheet(" QStatusBar { "+ font1String +" font-size: 12px; color: #88BE00; }");
+	statusbar->setStyleSheet(" QStatusBar { "+ font1String +" font-size: 12px; color: #99D500; }");
 
 	//Groupbox Background 
 	for (i=1; i<MAX_NUMBER_OF_PLAYERS; i++) {
@@ -391,10 +391,10 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	lineEdit_betValue->setStyleSheet("QLineEdit { "+ font2String +" font-size: 10px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; } QLineEdit:disabled { background-color: #316300; color: #6d7b5f }");
 
-	pushButton_AllIn->setStyleSheet("QPushButton:enabled { background-color: #145300; color: #88BE00;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
+	pushButton_AllIn->setStyleSheet("QPushButton:enabled { background-color: #145300; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
 
 // 	away radiobuttons
-	QString radioButtonString("QRadioButton { color: #88BE00; } QRadioButton::indicator { width: 13px; height: 13px; } QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png); }");
+	QString radioButtonString("QRadioButton { color: #99D500; } QRadioButton::indicator { width: 13px; height: 13px; } QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png); }");
 
 	radioButton_manualAction->setStyleSheet(radioButtonString);
 	radioButton_autoCheckFold->setStyleSheet(radioButtonString);
@@ -408,7 +408,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { actionLabelArray[i]->raise(); }
 
 	//fix for away string bug in righttabwidget on windows
-#ifdef _WIN32
+ #if (defined _WIN32) || (defined __APPLE_)
 	tabWidget_Right->setTabText(0, " "+tabWidget_Right->tabText(0)+" ");
 	tabWidget_Right->setTabText(1, " "+tabWidget_Right->tabText(1)+" ");
 #endif
@@ -2906,7 +2906,7 @@ void mainWindowImpl::nextRoundCleanGui() {
 	//Clean breakbutton
 	if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) {
 		blinkingStartButtonAnimationTimer->stop();
-		pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: #88BE00;}");
+		pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: #99D500;}");
 		blinkingStartButtonAnimationTimer->stop();
 		QFontMetrics tempMetrics = this->fontMetrics();
 		int width = tempMetrics.width(tr("Stop"));
@@ -2993,7 +2993,7 @@ void mainWindowImpl::breakButtonClicked() {
 
 		blinkingStartButtonAnimationTimer->stop();
 		//Set default Color
-		pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: #88BE00;}");
+		pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: #99D500;}");
 		QFontMetrics tempMetrics = this->fontMetrics();
 		int width = tempMetrics.width(tr("Stop"));
 		pushButton_break->setMinimumSize(width+10,20);
@@ -3468,7 +3468,7 @@ void mainWindowImpl::blinkingStartButtonAnimationAction() {
 		pushButton_break->setStyleSheet("QPushButton { background-color: #6E9E00; color: black;}");
 	}
 	else {
-		pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: #88BE00;}");
+		pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: #99D500;}");
 	}
 }
 
