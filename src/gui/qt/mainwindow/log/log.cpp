@@ -132,7 +132,7 @@ void Log::logPlayerActionMsg(QString msg, int action, int setValue) {
 		default: msg += "ERROR";
 	}
 	
-	if (action >= 3) { msg += QString::number(setValue,10)+"$."; }
+	if (action >= 3) { msg += "$"+QString::number(setValue,10)+"."; }
 	
 	myW->textBrowser_Log->append(msg);
 
@@ -159,12 +159,12 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	//if write logfiles is enabled
 
 		logFileStreamString += "<table><tr><td width=\"600\" align=\"center\"><hr noshade size=\"3\"><b>Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+"</b></td><td></td></tr></table>";
-		logFileStreamString += "BLIND LEVEL: "+QString::number(currentHand->getSmallBlind())+"$/"+QString::number(currentHand->getSmallBlind()*2)+"$</br>";
+		logFileStreamString += "BLIND LEVEL: $"+QString::number(currentHand->getSmallBlind())+" / $"+QString::number(currentHand->getSmallBlind()*2)+"</br>";
 
 		//print cash only for active players
 		for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
 
-			logFileStreamString += "Seat " + QString::number((*it_c)->getMyID()+1,10) + ": <b>" +  QString::fromUtf8((*it_c)->getMyName().c_str()) + "</b> (" + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10)+"$)</br>";
+			logFileStreamString += "Seat " + QString::number((*it_c)->getMyID()+1,10) + ": <b>" +  QString::fromUtf8((*it_c)->getMyName().c_str()) + "</b> ($" + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10)+")</br>";
 
 		}
 	}
@@ -176,8 +176,11 @@ void Log::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbNa
 	// log blinds
 	logFileStreamString += "BLINDS: ";
 
-	logFileStreamString += sbName+" ("+QString::number(sbSet,10)+"$), ";
-	logFileStreamString += bbName+" ("+QString::number(bbSet,10)+"$)";
+	logFileStreamString += sbName+" ($"+QString::number(sbSet,10)+"), ";
+	logFileStreamString += bbName+" ($"+QString::number(bbSet,10)+")";
+
+	myW->textBrowser_Log->append("<span>"+sbName+" posts small blind ($"+QString::number(sbSet,10)+")</span>");
+	myW->textBrowser_Log->append("<span>"+bbName+" posts big blind ($"+QString::number(bbSet,10)+")</span>");
 
 	PlayerListConstIterator it_c;
 	HandInterface *currentHand = myW->getSession().getCurrentGame()->getCurrentHand();
@@ -204,15 +207,15 @@ void Log::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbNa
 void Log::logPlayerWinsMsg(QString playerName, int pot, bool main) {
 
 	if(main) {
-		myW->textBrowser_Log->append("<span style=\"color:#FFFF00;\">"+playerName+" wins "+QString::number(pot,10)+"$</span>");
+		myW->textBrowser_Log->append("<span style=\"color:#FFFF00;\">"+playerName+" wins $"+QString::number(pot,10)+"</span>");
 	} else {
-		myW->textBrowser_Log->append("<span style=\"color:#FFFFCC;\">"+playerName+" wins "+QString::number(pot,10)+"$ (side pot)</span>");
+		myW->textBrowser_Log->append("<span style=\"color:#FFFFCC;\">"+playerName+" wins $"+QString::number(pot,10)+" (side pot)</span>");
 	}
 	
 	if(myConfig->readConfigInt("LogOnOff")) {
 	//if write logfiles is enabled
 
-		logFileStreamString += "</br><i>"+playerName+" wins "+QString::number(pot,10)+"$";
+		logFileStreamString += "</br><i>"+playerName+" wins $"+QString::number(pot,10);
 		if(!main) {
 			logFileStreamString += " (side pot)";
 		}
