@@ -408,7 +408,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { actionLabelArray[i]->raise(); }
 
 	//fix for away string bug in righttabwidget on windows
- #if (defined _WIN32) || (defined __APPLE_)
+ #if (defined _WIN32) || (defined __APPLE__)
 	tabWidget_Right->setTabText(0, " "+tabWidget_Right->tabText(0)+" ");
 	tabWidget_Right->setTabText(1, " "+tabWidget_Right->tabText(1)+" ");
 #endif
