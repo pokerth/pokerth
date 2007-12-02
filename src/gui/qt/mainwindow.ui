@@ -2926,7 +2926,7 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QLabel" name="label_10" >
+              <widget class="QLabel" name="label_speedString" >
                <property name="palette" >
                 <palette>
                  <active>
@@ -2997,7 +2997,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_11" >
+              <widget class="QLabel" name="label_speedValue" >
                <property name="minimumSize" >
                 <size>
                  <width>18</width>
@@ -3385,7 +3385,7 @@
   <connection>
    <sender>horizontalSlider_speed</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>label_11</receiver>
+   <receiver>label_speedValue</receiver>
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel" >
