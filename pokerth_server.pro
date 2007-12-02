@@ -209,13 +209,12 @@ mac{
 	LIBS += -lpokerth_lib
 	# standard path for darwinports
 	# make sure you have a universal version of boost
-	LIBS += /opt/local/lib/libboost_thread-gcc40-mt-1_34.a
-	LIBS += /opt/local/lib/libboost_filesystem-gcc40-mt-1_34.a
+	LIBS += /usr/local/lib/libboost_thread-mt-1_34_1.a
+	LIBS += /usr/local/lib/libboost_filesystem-mt-1_34_1.a
 	# libraries installed on every mac
 	LIBS += -lcrypto -liconv
 	# set the application icon
 	RC_FILE = pokerth.icns
-	LIBPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/lib 
-	INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
-	INCLUDEPATH += /opt/local/include
+	LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib 
+	INCLUDEPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/include/
 }

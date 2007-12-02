@@ -36,7 +36,11 @@ ConvHelper::NativeToUtf8(const std::string &inStr)
 {
 	string retStr(inStr);
 	size_t insize = inStr.length();
+#ifdef __APPLE__
+	const char *inbuf = inStr.data();
+#else
 	char *inbuf = const_cast<char *>(inStr.data());
+#endif
 
 	const size_t c_outsize = insize * 6; // max size of utf-8 char is 6 per input char
 	size_t outsize = c_outsize;
@@ -67,7 +71,11 @@ ConvHelper::Utf8ToNative(const std::string &inStr)
 {
 	string retStr(inStr);
 	size_t insize = inStr.length();
+#ifdef __APPLE__
+	const char *inbuf = inStr.data();
+#else
 	char *inbuf = const_cast<char *>(inStr.data());
+#endif
 
 	const size_t c_outsize = insize;
 	size_t outsize = c_outsize;

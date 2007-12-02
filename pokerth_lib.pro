@@ -197,8 +197,7 @@ mac{
 	# on Intel-Mac you have to comment this line out or build will fail.
 	#	QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 
-	INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
+	INCLUDEPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/include/
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
-	INCLUDEPATH += /opt/local/include
 }
