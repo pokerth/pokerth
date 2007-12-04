@@ -26,9 +26,10 @@
 startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFile *config)
       : QDialog(parent), myW(NULL), keyUpDownChatCounter(0), myPlayerId(0), isAdmin(false), myConfig(config), mySession(NULL), myChat(NULL)
 {
-
+#ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+#endif	
 	setupUi(this);
 
 	myChat = new ChatTools(lineEdit_ChatInput, myConfig, 1, textBrowser_ChatDisplay, treeWidget );

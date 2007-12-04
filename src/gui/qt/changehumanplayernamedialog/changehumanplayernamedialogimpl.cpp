@@ -24,8 +24,10 @@
 changeHumanPlayerNameDialogImpl::changeHumanPlayerNameDialogImpl(QWidget *parent, ConfigFile *config)
       : QDialog(parent), myConfig(config)
 {
+#ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+#endif	
     	setupUi(this);
 
 	lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));

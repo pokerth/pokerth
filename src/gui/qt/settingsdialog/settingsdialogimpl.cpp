@@ -29,8 +29,10 @@ using namespace std;
 settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAvatarDialogImpl *s)
     : QDialog(parent), myConfig(c), mySelectAvatarDialogImpl(s)
 {
+#ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+#endif	
   	setupUi(this);
 
 	myManualBlindsOrderDialog = new manualBlindsOrderDialogImpl; 	

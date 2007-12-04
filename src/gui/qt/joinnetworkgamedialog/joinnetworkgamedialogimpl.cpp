@@ -28,9 +28,10 @@ using namespace std;
 joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile *c)
       : QDialog(parent), myConfig(c)
 {
-
-    	setWindowModality(Qt::ApplicationModal);
+#ifdef __APPLE__
+	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+#endif	
 	setupUi(this);
 
 // 	QShortcut *connectKey = new QShortcut(QKeySequence(Qt::Key_Enter), this);
