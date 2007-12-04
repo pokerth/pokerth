@@ -297,7 +297,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 // 	Schriftart laden und für Dialoge setzen
 #ifdef _WIN32
 	font1String = "font-family: \"Arial\";";
-	font2String = "font-family: \"Bitstream Vera Sans\";";
+// 	font2String = "font-family: \"Bitstream Vera Sans\";";
+	font2String = "font-family: \"DejaVu Sans\";";
 	QString fontsize= "11";
 #else 
 	#ifdef __APPLE__	
@@ -307,6 +308,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	#else 
 		font1String = "font-family: \"Nimbus Sans L\";";
+// 		font2String = "font-family: \"DejaVu Sans\";";
 		font2String = "font-family: \"Bitstream Vera Sans\";";
 		QString fontsize= "10";
 
