@@ -57,10 +57,10 @@
 	#define ENABLE_LEAK_CHECK()
 #endif
 
-// //Uncomment this for RELEASE
-// #include <QtPlugin>
-// Q_IMPORT_PLUGIN(qjpeg)
-// Q_IMPORT_PLUGIN(qgif)
+//Uncomment this for RELEASE
+#include <QtPlugin>
+Q_IMPORT_PLUGIN(qjpeg)
+Q_IMPORT_PLUGIN(qgif)
 
 
 using namespace std;
@@ -94,13 +94,13 @@ int main( int argc, char **argv )
 // 	#ifdef __APPLE__
 // 		QString font1String("font-family: \"Lucida Grande\";");
 // 	#else 
+	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/VeraBd.ttf");
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/n019003l.pfb");
 	QString font1String("font-family: \"Nimbus Sans L\";");
 // 	#endif
 	a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 12px; }");
 #endif
 	//add OS-independent fonts
-	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/VeraBd.ttf");
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/c059013l.pfb");
 	
 	//Set translations

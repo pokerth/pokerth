@@ -375,7 +375,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	label_speedString->setStyleSheet("QLabel { color: #99D500;}");
 	label_speedValue->setStyleSheet("QLabel { color: #99D500;}");	
 
-	statusbar->setStyleSheet(" QStatusBar { "+ font1String +" font-size: 12px; color: #99D500; }");
+	statusbar->setStyleSheet(" QStatusBar { "+ font1String +" font-size: 12px; color: #B7FF00; }");
 
 	//Groupbox Background 
 	for (i=1; i<MAX_NUMBER_OF_PLAYERS; i++) {
@@ -394,7 +394,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	pushButton_AllIn->setStyleSheet("QPushButton:enabled { background-color: #145300; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
 
 // 	away radiobuttons
-	QString radioButtonString("QRadioButton { color: #99D500; } QRadioButton::indicator { width: 13px; height: 13px; } QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png); }");
+// 	QString radioButtonString("QRadioButton { color: #99D500; } QRadioButton::indicator { width: 13px; height: 13px; } QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png); }");
+	QString radioButtonString("QRadioButton { color: #99D500; } QRadioButton::indicator { width: 13px; height: 13px;} QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png);}  QRadioButton::indicator::unchecked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_unchecked.png);}      QRadioButton::indicator:unchecked:hover { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_unchecked_hover.png);} QRadioButton::indicator:unchecked:pressed { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_pressed.png);} QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png);}      QRadioButton::indicator:checked:hover { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked_hover.png);} QRadioButton::indicator:checked:pressed { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_pressed.png);}");
 
 	radioButton_manualAction->setStyleSheet(radioButtonString);
 	radioButton_autoCheckFold->setStyleSheet(radioButtonString);
@@ -402,7 +403,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	groupBox_RightToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/misc/toolboxFrameBG.png) }");
 	groupBox_LeftToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/misc/toolboxFrameBG.png) }");
-
 
 	//raise actionLable above just inserted mypixmaplabel
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { actionLabelArray[i]->raise(); }
@@ -3600,9 +3600,9 @@ void mainWindowImpl::myButtonsCheckable(bool state) {
 		pushButton_AllIn->setCheckable(TRUE);
 
 		//design
-		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #7DFF95;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6_checked.png); }");
-		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #7DCDFF;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6_checked.png); }");
-		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #FF7D7D;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6_checked.png); }");
+		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #87FF97;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6_checked.png); }");
+		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #87CDFF;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6_checked.png); }");
+		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #FF8787;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6_checked.png); }");
 
 		myButtonsAreCheckable = TRUE;
 	}

@@ -39,7 +39,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
 
 // 	treeWidget_GameList->setGameListBackgroundImage(myAppDataPath +"gfx/gui/misc/background_gamelist.png");
-	treeWidget_GameList->setStyleSheet("QTreeWidget {background-color: white; background-image: url("+myAppDataPath +"gfx/gui/misc/background_gamelist.png); background-attachment: scroll;  background-position: top center ; background-repeat: no-repeat;}");
+	treeWidget_GameList->setStyleSheet("QTreeWidget {background-color: white; background-image: url("+myAppDataPath +"gfx/gui/misc/background_gamelist.png); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 	treeWidget_GameList->setAutoFillBackground(TRUE);
 
 
@@ -474,6 +474,50 @@ void gameLobbyDialogImpl::clearDialog()
 // 	item4->setData(0, Qt::DisplayRole, "43324434");
 // 	item4->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
 // 	item4->setData(2, Qt::DisplayRole, "33223");
+// QTreeWidgetItem *item5 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item5->setData(0, Qt::DisplayRole, "43324434");
+// 	item5->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item5->setData(2, Qt::DisplayRole, "33223");
+// QTreeWidgetItem *item6 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item6->setData(0, Qt::DisplayRole, "43324434");
+// 	item6->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item6->setData(2, Qt::DisplayRole, "33223");
+// QTreeWidgetItem *item7 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item7->setData(0, Qt::DisplayRole, "43324434");
+// 	item7->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item7->setData(2, Qt::DisplayRole, "33223");
+// QTreeWidgetItem *item8 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item8->setData(0, Qt::DisplayRole, "43324434");
+// 	item8->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item8->setData(2, Qt::DisplayRole, "33223");
+// QTreeWidgetItem *item9 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item9->setData(0, Qt::DisplayRole, "43324434");
+// 	item9->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item9->setData(2, Qt::DisplayRole, "33223");
+// QTreeWidgetItem *item10 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item10->setData(0, Qt::DisplayRole, "43324434");
+// 	item10->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item10->setData(2, Qt::DisplayRole, "33223");
+// QTreeWidgetItem *item11 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item11->setData(0, Qt::DisplayRole, "43324434");
+// 	item11->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item11->setData(2, Qt::DisplayRole, "33223");
+// QTreeWidgetItem *item12 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item12->setData(0, Qt::DisplayRole, "43324434");
+// 	item12->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item12->setData(2, Qt::DisplayRole, "33223");
+// QTreeWidgetItem *item13 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item13->setData(0, Qt::DisplayRole, "43324434");
+// 	item13->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item13->setData(2, Qt::DisplayRole, "33223");
+// QTreeWidgetItem *item14 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item14->setData(0, Qt::DisplayRole, "43324434");
+// 	item14->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item14->setData(2, Qt::DisplayRole, "33223");
+// QTreeWidgetItem *item15 = new QTreeWidgetItem(treeWidget_GameList, 0);
+// 	item15->setData(0, Qt::DisplayRole, "43324434");
+// 	item15->setData(1, Qt::DisplayRole, "sfdsfsdfsd");
+// 	item15->setData(2, Qt::DisplayRole, "33223");
 }
 
 void gameLobbyDialogImpl::checkPlayerQuantity() {
