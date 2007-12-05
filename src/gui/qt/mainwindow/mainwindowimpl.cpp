@@ -297,28 +297,39 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 // 	Schriftart laden und für Dialoge setzen
 #ifdef _WIN32
 	font1String = "font-family: \"Arial\";";
-// 	font2String = "font-family: \"Bitstream Vera Sans\";";
-	font2String = "font-family: \"DejaVu Sans\";";
-	QString fontsize= "11";
+	font2String = "font-family: \"Nimbus Sans L\";";
+	QString textBrowserFontsize= "11";
+	QString cashFontSize = "11";
+	QString setLabelFontSize = "13";
+	QString playerNameLabelFontSize = "14";
+	QString mediumTableFontSize = "13";
+	QString handLabelFontSize = "18";
+	QString labelPotFontSize = "19";
+	QString humanPlayerButtonFontSize = "13";
+	QString betValueFontSize = "11";
 #else 
 	#ifdef __APPLE__	
 		font1String = "font-family: \"Lucida Grande\";";
 		font2String = "font-family: \"Lucida Grande\";";
-		QString fontsize= "10";
-
 	#else 
 		font1String = "font-family: \"Nimbus Sans L\";";
-// 		font2String = "font-family: \"DejaVu Sans\";";
 		font2String = "font-family: \"Bitstream Vera Sans\";";
-		QString fontsize= "10";
-
 	#endif
+	QString textBrowserFontsize= "10";
+	QString cashFontSize = "10";
+	QString setLabelFontSize = "12";
+	QString playerNameLabelFontSize = "13";
+	QString mediumTableFontSize = "13";
+	QString handLabelFontSize = "17";	
+	QString labelPotFontSize = "18";
+	QString humanPlayerButtonFontSize = "11";
+	QString betValueFontSize = "10";
 #endif
 
 
-	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+fontsize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; } QScrollBar:vertical { border: 1px solid #104600; background: #135000; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #1B7200; background: #176400; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #208A00; height: 3px; width: 3px; background: #27A800; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
-	textBrowser_Chat->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+fontsize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; } QScrollBar:vertical { border: 1px solid #104600; background: #135000; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #1B7200; background: #176400; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #208A00; height: 3px; width: 3px; background: #27A800; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
-	lineEdit_ChatInput->setStyleSheet("QLineEdit { "+ font1String +" font-size: "+fontsize+"px; color: #F0F0F0; background-color: #1D3B00; border-top: 2px solid #286400; }");
+	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+textBrowserFontsize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; } QScrollBar:vertical { border: 1px solid #104600; background: #135000; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #1B7200; background: #176400; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #208A00; height: 3px; width: 3px; background: #27A800; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
+	textBrowser_Chat->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+textBrowserFontsize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; } QScrollBar:vertical { border: 1px solid #104600; background: #135000; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #1B7200; background: #176400; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #208A00; height: 3px; width: 3px; background: #27A800; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
+	lineEdit_ChatInput->setStyleSheet("QLineEdit { "+ font1String +" font-size: "+textBrowserFontsize+"px; color: #F0F0F0; background-color: #1D3B00; border-top: 2px solid #286400; }");
 
 
 #ifdef __APPLE__
@@ -329,34 +340,34 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 // 	tabWidget_Left->setStyleSheet("QTabWidget::pane { border: 1px solid #286400; border-radius: 2px; background-color: #145300; }");
 #endif
 
+
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		cashTopLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px; font-weight: bold; color: #F0F0F0; }");
-		cashLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 10px; font-weight: bold; color: #F0F0F0; }");
+		cashTopLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: "+cashFontSize+"px; font-weight: bold; color: #F0F0F0; }");
+		cashLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: "+cashFontSize+"px; font-weight: bold; color: #F0F0F0; }");
 	}
 	
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		setLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 12px; font-weight: bold; color: #F0F0F0; }");
+		setLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: "+setLabelFontSize+"px; font-weight: bold; color: #F0F0F0; }");
 	}
 
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		playerNameLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #F0F0F0; }");
+		playerNameLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: "+playerNameLabelFontSize+"px; font-weight: bold; color: #F0F0F0; }");
 	}
 
-	label_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900;  }");
-	label_Total->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900; }");
-	textLabel_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900;  }");
-	textLabel_Pot->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900;  }");
-	label_handNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900;  }");
-	label_gameNumber->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900;  }");
-	label_handNumberValue->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900;  }");
-	label_gameNumberValue->setStyleSheet("QLabel { "+ font2String +" font-size: 13px; font-weight: bold; color: #669900;  }");
+	label_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
+	label_Total->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900; }");
+	textLabel_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
+	textLabel_Pot->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
+	label_handNumber->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
+	label_gameNumber->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
+	label_handNumberValue->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
+	label_gameNumberValue->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
 
-	textLabel_handLabel->setStyleSheet("QLabel { "+ font2String +" font-size: 17px; font-weight: bold; color: #669900;  }");
-
-	label_Pot->setStyleSheet("QLabel { "+ font2String +" font-size: 18px; font-weight: bold; color: #669900;   }");
+	textLabel_handLabel->setStyleSheet("QLabel { "+ font2String +" font-size: "+handLabelFontSize+"px; font-weight: bold; color: #669900;  }");
+	label_Pot->setStyleSheet("QLabel { "+ font2String +" font-size: "+labelPotFontSize+"px; font-weight: bold; color: #669900;   }");
 
 
 	//Widgets Grafiken setzen
@@ -387,11 +398,11 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 
 
 	//Human player button
-	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6_checked.png); }");
-	pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6_checked.png); }");
-	pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6_checked.png); }");
+	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6_checked.png); }");
+	pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6_checked.png); }");
+	pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6_checked.png); }");
 
-	lineEdit_betValue->setStyleSheet("QLineEdit { "+ font2String +" font-size: 10px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; } QLineEdit:disabled { background-color: #316300; color: #6d7b5f }");
+	lineEdit_betValue->setStyleSheet("QLineEdit { "+ font2String +" font-size: "+betValueFontSize+"px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; } QLineEdit:disabled { background-color: #316300; color: #6d7b5f }");
 
 	pushButton_AllIn->setStyleSheet("QPushButton:enabled { background-color: #145300; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
 
@@ -3593,6 +3604,12 @@ void mainWindowImpl::clearMyButtons() {
 
 void mainWindowImpl::myButtonsCheckable(bool state) {
 
+#ifdef _WIN32
+	QString humanPlayerButtonFontSize = "13";
+#else 
+	QString humanPlayerButtonFontSize = "11";
+#endif
+
 	if(state) {
 		//checkable
 
@@ -3602,9 +3619,9 @@ void mainWindowImpl::myButtonsCheckable(bool state) {
 		pushButton_AllIn->setCheckable(TRUE);
 
 		//design
-		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #87FF97;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6_checked.png); }");
-		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #87CDFF;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6_checked.png); }");
-		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #FF8787;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6_checked.png); }");
+		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #87FF97;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6_checked.png); }");
+		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #87CDFF;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6_checked.png); }");
+		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #FF8787;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6_checked.png); }");
 
 		myButtonsAreCheckable = TRUE;
 	}
@@ -3617,9 +3634,9 @@ void mainWindowImpl::myButtonsCheckable(bool state) {
 		pushButton_AllIn->setCheckable(FALSE);
 		
 		//design
-		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6_checked.png); }");
-		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6_checked.png); }");
-		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: 11px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6_checked.png); }");
+		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_03_0.6_checked.png); }");
+		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_05_0.6_checked.png); }");
+		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_07_0.6_checked.png); }");
 
 		myButtonsAreCheckable = FALSE;
 	}
