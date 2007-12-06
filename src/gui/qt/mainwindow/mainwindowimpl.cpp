@@ -322,7 +322,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	QString mediumTableFontSize = "13";
 	QString handLabelFontSize = "17";	
 	QString labelPotFontSize = "18";
-	QString humanPlayerButtonFontSize = "13";
+	QString humanPlayerButtonFontSize = "12";
 	QString betValueFontSize = "10";
 #endif
 
@@ -3607,7 +3607,7 @@ void mainWindowImpl::myButtonsCheckable(bool state) {
 #ifdef _WIN32
 	QString humanPlayerButtonFontSize = "13";
 #else 
-	QString humanPlayerButtonFontSize = "11";
+	QString humanPlayerButtonFontSize = "12";
 #endif
 
 	if(state) {

@@ -51,10 +51,12 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	comboBox_switchLanguage->addItem(tr("Hungarian"),"hu");
 	comboBox_switchLanguage->addItem(tr("Italian"),"it");
 	comboBox_switchLanguage->addItem(tr("Norwegian"),"no");
+// 	comboBox_switchLanguage->addItem(tr("Polish"),"pl");
 	comboBox_switchLanguage->addItem(tr("Portuguese"),"ptbr");
 	comboBox_switchLanguage->addItem(tr("Russian"),"ru");
 	comboBox_switchLanguage->addItem(tr("Slovak"),"sk");
 	comboBox_switchLanguage->addItem(tr("Spanish"),"es");
+// 	comboBox_switchLanguage->addItem(tr("Svedish"),"sv");
 	comboBox_switchLanguage->addItem(tr("Turkish"),"tr");
 
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
@@ -391,8 +393,14 @@ void settingsDialogImpl::isAccepted() {
 
 void settingsDialogImpl::setFlipsidePicFileName()
  {
+	QDir flipSideDir(QDir::homePath());
+	QFile flipSideFile(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
+	if(flipSideFile.exists()) {
+		flipSideDir = QDir(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
+	}
+
  	QString fileName = QFileDialog::getOpenFileName(this, tr("Select your flipside picture"),
-                                                QDir::homePath(),
+                                               flipSideDir.absolutePath(),
                                                 tr("Images (*.png *.jpg *.gif)"));
 
      if (!fileName.isEmpty())
