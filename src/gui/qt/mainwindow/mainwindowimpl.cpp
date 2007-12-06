@@ -322,7 +322,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	QString mediumTableFontSize = "13";
 	QString handLabelFontSize = "17";	
 	QString labelPotFontSize = "18";
-	QString humanPlayerButtonFontSize = "11";
+	QString humanPlayerButtonFontSize = "13";
 	QString betValueFontSize = "10";
 #endif
 
