@@ -55,7 +55,7 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
 			switch (myNotifyMode) {
 				case 0: tempMsg = message;
 				break;
-				case 1:	tempMsg = QString("<b>"+message+"</b>");
+				case 1:	tempMsg = QString("<span style=\"font-weight:bold;\">"+message+"</span>");
 				break;
 				case 2: tempMsg = QString("<span style=\"color:#FFFF00;\">"+message+"</span>");
 				break;
@@ -64,7 +64,16 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
 			myTextBrowser->append(playerName + ": " + tempMsg);
 		}
 		else {
-			myTextBrowser->append(playerName + ": " + message); 
+			switch (myNotifyMode) {
+				case 0: tempMsg = message;
+				break;
+				case 1:	tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
+				break;
+				case 2: tempMsg = QString("<span style=\"color:#FFFFFF;\">"+message+"</span>");
+				break;
+				default:;
+			}
+			myTextBrowser->append(playerName + ": " + tempMsg); 
 		}
 	}
 }
