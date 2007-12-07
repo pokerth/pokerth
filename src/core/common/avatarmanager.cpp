@@ -515,30 +515,40 @@ bool
 AvatarManager::InternalReadDirectory(const std::string &dir, AvatarMap &avatars)
 {
 	bool retVal = true;
-	try
-	{
-		// This method is not thread safe. Only call after locking the map.
-		directory_iterator i(dir);
-		directory_iterator end;
+	path tmpPath(dir);
 
-		while (i != end)
-		{
-			if (is_regular(i->status()))
-			{
-				string md5sum(basename(i->path()));
-				MD5Buf md5buf;
-				string fileName(i->path().file_string());
-				if (md5buf.FromString(md5sum))
-				{
-					// Only consider files with md5sum as name.
-					avatars.insert(AvatarMap::value_type(md5buf, fileName));
-				}
-			}
-			++i;
-		}
-	} catch (...)
+	if (exists(tmpPath) && is_directory(tmpPath))
 	{
-		LOG_ERROR("Exception caught when trying to scan avatar directory.");
+		try
+		{
+			// This method is not thread safe. Only call after locking the map.
+			directory_iterator i(tmpPath);
+			directory_iterator end;
+
+			while (i != end)
+			{
+				if (is_regular(i->status()))
+				{
+					string md5sum(basename(i->path()));
+					MD5Buf md5buf;
+					string fileName(i->path().file_string());
+					if (md5buf.FromString(md5sum))
+					{
+						// Only consider files with md5sum as name.
+						avatars.insert(AvatarMap::value_type(md5buf, fileName));
+					}
+				}
+				++i;
+			}
+		} catch (...)
+		{
+			LOG_ERROR("Exception caught when trying to scan avatar directory.");
+			retVal = false;
+		}
+	}
+	else
+	{
+		LOG_ERROR("Avatar directory does not exist.");
 		retVal = false;
 	}
 	return retVal;
