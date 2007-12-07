@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=PokerTH
+Type=Application
+Icon=pokerth.png
+Comment=Texas hold'em game
+Exec=pokerth
+Categories=Game;CardGame;
+Terminal=false
+StartupNotify=false

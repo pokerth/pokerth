@@ -52,6 +52,9 @@ std::string QtHelper::getDataPathStdString(const char * /*argv0*/)
 	} else if (QRegExp("usr/games/bin/?$").indexIn(path) != -1) {
 		// we are in /usr/games/bin (like gentoo linux does)
 		path += "/../../share/games/pokerth/data/";
+	} else if (QRegExp("usr/games/?$").indexIn(path) != -1) {
+		// we are in /usr/games (like Debian linux does)
+		path += "/../share/games/pokerth/";
 	} else if (QRegExp("bin/?$").indexIn(path) != -1) {
 		// we are in a bin directory. e.g. /usr/bin
 		path += "/../share/pokerth/data/";
@@ -61,3 +64,4 @@ std::string QtHelper::getDataPathStdString(const char * /*argv0*/)
 #endif
 	return (QDir::cleanPath(path) + "/").toUtf8().constData();
 }
+
