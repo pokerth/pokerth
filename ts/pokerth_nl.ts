@@ -2860,7 +2860,7 @@ Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&
     <message>
         <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3264"/>
         <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation>Deze bètarelease van PokerTH is te oud.&lt;br&gt;Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; en download de nieuwste versie.</translation>
+        <translation>Deze bètarelease van PokerTH is te oud.&lt;br&gt;Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;/a&gt; en download de nieuwste versie.</translation>
     </message>
     <message>
         <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3526"/>
@@ -3584,7 +3584,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="3096"/>
         <source>Player Nicks/Avatars</source>
-        <translation>Spelersnamen/Avatars</translation>
+        <translation>Spelersnamen/avatars</translation>
     </message>
     <message>
         <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1124"/>
@@ -3626,7 +3626,7 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: afbeelding heeft de beste kwaliteit bij een hoogte-breedteverhouding van &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;hoogte=140 en breedte=100.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: de afbeelding ziet er het best uit bij een hoogte-breedteverhouding van &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;hoogte=140, breedte=100.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="833"/>
@@ -3652,7 +3652,7 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: standaard &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;spelinstellingen&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;, waaronder &apos;Maximale aantal spelers&apos;, &apos;Startgeld&apos; en &apos;Kleine blind&apos; worden overgenomen &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;van Instellingen van netwerkspel.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: standaard &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;spelinstellingen&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;, waaronder &apos;Maximale aantal spelers&apos;, &apos;Startgeld&apos; en &apos;Kleine blind&apos; worden overgenomen van &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Instellingen van netwerkspel.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2479"/>
@@ -3663,7 +3663,7 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: avatars hebben de beste kwaliteit met een hoogte-breedteverhouding van &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;hoogte=50 en breedte=50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: avatars zien er het best uit met een hoogte-breedteverhouding van &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;hoogte=50, breedte=50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
