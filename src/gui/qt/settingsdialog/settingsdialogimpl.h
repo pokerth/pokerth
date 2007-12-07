@@ -68,8 +68,8 @@ public slots:
 
 	void clearInternetGamePassword(bool);
 	
-	void checkProperNetFirstSmallBlind(int);
-	void checkProperFirstSmallBlind(int);
+// 	void checkProperNetFirstSmallBlind(int);
+// 	void checkProperFirstSmallBlind(int);
 	void setFirstSmallBlindMargin() ;
 
 	void setLanguageChanged(int);

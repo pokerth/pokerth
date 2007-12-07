@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="nl_NL">
-<defaultcodec></defaultcodec>
 <context>
     <name>Chat</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/chat/chat.cpp" line="53"/>
+        <location filename="../src/gui/qt/mainwindow/chat/chat.cpp" line="53"/>
         <source>You cannot kick yourself!</source>
         <translation>U kunt zichzelf niet verwijderen!</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/chat/chat.cpp" line="60"/>
+        <location filename="../src/gui/qt/mainwindow/chat/chat.cpp" line="60"/>
         <source>You cannot kick any player - You are not game admin!</source>
         <translation>U kunt geen spelers verwijderen - U bent niet de spelleider!</translation>
     </message>
@@ -17,62 +16,62 @@
 <context>
     <name>LobbyChat</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="61"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="61"/>
         <source>Successfully connected to</source>
         <translation>Er is verbinding met</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="67"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="67"/>
         <source>Joined channel:</source>
         <translation>Verbinding met kanaal:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="67"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="67"/>
         <source>as user</source>
         <translation>als gebruiker</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="104"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="104"/>
         <source>Network Notification</source>
         <translation>Netwerkmelding</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="105"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="105"/>
         <source>You were kicked from the server.</source>
         <translation>U bent verwijderd van de server.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="109"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="109"/>
         <source>was kicked from the server by</source>
         <translation>is van de server verwijderd door</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="153"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="153"/>
         <source>Connecting to Chat server...</source>
         <translation>Verbinding maken met chatserver...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="167"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="167"/>
         <source>An internal IRC error has occured:</source>
         <translation>Er is een interne IRC-fout opgetreden:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="170"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="170"/>
         <source>Could not connect to the IRC server. Chat will be unavailable.</source>
         <translation>Kan geen verbinding maken met de IRC-server. Chatten is niet beschikbaar.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="173"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="173"/>
         <source>The IRC server terminated the connection. Chat will be unavailable.</source>
         <translation>De IRC-server heeft de verbinding verbroken. Chatten is niet beschikbaar.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="176"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="176"/>
         <source>An IRC action timed out.</source>
         <translation>Een IRC-actie duurde te lang.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="238"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="238"/>
         <source>The IRC server reported an error:</source>
         <translation>De IRC-server meldde een fout:</translation>
     </message>
@@ -80,12 +79,12 @@
 <context encoding="UTF-8">
     <name>aboutPokerth</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="42"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="42"/>
         <source>About</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="120"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="120"/>
         <source>Project</source>
         <translation>Project</translation>
     </message>
@@ -114,7 +113,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Projectpagina: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Makers: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Felix Hammer (&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - idee, basisarchitectuur, implementatie van de grafische interface, Linuxpakket, webmaster@pokerth.net&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Florian Thauer (&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - idee, basisarchitectuur, ontwikkeling van de simulator&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Lothar May (&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - netwerkprogrammatuur, Windowspakket&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Oskar Lindqvist (&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - ontwerp van de grafische interface, webdesign&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Erhard List (&lt;a href=&quot;mailto:dunkanx@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;dunkanx@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOS-pakket&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="266"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="266"/>
         <source>License</source>
         <translation>Licentie</translation>
     </message>
@@ -812,12 +811,12 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="334"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="334"/>
         <source>Close</source>
         <translation>Sluiten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="215"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="215"/>
         <source>Thanks to</source>
         <translation>Met dank aan</translation>
     </message>
@@ -856,7 +855,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="177"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="177"/>
         <source>Translation</source>
         <translation>Vertaling</translation>
     </message>
@@ -938,7 +937,7 @@ p, li { white-space: pre-wrap; }
 © 2006-2007, FHammer, FThauer, LMay</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="106"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="106"/>
         <source>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</source>
         <translation>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</translation>
     </message>
@@ -1295,7 +1294,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;          - MacOS-pakket&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="64"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="64"/>
         <source>- Poker engine for the popular &quot;Texas Hold&apos;em&quot; Poker
 - Singleplayer games with up to 6 computer-opponents
 - Multiplayer network games
@@ -1312,7 +1311,7 @@ p, li { white-space: pre-wrap; }
 © 2006-2007, FHammer, FThauer, LMay</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="147"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="147"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -1355,7 +1354,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOS-pakket&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="201"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="201"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -1366,7 +1365,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jan Hein Dykstra - Nederlands - janheyn@gmail.com&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="239"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="239"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -1406,12 +1405,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>aboutPokerthImpl</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="58"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="60"/>
         <source>PokerTH %1</source>
         <translation>PokerTH %1</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="59"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="61"/>
         <source>About PokerTH %1</source>
         <translation>Info over PokerTH %1</translation>
     </message>
@@ -1419,57 +1418,57 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>changeCompleteBlindsDialog</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="13"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="13"/>
         <source>Change Blinds Settings</source>
         <translation>Instellingen van de blinds wijzigen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="21"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="21"/>
         <source>First small blind:</source>
         <translation>Eerste kleine blind:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="40"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="40"/>
         <source>Raise blinds:</source>
         <translation>Blinds verhogen:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="85"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="85"/>
         <source>Every:</source>
         <translation>Na elke:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="78"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="78"/>
         <source>hands</source>
         <translation>rondes</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="105"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="105"/>
         <source>minutes</source>
         <translation>minuten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="121"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="121"/>
         <source>Raise mode:</source>
         <translation>Verhoogmodus:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="225"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="225"/>
         <source>Always double blinds</source>
         <translation>Blinds blijven verdubbelen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="153"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="153"/>
         <source>Manual blinds order:</source>
         <translation>Handmatige blinds:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="167"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="167"/>
         <source>Delete</source>
         <translation>Verwijderen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="194"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="194"/>
         <source>Add</source>
         <translation>Toevoegen</translation>
     </message>
@@ -1484,7 +1483,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Blijven verhogen met:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="251"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="251"/>
         <source>$</source>
         <translation>$</translation>
     </message>
@@ -1494,17 +1493,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Bij laatste blind blijven</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="216"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="216"/>
         <source>Afterwards:</source>
         <translation>Hierna:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="237"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="237"/>
         <source>Always raise by:</source>
         <translation>Blijven verhogen met:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="260"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="260"/>
         <source>Keep last blind</source>
         <translation>Laatste blind houden</translation>
     </message>
@@ -1512,12 +1511,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>changeCompleteBlindsDialogImpl</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="49"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="51"/>
         <source>Manual Blinds Order</source>
         <translation>Handmatige blinds</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="50"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="52"/>
         <source>You cannot set more than 30 manual blinds.</source>
         <translation>U kunt niet meer dan 30 blinds handmatig instellen.</translation>
     </message>
@@ -1525,12 +1524,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>changeHumanPlayerNameDialog</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changehumanplayernamedialog.ui" line="13"/>
+        <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="13"/>
         <source>Network Error</source>
         <translation>Netwerkfout</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changehumanplayernamedialog.ui" line="43"/>
+        <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="43"/>
         <source>Name:</source>
         <translation>Naam:</translation>
     </message>
@@ -1538,17 +1537,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>connectToServerDialog</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/connecttoserverdialog.ui" line="13"/>
+        <location filename="../src/gui/qt/connecttoserverdialog.ui" line="13"/>
         <source>Connect to Server</source>
         <translation>Verbinding maken met de server</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/connecttoserverdialog.ui" line="25"/>
+        <location filename="../src/gui/qt/connecttoserverdialog.ui" line="25"/>
         <source>Connecting to Server ...</source>
         <translation>Verbinding maken met de server ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/connecttoserverdialog.ui" line="66"/>
+        <location filename="../src/gui/qt/connecttoserverdialog.ui" line="66"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
@@ -1556,22 +1555,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>connectToServerDialogImpl</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="44"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="46"/>
         <source>Resolving address...</source>
         <translation>Adres opzoeken...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="46"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="48"/>
         <source>Connecting to server...</source>
         <translation>Verbinding maken met de server ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="48"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="50"/>
         <source>Starting session...</source>
         <translation>Sessie starten...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="50"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="52"/>
         <source>Connection established!</source>
         <translation>Er is verbinding gemaakt!</translation>
     </message>
@@ -1579,7 +1578,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>createInternetGameDialog</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="245"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="245"/>
         <source>Create Game</source>
         <translation>Spel maken</translation>
     </message>
@@ -1589,7 +1588,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Instellingen van spel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="127"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="127"/>
         <source>Game Speed for computer opponents:</source>
         <translation>Speelsnelheid van computertegenstanders:</translation>
     </message>
@@ -1604,12 +1603,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Bedenktijd voor de spelers (sec):</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="43"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="43"/>
         <source>Maximum number of players:</source>
         <translation>Maximale aantal spelers:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="66"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="66"/>
         <source>Start Cash:</source>
         <translation>Startgeld:</translation>
     </message>
@@ -1619,12 +1618,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Kleine blind:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="193"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="193"/>
         <source>Password:</source>
         <translation>Wachtwoord:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="252"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="252"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
@@ -1634,42 +1633,42 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Rondes voordat de blinds stijgen:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="13"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="13"/>
         <source>Create Internet Game</source>
         <translation>Internetspel maken</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="37"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="37"/>
         <source>Internet Game Settings</source>
         <translation>Instellingen van internetspel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="98"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="98"/>
         <source>Blinds</source>
         <translation>Blinds</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="107"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="107"/>
         <source>Use saved blinds settings</source>
         <translation>Opgeslagen instellingen gebruiken voor de blinds</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="117"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="117"/>
         <source>Change blinds settings ...</source>
         <translation>Instellingen van de blinds wijzigen ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="79"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="79"/>
         <source>$</source>
         <translation>$</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="150"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="150"/>
         <source>Timeout for player action:</source>
         <translation>Bedenktijd voor de spelers:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="160"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="160"/>
         <source> s</source>
         <translation> s</translation>
     </message>
@@ -1677,17 +1676,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>createNetworkGameDialog</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createnetworkgamedialog.ui" line="13"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="13"/>
         <source>Create Network Game</source>
         <translation>Nieuw netwerkspel maken</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createnetworkgamedialog.ui" line="19"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="19"/>
         <source>Network Game Settings</source>
         <translation>Instellingen van netwerkspel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createnetworkgamedialog.ui" line="51"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="51"/>
         <source>Start Cash:</source>
         <translation>Startgeld:</translation>
     </message>
@@ -1697,12 +1696,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Kleine blind:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createnetworkgamedialog.ui" line="191"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="191"/>
         <source>Create Game</source>
         <translation>Spel maken</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createnetworkgamedialog.ui" line="198"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="198"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
@@ -1717,12 +1716,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Bedenktijd voor de spelers (sec):</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createnetworkgamedialog.ui" line="28"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="28"/>
         <source>Maximum number of players:</source>
         <translation>Maximale aantal spelers:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createnetworkgamedialog.ui" line="109"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="109"/>
         <source>Game Speed for computer opponents:</source>
         <translation>Speelsnelheid van computertegenstanders:</translation>
     </message>
@@ -1732,32 +1731,32 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Rondes voordat de blinds stijgen:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createnetworkgamedialog.ui" line="80"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="80"/>
         <source>Blinds</source>
         <translation>Blinds</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createnetworkgamedialog.ui" line="89"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="89"/>
         <source>Use saved blinds settings</source>
         <translation>Opgeslagen instellingen gebruiken voor de blinds</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createnetworkgamedialog.ui" line="99"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="99"/>
         <source>Change blinds settings ...</source>
         <translation>Instellingen van de blinds wijzigen ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createnetworkgamedialog.ui" line="64"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="64"/>
         <source>$</source>
         <translation>$</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createnetworkgamedialog.ui" line="132"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="132"/>
         <source>Timeout for player action:</source>
         <translation>Bedenktijd voor de spelers:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createnetworkgamedialog.ui" line="142"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="142"/>
         <source> s</source>
         <translation> s</translation>
     </message>
@@ -1770,12 +1769,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Spellobby</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="463"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="463"/>
         <source>Lobby-Chat</source>
         <translation>Lobby - Chat</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="74"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="74"/>
         <source>Game</source>
         <translation>Spel</translation>
     </message>
@@ -1785,22 +1784,22 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Speler</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="89"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="89"/>
         <source>Private</source>
         <translation>Privé</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="118"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="118"/>
         <source>Game Info</source>
         <translation>Spelinformatie</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="143"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="143"/>
         <source>Connected Players</source>
         <translation>Spelers met verbinding</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="176"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="176"/>
         <source>Start Game</source>
         <translation>Spel starten</translation>
     </message>
@@ -1870,17 +1869,17 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Bedenktijd voor de spelers (sec):&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="151"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="151"/>
         <source>Fill up with computer opponents</source>
         <translation>Tafel vol maken met computerspelers</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="447"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="447"/>
         <source>Create Game</source>
         <translation>Spel maken</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="454"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="454"/>
         <source>Join Game</source>
         <translation>Meedoen met spel</translation>
     </message>
@@ -1915,42 +1914,42 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Rondes voordat de blinds stijgen:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="379"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="379"/>
         <source>Leave Game</source>
         <translation>Spel verlaten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="53"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="53"/>
         <source>Available Players</source>
         <translation>Beschikbare spelers</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="183"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="183"/>
         <source>Kick Player</source>
         <translation>Speler verwijderen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="79"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="79"/>
         <source>Players</source>
         <translation>Spelers</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="84"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="84"/>
         <source>State</source>
         <translation>Status</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="194"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="194"/>
         <source>Maximum number of players: </source>
         <translation>Maximale aantal spelers: </translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="212"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="212"/>
         <source>Start Cash: </source>
         <translation>Startgeld: </translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="230"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="230"/>
         <source>First small blind: </source>
         <translation>Eerste kleine blind: </translation>
     </message>
@@ -1960,32 +1959,32 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Interval verhoging blinds: </translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="269"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="269"/>
         <source>Blinds raise mode: </source>
         <translation>Verhoogmodus van de blinds: </translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="296"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="296"/>
         <source>Manual blinds list:</source>
         <translation>Handmatige lijst met blinds:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="323"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="323"/>
         <source>Timeout for player action (sec): </source>
         <translation>Bedenktijd voor de spelers (sec): </translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="13"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="13"/>
         <source>Internet Game Lobby</source>
         <translation>Lobby van internetspel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="248"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="248"/>
         <source>Blinds raise interval: </source>
         <translation>Interval verhoging blinds: </translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog.ui" line="408"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="408"/>
         <source>Join any game</source>
         <translation>Meedoen met willekeurig spel</translation>
     </message>
@@ -1993,17 +1992,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>gameLobbyDialogImpl</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="618"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="664"/>
         <source>Game Info</source>
         <translation>Spelinformatie</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="696"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="742"/>
         <source>Server Error</source>
         <translation>Serverfout</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="697"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="743"/>
         <source>You should not kick yourself from this game!</source>
         <translation>U mag zichzelf niet uit dit spel verwijderen!</translation>
     </message>
@@ -2013,72 +2012,72 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">spel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="172"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="174"/>
         <source>Joining a private Game</source>
         <translation>Meedoen met een privéspel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="173"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="175"/>
         <source>You are about to join a private game. Please enter the password!</source>
         <translation>U wilt meedoen met een privéspel. Voer het wachtwoord in!</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="330"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="332"/>
         <source>running</source>
         <translation>lopend</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="790"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="836"/>
         <source>open</source>
         <translation>open</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="648"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="694"/>
         <source>hands</source>
         <translation>rondes</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="649"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="695"/>
         <source>minutes</source>
         <translation>minuten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="651"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="697"/>
         <source>double blinds</source>
         <translation>verdubbeling</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="656"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="702"/>
         <source>manual blinds order</source>
         <translation>handmatige volgorde</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="34"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="36"/>
         <source>Starting game. Please wait ...</source>
         <translation>Spel starten. Even geduld ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="452"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="454"/>
         <source>running games: %1</source>
         <translation>lopende spellen: %1</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="453"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="455"/>
         <source>open games: %1</source>
         <translation>open spellen: %1</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="450"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="452"/>
         <source>players in chat: %1</source>
         <translation>spelers in de chat: %1</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="451"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="453"/>
         <source>connected players: %1</source>
         <translation>spelers met verbinding: %1</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="143"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="145"/>
         <source>%1&apos;s game</source>
         <translation>Spel van %1</translation>
     </message>
@@ -2086,97 +2085,97 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>joinNetworkGameDialog</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="13"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="13"/>
         <source>Join Network Game</source>
         <translation>Met netwerkspel meedoen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="37"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="37"/>
         <source>Connect to Network Game</source>
         <translation>Verbinding maken met netwerkspel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="237"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="237"/>
         <source>Use IPv6</source>
         <translation>IPv6 gebruiken</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="354"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="354"/>
         <source>myServerProfile1</source>
         <translation>mijnServerProfiel1</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="344"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="344"/>
         <source>Profile Name:</source>
         <translation>Profielnaam:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="334"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="334"/>
         <source>IP Address / Domain Name:</source>
         <translation>IP-adres / Domeinnaam:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="324"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="324"/>
         <source>Port:</source>
         <translation>Poort:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="301"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="301"/>
         <source>Password (optional):</source>
         <translation>Wachtwoord (niet verplicht):</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="61"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="61"/>
         <source>Server Profiles</source>
         <translation>Serverprofielen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="119"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="119"/>
         <source>IPv6</source>
         <translation>IPv6</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="149"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="149"/>
         <source>Save</source>
         <translation>Opslaan</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="156"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="156"/>
         <source>Delete</source>
         <translation>Verwijderen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="400"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="400"/>
         <source>Connect</source>
         <translation>Verbinding maken</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="407"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="407"/>
         <source>Close</source>
         <translation>Sluiten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="104"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="104"/>
         <source>Name</source>
         <translation>Naam</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="109"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="109"/>
         <source>Address</source>
         <translation>Adres</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="114"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="114"/>
         <source>Port</source>
         <translation>Poort</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="124"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="124"/>
         <source>SCTP</source>
         <translation>SCTP</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="185"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="185"/>
         <source>Use SCTP</source>
         <translation>SCTP gebruiken</translation>
     </message>
@@ -2203,7 +2202,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;   &lt;a href=&quot;http://nl.wikipedia.org/wiki/Ipv6&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Wat is dit?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="192"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="192"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2214,7 +2213,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;a href=&quot;http://nl.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Wat is dit?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="244"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="244"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2228,19 +2227,19 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>joinNetworkGameDialogImpl</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="257"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="258"/>
         <source>Load Server-Profile-File Error</source>
         <translation>Fout bij het laden van het serverprofielbestand</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="258"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="259"/>
         <source>Could not load server-profiles-file:
 </source>
         <translation>Kan het serverprofielbestand niet laden:
 </translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="201"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="202"/>
         <source>Save Server Profile Error</source>
         <translation>Fout bij het opslaan van het serverprofiel</translation>
     </message>
@@ -2250,29 +2249,29 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Een profiel met de naam: &quot;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="242"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="243"/>
         <source>Read Server-Profile List Error</source>
         <translation>Fout bij het lezen van de lijst met serverprofielen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="243"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="244"/>
         <source>Could not read server-profiles list</source>
         <translation>Kan de lijst met serverprofielen niet lezen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="268"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="269"/>
         <source>Save Server-Profile-File Error</source>
         <translation>Fout bij het opslaan van het serverprofielbestand</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="269"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="270"/>
         <source>Could not save server-profiles-file:
 </source>
         <translation>Kan het serverprofielbestand niet opslaan:
 </translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="202"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="203"/>
         <source>A profile with the name: %1 already exists.
 Would you like to overwrite ?</source>
         <translation>Er bestaat al een profiel met de naam %1.
@@ -2292,7 +2291,7 @@ Wilt u dat profiel overschrijven?</translation>
         <translation type="obsolete">QGroupBox { background-image: url(:/graphics/resources/graphics/toolboxFrameBG.png) }</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="2995"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2995"/>
         <source>Speed:</source>
         <translation>Snelheid:</translation>
     </message>
@@ -2302,72 +2301,72 @@ Wilt u dat profiel overschrijven?</translation>
         <translation type="obsolete">Stop</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3227"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3227"/>
         <source>View</source>
         <translation>Beeld</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3237"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3237"/>
         <source>Game</source>
         <translation>Spel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3262"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3262"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3267"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3267"/>
         <source>Quit</source>
         <translation>Afsluiten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3275"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3275"/>
         <source>About PokerTH ...</source>
         <translation>Info over PokerTH ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3280"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3280"/>
         <source>Settings ...</source>
         <translation>Instellingen ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3285"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3285"/>
         <source>Create Network Game ...</source>
         <translation>Netwerkspel maken ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3293"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3293"/>
         <source>Join Network Game ...</source>
         <translation>Met netwerkspel meedoen ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3301"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3301"/>
         <source>Fullscreen</source>
         <translation>Volledig scherm</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="1999"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="1999"/>
         <source>Hands</source>
         <translation>Handen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="2031"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2031"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="2820"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2820"/>
         <source>Log</source>
         <translation>Log</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3259"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3259"/>
         <source>Start Local Game ...</source>
         <translation>Lokaal spel starten ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3270"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3270"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
@@ -2382,7 +2381,7 @@ Wilt u dat profiel overschrijven?</translation>
         <translation type="obsolete">⌘F</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3309"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3309"/>
         <source>Show/Hide Chat Window</source>
         <translation>Chatvenster Aan/Uit</translation>
     </message>
@@ -2397,7 +2396,7 @@ Wilt u dat profiel overschrijven?</translation>
         <translation type="obsolete">⌘H</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3331"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3331"/>
         <source>Show/Hide Log Window</source>
         <translation>Logvenster Aan/Uit</translation>
     </message>
@@ -2407,37 +2406,37 @@ Wilt u dat profiel overschrijven?</translation>
         <translation type="obsolete">⌘L</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3323"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3323"/>
         <source>Show/Hide Hands Window</source>
         <translation>Handenvenster Aan/Uit</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3288"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3288"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3296"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3296"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3304"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3304"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3312"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3312"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3326"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3326"/>
         <source>Ctrl+H</source>
         <translation>Ctrl+H</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3334"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3334"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
@@ -2447,17 +2446,17 @@ Wilt u dat profiel overschrijven?</translation>
         <translation type="obsolete">PokertTH 0.6 - De Open-Source Texas Holdem Simulator </translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3241"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3241"/>
         <source>Network Game</source>
         <translation>Netwerkspel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3339"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3339"/>
         <source>Internet Game ...</source>
         <translation>Internetspel ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3342"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3342"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
@@ -2467,27 +2466,27 @@ Wilt u dat profiel overschrijven?</translation>
         <translation type="obsolete">All-in</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="2858"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2858"/>
         <source>Away</source>
         <translation>Afwezig</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="2867"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2867"/>
         <source>Manual Action (default)</source>
         <translation>Handmatige acties (standaard)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="2880"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2880"/>
         <source>Auto-Check / Auto-Fold</source>
         <translation>Automatisch checken of folden</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="2890"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2890"/>
         <source>Auto-Check / Auto-Call-Any</source>
         <translation>Automatisch checken of callen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="25"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="25"/>
         <source>PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</source>
         <translation>PokertTH 0.6 bèta - De Open-Source Texas Holdem-simulator</translation>
     </message>
@@ -2497,12 +2496,12 @@ Wilt u dat profiel overschrijven?</translation>
         <translation type="obsolete">Terug naar de lobby</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3347"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3347"/>
         <source>Show/Hide Away Window</source>
         <translation>Afwezig-venster Aan/Uit</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow.ui" line="3350"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3350"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
@@ -2510,7 +2509,7 @@ Wilt u dat profiel overschrijven?</translation>
 <context>
     <name>mainWindowImpl</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="441"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="456"/>
         <source>Ctrl+N to start a new game</source>
         <translation>Ctrl+N om een nieuw spel te starten</translation>
     </message>
@@ -2520,84 +2519,84 @@ Wilt u dat profiel overschrijven?</translation>
         <translation type="obsolete">F1 - Folden/All-In | F2 - Checken/Callen | F3 - Betten/Raisen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3218"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3233"/>
         <source>Network Error</source>
         <translation>Netwerkfout</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3032"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3047"/>
         <source>Server address was not set.</source>
         <translation>Serveradres is niet ingesteld.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3037"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3052"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
         <translation>Ongeldige poort ingesteld (poorten 0-1023 zijn niet toegestaan).</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3042"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3057"/>
         <source>Could not create a socket for TCP communication.</source>
         <translation>Kan geen socket maken voor TCP-communicatie.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3047"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3062"/>
         <source>Could not set the IP address.</source>
         <translation>Kan het IP-adres niet instellen.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3052"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3067"/>
         <source>Could not set the port for this type of address.</source>
         <translation>Kan de poort niet instellen voor dit adrestype.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3057"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3072"/>
         <source>The server name could not be resolved.</source>
         <translation>Kan geen server met die naam vinden.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3062"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3077"/>
         <source>Bind failed - please choose a different port.</source>
         <translation>Kan niet verbinden - kies een andere poort.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3067"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3082"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
         <translation>Interne netwerkfout: &quot;listen&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3072"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3087"/>
         <source>Server execution was terminated.</source>
         <translation>Het uitvoeren op de server is afgebroken.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3077"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3092"/>
         <source>Could not connect to the server.</source>
         <translation>Kan geen verbinding maken met de server.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3087"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3102"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
         <translation>Interne netwerkfout: &quot;select&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3092"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3107"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
         <translation>Interne netwerkfout: &quot;send&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3103"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3118"/>
         <source>Internal network error: Duplicate TCP connection.</source>
         <translation>Interne netwerkfout: Dubbele TCP-verbinding.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3108"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3123"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Ongeldig netwerkpakket ontvangen.
 Zorg ervoor dat alle spelers dezelfde versie van PokerTH gebruiken.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3113"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3128"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Interne statusfout.
@@ -2611,29 +2610,29 @@ Please update PokerTH.</source>
 Zorg ervoor dat u de nieuwste versie van PokerTH heeft.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3126"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3141"/>
         <source>Sorry, this server is already full.</source>
         <translation>Deze server is al vol.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3246"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3261"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Kan niet meedoen - de server heeft het spel al gestart.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3251"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3266"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Ongeldig wachtwoord bij het verbinden.
 Voer het wachtwoord opnieuw in en probeer het opnieuw.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3136"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3151"/>
         <source>The password is too long. Please choose another one.</source>
         <translation>Het wachtwoord is te lang. Kies een ander wachtwoord.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3140"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3155"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
         <translation>Uw spelersnaam is al in gebruik door een andere speler.
@@ -2645,27 +2644,27 @@ Kies een andere naam.</translation>
         <translation type="obsolete">De spelersnaam is te kort of te lang. Kies een andere naam.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3219"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3234"/>
         <source>An internal error occured.</source>
         <translation>Interne fout opgetreden.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="439"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="454"/>
         <source>Cmd+N to start a new game</source>
         <translation>Cmd+N om een nieuw spel te starten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2990"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3005"/>
         <source>Start</source>
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3504"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3519"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3082"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3097"/>
         <source>Connection timed out.
 Please check the server address.
 
@@ -2676,22 +2675,22 @@ Controleer het serveradres.
 Als de server zich achter een NAT-router bevindt, controleer dan daar of port forwarding goed ingesteld is.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3098"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3113"/>
         <source>Connection was closed by the server.</source>
         <translation>De verbinding is verbroken door de server.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3164"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3179"/>
         <source>The server referred to an unknown player. Aborting.</source>
         <translation>De server verwees naar een onbekende speler. Verbinding verbroken.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3179"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3194"/>
         <source>You were kicked from the server.</source>
         <translation>U bent verwijderd van de server.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3184"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3199"/>
         <source>The client player count is invalid.</source>
         <translation>Het aantal spelers dat meedoet klopt niet.</translation>
     </message>
@@ -2701,32 +2700,32 @@ Als de server zich achter een NAT-router bevindt, controleer dan daar of port fo
         <translation type="obsolete">De spelersnaam is te kort, te lang, of al opgeëist. Kies een andere naam.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3149"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3164"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
         <translation>De naam van het spel is te kort of te lang. Kies een andere naam.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3154"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3169"/>
         <source>The game could not be found.</source>
         <translation>Kan het spel niet vinden.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3159"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3174"/>
         <source>The chat text is invalid.</source>
         <translation>Ongeldige chattekst.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3263"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3278"/>
         <source>Network Notification</source>
         <translation>Netwerkmelding</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3234"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3249"/>
         <source>You were kicked from the game.</source>
         <translation>U bent uit het spel verwijderd.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3240"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3255"/>
         <source>Sorry, this game is already full.</source>
         <translation>Dit spel is al vol.</translation>
     </message>
@@ -2736,54 +2735,54 @@ Als de server zich achter een NAT-router bevindt, controleer dan daar of port fo
         <translation type="obsolete">F1 - Betten/Raisen | F2 - Checken/Callen | F3 - Folden/All-In</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3517"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3532"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3359"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3374"/>
         <source>Manual mode set. You&apos;ve got to choose yourself now.</source>
         <translation>Handmatige modus ingesteld. U moet nu zelf kiezen.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3361"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3376"/>
         <source>Auto mode set: Check or call any.</source>
         <translation>Automatische modus ingesteld: altijd checken of callen.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3363"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3378"/>
         <source>Auto mode set: Check or fold.</source>
         <translation>Automatische modus ingesteld: checken of folden.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="893"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="908"/>
         <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
 Please choose another one.</source>
         <translation>U kunt met de standaardnaam geen verbinding maken met de lobby van het internetspel.
 Kies een andere naam.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3169"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3184"/>
         <source>Internal error: The current player could not be found.</source>
         <translation>Interne fout: De huidige speler kan niet worden gevonden.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3174"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3189"/>
         <source>Internal error: The current player is not active.</source>
         <translation>Interne fout: De huidige speler is niet actief.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3189"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3204"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
         <translation>Er zijn te veel handmatige blinds ingesteld. Stel de handmatige blinds opnieuw in.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3195"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3210"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
         <translation>Er is een ongeldig avatarbestand ingesteld. Kies een andere avatar.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3200"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3215"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
         <translation>Het geselecteerde avatarbestand is te groot. Kies een andere avatar.</translation>
     </message>
@@ -2793,17 +2792,17 @@ Kies een andere naam.</translation>
         <translation type="obsolete">De server vroeg om een niet-bestaande avatar.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3210"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3225"/>
         <source>Could not start game: Synchronization failed.</source>
         <translation>Kan spel niet starten: Synchronisatie mislukt.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1950"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1965"/>
         <source>F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In</source>
         <translation>F1 - Folden | F2 - Checken/Callen | F3 - Betten/Raisen | F4 - All-In</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1952"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1967"/>
         <source>F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold</source>
         <translation>F1 - All-In | F2 - Betten/Raisen | F3 - Checken/Callen | F4 - Folden</translation>
     </message>
@@ -2815,12 +2814,12 @@ Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&
 Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; en download de nieuwste versie.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3144"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3159"/>
         <source>The player name is too short, too long or invalid. Please choose another one.</source>
         <translation>De spelersnaam is te kort, te lang of ongeldig. Kies een andere naam.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3215"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3230"/>
         <source>The server is down for maintenance. Please try again later.</source>
         <translation>Wegens onderhoud is de server niet beschikbaar. Probeer het later opnieuw.</translation>
     </message>
@@ -2838,54 +2837,54 @@ Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&
         <translation type="obsolete">Deze bètarelease van PokerTH is te oud.Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; en download de nieuwste versie.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3635"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3656"/>
         <source>Closing PokerTH during network game</source>
         <translation>PokerTH afsluiten tijdens netwerkspel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3636"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3657"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
         <translation>U bent de server van dit spel. Wilt u PokerTH toch sluiten?</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3118"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3133"/>
         <source>The PokerTH server does not support this version of the game.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>De PokerTH-server ondersteunt deze versie van het spel niet.&lt;br&gt;Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;/a&gt; en download de nieuwste versie.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3256"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3271"/>
         <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>Er is een nieuwe release van PokerTH beschikbaar.&lt;br&gt;Ga naar&lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; en download de nieuwste versie.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3264"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3279"/>
         <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>Deze bètarelease van PokerTH is te oud.&lt;br&gt;Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;/a&gt; en download de nieuwste versie.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3526"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3541"/>
         <source>Lobby</source>
         <translation>Lobby</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3712"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3733"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - Bericht van internetspel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3714"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3735"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>Opgelet! Wilt u werkelijk het huidige spel verlaten
 en teruggaan naar de lobby?</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="466"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="481"/>
         <source>PokerTH %1 - The Open-Source Texas Holdem Engine</source>
         <translation>PokertTH %1 - De Open-Source Texas Holdem-simulator</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3205"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3220"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
         <translation>Er is een interne avatarfout opgetreden. Meld dit bij het chatten in de lobby aan een administrator.</translation>
     </message>
@@ -2893,17 +2892,17 @@ en teruggaan naar de lobby?</translation>
 <context>
     <name>manualBlindsOrderDialog</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/manualblindsorderdialog.ui" line="13"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="13"/>
         <source>Manual Blinds Order</source>
         <translation>Handmatige blinds</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/manualblindsorderdialog.ui" line="27"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="27"/>
         <source>Delete</source>
         <translation>Verwijderen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/manualblindsorderdialog.ui" line="60"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="60"/>
         <source>Add</source>
         <translation>Toevoegen</translation>
     </message>
@@ -2913,7 +2912,7 @@ en teruggaan naar de lobby?</translation>
         <translation type="obsolete">Hierna:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/manualblindsorderdialog.ui" line="81"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="81"/>
         <source>Always double blinds</source>
         <translation>Blinds blijven verdubbelen</translation>
     </message>
@@ -2923,7 +2922,7 @@ en teruggaan naar de lobby?</translation>
         <translation type="obsolete">Blijven verhogen met:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/manualblindsorderdialog.ui" line="100"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="100"/>
         <source>$</source>
         <translation>$</translation>
     </message>
@@ -2933,17 +2932,17 @@ en teruggaan naar de lobby?</translation>
         <translation type="obsolete">Bij laatste blind blijven</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/manualblindsorderdialog.ui" line="69"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="69"/>
         <source>Afterwards:</source>
         <translation>Hierna:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/manualblindsorderdialog.ui" line="93"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="93"/>
         <source>Always raise by:</source>
         <translation>Blijven verhogen met:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/manualblindsorderdialog.ui" line="118"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="118"/>
         <source>Keep last blind</source>
         <translation>Laatste blind houden</translation>
     </message>
@@ -2951,12 +2950,12 @@ en teruggaan naar de lobby?</translation>
 <context>
     <name>manualBlindsOrderDialogImpl</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="47"/>
+        <location filename="../src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="49"/>
         <source>Manual Blinds Order</source>
         <translation>Handmatige blinds</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="48"/>
+        <location filename="../src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="50"/>
         <source>You cannot set more than 30 manual blinds.</source>
         <translation>U kunt niet meer dan 30 blinds handmatig instellen.</translation>
     </message>
@@ -2964,17 +2963,17 @@ en teruggaan naar de lobby?</translation>
 <context>
     <name>myMessageDialog</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mymessagedialog.ui" line="13"/>
+        <location filename="../src/gui/qt/mymessagedialog.ui" line="13"/>
         <source>Dialog</source>
         <translation>Dialoog</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mymessagedialog.ui" line="34"/>
+        <location filename="../src/gui/qt/mymessagedialog.ui" line="34"/>
         <source>MessageText</source>
         <translation>Tekst van bericht</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/mymessagedialog.ui" line="57"/>
+        <location filename="../src/gui/qt/mymessagedialog.ui" line="57"/>
         <source>Do not show this warning again.</source>
         <translation>Deze waarschuwing niet opnieuw weergeven.</translation>
     </message>
@@ -2982,22 +2981,22 @@ en teruggaan naar de lobby?</translation>
 <context>
     <name>newGameDialog</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/newgamedialog.ui" line="13"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="13"/>
         <source>Start Local Game</source>
         <translation>Lokaal spel starten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/newgamedialog.ui" line="19"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="19"/>
         <source>Local Game Settings</source>
         <translation>Instellingen van lokaal spel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/newgamedialog.ui" line="106"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="106"/>
         <source>Game Speed:</source>
         <translation>Speelsnelheid:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/newgamedialog.ui" line="48"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="48"/>
         <source>Start Cash:</source>
         <translation>Startgeld:</translation>
     </message>
@@ -3007,7 +3006,7 @@ en teruggaan naar de lobby?</translation>
         <translation type="obsolete">Kleine blind:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/newgamedialog.ui" line="25"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="25"/>
         <source>Number of players:</source>
         <translation>Aantal spelers:</translation>
     </message>
@@ -3022,22 +3021,22 @@ en teruggaan naar de lobby?</translation>
         <translation type="obsolete">Rondes voordat de blinds stijgen:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/newgamedialog.ui" line="77"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="77"/>
         <source>Blinds</source>
         <translation>Blinds</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/newgamedialog.ui" line="86"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="86"/>
         <source>Use saved blinds settings</source>
         <translation>Opgeslagen instellingen gebruiken voor de blinds</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/newgamedialog.ui" line="96"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="96"/>
         <source>Change blinds settings ...</source>
         <translation>Instellingen van de blinds wijzigen ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/newgamedialog.ui" line="58"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="58"/>
         <source>$</source>
         <translation>$</translation>
     </message>
@@ -3045,27 +3044,27 @@ en teruggaan naar de lobby?</translation>
 <context>
     <name>selectAvatarDialog</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/selectavatardialog.ui" line="31"/>
+        <location filename="../src/gui/qt/selectavatardialog.ui" line="31"/>
         <source>Please select an avatar</source>
         <translation>Selecteer een avatar</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/selectavatardialog.ui" line="37"/>
+        <location filename="../src/gui/qt/selectavatardialog.ui" line="37"/>
         <source>Select an avatar</source>
         <translation>Een avatar selecteren</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/selectavatardialog.ui" line="69"/>
+        <location filename="../src/gui/qt/selectavatardialog.ui" line="69"/>
         <source>Load avatar from external file</source>
         <translation>Een avatar uit een extern bestand laden</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/selectavatardialog.ui" line="50"/>
+        <location filename="../src/gui/qt/selectavatardialog.ui" line="50"/>
         <source>People</source>
         <translation>Mensen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/selectavatardialog.ui" line="55"/>
+        <location filename="../src/gui/qt/selectavatardialog.ui" line="55"/>
         <source>Miscellaneous</source>
         <translation>Overig</translation>
     </message>
@@ -3073,12 +3072,12 @@ en teruggaan naar de lobby?</translation>
 <context>
     <name>selectAvatarDialogImpl</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="250"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="252"/>
         <source>Avatar File Error</source>
         <translation>Bestandsfout bij het openen van de avatar</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="227"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="229"/>
         <source>Please select an avatar from the list!</source>
         <translation>Selecteer een avatar uit de lijst!</translation>
     </message>
@@ -3090,7 +3089,7 @@ Please enter an valid picture!</source>
 Stel een geldige afbeelding in!</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="268"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="270"/>
         <source>Select external avatar picture</source>
         <translation>Een externe avatar selecteren</translation>
     </message>
@@ -3100,19 +3099,19 @@ Stel een geldige afbeelding in!</translation>
         <translation type="obsolete">Afbeeldingen (*.png)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="243"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="245"/>
         <source>The file size of the chosen picture is too big. (max. 30KB)
 Please choose a smaller picture!</source>
         <translation>Het gekozen afbeeldingsbestand is te groot. (Max. 30 kB)
 Kies een kleinere afbeelding!</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="268"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="270"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Afbeeldingen (*.png *.jpg *.gif)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="252"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="254"/>
         <source>The entered avatar picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>De ingestelde avatar bestaat niet.
@@ -3122,12 +3121,12 @@ Stel een geldige afbeelding in!</translation>
 <context>
     <name>settingsDialog</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="3071"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3071"/>
         <source>Interface</source>
         <translation>Interface</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="176"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="176"/>
         <source>Flipside of Cards</source>
         <translation>Kaartachterkant</translation>
     </message>
@@ -3140,7 +3139,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: Beste kwaliteit met een hoogte-breedteverhouding gelijk aan &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;hoogte=140, breedte=100.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="284"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="284"/>
         <source>Default</source>
         <translation>Standaard</translation>
     </message>
@@ -3155,7 +3154,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Kleine blind:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="793"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="793"/>
         <source>Start Cash:</source>
         <translation>Startgeld:</translation>
     </message>
@@ -3170,17 +3169,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Server-instellingen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1393"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1393"/>
         <source>Server Port:</source>
         <translation>Serverpoort:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1433"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1433"/>
         <source>Use IPv6</source>
         <translation>IPv6 gebruiken</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1308"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1308"/>
         <source>Server Password:</source>
         <translation>Serverwachtwoord:</translation>
     </message>
@@ -3190,112 +3189,112 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Standaardinstellingen van netwerkspel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1528"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1528"/>
         <source>Computer Engine</source>
         <translation>Computertegenstanders</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1744"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1744"/>
         <source>Opponent 5:</source>
         <translation>Tegenstander 5:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2052"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2052"/>
         <source>Opponent 3:</source>
         <translation>Tegenstander 3:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2231"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2231"/>
         <source>Opponent 2:</source>
         <translation>Tegenstander 2:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1590"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1590"/>
         <source>Opponent 6:</source>
         <translation>Tegenstander 6:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2385"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2385"/>
         <source>Opponent 1:</source>
         <translation>Tegenstander 1:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1923"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1923"/>
         <source>Opponent 4:</source>
         <translation>Tegenstander 4:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2567"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2567"/>
         <source>Human Player:</source>
         <translation>Menselijke Speler:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1521"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1521"/>
         <source>Player Nicks</source>
         <translation>Spelersnamen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2886"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2886"/>
         <source>Day(s)</source>
         <translation>dag(en)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2925"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2925"/>
         <source>Log File Directory: </source>
         <translation>Map voor logbestanden: </translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="3101"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3101"/>
         <source>Log Messages</source>
         <translation>Logberichten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="3081"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3081"/>
         <source>Local Game Settings</source>
         <translation>Instellingen van lokaal spel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="3086"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3086"/>
         <source>Network Game Settings</source>
         <translation>Instellingen van netwerkspel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="132"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="132"/>
         <source>Show flip-card animation</source>
         <translation>Omdraaiende kaarten-animatie weergeven</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="234"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="234"/>
         <source>Own flipside picture:</source>
         <translation>Eigen afbeelding voor kaartachterkant:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="125"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="125"/>
         <source>Show fade-out animation for non-winning cards</source>
         <translation>Fade out-animatie van niet-winnende kaarten weergeven</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="97"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="97"/>
         <source>Show intro on startup</source>
         <translation>Introductiescherm weergeven bij het starten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="111"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="111"/>
         <source>Show right toolbox (F11 to switch on/off)</source>
         <translation>Rechter hulpscherm weergeven (F11 om aan/uit te zetten)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="104"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="104"/>
         <source>Show left toolbox (F10 to switch on/off)</source>
         <translation>Linker hulpscherm weergeven (F10 om aan/uit te zetten)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="118"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="118"/>
         <source>Show statusbar messages</source>
         <translation>Berichten weergeven in de statusbalk</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="723"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="723"/>
         <source>Show game settings dialog on every new game</source>
         <translation>Instellingenvenster laten zien voor elk nieuw spel</translation>
     </message>
@@ -3305,22 +3304,22 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Rondes voordat blinds omhooggaan:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="470"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="470"/>
         <source>Number of players:</source>
         <translation>Aantal spelers:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="691"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="691"/>
         <source>Game Speed:</source>
         <translation>Speelsnelheid:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="716"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="716"/>
         <source>Pause between hands (press &quot;start&quot; button to go on)</source>
         <translation>Stoppen tussen rondes (druk op Start om door te gaan)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="981"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="981"/>
         <source>Game Speed for computer opponents:</source>
         <translation>Speelsnelheid van computertegenstanders:</translation>
     </message>
@@ -3330,27 +3329,27 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Simulatorversie van computertegenstanders:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2810"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2810"/>
         <source>Enable/Disable Logging</source>
         <translation>Logbestanden schrijven</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2857"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2857"/>
         <source>Store log files for</source>
         <translation>Bewaar de logbestanden</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2964"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2964"/>
         <source>Write log after every: </source>
         <translation>Logbestand bijwerken na elke: </translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="139"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="139"/>
         <source>Show buttons for small blind and big blind</source>
         <translation>Buttons voor kleine blind en grote blind weergeven</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="331"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="331"/>
         <source>Play sound effects</source>
         <translation>Geluidseffecten afspelen</translation>
     </message>
@@ -3360,17 +3359,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">0.4 (huidige)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1234"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1234"/>
         <source>Use SCTP</source>
         <translation>SCTP gebruiken</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1440"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1440"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://nl.wikipedia.org/wiki/Ipv6&quot;&gt;Wat is dit?&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1268"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1268"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://nl.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;Wat is dit?&lt;/a&gt;</translation>
     </message>
@@ -3386,22 +3385,22 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: Avatars hebben de beste kwaliteit met een hoogte-breedteverhouding gelijk aan &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;hoogte=50, breedte=50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="19"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="19"/>
         <source>Settings</source>
         <translation>Instellingen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="766"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="766"/>
         <source>Maximum number of players:</source>
         <translation>Maximale aantal spelers:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="360"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="360"/>
         <source>Sound Volume:</source>
         <translation>Volume:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="373"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="373"/>
         <source>10</source>
         <translation>10</translation>
     </message>
@@ -3411,32 +3410,32 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Bedenktijd voor de spelers (sec):</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2984"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2984"/>
         <source>action (high frequent disc access)</source>
         <translation>handeling (veel schijfactiviteit)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2989"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2989"/>
         <source>hand (medium disc access)</source>
         <translation>ronde (matige schijfactiviteit)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2994"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2994"/>
         <source>game (low disc access)</source>
         <translation>partij (weinig schijfactiviteit)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="146"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="146"/>
         <source>Show own cards only on mouse click</source>
         <translation>Kaarten alleen weergeven bij muisklik</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="3076"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3076"/>
         <source>Sound</source>
         <translation>Geluid</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1043"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1043"/>
         <source>Network Server Settings</source>
         <translation>Instellingen van netwerkserver</translation>
     </message>
@@ -3452,27 +3451,27 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: standaard &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;spelinstellingen&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;, zoals &quot;&lt;/span&gt;Maximale aantal spelers&quot;, &quot;&lt;span style=&quot; font-style:italic;&quot;&gt;Startgeld&quot; en &quot;Kleine blind&quot; worden overgenomen van &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Instellingen van netwerkspel.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1210"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1210"/>
         <source>Internet Server Settings (Dedicated Server)</source>
         <translation>Instellingen van internetserver (pokerserver)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1373"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1373"/>
         <source>Server Address:</source>
         <translation>Serveradres:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1345"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1345"/>
         <source>Use password for private game:</source>
         <translation>Wachtwoord gebruiken voor privéspel:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="3091"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3091"/>
         <source>Internet Game Settings</source>
         <translation>Instellingen van internetspel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="3007"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3007"/>
         <source>QLabel { font-weight: bold;  }</source>
         <translation>QLabel { font-weight: bold;  }</translation>
     </message>
@@ -3487,17 +3486,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Instellingen voor het chatten in de lobby (IRC-server)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1383"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1383"/>
         <source>chat.freenode.net</source>
         <translation>chat.freenode.net</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1416"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1416"/>
         <source>Channel:</source>
         <translation>Kanaal:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1426"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1426"/>
         <source>#pokerth</source>
         <translation>#pokerth</translation>
     </message>
@@ -3507,82 +3506,82 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Omgekeerde volgorde van F-toetsen (F1 - F3)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="823"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="823"/>
         <source>First small blind:</source>
         <translation>Eerste kleine blind:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="850"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="850"/>
         <source>Raise blinds:</source>
         <translation>Blinds verhogen:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="889"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="889"/>
         <source>Every:</source>
         <translation>Na elke:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="882"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="882"/>
         <source>hands</source>
         <translation>rondes</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="909"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="909"/>
         <source>minutes</source>
         <translation>minuten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="938"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="938"/>
         <source>Raise mode:</source>
         <translation>Verhoogmodus:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="947"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="947"/>
         <source>Always double blinds</source>
         <translation>Blinds blijven verdubbelen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="957"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="957"/>
         <source>Manual blinds order:</source>
         <translation>Handmatige blinds:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="967"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="967"/>
         <source>Edit ...</source>
         <translation>Bewerken ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="398"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="398"/>
         <source>Sound Categories </source>
         <translation>Geluidcategorieën </translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="407"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="407"/>
         <source>Play game actions sounds like &quot;check&quot;, &quot;call&quot;, &quot;raise&quot;</source>
         <translation>Geluiden van spelacties als &apos;checken&apos;, &apos;callen&apos; en &apos;raisen&apos;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="414"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="414"/>
         <source>Play lobby chat notifications</source>
         <translation>Meldingen van het chatten in de lobby</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="421"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="421"/>
         <source>Play network/internet game notifications like &quot;player joined the game&quot;</source>
         <translation>Meldingen van netwerk-/internetspellen als &apos;speler erbij&apos;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="69"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="69"/>
         <source>Language:</source>
         <translation>Taal:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1364"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1364"/>
         <source>Enable/Disable Lobby Chat (IRC Server)</source>
         <translation>Chatten in de lobby (IRC-server) Aan/Uit</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="3096"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3096"/>
         <source>Player Nicks/Avatars</source>
         <translation>Spelersnamen/avatars</translation>
     </message>
@@ -3598,27 +3597,27 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: standaard &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;spelinstellingen&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;, bijvoorbeeld &quot;Maximale aantal spelers&quot;, &quot;Startgeld&quot; en &quot;Kleine blind&quot; worden overgenomen van &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Instellingen van netwerkspel.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="153"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="153"/>
         <source>Reverse order of F-Keys (F1 - F4)</source>
         <translation>Omgekeerde volgorde van F-toetsen (F1 - F4)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="160"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="160"/>
         <source>Network / Internet Game</source>
         <translation>Netwerk-/internetspel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="166"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="166"/>
         <source>Switch keyboard focus to bet-input-field if it&apos;s your turn</source>
         <translation>Invoer van toetsenbord naar het bet-veld als het uw beurt is</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1457"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1457"/>
         <source>Channel Password:</source>
         <translation>Wachtwoord voor kanaal:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="269"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="269"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -3629,22 +3628,22 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: de afbeelding ziet er het best uit bij een hoogte-breedteverhouding van &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;hoogte=140, breedte=100.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="833"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="833"/>
         <source>$</source>
         <translation>$</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1008"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1008"/>
         <source>Timeout for player action:</source>
         <translation>Bedenktijd voor de spelers:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1018"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1018"/>
         <source> s</source>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1181"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1181"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal;&quot;&gt;
@@ -3655,7 +3654,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: standaard &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;spelinstellingen&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;, waaronder &apos;Maximale aantal spelers&apos;, &apos;Startgeld&apos; en &apos;Kleine blind&apos; worden overgenomen van &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Instellingen van netwerkspel.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2479"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2479"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -3669,7 +3668,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>settingsDialogImpl</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="351"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="355"/>
         <source>Settings Error</source>
         <translation>Fout in instellingen</translation>
     </message>
@@ -3688,7 +3687,7 @@ Please select an valid directory!</source>
 Selecteer een geldige map!</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="392"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="402"/>
         <source>Select your flipside picture</source>
         <translation>Uw afbeelding voor de kaartachterkant selecteren</translation>
     </message>
@@ -3698,22 +3697,22 @@ Selecteer een geldige map!</translation>
         <translation type="obsolete">Afbeeldingen (*.png)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="466"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="476"/>
         <source>Open Directory</source>
         <translation>Open map</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="394"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="404"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Afbeeldingen (*.png *.jpg *.gif)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="574"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="584"/>
         <source>Blinds Error</source>
         <translation>Fout in blinds</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="575"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="585"/>
         <source>The first element in your manual-blinds-list 
 is smaller than current first-small-blind!
 This first-small-blind-value will be set to maximum allowed value.</source>
@@ -3722,27 +3721,27 @@ is lager dan de eerste kleine blind!
 De eerste kleine blind wordt ingesteld op de maximale waarde.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="45"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="47"/>
         <source>Dutch</source>
         <translation>Nederlands</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="46"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="48"/>
         <source>English</source>
         <translation>English (Engels)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="47"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="49"/>
         <source>French</source>
         <translation>Français (Frans)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="48"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="50"/>
         <source>German</source>
         <translation>Deutsch (Duits)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="49"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="51"/>
         <source>Hungarian</source>
         <translation>Magyar (Hongaars)</translation>
     </message>
@@ -3757,12 +3756,12 @@ De eerste kleine blind wordt ingesteld op de maximale waarde.</translation>
         <translation type="obsolete">Noors</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="52"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="55"/>
         <source>Portuguese</source>
         <translation>Português (Portugees)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="56"/>
         <source>Russian</source>
         <translation>Русский (Russisch)</translation>
     </message>
@@ -3772,53 +3771,53 @@ De eerste kleine blind wordt ingesteld op de maximale waarde.</translation>
         <translation type="obsolete">Slowaaks</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="56"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="60"/>
         <source>Turkish</source>
         <translation>Turkçe (Turks)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="381"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="385"/>
         <source>Language Changed</source>
         <translation>Taal is gewijzigd</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="382"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="386"/>
         <source>You have changed application language to %1.
 Please restart PokerTH to load new language!</source>
         <translation>U heeft de taal van het programma gewijzigd naar %1.
 Start PokerTH opnieuw om de nieuwe taal te laden!</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="50"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="52"/>
         <source>Italian</source>
         <translation>Italiano (Italiaans)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="54"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="57"/>
         <source>Slovak</source>
         <translation>Slovenčina (Slowaaks)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="332"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="336"/>
         <source>The entered flipside picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>De ingestelde afbeelding voor de kaartachterkant bestaat niet.
 Stel een geldige afbeelding in!</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="353"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="357"/>
         <source>The log file directory doesn&apos;t exist.
 Please select an valid directory!</source>
         <translation>De map voor logbestanden bestaat niet.
 Selecteer een geldige map!</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="51"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
         <source>Norwegian</source>
         <translation>Norsk (Noors)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="55"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="58"/>
         <source>Spanish</source>
         <translation>Español (Spaans)</translation>
     </message>
@@ -3826,27 +3825,27 @@ Selecteer een geldige map!</translation>
 <context>
     <name>startNetworkGameDialog</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/startnetworkgamedialog.ui" line="13"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="13"/>
         <source>Start Network Game</source>
         <translation>Netwerkspel starten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/startnetworkgamedialog.ui" line="52"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="52"/>
         <source>Maximum number of players:</source>
         <translation>Maximale aantal spelers:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/startnetworkgamedialog.ui" line="158"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="158"/>
         <source>Start Game</source>
         <translation>Spel starten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/startnetworkgamedialog.ui" line="165"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="165"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/startnetworkgamedialog.ui" line="59"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="59"/>
         <source>0</source>
         <translation>0</translation>
     </message>
@@ -3856,7 +3855,7 @@ Selecteer een geldige map!</translation>
         <translation type="obsolete">Verwijderen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/startnetworkgamedialog.ui" line="20"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="20"/>
         <source>Connected Players</source>
         <translation>Spelers met verbinding</translation>
     </message>
@@ -3866,17 +3865,17 @@ Selecteer een geldige map!</translation>
         <translation type="obsolete">Lobby - Chat</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/startnetworkgamedialog.ui" line="28"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="28"/>
         <source>Fill up with computer opponents</source>
         <translation>Tafel vol maken met computerspelers</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/startnetworkgamedialog.ui" line="79"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="79"/>
         <source>Kick Player</source>
         <translation>Speler verwijderen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/startnetworkgamedialog.ui" line="88"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="88"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
@@ -3884,12 +3883,12 @@ Selecteer een geldige map!</translation>
 <context>
     <name>startNetworkGameDialogImpl</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="156"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="157"/>
         <source>Server Error</source>
         <translation>Serverfout</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="157"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="158"/>
         <source>You should not kick yourself from this game!</source>
         <translation>U mag zichzelf niet uit dit spel verwijderen!</translation>
     </message>

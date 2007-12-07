@@ -82,8 +82,8 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
 	connect( checkBox_UseInternetGamePassword, SIGNAL( toggled(bool) ), this, SLOT( clearInternetGamePassword(bool)) ); 
 
-	connect( spinBox_netFirstSmallBlind, SIGNAL( valueChanged(int) ), this, SLOT ( checkProperNetFirstSmallBlind(int)));
-	connect( spinBox_firstSmallBlind, SIGNAL( valueChanged(int) ), this, SLOT ( checkProperFirstSmallBlind(int)));
+// 	connect( spinBox_netFirstSmallBlind, SIGNAL( valueChanged(int) ), this, SLOT ( checkProperNetFirstSmallBlind(int)));
+// 	connect( spinBox_firstSmallBlind, SIGNAL( valueChanged(int) ), this, SLOT ( checkProperFirstSmallBlind(int)));
 
 	connect( radioButton_netManualBlindsOrder, SIGNAL( toggled(bool) ), this, SLOT( setFirstSmallBlindMargin() ));
 	connect( radioButton_manualBlindsOrder, SIGNAL( toggled(bool) ), this, SLOT( setFirstSmallBlindMargin() ));	//temporarely unused until ai is enabled in network
@@ -557,14 +557,14 @@ void settingsDialogImpl::callNetManualBlindsOrderDialog() {
 }
 
 
-void settingsDialogImpl::checkProperNetFirstSmallBlind(int currentSB) {
-
-}
-
-
-void settingsDialogImpl::checkProperFirstSmallBlind(int currentSB) {
-
-}
+// void settingsDialogImpl::checkProperNetFirstSmallBlind(int currentSB) {
+// 
+// }
+// 
+// 
+// void settingsDialogImpl::checkProperFirstSmallBlind(int currentSB) {
+// 
+// }
 
 void settingsDialogImpl::setFirstSmallBlindMargin() {
 
