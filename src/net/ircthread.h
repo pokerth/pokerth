@@ -48,6 +48,8 @@ protected:
 
 	// Main function of the thread.
 	virtual void Main();
+	bool IrcInit();
+	void IrcMain();
 
 	void HandleIrcError(int errorCode);
 
@@ -59,6 +61,7 @@ private:
 	IrcCallback &m_callback;
 
 	boost::timers::portable::microsec_timer m_terminationTimer;
+	boost::timers::portable::microsec_timer m_lastConnectTimer;
 };
 
 #endif

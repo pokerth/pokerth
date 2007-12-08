@@ -29,11 +29,12 @@
 
 using namespace std;
 
-#define IRC_WAIT_TERMINATION_MSEC	500
-#define IRC_MAX_RENAME_TRIES		5
+#define IRC_WAIT_TERMINATION_MSEC			500
+#define IRC_MAX_RENAME_TRIES				5
+#define IRC_MIN_RECONNECT_INTERVAL_SEC		60
 
-#define IRC_RENAME_ATTACH			"|Lobby"
-#define IRC_MAX_NICK_LEN			16
+#define IRC_RENAME_ATTACH					"|Lobby"
+#define IRC_MAX_NICK_LEN					16
 
 
 struct IrcContext
@@ -252,7 +253,9 @@ irc_event_numeric(irc_session_t * session, unsigned irc_event, const char * /*or
 }
 
 IrcThread::IrcThread(IrcCallback &callback)
-: m_callback(callback), m_terminationTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
+: m_callback(callback),
+  m_terminationTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start),
+  m_lastConnectTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
 {
 	m_context.reset(new IrcContext(*this));
 }
@@ -278,7 +281,43 @@ IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6
 	context.nick			= nick;
 	context.channel			= channel;
 	context.channelPassword	= channelPassword;
+}
 
+void
+IrcThread::SendChatMessage(const std::string &msg)
+{
+	IrcContext &context = GetContext();
+	irc_cmd_msg(context.session, context.channel.c_str(), msg.c_str());
+}
+
+void
+IrcThread::SignalTermination()
+{
+	Thread::SignalTermination();
+	irc_cmd_quit(GetContext().session, NULL);
+}
+
+void
+IrcThread::Main()
+{
+	do
+	{
+		if (IrcInit())
+			IrcMain(); // Will loop until terminated.
+	} while (!ShouldTerminate() && GetContext().session && !irc_is_connected(GetContext().session) && m_lastConnectTimer.elapsed().total_seconds() > IRC_MIN_RECONNECT_INTERVAL_SEC);
+}
+
+bool
+IrcThread::IrcInit()
+{
+	bool retVal = false;
+
+	IrcContext &context = GetContext();
+	if (context.session)
+	{
+		irc_destroy_session(context.session);
+		context.session = NULL;
+	}
 	// Initialize libirc stuff.
 	irc_callbacks_t callbacks;
 	memset (&callbacks, 0, sizeof(callbacks));
@@ -311,86 +350,73 @@ IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6
 		irc_set_ctx(context.session, &context);
 		// We want nicknames only, strip them from nick!host.
 		irc_option_set(context.session, LIBIRC_OPTION_STRIPNICKS);
+		retVal = true;
 	}
+	return retVal;
 }
 
 void
-IrcThread::SendChatMessage(const std::string &msg)
+IrcThread::IrcMain()
 {
-	IrcContext &context = GetContext();
-	irc_cmd_msg(context.session, context.channel.c_str(), msg.c_str());
-}
-
-void
-IrcThread::SignalTermination()
-{
-	Thread::SignalTermination();
-	irc_cmd_quit(GetContext().session, NULL);
-}
-
-void
-IrcThread::Main()
-{
+	m_lastConnectTimer.restart();
 	IrcContext &context = GetContext();
 
 	irc_session_t *s = context.session;
-	if (s)
+
+	bool connected = false;
+	if (context.useIPv6)
+		connected = irc_connect6(s, context.serverAddress.c_str(), context.serverPort, 0, context.nick.c_str(), 0, 0) == 0;
+	else
+		connected = irc_connect(s, context.serverAddress.c_str(), context.serverPort, 0, context.nick.c_str(), 0, 0) == 0;
+
+	if (!connected)
+		HandleIrcError(irc_errno(s));
+	else
 	{
-		bool connected = false;
-		if (context.useIPv6)
-			connected = irc_connect6(s, context.serverAddress.c_str(), context.serverPort, 0, context.nick.c_str(), 0, 0) == 0;
-		else
-			connected = irc_connect(s, context.serverAddress.c_str(), context.serverPort, 0, context.nick.c_str(), 0, 0) == 0;
-
-		if (!connected)
-			HandleIrcError(irc_errno(s));
-		else
+		// Main loop.
+		while (irc_is_connected(s))
 		{
-			// Main loop.
-			while (irc_is_connected(s))
+			// Handle thread termination - gracefully.
+			if (!m_terminationTimer.is_running())
 			{
-				// Handle thread termination - gracefully.
-				if (!m_terminationTimer.is_running())
+				if (ShouldTerminate())
+					m_terminationTimer.start();
+			}
+			else
+			{
+				if (m_terminationTimer.elapsed().total_milliseconds() > IRC_WAIT_TERMINATION_MSEC)
+					break;
+			}
+			
+			struct timeval timeout;
+			fd_set readSet, writeSet;
+			int maxfd = 0;
+
+
+			FD_ZERO(&readSet);
+			FD_ZERO(&writeSet);
+			timeout.tv_sec = 0;
+			timeout.tv_usec = RECV_TIMEOUT_MSEC * 1000;
+
+			irc_add_select_descriptors(s, &readSet, &writeSet, &maxfd);
+
+			int selectResult = select(maxfd + 1, &readSet, &writeSet, 0, &timeout);
+			if (!IS_VALID_SELECT(selectResult))
+			{
+				GetCallback().SignalIrcError(ERR_IRC_SELECT_FAILED);
+				break;
+			}
+
+			if (irc_process_select_descriptors(s, &readSet, &writeSet) != 0)
+			{
+				int errorCode = irc_errno(s);
+				if (errorCode)
 				{
-					if (ShouldTerminate())
-						m_terminationTimer.start();
-				}
-				else
-				{
-					if (m_terminationTimer.elapsed().total_milliseconds() > IRC_WAIT_TERMINATION_MSEC)
-						break;
-				}
-				
-				struct timeval timeout;
-				fd_set readSet, writeSet;
-				int maxfd = 0;
-
-
-				FD_ZERO(&readSet);
-				FD_ZERO(&writeSet);
-				timeout.tv_sec = 0;
-				timeout.tv_usec = RECV_TIMEOUT_MSEC * 1000;
-
-				irc_add_select_descriptors(s, &readSet, &writeSet, &maxfd);
-
-				int selectResult = select(maxfd + 1, &readSet, &writeSet, 0, &timeout);
-				if (!IS_VALID_SELECT(selectResult))
-				{
-					GetCallback().SignalIrcError(ERR_IRC_SELECT_FAILED);
+					HandleIrcError(errorCode);
 					break;
 				}
-
-				if (irc_process_select_descriptors(s, &readSet, &writeSet) != 0)
-				{
-					int errorCode = irc_errno(s);
-					if (errorCode)
-					{
-						HandleIrcError(errorCode);
-						break;
-					}
-				}
-				Msleep(10); // paranoia
 			}
+			Msleep(10); // paranoia
 		}
 	}
 }
