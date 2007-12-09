@@ -32,7 +32,7 @@ using namespace std;
 
 LobbyChat::LobbyChat(gameLobbyDialogImpl* l, ConfigFile *c) : myLobby(l), myConfig(c)
 {
-	myChatTools = new ChatTools(myLobby->lineEdit_ChatInput, myConfig, 1, myLobby->textBrowser_ChatDisplay, myLobby->treeWidget_NickList, myLobby->getMyW()->getMySDLPlayer(), myLobby);
+	myChatTools = new ChatTools(myLobby->lineEdit_ChatInput, myConfig, 1, myLobby->textBrowser_ChatDisplay, myLobby->treeWidget_NickList);
 }
 
 LobbyChat::~LobbyChat()
@@ -129,6 +129,10 @@ void LobbyChat::playerLeft(QString playerName)
 void LobbyChat::displayMessage(QString playerName, QString message) { 
 	
 	myChatTools->receiveMessage(playerName, message);
+
+	if(message.contains(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()), Qt::CaseInsensitive) && myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
+		myLobby->getMyW()->getMySDLPlayer()->playSound("lobbychatnotify",0);
+	}
 }
 
 void LobbyChat::checkInputLength(QString string) {

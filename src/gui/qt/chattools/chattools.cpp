@@ -20,13 +20,12 @@
 #include "chattools.h"
 #include "session.h"
 #include "configfile.h"
-#include "sdlplayer.h"
 #include <iostream>
 
 using namespace std;
 
 
-ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, int notifyMode, QTextBrowser *b, QTreeWidget *t, SDLPlayer *s, QDialog *p) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL), myTextBrowser(b), myNotifyMode(notifyMode), myConfig(c), mySDLPlayer(s), myParentDialog(p)
+ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, int notifyMode, QTextBrowser *b, QTreeWidget *t) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL), myTextBrowser(b), myNotifyMode(notifyMode), myConfig(c)
 {
 
 }
@@ -75,13 +74,10 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
 				case 2: tempMsg = QString("<span style=\"color:#FFFFFF;\">"+message+"</span>");
 				break;
 				default:;
-			}			
+			}
+			
 		}
 		myTextBrowser->append(playerName + ": " + tempMsg); 
-	}
-	if(myParentDialog) {
-		if(myParentDialog->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) 
-			mySDLPlayer->playSound("lobbychatnotify",0);
 	}
 }
 
