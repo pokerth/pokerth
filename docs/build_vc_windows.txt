@@ -1,51 +1,53 @@
-These are the instructions to compile PokerTH on Windows using MSVC 2005 Express Edition.
+These are the instructions to compile PokerTH on Windows using MSVC 2008 Express Edition.
 
-1. Get and install MSVC 2005 Express Edition (English version is strongly recommended).
+1. Get and install MSVC 2008 Express Edition (English version is strongly recommended).
 
-2. Get and install Service Pack 1 for MSVC 2005 Express Edition
+2. Get and install a new Microsoft Platform SDK
 
-3. Get and install a QT related Hotfix for MSVC 2005 SP1:
-http://thehotfixshare.net/board/index.php?automodule=downloads&showcat=21
-English - Visual Studio 2005 - VS80sp1-KB930859-X86-ENU.exe
-
-More information on this:
-http://support.microsoft.com/kb/930198
-
-4. Get and install a new Microsoft Platform SDK
-
-This step can be left out if you use MSVC 2005 Professional instead of the Express Edition.
+This step can be left out if you use MSVC 2008 Professional instead of the Express Edition.
 [about 1 GB download]
 http://www.microsoft.com/downloads/details.aspx?familyid=FF6467E6-5BBA-4BF5-B562-9199BE864D29&displaylang=en
 
-5. Get open source QT 4.3.2 [zip file] from Trolltech.
-It supports MSVC 2005, no patch is needed.
+3. Get and install the DirectX SDK
+
+This step can be left out if you use MSVC 2008 Professional instead of the Express Edition.
+http://www.microsoft.com/downloads/details.aspx?familyid=4B78A58A-E672-4B83-A28E-72B5E93BD60A&displaylang=en
+
+4. Get open source QT 4.3.3 [zip file] from Trolltech.
+It supports MSVC 2008, no patch is needed.
 http://trolltech.com/developer/downloads/qt/windows
 
-6. Compile QT, make sure you set the QTDIR environment variable before.
+Compile QT, make sure you set the QTDIR environment variable before.
 
-7. Get boost and bjam and compile boost
+5. Get boost 1.34.1 and bjam (latest version) and compile boost
 See http://www.boost.org/more/getting_started/windows.html
 
-Now the worst part:
-8. Get and compile(!) (do not use precompiled version) SDL and SDL_mixer
-(this is a bit tricky, contact me for binaries if you wish)
+6. Get and compile(!) (do not use precompiled version) OpenSSL
+The OpenSSL build script requires perl, which can be downloaded for example here:
+http://www.activestate.com/Products/activeperl/
+Also, an assembler is recommended for this step, which comes for example with the WDK:
+http://www.microsoft.com/whdc/DevTools/WDK/WDKpkg.mspx
+Basically you have to run (within the OpenSSL directory):
 
-9. Run
-qmake -tp vc pokerth_lib.pro
-qmake -tp vc pokerth_game.pro
-qmake -tp vc pokerth_server.pro
-in the pokerth directory
+perl Configure VC-WIN32 no-shared
+ms\do_masm
+nmake -f ms\nt.mak
 
-10. Create an sln file and add the three projects.
+After compiling OpenSSL, move the output from inc32 and out32 to include and lib.
 
-11. Set the project dependencies (pokerth_game and pokerth depend on pokerth_lib).
+7. Get and compile(!) (do not use precompiled version) SDL and SDL_mixer.
 
-12. Set the "Program Database File Name" in the Properties section C/C++
+8. Run
+qmake -tp vc -recursive
+in the pokerth directory. This will create a solution and project files.
+Open the solution.
+
+9. Set the "Program Database File Name" in the Properties section C/C++
 for each project to a unique name.
 
-13. Edit the library directories and the linker dependencies of the Debug
+10. Edit the library directories and the linker dependencies of the Debug
 configuration, make them point to debug locations.
 
-14. Rebuild Solution.
+11. Rebuild the Solution.
 
 2007 by Lothar May
