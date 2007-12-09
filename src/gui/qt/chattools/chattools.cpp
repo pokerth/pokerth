@@ -49,6 +49,9 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
 
 	if(myTextBrowser) {
 
+		message = message.replace("<","&lt;");
+		message = message.replace(">","&gt;");
+
 		QString tempMsg;
 		if(message.contains(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()), Qt::CaseInsensitive)) {
 

@@ -94,9 +94,6 @@ public slots:
 	void updateDialogBlinds(const GameData &gameData);
 	void clearDialog();
 
-	void sendChatMessage();
-	void checkChatInputLength(QString string);
-	
 	void keyPressEvent(QKeyEvent * keyEvent); 
 	bool event(QEvent * event); 
 	void hideShowGameDescription(bool show);
