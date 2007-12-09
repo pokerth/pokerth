@@ -52,8 +52,8 @@ class changeHumanPlayerNameDialogImpl;
 class gameLobbyDialogImpl;
 
 class QColor;
-
 class SDLPlayer;
+
 
 class mainWindowImpl: public QMainWindow, public Ui::mainWindow {
 Q_OBJECT

@@ -26,13 +26,14 @@
 
 class Session;
 class ConfigFile;
+class SDLPlayer;
 
 class ChatTools : public QObject
 {
 Q_OBJECT
 
 public:
-	ChatTools(QLineEdit* l, ConfigFile *c, int notifyMode = 0, QTextBrowser *b = NULL, QTreeWidget *t = NULL );
+	ChatTools(QLineEdit* l, ConfigFile *c, int notifyMode = 0, QTextBrowser *b = NULL, QTreeWidget *t = NULL, SDLPlayer *s = NULL, QDialog *p = NULL );
 
 	~ChatTools();
 
@@ -67,6 +68,8 @@ private:
 	Session *mySession; 
 	int myNotifyMode; // 0 == no notification, 1 == bold notification, 2 == yellow notification	
 	ConfigFile *myConfig;
+	SDLPlayer *mySDLPlayer;
+	QDialog *myParentDialog; //needed for visible check for audio-nick-notification
 
 
 // friend class GuiWrapper;

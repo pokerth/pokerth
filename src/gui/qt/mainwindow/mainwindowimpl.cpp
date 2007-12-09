@@ -78,6 +78,9 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	setupUi(this);
 
+	//Sound
+	mySDLPlayer = new SDLPlayer(myConfig);
+
 	//Player0 pixmapCardsLabel needs Myw
 	pixmapLabel_card0b->setMyW(this);
 	pixmapLabel_card0a->setMyW(this);
@@ -647,9 +650,6 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalIrcChatMessage(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(displayMessage(QString, QString)));
 	connect(this, SIGNAL(signalIrcError(int)), myGameLobbyDialog->getLobbyChat(), SLOT(chatError(int)));
 	connect(this, SIGNAL(signalIrcServerError(int)), myGameLobbyDialog->getLobbyChat(), SLOT(chatServerError(int)));
-
-	//Sound
-	mySDLPlayer = new SDLPlayer(myConfig);
 
 }
 
