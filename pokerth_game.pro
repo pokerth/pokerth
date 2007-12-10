@@ -48,7 +48,8 @@ INCLUDEPATH += . \
 		src/gui/qt/changecompleteblindsdialog \
 		src/gui/qt/mymessagedialog \
 		src/gui/qt/gamelobbydialog \
-		src/gui/qt/gamelobbydialog/lobbychat
+		src/gui/qt/gamelobbydialog/lobbychat \
+		src/gui/qt/stylesheetreader 
 
 DEPENDPATH += . \
 		src \
@@ -85,7 +86,8 @@ DEPENDPATH += . \
 		src/gui/qt/changecompleteblindsdialog \
 		src/gui/qt/mymessagedialog \
 		src/gui/qt/gamelobbydialog \
-		src/gui/qt/gamelobbydialog/lobbychat
+		src/gui/qt/gamelobbydialog/lobbychat \
+		src/gui/qt/stylesheetreader
 
 # Input
 HEADERS += \
@@ -170,6 +172,7 @@ HEADERS += \
 		src/gui/qttoolsinterface.h \
 		src/gui/qt/qttools/qttoolswrapper.h \
 		src/gui/qt/qttools/qthelper/qthelper.h \
+		src/gui/qt/stylesheetreader/stylesheetreader.h \
 		src/gui/generic/serverguiwrapper.h
 
 FORMS += \
@@ -224,6 +227,7 @@ SOURCES += \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp \
 		src/gui/qt/gamelobbydialog/mygamelisttreewidget.cpp \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp \
+		src/gui/qt/stylesheetreader/stylesheetreader.cpp \
 		src/net/common/net_helper_client.cpp \
 		src/core/common/loghelper_client.cpp
 
@@ -234,14 +238,14 @@ TRANSLATIONS = \
 		ts/pokerth_ru.ts \
 		ts/pokerth_no.ts \
 		ts/pokerth_sk.ts \
-		ts/pokerth_eo.ts \
 		ts/pokerth_hu.ts \
 		ts/pokerth_pl.ts \
 		ts/pokerth_ptbr.ts \
 		ts/pokerth_it.ts \
 		ts/pokerth_tr.ts \
 		ts/pokerth_sv.ts \
-		ts/pokerth_nl.ts
+		ts/pokerth_nl.ts \
+		ts/pokerth_START_HERE.ts
 
 win32{
 	DEPENDPATH += src/net/win32/ src/core/win32

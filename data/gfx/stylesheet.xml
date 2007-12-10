@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<PokerTH>
+	<Table>
+		<Colors>
+			<TextBrowserChatFont value="F0F0F0" />
+			<TextBrowserLogFont value="F0F0F0" /> 
+		</Colors>
+	</Table>
+</PokerTH>

@@ -53,6 +53,7 @@ class gameLobbyDialogImpl;
 
 class QColor;
 class SDLPlayer;
+class StyleSheetReader;
 
 
 class mainWindowImpl: public QMainWindow, public Ui::mainWindow {
@@ -457,7 +458,8 @@ private:
 
 	int keyUpDownChatCounter;
 	int myLastPreActionBetValue;
-	
+
+	StyleSheetReader *myStyleSheetReader;
 
 friend class GuiWrapper;
 };
