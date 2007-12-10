@@ -28,6 +28,8 @@
 
 using namespace std;
 
+#define COMMAND_KICK_STR	"/kick "
+
 Chat::Chat(mainWindowImpl* w, ConfigFile *c) : myW(w), myConfig(c)
 {
 	myChatTools = new ChatTools(myW->lineEdit_ChatInput, myConfig, 2, myW->textBrowser_Chat);
@@ -42,10 +44,11 @@ Chat::~Chat()
 
 void Chat::sendMessage() {
 	
-	//filter /kick commando
-	if(myW->lineEdit_ChatInput->text().startsWith("/kick")) {
-		QString playerToKick = myW->lineEdit_ChatInput->text().section(" ",1,1);
-		
+	//filter /kick command
+	if(myW->lineEdit_ChatInput->text().startsWith(COMMAND_KICK_STR)) {
+		QString playerToKick = myW->lineEdit_ChatInput->text();
+		playerToKick.remove(0, sizeof(COMMAND_KICK_STR) - 1);
+
 		myW->lineEdit_ChatInput->setText("");
 		if(myW->getSession().getClientGameInfo(myW->getSession().getClientCurrentGameId()).adminPlayerId == myW->getSession().getCurrentGame()->getSeatsList()->front()->getMyUniqueID()) {
 
