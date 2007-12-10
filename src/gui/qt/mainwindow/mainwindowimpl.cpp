@@ -3648,7 +3648,7 @@ void mainWindowImpl::myButtonsCheckable(bool state) {
 
 }
 
-void mainWindowImpl::closeEvent(QCloseEvent* /*event*/) { quitPokerTH(); }
+// // void mainWindowImpl::closeEvent(QCloseEvent* /*event*/) { quitPokerTH(); }
 
 void mainWindowImpl::showMaximized () {
 	this->showFullScreen ();
