@@ -100,13 +100,10 @@ void LobbyChat::playerKicked(QString nickName, QString byWhom, QString reason)
 {
 	if (myNick == nickName)
 	{
-		myLobby->accept();
-		QMessageBox::warning(myLobby, tr("Network Notification"),
-			tr("You were kicked from the server."),
-				QMessageBox::Close);
+		myLobby->treeWidget_NickList->clear();
+		myLobby->lineEdit_ChatInput->setEnabled(false);
 	}
-	else
-		myLobby->textBrowser_ChatDisplay->append(nickName + " " + tr("was kicked from the server by") + " " + byWhom + " (" + reason + ")");
+	myLobby->textBrowser_ChatDisplay->append(nickName + " " + tr("was kicked from the server by") + " " + byWhom + " (" + reason + ")");
 }
 
 void LobbyChat::playerLeft(QString playerName)

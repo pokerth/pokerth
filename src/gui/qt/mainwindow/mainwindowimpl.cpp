@@ -3194,7 +3194,8 @@ void mainWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 				QMessageBox::Close); }
 		break;
 		case ERR_NET_PLAYER_KICKED:
-			{ QMessageBox::warning(this, tr("Network Error"),
+			{ mySession->terminateNetworkClient();
+			  QMessageBox::warning(this, tr("Network Error"),
 				tr("You were kicked from the server."),
 				QMessageBox::Close); }
 		break;
