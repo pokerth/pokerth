@@ -20,6 +20,7 @@
 #define NOMINMAX // for Windows
 
 #include "tools.h"
+#include <core/loghelper.h>
 #include <openssl/rand.h>
 
 #include <limits>
@@ -41,6 +42,7 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 			if(!RAND_bytes(rand_buf, 4))
 			{
 				RAND_pseudo_bytes(rand_buf, 4); 
+				LOG_MSG("RAND_bytes failed, using RAND_pseudo_bytes.");
 			}
 
 			randNumber = 0;
@@ -65,6 +67,7 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 			if(!RAND_bytes(rand_buf, 4))
 			{
 				RAND_pseudo_bytes(rand_buf, 4); 
+				LOG_MSG("RAND_bytes failed, using RAND_pseudo_bytes.");
 			}
 
 			randNumber = 0;
