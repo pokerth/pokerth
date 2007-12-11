@@ -28,9 +28,11 @@
 #include <core/loghelper.h>
 #include <clientenginefactory.h>
 #include <game.h>
+#include <qttoolsinterface.h>
 
 #include <boost/lambda/lambda.hpp>
 #include <sstream>
+#include <memory>
 #include <cassert>
 
 using namespace std;
@@ -62,6 +64,7 @@ ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager)
 	m_senderCallback.reset(new ClientSenderCallback(*this));
 	m_sender.reset(new SenderThread(GetSenderCallback()));
 	m_receiver.reset(new ReceiverHelper);
+	myQtToolsInterface.reset(CreateQtToolsWrapper());
 }
 
 ClientThread::~ClientThread()
@@ -451,7 +454,7 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 			string avatarFile;
 			if (GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile))
 			{
-				playerData->SetAvatarFile(avatarFile);
+				playerData->SetAvatarFile(myQtToolsInterface->stringToUtf8(avatarFile));
 			}
 		}
 	}

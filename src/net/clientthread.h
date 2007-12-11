@@ -36,6 +36,7 @@ class ClientSenderCallback;
 class Game;
 class NetPacket;
 class AvatarManager;
+class QtToolsInterface;
 
 class ClientThread : public Thread
 {
@@ -168,6 +169,7 @@ private:
 	mutable boost::mutex m_gameInfoMapMutex;
 
 	boost::shared_ptr<Game> m_game;
+	boost::shared_ptr<QtToolsInterface> myQtToolsInterface;
 
 	PlayerInfoMap m_playerInfoMap;
 	mutable boost::mutex m_playerInfoMapMutex;

@@ -427,7 +427,12 @@ bool Session::getAvatarFile(const MD5Buf &avatarMD5, std::string &fileName)
 {
 	bool retVal = false;
 	if (myAvatarManager.get())
-		retVal = myAvatarManager->GetAvatarFileName(avatarMD5, fileName);
+	{
+		string tmpFileName;
+		retVal = myAvatarManager->GetAvatarFileName(avatarMD5, tmpFileName);
+		if (retVal)
+			fileName = myQtToolsInterface->stringToUtf8(tmpFileName);
+	}
 	return retVal;
 }
 
