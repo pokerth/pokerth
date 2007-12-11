@@ -3663,11 +3663,13 @@ void mainWindowImpl::quitPokerTH() {
 
 		if (msgBox.exec() == QMessageBox::Yes ) {
 			mySession->terminateNetworkClient();
+			stopTimer();
 			if (myServerGuiInterface.get()) myServerGuiInterface->getSession().terminateNetworkServer();
 			qApp->quit();
-		}		
+		}
 	}
-	else { 
+	else {
+		mySession->terminateNetworkClient();
 		stopTimer();
 		qApp->quit();
 	}
