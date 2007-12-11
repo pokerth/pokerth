@@ -38,6 +38,12 @@ NonQtHelper::stringToUtf8(const std::string &myString)
 }
 
 std::string
+NonQtHelper::stringFromUtf8(const std::string &myString)
+{
+	return ConvHelper::Utf8ToNative(myString);
+}
+
+std::string
 NonQtHelper::getDefaultLanguage()
 {
 	return "en";

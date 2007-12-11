@@ -28,10 +28,13 @@ public:
 
 	//qthelper.cpp
 	virtual std::string stringToUtf8(const std::string &) =0;
+	virtual std::string stringFromUtf8(const std::string &) =0;
 	virtual std::string getDefaultLanguage() =0;
 	virtual std::string getDataPathStdString(const char *argv0) =0;
 	
 
 };
+
+QtToolsInterface *CreateQtToolsWrapper();
 
 #endif

@@ -21,6 +21,7 @@
 #include "game.h"
 #include "guiinterface.h"
 #include "configfile.h"
+#include <qttoolsinterface.h>
 #include <localenginefactory.h>
 #include <clientenginefactory.h>
 #include <net/clientthread.h>
@@ -41,6 +42,7 @@ Session::Session(GuiInterface *g, ConfigFile *c)
 : currentGameNum(0), myNetClient(NULL), myNetServer(NULL), myClientIrcThread(NULL),
   myGui(g), myConfig(c), myGameType(GAME_TYPE_NONE)
 {
+	myQtToolsInterface = CreateQtToolsWrapper();
 }
 
 
@@ -50,13 +52,17 @@ Session::~Session()
 	terminateNetworkServer();
 	delete myConfig;
 	myConfig = 0;
+	delete myQtToolsInterface;
+	myQtToolsInterface = 0;
 }
 
 bool Session::init()
 {
 	myAvatarManager.reset(new AvatarManager);
-	bool retVal = myAvatarManager->Init(myConfig->readConfigString("AppDataDir"), myConfig->readConfigString("CacheDir"));
-	addOwnAvatar(myConfig->readConfigString("MyAvatar"));
+	bool retVal = myAvatarManager->Init(
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("AppDataDir")),
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
+	addOwnAvatar(myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("MyAvatar")));
 	myAvatarManager->RemoveOldAvatarCacheEntries();
 	return retVal;
 }

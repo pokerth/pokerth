@@ -38,8 +38,6 @@
 
 using namespace std;
 
-QtToolsInterface *CreateQtToolsWrapper();
-
 
 ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 {

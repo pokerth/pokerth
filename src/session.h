@@ -33,6 +33,7 @@ class ClientThread;
 class ServerManager;
 class IrcThread;
 class AvatarManager;
+class QtToolsInterface;
 
 class Session{
 public:
@@ -106,6 +107,7 @@ private:
 	GuiInterface *myGui;
 	ConfigFile *myConfig;
 	GameType myGameType;
+	QtToolsInterface *myQtToolsInterface;
 };
 
 

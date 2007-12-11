@@ -33,6 +33,7 @@ public:
 	~NonQtToolsWrapper();
 
 	std::string stringToUtf8(const std::string &myString);
+	std::string stringFromUtf8(const std::string &myString);
 	std::string getDefaultLanguage();
 	std::string getDataPathStdString(const char *argv0);
 

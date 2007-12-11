@@ -31,6 +31,12 @@ std::string QtHelper::stringToUtf8(const std::string &myString) {
 	return myUtf8String;
 }
 
+std::string QtHelper::stringFromUtf8(const std::string &myString) {
+	QString tmpString = QString::fromUtf8(myString.c_str());
+	
+	return tmpString.toStdString();
+}
+
 std::string QtHelper::getDefaultLanguage() { return QLocale::system().name().toStdString(); }
 
 std::string QtHelper::getDataPathStdString(const char * /*argv0*/)

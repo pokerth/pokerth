@@ -29,6 +29,7 @@ public:
 	~QtHelper();
 
 	std::string stringToUtf8(const std::string &);
+	std::string stringFromUtf8(const std::string &);
 	std::string getDefaultLanguage();
 
 	std::string getDataPathStdString(const char *argv0);

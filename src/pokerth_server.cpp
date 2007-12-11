@@ -21,11 +21,13 @@
 
 #include "session.h"
 #include "configfile.h"
+#include <qttoolsinterface.h>
 #include <gui/generic/serverguiwrapper.h>
 #include <net/socket_startup.h>
 #include <core/loghelper.h>
 #include <core/thread.h>
 
+#include <memory>
 #include <csignal>
 
 #ifdef _MSC_VER
@@ -71,9 +73,10 @@ main(int argc, char *argv[])
 
 //	_CrtSetBreakAlloc(4772);
 
+	auto_ptr<QtToolsInterface> myQtToolsInterface(CreateQtToolsWrapper());
 	//create defaultconfig
 	ConfigFile *myConfig = new ConfigFile(argc, argv);
-	loghelper_init(myConfig->readConfigString("LogDir"));
+	loghelper_init(myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir")));
 
 	// TODO: Hack
 #ifndef _WIN32
