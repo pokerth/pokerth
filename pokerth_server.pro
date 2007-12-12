@@ -145,6 +145,10 @@ win32 {
 }
 
 unix : !mac {
+
+	LIBPATH += lib
+	LIBS += -lpokerth_lib
+
 	exists( /usr/lib/libboost_thread-mt.so ){
 		message("Found libboost_thread-mt")
 		LIBS += -lboost_thread-mt
@@ -186,8 +190,7 @@ unix : !mac {
 			LIBS += -lboost_filesystem
 		}
 	}
-	LIBPATH += lib
-	LIBS += -lpokerth_lib
+	
 	LIBS += -lcrypto
 	TARGETDEPS += ./lib/libpokerth_lib.a
 
