@@ -2033,6 +2033,12 @@ void mainWindowImpl::disableMyButtons() {
 	pushButton_AllIn->setDisabled(TRUE);
 	horizontalSlider_bet->setDisabled(TRUE);
 	lineEdit_betValue->setDisabled(TRUE);
+
+#ifdef _WIN32
+	QString humanPlayerButtonFontSize = "13";
+#else 
+	QString humanPlayerButtonFontSize = "12";
+#endif
 }
 
 void mainWindowImpl::myCallCheck() {
@@ -3614,7 +3620,7 @@ void mainWindowImpl::myButtonsCheckable(bool state) {
 #else 
 	QString humanPlayerButtonFontSize = "12";
 #endif
-
+	
 	if(state) {
 		//checkable
 
@@ -3637,11 +3643,14 @@ void mainWindowImpl::myButtonsCheckable(bool state) {
 		pushButton_CallCheck->setCheckable(FALSE);
 		pushButton_Fold->setCheckable(FALSE);
 		pushButton_AllIn->setCheckable(FALSE);
-		
+	
+		QString hover;
+		if(pushButton_AllIn->isEnabled()) { hover = "_hover"; }
+	
 		//design
-		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked_hover.png);}");
-		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked_hover.png);}");
-		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked_hover.png);}");
+		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green"+hover+".png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked"+hover+".png);}");
+		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue"+hover+".png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked"+hover+".png);}");
+		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red"+hover+".png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked"+hover+".png);}");
 
 		myButtonsAreCheckable = FALSE;
 	}
