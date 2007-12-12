@@ -454,7 +454,7 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 			string avatarFile;
 			if (GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile))
 			{
-				playerData->SetAvatarFile(myQtToolsInterface->stringToUtf8(avatarFile));
+				playerData->SetAvatarFile(GetQtToolsInterface().stringToUtf8(avatarFile));
 			}
 		}
 	}
@@ -561,7 +561,7 @@ ClientThread::CompleteTempAvatarData(unsigned playerId)
 			if (GetAvatarManager().GetAvatarFileName(tmpPlayerInfo.avatar, fileName))
 			{
 				// Dynamically update avatar in GUI.
-				GetGui().setPlayerAvatar(playerId, fileName);
+				GetGui().setPlayerAvatar(playerId, GetQtToolsInterface().stringToUtf8(fileName));
 			}
 		}
 	}
@@ -678,6 +678,13 @@ ClientThread::GetSenderCallback()
 {
 	assert(m_senderCallback.get());
 	return *m_senderCallback;
+}
+
+QtToolsInterface &
+ClientThread::GetQtToolsInterface()
+{
+	assert(myQtToolsInterface.get());
+	return *myQtToolsInterface;
 }
 
 void

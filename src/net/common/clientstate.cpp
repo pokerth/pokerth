@@ -28,6 +28,7 @@
 #include <net/socket_helper.h>
 #include <net/socket_msg.h>
 #include <core/avatarmanager.h>
+#include <qttoolsinterface.h>
 
 #include <game.h>
 #include <playerinterface.h>
@@ -356,7 +357,7 @@ ClientStateStartSession::Process(ClientThread &client)
 	NetPacketInit::Data initData;
 	initData.password = context.GetPassword();
 	initData.playerName = context.GetPlayerName();
-	string avatarFile = context.GetAvatarFile();
+	string avatarFile = client.GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
 	initData.showAvatar = false;
 	if (!avatarFile.empty())
 	{
@@ -592,7 +593,7 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 
 		NetPacketList tmpList;
 		int avatarError = client.GetAvatarManager().AvatarFileToNetPackets(
-			client.GetContext().GetAvatarFile(),
+			client.GetQtToolsInterface().stringFromUtf8(client.GetContext().GetAvatarFile()),
 			retrieveAvatarData.requestId,
 			tmpList);
 
@@ -700,7 +701,7 @@ ClientStateWaitGame::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 			{
 				string avatarFile;
 				if (client.GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile))
-					playerData->SetAvatarFile(avatarFile);
+					playerData->SetAvatarFile(client.GetQtToolsInterface().stringToUtf8(avatarFile));
 				else
 					client.RetrieveAvatarIfNeeded(netPlayerData.playerId, info);
 			}

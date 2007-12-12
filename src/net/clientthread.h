@@ -121,6 +121,8 @@ protected:
 
 	ClientSenderCallback &GetSenderCallback();
 
+	QtToolsInterface &GetQtToolsInterface();
+
 	void AddPlayerData(boost::shared_ptr<PlayerData> playerData);
 	void RemovePlayerData(unsigned playerId);
 	void ClearPlayerDataList();
