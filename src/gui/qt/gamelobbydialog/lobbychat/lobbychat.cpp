@@ -64,6 +64,7 @@ void LobbyChat::connected(QString server)
 void LobbyChat::selfJoined(QString ownName, QString channel)
 {
 	myNick = ownName;
+	myChatTools->setMyNick(myNick);
 	myLobby->textBrowser_ChatDisplay->append(tr("Joined channel:") + " " + channel + " " + tr("as user") + " " + ownName + ".");
 	myLobby->textBrowser_ChatDisplay->append("");
 	myLobby->lineEdit_ChatInput->setEnabled(true);
@@ -92,8 +93,10 @@ void LobbyChat::playerChanged(QString oldNick, QString newNick)
 			tmpList.front()->setData(0, Qt::DisplayRole, "@" + newNick);
 	}
 
-	if (myNick == oldNick)
+	if (myNick == oldNick) {
 		myNick = newNick;
+		myChatTools->setMyNick(myNick);
+	}
 }
 
 void LobbyChat::playerKicked(QString nickName, QString byWhom, QString reason)
@@ -127,7 +130,7 @@ void LobbyChat::displayMessage(QString playerName, QString message) {
 	
 	myChatTools->receiveMessage(playerName, message);
 
-	if(message.contains(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()), Qt::CaseInsensitive) && myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
+	if(message.contains(myNick, Qt::CaseInsensitive) && myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
 		myLobby->getMyW()->getMySDLPlayer()->playSound("lobbychatnotify",0);
 	}
 }

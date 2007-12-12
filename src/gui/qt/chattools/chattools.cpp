@@ -25,7 +25,7 @@
 using namespace std;
 
 
-ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, int notifyMode, QTextBrowser *b, QTreeWidget *t) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL), myTextBrowser(b), myNotifyMode(notifyMode), myConfig(c)
+ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, int notifyMode, QTextBrowser *b, QTreeWidget *t) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL), myTextBrowser(b), myNotifyMode(notifyMode), myConfig(c), myNick("")
 {
 
 }
@@ -53,7 +53,12 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
 		message = message.replace(">","&gt;");
 
 		QString tempMsg;
-		if(message.contains(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()), Qt::CaseInsensitive)) {
+		QString nickString;
+
+		if(myNick == "") { nickString = QString::fromUtf8(myConfig->readConfigString("MyName").c_str()); }
+		else { nickString = myNick;  }
+
+		if(message.contains(nickString, Qt::CaseInsensitive)) {
 
 			switch (myNotifyMode) {
 				case 0: tempMsg = message;

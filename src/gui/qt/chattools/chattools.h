@@ -53,8 +53,11 @@ public slots:
 	void setChatTextEdited();
 
 	void setPlayerNicksList(QStringList value) { myNickStringList = value; }
+	void setMyNick ( const QString& theValue ) { myNick = theValue; }
+	
 
 private:
+
 	QStringList chatLinesHistory;
 	QString lastChatString;
 	QStringList lastMatchStringList;
@@ -68,6 +71,7 @@ private:
 	int myNotifyMode; // 0 == no notification, 1 == bold notification, 2 == yellow notification	
 	ConfigFile *myConfig;
 	
+	QString myNick;
 };
 
 #endif
