@@ -228,19 +228,19 @@ SOURCES += \
 		src/core/common/loghelper_client.cpp
 
 TRANSLATIONS = \
+		ts/pokerth_bg.ts \
 		ts/pokerth_de.ts \
 		ts/pokerth_es.ts \
 		ts/pokerth_fr.ts \
-		ts/pokerth_ru.ts \
-		ts/pokerth_no.ts \
-		ts/pokerth_sk.ts \
 		ts/pokerth_hu.ts \
+		ts/pokerth_it.ts \
+		ts/pokerth_nl.ts \
+		ts/pokerth_no.ts \
 		ts/pokerth_pl.ts \
 		ts/pokerth_ptbr.ts \
-		ts/pokerth_it.ts \
-		ts/pokerth_tr.ts \
-		ts/pokerth_sv.ts \
-		ts/pokerth_nl.ts \
+		ts/pokerth_ru.ts \
+		ts/pokerth_sk.ts \
+		ts/pokerth_tr.ts \		
 		ts/pokerth_START_HERE.ts
 
 win32{

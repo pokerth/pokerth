@@ -101,14 +101,14 @@
        <item row="4" column="0" >
         <widget class="QCheckBox" name="checkBox_showLeftToolbox" >
          <property name="text" >
-          <string>Show left toolbox (F10 to switch on/off)</string>
+          <string>Show left toolbox </string>
          </property>
         </widget>
        </item>
        <item row="5" column="0" >
         <widget class="QCheckBox" name="checkBox_showRightToolbox" >
          <property name="text" >
-          <string>Show right toolbox (F11 to switch on/off)</string>
+          <string>Show right toolbox</string>
          </property>
         </widget>
        </item>
