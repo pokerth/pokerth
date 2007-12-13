@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="sk">
+<defaultcodec></defaultcodec>
 <context>
     <name>Chat</name>
     <message>
-        <location filename="../src/gui/qt/mainwindow/chat/chat.cpp" line="56"/>
+        <location filename="" line="7471221"/>
         <source>You cannot kick yourself!</source>
         <translation>Nemôžete vykopnúť sám seba!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/chat/chat.cpp" line="63"/>
+        <location filename="" line="7471221"/>
         <source>You cannot kick any player - You are not game admin!</source>
         <translation>Nemôžete vykopnúť žiadneho hráča - Nie ste administrátorom!</translation>
     </message>
@@ -16,62 +17,62 @@
 <context>
     <name>LobbyChat</name>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="61"/>
+        <location filename="" line="7471221"/>
         <source>Successfully connected to</source>
         <translation>Úspešne pripojený k</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="68"/>
+        <location filename="" line="7471221"/>
         <source>Joined channel:</source>
         <translation>Pripojený ku kanálu:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="68"/>
+        <location filename="" line="7471221"/>
         <source>as user</source>
         <translation>ako používateľ</translation>
     </message>
     <message>
         <location filename="" line="7471221"/>
         <source>Network Notification</source>
-        <translation type="obsolete">Notifikácia zo siete</translation>
+        <translation>Notifikácia zo siete</translation>
     </message>
     <message>
         <location filename="" line="7471221"/>
         <source>You were kicked from the server.</source>
-        <translation type="obsolete">Boli ste vykopnutý zo serveru.</translation>
+        <translation>Boli ste vykopnutý zo serveru.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="109"/>
+        <location filename="" line="7471221"/>
         <source>was kicked from the server by</source>
         <translation>bol vykopnutý zo serveru užívateľom</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="148"/>
+        <location filename="" line="7471221"/>
         <source>Connecting to Chat server...</source>
         <translation>Pripájam sa na chatovací server...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="162"/>
+        <location filename="" line="7471221"/>
         <source>An internal IRC error has occured:</source>
         <translation>Nastala interná chyba IRC:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="165"/>
+        <location filename="" line="7471221"/>
         <source>Could not connect to the IRC server. Chat will be unavailable.</source>
         <translation>Nepodarilo sa pripojiť k IRC serveru. Chat bude nedostupný.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="168"/>
+        <location filename="" line="7471221"/>
         <source>The IRC server terminated the connection. Chat will be unavailable.</source>
         <translation>IRC server ukončil spojenie. Chat bude nedostupný.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="171"/>
+        <location filename="" line="7471221"/>
         <source>An IRC action timed out.</source>
         <translation>Pre IRC akciu vypršal časový limit.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="233"/>
+        <location filename="" line="7471221"/>
         <source>The IRC server reported an error:</source>
         <translation>IRC server ohlásil chybu:</translation>
     </message>
@@ -84,7 +85,7 @@
         <translation type="obsolete">O PokerTH 0.5</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="42"/>
+        <location filename="" line="7471221"/>
         <source>About</source>
         <translation>O</translation>
     </message>
@@ -118,12 +119,12 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="120"/>
+        <location filename="" line="7471221"/>
         <source>Project</source>
         <translation>Projekt</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="177"/>
+        <location filename="" line="7471221"/>
         <source>Translation</source>
         <translation>Preklad</translation>
     </message>
@@ -141,17 +142,17 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     jose1711@gmail.com&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="215"/>
+        <location filename="" line="7471221"/>
         <source>Thanks to</source>
         <translation>Poďakovanie</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="266"/>
+        <location filename="" line="7471221"/>
         <source>License</source>
         <translation>Licencia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="334"/>
+        <location filename="" line="7471221"/>
         <source>Close</source>
         <translation>Zavrieť</translation>
     </message>
@@ -189,7 +190,7 @@ p, li { white-space: pre-wrap; }
 © 2006-2007, FHammer, FThauer, LMay</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="106"/>
+        <location filename="" line="7471221"/>
         <source>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</source>
         <translation>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</translation>
     </message>
@@ -392,7 +393,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;PokerTH 0.6-beta&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="64"/>
+        <location filename="" line="7471221"/>
         <source>- Poker engine for the popular &quot;Texas Hold&apos;em&quot; Poker
 - Singleplayer games with up to 6 computer-opponents
 - Multiplayer network games
@@ -406,7 +407,7 @@ p, li { white-space: pre-wrap; }
 - Naprogramované v C++ / QT4</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="147"/>
+        <location filename="" line="7471221"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -449,7 +450,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - balíček pre MacOS&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="201"/>
+        <location filename="" line="7471221"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -460,7 +461,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jozef Říha - slovenčina - jose1711 zavinac gmail bodka com&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="239"/>
+        <location filename="" line="7471221"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -500,12 +501,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>aboutPokerthImpl</name>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="60"/>
+        <location filename="" line="7471221"/>
         <source>PokerTH %1</source>
         <translation>PokerTH %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="61"/>
+        <location filename="" line="7471221"/>
         <source>About PokerTH %1</source>
         <translation>O PokerTH %1</translation>
     </message>
@@ -513,77 +514,77 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>changeCompleteBlindsDialog</name>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="13"/>
+        <location filename="" line="7471221"/>
         <source>Change Blinds Settings</source>
         <translation>Zmeniť nastavenia stávky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="21"/>
+        <location filename="" line="7471221"/>
         <source>First small blind:</source>
         <translation>Prvá malá stávka:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="40"/>
+        <location filename="" line="7471221"/>
         <source>Raise blinds:</source>
         <translation>Zvyšovať stávky:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="85"/>
+        <location filename="" line="7471221"/>
         <source>Every:</source>
         <translation>Každých:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="78"/>
+        <location filename="" line="7471221"/>
         <source>hands</source>
         <translation>rozdaní</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="105"/>
+        <location filename="" line="7471221"/>
         <source>minutes</source>
         <translation>minút</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="121"/>
+        <location filename="" line="7471221"/>
         <source>Raise mode:</source>
         <translation>Režim zvyšovania:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="225"/>
+        <location filename="" line="7471221"/>
         <source>Always double blinds</source>
         <translation>Vždy zdvojnásobiť stávky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="153"/>
+        <location filename="" line="7471221"/>
         <source>Manual blinds order:</source>
         <translation>Manuálne stanovenie stávky:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="167"/>
+        <location filename="" line="7471221"/>
         <source>Delete</source>
         <translation>Vymazať</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="194"/>
+        <location filename="" line="7471221"/>
         <source>Add</source>
         <translation>Pridať</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="251"/>
+        <location filename="" line="7471221"/>
         <source>$</source>
         <translation>$</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="216"/>
+        <location filename="" line="7471221"/>
         <source>Afterwards:</source>
         <translation>Potom:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="237"/>
+        <location filename="" line="7471221"/>
         <source>Always raise by:</source>
         <translation>Vždy zvýšiť o:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="260"/>
+        <location filename="" line="7471221"/>
         <source>Keep last blind</source>
         <translation>Ponechať poslednú stávku</translation>
     </message>
@@ -591,12 +592,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>changeCompleteBlindsDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="51"/>
+        <location filename="" line="7471221"/>
         <source>Manual Blinds Order</source>
         <translation>Manuálne stanovenie stávky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="52"/>
+        <location filename="" line="7471221"/>
         <source>You cannot set more than 30 manual blinds.</source>
         <translation>Nemôžete nastaviť viac ako 30 manuálnych stávok.</translation>
     </message>
@@ -604,12 +605,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>changeHumanPlayerNameDialog</name>
     <message>
-        <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="13"/>
+        <location filename="" line="7471221"/>
         <source>Network Error</source>
         <translation>Chyba siete</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="43"/>
+        <location filename="" line="7471221"/>
         <source>Name:</source>
         <translation>Meno:</translation>
     </message>
@@ -617,17 +618,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>connectToServerDialog</name>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog.ui" line="13"/>
+        <location filename="" line="7471221"/>
         <source>Connect to Server</source>
         <translation>Pripojiť sa k serveru</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog.ui" line="25"/>
+        <location filename="" line="7471221"/>
         <source>Connecting to Server ...</source>
         <translation>Pripájam sa na server...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog.ui" line="66"/>
+        <location filename="" line="7471221"/>
         <source>Cancel</source>
         <translation>Zrušiť</translation>
     </message>
@@ -635,22 +636,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>connectToServerDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="46"/>
+        <location filename="" line="7471221"/>
         <source>Resolving address...</source>
         <translation>Resolvujem adresu...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="48"/>
+        <location filename="" line="7471221"/>
         <source>Connecting to server...</source>
         <translation>Pripájam sa na server...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="50"/>
+        <location filename="" line="7471221"/>
         <source>Starting session...</source>
         <translation>Spúšťam sedenie...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="52"/>
+        <location filename="" line="7471221"/>
         <source>Connection established!</source>
         <translation>Spojenie vytvorené!</translation>
     </message>
@@ -658,12 +659,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>createInternetGameDialog</name>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="245"/>
+        <location filename="" line="7471221"/>
         <source>Create Game</source>
         <translation>Vytvoriť hru</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="127"/>
+        <location filename="" line="7471221"/>
         <source>Game Speed for computer opponents:</source>
         <translation>Rýchlosť hry počítačových súperov:</translation>
     </message>
@@ -673,12 +674,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Časový limit pre hráčovu akciu (sek):</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="43"/>
+        <location filename="" line="7471221"/>
         <source>Maximum number of players:</source>
         <translation>Maximálny počet hráčov:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="66"/>
+        <location filename="" line="7471221"/>
         <source>Start Cash:</source>
         <translation>Úvodná hotovosť:</translation>
     </message>
@@ -688,52 +689,52 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Malá stávka naslepo:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="193"/>
+        <location filename="" line="7471221"/>
         <source>Password:</source>
         <translation>Heslo:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="252"/>
+        <location filename="" line="7471221"/>
         <source>Cancel</source>
         <translation>Zrušiť</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="13"/>
+        <location filename="" line="7471221"/>
         <source>Create Internet Game</source>
         <translation>Vytvoriť hru na internete</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="37"/>
+        <location filename="" line="7471221"/>
         <source>Internet Game Settings</source>
         <translation>Nastavenia hry na internete</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="98"/>
+        <location filename="" line="7471221"/>
         <source>Blinds</source>
         <translation>Stávky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="107"/>
+        <location filename="" line="7471221"/>
         <source>Use saved blinds settings</source>
         <translation>Použiť uložené nastavenie stávok</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="117"/>
+        <location filename="" line="7471221"/>
         <source>Change blinds settings ...</source>
         <translation>Zmeniť nastavenia stávok...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="79"/>
+        <location filename="" line="7471221"/>
         <source>$</source>
         <translation>$</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="150"/>
+        <location filename="" line="7471221"/>
         <source>Timeout for player action:</source>
         <translation>Časový limit pre hráčovu akciu:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="160"/>
+        <location filename="" line="7471221"/>
         <source> s</source>
         <translation> s</translation>
     </message>
@@ -741,12 +742,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>createNetworkGameDialog</name>
     <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="13"/>
+        <location filename="" line="7471221"/>
         <source>Create Network Game</source>
         <translation>Vytvoriť sieťovú hru</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="19"/>
+        <location filename="" line="7471221"/>
         <source>Network Game Settings</source>
         <translation>Nastavenia sieťovej hry</translation>
     </message>
@@ -756,12 +757,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Malá stávka naslepo:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="51"/>
+        <location filename="" line="7471221"/>
         <source>Start Cash:</source>
         <translation>Úvodná hotovosť:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="28"/>
+        <location filename="" line="7471221"/>
         <source>Maximum number of players:</source>
         <translation>Maximálny počet hráčov:</translation>
     </message>
@@ -776,47 +777,47 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Počet rozdaní pred zvýšením malej stávky naslepo:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="109"/>
+        <location filename="" line="7471221"/>
         <source>Game Speed for computer opponents:</source>
         <translation>Rýchlosť hry počítačových súperov:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="191"/>
+        <location filename="" line="7471221"/>
         <source>Create Game</source>
         <translation>Vytvoriť hru</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="198"/>
+        <location filename="" line="7471221"/>
         <source>Cancel</source>
         <translation>Zrušiť</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="80"/>
+        <location filename="" line="7471221"/>
         <source>Blinds</source>
         <translation>Stávky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="89"/>
+        <location filename="" line="7471221"/>
         <source>Use saved blinds settings</source>
         <translation>Použiť uložené nastavenia stávok</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="99"/>
+        <location filename="" line="7471221"/>
         <source>Change blinds settings ...</source>
         <translation>Zmeniť nastavenia stávok...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="64"/>
+        <location filename="" line="7471221"/>
         <source>$</source>
         <translation>$</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="132"/>
+        <location filename="" line="7471221"/>
         <source>Timeout for player action:</source>
         <translation>Časový limit pre hráčovu akciu:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="142"/>
+        <location filename="" line="7471221"/>
         <source> s</source>
         <translation> s</translation>
     </message>
@@ -824,37 +825,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>gameLobbyDialog</name>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="475"/>
+        <location filename="" line="7471221"/>
         <source>Lobby-Chat</source>
         <translation>Lobby-Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="86"/>
+        <location filename="" line="7471221"/>
         <source>Game</source>
         <translation>Hra</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="101"/>
+        <location filename="" line="7471221"/>
         <source>Private</source>
         <translation>Súkromný</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="130"/>
+        <location filename="" line="7471221"/>
         <source>Game Info</source>
         <translation>Info o hre</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="155"/>
+        <location filename="" line="7471221"/>
         <source>Connected Players</source>
         <translation>Pripojení hráči</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="163"/>
+        <location filename="" line="7471221"/>
         <source>Fill up with computer opponents</source>
         <translation>Vyplniť počitačovými súpermi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="188"/>
+        <location filename="" line="7471221"/>
         <source>Start Game</source>
         <translation>Spustiť hru</translation>
     </message>
@@ -884,82 +885,82 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Časový limit pre hráčovu akciu (sek):</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="391"/>
+        <location filename="" line="7471221"/>
         <source>Leave Game</source>
         <translation>Opustiť hru</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="459"/>
+        <location filename="" line="7471221"/>
         <source>Create Game</source>
         <translation>Vytvoriť hru</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="466"/>
+        <location filename="" line="7471221"/>
         <source>Join Game</source>
         <translation>Pridať sa k hre</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="65"/>
+        <location filename="" line="7471221"/>
         <source>Available Players</source>
         <translation>Dostupní hráči</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="91"/>
+        <location filename="" line="7471221"/>
         <source>Players</source>
         <translation>Hráči</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="195"/>
+        <location filename="" line="7471221"/>
         <source>Kick Player</source>
         <translation>Vykopnúť hráča</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="96"/>
+        <location filename="" line="7471221"/>
         <source>State</source>
         <translation>Stav</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="206"/>
+        <location filename="" line="7471221"/>
         <source>Maximum number of players: </source>
         <translation>Maximálny počet hráčov: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="224"/>
+        <location filename="" line="7471221"/>
         <source>Start Cash: </source>
         <translation>Úvodná hotovosť: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="242"/>
+        <location filename="" line="7471221"/>
         <source>First small blind: </source>
         <translation>Prvá stávka: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="281"/>
+        <location filename="" line="7471221"/>
         <source>Blinds raise mode: </source>
         <translation>Režim zvyšovania stávok: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="308"/>
+        <location filename="" line="7471221"/>
         <source>Manual blinds list:</source>
         <translation>Ručný zoznam stávok: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="335"/>
+        <location filename="" line="7471221"/>
         <source>Timeout for player action (sec): </source>
         <translation>Čas pre hráčovu akciu (sek): </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="25"/>
+        <location filename="" line="7471221"/>
         <source>Internet Game Lobby</source>
         <translation>Internetové hracie lobby</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="260"/>
+        <location filename="" line="7471221"/>
         <source>Blinds raise interval: </source>
         <translation>Interval zvyšovania stávok: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="420"/>
+        <location filename="" line="7471221"/>
         <source>Join any game</source>
         <translation>Pridať sa k ľubovoľnej hre</translation>
     </message>
@@ -972,87 +973,87 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">hra</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="664"/>
+        <location filename="" line="7471221"/>
         <source>Game Info</source>
         <translation>Info o hre</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="742"/>
+        <location filename="" line="7471221"/>
         <source>Server Error</source>
         <translation>Chyba servera</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="743"/>
+        <location filename="" line="7471221"/>
         <source>You should not kick yourself from this game!</source>
         <translation>Nemali by ste z tejto hry vykopnúť sám seba!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="174"/>
+        <location filename="" line="7471221"/>
         <source>Joining a private Game</source>
         <translation>Pripájam sa k súkromnej hre</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="175"/>
+        <location filename="" line="7471221"/>
         <source>You are about to join a private game. Please enter the password!</source>
         <translation>Chcete sa pripojiť k súkromnej hre. Prosím zadajte heslo!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="332"/>
+        <location filename="" line="7471221"/>
         <source>running</source>
         <translation>spúšťam</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="833"/>
+        <location filename="" line="7471221"/>
         <source>open</source>
         <translation>otvorená</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="694"/>
+        <location filename="" line="7471221"/>
         <source>hands</source>
         <translation>rozdania</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="695"/>
+        <location filename="" line="7471221"/>
         <source>minutes</source>
         <translation>minúty</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="697"/>
+        <location filename="" line="7471221"/>
         <source>double blinds</source>
         <translation>dvojité stávky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="702"/>
+        <location filename="" line="7471221"/>
         <source>manual blinds order</source>
         <translation>ručné stanovenie stávok</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="36"/>
+        <location filename="" line="7471221"/>
         <source>Starting game. Please wait ...</source>
         <translation>Spúšťam hru. Prosím čakajte...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="454"/>
+        <location filename="" line="7471221"/>
         <source>running games: %1</source>
         <translation>spustené hry: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="455"/>
+        <location filename="" line="7471221"/>
         <source>open games: %1</source>
         <translation>otvorené hry: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="452"/>
+        <location filename="" line="7471221"/>
         <source>players in chat: %1</source>
         <translation>hráči na chate: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="453"/>
+        <location filename="" line="7471221"/>
         <source>connected players: %1</source>
         <translation>pripojení hráči: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="145"/>
+        <location filename="" line="7471221"/>
         <source>%1&apos;s game</source>
         <translation>%1ova hra</translation>
     </message>
@@ -1060,57 +1061,57 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>joinNetworkGameDialog</name>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="13"/>
+        <location filename="" line="7471221"/>
         <source>Join Network Game</source>
         <translation>Pridať sa k sieťovej hre</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="37"/>
+        <location filename="" line="7471221"/>
         <source>Connect to Network Game</source>
         <translation>Pripojiť sa k sieťovej hre</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="61"/>
+        <location filename="" line="7471221"/>
         <source>Server Profiles</source>
         <translation>Profily serveru</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="104"/>
+        <location filename="" line="7471221"/>
         <source>Name</source>
         <translation>Názov</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="109"/>
+        <location filename="" line="7471221"/>
         <source>Address</source>
         <translation>Adresa</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="114"/>
+        <location filename="" line="7471221"/>
         <source>Port</source>
         <translation>Port</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="119"/>
+        <location filename="" line="7471221"/>
         <source>IPv6</source>
         <translation>IPv6</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="124"/>
+        <location filename="" line="7471221"/>
         <source>SCTP</source>
         <translation>SCTP</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="149"/>
+        <location filename="" line="7471221"/>
         <source>Save</source>
         <translation>Uložiť</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="156"/>
+        <location filename="" line="7471221"/>
         <source>Delete</source>
         <translation>Vymazať</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="185"/>
+        <location filename="" line="7471221"/>
         <source>Use SCTP</source>
         <translation>Používať SCTP</translation>
     </message>
@@ -1126,7 +1127,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Čo to je?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="237"/>
+        <location filename="" line="7471221"/>
         <source>Use IPv6</source>
         <translation>Používať IPv6</translation>
     </message>
@@ -1142,42 +1143,42 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;   &lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Čo to je?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="301"/>
+        <location filename="" line="7471221"/>
         <source>Password (optional):</source>
         <translation>Heslo (voliteľné):</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="324"/>
+        <location filename="" line="7471221"/>
         <source>Port:</source>
         <translation>Port:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="334"/>
+        <location filename="" line="7471221"/>
         <source>IP Address / Domain Name:</source>
         <translation>IP adresa/meno domény:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="344"/>
+        <location filename="" line="7471221"/>
         <source>Profile Name:</source>
         <translation>Názov profilu:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="354"/>
+        <location filename="" line="7471221"/>
         <source>myServerProfile1</source>
         <translation>myServerProfile1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="400"/>
+        <location filename="" line="7471221"/>
         <source>Connect</source>
         <translation>Pripojiť</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="407"/>
+        <location filename="" line="7471221"/>
         <source>Close</source>
         <translation>Zavrieť</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="192"/>
+        <location filename="" line="7471221"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -1188,7 +1189,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Čo to je?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="244"/>
+        <location filename="" line="7471221"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -1202,19 +1203,19 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>joinNetworkGameDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="258"/>
+        <location filename="" line="7471221"/>
         <source>Load Server-Profile-File Error</source>
         <translation>Chyba pri načítaní súboru s profilom servera</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="259"/>
+        <location filename="" line="7471221"/>
         <source>Could not load server-profiles-file:
 </source>
         <translation>Nepodarilo sa prečítať súbor s profilom servera:
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="202"/>
+        <location filename="" line="7471221"/>
         <source>Save Server Profile Error</source>
         <translation>Chyba pri ukladaní súboru s profilom servera</translation>
     </message>
@@ -1224,29 +1225,29 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Profil s názvom: &quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="243"/>
+        <location filename="" line="7471221"/>
         <source>Read Server-Profile List Error</source>
         <translation>Chyba pri načítaní zoznamu profilov servera</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="244"/>
+        <location filename="" line="7471221"/>
         <source>Could not read server-profiles list</source>
         <translation>Nepodarilo sa prečítať zoznam s profilmi servera</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="269"/>
+        <location filename="" line="7471221"/>
         <source>Save Server-Profile-File Error</source>
         <translation>Chyba pri ukladaní súboru s profilom servera</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="270"/>
+        <location filename="" line="7471221"/>
         <source>Could not save server-profiles-file:
 </source>
         <translation>Nepodarilo sa uložiť súbor s profilom servera:
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="203"/>
+        <location filename="" line="7471221"/>
         <source>A profile with the name: %1 already exists.
 Would you like to overwrite ?</source>
         <translation>Profil s názvom: %1 už existuje.
@@ -1271,22 +1272,22 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">QGroupBox { background-image: url(:/graphics/resources/graphics/toolboxFrameBG.png) }</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="1999"/>
+        <location filename="" line="7471221"/>
         <source>Hands</source>
         <translation>Rozdania</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2031"/>
+        <location filename="" line="7471221"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2820"/>
+        <location filename="" line="7471221"/>
         <source>Log</source>
         <translation>Záznam</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2995"/>
+        <location filename="" line="7471221"/>
         <source>Speed:</source>
         <translation>Rýchlosť:</translation>
     </message>
@@ -1296,57 +1297,57 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">Zastaviť</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3227"/>
+        <location filename="" line="7471221"/>
         <source>View</source>
         <translation>Pohľad</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3237"/>
+        <location filename="" line="7471221"/>
         <source>Game</source>
         <translation>Hra</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3259"/>
+        <location filename="" line="7471221"/>
         <source>Start Local Game ...</source>
         <translation>Spustiť lokálnu hru...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3262"/>
+        <location filename="" line="7471221"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3267"/>
+        <location filename="" line="7471221"/>
         <source>Quit</source>
         <translation>Ukončiť</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3270"/>
+        <location filename="" line="7471221"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3275"/>
+        <location filename="" line="7471221"/>
         <source>About PokerTH ...</source>
         <translation>O PokerTH...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3280"/>
+        <location filename="" line="7471221"/>
         <source>Settings ...</source>
         <translation>Nastavenia...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3285"/>
+        <location filename="" line="7471221"/>
         <source>Create Network Game ...</source>
         <translation>Vytvoriť sieťovú hru...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3293"/>
+        <location filename="" line="7471221"/>
         <source>Join Network Game ...</source>
         <translation>Pripojiť sa k sieťovej hre...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3301"/>
+        <location filename="" line="7471221"/>
         <source>Fullscreen</source>
         <translation>Celá obrazovka</translation>
     </message>
@@ -1356,7 +1357,7 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">⌘F</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3309"/>
+        <location filename="" line="7471221"/>
         <source>Show/Hide Chat Window</source>
         <translation>Zobraziť/skryť okno chatu</translation>
     </message>
@@ -1371,7 +1372,7 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">⌘H</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3331"/>
+        <location filename="" line="7471221"/>
         <source>Show/Hide Log Window</source>
         <translation>Zobraziť/skryť okno s logmi</translation>
     </message>
@@ -1381,37 +1382,37 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">⌘L</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3323"/>
+        <location filename="" line="7471221"/>
         <source>Show/Hide Hands Window</source>
         <translation>Zobraziť/skryť okno rozdaní</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3288"/>
+        <location filename="" line="7471221"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3296"/>
+        <location filename="" line="7471221"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3304"/>
+        <location filename="" line="7471221"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3312"/>
+        <location filename="" line="7471221"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3326"/>
+        <location filename="" line="7471221"/>
         <source>Ctrl+H</source>
         <translation>Ctrl+H</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3334"/>
+        <location filename="" line="7471221"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
@@ -1421,17 +1422,17 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">PokerTH 0.6 - Open-Source Texas Holdem Engine</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3241"/>
+        <location filename="" line="7471221"/>
         <source>Network Game</source>
         <translation>Sieťová hra</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3339"/>
+        <location filename="" line="7471221"/>
         <source>Internet Game ...</source>
         <translation>Internetová hra...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3342"/>
+        <location filename="" line="7471221"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
@@ -1441,37 +1442,37 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">Vsadiť všetko</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2858"/>
+        <location filename="" line="7471221"/>
         <source>Away</source>
         <translation>Preč</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2867"/>
+        <location filename="" line="7471221"/>
         <source>Manual Action (default)</source>
         <translation>Manuálna akcia (východzie)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2880"/>
+        <location filename="" line="7471221"/>
         <source>Auto-Check / Auto-Fold</source>
         <translation>Auto-Ok / Auto-Zložiť</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="2890"/>
+        <location filename="" line="7471221"/>
         <source>Auto-Check / Auto-Call-Any</source>
         <translation>Auto-Ok / Auto-Dorovnať-čokoľvek</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="25"/>
+        <location filename="" line="7471221"/>
         <source>PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</source>
         <translation>PokerTH 0.6-beta - Open-source Engine pre Texas Holdem</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3347"/>
+        <location filename="" line="7471221"/>
         <source>Show/Hide Away Window</source>
         <translation>Zobraziť/skryť okno neprítomnosti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow.ui" line="3350"/>
+        <location filename="" line="7471221"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
@@ -1479,17 +1480,17 @@ Prajete si ho prepísať?</translation>
 <context>
     <name>mainWindowImpl</name>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3534"/>
+        <location filename="" line="7471221"/>
         <source>Stop</source>
         <translation>Zastaviť</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="463"/>
+        <location filename="" line="7471221"/>
         <source>Cmd+N to start a new game</source>
         <translation>Cmd+N pre spustenie novej hry</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="465"/>
+        <location filename="" line="7471221"/>
         <source>Ctrl+N to start a new game</source>
         <translation>Ctrl+N pre spustenie novej hry</translation>
     </message>
@@ -1499,67 +1500,67 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">F1 - Zložiť karty/Vsadiť všetko | F2 - Zdržať sa/Dorovnať | F3 - Stávka/Zvýšiť</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3019"/>
+        <location filename="" line="7471221"/>
         <source>Start</source>
         <translation>Štart</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3248"/>
+        <location filename="" line="7471221"/>
         <source>Network Error</source>
         <translation>Chyba siete</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3061"/>
+        <location filename="" line="7471221"/>
         <source>Server address was not set.</source>
         <translation>Adresa servera nebola nastavená.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3066"/>
+        <location filename="" line="7471221"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
         <translation>Bol nastavený neplatný port (nie sú povolené porty 0-1023).</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3071"/>
+        <location filename="" line="7471221"/>
         <source>Could not create a socket for TCP communication.</source>
         <translation>Nepodarilo sa vytvoriť socket pre komunikáciu TCP.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3076"/>
+        <location filename="" line="7471221"/>
         <source>Could not set the IP address.</source>
         <translation>Nepodarilo sa nastaviť IP adresu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3081"/>
+        <location filename="" line="7471221"/>
         <source>Could not set the port for this type of address.</source>
         <translation>Nepodarilo sa nastaviť port pre tento typ adresy.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3086"/>
+        <location filename="" line="7471221"/>
         <source>The server name could not be resolved.</source>
         <translation>Meno servera sa nepodarilo resolvnúť.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3091"/>
+        <location filename="" line="7471221"/>
         <source>Bind failed - please choose a different port.</source>
         <translation>Bind zlyhal - prosím, vyberte iný port.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3096"/>
+        <location filename="" line="7471221"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
         <translation>Interná chyba siete: &quot;listen&quot; zlyhalo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3101"/>
+        <location filename="" line="7471221"/>
         <source>Server execution was terminated.</source>
         <translation>Spustenie servera bolo zrušené.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3106"/>
+        <location filename="" line="7471221"/>
         <source>Could not connect to the server.</source>
         <translation>Nepodarilo sa pripojiť k serveru.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3111"/>
+        <location filename="" line="7471221"/>
         <source>Connection timed out.
 Please check the server address.
 
@@ -1570,34 +1571,34 @@ Prosím, skontrolujte adresu serveru.
 Ak je server za NAT routrom, ubezpečte sa, že je na strane servera zapnuté presmerovanie portov (port forwarding).</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3116"/>
+        <location filename="" line="7471221"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
         <translation>Interná chyba siete: &quot;select&quot; zlyhalo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3121"/>
+        <location filename="" line="7471221"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
         <translation>Interná chyba siete: &quot;send&quot; zlyhalo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3127"/>
+        <location filename="" line="7471221"/>
         <source>Connection was closed by the server.</source>
         <translation>Spojenie bolo uzatvorené serverom.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3132"/>
+        <location filename="" line="7471221"/>
         <source>Internal network error: Duplicate TCP connection.</source>
         <translation>Interná chyba siete: Duplikované TCP spojenie.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3137"/>
+        <location filename="" line="7471221"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Bol prijatý neplatný sieťový paket.
 Prosím, uistite sa, že všetci hráči používajú rovnakú verziu PokerTH.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3142"/>
+        <location filename="" line="7471221"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Chyba interného stavu.
@@ -1611,29 +1612,29 @@ Please update PokerTH.</source>
 Prosím, aktualizujte PokerTH.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3155"/>
+        <location filename="" line="7471221"/>
         <source>Sorry, this server is already full.</source>
         <translation>Ľutujem, tento server je už plný.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3276"/>
+        <location filename="" line="7471221"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Nepodarilo sa pripojiť k hre - na serveri už začala hra.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3281"/>
+        <location filename="" line="7471221"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Neplatné heslo pri pripájaní sa k hre.
 Prosím, skúste to znovu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3165"/>
+        <location filename="" line="7471221"/>
         <source>The password is too long. Please choose another one.</source>
         <translation>Heslo je príliš dlhé. Prosím, zvoľte si iné heslo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3169"/>
+        <location filename="" line="7471221"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
         <translation>Vaše meno hráča už používa niekto iný.
@@ -1645,104 +1646,104 @@ Prosím, vyberte si iné meno.</translation>
         <translation type="obsolete">Meno hráča je buď príliš krátke alebo príliš dlhé. Prosím, vyberte si iné.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3193"/>
+        <location filename="" line="7471221"/>
         <source>The server referred to an unknown player. Aborting.</source>
         <translation>Server sa odvolal na neznámeho hráča. Ukončujem.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3209"/>
+        <location filename="" line="7471221"/>
         <source>You were kicked from the server.</source>
         <translation>Boli ste vykopnutý zo serveru.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3214"/>
+        <location filename="" line="7471221"/>
         <source>The client player count is invalid.</source>
         <translation>Počet hráčov klienta je neplatný.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3249"/>
+        <location filename="" line="7471221"/>
         <source>An internal error occured.</source>
         <translation>Nastala interná chyba.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3178"/>
+        <location filename="" line="7471221"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
         <translation>Názov hry je buď príliš krátky alebo príliš dlhý. Prosím zvoľte iný názov.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3183"/>
+        <location filename="" line="7471221"/>
         <source>The game could not be found.</source>
         <translation>Hru sa nepodarilo nájsť.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3188"/>
+        <location filename="" line="7471221"/>
         <source>The chat text is invalid.</source>
         <translation>Text chatu je neplatný.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3293"/>
+        <location filename="" line="7471221"/>
         <source>Network Notification</source>
         <translation>Sieťová notifikácia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3264"/>
+        <location filename="" line="7471221"/>
         <source>You were kicked from the game.</source>
         <translation>Boli ste vykopnutý z hry.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3270"/>
+        <location filename="" line="7471221"/>
         <source>Sorry, this game is already full.</source>
         <translation>Ľutujem, táto hra je už plná.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3547"/>
+        <location filename="" line="7471221"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3389"/>
+        <location filename="" line="7471221"/>
         <source>Manual mode set. You&apos;ve got to choose yourself now.</source>
         <translation>Nastavený manuálny režim. Teraz si musíte vybrať sám.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3391"/>
+        <location filename="" line="7471221"/>
         <source>Auto mode set: Check or call any.</source>
         <translation>Nastavený automatický režim: ísť ďalej alebo ľubovoľne zvýšiť.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3393"/>
+        <location filename="" line="7471221"/>
         <source>Auto mode set: Check or fold.</source>
         <translation>Nastavený automatický režim: ísť ďalej alebo zložiť.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="914"/>
+        <location filename="" line="7471221"/>
         <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
 Please choose another one.</source>
         <translation>Nemôžete sa pripojiť k internetovej hre lobby s prezývkou &quot;Human Player&quot;.
 Prosím vyberte si inú prezývku.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3198"/>
+        <location filename="" line="7471221"/>
         <source>Internal error: The current player could not be found.</source>
         <translation>Interná chyba: Nepodarilo sa nájsť aktuálneho hráča.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3203"/>
+        <location filename="" line="7471221"/>
         <source>Internal error: The current player is not active.</source>
         <translation>Interná chyba: Aktuálny hráč nie je aktívny.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3219"/>
+        <location filename="" line="7471221"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
         <translation>Bolo nastavených priliš veľa manuálnych stávok. Prosím upravte nastavenia manuálnych stávok.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3225"/>
+        <location filename="" line="7471221"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
         <translation>Bol nastavený neplatný súbor s avatarom. Prosím vyberte iného avatara.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3230"/>
+        <location filename="" line="7471221"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
         <translation>Vybraný súbor s avatarom je príliš veľký. Prosím vyberte iného avatara.</translation>
     </message>
@@ -1752,17 +1753,17 @@ Prosím vyberte si inú prezývku.</translation>
         <translation type="obsolete">Server si vypýtal neexistujúceho avatara.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3240"/>
+        <location filename="" line="7471221"/>
         <source>Could not start game: Synchronization failed.</source>
         <translation>Nepodarilo sa spustiť hru: Zlyhala synchronizácia.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1971"/>
+        <location filename="" line="7471221"/>
         <source>F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In</source>
         <translation>F1 - Zložiť | F2 - Ok/Dorovnať | F3 - Staviť/Zvýšiť | F4 - Vsadiť všetko</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1973"/>
+        <location filename="" line="7471221"/>
         <source>F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold</source>
         <translation>F1 - Vsadiť všetko | F2 - Staviť/Zvýšiť | F3 - Ok/Dorovnať | F4 - Dorovnať</translation>
     </message>
@@ -1774,12 +1775,12 @@ Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&
 Prosím navštívte &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; a stiahnite najnovšiu verziu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3173"/>
+        <location filename="" line="7471221"/>
         <source>The player name is too short, too long or invalid. Please choose another one.</source>
         <translation>Meno hráča je príliš krátke, príliš dlhé alebo neplatné. Prosím vyberte iné.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3245"/>
+        <location filename="" line="7471221"/>
         <source>The server is down for maintenance. Please try again later.</source>
         <translation>Server je mimo prevádzky kvôli údržbe. Prosím skúste to neskôr.</translation>
     </message>
@@ -1798,52 +1799,52 @@ Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&
 Prosím navštívte &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; a stiahnite najnovšiu verziu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3674"/>
+        <location filename="" line="7471221"/>
         <source>Closing PokerTH during network game</source>
         <translation>Zatváram PokerTH počas sieťovej hry</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3675"/>
+        <location filename="" line="7471221"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
         <translation>Vy ste hosťujúci server. Chcete ukončiť PokerTH i napriek tomu?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3147"/>
+        <location filename="" line="7471221"/>
         <source>The PokerTH server does not support this version of the game.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>PokerTH server nepodporuje túto verziu hry.&lt;br&gt;Prosím navštívte &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; a stiahnite najnovšiu verziu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3286"/>
+        <location filename="" line="7471221"/>
         <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>Je dostupné nové vydanie PokerTH.&lt;br&gt;Prosím navštívte &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; a stiahnite si najnovšiu verziu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3294"/>
+        <location filename="" line="7471221"/>
         <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>Táto betaverzia PokerTH je zastaralá.&lt;br&gt;Prosím navštívte &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; a stiahnite si najnovšiu verziu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="490"/>
+        <location filename="" line="7471221"/>
         <source>PokerTH %1 - The Open-Source Texas Holdem Engine</source>
         <translation>PokerTH %1 - Open-Source Texas Holdem Engine</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3556"/>
+        <location filename="" line="7471221"/>
         <source>Lobby</source>
         <translation>Lobby</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3235"/>
+        <location filename="" line="7471221"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
         <translation>Došlo k internej chybe avatara. Prosím nahláste ju adminovi v lobby chate.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3756"/>
+        <location filename="" line="7471221"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - Správa hry na internete</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3758"/>
+        <location filename="" line="7471221"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>Upozornenie! Určite chcete opustiť momentálnu hru
@@ -1853,42 +1854,42 @@ a vrátiť sa späť do lobby?</translation>
 <context>
     <name>manualBlindsOrderDialog</name>
     <message>
-        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="13"/>
+        <location filename="" line="7471221"/>
         <source>Manual Blinds Order</source>
         <translation>Manuálne stanovenie stávok</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="27"/>
+        <location filename="" line="7471221"/>
         <source>Delete</source>
         <translation>Vymazať</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="60"/>
+        <location filename="" line="7471221"/>
         <source>Add</source>
         <translation>Pridať</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="81"/>
+        <location filename="" line="7471221"/>
         <source>Always double blinds</source>
         <translation>Vždy dvojité stávky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="100"/>
+        <location filename="" line="7471221"/>
         <source>$</source>
         <translation>$</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="69"/>
+        <location filename="" line="7471221"/>
         <source>Afterwards:</source>
         <translation>Potom:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="93"/>
+        <location filename="" line="7471221"/>
         <source>Always raise by:</source>
         <translation>Vždy zvyšovať o:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="118"/>
+        <location filename="" line="7471221"/>
         <source>Keep last blind</source>
         <translation>Ponechať poslednú stávku</translation>
     </message>
@@ -1896,12 +1897,12 @@ a vrátiť sa späť do lobby?</translation>
 <context>
     <name>manualBlindsOrderDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="49"/>
+        <location filename="" line="7471221"/>
         <source>Manual Blinds Order</source>
         <translation>Manuálne stanovenie stávok</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="50"/>
+        <location filename="" line="7471221"/>
         <source>You cannot set more than 30 manual blinds.</source>
         <translation>Nemôžete nastaviť viac ako 30 manuálnych stávok.</translation>
     </message>
@@ -1909,17 +1910,17 @@ a vrátiť sa späť do lobby?</translation>
 <context>
     <name>myMessageDialog</name>
     <message>
-        <location filename="../src/gui/qt/mymessagedialog.ui" line="13"/>
+        <location filename="" line="7471221"/>
         <source>Dialog</source>
         <translation>Dialóg</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mymessagedialog.ui" line="34"/>
+        <location filename="" line="7471221"/>
         <source>MessageText</source>
         <translation>TextSprávy</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/mymessagedialog.ui" line="57"/>
+        <location filename="" line="7471221"/>
         <source>Do not show this warning again.</source>
         <translation>Toto varovanie už ďalej nezobrazovať.</translation>
     </message>
@@ -1927,27 +1928,27 @@ a vrátiť sa späť do lobby?</translation>
 <context>
     <name>newGameDialog</name>
     <message>
-        <location filename="../src/gui/qt/newgamedialog.ui" line="13"/>
+        <location filename="" line="7471221"/>
         <source>Start Local Game</source>
         <translation>Spustiť lokálnu hru</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/newgamedialog.ui" line="19"/>
+        <location filename="" line="7471221"/>
         <source>Local Game Settings</source>
         <translation>Nastavenia lokálnej hry</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/newgamedialog.ui" line="106"/>
+        <location filename="" line="7471221"/>
         <source>Game Speed:</source>
         <translation>Rýchlosť hry:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/newgamedialog.ui" line="25"/>
+        <location filename="" line="7471221"/>
         <source>Number of players:</source>
         <translation>Počet hráčov:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/newgamedialog.ui" line="48"/>
+        <location filename="" line="7471221"/>
         <source>Start Cash:</source>
         <translation>Úvodná hotovosť:</translation>
     </message>
@@ -1962,22 +1963,22 @@ a vrátiť sa späť do lobby?</translation>
         <translation type="obsolete">Počet rozdaní pred zvýšením malej stávky naslepo:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/newgamedialog.ui" line="77"/>
+        <location filename="" line="7471221"/>
         <source>Blinds</source>
         <translation>Stávky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/newgamedialog.ui" line="86"/>
+        <location filename="" line="7471221"/>
         <source>Use saved blinds settings</source>
         <translation>Použiť uložené nastavenia stávok</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/newgamedialog.ui" line="96"/>
+        <location filename="" line="7471221"/>
         <source>Change blinds settings ...</source>
         <translation>Zmeniť nastavenia stávok...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/newgamedialog.ui" line="58"/>
+        <location filename="" line="7471221"/>
         <source>$</source>
         <translation>$</translation>
     </message>
@@ -1985,27 +1986,27 @@ a vrátiť sa späť do lobby?</translation>
 <context>
     <name>selectAvatarDialog</name>
     <message>
-        <location filename="../src/gui/qt/selectavatardialog.ui" line="31"/>
+        <location filename="" line="7471221"/>
         <source>Please select an avatar</source>
         <translation>Prosím, vyberte si avatara</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/selectavatardialog.ui" line="37"/>
+        <location filename="" line="7471221"/>
         <source>Select an avatar</source>
         <translation>Vybrať avatara</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/selectavatardialog.ui" line="69"/>
+        <location filename="" line="7471221"/>
         <source>Load avatar from external file</source>
         <translation>Načítať avatara z externého súboru</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/selectavatardialog.ui" line="50"/>
+        <location filename="" line="7471221"/>
         <source>People</source>
         <translation>Ľudia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/selectavatardialog.ui" line="55"/>
+        <location filename="" line="7471221"/>
         <source>Miscellaneous</source>
         <translation>Rozličné</translation>
     </message>
@@ -2013,12 +2014,12 @@ a vrátiť sa späť do lobby?</translation>
 <context>
     <name>selectAvatarDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="252"/>
+        <location filename="" line="7471221"/>
         <source>Avatar File Error</source>
         <translation>Chyba súboru s avatarom</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="229"/>
+        <location filename="" line="7471221"/>
         <source>Please select an avatar from the list!</source>
         <translation>Prosím, vyberte si avatara zo zoznamu!</translation>
     </message>
@@ -2030,7 +2031,7 @@ Please enter an valid picture!</source>
 Prosím, zadajte platný obrázok!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="270"/>
+        <location filename="" line="7471221"/>
         <source>Select external avatar picture</source>
         <translation>Vyberte externý obrázok avatara</translation>
     </message>
@@ -2040,19 +2041,19 @@ Prosím, zadajte platný obrázok!</translation>
         <translation type="obsolete">Obrázky (*.png)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="245"/>
+        <location filename="" line="7471221"/>
         <source>The file size of the chosen picture is too big. (max. 30KB)
 Please choose a smaller picture!</source>
         <translation>Veľkosť súboru vybraného obrázku je príliš veľká. (max. 30KB)
 Prosím vyberte menší obrázok!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="270"/>
+        <location filename="" line="7471221"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Obrázky (*.png *.jpg *.gif)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="254"/>
+        <location filename="" line="7471221"/>
         <source>The entered avatar picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>Zadaný obrázok s avatarom neexistuje.
@@ -2062,37 +2063,37 @@ Prosím zadajte platný obrázok!</translation>
 <context>
     <name>settingsDialog</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="19"/>
+        <location filename="" line="7471221"/>
         <source>Settings</source>
         <translation>Nastavenia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="331"/>
+        <location filename="" line="7471221"/>
         <source>Play sound effects</source>
         <translation>Prehrávať zvukové efekty</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="360"/>
+        <location filename="" line="7471221"/>
         <source>Sound Volume:</source>
         <translation>Hlasitosť zvuku:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="373"/>
+        <location filename="" line="7471221"/>
         <source>10</source>
         <translation>10</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="132"/>
+        <location filename="" line="7471221"/>
         <source>Show flip-card animation</source>
         <translation>Ukazovať animáciu otáčania kariet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="176"/>
+        <location filename="" line="7471221"/>
         <source>Flipside of Cards</source>
         <translation>Ruby kariet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="234"/>
+        <location filename="" line="7471221"/>
         <source>Own flipside picture:</source>
         <translation>Vlastný obrázok na rube kariet:</translation>
     </message>
@@ -2108,47 +2109,47 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Poznámka: Najlepšiu kvalitu dosiahnte pri veľkosti obrázka &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;šírka=100, výška=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="284"/>
+        <location filename="" line="7471221"/>
         <source>Default</source>
         <translation>Implicitný</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="139"/>
+        <location filename="" line="7471221"/>
         <source>Show buttons for small blind and big blind</source>
         <translation>Zobrazovať tlačidlá pre malú a veľkú stávku</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="125"/>
+        <location filename="" line="7471221"/>
         <source>Show fade-out animation for non-winning cards</source>
         <translation>Animácia stmavenia nevýherných kariet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="118"/>
+        <location filename="" line="7471221"/>
         <source>Show statusbar messages</source>
         <translation>Zobrazovať správy v stavovom riadku</translation>
     </message>
     <message>
         <location filename="" line="7471221"/>
-        <source>Show left toolbox (F10 to switch on/off)</source>
-        <translation type="obsolete">Zobrazovať ľavú nástrojovú lištu</translation>
+        <source>Show left toolbox</source>
+        <translation>Zobrazovať ľavú nástrojovú lištu</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3071"/>
+        <location filename="" line="7471221"/>
         <source>Interface</source>
         <translation>Interface</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="97"/>
+        <location filename="" line="7471221"/>
         <source>Show intro on startup</source>
         <translation>Zobrazovať na začiatku intro</translation>
     </message>
     <message>
         <location filename="" line="7471221"/>
-        <source>Show right toolbox (F11 to switch on/off)</source>
-        <translation type="obsolete">Zobrazovať pravú nástrojovú lištu</translation>
+        <source>Show right toolbox</source>
+        <translation>Zobrazovať pravú nástrojovú lištu</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="723"/>
+        <location filename="" line="7471221"/>
         <source>Show game settings dialog on every new game</source>
         <translation>Zobrazovať dialógové okno s nastaveniami pred každou novou hrou</translation>
     </message>
@@ -2158,7 +2159,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Počet rozdaní pred zvýšením malej stávky naslepo:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="470"/>
+        <location filename="" line="7471221"/>
         <source>Number of players:</source>
         <translation>Počet hráčov:</translation>
     </message>
@@ -2173,17 +2174,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Malá stávka naslepo:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="691"/>
+        <location filename="" line="7471221"/>
         <source>Game Speed:</source>
         <translation>Rýchlosť hry:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="793"/>
+        <location filename="" line="7471221"/>
         <source>Start Cash:</source>
         <translation>Úvodná hotovosť:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="716"/>
+        <location filename="" line="7471221"/>
         <source>Pause between hands (press &quot;start&quot; button to go on)</source>
         <translation>Prestávka medzi rozdaniami (stlačte tlačidlo &quot;start&quot; pre pokračovanie)</translation>
     </message>
@@ -2203,32 +2204,32 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Nastavenia servera</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1308"/>
+        <location filename="" line="7471221"/>
         <source>Server Password:</source>
         <translation>Heslo servera:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1393"/>
+        <location filename="" line="7471221"/>
         <source>Server Port:</source>
         <translation>Port servera:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1234"/>
+        <location filename="" line="7471221"/>
         <source>Use SCTP</source>
         <translation>Používať SCTP</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1433"/>
+        <location filename="" line="7471221"/>
         <source>Use IPv6</source>
         <translation>Používať IPv6</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1440"/>
+        <location filename="" line="7471221"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;Čo je to?&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1268"/>
+        <location filename="" line="7471221"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;Čo je to?&lt;/a&gt;</translation>
     </message>
@@ -2238,12 +2239,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Implicitné nastavenia sieťovej hry</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="981"/>
+        <location filename="" line="7471221"/>
         <source>Game Speed for computer opponents:</source>
         <translation>Rýchlosť hry počítačových súperov:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="766"/>
+        <location filename="" line="7471221"/>
         <source>Maximum number of players:</source>
         <translation>Maximálny počet hráčov:</translation>
     </message>
@@ -2258,42 +2259,42 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Časový limit pre hráčovu akciu (sek):</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1521"/>
+        <location filename="" line="7471221"/>
         <source>Player Nicks</source>
         <translation>Prezývky hráčov</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1528"/>
+        <location filename="" line="7471221"/>
         <source>Computer Engine</source>
         <translation>Počítačový engine</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1590"/>
+        <location filename="" line="7471221"/>
         <source>Opponent 6:</source>
         <translation>Súper 6:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1744"/>
+        <location filename="" line="7471221"/>
         <source>Opponent 5:</source>
         <translation>Súper 5:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1923"/>
+        <location filename="" line="7471221"/>
         <source>Opponent 4:</source>
         <translation>Súper 4:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2052"/>
+        <location filename="" line="7471221"/>
         <source>Opponent 3:</source>
         <translation>Súper 3:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2231"/>
+        <location filename="" line="7471221"/>
         <source>Opponent 2:</source>
         <translation>Súper 2:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2385"/>
+        <location filename="" line="7471221"/>
         <source>Opponent 1:</source>
         <translation>Súper 1:</translation>
     </message>
@@ -2309,117 +2310,117 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Poznámka: Najlepšiu kvalitu má avatar pri veľkosti obrázka &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;šírka=50, výška=50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2567"/>
+        <location filename="" line="7471221"/>
         <source>Human Player:</source>
         <translation>Ľudský hráč:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2810"/>
+        <location filename="" line="7471221"/>
         <source>Enable/Disable Logging</source>
         <translation>Zapnúť/vypnúť zaznamenávanie</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2857"/>
+        <location filename="" line="7471221"/>
         <source>Store log files for</source>
         <translation>Ukladať log súbory</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2886"/>
+        <location filename="" line="7471221"/>
         <source>Day(s)</source>
         <translation>Deň(dní)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2925"/>
+        <location filename="" line="7471221"/>
         <source>Log File Directory: </source>
         <translation>Adresár s log súborom: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2964"/>
+        <location filename="" line="7471221"/>
         <source>Write log after every: </source>
         <translation>Zapísať log pri každom: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2984"/>
+        <location filename="" line="7471221"/>
         <source>action (high frequent disc access)</source>
         <translation>akcia (častý prístup na disk)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2989"/>
+        <location filename="" line="7471221"/>
         <source>hand (medium disc access)</source>
         <translation>rozdanie (stredný prístup na disk)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2994"/>
+        <location filename="" line="7471221"/>
         <source>game (low disc access)</source>
         <translation>hra (nízky prístup na disk)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3101"/>
+        <location filename="" line="7471221"/>
         <source>Log Messages</source>
         <translation>Zaznamenávať správy</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3081"/>
+        <location filename="" line="7471221"/>
         <source>Local Game Settings</source>
         <translation>Nastavenia lokálnej hry</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3086"/>
+        <location filename="" line="7471221"/>
         <source>Network Game Settings</source>
         <translation>Nastavenia sieťovej hry</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="146"/>
+        <location filename="" line="7471221"/>
         <source>Show own cards only on mouse click</source>
         <translation>Zobraziť vlastné karty iba pri kliknutí myšou</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3007"/>
+        <location filename="" line="7471221"/>
         <source>QLabel { font-weight: bold;  }</source>
         <translation>QLabel { font-weight: bold;  }</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3076"/>
+        <location filename="" line="7471221"/>
         <source>Sound</source>
         <translation>Zvuk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1043"/>
+        <location filename="" line="7471221"/>
         <source>Network Server Settings</source>
         <translation>Sieťové nastavenia servera</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3091"/>
+        <location filename="" line="7471221"/>
         <source>Internet Game Settings</source>
         <translation>Nastavenia internetovej hry</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1210"/>
+        <location filename="" line="7471221"/>
         <source>Internet Server Settings (Dedicated Server)</source>
         <translation>Nastavenia internetového servera (Dedikovaný server)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1373"/>
+        <location filename="" line="7471221"/>
         <source>Server Address:</source>
         <translation>Adresa servera:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1345"/>
+        <location filename="" line="7471221"/>
         <source>Use password for private game:</source>
         <translation>Použiť heslo pre súkromnú hru:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1383"/>
+        <location filename="" line="7471221"/>
         <source>chat.freenode.net</source>
         <translation>chat.freenode.net</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1416"/>
+        <location filename="" line="7471221"/>
         <source>Channel:</source>
         <translation>Kanál:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1426"/>
+        <location filename="" line="7471221"/>
         <source>#pokerth</source>
         <translation>#pokerth</translation>
     </message>
@@ -2429,82 +2430,82 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Opačné poradie F-klávesov (F1 - F3)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="823"/>
+        <location filename="" line="7471221"/>
         <source>First small blind:</source>
         <translation>Prvá stávka:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="850"/>
+        <location filename="" line="7471221"/>
         <source>Raise blinds:</source>
         <translation>Zvyšovať stávky:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="889"/>
+        <location filename="" line="7471221"/>
         <source>Every:</source>
         <translation>Každých:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="882"/>
+        <location filename="" line="7471221"/>
         <source>hands</source>
         <translation>rozdaní</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="909"/>
+        <location filename="" line="7471221"/>
         <source>minutes</source>
         <translation>minút</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="938"/>
+        <location filename="" line="7471221"/>
         <source>Raise mode:</source>
         <translation>Režim zvyšovania:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="947"/>
+        <location filename="" line="7471221"/>
         <source>Always double blinds</source>
         <translation>Vždy dvojnásobné stávky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="957"/>
+        <location filename="" line="7471221"/>
         <source>Manual blinds order:</source>
         <translation>Ručné stanovenie stávok:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="967"/>
+        <location filename="" line="7471221"/>
         <source>Edit ...</source>
         <translation>Upraviť...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="69"/>
+        <location filename="" line="7471221"/>
         <source>Language:</source>
         <translation>Jazyk:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="398"/>
+        <location filename="" line="7471221"/>
         <source>Sound Categories </source>
         <translation>Kategórie zvuku </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="407"/>
+        <location filename="" line="7471221"/>
         <source>Play game actions sounds like &quot;check&quot;, &quot;call&quot;, &quot;raise&quot;</source>
         <translation>Prehrávať zvuky pre herné akcie ako &quot;ok&quot;, &quot;dorovnať&quot;, &quot;zvýšiť&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="414"/>
+        <location filename="" line="7471221"/>
         <source>Play lobby chat notifications</source>
         <translation>Prehrávať notifikácie lobby chatu</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="421"/>
+        <location filename="" line="7471221"/>
         <source>Play network/internet game notifications like &quot;player joined the game&quot;</source>
         <translation>Prehrávať notifikácie sieťovej/internetovej hry ako &quot;hráč sa pripojil k hre&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1364"/>
+        <location filename="" line="7471221"/>
         <source>Enable/Disable Lobby Chat (IRC Server)</source>
         <translation>Zapnúť/vypnúť lobby chat (IRC server)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3096"/>
+        <location filename="" line="7471221"/>
         <source>Player Nicks/Avatars</source>
         <translation>Prezývka/avatar hráča</translation>
     </message>
@@ -2520,27 +2521,27 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Poznámka: Východzie &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Nastavenia hry&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; ako &quot;Maximálny počet hráčov&quot;, &quot;Úvodná hotovosť&quot; a &quot;Malá stávka&quot; budú použité &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;z nastavení sieťovej hry.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="153"/>
+        <location filename="" line="7471221"/>
         <source>Reverse order of F-Keys (F1 - F4)</source>
         <translation>Opačné poradie F-klávesov (F1 - F4)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="160"/>
+        <location filename="" line="7471221"/>
         <source>Network / Internet Game</source>
         <translation>Sieťová / Internetová hra</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="166"/>
+        <location filename="" line="7471221"/>
         <source>Switch keyboard focus to bet-input-field if it&apos;s your turn</source>
         <translation>Prepnúť zameranie klávesnice na políčko stávka-vstup, keď ste na ťahu</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1457"/>
+        <location filename="" line="7471221"/>
         <source>Channel Password:</source>
         <translation>Heslo na kanál:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="269"/>
+        <location filename="" line="7471221"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2551,22 +2552,22 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Poznámka: Najlepšia kvalita pri pomere strán obrázka &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;šírka=100, výška=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="833"/>
+        <location filename="" line="7471221"/>
         <source>$</source>
         <translation>$</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1008"/>
+        <location filename="" line="7471221"/>
         <source>Timeout for player action:</source>
         <translation>Časový limit pre hráčovu akciu:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1018"/>
+        <location filename="" line="7471221"/>
         <source> s</source>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1181"/>
+        <location filename="" line="7471221"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal;&quot;&gt;
@@ -2577,7 +2578,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Poznámka: Východzie &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;nastavenie hry&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; ako &quot;Maximálny počet hráčov&quot;, &quot;Úvodná hotovosť&quot; a &quot;Malá stávka&quot; budú použité &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;z nastavenia sieťovej hry..&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2479"/>
+        <location filename="" line="7471221"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2587,21 +2588,11 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Poznámka: Najlepšia kvalita avatara pri pomere strán obrázka &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;šírka=50, výška=50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
-    <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="104"/>
-        <source>Show left toolbox </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="111"/>
-        <source>Show right toolbox</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>settingsDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="355"/>
+        <location filename="" line="7471221"/>
         <source>Settings Error</source>
         <translation>Chyba v nastaveniach</translation>
     </message>
@@ -2620,7 +2611,7 @@ Please select an valid directory!</source>
 Prosím, vyberte platný adresár!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="402"/>
+        <location filename="" line="7471221"/>
         <source>Select your flipside picture</source>
         <translation>Vyberte si obrázok pre rub kariet</translation>
     </message>
@@ -2630,22 +2621,22 @@ Prosím, vyberte platný adresár!</translation>
         <translation type="obsolete">Obrázky (*.png)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="476"/>
+        <location filename="" line="7471221"/>
         <source>Open Directory</source>
         <translation>Otvoriť adresár</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="404"/>
+        <location filename="" line="7471221"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Obrázky (*.png *.jpg *.gif)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="584"/>
+        <location filename="" line="7471221"/>
         <source>Blinds Error</source>
         <translation>Chyba stávok</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="585"/>
+        <location filename="" line="7471221"/>
         <source>The first element in your manual-blinds-list 
 is smaller than current first-small-blind!
 This first-small-blind-value will be set to maximum allowed value.</source>
@@ -2654,27 +2645,27 @@ je menší ako momentálna prvá malá stávka!
 Hodnota prvej malej stávky bude nastavená na maximálnu možnú úroveň.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="48"/>
+        <location filename="" line="7471221"/>
         <source>Dutch</source>
         <translation>Holandsky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="49"/>
+        <location filename="" line="7471221"/>
         <source>English</source>
         <translation>Anglicky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="50"/>
+        <location filename="" line="7471221"/>
         <source>French</source>
         <translation>Francúzsky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="51"/>
+        <location filename="" line="7471221"/>
         <source>German</source>
         <translation>Nemecky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="52"/>
+        <location filename="" line="7471221"/>
         <source>Hungarian</source>
         <translation>Maďarsky</translation>
     </message>
@@ -2684,91 +2675,81 @@ Hodnota prvej malej stávky bude nastavená na maximálnu možnú úroveň.</tra
         <translation type="obsolete">Nórsky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="56"/>
+        <location filename="" line="7471221"/>
         <source>Portuguese</source>
         <translation>Portugalsky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="57"/>
+        <location filename="" line="7471221"/>
         <source>Russian</source>
         <translation>Rusky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="60"/>
+        <location filename="" line="7471221"/>
         <source>Turkish</source>
         <translation>Turecky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="385"/>
+        <location filename="" line="7471221"/>
         <source>Language Changed</source>
         <translation>Zmenený jazyk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="386"/>
+        <location filename="" line="7471221"/>
         <source>You have changed application language to %1.
 Please restart PokerTH to load new language!</source>
         <translation>Zmenili ste jazyk aplikácie na %1.
 Prosím reštartujte PokerTH pre načítanie nového jazyka!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
+        <location filename="" line="7471221"/>
         <source>Italian</source>
         <translation>Taliansky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="58"/>
+        <location filename="" line="7471221"/>
         <source>Slovak</source>
         <translation>Slovensky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="336"/>
+        <location filename="" line="7471221"/>
         <source>The entered flipside picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>Zadaný obrázok pre rub karty neexistuje.
 Prosím zadajte platný obrázok!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="357"/>
+        <location filename="" line="7471221"/>
         <source>The log file directory doesn&apos;t exist.
 Please select an valid directory!</source>
         <translation>Adresár pre súbor s logmi neexistuje.
 Prosím zadajte platný adresár!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="54"/>
+        <location filename="" line="7471221"/>
         <source>Norwegian</source>
         <translation>Nórsky</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="59"/>
+        <location filename="" line="7471221"/>
         <source>Spanish</source>
         <translation>Španielsky</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="47"/>
-        <source>Bulgarian</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="55"/>
-        <source>Polish</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>startNetworkGameDialog</name>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="13"/>
+        <location filename="" line="7471221"/>
         <source>Start Network Game</source>
         <translation>Spustiť sieťovú hru</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="52"/>
+        <location filename="" line="7471221"/>
         <source>Maximum number of players:</source>
         <translation>Maximálny počet hráčov:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="59"/>
+        <location filename="" line="7471221"/>
         <source>0</source>
         <translation>0</translation>
     </message>
@@ -2778,32 +2759,32 @@ Prosím zadajte platný adresár!</translation>
         <translation type="obsolete">Vykopnúť</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="20"/>
+        <location filename="" line="7471221"/>
         <source>Connected Players</source>
         <translation>Pripojení hráči</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="158"/>
+        <location filename="" line="7471221"/>
         <source>Start Game</source>
         <translation>Spustiť hru</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="165"/>
+        <location filename="" line="7471221"/>
         <source>Cancel</source>
         <translation>Zrušiť</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="28"/>
+        <location filename="" line="7471221"/>
         <source>Fill up with computer opponents</source>
         <translation>Vyplniť počítačovými súpermi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="79"/>
+        <location filename="" line="7471221"/>
         <source>Kick Player</source>
         <translation>Vykopnúť hráča</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="88"/>
+        <location filename="" line="7471221"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
@@ -2811,12 +2792,12 @@ Prosím zadajte platný adresár!</translation>
 <context>
     <name>startNetworkGameDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="157"/>
+        <location filename="" line="7471221"/>
         <source>Server Error</source>
         <translation>Chyba servera</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="158"/>
+        <location filename="" line="7471221"/>
         <source>You should not kick yourself from this game!</source>
         <translation>Nemali by ste z hry vykopnúť sám seba!</translation>
     </message>

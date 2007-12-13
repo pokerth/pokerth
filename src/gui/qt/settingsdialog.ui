@@ -5,14 +5,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>633</width>
-    <height>606</height>
+    <width>671</width>
+    <height>572</height>
    </rect>
   </property>
   <property name="minimumSize" >
    <size>
-    <width>600</width>
-    <height>0</height>
+    <width>671</width>
+    <height>572</height>
    </size>
   </property>
   <property name="windowTitle" >
@@ -101,7 +101,7 @@
        <item row="4" column="0" >
         <widget class="QCheckBox" name="checkBox_showLeftToolbox" >
          <property name="text" >
-          <string>Show left toolbox </string>
+          <string>Show left toolbox</string>
          </property>
         </widget>
        </item>
@@ -419,6 +419,9 @@ p, li { white-space: pre-wrap; }
               <widget class="QCheckBox" name="checkBox_playNetworkGameNotification" >
                <property name="text" >
                 <string>Play network/internet game notifications like "player joined the game"</string>
+               </property>
+               <property name="tristate" >
+                <bool>false</bool>
                </property>
               </widget>
              </item>

@@ -59,5 +59,7 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	label_pokerthVersion->setStyleSheet("QLabel { font-size: 16px; font-weight: bold;}");
 	label_pokerthVersion->setText(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
 	this->setWindowTitle(QString(tr("About PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
+
+	textBrowser_3->append("<p style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">thiger, dunkanx, BerndA</span> </p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- for different patches</p>");
 	
 }
