@@ -44,6 +44,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
 	if (myConfig->readConfigInt("CLA_NoWriteAccess")) { groupBox_logOnOff->setDisabled(TRUE); }
 
+	comboBox_switchLanguage->addItem(tr("Bulgarian"),"bg");
 	comboBox_switchLanguage->addItem(tr("Dutch"),"nl");
 	comboBox_switchLanguage->addItem(tr("English"),"en");
 	comboBox_switchLanguage->addItem(tr("French"),"fr");

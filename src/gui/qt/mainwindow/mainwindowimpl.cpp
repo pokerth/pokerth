@@ -2025,15 +2025,17 @@ void mainWindowImpl::disableMyButtons() {
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
+	clearMyButtons();
+
 	//clear userWidgets
+	pushButton_AllIn->setDisabled(TRUE);
+	horizontalSlider_bet->setDisabled(TRUE);
+	lineEdit_betValue->setDisabled(TRUE);
 	horizontalSlider_bet->setMinimum(0);
 	horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 	lineEdit_betValue->clear();
 	horizontalSlider_bet->setValue(0);
-	pushButton_AllIn->setDisabled(TRUE);
-	horizontalSlider_bet->setDisabled(TRUE);
-	lineEdit_betValue->setDisabled(TRUE);
-
+	
 #ifdef _WIN32
 	QString humanPlayerButtonFontSize = "13";
 #else 
@@ -3711,27 +3713,30 @@ void mainWindowImpl::changeLineEditBetValue(int value) {
 
 void mainWindowImpl::lineEditBetValueChanged(QString valueString) {
 
-	bool ok;
-	int betValue = QString(valueString).toInt(&ok, 10);
-	QString betRaise = pushButton_BetRaise->text().section(" ",0 ,0);
+	if(horizontalSlider_bet->isEnabled()) {
 
-	if(betValue >= horizontalSlider_bet->minimum()) {
-
-		if(betValue > horizontalSlider_bet->maximum()) { // print the maximum
-			pushButton_BetRaise->setText(betRaise + " $" + QString::number(horizontalSlider_bet->maximum()));
-			betSliderChangedByInput = TRUE;
-			horizontalSlider_bet->setValue(horizontalSlider_bet->maximum());
+		bool ok;
+		int betValue = QString(valueString).toInt(&ok, 10);
+		QString betRaise = pushButton_BetRaise->text().section(" ",0 ,0);
+	
+		if(betValue >= horizontalSlider_bet->minimum()) {
+	
+			if(betValue > horizontalSlider_bet->maximum()) { // print the maximum
+				pushButton_BetRaise->setText(betRaise + " $" + QString::number(horizontalSlider_bet->maximum()));
+				betSliderChangedByInput = TRUE;
+				horizontalSlider_bet->setValue(horizontalSlider_bet->maximum());
+			}
+			else { // really print the value
+				pushButton_BetRaise->setText(betRaise + " $" + valueString);
+				betSliderChangedByInput = TRUE;
+				horizontalSlider_bet->setValue(betValue);
+			}
 		}
-		else { // really print the value
-			pushButton_BetRaise->setText(betRaise + " $" + valueString);
+		else { // print the minimum
+			pushButton_BetRaise->setText(betRaise + " $" + QString::number(horizontalSlider_bet->minimum()));
 			betSliderChangedByInput = TRUE;
-			horizontalSlider_bet->setValue(betValue);
+			horizontalSlider_bet->setValue(horizontalSlider_bet->minimum());
 		}
-	}
-	else { // print the minimum
-		pushButton_BetRaise->setText(betRaise + " $" + QString::number(horizontalSlider_bet->minimum()));
-		betSliderChangedByInput = TRUE;
-		horizontalSlider_bet->setValue(horizontalSlider_bet->minimum());
 	}
 }
 
