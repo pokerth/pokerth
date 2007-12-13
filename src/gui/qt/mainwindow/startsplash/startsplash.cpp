@@ -272,7 +272,7 @@ void StartSplash::paintEvent(QPaintEvent * /*event*/) {
 	painter.setOpacity(1.0);
 	painter.setFont(versionFont);
 	painter.setPen(QColor(153,213,0));
-	painter.drawText(303,227,100,20,4,QString("Version %1").arg(POKERTH_BETA_RELEASE_STRING));
+	painter.drawText(309,227,100,20,4,QString("Version %1").arg(POKERTH_BETA_RELEASE_STRING));
 	painter.setOpacity(opacity);
 
 	if(frameNo >=190) { 
