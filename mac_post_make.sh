@@ -23,6 +23,8 @@ cp -R ./data $RESOURCES
 # create framework-path
 BINARY_FW_PATH="$APPLICATION/Contents/Frameworks"
 mkdir $BINARY_FW_PATH
+QT_PLUGIN_PATH="$APPLICATION/Contents/plugins/imageformats" 
+mkdir -p $QT_PLUGIN_PATH
 
 # integrate SDL-frameworks into binary
 cp -R $SDL_FW_PATH/SDL.framework $BINARY_FW_PATH
@@ -31,7 +33,8 @@ cp -R $SDL_FW_PATH/SDL_mixer.framework $BINARY_FW_PATH
 # integrate Qt-frameworks into binary
 
 if [ "$1" != "--without-qt" ] ; then
-	
+	cp /Developer/Applications/Qt/plugins/imageformats/libqgif.dylib $QT_PLUGIN_PATH
+	cp /Developer/Applications/Qt/plugins/imageformats/libqjpeg.dylib $QT_PLUGIN_PATH
 	cp -R $QT_FW_PATH/QtCore.framework $BINARY_FW_PATH
 	cp -R $QT_FW_PATH/QtGui.framework $BINARY_FW_PATH
 	

@@ -113,6 +113,13 @@ int main( int argc, char **argv )
 	a.installTranslator(&translator);
 	
 
+#ifdef __APPLE__
+	QDir dir(QApplication::applicationDirPath());
+	dir.cdUp();
+	dir.cd("plugins");
+	QApplication::setLibraryPaths(QStringList(dir.absolutePath()));
+#endif
+
 	qRegisterMetaType<unsigned>("unsigned");
 	qRegisterMetaType<boost::shared_ptr<Game> >("boost::shared_ptr<Game>");
 	qRegisterMetaType<ServerStats>("ServerStats");
