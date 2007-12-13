@@ -431,6 +431,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
  #if (defined _WIN32) || (defined __APPLE__)
 	tabWidget_Right->setTabText(0, " "+tabWidget_Right->tabText(0)+" ");
 	tabWidget_Right->setTabText(1, " "+tabWidget_Right->tabText(1)+" ");
+	tabWidget_Left->setTabText(0, " "+tabWidget_Left->tabText(0)+" ");
+	tabWidget_Left->setTabText(1, " "+tabWidget_Left->tabText(1)+" ");
 #endif
 
 	//resize stop-button depending on translation
