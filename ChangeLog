@@ -1,3 +1,22 @@
+2007-12-13 version 0.6-final:
+ - bugfixes
+ - gui improvements (hover for bet/call/fold)
+ - translation updates (14 languages now!)
+
+2007-12-07 version 0.6-rc2:
+ - bugfixes (closeable-windows, chat-nick-highlighting) 
+ - gui improvements (gfx & fonts)
+ - translation updates
+ - Qt-4.3.3 update
+ 
+2007-12-03 version 0.6-rc: 
+ - bugfixes 
+ - dmg available for MacOSX
+ - new "join any game"-button
+ - gui improvements
+ - translation updates
+ - improve blind logging
+
 2007-11-18 version 0.6-beta5:
 - bugfixes (dedicated server, anti-peek-mode, sidepot logging)
 - bet/raise redesign 
