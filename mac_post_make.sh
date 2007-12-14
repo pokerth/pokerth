@@ -48,6 +48,10 @@ if [ "$1" != "--without-qt" ] ; then
 	QTGUI_LINK=$(otool -L $BINARY | grep QtGui | cut -d"(" -f1 | cut -f2)
 	install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY
 	install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY
+	install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_PLUGIN_PATH/libqgif.dylib
+	install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY_PLUGIN_PATH/libqgif.dylib
+	install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_PLUGIN_PATH/libqjpeg.dylib
+	install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY_PLUGIN_PATH/libqjpeg.dylib
 	QTCORE_LINK=$(otool -L $BINARY_FW_PATH/$QTGUI | grep QtCore | cut -d"(" -f1 | cut -f2)
 	install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTGUI
 	
