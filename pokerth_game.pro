@@ -330,13 +330,19 @@ unix: !mac{
 
 	#### INSTALL ####
 
-	targets.files = pokerth
-	targets.path = /usr/bin/
+	targets.path += /usr/bin/
+	targets.files += pokerth
+
+	data.path += /usr/share/pokerth/data/
+	data.files += data/* 
+
+	pixmap.path += /usr/share/pixmaps/
+	pixmap.files +=	pokerth.png
 	
-	data.path = /usr/share/pokerth/data
-	data.files = data/* 
+	desktop.path += /usr/share/applications/
+	desktop.files += pokerth.desktop
 	
-	INSTALLS += targets data
+	INSTALLS += targets data pixmap desktop
 
 }
 
