@@ -46,7 +46,7 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	QFile gplFile(QDir::toNativeSeparators(myAppDataPath+"misc/gpl2.html"));
 	QString gplString;
 	if(gplFile.exists()) {
-		if (gplFile.open( QIODevice::ReadWrite)) {
+		if (gplFile.open( QIODevice::ReadOnly)) {
 			QTextStream stream( &gplFile );
 			gplString = stream.readAll();
 			textBrowser_licence->setHtml(gplString);
