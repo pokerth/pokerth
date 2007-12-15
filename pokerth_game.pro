@@ -7,7 +7,7 @@ CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on release
 #CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
 
 #Uncomment this for RELEASE
-#QTPLUGIN += qjpeg qgif
+QTPLUGIN += qjpeg qgif
 
 UI_DIR = uics
 MOC_DIR = mocs
@@ -332,8 +332,8 @@ unix: !mac{
 
 	#### INSTALL ####
 
-	targets.path += /usr/bin/
-	targets.files += pokerth
+	binary.path += /usr/bin/
+	binary.files += pokerth
 
 	data.path += /usr/share/pokerth/data/
 	data.files += data/* 
@@ -344,7 +344,7 @@ unix: !mac{
 	desktop.path += /usr/share/applications/
 	desktop.files += pokerth.desktop
 	
-	INSTALLS += targets data pixmap desktop
+	INSTALLS += binary data pixmap desktop
 
 }
 
