@@ -249,26 +249,28 @@ win32{
 	INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include ../OpenSSL/include
 	LIBPATH += ../boost/stage/lib ../OpenSSL/lib
 
-	LIBPATH += Release/lib ../SDL/VisualC/SDL/Release ../SDL/VisualC/SDLmain/Release ../SDL_mixer/VisualC/Release
-	#LIBPATH += Debug/lib ../SDL/VisualC/SDL/Debug ../SDL/VisualC/SDLmain/Debug ../SDL_mixer/VisualC/Debug
-	LIBPATH += ../SDL/lib ../SDL_mixer/lib
 
 	LIBS += -lpokerth_lib
-	LIBS += -llibeay32
-	LIBS += -lssleay32
-	LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32 -lsdl -lsdlmain -lsdl_mixer
-	exists( ../boost/stage/lib/libboost_thread-mgw34-mt-1_34_1.a ){
+
+	win32-msvc2005{
+		LIBPATH += Release/lib ../SDL/VisualC/SDL/Release ../SDL/VisualC/SDLmain/Release ../SDL_mixer/VisualC/Release
+		#LIBPATH += Debug/lib ../SDL/VisualC/SDL/Debug ../SDL/VisualC/SDLmain/Debug ../SDL_mixer/VisualC/Debug
+
+		LIBS += -llibeay32
+		LIBS += -lssleay32
+	}
+
+	win32-g++{
+		LIBPATH += Release/lib
+		#LIBPATH += Debug/lib
+		LIBPATH += ../SDL/lib ../SDL_mixer/lib
+		LIBS += -lcrypto
+		LIBS += -lssl
 		LIBS += -lboost_thread-mgw34-mt-1_34_1
-	}
-	exists( ../boost/stage/lib/libboost_thread-mgw42-mt-1_34_1.a ){
-		LIBS += -lboost_thread-mgw42-mt-1_34_1
-	}
-	exists( ../boost/stage/lib/libboost_filesystem-mgw34-mt-1_34_1.a ){
 		LIBS += -lboost_filesystem-mgw34-mt-1_34_1
 	}
-	exists( ../boost/stage/lib/libboost_filesystem-mgw42-mt-1_34_1.a ){
-		LIBS += -lboost_filesystem-mgw42-mt-1_34_1
-	}
+
+	LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32 -lsdl -lsdlmain -lsdl_mixer
 	RC_FILE = pokerth.rc
 }
 !win32{
