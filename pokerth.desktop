@@ -1,16 +1,17 @@
 [Desktop Entry]
-Version=1.0
-Encoding=UTF-8
 Name=PokerTH
 Name[tr]=PokerTH
+Name[de]=PokerTH
 Exec=pokerth
 Icon=pokerth
 GenericName=Poker Card Game
 GenericName[tr]=Poker Kart Oyunu
+GenericName[de]=Pokerspiel
 Comment=Texas hold'em game
 Comment[tr]=Texas hold'em oyunu
+Comment[de]=Texas Hold'em Spiel
 Terminal=false
 Type=Application
 X-KDE-StartupNotify=true
 X-DCOP-ServiceType=Multi
-Categories=Qt;KDE;Game;CardGame;
+Categories=Qt;Game;CardGame;
