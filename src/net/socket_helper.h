@@ -34,7 +34,6 @@
 #define IS_SOCKET_ERR_WOULDBLOCK(_e)	((_e) == WSAEWOULDBLOCK)
 #define SOCKET_ERR_NOTCONN				WSAENOTCONN
 #define SOCKET_ERR_NOTSOCK				WSAENOTSOCK
-#define SOCKET_SEND_FLAGS				0
 
 #ifndef IPV6_V6ONLY
 	#define IPV6_V6ONLY					27
@@ -62,11 +61,6 @@ typedef unsigned char					u_char;
 #define IOCTLSOCKET						ioctl
 #define SOCKET_ERR_NOTCONN				ENOTCONN
 #define SOCKET_ERR_NOTSOCK				ENOTSOCK
-#ifdef __APPLE__
-	#define SOCKET_SEND_FLAGS			0
-#else
-	#define SOCKET_SEND_FLAGS			MSG_NOSIGNAL
-#endif
 
 #define IS_SOCKET_ERR_WOULDBLOCK(_e)	((_e) == EINPROGRESS || (_e) == EAGAIN)
 
@@ -82,10 +76,16 @@ typedef unsigned char					u_char;
 
 #define RECV_TIMEOUT_MSEC	50
 
-#ifdef IPPROTO_SCTP
-	#define SOCKET_IPPROTO_SCTP		IPPROTO_SCTP
+#ifdef MSG_NOSIGNAL
+	#define SOCKET_SEND_FLAGS			MSG_NOSIGNAL
 #else
-	#define SOCKET_IPPROTO_SCTP		0
+	#define SOCKET_SEND_FLAGS			0
+#endif
+
+#ifdef IPPROTO_SCTP
+	#define SOCKET_IPPROTO_SCTP			IPPROTO_SCTP
+#else
+	#define SOCKET_IPPROTO_SCTP			0
 #endif
 
 // All char *s are assumed to be UTF-8.
