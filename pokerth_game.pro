@@ -307,6 +307,10 @@ unix: !mac{
  		}
  	}
 	LIBS += $$BOOST_THREAD $$BOOST_FS
+	!count(LIBS, 3) {
+		error("could not locate required library: \
+		    libboost (version >= 1.34.1)  --> http://www.boost.org/")
+	}
 
 	LIBS += -lcrypto -lSDL_mixer
 	TARGETDEPS += ./lib/libpokerth_lib.a
