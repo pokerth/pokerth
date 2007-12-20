@@ -1,5 +1,9 @@
 # QMake pro-file for PokerTH game
 
+isEmpty( PREFIX ) {
+    PREFIX=/usr
+}
+
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
@@ -13,6 +17,7 @@ UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += ENABLE_IPV6
+DEFINES += PREFIX=\"$${PREFIX}\"
 TARGET = pokerth
 
 INCLUDEPATH += . \
@@ -281,48 +286,27 @@ unix: !mac{
 
 	LIBPATH += lib
 	LIBS += -lpokerth_lib
-
-	exists( /usr/lib/libboost_thread-mt.so ){
-		message("Found libboost_thread-mt")
-		LIBS += -lboost_thread-mt
-	}
-	exists( /usr/lib64/libboost_thread-mt.so ){
-		message("Found libboost_thread-mt")
-		LIBS += -lboost_thread-mt
-	}
-	!exists( /usr/lib/libboost_thread-mt.so ){
-		exists( /usr/lib/libboost_thread.so ){
-			message("Found libboost_thread")
-			LIBS += -lboost_thread
-		}
-	}
-	!exists( /usr/lib64/libboost_thread-mt.so ){
-		exists( /usr/lib64/libboost_thread.so ){
-			message("Found libboost_thread")
-			LIBS += -lboost_thread
-		}
-	}
-
-	exists( /usr/lib/libboost_filesystem-mt.so ){
-		message("Found libboost_filesystem-mt")
-		LIBS += -lboost_filesystem-mt
-	}
-	exists( /usr/lib64/libboost_filesystem-mt.so ){
-		message("Found libboost_filesystem-mt")
-		LIBS += -lboost_filesystem-mt
-	}
-	!exists( /usr/lib/libboost_filesystem-mt.so ){
-		exists( /usr/lib/libboost_filesystem.so ){
-			message("Found libboost_filesystem")
-			LIBS += -lboost_filesystem
-		}
-	}
-	!exists( /usr/lib64/libboost_filesystem-mt.so ){
-		exists( /usr/lib64/libboost_filesystem.so ){
-			message("Found libboost_filesystem")
-			LIBS += -lboost_filesystem
-		}
-	}
+	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64
+	BOOST_FS = boost_filesystem boost_filesystem-mt
+	BOOST_THREAD = boost_thread boost_thread-mt
+	
+	for(dir, LIB_DIRS) {
+		exists($$dir) {
+			for(lib, BOOST_THREAD) {
+				exists($${dir}/lib$${lib}.so) {
+					message("Found $$lib")
+					BOOST_THREAD = -l$$lib
+				}
+			}
+			for(lib, BOOST_FS) {
+				exists($${dir}/lib$${lib}.so) {
+					message("Found $$lib")
+					BOOST_FS = -l$$lib
+				}
+			}
+ 		}
+ 	}
+	LIBS += $$BOOST_THREAD $$BOOST_FS
 
 	LIBS += -lcrypto -lSDL_mixer
 	TARGETDEPS += ./lib/libpokerth_lib.a
@@ -332,16 +316,16 @@ unix: !mac{
 
 	#### INSTALL ####
 
-	binary.path += /usr/bin/
+	binary.path += $${PREFIX}/bin/
 	binary.files += pokerth
 
-	data.path += /usr/share/pokerth/data/
+	data.path += $${PREFIX}/share/pokerth/data/
 	data.files += data/* 
 
-	pixmap.path += /usr/share/pixmaps/
+	pixmap.path += $${PREFIX}/share/pixmaps/
 	pixmap.files +=	pokerth.png
 	
-	desktop.path += /usr/share/applications/
+	desktop.path += $${PREFIX}/share/applications/
 	desktop.files += pokerth.desktop
 	
 	INSTALLS += binary data pixmap desktop
