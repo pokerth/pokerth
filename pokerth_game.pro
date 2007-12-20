@@ -293,25 +293,31 @@ unix: !mac{
 	for(dir, LIB_DIRS) {
 		exists($$dir) {
 			for(lib, BOOST_THREAD) {
-				exists($${dir}/lib$${lib}.so) {
+				exists($${dir}/lib$${lib}.so*) {
 					message("Found $$lib")
 					BOOST_THREAD = -l$$lib
 				}
 			}
 			for(lib, BOOST_FS) {
-				exists($${dir}/lib$${lib}.so) {
+				exists($${dir}/lib$${lib}.so*) {
 					message("Found $$lib")
 					BOOST_FS = -l$$lib
 				}
 			}
  		}
  	}
-	LIBS += $$BOOST_THREAD $$BOOST_FS
-	!count(LIBS, 3) {
+	BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS
+	!count(BOOST_LIBS, 2) {
 		error("could not locate required library: \
 		    libboost (version >= 1.34.1)  --> http://www.boost.org/")
 	}
 
+	if ($$system(sdl-config --version)) {
+		error("Could not determine if required library is installed: \
+		    libSDL_mixer, libSDL --> http://www.libsdl.org/")
+	}
+
+	LIBS += $$BOOST_LIBS
 	LIBS += -lcrypto -lSDL_mixer
 	TARGETDEPS += ./lib/libpokerth_lib.a
 
