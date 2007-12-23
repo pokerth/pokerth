@@ -1,0 +1,206 @@
+++++++++++++++++++++++++++++++++++++++++
+How to run the PokerTH dedicated server
+++++++++++++++++++++++++++++++++++++++++
+
++++++++++++++++++++++++
+1. System requirements
++++++++++++++++++++++++
+
+The PokerTH server is officially supported on
+Linux, Windows Vista and Windows Server 2008.
+
+root/admin access during setup is recommended.
+root/admin access is required if a strict firewall is running on the system.
+
+RAM usage is low (about 5 MB when load is high), but due to frequent
+allocations and thread usage, there will be problems if the PokerTH server
+is run on a vserver with very limited memory.
+
++++++++++++++++++++++++++
+2. Installation on Linux
++++++++++++++++++++++++++
+
+2.1 Package dependencies (Linux)
+---------------------------------
+
+The following packages are required to compile the server:
+* qmake (Qt development tools)
+* boost 1.34.1
+  - boost-thread
+  - boost-filesystem
+  - boost-datetime
+* OpenSSL (any version should be fine)
+
+The following packages are optional but recommended:
+* monit (http://tildeslash.com/monit/)
+* svn (subversion)
+
+2.2 Compiling the server (Linux)
+---------------------------------
+
+If you have root access on the machine, create a new user for
+the PokerTH daemon (for example named pokerth). The user is
+*required* to have a home directory. Log in as the new user.
+
+If you do not have root access, log in as usual.
+
+To use the stable version, download the latest PokerTH
+source release from http://www.pokerth.net/.
+Unpack the source release:
+	tar xjf PokerTH-0.6-1.src.tar.bz2
+
+If you wish to use the current development version instead, run
+	svn co http://pokerth.svn.sourceforge.net/svnroot/pokerth/trunk/pokerth
+
+Enter the pokerth source directory:
+	cd pokerth
+
+Edit pokerth.pro and remove the pokerth_game.pro entry.
+
+Create the Makefile and compile the PokerTH dedicated server:
+	qmake
+	make
+
+2.3 Post-compile actions (Linux)
+---------------------------------
+
+The binary for the server is created in the bin/ subdirectory.
+Move it to the main directory:
+	mv bin/pokerth_server .
+
+Make sure your firewall allows port 7234 (IP/IPv6, TCP and SCTP).
+If you wish to use a different port, allow this port in your firewall,
+and continue the steps.
+
+2.4 First run of the server (Linux)
+------------------------------------
+
+Run the dedicated server using the full path:
+	/home/username/pokerth/pokerth_server
+
+It will not output anything and immediately return to the prompt.
+
+Check that the server is running:
+	ps ax | grep pokerth_server
+
+The server will have created a directory ~/.pokerth
+Take a peek at the log file:
+	less ~/.pokerth/log-files/server_messages.log
+
+It should look like this:
+2007-Dec-23 21:38:01 MSG: Starting PokerTH dedicated server. Availability: IPv6 1, SCTP 1, Dual Stack 1.
+
+If there are messages about non-existing avatar directories, you either
+- did not start the pokerth_server using the full path (see above)
+- did not move the pokerth_server to the main directory (step 2.3)
+
+Now, stop the server again after the first start.
+	killall pokerth_server
+
+2.5 Configuring the server (Linux)
+-----------------------------------
+
+Open ~/.pokerth/config.xml using your favourite editor.
+If you intend to use non-ascii characters for any option, make sure
+you use the UTF-8 charset.
+
+The options are described in Chapter 4.
+
+2.6 Sample /etc/init.d/pokerth_server script (Linux)
+-----------------------------------------------------
+
+TODO
+
+2.7 Sample monit configuration (Linux)
+---------------------------------------
+
+TODO
+
++++++++++++++++++++++++++++
+3. Installation on Windows
++++++++++++++++++++++++++++
+
+TODO
+
++++++++++++++++++++++++++++++++++
+4. Configuration file config.xml
++++++++++++++++++++++++++++++++++
+
+There are three areas for server configuration:
+1. General server settings (like password and port)
+2. IRC bot settings
+   For admin usage, the server can join any IRC channel as bot.
+   This will allow you to kick players and request server statistics.
+3. Directory settings (which SHOULD be left as they are)
+
+Relevant options are (with description):
+
+1.
+General server password:
+	<ServerPassword value="" />
+
+Enable IPv6 (has effect only if dual stack sockets are not supported):
+	<ServerUseIpv6 value="0" />
+
+Enable/disable SCTP (TCP will still be possible):
+	<ServerUseSctp value="0" />
+
+The server port which is bound:
+	<ServerPort value="7234" />
+
+2.
+Make the server join as bot in an admin-only irc channel:
+	<UseAdminIRC value="0" />
+
+(the following is only applicable if UseAdminIRC is 1)
+
+The irc server:
+	<AdminIRCServerAddress value="chat.freenode.net" />
+
+Port of the irc service:
+	<AdminIRCServerPort value="6667" />
+
+Admin irc channel name
+(it is recommended to use a password protected channel):
+	<AdminIRCChannel value="#test" />
+
+The password for the admin irc channel:
+	<AdminIRCChannelPassword value="" />
+
+Enable IPv6 for the irc server:
+	<AdminIRCServerUseIpv6 value="0" />
+
+Nick name for the bot:
+	<AdminIRCServerNick value="PokerTH" />
+
+3. DO NOT CHANGE THE FOLLOWING OPTIONS UNLESS REALLY REALLY NEEDED
+
+Directory for server logging, write access needed:
+	<LogDir value="/Users/l-may/.pokerth/log-files/" />
+
+Directory for PokerTH data files:
+(only avatar data is needed, read access is sufficient):
+	<UserDataDir value="/Users/l-may/.pokerth/data/" />
+
+Directory for avatar cache:
+	<CacheDir value="/Users/l-may/.pokerth/cache/" />
+
+
+++++++++++++++++++++++++
+5. Server Admin IRC bot
+++++++++++++++++++++++++
+
+The irc bot only accepts two commands within the configured channel.
+Assuming the bot is named BotName, these commands are as follows:
+
+Display statistics of the server:
+	BotName: stat
+
+Kick player named "foo" from the server:
+	BotName: kick foo
+
+The bot always answers to "BotName: " style commands.
+It ignores private messages. 
+
+
+2007 by Lothar May
