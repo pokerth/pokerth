@@ -106,15 +106,67 @@ you use the UTF-8 charset.
 
 The options are described in Chapter 4.
 
+If you have root access on the machine, it is recommended that you
+set up "monit" to automatically restart pokerth_server if it
+terminates. The players will be very frustrated if for some reason the
+server crashes and is not restarted immediately. The PokerTH server
+has been thoroughly tested and is very stable, but you never know...
+
+To set up monit, first create the init-script for the server.
+
 2.6 Sample /etc/init.d/pokerth_server script (Linux)
 -----------------------------------------------------
 
-TODO
+This is a sample start/stop script for the pokerth_server daemon.
+It can only be used if you have root access on the machine.
+
+The script will start the process pokerth_server as user "pokerth".
+It uses a simple hack to find out the process id of pokerth_server. This
+will not work if you intend to run more than one PokerTH server on
+a single machine.
+
+-- cut here --
+#!/bin/bash
+
+case $1 in
+	start)
+		sudo -H -u pokerth /home/pokerth/pokerth/pokerth_server
+		sleep 2
+		pgrep -n pokerth_server > /var/run/pokerth_server.pid ;;
+	stop)
+		kill `cat /var/run/pokerth_server.pid` ;;
+	*)
+		echo "Usage: pokerth_server {start|stop}" ;;
+esac
+-- cut here --
 
 2.7 Sample monit configuration (Linux)
 ---------------------------------------
 
-TODO
+The previous step is required to set up monit, so make sure the
+init-script works.
+
+Use the sample monit configuration file which comes with your monit
+package as base. Edit the basic configuration, and READ THE MANUAL.
+It is recommended to run monit as daemon, and to use a check-interval
+no longer than 120 seconds.
+
+Add the following lines to the monitrc configuration file:
+
+-- cut here --
+check process pokerth_server with pidfile /var/run/pokerth_server.pid
+  start program = "/etc/init.d/pokerth_server start"
+  stop  program = "/etc/init.d/pokerth_server stop"
+  if 5 restarts within 5 cycles then timeout
+-- cut here --
+
+Make sure that pokerth_server is terminated. Then start monit. It will
+automatically start pokerth_server. The easiest way to restart the server,
+once monit is running, is to log in as user "pokerth" and run
+	killall pokerth_server
+
+This will cause monit to restart the pokerth_server within the configured
+interval.
 
 +++++++++++++++++++++++++++
 3. Installation on Windows
