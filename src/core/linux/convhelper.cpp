@@ -25,6 +25,7 @@
 #endif
 
 #include <string>
+#include <cstring>
 
 #include <iconv.h>
 #include <errno.h>
