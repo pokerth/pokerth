@@ -46,7 +46,7 @@ Use the project files in VisualC.zip of the source package.
 Build both debug and release versions.
 
 8. Run
-qmake -tp vc -recursive
+qmake -tp vc -recursive pokerth.pro
 in the pokerth directory. This will create a solution and project files.
 Open the solution.
 
