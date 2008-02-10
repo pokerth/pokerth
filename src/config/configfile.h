@@ -33,7 +33,7 @@ class QtToolsInterface;
 
 class ConfigFile{
 public:
-	ConfigFile(int, char **);
+	ConfigFile(char *argv0, bool readonly);
 
 	~ConfigFile();
 	
@@ -75,7 +75,6 @@ private:
 	bool noWriteAccess;
 
 	std::string logOnOffDefault;
-	std::string claNoWriteAccess;
 
 	ConfigState myConfigState;
 	QtToolsInterface *myQtToolsInterface;

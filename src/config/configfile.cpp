@@ -39,111 +39,97 @@
 using namespace std;
 
 
-ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
+ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 {
 
-	myArgv0 = argv[0];
-	int i;
+	myArgv0 = argv0;
 
 	myQtToolsInterface = CreateQtToolsWrapper();
 
-	for (i=1; i<argc; i++) {
-		if(strcmp(argv[i], "--nowriteaccess") == 0) { noWriteAccess = 1; }
-	}
 	// !!!! Revisionsnummer der Configdefaults !!!!!
 	configRev = 52;
 
 	//standard defaults
 	logOnOffDefault = "1";
-	claNoWriteAccess = "0";
 
-	if(!noWriteAccess) {
-		// Pfad und Dateinamen setzen
+	// Pfad und Dateinamen setzen
 #ifdef _WIN32
-		const char *appDataPath = getenv("AppData");
-		if (appDataPath && appDataPath[0] != 0) {
-			configFileName = appDataPath; 
+	const char *appDataPath = getenv("AppData");
+	if (appDataPath && appDataPath[0] != 0) {
+		configFileName = appDataPath; 
+	}
+	else {
+		const int MaxPathSize = 1024;
+		char curDir[MaxPathSize + 1];
+		curDir[0] = 0;
+		_getcwd(curDir, MaxPathSize);
+		curDir[MaxPathSize] = 0;
+		configFileName = curDir;
+		// Testen ob das Verzeichnis beschreibbar ist
+		ofstream tmpFile;
+		const char *tmpFileName = "pokerth_test.tmp";
+		tmpFile.open((configFileName + "\\" + tmpFileName).c_str());
+		if (tmpFile) {
+			// Erfolgreich, Verzeichnis beschreibbar.
+			// Datei wieder loeschen.
+			tmpFile.close();
+			remove((configFileName + "\\" + tmpFileName).c_str());
 		}
 		else {
-			const int MaxPathSize = 1024;
-			char curDir[MaxPathSize + 1];
+			// Fehlgeschlagen, Verzeichnis nicht beschreibbar
 			curDir[0] = 0;
-			_getcwd(curDir, MaxPathSize);
+			GetTempPathA(MaxPathSize, curDir);
 			curDir[MaxPathSize] = 0;
 			configFileName = curDir;
-			// Testen ob das Verzeichnis beschreibbar ist
-			ofstream tmpFile;
-			const char *tmpFileName = "pokerth_test.tmp";
-			tmpFile.open((configFileName + "\\" + tmpFileName).c_str());
-			if (tmpFile) {
-				// Erfolgreich, Verzeichnis beschreibbar.
-				// Datei wieder loeschen.
-				tmpFile.close();
-				remove((configFileName + "\\" + tmpFileName).c_str());
-			}
-			else {
-				// Fehlgeschlagen, Verzeichnis nicht beschreibbar
-				curDir[0] = 0;
-				GetTempPathA(MaxPathSize, curDir);
-				curDir[MaxPathSize] = 0;
-				configFileName = curDir;
-			}
 		}
-		//define app-dir
-		configFileName += "\\pokerth\\";
-		////define log-dir
-		logDir = configFileName;
-		logDir += "log-files\\";
-		////define data-dir
-		dataDir = configFileName;
-		dataDir += "data\\";
-		////define cache-dir
-		cacheDir = configFileName;
-		cacheDir += "cache\\";
-		//create directories on first start of app
-		mkdir(configFileName.c_str());
-		mkdir(logDir.c_str());
-		mkdir(dataDir.c_str());
-		mkdir(cacheDir.c_str());
+	}
+	//define app-dir
+	configFileName += "\\pokerth\\";
+	////define log-dir
+	logDir = configFileName;
+	logDir += "log-files\\";
+	////define data-dir
+	dataDir = configFileName;
+	dataDir += "data\\";
+	////define cache-dir
+	cacheDir = configFileName;
+	cacheDir += "cache\\";
+
+	//create directories on first start of app
+	mkdir(configFileName.c_str());
+	mkdir(logDir.c_str());
+	mkdir(dataDir.c_str());
+	mkdir(cacheDir.c_str());
 	
 		
 #else
-		//define app-dir
-		const char *homePath = getenv("HOME");
-		if(homePath) {
-			configFileName = homePath;
-			configFileName += "/.pokerth/";
-			////define log-dir
-			logDir = configFileName;
-			logDir += "log-files/";
-			////define data-dir
-			dataDir = configFileName;
-			dataDir += "data/";
-			////define cache-dir
-			cacheDir = configFileName;
-			cacheDir += "cache/";
-			//create directories on first start of app
-			mkdir(configFileName.c_str(), MODUS) ;
-			mkdir(logDir.c_str(), MODUS);
-			mkdir(dataDir.c_str(), MODUS);
-			mkdir(cacheDir.c_str(), MODUS);
-		}
+	//define app-dir
+	const char *homePath = getenv("HOME");
+	if(homePath) {
+		configFileName = homePath;
+		configFileName += "/.pokerth/";
+		////define log-dir
+		logDir = configFileName;
+		logDir += "log-files/";
+		////define data-dir
+		dataDir = configFileName;
+		dataDir += "data/";
+		////define cache-dir
+		cacheDir = configFileName;
+		cacheDir += "cache/";
+		//create directories on first start of app
+		mkdir(configFileName.c_str(), MODUS) ;
+		mkdir(logDir.c_str(), MODUS);
+		mkdir(dataDir.c_str(), MODUS);
+		mkdir(cacheDir.c_str(), MODUS);
+	}
 	
 #endif
-	}
-	else {
-	//no writeaccess
-		configFileName = "";
-		logDir = "";
-		dataDir = "";
-		logOnOffDefault = "0";
-		claNoWriteAccess = "1";
-	}
 
 	ostringstream tempIntToString;
 	tempIntToString << configRev;
 	configList.push_back(ConfigInfo("ConfigRevision", CONFIG_TYPE_INT, tempIntToString.str()));
-	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, myQtToolsInterface->getDataPathStdString(argv[0])));
+	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, myQtToolsInterface->getDataPathStdString(myArgv0)));
 	configList.push_back(ConfigInfo("Language", CONFIG_TYPE_INT, myQtToolsInterface->getDefaultLanguage()));
 	configList.push_back(ConfigInfo("InternetServerAddressIRCChannelUpdateDone", CONFIG_TYPE_INT, "1")); //HACK
 	configList.push_back(ConfigInfo("ShowLeftToolBox", CONFIG_TYPE_INT, "1"));
@@ -241,7 +227,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 	configList.push_back(ConfigInfo("LogInterval", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("UserDataDir", CONFIG_TYPE_STRING, dataDir));
 	configList.push_back(ConfigInfo("CacheDir", CONFIG_TYPE_STRING, cacheDir));	
-	configList.push_back(ConfigInfo("CLA_NoWriteAccess", CONFIG_TYPE_INT, claNoWriteAccess));
+	configList.push_back(ConfigInfo("CLA_NoWriteAccess", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DisableBackToLobbyWarning", CONFIG_TYPE_INT, "0"));
 
 	//fill tempList firstTime
@@ -272,7 +258,7 @@ ConfigFile::ConfigFile(int argc, char **argv) : noWriteAccess(0)
 				if (tmpStr) tempAppDataPath = tmpStr;
 			}
 
-			if (tempRevision < configRev || tempAppDataPath != myQtToolsInterface->getDataPathStdString(argv[0]) ) { /*löschen()*/ 
+			if (tempRevision < configRev || tempAppDataPath != myQtToolsInterface->getDataPathStdString(myArgv0) ) { /*löschen()*/ 
 				myConfigState = OLD;
 				updateConfig(myConfigState) ;
 			}

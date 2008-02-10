@@ -24,8 +24,11 @@
 #include <qttoolsinterface.h>
 #include <gui/generic/serverguiwrapper.h>
 #include <net/socket_startup.h>
+#include <net/netpacket.h>
 #include <core/loghelper.h>
 #include <core/thread.h>
+#include <boost/program_options.hpp>
+#include <boost/filesystem.hpp>
 
 #include <memory>
 #include <csignal>
@@ -49,6 +52,8 @@
 #endif
 
 using namespace std;
+namespace po = boost::program_options;
+using namespace boost::filesystem;
 
 volatile int g_pokerthTerminate = 0;
 
@@ -59,7 +64,9 @@ TerminateHandler(int /*signal*/)
 }
 
 // TODO: Hack
-#ifndef _WIN32
+#ifdef _WIN32
+	#include <process.h>
+#else
 	#include <unistd.h>
 	#ifndef daemon
 		int daemon(int, int);
@@ -73,9 +80,42 @@ main(int argc, char *argv[])
 
 //	_CrtSetBreakAlloc(4772);
 
+	bool readonlyConfig = false;
+	string pidFile;
+	{
+		// Check command line options.
+		po::options_description desc("Allowed options");
+		desc.add_options()
+			("help,h", "produce help message")
+			("version,v", "print version string")
+			("pid-file,p", po::value<string>(), "create pid-file in different location")
+			("readonly-config", "treat config file as read-only")
+			;
+
+		po::variables_map vm;
+		po::store(po::parse_command_line(argc, argv, desc), vm);
+		po::notify(vm);
+
+		if (vm.count("help"))
+		{
+			cout << desc << endl;
+			return 1;
+		}
+		if (vm.count("version"))
+		{
+			cout << "PokerTH server version   " << POKERTH_BETA_RELEASE_STRING << endl
+				 << "Network protocol version " << NET_VERSION_MAJOR << "." << NET_VERSION_MINOR << endl;
+			return 1;
+		}
+		if (vm.count("pid-file"))
+			pidFile = vm["pid-file"].as<string>();
+		if (vm.count("readonly-config"))
+			readonlyConfig = true;
+	}
+
 	auto_ptr<QtToolsInterface> myQtToolsInterface(CreateQtToolsWrapper());
 	//create defaultconfig
-	ConfigFile *myConfig = new ConfigFile(argc, argv);
+	ConfigFile *myConfig = new ConfigFile(argv[0], readonlyConfig);
 	loghelper_init(myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir")));
 
 	// TODO: Hack
@@ -90,6 +130,21 @@ main(int argc, char *argv[])
 
 	LOG_MSG("Starting PokerTH dedicated server. Availability: IPv6 "
 		<< socket_has_ipv6() << ", SCTP " << socket_has_sctp() << ", Dual Stack " << socket_has_dual_stack() << ".");
+
+	// Store pid in file.
+	if (pidFile.empty())
+	{
+		path tmpPidPath(myConfig->readConfigString("LogDir"));
+		tmpPidPath /= "pokerth.pid";
+		pidFile = tmpPidPath.directory_string();
+	}
+	{
+		ofstream pidStream(pidFile.c_str(), ios_base::out | ios_base::trunc);
+		if (!pidStream.fail())
+			pidStream << getpid();
+		else
+			LOG_ERROR("Could not create process id file \"" << pidFile << "\"!");
+	}
 
 	// Create pseudo Gui Wrapper for the server.
 	boost::shared_ptr<GuiInterface> myServerGuiInterface(new ServerGuiWrapper(myConfig, NULL, NULL, NULL));

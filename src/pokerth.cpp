@@ -80,7 +80,7 @@ int main( int argc, char **argv )
 	QApplication a( argc, argv );
 
 	//create defaultconfig
-	ConfigFile *myConfig = new ConfigFile(argc, argv);
+	ConfigFile *myConfig = new ConfigFile(argv[0], false);
 
 	// set PlastiqueStyle even for mac-version to prevent artefacts on styled widgets
 	a.setStyle(new QPlastiqueStyle);
