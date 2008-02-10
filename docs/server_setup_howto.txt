@@ -29,6 +29,7 @@ The following packages are required to compile the server:
   - boost-thread
   - boost-filesystem
   - boost-datetime
+  - boost-program_options
 * OpenSSL (any version should be fine)
 
 The following packages are optional but recommended:
