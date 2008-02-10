@@ -133,6 +133,7 @@ win32 {
 		LIBS += -lssl
 		LIBS += -lboost_thread-mgw34-mt-1_34_1
 		LIBS += -lboost_filesystem-mgw34-mt-1_34_1
+		LIBS += -lboost_program_options-mgw34-mt-1_34_1
 	}
 
     LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32
@@ -213,6 +214,7 @@ mac{
 	# make sure you have a universal version of boost
 	LIBS += /usr/local/lib/libboost_thread-mt-1_34_1.a
 	LIBS += /usr/local/lib/libboost_filesystem-mt-1_34_1.a
+	LIBS += /usr/local/lib/libboost_program_options-mt-1_34_1.a
 	# libraries installed on every mac
 	LIBS += -lcrypto -liconv
 	# set the application icon
