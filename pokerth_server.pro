@@ -190,7 +190,28 @@ unix : !mac {
 			LIBS += -lboost_filesystem
 		}
 	}
-	
+
+	exists( /usr/lib/libboost_program_options-mt.so ){
+		message("Found libboost_program_options-mt")
+		LIBS += -lboost_program_options-mt
+	}
+	exists( /usr/lib64/libboost_program_options-mt.so ){
+		message("Found libboost_program_options-mt")
+		LIBS += -lboost_program_options-mt
+	}
+	!exists( /usr/lib/libboost_program_options-mt.so ){
+		exists( /usr/lib/libboost_program_options.so ){
+			message("Found libboost_program_options")
+			LIBS += -lboost_program_options
+		}
+	}
+	!exists( /usr/lib64/liblibboost_program_options-mt.so ){
+		exists( /usr/lib64/libboost_program_options.so ){
+			message("Found libboost_program_options")
+			LIBS += -lboost_program_options
+		}
+	}
+
 	LIBS += -lcrypto
 	TARGETDEPS += ./lib/libpokerth_lib.a
 
