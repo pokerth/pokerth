@@ -62,7 +62,7 @@ typedef unsigned char					u_char;
 #define SOCKET_ERR_NOTCONN				ENOTCONN
 #define SOCKET_ERR_NOTSOCK				ENOTSOCK
 
-#define IS_SOCKET_ERR_WOULDBLOCK(_e)	((_e) == EINPROGRESS || (_e) == EAGAIN)
+#define IS_SOCKET_ERR_WOULDBLOCK(_e)	((_e) == EINPROGRESS || (_e) == EAGAIN || (_e) == EWOULDBLOCK)
 
 #endif
 
