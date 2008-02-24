@@ -90,8 +90,9 @@ protected:
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
 	typedef std::deque<SessionWrapper> SessionQueue;
 	typedef std::list<SessionWrapper> SessionList;
-	typedef std::map<SessionId, boost::timers::portable::microsec_timer> InitTimerSessionMap;
+	typedef std::map<SessionId, boost::timers::portable::microsec_timer> TimerSessionMap;
 	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
+	typedef std::map<std::string, boost::timers::portable::microsec_timer> TimerClientAddressMap;
 	typedef std::list<unsigned> RemoveGameList;
 	typedef std::list<boost::shared_ptr<SenderThread> > SenderThreadList;
 
@@ -115,6 +116,7 @@ protected:
 	void CloseSessionLoop();
 	void RemoveGameLoop();
 	void KickPlayerLoop();
+	void UpdateAvatarClientTimerLoop();
 	void CleanupAvatarCache();
 
 	void InternalAddGame(boost::shared_ptr<ServerGameThread> game);
@@ -164,8 +166,11 @@ private:
 	SessionManager m_sessionManager;
 	SessionManager m_gameSessionManager;
 
-	InitTimerSessionMap m_initTimerSessionMap;
+	TimerSessionMap m_initTimerSessionMap;
 	mutable boost::mutex m_initTimerSessionMapMutex;
+
+	TimerClientAddressMap m_timerAvatarClientAddressMap;
+	mutable boost::mutex m_timerAvatarClientAddressMapMutex;
 
 	RemoveGameList m_removeGameList;
 	mutable boost::mutex m_removeGameListMutex;
@@ -175,6 +180,7 @@ private:
 
 	PlayerDataMap m_computerPlayers;
 	mutable boost::mutex m_computerPlayersMutex;
+
 
 	GameMap m_gameMap;
 

@@ -20,7 +20,7 @@
 #include <net/connectdata.h>
 
 ConnectData::ConnectData()
-: m_sockfd(INVALID_SOCKET)
+: m_sockfd(INVALID_SOCKET), m_peerAddrSize(sizeof(m_peerAddr))
 {
 }
 

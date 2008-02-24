@@ -35,6 +35,12 @@ socket_string_to_addr(const char *str, int addrFamily, struct sockaddr *addr, in
 }
 
 bool
+socket_addr_to_string(struct sockaddr *addr, int /*addrLen*/, int addrFamily, char *str, int strLen)
+{
+	return (inet_ntop(addrFamily, addr, str, strLen) != NULL);
+}
+
+bool
 socket_resolve(const char *str, const char *port, int addrFamily, int sockType, int protocol, struct sockaddr *addr, int addrLen)
 {
 	bool retVal = false;

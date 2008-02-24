@@ -88,6 +88,8 @@ typedef unsigned char					u_char;
 	#define SOCKET_IPPROTO_SCTP			0
 #endif
 
+#define MAX_ADDR_STRING_LEN 256
+
 // All char *s are assumed to be UTF-8.
 
 /**
@@ -95,6 +97,11 @@ typedef unsigned char					u_char;
  * str is assumed to be UTF-8 encoded.
  */
 bool socket_string_to_addr(const char *str, int addrFamily, struct sockaddr *addr, int addrLen);
+
+/**
+ * Convert a numeric address to an address string.
+ */
+bool socket_addr_to_string(struct sockaddr *addr, int addrLen, int addrFamily, char *str, int strLen);
 
 /**
  * Resolve a name to a numeric address.

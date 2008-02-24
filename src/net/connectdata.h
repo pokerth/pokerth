@@ -36,8 +36,16 @@ public:
 
 	SOCKET ReleaseSocket();
 
+	struct sockaddr *GetPeerAddr() {return (sockaddr *)&m_peerAddr;}
+	int GetPeerAddrSize() const {return m_peerAddrSize;}
+
+	void SetPeerAddrSize(int addrSize) {m_peerAddrSize = addrSize;}
+
 private:
-	SOCKET				m_sockfd;
+	SOCKET					m_sockfd;
+
+	struct sockaddr_storage	m_peerAddr;
+	int						m_peerAddrSize;
 };
 
 #endif

@@ -182,17 +182,31 @@ ServerAcceptThread::AcceptLoop()
 		{
 			throw ServerException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 		}
-		// Optional calls - don't check return value.
-		// Enable keepalive - won't be of much use but better than nothing.
-		int keepalive = 1;
-		setsockopt(tmpData->GetSocket(), SOL_SOCKET, SO_KEEPALIVE, (char *)&keepalive, sizeof(keepalive));
 
-#ifdef SO_NOSIGPIPE
-		int nosigpipe = 1;
-		setsockopt(tmpData->GetSocket(), SOL_SOCKET, SO_NOSIGPIPE, (char *)&nosigpipe, sizeof(nosigpipe));
-#endif
+		// Retrieve peer address.
+		int addrLen = tmpData->GetPeerAddrSize();
+		if (getpeername(tmpData->GetSocket(), tmpData->GetPeerAddr(), &addrLen) != 0)
+		{
+			// Something went wrong with the connection, just continue (socket will be closed).
+			LOG_ERROR("getpeername() failed: " << SOCKET_ERRNO());
+		}
+		else
+		{
+			// Set the size of the peer address.
+			tmpData->SetPeerAddrSize(addrLen);
 
-		GetLobbyThread().AddConnection(tmpData);
+			// Optional calls - don't check return value.
+			// Enable keepalive - won't be of much use but better than nothing.
+			int keepalive = 1;
+			setsockopt(tmpData->GetSocket(), SOL_SOCKET, SO_KEEPALIVE, (char *)&keepalive, sizeof(keepalive));
+
+	#ifdef SO_NOSIGPIPE
+			int nosigpipe = 1;
+			setsockopt(tmpData->GetSocket(), SOL_SOCKET, SO_NOSIGPIPE, (char *)&nosigpipe, sizeof(nosigpipe));
+	#endif
+
+			GetLobbyThread().AddConnection(tmpData);
+		}
 	}
 }
 

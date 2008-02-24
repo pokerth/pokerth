@@ -38,6 +38,7 @@
 #define SERVER_CACHE_CLEANUP_INTERVAL_SEC	86400	// 1 day
 #define SERVER_SAVE_STATISTICS_INTERVAL_SEC	60
 #define SERVER_INIT_SESSION_TIMEOUT_SEC		20
+#define SERVER_INIT_AVATAR_CLIENT_LOCK_SEC	30      // Forbid a client to send an additional avatar.
 
 #define SERVER_STATISTICS_FILE_NAME				"server_statistics.log"
 #define SERVER_STATISTICS_STR_TOTAL_PLAYERS		"TotalNumPlayersLoggedIn"
@@ -313,6 +314,8 @@ ServerLobbyThread::Main()
 			RemoveGameLoop();
 			// Kick players.
 			KickPlayerLoop();
+			// Update avatar limitation lock.
+			UpdateAvatarClientTimerLoop();
 			// Cleanup cache.
 			CleanupAvatarCache();
 			// Save statistics if needed.
@@ -442,10 +445,25 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 	m_sessionManager.SetSessionPlayerData(session.sessionData->GetId(), tmpPlayerData);
 	session.playerData = tmpPlayerData;
 
-	if (initData.showAvatar && !initData.avatar.IsZero() && !GetAvatarManager().HasAvatar(initData.avatar))
-		RequestPlayerAvatar(session);
+	if (initData.showAvatar
+		&& !initData.avatar.IsZero()
+		&& !GetAvatarManager().HasAvatar(initData.avatar))
+	{
+		bool avatarRecentlyRequested = false;
+		{
+			boost::mutex::scoped_lock lock(m_timerAvatarClientAddressMapMutex);
+			if (m_timerAvatarClientAddressMap.find(session.sessionData->GetClientAddr()) != m_timerAvatarClientAddressMap.end())
+				avatarRecentlyRequested = true;
+		}
+		if (avatarRecentlyRequested)
+			SessionError(session, ERR_NET_INVALID_AVATAR_FILE);
+		else
+			RequestPlayerAvatar(session);
+	}
 	else
+	{
 		EstablishSession(session);
+	}
 }
 
 void
@@ -698,6 +716,11 @@ ServerLobbyThread::RequestPlayerAvatar(SessionWrapper session)
 {
 	if (!session.playerData.get())
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
+	// Accept no more new avatars from that client for a certain time.
+	{
+		boost::mutex::scoped_lock lock(m_timerAvatarClientAddressMapMutex);
+		m_timerAvatarClientAddressMap[session.sessionData->GetClientAddr()] = boost::timers::portable::microsec_timer();
+	}
 	// Ask the client to send its avatar.
 	boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
 	NetPacketRetrieveAvatar::Data retrieveAvatarData;
@@ -745,13 +768,13 @@ void
 ServerLobbyThread::CloseSessionLoop()
 {
 	boost::mutex::scoped_lock lock(m_initTimerSessionMapMutex);
-	InitTimerSessionMap::iterator i = m_initTimerSessionMap.begin();
-	InitTimerSessionMap::iterator end = m_initTimerSessionMap.end();
+	TimerSessionMap::iterator i = m_initTimerSessionMap.begin();
+	TimerSessionMap::iterator end = m_initTimerSessionMap.end();
 
 	// Remove sessions if they do not initialize within a certain period.
 	while (i != end)
 	{
-		InitTimerSessionMap::iterator next = i;
+		TimerSessionMap::iterator next = i;
 		++next;
 		if (i->second.elapsed().total_seconds() > SERVER_INIT_SESSION_TIMEOUT_SEC)
 		{
@@ -801,6 +824,24 @@ ServerLobbyThread::KickPlayerLoop()
 		++i;
 	}
 	m_kickPlayerList.clear();
+}
+
+void
+ServerLobbyThread::UpdateAvatarClientTimerLoop()
+{
+	boost::mutex::scoped_lock lock(m_timerAvatarClientAddressMapMutex);
+
+	TimerClientAddressMap::iterator i = m_timerAvatarClientAddressMap.begin();
+	TimerClientAddressMap::iterator end = m_timerAvatarClientAddressMap.end();
+
+	while (i != end)
+	{
+		TimerClientAddressMap::iterator next = i;
+		++next;
+		if (i->second.elapsed().total_seconds() > SERVER_INIT_AVATAR_CLIENT_LOCK_SEC)
+			m_timerAvatarClientAddressMap.erase(i);
+		i = next;
+	}
 }
 
 void
@@ -907,6 +948,14 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 
 	if (m_sessionManager.GetRawSessionCount() <= SERVER_MAX_NUM_SESSIONS)
 	{
+		char tmpAddress[MAX_ADDR_STRING_LEN];
+		// Only consider address, set port to zero.
+		if (socket_set_port(0, connData->GetPeerAddr()->sa_family, connData->GetPeerAddr(), connData->GetPeerAddrSize())
+			&& socket_addr_to_string(connData->GetPeerAddr(), connData->GetPeerAddrSize(), connData->GetPeerAddr()->sa_family, tmpAddress, sizeof(tmpAddress)))
+		{
+			tmpAddress[sizeof(tmpAddress) - 1] = 0; // paranoia
+			sessionData->SetClientAddr(tmpAddress);
+		}
 		boost::mutex::scoped_lock lock(m_initTimerSessionMapMutex);
 		m_initTimerSessionMap[sessionData->GetId()] = boost::timers::portable::microsec_timer();
 	}
