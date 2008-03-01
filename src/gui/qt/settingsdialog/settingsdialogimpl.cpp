@@ -45,10 +45,12 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	if (myConfig->readConfigInt("CLA_NoWriteAccess")) { groupBox_logOnOff->setDisabled(TRUE); }
 
 	comboBox_switchLanguage->addItem(tr("Bulgarian"),"bg");
+	comboBox_switchLanguage->addItem(tr("Chinese"),"zhcn");
 	comboBox_switchLanguage->addItem(tr("Dutch"),"nl");
 	comboBox_switchLanguage->addItem(tr("English"),"en");
 	comboBox_switchLanguage->addItem(tr("French"),"fr");
 	comboBox_switchLanguage->addItem(tr("German"),"de");
+	comboBox_switchLanguage->addItem(tr("Greek"),"gr");
 	comboBox_switchLanguage->addItem(tr("Hungarian"),"hu");
 	comboBox_switchLanguage->addItem(tr("Italian"),"it");
 	comboBox_switchLanguage->addItem(tr("Norwegian"),"no");
@@ -57,6 +59,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	comboBox_switchLanguage->addItem(tr("Russian"),"ru");
 	comboBox_switchLanguage->addItem(tr("Slovak"),"sk");
 	comboBox_switchLanguage->addItem(tr("Spanish"),"es");
+	comboBox_switchLanguage->addItem(tr("Swedish"),"sv");
 	comboBox_switchLanguage->addItem(tr("Turkish"),"tr");
 
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );

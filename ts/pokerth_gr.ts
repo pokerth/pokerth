@@ -2030,118 +2030,118 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>settingsDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="48"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="49"/>
         <source>Dutch</source>
         <translation>Dutch</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="49"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="50"/>
         <source>English</source>
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="50"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="51"/>
         <source>French</source>
         <translation>French</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="51"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="52"/>
         <source>German</source>
         <translation>German</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="52"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="54"/>
         <source>Hungarian</source>
         <translation>Hungarian</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="55"/>
         <source>Italian</source>
         <translation>Italian</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="54"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="56"/>
         <source>Norwegian</source>
         <translation>Norwegian</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="56"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="58"/>
         <source>Portuguese</source>
         <translation>Portuguese</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="57"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="59"/>
         <source>Russian</source>
         <translation>Russian</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="58"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="60"/>
         <source>Slovak</source>
         <translation>Slovak</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="59"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="61"/>
         <source>Spanish</source>
         <translation>Spanish</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="60"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="63"/>
         <source>Turkish</source>
         <translation>Turkish</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="355"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="358"/>
         <source>Settings Error</source>
         <translation>Λάθος Επιλογές</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="336"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="339"/>
         <source>The entered flipside picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>Η επιλεγμένη εικόνα για την τράπουλα δεν υπάρχει.
 Παρακαλώ επιλέξτε μια σωστή εικόνα!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="357"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="360"/>
         <source>The log file directory doesn&apos;t exist.
 Please select an valid directory!</source>
         <translation>Η διεύθυνση του αρχείου log δεν υπάρχει.
 Παρακαλώ επιλέξτε μια σωστή διεύθυνση!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="385"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="388"/>
         <source>Language Changed</source>
         <translation>Η γλώσσα άλλαξε</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="386"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="389"/>
         <source>You have changed application language to %1.
 Please restart PokerTH to load new language!</source>
         <translation>Έχετε επιλέξει την γλώσσα %1.
 Παρακαλώ επανεκκινήστε το PokerTH για να &quot;φορτωθεί&quot; η νέα γλώσσα!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="402"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="405"/>
         <source>Select your flipside picture</source>
         <translation>Επιλέξτε την εικόνα της τράπουλας</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="404"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="407"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Εικόνες (*.png *.jpg *.gif)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="476"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="479"/>
         <source>Open Directory</source>
         <translation>Άνοιγμα φακέλου</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="584"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="587"/>
         <source>Blinds Error</source>
         <translation>Λάθος Blinds</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="585"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="588"/>
         <source>The first element in your manual-blinds-list 
 is smaller than current first-small-blind!
 This first-small-blind-value will be set to maximum allowed value.</source>
@@ -2155,9 +2155,24 @@ This first-small-blind-value will be set to maximum allowed value.</source>
         <translation>Bulgarian</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="55"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="57"/>
         <source>Polish</source>
         <translation>Polish</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="48"/>
+        <source>Chinese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
+        <source>Greek</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="62"/>
+        <source>Swedish</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
