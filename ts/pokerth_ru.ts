@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="ru">
-<defaultcodec></defaultcodec>
 <context>
     <name>Chat</name>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/chat/chat.cpp" line="53"/>
+        <location filename="../src/gui/qt/mainwindow/chat/chat.cpp" line="56"/>
         <source>You cannot kick yourself!</source>
         <translation>Вы не можете отключить себя!</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/chat/chat.cpp" line="60"/>
+        <location filename="../src/gui/qt/mainwindow/chat/chat.cpp" line="63"/>
         <source>You cannot kick any player - You are not game admin!</source>
         <translation>Вы не можете отключить кого-либо, т.к. не являетесь администратором игры!</translation>
     </message>
@@ -17,62 +16,62 @@
 <context>
     <name>LobbyChat</name>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="61"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="61"/>
         <source>Successfully connected to</source>
         <translation>Успешное соединение с</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="67"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="68"/>
         <source>Joined channel:</source>
         <translation>Вы подключены на канал:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="67"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="68"/>
         <source>as user</source>
         <translation>как пользователь</translation>
     </message>
     <message>
         <location filename="E:/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="104"/>
         <source>Network Notification</source>
-        <translation>Сетевое уведомление</translation>
+        <translation type="obsolete">Сетевое уведомление</translation>
     </message>
     <message>
         <location filename="E:/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="105"/>
         <source>You were kicked from the server.</source>
-        <translation>Вы были отключены от сервера.</translation>
+        <translation type="obsolete">Вы были отключены от сервера.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="109"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="109"/>
         <source>was kicked from the server by</source>
         <translation>был отключен от сервера</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="153"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="148"/>
         <source>Connecting to Chat server...</source>
         <translation>Соединение с чат-сервером ...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="167"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="162"/>
         <source>An internal IRC error has occured:</source>
         <translation>Произошла внутренняя ошибка IRC:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="170"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="165"/>
         <source>Could not connect to the IRC server. Chat will be unavailable.</source>
         <translation>Не могу подключиться к IRC серверу. Чат будет недоступен.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="173"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="168"/>
         <source>The IRC server terminated the connection. Chat will be unavailable.</source>
         <translation>IRC сервер прервал соединение. Чат будет недоступен.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="176"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="171"/>
         <source>An IRC action timed out.</source>
         <translation>Вышло время ожидания операции IRC.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="238"/>
+        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="233"/>
         <source>The IRC server reported an error:</source>
         <translation>IRC север сообщает об ошибке:</translation>
     </message>
@@ -85,7 +84,7 @@
         <translation type="obsolete">О программе PokerTH 0.5</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/aboutpokerth.ui" line="42"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="42"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
@@ -119,7 +118,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/aboutpokerth.ui" line="120"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="120"/>
         <source>Project</source>
         <translation>Проект</translation>
     </message>
@@ -167,22 +166,22 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - сборка для MacOS&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/aboutpokerth.ui" line="177"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="177"/>
         <source>Translation</source>
         <translation>Перевод</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/aboutpokerth.ui" line="215"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="215"/>
         <source>Thanks to</source>
         <translation>Благодарности</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/aboutpokerth.ui" line="266"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="266"/>
         <source>License</source>
         <translation>Лицензия</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/aboutpokerth.ui" line="334"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="334"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
@@ -264,7 +263,7 @@ p, li { white-space: pre-wrap; }
 © 2006-2007, FHammer, FThauer, LMay</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/aboutpokerth.ui" line="106"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="106"/>
         <source>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</source>
         <translation>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</translation>
     </message>
@@ -365,7 +364,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">О программе PokerTH 0.6-beta</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="E:/src/gui/qt/aboutpokerth.ui" line="64"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="64"/>
         <source>- Poker engine for the popular &quot;Texas Hold&apos;em&quot; Poker
 - Singleplayer games with up to 6 computer-opponents
 - Multiplayer network games
@@ -382,7 +381,7 @@ p, li { white-space: pre-wrap; }
 © 2006-2007, FHammer, FThauer, LMay</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/aboutpokerth.ui" line="147"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="147"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -425,7 +424,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOS package&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/aboutpokerth.ui" line="201"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="201"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -436,7 +435,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Перевод на русский язык: dtiger, metavoid&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/aboutpokerth.ui" line="239"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="239"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -460,12 +459,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>aboutPokerthImpl</name>
     <message>
-        <location filename="E:/src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="58"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="60"/>
         <source>PokerTH %1</source>
         <translation>PokerTH %1</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="59"/>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="61"/>
         <source>About PokerTH %1</source>
         <translation>О программе PokerTH %1</translation>
     </message>
@@ -473,57 +472,57 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>changeCompleteBlindsDialog</name>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="13"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="13"/>
         <source>Change Blinds Settings</source>
         <translation>Изменить настройки ставок</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="21"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="21"/>
         <source>First small blind:</source>
         <translation>Начальная ставка:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="40"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="40"/>
         <source>Raise blinds:</source>
         <translation>Повышать ставки:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="85"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="85"/>
         <source>Every:</source>
         <translation>Каждые:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="78"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="78"/>
         <source>hands</source>
         <translation>партий</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="105"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="105"/>
         <source>minutes</source>
         <translation>минут</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="121"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="121"/>
         <source>Raise mode:</source>
         <translation>Режим повышения:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="225"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="225"/>
         <source>Always double blinds</source>
         <translation>Всегда удваивать ставки</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="153"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="153"/>
         <source>Manual blinds order:</source>
         <translation>Самостоятельное управление ставками:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="167"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="167"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="194"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="194"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
@@ -538,7 +537,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Всегда повышать на:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="251"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="251"/>
         <source>$</source>
         <translation>$</translation>
     </message>
@@ -548,17 +547,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Оставаться на последней ставке</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="216"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="216"/>
         <source>Afterwards:</source>
         <translation>После этого:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="237"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="237"/>
         <source>Always raise by:</source>
         <translation>Всегда повышать на:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog.ui" line="260"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog.ui" line="260"/>
         <source>Keep last blind</source>
         <translation>Придерживаться последней ставки</translation>
     </message>
@@ -566,12 +565,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>changeCompleteBlindsDialogImpl</name>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="49"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="51"/>
         <source>Manual Blinds Order</source>
         <translation>Самостоятельное управление ставками</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="50"/>
+        <location filename="../src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp" line="52"/>
         <source>You cannot set more than 30 manual blinds.</source>
         <translation>Вы не можете установить более чем 30 самостоятельных ставок.</translation>
     </message>
@@ -579,12 +578,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>changeHumanPlayerNameDialog</name>
     <message>
-        <location filename="E:/src/gui/qt/changehumanplayernamedialog.ui" line="13"/>
+        <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="13"/>
         <source>Network Error</source>
         <translation>Сетевая ошибка</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/changehumanplayernamedialog.ui" line="43"/>
+        <location filename="../src/gui/qt/changehumanplayernamedialog.ui" line="43"/>
         <source>Name:</source>
         <translation>Имя:</translation>
     </message>
@@ -592,17 +591,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>connectToServerDialog</name>
     <message>
-        <location filename="E:/src/gui/qt/connecttoserverdialog.ui" line="13"/>
+        <location filename="../src/gui/qt/connecttoserverdialog.ui" line="13"/>
         <source>Connect to Server</source>
         <translation>Соединение с сервером</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/connecttoserverdialog.ui" line="25"/>
+        <location filename="../src/gui/qt/connecttoserverdialog.ui" line="25"/>
         <source>Connecting to Server ...</source>
         <translation>Соединение с сервером ...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/connecttoserverdialog.ui" line="66"/>
+        <location filename="../src/gui/qt/connecttoserverdialog.ui" line="66"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
@@ -610,22 +609,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>connectToServerDialogImpl</name>
     <message>
-        <location filename="E:/src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="44"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="46"/>
         <source>Resolving address...</source>
         <translation>Определение IP адреса...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="46"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="48"/>
         <source>Connecting to server...</source>
         <translation>Соединение с сервером ...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="48"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="50"/>
         <source>Starting session...</source>
         <translation>Начало сессии...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="50"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="52"/>
         <source>Connection established!</source>
         <translation>Соединение установлено!</translation>
     </message>
@@ -633,7 +632,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>createInternetGameDialog</name>
     <message>
-        <location filename="E:/src/gui/qt/createinternetgamedialog.ui" line="245"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="245"/>
         <source>Create Game</source>
         <translation>Создать игру</translation>
     </message>
@@ -643,7 +642,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Наcтройки игры</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createinternetgamedialog.ui" line="127"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="127"/>
         <source>Game Speed for computer opponents:</source>
         <translation>Скорость игры компьютерных оппонентов:</translation>
     </message>
@@ -658,12 +657,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Время ожидания для хода игрока (сек):</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createinternetgamedialog.ui" line="43"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="43"/>
         <source>Maximum number of players:</source>
         <translation>Максимальное количество игроков:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createinternetgamedialog.ui" line="66"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="66"/>
         <source>Start Cash:</source>
         <translation>Начальная сумма:</translation>
     </message>
@@ -673,52 +672,52 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Малая ставка:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createinternetgamedialog.ui" line="193"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="193"/>
         <source>Password:</source>
         <translation>Пароль:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createinternetgamedialog.ui" line="252"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="252"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createinternetgamedialog.ui" line="13"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="13"/>
         <source>Create Internet Game</source>
         <translation>Создать игру в Интернете</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createinternetgamedialog.ui" line="37"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="37"/>
         <source>Internet Game Settings</source>
         <translation>Настройки игры в Интернете</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createinternetgamedialog.ui" line="98"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="98"/>
         <source>Blinds</source>
         <translation>Ставки</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createinternetgamedialog.ui" line="107"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="107"/>
         <source>Use saved blinds settings</source>
         <translation>Использовать сохраненные настройки ставок</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createinternetgamedialog.ui" line="117"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="117"/>
         <source>Change blinds settings ...</source>
         <translation>Изменить настройки ставок ...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createinternetgamedialog.ui" line="79"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="79"/>
         <source>$</source>
         <translation>$</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createinternetgamedialog.ui" line="150"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="150"/>
         <source>Timeout for player action:</source>
         <translation>Время ожидания хода игрока:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createinternetgamedialog.ui" line="160"/>
+        <location filename="../src/gui/qt/createinternetgamedialog.ui" line="160"/>
         <source> s</source>
         <translation> сек</translation>
     </message>
@@ -726,12 +725,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>createNetworkGameDialog</name>
     <message>
-        <location filename="E:/src/gui/qt/createnetworkgamedialog.ui" line="13"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="13"/>
         <source>Create Network Game</source>
         <translation>Создать сетевую игру</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createnetworkgamedialog.ui" line="19"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="19"/>
         <source>Network Game Settings</source>
         <translation>Настройки сетевой игры</translation>
     </message>
@@ -741,12 +740,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Малая ставка:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createnetworkgamedialog.ui" line="51"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="51"/>
         <source>Start Cash:</source>
         <translation>Начальная сумма:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createnetworkgamedialog.ui" line="28"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="28"/>
         <source>Maximum number of players:</source>
         <translation>Максимальное количество игроков:</translation>
     </message>
@@ -761,17 +760,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Количество партий для повышения малой ставки:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createnetworkgamedialog.ui" line="191"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="191"/>
         <source>Create Game</source>
         <translation>Создать игру</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createnetworkgamedialog.ui" line="198"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="198"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createnetworkgamedialog.ui" line="109"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="109"/>
         <source>Game Speed for computer opponents:</source>
         <translation>Скорость игры компьютерных оппонентов:</translation>
     </message>
@@ -781,32 +780,32 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Количество партий для повышения ставки:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createnetworkgamedialog.ui" line="80"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="80"/>
         <source>Blinds</source>
         <translation>Ставки</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createnetworkgamedialog.ui" line="89"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="89"/>
         <source>Use saved blinds settings</source>
         <translation>Использовать сохраненные настройки ставок</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createnetworkgamedialog.ui" line="99"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="99"/>
         <source>Change blinds settings ...</source>
         <translation>Изменить настройки ставок ...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createnetworkgamedialog.ui" line="64"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="64"/>
         <source>$</source>
         <translation>$</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createnetworkgamedialog.ui" line="132"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="132"/>
         <source>Timeout for player action:</source>
         <translation>Время ожидания хода игрока:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/createnetworkgamedialog.ui" line="142"/>
+        <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="142"/>
         <source> s</source>
         <translation> сек</translation>
     </message>
@@ -819,12 +818,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Общая игровая комната</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="463"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="475"/>
         <source>Lobby-Chat</source>
         <translation>Общий чат</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="74"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="86"/>
         <source>Game</source>
         <translation>Игра</translation>
     </message>
@@ -834,27 +833,27 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Игрок</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="89"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="101"/>
         <source>Private</source>
         <translation>Закрытая</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="118"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="130"/>
         <source>Game Info</source>
         <translation>Информация об игре</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="143"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="155"/>
         <source>Connected Players</source>
         <translation>Подключенные игроки</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="151"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="163"/>
         <source>Fill up with computer opponents</source>
         <translation>Заполнить компьютерными оппонентами</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="176"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="188"/>
         <source>Start Game</source>
         <translation>Начать игру</translation>
     </message>
@@ -889,82 +888,82 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Тайм-аут для хода игрока (сек):</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="379"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="391"/>
         <source>Leave Game</source>
         <translation>Покинуть игру</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="447"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="459"/>
         <source>Create Game</source>
         <translation>Создать игру</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="454"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="466"/>
         <source>Join Game</source>
         <translation>Присоединиться к игре</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="53"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="65"/>
         <source>Available Players</source>
         <translation>Доступные игроки</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="79"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="91"/>
         <source>Players</source>
         <translation>Игроки</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="183"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="195"/>
         <source>Kick Player</source>
         <translation>Отключить игрока</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="84"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="96"/>
         <source>State</source>
         <translation>Состояние</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="194"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="206"/>
         <source>Maximum number of players: </source>
         <translation>Максимальное количество игроков: </translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="212"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="224"/>
         <source>Start Cash: </source>
         <translation>Начальная сумма: </translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="230"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="242"/>
         <source>First small blind: </source>
         <translation>Начальная ставка: </translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="269"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="281"/>
         <source>Blinds raise mode: </source>
         <translation>Режим повышения ставок: </translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="296"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="308"/>
         <source>Manual blinds list:</source>
         <translation>Список самостоятельных ставок:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="323"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="335"/>
         <source>Timeout for player action (sec): </source>
         <translation>Время ожидания хода игрока (сек): </translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="13"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="25"/>
         <source>Internet Game Lobby</source>
         <translation>Общая комната игры в Интернете</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="248"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="260"/>
         <source>Blinds raise interval: </source>
         <translation>Интервал повышения ставок: </translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog.ui" line="408"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="420"/>
         <source>Join any game</source>
         <translation>Присоединиться к любой игре</translation>
     </message>
@@ -987,87 +986,87 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Вы хотите присоединиться к приватной игре. Пожалуйста, введите пароль!</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="618"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="664"/>
         <source>Game Info</source>
         <translation>Информация об игре</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="696"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="742"/>
         <source>Server Error</source>
         <translation>Ошибка сервера</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="697"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="743"/>
         <source>You should not kick yourself from this game!</source>
         <translation>Вы не можете отключить себя от этой игры!</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="172"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="174"/>
         <source>Joining a private Game</source>
         <translation>Присоединиться к закрытой игре</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="173"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="175"/>
         <source>You are about to join a private game. Please enter the password!</source>
         <translation>Вы хотите присоединиться к закрытой игре. Пожалуйста, введите пароль!</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="330"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="332"/>
         <source>running</source>
         <translation>идет игра</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="790"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="833"/>
         <source>open</source>
         <translation>открыта</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="648"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="694"/>
         <source>hands</source>
         <translation>партий</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="649"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="695"/>
         <source>minutes</source>
         <translation>минут</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="651"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="697"/>
         <source>double blinds</source>
         <translation>удвоений ставок</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="656"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="702"/>
         <source>manual blinds order</source>
         <translation>самостоятельное управление ставками</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="34"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="36"/>
         <source>Starting game. Please wait ...</source>
         <translation>Старт игры. Пожалуйста, подождите...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="452"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="454"/>
         <source>running games: %1</source>
         <translation>Текущих игр: %1</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="453"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="455"/>
         <source>open games: %1</source>
         <translation>Открытых игр: %1</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="450"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="452"/>
         <source>players in chat: %1</source>
         <translation>Игроков в чате: %1</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="451"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="453"/>
         <source>connected players: %1</source>
         <translation>Подключенных игроков: %1</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="143"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="145"/>
         <source>%1&apos;s game</source>
         <translation>Игра %1</translation>
     </message>
@@ -1075,57 +1074,57 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>joinNetworkGameDialog</name>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="13"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="13"/>
         <source>Join Network Game</source>
         <translation>Присоединиться к сетевой игре</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="37"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="37"/>
         <source>Connect to Network Game</source>
         <translation>Подключение к сетевой игре</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="61"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="61"/>
         <source>Server Profiles</source>
         <translation>Настройки сервера</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="104"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="104"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="109"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="109"/>
         <source>Address</source>
         <translation>Адрес</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="114"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="114"/>
         <source>Port</source>
         <translation>Порт</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="119"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="119"/>
         <source>IPv6</source>
         <translation>IPv6</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="124"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="124"/>
         <source>SCTP</source>
         <translation>SCTP</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="149"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="149"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="156"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="156"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="185"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="185"/>
         <source>Use SCTP</source>
         <translation>Использовать SCTP</translation>
     </message>
@@ -1141,7 +1140,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Что это такое?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="237"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="237"/>
         <source>Use IPv6</source>
         <translation>Использовать IPv6</translation>
     </message>
@@ -1157,42 +1156,42 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;   &lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Что это такое?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="301"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="301"/>
         <source>Password (optional):</source>
         <translation>Пароль (необязательно):</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="324"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="324"/>
         <source>Port:</source>
         <translation>Порт:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="334"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="334"/>
         <source>IP Address / Domain Name:</source>
         <translation>IP адрес / Имя домена:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="344"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="344"/>
         <source>Profile Name:</source>
         <translation>Имя профиля:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="354"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="354"/>
         <source>myServerProfile1</source>
         <translation>myServerProfile1</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="400"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="400"/>
         <source>Connect</source>
         <translation>Подключиться</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="407"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="407"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="192"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="192"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -1203,7 +1202,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Что это такое?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog.ui" line="244"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="244"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -1217,19 +1216,19 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>joinNetworkGameDialogImpl</name>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="257"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="258"/>
         <source>Load Server-Profile-File Error</source>
         <translation>Ошибка чтения файла профиля сервера</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="258"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="259"/>
         <source>Could not load server-profiles-file:
 </source>
         <translation>Не могу загрузить файл профилей сервера:
 </translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="201"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="202"/>
         <source>Save Server Profile Error</source>
         <translation>Ошибка сохранения профиля сервера</translation>
     </message>
@@ -1239,29 +1238,29 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Профиль под названием: &quot;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="242"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="243"/>
         <source>Read Server-Profile List Error</source>
         <translation>Ошибка чтения списка профилей сервера</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="243"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="244"/>
         <source>Could not read server-profiles list</source>
         <translation>Не могу прочитать список профилей сервера</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="268"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="269"/>
         <source>Save Server-Profile-File Error</source>
         <translation>Ошибка сохранения файла профиля сервера</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="269"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="270"/>
         <source>Could not save server-profiles-file:
 </source>
         <translation>Не могу сохранить файл с профилями сервера:
 </translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="202"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="203"/>
         <source>A profile with the name: %1 already exists.
 Would you like to overwrite ?</source>
         <translation>Профиль под названием: %1уже существует.
@@ -1286,17 +1285,17 @@ Would you like to overwrite ?</source>
         <translation type="obsolete">QGroupBox { background-image: url(:/graphics/resources/graphics/toolboxFrameBG.png) }</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="1999"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="1999"/>
         <source>Hands</source>
         <translation>Комбинации</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="2031"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2031"/>
         <source>Chat</source>
         <translation>Чат</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="2995"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2995"/>
         <source>Speed:</source>
         <translation>Скорость:</translation>
     </message>
@@ -1306,62 +1305,62 @@ Would you like to overwrite ?</source>
         <translation type="obsolete">Стоп</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="2820"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2820"/>
         <source>Log</source>
         <translation>Журнал</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3227"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3227"/>
         <source>View</source>
         <translation>Вид</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3237"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3237"/>
         <source>Game</source>
         <translation>Игра</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3259"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3259"/>
         <source>Start Local Game ...</source>
         <translation>Начать локальную игру ...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3262"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3262"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3267"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3267"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3270"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3270"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3275"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3275"/>
         <source>About PokerTH ...</source>
         <translation>О программе PokerTH ...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3280"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3280"/>
         <source>Settings ...</source>
         <translation>Наcтройки ...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3285"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3285"/>
         <source>Create Network Game ...</source>
         <translation>Создать сетевую игру ...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3293"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3293"/>
         <source>Join Network Game ...</source>
         <translation>Присоединиться к сетевой игре ...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3301"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3301"/>
         <source>Fullscreen</source>
         <translation>Полноэкранный режим</translation>
     </message>
@@ -1371,7 +1370,7 @@ Would you like to overwrite ?</source>
         <translation type="obsolete">⌘F</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3309"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3309"/>
         <source>Show/Hide Chat Window</source>
         <translation>Показать/Скрыть окно чата</translation>
     </message>
@@ -1386,7 +1385,7 @@ Would you like to overwrite ?</source>
         <translation type="obsolete">⌘H</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3331"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3331"/>
         <source>Show/Hide Log Window</source>
         <translation>Показать/Скрыть окно журнала сообщений</translation>
     </message>
@@ -1396,37 +1395,37 @@ Would you like to overwrite ?</source>
         <translation type="obsolete">⌘L</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3323"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3323"/>
         <source>Show/Hide Hands Window</source>
         <translation>Показать/Скрыть окно комбинаций</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3288"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3288"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3296"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3296"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3304"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3304"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3312"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3312"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3326"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3326"/>
         <source>Ctrl+H</source>
         <translation>Ctrl+H</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3334"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3334"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
@@ -1436,17 +1435,17 @@ Would you like to overwrite ?</source>
         <translation type="obsolete">PokerTH 0.6 - Покер Texas Holdem c открытым кодом</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3241"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3241"/>
         <source>Network Game</source>
         <translation>Сетевая игра</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3339"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3339"/>
         <source>Internet Game ...</source>
         <translation>Игра в Интернете ...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3342"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3342"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
@@ -1456,27 +1455,27 @@ Would you like to overwrite ?</source>
         <translation type="obsolete">Ва-банк</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="2858"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2858"/>
         <source>Away</source>
         <translation>Режим отсутствия</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="2867"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2867"/>
         <source>Manual Action (default)</source>
         <translation>Самостоятельная игра (по умолчанию)</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="2880"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2880"/>
         <source>Auto-Check / Auto-Fold</source>
         <translation>Автопропуск / Автосброс</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="2890"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="2890"/>
         <source>Auto-Check / Auto-Call-Any</source>
         <translation>Автопропуск / Автоответ</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="25"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="25"/>
         <source>PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</source>
         <translation>PokerTH 0.6-beta - Покер Texas Holdem c открытым кодом</translation>
     </message>
@@ -1486,12 +1485,12 @@ Would you like to overwrite ?</source>
         <translation type="obsolete">Вернуться в общую комнату</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3347"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3347"/>
         <source>Show/Hide Away Window</source>
         <translation>Показать/Скрыть окно &quot;Режим отсутствия&quot;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow.ui" line="3350"/>
+        <location filename="../src/gui/qt/mainwindow.ui" line="3350"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
@@ -1499,17 +1498,17 @@ Would you like to overwrite ?</source>
 <context>
     <name>mainWindowImpl</name>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3504"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3534"/>
         <source>Stop</source>
         <translation>Стоп</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="439"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="463"/>
         <source>Cmd+N to start a new game</source>
         <translation>Ctrl+N для старта новой игры</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="441"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="465"/>
         <source>Ctrl+N to start a new game</source>
         <translation>Ctrl+N для старта новой игры</translation>
     </message>
@@ -1519,67 +1518,67 @@ Would you like to overwrite ?</source>
         <translation type="obsolete">F1 - Сбросить/Ва-банк | F2 - Пропуск/Ответить | F3 - Ставка/Повысить</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="2990"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3019"/>
         <source>Start</source>
         <translation>Старт</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3218"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3248"/>
         <source>Network Error</source>
         <translation>Сетевая ошибка</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3032"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3061"/>
         <source>Server address was not set.</source>
         <translation>Не установлен адрес сервера.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3037"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3066"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
         <translation>Указан неверный порт (диапазон 0-1023 не допускается).</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3042"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3071"/>
         <source>Could not create a socket for TCP communication.</source>
         <translation>Не могу создать сокет для TCP-соединения.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3047"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3076"/>
         <source>Could not set the IP address.</source>
         <translation>Не могу определить IP адрес.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3052"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3081"/>
         <source>Could not set the port for this type of address.</source>
         <translation>Не могу установить порт для этого типа адреса.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3057"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3086"/>
         <source>The server name could not be resolved.</source>
         <translation>Не могу определить имя сервера.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3062"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3091"/>
         <source>Bind failed - please choose a different port.</source>
         <translation>Подключение на порт не удалось - выберите другой порт.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3067"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3096"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
         <translation>Внутренняя сетевая ошибка: неудачная команда &quot;listen&quot;.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3072"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3101"/>
         <source>Server execution was terminated.</source>
         <translation>Работа сервера была прервана.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3077"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3106"/>
         <source>Could not connect to the server.</source>
         <translation>Не могу соединиться с сервером.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3082"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3111"/>
         <source>Connection timed out.
 Please check the server address.
 
@@ -1590,34 +1589,34 @@ If the server is behind a NAT-Router, make sure port forwarding has been set up 
 Если сервер находится за NAT-маршрутизатором, удостоверьтесь, что обращение к порту сервера разрешено.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3087"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3116"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
         <translation>Внутренняя сетевая ошибка: неудачная команда &quot;select&quot;.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3092"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3121"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
         <translation>Внутренняя сетевая ошибка: неудачная команда&quot;send&quot;.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3098"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3127"/>
         <source>Connection was closed by the server.</source>
         <translation>Соединение было закрыто сервером.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3103"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3132"/>
         <source>Internal network error: Duplicate TCP connection.</source>
         <translation>Внутренняя сетевая ошибка: двойное TCP-соединение.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3108"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3137"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Принят неверный сетевой пакет.
 Убедитесь, что все игроки используют одинаковую версию PokerTH.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3113"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3142"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Внутренняя ошибка состояния.
@@ -1631,29 +1630,29 @@ Please update PokerTH.</source>
 Обновите PokerTH.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3126"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3155"/>
         <source>Sorry, this server is already full.</source>
         <translation>Извините, сервер уже занят.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3246"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3276"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Подключение невозможно - сервер уже начал игру.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3251"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3281"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Неверный пароль при подключении.
 Введите пароль заново и подключитесь снова.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3136"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3165"/>
         <source>The password is too long. Please choose another one.</source>
         <translation>Слишком длинный пароль. Выберите другой.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3140"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3169"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
         <translation>Ваше игровое имя уже используется другим игроком.
@@ -1665,22 +1664,22 @@ Please choose a different name.</source>
         <translation type="obsolete">Имя игрока слишком длинное или слишком короткое. Выберите другое имя.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3164"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3193"/>
         <source>The server referred to an unknown player. Aborting.</source>
         <translation>Сервер обращается к неизвестному игроку. Останов.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3179"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3209"/>
         <source>You were kicked from the server.</source>
         <translation>Вы были отключены от сервера.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3184"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3214"/>
         <source>The client player count is invalid.</source>
         <translation>Неверное количество клиентов сервера.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3219"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3249"/>
         <source>An internal error occured.</source>
         <translation>Произошла внутренняя ошибка.</translation>
     </message>
@@ -1690,32 +1689,32 @@ Please choose a different name.</source>
         <translation type="obsolete">Имя игрока слишком длинное, слишком короткое или уже занято. Выберите другое имя.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3149"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3178"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
         <translation>Название игры слишком длинное или слишком короткое. Выберите другое название.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3154"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3183"/>
         <source>The game could not be found.</source>
         <translation>Игра не найдена.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3159"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3188"/>
         <source>The chat text is invalid.</source>
         <translation>Тескт чата  неверный.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3263"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3293"/>
         <source>Network Notification</source>
         <translation>Уведомление по сети</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3234"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3264"/>
         <source>You were kicked from the game.</source>
         <translation>Вы были отключены от игры.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3240"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3270"/>
         <source>Sorry, this game is already full.</source>
         <translation>Извините, все места в игре уже заняты.</translation>
     </message>
@@ -1725,54 +1724,54 @@ Please choose a different name.</source>
         <translation type="obsolete">F1 - Ставка/Повысить | F2 - Пропуск/Ответить | F3 - Сбросить/Ва-банк</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3517"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3547"/>
         <source>Chat</source>
         <translation>Чат</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3359"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3389"/>
         <source>Manual mode set. You&apos;ve got to choose yourself now.</source>
         <translation>Установлен ручной ружим. Вы играете самостоятельно.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3361"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3391"/>
         <source>Auto mode set: Check or call any.</source>
         <translation>Автоматический режим: всегда пропускать или отвечать.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3363"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3393"/>
         <source>Auto mode set: Check or fold.</source>
         <translation>Автоматический режим: всегда пропускать или сбрасывать.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="893"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="914"/>
         <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
 Please choose another one.</source>
         <translation>Вы не можете войти в общую комнату Интернет-игры под именем  &quot;Human Player&quot;.
 Выберите другое имя.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3169"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3198"/>
         <source>Internal error: The current player could not be found.</source>
         <translation>Внутренняя ошибка: Текущий игрок не найден.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3174"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3203"/>
         <source>Internal error: The current player is not active.</source>
         <translation>Внутренняя ошибка: Текущий игрок не активен.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3189"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3219"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
         <translation>Слишком много самостоятельных ставок. Пересмотрите список ставок.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3195"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3225"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
         <translation>Указан неверный файл аватары. Задайте другую аватару.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3200"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3230"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
         <translation>Выбранный файл аватары слишком большой. Задайте другую аватару.</translation>
     </message>
@@ -1782,17 +1781,17 @@ Please choose another one.</source>
         <translation type="obsolete">Сервер запросил несуществующую аватару.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3210"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3240"/>
         <source>Could not start game: Synchronization failed.</source>
         <translation>Не могу начать игру: нарушена синхронизация.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1950"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1971"/>
         <source>F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In</source>
         <translation>F1 - Сбросить | F2 - Пропуск/Ответить | F3 - Ставка/Повысить | F4 - Ва-банк</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1952"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1973"/>
         <source>F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold</source>
         <translation>F1 - Ва-банк | F2 - Ставка/Повысить | F3 - Пропуск/Ответить | F4 - Сбросить</translation>
     </message>
@@ -1804,12 +1803,12 @@ Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&
 Зайдите на &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; и скачайте самую новую версию.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3144"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3173"/>
         <source>The player name is too short, too long or invalid. Please choose another one.</source>
         <translation>Имя игрока слишком длинное, слишком короткое или неправильное. Выберите другое имя.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3215"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3245"/>
         <source>The server is down for maintenance. Please try again later.</source>
         <translation>Сервер находится на техобслуживании. Попробуйте позже.</translation>
     </message>
@@ -1828,52 +1827,52 @@ Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&
 Зайдите на &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; и скачайте самую новую версию.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3635"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3674"/>
         <source>Closing PokerTH during network game</source>
         <translation>Закрытие PokerTH во время сетевой игры</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3636"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3675"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
         <translation>Вы являетесь сервером игры. Вы точно хотите закрыть PokerTH?</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3118"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3147"/>
         <source>The PokerTH server does not support this version of the game.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>Сервер PokerTH не поддерживает эту версию игры.&lt;br&gt;Зайдите на &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; и скачайте самую свежую версию.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3256"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3286"/>
         <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>Вышла новая версия PokerTH.&lt;br&gt;Зайдите на &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; и скачайте самую свежую версию.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3264"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3294"/>
         <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>Эта бета-версия PokerTH устарела.&lt;br&gt;Зайдите на &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; и скачайте самую свежую версию.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="466"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="490"/>
         <source>PokerTH %1 - The Open-Source Texas Holdem Engine</source>
         <translation>PokerTH %1 - Движок покера Texas Holdem c открытым кодом</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3526"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3556"/>
         <source>Lobby</source>
         <translation>Общая комната</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3205"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3235"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
         <translation>Произошла ошибка при обработке аватары. Пожалуйста, сообщите об этом администратору в общей комнате.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3712"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3756"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - Сообщение Игры в Интернете</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3714"/>
+        <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3758"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>Внимание! Вы действительно хотите покинуть текущую игру
@@ -1883,17 +1882,17 @@ and go back to the lobby?</source>
 <context>
     <name>manualBlindsOrderDialog</name>
     <message>
-        <location filename="E:/src/gui/qt/manualblindsorderdialog.ui" line="13"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="13"/>
         <source>Manual Blinds Order</source>
         <translation>Самостоятельное управление ставками</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/manualblindsorderdialog.ui" line="27"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="27"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/manualblindsorderdialog.ui" line="60"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="60"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
@@ -1903,7 +1902,7 @@ and go back to the lobby?</source>
         <translation type="obsolete">После этого:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/manualblindsorderdialog.ui" line="81"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="81"/>
         <source>Always double blinds</source>
         <translation>Всегда удваивать ставки</translation>
     </message>
@@ -1913,7 +1912,7 @@ and go back to the lobby?</source>
         <translation type="obsolete">Всегда повышать на:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/manualblindsorderdialog.ui" line="100"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="100"/>
         <source>$</source>
         <translation>$</translation>
     </message>
@@ -1923,17 +1922,17 @@ and go back to the lobby?</source>
         <translation type="obsolete">Оставаться на последней ставке</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/manualblindsorderdialog.ui" line="69"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="69"/>
         <source>Afterwards:</source>
         <translation>После этого:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/manualblindsorderdialog.ui" line="93"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="93"/>
         <source>Always raise by:</source>
         <translation>Всегда повышать на:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/manualblindsorderdialog.ui" line="118"/>
+        <location filename="../src/gui/qt/manualblindsorderdialog.ui" line="118"/>
         <source>Keep last blind</source>
         <translation>Придерживаться последней ставки</translation>
     </message>
@@ -1941,12 +1940,12 @@ and go back to the lobby?</source>
 <context>
     <name>manualBlindsOrderDialogImpl</name>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="47"/>
+        <location filename="../src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="49"/>
         <source>Manual Blinds Order</source>
         <translation>Самостоятельное управление ставками</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="48"/>
+        <location filename="../src/gui/qt/settingsdialog/manualblindsorderdialog/manualblindsorderdialogimpl.cpp" line="50"/>
         <source>You cannot set more than 30 manual blinds.</source>
         <translation>Вы не можете установить более чем 30 самостоятельных ставок.</translation>
     </message>
@@ -1954,17 +1953,17 @@ and go back to the lobby?</source>
 <context>
     <name>myMessageDialog</name>
     <message>
-        <location filename="E:/src/gui/qt/mymessagedialog.ui" line="13"/>
+        <location filename="../src/gui/qt/mymessagedialog.ui" line="13"/>
         <source>Dialog</source>
         <translation>Диалог</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mymessagedialog.ui" line="34"/>
+        <location filename="../src/gui/qt/mymessagedialog.ui" line="34"/>
         <source>MessageText</source>
         <translation>Текст сообщения</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/mymessagedialog.ui" line="57"/>
+        <location filename="../src/gui/qt/mymessagedialog.ui" line="57"/>
         <source>Do not show this warning again.</source>
         <translation>Больше не показывать это предупреждение.</translation>
     </message>
@@ -1972,27 +1971,27 @@ and go back to the lobby?</source>
 <context>
     <name>newGameDialog</name>
     <message>
-        <location filename="E:/src/gui/qt/newgamedialog.ui" line="13"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="13"/>
         <source>Start Local Game</source>
         <translation>Начать локальную игру</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/newgamedialog.ui" line="19"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="19"/>
         <source>Local Game Settings</source>
         <translation>Настройки локальной игры</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/newgamedialog.ui" line="106"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="106"/>
         <source>Game Speed:</source>
         <translation>Скорость игры:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/newgamedialog.ui" line="25"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="25"/>
         <source>Number of players:</source>
         <translation>Количество игроков:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/newgamedialog.ui" line="48"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="48"/>
         <source>Start Cash:</source>
         <translation>Начальная сумма:</translation>
     </message>
@@ -2012,22 +2011,22 @@ and go back to the lobby?</source>
         <translation type="obsolete">Количество партий для повышения ставки:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/newgamedialog.ui" line="77"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="77"/>
         <source>Blinds</source>
         <translation>Ставки</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/newgamedialog.ui" line="86"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="86"/>
         <source>Use saved blinds settings</source>
         <translation>Использовать сохраненные настройки ставок</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/newgamedialog.ui" line="96"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="96"/>
         <source>Change blinds settings ...</source>
         <translation>Изменить настройки ставок ...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/newgamedialog.ui" line="58"/>
+        <location filename="../src/gui/qt/newgamedialog.ui" line="58"/>
         <source>$</source>
         <translation>$</translation>
     </message>
@@ -2035,27 +2034,27 @@ and go back to the lobby?</source>
 <context>
     <name>selectAvatarDialog</name>
     <message>
-        <location filename="E:/src/gui/qt/selectavatardialog.ui" line="31"/>
+        <location filename="../src/gui/qt/selectavatardialog.ui" line="31"/>
         <source>Please select an avatar</source>
         <translation>Пожалуйста, выберите аватару</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/selectavatardialog.ui" line="37"/>
+        <location filename="../src/gui/qt/selectavatardialog.ui" line="37"/>
         <source>Select an avatar</source>
         <translation>Выберите аватару</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/selectavatardialog.ui" line="69"/>
+        <location filename="../src/gui/qt/selectavatardialog.ui" line="69"/>
         <source>Load avatar from external file</source>
         <translation>Загрузить аватару из внешнего файла</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/selectavatardialog.ui" line="50"/>
+        <location filename="../src/gui/qt/selectavatardialog.ui" line="50"/>
         <source>People</source>
         <translation>Люди</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/selectavatardialog.ui" line="55"/>
+        <location filename="../src/gui/qt/selectavatardialog.ui" line="55"/>
         <source>Miscellaneous</source>
         <translation>Разное</translation>
     </message>
@@ -2063,12 +2062,12 @@ and go back to the lobby?</source>
 <context>
     <name>selectAvatarDialogImpl</name>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="250"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="252"/>
         <source>Avatar File Error</source>
         <translation>Ошибка в файле аватары</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="227"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="229"/>
         <source>Please select an avatar from the list!</source>
         <translation>Выберите аватару из списка!</translation>
     </message>
@@ -2080,7 +2079,7 @@ Please enter an valid picture!</source>
 Укажите правильную картинку!</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="268"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="270"/>
         <source>Select external avatar picture</source>
         <translation>Выберите внешнюю картинку аватары</translation>
     </message>
@@ -2090,19 +2089,19 @@ Please enter an valid picture!</source>
         <translation type="obsolete">Картинки (*.png)</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="243"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="245"/>
         <source>The file size of the chosen picture is too big. (max. 30KB)
 Please choose a smaller picture!</source>
         <translation>Размер файла выбранной картинки слишком велик. (максимум 30KB)
 Пожалуйста, выберите картинку поменьше!</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="268"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="270"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Картинки (*.png *.jpg *.gif)</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="252"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="254"/>
         <source>The entered avatar picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>Указанная картика аватары не существует.
@@ -2112,17 +2111,17 @@ Please enter an valid picture!</source>
 <context>
     <name>settingsDialog</name>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="19"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="19"/>
         <source>Settings</source>
         <translation>Наcтройки</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="176"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="176"/>
         <source>Flipside of Cards</source>
         <translation>Рубашка карт</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="234"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="234"/>
         <source>Own flipside picture:</source>
         <translation>Своя рубашка карт:</translation>
     </message>
@@ -2138,57 +2137,57 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Замечание: Наилучшее качество изображения с размерами картинки &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;ширина=100, высота=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="284"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="284"/>
         <source>Default</source>
         <translation>По умолчанию</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="132"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="132"/>
         <source>Show flip-card animation</source>
         <translation>Показывать анимацию переворота карт</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="139"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="139"/>
         <source>Show buttons for small blind and big blind</source>
         <translation>Показывать кнопки для малой и большой ставок</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="125"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="125"/>
         <source>Show fade-out animation for non-winning cards</source>
         <translation>Показывать постепенное исчезновение невыигрышных карт</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="118"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="118"/>
         <source>Show statusbar messages</source>
         <translation>Показывать сообщения в строке состояния</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="104"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="104"/>
         <source>Show left toolbox</source>
         <translation>Показывать левую панель</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="3071"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3074"/>
         <source>Interface</source>
         <translation>Интерфейс</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="97"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="97"/>
         <source>Show intro on startup</source>
         <translation>Показывать заставку при старте программы</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="111"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="111"/>
         <source>Show right toolbox</source>
         <translation>Показывать правую панель</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="331"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="331"/>
         <source>Play sound effects</source>
         <translation>Включить звуковые эффекты</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="723"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="726"/>
         <source>Show game settings dialog on every new game</source>
         <translation>Показывать диалог настроек перед началом игры</translation>
     </message>
@@ -2198,7 +2197,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Количество партий для повышения малой ставки:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="470"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="473"/>
         <source>Number of players:</source>
         <translation>Количество игроков:</translation>
     </message>
@@ -2213,17 +2212,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Малая ставка:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="691"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="694"/>
         <source>Game Speed:</source>
         <translation>Скорость игры:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="793"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="796"/>
         <source>Start Cash:</source>
         <translation>Начальная сумма:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="716"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="719"/>
         <source>Pause between hands (press &quot;start&quot; button to go on)</source>
         <translation>Пауза между партиями (нажмите &quot;Старт&quot; для продолжения)</translation>
     </message>
@@ -2243,32 +2242,32 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Настройки сервера</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1308"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1311"/>
         <source>Server Password:</source>
         <translation>Пароль сервера:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1393"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1396"/>
         <source>Server Port:</source>
         <translation>Порт сервера:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1234"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1237"/>
         <source>Use SCTP</source>
         <translation>Использовать SCTP</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1433"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1436"/>
         <source>Use IPv6</source>
         <translation>Использовать IPv6</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1440"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1443"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;Что это такое?&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1268"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1271"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;Что это такое?&lt;/a&gt;</translation>
     </message>
@@ -2278,12 +2277,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Настройки сетевой игры по умолчанию</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="981"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="984"/>
         <source>Game Speed for computer opponents:</source>
         <translation>Скорость игры компьютерных оппонентов:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="766"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="769"/>
         <source>Maximum number of players:</source>
         <translation>Максимальное количество игроков:</translation>
     </message>
@@ -2304,97 +2303,97 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Замечание: Наилучшее качество аватары при размерах картинки &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;ширина=50, высота=50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1528"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1531"/>
         <source>Computer Engine</source>
         <translation>Компьютерные противники</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1744"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1747"/>
         <source>Opponent 5:</source>
         <translation>Оппонент 5:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1923"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1926"/>
         <source>Opponent 4:</source>
         <translation>Оппонент 4:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="2052"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2055"/>
         <source>Opponent 3:</source>
         <translation>Оппонент 3:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="2231"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2234"/>
         <source>Opponent 2:</source>
         <translation>Оппонент 2:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="2385"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2388"/>
         <source>Opponent 1:</source>
         <translation>Оппонент 1:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="2567"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2570"/>
         <source>Human Player:</source>
         <translation>Игрок:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1521"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1524"/>
         <source>Player Nicks</source>
         <translation>Имена игроков</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="2810"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2813"/>
         <source>Enable/Disable Logging</source>
         <translation>Включение/Выключение записи событий</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="2857"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2860"/>
         <source>Store log files for</source>
         <translation>Сохранять журнал событий</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="2886"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2889"/>
         <source>Day(s)</source>
         <translation>дней</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="2925"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2928"/>
         <source>Log File Directory: </source>
         <translation>Каталог для файла журнала: </translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="2964"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2967"/>
         <source>Write log after every: </source>
         <translation>Записывать в журнал после каждого: </translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="3101"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3104"/>
         <source>Log Messages</source>
         <translation>Журнал сообщений </translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="3081"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3084"/>
         <source>Local Game Settings</source>
         <translation>Настройки локальной игры</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="3086"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3089"/>
         <source>Network Game Settings</source>
         <translation>Настройки сетевой игры</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="360"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="360"/>
         <source>Sound Volume:</source>
         <translation>Громкость:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="373"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="373"/>
         <source>10</source>
         <translation>10</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1590"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1593"/>
         <source>Opponent 6:</source>
         <translation>Оппонент 6:</translation>
     </message>
@@ -2404,32 +2403,32 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Время ожидания для хода игрока (сек):</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="2984"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2987"/>
         <source>action (high frequent disc access)</source>
         <translation>действия (много обращений к диску)</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="2989"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2992"/>
         <source>hand (medium disc access)</source>
         <translation>партии (средняя частота обращений к диску)</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="2994"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2997"/>
         <source>game (low disc access)</source>
         <translation>игры (малое количество обращения к диску)</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="146"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="146"/>
         <source>Show own cards only on mouse click</source>
         <translation>Показывать свои карты только после клика мышью</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="3007"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3010"/>
         <source>QLabel { font-weight: bold;  }</source>
         <translation>QLabel { font-weight: bold;  }</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="3076"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3079"/>
         <source>Sound</source>
         <translation>Звук</translation>
     </message>
@@ -2439,12 +2438,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Количество партий для повышения ставки:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1043"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1046"/>
         <source>Network Server Settings</source>
         <translation>Настройки сетевого сервера</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="3091"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3094"/>
         <source>Internet Game Settings</source>
         <translation>Настройки игры в Интернете</translation>
     </message>
@@ -2460,17 +2459,17 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Замечание:  &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Настройки игры по-умолчанию,&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; такие как &quot;&lt;/span&gt;Максимальное количество игроков&quot;, &quot;&lt;span style=&quot; font-style:italic;&quot;&gt;Начальная сумма&quot; и &quot;Малая ставка&quot; будут взяты &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;из Настроек Сетевой Игры .&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1210"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1213"/>
         <source>Internet Server Settings (Dedicated Server)</source>
         <translation>Настройки Интернет-сервера (Выделенный сервер)</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1373"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1376"/>
         <source>Server Address:</source>
         <translation>Адрес сервера:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1345"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1348"/>
         <source>Use password for private game:</source>
         <translation>Использовать пароль для закрытой игры:</translation>
     </message>
@@ -2480,17 +2479,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Настройки общего чата (IRC сервер)</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1383"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1386"/>
         <source>chat.freenode.net</source>
         <translation>chat.freenode.net</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1416"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1419"/>
         <source>Channel:</source>
         <translation>Канал:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1426"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1429"/>
         <source>#pokerth</source>
         <translation>#pokerth</translation>
     </message>
@@ -2500,82 +2499,82 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Обратный порядок кнопок (F1 - F3)</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="823"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="826"/>
         <source>First small blind:</source>
         <translation>Начальная ставка:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="850"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="853"/>
         <source>Raise blinds:</source>
         <translation>Повышать ставки:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="889"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="892"/>
         <source>Every:</source>
         <translation>Каждые:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="882"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="885"/>
         <source>hands</source>
         <translation>партий</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="909"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="912"/>
         <source>minutes</source>
         <translation>минут</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="938"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="941"/>
         <source>Raise mode:</source>
         <translation>Режим повышения:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="947"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="950"/>
         <source>Always double blinds</source>
         <translation>Всегда удваивать ставки</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="957"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="960"/>
         <source>Manual blinds order:</source>
         <translation>Самостоятельное управление ставками:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="967"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="970"/>
         <source>Edit ...</source>
         <translation>Редактировать ...</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="69"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="69"/>
         <source>Language:</source>
         <translation>Язык:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="398"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="398"/>
         <source>Sound Categories </source>
         <translation>Озвучивание </translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="407"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="407"/>
         <source>Play game actions sounds like &quot;check&quot;, &quot;call&quot;, &quot;raise&quot;</source>
         <translation>Озвучивать действия &quot;Пропустить&quot;, &quot;Ответить&quot;, &quot;Повысить&quot;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="414"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="414"/>
         <source>Play lobby chat notifications</source>
         <translation>Озвучивать события общего чата</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="421"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="421"/>
         <source>Play network/internet game notifications like &quot;player joined the game&quot;</source>
         <translation>Озвучивать события Сетевой/Интернет игр типа &quot;Игрок присоединился к игре&quot;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1364"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1367"/>
         <source>Enable/Disable Lobby Chat (IRC Server)</source>
         <translation>Разрешить/Запретить общий чат (IRC сервер)</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="3096"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3099"/>
         <source>Player Nicks/Avatars</source>
         <translation>Имена игроков/Aватары</translation>
     </message>
@@ -2591,27 +2590,27 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Замечание: По умолчанию, &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Настройки игры&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;  &quot;Максимальное количество игроков&quot;, &quot;Начальная сумма&quot; и &quot;Начальная ставка&quot; будут взяты &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;из Настроек Сетевой игры.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="153"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="153"/>
         <source>Reverse order of F-Keys (F1 - F4)</source>
         <translation>Обратный порядок кнопок (F1 - F4)</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="160"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="160"/>
         <source>Network / Internet Game</source>
         <translation>Сетевая / Игра в Интернете</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="166"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="166"/>
         <source>Switch keyboard focus to bet-input-field if it&apos;s your turn</source>
         <translation>При переходе хода к вам перемещать курсор в поле ввода ставки</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1457"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1460"/>
         <source>Channel Password:</source>
         <translation>Пароль канала:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="269"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="269"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2622,22 +2621,22 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Примечание: рекомендуемые размеры картинки &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;ширина=100, высота=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="833"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="836"/>
         <source>$</source>
         <translation>$</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1008"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1011"/>
         <source>Timeout for player action:</source>
         <translation>Время ожидания хода игрока:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1018"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1021"/>
         <source> s</source>
         <translation> сек</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="1181"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1184"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal;&quot;&gt;
@@ -2648,7 +2647,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Примечание: по умолчанию, &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Настройки Игры,&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; такие как &quot;Максимальное количество игроков&quot;, &quot;Начальная сумма&quot; будут взяты &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;из Настроек Сетевой Игры.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog.ui" line="2479"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2482"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2662,7 +2661,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>settingsDialogImpl</name>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="351"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="355"/>
         <source>Settings Error</source>
         <translation>Ошибка в настройках</translation>
     </message>
@@ -2681,7 +2680,7 @@ Please select an valid directory!</source>
 Укажите правильный каталог!</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="392"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="402"/>
         <source>Select your flipside picture</source>
         <translation>Выберите свою картинку рубашки карт</translation>
     </message>
@@ -2691,22 +2690,22 @@ Please select an valid directory!</source>
         <translation type="obsolete">Картинки (*.png)</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="466"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="476"/>
         <source>Open Directory</source>
         <translation>Открыть каталог</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="394"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="404"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Картинки (*.png *.jpg *.gif)</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="574"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="584"/>
         <source>Blinds Error</source>
         <translation>Ошибка ставок</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="575"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="585"/>
         <source>The first element in your manual-blinds-list 
 is smaller than current first-small-blind!
 This first-small-blind-value will be set to maximum allowed value.</source>
@@ -2715,27 +2714,27 @@ This first-small-blind-value will be set to maximum allowed value.</source>
 Значение начальной ставки будет установлено на максимально возможное значение.</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="45"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="48"/>
         <source>Dutch</source>
         <translation>Голландский</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="46"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="49"/>
         <source>English</source>
         <translation>Английский</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="47"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="50"/>
         <source>French</source>
         <translation>Французский</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="48"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="51"/>
         <source>German</source>
         <translation>Немецкий</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="49"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="52"/>
         <source>Hungarian</source>
         <translation>Венгерский</translation>
     </message>
@@ -2745,81 +2744,91 @@ This first-small-blind-value will be set to maximum allowed value.</source>
         <translation type="obsolete">Норвежский</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="52"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="56"/>
         <source>Portuguese</source>
         <translation>Португальский</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="57"/>
         <source>Russian</source>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="56"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="60"/>
         <source>Turkish</source>
         <translation>Турецкий</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="381"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="385"/>
         <source>Language Changed</source>
         <translation>Язык изменен</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="382"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="386"/>
         <source>You have changed application language to %1.
 Please restart PokerTH to load new language!</source>
         <translation>Вы выбрали %1 язык.
 Закройте и запустите PokerTH заново!</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="50"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
         <source>Italian</source>
         <translation>Итальянский</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="54"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="58"/>
         <source>Slovak</source>
         <translation>Словацкий</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="332"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="336"/>
         <source>The entered flipside picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>Указанная картика рубашки карт не существует.
 Укажите правильную картинку!</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="353"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="357"/>
         <source>The log file directory doesn&apos;t exist.
 Please select an valid directory!</source>
         <translation>Указанный каталог для лога не существует.
 Укажите правильный каталог!</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="51"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="54"/>
         <source>Norwegian</source>
         <translation>Норвежский</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="55"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="59"/>
         <source>Spanish</source>
         <translation>Испанский</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="47"/>
+        <source>Bulgarian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="55"/>
+        <source>Polish</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>startNetworkGameDialog</name>
     <message>
-        <location filename="E:/src/gui/qt/startnetworkgamedialog.ui" line="13"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="13"/>
         <source>Start Network Game</source>
         <translation>Начать сетевую игру</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/startnetworkgamedialog.ui" line="52"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="52"/>
         <source>Maximum number of players:</source>
         <translation>Максимальное количество игроков:</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/startnetworkgamedialog.ui" line="59"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="59"/>
         <source>0</source>
         <translation>0</translation>
     </message>
@@ -2829,17 +2838,17 @@ Please select an valid directory!</source>
         <translation type="obsolete">Отключить</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/startnetworkgamedialog.ui" line="20"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="20"/>
         <source>Connected Players</source>
         <translation>Подключенные игроки</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/startnetworkgamedialog.ui" line="158"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="158"/>
         <source>Start Game</source>
         <translation>Начать игру</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/startnetworkgamedialog.ui" line="165"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="165"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
@@ -2849,17 +2858,17 @@ Please select an valid directory!</source>
         <translation type="obsolete">Общий чат</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/startnetworkgamedialog.ui" line="28"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="28"/>
         <source>Fill up with computer opponents</source>
         <translation>Заполнить компьютерными оппонентами</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/startnetworkgamedialog.ui" line="79"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="79"/>
         <source>Kick Player</source>
         <translation>Отключить игрока</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/startnetworkgamedialog.ui" line="88"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="88"/>
         <source>Chat</source>
         <translation>Чат</translation>
     </message>
@@ -2867,12 +2876,12 @@ Please select an valid directory!</source>
 <context>
     <name>startNetworkGameDialogImpl</name>
     <message>
-        <location filename="E:/src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="156"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="157"/>
         <source>Server Error</source>
         <translation>Ошибка сервера</translation>
     </message>
     <message>
-        <location filename="E:/src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="157"/>
+        <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="158"/>
         <source>You should not kick yourself from this game!</source>
         <translation>Вы не можете отключить себя от этой игры!</translation>
     </message>

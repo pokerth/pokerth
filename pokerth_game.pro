@@ -242,10 +242,13 @@ TRANSLATIONS = \
 		ts/pokerth_nl.ts \
 		ts/pokerth_no.ts \
 		ts/pokerth_pl.ts \
-		ts/pokerth_ptbr.ts \
 		ts/pokerth_ru.ts \
 		ts/pokerth_sk.ts \
-		ts/pokerth_tr.ts \		
+		ts/pokerth_sv.ts \
+		ts/pokerth_tr.ts \
+		ts/pokerth_gr.ts \
+		ts/pokerth_ptbr.ts \
+		ts/pokerth_zhcn.ts \
 		ts/pokerth_START_HERE.ts
 
 win32{
