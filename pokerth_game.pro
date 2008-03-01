@@ -53,7 +53,8 @@ INCLUDEPATH += . \
 		src/gui/qt/changecompleteblindsdialog \
 		src/gui/qt/mymessagedialog \
 		src/gui/qt/gamelobbydialog \
-		src/gui/qt/gamelobbydialog/lobbychat
+		src/gui/qt/gamelobbydialog/lobbychat \
+		src/gui/qt/gamelobbydialog/opengametimeoutmsgbox
 
 DEPENDPATH += . \
 		src \
@@ -90,7 +91,8 @@ DEPENDPATH += . \
 		src/gui/qt/changecompleteblindsdialog \
 		src/gui/qt/mymessagedialog \
 		src/gui/qt/gamelobbydialog \
-		src/gui/qt/gamelobbydialog/lobbychat
+		src/gui/qt/gamelobbydialog/lobbychat \
+		src/gui/qt/gamelobbydialog/opengametimeoutmsgbox
 
 # Input
 HEADERS += \
@@ -171,6 +173,7 @@ HEADERS += \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.h \
 		src/gui/qt/gamelobbydialog/mygamelisttreewidget.h \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.h \
+		src/gui/qt/gamelobbydialog/opengametimeoutmsgbox\opengametimeoutmsgboximpl.h \
 		src/gui/qt/mymessagedialog/mymessagedialogimpl.h \
 		src/gui/qttoolsinterface.h \
 		src/gui/qt/qttools/qttoolswrapper.h \
@@ -229,6 +232,7 @@ SOURCES += \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp \
 		src/gui/qt/gamelobbydialog/mygamelisttreewidget.cpp \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp \
+		src/gui/qt/gamelobbydialog/opengametimeoutmsgbox\opengametimeoutmsgboximpl.cpp \
 		src/net/common/net_helper_client.cpp \
 		src/core/common/loghelper_client.cpp
 

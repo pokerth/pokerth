@@ -13,17 +13,33 @@
 #define OPENGAMETIMEOUTMSGBOXIMPL_H
 
 #include <QMessageBox>
+#include <QtGui>
+#include <QtCore>
+#include <core/boost/timers.hpp>
 
 /**
 	@author Felix Hammer <f.hammer@web.de>
 */
+class gameLobbyDialogImpl;
+
 class openGameTimeoutMsgBoxImpl : public QMessageBox
 {
+Q_OBJECT
 public:
-    openGameTimeoutMsgBoxImpl();
+    openGameTimeoutMsgBoxImpl(QDialog*, gameLobbyDialogImpl*);
 
     ~openGameTimeoutMsgBoxImpl();
 
+public slots:
+
+	void startTimeout();
+	void timerRefresh();
+
+private: 
+	QTimer *timeOutTimer;
+	QPushButton *okButton;
+	gameLobbyDialogImpl *myLobby;
+	boost::timers::portable::microsec_timer realTimer;
 };
 
 #endif
