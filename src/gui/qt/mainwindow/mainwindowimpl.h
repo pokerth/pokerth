@@ -131,7 +131,7 @@ signals:
 	void signalNetClientError(int errorID, int osErrorID);
 	void signalNetClientNotification(int notificationId);
 	void signalNetClientStatsUpdate(ServerStats stats);
-	void signalNetClientShowTimeoutDialog(int);
+	void signalNetClientShowTimeoutDialog(int, int);
 	void signalNetClientRemovedFromGame(int notificationId);
 	void signalNetServerError(int errorID, int osErrorID);
 	void signalNetClientSelfJoined(unsigned playerId, QString playerName, int rights);
@@ -333,7 +333,7 @@ public slots:
 	void showMaximized ();
 	void quitPokerTH();
 
-	void showTimeoutDialog(int msgID);
+	void showTimeoutDialog(int msgID, int duration);
 	void hideTimeoutDialog();
 	
 // 	void paintEvent(QPaintEvent *);

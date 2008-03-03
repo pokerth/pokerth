@@ -638,7 +638,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetClientGameListPlayerLeft(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameRemovePlayer(unsigned, unsigned)));
 	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), myGameLobbyDialog, SLOT(removedFromGame(int)));
 	connect(this, SIGNAL(signalNetClientStatsUpdate(ServerStats)), myGameLobbyDialog, SLOT(updateStats(ServerStats)));
-	connect(this, SIGNAL(signalNetClientShowTimeoutDialog(int)), this, SLOT(showTimeoutDialog(int)));
+	connect(this, SIGNAL(signalNetClientShowTimeoutDialog(int, int)), this, SLOT(showTimeoutDialog(int, int)));
 
 	// Errors are handled globally, not within one dialog.
 	connect(this, SIGNAL(signalNetClientError(int, int)), this, SLOT(networkError(int, int)));
@@ -3775,10 +3775,11 @@ void mainWindowImpl::leaveCurrentNetworkGame() {
 }
 
 
-void mainWindowImpl::showTimeoutDialog(int msgID) {
+void mainWindowImpl::showTimeoutDialog(int msgID, int duration) {
 
 	myTimeoutDialog->setMySession(mySession);
 	myTimeoutDialog->setMsgID(msgID);
+	myTimeoutDialog->setTimeoutDuration(duration);
 	myTimeoutDialog->show();
 	myTimeoutDialog->raise();
 	myTimeoutDialog->activateWindow();

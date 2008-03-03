@@ -42,7 +42,7 @@ void timeoutMsgBoxImpl::startTimeout() {
 
 void timeoutMsgBoxImpl::timerRefresh() {
 	
-	int sec = 60;
+	int sec = timeoutDuration;
 	unsigned int realTimerValue = realTimer.elapsed().total_milliseconds();
 	sec -= realTimerValue/1000;
 	if (sec < 0) sec = 0;

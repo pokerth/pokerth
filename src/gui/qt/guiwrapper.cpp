@@ -120,7 +120,7 @@ void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->signalNetClientGam
 void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myW->signalNetClientError(errorID, osErrorID); }
 void GuiWrapper::SignalNetClientNotification(int notificationId) { myW->signalNetClientNotification(notificationId); }
 void GuiWrapper::SignalNetClientStatsUpdate(const ServerStats &stats) { myW->signalNetClientStatsUpdate(stats); }
-void GuiWrapper::SignalNetClientShowTimeoutDialog(int msgID) { myW->signalNetClientShowTimeoutDialog(msgID); }
+void GuiWrapper::SignalNetClientShowTimeoutDialog(int msgID, int duration) { myW->signalNetClientShowTimeoutDialog(msgID, duration); }
 void GuiWrapper::SignalNetClientRemovedFromGame(int notificationId) { myW->signalNetClientRemovedFromGame(notificationId); }
 void GuiWrapper::SignalNetClientSelfJoined(unsigned playerId, const string &playerName, PlayerRights rights) { myW->signalNetClientSelfJoined(playerId, QString::fromUtf8(playerName.c_str()), rights); }
 void GuiWrapper::SignalNetClientPlayerJoined(unsigned playerId, const string &playerName, PlayerRights rights) { myW->signalNetClientPlayerJoined(playerId, QString::fromUtf8(playerName.c_str()), rights); }
