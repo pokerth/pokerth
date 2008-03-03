@@ -31,6 +31,7 @@
 #include "changehumanplayernamedialogimpl.h"
 #include "changecompleteblindsdialogimpl.h"
 #include "gamelobbydialogimpl.h"
+#include "timeoutmsgboximpl.h"
 #include "lobbychat.h"
 
 #include "startsplash.h"
@@ -480,6 +481,8 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 
 	myStartNetworkGameDialog->setMyW(this);
 	myGameLobbyDialog->setMyW(this);
+	
+	myTimeoutDialog.reset(new timeoutMsgBoxImpl(this));
 
 	myChat = new Chat(this, myConfig);
 
@@ -635,7 +638,7 @@ mainWindowImpl::mainWindowImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetClientGameListPlayerLeft(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameRemovePlayer(unsigned, unsigned)));
 	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), myGameLobbyDialog, SLOT(removedFromGame(int)));
 	connect(this, SIGNAL(signalNetClientStatsUpdate(ServerStats)), myGameLobbyDialog, SLOT(updateStats(ServerStats)));
-	connect(this, SIGNAL(signalNetClientStartOpenGameTimeout()), myGameLobbyDialog, SLOT(startOpenGameTimeout()));
+	connect(this, SIGNAL(signalNetClientShowTimeoutDialog(int)), this, SLOT(showTimeoutDialog(int)));
 
 	// Errors are handled globally, not within one dialog.
 	connect(this, SIGNAL(signalNetClientError(int, int)), this, SLOT(networkError(int, int)));
@@ -3770,3 +3773,16 @@ void mainWindowImpl::leaveCurrentNetworkGame() {
 		}
 	}
 }
+
+
+void mainWindowImpl::showTimeoutDialog(int msgID) {
+
+	myTimeoutDialog->setMySession(mySession);
+	myTimeoutDialog->setMsgID(msgID);
+	myTimeoutDialog->show();
+	myTimeoutDialog->raise();
+	myTimeoutDialog->activateWindow();
+	myTimeoutDialog->startTimeout();
+}
+
+void mainWindowImpl::hideTimeoutDialog() { myTimeoutDialog->hide(); }

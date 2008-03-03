@@ -16,6 +16,7 @@
 #include <QtGui>
 #include <QtCore>
 #include <core/boost/timers.hpp>
+#include "game_defs.h"
 
 /**
 	@author Felix Hammer <f.hammer@web.de>
@@ -26,7 +27,7 @@ class timeoutMsgBoxImpl : public QMessageBox
 {
 Q_OBJECT
 public:
-    timeoutMsgBoxImpl(QDialog*, int);
+    timeoutMsgBoxImpl(QMainWindow*);
 
     ~timeoutMsgBoxImpl();
 
@@ -34,15 +35,17 @@ public slots:
 
 	void startTimeout();
 	void timerRefresh();
+	void stopTimeout();
 
-	void setMySession ( Session* theValue ) { mySession = theValue; }
+	void setMySession ( boost::shared_ptr<Session>  theValue ) { mySession = theValue; }
+	void setMsgID ( int theValue ) { msgID = theValue; }
 
 private: 
 
 	QTimer *timeOutTimer;
 	QPushButton *okButton;
-	Session *mySession;
-	int msgId;
+	boost::shared_ptr<Session> mySession;
+	int msgID;
 	boost::timers::portable::microsec_timer realTimer;
 };
 

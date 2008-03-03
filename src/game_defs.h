@@ -73,6 +73,11 @@ enum Button {
 	BUTTON_SMALL_BLIND,
 	BUTTON_BIG_BLIND };
 
+enum NetTimeoutReason {
+	GENERIC = 0,
+	OPENGAMEADMINIDLE
+};
+
 struct ServerStats
 {
 	ServerStats()

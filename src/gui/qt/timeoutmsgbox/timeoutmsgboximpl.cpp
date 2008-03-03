@@ -12,8 +12,8 @@
 #include "timeoutmsgboximpl.h"
 #include "session.h"
 
-timeoutMsgBoxImpl::timeoutMsgBoxImpl(QDialog *parent, int id)
- : QMessageBox(parent), mySession(NULL), msgId(id)
+timeoutMsgBoxImpl::timeoutMsgBoxImpl(QMainWindow *parent)
+ : QMessageBox(parent)
 {
 	okButton = this->addButton(QMessageBox::Ok);
 
@@ -24,7 +24,7 @@ timeoutMsgBoxImpl::timeoutMsgBoxImpl(QDialog *parent, int id)
 	timeOutTimer = new QTimer;
 
 	connect(timeOutTimer, SIGNAL(timeout()), this, SLOT(timerRefresh()));
-// 	connect(okButton, SIGNAL(clicked()), mySession, SLOT(spechialSessionSlot(msgId)));
+	connect(okButton, SIGNAL(clicked()), this, SLOT(stopTimeout()));
 
 }
 
@@ -46,12 +46,16 @@ void timeoutMsgBoxImpl::timerRefresh() {
 	unsigned int realTimerValue = realTimer.elapsed().total_milliseconds();
 	sec -= realTimerValue/1000;
 	if (sec < 0) sec = 0;
-	switch (msgId) {
-		case 0: { this->setText(tr("Your connection is about to time out due to inactivity in %1 seconds.").arg(sec,0,10)); }
+	switch (msgID) {
+		case GENERIC: { this->setText(tr("Your connection is about to time out due to inactivity in %1 seconds.").arg(sec,0,10)); }
 		break;
-		case 1: { this->setText(tr("Your open game reaches timeout in %1 seconds.").arg(sec,0,10)); }
+		case OPENGAMEADMINIDLE: { this->setText(tr("Your open game reaches timeout in %1 seconds.").arg(sec,0,10)); }
 		break;
 	}
 	
 }
 
+void timeoutMsgBoxImpl::stopTimeout() {
+
+// 	mySession->stopTimeout
+}

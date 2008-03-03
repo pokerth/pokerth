@@ -27,7 +27,6 @@
 class Session;
 class ConfigFile;
 class LobbyChat;
-class timeoutMsgBoxImpl;
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
@@ -101,9 +100,6 @@ public slots:
 
 	void showWaitStartGameMsgBox();
 
-	void startOpenGameTimeout();
-	void closeOpenGameTimeoutMsgBox();
-
 	void joinAnyGameButtonRefresh();
 
 
@@ -122,7 +118,7 @@ private:
 	int keyUpCounter;
 	QMessageBox *waitStartGameMsgBox;
 	QTimer *waitStartGameMsgBoxTimer;
-	boost::shared_ptr<timeoutMsgBoxImpl> myOpenGameTimeoutMsgBoxImpl;
+	
 
  protected:
          bool eventFilter(QObject *obj, QEvent *event);

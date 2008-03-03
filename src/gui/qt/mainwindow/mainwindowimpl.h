@@ -50,6 +50,7 @@ class createNetworkGameDialogImpl;
 class startNetworkGameDialogImpl;
 class changeHumanPlayerNameDialogImpl;
 class gameLobbyDialogImpl;
+class timeoutMsgBoxImpl;
 
 class QColor;
 class SDLPlayer;
@@ -130,7 +131,7 @@ signals:
 	void signalNetClientError(int errorID, int osErrorID);
 	void signalNetClientNotification(int notificationId);
 	void signalNetClientStatsUpdate(ServerStats stats);
-	void signalNetClientStartOpenGameTimeout();
+	void signalNetClientShowTimeoutDialog(int);
 	void signalNetClientRemovedFromGame(int notificationId);
 	void signalNetServerError(int errorID, int osErrorID);
 	void signalNetClientSelfJoined(unsigned playerId, QString playerName, int rights);
@@ -331,6 +332,9 @@ public slots:
 	
 	void showMaximized ();
 	void quitPokerTH();
+
+	void showTimeoutDialog(int msgID);
+	void hideTimeoutDialog();
 	
 // 	void paintEvent(QPaintEvent *);
 
@@ -407,7 +411,7 @@ private:
 	startNetworkGameDialogImpl *myStartNetworkGameDialog;
 	createNetworkGameDialogImpl *myCreateNetworkGameDialog;
 	gameLobbyDialogImpl *myGameLobbyDialog;
-
+	boost::shared_ptr<timeoutMsgBoxImpl> myTimeoutDialog;
 
 	//Sound
 	SDLPlayer *mySDLPlayer;

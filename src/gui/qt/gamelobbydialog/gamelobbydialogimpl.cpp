@@ -12,7 +12,6 @@
 #include "gamelobbydialogimpl.h"
 #include "lobbychat.h"
 #include "changecompleteblindsdialogimpl.h"
-#include "timeoutmsgboximpl.h"
 #include "session.h"
 #include "configfile.h"
 #include "gamedata.h"
@@ -31,8 +30,6 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	myChat = new LobbyChat(this, myConfig);
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
-
-	myOpenGameTimeoutMsgBoxImpl.reset(new timeoutMsgBoxImpl(this, 1));
 
 	//wait start game message
 	waitStartGameMsgBox = new QMessageBox(this);
@@ -80,7 +77,6 @@ void gameLobbyDialogImpl::exec()
 
 	waitStartGameMsgBoxTimer->stop();
 	waitStartGameMsgBox->hide();
-	myOpenGameTimeoutMsgBoxImpl->hide();
 
 }
 
@@ -844,17 +840,3 @@ void gameLobbyDialogImpl::joinAnyGameButtonRefresh() {
 	else pushButton_joinAnyGame->setEnabled(FALSE);
 }
 
-void gameLobbyDialogImpl::startOpenGameTimeout() {
-
-	myOpenGameTimeoutMsgBoxImpl->setMySession(mySession);
-
-	myOpenGameTimeoutMsgBoxImpl->show();
-	myOpenGameTimeoutMsgBoxImpl->raise();
-	myOpenGameTimeoutMsgBoxImpl->activateWindow();
-	myOpenGameTimeoutMsgBoxImpl->startTimeout();
-}
-
-void gameLobbyDialogImpl::closeOpenGameTimeoutMsgBox() {
-
-	myOpenGameTimeoutMsgBoxImpl->hide();
-}
