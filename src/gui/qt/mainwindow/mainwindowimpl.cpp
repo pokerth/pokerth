@@ -3254,6 +3254,7 @@ void mainWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 				QMessageBox::Close); }
 	}
 	// close dialogs
+	hideTimeoutDialog();
 	myGameLobbyDialog->reject();
 	myConnectToServerDialog->reject();
 	myStartNetworkGameDialog->reject();
