@@ -9,8 +9,8 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#ifndef OPENGAMETIMEOUTMSGBOXIMPL_H
-#define OPENGAMETIMEOUTMSGBOXIMPL_H
+#ifndef TIMEOUTMSGBOXIMPL_H
+#define TIMEOUTMSGBOXIMPL_H
 
 #include <QMessageBox>
 #include <QtGui>
@@ -20,15 +20,15 @@
 /**
 	@author Felix Hammer <f.hammer@web.de>
 */
-class gameLobbyDialogImpl;
+class Session;
 
-class openGameTimeoutMsgBoxImpl : public QMessageBox
+class timeoutMsgBoxImpl : public QMessageBox
 {
 Q_OBJECT
 public:
-    openGameTimeoutMsgBoxImpl(QDialog*, gameLobbyDialogImpl*);
+    timeoutMsgBoxImpl(QDialog*, Session*, int);
 
-    ~openGameTimeoutMsgBoxImpl();
+    ~timeoutMsgBoxImpl();
 
 public slots:
 
@@ -36,9 +36,11 @@ public slots:
 	void timerRefresh();
 
 private: 
+
 	QTimer *timeOutTimer;
 	QPushButton *okButton;
-	gameLobbyDialogImpl *myLobby;
+	Session *mySession;
+	int msgId;
 	boost::timers::portable::microsec_timer realTimer;
 };
 

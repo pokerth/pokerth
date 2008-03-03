@@ -1087,7 +1087,7 @@ void mainWindowImpl::initGui(int speed)
 		
 	label_Pot->setText("Pot");
 	label_Total->setText("Total:");
-	label_Sets->setText("Sets:");
+	label_Sets->setText("Bets:");
 	label_handNumber->setText("Hand:");
 	label_gameNumber->setText("Game:");
 	

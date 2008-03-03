@@ -9,43 +9,49 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "opengametimeoutmsgboximpl.h"
-#include "gamelobbydialogimpl.h"
+#include "timeoutmsgboximpl.h"
+#include "session.h"
 
-openGameTimeoutMsgBoxImpl::openGameTimeoutMsgBoxImpl(QDialog *parent, gameLobbyDialogImpl *l)
- : QMessageBox(parent), myLobby(l)
+timeoutMsgBoxImpl::timeoutMsgBoxImpl(QDialog *parent, Session *s, int id)
+ : QMessageBox(parent), mySession(s), msgId(id)
 {
 	okButton = this->addButton(QMessageBox::Ok);
 
-	this->setWindowTitle(tr("Open Game Timeout Warning"));
+	this->setWindowTitle(tr("Timeout Warning"));
 	this->setIcon(QMessageBox::Warning);
-	this->setText(tr("Your open game reaches timeout in %1 seconds.").arg(60,0,10));
 	this->setInformativeText(tr("Please click \"OK\" to stop timeout!"));
 	
 	timeOutTimer = new QTimer;
 
 	connect(timeOutTimer, SIGNAL(timeout()), this, SLOT(timerRefresh()));
-	connect(okButton, SIGNAL(clicked()), myLobby, SLOT(openGameTimeoutStoped()));
+// 	connect(okButton, SIGNAL(clicked()), mySession, SLOT(spechialSessionSlot(msgId)));
 
 }
 
-openGameTimeoutMsgBoxImpl::~openGameTimeoutMsgBoxImpl()
+timeoutMsgBoxImpl::~timeoutMsgBoxImpl()
 {
 }
 
-void openGameTimeoutMsgBoxImpl::startTimeout() {
+void timeoutMsgBoxImpl::startTimeout() {
 	//start the real timer
 	realTimer.reset();
 	realTimer.start();
+	timerRefresh();
 	timeOutTimer->start(1000);
 }
 
-void openGameTimeoutMsgBoxImpl::timerRefresh() {
+void timeoutMsgBoxImpl::timerRefresh() {
 	
 	int sec = 60;
 	unsigned int realTimerValue = realTimer.elapsed().total_milliseconds();
 	sec -= realTimerValue/1000;
 	if (sec < 0) sec = 0;
-	this->setText(tr("Your open game reaches timeout in %1 seconds.").arg(sec,0,10));
+	switch (msgId) {
+		case 0: { this->setText(tr("Your connection is about to time out due to inactivity in %1 seconds.").arg(sec,0,10)); }
+		break;
+		case 1: { this->setText(tr("Your open game reaches timeout in %1 seconds.").arg(sec,0,10)); }
+		break;
+	}
+	
 }
 
