@@ -32,6 +32,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
+	myOpenGameTimeoutMsgBoxImpl.reset(new timeoutMsgBoxImpl(this, 1));
+
 	//wait start game message
 	waitStartGameMsgBox = new QMessageBox(this);
 	waitStartGameMsgBox->setText(tr("Starting game. Please wait ..."));
@@ -844,7 +846,7 @@ void gameLobbyDialogImpl::joinAnyGameButtonRefresh() {
 
 void gameLobbyDialogImpl::startOpenGameTimeout() {
 
-	myOpenGameTimeoutMsgBoxImpl.reset(new timeoutMsgBoxImpl(this, mySession, 1));
+	myOpenGameTimeoutMsgBoxImpl->setMySession(mySession);
 
 	myOpenGameTimeoutMsgBoxImpl->show();
 	myOpenGameTimeoutMsgBoxImpl->raise();

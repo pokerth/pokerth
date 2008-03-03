@@ -26,7 +26,7 @@ class timeoutMsgBoxImpl : public QMessageBox
 {
 Q_OBJECT
 public:
-    timeoutMsgBoxImpl(QDialog*, Session*, int);
+    timeoutMsgBoxImpl(QDialog*, int);
 
     ~timeoutMsgBoxImpl();
 
@@ -34,6 +34,8 @@ public slots:
 
 	void startTimeout();
 	void timerRefresh();
+
+	void setMySession ( Session* theValue ) { mySession = theValue; }
 
 private: 
 

@@ -12,8 +12,8 @@
 #include "timeoutmsgboximpl.h"
 #include "session.h"
 
-timeoutMsgBoxImpl::timeoutMsgBoxImpl(QDialog *parent, Session *s, int id)
- : QMessageBox(parent), mySession(s), msgId(id)
+timeoutMsgBoxImpl::timeoutMsgBoxImpl(QDialog *parent, int id)
+ : QMessageBox(parent), mySession(NULL), msgId(id)
 {
 	okButton = this->addButton(QMessageBox::Ok);
 
