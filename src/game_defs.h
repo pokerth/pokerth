@@ -74,8 +74,8 @@ enum Button {
 	BUTTON_BIG_BLIND };
 
 enum NetTimeoutReason {
-	GENERIC = 0,
-	OPENGAMEADMINIDLE
+	NETWORK_TIMEOUT_GENERIC = 0,
+	NETWORK_TIMEOUT_GAME_ADMIN_IDLE
 };
 
 struct ServerStats

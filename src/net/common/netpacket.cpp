@@ -69,6 +69,8 @@ using namespace std;
 #define NET_TYPE_STATISTICS_CHANGED				0x0080
 
 #define NET_TYPE_REMOVED_FROM_GAME				0x0100
+#define NET_TYPE_TIMEOUT_WARNING				0x0101
+#define NET_TYPE_RESET_TIMEOUT					0x0102
 
 #define NET_TYPE_SEND_CHAT_TEXT					0x0200
 #define NET_TYPE_CHAT_TEXT						0x0201
@@ -96,6 +98,11 @@ using namespace std;
 #define NET_REMOVED_GAME_ALREADY_RUNNING		0x0002
 #define NET_REMOVED_KICKED						0x0003
 #define NET_REMOVED_OTHER_REASON				0xFFFF
+
+// Reasons for timeout warning
+#define NET_TIMEOUT_NO_DATA_RECEIVED			0x0000
+#define NET_TIMEOUT_INACTIVE_GAME				0x0001
+#define NET_TIMEOUT_OTHER_REASON				0xFFFF
 
 // Internal error codes.
 #define NET_ERR_RESERVED						0x0000
@@ -497,6 +504,20 @@ struct GCC_PACKED NetPacketRemovedFromGameData
 	u_int16_t			reserved;
 };
 
+struct GCC_PACKED NetPacketTimeoutWarningData
+{
+	NetPacketHeader		head;
+	u_int16_t			timeoutReason;
+	u_int16_t			remainingSeconds;
+	u_int32_t			reserved;
+};
+
+struct GCC_PACKED NetPacketResetTimeoutData
+{
+	NetPacketHeader		head;
+	u_int32_t			reserved;
+};
+
 struct GCC_PACKED NetPacketSendChatTextData
 {
 	NetPacketHeader		head;
@@ -761,6 +782,12 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_REMOVED_FROM_GAME:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketRemovedFromGame);
+					break;
+				case NET_TYPE_TIMEOUT_WARNING:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketTimeoutWarning);
+					break;
+				case NET_TYPE_RESET_TIMEOUT:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketResetTimeout);
 					break;
 				case NET_TYPE_SEND_CHAT_TEXT:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketSendChatText);
@@ -1097,6 +1124,18 @@ NetPacket::ToNetPacketStatisticsChanged() const
 
 const NetPacketRemovedFromGame *
 NetPacket::ToNetPacketRemovedFromGame() const
+{
+	return NULL;
+}
+
+const NetPacketTimeoutWarning *
+NetPacket::ToNetPacketTimeoutWarning() const
+{
+	return NULL;
+}
+
+const NetPacketResetTimeout *
+NetPacket::ToNetPacketResetTimeout() const
 {
 	return NULL;
 }
@@ -4269,6 +4308,119 @@ NetPacketRemovedFromGame::ToNetPacketRemovedFromGame() const
 
 void
 NetPacketRemovedFromGame::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketTimeoutWarning::NetPacketTimeoutWarning()
+: NetPacket(NET_TYPE_TIMEOUT_WARNING, sizeof(NetPacketTimeoutWarningData), sizeof(NetPacketTimeoutWarningData))
+{
+}
+
+NetPacketTimeoutWarning::~NetPacketTimeoutWarning()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketTimeoutWarning::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketTimeoutWarning);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketTimeoutWarning::SetData(const NetPacketTimeoutWarning::Data &inData)
+{
+	NetPacketTimeoutWarningData *tmpData = (NetPacketTimeoutWarningData *)GetRawData();
+
+	switch (inData.timeoutReason)
+	{
+		case NETWORK_TIMEOUT_GENERIC:
+			tmpData->timeoutReason = htons(NET_TIMEOUT_NO_DATA_RECEIVED);
+			break;
+		case NETWORK_TIMEOUT_GAME_ADMIN_IDLE:
+			tmpData->timeoutReason = htons(NET_TIMEOUT_INACTIVE_GAME);
+			break;
+		default :
+			tmpData->timeoutReason = htons(NET_TIMEOUT_OTHER_REASON);
+			break;
+	}
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketTimeoutWarning::GetData(NetPacketTimeoutWarning::Data &outData) const
+{
+	NetPacketTimeoutWarningData *tmpData = (NetPacketTimeoutWarningData *)GetRawData();
+
+	switch (ntohs(tmpData->timeoutReason))
+	{
+	// Removed Errors.
+		case NET_TIMEOUT_INACTIVE_GAME :
+			outData.timeoutReason = NETWORK_TIMEOUT_GAME_ADMIN_IDLE;
+			break;
+		default :
+			outData.timeoutReason = NETWORK_TIMEOUT_GENERIC;
+			break;
+	}
+}
+
+const NetPacketTimeoutWarning *
+NetPacketTimeoutWarning::ToNetPacketTimeoutWarning() const
+{
+	return this;
+}
+
+void
+NetPacketTimeoutWarning::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketResetTimeout::NetPacketResetTimeout()
+: NetPacket(NET_TYPE_RESET_TIMEOUT, sizeof(NetPacketResetTimeoutData), sizeof(NetPacketResetTimeoutData))
+{
+}
+
+NetPacketResetTimeout::~NetPacketResetTimeout()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketResetTimeout::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketResetTimeout);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+const NetPacketResetTimeout *
+NetPacketResetTimeout::ToNetPacketResetTimeout() const
+{
+	return this;
+}
+
+void
+NetPacketResetTimeout::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }

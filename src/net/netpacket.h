@@ -87,6 +87,8 @@ class NetPacketEndOfHandHideCards;
 class NetPacketEndOfGame;
 class NetPacketStatisticsChanged;
 class NetPacketRemovedFromGame;
+class NetPacketTimeoutWarning;
+class NetPacketResetTimeout;
 class NetPacketSendChatText;
 class NetPacketChatText;
 class NetPacketError;
@@ -149,6 +151,8 @@ public:
 	virtual const NetPacketEndOfGame *ToNetPacketEndOfGame() const;
 	virtual const NetPacketStatisticsChanged *ToNetPacketStatisticsChanged() const;
 	virtual const NetPacketRemovedFromGame *ToNetPacketRemovedFromGame() const;
+	virtual const NetPacketTimeoutWarning *ToNetPacketTimeoutWarning() const;
+	virtual const NetPacketResetTimeout *ToNetPacketResetTimeout() const;
 	virtual const NetPacketSendChatText *ToNetPacketSendChatText() const;
 	virtual const NetPacketChatText *ToNetPacketChatText() const;
 	virtual const NetPacketError *ToNetPacketError() const;
@@ -1163,6 +1167,46 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketRemovedFromGame *ToNetPacketRemovedFromGame() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketTimeoutWarning : public NetPacket
+{
+public:
+	struct Data
+	{
+		NetTimeoutReason	timeoutReason;
+		u_int16_t			remainingSeconds;
+	};
+
+	NetPacketTimeoutWarning();
+	virtual ~NetPacketTimeoutWarning();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketTimeoutWarning *ToNetPacketTimeoutWarning() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketResetTimeout : public NetPacket
+{
+public:
+
+	NetPacketResetTimeout();
+	virtual ~NetPacketResetTimeout();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	virtual const NetPacketResetTimeout *ToNetPacketResetTimeout() const;
 
 protected:
 
