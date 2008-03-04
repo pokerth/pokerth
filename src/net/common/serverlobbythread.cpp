@@ -34,11 +34,15 @@
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
 
-#define SERVER_MAX_NUM_SESSIONS				512		// Maximum number of idle users in lobby.
-#define SERVER_CACHE_CLEANUP_INTERVAL_SEC	86400	// 1 day
-#define SERVER_SAVE_STATISTICS_INTERVAL_SEC	60
-#define SERVER_INIT_SESSION_TIMEOUT_SEC		20
-#define SERVER_INIT_AVATAR_CLIENT_LOCK_SEC	30      // Forbid a client to send an additional avatar.
+#define SERVER_MAX_NUM_SESSIONS					512		// Maximum number of idle users in lobby.
+#define SERVER_CACHE_CLEANUP_INTERVAL_SEC		86400	// 1 day
+#define SERVER_SAVE_STATISTICS_INTERVAL_SEC		60
+#define SERVER_INIT_AVATAR_CLIENT_LOCK_SEC		30      // Forbid a client to send an additional avatar.
+
+#define SERVER_INIT_SESSION_TIMEOUT_SEC			20
+#define SERVER_TIMEOUT_WARNING_REMAINING_SEC	60
+#define SERVER_SESSION_ACTIVITY_TIMEOUT_SEC		90		// MUST be > SERVER_TIMEOUT_WARNING_REMAINING_SEC
+#define SERVER_SESSION_FORCED_TIMEOUT_SEC		300		// Should be quite large.
 
 #define SERVER_STATISTICS_FILE_NAME				"server_statistics.log"
 #define SERVER_STATISTICS_STR_TOTAL_PLAYERS		"TotalNumPlayersLoggedIn"
@@ -142,10 +146,6 @@ ServerLobbyThread::RemoveSessionFromGame(SessionWrapper session)
 void
 ServerLobbyThread::CloseSession(SessionWrapper session)
 {
-	{
-		boost::mutex::scoped_lock lock(m_initTimerSessionMapMutex);
-		m_initTimerSessionMap.erase(session.sessionData->GetId());
-	}
 	m_sessionManager.RemoveSession(session.sessionData->GetId());
 	m_gameSessionManager.RemoveSession(session.sessionData->GetId());
 
@@ -308,12 +308,13 @@ ServerLobbyThread::Main()
 			NewSessionLoop();
 			// Main loop.
 			ProcessLoop();
-			// Close sessions.
-			CloseSessionLoop();
 			// Remove games.
 			RemoveGameLoop();
 			// Kick players.
 			KickPlayerLoop();
+			// Check session timeouts.
+			m_sessionManager.ForEachRemoveIf(boost::bind(&ServerLobbyThread::CheckSessionTimeouts, boost::ref(*this), _1));
+			m_gameSessionManager.ForEachRemoveIf(boost::bind(&ServerLobbyThread::CheckSessionTimeouts, boost::ref(*this), _1));
 			// Update avatar limitation lock.
 			UpdateAvatarClientTimerLoop();
 			// Cleanup cache.
@@ -383,6 +384,8 @@ ServerLobbyThread::ProcessLoop()
 					HandleNetPacketRetrievePlayerInfo(session, *packet->ToNetPacketRetrievePlayerInfo());
 				else if (packet->ToNetPacketRetrieveAvatar())
 					HandleNetPacketRetrieveAvatar(session, *packet->ToNetPacketRetrieveAvatar());
+				else if (packet->ToNetPacketResetTimeout())
+				{}
 				else if (packet->ToNetPacketCreateGame())
 					HandleNetPacketCreateGame(session, *packet->ToNetPacketCreateGame());
 				else if (packet->ToNetPacketJoinGame())
@@ -697,10 +700,6 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 	SendGameList(session.sessionData);
 
 	// Session is now established.
-	{
-		boost::mutex::scoped_lock lock(m_initTimerSessionMapMutex);
-		m_initTimerSessionMap.erase(session.sessionData->GetId());
-	}
 	session.sessionData->SetState(SessionData::Established);
 
 	{
@@ -762,27 +761,6 @@ ServerLobbyThread::NewSessionLoop()
 	}
 	if (tmpSession.sessionData.get() && tmpSession.playerData.get())
 		HandleReAddedSession(tmpSession);
-}
-
-void
-ServerLobbyThread::CloseSessionLoop()
-{
-	boost::mutex::scoped_lock lock(m_initTimerSessionMapMutex);
-	TimerSessionMap::iterator i = m_initTimerSessionMap.begin();
-	TimerSessionMap::iterator end = m_initTimerSessionMap.end();
-
-	// Remove sessions if they do not initialize within a certain period.
-	while (i != end)
-	{
-		TimerSessionMap::iterator next = i;
-		++next;
-		if (i->second.elapsed().total_seconds() > SERVER_INIT_SESSION_TIMEOUT_SEC)
-		{
-			m_sessionManager.RemoveSession(i->first);
-			m_initTimerSessionMap.erase(i);
-		}
-		i = next;
-	}
 }
 
 void
@@ -956,8 +934,6 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 			tmpAddress[sizeof(tmpAddress) - 1] = 0; // paranoia
 			sessionData->SetClientAddr(tmpAddress);
 		}
-		boost::mutex::scoped_lock lock(m_initTimerSessionMapMutex);
-		m_initTimerSessionMap[sessionData->GetId()] = boost::timers::portable::microsec_timer();
 	}
 	else
 	{
@@ -985,6 +961,39 @@ ServerLobbyThread::HandleReAddedSession(SessionWrapper session)
 		// Gracefully close this session.
 		SessionError(session, ERR_NET_SERVER_FULL);
 	}
+}
+
+bool
+ServerLobbyThread::CheckSessionTimeouts(SessionWrapper session)
+{
+	bool retVal = false;
+	if (session.sessionData.get())
+	{
+		if (session.sessionData->GetState() == SessionData::Init && session.sessionData->GetAutoDisconnectTimerElapsedSec() >= SERVER_INIT_SESSION_TIMEOUT_SEC)
+			retVal = true;
+		else if (session.sessionData->GetActivityTimerElapsedSec() >= SERVER_SESSION_ACTIVITY_TIMEOUT_SEC - SERVER_TIMEOUT_WARNING_REMAINING_SEC
+				&& !session.sessionData->HasActivityNoticeBeenSent())
+		{
+			session.sessionData->MarkActivityNotice();
+			boost::shared_ptr<NetPacket> packet(new NetPacketTimeoutWarning);
+			NetPacketTimeoutWarning::Data warningData;
+			warningData.timeoutReason = NETWORK_TIMEOUT_GENERIC;
+			warningData.remainingSeconds = SERVER_TIMEOUT_WARNING_REMAINING_SEC;
+			static_cast<NetPacketTimeoutWarning *>(packet.get())->SetData(warningData);
+			GetSender().Send(session.sessionData, packet);
+		}
+		else if (session.sessionData->GetActivityTimerElapsedSec() >= SERVER_SESSION_ACTIVITY_TIMEOUT_SEC)
+		{
+			// TODO SendError(session.sessionData, errorCode);
+			retVal = true;
+		}
+		else if (session.sessionData->GetAutoDisconnectTimerElapsedSec() >= SERVER_SESSION_FORCED_TIMEOUT_SEC)
+		{
+			// TODO SendError(session.sessionData, errorCode);
+			retVal = true;
+		}
+	}
+	return retVal;
 }
 
 void

@@ -147,6 +147,8 @@ SessionManager::Select(unsigned timeoutMsec)
 			}
 		}
 	}
+	if (retSession.sessionData.get())
+		retSession.sessionData->ResetActivityTimer();
 	return retSession;
 }
 
@@ -291,6 +293,24 @@ SessionManager::ForEach(boost::function<void (SessionWrapper)> func)
 	{
 		func((*i).second);
 		++i;
+	}
+}
+
+void
+SessionManager::ForEachRemoveIf(boost::function<bool (SessionWrapper)> func)
+{
+	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SessionMap::iterator i = m_sessionMap.begin();
+	SessionMap::iterator end = m_sessionMap.end();
+
+	while (i != end)
+	{
+		SessionMap::iterator next = i;
+		next++;
+		if (func((*i).second))
+			m_sessionMap.erase(i);
+		i = next;
 	}
 }
 

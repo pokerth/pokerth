@@ -113,7 +113,6 @@ protected:
 	void RequestPlayerAvatar(SessionWrapper session);
 	void NewConnectionLoop();
 	void NewSessionLoop();
-	void CloseSessionLoop();
 	void RemoveGameLoop();
 	void KickPlayerLoop();
 	void UpdateAvatarClientTimerLoop();
@@ -128,7 +127,7 @@ protected:
 	void HandleNewConnection(boost::shared_ptr<ConnectData> connData);
 	void HandleReAddedSession(SessionWrapper session);
 
-	SOCKET Select();
+	bool CheckSessionTimeouts(SessionWrapper session);
 
 	void CleanupConnectQueue();
 	void CleanupSessionMap();
@@ -165,9 +164,6 @@ private:
 
 	SessionManager m_sessionManager;
 	SessionManager m_gameSessionManager;
-
-	TimerSessionMap m_initTimerSessionMap;
-	mutable boost::mutex m_initTimerSessionMapMutex;
 
 	TimerClientAddressMap m_timerAvatarClientAddressMap;
 	mutable boost::mutex m_timerAvatarClientAddressMapMutex;

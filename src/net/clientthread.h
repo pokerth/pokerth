@@ -65,6 +65,7 @@ public:
 	void SendJoinFirstGame(const std::string &password);
 	void SendJoinGame(unsigned gameId, const std::string &password);
 	void SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
+	void SendResetTimeout();
 
 	GameInfo GetGameInfo(unsigned gameId) const;
 	PlayerInfo GetPlayerInfo(unsigned playerId) const;

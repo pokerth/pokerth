@@ -175,6 +175,8 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 				// Delegate to Lobby.
 				server.GetLobbyThread().HandleGameRetrieveAvatar(session, *packet->ToNetPacketRetrieveAvatar());
 			}
+			else if (packet->ToNetPacketResetTimeout())
+			{}
 			else if (packet->ToNetPacketLeaveCurrentGame())
 			{
 				server.MoveSessionToLobby(session, NTF_NET_REMOVED_ON_REQUEST);

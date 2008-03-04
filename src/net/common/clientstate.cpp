@@ -417,6 +417,12 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			client.GetCallback().SignalNetClientRemovedFromGame(removedData.removeReason);
 			client.SetState(ClientStateWaitJoin::Instance());
 		}
+		else if (tmpPacket->ToNetPacketTimeoutWarning())
+		{
+			NetPacketTimeoutWarning::Data warningData;
+			tmpPacket->ToNetPacketTimeoutWarning()->GetData(warningData);
+			client.GetCallback().SignalNetClientShowTimeoutDialog(warningData.timeoutReason, warningData.remainingSeconds);
+		}
 		else if (tmpPacket->ToNetPacketChatText())
 		{
 			// Chat message - display it in the GUI.

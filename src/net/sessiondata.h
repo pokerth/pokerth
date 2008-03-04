@@ -25,6 +25,7 @@
 #include <net/receivebuffer.h>
 #include <string>
 #include <boost/thread.hpp>
+#include <core/boost/timers.hpp>
 
 #define INVALID_SESSION			0
 #define SESSION_ID_INIT			INVALID_SESSION
@@ -60,6 +61,12 @@ public:
 
 	ReceiveBuffer &GetReceiveBuffer();
 
+	void ResetActivityTimer();
+	unsigned GetActivityTimerElapsedSec() const;
+	bool HasActivityNoticeBeenSent() const;
+	void MarkActivityNotice();
+	unsigned GetAutoDisconnectTimerElapsedSec() const;
+
 private:
 	SOCKET							m_sockfd;
 	const SessionId					m_id;
@@ -67,6 +74,9 @@ private:
 	std::string						m_clientAddr;
 	ReceiveBuffer					m_receiveBuffer;
 	bool							m_readyFlag;
+	boost::timers::portable::microsec_timer m_activityTimer;
+	bool							m_activityTimeoutNoticeSent;
+	boost::timers::portable::microsec_timer m_autoDisconnectTimer;
 
 	mutable boost::mutex			m_dataMutex;
 };

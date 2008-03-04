@@ -80,6 +80,8 @@ public:
 	void sendChatMessage(const std::string &message);
 	void kickPlayer(unsigned playerId);
 	void kickPlayer(const std::string &playerName);
+	
+	void resetNetworkTimeout();
 
 	bool isNetworkClientRunning() const; // TODO hack
 	bool isNetworkServerRunning() const; // TODO hack

@@ -39,6 +39,7 @@ public:
 	virtual void SignalNetClientError(int errorID, int osErrorID) = 0;
 	virtual void SignalNetClientNotification(int notificationId) = 0;
 	virtual void SignalNetClientStatsUpdate(const ServerStats &stats) = 0;
+	virtual void SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec) = 0;
 	virtual void SignalNetClientRemovedFromGame(int notificationId) = 0;
 
 	virtual void SignalNetClientGameListNew(unsigned gameId) = 0;
@@ -57,6 +58,6 @@ public:
 
 	virtual void SignalNetClientChatMsg(const std::string &playerName, const std::string &msg) = 0;
 	virtual void SignalNetClientWaitDialog() = 0;
-};
+	};
 
 #endif

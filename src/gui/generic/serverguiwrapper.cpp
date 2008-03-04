@@ -118,6 +118,7 @@ void ServerGuiWrapper::SignalNetClientGameInfo(int actionID) { if (myClientcb) m
 void ServerGuiWrapper::SignalNetClientError(int errorID, int osErrorID) { if (myClientcb) myClientcb->SignalNetClientError(errorID, osErrorID); }
 void ServerGuiWrapper::SignalNetClientNotification(int notificationId) { if (myClientcb) myClientcb->SignalNetClientNotification(notificationId); }
 void ServerGuiWrapper::SignalNetClientStatsUpdate(const ServerStats &stats) { if (myClientcb) myClientcb->SignalNetClientStatsUpdate(stats); }
+void ServerGuiWrapper::SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec) { if (myClientcb) myClientcb->SignalNetClientShowTimeoutDialog(reason, remainingSec); }
 void ServerGuiWrapper::SignalNetClientRemovedFromGame(int notificationId) { if (myClientcb) myClientcb->SignalNetClientRemovedFromGame(notificationId); }
 void ServerGuiWrapper::SignalNetClientSelfJoined(unsigned playerId, const string &playerName, PlayerRights rights) { if (myClientcb) myClientcb->SignalNetClientSelfJoined(playerId, playerName, rights); }
 void ServerGuiWrapper::SignalNetClientPlayerJoined(unsigned playerId, const string &playerName, PlayerRights rights) { if (myClientcb) myClientcb->SignalNetClientPlayerJoined(playerId, playerName, rights); }

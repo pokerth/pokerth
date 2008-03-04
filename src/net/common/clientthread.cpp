@@ -241,6 +241,14 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 	}
 }
 
+void
+ClientThread::SendResetTimeout()
+{
+	boost::shared_ptr<NetPacket> reset(new NetPacketResetTimeout);
+	boost::mutex::scoped_lock lock(m_outPacketListMutex);
+	m_outPacketList.push_back(reset);	
+}
+
 GameInfo
 ClientThread::GetGameInfo(unsigned gameId) const
 {

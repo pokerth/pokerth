@@ -4354,6 +4354,7 @@ NetPacketTimeoutWarning::SetData(const NetPacketTimeoutWarning::Data &inData)
 			tmpData->timeoutReason = htons(NET_TIMEOUT_OTHER_REASON);
 			break;
 	}
+	tmpData->remainingSeconds = htons(inData.remainingSeconds);
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -4374,6 +4375,7 @@ NetPacketTimeoutWarning::GetData(NetPacketTimeoutWarning::Data &outData) const
 			outData.timeoutReason = NETWORK_TIMEOUT_GENERIC;
 			break;
 	}
+	outData.remainingSeconds = ntohs(tmpData->remainingSeconds);
 }
 
 const NetPacketTimeoutWarning *

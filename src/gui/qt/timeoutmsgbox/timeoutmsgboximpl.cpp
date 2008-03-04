@@ -59,5 +59,5 @@ void timeoutMsgBoxImpl::timerRefresh() {
 
 void timeoutMsgBoxImpl::stopTimeout() {
 
-// 	mySession->stopTimeout
+ 	mySession->resetNetworkTimeout();
 }

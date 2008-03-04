@@ -368,6 +368,13 @@ void Session::kickPlayer(unsigned playerId)
 	myNetClient->SendKickPlayer(playerId);
 }
 
+void Session::resetNetworkTimeout()
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendResetTimeout();
+}
+
 void Session::kickPlayer(const string &playerName)
 {
 	if (!myNetClient)
