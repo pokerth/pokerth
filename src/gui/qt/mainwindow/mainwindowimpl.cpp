@@ -37,6 +37,7 @@
 #include "startsplash.h"
 #include "mycardspixmaplabel.h"
 #include "mysetlabel.h"
+#include "myavatarlabel.h"
 #include "log.h"
 #include "chat.h"
 

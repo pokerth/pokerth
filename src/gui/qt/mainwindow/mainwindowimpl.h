@@ -40,6 +40,7 @@ class BoardInterface;
 // class HandInterface;
 class PlayerInterface;
 class MyCardsPixmapLabel;
+class MyAvatarLabel;
 class newGameDialogImpl;
 class settingsDialogImpl;
 class selectAvatarDialogImpl;
@@ -392,7 +393,7 @@ private:
 	MySetLabel *setLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *actionLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *playerNameLabelArray[MAX_NUMBER_OF_PLAYERS];
-	QLabel *playerAvatarLabelArray[MAX_NUMBER_OF_PLAYERS];
+	MyAvatarLabel *playerAvatarLabelArray[MAX_NUMBER_OF_PLAYERS];
 
 	QGroupBox *groupBoxArray[MAX_NUMBER_OF_PLAYERS];
 	MyCardsPixmapLabel *boardCardsArray[5];

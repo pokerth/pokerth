@@ -149,6 +149,7 @@ HEADERS += \
 		src/gui/qt/mainwindow/mycardspixmaplabel.h \
 		src/gui/qt/mainwindow/mysetlabel.h \
 		src/gui/qt/mainwindow/mystatuslabel.h \
+		src/gui/qt/mainwindow/myavatarlabel.h \
 		src/gui/qt/mainwindow/myrighttabwidget.h \
 		src/gui/qt/mainwindow/mylefttabwidget.h \
 		src/gui/qt/mainwindow/startsplash/startsplash.h \
@@ -208,6 +209,7 @@ SOURCES += \
 		src/gui/qt/mainwindow/mycardspixmaplabel.cpp \
 		src/gui/qt/mainwindow/mysetlabel.cpp \
 		src/gui/qt/mainwindow/mystatuslabel.cpp \
+		src/gui/qt/mainwindow/myavatarlabel.cpp \
 		src/gui/qt/mainwindow/myrighttabwidget.cpp \
 		src/gui/qt/mainwindow/mylefttabwidget.cpp \
 		src/gui/qt/mainwindow/startsplash/startsplash.cpp \

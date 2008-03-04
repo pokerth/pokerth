@@ -220,7 +220,7 @@
             </property>
            </widget>
           </widget>
-          <widget class="QLabel" name="label_Avatar2" >
+          <widget class="MyAvatarLabel" name="label_Avatar2" >
            <property name="geometry" >
             <rect>
              <x>17</x>
@@ -465,7 +465,7 @@
             </property>
            </widget>
           </widget>
-          <widget class="QLabel" name="label_Avatar3" >
+          <widget class="MyAvatarLabel" name="label_Avatar3" >
            <property name="geometry" >
             <rect>
              <x>17</x>
@@ -707,7 +707,7 @@
             </item>
            </layout>
           </widget>
-          <widget class="QLabel" name="label_Avatar4" >
+          <widget class="MyAvatarLabel" name="label_Avatar4" >
            <property name="geometry" >
             <rect>
              <x>17</x>
@@ -962,7 +962,7 @@
             </property>
            </widget>
           </widget>
-          <widget class="QLabel" name="label_Avatar5" >
+          <widget class="MyAvatarLabel" name="label_Avatar5" >
            <property name="geometry" >
             <rect>
              <x>17</x>
@@ -1238,7 +1238,7 @@
             </property>
            </widget>
           </widget>
-          <widget class="QLabel" name="label_Avatar1" >
+          <widget class="MyAvatarLabel" name="label_Avatar1" >
            <property name="geometry" >
             <rect>
              <x>17</x>
@@ -1848,7 +1848,7 @@
             </property>
            </widget>
           </widget>
-          <widget class="QLabel" name="label_Avatar6" >
+          <widget class="MyAvatarLabel" name="label_Avatar6" >
            <property name="geometry" >
             <rect>
              <x>17</x>
@@ -2282,7 +2282,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_Avatar0" >
+              <widget class="MyAvatarLabel" name="label_Avatar0" >
                <property name="minimumSize" >
                 <size>
                  <width>50</width>
@@ -3378,6 +3378,11 @@
    <class>MyCardsPixmapLabel</class>
    <extends>QLabel</extends>
    <header>mycardspixmaplabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MyAvatarLabel</class>
+   <extends>QLabel</extends>
+   <header>myavatarlabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
