@@ -157,6 +157,8 @@ public:
 	virtual const NetPacketChatText *ToNetPacketChatText() const;
 	virtual const NetPacketError *ToNetPacketError() const;
 
+	virtual bool IsClientActivity() const {return false;}
+
 protected:
 
 	NetPacket &operator=(const NetPacket& right); // not allowed
@@ -197,6 +199,7 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketInit *ToNetPacketInit() const;
+	virtual bool IsClientActivity() const {return true;}
 
 protected:
 
@@ -557,6 +560,7 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketCreateGame *ToNetPacketCreateGame() const;
+	virtual bool IsClientActivity() const {return true;}
 
 protected:
 
@@ -581,6 +585,7 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketJoinGame *ToNetPacketJoinGame() const;
+	virtual bool IsClientActivity() const {return true;}
 
 protected:
 
@@ -722,6 +727,7 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketKickPlayer *ToNetPacketKickPlayer() const;
+	virtual bool IsClientActivity() const {return true;}
 
 protected:
 
@@ -738,6 +744,7 @@ public:
 	virtual boost::shared_ptr<NetPacket> Clone() const;
 
 	virtual const NetPacketLeaveCurrentGame *ToNetPacketLeaveCurrentGame() const;
+	virtual bool IsClientActivity() const {return true;}
 
 protected:
 
@@ -761,6 +768,7 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketStartEvent *ToNetPacketStartEvent() const;
+	virtual bool IsClientActivity() const {return true;}
 
 protected:
 
@@ -882,6 +890,7 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketPlayersAction *ToNetPacketPlayersAction() const;
+	virtual bool IsClientActivity() const {return true;}
 
 protected:
 
@@ -1207,6 +1216,7 @@ public:
 	virtual boost::shared_ptr<NetPacket> Clone() const;
 
 	virtual const NetPacketResetTimeout *ToNetPacketResetTimeout() const;
+	virtual bool IsClientActivity() const {return true;}
 
 protected:
 
@@ -1230,6 +1240,7 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketSendChatText *ToNetPacketSendChatText() const;
+	virtual bool IsClientActivity() const {return true;}
 
 protected:
 

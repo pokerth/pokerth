@@ -358,6 +358,9 @@ ServerLobbyThread::ProcessLoop()
 		}
 		if (packet.get())
 		{
+			if (packet->IsClientActivity())
+				session.sessionData->ResetActivityTimer();
+
 			if (session.sessionData->GetState() == SessionData::Init)
 			{
 				if (packet->ToNetPacketInit())

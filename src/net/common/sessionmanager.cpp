@@ -147,8 +147,6 @@ SessionManager::Select(unsigned timeoutMsec)
 			}
 		}
 	}
-	if (retSession.sessionData.get())
-		retSession.sessionData->ResetActivityTimer();
 	return retSession;
 }
 

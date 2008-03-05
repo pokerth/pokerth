@@ -165,6 +165,8 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 		// Process packet if one was received.
 		if (packet.get())
 		{
+			if (packet->IsClientActivity())
+				session.sessionData->ResetActivityTimer();
 			if (packet->ToNetPacketRetrievePlayerInfo())
 			{
 				// Delegate to Lobby.
