@@ -66,7 +66,6 @@ public:
 	bool IsPlayerConnected(unsigned uniqueId) const;
 
 	void ForEach(boost::function<void (SessionWrapper)> func);
-	void ForEachRemoveIf(boost::function<bool (SessionWrapper)> func);
 
 	unsigned CountReadySessions() const;
 	void ResetAllReadyFlags();
@@ -84,7 +83,7 @@ protected:
 private:
 
 	SessionMap m_sessionMap;
-	mutable boost::mutex m_sessionMapMutex;
+	mutable boost::recursive_mutex m_sessionMapMutex;
 };
 
 #endif

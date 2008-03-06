@@ -37,7 +37,7 @@ SessionManager::~SessionManager()
 bool
 SessionManager::HasSessions() const
 {
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 	return !m_sessionMap.empty();
 }
 
@@ -50,7 +50,7 @@ SessionManager::AddSession(boost::shared_ptr<SessionData> sessionData)
 void
 SessionManager::AddSession(SessionWrapper session)
 {
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
 	SessionMap::iterator pos = m_sessionMap.lower_bound(session.sessionData->GetId());
 
@@ -66,7 +66,7 @@ SessionManager::AddSession(SessionWrapper session)
 void
 SessionManager::SetSessionPlayerData(SessionId session, boost::shared_ptr<PlayerData> playerData)
 {
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 	SessionMap::iterator pos = m_sessionMap.find(session);
 
 	if (pos != m_sessionMap.end())
@@ -76,7 +76,7 @@ SessionManager::SetSessionPlayerData(SessionId session, boost::shared_ptr<Player
 void
 SessionManager::RemoveSession(SessionId session)
 {
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 	m_sessionMap.erase(session);
 }
 
@@ -89,7 +89,7 @@ SessionManager::Select(unsigned timeoutMsec)
 	FD_ZERO(&rdset);
 
 	{
-		boost::mutex::scoped_lock lock(m_sessionMapMutex);
+		boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 		SessionMap::iterator i = m_sessionMap.begin();
 		SessionMap::iterator end = m_sessionMap.end();
 
@@ -131,7 +131,7 @@ SessionManager::Select(unsigned timeoutMsec)
 			if (selectResult > 0) // one (or more) of the sockets is readable
 			{
 				// Check which socket is readable, return the first.
-				boost::mutex::scoped_lock lock(m_sessionMapMutex);
+				boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 				SessionMap::iterator i = m_sessionMap.begin();
 				SessionMap::iterator end = m_sessionMap.end();
 
@@ -154,7 +154,7 @@ SessionWrapper
 SessionManager::GetSessionByPlayerName(const string playerName) const
 {
 	SessionWrapper tmpSession;
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
 	SessionMap::const_iterator session_i = m_sessionMap.begin();
 	SessionMap::const_iterator session_end = m_sessionMap.end();
@@ -183,7 +183,7 @@ SessionWrapper
 SessionManager::GetSessionByUniquePlayerId(unsigned uniqueId) const
 {
 	SessionWrapper tmpSession;
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
 	SessionMap::const_iterator session_i = m_sessionMap.begin();
 	SessionMap::const_iterator session_end = m_sessionMap.end();
@@ -212,7 +212,7 @@ PlayerDataList
 SessionManager::GetPlayerDataList() const
 {
 	PlayerDataList playerList;
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
 	SessionMap::const_iterator session_i = m_sessionMap.begin();
 	SessionMap::const_iterator session_end = m_sessionMap.end();
@@ -236,7 +236,7 @@ PlayerIdList
 SessionManager::GetPlayerIdList() const
 {
 	PlayerIdList playerList;
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
 	SessionMap::const_iterator session_i = m_sessionMap.begin();
 	SessionMap::const_iterator session_end = m_sessionMap.end();
@@ -282,22 +282,7 @@ SessionManager::IsPlayerConnected(unsigned uniqueId) const
 void
 SessionManager::ForEach(boost::function<void (SessionWrapper)> func)
 {
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
-
-	SessionMap::iterator i = m_sessionMap.begin();
-	SessionMap::iterator end = m_sessionMap.end();
-
-	while (i != end)
-	{
-		func((*i).second);
-		++i;
-	}
-}
-
-void
-SessionManager::ForEachRemoveIf(boost::function<bool (SessionWrapper)> func)
-{
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
 	SessionMap::iterator i = m_sessionMap.begin();
 	SessionMap::iterator end = m_sessionMap.end();
@@ -306,8 +291,7 @@ SessionManager::ForEachRemoveIf(boost::function<bool (SessionWrapper)> func)
 	{
 		SessionMap::iterator next = i;
 		next++;
-		if (func((*i).second))
-			m_sessionMap.erase(i);
+		func((*i).second);
 		i = next;
 	}
 }
@@ -316,7 +300,7 @@ unsigned
 SessionManager::CountReadySessions() const
 {
 	unsigned counter = 0;
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
 	SessionMap::const_iterator i = m_sessionMap.begin();
 	SessionMap::const_iterator end = m_sessionMap.end();
@@ -333,7 +317,7 @@ SessionManager::CountReadySessions() const
 void
 SessionManager::ResetAllReadyFlags()
 {
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
 	SessionMap::iterator i = m_sessionMap.begin();
 	SessionMap::iterator end = m_sessionMap.end();
@@ -348,7 +332,7 @@ SessionManager::ResetAllReadyFlags()
 void
 SessionManager::Clear()
 {
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
 	// Sockets will be closed automatically.
 	m_sessionMap.clear();
@@ -357,14 +341,14 @@ SessionManager::Clear()
 unsigned
 SessionManager::GetRawSessionCount()
 {
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 	return m_sessionMap.size();
 }
 
 void
 SessionManager::SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state)
 {
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
 	SessionMap::iterator i = m_sessionMap.begin();
 	SessionMap::iterator end = m_sessionMap.end();
@@ -384,7 +368,7 @@ SessionManager::SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPac
 void
 SessionManager::SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state)
 {
-	boost::mutex::scoped_lock lock(m_sessionMapMutex);
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
 	SessionMap::iterator i = m_sessionMap.begin();
 	SessionMap::iterator end = m_sessionMap.end();

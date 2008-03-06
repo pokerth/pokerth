@@ -34,21 +34,23 @@
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
 
-#define SERVER_MAX_NUM_SESSIONS					512		// Maximum number of idle users in lobby.
-#define SERVER_CACHE_CLEANUP_INTERVAL_SEC		86400	// 1 day
-#define SERVER_SAVE_STATISTICS_INTERVAL_SEC		60
-#define SERVER_INIT_AVATAR_CLIENT_LOCK_SEC		30      // Forbid a client to send an additional avatar.
+#define SERVER_MAX_NUM_SESSIONS						512		// Maximum number of idle users in lobby.
+#define SERVER_CACHE_CLEANUP_INTERVAL_SEC			86400	// 1 day
+#define SERVER_SAVE_STATISTICS_INTERVAL_SEC			60
+#define SERVER_INIT_AVATAR_CLIENT_LOCK_SEC			30      // Forbid a client to send an additional avatar.
 
-#define SERVER_INIT_SESSION_TIMEOUT_SEC			20
-#define SERVER_TIMEOUT_WARNING_REMAINING_SEC	60
-#define SERVER_SESSION_ACTIVITY_TIMEOUT_SEC		90		// MUST be > SERVER_TIMEOUT_WARNING_REMAINING_SEC
-#define SERVER_SESSION_FORCED_TIMEOUT_SEC		300		// Should be quite large.
+#define SERVER_INIT_SESSION_TIMEOUT_SEC				20
+#define SERVER_TIMEOUT_WARNING_REMAINING_SEC		60
+#define SERVER_SESSION_ACTIVITY_TIMEOUT_SEC			90		// MUST be > SERVER_TIMEOUT_WARNING_REMAINING_SEC
+#define SERVER_SESSION_FORCED_TIMEOUT_SEC			300		// Should be quite large.
 
-#define SERVER_STATISTICS_FILE_NAME				"server_statistics.log"
-#define SERVER_STATISTICS_STR_TOTAL_PLAYERS		"TotalNumPlayersLoggedIn"
-#define SERVER_STATISTICS_STR_TOTAL_GAMES		"TotalNumGamesCreated"
-#define SERVER_STATISTICS_STR_MAX_GAMES			"MaxGamesOpen"
-#define SERVER_STATISTICS_STR_MAX_PLAYERS		"MaxPlayersLoggedIn"
+#define SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC	500
+
+#define SERVER_STATISTICS_FILE_NAME					"server_statistics.log"
+#define SERVER_STATISTICS_STR_TOTAL_PLAYERS			"TotalNumPlayersLoggedIn"
+#define SERVER_STATISTICS_STR_TOTAL_GAMES			"TotalNumGamesCreated"
+#define SERVER_STATISTICS_STR_MAX_GAMES				"MaxGamesOpen"
+#define SERVER_STATISTICS_STR_MAX_PLAYERS			"MaxPlayersLoggedIn"
 
 using namespace std;
 
@@ -232,12 +234,18 @@ ServerLobbyThread::KickPlayerByName(const std::string &playerName)
 
 	if (session.sessionData.get() && session.playerData.get())
 	{
-		boost::mutex::scoped_lock lock(m_kickPlayerListMutex);
-		m_kickPlayerList.push_back(session.playerData->GetUniqueId());
+		RemovePlayer(session.playerData->GetUniqueId(), ERR_NET_PLAYER_KICKED);
 		retVal = true;
 	}
 
 	return retVal;
+}
+
+void
+ServerLobbyThread::RemovePlayer(unsigned playerId, unsigned errorCode)
+{
+	boost::mutex::scoped_lock lock(m_removePlayerListMutex);
+	m_removePlayerList.push_back(RemovePlayerList::value_type(playerId, errorCode));
 }
 
 void
@@ -311,10 +319,9 @@ ServerLobbyThread::Main()
 			// Remove games.
 			RemoveGameLoop();
 			// Kick players.
-			KickPlayerLoop();
+			RemovePlayerLoop();
 			// Check session timeouts.
-			m_sessionManager.ForEachRemoveIf(boost::bind(&ServerLobbyThread::CheckSessionTimeouts, boost::ref(*this), _1));
-			m_gameSessionManager.ForEachRemoveIf(boost::bind(&ServerLobbyThread::CheckSessionTimeouts, boost::ref(*this), _1));
+			CheckSessionTimeoutsLoop();
 			// Update avatar limitation lock.
 			UpdateAvatarClientTimerLoop();
 			// Cleanup cache.
@@ -792,19 +799,31 @@ ServerLobbyThread::RemoveGameLoop()
 }
 
 void
-ServerLobbyThread::KickPlayerLoop()
+ServerLobbyThread::RemovePlayerLoop()
 {
-	boost::mutex::scoped_lock lock(m_kickPlayerListMutex);
+	boost::mutex::scoped_lock lock(m_removePlayerListMutex);
 
-	PlayerIdList::iterator i = m_kickPlayerList.begin();
-	PlayerIdList::iterator end = m_kickPlayerList.end();
+	RemovePlayerList::iterator i = m_removePlayerList.begin();
+	RemovePlayerList::iterator end = m_removePlayerList.end();
 
 	while (i != end)
 	{
-		InternalKickPlayer(*i);
+		InternalRemovePlayer(i->first, i->second);
 		++i;
 	}
-	m_kickPlayerList.clear();
+	m_removePlayerList.clear();
+}
+
+void
+ServerLobbyThread::CheckSessionTimeoutsLoop()
+{
+	if (m_checkSessionTimeoutsTimer.elapsed().total_milliseconds() >= SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC)
+	{
+		m_sessionManager.ForEach(boost::bind(&ServerLobbyThread::InternalCheckSessionTimeouts, boost::ref(*this), _1));
+		m_gameSessionManager.ForEach(boost::bind(&ServerLobbyThread::InternalCheckSessionTimeouts, boost::ref(*this), _1));
+		m_checkSessionTimeoutsTimer.reset();
+		m_checkSessionTimeoutsTimer.start();
+	}
 }
 
 void
@@ -829,7 +848,7 @@ void
 ServerLobbyThread::CleanupAvatarCache()
 {
 	// Only act on timer and if there are no sessions.
-	if (m_cacheCleanupTimer.elapsed().total_seconds() > SERVER_CACHE_CLEANUP_INTERVAL_SEC
+	if (m_cacheCleanupTimer.elapsed().total_seconds() >= SERVER_CACHE_CLEANUP_INTERVAL_SEC
 		&& !m_sessionManager.HasSessions() && !m_gameSessionManager.HasSessions())
 	{
 		m_avatarManager.RemoveOldAvatarCacheEntries();
@@ -871,11 +890,11 @@ ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGameThread> game)
 }
 
 void
-ServerLobbyThread::InternalKickPlayer(unsigned playerId)
+ServerLobbyThread::InternalRemovePlayer(unsigned playerId, unsigned errorCode)
 {
 	SessionWrapper session = m_sessionManager.GetSessionByUniquePlayerId(playerId);
 	if (session.sessionData.get())
-		SessionError(session, ERR_NET_PLAYER_KICKED);
+		SessionError(session, errorCode);
 	else
 	{
 		// Scan games for the player.
@@ -887,7 +906,7 @@ ServerLobbyThread::InternalKickPlayer(unsigned playerId)
 			boost::shared_ptr<ServerGameThread> tmpGame = i->second;
 			if (tmpGame->GetPlayerDataByUniqueId(playerId).get())
 			{
-				tmpGame->KickPlayer(playerId);
+				tmpGame->RemovePlayer(playerId, errorCode);
 				break;
 			}
 			++i;
@@ -966,14 +985,14 @@ ServerLobbyThread::HandleReAddedSession(SessionWrapper session)
 	}
 }
 
-bool
-ServerLobbyThread::CheckSessionTimeouts(SessionWrapper session)
+void
+ServerLobbyThread::InternalCheckSessionTimeouts(SessionWrapper session)
 {
-	bool retVal = false;
-	if (session.sessionData.get())
+	bool closeSession = false;
+	if (session.sessionData.get() && session.playerData.get())
 	{
 		if (session.sessionData->GetState() == SessionData::Init && session.sessionData->GetAutoDisconnectTimerElapsedSec() >= SERVER_INIT_SESSION_TIMEOUT_SEC)
-			retVal = true;
+			closeSession = true;
 		else if (session.sessionData->GetActivityTimerElapsedSec() >= SERVER_SESSION_ACTIVITY_TIMEOUT_SEC - SERVER_TIMEOUT_WARNING_REMAINING_SEC
 				&& !session.sessionData->HasActivityNoticeBeenSent())
 		{
@@ -987,16 +1006,15 @@ ServerLobbyThread::CheckSessionTimeouts(SessionWrapper session)
 		}
 		else if (session.sessionData->GetActivityTimerElapsedSec() >= SERVER_SESSION_ACTIVITY_TIMEOUT_SEC)
 		{
-			// TODO SendError(session.sessionData, errorCode);
-			retVal = true;
+			closeSession = true;
 		}
 		else if (session.sessionData->GetAutoDisconnectTimerElapsedSec() >= SERVER_SESSION_FORCED_TIMEOUT_SEC)
 		{
-			// TODO SendError(session.sessionData, errorCode);
-			retVal = true;
+			closeSession = true;
 		}
 	}
-	return retVal;
+	if (closeSession)
+		RemovePlayer(session.playerData->GetUniqueId(), ERR_NET_PLAYER_KICKED); // TODO new error code
 }
 
 void
@@ -1120,7 +1138,7 @@ ServerLobbyThread::ReadStatisticsFile()
 void
 ServerLobbyThread::SaveStatisticsFile()
 {
-	if (m_saveStatisticsTimer.elapsed().total_seconds() > SERVER_SAVE_STATISTICS_INTERVAL_SEC)
+	if (m_saveStatisticsTimer.elapsed().total_seconds() >= SERVER_SAVE_STATISTICS_INTERVAL_SEC)
 	{
 		{
 			boost::mutex::scoped_lock lock(m_statMutex);

@@ -68,6 +68,7 @@ public:
 	void HandleGameRetrieveAvatar(SessionWrapper session, const NetPacketRetrieveAvatar &tmpPacket);
 
 	bool KickPlayerByName(const std::string &playerName);
+	void RemovePlayer(unsigned playerId, unsigned errorCode);
 
 	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
 	void RemoveComputerPlayer(boost::shared_ptr<PlayerData> player);
@@ -114,20 +115,21 @@ protected:
 	void NewConnectionLoop();
 	void NewSessionLoop();
 	void RemoveGameLoop();
-	void KickPlayerLoop();
+	void RemovePlayerLoop();
+	void CheckSessionTimeoutsLoop();
 	void UpdateAvatarClientTimerLoop();
 	void CleanupAvatarCache();
 
 	void InternalAddGame(boost::shared_ptr<ServerGameThread> game);
 	void InternalRemoveGame(boost::shared_ptr<ServerGameThread> game);
-	void InternalKickPlayer(unsigned playerId);
+	void InternalRemovePlayer(unsigned playerId, unsigned errorCode);
 
 	void TerminateGames();
 
 	void HandleNewConnection(boost::shared_ptr<ConnectData> connData);
 	void HandleReAddedSession(SessionWrapper session);
 
-	bool CheckSessionTimeouts(SessionWrapper session);
+	void InternalCheckSessionTimeouts(SessionWrapper session);
 
 	void CleanupConnectQueue();
 	void CleanupSessionMap();
@@ -171,8 +173,8 @@ private:
 	RemoveGameList m_removeGameList;
 	mutable boost::mutex m_removeGameListMutex;
 
-	PlayerIdList m_kickPlayerList;
-	mutable boost::mutex m_kickPlayerListMutex;
+	RemovePlayerList m_removePlayerList;
+	mutable boost::mutex m_removePlayerListMutex;
 
 	PlayerDataMap m_computerPlayers;
 	mutable boost::mutex m_computerPlayersMutex;
@@ -202,6 +204,7 @@ private:
 
 	boost::timers::portable::microsec_timer m_cacheCleanupTimer;
 	boost::timers::portable::microsec_timer m_saveStatisticsTimer;
+	boost::timers::portable::microsec_timer m_checkSessionTimeoutsTimer;
 
 	const boost::posix_time::ptime m_startTime;
 };

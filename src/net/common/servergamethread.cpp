@@ -68,10 +68,10 @@ ServerGameThread::AddSession(SessionWrapper session)
 }
 
 void
-ServerGameThread::KickPlayer(unsigned playerId)
+ServerGameThread::RemovePlayer(unsigned playerId, unsigned errorCode)
 {
-	boost::mutex::scoped_lock lock(m_kickPlayerListMutex);
-	m_kickPlayerList.push_back(playerId);
+	boost::mutex::scoped_lock lock(m_removePlayerListMutex);
+	m_removePlayerList.push_back(RemovePlayerList::value_type(playerId, errorCode));
 }
 
 GameState
@@ -127,7 +127,7 @@ ServerGameThread::Main()
 			}
 			// Process current state.
 			GetState().Process(*this);
-			KickPlayerLoop();
+			RemovePlayerLoop();
 		} while (!ShouldTerminate() && GetSessionManager().HasSessions());
 	} catch (const PokerTHException &e)
 	{
@@ -140,22 +140,22 @@ ServerGameThread::Main()
 }
 
 void
-ServerGameThread::KickPlayerLoop()
+ServerGameThread::RemovePlayerLoop()
 {
-	boost::mutex::scoped_lock lock(m_kickPlayerListMutex);
+	boost::mutex::scoped_lock lock(m_removePlayerListMutex);
 
-	PlayerIdList::iterator i = m_kickPlayerList.begin();
-	PlayerIdList::iterator end = m_kickPlayerList.end();
+	RemovePlayerList::iterator i = m_removePlayerList.begin();
+	RemovePlayerList::iterator end = m_removePlayerList.end();
 
 	while (i != end)
 	{
-		SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(*i);
+		SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(i->first);
 		// Only kick if the player was found.
 		if (tmpSession.sessionData.get())
-			SessionError(tmpSession, ERR_NET_PLAYER_KICKED);
+			SessionError(tmpSession, i->second);
 		++i;
 	}
-	m_kickPlayerList.clear();
+	m_removePlayerList.clear();
 }
 
 void

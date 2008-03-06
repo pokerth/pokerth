@@ -49,7 +49,7 @@ public:
 	const std::string &GetName() const;
 
 	void AddSession(SessionWrapper session);
-	void KickPlayer(unsigned playerId);
+	void RemovePlayer(unsigned playerId, unsigned errorCode);
 
 	ServerCallback &GetCallback();
 	GameState GetCurRound() const;
@@ -80,7 +80,7 @@ protected:
 
 	// Main function of the thread.
 	virtual void Main();
-	void KickPlayerLoop();
+	void RemovePlayerLoop();
 
 	void InternalStartGame();
 	void ResetGame();
@@ -132,8 +132,8 @@ private:
 	PlayerDataList m_computerPlayerList;
 	mutable boost::mutex m_computerPlayerListMutex;
 
-	PlayerIdList m_kickPlayerList;
-	mutable boost::mutex m_kickPlayerListMutex;
+	RemovePlayerList m_removePlayerList;
+	mutable boost::mutex m_removePlayerListMutex;
 
 	unsigned m_adminPlayerId;
 	mutable boost::mutex m_adminPlayerIdMutex;

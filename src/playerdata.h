@@ -110,6 +110,7 @@ private:
 };
 
 typedef std::list<unsigned> PlayerIdList;
+typedef std::list<std::pair<unsigned, unsigned> > RemovePlayerList;
 typedef std::list<boost::shared_ptr<PlayerData> > PlayerDataList;
 typedef std::map<unsigned, boost::shared_ptr<PlayerData> > PlayerDataMap;
 
