@@ -114,10 +114,13 @@ using namespace std;
 #define NET_ERR_INIT_SERVER_MAINTENANCE			0x0007
 #define NET_ERR_AVATAR_TOO_LARGE				0x0010
 #define NET_ERR_AVATAR_WRONG_SIZE				0x0011
+#define NET_ERR_AVATAR_UPLOAD_BLOCKED			0x0012
 #define NET_ERR_JOIN_GAME_UNKNOWN_GAME			0x0020
 #define NET_ERR_GENERAL_INVALID_PACKET			0xFF01
 #define NET_ERR_GENERAL_INVALID_STATE			0xFF02
 #define NET_ERR_GENERAL_PLAYER_KICKED			0xFF03
+#define NET_ERR_GENERAL_PLAYER_BANNED			0xFF04
+#define NET_ERR_GENERAL_SESSION_TIMED_OUT		0xFF05
 #define NET_ERR_OTHER							0xFFFF
 
 // Statistics types
@@ -4663,6 +4666,9 @@ NetPacketError::SetData(const NetPacketError::Data &inData)
 		case ERR_NET_WRONG_AVATAR_SIZE :
 			tmpData->errorReason = htons(NET_ERR_AVATAR_WRONG_SIZE);
 			break;
+		case ERR_NET_AVATAR_UPLOAD_BLOCKED :
+			tmpData->errorReason = htons(NET_ERR_AVATAR_UPLOAD_BLOCKED);
+			break;
 		case ERR_NET_UNKNOWN_GAME :
 			tmpData->errorReason = htons(NET_ERR_JOIN_GAME_UNKNOWN_GAME);
 			break;
@@ -4676,6 +4682,12 @@ NetPacketError::SetData(const NetPacketError::Data &inData)
 			break;
 		case ERR_NET_PLAYER_KICKED :
 			tmpData->errorReason = htons(NET_ERR_GENERAL_PLAYER_KICKED);
+			break;
+		case ERR_NET_PLAYER_BANNED :
+			tmpData->errorReason = htons(NET_ERR_GENERAL_PLAYER_BANNED);
+			break;
+		case ERR_NET_SESSION_TIMED_OUT :
+			tmpData->errorReason = htons(NET_ERR_GENERAL_SESSION_TIMED_OUT);
 			break;
 		default :
 			tmpData->errorReason = htons(NET_ERR_OTHER);
@@ -4718,6 +4730,9 @@ NetPacketError::GetData(NetPacketError::Data &outData) const
 		case NET_ERR_AVATAR_WRONG_SIZE :
 			outData.errorCode = ERR_NET_WRONG_AVATAR_SIZE;
 			break;
+		case NET_ERR_AVATAR_UPLOAD_BLOCKED :
+			outData.errorCode = ERR_NET_AVATAR_UPLOAD_BLOCKED;
+			break;
 		case NET_ERR_JOIN_GAME_UNKNOWN_GAME :
 			outData.errorCode = ERR_NET_UNKNOWN_GAME;
 			break;
@@ -4731,6 +4746,12 @@ NetPacketError::GetData(NetPacketError::Data &outData) const
 			break;
 		case NET_ERR_GENERAL_PLAYER_KICKED :
 			outData.errorCode = ERR_NET_PLAYER_KICKED;
+			break;
+		case NET_ERR_GENERAL_PLAYER_BANNED :
+			outData.errorCode = ERR_NET_PLAYER_BANNED;
+			break;
+		case NET_ERR_GENERAL_SESSION_TIMED_OUT :
+			outData.errorCode = ERR_NET_SESSION_TIMED_OUT;
 			break;
 		default :
 			outData.errorCode = ERR_SOCK_INTERNAL;

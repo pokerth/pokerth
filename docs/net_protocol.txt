@@ -897,10 +897,13 @@ Error Reason:
 	0x0007 - Init - Server Maintenance
 	0x0010 - Avatar - Too large
 	0x0011 - Avatar - Wrong size
+	0x0012 - Avatar - Upload blocked
 	0x0020 - Join Game - Unknown Game
 	0xFF01 - General Error - Invalid packet
 	0xFF02 - General Error - Invalid state
 	0xFF03 - General Error - Kicked from the server
+	0xFF04 - General Error - Banned from the server
+	0xFF05 - General Error - Session timeout
 	0xFFFF - Other reason
 
 

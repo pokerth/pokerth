@@ -3214,6 +3214,18 @@ void mainWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 				tr("You were kicked from the server."),
 				QMessageBox::Close); }
 		break;
+		case ERR_NET_PLAYER_BANNED:
+		{ mySession->terminateNetworkClient();
+		  QMessageBox::warning(this, tr("Network Error"),
+			tr("You were temporarily banned from the server."),
+			QMessageBox::Close); }
+		break;
+		case ERR_NET_SESSION_TIMED_OUT:
+		{ mySession->terminateNetworkClient();
+		  QMessageBox::warning(this, tr("Network Error"),
+			tr("Your server connection timed out due to inactivity. You are very welcome to reconnect!"),
+			QMessageBox::Close); }
+		break;
 		case ERR_NET_INVALID_PLAYER_COUNT:
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("The client player count is invalid."),
@@ -3234,6 +3246,11 @@ void mainWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("The selected avatar file is too large. Please choose a different avatar."),
 				QMessageBox::Close); }
+		break;
+		case ERR_NET_AVATAR_UPLOAD_BLOCKED:
+		{ QMessageBox::warning(this, tr("Network Error"),
+			tr("You cannot upload a new avatar file at this time. Please try again in a few seconds."),
+			QMessageBox::Close); }
 		break;
 		case ERR_NET_INVALID_REQUEST_ID:
 			{ QMessageBox::warning(this, tr("Network Error"),

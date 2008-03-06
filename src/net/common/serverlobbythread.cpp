@@ -469,7 +469,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 				avatarRecentlyRequested = true;
 		}
 		if (avatarRecentlyRequested)
-			SessionError(session, ERR_NET_INVALID_AVATAR_FILE);
+			SessionError(session, ERR_NET_AVATAR_UPLOAD_BLOCKED);
 		else
 			RequestPlayerAvatar(session);
 	}
@@ -1014,7 +1014,7 @@ ServerLobbyThread::InternalCheckSessionTimeouts(SessionWrapper session)
 		}
 	}
 	if (closeSession)
-		RemovePlayer(session.playerData->GetUniqueId(), ERR_NET_PLAYER_KICKED); // TODO new error code
+		RemovePlayer(session.playerData->GetUniqueId(), ERR_NET_SESSION_TIMED_OUT);
 }
 
 void

@@ -48,13 +48,12 @@ void timeoutMsgBoxImpl::timerRefresh() {
 	if (sec < 0) sec = 0;
 	switch (msgID) {
 		case NETWORK_TIMEOUT_GAME_ADMIN_IDLE:
-			this->setText(tr("Your open game reaches timeout in %1 seconds.").arg(sec,0,10));
+			this->setText(tr("Your open game will time out in %1 seconds.").arg(sec,0,10));
 			break;
 		default: 
 			this->setText(tr("Your connection is about to time out due to inactivity in %1 seconds.").arg(sec,0,10));
 			break;
 	}
-	
 }
 
 void timeoutMsgBoxImpl::stopTimeout() {
