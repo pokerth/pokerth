@@ -3779,13 +3779,15 @@ void mainWindowImpl::leaveCurrentNetworkGame() {
 
 void mainWindowImpl::showTimeoutDialog(int msgID, unsigned duration) {
 
-	myTimeoutDialog->setMySession(mySession);
-	myTimeoutDialog->setMsgID((NetTimeoutReason)msgID);
-	myTimeoutDialog->setTimeoutDuration(duration);
-	myTimeoutDialog->show();
-	myTimeoutDialog->raise();
-	myTimeoutDialog->activateWindow();
-	myTimeoutDialog->startTimeout();
+	if(myTimeoutDialog->isHidden()) {
+		myTimeoutDialog->setMySession(mySession);
+		myTimeoutDialog->setMsgID((NetTimeoutReason)msgID);
+		myTimeoutDialog->setTimeoutDuration(duration);
+		myTimeoutDialog->show();
+		myTimeoutDialog->raise();
+		myTimeoutDialog->activateWindow();
+		myTimeoutDialog->startTimeout();
+	}
 }
 
 void mainWindowImpl::hideTimeoutDialog() { myTimeoutDialog->hide(); }
