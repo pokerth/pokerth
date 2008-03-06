@@ -109,6 +109,8 @@ protected:
 
 	const boost::timers::portable::microsec_timer &GetStateTimer() const;
 	boost::timers::portable::microsec_timer &GetStateTimer();
+	unsigned GetStateTimerFlag() const;
+	void SetStateTimerFlag(unsigned flag);
 
 	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
@@ -153,6 +155,7 @@ private:
 	unsigned			m_gameNum;
 
 	boost::timers::portable::microsec_timer m_stateTimer;
+	unsigned								m_stateTimerFlag;
 
 friend class AbstractServerGameStateReceiving;
 friend class AbstractServerGameStateRunning;

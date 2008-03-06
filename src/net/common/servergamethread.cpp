@@ -38,7 +38,8 @@ ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id,
 : m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
   m_gameData(gameData), m_id(id), m_name(name), m_password(pwd), m_playerConfig(playerConfig),
   m_curState(NULL), m_gameNum(1),
-  m_stateTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
+  m_stateTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start),
+  m_stateTimerFlag(0)
 {
 	m_receiver.reset(new ReceiverHelper);
 }
@@ -350,6 +351,8 @@ ServerGameThread::RemovePlayerData(boost::shared_ptr<PlayerData> player)
 			boost::shared_ptr<PlayerData> newAdmin = playerList.front();
 			SetAdminPlayerId(newAdmin->GetUniqueId());
 			newAdmin->SetRights(PLAYER_RIGHTS_ADMIN);
+			// Notify game state on admin change
+			GetState().NotifyGameAdminChanged(*this);
 			// Send "Game Admin Changed" to clients.
 			boost::shared_ptr<NetPacket> adminChanged(new NetPacketGameAdminChanged);
 			NetPacketGameAdminChanged::Data adminChangedData;
@@ -489,6 +492,17 @@ boost::timers::portable::microsec_timer &
 ServerGameThread::GetStateTimer()
 {
 	return m_stateTimer;
+}
+
+unsigned
+ServerGameThread::GetStateTimerFlag() const
+{
+	return m_stateTimerFlag;
+}
+void
+ServerGameThread::SetStateTimerFlag(unsigned flag)
+{
+	m_stateTimerFlag = flag;
 }
 
 SenderThread &

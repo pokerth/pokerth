@@ -62,6 +62,9 @@ using namespace std;
 	#define SERVER_COMPUTER_ACTION_DELAY_SEC		2
 #endif
 
+#define SERVER_GAME_ADMIN_WARNING_REMAINING_SEC		60
+#define SERVER_GAME_ADMIN_TIMEOUT_SEC				70		// MUST be > SERVER_GAME_ADMIN_WARNING_REMAINING_SEC
+
 // Helper functions
 // TODO: these are hacks.
 
@@ -177,8 +180,6 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 				// Delegate to Lobby.
 				server.GetLobbyThread().HandleGameRetrieveAvatar(session, *packet->ToNetPacketRetrieveAvatar());
 			}
-			else if (packet->ToNetPacketResetTimeout())
-			{}
 			else if (packet->ToNetPacketLeaveCurrentGame())
 			{
 				server.MoveSessionToLobby(session, NTF_NET_REMOVED_ON_REQUEST);
@@ -234,6 +235,7 @@ AbstractServerGameStateTimer::Init(ServerGameThread & server)
 	// Reset timer.
 	server.GetStateTimer().reset();
 	server.GetStateTimer().start();
+	server.SetStateTimerFlag(0);
 }
 
 //-----------------------------------------------------------------------------
@@ -252,6 +254,13 @@ ServerGameStateInit::ServerGameStateInit()
 
 ServerGameStateInit::~ServerGameStateInit()
 {
+}
+
+void
+ServerGameStateInit::NotifyGameAdminChanged(ServerGameThread &server)
+{
+	// Reset admin timer.
+	AbstractServerGameStateTimer::Init(server);
 }
 
 void
@@ -306,6 +315,38 @@ ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper s
 }
 
 int
+ServerGameStateInit::Process(ServerGameThread &server)
+{
+	if (server.GetStateTimer().elapsed().total_seconds() >= SERVER_GAME_ADMIN_TIMEOUT_SEC - SERVER_GAME_ADMIN_WARNING_REMAINING_SEC
+		&& !server.GetStateTimerFlag())
+	{
+		// Admin timeout - notify game admin.
+		server.SetStateTimerFlag(1); // Only once.
+		// Find game admin.
+		SessionWrapper session = server.GetSessionManager().GetSessionByUniquePlayerId(server.GetAdminPlayerId());
+		if (session.sessionData.get())
+		{
+			boost::shared_ptr<NetPacket> warning(new NetPacketTimeoutWarning);
+			NetPacketTimeoutWarning::Data warningData;
+			warningData.timeoutReason = NETWORK_TIMEOUT_GAME_ADMIN_IDLE;
+			warningData.remainingSeconds = SERVER_GAME_ADMIN_WARNING_REMAINING_SEC;
+			static_cast<NetPacketTimeoutWarning *>(warning.get())->SetData(warningData);
+			server.GetSender().Send(session.sessionData, warning);
+		}
+	}
+	else if (server.GetStateTimer().elapsed().total_seconds() >= SERVER_GAME_ADMIN_TIMEOUT_SEC)
+	{
+		// Find game admin.
+		SessionWrapper session = server.GetSessionManager().GetSessionByUniquePlayerId(server.GetAdminPlayerId());
+		if (session.sessionData.get())
+		{
+			server.RemovePlayer(session.playerData->GetUniqueId(), ERR_NET_PLAYER_KICKED); // TODO use proper error code.
+		}
+	}
+	return AbstractServerGameStateReceiving::Process(server);
+}
+
+int
 ServerGameStateInit::InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
@@ -345,6 +386,14 @@ ServerGameStateInit::InternalProcess(ServerGameThread &server, SessionWrapper se
 			server.SendToAllPlayers(boost::shared_ptr<NetPacket>(packet->Clone()), SessionData::Game);
 
 			server.SetState(ServerGameStateWaitAck::Instance());
+		}
+	}
+	else if (packet->ToNetPacketResetTimeout())
+	{
+		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN)
+		{
+			// Reset admin timer.
+			AbstractServerGameStateTimer::Init(server);
 		}
 	}
 	else

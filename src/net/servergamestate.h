@@ -45,6 +45,7 @@ public:
 
 	// Initialize after switching to this state.
 	virtual void Init(ServerGameThread &server) = 0;
+	virtual void NotifyGameAdminChanged(ServerGameThread &server) = 0;
 
 	// Handling of a new session.
 	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session) = 0;
@@ -76,6 +77,8 @@ class AbstractServerGameStateRunning : virtual public ServerGameState
 public:
 	virtual ~AbstractServerGameStateRunning();
 
+	virtual void NotifyGameAdminChanged(ServerGameThread &/*server*/) {}
+
 	// Reject new connections.
 	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session);
 
@@ -94,7 +97,7 @@ public:
 };
 
 // State: Initialization.
-class ServerGameStateInit : public AbstractServerGameStateReceiving
+class ServerGameStateInit : public AbstractServerGameStateReceiving, public AbstractServerGameStateTimer
 {
 public:
 	// Access the state singleton.
@@ -102,8 +105,10 @@ public:
 
 	virtual ~ServerGameStateInit();
 
-	virtual void Init(ServerGameThread & /*server*/) {}
+	virtual void NotifyGameAdminChanged(ServerGameThread &server);
+
 	// 
+	virtual int Process(ServerGameThread &server);
 	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session);
 
 protected:
