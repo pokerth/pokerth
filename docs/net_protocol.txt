@@ -811,6 +811,7 @@ Remove Reason:
 	0x0001 - Game is full
 	0x0002 - Game is already running
 	0x0003 - Kicked from the game
+	0x0004 - Timeout
 	0xFFFF - Other reason
 
 

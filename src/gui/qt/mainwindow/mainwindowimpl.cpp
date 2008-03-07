@@ -3060,6 +3060,7 @@ void mainWindowImpl::paintStartSplash() {
 
 void mainWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 
+	hideTimeoutDialog();
 	switch (errorID) {
 		case ERR_SOCK_SERVERADDR_NOT_SET:
 			{QMessageBox::warning(this, tr("Network Error"),
@@ -3272,7 +3273,6 @@ void mainWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 				QMessageBox::Close); }
 	}
 	// close dialogs
-	hideTimeoutDialog();
 	myGameLobbyDialog->reject();
 	myConnectToServerDialog->reject();
 	myStartNetworkGameDialog->reject();
@@ -3280,6 +3280,7 @@ void mainWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 
 void mainWindowImpl::networkNotification(int notificationId)
 {
+	hideTimeoutDialog();
 	switch (notificationId)
 	{
 		case NTF_NET_REMOVED_KICKED:
@@ -3298,6 +3299,11 @@ void mainWindowImpl::networkNotification(int notificationId)
 			{ QMessageBox::warning(this, tr("Network Notification"),
 				tr("Unable to join - the server has already started the game."),
 				QMessageBox::Close); }
+		break;
+		case NTF_NET_REMOVED_TIMEOUT:
+		{ QMessageBox::warning(this, tr("Network Notification"),
+			tr("Your admin state timed out due to inactivity. Feel free to create a new game!"),
+			QMessageBox::Close); }
 		break;
 		case NTF_NET_JOIN_INVALID_PASSWORD:
 			{ QMessageBox::warning(this, tr("Network Notification"),

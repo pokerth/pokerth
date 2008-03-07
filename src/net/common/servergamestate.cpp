@@ -340,7 +340,7 @@ ServerGameStateInit::Process(ServerGameThread &server)
 		SessionWrapper session = server.GetSessionManager().GetSessionByUniquePlayerId(server.GetAdminPlayerId());
 		if (session.sessionData.get())
 		{
-			server.RemovePlayer(session.playerData->GetUniqueId(), ERR_NET_SESSION_TIMED_OUT);
+			server.MoveSessionToLobby(session, NTF_NET_REMOVED_TIMEOUT);
 		}
 	}
 	return AbstractServerGameStateReceiving::Process(server);
