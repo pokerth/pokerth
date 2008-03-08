@@ -174,7 +174,7 @@ HEADERS += \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.h \
 		src/gui/qt/gamelobbydialog/mygamelisttreewidget.h \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.h \
-		src/gui/qt/timeoutmsgbox\timeoutmsgboximpl.h \
+		src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.h \
 		src/gui/qt/mymessagedialog/mymessagedialogimpl.h \
 		src/gui/qttoolsinterface.h \
 		src/gui/qt/qttools/qttoolswrapper.h \
@@ -234,7 +234,7 @@ SOURCES += \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp \
 		src/gui/qt/gamelobbydialog/mygamelisttreewidget.cpp \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp \
-		src/gui/qt/timeoutmsgbox\timeoutmsgboximpl.cpp \
+		src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp \
 		src/net/common/net_helper_client.cpp \
 		src/core/common/loghelper_client.cpp
 
