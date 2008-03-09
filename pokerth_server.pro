@@ -144,6 +144,11 @@ win32 {
     SOURCES += src/core/linux/convhelper.cpp
 }
 
+unix {
+	# workaround for problems with boost_filesystem exceptions
+	QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
+}
+
 unix : !mac {
 
 	LIBPATH += lib

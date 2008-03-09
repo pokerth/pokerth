@@ -291,6 +291,11 @@ win32{
 	DEPENDPATH += src/net/linux/ src/core/linux
 }
 
+unix{
+	# workaround for problems with boost_filesystem exceptions
+	QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
+}
+
 unix: !mac{
 
 	LIBPATH += lib
