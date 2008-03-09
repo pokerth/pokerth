@@ -63,7 +63,7 @@ using namespace std;
 #endif
 
 #define SERVER_GAME_ADMIN_WARNING_REMAINING_SEC		60
-#define SERVER_GAME_ADMIN_TIMEOUT_SEC				70		// MUST be > SERVER_GAME_ADMIN_WARNING_REMAINING_SEC
+#define SERVER_GAME_ADMIN_TIMEOUT_SEC				300		// 5 min, MUST be > SERVER_GAME_ADMIN_WARNING_REMAINING_SEC
 
 // Helper functions
 // TODO: these are hacks.
