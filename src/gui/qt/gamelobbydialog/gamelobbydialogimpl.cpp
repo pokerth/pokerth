@@ -40,10 +40,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
 	waitStartGameMsgBoxTimer = new QTimer(this);
 	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
 
-#ifndef __APPLE__
 	treeWidget_GameList->setStyleSheet("QTreeWidget {background-color: white; background-image: url("+myAppDataPath +"gfx/gui/misc/background_gamelist.png); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 	treeWidget_GameList->setAutoFillBackground(TRUE);
-#endif
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );

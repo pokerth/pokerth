@@ -1,3 +1,10 @@
+
+
+
+2008-11-03 version 0.6.1:
+ - new timeout system for internet-game-lobby to improbe game-flow
+ - 2 new translations (greek and chinese)
+
 2007-12-13 version 0.6-final:
  - bugfixes
  - gui improvements (hover for bet/call/fold)
