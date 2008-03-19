@@ -27,21 +27,33 @@
 
 using namespace std;
 
+
+static int g_logLevel = 1;
+
 void
-loghelper_init(const std::string & /*logDir*/)
+loghelper_init(const std::string & /*logDir*/, int logLevel)
 {
 	// Do not log to file as client.
+	g_logLevel = logLevel;
 }
 
 void
 internal_log_err(const string &msg)
 {
-	cout << msg;
+	cerr << msg;
 }
 
 void
 internal_log_msg(const std::string &msg)
 {
-	cout << msg;
+	if (g_logLevel)
+		cout << msg;
+}
+
+void
+internal_log_level(const std::string &msg, int logLevel)
+{
+	if (g_logLevel >= logLevel)
+		cout << msg;
 }
 

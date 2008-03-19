@@ -41,11 +41,14 @@ ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id,
   m_stateTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start),
   m_stateTimerFlag(0)
 {
+	LOG_VERBOSE("Game object " << GetId() << " created.");
+
 	m_receiver.reset(new ReceiverHelper);
 }
 
 ServerGameThread::~ServerGameThread()
 {
+	LOG_VERBOSE("Game object " << GetId() << " destructed.");
 }
 
 u_int32_t
@@ -106,6 +109,8 @@ ServerGameThread::RemoveAllSessions()
 void
 ServerGameThread::Main()
 {
+	LOG_VERBOSE("Game thread " << GetId() << "started.");
+
 	SetState(SERVER_INITIAL_STATE::Instance());
 
 	try
@@ -138,6 +143,8 @@ ServerGameThread::Main()
 
 	ResetComputerPlayerList();
 	GetLobbyThread().RemoveGame(GetId());
+
+	LOG_VERBOSE("Game thread " << GetId() << "terminating.");
 }
 
 void

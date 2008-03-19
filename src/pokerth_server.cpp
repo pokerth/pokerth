@@ -83,12 +83,14 @@ main(int argc, char *argv[])
 
 	bool readonlyConfig = false;
 	string pidFile;
+	int logLevel = 1;
 	{
 		// Check command line options.
 		po::options_description desc("Allowed options");
 		desc.add_options()
 			("help,h", "produce help message")
 			("version,v", "print version string")
+			("log-level,l", po::value<int>(), "set log level (0=minimal, 1=default, 2=verbose)")
 			("pid-file,p", po::value<string>(), "create pid-file in different location")
 			("readonly-config", "treat config file as read-only")
 			;
@@ -108,6 +110,15 @@ main(int argc, char *argv[])
 				 << "Network protocol version " << NET_VERSION_MAJOR << "." << NET_VERSION_MINOR << endl;
 			return 1;
 		}
+		if (vm.count("log-level"))
+		{
+			logLevel = vm["log-level"].as<int>();
+			if (logLevel < 0 || logLevel > 2)
+			{
+				cout << "Invalid log-level: \"" << logLevel << "\", allowed range 1-2." << endl;
+				return 1;
+			}
+		}
 		if (vm.count("pid-file"))
 			pidFile = vm["pid-file"].as<string>();
 		if (vm.count("readonly-config"))
@@ -117,7 +128,7 @@ main(int argc, char *argv[])
 	auto_ptr<QtToolsInterface> myQtToolsInterface(CreateQtToolsWrapper());
 	//create defaultconfig
 	ConfigFile *myConfig = new ConfigFile(argv[0], readonlyConfig);
-	loghelper_init(myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir")));
+	loghelper_init(myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir")), logLevel);
 
 	// TODO: Hack
 #ifndef _WIN32

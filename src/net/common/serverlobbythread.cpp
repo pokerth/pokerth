@@ -148,6 +148,8 @@ ServerLobbyThread::RemoveSessionFromGame(SessionWrapper session)
 void
 ServerLobbyThread::CloseSession(SessionWrapper session)
 {
+	LOG_VERBOSE("Closing session #" << session.sessionData->GetId() << ".");
+
 	m_sessionManager.RemoveSession(session.sessionData->GetId());
 	m_gameSessionManager.RemoveSession(session.sessionData->GetId());
 
@@ -363,7 +365,9 @@ ServerLobbyThread::ProcessLoop()
 			CloseSession(session);
 			return;
 		}
-		if (packet.get())
+		if (!packet.get())
+			LOG_VERBOSE("Select successful but no packet received for session #" << session.sessionData->GetId() << ".");
+		else
 		{
 			if (packet->IsClientActivity())
 				session.sessionData->ResetActivityTimer();
@@ -640,6 +644,8 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(SessionWrapper session, const N
 void
 ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const NetPacketCreateGame &tmpPacket)
 {
+	LOG_VERBOSE("Creating new game, initiated by session #" << session.sessionData->GetId() << ".");
+
 	// Create a new game.
 	NetPacketCreateGame::Data createGameData;
 	tmpPacket.GetData(createGameData);
@@ -851,6 +857,8 @@ ServerLobbyThread::CleanupAvatarCache()
 	if (m_cacheCleanupTimer.elapsed().total_seconds() >= SERVER_CACHE_CLEANUP_INTERVAL_SEC
 		&& !m_sessionManager.HasSessions() && !m_gameSessionManager.HasSessions())
 	{
+		LOG_VERBOSE("Cleaning up avatar cache.");
+
 		m_avatarManager.RemoveOldAvatarCacheEntries();
 		m_cacheCleanupTimer.reset();
 		m_cacheCleanupTimer.start();
@@ -946,6 +954,8 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 	boost::shared_ptr<SessionData> sessionData(new SessionData(connData->ReleaseSocket(), m_curSessionId++));
 	m_sessionManager.AddSession(sessionData);
 
+	LOG_VERBOSE("Accepted connection - session #" << sessionData->GetId() << ".");
+
 	if (m_sessionManager.GetRawSessionCount() <= SERVER_MAX_NUM_SESSIONS)
 	{
 		char tmpAddress[MAX_ADDR_STRING_LEN];
@@ -992,7 +1002,10 @@ ServerLobbyThread::InternalCheckSessionTimeouts(SessionWrapper session)
 	if (session.sessionData.get() && session.playerData.get())
 	{
 		if (session.sessionData->GetState() == SessionData::Init && session.sessionData->GetAutoDisconnectTimerElapsedSec() >= SERVER_INIT_SESSION_TIMEOUT_SEC)
+		{
+			LOG_VERBOSE("Session init timeout, removing session #" << session.sessionData->GetId() << ".");
 			closeSession = true;
+		}
 		else if (session.sessionData->GetActivityTimerElapsedSec() >= SERVER_SESSION_ACTIVITY_TIMEOUT_SEC - SERVER_TIMEOUT_WARNING_REMAINING_SEC
 				&& !session.sessionData->HasActivityNoticeBeenSent())
 		{
@@ -1006,15 +1019,19 @@ ServerLobbyThread::InternalCheckSessionTimeouts(SessionWrapper session)
 		}
 		else if (session.sessionData->GetActivityTimerElapsedSec() >= SERVER_SESSION_ACTIVITY_TIMEOUT_SEC)
 		{
+			LOG_VERBOSE("Activity timeout, removing session #" << session.sessionData->GetId() << ".");
 			closeSession = true;
 		}
 		else if (session.sessionData->GetAutoDisconnectTimerElapsedSec() >= SERVER_SESSION_FORCED_TIMEOUT_SEC)
 		{
+			LOG_VERBOSE("Auto disconnect timeout, removing session #" << session.sessionData->GetId() << ".");
 			closeSession = true;
 		}
 	}
 	if (closeSession)
+	{
 		RemovePlayer(session.playerData->GetUniqueId(), ERR_NET_SESSION_TIMED_OUT);
+	}
 }
 
 void
@@ -1039,6 +1056,7 @@ ServerLobbyThread::SessionError(SessionWrapper session, int errorCode)
 void
 ServerLobbyThread::SendError(boost::shared_ptr<SessionData> s, int errorCode)
 {
+	LOG_VERBOSE("Sending error code " << errorCode << " to session #" << s->GetId() << ".");
 	boost::shared_ptr<NetPacket> packet(new NetPacketError);
 	NetPacketError::Data errorData;
 	errorData.errorCode = errorCode;
@@ -1140,6 +1158,7 @@ ServerLobbyThread::SaveStatisticsFile()
 {
 	if (m_saveStatisticsTimer.elapsed().total_seconds() >= SERVER_SAVE_STATISTICS_INTERVAL_SEC)
 	{
+		LOG_VERBOSE("Saving statistics.");
 		{
 			boost::mutex::scoped_lock lock(m_statMutex);
 			if (m_statDataChanged)

@@ -24,10 +24,11 @@
 #include <string>
 #include <sstream>
 
-void loghelper_init(const std::string &logDir);
+void loghelper_init(const std::string &logDir, int logLevel);
 
 void internal_log_err(const std::string &msg);
 void internal_log_msg(const std::string &msg);
+void internal_log_level(const std::string &msg, int logLevel);
 
 #define LOG_ERROR(e) \
 	do \
@@ -43,6 +44,14 @@ void internal_log_msg(const std::string &msg);
 		std::ostringstream outStream; \
 		outStream << e << std::endl; \
 		internal_log_msg(outStream.str()); \
+	} \
+	while(false)
+#define LOG_VERBOSE(e) \
+	do \
+	{ \
+		std::ostringstream outStream; \
+		outStream << e << std::endl; \
+		internal_log_level(outStream.str(), 2); \
 	} \
 	while(false)
 
