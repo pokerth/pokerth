@@ -28,6 +28,7 @@
 
 #include <list>
 #include <boost/shared_ptr.hpp>
+#include <core/boost/timers.hpp>
 
 #define SENDER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
 
@@ -71,6 +72,8 @@ private:
 	mutable boost::mutex m_stalledQueueMutex;
 
 	SenderCallback &m_callback;
+
+	boost::timers::portable::microsec_timer m_logTimer;
 };
 
 #endif

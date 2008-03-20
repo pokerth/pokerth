@@ -414,6 +414,8 @@ ServerLobbyThread::ProcessLoop()
 void
 ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketInit &tmpPacket)
 {
+	LOG_VERBOSE("Received init for session #" << session.sessionData->GetId() << ".");
+
 	NetPacketInit::Data initData;
 	tmpPacket.GetData(initData);
 

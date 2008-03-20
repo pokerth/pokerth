@@ -33,6 +33,7 @@ using namespace std;
 #define SEND_ERROR_TIMEOUT_MSEC				20000
 #define SEND_TIMEOUT_MSEC					10
 #define SEND_QUEUE_SIZE						10000000
+#define SEND_LOG_INTERVAL_SEC				60
 
 SenderThread::SenderThread(SenderCallback &cb)
 : m_callback(cb)
@@ -260,6 +261,23 @@ SenderThread::Main()
 		}
 		else
 			Msleep(SEND_TIMEOUT_MSEC);
+
+		if (m_logTimer.elapsed().total_seconds() >= SEND_LOG_INTERVAL_SEC)
+		{
+			unsigned sendQueueSize = 0;
+			unsigned stalledQueueSize = 0;
+			{
+				boost::mutex::scoped_lock lock(m_sendQueueMutex);
+				sendQueueSize = m_sendQueue.size();
+			}
+			{	
+				boost::mutex::scoped_lock lock(m_stalledQueueMutex);
+				stalledQueueSize = m_stalledQueue.size();
+			}
+			LOG_VERBOSE("Sender TICK - send queue " << sendQueueSize << ", stalled " << stalledQueueSize << ".");
+			m_logTimer.reset();
+			m_logTimer.start();
+		}
 	}
 }
 
