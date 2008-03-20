@@ -1,5 +1,9 @@
 # QMake pro-file for the PokerTH dedicated server
 
+isEmpty( PREFIX ) {
+    PREFIX=/usr
+}
+
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
@@ -12,11 +16,8 @@ MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += POKERTH_DEDICATED_SERVER
 DEFINES += ENABLE_IPV6
+DEFINES += PREFIX=\"$${PREFIX}\"
 QT -= core gui
-
-INSTALLS += TARGET
-TARGET.files += bin/*
-TARGET.path = /usr/bin/
 
 INCLUDEPATH += . \
 		src \
@@ -152,76 +153,52 @@ unix {
 unix : !mac {
 
 	LIBPATH += lib
+
+	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64
+	BOOST_FS = boost_filesystem boost_filesystem-mt
+	BOOST_THREAD = boost_thread boost_thread-mt
+	BOOST_PROGRAM_OPTIONS = boost_program_options boost_program_options-mt
+
+	for(dir, LIB_DIRS) {
+		exists($$dir) {
+			for(lib, BOOST_THREAD) {
+				exists($${dir}/lib$${lib}.so*) {
+					message("Found $$lib")
+					BOOST_THREAD = -l$$lib
+				}
+			}
+			for(lib, BOOST_FS) {
+				exists($${dir}/lib$${lib}.so*) {
+					message("Found $$lib")
+					BOOST_FS = -l$$lib
+				}
+			}
+			for(lib, BOOST_PROGRAM_OPTIONS) {
+				exists($${dir}/lib$${lib}.so*) {
+					message("Found $$lib")
+					BOOST_PROGRAM_OPTIONS = -l$$lib
+				}
+			}
+ 		}
+ 	}
+	BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS
+	!count(BOOST_LIBS, 3) {
+		error("could not locate required library: \
+		    libboost (version >= 1.34.1)  --> http://www.boost.org/")
+	}
+
 	LIBS += -lpokerth_lib
-
-	exists( /usr/lib/libboost_thread-mt.so ){
-		message("Found libboost_thread-mt")
-		LIBS += -lboost_thread-mt
-	}
-	exists( /usr/lib64/libboost_thread-mt.so ){
-		message("Found libboost_thread-mt")
-		LIBS += -lboost_thread-mt
-	}
-	!exists( /usr/lib/libboost_thread-mt.so ){
-		exists( /usr/lib/libboost_thread.so ){
-			message("Found libboost_thread")
-			LIBS += -lboost_thread
-		}
-	}
-	!exists( /usr/lib64/libboost_thread-mt.so ){
-		exists( /usr/lib64/libboost_thread.so ){
-			message("Found libboost_thread")
-			LIBS += -lboost_thread
-		}
-	}
-
-	exists( /usr/lib/libboost_filesystem-mt.so ){
-		message("Found libboost_filesystem-mt")
-		LIBS += -lboost_filesystem-mt
-	}
-	exists( /usr/lib64/libboost_filesystem-mt.so ){
-		message("Found libboost_filesystem-mt")
-		LIBS += -lboost_filesystem-mt
-	}
-	!exists( /usr/lib/libboost_filesystem-mt.so ){
-		exists( /usr/lib/libboost_filesystem.so ){
-			message("Found libboost_filesystem")
-			LIBS += -lboost_filesystem
-		}
-	}
-	!exists( /usr/lib64/libboost_filesystem-mt.so ){
-		exists( /usr/lib64/libboost_filesystem.so ){
-			message("Found libboost_filesystem")
-			LIBS += -lboost_filesystem
-		}
-	}
-
-	exists( /usr/lib/libboost_program_options-mt.so ){
-		message("Found libboost_program_options-mt")
-		LIBS += -lboost_program_options-mt
-	}
-	exists( /usr/lib64/libboost_program_options-mt.so ){
-		message("Found libboost_program_options-mt")
-		LIBS += -lboost_program_options-mt
-	}
-	!exists( /usr/lib/libboost_program_options-mt.so ){
-		exists( /usr/lib/libboost_program_options.so ){
-			message("Found libboost_program_options")
-			LIBS += -lboost_program_options
-		}
-	}
-	!exists( /usr/lib64/liblibboost_program_options-mt.so ){
-		exists( /usr/lib64/libboost_program_options.so ){
-			message("Found libboost_program_options")
-			LIBS += -lboost_program_options
-		}
-	}
-
+	LIBS += $$BOOST_LIBS
 	LIBS += -lcrypto
+
 	TARGETDEPS += ./lib/libpokerth_lib.a
 
-	## My release static libs
-	#LIBS += -lcrypto
+	#### INSTALL ####
+
+	binary.path += $${PREFIX}/bin/
+	binary.files += pokerth_server
+
+	INSTALLS += binary
 }
 
 mac{
@@ -245,6 +222,6 @@ mac{
 	LIBS += -lcrypto -liconv
 	# set the application icon
 	RC_FILE = pokerth.icns
-	LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib 
+	LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib
 	INCLUDEPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/include/
 }
