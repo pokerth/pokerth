@@ -109,7 +109,7 @@ ServerGameThread::RemoveAllSessions()
 void
 ServerGameThread::Main()
 {
-	LOG_VERBOSE("Game thread " << GetId() << "started.");
+	LOG_VERBOSE("Game thread " << GetId() << " started.");
 
 	SetState(SERVER_INITIAL_STATE::Instance());
 
@@ -144,7 +144,7 @@ ServerGameThread::Main()
 	ResetComputerPlayerList();
 	GetLobbyThread().RemoveGame(GetId());
 
-	LOG_VERBOSE("Game thread " << GetId() << "terminating.");
+	LOG_VERBOSE("Game thread " << GetId() << " terminating.");
 }
 
 void
