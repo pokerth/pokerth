@@ -14,6 +14,8 @@
  * $Id: colors.c 42 2004-10-10 16:16:15Z gyunaev $
  */
 
+#include <ctype.h>
+
 #define LIBIRC_COLORPARSER_BOLD			(1<<1)
 #define LIBIRC_COLORPARSER_UNDERLINE	(1<<2)
 #define LIBIRC_COLORPARSER_REVERSE		(1<<3)

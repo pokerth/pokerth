@@ -27,7 +27,6 @@
 
 #ifdef _MSC_VER
 	/*
-
 	 * The debugger of MSVC 2005 does not like strdup.
 	 * It complains about heap corruption when free is called.
 	 * Use _strdup instead.
@@ -187,12 +186,6 @@ int irc_connect (irc_session_t * session,
 	return 0;
 }
 
-
-
-#if defined (ENABLE_IPV6) && defined (_WIN32)
-	typedef int  (WSAAPI * getaddrinfo_ptr_t)  (const char *, const char* , const struct addrinfo *, struct addrinfo **);
-	typedef void (WSAAPI * freeaddrinfo_ptr_t) (struct addrinfo*);
-#endif
 
 int irc_connect6 (irc_session_t * session,
 			const char * server, 
