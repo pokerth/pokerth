@@ -299,11 +299,11 @@ unix{
 unix: !mac{
 
 	LIBPATH += lib
-	LIBS += -lpokerth_lib
+
 	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64
 	BOOST_FS = boost_filesystem boost_filesystem-mt
 	BOOST_THREAD = boost_thread boost_thread-mt
-	
+
 	for(dir, LIB_DIRS) {
 		exists($$dir) {
 			for(lib, BOOST_THREAD) {
@@ -331,6 +331,7 @@ unix: !mac{
 		    libSDL_mixer, libSDL --> http://www.libsdl.org/")
 	}
 
+	LIBS += -lpokerth_lib
 	LIBS += $$BOOST_LIBS
 	LIBS += -lcrypto -lSDL_mixer
 	TARGETDEPS += ./lib/libpokerth_lib.a
@@ -353,7 +354,6 @@ unix: !mac{
 	desktop.files += pokerth.desktop
 	
 	INSTALLS += binary data pixmap desktop
-
 }
 
 mac{
