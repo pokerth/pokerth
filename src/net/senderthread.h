@@ -28,7 +28,7 @@
 
 #include <list>
 #include <boost/shared_ptr.hpp>
-#include <core/boost/timers.hpp>
+#include <third_party/boost/timers.hpp>
 
 #define SENDER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
 

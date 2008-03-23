@@ -23,8 +23,8 @@ INCLUDEPATH += . \
 		src/engine/local_engine \
 		src/engine/network_engine \
 		src/config \
-		src/core/tinyxml \
-		src/core/libircclient/include \
+		src/third_party/tinyxml \
+		src/third_party/libircclient/include \
 		src/core
 
 DEPENDPATH += . \
@@ -37,10 +37,10 @@ DEPENDPATH += . \
 		src/gui/generic \
 		src/net \
 		src/core/common \
-		src/core/tinyxml \
-		src/core/libircclient \
-		src/core/libircclient/src \
-		src/core/libircclient/include \
+		src/third_party/tinyxml \
+		src/third_party/libircclient \
+		src/third_party/libircclient/src \
+		src/third_party/libircclient/include \
 		src/engine/local_engine \
 		src/engine/network_engine \
 		src/net/common \
@@ -82,10 +82,10 @@ HEADERS += \
 		src/net/ircthread.h \
 		src/net/netexception.h \
 		src/net/servermanager.h \
-		src/core/tinyxml/tinystr.h \
-		src/core/tinyxml/tinyxml.h \
-		src/core/libircclient/include/libircclient.h \
-		src/core/libircclient/include/config.h \
+		src/third_party/tinyxml/tinystr.h \
+		src/third_party/tinyxml/tinyxml.h \
+		src/third_party/libircclient/include/libircclient.h \
+		src/third_party/libircclient/include/config.h \
 		src/engine/local_engine/cardsvalue.h \
 		src/engine/local_engine/localboard.h \
 		src/engine/local_engine/localenginefactory.h \
@@ -122,11 +122,11 @@ SOURCES += \
 		src/core/common/crypthelper.cpp \
 		src/core/common/avatarmanager.cpp \
 		src/core/common/pokerthexception.cpp \
-		src/core/tinyxml/tinystr.cpp \
-		src/core/tinyxml/tinyxml.cpp \
-		src/core/tinyxml/tinyxmlerror.cpp \
-		src/core/tinyxml/tinyxmlparser.cpp \
-		src/core/libircclient/src/libircclient.c \
+		src/third_party/tinyxml/tinystr.cpp \
+		src/third_party/tinyxml/tinyxml.cpp \
+		src/third_party/tinyxml/tinyxmlerror.cpp \
+		src/third_party/tinyxml/tinyxmlparser.cpp \
+		src/third_party/libircclient/src/libircclient.c \
 		src/engine/local_engine/cardsvalue.cpp \
 		src/engine/local_engine/localboard.cpp \
 		src/engine/local_engine/localenginefactory.cpp \

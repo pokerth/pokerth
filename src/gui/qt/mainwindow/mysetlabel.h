@@ -16,7 +16,7 @@
 
 #include <QtGui>
 #include <QtCore>
-#include <core/boost/timers.hpp>
+#include <third_party/boost/timers.hpp>
 #include "sdlplayer.h"
 
 class mainWindowImpl;

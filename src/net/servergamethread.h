@@ -24,7 +24,7 @@
 #include <net/sessionmanager.h>
 #include <gui/guiinterface.h>
 #include <gamedata.h>
-#include <core/boost/timers.hpp>
+#include <third_party/boost/timers.hpp>
 
 #include <deque>
 

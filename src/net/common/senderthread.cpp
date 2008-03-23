@@ -25,7 +25,7 @@
 #include <cstring>
 #include <cassert>
 
-#include <core/boost/timers.hpp>
+#include <third_party/boost/timers.hpp>
 #include <boost/bind.hpp>
 
 using namespace std;

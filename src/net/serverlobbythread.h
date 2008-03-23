@@ -30,7 +30,7 @@
 #include <deque>
 #include <list>
 #include <boost/date_time.hpp>
-#include <core/boost/timers.hpp>
+#include <third_party/boost/timers.hpp>
 
 #define NET_LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC		20000
 #define NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC		4000

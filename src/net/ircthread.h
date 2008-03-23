@@ -23,7 +23,7 @@
 
 #include <net/irccallback.h>
 #include <core/thread.h>
-#include <core/boost/timers.hpp>
+#include <third_party/boost/timers.hpp>
 #include <string>
 
 struct IrcContext;

@@ -24,7 +24,7 @@
 #include <net/socket_helper.h> // needed for correct order of header files.
 #include <string>
 #include <memory>
-#include <core/boost/timers.hpp>
+#include <third_party/boost/timers.hpp>
 
 #define CLIENT_INITIAL_STATE ClientStateInit
 

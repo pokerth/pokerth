@@ -27,7 +27,7 @@
 
 #include <string>
 #include <boost/shared_ptr.hpp>
-#include <core/boost/timers.hpp>
+#include <third_party/boost/timers.hpp>
 
 class GuiInterface;
 class HandInterface;

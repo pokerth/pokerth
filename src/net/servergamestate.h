@@ -23,7 +23,7 @@
 
 #include <net/servergamethread.h>
 #include <playerdata.h>
-#include <core/boost/timers.hpp>
+#include <third_party/boost/timers.hpp>
 
 
 #ifdef _MSC_VER

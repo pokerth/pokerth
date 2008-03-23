@@ -19,7 +19,7 @@
  ***************************************************************************/
 #include "lobbychat.h"
 #define IN_INCLUDE_LIBIRC_H
-#include <core/libircclient/include/libirc_rfcnumeric.h>
+#include <third_party/libircclient/include/libirc_rfcnumeric.h>
 #include <net/socket_msg.h>
 
 #include "gamelobbydialogimpl.h"

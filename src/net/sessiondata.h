@@ -25,7 +25,7 @@
 #include <net/receivebuffer.h>
 #include <string>
 #include <boost/thread.hpp>
-#include <core/boost/timers.hpp>
+#include <third_party/boost/timers.hpp>
 
 #define INVALID_SESSION			0
 #define SESSION_ID_INIT			INVALID_SESSION
