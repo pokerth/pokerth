@@ -30,7 +30,7 @@ INCLUDEPATH += . \
 		src/engine/local_engine \
 		src/engine/network_engine \
 		src/config \
-		src/core/tinyxml \
+		src/third_party/tinyxml \
 		src/core \
 
 DEPENDPATH += . \
@@ -43,7 +43,7 @@ DEPENDPATH += . \
 		src/gui/generic \
 		src/net \
 		src/core/common \
-		src/core/tinyxml \
+		src/third_party/tinyxml \
 		src/engine/local_engine \
 		src/engine/network_engine \
 		src/net/common \
@@ -77,8 +77,8 @@ HEADERS += \
 		src/net/socket_msg.h \
 		src/net/socket_startup.h \
 		src/net/net_helper.h \
-		src/core/tinyxml/tinystr.h \
-		src/core/tinyxml/tinyxml.h \
+		src/third_party/tinyxml/tinystr.h \
+		src/third_party/tinyxml/tinyxml.h \
 		src/core/pokerthexception.h \
 		src/core/convhelper.h \
 		src/core/loghelper.h \
