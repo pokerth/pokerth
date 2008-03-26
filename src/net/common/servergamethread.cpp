@@ -101,6 +101,7 @@ ServerGameThread::RemoveAllSessions()
 	{
 		SessionWrapper tmpSession = m_sessionQueue.front();
 		m_sessionQueue.pop_front();
+		LOG_VERBOSE("Game closing, forcing removal of session #" << tmpSession.sessionData->GetId() << ".");
 		lobbyThread.RemoveSessionFromGame(tmpSession);
 	}
 	GetSessionManager().ForEach(boost::bind(&ServerLobbyThread::RemoveSessionFromGame, boost::ref(lobbyThread), _1));
