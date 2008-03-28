@@ -81,7 +81,7 @@
     <message>
         <location filename="../src/gui/qt/mainwindow/myavatarlabel.cpp" line="23"/>
         <source>Vote for kick this user</source>
-        <translation type="unfinished"></translation>
+        <translation>Votez pour exclure ce joueur</translation>
     </message>
 </context>
 <context encoding="UTF-8">
@@ -1570,7 +1570,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="457"/>
         <source>open games: %1</source>
-        <translation>parties ouverts: %1</translation>
+        <translation>parties ouvertes: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="454"/>
@@ -2352,22 +2352,22 @@ et retourner au chat ?</translation>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3221"/>
         <source>You were temporarily banned from the server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous avez été temporairement bannis du serveur.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3227"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation type="unfinished"></translation>
+        <translation>Votre connexion au serveur a expirée pour cause d&apos;inactivité. Vous êtes invités à vous reconnecter !</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3253"/>
         <source>You cannot upload a new avatar file at this time. Please try again in a few seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vousne pouvez pas envoyer un fichier d&apos;avatar maintenant. Veuillez réessayer dans quelques secondes.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3305"/>
         <source>Your admin state timed out due to inactivity. Feel free to create a new game!</source>
-        <translation type="unfinished"></translation>
+        <translation>Votre status d&apos;administrateur a expiré pour cause d&apos;inactivité. Recréez une partie !</translation>
     </message>
 </context>
 <context>
@@ -3236,27 +3236,27 @@ Veuillez sélectionner un répertoire valide!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="47"/>
         <source>Bulgarian</source>
-        <translation type="unfinished"></translation>
+        <translation>Bulgare</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="57"/>
         <source>Polish</source>
-        <translation type="unfinished"></translation>
+        <translation>Polonais</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="48"/>
         <source>Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>Chinois</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
         <source>Greek</source>
-        <translation type="unfinished"></translation>
+        <translation>Grec</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="62"/>
         <source>Swedish</source>
-        <translation type="unfinished"></translation>
+        <translation>Suedois</translation>
     </message>
 </context>
 <context>
@@ -3335,22 +3335,22 @@ Veuillez sélectionner un répertoire valide!</translation>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="20"/>
         <source>Timeout Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Avertissement expiration</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="22"/>
         <source>Please click &quot;OK&quot; to stop the countdown!</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez cliquer sur &quot;OK&quot; pour arrêter le décompte!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="51"/>
         <source>You are game-admin of an open game which will time out in %1 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous êtes l&apos;administrateur d&apos;une partie ouverte qui expirera dans %1 secondes.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="54"/>
         <source>Your connection is about to time out due to inactivity in %1 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Votre connexion est sur le point d&apos;expirer pour cause d&apos;inactivité dans %1 secondes.</translation>
     </message>
 </context>
 <context>
