@@ -51,6 +51,8 @@
 #define SERVER_STATISTICS_STR_TOTAL_GAMES			"TotalNumGamesCreated"
 #define SERVER_STATISTICS_STR_MAX_GAMES				"MaxGamesOpen"
 #define SERVER_STATISTICS_STR_MAX_PLAYERS			"MaxPlayersLoggedIn"
+#define SERVER_STATISTICS_STR_CUR_GAMES				"CurGamesOpen"
+#define SERVER_STATISTICS_STR_CUR_PLAYERS			"CurPlayersLoggedIn"
 
 using namespace std;
 
@@ -879,6 +881,7 @@ ServerLobbyThread::InternalAddGame(boost::shared_ptr<ServerGameThread> game)
 	{
 		boost::mutex::scoped_lock lock(m_statMutex);
 		++m_statData.totalGamesEverCreated;
+		++m_statData.numberOfGamesOpen;
 		unsigned numGames = static_cast<unsigned>(m_gameMap.size());
 		if (numGames > m_statData.maxGamesOpen)
 			m_statData.maxGamesOpen = numGames;
@@ -889,6 +892,14 @@ ServerLobbyThread::InternalAddGame(boost::shared_ptr<ServerGameThread> game)
 void
 ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGameThread> game)
 {
+	{
+		boost::mutex::scoped_lock lock(m_statMutex);
+		if (m_statData.numberOfGamesOpen)
+		{
+			--m_statData.numberOfGamesOpen;
+			m_statDataChanged = true;
+		}
+	}
 	// Remove game from list.
 	m_gameMap.erase(game->GetId());
 	// Remove all sessions left in the game.
@@ -1150,6 +1161,7 @@ ServerLobbyThread::ReadStatisticsFile()
 				m_statData.maxPlayersLoggedIn = statisticsValue;
 			else if (statisticsType == SERVER_STATISTICS_STR_MAX_GAMES)
 				m_statData.maxGamesOpen = statisticsValue;
+			// other statistics are non-persistant and not read.
 		} while (!i.fail() && !i.eof());
 		m_statDataChanged = false;
 	}
@@ -1172,6 +1184,8 @@ ServerLobbyThread::SaveStatisticsFile()
 					o << SERVER_STATISTICS_STR_TOTAL_GAMES " " << m_statData.totalGamesEverCreated << endl;
 					o << SERVER_STATISTICS_STR_MAX_PLAYERS " " << m_statData.maxPlayersLoggedIn << endl;
 					o << SERVER_STATISTICS_STR_MAX_GAMES " " << m_statData.maxGamesOpen << endl;
+					o << SERVER_STATISTICS_STR_CUR_PLAYERS " " << m_statData.numberOfPlayersOnServer << endl;
+					o << SERVER_STATISTICS_STR_CUR_GAMES " " << m_statData.numberOfGamesOpen << endl;
 					m_statDataChanged = false;
 				}
 			}

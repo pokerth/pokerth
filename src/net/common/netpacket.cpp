@@ -4139,13 +4139,15 @@ NetPacketStatisticsChanged::Clone() const
 void
 NetPacketStatisticsChanged::SetData(const NetPacketStatisticsChanged::Data &inData)
 {
-	u_int16_t numValues = 0;
-	if (inData.stats.numberOfPlayersOnServer)
+	// Only send number of players.
+//	u_int16_t numValues = 0;
+	u_int16_t numValues = 1;
+/*	if (inData.stats.numberOfPlayersOnServer)
 		++numValues;
 	if (inData.stats.totalPlayersEverLoggedIn)
 		++numValues;
 	if (inData.stats.totalGamesEverCreated)
-		++numValues;
+		++numValues;*/
 
 	// Resize the packet so that the data fits in.
 	Resize((u_int16_t)
@@ -4158,13 +4160,13 @@ NetPacketStatisticsChanged::SetData(const NetPacketStatisticsChanged::Data &inDa
 	StatisticsData *curStatisticsData =
 		(StatisticsData *)((char *)tmpData + sizeof(NetPacketStatisticsChangedData));
 
-	if (inData.stats.numberOfPlayersOnServer)
-	{
+//	if (inData.stats.numberOfPlayersOnServer)
+//	{
 		curStatisticsData->statisticsType	= htonl(NET_STAT_CUR_PLAYERS_ON_SERVER);
 		curStatisticsData->statisticsValue	= htonl(inData.stats.numberOfPlayersOnServer);
 		++curStatisticsData;
-	}
-	if (inData.stats.totalPlayersEverLoggedIn)
+//	}
+/*	if (inData.stats.totalPlayersEverLoggedIn)
 	{
 		curStatisticsData->statisticsType	= htonl(NET_STAT_TOTAL_PLAYERS_EVER_ON_SERVER);
 		curStatisticsData->statisticsValue	= htonl(inData.stats.totalPlayersEverLoggedIn);
@@ -4174,7 +4176,7 @@ NetPacketStatisticsChanged::SetData(const NetPacketStatisticsChanged::Data &inDa
 	{
 		curStatisticsData->statisticsType	= htonl(NET_STAT_TOTAL_GAMES_EVER_ON_SERVER);
 		curStatisticsData->statisticsValue	= htonl(inData.stats.totalGamesEverCreated);
-	}
+	}*/
 
 	// Check the packet - just in case.
 	Check(GetRawData());
