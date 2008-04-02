@@ -100,6 +100,7 @@ using namespace std;
 #define NET_REMOVED_GAME_ALREADY_RUNNING		0x0002
 #define NET_REMOVED_KICKED						0x0003
 #define NET_REMOVED_TIMEOUT						0x0004
+#define NET_REMOVED_START_FAILED				0x0005
 #define NET_REMOVED_OTHER_REASON				0xFFFF
 
 // Reasons for timeout warning
@@ -4281,6 +4282,9 @@ NetPacketRemovedFromGame::SetData(const NetPacketRemovedFromGame::Data &inData)
 		case NTF_NET_REMOVED_TIMEOUT :
 			tmpData->removeReason = htons(NET_REMOVED_TIMEOUT);
 			break;
+		case NTF_NET_REMOVED_START_FAILED :
+			tmpData->removeReason = htons(NET_REMOVED_START_FAILED);
+			break;
 		default :
 			tmpData->removeReason = htons(NET_REMOVED_OTHER_REASON);
 			break;
@@ -4312,6 +4316,9 @@ NetPacketRemovedFromGame::GetData(NetPacketRemovedFromGame::Data &outData) const
 			break;
 		case NET_REMOVED_TIMEOUT :
 			outData.removeReason = NTF_NET_REMOVED_TIMEOUT;
+			break;
+		case NET_REMOVED_START_FAILED :
+			outData.removeReason = NTF_NET_REMOVED_START_FAILED;
 			break;
 		default :
 			outData.removeReason = NTF_NET_INTERNAL;

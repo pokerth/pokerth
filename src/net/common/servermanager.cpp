@@ -127,6 +127,12 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 				{
 					ostringstream statStream;
 					statStream
+						<< "Games currently open......... " << tmpStats.numberOfGamesOpen;
+					m_ircThread->SendChatMessage(statStream.str());
+				}
+				{
+					ostringstream statStream;
+					statStream
 						<< "Total players ever logged in. " << tmpStats.totalPlayersEverLoggedIn
 						<< "    (Max at a time: " << tmpStats.maxPlayersLoggedIn << ")";
 					m_ircThread->SendChatMessage(statStream.str());

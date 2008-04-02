@@ -458,6 +458,7 @@ ServerGameStateWaitAck::Process(ServerGameThread &server)
 	if (server.GetStateTimer().elapsed().total_seconds() >= SERVER_START_GAME_TIMEOUT_SEC)
 	{
 		// On timeout: start anyway.
+		server.GetSessionManager().ResetAllReadyFlags();
 		server.SetState(SERVER_START_GAME_STATE::Instance());
 		retVal = MSG_SOCK_INIT_DONE;
 	}
@@ -509,33 +510,49 @@ ServerGameStateStartGame::~ServerGameStateStartGame()
 int
 ServerGameStateStartGame::Process(ServerGameThread &server)
 {
-	server.InternalStartGame();
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
 
-	boost::shared_ptr<NetPacket> answer(new NetPacketGameStart);
-
-	NetPacketGameStart::Data gameStartData;
-	gameStartData.startData = server.GetStartData();
-
-	// Send player order to clients.
-	// Assume player list is sorted by number.
 	PlayerDataList tmpPlayerList = server.GetFullPlayerDataList();
-	PlayerDataList::iterator player_i = tmpPlayerList.begin();
-	PlayerDataList::iterator player_end = tmpPlayerList.end();
-	while (player_i != player_end)
+	if (tmpPlayerList.size() <= 1)
 	{
-		NetPacketGameStart::PlayerSlot tmpPlayerSlot;
-		tmpPlayerSlot.playerId = (*player_i)->GetUniqueId();
-		gameStartData.playerSlots.push_back(tmpPlayerSlot);
+		if (!tmpPlayerList.empty())
+		{
+			boost::shared_ptr<PlayerData> tmpPlayer(tmpPlayerList.front());
+			SessionWrapper tmpSession = server.GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->GetUniqueId());
+			if (tmpSession.sessionData.get())
+				server.MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_START_FAILED);
+		}
+	}
+	else
+	{
+		server.InternalStartGame();
 
-		++player_i;
+		boost::shared_ptr<NetPacket> answer(new NetPacketGameStart);
+
+		NetPacketGameStart::Data gameStartData;
+		gameStartData.startData = server.GetStartData();
+
+		// Send player order to clients.
+		// Assume player list is sorted by number.
+		PlayerDataList::iterator player_i = tmpPlayerList.begin();
+		PlayerDataList::iterator player_end = tmpPlayerList.end();
+		while (player_i != player_end)
+		{
+			NetPacketGameStart::PlayerSlot tmpPlayerSlot;
+			tmpPlayerSlot.playerId = (*player_i)->GetUniqueId();
+			gameStartData.playerSlots.push_back(tmpPlayerSlot);
+	
+			++player_i;
+		}
+
+		static_cast<NetPacketGameStart *>(answer.get())->SetData(gameStartData);
+
+		server.SendToAllPlayers(answer, SessionData::Game);
+		server.SetState(ServerGameStateStartHand::Instance());
+		retVal = MSG_NET_GAME_SERVER_START; 
 	}
 
-	static_cast<NetPacketGameStart *>(answer.get())->SetData(gameStartData);
-
-	server.SendToAllPlayers(answer, SessionData::Game);
-	server.SetState(ServerGameStateStartHand::Instance());
-
-	return MSG_NET_GAME_SERVER_START;
+	return retVal;
 }
 
 //-----------------------------------------------------------------------------

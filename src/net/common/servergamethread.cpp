@@ -404,6 +404,8 @@ void
 ServerGameThread::MoveSessionToLobby(SessionWrapper session, int reason)
 {
 	GracefulRemoveSession(session);
+	// Reset ready flag - just in case it is set, player may leave at any time.
+	session.sessionData->ResetReadyFlag();
 	GetLobbyThread().ReAddSession(session, reason);
 }
 
