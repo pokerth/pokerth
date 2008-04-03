@@ -18,6 +18,8 @@
  ***************************************************************************/
 
 #include "thread.h"
+#include <boost/version.hpp> // solve compatibility issues
+
 
 // This is ugly, but I can't help it.
 inline void ADD_MSEC_TO_XTIME(boost::xtime &xt, unsigned msec)
@@ -95,14 +97,20 @@ Thread::Join(unsigned msecTimeout)
 	}
 	else
 	{
+		// Wait for the termination of the application code.
+#if (BOOST_VERSION) >= 103500
+		boost::defer_lock_t defer;
+		boost::timed_mutex::scoped_timed_lock lock(m_isTerminatedMutex, defer);
+		tmpIsTerminated = lock.timed_lock(boost::posix_time::millisec(msecTimeout));
+#else
 		// Calculate time after timeout
 		boost::xtime t;
 		boost::xtime_get(&t, boost::TIME_UTC);
 		ADD_MSEC_TO_XTIME(t, msecTimeout);
 
-		// Wait for the termination of the application code.
 		boost::timed_mutex::scoped_timed_lock lock(m_isTerminatedMutex, t);
 		tmpIsTerminated = lock.locked();
+#endif
 	}
 
 	if (tmpIsTerminated)
@@ -141,8 +149,14 @@ Thread::MainWrapper()
 bool
 Thread::ShouldTerminate() const
 {
+#if (BOOST_VERSION) >= 103500
+	boost::defer_lock_t defer;
+	boost::timed_mutex::scoped_try_lock lock(m_shouldTerminateMutex, defer);
+	return lock.try_lock();
+#else
 	boost::timed_mutex::scoped_try_lock lock(m_shouldTerminateMutex);
 	return lock.locked();
+#endif
 }
 
 bool
