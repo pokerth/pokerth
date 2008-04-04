@@ -132,9 +132,10 @@ win32 {
 	win32-g++{
 		LIBS += -lcrypto
 		LIBS += -lssl
-		LIBS += -lboost_thread-mgw34-mt-1_34_1
-		LIBS += -lboost_filesystem-mgw34-mt-1_34_1
-		LIBS += -lboost_program_options-mgw34-mt-1_34_1
+		LIBS += -llibboost_thread-mgw34-mt-1_35
+		LIBS += -llibboost_filesystem-mgw34-mt-1_35
+		LIBS += -llibboost_system-mgw34-mt-1_35
+		LIBS += -llibboost_program_options-mgw34-mt-1_35
 	}
 
     LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32
