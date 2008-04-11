@@ -176,10 +176,11 @@ SOURCES += \
 		src/gui/qttoolsinterface.cpp
 
 win32{
+	DEFINES += CURL_STATICLIB
 	DEPENDPATH += src/net/win32/ src/core/win32
 	SOURCES += src/net/win32/socket_helper.cpp \
 		src/net/win32/socket_startup.cpp
-	INCLUDEPATH += ../boost/ ../OpenSSL/include
+	INCLUDEPATH += ../boost/ ../OpenSSL/include ../curl/include
 }
 !win32{
 	DEPENDPATH += src/net/linux/ src/core/linux

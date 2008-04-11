@@ -112,6 +112,7 @@ SOURCES += \
 		src/core/common/loghelper_server.cpp
 
 win32 {
+	DEFINES += CURL_STATICLIB
     DEPENDPATH += src/net/win32/ src/core/win32
     INCLUDEPATH += ../boost/ ../OpenSSL/include
 

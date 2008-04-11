@@ -258,10 +258,11 @@ TRANSLATIONS = \
 		ts/pokerth_START_HERE.ts
 
 win32{
+	DEFINES += CURL_STATICLIB
 	DEPENDPATH += src/net/win32/ src/core/win32
 	INCLUDEPATH += ../boost/ ../SDL/include ../SDL_mixer
-	INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include ../OpenSSL/include
-	LIBPATH += ../boost/stage/lib ../OpenSSL/lib
+	INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include ../OpenSSL/include  ../curl/include
+	LIBPATH += ../boost/stage/lib ../OpenSSL/lib ../curl/lib ../zlib
 
 
 	LIBS += -lpokerth_lib
@@ -272,6 +273,7 @@ win32{
 
 		LIBS += -llibeay32
 		LIBS += -lssleay32
+		LIBS += -llibcurl
 	}
 
 	win32-g++{
@@ -280,12 +282,14 @@ win32{
 		LIBPATH += ../SDL/lib ../SDL_mixer/lib
 		LIBS += -lcrypto
 		LIBS += -lssl
+		LIBS += -lcurl
+		LIBS += -lz
 		LIBS += -llibboost_thread-mgw34-mt-1_35
 		LIBS += -llibboost_filesystem-mgw34-mt-1_35
 		LIBS += -llibboost_system-mgw34-mt-1_35
 	}
 
-	LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32 -lsdl -lsdlmain -lsdl_mixer
+	LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32 -lsdl -lsdlmain -lsdl_mixer -lwldap32
 	RC_FILE = pokerth.rc
 }
 !win32{

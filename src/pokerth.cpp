@@ -33,6 +33,7 @@
 #include "configfile.h"
 #include <net/socket_startup.h>
 
+#include <curl/curl.h>
 #include <QtGui>
 #include <QtCore>
 
@@ -75,6 +76,7 @@ int main( int argc, char **argv )
 
 	//_CrtSetBreakAlloc(49937);
 	socket_startup();
+	curl_global_init(CURL_GLOBAL_NOTHING);
 	
 	/////// can be removed for non-qt-guis ////////////
 	QApplication a( argc, argv );
