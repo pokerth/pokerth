@@ -338,7 +338,7 @@ unix: !mac{
 
 	LIBS += -lpokerth_lib
 	LIBS += $$BOOST_LIBS
-	LIBS += -lcrypto -lSDL_mixer
+	LIBS += -lcrypto -lSDL_mixer -lcurl -lz
 	TARGETDEPS += ./lib/libpokerth_lib.a
 
 	## My release static libs
