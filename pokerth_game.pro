@@ -387,7 +387,7 @@ mac{
 	LIBS += /usr/local/lib/libboost_thread-mt-1_34_1.a
 	LIBS += /usr/local/lib/libboost_filesystem-mt-1_34_1.a
 	# libraries installed on every mac
-	LIBS += -lcrypto -lz -framework Carbon
+	LIBS += -lcrypto -lz -lcurl -framework Carbon
 	# set the application icon
 	RC_FILE = pokerth.icns
 	LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib 
