@@ -236,7 +236,8 @@ SOURCES += \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp \
 		src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp \
 		src/net/common/net_helper_client.cpp \
-		src/core/common/loghelper_client.cpp
+		src/core/common/loghelper_client.cpp \
+		src/third_party/zlib/gun.c
 
 TRANSLATIONS = \
 		ts/pokerth_bg.ts \
@@ -261,7 +262,7 @@ win32{
 	DEFINES += CURL_STATICLIB
 	DEPENDPATH += src/net/win32/ src/core/win32
 	INCLUDEPATH += ../boost/ ../SDL/include ../SDL_mixer
-	INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include ../OpenSSL/include  ../curl/include
+	INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include ../OpenSSL/include  ../curl/include ../zlib
 	LIBPATH += ../boost/stage/lib ../OpenSSL/lib ../curl/lib ../zlib
 
 
