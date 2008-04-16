@@ -93,7 +93,12 @@
 #endif
 #include <sys/types.h>
 #include <sys/stat.h>       /* stat(), chmod() */
-#include <utime.h>          /* utime() */
+#ifdef _MSC_VER
+	#include <sys/utime.h>
+	#include <io.h>
+#else
+	#include <utime.h>          /* utime() */
+#endif
 #include "zlib.h"           /* inflateBackInit(), inflateBack(), */
                             /* inflateBackEnd(), crc32() */
 
@@ -101,6 +106,11 @@
 	#define stat _stat
 	#define utime _utime
 	#define utimbuf _utimbuf
+	#define write _write
+	#define read _read
+	#define open _open
+	#define close _close
+	#define unlink _unlink
 #endif
 
 /* function declaration */

@@ -21,8 +21,8 @@
 #ifndef _AVATARMANAGER_H_
 #define _AVATARMANAGER_H_
 
-#include <playerdata.h>
 #include <net/netpacket.h>
+#include <playerdata.h>
 #include <core/crypthelper.h>
 #include <ctime>
 #include <map>

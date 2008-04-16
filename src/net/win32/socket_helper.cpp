@@ -74,7 +74,7 @@ socket_string_to_addr(const char *str, int addrFamily, struct sockaddr * addr, i
 }
 
 bool
-socket_addr_to_string(struct sockaddr *addr, int addrLen, int addrFamily, char *str, int strLen)
+socket_addr_to_string(struct sockaddr *addr, int addrLen, int /*addrFamily*/, char *str, int strLen)
 {
 	bool retVal = false;
 	retVal = (WSAAddressToStringA(addr, addrLen, NULL, str, (DWORD *)&strLen) != SOCKET_ERROR);

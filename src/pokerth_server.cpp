@@ -17,19 +17,18 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <iostream>
-
+#include <net/netpacket.h>
 #include "session.h"
 #include "configfile.h"
 #include <qttoolsinterface.h>
 #include <gui/generic/serverguiwrapper.h>
 #include <net/socket_startup.h>
-#include <net/netpacket.h>
 #include <core/loghelper.h>
 #include <core/thread.h>
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
 
+#include <iostream>
 #include <fstream>
 #include <memory>
 #include <csignal>

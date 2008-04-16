@@ -18,8 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <iostream>
-
 /////// can be removed for non-qt-guis ////////////
 #include <qapplication.h>
 
@@ -37,6 +35,7 @@
 #include <QtGui>
 #include <QtCore>
 
+#include <iostream>
 #include <cstdlib>
 #include <ctime>
 

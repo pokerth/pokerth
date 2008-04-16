@@ -21,10 +21,10 @@
 #ifndef _NETPACKET_H_
 #define _NETPACKET_H_
 
+#include <net/socket_helper.h>
 #include <playerdata.h>
 #include <game_defs.h>
 #include <gamedata.h>
-#include <net/socket_helper.h>
 #include <core/crypthelper.h>
 
 #include <vector>

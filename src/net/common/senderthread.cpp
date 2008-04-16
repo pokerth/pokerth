@@ -17,10 +17,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <net/socket_helper.h>
 #include <net/senderthread.h>
 #include <net/sendercallback.h>
 #include <net/socket_msg.h>
-#include <net/socket_helper.h>
 #include <core/loghelper.h>
 #include <cstring>
 #include <cassert>
