@@ -103,8 +103,8 @@ DownloadHelper::Process()
 		retVal = true;
 	}
 	return retVal;*/
-	Cleanup();
 	curl_easy_perform(m_data->curlHandle);
+	Cleanup();
 	return true;
 }
 
