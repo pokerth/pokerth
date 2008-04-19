@@ -258,7 +258,7 @@ ClientStateStartServerListDownload::Process(ClientThread &client)
 	tmpServerListPath /= "serverlist.xml.z";
 
 	std::auto_ptr<DownloadHelper> downloader(new DownloadHelper);
-	downloader->Init("http://pokerth.net/serverlist.xml.z", tmpServerListPath.directory_string());
+	downloader->Init("pokerth.net/serverlist.xml.z", tmpServerListPath.directory_string());
 	ClientStateDownloadingServerList::Instance().SetDownloadHelper(downloader.release());
 	client.SetState(ClientStateDownloadingServerList::Instance());
 
