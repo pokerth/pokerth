@@ -75,7 +75,7 @@ int main( int argc, char **argv )
 
 	//_CrtSetBreakAlloc(49937);
 	socket_startup();
-	curl_global_init(CURL_GLOBAL_NOTHING);
+	curl_global_init(CURL_GLOBAL_ALL);
 	
 	/////// can be removed for non-qt-guis ////////////
 	QApplication a( argc, argv );
@@ -136,6 +136,7 @@ int main( int argc, char **argv )
 
 	int retVal = a.exec();
 
+	curl_global_cleanup();
 	socket_cleanup();
 	return retVal;
 }
