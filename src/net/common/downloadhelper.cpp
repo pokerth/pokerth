@@ -96,6 +96,9 @@ DownloadHelper::Process()
 	}
 	else
 	{
+		int numMsgs;
+		CURLMsg *tmpMsg = curl_multi_info_read(m_data->curlMultiHandle, &numMsgs);
+		CURLcode code = tmpMsg->data.result;
 		Cleanup();
 		retVal = true;
 	}
