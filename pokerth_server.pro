@@ -160,6 +160,7 @@ unix : !mac {
 	BOOST_FS = boost_filesystem boost_filesystem-mt
 	BOOST_THREAD = boost_thread boost_thread-mt
 	BOOST_PROGRAM_OPTIONS = boost_program_options boost_program_options-mt
+	BOOST_IOSTREAMS = boost_iostreams boost_iostreams-mt
 
 	for(dir, LIB_DIRS) {
 		exists($$dir) {
@@ -181,17 +182,23 @@ unix : !mac {
 					BOOST_PROGRAM_OPTIONS = -l$$lib
 				}
 			}
+			for(lib, BOOST_IOSTREAMS) {
+				exists($${dir}/lib$${lib}.so*) {
+					message("Found $$lib")
+					BOOST_IOSTREAMS = -l$$lib
+				}
+			}
  		}
  	}
-	BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS
-	!count(BOOST_LIBS, 3) {
+	BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS $$BOOST_IOSTREAMS
+	!count(BOOST_LIBS, 4) {
 		error("could not locate required library: \
 		    libboost (version >= 1.34.1)  --> http://www.boost.org/")
 	}
 
 	LIBS += -lpokerth_lib
 	LIBS += $$BOOST_LIBS
-	LIBS += -lcrypto
+	LIBS += -lcrypto -lcurl
 
 	TARGETDEPS += ./lib/libpokerth_lib.a
 
