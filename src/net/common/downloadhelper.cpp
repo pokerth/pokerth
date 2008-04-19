@@ -46,7 +46,7 @@ DownloadHelper::~DownloadHelper()
 	Cleanup();
 }
 
-static size_t curlWriter(void *ptr, size_t size, size_t nmemb, void *stream)
+size_t curlWriter(void *ptr, size_t size, size_t nmemb, void *stream)
 {
 	int written = fwrite(ptr, size, nmemb, (FILE *)stream);
 	return written;
