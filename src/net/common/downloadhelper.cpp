@@ -72,9 +72,12 @@ bool
 DownloadHelper::Process()
 {
 	bool retVal = false;
-	int runningHandles;
-	while(CURLM_CALL_MULTI_PERFORM ==
-		curl_multi_perform(m_data->curlMultiHandle, &runningHandles));
+	int runningHandles = 0;
+	CURLMcode curlResult;
+	do
+	{
+		curlResult = curl_multi_perform(m_data->curlMultiHandle, &runningHandles);
+	} while (curlResult == CURLM_CALL_MULTI_PERFORM);
 
 	if (runningHandles)
 	{
