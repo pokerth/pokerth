@@ -46,12 +46,6 @@ DownloadHelper::~DownloadHelper()
 	Cleanup();
 }
 
-size_t curlWriter(void *ptr, size_t size, size_t nmemb, void *stream)
-{
-	int written = fwrite(ptr, size, nmemb, (FILE *)stream);
-	return written;
-}
-
 void
 DownloadHelper::Init(const string &url, const string &targetFileName)
 {
@@ -62,7 +56,7 @@ DownloadHelper::Init(const string &url, const string &targetFileName)
 	// TODO throw exception on error
 
 	curl_easy_setopt(m_data->curlHandle, CURLOPT_URL, url.c_str());
-	curl_easy_setopt(m_data->curlHandle, CURLOPT_WRITEFUNCTION, curlWriter);
+	curl_easy_setopt(m_data->curlHandle, CURLOPT_WRITEFUNCTION, NULL);
 	curl_easy_setopt(m_data->curlHandle, CURLOPT_WRITEDATA, m_data->targetFile);
 
 	curl_multi_add_handle(m_data->curlMultiHandle, m_data->curlHandle);
