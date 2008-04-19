@@ -150,6 +150,7 @@ SOURCES += \
 		src/net/common/clientcontext.cpp \
 		src/net/common/clientstate.cpp \
 		src/net/common/clientthread.cpp \
+		src/net/common/downloadhelper.cpp \
 		src/net/common/netpacket.cpp \
 		src/net/common/resolverthread.cpp \
 		src/net/common/senderthread.cpp \

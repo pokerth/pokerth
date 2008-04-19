@@ -55,7 +55,8 @@ public:
 		bool sctp,
 		const std::string &pwd,
 		const std::string &playerName,
-		const std::string &avatarFile);
+		const std::string &avatarFile,
+		const std::string &cacheDir);
 
 	void SendKickPlayer(unsigned playerId);
 	void SendLeaveCurrentGame();
@@ -196,6 +197,8 @@ friend class AbstractClientStateReceiving;
 friend class ClientStateInit;
 friend class ClientStateStartResolve;
 friend class ClientStateResolving;
+friend class ClientStateStartServerListDownload;
+friend class ClientStateDownloadingServerList;
 friend class ClientStateStartConnect;
 friend class ClientStateConnecting;
 friend class ClientStateStartSession;

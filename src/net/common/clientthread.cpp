@@ -76,7 +76,8 @@ void
 ClientThread::Init(
 	const string &serverAddress, const string &alternateServerAddress,
 	unsigned serverPort, bool ipv6, bool sctp,
-	const string &pwd, const string &playerName, const string &avatarFile)
+	const string &pwd, const string &playerName, const string &avatarFile,
+	const string &cacheDir)
 {
 	if (IsRunning())
 	{
@@ -94,6 +95,7 @@ ClientThread::Init(
 	context.SetPassword(pwd);
 	context.SetPlayerName(playerName);
 	context.SetAvatarFile(avatarFile);
+	context.SetCacheDir(cacheDir);
 }
 
 void

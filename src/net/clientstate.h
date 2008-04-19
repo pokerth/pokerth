@@ -33,6 +33,7 @@ class ClientCallback;
 class ResolverThread;
 class Game;
 class NetPacket;
+class DownloadHelper;
 
 class ClientState
 {
@@ -103,6 +104,50 @@ protected:
 private:
 
 	ResolverThread *m_resolver;
+};
+
+// State: Start download of the server list.
+class ClientStateStartServerListDownload : public ClientState
+{
+public:
+	// Access the state singleton.
+	static ClientStateStartServerListDownload &Instance();
+
+	virtual ~ClientStateStartServerListDownload();
+
+	// Initiate the name resolution.
+	virtual int Process(ClientThread &client);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateStartServerListDownload();
+};
+
+// State: Downloading the server list.
+class ClientStateDownloadingServerList : public ClientState
+{
+public:
+	// Access the state singleton.
+	static ClientStateDownloadingServerList &Instance();
+
+	virtual ~ClientStateDownloadingServerList();
+
+	void SetDownloadHelper(DownloadHelper *helper);
+
+	// Poll for the completion of the download.
+	virtual int Process(ClientThread &client);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateDownloadingServerList();
+
+	void Cleanup();
+
+private:
+
+	DownloadHelper *m_downloadHelper;
 };
 
 // State: Initiate server connection.

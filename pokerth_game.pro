@@ -236,8 +236,7 @@ SOURCES += \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp \
 		src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp \
 		src/net/common/net_helper_client.cpp \
-		src/core/common/loghelper_client.cpp \
-		src/third_party/zlib/gun.c
+		src/core/common/loghelper_client.cpp
 
 TRANSLATIONS = \
 		ts/pokerth_bg.ts \

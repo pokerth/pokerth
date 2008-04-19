@@ -181,7 +181,8 @@ void Session::startInternetClient()
 		myConfig->readConfigInt("InternetServerUseSctp") == 1,
 		myConfig->readConfigString("InternetServerPassword"),
 		myConfig->readConfigString("MyName"),
-		myConfig->readConfigString("MyAvatar"));
+		myConfig->readConfigString("MyAvatar"),
+		myConfig->readConfigString("CacheDir"));
 	myNetClient->Run();
 }
 
@@ -203,7 +204,8 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 		sctp,
 		pwd,
 		myConfig->readConfigString("MyName"),
-		myConfig->readConfigString("MyAvatar"));
+		myConfig->readConfigString("MyAvatar"),
+		myConfig->readConfigString("CacheDir"));
 	myNetClient->Run();
 	myNetClient->SendJoinFirstGame("");
 }
@@ -228,7 +230,8 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
 		myConfig->readConfigInt("ServerUseSctp") == 1,
 		myConfig->readConfigString("ServerPassword"),
 		myConfig->readConfigString("MyName"),
-		myConfig->readConfigString("MyAvatar"));
+		myConfig->readConfigString("MyAvatar"),
+		myConfig->readConfigString("CacheDir"));
 	myNetClient->Run();
 	myNetClient->SendCreateGame(gameData, NET_DEFAULT_GAME, "");
 }
