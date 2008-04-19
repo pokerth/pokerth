@@ -61,6 +61,8 @@ class NetPacketGameListAdminChanged;
 class NetPacketRetrievePlayerInfo;
 class NetPacketPlayerInfo;
 class NetPacketUnknownPlayerId;
+class NetPacketUnsubscribeGameList;
+class NetPacketResubscribeGameList;
 class NetPacketCreateGame;
 class NetPacketJoinGame;
 class NetPacketJoinGameAck;
@@ -125,6 +127,8 @@ public:
 	virtual const NetPacketRetrievePlayerInfo *ToNetPacketRetrievePlayerInfo() const;
 	virtual const NetPacketPlayerInfo *ToNetPacketPlayerInfo() const;
 	virtual const NetPacketUnknownPlayerId *ToNetPacketUnknownPlayerId() const;
+	virtual const NetPacketUnsubscribeGameList *ToNetPacketUnsubscribeGameList() const;
+	virtual const NetPacketResubscribeGameList *ToNetPacketResubscribeGameList() const;
 	virtual const NetPacketCreateGame *ToNetPacketCreateGame() const;
 	virtual const NetPacketJoinGame *ToNetPacketJoinGame() const;
 	virtual const NetPacketJoinGameAck *ToNetPacketJoinGameAck() const;
@@ -535,6 +539,38 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketUnknownPlayerId *ToNetPacketUnknownPlayerId() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketUnsubscribeGameList : public NetPacket
+{
+public:
+
+	NetPacketUnsubscribeGameList();
+	virtual ~NetPacketUnsubscribeGameList();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	virtual const NetPacketUnsubscribeGameList *ToNetPacketUnsubscribeGameList() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketResubscribeGameList : public NetPacket
+{
+public:
+
+	NetPacketResubscribeGameList();
+	virtual ~NetPacketResubscribeGameList();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	virtual const NetPacketResubscribeGameList *ToNetPacketResubscribeGameList() const;
 
 protected:
 

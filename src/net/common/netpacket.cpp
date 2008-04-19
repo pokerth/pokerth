@@ -44,6 +44,8 @@ using namespace std;
 #define NET_TYPE_RETRIEVE_PLAYER_INFO			0x0020
 #define NET_TYPE_PLAYER_INFO					0x0021
 #define NET_TYPE_UNKNOWN_PLAYER_ID				0x0022
+#define NET_TYPE_UNSUBSCRIBE_GAME_LIST			0x0023
+#define NET_TYPE_RESUBSCRIBE_GAME_LIST			0x0024
 #define NET_TYPE_CREATE_GAME					0x0030
 #define NET_TYPE_JOIN_GAME						0x0031
 #define NET_TYPE_JOIN_GAME_ACK					0x0032
@@ -277,6 +279,18 @@ struct GCC_PACKED NetPacketUnknownPlayerIdData
 {
 	NetPacketHeader		head;
 	u_int32_t			playerId;
+};
+
+struct GCC_PACKED NetPacketUnsubscribeGameListData
+{
+	NetPacketHeader		head;
+	u_int32_t			reserved;
+};
+
+struct GCC_PACKED NetPacketResubscribeGameListData
+{
+	NetPacketHeader		head;
+	u_int32_t			reserved;
 };
 
 struct GCC_PACKED NetPacketCreateGameData
@@ -712,6 +726,12 @@ NetPacket::Create(char *data, unsigned &dataSize)
 				case NET_TYPE_UNKNOWN_PLAYER_ID:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketUnknownPlayerId);
 					break;
+				case NET_TYPE_UNSUBSCRIBE_GAME_LIST:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketUnsubscribeGameList);
+					break;
+				case NET_TYPE_RESUBSCRIBE_GAME_LIST:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketResubscribeGameList);
+					break;
 				case NET_TYPE_CREATE_GAME:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketCreateGame);
 					break;
@@ -975,6 +995,18 @@ NetPacket::ToNetPacketPlayerInfo() const
 
 const NetPacketUnknownPlayerId *
 NetPacket::ToNetPacketUnknownPlayerId() const
+{
+	return NULL;
+}
+
+const NetPacketUnsubscribeGameList *
+NetPacket::ToNetPacketUnsubscribeGameList() const
+{
+	return NULL;
+}
+
+const NetPacketResubscribeGameList *
+NetPacket::ToNetPacketResubscribeGameList() const
 {
 	return NULL;
 }
@@ -2349,6 +2381,81 @@ NetPacketUnknownPlayerId::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
 }
+
+//-----------------------------------------------------------------------------
+
+NetPacketUnsubscribeGameList::NetPacketUnsubscribeGameList()
+: NetPacket(NET_TYPE_UNSUBSCRIBE_GAME_LIST, sizeof(NetPacketUnsubscribeGameListData), sizeof(NetPacketUnsubscribeGameListData))
+{
+}
+
+NetPacketUnsubscribeGameList::~NetPacketUnsubscribeGameList()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketUnsubscribeGameList::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketUnsubscribeGameList);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+const NetPacketUnsubscribeGameList *
+NetPacketUnsubscribeGameList::ToNetPacketUnsubscribeGameList() const
+{
+	return this;
+}
+
+void
+NetPacketUnsubscribeGameList::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketResubscribeGameList::NetPacketResubscribeGameList()
+: NetPacket(NET_TYPE_RESUBSCRIBE_GAME_LIST, sizeof(NetPacketResubscribeGameListData), sizeof(NetPacketResubscribeGameListData))
+{
+}
+
+NetPacketResubscribeGameList::~NetPacketResubscribeGameList()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketResubscribeGameList::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketResubscribeGameList);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+const NetPacketResubscribeGameList *
+NetPacketResubscribeGameList::ToNetPacketResubscribeGameList() const
+{
+	return this;
+}
+
+void
+NetPacketResubscribeGameList::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
 //-----------------------------------------------------------------------------
 
 NetPacketCreateGame::NetPacketCreateGame()
