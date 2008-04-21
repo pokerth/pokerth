@@ -114,11 +114,11 @@ SOURCES += \
 win32 {
 	DEFINES += CURL_STATICLIB
     DEPENDPATH += src/net/win32/ src/core/win32
-    INCLUDEPATH += ../boost/ ../OpenSSL/include
+    INCLUDEPATH += ../boost/ ../GnuTLS/include
 
     SOURCES += src/core/win32/convhelper.cpp
 
-    LIBPATH += ../boost/stage/lib ../OpenSSL/lib
+    LIBPATH += ../boost/stage/lib ../GnuTLS/lib
 
     LIBPATH += Release/lib
     #LIBPATH += Debug/lib
@@ -126,13 +126,11 @@ win32 {
     LIBS += -lpokerth_lib
 
 	win32-msvc2005{
-		LIBS += -llibeay32
-		LIBS += -lssleay32
+		LIBS += -llibgnutls-openssl
 	}
 
 	win32-g++{
-		LIBS += -lcrypto
-		LIBS += -lssl
+		LIBS += -lgnutls-openssl
 		LIBS += -llibboost_thread-mgw34-mt-1_35
 		LIBS += -llibboost_filesystem-mgw34-mt-1_35
 		LIBS += -llibboost_system-mgw34-mt-1_35
@@ -198,7 +196,7 @@ unix : !mac {
 
 	LIBS += -lpokerth_lib
 	LIBS += $$BOOST_LIBS
-	LIBS += -lcrypto -lcurl
+	LIBS += -lgnutls-openssl -lcurl
 
 	TARGETDEPS += ./lib/libpokerth_lib.a
 
@@ -228,7 +226,7 @@ mac{
 	LIBS += /usr/local/lib/libboost_filesystem-mt-1_34_1.a
 	LIBS += /usr/local/lib/libboost_program_options-mt-1_34_1.a
 	# libraries installed on every mac
-	LIBS += -lcrypto -liconv
+	LIBS += -lgnutls-openssl -liconv
 	# set the application icon
 	RC_FILE = pokerth.icns
 	LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib

@@ -26,7 +26,7 @@
 #include <net/socket_msg.h>
 #include <core/avatarmanager.h>
 #include <core/loghelper.h>
-#include <openssl/rand.h>
+#include <core/openssl_wrapper.h>
 
 #include <fstream>
 #include <algorithm>

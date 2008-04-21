@@ -26,7 +26,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/algorithm/string/predicate.hpp>
-#include <openssl/md5.h>
+#include <core/openssl_wrapper.h>
 
 #include <fstream>
 #include <cstring>

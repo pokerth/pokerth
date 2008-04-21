@@ -261,8 +261,8 @@ win32{
 	DEFINES += CURL_STATICLIB
 	DEPENDPATH += src/net/win32/ src/core/win32
 	INCLUDEPATH += ../boost/ ../SDL/include ../SDL_mixer
-	INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include ../OpenSSL/include  ../curl/include ../zlib
-	LIBPATH += ../boost/stage/lib ../OpenSSL/lib ../curl/lib ../zlib
+	INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include ../GnuTLS/include  ../curl/include ../zlib
+	LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../curl/lib ../zlib
 
 
 	LIBS += -lpokerth_lib
@@ -271,8 +271,7 @@ win32{
 		LIBPATH += Release/lib ../SDL/VisualC/SDL/Release ../SDL/VisualC/SDLmain/Release ../SDL_mixer/VisualC/Release
 		#LIBPATH += Debug/lib ../SDL/VisualC/SDL/Debug ../SDL/VisualC/SDLmain/Debug ../SDL_mixer/VisualC/Debug
 
-		LIBS += -llibeay32
-		LIBS += -lssleay32
+		LIBS += -lgnutls-openssl
 		LIBS += -llibcurl
 	}
 
@@ -280,8 +279,7 @@ win32{
 		LIBPATH += Release/lib
 		#LIBPATH += Debug/lib
 		LIBPATH += ../SDL/lib ../SDL_mixer/lib
-		LIBS += -lcrypto
-		LIBS += -lssl
+		LIBS += -lgnutls-openssl
 		LIBS += -lcurl
 		LIBS += -lz
 		LIBS += -llibboost_thread-mgw34-mt-1_35
@@ -346,7 +344,7 @@ unix: !mac{
 
 	LIBS += -lpokerth_lib
 	LIBS += $$BOOST_LIBS
-	LIBS += -lcrypto -lSDL_mixer -lcurl -lz
+	LIBS += -lgnutls-openssl -lSDL_mixer -lcurl -lz
 	TARGETDEPS += ./lib/libpokerth_lib.a
 
 	## My release static libs

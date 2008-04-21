@@ -20,7 +20,7 @@
 #include "crypthelper.h"
 
 
-#include <openssl/md5.h>
+#include <core/openssl_wrapper.h>
 #include <cstring>
 #include <cstdio>
 
