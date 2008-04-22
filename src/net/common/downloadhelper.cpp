@@ -30,6 +30,7 @@ struct DownloadData
 	CURL *curlHandle;
 	CURLM *curlMultiHandle;
 	FILE *targetFile;
+	string curlUrl;
 };
 
 
@@ -54,8 +55,8 @@ DownloadHelper::Init(const string &url, const string &targetFileName)
 	//m_data->curlMultiHandle = curl_multi_init();
 
 	// TODO throw exception on error
-
-	curl_easy_setopt(m_data->curlHandle, CURLOPT_URL, url.c_str());
+	m_data->curlUrl = url;
+	curl_easy_setopt(m_data->curlHandle, CURLOPT_URL, m_data->curlUrl.c_str());
 	curl_easy_setopt(m_data->curlHandle, CURLOPT_WRITEFUNCTION, NULL);
 	curl_easy_setopt(m_data->curlHandle, CURLOPT_WRITEDATA, m_data->targetFile);
 
