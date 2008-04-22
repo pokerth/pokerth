@@ -52,7 +52,7 @@ DownloadHelper::Init(const string &url, const string &targetFileName)
 {
 	m_data->targetFile = fopen(targetFileName.c_str(), "wb");
 	m_data->curlHandle = curl_easy_init();
-	//m_data->curlMultiHandle = curl_multi_init();
+	m_data->curlMultiHandle = curl_multi_init();
 
 	// TODO throw exception on error
 	m_data->curlUrl = url;
@@ -60,13 +60,13 @@ DownloadHelper::Init(const string &url, const string &targetFileName)
 	curl_easy_setopt(m_data->curlHandle, CURLOPT_WRITEFUNCTION, NULL);
 	curl_easy_setopt(m_data->curlHandle, CURLOPT_WRITEDATA, m_data->targetFile);
 
-	//curl_multi_add_handle(m_data->curlMultiHandle, m_data->curlHandle);
+	curl_multi_add_handle(m_data->curlMultiHandle, m_data->curlHandle);
 }
 
 bool
 DownloadHelper::Process()
 {
-	/*bool retVal = false;
+	bool retVal = false;
 	int runningHandles = 0;
 	CURLMcode curlResult;
 	do
@@ -103,10 +103,7 @@ DownloadHelper::Process()
 		Cleanup();
 		retVal = true;
 	}
-	return retVal;*/
-	curl_easy_perform(m_data->curlHandle);
-	Cleanup();
-	return true;
+	return retVal;
 }
 
 void
