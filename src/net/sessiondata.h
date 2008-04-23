@@ -32,11 +32,6 @@
 #define SESSION_ID_GENERIC		0xFFFFFFFF
 
 typedef unsigned SessionId;
-/*struct SessionId
-{
-	unsigned id;
-};*/
-
 
 class SessionData
 {

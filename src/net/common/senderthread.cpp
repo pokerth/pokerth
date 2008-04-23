@@ -49,8 +49,18 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 {
 	if (packet.get() && session.get())
 	{
-		boost::mutex::scoped_lock lock(m_sendQueueMutex);
-		InternalStore(m_sendQueue, SEND_QUEUE_SIZE, session, packet);
+		boost::mutex::scoped_lock lock0(m_sessionsStalledMutex);
+		if (find(m_sessionsStalled.begin(), m_sessionsStalled.end(), session->GetId()) == m_sessionsStalled.end())
+		{
+			boost::mutex::scoped_lock lock1(m_sendQueueMutex);
+			InternalStore(m_sendQueue, SEND_QUEUE_SIZE, session, packet);
+		}
+		else
+		{
+			// This session is stalled.
+			boost::mutex::scoped_lock lock2(m_stalledQueueMutex);
+			InternalStore(m_stalledQueue, SEND_QUEUE_SIZE, session, packet);
+		}
 	}
 }
 
@@ -59,8 +69,18 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 {
 	if (!packetList.empty() && session.get())
 	{
-		boost::mutex::scoped_lock lock(m_sendQueueMutex);
-		InternalStore(m_sendQueue, SEND_QUEUE_SIZE, session, packetList);
+		boost::mutex::scoped_lock lock0(m_sessionsStalledMutex);
+		if (find(m_sessionsStalled.begin(), m_sessionsStalled.end(), session->GetId()) == m_sessionsStalled.end())
+		{
+			boost::mutex::scoped_lock lock1(m_sendQueueMutex);
+			InternalStore(m_sendQueue, SEND_QUEUE_SIZE, session, packetList);
+		}
+		else
+		{
+			// This session is stalled.
+			boost::mutex::scoped_lock lock2(m_stalledQueueMutex);
+			InternalStore(m_stalledQueue, SEND_QUEUE_SIZE, session, packetList);
+		}
 	}
 }
 
@@ -69,11 +89,11 @@ SenderThread::GetNumPacketsInQueue() const
 {
 	unsigned numPackets;
 	{
-		boost::mutex::scoped_lock lock(m_sendQueueMutex);
+		boost::mutex::scoped_lock lock1(m_sendQueueMutex);
 		numPackets = m_sendQueue.size();
 	}
 	{
-		boost::mutex::scoped_lock lock(m_stalledQueueMutex);
+		boost::mutex::scoped_lock lock2(m_stalledQueueMutex);
 		numPackets += m_stalledQueue.size();
 	}
 	return numPackets;
@@ -149,14 +169,18 @@ SenderThread::Main()
 		SendData tmpData;
 		// Check main queue.
 		{
-			boost::mutex::scoped_lock lock(m_sendQueueMutex);
+			boost::mutex::scoped_lock lock0(m_sessionsStalledMutex);
+			boost::mutex::scoped_lock lock1(m_sendQueueMutex);
 			if (m_sendQueue.empty())
 			{
 				// Check stalled queue.
-				// Attention: double lock (on purpose).
+				// Attention: TRIPLE lock (on purpose).
 				boost::mutex::scoped_lock lock2(m_stalledQueueMutex);
 				if (!m_stalledQueue.empty())
+				{
 					m_sendQueue.swap(m_stalledQueue);
+					m_sessionsStalled.clear(); // No more sessions stalled, all in send list.
+				}
 			}
 			if (!m_sendQueue.empty())
 			{
@@ -207,11 +231,13 @@ SenderThread::Main()
 						{
 							// A timeout occured - don't block the thread.
 							{
-								// Attention: double lock (on purpose).
+								// Attention: TRIPLE lock (on purpose).
 								// Stall all packets for that sender.
-								boost::mutex::scoped_lock lock(m_sendQueueMutex);
+								boost::mutex::scoped_lock lock0(m_sessionsStalledMutex);
+								boost::mutex::scoped_lock lock1(m_sendQueueMutex);
 								boost::mutex::scoped_lock lock2(m_stalledQueueMutex);
 								m_stalledQueue.push_back(tmpData);
+								m_sessionsStalled.push_back(tmpData.session->GetId());
 								SendDataList::iterator i = m_sendQueue.begin();
 								SendDataList::iterator end = m_sendQueue.end();
 								while (i != end)
@@ -230,7 +256,7 @@ SenderThread::Main()
 						else
 						{
 							// Select was successful - store the packet back in the main queue.
-							boost::mutex::scoped_lock lock(m_sendQueueMutex);
+							boost::mutex::scoped_lock lock1(m_sendQueueMutex);
 							m_sendQueue.push_front(tmpData);
 						}
 					}
@@ -249,7 +275,7 @@ SenderThread::Main()
 					{
 						tmpData.bytesSent += bytesSent;
 						// Send was partly successful - store the packet back in the main queue.
-						boost::mutex::scoped_lock lock(m_sendQueueMutex);
+						boost::mutex::scoped_lock lock1(m_sendQueueMutex);
 						m_sendQueue.push_front(tmpData);
 					}
 					else
@@ -267,11 +293,11 @@ SenderThread::Main()
 			unsigned sendQueueSize = 0;
 			unsigned stalledQueueSize = 0;
 			{
-				boost::mutex::scoped_lock lock(m_sendQueueMutex);
+				boost::mutex::scoped_lock lock1(m_sendQueueMutex);
 				sendQueueSize = m_sendQueue.size();
 			}
 			{	
-				boost::mutex::scoped_lock lock(m_stalledQueueMutex);
+				boost::mutex::scoped_lock lock2(m_stalledQueueMutex);
 				stalledQueueSize = m_stalledQueue.size();
 			}
 			LOG_VERBOSE("Sender TICK - send queue " << sendQueueSize << ", stalled " << stalledQueueSize << ".");

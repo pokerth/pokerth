@@ -56,6 +56,7 @@ protected:
 		unsigned bytesSent;
 	};
 	typedef std::list<SendData> SendDataList;
+	typedef std::list<SessionId> SessionIdList;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -70,6 +71,9 @@ private:
 
 	SendDataList m_stalledQueue;
 	mutable boost::mutex m_stalledQueueMutex;
+
+	SessionIdList m_sessionsStalled; // Cache
+	mutable boost::mutex m_sessionsStalledMutex;
 
 	SenderCallback &m_callback;
 
