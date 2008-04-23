@@ -48,7 +48,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myQtToolsInterface = CreateQtToolsWrapper();
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 52;
+	configRev = 54;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -132,7 +132,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("ConfigRevision", CONFIG_TYPE_INT, tempIntToString.str()));
 	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, myQtToolsInterface->getDataPathStdString(myArgv0)));
 	configList.push_back(ConfigInfo("Language", CONFIG_TYPE_INT, myQtToolsInterface->getDefaultLanguage()));
-	configList.push_back(ConfigInfo("InternetServerAddressIRCChannelUpdateDone", CONFIG_TYPE_INT, "1")); //HACK
+	/*configList.push_back(ConfigInfo("InternetServerAddressIRCChannelUpdateDone", CONFIG_TYPE_INT, "1"));*/ //HACK
 	configList.push_back(ConfigInfo("ShowLeftToolBox", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("ShowRightToolBox", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("ShowStatusbarMessages", CONFIG_TYPE_INT, "1"));
@@ -188,6 +188,8 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("ServerUseIpv6", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerUseSctp", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerPort", CONFIG_TYPE_INT, "7234"));
+	configList.push_back(ConfigInfo("InternetServerConfigMode", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("InternetServerListAddress", CONFIG_TYPE_STRING, "pokerth.net/serverlist.xml.z"));
 	configList.push_back(ConfigInfo("InternetServerAddress", CONFIG_TYPE_STRING, "pokerth.6dns.org"));
 	configList.push_back(ConfigInfo("InternetServerPort", CONFIG_TYPE_INT, "7234"));
 	configList.push_back(ConfigInfo("InternetServerPassword", CONFIG_TYPE_STRING, ""));
@@ -453,10 +455,10 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 
 				TiXmlElement* oldConf = oldDocHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).ToElement();
 				
-				//HACK remove after 0.6
-				TiXmlElement* ISAIRCChannelUpdateDone = oldDocHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "InternetServerAddressIRCChannelUpdateDone" ).ToElement();
+// 				//HACK remove after 0.6
+// 				TiXmlElement* ISAIRCChannelUpdateDone = oldDocHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "InternetServerAddressIRCChannelUpdateDone" ).ToElement();
 								
-				if ( oldConf && (ISAIRCChannelUpdateDone || !(configList[i].name == "IRCChannel" || (configList[i].name == "InternetServerAddress" ))) /*HACK remove after 0.6*/ ) {
+				if ( oldConf /*&& (ISAIRCChannelUpdateDone || !(configList[i].name == "IRCChannel" || (configList[i].name == "InternetServerAddress" )))*/ /*HACK remove after 0.6*/ ) {
 				// if element is already there --> take over the saved values
 					
 					if(configList[i].name != "ConfigRevision" && configList[i].name != "AppDataDir") {

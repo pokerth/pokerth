@@ -73,6 +73,9 @@ public slots:
 	void setFirstSmallBlindMargin() ;
 
 	void setLanguageChanged(int);
+
+	void toggleGroupBoxAutomaticServerConfig(bool /*toggleState*/);
+	void toggleGroupBoxManualServerConfig(bool /*toggleState*/);
 	
 private:
 	

@@ -92,6 +92,10 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( radioButton_manualBlindsOrder, SIGNAL( toggled(bool) ), this, SLOT( setFirstSmallBlindMargin() ));	//temporarely unused until ai is enabled in network
 
 	connect( comboBox_switchLanguage, SIGNAL( currentIndexChanged (int) ), this, SLOT ( setLanguageChanged(int) ));
+
+	connect(groupBox_automaticServerConfig, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBoxAutomaticServerConfig(bool)));
+	connect(groupBox_manualServerConfig, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBoxManualServerConfig(bool)));
+
 // 	label_36->hide();
 // 	spinBox_netGameSpeed->hide();
 // 
@@ -163,6 +167,9 @@ void settingsDialogImpl::exec() {
 	checkBox_useSctp->setChecked(myConfig->readConfigInt("ServerUseSctp"));
 
 	//Internet Game Settings
+	if(myConfig->readConfigInt("InternetServerConfigMode")) { groupBox_manualServerConfig->setChecked(TRUE); }
+	else { groupBox_automaticServerConfig->setChecked(TRUE); }
+	lineEdit_InternetServerListAddress->setText(QString::fromUtf8(myConfig->readConfigString("InternetServerListAddress").c_str()));
 	lineEdit_InternetServerAddress->setText(QString::fromUtf8(myConfig->readConfigString("InternetServerAddress").c_str()));
 	spinBox_InternetServerPort->setValue(myConfig->readConfigInt("InternetServerPort"));
 	lineEdit_InternetServerPassword->setText(QString::fromUtf8(myConfig->readConfigString("InternetServerPassword").c_str()));
@@ -303,6 +310,9 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("ServerUseSctp", checkBox_useSctp->isChecked());
 
 	//Internet Game Settings
+	if(groupBox_automaticServerConfig->isChecked()) { myConfig->writeConfigInt("InternetServerConfigMode", 0); }
+	if(groupBox_manualServerConfig->isChecked()) { myConfig->writeConfigInt("InternetServerConfigMode", 1); }
+	myConfig->writeConfigString("InternetServerListAddress", lineEdit_InternetServerListAddress->text().toUtf8().constData());
 	myConfig->writeConfigString("InternetServerAddress", lineEdit_InternetServerAddress->text().toUtf8().constData());
 	myConfig->writeConfigInt("InternetServerPort", spinBox_InternetServerPort->value());
 	myConfig->writeConfigString("InternetServerPassword", lineEdit_InternetServerPassword->text().toUtf8().constData());
@@ -603,3 +613,8 @@ void settingsDialogImpl::setLanguageChanged(int index) {
 	changedLanguageIndex = index;
 	
 }
+
+void settingsDialogImpl::toggleGroupBoxAutomaticServerConfig(bool /*toggleState*/) { if(groupBox_automaticServerConfig->isChecked()) groupBox_manualServerConfig->setChecked(FALSE); }
+
+void settingsDialogImpl::toggleGroupBoxManualServerConfig(bool /*toggleState*/) { if(groupBox_manualServerConfig->isChecked()) groupBox_automaticServerConfig->setChecked(FALSE); }
+
