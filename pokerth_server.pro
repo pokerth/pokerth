@@ -126,12 +126,12 @@ win32 {
     LIBS += -lpokerth_lib
 
 	win32-msvc2005{
-		LIBS += -llibgnutls-openssl
+		LIBS += -llibgnutls-openssl -llibgcrypt
 		LIBS += -llibcurl
 	}
 
 	win32-g++{
-		LIBS += -lgnutls-openssl
+		LIBS += -lgnutls-openssl -lgcrypt
 		LIBS += -lcurl
 		LIBS += -llibboost_thread-mgw34-mt-1_35
 		LIBS += -llibboost_filesystem-mgw34-mt-1_35
@@ -198,7 +198,7 @@ unix : !mac {
 
 	LIBS += -lpokerth_lib
 	LIBS += $$BOOST_LIBS
-	LIBS += -lgnutls-openssl -lcurl
+	LIBS += -lgnutls-openssl -lgcrypt -lcurl
 
 	TARGETDEPS += ./lib/libpokerth_lib.a
 
@@ -228,7 +228,7 @@ mac{
 	LIBS += /usr/local/lib/libboost_filesystem-mt-1_34_1.a
 	LIBS += /usr/local/lib/libboost_program_options-mt-1_34_1.a
 	# libraries installed on every mac
-	LIBS += -lgnutls-openssl -liconv
+	LIBS += -lgnutls-openssl -lgcrypt -liconv
 	# set the application icon
 	RC_FILE = pokerth.icns
 	LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib

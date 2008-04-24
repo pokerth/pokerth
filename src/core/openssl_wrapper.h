@@ -24,8 +24,13 @@
 #ifndef HAVE_SSIZE_T
 # define HAVE_SSIZE_T
 #include <sys/types.h>
-#if (defined _WIN32) && (!defined ssize_t)
-	typedef long ssize_t; // This is only for Windows. Supports only Win32.
+#ifdef _WIN32
+	#ifndef ssize_t
+		typedef long ssize_t; // This is only for Windows. Supports only Win32.
+	#endif
+	#ifndef pid_t
+		typedef unsigned pid_t;
+	#endif
 #endif
 #endif
 

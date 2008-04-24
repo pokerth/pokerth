@@ -19,6 +19,52 @@
 
 #include <net/socket_startup.h>
 #include <net/socket_helper.h>
+#include <core/openssl_wrapper.h>
+#include <gcrypt.h>
+#include <boost/thread.hpp>
+
+extern "C" {
+
+	int gcry_bthread_init()
+	{
+		return 0;
+	}
+	int gcry_bmutex_init(void **obj) {
+		*obj = (void*)(new boost::mutex);
+		return 0;
+	}
+	int gcry_bmutex_destroy(void **obj) {
+		delete (boost::mutex *)(*obj);
+		return 0;
+	}
+	int gcry_bmutex_lock(void **obj) {
+		((boost::mutex *)(*obj))->lock();
+		return 0;
+	}
+	int gcry_bmutex_unlock(void **obj) {
+		((boost::mutex *)(*obj))->unlock();
+		return 0;
+	}
+
+	struct gcry_thread_cbs gcry_threads_boost =
+	{
+		GCRY_THREAD_OPTION_USER, gcry_bthread_init, gcry_bmutex_init,
+		gcry_bmutex_destroy, gcry_bmutex_lock, gcry_bmutex_unlock,
+		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+	};
+}
+
+bool
+internal_socket_startup()
+{
+	gcry_control(GCRYCTL_SET_THREAD_CBS, &gcry_threads_boost);
+	return SSL_library_init() == 1;
+}
+
+void
+internal_socket_cleanup()
+{
+}
 
 
 bool

@@ -271,7 +271,7 @@ win32{
 		LIBPATH += Release/lib ../SDL/VisualC/SDL/Release ../SDL/VisualC/SDLmain/Release ../SDL_mixer/VisualC/Release
 		#LIBPATH += Debug/lib ../SDL/VisualC/SDL/Debug ../SDL/VisualC/SDLmain/Debug ../SDL_mixer/VisualC/Debug
 
-		LIBS += -llibgnutls-openssl
+		LIBS += -llibgnutls-openssl -llibgcrypt
 		LIBS += -llibcurl
 	}
 
@@ -279,7 +279,7 @@ win32{
 		LIBPATH += Release/lib
 		#LIBPATH += Debug/lib
 		LIBPATH += ../SDL/lib ../SDL_mixer/lib
-		LIBS += -lgnutls-openssl
+		LIBS += -lgnutls-openssl -lgcrypt
 		LIBS += -lcurl
 		LIBS += -lz
 		LIBS += -llibboost_thread-mgw34-mt-1_35
@@ -344,7 +344,7 @@ unix: !mac{
 
 	LIBS += -lpokerth_lib
 	LIBS += $$BOOST_LIBS
-	LIBS += -lgnutls-openssl -lSDL_mixer -lcurl -lz
+	LIBS += -lgnutls-openssl -lgcrypt -lSDL_mixer -lcurl -lz
 	TARGETDEPS += ./lib/libpokerth_lib.a
 
 	## My release static libs
@@ -393,7 +393,7 @@ mac{
 	LIBS += /usr/local/lib/libboost_thread-mt-1_34_1.a
 	LIBS += /usr/local/lib/libboost_filesystem-mt-1_34_1.a
 	# libraries installed on every mac
-	LIBS += -lcrypto -lz -lcurl -framework Carbon
+	LIBS += -lgnutls-openssl -lgcrypt -lz -lcurl -framework Carbon
 	# set the application icon
 	RC_FILE = pokerth.icns
 	LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib 

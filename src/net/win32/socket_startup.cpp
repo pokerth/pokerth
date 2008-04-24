@@ -57,12 +57,13 @@ socket_startup()
 	}
 
 	/* The WinSock DLL is acceptable. Proceed. */
-	return true;
+	return internal_socket_startup();
 }
 
 void
 socket_cleanup()
 {
+	internal_socket_cleanup();
 	WSACleanup();
 }
 
