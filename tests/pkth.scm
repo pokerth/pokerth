@@ -1,5 +1,5 @@
 ;;; 
-;;; Copyright (C) 2007 Lothar May l-may@gmx.de
+;;; Copyright (C) 2007, 2008 Lothar May l-may@gmx.de
 ;;; 
 ;;; All rights reserved.
 ;;; 
@@ -49,7 +49,7 @@
 (define pkth-port                               7234)
 
 ;;; PKTH protocol version
-(define pkth-version-major                      3)
+(define pkth-version-major                      4)
 (define pkth-version-minor                      0)
 
 ;;; PokerTH game version
