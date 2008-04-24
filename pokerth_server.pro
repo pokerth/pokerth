@@ -127,17 +127,19 @@ win32 {
 
 	win32-msvc2005{
 		LIBS += -llibgnutls-openssl
+		LIBS += -llibcurl
 	}
 
 	win32-g++{
 		LIBS += -lgnutls-openssl
+		LIBS += -lcurl
 		LIBS += -llibboost_thread-mgw34-mt-1_35
 		LIBS += -llibboost_filesystem-mgw34-mt-1_35
 		LIBS += -llibboost_system-mgw34-mt-1_35
 		LIBS += -llibboost_program_options-mgw34-mt-1_35
 	}
 
-    LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32
+    LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32 -lwldap32
 }
 !win32 {
     DEPENDPATH += src/net/linux/ src/core/linux

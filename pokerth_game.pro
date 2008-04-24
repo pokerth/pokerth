@@ -271,7 +271,7 @@ win32{
 		LIBPATH += Release/lib ../SDL/VisualC/SDL/Release ../SDL/VisualC/SDLmain/Release ../SDL_mixer/VisualC/Release
 		#LIBPATH += Debug/lib ../SDL/VisualC/SDL/Debug ../SDL/VisualC/SDLmain/Debug ../SDL_mixer/VisualC/Debug
 
-		LIBS += -lgnutls-openssl
+		LIBS += -llibgnutls-openssl
 		LIBS += -llibcurl
 	}
 
