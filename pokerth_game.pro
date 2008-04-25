@@ -279,12 +279,14 @@ win32{
 		LIBPATH += Release/lib
 		#LIBPATH += Debug/lib
 		LIBPATH += ../SDL/lib ../SDL_mixer/lib
-		LIBS += -lgnutls-openssl -lgcrypt
+		LIBS += -lgnutls-openssl -lgnutls -lgcrypt
 		LIBS += -lcurl
 		LIBS += -lz
 		LIBS += -llibboost_thread-mgw34-mt-1_35
 		LIBS += -llibboost_filesystem-mgw34-mt-1_35
 		LIBS += -llibboost_system-mgw34-mt-1_35
+		LIBS += -llibboost_zlib-mgw34-mt-1_35
+		LIBS += -llibboost_iostreams-mgw34-mt-1_35
 	}
 
 	LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32 -lsdl -lsdlmain -lsdl_mixer -lwldap32

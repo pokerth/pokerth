@@ -131,11 +131,13 @@ win32 {
 	}
 
 	win32-g++{
-		LIBS += -lgnutls-openssl -lgcrypt
+		LIBS += -lgnutls-openssl -lgnutls -lgcrypt
 		LIBS += -lcurl
 		LIBS += -llibboost_thread-mgw34-mt-1_35
 		LIBS += -llibboost_filesystem-mgw34-mt-1_35
 		LIBS += -llibboost_system-mgw34-mt-1_35
+		LIBS += -llibboost_zlib-mgw34-mt-1_35
+		LIBS += -llibboost_iostreams-mgw34-mt-1_35
 		LIBS += -llibboost_program_options-mgw34-mt-1_35
 	}
 
