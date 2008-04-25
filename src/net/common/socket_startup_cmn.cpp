@@ -42,7 +42,7 @@ extern "C" {
 #if (BOOST_VERSION) >= 103500
 		((boost::mutex *)(*obj))->lock();
 #else
-		boost::detail::thread::lock_ops<boost::mutex>::lock((boost::mutex *)(*obj));
+		boost::detail::thread::lock_ops<boost::mutex>::lock(*((boost::mutex *)*obj));
 #endif
 		return 0;
 	}
@@ -50,7 +50,7 @@ extern "C" {
 #if (BOOST_VERSION) >= 103500
 		((boost::mutex *)(*obj))->unlock();
 #else
-		boost::detail::thread::lock_ops<boost::mutex>::unlock((boost::mutex *)(*obj));
+		boost::detail::thread::lock_ops<boost::mutex>::unlock(*((boost::mutex *)*obj));
 #endif
 		return 0;
 	}
