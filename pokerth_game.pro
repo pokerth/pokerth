@@ -264,7 +264,6 @@ win32{
 	INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include ../GnuTLS/include  ../curl/include ../zlib
 	LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../curl/lib ../zlib
 
-
 	LIBS += -lpokerth_lib
 
 	win32-msvc2005{
@@ -279,14 +278,14 @@ win32{
 		LIBPATH += Release/lib
 		#LIBPATH += Debug/lib
 		LIBPATH += ../SDL/lib ../SDL_mixer/lib
-		LIBS += -lgnutls-openssl -lgnutls -lgcrypt
+		LIBS += -lgnutls-openssl.dll -lgcrypt.dll
 		LIBS += -lcurl
 		LIBS += -lz
 		LIBS += -llibboost_thread-mgw34-mt-1_35
 		LIBS += -llibboost_filesystem-mgw34-mt-1_35
 		LIBS += -llibboost_system-mgw34-mt-1_35
-		LIBS += -llibboost_zlib-mgw34-mt-1_35
 		LIBS += -llibboost_iostreams-mgw34-mt-1_35
+		LIBS += -llibboost_zlib-mgw34-mt-1_35
 	}
 
 	LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32 -lsdl -lsdlmain -lsdl_mixer -lwldap32

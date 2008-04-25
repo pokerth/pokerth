@@ -118,7 +118,7 @@ win32 {
 
     SOURCES += src/core/win32/convhelper.cpp
 
-    LIBPATH += ../boost/stage/lib ../GnuTLS/lib
+    LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../curl/lib ../zlib
 
     LIBPATH += Release/lib
     #LIBPATH += Debug/lib
@@ -131,13 +131,14 @@ win32 {
 	}
 
 	win32-g++{
-		LIBS += -lgnutls-openssl -lgnutls -lgcrypt
+		LIBS += -lgnutls-openssl.dll -lgcrypt.dll
 		LIBS += -lcurl
+		LIBS += -lz
 		LIBS += -llibboost_thread-mgw34-mt-1_35
 		LIBS += -llibboost_filesystem-mgw34-mt-1_35
 		LIBS += -llibboost_system-mgw34-mt-1_35
-		LIBS += -llibboost_zlib-mgw34-mt-1_35
 		LIBS += -llibboost_iostreams-mgw34-mt-1_35
+		LIBS += -llibboost_zlib-mgw34-mt-1_35
 		LIBS += -llibboost_program_options-mgw34-mt-1_35
 	}
 
