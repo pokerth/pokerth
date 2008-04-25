@@ -67,6 +67,7 @@ bool
 internal_socket_startup()
 {
 	gcry_control(GCRYCTL_SET_THREAD_CBS, &gcry_threads_boost);
+	gcry_control(GCRYCTL_ENABLE_QUICK_RANDOM, 0);
 	return SSL_library_init() == 1;
 }
 
