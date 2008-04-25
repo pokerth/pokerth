@@ -1,0 +1,5 @@
+Please see
+http://sourceforge.net/project/showfiles.php?group_id=166634&package_id=268019
+for some scripts to compile PokerTH using mingw.
+
+2008 by Lothar May
