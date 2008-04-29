@@ -29,6 +29,7 @@
 #include <net/socket_msg.h>
 #include <net/downloadhelper.h>
 #include <core/avatarmanager.h>
+#include <core/crypthelper.h>
 #include <qttoolsinterface.h>
 
 #include <game.h>
@@ -257,12 +258,98 @@ ClientStateStartServerListDownload::Process(ClientThread &client)
 	path tmpServerListPath(context.GetCacheDir());
 	tmpServerListPath /= "serverlist.xml.z";
 
-	std::auto_ptr<DownloadHelper> downloader(new DownloadHelper);
-	downloader->Init("pokerth.net/serverlist.xml.z", tmpServerListPath.directory_string());
-	ClientStateDownloadingServerList::Instance().SetDownloadHelper(downloader.release());
-	client.SetState(ClientStateDownloadingServerList::Instance());
+	if (exists(tmpServerListPath))
+	{
+		// Download and compare md5.
+		tmpServerListPath = change_extension(tmpServerListPath, extension(tmpServerListPath) + ".md5");
+		std::auto_ptr<DownloadHelper> downloader(new DownloadHelper);
+		downloader->Init("pokerth.net/serverlist.xml.z.md5", tmpServerListPath.directory_string());
+		ClientStateSynchronizingServerList::Instance().SetDownloadHelper(downloader.release());
+		client.SetState(ClientStateSynchronizingServerList::Instance());
+	}
+	else
+	{
+		// Download server list.
+		std::auto_ptr<DownloadHelper> downloader(new DownloadHelper);
+		downloader->Init("pokerth.net/serverlist.xml.z", tmpServerListPath.directory_string());
+		ClientStateDownloadingServerList::Instance().SetDownloadHelper(downloader.release());
+		client.SetState(ClientStateDownloadingServerList::Instance());
+	}
 
 	return retVal;
+}
+
+//-----------------------------------------------------------------------------
+
+ClientStateSynchronizingServerList &
+ClientStateSynchronizingServerList::Instance()
+{
+	static ClientStateSynchronizingServerList state;
+	return state;
+}
+
+ClientStateSynchronizingServerList::ClientStateSynchronizingServerList()
+: m_downloadHelper(NULL)
+{
+}
+
+ClientStateSynchronizingServerList::~ClientStateSynchronizingServerList()
+{
+	Cleanup();
+}
+
+void
+ClientStateSynchronizingServerList::SetDownloadHelper(DownloadHelper *helper)
+{
+	Cleanup();
+	m_downloadHelper = helper;
+}
+
+int
+ClientStateSynchronizingServerList::Process(ClientThread &client)
+{
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
+
+	if (m_downloadHelper->Process())
+	{
+		Cleanup();
+		ClientContext &context = client.GetContext();
+		path md5ServerListPath(context.GetCacheDir());
+		md5ServerListPath /= "serverlist.xml.z.md5";
+		path zippedServerListPath = change_extension(md5ServerListPath, "");
+		// Compare the md5 sums.
+		string tmpMd5;
+		{
+			ifstream inFile(md5ServerListPath.directory_string().c_str(), ios_base::in);
+			inFile >> tmpMd5;
+			// TODO error handling
+		}
+		MD5Buf downloadedMd5;
+		downloadedMd5.FromString(tmpMd5);
+		MD5Buf currentMd5;
+		CryptHelper::MD5Sum(zippedServerListPath.directory_string(), currentMd5);
+		if (downloadedMd5 == currentMd5)
+		{
+			// Server list is still current.
+			client.SetState(ClientStateReadingServerList::Instance());
+		}
+		else
+		{
+			// Download new server list.
+			remove(zippedServerListPath);
+			client.SetState(ClientStateStartServerListDownload::Instance());
+		}
+	}
+
+	return retVal;
+}
+
+
+void
+ClientStateSynchronizingServerList::Cleanup()
+{
+	delete m_downloadHelper;
+	m_downloadHelper = NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -296,49 +383,10 @@ ClientStateDownloadingServerList::Process(ClientThread &client)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 
-	// TODO
-//	if (!m_resolver)
-//		throw ClientException(__FILE__, __LINE__, ERR_SOCK_RESOLVE_FAILED, 0);
-
 	if (m_downloadHelper->Process())
 	{
-		ClientContext &context = client.GetContext();
-		path zippedServerListPath(context.GetCacheDir());
-		zippedServerListPath /= "serverlist.xml.z";
-		path xmlServerListPath = change_extension(zippedServerListPath, "");
-		// Unzip the file.
-		{
-			ifstream inFile(zippedServerListPath.directory_string().c_str(), ios_base::in | ios_base::binary);
-			ofstream outFile(xmlServerListPath.directory_string().c_str(), ios_base::out);
-			boost::iostreams::filtering_streambuf<boost::iostreams::input> in;
-			in.push(boost::iostreams::zlib_decompressor());
-			in.push(inFile);
-			boost::iostreams::copy(in, outFile);
-		}
-		// Parse the server address.
-		TiXmlDocument doc(xmlServerListPath.directory_string());
-
-		if (doc.LoadFile())
-		{
-			TiXmlHandle docHandle(&doc);	
-			const TiXmlElement *firstServer = docHandle.FirstChild("ServerList" ).FirstChild("Server").ToElement();
-			if (firstServer)
-			{
-				ClientContext &context = client.GetContext();
-				const TiXmlNode *addrNode = firstServer->FirstChild("IPv4Address");
-				if (addrNode && addrNode->ToElement())
-					context.SetServerAddr(addrNode->ToElement()->Attribute("value"));
-				const TiXmlNode *portNode = firstServer->FirstChild("Port");
-				if (portNode && portNode->ToElement())
-				{
-					int tmpPort = 0;
-					portNode->ToElement()->QueryIntAttribute("value", &tmpPort);
-					context.SetServerPort((unsigned)tmpPort);
-				}
-			}
-		}
-
-		client.SetState(ClientStateStartResolve::Instance());
+		Cleanup();
+		client.SetState(ClientStateReadingServerList::Instance());
 	}
 
 	return retVal;
@@ -350,6 +398,70 @@ ClientStateDownloadingServerList::Cleanup()
 {
 	delete m_downloadHelper;
 	m_downloadHelper = NULL;
+}
+
+//-----------------------------------------------------------------------------
+
+ClientStateReadingServerList &
+ClientStateReadingServerList::Instance()
+{
+	static ClientStateReadingServerList state;
+	return state;
+}
+
+ClientStateReadingServerList::ClientStateReadingServerList()
+{
+}
+
+ClientStateReadingServerList::~ClientStateReadingServerList()
+{
+}
+
+int
+ClientStateReadingServerList::Process(ClientThread &client)
+{
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
+
+	ClientContext &context = client.GetContext();
+	path zippedServerListPath(context.GetCacheDir());
+	zippedServerListPath /= "serverlist.xml.z";
+	path xmlServerListPath = change_extension(zippedServerListPath, "");
+
+	// Unzip the file.
+	{
+		ifstream inFile(zippedServerListPath.directory_string().c_str(), ios_base::in | ios_base::binary);
+		ofstream outFile(xmlServerListPath.directory_string().c_str(), ios_base::out);
+		boost::iostreams::filtering_streambuf<boost::iostreams::input> in;
+		in.push(boost::iostreams::zlib_decompressor());
+		in.push(inFile);
+		boost::iostreams::copy(in, outFile);
+	}
+
+	// Parse the server address.
+	TiXmlDocument doc(xmlServerListPath.directory_string());
+
+	if (doc.LoadFile())
+	{
+		TiXmlHandle docHandle(&doc);	
+		const TiXmlElement *firstServer = docHandle.FirstChild("ServerList" ).FirstChild("Server").ToElement();
+		if (firstServer)
+		{
+			const TiXmlNode *addrNode = firstServer->FirstChild("IPv4Address");
+			if (addrNode && addrNode->ToElement())
+				context.SetServerAddr(addrNode->ToElement()->Attribute("value"));
+			const TiXmlNode *portNode = firstServer->FirstChild("Port");
+			if (portNode && portNode->ToElement())
+			{
+				int tmpPort = 0;
+				portNode->ToElement()->QueryIntAttribute("value", &tmpPort);
+				context.SetServerPort((unsigned)tmpPort);
+			}
+		}
+	}
+	// TODO error handling
+	client.SetState(ClientStateStartResolve::Instance());
+
+	return retVal;
 }
 
 //-----------------------------------------------------------------------------

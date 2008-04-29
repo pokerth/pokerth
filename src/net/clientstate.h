@@ -124,6 +124,32 @@ protected:
 	ClientStateStartServerListDownload();
 };
 
+// State: Synchronizing server list.
+class ClientStateSynchronizingServerList : public ClientState
+{
+public:
+	// Access the state singleton.
+	static ClientStateSynchronizingServerList &Instance();
+
+	virtual ~ClientStateSynchronizingServerList();
+
+	void SetDownloadHelper(DownloadHelper *helper);
+
+	// Poll for the completion of the download.
+	virtual int Process(ClientThread &client);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateSynchronizingServerList();
+
+	void Cleanup();
+
+private:
+
+	DownloadHelper *m_downloadHelper;
+};
+
 // State: Downloading the server list.
 class ClientStateDownloadingServerList : public ClientState
 {
@@ -148,6 +174,22 @@ protected:
 private:
 
 	DownloadHelper *m_downloadHelper;
+};
+
+// State: Reading the server list.
+class ClientStateReadingServerList : public ClientState
+{
+public:
+	static ClientStateReadingServerList &Instance();
+
+	virtual ~ClientStateReadingServerList();
+
+	virtual int Process(ClientThread &client);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateReadingServerList();
 };
 
 // State: Initiate server connection.
