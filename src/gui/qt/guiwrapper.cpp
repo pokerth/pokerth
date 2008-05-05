@@ -22,7 +22,7 @@
 #include "session.h"
 #include "log.h"
 #include "chat.h"
-#include "mainwindowimpl.h"
+#include "gametableimpl.h"
 #include "configfile.h"
 
 using namespace std;
@@ -32,7 +32,7 @@ GuiWrapper::GuiWrapper(ConfigFile *c) : myLog(0), myW(0), myConfig(c)
 {
 
 
-	myW = new mainWindowImpl(myConfig);
+	myW = new gameTableImpl(myConfig);
 	myW->show();
 	myLog = new Log(myW, myConfig);
 }

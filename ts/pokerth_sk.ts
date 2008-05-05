@@ -4,12 +4,12 @@
 <context>
     <name>Chat</name>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/chat/chat.cpp" line="56"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/chat/chat.cpp" line="56"/>
         <source>You cannot kick yourself!</source>
         <translation>Nemôžete vykopnúť sám seba!</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/chat/chat.cpp" line="63"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/chat/chat.cpp" line="63"/>
         <source>You cannot kick any player - You are not game admin!</source>
         <translation>Nemôžete vykopnúť žiadneho hráča - Nie ste administrátorom!</translation>
     </message>
@@ -80,7 +80,7 @@
 <context>
     <name>MyAvatarLabel</name>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/myavatarlabel.cpp" line="23"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/myavatarlabel.cpp" line="23"/>
         <source>Vote for kick this user</source>
         <translation>Hlasovať za vykopnutie tohto užívateľa</translation>
     </message>
@@ -1263,7 +1263,7 @@ Prajete si ho prepísať?</translation>
     </message>
 </context>
 <context>
-    <name>mainWindow</name>
+    <name>gameTable</name>
     <message>
         <location filename="../../../../tmp/kde-doitux/arkywIUgV" line="7471221"/>
         <source>PokerTH 0.5 - The Open-Source Texas Holdem Engine</source>
@@ -1280,22 +1280,22 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">QGroupBox { background-image: url(:/graphics/resources/graphics/toolboxFrameBG.png) }</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="1999"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="1999"/>
         <source>Hands</source>
         <translation>Rozdania</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="2031"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="2031"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="2820"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="2820"/>
         <source>Log</source>
         <translation>Záznam</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="2995"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="2995"/>
         <source>Speed:</source>
         <translation>Rýchlosť:</translation>
     </message>
@@ -1305,57 +1305,57 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">Zastaviť</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3227"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3227"/>
         <source>View</source>
         <translation>Pohľad</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3237"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3237"/>
         <source>Game</source>
         <translation>Hra</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3259"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3259"/>
         <source>Start Local Game ...</source>
         <translation>Spustiť lokálnu hru...</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3262"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3262"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3267"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3267"/>
         <source>Quit</source>
         <translation>Ukončiť</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3270"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3270"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3275"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3275"/>
         <source>About PokerTH ...</source>
         <translation>O PokerTH...</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3280"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3280"/>
         <source>Settings ...</source>
         <translation>Nastavenia...</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3285"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3285"/>
         <source>Create Network Game ...</source>
         <translation>Vytvoriť sieťovú hru...</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3293"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3293"/>
         <source>Join Network Game ...</source>
         <translation>Pripojiť sa k sieťovej hre...</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3301"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3301"/>
         <source>Fullscreen</source>
         <translation>Celá obrazovka</translation>
     </message>
@@ -1365,7 +1365,7 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">⌘F</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3309"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3309"/>
         <source>Show/Hide Chat Window</source>
         <translation>Zobraziť/skryť okno chatu</translation>
     </message>
@@ -1380,7 +1380,7 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">⌘H</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3331"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3331"/>
         <source>Show/Hide Log Window</source>
         <translation>Zobraziť/skryť okno s logmi</translation>
     </message>
@@ -1390,37 +1390,37 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">⌘L</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3323"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3323"/>
         <source>Show/Hide Hands Window</source>
         <translation>Zobraziť/skryť okno rozdaní</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3288"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3288"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3296"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3296"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3304"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3304"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3312"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3312"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3326"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3326"/>
         <source>Ctrl+H</source>
         <translation>Ctrl+H</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3334"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3334"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
@@ -1430,17 +1430,17 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">PokerTH 0.6 - Open-Source Texas Holdem Engine</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3241"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3241"/>
         <source>Network Game</source>
         <translation>Sieťová hra</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3339"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3339"/>
         <source>Internet Game ...</source>
         <translation>Internetová hra...</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3342"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3342"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
@@ -1450,55 +1450,55 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">Vsadiť všetko</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="2858"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="2858"/>
         <source>Away</source>
         <translation>Preč</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="2867"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="2867"/>
         <source>Manual Action (default)</source>
         <translation>Manuálna akcia (východzie)</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="2880"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="2880"/>
         <source>Auto-Check / Auto-Fold</source>
         <translation>Auto-Ok / Auto-Zložiť</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="2890"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="2890"/>
         <source>Auto-Check / Auto-Call-Any</source>
         <translation>Auto-Ok / Auto-Dorovnať-čokoľvek</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="25"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="25"/>
         <source>PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</source>
         <translation>PokerTH 0.6-beta - Open-source Engine pre Texas Holdem</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3347"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3347"/>
         <source>Show/Hide Away Window</source>
         <translation>Zobraziť/skryť okno neprítomnosti</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow.ui" line="3350"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable.ui" line="3350"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
 </context>
 <context>
-    <name>mainWindowImpl</name>
+    <name>gameTableImpl</name>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3563"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3563"/>
         <source>Stop</source>
         <translation>Zastaviť</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="465"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="465"/>
         <source>Cmd+N to start a new game</source>
         <translation>Cmd+N pre spustenie novej hry</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="467"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="467"/>
         <source>Ctrl+N to start a new game</source>
         <translation>Ctrl+N pre spustenie novej hry</translation>
     </message>
@@ -1508,67 +1508,67 @@ Prajete si ho prepísať?</translation>
         <translation type="obsolete">F1 - Zložiť karty/Vsadiť všetko | F2 - Zdržať sa/Dorovnať | F3 - Stávka/Zvýšiť</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3024"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3024"/>
         <source>Start</source>
         <translation>Štart</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3271"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3271"/>
         <source>Network Error</source>
         <translation>Chyba siete</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3067"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3067"/>
         <source>Server address was not set.</source>
         <translation>Adresa servera nebola nastavená.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3072"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3072"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
         <translation>Bol nastavený neplatný port (nie sú povolené porty 0-1023).</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3077"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3077"/>
         <source>Could not create a socket for TCP communication.</source>
         <translation>Nepodarilo sa vytvoriť socket pre komunikáciu TCP.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3082"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3082"/>
         <source>Could not set the IP address.</source>
         <translation>Nepodarilo sa nastaviť IP adresu.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3087"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3087"/>
         <source>Could not set the port for this type of address.</source>
         <translation>Nepodarilo sa nastaviť port pre tento typ adresy.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3092"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3092"/>
         <source>The server name could not be resolved.</source>
         <translation>Meno servera sa nepodarilo resolvnúť.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3097"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3097"/>
         <source>Bind failed - please choose a different port.</source>
         <translation>Bind zlyhal - prosím, vyberte iný port.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3102"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3102"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
         <translation>Interná chyba siete: &quot;listen&quot; zlyhalo.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3107"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3107"/>
         <source>Server execution was terminated.</source>
         <translation>Spustenie servera bolo zrušené.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3112"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3112"/>
         <source>Could not connect to the server.</source>
         <translation>Nepodarilo sa pripojiť k serveru.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3117"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3117"/>
         <source>Connection timed out.
 Please check the server address.
 
@@ -1579,34 +1579,34 @@ Prosím, skontrolujte adresu serveru.
 Ak je server za NAT routrom, ubezpečte sa, že je na strane servera zapnuté presmerovanie portov (port forwarding).</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3122"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3122"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
         <translation>Interná chyba siete: &quot;select&quot; zlyhalo.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3127"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3127"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
         <translation>Interná chyba siete: &quot;send&quot; zlyhalo.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3133"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3133"/>
         <source>Connection was closed by the server.</source>
         <translation>Spojenie bolo uzatvorené serverom.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3138"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3138"/>
         <source>Internal network error: Duplicate TCP connection.</source>
         <translation>Interná chyba siete: Duplikované TCP spojenie.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3143"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3143"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Bol prijatý neplatný sieťový paket.
 Prosím, uistite sa, že všetci hráči používajú rovnakú verziu PokerTH.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3148"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3148"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation>Chyba interného stavu.
@@ -1620,29 +1620,29 @@ Please update PokerTH.</source>
 Prosím, aktualizujte PokerTH.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3161"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3161"/>
         <source>Sorry, this server is already full.</source>
         <translation>Ľutujem, tento server je už plný.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3300"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3300"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation>Nepodarilo sa pripojiť k hre - na serveri už začala hra.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3310"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3310"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation>Neplatné heslo pri pripájaní sa k hre.
 Prosím, skúste to znovu.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3171"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3171"/>
         <source>The password is too long. Please choose another one.</source>
         <translation>Heslo je príliš dlhé. Prosím, zvoľte si iné heslo.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3175"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3175"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
         <translation>Vaše meno hráča už používa niekto iný.
@@ -1654,104 +1654,104 @@ Prosím, vyberte si iné meno.</translation>
         <translation type="obsolete">Meno hráča je buď príliš krátke alebo príliš dlhé. Prosím, vyberte si iné.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3199"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3199"/>
         <source>The server referred to an unknown player. Aborting.</source>
         <translation>Server sa odvolal na neznámeho hráča. Ukončujem.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3215"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3215"/>
         <source>You were kicked from the server.</source>
         <translation>Boli ste vykopnutý zo serveru.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3232"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3232"/>
         <source>The client player count is invalid.</source>
         <translation>Počet hráčov klienta je neplatný.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3272"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3272"/>
         <source>An internal error occured.</source>
         <translation>Nastala interná chyba.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3184"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3184"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
         <translation>Názov hry je buď príliš krátky alebo príliš dlhý. Prosím zvoľte iný názov.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3189"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3189"/>
         <source>The game could not be found.</source>
         <translation>Hru sa nepodarilo nájsť.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3194"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3194"/>
         <source>The chat text is invalid.</source>
         <translation>Text chatu je neplatný.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3322"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3322"/>
         <source>Network Notification</source>
         <translation>Sieťová notifikácia</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3288"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3288"/>
         <source>You were kicked from the game.</source>
         <translation>Boli ste vykopnutý z hry.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3294"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3294"/>
         <source>Sorry, this game is already full.</source>
         <translation>Ľutujem, táto hra je už plná.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3576"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3576"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3418"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3418"/>
         <source>Manual mode set. You&apos;ve got to choose yourself now.</source>
         <translation>Nastavený manuálny režim. Teraz si musíte vybrať sám.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3420"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3420"/>
         <source>Auto mode set: Check or call any.</source>
         <translation>Nastavený automatický režim: ísť ďalej alebo ľubovoľne zvýšiť.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3422"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3422"/>
         <source>Auto mode set: Check or fold.</source>
         <translation>Nastavený automatický režim: ísť ďalej alebo zložiť.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="919"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="919"/>
         <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
 Please choose another one.</source>
         <translation>Nemôžete sa pripojiť k internetovej hre lobby s prezývkou &quot;Human Player&quot;.
 Prosím vyberte si inú prezývku.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3204"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3204"/>
         <source>Internal error: The current player could not be found.</source>
         <translation>Interná chyba: Nepodarilo sa nájsť aktuálneho hráča.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3209"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3209"/>
         <source>Internal error: The current player is not active.</source>
         <translation>Interná chyba: Aktuálny hráč nie je aktívny.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3237"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3237"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
         <translation>Bolo nastavených priliš veľa manuálnych stávok. Prosím upravte nastavenia manuálnych stávok.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3243"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3243"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
         <translation>Bol nastavený neplatný súbor s avatarom. Prosím vyberte iného avatara.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3248"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3248"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
         <translation>Vybraný súbor s avatarom je príliš veľký. Prosím vyberte iného avatara.</translation>
     </message>
@@ -1761,17 +1761,17 @@ Prosím vyberte si inú prezývku.</translation>
         <translation type="obsolete">Server si vypýtal neexistujúceho avatara.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3263"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3263"/>
         <source>Could not start game: Synchronization failed.</source>
         <translation>Nepodarilo sa spustiť hru: Zlyhala synchronizácia.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1976"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="1976"/>
         <source>F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In</source>
         <translation>F1 - Zložiť | F2 - Ok/Dorovnať | F3 - Staviť/Zvýšiť | F4 - Vsadiť všetko</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="1978"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="1978"/>
         <source>F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold</source>
         <translation>F1 - Vsadiť všetko | F2 - Staviť/Zvýšiť | F3 - Ok/Dorovnať | F4 - Dorovnať</translation>
     </message>
@@ -1783,12 +1783,12 @@ Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&
 Prosím navštívte &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; a stiahnite najnovšiu verziu.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3179"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3179"/>
         <source>The player name is too short, too long or invalid. Please choose another one.</source>
         <translation>Meno hráča je príliš krátke, príliš dlhé alebo neplatné. Prosím vyberte iné.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3268"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3268"/>
         <source>The server is down for maintenance. Please try again later.</source>
         <translation>Server je mimo prevádzky kvôli údržbe. Prosím skúste to neskôr.</translation>
     </message>
@@ -1807,74 +1807,74 @@ Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&
 Prosím navštívte &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; a stiahnite najnovšiu verziu.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3703"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3703"/>
         <source>Closing PokerTH during network game</source>
         <translation>Zatváram PokerTH počas sieťovej hry</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3704"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3704"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
         <translation>Vy ste hosťujúci server. Chcete ukončiť PokerTH i napriek tomu?</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3153"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3153"/>
         <source>The PokerTH server does not support this version of the game.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>PokerTH server nepodporuje túto verziu hry.&lt;br&gt;Prosím navštívte &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; a stiahnite najnovšiu verziu.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3315"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3315"/>
         <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>Je dostupné nové vydanie PokerTH.&lt;br&gt;Prosím navštívte &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; a stiahnite si najnovšiu verziu.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3323"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3323"/>
         <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>Táto betaverzia PokerTH je zastaralá.&lt;br&gt;Prosím navštívte &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; a stiahnite si najnovšiu verziu.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="494"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="494"/>
         <source>PokerTH %1 - The Open-Source Texas Holdem Engine</source>
         <translation>PokerTH %1 - Open-Source Texas Holdem Engine</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3585"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3585"/>
         <source>Lobby</source>
         <translation>Lobby</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3258"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3258"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
         <translation>Došlo k internej chybe avatara. Prosím nahláste ju adminovi v lobby chate.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3785"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3785"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - Správa hry na internete</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3787"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3787"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>Upozornenie! Určite chcete opustiť momentálnu hru
 a vrátiť sa späť do lobby?</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3221"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3221"/>
         <source>You were temporarily banned from the server.</source>
         <translation>Boli ste dočasne zablokovaný na serveri.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3227"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3227"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
         <translation>Vaše pripojenie k serveru vypršalo z dôvodu neaaktivity. Stačí sa len znovu pripojiť!</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3253"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3253"/>
         <source>You cannot upload a new avatar file at this time. Please try again in a few seconds.</source>
         <translation>Teraz nemôžete uploadovať nový súbor s avatarom. Skúste to, prosím, o niekoľko sekúnd.</translation>
     </message>
     <message>
-        <location filename="../../../../tmp/kde-doitux/src/gui/qt/mainwindow/mainwindowimpl.cpp" line="3305"/>
+        <location filename="../../../../tmp/kde-doitux/src/gui/qt/gametable/gametableimpl.cpp" line="3305"/>
         <source>Your admin state timed out due to inactivity. Feel free to create a new game!</source>
         <translation>Vaše administrátorský stav vypršal z dôvodu neaktivity. Kedykoľvek môžete vytvoriť novú hru!</translation>
     </message>

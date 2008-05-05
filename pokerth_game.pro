@@ -36,10 +36,10 @@ INCLUDEPATH += . \
 		src/gui/qt/qttools \
 		src/gui/qt/chattools \
 		src/gui/qt/qttools/qthelper \
-		src/gui/qt/mainwindow \
-		src/gui/qt/mainwindow/startsplash \
-		src/gui/qt/mainwindow/log \
-		src/gui/qt/mainwindow/chat \
+		src/gui/qt/gametable \
+		src/gui/qt/gametable/startsplash \
+		src/gui/qt/gametable/log \
+		src/gui/qt/gametable/chat \
 		src/gui/qt/aboutpokerth \
 		src/gui/qt/createnetworkgamedialog \
 		src/gui/qt/createinternetgamedialog \
@@ -71,10 +71,10 @@ DEPENDPATH += . \
 		src/net/common \
 		src/gui/qt/sound \
 		src/gui/qt/chattools \
-		src/gui/qt/mainwindow \
-		src/gui/qt/mainwindow/startsplash \
-		src/gui/qt/mainwindow/log \
-		src/gui/qt/mainwindow/chat \
+		src/gui/qt/gametable \
+		src/gui/qt/gametable/startsplash \
+		src/gui/qt/gametable/log \
+		src/gui/qt/gametable/chat \
 		src/gui/qt/aboutpokerth \
 		src/gui/qt/connecttoserverdialog \
 		src/gui/qt/createinternetgamedialog \
@@ -145,16 +145,16 @@ HEADERS += \
 		src/engine/network_engine/clientbero.h \
 		src/gui/qt/chattools/chattools.h \
 		src/gui/qt/sound/sdlplayer.h \
-		src/gui/qt/mainwindow/mainwindowimpl.h \
-		src/gui/qt/mainwindow/mycardspixmaplabel.h \
-		src/gui/qt/mainwindow/mysetlabel.h \
-		src/gui/qt/mainwindow/mystatuslabel.h \
-		src/gui/qt/mainwindow/myavatarlabel.h \
-		src/gui/qt/mainwindow/myrighttabwidget.h \
-		src/gui/qt/mainwindow/mylefttabwidget.h \
-		src/gui/qt/mainwindow/startsplash/startsplash.h \
-		src/gui/qt/mainwindow/log/log.h \
-		src/gui/qt/mainwindow/chat/chat.h \
+		src/gui/qt/gametable/gametableimpl.h \
+		src/gui/qt/gametable/mycardspixmaplabel.h \
+		src/gui/qt/gametable/mysetlabel.h \
+		src/gui/qt/gametable/mystatuslabel.h \
+		src/gui/qt/gametable/myavatarlabel.h \
+		src/gui/qt/gametable/myrighttabwidget.h \
+		src/gui/qt/gametable/mylefttabwidget.h \
+		src/gui/qt/gametable/startsplash/startsplash.h \
+		src/gui/qt/gametable/log/log.h \
+		src/gui/qt/gametable/chat/chat.h \
 		src/gui/qt/guiwrapper.h \
 		src/gui/qt/aboutpokerth/aboutpokerthimpl.h \
 		src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.h \
@@ -182,7 +182,7 @@ HEADERS += \
 		src/gui/generic/serverguiwrapper.h
 
 FORMS += \
-		src/gui/qt/mainwindow.ui \
+		src/gui/qt/gametable.ui \
 		src/gui/qt/aboutpokerth.ui \
 		src/gui/qt/connecttoserverdialog.ui \
 		src/gui/qt/createnetworkgamedialog.ui \
@@ -205,16 +205,16 @@ SOURCES += \
 		src/gui/qt/guiwrapper.cpp \
 		src/gui/qt/qttools/qttoolswrapper.cpp \
 		src/gui/qt/qttools/qthelper/qthelper.cpp \
-		src/gui/qt/mainwindow/mainwindowimpl.cpp \
-		src/gui/qt/mainwindow/mycardspixmaplabel.cpp \
-		src/gui/qt/mainwindow/mysetlabel.cpp \
-		src/gui/qt/mainwindow/mystatuslabel.cpp \
-		src/gui/qt/mainwindow/myavatarlabel.cpp \
-		src/gui/qt/mainwindow/myrighttabwidget.cpp \
-		src/gui/qt/mainwindow/mylefttabwidget.cpp \
-		src/gui/qt/mainwindow/startsplash/startsplash.cpp \
-		src/gui/qt/mainwindow/log/log.cpp \
-		src/gui/qt/mainwindow/chat/chat.cpp \
+		src/gui/qt/gametable/gametableimpl.cpp \
+		src/gui/qt/gametable/mycardspixmaplabel.cpp \
+		src/gui/qt/gametable/mysetlabel.cpp \
+		src/gui/qt/gametable/mystatuslabel.cpp \
+		src/gui/qt/gametable/myavatarlabel.cpp \
+		src/gui/qt/gametable/myrighttabwidget.cpp \
+		src/gui/qt/gametable/mylefttabwidget.cpp \
+		src/gui/qt/gametable/startsplash/startsplash.cpp \
+		src/gui/qt/gametable/log/log.cpp \
+		src/gui/qt/gametable/chat/chat.cpp \
 		src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp \
 		src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp \
 		src/gui/qt/createnetworkgamedialog/createnetworkgamedialogimpl.cpp \

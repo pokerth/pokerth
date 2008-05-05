@@ -25,7 +25,7 @@
 #include <QtGui>
 #include <QtCore>
 #include "sdlplayer.h"
-#include "mainwindowimpl.h"
+#include "gametableimpl.h"
 
 class Session;
 class ConfigFile;
@@ -40,7 +40,7 @@ public:
 
 public slots:
 
-	void setMyW ( mainWindowImpl* theValue ) { myW = theValue; }
+	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
 	
 
 	void startGame();
@@ -72,7 +72,7 @@ public slots:
 
 private: 
 
-	mainWindowImpl* myW;
+	gameTableImpl* myW;
 	int maxPlayerNumber;
 	int keyUpDownChatCounter;
 	unsigned myPlayerId;

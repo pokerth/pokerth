@@ -22,7 +22,7 @@
 #include <gamedata.h>
 #include "createinternetgamedialogimpl.h"
 #include "sdlplayer.h"
-#include "mainwindowimpl.h"
+#include "gametableimpl.h"
 
 class Session;
 class ConfigFile;
@@ -45,7 +45,7 @@ public:
 	void setSession(Session *session);
 	Session& getSession() { return *mySession; }
 
-	void setMyW ( mainWindowImpl* theValue ) { myW = theValue; }
+	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
 
 public slots:
 
@@ -71,7 +71,7 @@ public slots:
 	void setCurrentGameName ( const QString& theValue ) { currentGameName = theValue; }
 	QString getCurrentGameName() const { return currentGameName; }	
 
-	mainWindowImpl* getMyW() const { return myW; }
+	gameTableImpl* getMyW() const { return myW; }
 	void checkPlayerQuantity();
 
 	void joinedNetworkGame(unsigned, QString, int);
@@ -105,7 +105,7 @@ public slots:
 
 private:
 	
-	mainWindowImpl* myW;
+	gameTableImpl* myW;
 	ConfigFile *myConfig;	
 	Session *mySession;
 	createInternetGameDialogImpl *myCreateInternetGameDialog;

@@ -25,7 +25,7 @@
 #include <string>
 
 class Session;
-class mainWindowImpl;
+class gameTableImpl;
 class Log;
 class Chat;
 class ConfigFile;
@@ -144,7 +144,7 @@ private:
 
 	Log *myLog;
 	Chat *myChat;
-	mainWindowImpl *myW;
+	gameTableImpl *myW;
 	ConfigFile *myConfig;
 
 };
