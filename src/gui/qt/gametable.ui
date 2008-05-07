@@ -213,9 +213,6 @@
              <height>50</height>
             </rect>
            </property>
-           <property name="pixmap" >
-            <pixmap/>
-           </property>
            <property name="scaledContents" >
             <bool>true</bool>
            </property>
@@ -434,9 +431,6 @@
              <height>50</height>
             </rect>
            </property>
-           <property name="pixmap" >
-            <pixmap/>
-           </property>
            <property name="scaledContents" >
             <bool>true</bool>
            </property>
@@ -651,9 +645,6 @@
              <width>50</width>
              <height>50</height>
             </rect>
-           </property>
-           <property name="pixmap" >
-            <pixmap/>
            </property>
            <property name="scaledContents" >
             <bool>true</bool>
@@ -882,9 +873,6 @@
              <width>50</width>
              <height>50</height>
             </rect>
-           </property>
-           <property name="pixmap" >
-            <pixmap/>
            </property>
            <property name="scaledContents" >
             <bool>true</bool>
@@ -1117,9 +1105,6 @@
              <height>50</height>
             </rect>
            </property>
-           <property name="pixmap" >
-            <pixmap/>
-           </property>
            <property name="scaledContents" >
             <bool>true</bool>
            </property>
@@ -1337,9 +1322,6 @@
            <height>124</height>
           </rect>
          </property>
-         <property name="pixmap" >
-          <pixmap/>
-         </property>
          <property name="scaledContents" >
           <bool>true</bool>
          </property>
@@ -1352,9 +1334,6 @@
            <width>90</width>
            <height>124</height>
           </rect>
-         </property>
-         <property name="pixmap" >
-          <pixmap/>
          </property>
          <property name="scaledContents" >
           <bool>true</bool>
@@ -1369,9 +1348,6 @@
            <height>124</height>
           </rect>
          </property>
-         <property name="pixmap" >
-          <pixmap/>
-         </property>
          <property name="scaledContents" >
           <bool>true</bool>
          </property>
@@ -1385,9 +1361,6 @@
            <height>124</height>
           </rect>
          </property>
-         <property name="pixmap" >
-          <pixmap/>
-         </property>
          <property name="scaledContents" >
           <bool>true</bool>
          </property>
@@ -1400,9 +1373,6 @@
            <width>90</width>
            <height>124</height>
           </rect>
-         </property>
-         <property name="pixmap" >
-          <pixmap/>
          </property>
          <property name="scaledContents" >
           <bool>true</bool>
@@ -1649,9 +1619,6 @@
              <height>50</height>
             </rect>
            </property>
-           <property name="pixmap" >
-            <pixmap/>
-           </property>
            <property name="scaledContents" >
             <bool>true</bool>
            </property>
@@ -1798,8 +1765,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>960</width>
-                <height>480</height>
+                <width>240</width>
+                <height>153</height>
                </rect>
               </property>
               <attribute name="title" >
@@ -2045,9 +2012,6 @@
                  <width>50</width>
                  <height>50</height>
                 </size>
-               </property>
-               <property name="pixmap" >
-                <pixmap/>
                </property>
                <property name="scaledContents" >
                 <bool>true</bool>
@@ -2587,8 +2551,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>960</width>
-                <height>480</height>
+                <width>240</width>
+                <height>129</height>
                </rect>
               </property>
               <attribute name="title" >
