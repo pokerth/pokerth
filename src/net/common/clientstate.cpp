@@ -322,7 +322,6 @@ ClientStateSynchronizingServerList::Process(ClientThread &client)
 
 		// No more checking needed as this was done before.
 		md5ServerListPath /= context.GetServerListUrl().substr(context.GetServerListUrl().find_last_of('/') + 1) + ".md5";
-
 		path serverListPath = change_extension(md5ServerListPath, "");
 		// Compare the md5 sums.
 		string tmpMd5;
@@ -346,8 +345,15 @@ ClientStateSynchronizingServerList::Process(ClientThread &client)
 		else
 		{
 			// Download new server list.
-			remove(serverListPath);
-			client.SetState(ClientStateStartServerListDownload::Instance());
+			// Paranoia check before removing the file, we do not want to delete wrong files.
+			path tmpPath(serverListPath);
+			if (path(context.GetCacheDir()) == tmpPath.remove_leaf())
+			{
+				remove(serverListPath);
+				client.SetState(ClientStateStartServerListDownload::Instance());
+			}
+			else
+				throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_URL, 0);
 		}
 	}
 
