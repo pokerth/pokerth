@@ -49,7 +49,8 @@ public:
 	// (i.e. after starting the thread).
 	void Init(
 		const std::string &serverAddress,
-		const std::string &alternateServerAddress,
+		const std::string &serverListUrl,
+		bool useServerList,
 		unsigned serverPort,
 		bool ipv6,
 		bool sctp,

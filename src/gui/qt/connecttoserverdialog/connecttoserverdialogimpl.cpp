@@ -45,6 +45,8 @@ void connectToServerDialogImpl::refresh(int actionID) {
 
 		case MSG_SOCK_INIT_DONE: { label_actionMessage->setText(tr("Resolving address...")); }
 		break;
+		case MSG_SOCK_SERVER_LIST_DONE : { label_actionMessage->setText(tr("Reading server list...")); }
+		break;
 		case MSG_SOCK_RESOLVE_DONE: { label_actionMessage->setText(tr("Connecting to server...")); }
 		break;
 		case MSG_SOCK_CONNECT_DONE: { label_actionMessage->setText(tr("Starting session...")); }
