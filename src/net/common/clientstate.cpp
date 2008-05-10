@@ -260,9 +260,9 @@ ClientStateStartServerListDownload::Process(ClientThread &client)
 	string serverListUrl(context.GetServerListUrl());
 	// Retrieve the file name from the URL.
 	size_t pos = serverListUrl.find_last_of('/');
-	if (pos == string::npos || ++pos >= serverListUrl.length())
+	if (serverListUrl.empty() || pos == string::npos || ++pos >= serverListUrl.length())
 	{
-		// TODO throw exception.
+		throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_URL, 0);
 	}
 	tmpServerListPath /= serverListUrl.substr(pos);
 	if (exists(tmpServerListPath))
@@ -296,20 +296,17 @@ ClientStateSynchronizingServerList::Instance()
 }
 
 ClientStateSynchronizingServerList::ClientStateSynchronizingServerList()
-: m_downloadHelper(NULL)
 {
 }
 
 ClientStateSynchronizingServerList::~ClientStateSynchronizingServerList()
 {
-	Cleanup();
 }
 
 void
 ClientStateSynchronizingServerList::SetDownloadHelper(DownloadHelper *helper)
 {
-	Cleanup();
-	m_downloadHelper = helper;
+	m_downloadHelper.reset(helper);
 }
 
 int
@@ -319,25 +316,28 @@ ClientStateSynchronizingServerList::Process(ClientThread &client)
 
 	if (m_downloadHelper->Process())
 	{
-		Cleanup();
+		m_downloadHelper.reset(NULL);
 		ClientContext &context = client.GetContext();
 		path md5ServerListPath(context.GetCacheDir());
 
 		// No more checking needed as this was done before.
 		md5ServerListPath /= context.GetServerListUrl().substr(context.GetServerListUrl().find_last_of('/') + 1) + ".md5";
 
-		path zippedServerListPath = change_extension(md5ServerListPath, "");
+		path serverListPath = change_extension(md5ServerListPath, "");
 		// Compare the md5 sums.
 		string tmpMd5;
 		{
 			ifstream inFile(md5ServerListPath.directory_string().c_str(), ios_base::in);
+			if (inFile.fail())
+				throw ClientException(__FILE__, __LINE__, ERR_SOCK_OPEN_MD5_FAILED, 0);
 			inFile >> tmpMd5;
-			// TODO error handling
 		}
 		MD5Buf downloadedMd5;
-		downloadedMd5.FromString(tmpMd5);
+		if (!downloadedMd5.FromString(tmpMd5))
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_MD5, 0);
 		MD5Buf currentMd5;
-		CryptHelper::MD5Sum(zippedServerListPath.directory_string(), currentMd5);
+		if (!CryptHelper::MD5Sum(serverListPath.directory_string(), currentMd5))
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_MD5, 0);
 		if (downloadedMd5 == currentMd5)
 		{
 			// Server list is still current.
@@ -346,20 +346,12 @@ ClientStateSynchronizingServerList::Process(ClientThread &client)
 		else
 		{
 			// Download new server list.
-			remove(zippedServerListPath);
+			remove(serverListPath);
 			client.SetState(ClientStateStartServerListDownload::Instance());
 		}
 	}
 
 	return retVal;
-}
-
-
-void
-ClientStateSynchronizingServerList::Cleanup()
-{
-	delete m_downloadHelper;
-	m_downloadHelper = NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -372,20 +364,17 @@ ClientStateDownloadingServerList::Instance()
 }
 
 ClientStateDownloadingServerList::ClientStateDownloadingServerList()
-: m_downloadHelper(NULL)
 {
 }
 
 ClientStateDownloadingServerList::~ClientStateDownloadingServerList()
 {
-	Cleanup();
 }
 
 void
 ClientStateDownloadingServerList::SetDownloadHelper(DownloadHelper *helper)
 {
-	Cleanup();
-	m_downloadHelper = helper;
+	m_downloadHelper.reset(helper);
 }
 
 int
@@ -395,19 +384,11 @@ ClientStateDownloadingServerList::Process(ClientThread &client)
 
 	if (m_downloadHelper->Process())
 	{
-		Cleanup();
+		m_downloadHelper.reset(NULL);
 		client.SetState(ClientStateReadingServerList::Instance());
 	}
 
 	return retVal;
-}
-
-
-void
-ClientStateDownloadingServerList::Cleanup()
-{
-	delete m_downloadHelper;
-	m_downloadHelper = NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -441,13 +422,16 @@ ClientStateReadingServerList::Process(ClientThread &client)
 		xmlServerListPath = change_extension(zippedServerListPath, "");
 
 		// Unzip the file using zlib.
-		{
+		try {
 			ifstream inFile(zippedServerListPath.directory_string().c_str(), ios_base::in | ios_base::binary);
 			ofstream outFile(xmlServerListPath.directory_string().c_str(), ios_base::out);
 			boost::iostreams::filtering_streambuf<boost::iostreams::input> in;
 			in.push(boost::iostreams::zlib_decompressor());
 			in.push(inFile);
 			boost::iostreams::copy(in, outFile);
+		} catch (...)
+		{
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_UNZIP_FAILED, 0);
 		}
 	}
 	else
@@ -467,19 +451,24 @@ ClientStateReadingServerList::Process(ClientThread &client)
 				addrNode = firstServer->FirstChild("IPv6Address");
 			else
 				addrNode = firstServer->FirstChild("IPv4Address");
-			if (addrNode && addrNode->ToElement())
-				context.SetServerAddr(addrNode->ToElement()->Attribute("value"));
 			const TiXmlNode *portNode = firstServer->FirstChild("Port");
-			if (portNode && portNode->ToElement())
-			{
-				int tmpPort = 0;
-				portNode->ToElement()->QueryIntAttribute("value", &tmpPort);
-				context.SetServerPort((unsigned)tmpPort);
-				retVal = MSG_SOCK_SERVER_LIST_DONE;
-			}
+
+			if (!addrNode || !addrNode->ToElement() || !portNode || !portNode->ToElement())
+				throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_XML, 0);
+
+			context.SetServerAddr(addrNode->ToElement()->Attribute("value"));
+
+			int tmpPort = 0;
+			portNode->ToElement()->QueryIntAttribute("value", &tmpPort);
+			context.SetServerPort((unsigned)tmpPort);
+			retVal = MSG_SOCK_SERVER_LIST_DONE;
 		}
+		else
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_XML, 0);
 	}
-	// TODO error handling
+	else
+		throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_XML, 0);
+
 	client.SetState(ClientStateStartResolve::Instance());
 
 	return retVal;

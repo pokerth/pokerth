@@ -143,11 +143,9 @@ protected:
 	// Protected constructor - this is a singleton.
 	ClientStateSynchronizingServerList();
 
-	void Cleanup();
-
 private:
 
-	DownloadHelper *m_downloadHelper;
+	std::auto_ptr<DownloadHelper> m_downloadHelper;
 };
 
 // State: Downloading the server list.
@@ -169,11 +167,9 @@ protected:
 	// Protected constructor - this is a singleton.
 	ClientStateDownloadingServerList();
 
-	void Cleanup();
-
 private:
 
-	DownloadHelper *m_downloadHelper;
+	std::auto_ptr<DownloadHelper> m_downloadHelper;
 };
 
 // State: Reading the server list.

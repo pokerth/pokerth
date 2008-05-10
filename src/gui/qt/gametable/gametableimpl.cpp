@@ -3148,6 +3148,44 @@ void gameTableImpl::networkError(int errorID, int /*osErrorID*/) {
 				tr("Internal state error.\nPlease make sure that all players use the same version of PokerTH."),
 				QMessageBox::Close); }
 		break;
+		case ERR_SOCK_INVALID_SERVERLIST_URL:
+		case ERR_SOCK_DOWNLOAD_INVALID_URL:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Invalid server list URL.\nPlease correct the address in the settings."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_OPEN_MD5_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not open the server list MD5 file.\nPlease make sure that the server list URL is correct."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_INVALID_SERVERLIST_MD5:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Synchronization of the PokerTH internet server list has failed.\nPlease make sure that the server list URL is correct."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_INVALID_SERVERLIST_XML:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The PokerTH internet server list contains invalid data.\nIf you use a custom server list, please make sure its format is correct."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_UNZIP_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not unzip the PokerTH internet server list."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_DOWNLOAD_INIT_FAILED:
+		case ERR_SOCK_DOWNLOAD_SELECT_FAILED:
+		case ERR_SOCK_DOWNLOAD_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not download the PokerTH internet server list.\nPlease make sure you are directly connected to the internet."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_DOWNLOAD_OPEN_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not open the target file when downloading the server list."),
+				QMessageBox::Close); }
+		break;
 		case ERR_NET_VERSION_NOT_SUPPORTED:
 			{	QMessageBox msgBox(QMessageBox::Warning, tr("Network Error"),
 				tr("The PokerTH server does not support this version of the game.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),

@@ -19,6 +19,8 @@
 
 #include <net/socket_helper.h>
 #include <net/downloadhelper.h>
+#include <net/netexception.h>
+#include <net/socket_msg.h>
 #include <curl/curl.h>
 
 #include <cstdio>
@@ -50,17 +52,30 @@ DownloadHelper::~DownloadHelper()
 void
 DownloadHelper::Init(const string &url, const string &targetFileName)
 {
+	// Open target file for writing.
 	m_data->targetFile = fopen(targetFileName.c_str(), "wb");
-	m_data->curlHandle = curl_easy_init();
-	m_data->curlMultiHandle = curl_multi_init();
+	if (!m_data->targetFile)
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_DOWNLOAD_OPEN_FAILED, 0);
 
-	// TODO throw exception on error
+	// Initialise curl.
+	m_data->curlHandle = curl_easy_init();
+	if (!m_data->curlHandle)
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_DOWNLOAD_INIT_FAILED, 0);
+	m_data->curlMultiHandle = curl_multi_init();
+	if (!m_data->curlMultiHandle)
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_DOWNLOAD_INIT_FAILED, 0);
+
+	// Use a copy of the url string, because some curl versions require a copy.
 	m_data->curlUrl = url;
-	curl_easy_setopt(m_data->curlHandle, CURLOPT_URL, m_data->curlUrl.c_str());
+	if (curl_easy_setopt(m_data->curlHandle, CURLOPT_URL, m_data->curlUrl.c_str()) != CURLE_OK)
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_DOWNLOAD_INVALID_URL, 0);
+	// Assume that the following calls never fail.
 	curl_easy_setopt(m_data->curlHandle, CURLOPT_WRITEFUNCTION, NULL);
 	curl_easy_setopt(m_data->curlHandle, CURLOPT_WRITEDATA, m_data->targetFile);
 
-	curl_multi_add_handle(m_data->curlMultiHandle, m_data->curlHandle);
+	// Use the multi interface for better abort handling.
+	if (curl_multi_add_handle(m_data->curlMultiHandle, m_data->curlHandle) != CURLM_OK)
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_DOWNLOAD_INIT_FAILED, 0);
 }
 
 bool
@@ -74,13 +89,16 @@ DownloadHelper::Process()
 		curlResult = curl_multi_perform(m_data->curlMultiHandle, &runningHandles);
 	} while (curlResult == CURLM_CALL_MULTI_PERFORM);
 
+	if (curlResult != CURLM_OK)
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_DOWNLOAD_FAILED, 0);
+
 	if (runningHandles)
 	{
 		struct timeval timeout;
 		fd_set readSet;
 		fd_set writeSet;
 		fd_set exceptSet;
-		int maxfd;
+		int maxfd = -1;
 
 		FD_ZERO(&readSet);
 		FD_ZERO(&writeSet);
@@ -92,15 +110,36 @@ DownloadHelper::Process()
 		curl_multi_fdset(m_data->curlMultiHandle, &readSet, &writeSet, &exceptSet, &maxfd);
 
 		if (maxfd >= 0)
+		{
 			int selectResult = select(maxfd+1, &readSet, &writeSet, &exceptSet, &timeout);
-		// TODO throw exception on error
+			if (!IS_VALID_SELECT(selectResult))
+				throw NetException(__FILE__, __LINE__, ERR_SOCK_DOWNLOAD_SELECT_FAILED, SOCKET_ERRNO());
+		}
 	}
 	else
 	{
+		// Retrieve actual error code.
 		int numMsgs;
-		CURLMsg *tmpMsg = curl_multi_info_read(m_data->curlMultiHandle, &numMsgs);
-		CURLcode code = tmpMsg->data.result;
+		CURLMsg *tmpMsg;
+		CURLcode code = CURLE_FAILED_INIT;
+		do {
+			tmpMsg = curl_multi_info_read(m_data->curlMultiHandle, &numMsgs);
+			if (tmpMsg)
+				code = tmpMsg->data.result;
+		} while (tmpMsg && tmpMsg->msg != CURLMSG_DONE);
+
+		// Clean up the curl handles.
 		Cleanup();
+
+		// Throw exception if an error occured.
+		if (code != CURLE_OK)
+		{
+			if (code == CURLE_URL_MALFORMAT)
+				throw NetException(__FILE__, __LINE__, ERR_SOCK_DOWNLOAD_INVALID_URL, 0);
+			else
+				throw NetException(__FILE__, __LINE__, ERR_SOCK_DOWNLOAD_FAILED, 0);
+		}
+
 		retVal = true;
 	}
 	return retVal;
