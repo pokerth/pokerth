@@ -166,7 +166,7 @@ void settingsDialogImpl::exec() {
 	checkBox_useIpv6->setChecked(myConfig->readConfigInt("ServerUseIpv6"));
 	checkBox_useSctp->setChecked(myConfig->readConfigInt("ServerUseSctp"));
 
-	//Internet Game Settings
+	//Internet Game Settings 
 	if(myConfig->readConfigInt("InternetServerConfigMode")) { groupBox_manualServerConfig->setChecked(TRUE); }
 	else { groupBox_automaticServerConfig->setChecked(TRUE); }
 	lineEdit_InternetServerListAddress->setText(QString::fromUtf8(myConfig->readConfigString("InternetServerListAddress").c_str()));
@@ -187,7 +187,6 @@ void settingsDialogImpl::exec() {
 	checkBox_IRCServerUseIpv6->setChecked(myConfig->readConfigInt("IRCServerUseIpv6"));
 
 	//Interface
-
 	comboBox_switchLanguage->setCurrentIndex(comboBox_switchLanguage->findData(QString::fromUtf8(myConfig->readConfigString("Language").c_str()).section('_', 0, 0)));
 	checkBox_showLeftToolbox->setChecked(myConfig->readConfigInt("ShowLeftToolBox"));
 	checkBox_showRightToolbox->setChecked(myConfig->readConfigInt("ShowRightToolBox"));
@@ -310,12 +309,34 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("ServerUseSctp", checkBox_useSctp->isChecked());
 
 	//Internet Game Settings
-	if(groupBox_automaticServerConfig->isChecked()) { myConfig->writeConfigInt("InternetServerConfigMode", 0); }
-	if(groupBox_manualServerConfig->isChecked()) { myConfig->writeConfigInt("InternetServerConfigMode", 1); }
-	myConfig->writeConfigString("InternetServerListAddress", lineEdit_InternetServerListAddress->text().toUtf8().constData());
-	myConfig->writeConfigString("InternetServerAddress", lineEdit_InternetServerAddress->text().toUtf8().constData());
-	myConfig->writeConfigInt("InternetServerPort", spinBox_InternetServerPort->value());
-	myConfig->writeConfigString("InternetServerPassword", lineEdit_InternetServerPassword->text().toUtf8().constData());
+	if(groupBox_automaticServerConfig->isChecked()) { 
+
+		myConfig->writeConfigInt("InternetServerConfigMode", 0); 
+
+// 		QUrl serverList;
+// 		serverList.setUrl(lineEdit_InternetServerListAddress->text(),QUrl::StrictMode);
+// 		QRegExp rx("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?");
+// 		if(lineEdit_InternetServerListAddress->text().contains(rx)) {		
+		if(lineEdit_InternetServerListAddress->text().contains("/") && lineEdit_InternetServerListAddress->text().contains(".") ) {
+
+			myConfig->writeConfigString("InternetServerListAddress", lineEdit_InternetServerListAddress->text().toUtf8().constData());
+		}
+		else {
+			QMessageBox::warning(this, tr("Settings Error"),
+				tr("The entered server list address isn't a valid URL.\n"
+				"Please enter a valid server list address!"),
+				QMessageBox::Ok);
+				settingsCorrect = FALSE; 
+		}
+	}
+	if(groupBox_manualServerConfig->isChecked()) { 
+		
+		myConfig->writeConfigInt("InternetServerConfigMode", 1); 
+		myConfig->writeConfigString("InternetServerAddress", lineEdit_InternetServerAddress->text().toUtf8().constData());
+		myConfig->writeConfigInt("InternetServerPort", spinBox_InternetServerPort->value());
+		myConfig->writeConfigString("InternetServerPassword", lineEdit_InternetServerPassword->text().toUtf8().constData());
+	}
+
 	myConfig->writeConfigInt("InternetServerUseIpv6", checkBox_InternetServerUseIpv6->isChecked());
 	myConfig->writeConfigInt("InternetServerUseSctp", checkBox_InternetServerUseSctp->isChecked());
 	myConfig->writeConfigInt("UseInternetGamePassword", checkBox_UseInternetGamePassword->isChecked());
@@ -401,7 +422,7 @@ void settingsDialogImpl::isAccepted() {
 	}
 
 	//Wenn alles richtig eingegeben wurde --> Dialog schließen
-	if(settingsCorrect) { this->hide(); }
+	if(settingsCorrect) { this->accept(); }
 }
 
 void settingsDialogImpl::setFlipsidePicFileName()
@@ -614,7 +635,13 @@ void settingsDialogImpl::setLanguageChanged(int index) {
 	
 }
 
-void settingsDialogImpl::toggleGroupBoxAutomaticServerConfig(bool /*toggleState*/) { if(groupBox_automaticServerConfig->isChecked()) groupBox_manualServerConfig->setChecked(FALSE); }
+void settingsDialogImpl::toggleGroupBoxAutomaticServerConfig(bool toggleState) { 
+	if(toggleState) groupBox_manualServerConfig->setChecked(FALSE); 
+	else groupBox_manualServerConfig->setChecked(TRUE); 
+}
 
-void settingsDialogImpl::toggleGroupBoxManualServerConfig(bool /*toggleState*/) { if(groupBox_manualServerConfig->isChecked()) groupBox_automaticServerConfig->setChecked(FALSE); }
+void settingsDialogImpl::toggleGroupBoxManualServerConfig(bool toggleState) { 
+	if(toggleState) groupBox_automaticServerConfig->setChecked(FALSE); 
+	else groupBox_automaticServerConfig->setChecked(TRUE); 
+}
 
