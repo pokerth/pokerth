@@ -323,7 +323,7 @@ void settingsDialogImpl::isAccepted() {
 		}
 		else {
 			QMessageBox::warning(this, tr("Settings Error"),
-				tr("The entered server list address isn't a valid URL.\n"
+				tr("The entered server list address is not a valid URL.\n"
 				"Please enter a valid server list address!"),
 				QMessageBox::Ok);
 				settingsCorrect = FALSE; 
