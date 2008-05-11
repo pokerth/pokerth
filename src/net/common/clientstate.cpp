@@ -1013,8 +1013,14 @@ ClientStateSynchronizeStart::Process(ClientThread &client)
 
 	if (client.IsSynchronized())
 	{
+		// Acknowledge start.
 		boost::shared_ptr<NetPacket> startAck(new NetPacketStartEventAck);
 		client.GetSender().Send(client.GetContext().GetSessionData(), startAck);
+		// Unsubscribe lobby messages.
+		// TODO
+		//boost::shared_ptr<NetPacket> unsubscr(new NetPacketUnsubscribeGameList);
+		//client.GetSender().Send(client.GetContext().GetSessionData(), unsubscr);
+
 		client.SetState(ClientStateWaitStart::Instance());
 	}
 

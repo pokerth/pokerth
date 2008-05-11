@@ -58,6 +58,7 @@ public:
 	void MoveSessionToGame(ServerGameThread &game, SessionWrapper session);
 	void RemoveSessionFromGame(SessionWrapper session);
 	void SessionError(SessionWrapper session, int errorCode);
+	void ResubscribeLobbyMsg(SessionWrapper session);
 	void NotifyPlayerJoinedGame(unsigned gameId, unsigned playerId);
 	void NotifyPlayerLeftGame(unsigned gameId, unsigned playerId);
 	void NotifyGameAdminChanged(unsigned gameId, unsigned newAdminPlayerId);
@@ -91,6 +92,7 @@ protected:
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
 	typedef std::deque<SessionWrapper> SessionQueue;
 	typedef std::list<SessionWrapper> SessionList;
+	typedef std::list<SessionId> SessionIdList;
 	typedef std::map<SessionId, boost::timers::portable::microsec_timer> TimerSessionMap;
 	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
 	typedef std::map<std::string, boost::timers::portable::microsec_timer> TimerClientAddressMap;
@@ -116,6 +118,7 @@ protected:
 	void NewSessionLoop();
 	void RemoveGameLoop();
 	void RemovePlayerLoop();
+	void ResubscribeLobbyMsgLoop();
 	void CheckSessionTimeoutsLoop();
 	void UpdateAvatarClientTimerLoop();
 	void CleanupAvatarCache();
@@ -123,6 +126,7 @@ protected:
 	void InternalAddGame(boost::shared_ptr<ServerGameThread> game);
 	void InternalRemoveGame(boost::shared_ptr<ServerGameThread> game);
 	void InternalRemovePlayer(unsigned playerId, unsigned errorCode);
+	void InternalResubscribeMsg(SessionWrapper session);
 
 	void TerminateGames();
 
@@ -179,6 +183,8 @@ private:
 	PlayerDataMap m_computerPlayers;
 	mutable boost::mutex m_computerPlayersMutex;
 
+	SessionIdList m_resubscribeList;
+	mutable boost::mutex m_resubscribeListMutex;
 
 	GameMap m_gameMap;
 

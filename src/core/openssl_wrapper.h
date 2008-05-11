@@ -22,7 +22,7 @@
 #define _OPENSSL_WRAPPER_H_
 
 #ifndef HAVE_SSIZE_T
-# define HAVE_SSIZE_T
+#define HAVE_SSIZE_T
 #include <sys/types.h>
 #ifdef _WIN32 // This is only for Windows. Supports only Win32.
 	#ifndef _SSIZE_T_

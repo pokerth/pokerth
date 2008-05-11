@@ -55,6 +55,7 @@ public:
 	void RemoveSession(SessionId session);
 
 	SessionWrapper Select(unsigned timeoutMsec);
+	SessionWrapper GetSessionById(SessionId id) const;
 	SessionWrapper GetSessionByPlayerName(const std::string playerName) const;
 	SessionWrapper GetSessionByUniquePlayerId(unsigned uniqueId) const;
 
@@ -74,6 +75,7 @@ public:
 	unsigned GetRawSessionCount();
 
 	void SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
+	void SendLobbyMsgToAllSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
 	void SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state);
 
 protected:

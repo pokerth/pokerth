@@ -50,6 +50,9 @@ public:
 	void SetReadyFlag();
 	void ResetReadyFlag();
 	bool IsReady() const;
+	void SetWantsLobbyMsg();
+	void ResetWantsLobbyMsg();
+	bool WantsLobbyMsg() const;
 
 	const std::string &GetClientAddr() const;
 	void SetClientAddr(const std::string &addr);
@@ -69,6 +72,7 @@ private:
 	std::string						m_clientAddr;
 	ReceiveBuffer					m_receiveBuffer;
 	bool							m_readyFlag;
+	bool							m_wantsLobbyMsg;
 	boost::timers::portable::microsec_timer m_activityTimer;
 	bool							m_activityTimeoutNoticeSent;
 	boost::timers::portable::microsec_timer m_autoDisconnectTimer;

@@ -21,7 +21,7 @@
 
 SessionData::SessionData(SOCKET sockfd, SessionId id)
 : m_sockfd(sockfd), m_id(id), m_state(SessionData::Init), m_readyFlag(false),
-  m_activityTimeoutNoticeSent(false)
+  m_wantsLobbyMsg(true), m_activityTimeoutNoticeSent(false)
 {
 }
 
@@ -78,6 +78,27 @@ SessionData::IsReady() const
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	return m_readyFlag;
+}
+
+void
+SessionData::SetWantsLobbyMsg()
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_wantsLobbyMsg = true;
+}
+
+void
+SessionData::ResetWantsLobbyMsg()
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_wantsLobbyMsg = false;
+}
+
+bool
+SessionData::WantsLobbyMsg() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_wantsLobbyMsg;
 }
 
 const std::string &

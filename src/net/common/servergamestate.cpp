@@ -213,6 +213,18 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 					server.SendToAllPlayers(outChat, SessionData::Game);
 				}
 			}
+			else if (packet->ToNetPacketUnsubscribeGameList())
+			{
+				// We can do this directly in this thread.
+				session.sessionData->ResetWantsLobbyMsg();
+			}
+			else if (packet->ToNetPacketResubscribeGameList())
+			{
+				// This needs to be performed in the lobby thread,
+				// because a new game list needs to be sent.
+				if (!session.sessionData->WantsLobbyMsg())
+					server.GetLobbyThread().ResubscribeLobbyMsg(session);
+			}
 			else
 			{
 				// Packet processing in subclass.
