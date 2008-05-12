@@ -1017,9 +1017,8 @@ ClientStateSynchronizeStart::Process(ClientThread &client)
 		boost::shared_ptr<NetPacket> startAck(new NetPacketStartEventAck);
 		client.GetSender().Send(client.GetContext().GetSessionData(), startAck);
 		// Unsubscribe lobby messages.
-		// TODO
-		//boost::shared_ptr<NetPacket> unsubscr(new NetPacketUnsubscribeGameList);
-		//client.GetSender().Send(client.GetContext().GetSessionData(), unsubscr);
+		boost::shared_ptr<NetPacket> unsubscr(new NetPacketUnsubscribeGameList);
+		client.GetSender().Send(client.GetContext().GetSessionData(), unsubscr);
 
 		client.SetState(ClientStateWaitStart::Instance());
 	}
@@ -1150,6 +1149,12 @@ ClientStateWaitHand::InternalProcess(ClientThread &client, boost::shared_ptr<Net
 			if (!tmpPlayer)
 				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 			client.GetGui().logPlayerWinGame(tmpPlayer->getMyName(), curGame->getMyGameID());
+			// Clear game info map as it is outdated.
+			client.ClearGameInfoMap();
+			// Resubscribe Lobby messages.
+			boost::shared_ptr<NetPacket> resubscr(new NetPacketResubscribeGameList);
+			client.GetSender().Send(client.GetContext().GetSessionData(), resubscr);
+			// Show Lobby dialog.
 			client.GetCallback().SignalNetClientWaitDialog();
 			client.SetState(ClientStateWaitGame::Instance());
 			retVal = MSG_NET_GAME_CLIENT_END;

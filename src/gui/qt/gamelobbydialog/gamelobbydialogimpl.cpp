@@ -206,6 +206,7 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 
 	if (actionID == MSG_NET_GAME_CLIENT_START)
 	{
+		treeWidget_GameList->clear();
 		this->accept();
 	}
 }

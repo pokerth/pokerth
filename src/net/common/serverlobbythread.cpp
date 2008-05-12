@@ -981,6 +981,18 @@ ServerLobbyThread::InternalResubscribeMsg(SessionWrapper session)
 	{
 		session.sessionData->SetWantsLobbyMsg();
 		SendGameList(session.sessionData);
+		// Send new statistics information.
+		boost::shared_ptr<NetPacket> packet(new NetPacketStatisticsChanged);
+		NetPacketStatisticsChanged::Data statData;
+		statData.stats.numberOfPlayersOnServer = m_sessionManager.GetRawSessionCount() + m_gameSessionManager.GetRawSessionCount();
+		try {
+			static_cast<NetPacketStatisticsChanged *>(packet.get())->SetData(statData);
+
+			GetSender().Send(session.sessionData, packet);
+		} catch (const NetException &)
+		{
+			// Ignore errors for now.
+		}
 	}
 }
 
