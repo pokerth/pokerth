@@ -472,8 +472,8 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>100</width>
-          <height>30</height>
+          <width>455</width>
+          <height>621</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" >
@@ -776,8 +776,8 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>100</width>
-          <height>30</height>
+          <width>455</width>
+          <height>621</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" >
@@ -1207,8 +1207,8 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>100</width>
-          <height>30</height>
+          <width>455</width>
+          <height>621</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" >
@@ -1562,8 +1562,8 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>100</width>
-          <height>30</height>
+          <width>455</width>
+          <height>621</height>
          </rect>
         </property>
         <layout class="QGridLayout" >
@@ -2677,8 +2677,8 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>100</width>
-          <height>30</height>
+          <width>455</width>
+          <height>621</height>
          </rect>
         </property>
         <layout class="QGridLayout" >
