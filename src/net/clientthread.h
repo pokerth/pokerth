@@ -103,6 +103,9 @@ protected:
 	void CompleteTempAvatarData(unsigned playerId);
 	void SetUnknownAvatar(unsigned playerId);
 
+	void UnsubscribeLobbyMsg();
+	void ResubscribeLobbyMsg();
+
 	const ClientContext &GetContext() const;
 	ClientContext &GetContext();
 

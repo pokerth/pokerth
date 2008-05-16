@@ -588,6 +588,24 @@ ClientThread::SetUnknownAvatar(unsigned playerId)
 	LOG_ERROR("Server reported unknown avatar for player: " << playerId);
 }
 
+void
+ClientThread::UnsubscribeLobbyMsg()
+{
+	// Send unsubscribe request.
+	boost::shared_ptr<NetPacket> unsubscr(new NetPacketUnsubscribeGameList);
+	GetSender().Send(GetContext().GetSessionData(), unsubscr);
+}
+
+void
+ClientThread::ResubscribeLobbyMsg()
+{
+	// Clear game info map as it is outdated.
+	ClearGameInfoMap();
+	// Send resubscribe request.
+	boost::shared_ptr<NetPacket> resubscr(new NetPacketResubscribeGameList);
+	GetSender().Send(GetContext().GetSessionData(), resubscr);
+}
+
 const ClientContext &
 ClientThread::GetContext() const
 {

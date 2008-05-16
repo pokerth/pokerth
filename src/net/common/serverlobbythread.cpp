@@ -855,7 +855,7 @@ ServerLobbyThread::ResubscribeLobbyMsgLoop()
 			SessionWrapper tmpSession = m_gameSessionManager.GetSessionById(*i);
 			if (!tmpSession.sessionData.get())
 				tmpSession = m_sessionManager.GetSessionById(*i);
-			if (tmpSession.sessionData.get());
+			if (tmpSession.sessionData.get())
 				InternalResubscribeMsg(tmpSession);
 			++i;
 		}
