@@ -2,4 +2,8 @@ Please see
 http://sourceforge.net/project/showfiles.php?group_id=166634&package_id=268019
 for some scripts to compile PokerTH using mingw.
 
+The scripts are also provided in the win32_build_scripts subdirectory, but they
+require specific download and uncompression tools to run, which are provided
+with the package at the upper link.
+
 2008 by Lothar May
