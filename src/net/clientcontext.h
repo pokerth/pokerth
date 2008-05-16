@@ -79,6 +79,10 @@ public:
 	{return m_cacheDir;}
 	void SetCacheDir(const std::string &cacheDir)
 	{m_cacheDir = cacheDir;}
+	bool GetSubscribeLobbyMsg() const
+	{return m_hasSubscribedLobbyMsg;}
+	void SetSubscribeLobbyMsg(bool setSubscribe)
+	{m_hasSubscribedLobbyMsg = setSubscribe;}
 
 	int GetClientSockaddrSize() const
 	{return m_addrFamily == AF_INET6 ? sizeof(sockaddr_in6) : sizeof(sockaddr_in);}
@@ -99,6 +103,7 @@ private:
 	std::string			m_playerName;
 	std::string			m_avatarFile;
 	std::string			m_cacheDir;
+	bool				m_hasSubscribedLobbyMsg;
 	ReceiveBuffer		m_receiveBuffer;
 };
 

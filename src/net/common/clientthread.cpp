@@ -591,19 +591,27 @@ ClientThread::SetUnknownAvatar(unsigned playerId)
 void
 ClientThread::UnsubscribeLobbyMsg()
 {
-	// Send unsubscribe request.
-	boost::shared_ptr<NetPacket> unsubscr(new NetPacketUnsubscribeGameList);
-	GetSender().Send(GetContext().GetSessionData(), unsubscr);
+	if (GetContext().GetSubscribeLobbyMsg())
+	{
+		// Send unsubscribe request.
+		boost::shared_ptr<NetPacket> unsubscr(new NetPacketUnsubscribeGameList);
+		GetSender().Send(GetContext().GetSessionData(), unsubscr);
+		GetContext().SetSubscribeLobbyMsg(false);
+	}
 }
 
 void
 ClientThread::ResubscribeLobbyMsg()
 {
-	// Clear game info map as it is outdated.
-	ClearGameInfoMap();
-	// Send resubscribe request.
-	boost::shared_ptr<NetPacket> resubscr(new NetPacketResubscribeGameList);
-	GetSender().Send(GetContext().GetSessionData(), resubscr);
+	if (!GetContext().GetSubscribeLobbyMsg())
+	{
+		// Clear game info map as it is outdated.
+		ClearGameInfoMap();
+		// Send resubscribe request.
+		boost::shared_ptr<NetPacket> resubscr(new NetPacketResubscribeGameList);
+		GetSender().Send(GetContext().GetSessionData(), resubscr);
+		GetContext().SetSubscribeLobbyMsg(true);
+	}
 }
 
 const ClientContext &
