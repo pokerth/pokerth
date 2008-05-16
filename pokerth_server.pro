@@ -131,7 +131,7 @@ win32 {
 	}
 
 	win32-g++{
-		LIBS += -lgnutls-openssl.dll -lgcrypt.dll
+		LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error
 		LIBS += -lcurl
 		LIBS += -lz
 		LIBS += -llibboost_thread-mgw34-mt-1_35
