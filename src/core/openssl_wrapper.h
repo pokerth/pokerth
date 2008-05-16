@@ -16,7 +16,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Wrapper for GnuTLS openssl include. Needed for Windows compatibility. */
+/* Wrapper for GnuTLS openssl include. Needed for Windows/MacOS compatibility. */
 
 #ifndef _OPENSSL_WRAPPER_H_
 #define _OPENSSL_WRAPPER_H_
@@ -40,6 +40,14 @@
 	#undef X509_NAME // Again for Windows - conflict with WinCrypt.h.
 #endif
 
-#include <gnutls/openssl.h>
+#if defined(__APPLE__) || defined(__OpenBSD__) || (defined(__FreeBSD__)
+	// For BSD-Systems, we assume that OpenSSL is part of the operating system.
+	#include <openssl/md5.h>
+	#include <openssl/rand.h>
+#else
+	// For all other systems, we use GnuTLS.
+	#include <gnutls/openssl.h>
+	#define PKTH_USE_GNUTLS
+#endif
 
 #endif

@@ -20,6 +20,9 @@
 #include <net/socket_startup.h>
 #include <net/socket_helper.h>
 #include <core/openssl_wrapper.h>
+
+#ifdef PKTH_USE_GNUTLS
+
 #include <gcrypt.h>
 #include <boost/thread.hpp>
 #include <boost/version.hpp> // solve compatibility issues
@@ -62,12 +65,15 @@ extern "C" {
 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 	};
 }
+#endif // PKTH_USE_GNUTLS
 
 bool
 internal_socket_startup()
 {
+#ifdef PKTH_USE_GNUTLS
 	gcry_control(GCRYCTL_SET_THREAD_CBS, &gcry_threads_boost);
 	gcry_control(GCRYCTL_ENABLE_QUICK_RANDOM, 0);
+#endif
 	return SSL_library_init() == 1;
 }
 
