@@ -21,6 +21,8 @@ echo test > pokerth123_delete_me.txt
 if not exist %PKTH_BaseDir%\pokerth123_delete_me.txt goto noWriteAccess
 del %PKTH_BaseDir%\pokerth123_delete_me.txt
 if exist %PKTH_BaseDir%\pokerth123_delete_me.txt goto noWriteAccess
+if not exist %PKTH_OldDir%\third_party_apps\curl.exe goto noTools
+if not exist %PKTH_OldDir%\third_party_apps\7za.exe goto noTools
 
 echo Using "%PKTH_BaseDir%" as base directory.
 echo.
@@ -297,6 +299,11 @@ goto pkth_end
 echo Usage: compile_pokerth_win32.cmd ^<BaseDir^>.
 echo Make sure that the base directory exists and is writable.
 echo Use a FULL PATH without trailing slash for the base directory.
+goto pkth_end
+
+:noTools
+echo Tools are missing. Please download and extract the full package
+echo before running this script.
 goto pkth_end
 
 :pkth_end
