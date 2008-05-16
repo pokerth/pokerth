@@ -393,6 +393,7 @@ mac{
 	# make sure you have a universal version of boost
 	LIBS += /usr/local/lib/libboost_thread-mt-1_35.a
 	LIBS += /usr/local/lib/libboost_filesystem-mt-1_35.a
+	LIBS += /usr/local/lib/libboost_system-mt-1_35.a
 	LIBS += /usr/local/lib/libboost_iostreams-mt-1_35.a
 	# libraries installed on every mac
 	LIBS += -lcrypto -lz -lcurl -framework Carbon
