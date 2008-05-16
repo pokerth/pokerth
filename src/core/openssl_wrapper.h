@@ -42,6 +42,7 @@
 
 #if defined(__APPLE__) || defined(__OpenBSD__) || defined(__FreeBSD__)
 	// For BSD-Systems, we assume that OpenSSL is part of the operating system.
+	#include <openssl/ssl.h>
 	#include <openssl/md5.h>
 	#include <openssl/rand.h>
 #else
