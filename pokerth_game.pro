@@ -396,7 +396,7 @@ mac{
 	LIBS += /usr/local/lib/libboost_system-mt-1_35.a
 	LIBS += /usr/local/lib/libboost_iostreams-mt-1_35.a
 	# libraries installed on every mac
-	LIBS += -lcrypto -lz -lcurl -framework Carbon
+	LIBS += -lcrypto -lssl -lz -lcurl -framework Carbon
 	# set the application icon
 	RC_FILE = pokerth.icns
 	LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib 

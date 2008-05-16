@@ -233,7 +233,7 @@ mac{
 	LIBS += /usr/local/lib/libboost_iostreams-mt-1_35.a
 	LIBS += /usr/local/lib/libboost_program_options-mt-1_35.a
 	# libraries installed on every mac
-	LIBS += -lcrypto -lz -lcurl -liconv
+	LIBS += -lcrypto -lssl -lz -lcurl -liconv
 	# set the application icon
 	RC_FILE = pokerth.icns
 	LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib
