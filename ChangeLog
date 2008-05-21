@@ -1,3 +1,10 @@
+2008-05-21 version 0.6.2:
+- more flexible internet server connection (automatic download of server list)
+- fixed DNS problems, IPv6 and SCTP are fully available now
+- reduced bandwidth usage in internet games
+- use GnuTLS instead of OpenSSL
+- extended server logging
+
 2008-03-11 version 0.6.1:
  - new timeout system for internet-game-lobby to improve the game-flow
  - 2 new translations (greek and chinese)
