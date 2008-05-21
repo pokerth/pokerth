@@ -114,7 +114,7 @@ main(int argc, char *argv[])
 			logLevel = vm["log-level"].as<int>();
 			if (logLevel < 0 || logLevel > 2)
 			{
-				cout << "Invalid log-level: \"" << logLevel << "\", allowed range 1-2." << endl;
+				cout << "Invalid log-level: \"" << logLevel << "\", allowed range 0-2." << endl;
 				return 1;
 			}
 		}
