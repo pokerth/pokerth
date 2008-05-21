@@ -157,6 +157,10 @@ unix {
 
 unix : !mac {
 
+	##### My release static build options
+	#QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
+	#QMAKE_LFLAGS += -Wl,--gc-sections
+
 	LIBPATH += lib
 
 	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64

@@ -184,6 +184,9 @@ win32{
 	INCLUDEPATH += ../boost/ ../GnuTLS/include ../curl/include ../zlib
 }
 !win32{
+	##### My release static build options
+	#QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
+
 	DEPENDPATH += src/net/linux/ src/core/linux
 	SOURCES += src/net/linux/socket_helper.cpp \
 		src/net/linux/socket_startup.cpp 

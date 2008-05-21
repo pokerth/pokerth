@@ -10,7 +10,7 @@ CODECFORSRC = UTF-8
 CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on release
 #CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
 
-#Uncomment this for RELEASE
+#####Uncomment this for RELEASE
 #QTPLUGIN += qjpeg qgif
 
 UI_DIR = uics
@@ -302,6 +302,10 @@ unix{
 
 unix: !mac{
 
+	##### My release static build options
+	#QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
+	#QMAKE_LFLAGS += -Wl,--gc-sections
+
 	LIBPATH += lib
 
 	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64
@@ -348,8 +352,8 @@ unix: !mac{
 	LIBS += -lgnutls-openssl -lgcrypt -lSDL_mixer -lcurl -lz
 	TARGETDEPS += ./lib/libpokerth_lib.a
 
-	## My release static libs
-	#LIBS += -lcrypto_static -lSDL_mixer_static -lSDL -lmikmod
+	##### My release static libs
+	#LIBS += -lgcrypt_static -lgpg-error_static -lgnutls-openssl_static -lgnutls_static -lSDL_mixer_static -lSDL -lmikmod -lcurl -lz 
 
 	#### INSTALL ####
 
