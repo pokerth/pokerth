@@ -77,12 +77,12 @@
 <context encoding="UTF-8">
     <name>aboutPokerth</name>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="42"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="38"/>
         <source>About</source>
         <translation>About</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="64"/>
+        <location filename="" line="142532468"/>
         <source>- Poker engine for the popular &quot;Texas Hold&apos;em&quot; Poker
 - Singleplayer games with up to 6 computer-opponents
 - Multiplayer network games
@@ -90,7 +90,7 @@
 
 
 © 2006-2007, FHammer, FThauer, LMay</source>
-        <translation>- Μηχανή Poker για το δημοφιλές &quot;Texas Hold&apos;em&quot; Poker
+        <translation type="obsolete">- Μηχανή Poker για το δημοφιλές &quot;Texas Hold&apos;em&quot; Poker
 - Ατομικό παιχνίδι με μέχρι 6 αντιπάλους ελεγχόμενους απ&apos; τον υπολογιστή
 - Παιχνίδια στο δίκτυο με άλλους παίχτες
 - Προγραμματισμένο σε C++/Qt4
@@ -98,7 +98,7 @@
 © 2006-2007, FHammer, FThauer, LMay</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="106"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="98"/>
         <source>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</source>
         <translation>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</translation>
     </message>
@@ -108,27 +108,27 @@
         <translation>Project</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="177"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="172"/>
         <source>Translation</source>
         <translation>Translation</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="215"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="207"/>
         <source>Thanks to</source>
         <translation>Thanks to</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="266"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="255"/>
         <source>License</source>
         <translation>License</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="334"/>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="302"/>
         <source>Close</source>
         <translation>Κλείσιμο</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="147"/>
+        <location filename="" line="142532468"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -149,40 +149,40 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - gui graphics design, webdesign&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Erhard List (&lt;a href=&quot;mailto:dunkanx@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;dunkanx@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOS package&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Projectpage: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)#pokerth (irc.freenode.net)&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Authors: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Felix Hammer (&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - initial idea, basic architecture, gui implementation, linux package&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Florian Thauer (&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - initial idea, basic architecture, engine development&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Lothar May (&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - basic architecture, network development, windows package&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Oskar Lindqvist (&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - gui graphics design, webdesign&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Erhard List (&lt;a href=&quot;mailto:dunkanx@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;dunkanx@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOS package&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)Felix Hammer (&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)- initial idea, basic architecture, gui implementation, linux package&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)Florian Thauer (&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)- initial idea, basic architecture, engine development&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)Lothar May (&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)- basic architecture, network development, windows package&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)Oskar Lindqvist (&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)- gui graphics design, webdesign&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)Erhard List (&lt;a href=&quot;mailto:dunkanx@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;dunkanx@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)(sp)- MacOS package&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="201"/>
+        <location filename="" line="142532468"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;!!!Please replace this with your translator name!!! - !!!Please replace this with your language!!! - !!!If you like please replace this with your mail address (otherwise please remove)!!!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;iokouts - Ελληνικά - iokouts@gmail.com&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="239"/>
+        <location filename="" line="142532468"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -200,23 +200,94 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;     - &lt;span style=&quot; font-weight:400;&quot;&gt;for different popular avatar picture resources&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;(sp)(sp)(sp)(sp)(sp)- &lt;span style=&quot; font-weight:400;&quot;&gt;for different popular avatar picture resources&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Viktoria, Benedikt, Erhard, Felix, Florian, Linus, Lothar, Mark, Steffi, Caro&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for people avatar pictures&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)- for people avatar pictures&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt; &lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    - for &quot;misc&quot; avatar pictures&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)- for &quot;misc&quot; avatar pictures&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for different gpl lizensed sounds&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)- for different gpl lizensed sounds&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(sp)(sp)(sp)(sp)(sp)- for self recorded chip sounds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="56"/>
+        <source>- Poker engine for the popular &quot;Texas Hold&apos;em&quot; Poker
+- Singleplayer games with up to 6 computer-opponents
+- Multiplayer network games
+- Coded in C++/Qt4
+
+
+© 2006-2008, FHammer, FThauer, LMay</source>
+        <translation type="unfinished">- Μηχανή Poker για το δημοφιλές &quot;Texas Hold&apos;em&quot; Poker
+- Ατομικό παιχνίδι με μέχρι 6 αντιπάλους ελεγχόμενους απ&apos; τον υπολογιστή
+- Παιχνίδια στο δίκτυο με άλλους παίχτες
+- Προγραμματισμένο σε C++/Qt4
+
+© 2006-2007, FHammer, FThauer, LMay {6 ?} {4
+?} {2006-2008,?}</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="135"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Projectpage: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Authors: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Felix Hammer (&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - initial idea, basic architecture, gui implementation, linux package&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Florian Thauer (&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - initial idea, basic architecture, engine development&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Lothar May (&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - basic architecture, network development, windows package, MacOS package&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Oskar Lindqvist (&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - gui graphics design&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="184"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;translator name - mail address&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="219"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;     - &lt;span style=&quot; font-weight:400;&quot;&gt;for different popular avatar picture resources&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Viktoria, Benedikt, Erhard, Felix, Florian, Linus, Lothar, Mark, Steffi, Caro&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for people avatar pictures&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt; &lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    - for &quot;misc&quot; avatar pictures&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for different gpl lizensed sounds&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self recorded chip sounds&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;thiger, dunkanx, BerndA &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for different patches&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;kraut&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for internet-game-server hosting and administration&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -362,19 +433,24 @@ p, li { white-space: pre-wrap; }
         <translation>Αναζήτηση διεύθυνσης...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="48"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="50"/>
         <source>Connecting to server...</source>
         <translation>Γίνεται σύνδεση με το server...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="50"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="52"/>
         <source>Starting session...</source>
         <translation>Έναρξη συνεδρίας...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="52"/>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="54"/>
         <source>Connection established!</source>
         <translation>Σύνδεση επιτυχής!</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="48"/>
+        <source>Reading server list...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -644,84 +720,648 @@ p, li { white-space: pre-wrap; }
         <translation>Έναρξη παιχνιδιού. Παρακαλώ περιμένετε...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="146"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="144"/>
         <source>%1&apos;s game</source>
         <translation>%1&apos;s game</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="175"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="173"/>
         <source>Joining a private Game</source>
         <translation>Είσοδος σε πριβέ Παιχνίδι</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="176"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="174"/>
         <source>You are about to join a private game. Please enter the password!</source>
         <translation>Επιχειρείτε να εισέλθετε σε ένα πριβέ παιχνίδι. Παρακαλώ δώστε τον κωδικό!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="835"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="834"/>
         <source>open</source>
         <translation>ανοιχτό</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="666"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="665"/>
         <source>Game Info</source>
         <translation>Πληροφορίες Παιχνιδιού</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="334"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="333"/>
         <source>running</source>
         <translation>σε εξέλιξη</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="456"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="455"/>
         <source>running games: %1</source>
         <translation>παιχνίδια σε εξέλιξη: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="457"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="456"/>
         <source>open games: %1</source>
         <translation>Ανοιχτά παιχνίδια: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="454"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="453"/>
         <source>players in chat: %1</source>
         <translation>Παίχτες στο chat: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="455"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="454"/>
         <source>connected players: %1</source>
         <translation>Συνδεδεμένοι παίχτες: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="696"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="695"/>
         <source>hands</source>
         <translation>μοιρασιές</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="697"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="696"/>
         <source>minutes</source>
         <translation>λεπτά</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="699"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="698"/>
         <source>double blinds</source>
         <translation>διπλά blinds</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="704"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="703"/>
         <source>manual blinds order</source>
         <translation>Σειρά χειροκίνητων blinds</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="744"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="743"/>
         <source>Server Error</source>
         <translation>Πρόβλημα στον Server</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="745"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="744"/>
         <source>You should not kick yourself from this game!</source>
         <translation>Δεν χρειάζεται να διώξεις τον εαυτό σου απ&apos; το παιχνίδι!</translation>
+    </message>
+</context>
+<context>
+    <name>gameTable</name>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="25"/>
+        <source>PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</source>
+        <translation type="unfinished">PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="1745"/>
+        <source>Hands</source>
+        <translation type="unfinished">Αξία Φύλλων</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="1773"/>
+        <source>Chat</source>
+        <translation type="unfinished">Chat</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2525"/>
+        <source>Log</source>
+        <translation type="unfinished">Log</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2559"/>
+        <source>Away</source>
+        <translation type="unfinished">Away</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2568"/>
+        <source>Manual Action (default)</source>
+        <translation type="unfinished">Χειροκίνητο (πρεπιλογή)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2581"/>
+        <source>Auto-Check / Auto-Fold</source>
+        <translation type="unfinished">Αυτόματο: Ντούκου / Πάσο</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2591"/>
+        <source>Auto-Check / Auto-Call-Any</source>
+        <translation type="unfinished">Αυτόματο: Ντούκου / Μέσα-σε-όλα</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2687"/>
+        <source>Speed:</source>
+        <translation type="unfinished">Ταχύτητα:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2919"/>
+        <source>View</source>
+        <translation type="unfinished">Εμφάνιση</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2929"/>
+        <source>Game</source>
+        <translation type="unfinished">Παιχνίδι</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2933"/>
+        <source>Network Game</source>
+        <translation type="unfinished">Παιχνίδι Δικτύου</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2960"/>
+        <source>Start Local Game ...</source>
+        <translation type="unfinished">Τοπικό Παιχνίδι ...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2963"/>
+        <source>Ctrl+N</source>
+        <translation type="unfinished">Ctrl+N</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2968"/>
+        <source>Quit</source>
+        <translation type="unfinished">Κλείσιμο</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2971"/>
+        <source>Ctrl+Q</source>
+        <translation type="unfinished">Ctrl+Q</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2976"/>
+        <source>About PokerTH ...</source>
+        <translation type="unfinished">About PokerTH ...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2981"/>
+        <source>Settings ...</source>
+        <translation type="unfinished">Επιλογές ...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2986"/>
+        <source>Create Network Game ...</source>
+        <translation type="unfinished">Δημιουργία Παιχνιδιού Δικτύου ...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2989"/>
+        <source>Ctrl+O</source>
+        <translation type="unfinished">Ctrl+O</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2994"/>
+        <source>Join Network Game ...</source>
+        <translation type="unfinished">Είσοδος σε Παιχνίδι Δικτύου ...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="2997"/>
+        <source>Ctrl+J</source>
+        <translation type="unfinished">Ctrl+J</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="3002"/>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Πλήρης Οθόνη</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="3005"/>
+        <source>Ctrl+F</source>
+        <translation type="unfinished">Ctrl+F</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="3010"/>
+        <source>Show/Hide Chat Window</source>
+        <translation type="unfinished">Εμφάνιση/Απόκρυψη Παραθύρου Chat</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="3013"/>
+        <source>Ctrl+T</source>
+        <translation type="unfinished">Ctrl+T</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="3024"/>
+        <source>Show/Hide Hands Window</source>
+        <translation type="unfinished">Εμφάνιση/Απόκρυψη Παραθύρου Αξίας Φύλλων</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="3027"/>
+        <source>Ctrl+H</source>
+        <translation type="unfinished">Ctrl+H</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="3032"/>
+        <source>Show/Hide Log Window</source>
+        <translation type="unfinished">Εμφάνιση/Απόκρυψη Παραθύρου Log</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="3035"/>
+        <source>Ctrl+L</source>
+        <translation type="unfinished">Ctrl+L</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="3040"/>
+        <source>Internet Game ...</source>
+        <translation type="unfinished">Παιχνίδι στο Internet ...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="3043"/>
+        <source>Ctrl+I</source>
+        <translation type="unfinished">Ctrl+I</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="3048"/>
+        <source>Show/Hide Away Window</source>
+        <translation type="unfinished">Εμφάνιση/Απόκρυψη Παραθύρου</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="3051"/>
+        <source>Ctrl+A</source>
+        <translation type="unfinished">Ctrl+A</translation>
+    </message>
+</context>
+<context>
+    <name>gameTableImpl</name>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3601"/>
+        <source>Stop</source>
+        <translation type="unfinished">Παύση</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="465"/>
+        <source>Cmd+N to start a new game</source>
+        <translation type="unfinished">Ctrl+N - Νέο Παιχνίδι</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="467"/>
+        <source>Ctrl+N to start a new game</source>
+        <translation type="unfinished">Ctrl+N - Νέο Παιχνίδι</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="494"/>
+        <source>PokerTH %1 - The Open-Source Texas Holdem Engine</source>
+        <translation type="unfinished">PokerTH %1 - The Open-Source Texas Holdem Engine</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="919"/>
+        <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
+Please choose another one.</source>
+        <translation type="unfinished">Δεν μπορείς να εισέλθεις σε παιχνίδι Internet με nickname: &quot;Human Player&quot;.
+Παρακαλώ επιλέξτε άλλο nickname.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1976"/>
+        <source>F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In</source>
+        <translation type="unfinished">F1 - Πάσο | F2 - Ντούκου/Μέσα | F3 - Ποντάρω/Ρελάνς | F4 - Όλα Μέσα</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1978"/>
+        <source>F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold</source>
+        <translation type="unfinished">F1 - Όλα Μέσα | F2 - Ποντάρω/Ρελάνς | F3 - Ντούκου/Μέσα | F4 - Πάσο</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3024"/>
+        <source>Start</source>
+        <translation type="unfinished">Έναρξη</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3623"/>
+        <source>Lobby</source>
+        <translation type="unfinished">Lobby</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3309"/>
+        <source>Network Error</source>
+        <translation type="unfinished">Λάθος Δικτύου</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3067"/>
+        <source>Server address was not set.</source>
+        <translation type="unfinished">Η Server address δεν είχε ορισθεί.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3072"/>
+        <source>An invalid port was set (ports 0-1023 are not allowed).</source>
+        <translation type="unfinished">Έχει ορισθεί λάθος port (δεν επιτρέπονται ports από 0 εως 1023).</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3077"/>
+        <source>Could not create a socket for TCP communication.</source>
+        <translation type="unfinished">Could not create a socket for TCP communication.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3082"/>
+        <source>Could not set the IP address.</source>
+        <translation type="unfinished">Could not set the IP address.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3087"/>
+        <source>Could not set the port for this type of address.</source>
+        <translation type="unfinished">Could not set the port for this type of address.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3092"/>
+        <source>The server name could not be resolved.</source>
+        <translation type="unfinished">Το όνομα του server δεν μπορεί να βρεθεί.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3097"/>
+        <source>Bind failed - please choose a different port.</source>
+        <translation type="unfinished">Bind failed - Παρακαλώ διαλέξτε διαφορετικό port.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3102"/>
+        <source>Internal network error: &quot;listen&quot; failed.</source>
+        <translation type="unfinished">Εσωτερικό λάθος δικτύου: &quot;listen&quot; failed.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3107"/>
+        <source>Server execution was terminated.</source>
+        <translation type="unfinished">Η λειτουργία του server τερματίστηκε.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3112"/>
+        <source>Could not connect to the server.</source>
+        <translation type="unfinished">Αδυναμία σύνδεσης με το server.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3117"/>
+        <source>Connection timed out.
+Please check the server address.
+
+If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
+        <translation type="unfinished">Η σύνδεση τερματίστηκε.
+Παρακαλώ ελέγξτε την server address.
+
+Αν ο server βρίσκεται σε NAT-Router, βεβαιωθείτε ότι το port forwarding λειτουργεί.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3122"/>
+        <source>Internal network error: &quot;select&quot; failed.</source>
+        <translation type="unfinished">Εσωτερικό λάθος δικτύου: &quot;select&quot; failed.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3127"/>
+        <source>Internal network error: &quot;send&quot; failed.</source>
+        <translation type="unfinished">Εσωτερικό λάθος δικτύου: &quot;send&quot; failed.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3133"/>
+        <source>Connection was closed by the server.</source>
+        <translation type="unfinished">Η σύνδεση τερματίστηκε απ&apos; τον server.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3138"/>
+        <source>Internal network error: Duplicate TCP connection.</source>
+        <translation type="unfinished">Εσωτερικό λάθος δικτύου: Duplicate TCP connection.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3143"/>
+        <source>An invalid network packet was received.
+Please make sure that all players use the same version of PokerTH.</source>
+        <translation type="unfinished">Λήψη λανθασμένου πακέτου δικτύου.
+Παρακαλώ βεβαιωθείτε ότι όλοι οι παίχτες χρησιμοποιούν την ίδια έκδοση του PokerTH.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3148"/>
+        <source>Internal state error.
+Please make sure that all players use the same version of PokerTH.</source>
+        <translation type="unfinished">Εσωτερικό λάθος.
+Παρακαλώ βεβαιωθείτε ότι όλοι οι παίχτες χρησιμοποιούν την ίδια έκδοση του PokerTH.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3154"/>
+        <source>Invalid server list URL.
+Please correct the address in the settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3159"/>
+        <source>Could not open the server list MD5 file.
+Please make sure that the server list URL is correct.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3164"/>
+        <source>Synchronization of the PokerTH internet server list has failed.
+Please make sure that the server list URL is correct.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3169"/>
+        <source>The PokerTH internet server list contains invalid data.
+If you use a custom server list, please make sure its format is correct.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3174"/>
+        <source>Could not unzip the PokerTH internet server list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3181"/>
+        <source>Could not download the PokerTH internet server list.
+Please make sure you are directly connected to the internet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3186"/>
+        <source>Could not open the target file when downloading the server list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3191"/>
+        <source>The PokerTH server does not support this version of the game.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
+        <translation type="unfinished">Ο server του PokerTH δεν υποστηρίζει αυτή την έκδοση του παιχνιδιού.&lt;br&gt;Παρακαλώ επισκεφθείτε την διεύθυνση &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; και &quot;κατεβάστε&quot; την τελευταία έκδοση.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3199"/>
+        <source>Sorry, this server is already full.</source>
+        <translation type="unfinished">Συγνώμη, αυτός ο server είναι γεμάτος.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3348"/>
+        <source>Invalid password when joining the game.
+Please reenter the password and try again.</source>
+        <translation type="unfinished">Λανθασμένος κωδικός κατά την είσοδο στο παιχνίδι.
+Παρακαλώ δώστε τον κωδικό και ξαναπροσπαθήστε.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3209"/>
+        <source>The password is too long. Please choose another one.</source>
+        <translation type="unfinished">Ο κωδικός είναι πολύ μεγάλος. Παρακαλώ επιλέξτε κάποιον άλλο.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3213"/>
+        <source>Your player name is already used by another player.
+Please choose a different name.</source>
+        <translation type="unfinished">Το όνομα σας χρησιμοποιείται ήδη από έναν άλλο παίχτη.
+Παρακαλώ επιλέξτε ένα διαφορετικό όνομα.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3217"/>
+        <source>The player name is too short, too long or invalid. Please choose another one.</source>
+        <translation type="unfinished">Το όνομα σας είναι πολύ μικρό, ή λανθασμένο. Παρακαλώ επιλέξτε ένα διαφορετικό όνομα.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3222"/>
+        <source>The game name is either too short or too long. Please choose another one.</source>
+        <translation type="unfinished">Το όνομα του παιχνιδιού είναι πολύ μικρό ή πολύ μεγάλο. Παρακαλώ επιλέξτε ένα διαφορετικό όνομα.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3227"/>
+        <source>The game could not be found.</source>
+        <translation type="unfinished">Το παιχνίδι δεν βρέθηκε.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3232"/>
+        <source>The chat text is invalid.</source>
+        <translation type="unfinished">Το κείμενο του chat δεν είναι έγκυρο.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3237"/>
+        <source>The server referred to an unknown player. Aborting.</source>
+        <translation type="unfinished">Ο server αναφέρεται σε έναν άγνωστο παίχτη. Ακύρωση.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3242"/>
+        <source>Internal error: The current player could not be found.</source>
+        <translation type="unfinished">Εσωτερικό λάθος: Ο παίχτης δεν μπορεί να βρεθεί.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3247"/>
+        <source>Internal error: The current player is not active.</source>
+        <translation type="unfinished">Εσωτερικό λάθος: Ο παίχτης δεν είναι ενεργός.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3253"/>
+        <source>You were kicked from the server.</source>
+        <translation type="unfinished">&quot;Διώχθηκες&quot; απ&apos; τον server.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3259"/>
+        <source>You were temporarily banned from the server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3265"/>
+        <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3270"/>
+        <source>The client player count is invalid.</source>
+        <translation type="unfinished">Η μέτρηση των παιχτών είναι λανθασμένη.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3275"/>
+        <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
+        <translation type="unfinished">Πολλά χειροκίνητα blinds. Παρακαλώ επανακαθορίστε τα χειροκίνητα blinds.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3281"/>
+        <source>An invalid avatar file was configured. Please choose a different avatar.</source>
+        <translation type="unfinished">Η εικόνα δεν είναι σωστή. Παρακαλώ επιλέξτε μια διαφορετική εικόνα.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3286"/>
+        <source>The selected avatar file is too large. Please choose a different avatar.</source>
+        <translation type="unfinished">Η επιλεγμένη εικόνα είναι πολύ μεγάλη. Παρακαλώ επιλέξτε μια διαφορετική εικόνα.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3291"/>
+        <source>You cannot upload a new avatar file at this time. Please try again in a few seconds.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3296"/>
+        <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
+        <translation type="unfinished">Εσωτερικό λάθος στην εικόνα. Παρακαλώ αναφέρετε το λάθος σε κάποιον admin στο lobby chat.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3301"/>
+        <source>Could not start game: Synchronization failed.</source>
+        <translation type="unfinished">Αδύνατον να ξεκινήσει το παιχνίδι: Αποτυχία συγχρονισμού.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3306"/>
+        <source>The server is down for maintenance. Please try again later.</source>
+        <translation type="unfinished">Ο server δεν λειτουργεί λόγω συντήρησης. Παρακαλώ ξαναπροσπαθήστε αργότερα.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3310"/>
+        <source>An internal error occured.</source>
+        <translation type="unfinished">Εσωτερικό λάθος.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3360"/>
+        <source>Network Notification</source>
+        <translation type="unfinished">Network Notification</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3326"/>
+        <source>You were kicked from the game.</source>
+        <translation type="unfinished">Σας &quot;έδιωξαν&quot; απ&apos; το παιχνίδι.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3332"/>
+        <source>Sorry, this game is already full.</source>
+        <translation type="unfinished">Συγνώμη, αυτό το παιχνίδι είναι γεμάτο.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3338"/>
+        <source>Unable to join - the server has already started the game.</source>
+        <translation type="unfinished">Δεν μπορείτε να εισέλθετε - το παιχνίδι έχει ήδη ξεκινήσει.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3343"/>
+        <source>Your admin state timed out due to inactivity. Feel free to create a new game!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3353"/>
+        <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
+        <translation type="unfinished">Μια νέα έκδοση του PokerTH είναι διαθέσιμη.&lt;br&gt;Παρακαλώ επισκεφθείτε την διεύθυνση &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; και &quot;κατεβάστε&quot; την τελευταία έκδοση.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3361"/>
+        <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
+        <translation type="unfinished">Αυτή η δοκιμαστική έκδοση του PokerTH έχει ξεπερασθεί.&lt;br&gt;Παρακαλώ επισκεφθείτε την διεύθυνση &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; και &quot;κατεβάστε&quot; την τελευταία έκδοση.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3456"/>
+        <source>Manual mode set. You&apos;ve got to choose yourself now.</source>
+        <translation type="unfinished">Χειροκίνητη επιλογή. Πρέπει να διαλέξεις μόνος σου τώρα.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3458"/>
+        <source>Auto mode set: Check or call any.</source>
+        <translation type="unfinished">Αυτόματο: Ντούκου ή Μέσα σε όλα.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3460"/>
+        <source>Auto mode set: Check or fold.</source>
+        <translation type="unfinished">Αυτόματο: Ντούκου ή Πάσο.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3614"/>
+        <source>Chat</source>
+        <translation type="unfinished">Chat</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3741"/>
+        <source>Closing PokerTH during network game</source>
+        <translation type="unfinished">Κλείσιμο PokerTH κατα τη διάρκεια παιχνιδιού σε δίκτυο</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3742"/>
+        <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
+        <translation type="unfinished">Φιλοξενείτε τον server. Θέλετε να κλείσετε το PokerTH?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3823"/>
+        <source>PokerTH - Internet Game Message</source>
+        <translation type="unfinished">PokerTH - Μήνυμα Παιχνιδιού Internet </translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3825"/>
+        <source>Attention! Do you really want to leave the current game
+and go back to the lobby?</source>
+        <translation type="unfinished">Προσοχή! Θέλετε σίγουρα να φύγετε απ&apos; το παιχνίδι
+και να επιστρέψετε στο lobby?</translation>
     </message>
 </context>
 <context>
@@ -894,527 +1534,507 @@ Would you like to overwrite ?</source>
     </message>
 </context>
 <context>
-    <name>gameTable</name>
+    <name>mainWindow</name>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="25"/>
+        <location filename="" line="142532468"/>
         <source>PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</source>
-        <translation>PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</translation>
+        <translation type="obsolete">PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="1999"/>
+        <location filename="" line="142532468"/>
         <source>Hands</source>
-        <translation>Αξία Φύλλων</translation>
+        <translation type="obsolete">Αξία Φύλλων</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="2031"/>
+        <location filename="" line="142532468"/>
         <source>Chat</source>
-        <translation>Chat</translation>
+        <translation type="obsolete">Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="2820"/>
+        <location filename="" line="142532468"/>
         <source>Log</source>
-        <translation>Log</translation>
+        <translation type="obsolete">Log</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="2858"/>
+        <location filename="" line="142532468"/>
         <source>Away</source>
-        <translation>Away</translation>
+        <translation type="obsolete">Away</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="2867"/>
+        <location filename="" line="142532468"/>
         <source>Manual Action (default)</source>
-        <translation>Χειροκίνητο (προεπιλογή)</translation>
+        <translation type="obsolete">Χειροκίνητο (πρεπιλογή)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="2880"/>
+        <location filename="" line="142532468"/>
         <source>Auto-Check / Auto-Fold</source>
-        <translation>Αυτόματο: Ντούκου / Πάσο</translation>
+        <translation type="obsolete">Αυτόματο: Ντούκου / Πάσο</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="2890"/>
+        <location filename="" line="142532468"/>
         <source>Auto-Check / Auto-Call-Any</source>
-        <translation>Αυτόματο: Ντούκου / Μέσα-σε-όλα</translation>
+        <translation type="obsolete">Αυτόματο: Ντούκου / Μέσα-σε-όλα</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="2995"/>
+        <location filename="" line="142532468"/>
         <source>Speed:</source>
-        <translation>Ταχύτητα:</translation>
+        <translation type="obsolete">Ταχύτητα:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3227"/>
+        <location filename="" line="142532468"/>
         <source>View</source>
-        <translation>Εμφάνιση</translation>
+        <translation type="obsolete">Εμφάνιση</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3237"/>
+        <location filename="" line="142532468"/>
         <source>Game</source>
-        <translation>Παιχνίδι</translation>
+        <translation type="obsolete">Παιχνίδι</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3241"/>
+        <location filename="" line="142532468"/>
         <source>Network Game</source>
-        <translation>Παιχνίδι Δικτύου</translation>
+        <translation type="obsolete">Παιχνίδι Δικτύου</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3259"/>
+        <location filename="" line="142532468"/>
         <source>Start Local Game ...</source>
-        <translation>Τοπικό Παιχνίδι ...</translation>
+        <translation type="obsolete">Τοπικό Παιχνίδι ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3262"/>
+        <location filename="" line="142532468"/>
         <source>Ctrl+N</source>
-        <translation>Ctrl+N</translation>
+        <translation type="obsolete">Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3267"/>
+        <location filename="" line="142532468"/>
         <source>Quit</source>
-        <translation>Κλείσιμο</translation>
+        <translation type="obsolete">Κλείσιμο</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3270"/>
+        <location filename="" line="142532468"/>
         <source>Ctrl+Q</source>
-        <translation>Ctrl+Q</translation>
+        <translation type="obsolete">Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3275"/>
+        <location filename="" line="142532468"/>
         <source>About PokerTH ...</source>
-        <translation>About PokerTH ...</translation>
+        <translation type="obsolete">About PokerTH ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3280"/>
+        <location filename="" line="142532468"/>
         <source>Settings ...</source>
-        <translation>Επιλογές ...</translation>
+        <translation type="obsolete">Επιλογές ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3285"/>
+        <location filename="" line="142532468"/>
         <source>Create Network Game ...</source>
-        <translation>Δημιουργία Παιχνιδιού Δικτύου ...</translation>
+        <translation type="obsolete">Δημιουργία Παιχνιδιού Δικτύου ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3288"/>
+        <location filename="" line="142532468"/>
         <source>Ctrl+O</source>
-        <translation>Ctrl+O</translation>
+        <translation type="obsolete">Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3293"/>
+        <location filename="" line="142532468"/>
         <source>Join Network Game ...</source>
-        <translation>Είσοδος σε Παιχνίδι Δικτύου ...</translation>
+        <translation type="obsolete">Είσοδος σε Παιχνίδι Δικτύου ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3296"/>
+        <location filename="" line="142532468"/>
         <source>Ctrl+J</source>
-        <translation>Ctrl+J</translation>
+        <translation type="obsolete">Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3301"/>
+        <location filename="" line="142532468"/>
         <source>Fullscreen</source>
-        <translation>Πλήρης Οθόνη</translation>
+        <translation type="obsolete">Πλήρης Οθόνη</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3304"/>
+        <location filename="" line="142532468"/>
         <source>Ctrl+F</source>
-        <translation>Ctrl+F</translation>
+        <translation type="obsolete">Ctrl+F</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3309"/>
+        <location filename="" line="142532468"/>
         <source>Show/Hide Chat Window</source>
-        <translation>Εμφάνιση/Απόκρυψη Παραθύρου Chat</translation>
+        <translation type="obsolete">Εμφάνιση/Απόκρυψη Παραθύρου Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3312"/>
+        <location filename="" line="142532468"/>
         <source>Ctrl+T</source>
-        <translation>Ctrl+T</translation>
+        <translation type="obsolete">Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3323"/>
+        <location filename="" line="142532468"/>
         <source>Show/Hide Hands Window</source>
-        <translation>Εμφάνιση/Απόκρυψη Παραθύρου Αξίας Φύλλων</translation>
+        <translation type="obsolete">Εμφάνιση/Απόκρυψη Παραθύρου Αξίας Φύλλων</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3326"/>
+        <location filename="" line="142532468"/>
         <source>Ctrl+H</source>
-        <translation>Ctrl+H</translation>
+        <translation type="obsolete">Ctrl+H</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3331"/>
+        <location filename="" line="142532468"/>
         <source>Show/Hide Log Window</source>
-        <translation>Εμφάνιση/Απόκρυψη Παραθύρου Log</translation>
+        <translation type="obsolete">Εμφάνιση/Απόκρυψη Παραθύρου Log</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3334"/>
+        <location filename="" line="142532468"/>
         <source>Ctrl+L</source>
-        <translation>Ctrl+L</translation>
+        <translation type="obsolete">Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3339"/>
+        <location filename="" line="142532468"/>
         <source>Internet Game ...</source>
-        <translation>Παιχνίδι στο Internet ...</translation>
+        <translation type="obsolete">Παιχνίδι στο Internet ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3342"/>
+        <location filename="" line="142532468"/>
         <source>Ctrl+I</source>
-        <translation>Ctrl+I</translation>
+        <translation type="obsolete">Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3347"/>
+        <location filename="" line="142532468"/>
         <source>Show/Hide Away Window</source>
-        <translation>Εμφάνιση/Απόκρυψη Παραθύρου</translation>
+        <translation type="obsolete">Εμφάνιση/Απόκρυψη Παραθύρου</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3350"/>
+        <location filename="" line="142532468"/>
         <source>Ctrl+A</source>
-        <translation>Ctrl+A</translation>
+        <translation type="obsolete">Ctrl+A</translation>
     </message>
 </context>
 <context>
-    <name>gameTableImpl</name>
+    <name>mainWindowImpl</name>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3563"/>
+        <location filename="" line="142532468"/>
         <source>Stop</source>
-        <translation>Παύση</translation>
+        <translation type="obsolete">Παύση</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="465"/>
+        <location filename="" line="142532468"/>
         <source>Cmd+N to start a new game</source>
-        <translation>Ctrl+N - Νέο Παιχνίδι</translation>
+        <translation type="obsolete">Ctrl+N - Νέο Παιχνίδι</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="467"/>
+        <location filename="" line="142532468"/>
         <source>Ctrl+N to start a new game</source>
-        <translation>Ctrl+N - Νέο Παιχνίδι</translation>
+        <translation type="obsolete">Ctrl+N - Νέο Παιχνίδι</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="494"/>
+        <location filename="" line="142532468"/>
         <source>PokerTH %1 - The Open-Source Texas Holdem Engine</source>
-        <translation>PokerTH %1 - The Open-Source Texas Holdem Engine</translation>
+        <translation type="obsolete">PokerTH %1 - The Open-Source Texas Holdem Engine</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="919"/>
+        <location filename="" line="142532468"/>
         <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
 Please choose another one.</source>
-        <translation>Δεν μπορείς να εισέλθεις σε παιχνίδι Internet με nickname: &quot;Human Player&quot;.
+        <translation type="obsolete">Δεν μπορείς να εισέλθεις σε παιχνίδι Internet με nickname: &quot;Human Player&quot;.
 Παρακαλώ επιλέξτε άλλο nickname.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1976"/>
+        <location filename="" line="142532468"/>
         <source>F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In</source>
-        <translation>F1 - Πάσο | F2 - Ντούκου/Μέσα | F3 - Ποντάρω/Ρελάνς | F4 - Όλα Μέσα</translation>
+        <translation type="obsolete">F1 - Πάσο | F2 - Ντούκου/Μέσα | F3 - Ποντάρω/Ρελάνς | F4 - Όλα Μέσα</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1978"/>
+        <location filename="" line="142532468"/>
         <source>F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold</source>
-        <translation>F1 - Όλα Μέσα | F2 - Ποντάρω/Ρελάνς | F3 - Ντούκου/Μέσα | F4 - Πάσο</translation>
+        <translation type="obsolete">F1 - Όλα Μέσα | F2 - Ποντάρω/Ρελάνς | F3 - Ντούκου/Μέσα | F4 - Πάσο</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3024"/>
+        <location filename="" line="142532468"/>
         <source>Start</source>
-        <translation>Έναρξη</translation>
+        <translation type="obsolete">Έναρξη</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3585"/>
+        <location filename="" line="142532468"/>
         <source>Lobby</source>
-        <translation>Lobby</translation>
+        <translation type="obsolete">Lobby</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3271"/>
+        <location filename="" line="142532468"/>
         <source>Network Error</source>
-        <translation>Λάθος Δικτύου</translation>
+        <translation type="obsolete">Λάθος Δικτύου</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3067"/>
+        <location filename="" line="142532468"/>
         <source>Server address was not set.</source>
-        <translation>Η Server address δεν είχε ορισθεί.</translation>
+        <translation type="obsolete">Η Server address δεν είχε ορισθεί.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3072"/>
+        <location filename="" line="142532468"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation>Έχει ορισθεί λάθος port (δεν επιτρέπονται ports από 0 εως 1023).</translation>
+        <translation type="obsolete">Έχει ορισθεί λάθος port (δεν επιτρέπονται ports από 0 εως 1023).</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3077"/>
+        <location filename="" line="142532468"/>
         <source>Could not create a socket for TCP communication.</source>
-        <translation>Could not create a socket for TCP communication.</translation>
+        <translation type="obsolete">Could not create a socket for TCP communication.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3082"/>
+        <location filename="" line="142532468"/>
         <source>Could not set the IP address.</source>
-        <translation>Could not set the IP address.</translation>
+        <translation type="obsolete">Could not set the IP address.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3087"/>
+        <location filename="" line="142532468"/>
         <source>Could not set the port for this type of address.</source>
-        <translation>Could not set the port for this type of address.</translation>
+        <translation type="obsolete">Could not set the port for this type of address.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3092"/>
+        <location filename="" line="142532468"/>
         <source>The server name could not be resolved.</source>
-        <translation>Το όνομα του server δεν μπορεί να βρεθεί.</translation>
+        <translation type="obsolete">Το όνομα του server δεν μπορεί να βρεθεί.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3097"/>
+        <location filename="" line="142532468"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>Bind failed - Παρακαλώ διαλέξτε διαφορετικό port.</translation>
+        <translation type="obsolete">Bind failed - Παρακαλώ διαλέξτε διαφορετικό port.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3102"/>
+        <location filename="" line="142532468"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation>Εσωτερικό λάθος δικτύου: &quot;listen&quot; failed.</translation>
+        <translation type="obsolete">Εσωτερικό λάθος δικτύου: &quot;listen&quot; failed.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3107"/>
+        <location filename="" line="142532468"/>
         <source>Server execution was terminated.</source>
-        <translation>Η λειτουργία του server τερματίστηκε.</translation>
+        <translation type="obsolete">Η λειτουργία του server τερματίστηκε.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3112"/>
+        <location filename="" line="142532468"/>
         <source>Could not connect to the server.</source>
-        <translation>Αδυναμία σύνδεσης με το server.</translation>
+        <translation type="obsolete">Αδυναμία σύνδεσης με το server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3117"/>
+        <location filename="" line="142532468"/>
         <source>Connection timed out.
 Please check the server address.
 
 If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
-        <translation>Η σύνδεση τερματίστηκε.
+        <translation type="obsolete">Η σύνδεση τερματίστηκε.
 Παρακαλώ ελέγξτε την server address.
 
 Αν ο server βρίσκεται σε NAT-Router, βεβαιωθείτε ότι το port forwarding λειτουργεί.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3122"/>
+        <location filename="" line="142532468"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
-        <translation>Εσωτερικό λάθος δικτύου: &quot;select&quot; failed.</translation>
+        <translation type="obsolete">Εσωτερικό λάθος δικτύου: &quot;select&quot; failed.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3127"/>
+        <location filename="" line="142532468"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation>Εσωτερικό λάθος δικτύου: &quot;send&quot; failed.</translation>
+        <translation type="obsolete">Εσωτερικό λάθος δικτύου: &quot;send&quot; failed.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3133"/>
+        <location filename="" line="142532468"/>
         <source>Connection was closed by the server.</source>
-        <translation>Η σύνδεση τερματίστηκε απ&apos; τον server.</translation>
+        <translation type="obsolete">Η σύνδεση τερματίστηκε απ&apos; τον server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3138"/>
+        <location filename="" line="142532468"/>
         <source>Internal network error: Duplicate TCP connection.</source>
-        <translation>Εσωτερικό λάθος δικτύου: Duplicate TCP connection.</translation>
+        <translation type="obsolete">Εσωτερικό λάθος δικτύου: Duplicate TCP connection.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3143"/>
+        <location filename="" line="142532468"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>Λήψη λανθασμένου πακέτου δικτύου.
+        <translation type="obsolete">Λήψη λανθασμένου πακέτου δικτύου.
 Παρακαλώ βεβαιωθείτε ότι όλοι οι παίχτες χρησιμοποιούν την ίδια έκδοση του PokerTH.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3148"/>
+        <location filename="" line="142532468"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation>Εσωτερικό λάθος.
+        <translation type="obsolete">Εσωτερικό λάθος.
 Παρακαλώ βεβαιωθείτε ότι όλοι οι παίχτες χρησιμοποιούν την ίδια έκδοση του PokerTH.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3153"/>
+        <location filename="" line="142532468"/>
         <source>The PokerTH server does not support this version of the game.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation>Ο server του PokerTH δεν υποστηρίζει αυτή την έκδοση του παιχνιδιού.&lt;br&gt;Παρακαλώ επισκεφθείτε την διεύθυνση &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; και &quot;κατεβάστε&quot; την τελευταία έκδοση.</translation>
+        <translation type="obsolete">Ο server του PokerTH δεν υποστηρίζει αυτή την έκδοση του παιχνιδιού.&lt;br&gt;Παρακαλώ επισκεφθείτε την διεύθυνση &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; και &quot;κατεβάστε&quot; την τελευταία έκδοση.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3161"/>
+        <location filename="" line="142532468"/>
         <source>Sorry, this server is already full.</source>
-        <translation>Συγνώμη, αυτός ο server είναι γεμάτος.</translation>
+        <translation type="obsolete">Συγνώμη, αυτός ο server είναι γεμάτος.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3310"/>
+        <location filename="" line="142532468"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
-        <translation>Λανθασμένος κωδικός κατά την είσοδο στο παιχνίδι.
+        <translation type="obsolete">Λανθασμένος κωδικός κατά την είσοδο στο παιχνίδι.
 Παρακαλώ δώστε τον κωδικό και ξαναπροσπαθήστε.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3171"/>
+        <location filename="" line="142532468"/>
         <source>The password is too long. Please choose another one.</source>
-        <translation>Ο κωδικός είναι πολύ μεγάλος. Παρακαλώ επιλέξτε κάποιον άλλο.</translation>
+        <translation type="obsolete">Ο κωδικός είναι πολύ μεγάλος. Παρακαλώ επιλέξτε κάποιον άλλο.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3175"/>
+        <location filename="" line="142532468"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
-        <translation>Το όνομα σας χρησιμοποιείται ήδη από έναν άλλο παίχτη.
+        <translation type="obsolete">Το όνομα σας χρησιμοποιείται ήδη από έναν άλλο παίχτη.
 Παρακαλώ επιλέξτε ένα διαφορετικό όνομα.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3179"/>
+        <location filename="" line="142532468"/>
         <source>The player name is too short, too long or invalid. Please choose another one.</source>
-        <translation>Το όνομα σας είναι πολύ μικρό, ή λανθασμένο. Παρακαλώ επιλέξτε ένα διαφορετικό όνομα.</translation>
+        <translation type="obsolete">Το όνομα σας είναι πολύ μικρό, ή λανθασμένο. Παρακαλώ επιλέξτε ένα διαφορετικό όνομα.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3184"/>
+        <location filename="" line="142532468"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation>Το όνομα του παιχνιδιού είναι πολύ μικρό ή πολύ μεγάλο. Παρακαλώ επιλέξτε ένα διαφορετικό όνομα.</translation>
+        <translation type="obsolete">Το όνομα του παιχνιδιού είναι πολύ μικρό ή πολύ μεγάλο. Παρακαλώ επιλέξτε ένα διαφορετικό όνομα.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3189"/>
+        <location filename="" line="142532468"/>
         <source>The game could not be found.</source>
-        <translation>Το παιχνίδι δεν βρέθηκε.</translation>
+        <translation type="obsolete">Το παιχνίδι δεν βρέθηκε.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3194"/>
+        <location filename="" line="142532468"/>
         <source>The chat text is invalid.</source>
-        <translation>Το κείμενο του chat δεν είναι έγκυρο.</translation>
+        <translation type="obsolete">Το κείμενο του chat δεν είναι έγκυρο.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3199"/>
+        <location filename="" line="142532468"/>
         <source>The server referred to an unknown player. Aborting.</source>
-        <translation>Ο server αναφέρεται σε έναν άγνωστο παίχτη. Ακύρωση.</translation>
+        <translation type="obsolete">Ο server αναφέρεται σε έναν άγνωστο παίχτη. Ακύρωση.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3204"/>
+        <location filename="" line="142532468"/>
         <source>Internal error: The current player could not be found.</source>
-        <translation>Εσωτερικό λάθος: Ο παίχτης δεν μπορεί να βρεθεί.</translation>
+        <translation type="obsolete">Εσωτερικό λάθος: Ο παίχτης δεν μπορεί να βρεθεί.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3209"/>
+        <location filename="" line="142532468"/>
         <source>Internal error: The current player is not active.</source>
-        <translation>Εσωτερικό λάθος: Ο παίχτης δεν είναι ενεργός.</translation>
+        <translation type="obsolete">Εσωτερικό λάθος: Ο παίχτης δεν είναι ενεργός.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3215"/>
+        <location filename="" line="142532468"/>
         <source>You were kicked from the server.</source>
-        <translation>&quot;Διώχθηκες&quot; απ&apos; τον server.</translation>
+        <translation type="obsolete">&quot;Διώχθηκες&quot; απ&apos; τον server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3232"/>
+        <location filename="" line="142532468"/>
         <source>The client player count is invalid.</source>
-        <translation>Η μέτρηση των παιχτών είναι λανθασμένη.</translation>
+        <translation type="obsolete">Η μέτρηση των παιχτών είναι λανθασμένη.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3237"/>
+        <location filename="" line="142532468"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation>Πολλά χειροκίνητα blinds. Παρακαλώ επανακαθορίστε τα χειροκίνητα blinds.</translation>
+        <translation type="obsolete">Πολλά χειροκίνητα blinds. Παρακαλώ επανακαθορίστε τα χειροκίνητα blinds.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3243"/>
+        <location filename="" line="142532468"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation>Η εικόνα δεν είναι σωστή. Παρακαλώ επιλέξτε μια διαφορετική εικόνα.</translation>
+        <translation type="obsolete">Η εικόνα δεν είναι σωστή. Παρακαλώ επιλέξτε μια διαφορετική εικόνα.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3248"/>
+        <location filename="" line="142532468"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
-        <translation>Η επιλεγμένη εικόνα είναι πολύ μεγάλη. Παρακαλώ επιλέξτε μια διαφορετική εικόνα.</translation>
+        <translation type="obsolete">Η επιλεγμένη εικόνα είναι πολύ μεγάλη. Παρακαλώ επιλέξτε μια διαφορετική εικόνα.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3258"/>
+        <location filename="" line="142532468"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation>Εσωτερικό λάθος στην εικόνα. Παρακαλώ αναφέρετε το λάθος σε κάποιον admin στο lobby chat.</translation>
+        <translation type="obsolete">Εσωτερικό λάθος στην εικόνα. Παρακαλώ αναφέρετε το λάθος σε κάποιον admin στο lobby chat.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3263"/>
+        <location filename="" line="142532468"/>
         <source>Could not start game: Synchronization failed.</source>
-        <translation>Αδύνατον να ξεκινήσει το παιχνίδι: Αποτυχία συγχρονισμού.</translation>
+        <translation type="obsolete">Αδύνατον να ξεκινήσει το παιχνίδι: Αποτυχία συγχρονισμού.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3268"/>
+        <location filename="" line="142532468"/>
         <source>The server is down for maintenance. Please try again later.</source>
-        <translation>Ο server δεν λειτουργεί λόγω συντήρησης. Παρακαλώ ξαναπροσπαθήστε αργότερα.</translation>
+        <translation type="obsolete">Ο server δεν λειτουργεί λόγω συντήρησης. Παρακαλώ ξαναπροσπαθήστε αργότερα.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3272"/>
+        <location filename="" line="142532468"/>
         <source>An internal error occured.</source>
-        <translation>Εσωτερικό λάθος.</translation>
+        <translation type="obsolete">Εσωτερικό λάθος.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3322"/>
+        <location filename="" line="142532468"/>
         <source>Network Notification</source>
-        <translation>Network Notification</translation>
+        <translation type="obsolete">Network Notification</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3288"/>
+        <location filename="" line="142532468"/>
         <source>You were kicked from the game.</source>
-        <translation>Σας &quot;έδιωξαν&quot; απ&apos; το παιχνίδι.</translation>
+        <translation type="obsolete">Σας &quot;έδιωξαν&quot; απ&apos; το παιχνίδι.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3294"/>
+        <location filename="" line="142532468"/>
         <source>Sorry, this game is already full.</source>
-        <translation>Συγνώμη, αυτό το παιχνίδι είναι γεμάτο.</translation>
+        <translation type="obsolete">Συγνώμη, αυτό το παιχνίδι είναι γεμάτο.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3300"/>
+        <location filename="" line="142532468"/>
         <source>Unable to join - the server has already started the game.</source>
-        <translation>Δεν μπορείτε να εισέλθετε - το παιχνίδι έχει ήδη ξεκινήσει.</translation>
+        <translation type="obsolete">Δεν μπορείτε να εισέλθετε - το παιχνίδι έχει ήδη ξεκινήσει.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3315"/>
+        <location filename="" line="142532468"/>
         <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation>Μια νέα έκδοση του PokerTH είναι διαθέσιμη.&lt;br&gt;Παρακαλώ επισκεφθείτε την διεύθυνση &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; και &quot;κατεβάστε&quot; την τελευταία έκδοση.</translation>
+        <translation type="obsolete">Μια νέα έκδοση του PokerTH είναι διαθέσιμη.&lt;br&gt;Παρακαλώ επισκεφθείτε την διεύθυνση &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; και &quot;κατεβάστε&quot; την τελευταία έκδοση.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3323"/>
+        <location filename="" line="142532468"/>
         <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation>Αυτή η δοκιμαστική έκδοση του PokerTH έχει ξεπερασθεί.&lt;br&gt;Παρακαλώ επισκεφθείτε την διεύθυνση &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; και &quot;κατεβάστε&quot; την τελευταία έκδοση.</translation>
+        <translation type="obsolete">Αυτή η δοκιμαστική έκδοση του PokerTH έχει ξεπερασθεί.&lt;br&gt;Παρακαλώ επισκεφθείτε την διεύθυνση &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; και &quot;κατεβάστε&quot; την τελευταία έκδοση.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3418"/>
+        <location filename="" line="142532468"/>
         <source>Manual mode set. You&apos;ve got to choose yourself now.</source>
-        <translation>Χειροκίνητη επιλογή. Πρέπει να διαλέξεις μόνος σου τώρα.</translation>
+        <translation type="obsolete">Χειροκίνητη επιλογή. Πρέπει να διαλέξεις μόνος σου τώρα.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3420"/>
+        <location filename="" line="142532468"/>
         <source>Auto mode set: Check or call any.</source>
-        <translation>Αυτόματο: Ντούκου ή Μέσα σε όλα.</translation>
+        <translation type="obsolete">Αυτόματο: Ντούκου ή Μέσα σε όλα.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3422"/>
+        <location filename="" line="142532468"/>
         <source>Auto mode set: Check or fold.</source>
-        <translation>Αυτόματο: Ντούκου ή Πάσο.</translation>
+        <translation type="obsolete">Αυτόματο: Ντούκου ή Πάσο.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3576"/>
+        <location filename="" line="142532468"/>
         <source>Chat</source>
-        <translation>Chat</translation>
+        <translation type="obsolete">Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3703"/>
+        <location filename="" line="142532468"/>
         <source>Closing PokerTH during network game</source>
-        <translation>Κλείσιμο PokerTH κατα τη διάρκεια παιχνιδιού σε δίκτυο</translation>
+        <translation type="obsolete">Κλείσιμο PokerTH κατα τη διάρκεια παιχνιδιού σε δίκτυο</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3704"/>
+        <location filename="" line="142532468"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
-        <translation>Φιλοξενείτε τον server. Θέλετε να κλείσετε το PokerTH?</translation>
+        <translation type="obsolete">Φιλοξενείτε τον server. Θέλετε να κλείσετε το PokerTH?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3785"/>
+        <location filename="" line="142532468"/>
         <source>PokerTH - Internet Game Message</source>
-        <translation>PokerTH - Μήνυμα Παιχνιδιού Internet </translation>
+        <translation type="obsolete">PokerTH - Μήνυμα Παιχνιδιού Internet </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3787"/>
+        <location filename="" line="142532468"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
-        <translation>Προσοχή! Θέλετε σίγουρα να φύγετε απ&apos; το παιχνίδι
+        <translation type="obsolete">Προσοχή! Θέλετε σίγουρα να φύγετε απ&apos; το παιχνίδι
 και να επιστρέψετε στο lobby?</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3221"/>
-        <source>You were temporarily banned from the server.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3227"/>
-        <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3253"/>
-        <source>You cannot upload a new avatar file at this time. Please try again in a few seconds.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3305"/>
-        <source>Your admin state timed out due to inactivity. Feel free to create a new game!</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1612,77 +2232,77 @@ Please enter an valid picture!</source>
         <translation>Επιλογές</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3010"/>
+        <location filename="" line="142532468"/>
         <source>QLabel { font-weight: bold;  }</source>
-        <translation>QLabel { font-weight: bold;  }</translation>
+        <translation type="obsolete">QLabel { font-weight: bold;  }</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3074"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="96"/>
         <source>Interface</source>
         <translation>Εμφάνιση</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="69"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="112"/>
         <source>Language:</source>
         <translation>Γλώσσα:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="97"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="140"/>
         <source>Show intro on startup</source>
         <translation>Εμφάνιση με την έναρξη</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="118"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="161"/>
         <source>Show statusbar messages</source>
         <translation>Εμφάνιση μηνυμάτων στο statusbar </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="125"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="168"/>
         <source>Show fade-out animation for non-winning cards</source>
         <translation>Εμφάνιση animation για τις κάρτες που χάνουν</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="132"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="175"/>
         <source>Show flip-card animation</source>
         <translation>Εμφάνιση animation όταν γυρίζουν τα φύλλα</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="139"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="182"/>
         <source>Show buttons for small blind and big blind</source>
         <translation>Εμφάνιση δεικτών για το μικρό και το μεγάλο blind</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="146"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="189"/>
         <source>Show own cards only on mouse click</source>
         <translation>Εμφάνιση των φύλλων μου μόνο με το πάτημα του ποντικιού</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="153"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="196"/>
         <source>Reverse order of F-Keys (F1 - F4)</source>
         <translation>Αντιστροφή σειράς των κουμπιών F (F1 - F4)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="160"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="203"/>
         <source>Network / Internet Game</source>
         <translation>Παιχνίδι Δικτύου / Internet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="166"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="209"/>
         <source>Switch keyboard focus to bet-input-field if it&apos;s your turn</source>
         <translation>Απευθείας ενεργοποίηση του πεδίου πονταρίσματος όταν έρχεται η σειρά μου</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="176"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="219"/>
         <source>Flipside of Cards</source>
         <translation>Τράπουλα</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="234"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="256"/>
         <source>Own flipside picture:</source>
         <translation>Επιλέξτε μια δικιά σας εικόνα για την τράπουλα:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="269"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="291"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -1690,200 +2310,200 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Σημείωση: Η καλύτερη ποιότητα εικόνας είναι αυτή με ratio &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=100, height=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=100, height=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="284"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="306"/>
         <source>Default</source>
         <translation>Προεπιλογή</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3079"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="347"/>
         <source>Sound</source>
         <translation>Ήχος</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="331"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="361"/>
         <source>Play sound effects</source>
         <translation>Ηχητικά Εφέ</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="360"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="381"/>
         <source>Sound Volume:</source>
         <translation>Ένταση ήχου:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="373"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="394"/>
         <source>10</source>
         <translation>10</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="398"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="419"/>
         <source>Sound Categories </source>
         <translation>Κατηγορίες Ήχου </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="407"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="428"/>
         <source>Play game actions sounds like &quot;check&quot;, &quot;call&quot;, &quot;raise&quot;</source>
         <translation>Αναπαραγωγή ήχων σε ενέργειες όπως &quot;ντούκου&quot;, &quot;μέσα&quot;, &quot;ρελάνς&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="414"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="435"/>
         <source>Play lobby chat notifications</source>
         <translation>Αναπαραγωγή ειδοποιήσεων στο lobby chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="421"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="442"/>
         <source>Play network/internet game notifications like &quot;player joined the game&quot;</source>
         <translation>Αναπαραγωγή ειδοποιήσεων σε παιχνίδι δικτύου/internet, όπως &quot;παίχτης εισήλθε στο παιχνίδι&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3084"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="486"/>
         <source>Local Game Settings</source>
         <translation>Επιλογές Τοπικού Παιχνιδιού</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="473"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="502"/>
         <source>Number of players:</source>
         <translation>Αριθμός παιχτών:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="796"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="833"/>
         <source>Start Cash:</source>
         <translation>Αρχικό Ποσό:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="836"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="873"/>
         <source>$</source>
         <translation>$</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="826"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="863"/>
         <source>First small blind:</source>
         <translation>Αρχικό blind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="853"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="890"/>
         <source>Raise blinds:</source>
         <translation>Αύξηση blind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="892"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="929"/>
         <source>Every:</source>
         <translation>Κάθε:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="885"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="922"/>
         <source>hands</source>
         <translation>μοιρασιές</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="912"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="949"/>
         <source>minutes</source>
         <translation>λεπτά</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="941"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="978"/>
         <source>Raise mode:</source>
         <translation>Τύπος αύξησης:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="950"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="987"/>
         <source>Always double blinds</source>
         <translation>Πάντα διπλό blind</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="960"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="997"/>
         <source>Manual blinds order:</source>
         <translation>Χειροκίνητη σειρά blinds:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="970"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1007"/>
         <source>Edit ...</source>
         <translation>Επεξεργασία...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="694"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="723"/>
         <source>Game Speed:</source>
         <translation>Ταχύτητα Παιχνιδιού:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="719"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="748"/>
         <source>Pause between hands (press &quot;start&quot; button to go on)</source>
         <translation>Παύση μεταξύ ανοίγματος φύλλων (επιλογή κουμπιού &quot;έναρξη&quot; για να συνεχίσεις)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="726"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="755"/>
         <source>Show game settings dialog on every new game</source>
         <translation>Εμφάνιση μενού επιλογών παιχνιδιού σε κάθε καινούργιο παιχνίδι</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3089"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="790"/>
         <source>Network Game Settings</source>
         <translation>Επιλογές Παιχνιδιού Δικτύου</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="769"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="806"/>
         <source>Maximum number of players:</source>
         <translation>Μέγιστος αριθμός παιχτών:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="984"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1021"/>
         <source>Game Speed for computer opponents:</source>
         <translation>Ταχύτητα Παιχνιδιού για τους παίχτες του υπολογιστή:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1011"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1048"/>
         <source>Timeout for player action:</source>
         <translation>Χρόνος αναμονής για τον παίχτη:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1021"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1058"/>
         <source> s</source>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1046"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1092"/>
         <source>Network Server Settings</source>
         <translation>Επιλογές Server Δικτύου</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1311"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1346"/>
         <source>Server Password:</source>
         <translation>Server Password:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1396"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1471"/>
         <source>Server Port:</source>
         <translation>Server Port:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1237"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1389"/>
         <source>Use SCTP</source>
         <translation>Use SCTP</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1436"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1511"/>
         <source>Use IPv6</source>
         <translation>Use IPv6</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1443"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1518"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;Τί είναι αυτό;&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1271"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1396"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;Τί είναι αυτό;&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3094"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1221"/>
         <source>Internet Game Settings</source>
         <translation>Επιλογές Παιχνιδιού στο Internet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1184"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1235"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal;&quot;&gt;
@@ -1891,90 +2511,90 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Σημείωση: Προεπιλεγμένες &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Επιλογές Παιχνιδιού&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; όπως &quot;Μέγιστος Αριθμός Παιχτών&quot;, &quot;Αρχικό Ποσό&quot; και &quot;Μικρό Blind&quot; θα χρησιμοποιηθούν &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;όπως στις επιλογές Παιχνιδιού Δικτύου.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Default &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Επιλογές Παιχνιδιού&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; όπως &quot;Μέγιστος Αριθμός Παιχτών&quot;, &quot;Αρχικό Ποσό&quot; και &quot;Μικρό Blind&quot; θα χρησιμοποιηθούν &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;όπως στις επιλογές Παιχνιδιού Δικτύου.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1213"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1248"/>
         <source>Internet Server Settings (Dedicated Server)</source>
         <translation>Επιλογές Internet Server (Dedicated Server)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1376"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1451"/>
         <source>Server Address:</source>
         <translation>Server Address:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1348"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1417"/>
         <source>Use password for private game:</source>
         <translation>Κωδικός για πριβέ παιχνίδι:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1367"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1436"/>
         <source>Enable/Disable Lobby Chat (IRC Server)</source>
         <translation>Ενεργοποίηση/Απενεργοποίηση Lobby Chat (IRC Server)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1386"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1461"/>
         <source>chat.freenode.net</source>
         <translation>chat.freenode.net</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1419"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1494"/>
         <source>Channel:</source>
         <translation>Channel:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1429"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1504"/>
         <source>#pokerth</source>
         <translation>#pokerth</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1460"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1535"/>
         <source>Channel Password:</source>
         <translation>Channel Password:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1524"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1595"/>
         <source>Player Nicks</source>
         <translation>Ψευδώνυμο Παιχτών</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1531"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1602"/>
         <source>Computer Engine</source>
-        <translation>Παίκτες Υπολογιστή</translation>
+        <translation>Computer Engine</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1593"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1640"/>
         <source>Opponent 6:</source>
         <translation>Αντίπαλος 6:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1747"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1773"/>
         <source>Opponent 5:</source>
         <translation>Αντίπαλος 5:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1926"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1931"/>
         <source>Opponent 4:</source>
         <translation>Αντίπαλος 4:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2055"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2039"/>
         <source>Opponent 3:</source>
         <translation>Αντίπαλος 3:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2234"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2197"/>
         <source>Opponent 2:</source>
         <translation>Αντίπαλος 2:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2388"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2330"/>
         <source>Opponent 1:</source>
         <translation>Αντίπαλος 1:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2482"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2415"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -1985,73 +2605,93 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Σημείωση: Η καλύτερη ποιότητα εικόνας είναι αυτή με ratio: &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=50, height=50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2570"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2482"/>
         <source>Human Player:</source>
         <translation>Παίκτης:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2813"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2694"/>
         <source>Enable/Disable Logging</source>
         <translation>Ενεργοποίηση/Απενεργοποίηση Logging</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2860"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2743"/>
         <source>Store log files for</source>
         <translation>Αποθήκευση αρχείων log για</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2889"/>
+        <location filename="" line="142532468"/>
         <source>Day(s)</source>
-        <translation>Μέρα(Μέρες)</translation>
+        <translation type="obsolete">Μέρα(Μέρες)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2928"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2706"/>
         <source>Log File Directory: </source>
         <translation>Διεύθυνση Αρχείου Log: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2967"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2769"/>
         <source>Write log after every: </source>
         <translation>Κράτα log σε κάθε: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2987"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2789"/>
         <source>action (high frequent disc access)</source>
         <translation>ενέργεια (πολύ συχνή πρόσβαση στο δίσκο)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2992"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2794"/>
         <source>hand (medium disc access)</source>
         <translation>μοίρασμα (μέτρια πρόσβαση στο δίσκο)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2997"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2799"/>
         <source>game (low disc access)</source>
         <translation>παιχνίδι (χαμηλή πρόσβαση στο δίσκο)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3104"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2813"/>
         <source>Log Messages</source>
         <translation>Μηνύματα Log</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3099"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="65"/>
         <source>Player Nicks/Avatars</source>
         <translation>Ψευδώνυμα/Εικόνα Παίχτη</translation>
     </message>
     <message>
-        <location filename="" line="7471221"/>
+        <location filename="" line="142532468"/>
         <source>Show left toolbox </source>
         <translation type="obsolete">Εμφάνιση αριστερού  toolbox </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="111"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="154"/>
         <source>Show right toolbox</source>
         <translation>Εμφάνιση δεξιού toolbox </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="104"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="147"/>
         <source>Show left toolbox</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1260"/>
+        <source>Automatic Server Configuration URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1272"/>
+        <source>Serverlist Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1291"/>
+        <source>Manual Server Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2753"/>
+        <source> Day(s)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2118,58 +2758,58 @@ p, li { white-space: pre-wrap; }
         <translation>Turkish</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="358"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="389"/>
         <source>Settings Error</source>
         <translation>Λάθος Επιλογές</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="339"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="370"/>
         <source>The entered flipside picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>Η επιλεγμένη εικόνα για την τράπουλα δεν υπάρχει.
 Παρακαλώ επιλέξτε μια σωστή εικόνα!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="360"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="391"/>
         <source>The log file directory doesn&apos;t exist.
 Please select an valid directory!</source>
         <translation>Η διεύθυνση του αρχείου log δεν υπάρχει.
 Παρακαλώ επιλέξτε μια σωστή διεύθυνση!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="388"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="419"/>
         <source>Language Changed</source>
         <translation>Η γλώσσα άλλαξε</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="389"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="420"/>
         <source>You have changed application language to %1.
 Please restart PokerTH to load new language!</source>
         <translation>Έχετε επιλέξει την γλώσσα %1.
 Παρακαλώ επανεκκινήστε το PokerTH για να &quot;φορτωθεί&quot; η νέα γλώσσα!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="405"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="436"/>
         <source>Select your flipside picture</source>
         <translation>Επιλέξτε την εικόνα της τράπουλας</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="407"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="438"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Εικόνες (*.png *.jpg *.gif)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="479"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="510"/>
         <source>Open Directory</source>
         <translation>Άνοιγμα φακέλου</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="587"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="618"/>
         <source>Blinds Error</source>
         <translation>Λάθος Blinds</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="588"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="619"/>
         <source>The first element in your manual-blinds-list 
 is smaller than current first-small-blind!
 This first-small-blind-value will be set to maximum allowed value.</source>
@@ -2200,6 +2840,12 @@ This first-small-blind-value will be set to maximum allowed value.</source>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="62"/>
         <source>Swedish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="327"/>
+        <source>The entered server list address is not a valid URL.
+Please enter a valid server list address!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
