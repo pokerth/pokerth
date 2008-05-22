@@ -179,7 +179,7 @@ void Session::startInternetClient()
 		myConfig->readConfigString("InternetServerPassword"),
 		myConfig->readConfigString("MyName"),
 		myConfig->readConfigString("MyAvatar"),
-		myConfig->readConfigString("CacheDir"));
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
 	myNetClient->Run();
 }
 
@@ -203,7 +203,7 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 		pwd,
 		myConfig->readConfigString("MyName"),
 		myConfig->readConfigString("MyAvatar"),
-		myConfig->readConfigString("CacheDir"));
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
 	myNetClient->Run();
 	myNetClient->SendJoinFirstGame("");
 }
@@ -230,7 +230,7 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
 		myConfig->readConfigString("ServerPassword"),
 		myConfig->readConfigString("MyName"),
 		myConfig->readConfigString("MyAvatar"),
-		myConfig->readConfigString("CacheDir"));
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
 	myNetClient->Run();
 	myNetClient->SendCreateGame(gameData, NET_DEFAULT_GAME, "");
 }
@@ -297,7 +297,7 @@ void Session::startNetworkServer()
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
 		myConfig->readConfigInt("ServerUseSctp") == 1 ? NETWORK_MODE_TCP_SCTP : NETWORK_MODE_TCP,
 		myConfig->readConfigString("ServerPassword"),
-		myConfig->readConfigString("LogDir"),
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir")),
 		tmpIrcThread
 		);
 
