@@ -1,0 +1,203 @@
+<ui version="4.0" >
+ <class>mainWindow</class>
+ <widget class="QMainWindow" name="mainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>444</width>
+    <height>338</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>PokerTH 0.6.3 - The Open-Source Texas Holdem Engine</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>28</y>
+     <width>444</width>
+     <height>289</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_2" >
+    <item row="0" column="1" >
+     <spacer name="verticalSpacer" >
+      <property name="orientation" >
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0" >
+       <size>
+        <width>20</width>
+        <height>95</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="1" column="0" >
+     <spacer name="horizontalSpacer" >
+      <property name="orientation" >
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0" >
+       <size>
+        <width>63</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="1" column="1" colspan="2" >
+     <layout class="QGridLayout" name="gridLayout" >
+      <item row="0" column="1" >
+       <widget class="QPushButton" name="pushButton_2" >
+        <property name="text" >
+         <string>&amp;2 Internet Game</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QPushButton" name="pushButton_3" >
+        <property name="text" >
+         <string>&amp;3 Create Network Game</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="QPushButton" name="pushButton_4" >
+        <property name="text" >
+         <string>&amp;4 Join Network Game</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QPushButton" name="pushButton" >
+        <property name="text" >
+         <string>&amp;1 Start Local Game</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="3" >
+     <spacer name="horizontalSpacer_2" >
+      <property name="orientation" >
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0" >
+       <size>
+        <width>63</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="2" column="2" >
+     <spacer name="verticalSpacer_2" >
+      <property name="orientation" >
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0" >
+       <size>
+        <width>20</width>
+        <height>95</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>444</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuPokerTH" >
+    <property name="title" >
+     <string>PokerTH</string>
+    </property>
+    <widget class="QMenu" name="menuNetwork_Game" >
+     <property name="title" >
+      <string>Network Game</string>
+     </property>
+     <addaction name="actionCreate_Network_Game" />
+     <addaction name="actionJoin_Network_Game" />
+    </widget>
+    <addaction name="actionStart_Local_Game" />
+    <addaction name="menuNetwork_Game" />
+    <addaction name="actionInternet_Game" />
+    <addaction name="actionQuit" />
+   </widget>
+   <widget class="QMenu" name="menuSettings" >
+    <property name="title" >
+     <string>Settings</string>
+    </property>
+    <addaction name="actionConfigure_PokerTH" />
+   </widget>
+   <widget class="QMenu" name="menuAbout" >
+    <property name="title" >
+     <string>About</string>
+    </property>
+    <addaction name="actionAbout_PokerTH" />
+   </widget>
+   <addaction name="menuPokerTH" />
+   <addaction name="menuSettings" />
+   <addaction name="menuAbout" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>317</y>
+     <width>444</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <action name="actionStart_Local_Game" >
+   <property name="text" >
+    <string>Start Local Game ...</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionInternet_Game" >
+   <property name="text" >
+    <string>Internet Game ...</string>
+   </property>
+  </action>
+  <action name="actionAbout_PokerTH" >
+   <property name="text" >
+    <string>About PokerTH</string>
+   </property>
+  </action>
+  <action name="actionConfigure_PokerTH" >
+   <property name="text" >
+    <string>Configure PokerTH ...</string>
+   </property>
+  </action>
+  <action name="actionQuit" >
+   <property name="text" >
+    <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionCreate_Network_Game" >
+   <property name="text" >
+    <string>Create Network Game ...</string>
+   </property>
+  </action>
+  <action name="actionJoin_Network_Game" >
+   <property name="text" >
+    <string>Join Network Game ...</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
