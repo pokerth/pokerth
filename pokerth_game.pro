@@ -347,13 +347,21 @@ unix: !mac{
 		    libSDL_mixer, libSDL --> http://www.libsdl.org/")
 	}
 
+	UNAME = $$system(uname -s)
+	BSD = $$find(UNAME, "BSD")
+
 	LIBS += -lpokerth_lib
 	LIBS += $$BOOST_LIBS
-	LIBS += -lgnutls-openssl -lgcrypt -lSDL_mixer -lcurl -lz
+	LIBS += -lSDL_mixer -lcurl
+	!isEmpty( BSD ) {
+		LIBS += -lcrypto
+	} else {
+		LIBS += -lgnutls-openssl -lgcrypt
+	}
 	TARGETDEPS += ./lib/libpokerth_lib.a
 
 	##### My release static libs
-	#LIBS += -lgcrypt_static -lgpg-error_static -lgnutls-openssl_static -lgnutls_static -lSDL_mixer_static -lSDL -lmikmod -lcurl -lz 
+	#LIBS += -lgcrypt_static -lgpg-error_static -lgnutls-openssl_static -lgnutls_static -lSDL_mixer_static -lSDL -lmikmod -lcurl
 
 	#### INSTALL ####
 

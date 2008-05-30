@@ -203,9 +203,17 @@ unix : !mac {
 		    libboost (version >= 1.34.1)  --> http://www.boost.org/")
 	}
 
+	UNAME = $$system(uname -s)
+	BSD = $$find(UNAME, "BSD")
+
 	LIBS += -lpokerth_lib
 	LIBS += $$BOOST_LIBS
-	LIBS += -lgnutls-openssl -lgcrypt -lcurl
+	LIBS += -lcurl
+	!isEmpty( BSD ) {
+		LIBS += -lcrypto -liconv
+	} else {
+		LIBS += -lgnutls-openssl -lgcrypt
+	}
 
 	TARGETDEPS += ./lib/libpokerth_lib.a
 
