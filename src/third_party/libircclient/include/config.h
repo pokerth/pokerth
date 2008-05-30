@@ -2,7 +2,7 @@
 /* include/config.h.in.  Generated from configure.in by autoheader.  */
 
 /* Define to 1 if you have the `gethostbyname_r' function. */
-#ifndef __APPLE__
+#if !defined(__APPLE__) && !defined(__OpenBSD__)
 	#define HAVE_GETHOSTBYNAME_R 1
 #endif
 
