@@ -37,7 +37,7 @@ ConvHelper::NativeToUtf8(const std::string &inStr)
 {
 	string retStr(inStr);
 	size_t insize = inStr.length();
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__FreeBSD__)
 	const char *inbuf = inStr.data();
 #else
 	char *inbuf = const_cast<char *>(inStr.data());
@@ -72,7 +72,7 @@ ConvHelper::Utf8ToNative(const std::string &inStr)
 {
 	string retStr(inStr);
 	size_t insize = inStr.length();
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__FreeBSD__)
 	const char *inbuf = inStr.data();
 #else
 	char *inbuf = const_cast<char *>(inStr.data());
