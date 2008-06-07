@@ -28,6 +28,7 @@
 
 #include "session.h"
 #include "guiwrapper.h"
+#include "startwindowimpl.h"
 #include "configfile.h"
 #include <net/socket_startup.h>
 
@@ -133,6 +134,8 @@ int main( int argc, char **argv )
 		session->init(); // TODO handle error
 		myGuiInterface->setSession(session);
 	}
+
+// 	boost::shared_ptr<startWindowImpl> myStartWindow(new startWindowImpl(myGuiInterface.get(), myConfig));
 
 	int retVal = a.exec();
 

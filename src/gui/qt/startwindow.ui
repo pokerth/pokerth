@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>mainWindow</class>
- <widget class="QMainWindow" name="mainWindow" >
+ <class>startWindow</class>
+ <widget class="QMainWindow" name="startWindow" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -13,21 +13,13 @@
    <string>PokerTH 0.6.3 - The Open-Source Texas Holdem Engine</string>
   </property>
   <widget class="QWidget" name="centralwidget" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>28</y>
-     <width>444</width>
-     <height>289</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout_2" >
+   <layout class="QGridLayout" >
     <item row="0" column="1" >
-     <spacer name="verticalSpacer" >
+     <spacer>
       <property name="orientation" >
        <enum>Qt::Vertical</enum>
       </property>
-      <property name="sizeHint" stdset="0" >
+      <property name="sizeHint" >
        <size>
         <width>20</width>
         <height>95</height>
@@ -36,11 +28,11 @@
      </spacer>
     </item>
     <item row="1" column="0" >
-     <spacer name="horizontalSpacer" >
+     <spacer>
       <property name="orientation" >
        <enum>Qt::Horizontal</enum>
       </property>
-      <property name="sizeHint" stdset="0" >
+      <property name="sizeHint" >
        <size>
         <width>63</width>
         <height>20</height>
@@ -49,7 +41,7 @@
      </spacer>
     </item>
     <item row="1" column="1" colspan="2" >
-     <layout class="QGridLayout" name="gridLayout" >
+     <layout class="QGridLayout" >
       <item row="0" column="1" >
        <widget class="QPushButton" name="pushButton_2" >
         <property name="text" >
@@ -81,11 +73,11 @@
      </layout>
     </item>
     <item row="1" column="3" >
-     <spacer name="horizontalSpacer_2" >
+     <spacer>
       <property name="orientation" >
        <enum>Qt::Horizontal</enum>
       </property>
-      <property name="sizeHint" stdset="0" >
+      <property name="sizeHint" >
        <size>
         <width>63</width>
         <height>20</height>
@@ -94,11 +86,11 @@
      </spacer>
     </item>
     <item row="2" column="2" >
-     <spacer name="verticalSpacer_2" >
+     <spacer>
       <property name="orientation" >
        <enum>Qt::Vertical</enum>
       </property>
-      <property name="sizeHint" stdset="0" >
+      <property name="sizeHint" >
        <size>
         <width>20</width>
         <height>95</height>
@@ -149,16 +141,7 @@
    <addaction name="menuSettings" />
    <addaction name="menuAbout" />
   </widget>
-  <widget class="QStatusBar" name="statusbar" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>317</y>
-     <width>444</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
+  <widget class="QStatusBar" name="statusbar" />
   <action name="actionStart_Local_Game" >
    <property name="text" >
     <string>Start Local Game ...</string>
