@@ -26,6 +26,7 @@
 
 class Session;
 class gameTableImpl;
+class startWindowImpl;
 class Log;
 class Chat;
 class ConfigFile;
@@ -146,6 +147,7 @@ private:
 	Chat *myChat;
 	gameTableImpl *myW;
 	ConfigFile *myConfig;
+	startWindowImpl *myStartWindow;
 
 };
 

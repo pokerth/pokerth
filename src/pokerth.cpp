@@ -18,18 +18,17 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/////// can be removed for non-qt-guis ////////////
 #include <qapplication.h>
 
 #ifdef __APPLE__
 	#include <QMacStyle>
 #endif
-///////////////////////////////////////////////////
 
 #include "session.h"
 #include "guiwrapper.h"
-#include "startwindowimpl.h"
 #include "configfile.h"
+#include "startsplash.h"
+#include "game_defs.h"
 #include <net/socket_startup.h>
 
 #include <curl/curl.h>
@@ -105,6 +104,12 @@ int main( int argc, char **argv )
 // 	#endif
 	a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 12px; }");
 #endif	
+
+	QPixmap *pixmap = new QPixmap(myAppDataPath + "gfx/gui/misc/welcomepokerth.png");
+     	StartSplash splash(*pixmap);
+     	splash.show();
+	splash.showMessage(QString("Version %1").arg(POKERTH_BETA_RELEASE_STRING), 0x0042, QColor(153,213,0));
+	
 	//Set translations
 	QTranslator qtTranslator;
         qtTranslator.load(QString(myAppDataPath +"translations/qt_") + QString::fromStdString(myConfig->readConfigString("Language")));
@@ -134,12 +139,11 @@ int main( int argc, char **argv )
 		session->init(); // TODO handle error
 		myGuiInterface->setSession(session);
 	}
-
-// 	boost::shared_ptr<startWindowImpl> myStartWindow(new startWindowImpl(myGuiInterface.get(), myConfig));
-
+	
 	int retVal = a.exec();
-
+	
 	curl_global_cleanup();
 	socket_cleanup();
 	return retVal;
+	
 }

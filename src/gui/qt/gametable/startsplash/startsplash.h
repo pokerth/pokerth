@@ -15,32 +15,18 @@
 #include <QtGui>
 #include <QtCore>
 
-class gameTableImpl;
-class ConfigFile;
+
 class StartSplash : public QSplashScreen
 {
 Q_OBJECT
 public:
-    StartSplash(gameTableImpl *, ConfigFile*);
+    StartSplash(QPixmap& p);
 
     ~StartSplash();
-	
-	int frameNo;
-	int opacityCounter;	
-	qreal opacity;
-
-	void paintEvent(QPaintEvent * event);
 
 public slots:
 
-	void nextAnimationFrame();
-
-private:
-
-	gameTableImpl *myW;
-	QString myAppDataPath;
-	QPixmap logo;	
-	ConfigFile *myConfig;
+	void closeThis();
 
 };
 

@@ -23,18 +23,22 @@
 #include "log.h"
 #include "chat.h"
 #include "gametableimpl.h"
+#include "startwindowimpl.h"
 #include "configfile.h"
 
 using namespace std;
 
 
-GuiWrapper::GuiWrapper(ConfigFile *c) : myLog(0), myW(0), myConfig(c)
+GuiWrapper::GuiWrapper(ConfigFile *c) : myLog(NULL), myW(NULL), myConfig(c), myStartWindow(NULL)
 {
 
 
 	myW = new gameTableImpl(myConfig);
 	myW->show();
 	myLog = new Log(myW, myConfig);
+
+	myStartWindow = new startWindowImpl(myW, myConfig);
+// 	myStartWindow-> show();
 }
 
 

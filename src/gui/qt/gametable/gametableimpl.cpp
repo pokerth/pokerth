@@ -111,9 +111,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	}
 
 	//Intro abspielen?
-	if (myConfig->readConfigInt("ShowIntro")) { 
-// 		label_logo->hide();
-		QTimer::singleShot(100, this, SLOT( paintStartSplash() )); }
+// 	if (myConfig->readConfigInt("ShowIntro")) { 
+// // 		label_logo->hide();
+// 		QTimer::singleShot(100, this, SLOT( paintStartSplash() )); }
 			
 	// userWidgetsArray init
 	userWidgetsArray[0] = pushButton_BetRaise;
@@ -3045,16 +3045,16 @@ void gameTableImpl::breakButtonClicked() {
 
 void gameTableImpl::paintStartSplash() {
 
-	StartSplash *mySplash = new StartSplash(this, myConfig);	
-
-#ifdef __APPLE__
-  int offset = 305;
-#else
-  int offset = 237;
-#endif
-        mySplash->setGeometry(this->pos().x()+offset,this->pos().y()+210,400,250);
-//         mySplash->setWindowFlags(Qt::SplashScreen);
-        mySplash->show();
+// 	StartSplash *mySplash = new StartSplash(this, myConfig);	
+// 
+// #ifdef __APPLE__
+//   int offset = 305;
+// #else
+//   int offset = 237;
+// #endif
+//         mySplash->setGeometry(this->pos().x()+offset,this->pos().y()+210,400,250);
+// //         mySplash->setWindowFlags(Qt::SplashScreen);
+//         mySplash->show();
 }
 
 
