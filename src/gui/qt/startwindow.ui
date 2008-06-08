@@ -43,7 +43,7 @@
     <item row="1" column="1" colspan="2" >
      <layout class="QGridLayout" >
       <item row="0" column="1" >
-       <widget class="QPushButton" name="pushButton_2" >
+       <widget class="QPushButton" name="pushButtonInternet_Game" >
         <property name="text" >
          <string>&amp;2 Internet Game</string>
         </property>
@@ -64,7 +64,7 @@
        </widget>
       </item>
       <item row="0" column="0" >
-       <widget class="QPushButton" name="pushButton" >
+       <widget class="QPushButton" name="pushButtonStart_Local_Game" >
         <property name="text" >
          <string>&amp;1 Start Local Game</string>
         </property>
@@ -153,6 +153,9 @@
   <action name="actionInternet_Game" >
    <property name="text" >
     <string>Internet Game ...</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+I</string>
    </property>
   </action>
   <action name="actionAbout_PokerTH" >

@@ -20,20 +20,104 @@
 #ifndef STARTWINDOWIMPL_H
 #define STARTWINDOWIMPL_H
 
+#include <boost/shared_ptr.hpp>
 #include "ui_startwindow.h"
+#include "game_defs.h"
+
+class GuiInterface;
+class Session;
+class Game;
 
 class ConfigFile;
 class gameTableImpl;
+class newGameDialogImpl;
+class settingsDialogImpl;
+class selectAvatarDialogImpl;
+class aboutPokerthImpl;
+class joinNetworkGameDialogImpl;
+class connectToServerDialogImpl;
+class createNetworkGameDialogImpl;
+class startNetworkGameDialogImpl;
+class changeHumanPlayerNameDialogImpl;
+class gameLobbyDialogImpl;
+class timeoutMsgBoxImpl;
+
 
 class startWindowImpl: public QMainWindow, public Ui::startWindow {
 Q_OBJECT
 public:
     startWindowImpl(gameTableImpl *w = 0, ConfigFile *c =0);
 
-private:
+	void setSession(boost::shared_ptr<Session> session) { mySession = session; }
+	Session &getSession() { assert(mySession.get()); return *mySession; }
 
-	ConfigFile *myConfig;
+signals: 
+	void signalShowClientDialog();
+	
+	void signalNetClientConnect(int actionID);
+	void signalNetClientGameInfo(int actionID);
+	void signalNetClientError(int errorID, int osErrorID);
+	void signalNetClientNotification(int notificationId);
+	void signalNetClientStatsUpdate(ServerStats stats);
+	void signalNetClientShowTimeoutDialog(int, unsigned);
+	void signalNetClientRemovedFromGame(int notificationId);
+	void signalNetServerError(int errorID, int osErrorID);
+	void signalNetClientSelfJoined(unsigned playerId, QString playerName, int rights);
+	void signalNetClientPlayerJoined(unsigned playerId, QString playerName, int rights);
+	void signalNetClientPlayerChanged(unsigned playerId, QString newPlayerName);
+	void signalNetClientPlayerLeft(unsigned playerId, QString playerName);
+	void signalNetClientNewGameAdmin(unsigned playerId, QString playerName);
+	void signalNetClientGameListNew(unsigned gameId);
+	void signalNetClientGameListRemove(unsigned gameId);
+	void signalNetClientGameListUpdateMode(unsigned gameId, int mode);
+	void signalNetClientGameListUpdateAdmin(unsigned gameId, unsigned adminPlayerId);
+	void signalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
+	void signalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
+	void signalNetClientGameStart(boost::shared_ptr<Game> game);
+	void signalNetClientChatMsg(QString nickName, QString msg);
+
+	void signalIrcConnect(QString server);
+	void signalIrcSelfJoined(QString nickName, QString channel);
+	void signalIrcPlayerJoined(QString nickName);
+	void signalIrcPlayerChanged(QString oldNick, QString newNick);
+	void signalIrcPlayerKicked(QString nickName, QString byWhom, QString reason);
+	void signalIrcPlayerLeft(QString nickName);
+	void signalIrcChatMessage(QString nickName, QString msg);
+	void signalIrcError(int errorCode);
+	void signalIrcServerError(int errorCode);
+
+
+public slots: 
+		void callNewGameDialog();
+		void callGameLobbyDialog();
+		void showLobbyDialog();
+		void joinGameLobby();
+		void showClientDialog();
+		void showNetworkStartDialog();
+
+private:
 	gameTableImpl *myW;
+	ConfigFile *myConfig;
+
+	boost::shared_ptr<Session> mySession;
+	boost::shared_ptr<GuiInterface> myServerGuiInterface;
+
+// 	Dialogs
+	boost::shared_ptr<aboutPokerthImpl> myAboutPokerthDialog;
+	boost::shared_ptr<newGameDialogImpl> myNewGameDialog;
+	boost::shared_ptr<settingsDialogImpl> mySettingsDialog;
+	boost::shared_ptr<selectAvatarDialogImpl> mySelectAvatarDialog;
+	boost::shared_ptr<changeHumanPlayerNameDialogImpl> myChangeHumanPlayerNameDialog;
+	boost::shared_ptr<joinNetworkGameDialogImpl> myJoinNetworkGameDialog;
+	boost::shared_ptr<connectToServerDialogImpl> myConnectToServerDialog;
+	boost::shared_ptr<startNetworkGameDialogImpl> myStartNetworkGameDialog;
+	boost::shared_ptr<createNetworkGameDialogImpl> myCreateNetworkGameDialog;
+	boost::shared_ptr<gameLobbyDialogImpl> myGameLobbyDialog;
+	boost::shared_ptr<timeoutMsgBoxImpl> myTimeoutDialog;
+	boost::shared_ptr<startWindowImpl> myStartWindow;
+
+	
+friend class GuiWrapper;
 };
 
 #endif

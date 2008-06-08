@@ -52,6 +52,7 @@ class startNetworkGameDialogImpl;
 class changeHumanPlayerNameDialogImpl;
 class gameLobbyDialogImpl;
 class timeoutMsgBoxImpl;
+class startWindowImpl;
 
 class QColor;
 class SDLPlayer;
@@ -68,6 +69,7 @@ public:
 
 	Session &getSession();
 	void setSession(boost::shared_ptr<Session> session);
+	void setStartWindow(boost::shared_ptr<startWindowImpl> s) { myStartWindow = s; }
 
 	void setLog(Log* l) { myLog = l; }
 	
@@ -401,18 +403,19 @@ private:
 
 	QPixmap *flipside;
 
-	//Dialoge
-	aboutPokerthImpl *myAboutPokerthDialog;
-	newGameDialogImpl *myNewGameDialog;
-	settingsDialogImpl *mySettingsDialog;
-	selectAvatarDialogImpl *mySelectAvatarDialog;
-	changeHumanPlayerNameDialogImpl *myChangeHumanPlayerNameDialog;
-	joinNetworkGameDialogImpl *myJoinNetworkGameDialog;
-	connectToServerDialogImpl *myConnectToServerDialog;
-	startNetworkGameDialogImpl *myStartNetworkGameDialog;
-	createNetworkGameDialogImpl *myCreateNetworkGameDialog;
-	gameLobbyDialogImpl *myGameLobbyDialog;
+// 	Dialogs
+	boost::shared_ptr<aboutPokerthImpl> myAboutPokerthDialog;
+	boost::shared_ptr<newGameDialogImpl> myNewGameDialog;
+	boost::shared_ptr<settingsDialogImpl> mySettingsDialog;
+	boost::shared_ptr<selectAvatarDialogImpl> mySelectAvatarDialog;
+	boost::shared_ptr<changeHumanPlayerNameDialogImpl> myChangeHumanPlayerNameDialog;
+	boost::shared_ptr<joinNetworkGameDialogImpl> myJoinNetworkGameDialog;
+	boost::shared_ptr<connectToServerDialogImpl> myConnectToServerDialog;
+	boost::shared_ptr<startNetworkGameDialogImpl> myStartNetworkGameDialog;
+	boost::shared_ptr<createNetworkGameDialogImpl> myCreateNetworkGameDialog;
+	boost::shared_ptr<gameLobbyDialogImpl> myGameLobbyDialog;
 	boost::shared_ptr<timeoutMsgBoxImpl> myTimeoutDialog;
+	boost::shared_ptr<startWindowImpl> myStartWindow;
 
 	//Sound
 	SDLPlayer *mySDLPlayer;

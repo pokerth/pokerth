@@ -94,7 +94,7 @@ private:
 	std::list<int> myNetManualBlindsList;
 	
 	ConfigFile* myConfig;
-	selectAvatarDialogImpl* mySelectAvatarDialogImpl;
+	boost::shared_ptr<selectAvatarDialogImpl> mySelectAvatarDialogImpl;
 	manualBlindsOrderDialogImpl *myManualBlindsOrderDialog; 
 
 	QString myAppDataPath;
