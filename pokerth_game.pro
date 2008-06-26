@@ -260,6 +260,7 @@ TRANSLATIONS = \
 		ts/pokerth_gr.ts \
 		ts/pokerth_ptbr.ts \
 		ts/pokerth_zhcn.ts \
+		ts/pokerth_fi.ts \
 		ts/pokerth_START_HERE.ts
 
 win32{

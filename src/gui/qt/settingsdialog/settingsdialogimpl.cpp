@@ -49,6 +49,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	comboBox_switchLanguage->addItem(tr("Dutch"),"nl");
 	comboBox_switchLanguage->addItem(tr("English"),"en");
 	comboBox_switchLanguage->addItem(tr("French"),"fr");
+	comboBox_switchLanguage->addItem(tr("Finnish"),"fi");
 	comboBox_switchLanguage->addItem(tr("German"),"de");
 	comboBox_switchLanguage->addItem(tr("Greek"),"gr");
 	comboBox_switchLanguage->addItem(tr("Hungarian"),"hu");
