@@ -1651,18 +1651,23 @@ void Log::writeLogFileStream(QString streamString) {
 
 void Log::flushLogAtHand() { 	
 
-	if(myConfig->readConfigInt("LogInterval") < 2) {
-// 	write for log after every action and after every hand
-		writeLogFileStream(logFileStreamString);
-		logFileStreamString = "";
+	if(myConfig->readConfigInt("LogOnOff")) {
+		if(myConfig->readConfigInt("LogInterval") < 2) {
+	// 	write for log after every action and after every hand
+			writeLogFileStream(logFileStreamString);
+			logFileStreamString = "";
+		}
 	}
 }
 
-void Log::flushLogAtGame(int gameID) { 	
-//	write for log after every game
-	if(gameID > lastGameID) {
-		writeLogFileStream(logFileStreamString);
-		logFileStreamString = "";
-		lastGameID = gameID;
+void Log::flushLogAtGame(int gameID) {
+
+	if(myConfig->readConfigInt("LogOnOff")) { 	
+	//	write for log after every game
+		if(gameID > lastGameID) {
+			writeLogFileStream(logFileStreamString);
+			logFileStreamString = "";
+			lastGameID = gameID;
+		}
 	}
 }
