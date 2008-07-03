@@ -59,6 +59,7 @@ main(int argc, char *argv[])
 	} catch (...)
 	{
 		cerr << "Compression failed." << endl;
+		return 3;
 	}
 
 	return 0;
