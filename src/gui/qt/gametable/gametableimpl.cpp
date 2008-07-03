@@ -1668,9 +1668,9 @@ void gameTableImpl::dealFlopCards3() {
 void gameTableImpl::dealFlopCards4() {
 
 	int tempBoardCardsArray[5];
-	QPixmap tempCardsPixmap;
+	
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[0], 10)+".png");
+	QPixmap tempCardsPixmap = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[0], 10)+".png"));
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
@@ -1688,9 +1688,8 @@ void gameTableImpl::dealFlopCards4() {
 void gameTableImpl::dealFlopCards5() {
 
 	int tempBoardCardsArray[5];
-	QPixmap tempCardsPixmap;
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[1], 10)+".png");
+	QPixmap tempCardsPixmap = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[1], 10)+".png"));
 	QPixmap card(tempCardsPixmap);
 	
 	//Config? mit oder ohne Eye-Candy?
@@ -1708,9 +1707,8 @@ void gameTableImpl::dealFlopCards5() {
 void gameTableImpl::dealFlopCards6() {
 
 	int tempBoardCardsArray[5];
-	QPixmap tempCardsPixmap;
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[2], 10)+".png");
+	QPixmap tempCardsPixmap = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[2], 10)+".png"));
 	QPixmap card(tempCardsPixmap);
 	
 	//Config? mit oder ohne Eye-Candy?
@@ -1744,9 +1742,8 @@ void gameTableImpl::dealTurnCards1() {
 void gameTableImpl::dealTurnCards2() {
 
 	int tempBoardCardsArray[5];
-	QPixmap tempCardsPixmap;
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[3], 10)+".png");
+	QPixmap tempCardsPixmap = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[3], 10)+".png"));
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
@@ -1784,9 +1781,8 @@ void gameTableImpl::dealRiverCards1() {
 void gameTableImpl::dealRiverCards2() {
 
 	int tempBoardCardsArray[5];
-	QPixmap tempCardsPixmap;
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	tempCardsPixmap.load(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[4], 10)+".png");
+	QPixmap tempCardsPixmap = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[4], 10)+".png"));
 	QPixmap card(tempCardsPixmap);
 
 	//Config? mit oder ohne Eye-Candy?
@@ -2489,7 +2485,7 @@ void gameTableImpl::postRiverRunAnimation2() {
 						if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
 												
-								holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), *flipside);
+								holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png")), *flipside);
 							}	
 						}
 						//set Player value (logging)
@@ -2513,7 +2509,7 @@ void gameTableImpl::postRiverRunAnimation2() {
 					if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) { 
 						if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {		
-								tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
+								tempCardsPixmapArray[j] = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"));
 								holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
 								
 							}	
@@ -2818,7 +2814,7 @@ void gameTableImpl::flipHolecardsAllIn() {
 					if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) { 
 						if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
-								holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png"), *flipside);
+								holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png")), *flipside);
 							}
 						}
 						//set Player value (logging)
@@ -2844,7 +2840,7 @@ void gameTableImpl::flipHolecardsAllIn() {
 						if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
 							for(j=0; j<2; j++) {
 								
-								tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(temp2CardsIntArray[j], 10)+".png");
+								tempCardsPixmapArray[j] = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(temp2CardsIntArray[j], 10)+".png"));
 								holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
 							}	
 						}
