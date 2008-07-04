@@ -94,10 +94,12 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	//Flipside festlegen;
 	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
-		flipside = new QPixmap(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
+		flipside = new QPixmap();
+		*flipside = QPixmap::fromImage(QImage(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str())));
 	}
 	else { 
-		flipside = new QPixmap(myAppDataPath +"gfx/cards/default/flipside.png");
+		flipside = new QPixmap();
+		*flipside = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/flipside.png"));
 	}
 
 	//Flipside Animation noch nicht erledigt
@@ -1041,10 +1043,13 @@ void gameTableImpl::callSettingsDialog() {
 
 		//Flipside refresh
 		if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
-			flipside = new QPixmap(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
+
+			flipside = new QPixmap();
+			*flipside = QPixmap::fromImage(QImage(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str())));
 		}
 		else { 
-			flipside = new QPixmap(myAppDataPath +"gfx/cards/default/flipside.png");
+			flipside = new QPixmap();
+			*flipside = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/flipside.png"));
 		}
 
 		//Check for anti-peek mode
@@ -1055,16 +1060,16 @@ void gameTableImpl::callSettingsDialog() {
 			mySession->getCurrentGame()->getSeatsList()->front()->getMyCards(tempCardsIntArray);	
 			if(myConfig->readConfigInt("AntiPeekMode")) {
 				holeCardsArray[0][0]->setPixmap(*flipside, TRUE);
-				tempCardsPixmapArray[0].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[0], 10)+".png");
+				tempCardsPixmapArray[0] = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[0], 10)+".png"));
 				holeCardsArray[0][0]->setFrontPixmap(tempCardsPixmapArray[0]);
 				holeCardsArray[0][1]->setPixmap(*flipside, TRUE);
-				tempCardsPixmapArray[1].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[1], 10)+".png");
+				tempCardsPixmapArray[1]= QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[1], 10)+".png"));
 				holeCardsArray[0][1]->setFrontPixmap(tempCardsPixmapArray[1]);
 			}
 			else {
-				tempCardsPixmapArray[0].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[0], 10)+".png");
+				tempCardsPixmapArray[0]= QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[0], 10)+".png"));
 				holeCardsArray[0][0]->setPixmap(tempCardsPixmapArray[0],FALSE);
-				tempCardsPixmapArray[1].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[1], 10)+".png");
+				tempCardsPixmapArray[1]= QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[1], 10)+".png"));
 				holeCardsArray[0][1]->setPixmap(tempCardsPixmapArray[1],FALSE);
 			}
 		}
@@ -1184,10 +1189,10 @@ void gameTableImpl::refreshSet() {
 
 void gameTableImpl::refreshButton() {
 
-	QPixmap dealerButton(myAppDataPath +"gfx/gui/table/default/dealerPuck.png");
-	QPixmap smallblindButton(myAppDataPath +"gfx/gui/table/default/smallblindPuck.png");
-	QPixmap bigblindButton(myAppDataPath +"gfx/gui/table/default/bigblindPuck.png");
-	QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
+	QPixmap dealerButton = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/dealerPuck.png"));
+	QPixmap smallblindButton = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/smallblindPuck.png"));
+	QPixmap bigblindButton = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/bigblindPuck.png"));
+	QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 
 	Game *currentGame = mySession->getCurrentGame();
 
@@ -1272,7 +1277,7 @@ QStringList gameTableImpl::getPlayerNicksList() {
 
 void gameTableImpl::refreshPlayerAvatar() {
 
-	QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
+	QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 
 	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
 
@@ -1281,10 +1286,10 @@ void gameTableImpl::refreshPlayerAvatar() {
 		if((*it_c)->getMyActiveStatus()) { 
 
 			if((*it_c)->getMyAvatar() == "" || !QFile::QFile(QString::fromUtf8((*it_c)->getMyAvatar().c_str())).exists()) {
-				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png"));
+				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png")));
 			}
 			else {
-				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QString::fromUtf8((*it_c)->getMyAvatar().c_str()));
+				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(QString::fromUtf8((*it_c)->getMyAvatar().c_str()))));
 			}
 		}	
 		else {
@@ -1305,7 +1310,7 @@ void gameTableImpl::setPlayerAvatar(int myID, QString myAvatar) {
 				tmpPlayer->setMyAvatar(myAvatar.toUtf8().constData());
 			}
 			else {
-				playerAvatarLabelArray[tmpPlayer->getMyID()]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png"));
+				playerAvatarLabelArray[tmpPlayer->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png")));
 				tmpPlayer->setMyAvatar("");
 			}	
 		}	
@@ -1315,7 +1320,7 @@ void gameTableImpl::setPlayerAvatar(int myID, QString myAvatar) {
 
 void gameTableImpl::refreshAction(int playerID, int playerAction) {
 
-	QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
+	QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 	QPixmap action;
 
 	QStringList actionArray;
@@ -1334,7 +1339,7 @@ void gameTableImpl::refreshAction(int playerID, int playerAction) {
 			}
 			else {
 					//paint action pixmap
-					actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_"+actionArray[(*it_c)->getMyAction()]+".png"));
+					actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/action_"+actionArray[(*it_c)->getMyAction()]+".png")));
 			}
 					
 			if ((*it_c)->getMyAction()==1) { 
@@ -1354,7 +1359,7 @@ void gameTableImpl::refreshAction(int playerID, int playerAction) {
 		else {
 		
 	// 		paint action pixmap and raise
-			actionLabelArray[playerID]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_"+actionArray[playerAction]+".png"));			
+			actionLabelArray[playerID]->setPixmap(QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/action_"+actionArray[playerAction]+".png")));			
 
 			//play sounds if exist
 			if(myConfig->readConfigInt("PlayGameActions"))
@@ -1578,7 +1583,7 @@ void gameTableImpl::waitForGuiUpdateDone() {
 
 void gameTableImpl::dealHoleCards() {
 
-	QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
+	QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 
 	//TempArrays
 	QPixmap tempCardsPixmapArray[2];
@@ -1670,8 +1675,7 @@ void gameTableImpl::dealFlopCards4() {
 	int tempBoardCardsArray[5];
 	
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	QPixmap tempCardsPixmap = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[0], 10)+".png"));
-	QPixmap card(tempCardsPixmap);
+	QPixmap card = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[0], 10)+".png"));
 
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
@@ -1689,8 +1693,7 @@ void gameTableImpl::dealFlopCards5() {
 
 	int tempBoardCardsArray[5];
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	QPixmap tempCardsPixmap = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[1], 10)+".png"));
-	QPixmap card(tempCardsPixmap);
+	QPixmap card = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[1], 10)+".png"));
 	
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
@@ -1708,8 +1711,7 @@ void gameTableImpl::dealFlopCards6() {
 
 	int tempBoardCardsArray[5];
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	QPixmap tempCardsPixmap = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[2], 10)+".png"));
-	QPixmap card(tempCardsPixmap);
+	QPixmap card = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[2], 10)+".png"));
 	
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
@@ -1743,8 +1745,7 @@ void gameTableImpl::dealTurnCards2() {
 
 	int tempBoardCardsArray[5];
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	QPixmap tempCardsPixmap = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[3], 10)+".png"));
-	QPixmap card(tempCardsPixmap);
+	QPixmap card = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[3], 10)+".png"));
 
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
@@ -1782,8 +1783,7 @@ void gameTableImpl::dealRiverCards2() {
 
 	int tempBoardCardsArray[5];
 	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	QPixmap tempCardsPixmap = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[4], 10)+".png"));
-	QPixmap card(tempCardsPixmap);
+	QPixmap card = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[4], 10)+".png"));
 
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { 
@@ -2497,7 +2497,7 @@ void gameTableImpl::postRiverRunAnimation2() {
 				//without Eye-Candy		
 			
 				//Karten der aktiven Spieler umdrehen
-				QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
+				QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 			
 				//TempArrays
 				QPixmap tempCardsPixmapArray[2];
@@ -2586,7 +2586,7 @@ void gameTableImpl::postRiverRunAnimation3() {
 // 			QPalette tempPalette = groupBoxArray[i]->palette();
 // 			tempPalette.setColor(QPalette::Window, highlight);
 // 			groupBoxArray[i]->setPalette(tempPalette);
-			actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap(myAppDataPath +"gfx/gui/table/default/action_winner.png"));
+			actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/action_winner.png")));
 
 			//show winnercards if more than one player is active TODO
 			if ( nonfoldPlayerCounter != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
@@ -2827,7 +2827,7 @@ void gameTableImpl::flipHolecardsAllIn() {
 				//without Eye-Candy		
 		
 				//Karten der aktiven Spieler umdrehen
-				QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
+				QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 				
 				//TempArrays
 				QPixmap tempCardsPixmapArray[2];
@@ -2902,7 +2902,7 @@ void gameTableImpl::nextRoundCleanGui() {
 	int i,j;
 
 	// GUI bereinigen - Bilder löschen, Animationen unterbrechen
-	QPixmap onePix(myAppDataPath +"gfx/gui/misc/1px.png");
+	QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 	for (i=0; i<5; i++ ) { 
 		boardCardsArray[i]->setPixmap(onePix, FALSE); 
 		boardCardsArray[i]->setFadeOutAction(FALSE); 
@@ -3825,7 +3825,7 @@ void gameTableImpl::leaveCurrentNetworkGame() {
 		else {
 			myMessageDialogImpl dialog(this);
 			dialog.setWindowTitle(tr("PokerTH - Internet Game Message"));
-			dialog.label_icon->setPixmap(QPixmap(myAppDataPath +"gfx/gui/misc/logoChip3D.png").scaled(50,50,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+			dialog.label_icon->setPixmap(QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/logoChip3D.png")).scaled(50,50,Qt::KeepAspectRatio,Qt::SmoothTransformation));
 			dialog.label->setText(tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"));
 				
 			if (dialog.exec() == QDialog::Accepted ) {
