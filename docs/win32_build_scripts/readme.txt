@@ -8,6 +8,8 @@ Compiling all libraries and PokerTH itself could take SEVERAL HOURS, and uses up
 You need up to 5 GB of free disc space to perform a full build.
 
 Direct internet access (without proxy) is required!
+Please note that there is a known conflict if cygwin is installed on the system.
+There is no workaround available except uninstalling cygwin and removing its environment variables.
 
 Please follow these instructions:
 
