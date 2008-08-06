@@ -7,8 +7,8 @@ isEmpty( PREFIX ) {
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
-#CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on release
-CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
+CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on release
+#CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
 
 #####Uncomment this for RELEASE
 #QTPLUGIN += qjpeg qgif
