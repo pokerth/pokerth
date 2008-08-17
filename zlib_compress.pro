@@ -77,6 +77,8 @@ unix : !mac {
 		error("could not locate required library: \
 		    libboost (version >= 1.34.1)  --> http://www.boost.org/")
 	}
+	
+	LIBS += $$BOOST_LIBS
 
 	#### INSTALL ####
 
