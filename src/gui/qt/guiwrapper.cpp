@@ -34,11 +34,11 @@ GuiWrapper::GuiWrapper(ConfigFile *c) : myLog(NULL), myW(NULL), myConfig(c)
 
 
 	myW = new gameTableImpl(myConfig);
-	myW->show();
+// 	myW->show();
 	myLog = new Log(myW, myConfig);
 
 	myStartWindow = boost::shared_ptr<startWindowImpl>(new startWindowImpl(myW, myConfig));
-// 	myStartWindow->show();
+	myStartWindow->show();
 
 	myW->setStartWindow(myStartWindow);
 }
@@ -123,110 +123,114 @@ void GuiWrapper::logPlayerWinGame(std::string playerName, int gameID) { myLog->s
 void GuiWrapper::flushLogAtGame(int gameID) { myLog->signalFlushLogAtGame(gameID); }
 void GuiWrapper::flushLogAtHand() { myLog->signalFlushLogAtHand(); }
 
-
-// void GuiWrapper::SignalNetClientConnect(int actionID) { myStartWindow->signalNetClientConnect(actionID); }
-// void GuiWrapper::SignalNetClientGameInfo(int actionID) { myStartWindow->signalNetClientGameInfo(actionID); }
-// void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myStartWindow->signalNetClientError(errorID, osErrorID); }
-// void GuiWrapper::SignalNetClientNotification(int notificationId) { myStartWindow->signalNetClientNotification(notificationId); }
-// void GuiWrapper::SignalNetClientStatsUpdate(const ServerStats &stats) { myStartWindow->signalNetClientStatsUpdate(stats); }
-// void GuiWrapper::SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec) { myStartWindow->signalNetClientShowTimeoutDialog(reason, remainingSec); }
-// void GuiWrapper::SignalNetClientRemovedFromGame(int notificationId) { myStartWindow->signalNetClientRemovedFromGame(notificationId); }
-// void GuiWrapper::SignalNetClientSelfJoined(unsigned playerId, const string &playerName, PlayerRights rights) { myStartWindow->signalNetClientSelfJoined(playerId, QString::fromUtf8(playerName.c_str()), rights); }
-// void GuiWrapper::SignalNetClientPlayerJoined(unsigned playerId, const string &playerName, PlayerRights rights) { myStartWindow->signalNetClientPlayerJoined(playerId, QString::fromUtf8(playerName.c_str()), rights); }
-// void GuiWrapper::SignalNetClientPlayerChanged(unsigned playerId, const string &newPlayerName)
-// {
-// 	myStartWindow->signalNetClientPlayerChanged(playerId, QString::fromUtf8(newPlayerName.c_str()));
-// }
-// void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &playerName)
-// {
-// 	QString tmpName(QString::fromUtf8(playerName.c_str()));
-// 	myStartWindow->signalNetClientPlayerLeft(playerId, tmpName);
-// 	if (!playerName.empty() && playerName[0] != '#')
-// 		myLog->signalLogPlayerLeftMsg(tmpName);
-// }
-// void GuiWrapper::SignalNetClientNewGameAdmin(unsigned playerId, const string &playerName) { 
-// 
-// 	myStartWindow->signalNetClientNewGameAdmin(playerId, QString::fromUtf8(playerName.c_str())); 
-// 	if (!playerName.empty() && playerName[0] != '#')
-// 		myLog->signalLogNewGameAdminMsg(QString::fromUtf8(playerName.c_str()));
-// 
-// }
-// 
-// void GuiWrapper::SignalNetClientGameListNew(unsigned gameId) { myStartWindow->signalNetClientGameListNew(gameId); }
-// void GuiWrapper::SignalNetClientGameListRemove(unsigned gameId) { myStartWindow->signalNetClientGameListRemove(gameId); }
-// void GuiWrapper::SignalNetClientGameListUpdateMode(unsigned gameId, GameMode mode) { myStartWindow->signalNetClientGameListUpdateMode(gameId, mode); }
-// void GuiWrapper::SignalNetClientGameListUpdateAdmin(unsigned gameId, unsigned adminPlayerId) {myStartWindow->signalNetClientGameListUpdateAdmin(gameId, adminPlayerId); }
-// void GuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) { myStartWindow->signalNetClientGameListPlayerJoined(gameId, playerId); }
-// void GuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) { myStartWindow->signalNetClientGameListPlayerLeft(gameId, playerId); }
-// 
-// void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { myStartWindow->signalNetClientGameStart(game); }
-// void GuiWrapper::SignalNetClientWaitDialog() { myStartWindow->signalShowClientDialog(); }
-// void GuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { myW->signalNetClientChatMsg(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
-// void GuiWrapper::SignalNetServerSuccess(int /*actionID*/) { }
-// void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { myW->signalNetServerError(errorID, osErrorID); }
-// 
-// void GuiWrapper::SignalIrcConnect(const string &server) { myStartWindow->signalIrcConnect(QString::fromUtf8(server.c_str())); }
-// void GuiWrapper::SignalIrcSelfJoined(const string &nickName, const string &channel) { myStartWindow->signalIrcSelfJoined(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(channel.c_str())); }
-// void GuiWrapper::SignalIrcPlayerJoined(const string &nickName) { myStartWindow->signalIrcPlayerJoined(QString::fromUtf8(nickName.c_str())); }
-// void GuiWrapper::SignalIrcPlayerChanged(const string &oldNick, const string &newNick) { myStartWindow->signalIrcPlayerChanged(QString::fromUtf8(oldNick.c_str()), QString::fromUtf8(newNick.c_str())); }
-// void GuiWrapper::SignalIrcPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason) { myStartWindow->signalIrcPlayerKicked(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(byWhom.c_str()), QString::fromUtf8(reason.c_str())); }
-// void GuiWrapper::SignalIrcPlayerLeft(const std::string &nickName) { myStartWindow->signalIrcPlayerLeft(QString::fromUtf8(nickName.c_str())); }
-// void GuiWrapper::SignalIrcChatMsg(const std::string &nickName, const std::string &msg) { myStartWindow->signalIrcChatMessage(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(msg.c_str())); }
-// void GuiWrapper::SignalIrcError(int errorCode) { myStartWindow->signalIrcError(errorCode); }
-// void GuiWrapper::SignalIrcServerError(int errorCode) {myStartWindow->signalIrcServerError(errorCode); }
+////////// this is for startwindow ////////////////////
 
 
-//TEMPORARELY UNTIL STARTWINDOW REFACTORING IS OVER TODO
-
-void GuiWrapper::SignalNetClientConnect(int actionID) { myW->signalNetClientConnect(actionID); }
-void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->signalNetClientGameInfo(actionID); }
-void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myW->signalNetClientError(errorID, osErrorID); }
-void GuiWrapper::SignalNetClientNotification(int notificationId) { myW->signalNetClientNotification(notificationId); }
-void GuiWrapper::SignalNetClientStatsUpdate(const ServerStats &stats) { myW->signalNetClientStatsUpdate(stats); }
-void GuiWrapper::SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec) { myW->signalNetClientShowTimeoutDialog(reason, remainingSec); }
-void GuiWrapper::SignalNetClientRemovedFromGame(int notificationId) { myW->signalNetClientRemovedFromGame(notificationId); }
-void GuiWrapper::SignalNetClientSelfJoined(unsigned playerId, const string &playerName, PlayerRights rights) { myW->signalNetClientSelfJoined(playerId, QString::fromUtf8(playerName.c_str()), rights); }
-void GuiWrapper::SignalNetClientPlayerJoined(unsigned playerId, const string &playerName, PlayerRights rights) { myW->signalNetClientPlayerJoined(playerId, QString::fromUtf8(playerName.c_str()), rights); }
+void GuiWrapper::SignalNetClientConnect(int actionID) { myStartWindow->signalNetClientConnect(actionID); }
+void GuiWrapper::SignalNetClientGameInfo(int actionID) { myStartWindow->signalNetClientGameInfo(actionID); }
+void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myStartWindow->signalNetClientError(errorID, osErrorID); }
+void GuiWrapper::SignalNetClientNotification(int notificationId) { myStartWindow->signalNetClientNotification(notificationId); }
+void GuiWrapper::SignalNetClientStatsUpdate(const ServerStats &stats) { myStartWindow->signalNetClientStatsUpdate(stats); }
+void GuiWrapper::SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec) { myStartWindow->signalNetClientShowTimeoutDialog(reason, remainingSec); }
+void GuiWrapper::SignalNetClientRemovedFromGame(int notificationId) { myStartWindow->signalNetClientRemovedFromGame(notificationId); }
+void GuiWrapper::SignalNetClientSelfJoined(unsigned playerId, const string &playerName, PlayerRights rights) { myStartWindow->signalNetClientSelfJoined(playerId, QString::fromUtf8(playerName.c_str()), rights); }
+void GuiWrapper::SignalNetClientPlayerJoined(unsigned playerId, const string &playerName, PlayerRights rights) { myStartWindow->signalNetClientPlayerJoined(playerId, QString::fromUtf8(playerName.c_str()), rights); }
 void GuiWrapper::SignalNetClientPlayerChanged(unsigned playerId, const string &newPlayerName)
 {
-	myW->signalNetClientPlayerChanged(playerId, QString::fromUtf8(newPlayerName.c_str()));
+	myStartWindow->signalNetClientPlayerChanged(playerId, QString::fromUtf8(newPlayerName.c_str()));
 }
 void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &playerName)
 {
 	QString tmpName(QString::fromUtf8(playerName.c_str()));
-	myW->signalNetClientPlayerLeft(playerId, tmpName);
+	myStartWindow->signalNetClientPlayerLeft(playerId, tmpName);
 	if (!playerName.empty() && playerName[0] != '#')
 		myLog->signalLogPlayerLeftMsg(tmpName);
 }
 void GuiWrapper::SignalNetClientNewGameAdmin(unsigned playerId, const string &playerName) { 
 
-	myW->signalNetClientNewGameAdmin(playerId, QString::fromUtf8(playerName.c_str())); 
+	myStartWindow->signalNetClientNewGameAdmin(playerId, QString::fromUtf8(playerName.c_str())); 
 	if (!playerName.empty() && playerName[0] != '#')
 		myLog->signalLogNewGameAdminMsg(QString::fromUtf8(playerName.c_str()));
 
 }
 
-void GuiWrapper::SignalNetClientGameListNew(unsigned gameId) { myW->signalNetClientGameListNew(gameId); }
-void GuiWrapper::SignalNetClientGameListRemove(unsigned gameId) { myW->signalNetClientGameListRemove(gameId); }
-void GuiWrapper::SignalNetClientGameListUpdateMode(unsigned gameId, GameMode mode) { myW->signalNetClientGameListUpdateMode(gameId, mode); }
-void GuiWrapper::SignalNetClientGameListUpdateAdmin(unsigned gameId, unsigned adminPlayerId) {myW->signalNetClientGameListUpdateAdmin(gameId, adminPlayerId); }
-void GuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) { myW->signalNetClientGameListPlayerJoined(gameId, playerId); }
-void GuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) { myW->signalNetClientGameListPlayerLeft(gameId, playerId); }
+void GuiWrapper::SignalNetClientGameListNew(unsigned gameId) { myStartWindow->signalNetClientGameListNew(gameId); }
+void GuiWrapper::SignalNetClientGameListRemove(unsigned gameId) { myStartWindow->signalNetClientGameListRemove(gameId); }
+void GuiWrapper::SignalNetClientGameListUpdateMode(unsigned gameId, GameMode mode) { myStartWindow->signalNetClientGameListUpdateMode(gameId, mode); }
+void GuiWrapper::SignalNetClientGameListUpdateAdmin(unsigned gameId, unsigned adminPlayerId) {myStartWindow->signalNetClientGameListUpdateAdmin(gameId, adminPlayerId); }
+void GuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) { myStartWindow->signalNetClientGameListPlayerJoined(gameId, playerId); }
+void GuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) { myStartWindow->signalNetClientGameListPlayerLeft(gameId, playerId); }
 
-void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { myW->signalNetClientGameStart(game); }
-void GuiWrapper::SignalNetClientWaitDialog() { myW->signalShowClientDialog(); }
+void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { myStartWindow->signalNetClientGameStart(game); }
+void GuiWrapper::SignalNetClientWaitDialog() { myStartWindow->signalShowClientDialog(); }
 void GuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { myW->signalNetClientChatMsg(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
 void GuiWrapper::SignalNetServerSuccess(int /*actionID*/) { }
 void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { myW->signalNetServerError(errorID, osErrorID); }
 
-void GuiWrapper::SignalIrcConnect(const string &server) { myW->signalIrcConnect(QString::fromUtf8(server.c_str())); }
-void GuiWrapper::SignalIrcSelfJoined(const string &nickName, const string &channel) { myW->signalIrcSelfJoined(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(channel.c_str())); }
-void GuiWrapper::SignalIrcPlayerJoined(const string &nickName) { myW->signalIrcPlayerJoined(QString::fromUtf8(nickName.c_str())); }
-void GuiWrapper::SignalIrcPlayerChanged(const string &oldNick, const string &newNick) { myW->signalIrcPlayerChanged(QString::fromUtf8(oldNick.c_str()), QString::fromUtf8(newNick.c_str())); }
-void GuiWrapper::SignalIrcPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason) { myW->signalIrcPlayerKicked(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(byWhom.c_str()), QString::fromUtf8(reason.c_str())); }
-void GuiWrapper::SignalIrcPlayerLeft(const std::string &nickName) { myW->signalIrcPlayerLeft(QString::fromUtf8(nickName.c_str())); }
-void GuiWrapper::SignalIrcChatMsg(const std::string &nickName, const std::string &msg) { myW->signalIrcChatMessage(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(msg.c_str())); }
-void GuiWrapper::SignalIrcError(int errorCode) { myW->signalIrcError(errorCode); }
-void GuiWrapper::SignalIrcServerError(int errorCode) {myW->signalIrcServerError(errorCode); }
+void GuiWrapper::SignalIrcConnect(const string &server) { myStartWindow->signalIrcConnect(QString::fromUtf8(server.c_str())); }
+void GuiWrapper::SignalIrcSelfJoined(const string &nickName, const string &channel) { myStartWindow->signalIrcSelfJoined(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(channel.c_str())); }
+void GuiWrapper::SignalIrcPlayerJoined(const string &nickName) { myStartWindow->signalIrcPlayerJoined(QString::fromUtf8(nickName.c_str())); }
+void GuiWrapper::SignalIrcPlayerChanged(const string &oldNick, const string &newNick) { myStartWindow->signalIrcPlayerChanged(QString::fromUtf8(oldNick.c_str()), QString::fromUtf8(newNick.c_str())); }
+void GuiWrapper::SignalIrcPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason) { myStartWindow->signalIrcPlayerKicked(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(byWhom.c_str()), QString::fromUtf8(reason.c_str())); }
+void GuiWrapper::SignalIrcPlayerLeft(const std::string &nickName) { myStartWindow->signalIrcPlayerLeft(QString::fromUtf8(nickName.c_str())); }
+void GuiWrapper::SignalIrcChatMsg(const std::string &nickName, const std::string &msg) { myStartWindow->signalIrcChatMessage(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(msg.c_str())); }
+void GuiWrapper::SignalIrcError(int errorCode) { myStartWindow->signalIrcError(errorCode); }
+void GuiWrapper::SignalIrcServerError(int errorCode) {myStartWindow->signalIrcServerError(errorCode); }
+
+////////// this is for startwindow ////////////////////
+
+
+//TEMPORARELY UNTIL STARTWINDOW REFACTORING IS OVER TODO
+
+// void GuiWrapper::SignalNetClientConnect(int actionID) { myW->signalNetClientConnect(actionID); }
+// void GuiWrapper::SignalNetClientGameInfo(int actionID) { myW->signalNetClientGameInfo(actionID); }
+// void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myW->signalNetClientError(errorID, osErrorID); }
+// void GuiWrapper::SignalNetClientNotification(int notificationId) { myW->signalNetClientNotification(notificationId); }
+// void GuiWrapper::SignalNetClientStatsUpdate(const ServerStats &stats) { myW->signalNetClientStatsUpdate(stats); }
+// void GuiWrapper::SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec) { myW->signalNetClientShowTimeoutDialog(reason, remainingSec); }
+// void GuiWrapper::SignalNetClientRemovedFromGame(int notificationId) { myW->signalNetClientRemovedFromGame(notificationId); }
+// void GuiWrapper::SignalNetClientSelfJoined(unsigned playerId, const string &playerName, PlayerRights rights) { myW->signalNetClientSelfJoined(playerId, QString::fromUtf8(playerName.c_str()), rights); }
+// void GuiWrapper::SignalNetClientPlayerJoined(unsigned playerId, const string &playerName, PlayerRights rights) { myW->signalNetClientPlayerJoined(playerId, QString::fromUtf8(playerName.c_str()), rights); }
+// void GuiWrapper::SignalNetClientPlayerChanged(unsigned playerId, const string &newPlayerName)
+// {
+// 	myW->signalNetClientPlayerChanged(playerId, QString::fromUtf8(newPlayerName.c_str()));
+// }
+// void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &playerName)
+// {
+// 	QString tmpName(QString::fromUtf8(playerName.c_str()));
+// 	myW->signalNetClientPlayerLeft(playerId, tmpName);
+// 	if (!playerName.empty() && playerName[0] != '#')
+// 		myLog->signalLogPlayerLeftMsg(tmpName);
+// }
+// void GuiWrapper::SignalNetClientNewGameAdmin(unsigned playerId, const string &playerName) { 
+// 
+// 	myW->signalNetClientNewGameAdmin(playerId, QString::fromUtf8(playerName.c_str())); 
+// 	if (!playerName.empty() && playerName[0] != '#')
+// 		myLog->signalLogNewGameAdminMsg(QString::fromUtf8(playerName.c_str()));
+// 
+// }
+// 
+// void GuiWrapper::SignalNetClientGameListNew(unsigned gameId) { myW->signalNetClientGameListNew(gameId); }
+// void GuiWrapper::SignalNetClientGameListRemove(unsigned gameId) { myW->signalNetClientGameListRemove(gameId); }
+// void GuiWrapper::SignalNetClientGameListUpdateMode(unsigned gameId, GameMode mode) { myW->signalNetClientGameListUpdateMode(gameId, mode); }
+// void GuiWrapper::SignalNetClientGameListUpdateAdmin(unsigned gameId, unsigned adminPlayerId) {myW->signalNetClientGameListUpdateAdmin(gameId, adminPlayerId); }
+// void GuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) { myW->signalNetClientGameListPlayerJoined(gameId, playerId); }
+// void GuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) { myW->signalNetClientGameListPlayerLeft(gameId, playerId); }
+// 
+// void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { myW->signalNetClientGameStart(game); }
+// void GuiWrapper::SignalNetClientWaitDialog() { myW->signalShowClientDialog(); }
+// void GuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { myW->signalNetClientChatMsg(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
+// void GuiWrapper::SignalNetServerSuccess(int /*actionID*/) { }
+// void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { myW->signalNetServerError(errorID, osErrorID); }
+// 
+// void GuiWrapper::SignalIrcConnect(const string &server) { myW->signalIrcConnect(QString::fromUtf8(server.c_str())); }
+// void GuiWrapper::SignalIrcSelfJoined(const string &nickName, const string &channel) { myW->signalIrcSelfJoined(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(channel.c_str())); }
+// void GuiWrapper::SignalIrcPlayerJoined(const string &nickName) { myW->signalIrcPlayerJoined(QString::fromUtf8(nickName.c_str())); }
+// void GuiWrapper::SignalIrcPlayerChanged(const string &oldNick, const string &newNick) { myW->signalIrcPlayerChanged(QString::fromUtf8(oldNick.c_str()), QString::fromUtf8(newNick.c_str())); }
+// void GuiWrapper::SignalIrcPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason) { myW->signalIrcPlayerKicked(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(byWhom.c_str()), QString::fromUtf8(reason.c_str())); }
+// void GuiWrapper::SignalIrcPlayerLeft(const std::string &nickName) { myW->signalIrcPlayerLeft(QString::fromUtf8(nickName.c_str())); }
+// void GuiWrapper::SignalIrcChatMsg(const std::string &nickName, const std::string &msg) { myW->signalIrcChatMessage(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(msg.c_str())); }
+// void GuiWrapper::SignalIrcError(int errorCode) { myW->signalIrcError(errorCode); }
+// void GuiWrapper::SignalIrcServerError(int errorCode) {myW->signalIrcServerError(errorCode); }
 
 //TEMPORARELY UNTIL STARTWINDOW REFACTORING IS OVER TODO

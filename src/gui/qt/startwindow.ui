@@ -19,7 +19,7 @@
       <property name="orientation" >
        <enum>Qt::Vertical</enum>
       </property>
-      <property name="sizeHint" >
+      <property name="sizeHint" stdset="0" >
        <size>
         <width>20</width>
         <height>95</height>
@@ -32,7 +32,7 @@
       <property name="orientation" >
        <enum>Qt::Horizontal</enum>
       </property>
-      <property name="sizeHint" >
+      <property name="sizeHint" stdset="0" >
        <size>
         <width>63</width>
         <height>20</height>
@@ -50,14 +50,14 @@
        </widget>
       </item>
       <item row="1" column="0" >
-       <widget class="QPushButton" name="pushButton_3" >
+       <widget class="QPushButton" name="pushButton_Create_Network_Game" >
         <property name="text" >
          <string>&amp;3 Create Network Game</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1" >
-       <widget class="QPushButton" name="pushButton_4" >
+       <widget class="QPushButton" name="pushButton_Join_Network_Game" >
         <property name="text" >
          <string>&amp;4 Join Network Game</string>
         </property>
@@ -77,7 +77,7 @@
       <property name="orientation" >
        <enum>Qt::Horizontal</enum>
       </property>
-      <property name="sizeHint" >
+      <property name="sizeHint" stdset="0" >
        <size>
         <width>63</width>
         <height>20</height>
@@ -90,7 +90,7 @@
       <property name="orientation" >
        <enum>Qt::Vertical</enum>
       </property>
-      <property name="sizeHint" >
+      <property name="sizeHint" stdset="0" >
        <size>
         <width>20</width>
         <height>95</height>

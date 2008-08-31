@@ -76,6 +76,12 @@ startWindowImpl::startWindowImpl(gameTableImpl *w, ConfigFile *c)
 	connect( actionStart_Local_Game, SIGNAL( triggered() ), this, SLOT( callNewGameDialog() ) );
 	connect( pushButtonStart_Local_Game, SIGNAL( clicked() ), this, SLOT( callNewGameDialog() ) );
 	connect( actionInternet_Game, SIGNAL( triggered() ), this, SLOT( callGameLobbyDialog() ) );
+	connect( pushButtonInternet_Game, SIGNAL( clicked() ), this, SLOT( callGameLobbyDialog() ) );
+	connect( actionCreate_Network_Game, SIGNAL( triggered() ), this, SLOT( callCreateNetworkGameDialog() ) );
+	connect( pushButton_Create_Network_Game, SIGNAL( clicked() ), this, SLOT( callCreateNetworkGameDialog() ) );
+	connect( actionJoin_Network_Game, SIGNAL( triggered() ), this, SLOT( callJoinNetworkGameDialog() ) );
+	connect( pushButton_Join_Network_Game, SIGNAL( clicked() ), this, SLOT( callJoinNetworkGameDialog() ) );
+
 
 	connect(this, SIGNAL(signalShowClientDialog()), this, SLOT(showClientDialog()));
 
@@ -206,6 +212,131 @@ void startWindowImpl::joinGameLobby() {
 		showLobbyDialog();
 	}
 }
+
+void startWindowImpl::callCreateNetworkGameDialog() {
+	
+	myCreateNetworkGameDialog->exec();
+// 
+	if (myCreateNetworkGameDialog->result() == QDialog::Accepted ) {
+
+		// Stop local game.
+		myW->stopTimer();
+
+		if (!myServerGuiInterface.get())
+		{
+			// Create pseudo Gui Wrapper for the server.
+			myServerGuiInterface.reset(new ServerGuiWrapper(myConfig, mySession->getGui(), mySession->getGui(), mySession->getGui()));
+			{
+				boost::shared_ptr<Session> session(new Session(myServerGuiInterface.get(), myConfig));
+				session->init(mySession->getAvatarManager());
+				myServerGuiInterface->setSession(session);
+			}
+		}
+
+		// Terminate existing network games.
+		mySession->terminateNetworkClient();
+		myServerGuiInterface->getSession().terminateNetworkServer();
+
+		GameData gameData;
+		gameData.maxNumberOfPlayers = myCreateNetworkGameDialog->spinBox_quantityPlayers->value();
+		gameData.startMoney = myCreateNetworkGameDialog->spinBox_startCash->value();
+		gameData.firstSmallBlind = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
+		
+		if(myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->radioButton_raiseBlindsAtHands->isChecked()) { 
+			gameData.raiseIntervalMode = RAISE_ON_HANDNUMBER;
+			gameData.raiseSmallBlindEveryHandsValue = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
+		}
+		else { 
+			gameData.raiseIntervalMode = RAISE_ON_MINUTES; 
+			gameData.raiseSmallBlindEveryMinutesValue = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryMinutes->value();
+		}
+		
+		if(myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->radioButton_alwaysDoubleBlinds->isChecked()) { 
+			gameData.raiseMode = DOUBLE_BLINDS; 
+		}
+		else { 
+			gameData.raiseMode = MANUAL_BLINDS_ORDER;
+			std::list<int> tempBlindList;
+			int i;
+			bool ok = TRUE;
+			for(i=0; i<myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->listWidget_blinds->count(); i++) {
+				tempBlindList.push_back(myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->listWidget_blinds->item(i)->text().toInt(&ok,10));		
+			}
+			gameData.manualBlindsList = tempBlindList;
+			
+			if(myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->radioButton_afterThisAlwaysDoubleBlinds->isChecked()) { gameData.afterManualBlindsMode = AFTERMB_DOUBLE_BLINDS; }
+			else {
+				if(myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->radioButton_afterThisAlwaysRaiseAbout->isChecked()) {
+					gameData.afterManualBlindsMode = AFTERMB_RAISE_ABOUT;
+					gameData.afterMBAlwaysRaiseValue = myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->spinBox_afterThisAlwaysRaiseValue->value();
+				}
+				else { gameData.afterManualBlindsMode = AFTERMB_STAY_AT_LAST_BLIND; }	
+			}
+		}
+
+		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
+		gameData.playerActionTimeoutSec = myCreateNetworkGameDialog->spinBox_netTimeOutPlayerAction->value();
+
+		myGameLobbyDialog->setSession(&getSession());
+		myStartNetworkGameDialog->setSession(&getSession());
+
+		// Clear network game dialog.
+		myStartNetworkGameDialog->clearDialog();
+
+		myServerGuiInterface->getSession().startNetworkServer();
+		mySession->startNetworkClientForLocalServer(gameData);
+
+		myStartNetworkGameDialog->setMaxPlayerNumber(gameData.maxNumberOfPlayers);
+
+		myStartNetworkGameDialog->setWindowTitle("Start Network Game");
+
+		showNetworkStartDialog();
+	}
+
+}
+
+void startWindowImpl::callJoinNetworkGameDialog() {
+
+	myJoinNetworkGameDialog->exec();
+
+	if (myJoinNetworkGameDialog->result() == QDialog::Accepted ) {
+
+		// Stop local game.
+		myW->stopTimer();
+
+		mySession->terminateNetworkClient();
+		if (myServerGuiInterface.get())
+			myServerGuiInterface->getSession().terminateNetworkServer();
+
+		myGameLobbyDialog->setSession(&getSession());
+		myStartNetworkGameDialog->setSession(&getSession());
+		// Clear network game dialog
+		myStartNetworkGameDialog->clearDialog();
+		// Maybe use QUrl::toPunycode.
+		mySession->startNetworkClient(
+			myJoinNetworkGameDialog->lineEdit_ipAddress->text().toUtf8().constData(),
+			myJoinNetworkGameDialog->spinBox_port->value(),
+			myJoinNetworkGameDialog->checkBox_ipv6->isChecked(),
+			myJoinNetworkGameDialog->checkBox_sctp->isChecked(),
+			myJoinNetworkGameDialog->lineEdit_password->text().toUtf8().constData());
+
+		//Dialog mit Statusbalken
+		myConnectToServerDialog->exec();
+
+		if (myConnectToServerDialog->result() == QDialog::Rejected ) {
+			mySession->terminateNetworkClient();
+			actionJoin_Network_Game->trigger(); // re-trigger
+		}
+		else {
+			//needed for join and ready sounds - TODO
+			//myStartNetworkGameDialog->setMaxPlayerNumber(gameData.maxNumberOfPlayers);
+			myStartNetworkGameDialog->setWindowTitle("Start Network Game");
+
+			showNetworkStartDialog();
+		}
+	}
+}
+
 
 void startWindowImpl::showClientDialog()
 {

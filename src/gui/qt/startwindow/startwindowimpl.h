@@ -90,6 +90,8 @@ signals:
 public slots: 
 		void callNewGameDialog();
 		void callGameLobbyDialog();
+		void callCreateNetworkGameDialog();
+		void callJoinNetworkGameDialog();
 		void showLobbyDialog();
 		void joinGameLobby();
 		void showClientDialog();
