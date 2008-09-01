@@ -90,14 +90,14 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\qt. (
 echo.
 echo Downloading Qt
-%PKTH_OldDir%\third_party_apps\curl -O http://ftp.ntua.gr/pub/X11/Qt/qt/source/qt-win-opensource-src-4.3.4.zip
+%PKTH_OldDir%\third_party_apps\curl -O http://ftp.ntua.gr/pub/X11/Qt/qt/source/qt-win-opensource-src-4.4.1.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking Qt
-%PKTH_OldDir%\third_party_apps\7za x -y qt-win-opensource-src-4.3.4.zip
+%PKTH_OldDir%\third_party_apps\7za x -y qt-win-opensource-src-4.4.1.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren qt-win-opensource-src-4.3.4 qt
+ren qt-win-opensource-src-4.4.1 qt
 )
 if not exist %PKTH_BaseDir%\qt goto qtFailure
 echo.
@@ -106,7 +106,7 @@ SET PATH=%PKTH_BaseDir%\qt\bin;%PATH%
 SET QMAKESPEC=win32-g++
 SET QTDIR=%PKTH_BaseDir%\qt
 cd qt
-configure -static -fast -no-qt3support -no-openssl -no-sql-sqlite
+configure -static -fast -no-qt3support -no-openssl -no-sql-sqlite -no-dbus -no-opengl -no-openssl -no-phonon -no-webkit
 qmake projects.pro -o Makefile -spec win32-g++
 mingw32-make sub-src
 echo.
