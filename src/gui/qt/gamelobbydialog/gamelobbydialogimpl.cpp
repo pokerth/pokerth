@@ -208,6 +208,7 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 	{
 		treeWidget_GameList->clear();
 		this->accept();
+		myW->show();
 // 		TODO doitux: hier gametable holen
 	}
 }

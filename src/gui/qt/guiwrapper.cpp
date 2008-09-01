@@ -123,6 +123,11 @@ void GuiWrapper::logPlayerWinGame(std::string playerName, int gameID) { myLog->s
 void GuiWrapper::flushLogAtGame(int gameID) { myLog->signalFlushLogAtGame(gameID); }
 void GuiWrapper::flushLogAtHand() { myLog->signalFlushLogAtHand(); }
 
+void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { myW->signalNetClientGameStart(game); }
+
+
+
+
 ////////// this is for startwindow ////////////////////
 
 
@@ -161,7 +166,7 @@ void GuiWrapper::SignalNetClientGameListUpdateAdmin(unsigned gameId, unsigned ad
 void GuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) { myStartWindow->signalNetClientGameListPlayerJoined(gameId, playerId); }
 void GuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) { myStartWindow->signalNetClientGameListPlayerLeft(gameId, playerId); }
 
-void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { myStartWindow->signalNetClientGameStart(game); }
+
 void GuiWrapper::SignalNetClientWaitDialog() { myStartWindow->signalShowClientDialog(); }
 void GuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { myW->signalNetClientChatMsg(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
 void GuiWrapper::SignalNetServerSuccess(int /*actionID*/) { }

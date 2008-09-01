@@ -46,6 +46,7 @@ public slots:
 	void startGame();
 	void cancel();
 	void refresh(int actionID);
+	void accept();
 	void joinedNetworkGame(unsigned playerId, QString playerName, int rights);
 	void addConnectedPlayer(unsigned playerId, QString playerName, int rights);
 	void updatePlayer(unsigned playerId, QString newPlayerName);

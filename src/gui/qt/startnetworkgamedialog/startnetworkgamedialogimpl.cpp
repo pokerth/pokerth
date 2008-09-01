@@ -234,3 +234,9 @@ bool startNetworkGameDialogImpl::eventFilter(QObject *obj, QEvent *event)
 void startNetworkGameDialogImpl::receiveChatMsg(QString playerName, QString message) {
 	myChat->receiveMessage(playerName, message);
 }
+
+void startNetworkGameDialogImpl::accept()
+{
+	myW->show();
+	QDialog::accept();
+}
