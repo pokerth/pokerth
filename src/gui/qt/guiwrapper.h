@@ -31,10 +31,11 @@ class Log;
 class Chat;
 class ConfigFile;
 
+
 class GuiWrapper : public GuiInterface
 {
 public:
-	GuiWrapper(ConfigFile*);
+	GuiWrapper(ConfigFile*, startWindowImpl*);
 
 	~GuiWrapper();
 

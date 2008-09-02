@@ -25,6 +25,7 @@
 #include "game_defs.h"
 
 class GuiInterface;
+class GuiWrapper;
 class Session;
 class Game;
 
@@ -46,7 +47,7 @@ class timeoutMsgBoxImpl;
 class startWindowImpl: public QMainWindow, public Ui::startWindow {
 Q_OBJECT
 public:
-    startWindowImpl(gameTableImpl *w = 0, ConfigFile *c =0);
+    startWindowImpl(ConfigFile *c =0);
 
 	void setSession(boost::shared_ptr<Session> session) { mySession = session; }
 	Session &getSession() { assert(mySession.get()); return *mySession; }

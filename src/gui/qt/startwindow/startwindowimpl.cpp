@@ -25,6 +25,7 @@
 
 #include "session.h"
 #include "game.h"
+#include "guiwrapper.h"
 
 #include "configfile.h"
 #include "gametableimpl.h"
@@ -43,11 +44,18 @@
 #include "timeoutmsgboximpl.h"
 #include "lobbychat.h"
 
-
-
-startWindowImpl::startWindowImpl(gameTableImpl *w, ConfigFile *c)
-    : myW(w), myConfig(c)
+startWindowImpl::startWindowImpl(ConfigFile *c)
+    : myW(NULL), myConfig(c)
 {
+
+	boost::shared_ptr<GuiInterface> myGuiInterface(new GuiWrapper(myConfig, this));
+	{
+		boost::shared_ptr<Session> session(new Session(myGuiInterface.get(), myConfig));
+		session->init(); // TODO handle error
+		myGuiInterface->setSession(session);
+	}
+
+
 // #ifdef __APPLE__
 // 	setWindowModality(Qt::ApplicationModal);
 // 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
@@ -123,6 +131,7 @@ startWindowImpl::startWindowImpl(gameTableImpl *w, ConfigFile *c)
 	connect(this, SIGNAL(signalIrcError(int)), myGameLobbyDialog->getLobbyChat(), SLOT(chatError(int)));
 	connect(this, SIGNAL(signalIrcServerError(int)), myGameLobbyDialog->getLobbyChat(), SLOT(chatServerError(int)));
 	
+	this->show();
 
 }
 

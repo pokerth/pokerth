@@ -29,16 +29,12 @@
 using namespace std;
 
 
-GuiWrapper::GuiWrapper(ConfigFile *c) : myLog(NULL), myW(NULL), myConfig(c)
+GuiWrapper::GuiWrapper(ConfigFile *c, startWindowImpl *s) : myLog(NULL), myW(NULL), myConfig(c), myStartWindow(s)
 {
 
 
 	myW = new gameTableImpl(myConfig);
-// 	myW->show();
 	myLog = new Log(myW, myConfig);
-
-	myStartWindow = boost::shared_ptr<startWindowImpl>(new startWindowImpl(myW, myConfig));
-	myStartWindow->show();
 
 	myW->setStartWindow(myStartWindow);
 }

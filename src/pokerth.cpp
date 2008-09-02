@@ -25,7 +25,7 @@
 #endif
 
 #include "session.h"
-#include "guiwrapper.h"
+#include "startwindowimpl.h"
 #include "configfile.h"
 #include "startsplash.h"
 #include "game_defs.h"
@@ -65,7 +65,7 @@
 
 using namespace std;
 
-class GuiWrapper;
+class startWindowImpl;
 class Game;
 
 int main( int argc, char **argv )
@@ -133,12 +133,13 @@ int main( int argc, char **argv )
 	///////////////////////////////////////////////////	
 
 
-	boost::shared_ptr<GuiInterface> myGuiInterface(new GuiWrapper(myConfig));
-	{
-		boost::shared_ptr<Session> session(new Session(myGuiInterface.get(), myConfig));
-		session->init(); // TODO handle error
-		myGuiInterface->setSession(session);
-	}
+	boost::shared_ptr<startWindowImpl>(new startWindowImpl(myConfig));
+// 	boost::shared_ptr<GuiInterface> myGuiInterface(new GuiWrapper(myConfig));
+// 	{
+// 		boost::shared_ptr<Session> session(new Session(myGuiInterface.get(), myConfig));
+// 		session->init(); // TODO handle error
+// 		myGuiInterface->setSession(session);
+// 	}
 	
 	int retVal = a.exec();
 	
