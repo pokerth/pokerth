@@ -23,6 +23,7 @@
 
 class ConfigFile;
 class Session;
+class gameTableImpl;
 
 class ServerGuiWrapper : public GuiInterface
 {
@@ -34,6 +35,8 @@ public:
 
 	Session &getSession();
 	void setSession(boost::shared_ptr<Session> session);
+
+	gameTableImpl* getMyW() const{};
 
 	void refreshSet() const;
 	void refreshCash() const;

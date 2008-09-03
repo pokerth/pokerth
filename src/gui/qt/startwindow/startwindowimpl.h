@@ -106,18 +106,18 @@ private:
 	boost::shared_ptr<GuiInterface> myServerGuiInterface;
 
 // 	Dialogs
-	boost::shared_ptr<aboutPokerthImpl> myAboutPokerthDialog;
-	boost::shared_ptr<newGameDialogImpl> myNewGameDialog;
-	boost::shared_ptr<settingsDialogImpl> mySettingsDialog;
-	boost::shared_ptr<selectAvatarDialogImpl> mySelectAvatarDialog;
-	boost::shared_ptr<changeHumanPlayerNameDialogImpl> myChangeHumanPlayerNameDialog;
-	boost::shared_ptr<joinNetworkGameDialogImpl> myJoinNetworkGameDialog;
-	boost::shared_ptr<connectToServerDialogImpl> myConnectToServerDialog;
-	boost::shared_ptr<startNetworkGameDialogImpl> myStartNetworkGameDialog;
-	boost::shared_ptr<createNetworkGameDialogImpl> myCreateNetworkGameDialog;
-	boost::shared_ptr<gameLobbyDialogImpl> myGameLobbyDialog;
-	boost::shared_ptr<timeoutMsgBoxImpl> myTimeoutDialog;
-	boost::shared_ptr<startWindowImpl> myStartWindow;
+	aboutPokerthImpl *myAboutPokerthDialog;
+	newGameDialogImpl *myNewGameDialog;
+	settingsDialogImpl *mySettingsDialog;
+	selectAvatarDialogImpl *mySelectAvatarDialog;
+	changeHumanPlayerNameDialogImpl *myChangeHumanPlayerNameDialog;
+	joinNetworkGameDialogImpl *myJoinNetworkGameDialog;
+	connectToServerDialogImpl *myConnectToServerDialog;
+	startNetworkGameDialogImpl *myStartNetworkGameDialog;
+	createNetworkGameDialogImpl *myCreateNetworkGameDialog;
+	gameLobbyDialogImpl *myGameLobbyDialog;
+	timeoutMsgBoxImpl *myTimeoutDialog;
+	startWindowImpl *myStartWindow;
 
 	
 friend class GuiWrapper;

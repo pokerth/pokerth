@@ -44,6 +44,8 @@ public:
 	Session &getSession();
 	void setSession(boost::shared_ptr<Session> session);
 
+	gameTableImpl* getMyW() const {	return myW; }
+	
 	void refreshSet() const;
 	void refreshCash() const;
 	void refreshAction(int =-1, int =-1) const;
@@ -141,6 +143,7 @@ public:
 	void SignalIrcChatMsg(const std::string &nickName, const std::string &msg);
 	void SignalIrcError(int errorCode);
 	void SignalIrcServerError(int errorCode);
+
 
 private:
 
