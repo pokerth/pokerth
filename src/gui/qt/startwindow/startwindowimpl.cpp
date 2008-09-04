@@ -45,10 +45,10 @@
 #include "lobbychat.h"
 
 startWindowImpl::startWindowImpl(ConfigFile *c)
-    : myW(NULL), myConfig(c)
+    : myConfig(c)
 {
 
-	boost::shared_ptr<GuiInterface> myGuiInterface(new GuiWrapper(myConfig, this));
+	myGuiInterface.reset(new GuiWrapper(myConfig, this));
 	{
 		boost::shared_ptr<Session> session(new Session(myGuiInterface.get(), myConfig));
 		session->init(); // TODO handle error
@@ -141,10 +141,10 @@ void startWindowImpl::callNewGameDialog() {
 	if(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame")){
 
 		myNewGameDialog->exec();
-		if (myNewGameDialog->result() == QDialog::Accepted ) { myW->startNewLocalGame(myNewGameDialog); }
+		if (myNewGameDialog->result() == QDialog::Accepted ) { myGuiInterface->getMyW()->startNewLocalGame(myNewGameDialog); }
 	}
 	// sonst mit gespeicherten Werten starten
-	else { myW->startNewLocalGame(); }
+	else { myGuiInterface->getMyW()->startNewLocalGame(); }
 }
 
 void startWindowImpl::callGameLobbyDialog() {
@@ -166,7 +166,7 @@ void startWindowImpl::callGameLobbyDialog() {
 void startWindowImpl::joinGameLobby() {
 
 	// Stop local game.
-	myW->stopTimer();
+	myGuiInterface->getMyW()->stopTimer();
 
 // Join Lobby
 	mySession->terminateNetworkClient();
@@ -229,7 +229,7 @@ void startWindowImpl::callCreateNetworkGameDialog() {
 	if (myCreateNetworkGameDialog->result() == QDialog::Accepted ) {
 
 		// Stop local game.
-		myW->stopTimer();
+		myGuiInterface->getMyW()->stopTimer();
 
 		if (!myServerGuiInterface)
 		{
@@ -311,7 +311,7 @@ void startWindowImpl::callJoinNetworkGameDialog() {
 	if (myJoinNetworkGameDialog->result() == QDialog::Accepted ) {
 
 		// Stop local game.
-		myW->stopTimer();
+		myGuiInterface->getMyW()->stopTimer();
 
 		mySession->terminateNetworkClient();
 		if (myServerGuiInterface)
@@ -368,7 +368,7 @@ void startWindowImpl::showLobbyDialog()
 	if (myGameLobbyDialog->result() == QDialog::Accepted)
 	{
 		//some gui modifications
-		myW->networkGameModification();
+		myGuiInterface->getMyW()->networkGameModification();
 	}
 	else
 	{
@@ -383,7 +383,7 @@ void startWindowImpl::showNetworkStartDialog()
 	if (myStartNetworkGameDialog->result() == QDialog::Accepted ) {
 		
 		//some gui modifications
-		myW->networkGameModification();
+		myGuiInterface->getMyW()->networkGameModification();
 	}
 	else {
 		mySession->terminateNetworkClient();

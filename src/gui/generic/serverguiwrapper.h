@@ -36,7 +36,7 @@ public:
 	Session &getSession();
 	void setSession(boost::shared_ptr<Session> session);
 
-	gameTableImpl* getMyW() const{};
+	gameTableImpl* getMyW() const {return NULL;}
 
 	void refreshSet() const;
 	void refreshCash() const;

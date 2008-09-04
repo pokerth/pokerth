@@ -99,9 +99,9 @@ public slots:
 		void showNetworkStartDialog();
 
 private:
-	gameTableImpl *myW;
 	ConfigFile *myConfig;
 
+	boost::shared_ptr<GuiInterface> myGuiInterface;
 	boost::shared_ptr<Session> mySession;
 	boost::shared_ptr<GuiInterface> myServerGuiInterface;
 
