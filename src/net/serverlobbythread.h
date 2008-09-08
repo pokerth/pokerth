@@ -29,7 +29,6 @@
 
 #include <deque>
 #include <list>
-#include <boost/date_time.hpp>
 #include <third_party/boost/timers.hpp>
 
 #define NET_LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC		20000
