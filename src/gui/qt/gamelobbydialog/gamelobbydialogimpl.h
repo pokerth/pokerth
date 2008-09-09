@@ -27,6 +27,7 @@
 class Session;
 class ConfigFile;
 class LobbyChat;
+class startWindowImpl;
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
@@ -34,7 +35,7 @@ class LobbyChat;
 class gameLobbyDialogImpl: public QDialog, public Ui::gameLobbyDialog {
 Q_OBJECT
 public:
-	gameLobbyDialogImpl(QWidget *parent = 0, ConfigFile* = 0);
+	gameLobbyDialogImpl(startWindowImpl *parent = 0, ConfigFile* = 0);
 
 	~gameLobbyDialogImpl();
 
@@ -102,10 +103,12 @@ public slots:
 
 	void joinAnyGameButtonRefresh();
 
-
+	void reject();
+	
 private:
 	
 	gameTableImpl* myW;
+	startWindowImpl* myStartWindow;
 	ConfigFile *myConfig;	
 	Session *mySession;
 	createInternetGameDialogImpl *myCreateInternetGameDialog;

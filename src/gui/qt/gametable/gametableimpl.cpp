@@ -481,10 +481,10 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	myStartNetworkGameDialog = boost::shared_ptr<startNetworkGameDialogImpl>(new startNetworkGameDialogImpl(this, myConfig));
 	myCreateNetworkGameDialog = boost::shared_ptr<createNetworkGameDialogImpl>(new createNetworkGameDialogImpl(this, myConfig));
 	myAboutPokerthDialog = boost::shared_ptr<aboutPokerthImpl>(new aboutPokerthImpl(this, myConfig));
-	myGameLobbyDialog = boost::shared_ptr<gameLobbyDialogImpl>(new gameLobbyDialogImpl(this, myConfig));
+// 	myGameLobbyDialog = boost::shared_ptr<gameLobbyDialogImpl>(new gameLobbyDialogImpl(this, myConfig));
 
 	myStartNetworkGameDialog->setMyW(this);
-	myGameLobbyDialog->setMyW(this);
+// 	myGameLobbyDialog->setMyW(this);
 	
 	myTimeoutDialog.reset(new timeoutMsgBoxImpl(this));
 
@@ -582,7 +582,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalRefreshButton()), this, SLOT(refreshButton()));
 	connect(this, SIGNAL(signalRefreshGameLabels(int)), this, SLOT(refreshGameLabels(int)));
 	connect(this, SIGNAL(signalSetPlayerAvatar(int, QString)), this, SLOT(setPlayerAvatar(int, QString))); 
-	connect(this, SIGNAL(signalSetPlayerAvatar(int, QString)), myGameLobbyDialog.get(), SLOT(refreshConnectedPlayerAvatars())); 
+// 	connect(this, SIGNAL(signalSetPlayerAvatar(int, QString)), myGameLobbyDialog.get(), SLOT(refreshConnectedPlayerAvatars())); 
 
 	connect(this, SIGNAL(signalGuiUpdateDone()), this, SLOT(guiUpdateDone()));
 
@@ -619,7 +619,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	connect(this, SIGNAL(signalNetClientConnect(int)), myConnectToServerDialog.get(), SLOT(refresh(int)));
 	connect(this, SIGNAL(signalNetClientGameInfo(int)), myStartNetworkGameDialog.get(), SLOT(refresh(int)));
-	connect(this, SIGNAL(signalNetClientGameInfo(int)), myGameLobbyDialog.get(), SLOT(refresh(int)));
+// 	connect(this, SIGNAL(signalNetClientGameInfo(int)), myGameLobbyDialog.get(), SLOT(refresh(int)));
 
 	connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, int)), myStartNetworkGameDialog.get(), SLOT(joinedNetworkGame(unsigned, QString, int)));
 	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, int)), myStartNetworkGameDialog.get(), SLOT(addConnectedPlayer(unsigned, QString, int)));
@@ -628,20 +628,20 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetClientNewGameAdmin(unsigned, QString)), myStartNetworkGameDialog.get(), SLOT(newGameAdmin(unsigned, QString)));
 	connect(this, SIGNAL(signalNetClientGameListNew(unsigned)), myStartNetworkGameDialog.get(), SLOT(gameCreated(unsigned)));
 
-	connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, int)), myGameLobbyDialog.get(), SLOT(joinedNetworkGame(unsigned, QString, int)));
-	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, int)), myGameLobbyDialog.get(), SLOT(addConnectedPlayer(unsigned, QString, int)));
-	connect(this, SIGNAL(signalNetClientPlayerChanged(unsigned, QString)), myGameLobbyDialog.get(), SLOT(updatePlayer(unsigned, QString)));
-	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned, QString)), myGameLobbyDialog.get(), SLOT(removePlayer(unsigned, QString)));
-	connect(this, SIGNAL(signalNetClientNewGameAdmin(unsigned, QString)), myGameLobbyDialog.get(), SLOT(newGameAdmin(unsigned, QString)));
-
-	connect(this, SIGNAL(signalNetClientGameListNew(unsigned)), myGameLobbyDialog.get(), SLOT(addGame(unsigned)));
-	connect(this, SIGNAL(signalNetClientGameListRemove(unsigned)), myGameLobbyDialog.get(), SLOT(removeGame(unsigned)));
-	connect(this, SIGNAL(signalNetClientGameListUpdateMode(unsigned, int)), myGameLobbyDialog.get(), SLOT(updateGameMode(unsigned, int)));
-	connect(this, SIGNAL(signalNetClientGameListUpdateAdmin(unsigned, unsigned)), myGameLobbyDialog.get(), SLOT(updateGameAdmin(unsigned, unsigned)));
-	connect(this, SIGNAL(signalNetClientGameListPlayerJoined(unsigned, unsigned)), myGameLobbyDialog.get(), SLOT(gameAddPlayer(unsigned, unsigned)));
-	connect(this, SIGNAL(signalNetClientGameListPlayerLeft(unsigned, unsigned)), myGameLobbyDialog.get(), SLOT(gameRemovePlayer(unsigned, unsigned)));
-	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), myGameLobbyDialog.get(), SLOT(removedFromGame(int)));
-	connect(this, SIGNAL(signalNetClientStatsUpdate(ServerStats)), myGameLobbyDialog.get(), SLOT(updateStats(ServerStats)));
+// 	connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, int)), myGameLobbyDialog.get(), SLOT(joinedNetworkGame(unsigned, QString, int)));
+// 	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, int)), myGameLobbyDialog.get(), SLOT(addConnectedPlayer(unsigned, QString, int)));
+// 	connect(this, SIGNAL(signalNetClientPlayerChanged(unsigned, QString)), myGameLobbyDialog.get(), SLOT(updatePlayer(unsigned, QString)));
+// 	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned, QString)), myGameLobbyDialog.get(), SLOT(removePlayer(unsigned, QString)));
+// 	connect(this, SIGNAL(signalNetClientNewGameAdmin(unsigned, QString)), myGameLobbyDialog.get(), SLOT(newGameAdmin(unsigned, QString)));
+// 
+// 	connect(this, SIGNAL(signalNetClientGameListNew(unsigned)), myGameLobbyDialog.get(), SLOT(addGame(unsigned)));
+// 	connect(this, SIGNAL(signalNetClientGameListRemove(unsigned)), myGameLobbyDialog.get(), SLOT(removeGame(unsigned)));
+// 	connect(this, SIGNAL(signalNetClientGameListUpdateMode(unsigned, int)), myGameLobbyDialog.get(), SLOT(updateGameMode(unsigned, int)));
+// 	connect(this, SIGNAL(signalNetClientGameListUpdateAdmin(unsigned, unsigned)), myGameLobbyDialog.get(), SLOT(updateGameAdmin(unsigned, unsigned)));
+// 	connect(this, SIGNAL(signalNetClientGameListPlayerJoined(unsigned, unsigned)), myGameLobbyDialog.get(), SLOT(gameAddPlayer(unsigned, unsigned)));
+// 	connect(this, SIGNAL(signalNetClientGameListPlayerLeft(unsigned, unsigned)), myGameLobbyDialog.get(), SLOT(gameRemovePlayer(unsigned, unsigned)));
+// 	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), myGameLobbyDialog.get(), SLOT(removedFromGame(int)));
+// 	connect(this, SIGNAL(signalNetClientStatsUpdate(ServerStats)), myGameLobbyDialog.get(), SLOT(updateStats(ServerStats)));
 	connect(this, SIGNAL(signalNetClientShowTimeoutDialog(int, unsigned)), this, SLOT(showTimeoutDialog(int, unsigned)));
 
 	// Errors are handled globally, not within one dialog.
@@ -655,15 +655,15 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetClientChatMsg(QString, QString)), myChat, SLOT(receiveMessage(QString, QString)));
 	connect(this, SIGNAL(signalNetClientChatMsg(QString, QString)), myStartNetworkGameDialog.get(), SLOT(receiveChatMsg(QString, QString)));
 
-	connect(this, SIGNAL(signalIrcConnect(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(connected(QString)));
-	connect(this, SIGNAL(signalIrcSelfJoined(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(selfJoined(QString, QString)));
-	connect(this, SIGNAL(signalIrcPlayerJoined(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerJoined(QString)));
-	connect(this, SIGNAL(signalIrcPlayerChanged(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerChanged(QString, QString)));
-	connect(this, SIGNAL(signalIrcPlayerKicked(QString, QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerKicked(QString, QString, QString)));
-	connect(this, SIGNAL(signalIrcPlayerLeft(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerLeft(QString)));
-	connect(this, SIGNAL(signalIrcChatMessage(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(displayMessage(QString, QString)));
-	connect(this, SIGNAL(signalIrcError(int)), myGameLobbyDialog->getLobbyChat(), SLOT(chatError(int)));
-	connect(this, SIGNAL(signalIrcServerError(int)), myGameLobbyDialog->getLobbyChat(), SLOT(chatServerError(int)));
+// 	connect(this, SIGNAL(signalIrcConnect(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(connected(QString)));
+// 	connect(this, SIGNAL(signalIrcSelfJoined(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(selfJoined(QString, QString)));
+// 	connect(this, SIGNAL(signalIrcPlayerJoined(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerJoined(QString)));
+// 	connect(this, SIGNAL(signalIrcPlayerChanged(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerChanged(QString, QString)));
+// 	connect(this, SIGNAL(signalIrcPlayerKicked(QString, QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerKicked(QString, QString, QString)));
+// 	connect(this, SIGNAL(signalIrcPlayerLeft(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerLeft(QString)));
+// 	connect(this, SIGNAL(signalIrcChatMessage(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(displayMessage(QString, QString)));
+// 	connect(this, SIGNAL(signalIrcError(int)), myGameLobbyDialog->getLobbyChat(), SLOT(chatError(int)));
+// 	connect(this, SIGNAL(signalIrcServerError(int)), myGameLobbyDialog->getLobbyChat(), SLOT(chatServerError(int)));
 
 }
 
@@ -858,7 +858,7 @@ void gameTableImpl::callCreateNetworkGameDialog() {
 		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
 		gameData.playerActionTimeoutSec = myCreateNetworkGameDialog->spinBox_netTimeOutPlayerAction->value();
 
-		myGameLobbyDialog->setSession(&getSession());
+// 		myGameLobbyDialog->setSession(&getSession());
 		myStartNetworkGameDialog->setSession(&getSession());
 
 		// Clear network game dialog.
@@ -889,7 +889,7 @@ void gameTableImpl::callJoinNetworkGameDialog() {
 		if (myServerGuiInterface.get())
 			myServerGuiInterface->getSession().terminateNetworkServer();
 
-		myGameLobbyDialog->setSession(&getSession());
+// 		myGameLobbyDialog->setSession(&getSession());
 		myStartNetworkGameDialog->setSession(&getSession());
 		// Clear network game dialog
 		myStartNetworkGameDialog->clearDialog();
@@ -943,11 +943,11 @@ void gameTableImpl::joinGameLobby() {
 	mySession->terminateNetworkClient();
 	if (myServerGuiInterface.get())
 		myServerGuiInterface->getSession().terminateNetworkServer();
-		myGameLobbyDialog->setSession(&getSession());
+// 		myGameLobbyDialog->setSession(&getSession());
 		myStartNetworkGameDialog->setSession(&getSession());
 
 	// Clear Lobby dialog.
-	myGameLobbyDialog->clearDialog();
+// 	myGameLobbyDialog->clearDialog();
 
 	//set clean irc nick
 	QString myNick(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
@@ -1131,8 +1131,8 @@ void gameTableImpl::showClientDialog()
 	}
 	else if (mySession->getGameType() == Session::GAME_TYPE_INTERNET)
 	{
-		if (!myGameLobbyDialog->isVisible())
-			showLobbyDialog();
+// 		if (!myGameLobbyDialog->isVisible())
+// 			showLobbyDialog();
 	}
 }
 
@@ -1154,17 +1154,17 @@ void gameTableImpl::showNetworkStartDialog()
 
 void gameTableImpl::showLobbyDialog()
 {
-	myGameLobbyDialog->exec(); 
+// 	myGameLobbyDialog->exec(); 
 
-	if (myGameLobbyDialog->result() == QDialog::Accepted)
-	{
+// 	if (myGameLobbyDialog->result() == QDialog::Accepted)
+// 	{
 		//some gui modifications
-		networkGameModification();
-	}
-	else
-	{
-		mySession->terminateNetworkClient();
-	}
+// 		networkGameModification();
+// 	}
+// 	else
+// 	{
+// 		mySession->terminateNetworkClient();
+// 	}
 }
 
 Session &gameTableImpl::getSession() { assert(mySession.get()); return *mySession; }
@@ -3311,7 +3311,7 @@ void gameTableImpl::networkError(int errorID, int /*osErrorID*/) {
 				QMessageBox::Close); }
 	}
 	// close dialogs
-	myGameLobbyDialog->reject();
+// 	myGameLobbyDialog->reject();
 	myConnectToServerDialog->reject();
 	myStartNetworkGameDialog->reject();
 }

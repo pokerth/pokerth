@@ -10,6 +10,7 @@
 //
 //
 #include "gamelobbydialogimpl.h"
+#include "startwindowimpl.h"
 #include "lobbychat.h"
 #include "changecompleteblindsdialogimpl.h"
 #include "session.h"
@@ -17,8 +18,8 @@
 #include "gamedata.h"
 #include <net/socket_msg.h>
 
-gameLobbyDialogImpl::gameLobbyDialogImpl(QWidget *parent, ConfigFile *c)
- : QDialog(parent), myW(NULL), myConfig(c), mySession(NULL), currentGameName(""), myPlayerId(0), isAdmin(false), inGame(false), myChat(NULL), keyUpCounter(0)
+gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
+ : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), mySession(NULL), currentGameName(""), myPlayerId(0), isAdmin(false), inGame(false), myChat(NULL), keyUpCounter(0)
 {
 
 #ifdef __APPLE__
@@ -209,7 +210,6 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 		treeWidget_GameList->clear();
 		this->accept();
 		myW->show();
-// 		TODO doitux: hier gametable holen
 	}
 }
 
@@ -839,5 +839,11 @@ void gameLobbyDialogImpl::joinAnyGameButtonRefresh() {
 
 	if(openNonPrivateNonFullGamesCounter) pushButton_joinAnyGame->setEnabled(TRUE);
 	else pushButton_joinAnyGame->setEnabled(FALSE);
+}
+
+void gameLobbyDialogImpl::reject()
+{
+	myStartWindow->show();
+	QDialog::reject();
 }
 

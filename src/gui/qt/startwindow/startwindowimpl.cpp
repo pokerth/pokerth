@@ -218,6 +218,7 @@ void startWindowImpl::joinGameLobby() {
 	}
 	else
 	{
+		this->hide();
 		showLobbyDialog();
 	}
 }
@@ -351,11 +352,15 @@ void startWindowImpl::showClientDialog()
 {
 	if (mySession->getGameType() == Session::GAME_TYPE_NETWORK)
 	{
+		if (myGuiInterface->getMyW()->isVisible())
+			myGuiInterface->getMyW()->hide();
 		if (!myStartNetworkGameDialog->isVisible())
 			showNetworkStartDialog();
 	}
 	else if (mySession->getGameType() == Session::GAME_TYPE_INTERNET)
 	{
+		if (myGuiInterface->getMyW()->isVisible())
+			myGuiInterface->getMyW()->hide();
 		if (!myGameLobbyDialog->isVisible())
 			showLobbyDialog();
 	}

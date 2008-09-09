@@ -413,7 +413,7 @@ private:
 	boost::shared_ptr<connectToServerDialogImpl> myConnectToServerDialog;
 	boost::shared_ptr<startNetworkGameDialogImpl> myStartNetworkGameDialog;
 	boost::shared_ptr<createNetworkGameDialogImpl> myCreateNetworkGameDialog;
-	boost::shared_ptr<gameLobbyDialogImpl> myGameLobbyDialog;
+// 	boost::shared_ptr<gameLobbyDialogImpl> myGameLobbyDialog;
 	boost::shared_ptr<timeoutMsgBoxImpl> myTimeoutDialog;
 	boost::shared_ptr<startWindowImpl> myStartWindow;
 
