@@ -338,7 +338,7 @@ public slots:
 
 	void showTimeoutDialog(int msgID, unsigned duration);
 	void hideTimeoutDialog();
-	
+;
 // 	void paintEvent(QPaintEvent *);
 
 private: 

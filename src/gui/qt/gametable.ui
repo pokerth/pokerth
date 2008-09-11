@@ -21,18 +21,13 @@
     <height>1280</height>
    </size>
   </property>
+  <property name="mouseTracking" >
+   <bool>false</bool>
+  </property>
   <property name="windowTitle" >
    <string>PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</string>
   </property>
   <widget class="QWidget" name="centralwidget" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>28</y>
-     <width>1000</width>
-     <height>631</height>
-    </rect>
-   </property>
    <layout class="QVBoxLayout" >
     <item>
      <layout class="QHBoxLayout" >
@@ -1733,14 +1728,6 @@
               <number>0</number>
              </property>
              <widget class="QWidget" name="tab_Hands" >
-              <property name="geometry" >
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>240</width>
-                <height>153</height>
-               </rect>
-              </property>
               <attribute name="title" >
                <string>Hands</string>
               </attribute>
@@ -1761,14 +1748,6 @@
               </layout>
              </widget>
              <widget class="QWidget" name="tab_Chat" >
-              <property name="geometry" >
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>240</width>
-                <height>153</height>
-               </rect>
-              </property>
               <attribute name="title" >
                <string>Chat</string>
               </attribute>
@@ -2513,14 +2492,6 @@
               <number>0</number>
              </property>
              <widget class="QWidget" name="tab_Log" >
-              <property name="geometry" >
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>240</width>
-                <height>129</height>
-               </rect>
-              </property>
               <attribute name="title" >
                <string>Log</string>
               </attribute>
@@ -2547,14 +2518,6 @@
               </layout>
              </widget>
              <widget class="QWidget" name="tab_away" >
-              <property name="geometry" >
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>240</width>
-                <height>129</height>
-               </rect>
-              </property>
               <attribute name="title" >
                <string>Away</string>
               </attribute>
@@ -2911,7 +2874,7 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>28</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView" >
@@ -2924,37 +2887,16 @@
     <addaction name="actionShowHideLog" />
     <addaction name="actionShowHideAway" />
    </widget>
-   <widget class="QMenu" name="menuSpiel" >
+   <widget class="QMenu" name="menuSettings" >
     <property name="title" >
-     <string>Game</string>
+     <string>Settings</string>
     </property>
-    <widget class="QMenu" name="menuNetwork_Game" >
-     <property name="title" >
-      <string>Network Game</string>
-     </property>
-     <addaction name="actionCreate_network_Game" />
-     <addaction name="actionJoin_network_Game" />
-    </widget>
-    <addaction name="actionNewGame" />
-    <addaction name="menuNetwork_Game" />
-    <addaction name="actionInternet_Game" />
-    <addaction name="actionSettings" />
-    <addaction name="actionAboutPokerth" />
-    <addaction name="actionQuit" />
+    <addaction name="actionConfigure_PokerTH" />
    </widget>
-   <addaction name="menuSpiel" />
    <addaction name="menuView" />
+   <addaction name="menuSettings" />
   </widget>
-  <widget class="QStatusBar" name="statusbar" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>659</y>
-     <width>1000</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
+  <widget class="QStatusBar" name="statusbar" />
   <action name="actionNewGame" >
    <property name="text" >
     <string>Start Local Game ...</string>
@@ -3049,6 +2991,11 @@
    </property>
    <property name="shortcut" >
     <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="actionConfigure_PokerTH" >
+   <property name="text" >
+    <string>Configure PokerTH ...</string>
    </property>
   </action>
  </widget>
