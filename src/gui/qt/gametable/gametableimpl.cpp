@@ -480,11 +480,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	myConnectToServerDialog = boost::shared_ptr<connectToServerDialogImpl>(new connectToServerDialogImpl(this));
 	myStartNetworkGameDialog = boost::shared_ptr<startNetworkGameDialogImpl>(new startNetworkGameDialogImpl(this, myConfig));
 	myCreateNetworkGameDialog = boost::shared_ptr<createNetworkGameDialogImpl>(new createNetworkGameDialogImpl(this, myConfig));
-	myAboutPokerthDialog = boost::shared_ptr<aboutPokerthImpl>(new aboutPokerthImpl(this, myConfig));
-// 	myGameLobbyDialog = boost::shared_ptr<gameLobbyDialogImpl>(new gameLobbyDialogImpl(this, myConfig));
 
 	myStartNetworkGameDialog->setMyW(this);
-// 	myGameLobbyDialog->setMyW(this);
 	
 	myTimeoutDialog.reset(new timeoutMsgBoxImpl(this));
 
@@ -533,12 +530,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	connect(blinkingStartButtonAnimationTimer, SIGNAL(timeout()), this, SLOT( blinkingStartButtonAnimationAction()));
 
-	connect( actionNewGame, SIGNAL( triggered() ), this, SLOT( callNewGameDialog() ) );
-	connect( actionAboutPokerth, SIGNAL( triggered() ), this, SLOT( callAboutPokerthDialog() ) );
 	connect( actionSettings, SIGNAL( triggered() ), this, SLOT( callSettingsDialog() ) );
-	connect( actionJoin_network_Game, SIGNAL( triggered() ), this, SLOT( callJoinNetworkGameDialog() ) );
-	connect( actionCreate_network_Game, SIGNAL( triggered() ), this, SLOT( callCreateNetworkGameDialog() ) );
-	connect( actionInternet_Game, SIGNAL( triggered() ), this, SLOT( callGameLobbyDialog() ) );
 	connect( actionQuit, SIGNAL( triggered() ), this, SLOT( quitPokerTH() ) );
 	connect( actionFullScreen, SIGNAL( triggered() ), this, SLOT( switchFullscreen() ) );
 	connect( actionShowHideChat, SIGNAL( triggered() ), this, SLOT( switchChatWindow() ) );
@@ -792,8 +784,6 @@ void gameTableImpl::startNewLocalGame(newGameDialogImpl *v) {
 }
 
 
-void gameTableImpl::callAboutPokerthDialog() {	myAboutPokerthDialog->exec(); }
-
 void gameTableImpl::callCreateNetworkGameDialog() {
 	
 	myCreateNetworkGameDialog->exec();
@@ -998,99 +988,104 @@ void gameTableImpl::callSettingsDialog() {
 	mySettingsDialog->exec();
 	
 	if (mySettingsDialog->result() == QDialog::Accepted && mySettingsDialog->getSettingsCorrect()) {
-		//Toolbox verstecken?
-		if (myConfig->readConfigInt("ShowLeftToolBox")) { groupBox_LeftToolBox->show(); }
-		else { groupBox_LeftToolBox->hide(); }
-
-		if (myConfig->readConfigInt("ShowRightToolBox")) { groupBox_RightToolBox->show(); }
-		else { groupBox_RightToolBox->hide(); }
-
-		//Add avatar (if set)
-		mySession->addOwnAvatar(myConfig->readConfigString("MyAvatar"));
-
-		//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
-		if (mySettingsDialog->getPlayerNickIsChanged() && mySession->getCurrentGame() && !mySession->isNetworkClientRunning()) { 
-
-			Game *currentGame = mySession->getCurrentGame();
-			PlayerListIterator it = currentGame->getSeatsList()->begin();
-			(*it)->setMyName(mySettingsDialog->lineEdit_HumanPlayerName->text().toUtf8().constData());
-			(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent1Name->text().toUtf8().constData());
-			(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent2Name->text().toUtf8().constData());
-			(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent3Name->text().toUtf8().constData());
-			(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent4Name->text().toUtf8().constData());
-			(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent5Name->text().toUtf8().constData());
-			(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent6Name->text().toUtf8().constData());
-			mySettingsDialog->setPlayerNickIsChanged(FALSE);
-
-			refreshPlayerName();
-		}
-	
-		if(mySession->getCurrentGame() && !mySession->isNetworkClientRunning()) {
-
-			Game *currentGame = mySession->getCurrentGame();
-			PlayerListIterator it = currentGame->getSeatsList()->begin();
-			(*it)->setMyAvatar(mySettingsDialog->pushButton_HumanPlayerAvatar->getMyLink().toUtf8().constData());
-			(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent1Avatar->getMyLink().toUtf8().constData());
-			(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent2Avatar->getMyLink().toUtf8().constData());
-			(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent3Avatar->getMyLink().toUtf8().constData());
-			(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent4Avatar->getMyLink().toUtf8().constData());
-			(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent5Avatar->getMyLink().toUtf8().constData());
-			(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent6Avatar->getMyLink().toUtf8().constData());
-
-			//avatar refresh
-			refreshPlayerAvatar();		
-		}
-
-		//Flipside refresh
-		if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
-
-			flipside = new QPixmap();
-			*flipside = QPixmap::fromImage(QImage(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str())));
-		}
-		else { 
-			flipside = new QPixmap();
-			*flipside = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/flipside.png"));
-		}
-
-		//Check for anti-peek mode
-		if(mySession->getCurrentGame()) {
-			QPixmap tempCardsPixmapArray[2];
-			int tempCardsIntArray[2];
-			
-			mySession->getCurrentGame()->getSeatsList()->front()->getMyCards(tempCardsIntArray);	
-			if(myConfig->readConfigInt("AntiPeekMode")) {
-				holeCardsArray[0][0]->setPixmap(*flipside, TRUE);
-				tempCardsPixmapArray[0] = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[0], 10)+".png"));
-				holeCardsArray[0][0]->setFrontPixmap(tempCardsPixmapArray[0]);
-				holeCardsArray[0][1]->setPixmap(*flipside, TRUE);
-				tempCardsPixmapArray[1]= QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[1], 10)+".png"));
-				holeCardsArray[0][1]->setFrontPixmap(tempCardsPixmapArray[1]);
-			}
-			else {
-				tempCardsPixmapArray[0]= QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[0], 10)+".png"));
-				holeCardsArray[0][0]->setPixmap(tempCardsPixmapArray[0],FALSE);
-				tempCardsPixmapArray[1]= QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[1], 10)+".png"));
-				holeCardsArray[0][1]->setPixmap(tempCardsPixmapArray[1],FALSE);
-			}
-		}
-
-		if(mySession->getCurrentGame()) {
-			//blind buttons refresh
-			refreshButton();
-		}
-		int i,j;
-
-		for (i=1; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
-			for ( j=0; j<=1; j++ ) {
-				if (holeCardsArray[i][j]->getIsFlipside()) {
-					holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
-				}
-			}
-		}
-		// Re-init audio.
-		mySDLPlayer->audioDone();
-		mySDLPlayer->initAudio();
+		applySettings();
 	}
+}
+
+void gameTableImpl::applySettings() {
+
+	//Toolbox verstecken?
+	if (myConfig->readConfigInt("ShowLeftToolBox")) { groupBox_LeftToolBox->show(); }
+	else { groupBox_LeftToolBox->hide(); }
+
+	if (myConfig->readConfigInt("ShowRightToolBox")) { groupBox_RightToolBox->show(); }
+	else { groupBox_RightToolBox->hide(); }
+
+	//Add avatar (if set)
+	mySession->addOwnAvatar(myConfig->readConfigString("MyAvatar"));
+
+	//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
+	if (mySettingsDialog->getPlayerNickIsChanged() && mySession->getCurrentGame() && !mySession->isNetworkClientRunning()) { 
+
+		Game *currentGame = mySession->getCurrentGame();
+		PlayerListIterator it = currentGame->getSeatsList()->begin();
+		(*it)->setMyName(mySettingsDialog->lineEdit_HumanPlayerName->text().toUtf8().constData());
+		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent1Name->text().toUtf8().constData());
+		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent2Name->text().toUtf8().constData());
+		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent3Name->text().toUtf8().constData());
+		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent4Name->text().toUtf8().constData());
+		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent5Name->text().toUtf8().constData());
+		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent6Name->text().toUtf8().constData());
+		mySettingsDialog->setPlayerNickIsChanged(FALSE);
+
+		refreshPlayerName();
+	}
+
+	if(mySession->getCurrentGame() && !mySession->isNetworkClientRunning()) {
+
+		Game *currentGame = mySession->getCurrentGame();
+		PlayerListIterator it = currentGame->getSeatsList()->begin();
+		(*it)->setMyAvatar(mySettingsDialog->pushButton_HumanPlayerAvatar->getMyLink().toUtf8().constData());
+		(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent1Avatar->getMyLink().toUtf8().constData());
+		(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent2Avatar->getMyLink().toUtf8().constData());
+		(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent3Avatar->getMyLink().toUtf8().constData());
+		(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent4Avatar->getMyLink().toUtf8().constData());
+		(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent5Avatar->getMyLink().toUtf8().constData());
+		(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent6Avatar->getMyLink().toUtf8().constData());
+
+		//avatar refresh
+		refreshPlayerAvatar();		
+	}
+
+	//Flipside refresh
+	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
+
+		flipside = new QPixmap();
+		*flipside = QPixmap::fromImage(QImage(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str())));
+	}
+	else { 
+		flipside = new QPixmap();
+		*flipside = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/flipside.png"));
+	}
+
+	//Check for anti-peek mode
+	if(mySession->getCurrentGame()) {
+		QPixmap tempCardsPixmapArray[2];
+		int tempCardsIntArray[2];
+		
+		mySession->getCurrentGame()->getSeatsList()->front()->getMyCards(tempCardsIntArray);	
+		if(myConfig->readConfigInt("AntiPeekMode")) {
+			holeCardsArray[0][0]->setPixmap(*flipside, TRUE);
+			tempCardsPixmapArray[0] = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[0], 10)+".png"));
+			holeCardsArray[0][0]->setFrontPixmap(tempCardsPixmapArray[0]);
+			holeCardsArray[0][1]->setPixmap(*flipside, TRUE);
+			tempCardsPixmapArray[1]= QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[1], 10)+".png"));
+			holeCardsArray[0][1]->setFrontPixmap(tempCardsPixmapArray[1]);
+		}
+		else {
+			tempCardsPixmapArray[0]= QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[0], 10)+".png"));
+			holeCardsArray[0][0]->setPixmap(tempCardsPixmapArray[0],FALSE);
+			tempCardsPixmapArray[1]= QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[1], 10)+".png"));
+			holeCardsArray[0][1]->setPixmap(tempCardsPixmapArray[1],FALSE);
+		}
+	}
+
+	if(mySession->getCurrentGame()) {
+		//blind buttons refresh
+		refreshButton();
+	}
+	int i,j;
+
+	for (i=1; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
+		for ( j=0; j<=1; j++ ) {
+			if (holeCardsArray[i][j]->getIsFlipside()) {
+				holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
+			}
+		}
+	}
+	// Re-init audio.
+	mySDLPlayer->audioDone();
+	mySDLPlayer->initAudio();
 }
 
 void gameTableImpl::initGui(int speed)

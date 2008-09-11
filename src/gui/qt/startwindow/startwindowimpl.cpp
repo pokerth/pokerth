@@ -89,6 +89,9 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 	connect( pushButton_Create_Network_Game, SIGNAL( clicked() ), this, SLOT( callCreateNetworkGameDialog() ) );
 	connect( actionJoin_Network_Game, SIGNAL( triggered() ), this, SLOT( callJoinNetworkGameDialog() ) );
 	connect( pushButton_Join_Network_Game, SIGNAL( clicked() ), this, SLOT( callJoinNetworkGameDialog() ) );
+	
+	connect( actionAbout_PokerTH, SIGNAL( triggered() ), this, SLOT( callAboutPokerthDialog() ) );
+	connect( actionConfigure_PokerTH, SIGNAL( triggered() ), this, SLOT( callSettingsDialog() ) );
 
 
 	connect(this, SIGNAL(signalShowClientDialog()), this, SLOT(showClientDialog()));
@@ -394,5 +397,16 @@ void startWindowImpl::showNetworkStartDialog()
 		mySession->terminateNetworkClient();
 		if (myServerGuiInterface)
 			myServerGuiInterface->getSession().terminateNetworkServer();
+	}
+}
+
+void startWindowImpl::callAboutPokerthDialog() { myAboutPokerthDialog->exec(); }
+
+void startWindowImpl::callSettingsDialog() {
+
+	mySettingsDialog->exec();
+	
+	if (mySettingsDialog->result() == QDialog::Accepted && mySettingsDialog->getSettingsCorrect()) {
+		myGuiInterface->getMyW()->applySettings();
 	}
 }

@@ -200,8 +200,8 @@ public slots:
 	void setGameSpeed(const int theValue) { guiGameSpeed = theValue; setSpeeds(); } // Achtung Faktor 10!!!
 
 	void callNewGameDialog() ;
-	void callAboutPokerthDialog();
 	void callSettingsDialog();
+	void applySettings();
 	void callCreateNetworkGameDialog();
 	void callJoinNetworkGameDialog();
 	void callGameLobbyDialog();
@@ -404,7 +404,6 @@ private:
 	QPixmap *flipside;
 
 // 	Dialogs
-	boost::shared_ptr<aboutPokerthImpl> myAboutPokerthDialog;
 	boost::shared_ptr<newGameDialogImpl> myNewGameDialog;
 	boost::shared_ptr<settingsDialogImpl> mySettingsDialog;
 	boost::shared_ptr<selectAvatarDialogImpl> mySelectAvatarDialog;

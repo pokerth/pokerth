@@ -123,6 +123,7 @@
     <addaction name="actionStart_Local_Game" />
     <addaction name="menuNetwork_Game" />
     <addaction name="actionInternet_Game" />
+    <addaction name="actionAbout_PokerTH" />
     <addaction name="actionQuit" />
    </widget>
    <widget class="QMenu" name="menuSettings" >
@@ -131,15 +132,8 @@
     </property>
     <addaction name="actionConfigure_PokerTH" />
    </widget>
-   <widget class="QMenu" name="menuAbout" >
-    <property name="title" >
-     <string>About</string>
-    </property>
-    <addaction name="actionAbout_PokerTH" />
-   </widget>
    <addaction name="menuPokerTH" />
    <addaction name="menuSettings" />
-   <addaction name="menuAbout" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
   <action name="actionStart_Local_Game" >

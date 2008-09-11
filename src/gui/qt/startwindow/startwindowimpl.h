@@ -89,14 +89,18 @@ signals:
 
 
 public slots: 
-		void callNewGameDialog();
-		void callGameLobbyDialog();
-		void callCreateNetworkGameDialog();
-		void callJoinNetworkGameDialog();
-		void showLobbyDialog();
-		void joinGameLobby();
-		void showClientDialog();
-		void showNetworkStartDialog();
+
+	void callAboutPokerthDialog();
+	void callSettingsDialog();
+	void callNewGameDialog();
+	void callGameLobbyDialog();
+	void callCreateNetworkGameDialog();
+	void callJoinNetworkGameDialog();
+	void showLobbyDialog();
+	void joinGameLobby();
+	void showClientDialog();
+	void showNetworkStartDialog();
+	
 
 private:
 	ConfigFile *myConfig;
