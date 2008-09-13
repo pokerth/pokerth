@@ -22,6 +22,7 @@
 #include <gamedata.h>
 #include <generic/serverguiwrapper.h>
 #include <net/socket_msg.h>
+#include "tools.h"
 
 #include "session.h"
 #include "game.h"
@@ -43,6 +44,9 @@
 #include "gamelobbydialogimpl.h"
 #include "timeoutmsgboximpl.h"
 #include "lobbychat.h"
+#include "chat.h"
+
+using namespace std;
 
 startWindowImpl::startWindowImpl(ConfigFile *c)
     : myConfig(c)
@@ -123,6 +127,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 	connect(this, SIGNAL(signalNetClientStatsUpdate(ServerStats)), myGameLobbyDialog, SLOT(updateStats(ServerStats)));
 
 	connect(this, SIGNAL(signalNetClientChatMsg(QString, QString)), myStartNetworkGameDialog, SLOT(receiveChatMsg(QString, QString)));
+	connect(this, SIGNAL(signalNetClientChatMsg(QString, QString)), myGuiInterface->getMyW()->getMyChat(), SLOT(receiveMessage(QString, QString)));
 
 	connect(this, SIGNAL(signalIrcConnect(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(connected(QString)));
 	connect(this, SIGNAL(signalIrcSelfJoined(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(selfJoined(QString, QString)));
@@ -144,10 +149,115 @@ void startWindowImpl::callNewGameDialog() {
 	if(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame")){
 
 		myNewGameDialog->exec();
-		if (myNewGameDialog->result() == QDialog::Accepted ) { myGuiInterface->getMyW()->startNewLocalGame(myNewGameDialog); }
+		if (myNewGameDialog->result() == QDialog::Accepted ) { startNewLocalGame(myNewGameDialog); }
 	}
 	// sonst mit gespeicherten Werten starten
-	else { myGuiInterface->getMyW()->startNewLocalGame(); }
+	else { startNewLocalGame(); }
+}
+
+void startWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
+
+	this->hide();
+	myGuiInterface->getMyW()->show();
+	
+	// Start new local game - terminate existing network game.
+	mySession->terminateNetworkClient();
+	if (myServerGuiInterface.get())
+		myServerGuiInterface->getSession().terminateNetworkServer();
+
+	//get values from local game dialog
+	GameData gameData;
+	if(v) {
+		// Set Game Data
+		gameData.maxNumberOfPlayers = v->spinBox_quantityPlayers->value();
+		gameData.startMoney = v->spinBox_startCash->value();
+		gameData.firstSmallBlind = v->getChangeCompleteBlindsDialog()->spinBox_firstSmallBlind->value();
+		
+		if(v->getChangeCompleteBlindsDialog()->radioButton_raiseBlindsAtHands->isChecked()) { 
+			gameData.raiseIntervalMode = RAISE_ON_HANDNUMBER;
+			gameData.raiseSmallBlindEveryHandsValue = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryHands->value();
+		}
+		else { 
+			gameData.raiseIntervalMode = RAISE_ON_MINUTES; 
+			gameData.raiseSmallBlindEveryMinutesValue = v->getChangeCompleteBlindsDialog()->spinBox_raiseSmallBlindEveryMinutes->value();
+		}
+		
+		if(v->getChangeCompleteBlindsDialog()->radioButton_alwaysDoubleBlinds->isChecked()) { 
+			gameData.raiseMode = DOUBLE_BLINDS; 
+		}
+		else { 
+			gameData.raiseMode = MANUAL_BLINDS_ORDER;
+			list<int> tempBlindList;
+			int i;
+			bool ok = TRUE;
+			for(i=0; i<v->getChangeCompleteBlindsDialog()->listWidget_blinds->count(); i++) {
+				tempBlindList.push_back(v->getChangeCompleteBlindsDialog()->listWidget_blinds->item(i)->text().toInt(&ok,10));		
+			}
+			gameData.manualBlindsList = tempBlindList;
+			
+			if(v->getChangeCompleteBlindsDialog()->radioButton_afterThisAlwaysDoubleBlinds->isChecked()) { gameData.afterManualBlindsMode = AFTERMB_DOUBLE_BLINDS; }
+			else {
+				if(v->getChangeCompleteBlindsDialog()->radioButton_afterThisAlwaysRaiseAbout->isChecked()) {
+					gameData.afterManualBlindsMode = AFTERMB_RAISE_ABOUT;
+					gameData.afterMBAlwaysRaiseValue = v->getChangeCompleteBlindsDialog()->spinBox_afterThisAlwaysRaiseValue->value();
+				}
+				else { gameData.afterManualBlindsMode = AFTERMB_STAY_AT_LAST_BLIND; }	
+			}
+		}
+		
+		//Speeds 
+		gameData.guiSpeed = v->spinBox_gameSpeed->value();
+	}
+	// start with default values
+	else {
+		// Set Game Data
+		gameData.maxNumberOfPlayers = myConfig->readConfigInt("NumberOfPlayers");
+		gameData.startMoney = myConfig->readConfigInt("StartCash");
+		gameData.firstSmallBlind =  myConfig->readConfigInt("FirstSmallBlind");
+	
+		if(myConfig->readConfigInt("RaiseBlindsAtHands")) { 
+			gameData.raiseIntervalMode = RAISE_ON_HANDNUMBER;
+			gameData.raiseSmallBlindEveryHandsValue = myConfig->readConfigInt("RaiseSmallBlindEveryHands");
+		}
+		else { 
+			gameData.raiseIntervalMode = RAISE_ON_MINUTES; 
+			gameData.raiseSmallBlindEveryMinutesValue = myConfig->readConfigInt("RaiseSmallBlindEveryMinutes");
+		}
+		
+		if(myConfig->readConfigInt("AlwaysDoubleBlinds")) { 
+			gameData.raiseMode = DOUBLE_BLINDS; 
+		}
+		else { 
+			gameData.raiseMode = MANUAL_BLINDS_ORDER;
+			gameData.manualBlindsList = myConfig->readConfigIntList("ManualBlindsList");
+			
+			if(myConfig->readConfigInt("AfterMBAlwaysDoubleBlinds")) { gameData.afterManualBlindsMode = AFTERMB_DOUBLE_BLINDS; }
+			else {
+				if(myConfig->readConfigInt("AfterMBAlwaysRaiseAbout")) {
+					gameData.afterManualBlindsMode = AFTERMB_RAISE_ABOUT;
+					gameData.afterMBAlwaysRaiseValue = myConfig->readConfigInt("AfterMBAlwaysRaiseValue");
+				}
+				else { gameData.afterManualBlindsMode = AFTERMB_STAY_AT_LAST_BLIND; }	
+			}
+		}
+		//Speeds 
+		gameData.guiSpeed = myConfig->readConfigInt("GameSpeed");
+	}
+	// Set dealer pos.
+	StartData startData;
+	int tmpDealerPos = 0;
+	startData.numberOfPlayers = gameData.maxNumberOfPlayers;
+	Tools::getRandNumber(0, startData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
+	if(DEBUG_MODE) {
+		tmpDealerPos = 1;
+	}
+	startData.startDealerPlayerId = static_cast<unsigned>(tmpDealerPos);
+
+	//some gui modifications
+	myGuiInterface->getMyW()->localGameModification();
+
+	//Start Game!!!
+	mySession->startLocalGame(gameData, startData);
 }
 
 void startWindowImpl::callGameLobbyDialog() {
@@ -407,6 +517,6 @@ void startWindowImpl::callSettingsDialog() {
 	mySettingsDialog->exec();
 	
 	if (mySettingsDialog->result() == QDialog::Accepted && mySettingsDialog->getSettingsCorrect()) {
-		myGuiInterface->getMyW()->applySettings();
+		myGuiInterface->getMyW()->applySettings(mySettingsDialog);
 	}
 }

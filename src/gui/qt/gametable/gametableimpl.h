@@ -69,7 +69,7 @@ public:
 
 	Session &getSession();
 	void setSession(boost::shared_ptr<Session> session);
-	void setStartWindow(boost::shared_ptr<startWindowImpl> s) { myStartWindow = s; }
+	void setStartWindow(startWindowImpl* s) { myStartWindow = s; }
 
 	void setLog(Log* l) { myLog = l; }
 	
@@ -165,10 +165,6 @@ public slots:
 
 	void initGui(int speed);
 
-	void showClientDialog();
-	void showNetworkStartDialog();
-	void showLobbyDialog();
-
 	//refresh-Funktionen
 	void refreshSet();
 	void refreshCash();
@@ -199,13 +195,8 @@ public slots:
 
 	void setGameSpeed(const int theValue) { guiGameSpeed = theValue; setSpeeds(); } // Achtung Faktor 10!!!
 
-	void callNewGameDialog() ;
 	void callSettingsDialog();
-	void applySettings();
-	void callCreateNetworkGameDialog();
-	void callJoinNetworkGameDialog();
-	void callGameLobbyDialog();
-	void joinGameLobby();
+	void applySettings(settingsDialogImpl*);
 
 	void pushButtonBetRaiseClicked(bool checked);
 	void pushButtonCallCheckClicked(bool checked);
@@ -287,7 +278,6 @@ public slots:
 	void handSwitchRounds();
 
 	void startNewHand();
-	void startNewLocalGame(newGameDialogImpl* =0);
 
 	void stopTimer();
 	
@@ -304,8 +294,6 @@ public slots:
 	void switchAwayWindow();
 	void switchFullscreen();
 
-	void paintStartSplash();
-
 	void sendChatMessage();
 	void checkChatInputLength(QString);
 	void tabSwitchAction();
@@ -315,8 +303,6 @@ public slots:
 	void networkError(int, int);
 	void networkNotification(int);
 	void networkStart(boost::shared_ptr<Game> game);
-
-// 	void closeEvent(QCloseEvent*);
 	
 	void localGameModification();
 	void networkGameModification();
@@ -334,12 +320,13 @@ public slots:
 	void lineEditBetValueChanged(QString);
 	
 	void showMaximized ();
-	void quitPokerTH();
+	void closeGameTable();
 
 	void showTimeoutDialog(int msgID, unsigned duration);
 	void hideTimeoutDialog();
-;
-// 	void paintEvent(QPaintEvent *);
+
+	Chat* getMyChat() const	{ return myChat; }
+	
 
 private: 
 
@@ -404,17 +391,17 @@ private:
 	QPixmap *flipside;
 
 // 	Dialogs
-	boost::shared_ptr<newGameDialogImpl> myNewGameDialog;
-	boost::shared_ptr<settingsDialogImpl> mySettingsDialog;
-	boost::shared_ptr<selectAvatarDialogImpl> mySelectAvatarDialog;
-	boost::shared_ptr<changeHumanPlayerNameDialogImpl> myChangeHumanPlayerNameDialog;
-	boost::shared_ptr<joinNetworkGameDialogImpl> myJoinNetworkGameDialog;
-	boost::shared_ptr<connectToServerDialogImpl> myConnectToServerDialog;
-	boost::shared_ptr<startNetworkGameDialogImpl> myStartNetworkGameDialog;
-	boost::shared_ptr<createNetworkGameDialogImpl> myCreateNetworkGameDialog;
+// 	boost::shared_ptr<newGameDialogImpl> myNewGameDialog;
+// 	boost::shared_ptr<settingsDialogImpl> mySettingsDialog;
+// 	boost::shared_ptr<selectAvatarDialogImpl> mySelectAvatarDialog;
+// 	boost::shared_ptr<changeHumanPlayerNameDialogImpl> myChangeHumanPlayerNameDialog;
+// 	boost::shared_ptr<joinNetworkGameDialogImpl> myJoinNetworkGameDialog;
+// 	boost::shared_ptr<connectToServerDialogImpl> myConnectToServerDialog;
+// 	boost::shared_ptr<startNetworkGameDialogImpl> myStartNetworkGameDialog;
+// 	boost::shared_ptr<createNetworkGameDialogImpl> myCreateNetworkGameDialog;
 // 	boost::shared_ptr<gameLobbyDialogImpl> myGameLobbyDialog;
 	boost::shared_ptr<timeoutMsgBoxImpl> myTimeoutDialog;
-	boost::shared_ptr<startWindowImpl> myStartWindow;
+	startWindowImpl *myStartWindow;
 
 	//Sound
 	SDLPlayer *mySDLPlayer;

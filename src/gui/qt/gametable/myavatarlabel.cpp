@@ -29,12 +29,12 @@ MyAvatarLabel::~MyAvatarLabel()
 {
 }
 
-void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent * event ) {
+void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent * /*event*/ ) {
 
 // 	showContextMenu(event->globalPos());
 }
 
-void MyAvatarLabel::showContextMenu(const QPoint &pos) {
+void MyAvatarLabel::showContextMenu(const QPoint &/*pos*/) {
 
 // 	myContextMenu->popup(pos);
 }

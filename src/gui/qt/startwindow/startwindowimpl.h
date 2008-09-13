@@ -100,7 +100,8 @@ public slots:
 	void joinGameLobby();
 	void showClientDialog();
 	void showNetworkStartDialog();
-	
+
+	void startNewLocalGame(newGameDialogImpl* =0);
 
 private:
 	ConfigFile *myConfig;

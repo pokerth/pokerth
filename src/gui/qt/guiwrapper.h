@@ -151,7 +151,7 @@ private:
 	Chat *myChat;
 	gameTableImpl *myW;
 	ConfigFile *myConfig;
-	boost::shared_ptr<startWindowImpl> myStartWindow;
+	startWindowImpl *myStartWindow;
 
 };
 

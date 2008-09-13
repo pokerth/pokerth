@@ -2886,6 +2886,7 @@
     <addaction name="actionShowHideHelp" />
     <addaction name="actionShowHideLog" />
     <addaction name="actionShowHideAway" />
+    <addaction name="actionClose" />
    </widget>
    <widget class="QMenu" name="menuSettings" >
     <property name="title" >
@@ -2996,6 +2997,14 @@
   <action name="actionConfigure_PokerTH" >
    <property name="text" >
     <string>Configure PokerTH ...</string>
+   </property>
+  </action>
+  <action name="actionClose" >
+   <property name="text" >
+    <string>Close</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+X</string>
    </property>
   </action>
  </widget>

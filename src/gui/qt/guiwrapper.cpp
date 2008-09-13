@@ -164,7 +164,8 @@ void GuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned pla
 
 
 void GuiWrapper::SignalNetClientWaitDialog() { myStartWindow->signalShowClientDialog(); }
-void GuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { myW->signalNetClientChatMsg(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
+void GuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { myStartWindow->signalNetClientChatMsg(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
+
 void GuiWrapper::SignalNetServerSuccess(int /*actionID*/) { }
 void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { myW->signalNetServerError(errorID, osErrorID); }
 
