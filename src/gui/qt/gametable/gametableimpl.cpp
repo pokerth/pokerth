@@ -19,20 +19,8 @@
  ***************************************************************************/
 #include "gametableimpl.h"
 
-#include "newgamedialogimpl.h"
-#include "aboutpokerthimpl.h"
 #include "mymessagedialogimpl.h"
 #include "settingsdialogimpl.h"
-#include "selectavatardialogimpl.h"
-#include "joinnetworkgamedialogimpl.h"
-#include "connecttoserverdialogimpl.h"
-#include "createnetworkgamedialogimpl.h"
-#include "startnetworkgamedialogimpl.h"
-#include "changehumanplayernamedialogimpl.h"
-#include "changecompleteblindsdialogimpl.h"
-#include "gamelobbydialogimpl.h"
-#include "timeoutmsgboximpl.h"
-#include "lobbychat.h"
 #include "startwindowimpl.h"
 
 #include "startsplash.h"
@@ -472,17 +460,6 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
         }
 
 // 	Dialogs
-// 	myNewGameDialog = boost::shared_ptr<newGameDialogImpl>(new newGameDialogImpl(this, myConfig));
-// // 	mySelectAvatarDialog = boost::shared_ptr<selectAvatarDialogImpl>(new selectAvatarDialogImpl(this, myConfig));
-// // // 	mySettingsDialog = boost::shared_ptr<settingsDialogImpl>(new settingsDialogImpl(this, myConfig, mySelectAvatarDialog.get()));	
-// // 	myChangeHumanPlayerNameDialog = boost::shared_ptr<changeHumanPlayerNameDialogImpl>(new changeHumanPlayerNameDialogImpl(this, myConfig));
-// // 	myJoinNetworkGameDialog = boost::shared_ptr<joinNetworkGameDialogImpl>(new joinNetworkGameDialogImpl(this, myConfig));
-// // 	myConnectToServerDialog = boost::shared_ptr<connectToServerDialogImpl>(new connectToServerDialogImpl(this));
-// // 	myStartNetworkGameDialog = boost::shared_ptr<startNetworkGameDialogImpl>(new startNetworkGameDialogImpl(this, myConfig));
-// // 	myCreateNetworkGameDialog = boost::shared_ptr<createNetworkGameDialogImpl>(new createNetworkGameDialogImpl(this, myConfig));
-	
-	myTimeoutDialog.reset(new timeoutMsgBoxImpl(this));
-
 	myChat = new Chat(this, myConfig);
 
 	lineEdit_ChatInput->installEventFilter(this);
@@ -558,9 +535,6 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	//Nachrichten Thread-Save
 	connect(this, SIGNAL(signalInitGui(int)), this, SLOT(initGui(int)));
-
-// 	connect(this, SIGNAL(signalShowClientDialog()), this, SLOT(showClientDialog()));
-
 	connect(this, SIGNAL(signalRefreshSet()), this, SLOT(refreshSet()));
 	connect(this, SIGNAL(signalRefreshCash()), this, SLOT(refreshCash()));
 	connect(this, SIGNAL(signalRefreshAction(int, int)), this, SLOT(refreshAction(int, int)));
@@ -572,26 +546,19 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalRefreshButton()), this, SLOT(refreshButton()));
 	connect(this, SIGNAL(signalRefreshGameLabels(int)), this, SLOT(refreshGameLabels(int)));
 	connect(this, SIGNAL(signalSetPlayerAvatar(int, QString)), this, SLOT(setPlayerAvatar(int, QString))); 
-// 	connect(this, SIGNAL(signalSetPlayerAvatar(int, QString)), myGameLobbyDialog.get(), SLOT(refreshConnectedPlayerAvatars())); 
-
 	connect(this, SIGNAL(signalGuiUpdateDone()), this, SLOT(guiUpdateDone()));
-
 	connect(this, SIGNAL(signalMeInAction()), this, SLOT(meInAction()));
 	connect(this, SIGNAL(signalDisableMyButtons()), this, SLOT(disableMyButtons()));
 	connect(this, SIGNAL(signalUpdateMyButtonsState()), this, SLOT(updateMyButtonsState()));
 	connect(this, SIGNAL(signalStartTimeoutAnimation(int, int)), this, SLOT(startTimeoutAnimation(int, int)));
 	connect(this, SIGNAL(signalStopTimeoutAnimation(int)), this, SLOT(stopTimeoutAnimation(int)));
-
 	connect(this, SIGNAL(signalDealBeRoCards(int)), this, SLOT(dealBeRoCards(int)));
 	connect(this, SIGNAL(signalDealHoleCards()), this, SLOT(dealHoleCards()));
 	connect(this, SIGNAL(signalDealFlopCards0()), this, SLOT(dealFlopCards0()));
 	connect(this, SIGNAL(signalDealTurnCards0()), this, SLOT(dealTurnCards0()));
 	connect(this, SIGNAL(signalDealRiverCards0()), this, SLOT(dealRiverCards0()));
-
 	connect(this, SIGNAL(signalNextPlayerAnimation()), this, SLOT(nextPlayerAnimation()));
-
 	connect(this, SIGNAL(signalBeRoAnimation2(int)), this, SLOT(beRoAnimation2(int)));
-
 	connect(this, SIGNAL(signalPreflopAnimation1()), this, SLOT(preflopAnimation1()));
 	connect(this, SIGNAL(signalPreflopAnimation2()), this, SLOT(preflopAnimation2()));
 	connect(this, SIGNAL(signalFlopAnimation1()), this, SLOT(flopAnimation1()));
@@ -602,58 +569,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalRiverAnimation2()), this, SLOT(riverAnimation2()));
 	connect(this, SIGNAL(signalPostRiverAnimation1()), this, SLOT(postRiverAnimation1()));
 	connect(this, SIGNAL(signalPostRiverRunAnimation1()), this, SLOT(postRiverRunAnimation1()));
-
 	connect(this, SIGNAL(signalFlipHolecardsAllIn()), this, SLOT(flipHolecardsAllIn()));
-
 	connect(this, SIGNAL(signalNextRoundCleanGui()), this, SLOT(nextRoundCleanGui()));
-
-// 	connect(this, SIGNAL(signalNetClientConnect(int)), myConnectToServerDialog.get(), SLOT(refresh(int)));
-// 	connect(this, SIGNAL(signalNetClientGameInfo(int)), myStartNetworkGameDialog.get(), SLOT(refresh(int)));
-// 	connect(this, SIGNAL(signalNetClientGameInfo(int)), myGameLobbyDialog.get(), SLOT(refresh(int)));
-
-// 	connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, int)), myStartNetworkGameDialog.get(), SLOT(joinedNetworkGame(unsigned, QString, int)));
-// 	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, int)), myStartNetworkGameDialog.get(), SLOT(addConnectedPlayer(unsigned, QString, int)));
-// 	connect(this, SIGNAL(signalNetClientPlayerChanged(unsigned, QString)), myStartNetworkGameDialog.get(), SLOT(updatePlayer(unsigned, QString)));
-// 	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned, QString)), myStartNetworkGameDialog.get(), SLOT(removePlayer(unsigned, QString)));
-// 	connect(this, SIGNAL(signalNetClientNewGameAdmin(unsigned, QString)), myStartNetworkGameDialog.get(), SLOT(newGameAdmin(unsigned, QString)));
-// 	connect(this, SIGNAL(signalNetClientGameListNew(unsigned)), myStartNetworkGameDialog.get(), SLOT(gameCreated(unsigned)));
-
-// 	connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, int)), myGameLobbyDialog.get(), SLOT(joinedNetworkGame(unsigned, QString, int)));
-// 	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, int)), myGameLobbyDialog.get(), SLOT(addConnectedPlayer(unsigned, QString, int)));
-// 	connect(this, SIGNAL(signalNetClientPlayerChanged(unsigned, QString)), myGameLobbyDialog.get(), SLOT(updatePlayer(unsigned, QString)));
-// 	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned, QString)), myGameLobbyDialog.get(), SLOT(removePlayer(unsigned, QString)));
-// 	connect(this, SIGNAL(signalNetClientNewGameAdmin(unsigned, QString)), myGameLobbyDialog.get(), SLOT(newGameAdmin(unsigned, QString)));
-// 
-// 	connect(this, SIGNAL(signalNetClientGameListNew(unsigned)), myGameLobbyDialog.get(), SLOT(addGame(unsigned)));
-// 	connect(this, SIGNAL(signalNetClientGameListRemove(unsigned)), myGameLobbyDialog.get(), SLOT(removeGame(unsigned)));
-// 	connect(this, SIGNAL(signalNetClientGameListUpdateMode(unsigned, int)), myGameLobbyDialog.get(), SLOT(updateGameMode(unsigned, int)));
-// 	connect(this, SIGNAL(signalNetClientGameListUpdateAdmin(unsigned, unsigned)), myGameLobbyDialog.get(), SLOT(updateGameAdmin(unsigned, unsigned)));
-// 	connect(this, SIGNAL(signalNetClientGameListPlayerJoined(unsigned, unsigned)), myGameLobbyDialog.get(), SLOT(gameAddPlayer(unsigned, unsigned)));
-// 	connect(this, SIGNAL(signalNetClientGameListPlayerLeft(unsigned, unsigned)), myGameLobbyDialog.get(), SLOT(gameRemovePlayer(unsigned, unsigned)));
-// 	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), myGameLobbyDialog.get(), SLOT(removedFromGame(int)));
-// 	connect(this, SIGNAL(signalNetClientStatsUpdate(ServerStats)), myGameLobbyDialog.get(), SLOT(updateStats(ServerStats)));
-	connect(this, SIGNAL(signalNetClientShowTimeoutDialog(int, unsigned)), this, SLOT(showTimeoutDialog(int, unsigned)));
-
-	// Errors are handled globally, not within one dialog.
-	connect(this, SIGNAL(signalNetClientError(int, int)), this, SLOT(networkError(int, int)));
-	connect(this, SIGNAL(signalNetClientNotification(int)), this, SLOT(networkNotification(int)));
-	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), this, SLOT(networkNotification(int)));
-	connect(this, SIGNAL(signalNetServerError(int, int)), this, SLOT(networkError(int, int)));
-	connect(this, SIGNAL(signalNetClientGameStart(boost::shared_ptr<Game>)), this, SLOT(networkStart(boost::shared_ptr<Game>)));
-
-	//Chat Messages	
-// 	connect(this, SIGNAL(signalNetClientChatMsg(QString, QString)), myChat, SLOT(receiveMessage(QString, QString)));
-// 	connect(this, SIGNAL(signalNetClientChatMsg(QString, QString)), myStartNetworkGameDialog.get(), SLOT(receiveChatMsg(QString, QString)));
-
-// 	connect(this, SIGNAL(signalIrcConnect(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(connected(QString)));
-// 	connect(this, SIGNAL(signalIrcSelfJoined(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(selfJoined(QString, QString)));
-// 	connect(this, SIGNAL(signalIrcPlayerJoined(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerJoined(QString)));
-// 	connect(this, SIGNAL(signalIrcPlayerChanged(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerChanged(QString, QString)));
-// 	connect(this, SIGNAL(signalIrcPlayerKicked(QString, QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerKicked(QString, QString, QString)));
-// 	connect(this, SIGNAL(signalIrcPlayerLeft(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(playerLeft(QString)));
-// 	connect(this, SIGNAL(signalIrcChatMessage(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(displayMessage(QString, QString)));
-// 	connect(this, SIGNAL(signalIrcError(int)), myGameLobbyDialog->getLobbyChat(), SLOT(chatError(int)));
-// 	connect(this, SIGNAL(signalIrcServerError(int)), myGameLobbyDialog->getLobbyChat(), SLOT(chatServerError(int)));
 
 }
 
@@ -885,18 +802,6 @@ void gameTableImpl::refreshPlayerName() {
 		
 		}
 	}
-}
-
-QStringList gameTableImpl::getPlayerNicksList() {
-
-	QStringList list;
-	PlayerListConstIterator it_c;
-	
-	for (it_c=mySession->getCurrentGame()->getSeatsList()->begin(); it_c!=mySession->getCurrentGame()->getSeatsList()->end(); it_c++) {
-		list << QString::fromUtf8((*it_c)->getMyName().c_str());		
-	}
-	
-	return list;
 }
 
 void gameTableImpl::refreshPlayerAvatar() {
@@ -1499,7 +1404,7 @@ void gameTableImpl::provideMyActions(int mode) {
 			if( currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD ) {
 				pushButtonBetRaiseString = "Bet $"+QString::number(getMyBetAmount());
 				pushButtonCallCheckString = "Check"; 
-				if( currentGame->getActivePlayerList()->size() > 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_SMALL_BLIND || ( currentGame->getActivePlayerList()->size() <= 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_BIG_BLIND)) { pushButtonFoldString = "Fold"; }
+				if( (currentGame->getActivePlayerList()->size() > 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_SMALL_BLIND ) || ( currentGame->getActivePlayerList()->size() <= 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_BIG_BLIND)) { pushButtonFoldString = "Fold"; }
 				else { pushButtonFoldString = "Check / Fold"; }
 			}
 			else {
@@ -2667,323 +2572,6 @@ void gameTableImpl::breakButtonClicked() {
 	}
 }
 
-void gameTableImpl::networkError(int errorID, int /*osErrorID*/) {
-
-	hideTimeoutDialog();
-	switch (errorID) {
-		case ERR_SOCK_SERVERADDR_NOT_SET:
-			{QMessageBox::warning(this, tr("Network Error"),
-				tr("Server address was not set."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_INVALID_PORT:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("An invalid port was set (ports 0-1023 are not allowed)."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_CREATION_FAILED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Could not create a socket for TCP communication."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_SET_ADDR_FAILED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Could not set the IP address."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_SET_PORT_FAILED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Could not set the port for this type of address."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_RESOLVE_FAILED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("The server name could not be resolved."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_BIND_FAILED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Bind failed - please choose a different port."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_LISTEN_FAILED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Internal network error: \"listen\" failed."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_ACCEPT_FAILED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Server execution was terminated."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_CONNECT_FAILED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Could not connect to the server."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_CONNECT_TIMEOUT:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Connection timed out.\nPlease check the server address.\n\nIf the server is behind a NAT-Router, make sure port forwarding has been set up on server side."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_SELECT_FAILED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Internal network error: \"select\" failed."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_SEND_FAILED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Internal network error: \"send\" failed."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_RECV_FAILED: // Sometimes windows reports recv failed on close.
-		case ERR_SOCK_CONN_RESET:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Connection was closed by the server."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_CONN_EXISTS:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Internal network error: Duplicate TCP connection."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_INVALID_PACKET:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("An invalid network packet was received.\nPlease make sure that all players use the same version of PokerTH."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_INVALID_STATE:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Internal state error.\nPlease make sure that all players use the same version of PokerTH."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_INVALID_SERVERLIST_URL:
-		case ERR_SOCK_DOWNLOAD_INVALID_URL:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Invalid server list URL.\nPlease correct the address in the settings."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_OPEN_MD5_FAILED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Could not open the server list MD5 file.\nPlease make sure that the server list URL is correct."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_INVALID_SERVERLIST_MD5:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Synchronization of the PokerTH internet server list has failed.\nPlease make sure that the server list URL is correct."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_INVALID_SERVERLIST_XML:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("The PokerTH internet server list contains invalid data.\nIf you use a custom server list, please make sure its format is correct."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_UNZIP_FAILED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Could not unzip the PokerTH internet server list."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_DOWNLOAD_INIT_FAILED:
-		case ERR_SOCK_DOWNLOAD_SELECT_FAILED:
-		case ERR_SOCK_DOWNLOAD_FAILED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Could not download the PokerTH internet server list.\nPlease make sure you are directly connected to the internet."),
-				QMessageBox::Close); }
-		break;
-		case ERR_SOCK_DOWNLOAD_OPEN_FAILED:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Could not open the target file when downloading the server list."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_VERSION_NOT_SUPPORTED:
-			{	QMessageBox msgBox(QMessageBox::Warning, tr("Network Error"),
-				tr("The PokerTH server does not support this version of the game.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
-				QMessageBox::Close, this); 
-				msgBox.setTextFormat(Qt::RichText);
-				msgBox.exec();
-			}
-		break;
-		case ERR_NET_SERVER_FULL:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Sorry, this server is already full."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_INVALID_PASSWORD:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Invalid password when joining the game.\nPlease reenter the password and try again."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_INVALID_PASSWORD_STR:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("The password is too long. Please choose another one."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_PLAYER_NAME_IN_USE:
-			{ /*myChangeHumanPlayerNameDialog->label_Message->setText(tr("Your player name is already used by another player.\nPlease choose a different name."));
-			  myChangeHumanPlayerNameDialog->exec();*/ }
-		break;
-		case ERR_NET_INVALID_PLAYER_NAME:
-			{ /*myChangeHumanPlayerNameDialog->label_Message->setText(tr("The player name is too short, too long or invalid. Please choose another one."));
-			  myChangeHumanPlayerNameDialog->exec();*/ }
-		break;
-		case ERR_NET_INVALID_GAME_NAME:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("The game name is either too short or too long. Please choose another one."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_UNKNOWN_GAME:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("The game could not be found."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_INVALID_CHAT_TEXT:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("The chat text is invalid."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_UNKNOWN_PLAYER_ID:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("The server referred to an unknown player. Aborting."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_NO_CURRENT_PLAYER:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Internal error: The current player could not be found."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_PLAYER_NOT_ACTIVE:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Internal error: The current player is not active."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_PLAYER_KICKED:
-			{ mySession->terminateNetworkClient();
-			  QMessageBox::warning(this, tr("Network Error"),
-				tr("You were kicked from the server."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_PLAYER_BANNED:
-		{ mySession->terminateNetworkClient();
-		  QMessageBox::warning(this, tr("Network Error"),
-			tr("You were temporarily banned from the server."),
-			QMessageBox::Close); }
-		break;
-		case ERR_NET_SESSION_TIMED_OUT:
-		{ mySession->terminateNetworkClient();
-		  QMessageBox::warning(this, tr("Network Error"),
-			tr("Your server connection timed out due to inactivity. You are very welcome to reconnect!"),
-			QMessageBox::Close); }
-		break;
-		case ERR_NET_INVALID_PLAYER_COUNT:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("The client player count is invalid."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_TOO_MANY_MANUAL_BLINDS:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Too many manual blinds were set. Please reconfigure the manual blinds."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_INVALID_AVATAR_FILE:
-		case ERR_NET_WRONG_AVATAR_SIZE:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("An invalid avatar file was configured. Please choose a different avatar."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_AVATAR_TOO_LARGE:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("The selected avatar file is too large. Please choose a different avatar."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_AVATAR_UPLOAD_BLOCKED:
-		{ QMessageBox::warning(this, tr("Network Error"),
-			tr("You cannot upload a new avatar file at this time. Please try again in a few seconds."),
-			QMessageBox::Close); }
-		break;
-		case ERR_NET_INVALID_REQUEST_ID:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("An internal avatar error occured. Please report this to an admin in the lobby chat."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_START_TIMEOUT:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Could not start game: Synchronization failed."),
-				QMessageBox::Close); }
-		break;
-		case ERR_NET_SERVER_MAINTENANCE:
-			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("The server is down for maintenance. Please try again later."),
-				QMessageBox::Close); }
-		break;
-		default:  { QMessageBox::warning(this, tr("Network Error"),
-				tr("An internal error occured."),
-				QMessageBox::Close); }
-	}
-	// close dialogs
-// 	myGameLobbyDialog->reject();
-// 	myConnectToServerDialog->reject();
-// 	myStartNetworkGameDialog->reject();
-}
-
-void gameTableImpl::networkNotification(int notificationId)
-{
-	hideTimeoutDialog();
-	switch (notificationId)
-	{
-		case NTF_NET_REMOVED_KICKED:
-			{ QMessageBox::warning(this, tr("Network Notification"),
-				tr("You were kicked from the game."),
-				QMessageBox::Close); }
-		break;
-		case NTF_NET_REMOVED_GAME_FULL:
-		case NTF_NET_JOIN_GAME_FULL:
-			{ QMessageBox::warning(this, tr("Network Notification"),
-				tr("Sorry, this game is already full."),
-				QMessageBox::Close); }
-		break;
-		case NTF_NET_REMOVED_ALREADY_RUNNING:
-		case NTF_NET_JOIN_ALREADY_RUNNING:
-			{ QMessageBox::warning(this, tr("Network Notification"),
-				tr("Unable to join - the server has already started the game."),
-				QMessageBox::Close); }
-		break;
-		case NTF_NET_REMOVED_TIMEOUT:
-		{ QMessageBox::warning(this, tr("Network Notification"),
-			tr("Your admin state timed out due to inactivity. Feel free to create a new game!"),
-			QMessageBox::Close); }
-		break;
-		case NTF_NET_JOIN_INVALID_PASSWORD:
-			{ QMessageBox::warning(this, tr("Network Notification"),
-				tr("Invalid password when joining the game.\nPlease reenter the password and try again."),
-				QMessageBox::Close); }
-		break;
-		case NTF_NET_NEW_RELEASE_AVAILABLE:
-			{	QMessageBox msgBox(QMessageBox::Information, tr("Network Notification"),
-				tr("A new release of PokerTH is available.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
-				QMessageBox::Close, this); 
-				msgBox.setTextFormat(Qt::RichText);
-				msgBox.exec();
-			}
-		break;
-		case NTF_NET_OUTDATED_BETA:
-			{	QMessageBox msgBox(QMessageBox::Information, tr("Network Notification"),
-				tr("This beta release of PokerTH is outdated.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
-				QMessageBox::Close, this); 
-				msgBox.setTextFormat(Qt::RichText);
-				msgBox.exec();
-			}
-		break;
-	}
-}
-
-void gameTableImpl::networkStart(boost::shared_ptr<Game> game)
-{
-	mySession->startClientGame(game);
-
-	//send playerNicksList to chat for nick-autocompletition
-	myChat->setPlayerNicksList(getPlayerNicksList());
-}
-
 void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
 
 // 	cout << event->key() << endl;
@@ -3447,19 +3035,3 @@ void gameTableImpl::leaveCurrentNetworkGame() {
 		}
 	}
 }
-
-
-void gameTableImpl::showTimeoutDialog(int msgID, unsigned duration) {
-
-	if(myTimeoutDialog->isHidden()) {
-		myTimeoutDialog->setMySession(mySession);
-		myTimeoutDialog->setMsgID((NetTimeoutReason)msgID);
-		myTimeoutDialog->setTimeoutDuration(duration);
-		myTimeoutDialog->show();
-		myTimeoutDialog->raise();
-		myTimeoutDialog->activateWindow();
-		myTimeoutDialog->startTimeout();
-	}
-}
-
-void gameTableImpl::hideTimeoutDialog() { myTimeoutDialog->hide(); }

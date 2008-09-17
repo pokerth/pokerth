@@ -19,6 +19,8 @@
  ***************************************************************************/
 #include "startwindowimpl.h"
 
+#include "playerinterface.h"
+
 #include <gamedata.h>
 #include <generic/serverguiwrapper.h>
 #include <net/socket_msg.h>
@@ -84,7 +86,6 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 	
 	myTimeoutDialog = new timeoutMsgBoxImpl(this);
 
-
 	connect( actionStart_Local_Game, SIGNAL( triggered() ), this, SLOT( callNewGameDialog() ) );
 	connect( pushButtonStart_Local_Game, SIGNAL( clicked() ), this, SLOT( callNewGameDialog() ) );
 	connect( actionInternet_Game, SIGNAL( triggered() ), this, SLOT( callGameLobbyDialog() ) );
@@ -128,6 +129,15 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 
 	connect(this, SIGNAL(signalNetClientChatMsg(QString, QString)), myStartNetworkGameDialog, SLOT(receiveChatMsg(QString, QString)));
 	connect(this, SIGNAL(signalNetClientChatMsg(QString, QString)), myGuiInterface->getMyW()->getMyChat(), SLOT(receiveMessage(QString, QString)));
+
+	connect(this, SIGNAL(signalNetClientShowTimeoutDialog(int, unsigned)), this, SLOT(showTimeoutDialog(int, unsigned)));
+
+	// Errors are handled globally, not within one dialog.
+	connect(this, SIGNAL(signalNetClientError(int, int)), this, SLOT(networkError(int, int)));
+	connect(this, SIGNAL(signalNetClientNotification(int)), this, SLOT(networkNotification(int)));
+	connect(this, SIGNAL(signalNetServerError(int, int)), this, SLOT(networkError(int, int)));
+	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), this, SLOT(networkNotification(int)));
+	connect(this, SIGNAL(signalNetClientGameStart(boost::shared_ptr<Game>)), this, SLOT(networkStart(boost::shared_ptr<Game>)));
 
 	connect(this, SIGNAL(signalIrcConnect(QString)), myGameLobbyDialog->getLobbyChat(), SLOT(connected(QString)));
 	connect(this, SIGNAL(signalIrcSelfJoined(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(selfJoined(QString, QString)));
@@ -519,4 +529,349 @@ void startWindowImpl::callSettingsDialog() {
 	if (mySettingsDialog->result() == QDialog::Accepted && mySettingsDialog->getSettingsCorrect()) {
 		myGuiInterface->getMyW()->applySettings(mySettingsDialog);
 	}
+}
+
+void startWindowImpl::showTimeoutDialog(int msgID, unsigned duration) {
+
+	if(myTimeoutDialog->isHidden()) {
+		myTimeoutDialog->setMySession(mySession);
+		myTimeoutDialog->setMsgID((NetTimeoutReason)msgID);
+		myTimeoutDialog->setTimeoutDuration(duration);
+		myTimeoutDialog->show();
+		myTimeoutDialog->raise();
+		myTimeoutDialog->activateWindow();
+		myTimeoutDialog->startTimeout();
+	}
+}
+
+void startWindowImpl::hideTimeoutDialog() { myTimeoutDialog->hide(); }
+
+void startWindowImpl::networkError(int errorID, int /*osErrorID*/) {
+
+	hideTimeoutDialog();
+	switch (errorID) {
+		case ERR_SOCK_SERVERADDR_NOT_SET:
+			{QMessageBox::warning(this, tr("Network Error"),
+				tr("Server address was not set."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_INVALID_PORT:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("An invalid port was set (ports 0-1023 are not allowed)."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_CREATION_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not create a socket for TCP communication."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_SET_ADDR_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not set the IP address."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_SET_PORT_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not set the port for this type of address."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_RESOLVE_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The server name could not be resolved."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_BIND_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Bind failed - please choose a different port."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_LISTEN_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal network error: \"listen\" failed."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_ACCEPT_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Server execution was terminated."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_CONNECT_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not connect to the server."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_CONNECT_TIMEOUT:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Connection timed out.\nPlease check the server address.\n\nIf the server is behind a NAT-Router, make sure port forwarding has been set up on server side."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_SELECT_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal network error: \"select\" failed."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_SEND_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal network error: \"send\" failed."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_RECV_FAILED: // Sometimes windows reports recv failed on close.
+		case ERR_SOCK_CONN_RESET:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Connection was closed by the server."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_CONN_EXISTS:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal network error: Duplicate TCP connection."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_INVALID_PACKET:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("An invalid network packet was received.\nPlease make sure that all players use the same version of PokerTH."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_INVALID_STATE:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal state error.\nPlease make sure that all players use the same version of PokerTH."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_INVALID_SERVERLIST_URL:
+		case ERR_SOCK_DOWNLOAD_INVALID_URL:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Invalid server list URL.\nPlease correct the address in the settings."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_OPEN_MD5_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not open the server list MD5 file.\nPlease make sure that the server list URL is correct."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_INVALID_SERVERLIST_MD5:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Synchronization of the PokerTH internet server list has failed.\nPlease make sure that the server list URL is correct."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_INVALID_SERVERLIST_XML:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The PokerTH internet server list contains invalid data.\nIf you use a custom server list, please make sure its format is correct."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_UNZIP_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not unzip the PokerTH internet server list."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_DOWNLOAD_INIT_FAILED:
+		case ERR_SOCK_DOWNLOAD_SELECT_FAILED:
+		case ERR_SOCK_DOWNLOAD_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not download the PokerTH internet server list.\nPlease make sure you are directly connected to the internet."),
+				QMessageBox::Close); }
+		break;
+		case ERR_SOCK_DOWNLOAD_OPEN_FAILED:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not open the target file when downloading the server list."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_VERSION_NOT_SUPPORTED:
+			{	QMessageBox msgBox(QMessageBox::Warning, tr("Network Error"),
+				tr("The PokerTH server does not support this version of the game.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
+				QMessageBox::Close, this); 
+				msgBox.setTextFormat(Qt::RichText);
+				msgBox.exec();
+			}
+		break;
+		case ERR_NET_SERVER_FULL:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Sorry, this server is already full."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_INVALID_PASSWORD:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Invalid password when joining the game.\nPlease reenter the password and try again."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_INVALID_PASSWORD_STR:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The password is too long. Please choose another one."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_PLAYER_NAME_IN_USE:
+			{ /*myChangeHumanPlayerNameDialog->label_Message->setText(tr("Your player name is already used by another player.\nPlease choose a different name."));
+			  myChangeHumanPlayerNameDialog->exec();*/ }
+		break;
+		case ERR_NET_INVALID_PLAYER_NAME:
+			{ /*myChangeHumanPlayerNameDialog->label_Message->setText(tr("The player name is too short, too long or invalid. Please choose another one."));
+			  myChangeHumanPlayerNameDialog->exec();*/ }
+		break;
+		case ERR_NET_INVALID_GAME_NAME:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The game name is either too short or too long. Please choose another one."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_UNKNOWN_GAME:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The game could not be found."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_INVALID_CHAT_TEXT:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The chat text is invalid."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_UNKNOWN_PLAYER_ID:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The server referred to an unknown player. Aborting."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_NO_CURRENT_PLAYER:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal error: The current player could not be found."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_PLAYER_NOT_ACTIVE:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Internal error: The current player is not active."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_PLAYER_KICKED:
+			{ mySession->terminateNetworkClient();
+			  QMessageBox::warning(this, tr("Network Error"),
+				tr("You were kicked from the server."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_PLAYER_BANNED:
+		{ mySession->terminateNetworkClient();
+		  QMessageBox::warning(this, tr("Network Error"),
+			tr("You were temporarily banned from the server."),
+			QMessageBox::Close); }
+		break;
+		case ERR_NET_SESSION_TIMED_OUT:
+		{ mySession->terminateNetworkClient();
+		  QMessageBox::warning(this, tr("Network Error"),
+			tr("Your server connection timed out due to inactivity. You are very welcome to reconnect!"),
+			QMessageBox::Close); }
+		break;
+		case ERR_NET_INVALID_PLAYER_COUNT:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The client player count is invalid."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_TOO_MANY_MANUAL_BLINDS:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Too many manual blinds were set. Please reconfigure the manual blinds."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_INVALID_AVATAR_FILE:
+		case ERR_NET_WRONG_AVATAR_SIZE:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("An invalid avatar file was configured. Please choose a different avatar."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_AVATAR_TOO_LARGE:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The selected avatar file is too large. Please choose a different avatar."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_AVATAR_UPLOAD_BLOCKED:
+		{ QMessageBox::warning(this, tr("Network Error"),
+			tr("You cannot upload a new avatar file at this time. Please try again in a few seconds."),
+			QMessageBox::Close); }
+		break;
+		case ERR_NET_INVALID_REQUEST_ID:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("An internal avatar error occured. Please report this to an admin in the lobby chat."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_START_TIMEOUT:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("Could not start game: Synchronization failed."),
+				QMessageBox::Close); }
+		break;
+		case ERR_NET_SERVER_MAINTENANCE:
+			{ QMessageBox::warning(this, tr("Network Error"),
+				tr("The server is down for maintenance. Please try again later."),
+				QMessageBox::Close); }
+		break;
+		default:  { QMessageBox::warning(this, tr("Network Error"),
+				tr("An internal error occured."),
+				QMessageBox::Close); }
+	}
+	// close dialogs
+	myGameLobbyDialog->reject();
+	myConnectToServerDialog->reject();
+	myStartNetworkGameDialog->reject();
+}
+
+void startWindowImpl::networkNotification(int notificationId)
+{
+	hideTimeoutDialog();
+	switch (notificationId)
+	{
+		case NTF_NET_REMOVED_KICKED:
+			{ QMessageBox::warning(this, tr("Network Notification"),
+				tr("You were kicked from the game."),
+				QMessageBox::Close); }
+		break;
+		case NTF_NET_REMOVED_GAME_FULL:
+		case NTF_NET_JOIN_GAME_FULL:
+			{ QMessageBox::warning(this, tr("Network Notification"),
+				tr("Sorry, this game is already full."),
+				QMessageBox::Close); }
+		break;
+		case NTF_NET_REMOVED_ALREADY_RUNNING:
+		case NTF_NET_JOIN_ALREADY_RUNNING:
+			{ QMessageBox::warning(this, tr("Network Notification"),
+				tr("Unable to join - the server has already started the game."),
+				QMessageBox::Close); }
+		break;
+		case NTF_NET_REMOVED_TIMEOUT:
+		{ QMessageBox::warning(this, tr("Network Notification"),
+			tr("Your admin state timed out due to inactivity. Feel free to create a new game!"),
+			QMessageBox::Close); }
+		break;
+		case NTF_NET_JOIN_INVALID_PASSWORD:
+			{ QMessageBox::warning(this, tr("Network Notification"),
+				tr("Invalid password when joining the game.\nPlease reenter the password and try again."),
+				QMessageBox::Close); }
+		break;
+		case NTF_NET_NEW_RELEASE_AVAILABLE:
+			{	QMessageBox msgBox(QMessageBox::Information, tr("Network Notification"),
+				tr("A new release of PokerTH is available.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
+				QMessageBox::Close, this); 
+				msgBox.setTextFormat(Qt::RichText);
+				msgBox.exec();
+			}
+		break;
+		case NTF_NET_OUTDATED_BETA:
+			{	QMessageBox msgBox(QMessageBox::Information, tr("Network Notification"),
+				tr("This beta release of PokerTH is outdated.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
+				QMessageBox::Close, this); 
+				msgBox.setTextFormat(Qt::RichText);
+				msgBox.exec();
+			}
+		break;
+	}
+}
+
+void startWindowImpl::networkStart(boost::shared_ptr<Game> game)
+{
+	mySession->startClientGame(game);
+
+	//send playerNicksList to chat for nick-autocompletition
+	myGuiInterface->getMyW()->getMyChat()->setPlayerNicksList(getPlayerNicksList());
+}
+
+
+QStringList startWindowImpl::getPlayerNicksList() {
+
+	QStringList list;
+	PlayerListConstIterator it_c;
+	
+	for (it_c=mySession->getCurrentGame()->getSeatsList()->begin(); it_c!=mySession->getCurrentGame()->getSeatsList()->end(); it_c++) {
+		list << QString::fromUtf8((*it_c)->getMyName().c_str());		
+	}
+	
+	return list;
 }

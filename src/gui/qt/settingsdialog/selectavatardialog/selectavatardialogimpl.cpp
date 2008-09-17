@@ -74,8 +74,6 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/14e3f39cc775608bcecf5597248b3558.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/0c04318e6fa54534935e3e6cfe12c4a1.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/6ecea83d9fac6b4cae97e2fccd09a5f6.png";
-	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/d90bd3fbbe3671ebac5f9f223d0c6d65.png";
-	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/93dec21823a314fb8ef2261b7aa75ae5.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/74672ebfa2ab02968386c4e441a08668.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/e54e67ebd5265cf549362a2cda5a999c.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/da34195981d255656f39c05481de3b6a.png";	

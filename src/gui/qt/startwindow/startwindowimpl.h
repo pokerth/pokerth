@@ -103,6 +103,15 @@ public slots:
 
 	void startNewLocalGame(newGameDialogImpl* =0);
 
+	void showTimeoutDialog(int msgID, unsigned duration);
+	void hideTimeoutDialog();
+
+	void networkError(int, int);
+	void networkNotification(int);
+
+	void networkStart(boost::shared_ptr<Game> game);
+	QStringList getPlayerNicksList();
+
 private:
 	ConfigFile *myConfig;
 

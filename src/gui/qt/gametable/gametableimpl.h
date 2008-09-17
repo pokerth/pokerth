@@ -37,21 +37,11 @@ class Game;
 
 class GuiInterface;
 class BoardInterface;
-// class HandInterface;
 class PlayerInterface;
 class MyCardsPixmapLabel;
 class MyAvatarLabel;
-class newGameDialogImpl;
+
 class settingsDialogImpl;
-class selectAvatarDialogImpl;
-class aboutPokerthImpl;
-class joinNetworkGameDialogImpl;
-class connectToServerDialogImpl;
-class createNetworkGameDialogImpl;
-class startNetworkGameDialogImpl;
-class changeHumanPlayerNameDialogImpl;
-class gameLobbyDialogImpl;
-class timeoutMsgBoxImpl;
 class startWindowImpl;
 
 class QColor;
@@ -74,7 +64,8 @@ public:
 	void setLog(Log* l) { myLog = l; }
 	
 	SDLPlayer* getMySDLPlayer() const { return mySDLPlayer; }
-	
+	Chat* getMyChat() const	{ return myChat; }
+		
 	void setSpeeds();
 
 signals:
@@ -129,38 +120,6 @@ signals:
 
 	void signalNextRoundCleanGui();
 
-	void signalNetClientConnect(int actionID);
-	void signalNetClientGameInfo(int actionID);
-	void signalNetClientError(int errorID, int osErrorID);
-	void signalNetClientNotification(int notificationId);
-	void signalNetClientStatsUpdate(ServerStats stats);
-	void signalNetClientShowTimeoutDialog(int, unsigned);
-	void signalNetClientRemovedFromGame(int notificationId);
-	void signalNetServerError(int errorID, int osErrorID);
-	void signalNetClientSelfJoined(unsigned playerId, QString playerName, int rights);
-	void signalNetClientPlayerJoined(unsigned playerId, QString playerName, int rights);
-	void signalNetClientPlayerChanged(unsigned playerId, QString newPlayerName);
-	void signalNetClientPlayerLeft(unsigned playerId, QString playerName);
-	void signalNetClientNewGameAdmin(unsigned playerId, QString playerName);
-	void signalNetClientGameListNew(unsigned gameId);
-	void signalNetClientGameListRemove(unsigned gameId);
-	void signalNetClientGameListUpdateMode(unsigned gameId, int mode);
-	void signalNetClientGameListUpdateAdmin(unsigned gameId, unsigned adminPlayerId);
-	void signalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
-	void signalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
-	void signalNetClientGameStart(boost::shared_ptr<Game> game);
-	void signalNetClientChatMsg(QString nickName, QString msg);
-
-	void signalIrcConnect(QString server);
-	void signalIrcSelfJoined(QString nickName, QString channel);
-	void signalIrcPlayerJoined(QString nickName);
-	void signalIrcPlayerChanged(QString oldNick, QString newNick);
-	void signalIrcPlayerKicked(QString nickName, QString byWhom, QString reason);
-	void signalIrcPlayerLeft(QString nickName);
-	void signalIrcChatMessage(QString nickName, QString msg);
-	void signalIrcError(int errorCode);
-	void signalIrcServerError(int errorCode);
-
 public slots:
 
 	void initGui(int speed);
@@ -174,7 +133,6 @@ public slots:
 	void refreshGroupbox(int =-1, int =-1);
 	void refreshAll();
 	void refreshPlayerName();
-	QStringList getPlayerNicksList();
 	void refreshGameLabels(int);
 	void refreshButton();
 	void refreshPlayerAvatar();
@@ -299,10 +257,6 @@ public slots:
 	void tabSwitchAction();
 
 	void leaveCurrentNetworkGame();
-
-	void networkError(int, int);
-	void networkNotification(int);
-	void networkStart(boost::shared_ptr<Game> game);
 	
 	void localGameModification();
 	void networkGameModification();
@@ -322,11 +276,6 @@ public slots:
 	void showMaximized ();
 	void closeGameTable();
 
-	void showTimeoutDialog(int msgID, unsigned duration);
-	void hideTimeoutDialog();
-
-	Chat* getMyChat() const	{ return myChat; }
-	
 
 private: 
 
@@ -391,16 +340,6 @@ private:
 	QPixmap *flipside;
 
 // 	Dialogs
-// 	boost::shared_ptr<newGameDialogImpl> myNewGameDialog;
-// 	boost::shared_ptr<settingsDialogImpl> mySettingsDialog;
-// 	boost::shared_ptr<selectAvatarDialogImpl> mySelectAvatarDialog;
-// 	boost::shared_ptr<changeHumanPlayerNameDialogImpl> myChangeHumanPlayerNameDialog;
-// 	boost::shared_ptr<joinNetworkGameDialogImpl> myJoinNetworkGameDialog;
-// 	boost::shared_ptr<connectToServerDialogImpl> myConnectToServerDialog;
-// 	boost::shared_ptr<startNetworkGameDialogImpl> myStartNetworkGameDialog;
-// 	boost::shared_ptr<createNetworkGameDialogImpl> myCreateNetworkGameDialog;
-// 	boost::shared_ptr<gameLobbyDialogImpl> myGameLobbyDialog;
-	boost::shared_ptr<timeoutMsgBoxImpl> myTimeoutDialog;
 	startWindowImpl *myStartWindow;
 
 	//Sound

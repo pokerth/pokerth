@@ -119,14 +119,7 @@ void GuiWrapper::logPlayerWinGame(std::string playerName, int gameID) { myLog->s
 void GuiWrapper::flushLogAtGame(int gameID) { myLog->signalFlushLogAtGame(gameID); }
 void GuiWrapper::flushLogAtHand() { myLog->signalFlushLogAtHand(); }
 
-void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { myW->signalNetClientGameStart(game); }
-
-
-
-
 ////////// this is for startwindow ////////////////////
-
-
 void GuiWrapper::SignalNetClientConnect(int actionID) { myStartWindow->signalNetClientConnect(actionID); }
 void GuiWrapper::SignalNetClientGameInfo(int actionID) { myStartWindow->signalNetClientGameInfo(actionID); }
 void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myStartWindow->signalNetClientError(errorID, osErrorID); }
@@ -161,13 +154,14 @@ void GuiWrapper::SignalNetClientGameListUpdateMode(unsigned gameId, GameMode mod
 void GuiWrapper::SignalNetClientGameListUpdateAdmin(unsigned gameId, unsigned adminPlayerId) {myStartWindow->signalNetClientGameListUpdateAdmin(gameId, adminPlayerId); }
 void GuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) { myStartWindow->signalNetClientGameListPlayerJoined(gameId, playerId); }
 void GuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) { myStartWindow->signalNetClientGameListPlayerLeft(gameId, playerId); }
+void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { myStartWindow->signalNetClientGameStart(game); }
 
 
 void GuiWrapper::SignalNetClientWaitDialog() { myStartWindow->signalShowClientDialog(); }
 void GuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { myStartWindow->signalNetClientChatMsg(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
 
 void GuiWrapper::SignalNetServerSuccess(int /*actionID*/) { }
-void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { myW->signalNetServerError(errorID, osErrorID); }
+void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { myStartWindow->signalNetServerError(errorID, osErrorID); }
 
 void GuiWrapper::SignalIrcConnect(const string &server) { myStartWindow->signalIrcConnect(QString::fromUtf8(server.c_str())); }
 void GuiWrapper::SignalIrcSelfJoined(const string &nickName, const string &channel) { myStartWindow->signalIrcSelfJoined(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(channel.c_str())); }
