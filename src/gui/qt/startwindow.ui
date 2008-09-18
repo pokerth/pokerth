@@ -106,7 +106,7 @@
      <x>0</x>
      <y>0</y>
      <width>444</width>
-     <height>28</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuPokerTH" >
@@ -158,11 +158,19 @@
    </property>
   </action>
   <action name="actionConfigure_PokerTH" >
+   <property name="icon" >
+    <iconset resource="resources/pokerth.qrc" >
+     <normaloff>:/gfx/systemsettings.png</normaloff>:/gfx/systemsettings.png</iconset>
+   </property>
    <property name="text" >
     <string>Configure PokerTH ...</string>
    </property>
   </action>
   <action name="actionQuit" >
+   <property name="icon" >
+    <iconset resource="resources/pokerth.qrc" >
+     <normaloff>:/gfx/application_exit.png</normaloff>:/gfx/application_exit.png</iconset>
+   </property>
    <property name="text" >
     <string>Quit</string>
    </property>
@@ -181,7 +189,9 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources/pokerth.qrc" />
+ </resources>
  <connections>
   <connection>
    <sender>actionQuit</sender>

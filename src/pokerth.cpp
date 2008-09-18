@@ -104,6 +104,7 @@ int main( int argc, char **argv )
 // 	#endif
 	a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 12px; }");
 #endif	
+	a.setStyleSheet("QDialogButtonBox { dialogbuttonbox-buttons-have-icons: 1; dialog-ok-icon: url(:/gfx/dialog_ok_apply.png); dialog-cancel-icon: url(:/gfx/dialog_close.png); dialog-close-icon: url(:/gfx/dialog_close.png);}");
 
 	QPixmap *pixmap = new QPixmap(myAppDataPath + "gfx/gui/misc/welcomepokerth.png");
      	StartSplash splash(*pixmap);
