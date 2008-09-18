@@ -99,7 +99,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget" >
        <property name="currentIndex" >
-        <number>4</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="page" >
         <layout class="QGridLayout" name="gridLayout_8" >
@@ -152,6 +152,9 @@
          </item>
          <item row="3" column="0" >
           <layout class="QGridLayout" name="gridLayout_7" >
+           <property name="spacing" >
+            <number>-1</number>
+           </property>
            <item row="0" column="0" >
             <widget class="QCheckBox" name="checkBox_showIntro" >
              <property name="text" >
@@ -194,10 +197,17 @@
              </property>
             </widget>
            </item>
-           <item row="3" column="0" >
+           <item row="4" column="0" >
             <widget class="QCheckBox" name="checkBox_showBlindButtons" >
              <property name="text" >
               <string>Show buttons for small blind and big blind</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" >
+            <widget class="QCheckBox" name="checkBox_alternateFKeysUserActionMode" >
+             <property name="text" >
+              <string>Reverse order of F-Keys (F1 - F4)</string>
              </property>
             </widget>
            </item>
@@ -205,13 +215,6 @@
             <widget class="QCheckBox" name="checkBox_antiPeekMode" >
              <property name="text" >
               <string>Show own cards only on mouse click</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0" >
-            <widget class="QCheckBox" name="checkBox_alternateFKeysUserActionMode" >
-             <property name="text" >
-              <string>Reverse order of F-Keys (F1 - F4)</string>
              </property>
             </widget>
            </item>
@@ -1167,6 +1170,19 @@ p, li { white-space: pre-wrap; }
            </layout>
           </widget>
          </item>
+         <item>
+          <spacer name="verticalSpacer_2" >
+           <property name="orientation" >
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0" >
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
         </layout>
        </widget>
        <widget class="QWidget" name="page_7" >
@@ -1203,9 +1219,15 @@ p, li { white-space: pre-wrap; }
          </item>
          <item rowspan="2" row="3" column="0" >
           <widget class="QGroupBox" name="groupBox_4" >
+           <property name="minimumSize" >
+            <size>
+             <width>300</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="maximumSize" >
             <size>
-             <width>285</width>
+             <width>300</width>
              <height>16777215</height>
             </size>
            </property>
@@ -1391,6 +1413,12 @@ p, li { white-space: pre-wrap; }
             </item>
             <item row="1" column="1" >
              <widget class="QSpinBox" name="spinBox_IRCServerPort" >
+              <property name="sizePolicy" >
+               <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimum" >
                <number>80</number>
               </property>
@@ -1412,17 +1440,10 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="2" column="1" >
-             <widget class="QLineEdit" name="lineEdit_IRCChannel" >
-              <property name="text" >
-               <string>#pokerth</string>
-              </property>
-             </widget>
-            </item>
             <item row="3" column="0" >
              <widget class="QLabel" name="label_17" >
               <property name="text" >
-               <string>Channel Password:</string>
+               <string>Password:</string>
               </property>
               <property name="buddy" >
                <cstring>lineEdit_IRCChannelPassword</cstring>
@@ -1453,7 +1474,24 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
+            <item row="2" column="1" >
+             <widget class="QLineEdit" name="lineEdit_IRCChannel" >
+              <property name="text" >
+               <string>#pokerth</string>
+              </property>
+             </widget>
+            </item>
            </layout>
+           <zorder>label_48</zorder>
+           <zorder>lineEdit_IRCServerAddress</zorder>
+           <zorder>label_46</zorder>
+           <zorder>spinBox_IRCServerPort</zorder>
+           <zorder>label_49</zorder>
+           <zorder>label_17</zorder>
+           <zorder>lineEdit_IRCChannelPassword</zorder>
+           <zorder>checkBox_IRCServerUseIpv6</zorder>
+           <zorder>label_45</zorder>
+           <zorder>lineEdit_IRCChannel</zorder>
           </widget>
          </item>
          <item row="4" column="2" >
@@ -2733,8 +2771,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkBox_showFadeOutCardsAnimation</tabstop>
   <tabstop>checkBox_showFlipCardsAnimation</tabstop>
   <tabstop>checkBox_showBlindButtons</tabstop>
-  <tabstop>checkBox_antiPeekMode</tabstop>
-  <tabstop>checkBox_alternateFKeysUserActionMode</tabstop>
   <tabstop>checkBox_enableBetInputFocusSwitch</tabstop>
   <tabstop>radioButton_flipsideTux</tabstop>
   <tabstop>radioButton_flipsideOwn</tabstop>

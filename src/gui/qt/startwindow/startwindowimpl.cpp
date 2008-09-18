@@ -698,12 +698,12 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 				QMessageBox::Close); }
 		break;
 		case ERR_NET_PLAYER_NAME_IN_USE:
-			{ /*myChangeHumanPlayerNameDialog->label_Message->setText(tr("Your player name is already used by another player.\nPlease choose a different name."));
-			  myChangeHumanPlayerNameDialog->exec();*/ }
+			{ myChangeHumanPlayerNameDialog->label_Message->setText(tr("Your player name is already used by another player.\nPlease choose a different name."));
+			  myChangeHumanPlayerNameDialog->exec(); }
 		break;
 		case ERR_NET_INVALID_PLAYER_NAME:
-			{ /*myChangeHumanPlayerNameDialog->label_Message->setText(tr("The player name is too short, too long or invalid. Please choose another one."));
-			  myChangeHumanPlayerNameDialog->exec();*/ }
+			{ myChangeHumanPlayerNameDialog->label_Message->setText(tr("The player name is too short, too long or invalid. Please choose another one."));
+			  myChangeHumanPlayerNameDialog->exec(); }
 		break;
 		case ERR_NET_INVALID_GAME_NAME:
 			{ QMessageBox::warning(this, tr("Network Error"),
