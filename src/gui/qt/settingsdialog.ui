@@ -5,13 +5,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>770</width>
+    <width>785</width>
     <height>530</height>
    </rect>
   </property>
   <property name="minimumSize" >
    <size>
-    <width>770</width>
+    <width>785</width>
     <height>530</height>
    </size>
   </property>
@@ -50,6 +50,10 @@
        <item>
         <property name="text" >
          <string>Interface</string>
+        </property>
+        <property name="icon" >
+         <iconset resource="resources/pokerth.qrc" >
+          <normaloff>:/gfx/preferences-desktop.png</normaloff>:/gfx/preferences-desktop.png</iconset>
         </property>
        </item>
        <item>
@@ -91,7 +95,7 @@
         </property>
         <property name="icon" >
          <iconset resource="resources/pokerth.qrc" >
-          <normaloff>:/gfx/applications_education.png</normaloff>:/gfx/applications_education.png</iconset>
+          <normaloff>:/gfx/utilities-log-viewer.png</normaloff>:/gfx/utilities-log-viewer.png</iconset>
         </property>
        </item>
       </widget>
@@ -152,9 +156,6 @@
          </item>
          <item row="3" column="0" >
           <layout class="QGridLayout" name="gridLayout_7" >
-           <property name="spacing" >
-            <number>-1</number>
-           </property>
            <item row="0" column="0" >
             <widget class="QCheckBox" name="checkBox_showIntro" >
              <property name="text" >
@@ -197,13 +198,6 @@
              </property>
             </widget>
            </item>
-           <item row="4" column="0" >
-            <widget class="QCheckBox" name="checkBox_showBlindButtons" >
-             <property name="text" >
-              <string>Show buttons for small blind and big blind</string>
-             </property>
-            </widget>
-           </item>
            <item row="3" column="0" >
             <widget class="QCheckBox" name="checkBox_alternateFKeysUserActionMode" >
              <property name="text" >
@@ -215,6 +209,13 @@
             <widget class="QCheckBox" name="checkBox_antiPeekMode" >
              <property name="text" >
               <string>Show own cards only on mouse click</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0" colspan="2" >
+            <widget class="QCheckBox" name="checkBox_showBlindButtons" >
+             <property name="text" >
+              <string>Show buttons for small blind and big blind</string>
              </property>
             </widget>
            </item>
@@ -1482,16 +1483,6 @@ p, li { white-space: pre-wrap; }
              </widget>
             </item>
            </layout>
-           <zorder>label_48</zorder>
-           <zorder>lineEdit_IRCServerAddress</zorder>
-           <zorder>label_46</zorder>
-           <zorder>spinBox_IRCServerPort</zorder>
-           <zorder>label_49</zorder>
-           <zorder>label_17</zorder>
-           <zorder>lineEdit_IRCChannelPassword</zorder>
-           <zorder>checkBox_IRCServerUseIpv6</zorder>
-           <zorder>label_45</zorder>
-           <zorder>lineEdit_IRCChannel</zorder>
           </widget>
          </item>
          <item row="4" column="2" >
@@ -1554,7 +1545,7 @@ p, li { white-space: pre-wrap; }
             <string notr="true" >QLabel { font-weight: bold;  }</string>
            </property>
            <property name="text" >
-            <string>Player Nicks</string>
+            <string>Player Nicks/Avatars</string>
            </property>
           </widget>
          </item>
@@ -2602,6 +2593,9 @@ p, li { white-space: pre-wrap; }
             </item>
             <item row="0" column="1" >
              <layout class="QHBoxLayout" >
+              <property name="spacing" >
+               <number>2</number>
+              </property>
               <item>
                <widget class="QLineEdit" name="lineEdit_logDir" />
               </item>

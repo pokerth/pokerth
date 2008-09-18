@@ -1,7 +1,6 @@
 <RCC>
   <qresource prefix="gfx" >
     <file>media_podcast.png</file>
-    <file>book.png</file>
     <file>system_users_big.png</file>
     <file>tools_wizard.png</file>
     <file>speaker.png</file>
@@ -15,8 +14,9 @@
     <file>system_users.png</file>
     <file>list_add_user.png</file>
     <file>list_add.png</file>
-    <file>applications_education.png</file>
     <file>audio_input_microphone.png</file>
+    <file>utilities-log-viewer.png</file>
+    <file>preferences-desktop.png</file>
     <file>dialog_close.png</file>
     <file>systemsettings.png</file>
     <file>editdelete.png</file>
