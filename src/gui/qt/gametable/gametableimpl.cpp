@@ -2942,15 +2942,15 @@ void gameTableImpl::closeGameTable() {
 			mySession->terminateNetworkClient();
 			stopTimer();
 			if (myServerGuiInterface.get()) myServerGuiInterface->getSession().terminateNetworkServer();
-			this->hide();
 			myStartWindow->show();
+			this->hide();
 		}
 	}
 	else {
 		mySession->terminateNetworkClient();
 		stopTimer();
-		this->hide();
 		myStartWindow->show();
+		this->hide();
 	}
 }
 

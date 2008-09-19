@@ -18,13 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "startnetworkgamedialogimpl.h"
+#include "startwindowimpl.h"
 #include "session.h"
 #include "configfile.h"
 #include "chattools.h"
 #include <net/socket_msg.h>
 
-startNetworkGameDialogImpl::startNetworkGameDialogImpl(QWidget *parent, ConfigFile *config)
-      : QDialog(parent), myW(NULL), keyUpDownChatCounter(0), myPlayerId(0), isAdmin(false), myConfig(config), mySession(NULL), myChat(NULL)
+startNetworkGameDialogImpl::startNetworkGameDialogImpl(startWindowImpl *parent, ConfigFile *config)
+      : QDialog(parent), myW(NULL), myStartWindow(parent), keyUpDownChatCounter(0), myPlayerId(0), isAdmin(false), myConfig(config), mySession(NULL), myChat(NULL)
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
@@ -239,4 +240,10 @@ void startNetworkGameDialogImpl::accept()
 {
 	myW->show();
 	QDialog::accept();
+}
+
+void startNetworkGameDialogImpl::reject()
+{
+	myStartWindow->show();
+	QDialog::reject();
 }

@@ -30,11 +30,12 @@
 class Session;
 class ConfigFile;
 class ChatTools;
+class startWindowImpl;
 
 class startNetworkGameDialogImpl: public QDialog, public Ui::startNetworkGameDialog {
 Q_OBJECT
 public:
-	startNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *config = 0);
+	startNetworkGameDialogImpl(startWindowImpl *parent = 0, ConfigFile *config = 0);
 
 	void setSession(Session *session);
 
@@ -47,6 +48,7 @@ public slots:
 	void cancel();
 	void refresh(int actionID);
 	void accept();
+	void reject();
 	void joinedNetworkGame(unsigned playerId, QString playerName, int rights);
 	void addConnectedPlayer(unsigned playerId, QString playerName, int rights);
 	void updatePlayer(unsigned playerId, QString newPlayerName);
@@ -74,6 +76,7 @@ public slots:
 private: 
 
 	gameTableImpl* myW;
+	startWindowImpl* myStartWindow;
 	int maxPlayerNumber;
 	int keyUpDownChatCounter;
 	unsigned myPlayerId;
