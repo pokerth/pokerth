@@ -2935,6 +2935,7 @@ void gameTableImpl::closeGameTable() {
 
 	if (myServerGuiInterface.get() && myServerGuiInterface->getSession().isNetworkServerRunning()) {
 
+		qDebug() << "jo1";
 		QMessageBox msgBox(QMessageBox::Warning, tr("Closing PokerTH during network game"),
 	                   	tr("You are the hosting server. Do you want to close PokerTH anyway?"), QMessageBox::Yes | QMessageBox::No, this);
 
@@ -2947,6 +2948,7 @@ void gameTableImpl::closeGameTable() {
 		}
 	}
 	else {
+		qDebug() << "jo2";
 		mySession->terminateNetworkClient();
 		stopTimer();
 		myStartWindow->show();

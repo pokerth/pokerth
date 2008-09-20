@@ -339,9 +339,7 @@ void startWindowImpl::joinGameLobby() {
 	if (myConnectToServerDialog->result() == QDialog::Rejected ) {
 		mySession->terminateNetworkClient();
 	}
-	else
-	{
-		this->hide();
+	else {
 		showLobbyDialog();
 	}
 }
@@ -477,6 +475,8 @@ void startWindowImpl::showClientDialog()
 	{
 		if (myGuiInterface->getMyW()->isVisible())
 			myGuiInterface->getMyW()->hide();
+		if (!this->isVisible())
+			this->show();
 		if (!myStartNetworkGameDialog->isVisible())
 			showNetworkStartDialog();
 	}
@@ -484,6 +484,8 @@ void startWindowImpl::showClientDialog()
 	{
 		if (myGuiInterface->getMyW()->isVisible())
 			myGuiInterface->getMyW()->hide();
+		if (!this->isVisible())
+			this->show();
 		if (!myGameLobbyDialog->isVisible())
 			showLobbyDialog();
 	}
@@ -495,6 +497,7 @@ void startWindowImpl::showLobbyDialog()
 
 	if (myGameLobbyDialog->result() == QDialog::Accepted)
 	{
+		this->hide();
 		//some gui modifications
 		myGuiInterface->getMyW()->networkGameModification();
 	}
@@ -510,6 +513,7 @@ void startWindowImpl::showNetworkStartDialog()
 
 	if (myStartNetworkGameDialog->result() == QDialog::Accepted ) {
 		
+		this->hide();
 		//some gui modifications
 		myGuiInterface->getMyW()->networkGameModification();
 	}
