@@ -232,6 +232,7 @@ public slots:
 
 	void flipHolecardsAllIn();
 	void showMyCards();
+	void voteForKick(int id);
 
 	void handSwitchRounds();
 

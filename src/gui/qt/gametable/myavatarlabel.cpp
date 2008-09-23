@@ -20,8 +20,10 @@ MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
 {
 
 	myContextMenu = new QMenu;
-	myContextMenu->addAction(tr("Vote for kick this user"));
+	action_VoteForKick = new QAction(tr("Vote for kick this user"), myContextMenu);
+	myContextMenu->addAction(action_VoteForKick);
 
+	connect( action_VoteForKick, SIGNAL ( triggered() ), this, SLOT ( sendVoteForKickSignal() ) );
 }
 
 
@@ -29,12 +31,17 @@ MyAvatarLabel::~MyAvatarLabel()
 {
 }
 
-void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent * /*event*/ ) {
+void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
 
-// 	showContextMenu(event->globalPos());
+	showContextMenu(event->globalPos());
 }
 
-void MyAvatarLabel::showContextMenu(const QPoint &/*pos*/) {
+void MyAvatarLabel::showContextMenu(const QPoint &pos) {
 
-// 	myContextMenu->popup(pos);
+	myContextMenu->popup(pos);
+}
+
+void MyAvatarLabel::sendVoteForKickSignal()
+{
+	myW->voteForKick(myId);
 }

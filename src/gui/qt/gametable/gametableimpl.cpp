@@ -233,6 +233,10 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	playerAvatarLabelArray[4] = label_Avatar4;
 	playerAvatarLabelArray[5] = label_Avatar5;
 	playerAvatarLabelArray[6] = label_Avatar6;
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
+		playerAvatarLabelArray[i]->setMyW(this); 
+		playerAvatarLabelArray[i]->setMyId(i); 
+	}
 
 	// setLabelArray init
 	setLabelArray[0] = textLabel_Set0;
@@ -3037,3 +3041,10 @@ void gameTableImpl::leaveCurrentNetworkGame() {
 		}
 	}
 }
+
+void gameTableImpl::voteForKick(int id) { 
+
+	qDebug() << "vote for kick user: " << id;
+// 	mySession->sendVoteKickSignal(id);
+}
+

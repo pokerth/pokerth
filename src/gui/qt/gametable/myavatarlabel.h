@@ -24,22 +24,24 @@ class MyAvatarLabel : public QLabel
 Q_OBJECT
 public:
     MyAvatarLabel(QGroupBox*);
-
     ~MyAvatarLabel();
 
-	
-	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
-	
+	void setMyW(gameTableImpl* theValue) { myW = theValue; }
+	void setMyId ( int theValue ) {	myId = theValue; }
 	void contextMenuEvent ( QContextMenuEvent * event );
 
 public slots:
 	
 	void showContextMenu(const QPoint &pos);
+	void sendVoteForKickSignal();	
 
 private: 
 
 	gameTableImpl *myW;
 	QMenu *myContextMenu;
+	QAction *action_VoteForKick;
+
+	int myId;
 };
 
 #endif
