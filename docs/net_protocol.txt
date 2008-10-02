@@ -860,7 +860,7 @@ Vote:
 	1: Vote for kicking player.
 
 
-Server Reply: Vote Kick Player Confirmed
+Server Reply: Vote Kick Player ACK
 
 	 0                   1                   2                   3
 	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -883,7 +883,7 @@ Server Reply: Vote Kick Player Denied
 	|           Deny Reason         |          Reserved             |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 Deny Reason:
-	0: Invalid Petition Id
+	0: Invalid Petition Id.
 	1: Already voted.
 
 
@@ -896,7 +896,7 @@ Server Notification: End Kick Player Petition
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                          Petition ID                          |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|      # Votes for Kicking      |    # Votes against Kicking    |
+	|    # Votes against Kicking    | # Votes in favour of  Kicking |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|           Vote Result         |          Reserved             |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
