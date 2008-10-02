@@ -66,6 +66,24 @@ enum PlayerActionCode
 	ACTION_CODE_NOT_ALLOWED
 };
 
+enum DenyKickPlayerReason
+{
+	KICK_DENIED_TEMPORARY,
+	KICK_DENIED_OTHER_IN_PROGRESS
+};
+
+enum KickVote
+{
+	KICK_VOTE_AGAINST,
+	KICK_VOTE_IN_FAVOUR
+};
+
+enum DenyVoteReason
+{
+	VOTE_DENIED_INVALID_PETITION,
+	VOTE_DENIED_ALREADY_VOTED
+};
+
 
 enum Button {
 	BUTTON_NONE = 0,

@@ -70,6 +70,14 @@ using namespace std;
 #define NET_TYPE_END_OF_HAND_SHOW_CARDS			0x0064
 #define NET_TYPE_END_OF_HAND_HIDE_CARDS			0x0065
 #define NET_TYPE_END_OF_GAME					0x0070
+#define NET_TYPE_ASK_KICK_PLAYER				0x0071
+#define NET_TYPE_ASK_KICK_PLAYER_DENIED			0x0072
+#define NET_TYPE_START_KICK_PLAYER_PETITION		0x0073
+#define NET_TYPE_VOTE_KICK_PLAYER				0x0074
+#define NET_TYPE_VOTE_KICK_PLAYER_ACK			0x0075
+#define NET_TYPE_VOTE_KICK_PLAYER_DENIED		0x0076
+#define NET_TYPE_END_KICK_PLAYER_PETITION		0x0077
+
 #define NET_TYPE_STATISTICS_CHANGED				0x0080
 
 #define NET_TYPE_REMOVED_FROM_GAME				0x0100
@@ -503,6 +511,60 @@ struct GCC_PACKED NetPacketEndOfGameData
 {
 	NetPacketHeader		head;
 	u_int32_t			winnerPlayerId;
+};
+
+struct GCC_PACKED NetPacketAskKickPlayerData
+{
+	NetPacketHeader		head;
+	u_int32_t			playerId;
+};
+
+struct GCC_PACKED NetPacketAskKickPlayerDeniedData
+{
+	NetPacketHeader		head;
+	u_int32_t			playerId;
+	u_int16_t			denyReason;
+	u_int16_t			reserved;
+};
+
+struct GCC_PACKED StartKickPlayerPetitionData
+{
+	NetPacketHeader		head;
+	u_int32_t			petitionId;
+	u_int32_t			proposingPlayerId;
+	u_int32_t			kickPlayerId;
+};
+
+struct GCC_PACKED VoteKickPlayerData
+{
+	NetPacketHeader		head;
+	u_int32_t			petitionId;
+	u_int16_t			vote;
+	u_int16_t			reserved;
+};
+
+struct GCC_PACKED VoteKickPlayerAckData
+{
+	NetPacketHeader		head;
+	u_int32_t			petitionId;
+};
+
+struct GCC_PACKED VoteKickPlayerDeniedData
+{
+	NetPacketHeader		head;
+	u_int32_t			petitionId;
+	u_int16_t			denyReason;
+	u_int16_t			reserved;
+};
+
+struct GCC_PACKED EndKickPlayerPetitionData
+{
+	NetPacketHeader		head;
+	u_int32_t			petitionId;
+	u_int16_t			numVotesAgainstKicking;
+	u_int16_t			numVotesInFavourOfKicking;
+	u_int16_t			voteResult;
+	u_int16_t			reserved;
 };
 
 struct GCC_PACKED StatisticsData
