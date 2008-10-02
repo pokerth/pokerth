@@ -856,9 +856,8 @@ Client Request: Vote Kick Player
 	|              Vote             |          Reserved             |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 Vote:
-	0: Vote against kicking player.
+	0: Vote against kicking player (timeout also implies this).
 	1: Vote for kicking player.
-	2: Abstention.
 
 
 Server Reply: Vote Kick Player Confirmed
@@ -899,7 +898,7 @@ Server Notification: End Kick Player Petition
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|      # Votes for Kicking      |    # Votes against Kicking    |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|         # Abstentions         |           Vote Result         |
+	|           Vote Result         |          Reserved             |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 Vote Result:
 	0: Player not kicked.
