@@ -1217,6 +1217,48 @@ NetPacket::ToNetPacketEndOfGame() const
 	return NULL;
 }
 
+const NetPacketAskKickPlayer *
+NetPacket::ToNetPacketAskKickPlayer() const
+{
+	return NULL;
+}
+
+const NetPacketAskKickPlayerDenied *
+NetPacket::ToNetPacketAskKickPlayerDenied() const
+{
+	return NULL;
+}
+
+const NetPacketStartKickPlayerPetition *
+NetPacket::ToNetPacketStartKickPlayerPetition() const
+{
+	return NULL;
+}
+
+const NetPacketVoteKickPlayer *
+NetPacket::ToNetPacketVoteKickPlayer() const
+{
+	return NULL;
+}
+
+const NetPacketVoteKickPlayerAck *
+NetPacket::ToNetPacketVoteKickPlayerAck() const
+{
+	return NULL;
+}
+
+const NetPacketVoteKickPlayerDenied *
+NetPacket::ToNetPacketVoteKickPlayerDenied() const
+{
+	return NULL;
+}
+
+const NetPacketEndKickPlayerPetition *
+NetPacket::ToNetPacketEndKickPlayerPetition() const
+{
+	return NULL;
+}
+
 const NetPacketStatisticsChanged *
 NetPacket::ToNetPacketStatisticsChanged() const
 {
