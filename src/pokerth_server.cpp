@@ -164,14 +164,14 @@ main(int argc, char *argv[])
 		LOG_ERROR("Missing files - please check your directory settings!");
 	myServerGuiInterface->setSession(session);
 
-	myServerGuiInterface->getSession().startNetworkServer();
+	myServerGuiInterface->getSession()->startNetworkServer();
 	while (!g_pokerthTerminate)
 	{
 		Thread::Msleep(100);
-		if (myServerGuiInterface->getSession().pollNetworkServerTerminated())
+		if (myServerGuiInterface->getSession()->pollNetworkServerTerminated())
 			g_pokerthTerminate = true;
 	}
-	myServerGuiInterface->getSession().terminateNetworkServer();
+	myServerGuiInterface->getSession()->terminateNetworkServer();
 
 	LOG_MSG("Terminating PokerTH dedicated server." << endl);
 	socket_cleanup();

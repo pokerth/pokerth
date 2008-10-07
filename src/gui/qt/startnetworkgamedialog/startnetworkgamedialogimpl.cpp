@@ -25,7 +25,7 @@
 #include <net/socket_msg.h>
 
 startNetworkGameDialogImpl::startNetworkGameDialogImpl(startWindowImpl *parent, ConfigFile *config)
-      : QDialog(parent), myW(NULL), myStartWindow(parent), keyUpDownChatCounter(0), myPlayerId(0), isAdmin(false), myConfig(config), mySession(NULL), myChat(NULL)
+      : QDialog(parent), myW(NULL), myStartWindow(parent), keyUpDownChatCounter(0), myPlayerId(0), isAdmin(false), myConfig(config), myChat(NULL)
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
@@ -197,7 +197,7 @@ void startNetworkGameDialogImpl::clearDialog()
 	myPlayerId = 0;
 }
 
-void startNetworkGameDialogImpl::setSession(Session *session)
+void startNetworkGameDialogImpl::setSession(boost::shared_ptr<Session> session)
 {
 	mySession = session;
 	myChat->setSession(mySession);

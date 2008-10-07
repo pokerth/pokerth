@@ -37,7 +37,7 @@ Q_OBJECT
 public:
 	startNetworkGameDialogImpl(startWindowImpl *parent = 0, ConfigFile *config = 0);
 
-	void setSession(Session *session);
+	void setSession(boost::shared_ptr<Session> session);
 
 public slots:
 
@@ -82,7 +82,7 @@ private:
 	unsigned myPlayerId;
 	bool isAdmin;
 	ConfigFile *myConfig;
-	Session *mySession;
+	boost::shared_ptr<Session> mySession;
 	ChatTools *myChat;
 	
 };

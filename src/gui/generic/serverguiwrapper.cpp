@@ -35,10 +35,10 @@ ServerGuiWrapper::~ServerGuiWrapper()
 
 void ServerGuiWrapper::initGui(int /*speed*/) {}
 
-Session &ServerGuiWrapper::getSession()
+boost::shared_ptr<Session> ServerGuiWrapper::getSession()
 {
 	assert(mySession.get());
-	return *mySession;
+	return mySession;
 }
 
 void ServerGuiWrapper::setSession(boost::shared_ptr<Session> session)

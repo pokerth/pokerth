@@ -173,7 +173,7 @@ void startWindowImpl::startNewLocalGame(newGameDialogImpl *v) {
 	// Start new local game - terminate existing network game.
 	mySession->terminateNetworkClient();
 	if (myServerGuiInterface.get())
-		myServerGuiInterface->getSession().terminateNetworkServer();
+		myServerGuiInterface->getSession()->terminateNetworkServer();
 
 	//get values from local game dialog
 	GameData gameData;
@@ -294,9 +294,9 @@ void startWindowImpl::joinGameLobby() {
 // Join Lobby
 	mySession->terminateNetworkClient();
 	if (myServerGuiInterface)
-		myServerGuiInterface->getSession().terminateNetworkServer();
-		myGameLobbyDialog->setSession(&getSession());
-		myStartNetworkGameDialog->setSession(&getSession());
+		myServerGuiInterface->getSession()->terminateNetworkServer();
+		myGameLobbyDialog->setSession(getSession());
+		myStartNetworkGameDialog->setSession(getSession());
 
 	// Clear Lobby dialog.
 	myGameLobbyDialog->clearDialog();
@@ -366,7 +366,7 @@ void startWindowImpl::callCreateNetworkGameDialog() {
 
 		// Terminate existing network games.
 		mySession->terminateNetworkClient();
-		myServerGuiInterface->getSession().terminateNetworkServer();
+		myServerGuiInterface->getSession()->terminateNetworkServer();
 
 		GameData gameData;
 		gameData.maxNumberOfPlayers = myCreateNetworkGameDialog->spinBox_quantityPlayers->value();
@@ -408,13 +408,13 @@ void startWindowImpl::callCreateNetworkGameDialog() {
 		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
 		gameData.playerActionTimeoutSec = myCreateNetworkGameDialog->spinBox_netTimeOutPlayerAction->value();
 
-		myGameLobbyDialog->setSession(&getSession());
-		myStartNetworkGameDialog->setSession(&getSession());
+		myGameLobbyDialog->setSession(getSession());
+		myStartNetworkGameDialog->setSession(getSession());
 
 		// Clear network game dialog.
 		myStartNetworkGameDialog->clearDialog();
 
-		myServerGuiInterface->getSession().startNetworkServer();
+		myServerGuiInterface->getSession()->startNetworkServer();
 		mySession->startNetworkClientForLocalServer(gameData);
 
 		myStartNetworkGameDialog->setMaxPlayerNumber(gameData.maxNumberOfPlayers);
@@ -437,10 +437,10 @@ void startWindowImpl::callJoinNetworkGameDialog() {
 
 		mySession->terminateNetworkClient();
 		if (myServerGuiInterface)
-			myServerGuiInterface->getSession().terminateNetworkServer();
+			myServerGuiInterface->getSession()->terminateNetworkServer();
 
-		myGameLobbyDialog->setSession(&getSession());
-		myStartNetworkGameDialog->setSession(&getSession());
+		myGameLobbyDialog->setSession(getSession());
+		myStartNetworkGameDialog->setSession(getSession());
 		// Clear network game dialog
 		myStartNetworkGameDialog->clearDialog();
 		// Maybe use QUrl::toPunycode.
@@ -520,7 +520,7 @@ void startWindowImpl::showNetworkStartDialog()
 	else {
 		mySession->terminateNetworkClient();
 		if (myServerGuiInterface)
-			myServerGuiInterface->getSession().terminateNetworkServer();
+			myServerGuiInterface->getSession()->terminateNetworkServer();
 	}
 }
 

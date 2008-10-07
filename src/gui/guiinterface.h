@@ -37,7 +37,7 @@ public:
 
 	virtual void initGui(int speed) =0;
 
-	virtual Session &getSession() =0;
+	virtual boost::shared_ptr<Session> getSession() =0;
 	virtual void setSession(boost::shared_ptr<Session> session) =0;
 
 	virtual gameTableImpl *getMyW() const=0;

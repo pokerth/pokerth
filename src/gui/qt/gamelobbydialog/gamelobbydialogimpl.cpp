@@ -19,7 +19,7 @@
 #include <net/socket_msg.h>
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
- : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), mySession(NULL), currentGameName(""), myPlayerId(0), isAdmin(false), inGame(false), myChat(NULL), keyUpCounter(0)
+ : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), isAdmin(false), inGame(false), myChat(NULL), keyUpCounter(0)
 {
 
 #ifdef __APPLE__
@@ -85,11 +85,6 @@ gameLobbyDialogImpl::~gameLobbyDialogImpl()
 	delete myChat;
 	myChat = NULL;
 
-}
-
-void gameLobbyDialogImpl::setSession(Session *session)
-{
-	mySession = session;
 }
 
 void gameLobbyDialogImpl::createGame()

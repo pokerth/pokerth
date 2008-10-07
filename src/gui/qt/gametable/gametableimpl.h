@@ -57,8 +57,8 @@ public:
 
 	~gameTableImpl();
 
-	Session &getSession();
-	void setSession(boost::shared_ptr<Session> session);
+	boost::shared_ptr<Session> getSession();
+// 	void setSession(boost::shared_ptr<Session> session);
 	void setStartWindow(startWindowImpl* s) { myStartWindow = s; }
 
 	void setLog(Log* l) { myLog = l; }

@@ -50,7 +50,7 @@ public:
     startWindowImpl(ConfigFile *c =0);
 
 	void setSession(boost::shared_ptr<Session> session) { mySession = session; }
-	Session &getSession() { assert(mySession.get()); return *mySession; }
+	boost::shared_ptr<Session> getSession() { assert(mySession.get()); return mySession; }
 
 signals: 
 	void signalShowClientDialog();

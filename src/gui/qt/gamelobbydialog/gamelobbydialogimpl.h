@@ -43,8 +43,8 @@ public:
 
 	LobbyChat *getLobbyChat() { return myChat; }
 
-	void setSession(Session *session);
-	Session& getSession() { return *mySession; }
+	void setSession(boost::shared_ptr<Session> session) { mySession = session; }
+	boost::shared_ptr<Session> getSession() { assert(mySession.get()); return mySession; }
 
 	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
 
@@ -110,7 +110,7 @@ private:
 	gameTableImpl* myW;
 	startWindowImpl* myStartWindow;
 	ConfigFile *myConfig;	
-	Session *mySession;
+	boost::shared_ptr<Session> mySession;
 	createInternetGameDialogImpl *myCreateInternetGameDialog;
 	QString currentGameName;
 	unsigned myPlayerId;

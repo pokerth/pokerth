@@ -48,7 +48,7 @@ void LobbyChat::sendMessage() {
 		QString tmpMsg(myLobby->lineEdit_ChatInput->text());
 		if (tmpMsg.size())
 		{
-			myLobby->getSession().sendIrcChatMessage(tmpMsg.toUtf8().constData());
+			myLobby->getSession()->sendIrcChatMessage(tmpMsg.toUtf8().constData());
 			myLobby->lineEdit_ChatInput->setText("");
 
 			displayMessage(myNick, tmpMsg);

@@ -41,7 +41,7 @@ public:
 
 	void initGui(int speed);
 
-	Session &getSession();
+	boost::shared_ptr<Session> getSession();
 	void setSession(boost::shared_ptr<Session> session);
 
 	gameTableImpl* getMyW() const {	return myW; }

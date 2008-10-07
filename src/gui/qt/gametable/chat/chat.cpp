@@ -50,13 +50,13 @@ void Chat::sendMessage() {
 		playerToKick.remove(0, sizeof(COMMAND_KICK_STR) - 1);
 
 		myW->lineEdit_ChatInput->setText("");
-		if(myW->getSession().getClientGameInfo(myW->getSession().getClientCurrentGameId()).adminPlayerId == myW->getSession().getCurrentGame()->getSeatsList()->front()->getMyUniqueID()) {
+		if(myW->getSession()->getClientGameInfo(myW->getSession()->getClientCurrentGameId()).adminPlayerId == myW->getSession()->getCurrentGame()->getSeatsList()->front()->getMyUniqueID()) {
 
-			if(playerToKick.toUtf8().constData() == myW->getSession().getCurrentGame()->getSeatsList()->front()->getMyName()) {
+			if(playerToKick.toUtf8().constData() == myW->getSession()->getCurrentGame()->getSeatsList()->front()->getMyName()) {
 				myW->textBrowser_Chat->append("<span style=\"color:#ff0000;\">"+tr("You cannot kick yourself!")+"</span>");	
 			}
 			else {
-				myW->getSession().kickPlayer(playerToKick.toUtf8().constData());
+				myW->getSession()->kickPlayer(playerToKick.toUtf8().constData());
 			}
 		}
 		else {
@@ -66,7 +66,7 @@ void Chat::sendMessage() {
 	}
 
 	fillChatLinesHistory(myW->lineEdit_ChatInput->text());
-	myW->getSession().sendChatMessage(myW->lineEdit_ChatInput->text().toUtf8().constData());
+	myW->getSession()->sendChatMessage(myW->lineEdit_ChatInput->text().toUtf8().constData());
 	myW->lineEdit_ChatInput->setText("");
 }
 

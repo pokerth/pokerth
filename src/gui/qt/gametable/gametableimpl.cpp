@@ -597,12 +597,12 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 	else { groupBox_RightToolBox->hide(); }
 
 	//Add avatar (if set)
-	mySession->addOwnAvatar(myConfig->readConfigString("MyAvatar"));
+	myStartWindow->getSession()->addOwnAvatar(myConfig->readConfigString("MyAvatar"));
 
 	//Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
-	if (mySettingsDialog->getPlayerNickIsChanged() && mySession->getCurrentGame() && !mySession->isNetworkClientRunning()) { 
+	if (mySettingsDialog->getPlayerNickIsChanged() && myStartWindow->getSession()->getCurrentGame() && !myStartWindow->getSession()->isNetworkClientRunning()) { 
 
-		Game *currentGame = mySession->getCurrentGame();
+		Game *currentGame = myStartWindow->getSession()->getCurrentGame();
 		PlayerListIterator it = currentGame->getSeatsList()->begin();
 		(*it)->setMyName(mySettingsDialog->lineEdit_HumanPlayerName->text().toUtf8().constData());
 		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent1Name->text().toUtf8().constData());
@@ -616,9 +616,9 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 		refreshPlayerName();
 	}
 
-	if(mySession->getCurrentGame() && !mySession->isNetworkClientRunning()) {
+	if(myStartWindow->getSession()->getCurrentGame() && !myStartWindow->getSession()->isNetworkClientRunning()) {
 
-		Game *currentGame = mySession->getCurrentGame();
+		Game *currentGame = myStartWindow->getSession()->getCurrentGame();
 		PlayerListIterator it = currentGame->getSeatsList()->begin();
 		(*it)->setMyAvatar(mySettingsDialog->pushButton_HumanPlayerAvatar->getMyLink().toUtf8().constData());
 		(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent1Avatar->getMyLink().toUtf8().constData());
@@ -644,11 +644,11 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 	}
 
 	//Check for anti-peek mode
-	if(mySession->getCurrentGame()) {
+	if(myStartWindow->getSession()->getCurrentGame()) {
 		QPixmap tempCardsPixmapArray[2];
 		int tempCardsIntArray[2];
 		
-		mySession->getCurrentGame()->getSeatsList()->front()->getMyCards(tempCardsIntArray);	
+		myStartWindow->getSession()->getCurrentGame()->getSeatsList()->front()->getMyCards(tempCardsIntArray);	
 		if(myConfig->readConfigInt("AntiPeekMode")) {
 			holeCardsArray[0][0]->setPixmap(*flipside, TRUE);
 			tempCardsPixmapArray[0] = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[0], 10)+".png"));
@@ -665,7 +665,7 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 		}
 	}
 
-	if(mySession->getCurrentGame()) {
+	if(myStartWindow->getSession()->getCurrentGame()) {
 		//blind buttons refresh
 		refreshButton();
 	}
@@ -703,7 +703,7 @@ void gameTableImpl::initGui(int speed)
 	}
 	
 	//set speeds for local game and for first network game
-	if( !mySession->isNetworkClientRunning() || (mySession->isNetworkClientRunning() && !mySession->getCurrentGame()) ) {
+	if( !myStartWindow->getSession()->isNetworkClientRunning() || (myStartWindow->getSession()->isNetworkClientRunning() && !myStartWindow->getSession()->getCurrentGame()) ) {
 	
 		guiGameSpeed = speed;
 		//positioning Slider
@@ -712,14 +712,14 @@ void gameTableImpl::initGui(int speed)
 	}
 }
 
-Session &gameTableImpl::getSession() { assert(mySession.get()); return *mySession; }
-void gameTableImpl::setSession(boost::shared_ptr<Session> session) { mySession = session; }
+boost::shared_ptr<Session> gameTableImpl::getSession() { assert(myStartWindow->getSession().get()); return myStartWindow->getSession(); }
+// void gameTableImpl::setSession(boost::shared_ptr<Session> session) { mySession = session; }
 
 
 //refresh-Funktionen
 void gameTableImpl::refreshSet() {
 	
-	Game *currentGame = mySession->getCurrentGame();
+	Game *currentGame = myStartWindow->getSession()->getCurrentGame();
 
 	PlayerListConstIterator it_c;
  	for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) { 
@@ -728,8 +728,6 @@ void gameTableImpl::refreshSet() {
 		else
 			setLabelArray[(*it_c)->getMyID()]->setText("Bet: $"+QString::number((*it_c)->getMySet(),10)); 
 	}
-
-
 }
 
 void gameTableImpl::refreshButton() {
@@ -739,7 +737,7 @@ void gameTableImpl::refreshButton() {
 	QPixmap bigblindButton = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/bigblindPuck.png"));
 	QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 
-	Game *currentGame = mySession->getCurrentGame();
+	Game *currentGame = myStartWindow->getSession()->getCurrentGame();
 
 	PlayerListConstIterator it_c;
 
@@ -794,7 +792,7 @@ void gameTableImpl::refreshButton() {
 
 void gameTableImpl::refreshPlayerName() {
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	PlayerListConstIterator it_c;
 	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
@@ -812,7 +810,7 @@ void gameTableImpl::refreshPlayerAvatar() {
 
 	QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	PlayerListConstIterator it_c;
 	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
@@ -833,9 +831,9 @@ void gameTableImpl::refreshPlayerAvatar() {
 
 void gameTableImpl::setPlayerAvatar(int myID, QString myAvatar) {
 
-	if(mySession->getCurrentGame()) {
+	if(myStartWindow->getSession()->getCurrentGame()) {
 
-		boost::shared_ptr<PlayerInterface> tmpPlayer = mySession->getCurrentGame()->getPlayerByUniqueId(myID);
+		boost::shared_ptr<PlayerInterface> tmpPlayer = myStartWindow->getSession()->getCurrentGame()->getPlayerByUniqueId(myID);
 		if (tmpPlayer.get()) {
 
 			if(QFile::QFile(myAvatar).exists()) {
@@ -859,7 +857,7 @@ void gameTableImpl::refreshAction(int playerID, int playerAction) {
 	QStringList actionArray;
 	actionArray << "" << "fold" << "check" << "call" << "bet" << "raise" << "allin";
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	if(playerID == -1 || playerAction == -1) {
 
@@ -915,7 +913,7 @@ void gameTableImpl::refreshAction(int playerID, int playerAction) {
 
 void gameTableImpl::refreshCash() {
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	PlayerListConstIterator it_c;
 	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
@@ -937,7 +935,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 
 	if(playerID == -1 || status == -1) {
 
-		HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+		HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 		PlayerListConstIterator it_c;
 		for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
 	
@@ -1065,8 +1063,8 @@ void gameTableImpl::refreshGameLabels(int gameState) {
 		}
 	}
 
-	label_handNumberValue->setText(QString::number(mySession->getCurrentGame()->getCurrentHand()->getMyID(),10));
-	label_gameNumberValue->setText(QString::number(mySession->getCurrentGame()->getMyGameID(),10));
+	label_handNumberValue->setText(QString::number(myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getMyID(),10));
+	label_gameNumberValue->setText(QString::number(myStartWindow->getSession()->getCurrentGame()->getMyGameID(),10));
 }
 
 void gameTableImpl::refreshAll() {
@@ -1074,7 +1072,7 @@ void gameTableImpl::refreshAll() {
 	refreshSet();
 	refreshButton();
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 	PlayerListConstIterator it_c;
 	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
 		refreshAction( (*it_c)->getMyID(), (*it_c)->getMyAction());
@@ -1090,7 +1088,7 @@ void gameTableImpl::refreshChangePlayer() {
 
 	refreshSet();
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 	PlayerListConstIterator it_c;
 	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
 		refreshAction( (*it_c)->getMyID(), (*it_c)->getMyAction());
@@ -1100,7 +1098,7 @@ void gameTableImpl::refreshChangePlayer() {
 }
 
 void gameTableImpl::refreshPot() {
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	textLabel_Sets->setText("$"+QString::number(currentHand->getBoard()->getSets(),10));
 	textLabel_Pot->setText("$"+QString::number(currentHand->getBoard()->getPot(),10));
@@ -1124,7 +1122,7 @@ void gameTableImpl::dealHoleCards() {
 	
 	// Karten der Gegner und eigene Karten austeilen
 	int j;
-	Game *currentGame = mySession->getCurrentGame();
+	Game *currentGame = myStartWindow->getSession()->getCurrentGame();
 
 	PlayerListConstIterator it_c;
 	for(it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
@@ -1207,7 +1205,7 @@ void gameTableImpl::dealFlopCards4() {
 
 	int tempBoardCardsArray[5];
 	
-	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
+	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
 	QPixmap card = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[0], 10)+".png"));
 
 	//Config? mit oder ohne Eye-Candy?
@@ -1225,7 +1223,7 @@ void gameTableImpl::dealFlopCards4() {
 void gameTableImpl::dealFlopCards5() {
 
 	int tempBoardCardsArray[5];
-	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
+	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
 	QPixmap card = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[1], 10)+".png"));
 	
 	//Config? mit oder ohne Eye-Candy?
@@ -1243,7 +1241,7 @@ void gameTableImpl::dealFlopCards5() {
 void gameTableImpl::dealFlopCards6() {
 
 	int tempBoardCardsArray[5];
-	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
+	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
 	QPixmap card = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[2], 10)+".png"));
 	
 	//Config? mit oder ohne Eye-Candy?
@@ -1258,7 +1256,7 @@ void gameTableImpl::dealFlopCards6() {
 	
 	// stable
 	// wenn alle All In
-	if(mySession->getCurrentGame()->getCurrentHand()->getAllInCondition()) { dealFlopCards6Timer->start(AllInDealCardsSpeed); }
+	if(myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getAllInCondition()) { dealFlopCards6Timer->start(AllInDealCardsSpeed); }
 	// sonst normale Variante
 	else { 
 		updateMyButtonsState(0);  //mode 0 == called from dealberocards
@@ -1277,7 +1275,7 @@ void gameTableImpl::dealTurnCards1() {
 void gameTableImpl::dealTurnCards2() {
 
 	int tempBoardCardsArray[5];
-	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
+	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
 	QPixmap card = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[3], 10)+".png"));
 
 	//Config? mit oder ohne Eye-Candy?
@@ -1292,7 +1290,7 @@ void gameTableImpl::dealTurnCards2() {
 	
 	// stable
 	// wenn alle All In
-	if(mySession->getCurrentGame()->getCurrentHand()->getAllInCondition()) { dealTurnCards2Timer->start(AllInDealCardsSpeed);
+	if(myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getAllInCondition()) { dealTurnCards2Timer->start(AllInDealCardsSpeed);
 	}
 	// sonst normale Variante
 	else { 
@@ -1315,7 +1313,7 @@ void gameTableImpl::dealRiverCards1() {
 void gameTableImpl::dealRiverCards2() {
 
 	int tempBoardCardsArray[5];
-	mySession->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
+	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
 	QPixmap card = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempBoardCardsArray[4], 10)+".png"));
 
 	//Config? mit oder ohne Eye-Candy?
@@ -1330,7 +1328,7 @@ void gameTableImpl::dealRiverCards2() {
 
 	// stable
 	// wenn alle All In
-	if(mySession->getCurrentGame()->getCurrentHand()->getAllInCondition()) { dealRiverCards2Timer->start(AllInDealCardsSpeed);	}
+	if(myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getAllInCondition()) { dealRiverCards2Timer->start(AllInDealCardsSpeed);	}
 	// sonst normale Variante
 	else {		
 		updateMyButtonsState(0);  //mode 0 == called from dealberocards
@@ -1347,7 +1345,7 @@ void gameTableImpl::provideMyActions(int mode) {
 	QString lastPushButtonCallCheckString = pushButton_CallCheck->text();
 	
 	
-	Game *currentGame = mySession->getCurrentGame();
+	Game *currentGame = myStartWindow->getSession()->getCurrentGame();
 	HandInterface *currentHand = currentGame->getCurrentHand();
 
 // 	cout << "provideMyActions get myAction" << currentHand->getSeatsList()->front()->getMyAction() << endl;
@@ -1476,12 +1474,12 @@ void gameTableImpl::provideMyActions(int mode) {
 			resetMyButtonsCheckStateMemory();
 		}
 
-		if((mySession->getGameType() == Session::GAME_TYPE_INTERNET || mySession->getGameType() == Session::GAME_TYPE_NETWORK) && !lineEdit_ChatInput->hasFocus() && myConfig->readConfigInt("EnableBetInputFocusSwitch")) { 
+		if((myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) && !lineEdit_ChatInput->hasFocus() && myConfig->readConfigInt("EnableBetInputFocusSwitch")) { 
 			lineEdit_betValue->setFocus();
 			lineEdit_betValue->selectAll();
 		}
 
-		if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) { 
+		if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) { 
 			lineEdit_betValue->setFocus();
 			lineEdit_betValue->selectAll();
 		}
@@ -1496,7 +1494,7 @@ void gameTableImpl::meInAction() {
 	horizontalSlider_bet->setEnabled(TRUE);
 	lineEdit_betValue->setEnabled(TRUE);
 
-	if((mySession->getGameType() == Session::GAME_TYPE_INTERNET || mySession->getGameType() == Session::GAME_TYPE_NETWORK) && lineEdit_ChatInput->text() == "" && myConfig->readConfigInt("EnableBetInputFocusSwitch")) { 
+	if((myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) && lineEdit_ChatInput->text() == "" && myConfig->readConfigInt("EnableBetInputFocusSwitch")) { 
 		lineEdit_betValue->setFocus();
 		lineEdit_betValue->selectAll();
 	}
@@ -1549,7 +1547,7 @@ void gameTableImpl::meInAction() {
 }
 
 void gameTableImpl::startTimeoutAnimation(int playerId, int timeoutSec) {
-	assert(playerId >= 0 && playerId < mySession->getCurrentGame()->getStartQuantityPlayers());
+	assert(playerId >= 0 && playerId < myStartWindow->getSession()->getCurrentGame()->getStartQuantityPlayers());
 	
 	//beep for player 0
 	if(playerId) { setLabelArray[playerId]->startTimeOutAnimation(timeoutSec, FALSE); }
@@ -1557,13 +1555,13 @@ void gameTableImpl::startTimeoutAnimation(int playerId, int timeoutSec) {
 }
 
 void gameTableImpl::stopTimeoutAnimation(int playerId) {
-	assert(playerId >= 0 && playerId < mySession->getCurrentGame()->getStartQuantityPlayers());
+	assert(playerId >= 0 && playerId < myStartWindow->getSession()->getCurrentGame()->getStartQuantityPlayers());
 	setLabelArray[playerId]->stopTimeOutAnimation();
 }
 
 void gameTableImpl::disableMyButtons() {
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	clearMyButtons();
 
@@ -1593,7 +1591,7 @@ void gameTableImpl::myFold(){
 
 	if(pushButton_Fold->text() == "Fold") {
 
-		HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+		HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 		currentHand->getSeatsList()->front()->setMyAction(1);
 		currentHand->getSeatsList()->front()->setMyTurn(0);
 	
@@ -1608,7 +1606,7 @@ void gameTableImpl::myFold(){
 }
 
 void gameTableImpl::myCheck() {
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 	
 	currentHand->getSeatsList()->front()->setMyTurn(0);
 	currentHand->getSeatsList()->front()->setMyAction(2);
@@ -1624,7 +1622,7 @@ void gameTableImpl::myCheck() {
 
 int gameTableImpl::getMyCallAmount() {
         int tempHighestSet = 0;
-        HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+        HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
         tempHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 
@@ -1650,7 +1648,7 @@ int gameTableImpl::getBetRaisePushButtonValue() {
 
 int gameTableImpl::getMyBetAmount() {
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 	
 	int betValue = getBetRaisePushButtonValue();
 	int minimum;
@@ -1668,7 +1666,7 @@ int gameTableImpl::getMyBetAmount() {
 void gameTableImpl::myCall(){
 
 	int tempHighestSet = 0;
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 	
 	tempHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 
@@ -1700,7 +1698,7 @@ void gameTableImpl::mySet(){
 	
 	if(pushButton_BetRaise->text() != "") {
 
-		HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+		HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 		int tempCash = currentHand->getSeatsList()->front()->getMyCash();
 	
 // 		cout << "Set-Value " << getBetRaisePushButtonValue() << endl; 
@@ -1752,7 +1750,7 @@ void gameTableImpl::mySet(){
 
 void gameTableImpl::myAllIn(){
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
 	currentHand->getSeatsList()->front()->setMyCash(0);
@@ -1892,12 +1890,12 @@ void gameTableImpl::myActionDone() {
 
 	// If a network client is running, we need
 	// to transfer the action to the server.
-	mySession->sendClientPlayerAction();
+	myStartWindow->getSession()->sendClientPlayerAction();
 
 	// TODO: Should not call in networking game.
 	disableMyButtons();
 
-	if (!mySession->isNetworkClientRunning())
+	if (!myStartWindow->getSession()->isNetworkClientRunning())
 		nextPlayerAnimation();
 
 	//prevent escape button working while allIn
@@ -1907,7 +1905,7 @@ void gameTableImpl::myActionDone() {
 
 void gameTableImpl::nextPlayerAnimation() {
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	//refresh Change Player
 	refreshSet();
@@ -1946,32 +1944,32 @@ void gameTableImpl::beRoAnimation2(int myBeRoID) {
 
 
 void gameTableImpl::preflopAnimation1() { preflopAnimation1Timer->start(nextPlayerSpeed2); }
-void gameTableImpl::preflopAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
+void gameTableImpl::preflopAnimation1Action() { myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
 
 void gameTableImpl::preflopAnimation2() { preflopAnimation2Timer->start(preflopNextPlayerSpeed); }
-void gameTableImpl::preflopAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->nextPlayer(); }
+void gameTableImpl::preflopAnimation2Action() { myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->nextPlayer(); }
 
 
 void gameTableImpl::flopAnimation1() { flopAnimation1Timer->start(nextPlayerSpeed2); }
-void gameTableImpl::flopAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
+void gameTableImpl::flopAnimation1Action() { myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
 
 void gameTableImpl::flopAnimation2() { flopAnimation2Timer->start(nextPlayerSpeed3); }
-void gameTableImpl::flopAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->nextPlayer(); }
+void gameTableImpl::flopAnimation2Action() { myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->nextPlayer(); }
 
 void gameTableImpl::turnAnimation1() { turnAnimation1Timer->start(nextPlayerSpeed2); }
-void gameTableImpl::turnAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
+void gameTableImpl::turnAnimation1Action() { myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
 
 void gameTableImpl::turnAnimation2() { turnAnimation2Timer->start(nextPlayerSpeed3); }
-void gameTableImpl::turnAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->nextPlayer(); }
+void gameTableImpl::turnAnimation2Action() { myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->nextPlayer(); }
 
 void gameTableImpl::riverAnimation1() { riverAnimation1Timer->start(nextPlayerSpeed2); }
-void gameTableImpl::riverAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
+void gameTableImpl::riverAnimation1Action() { myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->run(); }
 
 void gameTableImpl::riverAnimation2() { riverAnimation2Timer->start(nextPlayerSpeed3); }
-void gameTableImpl::riverAnimation2Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->nextPlayer(); }
+void gameTableImpl::riverAnimation2Action() { myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->nextPlayer(); }
 
 void gameTableImpl::postRiverAnimation1() { postRiverAnimation1Timer->start(nextPlayerSpeed2); }
-void gameTableImpl::postRiverAnimation1Action() { mySession->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->postRiverRun(); }
+void gameTableImpl::postRiverAnimation1Action() { myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->postRiverRun(); }
 
 void gameTableImpl::postRiverRunAnimation1() {	postRiverRunAnimation1Timer->start(postRiverRunAnimationSpeed); }
 
@@ -1986,7 +1984,7 @@ void gameTableImpl::postRiverRunAnimation2() {
 	horizontalSlider_bet->setDisabled(TRUE);
 	lineEdit_betValue->setDisabled(TRUE);
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	int nonfoldPlayersCounter = 0;
 	PlayerListConstIterator it_c;
@@ -2076,7 +2074,7 @@ void gameTableImpl::postRiverRunAnimation2() {
 // TODO
 void gameTableImpl::postRiverRunAnimation2_flipHoleCards1() {
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	currentHand->getCurrentBeRo()->setPlayersTurn(currentHand->getCurrentBeRo()->getLastActionPlayer());
 
@@ -2097,7 +2095,7 @@ void gameTableImpl::postRiverRunAnimation2_flipHoleCards2() {
 
 void gameTableImpl::postRiverRunAnimation3() {
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 	//Alle Winner erhellen und "Winner" schreiben
 
 	int nonfoldPlayerCounter = 0;
@@ -2230,7 +2228,7 @@ void gameTableImpl::postRiverRunAnimation4() {
 
 void gameTableImpl::postRiverRunAnimation5() {
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	PlayerListConstIterator it_c;
 
@@ -2269,14 +2267,14 @@ void gameTableImpl::postRiverRunAnimation5() {
 void gameTableImpl::postRiverRunAnimation6() {
 
 // 	int i;
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	refreshCash();
 	refreshPot();
 
 	// TODO HACK
 	// Check for network client, do not start new hand if client is running.
-	if (mySession->isNetworkClientRunning())
+	if (myStartWindow->getSession()->isNetworkClientRunning())
 		return;
 
 	// wenn nur noch ein Spieler aktive "neues Spiel"-Dialog anzeigen
@@ -2293,13 +2291,13 @@ void gameTableImpl::postRiverRunAnimation6() {
 		for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) { 
 	
 			if ((*it_c)->getMyCash() > 0) {
-				currentHand->getGuiInterface()->logPlayerWinGame((*it_c)->getMyName(),  mySession->getCurrentGame()->getMyGameID());
+				currentHand->getGuiInterface()->logPlayerWinGame((*it_c)->getMyName(),  myStartWindow->getSession()->getCurrentGame()->getMyGameID());
 			}
 		}
 
 		if( !DEBUG_MODE ) {
 
-			if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) {
+			if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
 				currentGameOver = TRUE;
 				pushButton_break->setDisabled(FALSE);
 				QFontMetrics tempMetrics = this->fontMetrics();
@@ -2321,7 +2319,7 @@ void gameTableImpl::postRiverRunAnimation6() {
 
 void gameTableImpl::flipHolecardsAllIn() {
 
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	if(!flipHolecardsAllInAlreadyDone) {
 		//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
@@ -2393,7 +2391,7 @@ void gameTableImpl::showMyCards() {
 
 	//TempArrays
 	int tempCardsIntArray[2];
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	currentHand->getSeatsList()->front()->getMyCards(tempCardsIntArray);	
 	if( currentHand->getSeatsList()->front()->getMyCardsFlip() == 0 &&  currentHand->getCurrentRound() == 4 && currentHand->getSeatsList()->front()->getMyActiveStatus() && currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD) { 
@@ -2407,12 +2405,12 @@ void gameTableImpl::showMyCards() {
 void gameTableImpl::startNewHand() {
 
 	if( !breakAfterCurrentHand){
-		mySession->getCurrentGame()->initHand();
-		mySession->getCurrentGame()->startHand();
+		myStartWindow->getSession()->getCurrentGame()->initHand();
+		myStartWindow->getSession()->getCurrentGame()->startHand();
 	}
 	else { 
 
-		if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) {
+		if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
 			pushButton_break->setDisabled(FALSE);
 			
 			QFontMetrics tempMetrics = this->fontMetrics();
@@ -2427,7 +2425,7 @@ void gameTableImpl::startNewHand() {
 	}
 }
 
-void gameTableImpl::handSwitchRounds() { mySession->getCurrentGame()->getCurrentHand()->switchRounds(); 
+void gameTableImpl::handSwitchRounds() { myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->switchRounds(); 
 }
 
 void gameTableImpl::nextRoundCleanGui() {
@@ -2448,7 +2446,7 @@ void gameTableImpl::nextRoundCleanGui() {
 	}
 
 	// for startNewGame during human player is active
-	if(mySession->getCurrentGame()->getCurrentHand()->getSeatsList()->front()->getMyActiveStatus() == 1) {
+	if(myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getSeatsList()->front()->getMyActiveStatus() == 1) {
 		disableMyButtons();
 	}
 
@@ -2459,7 +2457,7 @@ void gameTableImpl::nextRoundCleanGui() {
 	flipHolecardsAllInAlreadyDone = FALSE;
 
 	//Wenn Pause zwischen den Hands in der Konfiguration steht den Stop Button drücken!
-	if (myConfig->readConfigInt("PauseBetweenHands") && blinkingStartButtonAnimationTimer->isActive() == FALSE && mySession->getGameType() == Session::GAME_TYPE_LOCAL) { 
+	if (myConfig->readConfigInt("PauseBetweenHands") && blinkingStartButtonAnimationTimer->isActive() == FALSE && myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) { 
 		pushButton_break->click(); 
 	}
 	else { 
@@ -2469,7 +2467,7 @@ void gameTableImpl::nextRoundCleanGui() {
 	}
 	
 	//Clean breakbutton
-	if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) {
+	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
 		blinkingStartButtonAnimationTimer->stop();
 		pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: #99D500;}");
 		blinkingStartButtonAnimationTimer->stop();
@@ -2620,7 +2618,7 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
  	if (event->key() == Qt::Key_F6) { radioButton_autoCheckFold->click(); }
   	if (event->key() == Qt::Key_F7) { radioButton_autoCheckCallAny->click(); }
 	if (event->key() == 16777249) {  //CTRL
-		if(mySession->getGameType() == Session::GAME_TYPE_LOCAL) {
+		if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
 			pushButton_break->click(); 
 			ctrlPressed = TRUE;
 		}
@@ -2817,14 +2815,14 @@ void gameTableImpl::networkGameModification() {
 	tabWidget_Left->setCurrentIndex(1);
 	myChat->clearNewGame();
 
-	if(mySession->getGameType() == Session::GAME_TYPE_INTERNET) {
+	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET) {
 		pushButton_break->show();
 		QFontMetrics tempMetrics = this->fontMetrics();
 		int width = tempMetrics.width(tr("Lobby"));
 		pushButton_break->setText(tr("Lobby"));
 		pushButton_break->setMinimumSize(width+10,20);
 	}
-	if(mySession->getGameType() == Session::GAME_TYPE_NETWORK) {
+	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) {
 
 		pushButton_break->hide();
 	}
@@ -2837,8 +2835,8 @@ void gameTableImpl::networkGameModification() {
 
 void gameTableImpl::mouseOverFlipCards(bool front) {
 
-	if(mySession->getCurrentGame()) {
-		if(myConfig->readConfigInt("AntiPeekMode") && mySession->getCurrentGame()->getCurrentHand()->getSeatsList()->front()->getMyActiveStatus() && mySession->getCurrentGame()->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD) {
+	if(myStartWindow->getSession()->getCurrentGame()) {
+		if(myConfig->readConfigInt("AntiPeekMode") && myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getSeatsList()->front()->getMyActiveStatus() && myStartWindow->getSession()->getCurrentGame()->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD) {
 			holeCardsArray[0][0]->signalFastFlipCards(front);
 			holeCardsArray[0][1]->signalFastFlipCards(front);
 		}
@@ -2847,14 +2845,14 @@ void gameTableImpl::mouseOverFlipCards(bool front) {
 
 void gameTableImpl::updateMyButtonsState(int mode) {
 	
-	HandInterface *currentHand = mySession->getCurrentGame()->getCurrentHand();
+	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	if(currentHand->getLastPlayersTurn() == 0) {
 		myButtonsCheckable(FALSE);
 		clearMyButtons();
 	}
 	else {	
-		if(mySession->getCurrentGame()->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_ALLIN) { // dont show pre-actions after flip cards when allin
+		if(myStartWindow->getSession()->getCurrentGame()->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_ALLIN) { // dont show pre-actions after flip cards when allin
 			myButtonsCheckable(TRUE);
 			provideMyActions(mode);
 		}
@@ -2937,21 +2935,21 @@ void gameTableImpl::showMaximized () {
 
 void gameTableImpl::closeGameTable() {
 
-	if (myServerGuiInterface.get() && myServerGuiInterface->getSession().isNetworkServerRunning()) {
+	if (myServerGuiInterface.get() && myServerGuiInterface->getSession()->isNetworkServerRunning()) {
 
 		QMessageBox msgBox(QMessageBox::Warning, tr("Closing PokerTH during network game"),
 	                   	tr("You are the hosting server. Do you want to close PokerTH anyway?"), QMessageBox::Yes | QMessageBox::No, this);
 
 		if (msgBox.exec() == QMessageBox::Yes ) {
-			mySession->terminateNetworkClient();
+			myStartWindow->getSession()->terminateNetworkClient();
 			stopTimer();
-			if (myServerGuiInterface.get()) myServerGuiInterface->getSession().terminateNetworkServer();
+			if (myServerGuiInterface.get()) myServerGuiInterface->getSession()->terminateNetworkServer();
 			myStartWindow->show();
 			this->hide();
 		}
 	}
 	else {
-		mySession->terminateNetworkClient();
+		myStartWindow->getSession()->terminateNetworkClient();
 		stopTimer();
 		myStartWindow->show();
 		this->hide();
@@ -3014,12 +3012,12 @@ void gameTableImpl::lineEditBetValueChanged(QString valueString) {
 
 void gameTableImpl::leaveCurrentNetworkGame() {
 
-	if (mySession->isNetworkClientRunning()) {
+	if (myStartWindow->getSession()->isNetworkClientRunning()) {
 
 		if(myConfig->readConfigInt("DisableBackToLobbyWarning")) {
 
-			assert(mySession);
-			mySession->sendLeaveCurrentGame();
+			assert(myStartWindow->getSession());
+			myStartWindow->getSession()->sendLeaveCurrentGame();
 		}
 		else {
 			myMessageDialogImpl dialog(this);
@@ -3033,8 +3031,8 @@ void gameTableImpl::leaveCurrentNetworkGame() {
 					myConfig->writeConfigInt("DisableBackToLobbyWarning",1);
 					myConfig->writeBuffer();
 				}
-				assert(mySession);
-				mySession->sendLeaveCurrentGame();
+				assert(myStartWindow->getSession());
+				myStartWindow->getSession()->sendLeaveCurrentGame();
 			}
 		}
 	}
@@ -3043,6 +3041,6 @@ void gameTableImpl::leaveCurrentNetworkGame() {
 void gameTableImpl::voteForKick(int id) { 
 
 	qDebug() << "vote for kick user: " << id;
-// 	mySession->sendVoteKickSignal(id);
+// 	myStartWindow->getSession()->sendVoteKickSignal(id);
 }
 

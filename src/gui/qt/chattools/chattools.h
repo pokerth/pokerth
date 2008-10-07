@@ -23,6 +23,7 @@
 #include <string>
 #include <QtCore>
 #include <QtGui>
+#include <boost/shared_ptr.hpp>
 
 class Session;
 class ConfigFile;
@@ -36,7 +37,7 @@ public:
 
 	~ChatTools();
 
-       	void setSession(Session *session) { mySession = session; }
+        void setSession(boost::shared_ptr<Session> session) { mySession = session; }
 
 public slots:
 	
@@ -67,7 +68,7 @@ private:
 	QTreeWidget *myNickTreeWidget;
 	QStringList myNickStringList;
 	QTextBrowser *myTextBrowser;
-	Session *mySession; 
+	boost::shared_ptr<Session> mySession;
 	int myNotifyMode; // 0 == no notification, 1 == bold notification, 2 == yellow notification	
 	ConfigFile *myConfig;
 	

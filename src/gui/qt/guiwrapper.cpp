@@ -46,9 +46,9 @@ GuiWrapper::~GuiWrapper()
 
 void GuiWrapper::initGui(int speed) { myW->signalInitGui(speed); }
 
-Session &GuiWrapper::getSession() { return myW->getSession(); }
+boost::shared_ptr<Session> GuiWrapper::getSession() { return myStartWindow->getSession(); }
 void GuiWrapper::setSession(boost::shared_ptr<Session> session) { 
-	myW->setSession(session); 
+
 	myStartWindow->setSession(session); 
 }
 
