@@ -58,7 +58,6 @@ public:
 	~gameTableImpl();
 
 	boost::shared_ptr<Session> getSession();
-// 	void setSession(boost::shared_ptr<Session> session);
 	void setStartWindow(startWindowImpl* s) { myStartWindow = s; }
 
 	void setLog(Log* l) { myLog = l; }
@@ -281,7 +280,6 @@ public slots:
 private: 
 
 	boost::shared_ptr<GuiInterface> myServerGuiInterface;
-	boost::shared_ptr<Session> mySession;
 	Log *myLog;
 	Chat *myChat;
 	ConfigFile *myConfig;

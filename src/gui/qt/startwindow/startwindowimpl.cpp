@@ -56,9 +56,9 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 
 	myGuiInterface.reset(new GuiWrapper(myConfig, this));
 	{
-		boost::shared_ptr<Session> session(new Session(myGuiInterface.get(), myConfig));
-		session->init(); // TODO handle error
-		myGuiInterface->setSession(session);
+		mySession.reset(new Session(myGuiInterface.get(), myConfig));
+		mySession->init(); // TODO handle error
+// 		myGuiInterface->setSession(session);
 	}
 
 
