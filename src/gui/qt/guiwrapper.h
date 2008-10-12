@@ -96,7 +96,7 @@ public:
 	void startTimeoutAnimation(int playerId, int timeoutSec);
 	void stopTimeoutAnimation(int playerId);
 
-	void startVoteOnKick();
+	void startVoteOnKick(int playerId, int timeoutSec);
 	void endVoteOnKick();
 
 	void logPlayerActionMsg(std::string playerName, int action, int setValue) ;

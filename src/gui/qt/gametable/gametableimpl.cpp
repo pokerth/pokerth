@@ -578,7 +578,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalPostRiverRunAnimation1()), this, SLOT(postRiverRunAnimation1()));
 	connect(this, SIGNAL(signalFlipHolecardsAllIn()), this, SLOT(flipHolecardsAllIn()));
 	connect(this, SIGNAL(signalNextRoundCleanGui()), this, SLOT(nextRoundCleanGui()));
-	connect(this, SIGNAL(signalStartVoteOnKick()), this, SLOT(startVoteOnKick()));
+	connect(this, SIGNAL(signalStartVoteOnKick(int, int)), this, SLOT(startVoteOnKick(int, int)));
 	connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
 
 }
@@ -3059,12 +3059,17 @@ void gameTableImpl::triggerVoteOnKick(int id) {
 // 	myStartWindow->getSession()->sendVoteKickSignal(id);
 }
 
-void gameTableImpl::startVoteOnKick()
+void gameTableImpl::startVoteOnKick(int playerId, int timeoutSec)
 {
 	if(tabWidget_Left->widget(2) != tab_Kick) 
 		tabWidget_Left->insertTab(2, tab_Chat, QString(tr("Kick")));
 	
 	tabWidget_Left->setCurrentIndex(2);
+
+	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerId));
+	label_kickUser->setText(tr("Do you want to kick %1 \nfrom this game?").arg(QString::fromUtf8(info.playerName.c_str())));
+
+// 	TODO timeout timer
 }
 
 void gameTableImpl::endVoteOnKick()
