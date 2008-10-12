@@ -537,6 +537,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect( radioButton_autoCheckFold, SIGNAL( clicked() ) , this, SLOT( changePlayingMode() ) );
 	connect( radioButton_autoCheckCallAny, SIGNAL( clicked() ), this, SLOT( changePlayingMode() ) );
 
+	connect( pushButton_voteOnKickYes, SIGNAL( clicked() ), this, SLOT( voteOnKickYes() ) );
+	connect( pushButton_voteOnKickNo, SIGNAL( clicked() ), this, SLOT( voteOnKickNo() ) );
+
 	//Nachrichten Thread-Save
 	connect(this, SIGNAL(signalInitGui(int)), this, SLOT(initGui(int)));
 	connect(this, SIGNAL(signalRefreshSet()), this, SLOT(refreshSet()));
@@ -575,6 +578,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalPostRiverRunAnimation1()), this, SLOT(postRiverRunAnimation1()));
 	connect(this, SIGNAL(signalFlipHolecardsAllIn()), this, SLOT(flipHolecardsAllIn()));
 	connect(this, SIGNAL(signalNextRoundCleanGui()), this, SLOT(nextRoundCleanGui()));
+	connect(this, SIGNAL(signalStartVoteOnKick()), this, SLOT(startVoteOnKick()));
+	connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
 
 }
 
@@ -3052,5 +3057,29 @@ void gameTableImpl::triggerVoteOnKick(int id) {
 
 	qDebug() << "vote for kick user: " << id;
 // 	myStartWindow->getSession()->sendVoteKickSignal(id);
+}
+
+void gameTableImpl::startVoteOnKick()
+{
+	if(tabWidget_Left->widget(2) != tab_Kick) 
+		tabWidget_Left->insertTab(2, tab_Chat, QString(tr("Kick")));
+	
+	tabWidget_Left->setCurrentIndex(2);
+}
+
+void gameTableImpl::endVoteOnKick()
+{
+	if(tabWidget_Left->widget(2) == tab_Kick) 
+		tabWidget_Left->removeTab(2);
+
+	tabWidget_Left->setCurrentIndex(1);
+}
+
+void gameTableImpl::voteOnKickYes()
+{
+}
+
+void gameTableImpl::voteOnKickNo()
+{
 }
 

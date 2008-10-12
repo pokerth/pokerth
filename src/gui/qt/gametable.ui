@@ -1832,14 +1832,14 @@ from this game?</string>
                <item row="3" column="0" colspan="2" >
                 <layout class="QHBoxLayout" name="horizontalLayout" >
                  <item>
-                  <widget class="QPushButton" name="pushButton" >
+                  <widget class="QPushButton" name="pushButton_voteOnKickYes" >
                    <property name="text" >
                     <string>Yes</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton_2" >
+                  <widget class="QPushButton" name="pushButton_voteOnKickNo" >
                    <property name="text" >
                     <string>No</string>
                    </property>
@@ -2947,7 +2947,7 @@ from this game?</string>
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>28</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView" >

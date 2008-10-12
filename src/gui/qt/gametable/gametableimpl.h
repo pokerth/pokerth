@@ -118,6 +118,9 @@ signals:
 	void signalFlipHolecardsAllIn();
 
 	void signalNextRoundCleanGui();
+	
+	void signalStartVoteOnKick();
+	void signalEndVoteOnKick();
 
 public slots:
 
@@ -276,6 +279,10 @@ public slots:
 	void showMaximized ();
 	void closeGameTable();
 
+	void startVoteOnKick();
+	void endVoteOnKick();
+	void voteOnKickYes();
+	void voteOnKickNo();
 
 private: 
 
