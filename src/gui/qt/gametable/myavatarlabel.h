@@ -33,7 +33,8 @@ public:
 public slots:
 	
 	void showContextMenu(const QPoint &pos);
-	void sendVoteForKickSignal();	
+	void sendTriggerVoteOnKickSignal();	
+	void setEnabledContextMenu(bool);
 
 private: 
 
@@ -42,6 +43,7 @@ private:
 	QAction *action_VoteForKick;
 
 	int myId;
+	bool myContextMenuEnabled;
 };
 
 #endif

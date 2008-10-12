@@ -2788,10 +2788,13 @@ void gameTableImpl::localGameModification() {
 	
 	tabWidget_Left->setCurrentIndex(0);
 	tabWidget_Left->removeTab(1);
+	if(tabWidget_Left->widget(2) == tab_Kick) 
+		tabWidget_Left->removeTab(2);
 
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
 		setLabelArray[i]->stopTimeOutAnimation();
+		playerAvatarLabelArray[i]->setEnabledContextMenu(FALSE);
 	}
 
 	pushButton_break->show();
@@ -2811,9 +2814,16 @@ void gameTableImpl::networkGameModification() {
 	
 	if(tabWidget_Left->widget(1) != tab_Chat) 
 		tabWidget_Left->insertTab(1, tab_Chat, QString(tr("Chat")));
+	if(tabWidget_Left->widget(2) == tab_Kick) 
+		tabWidget_Left->removeTab(2);
 	
 	tabWidget_Left->setCurrentIndex(1);
 	myChat->clearNewGame();
+	
+	int i;
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
+		playerAvatarLabelArray[i]->setEnabledContextMenu(TRUE);
+	}
 
 	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET) {
 		pushButton_break->show();
@@ -3038,7 +3048,7 @@ void gameTableImpl::leaveCurrentNetworkGame() {
 	}
 }
 
-void gameTableImpl::voteForKick(int id) { 
+void gameTableImpl::triggerVoteOnKick(int id) { 
 
 	qDebug() << "vote for kick user: " << id;
 // 	myStartWindow->getSession()->sendVoteKickSignal(id);
