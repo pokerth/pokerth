@@ -68,6 +68,3 @@ void MyLeftTabWidget::paintEvent(QPaintEvent * event) {
 	QTabWidget::paintEvent(event);
 	
 }
-
-
-

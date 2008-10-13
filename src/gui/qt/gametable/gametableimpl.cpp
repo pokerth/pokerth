@@ -155,6 +155,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	postRiverRunAnimation6Timer = new QTimer(this);
 
 	blinkingStartButtonAnimationTimer = new QTimer(this);
+	voteOnKickTimeoutTimer = new QTimer(this);
 
 	dealFlopCards0Timer->setSingleShot(TRUE);
 	dealFlopCards1Timer->setSingleShot(TRUE);
@@ -391,6 +392,12 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	pushButton_break->setStyleSheet("QPushButton:enabled { background-color: #145300; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
 	label_speedString->setStyleSheet("QLabel { color: #99D500;}");
 	label_speedValue->setStyleSheet("QLabel { color: #99D500;}");	
+	
+	pushButton_voteOnKickYes->setStyleSheet("QPushButton:enabled { background-color: #1C7000; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
+	pushButton_voteOnKickNo->setStyleSheet("QPushButton:enabled { background-color: #1C7000; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
+	label_timeout->setStyleSheet("QLabel { color: #99D500;}");
+	label_kickVoteTimeout->setStyleSheet("QLabel { color: #99D500;}");
+	label_kickUser->setStyleSheet("QLabel { color: #99D500;}");	
 
 	statusbar->setStyleSheet(" QStatusBar { "+ font1String +" font-size: 12px; color: #B7FF00; }");
 
@@ -508,6 +515,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(postRiverRunAnimation6Timer, SIGNAL(timeout()), this, SLOT( startNewHand() ));
 
 	connect(blinkingStartButtonAnimationTimer, SIGNAL(timeout()), this, SLOT( blinkingStartButtonAnimationAction()));
+	connect(voteOnKickTimeoutTimer, SIGNAL(timeout()), this, SLOT(nextVoteOnKickTimeoutAnimationFrame()));
 
 	connect( actionConfigure_PokerTH, SIGNAL( triggered() ), this, SLOT( callSettingsDialog() ) );
 	connect( actionClose, SIGNAL( triggered() ), this, SLOT( closeGameTable()) );
@@ -2678,6 +2686,14 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 		myChat->nickAutoCompletition();
 		return true;
 	}
+	else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_M) { //TESTING UNIT
+		startVoteOnKick(3,60);
+		return true;
+	}
+	else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_N) { //TESTING UNIT
+		stopVoteOnKickTimeout();
+		return true;
+	}
 	else if (event->type() == QEvent::Close) {
 		event->ignore();
 		closeGameTable();
@@ -2793,8 +2809,7 @@ void gameTableImpl::localGameModification() {
 	
 	tabWidget_Left->setCurrentIndex(0);
 	tabWidget_Left->removeTab(1);
-	if(tabWidget_Left->widget(2) == tab_Kick) 
-		tabWidget_Left->removeTab(2);
+	tabWidget_Left->removeTab(1);
 
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
@@ -2818,9 +2833,9 @@ void gameTableImpl::localGameModification() {
 void gameTableImpl::networkGameModification() {
 	
 	if(tabWidget_Left->widget(1) != tab_Chat) 
-		tabWidget_Left->insertTab(1, tab_Chat, QString(tr("Chat")));
-	if(tabWidget_Left->widget(2) == tab_Kick) 
-		tabWidget_Left->removeTab(2);
+		tabWidget_Left->insertTab(1, tab_Chat, QString(tr(" Chat "))); /*TODO text abgeschnitten --> stylesheets*/
+	
+	tabWidget_Left->removeTab(2);
 	
 	tabWidget_Left->setCurrentIndex(1);
 	myChat->clearNewGame();
@@ -3062,20 +3077,21 @@ void gameTableImpl::triggerVoteOnKick(int id) {
 void gameTableImpl::startVoteOnKick(int playerId, int timeoutSec)
 {
 	if(tabWidget_Left->widget(2) != tab_Kick) 
-		tabWidget_Left->insertTab(2, tab_Chat, QString(tr("Kick")));
+		tabWidget_Left->insertTab(2, tab_Kick, QString(tr("Kick")));
 	
 	tabWidget_Left->setCurrentIndex(2);
 
 	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerId));
 	label_kickUser->setText(tr("Do you want to kick %1 \nfrom this game?").arg(QString::fromUtf8(info.playerName.c_str())));
 
-// 	TODO timeout timer
+	voteOnKickTimeoutSecs = timeoutSec;
+	startVoteOnKickTimeout();
 }
 
 void gameTableImpl::endVoteOnKick()
 {
-	if(tabWidget_Left->widget(2) == tab_Kick) 
-		tabWidget_Left->removeTab(2);
+	stopVoteOnKickTimeout();
+	tabWidget_Left->removeTab(2);
 
 	tabWidget_Left->setCurrentIndex(1);
 }
@@ -3086,5 +3102,24 @@ void gameTableImpl::voteOnKickYes()
 
 void gameTableImpl::voteOnKickNo()
 {
+}
+
+void gameTableImpl::startVoteOnKickTimeout()
+{
+	voteOnKickRealTimer.reset();
+	voteOnKickRealTimer.start();
+	voteOnKickTimeoutTimer->start(1000);
+}
+
+void gameTableImpl::stopVoteOnKickTimeout()
+{
+	voteOnKickRealTimer.reset();
+	voteOnKickTimeoutTimer->stop();
+}
+
+void gameTableImpl::nextVoteOnKickTimeoutAnimationFrame()
+{
+	qDebug() << voteOnKickTimeoutSecs-voteOnKickRealTimer.elapsed().total_seconds();
+	label_kickVoteTimeout->setText(tr("%1 secs left").arg(voteOnKickTimeoutSecs-voteOnKickRealTimer.elapsed().total_seconds()));
 }
 
