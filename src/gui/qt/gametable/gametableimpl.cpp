@@ -27,6 +27,7 @@
 #include "mycardspixmaplabel.h"
 #include "mysetlabel.h"
 #include "myavatarlabel.h"
+#include "mychancelabel.h"
 #include "log.h"
 #include "chat.h"
 
@@ -398,6 +399,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	label_timeout->setStyleSheet("QLabel { color: #99D500;}");
 	label_kickVoteTimeout->setStyleSheet("QLabel { color: #99D500;}");
 	label_kickUser->setStyleSheet("QLabel { color: #99D500;}");	
+	label_votesMonitor->setStyleSheet("QLabel { color: #99D500;}");	
 
 	statusbar->setStyleSheet(" QStatusBar { "+ font1String +" font-size: 12px; color: #B7FF00; }");
 
@@ -2651,7 +2653,9 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
 	}
 	else { keyUpDownChatCounter = 0; }
 	
-
+	//TESTING UNIT
+// 	if (event->key() == Qt::Key_M) { startVoteOnKick(3,60); }
+// 	if (event->key() == Qt::Key_N) { endVoteOnKick(); }
 }
 
 void gameTableImpl::changePlayingMode() {
@@ -2684,14 +2688,6 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 
 	if (/*obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && */event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) {
 		myChat->nickAutoCompletition();
-		return true;
-	}
-	else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_M) { //TESTING UNIT
-		startVoteOnKick(3,60);
-		return true;
-	}
-	else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_N) { //TESTING UNIT
-		stopVoteOnKickTimeout();
 		return true;
 	}
 	else if (event->type() == QEvent::Close) {
@@ -2833,7 +2829,7 @@ void gameTableImpl::localGameModification() {
 void gameTableImpl::networkGameModification() {
 	
 	if(tabWidget_Left->widget(1) != tab_Chat) 
-		tabWidget_Left->insertTab(1, tab_Chat, QString(tr(" Chat "))); /*TODO text abgeschnitten --> stylesheets*/
+		tabWidget_Left->insertTab(1, tab_Chat, QString(tr("Chat"))); /*TODO text abgeschnitten --> stylesheets*/
 	
 	tabWidget_Left->removeTab(2);
 	
@@ -3082,9 +3078,10 @@ void gameTableImpl::startVoteOnKick(int playerId, int timeoutSec)
 	tabWidget_Left->setCurrentIndex(2);
 
 	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerId));
-	label_kickUser->setText(tr("Do you want to kick %1 \nfrom this game?").arg(QString::fromUtf8(info.playerName.c_str())));
+	label_kickUser->setText(tr("Do you want to kick <b>%1</b> \nfrom this game?").arg(QString::fromUtf8(info.playerName.c_str())));
 
 	voteOnKickTimeoutSecs = timeoutSec;
+	playerAboutToKickId = playerId;
 	startVoteOnKickTimeout();
 }
 
@@ -3092,8 +3089,7 @@ void gameTableImpl::endVoteOnKick()
 {
 	stopVoteOnKickTimeout();
 	tabWidget_Left->removeTab(2);
-
-	tabWidget_Left->setCurrentIndex(1);
+// 	tabWidget_Left->setCurrentIndex(1);
 }
 
 void gameTableImpl::voteOnKickYes()
@@ -3119,7 +3115,12 @@ void gameTableImpl::stopVoteOnKickTimeout()
 
 void gameTableImpl::nextVoteOnKickTimeoutAnimationFrame()
 {
-	qDebug() << voteOnKickTimeoutSecs-voteOnKickRealTimer.elapsed().total_seconds();
 	label_kickVoteTimeout->setText(tr("%1 secs left").arg(voteOnKickTimeoutSecs-voteOnKickRealTimer.elapsed().total_seconds()));
+}
+
+void gameTableImpl::refreshVotesMonitor()
+{
+	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToKickId));
+	label_votesMonitor->setText(tr("Player <b>%1</b> has %2 votes against him.").arg(QString::fromUtf8(info.playerName.c_str())));
 }
 

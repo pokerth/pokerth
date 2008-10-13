@@ -286,6 +286,7 @@ public slots:
 	void startVoteOnKickTimeout();
 	void stopVoteOnKickTimeout();
 	void nextVoteOnKickTimeoutAnimationFrame();
+	void refreshVotesMonitor();
 
 private: 
 
@@ -402,7 +403,9 @@ private:
 
 	int keyUpDownChatCounter;
 	int myLastPreActionBetValue;
+	
 	int voteOnKickTimeoutSecs;
+	int playerAboutToKickId;
 // 	StyleSheetReader *myStyleSheetReader;
 
 friend class GuiWrapper;

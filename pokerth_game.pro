@@ -1,7 +1,7 @@
 # QMake pro-file for PokerTH game
 
-isEmpty( PREFIX ) {
-    PREFIX=/usr
+isEmpty( PREFIX ){
+    PREFIX =/usr
 }
 
 TEMPLATE = app
@@ -184,7 +184,8 @@ HEADERS += \
 		src/gui/qttoolsinterface.h \
 		src/gui/qt/qttools/qttoolswrapper.h \
 		src/gui/qt/qttools/qthelper/qthelper.h \
-		src/gui/generic/serverguiwrapper.h
+		src/gui/generic/serverguiwrapper.h \
+ src/gui/qt/gametable/mychancelabel.h
 
 FORMS += \
 		src/gui/qt/gametable.ui \
@@ -243,7 +244,8 @@ SOURCES += \
 		src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp \
 		src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp \
 		src/net/common/net_helper_client.cpp \
-		src/core/common/loghelper_client.cpp
+		src/core/common/loghelper_client.cpp \
+ src/gui/qt/gametable/mychancelabel.cpp
 
 TRANSLATIONS = \
 		ts/pokerth_bg.ts \
@@ -265,162 +267,160 @@ TRANSLATIONS = \
 		ts/pokerth_fi.ts \
 		ts/pokerth_START_HERE.ts
 
-win32{
-	DEFINES += CURL_STATICLIB
-	DEPENDPATH += src/net/win32/ src/core/win32
-	INCLUDEPATH += ../boost/ ../SDL/include ../SDL_mixer
-	INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include ../GnuTLS/include  ../curl/include ../zlib
-	LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../curl/lib ../zlib
+win32 {
+    DEFINES += CURL_STATICLIB
+    DEPENDPATH += src/net/win32/ src/core/win32
+    INCLUDEPATH += ../boost/ ../SDL/include ../SDL_mixer
+    INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include ../GnuTLS/include  ../curl/include ../zlib
+    LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../curl/lib ../zlib
 
-	LIBS += -lpokerth_lib
+    LIBS += -lpokerth_lib
 
-	win32-msvc2005{
-		LIBPATH += Release/lib ../SDL/VisualC/SDL/Release ../SDL/VisualC/SDLmain/Release ../SDL_mixer/VisualC/Release
-		#LIBPATH += Debug/lib ../SDL/VisualC/SDL/Debug ../SDL/VisualC/SDLmain/Debug ../SDL_mixer/VisualC/Debug
+    win32-msvc2005 {
+        LIBPATH += Release/lib ../SDL/VisualC/SDL/Release ../SDL/VisualC/SDLmain/Release ../SDL_mixer/VisualC/Release
+        #LIBPATH += Debug/lib ../SDL/VisualC/SDL/Debug ../SDL/VisualC/SDLmain/Debug ../SDL_mixer/VisualC/Debug
 
-		LIBS += -llibgnutls-openssl -llibgcrypt
-		LIBS += -llibcurl
-	}
+        LIBS += -llibgnutls-openssl -llibgcrypt
+        LIBS += -llibcurl
+    }
 
-	win32-g++{
-		#LIBPATH += Release/lib
-		LIBPATH += Debug/lib
-		LIBPATH += ../SDL/lib ../SDL_mixer/lib
-		LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error
-		LIBS += -lcurl
-		LIBS += -lz
-		LIBS += -llibboost_thread-mgw34-mt-1_36
-		LIBS += -llibboost_filesystem-mgw34-mt-1_36
-		LIBS += -llibboost_system-mgw34-mt-1_36
-		LIBS += -llibboost_iostreams-mgw34-mt-1_36
-		LIBS += -llibboost_zlib-mgw34-mt-1_36
-	}
+    win32-g++ {
+        #LIBPATH += Release/lib
+        LIBPATH += Debug/lib
+        LIBPATH += ../SDL/lib ../SDL_mixer/lib
+        LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error
+        LIBS += -lcurl
+        LIBS += -lz
+        LIBS += -llibboost_thread-mgw34-mt-1_36
+        LIBS += -llibboost_filesystem-mgw34-mt-1_36
+        LIBS += -llibboost_system-mgw34-mt-1_36
+        LIBS += -llibboost_iostreams-mgw34-mt-1_36
+        LIBS += -llibboost_zlib-mgw34-mt-1_36
+    }
 
-	LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32 -lsdl -lsdlmain -lsdl_mixer -lwldap32
-	RC_FILE = pokerth.rc
+    LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32 -lsdl -lsdlmain -lsdl_mixer -lwldap32
+    RC_FILE = pokerth.rc
 }
-!win32{
-	DEPENDPATH += src/net/linux/ src/core/linux
-}
-
-unix{
-	# workaround for problems with boost_filesystem exceptions
-	QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
+!win32 {
+    DEPENDPATH += src/net/linux/ src/core/linux
 }
 
-unix: !mac{
-
-	##### My release static build options
-	#QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
-	#QMAKE_LFLAGS += -Wl,--gc-sections
-
-	LIBPATH += lib
-
-	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64
-	BOOST_FS = boost_filesystem boost_filesystem-mt
-	BOOST_THREAD = boost_thread boost_thread-mt
-	BOOST_IOSTREAMS = boost_iostreams boost_iostreams-mt
-
-
-	for(dir, LIB_DIRS) {
-		exists($$dir) {
-			for(lib, BOOST_THREAD) {
-				exists($${dir}/lib$${lib}.so*) {
-					message("Found $$lib")
-					BOOST_THREAD = -l$$lib
-				}
-			}
-			for(lib, BOOST_FS) {
-				exists($${dir}/lib$${lib}.so*) {
-					message("Found $$lib")
-					BOOST_FS = -l$$lib
-				}
-			}
-			for(lib, BOOST_IOSTREAMS) {
-				exists($${dir}/lib$${lib}.so*) {
-					message("Found $$lib")
-					BOOST_IOSTREAMS = -l$$lib
-				}
-			}
- 		}
- 	}
-	BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_IOSTREAMS
-	!count(BOOST_LIBS, 3) {
-		error("could not locate required library: \
-		    libboost (version >= 1.34.1)  --> http://www.boost.org/")
-	}
-
-	if ($$system(sdl-config --version)) {
-		error("Could not determine if required library is installed: \
-		    libSDL_mixer, libSDL --> http://www.libsdl.org/")
-	}
-
-	UNAME = $$system(uname -s)
-	BSD = $$find(UNAME, "BSD")
-
-	LIBS += -lpokerth_lib
-	LIBS += $$BOOST_LIBS
-	LIBS += -lSDL_mixer -lcurl
-	!isEmpty( BSD ) {
-		LIBS += -lcrypto
-	} else {
-		LIBS += -lgnutls-openssl -lgcrypt
-	}
-	TARGETDEPS += ./lib/libpokerth_lib.a
-
-	##### My release static libs
-	#LIBS += -lgcrypt_static -lgpg-error_static -lgnutls-openssl_static -lgnutls_static -lSDL_mixer_static -lSDL -lmikmod -lcurl
-
-	#### INSTALL ####
-
-	binary.path += $${PREFIX}/bin/
-	binary.files += pokerth
-
-	data.path += $${PREFIX}/share/pokerth/data/
-	data.files += data/* 
-
-	pixmap.path += $${PREFIX}/share/pixmaps/
-	pixmap.files +=	pokerth.png
-	
-	desktop.path += $${PREFIX}/share/applications/
-	desktop.files += pokerth.desktop
-	
-	INSTALLS += binary data pixmap desktop
+unix {
+    # workaround for problems with boost_filesystem exceptions
+    QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
 }
 
-mac{
-	# make it universal  
-	CONFIG += x86 
-	CONFIG += ppc
-	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.3
+unix : !mac {
 
-	# for universal-compilation on PPC-Mac uncomment the following line
-	# on Intel-Mac you have to comment this line out or build will fail.
-	#	QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
+        ##### My release static build options
+        #QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
+        #QMAKE_LFLAGS += -Wl,--gc-sections
 
-	LIBPATH += lib
-	LIBS += -lpokerth_lib
-	# Qt static (path is standard for self-compiling qt)
-	#LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtCore.a
-	#LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtGui.a
-	# QT dynamic linked framework (see also mac_post_make.sh)
-	LIBS += -framework QtCore
-	LIBS += -framework QtGui
-	# SDL and SDL_mixer come as frameworks
-	LIBS += -framework SDL
-	LIBS += -framework SDL_mixer
-	# standard path for darwinports
-	# make sure you have a universal version of boost
-	LIBS += /usr/local/lib/libboost_thread-mt-1_35.a
-	LIBS += /usr/local/lib/libboost_filesystem-mt-1_35.a
-	LIBS += /usr/local/lib/libboost_system-mt-1_35.a
-	LIBS += /usr/local/lib/libboost_iostreams-mt-1_35.a
-	# libraries installed on every mac
-	LIBS += -lcrypto -lssl -lz -lcurl -framework Carbon
-	# set the application icon
-	RC_FILE = pokerth.icns
-	LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib 
-	INCLUDEPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/include/
-	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
-	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
+        LIBPATH += lib
+
+        LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64
+        BOOST_FS = boost_filesystem boost_filesystem-mt
+        BOOST_THREAD = boost_thread boost_thread-mt
+        BOOST_IOSTREAMS = boost_iostreams boost_iostreams-mt
+
+
+        for(dir, LIB_DIRS){
+            exists($$dir){
+                for(lib, BOOST_THREAD){
+                    exists($${dir}/lib$${lib}.so*){
+                        message("Found $$lib")
+                        BOOST_THREAD = -l$$lib
+                    }
+                }
+                for(lib, BOOST_FS){
+                    exists($${dir}/lib$${lib}.so*){
+                        message("Found $$lib")
+                        BOOST_FS = -l$$lib
+                    }
+                }
+                for(lib, BOOST_IOSTREAMS){
+                    exists($${dir}/lib$${lib}.so*){
+                        message("Found $$lib")
+                        BOOST_IOSTREAMS = -l$$lib
+                    }
+                }
+            }
+        }
+        BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_IOSTREAMS
+        !count(BOOST_LIBS, 3){
+            error(		    libboost (version >= 1.34.1)  --> http://www.boost.org/")
+        }
+
+        if($$system(sdl-config --version)){
+            error(		    libSDL_mixer, libSDL --> http://www.libsdl.org/")
+        }
+
+        UNAME = $$system(uname -s)
+        BSD = $$find(UNAME, "BSD")
+
+        LIBS += -lpokerth_lib
+        LIBS += $$BOOST_LIBS
+        LIBS += -lSDL_mixer -lcurl
+        !isEmpty( BSD ){
+            LIBS += -lcrypto
+        }        else {
+            LIBS += -lgnutls-openssl -lgcrypt
+        }
+        TARGETDEPS += ./lib/libpokerth_lib.a
+
+        ##### My release static libs
+        #LIBS += -lgcrypt_static -lgpg-error_static -lgnutls-openssl_static -lgnutls_static -lSDL_mixer_static -lSDL -lmikmod -lcurl
+
+        #### INSTALL ####
+
+        binary.path += $${PREFIX}/bin/
+        binary.files += pokerth
+
+        data.path += $${PREFIX}/share/pokerth/data/
+        data.files += data/* 
+
+        pixmap.path += $${PREFIX}/share/pixmaps/
+        pixmap.files +=	pokerth.png
+
+        desktop.path += $${PREFIX}/share/applications/
+        desktop.files += pokerth.desktop
+
+        INSTALLS += binary data pixmap desktop
+    }
+
+mac {
+    # make it universal  
+    CONFIG += x86 
+    CONFIG += ppc
+    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.3
+
+    # for universal-compilation on PPC-Mac uncomment the following line
+    # on Intel-Mac you have to comment this line out or build will fail.
+    #	QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
+
+    LIBPATH += lib
+    LIBS += -lpokerth_lib
+    # Qt static (path is standard for self-compiling qt)
+    #LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtCore.a
+    #LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtGui.a
+    # QT dynamic linked framework (see also mac_post_make.sh)
+    LIBS += -framework QtCore
+    LIBS += -framework QtGui
+    # SDL and SDL_mixer come as frameworks
+    LIBS += -framework SDL
+    LIBS += -framework SDL_mixer
+    # standard path for darwinports
+    # make sure you have a universal version of boost
+    LIBS += /usr/local/lib/libboost_thread-mt-1_35.a
+    LIBS += /usr/local/lib/libboost_filesystem-mt-1_35.a
+    LIBS += /usr/local/lib/libboost_system-mt-1_35.a
+    LIBS += /usr/local/lib/libboost_iostreams-mt-1_35.a
+    # libraries installed on every mac
+    LIBS += -lcrypto -lssl -lz -lcurl -framework Carbon
+    # set the application icon
+    RC_FILE = pokerth.icns
+    LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib 
+    INCLUDEPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/include/
+    INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
+    INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
 }
