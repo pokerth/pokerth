@@ -212,7 +212,14 @@
              </property>
             </widget>
            </item>
-           <item row="4" column="0" colspan="2" >
+           <item row="4" column="1" >
+            <widget class="QCheckBox" name="checkBox_cardsChanceMonitor" >
+             <property name="text" >
+              <string>Show cards chance monitor</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0" >
             <widget class="QCheckBox" name="checkBox_showBlindButtons" >
              <property name="text" >
               <string>Show buttons for small blind and big blind</string>
@@ -2764,7 +2771,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkBox_showStatusbarMessages</tabstop>
   <tabstop>checkBox_showFadeOutCardsAnimation</tabstop>
   <tabstop>checkBox_showFlipCardsAnimation</tabstop>
-  <tabstop>checkBox_showBlindButtons</tabstop>
   <tabstop>checkBox_enableBetInputFocusSwitch</tabstop>
   <tabstop>radioButton_flipsideTux</tabstop>
   <tabstop>radioButton_flipsideOwn</tabstop>

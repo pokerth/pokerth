@@ -348,11 +348,11 @@ unix : !mac {
         }
         BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_IOSTREAMS
         !count(BOOST_LIBS, 3){
-            error(		    libboost (version >= 1.34.1)  --> http://www.boost.org/")
+            error("libboost (version >= 1.34.1)  --> http://www.boost.org/")
         }
 
         if($$system(sdl-config --version)){
-            error(		    libSDL_mixer, libSDL --> http://www.libsdl.org/")
+            error("libSDL_mixer, libSDL --> http://www.libsdl.org/")
         }
 
         UNAME = $$system(uname -s)

@@ -102,10 +102,11 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 		groupBox_LeftToolBox->hide(); 
 	}
 
-	//Intro abspielen?
-// 	if (myConfig->readConfigInt("ShowIntro")) { 
-// // 		label_logo->hide();
-// 		QTimer::singleShot(100, this, SLOT( paintStartSplash() )); }
+	//CardsChanceMonitor show/hide
+	if (!myConfig->readConfigInt("ShowCardsChanceMonitor")) { 
+		tabWidget_Right->removeTab(2);
+		tabWidget_Right->setCurrentIndex(0);
+	}
 			
 	// userWidgetsArray init
 	userWidgetsArray[0] = pushButton_BetRaise;
@@ -591,7 +592,6 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalStartVoteOnKick(int, int)), this, SLOT(startVoteOnKick(int, int)));
 	connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
 
-	refreshCardsChance();
 }
 
 gameTableImpl::~gameTableImpl() {
@@ -611,6 +611,17 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 
 	if (myConfig->readConfigInt("ShowRightToolBox")) { groupBox_RightToolBox->show(); }
 	else { groupBox_RightToolBox->hide(); }
+
+	//cardschancemonitor show/hide
+	if (!myConfig->readConfigInt("ShowCardsChanceMonitor")) { 
+		tabWidget_Right->removeTab(2);
+		tabWidget_Right->setCurrentIndex(0);
+	}
+	else {
+		if(tabWidget_Right->widget(2) != tab_Chance) 
+		tabWidget_Right->insertTab(2, tab_Chance, QString(tr("Chance")));
+	}
+
 
 	//Add avatar (if set)
 	myStartWindow->getSession()->addOwnAvatar(myConfig->readConfigString("MyAvatar"));
