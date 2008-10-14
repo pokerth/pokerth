@@ -24,7 +24,7 @@
 class Tools{
 public:
 	static void getRandNumber(int, int, int, int*, bool);
-
+	static double* calcCardsChance();
 };
 
 #endif

@@ -591,6 +591,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalStartVoteOnKick(int, int)), this, SLOT(startVoteOnKick(int, int)));
 	connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
 
+	refreshCardsChance();
 }
 
 gameTableImpl::~gameTableImpl() {
@@ -3122,5 +3123,10 @@ void gameTableImpl::refreshVotesMonitor()
 {
 	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToKickId));
 	label_votesMonitor->setText(tr("Player <b>%1</b> has %2 votes against him.").arg(QString::fromUtf8(info.playerName.c_str())));
+}
+
+void gameTableImpl::refreshCardsChance()
+{
+	label_chance->refreshChance(Tools::calcCardsChance());
 }
 

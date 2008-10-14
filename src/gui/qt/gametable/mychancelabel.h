@@ -28,12 +28,22 @@ public:
     ~MyChanceLabel();
 	
 	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
-
+	void paintEvent(QPaintEvent * event);
+	void refreshChance(double*);
 	
 private: 
 
 	gameTableImpl *myW;
-	
+	double RFChance;
+	double SFChance;
+	double FOAKChance;
+	double FHChance;
+	double FLChance;
+	double STRChance;
+	double TOAKChance;
+	double TPChance;
+	double OPChance;
+	double HCChance;
 };
 
 #endif

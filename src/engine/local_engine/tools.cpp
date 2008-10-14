@@ -90,3 +90,9 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 	}
 
 }
+
+double* Tools::calcCardsChance()
+{
+	double array[10] = { 30.12, 11.11, 100.00, 0.00, 0.00, 99.22, 78.56, 34.22, 67.22, 21.00 };
+	return array;
+}

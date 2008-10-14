@@ -2571,7 +2571,7 @@
               <enum>Qt::NoFocus</enum>
              </property>
              <property name="currentIndex" >
-              <number>0</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="tab_Log" >
               <attribute name="title" >
@@ -2664,7 +2664,7 @@
                 <number>0</number>
                </property>
                <item row="0" column="0" >
-                <widget class="MyChanceLable" name="label" >
+                <widget class="MyChanceLabel" name="label_chance" >
                  <property name="text" >
                   <string/>
                  </property>
@@ -3144,9 +3144,9 @@
    <header>myavatarlabel.h</header>
   </customwidget>
   <customwidget>
-   <class>MyChanceLable</class>
+   <class>MyChanceLabel</class>
    <extends>QLabel</extends>
-   <header>mychancelable.h</header>
+   <header>mychancelabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
