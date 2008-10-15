@@ -1182,6 +1182,9 @@ void gameTableImpl::dealHoleCards() {
 
 	//fix press mouse button during bankrupt with anti-peek-mode
 	this->mouseOverFlipCards(FALSE);
+
+	//refresh CardsChanceMonitor Tool
+	refreshCardsChance(GAME_STATE_PREFLOP);
 }
 
 void gameTableImpl::dealBeRoCards(int myBeRoID) {	
@@ -1289,6 +1292,9 @@ void gameTableImpl::dealFlopCards6() {
 		updateMyButtonsState(0);  //mode 0 == called from dealberocards
 		dealFlopCards6Timer->start(postDealCardsSpeed);
 	}
+
+	//refresh CardsChanceMonitor Tool
+	refreshCardsChance(GAME_STATE_FLOP);
 }
 
 void gameTableImpl::dealTurnCards0() { dealTurnCards0Timer->start(preDealCardsSpeed); }
@@ -1323,8 +1329,9 @@ void gameTableImpl::dealTurnCards2() {
 	else { 
 		updateMyButtonsState(0);  //mode 0 == called from dealberocards
 		dealTurnCards2Timer->start(postDealCardsSpeed); 
-
 	}
+	//refresh CardsChanceMonitor Tool
+	refreshCardsChance(GAME_STATE_TURN);
 }
 
 void gameTableImpl::dealRiverCards0() { dealRiverCards0Timer->start(preDealCardsSpeed); }
@@ -1361,6 +1368,8 @@ void gameTableImpl::dealRiverCards2() {
 		updateMyButtonsState(0);  //mode 0 == called from dealberocards
 		dealRiverCards2Timer->start(postDealCardsSpeed);
 	}
+	//refresh CardsChanceMonitor Tool
+	refreshCardsChance(GAME_STATE_RIVER);
 }
 
 void gameTableImpl::provideMyActions(int mode) {
@@ -3136,8 +3145,16 @@ void gameTableImpl::refreshVotesMonitor()
 	label_votesMonitor->setText(tr("Player <b>%1</b> has %2 votes against him.").arg(QString::fromUtf8(info.playerName.c_str())));
 }
 
-void gameTableImpl::refreshCardsChance()
+void gameTableImpl::refreshCardsChance(GameState bero)
 {
-	label_chance->refreshChance(Tools::calcCardsChance());
+	if(myConfig->readConfigInt("ShowCardsChanceMonitor")) {
+		int boardCards[5];
+		int holeCards[2];
+	
+		(*myStartWindow->getSession()->getCurrentGame()->getSeatsList()->begin())->getMyCards(holeCards);
+		myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
+	
+		label_chance->refreshChance(Tools::calcCardsChance(bero, holeCards, boardCards));
+	}
 }
 

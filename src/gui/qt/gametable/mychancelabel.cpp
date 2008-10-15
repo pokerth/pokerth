@@ -103,20 +103,20 @@ void MyChanceLabel::paintEvent(QPaintEvent * event) {
 	//Draw gfx
 	painter.setPen(QColor(0,0,0));
 	
-	QLinearGradient linearGrad(QPointF(80,3), QPointF(180,10));
+	QLinearGradient linearGrad(QPointF(80,3), QPointF(190,10));
 	linearGrad.setColorAt(0, Qt::blue);
 	linearGrad.setColorAt(0.5, Qt::yellow);
 	linearGrad.setColorAt(1, Qt::red);
 	painter.setBrush(linearGrad);
 	
-	if(RFChance != 0) painter.drawRect(80,3,(107*RFChance)/100,7);
-	if(SFChance != 0) painter.drawRect(80,16,(107*SFChance)/100,7);
-	if(FOAKChance != 0) painter.drawRect(80,29,(107*FOAKChance)/100,7);
-	if(FHChance != 0) painter.drawRect(80,42,(107*FHChance)/100,7);
-	if(FLChance != 0) painter.drawRect(80,55,(107*FLChance)/100,7);
-	if(STRChance != 0) painter.drawRect(80,68,(107*STRChance)/100,7);
-	if(TOAKChance != 0) painter.drawRect(80,81,(107*TOAKChance)/100,7);
-	if(TPChance != 0) painter.drawRect(80,94,(107*TPChance)/100,7);
-	if(OPChance != 0) painter.drawRect(80,107,(107*OPChance)/100,7);
-	if(HCChance != 0) painter.drawRect(80,120,(107*HCChance)/100,7);
+	if(RFChance != 0) painter.drawRect(80,3,(117*RFChance)/100,7);
+	if(SFChance != 0) painter.drawRect(80,16,(117*SFChance)/100,7);
+	if(FOAKChance != 0) painter.drawRect(80,29,(117*FOAKChance)/100,7);
+	if(FHChance != 0) painter.drawRect(80,42,(117*FHChance)/100,7);
+	if(FLChance != 0) painter.drawRect(80,55,(117*FLChance)/100,7);
+	if(STRChance != 0) painter.drawRect(80,68,(117*STRChance)/100,7);
+	if(TOAKChance != 0) painter.drawRect(80,81,(117*TOAKChance)/100,7);
+	if(TPChance != 0) painter.drawRect(80,94,(117*TPChance)/100,7);
+	if(OPChance != 0) painter.drawRect(80,107,(117*OPChance)/100,7);
+	if(HCChance != 0) painter.drawRect(80,120,(117*HCChance)/100,7);
 }

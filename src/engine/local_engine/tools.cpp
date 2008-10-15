@@ -91,7 +91,7 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 
 }
 
-int* Tools::calcCardsChance(int* playerCards, int* boardCards, GameState beRoID)
+int* Tools::calcCardsChance(GameState beRoID, int* playerCards, int* boardCards)
 {
 // 	int playerCards[2];
 

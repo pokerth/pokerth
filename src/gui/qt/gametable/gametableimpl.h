@@ -230,7 +230,7 @@ public slots:
 	void postRiverRunAnimation5();	
 	void postRiverRunAnimation6();
 
-	void refreshCardsChance();
+	void refreshCardsChance(GameState);
 
 	void blinkingStartButtonAnimationAction();
 
