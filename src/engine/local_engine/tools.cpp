@@ -91,8 +91,40 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 
 }
 
-double* Tools::calcCardsChance()
+int* Tools::calcCardsChance(int* playerCards, int* boardCards, GameState beRoID)
 {
-	double array[10] = { 30.12, 11.11, 100.00, 0.00, 0.00, 99.22, 78.56, 34.22, 67.22, 21.00 };
+// 	int playerCards[2];
+
+// 	playerCards[0] = 10;
+// 	playerCards[1] = 20;
+
+// 	int boardCards[5];
+// 
+// 	boardCards[0] = 4;
+// 	boardCards[1] = 6;
+// 	boardCards[2] = 15;
+// 	boardCards[3] = 30;
+// 	boardCards[4] = 40;
+// 
+// 	GameState bero = GAME_STATE_PREFLOP;
+
+// 	switch(bero) {
+// 		case GAME_STATE_PREFLOP: {
+// 
+// 		} break;
+// 		case GAME_STATE_FLOP: {
+// 
+// 		} break;
+// 		case GAME_STATE_TURN: {
+// 
+// 		} break;
+// 		case GAME_STATE_RIVER: {
+// 
+// 		} break;
+// 		default; {
+// 		}
+// 	}
+
+	int array[10] = { 30, 11, 100, 0, 0, 99, 78, 34, 67, 21 };
 	return array;
 }

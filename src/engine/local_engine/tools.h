@@ -20,11 +20,12 @@
 #ifndef TOOLS_H
 #define TOOLS_H
 
+#include "game_defs.h"
 
 class Tools{
 public:
 	static void getRandNumber(int, int, int, int*, bool);
-	static double* calcCardsChance();
+	static int* calcCardsChance(int*,int*,GameState);
 };
 
 #endif
