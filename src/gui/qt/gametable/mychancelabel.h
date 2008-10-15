@@ -29,21 +29,21 @@ public:
 	
 	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
 	void paintEvent(QPaintEvent * event);
-	void refreshChance(double*);
+	void refreshChance(int*);
 	
 private: 
 
 	gameTableImpl *myW;
-	double RFChance;
-	double SFChance;
-	double FOAKChance;
-	double FHChance;
-	double FLChance;
-	double STRChance;
-	double TOAKChance;
-	double TPChance;
-	double OPChance;
-	double HCChance;
+	int RFChance;
+	int SFChance;
+	int FOAKChance;
+	int FHChance;
+	int FLChance;
+	int STRChance;
+	int TOAKChance;
+	int TPChance;
+	int OPChance;
+	int HCChance;
 };
 
 #endif
