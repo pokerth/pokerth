@@ -164,6 +164,47 @@ int CardsValue::holeCardsClass(int one, int two) {
 
 }
 
+int CardsValue::holeCardsToIntCode(int* cards) {
+
+	// Code der HoleCards ermitteln
+	if(cards[0]%13 == cards[1]%13) {
+		return ((cards[0]%13)*1000 + (cards[0]%13)*10);
+	} else {
+		if(cards[0]%13 < cards[1]%13) {
+			if(cards[0]/13 == cards[1]/13) {
+				return ((cards[0]%13)*1000 + (cards[1]%13)*10 + 1);
+			} else {
+				return ((cards[0]%13)*1000 + (cards[1]%13)*10);
+			}
+		} else {
+			if(cards[0]/13 == cards[1]/13) {
+				return ((cards[1]%13)*1000 + (cards[0]%13)*10 + 1);
+			} else {
+				return ((cards[1]%13)*1000 + (cards[0]%13)*10);
+			}
+		}
+	}
+
+}
+
+int* intCodeToHoleCards(int code) {
+
+	// one possibility !!!
+
+	int* cards = new int[2];
+
+	cards[0] = code/1000;
+	cards[1] = (code-cards[0]*1000)/10;
+
+	if(cards[0]==cards[1]) { cards[1] +=13; }
+	else {
+		if(code%10 == 0) cards[1] +=13;
+	}
+
+	return cards;
+
+}
+
 int CardsValue::cardsValue(int* cards, int* position) {
 
 int array[7][3];

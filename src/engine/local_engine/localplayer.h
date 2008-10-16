@@ -166,7 +166,6 @@ public:
 	void turnEngine3();
 	void riverEngine3();
 
-	int preflopCardsValue(int*);
 	int flopCardsValue(int*);
 	int turnCardsValue(int*);
 

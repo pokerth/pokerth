@@ -30,6 +30,9 @@ public:
    int holeCardsClass(int, int);
    int cardsValue(int*, int*);
 
+   int holeCardsToIntCode(int*);
+   int* intCodeToHoleCards(int);
+
 };
 
 #endif

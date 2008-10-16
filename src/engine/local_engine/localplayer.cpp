@@ -2952,30 +2952,6 @@ void LocalPlayer::evaluation(int bet, int raise) {
 }
 
 
-int LocalPlayer::preflopCardsValue(int* cards) {
-
-	// Code der HoleCards ermitteln
-	if(cards[0]%13 == cards[1]%13) {
-		return ((cards[0]%13)*1000 + (cards[0]%13)*10);
-	} else {
-		if(cards[0]%13 < cards[1]%13) {
-			if(cards[0]/13 == cards[1]/13) {
-				return ((cards[0]%13)*1000 + (cards[1]%13)*10 + 1);
-			} else {
-				return ((cards[0]%13)*1000 + (cards[1]%13)*10);
-			}
-		} else {
-			if(cards[0]/13 == cards[1]/13) {
-				return ((cards[1]%13)*1000 + (cards[0]%13)*10 + 1);
-			} else {
-				return ((cards[1]%13)*1000 + (cards[0]%13)*10);
-			}
-		}
-	}
-
-}
-
-
 int LocalPlayer::flopCardsValue(int* cards) {
 
 	int array[5][3];
@@ -3626,7 +3602,7 @@ void LocalPlayer::calcMyOdds() {
 
 		case 0: {
 			
-			handCode = preflopCardsValue(myCards);
+			handCode = myCardsValue->holeCardsToIntCode(myCards);
 		
 			// übergang solange preflopValue und flopValue noch nicht bereinigt
 			int players = currentHand->getActivePlayerList()->size();
