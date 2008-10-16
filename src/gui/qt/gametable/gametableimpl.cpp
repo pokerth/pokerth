@@ -3148,13 +3148,19 @@ void gameTableImpl::refreshVotesMonitor()
 void gameTableImpl::refreshCardsChance(GameState bero)
 {
 	if(myConfig->readConfigInt("ShowCardsChanceMonitor")) {
-		int boardCards[5];
-		int holeCards[2];
-	
-		(*myStartWindow->getSession()->getCurrentGame()->getSeatsList()->begin())->getMyCards(holeCards);
-		myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
-	
-		label_chance->refreshChance(Tools::calcCardsChance(bero, holeCards, boardCards));
+
+		if((*myStartWindow->getSession()->getCurrentGame()->getSeatsList()->begin())->getMyActiveStatus() && (*myStartWindow->getSession()->getCurrentGame()->getSeatsList()->begin())->getMyAction() != PLAYER_ACTION_FOLD) {
+			int boardCards[5];
+			int holeCards[2];
+		
+			(*myStartWindow->getSession()->getCurrentGame()->getSeatsList()->begin())->getMyCards(holeCards);
+			myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
+		
+			label_chance->refreshChance(Tools::calcCardsChance(bero, holeCards, boardCards));
+		}
+		else { 
+			label_chance->resetChance();
+		}
 	}
 }
 

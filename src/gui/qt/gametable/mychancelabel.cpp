@@ -120,3 +120,20 @@ void MyChanceLabel::paintEvent(QPaintEvent * event) {
 	if(OPChance != 0) painter.drawRect(80,107,(117*OPChance)/100,7);
 	if(HCChance != 0) painter.drawRect(80,120,(117*HCChance)/100,7);
 }
+
+
+void MyChanceLabel::resetChance()
+{
+	RFChance = 0;
+	SFChance = 0;
+	FOAKChance = 0;
+	FHChance = 0;
+	FLChance = 0;
+	STRChance = 0;
+	TOAKChance = 0;
+	TPChance = 0;
+	OPChance = 0;
+	HCChance = 0;
+
+	update();
+}

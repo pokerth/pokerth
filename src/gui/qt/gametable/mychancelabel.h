@@ -30,6 +30,7 @@ public:
 	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
 	void paintEvent(QPaintEvent * event);
 	void refreshChance(int*);
+	void resetChance();
 	
 private: 
 
