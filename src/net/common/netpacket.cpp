@@ -113,6 +113,20 @@ using namespace std;
 #define NET_REMOVED_START_FAILED				0x0005
 #define NET_REMOVED_OTHER_REASON				0xFFFF
 
+// Reasons why ask kick was denied.
+#define NET_ASK_KICK_DENIED_TEMPORARY			0x0000
+#define NET_ASK_KICK_DENIED_OTHER_IN_PROGRESS	0x0001
+#define NET_ASK_KICK_DENIED_OTHER_REASON		0xFFFF
+
+// Vote types
+#define NET_VOTE_KICK_AGAINST					0x0000
+#define NET_VOTE_KICK_IN_FAVOUR					0x0001
+
+// Reasons why vote to kick was denied.
+#define NET_VOTE_KICK_DENIED_INVALID_PETITION	0x0000
+#define NET_VOTE_KICK_DENIED_ALREADY_VOTED		0x0001
+#define NET_VOTE_KICK_DENIED_OTHER_REASON		0xFFFF
+
 // Reasons for timeout warning
 #define NET_TIMEOUT_NO_DATA_RECEIVED			0x0000
 #define NET_TIMEOUT_INACTIVE_GAME				0x0001
@@ -527,15 +541,17 @@ struct GCC_PACKED NetPacketAskKickPlayerDeniedData
 	u_int16_t			reserved;
 };
 
-struct GCC_PACKED StartKickPlayerPetitionData
+struct GCC_PACKED NetPacketStartKickPlayerPetitionData
 {
 	NetPacketHeader		head;
 	u_int32_t			petitionId;
 	u_int32_t			proposingPlayerId;
 	u_int32_t			kickPlayerId;
+	u_int16_t			kickTimeout;
+	u_int16_t			numVotesNeededToKick;
 };
 
-struct GCC_PACKED VoteKickPlayerData
+struct GCC_PACKED NetPacketVoteKickPlayerData
 {
 	NetPacketHeader		head;
 	u_int32_t			petitionId;
@@ -543,13 +559,13 @@ struct GCC_PACKED VoteKickPlayerData
 	u_int16_t			reserved;
 };
 
-struct GCC_PACKED VoteKickPlayerAckData
+struct GCC_PACKED NetPacketVoteKickPlayerAckData
 {
 	NetPacketHeader		head;
 	u_int32_t			petitionId;
 };
 
-struct GCC_PACKED VoteKickPlayerDeniedData
+struct GCC_PACKED NetPacketVoteKickPlayerDeniedData
 {
 	NetPacketHeader		head;
 	u_int32_t			petitionId;
@@ -557,7 +573,7 @@ struct GCC_PACKED VoteKickPlayerDeniedData
 	u_int16_t			reserved;
 };
 
-struct GCC_PACKED EndKickPlayerPetitionData
+struct GCC_PACKED NetPacketEndKickPlayerPetitionData
 {
 	NetPacketHeader		head;
 	u_int32_t			petitionId;
@@ -865,6 +881,27 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_END_OF_GAME:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketEndOfGame);
+					break;
+				case NET_TYPE_ASK_KICK_PLAYER:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketAskKickPlayer);
+					break;
+				case NET_TYPE_ASK_KICK_PLAYER_DENIED:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketAskKickPlayerDenied);
+					break;
+				case NET_TYPE_START_KICK_PLAYER_PETITION:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketStartKickPlayerPetition);
+					break;
+				case NET_TYPE_VOTE_KICK_PLAYER:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketVoteKickPlayer);
+					break;
+				case NET_TYPE_VOTE_KICK_PLAYER_ACK:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketVoteKickPlayerAck);
+					break;
+				case NET_TYPE_VOTE_KICK_PLAYER_DENIED:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketVoteKickPlayerDenied);
+					break;
+				case NET_TYPE_END_KICK_PLAYER_PETITION:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketEndKickPlayerPetition);
 					break;
 				case NET_TYPE_STATISTICS_CHANGED:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketStatisticsChanged);
@@ -4321,6 +4358,479 @@ void
 NetPacketEndOfGame::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketAskKickPlayer::NetPacketAskKickPlayer()
+: NetPacket(NET_TYPE_ASK_KICK_PLAYER, sizeof(NetPacketAskKickPlayerData), sizeof(NetPacketAskKickPlayerData))
+{
+}
+
+NetPacketAskKickPlayer::~NetPacketAskKickPlayer()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketAskKickPlayer::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketAskKickPlayer);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketAskKickPlayer::SetData(const NetPacketAskKickPlayer::Data &inData)
+{
+	NetPacketAskKickPlayerData *tmpData = (NetPacketAskKickPlayerData *)GetRawData();
+
+	tmpData->playerId	= htonl(inData.playerId);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketAskKickPlayer::GetData(NetPacketAskKickPlayer::Data &outData) const
+{
+	NetPacketAskKickPlayerData *tmpData = (NetPacketAskKickPlayerData *)GetRawData();
+
+	outData.playerId	= ntohl(tmpData->playerId);
+}
+
+const NetPacketAskKickPlayer *
+NetPacketAskKickPlayer::ToNetPacketAskKickPlayer() const
+{
+	return this;
+}
+
+void
+NetPacketAskKickPlayer::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketAskKickPlayerDenied::NetPacketAskKickPlayerDenied()
+: NetPacket(NET_TYPE_ASK_KICK_PLAYER_DENIED, sizeof(NetPacketAskKickPlayerDeniedData), sizeof(NetPacketAskKickPlayerDeniedData))
+{
+}
+
+NetPacketAskKickPlayerDenied::~NetPacketAskKickPlayerDenied()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketAskKickPlayerDenied::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketAskKickPlayerDenied);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketAskKickPlayerDenied::SetData(const NetPacketAskKickPlayerDenied::Data &inData)
+{
+	NetPacketAskKickPlayerDeniedData *tmpData = (NetPacketAskKickPlayerDeniedData *)GetRawData();
+
+	tmpData->playerId	= htonl(inData.playerId);
+	switch (inData.denyReason)
+	{
+		case KICK_DENIED_TEMPORARY:
+			tmpData->denyReason = htons(NET_ASK_KICK_DENIED_TEMPORARY);
+			break;
+		case KICK_DENIED_OTHER_IN_PROGRESS:
+			tmpData->denyReason = htons(NET_ASK_KICK_DENIED_OTHER_IN_PROGRESS);
+			break;
+		default:
+			tmpData->denyReason = htons(NET_ASK_KICK_DENIED_OTHER_REASON);
+			break;
+	}
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketAskKickPlayerDenied::GetData(NetPacketAskKickPlayerDenied::Data &outData) const
+{
+	NetPacketAskKickPlayerDeniedData *tmpData = (NetPacketAskKickPlayerDeniedData *)GetRawData();
+
+	outData.playerId	= ntohl(tmpData->playerId);
+	switch (ntohs(tmpData->denyReason))
+	{
+		case NET_ASK_KICK_DENIED_TEMPORARY:
+			outData.denyReason = KICK_DENIED_TEMPORARY;
+			break;
+		case NET_ASK_KICK_DENIED_OTHER_IN_PROGRESS:
+			outData.denyReason = KICK_DENIED_OTHER_IN_PROGRESS;
+			break;
+		default:
+			outData.denyReason = KICK_DENIED_OTHER_REASON;
+			break;
+	}
+}
+
+const NetPacketAskKickPlayerDenied *
+NetPacketAskKickPlayerDenied::ToNetPacketAskKickPlayerDenied() const
+{
+	return this;
+}
+
+void
+NetPacketAskKickPlayerDenied::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketStartKickPlayerPetition::NetPacketStartKickPlayerPetition()
+: NetPacket(NET_TYPE_START_KICK_PLAYER_PETITION, sizeof(NetPacketStartKickPlayerPetitionData), sizeof(NetPacketStartKickPlayerPetitionData))
+{
+}
+
+NetPacketStartKickPlayerPetition::~NetPacketStartKickPlayerPetition()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketStartKickPlayerPetition::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketStartKickPlayerPetition);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketStartKickPlayerPetition::SetData(const NetPacketStartKickPlayerPetition::Data &inData)
+{
+	NetPacketStartKickPlayerPetitionData *tmpData = (NetPacketStartKickPlayerPetitionData *)GetRawData();
+
+	tmpData->petitionId				= htonl(inData.petitionId);
+	tmpData->proposingPlayerId		= htonl(inData.proposingPlayerId);
+	tmpData->kickPlayerId			= htonl(inData.kickPlayerId);
+	tmpData->kickTimeout			= htons(inData.kickTimeoutSec);
+	tmpData->numVotesNeededToKick	= htons(inData.numVotesNeededToKick);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketStartKickPlayerPetition::GetData(NetPacketStartKickPlayerPetition::Data &outData) const
+{
+	NetPacketStartKickPlayerPetitionData *tmpData = (NetPacketStartKickPlayerPetitionData *)GetRawData();
+
+	outData.petitionId				= ntohl(tmpData->petitionId);
+	outData.proposingPlayerId		= ntohl(tmpData->proposingPlayerId);
+	outData.kickPlayerId			= ntohl(tmpData->kickPlayerId);
+	outData.kickTimeoutSec			= ntohs(tmpData->kickTimeout);
+	outData.numVotesNeededToKick	= ntohs(tmpData->numVotesNeededToKick);
+}
+
+const NetPacketStartKickPlayerPetition *
+NetPacketStartKickPlayerPetition::ToNetPacketStartKickPlayerPetition() const
+{
+	return this;
+}
+
+void
+NetPacketStartKickPlayerPetition::InternalCheck(const NetPacketHeader *data) const
+{
+	NetPacketStartKickPlayerPetitionData *tmpData = (NetPacketStartKickPlayerPetitionData *)data;
+
+	if (ntohs(tmpData->numVotesNeededToKick) > MAX_NUMBER_OF_PLAYERS - 1)
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketVoteKickPlayer::NetPacketVoteKickPlayer()
+: NetPacket(NET_TYPE_VOTE_KICK_PLAYER, sizeof(NetPacketVoteKickPlayerData), sizeof(NetPacketVoteKickPlayerData))
+{
+}
+
+NetPacketVoteKickPlayer::~NetPacketVoteKickPlayer()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketVoteKickPlayer::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketVoteKickPlayer);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketVoteKickPlayer::SetData(const NetPacketVoteKickPlayer::Data &inData)
+{
+	NetPacketVoteKickPlayerData *tmpData = (NetPacketVoteKickPlayerData *)GetRawData();
+
+	tmpData->petitionId	= htonl(inData.petitionId);
+	tmpData->vote = htons(static_cast<u_int16_t>(inData.vote));
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketVoteKickPlayer::GetData(NetPacketVoteKickPlayer::Data &outData) const
+{
+	NetPacketVoteKickPlayerData *tmpData = (NetPacketVoteKickPlayerData *)GetRawData();
+
+	outData.petitionId	= ntohl(tmpData->petitionId);
+	if (ntohs(tmpData->vote) == NET_VOTE_KICK_IN_FAVOUR)
+		outData.vote = KICK_VOTE_IN_FAVOUR;
+	else
+		outData.vote = KICK_VOTE_AGAINST;
+}
+
+const NetPacketVoteKickPlayer *
+NetPacketVoteKickPlayer::ToNetPacketVoteKickPlayer() const
+{
+	return this;
+}
+
+void
+NetPacketVoteKickPlayer::InternalCheck(const NetPacketHeader *data) const
+{
+	NetPacketVoteKickPlayerData *tmpData = (NetPacketVoteKickPlayerData *)data;
+	u_int16_t tmpVote = ntohs(tmpData->vote);
+	if (tmpVote != 0 && tmpVote != 1)
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketVoteKickPlayerAck::NetPacketVoteKickPlayerAck()
+: NetPacket(NET_TYPE_VOTE_KICK_PLAYER_ACK, sizeof(NetPacketVoteKickPlayerAckData), sizeof(NetPacketVoteKickPlayerAckData))
+{
+}
+
+NetPacketVoteKickPlayerAck::~NetPacketVoteKickPlayerAck()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketVoteKickPlayerAck::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketVoteKickPlayerAck);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketVoteKickPlayerAck::SetData(const NetPacketVoteKickPlayerAck::Data &inData)
+{
+	NetPacketVoteKickPlayerAckData *tmpData = (NetPacketVoteKickPlayerAckData *)GetRawData();
+
+	tmpData->petitionId	= htonl(inData.petitionId);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketVoteKickPlayerAck::GetData(NetPacketVoteKickPlayerAck::Data &outData) const
+{
+	NetPacketVoteKickPlayerAckData *tmpData = (NetPacketVoteKickPlayerAckData *)GetRawData();
+
+	outData.petitionId	= ntohl(tmpData->petitionId);
+}
+
+const NetPacketVoteKickPlayerAck *
+NetPacketVoteKickPlayerAck::ToNetPacketVoteKickPlayerAck() const
+{
+	return this;
+}
+
+void
+NetPacketVoteKickPlayerAck::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketVoteKickPlayerDenied::NetPacketVoteKickPlayerDenied()
+: NetPacket(NET_TYPE_VOTE_KICK_PLAYER_DENIED, sizeof(NetPacketVoteKickPlayerDeniedData), sizeof(NetPacketVoteKickPlayerDeniedData))
+{
+}
+
+NetPacketVoteKickPlayerDenied::~NetPacketVoteKickPlayerDenied()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketVoteKickPlayerDenied::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketVoteKickPlayerDenied);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketVoteKickPlayerDenied::SetData(const NetPacketVoteKickPlayerDenied::Data &inData)
+{
+	NetPacketVoteKickPlayerDeniedData *tmpData = (NetPacketVoteKickPlayerDeniedData *)GetRawData();
+
+	tmpData->petitionId	= htonl(inData.petitionId);
+	switch (inData.denyReason)
+	{
+		case VOTE_DENIED_INVALID_PETITION:
+			tmpData->denyReason = htons(NET_VOTE_KICK_DENIED_INVALID_PETITION);
+			break;
+		case VOTE_DENIED_ALREADY_VOTED:
+			tmpData->denyReason = htons(NET_VOTE_KICK_DENIED_ALREADY_VOTED);
+			break;
+		default:
+			tmpData->denyReason = htons(NET_VOTE_KICK_DENIED_OTHER_REASON);
+			break;
+	}
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketVoteKickPlayerDenied::GetData(NetPacketVoteKickPlayerDenied::Data &outData) const
+{
+	NetPacketVoteKickPlayerDeniedData *tmpData = (NetPacketVoteKickPlayerDeniedData *)GetRawData();
+
+	outData.petitionId	= ntohl(tmpData->petitionId);
+	switch (ntohs(tmpData->denyReason))
+	{
+		case NET_VOTE_KICK_DENIED_INVALID_PETITION:
+			outData.denyReason = VOTE_DENIED_INVALID_PETITION;
+			break;
+		case NET_VOTE_KICK_DENIED_ALREADY_VOTED:
+			outData.denyReason = VOTE_DENIED_ALREADY_VOTED;
+			break;
+		default:
+			outData.denyReason = VOTE_DENIED_OTHER_REASON;
+			break;
+	}
+}
+
+const NetPacketVoteKickPlayerDenied *
+NetPacketVoteKickPlayerDenied::ToNetPacketVoteKickPlayerDenied() const
+{
+	return this;
+}
+
+void
+NetPacketVoteKickPlayerDenied::InternalCheck(const NetPacketHeader*) const
+{
+	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketEndKickPlayerPetition::NetPacketEndKickPlayerPetition()
+: NetPacket(NET_TYPE_END_KICK_PLAYER_PETITION, sizeof(NetPacketEndKickPlayerPetitionData), sizeof(NetPacketEndKickPlayerPetitionData))
+{
+}
+
+NetPacketEndKickPlayerPetition::~NetPacketEndKickPlayerPetition()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketEndKickPlayerPetition::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketEndKickPlayerPetition);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketEndKickPlayerPetition::SetData(const NetPacketEndKickPlayerPetition::Data &inData)
+{
+	NetPacketEndKickPlayerPetitionData *tmpData = (NetPacketEndKickPlayerPetitionData *)GetRawData();
+
+	tmpData->petitionId					= htonl(inData.petitionId);
+	tmpData->numVotesAgainstKicking		= htons(inData.numVotesAgainstKicking);
+	tmpData->numVotesInFavourOfKicking	= htons(inData.numVotesInFavourOfKicking);
+	tmpData->voteResult					= htons(inData.playerKicked ? 1 : 0);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketEndKickPlayerPetition::GetData(NetPacketEndKickPlayerPetition::Data &outData) const
+{
+	NetPacketEndKickPlayerPetitionData *tmpData = (NetPacketEndKickPlayerPetitionData *)GetRawData();
+
+	outData.petitionId					= ntohl(tmpData->petitionId);
+	outData.numVotesAgainstKicking		= ntohs(tmpData->numVotesAgainstKicking);
+	outData.numVotesInFavourOfKicking	= ntohs(tmpData->numVotesInFavourOfKicking);
+	outData.playerKicked				= ntohs(tmpData->voteResult) == 1;
+}
+
+const NetPacketEndKickPlayerPetition *
+NetPacketEndKickPlayerPetition::ToNetPacketEndKickPlayerPetition() const
+{
+	return this;
+}
+
+void
+NetPacketEndKickPlayerPetition::InternalCheck(const NetPacketHeader *data) const
+{
+	NetPacketEndKickPlayerPetitionData *tmpData = (NetPacketEndKickPlayerPetitionData *)data;
+
+	if (ntohs(tmpData->numVotesAgainstKicking) > MAX_NUMBER_OF_PLAYERS)
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
+	if (ntohs(tmpData->numVotesInFavourOfKicking) > MAX_NUMBER_OF_PLAYERS)
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
+	u_int16_t tmpVoteResult = ntohs(tmpData->voteResult);
+	if (tmpVoteResult != 0 && tmpVoteResult != 1)
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 }
 
 //-----------------------------------------------------------------------------

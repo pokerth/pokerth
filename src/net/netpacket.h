@@ -1241,6 +1241,8 @@ public:
 		u_int32_t	petitionId;
 		u_int32_t	proposingPlayerId;
 		u_int32_t	kickPlayerId;
+		u_int16_t	kickTimeoutSec;
+		u_int16_t	numVotesNeededToKick;
 	};
 
 	NetPacketStartKickPlayerPetition();

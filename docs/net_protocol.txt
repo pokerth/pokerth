@@ -825,8 +825,9 @@ Server Reply: Ask Kick Player Denied
 	|           Deny Reason         |          Reserved             |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 Deny Reason:
-	0: Another kick cannot be requested at this time.
-	1: Kick request is already in progress for this player.
+	0x0000: Another kick cannot be requested at this time.
+	0x0001: Kick request is already in progress for this player.
+	0xFFFF: Other reason.
 
 
 Server Notification: Start Kick Player Petition
@@ -842,6 +843,10 @@ Server Notification: Start Kick Player Petition
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                         Kick Player ID                        |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	|          Kick Timeout         |    # Votes Needed to kick     |
+	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+Kick Timeout:
+	[seconds] Votes are only accepted for a certain time.
 
 
 Client Request: Vote Kick Player
@@ -883,8 +888,9 @@ Server Reply: Vote Kick Player Denied
 	|           Deny Reason         |          Reserved             |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 Deny Reason:
-	0: Invalid Petition Id.
-	1: Already voted.
+	0x0000: Invalid Petition Id.
+	0x0001: Already voted.
+	0xFFFF: Other reason.
 
 
 Server Notification: End Kick Player Petition
