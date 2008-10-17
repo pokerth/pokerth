@@ -1031,8 +1031,11 @@ ArrayData::~ArrayData()
 
 void ArrayData::getHandChancePreflop(int handCode, int** values) {
 
+	int check = -1;
+
 	for (unsigned val = 0; val < NUM_HAND_CHANCE_PREFLOP; val++) {
 		if(handCode == handChancePreflop[val].hand) {
+			check = 1;
 			for(int i=0;i<10;i++) {
 				for(int j=0;j<2;j++) {
 					values[i][j] = handChancePreflop[val].data[i][j];
@@ -1041,6 +1044,6 @@ void ArrayData::getHandChancePreflop(int handCode, int** values) {
 			break;
 		}
 	}
-// 	if (myOdds == -1) LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR myOdds - " << handCode);
+	if (check == -1) LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR getHandChancePreflop - " << handCode);
 
 }

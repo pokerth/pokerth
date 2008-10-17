@@ -572,7 +572,10 @@ int** CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* board
 	int sum = 0;
 
 	for(i=0;i<10;i++) {
-		for(j=0;j<2;j++) hand[i][j] = 0;
+		hand[i] = new int[2];
+		for(j=0;j<2;j++) {
+			hand[i][j] = 0;
+		}
 	}
 
 	cards[0] = playerCards[0];
@@ -583,11 +586,12 @@ int** CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* board
 
 	switch(beRoID) {
 		case GAME_STATE_PREFLOP: {
-// 			int rand[5];
-// 			for(i=0;i<preflopCalcNumber;i++) {
-// 				getRandNumber(0,51,5,rand,1,playerCards);
-// 				
-// 			}
+			ArrayData* myArrayData = new ArrayData;
+
+			myArrayData->getHandChancePreflop(holeCardsToIntCode(playerCards),hand);
+
+			delete myArrayData;
+
 		} break;
 		case GAME_STATE_FLOP: {
 

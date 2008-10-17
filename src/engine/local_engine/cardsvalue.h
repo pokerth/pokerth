@@ -21,6 +21,7 @@
 #define CARDSVALUE_H
 
 #include "game_defs.h"
+#include "arraydata.h"
 
 class CardsValue{
 public:

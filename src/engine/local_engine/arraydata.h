@@ -20,6 +20,8 @@
 #ifndef ARRAYDATA_H
 #define ARRAYDATA_H
 
+#include <core/loghelper.h>
+
 class ArrayData{
 public:
     ArrayData();
