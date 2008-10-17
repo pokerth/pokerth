@@ -605,6 +605,7 @@ int** CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* board
 			}
 			for(i=0;i<10;i++) {
 				hand[i][0] = (int)(((double)hand[i][0]/(double)sum)*100.0+0.5);
+				if(hand[i][0] > 0) hand[i][1] = 1;
 			}
 
 		} break;
@@ -619,11 +620,13 @@ int** CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* board
 			}
 			for(i=0;i<10;i++) {
 				hand[i][0] = (int)(((double)hand[i][0]/(double)sum)*100.0+0.5);
+				if(hand[i][0] > 0) hand[i][1] = 1;
 			}
 
 		} break;
 		case GAME_STATE_RIVER: {
 			hand[cardsValue(cards,0)/100000000][0] = 100;
+			hand[cardsValue(cards,0)/100000000][1] = 1;
 		} break;
 		default: {
 		}
