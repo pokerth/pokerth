@@ -99,6 +99,7 @@ HEADERS += \
 		src/engine/local_engine/tools.h \
 		src/engine/local_engine/localbero.h \
 		src/engine/local_engine/localexception.h \
+		src/engine/local_engine/arraydata.h \		
 		src/engine/network_engine/clientboard.h \
 		src/engine/network_engine/clientenginefactory.h \
 		src/engine/network_engine/clienthand.h \
@@ -140,6 +141,7 @@ SOURCES += \
 		src/engine/local_engine/tools.cpp \
 		src/engine/local_engine/localbero.cpp \
 		src/engine/local_engine/localexception.cpp \
+		src/engine/local_engine/arraydata.cpp \
 		src/engine/network_engine/clientboard.cpp \
 		src/engine/network_engine/clientenginefactory.cpp \
 		src/engine/network_engine/clienthand.cpp \
