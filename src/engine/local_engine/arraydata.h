@@ -17,25 +17,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CARDSVALUE_H
-#define CARDSVALUE_H
+#ifndef ARRAYDATA_H
+#define ARRAYDATA_H
 
-#include "game_defs.h"
-
-class CardsValue{
+class ArrayData{
 public:
-    CardsValue();
+    ArrayData();
 
-    ~CardsValue();
+    ~ArrayData();
 
-   int holeCardsClass(int, int);
-   int cardsValue(int*, int*);
-
-   int holeCardsToIntCode(int*);
-   int* intCodeToHoleCards(int);
-
-   int* calcCardsChance(GameState, int*, int*);
-
+	int* getHandChancePreflop(int);
 };
 
 #endif

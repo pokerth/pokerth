@@ -36,7 +36,7 @@
 #include "handinterface.h"
 #include "game.h"
 #include "session.h"
-#include "tools.h"
+#include "cardsvalue.h"
 
 #include "configfile.h"
 #include "sdlplayer.h"
@@ -3147,6 +3147,9 @@ void gameTableImpl::refreshVotesMonitor()
 
 void gameTableImpl::refreshCardsChance(GameState bero)
 {
+
+	CardsValue* myCardsValue = new CardsValue;
+
 	if(myConfig->readConfigInt("ShowCardsChanceMonitor")) {
 
 		if((*myStartWindow->getSession()->getCurrentGame()->getSeatsList()->begin())->getMyActiveStatus() && (*myStartWindow->getSession()->getCurrentGame()->getSeatsList()->begin())->getMyAction() != PLAYER_ACTION_FOLD) {
@@ -3156,11 +3159,14 @@ void gameTableImpl::refreshCardsChance(GameState bero)
 			(*myStartWindow->getSession()->getCurrentGame()->getSeatsList()->begin())->getMyCards(holeCards);
 			myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
 		
-			label_chance->refreshChance(Tools::calcCardsChance(bero, holeCards, boardCards));
+			label_chance->refreshChance(myCardsValue->calcCardsChance(bero, holeCards, boardCards));
 		}
 		else { 
 			label_chance->resetChance();
 		}
 	}
+
+	delete myCardsValue;
+
 }
 
