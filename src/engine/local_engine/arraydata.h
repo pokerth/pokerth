@@ -26,7 +26,7 @@ public:
 
     ~ArrayData();
 
-	int* getHandChancePreflop(int);
+	void getHandChancePreflop(int, int**);
 };
 
 #endif

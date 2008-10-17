@@ -34,7 +34,7 @@ public:
    int holeCardsToIntCode(int*);
    int* intCodeToHoleCards(int);
 
-   int* calcCardsChance(GameState, int*, int*);
+   int** calcCardsChance(GameState, int*, int*);
 
 };
 

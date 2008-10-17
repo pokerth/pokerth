@@ -1017,6 +1017,9 @@ static const calcHandsData handChancePreflop[] =
 	{     12120,	{ { 0,0}, { 36,1}, { 40,1}, { 12,1}, { 1,1}, { 2,1}, { 9,1}, { 1,1}, { 0,1}, { 0,1} } }
 };
 
+#define NUM_PREFLOP_VALUES (sizeof(PreflopValues)/sizeof(RoundData))
+#define NUM_FLOP_VALUES (sizeof(FlopValues)/sizeof(RoundData))
+#define NUM_HAND_CHANCE_PREFLOP (sizeof(handChancePreflop)/sizeof(calcHandsData))
 
 ArrayData::ArrayData()
 {
@@ -1024,4 +1027,20 @@ ArrayData::ArrayData()
 
 ArrayData::~ArrayData()
 {
+}
+
+void ArrayData::getHandChancePreflop(int handCode, int** values) {
+
+	for (unsigned val = 0; val < NUM_HAND_CHANCE_PREFLOP; val++) {
+		if(handCode == handChancePreflop[val].hand) {
+			for(int i=0;i<10;i++) {
+				for(int j=0;j<2;j++) {
+					values[i][j] = handChancePreflop[val].data[i][j];
+				}
+			}
+			break;
+		}
+	}
+// 	if (myOdds == -1) LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR myOdds - " << handCode);
+
 }
