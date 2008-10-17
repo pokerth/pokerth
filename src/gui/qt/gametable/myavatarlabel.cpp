@@ -12,6 +12,9 @@
 #include "mysetlabel.h"
 
 #include "gametableimpl.h"
+#include "session.h"
+#include "playerinterface.h"
+#include "game.h"
 
 using namespace std;
 
@@ -20,7 +23,7 @@ MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
 {
 
 	myContextMenu = new QMenu;
-	action_VoteForKick = new QAction(tr("Start vote on kick this user"), myContextMenu);
+	action_VoteForKick = new QAction(QIcon(":/gfx/list_remove_user.png"), tr("Start vote on kick this user"), myContextMenu);
 	myContextMenu->addAction(action_VoteForKick);
 
 	connect( action_VoteForKick, SIGNAL ( triggered() ), this, SLOT ( sendTriggerVoteOnKickSignal() ) );
@@ -33,8 +36,18 @@ MyAvatarLabel::~MyAvatarLabel()
 
 void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
 
-	if(myContextMenuEnabled)
-		showContextMenu(event->globalPos());
+	
+	Game *currentGame = myW->getSession()->getCurrentGame();
+
+	PlayerListConstIterator it_c;
+	int i=0;
+ 	for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) { 
+		
+		if(myContextMenuEnabled && myId != 0 && myId == i && (*it_c)->getMyActiveStatus() )
+			showContextMenu(event->globalPos());
+
+		i++;
+	}
 }
 
 void MyAvatarLabel::showContextMenu(const QPoint &pos) {
