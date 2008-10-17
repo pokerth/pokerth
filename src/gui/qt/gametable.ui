@@ -1780,7 +1780,7 @@
               <attribute name="title" >
                <string>Kick</string>
               </attribute>
-              <layout class="QGridLayout" name="gridLayout" >
+              <layout class="QGridLayout" name="gridLayout_3" >
                <item row="0" column="0" >
                 <layout class="QHBoxLayout" name="horizontalLayout_2" >
                  <item>

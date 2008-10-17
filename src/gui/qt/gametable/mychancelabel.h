@@ -35,16 +35,16 @@ public:
 private: 
 
 	gameTableImpl *myW;
-	int RFChance;
-	int SFChance;
-	int FOAKChance;
-	int FHChance;
-	int FLChance;
-	int STRChance;
-	int TOAKChance;
-	int TPChance;
-	int OPChance;
-	int HCChance;
+	int RFChance[2];
+	int SFChance[2];
+	int FOAKChance[2];
+	int FHChance[2];
+	int FLChance[2];
+	int STRChance[2];
+	int TOAKChance[2];
+	int TPChance[2];
+	int OPChance[2];
+	int HCChance[2];
 };
 
 #endif
