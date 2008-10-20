@@ -4074,7 +4074,7 @@ void LocalPlayer::preflopEngine3() {
 		}
 		else {
 			// RAISE --> wenn hohes Potential
-			if(potential >= 4 && 6 * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet() || bluff <= 6) {
+			if((potential >= 4 && 6 * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet()) || bluff <= 6) {
 				// extrem hohes Potential --> groÃ¯Â¿År Raise
 				if(potential>=6 || bluff <= 2) {
 	
@@ -4509,7 +4509,7 @@ void LocalPlayer::turnEngine3() {
 			// CALL und RAISE --> wenn bereits gesetzt wurde
 			else {	
 				// RAISE --> wenn Potential besonders gut
-				if(potential >=4 && 2 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet() || (bluff <= 4 && 3 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet())) {
+				if((potential >=4 && 2 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet()) || (bluff <= 4 && 3 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet())) {
 	
 					// bluff - raise
 					if(bluff <= 4) raise = ((bluff+1)/2) * currentHand->getCurrentBeRo()->getHighestSet();
@@ -4671,7 +4671,7 @@ void LocalPlayer::riverEngine3() {
 			// CALL und RAISE --> wenn bereits gesetzt wurde
 			else {	
 				// RAISE --> wenn Potential besonders gut
-				if(potential >=4 && 2 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet() || (bluff <= 2 && 4 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet())) {
+				if((potential >=4 && 2 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet()) || (bluff <= 2 && 4 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet())) {
 	
 					// bluff - raise
 					if(bluff <= 2 ) raise = bluff * currentHand->getCurrentBeRo()->getHighestSet();

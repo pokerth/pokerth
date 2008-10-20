@@ -22,7 +22,7 @@
 
 class Tools{
 public:
-	static void getRandNumber(int, int, int, int*, bool, int* = 0);
+	static void getRandNumber(int, int, int, int*, bool, int* = 0, int = 0);
 
 };
 
