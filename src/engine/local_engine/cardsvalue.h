@@ -22,6 +22,7 @@
 
 #include "game_defs.h"
 #include "arraydata.h"
+#include "tools.h"
 
 class CardsValue{
 public:
@@ -36,6 +37,7 @@ public:
    int* intCodeToHoleCards(int);
 
    int** calcCardsChance(GameState, int*, int*);
+   int** showdown(GameState, int**, int);
 
 };
 

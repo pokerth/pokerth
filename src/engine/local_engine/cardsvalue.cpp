@@ -18,6 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "cardsvalue.h"
+#include <core/openssl_wrapper.h>
+#include <limits>
 
 CardsValue::CardsValue()
 {
@@ -639,4 +641,21 @@ int** CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* board
 	return hand;
 }
 
+int** CardsValue::showdown(GameState beRoID, int** playerCards, int playerCount) {
 
+	int i,j;
+
+	int** chance = new int*[2];
+
+	for(i=0;i<10;i++) {
+		chance[i] = new int[2];
+		for(j=0;j<2;j++) {
+			chance[i][j] = 0;
+		}
+	}
+
+	int rand[5];
+
+	return chance;
+
+}

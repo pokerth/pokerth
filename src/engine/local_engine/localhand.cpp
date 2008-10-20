@@ -313,7 +313,6 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 
 	}
-
 // ----------------------------------------
 
 	// determine dealer, SB, BB
