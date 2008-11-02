@@ -32,6 +32,8 @@
 #include <boost/bind.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 
+#define SERVER_RESTART_IRC_BOT_INTERVAL_SEC			86400	// 1 day
+
 using namespace std;
 
 ServerManager::ServerManager(GuiInterface &gui, ConfigFile *config, AvatarManager &avatarManager)
@@ -170,6 +172,26 @@ ServerManager::RunAll()
 		m_ircThread->Run();
 	GetLobbyThread().Run();
 	for_each(m_acceptThreadPool.begin(), m_acceptThreadPool.end(), boost::mem_fn(&ServerAcceptThread::Run));
+}
+
+void
+ServerManager::Process()
+{
+	if (m_ircRestartTimer.elapsed().total_seconds() > SERVER_RESTART_IRC_BOT_INTERVAL_SEC)
+	{
+		if (m_ircThread)
+		{
+			m_ircThread->SignalTermination();
+			if (m_ircThread->Join(NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC))
+			{
+				boost::shared_ptr<IrcThread> tmpIrcThread(new IrcThread(*m_ircThread));
+				tmpIrcThread->Run();
+				m_ircThread = tmpIrcThread;
+			}
+		}
+		m_ircRestartTimer.reset();
+		m_ircRestartTimer.start();
+	}
 }
 
 void

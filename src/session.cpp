@@ -157,7 +157,7 @@ void Session::startInternetClient()
 
 	if (myConfig->readConfigInt("UseIRCLobbyChat"))
 	{
-		myClientIrcThread = new IrcThread(*myGui);
+		myClientIrcThread = new IrcThread(myGui);
 		myClientIrcThread->Init(
 			myConfig->readConfigString("IRCServerAddress"),
 			myConfig->readConfigInt("IRCServerPort"),
@@ -281,7 +281,7 @@ void Session::startNetworkServer()
 	boost::shared_ptr<IrcThread> tmpIrcThread;
 	if (myConfig->readConfigInt("UseAdminIRC"))
 	{
-		tmpIrcThread = boost::shared_ptr<IrcThread>(new IrcThread(*myNetServer));
+		tmpIrcThread = boost::shared_ptr<IrcThread>(new IrcThread(myNetServer));
 
 		tmpIrcThread->Init(
 			myConfig->readConfigString("AdminIRCServerAddress"),
@@ -323,6 +323,7 @@ bool Session::pollNetworkServerTerminated()
 		retVal = true; // already terminated
 	else
 	{
+		myNetServer->Process();
 		if (myNetServer->JoinAll(false))
 			retVal = true;
 	}

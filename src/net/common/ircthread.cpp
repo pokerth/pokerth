@@ -251,11 +251,30 @@ irc_event_numeric(irc_session_t * session, unsigned irc_event, const char * /*or
 	}
 }
 
-IrcThread::IrcThread(IrcCallback &callback)
+IrcThread::IrcThread(const IrcThread &other)
+: m_terminationTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start),
+  m_lastConnectTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
+{
+	m_callback = other.m_callback;
+	m_context.reset(new IrcContext(*this));
+
+	IrcContext &context = GetContext();
+	const IrcContext &otherContext = other.GetContext();
+
+	context.serverAddress	= otherContext.serverAddress;
+	context.serverPort		= otherContext.serverPort;
+	context.useIPv6			= otherContext.useIPv6;
+	context.nick			= otherContext.nick;
+	context.channel			= otherContext.channel;
+	context.channelPassword	= otherContext.channelPassword;
+}
+
+IrcThread::IrcThread(IrcCallback *callback)
 : m_callback(callback),
   m_terminationTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start),
   m_lastConnectTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
 {
+	assert(callback);
 	m_context.reset(new IrcContext(*this));
 }
 
@@ -469,6 +488,7 @@ IrcThread::GetContext()
 IrcCallback &
 IrcThread::GetCallback()
 {
-	return m_callback;
+	assert(m_callback);
+	return *m_callback;
 }
 

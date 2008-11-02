@@ -24,6 +24,7 @@
 #include <game_defs.h>
 
 #include <gui/guiinterface.h>
+#include <third_party/boost/timers.hpp>
 #include <string>
 #include <list>
 
@@ -45,6 +46,9 @@ public:
 
 	// Main start function.
 	void RunAll();
+
+	// Let the server manager perform processing.
+	void Process();
 
 	void SignalTerminationAll();
 	bool JoinAll(bool wait);
@@ -75,6 +79,7 @@ private:
 
 	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
 	boost::shared_ptr<IrcThread> m_ircThread;
+	boost::timers::portable::microsec_timer m_ircRestartTimer;
 	AcceptThreadList m_acceptThreadPool;
 };
 

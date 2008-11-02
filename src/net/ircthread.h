@@ -31,7 +31,8 @@ struct IrcContext;
 class IrcThread : public Thread
 {
 public:
-	IrcThread(IrcCallback &callback);
+	IrcThread(const IrcThread &other);
+	IrcThread(IrcCallback *callback);
 	virtual ~IrcThread();
 
 	// Set the parameters.
@@ -58,7 +59,7 @@ protected:
 
 private:
 	boost::shared_ptr<IrcContext> m_context;
-	IrcCallback &m_callback;
+	IrcCallback *m_callback;
 
 	boost::timers::portable::microsec_timer m_terminationTimer;
 	boost::timers::portable::microsec_timer m_lastConnectTimer;
