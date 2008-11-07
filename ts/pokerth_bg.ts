@@ -79,7 +79,7 @@
 <context>
     <name>MyAvatarLabel</name>
     <message>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="23"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="26"/>
         <source>Start vote on kick this user</source>
         <translation type="unfinished"></translation>
     </message>
@@ -995,7 +995,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>gameTableImpl</name>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2831"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2840"/>
         <source>Stop</source>
         <translation type="unfinished">Спри</translation>
     </message>
@@ -1022,22 +1022,22 @@ Please choose another one.</source>
 Моля изберете друг псевдоним.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1534"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1543"/>
         <source>F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In</source>
         <translation type="unfinished">F1 - Оттегли се | F2 - Приеми/Орговори | F3 - Заложи/Наддай | F4 - Всичко вътре</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1536"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1545"/>
         <source>F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold</source>
         <translation type="unfinished">F1 - Всичко вътре | F2 - Заложи/Наддай | F3 - Приеми/Орговори | F4 - Оттегли се</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2582"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2591"/>
         <source>Start</source>
         <translation type="unfinished">Започни</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2860"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2869"/>
         <source>Lobby</source>
         <translation type="unfinished">Лоби</translation>
     </message>
@@ -1276,42 +1276,42 @@ Please choose a different name.</source>
         <translation type="obsolete">Бета версията на PokerTH не е годна.&lt;br&gt;Моля отидете на &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; за да изтеглите последната версия.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2684"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2693"/>
         <source>Manual mode set. You&apos;ve got to choose yourself now.</source>
         <translation type="unfinished">Ръчен метод е настроен. Трябва да изберете себе си.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2686"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2695"/>
         <source>Auto mode set: Check or call any.</source>
         <translation type="unfinished">Автоматичен метод е настроен: Приемай или отговаряй на всеки.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2688"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2697"/>
         <source>Auto mode set: Check or fold.</source>
         <translation type="unfinished">Автоматичен метод е настроен: Приемай или се оттегляй.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2844"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2853"/>
         <source>Chat</source>
         <translation type="unfinished">Чат</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2978"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2987"/>
         <source>Closing PokerTH during network game</source>
         <translation type="unfinished">Затваряне на PokerTH по време на игра в мрежа</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2979"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2988"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
         <translation type="unfinished">Вие сте сървъра домакин. Искате ли да затворите PokerTH все пак ?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3062"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3071"/>
         <source>PokerTH - Internet Game Message</source>
         <translation type="unfinished">PokerTH - Съобщение от интернет игра</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3064"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3073"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation type="unfinished">Внимание! Наистина ли искате да напуснете играта
@@ -1323,23 +1323,23 @@ and go back to the lobby?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3088"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3097"/>
         <source>Kick</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3093"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3102"/>
         <source>Do you want to kick &lt;b&gt;%1&lt;/b&gt; 
 from this game?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3130"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3139"/>
         <source>%1 secs left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3136"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3145"/>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has %2 votes against him.</source>
         <translation type="unfinished"></translation>
     </message>

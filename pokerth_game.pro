@@ -250,6 +250,7 @@ SOURCES += \
 TRANSLATIONS = \
 		ts/pokerth_bg.ts \
 		ts/pokerth_de.ts \
+		ts/pokerth_dk.ts \
 		ts/pokerth_es.ts \
 		ts/pokerth_fr.ts \
 		ts/pokerth_hu.ts \

@@ -84,7 +84,7 @@
         <translation type="obsolete">Stem om deze gebruiker te verwijderen</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="23"/>
+        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="26"/>
         <source>Start vote on kick this user</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2631,12 +2631,12 @@ Kies een andere naam.</translation>
         <translation>Cmd+N om een nieuw spel te starten</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2582"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2591"/>
         <source>Start</source>
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2831"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2840"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
@@ -2712,22 +2712,22 @@ Als de server zich achter een NAT-router bevindt, controleer dan daar of port fo
         <translation type="obsolete">F1 - Betten/Raisen | F2 - Checken/Callen | F3 - Folden/All-In</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2844"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2853"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2684"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2693"/>
         <source>Manual mode set. You&apos;ve got to choose yourself now.</source>
         <translation>Handmatige modus ingesteld. U moet nu zelf kiezen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2686"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2695"/>
         <source>Auto mode set: Check or call any.</source>
         <translation>Automatische modus ingesteld: altijd checken of callen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2688"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2697"/>
         <source>Auto mode set: Check or fold.</source>
         <translation>Automatische modus ingesteld: checken of folden.</translation>
     </message>
@@ -2774,12 +2774,12 @@ Kies een andere naam.</translation>
         <translation type="obsolete">Kan spel niet starten: Synchronisatie mislukt.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1534"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1543"/>
         <source>F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In</source>
         <translation>F1 - Folden | F2 - Checken/Callen | F3 - Betten/Raisen | F4 - All-In</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1536"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1545"/>
         <source>F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold</source>
         <translation>F1 - All-In | F2 - Betten/Raisen | F3 - Checken/Callen | F4 - Folden</translation>
     </message>
@@ -2814,12 +2814,12 @@ Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&
         <translation type="obsolete">Deze bètarelease van PokerTH is te oud.Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; en download de nieuwste versie.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2978"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2987"/>
         <source>Closing PokerTH during network game</source>
         <translation>PokerTH afsluiten tijdens netwerkspel</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2979"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2988"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
         <translation>U bent de server van dit spel. Wilt u PokerTH toch sluiten?</translation>
     </message>
@@ -2839,17 +2839,17 @@ Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&
         <translation type="obsolete">Deze bètarelease van PokerTH is te oud.&lt;br&gt;Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;/a&gt; en download de nieuwste versie.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2860"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2869"/>
         <source>Lobby</source>
         <translation>Lobby</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3062"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3071"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - Bericht van internetspel</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3064"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3073"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>Opgelet! Wilt u werkelijk het huidige spel verlaten
@@ -2936,23 +2936,23 @@ Zorg ervoor dat u een directe verbinding met internet hebt.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3088"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3097"/>
         <source>Kick</source>
         <translation type="unfinished">Verwijderen</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3093"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3102"/>
         <source>Do you want to kick &lt;b&gt;%1&lt;/b&gt; 
 from this game?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3130"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3139"/>
         <source>%1 secs left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3136"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3145"/>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has %2 votes against him.</source>
         <translation type="unfinished"></translation>
     </message>
