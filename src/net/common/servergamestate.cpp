@@ -186,13 +186,25 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 			}
 			else if (packet->ToNetPacketKickPlayer())
 			{
-				// Only admins are allowed to kick.
-				if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN)
+				// Only admins are allowed to kick, and only in the lobby.
+				// After leaving the lobby, a vote needs to be initiated to kick.
+				if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN && !server.IsRunning())
 				{
 					NetPacketKickPlayer::Data kickPlayerData;
 					packet->ToNetPacketKickPlayer()->GetData(kickPlayerData);
 
 					server.InternalKickPlayer(kickPlayerData.playerId);
+				}
+			}
+			else if (packet->ToNetPacketAskKickPlayer())
+			{
+				if (server.IsRunning())
+				{
+					NetPacketAskKickPlayer::Data askKickData;
+					packet->ToNetPacketAskKickPlayer()->GetData(askKickData);
+
+					// TODO start vote kick.
+					//askKickData.playerId
 				}
 			}
 			// Chat text is always allowed.
