@@ -101,6 +101,10 @@ void ServerGuiWrapper::updateMyButtonsState() {}
 void ServerGuiWrapper::startTimeoutAnimation(int /*playerId*/, int /*timeoutSec*/) {}
 void ServerGuiWrapper::stopTimeoutAnimation(int /*playerId*/) {}
 
+void ServerGuiWrapper::startVoteOnKick(int /*playerId*/, int /*timeoutSec*/) {}
+void ServerGuiWrapper::changeVoteOnKickButtonsState(bool /*showHide*/) {}
+void ServerGuiWrapper::endVoteOnKick() {}
+
 void ServerGuiWrapper::logPlayerActionMsg(string /*playerName*/, int /*action*/, int /*setValue*/) {}
 void ServerGuiWrapper::logNewGameHandMsg(int /*gameID*/, int /*handID*/) {}
 void ServerGuiWrapper::logPlayerWinsMsg(std::string /*playerName*/, int /*pot*/, bool /*main*/) {}

@@ -590,6 +590,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalFlipHolecardsAllIn()), this, SLOT(flipHolecardsAllIn()));
 	connect(this, SIGNAL(signalNextRoundCleanGui()), this, SLOT(nextRoundCleanGui()));
 	connect(this, SIGNAL(signalStartVoteOnKick(int, int)), this, SLOT(startVoteOnKick(int, int)));
+	connect(this, SIGNAL(signalChangeVoteOnKickButtonsState(bool)), this, SLOT(changeVoteOnKickButtonsState(bool)));
 	connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
 
 }
@@ -3097,6 +3098,8 @@ void gameTableImpl::startVoteOnKick(int playerId, int timeoutSec)
 		tabWidget_Left->insertTab(2, tab_Kick, QString(tr("Kick")));
 	
 	tabWidget_Left->setCurrentIndex(2);
+	pushButton_voteOnKickNo->hide();
+	pushButton_voteOnKickYes->hide();
 
 	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerId));
 	label_kickUser->setText(tr("Do you want to kick <b>%1</b> \nfrom this game?").arg(QString::fromUtf8(info.playerName.c_str())));
@@ -3104,6 +3107,18 @@ void gameTableImpl::startVoteOnKick(int playerId, int timeoutSec)
 	voteOnKickTimeoutSecs = timeoutSec;
 	playerAboutToKickId = playerId;
 	startVoteOnKickTimeout();
+}
+
+void gameTableImpl::changeVoteOnKickButtonsState(bool showHide)
+{
+	if(showHide) {
+		pushButton_voteOnKickNo->show();
+		pushButton_voteOnKickYes->show();
+	}
+	else {
+		pushButton_voteOnKickNo->hide();
+		pushButton_voteOnKickYes->hide();
+	}
 }
 
 void gameTableImpl::endVoteOnKick()

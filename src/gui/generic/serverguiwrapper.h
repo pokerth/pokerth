@@ -88,6 +88,10 @@ public:
 	void startTimeoutAnimation(int playerId, int timeoutSec);
 	void stopTimeoutAnimation(int playerId);
 
+	void startVoteOnKick(int playerId, int timeoutSec);
+	void changeVoteOnKickButtonsState(bool showHide);
+	void endVoteOnKick();
+
 	void logPlayerActionMsg(std::string playerName, int action, int setValue) ;
 	void logNewGameHandMsg(int gameID, int handID) ;
 	void logPlayerWinsMsg(std::string playerName, int pot, bool main);
