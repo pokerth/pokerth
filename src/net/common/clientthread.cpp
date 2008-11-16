@@ -253,6 +253,17 @@ ClientThread::SendResetTimeout()
 	m_outPacketList.push_back(reset);	
 }
 
+void
+ClientThread::SendAskKickPlayer(unsigned playerId)
+{
+	boost::shared_ptr<NetPacket> ask(new NetPacketAskKickPlayer);
+	NetPacketAskKickPlayer::Data askData;
+	askData.playerId = playerId;
+	static_cast<NetPacketAskKickPlayer *>(ask.get())->SetData(askData);
+	boost::mutex::scoped_lock lock(m_outPacketListMutex);
+	m_outPacketList.push_back(ask);
+}
+
 GameInfo
 ClientThread::GetGameInfo(unsigned gameId) const
 {

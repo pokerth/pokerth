@@ -80,6 +80,7 @@ public:
 	void sendChatMessage(const std::string &message);
 	void kickPlayer(unsigned playerId);
 	void kickPlayer(const std::string &playerName);
+	void startVoteKickPlayer(unsigned playerId);
 	
 	void resetNetworkTimeout();
 

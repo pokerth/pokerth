@@ -64,6 +64,7 @@ using namespace std;
 
 #define SERVER_GAME_ADMIN_WARNING_REMAINING_SEC		60
 #define SERVER_GAME_ADMIN_TIMEOUT_SEC				300		// 5 min, MUST be > SERVER_GAME_ADMIN_WARNING_REMAINING_SEC
+#define SERVER_VOTE_KICK_TIMEOUT_SEC				30
 
 // Helper functions
 // TODO: these are hacks.
@@ -198,13 +199,24 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 			}
 			else if (packet->ToNetPacketAskKickPlayer())
 			{
-				if (server.IsRunning())
+				if (server.IsRunning() && session.playerData)
 				{
 					NetPacketAskKickPlayer::Data askKickData;
 					packet->ToNetPacketAskKickPlayer()->GetData(askKickData);
 
-					// TODO start vote kick.
-					//askKickData.playerId
+					boost::shared_ptr<VoteKickData> voteData(server.InternalAskVoteKick(session.playerData->GetUniqueId(), askKickData.playerId));
+					if (voteData)
+					{
+						boost::shared_ptr<NetPacket> startPetition(new NetPacketStartKickPlayerPetition);
+						NetPacketStartKickPlayerPetition::Data startPetitionData;
+						startPetitionData.petitionId = voteData->petitionId;
+						startPetitionData.proposingPlayerId = session.playerData->GetUniqueId();
+						startPetitionData.kickPlayerId = voteData->kickPlayerId;
+						startPetitionData.kickTimeoutSec = SERVER_VOTE_KICK_TIMEOUT_SEC;
+						startPetitionData.numVotesNeededToKick = voteData->numVotesToKick;
+						static_cast<NetPacketStartKickPlayerPetition *>(startPetition.get())->SetData(startPetitionData);
+						server.GetSender().Send(session.sessionData, startPetition);
+					}
 				}
 			}
 			// Chat text is always allowed.

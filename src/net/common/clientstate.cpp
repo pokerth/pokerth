@@ -769,6 +769,12 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			tmpPacket->ToNetPacketGameListAdminChanged()->GetData(adminChangedData);
 			client.UpdateGameInfoAdmin(adminChangedData.gameId, adminChangedData.newAdminplayerId);
 		}
+		else if (tmpPacket->ToNetPacketStartKickPlayerPetition())
+		{
+			NetPacketStartKickPlayerPetition::Data petitionData;
+			tmpPacket->ToNetPacketStartKickPlayerPetition()->GetData(petitionData);
+			// TODO
+		}
 		else if (tmpPacket->ToNetPacketAvatarHeader())
 		{
 			NetPacketAvatarHeader::Data headerData;

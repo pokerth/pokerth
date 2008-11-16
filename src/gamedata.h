@@ -22,6 +22,7 @@
 #define _GAMEDATA_H_
 
 #include <playerdata.h>
+#include <third_party/boost/timers.hpp>
 
 #define SERVER_COMPUTER_PLAYER_NAME			"Computer"
 
@@ -85,6 +86,15 @@ struct StartData
 	StartData() : startDealerPlayerId(0), numberOfPlayers(0) {}
 	unsigned startDealerPlayerId;
 	int numberOfPlayers;
+};
+
+struct VoteKickData
+{
+	unsigned petitionId;
+	unsigned kickPlayerId;
+	unsigned numVotesToKick;
+	boost::timers::portable::microsec_timer voteTimer;
+	std::list<unsigned> votedPlayerIds;
 };
 
 #endif

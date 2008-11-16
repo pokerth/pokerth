@@ -37,7 +37,7 @@ using namespace std;
 ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
 : m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
   m_gameData(gameData), m_id(id), m_name(name), m_password(pwd), m_playerConfig(playerConfig),
-  m_curState(NULL), m_gameNum(1),
+  m_curState(NULL), m_gameNum(1), m_curPetitionId(1),
   m_stateTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start),
   m_stateTimerFlag(0)
 {
@@ -224,6 +224,27 @@ ServerGameThread::InternalKickPlayer(unsigned playerId)
 	// Only kick if the player was found.
 	if (tmpSession.sessionData.get())
 		MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_KICKED);
+}
+
+boost::shared_ptr<VoteKickData>
+ServerGameThread::InternalAskVoteKick(unsigned playerIdByWhom, unsigned playerIdWho)
+{
+	boost::mutex::scoped_lock lock(m_voteKickMapMutex);
+	// TODO: Check whether player is allowed to initiate vote.
+	// TODO: Check whether there are more than two players.
+	boost::shared_ptr<VoteKickData> voteData;
+	if (m_game)
+	{
+		voteData.reset(new VoteKickData);
+		voteData->petitionId = m_curPetitionId++;
+		voteData->kickPlayerId = playerIdWho;
+		voteData->numVotesToKick = static_cast<unsigned>(ceil(GetCurNumberOfPlayers() / 3. * 2.));
+		// Consider first vote.
+		voteData->numVotesToKick--;
+		voteData->votedPlayerIds.push_back(playerIdByWhom);
+		m_voteKickMap.insert(VoteKickMap::value_type(voteData->petitionId, voteData));
+	}
+	return voteData;
 }
 
 PlayerDataList
