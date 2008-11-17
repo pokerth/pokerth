@@ -35,6 +35,7 @@ public slots:
 	void showContextMenu(const QPoint &pos);
 	void sendTriggerVoteOnKickSignal();	
 	void setEnabledContextMenu(bool);
+	void setVoteOnKickContextMenuEnabled(bool);
 
 private: 
 

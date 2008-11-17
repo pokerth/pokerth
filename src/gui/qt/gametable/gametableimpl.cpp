@@ -2676,8 +2676,8 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
 	else { keyUpDownChatCounter = 0; }
 	
 	//TESTING UNIT
-// 	if (event->key() == Qt::Key_M) { startVoteOnKick(3,60); }
-// 	if (event->key() == Qt::Key_N) { endVoteOnKick(); }
+	if (event->key() == Qt::Key_M) { startVoteOnKick(3,60); }
+	if (event->key() == Qt::Key_N) { endVoteOnKick(); }
 }
 
 void gameTableImpl::changePlayingMode() {
@@ -2861,6 +2861,7 @@ void gameTableImpl::networkGameModification() {
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
 		playerAvatarLabelArray[i]->setEnabledContextMenu(TRUE);
+		playerAvatarLabelArray[i]->setVoteOnKickContextMenuEnabled(TRUE);
 	}
 
 	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET) {
@@ -3108,11 +3109,16 @@ void gameTableImpl::startVoteOnKick(int playerId, int timeoutSec)
 	pushButton_voteOnKickYes->hide();
 
 	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerId));
-	label_kickUser->setText(tr("Do you want to kick <b>%1</b> \nfrom this game?").arg(QString::fromUtf8(info.playerName.c_str())));
+	label_kickUser->setText(tr("Do you want to kick <b>%1</b><br>from this game?").arg(QString::fromUtf8(info.playerName.c_str())));
 
 	voteOnKickTimeoutSecs = timeoutSec;
 	playerAboutToKickId = playerId;
 	startVoteOnKickTimeout();
+	
+	int i;
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
+		playerAvatarLabelArray[i]->setVoteOnKickContextMenuEnabled(FALSE);
+	}
 }
 
 void gameTableImpl::changeVoteOnKickButtonsState(bool showHide)
@@ -3131,7 +3137,11 @@ void gameTableImpl::endVoteOnKick()
 {
 	stopVoteOnKickTimeout();
 	tabWidget_Left->removeTab(2);
-// 	tabWidget_Left->setCurrentIndex(1);
+	
+	int i;
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
+		playerAvatarLabelArray[i]->setVoteOnKickContextMenuEnabled(TRUE);
+	}
 }
 
 void gameTableImpl::voteOnKickYes()
@@ -3157,7 +3167,7 @@ void gameTableImpl::stopVoteOnKickTimeout()
 
 void gameTableImpl::nextVoteOnKickTimeoutAnimationFrame()
 {
-	label_kickVoteTimeout->setText(tr("%1 secs left").arg(voteOnKickTimeoutSecs-voteOnKickRealTimer.elapsed().total_seconds()));
+	label_kickVoteTimeout->setText(tr("<b>%1</b> secs left").arg(voteOnKickTimeoutSecs-voteOnKickRealTimer.elapsed().total_seconds()));
 }
 
 void gameTableImpl::refreshVotesMonitor()
@@ -3188,6 +3198,5 @@ void gameTableImpl::refreshCardsChance(GameState bero)
 	}
 
 	delete myCardsValue;
-
 }
 

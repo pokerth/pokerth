@@ -64,3 +64,8 @@ void MyAvatarLabel::setEnabledContextMenu(bool b)
 {
 	myContextMenuEnabled = b;
 }
+
+void MyAvatarLabel::setVoteOnKickContextMenuEnabled(bool b)
+{
+	action_VoteForKick->setEnabled(b);
+}
