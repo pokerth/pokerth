@@ -143,9 +143,9 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\GnuTLS. (
 echo.
 echo Downloading GnuTLS
-%PKTH_OldDir%\third_party_apps\curl -O http://josefsson.org/gnutls4win/gnutls-2.6.0.zip
+%PKTH_OldDir%\third_party_apps\curl -O http://josefsson.org/gnutls4win/gnutls-2.6.2.zip
 mkdir GnuTLS
-%PKTH_OldDir%\third_party_apps\7za x -y -oGnuTLS gnutls-2.6.0.zip
+%PKTH_OldDir%\third_party_apps\7za x -y -oGnuTLS gnutls-2.6.2.zip
 REM Wait 5 seconds for the file cache.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
 REM Remove files for dynamic linking, we do not want to accidently use them
