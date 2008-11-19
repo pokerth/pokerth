@@ -25,12 +25,13 @@ is run on a vserver with very limited memory.
 
 The following packages are required to compile the server:
 * qmake (Qt development tools)
-* boost 1.34.1
+* boost 1.34.1, 1.36.0 recommended
   - boost-thread
   - boost-filesystem
   - boost-datetime
   - boost-program_options
-* OpenSSL (any version should be fine)
+  - boost-iostreams
+* GnuTLS (any version should be fine)
 
 The following packages are optional but recommended:
 * monit (http://tildeslash.com/monit/)
@@ -48,7 +49,7 @@ If you do not have root access, log in as usual.
 To use the stable version, download the latest PokerTH
 source release from http://www.pokerth.net/.
 Unpack the source release:
-	tar xjf PokerTH-0.6-1.src.tar.bz2
+	tar xjf PokerTH-0.6-2.src.tar.bz2
 
 If you wish to use the current development version instead, run
 	svn co http://pokerth.svn.sourceforge.net/svnroot/pokerth/trunk/pokerth
