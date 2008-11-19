@@ -85,10 +85,10 @@ public:
 	void meInAction();
 	void updateMyButtonsState();
 	void disableMyButtons();
-	void startTimeoutAnimation(int playerId, int timeoutSec);
-	void stopTimeoutAnimation(int playerId);
+	void startTimeoutAnimation(int playerNum, int timeoutSec);
+	void stopTimeoutAnimation(int playerNum);
 
-	void startVoteOnKick(int playerId, int timeoutSec, int numVotesNeededToKick);
+	void startVoteOnKick(unsigned playerId, int timeoutSec, int numVotesNeededToKick);
 	void changeVoteOnKickButtonsState(bool showHide);
 	void refreshVotesMonitor(int currentVotes, int numVotesNeededToKick);
 	void endVoteOnKick();

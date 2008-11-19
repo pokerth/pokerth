@@ -215,7 +215,7 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 						startPetitionData.kickTimeoutSec = SERVER_VOTE_KICK_TIMEOUT_SEC;
 						startPetitionData.numVotesNeededToKick = voteData->numVotesToKick;
 						static_cast<NetPacketStartKickPlayerPetition *>(startPetition.get())->SetData(startPetitionData);
-						server.GetSender().Send(session.sessionData, startPetition);
+						server.SendToAllPlayers(startPetition, SessionData::Game);
 					}
 				}
 			}

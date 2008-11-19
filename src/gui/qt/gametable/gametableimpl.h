@@ -119,7 +119,7 @@ signals:
 
 	void signalNextRoundCleanGui();
 	
-	void signalStartVoteOnKick(int playerId, int timeoutSec, int numVotesNeededToKick);
+	void signalStartVoteOnKick(unsigned playerId, int timeoutSec, int numVotesNeededToKick);
 	void signalChangeVoteOnKickButtonsState(bool showHide);
 	void signalEndVoteOnKick();
 
@@ -409,7 +409,7 @@ private:
 	int myLastPreActionBetValue;
 	
 	int voteOnKickTimeoutSecs;
-	int playerAboutToKickId;
+	unsigned playerAboutToBeKickedId;
 // 	StyleSheetReader *myStyleSheetReader;
 
 friend class GuiWrapper;

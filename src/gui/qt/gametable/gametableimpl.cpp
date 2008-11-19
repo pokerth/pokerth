@@ -589,7 +589,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalPostRiverRunAnimation1()), this, SLOT(postRiverRunAnimation1()));
 	connect(this, SIGNAL(signalFlipHolecardsAllIn()), this, SLOT(flipHolecardsAllIn()));
 	connect(this, SIGNAL(signalNextRoundCleanGui()), this, SLOT(nextRoundCleanGui()));
-	connect(this, SIGNAL(signalStartVoteOnKick(int, int, int)), this, SLOT(startVoteOnKick(int, int, int)));
+	connect(this, SIGNAL(signalStartVoteOnKick(unsigned, int, int)), this, SLOT(startVoteOnKick(unsigned, int, int)));
 	connect(this, SIGNAL(signalChangeVoteOnKickButtonsState(bool)), this, SLOT(changeVoteOnKickButtonsState(bool)));
 	connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
 
@@ -3099,7 +3099,7 @@ void gameTableImpl::triggerVoteOnKick(int id) {
 	}
 }
 
-void gameTableImpl::startVoteOnKick(int playerId, int timeoutSec, int numVotesNeededToKick)
+void gameTableImpl::startVoteOnKick(unsigned playerId, int timeoutSec, int numVotesNeededToKick)
 {
 	if(tabWidget_Left->widget(2) != tab_Kick) 
 		tabWidget_Left->insertTab(2, tab_Kick, QString(tr("Kick")));
@@ -3109,7 +3109,7 @@ void gameTableImpl::startVoteOnKick(int playerId, int timeoutSec, int numVotesNe
 	pushButton_voteOnKickYes->hide();
 	voteOnKickTimeoutSecs = timeoutSec;
 	
-	playerAboutToKickId = playerId;
+	playerAboutToBeKickedId = playerId;
 	refreshVotesMonitor(1, numVotesNeededToKick);
 
 	startVoteOnKickTimeout();
@@ -3124,7 +3124,7 @@ void gameTableImpl::changeVoteOnKickButtonsState(bool showHide)
 {
 	if(showHide) {
 		
-		PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToKickId));
+		PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToBeKickedId));
 		label_kickUser->setText(tr("Do you want to kick <b>%1</b><br>from this game?").arg(QString::fromUtf8(info.playerName.c_str())));
 
 		pushButton_voteOnKickNo->show();
@@ -3176,7 +3176,7 @@ void gameTableImpl::nextVoteOnKickTimeoutAnimationFrame()
 
 void gameTableImpl::refreshVotesMonitor(int currentVotes, int numVotesNeededToKick)
 {
-	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToKickId));
+	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToBeKickedId));
 	label_votesMonitor->setText(tr("Player <b>%1</b> has %2 votes<br>against him. %3 votes needed to kick.").arg(QString::fromUtf8(info.playerName.c_str())).arg(currentVotes).arg(numVotesNeededToKick));
 }
 
