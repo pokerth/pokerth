@@ -97,7 +97,7 @@ public:
 	virtual void startTimeoutAnimation(int playerId, int timeoutSec) =0;
 	virtual void stopTimeoutAnimation(int playerId) =0;
 
-	virtual void startVoteOnKick(int playerId, int timeoutSec) =0;
+	virtual void startVoteOnKick(int playerId, int timeoutSec, int numVotesNeededToKick) =0;
 	virtual void changeVoteOnKickButtonsState(bool showHide) =0;
 	virtual void refreshVotesMonitor(int currentVotes, int numVotesNeededToKick) =0;
 	virtual void endVoteOnKick() =0;

@@ -23,7 +23,7 @@ MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
 {
 
 	myContextMenu = new QMenu;
-	action_VoteForKick = new QAction(QIcon(":/gfx/list_remove_user.png"), tr("Start vote on kick this user"), myContextMenu);
+	action_VoteForKick = new QAction(QIcon(":/gfx/list_remove_user.png"), tr("Start vote to kick this user"), myContextMenu);
 	myContextMenu->addAction(action_VoteForKick);
 
 	connect( action_VoteForKick, SIGNAL ( triggered() ), this, SLOT ( sendTriggerVoteOnKickSignal() ) );

@@ -101,7 +101,7 @@ void ServerGuiWrapper::updateMyButtonsState() {}
 void ServerGuiWrapper::startTimeoutAnimation(int /*playerId*/, int /*timeoutSec*/) {}
 void ServerGuiWrapper::stopTimeoutAnimation(int /*playerId*/) {}
 
-void ServerGuiWrapper::startVoteOnKick(int /*playerId*/, int /*timeoutSec*/) {}
+void ServerGuiWrapper::startVoteOnKick(int /*playerId*/, int /*timeoutSec*/, int /*numVotesNeededToKick*/) {}
 void ServerGuiWrapper::changeVoteOnKickButtonsState(bool /*showHide*/) {}
 void ServerGuiWrapper::refreshVotesMonitor(int /*currentVotes*/, int /*numVotesNeededToKick*/) {}
 void ServerGuiWrapper::endVoteOnKick() {}

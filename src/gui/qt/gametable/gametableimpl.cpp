@@ -589,7 +589,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalPostRiverRunAnimation1()), this, SLOT(postRiverRunAnimation1()));
 	connect(this, SIGNAL(signalFlipHolecardsAllIn()), this, SLOT(flipHolecardsAllIn()));
 	connect(this, SIGNAL(signalNextRoundCleanGui()), this, SLOT(nextRoundCleanGui()));
-	connect(this, SIGNAL(signalStartVoteOnKick(int, int)), this, SLOT(startVoteOnKick(int, int)));
+	connect(this, SIGNAL(signalStartVoteOnKick(int, int, int)), this, SLOT(startVoteOnKick(int, int, int)));
 	connect(this, SIGNAL(signalChangeVoteOnKickButtonsState(bool)), this, SLOT(changeVoteOnKickButtonsState(bool)));
 	connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
 
@@ -2676,7 +2676,7 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
 	else { keyUpDownChatCounter = 0; }
 	
 	//TESTING UNIT
-	if (event->key() == Qt::Key_M) { startVoteOnKick(3,60); }
+	if (event->key() == Qt::Key_M) { startVoteOnKick(3,60, 6); }
 	if (event->key() == Qt::Key_N) { endVoteOnKick(); }
 }
 
@@ -3099,7 +3099,7 @@ void gameTableImpl::triggerVoteOnKick(int id) {
 	}
 }
 
-void gameTableImpl::startVoteOnKick(int playerId, int timeoutSec)
+void gameTableImpl::startVoteOnKick(int playerId, int timeoutSec, int numVotesNeededToKick)
 {
 	if(tabWidget_Left->widget(2) != tab_Kick) 
 		tabWidget_Left->insertTab(2, tab_Kick, QString(tr("Kick")));
@@ -3107,9 +3107,11 @@ void gameTableImpl::startVoteOnKick(int playerId, int timeoutSec)
 	tabWidget_Left->setCurrentIndex(2);
 	pushButton_voteOnKickNo->hide();
 	pushButton_voteOnKickYes->hide();
-
 	voteOnKickTimeoutSecs = timeoutSec;
+	
 	playerAboutToKickId = playerId;
+	refreshVotesMonitor(1, numVotesNeededToKick);
+
 	startVoteOnKickTimeout();
 	
 	int i;
@@ -3175,7 +3177,7 @@ void gameTableImpl::nextVoteOnKickTimeoutAnimationFrame()
 void gameTableImpl::refreshVotesMonitor(int currentVotes, int numVotesNeededToKick)
 {
 	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToKickId));
-	label_votesMonitor->setText(tr("Player <b>%1</b> has %2 votes against him.<br>%3 votes needed to kick.").arg(QString::fromUtf8(info.playerName.c_str()), currentVotes, numVotesNeededToKick));
+	label_votesMonitor->setText(tr("Player <b>%1</b> has %2 votes<br>against him. %3 votes needed to kick.").arg(QString::fromUtf8(info.playerName.c_str())).arg(currentVotes).arg(numVotesNeededToKick));
 }
 
 void gameTableImpl::refreshCardsChance(GameState bero)
@@ -3201,4 +3203,3 @@ void gameTableImpl::refreshCardsChance(GameState bero)
 
 	delete myCardsValue;
 }
-
