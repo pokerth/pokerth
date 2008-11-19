@@ -290,7 +290,7 @@ public slots:
 	void startVoteOnKickTimeout();
 	void stopVoteOnKickTimeout();
 	void nextVoteOnKickTimeoutAnimationFrame();
-	void refreshVotesMonitor();
+	void refreshVotesMonitor(int currentVotes, int numVotesNeededToKick);
 
 private: 
 

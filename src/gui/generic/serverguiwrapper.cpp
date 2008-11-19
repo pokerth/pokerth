@@ -103,6 +103,7 @@ void ServerGuiWrapper::stopTimeoutAnimation(int /*playerId*/) {}
 
 void ServerGuiWrapper::startVoteOnKick(int /*playerId*/, int /*timeoutSec*/) {}
 void ServerGuiWrapper::changeVoteOnKickButtonsState(bool /*showHide*/) {}
+void ServerGuiWrapper::refreshVotesMonitor(int /*currentVotes*/, int /*numVotesNeededToKick*/) {}
 void ServerGuiWrapper::endVoteOnKick() {}
 
 void ServerGuiWrapper::logPlayerActionMsg(string /*playerName*/, int /*action*/, int /*setValue*/) {}

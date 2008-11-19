@@ -98,6 +98,7 @@ public:
 
 	void startVoteOnKick(int playerId, int timeoutSec);
 	void changeVoteOnKickButtonsState(bool showHide);
+	void refreshVotesMonitor(int currentVotes, int numVotesNeededToKick);
 	void endVoteOnKick();
 
 	void logPlayerActionMsg(std::string playerName, int action, int setValue) ;

@@ -3108,9 +3108,6 @@ void gameTableImpl::startVoteOnKick(int playerId, int timeoutSec)
 	pushButton_voteOnKickNo->hide();
 	pushButton_voteOnKickYes->hide();
 
-	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerId));
-	label_kickUser->setText(tr("Do you want to kick <b>%1</b><br>from this game?").arg(QString::fromUtf8(info.playerName.c_str())));
-
 	voteOnKickTimeoutSecs = timeoutSec;
 	playerAboutToKickId = playerId;
 	startVoteOnKickTimeout();
@@ -3124,10 +3121,15 @@ void gameTableImpl::startVoteOnKick(int playerId, int timeoutSec)
 void gameTableImpl::changeVoteOnKickButtonsState(bool showHide)
 {
 	if(showHide) {
+		
+		PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToKickId));
+		label_kickUser->setText(tr("Do you want to kick <b>%1</b><br>from this game?").arg(QString::fromUtf8(info.playerName.c_str())));
+
 		pushButton_voteOnKickNo->show();
 		pushButton_voteOnKickYes->show();
 	}
 	else {
+		label_kickUser->clear();
 		pushButton_voteOnKickNo->hide();
 		pushButton_voteOnKickYes->hide();
 	}
@@ -3170,10 +3172,10 @@ void gameTableImpl::nextVoteOnKickTimeoutAnimationFrame()
 	label_kickVoteTimeout->setText(tr("<b>%1</b> secs left").arg(voteOnKickTimeoutSecs-voteOnKickRealTimer.elapsed().total_seconds()));
 }
 
-void gameTableImpl::refreshVotesMonitor()
+void gameTableImpl::refreshVotesMonitor(int currentVotes, int numVotesNeededToKick)
 {
 	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToKickId));
-	label_votesMonitor->setText(tr("Player <b>%1</b> has %2 votes against him.").arg(QString::fromUtf8(info.playerName.c_str())));
+	label_votesMonitor->setText(tr("Player <b>%1</b> has %2 votes against him.<br>%3 votes needed to kick.").arg(QString::fromUtf8(info.playerName.c_str()), currentVotes, numVotesNeededToKick));
 }
 
 void gameTableImpl::refreshCardsChance(GameState bero)
