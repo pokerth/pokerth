@@ -282,7 +282,7 @@ public slots:
 	void showMaximized ();
 	void closeGameTable();
 
-	void startVoteOnKick(int playerId, int timeoutSec, int numVotesNeededToKick);
+	void startVoteOnKick(unsigned int playerId, int timeoutSec, int numVotesNeededToKick);
 	void changeVoteOnKickButtonsState(bool showHide);
 	void endVoteOnKick();
 	void voteOnKickYes();
