@@ -81,6 +81,7 @@ public:
 	void kickPlayer(unsigned playerId);
 	void kickPlayer(const std::string &playerName);
 	void startVoteKickPlayer(unsigned playerId);
+	void voteKick(bool doKick);
 	
 	void resetNetworkTimeout();
 

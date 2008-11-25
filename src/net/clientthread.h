@@ -69,6 +69,7 @@ public:
 	void SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
 	void SendResetTimeout();
 	void SendAskKickPlayer(unsigned playerId);
+	void SendVoteKick(bool doKick);
 
 	GameInfo GetGameInfo(unsigned gameId) const;
 	PlayerInfo GetPlayerInfo(unsigned playerId) const;
@@ -149,6 +150,8 @@ protected:
 	void ModifyGameInfoRemovePlayer(unsigned gameId, unsigned playerId);
 	void ClearGameInfoMap();
 
+	void StartPetition(unsigned petitionId, unsigned proposingPlayerId, unsigned kickPlayerId, int timeoutSec, int numVotesToKick);
+
 	void UpdateStatData(const ServerStats &stats);
 
 	bool IsSessionEstablished() const;
@@ -188,6 +191,9 @@ private:
 
 	unsigned m_curGameId;
 	mutable boost::mutex m_curGameIdMutex;
+
+	unsigned m_curPetitionId;
+	mutable boost::mutex m_curPetitionIdMutex;
 
 	AvatarDataMap m_tempAvatarMap;
 

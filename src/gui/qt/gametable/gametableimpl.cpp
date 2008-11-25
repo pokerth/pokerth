@@ -2676,8 +2676,8 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
 	else { keyUpDownChatCounter = 0; }
 	
 	//TESTING UNIT
-	if (event->key() == Qt::Key_M) { startVoteOnKick(3,60, 6); }
-	if (event->key() == Qt::Key_N) { endVoteOnKick(); }
+	//if (event->key() == Qt::Key_M) { startVoteOnKick(3,60, 6); }
+	//if (event->key() == Qt::Key_N) { endVoteOnKick(); }
 }
 
 void gameTableImpl::changePlayingMode() {
@@ -3150,10 +3150,14 @@ void gameTableImpl::endVoteOnKick()
 
 void gameTableImpl::voteOnKickYes()
 {
+	changeVoteOnKickButtonsState(false);
+	myStartWindow->getSession()->voteKick(true);
 }
 
 void gameTableImpl::voteOnKickNo()
 {
+	changeVoteOnKickButtonsState(false);
+	myStartWindow->getSession()->voteKick(false);
 }
 
 void gameTableImpl::startVoteOnKickTimeout()

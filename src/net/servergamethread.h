@@ -88,6 +88,7 @@ protected:
 
 	void InternalKickPlayer(unsigned playerId);
 	boost::shared_ptr<VoteKickData> InternalAskVoteKick(unsigned playerIdByWhom, unsigned playerIdWho);
+	void InternalVoteKick(unsigned petitionId, KickVote vote);
 
 	PlayerDataList GetFullPlayerDataList() const;
 

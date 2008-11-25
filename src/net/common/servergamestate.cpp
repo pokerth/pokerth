@@ -153,7 +153,7 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 	SessionWrapper session = server.GetSessionManager().Select(RECV_TIMEOUT_MSEC);
 
-	if (session.sessionData.get())
+	if (session.sessionData)
 	{
 		boost::shared_ptr<NetPacket> packet;
 		try
@@ -167,7 +167,7 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 		}
 
 		// Process packet if one was received.
-		if (packet.get())
+		if (packet)
 		{
 			if (packet->IsClientActivity())
 				session.sessionData->ResetActivityTimer();
@@ -199,7 +199,7 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 			}
 			else if (packet->ToNetPacketAskKickPlayer())
 			{
-				if (server.IsRunning() && session.playerData)
+				if (session.playerData)
 				{
 					NetPacketAskKickPlayer::Data askKickData;
 					packet->ToNetPacketAskKickPlayer()->GetData(askKickData);
@@ -213,10 +213,21 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 						startPetitionData.proposingPlayerId = session.playerData->GetUniqueId();
 						startPetitionData.kickPlayerId = voteData->kickPlayerId;
 						startPetitionData.kickTimeoutSec = SERVER_VOTE_KICK_TIMEOUT_SEC;
-						startPetitionData.numVotesNeededToKick = voteData->numVotesToKick;
+						startPetitionData.numVotesNeededToKick = voteData->initialNumVotesToKick;
 						static_cast<NetPacketStartKickPlayerPetition *>(startPetition.get())->SetData(startPetitionData);
 						server.SendToAllPlayers(startPetition, SessionData::Game);
+						// TODO notify first vote.
 					}
+				}
+			}
+			else if (packet->ToNetPacketVoteKickPlayer())
+			{
+				if (session.playerData)
+				{
+					NetPacketVoteKickPlayer::Data voteData;
+					packet->ToNetPacketVoteKickPlayer()->GetData(voteData);
+
+					server.InternalVoteKick(voteData.petitionId, voteData.vote);
 				}
 			}
 			// Chat text is always allowed.

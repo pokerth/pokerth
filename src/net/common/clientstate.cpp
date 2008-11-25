@@ -773,7 +773,8 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 		{
 			NetPacketStartKickPlayerPetition::Data petitionData;
 			tmpPacket->ToNetPacketStartKickPlayerPetition()->GetData(petitionData);
-			client.GetGui().startVoteOnKick(petitionData.kickPlayerId, petitionData.kickTimeoutSec, petitionData.numVotesNeededToKick);
+			client.StartPetition(petitionData.petitionId, petitionData.proposingPlayerId,
+				petitionData.kickPlayerId, petitionData.kickTimeoutSec, petitionData.numVotesNeededToKick);
 		}
 		else if (tmpPacket->ToNetPacketAvatarHeader())
 		{

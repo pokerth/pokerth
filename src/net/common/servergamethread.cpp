@@ -229,22 +229,50 @@ ServerGameThread::InternalKickPlayer(unsigned playerId)
 boost::shared_ptr<VoteKickData>
 ServerGameThread::InternalAskVoteKick(unsigned playerIdByWhom, unsigned playerIdWho)
 {
-	boost::mutex::scoped_lock lock(m_voteKickMapMutex);
 	// TODO: Check whether player is allowed to initiate vote.
 	// TODO: Check whether there are more than two players.
 	boost::shared_ptr<VoteKickData> voteData;
-	if (m_game)
+	if (IsRunning())
 	{
 		voteData.reset(new VoteKickData);
 		voteData->petitionId = m_curPetitionId++;
 		voteData->kickPlayerId = playerIdWho;
-		voteData->numVotesToKick = static_cast<unsigned>(ceil(GetCurNumberOfPlayers() / 3. * 2.));
+		voteData->initialNumVotesToKick = static_cast<unsigned>(ceil(GetCurNumberOfPlayers() / 3. * 2.));
 		// Consider first vote.
-		voteData->numVotesToKick--;
+		voteData->numVotesInFavourOfKicking = 1;
 		voteData->votedPlayerIds.push_back(playerIdByWhom);
+		boost::mutex::scoped_lock lock(m_voteKickMapMutex);
 		m_voteKickMap.insert(VoteKickMap::value_type(voteData->petitionId, voteData));
 	}
 	return voteData;
+}
+
+void
+ServerGameThread::InternalVoteKick(unsigned petitionId, KickVote vote)
+{
+	if (IsRunning())
+	{
+		boost::mutex::scoped_lock lock(m_voteKickMapMutex);
+		VoteKickMap::iterator pos = m_voteKickMap.find(petitionId);
+		if (pos != m_voteKickMap.end())
+		{
+			boost::shared_ptr<VoteKickData> curData(pos->second);
+			if (vote == KICK_VOTE_IN_FAVOUR)
+			{
+				curData->numVotesInFavourOfKicking++;
+				if (curData->numVotesInFavourOfKicking >= curData->initialNumVotesToKick)
+				{
+					// Perform kick.
+					InternalKickPlayer(curData->kickPlayerId);
+				}
+			}
+			else
+				curData->numVotesAgainstKicking++;
+			// TODO abort if no longer possible.
+			// TODO remove deprecated list entries.
+			// TODO error handling.
+		}
+	}
 }
 
 PlayerDataList

@@ -264,6 +264,21 @@ ClientThread::SendAskKickPlayer(unsigned playerId)
 	m_outPacketList.push_back(ask);
 }
 
+void
+ClientThread::SendVoteKick(bool doKick)
+{
+	boost::shared_ptr<NetPacket> vote(new NetPacketVoteKickPlayer);
+	NetPacketVoteKickPlayer::Data voteData;
+	{
+		boost::mutex::scoped_lock lock(m_curPetitionIdMutex);
+		voteData.petitionId = m_curPetitionId;
+	}
+	voteData.vote = doKick ? KICK_VOTE_IN_FAVOUR : KICK_VOTE_AGAINST;
+	static_cast<NetPacketVoteKickPlayer *>(vote.get())->SetData(voteData);
+	boost::mutex::scoped_lock lock(m_outPacketListMutex);
+	m_outPacketList.push_back(vote);
+}
+
 GameInfo
 ClientThread::GetGameInfo(unsigned gameId) const
 {
@@ -1005,6 +1020,21 @@ ClientThread::ClearGameInfoMap()
 {
 	boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
 	m_gameInfoMap.clear();
+}
+
+void
+ClientThread::StartPetition(unsigned petitionId, unsigned proposingPlayerId, unsigned kickPlayerId, int timeoutSec, int numVotesToKick)
+{
+	{
+		boost::mutex::scoped_lock lock(m_curPetitionIdMutex);
+		m_curPetitionId = petitionId;
+	}
+	GetGui().startVoteOnKick(kickPlayerId, timeoutSec, numVotesToKick);
+	if (GetGuiPlayerId() != kickPlayerId
+		&& GetGuiPlayerId() != proposingPlayerId)
+	{
+		GetGui().changeVoteOnKickButtonsState(true);
+	}
 }
 
 void

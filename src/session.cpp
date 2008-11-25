@@ -395,6 +395,13 @@ void Session::startVoteKickPlayer(unsigned playerId)
 	myNetClient->SendAskKickPlayer(playerId);
 }
 
+void Session::voteKick(bool doKick)
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendVoteKick(doKick);
+}
+
 bool Session::isNetworkClientRunning() const
 {
 	// This, and every place which calls this, is a HACK.
