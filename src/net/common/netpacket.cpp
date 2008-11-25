@@ -3123,13 +3123,13 @@ NetPacketPlayerLeft::GetData(NetPacketPlayerLeft::Data &outData) const
 	switch(ntohs(tmpData->leaveReason))
 	{
 		case NET_LEFT_ON_REQUEST :
-			outData.removeReason = ntohs(NTF_NET_REMOVED_ON_REQUEST);
+			outData.removeReason = NTF_NET_REMOVED_ON_REQUEST;
 			break;
 		case NET_LEFT_KICKED :
-			outData.removeReason = ntohs(NTF_NET_REMOVED_KICKED);
+			outData.removeReason = NTF_NET_REMOVED_KICKED;
 			break;
 		default :
-			outData.removeReason = ntohs(NTF_NET_INTERNAL);
+			outData.removeReason = NTF_NET_INTERNAL;
 			break;
 	}
 }
