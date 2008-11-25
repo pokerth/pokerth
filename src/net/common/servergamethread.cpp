@@ -375,7 +375,7 @@ ServerGameThread::ResetComputerPlayerList()
 	while (i != end)
 	{
 		GetLobbyThread().RemoveComputerPlayer(*i);
-		RemovePlayerData(*i);
+		RemovePlayerData(*i, NTF_NET_REMOVED_ON_REQUEST);
 		++i;
 	}
 
@@ -383,7 +383,7 @@ ServerGameThread::ResetComputerPlayerList()
 }
 
 void
-ServerGameThread::GracefulRemoveSession(SessionWrapper session)
+ServerGameThread::GracefulRemoveSession(SessionWrapper session, int reason)
 {
 	if (!session.sessionData.get())
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
@@ -392,12 +392,12 @@ ServerGameThread::GracefulRemoveSession(SessionWrapper session)
 	boost::shared_ptr<PlayerData> tmpPlayerData = session.playerData;
 	if (tmpPlayerData.get() && !tmpPlayerData->GetName().empty())
 	{
-		RemovePlayerData(tmpPlayerData);
+		RemovePlayerData(tmpPlayerData, reason);
 	}
 }
 
 void
-ServerGameThread::RemovePlayerData(boost::shared_ptr<PlayerData> player)
+ServerGameThread::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
 {
 	if (player->GetRights() == PLAYER_RIGHTS_ADMIN)
 	{
@@ -427,6 +427,7 @@ ServerGameThread::RemovePlayerData(boost::shared_ptr<PlayerData> player)
 	boost::shared_ptr<NetPacket> thisPlayerLeft(new NetPacketPlayerLeft);
 	NetPacketPlayerLeft::Data thisPlayerLeftData;
 	thisPlayerLeftData.playerId = player->GetUniqueId();
+	thisPlayerLeftData.removeReason = reason;
 	static_cast<NetPacketPlayerLeft *>(thisPlayerLeft.get())->SetData(thisPlayerLeftData);
 	GetSessionManager().SendToAllSessions(GetSender(), thisPlayerLeft, SessionData::Game);
 
@@ -437,7 +438,7 @@ void
 ServerGameThread::ErrorRemoveSession(SessionWrapper session)
 {
 	GetLobbyThread().RemoveSessionFromGame(session);
-	GracefulRemoveSession(session);
+	GracefulRemoveSession(session, NTF_NET_INTERNAL);
 }
 
 void
@@ -452,7 +453,7 @@ ServerGameThread::SessionError(SessionWrapper session, int errorCode)
 void
 ServerGameThread::MoveSessionToLobby(SessionWrapper session, int reason)
 {
-	GracefulRemoveSession(session);
+	GracefulRemoveSession(session, reason);
 	// Reset ready flag - just in case it is set, player may leave at any time.
 	session.sessionData->ResetReadyFlag();
 	GetLobbyThread().ReAddSession(session, reason);

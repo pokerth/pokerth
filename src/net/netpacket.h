@@ -720,6 +720,7 @@ public:
 	struct Data
 	{
 		u_int32_t	playerId;
+		u_int16_t	removeReason;
 	};
 
 	NetPacketPlayerLeft();

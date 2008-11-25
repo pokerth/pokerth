@@ -113,6 +113,12 @@ using namespace std;
 #define NET_REMOVED_START_FAILED				0x0005
 #define NET_REMOVED_OTHER_REASON				0xFFFF
 
+// Reasons why player left a game.
+#define NET_LEFT_ON_REQUEST						0x0000
+#define NET_LEFT_KICKED							0x0001
+#define NET_LEFT_ERROR							0x0002
+#define NET_LEFT_OTHER_REASON					0xFFFF
+
 // Reasons why ask kick was denied.
 #define NET_ASK_KICK_DENIED_TEMPORARY			0x0000
 #define NET_ASK_KICK_DENIED_OTHER_IN_PROGRESS	0x0001
@@ -3083,7 +3089,24 @@ NetPacketPlayerLeft::SetData(const NetPacketPlayerLeft::Data &inData)
 	NetPacketPlayerLeftData *tmpData = (NetPacketPlayerLeftData *)GetRawData();
 
 	// Set the data.
-	tmpData->playerId = htonl(inData.playerId);
+	tmpData->playerId		= htonl(inData.playerId);
+	tmpData->leaveReason	= htons(inData.removeReason);
+
+	switch(inData.removeReason)
+	{
+		case NTF_NET_REMOVED_ON_REQUEST :
+			tmpData->leaveReason = htons(NET_LEFT_ON_REQUEST);
+			break;
+		case NTF_NET_REMOVED_KICKED :
+			tmpData->leaveReason = htons(NET_LEFT_KICKED);
+			break;
+		case NTF_NET_INTERNAL :
+			tmpData->leaveReason = htons(NET_LEFT_ERROR);
+			break;
+		default :
+			tmpData->leaveReason = htons(NET_LEFT_OTHER_REASON);
+			break;
+	}
 
 	// Check the packet - just in case.
 	Check(GetRawData());
@@ -3095,7 +3118,20 @@ NetPacketPlayerLeft::GetData(NetPacketPlayerLeft::Data &outData) const
 	// We assume that the data is valid. Validity has already been checked.
 	NetPacketPlayerLeftData *tmpData = (NetPacketPlayerLeftData *)GetRawData();
 
-	outData.playerId = ntohl(tmpData->playerId);
+	outData.playerId		= ntohl(tmpData->playerId);
+
+	switch(ntohs(tmpData->leaveReason))
+	{
+		case NET_LEFT_ON_REQUEST :
+			outData.removeReason = ntohs(NTF_NET_REMOVED_ON_REQUEST);
+			break;
+		case NET_LEFT_KICKED :
+			outData.removeReason = ntohs(NTF_NET_REMOVED_KICKED);
+			break;
+		default :
+			outData.removeReason = ntohs(NTF_NET_INTERNAL);
+			break;
+	}
 }
 
 const NetPacketPlayerLeft *

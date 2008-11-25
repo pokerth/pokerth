@@ -95,8 +95,8 @@ protected:
 	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
 	void ResetComputerPlayerList();
 
-	void GracefulRemoveSession(SessionWrapper session);
-	void RemovePlayerData(boost::shared_ptr<PlayerData> player);
+	void GracefulRemoveSession(SessionWrapper session, int reason);
+	void RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason);
 	void ErrorRemoveSession(SessionWrapper session);
 	void SessionError(SessionWrapper session, int errorCode);
 	void MoveSessionToLobby(SessionWrapper session, int reason);

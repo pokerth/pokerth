@@ -25,6 +25,8 @@
 #include "gametableimpl.h"
 #include "startwindowimpl.h"
 #include "configfile.h"
+#include <net/socket_msg.h>
+
 
 using namespace std;
 
@@ -135,12 +137,12 @@ void GuiWrapper::SignalNetClientPlayerChanged(unsigned playerId, const string &n
 {
 	myStartWindow->signalNetClientPlayerChanged(playerId, QString::fromUtf8(newPlayerName.c_str()));
 }
-void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &playerName)
+void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &playerName, int removeReason)
 {
 	QString tmpName(QString::fromUtf8(playerName.c_str()));
 	myStartWindow->signalNetClientPlayerLeft(playerId, tmpName);
 	if (!playerName.empty() && playerName[0] != '#')
-		myLog->signalLogPlayerLeftMsg(tmpName);
+		myLog->signalLogPlayerLeftMsg(tmpName, removeReason == NTF_NET_REMOVED_KICKED);
 }
 void GuiWrapper::SignalNetClientNewGameAdmin(unsigned playerId, const string &playerName) { 
 

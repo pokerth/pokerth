@@ -128,7 +128,7 @@ void ServerGuiWrapper::SignalNetClientRemovedFromGame(int notificationId) { if (
 void ServerGuiWrapper::SignalNetClientSelfJoined(unsigned playerId, const string &playerName, PlayerRights rights) { if (myClientcb) myClientcb->SignalNetClientSelfJoined(playerId, playerName, rights); }
 void ServerGuiWrapper::SignalNetClientPlayerJoined(unsigned playerId, const string &playerName, PlayerRights rights) { if (myClientcb) myClientcb->SignalNetClientPlayerJoined(playerId, playerName, rights); }
 void ServerGuiWrapper::SignalNetClientPlayerChanged(unsigned playerId, const string &newPlayerName) { if (myClientcb) myClientcb->SignalNetClientPlayerChanged(playerId, newPlayerName); }
-void ServerGuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &playerName) { if (myClientcb) myClientcb->SignalNetClientPlayerLeft(playerId, playerName); }
+void ServerGuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &playerName, int removeReason) { if (myClientcb) myClientcb->SignalNetClientPlayerLeft(playerId, playerName, removeReason); }
 void ServerGuiWrapper::SignalNetClientNewGameAdmin(unsigned playerId, const string &playerName) { if (myClientcb) myClientcb->SignalNetClientNewGameAdmin(playerId, playerName); }
 void ServerGuiWrapper::SignalNetClientGameListNew(unsigned gameId) { if (myClientcb) myClientcb->SignalNetClientGameListNew(gameId); }
 void ServerGuiWrapper::SignalNetClientGameListRemove(unsigned gameId) { if (myClientcb) myClientcb->SignalNetClientGameListRemove(gameId); }

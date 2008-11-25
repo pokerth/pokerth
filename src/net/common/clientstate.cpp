@@ -702,7 +702,7 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			tmpPacket->ToNetPacketPlayerLeft()->GetData(playerLeftData);
 
 			// Signal to GUI and remove from data list.
-			client.RemovePlayerData(playerLeftData.playerId);
+			client.RemovePlayerData(playerLeftData.playerId, playerLeftData.removeReason);
 		}
 		else if (tmpPacket->ToNetPacketGameAdminChanged())
 		{

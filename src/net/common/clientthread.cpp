@@ -765,7 +765,7 @@ ClientThread::AddPlayerData(boost::shared_ptr<PlayerData> playerData)
 }
 
 void
-ClientThread::RemovePlayerData(unsigned playerId)
+ClientThread::RemovePlayerData(unsigned playerId, int removeReason)
 {
 	boost::shared_ptr<PlayerData> tmpData;
 
@@ -785,7 +785,7 @@ ClientThread::RemovePlayerData(unsigned playerId)
 	if (tmpData.get())
 	{
 		// Remove player from gui.
-		GetCallback().SignalNetClientPlayerLeft(tmpData->GetUniqueId(), tmpData->GetName());
+		GetCallback().SignalNetClientPlayerLeft(tmpData->GetUniqueId(), tmpData->GetName(), removeReason);
 	}
 }
 

@@ -40,7 +40,7 @@ Log::Log(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), my
 	connect(this, SIGNAL(signalLogPlayerSitsOut(QString)), this, SLOT(logPlayerSitsOut(QString)));
 	connect(this, SIGNAL(signalLogDealBoardCardsMsg(int, int, int, int, int, int)), this, SLOT(logDealBoardCardsMsg(int, int, int, int, int, int)));
 	connect(this, SIGNAL(signalLogFlipHoleCardsMsg(QString, int, int, int, QString)), this, SLOT(logFlipHoleCardsMsg(QString, int, int, int, QString)));
-	connect(this, SIGNAL(signalLogPlayerLeftMsg(QString)), this, SLOT(logPlayerLeftMsg(QString)));
+	connect(this, SIGNAL(signalLogPlayerLeftMsg(QString, int)), this, SLOT(logPlayerLeftMsg(QString, int)));
 	connect(this, SIGNAL(signalLogNewGameAdminMsg(QString)), this, SLOT(logNewGameAdminMsg(QString)));
 	connect(this, SIGNAL(signalLogPlayerWinGame(QString, int)), this, SLOT(logPlayerWinGame(QString, int))); 
 	connect(this, SIGNAL(signalFlushLogAtGame(int)), this, SLOT(flushLogAtGame(int))); 
@@ -323,7 +323,7 @@ void Log::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int card
 	
 }
 
-void Log::logPlayerLeftMsg(QString playerName) {
+void Log::logPlayerLeftMsg(QString playerName, int wasKicked) {
 
 	myW->textBrowser_Log->append( "<i>"+playerName+" has left the game!</i>");
 	

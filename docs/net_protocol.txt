@@ -483,6 +483,7 @@ Server Notification: Player Left
 Leave Reason:
 	0x0000 - On Request
 	0x0001 - Kicked from the game
+	0x0002 - Left game due to error
 	0xFFFF - Other reason
 
 

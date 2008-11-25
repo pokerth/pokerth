@@ -132,7 +132,7 @@ protected:
 	QtToolsInterface &GetQtToolsInterface();
 
 	void AddPlayerData(boost::shared_ptr<PlayerData> playerData);
-	void RemovePlayerData(unsigned playerId);
+	void RemovePlayerData(unsigned playerId, int removeReason);
 	void ClearPlayerDataList();
 	void MapPlayerDataList();
 	const PlayerDataList &GetPlayerDataList() const;
