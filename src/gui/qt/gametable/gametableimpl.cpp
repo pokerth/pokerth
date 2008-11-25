@@ -3171,7 +3171,10 @@ void gameTableImpl::stopVoteOnKickTimeout()
 
 void gameTableImpl::nextVoteOnKickTimeoutAnimationFrame()
 {
-	label_kickVoteTimeout->setText(tr("<b>%1</b> secs left").arg(voteOnKickTimeoutSecs-voteOnKickRealTimer.elapsed().total_seconds()));
+	if(voteOnKickTimeoutSecs-voteOnKickRealTimer.elapsed().total_seconds() > 0)
+		label_kickVoteTimeout->setText(tr("<b>%1</b> secs left").arg(voteOnKickTimeoutSecs-voteOnKickRealTimer.elapsed().total_seconds()));
+	else 
+		label_kickVoteTimeout->setText(tr("<b>%1</b> secs left").arg(0));
 }
 
 void gameTableImpl::refreshVotesMonitor(int currentVotes, int numVotesNeededToKick)
