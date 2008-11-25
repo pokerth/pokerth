@@ -325,11 +325,15 @@ void Log::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int card
 
 void Log::logPlayerLeftMsg(QString playerName, int wasKicked) {
 
-	myW->textBrowser_Log->append( "<i>"+playerName+" has left the game!</i>");
+	QString action;
+	if(wasKicked) action = "was kicked from";
+	else action = "has left";
+
+	myW->textBrowser_Log->append( "<i>"+playerName+" "+action+" the game!</i>");
 	
 	if(myConfig->readConfigInt("LogOnOff")) {
 	
-		logFileStreamString += "<i>"+playerName+" has left the game!</i><br>\n";
+		logFileStreamString += "<i>"+playerName+" "+action+" the game!</i><br>\n";
 
 		if(myConfig->readConfigInt("LogInterval") == 0) {	
 			writeLogFileStream(logFileStreamString);
