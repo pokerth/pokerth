@@ -3183,20 +3183,12 @@ void gameTableImpl::nextVoteOnKickTimeoutAnimationFrame()
 
 void gameTableImpl::refreshVotesMonitor(int currentVotes, int numVotesNeededToKick)
 {
-	QString vote(tr("vote"));
-	QString votes(tr("votes"));
-
 	QString currentVotesString;
-	QString numVotesNeededToKickString;
-
-	if(currentVotes == 1) currentVotesString = vote;
-	else currentVotesString = votes;
-		
-	if(numVotesNeededToKick == 1) numVotesNeededToKickString = vote;
-	else numVotesNeededToKickString = votes;
-
+	if(currentVotes == 1) currentVotesString = tr("vote");
+	else currentVotesString = tr("votes");
+	
 	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToBeKickedId));
-	label_votesMonitor->setText(tr("Player <b>%1</b> has %2 %3 <br>against him. %4 %5 needed to kick.").arg(QString::fromUtf8(info.playerName.c_str())).arg(currentVotes).arg(currentVotesString).arg(numVotesNeededToKick).arg(numVotesNeededToKickString));
+	label_votesMonitor->setText(tr("Player <b>%1</b> has %2 %3 <br>against him. %4 votes needed to kick.").arg(QString::fromUtf8(info.playerName.c_str())).arg(currentVotes).arg(currentVotesString).arg(numVotesNeededToKick));
 }
 
 void gameTableImpl::refreshCardsChance(GameState bero)
