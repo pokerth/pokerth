@@ -256,6 +256,7 @@ public slots:
 	void switchHelpWindow();
 	void switchLogWindow();
 	void switchAwayWindow();
+	void switchChanceWindow();
 	void switchFullscreen();
 
 	void sendChatMessage();

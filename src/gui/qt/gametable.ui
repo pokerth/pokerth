@@ -2976,7 +2976,7 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>28</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView" >
@@ -2988,6 +2988,7 @@
     <addaction name="actionShowHideHelp" />
     <addaction name="actionShowHideLog" />
     <addaction name="actionShowHideAway" />
+    <addaction name="actionShowHideChance" />
     <addaction name="actionClose" />
    </widget>
    <widget class="QMenu" name="menuSettings" >
@@ -3107,6 +3108,14 @@
    </property>
    <property name="shortcut" >
     <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionShowHideChance" >
+   <property name="text" >
+    <string>Show/Hide Chance Window</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+C</string>
    </property>
   </action>
  </widget>

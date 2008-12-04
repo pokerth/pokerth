@@ -527,7 +527,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect( actionShowHideHelp, SIGNAL( triggered() ), this, SLOT( switchHelpWindow() ) );
 	connect( actionShowHideLog, SIGNAL( triggered() ), this, SLOT( switchLogWindow() ) );
 	connect( actionShowHideAway, SIGNAL( triggered() ), this, SLOT( switchAwayWindow() ) );
-
+	connect( actionShowHideChance, SIGNAL( triggered() ), this, SLOT( switchChanceWindow() ) );
 
 	connect( pushButton_BetRaise, SIGNAL( clicked(bool) ), this, SLOT( pushButtonBetRaiseClicked(bool) ) );
 	connect( pushButton_Fold, SIGNAL( clicked(bool) ), this, SLOT( pushButtonFoldClicked(bool) ) );
@@ -2771,6 +2771,21 @@ void gameTableImpl::switchLogWindow() {
 void gameTableImpl::switchAwayWindow() {
 
 	int tab = 1;
+	if (groupBox_RightToolBox->isHidden()) { 
+		tabWidget_Right->setCurrentIndex(tab);
+		groupBox_RightToolBox->show(); 
+	}	else {
+		if (tabWidget_Right->currentIndex() == tab) {
+			groupBox_RightToolBox->hide(); 				
+		} else {
+			tabWidget_Right->setCurrentIndex(tab);			
+		}
+	}
+}
+
+void gameTableImpl::switchChanceWindow() {
+
+	int tab = 2;
 	if (groupBox_RightToolBox->isHidden()) { 
 		tabWidget_Right->setCurrentIndex(tab);
 		groupBox_RightToolBox->show(); 
