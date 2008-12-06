@@ -82,12 +82,14 @@ protected:
 	// Main function of the thread.
 	virtual void Main();
 	void RemovePlayerLoop();
+	void VoteKickLoop();
 
 	void InternalStartGame();
 	void ResetGame();
 
 	void InternalKickPlayer(unsigned playerId);
-	boost::shared_ptr<VoteKickData> InternalAskVoteKick(unsigned playerIdByWhom, unsigned playerIdWho);
+	void InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, unsigned timeoutSec);
+	void InternalDenyAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, DenyKickPlayerReason reason);
 	void InternalVoteKick(unsigned petitionId, KickVote vote);
 
 	PlayerDataList GetFullPlayerDataList() const;

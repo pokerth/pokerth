@@ -120,8 +120,10 @@ using namespace std;
 #define NET_LEFT_OTHER_REASON					0xFFFF
 
 // Reasons why ask kick was denied.
-#define NET_ASK_KICK_DENIED_TEMPORARY			0x0000
-#define NET_ASK_KICK_DENIED_OTHER_IN_PROGRESS	0x0001
+#define NET_ASK_KICK_DENIED_INVALID_STATE		0x0000
+#define NET_ASK_KICK_DENIED_TOO_FEW_PLAYERS		0x0001
+#define NET_ASK_KICK_DENIED_TEMPORARY			0x0002
+#define NET_ASK_KICK_DENIED_OTHER_IN_PROGRESS	0x0003
 #define NET_ASK_KICK_DENIED_OTHER_REASON		0xFFFF
 
 // Vote types
@@ -131,6 +133,7 @@ using namespace std;
 // Reasons why vote to kick was denied.
 #define NET_VOTE_KICK_DENIED_INVALID_PETITION	0x0000
 #define NET_VOTE_KICK_DENIED_ALREADY_VOTED		0x0001
+#define NET_VOTE_KICK_DENIED_IMPOSSIBLE			0x0002
 #define NET_VOTE_KICK_DENIED_OTHER_REASON		0xFFFF
 
 // Reasons for timeout warning
@@ -4485,6 +4488,12 @@ NetPacketAskKickPlayerDenied::SetData(const NetPacketAskKickPlayerDenied::Data &
 	tmpData->playerId	= htonl(inData.playerId);
 	switch (inData.denyReason)
 	{
+		case KICK_DENIED_INVALID_STATE:
+			tmpData->denyReason = htons(NET_ASK_KICK_DENIED_INVALID_STATE);
+			break;
+		case KICK_DENIED_TOO_FEW_PLAYERS:
+			tmpData->denyReason = htons(NET_ASK_KICK_DENIED_TOO_FEW_PLAYERS);
+			break;
 		case KICK_DENIED_TEMPORARY:
 			tmpData->denyReason = htons(NET_ASK_KICK_DENIED_TEMPORARY);
 			break;
@@ -4508,6 +4517,12 @@ NetPacketAskKickPlayerDenied::GetData(NetPacketAskKickPlayerDenied::Data &outDat
 	outData.playerId	= ntohl(tmpData->playerId);
 	switch (ntohs(tmpData->denyReason))
 	{
+		case NET_ASK_KICK_DENIED_INVALID_STATE:
+			outData.denyReason = KICK_DENIED_INVALID_STATE;
+			break;
+		case NET_ASK_KICK_DENIED_TOO_FEW_PLAYERS:
+			outData.denyReason = KICK_DENIED_TOO_FEW_PLAYERS;
+			break;
 		case NET_ASK_KICK_DENIED_TEMPORARY:
 			outData.denyReason = KICK_DENIED_TEMPORARY;
 			break;
@@ -4758,6 +4773,9 @@ NetPacketVoteKickPlayerDenied::SetData(const NetPacketVoteKickPlayerDenied::Data
 		case VOTE_DENIED_ALREADY_VOTED:
 			tmpData->denyReason = htons(NET_VOTE_KICK_DENIED_ALREADY_VOTED);
 			break;
+		case VOTE_DENIED_IMPOSSIBLE:
+			tmpData->denyReason = htons(NET_VOTE_KICK_DENIED_IMPOSSIBLE);
+			break;
 		default:
 			tmpData->denyReason = htons(NET_VOTE_KICK_DENIED_OTHER_REASON);
 			break;
@@ -4780,6 +4798,9 @@ NetPacketVoteKickPlayerDenied::GetData(NetPacketVoteKickPlayerDenied::Data &outD
 			break;
 		case NET_VOTE_KICK_DENIED_ALREADY_VOTED:
 			outData.denyReason = VOTE_DENIED_ALREADY_VOTED;
+			break;
+		case NET_VOTE_KICK_DENIED_IMPOSSIBLE:
+			outData.denyReason = VOTE_DENIED_IMPOSSIBLE;
 			break;
 		default:
 			outData.denyReason = VOTE_DENIED_OTHER_REASON;

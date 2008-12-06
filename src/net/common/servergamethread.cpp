@@ -135,6 +135,7 @@ ServerGameThread::Main()
 			// Process current state.
 			GetState().Process(*this);
 			RemovePlayerLoop();
+			VoteKickLoop();
 		} while (!ShouldTerminate() && GetSessionManager().HasSessions());
 	} catch (const PokerTHException &e)
 	{
@@ -165,6 +166,19 @@ ServerGameThread::RemovePlayerLoop()
 		++i;
 	}
 	m_removePlayerList.clear();
+}
+
+void
+ServerGameThread::VoteKickLoop()
+{
+/*	boost::mutex::scoped_lock lock(m_voteKickMapMutex);
+	// Check the list whether the player is already being kicked.
+	VoteKickMap::iterator i = m_voteKickMap.begin();
+	VoteKickMap::iterator end = m_voteKickMap.end();
+	while (i != end)
+	{
+		++i;
+	}*/
 }
 
 void
@@ -226,25 +240,71 @@ ServerGameThread::InternalKickPlayer(unsigned playerId)
 		MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_KICKED);
 }
 
-boost::shared_ptr<VoteKickData>
-ServerGameThread::InternalAskVoteKick(unsigned playerIdByWhom, unsigned playerIdWho)
+void
+ServerGameThread::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, unsigned timeoutSec)
 {
-	// TODO: Check whether player is allowed to initiate vote.
-	// TODO: Check whether there are more than two players.
-	boost::shared_ptr<VoteKickData> voteData;
-	if (IsRunning())
+	if (IsRunning() && byWhom.playerData)
 	{
-		voteData.reset(new VoteKickData);
-		voteData->petitionId = m_curPetitionId++;
-		voteData->kickPlayerId = playerIdWho;
-		voteData->initialNumVotesToKick = static_cast<unsigned>(ceil(GetCurNumberOfPlayers() / 3. * 2.));
-		// Consider first vote.
-		voteData->numVotesInFavourOfKicking = 1;
-		voteData->votedPlayerIds.push_back(playerIdByWhom);
-		boost::mutex::scoped_lock lock(m_voteKickMapMutex);
-		m_voteKickMap.insert(VoteKickMap::value_type(voteData->petitionId, voteData));
+		size_t numPlayers = GetCurNumberOfPlayers();
+		if (numPlayers > 2)
+		{
+			// Lock the vote kick list.
+			boost::mutex::scoped_lock lock(m_voteKickMapMutex);
+			// Check the list whether the player is already being kicked.
+			VoteKickMap::const_iterator i = m_voteKickMap.begin();
+			VoteKickMap::const_iterator end = m_voteKickMap.end();
+			while (i != end)
+			{
+				if (i->second->kickPlayerId == playerIdWho)
+					break;
+				++i;
+			}
+			if (i == end)
+			{
+				// Initiate a vote kick.
+				unsigned playerIdByWhom = byWhom.playerData->GetUniqueId();
+				boost::shared_ptr<VoteKickData> voteData(new VoteKickData);
+				voteData->petitionId = m_curPetitionId++;
+				voteData->kickPlayerId = playerIdWho;
+				voteData->initialNumVotesToKick = static_cast<unsigned>(ceil(numPlayers / 3. * 2.));
+				// Consider first vote.
+				voteData->numVotesInFavourOfKicking = 1;
+				voteData->votedPlayerIds.push_back(playerIdByWhom);
+				m_voteKickMap.insert(VoteKickMap::value_type(voteData->petitionId, voteData));
+				lock.unlock(); // Do not block the list longer than necessary.
+
+				boost::shared_ptr<NetPacket> startPetition(new NetPacketStartKickPlayerPetition);
+				NetPacketStartKickPlayerPetition::Data startPetitionData;
+				startPetitionData.petitionId = voteData->petitionId;
+				startPetitionData.proposingPlayerId = playerIdByWhom;
+				startPetitionData.kickPlayerId = voteData->kickPlayerId;
+				startPetitionData.kickTimeoutSec = timeoutSec;
+				startPetitionData.numVotesNeededToKick = voteData->initialNumVotesToKick;
+				static_cast<NetPacketStartKickPlayerPetition *>(startPetition.get())->SetData(startPetitionData);
+				SendToAllPlayers(startPetition, SessionData::Game);
+			}
+			else
+			{
+				lock.unlock(); // Do not block the list longer than necessary.
+				InternalDenyAskVoteKick(byWhom, playerIdWho, KICK_DENIED_OTHER_IN_PROGRESS);
+			}
+		}
+		else
+			InternalDenyAskVoteKick(byWhom, playerIdWho, KICK_DENIED_TOO_FEW_PLAYERS);
 	}
-	return voteData;
+	else
+		InternalDenyAskVoteKick(byWhom, playerIdWho, KICK_DENIED_INVALID_STATE);
+}
+
+void
+ServerGameThread::InternalDenyAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, DenyKickPlayerReason reason)
+{
+	boost::shared_ptr<NetPacket> denyPetition(new NetPacketAskKickPlayerDenied);
+	NetPacketAskKickPlayerDenied::Data denyPetitionData;
+	denyPetitionData.playerId = playerIdWho;
+	denyPetitionData.denyReason = reason;
+	static_cast<NetPacketAskKickPlayerDenied *>(denyPetition.get())->SetData(denyPetitionData);
+	GetSender().Send(byWhom.sessionData, denyPetition);
 }
 
 void

@@ -38,8 +38,6 @@ using namespace std;
 
 //#define SERVER_TEST
 
-#define SERVER_START_GAME_TIMEOUT_SEC			10
-
 #ifdef SERVER_TEST
 	#define SERVER_DELAY_NEXT_HAND_SEC				0
 	#define SERVER_DELAY_NEXT_GAME_SEC				0
@@ -62,6 +60,7 @@ using namespace std;
 	#define SERVER_COMPUTER_ACTION_DELAY_SEC		2
 #endif
 
+#define SERVER_START_GAME_TIMEOUT_SEC				10
 #define SERVER_GAME_ADMIN_WARNING_REMAINING_SEC		60
 #define SERVER_GAME_ADMIN_TIMEOUT_SEC				300		// 5 min, MUST be > SERVER_GAME_ADMIN_WARNING_REMAINING_SEC
 #define SERVER_VOTE_KICK_TIMEOUT_SEC				30
@@ -204,20 +203,7 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 					NetPacketAskKickPlayer::Data askKickData;
 					packet->ToNetPacketAskKickPlayer()->GetData(askKickData);
 
-					boost::shared_ptr<VoteKickData> voteData(server.InternalAskVoteKick(session.playerData->GetUniqueId(), askKickData.playerId));
-					if (voteData)
-					{
-						boost::shared_ptr<NetPacket> startPetition(new NetPacketStartKickPlayerPetition);
-						NetPacketStartKickPlayerPetition::Data startPetitionData;
-						startPetitionData.petitionId = voteData->petitionId;
-						startPetitionData.proposingPlayerId = session.playerData->GetUniqueId();
-						startPetitionData.kickPlayerId = voteData->kickPlayerId;
-						startPetitionData.kickTimeoutSec = SERVER_VOTE_KICK_TIMEOUT_SEC;
-						startPetitionData.numVotesNeededToKick = voteData->initialNumVotesToKick;
-						static_cast<NetPacketStartKickPlayerPetition *>(startPetition.get())->SetData(startPetitionData);
-						server.SendToAllPlayers(startPetition, SessionData::Game);
-						// TODO notify first vote.
-					}
+					server.InternalAskVoteKick(session, askKickData.playerId, SERVER_VOTE_KICK_TIMEOUT_SEC);
 				}
 			}
 			else if (packet->ToNetPacketVoteKickPlayer())

@@ -821,13 +821,15 @@ Server Reply: Ask Kick Player Denied
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|        Message Type = 114     |     Message Length = 12       |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|                           Player ID                           |
+	|                  Player ID (who cannot be kicked)             |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|           Deny Reason         |          Reserved             |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 Deny Reason:
-	0x0000: Another kick cannot be requested at this time.
-	0x0001: Kick request is already in progress for this player.
+	0x0000: Invalid state. Vote kick is only possible when the game is running.
+	0x0001: Kick not possible due to number of players.
+	0x0002: Another kick cannot be requested at this time.
+	0x0003: Kick request is already in progress for this player.
 	0xFFFF: Other reason.
 
 
