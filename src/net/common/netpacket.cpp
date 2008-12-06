@@ -136,6 +136,12 @@ using namespace std;
 #define NET_VOTE_KICK_DENIED_IMPOSSIBLE			0x0002
 #define NET_VOTE_KICK_DENIED_OTHER_REASON		0xFFFF
 
+// Reasons why a petition to kick a player was ended.
+#define NET_PETITION_END_ENOUGH_VOTES			0x0000
+#define NET_PETITION_END_NOT_ENOUGH_PLAYERS		0x0001
+#define NET_PETITION_END_PLAYER_LEFT			0x0002
+#define NET_PETITION_END_TIMEOUT				0x0003
+
 // Reasons for timeout warning
 #define NET_TIMEOUT_NO_DATA_RECEIVED			0x0000
 #define NET_TIMEOUT_INACTIVE_GAME				0x0001
@@ -589,7 +595,7 @@ struct GCC_PACKED NetPacketEndKickPlayerPetitionData
 	u_int16_t			numVotesAgainstKicking;
 	u_int16_t			numVotesInFavourOfKicking;
 	u_int16_t			voteResult;
-	u_int16_t			reserved;
+	u_int16_t			endReason;
 };
 
 struct GCC_PACKED StatisticsData
@@ -4855,6 +4861,24 @@ NetPacketEndKickPlayerPetition::SetData(const NetPacketEndKickPlayerPetition::Da
 	tmpData->numVotesInFavourOfKicking	= htons(inData.numVotesInFavourOfKicking);
 	tmpData->voteResult					= htons(inData.playerKicked ? 1 : 0);
 
+	switch (inData.endReason)
+	{
+		case PETITION_END_ENOUGH_VOTES:
+			tmpData->endReason = htons(NET_PETITION_END_ENOUGH_VOTES);
+			break;
+		case PETITION_END_NOT_ENOUGH_PLAYERS:
+			tmpData->endReason = htons(NET_PETITION_END_NOT_ENOUGH_PLAYERS);
+			break;
+		case PETITION_END_PLAYER_LEFT:
+			tmpData->endReason = htons(NET_PETITION_END_PLAYER_LEFT);
+			break;
+		case PETITION_END_TIMEOUT:
+			tmpData->endReason = htons(NET_PETITION_END_TIMEOUT);
+			break;
+		default:
+			throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
+	}
+
 	// Check the packet - just in case.
 	Check(GetRawData());
 }
@@ -4868,6 +4892,24 @@ NetPacketEndKickPlayerPetition::GetData(NetPacketEndKickPlayerPetition::Data &ou
 	outData.numVotesAgainstKicking		= ntohs(tmpData->numVotesAgainstKicking);
 	outData.numVotesInFavourOfKicking	= ntohs(tmpData->numVotesInFavourOfKicking);
 	outData.playerKicked				= ntohs(tmpData->voteResult) == 1;
+
+	switch (ntohs(tmpData->endReason))
+	{
+		case NET_PETITION_END_ENOUGH_VOTES:
+			outData.endReason = PETITION_END_ENOUGH_VOTES;
+			break;
+		case NET_PETITION_END_NOT_ENOUGH_PLAYERS:
+			outData.endReason = PETITION_END_NOT_ENOUGH_PLAYERS;
+			break;
+		case NET_PETITION_END_PLAYER_LEFT:
+			outData.endReason = PETITION_END_PLAYER_LEFT;
+			break;
+		case NET_PETITION_END_TIMEOUT:
+			outData.endReason = PETITION_END_TIMEOUT;
+			break;
+		default:
+			throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
+	}
 }
 
 const NetPacketEndKickPlayerPetition *

@@ -907,11 +907,17 @@ Server Notification: End Kick Player Petition
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|    # Votes against Kicking    | # Votes in favour of  Kicking |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|           Vote Result         |          Reserved             |
+	|           Vote Result         |          End Reason           |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 Vote Result:
 	0: Player not kicked.
 	1: Player kicked.
+
+End Reason:
+	0: Enough votes to determine result.
+	1: Not enough players left to vote.
+	2: Player to be kicked left.
+	3: Petition timed out.
 
 
 Server Notification: Statistics Changed

@@ -1337,10 +1337,11 @@ class NetPacketEndKickPlayerPetition : public NetPacket
 public:
 	struct Data
 	{
-		u_int32_t	petitionId;
-		u_int16_t	numVotesAgainstKicking;
-		u_int16_t	numVotesInFavourOfKicking;
-		bool		playerKicked;
+		u_int32_t			petitionId;
+		u_int16_t			numVotesAgainstKicking;
+		u_int16_t			numVotesInFavourOfKicking;
+		bool				playerKicked;
+		EndPetitionReason	endReason;
 	};
 
 	NetPacketEndKickPlayerPetition();

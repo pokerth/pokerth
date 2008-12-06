@@ -91,15 +91,16 @@ struct StartData
 struct VoteKickData
 {
 	VoteKickData()
-	: petitionId(0), kickPlayerId(0), initialNumVotesToKick(0),
-	numVotesInFavourOfKicking(0), numVotesAgainstKicking(0) {}
+	: petitionId(0), kickPlayerId(0), numVotesToKick(0),
+	numVotesInFavourOfKicking(0), numVotesAgainstKicking(0), timeLimitSec(0) {}
 	unsigned petitionId;
 	unsigned kickPlayerId;
-	unsigned initialNumVotesToKick;
-	unsigned numVotesInFavourOfKicking;
-	unsigned numVotesAgainstKicking;
+	int numVotesToKick;
+	int numVotesInFavourOfKicking;
+	int numVotesAgainstKicking;
+	unsigned timeLimitSec;
 	boost::timers::portable::microsec_timer voteTimer;
-	std::list<unsigned> votedPlayerIds;
+	PlayerIdList votedPlayerIds;
 };
 
 #endif

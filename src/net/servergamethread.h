@@ -77,12 +77,12 @@ public:
 protected:
 
 	typedef std::deque<SessionWrapper> SessionQueue;
-	typedef std::map<unsigned, boost::shared_ptr<VoteKickData> > VoteKickMap;
 
 	// Main function of the thread.
 	virtual void Main();
 	void RemovePlayerLoop();
 	void VoteKickLoop();
+	void VoteKickAction();
 
 	void InternalStartGame();
 	void ResetGame();
@@ -145,8 +145,8 @@ private:
 	unsigned m_adminPlayerId;
 	mutable boost::mutex m_adminPlayerIdMutex;
 
-	VoteKickMap m_voteKickMap;
-	mutable boost::mutex m_voteKickMapMutex;
+	boost::shared_ptr<VoteKickData> m_voteKickData;
+	mutable boost::mutex m_voteKickDataMutex;
 
 	ServerLobbyThread &m_lobbyThread;
 	boost::shared_ptr<ReceiverHelper> m_receiver;
@@ -165,6 +165,8 @@ private:
 
 	boost::timers::portable::microsec_timer m_stateTimer;
 	unsigned								m_stateTimerFlag;
+
+	boost::timers::portable::microsec_timer m_voteKickActionTimer;
 
 friend class AbstractServerGameStateReceiving;
 friend class AbstractServerGameStateRunning;
