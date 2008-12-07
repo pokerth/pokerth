@@ -213,7 +213,7 @@ AbstractServerGameStateReceiving::Process(ServerGameThread &server)
 					NetPacketVoteKickPlayer::Data voteData;
 					packet->ToNetPacketVoteKickPlayer()->GetData(voteData);
 
-					server.InternalVoteKick(voteData.petitionId, voteData.vote);
+					server.InternalVoteKick(session, voteData.petitionId, voteData.vote);
 				}
 			}
 			// Chat text is always allowed.

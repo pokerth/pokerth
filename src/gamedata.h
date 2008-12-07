@@ -98,7 +98,7 @@ struct VoteKickData
 	int numVotesToKick;
 	int numVotesInFavourOfKicking;
 	int numVotesAgainstKicking;
-	unsigned timeLimitSec;
+	int timeLimitSec;
 	boost::timers::portable::microsec_timer voteTimer;
 	PlayerIdList votedPlayerIds;
 };

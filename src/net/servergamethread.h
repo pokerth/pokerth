@@ -90,7 +90,8 @@ protected:
 	void InternalKickPlayer(unsigned playerId);
 	void InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, unsigned timeoutSec);
 	void InternalDenyAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, DenyKickPlayerReason reason);
-	void InternalVoteKick(unsigned petitionId, KickVote vote);
+	void InternalVoteKick(SessionWrapper byWhom, unsigned petitionId, KickVote vote);
+	void InternalDenyVoteKick(SessionWrapper byWhom, unsigned petitionId, DenyVoteReason reason);
 
 	PlayerDataList GetFullPlayerDataList() const;
 
