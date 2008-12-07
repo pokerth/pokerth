@@ -93,6 +93,7 @@ class NetPacketStartKickPlayerPetition;
 class NetPacketVoteKickPlayer;
 class NetPacketVoteKickPlayerAck;
 class NetPacketVoteKickPlayerDenied;
+class NetPacketKickPlayerPetitionUpdate;
 class NetPacketEndKickPlayerPetition;
 class NetPacketStatisticsChanged;
 class NetPacketRemovedFromGame;
@@ -166,6 +167,7 @@ public:
 	virtual const NetPacketVoteKickPlayer *ToNetPacketVoteKickPlayer() const;
 	virtual const NetPacketVoteKickPlayerAck *ToNetPacketVoteKickPlayerAck() const;
 	virtual const NetPacketVoteKickPlayerDenied *ToNetPacketVoteKickPlayerDenied() const;
+	virtual const NetPacketKickPlayerPetitionUpdate *ToNetPacketKickPlayerPetitionUpdate() const;
 	virtual const NetPacketEndKickPlayerPetition *ToNetPacketEndKickPlayerPetition() const;
 	virtual const NetPacketStatisticsChanged *ToNetPacketStatisticsChanged() const;
 	virtual const NetPacketRemovedFromGame *ToNetPacketRemovedFromGame() const;
@@ -1326,6 +1328,32 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketVoteKickPlayerDenied *ToNetPacketVoteKickPlayerDenied() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketKickPlayerPetitionUpdate : public NetPacket
+{
+public:
+	struct Data
+	{
+		u_int32_t			petitionId;
+		u_int16_t			numVotesAgainstKicking;
+		u_int16_t			numVotesInFavourOfKicking;
+		u_int16_t			numVotesNeededToKick;
+	};
+
+	NetPacketKickPlayerPetitionUpdate();
+	virtual ~NetPacketKickPlayerPetitionUpdate();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketKickPlayerPetitionUpdate *ToNetPacketKickPlayerPetitionUpdate() const;
 
 protected:
 

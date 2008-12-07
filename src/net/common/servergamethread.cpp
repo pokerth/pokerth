@@ -385,6 +385,16 @@ ServerGameThread::InternalVoteKick(SessionWrapper byWhom, unsigned petitionId, K
 					m_voteKickData->numVotesInFavourOfKicking++;
 				else
 					m_voteKickData->numVotesAgainstKicking++;
+				// Send update notification.
+				boost::shared_ptr<NetPacket> updatePetition(new NetPacketKickPlayerPetitionUpdate);
+				NetPacketKickPlayerPetitionUpdate::Data updatePetitionData;
+				updatePetitionData.petitionId = m_voteKickData->petitionId;
+				updatePetitionData.numVotesAgainstKicking = m_voteKickData->numVotesAgainstKicking;
+				updatePetitionData.numVotesInFavourOfKicking = m_voteKickData->numVotesInFavourOfKicking;
+				updatePetitionData.numVotesNeededToKick = m_voteKickData->numVotesToKick;
+
+				static_cast<NetPacketKickPlayerPetitionUpdate *>(updatePetition.get())->SetData(updatePetitionData);
+				SendToAllPlayers(updatePetition, SessionData::Game);
 			}
 			else
 				InternalDenyVoteKick(byWhom, petitionId, VOTE_DENIED_ALREADY_VOTED);

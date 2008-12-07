@@ -76,7 +76,8 @@ using namespace std;
 #define NET_TYPE_VOTE_KICK_PLAYER				0x0074
 #define NET_TYPE_VOTE_KICK_PLAYER_ACK			0x0075
 #define NET_TYPE_VOTE_KICK_PLAYER_DENIED		0x0076
-#define NET_TYPE_END_KICK_PLAYER_PETITION		0x0077
+#define NET_TYPE_KICK_PLAYER_PETITION_UPDATE	0x0077
+#define NET_TYPE_END_KICK_PLAYER_PETITION		0x0078
 
 #define NET_TYPE_STATISTICS_CHANGED				0x0080
 
@@ -588,6 +589,16 @@ struct GCC_PACKED NetPacketVoteKickPlayerDeniedData
 	u_int16_t			reserved;
 };
 
+struct GCC_PACKED NetPacketKickPlayerPetitionUpdateData
+{
+	NetPacketHeader		head;
+	u_int32_t			petitionId;
+	u_int16_t			numVotesAgainstKicking;
+	u_int16_t			numVotesInFavourOfKicking;
+	u_int16_t			numVotesNeededToKick;
+	u_int16_t			reserved;
+};
+
 struct GCC_PACKED NetPacketEndKickPlayerPetitionData
 {
 	NetPacketHeader		head;
@@ -914,6 +925,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_VOTE_KICK_PLAYER_DENIED:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketVoteKickPlayerDenied);
+					break;
+				case NET_TYPE_KICK_PLAYER_PETITION_UPDATE:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketKickPlayerPetitionUpdate);
 					break;
 				case NET_TYPE_END_KICK_PLAYER_PETITION:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketEndKickPlayerPetition);
@@ -1301,6 +1315,12 @@ NetPacket::ToNetPacketVoteKickPlayerAck() const
 
 const NetPacketVoteKickPlayerDenied *
 NetPacket::ToNetPacketVoteKickPlayerDenied() const
+{
+	return NULL;
+}
+
+const NetPacketKickPlayerPetitionUpdate *
+NetPacket::ToNetPacketKickPlayerPetitionUpdate() const
 {
 	return NULL;
 }
@@ -4824,6 +4844,75 @@ void
 NetPacketVoteKickPlayerDenied::InternalCheck(const NetPacketHeader*) const
 {
 	// Nothing to do.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketKickPlayerPetitionUpdate::NetPacketKickPlayerPetitionUpdate()
+: NetPacket(NET_TYPE_KICK_PLAYER_PETITION_UPDATE, sizeof(NetPacketKickPlayerPetitionUpdateData), sizeof(NetPacketKickPlayerPetitionUpdateData))
+{
+}
+
+NetPacketKickPlayerPetitionUpdate::~NetPacketKickPlayerPetitionUpdate()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketKickPlayerPetitionUpdate::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketKickPlayerPetitionUpdate);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketKickPlayerPetitionUpdate::SetData(const NetPacketKickPlayerPetitionUpdate::Data &inData)
+{
+	NetPacketKickPlayerPetitionUpdateData *tmpData = (NetPacketKickPlayerPetitionUpdateData *)GetRawData();
+
+	tmpData->petitionId					= htonl(inData.petitionId);
+	tmpData->numVotesAgainstKicking		= htons(inData.numVotesAgainstKicking);
+	tmpData->numVotesInFavourOfKicking	= htons(inData.numVotesInFavourOfKicking);
+	tmpData->numVotesNeededToKick		= htons(inData.numVotesNeededToKick);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketKickPlayerPetitionUpdate::GetData(NetPacketKickPlayerPetitionUpdate::Data &outData) const
+{
+	NetPacketKickPlayerPetitionUpdateData *tmpData = (NetPacketKickPlayerPetitionUpdateData *)GetRawData();
+
+	outData.petitionId					= ntohl(tmpData->petitionId);
+	outData.numVotesAgainstKicking		= ntohs(tmpData->numVotesAgainstKicking);
+	outData.numVotesInFavourOfKicking	= ntohs(tmpData->numVotesInFavourOfKicking);
+	outData.numVotesNeededToKick		= ntohs(tmpData->numVotesNeededToKick);
+}
+
+const NetPacketKickPlayerPetitionUpdate *
+NetPacketKickPlayerPetitionUpdate::ToNetPacketKickPlayerPetitionUpdate() const
+{
+	return this;
+}
+
+void
+NetPacketKickPlayerPetitionUpdate::InternalCheck(const NetPacketHeader *data) const
+{
+	NetPacketKickPlayerPetitionUpdateData *tmpData = (NetPacketKickPlayerPetitionUpdateData *)data;
+
+	if (ntohs(tmpData->numVotesAgainstKicking) > MAX_NUMBER_OF_PLAYERS)
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
+	if (ntohs(tmpData->numVotesInFavourOfKicking) > MAX_NUMBER_OF_PLAYERS)
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
+	if (ntohs(tmpData->numVotesNeededToKick) > MAX_NUMBER_OF_PLAYERS)
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
 }
 
 //-----------------------------------------------------------------------------

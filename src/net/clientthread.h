@@ -151,6 +151,7 @@ protected:
 	void ClearGameInfoMap();
 
 	void StartPetition(unsigned petitionId, unsigned proposingPlayerId, unsigned kickPlayerId, int timeoutSec, int numVotesToKick);
+	void UpdatePetition(unsigned petitionId, int numVotesAgainstKicking, int numVotesInFavourOfKicking, int numVotesToKick);
 	void EndPetition(unsigned petitionId);
 
 	void UpdateStatData(const ServerStats &stats);

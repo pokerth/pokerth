@@ -776,6 +776,13 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			client.StartPetition(startPetitionData.petitionId, startPetitionData.proposingPlayerId,
 				startPetitionData.kickPlayerId, startPetitionData.kickTimeoutSec, startPetitionData.numVotesNeededToKick);
 		}
+		else if (tmpPacket->ToNetPacketKickPlayerPetitionUpdate())
+		{
+			NetPacketKickPlayerPetitionUpdate::Data updatePetitionData;
+			tmpPacket->ToNetPacketKickPlayerPetitionUpdate()->GetData(updatePetitionData);
+			client.UpdatePetition(updatePetitionData.petitionId, updatePetitionData.numVotesAgainstKicking,
+				updatePetitionData.numVotesInFavourOfKicking, updatePetitionData.numVotesNeededToKick);
+		}
 		else if (tmpPacket->ToNetPacketEndKickPlayerPetition())
 		{
 			NetPacketEndKickPlayerPetition::Data endPetitionData;

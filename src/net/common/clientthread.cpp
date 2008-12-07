@@ -1038,6 +1038,20 @@ ClientThread::StartPetition(unsigned petitionId, unsigned proposingPlayerId, uns
 }
 
 void
+ClientThread::UpdatePetition(unsigned petitionId, int /*numVotesAgainstKicking*/, int numVotesInFavourOfKicking, int numVotesToKick)
+{
+	bool isCurPetition;
+	{
+		boost::mutex::scoped_lock lock(m_curPetitionIdMutex);
+		isCurPetition = m_curPetitionId == petitionId;
+	}
+	if (isCurPetition)
+	{
+		GetGui().refreshVotesMonitor(numVotesInFavourOfKicking, numVotesToKick);
+	}
+}
+
+void
 ClientThread::EndPetition(unsigned petitionId)
 {
 	bool isCurPetition;
