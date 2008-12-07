@@ -119,7 +119,7 @@ signals:
 
 	void signalNextRoundCleanGui();
 	
-	void signalStartVoteOnKick(unsigned playerId, int timeoutSec, int numVotesNeededToKick);
+	void signalStartVoteOnKick(unsigned playerId, unsigned voteStarterPlayerId, int timeoutSec, int numVotesNeededToKick);
 	void signalChangeVoteOnKickButtonsState(bool showHide);
 	void signalEndVoteOnKick();
 
@@ -283,7 +283,7 @@ public slots:
 	void showMaximized ();
 	void closeGameTable();
 
-	void startVoteOnKick(unsigned playerId, int timeoutSec, int numVotesNeededToKick);
+	void startVoteOnKick(unsigned playerId, unsigned voteStarterPlayerId, int timeoutSec, int numVotesNeededToKick);
 	void changeVoteOnKickButtonsState(bool showHide);
 	void endVoteOnKick();
 	void voteOnKickYes();

@@ -38,8 +38,15 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
 
 	
 	Game *currentGame = myW->getSession()->getCurrentGame();
-
+	
 	PlayerListConstIterator it_c;
+	int activePlayerCounter=0;
+	for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) { 	
+		if((*it_c)->getMyActiveStatus()) activePlayerCounter++;
+	}
+	if(activePlayerCounter > 2) setVoteOnKickContextMenuEnabled(TRUE);
+	else setVoteOnKickContextMenuEnabled(FALSE);
+
 	int i=0;
  	for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) { 
 		

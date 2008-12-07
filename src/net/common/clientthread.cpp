@@ -1029,7 +1029,7 @@ ClientThread::StartPetition(unsigned petitionId, unsigned proposingPlayerId, uns
 		boost::mutex::scoped_lock lock(m_curPetitionIdMutex);
 		m_curPetitionId = petitionId;
 	}
-	GetGui().startVoteOnKick(kickPlayerId, timeoutSec, numVotesToKick);
+	GetGui().startVoteOnKick(kickPlayerId, proposingPlayerId, timeoutSec, numVotesToKick);
 	if (GetGuiPlayerId() != kickPlayerId
 		&& GetGuiPlayerId() != proposingPlayerId)
 	{

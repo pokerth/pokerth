@@ -107,7 +107,7 @@ void GuiWrapper::disableMyButtons() { myW->signalDisableMyButtons(); }
 void GuiWrapper::startTimeoutAnimation(int playerNum, int timeoutSec) { myW->signalStartTimeoutAnimation(playerNum, timeoutSec); }
 void GuiWrapper::stopTimeoutAnimation(int playerNum) { myW->signalStopTimeoutAnimation(playerNum); }
 
-void GuiWrapper::startVoteOnKick(unsigned playerId, int timeoutSec, int numVotesNeededToKick) { myW->signalStartVoteOnKick(playerId, timeoutSec, numVotesNeededToKick); }
+void GuiWrapper::startVoteOnKick(unsigned playerId, unsigned voteStarterPlayerId, int timeoutSec, int numVotesNeededToKick) { myW->signalStartVoteOnKick(playerId, voteStarterPlayerId, timeoutSec, numVotesNeededToKick); }
 void GuiWrapper::changeVoteOnKickButtonsState(bool showHide) { myW->signalChangeVoteOnKickButtonsState(showHide); }
 void GuiWrapper::refreshVotesMonitor(int currentVotes, int numVotesNeededToKick) { myW->refreshVotesMonitor(currentVotes, numVotesNeededToKick); }
 void GuiWrapper::endVoteOnKick() { myW->signalEndVoteOnKick(); }

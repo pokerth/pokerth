@@ -96,7 +96,7 @@ public:
 	void startTimeoutAnimation(int playerNum, int timeoutSec);
 	void stopTimeoutAnimation(int playerNum);
 
-	void startVoteOnKick(unsigned playerId, int timeoutSec, int numVotesNeededToKick);
+	void startVoteOnKick(unsigned playerId, unsigned voteStarterPlayerId, int timeoutSec, int numVotesNeededToKick);
 	void changeVoteOnKickButtonsState(bool showHide);
 	void refreshVotesMonitor(int currentVotes, int numVotesNeededToKick);
 	void endVoteOnKick();

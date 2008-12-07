@@ -401,6 +401,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	label_kickVoteTimeout->setStyleSheet("QLabel { color: #99D500;}");
 	label_kickUser->setStyleSheet("QLabel { color: #99D500;}");	
 	label_votesMonitor->setStyleSheet("QLabel { color: #99D500;}");	
+	label_voteStarterNick->setStyleSheet("QLabel { color: #99D500;}");	
+	label_votestartedby->setStyleSheet("QLabel { color: #99D500;}");	
 
 	statusbar->setStyleSheet(" QStatusBar { "+ font1String +" font-size: 12px; color: #B7FF00; }");
 
@@ -589,7 +591,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalPostRiverRunAnimation1()), this, SLOT(postRiverRunAnimation1()));
 	connect(this, SIGNAL(signalFlipHolecardsAllIn()), this, SLOT(flipHolecardsAllIn()));
 	connect(this, SIGNAL(signalNextRoundCleanGui()), this, SLOT(nextRoundCleanGui()));
-	connect(this, SIGNAL(signalStartVoteOnKick(unsigned, int, int)), this, SLOT(startVoteOnKick(unsigned, int, int)));
+	connect(this, SIGNAL(signalStartVoteOnKick(unsigned, unsigned, int, int)), this, SLOT(startVoteOnKick(unsigned, unsigned, int, int)));
 	connect(this, SIGNAL(signalChangeVoteOnKickButtonsState(bool)), this, SLOT(changeVoteOnKickButtonsState(bool)));
 	connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
 
@@ -3114,7 +3116,7 @@ void gameTableImpl::triggerVoteOnKick(int id) {
 	}
 }
 
-void gameTableImpl::startVoteOnKick(unsigned playerId, int timeoutSec, int numVotesNeededToKick)
+void gameTableImpl::startVoteOnKick(unsigned playerId, unsigned voteStarterPlayerId, int timeoutSec, int numVotesNeededToKick)
 {
 	if(tabWidget_Left->widget(2) != tab_Kick) 
 		tabWidget_Left->insertTab(2, tab_Kick, QString(tr("Kick")));
@@ -3126,6 +3128,9 @@ void gameTableImpl::startVoteOnKick(unsigned playerId, int timeoutSec, int numVo
 	
 	playerAboutToBeKickedId = playerId;
 	refreshVotesMonitor(1, numVotesNeededToKick);
+
+	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(voteStarterPlayerId));
+	label_voteStarterNick->setText(QString::fromUtf8(info.playerName.c_str()));
 
 	startVoteOnKickTimeout();
 	
