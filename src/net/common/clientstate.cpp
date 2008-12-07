@@ -771,10 +771,16 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 		}
 		else if (tmpPacket->ToNetPacketStartKickPlayerPetition())
 		{
-			NetPacketStartKickPlayerPetition::Data petitionData;
-			tmpPacket->ToNetPacketStartKickPlayerPetition()->GetData(petitionData);
-			client.StartPetition(petitionData.petitionId, petitionData.proposingPlayerId,
-				petitionData.kickPlayerId, petitionData.kickTimeoutSec, petitionData.numVotesNeededToKick);
+			NetPacketStartKickPlayerPetition::Data startPetitionData;
+			tmpPacket->ToNetPacketStartKickPlayerPetition()->GetData(startPetitionData);
+			client.StartPetition(startPetitionData.petitionId, startPetitionData.proposingPlayerId,
+				startPetitionData.kickPlayerId, startPetitionData.kickTimeoutSec, startPetitionData.numVotesNeededToKick);
+		}
+		else if (tmpPacket->ToNetPacketEndKickPlayerPetition())
+		{
+			NetPacketEndKickPlayerPetition::Data endPetitionData;
+			tmpPacket->ToNetPacketEndKickPlayerPetition()->GetData(endPetitionData);
+			client.EndPetition(endPetitionData.petitionId);
 		}
 		else if (tmpPacket->ToNetPacketAvatarHeader())
 		{

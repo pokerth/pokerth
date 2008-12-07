@@ -1038,6 +1038,18 @@ ClientThread::StartPetition(unsigned petitionId, unsigned proposingPlayerId, uns
 }
 
 void
+ClientThread::EndPetition(unsigned petitionId)
+{
+	bool isCurPetition;
+	{
+		boost::mutex::scoped_lock lock(m_curPetitionIdMutex);
+		isCurPetition = m_curPetitionId == petitionId;
+	}
+	if (isCurPetition)
+		GetGui().endVoteOnKick();
+}
+
+void
 ClientThread::UpdateStatData(const ServerStats &stats)
 {
 	boost::mutex::scoped_lock lock(m_curStatsMutex);

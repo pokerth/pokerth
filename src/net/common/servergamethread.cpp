@@ -33,6 +33,7 @@
 
 
 #define SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC	500
+#define SERVER_KICK_TIMEOUT_ADD_DELAY_SEC		2
 
 using namespace std;
 
@@ -239,7 +240,6 @@ ServerGameThread::VoteKickAction()
 			endPetitionData.numVotesInFavourOfKicking = m_voteKickData->numVotesInFavourOfKicking;
 			endPetitionData.playerKicked = doKick;
 			endPetitionData.endReason = reason;
-			m_voteKickData.reset();
 
 			static_cast<NetPacketEndKickPlayerPetition *>(endPetition.get())->SetData(endPetitionData);
 			SendToAllPlayers(endPetition, SessionData::Game);
@@ -247,6 +247,8 @@ ServerGameThread::VoteKickAction()
 			// Perform kick.
 			if (doKick)
 				InternalKickPlayer(m_voteKickData->kickPlayerId);
+			// This petition has ended.
+			m_voteKickData.reset();
 		}
 	}
 }
@@ -328,7 +330,7 @@ ServerGameThread::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWh
 				m_voteKickData->petitionId = m_curPetitionId++;
 				m_voteKickData->kickPlayerId = playerIdWho;
 				m_voteKickData->numVotesToKick = static_cast<int>(ceil(numPlayers / 3. * 2.));
-				m_voteKickData->timeLimitSec = timeoutSec;
+				m_voteKickData->timeLimitSec = timeoutSec + SERVER_KICK_TIMEOUT_ADD_DELAY_SEC;
 				// Consider first vote.
 				m_voteKickData->numVotesInFavourOfKicking = 1;
 				m_voteKickData->votedPlayerIds.push_back(playerIdByWhom);
@@ -338,7 +340,7 @@ ServerGameThread::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWh
 				startPetitionData.petitionId = m_voteKickData->petitionId;
 				startPetitionData.proposingPlayerId = playerIdByWhom;
 				startPetitionData.kickPlayerId = m_voteKickData->kickPlayerId;
-				startPetitionData.kickTimeoutSec = m_voteKickData->timeLimitSec;
+				startPetitionData.kickTimeoutSec = timeoutSec;
 				startPetitionData.numVotesNeededToKick = m_voteKickData->numVotesToKick;
 
 				static_cast<NetPacketStartKickPlayerPetition *>(startPetition.get())->SetData(startPetitionData);
