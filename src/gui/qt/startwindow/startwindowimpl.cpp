@@ -806,6 +806,7 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 	myGameLobbyDialog->reject();
 	myConnectToServerDialog->reject();
 	myStartNetworkGameDialog->reject();
+	myGuiInterface->getMyW()->close();
 }
 
 void startWindowImpl::networkNotification(int notificationId)
