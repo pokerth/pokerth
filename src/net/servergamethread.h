@@ -96,6 +96,8 @@ protected:
 	PlayerDataList GetFullPlayerDataList() const;
 
 	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
+	boost::shared_ptr<PlayerData> RemoveComputerPlayer(unsigned playerId);
+	bool IsComputerPlayerActive(unsigned playerId) const;
 	void ResetComputerPlayerList();
 
 	void GracefulRemoveSession(SessionWrapper session, int reason);

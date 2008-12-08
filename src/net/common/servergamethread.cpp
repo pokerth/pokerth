@@ -310,6 +310,12 @@ ServerGameThread::InternalKickPlayer(unsigned playerId)
 	// Only kick if the player was found.
 	if (tmpSession.sessionData.get())
 		MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_KICKED);
+	else
+	{
+		boost::shared_ptr<PlayerData> tmpData(RemoveComputerPlayer(playerId));
+		if (tmpData)
+			RemovePlayerData(tmpData, NTF_NET_REMOVED_KICKED);
+	}
 }
 
 void
@@ -507,6 +513,45 @@ ServerGameThread::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
 	GetLobbyThread().AddComputerPlayer(player);
 }
 
+boost::shared_ptr<PlayerData>
+ServerGameThread::RemoveComputerPlayer(unsigned playerId)
+{
+	boost::shared_ptr<PlayerData> tmpPlayer;
+	{
+		boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
+		PlayerDataList::iterator i = m_computerPlayerList.begin();
+		PlayerDataList::iterator end = m_computerPlayerList.end();
+		while (i != end)
+		{
+			if ((*i)->GetUniqueId() == playerId)
+			{
+				tmpPlayer = *i;
+				m_computerPlayerList.erase(i);
+				break;
+			}
+			++i;
+		}
+	}
+	GetLobbyThread().RemoveComputerPlayer(tmpPlayer);
+	return tmpPlayer;
+}
+
+bool
+ServerGameThread::IsComputerPlayerActive(unsigned playerId) const
+{
+	bool retVal = false;
+	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
+	PlayerDataList::const_iterator i = m_computerPlayerList.begin();
+	PlayerDataList::const_iterator end = m_computerPlayerList.end();
+	while (i != end)
+	{
+		if ((*i)->GetUniqueId() == playerId)
+			retVal = true;
+		++i;
+	}
+	return retVal;
+}
+
 void
 ServerGameThread::ResetComputerPlayerList()
 {
@@ -613,7 +658,8 @@ ServerGameThread::RemoveDisconnectedPlayers()
 		while (i != end)
 		{
 			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
-			if (!GetSessionManager().IsPlayerConnected(tmpPlayer->getMyUniqueID()) && tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN)
+			if ((tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN && !GetSessionManager().IsPlayerConnected(tmpPlayer->getMyUniqueID()))
+				|| (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER && !IsComputerPlayerActive(tmpPlayer->getMyUniqueID())))
 			{
 				// Setting player cash to 0 will deactivate the player.
 				tmpPlayer->setMyCash(0);
