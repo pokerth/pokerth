@@ -37,6 +37,8 @@ public slots:
 	void setEnabledContextMenu(bool);
 	void setVoteOnKickContextMenuEnabled(bool);
 
+	void setVoteRunning ( bool theValue ) {	voteRunning = theValue;	}
+	
 private: 
 
 	gameTableImpl *myW;
@@ -44,7 +46,8 @@ private:
 	QAction *action_VoteForKick;
 
 	int myId;
-	bool myContextMenuEnabled;
+	bool myContextMenuEnabled;	
+	bool voteRunning;
 };
 
 #endif

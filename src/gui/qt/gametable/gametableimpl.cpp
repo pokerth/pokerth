@@ -3130,13 +3130,13 @@ void gameTableImpl::startVoteOnKick(unsigned playerId, unsigned voteStarterPlaye
 	refreshVotesMonitor(1, numVotesNeededToKick);
 
 	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(voteStarterPlayerId));
-	label_voteStarterNick->setText(QString::fromUtf8(info.playerName.c_str()));
+	label_voteStarterNick->setText("<b>"+QString::fromUtf8(info.playerName.c_str())+"</b>");
 
 	startVoteOnKickTimeout();
 	
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
-		playerAvatarLabelArray[i]->setVoteOnKickContextMenuEnabled(FALSE);
+		playerAvatarLabelArray[i]->setVoteRunning(TRUE);
 	}
 }
 
@@ -3164,7 +3164,7 @@ void gameTableImpl::endVoteOnKick()
 	
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
-		playerAvatarLabelArray[i]->setVoteOnKickContextMenuEnabled(TRUE);
+		playerAvatarLabelArray[i]->setVoteRunning(FALSE);
 	}
 }
 
@@ -3209,10 +3209,10 @@ void gameTableImpl::refreshVotesMonitor(int currentVotes, int numVotesNeededToKi
 	
 	if((*myStartWindow->getSession()->getCurrentGame()->getSeatsList()->begin())->getMyUniqueID() != playerAboutToBeKickedId) {
 		PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToBeKickedId));
-		label_votesMonitor->setText(tr("Player <b>%1</b> has %2 %3 <br>against him. %4 votes needed to kick.").arg(QString::fromUtf8(info.playerName.c_str())).arg(currentVotes).arg(currentVotesString).arg(numVotesNeededToKick));
+		label_votesMonitor->setText(tr("Player <b>%1</b> has <b>%2</b> %3<br>against him. <b>%4</b> votes needed to kick.").arg(QString::fromUtf8(info.playerName.c_str())).arg(currentVotes).arg(currentVotesString).arg(numVotesNeededToKick));
 	}
 	else {
-		label_votesMonitor->setText(tr("You have %1 %2 against you. %3 votes needed to kick.").arg(currentVotes).arg(currentVotesString).arg(numVotesNeededToKick));
+		label_votesMonitor->setText(tr("You have <b>%1</b> %2 against you.<br><b>%3</b> votes needed to kick.").arg(currentVotes).arg(currentVotesString).arg(numVotesNeededToKick));
 	}
 }
 
