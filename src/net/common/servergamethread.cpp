@@ -317,7 +317,8 @@ ServerGameThread::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWh
 {
 	if (IsRunning() && byWhom.playerData)
 	{
-		size_t numPlayers = GetCurNumberOfPlayers();
+		// Retrieve only the number of human players.
+		size_t numPlayers = GetSessionManager().GetPlayerIdList().size();
 		if (numPlayers > 2)
 		{
 			// Lock the vote kick data.
