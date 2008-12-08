@@ -51,6 +51,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
 	connect( pushButton_Leave, SIGNAL( clicked() ), this, SLOT( leaveGame() ) );
 	connect( treeWidget_GameList, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( gameSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
+	connect( treeWidget_GameList, SIGNAL( itemDoubleClicked (QTreeWidgetItem*, int) ), this, SLOT( joinGame() ) );
 	connect( treeWidget_connectedPlayers, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), myChat, SLOT( sendMessage() ) );
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), myChat, SLOT( checkInputLength(QString) ) );
