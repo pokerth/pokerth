@@ -3207,8 +3207,13 @@ void gameTableImpl::refreshVotesMonitor(int currentVotes, int numVotesNeededToKi
 	if(currentVotes == 1) currentVotesString = tr("vote");
 	else currentVotesString = tr("votes");
 	
-	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToBeKickedId));
-	label_votesMonitor->setText(tr("Player <b>%1</b> has %2 %3 <br>against him. %4 votes needed to kick.").arg(QString::fromUtf8(info.playerName.c_str())).arg(currentVotes).arg(currentVotesString).arg(numVotesNeededToKick));
+	if((*myStartWindow->getSession()->getCurrentGame()->getSeatsList()->begin())->getMyUniqueID() != playerAboutToBeKickedId) {
+		PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToBeKickedId));
+		label_votesMonitor->setText(tr("Player <b>%1</b> has %2 %3 <br>against him. %4 votes needed to kick.").arg(QString::fromUtf8(info.playerName.c_str())).arg(currentVotes).arg(currentVotesString).arg(numVotesNeededToKick));
+	}
+	else {
+		label_votesMonitor->setText(tr("You have %1 %2 against you. %3 votes needed to kick.").arg(currentVotes).arg(currentVotesString).arg(numVotesNeededToKick));
+	}
 }
 
 void gameTableImpl::refreshCardsChance(GameState bero)
