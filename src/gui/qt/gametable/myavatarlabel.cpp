@@ -19,7 +19,7 @@
 using namespace std;
 
 MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
- : QLabel(parent)
+ : QLabel(parent), voteRunning(FALSE)
 {
 
 	myContextMenu = new QMenu;

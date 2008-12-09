@@ -3124,6 +3124,9 @@ void gameTableImpl::startVoteOnKick(unsigned playerId, unsigned voteStarterPlaye
 	tabWidget_Left->setCurrentIndex(2);
 	pushButton_voteOnKickNo->hide();
 	pushButton_voteOnKickYes->hide();
+	label_kickUser->clear();
+	label_kickVoteTimeout->clear();
+
 	voteOnKickTimeoutSecs = timeoutSec;
 	
 	playerAboutToBeKickedId = playerId;
