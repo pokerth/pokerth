@@ -397,12 +397,12 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	
 	pushButton_voteOnKickYes->setStyleSheet("QPushButton:enabled { background-color: #1C7000; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
 	pushButton_voteOnKickNo->setStyleSheet("QPushButton:enabled { background-color: #1C7000; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
-	label_timeout->setStyleSheet("QLabel { color: #99D500;}");
-	label_kickVoteTimeout->setStyleSheet("QLabel { color: #99D500;}");
-	label_kickUser->setStyleSheet("QLabel { color: #99D500;}");	
-	label_votesMonitor->setStyleSheet("QLabel { color: #99D500;}");	
-	label_voteStarterNick->setStyleSheet("QLabel { color: #99D500;}");	
-	label_votestartedby->setStyleSheet("QLabel { color: #99D500;}");	
+	label_timeout->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");
+	label_kickVoteTimeout->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");
+	label_kickUser->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");	
+	label_votesMonitor->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");	
+	label_voteStarterNick->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");	
+	label_votestartedby->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");	
 
 	statusbar->setStyleSheet(" QStatusBar { "+ font1String +" font-size: 12px; color: #B7FF00; }");
 
