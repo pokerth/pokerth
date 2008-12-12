@@ -220,7 +220,7 @@ ServerGameThread::VoteKickAction()
 			abortPetition = true;
 		}
 		// 3. The kick has become invalid because the player to be kicked left.
-		else if (find(playerIds.begin(), playerIds.end(), m_voteKickData->kickPlayerId) == playerIds.end())
+		else if (!IsValidPlayer(m_voteKickData->kickPlayerId))
 		{
 			reason = PETITION_END_PLAYER_LEFT;
 			abortPetition = true;
@@ -327,34 +327,40 @@ ServerGameThread::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWh
 		size_t numPlayers = GetSessionManager().GetPlayerIdList().size();
 		if (numPlayers > 2)
 		{
-			// Lock the vote kick data.
-			boost::mutex::scoped_lock lock(m_voteKickDataMutex);
-			if (!m_voteKickData)
+			// Check whether the player to be kicked exists.
+			if (IsValidPlayer(playerIdWho))
 			{
-				// Initiate a vote kick.
-				unsigned playerIdByWhom = byWhom.playerData->GetUniqueId();
-				m_voteKickData.reset(new VoteKickData);
-				m_voteKickData->petitionId = m_curPetitionId++;
-				m_voteKickData->kickPlayerId = playerIdWho;
-				m_voteKickData->numVotesToKick = static_cast<int>(ceil(numPlayers / 3. * 2.));
-				m_voteKickData->timeLimitSec = timeoutSec + SERVER_KICK_TIMEOUT_ADD_DELAY_SEC;
-				// Consider first vote.
-				m_voteKickData->numVotesInFavourOfKicking = 1;
-				m_voteKickData->votedPlayerIds.push_back(playerIdByWhom);
+				// Lock the vote kick data.
+				boost::mutex::scoped_lock lock(m_voteKickDataMutex);
+				if (!m_voteKickData)
+				{
+					// Initiate a vote kick.
+					unsigned playerIdByWhom = byWhom.playerData->GetUniqueId();
+					m_voteKickData.reset(new VoteKickData);
+					m_voteKickData->petitionId = m_curPetitionId++;
+					m_voteKickData->kickPlayerId = playerIdWho;
+					m_voteKickData->numVotesToKick = static_cast<int>(ceil(numPlayers / 3. * 2.));
+					m_voteKickData->timeLimitSec = timeoutSec + SERVER_KICK_TIMEOUT_ADD_DELAY_SEC;
+					// Consider first vote.
+					m_voteKickData->numVotesInFavourOfKicking = 1;
+					m_voteKickData->votedPlayerIds.push_back(playerIdByWhom);
 
-				boost::shared_ptr<NetPacket> startPetition(new NetPacketStartKickPlayerPetition);
-				NetPacketStartKickPlayerPetition::Data startPetitionData;
-				startPetitionData.petitionId = m_voteKickData->petitionId;
-				startPetitionData.proposingPlayerId = playerIdByWhom;
-				startPetitionData.kickPlayerId = m_voteKickData->kickPlayerId;
-				startPetitionData.kickTimeoutSec = timeoutSec;
-				startPetitionData.numVotesNeededToKick = m_voteKickData->numVotesToKick;
+					boost::shared_ptr<NetPacket> startPetition(new NetPacketStartKickPlayerPetition);
+					NetPacketStartKickPlayerPetition::Data startPetitionData;
+					startPetitionData.petitionId = m_voteKickData->petitionId;
+					startPetitionData.proposingPlayerId = playerIdByWhom;
+					startPetitionData.kickPlayerId = m_voteKickData->kickPlayerId;
+					startPetitionData.kickTimeoutSec = timeoutSec;
+					startPetitionData.numVotesNeededToKick = m_voteKickData->numVotesToKick;
 
-				static_cast<NetPacketStartKickPlayerPetition *>(startPetition.get())->SetData(startPetitionData);
-				SendToAllPlayers(startPetition, SessionData::Game);
+					static_cast<NetPacketStartKickPlayerPetition *>(startPetition.get())->SetData(startPetitionData);
+					SendToAllPlayers(startPetition, SessionData::Game);
+				}
+				else
+					InternalDenyAskVoteKick(byWhom, playerIdWho, KICK_DENIED_OTHER_IN_PROGRESS);
 			}
 			else
-				InternalDenyAskVoteKick(byWhom, playerIdWho, KICK_DENIED_OTHER_IN_PROGRESS);
+				InternalDenyAskVoteKick(byWhom, playerIdWho, KICK_DENIED_INVALID_PLAYER_ID);
 		}
 		else
 			InternalDenyAskVoteKick(byWhom, playerIdWho, KICK_DENIED_TOO_FEW_PLAYERS);
@@ -691,6 +697,16 @@ ServerGameThread::AssignPlayerNumbers()
 		++playerNumber;
 		++player_i;
 	}
+}
+
+bool
+ServerGameThread::IsValidPlayer(unsigned playerId) const
+{
+	bool retVal = false;
+	const PlayerIdList list(GetPlayerIdList());
+	if (find(list.begin(), list.end(), playerId) != list.end())
+		retVal = true;
+	return retVal;
 }
 
 SessionManager &

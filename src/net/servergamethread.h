@@ -109,6 +109,7 @@ protected:
 	void RemoveDisconnectedPlayers();
 	size_t GetCurNumberOfPlayers() const;
 	void AssignPlayerNumbers();
+	bool IsValidPlayer(unsigned playerId) const;
 
 	ServerLobbyThread &GetLobbyThread();
 

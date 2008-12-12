@@ -125,6 +125,7 @@ using namespace std;
 #define NET_ASK_KICK_DENIED_TOO_FEW_PLAYERS		0x0001
 #define NET_ASK_KICK_DENIED_TEMPORARY			0x0002
 #define NET_ASK_KICK_DENIED_OTHER_IN_PROGRESS	0x0003
+#define NET_ASK_KICK_DENIED_INVALID_PLAYER_ID	0x0004
 #define NET_ASK_KICK_DENIED_OTHER_REASON		0xFFFF
 
 // Vote types
@@ -4526,6 +4527,9 @@ NetPacketAskKickPlayerDenied::SetData(const NetPacketAskKickPlayerDenied::Data &
 		case KICK_DENIED_OTHER_IN_PROGRESS:
 			tmpData->denyReason = htons(NET_ASK_KICK_DENIED_OTHER_IN_PROGRESS);
 			break;
+		case KICK_DENIED_INVALID_PLAYER_ID:
+			tmpData->denyReason = htons(NET_ASK_KICK_DENIED_INVALID_PLAYER_ID);
+			break;
 		default:
 			tmpData->denyReason = htons(NET_ASK_KICK_DENIED_OTHER_REASON);
 			break;
@@ -4554,6 +4558,9 @@ NetPacketAskKickPlayerDenied::GetData(NetPacketAskKickPlayerDenied::Data &outDat
 			break;
 		case NET_ASK_KICK_DENIED_OTHER_IN_PROGRESS:
 			outData.denyReason = KICK_DENIED_OTHER_IN_PROGRESS;
+			break;
+		case NET_ASK_KICK_DENIED_INVALID_PLAYER_ID:
+			outData.denyReason = KICK_DENIED_INVALID_PLAYER_ID;
 			break;
 		default:
 			outData.denyReason = KICK_DENIED_OTHER_REASON;

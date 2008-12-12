@@ -830,6 +830,7 @@ Deny Reason:
 	0x0001: Kick not possible due to number of players.
 	0x0002: Another kick cannot be requested at this time.
 	0x0003: Kick request is already in progress.
+	0x0004: Invalid player ID.
 	0xFFFF: Other reason.
 
 
