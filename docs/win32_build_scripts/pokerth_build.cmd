@@ -36,7 +36,7 @@ if not exist %PKTH_BaseDir%\qt\bin\qmake.exe goto noQmake
 if not exist %PKTH_BaseDir%\svn\bin\svn.exe goto noSvn
 if not exist %PKTH_BaseDir%\mingw\bin\mingw32-make.exe goto otherScriptFirst
 if not exist %PKTH_BaseDir%\pokerth goto otherScriptFirst
-SET PATH=%PKTH_BaseDir%\svn\bin;%PKTH_BaseDir%\qt\bin;%PKTH_BaseDir%\mingw\bin;%PATH%
+SET PATH=%PKTH_BaseDir%\qt\bin;%PKTH_BaseDir%\mingw\bin;%PATH%
 SET QMAKESPEC=win32-g++
 SET QTDIR=%PKTH_BaseDir%\qt
 
@@ -48,7 +48,7 @@ mingw32-make distclean
 )
 echo.
 echo Running svn update
-svn update
+%PKTH_BaseDir%\svn\bin\svn update
 echo.
 echo Building PokerTH
 qmake pokerth.pro

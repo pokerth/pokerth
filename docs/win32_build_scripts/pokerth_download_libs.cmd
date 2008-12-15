@@ -109,7 +109,7 @@ SET PATH=%PKTH_BaseDir%\qt\bin;%PATH%
 SET QMAKESPEC=win32-g++
 SET QTDIR=%PKTH_BaseDir%\qt
 cd qt
-configure -static -fast -no-qt3support -no-openssl -no-sql-sqlite -no-dbus -no-opengl -no-openssl -no-phonon -no-webkit -no-direct3d
+configure -static -fast -no-qt3support -no-sql-sqlite -no-dbus -no-opengl -no-openssl -no-phonon -no-webkit -no-direct3d
 qmake projects.pro -o Makefile -spec win32-g++
 mingw32-make sub-src
 echo.
@@ -143,9 +143,9 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\GnuTLS. (
 echo.
 echo Downloading GnuTLS
-%PKTH_OldDir%\third_party_apps\curl -O http://josefsson.org/gnutls4win/gnutls-2.6.2.zip
+%PKTH_OldDir%\third_party_apps\curl -O http://josefsson.org/gnutls4win/gnutls-2.6.3.zip
 mkdir GnuTLS
-%PKTH_OldDir%\third_party_apps\7za x -y -oGnuTLS gnutls-2.6.2.zip
+%PKTH_OldDir%\third_party_apps\7za x -y -oGnuTLS gnutls-2.6.3.zip
 REM Wait 5 seconds for the file cache.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
 REM Remove files for dynamic linking, we do not want to accidently use them
@@ -178,18 +178,18 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\boost. (
 echo.
 echo Downloading boost and bjam
-%PKTH_OldDir%\third_party_apps\curl -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost_1_36_0.7z -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost-jam-3.1.16-1-ntx86.zip
+%PKTH_OldDir%\third_party_apps\curl -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost_1_37_0.7z -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost-jam-3.1.17-1-ntx86.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking boost and bjam
-%PKTH_OldDir%\third_party_apps\7za x -y boost_1_36_0.7z
-%PKTH_OldDir%\third_party_apps\7za x -y boost-jam-3.1.16-1-ntx86.zip
+%PKTH_OldDir%\third_party_apps\7za x -y boost_1_37_0.7z
+%PKTH_OldDir%\third_party_apps\7za x -y boost-jam-3.1.17-1-ntx86.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-move boost-jam-3.1.16-1-ntx86\bjam.exe mingw\bin\bjam.exe
-move boost-jam-3.1.16-1-ntx86\LICENSE_1_0.txt mingw\bin\bjam_LICENSE_1_0.txt
-rd boost-jam-3.1.16-1-ntx86
-ren boost_1_36_0 boost
+move boost-jam-3.1.17-1-ntx86\bjam.exe mingw\bin\bjam.exe
+move boost-jam-3.1.17-1-ntx86\LICENSE_1_0.txt mingw\bin\bjam_LICENSE_1_0.txt
+rd boost-jam-3.1.17-1-ntx86
+ren boost_1_37_0 boost
 )
 echo.
 echo Compiling boost
@@ -201,7 +201,7 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\SDL. (
 echo.
 echo Downloading SDL precompiled
-%PKTH_OldDir%\third_party_apps\curl -O http://libsdl.org:9096/release/SDL-devel-1.2.13-mingw32.tar.gz
+%PKTH_OldDir%\third_party_apps\curl -O http://www.libsdl.org/release/SDL-devel-1.2.13-mingw32.tar.gz
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking SDL
@@ -215,7 +215,7 @@ ren SDL-1.2.13 SDL
 if not exist %PKTH_BaseDir%\SDL_mixer. (
 echo.
 echo Downloading SDL_mixer precompiled
-%PKTH_OldDir%\third_party_apps\curl -O http://libsdl.org:9096/projects/SDL_mixer/release/SDL_mixer-1.2.8.zip -O http://libsdl.org:9096/projects/SDL_mixer/release/SDL_mixer-1.2.8-win32.zip
+%PKTH_OldDir%\third_party_apps\curl -O http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.8.zip -O http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.8-win32.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking SDL_mixer
@@ -246,12 +246,11 @@ REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
 ren svn-win32-1.5.4 svn
 )
-SET PATH=%PKTH_BaseDir%\svn\bin;%PATH%
 if not exist %PKTH_BaseDir%\svn\bin\svn.exe goto svnFailure
 if not exist %PKTH_BaseDir%\pokerth. (
 echo.
 echo Checking out latest PokerTH sources from svn
-svn co http://pokerth.svn.sourceforge.net/svnroot/pokerth/trunk/pokerth
+%PKTH_BaseDir%\svn\bin\svn co http://pokerth.svn.sourceforge.net/svnroot/pokerth/trunk/pokerth
 echo.
 echo Done checking out latest PokerTH sources
 )
