@@ -582,8 +582,6 @@ int** CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* board
 	cards[1] = playerCards[1];
 	for(i=0;i<5;i++) cards[i+2] = boardCards[i];
 
-	
-
 	switch(beRoID) {
 		case GAME_STATE_PREFLOP: {
 			ArrayData* myArrayData = new ArrayData;
@@ -608,8 +606,8 @@ int** CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* board
 				}
 			}
 			for(i=0;i<10;i++) {
-				hand[i][0] = (int)(((double)hand[i][0]/(double)sum)*100.0+0.5);
 				if(hand[i][0] > 0) hand[i][1] = 1;
+				hand[i][0] = (int)(((double)hand[i][0]/(double)sum)*100.0+0.5);
 			}
 
 		} break;
@@ -623,8 +621,8 @@ int** CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* board
 				}
 			}
 			for(i=0;i<10;i++) {
-				hand[i][0] = (int)(((double)hand[i][0]/(double)sum)*100.0+0.5);
 				if(hand[i][0] > 0) hand[i][1] = 1;
+				hand[i][0] = (int)(((double)hand[i][0]/(double)sum)*100.0+0.5);
 			}
 
 		} break;
