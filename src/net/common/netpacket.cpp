@@ -90,7 +90,7 @@ using namespace std;
 
 #define NET_TYPE_ERROR							0x0400
 
-#define NET_GAME_FLAG_PASSWORD_PROTECTED		0x01
+#define NET_PRIVACY_FLAG_PASSWORD_PROTECTED		0x01
 
 #define NET_PLAYER_FLAG_HUMAN					0x01
 #define NET_PLAYER_FLAG_HAS_AVATAR				0x02
@@ -266,7 +266,7 @@ struct GCC_PACKED NetPacketGameListNewData
 	u_int16_t			gameMode;
 	u_int16_t			gameNameLength;
 	u_int16_t			curNumberOfPlayers;
-	u_int16_t			gameFlags;
+	u_int16_t			privacyFlags;
 	GameInfoData		gameData;
 };
 
@@ -1994,7 +1994,7 @@ NetPacketGameListNew::SetData(const NetPacketGameListNew::Data &inData)
 	tmpData->gameMode				= htons(inData.gameInfo.mode);
 	tmpData->gameNameLength			= htons(gameNameLen);
 	tmpData->curNumberOfPlayers		= htons(curNumPlayers);
-	tmpData->gameFlags				= htons(inData.gameInfo.isPasswordProtected ? NET_GAME_FLAG_PASSWORD_PROTECTED : 0);
+	tmpData->privacyFlags			= htons(inData.gameInfo.isPasswordProtected ? NET_PRIVACY_FLAG_PASSWORD_PROTECTED : 0);
 
 	SetGameInfoData(inData.gameInfo.data, &tmpData->gameData);
 
@@ -2032,7 +2032,7 @@ NetPacketGameListNew::GetData(NetPacketGameListNew::Data &outData) const
 	outData.gameInfo.mode						= static_cast<GameMode>(ntohs(tmpData->gameMode));
 	u_int16_t gameNameLen						= ntohs(tmpData->gameNameLength);
 	u_int16_t curNumPlayers						= ntohs(tmpData->curNumberOfPlayers);
-	outData.gameInfo.isPasswordProtected		= ntohs(tmpData->gameFlags) == NET_GAME_FLAG_PASSWORD_PROTECTED;
+	outData.gameInfo.isPasswordProtected		= ntohs(tmpData->privacyFlags) & NET_PRIVACY_FLAG_PASSWORD_PROTECTED == NET_PRIVACY_FLAG_PASSWORD_PROTECTED;
 
 	GetGameInfoData(&tmpData->gameData, outData.gameInfo.data);
 

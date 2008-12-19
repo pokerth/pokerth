@@ -215,7 +215,7 @@ Server Notification: Game List New
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|           Game Mode           |       Game Name Length        |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	|   Current Number of Players   |          Game Flags           |
+	|   Current Number of Players   |        Privacy Flags          |
 	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	|                                                               |
 	\                       Game Info Block                         /
@@ -240,7 +240,7 @@ Game Mode:
 	1: Game Created
 	2: Game Started
 	3: Game Closed (only for Game List Update)
-Game Flags:
+Privacy Flags:
 	0x01 set: Game is password protected
 
 
