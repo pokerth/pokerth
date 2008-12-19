@@ -38,16 +38,15 @@ namespace pokerth_console
 			m_terminateFlag = false;
 			m_terminateFlagMutex = new System.Object();
 			m_recStream = stream;
-			m_recStream.ReadTimeout = 50;
 			m_recBuf = new byte[8192];
 			m_recBufOffset = 0;
 			m_packetList = new List<NetPacket>();
 			m_lobbyGameInfoList = list;
 		}
 
-		public static void Run(ReceiverThread me)
+		public void Run()
 		{
-			me.m_recThread.Start(me);
+			m_recThread.Start(this);
 		}
 
 		protected static void ThreadProc(object obj)
@@ -91,7 +90,8 @@ namespace pokerth_console
 		{
 			if (m_recStream.DataAvailable)
 				m_recBufOffset += m_recStream.Read(m_recBuf, m_recBufOffset, m_recBuf.Length - m_recBufOffset);
-			Thread.Sleep(15);
+			else
+				Thread.Sleep(15);
 		}
 
 		protected void ScanPackets()
