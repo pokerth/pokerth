@@ -24,6 +24,11 @@
 #include "arraydata.h"
 #include "tools.h"
 
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
 class CardsValue{
 public:
     CardsValue();
@@ -36,7 +41,7 @@ public:
    int holeCardsToIntCode(int*);
    int* intCodeToHoleCards(int);
 
-   int** calcCardsChance(GameState, int*, int*);
+   vector< vector<int> > calcCardsChance(GameState, int*, int*);
    int** showdown(GameState, int**, int);
 
 };

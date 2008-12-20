@@ -563,20 +563,24 @@ int array[7][3];
 }
 
 
-int** CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* boardCards)
+vector< vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* boardCards)
 {
 	int i,j;
 
-	int** hand = new int*[10];
-	int cards[7];
-	int sum = 0;
+	vector< vector<int> > chance(2);
+	vector<int> chance_0(10);
+	vector<int> chance_1(10);
+
+	chance[0] = chance_0;
+	chance[1] = chance_1;
 
 	for(i=0;i<10;i++) {
-		hand[i] = new int[2];
-		for(j=0;j<2;j++) {
-			hand[i][j] = 0;
-		}
+		chance[0][i] = 0;
+		chance[1][i] = 0;
 	}
+
+	int cards[7];
+	int sum = 0;
 
 	cards[0] = playerCards[0];
 	cards[1] = playerCards[1];
@@ -586,7 +590,7 @@ int** CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* board
 		case GAME_STATE_PREFLOP: {
 			ArrayData* myArrayData = new ArrayData;
 
-			myArrayData->getHandChancePreflop(holeCardsToIntCode(playerCards),hand);
+			chance = myArrayData->getHandChancePreflop(holeCardsToIntCode(playerCards));
 
 			delete myArrayData;
 
@@ -599,15 +603,15 @@ int** CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* board
 					if(j!=cards[0] && j!=cards[1] && j!=cards[2] && j!=cards[3] && j!=cards[4]) {
 						cards[5] = i;
 						cards[6] = j;
-						(hand[cardsValue(cards,0)/100000000][0])++;
+						(chance[0][cardsValue(cards,0)/100000000])++;
 						sum++;
 					}
 				}
 				}
 			}
 			for(i=0;i<10;i++) {
-				if(hand[i][0] > 0) hand[i][1] = 1;
-				hand[i][0] = (int)(((double)hand[i][0]/(double)sum)*100.0+0.5);
+				if(chance[0][i] > 0) chance[1][i] = 1;
+				chance[0][i] = (int)(((double)chance[0][i]/(double)sum)*100.0+0.5);
 			}
 
 		} break;
@@ -616,42 +620,42 @@ int** CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* board
 			for(i=0;i<52;i++) {
 				if(i!=cards[0] && i!=cards[1] && i!=cards[2] && i!=cards[3] && i!=cards[4] && i!=cards[5]) {
 					cards[6] = i;
-					(hand[cardsValue(cards,0)/100000000][0])++;
+					(chance[0][cardsValue(cards,0)/100000000])++;
 					sum++;
 				}
 			}
 			for(i=0;i<10;i++) {
-				if(hand[i][0] > 0) hand[i][1] = 1;
-				hand[i][0] = (int)(((double)hand[i][0]/(double)sum)*100.0+0.5);
+				if(chance[0][i] > 0) chance[1][i] = 1;
+				chance[0][i] = (int)(((double)chance[0][i]/(double)sum)*100.0+0.5);
 			}
 
 		} break;
 		case GAME_STATE_RIVER: {
-			hand[cardsValue(cards,0)/100000000][0] = 100;
-			hand[cardsValue(cards,0)/100000000][1] = 1;
+			chance[0][cardsValue(cards,0)/100000000] = 100;
+			chance[1][cardsValue(cards,0)/100000000] = 1;
 		} break;
 		default: {
 		}
 	}
 
-	return hand;
+	return chance;
 }
 
 int** CardsValue::showdown(GameState beRoID, int** playerCards, int playerCount) {
 
-	int i,j;
-
-	int** chance = new int*[2];
-
-	for(i=0;i<10;i++) {
-		chance[i] = new int[2];
-		for(j=0;j<2;j++) {
-			chance[i][j] = 0;
-		}
-	}
-
-	int rand[5];
-
-	return chance;
+// 	int i,j;
+// 
+// 	int** chance = new int*[2];
+// 
+// 	for(i=0;i<10;i++) {
+// 		chance[i] = new int[2];
+// 		for(j=0;j<2;j++) {
+// 			chance[i][j] = 0;
+// 		}
+// 	}
+// 
+// 	int rand[5];
+// 
+// 	return chance;
 
 }

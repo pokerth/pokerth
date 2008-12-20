@@ -23,29 +23,29 @@ MyChanceLabel::~MyChanceLabel()
 {
 }
 
-void MyChanceLabel::refreshChance(int **chance)
+void MyChanceLabel::refreshChance(vector< vector<int> > chance)
 {
-	RFChance[0] = chance[9][0];
-	SFChance[0] = chance[8][0];
-	FOAKChance[0] = chance[7][0];
-	FHChance[0] = chance[6][0];
-	FLChance[0] = chance[5][0];
-	STRChance[0] = chance[4][0];
-	TOAKChance[0] = chance[3][0];
-	TPChance[0] = chance[2][0];
-	OPChance[0] = chance[1][0];
+	RFChance[0] = chance[0][9];
+	SFChance[0] = chance[0][8];
+	FOAKChance[0] = chance[0][7];
+	FHChance[0] = chance[0][6];
+	FLChance[0] = chance[0][5];
+	STRChance[0] = chance[0][4];
+	TOAKChance[0] = chance[0][3];
+	TPChance[0] = chance[0][2];
+	OPChance[0] = chance[0][1];
 	HCChance[0] = chance[0][0];
 
-	RFChance[1] = chance[9][1];
-	SFChance[1] = chance[8][1];
-	FOAKChance[1] = chance[7][1];
-	FHChance[1] = chance[6][1];
-	FLChance[1] = chance[5][1];
-	STRChance[1] = chance[4][1];
-	TOAKChance[1] = chance[3][1];
-	TPChance[1] = chance[2][1];
+	RFChance[1] = chance[1][9];
+	SFChance[1] = chance[1][8];
+	FOAKChance[1] = chance[1][7];
+	FHChance[1] = chance[1][6];
+	FLChance[1] = chance[1][5];
+	STRChance[1] = chance[1][4];
+	TOAKChance[1] = chance[1][3];
+	TPChance[1] = chance[1][2];
 	OPChance[1] = chance[1][1];
-	HCChance[1] = chance[0][1];
+	HCChance[1] = chance[1][0];
 
 	update();
 }

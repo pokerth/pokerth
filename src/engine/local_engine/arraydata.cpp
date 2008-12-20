@@ -1047,3 +1047,38 @@ void ArrayData::getHandChancePreflop(int handCode, int** values) {
 	if (check == -1) LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR getHandChancePreflop - " << handCode);
 
 }
+
+vector< vector<int> > ArrayData::getHandChancePreflop(int handCode) {
+
+	int check = -1;
+
+	int i;
+
+	vector< vector<int> > chance(2);
+	vector<int> chance_0(10);
+	vector<int> chance_1(10);
+
+	chance[0] = chance_0;
+	chance[1] = chance_1;
+
+	for(i=0;i<10;i++) {
+		chance[0][i] = 0;
+		chance[1][i] = 0;
+	}
+
+	for (unsigned val = 0; val < NUM_HAND_CHANCE_PREFLOP; val++) {
+		if(handCode == handChancePreflop[val].hand) {
+			check = 1;
+			for(int i=0;i<10;i++) {
+				for(int j=0;j<2;j++) {
+					chance[j][i] = handChancePreflop[val].data[i][j];
+				}
+			}
+			break;
+		}
+	}
+	if (check == -1) LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR getHandChancePreflop - " << handCode);
+
+	return chance;
+
+}
