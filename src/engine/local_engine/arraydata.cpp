@@ -20,6 +20,7 @@
 
 #include "arraydata.h"
 
+using namespace std;
 
 struct RoundData
 {
@@ -1055,11 +1056,9 @@ vector< vector<int> > ArrayData::getHandChancePreflop(int handCode) {
 	int i;
 
 	vector< vector<int> > chance(2);
-	vector<int> chance_0(10);
-	vector<int> chance_1(10);
 
-	chance[0] = chance_0;
-	chance[1] = chance_1;
+	chance[0].resize(10);
+	chance[1].resize(10);
 
 	for(i=0;i<10;i++) {
 		chance[0][i] = 0;

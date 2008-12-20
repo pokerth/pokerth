@@ -22,10 +22,7 @@
 
 #include <core/loghelper.h>
 
-#include<iostream>
 #include<vector>
-
-using namespace std;
 
 class ArrayData{
 public:
@@ -34,7 +31,7 @@ public:
     ~ArrayData();
 
 	void getHandChancePreflop(int, int**);
-	vector< vector<int> > getHandChancePreflop(int);
+	std::vector< std::vector<int> > getHandChancePreflop(int);
 };
 
 #endif
