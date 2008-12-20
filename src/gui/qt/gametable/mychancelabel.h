@@ -12,13 +12,10 @@
 #ifndef MYCHANCELABEL_H
 #define MYCHANCELABEL_H
 
-#include <iostream>
 #include <vector>
 
 #include <QtGui>
 #include <QtCore>
-
-using namespace std;
 
 class gameTableImpl;
 
@@ -32,7 +29,7 @@ public:
 	
 	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
 	void paintEvent(QPaintEvent * event);
-	void refreshChance(vector< vector<int> >);
+	void refreshChance(std::vector< std::vector<int> >);
 	void resetChance();
 	
 private: 
