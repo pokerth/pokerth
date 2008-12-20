@@ -641,8 +641,8 @@ vector< vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerC
 	return chance;
 }
 
-int** CardsValue::showdown(GameState beRoID, int** playerCards, int playerCount) {
-
+//int** CardsValue::showdown(GameState beRoID, int** playerCards, int playerCount) {
+//
 // 	int i,j;
 // 
 // 	int** chance = new int*[2];
@@ -657,5 +657,5 @@ int** CardsValue::showdown(GameState beRoID, int** playerCards, int playerCount)
 // 	int rand[5];
 // 
 // 	return chance;
-
-}
+//
+//}

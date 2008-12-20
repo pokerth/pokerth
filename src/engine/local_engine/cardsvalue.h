@@ -41,7 +41,7 @@ public:
    int* intCodeToHoleCards(int);
 
    std::vector< std::vector<int> > calcCardsChance(GameState, int*, int*);
-   int** showdown(GameState, int**, int);
+   //int** showdown(GameState, int**, int);
 
 };
 
