@@ -286,8 +286,8 @@ win32 {
     }
 
     win32-g++ {
-        #LIBPATH += Release/lib
-        LIBPATH += Debug/lib
+        LIBPATH += Release/lib
+        #LIBPATH += Debug/lib
         LIBPATH += ../SDL/lib ../SDL_mixer/lib
         LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error
         LIBS += -lcurl

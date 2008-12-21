@@ -120,8 +120,8 @@ win32 {
 
     LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../curl/lib ../zlib
 
-    #LIBPATH += Release/lib
-    LIBPATH += Debug/lib
+    LIBPATH += Release/lib
+    #LIBPATH += Debug/lib
 
     LIBS += -lpokerth_lib
 
