@@ -20,28 +20,45 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
 
 namespace pokerth_console
 {
-	class Program
+	class NetParser
 	{
-		static int Main(string[] args)
+		public NetParser(PokerTHData data, SenderThread sender)
 		{
-			Settings settings = new Settings();
-			PokerTHData data = new PokerTHData();
-			Client client = new Client(settings, data);
-			client.Connect();
-			client.Start();
-			Thread.Sleep(5000);
-			client.SetTerminateFlag();
-			Console.WriteLine("Games:");
-			Console.Write(data.GameList.ToString());
-			Console.WriteLine();
-			Console.WriteLine("Players:");
-			Console.Write(data.PlayerList.ToString());
-			client.WaitTermination();
-			return 0;
+			m_data = data;
+			m_sender = sender;
 		}
+
+		public void ParseGameListNew(NetPacket p)
+		{
+			// Request player names for player ids.
+			List<string> playerList = p.ListProperties[NetPacket.ListPropertyType.PropPlayerSlots];
+			foreach (string player in playerList)
+			{
+				if (!m_data.PlayerList.HasPlayer(Convert.ToUInt32(player)))
+				{
+					NetPacketRetrievePlayerInfo request = new NetPacketRetrievePlayerInfo();
+					request.Properties.Add(NetPacket.PropertyType.PropPlayerId, player);
+					m_sender.Send(request);
+				}
+			}
+			// Add game to list.
+			m_data.GameList.AddGameInfo(new GameInfo(
+				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PropGameId]),
+				p.Properties[NetPacket.PropertyType.PropGameName]));
+		}
+
+		public void ParsePlayerInfo(NetPacket p)
+		{
+			// Add player to list.
+			m_data.PlayerList.AddPlayerInfo(new PlayerInfo(
+				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PropPlayerId]),
+				p.Properties[NetPacket.PropertyType.PropPlayerName]));
+		}
+
+		private PokerTHData m_data;
+		private SenderThread m_sender;
 	}
 }

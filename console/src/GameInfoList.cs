@@ -28,14 +28,17 @@ namespace pokerth_console
 	{
 		public GameInfoList()
 		{
-			m_list = new List<GameInfo>();
+			m_list = new Dictionary<uint, GameInfo>();
 		}
 
 		public void AddGameInfo(GameInfo info)
 		{
 			lock (m_list)
 			{
-				m_list.Add(info);
+				if (m_list.ContainsKey(info.Id))
+					m_list[info.Id] = info;
+				else
+					m_list.Add(info.Id, info);
 			}
 		}
 
@@ -44,15 +47,15 @@ namespace pokerth_console
 			string outString = "";
 			lock (m_list)
 			{
-				foreach (GameInfo i in m_list)
+				foreach (KeyValuePair<uint, GameInfo> i in m_list)
 				{
-					outString += i.ToString();
+					outString += i.Value.Name;
 					outString += '\n';
 				}
 			}
 			return outString;
 		}
 
-		private List<GameInfo> m_list;
+		private Dictionary<uint, GameInfo> m_list;
 	}
 }

@@ -89,6 +89,10 @@ namespace pokerth_console
 			byte[] tmpName = r.ReadBytes(gameNameLen);
 			Properties.Add(PropertyType.PropGameName,
 				Encoding.UTF8.GetString(tmpName));
+			// Skip the padding.
+			int namePadding = AddPadding(tmpName.Length) - tmpName.Length;
+			if (namePadding > 0)
+				r.ReadBytes(namePadding);
 
 			// Read player ids.
 			List<string> playerSlots = new List<string>();

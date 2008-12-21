@@ -23,25 +23,11 @@ using System.Text;
 
 namespace pokerth_console
 {
-	class GameInfo
+	class GameInfo : IdObject
 	{
 		public GameInfo(uint id, string name)
+			: base(id, name)
 		{
-			m_id = id;
-			m_name = name;
 		}
-
-		public uint GetId()
-		{
-			return m_id;
-		}
-
-		public override string ToString()
-		{
-			return m_name;
-		}
-
-		private uint m_id;
-		private string m_name;
 	}
 }

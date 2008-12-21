@@ -20,28 +20,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
 
 namespace pokerth_console
 {
-	class Program
+	class PlayerInfo : IdObject
 	{
-		static int Main(string[] args)
+		public PlayerInfo(uint id, string name)
+			: base(id, name)
 		{
-			Settings settings = new Settings();
-			PokerTHData data = new PokerTHData();
-			Client client = new Client(settings, data);
-			client.Connect();
-			client.Start();
-			Thread.Sleep(5000);
-			client.SetTerminateFlag();
-			Console.WriteLine("Games:");
-			Console.Write(data.GameList.ToString());
-			Console.WriteLine();
-			Console.WriteLine("Players:");
-			Console.Write(data.PlayerList.ToString());
-			client.WaitTermination();
-			return 0;
 		}
 	}
 }

@@ -27,35 +27,22 @@ using System.IO;
 
 namespace pokerth_console
 {
-	class ReceiverThread
+	class ReceiverThread : NetThread
 	{
 		const uint MaxPacketSize = 268;
 		const uint MinPacketSize = 8;
 
-		public ReceiverThread(NetworkStream stream, GameInfoList list)
+		public ReceiverThread(NetworkStream stream, SenderThread sender, PokerTHData data)
+			: base(stream)
 		{
-			m_recThread = new Thread(ThreadProc);
-			m_terminateFlag = false;
-			m_terminateFlagMutex = new System.Object();
-			m_recStream = stream;
 			m_recBuf = new byte[8192];
 			m_recBufOffset = 0;
 			m_packetList = new List<NetPacket>();
-			m_lobbyGameInfoList = list;
+			m_sender = sender;
+			m_parser = new NetParser(data, sender);
 		}
 
-		public void Run()
-		{
-			m_recThread.Start(this);
-		}
-
-		protected static void ThreadProc(object obj)
-		{
-			ReceiverThread me = (ReceiverThread)obj;
-			me.Start();
-		}
-
-		protected void Start()
+		protected override void Start()
 		{
 			while (!IsTerminateFlagSet())
 			{
@@ -65,31 +52,10 @@ namespace pokerth_console
 			}
 		}
 
-		public void WaitTermination()
-		{
-			m_recThread.Join();
-		}
-
-		public void SetTerminateFlag()
-		{
-			lock (m_terminateFlagMutex)
-			{
-				m_terminateFlag = true;
-			}
-		}
-
-		protected bool IsTerminateFlagSet()
-		{
-			lock (m_terminateFlagMutex)
-			{
-				return m_terminateFlag;
-			}
-		}
-
 		protected void ReadFromStream()
 		{
-			if (m_recStream.DataAvailable)
-				m_recBufOffset += m_recStream.Read(m_recBuf, m_recBufOffset, m_recBuf.Length - m_recBufOffset);
+			if (NetStream.DataAvailable)
+				m_recBufOffset += NetStream.Read(m_recBuf, m_recBufOffset, m_recBuf.Length - m_recBufOffset);
 			else
 				Thread.Sleep(15);
 		}
@@ -144,23 +110,23 @@ namespace pokerth_console
 		{
 			foreach (NetPacket p in m_packetList)
 			{
-				if (p.Type == NetPacket.NetTypeGameListNew)
+				switch (p.Type)
 				{
-					m_lobbyGameInfoList.AddGameInfo(new GameInfo(
-						Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PropGameId]),
-						p.Properties[NetPacket.PropertyType.PropGameName]));
+					case NetPacket.NetTypeGameListNew :
+						m_parser.ParseGameListNew(p);
+						break;
+					case NetPacket.NetTypePlayerInfo :
+						m_parser.ParsePlayerInfo(p);
+						break;
 				}
 			}
 			m_packetList.Clear();
 		}
 
-		private Thread			m_recThread;
-		private bool			m_terminateFlag;
-		private Object			m_terminateFlagMutex;
-		private NetworkStream	m_recStream;
 		private byte[]			m_recBuf;
 		private int				m_recBufOffset;
-		private List<NetPacket> m_packetList;
-		private GameInfoList	m_lobbyGameInfoList;
+		private List<NetPacket>	m_packetList;
+		private SenderThread	m_sender;
+		private NetParser		m_parser;
 	}
 }

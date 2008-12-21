@@ -21,27 +21,48 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
 
 namespace pokerth_console
 {
-	class Program
+	class SenderThread : NetThread
 	{
-		static int Main(string[] args)
+		public SenderThread(NetworkStream stream)
+			: base(stream)
 		{
-			Settings settings = new Settings();
-			PokerTHData data = new PokerTHData();
-			Client client = new Client(settings, data);
-			client.Connect();
-			client.Start();
-			Thread.Sleep(5000);
-			client.SetTerminateFlag();
-			Console.WriteLine("Games:");
-			Console.Write(data.GameList.ToString());
-			Console.WriteLine();
-			Console.WriteLine("Players:");
-			Console.Write(data.PlayerList.ToString());
-			client.WaitTermination();
-			return 0;
+			m_packetQueue = new Queue<NetPacket>();
 		}
+
+		public void Send(NetPacket p)
+		{
+			lock (m_packetQueue)
+			{
+				m_packetQueue.Enqueue(p);
+			}
+		}
+
+		protected override void Start()
+		{
+			while (!IsTerminateFlagSet())
+			{
+				bool sleep = false;
+				lock (m_packetQueue)
+				{
+					if (m_packetQueue.Count > 0)
+					{
+						byte[] outBuf = m_packetQueue.Dequeue().ToByteArray();
+						NetStream.Write(outBuf, 0, outBuf.Length);
+					}
+					else
+						sleep = true;
+				}
+				if (sleep)
+					Thread.Sleep(15);
+			}
+		}
+
+		private Queue<NetPacket> m_packetQueue;
 	}
 }

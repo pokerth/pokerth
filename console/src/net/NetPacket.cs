@@ -125,6 +125,9 @@ namespace pokerth_console
 				case NetTypeGameListNew:
 					tmpPacket = new NetPacketGameListNew(size, reader);
 					break;
+				case NetTypePlayerInfo:
+					tmpPacket = new NetPacketPlayerInfo(size, reader);
+					break;
 				default:
 					break;
 			}

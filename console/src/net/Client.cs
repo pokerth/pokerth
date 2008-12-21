@@ -27,10 +27,11 @@ namespace pokerth_console
 {
 	class Client
 	{
-		public Client(Settings settings)
+		public Client(Settings settings, PokerTHData data)
 		{
 			m_tcpClient = new TcpClient();
 			m_settings = settings;
+			m_data = data;
 		}
 
 		public void Connect()
@@ -43,41 +44,51 @@ namespace pokerth_console
 			m_tcpClient.Connect(addresses, m_settings.ServerSettings.Port);
 		}
 
-		public void Start(GameInfoList list)
+		public void Start()
 		{
-			StartReceiveThread(list);
+			StartSendThread();
+			StartReceiveThread();
 			SendInit();
 		}
 
 		public void SetTerminateFlag()
 		{
+			m_sender.SetTerminateFlag();
 			m_receiver.SetTerminateFlag();
 		}
 
 		public void WaitTermination()
 		{
+			m_sender.WaitTermination();
 			m_receiver.WaitTermination();
 		}
 
-		protected void StartReceiveThread(GameInfoList list)
+		protected void StartReceiveThread()
 		{
-			m_receiver = new ReceiverThread(m_tcpClient.GetStream(), list);
+			m_receiver = new ReceiverThread(m_tcpClient.GetStream(), m_sender, m_data);
 			m_receiver.Run();
+		}
+
+		protected void StartSendThread()
+		{
+			m_sender = new SenderThread(m_tcpClient.GetStream());
+			m_sender.Run();
 		}
 
 		protected void SendInit()
 		{
-			NetPacket test = new NetPacketInit();
-			test.Properties.Add(NetPacket.PropertyType.PropRequestedVersionMajor, "4");
-			test.Properties.Add(NetPacket.PropertyType.PropRequestedVersionMinor, "2");
-			test.Properties.Add(NetPacket.PropertyType.PropPlayerName, "Loto");
-			test.Properties.Add(NetPacket.PropertyType.PropPlayerPassword, "");
-			byte[] buf = test.ToByteArray();
-			m_tcpClient.GetStream().Write(buf, 0, buf.Length);
+			NetPacket init = new NetPacketInit();
+			init.Properties.Add(NetPacket.PropertyType.PropRequestedVersionMajor, "4");
+			init.Properties.Add(NetPacket.PropertyType.PropRequestedVersionMinor, "2");
+			init.Properties.Add(NetPacket.PropertyType.PropPlayerName, "Loto");
+			init.Properties.Add(NetPacket.PropertyType.PropPlayerPassword, "");
+			m_sender.Send(init);
 		}
 
 		private TcpClient m_tcpClient;
 		private ReceiverThread m_receiver;
+		private SenderThread m_sender;
 		private Settings m_settings;
+		private PokerTHData m_data;
 	}
 }

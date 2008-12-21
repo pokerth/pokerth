@@ -20,28 +20,50 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
+using System.IO;
 
 namespace pokerth_console
 {
-	class Program
+	class PlayerInfoList
 	{
-		static int Main(string[] args)
+		public PlayerInfoList()
 		{
-			Settings settings = new Settings();
-			PokerTHData data = new PokerTHData();
-			Client client = new Client(settings, data);
-			client.Connect();
-			client.Start();
-			Thread.Sleep(5000);
-			client.SetTerminateFlag();
-			Console.WriteLine("Games:");
-			Console.Write(data.GameList.ToString());
-			Console.WriteLine();
-			Console.WriteLine("Players:");
-			Console.Write(data.PlayerList.ToString());
-			client.WaitTermination();
-			return 0;
+			m_list = new Dictionary<uint, PlayerInfo>();
 		}
+
+		public void AddPlayerInfo(PlayerInfo info)
+		{
+			lock (m_list)
+			{
+				if (m_list.ContainsKey(info.Id))
+					m_list[info.Id] = info;
+				else
+					m_list.Add(info.Id, info);
+			}
+		}
+
+		public bool HasPlayer(uint id)
+		{
+			lock (m_list)
+			{
+				return m_list.ContainsKey(id);
+			}
+		}
+
+		public override string ToString()
+		{
+			string outString = "";
+			lock (m_list)
+			{
+				foreach (KeyValuePair<uint, PlayerInfo> i in m_list)
+				{
+					outString += i.Value.Name;
+					outString += '\n';
+				}
+			}
+			return outString;
+		}
+
+		private Dictionary<uint, PlayerInfo> m_list;
 	}
 }
