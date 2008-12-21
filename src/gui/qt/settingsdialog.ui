@@ -69,15 +69,27 @@
         <property name="text" >
          <string>Local Game</string>
         </property>
+        <property name="icon" >
+         <iconset resource="resources/pokerth.qrc" >
+          <normaloff>:/gfx/swbuttonlocalgame.png</normaloff>:/gfx/swbuttonlocalgame.png</iconset>
+        </property>
        </item>
        <item>
         <property name="text" >
          <string>Network Game</string>
         </property>
+        <property name="icon" >
+         <iconset resource="resources/pokerth.qrc" >
+          <normaloff>:/gfx/swbuttonjoinnetworkgame.png</normaloff>:/gfx/swbuttonjoinnetworkgame.png</iconset>
+        </property>
        </item>
        <item>
         <property name="text" >
          <string>Internet Game</string>
+        </property>
+        <property name="icon" >
+         <iconset resource="resources/pokerth.qrc" >
+          <normaloff>:/gfx/swbuttoninternetgame.png</normaloff>:/gfx/swbuttoninternetgame.png</iconset>
         </property>
        </item>
        <item>

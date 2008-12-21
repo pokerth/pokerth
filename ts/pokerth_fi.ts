@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="fi">
+<defaultcodec></defaultcodec>
 <context>
     <name>Chat</name>
     <message>
@@ -76,7 +77,7 @@
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="26"/>
         <source>Start vote to kick this user</source>
-        <translation type="unfinished"></translation>
+        <translation>Aloita äänestys potkaistaksesi tämä käyttäjä</translation>
     </message>
 </context>
 <context encoding="UTF-8">
@@ -912,62 +913,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1781"/>
         <source>Kick</source>
-        <translation type="unfinished"></translation>
+        <translation>Potkaise</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1833"/>
         <source>Vote Timeout:</source>
-        <translation type="unfinished"></translation>
+        <translation>Äänestyjen aikaraja:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1878"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Kyllä</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1891"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Ei</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="2715"/>
         <source>Chance</source>
-        <translation type="unfinished"></translation>
+        <translation>Todennäköisyys</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3054"/>
         <source>Settings</source>
-        <translation type="unfinished">Asetukset</translation>
+        <translation>Asetukset</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3160"/>
         <source>Configure PokerTH ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Säädä PokerTH:ä ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3165"/>
         <source>Close</source>
-        <translation type="unfinished">Sulje</translation>
+        <translation>Sulje</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3168"/>
         <source>Ctrl+X</source>
-        <translation type="unfinished"></translation>
+        <translation>Crtl+X</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1806"/>
         <source>Vote started by:</source>
-        <translation type="unfinished"></translation>
+        <translation>Äänestyksen aloitti:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3173"/>
         <source>Show/Hide Chance Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä/Piilota todennäköisyysikkuna</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3176"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished"></translation>
+        <translation>Crtl+C</translation>
     </message>
 </context>
 <context>
@@ -1368,42 +1369,42 @@ Varmista, että olet yhdistetty suoraan internetiin.</translation>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="625"/>
         <source>Chance</source>
-        <translation type="unfinished"></translation>
+        <translation>Todennäköisyys</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3122"/>
         <source>Kick</source>
-        <translation type="unfinished"></translation>
+        <translation>Potkaise</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3151"/>
         <source>Do you want to kick &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;from this game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Haluatko potkaista &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;tästä pelistä?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3204"/>
         <source>&lt;b&gt;%1&lt;/b&gt; secs left</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;%1&lt;/b&gt; sekunttia jäljellä</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3210"/>
         <source>vote</source>
-        <translation type="unfinished"></translation>
+        <translation>ääni</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3211"/>
         <source>votes</source>
-        <translation type="unfinished"></translation>
+        <translation>ääntä</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3215"/>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;against him. &lt;b&gt;%4&lt;/b&gt; votes needed to kick.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pelaajalla &lt;b&gt;%1&lt;/b&gt; on &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;itseänsä vastaan. &lt;b&gt;%4&lt;/b&gt; ääntä tarvitaan potkaisuun.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3218"/>
         <source>You have &lt;b&gt;%1&lt;/b&gt; %2 against you.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; votes needed to kick.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sinulla on &lt;b&gt;%1&lt;/b&gt; %2 itseäsi vastaan. &lt;br&gt;&lt;b&gt;%3&lt;/b&gt; ääntä tarvitaan potkaisuun.</translation>
     </message>
 </context>
 <context>
@@ -2220,42 +2221,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="70"/>
         <source>Local Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Paikallispeli</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="75"/>
         <source>Network Game</source>
-        <translation type="unfinished">Verkkopeli</translation>
+        <translation>Verkkopeli</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="80"/>
         <source>Internet Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Internet-peli</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="85"/>
         <source>Nicks/Avatars</source>
-        <translation type="unfinished"></translation>
+        <translation>Nimimerkki/Avatarit</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="218"/>
         <source>Show cards chance monitor</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä korttien todennäköisyysikkuna</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1243"/>
         <source>Internet Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Internet-palvelin</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1386"/>
         <source>Lobby Chat (IRC)</source>
-        <translation type="unfinished"></translation>
+        <translation>Aula-chatti (IRC)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1454"/>
         <source>Password:</source>
-        <translation type="unfinished">Salasana:</translation>
+        <translation>Salasana:</translation>
     </message>
 </context>
 <context>
@@ -2415,12 +2416,12 @@ Valitse kelvollinen palvelinlistaosoite!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
         <source>Finnish</source>
-        <translation type="unfinished"></translation>
+        <translation>Suomi</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="49"/>
         <source>Danish</source>
-        <translation type="unfinished"></translation>
+        <translation>Tanska</translation>
     </message>
 </context>
 <context>
@@ -2489,42 +2490,42 @@ Valitse kelvollinen palvelinlistaosoite!</translation>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="13"/>
         <source>PokerTH 0.6.3 - The Open-Source Texas Holdem Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH 0.6.3 - Avoimen lähdekoodin Texas Holdem -alusta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="48"/>
         <source>&amp;2 Internet Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;2 Internet-peli</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="55"/>
         <source>&amp;3 Create Network Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;3 Luo verkkopeli</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="62"/>
         <source>&amp;4 Join Network Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;4 Liity verkkopeliin</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="69"/>
         <source>&amp;1 Start Local Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;1 Aloita paikallispeli</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="114"/>
         <source>PokerTH</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="118"/>
         <source>Network Game</source>
-        <translation type="unfinished">Verkkopeli</translation>
+        <translation>Verkkopeli</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="131"/>
         <source>Settings</source>
-        <translation type="unfinished">Asetukset</translation>
+        <translation>Asetukset</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="136"/>
@@ -2534,52 +2535,52 @@ Valitse kelvollinen palvelinlistaosoite!</translation>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="141"/>
         <source>Start Local Game ...</source>
-        <translation type="unfinished">Aloita paikallispeli ...</translation>
+        <translation>Aloita paikallispeli ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="144"/>
         <source>Ctrl+N</source>
-        <translation type="unfinished">Ctrl+N</translation>
+        <translation>Ctrl+N</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="149"/>
         <source>Internet Game ...</source>
-        <translation type="unfinished">Internet-peli ...</translation>
+        <translation>Internet-peli ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="152"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished">Ctrl+I</translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="157"/>
         <source>About PokerTH</source>
-        <translation type="unfinished"></translation>
+        <translation>Tietoa PokerTH:sta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="166"/>
         <source>Configure PokerTH ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Säädä PokerTH:ta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="175"/>
         <source>Quit</source>
-        <translation type="unfinished">Lopeta</translation>
+        <translation>Lopeta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="183"/>
         <source>Create Network Game ...</source>
-        <translation type="unfinished">Luo verkkopeli ...</translation>
+        <translation>Luo verkkopeli ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="188"/>
         <source>Join Network Game ...</source>
-        <translation type="unfinished">Liity verkkopeliin ...</translation>
+        <translation>Liity verkkopeliin ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="178"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished">Ctrl+Q</translation>
+        <translation>Ctrl+Q</translation>
     </message>
 </context>
 <context>
@@ -2587,69 +2588,69 @@ Valitse kelvollinen palvelinlistaosoite!</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="70"/>
         <source>PokerTH %1 - The Open-Source Texas Holdem Engine</source>
-        <translation type="unfinished">PokerTH %1 - Avoimen lähdekoodin Texas Holdem -alusta</translation>
+        <translation>PokerTH %1 - Avoimen lähdekoodin Texas Holdem -alusta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="277"/>
         <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
 Please choose another one.</source>
-        <translation type="unfinished">Et voi liittyä Internet-peliaulaan &quot;Human Player&quot; nimimerkkinäsi.
+        <translation>Et voi liittyä Internet-peliaulaan &quot;Human Player&quot; nimimerkkinäsi.
 Valitse toinen nimi.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="801"/>
         <source>Network Error</source>
-        <translation type="unfinished">Verkkovirhe</translation>
+        <translation>Verkkovirhe</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="559"/>
         <source>Server address was not set.</source>
-        <translation type="unfinished">Palvelinosoitetta ei ole asetettu.</translation>
+        <translation>Palvelinosoitetta ei ole asetettu.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="564"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation type="unfinished">Portti määritetty väärin (portit 0-1023 eivät kelpaa).</translation>
+        <translation>Portti määritetty väärin (portit 0-1023 eivät kelpaa).</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="569"/>
         <source>Could not create a socket for TCP communication.</source>
-        <translation type="unfinished">Ei voitu luoda sockettia TCP-yhteydelle.</translation>
+        <translation>Ei voitu luoda sockettia TCP-yhteydelle.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="574"/>
         <source>Could not set the IP address.</source>
-        <translation type="unfinished">Ei voitu asettaa IP-osoitetta.</translation>
+        <translation>Ei voitu asettaa IP-osoitetta.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="579"/>
         <source>Could not set the port for this type of address.</source>
-        <translation type="unfinished">Ei voitu asettaa porttia tämän kaltaiselle osoitteelle.</translation>
+        <translation>Ei voitu asettaa porttia tämän kaltaiselle osoitteelle.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="584"/>
         <source>The server name could not be resolved.</source>
-        <translation type="unfinished">Palvelimen nimeä ei voitu selvittää.</translation>
+        <translation>Palvelimen nimeä ei voitu selvittää.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="589"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation type="unfinished">Sokkopanos epäonnistui - valitse toinen portti.</translation>
+        <translation>Sokkopanos epäonnistui - valitse toinen portti.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="594"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation type="unfinished">Sisäinen verkkovirhe: &quot;kuuntelu&quot; epäonnistui.</translation>
+        <translation>Sisäinen verkkovirhe: &quot;kuuntelu&quot; epäonnistui.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="599"/>
         <source>Server execution was terminated.</source>
-        <translation type="unfinished">Palvelimen ajo keskeytettiin.</translation>
+        <translation>Palvelimen ajo keskeytettiin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="604"/>
         <source>Could not connect to the server.</source>
-        <translation type="unfinished">Ei voitu yhdistää palvelimeen.</translation>
+        <translation>Ei voitu yhdistää palvelimeen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="609"/>
@@ -2657,7 +2658,7 @@ Valitse toinen nimi.</translation>
 Please check the server address.
 
 If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
-        <translation type="unfinished">Yhteys aikakatkaistu.
+        <translation>Yhteys aikakatkaistu.
 Tarkista palvelinosoite.
 
 Jos palvelin on NAT-reitittimen takana, varmista, että porttiohjaus on asetettu palvelimen puolella.</translation>
@@ -2665,240 +2666,240 @@ Jos palvelin on NAT-reitittimen takana, varmista, että porttiohjaus on asetettu
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="614"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
-        <translation type="unfinished">Sisäinen verkkovirhe: &quot;valitse&quot; epäonnistui.</translation>
+        <translation>Sisäinen verkkovirhe: &quot;valitse&quot; epäonnistui.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="619"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation type="unfinished">Sisäinen verkkovirhe: &quot;lähetä&quot; epäonnistui.</translation>
+        <translation>Sisäinen verkkovirhe: &quot;lähetä&quot; epäonnistui.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="625"/>
         <source>Connection was closed by the server.</source>
-        <translation type="unfinished">Palvelin katkaisi yhteyden.</translation>
+        <translation>Palvelin katkaisi yhteyden.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="630"/>
         <source>Internal network error: Duplicate TCP connection.</source>
-        <translation type="unfinished">Sisäinen verkkovirhe: Kaksinkertainen TCP-yhteys.</translation>
+        <translation>Sisäinen verkkovirhe: Kaksinkertainen TCP-yhteys.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="635"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation type="unfinished">Epäkelpo verkkopaketti vastaanotettiin.
+        <translation>Epäkelpo verkkopaketti vastaanotettiin.
 Varmista, että kaikilla pelaajilla on sama versio PokerTH:sta.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="640"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation type="unfinished">Sisäinen tilavirhe.
+        <translation>Sisäinen tilavirhe.
 Varmista, että kaikilla pelaajilla on sama versio PokerTH:sta.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="646"/>
         <source>Invalid server list URL.
 Please correct the address in the settings.</source>
-        <translation type="unfinished">Epäkelpo palvelinlistan URL.
+        <translation>Epäkelpo palvelinlistan URL.
 Korjaa osoite asetuksissa.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="651"/>
         <source>Could not open the server list MD5 file.
 Please make sure that the server list URL is correct.</source>
-        <translation type="unfinished">Ei voitu avata palvelinlistan MD5-tiedostoa.
+        <translation>Ei voitu avata palvelinlistan MD5-tiedostoa.
 Varmista, että palvelinlistan URL on oikein.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="656"/>
         <source>Synchronization of the PokerTH internet server list has failed.
 Please make sure that the server list URL is correct.</source>
-        <translation type="unfinished">PokerTH:n internetpalvelinlistan synkronointi epäonnistui.
+        <translation>PokerTH:n internetpalvelinlistan synkronointi epäonnistui.
 Varmista, että palvelinlistan URL on oikein.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="661"/>
         <source>The PokerTH internet server list contains invalid data.
 If you use a custom server list, please make sure its format is correct.</source>
-        <translation type="unfinished">PokerTH:n internetpalvelinlista sisältää kelvotonta dataa.
+        <translation>PokerTH:n internetpalvelinlista sisältää kelvotonta dataa.
 Jos käytät kustomoitua palvelinlistaa, varmita sen muodon oikeellisuus.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="666"/>
         <source>Could not unzip the PokerTH internet server list.</source>
-        <translation type="unfinished">PokerTH:n internetpalvelinlistaa ei voitu purkaa.</translation>
+        <translation>PokerTH:n internetpalvelinlistaa ei voitu purkaa.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="673"/>
         <source>Could not download the PokerTH internet server list.
 Please make sure you are directly connected to the internet.</source>
-        <translation type="unfinished">PokerTH: internetpalvelinlistaa ei voitu ladata.
+        <translation>PokerTH: internetpalvelinlistaa ei voitu ladata.
 Varmista, että olet yhdistetty suoraan internetiin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="678"/>
         <source>Could not open the target file when downloading the server list.</source>
-        <translation type="unfinished">Ei voitu avata kohdetiedostoa ladattaessa palvelinlistaa.</translation>
+        <translation>Ei voitu avata kohdetiedostoa ladattaessa palvelinlistaa.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="683"/>
         <source>The PokerTH server does not support this version of the game.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation type="unfinished">PokerTH-palvelin ei tue tätä peliversiota.&lt;br&gt;Lataa osoittesta&lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; uusin versio pelistä.</translation>
+        <translation>PokerTH-palvelin ei tue tätä peliversiota.&lt;br&gt;Lataa osoittesta&lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; uusin versio pelistä.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="691"/>
         <source>Sorry, this server is already full.</source>
-        <translation type="unfinished">Palvelin on jo täynnä.</translation>
+        <translation>Palvelin on jo täynnä.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="841"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
-        <translation type="unfinished">Epäkelpo salasana liityttävään peliin.
+        <translation>Epäkelpo salasana liityttävään peliin.
 Kirjoita salasana uudestaan ja yritä uudestaan.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="701"/>
         <source>The password is too long. Please choose another one.</source>
-        <translation type="unfinished">Salasana on liian pitkä. Valitse toinen.</translation>
+        <translation>Salasana on liian pitkä. Valitse toinen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="705"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
-        <translation type="unfinished">Nimesi on jo käytössä toisella pelaajalla.
+        <translation>Nimesi on jo käytössä toisella pelaajalla.
 Valitse toinen nimi.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="709"/>
         <source>The player name is too short, too long or invalid. Please choose another one.</source>
-        <translation type="unfinished">Nimesi on liian lyhyt, pitkä ja epäkelpo. Valitse toinen nimi.</translation>
+        <translation>Nimesi on liian lyhyt, pitkä ja epäkelpo. Valitse toinen nimi.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="714"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation type="unfinished">Pelin nimi on joko liian lyhyt ja tai pitkä. Valitse toinen nimi.</translation>
+        <translation>Pelin nimi on joko liian lyhyt ja tai pitkä. Valitse toinen nimi.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="719"/>
         <source>The game could not be found.</source>
-        <translation type="unfinished">Peliä ei löydetty.</translation>
+        <translation>Peliä ei löydetty.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="724"/>
         <source>The chat text is invalid.</source>
-        <translation type="unfinished">Chattiteksti on epäkelpo.</translation>
+        <translation>Chattiteksti on epäkelpo.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="729"/>
         <source>The server referred to an unknown player. Aborting.</source>
-        <translation type="unfinished">Palvelin viittasi tuntemattomaan pelaajaan. Hylätään.</translation>
+        <translation>Palvelin viittasi tuntemattomaan pelaajaan. Hylätään.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="734"/>
         <source>Internal error: The current player could not be found.</source>
-        <translation type="unfinished">Sisäinen virhe: Nykyistä pelaaja ei löydetä.</translation>
+        <translation>Sisäinen virhe: Nykyistä pelaaja ei löydetä.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="739"/>
         <source>Internal error: The current player is not active.</source>
-        <translation type="unfinished">Sisäinen virhe: Nykyinen pelaaja on toimeton.</translation>
+        <translation>Sisäinen virhe: Nykyinen pelaaja on toimeton.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="745"/>
         <source>You were kicked from the server.</source>
-        <translation type="unfinished">Sinut potkaistiin palvelimelta.</translation>
+        <translation>Sinut potkaistiin palvelimelta.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="751"/>
         <source>You were temporarily banned from the server.</source>
-        <translation type="unfinished">Sinut pannattiin väliaikaisesti palvelimelta.</translation>
+        <translation>Sinut pannattiin väliaikaisesti palvelimelta.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="757"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation type="unfinished">Yhteytesi palvelimeen katkaistiin toimettomuun vuoksi. Olet tervetullut palaamaan takaisin!</translation>
+        <translation>Yhteytesi palvelimeen katkaistiin toimettomuun vuoksi. Olet tervetullut palaamaan takaisin!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="762"/>
         <source>The client player count is invalid.</source>
-        <translation type="unfinished">Asiakaspelaajamäärä on epäkelpo.</translation>
+        <translation>Asiakaspelaajamäärä on epäkelpo.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="767"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation type="unfinished">Liian monta manuaalista sokkopanosta asetettiin. Määrittele manuaaliset sokkopanokset uudestaan.</translation>
+        <translation>Liian monta manuaalista sokkopanosta asetettiin. Määrittele manuaaliset sokkopanokset uudestaan.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="773"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation type="unfinished">Epäkelpo avataritiedosto on määritelty. Valitse toinen avatari.</translation>
+        <translation>Epäkelpo avataritiedosto on määritelty. Valitse toinen avatari.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="778"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
-        <translation type="unfinished">Valittu avataritiedosto on liian iso. Valitse toinen avatari.</translation>
+        <translation>Valittu avataritiedosto on liian iso. Valitse toinen avatari.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="783"/>
         <source>You cannot upload a new avatar file at this time. Please try again in a few seconds.</source>
-        <translation type="unfinished">Et voi ladata uutta avataritiedosto juuri nyt. Yritä muutaman sekunnin kuluttua uudestaan.</translation>
+        <translation>Et voi ladata uutta avataritiedosto juuri nyt. Yritä muutaman sekunnin kuluttua uudestaan.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="788"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation type="unfinished">Tapahtui sisäinen avatarivirhe. Ilmoita asiasta ylläpitäjälle chattiaulassa.</translation>
+        <translation>Tapahtui sisäinen avatarivirhe. Ilmoita asiasta ylläpitäjälle chattiaulassa.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="793"/>
         <source>Could not start game: Synchronization failed.</source>
-        <translation type="unfinished">Ei voitu käynnistää peliä: Synkronointi epäonnistui.</translation>
+        <translation>Ei voitu käynnistää peliä: Synkronointi epäonnistui.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="798"/>
         <source>The server is down for maintenance. Please try again later.</source>
-        <translation type="unfinished">Palvelin on poissa käytössä huollon vuoksi. Yritä myöhemmin uudestaan.</translation>
+        <translation>Palvelin on poissa käytössä huollon vuoksi. Yritä myöhemmin uudestaan.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="802"/>
         <source>An internal error occured.</source>
-        <translation type="unfinished">Tapahtui sisäinen virhe.</translation>
+        <translation>Tapahtui sisäinen virhe.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="853"/>
         <source>Network Notification</source>
-        <translation type="unfinished">Verkkohuomautus</translation>
+        <translation>Verkkohuomautus</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="819"/>
         <source>You were kicked from the game.</source>
-        <translation type="unfinished">Sinut potkaistiin pelistä.</translation>
+        <translation>Sinut potkaistiin pelistä.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="825"/>
         <source>Sorry, this game is already full.</source>
-        <translation type="unfinished">Tämä peli on jo täynnä.</translation>
+        <translation>Tämä peli on jo täynnä.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="831"/>
         <source>Unable to join - the server has already started the game.</source>
-        <translation type="unfinished">Kykenemätön liittymään - palvelin on jo aloittanut pelin.</translation>
+        <translation>Kykenemätön liittymään - palvelin on jo aloittanut pelin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="836"/>
         <source>Your admin state timed out due to inactivity. Feel free to create a new game!</source>
-        <translation type="unfinished">Ylläpitotilasi katkaistiin toimettomuuden vuoksi. Ole vapaa ja luo uusi peli!</translation>
+        <translation>Ylläpitotilasi katkaistiin toimettomuuden vuoksi. Ole vapaa ja luo uusi peli!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="846"/>
         <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation type="unfinished">PokerTH:sta on julkaistu uusi versio. &lt;br&gt;Lataa osoitteesta &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; uusin versio.</translation>
+        <translation>PokerTH:sta on julkaistu uusi versio. &lt;br&gt;Lataa osoitteesta &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; uusin versio.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="854"/>
         <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation type="unfinished">Tämä PokerTH:n beta on vanhentunut. &lt;br&gt;Lataa osoitteesta &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; uusin versio.</translation>
+        <translation>Tämä PokerTH:n beta on vanhentunut. &lt;br&gt;Lataa osoitteesta &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; uusin versio.</translation>
     </message>
 </context>
 <context>

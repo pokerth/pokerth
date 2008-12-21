@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="nl_NL">
+<defaultcodec></defaultcodec>
 <context>
     <name>Chat</name>
     <message>
         <location filename="../src/gui/qt/gametable/chat/chat.cpp" line="56"/>
         <source>You cannot kick yourself!</source>
-        <translation>U kunt zichzelf niet verwijderen!</translation>
+        <translation>U kunt zichzelf niet verwijderen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/chat/chat.cpp" line="63"/>
         <source>You cannot kick any player - You are not game admin!</source>
-        <translation>U kunt geen spelers verwijderen. U bent niet de spelleider!</translation>
+        <translation>U bent niet de spelleider, dus u kunt geen spelers verwijderen.</translation>
     </message>
 </context>
 <context>
@@ -86,7 +87,7 @@
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="26"/>
         <source>Start vote to kick this user</source>
-        <translation type="unfinished"></translation>
+        <translation>Stemmen over het verwijderen van deze gebruiker</translation>
     </message>
 </context>
 <context encoding="UTF-8">
@@ -1695,7 +1696,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="54"/>
         <source>Connection established!</source>
-        <translation>Er is verbinding gemaakt!</translation>
+        <translation>Er is verbinding gemaakt.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="48"/>
@@ -2132,7 +2133,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="676"/>
         <source>You should not kick yourself from this game!</source>
-        <translation>U mag zichzelf niet uit dit spel verwijderen!</translation>
+        <translation>U mag zichzelf niet uit dit spel verwijderen.</translation>
     </message>
     <message>
         <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="136"/>
@@ -2147,7 +2148,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="171"/>
         <source>You are about to join a private game. Please enter the password!</source>
-        <translation>U wilt meedoen met een privéspel. Voer het wachtwoord in!</translation>
+        <translation>U wilt meedoen met een privéspel. Voer het wachtwoord in.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="331"/>
@@ -2270,7 +2271,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3098"/>
         <source>Join Network Game ...</source>
-        <translation>Met netwerkspel meedoen ...</translation>
+        <translation>Meedoen met netwerkspel ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3106"/>
@@ -2315,7 +2316,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3114"/>
         <source>Show/Hide Chat Window</source>
-        <translation>Chatvenster aan/uit</translation>
+        <translation>Chat-venster aan/uit</translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
@@ -2330,7 +2331,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3136"/>
         <source>Show/Hide Log Window</source>
-        <translation>Logvenster aan/uit</translation>
+        <translation>Log-venster aan/uit</translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
@@ -2340,7 +2341,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3128"/>
         <source>Show/Hide Hands Window</source>
-        <translation>Handenvenster aan/uit</translation>
+        <translation>Handen-venster aan/uit</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3093"/>
@@ -2440,62 +2441,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1781"/>
         <source>Kick</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1833"/>
         <source>Vote Timeout:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stemmen kan</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1878"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1891"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Nee</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="2715"/>
         <source>Chance</source>
-        <translation type="unfinished"></translation>
+        <translation>Kansen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3054"/>
         <source>Settings</source>
-        <translation type="unfinished">Instellingen</translation>
+        <translation>Instellingen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3160"/>
         <source>Configure PokerTH ...</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH instellen ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3165"/>
         <source>Close</source>
-        <translation type="unfinished">Sluiten</translation>
+        <translation>Sluiten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3168"/>
         <source>Ctrl+X</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+X</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1806"/>
         <source>Vote started by:</source>
-        <translation type="unfinished"></translation>
+        <translation>In stemming gebracht door</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3173"/>
         <source>Show/Hide Chance Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Kansen-venster aan/uit</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3176"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+C</translation>
     </message>
 </context>
 <context>
@@ -2948,42 +2949,42 @@ Zorg ervoor dat u een directe verbinding met internet hebt.</translation>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="625"/>
         <source>Chance</source>
-        <translation type="unfinished"></translation>
+        <translation>Kansen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3122"/>
         <source>Kick</source>
-        <translation type="unfinished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3151"/>
         <source>Do you want to kick &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;from this game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wilt u &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;uit dit spel verwijderen?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3204"/>
         <source>&lt;b&gt;%1&lt;/b&gt; secs left</source>
-        <translation type="unfinished"></translation>
+        <translation>nog &lt;b&gt;%1&lt;/b&gt; sec.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3210"/>
         <source>vote</source>
-        <translation type="unfinished"></translation>
+        <translation>stem</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3211"/>
         <source>votes</source>
-        <translation type="unfinished"></translation>
+        <translation>stemmen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3215"/>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;against him. &lt;b&gt;%4&lt;/b&gt; votes needed to kick.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;%2&lt;/b&gt; %3 uitgebracht tegen &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;&lt;b&gt;%4&lt;/b&gt; stemmen zijn nodig voor verwijdering.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3218"/>
         <source>You have &lt;b&gt;%1&lt;/b&gt; %2 against you.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; votes needed to kick.</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft &lt;b&gt;%1&lt;/b&gt; %2 tegen zich.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; stemmen zijn nodig voor verwijdering.</translation>
     </message>
 </context>
 <context>
@@ -2991,7 +2992,7 @@ Zorg ervoor dat u een directe verbinding met internet hebt.</translation>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="13"/>
         <source>Join Network Game</source>
-        <translation>Met netwerkspel meedoen</translation>
+        <translation>Meedoen met netwerkspel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="37"/>
@@ -3372,7 +3373,7 @@ Wilt u dat profiel overschrijven?</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="227"/>
         <source>Please select an avatar from the list!</source>
-        <translation>Selecteer een avatar uit de lijst!</translation>
+        <translation>Selecteer een avatar uit de lijst.</translation>
     </message>
     <message>
         <location filename="../../../../../tmp/kde-user/pokerth/src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="248"/>
@@ -3396,7 +3397,7 @@ Stel een geldige afbeelding in!</translation>
         <source>The file size of the chosen picture is too big. (max. 30KB)
 Please choose a smaller picture!</source>
         <translation>Het gekozen afbeeldingsbestand is te groot. (Max. 30 kB)
-Kies een kleinere afbeelding!</translation>
+Kies een kleinere afbeelding.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="268"/>
@@ -3408,7 +3409,7 @@ Kies een kleinere afbeelding!</translation>
         <source>The entered avatar picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>De ingestelde avatar bestaat niet.
-Stel een geldige afbeelding in!</translation>
+Stel een geldige afbeelding in.</translation>
     </message>
 </context>
 <context>
@@ -3720,7 +3721,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="211"/>
         <source>Show own cards only on mouse click</source>
-        <translation>Eigen kaarten alleen weergeven bij muisklik</translation>
+        <translation>Eigen kaarten alleen bij muisklik weergeven</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="370"/>
@@ -3902,7 +3903,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="240"/>
         <source>Switch keyboard focus to bet-input-field if it&apos;s your turn</source>
-        <translation>Toetsenbordinvoer naar het bet-veld als het uw beurt is</translation>
+        <translation>Toetsenbordinvoer naar het Bet-veld zetten als u aan de beurt bent</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1535"/>
@@ -3975,47 +3976,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2644"/>
         <source> Day(s)</source>
-        <translation> Dag(en)</translation>
+        <translation> dag(en)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="70"/>
         <source>Local Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokaal spel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="75"/>
         <source>Network Game</source>
-        <translation type="unfinished">Netwerkspel</translation>
+        <translation>Netwerkspel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="80"/>
         <source>Internet Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Internetspel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="85"/>
         <source>Nicks/Avatars</source>
-        <translation type="unfinished"></translation>
+        <translation>Namen/avatars</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="218"/>
         <source>Show cards chance monitor</source>
-        <translation type="unfinished"></translation>
+        <translation>Kansen van de kaarten weergeven</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1243"/>
         <source>Internet Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Internetserver</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1386"/>
         <source>Lobby Chat (IRC)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lobby - Chat (IRC)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1454"/>
         <source>Password:</source>
-        <translation type="unfinished">Wachtwoord:</translation>
+        <translation>Wachtwoord:</translation>
     </message>
 </context>
 <context>
@@ -4070,7 +4071,7 @@ Selecteer een geldige map!</translation>
 is smaller than current first-small-blind!
 This first-small-blind-value will be set to maximum allowed value.</source>
         <translation>Het eerste bedrag in uw aangepaste lijst met blinds 
-is lager dan de eerste kleine blind!
+is lager dan de eerste kleine blind.
 De eerste kleine blind wordt ingesteld op de maximale waarde.</translation>
     </message>
     <message>
@@ -4138,7 +4139,7 @@ De eerste kleine blind wordt ingesteld op de maximale waarde.</translation>
         <source>You have changed application language to %1.
 Please restart PokerTH to load new language!</source>
         <translation>U heeft de taal van het programma gewijzigd naar %1.
-Start PokerTH opnieuw om de nieuwe taal te laden!</translation>
+Start PokerTH opnieuw om de nieuwe taal te laden.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="57"/>
@@ -4155,14 +4156,14 @@ Start PokerTH opnieuw om de nieuwe taal te laden!</translation>
         <source>The entered flipside picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>De ingestelde afbeelding voor de kaartachterkant bestaat niet.
-Stel een geldige afbeelding in!</translation>
+Stel een geldige afbeelding in.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="395"/>
         <source>The log file directory doesn&apos;t exist.
 Please select an valid directory!</source>
         <translation>De map voor logbestanden bestaat niet.
-Selecteer een geldige map!</translation>
+Selecteer een geldige map.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="58"/>
@@ -4204,17 +4205,17 @@ Selecteer een geldige map!</translation>
         <source>The entered server list address is not a valid URL.
 Please enter a valid server list address!</source>
         <translation>Het ingevoerde serverlijstadres is geen geldige URL.
-Voer een geldig serverlijstadres in!</translation>
+Voer een geldig serverlijstadres in.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
         <source>Finnish</source>
-        <translation type="unfinished"></translation>
+        <translation>Suomi (Fins)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="49"/>
         <source>Danish</source>
-        <translation type="unfinished"></translation>
+        <translation>Dansk (Deens)</translation>
     </message>
 </context>
 <context>
@@ -4285,7 +4286,7 @@ Voer een geldig serverlijstadres in!</translation>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp" line="159"/>
         <source>You should not kick yourself from this game!</source>
-        <translation>U mag zichzelf niet uit dit spel verwijderen!</translation>
+        <translation>U mag zichzelf niet uit dit spel verwijderen.</translation>
     </message>
 </context>
 <context>
@@ -4293,42 +4294,42 @@ Voer een geldig serverlijstadres in!</translation>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="13"/>
         <source>PokerTH 0.6.3 - The Open-Source Texas Holdem Engine</source>
-        <translation type="unfinished">PokertTH 0.6 - De Open-Source Texas Holdem Simulator  {0.6.3 ?}</translation>
+        <translation>PokertTH 0.6.3 - De Open-Source Texas Holdem Simulator</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="48"/>
         <source>&amp;2 Internet Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;2 Internetspel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="55"/>
         <source>&amp;3 Create Network Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;3 Netwerkspel maken</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="62"/>
         <source>&amp;4 Join Network Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;4 Meedoen met netwerkspel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="69"/>
         <source>&amp;1 Start Local Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;1 Lokaal spel starten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="114"/>
         <source>PokerTH</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="118"/>
         <source>Network Game</source>
-        <translation type="unfinished">Netwerkspel</translation>
+        <translation>Netwerkspel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="131"/>
         <source>Settings</source>
-        <translation type="unfinished">Instellingen</translation>
+        <translation>Instellingen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="136"/>
@@ -4338,52 +4339,52 @@ Voer een geldig serverlijstadres in!</translation>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="141"/>
         <source>Start Local Game ...</source>
-        <translation type="unfinished">Lokaal spel starten ...</translation>
+        <translation>Lokaal spel starten ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="144"/>
         <source>Ctrl+N</source>
-        <translation type="unfinished">Ctrl+N</translation>
+        <translation>Ctrl+N</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="149"/>
         <source>Internet Game ...</source>
-        <translation type="unfinished">Internetspel ...</translation>
+        <translation>Internetspel ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="152"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished">Ctrl+I</translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="157"/>
         <source>About PokerTH</source>
-        <translation type="unfinished"></translation>
+        <translation>Info over PokerTH</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="166"/>
         <source>Configure PokerTH ...</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH instellen ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="175"/>
         <source>Quit</source>
-        <translation type="unfinished">Afsluiten</translation>
+        <translation>Afsluiten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="183"/>
         <source>Create Network Game ...</source>
-        <translation type="unfinished">Netwerkspel maken ...</translation>
+        <translation>Netwerkspel maken ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="188"/>
         <source>Join Network Game ...</source>
-        <translation type="unfinished">Met netwerkspel meedoen ...</translation>
+        <translation>Meedoen met netwerkspel ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="178"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished">Ctrl+Q</translation>
+        <translation>Ctrl+Q</translation>
     </message>
 </context>
 <context>
@@ -4391,69 +4392,69 @@ Voer een geldig serverlijstadres in!</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="70"/>
         <source>PokerTH %1 - The Open-Source Texas Holdem Engine</source>
-        <translation type="unfinished">PokertTH %1 - De Open-Source Texas Holdem-simulator</translation>
+        <translation>PokertTH %1 - De Open-Source Texas Holdem-simulator</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="277"/>
         <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
 Please choose another one.</source>
-        <translation type="unfinished">U kunt met de standaardnaam geen verbinding maken met de lobby van het internetspel.
+        <translation>U kunt met de standaardnaam geen verbinding maken met de lobby van het internetspel.
 Kies een andere naam.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="801"/>
         <source>Network Error</source>
-        <translation type="unfinished">Netwerkfout</translation>
+        <translation>Netwerkfout</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="559"/>
         <source>Server address was not set.</source>
-        <translation type="unfinished">Er is geen serveradres ingesteld.</translation>
+        <translation>Er is geen serveradres ingesteld.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="564"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation type="unfinished">Ongeldige poort ingesteld (poorten 0-1023 zijn niet toegestaan).</translation>
+        <translation>Ongeldige poort ingesteld (poorten 0-1023 zijn niet toegestaan).</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="569"/>
         <source>Could not create a socket for TCP communication.</source>
-        <translation type="unfinished">Kan geen socket maken voor TCP-communicatie.</translation>
+        <translation>Kan geen socket maken voor TCP-communicatie.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="574"/>
         <source>Could not set the IP address.</source>
-        <translation type="unfinished">Kan het IP-adres niet instellen.</translation>
+        <translation>Kan het IP-adres niet instellen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="579"/>
         <source>Could not set the port for this type of address.</source>
-        <translation type="unfinished">Kan de poort niet instellen voor dit adrestype.</translation>
+        <translation>Kan de poort niet instellen voor dit adrestype.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="584"/>
         <source>The server name could not be resolved.</source>
-        <translation type="unfinished">Kan geen server met die naam vinden.</translation>
+        <translation>Kan geen server vinden met de opgegeven naam.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="589"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation type="unfinished">Kan niet verbinden - kies een andere poort.</translation>
+        <translation>Kan niet verbinden - kies een andere poort.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="594"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation type="unfinished">Interne netwerkfout: &quot;listen&quot; niet uitvoerbaar.</translation>
+        <translation>Interne netwerkfout: &quot;listen&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="599"/>
         <source>Server execution was terminated.</source>
-        <translation type="unfinished">Het uitvoeren op de server is afgebroken.</translation>
+        <translation>Het uitvoeren op de server is afgebroken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="604"/>
         <source>Could not connect to the server.</source>
-        <translation type="unfinished">Kan geen verbinding maken met de server.</translation>
+        <translation>Kan geen verbinding maken met de server.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="609"/>
@@ -4461,7 +4462,7 @@ Kies een andere naam.</translation>
 Please check the server address.
 
 If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
-        <translation type="unfinished">Verbinding maken mislukt.
+        <translation>Verbinding maken mislukt.
 Controleer het serveradres.
 
 Als de server zich achter een NAT-router bevindt, controleer dan daar of port forwarding goed ingesteld is.</translation>
@@ -4469,240 +4470,240 @@ Als de server zich achter een NAT-router bevindt, controleer dan daar of port fo
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="614"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
-        <translation type="unfinished">Interne netwerkfout: &quot;select&quot; niet uitvoerbaar.</translation>
+        <translation>Interne netwerkfout: &quot;select&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="619"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation type="unfinished">Interne netwerkfout: &quot;send&quot; niet uitvoerbaar.</translation>
+        <translation>Interne netwerkfout: &quot;send&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="625"/>
         <source>Connection was closed by the server.</source>
-        <translation type="unfinished">De verbinding is verbroken door de server.</translation>
+        <translation>De verbinding is verbroken door de server.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="630"/>
         <source>Internal network error: Duplicate TCP connection.</source>
-        <translation type="unfinished">Interne netwerkfout: Dubbele TCP-verbinding.</translation>
+        <translation>Interne netwerkfout: Dubbele TCP-verbinding.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="635"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation type="unfinished">Ongeldig netwerkpakket ontvangen.
+        <translation>Ongeldig netwerkpakket ontvangen.
 Zorg ervoor dat alle spelers dezelfde versie van PokerTH gebruiken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="640"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation type="unfinished">Interne statusfout.
+        <translation>Interne statusfout.
 Zorg ervoor dat alle spelers dezelfde versie van PokerTH gebruiken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="646"/>
         <source>Invalid server list URL.
 Please correct the address in the settings.</source>
-        <translation type="unfinished">Ongeldige URL van serverlijst.
+        <translation>Ongeldige URL van serverlijst.
 Voer het juiste adres in bij de instellingen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="651"/>
         <source>Could not open the server list MD5 file.
 Please make sure that the server list URL is correct.</source>
-        <translation type="unfinished">Kan het MD5-bestand van de serverlijst niet openen.
+        <translation>Kan het MD5-bestand van de serverlijst niet openen.
 Zorg ervoor dat de serverlijst-URL juist is.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="656"/>
         <source>Synchronization of the PokerTH internet server list has failed.
 Please make sure that the server list URL is correct.</source>
-        <translation type="unfinished">De synchronisatie van de internetserverlijst van PokerTH is mislukt.
+        <translation>De synchronisatie van de internetserverlijst van PokerTH is mislukt.
 Zorg ervoor dat de serverlijst-URL juist is.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="661"/>
         <source>The PokerTH internet server list contains invalid data.
 If you use a custom server list, please make sure its format is correct.</source>
-        <translation type="unfinished">De internetserverlijst van PokerTH bevat ongeldige gegevens.
+        <translation>De internetserverlijst van PokerTH bevat ongeldige gegevens.
 Als u een aangepaste serverlijst gebruikt, is de indeling ervan mogelijk onjuist.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="666"/>
         <source>Could not unzip the PokerTH internet server list.</source>
-        <translation type="unfinished">Kan de internetserverlijst van PokerTH niet decomprimeren.</translation>
+        <translation>Kan de internetserverlijst van PokerTH niet decomprimeren.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="673"/>
         <source>Could not download the PokerTH internet server list.
 Please make sure you are directly connected to the internet.</source>
-        <translation type="unfinished">Kan de internetserverlijst van PokerTH niet downloaden.
+        <translation>Kan de internetserverlijst van PokerTH niet downloaden.
 Zorg ervoor dat u een directe verbinding met internet hebt.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="678"/>
         <source>Could not open the target file when downloading the server list.</source>
-        <translation type="unfinished">Kan het doelbestand niet openen bij het downloaden van de serverlijst.</translation>
+        <translation>Kan het doelbestand niet openen bij het downloaden van de serverlijst.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="683"/>
         <source>The PokerTH server does not support this version of the game.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation type="unfinished">De PokerTH-server ondersteunt deze versie van het spel niet.&lt;br&gt;Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;/a&gt; en download de nieuwste versie.</translation>
+        <translation>De PokerTH-server ondersteunt deze versie van het spel niet.&lt;br&gt;Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; en download de nieuwste versie.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="691"/>
         <source>Sorry, this server is already full.</source>
-        <translation type="unfinished">Deze server is al vol.</translation>
+        <translation>Deze server is al vol.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="841"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
-        <translation type="unfinished">Ongeldig wachtwoord bij het verbinden.
+        <translation>Ongeldig wachtwoord bij het verbinden.
 Voer het wachtwoord opnieuw in en probeer het opnieuw.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="701"/>
         <source>The password is too long. Please choose another one.</source>
-        <translation type="unfinished">Het wachtwoord is te lang. Kies een ander wachtwoord.</translation>
+        <translation>Het wachtwoord is te lang. Kies een ander wachtwoord.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="705"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
-        <translation type="unfinished">Uw spelersnaam is al in gebruik door een andere speler.
+        <translation>Uw spelersnaam is al in gebruik door een andere speler.
 Kies een andere naam.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="709"/>
         <source>The player name is too short, too long or invalid. Please choose another one.</source>
-        <translation type="unfinished">De spelersnaam is te kort, te lang of ongeldig. Kies een andere naam.</translation>
+        <translation>De spelersnaam is te kort, te lang of ongeldig. Kies een andere naam.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="714"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation type="unfinished">De naam van het spel is te kort of te lang. Kies een andere naam.</translation>
+        <translation>De naam van het spel is te kort of te lang. Kies een andere naam.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="719"/>
         <source>The game could not be found.</source>
-        <translation type="unfinished">Kan het spel niet vinden.</translation>
+        <translation>Kan het spel niet vinden.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="724"/>
         <source>The chat text is invalid.</source>
-        <translation type="unfinished">Ongeldige chattekst.</translation>
+        <translation>Ongeldige chattekst.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="729"/>
         <source>The server referred to an unknown player. Aborting.</source>
-        <translation type="unfinished">De server verwees naar een onbekende speler. Verbinding verbroken.</translation>
+        <translation>De server verwees naar een onbekende speler. Verbinding verbroken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="734"/>
         <source>Internal error: The current player could not be found.</source>
-        <translation type="unfinished">Interne fout: De huidige speler kan niet worden gevonden.</translation>
+        <translation>Interne fout: De huidige speler kan niet worden gevonden.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="739"/>
         <source>Internal error: The current player is not active.</source>
-        <translation type="unfinished">Interne fout: De huidige speler is niet actief.</translation>
+        <translation>Interne fout: De huidige speler is niet actief.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="745"/>
         <source>You were kicked from the server.</source>
-        <translation type="unfinished">U bent verwijderd van de server.</translation>
+        <translation>U bent verwijderd van de server.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="751"/>
         <source>You were temporarily banned from the server.</source>
-        <translation type="unfinished">U bent tijdelijk verbannen van de server.</translation>
+        <translation>U bent tijdelijk verbannen van de server.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="757"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation type="unfinished">Uw verbinding met de server is verlopen wegens gebrek aan activiteit, maar u kunt gewoon opnieuw verbinding maken!</translation>
+        <translation>Uw verbinding met de server is verlopen wegens gebrek aan activiteit, maar u kunt gewoon opnieuw verbinding maken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="762"/>
         <source>The client player count is invalid.</source>
-        <translation type="unfinished">Het aantal spelers dat meedoet klopt niet.</translation>
+        <translation>Het aantal spelers dat meedoet klopt niet.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="767"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation type="unfinished">Er zijn te veel blinds ingesteld. Pas de blinds opnieuw aan.</translation>
+        <translation>Er zijn te veel blinds ingesteld. Stel de blinds opnieuw in.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="773"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation type="unfinished">Er is een ongeldig avatarbestand ingesteld. Kies een andere avatar.</translation>
+        <translation>Er is een ongeldig avatarbestand ingesteld. Kies een andere avatar.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="778"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
-        <translation type="unfinished">Het geselecteerde avatarbestand is te groot. Kies een andere avatar.</translation>
+        <translation>Het geselecteerde avatarbestand is te groot. Kies een andere avatar.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="783"/>
         <source>You cannot upload a new avatar file at this time. Please try again in a few seconds.</source>
-        <translation type="unfinished">U kunt momenteel geen nieuw avatarbestand uploaden. Wacht enkele seconden en probeer het opnieuw.</translation>
+        <translation>U kunt momenteel geen nieuw avatarbestand uploaden. Wacht enkele seconden en probeer het opnieuw.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="788"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation type="unfinished">Er is een interne avatarfout opgetreden. Meld dit bij het chatten in de lobby aan een administrator.</translation>
+        <translation>Er is een interne avatarfout opgetreden. Meld dit bij het chatten in de lobby aan een administrator.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="793"/>
         <source>Could not start game: Synchronization failed.</source>
-        <translation type="unfinished">Kan spel niet starten: Synchronisatie mislukt.</translation>
+        <translation>Kan spel niet starten: Synchronisatie mislukt.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="798"/>
         <source>The server is down for maintenance. Please try again later.</source>
-        <translation type="unfinished">Wegens onderhoud is de server niet beschikbaar. Probeer het later opnieuw.</translation>
+        <translation>Wegens onderhoud is de server niet beschikbaar. Probeer het later opnieuw.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="802"/>
         <source>An internal error occured.</source>
-        <translation type="unfinished">Interne fout opgetreden.</translation>
+        <translation>Interne fout opgetreden.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="853"/>
         <source>Network Notification</source>
-        <translation type="unfinished">Netwerkmelding</translation>
+        <translation>Netwerkmelding</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="819"/>
         <source>You were kicked from the game.</source>
-        <translation type="unfinished">U bent uit het spel verwijderd.</translation>
+        <translation>U bent uit het spel verwijderd.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="825"/>
         <source>Sorry, this game is already full.</source>
-        <translation type="unfinished">Dit spel is al vol.</translation>
+        <translation>Dit spel is al vol.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="831"/>
         <source>Unable to join - the server has already started the game.</source>
-        <translation type="unfinished">Kan niet meedoen - de server heeft het spel al gestart.</translation>
+        <translation>Kan niet meer meedoen - de server heeft het spel al gestart.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="836"/>
         <source>Your admin state timed out due to inactivity. Feel free to create a new game!</source>
-        <translation type="unfinished">Uw status van spelleider is verlopen wegens gebrek aan activiteit, maar u kunt gewoon een nieuw spel maken!</translation>
+        <translation>Uw status van spelleider is verlopen wegens gebrek aan activiteit, maar u kunt gewoon een nieuw spel maken.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="846"/>
         <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation type="unfinished">Er is een nieuwe release van PokerTH beschikbaar.&lt;br&gt;Ga naar&lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; en download de nieuwste versie.</translation>
+        <translation>Er is een nieuwe release van PokerTH beschikbaar.&lt;br&gt;Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; en download de nieuwste versie.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="854"/>
         <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation type="unfinished">Deze bètarelease van PokerTH is te oud.&lt;br&gt;Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;/a&gt; en download de nieuwste versie.</translation>
+        <translation>Deze bètarelease van PokerTH is te oud.&lt;br&gt;Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;/a&gt; en download de nieuwste versie.</translation>
     </message>
 </context>
 <context>
@@ -4715,7 +4716,7 @@ Kies een andere naam.</translation>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="22"/>
         <source>Please click &quot;OK&quot; to stop the countdown!</source>
-        <translation>Klik op &quot;OK&quot; om het aftellen te stoppen!</translation>
+        <translation>Klik op &quot;OK&quot; om het aftellen te stoppen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="51"/>

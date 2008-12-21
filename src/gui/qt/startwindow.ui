@@ -201,6 +201,10 @@
   </widget>
   <widget class="QStatusBar" name="statusbar" />
   <action name="actionStart_Local_Game" >
+   <property name="icon" >
+    <iconset resource="resources/pokerth.qrc" >
+     <normaloff>:/gfx/swbuttonlocalgame.png</normaloff>:/gfx/swbuttonlocalgame.png</iconset>
+   </property>
    <property name="text" >
     <string>Start Local Game ...</string>
    </property>
@@ -209,6 +213,10 @@
    </property>
   </action>
   <action name="actionInternet_Game" >
+   <property name="icon" >
+    <iconset resource="resources/pokerth.qrc" >
+     <normaloff>:/gfx/swbuttoninternetgame.png</normaloff>:/gfx/swbuttoninternetgame.png</iconset>
+   </property>
    <property name="text" >
     <string>Internet Game ...</string>
    </property>
@@ -243,11 +251,19 @@
    </property>
   </action>
   <action name="actionCreate_Network_Game" >
+   <property name="icon" >
+    <iconset resource="resources/pokerth.qrc" >
+     <normaloff>:/gfx/swbuttoncreatenetworkgame.png</normaloff>:/gfx/swbuttoncreatenetworkgame.png</iconset>
+   </property>
    <property name="text" >
     <string>Create Network Game ...</string>
    </property>
   </action>
   <action name="actionJoin_Network_Game" >
+   <property name="icon" >
+    <iconset resource="resources/pokerth.qrc" >
+     <normaloff>:/gfx/swbuttonjoinnetworkgame.png</normaloff>:/gfx/swbuttonjoinnetworkgame.png</iconset>
+   </property>
    <property name="text" >
     <string>Join Network Game ...</string>
    </property>
