@@ -292,11 +292,11 @@ win32 {
         LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error
         LIBS += -lcurl
         LIBS += -lz
-        LIBS += -llibboost_thread-mgw34-mt-1_36
-        LIBS += -llibboost_filesystem-mgw34-mt-1_36
-        LIBS += -llibboost_system-mgw34-mt-1_36
-        LIBS += -llibboost_iostreams-mgw34-mt-1_36
-        LIBS += -llibboost_zlib-mgw34-mt-1_36
+        LIBS += -llibboost_thread-mgw34-mt-1_37
+        LIBS += -llibboost_filesystem-mgw34-mt-1_37
+        LIBS += -llibboost_system-mgw34-mt-1_37
+        LIBS += -llibboost_iostreams-mgw34-mt-1_37
+        LIBS += -llibboost_zlib-mgw34-mt-1_37
     }
 
     LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32 -lsdl -lsdlmain -lsdl_mixer -lwldap32
