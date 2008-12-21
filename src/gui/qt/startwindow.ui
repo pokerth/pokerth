@@ -5,9 +5,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>444</width>
-    <height>338</height>
+    <width>450</width>
+    <height>350</height>
    </rect>
+  </property>
+  <property name="minimumSize" >
+   <size>
+    <width>450</width>
+    <height>350</height>
+   </size>
+  </property>
+  <property name="maximumSize" >
+   <size>
+    <width>450</width>
+    <height>350</height>
+   </size>
   </property>
   <property name="windowTitle" >
    <string>PokerTH 0.6.3 - The Open-Source Texas Holdem Engine</string>
@@ -105,8 +117,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>444</width>
-     <height>30</height>
+     <width>450</width>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuPokerTH" >
