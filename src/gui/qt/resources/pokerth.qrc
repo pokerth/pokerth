@@ -1,7 +1,12 @@
 <RCC>
   <qresource prefix="gfx" >
+    <file>pokerth.qrc</file>
+    <file>swbuttoninternetgame.png</file>
+    <file>swbuttoncreatenetworkgame.png</file>
+    <file>swbuttonjoinnetworkgame.png</file>
     <file>media_podcast.png</file>
     <file>system_users_big.png</file>
+    <file>swbuttonlocalgame.png</file>
     <file>tools_wizard.png</file>
     <file>speaker.png</file>
     <file>player_play.png</file>

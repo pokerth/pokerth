@@ -73,12 +73,10 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 	QString myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 	this->setStyleSheet("QMainWindow { background-image: url(" + myAppDataPath +"gfx/gui/misc/startwindowbg.png); background-position: bottom center; background-origin: content;}");
 	
-// 	pushButtonStart_Local_Game->setStyleSheet("QPushButton:enabled { background-color: #1C7000; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
-// 	pushButtonInternet_Game->setStyleSheet("QPushButton:enabled { background-color: #1C7000; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
-// 	pushButton_Create_Network_Game->setStyleSheet("QPushButton:enabled { background-color: #1C7000; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
-// 	pushButton_Join_Network_Game->setStyleSheet("QPushButton:enabled { background-color: #1C7000; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
-// 	menubar->setStyleSheet("QMenuBar { background-color: #145300; } QMenuBar::item { color: #99D500; }");
-
+	pushButtonStart_Local_Game->setStyleSheet("QPushButton { padding-left: 3px; padding-right: 3px; text-align: left; font-weight: bold;}");
+	pushButtonInternet_Game->setStyleSheet("QPushButton { padding-left: 3px; padding-right: 3px; text-align: left; font-weight: bold;}");
+	pushButton_Create_Network_Game->setStyleSheet("QPushButton { padding-left: 3px; padding-right: 3px; text-align: left; font-weight: bold;}");
+	pushButton_Join_Network_Game->setStyleSheet("QPushButton { padding-left: 3px; padding-right: 3px; text-align: left; font-weight: bold;}");
 
 // 	Dialogs
 	myNewGameDialog = new newGameDialogImpl(this, myConfig);
