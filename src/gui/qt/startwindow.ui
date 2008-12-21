@@ -54,6 +54,9 @@
     </item>
     <item row="1" column="1" >
      <layout class="QVBoxLayout" name="verticalLayout" >
+      <property name="spacing" >
+       <number>-1</number>
+      </property>
       <item>
        <widget class="QPushButton" name="pushButtonStart_Local_Game" >
         <property name="focusPolicy" >
@@ -95,16 +98,16 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_Join_Network_Game" >
+       <widget class="QPushButton" name="pushButton_Create_Network_Game" >
         <property name="focusPolicy" >
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="text" >
-         <string>&amp;3 Join Network Game</string>
+         <string>&amp;3 Create Network Game</string>
         </property>
         <property name="icon" >
          <iconset resource="resources/pokerth.qrc" >
-          <normaloff>:/gfx/swbuttonjoinnetworkgame.png</normaloff>:/gfx/swbuttonjoinnetworkgame.png</iconset>
+          <normaloff>:/gfx/swbuttoncreatenetworkgame.png</normaloff>:/gfx/swbuttoncreatenetworkgame.png</iconset>
         </property>
         <property name="iconSize" >
          <size>
@@ -115,16 +118,16 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_Create_Network_Game" >
+       <widget class="QPushButton" name="pushButton_Join_Network_Game" >
         <property name="focusPolicy" >
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="text" >
-         <string>&amp;4 Create Network Game</string>
+         <string>&amp;4 Join Network Game</string>
         </property>
         <property name="icon" >
          <iconset resource="resources/pokerth.qrc" >
-          <normaloff>:/gfx/swbuttoncreatenetworkgame.png</normaloff>:/gfx/swbuttoncreatenetworkgame.png</iconset>
+          <normaloff>:/gfx/swbuttonjoinnetworkgame.png</normaloff>:/gfx/swbuttonjoinnetworkgame.png</iconset>
         </property>
         <property name="iconSize" >
          <size>
