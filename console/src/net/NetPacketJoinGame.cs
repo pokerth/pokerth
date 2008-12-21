@@ -20,53 +20,52 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
+
+/*
+struct GCC_PACKED NetPacketJoinGameData
+{
+	NetPacketHeader		head;
+	u_int32_t			gameId;
+	u_int16_t			passwordLength;
+	u_int16_t			reserved;
+};
+*/
 
 namespace pokerth_console
 {
-	class ServerSettings
+	class NetPacketJoinGame : NetPacket
 	{
-		public ServerSettings()
+		public NetPacketJoinGame()
+			: base(NetPacket.NetTypeJoinGame)
 		{
 		}
 
-		public string IPv4Address
+		public override byte[] ToByteArray()
 		{
-			get
-			{
-				return m_ipv4Address;
-			}
-			set
-			{
-				m_ipv4Address = value;
-			}
-		}
+			MemoryStream memStream = new MemoryStream();
+			BinaryWriter w = new BinaryWriter(memStream);
 
-		public string IPv6Address
-		{
-			get
-			{
-				return m_ipv6Address;
-			}
-			set
-			{
-				m_ipv6Address = value;
-			}
-		}
+			string gamePassword = Properties[PropertyType.PropGamePassword];
+			byte[] tmpPassword = Encoding.UTF8.GetBytes(gamePassword);
+			int passwordWithPadding = AddPadding(tmpPassword.Length);
+			int size = 12 + passwordWithPadding;
 
-		public int Port
-		{
-			get
-			{
-				return m_port;
-			}
-			set
-			{
-				m_port = value;
-			}
-		}
+			w.Write(IPAddress.HostToNetworkOrder((short)Type));
+			w.Write(IPAddress.HostToNetworkOrder((short)size));
+			w.Write(IPAddress.HostToNetworkOrder((int)
+				Convert.ToUInt32(Properties[PropertyType.PropGameId])));
+			w.Write(IPAddress.HostToNetworkOrder((short)gamePassword.Length));
+			w.Write(IPAddress.HostToNetworkOrder((short)0)); // Reserved.
 
-		private string m_ipv4Address = "";
-		private string m_ipv6Address = "";
-		private int m_port = 0;
+			// Add padding.
+			int passwordPadding = passwordWithPadding - tmpPassword.Length;
+			if (passwordPadding > 0)
+				w.Write(new byte[passwordPadding]);
+
+			return memStream.ToArray();
+		}
 	}
 }

@@ -78,16 +78,23 @@ namespace pokerth_console
 
 			int gameNameLen = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
 
-			Properties.Add(PropertyType.PropCurNumPlayers,
-				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-			Properties.Add(PropertyType.PropGameFlags,
+			int curNumPlayers = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
+			Properties.Add(PropertyType.PropCurNumPlayers, Convert.ToString(curNumPlayers));
+			Properties.Add(PropertyType.PropGamePrivacyFlags,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 
 			r.ReadBytes(28); // Skip game info block for now.
 
+			// Read name of the game.
 			byte[] tmpName = r.ReadBytes(gameNameLen);
 			Properties.Add(PropertyType.PropGameName,
 				Encoding.UTF8.GetString(tmpName));
+
+			// Read player ids.
+			List<string> playerSlots = new List<string>();
+			for (int i = 0; i < curNumPlayers; i++)
+				playerSlots.Add(Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			ListProperties.Add(ListPropertyType.PropPlayerSlots, playerSlots);
 		}
 
 		public override byte[] ToByteArray()

@@ -25,9 +25,15 @@ namespace pokerth_console
 {
 	class GameInfo
 	{
-		public GameInfo(string name)
+		public GameInfo(uint id, string name)
 		{
+			m_id = id;
 			m_name = name;
+		}
+
+		public uint GetId()
+		{
+			return m_id;
 		}
 
 		public override string ToString()
@@ -35,6 +41,7 @@ namespace pokerth_console
 			return m_name;
 		}
 
+		private uint m_id;
 		private string m_name;
 	}
 }

@@ -20,53 +20,55 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
+
+/*
+struct GCC_PACKED NetPacketPlayerInfoData
+{
+	NetPacketHeader		head;
+	u_int32_t			playerId;
+	u_int16_t			playerFlags;
+	u_int16_t			playerNameLength;
+	u_int32_t			reserved;
+};
+*/
 
 namespace pokerth_console
 {
-	class ServerSettings
+	class NetPacketPlayerInfo : NetPacket
 	{
-		public ServerSettings()
+		public const int PlayerFlagHuman = 0x01;
+		public const int PlayerFlagAvatar = 0x02;
+
+		public NetPacketPlayerInfo()
+			: base(NetPacket.NetTypePlayerInfo)
 		{
 		}
 
-		public string IPv4Address
+		public NetPacketPlayerInfo(int size, BinaryReader r)
+			: base(NetPacket.NetTypePlayerInfo)
 		{
-			get
-			{
-				return m_ipv4Address;
-			}
-			set
-			{
-				m_ipv4Address = value;
-			}
+			if (size < 16)
+				throw new NetPacketException("NetPacketPlayerInfo invalid size.");
+			Properties.Add(PropertyType.PropPlayerId,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			int playerFlags = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
+			Properties.Add(PropertyType.PropPlayerFlags, Convert.ToString(playerFlags));
+			int playerNameLen = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
+			r.ReadUInt32(); // reserved
+			if ((playerFlags & PlayerFlagAvatar) == PlayerFlagAvatar)
+				r.ReadBytes(16); // Skip avatar md5.
+
+			byte[] tmpName = r.ReadBytes(playerNameLen);
+			Properties.Add(PropertyType.PropPlayerName,
+				Encoding.UTF8.GetString(tmpName));
 		}
 
-		public string IPv6Address
+		public override byte[] ToByteArray()
 		{
-			get
-			{
-				return m_ipv6Address;
-			}
-			set
-			{
-				m_ipv6Address = value;
-			}
+			throw new NotImplementedException();
 		}
-
-		public int Port
-		{
-			get
-			{
-				return m_port;
-			}
-			set
-			{
-				m_port = value;
-			}
-		}
-
-		private string m_ipv4Address = "";
-		private string m_ipv6Address = "";
-		private int m_port = 0;
 	}
 }

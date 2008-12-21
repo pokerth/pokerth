@@ -92,18 +92,25 @@ namespace pokerth_console
 		{
 			PropRequestedVersionMajor,
 			PropRequestedVersionMinor,
+			PropPlayerId,
 			PropPlayerName,
 			PropPlayerPassword,
+			PropPlayerFlags,
 			PropLatestGameVersion,
 			PropLatestBetaRevision,
 			PropSessionId,
-			PropPlayerId,
 			PropGameId,
-			PropAdminPlayerId,
 			PropGameMode,
 			PropGameName,
-			PropCurNumPlayers,
-			PropGameFlags
+			PropGamePrivacyFlags,
+			PropGamePassword,
+			PropAdminPlayerId,
+			PropCurNumPlayers
+		}
+
+		public enum ListPropertyType
+		{
+			PropPlayerSlots
 		}
 
 		public static NetPacket Create(int type, int size, BinaryReader reader)
@@ -128,6 +135,7 @@ namespace pokerth_console
 		{
 			m_type = type;
 			m_properties = new Dictionary<PropertyType, string>();
+			m_listProperties = new Dictionary<ListPropertyType, List<string>>();
 		}
 
 		public Dictionary<PropertyType, string> Properties
@@ -139,6 +147,18 @@ namespace pokerth_console
 			get
 			{
 				return m_properties;
+			}
+		}
+
+		public Dictionary<ListPropertyType, List<string>> ListProperties
+		{
+			set
+			{
+				m_listProperties = value;
+			}
+			get
+			{
+				return m_listProperties;
 			}
 		}
 
@@ -159,5 +179,6 @@ namespace pokerth_console
 
 		private int m_type;
 		private Dictionary<PropertyType, string> m_properties;
+		private Dictionary<ListPropertyType, List<string>> m_listProperties;
 	}
 }

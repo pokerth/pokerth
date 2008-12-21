@@ -50,6 +50,7 @@ namespace pokerth_console
 		{
 			MemoryStream memStream = new MemoryStream();
 			BinaryWriter w = new BinaryWriter(memStream);
+
 			string playerPassword = Properties[PropertyType.PropPlayerPassword];
 			byte[] tmpPassword = Encoding.UTF8.GetBytes(playerPassword);
 			int passwordWithPadding = AddPadding(tmpPassword.Length);
@@ -58,7 +59,7 @@ namespace pokerth_console
 			int nameWithPadding = AddPadding(tmpName.Length);
 			int size = 16 + passwordWithPadding + nameWithPadding;
 
-			w.Write(IPAddress.HostToNetworkOrder((short)NetPacket.NetTypeInit));
+			w.Write(IPAddress.HostToNetworkOrder((short)Type));
 			w.Write(IPAddress.HostToNetworkOrder((short)size));
 			w.Write(IPAddress.HostToNetworkOrder((short)
 				Convert.ToUInt16(Properties[PropertyType.PropRequestedVersionMajor])));

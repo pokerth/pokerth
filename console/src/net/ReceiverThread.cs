@@ -147,6 +147,7 @@ namespace pokerth_console
 				if (p.Type == NetPacket.NetTypeGameListNew)
 				{
 					m_lobbyGameInfoList.AddGameInfo(new GameInfo(
+						Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PropGameId]),
 						p.Properties[NetPacket.PropertyType.PropGameName]));
 				}
 			}
