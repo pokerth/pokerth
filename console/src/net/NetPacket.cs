@@ -105,7 +105,9 @@ namespace pokerth_console
 			PropGamePrivacyFlags,
 			PropGamePassword,
 			PropAdminPlayerId,
-			PropCurNumPlayers
+			PropCurNumPlayers,
+			PropStartFlags,
+			PropStartDealerPlayerId
 		}
 
 		public enum ListPropertyType
@@ -127,6 +129,9 @@ namespace pokerth_console
 					break;
 				case NetTypePlayerInfo:
 					tmpPacket = new NetPacketPlayerInfo(size, reader);
+					break;
+				case NetTypeStartEvent:
+					tmpPacket = new NetPacketStartEvent(size, reader);
 					break;
 				default:
 					break;
@@ -172,6 +177,8 @@ namespace pokerth_console
 				return m_type;
 			}
 		}
+
+		public abstract void Accept(INetPacketVisitor visitor);
 
 		public abstract byte[] ToByteArray();
 

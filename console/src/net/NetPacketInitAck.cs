@@ -59,6 +59,11 @@ namespace pokerth_console
 				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
 		}
 
+		public override void Accept(INetPacketVisitor visitor)
+		{
+			visitor.VisitInitAck(this);
+		}
+
 		public override byte[] ToByteArray()
 		{
 			throw new NotImplementedException();

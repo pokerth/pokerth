@@ -34,12 +34,15 @@ namespace pokerth_console
 			client.Connect();
 			client.Start();
 			Thread.Sleep(5000);
-			client.SetTerminateFlag();
-			Console.WriteLine("Games:");
+			Console.WriteLine("Open Games:");
 			Console.Write(data.GameList.ToString());
 			Console.WriteLine();
-			Console.WriteLine("Players:");
-			Console.Write(data.PlayerList.ToString());
+			Console.WriteLine("Enter game id");
+			string input = Console.ReadLine();
+			uint gameId = Convert.ToUInt32(input);
+			client.JoinGame(gameId);
+			Thread.Sleep(5000000);
+			client.SetTerminateFlag();
 			client.WaitTermination();
 			return 0;
 		}

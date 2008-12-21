@@ -110,15 +110,7 @@ namespace pokerth_console
 		{
 			foreach (NetPacket p in m_packetList)
 			{
-				switch (p.Type)
-				{
-					case NetPacket.NetTypeGameListNew :
-						m_parser.ParseGameListNew(p);
-						break;
-					case NetPacket.NetTypePlayerInfo :
-						m_parser.ParsePlayerInfo(p);
-						break;
-				}
+				p.Accept(m_parser);
 			}
 			m_packetList.Clear();
 		}

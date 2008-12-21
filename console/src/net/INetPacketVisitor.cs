@@ -20,44 +20,19 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.IO;
 
 namespace pokerth_console
 {
-	class GameInfoList
+	interface INetPacketVisitor
 	{
-		public GameInfoList()
-		{
-			m_list = new Dictionary<uint, GameInfo>();
-		}
-
-		public void AddGameInfo(GameInfo info)
-		{
-			lock (m_list)
-			{
-				if (m_list.ContainsKey(info.Id))
-					m_list[info.Id] = info;
-				else
-					m_list.Add(info.Id, info);
-			}
-		}
-
-		public override string ToString()
-		{
-			string outString = "";
-			lock (m_list)
-			{
-				foreach (KeyValuePair<uint, GameInfo> i in m_list)
-				{
-					outString += i.Key;
-					outString += " ";
-					outString += i.Value.Name;
-					outString += '\n';
-				}
-			}
-			return outString;
-		}
-
-		private Dictionary<uint, GameInfo> m_list;
+		void VisitInit(NetPacketInit p);
+		void VisitInitAck(NetPacketInitAck p);
+		void VisitGameListNew(NetPacketGameListNew p);
+		void VisitRetrievePlayerInfo(NetPacketRetrievePlayerInfo p);
+		void VisitPlayerInfo(NetPacketPlayerInfo p);
+		void VisitJoinGame(NetPacketJoinGame p);
+		void VisitStartEvent(NetPacketStartEvent p);
+		void VisitStartEventAck(NetPacketStartEventAck p);
+		void VisitGameStart(NetPacketGameStart p);
 	}
 }

@@ -20,44 +20,54 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
 using System.IO;
+
+/*
+struct GCC_PACKED NetPacketStartEventData
+{
+	NetPacketHeader		head;
+	u_int16_t			startFlags;
+	u_int16_t			reserved;
+};
+*/
 
 namespace pokerth_console
 {
-	class GameInfoList
+	class NetPacketStartEvent : NetPacket
 	{
-		public GameInfoList()
+		public NetPacketStartEvent()
+			: base(NetPacket.NetTypeStartEvent)
 		{
-			m_list = new Dictionary<uint, GameInfo>();
 		}
 
-		public void AddGameInfo(GameInfo info)
+		public NetPacketStartEvent(int size, BinaryReader r)
+			: base(NetPacket.NetTypeStartEvent)
 		{
-			lock (m_list)
-			{
-				if (m_list.ContainsKey(info.Id))
-					m_list[info.Id] = info;
-				else
-					m_list.Add(info.Id, info);
-			}
+			if (size != 8)
+				throw new NetPacketException("NetTypeStartEvent invalid size.");
+			Properties.Add(PropertyType.PropStartFlags,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 		}
 
-		public override string ToString()
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			string outString = "";
-			lock (m_list)
-			{
-				foreach (KeyValuePair<uint, GameInfo> i in m_list)
-				{
-					outString += i.Key;
-					outString += " ";
-					outString += i.Value.Name;
-					outString += '\n';
-				}
-			}
-			return outString;
+			visitor.VisitStartEvent(this);
 		}
 
-		private Dictionary<uint, GameInfo> m_list;
+		public override byte[] ToByteArray()
+		{
+			MemoryStream memStream = new MemoryStream();
+			BinaryWriter w = new BinaryWriter(memStream);
+
+			w.Write(IPAddress.HostToNetworkOrder((short)Type));
+			w.Write(IPAddress.HostToNetworkOrder((short)8));
+			w.Write(IPAddress.HostToNetworkOrder((short)
+				Convert.ToUInt16(Properties[PropertyType.PropStartFlags])));
+			w.Write(IPAddress.HostToNetworkOrder((short)0)); // reserved
+
+			return memStream.ToArray();
+		}
 	}
 }

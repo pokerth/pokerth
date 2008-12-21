@@ -101,6 +101,11 @@ namespace pokerth_console
 			ListProperties.Add(ListPropertyType.PropPlayerSlots, playerSlots);
 		}
 
+		public override void Accept(INetPacketVisitor visitor)
+		{
+			visitor.VisitGameListNew(this);
+		}
+
 		public override byte[] ToByteArray()
 		{
 			throw new NotImplementedException();

@@ -66,6 +66,11 @@ namespace pokerth_console
 				Encoding.UTF8.GetString(tmpName));
 		}
 
+		public override void Accept(INetPacketVisitor visitor)
+		{
+			visitor.VisitPlayerInfo(this);
+		}
+
 		public override byte[] ToByteArray()
 		{
 			throw new NotImplementedException();

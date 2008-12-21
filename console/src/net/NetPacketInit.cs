@@ -46,6 +46,11 @@ namespace pokerth_console
 		{
 		}
 
+		public override void Accept(INetPacketVisitor visitor)
+		{
+			visitor.VisitInit(this);
+		}
+
 		public override byte[] ToByteArray()
 		{
 			MemoryStream memStream = new MemoryStream();

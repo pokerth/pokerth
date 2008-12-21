@@ -23,7 +23,7 @@ using System.Text;
 
 namespace pokerth_console
 {
-	class NetParser
+	class NetParser : INetPacketVisitor
 	{
 		public NetParser(PokerTHData data, SenderThread sender)
 		{
@@ -31,7 +31,55 @@ namespace pokerth_console
 			m_sender = sender;
 		}
 
-		public void ParseGameListNew(NetPacket p)
+		public void VisitInit(NetPacketInit p)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void VisitInitAck(NetPacketInitAck p)
+		{
+			// TODO
+		}
+
+		public void VisitGameListNew(NetPacketGameListNew p)
+		{
+			// Add game to list.
+			m_data.GameList.AddGameInfo(new GameInfo(
+				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PropGameId]),
+				p.Properties[NetPacket.PropertyType.PropGameName]));
+		}
+
+		public void VisitRetrievePlayerInfo(NetPacketRetrievePlayerInfo p)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void VisitPlayerInfo(NetPacketPlayerInfo p)
+		{
+			// Add player to list.
+			m_data.PlayerList.AddPlayerInfo(new PlayerInfo(
+				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PropPlayerId]),
+				p.Properties[NetPacket.PropertyType.PropPlayerName]));
+		}
+
+		public void VisitJoinGame(NetPacketJoinGame p)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void VisitStartEvent(NetPacketStartEvent p)
+		{
+			// Acknowledge start event.
+			NetPacketStartEventAck ack = new NetPacketStartEventAck();
+			m_sender.Send(ack);
+		}
+
+		public void VisitStartEventAck(NetPacketStartEventAck p)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void VisitGameStart(NetPacketGameStart p)
 		{
 			// Request player names for player ids.
 			List<string> playerList = p.ListProperties[NetPacket.ListPropertyType.PropPlayerSlots];
@@ -44,18 +92,6 @@ namespace pokerth_console
 					m_sender.Send(request);
 				}
 			}
-			// Add game to list.
-			m_data.GameList.AddGameInfo(new GameInfo(
-				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PropGameId]),
-				p.Properties[NetPacket.PropertyType.PropGameName]));
-		}
-
-		public void ParsePlayerInfo(NetPacket p)
-		{
-			// Add player to list.
-			m_data.PlayerList.AddPlayerInfo(new PlayerInfo(
-				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PropPlayerId]),
-				p.Properties[NetPacket.PropertyType.PropPlayerName]));
 		}
 
 		private PokerTHData m_data;

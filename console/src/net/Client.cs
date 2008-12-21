@@ -42,6 +42,7 @@ namespace pokerth_console
 			addresses[0] = IPAddress.Parse(m_settings.ServerSettings.IPv6Address);
 			addresses[1] = IPAddress.Parse(m_settings.ServerSettings.IPv4Address);
 			m_tcpClient.Connect(addresses, m_settings.ServerSettings.Port);
+			//m_tcpClient.Connect("localhost", 7234);
 		}
 
 		public void Start()
@@ -49,6 +50,11 @@ namespace pokerth_console
 			StartSendThread();
 			StartReceiveThread();
 			SendInit();
+		}
+
+		public void JoinGame(uint gameId)
+		{
+			SendJoinGame(gameId);
 		}
 
 		public void SetTerminateFlag()
@@ -80,9 +86,17 @@ namespace pokerth_console
 			NetPacket init = new NetPacketInit();
 			init.Properties.Add(NetPacket.PropertyType.PropRequestedVersionMajor, "4");
 			init.Properties.Add(NetPacket.PropertyType.PropRequestedVersionMinor, "2");
-			init.Properties.Add(NetPacket.PropertyType.PropPlayerName, "Loto");
+			init.Properties.Add(NetPacket.PropertyType.PropPlayerName, "Testuser");
 			init.Properties.Add(NetPacket.PropertyType.PropPlayerPassword, "");
 			m_sender.Send(init);
+		}
+
+		protected void SendJoinGame(uint gameId)
+		{
+			NetPacket join = new NetPacketJoinGame();
+			join.Properties.Add(NetPacket.PropertyType.PropGameId, Convert.ToString(gameId));
+			join.Properties.Add(NetPacket.PropertyType.PropGamePassword, ""); // no password for now
+			m_sender.Send(join);
 		}
 
 		private TcpClient m_tcpClient;
