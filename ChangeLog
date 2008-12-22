@@ -1,3 +1,11 @@
+2008-12-22 version 0.6.3:
+- new start dialog, separated from game table
+- new chance tab shows current chance to get a certain hand
+- users can be kicked by vote from within a game (right click on avatar)
+- game creators are no longer allowed to kick when the game is running
+- server irc bot automatically reconnects every day
+- 18 translations now (danish and finnish added)
+
 2008-05-21 version 0.6.2:
 - more flexible internet server connection (automatic download of server list)
 - fixed DNS problems, IPv6 and SCTP are fully available now
