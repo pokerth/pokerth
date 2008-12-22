@@ -90,24 +90,36 @@ namespace pokerth_console
 
 		public enum PropertyType
 		{
-			PropRequestedVersionMajor,
-			PropRequestedVersionMinor,
-			PropPlayerId,
-			PropPlayerName,
-			PropPlayerPassword,
-			PropPlayerFlags,
-			PropLatestGameVersion,
-			PropLatestBetaRevision,
-			PropSessionId,
-			PropGameId,
-			PropGameMode,
-			PropGameName,
-			PropGamePrivacyFlags,
-			PropGamePassword,
-			PropAdminPlayerId,
-			PropCurNumPlayers,
-			PropStartFlags,
-			PropStartDealerPlayerId
+			RequestedVersionMajor,
+			RequestedVersionMinor,
+			PlayerId,
+			PlayerName,
+			PlayerPassword,
+			PlayerFlags,
+			PlayerRights,
+			PlayerAction,
+			PlayerBet,
+			PlayerBetTotal,
+			PlayerMoney,
+			LatestGameVersion,
+			LatestBetaRevision,
+			SessionId,
+			GameId,
+			GameMode,
+			GameName,
+			GamePrivacyFlags,
+			GamePassword,
+			GameState,
+			AdminPlayerId,
+			CurNumPlayers,
+			StartFlags,
+			StartDealerPlayerId,
+			FirstCard,
+			SecondCard,
+			SmallBlind,
+			HighestSet,
+			MinimumRaise,
+			ActionRejectReason,
 		}
 
 		public enum ListPropertyType
@@ -121,17 +133,32 @@ namespace pokerth_console
 			switch (type)
 			{
 				// Only consider those packets which are sent by the server.
-				case NetTypeInitAck:
+				case NetTypeInitAck :
 					tmpPacket = new NetPacketInitAck(size, reader);
 					break;
-				case NetTypeGameListNew:
+				case NetTypeGameListNew :
 					tmpPacket = new NetPacketGameListNew(size, reader);
 					break;
-				case NetTypePlayerInfo:
+				case NetTypeGameListUpdate :
+					tmpPacket = new NetPacketGameListUpdate(size, reader);
+					break;
+				case NetTypeJoinGameAck :
+					tmpPacket = new NetPacketJoinGameAck(size, reader);
+					break;
+				case NetTypePlayerInfo :
 					tmpPacket = new NetPacketPlayerInfo(size, reader);
 					break;
-				case NetTypeStartEvent:
+				case NetTypeStartEvent :
 					tmpPacket = new NetPacketStartEvent(size, reader);
+					break;
+				case NetTypeGameStart :
+					tmpPacket = new NetPacketGameStart(size, reader);
+					break;
+				case NetTypeHandStart :
+					tmpPacket = new NetPacketHandStart(size, reader);
+					break;
+				case NetTypePlayersTurn :
+					tmpPacket = new NetPacketPlayersTurn(size, reader);
 					break;
 				default:
 					break;
@@ -182,7 +209,7 @@ namespace pokerth_console
 
 		public abstract byte[] ToByteArray();
 
-		protected int AddPadding(int size)
+		static protected int AddPadding(int size)
 		{
 			return ((((size) + 3) / 4) * 4);
 		}

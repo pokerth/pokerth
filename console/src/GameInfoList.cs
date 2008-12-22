@@ -42,6 +42,30 @@ namespace pokerth_console
 			}
 		}
 
+		public GameInfo GetGameInfo(uint id)
+		{
+			lock (m_list)
+			{
+				return m_list[id];
+			}
+		}
+
+		public void SetGameInfo(uint id, GameInfo info)
+		{
+			lock (m_list)
+			{
+				m_list[id] = info;
+			}
+		}
+
+		public void RemoveGameInfo(uint id)
+		{
+			lock (m_list)
+			{
+				m_list.Remove(id);
+			}
+		}
+
 		public override string ToString()
 		{
 			string outString = "";

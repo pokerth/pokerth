@@ -84,18 +84,18 @@ namespace pokerth_console
 		protected void SendInit()
 		{
 			NetPacket init = new NetPacketInit();
-			init.Properties.Add(NetPacket.PropertyType.PropRequestedVersionMajor, "4");
-			init.Properties.Add(NetPacket.PropertyType.PropRequestedVersionMinor, "2");
-			init.Properties.Add(NetPacket.PropertyType.PropPlayerName, "Testuser");
-			init.Properties.Add(NetPacket.PropertyType.PropPlayerPassword, "");
+			init.Properties.Add(NetPacket.PropertyType.RequestedVersionMajor, "5");
+			init.Properties.Add(NetPacket.PropertyType.RequestedVersionMinor, "0");
+			init.Properties.Add(NetPacket.PropertyType.PlayerName, "Testuser1");
+			init.Properties.Add(NetPacket.PropertyType.PlayerPassword, "");
 			m_sender.Send(init);
 		}
 
 		protected void SendJoinGame(uint gameId)
 		{
 			NetPacket join = new NetPacketJoinGame();
-			join.Properties.Add(NetPacket.PropertyType.PropGameId, Convert.ToString(gameId));
-			join.Properties.Add(NetPacket.PropertyType.PropGamePassword, ""); // no password for now
+			join.Properties.Add(NetPacket.PropertyType.GameId, Convert.ToString(gameId));
+			join.Properties.Add(NetPacket.PropertyType.GamePassword, ""); // no password for now
 			m_sender.Send(join);
 		}
 

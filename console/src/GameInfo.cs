@@ -25,9 +25,68 @@ namespace pokerth_console
 {
 	class GameInfo : IdObject
 	{
-		public GameInfo(uint id, string name)
+		public enum Mode
+		{
+			Created = 1,
+			Started,
+			Closed
+		}
+
+		public enum State
+		{
+			Preflop = 0,
+			Flop,
+			Turn,
+			River
+		}
+
+		public GameInfo(uint id, string name, Mode mode, List<uint> playerSlots)
 			: base(id, name)
 		{
+			m_mode = mode;
+			m_mutex = new Object();
+			m_playerSlots = playerSlots;
 		}
+
+		public List<uint> PlayerSlots
+		{
+			get
+			{
+				lock (m_playerSlots)
+				{
+					// returns a copy(!)
+					return new List<uint>(m_playerSlots);
+				}
+			}
+			set
+			{
+				lock (m_playerSlots)
+				{
+					m_playerSlots = value;
+				}
+			}
+		}
+
+		public Mode CurrentMode
+		{
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_mode;
+				}
+			}
+			set
+			{
+				lock (m_mutex)
+				{
+					m_mode = value;
+				}
+			}
+		}
+
+		Mode m_mode;
+		Object m_mutex;
+		List<uint> m_playerSlots;
 	}
 }

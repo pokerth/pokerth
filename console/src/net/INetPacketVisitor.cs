@@ -28,11 +28,18 @@ namespace pokerth_console
 		void VisitInit(NetPacketInit p);
 		void VisitInitAck(NetPacketInitAck p);
 		void VisitGameListNew(NetPacketGameListNew p);
+		void VisitGameListUpdate(NetPacketGameListUpdate p);
 		void VisitRetrievePlayerInfo(NetPacketRetrievePlayerInfo p);
 		void VisitPlayerInfo(NetPacketPlayerInfo p);
 		void VisitJoinGame(NetPacketJoinGame p);
+		void VisitJoinGameAck(NetPacketJoinGameAck p);
 		void VisitStartEvent(NetPacketStartEvent p);
 		void VisitStartEventAck(NetPacketStartEventAck p);
 		void VisitGameStart(NetPacketGameStart p);
+		void VisitHandStart(NetPacketHandStart p);
+		void VisitPlayersTurn(NetPacketPlayersTurn p);
+		void VisitPlayersAction(NetPacketPlayersAction p);
+		void VisitPlayersActionDone(NetPacketPlayersActionDone p);
+		void VisitPlayersActionRejected(NetPacketPlayersActionRejected p);
 	}
 }

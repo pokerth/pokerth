@@ -20,36 +20,51 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
+
+/*
+struct GCC_PACKED NetPacketJoinGameAckData
+{
+	NetPacketHeader		head;
+	u_int32_t			gameId;
+	u_int16_t			playerRights;
+	u_int16_t			reserved;
+	GameInfoData		gameData;
+};
+*/
 
 namespace pokerth_console
 {
-	class IdObject
+	class NetPacketJoinGameAck : NetPacket
 	{
-		public IdObject(uint id, string name)
+		public NetPacketJoinGameAck()
+			: base(NetPacket.NetTypeJoinGameAck)
 		{
-			m_id = id;
-			m_name = name;
 		}
 
-		public uint Id
+		public NetPacketJoinGameAck(int size, BinaryReader r)
+			: base(NetPacket.NetTypeJoinGameAck)
 		{
-			get
-			{
-				// No lock because only read access.
-				return m_id;
-			}
+			if (size < 12)
+				throw new NetPacketException("NetTypeJoinGameAck invalid size.");
+			Properties.Add(PropertyType.GameId,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			Properties.Add(PropertyType.PlayerRights,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+
+			// skip game info block
 		}
 
-		public string Name
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			get
-			{
-				// No lock because only read access.
-				return m_name;
-			}
+			visitor.VisitJoinGameAck(this);
 		}
 
-		private uint m_id;
-		private string m_name;
+		public override byte[] ToByteArray()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

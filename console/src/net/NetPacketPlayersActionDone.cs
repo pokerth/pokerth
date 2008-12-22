@@ -25,50 +25,52 @@ using System.Net.Sockets;
 using System.IO;
 
 /*
-struct GCC_PACKED NetPacketPlayerInfoData
+struct GCC_PACKED NetPacketPlayersActionDoneData
 {
 	NetPacketHeader		head;
 	u_int32_t			playerId;
-	u_int16_t			playerFlags;
-	u_int16_t			playerNameLength;
-	u_int32_t			reserved;
+	u_int16_t			gameState;
+	u_int16_t			playerAction;
+	u_int32_t			totalPlayerBet;
+	u_int32_t			playerMoney;
+	u_int32_t			highestSet;
+	u_int32_t			minimumRaise;
 };
 */
 
 namespace pokerth_console
 {
-	class NetPacketPlayerInfo : NetPacket
+	class NetPacketPlayersActionDone : NetPacket
 	{
-		public const int PlayerFlagHuman = 0x01;
-		public const int PlayerFlagAvatar = 0x02;
-
-		public NetPacketPlayerInfo()
-			: base(NetPacket.NetTypePlayerInfo)
+		public NetPacketPlayersActionDone()
+			: base(NetPacket.NetTypePlayersActionDone)
 		{
 		}
 
-		public NetPacketPlayerInfo(int size, BinaryReader r)
-			: base(NetPacket.NetTypePlayerInfo)
+		public NetPacketPlayersActionDone(int size, BinaryReader r)
+			: base(NetPacket.NetTypePlayersActionDone)
 		{
-			if (size < 16)
-				throw new NetPacketException("NetPacketPlayerInfo invalid size.");
+			if (size != 28)
+				throw new NetPacketException("NetPacketPlayersActionDone invalid size.");
 			Properties.Add(PropertyType.PlayerId,
 				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			int playerFlags = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
-			Properties.Add(PropertyType.PlayerFlags, Convert.ToString(playerFlags));
-			int playerNameLen = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
-			r.ReadUInt32(); // reserved
-			if ((playerFlags & PlayerFlagAvatar) == PlayerFlagAvatar)
-				r.ReadBytes(16); // Skip avatar md5.
-
-			byte[] tmpName = r.ReadBytes(playerNameLen);
-			Properties.Add(PropertyType.PlayerName,
-				Encoding.UTF8.GetString(tmpName));
+			Properties.Add(PropertyType.GameState,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			Properties.Add(PropertyType.PlayerAction,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			Properties.Add(PropertyType.PlayerBetTotal,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt32())));
+			Properties.Add(PropertyType.PlayerMoney,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt32())));
+			Properties.Add(PropertyType.HighestSet,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt32())));
+			Properties.Add(PropertyType.MinimumRaise,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt32())));
 		}
 
 		public override void Accept(INetPacketVisitor visitor)
 		{
-			visitor.VisitPlayerInfo(this);
+			visitor.VisitPlayersActionDone(this);
 		}
 
 		public override byte[] ToByteArray()

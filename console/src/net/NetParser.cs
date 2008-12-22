@@ -38,15 +38,30 @@ namespace pokerth_console
 
 		public void VisitInitAck(NetPacketInitAck p)
 		{
-			// TODO
+			m_data.MyPlayerId =
+				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PlayerId]);
 		}
 
 		public void VisitGameListNew(NetPacketGameListNew p)
 		{
 			// Add game to list.
 			m_data.GameList.AddGameInfo(new GameInfo(
-				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PropGameId]),
-				p.Properties[NetPacket.PropertyType.PropGameName]));
+				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.GameId]),
+				p.Properties[NetPacket.PropertyType.GameName],
+				(GameInfo.Mode)Convert.ToInt32(p.Properties[NetPacket.PropertyType.GameMode]),
+				p.ListProperties[NetPacket.ListPropertyType.PropPlayerSlots].
+					ConvertAll<uint>(Convert.ToUInt32)));
+		}
+
+		public void VisitGameListUpdate(NetPacketGameListUpdate p)
+		{
+			GameInfo.Mode mode =
+				(GameInfo.Mode)Convert.ToInt32(p.Properties[NetPacket.PropertyType.GameMode]);
+			uint id = Convert.ToUInt32(p.Properties[NetPacket.PropertyType.GameId]);
+			if (mode == GameInfo.Mode.Closed) // Remove game if it is has been closed.
+				m_data.GameList.RemoveGameInfo(id);
+			else
+				m_data.GameList.GetGameInfo(id).CurrentMode = mode;
 		}
 
 		public void VisitRetrievePlayerInfo(NetPacketRetrievePlayerInfo p)
@@ -58,8 +73,8 @@ namespace pokerth_console
 		{
 			// Add player to list.
 			m_data.PlayerList.AddPlayerInfo(new PlayerInfo(
-				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PropPlayerId]),
-				p.Properties[NetPacket.PropertyType.PropPlayerName]));
+				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PlayerId]),
+				p.Properties[NetPacket.PropertyType.PlayerName]));
 		}
 
 		public void VisitJoinGame(NetPacketJoinGame p)
@@ -67,8 +82,25 @@ namespace pokerth_console
 			throw new NotImplementedException();
 		}
 
+		public void VisitJoinGameAck(NetPacketJoinGameAck p)
+		{
+			m_data.MyGameId =
+				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.GameId]);
+		}
+
 		public void VisitStartEvent(NetPacketStartEvent p)
 		{
+			// Request player names for player ids.
+			List<uint> playerSlots = m_data.GameList.GetGameInfo(m_data.MyGameId).PlayerSlots;
+			foreach (uint id in playerSlots)
+			{
+				if (!m_data.PlayerList.HasPlayer(id))
+				{
+					NetPacketRetrievePlayerInfo request = new NetPacketRetrievePlayerInfo();
+					request.Properties.Add(NetPacket.PropertyType.PlayerId, Convert.ToString(id));
+					m_sender.Send(request);
+				}
+			}
 			// Acknowledge start event.
 			NetPacketStartEventAck ack = new NetPacketStartEventAck();
 			m_sender.Send(ack);
@@ -81,17 +113,38 @@ namespace pokerth_console
 
 		public void VisitGameStart(NetPacketGameStart p)
 		{
-			// Request player names for player ids.
-			List<string> playerList = p.ListProperties[NetPacket.ListPropertyType.PropPlayerSlots];
-			foreach (string player in playerList)
-			{
-				if (!m_data.PlayerList.HasPlayer(Convert.ToUInt32(player)))
-				{
-					NetPacketRetrievePlayerInfo request = new NetPacketRetrievePlayerInfo();
-					request.Properties.Add(NetPacket.PropertyType.PropPlayerId, player);
-					m_sender.Send(request);
-				}
-			}
+			throw new NotImplementedException();
+			// TODO
+		}
+
+		public void VisitHandStart(NetPacketHandStart p)
+		{
+			throw new NotImplementedException();
+			// TODO
+		}
+
+		public void VisitPlayersTurn(NetPacketPlayersTurn p)
+		{
+			throw new NotImplementedException();
+			// TODO
+		}
+
+		public void VisitPlayersAction(NetPacketPlayersAction p)
+		{
+			throw new NotImplementedException();
+			// TODO
+		}
+
+		public void VisitPlayersActionDone(NetPacketPlayersActionDone p)
+		{
+			throw new NotImplementedException();
+			// TODO
+		}
+
+		public void VisitPlayersActionRejected(NetPacketPlayersActionRejected p)
+		{
+			throw new NotImplementedException();
+			// TODO
 		}
 
 		private PokerTHData m_data;

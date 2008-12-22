@@ -20,36 +20,48 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
+
+/*
+struct GCC_PACKED NetPacketPlayersTurnData
+{
+	NetPacketHeader		head;
+	u_int32_t			playerId;
+	u_int16_t			gameState;
+	u_int16_t			reserved;
+};
+*/
 
 namespace pokerth_console
 {
-	class IdObject
+	class NetPacketPlayersTurn : NetPacket
 	{
-		public IdObject(uint id, string name)
+		public NetPacketPlayersTurn()
+			: base(NetPacket.NetTypePlayersTurn)
 		{
-			m_id = id;
-			m_name = name;
 		}
 
-		public uint Id
+		public NetPacketPlayersTurn(int size, BinaryReader r)
+			: base(NetPacket.NetTypePlayersTurn)
 		{
-			get
-			{
-				// No lock because only read access.
-				return m_id;
-			}
+			if (size != 12)
+				throw new NetPacketException("NetPacketPlayersTurn invalid size.");
+			Properties.Add(PropertyType.PlayerId,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			Properties.Add(PropertyType.GameState,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 		}
 
-		public string Name
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			get
-			{
-				// No lock because only read access.
-				return m_name;
-			}
+			visitor.VisitPlayersTurn(this);
 		}
 
-		private uint m_id;
-		private string m_name;
+		public override byte[] ToByteArray()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

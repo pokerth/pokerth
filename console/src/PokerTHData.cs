@@ -29,6 +29,9 @@ namespace pokerth_console
 		{
 			m_gameInfoList = new GameInfoList();
 			m_playerInfoList = new PlayerInfoList();
+			m_mutex = new Object();
+			m_myPlayerId = 0;
+			m_myGameId = 0;
 		}
 
 		public GameInfoList GameList
@@ -47,7 +50,46 @@ namespace pokerth_console
 			}
 		}
 
+		public uint MyPlayerId
+		{
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_myPlayerId;
+				}
+			}
+			set
+			{
+				lock (m_mutex)
+				{
+					m_myPlayerId = value;
+				}
+			}
+		}
+
+		public uint MyGameId
+		{
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_myGameId;
+				}
+			}
+			set
+			{
+				lock (m_mutex)
+				{
+					m_myGameId = value;
+				}
+			}
+		}
+
 		private GameInfoList m_gameInfoList;
 		private PlayerInfoList m_playerInfoList;
+		private Object m_mutex;
+		private uint m_myPlayerId;
+		private uint m_myGameId;
 	}
 }

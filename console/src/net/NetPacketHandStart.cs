@@ -20,36 +20,50 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
+
+/*
+struct GCC_PACKED NetPacketHandStartData
+{
+	NetPacketHeader		head;
+	u_int16_t			yourCard1;
+	u_int16_t			yourCard2;
+	u_int32_t			smallBlind;
+};
+*/
 
 namespace pokerth_console
 {
-	class IdObject
+	class NetPacketHandStart : NetPacket
 	{
-		public IdObject(uint id, string name)
+		public NetPacketHandStart()
+			: base(NetPacket.NetTypeHandStart)
 		{
-			m_id = id;
-			m_name = name;
 		}
 
-		public uint Id
+		public NetPacketHandStart(int size, BinaryReader r)
+			: base(NetPacket.NetTypeHandStart)
 		{
-			get
-			{
-				// No lock because only read access.
-				return m_id;
-			}
+			if (size != 12)
+				throw new NetPacketException("NetPacketHandStart invalid size.");
+			Properties.Add(PropertyType.FirstCard,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			Properties.Add(PropertyType.SecondCard,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			Properties.Add(PropertyType.SmallBlind,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt32())));
 		}
 
-		public string Name
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			get
-			{
-				// No lock because only read access.
-				return m_name;
-			}
+			visitor.VisitHandStart(this);
 		}
 
-		private uint m_id;
-		private string m_name;
+		public override byte[] ToByteArray()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

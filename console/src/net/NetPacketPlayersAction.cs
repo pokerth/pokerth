@@ -20,36 +20,49 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
+
+/*
+struct GCC_PACKED NetPacketPlayersActionData
+{
+	NetPacketHeader		head;
+	u_int16_t			gameState;
+	u_int16_t			playerAction;
+	u_int32_t			playerBet;
+};
+*/
 
 namespace pokerth_console
 {
-	class IdObject
+	class NetPacketPlayersAction : NetPacket
 	{
-		public IdObject(uint id, string name)
+		public NetPacketPlayersAction()
+			: base(NetPacket.NetTypePlayersAction)
 		{
-			m_id = id;
-			m_name = name;
 		}
 
-		public uint Id
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			get
-			{
-				// No lock because only read access.
-				return m_id;
-			}
+			visitor.VisitPlayersAction(this);
 		}
 
-		public string Name
+		public override byte[] ToByteArray()
 		{
-			get
-			{
-				// No lock because only read access.
-				return m_name;
-			}
-		}
+			MemoryStream memStream = new MemoryStream();
+			BinaryWriter w = new BinaryWriter(memStream);
 
-		private uint m_id;
-		private string m_name;
+			w.Write(IPAddress.HostToNetworkOrder((short)Type));
+			w.Write(IPAddress.HostToNetworkOrder((short)8));
+			w.Write(IPAddress.HostToNetworkOrder((short)
+				Convert.ToUInt16(Properties[PropertyType.GameState])));
+			w.Write(IPAddress.HostToNetworkOrder((short)
+				Convert.ToUInt16(Properties[PropertyType.PlayerAction])));
+			w.Write(IPAddress.HostToNetworkOrder((int)
+				Convert.ToUInt32(Properties[PropertyType.PlayerBet])));
+
+			return memStream.ToArray();
+		}
 	}
 }

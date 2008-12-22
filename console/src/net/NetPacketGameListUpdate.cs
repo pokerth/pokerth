@@ -20,36 +20,48 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
+
+/*
+struct GCC_PACKED NetPacketGameListUpdateData
+{
+	NetPacketHeader		head;
+	u_int32_t			gameId;
+	u_int16_t			gameMode;
+	u_int16_t			reserved;
+};
+*/
 
 namespace pokerth_console
 {
-	class IdObject
+	class NetPacketGameListUpdate : NetPacket
 	{
-		public IdObject(uint id, string name)
+		public NetPacketGameListUpdate()
+			: base(NetPacket.NetTypeGameListUpdate)
 		{
-			m_id = id;
-			m_name = name;
 		}
 
-		public uint Id
+		public NetPacketGameListUpdate(int size, BinaryReader r)
+			: base(NetPacket.NetTypeGameListUpdate)
 		{
-			get
-			{
-				// No lock because only read access.
-				return m_id;
-			}
+			if (size != 12)
+				throw new NetPacketException("NetPacketGameListUpdate invalid size.");
+			Properties.Add(PropertyType.GameId,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			Properties.Add(PropertyType.GameMode,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 		}
 
-		public string Name
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			get
-			{
-				// No lock because only read access.
-				return m_name;
-			}
+			visitor.VisitGameListUpdate(this);
 		}
 
-		private uint m_id;
-		private string m_name;
+		public override byte[] ToByteArray()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
