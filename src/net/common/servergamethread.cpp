@@ -310,12 +310,14 @@ ServerGameThread::InternalKickPlayer(unsigned playerId)
 	// Only kick if the player was found.
 	if (tmpSession.sessionData.get())
 		MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_KICKED);
-	else
-	{
-		boost::shared_ptr<PlayerData> tmpData(RemoveComputerPlayer(playerId));
-		if (tmpData)
-			RemovePlayerData(tmpData, NTF_NET_REMOVED_KICKED);
-	}
+	// KICKING COMPUTER PLAYERS IS BUGGY AND OCCASIONALLY CAUSES A CRASH
+	// Disabled for now.
+	//else
+	//{
+	//	boost::shared_ptr<PlayerData> tmpData(RemoveComputerPlayer(playerId));
+	//	if (tmpData)
+	//		RemovePlayerData(tmpData, NTF_NET_REMOVED_KICKED);
+	//}
 }
 
 void
