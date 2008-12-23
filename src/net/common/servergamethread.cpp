@@ -389,7 +389,7 @@ ServerGameThread::InternalVoteKick(SessionWrapper byWhom, unsigned petitionId, K
 	{
 		boost::mutex::scoped_lock lock(m_voteKickDataMutex);
 		// Check whether this is the valid petition id.
-		if (m_voteKickData->petitionId == petitionId)
+		if (m_voteKickData && m_voteKickData->petitionId == petitionId)
 		{
 			// Check whether the player already voted.
 			unsigned playerId = byWhom.playerData->GetUniqueId();
