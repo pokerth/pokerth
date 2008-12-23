@@ -23,7 +23,7 @@ using System.Text;
 
 namespace pokerth_lib
 {
-	class NetPacketException : Exception
+	public class NetPacketException : Exception
 	{
 		public NetPacketException(string message)
 			: base(message)

@@ -23,23 +23,24 @@ using System.Text;
 
 namespace pokerth_lib
 {
-	interface INetPacketVisitor
+	public interface INetPacketVisitor
 	{
-		void VisitInit(NetPacketInit p);
-		void VisitInitAck(NetPacketInitAck p);
-		void VisitGameListNew(NetPacketGameListNew p);
-		void VisitGameListUpdate(NetPacketGameListUpdate p);
-		void VisitRetrievePlayerInfo(NetPacketRetrievePlayerInfo p);
-		void VisitPlayerInfo(NetPacketPlayerInfo p);
-		void VisitJoinGame(NetPacketJoinGame p);
-		void VisitJoinGameAck(NetPacketJoinGameAck p);
-		void VisitStartEvent(NetPacketStartEvent p);
-		void VisitStartEventAck(NetPacketStartEventAck p);
-		void VisitGameStart(NetPacketGameStart p);
-		void VisitHandStart(NetPacketHandStart p);
-		void VisitPlayersTurn(NetPacketPlayersTurn p);
-		void VisitPlayersAction(NetPacketPlayersAction p);
-		void VisitPlayersActionDone(NetPacketPlayersActionDone p);
-		void VisitPlayersActionRejected(NetPacketPlayersActionRejected p);
+		void VisitInit(NetPacket p);
+		void VisitInitAck(NetPacket p);
+		void VisitGameListNew(NetPacket p);
+		void VisitGameListUpdate(NetPacket p);
+		void VisitRetrievePlayerInfo(NetPacket p);
+		void VisitPlayerInfo(NetPacket p);
+		void VisitCreateGame(NetPacket p);
+		void VisitJoinGame(NetPacket p);
+		void VisitJoinGameAck(NetPacket p);
+		void VisitStartEvent(NetPacket p);
+		void VisitStartEventAck(NetPacket p);
+		void VisitGameStart(NetPacket p);
+		void VisitHandStart(NetPacket p);
+		void VisitPlayersTurn(NetPacket p);
+		void VisitPlayersAction(NetPacket p);
+		void VisitPlayersActionDone(NetPacket p);
+		void VisitPlayersActionRejected(NetPacket p);
 	}
 }

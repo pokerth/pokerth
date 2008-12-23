@@ -77,5 +77,65 @@ namespace pokerth_lib
 			}
 			return cardString;
 		}
+
+		public static string StateToString(Hand.State state)
+		{
+			string stateString;
+
+			switch (state)
+			{
+				case Hand.State.Preflop :
+					stateString = "Preflop";
+					break;
+				case Hand.State.Flop :
+					stateString = "Flop";
+					break;
+				case Hand.State.Turn :
+					stateString = "Turn";
+					break;
+				case Hand.State.River :
+					stateString = "River";
+					break;
+				default :
+					stateString = "Invalid state";
+					break;
+			}
+
+			return stateString;
+		}
+
+		public static string ActionToString(Hand.Action action)
+		{
+			string actionString;
+
+			switch (action)
+			{
+				case Hand.Action.None:
+					actionString = "None";
+					break;
+				case Hand.Action.Fold:
+					actionString = "Fold";
+					break;
+				case Hand.Action.Check:
+					actionString = "Check";
+					break;
+				case Hand.Action.Call:
+					actionString = "Call";
+					break;
+				case Hand.Action.Bet:
+					actionString = "Bet";
+					break;
+				case Hand.Action.Raise:
+					actionString = "Raise";
+					break;
+				case Hand.Action.AllIn:
+					actionString = "All in";
+					break;
+				default :
+					actionString = "Unknown action";
+					break;
+			}
+			return actionString;
+		}
 	}
 }

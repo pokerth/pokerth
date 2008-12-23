@@ -58,7 +58,7 @@ namespace pokerth_lib
 			List<string> playerSlots = new List<string>();
 			for (int i = 0; i < curNumPlayers; i++)
 				playerSlots.Add(Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			ListProperties.Add(ListPropertyType.PlayerSlots, playerSlots);
+			ListProperties.Add(ListPropType.PlayerSlots, playerSlots);
 		}
 
 		public override void Accept(INetPacketVisitor visitor)

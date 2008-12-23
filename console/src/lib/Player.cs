@@ -9,6 +9,7 @@ namespace pokerth_lib
 		public Player()
 		{
 			m_mutex = new Object();
+			m_curAction = Hand.Action.None;
 		}
 
 		public int[] Cards
@@ -26,6 +27,24 @@ namespace pokerth_lib
 				lock (m_mutex)
 				{
 					m_cards = value;
+				}
+			}
+		}
+
+		public Hand.Action CurAction
+		{
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_curAction;
+				}
+			}
+			set
+			{
+				lock (m_mutex)
+				{
+					m_curAction = value;
 				}
 			}
 		}
@@ -48,7 +67,7 @@ namespace pokerth_lib
 			}
 		}
 
-		private uint TotalBet
+		public uint TotalBet
 		{
 			get
 			{
@@ -68,6 +87,7 @@ namespace pokerth_lib
 
 		private Object m_mutex;
 		private int[] m_cards;
+		private Hand.Action m_curAction;
 		private uint m_money;
 		private uint m_totalBet;
 	}

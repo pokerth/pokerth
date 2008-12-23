@@ -26,7 +26,7 @@ using System.IO;
 
 namespace pokerth_lib
 {
-	abstract class NetPacket
+	public abstract class NetPacket
 	{
 		public const int NetTypeInit							= 0x0001;
 		public const int NetTypeInitAck							= 0x0002;
@@ -133,7 +133,7 @@ namespace pokerth_lib
 			ActionRejectReason,
 		}
 
-		public enum ListPropertyType
+		public enum ListPropType
 		{
 			PlayerSlots,
 			ManualBlindSlots,
@@ -172,13 +172,16 @@ namespace pokerth_lib
 				case NetTypePlayersTurn :
 					tmpPacket = new NetPacketPlayersTurn(size, reader);
 					break;
+				case NetTypePlayersActionDone :
+					tmpPacket = new NetPacketPlayersActionDone(size, reader);
+					break;
 				default:
 					break;
 			}
 			return tmpPacket;
 		}
 
-		public void ScanGameInfoBlock(BinaryReader r)
+		protected void ScanGameInfoBlock(BinaryReader r)
 		{
 			Properties.Add(PropType.MaxNumPlayers,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
@@ -206,14 +209,46 @@ namespace pokerth_lib
 			List<string> blindSlots = new List<string>();
 			for (int i = 0; i < numManualBlinds; i++)
 				blindSlots.Add(Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			ListProperties.Add(ListPropertyType.ManualBlindSlots, blindSlots);
+			ListProperties.Add(ListPropType.ManualBlindSlots, blindSlots);
+		}
+
+		protected void WriteGameInfoBlock(BinaryWriter w)
+		{
+			w.Write(IPAddress.HostToNetworkOrder((short)
+				Convert.ToUInt16(Properties[PropType.MaxNumPlayers])));
+			w.Write(IPAddress.HostToNetworkOrder((short)
+				Convert.ToUInt16(Properties[PropType.RaiseIntervalMode])));
+			w.Write(IPAddress.HostToNetworkOrder((short)
+				Convert.ToUInt16(Properties[PropType.RaiseSmallBlindInterval])));
+			w.Write(IPAddress.HostToNetworkOrder((short)
+				Convert.ToUInt16(Properties[PropType.RaiseMode])));
+			w.Write(IPAddress.HostToNetworkOrder((short)
+				Convert.ToUInt16(Properties[PropType.EndRaiseMode])));
+			w.Write(IPAddress.HostToNetworkOrder((short)
+				ListProperties[ListPropType.ManualBlindSlots].Count));
+			w.Write(IPAddress.HostToNetworkOrder((short)
+				Convert.ToUInt16(Properties[PropType.ProposedGuiSpeed])));
+			w.Write(IPAddress.HostToNetworkOrder((short)
+				Convert.ToUInt16(Properties[PropType.PlayerActionTimeout])));
+			w.Write(IPAddress.HostToNetworkOrder((int)
+				Convert.ToUInt32(Properties[PropType.FirstSmallBlind])));
+			w.Write(IPAddress.HostToNetworkOrder((int)
+				Convert.ToUInt32(Properties[PropType.EndRaiseSmallBlindValue])));
+			w.Write(IPAddress.HostToNetworkOrder((int)
+				Convert.ToUInt32(Properties[PropType.StartMoney])));
+
+			foreach (string s in ListProperties[ListPropType.ManualBlindSlots])
+			{
+				w.Write(IPAddress.HostToNetworkOrder((int)
+					Convert.ToUInt32(s)));
+			}
 		}
 
 		public NetPacket(int type)
 		{
 			m_type = type;
 			m_properties = new Dictionary<PropType, string>();
-			m_listProperties = new Dictionary<ListPropertyType, List<string>>();
+			m_listProperties = new Dictionary<ListPropType, List<string>>();
 		}
 
 		public Dictionary<PropType, string> Properties
@@ -228,7 +263,7 @@ namespace pokerth_lib
 			}
 		}
 
-		public Dictionary<ListPropertyType, List<string>> ListProperties
+		public Dictionary<ListPropType, List<string>> ListProperties
 		{
 			set
 			{
@@ -259,6 +294,6 @@ namespace pokerth_lib
 
 		private int m_type;
 		private Dictionary<PropType, string> m_properties;
-		private Dictionary<ListPropertyType, List<string>> m_listProperties;
+		private Dictionary<ListPropType, List<string>> m_listProperties;
 	}
 }

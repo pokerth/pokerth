@@ -35,6 +35,17 @@ namespace pokerth_lib
 			River
 		}
 
+		public enum Action
+		{
+			None = 0,
+			Fold,
+			Check,
+			Call,
+			Bet,
+			Raise,
+			AllIn
+		}
+
 		public Hand(Dictionary<uint, Player> players, uint myPlayerId, uint smallBlind)
 		{
 			m_mutex = new Object();

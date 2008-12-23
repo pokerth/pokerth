@@ -56,6 +56,27 @@ namespace pokerth_console
 				h.Players[h.MyPlayerId].Money);
 		}
 
+		public void MyTurn(Hand.State state)
+		{
+			Console.WriteLine("--> {0}: Your turn.",
+				Log.StateToString(state));
+		}
+
+		public void PlayersTurn(Hand.State state, string player)
+		{
+			Console.WriteLine("{0}: {1}'s turn.",
+				Log.StateToString(state),
+				player);
+		}
+
+		public void ActionDone(string name, Hand.Action action, uint totalBet, uint money, uint highestSet, uint minimumRaise)
+		{
+			Console.WriteLine("{0} acts: {1}. Total bet: {2}. Money left: {3}",
+				name, Log.ActionToString(action), totalBet, money);
+			Console.WriteLine("Highest set: {0}. Minimum raise: {1}",
+				highestSet, minimumRaise);
+		}
+
 		public void Error(string message)
 		{
 			Console.WriteLine("Error: " + message);
