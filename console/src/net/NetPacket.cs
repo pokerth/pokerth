@@ -20,6 +20,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
 using System.IO;
 
 namespace pokerth_console
@@ -87,8 +89,7 @@ namespace pokerth_console
 
 		public const int NetTypeError							= 0x0400;
 
-
-		public enum PropertyType
+		public enum PropType
 		{
 			RequestedVersionMajor,
 			RequestedVersionMinor,
@@ -111,6 +112,16 @@ namespace pokerth_console
 			GamePassword,
 			GameState,
 			AdminPlayerId,
+			MaxNumPlayers,
+			RaiseIntervalMode,
+			RaiseSmallBlindInterval,
+			RaiseMode,
+			EndRaiseMode,
+			ProposedGuiSpeed,
+			PlayerActionTimeout,
+			FirstSmallBlind,
+			EndRaiseSmallBlindValue,
+			StartMoney,
 			CurNumPlayers,
 			StartFlags,
 			StartDealerPlayerId,
@@ -124,7 +135,8 @@ namespace pokerth_console
 
 		public enum ListPropertyType
 		{
-			PropPlayerSlots
+			PlayerSlots,
+			ManualBlindSlots,
 		}
 
 		public static NetPacket Create(int type, int size, BinaryReader reader)
@@ -166,14 +178,45 @@ namespace pokerth_console
 			return tmpPacket;
 		}
 
+		public void ScanGameInfoBlock(BinaryReader r)
+		{
+			Properties.Add(PropType.MaxNumPlayers,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			Properties.Add(PropType.RaiseIntervalMode,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			Properties.Add(PropType.RaiseSmallBlindInterval,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			Properties.Add(PropType.RaiseMode,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			Properties.Add(PropType.EndRaiseMode,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			int numManualBlinds = r.ReadUInt16();
+			Properties.Add(PropType.ProposedGuiSpeed,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			Properties.Add(PropType.PlayerActionTimeout,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			Properties.Add(PropType.FirstSmallBlind,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			Properties.Add(PropType.EndRaiseSmallBlindValue,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			Properties.Add(PropType.StartMoney,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+
+			// Scan manual blinds.
+			List<string> blindSlots = new List<string>();
+			for (int i = 0; i < numManualBlinds; i++)
+				blindSlots.Add(Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			ListProperties.Add(ListPropertyType.ManualBlindSlots, blindSlots);
+		}
+
 		public NetPacket(int type)
 		{
 			m_type = type;
-			m_properties = new Dictionary<PropertyType, string>();
+			m_properties = new Dictionary<PropType, string>();
 			m_listProperties = new Dictionary<ListPropertyType, List<string>>();
 		}
 
-		public Dictionary<PropertyType, string> Properties
+		public Dictionary<PropType, string> Properties
 		{
 			set
 			{
@@ -215,7 +258,7 @@ namespace pokerth_console
 		}
 
 		private int m_type;
-		private Dictionary<PropertyType, string> m_properties;
+		private Dictionary<PropType, string> m_properties;
 		private Dictionary<ListPropertyType, List<string>> m_listProperties;
 	}
 }

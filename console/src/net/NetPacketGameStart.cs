@@ -48,17 +48,17 @@ namespace pokerth_console
 		{
 			if (size < 20)
 				throw new NetPacketException("NetPacketGameStart invalid size.");
-			Properties.Add(PropertyType.StartDealerPlayerId,
+			Properties.Add(PropType.StartDealerPlayerId,
 				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
 			int curNumPlayers = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
-			Properties.Add(PropertyType.CurNumPlayers, Convert.ToString(curNumPlayers));
+			Properties.Add(PropType.CurNumPlayers, Convert.ToString(curNumPlayers));
 			r.ReadBytes(2); // reserved
 
 			// Read player ids.
 			List<string> playerSlots = new List<string>();
 			for (int i = 0; i < curNumPlayers; i++)
 				playerSlots.Add(Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			ListProperties.Add(ListPropertyType.PropPlayerSlots, playerSlots);
+			ListProperties.Add(ListPropertyType.PlayerSlots, playerSlots);
 		}
 
 		public override void Accept(INetPacketVisitor visitor)

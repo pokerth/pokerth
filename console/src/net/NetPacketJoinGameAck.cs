@@ -49,12 +49,14 @@ namespace pokerth_console
 		{
 			if (size < 12)
 				throw new NetPacketException("NetTypeJoinGameAck invalid size.");
-			Properties.Add(PropertyType.GameId,
+			Properties.Add(PropType.GameId,
 				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropertyType.PlayerRights,
+			Properties.Add(PropType.PlayerRights,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			r.ReadUInt16(); // reserved
 
-			// skip game info block
+			// Scan game info block
+			ScanGameInfoBlock(r);
 		}
 
 		public override void Accept(INetPacketVisitor visitor)

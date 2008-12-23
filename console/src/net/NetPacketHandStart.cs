@@ -48,12 +48,12 @@ namespace pokerth_console
 		{
 			if (size != 12)
 				throw new NetPacketException("NetPacketHandStart invalid size.");
-			Properties.Add(PropertyType.FirstCard,
+			Properties.Add(PropType.FirstCard,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-			Properties.Add(PropertyType.SecondCard,
+			Properties.Add(PropType.SecondCard,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-			Properties.Add(PropertyType.SmallBlind,
-				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt32())));
+			Properties.Add(PropType.SmallBlind,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
 		}
 
 		public override void Accept(INetPacketVisitor visitor)

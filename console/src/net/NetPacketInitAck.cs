@@ -49,13 +49,13 @@ namespace pokerth_console
 		{
 			if (size != 16)
 				throw new NetPacketException("NetPacketInitAck invalid size.");
-			Properties.Add(PropertyType.LatestGameVersion,
+			Properties.Add(PropType.LatestGameVersion,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-			Properties.Add(PropertyType.LatestBetaRevision,
+			Properties.Add(PropType.LatestBetaRevision,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-			Properties.Add(PropertyType.SessionId,
+			Properties.Add(PropType.SessionId,
 				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropertyType.PlayerId,
+			Properties.Add(PropType.PlayerId,
 				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
 		}
 

@@ -69,25 +69,25 @@ namespace pokerth_console
 		{
 			if (size < 20)
 				throw new NetPacketException("NetPacketGameListNew invalid size.");
-			Properties.Add(PropertyType.GameId,
+			Properties.Add(PropType.GameId,
 				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropertyType.AdminPlayerId,
+			Properties.Add(PropType.AdminPlayerId,
 				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropertyType.GameMode,
+			Properties.Add(PropType.GameMode,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 
 			int gameNameLen = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
 
 			int curNumPlayers = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
-			Properties.Add(PropertyType.CurNumPlayers, Convert.ToString(curNumPlayers));
-			Properties.Add(PropertyType.GamePrivacyFlags,
+			Properties.Add(PropType.CurNumPlayers, Convert.ToString(curNumPlayers));
+			Properties.Add(PropType.GamePrivacyFlags,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 
-			r.ReadBytes(28); // Skip game info block for now.
+			ScanGameInfoBlock(r);
 
 			// Read name of the game.
 			byte[] tmpName = r.ReadBytes(gameNameLen);
-			Properties.Add(PropertyType.GameName,
+			Properties.Add(PropType.GameName,
 				Encoding.UTF8.GetString(tmpName));
 			// Skip the padding.
 			int namePadding = AddPadding(tmpName.Length) - tmpName.Length;
@@ -98,7 +98,7 @@ namespace pokerth_console
 			List<string> playerSlots = new List<string>();
 			for (int i = 0; i < curNumPlayers; i++)
 				playerSlots.Add(Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			ListProperties.Add(ListPropertyType.PropPlayerSlots, playerSlots);
+			ListProperties.Add(ListPropertyType.PlayerSlots, playerSlots);
 		}
 
 		public override void Accept(INetPacketVisitor visitor)

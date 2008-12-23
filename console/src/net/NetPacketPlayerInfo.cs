@@ -52,17 +52,17 @@ namespace pokerth_console
 		{
 			if (size < 16)
 				throw new NetPacketException("NetPacketPlayerInfo invalid size.");
-			Properties.Add(PropertyType.PlayerId,
+			Properties.Add(PropType.PlayerId,
 				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
 			int playerFlags = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
-			Properties.Add(PropertyType.PlayerFlags, Convert.ToString(playerFlags));
+			Properties.Add(PropType.PlayerFlags, Convert.ToString(playerFlags));
 			int playerNameLen = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
 			r.ReadUInt32(); // reserved
 			if ((playerFlags & PlayerFlagAvatar) == PlayerFlagAvatar)
 				r.ReadBytes(16); // Skip avatar md5.
 
 			byte[] tmpName = r.ReadBytes(playerNameLen);
-			Properties.Add(PropertyType.PlayerName,
+			Properties.Add(PropType.PlayerName,
 				Encoding.UTF8.GetString(tmpName));
 		}
 

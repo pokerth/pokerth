@@ -50,13 +50,13 @@ namespace pokerth_console
 		{
 			if (size != 28)
 				throw new NetPacketException("NetPacketPlayersActionRejected invalid size.");
-			Properties.Add(PropertyType.GameState,
+			Properties.Add(PropType.GameState,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-			Properties.Add(PropertyType.PlayerAction,
+			Properties.Add(PropType.PlayerAction,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-			Properties.Add(PropertyType.PlayerBet,
-				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt32())));
-			Properties.Add(PropertyType.ActionRejectReason,
+			Properties.Add(PropType.PlayerBet,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			Properties.Add(PropType.ActionRejectReason,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 		}
 

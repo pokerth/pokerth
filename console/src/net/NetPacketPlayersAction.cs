@@ -56,11 +56,11 @@ namespace pokerth_console
 			w.Write(IPAddress.HostToNetworkOrder((short)Type));
 			w.Write(IPAddress.HostToNetworkOrder((short)8));
 			w.Write(IPAddress.HostToNetworkOrder((short)
-				Convert.ToUInt16(Properties[PropertyType.GameState])));
+				Convert.ToUInt16(Properties[PropType.GameState])));
 			w.Write(IPAddress.HostToNetworkOrder((short)
-				Convert.ToUInt16(Properties[PropertyType.PlayerAction])));
+				Convert.ToUInt16(Properties[PropType.PlayerAction])));
 			w.Write(IPAddress.HostToNetworkOrder((int)
-				Convert.ToUInt32(Properties[PropertyType.PlayerBet])));
+				Convert.ToUInt32(Properties[PropType.PlayerBet])));
 
 			return memStream.ToArray();
 		}

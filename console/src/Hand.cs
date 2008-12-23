@@ -20,48 +20,73 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Net;
-using System.Net.Sockets;
-using System.IO;
-
-/*
-struct GCC_PACKED NetPacketPlayersTurnData
-{
-	NetPacketHeader		head;
-	u_int32_t			playerId;
-	u_int16_t			gameState;
-	u_int16_t			reserved;
-};
-*/
 
 namespace pokerth_console
 {
-	class NetPacketPlayersTurn : NetPacket
+	class Hand
 	{
-		public NetPacketPlayersTurn()
-			: base(NetPacket.NetTypePlayersTurn)
+		public const int MaxPlayers = 7;
+
+		public enum State
 		{
+			Preflop = 0,
+			Flop,
+			Turn,
+			River
 		}
 
-		public NetPacketPlayersTurn(int size, BinaryReader r)
-			: base(NetPacket.NetTypePlayersTurn)
+		public Hand(Dictionary<uint, Player> players, uint myPlayerId, uint smallBlind)
 		{
-			if (size != 12)
-				throw new NetPacketException("NetPacketPlayersTurn invalid size.");
-			Properties.Add(PropType.PlayerId,
-				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropType.GameState,
-				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			m_mutex = new Object();
+			m_state = State.Preflop;
+			m_players = players;
+			m_myPlayerId = myPlayerId;
 		}
 
-		public override void Accept(INetPacketVisitor visitor)
+		public State CurState
 		{
-			visitor.VisitPlayersTurn(this);
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_state;
+				}
+			}
+			set
+			{
+				lock (m_mutex)
+				{
+					m_state = value;
+				}
+			}
 		}
 
-		public override byte[] ToByteArray()
+		public Dictionary<uint, Player> Players
 		{
-			throw new NotImplementedException();
+			get
+			{
+				lock (m_mutex)
+				{
+					// Should not be modified. This is actually a const return ;-).
+					return m_players;
+				}
+			}
 		}
+
+		public uint MyPlayerId
+		{
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_myPlayerId;
+				}
+			}
+		}
+
+		private Object m_mutex;
+		private State m_state;
+		private Dictionary<uint, Player> m_players;
+		uint m_myPlayerId;
 	}
 }

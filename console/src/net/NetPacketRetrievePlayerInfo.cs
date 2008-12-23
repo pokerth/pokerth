@@ -54,7 +54,7 @@ namespace pokerth_console
 			w.Write(IPAddress.HostToNetworkOrder((short)Type));
 			w.Write(IPAddress.HostToNetworkOrder((short)8));
 			w.Write(IPAddress.HostToNetworkOrder((int)
-				Convert.ToUInt32(Properties[PropertyType.PlayerId])));
+				Convert.ToUInt32(Properties[PropType.PlayerId])));
 
 			return memStream.ToArray();
 		}

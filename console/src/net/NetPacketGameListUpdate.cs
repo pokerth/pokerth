@@ -48,9 +48,9 @@ namespace pokerth_console
 		{
 			if (size != 12)
 				throw new NetPacketException("NetPacketGameListUpdate invalid size.");
-			Properties.Add(PropertyType.GameId,
+			Properties.Add(PropType.GameId,
 				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropertyType.GameMode,
+			Properties.Add(PropType.GameMode,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 		}
 

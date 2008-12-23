@@ -51,6 +51,24 @@ namespace pokerth_console
 			}
 		}
 
+		public Hand CurHand
+		{
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_curHand;
+				}
+			}
+			set
+			{
+				lock (m_mutex)
+				{
+					m_curHand = value;
+				}
+			}
+		}
+
 		public string MyName
 		{
 			get
@@ -97,6 +115,7 @@ namespace pokerth_console
 
 		private GameInfoList m_gameInfoList;
 		private PlayerInfoList m_playerInfoList;
+		private Hand m_curHand;
 		private Object m_mutex;
 		private uint m_myPlayerId;
 		private uint m_myGameId;

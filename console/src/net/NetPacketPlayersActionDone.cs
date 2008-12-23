@@ -52,20 +52,20 @@ namespace pokerth_console
 		{
 			if (size != 28)
 				throw new NetPacketException("NetPacketPlayersActionDone invalid size.");
-			Properties.Add(PropertyType.PlayerId,
+			Properties.Add(PropType.PlayerId,
 				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropertyType.GameState,
+			Properties.Add(PropType.GameState,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-			Properties.Add(PropertyType.PlayerAction,
+			Properties.Add(PropType.PlayerAction,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-			Properties.Add(PropertyType.PlayerBetTotal,
-				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt32())));
-			Properties.Add(PropertyType.PlayerMoney,
-				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt32())));
-			Properties.Add(PropertyType.HighestSet,
-				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt32())));
-			Properties.Add(PropertyType.MinimumRaise,
-				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt32())));
+			Properties.Add(PropType.PlayerBetTotal,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			Properties.Add(PropType.PlayerMoney,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			Properties.Add(PropType.HighestSet,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			Properties.Add(PropType.MinimumRaise,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
 		}
 
 		public override void Accept(INetPacketVisitor visitor)

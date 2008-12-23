@@ -47,7 +47,7 @@ namespace pokerth_console
 		{
 			if (size != 8)
 				throw new NetPacketException("NetTypeStartEvent invalid size.");
-			Properties.Add(PropertyType.StartFlags,
+			Properties.Add(PropType.StartFlags,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 		}
 
@@ -64,7 +64,7 @@ namespace pokerth_console
 			w.Write(IPAddress.HostToNetworkOrder((short)Type));
 			w.Write(IPAddress.HostToNetworkOrder((short)8));
 			w.Write(IPAddress.HostToNetworkOrder((short)
-				Convert.ToUInt16(Properties[PropertyType.StartFlags])));
+				Convert.ToUInt16(Properties[PropType.StartFlags])));
 			w.Write(IPAddress.HostToNetworkOrder((short)0)); // reserved
 
 			return memStream.ToArray();

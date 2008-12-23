@@ -40,7 +40,7 @@ namespace pokerth_console
 		public void VisitInitAck(NetPacketInitAck p)
 		{
 			m_data.MyPlayerId =
-				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PlayerId]);
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerId]);
 			m_callback.InitDone();
 		}
 
@@ -48,18 +48,19 @@ namespace pokerth_console
 		{
 			// Add game to list.
 			m_data.GameList.AddGameInfo(new GameInfo(
-				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.GameId]),
-				p.Properties[NetPacket.PropertyType.GameName],
-				(GameInfo.Mode)Convert.ToInt32(p.Properties[NetPacket.PropertyType.GameMode]),
-				p.ListProperties[NetPacket.ListPropertyType.PropPlayerSlots].
-					ConvertAll<uint>(Convert.ToUInt32)));
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.GameId]),
+				p.Properties[NetPacket.PropType.GameName],
+				(GameInfo.Mode)Convert.ToInt32(p.Properties[NetPacket.PropType.GameMode]),
+				p.ListProperties[NetPacket.ListPropertyType.PlayerSlots].
+					ConvertAll<uint>(Convert.ToUInt32),
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.StartMoney])));
 		}
 
 		public void VisitGameListUpdate(NetPacketGameListUpdate p)
 		{
 			GameInfo.Mode mode =
-				(GameInfo.Mode)Convert.ToInt32(p.Properties[NetPacket.PropertyType.GameMode]);
-			uint id = Convert.ToUInt32(p.Properties[NetPacket.PropertyType.GameId]);
+				(GameInfo.Mode)Convert.ToInt32(p.Properties[NetPacket.PropType.GameMode]);
+			uint id = Convert.ToUInt32(p.Properties[NetPacket.PropType.GameId]);
 			if (mode == GameInfo.Mode.Closed) // Remove game if it is has been closed.
 				m_data.GameList.RemoveGameInfo(id);
 			else
@@ -75,8 +76,8 @@ namespace pokerth_console
 		{
 			// Add player to list.
 			m_data.PlayerList.AddPlayerInfo(new PlayerInfo(
-				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PlayerId]),
-				p.Properties[NetPacket.PropertyType.PlayerName]));
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerId]),
+				p.Properties[NetPacket.PropType.PlayerName]));
 		}
 
 		public void VisitJoinGame(NetPacketJoinGame p)
@@ -87,7 +88,7 @@ namespace pokerth_console
 		public void VisitJoinGameAck(NetPacketJoinGameAck p)
 		{
 			m_data.MyGameId =
-				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.GameId]);
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.GameId]);
 			m_callback.JoinedGame(m_data.GameList.GetGameInfo(m_data.MyGameId).Name);
 		}
 
@@ -100,7 +101,7 @@ namespace pokerth_console
 				if (!m_data.PlayerList.HasPlayer(id))
 				{
 					NetPacketRetrievePlayerInfo request = new NetPacketRetrievePlayerInfo();
-					request.Properties.Add(NetPacket.PropertyType.PlayerId, Convert.ToString(id));
+					request.Properties.Add(NetPacket.PropType.PlayerId, Convert.ToString(id));
 					m_sender.Send(request);
 				}
 			}
@@ -116,29 +117,43 @@ namespace pokerth_console
 
 		public void VisitGameStart(NetPacketGameStart p)
 		{
-			// Generate player list.
-			List<string> players = new List<string>();
+			// Generate player list, for gui and as hand data.
+			List<string> strPlayers = new List<string>();
 
-			List<uint> slots = p.ListProperties[NetPacket.ListPropertyType.PropPlayerSlots].
+			List<uint> slots = p.ListProperties[NetPacket.ListPropertyType.PlayerSlots].
 				ConvertAll<uint>(Convert.ToUInt32);
+			m_players = new Dictionary<uint, Player>();
+
 			foreach (uint i in slots)
 			{
 				if (m_data.PlayerList.HasPlayer(i))
-					players.Add(m_data.PlayerList.GetPlayerInfo(i).Name);
+					strPlayers.Add(m_data.PlayerList.GetPlayerInfo(i).Name);
 				else if (i == m_data.MyPlayerId)
-					players.Add(m_data.MyName);
+					strPlayers.Add(m_data.MyName);
 				else
-					players.Add(Convert.ToString(i));
+					strPlayers.Add(Convert.ToString(i));
+				// Set player data.
+				Player tmpPlayer = new Player();
+				tmpPlayer.Money = m_data.GameList.GetGameInfo(m_data.MyGameId).StartMoney;
+				m_players.Add(i, tmpPlayer);
 			}
 
-			m_callback.GameStarted(players);
+			m_callback.GameStarted(strPlayers);
 		}
 
 		public void VisitHandStart(NetPacketHandStart p)
 		{
-			m_callback.HandStarted(
-				Convert.ToInt32(p.Properties[NetPacket.PropertyType.FirstCard]),
-				Convert.ToInt32(p.Properties[NetPacket.PropertyType.SecondCard]));
+			int[] tmpCards = new int[2];
+			tmpCards[0] = 
+				Convert.ToInt32(p.Properties[NetPacket.PropType.FirstCard]);
+			tmpCards[1] =
+				Convert.ToInt32(p.Properties[NetPacket.PropType.SecondCard]);
+			m_players[m_data.MyPlayerId].Cards = tmpCards;
+			m_data.CurHand = new Hand(
+				m_players,
+				m_data.MyPlayerId,
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.SmallBlind]));
+			m_callback.HandStarted(m_data.CurHand);
 		}
 
 		public void VisitPlayersTurn(NetPacketPlayersTurn p)
@@ -164,5 +179,6 @@ namespace pokerth_console
 		private PokerTHData m_data;
 		private SenderThread m_sender;
 		private ICallback m_callback;
+		private Dictionary<uint, Player> m_players;
 	}
 }
