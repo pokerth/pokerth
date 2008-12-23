@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace pokerth_console
+namespace pokerth_lib
 {
-	interface ICallback
+	public interface ICallback
 	{
 		void InitDone();
 		void JoinedGame(string name);

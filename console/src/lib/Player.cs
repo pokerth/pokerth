@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace pokerth_console
+namespace pokerth_lib
 {
-	class Player
+	public class Player
 	{
 		public Player()
 		{

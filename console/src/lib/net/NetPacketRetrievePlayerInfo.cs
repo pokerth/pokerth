@@ -20,53 +20,43 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
 
-namespace pokerth_console
+/*
+struct GCC_PACKED NetPacketRetrievePlayerInfoData
 {
-	class ServerSettings
+	NetPacketHeader		head;
+	u_int32_t			playerId;
+};
+*/
+
+namespace pokerth_lib
+{
+	class NetPacketRetrievePlayerInfo : NetPacket
 	{
-		public ServerSettings()
+		public NetPacketRetrievePlayerInfo()
+			: base(NetPacket.NetTypeRetrievePlayerInfo)
 		{
 		}
 
-		public string IPv4Address
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			get
-			{
-				return m_ipv4Address;
-			}
-			set
-			{
-				m_ipv4Address = value;
-			}
+			visitor.VisitRetrievePlayerInfo(this);
 		}
 
-		public string IPv6Address
+		public override byte[] ToByteArray()
 		{
-			get
-			{
-				return m_ipv6Address;
-			}
-			set
-			{
-				m_ipv6Address = value;
-			}
-		}
+			MemoryStream memStream = new MemoryStream();
+			BinaryWriter w = new BinaryWriter(memStream);
 
-		public int Port
-		{
-			get
-			{
-				return m_port;
-			}
-			set
-			{
-				m_port = value;
-			}
-		}
+			w.Write(IPAddress.HostToNetworkOrder((short)Type));
+			w.Write(IPAddress.HostToNetworkOrder((short)8));
+			w.Write(IPAddress.HostToNetworkOrder((int)
+				Convert.ToUInt32(Properties[PropType.PlayerId])));
 
-		private string m_ipv4Address = "";
-		private string m_ipv6Address = "";
-		private int m_port = 0;
+			return memStream.ToArray();
+		}
 	}
 }

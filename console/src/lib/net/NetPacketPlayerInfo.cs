@@ -20,58 +20,60 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
 using System.IO;
 
-namespace pokerth_console
+/*
+struct GCC_PACKED NetPacketPlayerInfoData
 {
-	class PlayerInfoList
+	NetPacketHeader		head;
+	u_int32_t			playerId;
+	u_int16_t			playerFlags;
+	u_int16_t			playerNameLength;
+	u_int32_t			reserved;
+};
+*/
+
+namespace pokerth_lib
+{
+	class NetPacketPlayerInfo : NetPacket
 	{
-		public PlayerInfoList()
+		public const int PlayerFlagHuman = 0x01;
+		public const int PlayerFlagAvatar = 0x02;
+
+		public NetPacketPlayerInfo()
+			: base(NetPacket.NetTypePlayerInfo)
 		{
-			m_list = new Dictionary<uint, PlayerInfo>();
 		}
 
-		public void AddPlayerInfo(PlayerInfo info)
+		public NetPacketPlayerInfo(int size, BinaryReader r)
+			: base(NetPacket.NetTypePlayerInfo)
 		{
-			lock (m_list)
-			{
-				if (m_list.ContainsKey(info.Id))
-					m_list[info.Id] = info;
-				else
-					m_list.Add(info.Id, info);
-			}
+			if (size < 16)
+				throw new NetPacketException("NetPacketPlayerInfo invalid size.");
+			Properties.Add(PropType.PlayerId,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			int playerFlags = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
+			Properties.Add(PropType.PlayerFlags, Convert.ToString(playerFlags));
+			int playerNameLen = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
+			r.ReadUInt32(); // reserved
+			if ((playerFlags & PlayerFlagAvatar) == PlayerFlagAvatar)
+				r.ReadBytes(16); // Skip avatar md5.
+
+			byte[] tmpName = r.ReadBytes(playerNameLen);
+			Properties.Add(PropType.PlayerName,
+				Encoding.UTF8.GetString(tmpName));
 		}
 
-		public PlayerInfo GetPlayerInfo(uint id)
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			lock (m_list)
-			{
-				return m_list[id];
-			}
+			visitor.VisitPlayerInfo(this);
 		}
 
-		public bool HasPlayer(uint id)
+		public override byte[] ToByteArray()
 		{
-			lock (m_list)
-			{
-				return m_list.ContainsKey(id);
-			}
+			throw new NotImplementedException();
 		}
-
-		public override string ToString()
-		{
-			string outString = "";
-			lock (m_list)
-			{
-				foreach (KeyValuePair<uint, PlayerInfo> i in m_list)
-				{
-					outString += i.Value.Name;
-					outString += '\n';
-				}
-			}
-			return outString;
-		}
-
-		private Dictionary<uint, PlayerInfo> m_list;
 	}
 }

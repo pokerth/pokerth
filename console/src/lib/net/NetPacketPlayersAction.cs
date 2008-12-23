@@ -20,45 +20,49 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using pokerth_lib;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
 
-namespace pokerth_console
+/*
+struct GCC_PACKED NetPacketPlayersActionData
 {
-	class ConsoleCallback : pokerth_lib.ICallback
+	NetPacketHeader		head;
+	u_int16_t			gameState;
+	u_int16_t			playerAction;
+	u_int32_t			playerBet;
+};
+*/
+
+namespace pokerth_lib
+{
+	class NetPacketPlayersAction : NetPacket
 	{
-		public void InitDone()
+		public NetPacketPlayersAction()
+			: base(NetPacket.NetTypePlayersAction)
 		{
-			Console.WriteLine("Init successful.");
 		}
 
-		public void JoinedGame(string name)
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			Console.WriteLine("Successfully joined game \"{0}\".", name);
+			visitor.VisitPlayersAction(this);
 		}
 
-		public void GameStarted(List<string> players)
+		public override byte[] ToByteArray()
 		{
-			string outPlayers = "";
-			foreach (string s in players)
-			{
-				if (outPlayers.Length != 0)
-					outPlayers += ", ";
-				outPlayers += s;
-			}
-			Console.WriteLine("Game was started. Players: {0}", outPlayers);
-		}
+			MemoryStream memStream = new MemoryStream();
+			BinaryWriter w = new BinaryWriter(memStream);
 
-		public void HandStarted(pokerth_lib.Hand h)
-		{
-			Console.WriteLine("New hand. Your cards: {0} {1}. Your money: {2}.",
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[0]),
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[1]),
-				h.Players[h.MyPlayerId].Money);
-		}
+			w.Write(IPAddress.HostToNetworkOrder((short)Type));
+			w.Write(IPAddress.HostToNetworkOrder((short)8));
+			w.Write(IPAddress.HostToNetworkOrder((short)
+				Convert.ToUInt16(Properties[PropType.GameState])));
+			w.Write(IPAddress.HostToNetworkOrder((short)
+				Convert.ToUInt16(Properties[PropType.PlayerAction])));
+			w.Write(IPAddress.HostToNetworkOrder((int)
+				Convert.ToUInt32(Properties[PropType.PlayerBet])));
 
-		public void Error(string message)
-		{
-			Console.WriteLine("Error: " + message);
+			return memStream.ToArray();
 		}
 	}
 }

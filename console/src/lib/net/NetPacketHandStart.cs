@@ -20,45 +20,50 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using pokerth_lib;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
 
-namespace pokerth_console
+/*
+struct GCC_PACKED NetPacketHandStartData
 {
-	class ConsoleCallback : pokerth_lib.ICallback
+	NetPacketHeader		head;
+	u_int16_t			yourCard1;
+	u_int16_t			yourCard2;
+	u_int32_t			smallBlind;
+};
+*/
+
+namespace pokerth_lib
+{
+	class NetPacketHandStart : NetPacket
 	{
-		public void InitDone()
+		public NetPacketHandStart()
+			: base(NetPacket.NetTypeHandStart)
 		{
-			Console.WriteLine("Init successful.");
 		}
 
-		public void JoinedGame(string name)
+		public NetPacketHandStart(int size, BinaryReader r)
+			: base(NetPacket.NetTypeHandStart)
 		{
-			Console.WriteLine("Successfully joined game \"{0}\".", name);
+			if (size != 12)
+				throw new NetPacketException("NetPacketHandStart invalid size.");
+			Properties.Add(PropType.FirstCard,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			Properties.Add(PropType.SecondCard,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			Properties.Add(PropType.SmallBlind,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
 		}
 
-		public void GameStarted(List<string> players)
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			string outPlayers = "";
-			foreach (string s in players)
-			{
-				if (outPlayers.Length != 0)
-					outPlayers += ", ";
-				outPlayers += s;
-			}
-			Console.WriteLine("Game was started. Players: {0}", outPlayers);
+			visitor.VisitHandStart(this);
 		}
 
-		public void HandStarted(pokerth_lib.Hand h)
+		public override byte[] ToByteArray()
 		{
-			Console.WriteLine("New hand. Your cards: {0} {1}. Your money: {2}.",
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[0]),
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[1]),
-				h.Players[h.MyPlayerId].Money);
-		}
-
-		public void Error(string message)
-		{
-			Console.WriteLine("Error: " + message);
+			throw new NotImplementedException();
 		}
 	}
 }

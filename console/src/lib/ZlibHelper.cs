@@ -21,67 +21,50 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using zlib;
 
-namespace pokerth_console
+namespace pokerth_lib
 {
-	class GameInfoList
+	class ZlibHelper
 	{
-		public GameInfoList()
+		public static void UncompressFile(string compressedFile, string outputFile)
 		{
-			m_list = new Dictionary<uint, GameInfo>();
-		}
+			ZStream zStream = new ZStream();
+			zStream.inflateInit();
+			FileStream inputStream = File.Open(compressedFile, FileMode.Open,FileAccess.Read);
+			FileStream outputStream = File.Open(outputFile, FileMode.Create, FileAccess.Write);
+			const int InBufSize = 4096;
+			const int OutBufSize = 8192;
+			byte[] inBuf = new byte[InBufSize];
+			byte[] outBuf = new byte[OutBufSize];
+			int bytesRead;
+			int ret;
 
-		public void AddGameInfo(GameInfo info)
-		{
-			lock (m_list)
+			do
 			{
-				if (m_list.ContainsKey(info.Id))
-					m_list[info.Id] = info;
-				else
-					m_list.Add(info.Id, info);
-			}
-		}
+				bytesRead = inputStream.Read(inBuf, 0, InBufSize);
+				if (bytesRead == 0)
+					throw new IOException("Unexpected end-of-file during uncompression.");
 
-		public GameInfo GetGameInfo(uint id)
-		{
-			lock (m_list)
-			{
-				return m_list[id];
-			}
-		}
-
-		public void SetGameInfo(uint id, GameInfo info)
-		{
-			lock (m_list)
-			{
-				m_list[id] = info;
-			}
-		}
-
-		public void RemoveGameInfo(uint id)
-		{
-			lock (m_list)
-			{
-				m_list.Remove(id);
-			}
-		}
-
-		public override string ToString()
-		{
-			string outString = "";
-			lock (m_list)
-			{
-				foreach (KeyValuePair<uint, GameInfo> i in m_list)
+				zStream.next_in = inBuf;
+				zStream.next_in_index = 0;
+				zStream.avail_in = bytesRead;
+				do
 				{
-					outString += i.Key;
-					outString += " ";
-					outString += i.Value.Name;
-					outString += '\n';
-				}
-			}
-			return outString;
-		}
+					zStream.next_out = outBuf;
+					zStream.next_out_index = 0;
+					zStream.avail_out = OutBufSize;
+					ret = zStream.inflate(zlibConst.Z_NO_FLUSH);
 
-		private Dictionary<uint, GameInfo> m_list;
+					if (ret != zlibConst.Z_OK && ret != zlibConst.Z_STREAM_END)
+						throw new IOException("Error uncompressing file: " + zStream.msg);
+					outputStream.Write(outBuf, 0, OutBufSize - zStream.avail_out);
+				} while (zStream.avail_out == 0);
+			} while (ret != zlibConst.Z_STREAM_END);
+			zStream.inflateEnd();
+			// Close files here, because otherwise it might take some time.
+			inputStream.Close();
+			outputStream.Close();
+		}
 	}
 }

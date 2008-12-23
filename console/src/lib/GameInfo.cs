@@ -21,9 +21,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace pokerth_console
+namespace pokerth_lib
 {
-	class GameInfo : IdObject
+	public class GameInfo : IdObject
 	{
 		public enum Mode
 		{

@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using pokerth_lib;
 
 namespace pokerth_console
 {

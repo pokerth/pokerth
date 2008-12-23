@@ -20,45 +20,73 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using pokerth_lib;
 
-namespace pokerth_console
+namespace pokerth_lib
 {
-	class ConsoleCallback : pokerth_lib.ICallback
+	public class Hand
 	{
-		public void InitDone()
+		public const int MaxPlayers = 7;
+
+		public enum State
 		{
-			Console.WriteLine("Init successful.");
+			Preflop = 0,
+			Flop,
+			Turn,
+			River
 		}
 
-		public void JoinedGame(string name)
+		public Hand(Dictionary<uint, Player> players, uint myPlayerId, uint smallBlind)
 		{
-			Console.WriteLine("Successfully joined game \"{0}\".", name);
+			m_mutex = new Object();
+			m_state = State.Preflop;
+			m_players = players;
+			m_myPlayerId = myPlayerId;
 		}
 
-		public void GameStarted(List<string> players)
+		public State CurState
 		{
-			string outPlayers = "";
-			foreach (string s in players)
+			get
 			{
-				if (outPlayers.Length != 0)
-					outPlayers += ", ";
-				outPlayers += s;
+				lock (m_mutex)
+				{
+					return m_state;
+				}
 			}
-			Console.WriteLine("Game was started. Players: {0}", outPlayers);
+			set
+			{
+				lock (m_mutex)
+				{
+					m_state = value;
+				}
+			}
 		}
 
-		public void HandStarted(pokerth_lib.Hand h)
+		public Dictionary<uint, Player> Players
 		{
-			Console.WriteLine("New hand. Your cards: {0} {1}. Your money: {2}.",
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[0]),
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[1]),
-				h.Players[h.MyPlayerId].Money);
+			get
+			{
+				lock (m_mutex)
+				{
+					// Should not be modified. This is actually a const return ;-).
+					return m_players;
+				}
+			}
 		}
 
-		public void Error(string message)
+		public uint MyPlayerId
 		{
-			Console.WriteLine("Error: " + message);
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_myPlayerId;
+				}
+			}
 		}
+
+		private Object m_mutex;
+		private State m_state;
+		private Dictionary<uint, Player> m_players;
+		uint m_myPlayerId;
 	}
 }

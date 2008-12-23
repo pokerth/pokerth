@@ -20,45 +20,54 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using pokerth_lib;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
 
-namespace pokerth_console
+/*
+struct GCC_PACKED NetPacketStartEventData
 {
-	class ConsoleCallback : pokerth_lib.ICallback
+	NetPacketHeader		head;
+	u_int16_t			startFlags;
+	u_int16_t			reserved;
+};
+*/
+
+namespace pokerth_lib
+{
+	class NetPacketStartEvent : NetPacket
 	{
-		public void InitDone()
+		public NetPacketStartEvent()
+			: base(NetPacket.NetTypeStartEvent)
 		{
-			Console.WriteLine("Init successful.");
 		}
 
-		public void JoinedGame(string name)
+		public NetPacketStartEvent(int size, BinaryReader r)
+			: base(NetPacket.NetTypeStartEvent)
 		{
-			Console.WriteLine("Successfully joined game \"{0}\".", name);
+			if (size != 8)
+				throw new NetPacketException("NetTypeStartEvent invalid size.");
+			Properties.Add(PropType.StartFlags,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 		}
 
-		public void GameStarted(List<string> players)
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			string outPlayers = "";
-			foreach (string s in players)
-			{
-				if (outPlayers.Length != 0)
-					outPlayers += ", ";
-				outPlayers += s;
-			}
-			Console.WriteLine("Game was started. Players: {0}", outPlayers);
+			visitor.VisitStartEvent(this);
 		}
 
-		public void HandStarted(pokerth_lib.Hand h)
+		public override byte[] ToByteArray()
 		{
-			Console.WriteLine("New hand. Your cards: {0} {1}. Your money: {2}.",
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[0]),
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[1]),
-				h.Players[h.MyPlayerId].Money);
-		}
+			MemoryStream memStream = new MemoryStream();
+			BinaryWriter w = new BinaryWriter(memStream);
 
-		public void Error(string message)
-		{
-			Console.WriteLine("Error: " + message);
+			w.Write(IPAddress.HostToNetworkOrder((short)Type));
+			w.Write(IPAddress.HostToNetworkOrder((short)8));
+			w.Write(IPAddress.HostToNetworkOrder((short)
+				Convert.ToUInt16(Properties[PropType.StartFlags])));
+			w.Write(IPAddress.HostToNetworkOrder((short)0)); // reserved
+
+			return memStream.ToArray();
 		}
 	}
 }

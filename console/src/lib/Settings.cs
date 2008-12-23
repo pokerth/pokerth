@@ -25,9 +25,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
-namespace pokerth_console
+namespace pokerth_lib
 {
-	class Settings
+	public class Settings
 	{
 		private const string ServerListUrl = "http://pokerth.net/serverlist.xml.z";
 

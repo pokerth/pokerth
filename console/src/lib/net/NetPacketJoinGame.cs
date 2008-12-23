@@ -20,45 +20,57 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using pokerth_lib;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
 
-namespace pokerth_console
+/*
+struct GCC_PACKED NetPacketJoinGameData
 {
-	class ConsoleCallback : pokerth_lib.ICallback
+	NetPacketHeader		head;
+	u_int32_t			gameId;
+	u_int16_t			passwordLength;
+	u_int16_t			reserved;
+};
+*/
+
+namespace pokerth_lib
+{
+	class NetPacketJoinGame : NetPacket
 	{
-		public void InitDone()
+		public NetPacketJoinGame()
+			: base(NetPacket.NetTypeJoinGame)
 		{
-			Console.WriteLine("Init successful.");
 		}
 
-		public void JoinedGame(string name)
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			Console.WriteLine("Successfully joined game \"{0}\".", name);
+			visitor.VisitJoinGame(this);
 		}
 
-		public void GameStarted(List<string> players)
+		public override byte[] ToByteArray()
 		{
-			string outPlayers = "";
-			foreach (string s in players)
-			{
-				if (outPlayers.Length != 0)
-					outPlayers += ", ";
-				outPlayers += s;
-			}
-			Console.WriteLine("Game was started. Players: {0}", outPlayers);
-		}
+			MemoryStream memStream = new MemoryStream();
+			BinaryWriter w = new BinaryWriter(memStream);
 
-		public void HandStarted(pokerth_lib.Hand h)
-		{
-			Console.WriteLine("New hand. Your cards: {0} {1}. Your money: {2}.",
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[0]),
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[1]),
-				h.Players[h.MyPlayerId].Money);
-		}
+			string gamePassword = Properties[PropType.GamePassword];
+			byte[] tmpPassword = Encoding.UTF8.GetBytes(gamePassword);
+			int passwordWithPadding = AddPadding(tmpPassword.Length);
+			int size = 12 + passwordWithPadding;
 
-		public void Error(string message)
-		{
-			Console.WriteLine("Error: " + message);
+			w.Write(IPAddress.HostToNetworkOrder((short)Type));
+			w.Write(IPAddress.HostToNetworkOrder((short)size));
+			w.Write(IPAddress.HostToNetworkOrder((int)
+				Convert.ToUInt32(Properties[PropType.GameId])));
+			w.Write(IPAddress.HostToNetworkOrder((short)gamePassword.Length));
+			w.Write(IPAddress.HostToNetworkOrder((short)0)); // Reserved.
+
+			// Add padding.
+			int passwordPadding = passwordWithPadding - tmpPassword.Length;
+			if (passwordPadding > 0)
+				w.Write(new byte[passwordPadding]);
+
+			return memStream.ToArray();
 		}
 	}
 }

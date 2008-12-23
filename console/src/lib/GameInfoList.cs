@@ -20,45 +20,68 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using pokerth_lib;
+using System.IO;
 
-namespace pokerth_console
+namespace pokerth_lib
 {
-	class ConsoleCallback : pokerth_lib.ICallback
+	public class GameInfoList
 	{
-		public void InitDone()
+		public GameInfoList()
 		{
-			Console.WriteLine("Init successful.");
+			m_list = new Dictionary<uint, GameInfo>();
 		}
 
-		public void JoinedGame(string name)
+		public void AddGameInfo(GameInfo info)
 		{
-			Console.WriteLine("Successfully joined game \"{0}\".", name);
-		}
-
-		public void GameStarted(List<string> players)
-		{
-			string outPlayers = "";
-			foreach (string s in players)
+			lock (m_list)
 			{
-				if (outPlayers.Length != 0)
-					outPlayers += ", ";
-				outPlayers += s;
+				if (m_list.ContainsKey(info.Id))
+					m_list[info.Id] = info;
+				else
+					m_list.Add(info.Id, info);
 			}
-			Console.WriteLine("Game was started. Players: {0}", outPlayers);
 		}
 
-		public void HandStarted(pokerth_lib.Hand h)
+		public GameInfo GetGameInfo(uint id)
 		{
-			Console.WriteLine("New hand. Your cards: {0} {1}. Your money: {2}.",
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[0]),
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[1]),
-				h.Players[h.MyPlayerId].Money);
+			lock (m_list)
+			{
+				return m_list[id];
+			}
 		}
 
-		public void Error(string message)
+		public void SetGameInfo(uint id, GameInfo info)
 		{
-			Console.WriteLine("Error: " + message);
+			lock (m_list)
+			{
+				m_list[id] = info;
+			}
 		}
+
+		public void RemoveGameInfo(uint id)
+		{
+			lock (m_list)
+			{
+				m_list.Remove(id);
+			}
+		}
+
+		public override string ToString()
+		{
+			string outString = "";
+			lock (m_list)
+			{
+				foreach (KeyValuePair<uint, GameInfo> i in m_list)
+				{
+					outString += i.Key;
+					outString += " ";
+					outString += i.Value.Name;
+					outString += '\n';
+				}
+			}
+			return outString;
+		}
+
+		private Dictionary<uint, GameInfo> m_list;
 	}
 }

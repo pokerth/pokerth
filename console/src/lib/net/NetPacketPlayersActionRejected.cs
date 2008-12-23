@@ -20,36 +20,54 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
 
-namespace pokerth_console
+/*
+struct GCC_PACKED NetPacketPlayersActionRejectedData
 {
-	class IdObject
+	NetPacketHeader		head;
+	u_int16_t			gameState;
+	u_int16_t			playerAction;
+	u_int32_t			playerBet;
+	u_int16_t			rejectionReason;
+	u_int16_t			reserved;
+};
+*/
+
+namespace pokerth_lib
+{
+	class NetPacketPlayersActionRejected : NetPacket
 	{
-		public IdObject(uint id, string name)
+		public NetPacketPlayersActionRejected()
+			: base(NetPacket.NetTypePlayersActionRejected)
 		{
-			m_id = id;
-			m_name = name;
 		}
 
-		public uint Id
+		public NetPacketPlayersActionRejected(int size, BinaryReader r)
+			: base(NetPacket.NetTypePlayersActionRejected)
 		{
-			get
-			{
-				// No lock because only read access.
-				return m_id;
-			}
+			if (size != 28)
+				throw new NetPacketException("NetPacketPlayersActionRejected invalid size.");
+			Properties.Add(PropType.GameState,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			Properties.Add(PropType.PlayerAction,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			Properties.Add(PropType.PlayerBet,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			Properties.Add(PropType.ActionRejectReason,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 		}
 
-		public string Name
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			get
-			{
-				// No lock because only read access.
-				return m_name;
-			}
+			visitor.VisitPlayersActionRejected(this);
 		}
 
-		private uint m_id;
-		private string m_name;
+		public override byte[] ToByteArray()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

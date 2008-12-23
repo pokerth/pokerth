@@ -20,45 +20,48 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using pokerth_lib;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
 
-namespace pokerth_console
+/*
+struct GCC_PACKED NetPacketGameListUpdateData
 {
-	class ConsoleCallback : pokerth_lib.ICallback
+	NetPacketHeader		head;
+	u_int32_t			gameId;
+	u_int16_t			gameMode;
+	u_int16_t			reserved;
+};
+*/
+
+namespace pokerth_lib
+{
+	class NetPacketGameListUpdate : NetPacket
 	{
-		public void InitDone()
+		public NetPacketGameListUpdate()
+			: base(NetPacket.NetTypeGameListUpdate)
 		{
-			Console.WriteLine("Init successful.");
 		}
 
-		public void JoinedGame(string name)
+		public NetPacketGameListUpdate(int size, BinaryReader r)
+			: base(NetPacket.NetTypeGameListUpdate)
 		{
-			Console.WriteLine("Successfully joined game \"{0}\".", name);
+			if (size != 12)
+				throw new NetPacketException("NetPacketGameListUpdate invalid size.");
+			Properties.Add(PropType.GameId,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			Properties.Add(PropType.GameMode,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 		}
 
-		public void GameStarted(List<string> players)
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			string outPlayers = "";
-			foreach (string s in players)
-			{
-				if (outPlayers.Length != 0)
-					outPlayers += ", ";
-				outPlayers += s;
-			}
-			Console.WriteLine("Game was started. Players: {0}", outPlayers);
+			visitor.VisitGameListUpdate(this);
 		}
 
-		public void HandStarted(pokerth_lib.Hand h)
+		public override byte[] ToByteArray()
 		{
-			Console.WriteLine("New hand. Your cards: {0} {1}. Your money: {2}.",
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[0]),
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[1]),
-				h.Players[h.MyPlayerId].Money);
-		}
-
-		public void Error(string message)
-		{
-			Console.WriteLine("Error: " + message);
+			throw new NotImplementedException();
 		}
 	}
 }

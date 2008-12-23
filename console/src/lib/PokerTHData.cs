@@ -20,45 +20,105 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using pokerth_lib;
 
-namespace pokerth_console
+namespace pokerth_lib
 {
-	class ConsoleCallback : pokerth_lib.ICallback
+	public class PokerTHData
 	{
-		public void InitDone()
+		public PokerTHData(string name)
 		{
-			Console.WriteLine("Init successful.");
+			m_gameInfoList = new GameInfoList();
+			m_playerInfoList = new PlayerInfoList();
+			m_mutex = new Object();
+			m_myPlayerId = 0;
+			m_myGameId = 0;
+			m_myName = name;
 		}
 
-		public void JoinedGame(string name)
+		public GameInfoList GameList
 		{
-			Console.WriteLine("Successfully joined game \"{0}\".", name);
-		}
-
-		public void GameStarted(List<string> players)
-		{
-			string outPlayers = "";
-			foreach (string s in players)
+			get
 			{
-				if (outPlayers.Length != 0)
-					outPlayers += ", ";
-				outPlayers += s;
+				return m_gameInfoList;
 			}
-			Console.WriteLine("Game was started. Players: {0}", outPlayers);
 		}
 
-		public void HandStarted(pokerth_lib.Hand h)
+		public PlayerInfoList PlayerList
 		{
-			Console.WriteLine("New hand. Your cards: {0} {1}. Your money: {2}.",
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[0]),
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[1]),
-				h.Players[h.MyPlayerId].Money);
+			get
+			{
+				return m_playerInfoList;
+			}
 		}
 
-		public void Error(string message)
+		public Hand CurHand
 		{
-			Console.WriteLine("Error: " + message);
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_curHand;
+				}
+			}
+			set
+			{
+				lock (m_mutex)
+				{
+					m_curHand = value;
+				}
+			}
 		}
+
+		public string MyName
+		{
+			get
+			{
+				return m_myName;
+			}
+		}
+
+		public uint MyPlayerId
+		{
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_myPlayerId;
+				}
+			}
+			set
+			{
+				lock (m_mutex)
+				{
+					m_myPlayerId = value;
+				}
+			}
+		}
+
+		public uint MyGameId
+		{
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_myGameId;
+				}
+			}
+			set
+			{
+				lock (m_mutex)
+				{
+					m_myGameId = value;
+				}
+			}
+		}
+
+		private GameInfoList m_gameInfoList;
+		private PlayerInfoList m_playerInfoList;
+		private Hand m_curHand;
+		private Object m_mutex;
+		private uint m_myPlayerId;
+		private uint m_myGameId;
+		private string m_myName;
 	}
 }

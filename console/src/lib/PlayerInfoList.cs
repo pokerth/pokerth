@@ -20,105 +20,58 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
-namespace pokerth_console
+namespace pokerth_lib
 {
-	class PokerTHData
+	public class PlayerInfoList
 	{
-		public PokerTHData(string name)
+		public PlayerInfoList()
 		{
-			m_gameInfoList = new GameInfoList();
-			m_playerInfoList = new PlayerInfoList();
-			m_mutex = new Object();
-			m_myPlayerId = 0;
-			m_myGameId = 0;
-			m_myName = name;
+			m_list = new Dictionary<uint, PlayerInfo>();
 		}
 
-		public GameInfoList GameList
+		public void AddPlayerInfo(PlayerInfo info)
 		{
-			get
+			lock (m_list)
 			{
-				return m_gameInfoList;
+				if (m_list.ContainsKey(info.Id))
+					m_list[info.Id] = info;
+				else
+					m_list.Add(info.Id, info);
 			}
 		}
 
-		public PlayerInfoList PlayerList
+		public PlayerInfo GetPlayerInfo(uint id)
 		{
-			get
+			lock (m_list)
 			{
-				return m_playerInfoList;
+				return m_list[id];
 			}
 		}
 
-		public Hand CurHand
+		public bool HasPlayer(uint id)
 		{
-			get
+			lock (m_list)
 			{
-				lock (m_mutex)
+				return m_list.ContainsKey(id);
+			}
+		}
+
+		public override string ToString()
+		{
+			string outString = "";
+			lock (m_list)
+			{
+				foreach (KeyValuePair<uint, PlayerInfo> i in m_list)
 				{
-					return m_curHand;
+					outString += i.Value.Name;
+					outString += '\n';
 				}
 			}
-			set
-			{
-				lock (m_mutex)
-				{
-					m_curHand = value;
-				}
-			}
+			return outString;
 		}
 
-		public string MyName
-		{
-			get
-			{
-				return m_myName;
-			}
-		}
-
-		public uint MyPlayerId
-		{
-			get
-			{
-				lock (m_mutex)
-				{
-					return m_myPlayerId;
-				}
-			}
-			set
-			{
-				lock (m_mutex)
-				{
-					m_myPlayerId = value;
-				}
-			}
-		}
-
-		public uint MyGameId
-		{
-			get
-			{
-				lock (m_mutex)
-				{
-					return m_myGameId;
-				}
-			}
-			set
-			{
-				lock (m_mutex)
-				{
-					m_myGameId = value;
-				}
-			}
-		}
-
-		private GameInfoList m_gameInfoList;
-		private PlayerInfoList m_playerInfoList;
-		private Hand m_curHand;
-		private Object m_mutex;
-		private uint m_myPlayerId;
-		private uint m_myGameId;
-		private string m_myName;
+		private Dictionary<uint, PlayerInfo> m_list;
 	}
 }

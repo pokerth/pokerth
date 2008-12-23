@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace pokerth_console
+namespace pokerth_lib
 {
-	class Log
+	public class Log
 	{
 		public static string CardToString(int card)
 		{

@@ -20,51 +20,49 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Net;
+using System.Net.Sockets;
 using System.IO;
-using zlib;
 
-namespace pokerth_console
+namespace pokerth_lib
 {
-	class ZlibHelper
+	class SenderThread : NetThread
 	{
-		public static void UncompressFile(string compressedFile, string outputFile)
+		public SenderThread(NetworkStream stream)
+			: base(stream)
 		{
-			ZStream zStream = new ZStream();
-			zStream.inflateInit();
-			FileStream inputStream = File.Open(compressedFile, FileMode.Open,FileAccess.Read);
-			FileStream outputStream = File.Open(outputFile, FileMode.Create, FileAccess.Write);
-			const int InBufSize = 4096;
-			const int OutBufSize = 8192;
-			byte[] inBuf = new byte[InBufSize];
-			byte[] outBuf = new byte[OutBufSize];
-			int bytesRead;
-			int ret;
-
-			do
-			{
-				bytesRead = inputStream.Read(inBuf, 0, InBufSize);
-				if (bytesRead == 0)
-					throw new IOException("Unexpected end-of-file during uncompression.");
-
-				zStream.next_in = inBuf;
-				zStream.next_in_index = 0;
-				zStream.avail_in = bytesRead;
-				do
-				{
-					zStream.next_out = outBuf;
-					zStream.next_out_index = 0;
-					zStream.avail_out = OutBufSize;
-					ret = zStream.inflate(zlibConst.Z_NO_FLUSH);
-
-					if (ret != zlibConst.Z_OK && ret != zlibConst.Z_STREAM_END)
-						throw new IOException("Error uncompressing file: " + zStream.msg);
-					outputStream.Write(outBuf, 0, OutBufSize - zStream.avail_out);
-				} while (zStream.avail_out == 0);
-			} while (ret != zlibConst.Z_STREAM_END);
-			zStream.inflateEnd();
-			// Close files here, because otherwise it might take some time.
-			inputStream.Close();
-			outputStream.Close();
+			m_packetQueue = new Queue<NetPacket>();
 		}
+
+		public void Send(NetPacket p)
+		{
+			lock (m_packetQueue)
+			{
+				m_packetQueue.Enqueue(p);
+			}
+		}
+
+		protected override void Start()
+		{
+			while (!IsTerminateFlagSet())
+			{
+				bool sleep = false;
+				lock (m_packetQueue)
+				{
+					if (m_packetQueue.Count > 0)
+					{
+						byte[] outBuf = m_packetQueue.Dequeue().ToByteArray();
+						NetStream.Write(outBuf, 0, outBuf.Length);
+					}
+					else
+						sleep = true;
+				}
+				if (sleep)
+					Thread.Sleep(15);
+			}
+		}
+
+		private Queue<NetPacket> m_packetQueue;
 	}
 }

@@ -20,45 +20,53 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using pokerth_lib;
 
-namespace pokerth_console
+namespace pokerth_lib
 {
-	class ConsoleCallback : pokerth_lib.ICallback
+	public class ServerSettings
 	{
-		public void InitDone()
+		public ServerSettings()
 		{
-			Console.WriteLine("Init successful.");
 		}
 
-		public void JoinedGame(string name)
+		public string IPv4Address
 		{
-			Console.WriteLine("Successfully joined game \"{0}\".", name);
-		}
-
-		public void GameStarted(List<string> players)
-		{
-			string outPlayers = "";
-			foreach (string s in players)
+			get
 			{
-				if (outPlayers.Length != 0)
-					outPlayers += ", ";
-				outPlayers += s;
+				return m_ipv4Address;
 			}
-			Console.WriteLine("Game was started. Players: {0}", outPlayers);
+			set
+			{
+				m_ipv4Address = value;
+			}
 		}
 
-		public void HandStarted(pokerth_lib.Hand h)
+		public string IPv6Address
 		{
-			Console.WriteLine("New hand. Your cards: {0} {1}. Your money: {2}.",
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[0]),
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[1]),
-				h.Players[h.MyPlayerId].Money);
+			get
+			{
+				return m_ipv6Address;
+			}
+			set
+			{
+				m_ipv6Address = value;
+			}
 		}
 
-		public void Error(string message)
+		public int Port
 		{
-			Console.WriteLine("Error: " + message);
+			get
+			{
+				return m_port;
+			}
+			set
+			{
+				m_port = value;
+			}
 		}
+
+		private string m_ipv4Address = "";
+		private string m_ipv6Address = "";
+		private int m_port = 0;
 	}
 }
