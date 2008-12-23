@@ -32,14 +32,14 @@ namespace pokerth_console
 		const uint MaxPacketSize = 268;
 		const uint MinPacketSize = 8;
 
-		public ReceiverThread(NetworkStream stream, SenderThread sender, PokerTHData data)
+		public ReceiverThread(NetworkStream stream, SenderThread sender, PokerTHData data, ICallback callback)
 			: base(stream)
 		{
 			m_recBuf = new byte[8192];
 			m_recBufOffset = 0;
 			m_packetList = new List<NetPacket>();
 			m_sender = sender;
-			m_parser = new NetParser(data, sender);
+			m_parser = new NetParser(data, sender, callback);
 		}
 
 		protected override void Start()

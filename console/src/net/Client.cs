@@ -27,22 +27,23 @@ namespace pokerth_console
 {
 	class Client
 	{
-		public Client(Settings settings, PokerTHData data)
+		public Client(Settings settings, PokerTHData data, ICallback callback)
 		{
 			m_tcpClient = new TcpClient();
 			m_settings = settings;
 			m_data = data;
+			m_callback = callback;
 		}
 
 		public void Connect()
 		{
 			// Connect to the server.
 			// Try IPv6 first.
-			IPAddress[] addresses = new IPAddress[2];
+			/*IPAddress[] addresses = new IPAddress[2];
 			addresses[0] = IPAddress.Parse(m_settings.ServerSettings.IPv6Address);
 			addresses[1] = IPAddress.Parse(m_settings.ServerSettings.IPv4Address);
-			m_tcpClient.Connect(addresses, m_settings.ServerSettings.Port);
-			//m_tcpClient.Connect("localhost", 7234);
+			m_tcpClient.Connect(addresses, m_settings.ServerSettings.Port);*/
+			m_tcpClient.Connect("localhost", 7234);
 		}
 
 		public void Start()
@@ -71,7 +72,7 @@ namespace pokerth_console
 
 		protected void StartReceiveThread()
 		{
-			m_receiver = new ReceiverThread(m_tcpClient.GetStream(), m_sender, m_data);
+			m_receiver = new ReceiverThread(m_tcpClient.GetStream(), m_sender, m_data, m_callback);
 			m_receiver.Run();
 		}
 
@@ -86,7 +87,7 @@ namespace pokerth_console
 			NetPacket init = new NetPacketInit();
 			init.Properties.Add(NetPacket.PropertyType.RequestedVersionMajor, "5");
 			init.Properties.Add(NetPacket.PropertyType.RequestedVersionMinor, "0");
-			init.Properties.Add(NetPacket.PropertyType.PlayerName, "Testuser1");
+			init.Properties.Add(NetPacket.PropertyType.PlayerName, m_data.MyName);
 			init.Properties.Add(NetPacket.PropertyType.PlayerPassword, "");
 			m_sender.Send(init);
 		}
@@ -104,5 +105,6 @@ namespace pokerth_console
 		private SenderThread m_sender;
 		private Settings m_settings;
 		private PokerTHData m_data;
+		private ICallback m_callback;
 	}
 }

@@ -25,13 +25,14 @@ namespace pokerth_console
 {
 	class PokerTHData
 	{
-		public PokerTHData()
+		public PokerTHData(string name)
 		{
 			m_gameInfoList = new GameInfoList();
 			m_playerInfoList = new PlayerInfoList();
 			m_mutex = new Object();
 			m_myPlayerId = 0;
 			m_myGameId = 0;
+			m_myName = name;
 		}
 
 		public GameInfoList GameList
@@ -47,6 +48,14 @@ namespace pokerth_console
 			get
 			{
 				return m_playerInfoList;
+			}
+		}
+
+		public string MyName
+		{
+			get
+			{
+				return m_myName;
 			}
 		}
 
@@ -91,5 +100,6 @@ namespace pokerth_console
 		private Object m_mutex;
 		private uint m_myPlayerId;
 		private uint m_myGameId;
+		private string m_myName;
 	}
 }

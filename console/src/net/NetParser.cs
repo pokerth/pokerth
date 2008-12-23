@@ -25,10 +25,11 @@ namespace pokerth_console
 {
 	class NetParser : INetPacketVisitor
 	{
-		public NetParser(PokerTHData data, SenderThread sender)
+		public NetParser(PokerTHData data, SenderThread sender, ICallback callback)
 		{
 			m_data = data;
 			m_sender = sender;
+			m_callback = callback;
 		}
 
 		public void VisitInit(NetPacketInit p)
@@ -40,6 +41,7 @@ namespace pokerth_console
 		{
 			m_data.MyPlayerId =
 				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.PlayerId]);
+			m_callback.InitDone();
 		}
 
 		public void VisitGameListNew(NetPacketGameListNew p)
@@ -86,6 +88,7 @@ namespace pokerth_console
 		{
 			m_data.MyGameId =
 				Convert.ToUInt32(p.Properties[NetPacket.PropertyType.GameId]);
+			m_callback.JoinedGame(m_data.GameList.GetGameInfo(m_data.MyGameId).Name);
 		}
 
 		public void VisitStartEvent(NetPacketStartEvent p)
@@ -113,41 +116,53 @@ namespace pokerth_console
 
 		public void VisitGameStart(NetPacketGameStart p)
 		{
-			throw new NotImplementedException();
-			// TODO
+			// Generate player list.
+			List<string> players = new List<string>();
+
+			List<uint> slots = p.ListProperties[NetPacket.ListPropertyType.PropPlayerSlots].
+				ConvertAll<uint>(Convert.ToUInt32);
+			foreach (uint i in slots)
+			{
+				if (m_data.PlayerList.HasPlayer(i))
+					players.Add(m_data.PlayerList.GetPlayerInfo(i).Name);
+				else if (i == m_data.MyPlayerId)
+					players.Add(m_data.MyName);
+				else
+					players.Add(Convert.ToString(i));
+			}
+
+			m_callback.GameStarted(players);
 		}
 
 		public void VisitHandStart(NetPacketHandStart p)
 		{
-			throw new NotImplementedException();
-			// TODO
+			m_callback.HandStarted(
+				Convert.ToInt32(p.Properties[NetPacket.PropertyType.FirstCard]),
+				Convert.ToInt32(p.Properties[NetPacket.PropertyType.SecondCard]));
 		}
 
 		public void VisitPlayersTurn(NetPacketPlayersTurn p)
 		{
-			throw new NotImplementedException();
 			// TODO
 		}
 
 		public void VisitPlayersAction(NetPacketPlayersAction p)
 		{
 			throw new NotImplementedException();
-			// TODO
 		}
 
 		public void VisitPlayersActionDone(NetPacketPlayersActionDone p)
 		{
-			throw new NotImplementedException();
 			// TODO
 		}
 
 		public void VisitPlayersActionRejected(NetPacketPlayersActionRejected p)
 		{
-			throw new NotImplementedException();
 			// TODO
 		}
 
 		private PokerTHData m_data;
 		private SenderThread m_sender;
+		private ICallback m_callback;
 	}
 }

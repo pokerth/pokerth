@@ -42,6 +42,14 @@ namespace pokerth_console
 			}
 		}
 
+		public PlayerInfo GetPlayerInfo(uint id)
+		{
+			lock (m_list)
+			{
+				return m_list[id];
+			}
+		}
+
 		public bool HasPlayer(uint id)
 		{
 			lock (m_list)

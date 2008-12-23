@@ -29,11 +29,12 @@ namespace pokerth_console
 		static int Main(string[] args)
 		{
 			Settings settings = new Settings();
-			PokerTHData data = new PokerTHData();
-			Client client = new Client(settings, data);
+			PokerTHData data = new PokerTHData("Testuser1");
+			ConsoleCallback callback = new ConsoleCallback();
+			Client client = new Client(settings, data, callback);
 			client.Connect();
 			client.Start();
-			Thread.Sleep(5000);
+			Thread.Sleep(2000);
 			Console.WriteLine("Open Games:");
 			Console.Write(data.GameList.ToString());
 			Console.WriteLine();
@@ -41,7 +42,7 @@ namespace pokerth_console
 			string input = Console.ReadLine();
 			uint gameId = Convert.ToUInt32(input);
 			client.JoinGame(gameId);
-			Thread.Sleep(5000000);
+			input = Console.ReadLine();
 			client.SetTerminateFlag();
 			client.WaitTermination();
 			return 0;
