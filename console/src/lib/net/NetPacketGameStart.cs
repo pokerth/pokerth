@@ -24,15 +24,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
-/*
-struct GCC_PACKED NetPacketGameStartData
-{
-	NetPacketHeader		head;
-	u_int32_t			startDealerPlayerId;
-	u_int16_t			numberOfPlayers;
-	u_int16_t			reserved;
-};
-*/
 
 namespace pokerth_lib
 {

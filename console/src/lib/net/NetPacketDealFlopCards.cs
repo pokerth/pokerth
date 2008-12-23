@@ -27,53 +27,29 @@ using System.IO;
 
 namespace pokerth_lib
 {
-	class NetPacketGameListNew : NetPacket
+	class NetPacketDealFlopCards : NetPacket
 	{
-		public NetPacketGameListNew()
-			: base(NetPacket.NetTypeGameListNew)
+		public NetPacketDealFlopCards()
+			: base(NetPacket.NetTypeDealFlopCards)
 		{
 		}
 
-		public NetPacketGameListNew(int size, BinaryReader r)
-			: base(NetPacket.NetTypeGameListNew)
+		public NetPacketDealFlopCards(int size, BinaryReader r)
+			: base(NetPacket.NetTypeDealFlopCards)
 		{
-			if (size < 20)
-				throw new NetPacketException("NetPacketGameListNew invalid size.");
-			Properties.Add(PropType.GameId,
-				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropType.AdminPlayerId,
-				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropType.GameMode,
+			if (size != 12)
+				throw new NetPacketException("NetPacketDealFlopCards invalid size.");
+			Properties.Add(PropType.FlopFirstCard,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-
-			int gameNameLen = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
-
-			int curNumPlayers = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
-			Properties.Add(PropType.CurNumPlayers, Convert.ToString(curNumPlayers));
-			Properties.Add(PropType.GamePrivacyFlags,
+			Properties.Add(PropType.FlopSecondCard,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-
-			ScanGameInfoBlock(r);
-
-			// Read name of the game.
-			byte[] tmpName = r.ReadBytes(gameNameLen);
-			Properties.Add(PropType.GameName,
-				Encoding.UTF8.GetString(tmpName));
-			// Skip the padding.
-			int namePadding = AddPadding(tmpName.Length) - tmpName.Length;
-			if (namePadding > 0)
-				r.ReadBytes(namePadding);
-
-			// Read player ids.
-			List<string> playerSlots = new List<string>();
-			for (int i = 0; i < curNumPlayers; i++)
-				playerSlots.Add(Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			ListProperties.Add(ListPropType.PlayerSlots, playerSlots);
+			Properties.Add(PropType.FlopThirdCard,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 		}
 
 		public override void Accept(INetPacketVisitor visitor)
 		{
-			visitor.VisitGameListNew(this);
+			visitor.VisitDealFlopCards(this);
 		}
 
 		public override byte[] ToByteArray()

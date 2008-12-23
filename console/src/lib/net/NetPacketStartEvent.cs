@@ -24,14 +24,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
-/*
-struct GCC_PACKED NetPacketStartEventData
-{
-	NetPacketHeader		head;
-	u_int16_t			startFlags;
-	u_int16_t			reserved;
-};
-*/
 
 namespace pokerth_lib
 {

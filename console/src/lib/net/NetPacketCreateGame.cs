@@ -25,44 +25,42 @@ using System.Net.Sockets;
 using System.IO;
 
 
-namespace pokerth_lib
+namespace pokerth_lib.src
 {
-	class NetPacketPlayersActionDone : NetPacket
+	class NetPacketCreateGame : NetPacket
 	{
-		public NetPacketPlayersActionDone()
-			: base(NetPacket.NetTypePlayersActionDone)
+		public NetPacketCreateGame()
+			: base(NetPacket.NetTypeCreateGame)
 		{
-		}
-
-		public NetPacketPlayersActionDone(int size, BinaryReader r)
-			: base(NetPacket.NetTypePlayersActionDone)
-		{
-			if (size != 28)
-				throw new NetPacketException("NetPacketPlayersActionDone invalid size.");
-			Properties.Add(PropType.PlayerId,
-				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropType.GameState,
-				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-			Properties.Add(PropType.PlayerAction,
-				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-			Properties.Add(PropType.PlayerBetTotal,
-				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropType.PlayerMoney,
-				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropType.HighestSet,
-				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropType.MinimumRaise,
-				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
 		}
 
 		public override void Accept(INetPacketVisitor visitor)
 		{
-			visitor.VisitPlayersActionDone(this);
+			visitor.VisitCreateGame(this);
 		}
 
 		public override byte[] ToByteArray()
 		{
-			throw new NotImplementedException();
+			MemoryStream memStream = new MemoryStream();
+			BinaryWriter w = new BinaryWriter(memStream);
+
+			string gamePassword = Properties[PropType.GamePassword];
+			byte[] tmpPassword = Encoding.UTF8.GetBytes(gamePassword);
+			int passwordWithPadding = AddPadding(tmpPassword.Length);
+			string gameName = Properties[PropType.GameName];
+			byte[] tmpName = Encoding.UTF8.GetBytes(gameName);
+			int nameWithPadding = AddPadding(tmpName.Length);
+			int numBlindSlots = ListProperties[ListPropType.ManualBlindSlots].Count;
+			int size = 8 + 28 + numBlindSlots * 4 + passwordWithPadding + nameWithPadding;
+
+			w.Write(IPAddress.HostToNetworkOrder((short)Type));
+			w.Write(IPAddress.HostToNetworkOrder((short)size));
+			w.Write(IPAddress.HostToNetworkOrder((short)gamePassword.Length));
+			w.Write(IPAddress.HostToNetworkOrder((short)gameName.Length));
+
+			WriteGameInfoBlock(w);
+
+			return memStream.ToArray();
 		}
 	}
 }

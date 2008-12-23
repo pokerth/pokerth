@@ -202,6 +202,26 @@ namespace pokerth_lib
 			// TODO
 		}
 
+		public void VisitDealFlopCards(NetPacket p)
+		{
+			m_callback.ShowFlopCards(
+				Convert.ToInt32(p.Properties[NetPacket.PropType.FlopFirstCard]),
+				Convert.ToInt32(p.Properties[NetPacket.PropType.FlopSecondCard]),
+				Convert.ToInt32(p.Properties[NetPacket.PropType.FlopThirdCard]));
+		}
+
+		public void VisitDealTurnCard(NetPacket p)
+		{
+			m_callback.ShowTurnCard(
+				Convert.ToInt32(p.Properties[NetPacket.PropType.TurnCard]));
+		}
+
+		public void VisitDealRiverCard(NetPacket p)
+		{
+			m_callback.ShowRiverCard(
+				Convert.ToInt32(p.Properties[NetPacket.PropType.RiverCard]));
+		}
+
 		private PokerTHData m_data;
 		private SenderThread m_sender;
 		private ICallback m_callback;

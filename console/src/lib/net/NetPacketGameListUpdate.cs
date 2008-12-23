@@ -24,15 +24,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
-/*
-struct GCC_PACKED NetPacketGameListUpdateData
-{
-	NetPacketHeader		head;
-	u_int32_t			gameId;
-	u_int16_t			gameMode;
-	u_int16_t			reserved;
-};
-*/
 
 namespace pokerth_lib
 {

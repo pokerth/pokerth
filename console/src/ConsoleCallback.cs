@@ -45,7 +45,7 @@ namespace pokerth_console
 					outPlayers += ", ";
 				outPlayers += s;
 			}
-			Console.WriteLine("Game was started. Players: {0}", outPlayers);
+			Console.WriteLine("Game was started. Players: {0}.", outPlayers);
 		}
 
 		public void HandStarted(pokerth_lib.Hand h)
@@ -71,10 +71,30 @@ namespace pokerth_console
 
 		public void ActionDone(string name, Hand.Action action, uint totalBet, uint money, uint highestSet, uint minimumRaise)
 		{
-			Console.WriteLine("{0} acts: {1}. Total bet: {2}. Money left: {3}",
+			Console.WriteLine("{0} acts: {1}. Total bet: {2}. Money left: {3}.",
 				name, Log.ActionToString(action), totalBet, money);
-			Console.WriteLine("Highest set: {0}. Minimum raise: {1}",
+			Console.WriteLine("Highest set: {0}. Minimum raise: {1}.",
 				highestSet, minimumRaise);
+		}
+
+		public void ShowFlopCards(int firstFlopCard, int secondFlopCard, int thirdFlopCard)
+		{
+			Console.WriteLine("Flop cards: {0} {1} {2}.",
+				Log.CardToString(firstFlopCard),
+				Log.CardToString(secondFlopCard),
+				Log.CardToString(thirdFlopCard));
+		}
+
+		public void ShowTurnCard(int turnCard)
+		{
+			Console.WriteLine("Turn card: {0}.",
+				Log.CardToString(turnCard));
+		}
+
+		public void ShowRiverCard(int riverCard)
+		{
+			Console.WriteLine("River card: {0}.",
+				Log.CardToString(riverCard));
 		}
 
 		public void Error(string message)

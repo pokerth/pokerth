@@ -24,15 +24,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
-/*
-struct GCC_PACKED NetPacketJoinGameData
-{
-	NetPacketHeader		head;
-	u_int32_t			gameId;
-	u_int16_t			passwordLength;
-	u_int16_t			reserved;
-};
-*/
 
 namespace pokerth_lib
 {

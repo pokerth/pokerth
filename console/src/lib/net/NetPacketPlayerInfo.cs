@@ -24,16 +24,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
-/*
-struct GCC_PACKED NetPacketPlayerInfoData
-{
-	NetPacketHeader		head;
-	u_int32_t			playerId;
-	u_int16_t			playerFlags;
-	u_int16_t			playerNameLength;
-	u_int32_t			reserved;
-};
-*/
 
 namespace pokerth_lib
 {

@@ -27,53 +27,25 @@ using System.IO;
 
 namespace pokerth_lib
 {
-	class NetPacketGameListNew : NetPacket
+	class NetPacketDealTurnCard : NetPacket
 	{
-		public NetPacketGameListNew()
-			: base(NetPacket.NetTypeGameListNew)
+		public NetPacketDealTurnCard()
+			: base(NetPacket.NetTypeDealTurnCard)
 		{
 		}
 
-		public NetPacketGameListNew(int size, BinaryReader r)
-			: base(NetPacket.NetTypeGameListNew)
+		public NetPacketDealTurnCard(int size, BinaryReader r)
+			: base(NetPacket.NetTypeDealTurnCard)
 		{
-			if (size < 20)
-				throw new NetPacketException("NetPacketGameListNew invalid size.");
-			Properties.Add(PropType.GameId,
-				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropType.AdminPlayerId,
-				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			Properties.Add(PropType.GameMode,
+			if (size != 8)
+				throw new NetPacketException("NetPacketDealTurnCard invalid size.");
+			Properties.Add(PropType.TurnCard,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-
-			int gameNameLen = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
-
-			int curNumPlayers = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
-			Properties.Add(PropType.CurNumPlayers, Convert.ToString(curNumPlayers));
-			Properties.Add(PropType.GamePrivacyFlags,
-				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-
-			ScanGameInfoBlock(r);
-
-			// Read name of the game.
-			byte[] tmpName = r.ReadBytes(gameNameLen);
-			Properties.Add(PropType.GameName,
-				Encoding.UTF8.GetString(tmpName));
-			// Skip the padding.
-			int namePadding = AddPadding(tmpName.Length) - tmpName.Length;
-			if (namePadding > 0)
-				r.ReadBytes(namePadding);
-
-			// Read player ids.
-			List<string> playerSlots = new List<string>();
-			for (int i = 0; i < curNumPlayers; i++)
-				playerSlots.Add(Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
-			ListProperties.Add(ListPropType.PlayerSlots, playerSlots);
 		}
 
 		public override void Accept(INetPacketVisitor visitor)
 		{
-			visitor.VisitGameListNew(this);
+			visitor.VisitDealTurnCard(this);
 		}
 
 		public override byte[] ToByteArray()

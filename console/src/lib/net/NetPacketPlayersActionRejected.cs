@@ -24,17 +24,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
-/*
-struct GCC_PACKED NetPacketPlayersActionRejectedData
-{
-	NetPacketHeader		head;
-	u_int16_t			gameState;
-	u_int16_t			playerAction;
-	u_int32_t			playerBet;
-	u_int16_t			rejectionReason;
-	u_int16_t			reserved;
-};
-*/
 
 namespace pokerth_lib
 {

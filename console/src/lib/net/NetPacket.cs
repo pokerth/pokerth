@@ -131,6 +131,11 @@ namespace pokerth_lib
 			HighestSet,
 			MinimumRaise,
 			ActionRejectReason,
+			FlopFirstCard,
+			FlopSecondCard,
+			FlopThirdCard,
+			TurnCard,
+			RiverCard,
 		}
 
 		public enum ListPropType
@@ -174,6 +179,15 @@ namespace pokerth_lib
 					break;
 				case NetTypePlayersActionDone :
 					tmpPacket = new NetPacketPlayersActionDone(size, reader);
+					break;
+				case NetTypeDealFlopCards :
+					tmpPacket = new NetPacketDealFlopCards(size, reader);
+					break;
+				case NetTypeDealTurnCard :
+					tmpPacket = new NetPacketDealTurnCard(size, reader);
+					break;
+				case NetTypeDealRiverCard :
+					tmpPacket = new NetPacketDealRiverCard(size, reader);
 					break;
 				default:
 					break;

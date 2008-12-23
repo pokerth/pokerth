@@ -24,15 +24,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
-/*
-struct GCC_PACKED NetPacketPlayersActionData
-{
-	NetPacketHeader		head;
-	u_int16_t			gameState;
-	u_int16_t			playerAction;
-	u_int32_t			playerBet;
-};
-*/
 
 namespace pokerth_lib
 {

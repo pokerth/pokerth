@@ -24,18 +24,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
-/*
-struct GCC_PACKED NetPacketInitData
-{
-	NetPacketHeader		head;
-	u_int16_t			requestedVersionMajor;
-	u_int16_t			requestedVersionMinor;
-	u_int16_t			passwordLength;
-	u_int16_t			playerNameLength;
-	u_int16_t			privacyFlags;
-	u_int16_t			reserved;
-};
-*/
 
 namespace pokerth_lib
 {

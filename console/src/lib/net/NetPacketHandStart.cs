@@ -24,15 +24,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
-/*
-struct GCC_PACKED NetPacketHandStartData
-{
-	NetPacketHeader		head;
-	u_int16_t			yourCard1;
-	u_int16_t			yourCard2;
-	u_int32_t			smallBlind;
-};
-*/
 
 namespace pokerth_lib
 {

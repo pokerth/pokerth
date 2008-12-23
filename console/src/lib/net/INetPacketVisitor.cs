@@ -42,5 +42,8 @@ namespace pokerth_lib
 		void VisitPlayersAction(NetPacket p);
 		void VisitPlayersActionDone(NetPacket p);
 		void VisitPlayersActionRejected(NetPacket p);
+		void VisitDealFlopCards(NetPacket p);
+		void VisitDealTurnCard(NetPacket p);
+		void VisitDealRiverCard(NetPacket p);
 	}
 }
