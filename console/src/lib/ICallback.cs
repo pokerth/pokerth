@@ -28,13 +28,16 @@ namespace pokerth_lib
 		void InitDone();
 		void JoinedGame(string name);
 		void GameStarted(List<string> players);
-		void HandStarted(Hand h);
-		void MyTurn(Hand.State state);
+		void HandStarted(int[] cards);
+		void SmallBlind(string name, uint blind);
+		void BigBlind(string name, uint blind);
+		void MyTurn(Hand.State state, uint highestSet, uint minimumRaise, uint money);
 		void PlayersTurn(Hand.State state, string player);
-		void ActionDone(string name, Hand.Action action, uint totalBet, uint money, uint highestSet, uint minimumRaise);
-		void ShowFlopCards(int firstFlopCard, int secondFlopCard, int thirdFlopCard);
-		void ShowTurnCard(int turnCard);
-		void ShowRiverCard(int riverCard);
+		void ActionDone(string name, Hand.Action action, uint curBet);
+		void ShowFlopCards(int[] cards);
+		void ShowTurnCards(int[] cards);
+		void ShowRiverCards(int[] cards);
+		void PlayerWinsHideCards(string name, uint moneyWon);
 		void Error(string message);
 	}
 }

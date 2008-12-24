@@ -104,6 +104,16 @@ namespace pokerth_lib
 			}
 		}
 
+		public void NewHand()
+		{
+			lock (m_mutex)
+			{
+				m_cards = null;
+				m_curAction = Hand.Action.None;
+				m_totalBet = 0;
+			}
+		}
+
 		private Object m_mutex;
 		private int[] m_cards;
 		private Hand.Action m_curAction;

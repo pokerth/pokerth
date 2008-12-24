@@ -136,12 +136,18 @@ namespace pokerth_lib
 			FlopThirdCard,
 			TurnCard,
 			RiverCard,
+			MoneyWon,
 		}
 
 		public enum ListPropType
 		{
 			PlayerSlots,
 			ManualBlindSlots,
+		}
+
+		public enum RecordPropType
+		{
+			PlayerResult,
 		}
 
 		public static NetPacket Create(int type, int size, BinaryReader reader)
@@ -189,10 +195,74 @@ namespace pokerth_lib
 				case NetTypeDealRiverCard :
 					tmpPacket = new NetPacketDealRiverCard(size, reader);
 					break;
+				case NetTypeEndOfHandHideCards :
+					tmpPacket = new NetPacketEndOfHandHideCards(size, reader);
+					break;
 				default:
 					break;
 			}
 			return tmpPacket;
+		}
+
+		public NetPacket(int type)
+		{
+			m_type = type;
+			m_properties = new Dictionary<PropType, string>();
+			m_listProperties = new Dictionary<ListPropType, List<string>>();
+			m_recordProperties = new Dictionary<RecordPropType, List<Dictionary<PropType, string>>>();
+		}
+
+		public Dictionary<PropType, string> Properties
+		{
+			set
+			{
+				m_properties = value;
+			}
+			get
+			{
+				return m_properties;
+			}
+		}
+
+		public Dictionary<ListPropType, List<string>> ListProperties
+		{
+			set
+			{
+				m_listProperties = value;
+			}
+			get
+			{
+				return m_listProperties;
+			}
+		}
+
+		public Dictionary<RecordPropType, List<Dictionary<PropType, string>>> RecordProperties
+		{
+			set
+			{
+				m_recordProperties = value;
+			}
+			get
+			{
+				return m_recordProperties;
+			}
+		}
+
+		public int Type
+		{
+			get
+			{
+				return m_type;
+			}
+		}
+
+		public abstract void Accept(INetPacketVisitor visitor);
+
+		public abstract byte[] ToByteArray();
+
+		static protected int AddPadding(int size)
+		{
+			return ((((size) + 3) / 4) * 4);
 		}
 
 		protected void ScanGameInfoBlock(BinaryReader r)
@@ -258,56 +328,9 @@ namespace pokerth_lib
 			}
 		}
 
-		public NetPacket(int type)
-		{
-			m_type = type;
-			m_properties = new Dictionary<PropType, string>();
-			m_listProperties = new Dictionary<ListPropType, List<string>>();
-		}
-
-		public Dictionary<PropType, string> Properties
-		{
-			set
-			{
-				m_properties = value;
-			}
-			get
-			{
-				return m_properties;
-			}
-		}
-
-		public Dictionary<ListPropType, List<string>> ListProperties
-		{
-			set
-			{
-				m_listProperties = value;
-			}
-			get
-			{
-				return m_listProperties;
-			}
-		}
-
-		public int Type
-		{
-			get
-			{
-				return m_type;
-			}
-		}
-
-		public abstract void Accept(INetPacketVisitor visitor);
-
-		public abstract byte[] ToByteArray();
-
-		static protected int AddPadding(int size)
-		{
-			return ((((size) + 3) / 4) * 4);
-		}
-
 		private int m_type;
 		private Dictionary<PropType, string> m_properties;
 		private Dictionary<ListPropType, List<string>> m_listProperties;
+		private Dictionary<RecordPropType, List<Dictionary<PropType, string>>> m_recordProperties;
 	}
 }

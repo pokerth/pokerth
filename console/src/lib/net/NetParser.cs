@@ -150,17 +150,23 @@ namespace pokerth_lib
 
 		public void VisitHandStart(NetPacket p)
 		{
+			// Reset players.
+			foreach (KeyValuePair<uint, Player> player in m_players)
+				player.Value.NewHand();
+
+			// Assign own cards.
 			int[] tmpCards = new int[2];
 			tmpCards[0] = 
 				Convert.ToInt32(p.Properties[NetPacket.PropType.FirstCard]);
 			tmpCards[1] =
 				Convert.ToInt32(p.Properties[NetPacket.PropType.SecondCard]);
 			m_players[m_data.MyPlayerId].Cards = tmpCards;
+
 			m_data.CurHand = new Hand(
 				m_players,
 				m_data.MyPlayerId,
 				Convert.ToUInt32(p.Properties[NetPacket.PropType.SmallBlind]));
-			m_callback.HandStarted(m_data.CurHand);
+			m_callback.HandStarted(tmpCards);
 		}
 
 		public void VisitPlayersTurn(NetPacket p)
@@ -168,7 +174,8 @@ namespace pokerth_lib
 			uint curPlayer = Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerId]);
 			Hand.State state = (Hand.State)Convert.ToUInt16(p.Properties[NetPacket.PropType.GameState]);
 			if (curPlayer == m_data.MyPlayerId)
-				m_callback.MyTurn(state);
+				m_callback.MyTurn(state, m_data.CurHand.HighestSet,
+					m_data.CurHand.MinimumRaise, m_players[curPlayer].Money);
 			else
 				m_callback.PlayersTurn(state, m_data.PlayerList.GetPlayerInfo(curPlayer).Name);
 		}
@@ -182,19 +189,32 @@ namespace pokerth_lib
 		{
 			uint playerId = Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerId]);
 			Player curPlayer = m_data.CurHand.Players[playerId];
+			string name = m_data.PlayerList.GetPlayerInfo(playerId).Name;
 			curPlayer.CurAction =
 				(Hand.Action)Convert.ToUInt16(p.Properties[NetPacket.PropType.PlayerAction]);
 			curPlayer.Money =
 				Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerMoney]);
-			curPlayer.TotalBet =
-				Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerBetTotal]);
-			m_callback.ActionDone(
-				m_data.PlayerList.GetPlayerInfo(playerId).Name,
-				curPlayer.CurAction,
-				curPlayer.TotalBet,
-				curPlayer.Money,
-				Convert.ToUInt32(p.Properties[NetPacket.PropType.HighestSet]),
-				Convert.ToUInt32(p.Properties[NetPacket.PropType.MinimumRaise]));
+			uint curBet = Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerBetTotal])
+				- curPlayer.TotalBet;
+			curPlayer.TotalBet += curBet;
+
+			m_data.CurHand.HighestSet = Convert.ToUInt32(p.Properties[NetPacket.PropType.HighestSet]);
+			m_data.CurHand.MinimumRaise = Convert.ToUInt32(p.Properties[NetPacket.PropType.MinimumRaise]);
+
+			if (curPlayer.CurAction == Hand.Action.None)
+			{
+				if (curBet == m_data.CurHand.SmallBlind)
+					m_callback.SmallBlind(name, curBet);
+				else
+					m_callback.BigBlind(name, curBet);
+			}
+			else
+			{
+				m_callback.ActionDone(
+					name,
+					curPlayer.CurAction,
+					curBet);
+			}
 		}
 
 		public void VisitPlayersActionRejected(NetPacket p)
@@ -204,22 +224,42 @@ namespace pokerth_lib
 
 		public void VisitDealFlopCards(NetPacket p)
 		{
-			m_callback.ShowFlopCards(
-				Convert.ToInt32(p.Properties[NetPacket.PropType.FlopFirstCard]),
-				Convert.ToInt32(p.Properties[NetPacket.PropType.FlopSecondCard]),
-				Convert.ToInt32(p.Properties[NetPacket.PropType.FlopThirdCard]));
+			int[] tmpCards = new int[3];
+			tmpCards[0] = Convert.ToInt32(p.Properties[NetPacket.PropType.FlopFirstCard]);
+			tmpCards[1] = Convert.ToInt32(p.Properties[NetPacket.PropType.FlopSecondCard]);
+			tmpCards[2] = Convert.ToInt32(p.Properties[NetPacket.PropType.FlopThirdCard]);
+			m_data.CurHand.TableCards = tmpCards;
+			m_callback.ShowFlopCards(tmpCards);
 		}
 
 		public void VisitDealTurnCard(NetPacket p)
 		{
-			m_callback.ShowTurnCard(
-				Convert.ToInt32(p.Properties[NetPacket.PropType.TurnCard]));
+			int[] tmpCards = new int[4];
+			m_data.CurHand.TableCards.CopyTo(tmpCards, 0);
+			tmpCards[3] = Convert.ToInt32(p.Properties[NetPacket.PropType.TurnCard]);
+			m_data.CurHand.TableCards = tmpCards;
+			m_callback.ShowTurnCards(tmpCards);
 		}
 
 		public void VisitDealRiverCard(NetPacket p)
 		{
-			m_callback.ShowRiverCard(
-				Convert.ToInt32(p.Properties[NetPacket.PropType.RiverCard]));
+			int[] tmpCards = new int[5];
+			m_data.CurHand.TableCards.CopyTo(tmpCards, 0);
+			tmpCards[4] = Convert.ToInt32(p.Properties[NetPacket.PropType.RiverCard]);
+			m_data.CurHand.TableCards = tmpCards;
+			m_callback.ShowRiverCards(tmpCards);
+		}
+
+		public void VisitEndOfHandHideCards(NetPacket p)
+		{
+			uint playerId = Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerId]);
+			string name = m_data.PlayerList.GetPlayerInfo(playerId).Name;
+			Player curPlayer = m_data.CurHand.Players[playerId];
+			curPlayer.Money = Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerMoney]);
+
+			m_callback.PlayerWinsHideCards(
+				name,
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.MoneyWon]));
 		}
 
 		private PokerTHData m_data;

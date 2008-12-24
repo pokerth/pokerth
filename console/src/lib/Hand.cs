@@ -52,6 +52,7 @@ namespace pokerth_lib
 			m_state = State.Preflop;
 			m_players = players;
 			m_myPlayerId = myPlayerId;
+			m_smallBlind = smallBlind;
 		}
 
 		public State CurState
@@ -88,9 +89,70 @@ namespace pokerth_lib
 		{
 			get
 			{
+				// no need to lock a mutex, this is read only.
+				return m_myPlayerId;
+			}
+		}
+
+		public uint SmallBlind
+		{
+			get
+			{
+				// no need to lock a mutex, this is read only.
+				return m_smallBlind;
+			}
+		}
+
+		public uint HighestSet
+		{
+			get
+			{
 				lock (m_mutex)
 				{
-					return m_myPlayerId;
+					return m_highestSet;
+				}
+			}
+			set
+			{
+				lock (m_mutex)
+				{
+					m_highestSet = value;
+				}
+			}
+		}
+
+		public uint MinimumRaise
+		{
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_minimumRaise;
+				}
+			}
+			set
+			{
+				lock (m_mutex)
+				{
+					m_minimumRaise = value;
+				}
+			}
+		}
+
+		public int[] TableCards
+		{
+			get
+			{
+				lock (m_mutex)
+				{
+					return (int[])m_tableCards.Clone();
+				}
+			}
+			set
+			{
+				lock (m_mutex)
+				{
+					m_tableCards = value;
 				}
 			}
 		}
@@ -98,6 +160,10 @@ namespace pokerth_lib
 		private Object m_mutex;
 		private State m_state;
 		private Dictionary<uint, Player> m_players;
-		uint m_myPlayerId;
+		private int[] m_tableCards;
+		private uint m_myPlayerId;
+		private uint m_smallBlind;
+		private uint m_highestSet;
+		private uint m_minimumRaise;
 	}
 }

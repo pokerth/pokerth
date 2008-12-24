@@ -20,31 +20,40 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
 
 namespace pokerth_lib
 {
-	public interface INetPacketVisitor
+	class NetPacketEndOfHandHideCards : NetPacket
 	{
-		void VisitInit(NetPacket p);
-		void VisitInitAck(NetPacket p);
-		void VisitGameListNew(NetPacket p);
-		void VisitGameListUpdate(NetPacket p);
-		void VisitRetrievePlayerInfo(NetPacket p);
-		void VisitPlayerInfo(NetPacket p);
-		void VisitCreateGame(NetPacket p);
-		void VisitJoinGame(NetPacket p);
-		void VisitJoinGameAck(NetPacket p);
-		void VisitStartEvent(NetPacket p);
-		void VisitStartEventAck(NetPacket p);
-		void VisitGameStart(NetPacket p);
-		void VisitHandStart(NetPacket p);
-		void VisitPlayersTurn(NetPacket p);
-		void VisitPlayersAction(NetPacket p);
-		void VisitPlayersActionDone(NetPacket p);
-		void VisitPlayersActionRejected(NetPacket p);
-		void VisitDealFlopCards(NetPacket p);
-		void VisitDealTurnCard(NetPacket p);
-		void VisitDealRiverCard(NetPacket p);
-		void VisitEndOfHandHideCards(NetPacket p);
+		public NetPacketEndOfHandHideCards()
+			: base(NetPacket.NetTypeEndOfHandHideCards)
+		{
+		}
+
+		public NetPacketEndOfHandHideCards(int size, BinaryReader r)
+			: base(NetPacket.NetTypeEndOfHandHideCards)
+		{
+			if (size != 16)
+				throw new NetPacketException("NetPacketEndOfHandHideCards invalid size.");
+			Properties.Add(PropType.PlayerId,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			Properties.Add(PropType.MoneyWon,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			Properties.Add(PropType.PlayerMoney,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+		}
+
+		public override void Accept(INetPacketVisitor visitor)
+		{
+			visitor.VisitEndOfHandHideCards(this);
+		}
+
+		public override byte[] ToByteArray()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

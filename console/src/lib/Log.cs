@@ -1,5 +1,7 @@
 ﻿/***************************************************************************
  *   Copyright (C) 2008 by Lothar May                                      *
+*    Inspired by log.cpp of the PokerTH client which is                    *
+ *   Copyright (C) 2006 by FThauer FHammer                                 *
  *                                                                         *
  *   This file is part of pokerth_console.                                 *
  *   pokerth_console is free software: you can redistribute it and/or      *
@@ -123,37 +125,38 @@ namespace pokerth_lib
 			return stateString;
 		}
 
-		public static string ActionToString(Hand.Action action)
+		public static string ActionToString(Hand.Action action, uint curSet)
 		{
 			string actionString;
 
 			switch (action)
 			{
-				case Hand.Action.None:
-					actionString = "None";
-					break;
 				case Hand.Action.Fold:
-					actionString = "Fold";
+					actionString = "folds";
 					break;
 				case Hand.Action.Check:
-					actionString = "Check";
+					actionString = "checks";
 					break;
 				case Hand.Action.Call:
-					actionString = "Call";
+					actionString = "calls";
 					break;
 				case Hand.Action.Bet:
-					actionString = "Bet";
+					actionString = "bets";
 					break;
 				case Hand.Action.Raise:
-					actionString = "Raise";
+					actionString = "bets";
 					break;
 				case Hand.Action.AllIn:
-					actionString = "All in";
+					actionString = "is all in with";
 					break;
 				default :
-					actionString = "Unknown action";
+					actionString = "(invalid action)";
 					break;
 			}
+
+			if ((int)action >= 3)
+				actionString += " $" + Convert.ToString(curSet);
+
 			return actionString;
 		}
 	}

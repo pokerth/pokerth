@@ -20,31 +20,50 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
+
 
 namespace pokerth_lib
 {
-	public interface INetPacketVisitor
+	class NetPacketEndOfHandShowCards : NetPacket
 	{
-		void VisitInit(NetPacket p);
-		void VisitInitAck(NetPacket p);
-		void VisitGameListNew(NetPacket p);
-		void VisitGameListUpdate(NetPacket p);
-		void VisitRetrievePlayerInfo(NetPacket p);
-		void VisitPlayerInfo(NetPacket p);
-		void VisitCreateGame(NetPacket p);
-		void VisitJoinGame(NetPacket p);
-		void VisitJoinGameAck(NetPacket p);
-		void VisitStartEvent(NetPacket p);
-		void VisitStartEventAck(NetPacket p);
-		void VisitGameStart(NetPacket p);
-		void VisitHandStart(NetPacket p);
-		void VisitPlayersTurn(NetPacket p);
-		void VisitPlayersAction(NetPacket p);
-		void VisitPlayersActionDone(NetPacket p);
-		void VisitPlayersActionRejected(NetPacket p);
-		void VisitDealFlopCards(NetPacket p);
-		void VisitDealTurnCard(NetPacket p);
-		void VisitDealRiverCard(NetPacket p);
-		void VisitEndOfHandHideCards(NetPacket p);
+		public NetPacketEndOfHandShowCards()
+			: base(NetPacket.NetTypeEndOfHandShowCards)
+		{
+		}
+
+		public NetPacketEndOfHandShowCards(int size, BinaryReader r)
+			: base(NetPacket.NetTypeEndOfHandShowCards)
+		{
+			if (size < 40)
+				throw new NetPacketException("NetPacketEndOfHandShowCards invalid size.");
+			int numPlayerResults = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
+			r.ReadUInt16(); //reserved
+
+			List<Dictionary<PropType, string>> tmpRecordList = new List<Dictionary<PropType, string>>();
+			for (int i = 0; i < numPlayerResults; i++)
+			{
+				Dictionary<PropType, string> tmpList = new Dictionary<PropType, string>();
+				tmpList.Add(PropType.PlayerId,
+					Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+				tmpList.Add(PropType.FirstCard,
+					Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+				tmpList.Add(PropType.SecondCard,
+					Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+			}
+			RecordProperties.Add(RecordPropType.PlayerResult, tmpRecordList);
+		}
+
+		public override void Accept(INetPacketVisitor visitor)
+		{
+			visitor.VisitEndOfHandHideCards(this);
+		}
+
+		public override byte[] ToByteArray()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

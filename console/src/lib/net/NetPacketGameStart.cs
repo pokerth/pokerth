@@ -43,7 +43,7 @@ namespace pokerth_lib
 				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
 			int curNumPlayers = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
 			Properties.Add(PropType.CurNumPlayers, Convert.ToString(curNumPlayers));
-			r.ReadBytes(2); // reserved
+			r.ReadUInt16(); // reserved
 
 			// Read player ids.
 			List<string> playerSlots = new List<string>();

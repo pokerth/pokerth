@@ -48,53 +48,71 @@ namespace pokerth_console
 			Console.WriteLine("Game was started. Players: {0}.", outPlayers);
 		}
 
-		public void HandStarted(pokerth_lib.Hand h)
+		public void HandStarted(int[] cards)
 		{
-			Console.WriteLine("New hand. Your cards: {0} {1}. Your money: {2}.",
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[0]),
-				Log.CardToString(h.Players[h.MyPlayerId].Cards[1]),
-				h.Players[h.MyPlayerId].Money);
+			Console.WriteLine("\nNew hand. Your cards: {0}, {1}.",
+				Log.CardToString(cards[0]),
+				Log.CardToString(cards[1]));
 		}
 
-		public void MyTurn(Hand.State state)
+		public void SmallBlind(string name, uint blind)
 		{
-			Console.WriteLine("--> {0}: Your turn.",
-				Log.StateToString(state));
+			Console.WriteLine("{0} posts small blind (${1}).", name, blind);
+		}
+
+		public void BigBlind(string name, uint blind)
+		{
+			Console.WriteLine("{0} posts big blind (${1}).", name, blind);
+		}
+
+		public void MyTurn(Hand.State state, uint highestSet, uint minimumRaise, uint money)
+		{
+			Console.WriteLine("\n--> {0}: Your turn. Highest set: ${1}. Minimum raise: ${2}. Cash: ${3}.",
+				Log.StateToString(state), highestSet, minimumRaise, money);
 		}
 
 		public void PlayersTurn(Hand.State state, string player)
 		{
-			Console.WriteLine("{0}: {1}'s turn.",
+			Console.WriteLine("\n{0}: {1}'s turn.",
 				Log.StateToString(state),
 				player);
 		}
 
-		public void ActionDone(string name, Hand.Action action, uint totalBet, uint money, uint highestSet, uint minimumRaise)
+		public void ActionDone(string name, Hand.Action action, uint curBet)
 		{
-			Console.WriteLine("{0} acts: {1}. Total bet: {2}. Money left: {3}.",
-				name, Log.ActionToString(action), totalBet, money);
-			Console.WriteLine("Highest set: {0}. Minimum raise: {1}.",
-				highestSet, minimumRaise);
+			Console.WriteLine("{0} {1}.", name, Log.ActionToString(action, curBet));
 		}
 
-		public void ShowFlopCards(int firstFlopCard, int secondFlopCard, int thirdFlopCard)
+		public void ShowFlopCards(int[] cards)
 		{
-			Console.WriteLine("Flop cards: {0} {1} {2}.",
-				Log.CardToString(firstFlopCard),
-				Log.CardToString(secondFlopCard),
-				Log.CardToString(thirdFlopCard));
+			Console.WriteLine("\n--- Flop --- [{0}, {1}, {2}]",
+				Log.CardToString(cards[0]),
+				Log.CardToString(cards[1]),
+				Log.CardToString(cards[2]));
 		}
 
-		public void ShowTurnCard(int turnCard)
+		public void ShowTurnCards(int[] cards)
 		{
-			Console.WriteLine("Turn card: {0}.",
-				Log.CardToString(turnCard));
+			Console.WriteLine("\n--- Turn --- [{0}, {1}, {2}, {3}]",
+				Log.CardToString(cards[0]),
+				Log.CardToString(cards[1]),
+				Log.CardToString(cards[2]),
+				Log.CardToString(cards[3]));
 		}
 
-		public void ShowRiverCard(int riverCard)
+		public void ShowRiverCards(int[] cards)
 		{
-			Console.WriteLine("River card: {0}.",
-				Log.CardToString(riverCard));
+			Console.WriteLine("\n--- River --- [{0}, {1}, {2}, {3}, {4}]",
+				Log.CardToString(cards[0]),
+				Log.CardToString(cards[1]),
+				Log.CardToString(cards[2]),
+				Log.CardToString(cards[3]),
+				Log.CardToString(cards[4]));
+		}
+
+		public void PlayerWinsHideCards(string name, uint moneyWon)
+		{
+			Console.WriteLine("\n{0} wins ${1}.", name, moneyWon);
 		}
 
 		public void Error(string message)
