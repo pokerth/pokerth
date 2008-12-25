@@ -982,6 +982,17 @@ ServerGameStateWaitPlayerAction::InternalProcess(ServerGameThread &server, Sessi
 			code = ACTION_CODE_NOT_YOUR_TURN;
 		}
 
+		// If the client omitted some values, fill them in.
+		if (actionData.playerAction == PLAYER_ACTION_CALL && actionData.playerBet == 0)
+		{
+			if (curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() >= tmpPlayer->getMySet() + tmpPlayer->getMyCash())
+				actionData.playerAction = PLAYER_ACTION_ALLIN;
+			else
+				actionData.playerBet = curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() - tmpPlayer->getMySet();
+		}
+		if (actionData.playerAction == PLAYER_ACTION_ALLIN && actionData.playerBet == 0)
+			actionData.playerBet = tmpPlayer->getMyCash();
+
 		// Check whether the action is valid.
 		if (code == ACTION_CODE_VALID
 			&& (tmpPlayer->checkMyAction(
