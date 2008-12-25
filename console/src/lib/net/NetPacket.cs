@@ -137,6 +137,12 @@ namespace pokerth_lib
 			TurnCard,
 			RiverCard,
 			MoneyWon,
+			BestHandPos1,
+			BestHandPos2,
+			BestHandPos3,
+			BestHandPos4,
+			BestHandPos5,
+			CardsValue,
 		}
 
 		public enum ListPropType
@@ -194,6 +200,9 @@ namespace pokerth_lib
 					break;
 				case NetTypeDealRiverCard :
 					tmpPacket = new NetPacketDealRiverCard(size, reader);
+					break;
+				case NetTypeEndOfHandShowCards :
+					tmpPacket = new NetPacketEndOfHandShowCards(size, reader);
 					break;
 				case NetTypeEndOfHandHideCards :
 					tmpPacket = new NetPacketEndOfHandHideCards(size, reader);

@@ -110,9 +110,19 @@ namespace pokerth_console
 				Log.CardToString(cards[4]));
 		}
 
-		public void PlayerWinsHideCards(string name, uint moneyWon)
+		public void EndOfHandShowCards(string name, int[] cards, int cardsValue, bool allIn)
 		{
-			Console.WriteLine("\n{0} wins ${1}.", name, moneyWon);
+			Console.WriteLine("{0} {1} [{2}, {3}] - {4}",
+				name,
+				allIn ? "has" : "shows",
+				Log.CardToString(cards[0]),
+				Log.CardToString(cards[1]),
+				Log.CardsValueToString(cardsValue));
+		}
+
+		public void PlayerWins(string name, uint moneyWon)
+		{
+			Console.WriteLine("{0} wins ${1}.", name, moneyWon);
 		}
 
 		public void Error(string message)

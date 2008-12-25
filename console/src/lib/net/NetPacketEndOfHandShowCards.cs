@@ -52,13 +52,32 @@ namespace pokerth_lib
 					Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 				tmpList.Add(PropType.SecondCard,
 					Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+				tmpList.Add(PropType.BestHandPos1,
+					Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+				tmpList.Add(PropType.BestHandPos2,
+					Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+				tmpList.Add(PropType.BestHandPos3,
+					Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+				tmpList.Add(PropType.BestHandPos4,
+					Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+				tmpList.Add(PropType.BestHandPos5,
+					Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+				r.ReadUInt16(); // reserved
+				tmpList.Add(PropType.CardsValue,
+					Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+				tmpList.Add(PropType.MoneyWon,
+					Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+				tmpList.Add(PropType.PlayerMoney,
+					Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+
+				tmpRecordList.Add(tmpList);
 			}
 			RecordProperties.Add(RecordPropType.PlayerResult, tmpRecordList);
 		}
 
 		public override void Accept(INetPacketVisitor visitor)
 		{
-			visitor.VisitEndOfHandHideCards(this);
+			visitor.VisitEndOfHandShowCards(this);
 		}
 
 		public override byte[] ToByteArray()

@@ -45,6 +45,7 @@ namespace pokerth_lib
 		void VisitDealFlopCards(NetPacket p);
 		void VisitDealTurnCard(NetPacket p);
 		void VisitDealRiverCard(NetPacket p);
+		void VisitEndOfHandShowCards(NetPacket p);
 		void VisitEndOfHandHideCards(NetPacket p);
 	}
 }

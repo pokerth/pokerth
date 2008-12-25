@@ -50,6 +50,25 @@ namespace pokerth_lib
 			}
 		}
 
+		public int[] BestHandPos
+		{
+			get
+			{
+				lock (m_mutex)
+				{
+					// Return a copy of the array.
+					return (int[])m_bestHandPos.Clone();
+				}
+			}
+			set
+			{
+				lock (m_mutex)
+				{
+					m_bestHandPos = value;
+				}
+			}
+		}
+
 		public Hand.Action CurAction
 		{
 			get
@@ -104,6 +123,24 @@ namespace pokerth_lib
 			}
 		}
 
+		public int CardsValue
+		{
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_cardsValue;
+				}
+			}
+			set
+			{
+				lock (m_mutex)
+				{
+					m_cardsValue = value;
+				}
+			}
+		}
+
 		public void NewHand()
 		{
 			lock (m_mutex)
@@ -116,8 +153,10 @@ namespace pokerth_lib
 
 		private Object m_mutex;
 		private int[] m_cards;
+		private int[] m_bestHandPos;
 		private Hand.Action m_curAction;
 		private uint m_money;
 		private uint m_totalBet;
+		private int m_cardsValue;
 	}
 }

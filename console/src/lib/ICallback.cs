@@ -37,7 +37,8 @@ namespace pokerth_lib
 		void ShowFlopCards(int[] cards);
 		void ShowTurnCards(int[] cards);
 		void ShowRiverCards(int[] cards);
-		void PlayerWinsHideCards(string name, uint moneyWon);
+		void EndOfHandShowCards(string name, int[] cards, int cardsValue, bool allIn);
+		void PlayerWins(string name, uint moneyWon);
 		void Error(string message);
 	}
 }

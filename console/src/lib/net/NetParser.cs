@@ -250,6 +250,43 @@ namespace pokerth_lib
 			m_callback.ShowRiverCards(tmpCards);
 		}
 
+		public void VisitEndOfHandShowCards(NetPacket p)
+		{
+			List<Dictionary<NetPacket.PropType, string>> tmpList
+				= p.RecordProperties[NetPacket.RecordPropType.PlayerResult];
+			foreach (Dictionary<NetPacket.PropType, string> i in tmpList)
+			{
+				uint playerId = Convert.ToUInt32(i[NetPacket.PropType.PlayerId]);
+				string name = m_data.PlayerList.GetPlayerInfo(playerId).Name;
+				Player curPlayer = m_data.CurHand.Players[playerId];
+				int[] tmpCards = new int[2];
+				tmpCards[0] = Convert.ToInt32(i[NetPacket.PropType.FirstCard]);
+				tmpCards[1] = Convert.ToInt32(i[NetPacket.PropType.SecondCard]);
+				curPlayer.Cards = tmpCards;
+				int[] tmpBest = new int[5];
+				tmpBest[0] = Convert.ToInt32(i[NetPacket.PropType.BestHandPos1]);
+				tmpBest[1] = Convert.ToInt32(i[NetPacket.PropType.BestHandPos2]);
+				tmpBest[2] = Convert.ToInt32(i[NetPacket.PropType.BestHandPos3]);
+				tmpBest[3] = Convert.ToInt32(i[NetPacket.PropType.BestHandPos4]);
+				tmpBest[4] = Convert.ToInt32(i[NetPacket.PropType.BestHandPos5]);
+				curPlayer.BestHandPos = tmpBest;
+				curPlayer.CardsValue = Convert.ToInt32(i[NetPacket.PropType.CardsValue]);
+				curPlayer.Money = Convert.ToUInt32(i[NetPacket.PropType.PlayerMoney]);
+
+				m_callback.EndOfHandShowCards(name, tmpCards, curPlayer.CardsValue, false);
+			}
+			foreach (Dictionary<NetPacket.PropType, string> i in tmpList)
+			{
+				uint moneyWon = Convert.ToUInt32(i[NetPacket.PropType.MoneyWon]);
+				if (moneyWon > 0)
+				{
+					uint playerId = Convert.ToUInt32(i[NetPacket.PropType.PlayerId]);
+					string name = m_data.PlayerList.GetPlayerInfo(playerId).Name;
+					m_callback.PlayerWins(name, moneyWon);
+				}
+			}
+		}
+
 		public void VisitEndOfHandHideCards(NetPacket p)
 		{
 			uint playerId = Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerId]);
@@ -257,7 +294,7 @@ namespace pokerth_lib
 			Player curPlayer = m_data.CurHand.Players[playerId];
 			curPlayer.Money = Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerMoney]);
 
-			m_callback.PlayerWinsHideCards(
+			m_callback.PlayerWins(
 				name,
 				Convert.ToUInt32(p.Properties[NetPacket.PropType.MoneyWon]));
 		}

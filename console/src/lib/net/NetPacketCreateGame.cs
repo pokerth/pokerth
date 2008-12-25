@@ -60,6 +60,18 @@ namespace pokerth_lib.src
 
 			WriteGameInfoBlock(w);
 
+			w.Write(tmpPassword);
+			// Add padding.
+			int passwordPadding = passwordWithPadding - tmpPassword.Length;
+			if (passwordPadding > 0)
+				w.Write(new byte[passwordPadding]);
+
+			w.Write(tmpName);
+			// Add padding.
+			int namePadding = nameWithPadding - tmpName.Length;
+			if (namePadding > 0)
+				w.Write(new byte[namePadding]);
+
 			return memStream.ToArray();
 		}
 	}
