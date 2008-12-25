@@ -72,7 +72,7 @@ namespace pokerth_lib
 
 				tmpRecordList.Add(tmpList);
 			}
-			RecordProperties.Add(RecordPropType.PlayerResult, tmpRecordList);
+			RecordProperties.Add(RecordPropType.PlayerResults, tmpRecordList);
 		}
 
 		public override void Accept(INetPacketVisitor visitor)

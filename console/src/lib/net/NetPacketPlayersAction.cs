@@ -45,7 +45,7 @@ namespace pokerth_lib
 			BinaryWriter w = new BinaryWriter(memStream);
 
 			w.Write(IPAddress.HostToNetworkOrder((short)Type));
-			w.Write(IPAddress.HostToNetworkOrder((short)8));
+			w.Write(IPAddress.HostToNetworkOrder((short)12));
 			w.Write(IPAddress.HostToNetworkOrder((short)
 				Convert.ToUInt16(Properties[PropType.GameState])));
 			w.Write(IPAddress.HostToNetworkOrder((short)

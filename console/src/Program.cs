@@ -29,21 +29,76 @@ namespace pokerth_console
 	{
 		static int Main(string[] args)
 		{
+			Console.WriteLine("pokerth_console V0.1 - Copyright (C) 2008 by Lothar May");
+			Console.WriteLine("See license.txt for license terms.");
+			Console.WriteLine();
+			Console.WriteLine("Enter your nickname:");
+			string name = Console.ReadLine();
+			Console.WriteLine("Connecting to server...");
 			Settings settings = new Settings();
-			PokerTHData data = new PokerTHData("Testuser1");
+			PokerTHData data = new PokerTHData(name);
 			ConsoleCallback callback = new ConsoleCallback();
 			Client client = new Client(settings, data, callback);
 			client.Connect();
 			client.Start();
 			Thread.Sleep(2000);
-			Console.WriteLine("Open Games:");
-			Console.Write(data.GameList.ToString());
-			Console.WriteLine();
-			Console.WriteLine("Enter game id");
-			string input = Console.ReadLine();
-			uint gameId = Convert.ToUInt32(input);
-			client.JoinGame(gameId);
-			input = Console.ReadLine();
+			string input;
+			bool joined = false;
+			do
+			{
+				do
+				{
+					Console.WriteLine("Open Games:");
+					Console.Write(data.GameList.GetOpenGamesString());
+					Console.WriteLine();
+					Console.WriteLine("Enter game id (or press enter to refresh)");
+					input = Console.ReadLine();
+				} while (input == "" || !Char.IsDigit(input[0]));
+				Console.WriteLine("Joining game...");
+				uint gameId = Convert.ToUInt32(input);
+				client.JoinGame(gameId);
+				if (client.WaitJoinGame(5000))
+					joined = true;
+				else
+					Console.WriteLine("Could not join game.");
+			} while (!joined);
+			Console.WriteLine("Waiting for admin to start the game...");
+			client.WaitStartGame();
+
+			do
+			{
+				do
+				{
+					input = Console.ReadLine();
+				} while (input == "");
+				Hand.Action action = Hand.Action.None;
+				uint bet = 0;
+				switch (input[0])
+				{
+					case 'f':
+						action = Hand.Action.Fold;
+						break;
+					case 'c':
+						action = Hand.Action.Check;
+						break;
+					case 'l':
+						action = Hand.Action.Call;
+						break;
+					case 'b':
+						action = Hand.Action.Bet;
+						bet = Convert.ToUInt32(input.Substring(1));
+						break;
+					case 'r':
+						action = Hand.Action.Raise;
+						bet = Convert.ToUInt32(input.Substring(1));
+						break;
+					case 'a':
+						action = Hand.Action.AllIn;
+						break;
+				}
+				if (action != Hand.Action.None)
+					client.MyAction(action, bet);
+			} while (true);
 			client.SetTerminateFlag();
 			client.WaitTermination();
 			return 0;

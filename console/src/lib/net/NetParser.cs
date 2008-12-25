@@ -71,6 +71,26 @@ namespace pokerth_lib
 				m_data.GameList.GetGameInfo(id).CurrentMode = mode;
 		}
 
+		public void VisitGameListPlayerJoined(NetPacket p)
+		{
+			GameInfo info = m_data.GameList.GetGameInfo(
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.GameId]));
+			List<uint> playerSlots = info.PlayerSlots;
+			playerSlots.Add(
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerId]));
+			info.PlayerSlots = playerSlots;
+		}
+
+		public void VisitGameListPlayerLeft(NetPacket p)
+		{
+			GameInfo info = m_data.GameList.GetGameInfo(
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.GameId]));
+			List<uint> playerSlots = info.PlayerSlots;
+			playerSlots.Remove(
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerId]));
+			info.PlayerSlots = playerSlots;
+		}
+
 		public void VisitRetrievePlayerInfo(NetPacket p)
 		{
 			throw new NotImplementedException();
@@ -99,6 +119,7 @@ namespace pokerth_lib
 			m_data.MyGameId =
 				Convert.ToUInt32(p.Properties[NetPacket.PropType.GameId]);
 			m_callback.JoinedGame(m_data.GameList.GetGameInfo(m_data.MyGameId).Name);
+			m_data.JoinGameEvent.Set();
 		}
 
 		public void VisitStartEvent(NetPacket p)
@@ -146,6 +167,7 @@ namespace pokerth_lib
 			}
 
 			m_callback.GameStarted(strPlayers);
+			m_data.StartGameEvent.Set();
 		}
 
 		public void VisitHandStart(NetPacket p)
@@ -250,10 +272,28 @@ namespace pokerth_lib
 			m_callback.ShowRiverCards(tmpCards);
 		}
 
+		public void VisitAllInShowCards(NetPacket p)
+		{
+			List<Dictionary<NetPacket.PropType, string>> tmpList
+				= p.RecordProperties[NetPacket.RecordPropType.PlayerCards];
+			foreach (Dictionary<NetPacket.PropType, string> i in tmpList)
+			{
+				uint playerId = Convert.ToUInt32(i[NetPacket.PropType.PlayerId]);
+				string name = m_data.PlayerList.GetPlayerInfo(playerId).Name;
+				Player curPlayer = m_data.CurHand.Players[playerId];
+				int[] tmpCards = new int[2];
+				tmpCards[0] = Convert.ToInt32(i[NetPacket.PropType.FirstCard]);
+				tmpCards[1] = Convert.ToInt32(i[NetPacket.PropType.SecondCard]);
+				curPlayer.Cards = tmpCards;
+
+				m_callback.ShowCards(name, tmpCards);
+			}
+		}
+
 		public void VisitEndOfHandShowCards(NetPacket p)
 		{
 			List<Dictionary<NetPacket.PropType, string>> tmpList
-				= p.RecordProperties[NetPacket.RecordPropType.PlayerResult];
+				= p.RecordProperties[NetPacket.RecordPropType.PlayerResults];
 			foreach (Dictionary<NetPacket.PropType, string> i in tmpList)
 			{
 				uint playerId = Convert.ToUInt32(i[NetPacket.PropType.PlayerId]);
@@ -297,6 +337,11 @@ namespace pokerth_lib
 			m_callback.PlayerWins(
 				name,
 				Convert.ToUInt32(p.Properties[NetPacket.PropType.MoneyWon]));
+		}
+
+		public void VisitError(NetPacket p)
+		{
+			m_callback.Error(p.Properties[NetPacket.PropType.ErrorReason]);
 		}
 
 		private PokerTHData m_data;

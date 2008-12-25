@@ -39,11 +39,11 @@ namespace pokerth_lib
 		{
 			// Connect to the server.
 			// Try IPv6 first.
-			/*IPAddress[] addresses = new IPAddress[2];
+			IPAddress[] addresses = new IPAddress[2];
 			addresses[0] = IPAddress.Parse(m_settings.ServerSettings.IPv6Address);
 			addresses[1] = IPAddress.Parse(m_settings.ServerSettings.IPv4Address);
-			m_tcpClient.Connect(addresses, m_settings.ServerSettings.Port);*/
-			m_tcpClient.Connect("localhost", 7234);
+			m_tcpClient.Connect(addresses, m_settings.ServerSettings.Port);
+			//m_tcpClient.Connect("localhost", 7234);
 		}
 
 		public void Start()
@@ -56,6 +56,31 @@ namespace pokerth_lib
 		public void JoinGame(uint gameId)
 		{
 			SendJoinGame(gameId);
+		}
+
+		public bool WaitJoinGame(int timeout)
+		{
+			return m_data.JoinGameEvent.WaitOne(timeout);
+		}
+
+		public bool WaitStartGame()
+		{
+			return m_data.StartGameEvent.WaitOne();
+		}
+
+		public void MyAction(Hand.Action action, uint bet)
+		{
+			NetPacket a = new NetPacketPlayersAction();
+			a.Properties.Add(
+				NetPacket.PropType.GameState,
+				Convert.ToString((int)m_data.CurHand.CurState));
+			a.Properties.Add(
+				NetPacket.PropType.PlayerAction,
+				Convert.ToString((int)action));
+			a.Properties.Add(
+				NetPacket.PropType.PlayerBet,
+				Convert.ToString(bet));
+			m_sender.Send(a);
 		}
 
 		public void SetTerminateFlag()

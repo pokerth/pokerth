@@ -28,7 +28,8 @@ namespace pokerth_console
 	{
 		public void InitDone()
 		{
-			Console.WriteLine("Init successful.");
+			Console.WriteLine("Connection established.");
+			Console.WriteLine("Retrieving list of games...");
 		}
 
 		public void JoinedGame(string name)
@@ -69,6 +70,7 @@ namespace pokerth_console
 		{
 			Console.WriteLine("\n--> {0}: Your turn. Highest set: ${1}. Minimum raise: ${2}. Cash: ${3}.",
 				Log.StateToString(state), highestSet, minimumRaise, money);
+			Console.WriteLine("Enter: (f)old, (c)heck, ca(l)l, (b)et<num>, (r)aise<num>, (a)ll in");
 		}
 
 		public void PlayersTurn(Hand.State state, string player)
@@ -110,14 +112,32 @@ namespace pokerth_console
 				Log.CardToString(cards[4]));
 		}
 
+		public void AllInState()
+		{
+			Console.WriteLine(); // simply print a newline
+		}
+
+		public void ShowCards(string name, int[] cards)
+		{
+			Console.WriteLine("{0} shows [{1}, {2}].",
+				name,
+				Log.CardToString(cards[0]),
+				Log.CardToString(cards[1]));
+		}
+
 		public void EndOfHandShowCards(string name, int[] cards, int cardsValue, bool allIn)
 		{
-			Console.WriteLine("{0} {1} [{2}, {3}] - {4}",
+			Console.WriteLine("{0} {1} [{2}, {3}] - {4}.",
 				name,
 				allIn ? "has" : "shows",
 				Log.CardToString(cards[0]),
 				Log.CardToString(cards[1]),
 				Log.CardsValueToString(cardsValue));
+		}
+
+		public void HandResult()
+		{
+			Console.WriteLine();
 		}
 
 		public void PlayerWins(string name, uint moneyWon)
@@ -128,6 +148,8 @@ namespace pokerth_console
 		public void Error(string message)
 		{
 			Console.WriteLine("Error: " + message);
+			Console.WriteLine("Hint: Try using a different nickname.");
+			System.Environment.Exit(1);
 		}
 	}
 }

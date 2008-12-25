@@ -91,6 +91,7 @@ namespace pokerth_lib
 
 		public enum PropType
 		{
+			ErrorReason,
 			RequestedVersionMajor,
 			RequestedVersionMinor,
 			PlayerId,
@@ -153,7 +154,8 @@ namespace pokerth_lib
 
 		public enum RecordPropType
 		{
-			PlayerResult,
+			PlayerResults,
+			PlayerCards,
 		}
 
 		public static NetPacket Create(int type, int size, BinaryReader reader)
@@ -170,6 +172,12 @@ namespace pokerth_lib
 					break;
 				case NetTypeGameListUpdate :
 					tmpPacket = new NetPacketGameListUpdate(size, reader);
+					break;
+				case NetTypeGameListPlayerJoined :
+					tmpPacket = new NetPacketGameListPlayerJoined(size, reader);
+					break;
+				case NetTypeGameListPlayerLeft :
+					tmpPacket = new NetPacketGameListPlayerLeft(size, reader);
 					break;
 				case NetTypeJoinGameAck :
 					tmpPacket = new NetPacketJoinGameAck(size, reader);
@@ -201,11 +209,17 @@ namespace pokerth_lib
 				case NetTypeDealRiverCard :
 					tmpPacket = new NetPacketDealRiverCard(size, reader);
 					break;
+				case NetTypeAllInShowCards :
+					tmpPacket = new NetPacketAllInShowCards(size, reader);
+					break;
 				case NetTypeEndOfHandShowCards :
 					tmpPacket = new NetPacketEndOfHandShowCards(size, reader);
 					break;
 				case NetTypeEndOfHandHideCards :
 					tmpPacket = new NetPacketEndOfHandHideCards(size, reader);
+					break;
+				case NetTypeError :
+					tmpPacket = new NetPacketError(size, reader);
 					break;
 				default:
 					break;

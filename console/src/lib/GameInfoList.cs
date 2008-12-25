@@ -66,17 +66,20 @@ namespace pokerth_lib
 			}
 		}
 
-		public override string ToString()
+		public string GetOpenGamesString()
 		{
 			string outString = "";
 			lock (m_list)
 			{
 				foreach (KeyValuePair<uint, GameInfo> i in m_list)
 				{
-					outString += i.Key;
-					outString += " ";
-					outString += i.Value.Name;
-					outString += '\n';
+					if (i.Value.CurrentMode == GameInfo.Mode.Created)
+					{
+						outString += i.Key;
+						outString += " ";
+						outString += i.Value.Name;
+						outString += '\n';
+					}
 				}
 			}
 			return outString;

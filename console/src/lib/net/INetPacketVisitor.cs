@@ -29,6 +29,8 @@ namespace pokerth_lib
 		void VisitInitAck(NetPacket p);
 		void VisitGameListNew(NetPacket p);
 		void VisitGameListUpdate(NetPacket p);
+		void VisitGameListPlayerJoined(NetPacket p);
+		void VisitGameListPlayerLeft(NetPacket p);
 		void VisitRetrievePlayerInfo(NetPacket p);
 		void VisitPlayerInfo(NetPacket p);
 		void VisitCreateGame(NetPacket p);
@@ -45,7 +47,9 @@ namespace pokerth_lib
 		void VisitDealFlopCards(NetPacket p);
 		void VisitDealTurnCard(NetPacket p);
 		void VisitDealRiverCard(NetPacket p);
+		void VisitAllInShowCards(NetPacket p);
 		void VisitEndOfHandShowCards(NetPacket p);
 		void VisitEndOfHandHideCards(NetPacket p);
+		void VisitError(NetPacket p);
 	}
 }

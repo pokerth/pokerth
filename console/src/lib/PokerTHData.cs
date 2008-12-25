@@ -20,6 +20,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+
 
 namespace pokerth_lib
 {
@@ -33,6 +35,8 @@ namespace pokerth_lib
 			m_myPlayerId = 0;
 			m_myGameId = 0;
 			m_myName = name;
+			m_joinGameEvent = new AutoResetEvent(false);
+			m_startGameEvent = new AutoResetEvent(false);
 		}
 
 		public GameInfoList GameList
@@ -113,6 +117,22 @@ namespace pokerth_lib
 			}
 		}
 
+		public EventWaitHandle JoinGameEvent
+		{
+			get
+			{
+				return m_joinGameEvent;
+			}
+		}
+
+		public EventWaitHandle StartGameEvent
+		{
+			get
+			{
+				return m_startGameEvent;
+			}
+		}
+
 		private GameInfoList m_gameInfoList;
 		private PlayerInfoList m_playerInfoList;
 		private Hand m_curHand;
@@ -120,5 +140,7 @@ namespace pokerth_lib
 		private uint m_myPlayerId;
 		private uint m_myGameId;
 		private string m_myName;
+		private EventWaitHandle m_joinGameEvent;
+		private EventWaitHandle m_startGameEvent;
 	}
 }
