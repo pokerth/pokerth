@@ -68,7 +68,13 @@ namespace pokerth_lib
 			{
 				lock (m_mutex)
 				{
-					m_state = value;
+					if (m_state != value)
+					{
+						m_state = value;
+						// Reset bets.
+						foreach (KeyValuePair<uint, Player> player in m_players)
+							player.Value.TotalBet = 0;
+					}
 				}
 			}
 		}

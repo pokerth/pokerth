@@ -91,7 +91,6 @@ namespace pokerth_lib
 
 		public enum PropType
 		{
-			ErrorReason,
 			RequestedVersionMajor,
 			RequestedVersionMinor,
 			PlayerId,
@@ -145,6 +144,8 @@ namespace pokerth_lib
 			BestHandPos5,
 			CardsValue,
 			ChatText,
+			ErrorReason,
+			RemoveReason,
 		}
 
 		public enum ListPropType
@@ -221,6 +222,9 @@ namespace pokerth_lib
 					break;
 				case NetTypeEndOfGame :
 					tmpPacket = new NetPacketEndOfGame(size, reader);
+					break;
+				case NetTypeRemovedFromGame :
+					tmpPacket = new NetPacketRemovedFromGame(size, reader);
 					break;
 				case NetTypeChatText :
 					tmpPacket = new NetPacketChatText(size, reader);

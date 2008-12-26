@@ -199,7 +199,6 @@ namespace pokerth_lib
 		{
 			uint curPlayer = Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerId]);
 			Hand.State state = (Hand.State)Convert.ToUInt16(p.Properties[NetPacket.PropType.GameState]);
-			m_data.CurHand.CurState = state;
 			if (curPlayer == m_data.MyPlayerId)
 				m_callback.MyTurn(state, m_data.CurHand.HighestSet,
 					m_data.CurHand.MinimumRaise, m_players[curPlayer].Money);
@@ -251,6 +250,7 @@ namespace pokerth_lib
 
 		public void VisitDealFlopCards(NetPacket p)
 		{
+			m_data.CurHand.CurState = Hand.State.Flop;
 			int[] tmpCards = new int[3];
 			tmpCards[0] = Convert.ToInt32(p.Properties[NetPacket.PropType.FlopFirstCard]);
 			tmpCards[1] = Convert.ToInt32(p.Properties[NetPacket.PropType.FlopSecondCard]);
@@ -261,6 +261,7 @@ namespace pokerth_lib
 
 		public void VisitDealTurnCard(NetPacket p)
 		{
+			m_data.CurHand.CurState = Hand.State.Turn;
 			int[] tmpCards = new int[4];
 			m_data.CurHand.TableCards.CopyTo(tmpCards, 0);
 			tmpCards[3] = Convert.ToInt32(p.Properties[NetPacket.PropType.TurnCard]);
@@ -270,6 +271,7 @@ namespace pokerth_lib
 
 		public void VisitDealRiverCard(NetPacket p)
 		{
+			m_data.CurHand.CurState = Hand.State.River;
 			int[] tmpCards = new int[5];
 			m_data.CurHand.TableCards.CopyTo(tmpCards, 0);
 			tmpCards[4] = Convert.ToInt32(p.Properties[NetPacket.PropType.RiverCard]);
@@ -356,6 +358,11 @@ namespace pokerth_lib
 			NetPacket leave = new NetPacketLeaveCurrentGame();
 			m_sender.Send(leave);
 			m_data.JoinedGame = false;
+		}
+
+		public void VisitRemovedFromGame(NetPacket p)
+		{
+			m_callback.RemovedFromGame();
 		}
 
 		public void VisitChatText(NetPacket p)

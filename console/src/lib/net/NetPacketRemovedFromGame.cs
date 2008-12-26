@@ -20,40 +20,37 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
+
 
 namespace pokerth_lib
 {
-	public interface INetPacketVisitor
+	class NetPacketRemovedFromGame : NetPacket
 	{
-		void VisitInit(NetPacket p);
-		void VisitInitAck(NetPacket p);
-		void VisitGameListNew(NetPacket p);
-		void VisitGameListUpdate(NetPacket p);
-		void VisitGameListPlayerJoined(NetPacket p);
-		void VisitGameListPlayerLeft(NetPacket p);
-		void VisitRetrievePlayerInfo(NetPacket p);
-		void VisitPlayerInfo(NetPacket p);
-		void VisitCreateGame(NetPacket p);
-		void VisitJoinGame(NetPacket p);
-		void VisitJoinGameAck(NetPacket p);
-		void VisitLeaveCurrentGame(NetPacket p);
-		void VisitStartEvent(NetPacket p);
-		void VisitStartEventAck(NetPacket p);
-		void VisitGameStart(NetPacket p);
-		void VisitHandStart(NetPacket p);
-		void VisitPlayersTurn(NetPacket p);
-		void VisitPlayersAction(NetPacket p);
-		void VisitPlayersActionDone(NetPacket p);
-		void VisitPlayersActionRejected(NetPacket p);
-		void VisitDealFlopCards(NetPacket p);
-		void VisitDealTurnCard(NetPacket p);
-		void VisitDealRiverCard(NetPacket p);
-		void VisitAllInShowCards(NetPacket p);
-		void VisitEndOfHandShowCards(NetPacket p);
-		void VisitEndOfHandHideCards(NetPacket p);
-		void VisitEndOfGame(NetPacket p);
-		void VisitRemovedFromGame(NetPacket p);
-		void VisitChatText(NetPacket p);
-		void VisitError(NetPacket p);
+		public NetPacketRemovedFromGame()
+			: base(NetPacket.NetTypeRemovedFromGame)
+		{
+		}
+
+		public NetPacketRemovedFromGame(int size, BinaryReader r)
+			: base(NetPacket.NetTypeRemovedFromGame)
+		{
+			if (size != 8)
+				throw new NetPacketException("NetPacketRemovedFromGame invalid size.");
+			Properties.Add(PropType.RemoveReason,
+				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
+		}
+
+		public override void Accept(INetPacketVisitor visitor)
+		{
+			visitor.VisitRemovedFromGame(this);
+		}
+
+		public override byte[] ToByteArray()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

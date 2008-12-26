@@ -111,7 +111,7 @@ namespace pokerth_console
 		static int Main(string[] args)
 		{
 			Console.WriteLine("pokerth_console V0.1 - Copyright (C) 2008 by Lothar May");
-			Console.WriteLine("See license.txt for license terms.");
+			Console.WriteLine("See COPYING.txt for license terms.");
 			Console.WriteLine();
 			Console.WriteLine("Enter your nickname:");
 			string name = Console.ReadLine();

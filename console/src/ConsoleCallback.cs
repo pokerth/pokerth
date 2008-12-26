@@ -150,6 +150,12 @@ namespace pokerth_console
 			Console.WriteLine("\n{0} wins the game.", name);
 		}
 
+		public void RemovedFromGame()
+		{
+			Console.WriteLine("You have left the game.");
+			System.Environment.Exit(1);
+		}
+
 		public void ChatText(string name, string message)
 		{
 			Console.WriteLine("{0}: {1}",
