@@ -144,6 +144,7 @@ namespace pokerth_lib
 			BestHandPos4,
 			BestHandPos5,
 			CardsValue,
+			ChatText,
 		}
 
 		public enum ListPropType
@@ -220,6 +221,9 @@ namespace pokerth_lib
 					break;
 				case NetTypeEndOfGame :
 					tmpPacket = new NetPacketEndOfGame(size, reader);
+					break;
+				case NetTypeChatText :
+					tmpPacket = new NetPacketChatText(size, reader);
 					break;
 				case NetTypeError :
 					tmpPacket = new NetPacketError(size, reader);

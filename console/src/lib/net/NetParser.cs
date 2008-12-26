@@ -358,6 +358,20 @@ namespace pokerth_lib
 			m_data.JoinedGame = false;
 		}
 
+		public void VisitChatText(NetPacket p)
+		{
+			uint playerId = Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerId]);
+			string name;
+			if (playerId == 0)
+				name = "(global notice)";
+			else
+				name = m_data.PlayerList.GetPlayerInfo(playerId).Name;
+
+			m_callback.ChatText(
+				name,
+				p.Properties[NetPacket.PropType.ChatText]);
+		}
+
 		public void VisitError(NetPacket p)
 		{
 			m_callback.Error(p.Properties[NetPacket.PropType.ErrorReason]);

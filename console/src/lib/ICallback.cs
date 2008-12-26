@@ -43,6 +43,7 @@ namespace pokerth_lib
 		void HandResult();
 		void PlayerWinsHand(string name, uint moneyWon);
 		void PlayerWinsGame(string name);
+		void ChatText(string name, string message);
 		void Error(string message);
 	}
 }

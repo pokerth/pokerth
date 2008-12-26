@@ -20,39 +20,45 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
+
 
 namespace pokerth_lib
 {
-	public interface INetPacketVisitor
+	class NetPacketChatText : NetPacket
 	{
-		void VisitInit(NetPacket p);
-		void VisitInitAck(NetPacket p);
-		void VisitGameListNew(NetPacket p);
-		void VisitGameListUpdate(NetPacket p);
-		void VisitGameListPlayerJoined(NetPacket p);
-		void VisitGameListPlayerLeft(NetPacket p);
-		void VisitRetrievePlayerInfo(NetPacket p);
-		void VisitPlayerInfo(NetPacket p);
-		void VisitCreateGame(NetPacket p);
-		void VisitJoinGame(NetPacket p);
-		void VisitJoinGameAck(NetPacket p);
-		void VisitLeaveCurrentGame(NetPacket p);
-		void VisitStartEvent(NetPacket p);
-		void VisitStartEventAck(NetPacket p);
-		void VisitGameStart(NetPacket p);
-		void VisitHandStart(NetPacket p);
-		void VisitPlayersTurn(NetPacket p);
-		void VisitPlayersAction(NetPacket p);
-		void VisitPlayersActionDone(NetPacket p);
-		void VisitPlayersActionRejected(NetPacket p);
-		void VisitDealFlopCards(NetPacket p);
-		void VisitDealTurnCard(NetPacket p);
-		void VisitDealRiverCard(NetPacket p);
-		void VisitAllInShowCards(NetPacket p);
-		void VisitEndOfHandShowCards(NetPacket p);
-		void VisitEndOfHandHideCards(NetPacket p);
-		void VisitEndOfGame(NetPacket p);
-		void VisitChatText(NetPacket p);
-		void VisitError(NetPacket p);
+		public NetPacketChatText()
+			: base(NetPacket.NetTypeChatText)
+		{
+		}
+
+		public NetPacketChatText(int size, BinaryReader r)
+			: base(NetPacket.NetTypeChatText)
+		{
+			if (size < 12)
+				throw new NetPacketException("NetPacketChatText invalid size.");
+			Properties.Add(PropType.PlayerId,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			int textLen = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
+
+			r.ReadUInt16(); // reserved
+
+			// Read chat text.
+			byte[] tmpText = r.ReadBytes(textLen);
+			Properties.Add(PropType.ChatText,
+				Encoding.UTF8.GetString(tmpText));
+		}
+
+		public override void Accept(INetPacketVisitor visitor)
+		{
+			visitor.VisitChatText(this);
+		}
+
+		public override byte[] ToByteArray()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

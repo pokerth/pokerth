@@ -150,6 +150,13 @@ namespace pokerth_console
 			Console.WriteLine("\n{0} wins the game.", name);
 		}
 
+		public void ChatText(string name, string message)
+		{
+			Console.WriteLine("{0}: {1}",
+				name,
+				message);
+		}
+
 		public void Error(string message)
 		{
 			Console.WriteLine("Error: " + message);
