@@ -147,6 +147,19 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 					m_ircThread->SendChatMessage(statStream.str());
 				}
 			}
+			else if (command == "msg")
+			{
+				while (msgStream.peek() == ' ')
+					msgStream.get();
+				string message(msgStream.str().substr(msgStream.tellg()));
+				if (!message.empty())
+				{
+					GetLobbyThread().SendGlobalNotice(message);
+					m_ircThread->SendChatMessage(nickName + ": Global notice sent.");
+				}
+				else
+					m_ircThread->SendChatMessage(nickName + ": Invalid message.");
+			}
 			else
 				m_ircThread->SendChatMessage(nickName + ": Invalid command \"" + command + "\".");
 		}

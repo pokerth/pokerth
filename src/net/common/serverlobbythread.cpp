@@ -77,7 +77,7 @@ private:
 
 ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager)
 : m_gui(gui), m_avatarManager(avatarManager), m_playerConfig(playerConfig),
-  m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
+  m_curGameId(1), m_curUniquePlayerId(1), m_curSessionId(INVALID_SESSION + 1),
   m_statDataChanged(false), m_startTime(boost::posix_time::second_clock::local_time())
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
@@ -260,6 +260,17 @@ ServerLobbyThread::RemovePlayer(unsigned playerId, unsigned errorCode)
 }
 
 void
+ServerLobbyThread::SendGlobalNotice(const std::string &message)
+{
+	boost::shared_ptr<NetPacket> outChat(new NetPacketChatText);
+	NetPacketChatText::Data outChatData;
+	outChatData.playerId = 0;
+	outChatData.text = message;
+	static_cast<NetPacketChatText *>(outChat.get())->SetData(outChatData);
+	m_gameSessionManager.SendToAllSessions(GetSender(), outChat, SessionData::Game);
+}
+
+void
 ServerLobbyThread::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
 {
 	boost::mutex::scoped_lock lock(m_computerPlayersMutex);
@@ -303,13 +314,21 @@ u_int32_t
 ServerLobbyThread::GetNextUniquePlayerId()
 {
 	boost::mutex::scoped_lock lock(m_curUniquePlayerIdMutex);
-	return m_curUniquePlayerId++;
+	m_curUniquePlayerId++;
+	if (m_curUniquePlayerId == 0) // 0 is an invalid id.
+		m_curUniquePlayerId++;
+
+	return m_curUniquePlayerId;
 }
 
 u_int32_t
 ServerLobbyThread::GetNextGameId()
 {
-	return m_curGameId++;
+	m_curGameId++;
+	if (m_curGameId == 0) // 0 is an invalid id.
+		m_curGameId++;
+
+	return m_curGameId;
 }
 
 void

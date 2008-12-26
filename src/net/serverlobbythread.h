@@ -70,6 +70,8 @@ public:
 	bool KickPlayerByName(const std::string &playerName);
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
 
+	void SendGlobalNotice(const std::string &message);
+
 	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
 	void RemoveComputerPlayer(boost::shared_ptr<PlayerData> player);
 

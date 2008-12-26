@@ -691,9 +691,19 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			NetPacketChatText::Data chatData;
 			tmpPacket->ToNetPacketChatText()->GetData(chatData);
 
-			boost::shared_ptr<PlayerData> tmpPlayer = client.GetPlayerDataByUniqueId(chatData.playerId);
-			if (tmpPlayer.get())
-				client.GetCallback().SignalNetClientChatMsg(tmpPlayer->GetName(), chatData.text);
+			string playerName;
+			if (chatData.playerId == 0)
+			{
+				playerName = "(global notice)";
+			}
+			else
+			{
+				boost::shared_ptr<PlayerData> tmpPlayer = client.GetPlayerDataByUniqueId(chatData.playerId);
+				if (tmpPlayer.get())
+					playerName = tmpPlayer->GetName();
+			}
+			if (!playerName.empty())
+				client.GetCallback().SignalNetClientChatMsg(playerName, chatData.text);
 		}
 		else if (tmpPacket->ToNetPacketPlayerLeft())
 		{
