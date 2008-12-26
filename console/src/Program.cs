@@ -57,47 +57,62 @@ namespace pokerth_console
 				Console.WriteLine("Joining game...");
 				uint gameId = Convert.ToUInt32(input);
 				client.JoinGame(gameId);
-				if (client.WaitJoinGame(5000))
+				// Hack this, because Mono does not support WaitOne(...).
+				DateTime cur = DateTime.Now;
+				while (!client.HasJoinedGame())
+				{
+					Thread.Sleep(15);
+					if (DateTime.Now.Subtract(cur).Seconds > 5)
+						break;
+				}
+				if (client.HasJoinedGame())
 					joined = true;
 				else
 					Console.WriteLine("Could not join game.");
 			} while (!joined);
 			Console.WriteLine("Waiting for admin to start the game...");
-			client.WaitStartGame();
 
 			do
 			{
 				do
 				{
+					while (Console.KeyAvailable)
+						Console.ReadKey();
 					input = Console.ReadLine();
 				} while (input == "");
 				Hand.Action action = Hand.Action.None;
 				uint bet = 0;
-				switch (input[0])
+				try
 				{
-					case 'f':
-						action = Hand.Action.Fold;
-						break;
-					case 'c':
-						action = Hand.Action.Check;
-						break;
-					case 'l':
-						action = Hand.Action.Call;
-						break;
-					case 'b':
-						action = Hand.Action.Bet;
-						bet = Convert.ToUInt32(input.Substring(1));
-						break;
-					case 'r':
-						action = Hand.Action.Raise;
-						bet = Convert.ToUInt32(input.Substring(1));
-						break;
-					case 'a':
-						action = Hand.Action.AllIn;
-						break;
+					switch (input[0])
+					{
+						case 'f':
+							action = Hand.Action.Fold;
+							break;
+						case 'c':
+							action = Hand.Action.Check;
+							break;
+						case 'l':
+							action = Hand.Action.Call;
+							break;
+						case 'b':
+							action = Hand.Action.Bet;
+							bet = Convert.ToUInt32(input.Substring(1));
+							break;
+						case 'r':
+							action = Hand.Action.Raise;
+							bet = Convert.ToUInt32(input.Substring(1));
+							break;
+						case 'a':
+							action = Hand.Action.AllIn;
+							break;
+					}
+					if (action != Hand.Action.None)
+						client.MyAction(action, bet);
 				}
-				if (action != Hand.Action.None)
-					client.MyAction(action, bet);
+				catch (FormatException)
+				{
+				}
 			} while (true);
 			client.SetTerminateFlag();
 			client.WaitTermination();

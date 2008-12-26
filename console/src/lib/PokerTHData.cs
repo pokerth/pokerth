@@ -35,8 +35,7 @@ namespace pokerth_lib
 			m_myPlayerId = 0;
 			m_myGameId = 0;
 			m_myName = name;
-			m_joinGameEvent = new AutoResetEvent(false);
-			m_startGameEvent = new AutoResetEvent(false);
+			m_joinedGame = false;
 		}
 
 		public GameInfoList GameList
@@ -117,19 +116,21 @@ namespace pokerth_lib
 			}
 		}
 
-		public EventWaitHandle JoinGameEvent
+		public bool JoinedGame
 		{
 			get
 			{
-				return m_joinGameEvent;
+				lock (m_mutex)
+				{
+					return m_joinedGame;
+				}
 			}
-		}
-
-		public EventWaitHandle StartGameEvent
-		{
-			get
+			set
 			{
-				return m_startGameEvent;
+				lock (m_mutex)
+				{
+					m_joinedGame = value;
+				}
 			}
 		}
 
@@ -140,7 +141,6 @@ namespace pokerth_lib
 		private uint m_myPlayerId;
 		private uint m_myGameId;
 		private string m_myName;
-		private EventWaitHandle m_joinGameEvent;
-		private EventWaitHandle m_startGameEvent;
+		private bool m_joinedGame;
 	}
 }

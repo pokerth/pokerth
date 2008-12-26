@@ -119,7 +119,7 @@ namespace pokerth_lib
 			m_data.MyGameId =
 				Convert.ToUInt32(p.Properties[NetPacket.PropType.GameId]);
 			m_callback.JoinedGame(m_data.GameList.GetGameInfo(m_data.MyGameId).Name);
-			m_data.JoinGameEvent.Set();
+			m_data.JoinedGame = true;
 		}
 
 		public void VisitStartEvent(NetPacket p)
@@ -167,7 +167,6 @@ namespace pokerth_lib
 			}
 
 			m_callback.GameStarted(strPlayers);
-			m_data.StartGameEvent.Set();
 		}
 
 		public void VisitHandStart(NetPacket p)
@@ -195,6 +194,7 @@ namespace pokerth_lib
 		{
 			uint curPlayer = Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerId]);
 			Hand.State state = (Hand.State)Convert.ToUInt16(p.Properties[NetPacket.PropType.GameState]);
+			m_data.CurHand.CurState = state;
 			if (curPlayer == m_data.MyPlayerId)
 				m_callback.MyTurn(state, m_data.CurHand.HighestSet,
 					m_data.CurHand.MinimumRaise, m_players[curPlayer].Money);
