@@ -147,6 +147,19 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 					m_ircThread->SendChatMessage(statStream.str());
 				}
 			}
+			else if (command == "chat")
+			{
+				while (msgStream.peek() == ' ')
+					msgStream.get();
+				string chat(msgStream.str().substr(msgStream.tellg()));
+				if (!chat.empty())
+				{
+					GetLobbyThread().SendGlobalChat(chat);
+					m_ircThread->SendChatMessage(nickName + ": Global chat message sent.");
+				}
+				else
+					m_ircThread->SendChatMessage(nickName + ": Invalid message.");
+			}
 			else if (command == "msg")
 			{
 				while (msgStream.peek() == ' ')
@@ -154,8 +167,8 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 				string message(msgStream.str().substr(msgStream.tellg()));
 				if (!message.empty())
 				{
-					GetLobbyThread().SendGlobalNotice(message);
-					m_ircThread->SendChatMessage(nickName + ": Global notice sent.");
+					GetLobbyThread().SendGlobalMsgBox(message);
+					m_ircThread->SendChatMessage(nickName + ": Global message box sent.");
 				}
 				else
 					m_ircThread->SendChatMessage(nickName + ": Invalid message.");

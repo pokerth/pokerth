@@ -125,6 +125,7 @@ public:
 	void SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName, int removeReason);
 	void SignalNetClientNewGameAdmin(unsigned playerId, const std::string &playerName);
 	void SignalNetClientChatMsg(const std::string &playerName, const std::string &msg);
+	void SignalNetClientMsgBox(const std::string &msg);
 	void SignalNetClientWaitDialog();
 
 	void SignalNetClientGameListNew(unsigned gameId);

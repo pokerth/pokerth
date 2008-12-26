@@ -705,6 +705,13 @@ AbstractClientStateReceiving::Process(ClientThread &client)
 			if (!playerName.empty())
 				client.GetCallback().SignalNetClientChatMsg(playerName, chatData.text);
 		}
+		else if (tmpPacket->ToNetPacketMsgBoxText())
+		{
+			// Message box - display it in the GUI.
+			NetPacketMsgBoxText::Data msgData;
+			tmpPacket->ToNetPacketMsgBoxText()->GetData(msgData);
+			client.GetCallback().SignalNetClientMsgBox(msgData.text);
+		}
 		else if (tmpPacket->ToNetPacketPlayerLeft())
 		{
 			// A player left the game.

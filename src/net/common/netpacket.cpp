@@ -87,6 +87,7 @@ using namespace std;
 
 #define NET_TYPE_SEND_CHAT_TEXT					0x0200
 #define NET_TYPE_CHAT_TEXT						0x0201
+#define NET_TYPE_MSG_BOX_TEXT					0x0202
 
 #define NET_TYPE_ERROR							0x0400
 
@@ -659,6 +660,13 @@ struct GCC_PACKED NetPacketChatTextData
 	u_int16_t			reserved;
 };
 
+struct GCC_PACKED NetPacketMsgBoxTextData
+{
+	NetPacketHeader		head;
+	u_int16_t			textLength;
+	u_int16_t			reserved;
+};
+
 struct GCC_PACKED NetPacketErrorData
 {
 	NetPacketHeader		head;
@@ -950,6 +958,9 @@ NetPacket::Create(char *data, unsigned &dataSize)
 					break;
 				case NET_TYPE_CHAT_TEXT:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketChatText);
+					break;
+				case NET_TYPE_MSG_BOX_TEXT:
+					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketMsgBoxText);
 					break;
 				case NET_TYPE_ERROR:
 					tmpPacket = boost::shared_ptr<NetPacket>(new NetPacketError);
@@ -1364,6 +1375,12 @@ NetPacket::ToNetPacketSendChatText() const
 
 const NetPacketChatText *
 NetPacket::ToNetPacketChatText() const
+{
+	return NULL;
+}
+
+const NetPacketMsgBoxText *
+NetPacket::ToNetPacketMsgBoxText() const
 {
 	return NULL;
 }
@@ -2032,7 +2049,7 @@ NetPacketGameListNew::GetData(NetPacketGameListNew::Data &outData) const
 	outData.gameInfo.mode						= static_cast<GameMode>(ntohs(tmpData->gameMode));
 	u_int16_t gameNameLen						= ntohs(tmpData->gameNameLength);
 	u_int16_t curNumPlayers						= ntohs(tmpData->curNumberOfPlayers);
-	outData.gameInfo.isPasswordProtected		= ntohs(tmpData->privacyFlags) & NET_PRIVACY_FLAG_PASSWORD_PROTECTED == NET_PRIVACY_FLAG_PASSWORD_PROTECTED;
+	outData.gameInfo.isPasswordProtected		= (ntohs(tmpData->privacyFlags) & NET_PRIVACY_FLAG_PASSWORD_PROTECTED) == NET_PRIVACY_FLAG_PASSWORD_PROTECTED;
 
 	GetGameInfoData(&tmpData->gameData, outData.gameInfo.data);
 
@@ -5535,6 +5552,92 @@ NetPacketChatText::InternalCheck(const NetPacketHeader* data) const
 	// Check exact packet length.
 	if (dataLen !=
 		sizeof(NetPacketChatTextData)
+		+ ADD_PADDING(textLength))
+	{
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// Check string size.
+	if (!textLength
+		|| textLength > MAX_CHAT_TEXT_SIZE)
+	{
+		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);
+	}
+	// No more checks required - this packet is sent by the server.
+}
+
+//-----------------------------------------------------------------------------
+
+NetPacketMsgBoxText::NetPacketMsgBoxText()
+: NetPacket(NET_TYPE_MSG_BOX_TEXT, sizeof(NetPacketMsgBoxTextData), MAX_PACKET_SIZE)
+{
+}
+
+NetPacketMsgBoxText::~NetPacketMsgBoxText()
+{
+}
+
+boost::shared_ptr<NetPacket>
+NetPacketMsgBoxText::Clone() const
+{
+	boost::shared_ptr<NetPacket> newPacket(new NetPacketMsgBoxText);
+	try
+	{
+		newPacket->SetRawData(GetRawData());
+	} catch (const NetException &)
+	{
+		// Need to return the new packet anyway.
+	}
+	return newPacket;
+}
+
+void
+NetPacketMsgBoxText::SetData(const NetPacketMsgBoxText::Data &inData)
+{
+	u_int16_t textLen = (u_int16_t)inData.text.length();
+
+	if (!textLen || textLen > MAX_CHAT_TEXT_SIZE)
+		throw NetException(__FILE__, __LINE__, ERR_NET_INVALID_CHAT_TEXT, 0);
+
+	// Resize the packet so that the data fits in.
+	Resize((u_int16_t)
+		(sizeof(NetPacketMsgBoxTextData) + ADD_PADDING(textLen)));
+
+	NetPacketMsgBoxTextData *tmpData = (NetPacketMsgBoxTextData *)GetRawData();
+
+	// Set the data.
+	tmpData->textLength = htons(textLen);
+	char *textPtr = (char *)tmpData + sizeof(NetPacketMsgBoxTextData);
+	memcpy(textPtr, inData.text.c_str(), textLen);
+
+	// Check the packet - just in case.
+	Check(GetRawData());
+}
+
+void
+NetPacketMsgBoxText::GetData(NetPacketMsgBoxText::Data &outData) const
+{
+	// We assume that the data is valid. Validity has already been checked.
+	NetPacketMsgBoxTextData *tmpData = (NetPacketMsgBoxTextData *)GetRawData();
+
+	char *textPtr = (char *)tmpData + sizeof(NetPacketMsgBoxTextData);
+	outData.text = string(textPtr, ntohs(tmpData->textLength));
+}
+
+const NetPacketMsgBoxText *
+NetPacketMsgBoxText::ToNetPacketMsgBoxText() const
+{
+	return this;
+}
+
+void
+NetPacketMsgBoxText::InternalCheck(const NetPacketHeader* data) const
+{
+	u_int16_t dataLen = ntohs(data->length);
+	NetPacketMsgBoxTextData *tmpData = (NetPacketMsgBoxTextData *)data;
+	int textLength = ntohs(tmpData->textLength);
+	// Check exact packet length.
+	if (dataLen !=
+		sizeof(NetPacketMsgBoxTextData)
 		+ ADD_PADDING(textLength))
 	{
 		throw NetException(__FILE__, __LINE__, ERR_SOCK_INVALID_PACKET, 0);

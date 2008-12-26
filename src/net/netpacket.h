@@ -101,6 +101,7 @@ class NetPacketTimeoutWarning;
 class NetPacketResetTimeout;
 class NetPacketSendChatText;
 class NetPacketChatText;
+class NetPacketMsgBoxText;
 class NetPacketError;
 
 class NetPacket
@@ -175,6 +176,7 @@ public:
 	virtual const NetPacketResetTimeout *ToNetPacketResetTimeout() const;
 	virtual const NetPacketSendChatText *ToNetPacketSendChatText() const;
 	virtual const NetPacketChatText *ToNetPacketChatText() const;
+	virtual const NetPacketMsgBoxText *ToNetPacketMsgBoxText() const;
 	virtual const NetPacketError *ToNetPacketError() const;
 
 	virtual bool IsClientActivity() const {return false;}
@@ -1516,6 +1518,29 @@ public:
 	void GetData(Data &outData) const;
 
 	virtual const NetPacketChatText *ToNetPacketChatText() const;
+
+protected:
+
+	virtual void InternalCheck(const NetPacketHeader* data) const;
+};
+
+class NetPacketMsgBoxText : public NetPacket
+{
+public:
+	struct Data
+	{
+		std::string		text;
+	};
+
+	NetPacketMsgBoxText();
+	virtual ~NetPacketMsgBoxText();
+
+	virtual boost::shared_ptr<NetPacket> Clone() const;
+
+	void SetData(const Data &inData);
+	void GetData(Data &outData) const;
+
+	virtual const NetPacketMsgBoxText *ToNetPacketMsgBoxText() const;
 
 protected:
 

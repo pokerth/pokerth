@@ -77,6 +77,7 @@ signals:
 	void signalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
 	void signalNetClientGameStart(boost::shared_ptr<Game> game);
 	void signalNetClientChatMsg(QString nickName, QString msg);
+	void signalNetClientMsgBox(QString msg);
 
 	void signalIrcConnect(QString server);
 	void signalIrcSelfJoined(QString nickName, QString channel);
@@ -109,6 +110,7 @@ public slots:
 
 	void networkError(int, int);
 	void networkNotification(int);
+	void networkMessage(QString);
 
 	void networkStart(boost::shared_ptr<Game> game);
 	QStringList getPlayerNicksList();

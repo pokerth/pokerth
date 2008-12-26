@@ -138,6 +138,7 @@ void ServerGuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsi
 void ServerGuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) { if (myClientcb) myClientcb->SignalNetClientGameListPlayerLeft(gameId, playerId); }
 void ServerGuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { if (myClientcb) myClientcb->SignalNetClientGameStart(game); }
 void ServerGuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { if (myClientcb) myClientcb->SignalNetClientChatMsg(playerName, msg); }
+void ServerGuiWrapper::SignalNetClientMsgBox(const string &msg) { if (myClientcb) myClientcb->SignalNetClientMsgBox(msg); }
 void ServerGuiWrapper::SignalNetClientWaitDialog() { if (myClientcb) myClientcb->SignalNetClientWaitDialog(); }
 
 void ServerGuiWrapper::SignalNetServerSuccess(int actionID) { if (myServercb) myServercb->SignalNetServerSuccess(actionID); }

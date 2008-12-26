@@ -260,7 +260,7 @@ ServerLobbyThread::RemovePlayer(unsigned playerId, unsigned errorCode)
 }
 
 void
-ServerLobbyThread::SendGlobalNotice(const std::string &message)
+ServerLobbyThread::SendGlobalChat(const string &message)
 {
 	boost::shared_ptr<NetPacket> outChat(new NetPacketChatText);
 	NetPacketChatText::Data outChatData;
@@ -268,6 +268,16 @@ ServerLobbyThread::SendGlobalNotice(const std::string &message)
 	outChatData.text = message;
 	static_cast<NetPacketChatText *>(outChat.get())->SetData(outChatData);
 	m_gameSessionManager.SendToAllSessions(GetSender(), outChat, SessionData::Game);
+}
+
+void
+ServerLobbyThread::SendGlobalMsgBox(const string &message)
+{
+	boost::shared_ptr<NetPacket> outMsg(new NetPacketMsgBoxText);
+	NetPacketMsgBoxText::Data outMsgData;
+	outMsgData.text = message;
+	static_cast<NetPacketMsgBoxText *>(outMsg.get())->SetData(outMsgData);
+	m_gameSessionManager.SendToAllSessions(GetSender(), outMsg, SessionData::Game);
 }
 
 void

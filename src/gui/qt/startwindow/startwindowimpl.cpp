@@ -138,6 +138,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 
 	connect(this, SIGNAL(signalNetClientChatMsg(QString, QString)), myStartNetworkGameDialog, SLOT(receiveChatMsg(QString, QString)));
 	connect(this, SIGNAL(signalNetClientChatMsg(QString, QString)), myGuiInterface->getMyW()->getMyChat(), SLOT(receiveMessage(QString, QString)));
+	connect(this, SIGNAL(signalNetClientMsgBox(QString)), this, SLOT(networkMessage(QString)));
 
 	connect(this, SIGNAL(signalNetClientShowTimeoutDialog(int, unsigned)), this, SLOT(showTimeoutDialog(int, unsigned)));
 
@@ -867,6 +868,14 @@ void startWindowImpl::networkNotification(int notificationId)
 			}
 		break;
 	}
+}
+
+void startWindowImpl::networkMessage(QString msg)
+{
+	QMessageBox msgBox(QMessageBox::Information, tr("Server Message"),
+		msg, QMessageBox::Close, this);
+	msgBox.setTextFormat(Qt::RichText);
+	msgBox.exec();
 }
 
 void startWindowImpl::networkStart(boost::shared_ptr<Game> game)
