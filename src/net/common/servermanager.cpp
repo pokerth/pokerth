@@ -152,7 +152,7 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 				while (msgStream.peek() == ' ')
 					msgStream.get();
 				string chat(msgStream.str().substr(msgStream.tellg()));
-				if (!chat.empty())
+				if (!chat.empty() && chat.size() < MAX_CHAT_TEXT_SIZE)
 				{
 					GetLobbyThread().SendGlobalChat(chat);
 					m_ircThread->SendChatMessage(nickName + ": Global chat message sent.");
@@ -165,7 +165,7 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 				while (msgStream.peek() == ' ')
 					msgStream.get();
 				string message(msgStream.str().substr(msgStream.tellg()));
-				if (!message.empty())
+				if (!message.empty() && message.size() < MAX_CHAT_TEXT_SIZE)
 				{
 					GetLobbyThread().SendGlobalMsgBox(message);
 					m_ircThread->SendChatMessage(nickName + ": Global message box sent.");
