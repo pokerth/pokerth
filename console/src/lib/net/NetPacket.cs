@@ -218,6 +218,9 @@ namespace pokerth_lib
 				case NetTypeEndOfHandHideCards :
 					tmpPacket = new NetPacketEndOfHandHideCards(size, reader);
 					break;
+				case NetTypeEndOfGame :
+					tmpPacket = new NetPacketEndOfGame(size, reader);
+					break;
 				case NetTypeError :
 					tmpPacket = new NetPacketError(size, reader);
 					break;

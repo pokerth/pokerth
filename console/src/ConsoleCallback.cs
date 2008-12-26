@@ -140,9 +140,14 @@ namespace pokerth_console
 			Console.WriteLine();
 		}
 
-		public void PlayerWins(string name, uint moneyWon)
+		public void PlayerWinsHand(string name, uint moneyWon)
 		{
 			Console.WriteLine("{0} wins ${1}.", name, moneyWon);
+		}
+
+		public void PlayerWinsGame(string name)
+		{
+			Console.WriteLine("\n{0} wins the game.", name);
 		}
 
 		public void Error(string message)

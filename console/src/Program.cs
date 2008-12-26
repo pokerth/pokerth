@@ -21,27 +21,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Net.Sockets;
 using pokerth_lib;
 
 namespace pokerth_console
 {
 	class Program
 	{
-		static int Main(string[] args)
+		static void ChooseOpenGame(Client client, PokerTHData data)
 		{
-			Console.WriteLine("pokerth_console V0.1 - Copyright (C) 2008 by Lothar May");
-			Console.WriteLine("See license.txt for license terms.");
-			Console.WriteLine();
-			Console.WriteLine("Enter your nickname:");
-			string name = Console.ReadLine();
-			Console.WriteLine("Connecting to server...");
-			Settings settings = new Settings();
-			PokerTHData data = new PokerTHData(name);
-			ConsoleCallback callback = new ConsoleCallback();
-			Client client = new Client(settings, data, callback);
-			client.Connect();
-			client.Start();
-			Thread.Sleep(2000);
 			string input;
 			bool joined = false;
 			do
@@ -71,49 +59,80 @@ namespace pokerth_console
 					Console.WriteLine("Could not join game.");
 			} while (!joined);
 			Console.WriteLine("Waiting for admin to start the game...");
+		}
 
+		static void GameLoop(Client client, PokerTHData data)
+		{
+			string input;
 			do
 			{
-				do
+				while (Console.KeyAvailable)
+					Console.ReadKey();
+				input = Console.ReadLine();
+				if (input.Length > 0)
 				{
-					while (Console.KeyAvailable)
-						Console.ReadKey();
-					input = Console.ReadLine();
-				} while (input == "");
-				Hand.Action action = Hand.Action.None;
-				uint bet = 0;
-				try
-				{
-					switch (input[0])
+					Hand.Action action = Hand.Action.None;
+					uint bet = 0;
+					try
 					{
-						case 'f':
-							action = Hand.Action.Fold;
-							break;
-						case 'c':
-							action = Hand.Action.Check;
-							break;
-						case 'l':
-							action = Hand.Action.Call;
-							break;
-						case 'b':
-							action = Hand.Action.Bet;
-							bet = Convert.ToUInt32(input.Substring(1));
-							break;
-						case 'r':
-							action = Hand.Action.Raise;
-							bet = Convert.ToUInt32(input.Substring(1));
-							break;
-						case 'a':
-							action = Hand.Action.AllIn;
-							break;
+						switch (input[0])
+						{
+							case 'f':
+								action = Hand.Action.Fold;
+								break;
+							case 'c':
+								action = Hand.Action.Check;
+								break;
+							case 'l':
+								action = Hand.Action.Call;
+								break;
+							case 'b':
+								action = Hand.Action.Bet;
+								bet = Convert.ToUInt32(input.Substring(1));
+								break;
+							case 'r':
+								action = Hand.Action.Raise;
+								bet = Convert.ToUInt32(input.Substring(1));
+								break;
+							case 'a':
+								action = Hand.Action.AllIn;
+								break;
+						}
+						if (action != Hand.Action.None)
+							client.MyAction(action, bet);
 					}
-					if (action != Hand.Action.None)
-						client.MyAction(action, bet);
+					catch (FormatException)
+					{
+					}
 				}
-				catch (FormatException)
-				{
-				}
-			} while (true);
+			} while (data.JoinedGame);
+		}
+
+		static int Main(string[] args)
+		{
+			Console.WriteLine("pokerth_console V0.1 - Copyright (C) 2008 by Lothar May");
+			Console.WriteLine("See license.txt for license terms.");
+			Console.WriteLine();
+			Console.WriteLine("Enter your nickname:");
+			string name = Console.ReadLine();
+			Console.WriteLine("Connecting to server...");
+			Settings settings = new Settings();
+			PokerTHData data = new PokerTHData(name);
+			ConsoleCallback callback = new ConsoleCallback();
+			Client client = new Client(settings, data, callback);
+			try
+			{
+				client.Connect();
+			}
+			catch (SocketException)
+			{
+				Console.WriteLine("Unable to connect to server.");
+				return 1;
+			}
+			client.Start();
+			Thread.Sleep(2000);
+			ChooseOpenGame(client, data);
+			GameLoop(client, data);
 			client.SetTerminateFlag();
 			client.WaitTermination();
 			return 0;

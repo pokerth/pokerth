@@ -122,6 +122,11 @@ namespace pokerth_lib
 			m_data.JoinedGame = true;
 		}
 
+		public void VisitLeaveCurrentGame(NetPacket p)
+		{
+			throw new NotImplementedException();
+		}
+
 		public void VisitStartEvent(NetPacket p)
 		{
 			// Request player names for player ids.
@@ -315,6 +320,7 @@ namespace pokerth_lib
 
 				m_callback.EndOfHandShowCards(name, tmpCards, curPlayer.CardsValue, false);
 			}
+			m_callback.HandResult();
 			foreach (Dictionary<NetPacket.PropType, string> i in tmpList)
 			{
 				uint moneyWon = Convert.ToUInt32(i[NetPacket.PropType.MoneyWon]);
@@ -322,7 +328,7 @@ namespace pokerth_lib
 				{
 					uint playerId = Convert.ToUInt32(i[NetPacket.PropType.PlayerId]);
 					string name = m_data.PlayerList.GetPlayerInfo(playerId).Name;
-					m_callback.PlayerWins(name, moneyWon);
+					m_callback.PlayerWinsHand(name, moneyWon);
 				}
 			}
 		}
@@ -334,9 +340,22 @@ namespace pokerth_lib
 			Player curPlayer = m_data.CurHand.Players[playerId];
 			curPlayer.Money = Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerMoney]);
 
-			m_callback.PlayerWins(
+			m_callback.HandResult();
+			m_callback.PlayerWinsHand(
 				name,
 				Convert.ToUInt32(p.Properties[NetPacket.PropType.MoneyWon]));
+		}
+
+		public void VisitEndOfGame(NetPacket p)
+		{
+			uint playerId = Convert.ToUInt32(p.Properties[NetPacket.PropType.PlayerId]);
+			string name = m_data.PlayerList.GetPlayerInfo(playerId).Name;
+
+			m_callback.PlayerWinsGame(name);
+
+			NetPacket leave = new NetPacketLeaveCurrentGame();
+			m_sender.Send(leave);
+			m_data.JoinedGame = false;
 		}
 
 		public void VisitError(NetPacket p)
