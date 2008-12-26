@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="gfx" >
+    <file>view-fullscreen.png</file>
     <file>pokerth.qrc</file>
     <file>swbuttoninternetgame.png</file>
     <file>swbuttoncreatenetworkgame.png</file>

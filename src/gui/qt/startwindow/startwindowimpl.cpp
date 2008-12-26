@@ -71,7 +71,8 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 
 	//Widgets Grafiken per Stylesheets setzen
 	QString myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
-	this->setStyleSheet("QMainWindow { background-image: url(" + myAppDataPath +"gfx/gui/misc/startwindowbg.png); background-position: bottom center; background-origin: content;}");
+	this->setWindowIcon(QIcon(myAppDataPath+"gfx/gui/misc/windowicon.png")); 
+	this->setStyleSheet("QMainWindow { background-image: url(" + myAppDataPath +"gfx/gui/misc/startwindowbg.png); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
 	
 	pushButtonStart_Local_Game->setStyleSheet("QPushButton { padding-left: 3px; padding-right: 3px; text-align: left; font-weight: bold;}");
 	pushButtonInternet_Game->setStyleSheet("QPushButton { padding-left: 3px; padding-right: 3px; text-align: left; font-weight: bold;}");

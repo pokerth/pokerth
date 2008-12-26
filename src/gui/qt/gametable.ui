@@ -3102,6 +3102,10 @@
    </property>
   </action>
   <action name="actionFullScreen" >
+   <property name="icon" >
+    <iconset resource="resources/pokerth.qrc" >
+     <normaloff>:/gfx/view-fullscreen.png</normaloff>:/gfx/view-fullscreen.png</iconset>
+   </property>
    <property name="text" >
     <string>Fullscreen</string>
    </property>
@@ -3156,11 +3160,19 @@
    </property>
   </action>
   <action name="actionConfigure_PokerTH" >
+   <property name="icon" >
+    <iconset resource="resources/pokerth.qrc" >
+     <normaloff>:/gfx/systemsettings.png</normaloff>:/gfx/systemsettings.png</iconset>
+   </property>
    <property name="text" >
     <string>Configure PokerTH ...</string>
    </property>
   </action>
   <action name="actionClose" >
+   <property name="icon" >
+    <iconset resource="resources/pokerth.qrc" >
+     <normaloff>:/gfx/application_exit.png</normaloff>:/gfx/application_exit.png</iconset>
+   </property>
    <property name="text" >
     <string>Close</string>
    </property>
@@ -3216,7 +3228,9 @@
    <header>mychancelabel.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resources/pokerth.qrc" />
+ </resources>
  <connections>
   <connection>
    <sender>horizontalSlider_speed</sender>
