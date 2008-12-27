@@ -1531,7 +1531,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1833"/>
         <source>Vote Timeout:</source>
-        <translation>Zeitlimit für Abstimmung:</translation>
+        <translation>Zeitlimit:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1878"/>
@@ -2059,12 +2059,12 @@ Bitte stellen Sie sicher, dass Sie mit dem Internet direkt verbunden sind.</tran
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3215"/>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;against him. &lt;b&gt;%4&lt;/b&gt; votes needed to kick.</source>
-        <translation>Spieler &lt;b&gt;%1&lt;/b&gt; hat &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;gegen ihn. Noch &lt;b&gt;%4&lt;/b&gt; Stimmen, um ihn zu entfernen.</translation>
+        <translation>Spieler &lt;b&gt;%1&lt;/b&gt; hat &lt;b&gt;%2&lt;/b&gt; %3 gegen&lt;br&gt;sich. Noch &lt;b&gt;%4&lt;/b&gt; Stimmen, um ihn zu entfernen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3218"/>
         <source>You have &lt;b&gt;%1&lt;/b&gt; %2 against you.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; votes needed to kick.</source>
-        <translation>Sie haben &lt;b&gt;%1&lt;/b&gt; %2 gegen Sie.&lt;br&gt;Noch &lt;b&gt;%3&lt;/b&gt; Stimmen bis zum Rauswurf.</translation>
+        <translation type="unfinished">Sie haben &lt;b&gt;%1&lt;/b&gt; %2 gegen sich.&lt;br&gt;Noch &lt;b&gt;%3&lt;/b&gt; Stimmen bis zum Rauswurf.</translation>
     </message>
 </context>
 <context>
