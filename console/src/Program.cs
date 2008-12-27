@@ -113,10 +113,14 @@ namespace pokerth_console
 			Console.WriteLine("pokerth_console V0.1 - Copyright (C) 2008 by Lothar May");
 			Console.WriteLine("See COPYING.txt for license terms.");
 			Console.WriteLine();
+
 			Console.WriteLine("Enter your nickname:");
 			string name = Console.ReadLine();
 			Console.WriteLine("Connecting to server...");
 			Settings settings = new Settings();
+			// Parse command line options.
+			if (args.Length > 0)
+				settings.ServerSettings.Server = args[0];
 			PokerTHData data = new PokerTHData(name);
 			ConsoleCallback callback = new ConsoleCallback();
 			Client client = new Client(settings, data, callback);

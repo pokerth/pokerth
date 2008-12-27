@@ -53,6 +53,7 @@ namespace pokerth_lib
 			m_players = players;
 			m_myPlayerId = myPlayerId;
 			m_smallBlind = smallBlind;
+			m_pot = 0;
 		}
 
 		public State CurState
@@ -73,7 +74,10 @@ namespace pokerth_lib
 						m_state = value;
 						// Reset bets.
 						foreach (KeyValuePair<uint, Player> player in m_players)
+						{
+							m_pot += player.Value.TotalBet;
 							player.Value.TotalBet = 0;
+						}
 					}
 				}
 			}
@@ -163,13 +167,25 @@ namespace pokerth_lib
 			}
 		}
 
+		public uint Pot
+		{
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_pot;
+				}
+			}
+		}
+
 		private Object m_mutex;
 		private State m_state;
 		private Dictionary<uint, Player> m_players;
 		private int[] m_tableCards;
-		private uint m_myPlayerId;
-		private uint m_smallBlind;
+		readonly private uint m_myPlayerId;
+		readonly private uint m_smallBlind;
 		private uint m_highestSet;
 		private uint m_minimumRaise;
+		private uint m_pot;
 	}
 }

@@ -286,7 +286,7 @@ namespace pokerth_lib
 					cardString = "Two Pairs, "
 						+ CardCodeToString(secondPart, true)
 						+ " and "
-						+ CardCodeToString(secondPart, true);
+						+ CardCodeToString(thirdPart, true);
 					break;
 				// One Pair
 				case 1 :

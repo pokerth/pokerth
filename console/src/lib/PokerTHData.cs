@@ -140,7 +140,7 @@ namespace pokerth_lib
 		private Object m_mutex;
 		private uint m_myPlayerId;
 		private uint m_myGameId;
-		private string m_myName;
+		readonly private string m_myName;
 		private bool m_joinedGame;
 	}
 }

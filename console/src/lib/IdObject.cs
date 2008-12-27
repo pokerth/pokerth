@@ -49,7 +49,7 @@ namespace pokerth_lib
 			}
 		}
 
-		private uint m_id;
-		private string m_name;
+		readonly private uint m_id;
+		readonly private string m_name;
 	}
 }

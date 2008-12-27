@@ -236,10 +236,20 @@ namespace pokerth_lib
 			}
 			else
 			{
+				// Collect non-fold players.
+				List<string> nonFoldPlayers = new List<string>();
+				foreach (KeyValuePair<uint, Player> player in m_players)
+				{
+					if (player.Value.CurAction != Hand.Action.Fold)
+						nonFoldPlayers.Add(m_data.PlayerList.GetPlayerInfo(player.Key).Name);
+				}
+				// Inform about action.
 				m_callback.ActionDone(
 					name,
 					curPlayer.CurAction,
-					curBet);
+					curBet,
+					curPlayer.Money,
+					nonFoldPlayers);
 			}
 		}
 
@@ -256,6 +266,7 @@ namespace pokerth_lib
 			tmpCards[1] = Convert.ToInt32(p.Properties[NetPacket.PropType.FlopSecondCard]);
 			tmpCards[2] = Convert.ToInt32(p.Properties[NetPacket.PropType.FlopThirdCard]);
 			m_data.CurHand.TableCards = tmpCards;
+			m_callback.ShowPot(m_data.CurHand.Pot);
 			m_callback.ShowFlopCards(tmpCards);
 		}
 
@@ -266,6 +277,7 @@ namespace pokerth_lib
 			m_data.CurHand.TableCards.CopyTo(tmpCards, 0);
 			tmpCards[3] = Convert.ToInt32(p.Properties[NetPacket.PropType.TurnCard]);
 			m_data.CurHand.TableCards = tmpCards;
+			m_callback.ShowPot(m_data.CurHand.Pot);
 			m_callback.ShowTurnCards(tmpCards);
 		}
 
@@ -276,6 +288,7 @@ namespace pokerth_lib
 			m_data.CurHand.TableCards.CopyTo(tmpCards, 0);
 			tmpCards[4] = Convert.ToInt32(p.Properties[NetPacket.PropType.RiverCard]);
 			m_data.CurHand.TableCards = tmpCards;
+			m_callback.ShowPot(m_data.CurHand.Pot);
 			m_callback.ShowRiverCards(tmpCards);
 		}
 

@@ -37,7 +37,7 @@ namespace pokerth_lib
 		public NetPacketPlayersActionRejected(int size, BinaryReader r)
 			: base(NetPacket.NetTypePlayersActionRejected)
 		{
-			if (size != 28)
+			if (size != 16)
 				throw new NetPacketException("NetPacketPlayersActionRejected invalid size.");
 			Properties.Add(PropType.GameState,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));

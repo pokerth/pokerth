@@ -92,6 +92,6 @@ namespace pokerth_lib
 		private Object m_mutex;
 		private Mode m_mode;
 		private List<uint> m_playerSlots;
-		private uint m_startMoney;
+		readonly private uint m_startMoney;
 	}
 }

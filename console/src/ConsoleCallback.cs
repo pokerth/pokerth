@@ -80,9 +80,20 @@ namespace pokerth_console
 				player);
 		}
 
-		public void ActionDone(string name, Hand.Action action, uint curBet)
+		public void ActionDone(string name, Hand.Action action, uint curBet, uint money, List<string> nonFoldPlayers)
 		{
-			Console.WriteLine("{0} {1}.", name, Log.ActionToString(action, curBet));
+			Console.WriteLine("{0} {1}. Cash: {2}.", name, Log.ActionToString(action, curBet), money);
+			if (action == Hand.Action.Fold)
+			{
+				string outPlayers = "";
+				foreach (string s in nonFoldPlayers)
+				{
+					if (outPlayers.Length != 0)
+						outPlayers += ", ";
+					outPlayers += s;
+				}
+				Console.WriteLine("Remaining players: {0}", outPlayers);
+			}
 		}
 
 		public void ActionRejected()
@@ -90,9 +101,14 @@ namespace pokerth_console
 			Console.WriteLine("Your action was rejected by the server.");
 		}
 
+		public void ShowPot(uint pot)
+		{
+			Console.WriteLine("\nPot is now {0}.", pot);
+		}
+
 		public void ShowFlopCards(int[] cards)
 		{
-			Console.WriteLine("\n--- Flop --- [{0}, {1}, {2}]",
+			Console.WriteLine("--- Flop --- [{0}, {1}, {2}]",
 				Log.CardToString(cards[0]),
 				Log.CardToString(cards[1]),
 				Log.CardToString(cards[2]));
@@ -100,7 +116,7 @@ namespace pokerth_console
 
 		public void ShowTurnCards(int[] cards)
 		{
-			Console.WriteLine("\n--- Turn --- [{0}, {1}, {2}, {3}]",
+			Console.WriteLine("--- Turn --- [{0}, {1}, {2}, {3}]",
 				Log.CardToString(cards[0]),
 				Log.CardToString(cards[1]),
 				Log.CardToString(cards[2]),
@@ -109,7 +125,7 @@ namespace pokerth_console
 
 		public void ShowRiverCards(int[] cards)
 		{
-			Console.WriteLine("\n--- River --- [{0}, {1}, {2}, {3}, {4}]",
+			Console.WriteLine("--- River --- [{0}, {1}, {2}, {3}, {4}]",
 				Log.CardToString(cards[0]),
 				Log.CardToString(cards[1]),
 				Log.CardToString(cards[2]),

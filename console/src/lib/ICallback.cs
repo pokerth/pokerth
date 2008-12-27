@@ -33,8 +33,9 @@ namespace pokerth_lib
 		void BigBlind(string name, uint blind);
 		void MyTurn(Hand.State state, uint highestSet, uint minimumRaise, uint money);
 		void PlayersTurn(Hand.State state, string player);
-		void ActionDone(string name, Hand.Action action, uint curBet);
+		void ActionDone(string name, Hand.Action action, uint curBet, uint money, List<string> nonFoldPlayers);
 		void ActionRejected();
+		void ShowPot(uint pot);
 		void ShowFlopCards(int[] cards);
 		void ShowTurnCards(int[] cards);
 		void ShowRiverCards(int[] cards);

@@ -65,8 +65,21 @@ namespace pokerth_lib
 			}
 		}
 
+		public string Server
+		{
+			get
+			{
+				return m_server;
+			}
+			set
+			{
+				m_server = value;
+			}
+		}
+
 		private string m_ipv4Address = "";
 		private string m_ipv6Address = "";
+		private string m_server = "";
 		private int m_port = 0;
 	}
 }
