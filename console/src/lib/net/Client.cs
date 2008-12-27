@@ -39,11 +39,11 @@ namespace pokerth_lib
 		{
 			// Connect to the server.
 			// Try IPv6 first.
-			/*IPAddress[] addresses = new IPAddress[2];
+			IPAddress[] addresses = new IPAddress[2];
 			addresses[0] = IPAddress.Parse(m_settings.ServerSettings.IPv6Address);
 			addresses[1] = IPAddress.Parse(m_settings.ServerSettings.IPv4Address);
-			m_tcpClient.Connect(addresses, m_settings.ServerSettings.Port);*/
-			m_tcpClient.Connect("localhost", 7234);
+			m_tcpClient.Connect(addresses, m_settings.ServerSettings.Port);
+			//m_tcpClient.Connect("localhost", 7234);
 		}
 
 		public void Start()

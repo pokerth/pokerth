@@ -245,7 +245,7 @@ namespace pokerth_lib
 
 		public void VisitPlayersActionRejected(NetPacket p)
 		{
-			// TODO
+			m_callback.ActionRejected();
 		}
 
 		public void VisitDealFlopCards(NetPacket p)

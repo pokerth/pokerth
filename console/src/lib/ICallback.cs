@@ -34,6 +34,7 @@ namespace pokerth_lib
 		void MyTurn(Hand.State state, uint highestSet, uint minimumRaise, uint money);
 		void PlayersTurn(Hand.State state, string player);
 		void ActionDone(string name, Hand.Action action, uint curBet);
+		void ActionRejected();
 		void ShowFlopCards(int[] cards);
 		void ShowTurnCards(int[] cards);
 		void ShowRiverCards(int[] cards);

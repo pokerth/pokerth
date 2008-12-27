@@ -85,6 +85,11 @@ namespace pokerth_console
 			Console.WriteLine("{0} {1}.", name, Log.ActionToString(action, curBet));
 		}
 
+		public void ActionRejected()
+		{
+			Console.WriteLine("Your action was rejected by the server.");
+		}
+
 		public void ShowFlopCards(int[] cards)
 		{
 			Console.WriteLine("\n--- Flop --- [{0}, {1}, {2}]",

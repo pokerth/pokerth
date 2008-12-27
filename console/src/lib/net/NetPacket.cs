@@ -202,6 +202,9 @@ namespace pokerth_lib
 				case NetTypePlayersActionDone :
 					tmpPacket = new NetPacketPlayersActionDone(size, reader);
 					break;
+				case NetTypePlayersActionRejected :
+					tmpPacket = new NetPacketPlayersActionRejected(size, reader);
+					break;
 				case NetTypeDealFlopCards :
 					tmpPacket = new NetPacketDealFlopCards(size, reader);
 					break;
