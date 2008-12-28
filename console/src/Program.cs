@@ -42,9 +42,16 @@ namespace pokerth_console
 					Console.WriteLine("Enter game id (or press enter to refresh)");
 					input = Console.ReadLine();
 				} while (input == "" || !Char.IsDigit(input[0]));
-				Console.WriteLine("Joining game...");
 				uint gameId = Convert.ToUInt32(input);
-				client.JoinGame(gameId);
+				string password = "";
+				if (data.GameList.HasGame(gameId)
+					&& data.GameList.GetGameInfo(gameId).PasswordProtected)
+				{
+					Console.WriteLine("Enter game password:");
+					password = Console.ReadLine();
+				}
+				Console.WriteLine("Joining game...");
+				client.JoinGame(gameId, password);
 				// Hack this, because Mono does not support WaitOne(...).
 				DateTime cur = DateTime.Now;
 				while (!client.HasJoinedGame())
@@ -110,7 +117,7 @@ namespace pokerth_console
 
 		static int Main(string[] args)
 		{
-			Console.WriteLine("pokerth_console V0.1 - Copyright (C) 2008 by Lothar May");
+			Console.WriteLine("pokerth_console V0.1.2 - Copyright (C) 2008 by Lothar May");
 			Console.WriteLine("See COPYING.txt for license terms.");
 			Console.WriteLine();
 

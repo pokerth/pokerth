@@ -32,13 +32,14 @@ namespace pokerth_lib
 			Closed
 		}
 
-		public GameInfo(uint id, string name, Mode mode, List<uint> playerSlots, uint startMoney)
+		public GameInfo(uint id, string name, Mode mode, List<uint> playerSlots, uint startMoney, bool passwordProtected)
 			: base(id, name)
 		{
 			m_mutex = new Object();
 			m_mode = mode;
 			m_playerSlots = playerSlots;
 			m_startMoney = startMoney;
+			m_passwordProtected = passwordProtected;
 		}
 
 		public List<uint> PlayerSlots
@@ -89,9 +90,21 @@ namespace pokerth_lib
 			}
 		}
 
+		public bool PasswordProtected
+		{
+			get
+			{
+				lock (m_mutex)
+				{
+					return m_passwordProtected;
+				}
+			}
+		}
+
 		private Object m_mutex;
 		private Mode m_mode;
 		private List<uint> m_playerSlots;
 		readonly private uint m_startMoney;
+		bool m_passwordProtected;
 	}
 }

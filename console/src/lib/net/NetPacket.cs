@@ -314,7 +314,7 @@ namespace pokerth_lib
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 			Properties.Add(PropType.EndRaiseMode,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
-			int numManualBlinds = r.ReadUInt16();
+			int numManualBlinds = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
 			Properties.Add(PropType.ProposedGuiSpeed,
 				Convert.ToString(IPAddress.NetworkToHostOrder((short)r.ReadUInt16())));
 			Properties.Add(PropType.PlayerActionTimeout,

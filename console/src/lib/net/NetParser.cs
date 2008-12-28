@@ -57,7 +57,8 @@ namespace pokerth_lib
 				(GameInfo.Mode)Convert.ToInt32(p.Properties[NetPacket.PropType.GameMode]),
 				p.ListProperties[NetPacket.ListPropType.PlayerSlots].
 					ConvertAll<uint>(Convert.ToUInt32),
-				Convert.ToUInt32(p.Properties[NetPacket.PropType.StartMoney])));
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.StartMoney]),
+				Convert.ToUInt16(p.Properties[NetPacket.PropType.GamePrivacyFlags]) == 1));
 		}
 
 		public void VisitGameListUpdate(NetPacket p)

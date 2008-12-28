@@ -50,6 +50,14 @@ namespace pokerth_lib
 			}
 		}
 
+		public bool HasGame(uint id)
+		{
+			lock (m_list)
+			{
+				return m_list.ContainsKey(id);
+			}
+		}
+
 		public void SetGameInfo(uint id, GameInfo info)
 		{
 			lock (m_list)

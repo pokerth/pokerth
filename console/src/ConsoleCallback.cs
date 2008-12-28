@@ -82,7 +82,7 @@ namespace pokerth_console
 
 		public void ActionDone(string name, Hand.Action action, uint curBet, uint money, List<string> nonFoldPlayers)
 		{
-			Console.WriteLine("{0} {1}. Cash: {2}.", name, Log.ActionToString(action, curBet), money);
+			Console.WriteLine("{0} {1}. Cash: ${2}.", name, Log.ActionToString(action, curBet), money);
 			if (action == Hand.Action.Fold)
 			{
 				string outPlayers = "";
@@ -103,7 +103,7 @@ namespace pokerth_console
 
 		public void ShowPot(uint pot)
 		{
-			Console.WriteLine("\nPot is now {0}.", pot);
+			Console.WriteLine("\nPot is now ${0}.", pot);
 		}
 
 		public void ShowFlopCards(int[] cards)

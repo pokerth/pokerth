@@ -45,11 +45,11 @@ namespace pokerth_lib
 			else
 			{
 				// Try IPv6 first.
-				IPAddress[] addresses = new IPAddress[2];
+				/*IPAddress[] addresses = new IPAddress[2];
 				addresses[0] = IPAddress.Parse(m_settings.ServerSettings.IPv6Address);
 				addresses[1] = IPAddress.Parse(m_settings.ServerSettings.IPv4Address);
-				m_tcpClient.Connect(addresses, m_settings.ServerSettings.Port);
-				//m_tcpClient.Connect("localhost", 7234);
+				m_tcpClient.Connect(addresses, m_settings.ServerSettings.Port);*/
+				m_tcpClient.Connect("localhost", 7234);
 			}
 		}
 
@@ -60,9 +60,9 @@ namespace pokerth_lib
 			SendInit();
 		}
 
-		public void JoinGame(uint gameId)
+		public void JoinGame(uint gameId, string password)
 		{
-			SendJoinGame(gameId);
+			SendJoinGame(gameId, password);
 		}
 
 		public bool HasJoinedGame()
@@ -119,11 +119,11 @@ namespace pokerth_lib
 			m_sender.Send(init);
 		}
 
-		protected void SendJoinGame(uint gameId)
+		protected void SendJoinGame(uint gameId, string password)
 		{
 			NetPacket join = new NetPacketJoinGame();
 			join.Properties.Add(NetPacket.PropType.GameId, Convert.ToString(gameId));
-			join.Properties.Add(NetPacket.PropType.GamePassword, ""); // no password for now
+			join.Properties.Add(NetPacket.PropType.GamePassword, password);
 			m_sender.Send(join);
 		}
 

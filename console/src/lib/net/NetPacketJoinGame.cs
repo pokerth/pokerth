@@ -56,6 +56,7 @@ namespace pokerth_lib
 			w.Write(IPAddress.HostToNetworkOrder((short)gamePassword.Length));
 			w.Write(IPAddress.HostToNetworkOrder((short)0)); // Reserved.
 
+			w.Write(tmpPassword);
 			// Add padding.
 			int passwordPadding = passwordWithPadding - tmpPassword.Length;
 			if (passwordPadding > 0)
