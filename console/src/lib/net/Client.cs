@@ -115,7 +115,7 @@ namespace pokerth_lib
 			init.Properties.Add(NetPacket.PropType.RequestedVersionMajor, "5");
 			init.Properties.Add(NetPacket.PropType.RequestedVersionMinor, "0");
 			init.Properties.Add(NetPacket.PropType.PlayerName, m_data.MyName);
-			init.Properties.Add(NetPacket.PropType.PlayerPassword, "");
+			init.Properties.Add(NetPacket.PropType.ServerPassword, "");
 			m_sender.Send(init);
 		}
 

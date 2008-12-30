@@ -25,7 +25,7 @@ using System.Net.Sockets;
 using System.IO;
 
 
-namespace pokerth_lib.src
+namespace pokerth_lib
 {
 	class NetPacketCreateGame : NetPacket
 	{

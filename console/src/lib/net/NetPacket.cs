@@ -95,7 +95,7 @@ namespace pokerth_lib
 			RequestedVersionMinor,
 			PlayerId,
 			PlayerName,
-			PlayerPassword,
+			ServerPassword,
 			PlayerFlags,
 			PlayerRights,
 			PlayerAction,
@@ -158,6 +158,138 @@ namespace pokerth_lib
 		{
 			PlayerResults,
 			PlayerCards,
+		}
+
+		public static NetPacket Create(int type)
+		{
+			NetPacket tmpPacket = null;
+			switch (type)
+			{
+				// Virtual constructor.
+				case NetTypeInit :
+					tmpPacket = new NetPacketInit();
+					break;
+				case NetTypeInitAck :
+					tmpPacket = new NetPacketInitAck();
+					break;
+				//case NetTypeRetrieveAvatar :
+				//case NetTypeAvatarHeader :
+				//case NetTypeAvatarFile :
+				//case NetTypeAvatarEnd :
+				//case NetTypeUnknownAvatar :
+				case NetTypeGameListNew :
+					tmpPacket = new NetPacketGameListNew();
+					break;
+				case NetTypeGameListUpdate :
+					tmpPacket = new NetPacketGameListUpdate();
+					break;
+				case NetTypeGameListPlayerJoined :
+					tmpPacket = new NetPacketGameListPlayerJoined();
+					break;
+				case NetTypeGameListPlayerLeft :
+					tmpPacket = new NetPacketGameListPlayerLeft();
+					break;
+				//case NetTypeGameListAdminChanged :
+				//	tmpPacket = new NetPacketGameListAdminChanged();
+				//	break;
+				case NetTypeRetrievePlayerInfo :
+					tmpPacket = new NetPacketRetrievePlayerInfo();
+					break;
+				case NetTypePlayerInfo :
+					tmpPacket = new NetPacketPlayerInfo();
+					break;
+				//case NetTypeUnknownPlayerId :
+				case NetTypeUnsubscribeGameList :
+					tmpPacket = new NetPacketUnsubscribeGameList();
+					break;
+				//case NetTypeResubscribeGameList :
+				case NetTypeCreateGame :
+					tmpPacket = new NetPacketCreateGame();
+					break;
+				case NetTypeJoinGame :
+					tmpPacket = new NetPacketJoinGame();
+					break;
+				case NetTypeJoinGameAck :
+					tmpPacket = new NetPacketJoinGameAck();
+					break;
+				//case NetTypeJoinGameFailed :
+				//	tmpPacket = new NetPacketJoinGameFailed();
+				//	break;
+				//case NetTypePlayerJoined :
+				//case NetTypePlayerLeft :
+				//case NetTypeGameAdminChanged :
+				//case NetTypeKickPlayer :
+				case NetTypeLeaveCurrentGame :
+					tmpPacket = new NetPacketLeaveCurrentGame();
+					break;
+				case NetTypeStartEvent :
+					tmpPacket = new NetPacketStartEvent();
+					break;
+				case NetTypeStartEventAck :
+					tmpPacket = new NetPacketStartEventAck();
+					break;
+				case NetTypeGameStart :
+					tmpPacket = new NetPacketGameStart();
+					break;
+				case NetTypeHandStart :
+					tmpPacket = new NetPacketHandStart();
+					break;
+				case NetTypePlayersTurn :
+					tmpPacket = new NetPacketPlayersTurn();
+					break;
+				case NetTypePlayersAction :
+					tmpPacket = new NetPacketPlayersAction();
+					break;
+				case NetTypePlayersActionDone :
+					tmpPacket = new NetPacketPlayersActionDone();
+					break;
+				case NetTypePlayersActionRejected :
+					tmpPacket = new NetPacketPlayersActionRejected();
+					break;
+				case NetTypeDealFlopCards :
+					tmpPacket = new NetPacketDealFlopCards();
+					break;
+				case NetTypeDealTurnCard :
+					tmpPacket = new NetPacketDealTurnCard();
+					break;
+				case NetTypeDealRiverCard :
+					tmpPacket = new NetPacketDealRiverCard();
+					break;
+				case NetTypeAllInShowCards :
+					tmpPacket = new NetPacketAllInShowCards();
+					break;
+				case NetTypeEndOfHandShowCards :
+					tmpPacket = new NetPacketEndOfHandShowCards();
+					break;
+				case NetTypeEndOfHandHideCards :
+					tmpPacket = new NetPacketEndOfHandHideCards();
+					break;
+				case NetTypeEndOfGame :
+					tmpPacket = new NetPacketEndOfGame();
+					break;
+				//case NetTypeAskKickPlayer :
+				//case NetTypeAskKickPlayerDenied :
+				//case NetTypeStartKickPlayerPetition :
+				//case NetTypeVoteKickPlayer :
+				//case NetTypeVoteKickPlayerAck :
+				//case NetTypeVoteKickPlayerDenied :
+				//case NetTypeKickPlayerPetitionUpdate :
+				//case NetTypeEndKickPlayerPetition :
+				//case NetTypeStatisticsChanged :
+				case NetTypeRemovedFromGame :
+					tmpPacket = new NetPacketRemovedFromGame();
+					break;
+				//case NetTypeTimeoutWarning :
+				//case NetTypeResetTimeout :
+				//case NetTypeSendChatText :
+				case NetTypeChatText :
+					tmpPacket = new NetPacketChatText();
+					break;
+				case NetTypeError :
+					tmpPacket = new NetPacketError();
+					break;
+			}
+			return tmpPacket;
 		}
 
 		public static NetPacket Create(int type, int size, BinaryReader reader)

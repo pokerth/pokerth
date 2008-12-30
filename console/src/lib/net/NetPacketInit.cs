@@ -44,7 +44,7 @@ namespace pokerth_lib
 			MemoryStream memStream = new MemoryStream();
 			BinaryWriter w = new BinaryWriter(memStream);
 
-			string playerPassword = Properties[PropType.PlayerPassword];
+			string playerPassword = Properties[PropType.ServerPassword];
 			byte[] tmpPassword = Encoding.UTF8.GetBytes(playerPassword);
 			int passwordWithPadding = AddPadding(tmpPassword.Length);
 			string playerName = Properties[PropType.PlayerName];
