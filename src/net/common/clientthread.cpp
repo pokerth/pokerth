@@ -191,7 +191,7 @@ ClientThread::SendJoinFirstGame(const std::string &password)
 	// Create a network packet to request joining a game.
 	boost::shared_ptr<NetPacket> join(new NetPacketJoinGame);
 	NetPacketJoinGame::Data joinData;
-	joinData.gameId = 0;
+	joinData.gameId = 1;
 	joinData.password = password;
 	try
 	{
