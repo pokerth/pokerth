@@ -87,8 +87,6 @@ public:
 	ServerStats GetStats() const;
 	boost::posix_time::ptime GetStartTime() const;
 
-	SenderInterface &GetSender();
-
 protected:
 
 	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
@@ -190,7 +188,6 @@ private:
 	GameMap m_gameMap;
 
 	boost::shared_ptr<ReceiverHelper> m_receiver;
-	boost::shared_ptr<SenderInterface> m_sender;
 	boost::shared_ptr<ServerSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
 	AvatarManager &m_avatarManager;

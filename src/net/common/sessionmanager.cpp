@@ -357,7 +357,7 @@ SessionManager::GetRawSessionCount()
 }
 
 void
-SessionManager::SendToAllSessions(SenderInterface &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state)
+SessionManager::SendToAllSessions(boost::shared_ptr<NetPacket> packet, SessionData::State state)
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
@@ -371,13 +371,13 @@ SessionManager::SendToAllSessions(SenderInterface &sender, boost::shared_ptr<Net
 
 		// Send each client (with a certain state) a copy of the packet.
 		if (i->second.sessionData->GetState() == state)
-			sender.Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
+			i->second.sessionData->GetSender().Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
 		++i;
 	}
 }
 
 void
-SessionManager::SendLobbyMsgToAllSessions(SenderInterface &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state)
+SessionManager::SendLobbyMsgToAllSessions(boost::shared_ptr<NetPacket> packet, SessionData::State state)
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
@@ -391,13 +391,13 @@ SessionManager::SendLobbyMsgToAllSessions(SenderInterface &sender, boost::shared
 
 		// Send each client (with a certain state) a copy of the packet.
 		if (i->second.sessionData->GetState() == state && i->second.sessionData->WantsLobbyMsg())
-			sender.Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
+			i->second.sessionData->GetSender().Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
 		++i;
 	}
 }
 
 void
-SessionManager::SendToAllButOneSessions(SenderInterface &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state)
+SessionManager::SendToAllButOneSessions(boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state)
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
@@ -409,7 +409,7 @@ SessionManager::SendToAllButOneSessions(SenderInterface &sender, boost::shared_p
 		// Send each fully connected client but one a copy of the packet.
 		if (i->second.sessionData->GetState() == state)
 			if (i->first != except)
-				sender.Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
+				i->second.sessionData->GetSender().Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
 		++i;
 	}
 }

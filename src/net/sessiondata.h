@@ -32,13 +32,16 @@
 #define SESSION_ID_GENERIC		0xFFFFFFFF
 
 typedef unsigned SessionId;
+class SenderThread;
+class SenderInterface;
+class SenderCallback;
 
 class SessionData
 {
 public:
 	enum State { Init, ReceivingAvatar, Established, Game };
 
-	SessionData(SOCKET sockfd, SessionId id);
+	SessionData(SOCKET sockfd, SessionId id, SenderCallback &cb);
 	~SessionData();
 
 	SessionId GetId() const;
@@ -58,6 +61,7 @@ public:
 	void SetClientAddr(const std::string &addr);
 
 	ReceiveBuffer &GetReceiveBuffer();
+	SenderInterface &GetSender();
 
 	void ResetActivityTimer();
 	unsigned GetActivityTimerElapsedSec() const;
@@ -76,6 +80,7 @@ private:
 	boost::timers::portable::microsec_timer m_activityTimer;
 	bool							m_activityTimeoutNoticeSent;
 	boost::timers::portable::microsec_timer m_autoDisconnectTimer;
+	boost::shared_ptr<SenderThread>	m_sender;
 
 	mutable boost::mutex			m_dataMutex;
 };

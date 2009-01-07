@@ -29,7 +29,6 @@
 
 #include <list>
 #include <boost/shared_ptr.hpp>
-#include <third_party/boost/timers.hpp>
 
 #define SENDER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
 
@@ -46,43 +45,22 @@ public:
 	virtual void Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 	virtual void Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
 
-	unsigned GetNumPacketsInQueue() const;
-	bool operator<(const SenderThread &other) const;
-
 protected:
-	struct SendData
-	{
-		SendData()
-		: bytesSent(0) {}
-		SendData(boost::shared_ptr<NetPacket> p, boost::shared_ptr<SessionData> s)
-		: packet(p), session(s), bytesSent(0) {}
-		boost::shared_ptr<NetPacket> packet;
-		boost::shared_ptr<SessionData> session;
-		unsigned bytesSent;
-	};
-	typedef std::list<SendData> SendDataList;
-	typedef std::list<SessionId> SessionIdList;
+	typedef std::list<boost::shared_ptr<NetPacket> > SendDataList;
 
 	// Main function of the thread.
 	virtual void Main();
-
-	void InternalStore(SendDataList &sendQueue, unsigned maxQueueSize, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
-	void InternalStore(SendDataList &sendQueue, unsigned maxQueueSize, boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
 
 private:
 
 	SendDataList m_sendQueue;
 	mutable boost::mutex m_sendQueueMutex;
 
-	SendDataList m_stalledQueue;
-	mutable boost::mutex m_stalledQueueMutex;
-
-	SessionIdList m_sessionsStalled; // Cache
-	mutable boost::mutex m_sessionsStalledMutex;
-
+	boost::shared_ptr<SessionData> m_session;
+	mutable boost::mutex m_sessionMutex;
+	boost::shared_ptr<NetPacket> m_curPacket;
+	unsigned m_bytesSent;
 	SenderCallback &m_callback;
-
-	boost::timers::portable::microsec_timer m_logTimer;
 };
 
 #endif

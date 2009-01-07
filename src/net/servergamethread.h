@@ -121,7 +121,6 @@ protected:
 	unsigned GetStateTimerFlag() const;
 	void SetStateTimerFlag(unsigned flag);
 
-	SenderInterface &GetSender();
 	ReceiverHelper &GetReceiver();
 
 	const StartData &GetStartData() const;

@@ -114,7 +114,6 @@ protected:
 	ClientState &GetState();
 	void SetState(ClientState &newState);
 
-	SenderThread &GetSender();
 	ReceiverHelper &GetReceiver();
 
 	void SetGameId(unsigned id);
@@ -167,12 +166,10 @@ private:
 	mutable boost::mutex m_outPacketListMutex;
 
 	boost::shared_ptr<ClientContext> m_context;
-	boost::shared_ptr<ClientSenderCallback> m_senderCallback;
 	ClientState *m_curState;
 	GuiInterface &m_gui;
 	AvatarManager &m_avatarManager;
 
-	boost::shared_ptr<SenderThread> m_sender;
 	boost::shared_ptr<ReceiverHelper> m_receiver;
 
 	GameData m_gameData;

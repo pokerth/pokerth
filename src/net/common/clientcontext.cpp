@@ -18,12 +18,28 @@
  ***************************************************************************/
 
 #include <net/clientcontext.h>
+#include <net/sendercallback.h>
+
+class ClientSenderCallback : public SenderCallback
+{
+public:
+	ClientSenderCallback() {}
+	virtual ~ClientSenderCallback() {}
+
+	virtual void SignalNetError(SessionId /*session*/, int /*errorID*/, int /*osErrorID*/)
+	{
+	}
+
+private:
+};
+
 
 ClientContext::ClientContext()
 : m_protocol(0), m_addrFamily(AF_INET), m_useServerList(false), m_serverPort(0),
   m_hasSubscribedLobbyMsg(true)
 {
 	bzero(&m_clientSockaddr, sizeof(m_clientSockaddr));
+	m_senderCallback.reset(new ClientSenderCallback());
 }
 
 ClientContext::~ClientContext()
@@ -40,7 +56,7 @@ ClientContext::GetSocket() const
 void
 ClientContext::SetSocket(SOCKET sockfd)
 {
-	m_sessionData.reset(new SessionData(sockfd, SESSION_ID_GENERIC));
+	m_sessionData.reset(new SessionData(sockfd, SESSION_ID_GENERIC, *m_senderCallback));
 }
 
 boost::shared_ptr<SessionData>

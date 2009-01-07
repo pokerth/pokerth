@@ -74,9 +74,9 @@ public:
 	void Clear();
 	unsigned GetRawSessionCount();
 
-	void SendToAllSessions(SenderInterface &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
-	void SendLobbyMsgToAllSessions(SenderInterface &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
-	void SendToAllButOneSessions(SenderInterface &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state);
+	void SendToAllSessions(boost::shared_ptr<NetPacket> packet, SessionData::State state);
+	void SendLobbyMsgToAllSessions(boost::shared_ptr<NetPacket> packet, SessionData::State state);
+	void SendToAllButOneSessions(boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state);
 
 protected:
 

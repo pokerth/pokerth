@@ -39,31 +39,11 @@
 using namespace std;
 
 
-class ClientSenderCallback : public SenderCallback
-{
-public:
-	ClientSenderCallback(ClientThread &client) : m_client(client) {}
-	virtual ~ClientSenderCallback() {}
-
-	virtual void SignalNetError(SessionId /*session*/, int errorID, int osErrorID)
-	{
-		// Just signal the error.
-		// We assume that the client thread will be terminated.
-		m_client.GetCallback().SignalNetClientError(errorID, osErrorID);
-	}
-
-private:
-	ClientThread &m_client;
-};
-
-
 ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager)
 : m_curState(NULL), m_gui(gui), m_avatarManager(avatarManager),
   m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false)
 {
 	m_context.reset(new ClientContext);
-	m_senderCallback.reset(new ClientSenderCallback(*this));
-	m_sender.reset(new SenderThread(GetSenderCallback()));
 	m_receiver.reset(new ReceiverHelper);
 	myQtToolsInterface.reset(CreateQtToolsWrapper());
 }
@@ -351,8 +331,6 @@ ClientThread::Main()
 {
 	SetState(CLIENT_INITIAL_STATE::Instance());
 
-	GetSender().Run();
-
 	try
 	{
 		while (!ShouldTerminate())
@@ -388,8 +366,6 @@ ClientThread::Main()
 	{
 		GetCallback().SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
 	}
-	GetSender().SignalTermination();
-	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);
 }
 
 void
@@ -411,7 +387,7 @@ ClientThread::SendPacketLoop()
 
 		while (i != end)
 		{
-			GetSender().Send(GetContext().GetSessionData(), *i);
+			GetContext().GetSessionData()->GetSender().Send(GetContext().GetSessionData(), *i);
 			++i;
 		}
 		m_outPacketList.clear();
@@ -442,7 +418,7 @@ ClientThread::RequestPlayerInfo(unsigned id, bool requestAvatar)
 		NetPacketRetrievePlayerInfo::Data reqData;
 		reqData.playerId = id;
 		static_cast<NetPacketRetrievePlayerInfo *>(req.get())->SetData(reqData);
-		GetSender().Send(GetContext().GetSessionData(), req);
+		GetContext().GetSessionData()->GetSender().Send(GetContext().GetSessionData(), req);
 
 		m_playerInfoRequestList.push_back(id);
 
@@ -546,7 +522,7 @@ ClientThread::RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info)
 			retrieveAvatarData.requestId = id;
 			retrieveAvatarData.avatar = info.avatar;
 			static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
-			GetSender().Send(GetContext().GetSessionData(), retrieveAvatar);
+			GetContext().GetSessionData()->GetSender().Send(GetContext().GetSessionData(), retrieveAvatar);
 		}
 	}
 }
@@ -621,7 +597,7 @@ ClientThread::UnsubscribeLobbyMsg()
 	{
 		// Send unsubscribe request.
 		boost::shared_ptr<NetPacket> unsubscr(new NetPacketUnsubscribeGameList);
-		GetSender().Send(GetContext().GetSessionData(), unsubscr);
+		GetContext().GetSessionData()->GetSender().Send(GetContext().GetSessionData(), unsubscr);
 		GetContext().SetSubscribeLobbyMsg(false);
 	}
 }
@@ -635,7 +611,7 @@ ClientThread::ResubscribeLobbyMsg()
 		ClearGameInfoMap();
 		// Send resubscribe request.
 		boost::shared_ptr<NetPacket> resubscr(new NetPacketResubscribeGameList);
-		GetSender().Send(GetContext().GetSessionData(), resubscr);
+		GetContext().GetSessionData()->GetSender().Send(GetContext().GetSessionData(), resubscr);
 		GetContext().SetSubscribeLobbyMsg(true);
 	}
 }
@@ -665,13 +641,6 @@ void
 ClientThread::SetState(ClientState &newState)
 {
 	m_curState = &newState;
-}
-
-SenderThread &
-ClientThread::GetSender()
-{
-	assert(m_sender.get());
-	return *m_sender;
 }
 
 ReceiverHelper &
@@ -735,13 +704,6 @@ boost::shared_ptr<Game>
 ClientThread::GetGame()
 {
 	return m_game;
-}
-
-ClientSenderCallback &
-ClientThread::GetSenderCallback()
-{
-	assert(m_senderCallback.get());
-	return *m_senderCallback;
 }
 
 QtToolsInterface &

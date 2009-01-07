@@ -627,7 +627,7 @@ ClientStateStartSession::Process(ClientThread &client)
 	boost::shared_ptr<NetPacket> packet(new NetPacketInit);
 	((NetPacketInit *)packet.get())->SetData(initData);
 	
-	client.GetSender().Send(context.GetSessionData(), packet);
+	context.GetSessionData()->GetSender().Send(context.GetSessionData(), packet);
 
 	client.SetState(ClientStateWaitSession::Instance());
 
@@ -903,7 +903,7 @@ ClientStateWaitSession::InternalProcess(ClientThread &client, boost::shared_ptr<
 			tmpList);
 
 		if (!avatarError)
-			client.GetSender().Send(client.GetContext().GetSessionData(), tmpList);
+			client.GetContext().GetSessionData()->GetSender().Send(client.GetContext().GetSessionData(), tmpList);
 		else
 			throw ClientException(__FILE__, __LINE__, avatarError, 0);
 	}
@@ -1055,7 +1055,7 @@ ClientStateSynchronizeStart::Process(ClientThread &client)
 	{
 		// Acknowledge start.
 		boost::shared_ptr<NetPacket> startAck(new NetPacketStartEventAck);
-		client.GetSender().Send(client.GetContext().GetSessionData(), startAck);
+		client.GetContext().GetSessionData()->GetSender().Send(client.GetContext().GetSessionData(), startAck);
 		// Unsubscribe lobby messages.
 		client.UnsubscribeLobbyMsg();
 

@@ -91,7 +91,7 @@ ServerGameThread::GetCurRound() const
 void
 ServerGameThread::SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::State state)
 {
-	GetSessionManager().SendToAllSessions(GetSender(), packet, state);
+	GetSessionManager().SendToAllSessions(packet, state);
 }
 
 void
@@ -379,7 +379,7 @@ ServerGameThread::InternalDenyAskVoteKick(SessionWrapper byWhom, unsigned player
 	denyPetitionData.playerId = playerIdWho;
 	denyPetitionData.denyReason = reason;
 	static_cast<NetPacketAskKickPlayerDenied *>(denyPetition.get())->SetData(denyPetitionData);
-	GetSender().Send(byWhom.sessionData, denyPetition);
+	byWhom.sessionData->GetSender().Send(byWhom.sessionData, denyPetition);
 }
 
 void
@@ -429,7 +429,7 @@ ServerGameThread::InternalDenyVoteKick(SessionWrapper byWhom, unsigned petitionI
 	denyVoteData.petitionId = petitionId;
 	denyVoteData.denyReason = reason;
 	static_cast<NetPacketVoteKickPlayerDenied *>(denyVote.get())->SetData(denyVoteData);
-	GetSender().Send(byWhom.sessionData, denyVote);
+	byWhom.sessionData->GetSender().Send(byWhom.sessionData, denyVote);
 }
 
 PlayerDataList
@@ -611,7 +611,7 @@ ServerGameThread::RemovePlayerData(boost::shared_ptr<PlayerData> player, int rea
 			NetPacketGameAdminChanged::Data adminChangedData;
 			adminChangedData.playerId = newAdmin->GetUniqueId(); // Choose next player as admin.
 			static_cast<NetPacketGameAdminChanged *>(adminChanged.get())->SetData(adminChangedData);
-			GetSessionManager().SendToAllSessions(GetSender(), adminChanged, SessionData::Game);
+			GetSessionManager().SendToAllSessions(adminChanged, SessionData::Game);
 
 			GetLobbyThread().NotifyGameAdminChanged(GetId(), newAdmin->GetUniqueId());
 		}
@@ -625,7 +625,7 @@ ServerGameThread::RemovePlayerData(boost::shared_ptr<PlayerData> player, int rea
 	thisPlayerLeftData.playerId = player->GetUniqueId();
 	thisPlayerLeftData.removeReason = reason;
 	static_cast<NetPacketPlayerLeft *>(thisPlayerLeft.get())->SetData(thisPlayerLeftData);
-	GetSessionManager().SendToAllSessions(GetSender(), thisPlayerLeft, SessionData::Game);
+	GetSessionManager().SendToAllSessions(thisPlayerLeft, SessionData::Game);
 
 	GetLobbyThread().NotifyPlayerLeftGame(GetId(), player->GetUniqueId());
 }
@@ -770,12 +770,6 @@ void
 ServerGameThread::SetStateTimerFlag(unsigned flag)
 {
 	m_stateTimerFlag = flag;
-}
-
-SenderInterface &
-ServerGameThread::GetSender()
-{
-	return GetLobbyThread().GetSender();
 }
 
 ReceiverHelper &

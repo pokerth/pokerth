@@ -25,7 +25,6 @@
 #include <cstring>
 #include <cassert>
 
-#include <third_party/boost/timers.hpp>
 #include <boost/bind.hpp>
 
 using namespace std;
@@ -36,7 +35,7 @@ using namespace std;
 #define SEND_LOG_INTERVAL_SEC				60
 
 SenderThread::SenderThread(SenderCallback &cb)
-: m_callback(cb)
+: m_callback(cb), m_bytesSent(0)
 {
 }
 
@@ -67,17 +66,16 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 {
 	if (packet.get() && session.get())
 	{
-		boost::mutex::scoped_lock lock0(m_sessionsStalledMutex);
-		if (find(m_sessionsStalled.begin(), m_sessionsStalled.end(), session->GetId()) == m_sessionsStalled.end())
 		{
-			boost::mutex::scoped_lock lock1(m_sendQueueMutex);
-			InternalStore(m_sendQueue, SEND_QUEUE_SIZE, session, packet);
+			boost::mutex::scoped_lock lock(m_sendQueueMutex);
+			if (m_sendQueue.size() < SEND_QUEUE_SIZE)
+			{
+				m_sendQueue.push_back(packet);
+			}
 		}
-		else
 		{
-			// This session is stalled.
-			boost::mutex::scoped_lock lock2(m_stalledQueueMutex);
-			InternalStore(m_stalledQueue, SEND_QUEUE_SIZE, session, packet);
+			boost::mutex::scoped_lock lock(m_sessionMutex);
+			m_session = session;
 		}
 	}
 }
@@ -87,64 +85,22 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 {
 	if (!packetList.empty() && session.get())
 	{
-		boost::mutex::scoped_lock lock0(m_sessionsStalledMutex);
-		if (find(m_sessionsStalled.begin(), m_sessionsStalled.end(), session->GetId()) == m_sessionsStalled.end())
+		boost::mutex::scoped_lock lock(m_sendQueueMutex);
+		if (m_sendQueue.size() + packetList.size() <= SEND_QUEUE_SIZE)
 		{
-			boost::mutex::scoped_lock lock1(m_sendQueueMutex);
-			InternalStore(m_sendQueue, SEND_QUEUE_SIZE, session, packetList);
+			NetPacketList::const_iterator i = packetList.begin();
+			NetPacketList::const_iterator end = packetList.end();
+			while (i != end)
+			{
+				m_sendQueue.push_back(*i);
+				++i;
+			}
 		}
-		else
 		{
-			// This session is stalled.
-			boost::mutex::scoped_lock lock2(m_stalledQueueMutex);
-			InternalStore(m_stalledQueue, SEND_QUEUE_SIZE, session, packetList);
-		}
-	}
-}
-
-unsigned
-SenderThread::GetNumPacketsInQueue() const
-{
-	unsigned numPackets;
-	{
-		boost::mutex::scoped_lock lock1(m_sendQueueMutex);
-		numPackets = m_sendQueue.size();
-	}
-	{
-		boost::mutex::scoped_lock lock2(m_stalledQueueMutex);
-		numPackets += m_stalledQueue.size();
-	}
-	return numPackets;
-}
-
-bool
-SenderThread::operator<(const SenderThread &other) const
-{
-	return GetNumPacketsInQueue() < other.GetNumPacketsInQueue();
-}
-
-void
-SenderThread::InternalStore(SendDataList &sendQueue, unsigned maxQueueSize, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
-{
-	if (sendQueue.size() < maxQueueSize) // Queue is limited in size.
-		sendQueue.push_back(SendData(packet, session));
-	// TODO: Throw exception if failed.
-}
-
-void
-SenderThread::InternalStore(SendDataList &sendQueue, unsigned maxQueueSize, boost::shared_ptr<SessionData> session, const NetPacketList &packetList)
-{
-	if (sendQueue.size() + packetList.size() <= maxQueueSize)
-	{
-		NetPacketList::const_iterator i = packetList.begin();
-		NetPacketList::const_iterator end = packetList.end();
-		while (i != end)
-		{
-			sendQueue.push_back(SendData(*i, session));
-			++i;
+			boost::mutex::scoped_lock lock(m_sessionMutex);
+			m_session = session;
 		}
 	}
-	// TODO: Throw exception if failed.
 }
 
 void
@@ -152,70 +108,31 @@ SenderThread::Main()
 {
 	while (!ShouldTerminate())
 	{
-		/*
-		 * To prevent stalling of the sender, keeping the order
-		 * of the packets in the sender queue is not guaranteed.
-		 * Instead, only the order of the packets for a single
-		 * target session is maintained.
-		 *
-		 * This could also be done by using one sender thread
-		 * for each session, but that would require too many
-		 * resources.
-		 *
-		 * The send queue is a list of packets. Whenever a
-		 * select timeout occurs, the session of the current
-		 * packet is placed in the stalled list, and all other
-		 * packets from the queue for that session are also
-		 * attached to the stalled list. This process is
-		 * continued with the next packet in the send queue.
-		 *
-		 * When the send queue is empty, the list of stalled
-		 * packets is copied back to the send queue, and
-		 * everything starts from the beginning.
-		 *
-		 * No packets are lost in this algorithm, and at the same
-		 * time, the send process is never fully stalled,
-		 * except when only packets for stalled sessions are
-		 * present.
-		 *
-		 * Note: If someone keeps putting in packets to send, the
-		 * stalled packets will never be sent, but this is
-		 * considered more a theoretical problem.
-		 */
-
-		// For reasons of simplicity, only one packet is sent at a time.
-		SendData tmpData;
-		// Check main queue.
+		if (!m_curPacket)
 		{
-			boost::mutex::scoped_lock lock0(m_sessionsStalledMutex);
-			boost::mutex::scoped_lock lock1(m_sendQueueMutex);
-			if (m_sendQueue.empty())
-			{
-				// Check stalled queue.
-				// Attention: TRIPLE lock (on purpose).
-				boost::mutex::scoped_lock lock2(m_stalledQueueMutex);
-				if (!m_stalledQueue.empty())
-				{
-					m_sendQueue.swap(m_stalledQueue);
-					m_sessionsStalled.clear(); // No more sessions stalled, all in send list.
-				}
-			}
+			boost::mutex::scoped_lock lock(m_sendQueueMutex);
 			if (!m_sendQueue.empty())
 			{
-				tmpData = m_sendQueue.front();
+				m_curPacket = m_sendQueue.front();
 				m_sendQueue.pop_front();
 			}
 		}
 
-		if (tmpData.packet && tmpData.session)
+		if (m_curPacket)
 		{
-			const unsigned tmpLen = tmpData.packet->GetLen();
-			if (tmpLen <= MAX_PACKET_SIZE)
+			const unsigned tmpLen = m_curPacket->GetLen();
+			if (tmpLen > MAX_PACKET_SIZE)
+				m_curPacket.reset(); // TODO log
+			else
 			{
-				SOCKET tmpSocket = tmpData.session->GetSocket();
+				SOCKET tmpSocket;
+				{
+					boost::mutex::scoped_lock lock(m_sessionMutex);
+					tmpSocket = m_session->GetSocket();
+				}
 
 				// send next chunk of data
-				int bytesSent = send(tmpSocket, ((const char *)tmpData.packet->GetRawData()) + tmpData.bytesSent, tmpLen - tmpData.bytesSent, SOCKET_SEND_FLAGS);
+				int bytesSent = send(tmpSocket, ((const char *)m_curPacket->GetRawData()) + m_bytesSent, tmpLen - m_bytesSent, SOCKET_SEND_FLAGS);
 
 				if (!IS_VALID_SEND(bytesSent))
 				{
@@ -241,41 +158,12 @@ SenderThread::Main()
 								// Skip this packet - this is bad, and is therefore reported.
 								// Ignore invalid or not connected sockets.
 								if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
-									m_callback.SignalNetError(tmpData.session->GetId(), ERR_SOCK_SELECT_FAILED, errCode);
-							}
-							Msleep(SEND_TIMEOUT_MSEC);
-						}
-						else if (selectResult == 0)
-						{
-							// A timeout occured - don't block the thread.
-							{
-								// Attention: TRIPLE lock (on purpose).
-								// Stall all packets for that sender.
-								boost::mutex::scoped_lock lock0(m_sessionsStalledMutex);
-								boost::mutex::scoped_lock lock1(m_sendQueueMutex);
-								boost::mutex::scoped_lock lock2(m_stalledQueueMutex);
-								m_stalledQueue.push_back(tmpData);
-								m_sessionsStalled.push_back(tmpData.session->GetId());
-								SendDataList::iterator i = m_sendQueue.begin();
-								SendDataList::iterator end = m_sendQueue.end();
-								while (i != end)
 								{
-									SendDataList::iterator next = i;
-									++next;
-									if ((*i).session && (*i).session->GetId() == tmpData.session->GetId())
-									{
-										m_stalledQueue.push_back(*i);
-										m_sendQueue.erase(i);
-									}
-									i = next;
+									boost::mutex::scoped_lock lock(m_sessionMutex);
+									m_callback.SignalNetError(m_session->GetId(), ERR_SOCK_SELECT_FAILED, errCode);
 								}
 							}
-						}
-						else
-						{
-							// Select was successful - store the packet back in the main queue.
-							boost::mutex::scoped_lock lock1(m_sendQueueMutex);
-							m_sendQueue.push_front(tmpData);
+							Msleep(SEND_TIMEOUT_MSEC);
 						}
 					}
 					else // other errors than would block
@@ -283,45 +171,32 @@ SenderThread::Main()
 						// Skip this packet - this is bad, and is therefore reported.
 						// Ignore invalid or not connected sockets.
 						if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
-							m_callback.SignalNetError(tmpData.session->GetId(), ERR_SOCK_SEND_FAILED, errCode);
+						{
+							boost::mutex::scoped_lock lock(m_sessionMutex);
+							m_callback.SignalNetError(m_session->GetId(), ERR_SOCK_SEND_FAILED, errCode);
+						}
 						Msleep(SEND_TIMEOUT_MSEC);
 					}
 				}
-				else if ((unsigned)bytesSent + tmpData.bytesSent < tmpLen)
+				else if ((unsigned)bytesSent + m_bytesSent < tmpLen)
 				{
 					if (bytesSent)
 					{
-						tmpData.bytesSent += bytesSent;
-						// Send was partly successful - store the packet back in the main queue.
-						boost::mutex::scoped_lock lock1(m_sendQueueMutex);
-						m_sendQueue.push_front(tmpData);
+						// Send was partly successful.
+						m_bytesSent += bytesSent;
 					}
 					else
 						Msleep(SEND_TIMEOUT_MSEC);
 				}
+				else //if ((unsigned)bytesSent + m_bytesSent == tmpLen)
+				{
+					m_curPacket.reset();
+					m_bytesSent = 0;
+				}
 			}
-			else
-				Msleep(SEND_TIMEOUT_MSEC);
 		}
 		else
 			Msleep(SEND_TIMEOUT_MSEC);
-
-		if (m_logTimer.elapsed().total_seconds() >= SEND_LOG_INTERVAL_SEC)
-		{
-			unsigned sendQueueSize = 0;
-			unsigned stalledQueueSize = 0;
-			{
-				boost::mutex::scoped_lock lock1(m_sendQueueMutex);
-				sendQueueSize = m_sendQueue.size();
-			}
-			{	
-				boost::mutex::scoped_lock lock2(m_stalledQueueMutex);
-				stalledQueueSize = m_stalledQueue.size();
-			}
-			LOG_VERBOSE("Sender TICK - send queue " << sendQueueSize << ", stalled " << stalledQueueSize << ".");
-			m_logTimer.reset();
-			m_logTimer.start();
-		}
 	}
 }
 

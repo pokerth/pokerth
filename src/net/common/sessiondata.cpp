@@ -18,15 +18,20 @@
  ***************************************************************************/
 
 #include <net/sessiondata.h>
+#include <net/senderthread.h>
 
-SessionData::SessionData(SOCKET sockfd, SessionId id)
+SessionData::SessionData(SOCKET sockfd, SessionId id, SenderCallback &cb)
 : m_sockfd(sockfd), m_id(id), m_state(SessionData::Init), m_readyFlag(false),
   m_wantsLobbyMsg(true), m_activityTimeoutNoticeSent(false)
 {
+	m_sender.reset(new SenderThread(cb));
+	m_sender->Start();
 }
 
 SessionData::~SessionData()
 {
+	m_sender->SignalStop();
+	m_sender->WaitStop();
 	if (m_sockfd != INVALID_SOCKET)
 		CLOSESOCKET(m_sockfd);
 }
@@ -120,6 +125,12 @@ SessionData::GetReceiveBuffer()
 {
 	// mutex protection, if needed, within buffer.
 	return m_receiveBuffer;
+}
+
+SenderInterface &
+SessionData::GetSender()
+{
+	return *m_sender;
 }
 
 void
