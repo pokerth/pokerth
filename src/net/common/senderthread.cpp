@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Lothar May                                      *
+ *   Copyright (C) 2007-2009 by Lothar May                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -42,6 +42,24 @@ SenderThread::SenderThread(SenderCallback &cb)
 
 SenderThread::~SenderThread()
 {
+}
+
+void
+SenderThread::Start()
+{
+	Run();
+}
+
+void
+SenderThread::SignalStop()
+{
+	SignalTermination();
+}
+
+void
+SenderThread::WaitStop()
+{
+	Join(SENDER_THREAD_TERMINATE_TIMEOUT);
 }
 
 void

@@ -344,7 +344,7 @@ ServerLobbyThread::GetNextGameId()
 void
 ServerLobbyThread::Main()
 {
-	GetSender().Run();
+	GetSender().Start();
 
 	try
 	{
@@ -379,9 +379,8 @@ ServerLobbyThread::Main()
 
 	TerminateGames();
 
-	GetSender().SignalTermination();
-
-	GetSender().Join(SENDER_THREAD_TERMINATE_TIMEOUT);
+	GetSender().SignalStop();
+	GetSender().WaitStop();
 
 	CleanupConnectQueue();
 }
@@ -1291,7 +1290,7 @@ ServerLobbyThread::GetCallback()
 	return m_gui;
 }
 
-SenderThread &
+SenderInterface &
 ServerLobbyThread::GetSender()
 {
 	assert(m_sender.get());

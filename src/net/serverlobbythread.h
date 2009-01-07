@@ -35,7 +35,7 @@
 #define NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC		4000
 
 
-class SenderThread;
+class SenderInterface;
 class ReceiverHelper;
 class ServerSenderCallback;
 class ServerGameThread;
@@ -87,7 +87,7 @@ public:
 	ServerStats GetStats() const;
 	boost::posix_time::ptime GetStartTime() const;
 
-	SenderThread &GetSender();
+	SenderInterface &GetSender();
 
 protected:
 
@@ -99,7 +99,6 @@ protected:
 	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
 	typedef std::map<std::string, boost::timers::portable::microsec_timer> TimerClientAddressMap;
 	typedef std::list<unsigned> RemoveGameList;
-	typedef std::list<boost::shared_ptr<SenderThread> > SenderThreadList;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -191,7 +190,7 @@ private:
 	GameMap m_gameMap;
 
 	boost::shared_ptr<ReceiverHelper> m_receiver;
-	boost::shared_ptr<SenderThread> m_sender;
+	boost::shared_ptr<SenderInterface> m_sender;
 	boost::shared_ptr<ServerSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
 	AvatarManager &m_avatarManager;

@@ -22,6 +22,7 @@
 #define _SENDERTHREAD_H_
 
 #include <core/thread.h>
+#include <net/senderinterface.h>
 #include <net/sessiondata.h>
 #include <net/netpacket.h>
 #include <net/sendercallback.h>
@@ -32,14 +33,18 @@
 
 #define SENDER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
 
-class SenderThread : public Thread
+class SenderThread : public Thread, public SenderInterface
 {
 public:
 	SenderThread(SenderCallback &cb);
 	virtual ~SenderThread();
 
-	void Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
-	void Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
+	virtual void Start();
+	virtual void SignalStop();
+	virtual void WaitStop();
+
+	virtual void Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+	virtual void Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
 
 	unsigned GetNumPacketsInQueue() const;
 	bool operator<(const SenderThread &other) const;

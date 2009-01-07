@@ -772,7 +772,7 @@ ServerGameThread::SetStateTimerFlag(unsigned flag)
 	m_stateTimerFlag = flag;
 }
 
-SenderThread &
+SenderInterface &
 ServerGameThread::GetSender()
 {
 	return GetLobbyThread().GetSender();

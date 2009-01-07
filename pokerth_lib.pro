@@ -70,6 +70,7 @@ HEADERS += \
 		src/net/genericsocket.h \
 		src/net/netpacket.h \
 		src/net/resolverthread.h \
+		src/net/senderinterface.h \
 		src/net/senderthread.h \
 		src/net/serveracceptthread.h \
 		src/net/servergamethread.h \
@@ -155,6 +156,7 @@ SOURCES += \
 		src/net/common/downloadhelper.cpp \
 		src/net/common/netpacket.cpp \
 		src/net/common/resolverthread.cpp \
+		src/net/common/senderinterface.cpp \
 		src/net/common/senderthread.cpp \
 		src/net/common/sendercallback.cpp \
 		src/net/common/servercontext.cpp \

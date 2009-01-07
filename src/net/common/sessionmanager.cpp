@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Lothar May                                      *
+ *   Copyright (C) 2007-2009 by Lothar May                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include <net/sessionmanager.h>
-#include <net/senderthread.h>
+#include <net/senderinterface.h>
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
 
@@ -357,7 +357,7 @@ SessionManager::GetRawSessionCount()
 }
 
 void
-SessionManager::SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state)
+SessionManager::SendToAllSessions(SenderInterface &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state)
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
@@ -377,7 +377,7 @@ SessionManager::SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPac
 }
 
 void
-SessionManager::SendLobbyMsgToAllSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state)
+SessionManager::SendLobbyMsgToAllSessions(SenderInterface &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state)
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
@@ -397,7 +397,7 @@ SessionManager::SendLobbyMsgToAllSessions(SenderThread &sender, boost::shared_pt
 }
 
 void
-SessionManager::SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state)
+SessionManager::SendToAllButOneSessions(SenderInterface &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state)
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 

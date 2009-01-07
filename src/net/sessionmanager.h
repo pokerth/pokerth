@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Lothar May                                      *
+ *   Copyright (C) 2007-2009 by Lothar May                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,7 +29,7 @@
 #include <map>
 #include <string>
 
-class SenderThread;
+class SenderInterface;
 class NetPacket;
 
 struct SessionWrapper
@@ -74,9 +74,9 @@ public:
 	void Clear();
 	unsigned GetRawSessionCount();
 
-	void SendToAllSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
-	void SendLobbyMsgToAllSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
-	void SendToAllButOneSessions(SenderThread &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state);
+	void SendToAllSessions(SenderInterface &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
+	void SendLobbyMsgToAllSessions(SenderInterface &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
+	void SendToAllButOneSessions(SenderInterface &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state);
 
 protected:
 
