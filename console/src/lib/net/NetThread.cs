@@ -20,26 +20,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
 namespace pokerth_lib
 {
-	abstract class NetThread
+	abstract class NetThread : BasicThread
 	{
 		public NetThread(NetworkStream stream)
+			: base()
 		{
-			m_thread = new Thread(ThreadProc);
-			m_terminateFlag = false;
-			m_terminateFlagMutex = new System.Object();
 			m_netStream = stream;
-		}
-
-		public void Run()
-		{
-			m_thread.Start(this);
 		}
 
 		protected NetworkStream NetStream
@@ -50,38 +42,6 @@ namespace pokerth_lib
 			}
 		}
 
-		protected static void ThreadProc(object obj)
-		{
-			NetThread me = (NetThread)obj;
-			me.Start();
-		}
-
-		protected abstract void Start();
-
-		public void WaitTermination()
-		{
-			m_thread.Join();
-		}
-
-		public void SetTerminateFlag()
-		{
-			lock (m_terminateFlagMutex)
-			{
-				m_terminateFlag = true;
-			}
-		}
-
-		protected bool IsTerminateFlagSet()
-		{
-			lock (m_terminateFlagMutex)
-			{
-				return m_terminateFlag;
-			}
-		}
-
-		private Thread m_thread;
-		private bool m_terminateFlag;
-		private Object m_terminateFlagMutex;
 		private NetworkStream m_netStream;
 	}
 }

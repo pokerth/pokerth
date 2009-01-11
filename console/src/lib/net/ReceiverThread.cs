@@ -42,7 +42,7 @@ namespace pokerth_lib
 			m_parser = new NetParser(data, sender, callback);
 		}
 
-		protected override void Start()
+		protected override void Main()
 		{
 			while (!IsTerminateFlagSet())
 			{

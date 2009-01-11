@@ -43,7 +43,7 @@ namespace pokerth_lib
 			}
 		}
 
-		protected override void Start()
+		protected override void Main()
 		{
 			while (!IsTerminateFlagSet())
 			{
