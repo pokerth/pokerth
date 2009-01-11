@@ -35,7 +35,7 @@ using namespace std;
 #define SEND_LOG_INTERVAL_SEC				60
 
 SenderThread::SenderThread(SenderCallback &cb)
-: m_callback(cb), m_bytesSent(0)
+: m_bytesSent(0), m_callback(cb)
 {
 }
 
