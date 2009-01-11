@@ -52,6 +52,7 @@ ClientContext::~ClientContext()
 {
 	m_senderThread->SignalStop();
 	m_senderThread->WaitStop();
+	m_sessionData.reset();
 }
 
 SOCKET
