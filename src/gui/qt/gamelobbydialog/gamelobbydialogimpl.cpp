@@ -52,6 +52,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( pushButton_Leave, SIGNAL( clicked() ), this, SLOT( leaveGame() ) );
 	connect( treeWidget_GameList, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( gameSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 	connect( treeWidget_GameList, SIGNAL( itemDoubleClicked (QTreeWidgetItem*, int) ), this, SLOT( joinGame() ) );
+	connect( treeWidget_GameList->header(), SIGNAL( sortIndicatorChanged ( int , Qt::SortOrder )), this, SLOT( writeDialogSettings() ) );
 	connect( treeWidget_connectedPlayers, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), myChat, SLOT( sendMessage() ) );
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), myChat, SLOT( checkInputLength(QString) ) );
@@ -77,7 +78,6 @@ void gameLobbyDialogImpl::exec()
 
 	waitStartGameMsgBoxTimer->stop();
 	waitStartGameMsgBox->hide();
-
 }
 
 
@@ -286,6 +286,7 @@ void gameLobbyDialogImpl::addGame(unsigned gameId)
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_GameList, 0);
 
 	updateGameItem(item, gameId);
+
 }
 
 void gameLobbyDialogImpl::updateGameMode(unsigned gameId, int /*newMode*/)
@@ -452,6 +453,9 @@ void gameLobbyDialogImpl::clearDialog()
 	label_connectedPlayersCounter->setText(tr("connected players: %1").arg(0));	
 	label_openGamesCounter->setText("| "+tr("running games: %1").arg(0));
 	label_runningGamesCounter->setText("| "+tr("open games: %1").arg(0));
+
+	QSettings settings("PokerTHGbR", "PokerTH");
+	treeWidget_GameList->sortItems ( settings.value("InternetGameLobby/GameListSortingSection", 0).toInt(), (Qt::SortOrder)settings.value("InternetGameLobby/GameListSortingOrder", Qt::AscendingOrder).toInt() );
 
 }
 
@@ -773,7 +777,33 @@ void gameLobbyDialogImpl::joinAnyGameButtonRefresh() {
 
 void gameLobbyDialogImpl::reject()
 {
+	writeDialogSettings();
 	myStartWindow->show();
 	QDialog::reject();
 }
 
+void gameLobbyDialogImpl::closeEvent(QCloseEvent *event)
+{
+          writeDialogSettings();
+          event->accept();
+}
+
+
+void gameLobbyDialogImpl::writeDialogSettings()
+{
+	QSettings settings("PokerTHGbR", "PokerTH");
+	
+	settings.beginGroup("InternetGameLobby");
+	
+	QHeaderView *header = treeWidget_GameList->header();
+	settings.setValue("GameListSortingSection", header->sortIndicatorSection());
+     	settings.setValue("GameListSortingOrder", header->sortIndicatorOrder());
+     
+     	settings.endGroup();
+}
+
+void gameLobbyDialogImpl::readDialogSettings()
+{
+	QSettings settings("PokerTHGbR", "PokerTH");
+	
+}

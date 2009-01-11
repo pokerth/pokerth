@@ -102,9 +102,10 @@ public slots:
 	void showWaitStartGameMsgBox();
 
 	void joinAnyGameButtonRefresh();
-
-	void reject();
-	
+	void reject();	
+	void closeEvent(QCloseEvent *event);
+	void writeDialogSettings();
+	void readDialogSettings();
 private:
 	
 	gameTableImpl* myW;
