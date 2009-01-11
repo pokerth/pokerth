@@ -76,6 +76,7 @@ HEADERS += \
 		src/net/servergamethread.h \
 		src/net/servergamestate.h \
 		src/net/serverlobbythread.h \
+		src/net/sessiondatacallback.h \
 		src/net/socket_helper.h \
 		src/net/socket_msg.h \
 		src/net/socket_startup.h \
@@ -167,6 +168,7 @@ SOURCES += \
 		src/net/common/serverlobbythread.cpp \
 		src/net/common/servercallback.cpp \
 		src/net/common/sessiondata.cpp \
+		src/net/common/sessiondatacallback.cpp \
 		src/net/common/sessionmanager.cpp \
 		src/net/common/socket_startup_cmn.cpp \
 		src/net/common/socket_helper_cmn.cpp \

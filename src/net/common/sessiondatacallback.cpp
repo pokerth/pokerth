@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Lothar May                                      *
+ *   Copyright (C) 2009 by Lothar May                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,53 +16,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network sender thread. */
 
-#ifndef _SENDERTHREAD_H_
-#define _SENDERTHREAD_H_
+#include <net/sessiondatacallback.h>
 
-#include <core/thread.h>
-#include <net/senderinterface.h>
-#include <net/netpacket.h>
-#include <net/sendercallback.h>
 
-#include <list>
-#include <boost/shared_ptr.hpp>
-
-class SessionData;
-#define SENDER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
-
-class SenderThread : public Thread, public SenderInterface
+SessionDataCallback::~SessionDataCallback()
 {
-public:
-	SenderThread(SenderCallback &cb);
-	virtual ~SenderThread();
-
-	virtual void Start();
-	virtual void SignalStop();
-	virtual void WaitStop();
-
-	virtual void Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
-	virtual void Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
-
-protected:
-	typedef std::list<boost::shared_ptr<NetPacket> > SendDataList;
-
-	// Main function of the thread.
-	virtual void Main();
-
-private:
-
-	SendDataList m_sendQueue;
-	mutable boost::mutex m_sendQueueMutex;
-
-	mutable boost::mutex m_sessionDataMutex;
-	SOCKET m_sessionSocket;
-	unsigned m_sessionId;
-	boost::shared_ptr<NetPacket> m_curPacket;
-	unsigned m_bytesSent;
-	SenderCallback &m_callback;
-};
-
-#endif
+}
 

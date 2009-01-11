@@ -57,7 +57,7 @@
 using namespace std;
 
 
-class ServerSenderCallback : public SenderCallback
+class ServerSenderCallback : public SenderCallback, public SessionDataCallback
 {
 public:
 	ServerSenderCallback(ServerLobbyThread &server) : m_server(server) {}
@@ -68,6 +68,10 @@ public:
 		// We just ignore send errors for now, on server side.
 		// A serious send error should trigger a read error or a read
 		// returning 0 afterwards, and we will handle this error.
+	}
+	virtual void SignalSessionTerminated(unsigned session)
+	{
+		m_server.RemoveSender(session);
 	}
 
 private:
@@ -300,6 +304,13 @@ ServerLobbyThread::RemoveGame(unsigned id)
 	m_removeGameList.push_back(id);
 }
 
+void
+ServerLobbyThread::RemoveSender(unsigned session)
+{
+	boost::mutex::scoped_lock lock(m_removeSenderListMutex);
+	m_removeSenderList.push_back(session);
+}
+
 AvatarManager &
 ServerLobbyThread::GetAvatarManager()
 {
@@ -357,6 +368,8 @@ ServerLobbyThread::Main()
 			RemoveGameLoop();
 			// Kick players.
 			RemovePlayerLoop();
+			// Remove sender threads.
+			RemoveSenderLoop();
 			// Resubscribe Lobby Messages if needed.
 			ResubscribeLobbyMsgLoop();
 			// Check session timeouts.
@@ -863,6 +876,30 @@ ServerLobbyThread::RemovePlayerLoop()
 }
 
 void
+ServerLobbyThread::RemoveSenderLoop()
+{
+	boost::mutex::scoped_lock lock(m_removeSenderListMutex);
+
+	RemoveSenderList::iterator i = m_removeSenderList.begin();
+	RemoveSenderList::iterator end = m_removeSenderList.end();
+
+	// Synchronously remove Sender Threads whose Sessions have been closed.
+	while (i != end)
+	{
+		SenderMap::iterator pos = m_senderMap.find(*i);
+		if (pos != m_senderMap.end())
+		{
+			boost::shared_ptr<SenderInterface> tmpSender = pos->second;
+			tmpSender->SignalStop();
+			tmpSender->WaitStop();
+			m_senderMap.erase(pos);
+		}
+		++i;
+	}
+	m_removeSenderList.clear();
+}
+
+void
 ServerLobbyThread::ResubscribeLobbyMsgLoop()
 {
 	boost::mutex::scoped_lock lock(m_resubscribeListMutex);
@@ -1047,8 +1084,11 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 	//}
 
 	// Create a new session.
-	boost::shared_ptr<SessionData> sessionData(new SessionData(connData->ReleaseSocket(), m_curSessionId++, *m_senderCallback));
+	boost::shared_ptr<SenderInterface> senderThread(new SenderThread(*m_senderCallback));
+	senderThread->Start();
+	boost::shared_ptr<SessionData> sessionData(new SessionData(connData->ReleaseSocket(), m_curSessionId++, senderThread, *m_senderCallback));
 	m_sessionManager.AddSession(sessionData);
+	m_senderMap[sessionData->GetId()] = senderThread;
 
 	LOG_VERBOSE("Accepted connection - session #" << sessionData->GetId() << ".");
 

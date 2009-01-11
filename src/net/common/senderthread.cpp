@@ -74,8 +74,9 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 			}
 		}
 		{
-			boost::mutex::scoped_lock lock(m_sessionMutex);
-			m_session = session;
+			boost::mutex::scoped_lock lock(m_sessionDataMutex);
+			m_sessionSocket = session->GetSocket();
+			m_sessionId = session->GetId();
 		}
 	}
 }
@@ -97,8 +98,9 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 			}
 		}
 		{
-			boost::mutex::scoped_lock lock(m_sessionMutex);
-			m_session = session;
+			boost::mutex::scoped_lock lock(m_sessionDataMutex);
+			m_sessionSocket = session->GetSocket();
+			m_sessionId = session->GetId();
 		}
 	}
 }
@@ -127,8 +129,8 @@ SenderThread::Main()
 			{
 				SOCKET tmpSocket;
 				{
-					boost::mutex::scoped_lock lock(m_sessionMutex);
-					tmpSocket = m_session->GetSocket();
+					boost::mutex::scoped_lock lock(m_sessionDataMutex);
+					tmpSocket = m_sessionSocket;
 				}
 
 				// send next chunk of data
@@ -159,8 +161,8 @@ SenderThread::Main()
 								// Ignore invalid or not connected sockets.
 								if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
 								{
-									boost::mutex::scoped_lock lock(m_sessionMutex);
-									m_callback.SignalNetError(m_session->GetId(), ERR_SOCK_SELECT_FAILED, errCode);
+									boost::mutex::scoped_lock lock(m_sessionDataMutex);
+									m_callback.SignalNetError(m_sessionId, ERR_SOCK_SELECT_FAILED, errCode);
 								}
 							}
 							Msleep(SEND_TIMEOUT_MSEC);
@@ -172,8 +174,8 @@ SenderThread::Main()
 						// Ignore invalid or not connected sockets.
 						if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
 						{
-							boost::mutex::scoped_lock lock(m_sessionMutex);
-							m_callback.SignalNetError(m_session->GetId(), ERR_SOCK_SEND_FAILED, errCode);
+							boost::mutex::scoped_lock lock(m_sessionDataMutex);
+							m_callback.SignalNetError(m_sessionId, ERR_SOCK_SEND_FAILED, errCode);
 						}
 						Msleep(SEND_TIMEOUT_MSEC);
 					}
@@ -198,5 +200,8 @@ SenderThread::Main()
 		else
 			Msleep(SEND_TIMEOUT_MSEC);
 	}
+	boost::mutex::scoped_lock lock(m_sessionDataMutex);
+	if (m_sessionSocket != INVALID_SOCKET)
+		CLOSESOCKET(m_sessionSocket);
 }
 

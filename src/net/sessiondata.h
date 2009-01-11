@@ -21,8 +21,11 @@
 #ifndef _SESSIONDATA_H_
 #define _SESSIONDATA_H_
 
+typedef unsigned SessionId;
+
 #include <net/socket_helper.h>
 #include <net/receivebuffer.h>
+#include <net/sessiondatacallback.h>
 #include <string>
 #include <boost/thread.hpp>
 #include <third_party/boost/timers.hpp>
@@ -31,17 +34,14 @@
 #define SESSION_ID_INIT			INVALID_SESSION
 #define SESSION_ID_GENERIC		0xFFFFFFFF
 
-typedef unsigned SessionId;
-class SenderThread;
 class SenderInterface;
-class SenderCallback;
 
 class SessionData
 {
 public:
 	enum State { Init, ReceivingAvatar, Established, Game };
 
-	SessionData(SOCKET sockfd, SessionId id, SenderCallback &cb);
+	SessionData(SOCKET sockfd, SessionId id, boost::shared_ptr<SenderInterface> sender, SessionDataCallback &cb);
 	~SessionData();
 
 	SessionId GetId() const;
@@ -80,7 +80,8 @@ private:
 	boost::timers::portable::microsec_timer m_activityTimer;
 	bool							m_activityTimeoutNoticeSent;
 	boost::timers::portable::microsec_timer m_autoDisconnectTimer;
-	boost::shared_ptr<SenderThread>	m_sender;
+	boost::shared_ptr<SenderInterface>	m_sender;
+	SessionDataCallback				&m_callback;
 
 	mutable boost::mutex			m_dataMutex;
 };

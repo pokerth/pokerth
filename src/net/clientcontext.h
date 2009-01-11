@@ -24,9 +24,10 @@
 #include <net/netcontext.h>
 #include <net/receivebuffer.h>
 #include <net/sessiondata.h>
+#include <net/senderinterface.h>
 #include <boost/shared_ptr.hpp>
 
-class SenderCallback;
+class ClientSenderCallback;
 
 class ClientContext : public NetContext
 {
@@ -108,7 +109,8 @@ private:
 	std::string			m_cacheDir;
 	bool				m_hasSubscribedLobbyMsg;
 	ReceiveBuffer		m_receiveBuffer;
-	boost::shared_ptr<SenderCallback> m_senderCallback;
+	boost::shared_ptr<ClientSenderCallback> m_senderCallback;
+	boost::shared_ptr<SenderInterface> m_senderThread;
 };
 
 #endif

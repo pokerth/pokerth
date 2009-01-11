@@ -18,15 +18,19 @@
  ***************************************************************************/
 
 #include <net/clientcontext.h>
-#include <net/sendercallback.h>
+#include <net/senderthread.h>
 
-class ClientSenderCallback : public SenderCallback
+class ClientSenderCallback : public SenderCallback, public SessionDataCallback
 {
 public:
 	ClientSenderCallback() {}
 	virtual ~ClientSenderCallback() {}
 
 	virtual void SignalNetError(SessionId /*session*/, int /*errorID*/, int /*osErrorID*/)
+	{
+	}
+
+	virtual void SignalSessionTerminated(unsigned /*session*/)
 	{
 	}
 
@@ -40,10 +44,14 @@ ClientContext::ClientContext()
 {
 	bzero(&m_clientSockaddr, sizeof(m_clientSockaddr));
 	m_senderCallback.reset(new ClientSenderCallback());
+	m_senderThread.reset(new SenderThread(*m_senderCallback));
+	m_senderThread->Start();
 }
 
 ClientContext::~ClientContext()
 {
+	m_senderThread->SignalStop();
+	m_senderThread->WaitStop();
 }
 
 SOCKET
@@ -56,7 +64,7 @@ ClientContext::GetSocket() const
 void
 ClientContext::SetSocket(SOCKET sockfd)
 {
-	m_sessionData.reset(new SessionData(sockfd, SESSION_ID_GENERIC, *m_senderCallback));
+	m_sessionData.reset(new SessionData(sockfd, SESSION_ID_GENERIC, m_senderThread, *m_senderCallback));
 }
 
 boost::shared_ptr<SessionData>

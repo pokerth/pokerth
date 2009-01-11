@@ -18,22 +18,18 @@
  ***************************************************************************/
 
 #include <net/sessiondata.h>
-#include <net/senderthread.h>
+#include <net/senderinterface.h>
 
-SessionData::SessionData(SOCKET sockfd, SessionId id, SenderCallback &cb)
+SessionData::SessionData(SOCKET sockfd, SessionId id, boost::shared_ptr<SenderInterface> sender, SessionDataCallback &cb)
 : m_sockfd(sockfd), m_id(id), m_state(SessionData::Init), m_readyFlag(false),
-  m_wantsLobbyMsg(true), m_activityTimeoutNoticeSent(false)
+  m_wantsLobbyMsg(true), m_activityTimeoutNoticeSent(false), m_callback(cb)
 {
-	m_sender.reset(new SenderThread(cb));
-	m_sender->Start();
+	m_sender = sender;
 }
 
 SessionData::~SessionData()
 {
-	m_sender->SignalStop();
-	m_sender->WaitStop();
-	if (m_sockfd != INVALID_SOCKET)
-		CLOSESOCKET(m_sockfd);
+	m_callback.SignalSessionTerminated(m_id);
 }
 
 SessionId
