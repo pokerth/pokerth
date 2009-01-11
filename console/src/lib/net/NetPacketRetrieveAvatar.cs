@@ -1,5 +1,5 @@
 ﻿/***************************************************************************
- *   Copyright (C) 2008 by Lothar May                                      *
+ *   Copyright (C) 2009 by Lothar May                                      *
  *                                                                         *
  *   This file is part of pokerth_console.                                 *
  *   pokerth_console is free software: you can redistribute it and/or      *
@@ -20,99 +20,48 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
+
 
 namespace pokerth_lib
 {
-	public class GameInfo : IdObject
+	class NetPacketRetrieveAvatar : NetPacket
 	{
-		public enum AvatarFileType
+		public NetPacketRetrieveAvatar()
+			: base(NetPacket.NetTypeRetrieveAvatar)
 		{
-			PNG,
-			GIF,
-			JPG,
-			UNKNOWN
 		}
 
-		public enum Mode
+		public NetPacketRetrieveAvatar(int size, BinaryReader r)
+			: base(NetPacket.NetTypeRetrieveAvatar)
 		{
-			Created = 1,
-			Started,
-			Closed
+			if (size != 24)
+				throw new NetPacketException("NetTypeRetrieveAvatar invalid size.");
+			Properties.Add(PropType.RequestId,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			Properties.Add(PropType.AvatarMD5,
+				Convert.ToBase64String(r.ReadBytes(16)));
 		}
 
-		public GameInfo(uint id, string name, Mode mode, List<uint> playerSlots, uint startMoney, bool passwordProtected)
-			: base(id, name)
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			m_mutex = new Object();
-			m_mode = mode;
-			m_playerSlots = playerSlots;
-			m_startMoney = startMoney;
-			m_passwordProtected = passwordProtected;
+			visitor.VisitRetrieveAvatar(this);
 		}
 
-		public List<uint> PlayerSlots
+		public override byte[] ToByteArray()
 		{
-			get
-			{
-				lock (m_playerSlots)
-				{
-					// returns a copy(!)
-					return new List<uint>(m_playerSlots);
-				}
-			}
-			set
-			{
-				lock (m_playerSlots)
-				{
-					m_playerSlots = value;
-				}
-			}
-		}
+			MemoryStream memStream = new MemoryStream();
+			BinaryWriter w = new BinaryWriter(memStream);
 
-		public Mode CurrentMode
-		{
-			get
-			{
-				lock (m_mutex)
-				{
-					return m_mode;
-				}
-			}
-			set
-			{
-				lock (m_mutex)
-				{
-					m_mode = value;
-				}
-			}
-		}
+			w.Write(IPAddress.HostToNetworkOrder((short)Type));
+			w.Write(IPAddress.HostToNetworkOrder((short)24));
+			w.Write(IPAddress.HostToNetworkOrder((int)
+				Convert.ToUInt32(Properties[PropType.RequestId])));
+			w.Write(Convert.FromBase64String(Properties[PropType.AvatarMD5]));
 
-		public uint StartMoney
-		{
-			get
-			{
-				lock (m_mutex)
-				{
-					return m_startMoney;
-				}
-			}
+			return memStream.ToArray();
 		}
-
-		public bool PasswordProtected
-		{
-			get
-			{
-				lock (m_mutex)
-				{
-					return m_passwordProtected;
-				}
-			}
-		}
-
-		private Object m_mutex;
-		private Mode m_mode;
-		private List<uint> m_playerSlots;
-		readonly private uint m_startMoney;
-		bool m_passwordProtected;
 	}
 }

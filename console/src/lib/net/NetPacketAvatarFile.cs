@@ -1,5 +1,5 @@
 ﻿/***************************************************************************
- *   Copyright (C) 2008 by Lothar May                                      *
+ *   Copyright (C) 2009 by Lothar May                                      *
  *                                                                         *
  *   This file is part of pokerth_console.                                 *
  *   pokerth_console is free software: you can redistribute it and/or      *
@@ -20,99 +20,43 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
+
 
 namespace pokerth_lib
 {
-	public class GameInfo : IdObject
+	class NetPacketAvatarFile : NetPacket
 	{
-		public enum AvatarFileType
+		public NetPacketAvatarFile()
+			: base(NetPacket.NetTypeAvatarFile)
 		{
-			PNG,
-			GIF,
-			JPG,
-			UNKNOWN
 		}
 
-		public enum Mode
+		public NetPacketAvatarFile(int size, BinaryReader r)
+			: base(NetPacket.NetTypeAvatarFile)
 		{
-			Created = 1,
-			Started,
-			Closed
+			if (size < 12)
+				throw new NetPacketException("NetPacketAvatarFile invalid size.");
+			Properties.Add(PropType.RequestId,
+				Convert.ToString(IPAddress.NetworkToHostOrder((int)r.ReadUInt32())));
+			int avatarBlockSize = IPAddress.NetworkToHostOrder((short)r.ReadUInt16());
+			Properties.Add(PropType.AvatarBlockSize,
+				Convert.ToString(avatarBlockSize));
+			r.ReadUInt16(); // reserved
+			Properties.Add(PropType.AvatarFileData,
+				Convert.ToBase64String(r.ReadBytes(avatarBlockSize)));
 		}
 
-		public GameInfo(uint id, string name, Mode mode, List<uint> playerSlots, uint startMoney, bool passwordProtected)
-			: base(id, name)
+		public override void Accept(INetPacketVisitor visitor)
 		{
-			m_mutex = new Object();
-			m_mode = mode;
-			m_playerSlots = playerSlots;
-			m_startMoney = startMoney;
-			m_passwordProtected = passwordProtected;
+			visitor.VisitAvatarFile(this);
 		}
 
-		public List<uint> PlayerSlots
+		public override byte[] ToByteArray()
 		{
-			get
-			{
-				lock (m_playerSlots)
-				{
-					// returns a copy(!)
-					return new List<uint>(m_playerSlots);
-				}
-			}
-			set
-			{
-				lock (m_playerSlots)
-				{
-					m_playerSlots = value;
-				}
-			}
+			throw new NotImplementedException();
 		}
-
-		public Mode CurrentMode
-		{
-			get
-			{
-				lock (m_mutex)
-				{
-					return m_mode;
-				}
-			}
-			set
-			{
-				lock (m_mutex)
-				{
-					m_mode = value;
-				}
-			}
-		}
-
-		public uint StartMoney
-		{
-			get
-			{
-				lock (m_mutex)
-				{
-					return m_startMoney;
-				}
-			}
-		}
-
-		public bool PasswordProtected
-		{
-			get
-			{
-				lock (m_mutex)
-				{
-					return m_passwordProtected;
-				}
-			}
-		}
-
-		private Object m_mutex;
-		private Mode m_mode;
-		private List<uint> m_playerSlots;
-		readonly private uint m_startMoney;
-		bool m_passwordProtected;
 	}
 }

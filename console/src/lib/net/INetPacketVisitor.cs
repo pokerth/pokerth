@@ -55,5 +55,10 @@ namespace pokerth_lib
 		void VisitRemovedFromGame(NetPacket p);
 		void VisitChatText(NetPacket p);
 		void VisitError(NetPacket p);
+		void VisitRetrieveAvatar(NetPacket p);
+		void VisitAvatarHeader(NetPacket p);
+		void VisitAvatarFile(NetPacket p);
+		void VisitAvatarEnd(NetPacket p);
+		void VisitUnknownAvatar(NetPacket p);
 	}
 }

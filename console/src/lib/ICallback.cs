@@ -48,5 +48,8 @@ namespace pokerth_lib
 		void RemovedFromGame();
 		void ChatText(string name, string message);
 		void Error(string message);
+		void AvatarBegin(uint id, uint fileSize, GameInfo.AvatarFileType type);
+		void AvatarData(uint id, byte[] block);
+		void AvatarEnd(uint id);
 	}
 }

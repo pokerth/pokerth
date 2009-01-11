@@ -190,5 +190,20 @@ namespace pokerth_console
 			Console.WriteLine("Hint: Try using a different nickname.");
 			System.Environment.Exit(1);
 		}
+
+		public void AvatarBegin(uint id, uint fileSize, GameInfo.AvatarFileType type)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void AvatarData(uint id, byte[] block)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void AvatarEnd(uint id)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

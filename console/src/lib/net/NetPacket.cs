@@ -146,6 +146,12 @@ namespace pokerth_lib
 			ChatText,
 			ErrorReason,
 			RemoveReason,
+			RequestId,
+			AvatarMD5,
+			AvatarFileSize,
+			AvatarFileType,
+			AvatarBlockSize,
+			AvatarFileData,
 		}
 
 		public enum ListPropType
@@ -288,6 +294,9 @@ namespace pokerth_lib
 				case NetTypeError :
 					tmpPacket = new NetPacketError();
 					break;
+				case NetTypeRetrieveAvatar :
+					tmpPacket = new NetPacketRetrieveAvatar();
+					break;
 			}
 			return tmpPacket;
 		}
@@ -366,6 +375,21 @@ namespace pokerth_lib
 					break;
 				case NetTypeError :
 					tmpPacket = new NetPacketError(size, reader);
+					break;
+				case NetTypeRetrieveAvatar :
+					tmpPacket = new NetPacketRetrieveAvatar(size, reader);
+					break;
+				case NetTypeAvatarHeader :
+					tmpPacket = new NetPacketAvatarHeader(size, reader);
+					break;
+				case NetTypeAvatarFile :
+					tmpPacket = new NetPacketAvatarFile(size, reader);
+					break;
+				case NetTypeAvatarEnd :
+					tmpPacket = new NetPacketAvatarEnd(size, reader);
+					break;
+				case NetTypeUnknownAvatar :
+					tmpPacket = new NetPacketUnknownAvatar(size, reader);
 					break;
 				default:
 					break;

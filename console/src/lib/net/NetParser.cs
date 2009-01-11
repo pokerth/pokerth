@@ -398,6 +398,55 @@ namespace pokerth_lib
 			m_callback.Error(p.Properties[NetPacket.PropType.ErrorReason]);
 		}
 
+		public void VisitRetrieveAvatar(NetPacket p)
+		{
+			// TODO
+		}
+
+		public void VisitAvatarHeader(NetPacket p)
+		{
+			uint tmpAvatarType = Convert.ToUInt32(p.Properties[NetPacket.PropType.AvatarFileType]);
+			GameInfo.AvatarFileType avatarType;
+			switch (tmpAvatarType)
+			{
+				case 1 :
+					avatarType = GameInfo.AvatarFileType.PNG;
+					break;
+				case 2 :
+					avatarType = GameInfo.AvatarFileType.JPG;
+					break;
+				case 3 :
+					avatarType = GameInfo.AvatarFileType.GIF;
+					break;
+				default :
+					avatarType = GameInfo.AvatarFileType.UNKNOWN;
+					break;
+
+			}
+			m_callback.AvatarBegin(
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.RequestId]),
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.AvatarFileSize]),
+				avatarType);
+		}
+
+		public void VisitAvatarFile(NetPacket p)
+		{
+			m_callback.AvatarData(
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.RequestId]),
+				Convert.FromBase64String(p.Properties[NetPacket.PropType.AvatarFileData]));
+		}
+
+		public void VisitAvatarEnd(NetPacket p)
+		{
+			m_callback.AvatarEnd(
+				Convert.ToUInt32(p.Properties[NetPacket.PropType.RequestId]));
+		}
+
+		public void VisitUnknownAvatar(NetPacket p)
+		{
+			// TODO
+		}
+
 		private PokerTHData m_data;
 		private SenderThread m_sender;
 		private ICallback m_callback;
