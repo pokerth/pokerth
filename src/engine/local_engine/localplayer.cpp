@@ -859,25 +859,25 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 		switch(myUniqueID) {
 	
 			case 0: {
-				myCash=3000;
+				myCash=2000;
 			} break;
 			case 1: {
-				myCash=3000;
+				myCash=0;
 			} break;
 			case 2: {
-				myCash=3000;
+				myCash=0;
 			} break;
 			case 3: {
-				myCash=3000;
+				myCash=0;
 			} break;
 			case 4: {
-				myCash=3000;
+				myCash=0;
 			} break;
 			case 5: {
-				myCash=3000;
+				myCash=0;
 			} break;
 			case 6: {
-				myCash=3000;
+				myCash=1500;
 			} break;
 			default: {
 			}
@@ -1372,7 +1372,7 @@ void LocalPlayer::preflopEngine() {
 			break;
 			case 6: {
 // 				if(mySet == 160) {
-					myAction = PLAYER_ACTION_FOLD;
+					myAction = PLAYER_ACTION_CALL;
 // 				}
 			}
 			break;

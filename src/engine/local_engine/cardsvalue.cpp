@@ -283,20 +283,24 @@ int array[7][3];
 					return 800000000+array[j1][1]*1000000;
 				}
 			}
-			else {
-			// Straight Flush Ausnahme: 5-4-3-2-A
-				for(j2=j1+1; j2<4; j2++) {
-					if(array[j1][1]-9==array[j2][1] && array[j2][1]-1==array[j2+1][1] && array[j2+1][1]-1==array[j2+2][1] && array[j2+2][1]-1==array[j2+3][1] && array[j1][0]==array[j2+2][0] && array[j1][0]==array[j2+3][0]) {
-						// Straight Flush mit 5 als höchste Karte -> 8*100000000+3*1000000
-						if(position) {
-							// Position-Array fuellen
-							position[0] = array[j1][2];
-							for(j3=1; j3<5; j3++) {
-								position[j3] = array[j2+j3][2];
-							}
+		}
+	}
+
+	// Straight Flush Ausnahme: 5-4-3-2-A
+	for(j1=0; j1<3; j1++) {
+		// 5 Karten gleiche Farbe ?
+		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0] && array[j1][0] == array[j1+4][0]) {
+			for(j2=j1+1; j2<4; j2++) {
+				if(array[j1][1]-9==array[j2][1] && array[j2][1]-1==array[j2+1][1] && array[j2+1][1]-1==array[j2+2][1] && array[j2+2][1]-1==array[j2+3][1] && array[j1][0]==array[j2+2][0] && array[j1][0]==array[j2+3][0]) {
+					// Straight Flush mit 5 als höchste Karte -> 8*100000000+3*1000000
+					if(position) {
+						// Position-Array fuellen
+						position[0] = array[j1][2];
+						for(j3=1; j3<5; j3++) {
+							position[j3] = array[j2+j3][2];
 						}
-						return 800000000+3*1000000;
 					}
+					return 800000000+3*1000000;
 				}
 			}
 		}
