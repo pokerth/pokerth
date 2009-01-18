@@ -2165,6 +2165,10 @@ void gameTableImpl::postRiverRunAnimation3() {
 				int bestHandPos[5];
 				(*it_c)->getMyBestHandPosition(bestHandPos);
 
+// 				for(j=0; j<5; j++) {
+// 					cout << bestHandPos[j] << endl;
+// 				}
+
 				//index 0 testen --> Karte darf nicht im MyBestHand Position Array drin sein, es darf nicht nur ein Spieler Aktiv sein, die Config fordert die Animation
 				bool index0 = TRUE;
 				for(j=0; j<5; j++) {			

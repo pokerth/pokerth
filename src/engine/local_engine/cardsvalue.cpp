@@ -296,8 +296,8 @@ int array[7][3];
 					if(position) {
 						// Position-Array fuellen
 						position[0] = array[j1][2];
-						for(j3=1; j3<5; j3++) {
-							position[j3] = array[j2+j3][2];
+						for(j3=0; j3<4; j3++) {
+							position[j3+1] = array[j2+j3][2];
 						}
 					}
 					return 800000000+3*1000000;
@@ -326,6 +326,23 @@ int array[7][3];
 	for(k1=0; k1<7; k1++) {
 		for(k2=k1+1; k2<7; k2++) {
 			if(array[k1][1]<array[k2][1]) {
+				ktemp[0] = array[k1][0];
+				ktemp[1] = array[k1][1];
+				ktemp[2] = array[k1][2];
+				array[k1][0] = array[k2][0];
+				array[k1][1] = array[k2][1];
+				array[k1][2] = array[k2][2];
+				array[k2][0] = ktemp[0];
+				array[k2][1] = ktemp[1];
+				array[k2][2] = ktemp[2];
+			}
+		}
+	}
+
+	// nach Position sortieren: erst board, dann hole cards
+	for(k1=0; k1<7; k1++) {
+		for(k2=k1+1; k2<7; k2++) {
+			if(array[k1][1]==array[k2][1] && array[k1][2]<array[k2][2]) {
 				ktemp[0] = array[k1][0];
 				ktemp[1] = array[k1][1];
 				ktemp[2] = array[k1][2];
