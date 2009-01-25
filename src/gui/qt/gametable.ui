@@ -2714,7 +2714,7 @@
               <attribute name="title" >
                <string>Chance</string>
               </attribute>
-              <layout class="QGridLayout" name="gridLayout_2" >
+              <layout class="QGridLayout" name="gridLayout2" >
                <property name="margin" >
                 <number>2</number>
                </property>
