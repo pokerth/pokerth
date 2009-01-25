@@ -26,16 +26,29 @@
 #include <cassert>
 
 #include <boost/bind.hpp>
+#include <boost/asio.hpp>
 
 using namespace std;
+using boost::asio::ip::tcp;
+
 
 #define SEND_ERROR_TIMEOUT_MSEC				20000
 #define SEND_TIMEOUT_MSEC					10
 #define SEND_QUEUE_SIZE						10000000
 #define SEND_LOG_INTERVAL_SEC				60
 
+
+
+void
+SenderThread::SendDataManager::HandleWrite(const boost::system::error_code& error)
+{
+	SetWriteInProgress(false);
+	SetCompleted(true);
+}
+
+
 SenderThread::SenderThread(SenderCallback &cb)
-: m_bytesSent(0), m_callback(cb)
+: m_callback(cb)
 {
 }
 
@@ -66,18 +79,12 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 {
 	if (packet.get() && session.get())
 	{
-		{
-			boost::mutex::scoped_lock lock(m_sendQueueMutex);
-			if (m_sendQueue.size() < SEND_QUEUE_SIZE)
-			{
-				m_sendQueue.push_back(packet);
-			}
-		}
-		{
-			boost::mutex::scoped_lock lock(m_sessionDataMutex);
-			m_sessionSocket = session->GetSocket();
-			m_sessionId = session->GetId();
-		}
+		boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
+		SendQueueMap::iterator pos = m_sendQueueMap.find(session->GetId());
+		if (pos == m_sendQueueMap.end())
+			pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager(session, m_ioService)))).first;
+		if (pos->second->list.size() < SEND_QUEUE_SIZE)
+			pos->second->list.push_back(packet);
 	}
 }
 
@@ -86,21 +93,19 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 {
 	if (!packetList.empty() && session.get())
 	{
-		boost::mutex::scoped_lock lock(m_sendQueueMutex);
-		if (m_sendQueue.size() + packetList.size() <= SEND_QUEUE_SIZE)
+		boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
+		SendQueueMap::iterator pos = m_sendQueueMap.find(session->GetId());
+		if (pos == m_sendQueueMap.end())
+			pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager(session, m_ioService)))).first;
+		if (pos->second->list.size() + packetList.size() <= SEND_QUEUE_SIZE)
 		{
 			NetPacketList::const_iterator i = packetList.begin();
 			NetPacketList::const_iterator end = packetList.end();
 			while (i != end)
 			{
-				m_sendQueue.push_back(*i);
+				pos->second->list.push_back(*i);
 				++i;
 			}
-		}
-		{
-			boost::mutex::scoped_lock lock(m_sessionDataMutex);
-			m_sessionSocket = session->GetSocket();
-			m_sessionId = session->GetId();
 		}
 	}
 }
@@ -110,98 +115,40 @@ SenderThread::Main()
 {
 	while (!ShouldTerminate())
 	{
-		if (!m_curPacket)
 		{
-			boost::mutex::scoped_lock lock(m_sendQueueMutex);
-			if (!m_sendQueue.empty())
+			boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
+			SendQueueMap::iterator i = m_sendQueueMap.begin();
+			SendQueueMap::iterator end = m_sendQueueMap.end();
+			while (i != end)
 			{
-				m_curPacket = m_sendQueue.front();
-				m_sendQueue.pop_front();
-			}
-		}
-
-		if (m_curPacket)
-		{
-			const unsigned tmpLen = m_curPacket->GetLen();
-			if (tmpLen > MAX_PACKET_SIZE)
-				m_curPacket.reset(); // TODO log
-			else
-			{
-				SOCKET tmpSocket;
+				SendQueueMap::iterator next = i;
+				++next;
+				boost::shared_ptr<SendDataManager> tmpManager = i->second;
+				if (tmpManager->list.empty())
+					m_sendQueueMap.erase(i);
+				else
 				{
-					boost::mutex::scoped_lock lock(m_sessionDataMutex);
-					tmpSocket = m_sessionSocket;
-				}
-
-				// send next chunk of data
-				int bytesSent = send(tmpSocket, ((const char *)m_curPacket->GetRawData()) + m_bytesSent, tmpLen - m_bytesSent, SOCKET_SEND_FLAGS);
-
-				if (!IS_VALID_SEND(bytesSent))
-				{
-					// Never assume that this is a fatal error.
-					int errCode = SOCKET_ERRNO();
-					if (IS_SOCKET_ERR_WOULDBLOCK(errCode))
+					if (!tmpManager->IsWriteInProgress())
 					{
-						fd_set writeSet;
-						struct timeval timeout;
-
-						FD_ZERO(&writeSet);
-						FD_SET(tmpSocket, &writeSet);
-
-						timeout.tv_sec  = 0;
-						timeout.tv_usec = SEND_TIMEOUT_MSEC * 1000;
-						int selectResult = select(tmpSocket + 1, NULL, &writeSet, NULL, &timeout);
-						if (!IS_VALID_SELECT(selectResult))
+						if (tmpManager->IsCompleted())
+							tmpManager->list.pop_front();
+						else
 						{
-							// Never assume that this is a fatal error.
-							int errCode = SOCKET_ERRNO();
-							if (!IS_SOCKET_ERR_WOULDBLOCK(errCode))
-							{
-								// Skip this packet - this is bad, and is therefore reported.
-								// Ignore invalid or not connected sockets.
-								if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
-								{
-									boost::mutex::scoped_lock lock(m_sessionDataMutex);
-									m_callback.SignalNetError(m_sessionId, ERR_SOCK_SELECT_FAILED, errCode);
-								}
-							}
-							Msleep(SEND_TIMEOUT_MSEC);
+							boost::shared_ptr<NetPacket> tmpPacket = tmpManager->list.front();
+							boost::asio::async_write(
+								*tmpManager->socket,
+								boost::asio::buffer(tmpPacket->GetRawData(),
+									tmpPacket->GetLen()),
+								boost::bind(&SendDataManager::HandleWrite, tmpManager,
+								boost::asio::placeholders::error));
+							tmpManager->SetWriteInProgress(true);
 						}
 					}
-					else // other errors than would block
-					{
-						// Skip this packet - this is bad, and is therefore reported.
-						// Ignore invalid or not connected sockets.
-						if (errCode != SOCKET_ERR_NOTCONN && errCode != SOCKET_ERR_NOTSOCK)
-						{
-							boost::mutex::scoped_lock lock(m_sessionDataMutex);
-							m_callback.SignalNetError(m_sessionId, ERR_SOCK_SEND_FAILED, errCode);
-						}
-						Msleep(SEND_TIMEOUT_MSEC);
-					}
 				}
-				else if ((unsigned)bytesSent + m_bytesSent < tmpLen)
-				{
-					if (bytesSent)
-					{
-						// Send was partly successful.
-						m_bytesSent += bytesSent;
-					}
-					else
-						Msleep(SEND_TIMEOUT_MSEC);
-				}
-				else //if ((unsigned)bytesSent + m_bytesSent == tmpLen)
-				{
-					m_curPacket.reset();
-					m_bytesSent = 0;
-				}
+				i = next;
 			}
-		}
-		else
 			Msleep(SEND_TIMEOUT_MSEC);
+		}
 	}
-	boost::mutex::scoped_lock lock(m_sessionDataMutex);
-	if (m_sessionSocket != INVALID_SOCKET)
-		CLOSESOCKET(m_sessionSocket);
 }
 

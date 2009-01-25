@@ -99,7 +99,12 @@ ServerAcceptThread::Listen()
 	if (context.GetServerPort() < 1024)
 		throw ServerException(__FILE__, __LINE__, ERR_SOCK_INVALID_PORT, 0);
 
+#ifdef _WIN32
+	context.SetSocket(WSASocket(context.GetAddrFamily(), SOCK_STREAM, context.GetProtocol(), 0, 0, WSA_FLAG_OVERLAPPED));
+#else
 	context.SetSocket(socket(context.GetAddrFamily(), SOCK_STREAM, context.GetProtocol()));
+#endif
+
 	if (!IS_VALID_SOCKET(context.GetSocket()))
 		throw ServerException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 

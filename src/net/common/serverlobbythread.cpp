@@ -69,9 +69,9 @@ public:
 		// A serious send error should trigger a read error or a read
 		// returning 0 afterwards, and we will handle this error.
 	}
-	virtual void SignalSessionTerminated(unsigned session)
+	virtual void SignalSessionTerminated(unsigned /*session*/)
 	{
-		m_server.RemoveSender(session);
+		// Nothing to do, since we only have one sender thread.
 	}
 
 private:
@@ -85,6 +85,7 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig
   m_statDataChanged(false), m_startTime(boost::posix_time::second_clock::local_time())
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
+	m_sender.reset(new SenderThread(*m_senderCallback));
 	m_receiver.reset(new ReceiverHelper);
 }
 
@@ -304,13 +305,6 @@ ServerLobbyThread::RemoveGame(unsigned id)
 	m_removeGameList.push_back(id);
 }
 
-void
-ServerLobbyThread::RemoveSender(unsigned session)
-{
-	boost::mutex::scoped_lock lock(m_removeSenderListMutex);
-	m_removeSenderList.push_back(session);
-}
-
 AvatarManager &
 ServerLobbyThread::GetAvatarManager()
 {
@@ -356,6 +350,8 @@ ServerLobbyThread::Main()
 {
 	try
 	{
+		m_sender->Start();
+
 		while (!ShouldTerminate())
 		{
 			// Process new connections.
@@ -368,8 +364,6 @@ ServerLobbyThread::Main()
 			RemoveGameLoop();
 			// Kick players.
 			RemovePlayerLoop();
-			// Remove sender threads.
-			RemoveSenderLoop();
 			// Resubscribe Lobby Messages if needed.
 			ResubscribeLobbyMsgLoop();
 			// Check session timeouts.
@@ -388,6 +382,8 @@ ServerLobbyThread::Main()
 	}
 
 	TerminateGames();
+	m_sender->SignalStop();
+	m_sender->WaitStop();
 
 	CleanupConnectQueue();
 }
@@ -876,30 +872,6 @@ ServerLobbyThread::RemovePlayerLoop()
 }
 
 void
-ServerLobbyThread::RemoveSenderLoop()
-{
-	boost::mutex::scoped_lock lock(m_removeSenderListMutex);
-
-	RemoveSenderList::iterator i = m_removeSenderList.begin();
-	RemoveSenderList::iterator end = m_removeSenderList.end();
-
-	// Synchronously remove Sender Threads whose Sessions have been closed.
-	while (i != end)
-	{
-		SenderMap::iterator pos = m_senderMap.find(*i);
-		if (pos != m_senderMap.end())
-		{
-			boost::shared_ptr<SenderInterface> tmpSender = pos->second;
-			tmpSender->SignalStop();
-			tmpSender->WaitStop();
-			m_senderMap.erase(pos);
-		}
-		++i;
-	}
-	m_removeSenderList.clear();
-}
-
-void
 ServerLobbyThread::ResubscribeLobbyMsgLoop()
 {
 	boost::mutex::scoped_lock lock(m_resubscribeListMutex);
@@ -1084,11 +1056,8 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 	//}
 
 	// Create a new session.
-	boost::shared_ptr<SenderInterface> senderThread(new SenderThread(*m_senderCallback));
-	senderThread->Start();
-	boost::shared_ptr<SessionData> sessionData(new SessionData(connData->ReleaseSocket(), m_curSessionId++, senderThread, *m_senderCallback));
+	boost::shared_ptr<SessionData> sessionData(new SessionData(connData->ReleaseSocket(), m_curSessionId++, m_sender, *m_senderCallback));
 	m_sessionManager.AddSession(sessionData);
-	m_senderMap[sessionData->GetId()] = senderThread;
 
 	LOG_VERBOSE("Accepted connection - session #" << sessionData->GetId() << ".");
 

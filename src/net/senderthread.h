@@ -28,6 +28,7 @@
 
 #include <list>
 #include <boost/shared_ptr.hpp>
+#include <boost/asio.hpp>
 
 class SessionData;
 #define SENDER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
@@ -48,19 +49,63 @@ public:
 protected:
 	typedef std::list<boost::shared_ptr<NetPacket> > SendDataList;
 
+	class SendDataManager
+	{
+		public:
+			SendDataManager(boost::shared_ptr<SessionData> s, boost::asio::io_service &ioService)
+			: session(s), m_writeInProgress(false), m_completed(false)
+			{
+				socket.reset(new boost::asio::ip::tcp::socket(
+					ioService, boost::asio::ip::tcp::v6(), s->GetSocket()));
+			}
+
+			void HandleWrite(const boost::system::error_code& error);
+
+			bool IsWriteInProgress() const
+			{
+				boost::mutex::scoped_lock lock(m_mutex);
+				return m_writeInProgress;
+			}
+
+			void SetWriteInProgress(bool v)
+			{
+				boost::mutex::scoped_lock lock(m_mutex);
+				m_writeInProgress = v;
+			}
+
+			bool IsCompleted() const
+			{
+				boost::mutex::scoped_lock lock(m_mutex);
+				return m_completed;
+			}
+
+			void SetCompleted(bool v)
+			{
+				boost::mutex::scoped_lock lock(m_mutex);
+				m_completed = v;
+			}
+
+			boost::shared_ptr<SessionData> session;
+			boost::shared_ptr<boost::asio::ip::tcp::socket> socket;
+			SendDataList list;
+
+		private:
+			mutable boost::mutex m_mutex;
+			bool m_writeInProgress;
+			bool m_completed;
+	};
+	typedef std::map<SessionId, boost::shared_ptr<SendDataManager> > SendQueueMap;
+
 	// Main function of the thread.
 	virtual void Main();
 
 private:
 
-	SendDataList m_sendQueue;
-	mutable boost::mutex m_sendQueueMutex;
+	boost::asio::io_service m_ioService;
 
-	mutable boost::mutex m_sessionDataMutex;
-	SOCKET m_sessionSocket;
-	unsigned m_sessionId;
-	boost::shared_ptr<NetPacket> m_curPacket;
-	unsigned m_bytesSent;
+	SendQueueMap m_sendQueueMap;
+	mutable boost::mutex m_sendQueueMapMutex;
+
 	SenderCallback &m_callback;
 };
 

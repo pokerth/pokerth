@@ -77,7 +77,6 @@ public:
 	void RemoveComputerPlayer(boost::shared_ptr<PlayerData> player);
 
 	void RemoveGame(unsigned id);
-	void RemoveSender(unsigned session);
 
 	u_int32_t GetNextUniquePlayerId();
 	u_int32_t GetNextGameId();
@@ -98,8 +97,6 @@ protected:
 	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
 	typedef std::map<std::string, boost::timers::portable::microsec_timer> TimerClientAddressMap;
 	typedef std::list<unsigned> RemoveGameList;
-	typedef std::list<unsigned> RemoveSenderList;
-	typedef std::map<unsigned, boost::shared_ptr<SenderInterface> >SenderMap;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -120,7 +117,6 @@ protected:
 	void NewSessionLoop();
 	void RemoveGameLoop();
 	void RemovePlayerLoop();
-	void RemoveSenderLoop();
 	void ResubscribeLobbyMsgLoop();
 	void CheckSessionTimeoutsLoop();
 	void UpdateAvatarClientTimerLoop();
@@ -183,9 +179,6 @@ private:
 	RemovePlayerList m_removePlayerList;
 	mutable boost::mutex m_removePlayerListMutex;
 
-	RemoveSenderList m_removeSenderList;
-	mutable boost::mutex m_removeSenderListMutex;
-
 	PlayerDataMap m_computerPlayers;
 	mutable boost::mutex m_computerPlayersMutex;
 
@@ -193,8 +186,8 @@ private:
 	mutable boost::mutex m_resubscribeListMutex;
 
 	GameMap m_gameMap;
-	SenderMap m_senderMap;
 
+	boost::shared_ptr<SenderInterface> m_sender;
 	boost::shared_ptr<ReceiverHelper> m_receiver;
 	boost::shared_ptr<ServerSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
