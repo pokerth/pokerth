@@ -202,7 +202,6 @@ private:
 	u_int32_t m_curSessionId;
 	mutable boost::mutex m_curUniquePlayerIdMutex;
 
-
 	ServerStats m_statData;
 	bool m_statDataChanged;
 	mutable boost::mutex m_statMutex;
@@ -212,6 +211,8 @@ private:
 	boost::timers::portable::microsec_timer m_checkSessionTimeoutsTimer;
 
 	const boost::posix_time::ptime m_startTime;
+
+	boost::asio::io_service m_ioService;
 };
 
 #endif

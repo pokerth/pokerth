@@ -28,7 +28,6 @@
 
 #include <list>
 #include <boost/shared_ptr.hpp>
-#include <boost/asio.hpp>
 
 class SessionData;
 #define SENDER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
@@ -36,7 +35,7 @@ class SessionData;
 class SenderThread : public Thread, public SenderInterface
 {
 public:
-	SenderThread(SenderCallback &cb);
+	SenderThread(SenderCallback &cb, boost::asio::io_service& ioService);
 	virtual ~SenderThread();
 
 	virtual void Start();
@@ -52,11 +51,9 @@ protected:
 	class SendDataManager
 	{
 		public:
-			SendDataManager(boost::shared_ptr<SessionData> s, boost::asio::io_service &ioService)
+			SendDataManager(boost::shared_ptr<SessionData> s)
 			: session(s), m_writeInProgress(false), m_completed(false)
 			{
-				socket.reset(new boost::asio::ip::tcp::socket(
-					ioService, boost::asio::ip::tcp::v6(), s->GetSocket()));
 			}
 
 			void HandleWrite(const boost::system::error_code& error);
@@ -86,7 +83,6 @@ protected:
 			}
 
 			boost::shared_ptr<SessionData> session;
-			boost::shared_ptr<boost::asio::ip::tcp::socket> socket;
 			SendDataList list;
 
 		private:
@@ -101,12 +97,11 @@ protected:
 
 private:
 
-	boost::asio::io_service m_ioService;
-
 	SendQueueMap m_sendQueueMap;
 	mutable boost::mutex m_sendQueueMapMutex;
 
 	SenderCallback &m_callback;
+	boost::asio::io_service &m_ioService;
 };
 
 #endif

@@ -44,7 +44,7 @@ ClientContext::ClientContext()
 {
 	bzero(&m_clientSockaddr, sizeof(m_clientSockaddr));
 	m_senderCallback.reset(new ClientSenderCallback());
-	m_senderThread.reset(new SenderThread(*m_senderCallback));
+	m_senderThread.reset(new SenderThread(*m_senderCallback, m_ioService));
 	m_senderThread->Start();
 }
 
@@ -65,7 +65,7 @@ ClientContext::GetSocket() const
 void
 ClientContext::SetSocket(SOCKET sockfd)
 {
-	m_sessionData.reset(new SessionData(sockfd, SESSION_ID_GENERIC, m_senderThread, *m_senderCallback));
+	m_sessionData.reset(new SessionData(sockfd, SESSION_ID_GENERIC, m_senderThread, *m_senderCallback, m_ioService));
 }
 
 boost::shared_ptr<SessionData>

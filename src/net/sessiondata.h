@@ -29,6 +29,7 @@ typedef unsigned SessionId;
 #include <string>
 #include <boost/thread.hpp>
 #include <third_party/boost/timers.hpp>
+#include <boost/asio.hpp>
 
 #define INVALID_SESSION			0
 #define SESSION_ID_INIT			INVALID_SESSION
@@ -41,14 +42,15 @@ class SessionData
 public:
 	enum State { Init, ReceivingAvatar, Established, Game };
 
-	SessionData(SOCKET sockfd, SessionId id, boost::shared_ptr<SenderInterface> sender, SessionDataCallback &cb);
+	SessionData(SOCKET sockfd, SessionId id, boost::shared_ptr<SenderInterface> sender, SessionDataCallback &cb, boost::asio::io_service &ioService);
 	~SessionData();
 
 	SessionId GetId() const;
 	State GetState() const;
 	void SetState(State state);
 
-	SOCKET GetSocket() const;
+	SOCKET GetSocket();
+	boost::shared_ptr<boost::asio::ip::tcp::socket> GetAsioSocket();
 
 	void SetReadyFlag();
 	void ResetReadyFlag();
@@ -70,7 +72,7 @@ public:
 	unsigned GetAutoDisconnectTimerElapsedSec() const;
 
 private:
-	SOCKET							m_sockfd;
+	boost::shared_ptr<boost::asio::ip::tcp::socket> m_socket;
 	const SessionId					m_id;
 	State							m_state;
 	std::string						m_clientAddr;

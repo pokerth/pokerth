@@ -26,7 +26,6 @@
 #include <cassert>
 
 #include <boost/bind.hpp>
-#include <boost/asio.hpp>
 
 using namespace std;
 using boost::asio::ip::tcp;
@@ -46,8 +45,8 @@ SenderThread::SendDataManager::HandleWrite(const boost::system::error_code& erro
 	SetCompleted(true);
 }
 
-SenderThread::SenderThread(SenderCallback &cb)
-: m_callback(cb)
+SenderThread::SenderThread(SenderCallback &cb, boost::asio::io_service& ioService)
+: m_callback(cb), m_ioService(ioService)
 {
 }
 
@@ -81,7 +80,7 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 		boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
 		SendQueueMap::iterator pos = m_sendQueueMap.find(session->GetId());
 		if (pos == m_sendQueueMap.end())
-			pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager(session, m_ioService)))).first;
+			pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager(session)))).first;
 		if (pos->second->list.size() < SEND_QUEUE_SIZE)
 			pos->second->list.push_back(packet);
 	}
@@ -95,7 +94,7 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 		boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
 		SendQueueMap::iterator pos = m_sendQueueMap.find(session->GetId());
 		if (pos == m_sendQueueMap.end())
-			pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager(session, m_ioService)))).first;
+			pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager(session)))).first;
 		if (pos->second->list.size() + packetList.size() <= SEND_QUEUE_SIZE)
 		{
 			NetPacketList::const_iterator i = packetList.begin();
@@ -130,12 +129,15 @@ SenderThread::Main()
 					if (!tmpManager->IsWriteInProgress())
 					{
 						if (tmpManager->IsCompleted())
+						{
 							tmpManager->list.pop_front();
+							tmpManager->SetCompleted(false);
+						}
 						else
 						{
 							boost::shared_ptr<NetPacket> tmpPacket = tmpManager->list.front();
 							boost::asio::async_write(
-								*tmpManager->socket,
+								*tmpManager->session->GetAsioSocket(),
 								boost::asio::buffer(tmpPacket->GetRawData(),
 									tmpPacket->GetLen()),
 								boost::bind(&SendDataManager::HandleWrite, tmpManager,
@@ -146,9 +148,9 @@ SenderThread::Main()
 				}
 				i = next;
 			}
-			m_ioService.run_one();
-			Msleep(SEND_TIMEOUT_MSEC);
 		}
+		m_ioService.run_one();
+		Msleep(SEND_TIMEOUT_MSEC);
 	}
 }
 

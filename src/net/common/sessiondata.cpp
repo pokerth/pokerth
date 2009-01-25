@@ -20,16 +20,19 @@
 #include <net/sessiondata.h>
 #include <net/senderinterface.h>
 
-SessionData::SessionData(SOCKET sockfd, SessionId id, boost::shared_ptr<SenderInterface> sender, SessionDataCallback &cb)
-: m_sockfd(sockfd), m_id(id), m_state(SessionData::Init), m_readyFlag(false),
+SessionData::SessionData(SOCKET sockfd, SessionId id, boost::shared_ptr<SenderInterface> sender, SessionDataCallback &cb, boost::asio::io_service &ioService)
+: m_id(id), m_state(SessionData::Init), m_readyFlag(false),
   m_wantsLobbyMsg(true), m_activityTimeoutNoticeSent(false), m_callback(cb)
 {
+	m_socket.reset(new boost::asio::ip::tcp::socket(
+		ioService, boost::asio::ip::tcp::v6(), sockfd));
 	m_sender = sender;
 }
 
 SessionData::~SessionData()
 {
 	m_callback.SignalSessionTerminated(m_id);
+	m_socket->cancel();
 }
 
 SessionId
@@ -54,10 +57,15 @@ SessionData::SetState(SessionData::State state)
 }
 
 SOCKET
-SessionData::GetSocket() const
+SessionData::GetSocket()
 {
-	// value never modified - no mutex needed.
-	return m_sockfd;
+	return m_socket->native();
+}
+
+boost::shared_ptr<boost::asio::ip::tcp::socket>
+SessionData::GetAsioSocket()
+{
+	return m_socket;
 }
 
 void
