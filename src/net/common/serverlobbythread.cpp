@@ -71,7 +71,6 @@ public:
 	}
 	virtual void SignalSessionTerminated(unsigned /*session*/)
 	{
-		// Nothing to do, since we only have one sender thread.
 	}
 
 private:

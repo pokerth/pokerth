@@ -46,7 +46,6 @@ SenderThread::SendDataManager::HandleWrite(const boost::system::error_code& erro
 	SetCompleted(true);
 }
 
-
 SenderThread::SenderThread(SenderCallback &cb)
 : m_callback(cb)
 {
@@ -147,6 +146,7 @@ SenderThread::Main()
 				}
 				i = next;
 			}
+			m_ioService.run_one();
 			Msleep(SEND_TIMEOUT_MSEC);
 		}
 	}
