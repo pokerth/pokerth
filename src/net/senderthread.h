@@ -35,7 +35,7 @@ class SessionData;
 class SenderThread : public Thread, public SenderInterface
 {
 public:
-	SenderThread(SenderCallback &cb, boost::asio::io_service& ioService);
+	SenderThread(SenderCallback &cb);
 	virtual ~SenderThread();
 
 	virtual void Start();
@@ -44,6 +44,8 @@ public:
 
 	virtual void Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 	virtual void Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
+
+	boost::shared_ptr<boost::asio::io_service> GetIOService();
 
 protected:
 	typedef std::list<boost::shared_ptr<NetPacket> > SendDataList;
@@ -101,7 +103,9 @@ private:
 	mutable boost::mutex m_sendQueueMapMutex;
 
 	SenderCallback &m_callback;
-	boost::asio::io_service &m_ioService;
+	boost::shared_ptr<boost::asio::io_service> m_ioService;
+
+	mutable boost::shared_ptr<boost::barrier> m_ioServiceBarrier;
 };
 
 #endif

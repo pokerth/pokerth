@@ -45,8 +45,8 @@ SenderThread::SendDataManager::HandleWrite(const boost::system::error_code& erro
 	SetCompleted(true);
 }
 
-SenderThread::SenderThread(SenderCallback &cb, boost::asio::io_service& ioService)
-: m_callback(cb), m_ioService(ioService)
+SenderThread::SenderThread(SenderCallback &cb)
+: m_callback(cb)
 {
 }
 
@@ -57,7 +57,9 @@ SenderThread::~SenderThread()
 void
 SenderThread::Start()
 {
+	m_ioServiceBarrier.reset(new boost::barrier(2));
 	Run();
+	m_ioServiceBarrier->wait();
 }
 
 void
@@ -108,9 +110,17 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 	}
 }
 
+boost::shared_ptr<boost::asio::io_service>
+SenderThread::GetIOService()
+{
+	return m_ioService;
+}
+
 void
 SenderThread::Main()
 {
+	m_ioService.reset(new boost::asio::io_service());
+	m_ioServiceBarrier->wait();
 	while (!ShouldTerminate())
 	{
 		{
@@ -149,7 +159,7 @@ SenderThread::Main()
 				i = next;
 			}
 		}
-		m_ioService.poll();
+		m_ioService->poll();
 		Msleep(SEND_TIMEOUT_MSEC);
 	}
 }

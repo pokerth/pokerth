@@ -111,7 +111,7 @@ private:
 	ReceiveBuffer		m_receiveBuffer;
 	boost::shared_ptr<ClientSenderCallback> m_senderCallback;
 	boost::shared_ptr<SenderInterface> m_senderThread;
-	boost::asio::io_service m_ioService;
+	boost::shared_ptr<boost::asio::io_service> m_ioService;
 };
 
 #endif

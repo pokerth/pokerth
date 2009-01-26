@@ -212,7 +212,7 @@ private:
 
 	const boost::posix_time::ptime m_startTime;
 
-	boost::asio::io_service m_ioService;
+	boost::shared_ptr<boost::asio::io_service> m_ioService;
 };
 
 #endif

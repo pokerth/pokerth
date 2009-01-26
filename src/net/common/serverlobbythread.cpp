@@ -84,7 +84,7 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig
   m_statDataChanged(false), m_startTime(boost::posix_time::second_clock::local_time())
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
-	m_sender.reset(new SenderThread(*m_senderCallback, m_ioService));
+	m_sender.reset(new SenderThread(*m_senderCallback));
 	m_receiver.reset(new ReceiverHelper);
 }
 
@@ -350,6 +350,7 @@ ServerLobbyThread::Main()
 	try
 	{
 		m_sender->Start();
+		m_ioService = dynamic_cast<SenderThread *>(m_sender.get())->GetIOService();
 
 		while (!ShouldTerminate())
 		{
@@ -1055,7 +1056,7 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 	//}
 
 	// Create a new session.
-	boost::shared_ptr<SessionData> sessionData(new SessionData(connData->ReleaseSocket(), m_curSessionId++, m_sender, *m_senderCallback, m_ioService));
+	boost::shared_ptr<SessionData> sessionData(new SessionData(connData->ReleaseSocket(), m_curSessionId++, m_sender, *m_senderCallback, *m_ioService));
 	m_sessionManager.AddSession(sessionData);
 
 	LOG_VERBOSE("Accepted connection - session #" << sessionData->GetId() << ".");
