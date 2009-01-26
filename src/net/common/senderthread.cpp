@@ -149,7 +149,7 @@ SenderThread::Main()
 				i = next;
 			}
 		}
-		m_ioService.run_one();
+		m_ioService.poll();
 		Msleep(SEND_TIMEOUT_MSEC);
 	}
 }
