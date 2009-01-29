@@ -159,7 +159,7 @@ void gameLobbyDialogImpl::joinGame()
 {
 	assert(mySession);
 	QTreeWidgetItem *item = treeWidget_GameList->currentItem();
-	if (item)
+	if (!inGame && item)
 	{
 		unsigned gameId = item->data(0, Qt::UserRole).toUInt();
 		GameInfo info(mySession->getClientGameInfo(gameId));
