@@ -43,8 +43,8 @@ typedef std::list<boost::shared_ptr<NetPacket> > SendDataList;
 class SendDataManager : public boost::enable_shared_from_this<SendDataManager>
 {
 	public:
-		SendDataManager(boost::shared_ptr<SessionData> s)
-		: session(s), writeInProgress(false)
+		SendDataManager(boost::shared_ptr<boost::asio::ip::tcp::socket> s)
+		: socket(s), writeInProgress(false)
 		{
 		}
 
@@ -52,7 +52,7 @@ class SendDataManager : public boost::enable_shared_from_this<SendDataManager>
 
 		void AsyncSendNextPacket(bool handlerMode = false);
 
-		boost::shared_ptr<SessionData> session;
+		boost::shared_ptr<boost::asio::ip::tcp::socket> socket;
 
 		mutable boost::mutex dataMutex;
 		SendDataList list;
@@ -79,7 +79,7 @@ SendDataManager::AsyncSendNextPacket(bool handlerMode)
 		{
 			boost::shared_ptr<NetPacket> nextPacket = list.front();
 			boost::asio::async_write(
-				*session->GetAsioSocket(),
+				*socket,
 				boost::asio::buffer(nextPacket->GetRawData(),
 					nextPacket->GetLen()),
 				boost::bind(&SendDataManager::HandleWrite, shared_from_this(),
@@ -91,8 +91,8 @@ SendDataManager::AsyncSendNextPacket(bool handlerMode)
 	}
 }
 
-SenderThread::SenderThread(SenderCallback &cb)
-: m_callback(cb)
+SenderThread::SenderThread(SenderCallback &cb, boost::shared_ptr<boost::asio::io_service> ioService)
+: m_callback(cb), m_ioService(ioService)
 {
 }
 
@@ -103,9 +103,7 @@ SenderThread::~SenderThread()
 void
 SenderThread::Start()
 {
-	m_ioServiceBarrier.reset(new boost::barrier(2));
 	Run();
-	m_ioServiceBarrier->wait();
 }
 
 void
@@ -131,7 +129,7 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 			boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
 			SendQueueMap::iterator pos = m_sendQueueMap.find(session->GetId());
 			if (pos == m_sendQueueMap.end())
-				pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager(session)))).first;
+				pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager(session->GetAsioSocket())))).first;
 			tmpManager = pos->second;
 		}
 		{
@@ -143,7 +141,7 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 		{
 			// Third: Update notification list.
 			boost::mutex::scoped_lock lock(m_changedSessionsMutex);
-			m_changedSessions.push_back(tmpManager->session->GetId());
+			m_changedSessions.push_back(session->GetId());
 		}
 	}
 }
@@ -159,7 +157,7 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 			boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
 			SendQueueMap::iterator pos = m_sendQueueMap.find(session->GetId());
 			if (pos == m_sendQueueMap.end())
-				pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager(session)))).first;
+				pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager(session->GetAsioSocket())))).first;
 			tmpManager = pos->second;
 		}
 		{
@@ -179,25 +177,52 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 		{
 			// Third: Update notification list.
 			boost::mutex::scoped_lock lock(m_changedSessionsMutex);
-			m_changedSessions.push_back(tmpManager->session->GetId());
+			m_changedSessions.push_back(session->GetId());
 		}
 	}
 }
 
-boost::shared_ptr<boost::asio::io_service>
-SenderThread::GetIOService()
+void
+SenderThread::SignalSessionTerminated(unsigned sessionId)
 {
-	return m_ioService;
+	boost::mutex::scoped_lock lock(m_removedSessionsMutex);
+	m_removedSessions.push_back(sessionId);
 }
 
 void
 SenderThread::Main()
 {
-	m_ioService.reset(new boost::asio::io_service());
-	m_ioServiceBarrier->wait();
 	boost::asio::io_service::work ioWork(*m_ioService);
 	while (!ShouldTerminate())
 	{
+		// Close sessions if they were destructed.
+		{
+			boost::mutex::scoped_lock lock(m_removedSessionsMutex);
+			if (!m_removedSessions.empty())
+			{
+				SessionIdList newRemovedSessions;
+				SessionIdList::iterator i = m_removedSessions.begin();
+				SessionIdList::iterator end = m_removedSessions.end();
+
+				boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
+
+				while (i != end)
+				{
+					SendQueueMap::iterator pos = m_sendQueueMap.find(*i);
+					if (pos != m_sendQueueMap.end())
+					{
+						// Remove session if no write is in progress, else wait.
+						if (!pos->second->writeInProgress)
+							m_sendQueueMap.erase(pos);
+						else
+							newRemovedSessions.push_back(*i);
+					}
+					++i;
+				}
+				m_removedSessions = newRemovedSessions;
+			}
+		}
+		// Iterate through all changed sessions, and send data if needed.
 		bool sessionValid;
 		do
 		{

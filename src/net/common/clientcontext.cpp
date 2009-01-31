@@ -43,10 +43,10 @@ ClientContext::ClientContext()
   m_hasSubscribedLobbyMsg(true)
 {
 	bzero(&m_clientSockaddr, sizeof(m_clientSockaddr));
+	m_ioService.reset(new boost::asio::io_service());
 	m_senderCallback.reset(new ClientSenderCallback());
-	m_senderThread.reset(new SenderThread(*m_senderCallback));
+	m_senderThread.reset(new SenderThread(*m_senderCallback, m_ioService));
 	m_senderThread->Start();
-	m_ioService = dynamic_cast<SenderThread *>(m_senderThread.get())->GetIOService();
 }
 
 ClientContext::~ClientContext()

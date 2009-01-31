@@ -36,6 +36,8 @@ public:
 
 	virtual void Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet) = 0;
 	virtual void Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList) = 0;
+
+	virtual void SignalSessionTerminated(unsigned sessionId) = 0;
 };
 
 #endif

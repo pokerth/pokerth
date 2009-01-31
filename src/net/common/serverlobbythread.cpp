@@ -69,8 +69,9 @@ public:
 		// A serious send error should trigger a read error or a read
 		// returning 0 afterwards, and we will handle this error.
 	}
-	virtual void SignalSessionTerminated(unsigned /*session*/)
+	virtual void SignalSessionTerminated(unsigned session)
 	{
+		m_server.GetSender();
 	}
 
 private:
@@ -83,8 +84,9 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig
   m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
   m_statDataChanged(false), m_startTime(boost::posix_time::second_clock::local_time())
 {
+	m_ioService.reset(new boost::asio::io_service());
 	m_senderCallback.reset(new ServerSenderCallback(*this));
-	m_sender.reset(new SenderThread(*m_senderCallback));
+	m_sender.reset(new SenderThread(*m_senderCallback, m_ioService));
 	m_receiver.reset(new ReceiverHelper);
 }
 
@@ -323,6 +325,13 @@ ServerLobbyThread::GetStartTime() const
 	return m_startTime;
 }
 
+SenderInterface &
+ServerLobbyThread::GetSender()
+{
+	assert(m_sender);
+	return *m_sender;
+}
+
 u_int32_t
 ServerLobbyThread::GetNextUniquePlayerId()
 {
@@ -350,7 +359,6 @@ ServerLobbyThread::Main()
 	try
 	{
 		m_sender->Start();
-		m_ioService = dynamic_cast<SenderThread *>(m_sender.get())->GetIOService();
 
 		while (!ShouldTerminate())
 		{
