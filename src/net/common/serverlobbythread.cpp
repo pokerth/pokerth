@@ -71,7 +71,7 @@ public:
 	}
 	virtual void SignalSessionTerminated(unsigned session)
 	{
-		m_server.GetSender();
+		m_server.GetSender().SignalSessionTerminated(session);
 	}
 
 private:
