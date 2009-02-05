@@ -212,7 +212,12 @@ SenderThread::Main()
 					if (pos != m_sendQueueMap.end())
 					{
 						// Remove session if no write is in progress, else wait.
-						if (!pos->second->writeInProgress)
+						bool shouldDelete;
+						{
+							boost::mutex::scoped_lock lock(pos->second->dataMutex);
+							shouldDelete = (!pos->second->writeInProgress && pos->second->list.empty());
+						}
+						if (shouldDelete)
 							m_sendQueueMap.erase(pos);
 						else
 							newRemovedSessions.push_back(*i);
