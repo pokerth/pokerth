@@ -169,6 +169,11 @@ unix : !mac {
         BOOST_PROGRAM_OPTIONS = boost_program_options boost_program_options-mt
         BOOST_IOSTREAMS = boost_iostreams boost_iostreams-mt
 
+        #
+        # searching in $PREFIX/lib and $PREFIX/lib64
+        # to override the default '/usr' pass PREFIX
+        # variable to qmake.
+        #
         for(dir, LIB_DIRS){
             exists($$dir){
                 for(lib, BOOST_THREAD){
@@ -199,7 +204,7 @@ unix : !mac {
         }
         BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS $$BOOST_IOSTREAMS
         !count(BOOST_LIBS, 4){
-            error(		    libboost (version >= 1.34.1)  --> http://www.boost.org/")
+            error("Unable to find boost libraries in PREFIX=$${PREFIX}")
         }
 
         UNAME = $$system(uname -s)
