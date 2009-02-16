@@ -101,6 +101,12 @@ echo Unpacking Qt
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
 ren qt-win-opensource-src-4.4.3 qt
+echo.
+echo Patching Qt
+cd qt
+copy %PKTH_OldDir%\helper_src\qt.patch .
+%PKTH_OldDir%\third_party_apps\pat_ch -p1 -i qt.patch
+cd /d %PKTH_BaseDir%
 )
 if not exist %PKTH_BaseDir%\qt goto qtFailure
 echo.
