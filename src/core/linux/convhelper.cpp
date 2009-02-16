@@ -24,6 +24,10 @@
 #error This file is not for Windows.
 #endif
 
+#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__)
+	#define HAVE_ICONV_CONST
+#endif
+
 #include <string>
 #include <cstring>
 
@@ -37,7 +41,7 @@ ConvHelper::NativeToUtf8(const std::string &inStr)
 {
 	string retStr(inStr);
 	size_t insize = inStr.length();
-#if defined(__APPLE__) || defined(__FreeBSD__)
+#ifdef HAVE_ICONV_CONST
 	const char *inbuf = inStr.data();
 #else
 	char *inbuf = const_cast<char *>(inStr.data());
@@ -72,7 +76,7 @@ ConvHelper::Utf8ToNative(const std::string &inStr)
 {
 	string retStr(inStr);
 	size_t insize = inStr.length();
-#if defined(__APPLE__) || defined(__FreeBSD__)
+#ifdef HAVE_ICONV_CONST
 	const char *inbuf = inStr.data();
 #else
 	char *inbuf = const_cast<char *>(inStr.data());

@@ -40,8 +40,12 @@
 	#undef X509_NAME // Again for Windows - conflict with WinCrypt.h.
 #endif
 
-#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__FreeBSD__)
-	// For BSD-Systems, we assume that OpenSSL is part of the operating system.
+// For BSD-Systems, we assume that OpenSSL is part of the operating system.
+#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__NetBSD__)
+	#define HAVE_OPENSSL
+#endif
+
+#ifdef HAVE_OPENSSL
 	#include <openssl/ssl.h>
 	#include <openssl/md5.h>
 	#include <openssl/rand.h>
