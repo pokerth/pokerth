@@ -1,13 +1,11 @@
-*** qt_orig\src\gui\inputmethod\qwininputcontext_win.cpp	2008-09-27 12:00:56.000000000 +0200
---- qt\src\gui\inputmethod\qwininputcontext_win.cpp	2009-02-16 21:34:02.403800000 +0100
-***************
-*** 77,82 ****
---- 77,84 ----
-  
-  #define IFMETHOD HRESULT STDMETHODCALLTYPE
-  
-+ extern bool qt_sendSpontaneousEvent(QObject *, QEvent *);
-+ 
-  interface IActiveIMMApp : public IUnknown
-  {
-  public:
+--- qt_orig\src\gui\inputmethod\qwininputcontext_win.cpp	2008-09-27 12:00:56.000000000 +0200
++++ qt\src\gui\inputmethod\qwininputcontext_win.cpp	2009-02-16 23:29:02.667000000 +0100
+@@ -77,6 +77,8 @@
+ 
+ #define IFMETHOD HRESULT STDMETHODCALLTYPE
+ 
++extern bool qt_sendSpontaneousEvent(QObject *, QEvent *);
++
+ interface IActiveIMMApp : public IUnknown
+ {
+ public:
