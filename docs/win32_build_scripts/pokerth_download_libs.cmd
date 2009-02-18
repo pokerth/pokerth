@@ -1,6 +1,6 @@
 @echo off
 echo PokerTH Win32 mingw download script version 1.0.
-echo Copyright (C) 2008 Lothar May. License: GPL 2 or later
+echo Copyright (C) 2008-2009 Lothar May. License: GPL 2 or later
 echo BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
 echo FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
 echo.
@@ -27,7 +27,7 @@ if not exist %PKTH_OldDir%\third_party_apps\7za.exe goto noTools
 echo Using "%PKTH_BaseDir%" as base directory.
 echo.
 echo This script will download and install the prerequisites for building PokerTH
-echo - mingw with gcc-core, gcc-g++, binutils, mingw-runtime,
+echo - mingw with gcc-core (TDM), gcc-g++ (TDM), binutils, mingw-runtime,
 echo   w32api, mingw32-make, mingw-utils
 echo - Qt - will be compiled from the sources
 echo - GnuTLS - using the binary release
@@ -196,6 +196,12 @@ move boost-jam-3.1.17-1-ntx86\bjam.exe mingw\bin\bjam.exe
 move boost-jam-3.1.17-1-ntx86\LICENSE_1_0.txt mingw\bin\bjam_LICENSE_1_0.txt
 rd boost-jam-3.1.17-1-ntx86
 ren boost_1_37_0 boost
+echo.
+echo Patching boost
+cd boost
+copy %PKTH_OldDir%\helper_src\boost.patch .
+%PKTH_OldDir%\third_party_apps\pat_ch -p1 -i boost.patch
+cd /d %PKTH_BaseDir%
 )
 echo.
 echo Compiling boost

@@ -1,6 +1,6 @@
 @echo off
 echo PokerTH Win32 mingw build script version 1.0.
-echo Copyright (C) 2008 Lothar May. License: GPL 2 or later
+echo Copyright (C) 2008-2009 Lothar May. License: GPL 2 or later
 echo BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
 echo FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
 echo.

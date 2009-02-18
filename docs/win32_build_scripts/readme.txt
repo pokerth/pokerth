@@ -52,7 +52,7 @@ Please follow these instructions:
 Known issue: By default, there is no .jpg/.gif avatar support in the svn build.
 
 /***************************************************************************
- *   Copyright (C) 2008 by Lothar May                                      *
+ *   Copyright (C) 2008-2009 by Lothar May                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
