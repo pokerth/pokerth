@@ -41,6 +41,11 @@
 #endif
 
 // For BSD-Systems, we assume that OpenSSL is part of the operating system.
+//
+// make sure you understood the following issue before defining this directive.
+// "2. Can I use OpenSSL with GPL software?"
+// http://www.openssl.org/support/faq.html#LEGAL2
+//
 #if defined(__APPLE__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__NetBSD__)
 	#define HAVE_OPENSSL
 #endif
