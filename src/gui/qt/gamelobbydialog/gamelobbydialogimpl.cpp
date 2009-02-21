@@ -454,9 +454,7 @@ void gameLobbyDialogImpl::clearDialog()
 	label_openGamesCounter->setText("| "+tr("running games: %1").arg(0));
 	label_runningGamesCounter->setText("| "+tr("open games: %1").arg(0));
 
-	QSettings settings("PokerTHGbR", "PokerTH");
-	treeWidget_GameList->sortItems ( settings.value("InternetGameLobby/GameListSortingSection", 0).toInt(), (Qt::SortOrder)settings.value("InternetGameLobby/GameListSortingOrder", Qt::AscendingOrder).toInt() );
-
+	readDialogSettings();
 }
 
 void gameLobbyDialogImpl::checkPlayerQuantity() {
@@ -791,19 +789,14 @@ void gameLobbyDialogImpl::closeEvent(QCloseEvent *event)
 
 void gameLobbyDialogImpl::writeDialogSettings()
 {
-	QSettings settings("PokerTHGbR", "PokerTH");
-	
-	settings.beginGroup("InternetGameLobby");
-	
 	QHeaderView *header = treeWidget_GameList->header();
-	settings.setValue("GameListSortingSection", header->sortIndicatorSection());
-     	settings.setValue("GameListSortingOrder", header->sortIndicatorOrder());
-     
-     	settings.endGroup();
+	myConfig->writeConfigInt("DlgGameLobbyGameListSortingSection", header->sortIndicatorSection());
+     	myConfig->writeConfigInt("DlgGameLobbyGameListSortingOrder", header->sortIndicatorOrder());
+     	myConfig->writeBuffer();
 }
 
 void gameLobbyDialogImpl::readDialogSettings()
 {
-	QSettings settings("PokerTHGbR", "PokerTH");
-	
+	treeWidget_GameList->sortItems (myConfig->readConfigInt("DlgGameLobbyGameListSortingSection"), (Qt::SortOrder)myConfig->readConfigInt("DlgGameLobbyGameListSortingOrder") );
+
 }

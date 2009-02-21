@@ -48,7 +48,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myQtToolsInterface = CreateQtToolsWrapper();
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 55;
+	configRev = 56;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -233,6 +233,9 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("CacheDir", CONFIG_TYPE_STRING, cacheDir));	
 	configList.push_back(ConfigInfo("CLA_NoWriteAccess", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DisableBackToLobbyWarning", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("DlgGameLobbyGameListSortingSection", CONFIG_TYPE_INT, "2"));
+	configList.push_back(ConfigInfo("DlgGameLobbyGameListSortingOrder", CONFIG_TYPE_INT, "1"));
+
 
 	//fill tempList firstTime
 	configBufferList = configList;
