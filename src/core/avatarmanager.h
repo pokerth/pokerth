@@ -35,6 +35,7 @@
 #define MAX_AVATAR_FILE_SIZE	30720
 
 struct AvatarFileState;
+class UploaderThread;
 
 class AvatarManager
 {
@@ -77,6 +78,8 @@ private:
 
 	mutable boost::mutex	m_cacheDirMutex;
 	std::string				m_cacheDir;
+
+	boost::shared_ptr<UploaderThread> m_uploader;
 };
 
 #endif

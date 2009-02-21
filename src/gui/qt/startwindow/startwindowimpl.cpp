@@ -652,7 +652,7 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 				QMessageBox::Close); }
 		break;
 		case ERR_SOCK_INVALID_SERVERLIST_URL:
-		case ERR_SOCK_DOWNLOAD_INVALID_URL:
+		case ERR_SOCK_TRANSFER_INVALID_URL:
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("Invalid server list URL.\nPlease correct the address in the settings."),
 				QMessageBox::Close); }
@@ -677,14 +677,14 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 				tr("Could not unzip the PokerTH internet server list."),
 				QMessageBox::Close); }
 		break;
-		case ERR_SOCK_DOWNLOAD_INIT_FAILED:
-		case ERR_SOCK_DOWNLOAD_SELECT_FAILED:
-		case ERR_SOCK_DOWNLOAD_FAILED:
+		case ERR_SOCK_TRANSFER_INIT_FAILED:
+		case ERR_SOCK_TRANSFER_SELECT_FAILED:
+		case ERR_SOCK_TRANSFER_FAILED:
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("Could not download the PokerTH internet server list.\nPlease make sure you are directly connected to the internet."),
 				QMessageBox::Close); }
 		break;
-		case ERR_SOCK_DOWNLOAD_OPEN_FAILED:
+		case ERR_SOCK_TRANSFER_OPEN_FAILED:
 			{ QMessageBox::warning(this, tr("Network Error"),
 				tr("Could not open the target file when downloading the server list."),
 				QMessageBox::Close); }

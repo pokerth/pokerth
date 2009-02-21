@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Lothar May                                      *
+ *   Copyright (C) 2009 by Lothar May                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,36 +16,51 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+/* Network file upload thread. */
 
-#include <net/socket_helper.h>
-#include <net/downloadhelper.h>
-#include <net/netexception.h>
-#include <net/socket_msg.h>
-#include <net/transferdata.h>
+#ifndef _UPLOADERTHREAD_H_
+#define _UPLOADERTHREAD_H_
 
-#include <cstdio>
+#include <core/thread.h>
 
-using namespace std;
+#include <queue>
+#include <boost/shared_ptr.hpp>
 
+#define UPLOADER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
+class UploadHelper;
 
-DownloadHelper::DownloadHelper()
+class UploaderThread : public Thread
 {
-}
+public:
 
-DownloadHelper::~DownloadHelper()
-{
-}
+	UploaderThread();
+	virtual ~UploaderThread();
 
-void
-DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &/*user*/, const string &/*password*/)
-{
-	// Open target file for writing.
-	GetData()->targetFile = fopen(targetFileName.c_str(), "wb");
-	if (!GetData()->targetFile)
-		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_OPEN_FAILED, 0);
+	void QueueUpload(const std::string &filename, int filesize);
 
-	// Assume that the following calls never fail.
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_WRITEFUNCTION, NULL);
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_WRITEDATA, GetData()->targetFile);
-}
+protected:
+	struct UploadData
+	{
+		UploadData() : filesize(0) {}
+		UploadData(const std::string &f, int s) : filename(f), filesize(s) {}
+
+		std::string filename;
+		int filesize;
+	};
+
+	typedef std::queue<UploadData> UploadDataQueue;
+
+	// Main function of the thread.
+	virtual void Main();
+
+private:
+
+	UploadDataQueue m_uploadQueue;
+	mutable boost::mutex m_uploadQueueMutex;
+
+	boost::shared_ptr<UploadHelper> m_uploadHelper;
+	bool m_uploadInProgress;
+};
+
+#endif
 

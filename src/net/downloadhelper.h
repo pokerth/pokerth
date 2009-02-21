@@ -21,32 +21,18 @@
 #ifndef _DOWNLOADHELPER_H_
 #define _DOWNLOADHELPER_H_
 
-#include <string>
-#include <memory>
-
-struct DownloadData;
+#include <net/transferhelper.h>
 
 
-class DownloadHelper
+class DownloadHelper : public TransferHelper
 {
 public:
 	DownloadHelper();
 	virtual ~DownloadHelper();
 
-	// Set the parameters. Does not do any error checking.
-	// Throws an exception on failure.
-	void Init(const std::string &url, const std::string &targetFileName);
-
-	// Returns true when done, false should call again.
-	// Throws an exception on error.
-	bool Process();
-
-	// Close all handles.
-	void Cleanup();
-
-private:
-
-	std::auto_ptr<DownloadData> m_data;
+protected:
+	virtual void InternalInit(const std::string &url, const std::string &targetFileName,
+		const std::string &user, const std::string &password);
 };
 
 #endif

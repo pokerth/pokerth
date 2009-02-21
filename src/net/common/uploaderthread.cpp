@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Lothar May                                      *
+ *   Copyright (C) 2009 by Lothar May                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,35 +17,71 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <net/socket_helper.h>
-#include <net/downloadhelper.h>
+#include <net/uploaderthread.h>
+#include <net/uploadhelper.h>
 #include <net/netexception.h>
-#include <net/socket_msg.h>
-#include <net/transferdata.h>
+#include <boost/filesystem.hpp>
+#include <core/loghelper.h>
 
-#include <cstdio>
+#define UPLOAD_DELAY_MSEC					100
 
 using namespace std;
+using namespace boost::filesystem;
 
 
-DownloadHelper::DownloadHelper()
+UploaderThread::UploaderThread()
+: m_uploadInProgress(false)
 {
+	m_uploadHelper.reset(new UploadHelper());
 }
 
-DownloadHelper::~DownloadHelper()
+UploaderThread::~UploaderThread()
 {
 }
 
 void
-DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &/*user*/, const string &/*password*/)
+UploaderThread::QueueUpload(const std::string &filename, int filesize)
 {
-	// Open target file for writing.
-	GetData()->targetFile = fopen(targetFileName.c_str(), "wb");
-	if (!GetData()->targetFile)
-		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_OPEN_FAILED, 0);
+	boost::mutex::scoped_lock lock(m_uploadQueueMutex);
+	m_uploadQueue.push(UploadData(filename, filesize));
+}
 
-	// Assume that the following calls never fail.
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_WRITEFUNCTION, NULL);
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_WRITEDATA, GetData()->targetFile);
+void
+UploaderThread::Main()
+{
+	while (!ShouldTerminate())
+	{
+		try
+		{
+			if (m_uploadInProgress)
+			{
+				m_uploadInProgress = m_uploadHelper->Process();
+			}
+
+			if (!m_uploadInProgress)
+			{
+				Msleep(UPLOAD_DELAY_MSEC);
+				UploadData data;
+				{
+					boost::mutex::scoped_lock lock(m_uploadQueueMutex);
+					if (!m_uploadQueue.empty())
+					{
+						data = m_uploadQueue.front();
+						m_uploadQueue.pop();
+					}
+				}
+				if (!data.filename.empty() && data.filesize > 0)
+				{
+					path filepath(data.filename);
+					m_uploadHelper->Init("url" + filepath.leaf(), filepath.file_string().c_str(), "user", "pwd");
+					m_uploadInProgress = true;
+				}
+			}
+		}
+		catch (const NetException &e)
+		{
+			LOG_ERROR(e.what());
+		}
+	}
 }
 

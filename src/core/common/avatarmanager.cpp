@@ -20,6 +20,7 @@
 #include "avatarmanager.h"
 #include <net/net_helper.h>
 #include <net/socket_msg.h>
+#include <net/uploaderthread.h>
 #include <core/loghelper.h>
 #include <core/crypthelper.h>
 
@@ -54,10 +55,13 @@ struct AvatarFileState
 
 AvatarManager::AvatarManager()
 {
+	m_uploader.reset(new UploaderThread());
 }
 
 AvatarManager::~AvatarManager()
 {
+	m_uploader->SignalTermination();
+	m_uploader->Join(UPLOADER_THREAD_TERMINATE_TIMEOUT);
 }
 
 bool
@@ -87,6 +91,7 @@ AvatarManager::Init(const std::string &dataDir, const std::string &cacheDir)
 		retVal = retVal && tmpRet;
 	}
 
+	m_uploader->Run();
 	return retVal;
 }
 
@@ -356,6 +361,7 @@ AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFil
 				if (!o.fail())
 				{
 					o.write((const char *)data, size);
+					//m_uploader->QueueUpload(fileName, size);
 					{
 						boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
 						m_cachedAvatars.insert(AvatarMap::value_type(md5buf, fileName));

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Lothar May                                      *
+ *   Copyright (C) 2009 by Lothar May                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,36 +16,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+/* libcurl upload helper. */
 
-#include <net/socket_helper.h>
-#include <net/downloadhelper.h>
-#include <net/netexception.h>
-#include <net/socket_msg.h>
-#include <net/transferdata.h>
+#ifndef _UPLOADHELPER_H_
+#define _UPLOADHELPER_H_
 
-#include <cstdio>
-
-using namespace std;
+#include <net/transferhelper.h>
 
 
-DownloadHelper::DownloadHelper()
+class UploadHelper : public TransferHelper
 {
-}
+public:
+	UploadHelper();
+	virtual ~UploadHelper();
 
-DownloadHelper::~DownloadHelper()
-{
-}
+protected:
+	virtual void InternalInit(const std::string &url, const std::string &targetFileName,
+		const std::string &user, const std::string &password);
+};
 
-void
-DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &/*user*/, const string &/*password*/)
-{
-	// Open target file for writing.
-	GetData()->targetFile = fopen(targetFileName.c_str(), "wb");
-	if (!GetData()->targetFile)
-		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_OPEN_FAILED, 0);
-
-	// Assume that the following calls never fail.
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_WRITEFUNCTION, NULL);
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_WRITEDATA, GetData()->targetFile);
-}
+#endif
 

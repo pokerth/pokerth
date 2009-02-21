@@ -84,6 +84,10 @@ HEADERS += \
 		src/net/ircthread.h \
 		src/net/netexception.h \
 		src/net/servermanager.h \
+		src/net/transferdata.h \
+		src/net/transferhelper.h \
+		src/net/uploaderthread.h \
+		src/net/uploadhelper.h \
 		src/third_party/tinyxml/tinystr.h \
 		src/third_party/tinyxml/tinyxml.h \
 		src/third_party/libircclient/include/libircclient.h \
@@ -179,6 +183,9 @@ SOURCES += \
 		src/net/common/irccallback.cpp \
 		src/net/common/ircthread.cpp \
 		src/net/common/servermanager.cpp \
+		src/net/common/transferhelper.cpp \
+		src/net/common/uploaderthread.cpp \
+		src/net/common/uploadhelper.cpp \
 		src/gui/generic/serverguiwrapper.cpp \
 		src/gui/qttoolsinterface.cpp
 
