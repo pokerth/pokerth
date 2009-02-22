@@ -18,6 +18,7 @@
 // Windows headers
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <mmsystem.h>
 
 // Automagically link winmm.lib if we can
 #if (defined _MSC_VER) && (_MSC_VER >= 1200)
