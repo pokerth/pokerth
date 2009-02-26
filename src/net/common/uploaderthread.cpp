@@ -55,7 +55,7 @@ UploaderThread::Main()
 		{
 			if (m_uploadInProgress)
 			{
-				m_uploadInProgress = m_uploadHelper->Process();
+				m_uploadInProgress = !m_uploadHelper->Process();
 			}
 
 			if (!m_uploadInProgress)
@@ -73,7 +73,7 @@ UploaderThread::Main()
 				if (!data.filename.empty() && data.filesize > 0)
 				{
 					path filepath(data.filename);
-					m_uploadHelper->Init("url" + filepath.leaf(), filepath.file_string().c_str(), "user", "pwd");
+					m_uploadHelper->Init("url" + filepath.leaf(), filepath.file_string().c_str(), "user", "pw");
 					m_uploadInProgress = true;
 				}
 			}
