@@ -389,7 +389,12 @@ ServerLobbyThread::Main()
 		LOG_ERROR(e.what());
 	}
 
+	// Stop all running games.
 	TerminateGames();
+	// Remove all sessions.
+	m_gameSessionManager.Clear();
+	m_sessionManager.Clear();
+	// Stop sender thread.
 	m_sender->SignalStop();
 	m_sender->WaitStop();
 
@@ -1060,7 +1065,7 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 	// TODO: use randomized method.
 	//if(!RAND_bytes((unsigned char *)&sessionId, sizeof(sessionId)))
 	//{
-	//	RAND_pseudo_bytes((unsigned char *)&sessionId, sizeof(sessionId)); 
+	//	RAND_pseudo_bytes((unsigned char *)&sessionId, sizeof(sessionId));
 	//}
 
 	// Create a new session.
