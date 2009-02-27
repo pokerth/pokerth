@@ -58,6 +58,9 @@ protected:
 
 private:
 
+	SenderCallback &m_callback;
+	boost::shared_ptr<boost::asio::io_service> m_ioService;
+
 	SendQueueMap m_sendQueueMap;
 	mutable boost::mutex m_sendQueueMapMutex;
 
@@ -66,9 +69,6 @@ private:
 
 	SessionIdList m_removedSessions;
 	mutable boost::mutex m_removedSessionsMutex;
-
-	SenderCallback &m_callback;
-	boost::shared_ptr<boost::asio::io_service> m_ioService;
 };
 
 #endif
