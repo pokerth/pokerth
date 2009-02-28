@@ -48,7 +48,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myQtToolsInterface = CreateQtToolsWrapper();
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 56;
+	configRev = 57;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -196,6 +196,8 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("InternetServerPassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("InternetServerUseIpv6", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("InternetServerUseSctp", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("UseAvatarServer", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("AvatarServerAddress", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("UseInternetGamePassword", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("InternetGamePassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("UseIRCLobbyChat", CONFIG_TYPE_INT, "1"));

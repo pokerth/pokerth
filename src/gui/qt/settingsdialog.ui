@@ -905,12 +905,27 @@ p, li { white-space: pre-wrap; }
           <layout class="QHBoxLayout" >
            <item>
             <widget class="QGroupBox" name="groupBox_8" >
+             <property name="maximumSize" >
+              <size>
+               <width>16777215</width>
+               <height>105</height>
+              </size>
+             </property>
              <property name="title" >
               <string>Raise blinds:</string>
              </property>
              <layout class="QGridLayout" >
+              <property name="leftMargin" >
+               <number>6</number>
+              </property>
               <property name="topMargin" >
                <number>0</number>
+              </property>
+              <property name="rightMargin" >
+               <number>6</number>
+              </property>
+              <property name="bottomMargin" >
+               <number>6</number>
               </property>
               <item row="0" column="0" >
                <widget class="QRadioButton" name="radioButton_netRaiseBlindsAtHands" >
@@ -993,12 +1008,27 @@ p, li { white-space: pre-wrap; }
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="maximumSize" >
+              <size>
+               <width>16777215</width>
+               <height>105</height>
+              </size>
+             </property>
              <property name="title" >
               <string>Raise mode:</string>
              </property>
              <layout class="QGridLayout" >
+              <property name="leftMargin" >
+               <number>6</number>
+              </property>
               <property name="topMargin" >
                <number>0</number>
+              </property>
+              <property name="rightMargin" >
+               <number>6</number>
+              </property>
+              <property name="bottomMargin" >
+               <number>6</number>
               </property>
               <item row="0" column="0" >
                <widget class="QRadioButton" name="radioButton_netAlwaysDoubleBlinds" >
@@ -1096,16 +1126,16 @@ p, li { white-space: pre-wrap; }
            </property>
            <layout class="QGridLayout" >
             <property name="leftMargin" >
-             <number>9</number>
+             <number>6</number>
             </property>
             <property name="topMargin" >
              <number>0</number>
             </property>
             <property name="rightMargin" >
-             <number>9</number>
+             <number>6</number>
             </property>
             <property name="bottomMargin" >
-             <number>9</number>
+             <number>6</number>
             </property>
             <property name="spacing" >
              <number>6</number>
@@ -1351,6 +1381,16 @@ p, li { white-space: pre-wrap; }
                   <enum>QLineEdit::Password</enum>
                  </property>
                 </widget>
+               </item>
+               <item row="3" column="0" >
+                <widget class="QCheckBox" name="checkBox_useAvatarServer" >
+                 <property name="text" >
+                  <string>Avatar Server:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1" >
+                <widget class="QLineEdit" name="lineEdit_avatarServerAddress" />
                </item>
               </layout>
              </widget>
@@ -2880,12 +2920,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>362</x>
-     <y>426</y>
+     <x>360</x>
+     <y>373</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>609</x>
-     <y>426</y>
+     <x>723</x>
+     <y>374</y>
     </hint>
    </hints>
   </connection>
@@ -2896,12 +2936,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>362</x>
-     <y>426</y>
+     <x>360</x>
+     <y>373</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>638</x>
-     <y>426</y>
+     <x>752</x>
+     <y>375</y>
     </hint>
    </hints>
   </connection>
@@ -2912,8 +2952,8 @@ p, li { white-space: pre-wrap; }
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>586</x>
-     <y>678</y>
+     <x>595</x>
+     <y>520</y>
     </hint>
     <hint type="destinationlabel" >
      <x>599</x>
@@ -2928,12 +2968,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>305</x>
-     <y>39</y>
+     <x>411</x>
+     <y>443</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>305</x>
-     <y>39</y>
+     <x>717</x>
+     <y>444</y>
     </hint>
    </hints>
   </connection>
@@ -2944,12 +2984,12 @@ p, li { white-space: pre-wrap; }
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>305</x>
-     <y>39</y>
+     <x>648</x>
+     <y>98</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>305</x>
-     <y>39</y>
+     <x>336</x>
+     <y>99</y>
     </hint>
    </hints>
   </connection>
@@ -2960,12 +3000,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>305</x>
-     <y>39</y>
+     <x>753</x>
+     <y>220</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>305</x>
-     <y>39</y>
+     <x>753</x>
+     <y>256</y>
     </hint>
    </hints>
   </connection>
@@ -2976,12 +3016,28 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>305</x>
-     <y>39</y>
+     <x>756</x>
+     <y>218</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>305</x>
-     <y>39</y>
+     <x>756</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_useAvatarServer</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEdit_avatarServerAddress</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>314</x>
+     <y>318</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>366</x>
+     <y>320</y>
     </hint>
    </hints>
   </connection>

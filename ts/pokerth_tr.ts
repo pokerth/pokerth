@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="tr">
+<defaultcodec></defaultcodec>
 <context>
     <name>Chat</name>
     <message>
@@ -81,7 +82,7 @@
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="26"/>
         <source>Start vote to kick this user</source>
-        <translation type="unfinished"></translation>
+        <translation>Oyuncuyu atmak için oylama başlat</translation>
     </message>
 </context>
 <context encoding="UTF-8">
@@ -97,7 +98,6 @@
         <translation>Proje</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -136,12 +136,10 @@ p, li { white-space: pre-wrap; }
         <translation>Teşekkürler</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>About PokerTH 0.5</source>
         <translation type="obsolete">PokerTH 0.5 Hakkında</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="" line="138697984"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -163,7 +161,6 @@ p, li { white-space: pre-wrap; }
         <translation>Çeviri</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -178,7 +175,6 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;     - &lt;span style=&quot; font-weight:400;&quot;&gt;for populære avatar-bilder&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Linus, Mark, Viktoria, Florian, Benedikt&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for avatar-bilder&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for forskjellige GPL-lisensierte lydeffekter&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for lydeffekter&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -187,7 +183,6 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;lt;Kunter Kutlu&amp;gt; - &amp;lt;Türkçe&amp;gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &amp;lt;kunterkutlu@gmail.com&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -205,12 +200,10 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;     - &lt;span style=&quot; font-weight:400;&quot;&gt;, farklı popüler avatar resim kaynakları için&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Viktoria, Benedikt, Erhard, Felix, Florian, Linus, Lothar, Mark&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - avatar resimleri için&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - farklı gpl lisanslı sesler&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - Kendi kayıtlı seslerim&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>About PokerTH 0.6</source>
         <translation type="obsolete">PokerTH 0.6 Hakkında</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -243,7 +236,6 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -275,7 +267,6 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Kunter Kutlu - Türkçe - kunterkutlu@gmail.com&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -502,14 +493,13 @@ p, li { white-space: pre-wrap; }
 
 
 © 2006-2008, FHammer, FThauer, LMay</source>
-        <translation type="unfinished">- Popüler &quot;Texas Holdem&quot; Pokeri için Poker motoru
+        <translation>- Popüler &quot;Texas Holdem&quot; Pokeri için Poker motoru
 - Tekli oyuncu oyunları 6 ya kadar bilgisayar rakiple oynanabilir
 - Çoklu oyuncu ağ oyunları
 - C++ / QT4 ile kodlanmıştır
 
 
-© 2006-2007, FHammer, FThauer, LMay {6 ?} {4
-?} {2006-2008,?}</translation>
+© 2006-2009, FHammer, FThauer, LMay </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="135"/>
@@ -532,7 +522,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - basic architecture, network development, windows package, MacOS package&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Oskar Lindqvist (&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - gui graphics design&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Proje Sayfası: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Yazarlar: &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Felix Hammer (&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - Ana fikir, temel mimari, temel arayüz yapımı, linux paketi&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Florian Thauer (&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - Ana fikir, temel mimari, oyun motoru geliştirme&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Lothar May (&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - temel mimari, ağ geliştirme, windows paketi, MacOS paketi&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Oskar Lindqvist (&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - arayüz yapımı&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="184"/>
@@ -541,7 +531,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;translator name - mail address&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Mustafa Günay - mgunay@linuxmail.org&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="219"/>
@@ -563,7 +553,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for different patches&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;kraut&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for internet-game-server hosting and administration&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Müşterekleri&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;     - &lt;span style=&quot; font-weight:400;&quot;&gt;farklı popüler avatar resim kaynakları için&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Viktoria, Benedikt, Erhard, Felix, Florian, Linus, Lothar, Mark, Steffi, Caro&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - İnsan avatar resimleri için&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt; &lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    - Muhtelif avatar resimleri için&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - Farklı GPL lisanslı sesler için&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - Kendi kaydımız chip sesleri için&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;thiger, dunkanx, BerndA &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - Çeşitli yamalar için&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;kraut&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - İnternet oyun sunucusu ve yöneticilik için&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -678,7 +668,6 @@ p, li { white-space: pre-wrap; }
         <translation>Ağ Hatası</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Human Player:</source>
         <translation type="obsolete">Mennesklig spiller:</translation>
     </message>
@@ -731,7 +720,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="48"/>
         <source>Reading server list...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu listesi okunuyor...</translation>
     </message>
 </context>
 <context>
@@ -830,7 +819,6 @@ p, li { white-space: pre-wrap; }
         <translation>Paraya Çevirmeyi Başlat:</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Small Blind:</source>
         <translation type="obsolete">Small Blind:</translation>
     </message>
@@ -943,12 +931,10 @@ p, li { white-space: pre-wrap; }
         <translation>Oyuncu At</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Maximum number of players:</source>
         <translation type="obsolete">En fazla oyuncu sayısı:</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Small Blind:</source>
         <translation type="obsolete">Small Blind:</translation>
     </message>
@@ -1114,12 +1100,10 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>gameTable</name>
     <message>
-        <location filename="" line="138697984"/>
         <source>QMainWindow { background-image: url(:/guiv2/resources/guiv2/table.png); background-position: bottom center; background-origin: content; }</source>
         <translation type="obsolete">QMainWindow { background-image: url(:/guiv2/resources/guiv2/table.png); background-position: bottom center; background-origin: content; }</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>QGroupBox { background-image: url(:/graphics/resources/graphics/toolboxFrameBG.png) }</source>
         <translation type="obsolete">QGroupBox { background-image: url(:/graphics/resources/graphics/toolboxFrameBG.png) }</translation>
     </message>
@@ -1179,7 +1163,6 @@ p, li { white-space: pre-wrap; }
         <translation>Tam Ekran</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>F</source>
         <translation type="obsolete">F</translation>
     </message>
@@ -1209,12 +1192,10 @@ p, li { white-space: pre-wrap; }
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>PokerTH 0.5 - The Open-Source Texas Holdem Engine</source>
         <translation type="obsolete">PokerTH 0.5 - Açık-Kaynak Texas Holdem Motoru</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>PokerTH 0.6 - The Open-Source Texas Holdem Engine</source>
         <translation type="obsolete">PokerTH 0.5 - Açık-Kaynak Texas Holdem Motoru {0.6 ?}</translation>
     </message>
@@ -1279,7 +1260,6 @@ p, li { white-space: pre-wrap; }
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>All In</source>
         <translation type="obsolete">Hepsi İçinde</translation>
     </message>
@@ -1321,62 +1301,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1781"/>
         <source>Kick</source>
-        <translation type="unfinished">Tekmele</translation>
+        <translation>Tekmele</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1833"/>
         <source>Vote Timeout:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kalan oylama süresi:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1878"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Evet</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1891"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Hayır</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="2715"/>
         <source>Chance</source>
-        <translation type="unfinished"></translation>
+        <translation>Şans</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3054"/>
         <source>Settings</source>
-        <translation type="unfinished">Ayarlar</translation>
+        <translation>Ayarlar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3160"/>
         <source>Configure PokerTH ...</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH&apos;ı ayarla...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3165"/>
         <source>Close</source>
-        <translation type="unfinished">Kapat</translation>
+        <translation>Kapat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3168"/>
         <source>Ctrl+X</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+X</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="1806"/>
         <source>Vote started by:</source>
-        <translation type="unfinished"></translation>
+        <translation>Oylamayı başlatan:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3173"/>
         <source>Show/Hide Chance Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Şans Penceresini Göster/Gizle</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3176"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+C</translation>
     </message>
 </context>
 <context>
@@ -1392,7 +1372,6 @@ p, li { white-space: pre-wrap; }
         <translation>Yeni bir oyun başlatmak için Cmd+N</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise</source>
         <translation type="obsolete">F1 - Katla/Hepsini | F2 - Denetle/Çağır | F3 - Bahis/Yükselt</translation>
     </message>
@@ -1491,7 +1470,6 @@ Please make sure that all players use the same version of PokerTH.</source>
 Lütfen bütün oyuncuların PokerTH ın aynı sürümünü kullandığından emin olun.</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>The PokerTH server does not support this version of the game.
 Please update PokerTH.</source>
         <translation type="obsolete">PokerTH sunucusu oyunun bu sürümünü desteklemiyor.
@@ -1527,7 +1505,6 @@ Please choose a different name.</source>
 Lütfen farklı bir isim seçiniz.</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>The player name is either too short or too long. Please choose another one.</source>
         <translation type="obsolete">Oyuncu ismi çok uzun veya çok kısa. Lütfen farklı bir isim seçiniz.</translation>
     </message>
@@ -1670,7 +1647,6 @@ Lütfen başka bir tane seçiniz.</translation>
         <translation>F1 - Hepsi içinde | F2 - Bahis/Yükselt | F3 - Denetle/Çağır | F4 - Katla</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>The PokerTH server does not support this version of the game.
 Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; and download the latest version.</source>
         <translation type="obsolete">PokerTH sunucu, oyunun bu sürümünü desteklemiyor.
@@ -1687,14 +1663,12 @@ Lütfen &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;
         <translation type="obsolete">Sunucu bakım sebebiyle kapalı. Lütfen sonra tekrar deneyin.</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>A new release of PokerTH is available.
 Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; and download the latest version.</source>
         <translation type="obsolete">PokerTH ın yeni bir yayını hazır.
 Lütfen &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; adresinden son sürümü indirin.</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>This beta release of PokerTH is outdated.
 Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; and download the latest version.</source>
         <translation type="obsolete">PokerTH ara sürümü artık geçersiz.
@@ -1755,32 +1729,32 @@ ve lobiye dönmek istiyormusunuz?</translation>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="625"/>
         <source>Chance</source>
-        <translation type="unfinished"></translation>
+        <translation>Şans</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3122"/>
         <source>Kick</source>
-        <translation type="unfinished">Tekmele</translation>
+        <translation>Tekmele</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3151"/>
         <source>Do you want to kick &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;from this game?</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;b&gt;%1&lt;/b&gt;&lt;br&gt; kişisini oyundan atmak istiyormusunuz?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3204"/>
         <source>&lt;b&gt;%1&lt;/b&gt; secs left</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;%1&lt;/b&gt; saniye kaldı</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3210"/>
         <source>vote</source>
-        <translation type="unfinished"></translation>
+        <translation>oy</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3211"/>
         <source>votes</source>
-        <translation type="unfinished"></translation>
+        <translation>oylar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3215"/>
@@ -1955,7 +1929,6 @@ p, li { white-space: pre-wrap; }
         <translation>Sunucu Profil Hatasını Kaydet</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>A profile with the name: &quot;</source>
         <translation type="obsolete">İsmi ile beraber bir profil: &quot;</translation>
     </message>
@@ -2086,7 +2059,6 @@ Would you like to overwrite ?</source>
         <translation>Ödemeyi Başlat:</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Small Blind:</source>
         <translation type="obsolete">Small Blind:</translation>
     </message>
@@ -2096,7 +2068,6 @@ Would you like to overwrite ?</source>
         <translation>Oyuncu Sayısı:</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Hands before raise small blind:</source>
         <translation type="obsolete">Antall henter før &quot;Small Blind&quot; økes:</translation>
     </message>
@@ -2162,7 +2133,6 @@ Would you like to overwrite ?</source>
         <translation>Lütfen listeden bir avatar seçin!</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>The entered avatar picture doesn&apos;t exists.
 Please enter an valid picture!</source>
         <translation type="obsolete">Girilen avatar resmi mevcut değil.
@@ -2174,7 +2144,6 @@ Lütfen geçerli bir resim girin!</translation>
         <translation>Harici avatar resmi seç</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Images (*.png)</source>
         <translation type="obsolete">Resimler (*.png)</translation>
     </message>
@@ -2224,12 +2193,10 @@ p, li { white-space: pre-wrap; }
         <translation>Ön Tanımlı</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Local Game Default Settings</source>
         <translation type="obsolete">Ön Tanımlı Yerel Oyun Ayarları</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Small Blind:</source>
         <translation type="obsolete">Small Blind:</translation>
     </message>
@@ -2239,12 +2206,10 @@ p, li { white-space: pre-wrap; }
         <translation>Ödemeyi Başlat:</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Engine Version:</source>
         <translation type="obsolete">Motor Sürümü:</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Server Settings</source>
         <translation type="obsolete">Sunucu Ayarları</translation>
     </message>
@@ -2264,7 +2229,6 @@ p, li { white-space: pre-wrap; }
         <translation>Sunucu Parolası:</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Network Game Default Settings</source>
         <translation type="obsolete">Ön Tanımlı Ağ Oyunu Ayarları</translation>
     </message>
@@ -2374,7 +2338,6 @@ p, li { white-space: pre-wrap; }
         <translation>Her yeni oyunda, oyun ayarları diyaloğunu göster</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Hands before raise small blind:</source>
         <translation type="obsolete">Antall henter før &quot;Small Blind&quot; økes:</translation>
     </message>
@@ -2399,7 +2362,6 @@ p, li { white-space: pre-wrap; }
         <translation>Bilgisayar rakipleriniz için Oyun Hızı:</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Engine Version for computer opponents:</source>
         <translation type="obsolete">Bilgisayar rakipleriniz için Motor Sürümü:</translation>
     </message>
@@ -2419,17 +2381,14 @@ p, li { white-space: pre-wrap; }
         <translation>Herseferinde son olarak günlük yaz: </translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>every action (high frequent disc access)</source>
         <translation type="obsolete">Hver handling (hyppig disk-bruk)</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>every hand (medium disc access)</source>
         <translation type="obsolete">Hver hånd (medium disk-bruk)</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>every game (low disc access)</source>
         <translation type="obsolete">Hvert spill (lav disk-bruk)</translation>
     </message>
@@ -2444,7 +2403,6 @@ p, li { white-space: pre-wrap; }
         <translation>Ses etkilerini oynat</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>0.4 (current)</source>
         <translation type="obsolete">0.4 (şu anki)</translation>
     </message>
@@ -2522,7 +2480,6 @@ p, li { white-space: pre-wrap; }
         <translation>Sadece fare tıklamasıyla kendi karlarımı göster</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Reverse order of F-Keys (F1 - F3)</source>
         <translation type="obsolete">F-Tuşlarının (F1 - F3) ters işlemleri</translation>
     </message>
@@ -2667,7 +2624,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="204"/>
         <source>Reverse order of F-Keys (F1 - F4)</source>
-        <translation>F-Tuşlarının (F1 - F3) ters işlemleri {1 ?} {4)?}</translation>
+        <translation>F-Tuşlarının (F1 - F4) ters işlemleri</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="234"/>
@@ -2734,62 +2691,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1249"/>
         <source>Automatic Server Configuration URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Otomatik Sunucu Ayarları Adresi</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1258"/>
         <source>Serverlist Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu Listesi Adresi:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1277"/>
         <source>Manual Server Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>El ile Ayarlanmış Sunucu Ayarları</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2644"/>
         <source> Day(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gün(ler)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="70"/>
         <source>Local Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Yerel Oyun</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="75"/>
         <source>Network Game</source>
-        <translation type="unfinished">Ağ Oyunu</translation>
+        <translation>Ağ Oyunu</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="80"/>
         <source>Internet Game</source>
-        <translation type="unfinished"></translation>
+        <translation>İnternet Oyunu</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="85"/>
         <source>Nicks/Avatars</source>
-        <translation type="unfinished"></translation>
+        <translation>Takma İsimler/Avatarlar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="218"/>
         <source>Show cards chance monitor</source>
-        <translation type="unfinished"></translation>
+        <translation>Şans Penceresini Göster</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1243"/>
         <source>Internet Server</source>
-        <translation type="unfinished"></translation>
+        <translation>İnternet sunucusu</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1386"/>
         <source>Lobby Chat (IRC)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kulis-Söyleşisi (IRC)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1454"/>
         <source>Password:</source>
-        <translation type="unfinished">Parola:</translation>
+        <translation>Parola:</translation>
     </message>
 </context>
 <context>
@@ -2800,14 +2757,12 @@ p, li { white-space: pre-wrap; }
         <translation>Ayar Hatası</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>The entered flipside picture doesn&apos;t exists.
 Please enter an valid picture!</source>
         <translation type="obsolete">Girilen kıvrık taraf resmi mevcut değil.
 Lütfen geçerli bir resim girin!</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>The log file directory doesn&apos;t exists.
 Please select an valid directory!</source>
         <translation type="obsolete">Günlük dosyası dizini mevcut değil.
@@ -2819,7 +2774,6 @@ Lütfen geçerli bir dizin giriniz!</translation>
         <translation>Kıvrık taraf resminizi seçin</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Images (*.png)</source>
         <translation type="obsolete">Resimler (*.png)</translation>
     </message>
@@ -2873,7 +2827,6 @@ yüksek değer olarak ayarlanacaktır.</translation>
         <translation>Macarca</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Norse</source>
         <translation type="obsolete">İskandinavca</translation>
     </message>
@@ -2941,43 +2894,44 @@ Lütfen geçerli bir dizin seçiniz!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="47"/>
         <source>Bulgarian</source>
-        <translation type="unfinished"></translation>
+        <translation>Bulgarca</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="59"/>
         <source>Polish</source>
-        <translation type="unfinished"></translation>
+        <translation>Polonyaca</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="48"/>
         <source>Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>Çince</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="55"/>
         <source>Greek</source>
-        <translation type="unfinished"></translation>
+        <translation>Yünanca</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="64"/>
         <source>Swedish</source>
-        <translation type="unfinished"></translation>
+        <translation>İsveççe</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="330"/>
         <source>The entered server list address is not a valid URL.
 Please enter a valid server list address!</source>
-        <translation type="unfinished"></translation>
+        <translation>Girilen sunucu listesi adresi geçerli değil.
+Lütfen geçerli bir adres girin!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
         <source>Finnish</source>
-        <translation type="unfinished"></translation>
+        <translation>Fince</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="49"/>
         <source>Danish</source>
-        <translation type="unfinished"></translation>
+        <translation>Danimarka Dili</translation>
     </message>
 </context>
 <context>
@@ -3008,7 +2962,6 @@ Please enter a valid server list address!</source>
         <translation>0</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Kick</source>
         <translation type="obsolete">Tekmele</translation>
     </message>
@@ -3051,42 +3004,42 @@ Please enter a valid server list address!</source>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="13"/>
         <source>PokerTH 0.6.3 - The Open-Source Texas Holdem Engine</source>
-        <translation type="unfinished">PokerTH 0.5 - Açık-Kaynak Texas Holdem Motoru {0.6 ?} {0.6.3 ?}</translation>
+        <translation>PokerTH 0.6.3 - Açık-Kaynak Texas Holdem Motoru</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="48"/>
         <source>&amp;2 Internet Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;2 İnternet Oyunu</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="55"/>
         <source>&amp;3 Create Network Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;3 Ağ Oyunu Oluştur</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="62"/>
         <source>&amp;4 Join Network Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;4 Ağ Oyununa Katıl</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="69"/>
         <source>&amp;1 Start Local Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;1 Yerel Oyun Başlat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="114"/>
         <source>PokerTH</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="118"/>
         <source>Network Game</source>
-        <translation type="unfinished">Ağ Oyunu</translation>
+        <translation>Ağ Oyunu</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="131"/>
         <source>Settings</source>
-        <translation type="unfinished">Ayarlar</translation>
+        <translation>Ayarlar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="136"/>
@@ -3096,52 +3049,52 @@ Please enter a valid server list address!</source>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="141"/>
         <source>Start Local Game ...</source>
-        <translation type="unfinished">Yerel Oyun Başlat...</translation>
+        <translation>Yerel Oyun Başlat...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="144"/>
         <source>Ctrl+N</source>
-        <translation type="unfinished">Ctrl+N</translation>
+        <translation>Ctrl+N</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="149"/>
         <source>Internet Game ...</source>
-        <translation type="unfinished">İnternet Oyunu ...</translation>
+        <translation>İnternet Oyunu ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="152"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished">Ctrl+I</translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="157"/>
         <source>About PokerTH</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH Hakkında</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="166"/>
         <source>Configure PokerTH ...</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH&apos;ı ayarla...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="175"/>
         <source>Quit</source>
-        <translation type="unfinished">Çık</translation>
+        <translation>Çık</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="183"/>
         <source>Create Network Game ...</source>
-        <translation type="unfinished">Ağ Oyunu Oluştur...</translation>
+        <translation>Ağ Oyunu Oluştur...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="188"/>
         <source>Join Network Game ...</source>
-        <translation type="unfinished">Ağ Oyununa Katıl...</translation>
+        <translation>Ağ Oyununa Katıl...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="178"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished">Ctrl+Q</translation>
+        <translation>Ctrl+Q</translation>
     </message>
 </context>
 <context>
@@ -3149,69 +3102,69 @@ Please enter a valid server list address!</source>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="70"/>
         <source>PokerTH %1 - The Open-Source Texas Holdem Engine</source>
-        <translation type="unfinished">PokerTH %1 - Açık-Kaynak Texas Holdem Motoru</translation>
+        <translation>PokerTH %1 - Açık-Kaynak Texas Holdem Motoru</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="277"/>
         <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
 Please choose another one.</source>
-        <translation type="unfinished">&quot;Human Player&quot; sahte ismi ile internet-oyun-lobisine giremezsiniz.
+        <translation>&quot;Human Player&quot; sahte ismi ile internet-oyun-lobisine giremezsiniz.
 Lütfen başka bir tane seçiniz.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="801"/>
         <source>Network Error</source>
-        <translation type="unfinished">Ağ Hatası</translation>
+        <translation>Ağ Hatası</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="559"/>
         <source>Server address was not set.</source>
-        <translation type="unfinished">Sunucu adresi belirtilmedi.</translation>
+        <translation>Sunucu adresi belirtilmedi.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="564"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
-        <translation type="unfinished">Geçersiz bağlantı noktası belirtilmiş (0-1023 arasındaki bağlantı noktaları kullanılamaz).</translation>
+        <translation>Geçersiz bağlantı noktası belirtilmiş (0-1023 arasındaki bağlantı noktaları kullanılamaz).</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="569"/>
         <source>Could not create a socket for TCP communication.</source>
-        <translation type="unfinished">TCP iletişimi için bir yuva oluşturulamadı.</translation>
+        <translation>TCP iletişimi için bir yuva oluşturulamadı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="574"/>
         <source>Could not set the IP address.</source>
-        <translation type="unfinished">IP adresi ayarlanamadı.</translation>
+        <translation>IP adresi ayarlanamadı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="579"/>
         <source>Could not set the port for this type of address.</source>
-        <translation type="unfinished">Bu çeşit bir adres için bağlantı noktası ayarlanamadı.</translation>
+        <translation>Bu çeşit bir adres için bağlantı noktası ayarlanamadı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="584"/>
         <source>The server name could not be resolved.</source>
-        <translation type="unfinished">Sunucu ismi çözümlenemedi.</translation>
+        <translation>Sunucu ismi çözümlenemedi.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="589"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation type="unfinished">Bağlama başarısız - lütfen farklı bir bağlantı noktası seçin.</translation>
+        <translation>Bağlama başarısız - lütfen farklı bir bağlantı noktası seçin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="594"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation type="unfinished">Dahili ağ hatası - &quot;dinleme&quot; başarısız.</translation>
+        <translation>Dahili ağ hatası - &quot;dinleme&quot; başarısız.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="599"/>
         <source>Server execution was terminated.</source>
-        <translation type="unfinished">Sunucu işletimi sonlandırıldı.</translation>
+        <translation>Sunucu işletimi sonlandırıldı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="604"/>
         <source>Could not connect to the server.</source>
-        <translation type="unfinished">Sunucuya bağlanılamadı.</translation>
+        <translation>Sunucuya bağlanılamadı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="609"/>
@@ -3219,7 +3172,7 @@ Lütfen başka bir tane seçiniz.</translation>
 Please check the server address.
 
 If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
-        <translation type="unfinished">Bağlantı zaman aşımına uğradı.
+        <translation>Bağlantı zaman aşımına uğradı.
 Lütfen sunucu adresini kontrol ediniz.
 
 Eğer sunucu bir NAT-Router arkasındaysa, sunucu tarafındaki bağlantı noktası yönlendirmesinin ayarlandığından emin olunuz.</translation>
@@ -3227,235 +3180,240 @@ Eğer sunucu bir NAT-Router arkasındaysa, sunucu tarafındaki bağlantı noktas
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="614"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
-        <translation type="unfinished">Dahili ağ hatası - &quot;seçim&quot; başarısız.</translation>
+        <translation>Dahili ağ hatası - &quot;seçim&quot; başarısız.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="619"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation type="unfinished">Dahili ağ hatası - &quot;gönder&quot; başarısız.</translation>
+        <translation>Dahili ağ hatası - &quot;gönder&quot; başarısız.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="625"/>
         <source>Connection was closed by the server.</source>
-        <translation type="unfinished">Bağlantı, sunucu tarafından kapatıldı.</translation>
+        <translation>Bağlantı, sunucu tarafından kapatıldı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="630"/>
         <source>Internal network error: Duplicate TCP connection.</source>
-        <translation type="unfinished">Dahili ağ hatası: TCP bağlantısını çoğaltın.</translation>
+        <translation>Dahili ağ hatası: TCP bağlantısını çoğaltın.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="635"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation type="unfinished">Geçersiz bir ağ paketi alındı.
+        <translation>Geçersiz bir ağ paketi alındı.
 Lütfen bütün oyuncuların PokerTH ın aynı sürümünü kullandığından emin olun.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="640"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
-        <translation type="unfinished">Dahili durum hatası.
+        <translation>Dahili durum hatası.
 Lütfen bütün oyuncuların PokerTH ın aynı sürümünü kullandığından emin olun.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="646"/>
         <source>Invalid server list URL.
 Please correct the address in the settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçersiz sunucu listesi.
+Lütfen ayarlardan adresi düzeltin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="651"/>
         <source>Could not open the server list MD5 file.
 Please make sure that the server list URL is correct.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu listesinin MD5 dosyası açılamadı.
+Lütfen sunucu listesinin adresinin doğru olduğundan emin olun.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="656"/>
         <source>Synchronization of the PokerTH internet server list has failed.
 Please make sure that the server list URL is correct.</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH İnternet sunucu listesi eşzamanlanamadı.
+Lütfen sunucu listesi adresinin doğru olduğundan emin olun.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="661"/>
         <source>The PokerTH internet server list contains invalid data.
 If you use a custom server list, please make sure its format is correct.</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH İnternet sunucu listesi geçersiz veriler içeriyor.
+Eğer özel bir sunucu listesi kullanıyorsanız lütfen dosya biçiminin doğru olduğundan emin olun.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="666"/>
         <source>Could not unzip the PokerTH internet server list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sıkıştırılmış durumdaki PokerTH İnternet sunucu listesi açılamadı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="673"/>
         <source>Could not download the PokerTH internet server list.
 Please make sure you are directly connected to the internet.</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH sunucu listesi indirilemedi.
+Lütfen doğrudan İnternet&apos;e bağlı olduğunuzdan emin olun.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="678"/>
         <source>Could not open the target file when downloading the server list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu listesi indirilirken hedef dosya açılamadı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="683"/>
         <source>The PokerTH server does not support this version of the game.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation type="unfinished">PokerTH sunucu, oyunun bu sürümünü desteklemiyor.&lt;br&gt;Lütfen &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; adresinden son sürümü indirin.</translation>
+        <translation>PokerTH sunucu, oyunun bu sürümünü desteklemiyor.&lt;br&gt;Lütfen &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; adresinden son sürümü indirin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="691"/>
         <source>Sorry, this server is already full.</source>
-        <translation type="unfinished">Üzgünüm, bu sunucu dolu.</translation>
+        <translation>Üzgünüm, bu sunucu dolu.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="841"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
-        <translation type="unfinished">Oyuna girişte geçersiz parola.
+        <translation>Oyuna girişte geçersiz parola.
 Lütfen parolanızı girin ve yeniden deneyin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="701"/>
         <source>The password is too long. Please choose another one.</source>
-        <translation type="unfinished">Parola çok uzun. Lütfen başka bir tane deneyin.</translation>
+        <translation>Parola çok uzun. Lütfen başka bir tane deneyin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="705"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
-        <translation type="unfinished">Oyuncu isminiz başka bir oyuncu tarafından kullanılıyor.
+        <translation>Oyuncu isminiz başka bir oyuncu tarafından kullanılıyor.
 Lütfen farklı bir isim seçiniz.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="709"/>
         <source>The player name is too short, too long or invalid. Please choose another one.</source>
-        <translation type="unfinished">Bu oyuncu ismi, çok kısa, çok uzun yahut geçersiz. Lütfen başka bir isim seçiniz.</translation>
+        <translation>Bu oyuncu ismi, çok kısa, çok uzun yahut geçersiz. Lütfen başka bir isim seçiniz.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="714"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
-        <translation type="unfinished">Oyun ismi ya çok uzun yada öok kısa. Lütfen başka birini seçiniz.</translation>
+        <translation>Oyun ismi ya çok uzun yada öok kısa. Lütfen başka birini seçiniz.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="719"/>
         <source>The game could not be found.</source>
-        <translation type="unfinished">Oyun bulunamadı.</translation>
+        <translation>Oyun bulunamadı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="724"/>
         <source>The chat text is invalid.</source>
-        <translation type="unfinished">Söyleşi metni geçersiz.</translation>
+        <translation>Söyleşi metni geçersiz.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="729"/>
         <source>The server referred to an unknown player. Aborting.</source>
-        <translation type="unfinished">Sunucu, bilinmeyen bir oyuncuya devredildi. Çıkılıyor.</translation>
+        <translation>Sunucu, bilinmeyen bir oyuncuya devredildi. Çıkılıyor.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="734"/>
         <source>Internal error: The current player could not be found.</source>
-        <translation type="unfinished">Dahili hata: Bu oyuncu bulunamadı.</translation>
+        <translation>Dahili hata: Bu oyuncu bulunamadı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="739"/>
         <source>Internal error: The current player is not active.</source>
-        <translation type="unfinished">Dahili Hata: Bu oyuncu aktif değil.</translation>
+        <translation>Dahili Hata: Bu oyuncu aktif değil.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="745"/>
         <source>You were kicked from the server.</source>
-        <translation type="unfinished">Sunucu tarafından tekmelendiniz.</translation>
+        <translation>Sunucu tarafından tekmelendiniz.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="751"/>
         <source>You were temporarily banned from the server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucuya erişiminz geçici olarak yasaklandı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="757"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir etkinlik olmadığından sunucu ile kurduğunuz bağlantı zamanaşımına uğradı. Tabii ki yeniden bağlanabilirsiniz!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="762"/>
         <source>The client player count is invalid.</source>
-        <translation type="unfinished">İstemci oyuncu sayısı yanlış.</translation>
+        <translation>İstemci oyuncu sayısı yanlış.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="767"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation type="unfinished">Çok fazla elle teklif ayarlı. Lütfen elle teklifleri eniden yapılandırınız.</translation>
+        <translation>Çok fazla elle teklif ayarlı. Lütfen elle teklifleri eniden yapılandırınız.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="773"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation type="unfinished">Geçersiz bir avatar dosyası yapılandırıldı. Lütfen farklı bir avatar seçiniz.</translation>
+        <translation>Geçersiz bir avatar dosyası yapılandırıldı. Lütfen farklı bir avatar seçiniz.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="778"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
-        <translation type="unfinished">Seçili avatar dosyası çok büyük. Lütfen farklı bir avatar seçiniz.</translation>
+        <translation>Seçili avatar dosyası çok büyük. Lütfen farklı bir avatar seçiniz.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="783"/>
         <source>You cannot upload a new avatar file at this time. Please try again in a few seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Şimdi yeni bir avatar dosyası yükleyemezsiniz. Lütfen birkaç saniye sonra yeniden deneyin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="788"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation type="unfinished">İçsel bir simge hatası algılandı. Lütfen bunu kulis söyleşisinde yöneticiye iletin.</translation>
+        <translation>İçsel bir simge hatası algılandı. Lütfen bunu kulis söyleşisinde yöneticiye iletin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="793"/>
         <source>Could not start game: Synchronization failed.</source>
-        <translation type="unfinished">Oyun başlatılamadı: Eş zamalama yapılamadı.</translation>
+        <translation>Oyun başlatılamadı: Eş zamalama yapılamadı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="798"/>
         <source>The server is down for maintenance. Please try again later.</source>
-        <translation type="unfinished">Sunucu bakım sebebiyle kapalı. Lütfen sonra tekrar deneyin.</translation>
+        <translation>Sunucu bakım sebebiyle kapalı. Lütfen sonra tekrar deneyin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="802"/>
         <source>An internal error occured.</source>
-        <translation type="unfinished">Dahili bir hata oluştu.</translation>
+        <translation>Dahili bir hata oluştu.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="853"/>
         <source>Network Notification</source>
-        <translation type="unfinished">Ağ Bildirimi</translation>
+        <translation>Ağ Bildirimi</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="819"/>
         <source>You were kicked from the game.</source>
-        <translation type="unfinished">Oyundan atıldınız.</translation>
+        <translation>Oyundan atıldınız.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="825"/>
         <source>Sorry, this game is already full.</source>
-        <translation type="unfinished">Üzgünüm, oyun zaten dolu.</translation>
+        <translation>Üzgünüm, oyun zaten dolu.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="831"/>
         <source>Unable to join - the server has already started the game.</source>
-        <translation type="unfinished">Girilemiyor - sunucu zaten oyuna başladı.</translation>
+        <translation>Girilemiyor - sunucu zaten oyuna başladı.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="836"/>
         <source>Your admin state timed out due to inactivity. Feel free to create a new game!</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir etkinlik olmadığından yönetici durumunuz zamanaşımına uğradı. Tabii ki yeni bir oyun oluşturabilirsiniz!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="846"/>
         <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation type="unfinished">PokerTH ın yeni bir yayını hazır.&lt;br&gt;Lütfen &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; adresinden son sürümü indirin.</translation>
+        <translation>PokerTH ın yeni bir yayını hazır.&lt;br&gt;Lütfen &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; adresinden son sürümü indirin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="854"/>
         <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
-        <translation type="unfinished">PokerTH ara sürümü artık geçersiz.&lt;br&gt;Lütfen &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; adresinden son sürümü indiriniz.</translation>
+        <translation>PokerTH ara sürümü artık geçersiz.&lt;br&gt;Lütfen &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; adresinden son sürümü indiriniz.</translation>
     </message>
 </context>
 <context>
@@ -3463,43 +3421,39 @@ Lütfen farklı bir isim seçiniz.</translation>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="20"/>
         <source>Timeout Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaman Aşımı Uyarısı</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="22"/>
         <source>Please click &quot;OK&quot; to stop the countdown!</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerisayımı durudurmak için lütfen &quot;TAMAM&quot; a basın!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="51"/>
         <source>You are game-admin of an open game which will time out in %1 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Yöneticisi olduğunuz bir oyun %1 saniye sonra zamanaşımına uğrayacak.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="54"/>
         <source>Your connection is about to time out due to inactivity in %1 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir etkinlik olmadığından sunucu ile kurduğunuz bağlantı %1 saniye içerisinde zamanaşımına uğrayacak.</translation>
     </message>
 </context>
 <context>
     <name>waitForServerToStartGameDialog</name>
     <message>
-        <location filename="" line="138697984"/>
         <source>Waiting for Server ...</source>
         <translation type="obsolete">Sunucu Bekleniyor...</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Cancel</source>
         <translation type="obsolete">İptal</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Waiting for the server to start the game ...</source>
         <translation type="obsolete">Oyuna başlamak için sunucu bekleniyor...</translation>
     </message>
     <message>
-        <location filename="" line="138697984"/>
         <source>Connected Players</source>
         <translation type="obsolete">Bağlı Oyuncular</translation>
     </message>
