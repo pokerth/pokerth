@@ -73,7 +73,7 @@ UploaderThread::Main()
 				if (!data.filename.empty() && data.filesize > 0)
 				{
 					path filepath(data.filename);
-					m_uploadHelper->Init("url" + filepath.leaf(), filepath.file_string().c_str(), "user", "pw");
+					m_uploadHelper->Init(data.address + filepath.leaf(), filepath.file_string().c_str(), data.user, data.pwd);
 					m_uploadInProgress = true;
 				}
 			}
