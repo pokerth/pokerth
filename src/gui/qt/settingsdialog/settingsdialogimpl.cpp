@@ -177,10 +177,15 @@ void settingsDialogImpl::exec() {
 	lineEdit_InternetServerPassword->setText(QString::fromUtf8(myConfig->readConfigString("InternetServerPassword").c_str()));
 	checkBox_InternetServerUseIpv6->setChecked(myConfig->readConfigInt("InternetServerUseIpv6"));
 	checkBox_InternetServerUseSctp->setChecked(myConfig->readConfigInt("InternetServerUseSctp"));
-	checkBox_useAvatarServer->setChecked(myConfig->readConfigInt("UseAvatarServer"));
 	if(myConfig->readConfigInt("UseAvatarServer")) {
 		lineEdit_avatarServerAddress->setText(QString::fromUtf8(myConfig->readConfigString("AvatarServerAddress").c_str()));
+		checkBox_useAvatarServer->setCheckState(Qt::Checked);
+		lineEdit_avatarServerAddress->setEnabled(TRUE);
 	}
+	else { 
+		checkBox_useAvatarServer->setCheckState(Qt::Unchecked); 
+		lineEdit_avatarServerAddress->setEnabled(FALSE);
+	}	
 	checkBox_UseInternetGamePassword->setChecked(myConfig->readConfigInt("UseInternetGamePassword"));
 	if(myConfig->readConfigInt("UseInternetGamePassword")) {
 		lineEdit_InternetGamePassword->setText(QString::fromUtf8(myConfig->readConfigString("InternetGamePassword").c_str()));
