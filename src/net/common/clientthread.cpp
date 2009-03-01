@@ -230,7 +230,7 @@ ClientThread::SendResetTimeout()
 {
 	boost::shared_ptr<NetPacket> reset(new NetPacketResetTimeout);
 	boost::mutex::scoped_lock lock(m_outPacketListMutex);
-	m_outPacketList.push_back(reset);	
+	m_outPacketList.push_back(reset);
 }
 
 void
@@ -565,7 +565,7 @@ ClientThread::CompleteTempAvatarData(unsigned playerId)
 			LOG_ERROR("Client received invalid player id!");
 		else
 		{
-			if (!GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, tmpAvatar->fileType, &tmpAvatar->fileData[0], avatarSize))
+			if (!GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, tmpAvatar->fileType, &tmpAvatar->fileData[0], avatarSize, false))
 				LOG_ERROR("Failed to store avatar in cache directory.");
 
 			// Update player info, but never re-request avatar.

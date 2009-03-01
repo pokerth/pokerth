@@ -40,10 +40,10 @@ UploaderThread::~UploaderThread()
 }
 
 void
-UploaderThread::QueueUpload(const std::string &filename, int filesize)
+UploaderThread::QueueUpload(const string &url, const string &user, const string &pwd, const string &filename, int filesize)
 {
 	boost::mutex::scoped_lock lock(m_uploadQueueMutex);
-	m_uploadQueue.push(UploadData(filename, filesize));
+	m_uploadQueue.push(UploadData(url, user, pwd, filename, filesize));
 }
 
 void

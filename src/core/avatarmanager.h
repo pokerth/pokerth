@@ -41,7 +41,8 @@ class AvatarManager
 {
 public:
 
-	AvatarManager();
+	AvatarManager(bool useExternalServer = false, const std::string &externalServerAddress = "",
+			const std::string &externalServerUser = "", const std::string &externalServerPassword = "");
 	~AvatarManager();
 
 	bool Init(const std::string &dataDir, const std::string &cacheDir);
@@ -56,7 +57,7 @@ public:
 	bool GetHashForAvatar(const std::string &fileName, MD5Buf &md5buf) const;
 	bool GetAvatarFileName(const MD5Buf &md5buf, std::string &fileName) const;
 	bool HasAvatar(const MD5Buf &md5buf) const;
-	bool StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFileType, const unsigned char *data, unsigned size);
+	bool StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFileType, const unsigned char *data, unsigned size, bool upload);
 
 	static bool IsValidAvatarFileType(AvatarFileType avatarFileType, const unsigned char *fileHeader, unsigned fileHeaderSize);
 
@@ -78,6 +79,11 @@ private:
 
 	mutable boost::mutex	m_cacheDirMutex;
 	std::string				m_cacheDir;
+
+	const bool				m_useExternalServer;
+	const std::string		m_externalServerAddress;
+	const std::string		m_externalServerUser;
+	const std::string		m_externalServerPassword;
 
 	boost::shared_ptr<UploaderThread> m_uploader;
 };

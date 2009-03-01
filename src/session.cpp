@@ -59,7 +59,12 @@ Session::~Session()
 
 bool Session::init()
 {
-	myAvatarManager.reset(new AvatarManager);
+	myAvatarManager.reset(new AvatarManager(
+		myConfig->readConfigInt("ServerUsePutAvatars") == 1,
+		myConfig->readConfigString("ServerPutAvatarsAddress"),
+		myConfig->readConfigString("ServerPutAvatarsUser"),
+		myConfig->readConfigString("ServerPutAvatarsPassword")
+		));
 	bool retVal = myAvatarManager->Init(
 		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("AppDataDir")),
 		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
@@ -90,7 +95,7 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
 	PlayerDataList playerDataList;
 	for(int i = 0; i < startData.numberOfPlayers; i++) {
 
-		//Namen und Avatarpfad abfragen 
+		//Namen und Avatarpfad abfragen
 		ostringstream myName;
 		if (i==0) { myName << "MyName";	}
 		else { myName << "Opponent" << i << "Name"; }

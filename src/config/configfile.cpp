@@ -48,7 +48,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myQtToolsInterface = CreateQtToolsWrapper();
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 57;
+	configRev = 58;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -57,7 +57,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 #ifdef _WIN32
 	const char *appDataPath = getenv("AppData");
 	if (appDataPath && appDataPath[0] != 0) {
-		configFileName = appDataPath; 
+		configFileName = appDataPath;
 	}
 	else {
 		const int MaxPathSize = 1024;
@@ -101,8 +101,8 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	mkdir(logDir.c_str());
 	mkdir(dataDir.c_str());
 	mkdir(cacheDir.c_str());
-	
-		
+
+
 #else
 	//define app-dir
 	const char *homePath = getenv("HOME");
@@ -124,7 +124,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 		mkdir(dataDir.c_str(), MODUS);
 		mkdir(cacheDir.c_str(), MODUS);
 	}
-	
+
 #endif
 
 	ostringstream tempIntToString;
@@ -141,9 +141,9 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("ShowFlipCardsAnimation", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("ShowBlindButtons", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("ShowCardsChanceMonitor", CONFIG_TYPE_INT, "1"));
-	configList.push_back(ConfigInfo("AntiPeekMode", CONFIG_TYPE_INT, "0"));		
-	configList.push_back(ConfigInfo("AlternateFKeysUserActionMode", CONFIG_TYPE_INT, "0"));		
-	configList.push_back(ConfigInfo("EnableBetInputFocusSwitch", CONFIG_TYPE_INT, "0"));		
+	configList.push_back(ConfigInfo("AntiPeekMode", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("AlternateFKeysUserActionMode", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("EnableBetInputFocusSwitch", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("FlipsideTux", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("FlipsideOwn", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("FlipsideOwnFile", CONFIG_TYPE_STRING, ""));
@@ -189,6 +189,10 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("ServerUseIpv6", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerUseSctp", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerPort", CONFIG_TYPE_INT, "7234"));
+	configList.push_back(ConfigInfo("ServerUsePutAvatars", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("ServerPutAvatarsAddress", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("ServerPutAvatarsUser", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("ServerPutAvatarsPassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("InternetServerConfigMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("InternetServerListAddress", CONFIG_TYPE_STRING, "pokerth.net/serverlist.xml.z"));
 	configList.push_back(ConfigInfo("InternetServerAddress", CONFIG_TYPE_STRING, "pokerth.6dns.org"));
@@ -232,7 +236,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("LogStoreDuration", CONFIG_TYPE_INT, "2"));
 	configList.push_back(ConfigInfo("LogInterval", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("UserDataDir", CONFIG_TYPE_STRING, dataDir));
-	configList.push_back(ConfigInfo("CacheDir", CONFIG_TYPE_STRING, cacheDir));	
+	configList.push_back(ConfigInfo("CacheDir", CONFIG_TYPE_STRING, cacheDir));
 	configList.push_back(ConfigInfo("CLA_NoWriteAccess", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DisableBackToLobbyWarning", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DlgGameLobbyGameListSortingSection", CONFIG_TYPE_INT, "2"));
@@ -246,34 +250,34 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 
 	if(!noWriteAccess) {
 		configFileName += "config.xml";
-		
+
 		//Prüfen ob Configfile existiert --> sonst anlegen
-		TiXmlDocument doc(configFileName); 
-		if(!doc.LoadFile()){ 
+		TiXmlDocument doc(configFileName);
+		if(!doc.LoadFile()){
 			myConfigState = NONEXISTING;
-			updateConfig(myConfigState); 
+			updateConfig(myConfigState);
 		}
-		else { 
+		else {
 		//Check if config revision and AppDataDir is ok. Otherwise --> update()
 			int tempRevision = 0;
 			string tempAppDataPath ("");
-	
-			TiXmlHandle docHandle( &doc );		
+
+			TiXmlHandle docHandle( &doc );
 			TiXmlElement* confRevision = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "ConfigRevision" ).ToElement();
 			if ( confRevision ) { confRevision->QueryIntAttribute("value", &tempRevision ); }
 			TiXmlElement* confAppDataPath = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "AppDataDir" ).ToElement();
-			if ( confAppDataPath ) { 
+			if ( confAppDataPath ) {
 				const char *tmpStr = confAppDataPath->Attribute("value");
 				if (tmpStr) tempAppDataPath = tmpStr;
 			}
 
-			if (tempRevision < configRev || tempAppDataPath != myQtToolsInterface->getDataPathStdString(myArgv0) ) { /*löschen()*/ 
+			if (tempRevision < configRev || tempAppDataPath != myQtToolsInterface->getDataPathStdString(myArgv0) ) { /*löschen()*/
 				myConfigState = OLD;
 				updateConfig(myConfigState) ;
 			}
 		}
-		
-	
+
+
 		fillBuffer();
 	}
 }
@@ -283,7 +287,7 @@ ConfigFile::~ConfigFile()
 {
 	delete myQtToolsInterface;
 	myQtToolsInterface = 0;
-	
+
 }
 
 
@@ -295,15 +299,15 @@ void ConfigFile::fillBuffer() {
 	string tempString1("");
 	string tempString2("");
 
-	TiXmlDocument doc(configFileName); 
-		
-	if(doc.LoadFile()) {
-	TiXmlHandle docHandle( &doc );	
+	TiXmlDocument doc(configFileName);
 
-		for (i=0; i<configBufferList.size(); i++) {	
-	
+	if(doc.LoadFile()) {
+	TiXmlHandle docHandle( &doc );
+
+		for (i=0; i<configBufferList.size(); i++) {
+
 			TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).ToElement();
-				
+
 			if ( conf ) {
 
 				const char *tmpStr1 = conf->Attribute("value");
@@ -312,25 +316,25 @@ void ConfigFile::fillBuffer() {
 
 				const char *tmpStr2 = conf->Attribute("type");
 				if (tmpStr2) {
-					tempString2 = tmpStr2; 
+					tempString2 = tmpStr2;
 					if(tempString2 == "list") {
-				
+
 						list<string> tempStringList2;
 
 						TiXmlElement* confList = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).FirstChild().ToElement();
-						
+
 						for( ; confList; confList=confList->NextSiblingElement()) {
 							tempStringList2.push_back(confList->Attribute("value"));
 						}
-						
+
 						configBufferList[i].defaultListValue = tempStringList2;
 					}
 				}
-				
-				
-			}	
+
+
+			}
 			else { LOG_ERROR("Could not find the root element in the config file!"); }
-				
+
 // 			cout << configBufferList[i].name << " " << configBufferList[i].defaultValue << endl;
 		}
 	}
@@ -342,31 +346,31 @@ void ConfigFile::writeBuffer() const {
 
 	//write buffer to disc if enabled
 	if(!noWriteAccess) {
-		TiXmlDocument doc;  
-		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
-		doc.LinkEndChild( decl );  
-			
-		TiXmlElement * root = new TiXmlElement( "PokerTH" );  
-		doc.LinkEndChild( root );  		
-			
+		TiXmlDocument doc;
+		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", "");
+		doc.LinkEndChild( decl );
+
+		TiXmlElement * root = new TiXmlElement( "PokerTH" );
+		doc.LinkEndChild( root );
+
 		TiXmlElement * config;
-		config = new TiXmlElement( "Configuration" );  
-		root->LinkEndChild( config );  
-	
+		config = new TiXmlElement( "Configuration" );
+		root->LinkEndChild( config );
+
 		size_t i;
-	
+
 		for (i=0; i<configBufferList.size(); i++) {
 			TiXmlElement *tmpElement = new TiXmlElement(configBufferList[i].name);
 			config->LinkEndChild( tmpElement );
 			tmpElement->SetAttribute("value", configBufferList[i].defaultValue);
-		
+
 			if(configBufferList[i].type == CONFIG_TYPE_INT_LIST) {
 
 				tmpElement->SetAttribute("type", "list");
 				list<string> tempList = configBufferList[i].defaultListValue;
 				list<string>::iterator it;
 				for(it = tempList.begin(); it != tempList.end(); it++) {
-			
+
 					TiXmlElement *tmpSubElement = new TiXmlElement(configBufferList[i].defaultValue);
 					tmpElement->LinkEndChild( tmpSubElement );
 					tmpSubElement->SetAttribute("value", *it);
@@ -374,7 +378,7 @@ void ConfigFile::writeBuffer() const {
 
 			}
 		}
-				
+
 		doc.SaveFile( configFileName );
 	}
 }
@@ -384,20 +388,20 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 	boost::recursive_mutex::scoped_lock lock(m_configMutex);
 
 	size_t i;
-	
+
 	if(myConfigState == NONEXISTING) {
-		
+
 		//Create a new ConfigFile!
-		TiXmlDocument doc;  
-		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
-		doc.LinkEndChild( decl );  
-		
-		TiXmlElement * root = new TiXmlElement( "PokerTH" );  
-		doc.LinkEndChild( root );  		
-		
+		TiXmlDocument doc;
+		TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", "");
+		doc.LinkEndChild( decl );
+
+		TiXmlElement * root = new TiXmlElement( "PokerTH" );
+		doc.LinkEndChild( root );
+
 		TiXmlElement * config;
-		config = new TiXmlElement( "Configuration" );  
-		root->LinkEndChild( config );  
+		config = new TiXmlElement( "Configuration" );
+		root->LinkEndChild( config );
 
 		for (i=0; i<configList.size(); i++) {
 			TiXmlElement *tmpElement = new TiXmlElement(configList[i].name);
@@ -410,7 +414,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 				list<string> tempList = configList[i].defaultListValue;
 				list<string>::iterator it;
 				for(it = tempList.begin(); it != tempList.end(); it++) {
-			
+
 					TiXmlElement *tmpSubElement = new TiXmlElement(configList[i].defaultValue);
 					tmpElement->LinkEndChild( tmpSubElement );
 					tmpSubElement->SetAttribute("value", *it);
@@ -418,84 +422,84 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 
 			}
 		}
-			
+
 		doc.SaveFile( configFileName );
 	}
 
 
 	if(myConfigState == OLD) {
-	
-		TiXmlDocument oldDoc(configFileName); 
-		
+
+		TiXmlDocument oldDoc(configFileName);
+
 		//load the old one
 		if(oldDoc.LoadFile()) {
-			
-			string tempString1("");
-			string tempString2("");			
- 
-			TiXmlDocument newDoc;
-			
-			//Create the new one
-			TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
-			newDoc.LinkEndChild( decl );  
-				
-			TiXmlElement * root = new TiXmlElement( "PokerTH" );  
-			newDoc.LinkEndChild( root );  		
-			
-			TiXmlElement * config;
-			config = new TiXmlElement( "Configuration" );  
-			root->LinkEndChild( config ); 
 
-			//change configRev and AppDataPath				
-			TiXmlElement * confElement0 = new TiXmlElement( "ConfigRevision" ); 
+			string tempString1("");
+			string tempString2("");
+
+			TiXmlDocument newDoc;
+
+			//Create the new one
+			TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", "");
+			newDoc.LinkEndChild( decl );
+
+			TiXmlElement * root = new TiXmlElement( "PokerTH" );
+			newDoc.LinkEndChild( root );
+
+			TiXmlElement * config;
+			config = new TiXmlElement( "Configuration" );
+			root->LinkEndChild( config );
+
+			//change configRev and AppDataPath
+			TiXmlElement * confElement0 = new TiXmlElement( "ConfigRevision" );
 			config->LinkEndChild( confElement0 );
 			confElement0->SetAttribute("value", configRev);
 
-			TiXmlElement * confElement1 = new TiXmlElement( "AppDataDir" ); 
+			TiXmlElement * confElement1 = new TiXmlElement( "AppDataDir" );
 			config->LinkEndChild( confElement1 );
 			confElement1->SetAttribute("value", myQtToolsInterface->getDataPathStdString(myArgv0));
 
-			TiXmlHandle oldDocHandle( &oldDoc );	
+			TiXmlHandle oldDocHandle( &oldDoc );
 
-			for (i=0; i<configList.size(); i++) {	
+			for (i=0; i<configList.size(); i++) {
 
 				TiXmlElement* oldConf = oldDocHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).ToElement();
-				
+
 // 				//HACK remove after 0.6
 // 				TiXmlElement* ISAIRCChannelUpdateDone = oldDocHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "InternetServerAddressIRCChannelUpdateDone" ).ToElement();
-								
+
 				if ( oldConf /*&& (ISAIRCChannelUpdateDone || !(configList[i].name == "IRCChannel" || (configList[i].name == "InternetServerAddress" )))*/ /*HACK remove after 0.6*/ ) {
 				// if element is already there --> take over the saved values
-					
+
 					if(configList[i].name != "ConfigRevision" && configList[i].name != "AppDataDir") {
 							// dont update ConfigRevision and AppDataDir becaus it was already set ^
-	
+
 						TiXmlElement *tmpElement = new TiXmlElement(configList[i].name);
 						config->LinkEndChild( tmpElement );
-						
+
 						const char *tmpStr1 = oldConf->Attribute("value");
 						if (tmpStr1) tempString1 = tmpStr1;
 						tmpElement->SetAttribute("value", tempString1);
-	
+
 						//for lists copy elements
 						const char *tmpStr2 = oldConf->Attribute("type");
 						if (tmpStr2) {
-							tempString2 = tmpStr2; 
+							tempString2 = tmpStr2;
 							if(tempString2 == "list") {
-					
+
 								list<string> tempStringList2;
-	
+
 								TiXmlElement* oldConfList = oldDocHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).FirstChild().ToElement();
-							
+
 								for( ; oldConfList; oldConfList=oldConfList->NextSiblingElement()) {
 									tempStringList2.push_back(oldConfList->Attribute("value"));
 									}
-								
+
 								tmpElement->SetAttribute("type", "list");
 								list<string> tempList = tempStringList2;
 								list<string>::iterator it;
 								for(it = tempList.begin(); it != tempList.end(); it++) {
-								
+
 									TiXmlElement *tmpSubElement = new TiXmlElement(tempString1);
 									tmpElement->LinkEndChild( tmpSubElement );
 									tmpSubElement->SetAttribute("value", *it);
@@ -509,26 +513,26 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 					TiXmlElement *tmpElement = new TiXmlElement(configList[i].name);
 					config->LinkEndChild( tmpElement );
 					tmpElement->SetAttribute("value", myQtToolsInterface->stringToUtf8(configList[i].defaultValue));
-					
+
 					if(configList[i].type == CONFIG_TYPE_INT_LIST) {
-		
+
 						tmpElement->SetAttribute("type", "list");
 						list<string> tempList = configList[i].defaultListValue;
 						list<string>::iterator it;
 						for(it = tempList.begin(); it != tempList.end(); it++) {
-					
+
 							TiXmlElement *tmpSubElement = new TiXmlElement(configList[i].defaultValue);
 							tmpElement->LinkEndChild( tmpSubElement );
 							tmpSubElement->SetAttribute("value", *it);
 						}
 					}
 				}
-			}	
+			}
 			newDoc.SaveFile( configFileName );
 		}
 		else { LOG_ERROR("Cannot update config file: Unable to load configuration."); }
 
-		
+
 	}
 }
 
@@ -539,10 +543,10 @@ string ConfigFile::readConfigString(string varName) const
 	size_t i;
 	string tempString("");
 
-	for (i=0; i<configBufferList.size(); i++) {	
+	for (i=0; i<configBufferList.size(); i++) {
 
 		if (configBufferList[i].name == varName) {
-			tempString = configBufferList[i].defaultValue;	
+			tempString = configBufferList[i].defaultValue;
 		}
 	}
 
@@ -557,17 +561,17 @@ int ConfigFile::readConfigInt(string varName) const
 	string tempString("");
 	int tempInt=0;
 
-	for (i=0; i<configBufferList.size(); i++) {	
+	for (i=0; i<configBufferList.size(); i++) {
 
 		if (configBufferList[i].name == varName) {
 			tempString = configBufferList[i].defaultValue;
 		}
 	}
-	
+
 	istringstream isst;
 	isst.str (tempString);
 	isst >> tempInt;
-	
+
 	return tempInt;
 }
 
@@ -579,19 +583,19 @@ list<int> ConfigFile::readConfigIntList(string varName) const
 	list<string> tempStringList;
 	list<int> tempIntList;
 
-	for (i=0; i<configBufferList.size(); i++) {	
+	for (i=0; i<configBufferList.size(); i++) {
 
 		if (configBufferList[i].name == varName) {
 			tempStringList = configBufferList[i].defaultListValue;
 		}
 	}
-	
+
 	istringstream isst;
 	string tempString;
 	int tempInt;
 	list<string>::iterator it;
 	for(it = tempStringList.begin(); it != tempStringList.end(); it++) {
-		
+
 		isst.str(*it);
 		isst >> tempInt;
 		tempIntList.push_back(tempInt);
@@ -611,11 +615,11 @@ void ConfigFile::writeConfigInt(string varName, int varCont)
 	string tempString;
 	ostringstream intToString;
 
-	for (i=0; i<configBufferList.size(); i++) {	
+	for (i=0; i<configBufferList.size(); i++) {
 
 		if (configBufferList[i].name == varName) {
 			intToString << varCont;
-			configBufferList[i].defaultValue = intToString.str();	
+			configBufferList[i].defaultValue = intToString.str();
 		}
 	}
 }
@@ -629,20 +633,20 @@ void ConfigFile::writeConfigIntList(string varName, list<int> varCont)
 	ostringstream intToString;
 	list<string> stringList;
 
-	for (i=0; i<configBufferList.size(); i++) {	
+	for (i=0; i<configBufferList.size(); i++) {
 
 		if (configBufferList[i].name == varName) {
 			string tempString;
 			list<int>::iterator it;
 			for(it = varCont.begin(); it != varCont.end(); it++) {
-			
-				intToString << (*it);	
+
+				intToString << (*it);
 				stringList.push_back(intToString.str());
 				intToString.str("");
 				intToString.clear();
 			}
-			
-			configBufferList[i].defaultListValue = stringList;	
+
+			configBufferList[i].defaultListValue = stringList;
 		}
 	}
 }
@@ -653,7 +657,7 @@ void ConfigFile::writeConfigString(string varName, string varCont)
 	boost::recursive_mutex::scoped_lock lock(m_configMutex);
 
 	size_t i;
-	for (i=0; i<configBufferList.size(); i++) {	
+	for (i=0; i<configBufferList.size(); i++) {
 		if (configBufferList[i].name == varName) { configBufferList[i].defaultValue = varCont; }
 	}
 

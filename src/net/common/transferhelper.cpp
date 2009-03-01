@@ -42,7 +42,7 @@ TransferHelper::~TransferHelper()
 }
 
 void
-TransferHelper::Init(const string &url, const string &targetFileName, const string &user, const string &password)
+TransferHelper::Init(const string &url, const string &targetFileName, const string &user, const string &password, int filesize)
 {
 	// Initialise curl.
 	m_data->curlHandle = curl_easy_init();
@@ -57,7 +57,7 @@ TransferHelper::Init(const string &url, const string &targetFileName, const stri
 	if (curl_easy_setopt(m_data->curlHandle, CURLOPT_URL, m_data->curlUrl.c_str()) != CURLE_OK)
 		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_INVALID_URL, 0);
 
-	InternalInit(url, targetFileName, user, password);
+	InternalInit(url, targetFileName, user, password, filesize);
 
 	// Use the multi interface for better abort handling.
 	if (curl_multi_add_handle(m_data->curlMultiHandle, m_data->curlHandle) != CURLM_OK)
@@ -157,3 +157,4 @@ TransferHelper::GetData()
 {
 	return m_data;
 }
+

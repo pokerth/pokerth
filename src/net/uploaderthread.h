@@ -36,14 +36,18 @@ public:
 	UploaderThread();
 	virtual ~UploaderThread();
 
-	void QueueUpload(const std::string &filename, int filesize);
+	void QueueUpload(const std::string &url, const std::string &user, const std::string &pwd, const std::string &filename, int filesize);
 
 protected:
 	struct UploadData
 	{
 		UploadData() : filesize(0) {}
-		UploadData(const std::string &f, int s) : filename(f), filesize(s) {}
+		UploadData(const std::string &a, const std::string &u, const std::string &p, const std::string &f, int s)
+		: address(a), user(u), pwd(p), filename(f), filesize(s) {}
 
+		std::string address;
+		std::string user;
+		std::string pwd;
 		std::string filename;
 		int filesize;
 	};

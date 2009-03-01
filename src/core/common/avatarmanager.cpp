@@ -53,7 +53,10 @@ struct AvatarFileState
 	ifstream		inputStream;
 };
 
-AvatarManager::AvatarManager()
+AvatarManager::AvatarManager(bool useExternalServer, const std::string &externalServerAddress,
+		const string &externalServerUser, const string &externalServerPassword)
+: m_useExternalServer(useExternalServer), m_externalServerAddress(externalServerAddress),
+  m_externalServerUser(externalServerUser), m_externalServerPassword(externalServerPassword)
 {
 	m_uploader.reset(new UploaderThread());
 }
@@ -65,7 +68,7 @@ AvatarManager::~AvatarManager()
 }
 
 bool
-AvatarManager::Init(const std::string &dataDir, const std::string &cacheDir)
+AvatarManager::Init(const string &dataDir, const string &cacheDir)
 {
 	bool retVal = true;
 	bool tmpRet;
@@ -324,7 +327,7 @@ AvatarManager::HasAvatar(const MD5Buf &md5buf) const
 }
 
 bool
-AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFileType, const unsigned char *data, unsigned size)
+AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFileType, const unsigned char *data, unsigned size, bool upload)
 {
 	bool retVal = false;
 	string cacheDir;
@@ -361,7 +364,11 @@ AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFil
 				if (!o.fail())
 				{
 					o.write((const char *)data, size);
-					//m_uploader->QueueUpload(fileName, size);
+					if (upload && m_useExternalServer)
+					{
+						m_uploader->QueueUpload(m_externalServerAddress, m_externalServerUser, m_externalServerPassword, fileName, size);
+					}
+
 					{
 						boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
 						m_cachedAvatars.insert(AvatarMap::value_type(md5buf, fileName));

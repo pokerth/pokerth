@@ -46,14 +46,8 @@ UploadHelper::~UploadHelper()
 }
 
 void
-UploadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &user, const string &password)
+UploadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &user, const string &password, int filesize)
 {
-	int filesize = 0;
-	struct stat filestat;
-
-	if (stat(targetFileName.c_str(), &filestat) == 0) /* success */
-		filesize = filestat.st_size;
-
 	// Open target file for writing.
 	// Open target file for writing.
 	GetData()->targetFile = fopen(targetFileName.c_str(), "rb");
@@ -68,5 +62,7 @@ UploadHelper::InternalInit(const string &/*url*/, const string &targetFileName, 
 	curl_easy_setopt(GetData()->curlHandle, CURLOPT_USERPWD, GetData()->userCredentials.c_str());
 	curl_easy_setopt(GetData()->curlHandle, CURLOPT_UPLOAD, 1L);
 	curl_easy_setopt(GetData()->curlHandle, CURLOPT_PUT, 1L);
+	curl_easy_setopt(GetData()->curlHandle, CURLOPT_SSL_VERIFYPEER, 0L);
+	curl_easy_setopt(GetData()->curlHandle, CURLOPT_SSL_VERIFYHOST, 0L);
 }
 
