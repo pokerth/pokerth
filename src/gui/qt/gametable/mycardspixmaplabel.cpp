@@ -190,10 +190,15 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event) {
 		painter3.drawPixmap(0,0, front);
 	}
 
-	if (fastFlipCardsFront && !fadeOutAction && !flipCardsAction1 && !flipCardsAction2) { 
+	if (fastFlipCardsFront && !flipCardsAction1 && !flipCardsAction2) { 
 		if(objectName().contains("pixmapLabel_card0")) {
 			QPainter painter4(this);
 			painter4.drawPixmap(0,0, myHiddenFront); 
+			if(fadeOutAction) {
+				painter4.setBrush(QColor(74,131,83));
+				painter4.setOpacity(0.75);
+				painter4.drawRect(-1,-1,81,112);
+			}
 		}
 	}
 }

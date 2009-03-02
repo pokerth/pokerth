@@ -929,14 +929,14 @@ void gameTableImpl::refreshAction(int playerID, int playerAction) {
 
 		if (playerAction == 1) { // FOLD
 
-			if (playerID == 0 && !myConfig->readConfigInt("AntiPeekMode")) {
+			if (playerID == 0 /*&& !myConfig->readConfigInt("AntiPeekMode")*/) {
 				holeCardsArray[0][0]->startFadeOut(10); 
 				holeCardsArray[0][1]->startFadeOut(10); 
-			}
+			}/*
 			else {
 				holeCardsArray[playerID][0]->setPixmap(onePix, FALSE);
 				holeCardsArray[playerID][1]->setPixmap(onePix, FALSE);
-			}
+			}*/
 		}
 	}
 }
@@ -2906,7 +2906,7 @@ void gameTableImpl::networkGameModification() {
 void gameTableImpl::mouseOverFlipCards(bool front) {
 
 	if(myStartWindow->getSession()->getCurrentGame()) {
-		if(myConfig->readConfigInt("AntiPeekMode") && myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getSeatsList()->front()->getMyActiveStatus() && myStartWindow->getSession()->getCurrentGame()->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD) {
+		if(myConfig->readConfigInt("AntiPeekMode") && myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getSeatsList()->front()->getMyActiveStatus()/* && myStartWindow->getSession()->getCurrentGame()->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD*/){
 			holeCardsArray[0][0]->signalFastFlipCards(front);
 			holeCardsArray[0][1]->signalFastFlipCards(front);
 		}
