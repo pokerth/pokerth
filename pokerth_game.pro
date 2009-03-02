@@ -290,7 +290,7 @@ win32 {
             LIBPATH += Debug/lib
         }
         release {
-            LIBPATH += Debug/lib
+            LIBPATH += Release/lib
         }
         LIBPATH += ../SDL/lib ../SDL_mixer/lib
         LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error

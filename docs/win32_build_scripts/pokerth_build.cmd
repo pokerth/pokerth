@@ -52,7 +52,7 @@ echo Running svn update
 echo.
 echo Building PokerTH
 qmake pokerth.pro
-mingw32-make
+mingw32-make release
 move release\pokerth.exe .\pokerth.exe
 echo.
 echo Done compiling PokerTH. Have a lot of fun!

@@ -134,7 +134,7 @@ win32 {
             LIBPATH += Debug/lib
         }
         release {
-            LIBPATH += Debug/lib
+            LIBPATH += Release/lib
         }
         LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error
         LIBS += -lcurl
