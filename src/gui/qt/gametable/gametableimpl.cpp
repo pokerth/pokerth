@@ -929,14 +929,14 @@ void gameTableImpl::refreshAction(int playerID, int playerAction) {
 
 		if (playerAction == 1) { // FOLD
 
-			if (playerID == 0 /*&& !myConfig->readConfigInt("AntiPeekMode")*/) {
+			if (playerID == 0) {
 				holeCardsArray[0][0]->startFadeOut(10); 
 				holeCardsArray[0][1]->startFadeOut(10); 
-			}/*
+			}
 			else {
 				holeCardsArray[playerID][0]->setPixmap(onePix, FALSE);
 				holeCardsArray[playerID][1]->setPixmap(onePix, FALSE);
-			}*/
+			}
 		}
 	}
 }
