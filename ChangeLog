@@ -1,4 +1,4 @@
-2008-12-22 version 0.6.3:
+2008-12-22 version 0.6.3: 
 - new start dialog, separated from game table
 - new chance tab shows current chance to get a certain hand
 - users can be kicked by vote from within a game (right click on avatar)
