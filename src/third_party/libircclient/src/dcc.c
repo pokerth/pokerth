@@ -531,7 +531,8 @@ static int libirc_new_dcc_session (irc_session_t * session, unsigned long ip, un
 
 		memset (&saddr, 0, sizeof(saddr));
 		saddr.sin_family = AF_INET;
-		memcpy (&saddr.sin_addr, &session->local_addr, sizeof(session->local_addr));
+		// NOTE: This will not work with IPv6!
+		memcpy (&saddr.sin_addr, &session->local_addr, sizeof(struct in_addr));
         saddr.sin_port = htons (0);
 
 		if ( bind (dcc->sock, (struct sockaddr *) &saddr, sizeof(saddr)) < 0 )
