@@ -56,7 +56,8 @@ void
 ClientThread::Init(
 	const string &serverAddress, const string &serverListUrl,
 	bool useServerList, unsigned serverPort, bool ipv6, bool sctp,
-	const string &pwd, const string &playerName, const string &avatarFile,
+	const string &avatarServerAddress, const string &pwd,
+	const string &playerName, const string &avatarFile,
 	const string &cacheDir)
 {
 	if (IsRunning())
@@ -73,6 +74,7 @@ ClientThread::Init(
 	context.SetServerListUrl(serverListUrl);
 	context.SetUseServerList(useServerList);
 	context.SetServerPort(serverPort);
+	context.SetAvatarServerAddr(avatarServerAddress);
 	context.SetPassword(pwd);
 	context.SetPlayerName(playerName);
 	context.SetAvatarFile(avatarFile);
@@ -517,6 +519,8 @@ ClientThread::RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info)
 		if (info.hasAvatar && !info.avatar.IsZero() && !GetAvatarManager().HasAvatar(info.avatar))
 		{
 			m_avatarHasRequestedList.push_back(id); // Never remove from this list. Only request once.
+
+			// TODO: download from avatar server if applicable.
 			boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
 			NetPacketRetrieveAvatar::Data retrieveAvatarData;
 			retrieveAvatarData.requestId = id;

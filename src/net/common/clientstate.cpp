@@ -459,6 +459,9 @@ ClientStateReadingServerList::Process(ClientThread &client)
 				addrNode = firstServer->FirstChild("IPv4Address");
 			const TiXmlNode *portNode = firstServer->FirstChild("Port");
 
+			// Currently, only IPv4 is supported for avatar servers.
+			const TiXmlNode *avatarNode = firstServer->FirstChild("AvatarServerIPv4Address");
+
 			if (!addrNode || !addrNode->ToElement() || !portNode || !portNode->ToElement())
 				throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_XML, 0);
 
@@ -467,6 +470,12 @@ ClientStateReadingServerList::Process(ClientThread &client)
 			int tmpPort = 0;
 			portNode->ToElement()->QueryIntAttribute("value", &tmpPort);
 			context.SetServerPort((unsigned)tmpPort);
+
+			if (avatarNode && avatarNode->ToElement()) // optional
+			{
+				context.SetAvatarServerAddr(addrNode->ToElement()->Attribute("value"));
+			}
+
 			retVal = MSG_SOCK_SERVER_LIST_DONE;
 		}
 		else

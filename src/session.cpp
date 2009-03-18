@@ -174,6 +174,7 @@ void Session::startInternetClient()
 	}
 
 	myNetClient = new ClientThread(*myGui, *myAvatarManager);
+	bool useAvatarServer = myConfig->readConfigInt("UseAvatarServer") != 0;
 	myNetClient->Init(
 		myConfig->readConfigString("InternetServerAddress"),
 		myConfig->readConfigString("InternetServerListAddress"),
@@ -181,6 +182,7 @@ void Session::startInternetClient()
 		myConfig->readConfigInt("InternetServerPort"),
 		myConfig->readConfigInt("InternetServerUseIpv6") == 1,
 		myConfig->readConfigInt("InternetServerUseSctp") == 1,
+		useAvatarServer ? myConfig->readConfigString("AvatarServerAddress") : "",
 		myConfig->readConfigString("InternetServerPassword"),
 		myConfig->readConfigString("MyName"),
 		myConfig->readConfigString("MyAvatar"),
@@ -205,6 +207,7 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 		serverPort,
 		ipv6,
 		sctp,
+		"", // no avatar server
 		pwd,
 		myConfig->readConfigString("MyName"),
 		myConfig->readConfigString("MyAvatar"),
@@ -232,6 +235,7 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
 		myConfig->readConfigInt("ServerPort"),
 		useIpv6,
 		myConfig->readConfigInt("ServerUseSctp") == 1,
+		"", // no avatar server
 		myConfig->readConfigString("ServerPassword"),
 		myConfig->readConfigString("MyName"),
 		myConfig->readConfigString("MyAvatar"),

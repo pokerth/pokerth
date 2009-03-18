@@ -54,6 +54,7 @@ public:
 		unsigned serverPort,
 		bool ipv6,
 		bool sctp,
+		const std::string &avatarServerAddress,
 		const std::string &pwd,
 		const std::string &playerName,
 		const std::string &avatarFile,

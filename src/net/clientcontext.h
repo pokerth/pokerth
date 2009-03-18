@@ -63,6 +63,10 @@ public:
 	{return m_serverPort;}
 	void SetServerPort(unsigned serverPort)
 	{m_serverPort = serverPort;}
+	const std::string &GetAvatarServerAddr() const
+	{return m_avatarServerAddr;}
+	void SetAvatarServerAddr(const std::string &avatarServerAddr)
+	{m_avatarServerAddr = avatarServerAddr;}
 	const std::string &GetPassword() const
 	{return m_password;}
 	void SetPassword(const std::string &password)
@@ -102,6 +106,7 @@ private:
 	std::string			m_serverListUrl;
 	bool				m_useServerList;
 	unsigned			m_serverPort;
+	std::string			m_avatarServerAddr;
 	std::string			m_password;
 	sockaddr_storage	m_clientSockaddr;
 	std::string			m_playerName;
