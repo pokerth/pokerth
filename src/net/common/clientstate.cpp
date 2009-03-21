@@ -473,7 +473,7 @@ ClientStateReadingServerList::Process(ClientThread &client)
 
 			if (avatarNode && avatarNode->ToElement()) // optional
 			{
-				context.SetAvatarServerAddr(addrNode->ToElement()->Attribute("value"));
+				context.SetAvatarServerAddr(avatarNode->ToElement()->Attribute("value"));
 			}
 
 			retVal = MSG_SOCK_SERVER_LIST_DONE;
