@@ -23,6 +23,7 @@
 #include <boost/filesystem.hpp>
 #include <core/loghelper.h>
 
+#include <fstream>
 #include <algorithm>
 
 #define DOWNLOAD_DELAY_MSEC					10
