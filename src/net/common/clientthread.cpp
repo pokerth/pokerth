@@ -42,13 +42,33 @@
 using namespace std;
 
 
+class ClientSenderCallback : public SenderCallback, public SessionDataCallback
+{
+public:
+	ClientSenderCallback() {}
+	virtual ~ClientSenderCallback() {}
+
+	virtual void SignalNetError(SessionId /*session*/, int /*errorID*/, int /*osErrorID*/)
+	{
+	}
+
+	virtual void SignalSessionTerminated(unsigned /*session*/)
+	{
+	}
+
+private:
+};
+
 ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager)
 : m_curState(NULL), m_gui(gui), m_avatarManager(avatarManager),
   m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false)
 {
+	m_ioService.reset(new boost::asio::io_service());
 	m_context.reset(new ClientContext);
 	m_receiver.reset(new ReceiverHelper);
 	myQtToolsInterface.reset(CreateQtToolsWrapper());
+	m_senderCallback.reset(new ClientSenderCallback());
+	m_senderThread.reset(new SenderThread(*m_senderCallback, m_ioService));
 }
 
 ClientThread::~ClientThread()
@@ -334,6 +354,8 @@ ClientThread::GetAvatarManager()
 void
 ClientThread::Main()
 {
+	// Start sub-threads.
+	m_senderThread->Start();
 	if (!GetContext().GetAvatarServerAddr().empty())
 	{
 		m_avatarDownloader.reset(new DownloaderThread);
@@ -341,6 +363,7 @@ ClientThread::Main()
 	}
 	SetState(CLIENT_INITIAL_STATE::Instance());
 
+	// Main loop.
 	try
 	{
 		while (!ShouldTerminate())
@@ -376,12 +399,15 @@ ClientThread::Main()
 	{
 		GetCallback().SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
 	}
+	// Terminate sub-threads.
 	if (m_avatarDownloader)
 	{
 		m_avatarDownloader->SignalTermination();
 		m_avatarDownloader->Join(DOWNLOADER_THREAD_TERMINATE_TIMEOUT);
 		m_avatarDownloader.reset();
 	}
+	m_senderThread->SignalStop();
+	m_senderThread->WaitStop();
 }
 
 void
@@ -655,6 +681,17 @@ ClientThread::GetContext()
 {
 	assert(m_context.get());
 	return *m_context;
+}
+
+void
+ClientThread::SetContextSocket(SOCKET s)
+{
+	GetContext().SetSessionData(boost::shared_ptr<SessionData>(new SessionData(
+		s,
+		SESSION_ID_GENERIC,
+		m_senderThread,
+		*m_senderCallback,
+		*m_ioService)));
 }
 
 ClientState &

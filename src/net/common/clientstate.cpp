@@ -86,7 +86,7 @@ ClientStateInit::Process(ClientThread &client)
 	if (context.GetServerPort() < 1024)
 		throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_PORT, 0);
 
-	context.SetSocket(socket(context.GetAddrFamily(), SOCK_STREAM, context.GetProtocol()));
+	client.SetContextSocket(socket(context.GetAddrFamily(), SOCK_STREAM, context.GetProtocol()));
 	if (!IS_VALID_SOCKET(context.GetSocket()))
 		throw ClientException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 

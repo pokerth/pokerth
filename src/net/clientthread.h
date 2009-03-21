@@ -22,6 +22,7 @@
 #define _CLIENTTHREAD_H_
 
 #include <core/thread.h>
+#include <net/senderinterface.h>
 #include <guiinterface.h>
 #include <playerdata.h>
 #include <gamedata.h>
@@ -112,6 +113,7 @@ protected:
 
 	const ClientContext &GetContext() const;
 	ClientContext &GetContext();
+	void SetContextSocket(SOCKET s);
 
 	ClientState &GetState();
 	void SetState(ClientState &newState);
@@ -164,6 +166,9 @@ protected:
 
 private:
 
+	boost::shared_ptr<boost::asio::io_service> m_ioService;
+	boost::shared_ptr<ClientSenderCallback> m_senderCallback;
+
 	NetPacketList m_outPacketList;
 	mutable boost::mutex m_outPacketListMutex;
 
@@ -206,6 +211,8 @@ private:
 
 	mutable boost::mutex m_curStatsMutex;
 	ServerStats m_curStats;
+
+	boost::shared_ptr<SenderInterface> m_senderThread;
 
 friend class AbstractClientStateReceiving;
 friend class ClientStateInit;

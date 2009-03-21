@@ -24,10 +24,8 @@
 #include <net/netcontext.h>
 #include <net/receivebuffer.h>
 #include <net/sessiondata.h>
-#include <net/senderinterface.h>
 #include <boost/shared_ptr.hpp>
 
-class ClientSenderCallback;
 
 class ClientContext : public NetContext
 {
@@ -36,9 +34,9 @@ public:
 	virtual ~ClientContext();
 
 	virtual SOCKET GetSocket() const;
-	void SetSocket(SOCKET sockfd);
 
 	boost::shared_ptr<SessionData> GetSessionData() const;
+	void SetSessionData(boost::shared_ptr<SessionData> sessionData);
 	int GetProtocol() const
 	{return m_protocol;}
 	void SetProtocol(int protocol)
@@ -114,9 +112,6 @@ private:
 	std::string			m_cacheDir;
 	bool				m_hasSubscribedLobbyMsg;
 	ReceiveBuffer		m_receiveBuffer;
-	boost::shared_ptr<ClientSenderCallback> m_senderCallback;
-	boost::shared_ptr<SenderInterface> m_senderThread;
-	boost::shared_ptr<boost::asio::io_service> m_ioService;
 };
 
 #endif

@@ -18,24 +18,6 @@
  ***************************************************************************/
 
 #include <net/clientcontext.h>
-#include <net/senderthread.h>
-
-class ClientSenderCallback : public SenderCallback, public SessionDataCallback
-{
-public:
-	ClientSenderCallback() {}
-	virtual ~ClientSenderCallback() {}
-
-	virtual void SignalNetError(SessionId /*session*/, int /*errorID*/, int /*osErrorID*/)
-	{
-	}
-
-	virtual void SignalSessionTerminated(unsigned /*session*/)
-	{
-	}
-
-private:
-};
 
 
 ClientContext::ClientContext()
@@ -43,17 +25,10 @@ ClientContext::ClientContext()
   m_hasSubscribedLobbyMsg(true)
 {
 	bzero(&m_clientSockaddr, sizeof(m_clientSockaddr));
-	m_ioService.reset(new boost::asio::io_service());
-	m_senderCallback.reset(new ClientSenderCallback());
-	m_senderThread.reset(new SenderThread(*m_senderCallback, m_ioService));
-	m_senderThread->Start();
 }
 
 ClientContext::~ClientContext()
 {
-	m_senderThread->SignalStop();
-	m_senderThread->WaitStop();
-	m_senderThread.reset();
 	m_sessionData.reset();
 }
 
@@ -64,15 +39,15 @@ ClientContext::GetSocket() const
 	return m_sessionData->GetSocket();
 }
 
-void
-ClientContext::SetSocket(SOCKET sockfd)
-{
-	m_sessionData.reset(new SessionData(sockfd, SESSION_ID_GENERIC, m_senderThread, *m_senderCallback, *m_ioService));
-}
-
 boost::shared_ptr<SessionData>
 ClientContext::GetSessionData() const
 {
 	return m_sessionData;
+}
+
+void
+ClientContext::SetSessionData(boost::shared_ptr<SessionData> sessionData)
+{
+	m_sessionData = sessionData;
 }
 

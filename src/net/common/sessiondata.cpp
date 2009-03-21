@@ -32,7 +32,13 @@ SessionData::SessionData(SOCKET sockfd, SessionId id, boost::shared_ptr<SenderIn
 SessionData::~SessionData()
 {
 	m_callback.SignalSessionTerminated(m_id);
-	m_socket->cancel();
+	// We are shutting down, so ignore any error.
+	try
+	{
+		m_socket->cancel();
+	} catch(...)
+	{
+	}
 }
 
 SessionId
