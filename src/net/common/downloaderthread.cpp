@@ -117,6 +117,8 @@ DownloaderThread::Main()
 				}
 				if (m_curDownloadData && !m_curDownloadData->filename.empty())
 				{
+					LOG_MSG("URL: " + m_curDownloadData->address);
+					LOG_MSG("File: " + filepath.file_string());
 					path filepath(m_curDownloadData->filename);
 					m_downloadHelper->Init(m_curDownloadData->address, filepath.file_string());
 					m_downloadInProgress = true;

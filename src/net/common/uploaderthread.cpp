@@ -73,9 +73,6 @@ UploaderThread::Main()
 				if (!data.filename.empty() && data.filesize > 0)
 				{
 					path filepath(data.filename);
-					LOG_MSG("Target URL: " + data.address + filepath.leaf());
-					LOG_MSG("Filename: " + filepath.file_string());
-					LOG_MSG("Filesize: " << data.filesize);
 					m_uploadHelper->Init(data.address + filepath.leaf(), filepath.file_string(), data.user, data.pwd, data.filesize);
 					m_uploadInProgress = true;
 				}
