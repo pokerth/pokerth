@@ -649,7 +649,6 @@ ClientThread::CheckAvatarDownloads()
 {
 	if (m_avatarDownloader && m_avatarDownloader->HasDownloadResult())
 	{
-		LOG_MSG("Avatar Download done.");
 		unsigned playerId;
 		boost::shared_ptr<AvatarData> tmpAvatar(new AvatarData);
 		m_avatarDownloader->GetDownloadResult(playerId, tmpAvatar->fileData);

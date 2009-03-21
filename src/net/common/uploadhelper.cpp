@@ -48,8 +48,7 @@ UploadHelper::~UploadHelper()
 void
 UploadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &user, const string &password, int filesize)
 {
-	// Open target file for writing.
-	// Open target file for writing.
+	// Open target file for reading.
 	GetData()->targetFile = fopen(targetFileName.c_str(), "rb");
 	if (!GetData()->targetFile)
 		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_OPEN_FAILED, 0);
