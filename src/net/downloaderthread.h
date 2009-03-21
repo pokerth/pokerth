@@ -38,7 +38,8 @@ public:
 	virtual ~DownloaderThread();
 
 	void QueueDownload(unsigned downloadId, const std::string &url, const std::string &filename);
-	bool PollDownloadResult(unsigned &downloadId, std::vector<unsigned char> &filedata);
+	bool HasDownloadResult() const;
+	bool GetDownloadResult(unsigned &downloadId, std::vector<unsigned char> &filedata);
 
 protected:
 	struct DownloadData

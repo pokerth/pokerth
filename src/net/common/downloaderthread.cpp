@@ -50,7 +50,14 @@ DownloaderThread::QueueDownload(unsigned downloadId, const std::string &url, con
 }
 
 bool
-DownloaderThread::PollDownloadResult(unsigned &downloadId, std::vector<unsigned char> &filedata)
+DownloaderThread::HasDownloadResult() const
+{
+	boost::mutex::scoped_lock lock(m_downloadDoneQueueMutex);
+	return !m_downloadDoneQueue.empty();
+}
+
+bool
+DownloaderThread::GetDownloadResult(unsigned &downloadId, std::vector<unsigned char> &filedata)
 {
 	bool result = false;
 	boost::mutex::scoped_lock lock(m_downloadDoneQueueMutex);

@@ -612,28 +612,35 @@ ClientThread::CompleteTempAvatarData(unsigned playerId)
 	if (avatarSize != tmpAvatar->reportedSize)
 		LOG_ERROR("Client received invalid avatar file size!");
 	else
-	{
-		PlayerInfo tmpPlayerInfo;
-		if (!GetCachedPlayerInfo(playerId, tmpPlayerInfo))
-			LOG_ERROR("Client received invalid player id!");
-		else
-		{
-			if (!GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, tmpAvatar->fileType, &tmpAvatar->fileData[0], avatarSize, false))
-				LOG_ERROR("Failed to store avatar in cache directory.");
+		PassAvatarDataToManager(playerId, tmpAvatar);
 
-			// Update player info, but never re-request avatar.
-			SetPlayerInfo(playerId, tmpPlayerInfo);
-
-			string fileName;
-			if (GetAvatarManager().GetAvatarFileName(tmpPlayerInfo.avatar, fileName))
-			{
-				// Dynamically update avatar in GUI.
-				GetGui().setPlayerAvatar(playerId, GetQtToolsInterface().stringToUtf8(fileName));
-			}
-		}
-	}
 	// Free memory.
 	m_tempAvatarMap.erase(pos);
+}
+
+void
+ClientThread::PassAvatarDataToManager(unsigned playerId, boost::shared_ptr<AvatarData> avatarData)
+{
+	PlayerInfo tmpPlayerInfo;
+	if (!GetCachedPlayerInfo(playerId, tmpPlayerInfo))
+		LOG_ERROR("Client received invalid player id!");
+	else
+	{
+		if (avatarData->fileType == AVATAR_FILE_TYPE_UNKNOWN)
+			avatarData->fileType = AVATAR_FILE_TYPE_PNG; // TODO!
+		if (!GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, avatarData->fileType, &avatarData->fileData[0], avatarData->reportedSize, false))
+			LOG_ERROR("Failed to store avatar in cache directory.");
+
+		// Update player info, but never re-request avatar.
+		SetPlayerInfo(playerId, tmpPlayerInfo);
+
+		string fileName;
+		if (GetAvatarManager().GetAvatarFileName(tmpPlayerInfo.avatar, fileName))
+		{
+			// Dynamically update avatar in GUI.
+			GetGui().setPlayerAvatar(playerId, GetQtToolsInterface().stringToUtf8(fileName));
+		}
+	}
 }
 
 void
@@ -641,6 +648,19 @@ ClientThread::SetUnknownAvatar(unsigned playerId)
 {
 	m_tempAvatarMap.erase(playerId);
 	LOG_ERROR("Server reported unknown avatar for player: " << playerId);
+}
+
+void
+ClientThread::CheckAvatarDownloads()
+{
+	if (m_avatarDownloader && m_avatarDownloader->HasDownloadResult())
+	{
+		unsigned playerId;
+		boost::shared_ptr<AvatarData> tmpAvatar(new AvatarData);
+		m_avatarDownloader->GetDownloadResult(playerId, tmpAvatar->fileData);
+		tmpAvatar->reportedSize = tmpAvatar->fileData.size();
+		PassAvatarDataToManager(playerId, tmpAvatar);
+	}
 }
 
 void

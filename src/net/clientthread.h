@@ -106,7 +106,10 @@ protected:
 	void AddTempAvatarData(unsigned playerId, unsigned avatarSize, AvatarFileType type);
 	void StoreInTempAvatarData(unsigned playerId, const std::vector<unsigned char> &data);
 	void CompleteTempAvatarData(unsigned playerId);
+	void PassAvatarDataToManager(unsigned playerId, boost::shared_ptr<AvatarData> avatarData);
 	void SetUnknownAvatar(unsigned playerId);
+
+	void CheckAvatarDownloads();
 
 	void UnsubscribeLobbyMsg();
 	void ResubscribeLobbyMsg();
