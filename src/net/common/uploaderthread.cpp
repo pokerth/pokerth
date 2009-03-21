@@ -81,6 +81,7 @@ UploaderThread::Main()
 		catch (const NetException &e)
 		{
 			LOG_ERROR(e.what());
+			m_uploadInProgress = false;
 		}
 	}
 }

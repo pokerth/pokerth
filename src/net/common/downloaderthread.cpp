@@ -126,6 +126,8 @@ DownloaderThread::Main()
 		catch (const NetException &e)
 		{
 			LOG_ERROR(e.what());
+			m_downloadInProgress = false;
+			m_curDownloadData.reset();
 		}
 	}
 }
