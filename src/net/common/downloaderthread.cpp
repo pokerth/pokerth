@@ -91,8 +91,18 @@ DownloaderThread::Main()
 				{
 					path filepath(m_curDownloadData->filename);
 					ifstream instream(filepath.file_string().c_str(), ios_base::in | ios_base::binary);
-					vector<unsigned char> fileData;
-					copy(istream_iterator<unsigned char>(instream), istream_iterator<unsigned char>(), back_inserter(fileData));
+					// Find out file size.
+					// Not fully portable, but works on win/linux/mac.
+					instream.seekg(0, ios_base::beg);
+					std::streampos startPos = instream.tellg();
+					instream.seekg(0, ios_base::end);
+					std::streampos endPos = instream.tellg();
+					instream.seekg(0, ios_base::beg);
+					std::streamoff posDiff(endPos - startPos);
+					unsigned fileSize = (unsigned)posDiff;
+
+					vector<unsigned char> fileData(fileSize);
+					instream.read((char *)&fileData[0], fileSize);
 					instream.close();
 					remove(filepath);
 
