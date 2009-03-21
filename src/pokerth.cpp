@@ -57,11 +57,16 @@
 	#define ENABLE_LEAK_CHECK()
 #endif
 
-//Uncomment this for RELEASE
+//Uncomment this for RELEASE on Linux/Unix/BSD (static Qt only)
 // #include <QtPlugin>
 // Q_IMPORT_PLUGIN(qjpeg)
 // Q_IMPORT_PLUGIN(qgif)
 
+#ifdef _WIN32 // Always use static Qt on Windows.
+#include <QtPlugin>
+Q_IMPORT_PLUGIN(qjpeg)
+Q_IMPORT_PLUGIN(qgif)
+#endif
 
 using namespace std;
 

@@ -7,10 +7,10 @@ isEmpty( PREFIX ){
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
-#CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on release
-CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
+CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on release
+#CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
 
-#####Uncomment this for RELEASE
+#####Uncomment this for RELEASE on Linux/Unix/BSD (only for static Qt)
 #QTPLUGIN += qjpeg qgif
 
 UI_DIR = uics
@@ -269,6 +269,7 @@ TRANSLATIONS = \
 		ts/pokerth_START_HERE.ts
 
 win32 {
+	QTPLUGIN += qjpeg qgif
     DEFINES += CURL_STATICLIB
     DEPENDPATH += src/net/win32/ src/core/win32
     INCLUDEPATH += ../boost/ ../SDL/include ../SDL_mixer
