@@ -3,8 +3,8 @@
 TEMPLATE = lib
 CODECFORSRC = UTF-8
 
-CONFIG += staticlib thread exceptions rtti stl warn_on release
-#CONFIG += staticlib thread exceptions rtti stl warn_on debug
+#CONFIG += staticlib thread exceptions rtti stl warn_on release
+CONFIG += staticlib thread exceptions rtti stl warn_on debug
 
 UI_DIR = uics
 TARGET = lib/pokerth_lib
@@ -88,6 +88,8 @@ HEADERS += \
 		src/net/transferhelper.h \
 		src/net/uploaderthread.h \
 		src/net/uploadhelper.h \
+		src/net/downloaderthread.h \
+		src/net/downloadhelper.h \
 		src/third_party/tinyxml/tinystr.h \
 		src/third_party/tinyxml/tinyxml.h \
 		src/third_party/libircclient/include/libircclient.h \
@@ -159,6 +161,7 @@ SOURCES += \
 		src/net/common/clientstate.cpp \
 		src/net/common/clientthread.cpp \
 		src/net/common/downloadhelper.cpp \
+		src/net/common/downloaderthread.cpp \
 		src/net/common/netpacket.cpp \
 		src/net/common/resolverthread.cpp \
 		src/net/common/senderinterface.cpp \

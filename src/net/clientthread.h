@@ -32,6 +32,7 @@ class ClientContext;
 class ClientState;
 class SenderThread;
 class ReceiverHelper;
+class DownloaderThread;
 class ClientSenderCallback;
 class Game;
 class NetPacket;
@@ -172,6 +173,8 @@ private:
 	AvatarManager &m_avatarManager;
 
 	boost::shared_ptr<ReceiverHelper> m_receiver;
+
+	boost::shared_ptr<DownloaderThread> m_avatarDownloader;
 
 	GameData m_gameData;
 	StartData m_startData;

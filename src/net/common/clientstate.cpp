@@ -460,7 +460,7 @@ ClientStateReadingServerList::Process(ClientThread &client)
 			const TiXmlNode *portNode = firstServer->FirstChild("Port");
 
 			// Currently, only IPv4 is supported for avatar servers.
-			const TiXmlNode *avatarNode = firstServer->FirstChild("AvatarServerIPv4Address");
+			const TiXmlNode *avatarNode = firstServer->FirstChild("AvatarServerAddress");
 
 			if (!addrNode || !addrNode->ToElement() || !portNode || !portNode->ToElement())
 				throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_XML, 0);

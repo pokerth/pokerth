@@ -23,6 +23,7 @@
 #include <net/clientcontext.h>
 #include <net/senderthread.h>
 #include <net/receiverhelper.h>
+#include <net/downloaderthread.h>
 #include <net/clientexception.h>
 #include <net/socket_msg.h>
 #include <core/avatarmanager.h>
@@ -35,6 +36,8 @@
 #include <sstream>
 #include <memory>
 #include <cassert>
+
+#define TEMP_AVATAR_FILENAME "avatar.tmp"
 
 using namespace std;
 
@@ -331,6 +334,11 @@ ClientThread::GetAvatarManager()
 void
 ClientThread::Main()
 {
+	if (!GetContext().GetAvatarServerAddr().empty())
+	{
+		m_avatarDownloader.reset(new DownloaderThread);
+		m_avatarDownloader->Run();
+	}
 	SetState(CLIENT_INITIAL_STATE::Instance());
 
 	try
@@ -367,6 +375,12 @@ ClientThread::Main()
 	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
+	}
+	if (m_avatarDownloader)
+	{
+		m_avatarDownloader->SignalTermination();
+		m_avatarDownloader->Join(DOWNLOADER_THREAD_TERMINATE_TIMEOUT);
+		m_avatarDownloader.reset();
 	}
 }
 
@@ -520,13 +534,22 @@ ClientThread::RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info)
 		{
 			m_avatarHasRequestedList.push_back(id); // Never remove from this list. Only request once.
 
-			// TODO: download from avatar server if applicable.
-			boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
-			NetPacketRetrieveAvatar::Data retrieveAvatarData;
-			retrieveAvatarData.requestId = id;
-			retrieveAvatarData.avatar = info.avatar;
-			static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
-			GetContext().GetSessionData()->GetSender().Send(GetContext().GetSessionData(), retrieveAvatar);
+			// Download from avatar server if applicable.
+			string avatarServerAddress(GetContext().GetAvatarServerAddr());
+			if (!avatarServerAddress.empty() && m_avatarDownloader)
+			{
+				string filename(TEMP_AVATAR_FILENAME);
+				m_avatarDownloader->QueueDownload(id, avatarServerAddress + filename, GetContext().GetCacheDir() + filename);
+			}
+			else
+			{
+				boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
+				NetPacketRetrieveAvatar::Data retrieveAvatarData;
+				retrieveAvatarData.requestId = id;
+				retrieveAvatarData.avatar = info.avatar;
+				static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
+				GetContext().GetSessionData()->GetSender().Send(GetContext().GetSessionData(), retrieveAvatar);
+			}
 		}
 	}
 }
