@@ -356,11 +356,8 @@ ClientThread::Main()
 {
 	// Start sub-threads.
 	m_senderThread->Start();
-	if (!GetContext().GetAvatarServerAddr().empty())
-	{
-		m_avatarDownloader.reset(new DownloaderThread);
-		m_avatarDownloader->Run();
-	}
+	m_avatarDownloader.reset(new DownloaderThread);
+	m_avatarDownloader->Run();
 	SetState(CLIENT_INITIAL_STATE::Instance());
 
 	// Main loop.
@@ -400,12 +397,8 @@ ClientThread::Main()
 		GetCallback().SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
 	}
 	// Terminate sub-threads.
-	if (m_avatarDownloader)
-	{
-		m_avatarDownloader->SignalTermination();
-		m_avatarDownloader->Join(DOWNLOADER_THREAD_TERMINATE_TIMEOUT);
-		m_avatarDownloader.reset();
-	}
+	m_avatarDownloader->SignalTermination();
+	m_avatarDownloader->Join(DOWNLOADER_THREAD_TERMINATE_TIMEOUT);
 	m_senderThread->SignalStop();
 	m_senderThread->WaitStop();
 }
@@ -564,8 +557,9 @@ ClientThread::RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info)
 			string avatarServerAddress(GetContext().GetAvatarServerAddr());
 			if (!avatarServerAddress.empty() && m_avatarDownloader)
 			{
-				string filename(TEMP_AVATAR_FILENAME);
-				m_avatarDownloader->QueueDownload(id, avatarServerAddress + filename, GetContext().GetCacheDir() + filename);
+				string serverFileName(info.avatar.ToString() + ".jpg"); // TODO!
+				m_avatarDownloader->QueueDownload(
+					id, avatarServerAddress + serverFileName, GetContext().GetCacheDir() + TEMP_AVATAR_FILENAME);
 			}
 			else
 			{
@@ -627,7 +621,7 @@ ClientThread::PassAvatarDataToManager(unsigned playerId, boost::shared_ptr<Avata
 	else
 	{
 		if (avatarData->fileType == AVATAR_FILE_TYPE_UNKNOWN)
-			avatarData->fileType = AVATAR_FILE_TYPE_PNG; // TODO!
+			avatarData->fileType = AVATAR_FILE_TYPE_JPG; // TODO!
 		if (!GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, avatarData->fileType, &avatarData->fileData[0], avatarData->reportedSize, false))
 			LOG_ERROR("Failed to store avatar in cache directory.");
 
@@ -655,6 +649,7 @@ ClientThread::CheckAvatarDownloads()
 {
 	if (m_avatarDownloader && m_avatarDownloader->HasDownloadResult())
 	{
+		LOG_MSG("Avatar Download done.");
 		unsigned playerId;
 		boost::shared_ptr<AvatarData> tmpAvatar(new AvatarData);
 		m_avatarDownloader->GetDownloadResult(playerId, tmpAvatar->fileData);

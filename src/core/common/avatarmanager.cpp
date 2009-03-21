@@ -364,6 +364,7 @@ AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFil
 				if (!o.fail())
 				{
 					o.write((const char *)data, size);
+					o.close();
 					if (upload && m_useExternalServer)
 					{
 						m_uploader->QueueUpload(m_externalServerAddress, m_externalServerUser, m_externalServerPassword, fileName, size);
