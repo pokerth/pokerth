@@ -1,6 +1,6 @@
 2009-03-22 version 0.6.4: 
 - enhanced server performance
-- external avatars system to prevent lags
+- optional external avatar system to improve scalability
 - feature-request(#0000008): gamelist in lobby saves sorting of columns now
 - bugfix(#0000007): Highlighting of cards on split pot could be better
 - bugfix(#0000003): Low straight flush (with A) incorrectly picked

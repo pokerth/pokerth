@@ -49,8 +49,6 @@ Please follow these instructions:
    need to repeat step 6.
 
 
-Known issue: By default, there is no .jpg/.gif avatar support in the svn build.
-
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Lothar May                                 *
  *                                                                         *

@@ -8,9 +8,11 @@ Linux:
 - zlib version 1.2.3  --> http://www.zlib.net/
 - libcurl version >= 7.16  --> http://curl.haxx.se/
 - gnutls (e.g. version 2.2.2)  --> http://www.gnu.org/software/gnutls/
-- libboost_thread, libboost_filesystem, libboost_datetime, libboost_program_options, libboost_iostreams
+- libboost_thread, libboost_filesystem, libboost_datetime, libboost_program_options, libboost_iostreams, libboost_asio
   (version >= 1.36, 1.38.0 recommended)  --> http://www.boost.org/
 - libSDL_mixer, libSDL  --> http://www.libsdl.org/
+
+NOTE: PokerTH might compile with libboost < 1.36 but can result in a crash when starting a server!
 
 Windows:
 see docs/build_mingw_windows.txt
@@ -33,4 +35,3 @@ Linux:
 Windows: 
 
    Please check out the automatic windows build script --> http://sourceforge.net/project/showfiles.php?group_id=166634&package_id=268019 
-   Thx to Lotodore!!!
