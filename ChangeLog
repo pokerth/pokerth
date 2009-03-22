@@ -1,9 +1,10 @@
 2009-03-22 version 0.6.4: 
 - enhanced server performance
 - optional external avatar system to improve scalability
-- feature-request(#0000008): gamelist in lobby saves sorting of columns now
-- bugfix(#0000007): Highlighting of cards on split pot could be better
-- bugfix(#0000003): Low straight flush (with A) incorrectly picked
+- feature-request(#0000008): sorting of columns in the gamelist of the lobby is saved
+- bugfix(#0000007): Improved highlighting of the cards on split pot
+- bugfix(#0000003): Correctly pick low straight flush (with A)
+- bugfix: doubleclicking "join game" in the lobby causes an error
 
 2008-12-22 version 0.6.3: 
 - new start dialog, separated from game table
