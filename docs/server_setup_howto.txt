@@ -25,12 +25,13 @@ is run on a vserver with very limited memory.
 
 The following packages are required to compile the server:
 * qmake (Qt development tools)
-* boost 1.34.1, 1.36.0 recommended
+* boost 1.36, 1.38 recommended
   - boost-thread
   - boost-filesystem
   - boost-datetime
   - boost-program_options
   - boost-iostreams
+  - boost-asio
 * GnuTLS (any version should be fine)
 
 The following packages are optional but recommended:
