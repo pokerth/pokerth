@@ -129,18 +129,10 @@ boost::shared_ptr<AvatarFileState>
 AvatarManager::OpenAvatarFileForChunkRead(const std::string &fileName, unsigned &outFileSize, AvatarFileType &outFileType)
 {
 	outFileSize = 0;
-	outFileType = AVATAR_FILE_TYPE_UNKNOWN;
 	boost::shared_ptr<AvatarFileState> retVal;
 	try
 	{
-		path filePath(fileName);
-		string ext(extension(filePath));
-		if (boost::algorithm::iequals(ext, ".png"))
-			outFileType = AVATAR_FILE_TYPE_PNG;
-		else if (boost::algorithm::iequals(ext, ".jpg") || boost::algorithm::iequals(ext, ".jpeg"))
-			outFileType = AVATAR_FILE_TYPE_JPG;
-		else if (boost::algorithm::iequals(ext, ".gif"))
-			outFileType = AVATAR_FILE_TYPE_GIF;
+		outFileType = GetAvatarFileType(fileName);
 		boost::shared_ptr<AvatarFileState> fileState(new AvatarFileState);
 		fileState->inputStream.open(fileName.c_str(), ios_base::in | ios_base::binary);
 		if (!fileState->inputStream.fail())
@@ -243,6 +235,46 @@ AvatarManager::AvatarFileToNetPackets(const string &fileName, unsigned requestId
 	return retVal;
 }
 
+AvatarFileType
+AvatarManager::GetAvatarFileType(const string &fileName)
+{
+	AvatarFileType fileType;
+
+	path filePath(fileName);
+	string ext(extension(filePath));
+	if (boost::algorithm::iequals(ext, ".png"))
+		fileType = AVATAR_FILE_TYPE_PNG;
+	else if (boost::algorithm::iequals(ext, ".jpg") || boost::algorithm::iequals(ext, ".jpeg"))
+		fileType = AVATAR_FILE_TYPE_JPG;
+	else if (boost::algorithm::iequals(ext, ".gif"))
+		fileType = AVATAR_FILE_TYPE_GIF;
+	else
+		fileType = AVATAR_FILE_TYPE_UNKNOWN;
+
+	return fileType;
+}
+
+string
+AvatarManager::GetAvatarFileExtension(AvatarFileType fileType)
+{
+	string ext;
+	switch (fileType)
+	{
+		case AVATAR_FILE_TYPE_PNG:
+			ext = ".png";
+			break;
+		case AVATAR_FILE_TYPE_JPG:
+			ext = ".jpg";
+			break;
+		case AVATAR_FILE_TYPE_GIF:
+			ext = ".gif";
+			break;
+		case AVATAR_FILE_TYPE_UNKNOWN:
+			break;
+	}
+	return ext;
+}
+
 bool
 AvatarManager::GetHashForAvatar(const std::string &fileName, MD5Buf &md5buf) const
 {
@@ -337,21 +369,7 @@ AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFil
 	}
 	try
 	{
-		string ext;
-		switch (avatarFileType)
-		{
-			case AVATAR_FILE_TYPE_PNG:
-				ext = ".png";
-				break;
-			case AVATAR_FILE_TYPE_JPG:
-				ext = ".jpg";
-				break;
-			case AVATAR_FILE_TYPE_GIF:
-				ext = ".gif";
-				break;
-			case AVATAR_FILE_TYPE_UNKNOWN:
-				break;
-		}
+		string ext(GetAvatarFileExtension(avatarFileType));
 		if (!ext.empty() && !cacheDir.empty())
 		{
 			// Check header before storing file.

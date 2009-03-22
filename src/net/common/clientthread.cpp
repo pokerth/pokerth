@@ -557,7 +557,7 @@ ClientThread::RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info)
 			string avatarServerAddress(GetContext().GetAvatarServerAddr());
 			if (!avatarServerAddress.empty() && m_avatarDownloader)
 			{
-				string serverFileName(info.avatar.ToString() + ".jpg"); // TODO!
+				string serverFileName(info.avatar.ToString() + AvatarManager::GetAvatarFileExtension(info.avatarType));
 				m_avatarDownloader->QueueDownload(
 					id, avatarServerAddress + serverFileName, GetContext().GetCacheDir() + TEMP_AVATAR_FILENAME);
 			}
@@ -621,7 +621,7 @@ ClientThread::PassAvatarDataToManager(unsigned playerId, boost::shared_ptr<Avata
 	else
 	{
 		if (avatarData->fileType == AVATAR_FILE_TYPE_UNKNOWN)
-			avatarData->fileType = AVATAR_FILE_TYPE_JPG; // TODO!
+			avatarData->fileType = tmpPlayerInfo.avatarType;
 		if (!GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, avatarData->fileType, &avatarData->fileData[0], avatarData->reportedSize, false))
 			LOG_ERROR("Failed to store avatar in cache directory.");
 

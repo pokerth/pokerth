@@ -523,9 +523,10 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 	m_sessionManager.SetSessionPlayerData(session.sessionData->GetId(), tmpPlayerData);
 	session.playerData = tmpPlayerData;
 
+	string avatarFileName;
 	if (initData.showAvatar
 		&& !initData.avatar.IsZero()
-		&& !GetAvatarManager().HasAvatar(initData.avatar))
+		&& !GetAvatarManager().GetAvatarFileName(initData.avatar, avatarFileName))
 	{
 		bool avatarRecentlyRequested = false;
 		{
@@ -540,6 +541,8 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 	}
 	else
 	{
+		if (!avatarFileName.empty())
+			session.playerData->SetAvatarFile(avatarFileName);
 		EstablishSession(session);
 	}
 }
@@ -619,6 +622,10 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(SessionWrapper session, const NetPac
 
 				// Free memory.
 				session.playerData->SetNetAvatarData(boost::shared_ptr<AvatarData>());
+				// Set avatar file name.
+				string avatarFileName;
+				if (GetAvatarManager().GetAvatarFileName(avatarMD5, avatarFileName))
+					session.playerData->SetAvatarFile(avatarFileName);
 				// Init finished - start session.
 				EstablishSession(session);
 			}
@@ -656,7 +663,10 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 		infoData.playerInfo.playerName = tmpPlayer->GetName();
 		infoData.playerInfo.hasAvatar = !tmpPlayer->GetAvatarMD5().IsZero();
 		if (infoData.playerInfo.hasAvatar)
+		{
 			infoData.playerInfo.avatar = tmpPlayer->GetAvatarMD5();
+			infoData.playerInfo.avatarType = AvatarManager::GetAvatarFileType(tmpPlayer->GetAvatarFile());
+		}
 		static_cast<NetPacketPlayerInfo *>(info.get())->SetData(infoData);
 		session.sessionData->GetSender().Send(session.sessionData, info);
 	}

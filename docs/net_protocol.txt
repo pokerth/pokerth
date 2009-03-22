@@ -332,6 +332,7 @@ Server Reply: Player Info
 Player Flags:
 	0x01 set: Player is human
 	0x02 set: Player has avatar
+	0x04/0x08 set: Avatar type
 
 
 Server Reply: Unknown Player Id

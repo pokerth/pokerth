@@ -61,11 +61,12 @@ struct AvatarData
 
 struct PlayerInfo
 {
-	PlayerInfo() : ptype(PLAYER_TYPE_HUMAN) {}
+	PlayerInfo() : ptype(PLAYER_TYPE_HUMAN), hasAvatar(false), avatarType(AVATAR_FILE_TYPE_UNKNOWN) {}
 	std::string		playerName;
 	PlayerType		ptype;
 	bool			hasAvatar;
 	MD5Buf			avatar;
+	AvatarFileType	avatarType;
 };
 
 class PlayerData

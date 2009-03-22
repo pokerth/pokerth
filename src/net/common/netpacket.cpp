@@ -95,6 +95,7 @@ using namespace std;
 
 #define NET_PLAYER_FLAG_HUMAN					0x01
 #define NET_PLAYER_FLAG_HAS_AVATAR				0x02
+#define NET_PLAYER_FLAG_AVATAR_TYPE_MASK		0x0c
 
 #define NET_START_FLAG_FILL_WITH_CPU_PLAYERS	0x01
 
@@ -2454,6 +2455,7 @@ NetPacketPlayerInfo::SetData(const NetPacketPlayerInfo::Data &inData)
 	if (inData.playerInfo.hasAvatar)
 	{
 		tmpPlayerFlags |= NET_PLAYER_FLAG_HAS_AVATAR;
+		tmpPlayerFlags |= ((inData.playerInfo.avatarType) << 2);
 		char *avatarPtr = (char *)tmpData + sizeof(NetPacketPlayerInfoData);
 		memcpy(avatarPtr, inData.playerInfo.avatar.data, MD5_DATA_SIZE);
 	}
@@ -2479,6 +2481,21 @@ NetPacketPlayerInfo::GetData(NetPacketPlayerInfo::Data &outData) const
 
 	if (outData.playerInfo.hasAvatar)
 	{
+		switch ((tmpPlayerFlags & NET_PLAYER_FLAG_AVATAR_TYPE_MASK) >> 2)
+		{
+			case AVATAR_FILE_TYPE_PNG :
+				outData.playerInfo.avatarType = AVATAR_FILE_TYPE_PNG; 
+				break;
+			case AVATAR_FILE_TYPE_JPG :
+				outData.playerInfo.avatarType = AVATAR_FILE_TYPE_JPG; 
+				break;
+			case AVATAR_FILE_TYPE_GIF :
+				outData.playerInfo.avatarType = AVATAR_FILE_TYPE_GIF; 
+				break;
+			default:
+				outData.playerInfo.avatarType = AVATAR_FILE_TYPE_UNKNOWN; 
+				break;
+		}
 		char *avatarPtr = (char *)tmpData + sizeof(NetPacketPlayerInfoData);
 		memcpy(outData.playerInfo.avatar.data, avatarPtr, MD5_DATA_SIZE);
 	}
