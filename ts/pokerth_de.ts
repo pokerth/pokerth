@@ -3298,12 +3298,12 @@ Bitte geben Sie eine gültige Serverlisten-Adresse ein!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
         <source>Finnish</source>
-        <translation>Finnisch</translation>
+        <translation>Suomi (Finnisch)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="49"/>
         <source>Danish</source>
-        <translation>Dänisch</translation>
+        <translation>Dansk (Dänisch)</translation>
     </message>
 </context>
 <context>
