@@ -45,6 +45,7 @@ DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName
 		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_OPEN_FAILED, 0);
 
 	// Assume that the following calls never fail.
+	// NOTE: A writefunction needs to be set if a DLL version of curl is used on Windows.
 	curl_easy_setopt(GetData()->curlHandle, CURLOPT_WRITEFUNCTION, NULL);
 	curl_easy_setopt(GetData()->curlHandle, CURLOPT_WRITEDATA, GetData()->targetFile);
 }

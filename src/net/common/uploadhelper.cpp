@@ -32,9 +32,7 @@ using namespace std;
 size_t
 readFunction(char *bufptr, size_t size, size_t nitems, void *userp)
 {
-	FILE *tmpFile = (FILE *)userp;
-	int ret = fread(bufptr, size, nitems, tmpFile);
-	return ret;
+	return fread(bufptr, size, nitems, (FILE *)userp);
 }
 
 UploadHelper::UploadHelper()
@@ -57,7 +55,7 @@ UploadHelper::InternalInit(const string &/*url*/, const string &targetFileName, 
 	// Assume that the following calls never fail.
 	curl_easy_setopt(GetData()->curlHandle, CURLOPT_READFUNCTION, readFunction);
 	curl_easy_setopt(GetData()->curlHandle, CURLOPT_READDATA, GetData()->targetFile);
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_INFILESIZE, (curl_off_t)filesize);
+	curl_easy_setopt(GetData()->curlHandle, CURLOPT_INFILESIZE, filesize);
 	curl_easy_setopt(GetData()->curlHandle, CURLOPT_USERPWD, GetData()->userCredentials.c_str());
 	curl_easy_setopt(GetData()->curlHandle, CURLOPT_UPLOAD, 1L);
 	curl_easy_setopt(GetData()->curlHandle, CURLOPT_PUT, 1L);

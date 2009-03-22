@@ -61,6 +61,7 @@ UploaderThread::Main()
 			if (!m_uploadInProgress)
 			{
 				Msleep(UPLOAD_DELAY_MSEC);
+				// The upload needs only local state, as no value needs to be returned.
 				UploadData data;
 				{
 					boost::mutex::scoped_lock lock(m_uploadQueueMutex);
@@ -80,7 +81,7 @@ UploaderThread::Main()
 		}
 		catch (const NetException &e)
 		{
-			LOG_ERROR(e.what());
+			LOG_ERROR("Upload failed: " << e.what());
 			m_uploadInProgress = false;
 		}
 	}
