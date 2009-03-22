@@ -248,11 +248,11 @@ mac {
     LIBS += -lpokerth_lib
     # standard path for darwinports
     # make sure you have a universal version of boost
-    LIBS += /usr/local/lib/libboost_thread-mt-1_35.a
-    LIBS += /usr/local/lib/libboost_filesystem-mt-1_35.a
-    LIBS += /usr/local/lib/libboost_system-mt-1_35.a
-    LIBS += /usr/local/lib/libboost_iostreams-mt-1_35.a
-    LIBS += /usr/local/lib/libboost_program_options-mt-1_35.a
+    LIBS += /usr/local/lib/libboost_thread-xgcc40-mt.a
+    LIBS += /usr/local/lib/libboost_filesystem-xgcc40-mt.a
+    LIBS += /usr/local/lib/libboost_system-xgcc40-mt.a
+    LIBS += /usr/local/lib/libboost_iostreams-xgcc40-mt.a
+    LIBS += /usr/local/lib/libboost_program_options-xgcc40-mt.a
     # libraries installed on every mac
     LIBS += -lcrypto -lssl -lz -lcurl -liconv
     # set the application icon
