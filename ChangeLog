@@ -4,7 +4,7 @@
 - feature-request(#0000008): sorting of columns in the gamelist of the lobby is saved
 - bugfix(#0000007): Improved highlighting of the cards on split pot
 - bugfix(#0000003): Correctly pick low straight flush (with A)
-- bugfix: doubleclicking "join game" in the lobby causes an error
+- bugfix: doubleclicking "join game" in the lobby no longer causes an error
 
 2008-12-22 version 0.6.3: 
 - new start dialog, separated from game table
