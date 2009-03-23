@@ -1094,6 +1094,7 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 			tmpAddress[sizeof(tmpAddress) - 1] = 0; // paranoia
 			sessionData->SetClientAddr(tmpAddress);
 		}
+		LOG_MSG("Client address: " << sessionData->GetClientAddr());
 	}
 	else
 	{
