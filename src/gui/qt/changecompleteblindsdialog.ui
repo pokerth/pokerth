@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>changeCompleteBlindsDialog</class>
- <widget class="QDialog" name="changeCompleteBlindsDialog" >
-  <property name="geometry" >
+ <widget class="QDialog" name="changeCompleteBlindsDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,99 +10,99 @@
     <height>397</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Change Blinds Settings</string>
   </property>
-  <layout class="QGridLayout" >
-   <item row="0" column="0" colspan="2" >
-    <layout class="QHBoxLayout" >
+  <layout class="QGridLayout">
+   <item row="0" column="0" colspan="2">
+    <layout class="QHBoxLayout">
      <item>
-      <widget class="QLabel" name="label_3" >
-       <property name="text" >
+      <widget class="QLabel" name="label_3">
+       <property name="text">
         <string>First small blind:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="spinBox_firstSmallBlind" >
-       <property name="minimum" >
+      <widget class="QSpinBox" name="spinBox_firstSmallBlind">
+       <property name="minimum">
         <number>5</number>
        </property>
-       <property name="maximum" >
+       <property name="maximum">
         <number>500</number>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="1" column="0" >
-    <widget class="QGroupBox" name="groupBox_6" >
-     <property name="title" >
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBox_6">
+     <property name="title">
       <string>Raise blinds:</string>
      </property>
-     <layout class="QGridLayout" >
-      <property name="leftMargin" >
+     <layout class="QGridLayout">
+      <property name="leftMargin">
        <number>9</number>
       </property>
-      <property name="topMargin" >
+      <property name="topMargin">
        <number>0</number>
       </property>
-      <property name="bottomMargin" >
+      <property name="bottomMargin">
        <number>9</number>
       </property>
-      <item row="0" column="0" >
-       <widget class="QRadioButton" name="radioButton_raiseBlindsAtHands" >
-        <property name="text" >
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="radioButton_raiseBlindsAtHands">
+        <property name="text">
          <string>Every:</string>
         </property>
-        <property name="checked" >
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="0" column="1" >
-       <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryHands" >
-        <property name="minimum" >
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryHands">
+        <property name="minimum">
          <number>1</number>
         </property>
        </widget>
       </item>
-      <item row="0" column="2" >
-       <widget class="QLabel" name="label_47" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_47">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>hands</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
-       <widget class="QRadioButton" name="radioButton_raiseBlindsAtMinutes" >
-        <property name="text" >
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="radioButton_raiseBlindsAtMinutes">
+        <property name="text">
          <string>Every:</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1" >
-       <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryMinutes" >
-        <property name="minimum" >
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryMinutes">
+        <property name="minimum">
          <number>1</number>
         </property>
        </widget>
       </item>
-      <item row="1" column="2" >
-       <widget class="QLabel" name="label_50" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_50">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>minutes</string>
         </property>
        </widget>
@@ -109,34 +110,34 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="1" >
-    <widget class="QGroupBox" name="groupBox_7" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+   <item row="1" column="1">
+    <widget class="QGroupBox" name="groupBox_7">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="title" >
+     <property name="title">
       <string>Raise mode:</string>
      </property>
-     <layout class="QGridLayout" >
-      <property name="topMargin" >
+     <layout class="QGridLayout">
+      <property name="topMargin">
        <number>0</number>
       </property>
-      <item row="0" column="0" >
-       <widget class="QRadioButton" name="radioButton_alwaysDoubleBlinds" >
-        <property name="text" >
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="radioButton_alwaysDoubleBlinds">
+        <property name="text">
          <string>Always double blinds</string>
         </property>
-        <property name="checked" >
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
-       <widget class="QRadioButton" name="radioButton_manualBlindsOrder" >
-        <property name="text" >
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="radioButton_manualBlindsOrder">
+        <property name="text">
          <string>Manual blinds order:</string>
         </property>
        </widget>
@@ -144,36 +145,36 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2" >
-    <widget class="QGroupBox" name="groupBox_2" >
-     <property name="enabled" >
+   <item row="2" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="enabled">
       <bool>false</bool>
      </property>
-     <property name="title" >
+     <property name="title">
       <string>Manual blinds order:</string>
      </property>
-     <layout class="QGridLayout" >
-      <item rowspan="2" row="0" column="0" >
-       <layout class="QGridLayout" >
-        <property name="horizontalSpacing" >
+     <layout class="QGridLayout">
+      <item row="0" column="0" rowspan="2">
+       <layout class="QGridLayout">
+        <property name="horizontalSpacing">
          <number>4</number>
         </property>
-        <item rowspan="2" row="0" column="0" >
-         <widget class="QListWidget" name="listWidget_blinds" />
+        <item row="0" column="0" rowspan="2">
+         <widget class="QListWidget" name="listWidget_blinds"/>
         </item>
-        <item row="0" column="1" >
-         <widget class="QPushButton" name="pushButton_delete" >
-          <property name="text" >
+        <item row="0" column="1">
+         <widget class="QPushButton" name="pushButton_delete">
+          <property name="text">
            <string>Delete</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1" >
+        <item row="1" column="1">
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
             <height>121</height>
@@ -181,28 +182,28 @@
           </property>
          </spacer>
         </item>
-        <item row="2" column="0" >
-         <widget class="QSpinBox" name="spinBox_input" >
-          <property name="maximum" >
-           <number>9999</number>
+        <item row="2" column="0">
+         <widget class="QSpinBox" name="spinBox_input">
+          <property name="maximum">
+           <number>100000</number>
           </property>
          </widget>
         </item>
-        <item row="2" column="1" >
-         <widget class="QPushButton" name="pushButton_add" >
-          <property name="text" >
+        <item row="2" column="1">
+         <widget class="QPushButton" name="pushButton_add">
+          <property name="text">
            <string>Add</string>
           </property>
          </widget>
         </item>
        </layout>
       </item>
-      <item row="0" column="1" >
+      <item row="0" column="1">
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
           <height>40</height>
@@ -210,53 +211,53 @@
         </property>
        </spacer>
       </item>
-      <item row="1" column="1" >
-       <widget class="QGroupBox" name="groupBox" >
-        <property name="title" >
+      <item row="1" column="1">
+       <widget class="QGroupBox" name="groupBox">
+        <property name="title">
          <string>Afterwards:</string>
         </property>
-        <layout class="QGridLayout" >
-         <property name="topMargin" >
+        <layout class="QGridLayout">
+         <property name="topMargin">
           <number>0</number>
          </property>
-         <item row="0" column="0" >
-          <widget class="QRadioButton" name="radioButton_afterThisAlwaysDoubleBlinds" >
-           <property name="text" >
+         <item row="0" column="0">
+          <widget class="QRadioButton" name="radioButton_afterThisAlwaysDoubleBlinds">
+           <property name="text">
             <string>Always double blinds</string>
            </property>
-           <property name="checked" >
+           <property name="checked">
             <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" >
-          <layout class="QHBoxLayout" >
+         <item row="1" column="0">
+          <layout class="QHBoxLayout">
            <item>
-            <widget class="QRadioButton" name="radioButton_afterThisAlwaysRaiseAbout" >
-             <property name="text" >
+            <widget class="QRadioButton" name="radioButton_afterThisAlwaysRaiseAbout">
+             <property name="text">
               <string>Always raise by:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_afterThisAlwaysRaiseValue" >
-             <property name="maximum" >
-              <number>9999</number>
+            <widget class="QSpinBox" name="spinBox_afterThisAlwaysRaiseValue">
+             <property name="maximum">
+              <number>10000</number>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label" >
-             <property name="text" >
+            <widget class="QLabel" name="label">
+             <property name="text">
               <string>$</string>
              </property>
             </widget>
            </item>
           </layout>
          </item>
-         <item row="2" column="0" >
-          <widget class="QRadioButton" name="radioButton_afterThisStayAtLastBlind" >
-           <property name="text" >
+         <item row="2" column="0">
+          <widget class="QRadioButton" name="radioButton_afterThisStayAtLastBlind">
+           <property name="text">
             <string>Keep last blind</string>
            </property>
           </widget>
@@ -267,13 +268,13 @@
      </layout>
     </widget>
    </item>
-   <item row="3" column="0" colspan="2" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
+   <item row="3" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -305,11 +306,11 @@
    <receiver>changeCompleteBlindsDialog</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>237</x>
      <y>387</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>157</x>
      <y>274</y>
     </hint>
@@ -321,11 +322,11 @@
    <receiver>changeCompleteBlindsDialog</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>279</x>
      <y>387</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
     </hint>
@@ -337,11 +338,11 @@
    <receiver>spinBox_afterThisAlwaysRaiseValue</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>327</x>
      <y>302</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>389</x>
      <y>304</y>
     </hint>
@@ -353,11 +354,11 @@
    <receiver>groupBox_2</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>297</x>
      <y>116</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>306</x>
      <y>164</y>
     </hint>

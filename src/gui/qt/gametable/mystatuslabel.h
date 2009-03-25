@@ -23,7 +23,7 @@ class MyStatusLabel : public QLabel
 {
 Q_OBJECT
 public:
-    MyStatusLabel(QFrame*);
+    MyStatusLabel(QGroupBox*);
 
     ~MyStatusLabel();
 

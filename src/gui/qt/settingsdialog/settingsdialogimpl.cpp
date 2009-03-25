@@ -72,6 +72,9 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( lineEdit_Opponent4Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( lineEdit_Opponent5Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( lineEdit_Opponent6Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent7Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent8Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
+	connect( lineEdit_Opponent9Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( pushButton_openFlipsidePicture, SIGNAL( clicked() ), this, SLOT( setFlipsidePicFileName()) );
 	connect( pushButton_openLogDir, SIGNAL( clicked() ), this, SLOT( setLogDir()) );
 	connect( pushButton_HumanPlayerAvatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile0()) );
@@ -81,7 +84,9 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( pushButton_Opponent4Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile4()) );
 	connect( pushButton_Opponent5Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile5()) );
 	connect( pushButton_Opponent6Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile6()) );
-
+	connect( pushButton_Opponent7Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile7()) );
+	connect( pushButton_Opponent8Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile8()) );
+	connect( pushButton_Opponent9Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile9()) );
 	connect( pushButton_editManualBlindsOrder, SIGNAL( clicked() ), this, SLOT( callManualBlindsOrderDialog()) );
 	connect( pushButton_netEditManualBlindsOrder, SIGNAL( clicked() ), this, SLOT( callNetManualBlindsOrderDialog()) );
 
@@ -91,24 +96,16 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 // 	connect( spinBox_firstSmallBlind, SIGNAL( valueChanged(int) ), this, SLOT ( checkProperFirstSmallBlind(int)));
 
 	connect( radioButton_netManualBlindsOrder, SIGNAL( toggled(bool) ), this, SLOT( setFirstSmallBlindMargin() ));
-	connect( radioButton_manualBlindsOrder, SIGNAL( toggled(bool) ), this, SLOT( setFirstSmallBlindMargin() ));	//temporarely unused until ai is enabled in network
+	connect( radioButton_manualBlindsOrder, SIGNAL( toggled(bool) ), this, SLOT( setFirstSmallBlindMargin() ));
 
 	connect( comboBox_switchLanguage, SIGNAL( currentIndexChanged (int) ), this, SLOT ( setLanguageChanged(int) ));
 
 	connect(groupBox_automaticServerConfig, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBoxAutomaticServerConfig(bool)));
 	connect(groupBox_manualServerConfig, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBoxManualServerConfig(bool)));
 
-// 	label_36->hide();
-// 	spinBox_netGameSpeed->hide();
-// 
 }
 
 void settingsDialogImpl::exec() {
-
-	
-// 	stackedWidget->removeWidget(page_4);
-// 	listWidget->takeItem(2);
-// 	page_4->hide();
 
 	playerNickIsChanged = FALSE;
 	
@@ -127,6 +124,12 @@ void settingsDialogImpl::exec() {
 	pushButton_Opponent5Avatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("Opponent5Avatar").c_str()));
 	lineEdit_Opponent6Name->setText(QString::fromUtf8(myConfig->readConfigString("Opponent6Name").c_str()));
 	pushButton_Opponent6Avatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("Opponent6Avatar").c_str()));
+	lineEdit_Opponent7Name->setText(QString::fromUtf8(myConfig->readConfigString("Opponent7Name").c_str()));
+	pushButton_Opponent7Avatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("Opponent7Avatar").c_str()));
+	lineEdit_Opponent8Name->setText(QString::fromUtf8(myConfig->readConfigString("Opponent8Name").c_str()));
+	pushButton_Opponent8Avatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("Opponent8Avatar").c_str()));
+	lineEdit_Opponent9Name->setText(QString::fromUtf8(myConfig->readConfigString("Opponent9Name").c_str()));
+	pushButton_Opponent9Avatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("Opponent9Avatar").c_str()));
 
 	//refresh AvatarIcons
 	pushButton_HumanPlayerAvatar->setIcon(QIcon(pushButton_HumanPlayerAvatar->getMyLink()));
@@ -136,6 +139,9 @@ void settingsDialogImpl::exec() {
 	pushButton_Opponent4Avatar->setIcon(QIcon(pushButton_Opponent4Avatar->getMyLink()));
 	pushButton_Opponent5Avatar->setIcon(QIcon(pushButton_Opponent5Avatar->getMyLink()));
 	pushButton_Opponent6Avatar->setIcon(QIcon(pushButton_Opponent6Avatar->getMyLink()));
+	pushButton_Opponent7Avatar->setIcon(QIcon(pushButton_Opponent7Avatar->getMyLink()));
+	pushButton_Opponent8Avatar->setIcon(QIcon(pushButton_Opponent8Avatar->getMyLink()));
+	pushButton_Opponent9Avatar->setIcon(QIcon(pushButton_Opponent9Avatar->getMyLink()));
 
 	//Local Game Settings
 	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NumberOfPlayers"));
@@ -287,7 +293,16 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigString("Opponent5Avatar", pushButton_Opponent5Avatar->getMyLink().toUtf8().constData());  
 
 	myConfig->writeConfigString("Opponent6Name", lineEdit_Opponent6Name->text().toUtf8().constData());
-	myConfig->writeConfigString("Opponent6Avatar", pushButton_Opponent6Avatar->getMyLink().toUtf8().constData());  
+	myConfig->writeConfigString("Opponent6Avatar", pushButton_Opponent6Avatar->getMyLink().toUtf8().constData());
+	
+	myConfig->writeConfigString("Opponent7Name", lineEdit_Opponent7Name->text().toUtf8().constData());
+	myConfig->writeConfigString("Opponent7Avatar", pushButton_Opponent7Avatar->getMyLink().toUtf8().constData());  
+
+	myConfig->writeConfigString("Opponent8Name", lineEdit_Opponent8Name->text().toUtf8().constData());
+	myConfig->writeConfigString("Opponent8Avatar", pushButton_Opponent8Avatar->getMyLink().toUtf8().constData());  
+
+	myConfig->writeConfigString("Opponent9Name", lineEdit_Opponent9Name->text().toUtf8().constData());
+	myConfig->writeConfigString("Opponent9Avatar", pushButton_Opponent9Avatar->getMyLink().toUtf8().constData());    
 
 // 	Local Game Settings
 	myConfig->writeConfigInt("NumberOfPlayers", spinBox_quantityPlayers->value());
@@ -525,6 +540,32 @@ void settingsDialogImpl::setAvatarFile6() {
 	}
 }
 
+void settingsDialogImpl::setAvatarFile7() {
+
+	callSelectAvatarDialog();
+	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
+		pushButton_Opponent7Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
+		pushButton_Opponent7Avatar->setIcon(QIcon(pushButton_Opponent7Avatar->getMyLink()));
+	}
+}
+
+void settingsDialogImpl::setAvatarFile8() {
+
+	callSelectAvatarDialog();
+	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
+		pushButton_Opponent8Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
+		pushButton_Opponent8Avatar->setIcon(QIcon(pushButton_Opponent8Avatar->getMyLink()));
+	}
+}
+
+void settingsDialogImpl::setAvatarFile9() {
+
+	callSelectAvatarDialog();
+	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
+		pushButton_Opponent9Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
+		pushButton_Opponent9Avatar->setIcon(QIcon(pushButton_Opponent9Avatar->getMyLink()));
+	}
+}
 void settingsDialogImpl::setLogDir()
  {
 	 QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),

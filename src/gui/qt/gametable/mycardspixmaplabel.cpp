@@ -13,7 +13,7 @@
 #include "gametableimpl.h"
 // using namespace std;
 
-MyCardsPixmapLabel::MyCardsPixmapLabel(QFrame* parent)
+MyCardsPixmapLabel::MyCardsPixmapLabel(QGroupBox* parent)
  : QLabel(parent), myW(NULL)
 {
 
@@ -46,7 +46,7 @@ MyCardsPixmapLabel::~MyCardsPixmapLabel()
 void MyCardsPixmapLabel::startFadeOut(int speed) { 
 	
 	
-	frameOpacity = 0.0;
+	frameOpacity = 1.0;
 
 	if(speed <= 4) { opacityRaiseInterval = 0.01; }
 	if(speed > 4 && speed <= 7) { opacityRaiseInterval = 0.02; }
@@ -54,7 +54,7 @@ void MyCardsPixmapLabel::startFadeOut(int speed) {
 
 	if(speed != 11) {
 		fadeOutAction = TRUE;
-		frameOpacity = 0.0;
+		frameOpacity = 1.0;
 		fadeOutTimer->start(40);
 	} 
 	
@@ -63,8 +63,8 @@ void MyCardsPixmapLabel::startFadeOut(int speed) {
 
 void MyCardsPixmapLabel::nextFadeOutFrame() {
 
-	if (frameOpacity < 0.75) {
-		frameOpacity += opacityRaiseInterval;
+	if (frameOpacity > 0.25) {
+		frameOpacity -= opacityRaiseInterval;
      		update();
 	}
 	else { 
@@ -141,35 +141,23 @@ void MyCardsPixmapLabel::setPixmap(const QPixmap &pic, const bool flipsideIs) {
 	
 	QLabel::setPixmap(pic);
 	isFlipside = flipsideIs;
-
 }
 
-void MyCardsPixmapLabel::setFrontPixmap ( const QPixmap &pic ) {
+void MyCardsPixmapLabel::setHiddenFrontPixmap ( const QPixmap &pic ) {
 
 	myHiddenFront = pic.scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);;
 }
 
 void MyCardsPixmapLabel::paintEvent(QPaintEvent * event) {
 
-	if (!(flipCardsAction1 || flipCardsAction2)) {
+	if (!(flipCardsAction1 || flipCardsAction2 || fadeOutAction)) {
 		QLabel::paintEvent(event);
 	}
 
-	if (fadeOutAction) {
-
+	if (fadeOutAction && !fastFlipCardsFront) {
 		QPainter painter(this);
-// 		painter.setPen(QColor(74,131,83));
-		painter.setBrush(QColor(74,131,83));
-// 		painter.setBrush(palette().color(QPalette::Background));
-	//  	painter.setBrush(QColor(0,0,0));
-	
 		painter.setOpacity(frameOpacity);
-	// 	painter.drawRect(this->geometry());
-		if(objectName().contains("pixmapLabel_cardBoard"))
-			painter.drawRect(-1,-1,80,115);
-		else
-			painter.drawRect(-1,-1,81,112);
-		
+		painter.drawPixmap(0,0, front);
 	}
 
 	if (flipCardsAction1) {
@@ -193,12 +181,10 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event) {
 	if (fastFlipCardsFront && !flipCardsAction1 && !flipCardsAction2) { 
 		if(objectName().contains("pixmapLabel_card0")) {
 			QPainter painter4(this);
-			painter4.drawPixmap(0,0, myHiddenFront); 
 			if(fadeOutAction) {
-				painter4.setBrush(QColor(74,131,83));
-				painter4.setOpacity(0.75);
-				painter4.drawRect(-1,-1,81,112);
+				painter4.setOpacity(0.25);
 			}
+			painter4.drawPixmap(0,0, myHiddenFront); 
 		}
 	}
 }

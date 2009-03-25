@@ -200,6 +200,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	buttonLabelArray[4] = textLabel_Button4;
 	buttonLabelArray[5] = textLabel_Button5;
 	buttonLabelArray[6] = textLabel_Button6;
+	buttonLabelArray[7] = textLabel_Button7;
+	buttonLabelArray[8] = textLabel_Button8;
+	buttonLabelArray[9] = textLabel_Button9;
 
 	// cashLabelArray init
 	cashLabelArray[0] = textLabel_Cash0;
@@ -209,15 +212,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	cashLabelArray[4] = textLabel_Cash4;
 	cashLabelArray[5] = textLabel_Cash5;
 	cashLabelArray[6] = textLabel_Cash6;
-
-	// cashTopLabelArray init
-	cashTopLabelArray[0] = textLabel_TopCash0;
-	cashTopLabelArray[1] = textLabel_TopCash1;
-	cashTopLabelArray[2] = textLabel_TopCash2;
-	cashTopLabelArray[3] = textLabel_TopCash3;
-	cashTopLabelArray[4] = textLabel_TopCash4;
-	cashTopLabelArray[5] = textLabel_TopCash5;
-	cashTopLabelArray[6] = textLabel_TopCash6;
+	cashLabelArray[7] = textLabel_Cash7;
+	cashLabelArray[8] = textLabel_Cash8;
+	cashLabelArray[9] = textLabel_Cash9;
 
 	// playerNameLabelArray init
 	playerNameLabelArray[0] = label_PlayerName0;
@@ -227,6 +224,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	playerNameLabelArray[4] = label_PlayerName4;
 	playerNameLabelArray[5] = label_PlayerName5;
 	playerNameLabelArray[6] = label_PlayerName6;
+	playerNameLabelArray[7] = label_PlayerName7;
+	playerNameLabelArray[8] = label_PlayerName8;
+	playerNameLabelArray[9] = label_PlayerName9;
 
 	// playerAvatarLabelArray init
 	playerAvatarLabelArray[0] = label_Avatar0;
@@ -236,6 +236,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	playerAvatarLabelArray[4] = label_Avatar4;
 	playerAvatarLabelArray[5] = label_Avatar5;
 	playerAvatarLabelArray[6] = label_Avatar6;
+	playerAvatarLabelArray[7] = label_Avatar7;
+	playerAvatarLabelArray[8] = label_Avatar8;
+	playerAvatarLabelArray[9] = label_Avatar9;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { 
 		playerAvatarLabelArray[i]->setMyW(this); 
 		playerAvatarLabelArray[i]->setMyId(i); 
@@ -249,6 +252,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	setLabelArray[4] = textLabel_Set4;
 	setLabelArray[5] = textLabel_Set5;
 	setLabelArray[6] = textLabel_Set6;
+	setLabelArray[7] = textLabel_Set7;
+	setLabelArray[8] = textLabel_Set8;
+	setLabelArray[9] = textLabel_Set9;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { setLabelArray[i]->setMyW(this); }
 
 	// statusLabelArray init
@@ -259,6 +265,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	actionLabelArray[4] = textLabel_Status4;
 	actionLabelArray[5] = textLabel_Status5;
 	actionLabelArray[6] = textLabel_Status6;
+	actionLabelArray[7] = textLabel_Status7;
+	actionLabelArray[8] = textLabel_Status8;
+	actionLabelArray[9] = textLabel_Status9;
 
 	textLabel_Status0->setMyW(this);
 
@@ -270,6 +279,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	groupBoxArray[4] = groupBox4;
 	groupBoxArray[5] = groupBox5;
 	groupBoxArray[6] = groupBox6;
+	groupBoxArray[7] = groupBox7;
+	groupBoxArray[8] = groupBox8;
+	groupBoxArray[9] = groupBox9;
 
 	// boardCardsArray init
 	boardCardsArray[0] = pixmapLabel_cardBoard0;
@@ -293,6 +305,12 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	holeCardsArray[5][1] = pixmapLabel_card5b;
 	holeCardsArray[6][0] = pixmapLabel_card6a;
 	holeCardsArray[6][1] = pixmapLabel_card6b;
+	holeCardsArray[7][0] = pixmapLabel_card7a;
+	holeCardsArray[7][1] = pixmapLabel_card7b;
+	holeCardsArray[8][0] = pixmapLabel_card8a;
+	holeCardsArray[8][1] = pixmapLabel_card8b;
+	holeCardsArray[9][0] = pixmapLabel_card9a;
+	holeCardsArray[9][1] = pixmapLabel_card9b;
 
 	// Farben initalisieren
 	active.setRgb(86,170,86);
@@ -307,8 +325,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	font2String = "font-family: \"Nimbus Sans L\";";
 	QString textBrowserFontsize= "11";
 	QString cashFontSize = "11";
-	QString setLabelFontSize = "13";
-	QString playerNameLabelFontSize = "14";
+	QString setLabelFontSize = "11";
+	QString playerNameLabelFontSize = "11";
 	QString mediumTableFontSize = "13";
 	QString handLabelFontSize = "18";
 	QString labelPotFontSize = "19";
@@ -324,8 +342,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	#endif
 	QString textBrowserFontsize= "10";
 	QString cashFontSize = "10";
-	QString setLabelFontSize = "12";
-	QString playerNameLabelFontSize = "13";
+	QString setLabelFontSize = "10";
+	QString playerNameLabelFontSize = "11";
 	QString mediumTableFontSize = "13";
 	QString handLabelFontSize = "17";	
 	QString labelPotFontSize = "18";
@@ -347,23 +365,13 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 // 	tabWidget_Left->setStyleSheet("QTabWidget::pane { border: 1px solid #286400; border-radius: 2px; background-color: #145300; }");
 #endif
 
-
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		cashTopLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: "+cashFontSize+"px; font-weight: bold; color: #F0F0F0; }");
-		cashLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: "+cashFontSize+"px; font-weight: bold; color: #F0F0F0; }");
-	}
-	
-	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-
-		setLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: "+setLabelFontSize+"px; font-weight: bold; color: #F0F0F0; }");
-	}
-
-	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-
+		cashLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: "+cashFontSize+"px; font-weight: bold; color: #FFFF00; }");
+		setLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: "+setLabelFontSize+"px; font-weight: bold; color: #FFFF00; }");
 		playerNameLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: "+playerNameLabelFontSize+"px; font-weight: bold; color: #F0F0F0; }");
 	}
-
+	
 	label_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
 	label_Total->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900; }");
 	textLabel_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
@@ -404,15 +412,13 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	label_voteStarterNick->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");	
 	label_votestartedby->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");	
 
-	statusbar->setStyleSheet(" QStatusBar { "+ font1String +" font-size: 12px; color: #B7FF00; }");
+// 	statusbar->setStyleSheet(" QStatusBar { "+ font1String +" font-size: 12px; color: #B7FF00; }");
 
 	//Groupbox Background 
-	for (i=1; i<MAX_NUMBER_OF_PLAYERS; i++) {
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
+		groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatInactive.png) }"); 
 	}
-	groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 
-
 	//Human player button
 	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked_hover.png);}");
 	pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked_hover.png);}");
@@ -469,9 +475,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
  
 #ifdef __APPLE__
-                statusBar()->showMessage(tr("Cmd+N to start a new game"));
+//                 statusBar()->showMessage(tr("Cmd+N to start a new game"));
 #else
-                statusBar()->showMessage(tr("Ctrl+N to start a new game"));
+//                 statusBar()->showMessage(tr("Ctrl+N to start a new game"));
 #endif
         }
 
@@ -641,6 +647,9 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent4Name->text().toUtf8().constData());
 		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent5Name->text().toUtf8().constData());
 		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent6Name->text().toUtf8().constData());
+		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent7Name->text().toUtf8().constData());
+		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent8Name->text().toUtf8().constData());
+		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent9Name->text().toUtf8().constData());
 		mySettingsDialog->setPlayerNickIsChanged(FALSE);
 
 		refreshPlayerName();
@@ -657,6 +666,9 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 		(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent4Avatar->getMyLink().toUtf8().constData());
 		(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent5Avatar->getMyLink().toUtf8().constData());
 		(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent6Avatar->getMyLink().toUtf8().constData());
+		(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent7Avatar->getMyLink().toUtf8().constData());
+		(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent8Avatar->getMyLink().toUtf8().constData());
+		(*(++it))->setMyAvatar(mySettingsDialog->pushButton_Opponent9Avatar->getMyLink().toUtf8().constData());
 
 		//avatar refresh
 		refreshPlayerAvatar();		
@@ -682,10 +694,10 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 		if(myConfig->readConfigInt("AntiPeekMode")) {
 			holeCardsArray[0][0]->setPixmap(*flipside, TRUE);
 			tempCardsPixmapArray[0] = QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[0], 10)+".png"));
-			holeCardsArray[0][0]->setFrontPixmap(tempCardsPixmapArray[0]);
+			holeCardsArray[0][0]->setHiddenFrontPixmap(tempCardsPixmapArray[0]);
 			holeCardsArray[0][1]->setPixmap(*flipside, TRUE);
 			tempCardsPixmapArray[1]= QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[1], 10)+".png"));
-			holeCardsArray[0][1]->setFrontPixmap(tempCardsPixmapArray[1]);
+			holeCardsArray[0][1]->setHiddenFrontPixmap(tempCardsPixmapArray[1]);
 		}
 		else {
 			tempCardsPixmapArray[0]= QPixmap::fromImage(QImage(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[0], 10)+".png"));
@@ -950,11 +962,11 @@ void gameTableImpl::refreshCash() {
 		if((*it_c)->getMyActiveStatus()) { 
 
 			cashLabelArray[(*it_c)->getMyID()]->setText("$"+QString::number((*it_c)->getMyCash(),10)); 
-			cashTopLabelArray[(*it_c)->getMyID()]->setText("Cash:"); 
+// 			cashTopLabelArray[(*it_c)->getMyID()]->setText("Cash:"); 
 			
 		} else {
 			cashLabelArray[(*it_c)->getMyID()]->setText(""); 
-			cashTopLabelArray[(*it_c)->getMyID()]->setText("");
+// 			cashTopLabelArray[(*it_c)->getMyID()]->setText("");
 		}
 	}
 }
@@ -971,31 +983,22 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 	
 			if((*it_c)->getMyTurn()) {
 				//Groupbox glow wenn der Spiele dran ist. 
-				if((*it_c)->getMyID()==0) {
-					groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxActiveGlow_0.6.png) }"); 
-				}
-				else {
-					groupBoxArray[(*it_c)->getMyID()]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
-				}
-	
+				groupBoxArray[(*it_c)->getMyID()]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatActive.png) }"); 
 			} else {
 				//Groupbox auf Hintergrundfarbe setzen wenn der Spiele nicht dran aber aktiv ist. 
 				if((*it_c)->getMyActiveStatus()) {
 					if((*it_c)->getMyID()==0) {
-						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 
 						//show buttons
 						for(j=0; j<6; j++) {
 							userWidgetsArray[j]->show();
 						}
 					}
-					else {
-						groupBoxArray[(*it_c)->getMyID()]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
-					}	
+					groupBoxArray[(*it_c)->getMyID()]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatInactive.png) }"); 
+					
 				}
 				//Groupbox verdunkeln wenn der Spiele inactive ist.  
 				else {
 					if((*it_c)->getMyID()==0) {
-						groupBoxArray[0]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 
 						//hide buttons
 						for(j=0; j<6; j++) {
 							userWidgetsArray[j]->hide();
@@ -1004,9 +1007,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 						holeCardsArray[0][0]->signalFastFlipCards(FALSE);
 						holeCardsArray[0][1]->signalFastFlipCards(FALSE);						
 					}
-					else {
-						groupBoxArray[(*it_c)->getMyID()]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
-					}
+					groupBoxArray[(*it_c)->getMyID()]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatInactive.png) }"); 
 				}
 			}
 		}
@@ -1017,7 +1018,6 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 		//inactive
 		case 0: { 
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 	
 					//hide buttons
 					for(j=0; j<6; j++) {
 						userWidgetsArray[j]->hide();
@@ -1026,43 +1026,28 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 					holeCardsArray[0][0]->signalFastFlipCards(FALSE);
 					holeCardsArray[0][1]->signalFastFlipCards(FALSE);						
 				}
-				else {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
-				}
+				groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatInactive.png) }"); 
 			}
 		break;
 		//active but fold
 		case 1: {
 				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 	
 					//show buttons
 					for(j=0; j<6; j++) {
 						userWidgetsArray[j]->show();
 					}		
 				}
-				else {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
-				}
+				groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatInactive.png) }"); 
 			}
 		break;
 		//active in action
 		case 2:  {
-				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxActiveGlow_0.6.png) }"); 
-				}
-				else {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxActiveGlow.png) }"); 
-				}
+				groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatActive.png) }"); 
 			}
 		break;
 		//active not in action
 		case 3:  {
-				if (!playerID) {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerBoxInactiveGlow_0.6.png) }"); 	
-				}
-				else {
-					groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/opponentBoxInactiveGlow.png) }"); 
-				}
+				groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatInactive.png) }"); 
 			}
 		break;
 		default: {}
@@ -1160,14 +1145,15 @@ void gameTableImpl::dealHoleCards() {
 		for(j=0; j<2; j++) {
 			if((*it_c)->getMyActiveStatus()) { 
 				if (( (*it_c)->getMyID() == 0) || DEBUG_MODE) {
+					tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
 					if(myConfig->readConfigInt("AntiPeekMode")) {
 						holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(*flipside, TRUE);
-						tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
-						holeCardsArray[(*it_c)->getMyID()][j]->setFrontPixmap(tempCardsPixmapArray[j]);
+						holeCardsArray[(*it_c)->getMyID()][j]->setFront(*flipside);
+						holeCardsArray[(*it_c)->getMyID()][j]->setHiddenFrontPixmap(tempCardsPixmapArray[j]);
 					}
 					else {
-						tempCardsPixmapArray[j].load(myAppDataPath +"gfx/cards/default/"+QString::number(tempCardsIntArray[j], 10)+".png");
 						holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
+						holeCardsArray[(*it_c)->getMyID()][j]->setFront(tempCardsPixmapArray[j]);
 					}
 				} 
 				else {
@@ -1543,9 +1529,9 @@ void gameTableImpl::meInAction() {
 	
 	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
 		if ( myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0 ) {
-			statusBar()->showMessage(tr("F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In"), 15000);
+// // 			statusBar()->showMessage(tr("F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In"), 15000);
 		} else {
-			statusBar()->showMessage(tr("F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold"), 15000);
+// 			statusBar()->showMessage(tr("F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold"), 15000);
 		}
 	}
 		
@@ -1637,7 +1623,7 @@ void gameTableImpl::myFold(){
 		//set that i was the last active player. need this for unhighlighting groupbox
 		currentHand->setLastPlayersTurn(0);
 		
-		statusBar()->clearMessage();
+// 		statusBar()->clearMessage();
 	
 		//Spiel läuft weiter
 		myActionDone();
@@ -1653,7 +1639,7 @@ void gameTableImpl::myCheck() {
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setLastPlayersTurn(0);
 
-	statusBar()->clearMessage();
+// 	statusBar()->clearMessage();
 
 	//Spiel läuft weiter
 	myActionDone();
@@ -1727,7 +1713,7 @@ void gameTableImpl::myCall(){
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setLastPlayersTurn(0);
 
-	statusBar()->clearMessage();
+// 	statusBar()->clearMessage();
 
 	//Spiel läuft weiter
 	myActionDone();
@@ -1777,7 +1763,7 @@ void gameTableImpl::mySet(){
 		currentHand->getBoard()->collectSets();
 		refreshPot();
 	
-		statusBar()->clearMessage();
+// 		statusBar()->clearMessage();
 	
 		//set that i was the last active player. need this for unhighlighting groupbox
 		currentHand->setLastPlayersTurn(0);
@@ -1807,7 +1793,7 @@ void gameTableImpl::myAllIn(){
 	currentHand->getBoard()->collectSets();
 	refreshPot();
 	
-	statusBar()->clearMessage();
+// 	statusBar()->clearMessage();
 
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setLastPlayersTurn(0);
@@ -2284,7 +2270,7 @@ void gameTableImpl::postRiverRunAnimation5() {
 			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
 				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
-					cashTopLabelArray[(*it_c)->getMyID()]->setText("");
+// 					cashTopLabelArray[(*it_c)->getMyID()]->setText("");
 				}
 			}
 		}
@@ -2294,7 +2280,7 @@ void gameTableImpl::postRiverRunAnimation5() {
 			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
 				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
-					cashTopLabelArray[(*it_c)->getMyID()]->setText("Cash:"); 
+// 					cashTopLabelArray[(*it_c)->getMyID()]->setText("Cash:"); 
 				}
 			}
 		}
@@ -2520,7 +2506,7 @@ void gameTableImpl::nextRoundCleanGui() {
 		pushButton_break->setText(tr("Stop"));
 	}
 	//Clear Statusbarmessage
-	statusBar()->clearMessage();
+// 	statusBar()->clearMessage();
 
 	//fix press mouse button during bankrupt with anti-peek-mode
 	this->mouseOverFlipCards(FALSE);
@@ -2697,13 +2683,13 @@ void gameTableImpl::changePlayingMode() {
 
 	switch (mode) {
 
-		case 0: { statusBar()->showMessage(tr("Manual mode set. You've got to choose yourself now."), 5000); }
+// 		case 0: { statusBar()->showMessage(tr("Manual mode set. You've got to choose yourself now."), 5000); }
 		break;
-		case 1: { statusBar()->showMessage(tr("Auto mode set: Check or call any."), 5000); }
+// 		case 1: { statusBar()->showMessage(tr("Auto mode set: Check or call any."), 5000); }
 		break;
-		case 2: { statusBar()->showMessage(tr("Auto mode set: Check or fold."), 5000); }
+// 		case 2: { statusBar()->showMessage(tr("Auto mode set: Check or fold."), 5000); }
 		break;
-		default: { cout << "changePlayingMode ERROR!!!!" << endl; }
+		default: { /*cout << "changePlayingMode ERROR!!!!" << endl;*/ }
 
 	}
 

@@ -21,7 +21,7 @@
 #define GAME_DEFS_H
 
 #define MIN_NUMBER_OF_PLAYERS		2
-#define MAX_NUMBER_OF_PLAYERS		7
+#define MAX_NUMBER_OF_PLAYERS		10
 
 #define MIN_GUI_SPEED			1
 #define MAX_GUI_SPEED			11

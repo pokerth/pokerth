@@ -23,7 +23,7 @@ class MyCardsPixmapLabel : public QLabel
 {
 Q_OBJECT
 public:
-    MyCardsPixmapLabel(QFrame*);
+    MyCardsPixmapLabel(QGroupBox*);
 
     ~MyCardsPixmapLabel();
 
@@ -48,7 +48,7 @@ signals:
 public slots:
 	
 	void setPixmap ( const QPixmap &, const bool );
-	void setFrontPixmap ( const QPixmap &);
+	void setHiddenFrontPixmap ( const QPixmap &);
 
 	void nextFadeOutFrame();
 	void nextFlipCardsFrame();
@@ -59,6 +59,9 @@ public slots:
 	
 	void mousePressEvent ( QMouseEvent *);
 	void mouseReleaseEvent ( QMouseEvent *);
+
+	void setFront ( const QPixmap& theValue ) { front = theValue; }
+	
 
 private: 
 

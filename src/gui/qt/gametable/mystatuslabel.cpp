@@ -15,7 +15,7 @@
 
 using namespace std;
 
-MyStatusLabel::MyStatusLabel(QFrame* parent)
+MyStatusLabel::MyStatusLabel(QGroupBox* parent)
  : QLabel(parent) {
 
 	mousePress = FALSE;

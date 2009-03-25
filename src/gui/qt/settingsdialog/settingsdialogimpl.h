@@ -60,6 +60,9 @@ public slots:
 	void setAvatarFile4();
 	void setAvatarFile5();
 	void setAvatarFile6();
+	void setAvatarFile7();
+	void setAvatarFile8();
+	void setAvatarFile9();
 
 	void callManualBlindsOrderDialog();
 	void callNetManualBlindsOrderDialog();
@@ -101,7 +104,6 @@ private:
 
 	bool languageIsChanged;
 	int changedLanguageIndex;
-
 };
 
 #endif

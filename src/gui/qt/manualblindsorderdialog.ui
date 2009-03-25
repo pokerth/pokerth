@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>manualBlindsOrderDialog</class>
- <widget class="QDialog" name="manualBlindsOrderDialog" >
-  <property name="geometry" >
+ <widget class="QDialog" name="manualBlindsOrderDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,31 +10,31 @@
     <height>362</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Manual Blinds Order</string>
   </property>
-  <layout class="QGridLayout" >
-   <item row="0" column="0" >
-    <layout class="QGridLayout" >
-     <property name="horizontalSpacing" >
+  <layout class="QGridLayout">
+   <item row="0" column="0">
+    <layout class="QGridLayout">
+     <property name="horizontalSpacing">
       <number>4</number>
      </property>
-     <item rowspan="2" row="0" column="0" >
-      <widget class="QListWidget" name="listWidget_blinds" />
+     <item row="0" column="0" rowspan="2">
+      <widget class="QListWidget" name="listWidget_blinds"/>
      </item>
-     <item row="0" column="1" >
-      <widget class="QPushButton" name="pushButton_delete" >
-       <property name="text" >
+     <item row="0" column="1">
+      <widget class="QPushButton" name="pushButton_delete">
+       <property name="text">
         <string>Delete</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1" >
+     <item row="1" column="1">
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
          <height>121</height>
@@ -41,80 +42,83 @@
        </property>
       </spacer>
      </item>
-     <item row="2" column="0" >
-      <widget class="QSpinBox" name="spinBox_input" >
-       <property name="prefix" >
+     <item row="2" column="0">
+      <widget class="QSpinBox" name="spinBox_input">
+       <property name="prefix">
         <string>$</string>
        </property>
-       <property name="maximum" >
-        <number>5000</number>
+       <property name="minimum">
+        <number>1</number>
        </property>
-       <property name="value" >
+       <property name="maximum">
+        <number>100000</number>
+       </property>
+       <property name="value">
         <number>5</number>
        </property>
       </widget>
      </item>
-     <item row="2" column="1" >
-      <widget class="QPushButton" name="pushButton_add" >
-       <property name="text" >
+     <item row="2" column="1">
+      <widget class="QPushButton" name="pushButton_add">
+       <property name="text">
         <string>Add</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="1" column="0" >
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="title" >
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
       <string>Afterwards:</string>
      </property>
-     <layout class="QGridLayout" >
-      <property name="topMargin" >
+     <layout class="QGridLayout">
+      <property name="topMargin">
        <number>2</number>
       </property>
-      <property name="bottomMargin" >
+      <property name="bottomMargin">
        <number>2</number>
       </property>
-      <item row="0" column="0" >
-       <widget class="QRadioButton" name="radioButton_alwaysDoubleBlinds" >
-        <property name="text" >
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="radioButton_alwaysDoubleBlinds">
+        <property name="text">
          <string>Always double blinds</string>
         </property>
-        <property name="checked" >
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
-       <layout class="QHBoxLayout" >
+      <item row="1" column="0">
+       <layout class="QHBoxLayout">
         <item>
-         <widget class="QRadioButton" name="radioButton_alwaysRaiseAbout" >
-          <property name="text" >
+         <widget class="QRadioButton" name="radioButton_alwaysRaiseAbout">
+          <property name="text">
            <string>Always raise by:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinBox_alwaysRaiseValue" >
-          <property name="prefix" >
+         <widget class="QSpinBox" name="spinBox_alwaysRaiseValue">
+          <property name="prefix">
            <string>$</string>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>5000</number>
           </property>
-          <property name="singleStep" >
+          <property name="singleStep">
            <number>5</number>
           </property>
-          <property name="value" >
+          <property name="value">
            <number>5</number>
           </property>
          </widget>
         </item>
        </layout>
       </item>
-      <item row="2" column="0" >
-       <widget class="QRadioButton" name="radioButton_stayAtLastBlind" >
-        <property name="text" >
+      <item row="2" column="0">
+       <widget class="QRadioButton" name="radioButton_stayAtLastBlind">
+        <property name="text">
          <string>Keep last blind</string>
         </property>
        </widget>
@@ -122,13 +126,13 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
+   <item row="2" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -153,11 +157,11 @@
    <receiver>manualBlindsOrderDialog</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>228</x>
      <y>394</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>157</x>
      <y>274</y>
     </hint>
@@ -169,11 +173,11 @@
    <receiver>manualBlindsOrderDialog</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>270</x>
      <y>400</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
     </hint>
@@ -185,11 +189,11 @@
    <receiver>spinBox_alwaysRaiseValue</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>109</x>
      <y>307</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>173</x>
      <y>303</y>
     </hint>
