@@ -6,19 +6,19 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>380</height>
+    <height>350</height>
    </rect>
   </property>
   <property name="minimumSize" >
    <size>
     <width>450</width>
-    <height>380</height>
+    <height>350</height>
    </size>
   </property>
   <property name="maximumSize" >
    <size>
     <width>450</width>
-    <height>380</height>
+    <height>350</height>
    </size>
   </property>
   <property name="windowTitle" >
@@ -55,7 +55,7 @@
     <item row="1" column="1" >
      <layout class="QVBoxLayout" name="verticalLayout" >
       <property name="spacing" >
-       <number>-1</number>
+       <number>6</number>
       </property>
       <item>
        <widget class="QPushButton" name="pushButtonStart_Local_Game" >
@@ -173,7 +173,7 @@
      <x>0</x>
      <y>0</y>
      <width>450</width>
-     <height>30</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuPokerTH" >

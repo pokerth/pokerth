@@ -2270,7 +2270,7 @@ void gameTableImpl::postRiverRunAnimation5() {
 			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
 				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
-// 					cashTopLabelArray[(*it_c)->getMyID()]->setText("");
+					playerNameLabelArray[(*it_c)->getMyID()]->setText("");
 				}
 			}
 		}
@@ -2280,7 +2280,7 @@ void gameTableImpl::postRiverRunAnimation5() {
 			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
 				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
 
-// 					cashTopLabelArray[(*it_c)->getMyID()]->setText("Cash:"); 
+					playerNameLabelArray[(*it_c)->getMyID()]->setText(QString::fromUtf8((*it_c)->getMyName().c_str()));
 				}
 			}
 		}
