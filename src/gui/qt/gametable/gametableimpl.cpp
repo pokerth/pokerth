@@ -424,12 +424,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked_hover.png);}");
 	pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked_hover.png);}");
 	pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked_hover.png);}");
+	pushButton_AllIn->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_checked_hover.png);}");
 
 	lineEdit_betValue->setStyleSheet("QLineEdit { "+ font2String +" font-size: "+betValueFontSize+"px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; } QLineEdit:disabled { background-color: #316300; color: #6d7b5f }");
-
-	pushButton_AllIn->setStyleSheet("QPushButton:enabled { background-color: #145300; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
-
-	
 
 // 	away radiobuttons
 // 	QString radioButtonString("QRadioButton { color: #99D500; } QRadioButton::indicator { width: 13px; height: 13px; } QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png); }");
@@ -1186,7 +1183,6 @@ void gameTableImpl::dealBeRoCards(int myBeRoID) {
 	resetMyButtonsCheckStateMemory();
 	clearMyButtons();
 
-	pushButton_AllIn->setDisabled(TRUE);
 	horizontalSlider_bet->setDisabled(TRUE);
 	lineEdit_betValue->setDisabled(TRUE);
 
@@ -1370,6 +1366,7 @@ void gameTableImpl::provideMyActions(int mode) {
 	QString pushButtonBetRaiseString;
 	QString lastPushButtonBetRaiseString = pushButton_BetRaise->text();
 	QString pushButtonCallCheckString;
+	QString pushButtonAllInString;
 	QString lastPushButtonCallCheckString = pushButton_CallCheck->text();
 	
 	
@@ -1386,8 +1383,8 @@ void gameTableImpl::provideMyActions(int mode) {
 		pushButton_BetRaise->setText("");
 		pushButton_CallCheck->setText("");
 		pushButton_Fold->setText("");	
+		pushButton_AllIn->setText("");	
 
-		pushButton_AllIn->setDisabled(TRUE);
 		horizontalSlider_bet->setDisabled(TRUE);
 		lineEdit_betValue->setDisabled(TRUE);
 
@@ -1396,7 +1393,6 @@ void gameTableImpl::provideMyActions(int mode) {
 		refreshActionButtonFKeyIndicator(1);
 	}
 	else {	
-		pushButton_AllIn->setEnabled(TRUE);		
 		horizontalSlider_bet->setEnabled(TRUE);
 		lineEdit_betValue->setEnabled(TRUE);	
 
@@ -1411,7 +1407,7 @@ void gameTableImpl::provideMyActions(int mode) {
 			else { pushButtonCallCheckString = "Call $"+QString::number(getMyCallAmount()); }
 			
 			pushButtonFoldString = "Fold"; 
-			
+			pushButtonAllInString = "All-In"; 
 			refreshActionButtonFKeyIndicator();
 		}
 		else { // flop,turn,river
@@ -1431,6 +1427,7 @@ void gameTableImpl::provideMyActions(int mode) {
 					pushButtonBetRaiseString = "Raise $"+QString::number(getMyBetAmount());
 				}
 			}
+			pushButtonAllInString = "All-In"; 
 			refreshActionButtonFKeyIndicator();
 		}
 		
@@ -1441,13 +1438,14 @@ void gameTableImpl::provideMyActions(int mode) {
 				if( (currentGame->getActivePlayerList()->size() > 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_SMALL_BLIND ) || ( currentGame->getActivePlayerList()->size() <= 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_BIG_BLIND)) { pushButtonFoldString = "Fold"; }
 				else { pushButtonFoldString = "Check / Fold"; }
 
+				pushButtonAllInString = "All-In"; 
 				refreshActionButtonFKeyIndicator();
 			}
 			else {
 				pushButtonBetRaiseString = "";
 				pushButtonCallCheckString = ""; 		
 				pushButtonFoldString = "";
-				pushButton_AllIn->setDisabled(TRUE);
+				pushButtonAllInString = "";
 				horizontalSlider_bet->setDisabled(TRUE);
 				lineEdit_betValue->setDisabled(TRUE);
 		
@@ -1467,7 +1465,6 @@ void gameTableImpl::provideMyActions(int mode) {
 
 		if(pushButtonBetRaiseString == "") {
 
-			pushButton_AllIn->setDisabled(TRUE);
 			horizontalSlider_bet->setDisabled(TRUE);
 			lineEdit_betValue->setDisabled(TRUE);
 		}
@@ -1475,7 +1472,7 @@ void gameTableImpl::provideMyActions(int mode) {
 		pushButton_Fold->setText(pushButtonFoldString);
 		pushButton_BetRaise->setText(pushButtonBetRaiseString);
 		pushButton_CallCheck->setText(pushButtonCallCheckString);
-		pushButton_AllIn->setText("All-In");
+		pushButton_AllIn->setText(pushButtonAllInString);
 
 // 		myBetRaise();
 		if(pushButton_BetRaise->text().startsWith("Raise")) { 
@@ -1602,7 +1599,6 @@ void gameTableImpl::disableMyButtons() {
 	clearMyButtons();
 
 	//clear userWidgets
-	pushButton_AllIn->setDisabled(TRUE);
 	horizontalSlider_bet->setDisabled(TRUE);
 	lineEdit_betValue->setDisabled(TRUE);
 	horizontalSlider_bet->setMinimum(0);
@@ -2016,7 +2012,6 @@ void gameTableImpl::postRiverRunAnimation2() {
 	clearMyButtons();
 	resetMyButtonsCheckStateMemory();
 
-	pushButton_AllIn->setDisabled(TRUE);
 	horizontalSlider_bet->setDisabled(TRUE);
 	lineEdit_betValue->setDisabled(TRUE);
 
@@ -2522,7 +2517,6 @@ void gameTableImpl::nextRoundCleanGui() {
 	//fix press mouse button during bankrupt with anti-peek-mode
 	this->mouseOverFlipCards(FALSE);
 
-	pushButton_AllIn->setDisabled(TRUE);
 	horizontalSlider_bet->setDisabled(TRUE);
 	lineEdit_betValue->setDisabled(TRUE);
 
@@ -2950,6 +2944,7 @@ void gameTableImpl::clearMyButtons() {
 	pushButton_BetRaise->setText("");
 	pushButton_CallCheck->setText("");
 	pushButton_Fold->setText("");
+	pushButton_AllIn->setText("");
 }
 
 void gameTableImpl::myButtonsCheckable(bool state) {
@@ -2972,6 +2967,7 @@ void gameTableImpl::myButtonsCheckable(bool state) {
 		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #87FF97;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png);} QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_hover.png);} QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked_hover.png);}");
 		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #87CDFF;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked_hover.png); }");
 		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #FF8787;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked_hover.png); }");
+		pushButton_AllIn->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #ffe187;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_checked_hover.png); }");
 
 		myButtonsAreCheckable = TRUE;
 	}
@@ -2984,16 +2980,15 @@ void gameTableImpl::myButtonsCheckable(bool state) {
 		pushButton_AllIn->setCheckable(FALSE);
 	
 		QString hover;
-		if(pushButton_AllIn->isEnabled()) { hover = "_hover"; }
+		if(pushButton_AllIn->text()=="All-In") { hover = "_hover"; }
 	
 		//design
 		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green"+hover+".png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked"+hover+".png);}");
 		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue"+hover+".png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked"+hover+".png);}");
 		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red"+hover+".png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked"+hover+".png);}");
-
+		pushButton_AllIn->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange"+hover+".png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_checked"+hover+".png);}");
 		myButtonsAreCheckable = FALSE;
 	}
-
 }
 
 // // void gameTableImpl::closeEvent(QCloseEvent* /*event*/) { closeGameTable(); }

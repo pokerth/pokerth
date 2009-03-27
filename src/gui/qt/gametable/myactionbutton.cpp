@@ -35,5 +35,10 @@ void MyActionButton::paintEvent(QPaintEvent * event) {
 	QFont f= painter.font();
 	f.setPixelSize(9);
 	painter.setFont(f);
-	painter.drawText(8,11,15,15,Qt::AlignLeft,fKeyText);
+	if(objectName()==("pushButton_AllIn")) {
+		painter.drawText(6,6,15,15,Qt::AlignLeft,fKeyText);
+	}
+	else {
+		painter.drawText(8,11,15,15,Qt::AlignLeft,fKeyText);
+	}
 }
