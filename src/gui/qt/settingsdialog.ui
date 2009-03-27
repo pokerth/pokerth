@@ -59,6 +59,15 @@
        </item>
        <item>
         <property name="text">
+         <string>Style</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/pokerth.qrc">
+          <normaloff>:/gfx/fill-color.png</normaloff>:/gfx/fill-color.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>Sound</string>
         </property>
         <property name="icon">
@@ -369,6 +378,41 @@ p, li { white-space: pre-wrap; }
             </size>
            </property>
           </spacer>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="page_8">
+        <layout class="QGridLayout" name="gridLayout_12">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_28">
+           <property name="styleSheet">
+            <string notr="true">QLabel { font-weight: bold;  }</string>
+           </property>
+           <property name="text">
+            <string>Style</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="Line" name="line_7">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QGroupBox" name="groupBox_11">
+           <property name="title">
+            <string>Game Table Styles</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QGroupBox" name="groupBox_12">
+           <property name="title">
+            <string>Card Decks</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>

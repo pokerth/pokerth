@@ -27,6 +27,7 @@
 #include "mycardspixmaplabel.h"
 #include "mysetlabel.h"
 #include "myavatarlabel.h"
+#include "myactionbutton.h"
 #include "mychancelabel.h"
 #include "log.h"
 #include "chat.h"
@@ -427,6 +428,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	lineEdit_betValue->setStyleSheet("QLineEdit { "+ font2String +" font-size: "+betValueFontSize+"px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; } QLineEdit:disabled { background-color: #316300; color: #6d7b5f }");
 
 	pushButton_AllIn->setStyleSheet("QPushButton:enabled { background-color: #145300; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
+
+	
 
 // 	away radiobuttons
 // 	QString radioButtonString("QRadioButton { color: #99D500; } QRadioButton::indicator { width: 13px; height: 13px; } QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png); }");
@@ -1389,6 +1392,8 @@ void gameTableImpl::provideMyActions(int mode) {
 		lineEdit_betValue->setDisabled(TRUE);
 
 		myButtonsCheckable(FALSE);
+			
+		refreshActionButtonFKeyIndicator(1);
 	}
 	else {	
 		pushButton_AllIn->setEnabled(TRUE);		
@@ -1406,7 +1411,8 @@ void gameTableImpl::provideMyActions(int mode) {
 			else { pushButtonCallCheckString = "Call $"+QString::number(getMyCallAmount()); }
 			
 			pushButtonFoldString = "Fold"; 
-
+			
+			refreshActionButtonFKeyIndicator();
 		}
 		else { // flop,turn,river
 
@@ -1425,6 +1431,7 @@ void gameTableImpl::provideMyActions(int mode) {
 					pushButtonBetRaiseString = "Raise $"+QString::number(getMyBetAmount());
 				}
 			}
+			refreshActionButtonFKeyIndicator();
 		}
 		
 		if(mode == 0) {
@@ -1433,6 +1440,8 @@ void gameTableImpl::provideMyActions(int mode) {
 				pushButtonCallCheckString = "Check"; 
 				if( (currentGame->getActivePlayerList()->size() > 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_SMALL_BLIND ) || ( currentGame->getActivePlayerList()->size() <= 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_BIG_BLIND)) { pushButtonFoldString = "Fold"; }
 				else { pushButtonFoldString = "Check / Fold"; }
+
+				refreshActionButtonFKeyIndicator();
 			}
 			else {
 				pushButtonBetRaiseString = "";
@@ -1443,6 +1452,8 @@ void gameTableImpl::provideMyActions(int mode) {
 				lineEdit_betValue->setDisabled(TRUE);
 		
 				myButtonsCheckable(FALSE);
+
+				refreshActionButtonFKeyIndicator(1);
 			}
 		}
 				
@@ -2934,6 +2945,8 @@ void gameTableImpl::resetMyButtonsCheckStateMemory() {
 
 void gameTableImpl::clearMyButtons() {
 
+	refreshActionButtonFKeyIndicator(1);
+
 	pushButton_BetRaise->setText("");
 	pushButton_CallCheck->setText("");
 	pushButton_Fold->setText("");
@@ -3231,4 +3244,28 @@ void gameTableImpl::refreshCardsChance(GameState bero)
 	}
 
 	delete myCardsValue;
+}
+
+void gameTableImpl::refreshActionButtonFKeyIndicator(bool clear)
+{
+	if(clear) {
+		pushButton_AllIn->setFKeyText("");
+		pushButton_BetRaise->setFKeyText("");
+		pushButton_CallCheck->setFKeyText("");
+		pushButton_Fold->setFKeyText("");
+	}
+	else {
+		if(myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0 ){
+			pushButton_AllIn->setFKeyText("F4");
+			pushButton_BetRaise->setFKeyText("F3");
+			pushButton_CallCheck->setFKeyText("F2");
+			pushButton_Fold->setFKeyText("F1");
+		}
+		else {
+			pushButton_AllIn->setFKeyText("F1");
+			pushButton_BetRaise->setFKeyText("F2");
+			pushButton_CallCheck->setFKeyText("F3");
+			pushButton_Fold->setFKeyText("F4");
+		}
+	}
 }

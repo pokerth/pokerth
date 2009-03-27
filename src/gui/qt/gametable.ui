@@ -2763,7 +2763,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_AllIn">
+            <widget class="MyActionButton" name="pushButton_AllIn">
              <property name="minimumSize">
               <size>
                <width>50</width>
@@ -2897,7 +2897,7 @@
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QPushButton" name="pushButton_BetRaise">
+          <widget class="MyActionButton" name="pushButton_BetRaise">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -2922,7 +2922,7 @@
           </widget>
          </item>
          <item row="4" column="0">
-          <widget class="QPushButton" name="pushButton_CallCheck">
+          <widget class="MyActionButton" name="pushButton_CallCheck">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -2947,7 +2947,7 @@
           </widget>
          </item>
          <item row="5" column="0">
-          <widget class="QPushButton" name="pushButton_Fold">
+          <widget class="MyActionButton" name="pushButton_Fold">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -3682,6 +3682,11 @@
    <class>MyChanceLabel</class>
    <extends>QLabel</extends>
    <header>mychancelabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MyActionButton</class>
+   <extends>QPushButton</extends>
+   <header>myactionbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources>

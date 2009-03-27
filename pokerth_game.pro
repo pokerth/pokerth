@@ -11,7 +11,7 @@ CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on release
 #CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
 
 #####Uncomment this for RELEASE on Linux/Unix/BSD (only for static Qt)
-#QTPLUGIN += qjpeg qgif
+QTPLUGIN += qjpeg qgif
 
 UI_DIR = uics
 MOC_DIR = mocs
@@ -152,6 +152,7 @@ HEADERS += \
 		src/gui/qt/gametable/gametableimpl.h \
 		src/gui/qt/gametable/mycardspixmaplabel.h \
 		src/gui/qt/gametable/mysetlabel.h \
+		src/gui/qt/gametable/myactionbutton.h \
 		src/gui/qt/gametable/mystatuslabel.h \
 		src/gui/qt/gametable/myavatarlabel.h \
 		src/gui/qt/gametable/myrighttabwidget.h \
@@ -215,6 +216,7 @@ SOURCES += \
 		src/gui/qt/gametable/gametableimpl.cpp \
 		src/gui/qt/gametable/mycardspixmaplabel.cpp \
 		src/gui/qt/gametable/mysetlabel.cpp \
+		src/gui/qt/gametable/myactionbutton.cpp \
 		src/gui/qt/gametable/mystatuslabel.cpp \
 		src/gui/qt/gametable/myavatarlabel.cpp \
 		src/gui/qt/gametable/myrighttabwidget.cpp \

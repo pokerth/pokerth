@@ -139,6 +139,7 @@ public slots:
 	void refreshGameLabels(int);
 	void refreshButton();
 	void refreshPlayerAvatar();
+	void refreshActionButtonFKeyIndicator(bool =0);
 	void setPlayerAvatar(int myID, QString myAvatar);
 
 	void guiUpdateDone();
