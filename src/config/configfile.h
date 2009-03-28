@@ -26,7 +26,7 @@
 #include <boost/thread.hpp>
 
 enum ConfigState { NONEXISTING, OLD };
-enum ConfigType { CONFIG_TYPE_INT, CONFIG_TYPE_STRING, CONFIG_TYPE_INT_LIST };
+enum ConfigType { CONFIG_TYPE_INT, CONFIG_TYPE_STRING, CONFIG_TYPE_INT_LIST, CONFIG_TYPE_STRING_LIST };
 
 class QtToolsInterface;
 
@@ -42,12 +42,14 @@ public:
 	void updateConfig(ConfigState);
 
 	std::string readConfigString(std::string varName) const;
+	std::list<std::string> readConfigStringList(std::string varName) const;
 	void writeConfigString(std::string varName, std::string varCont);
-
+	void writeConfigStringList(std::string varName, std::list<std::string> varCont);
 	int readConfigInt(std::string varName) const;
 	std::list<int> readConfigIntList(std::string varName) const;
 	void writeConfigInt(std::string varName, int varCont);
 	void writeConfigIntList(std::string varName, std::list<int> varCont);
+	
 
 private:
 
@@ -70,6 +72,11 @@ private:
 	std::string logDir;
 	std::string dataDir;
 	std::string cacheDir;
+	std::string defaultGameTableStyle;
+	std::string defaultCardDeck;
+	std::list<std::string> gameTableStyleList;
+	std::list<std::string> cardDeckList;
+
 	int configRev;
 	bool noWriteAccess;
 

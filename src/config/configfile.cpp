@@ -48,7 +48,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myQtToolsInterface = CreateQtToolsWrapper();
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 60;
+	configRev = 61;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -102,7 +102,12 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	mkdir(dataDir.c_str());
 	mkdir(cacheDir.c_str());
 
-
+	////define GameTableStyle
+	defaultGameTableStyle = myQtToolsInterface->getDataPathStdString(myArgv0)+"gfx\\gui\\table\\default\\defaulttablestyle.xml";
+	gameTableStyleList.push_back(defaultGameTableStyle);
+	////define CardDeck
+	defaultCardDeck = myQtToolsInterface->getDataPathStdString(myArgv0)+"gfx\\cards\\default\\defaultcarddeck.xml";
+	cardDeckList.push_back(defaultCardDeck);
 #else
 	//define app-dir
 	const char *homePath = getenv("HOME");
@@ -125,6 +130,12 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 		mkdir(cacheDir.c_str(), MODUS);
 	}
 
+	////define GameTableStyle
+	defaultGameTableStyle = myQtToolsInterface->getDataPathStdString(myArgv0)+"gfx/gui/table/default/defaulttablestyle.xml";
+	gameTableStyleList.push_back(defaultGameTableStyle);
+	////define CardDeck
+	defaultCardDeck = myQtToolsInterface->getDataPathStdString(myArgv0)+"gfx/cards/default/defaultcarddeck.xml";
+	cardDeckList.push_back(defaultCardDeck);
 #endif
 
 	ostringstream tempIntToString;
@@ -147,6 +158,10 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("FlipsideTux", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("FlipsideOwn", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("FlipsideOwnFile", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("GameTableStylesList", CONFIG_TYPE_STRING_LIST, "GameTableStyles", gameTableStyleList));
+	configList.push_back(ConfigInfo("CurrentGameTableStyle", CONFIG_TYPE_STRING, defaultGameTableStyle));
+	configList.push_back(ConfigInfo("CardDecksList", CONFIG_TYPE_STRING_LIST, "CardDecks", cardDeckList));
+	configList.push_back(ConfigInfo("CurrentCardDeck", CONFIG_TYPE_STRING, defaultCardDeck));
 	configList.push_back(ConfigInfo("PlaySoundEffects", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("SoundVolume", CONFIG_TYPE_INT, "8"));
 	configList.push_back(ConfigInfo("PlayGameActions", CONFIG_TYPE_INT, "1"));
@@ -370,7 +385,7 @@ void ConfigFile::writeBuffer() const {
 			config->LinkEndChild( tmpElement );
 			tmpElement->SetAttribute("value", configBufferList[i].defaultValue);
 
-			if(configBufferList[i].type == CONFIG_TYPE_INT_LIST) {
+			if(configBufferList[i].type == CONFIG_TYPE_INT_LIST || configBufferList[i].type == CONFIG_TYPE_STRING_LIST) {
 
 				tmpElement->SetAttribute("type", "list");
 				list<string> tempList = configBufferList[i].defaultListValue;
@@ -414,7 +429,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 			config->LinkEndChild( tmpElement );
 			tmpElement->SetAttribute("value", myQtToolsInterface->stringToUtf8(configList[i].defaultValue));
 
-			if(configList[i].type == CONFIG_TYPE_INT_LIST) {
+			if(configList[i].type == CONFIG_TYPE_INT_LIST || configBufferList[i].type == CONFIG_TYPE_STRING_LIST) {
 
 				tmpElement->SetAttribute("type", "list");
 				list<string> tempList = configList[i].defaultListValue;
@@ -520,7 +535,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 					config->LinkEndChild( tmpElement );
 					tmpElement->SetAttribute("value", myQtToolsInterface->stringToUtf8(configList[i].defaultValue));
 
-					if(configList[i].type == CONFIG_TYPE_INT_LIST) {
+					if(configList[i].type == CONFIG_TYPE_INT_LIST || configBufferList[i].type == CONFIG_TYPE_STRING_LIST) {
 
 						tmpElement->SetAttribute("type", "list");
 						list<string> tempList = configList[i].defaultListValue;
@@ -612,6 +627,22 @@ list<int> ConfigFile::readConfigIntList(string varName) const
 	return tempIntList;
 }
 
+list<string> ConfigFile::readConfigStringList(string varName) const
+{
+	boost::recursive_mutex::scoped_lock lock(m_configMutex);
+
+	size_t i;
+	list<string> tempStringList;
+
+	for (i=0; i<configBufferList.size(); i++) {
+
+		if (configBufferList[i].name == varName) {
+			tempStringList = configBufferList[i].defaultListValue;
+		}
+	}
+
+	return tempStringList;
+}
 
 void ConfigFile::writeConfigInt(string varName, int varCont)
 {
@@ -629,7 +660,6 @@ void ConfigFile::writeConfigInt(string varName, int varCont)
 		}
 	}
 }
-
 
 void ConfigFile::writeConfigIntList(string varName, list<int> varCont)
 {
@@ -657,7 +687,6 @@ void ConfigFile::writeConfigIntList(string varName, list<int> varCont)
 	}
 }
 
-
 void ConfigFile::writeConfigString(string varName, string varCont)
 {
 	boost::recursive_mutex::scoped_lock lock(m_configMutex);
@@ -667,4 +696,15 @@ void ConfigFile::writeConfigString(string varName, string varCont)
 		if (configBufferList[i].name == varName) { configBufferList[i].defaultValue = varCont; }
 	}
 
+}
+
+void ConfigFile::writeConfigStringList(string varName, list<string> varCont)
+{
+	boost::recursive_mutex::scoped_lock lock(m_configMutex);
+
+	size_t i;
+	for (i=0; i<configBufferList.size(); i++) {
+
+		if (configBufferList[i].name == varName) { configBufferList[i].defaultListValue = varCont; }
+	}
 }

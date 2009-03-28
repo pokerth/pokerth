@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="default table style" />
+     <IfFixedWindowSize value="0" />
+     <FixedWindowWidth value="1024" />
+     <FixedWindowHeight value="600" />
+     <MinimumWindowWidth value="1024" />
+     <MinimumWindowHeight value="600" />
+     <MaximumWindowWidth value="1980" />
+     <MaximumWindowHeight value="1200" />
+     <ActionAllIn value="action_allin.png" />
+     <ActionRaise value="action_raise.png" />
+     <ActionBet value="action_bet.png" />
+     <ActionCall value="action_call.png" />
+     <ActionCheck value="action_check.png" />
+     <ActionFold value="action_fold.png" />
+     <ActionSet value="action_set.png" />
+     <ActionWinner value="action_winner.png" />
+     <BigBlindPuck value="bigblindPuck.png" />
+     <SmallBlindPuck value="smallblindPuck.png" />
+     <DealerPuck value="dealerPuck.png" />
+     <DefaultAvatar value="genereticAvatar.png" />
+     <CardHolderFlop value="cardholder_flop.png" />
+     <CardHolderTurn value="cardholder_turn.png" />
+     <CardHolderRiver value="cardholder_river.png" />
+     <FoldButtonDefault value="playeraction_red.png" />
+     <FoldButtonHover value="playeraction_red_hover.png" />
+     <FoldButtonChecked value="playeraction_red_checked.png" />
+     <FoldButtonCheckedHover value="playeraction_red_checked_hover.png" />
+     <CheckCallButtonDefault value="playeraction_blue.png" />
+     <CheckCallButtonHover value="playeraction_blue_hover.png" />
+     <CheckCallButtonChecked value="playeraction_blue_checked.png" />
+     <CheckCallButtonCheckedHover value="playeraction_blue_checked_hover.png" />
+     <BetRaiseButtonDefault value="playeraction_green.png" />
+     <BetRaiseButtonHover value="playeraction_green_hover.png" />
+     <BetRaiseButtonChecked value="playeraction_green_checked.png" />
+     <BetRaiseButtonCheckedHover value="playeraction_green_checked_hover.png" />
+     <AllInButtonDefault value="playeraction_orange.png" />
+     <AllInButtonHover value="playeraction_organge_hover.png" />
+     <AllInButtonChecked value="playeraction_orange_checked.png" />
+     <AllInButtonCheckedHover value="playeraction_orange_checked_hover.png" />
+     <PlayerSeatInActive value="playerSeatInactive.png" />
+     <PlayerSeatActive value="playerSeatActive.png" />
+     <Table value="table.png" />
+  </TableStyle>
+</PokerTH>
