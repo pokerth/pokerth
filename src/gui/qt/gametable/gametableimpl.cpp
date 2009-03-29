@@ -41,7 +41,7 @@
 
 #include "configfile.h"
 #include "sdlplayer.h"
-// #include "stylesheetreader.h"
+#include "gametablestylereader.h"
 
 #include <gamedata.h>
 #include <generic/serverguiwrapper.h>
@@ -75,8 +75,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	//Sound
 	mySDLPlayer = new SDLPlayer(myConfig);
 
-	//styleSheetReader
-// 	myStyleSheetReader = new StyleSheetReader(QString(myAppDataPath+"gfx/stylesheet.xml").toStdString());
+// 	gameTableStyleReader
+	GameTableStyleReader myGameTableStyleReader(myConfig, this);
+	myGameTableStyleReader.readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentGameTableStyle").c_str()));
 
 	//Player0 pixmapCardsLabel needs Myw
 	pixmapLabel_card0b->setMyW(this);

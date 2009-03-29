@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "settingsdialogimpl.h"
 #include "myavatarlistitem.h"
+#include "gametablestylereader.h"
 
 #include "configfile.h"
 #include <net/socket_startup.h>
@@ -224,6 +225,29 @@ void settingsDialogImpl::exec() {
 		pushButton_openFlipsidePicture->setEnabled(TRUE);
 	}
 	lineEdit_OwnFlipsideFilename->setText(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
+
+	//S t y l e
+// 	define PokerTH default GameTableStyle
+// 	GameTableStyleReader defaultStyle(myConfig);
+// 	defaultStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/table/default/defaulttablestyle.xml");
+// 
+// 	QListWidgetItem *defaultItem = new QListWidgetItem(defaultStyle.getStyleDescription(),listWidget_gameTableStyles); 
+// 	defaultItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/table/default/defaulttablestyle.xml");
+// 	defaultItem->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+	
+	//load secondary styles into list
+	
+
+	//show selected gametablestyles preview
+// 	QFileInfo info(defaultGameTableStyleFile);
+// 	QPixmap preview(info.absolutePath()+"/"+defaultStyle.getPreview());
+// 	if(preview.height() > 160 || preview.width() > 120) label_gameTableStylePreview->setPixmap(preview.scaled(160,120,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+// 	else label_gameTableStylePreview->setPixmap(preview); 
+
+	
+	//define PokerTH default CardDeck
+// 	defaultCardDeck = myQtToolsInterface->getDataPathStdString(myArgv0)+"gfx/cards/default/defaultcarddeck.xml";
+	
 
 	//Sound
 	groupBox_playSoundEffects->setChecked(myConfig->readConfigInt("PlaySoundEffects"));

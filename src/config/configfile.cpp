@@ -102,12 +102,6 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	mkdir(dataDir.c_str());
 	mkdir(cacheDir.c_str());
 
-	////define GameTableStyle
-	defaultGameTableStyle = myQtToolsInterface->getDataPathStdString(myArgv0)+"gfx\\gui\\table\\default\\defaulttablestyle.xml";
-	gameTableStyleList.push_back(defaultGameTableStyle);
-	////define CardDeck
-	defaultCardDeck = myQtToolsInterface->getDataPathStdString(myArgv0)+"gfx\\cards\\default\\defaultcarddeck.xml";
-	cardDeckList.push_back(defaultCardDeck);
 #else
 	//define app-dir
 	const char *homePath = getenv("HOME");
@@ -130,12 +124,6 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 		mkdir(cacheDir.c_str(), MODUS);
 	}
 
-	////define GameTableStyle
-	defaultGameTableStyle = myQtToolsInterface->getDataPathStdString(myArgv0)+"gfx/gui/table/default/defaulttablestyle.xml";
-	gameTableStyleList.push_back(defaultGameTableStyle);
-	////define CardDeck
-	defaultCardDeck = myQtToolsInterface->getDataPathStdString(myArgv0)+"gfx/cards/default/defaultcarddeck.xml";
-	cardDeckList.push_back(defaultCardDeck);
 #endif
 
 	ostringstream tempIntToString;
@@ -158,10 +146,10 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("FlipsideTux", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("FlipsideOwn", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("FlipsideOwnFile", CONFIG_TYPE_STRING, ""));
-	configList.push_back(ConfigInfo("GameTableStylesList", CONFIG_TYPE_STRING_LIST, "GameTableStyles", gameTableStyleList));
-	configList.push_back(ConfigInfo("CurrentGameTableStyle", CONFIG_TYPE_STRING, defaultGameTableStyle));
-	configList.push_back(ConfigInfo("CardDecksList", CONFIG_TYPE_STRING_LIST, "CardDecks", cardDeckList));
-	configList.push_back(ConfigInfo("CurrentCardDeck", CONFIG_TYPE_STRING, defaultCardDeck));
+	configList.push_back(ConfigInfo("GameTableStylesList", CONFIG_TYPE_STRING_LIST, "GameTableStyles"));
+	configList.push_back(ConfigInfo("CurrentGameTableStyle", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("CardDecksList", CONFIG_TYPE_STRING_LIST, "CardDecks"));
+	configList.push_back(ConfigInfo("CurrentCardDeck", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("PlaySoundEffects", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("SoundVolume", CONFIG_TYPE_INT, "8"));
 	configList.push_back(ConfigInfo("PlayGameActions", CONFIG_TYPE_INT, "1"));
@@ -297,7 +285,6 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 				updateConfig(myConfigState) ;
 			}
 		}
-
 
 		fillBuffer();
 	}

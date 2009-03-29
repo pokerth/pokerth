@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <PokerTH>
   <TableStyle>
-     <StyleDescription value="default table style" />
+     <StyleDescription value="PokerTH default table style" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <Preview value="preview.png" />
      <IfFixedWindowSize value="0" />
      <FixedWindowWidth value="1024" />
      <FixedWindowHeight value="600" />
@@ -15,7 +17,6 @@
      <ActionCall value="action_call.png" />
      <ActionCheck value="action_check.png" />
      <ActionFold value="action_fold.png" />
-     <ActionSet value="action_set.png" />
      <ActionWinner value="action_winner.png" />
      <BigBlindPuck value="bigblindPuck.png" />
      <SmallBlindPuck value="smallblindPuck.png" />

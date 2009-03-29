@@ -74,8 +74,6 @@ private:
 	std::string cacheDir;
 	std::string defaultGameTableStyle;
 	std::string defaultCardDeck;
-	std::list<std::string> gameTableStyleList;
-	std::list<std::string> cardDeckList;
 
 	int configRev;
 	bool noWriteAccess;
