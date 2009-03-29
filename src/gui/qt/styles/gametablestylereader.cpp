@@ -40,6 +40,10 @@ void GameTableStyleReader::readStyleFile(QString file) {
 
 	string tinyFileName;
 
+	QMessageBox::warning(myW, tr("FILE"),
+                                file,
+                                QMessageBox::Ok);
+
 	//if style file failed --> default style fallback
 	if(QFile(file).exists()) { 
 		currentFileName = QFile(file).fileName();
