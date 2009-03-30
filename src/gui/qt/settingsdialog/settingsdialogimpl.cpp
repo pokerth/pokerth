@@ -20,11 +20,13 @@
 #include "settingsdialogimpl.h"
 #include "myavatarlistitem.h"
 #include "gametablestylereader.h"
+#include "carddeckstylereader.h"
 
 #include "configfile.h"
 #include <net/socket_startup.h>
 
 #define POKERTH_DISTRIBUTED_GAME_TABLE_STYLES 1
+#define POKERTH_DISTRIBUTED_CARD_DECK_STYLES 1
 
 using namespace std;
 
@@ -110,8 +112,10 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( pushButton_addGameTableStyle, SIGNAL( clicked() ), this, SLOT( addGameTableStyle()) );
 	connect( pushButton_removeGameTableStyle, SIGNAL( clicked() ), this, SLOT( removeGameTableStyle()) );
 
-		
-
+	connect( listWidget_cardDeckStyles, SIGNAL( currentItemChanged(QListWidgetItem*, QListWidgetItem*) ), this, SLOT ( showCurrentCardDeckStylePreview() ));
+	connect( pushButton_activateCardDeckStyle, SIGNAL( clicked() ), this, SLOT( setSelectedCardDeckStyleActivated()) );
+	connect( pushButton_addCardDeckStyle, SIGNAL( clicked() ), this, SLOT( addCardDeckStyle()) );
+	connect( pushButton_removeCardDeckStyle, SIGNAL( clicked() ), this, SLOT( removeCardDeckStyle()) );
 }
 
 void settingsDialogImpl::exec() {
@@ -235,13 +239,14 @@ void settingsDialogImpl::exec() {
 	lineEdit_OwnFlipsideFilename->setText(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
 
 	//S t y l e
+	//TABLE
 // 	define PokerTH default GameTableStyle
 	listWidget_gameTableStyles->clear();
 
-	GameTableStyleReader defaultStyle(myConfig);
-	defaultStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/table/default/defaulttablestyle.xml");
-	QListWidgetItem *defaultItem = new QListWidgetItem(defaultStyle.getStyleDescription(),listWidget_gameTableStyles); 
-	defaultItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/table/default/defaulttablestyle.xml");
+	GameTableStyleReader defaultTableStyle(myConfig);
+	defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/table/default/defaulttablestyle.xml");
+	QListWidgetItem *defaultTableItem = new QListWidgetItem(defaultTableStyle.getStyleDescription(),listWidget_gameTableStyles); 
+	defaultTableItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/table/default/defaulttablestyle.xml");
 	
 	//load secondary styles into list (if fallback no entry)
 	myGameTableStylesList = myConfig->readConfigStringList("GameTableStylesList");
@@ -260,17 +265,17 @@ void settingsDialogImpl::exec() {
 	GameTableStyleReader currentGameTableStyle(myConfig);
 	currentGameTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentGameTableStyle").c_str()));
 	int i;
-	bool currentFound(FALSE);
+	bool currentGameTableFound(FALSE);
 	for(i=0; i < listWidget_gameTableStyles->count(); i++) {
 		QListWidgetItem *item = listWidget_gameTableStyles->item(i);
 		if(item->data(15) == currentGameTableStyle.getCurrentFileName()) {
 			item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
 			listWidget_gameTableStyles->setCurrentItem(item);
-			currentFound=TRUE;
+			currentGameTableFound=TRUE;
 		}
 		else item->setIcon(QIcon());
 	}
-	if(!currentFound) {
+	if(!currentGameTableFound) {
 		qDebug() << "Config ERROR: current game table style file not found in List. Mark default as selected.";
 		QListWidgetItem *item = listWidget_gameTableStyles->item(0);
 		item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
@@ -279,11 +284,51 @@ void settingsDialogImpl::exec() {
 
 	//refresh Game Table Style Preview
 	showCurrentGameTableStylePreview();
-
 	
+	//CARDS
 	//define PokerTH default CardDeck
-// 	defaultCardDeck = myQtToolsInterface->getDataPathStdString(myArgv0)+"gfx/cards/default/defaultcarddeck.xml";
+	listWidget_cardDeckStyles->clear();
+	CardDeckStyleReader defaultCardStyle(myConfig);
+	defaultCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/cards/default/defaultdeckstyle.xml");
+	QListWidgetItem *defaultCardItem = new QListWidgetItem(defaultCardStyle.getStyleDescription(),listWidget_cardDeckStyles); 
+	defaultCardItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/cards/default/defaultdeckstyle.xml");
 	
+	//load secondary card styles into list (if fallback no entry)
+	myCardDeckStylesList = myConfig->readConfigStringList("CardDeckStylesList");
+	list<std::string>::iterator it2;
+	for(it2= myCardDeckStylesList.begin(); it2 != myCardDeckStylesList.end(); it2++) {
+		CardDeckStyleReader nextStyle(myConfig);
+		nextStyle.readStyleFile(QString::fromUtf8(it2->c_str()));
+		if(!nextStyle.getFallBack()) {
+			QListWidgetItem *nextItem = new QListWidgetItem(nextStyle.getStyleDescription()); 
+			nextItem->setData(15,QString::fromUtf8(it2->c_str()));
+			listWidget_cardDeckStyles->addItem(nextItem);
+		}
+	}	
+
+	//set current card deck style from config file
+	CardDeckStyleReader currentCardDeckStyle(myConfig);
+	currentCardDeckStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentCardDeckStyle").c_str()));
+	int j;
+	bool currentCardDeckFound(FALSE);
+	for(j=0; j < listWidget_cardDeckStyles->count(); j++) {
+		QListWidgetItem *item = listWidget_cardDeckStyles->item(j);
+		if(item->data(15) == currentCardDeckStyle.getCurrentFileName()) {
+			item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+			listWidget_cardDeckStyles->setCurrentItem(item);
+			currentCardDeckFound=TRUE;
+		}
+		else item->setIcon(QIcon());
+	}
+	if(!currentCardDeckFound) {
+		qDebug() << "Config ERROR: current card deck style file not found in List. Mark default as selected.";
+		QListWidgetItem *item = listWidget_cardDeckStyles->item(0);
+		item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+		listWidget_cardDeckStyles->setCurrentItem(item);
+	}
+
+// 	refresh Card Deck Style Preview
+	showCurrentCardDeckStylePreview();
 
 	//Sound
 	groupBox_playSoundEffects->setChecked(myConfig->readConfigInt("PlaySoundEffects"));
@@ -469,6 +514,7 @@ void settingsDialogImpl::isAccepted() {
 	}
 
 	//S T Y L E
+// 	TABLE
 	//save game table styles list
 	myGameTableStylesList.clear();
 	int i;
@@ -483,7 +529,22 @@ void settingsDialogImpl::isAccepted() {
 		if(!item->icon().isNull()) 
 			myConfig->writeConfigString("CurrentGameTableStyle", item->data(15).toString().toUtf8().constData());	
 	}
-	
+// 	CARDS
+	//save card deck styles list
+	myCardDeckStylesList.clear();
+	int j;
+	for(j=POKERTH_DISTRIBUTED_CARD_DECK_STYLES; j < listWidget_cardDeckStyles->count(); j++) {
+		QListWidgetItem *item = listWidget_cardDeckStyles->item(j);
+		myCardDeckStylesList.push_back(item->data(15).toString().toUtf8().constData());
+	}
+	myConfig->writeConfigStringList("CardDeckStylesList", myCardDeckStylesList);	
+	//save current card deck style
+	for(j=0; j < listWidget_cardDeckStyles->count(); j++) {
+		QListWidgetItem *item = listWidget_cardDeckStyles->item(j);
+		if(!item->icon().isNull()) 
+			myConfig->writeConfigString("CurrentCardDeckStyle", item->data(15).toString().toUtf8().constData());	
+	}	
+
 	//Sound
 	myConfig->writeConfigInt("PlaySoundEffects", groupBox_playSoundEffects->isChecked());
 	myConfig->writeConfigInt("SoundVolume", horizontalSlider_soundVolume->value());
@@ -865,3 +926,85 @@ void settingsDialogImpl::removeGameTableStyle()
 	}
 }
 
+void settingsDialogImpl::showCurrentCardDeckStylePreview()
+{
+	QListWidgetItem* item = listWidget_cardDeckStyles->currentItem();
+	if(item) {
+		CardDeckStyleReader style(myConfig);
+		style.readStyleFile(item->data(15).toString());
+		QPixmap preview(style.getPreview());
+		if(preview.height() > 160 || preview.width() > 120) label_cardDeckStylePreview->setPixmap(preview.scaled(160,120,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+		else label_cardDeckStylePreview->setPixmap(preview); 
+	}
+}
+
+void settingsDialogImpl::setSelectedCardDeckStyleActivated()
+{
+	QListWidgetItem* selectedItem = listWidget_cardDeckStyles->currentItem();
+	if(selectedItem) {
+		int i;
+		for(i=0; i < listWidget_cardDeckStyles->count(); i++) {
+			QListWidgetItem *item = listWidget_cardDeckStyles->item(i);
+			if(item == selectedItem) {
+				item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+			}
+			else item->setIcon(QIcon());
+		}
+	}
+}
+
+void settingsDialogImpl::addCardDeckStyle()
+{
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Please select your card deck style"),
+                                               QDir::home().absolutePath(),
+                                                tr("PokerTH card deck styles (*.xml)"));
+
+     	if (!fileName.isEmpty()) {
+
+		int i;
+		bool fileNameAlreadyFound(FALSE);
+		for(i=0; i < listWidget_cardDeckStyles->count(); i++) {
+			QListWidgetItem *item = listWidget_cardDeckStyles->item(i);
+			if(item->data(15).toString() == fileName) 
+				fileNameAlreadyFound = TRUE;
+		}		
+
+		if(fileNameAlreadyFound) {
+			QMessageBox::warning(this, tr("Card Deck Style Error"),
+					tr("Selected card deck style file is already in the list. \nPlease select another one to add!"),
+					QMessageBox::Ok);	
+		}
+		else {
+			CardDeckStyleReader newStyle(myConfig);
+			newStyle.readStyleFile(fileName);
+			if(!newStyle.getFallBack()) {
+				QListWidgetItem *newItem = new QListWidgetItem(newStyle.getStyleDescription()); 
+				newItem->setData(15,fileName);
+				listWidget_cardDeckStyles->addItem(newItem);
+			}
+			else {
+				QMessageBox::warning(this, tr("Card Deck Style File Error"),
+					tr("Could not read card deck style file. \nStyle will not be placed into list!"),
+					QMessageBox::Ok);	
+			}	
+		}
+	}	
+}
+
+void settingsDialogImpl::removeCardDeckStyle()
+{
+	//never delete PokerTH defaullt Styles
+	if(listWidget_cardDeckStyles->currentRow() >= POKERTH_DISTRIBUTED_CARD_DECK_STYLES) {
+
+		QListWidgetItem* selectedItem = listWidget_cardDeckStyles->currentItem();
+		if(selectedItem) {
+			// if selected is activated --> swith activation to first default
+			if(!selectedItem->icon().isNull()) { 
+				QListWidgetItem* firstItem = listWidget_cardDeckStyles->item(0);
+				firstItem->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+			}
+			//remove from List
+			listWidget_cardDeckStyles->takeItem(listWidget_cardDeckStyles->currentRow());
+		}
+	}
+}

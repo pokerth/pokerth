@@ -3496,7 +3496,7 @@
    </property>
    <widget class="QMenu" name="menuView">
     <property name="title">
-     <string>View</string>
+     <string>&amp;View</string>
     </property>
     <addaction name="actionFullScreen"/>
     <addaction name="actionShowHideChat"/>
@@ -3508,7 +3508,7 @@
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
-     <string>Settings</string>
+     <string>&amp;Settings</string>
     </property>
     <addaction name="actionConfigure_PokerTH"/>
    </widget>

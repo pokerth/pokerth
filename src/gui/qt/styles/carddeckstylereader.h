@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef GAMETABLESTYLEREADER_H
-#define GAMETABLESTYLEREADER_H
+#ifndef CARDDECKSTYLEREADER_H
+#define CARDDECKSTYLEREADER_H
 
 #include "tinyxml.h"
 #include "gametableimpl.h"
@@ -27,72 +27,27 @@
 #include <QtCore>
 #include <QtGui>
 
-class GameTableStyleReader : public QObject {
+class CardDeckStyleReader : public QObject {
 Q_OBJECT
 public:
-	GameTableStyleReader(ConfigFile *c, gameTableImpl *w =0 );
-	~GameTableStyleReader();
+	CardDeckStyleReader(ConfigFile *c, gameTableImpl *w =0 );
+	~CardDeckStyleReader();
 	
 	void readStyleFile(QString);
-
-	void showErrorMessage(QString, QStringList, QString);
 
 	QString getStyleDescription() const { return StyleDescription; }
 	QString getCurrentFileName() const { return currentFileName; }
 	QString getPreview();
 
-	bool getFallBack() const { return fallBack; }	
+	bool getFallBack() const { return fallBack; }
 
 private:
 
 	QString StyleDescription;
-	QString StyleMaintainerEMail;
 	QString Preview;
-	QString IfFixedWindowSize;
-	QString FixedWindowWidth;
-	QString FixedWindowHeight;
-	QString MinimumWindowWidth;
-	QString MinimumWindowHeight;
-	QString MaximumWindowWidth;
-	QString MaximumWindowHeight;
-	QString ActionAllIn;
-	QString ActionRaise;
-	QString ActionBet;
-	QString ActionCall;
-	QString ActionCheck;
-	QString ActionFold;
-	QString ActionWinner;
-	QString BigBlindPuck;
-	QString SmallBlindPuck;
-	QString DealerPuck;
-	QString DefaultAvatar;
-	QString CardHolderFlop;
-	QString CardHolderTurn;
-	QString CardHolderRiver;
-	QString FoldButtonDefault;
-	QString FoldButtonHover;
-	QString FoldButtonChecked;
-	QString FoldButtonCheckedHover;
-	QString CheckCallButtonDefault;
-	QString CheckCallButtonHover;
-	QString CheckCallButtonChecked;
-	QString CheckCallButtonCheckedHover;
-	QString BetRaiseButtonDefault;
-	QString BetRaiseButtonHover;
-	QString BetRaiseButtonChecked;
-	QString BetRaiseButtonCheckedHover;
-	QString AllInButtonDefault;
-	QString AllInButtonHover;
-	QString AllInButtonChecked;
-	QString AllInButtonCheckedHover;
-	QString PlayerSeatInActive;
-	QString PlayerSeatActive;
-	QString Table;
 
 	QString currentFileName;
 	QString currentFileDir;
-
-	QStringList wrongItems;
 
 	ConfigFile *myConfig;
 	gameTableImpl *myW;

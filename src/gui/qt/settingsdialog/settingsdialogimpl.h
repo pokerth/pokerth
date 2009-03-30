@@ -85,6 +85,11 @@ public slots:
 	void addGameTableStyle();
 	void removeGameTableStyle();
 
+	void setSelectedCardDeckStyleActivated();
+	void showCurrentCardDeckStylePreview();
+	void addCardDeckStyle();
+	void removeCardDeckStyle();
+
 private:
 	
 	bool playerNickIsChanged;
@@ -101,7 +106,7 @@ private:
 	std::list<int> myManualBlindsList;
 	std::list<int> myNetManualBlindsList;
 	std::list<std::string> myGameTableStylesList;
-	std::list<std::string> myCardDecksList;
+	std::list<std::string> myCardDeckStylesList;
 	
 	ConfigFile* myConfig;
 	boost::shared_ptr<selectAvatarDialogImpl> mySelectAvatarDialogImpl;

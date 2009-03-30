@@ -178,6 +178,7 @@ HEADERS += \
 		src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.h \
 		src/gui/qt/startwindow/startwindowimpl.h \
 		src/gui/qt/styles/gametablestylereader.h \
+		src/gui/qt/styles/carddeckstylereader.h \
 		src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.h \
 		src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.h \
 		src/gui/qt/gamelobbydialog/gamelobbydialogimpl.h \
@@ -242,6 +243,7 @@ SOURCES += \
 		src/gui/qt/startnetworkgamedialog/startnetworkgamedialogimpl.cpp \
 		src/gui/qt/startwindow/startwindowimpl.cpp \
 		src/gui/qt/styles/gametablestylereader.cpp \
+		src/gui/qt/styles/carddeckstylereader.cpp \
 		src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.cpp \
 		src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp \
 		src/gui/qt/mymessagedialog/mymessagedialogimpl.cpp \
