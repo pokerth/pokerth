@@ -26,7 +26,7 @@
 #include <net/socket_startup.h>
 
 #define POKERTH_DISTRIBUTED_GAME_TABLE_STYLES 1
-#define POKERTH_DISTRIBUTED_CARD_DECK_STYLES 1
+#define POKERTH_DISTRIBUTED_CARD_DECK_STYLES 2
 
 using namespace std;
 
@@ -244,9 +244,9 @@ void settingsDialogImpl::exec() {
 	listWidget_gameTableStyles->clear();
 
 	GameTableStyleReader defaultTableStyle(myConfig);
-	defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/table/default/defaulttablestyle.xml");
+	defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
 	QListWidgetItem *defaultTableItem = new QListWidgetItem(defaultTableStyle.getStyleDescription(),listWidget_gameTableStyles); 
-	defaultTableItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/table/default/defaulttablestyle.xml");
+	defaultTableItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
 	
 	//load secondary styles into list (if fallback no entry)
 	myGameTableStylesList = myConfig->readConfigStringList("GameTableStylesList");
@@ -289,10 +289,15 @@ void settingsDialogImpl::exec() {
 	//define PokerTH default CardDeck
 	listWidget_cardDeckStyles->clear();
 	CardDeckStyleReader defaultCardStyle(myConfig);
-	defaultCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/cards/default/defaultdeckstyle.xml");
+	defaultCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
 	QListWidgetItem *defaultCardItem = new QListWidgetItem(defaultCardStyle.getStyleDescription(),listWidget_cardDeckStyles); 
-	defaultCardItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/cards/default/defaultdeckstyle.xml");
-	
+	defaultCardItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
+	//define PokerTH default CardDeck4c
+	CardDeckStyleReader default4cCardStyle(myConfig);
+	default4cCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
+	QListWidgetItem *default4cCardItem = new QListWidgetItem(default4cCardStyle.getStyleDescription(),listWidget_cardDeckStyles); 
+	default4cCardItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
+
 	//load secondary card styles into list (if fallback no entry)
 	myCardDeckStylesList = myConfig->readConfigStringList("CardDeckStylesList");
 	list<std::string>::iterator it2;
@@ -965,7 +970,7 @@ void settingsDialogImpl::addCardDeckStyle()
 		bool fileNameAlreadyFound(FALSE);
 		for(i=0; i < listWidget_cardDeckStyles->count(); i++) {
 			QListWidgetItem *item = listWidget_cardDeckStyles->item(i);
-			if(item->data(15).toString() == fileName) 
+			if(item->data(15).toString() == fileName)
 				fileNameAlreadyFound = TRUE;
 		}		
 

@@ -46,7 +46,7 @@ void GameTableStyleReader::readStyleFile(QString file) {
 		tinyFileName = currentFileName.toUtf8().constData();		 
 	}
 	else { 
-		currentFileName = QFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/table/default/defaulttablestyle.xml").fileName(); 
+		currentFileName = QFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml").fileName(); 
 		tinyFileName = currentFileName.toUtf8().constData(); 
 		fallBack = 1;
 	}
