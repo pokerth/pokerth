@@ -636,7 +636,6 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 		tabWidget_Right->insertTab(2, tab_Chance, QString(tr("Chance")));
 	}
 
-
 	//Add avatar (if set)
 	myStartWindow->getSession()->addOwnAvatar(myConfig->readConfigString("MyAvatar"));
 
@@ -679,10 +678,29 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 		refreshPlayerAvatar();		
 	}
 	
-	
 	//apply card deck style 
-	// TODO refresh all displayed cards from opponents and board
 	myCardDeckStyle->readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentCardDeckStyle").c_str()));
+	//refresh board cards if game is running
+	if(myStartWindow->getSession()->getCurrentGame()) {
+
+		int tempBoardCardsArray[5];	
+		myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
+		int i;
+		GameState currentState = myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->getMyBeRoID();
+		if(currentState >= GAME_STATE_FLOP && currentState <= GAME_STATE_POST_RIVER)
+		for(i=0; i<3; i++) {
+			QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[i], 10)+".png"));
+			boardCardsArray[i]->setPixmap(card, FALSE);
+		}
+		if(currentState >= GAME_STATE_TURN && currentState <= GAME_STATE_POST_RIVER) {
+			QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[3], 10)+".png"));
+			boardCardsArray[3]->setPixmap(card, FALSE);
+		}
+		if(currentState == GAME_STATE_RIVER || currentState == GAME_STATE_POST_RIVER) {
+			QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[4], 10)+".png"));
+			boardCardsArray[4]->setPixmap(card, FALSE);
+		}
+	}
 
 	//Flipside refresh
 	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
@@ -694,7 +712,15 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 		flipside = new QPixmap();
 		*flipside = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+"flipside.png"));
 	}
-	
+	int j,k;
+	for (j=1; j<MAX_NUMBER_OF_PLAYERS; j++ ) { 
+		for ( k=0; k<=1; k++ ) {
+			if (holeCardsArray[j][k]->getIsFlipside()) {
+				holeCardsArray[j][k]->setPixmap(*flipside, TRUE);
+			}
+		}
+	}	
+
 	//Check for anti-peek mode
 	if(myStartWindow->getSession()->getCurrentGame()) {
 		QPixmap tempCardsPixmapArray[2];
@@ -720,15 +746,6 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 	if(myStartWindow->getSession()->getCurrentGame()) {
 		//blind buttons refresh
 		refreshButton();
-	}
-	int i,j;
-
-	for (i=1; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
-		for ( j=0; j<=1; j++ ) {
-			if (holeCardsArray[i][j]->getIsFlipside()) {
-				holeCardsArray[i][j]->setPixmap(*flipside, TRUE);
-			}
-		}
 	}
 	// Re-init audio.
 	mySDLPlayer->audioDone();
