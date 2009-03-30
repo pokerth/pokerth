@@ -44,10 +44,10 @@ class MyAvatarLabel;
 class settingsDialogImpl;
 class startWindowImpl;
 
-class QColor;
-class SDLPlayer;
-// class StyleSheetReader;
+class GameTableStyleReader;
+class CardDeckStyleReader;
 
+class SDLPlayer;
 
 class gameTableImpl: public QMainWindow, public Ui::gameTable {
 Q_OBJECT
@@ -412,7 +412,9 @@ private:
 	
 	int voteOnKickTimeoutSecs;
 	unsigned playerAboutToBeKickedId;
-// 	StyleSheetReader *myStyleSheetReader;
+
+	GameTableStyleReader *myGameTableStyle;
+	CardDeckStyleReader *myCardDeckStyle;
 
 friend class GuiWrapper;
 };

@@ -37,9 +37,10 @@ public:
 
 	QString getStyleDescription() const { return StyleDescription; }
 	QString getCurrentFileName() const { return currentFileName; }
+	QString getCurrentDir() const { return currentDir; }
 	QString getPreview();
 
-	bool getFallBack() const { return fallBack; }
+	bool getFallBack() const { return fallBack; }	
 
 private:
 
@@ -47,7 +48,7 @@ private:
 	QString Preview;
 
 	QString currentFileName;
-	QString currentFileDir;
+	QString currentDir;
 
 	ConfigFile *myConfig;
 	gameTableImpl *myW;

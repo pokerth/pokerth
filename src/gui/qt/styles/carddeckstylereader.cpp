@@ -51,7 +51,7 @@ void CardDeckStyleReader::readStyleFile(QString file) {
 		fallBack = 1;
 	}
 	QFileInfo info(currentFileName);
-	currentFileDir = info.absolutePath();
+	currentDir = info.absolutePath()+"/";
 
 	//start reading the file and fill vars	
 	string tempString1("");
@@ -77,6 +77,6 @@ void CardDeckStyleReader::readStyleFile(QString file) {
 
 QString CardDeckStyleReader::getPreview()
 {
-	return QString(currentFileDir+"/"+Preview);
+	return QString(currentDir+"/"+Preview);
 }
 
