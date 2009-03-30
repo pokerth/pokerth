@@ -24,6 +24,7 @@
 #include "configfile.h"
 #include <net/socket_startup.h>
 
+#define POKERTH_DISTRIBUTED_GAME_TABLE_STYLES 1
 
 using namespace std;
 
@@ -103,6 +104,13 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
 	connect(groupBox_automaticServerConfig, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBoxAutomaticServerConfig(bool)));
 	connect(groupBox_manualServerConfig, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBoxManualServerConfig(bool)));
+
+	connect( listWidget_gameTableStyles, SIGNAL( currentItemChanged(QListWidgetItem*, QListWidgetItem*) ), this, SLOT ( showCurrentGameTableStylePreview() ));
+	connect( pushButton_activateGameTableStyle, SIGNAL( clicked() ), this, SLOT( setSelectedGameTableStyleActivated()) );
+	connect( pushButton_addGameTableStyle, SIGNAL( clicked() ), this, SLOT( addGameTableStyle()) );
+	connect( pushButton_removeGameTableStyle, SIGNAL( clicked() ), this, SLOT( removeGameTableStyle()) );
+
+		
 
 }
 
@@ -228,21 +236,49 @@ void settingsDialogImpl::exec() {
 
 	//S t y l e
 // 	define PokerTH default GameTableStyle
-// 	GameTableStyleReader defaultStyle(myConfig);
-// 	defaultStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/table/default/defaulttablestyle.xml");
-// 
-// 	QListWidgetItem *defaultItem = new QListWidgetItem(defaultStyle.getStyleDescription(),listWidget_gameTableStyles); 
-// 	defaultItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/table/default/defaulttablestyle.xml");
-// 	defaultItem->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
-	
-	//load secondary styles into list
-	
+	listWidget_gameTableStyles->clear();
 
-	//show selected gametablestyles preview
-// 	QFileInfo info(defaultGameTableStyleFile);
-// 	QPixmap preview(info.absolutePath()+"/"+defaultStyle.getPreview());
-// 	if(preview.height() > 160 || preview.width() > 120) label_gameTableStylePreview->setPixmap(preview.scaled(160,120,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-// 	else label_gameTableStylePreview->setPixmap(preview); 
+	GameTableStyleReader defaultStyle(myConfig);
+	defaultStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/table/default/defaulttablestyle.xml");
+	QListWidgetItem *defaultItem = new QListWidgetItem(defaultStyle.getStyleDescription(),listWidget_gameTableStyles); 
+	defaultItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/table/default/defaulttablestyle.xml");
+	
+	//load secondary styles into list (if fallback no entry)
+	myGameTableStylesList = myConfig->readConfigStringList("GameTableStylesList");
+	list<std::string>::iterator it1;
+	for(it1= myGameTableStylesList.begin(); it1 != myGameTableStylesList.end(); it1++) {
+		GameTableStyleReader nextStyle(myConfig);
+		nextStyle.readStyleFile(QString::fromUtf8(it1->c_str()));
+		if(!nextStyle.getFallBack()) {
+			QListWidgetItem *nextItem = new QListWidgetItem(nextStyle.getStyleDescription()); 
+			nextItem->setData(15,QString::fromUtf8(it1->c_str()));
+			listWidget_gameTableStyles->addItem(nextItem);
+		}
+	}	
+
+	//set current Game Table Style from config file
+	GameTableStyleReader currentGameTableStyle(myConfig);
+	currentGameTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentGameTableStyle").c_str()));
+	int i;
+	bool currentFound(FALSE);
+	for(i=0; i < listWidget_gameTableStyles->count(); i++) {
+		QListWidgetItem *item = listWidget_gameTableStyles->item(i);
+		if(item->data(15) == currentGameTableStyle.getCurrentFileName()) {
+			item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+			listWidget_gameTableStyles->setCurrentItem(item);
+			currentFound=TRUE;
+		}
+		else item->setIcon(QIcon());
+	}
+	if(!currentFound) {
+		qDebug() << "Config ERROR: current game table style file not found in List. Mark default as selected.";
+		QListWidgetItem *item = listWidget_gameTableStyles->item(0);
+		item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+		listWidget_gameTableStyles->setCurrentItem(item);
+	}
+
+	//refresh Game Table Style Preview
+	showCurrentGameTableStylePreview();
 
 	
 	//define PokerTH default CardDeck
@@ -432,6 +468,22 @@ void settingsDialogImpl::isAccepted() {
 		}
 	}
 
+	//S T Y L E
+	//save game table styles list
+	myGameTableStylesList.clear();
+	int i;
+	for(i=POKERTH_DISTRIBUTED_GAME_TABLE_STYLES; i < listWidget_gameTableStyles->count(); i++) {
+		QListWidgetItem *item = listWidget_gameTableStyles->item(i);
+		myGameTableStylesList.push_back(item->data(15).toString().toUtf8().constData());
+	}
+	myConfig->writeConfigStringList("GameTableStylesList", myGameTableStylesList);	
+	//save current game table style
+	for(i=0; i < listWidget_gameTableStyles->count(); i++) {
+		QListWidgetItem *item = listWidget_gameTableStyles->item(i);
+		if(!item->icon().isNull()) 
+			myConfig->writeConfigString("CurrentGameTableStyle", item->data(15).toString().toUtf8().constData());	
+	}
+	
 	//Sound
 	myConfig->writeConfigInt("PlaySoundEffects", groupBox_playSoundEffects->isChecked());
 	myConfig->writeConfigInt("SoundVolume", horizontalSlider_soundVolume->value());
@@ -728,5 +780,88 @@ void settingsDialogImpl::toggleGroupBoxAutomaticServerConfig(bool toggleState) {
 void settingsDialogImpl::toggleGroupBoxManualServerConfig(bool toggleState) { 
 	if(toggleState) groupBox_automaticServerConfig->setChecked(FALSE); 
 	else groupBox_automaticServerConfig->setChecked(TRUE); 
+}
+
+void settingsDialogImpl::showCurrentGameTableStylePreview()
+{
+	QListWidgetItem* item = listWidget_gameTableStyles->currentItem();
+	if(item) {
+		GameTableStyleReader style(myConfig);
+		style.readStyleFile(item->data(15).toString());
+		QPixmap preview(style.getPreview());
+		if(preview.height() > 160 || preview.width() > 120) label_gameTableStylePreview->setPixmap(preview.scaled(160,120,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+		else label_gameTableStylePreview->setPixmap(preview); 
+	}
+}
+
+void settingsDialogImpl::setSelectedGameTableStyleActivated()
+{
+	QListWidgetItem* selectedItem = listWidget_gameTableStyles->currentItem();
+	if(selectedItem) {
+		int i;
+		for(i=0; i < listWidget_gameTableStyles->count(); i++) {
+			QListWidgetItem *item = listWidget_gameTableStyles->item(i);
+			if(item == selectedItem) {
+				item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+			}
+			else item->setIcon(QIcon());
+		}
+	}
+}
+
+void settingsDialogImpl::addGameTableStyle()
+{
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Please select your game table style"),
+                                               QDir::home().absolutePath(),
+                                                tr("PokerTH game table styles (*.xml)"));
+
+     	if (!fileName.isEmpty()) {
+
+		int i;
+		bool fileNameAlreadyFound(FALSE);
+		for(i=0; i < listWidget_gameTableStyles->count(); i++) {
+			QListWidgetItem *item = listWidget_gameTableStyles->item(i);
+			if(item->data(15).toString() == fileName) 
+				fileNameAlreadyFound = TRUE;
+		}		
+
+		if(fileNameAlreadyFound) {
+			QMessageBox::warning(this, tr("Game Table Style Error"),
+					tr("Selected game table style file is already in the list. \nPlease select another one to add!"),
+					QMessageBox::Ok);	
+		}
+		else {
+			GameTableStyleReader newStyle(myConfig);
+			newStyle.readStyleFile(fileName);
+			if(!newStyle.getFallBack()) {
+				QListWidgetItem *newItem = new QListWidgetItem(newStyle.getStyleDescription()); 
+				newItem->setData(15,fileName);
+				listWidget_gameTableStyles->addItem(newItem);
+			}
+			else {
+				QMessageBox::warning(this, tr("Game Table Style File Error"),
+					tr("Could not read game table style file. \nStyle will not be placed into list!"),
+					QMessageBox::Ok);	
+			}	
+		}
+	}	
+}
+
+void settingsDialogImpl::removeGameTableStyle()
+{
+	//never delete PokerTH defaullt Styles
+	if(listWidget_gameTableStyles->currentRow() >= POKERTH_DISTRIBUTED_GAME_TABLE_STYLES) {
+
+		QListWidgetItem* selectedItem = listWidget_gameTableStyles->currentItem();
+		if(selectedItem) {
+			// if selected is activated --> swith activation to first default
+			if(!selectedItem->icon().isNull()) { 
+				QListWidgetItem* firstItem = listWidget_gameTableStyles->item(0);
+				firstItem->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+			}
+			//remove from List
+			listWidget_gameTableStyles->takeItem(listWidget_gameTableStyles->currentRow());
+		}
+	}
 }
 

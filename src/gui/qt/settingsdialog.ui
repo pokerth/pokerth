@@ -409,9 +409,9 @@ p, li { white-space: pre-wrap; }
             <item row="0" column="1">
              <layout class="QVBoxLayout" name="verticalLayout">
               <item>
-               <widget class="QPushButton" name="pushButton_selectGameTableStyle">
+               <widget class="QPushButton" name="pushButton_activateGameTableStyle">
                 <property name="text">
-                 <string>Select</string>
+                 <string>Activate</string>
                 </property>
                </widget>
               </item>
@@ -436,7 +436,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_delGameTableStyle">
+               <widget class="QPushButton" name="pushButton_removeGameTableStyle">
                 <property name="text">
                  <string>Remove</string>
                 </property>
@@ -487,9 +487,9 @@ p, li { white-space: pre-wrap; }
             <item row="0" column="1">
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
-               <widget class="QPushButton" name="pushButton_selectCardDeck">
+               <widget class="QPushButton" name="pushButton_activateCardDeck">
                 <property name="text">
-                 <string>Select</string>
+                 <string>Activate</string>
                 </property>
                </widget>
               </item>
@@ -514,7 +514,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_delCardDeck">
+               <widget class="QPushButton" name="pushButton_removeCardDeck">
                 <property name="text">
                  <string>Remove</string>
                 </property>

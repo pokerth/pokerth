@@ -26,7 +26,7 @@
 
 using namespace std;
 
-GameTableStyleReader::GameTableStyleReader(ConfigFile *c, gameTableImpl *w) : myConfig(c), myW(w)
+GameTableStyleReader::GameTableStyleReader(ConfigFile *c, gameTableImpl *w) : myConfig(c), myW(w), fallBack(0)
 {
 	
 }
@@ -40,26 +40,15 @@ void GameTableStyleReader::readStyleFile(QString file) {
 
 	string tinyFileName;
 
-	QMessageBox::warning(myW, tr("FILE"),
-                                file,
-                                QMessageBox::Ok);
-
 	//if style file failed --> default style fallback
 	if(QFile(file).exists()) { 
 		currentFileName = QFile(file).fileName();
-		tinyFileName = currentFileName.toStdString();
-		 
-		QMessageBox::warning(myW, tr("WORKS"),
-                                currentFileName,
-                                QMessageBox::Ok);
+		tinyFileName = currentFileName.toUtf8().constData();		 
 	}
 	else { 
 		currentFileName = QFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/table/default/defaulttablestyle.xml").fileName(); 
-		tinyFileName = currentFileName.toStdString(); 
-		QMessageBox::warning(myW, tr("FALLBACK"),
-                                currentFileName,
-                                QMessageBox::Ok);
-
+		tinyFileName = currentFileName.toUtf8().constData(); 
+		fallBack = 1;
 	}
 	QFileInfo info(currentFileName);
 	currentFileDir = info.absolutePath();
@@ -170,6 +159,7 @@ void GameTableStyleReader::readStyleFile(QString file) {
 		//if one or more items are wrong or left show detailed error message
 		if(!wrongItems.isEmpty() && myW != 0) showErrorMessage(StyleDescription, wrongItems, StyleMaintainerEMail);
 	}
+	else {	qDebug() << "could not load game table style file: " << tinyFileName.c_str(); }
 }
 
 void GameTableStyleReader::showErrorMessage(QString style, QStringList failedItems, QString email)
@@ -179,5 +169,10 @@ void GameTableStyleReader::showErrorMessage(QString style, QStringList failedIte
 	QMessageBox::warning(myW, tr("Game Table Style Error"),
                                 tr("Selected game table style \"%1\" seems to be incomplete or defective. \nThe value of \"%2\" is wrong or left. Please contact the style builder %3.").arg(style).arg(items).arg(email),
                                 QMessageBox::Ok);
+}
+
+QString GameTableStyleReader::getPreview()
+{
+	return QString(currentFileDir+"/"+Preview);
 }
 

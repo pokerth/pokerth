@@ -38,8 +38,11 @@ public:
 	void showErrorMessage(QString, QStringList, QString);
 
 	QString getStyleDescription() const { return StyleDescription; }
-	QString getPreview() const { return Preview; }
-	
+	QString getCurrentFileName() const { return currentFileName; }
+	QString getPreview();
+
+	bool getFallBack() const { return fallBack; }
+
 	
 	
 
@@ -96,6 +99,8 @@ private:
 
 	ConfigFile *myConfig;
 	gameTableImpl *myW;
+
+	bool fallBack;
 };
 
 #endif

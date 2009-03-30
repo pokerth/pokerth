@@ -79,7 +79,12 @@ public slots:
 
 	void toggleGroupBoxAutomaticServerConfig(bool /*toggleState*/);
 	void toggleGroupBoxManualServerConfig(bool /*toggleState*/);
-	
+
+	void setSelectedGameTableStyleActivated();
+	void showCurrentGameTableStylePreview();
+	void addGameTableStyle();
+	void removeGameTableStyle();
+
 private:
 	
 	bool playerNickIsChanged;
@@ -95,6 +100,8 @@ private:
 	int myNetAfterMBAlwaysRaiseValue;
 	std::list<int> myManualBlindsList;
 	std::list<int> myNetManualBlindsList;
+	std::list<std::string> myGameTableStylesList;
+	std::list<std::string> myCardDecksList;
 	
 	ConfigFile* myConfig;
 	boost::shared_ptr<selectAvatarDialogImpl> mySelectAvatarDialogImpl;
