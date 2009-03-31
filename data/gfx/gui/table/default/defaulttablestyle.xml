@@ -38,11 +38,13 @@
      <BetRaiseButtonChecked value="playeraction_green_checked.png" />
      <BetRaiseButtonCheckedHover value="playeraction_green_checked_hover.png" />
      <AllInButtonDefault value="playeraction_orange.png" />
-     <AllInButtonHover value="playeraction_organge_hover.png" />
+     <AllInButtonHover value="playeraction_orange_hover.png" />
      <AllInButtonChecked value="playeraction_orange_checked.png" />
      <AllInButtonCheckedHover value="playeraction_orange_checked_hover.png" />
      <PlayerSeatInActive value="playerSeatInactive.png" />
      <PlayerSeatActive value="playerSeatActive.png" />
      <Table value="table.png" />
+     <ToolBoxBackground value="toolboxbg.png" />
+     <HandRanking value="handranking.png" />
   </TableStyle>
 </PokerTH>

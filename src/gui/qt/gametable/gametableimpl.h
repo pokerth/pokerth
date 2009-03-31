@@ -294,6 +294,8 @@ public slots:
 	void nextVoteOnKickTimeoutAnimationFrame();
 	void refreshVotesMonitor(int currentVotes, int numVotesNeededToKick);
 
+	void refreshGameTableStyle();
+
 private: 
 
 	boost::shared_ptr<GuiInterface> myServerGuiInterface;
@@ -397,10 +399,6 @@ private:
 	bool currentGameOver;	
 	bool flipHolecardsAllInAlreadyDone;
 	bool betSliderChangedByInput;
-
-	QColor active;
-	QColor inactive;
-	QColor highlight;
 
 	// statistic testing
 	int statisticArray[15];

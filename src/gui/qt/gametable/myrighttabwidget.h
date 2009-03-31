@@ -25,17 +25,14 @@ public:
 
 
 	void paintEvent(QPaintEvent * event);
-// 	void startBlinkChatTab();
-// 	void stopBlinkChatTab();
-// 	void showDefaultChatTab();
+
+	QTabBar* getMyTabBar() const { return myTabBar; }
+	
 
 public slots:
 	
-// 	void blinkChatTab();
 
 private: 
-
-// 	QTimer *chatBlinkTimer;
 	QTabBar *myTabBar;
 
 };

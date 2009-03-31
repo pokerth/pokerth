@@ -318,131 +318,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	holeCardsArray[9][0] = pixmapLabel_card9a;
 	holeCardsArray[9][1] = pixmapLabel_card9b;
 
-	// Farben initalisieren
-	active.setRgb(86,170,86);
-	inactive.setRgb(83,141,107);
-	highlight.setRgb(151,214,109);
-
-
-
-// 	Schriftart laden und für Dialoge setzen
-#ifdef _WIN32
-	font1String = "font-family: \"Arial\";";
-	font2String = "font-family: \"Nimbus Sans L\";";
-	QString textBrowserFontsize= "11";
-	QString cashFontSize = "11";
-	QString setLabelFontSize = "11";
-	QString playerNameLabelFontSize = "11";
-	QString mediumTableFontSize = "13";
-	QString handLabelFontSize = "18";
-	QString labelPotFontSize = "19";
-	QString humanPlayerButtonFontSize = "13";
-	QString betValueFontSize = "11";
-#else 
-	#ifdef __APPLE__	
-		font1String = "font-family: \"Lucida Grande\";";
-		font2String = "font-family: \"Lucida Grande\";";
-	#else 
-		font1String = "font-family: \"Nimbus Sans L\";";
-		font2String = "font-family: \"Bitstream Vera Sans\";";
-	#endif
-	QString textBrowserFontsize= "10";
-	QString cashFontSize = "10";
-	QString setLabelFontSize = "10";
-	QString playerNameLabelFontSize = "11";
-	QString mediumTableFontSize = "13";
-	QString handLabelFontSize = "17";	
-	QString labelPotFontSize = "18";
-	QString humanPlayerButtonFontSize = "12";
-	QString betValueFontSize = "10";
-#endif
-
-
-	textBrowser_Log->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+textBrowserFontsize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; } QScrollBar:vertical { border: 1px solid #104600; background: #135000; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #1B7200; background: #176400; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #208A00; height: 3px; width: 3px; background: #27A800; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
-	textBrowser_Chat->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+textBrowserFontsize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; } QScrollBar:vertical { border: 1px solid #104600; background: #135000; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #1B7200; background: #176400; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #208A00; height: 3px; width: 3px; background: #27A800; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
-	lineEdit_ChatInput->setStyleSheet("QLineEdit { "+ font1String +" font-size: "+textBrowserFontsize+"px; color: #F0F0F0; background-color: #1D3B00; border-top: 2px solid #286400; }");
-
-
-#ifdef __APPLE__
-// 	tabWidget_Right->setStyleSheet("QTabWidget { "+ font1String +" font-size: 11px; background-color: #145300; }");
-// 	tabWidget_Left->setStyleSheet("QTabWidget { "+ font1String +" font-size: 11px; background-color: #145300;}");
-#else
-// 	tabWidget_Right->setStyleSheet("QTabWidget::pane { "+ font1String +" font-size: 10px; background-color: #145300; border: 1px solid #286400; border-radius: 2px; }");
-// 	tabWidget_Left->setStyleSheet("QTabWidget::pane { border: 1px solid #286400; border-radius: 2px; background-color: #145300; }");
-#endif
-
-	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-
-		cashLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: "+cashFontSize+"px; font-weight: bold; color: #FFFF00; }");
-		setLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: "+setLabelFontSize+"px; font-weight: bold; color: #FFFF00; }");
-		playerNameLabelArray[i]->setStyleSheet("QLabel { "+ font2String +" font-size: "+playerNameLabelFontSize+"px; font-weight: bold; color: #F0F0F0; }");
-	}
-	
-	label_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
-	label_Total->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900; }");
-	textLabel_Sets->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
-	textLabel_Pot->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
-	label_handNumber->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
-	label_gameNumber->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
-	label_handNumberValue->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
-	label_gameNumberValue->setStyleSheet("QLabel { "+ font2String +" font-size: "+mediumTableFontSize+"px; font-weight: bold; color: #669900;  }");
-
-	textLabel_handLabel->setStyleSheet("QLabel { "+ font2String +" font-size: "+handLabelFontSize+"px; font-weight: bold; color: #669900;  }");
-	label_Pot->setStyleSheet("QLabel { "+ font2String +" font-size: "+labelPotFontSize+"px; font-weight: bold; color: #669900;   }");
-
-
-	//Widgets Grafiken setzen
-	label_CardHolder0->setPixmap(myAppDataPath + "gfx/gui/table/default/cardholder_flop.png");
-	label_CardHolder1->setPixmap(myAppDataPath + "gfx/gui/table/default/cardholder_flop.png");
-	label_CardHolder2->setPixmap(myAppDataPath + "gfx/gui/table/default/cardholder_flop.png");
-	label_CardHolder3->setPixmap(myAppDataPath + "gfx/gui/table/default/cardholder_turn.png");
-	label_CardHolder4->setPixmap(myAppDataPath + "gfx/gui/table/default/cardholder_river.png");
-
-	label_Handranking->setPixmap(myAppDataPath + "gfx/gui/misc/handRanking.png");
-
-	//Widgets Grafiken per Stylesheets setzen
-	this->setStyleSheet("QMainWindow { background-image: url(" + myAppDataPath +"gfx/gui/table/default/table.png); background-position: bottom center; background-origin: content;}");
-
-	menubar->setStyleSheet("QMenuBar { background-color: #145300; } QMenuBar::item { color: #99D500; }");
-
-	pushButton_break->setStyleSheet("QPushButton:enabled { background-color: #145300; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
-	label_speedString->setStyleSheet("QLabel { color: #99D500;}");
-	label_speedValue->setStyleSheet("QLabel { color: #99D500;}");	
-	
-	pushButton_voteOnKickYes->setStyleSheet("QPushButton:enabled { background-color: #1C7000; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
-	pushButton_voteOnKickNo->setStyleSheet("QPushButton:enabled { background-color: #1C7000; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
-	label_timeout->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");
-	label_kickVoteTimeout->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");
-	label_kickUser->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");	
-	label_votesMonitor->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");	
-	label_voteStarterNick->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");	
-	label_votestartedby->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");	
-
-// 	statusbar->setStyleSheet(" QStatusBar { "+ font1String +" font-size: 12px; color: #B7FF00; }");
-
-	//Groupbox Background 
-	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-
-		groupBoxArray[i]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatInactive.png) }"); 
-	}
-	//Human player button
-	pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked_hover.png);}");
-	pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked_hover.png);}");
-	pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked_hover.png);}");
-	pushButton_AllIn->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_checked_hover.png);}");
-
-	lineEdit_betValue->setStyleSheet("QLineEdit { "+ font2String +" font-size: "+betValueFontSize+"px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; } QLineEdit:disabled { background-color: #316300; color: #6d7b5f }");
-
-// 	away radiobuttons
-// 	QString radioButtonString("QRadioButton { color: #99D500; } QRadioButton::indicator { width: 13px; height: 13px; } QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png); }");
-	QString radioButtonString("QRadioButton { color: #99D500; } QRadioButton::indicator { width: 13px; height: 13px;} QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png);}  QRadioButton::indicator::unchecked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_unchecked.png);}      QRadioButton::indicator:unchecked:hover { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_unchecked_hover.png);} QRadioButton::indicator:unchecked:pressed { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_pressed.png);} QRadioButton::indicator::checked { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked.png);}      QRadioButton::indicator:checked:hover { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_checked_hover.png);} QRadioButton::indicator:checked:pressed { image: url("+myAppDataPath+"gfx/gui/misc/radiobutton_pressed.png);}");
-
-	radioButton_manualAction->setStyleSheet(radioButtonString);
-	radioButton_autoCheckFold->setStyleSheet(radioButtonString);
-	radioButton_autoCheckCallAny->setStyleSheet(radioButtonString);
-
-	groupBox_RightToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/misc/toolboxFrameBG.png) }");
-	groupBox_LeftToolBox->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/misc/toolboxFrameBG.png) }");
+	//style Game Table
+	refreshGameTableStyle();
 
 	//raise actionLable above just inserted mypixmaplabel
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { actionLabelArray[i]->raise(); }
@@ -619,6 +496,11 @@ void gameTableImpl::callSettingsDialog() { myStartWindow->callSettingsDialog(); 
 
 void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 
+	//apply card deck style 
+	myCardDeckStyle->readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentCardDeckStyle").c_str()));
+	//apply game table style
+	myGameTableStyle->readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentGameTableStyle").c_str()));
+
 	//Toolbox verstecken?
 	if (myConfig->readConfigInt("ShowLeftToolBox")) { groupBox_LeftToolBox->show(); }
 	else { groupBox_LeftToolBox->hide(); }
@@ -678,8 +560,6 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 		refreshPlayerAvatar();		
 	}
 	
-	//apply card deck style 
-	myCardDeckStyle->readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentCardDeckStyle").c_str()));
 	//refresh board cards if game is running
 	if(myStartWindow->getSession()->getCurrentGame()) {
 
@@ -743,10 +623,13 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 		}
 	}
 
+	refreshGameTableStyle();
+
+	//blind buttons refresh
 	if(myStartWindow->getSession()->getCurrentGame()) {
-		//blind buttons refresh
 		refreshButton();
 	}
+
 	// Re-init audio.
 	mySDLPlayer->audioDone();
 	mySDLPlayer->initAudio();
@@ -801,9 +684,9 @@ void gameTableImpl::refreshSet() {
 
 void gameTableImpl::refreshButton() {
 
-	QPixmap dealerButton = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/dealerPuck.png"));
-	QPixmap smallblindButton = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/smallblindPuck.png"));
-	QPixmap bigblindButton = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/bigblindPuck.png"));
+	QPixmap dealerButton = QPixmap::fromImage(QImage(myGameTableStyle->getDealerPuck()));
+	QPixmap smallblindButton = QPixmap::fromImage(QImage(myGameTableStyle->getSmallBlindPuck()));
+	QPixmap bigblindButton = QPixmap::fromImage(QImage(myGameTableStyle->getBigBlindPuck()));
 	QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 
 	Game *currentGame = myStartWindow->getSession()->getCurrentGame();
@@ -883,7 +766,7 @@ void gameTableImpl::refreshPlayerAvatar() {
 		if((*it_c)->getMyActiveStatus()) { 
 
 			if((*it_c)->getMyAvatar() == "" || !QFile::QFile(QString::fromUtf8((*it_c)->getMyAvatar().c_str())).exists()) {
-				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png")));
+				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getDefaultAvatar())));
 			}
 			else {
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(QString::fromUtf8((*it_c)->getMyAvatar().c_str()))));
@@ -907,7 +790,7 @@ void gameTableImpl::setPlayerAvatar(int myID, QString myAvatar) {
 				tmpPlayer->setMyAvatar(myAvatar.toUtf8().constData());
 			}
 			else {
-				playerAvatarLabelArray[tmpPlayer->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/genereticAvatar.png")));
+				playerAvatarLabelArray[tmpPlayer->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getDefaultAvatar())));
 				tmpPlayer->setMyAvatar("");
 			}	
 		}	
@@ -935,7 +818,7 @@ void gameTableImpl::refreshAction(int playerID, int playerAction) {
 			}
 			else {
 					//paint action pixmap
-					actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/action_"+actionArray[(*it_c)->getMyAction()]+".png")));
+					actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getActionPic((*it_c)->getMyAction()))));
 			}
 					
 			if ((*it_c)->getMyAction()==1) { 
@@ -955,7 +838,7 @@ void gameTableImpl::refreshAction(int playerID, int playerAction) {
 		else {
 		
 	// 		paint action pixmap and raise
-			actionLabelArray[playerID]->setPixmap(QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/action_"+actionArray[playerAction]+".png")));			
+			actionLabelArray[playerID]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getActionPic(playerAction))));			
 
 			//play sounds if exist
 			if(myConfig->readConfigInt("PlayGameActions"))
@@ -1004,7 +887,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 	
 			if((*it_c)->getMyTurn()) {
 				//Groupbox glow wenn der Spiele dran ist. 
-				groupBoxArray[(*it_c)->getMyID()]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatActive.png) }"); 
+				myGameTableStyle->setPlayerSeatActiveStyle(groupBoxArray[(*it_c)->getMyID()]);
 			} else {
 				//Groupbox auf Hintergrundfarbe setzen wenn der Spiele nicht dran aber aktiv ist. 
 				if((*it_c)->getMyActiveStatus()) {
@@ -1014,7 +897,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 							userWidgetsArray[j]->show();
 						}
 					}
-					groupBoxArray[(*it_c)->getMyID()]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatInactive.png) }"); 
+					myGameTableStyle->setPlayerSeatInActiveStyle(groupBoxArray[(*it_c)->getMyID()]);
 					
 				}
 				//Groupbox verdunkeln wenn der Spiele inactive ist.  
@@ -1028,7 +911,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 						holeCardsArray[0][0]->signalFastFlipCards(FALSE);
 						holeCardsArray[0][1]->signalFastFlipCards(FALSE);						
 					}
-					groupBoxArray[(*it_c)->getMyID()]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatInactive.png) }"); 
+					myGameTableStyle->setPlayerSeatInActiveStyle(groupBoxArray[(*it_c)->getMyID()]);
 				}
 			}
 		}
@@ -1047,7 +930,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 					holeCardsArray[0][0]->signalFastFlipCards(FALSE);
 					holeCardsArray[0][1]->signalFastFlipCards(FALSE);						
 				}
-				groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatInactive.png) }"); 
+				myGameTableStyle->setPlayerSeatInActiveStyle(groupBoxArray[playerID]);
 			}
 		break;
 		//active but fold
@@ -1058,17 +941,17 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 						userWidgetsArray[j]->show();
 					}		
 				}
-				groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatInactive.png) }"); 
+				myGameTableStyle->setPlayerSeatInActiveStyle(groupBoxArray[playerID]);
 			}
 		break;
 		//active in action
 		case 2:  {
-				groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatActive.png) }"); 
+				myGameTableStyle->setPlayerSeatActiveStyle(groupBoxArray[playerID]);
 			}
 		break;
 		//active not in action
 		case 3:  {
-				groupBoxArray[playerID]->setStyleSheet("QGroupBox { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playerSeatInactive.png) }"); 
+				myGameTableStyle->setPlayerSeatInActiveStyle(groupBoxArray[playerID]);
 			}
 		break;
 		default: {}
@@ -2169,7 +2052,7 @@ void gameTableImpl::postRiverRunAnimation3() {
 // 			QPalette tempPalette = groupBoxArray[i]->palette();
 // 			tempPalette.setColor(QPalette::Window, highlight);
 // 			groupBoxArray[i]->setPalette(tempPalette);
-			actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/table/default/action_winner.png")));
+			actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getActionPic(7))));
 
 			//show winnercards if more than one player is active TODO
 			if ( nonfoldPlayerCounter != 1 && myConfig->readConfigInt("ShowFadeOutCardsAnimation")) {
@@ -2969,12 +2852,6 @@ void gameTableImpl::clearMyButtons() {
 }
 
 void gameTableImpl::myButtonsCheckable(bool state) {
-
-#ifdef _WIN32
-	QString humanPlayerButtonFontSize = "13";
-#else 
-	QString humanPlayerButtonFontSize = "12";
-#endif
 	
 	if(state) {
 		//checkable
@@ -2985,10 +2862,7 @@ void gameTableImpl::myButtonsCheckable(bool state) {
 		pushButton_AllIn->setCheckable(TRUE);
 
 		//design
-		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #87FF97;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png);} QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_hover.png);} QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked_hover.png);}");
-		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #87CDFF;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked_hover.png); }");
-		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #FF8787;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked_hover.png); }");
-		pushButton_AllIn->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #ffe187;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_hover.png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_checked_hover.png); }");
+		myGameTableStyle->setButtonsStyle(pushButton_BetRaise, pushButton_CallCheck, pushButton_Fold, pushButton_AllIn, 2);
 
 		myButtonsAreCheckable = TRUE;
 	}
@@ -3001,18 +2875,16 @@ void gameTableImpl::myButtonsCheckable(bool state) {
 		pushButton_AllIn->setCheckable(FALSE);
 	
 		QString hover;
-		if(pushButton_AllIn->text()=="All-In") { hover = "_hover"; }
-	
-		//design
-		pushButton_BetRaise->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green"+hover+".png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_green_checked"+hover+".png);}");
-		pushButton_CallCheck->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue"+hover+".png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_blue_checked"+hover+".png);}");
-		pushButton_Fold->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red"+hover+".png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_red_checked"+hover+".png);}");
-		pushButton_AllIn->setStyleSheet("QPushButton { border:none; background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange.png); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange.png); } QPushButton:checked { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_checked.png);} QPushButton:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange"+hover+".png); } QPushButton:checked:hover { background-image: url(" + myAppDataPath +"gfx/gui/table/default/playeraction_orange_checked"+hover+".png);}");
+		if(pushButton_AllIn->text()=="All-In") { 
+			myGameTableStyle->setButtonsStyle(pushButton_BetRaise, pushButton_CallCheck, pushButton_Fold, pushButton_AllIn, 0); 
+		}
+		else { 
+			myGameTableStyle->setButtonsStyle(pushButton_BetRaise, pushButton_CallCheck, pushButton_Fold, pushButton_AllIn, 1); 
+		}
+
 		myButtonsAreCheckable = FALSE;
 	}
 }
-
-// // void gameTableImpl::closeEvent(QCloseEvent* /*event*/) { closeGameTable(); }
 
 void gameTableImpl::showMaximized () {
 	this->showFullScreen ();
@@ -3284,4 +3156,78 @@ void gameTableImpl::refreshActionButtonFKeyIndicator(bool clear)
 			pushButton_Fold->setFKeyText("F4");
 		}
 	}
+}
+
+void gameTableImpl::refreshGameTableStyle()
+{
+	myGameTableStyle->setLogStyle(textBrowser_Log);
+	myGameTableStyle->setChatStyle(textBrowser_Chat);	
+	myGameTableStyle->setChatInputStyle(lineEdit_ChatInput);
+
+#ifdef __APPLE__
+// 	tabWidget_Right->setStyleSheet("QTabWidget { "+ font1String +" font-size: 11px; background-color: #145300; }");
+// 	tabWidget_Left->setStyleSheet("QTabWidget { "+ font1String +" font-size: 11px; background-color: #145300;}");
+#else
+// 	tabWidget_Right->setStyleSheet("QTabWidget::pane { "+ font1String +" font-size: 10px; background-color: #145300; border: 1px solid #286400; border-radius: 2px; }");
+// 	tabWidget_Left->setStyleSheet("QTabWidget::pane { border: 1px solid #286400; border-radius: 2px; background-color: #145300; }");
+#endif
+	int i;
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+
+		myGameTableStyle->setCashLabelStyle(cashLabelArray[i]);
+		myGameTableStyle->setSetLabelStyle(setLabelArray[i]);
+		myGameTableStyle->setPlayerNameLabelStyle(playerNameLabelArray[i]);
+	}
+	
+	myGameTableStyle->setSmallFontBoardStyle(label_Sets);
+	myGameTableStyle->setSmallFontBoardStyle(label_Total);
+	myGameTableStyle->setSmallFontBoardStyle(textLabel_Sets);
+	myGameTableStyle->setSmallFontBoardStyle(textLabel_Pot);
+	myGameTableStyle->setSmallFontBoardStyle(label_handNumber);
+	myGameTableStyle->setSmallFontBoardStyle(label_gameNumber);
+	myGameTableStyle->setSmallFontBoardStyle(label_handNumberValue);
+	myGameTableStyle->setSmallFontBoardStyle(label_gameNumberValue);
+	myGameTableStyle->setBigFontBoardStyle(textLabel_handLabel);
+	myGameTableStyle->setBigFontBoardStyle(label_Pot);
+	myGameTableStyle->setCardHolderStyle(label_CardHolder0,0);
+	myGameTableStyle->setCardHolderStyle(label_CardHolder1,0);
+	myGameTableStyle->setCardHolderStyle(label_CardHolder2,0);
+	myGameTableStyle->setCardHolderStyle(label_CardHolder3,1);
+	myGameTableStyle->setCardHolderStyle(label_CardHolder4,2);
+	myGameTableStyle->setTableBackground(this);
+	myGameTableStyle->setMenuBarStyle(menubar);
+	myGameTableStyle->setBreakButtonStyle(pushButton_break);
+	myGameTableStyle->setSpeedStringStyle(label_speedString);
+	myGameTableStyle->setSpeedStringStyle(label_speedValue);
+	myGameTableStyle->setVoteButtonStyle(pushButton_voteOnKickYes);
+	myGameTableStyle->setVoteButtonStyle(pushButton_voteOnKickNo);
+	myGameTableStyle->setVoteStringsStyle(label_timeout);
+	myGameTableStyle->setVoteStringsStyle(label_kickVoteTimeout);
+	myGameTableStyle->setVoteStringsStyle(label_kickUser);
+	myGameTableStyle->setVoteStringsStyle(label_votesMonitor);
+	myGameTableStyle->setVoteStringsStyle(label_voteStarterNick);
+	myGameTableStyle->setVoteStringsStyle(label_votestartedby);
+	
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+
+		myGameTableStyle->setPlayerSeatInActiveStyle(groupBoxArray[i]);
+	}
+	//Human player button
+	myGameTableStyle->setButtonsStyle(pushButton_BetRaise, pushButton_CallCheck, pushButton_Fold, pushButton_AllIn, 0);
+
+	myGameTableStyle->setBetValueInputStyle(lineEdit_betValue);
+
+// 	away radiobuttons
+	myGameTableStyle->setAwayRadioButtonsStyle(radioButton_manualAction);
+	myGameTableStyle->setAwayRadioButtonsStyle(radioButton_autoCheckFold);
+	myGameTableStyle->setAwayRadioButtonsStyle(radioButton_autoCheckCallAny);
+
+	myGameTableStyle->setToolBoxBackground(groupBox_RightToolBox);
+	myGameTableStyle->setToolBoxBackground(groupBox_LeftToolBox);
+	
+	myGameTableStyle->setTabWidgetStyle(tabWidget_Right, tabWidget_Right->getMyTabBar());
+	myGameTableStyle->setTabWidgetStyle(tabWidget_Left, tabWidget_Left->getMyTabBar());
+	
+
+	label_Handranking->setPixmap(myGameTableStyle->getHandRanking());
 }

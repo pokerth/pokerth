@@ -39,9 +39,45 @@ public:
 
 	QString getStyleDescription() const { return StyleDescription; }
 	QString getCurrentFileName() const { return currentFileName; }
-	QString getPreview();
+	QString getPreview() const { return Preview; }
+	QString getDefaultAvatar() const { return DefaultAvatar; }
+	QString getDealerPuck() const {	return DealerPuck; }
+	QString getSmallBlindPuck() const { return SmallBlindPuck; }
+	QString getBigBlindPuck() const	{ return BigBlindPuck; }
+	QString getHandRanking() const { return HandRanking; }
+
+	QString getActionPic(int);
 
 	bool getFallBack() const { return fallBack; }	
+
+	//set pictures
+	void setTableBackground(gameTableImpl*);
+	void setCardHolderStyle(QLabel*, int /*bero*/);
+	void setPlayerSeatActiveStyle(QGroupBox*);
+	void setPlayerSeatInActiveStyle(QGroupBox*);
+	void setToolBoxBackground(QGroupBox*);
+
+	//set fonts + colors
+	void setLogStyle(QTextBrowser*);
+	void setChatStyle(QTextBrowser*);
+	void setChatInputStyle(QLineEdit*);
+	void setCashLabelStyle(QLabel*);
+	void setSetLabelStyle(QLabel*);
+	void setPlayerNameLabelStyle(QLabel*);
+	void setSmallFontBoardStyle(QLabel*);
+	void setBigFontBoardStyle(QLabel*);
+	void setMenuBarStyle(QMenuBar*);
+	void setBreakButtonStyle(QPushButton*);
+	void setSpeedStringStyle(QLabel*);
+	void setVoteButtonStyle(QPushButton*);
+	void setVoteStringsStyle(QLabel*);
+	void setBetValueInputStyle(QLineEdit*);
+	
+	void setTabWidgetStyle(QTabWidget*, QTabBar*);
+
+	//set pics and fonts and colors 
+	void setButtonsStyle(QPushButton*, QPushButton*, QPushButton*, QPushButton*, int);
+	void setAwayRadioButtonsStyle(QRadioButton*);
 
 private:
 
@@ -88,9 +124,25 @@ private:
 	QString PlayerSeatInActive;
 	QString PlayerSeatActive;
 	QString Table;
+	QString HandRanking;
+	QString ToolBoxBackground;
+
+	QString font2String;
+	QString font1String;
+	QString textBrowserFontsize;
+	QString cashFontSize;
+	QString setLabelFontSize;
+	QString playerNameLabelFontSize;
+	QString smallBoardFontSize;
+	QString bigBoardFontSize;
+	QString humanPlayerButtonFontSize;
+	QString betValueFontSize;
+
+	QString tabBarPaddingTop;
+	QString tabBarPaddingSide;
 
 	QString currentFileName;
-	QString currentFileDir;
+	QString currentDir;
 
 	QStringList wrongItems;
 

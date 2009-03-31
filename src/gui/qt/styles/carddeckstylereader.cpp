@@ -67,16 +67,11 @@ void CardDeckStyleReader::readStyleFile(QString file) {
 				tempString1 = tmpStr1;
 
 				if(itemsList->ValueStr() == "StyleDescription") { StyleDescription = QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "Preview") { Preview = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "Preview") { Preview = currentDir+QString::fromUtf8(tempString1.c_str()); }
 			}
 		}
 		
 	}
 	else {	qDebug() << "could not load card deck file: " << tinyFileName.c_str(); }
-}
-
-QString CardDeckStyleReader::getPreview()
-{
-	return QString(currentDir+"/"+Preview);
 }
 

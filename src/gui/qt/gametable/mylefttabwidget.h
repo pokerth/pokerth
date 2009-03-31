@@ -35,6 +35,8 @@ public slots:
 	
 	void blinkChatTab();
 
+	QTabBar* getMyTabBar() const { return myTabBar; }
+
 private: 
 
 	QTimer *chatBlinkTimer;

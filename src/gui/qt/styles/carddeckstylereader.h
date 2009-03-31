@@ -38,9 +38,11 @@ public:
 	QString getStyleDescription() const { return StyleDescription; }
 	QString getCurrentFileName() const { return currentFileName; }
 	QString getCurrentDir() const { return currentDir; }
-	QString getPreview();
+	
+	QString getPreview() const { return Preview; }
 
 	bool getFallBack() const { return fallBack; }	
+
 
 private:
 
