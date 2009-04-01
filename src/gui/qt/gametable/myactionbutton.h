@@ -15,6 +15,8 @@
 #include <QtGui>
 #include <QtCore>
 
+class GameTableStyleReader;
+
 class MyActionButton : public QPushButton
 {
 public:
@@ -25,9 +27,12 @@ public:
 	void paintEvent(QPaintEvent * event); 
 	void setFKeyText ( const QString& theValue ){fKeyText = theValue;}
 
+	void setMyStyle ( GameTableStyleReader* theValue ) { myStyle = theValue; }
+
 private:
 
 	QString fKeyText;
+	GameTableStyleReader *myStyle;
 };
 
 #endif

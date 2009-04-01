@@ -87,6 +87,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	pixmapLabel_card0b->setMyW(this);
 	pixmapLabel_card0a->setMyW(this);
 
+	//set myStyle to widgets wich needs it
+	label_chance->setMyStyle(myGameTableStyle);
+
 	//Flipside festlegen;
 	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
 		flipside = new QPixmap();
@@ -365,6 +368,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 // 	Dialogs
 	myChat = new Chat(this, myConfig);
+	myChat->transportMyStyle(myGameTableStyle);
 
 	lineEdit_ChatInput->installEventFilter(this);
 	this->installEventFilter(this);
@@ -2408,7 +2412,7 @@ void gameTableImpl::nextRoundCleanGui() {
 	//Clean breakbutton
 	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
 		blinkingStartButtonAnimationTimer->stop();
-		pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: #99D500;}");
+		myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
 		blinkingStartButtonAnimationTimer->stop();
 		QFontMetrics tempMetrics = this->fontMetrics();
 		int width = tempMetrics.width(tr("Stop"));
@@ -2494,7 +2498,7 @@ void gameTableImpl::breakButtonClicked() {
 
 		blinkingStartButtonAnimationTimer->stop();
 		//Set default Color
-		pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: #99D500;}");
+		myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
 		QFontMetrics tempMetrics = this->fontMetrics();
 		int width = tempMetrics.width(tr("Stop"));
 		pushButton_break->setMinimumSize(width+10,20);
@@ -2713,11 +2717,11 @@ void gameTableImpl::blinkingStartButtonAnimationAction() {
 	
 	QString style = pushButton_break->styleSheet();
 
-	if(style.contains("QPushButton { background-color: #145300;")) {
-		pushButton_break->setStyleSheet("QPushButton { background-color: #6E9E00; color: black;}");
+	if(style.contains("QPushButton:enabled { background-color: #145300;")) {
+		myGameTableStyle->setBreakButtonStyle(pushButton_break,1);
 	}
 	else {
-		pushButton_break->setStyleSheet("QPushButton { background-color: #145300; color: #99D500;}");
+		myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
 	}
 }
 
@@ -3164,13 +3168,6 @@ void gameTableImpl::refreshGameTableStyle()
 	myGameTableStyle->setChatStyle(textBrowser_Chat);	
 	myGameTableStyle->setChatInputStyle(lineEdit_ChatInput);
 
-#ifdef __APPLE__
-// 	tabWidget_Right->setStyleSheet("QTabWidget { "+ font1String +" font-size: 11px; background-color: #145300; }");
-// 	tabWidget_Left->setStyleSheet("QTabWidget { "+ font1String +" font-size: 11px; background-color: #145300;}");
-#else
-// 	tabWidget_Right->setStyleSheet("QTabWidget::pane { "+ font1String +" font-size: 10px; background-color: #145300; border: 1px solid #286400; border-radius: 2px; }");
-// 	tabWidget_Left->setStyleSheet("QTabWidget::pane { border: 1px solid #286400; border-radius: 2px; background-color: #145300; }");
-#endif
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
@@ -3196,7 +3193,7 @@ void gameTableImpl::refreshGameTableStyle()
 	myGameTableStyle->setCardHolderStyle(label_CardHolder4,2);
 	myGameTableStyle->setTableBackground(this);
 	myGameTableStyle->setMenuBarStyle(menubar);
-	myGameTableStyle->setBreakButtonStyle(pushButton_break);
+	myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
 	myGameTableStyle->setSpeedStringStyle(label_speedString);
 	myGameTableStyle->setSpeedStringStyle(label_speedValue);
 	myGameTableStyle->setVoteButtonStyle(pushButton_voteOnKickYes);
@@ -3228,6 +3225,5 @@ void gameTableImpl::refreshGameTableStyle()
 	myGameTableStyle->setTabWidgetStyle(tabWidget_Right, tabWidget_Right->getMyTabBar());
 	myGameTableStyle->setTabWidgetStyle(tabWidget_Left, tabWidget_Left->getMyTabBar());
 	
-
 	label_Handranking->setPixmap(myGameTableStyle->getHandRanking());
 }

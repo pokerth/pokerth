@@ -10,7 +10,7 @@
 //
 //
 #include "myactionbutton.h"
-
+#include "gametablestylereader.h"
 
 using namespace std;
 
@@ -30,7 +30,7 @@ void MyActionButton::paintEvent(QPaintEvent * event) {
 	QPushButton::paintEvent(event);
 
 	QPainter painter(this);
-	painter.setPen(QColor(240,240,240));
+	painter.setPen(QColor("#"+myStyle->getFKeyIndicatorColor()));
 	painter.setOpacity(0.5);
 	QFont f= painter.font();
 	f.setPixelSize(9);

@@ -25,6 +25,7 @@
 #include "playerinterface.h"
 #include "chattools.h"
 #include "configfile.h"
+#include "gametablestylereader.h"
 
 using namespace std;
 
@@ -108,3 +109,8 @@ int Chat::getChatLinesHistorySize() { return myChatTools->getChatLinesHistorySiz
 void Chat::showChatHistoryIndex(int index) { myChatTools->showChatHistoryIndex(index); }
 void Chat::nickAutoCompletition() { myChatTools->nickAutoCompletition(); }
 void Chat::setChatTextEdited() { myChatTools->setChatTextEdited(); }
+
+void Chat::transportMyStyle(GameTableStyleReader *s)
+{
+	myChatTools->setMyStyle(s);
+}

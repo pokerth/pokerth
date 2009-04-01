@@ -27,6 +27,7 @@
 class gameTableImpl;
 class ChatTools;
 class ConfigFile;
+class GameTableStyleReader;
 
 class Chat : public QObject
 {
@@ -44,6 +45,7 @@ public slots:
 	void checkInvisible();
 	void checkInputLength(QString);
 	void clearNewGame();
+	void transportMyStyle(GameTableStyleReader*);
 
 	ChatTools* getMyChatTools() const { return myChatTools; }
 

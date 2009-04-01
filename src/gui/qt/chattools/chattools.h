@@ -27,6 +27,7 @@
 
 class Session;
 class ConfigFile;
+class GameTableStyleReader;
 
 class ChatTools : public QObject
 {
@@ -55,6 +56,8 @@ public slots:
 
 	void setPlayerNicksList(QStringList value) { myNickStringList = value; }
 	void setMyNick ( const QString& theValue ) { myNick = theValue; }
+
+	void setMyStyle ( GameTableStyleReader* theValue ) { myStyle = theValue; }
 	
 
 private:
@@ -73,6 +76,8 @@ private:
 	ConfigFile *myConfig;
 	
 	QString myNick;
+
+	GameTableStyleReader *myStyle;
 };
 
 #endif

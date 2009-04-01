@@ -64,6 +64,8 @@ public:
 	
 	SDLPlayer* getMySDLPlayer() const { return mySDLPlayer; }
 	Chat* getMyChat() const	{ return myChat; }
+
+	GameTableStyleReader* getMyGameTableStyle() const { return myGameTableStyle; }
 		
 	void setSpeeds();
 

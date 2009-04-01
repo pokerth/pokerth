@@ -105,16 +105,19 @@ void GameTableStyleReader::readStyleFile(QString file) {
 			if (tmpStr1) {
 				tempString1 = tmpStr1;
 
+// 				INFOS
 				if(itemsList->ValueStr() == "StyleDescription") { StyleDescription = QString::fromUtf8(tempString1.c_str()); }
 				else if(itemsList->ValueStr() == "StyleMaintainerEMail") { StyleMaintainerEMail = QString::fromUtf8(tempString1.c_str()); }
+// 				WINDOWS SETTINGS
+				else if (itemsList->ValueStr() == "IfFixedWindowSize") { IfFixedWindowSize = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "FixedWindowWidth") { FixedWindowWidth = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "FixedWindowHeight") { FixedWindowHeight = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "MinimumWindowWidth") { MinimumWindowWidth = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "MinimumWindowHeight") { MinimumWindowHeight = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "MaximumWindowWidth") { MaximumWindowWidth = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "MaximumWindowHeight") { MaximumWindowHeight = QString::fromUtf8(tempString1.c_str()); }
+// 				PICS
 				else if (itemsList->ValueStr() == "Preview") { Preview = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "IfFixedWindowSize") { IfFixedWindowSize = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "FixedWindowWidth") { FixedWindowWidth = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "FixedWindowHeight") { FixedWindowHeight = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "MinimumWindowWidth") { MinimumWindowWidth = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "MinimumWindowHeight") { MinimumWindowHeight = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "MaximumWindowWidth") { MaximumWindowWidth = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "MaximumWindowHeight") { MaximumWindowHeight = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "ActionAllIn") { ActionAllIn = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "ActionRaise") { ActionRaise = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "ActionBet") { ActionBet = currentDir+QString::fromUtf8(tempString1.c_str()); }
@@ -150,7 +153,21 @@ void GameTableStyleReader::readStyleFile(QString file) {
 				else if (itemsList->ValueStr() == "Table") { Table = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "HandRanking") { HandRanking = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "ToolBoxBackground") { ToolBoxBackground = currentDir+QString::fromUtf8(tempString1.c_str()); }
-
+// 				COLORS
+				else if (itemsList->ValueStr() == "FKeyIndicatorColor") { FKeyIndicatorColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ChanceLabelPossibleColor") { ChanceLabelPossibleColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ChanceLabelImpossibleColor") { ChanceLabelImpossibleColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ChatTextNickNotifyColor") { ChatTextNickNotifyColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ChatTextColor") { ChatTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "LogTextColor") { LogTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "LogWinnerMainPotColor") { LogWinnerMainPotColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "LogWinnerSidePotColor") { LogWinnerSidePotColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "LogPlayerSitsOutColor") { LogPlayerSitsOutColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "LogNewGameAdminColor") { LogNewGameAdminColor = QString::fromUtf8(tempString1.c_str()); }
+// 				SIZES
+				else if (itemsList->ValueStr() == "ChatTextSize") { ChatTextSize = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "LogTextSize") { LogTextSize = QString::fromUtf8(tempString1.c_str()); }	
+	
 // 				std::cout << "ÖLP" << itemsList->ValueStr() <<"§4s"<< itemsList->ValueStr()<<"§89"<< endl;
 			}
 		}
@@ -196,10 +213,24 @@ void GameTableStyleReader::readStyleFile(QString file) {
 		if(PlayerSeatActive == "") { wrongItems << "PlayerSeatActive"; }
 		if(PlayerSeatInActive == "") { wrongItems << "PlayerSeatInActive"; }
 		if(Table == "") { wrongItems << "Table"; }
-		
+		if(HandRanking == "") { wrongItems << "HandRanking"; }
+		if(ToolBoxBackground == "") { wrongItems << "ToolBoxBackground"; }
+		if(FKeyIndicatorColor == "") { wrongItems << "FKeyIndicatorColor"; }
+		if(ChanceLabelPossibleColor == "") { wrongItems << "ChanceLabelPossibleColor"; }
+		if(ChanceLabelImpossibleColor == "") { wrongItems << "ChanceLabelImpossibleColor"; }
+		if(ChatTextColor == "") { wrongItems << "ChatTextColor"; }
+		if(ChatTextNickNotifyColor == "") { wrongItems << "ChatTextNickNotifyColor"; }
+		if(LogTextColor == "") { wrongItems << "LogTextColor"; }
+		if(LogWinnerMainPotColor == "") { wrongItems << "LogWinnerMainPotColor"; }
+		if(LogWinnerSidePotColor == "") { wrongItems << "LogWinnerSidePotColor"; }
+		if(LogPlayerSitsOutColor == "") { wrongItems << "LogPlayerSitsOutColor"; }
+		if(LogNewGameAdminColor == "") { wrongItems << "LogNewGameAdminColor"; }
+		if(ChatTextSize == "") { wrongItems << "ChatTextSize"; }
+		if(LogTextSize == "") { wrongItems << "LogTextSize"; }
+			
 		//if one or more items are wrong or left show detailed error message
 		if(!wrongItems.isEmpty() && myW != 0) showErrorMessage(StyleDescription, wrongItems, StyleMaintainerEMail);
-	}
+	}	
 	else {	qDebug() << "could not load game table style file: " << tinyFileName.c_str(); }
 }
 
@@ -219,13 +250,13 @@ void GameTableStyleReader::setTableBackground(gameTableImpl *gt)
 
 void GameTableStyleReader::setLogStyle(QTextBrowser *tb)
 {	
-	tb->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+textBrowserFontsize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; } QScrollBar:vertical { border: 1px solid #104600; background: #135000; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #1B7200; background: #176400; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #208A00; height: 3px; width: 3px; background: #27A800; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
+	tb->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+LogTextSize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; } QScrollBar:vertical { border: 1px solid #104600; background: #135000; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #1B7200; background: #176400; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #208A00; height: 3px; width: 3px; background: #27A800; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
 	
 }
 
 void GameTableStyleReader::setChatStyle(QTextBrowser *tb)
 {
-	tb->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+textBrowserFontsize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; } QScrollBar:vertical { border: 1px solid #104600; background: #135000; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #1B7200; background: #176400; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #208A00; height: 3px; width: 3px; background: #27A800; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
+	tb->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+ChatTextSize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; } QScrollBar:vertical { border: 1px solid #104600; background: #135000; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #1B7200; background: #176400; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #208A00; height: 3px; width: 3px; background: #27A800; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
 }
 
 void GameTableStyleReader::setChatInputStyle(QLineEdit *ci)
@@ -275,9 +306,17 @@ void GameTableStyleReader::setMenuBarStyle(QMenuBar *mb)
 	mb->setStyleSheet("QMenuBar { background-color: #145300; } QMenuBar::item { color: #99D500; }");
 }
 
-void GameTableStyleReader::setBreakButtonStyle(QPushButton *bb)
+void GameTableStyleReader::setBreakButtonStyle(QPushButton *bb, int state)
 {
-	bb->setStyleSheet("QPushButton:enabled { background-color: #145300; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
+	switch(state) {
+// 		default
+		case 0: bb->setStyleSheet("QPushButton:enabled { background-color: #145300; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
+		break;
+// 		blink
+		case 1: bb->setStyleSheet("QPushButton { background-color: #6E9E00; color: black;}");
+
+		break;
+	}
 }
 
 void GameTableStyleReader::setSpeedStringStyle(QLabel *l)
@@ -337,8 +376,13 @@ QString GameTableStyleReader::getActionPic(int action)
 	}
 }
 
-void GameTableStyleReader::setButtonsStyle(QPushButton *br, QPushButton *cc, QPushButton *f, QPushButton *a, int state)
+void GameTableStyleReader::setButtonsStyle(MyActionButton *br, MyActionButton *cc, MyActionButton *f, MyActionButton *a, int state)
 {
+	br->setMyStyle(this);
+	cc->setMyStyle(this);
+	f->setMyStyle(this);
+	a->setMyStyle(this);
+
 	switch(state) {
 		//default
 		case 0: {

@@ -24,12 +24,14 @@
 #include <session.h>
 #include <game.h>
 #include <game_defs.h>
+#include "gametablestylereader.h"
 
 using namespace std;
 
 Log::Log(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), myLogFile(0)
 {
 	myW->setLog(this);
+	myStyle = myW->getMyGameTableStyle();
 	
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 	
@@ -207,9 +209,9 @@ void Log::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbNa
 void Log::logPlayerWinsMsg(QString playerName, int pot, bool main) {
 
 	if(main) {
-		myW->textBrowser_Log->append("<span style=\"color:#FFFF00;\">"+playerName+" wins $"+QString::number(pot,10)+"</span>");
+		myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getLogWinnerMainPotColor()+";\">"+playerName+" wins $"+QString::number(pot,10)+"</span>");
 	} else {
-		myW->textBrowser_Log->append("<span style=\"color:#FFFFCC;\">"+playerName+" wins $"+QString::number(pot,10)+" (side pot)</span>");
+		myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getLogWinnerSidePotColor()+";\">"+playerName+" wins $"+QString::number(pot,10)+" (side pot)</span>");
 	}
 	
 	if(myConfig->readConfigInt("LogOnOff")) {
@@ -231,7 +233,7 @@ void Log::logPlayerWinsMsg(QString playerName, int pot, bool main) {
 
 void Log::logPlayerSitsOut(QString playerName) {
 
-	myW->textBrowser_Log->append("<i><span style=\"color:#FF6633;\">"+playerName+" sits out</span></i>");
+	myW->textBrowser_Log->append("<i><span style=\"color:#"+myStyle->getLogPlayerSitsOutColor()+";\">"+playerName+" sits out</span></i>");
 	
 	if(myConfig->readConfigInt("LogOnOff")) {
 
@@ -344,7 +346,7 @@ void Log::logPlayerLeftMsg(QString playerName, int wasKicked) {
 
 void Log::logNewGameAdminMsg(QString playerName) {
 
-	myW->textBrowser_Log->append( "<i><span style=\"color:#69FF33;\">"+playerName+" is game admin now!</span></i>");
+	myW->textBrowser_Log->append( "<i><span style=\"color:#"+myStyle->getLogNewGameAdminColor()+";\">"+playerName+" is game admin now!</span></i>");
 	
 	if(myConfig->readConfigInt("LogOnOff")) {
 	

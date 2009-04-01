@@ -28,7 +28,7 @@
 #include <QtCore>
 
 class gameTableImpl;
-
+class GameTableStyleReader;
 
 class Log : public QObject
 {
@@ -86,6 +86,8 @@ private:
 	QFile *myLogFile;
 	QString logFileStreamString;
 	QString myAppDataPath;
+
+	GameTableStyleReader *myStyle;
 
 friend class GuiWrapper;
 };

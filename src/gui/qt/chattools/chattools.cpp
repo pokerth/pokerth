@@ -20,6 +20,7 @@
 #include "chattools.h"
 #include "session.h"
 #include "configfile.h"
+#include "gametablestylereader.h"
 #include <iostream>
 
 using namespace std;
@@ -63,9 +64,11 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
 			switch (myNotifyMode) {
 				case 0: tempMsg = message;
 				break;
+// 				lobby
 				case 1:	tempMsg = QString("<span style=\"font-weight:bold;\">"+message+"</span>");
 				break;
-				case 2: tempMsg = QString("<span style=\"color:#FFFF00;\">"+message+"</span>");
+// 				ingame
+				case 2: tempMsg = QString("<span style=\"color:#"+myStyle->getChatTextNickNotifyColor()+";\">"+message+"</span>");
 				break;
 				default:;
 			}
@@ -74,9 +77,11 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
 			switch (myNotifyMode) {
 				case 0: tempMsg = message;
 				break;
+// 				lobby
 				case 1:	tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
 				break;
-				case 2: tempMsg = QString("<span style=\"color:#FFFFFF;\">"+message+"</span>");
+// 				ingame
+				case 2: tempMsg = QString("<span style=\"color:#"+myStyle->getChatTextColor()+";\">"+message+"</span>");
 				break;
 				default:;
 			}

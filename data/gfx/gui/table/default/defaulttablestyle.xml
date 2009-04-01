@@ -3,7 +3,6 @@
   <TableStyle>
      <StyleDescription value="PokerTH default table style" />
      <StyleMaintainerEMail value="webmaster@pokerth.net" />
-     <Preview value="preview.png" />
      <IfFixedWindowSize value="0" />
      <FixedWindowWidth value="1024" />
      <FixedWindowHeight value="600" />
@@ -11,6 +10,7 @@
      <MinimumWindowHeight value="600" />
      <MaximumWindowWidth value="1980" />
      <MaximumWindowHeight value="1200" />
+     <Preview value="preview.png" />
      <ActionAllIn value="action_allin.png" />
      <ActionRaise value="action_raise.png" />
      <ActionBet value="action_bet.png" />
@@ -46,5 +46,17 @@
      <Table value="table.png" />
      <ToolBoxBackground value="toolboxbg.png" />
      <HandRanking value="handranking.png" />
+     <FKeyIndicatorColor value="FFFFFF" />
+     <ChanceLabelPossibleColor value="9CD500" />
+     <ChanceLabelImpossibleColor value="55632F" />
+     <ChatTextColor value="FFFFFF" />
+     <ChatTextNickNotifyColor value="FFFF00" />
+     <LogTextColor value="FFFFFF" />
+     <LogWinnerMainPotColor value="FFFF00" />
+     <LogWinnerSidePotColor value="FFFFCC" />
+     <LogPlayerSitsOutColor value="FF6633" />
+     <LogNewGameAdminColor value="69FF33" />
+     <ChatTextSize value="11" />
+     <LogTextSize value="11" />
   </TableStyle>
 </PokerTH>

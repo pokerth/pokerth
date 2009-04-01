@@ -18,6 +18,7 @@
 #include <QtCore>
 
 class gameTableImpl;
+class GameTableStyleReader;
 
 class MyChanceLabel : public QLabel
 {
@@ -28,6 +29,7 @@ public:
     ~MyChanceLabel();
 	
 	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
+	void setMyStyle ( GameTableStyleReader* theValue ) { myStyle = theValue; }
 	void paintEvent(QPaintEvent * event);
 	void refreshChance(std::vector< std::vector<int> >);
 	void resetChance();
@@ -35,6 +37,7 @@ public:
 private: 
 
 	gameTableImpl *myW;
+	GameTableStyleReader *myStyle;
 	int RFChance[2];
 	int SFChance[2];
 	int FOAKChance[2];

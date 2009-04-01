@@ -27,6 +27,8 @@
 #include <QtCore>
 #include <QtGui>
 
+class gameTableImpl;
+
 class GameTableStyleReader : public QObject {
 Q_OBJECT
 public:
@@ -45,6 +47,11 @@ public:
 	QString getSmallBlindPuck() const { return SmallBlindPuck; }
 	QString getBigBlindPuck() const	{ return BigBlindPuck; }
 	QString getHandRanking() const { return HandRanking; }
+	QString getFKeyIndicatorColor() const { return FKeyIndicatorColor; }
+	QString getChanceLabelImpossibleColor() const { return ChanceLabelImpossibleColor; }
+	QString getChanceLabelPossibleColor() const { return ChanceLabelPossibleColor; }
+	QString getChatTextColor() const { return ChatTextColor; }
+	QString getChatTextNickNotifyColor() const { return ChatTextNickNotifyColor; }
 
 	QString getActionPic(int);
 
@@ -67,7 +74,7 @@ public:
 	void setSmallFontBoardStyle(QLabel*);
 	void setBigFontBoardStyle(QLabel*);
 	void setMenuBarStyle(QMenuBar*);
-	void setBreakButtonStyle(QPushButton*);
+	void setBreakButtonStyle(QPushButton*, int);
 	void setSpeedStringStyle(QLabel*);
 	void setVoteButtonStyle(QPushButton*);
 	void setVoteStringsStyle(QLabel*);
@@ -76,14 +83,20 @@ public:
 	void setTabWidgetStyle(QTabWidget*, QTabBar*);
 
 	//set pics and fonts and colors 
-	void setButtonsStyle(QPushButton*, QPushButton*, QPushButton*, QPushButton*, int);
+	void setButtonsStyle(MyActionButton*, MyActionButton*, MyActionButton*, MyActionButton*, int);
 	void setAwayRadioButtonsStyle(QRadioButton*);
 
+	QString getLogWinnerMainPotColor() const { return LogWinnerMainPotColor; }
+	QString getLogWinnerSidePotColor() const { return LogWinnerSidePotColor; }
+	QString getLogPlayerSitsOutColor() const { return LogPlayerSitsOutColor; }
+	QString getLogNewGameAdminColor() const { return LogNewGameAdminColor; }
+	
 private:
-
+	//style values
+// 	INFOS
 	QString StyleDescription;
 	QString StyleMaintainerEMail;
-	QString Preview;
+// 	WINDOWS SETTINGS
 	QString IfFixedWindowSize;
 	QString FixedWindowWidth;
 	QString FixedWindowHeight;
@@ -91,6 +104,8 @@ private:
 	QString MinimumWindowHeight;
 	QString MaximumWindowWidth;
 	QString MaximumWindowHeight;
+// 	PICS
+	QString Preview;
 	QString ActionAllIn;
 	QString ActionRaise;
 	QString ActionBet;
@@ -126,7 +141,22 @@ private:
 	QString Table;
 	QString HandRanking;
 	QString ToolBoxBackground;
+// 	COLORS
+	QString FKeyIndicatorColor;
+	QString ChanceLabelPossibleColor;
+	QString ChanceLabelImpossibleColor;
+	QString ChatTextColor;
+	QString ChatTextNickNotifyColor;
+	QString LogTextColor;
+	QString LogWinnerMainPotColor;
+	QString LogWinnerSidePotColor;
+	QString LogPlayerSitsOutColor;
+	QString LogNewGameAdminColor;
+// 	SIZES
+	QString ChatTextSize;
+     	QString LogTextSize;
 
+	//internal
 	QString font2String;
 	QString font1String;
 	QString textBrowserFontsize;

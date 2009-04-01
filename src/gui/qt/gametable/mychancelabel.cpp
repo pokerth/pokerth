@@ -11,11 +11,13 @@
 //
 #include "mychancelabel.h"
 #include "gametableimpl.h"
+#include "gametablestylereader.h"
 
 using namespace std;
 
 MyChanceLabel::MyChanceLabel(QWidget* parent)
- : QLabel(parent) {
+ : QLabel(parent), myW(0), myStyle(0)
+{
 
 }
 
@@ -70,44 +72,47 @@ void MyChanceLabel::paintEvent(QPaintEvent * /*event*/) {
 	painter.setFont(font);
 
 	//Draw Texts
-	if(RFChance[1] == 0) { painter.setPen(QColor(85,99,47)); }
-	else { painter.setPen(QColor(156,213,0)); }
+	QColor possible("#"+myStyle->getChanceLabelPossibleColor());
+	QColor impossible("#"+myStyle->getChanceLabelImpossibleColor());
+
+	if(RFChance[1] == 0) { painter.setPen(impossible); }
+	else { painter.setPen(possible); }
 	painter.drawText(QRectF(QPointF(2,0), QPointF(85,13)),Qt::AlignRight,"Royal Flush");
 	painter.drawText(QRectF(QPointF(196,0), QPointF(236,13)),Qt::AlignRight,QString("%1%").arg(RFChance[0]));
-	if(SFChance[1] == 0) { painter.setPen(QColor(85,99,47)); }
-	else { painter.setPen(QColor(156,213,0)); }
+	if(SFChance[1] == 0) { painter.setPen(impossible); }
+	else { painter.setPen(possible); }
 	painter.drawText(QRectF(QPointF(2,13), QPointF(85,26)),Qt::AlignRight,"Straight Flush");
 	painter.drawText(QRectF(QPointF(196,13), QPointF(236,26)),Qt::AlignRight,QString("%1%").arg(SFChance[0]));
-	if(FOAKChance[1] == 0) { painter.setPen(QColor(85,99,47)); }
-	else { painter.setPen(QColor(156,213,0)); }
+	if(FOAKChance[1] == 0) { painter.setPen(impossible); }
+	else { painter.setPen(possible); }
 	painter.drawText(QRectF(QPointF(2,26), QPointF(85,39)),Qt::AlignRight,"Four of a Kind");
 	painter.drawText(QRectF(QPointF(196,26), QPointF(236,39)),Qt::AlignRight,QString("%1%").arg(FOAKChance[0]));
-	if(FHChance[1] == 0) { painter.setPen(QColor(85,99,47)); }
-	else { painter.setPen(QColor(156,213,0)); }
+	if(FHChance[1] == 0) { painter.setPen(impossible); }
+	else { painter.setPen(possible); }
 	painter.drawText(QRectF(QPointF(2,39), QPointF(85,52)),Qt::AlignRight,"Full House");
 	painter.drawText(QRectF(QPointF(196,39), QPointF(236,52)),Qt::AlignRight,QString("%1%").arg(FHChance[0]));
-	if(FLChance[1] == 0) { painter.setPen(QColor(85,99,47)); }
-	else { painter.setPen(QColor(156,213,0)); }	
+	if(FLChance[1] == 0) { painter.setPen(impossible); }
+	else { painter.setPen(possible); }	
 	painter.drawText(QRectF(QPointF(2,52), QPointF(85,65)),Qt::AlignRight,"Flush");
 	painter.drawText(QRectF(QPointF(196,52), QPointF(236,65)),Qt::AlignRight,QString("%1%").arg(FLChance[0]));
-	if(STRChance[1] == 0) { painter.setPen(QColor(85,99,47)); }
-	else { painter.setPen(QColor(156,213,0)); }
+	if(STRChance[1] == 0) { painter.setPen(impossible); }
+	else { painter.setPen(possible); }
 	painter.drawText(QRectF(QPointF(2,65), QPointF(85,78)),Qt::AlignRight,"Straight");
 	painter.drawText(QRectF(QPointF(196,65), QPointF(236,78)),Qt::AlignRight,QString("%1%").arg(STRChance[0]));
-	if(TOAKChance[1] == 0) { painter.setPen(QColor(85,99,47)); }
-	else { painter.setPen(QColor(156,213,0)); }
+	if(TOAKChance[1] == 0) { painter.setPen(impossible); }
+	else { painter.setPen(possible); }
 	painter.drawText(QRectF(QPointF(2,78), QPointF(85,91)),Qt::AlignRight,"Three of a Kind");
 	painter.drawText(QRectF(QPointF(196,78), QPointF(236,91)),Qt::AlignRight,QString("%1%").arg(TOAKChance[0]));
-	if(TPChance[1] == 0) { painter.setPen(QColor(85,99,47)); }
-	else { painter.setPen(QColor(156,213,0)); }
+	if(TPChance[1] == 0) { painter.setPen(impossible); }
+	else { painter.setPen(possible); }
 	painter.drawText(QRectF(QPointF(2,91), QPointF(85,104)),Qt::AlignRight,"Two Pairs");
 	painter.drawText(QRectF(QPointF(196,91), QPointF(236,104)),Qt::AlignRight,QString("%1%").arg(TPChance[0]));
-	if(OPChance[1] == 0) { painter.setPen(QColor(85,99,47)); }
-	else { painter.setPen(QColor(156,213,0)); }
+	if(OPChance[1] == 0) { painter.setPen(impossible); }
+	else { painter.setPen(possible); }
 	painter.drawText(QRectF(QPointF(2,104), QPointF(85,117)),Qt::AlignRight,"One Pair");
 	painter.drawText(QRectF(QPointF(196,104), QPointF(236,117)),Qt::AlignRight,QString("%1%").arg(OPChance[0]));
-	if(HCChance[1] == 0) { painter.setPen(QColor(85,99,47)); }
-	else { painter.setPen(QColor(156,213,0)); }
+	if(HCChance[1] == 0) { painter.setPen(impossible); }
+	else { painter.setPen(possible); }
 	painter.drawText(QRectF(QPointF(2,117), QPointF(85,130)),Qt::AlignRight,"Highest Card");
 	painter.drawText(QRectF(QPointF(196,117), QPointF(236,130)),Qt::AlignRight,QString("%1%").arg(HCChance[0]));
 
