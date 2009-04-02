@@ -81,7 +81,7 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
 				case 1:	tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
 				break;
 // 				ingame
-				case 2: tempMsg = QString("<span style=\"color:#"+myStyle->getChatTextColor()+";\">"+message+"</span>");
+				case 2: tempMsg = QString("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+message+"</span>");
 				break;
 				default:;
 			}

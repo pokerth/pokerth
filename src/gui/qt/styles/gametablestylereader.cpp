@@ -33,7 +33,6 @@ GameTableStyleReader::GameTableStyleReader(ConfigFile *c, gameTableImpl *w) : my
 #ifdef _WIN32
 	font1String = "font-family: \"Arial\";";
 	font2String = "font-family: \"Nimbus Sans L\";";
-	textBrowserFontsize= "11";
 	cashFontSize = "11";
 	setLabelFontSize = "11";
 	playerNameLabelFontSize = "11";
@@ -158,16 +157,52 @@ void GameTableStyleReader::readStyleFile(QString file) {
 				else if (itemsList->ValueStr() == "ChanceLabelPossibleColor") { ChanceLabelPossibleColor = QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "ChanceLabelImpossibleColor") { ChanceLabelImpossibleColor = QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "ChatTextNickNotifyColor") { ChatTextNickNotifyColor = QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ChatTextColor") { ChatTextColor = QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "LogTextColor") { LogTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ChatLogTextColor") { ChatLogTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ChatLogBgColor") { ChatLogBgColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ChatLogScrollBarBorderColor") { ChatLogScrollBarBorderColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ChatLogScrollBarBgColor") { ChatLogScrollBarBgColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ChatLogScrollBarHandleBorderColor") { ChatLogScrollBarHandleBorderColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ChatLogScrollBarHandleBgColor") { ChatLogScrollBarHandleBgColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ChatLogScrollBarArrowBorderColor") { ChatLogScrollBarArrowBorderColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ChatLogScrollBarArrowBgColor") { ChatLogScrollBarArrowBgColor = QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "LogWinnerMainPotColor") { LogWinnerMainPotColor = QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "LogWinnerSidePotColor") { LogWinnerSidePotColor = QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "LogPlayerSitsOutColor") { LogPlayerSitsOutColor = QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "LogNewGameAdminColor") { LogNewGameAdminColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "TabWidgetBorderColor") { TabWidgetBorderColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "TabWidgetBgColor") { TabWidgetBgColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "TabWidgetTextColor") { TabWidgetTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "MenuBgColor") { MenuBgColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "MenuTextColor") { MenuTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BreakLobbyButtonBgColor") { BreakLobbyButtonBgColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BreakLobbyButtonTextColor") { BreakLobbyButtonTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BreakLobbyButtonBgDisabledColor") { BreakLobbyButtonBgDisabledColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BreakLobbyButtonTextDisabledColor") { BreakLobbyButtonTextDisabledColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BreakLobbyButtonBgBlinkColor") { BreakLobbyButtonBgBlinkColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BreakLobbyButtonTextBlinkColor") { BreakLobbyButtonTextBlinkColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "PlayerCashTextColor") { PlayerCashTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "PlayerBetTextColor") { PlayerBetTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "PlayerNickTextColor") { PlayerNickTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BoardBigTextColor") { BoardBigTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BoardSmallTextColor") { BoardSmallTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "SpeedTextColor") { SpeedTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "VoteButtonBgColor") { VoteButtonBgColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "VoteButtonTextColor") { VoteButtonTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BetInputTextColor") { BetInputTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BetInputBgColor") { BetInputBgColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BetInputDisabledTextColor") { BetInputDisabledTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BetInputDisabledBgColor") { BetInputDisabledBgColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "FoldButtonTextColor") { FoldButtonTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "FoldButtonCheckableTextColor") { FoldButtonCheckableTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "CheckCallButtonTextColor") { CheckCallButtonTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "CheckCallButtonCheckableTextColor") { CheckCallButtonCheckableTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BetRaiseButtonTextColor") { BetRaiseButtonTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BetRaiseButtonCheckableTextColor") { BetRaiseButtonCheckableTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "AllInButtonTextColor") { AllInButtonTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "AllInButtonCheckableTextColor") { AllInButtonCheckableTextColor = QString::fromUtf8(tempString1.c_str()); }
 // 				SIZES
-				else if (itemsList->ValueStr() == "ChatTextSize") { ChatTextSize = QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "LogTextSize") { LogTextSize = QString::fromUtf8(tempString1.c_str()); }	
-	
+				else if (itemsList->ValueStr() == "ChatLogTextSize") { ChatLogTextSize = QString::fromUtf8(tempString1.c_str()); }
+
 // 				std::cout << "ÖLP" << itemsList->ValueStr() <<"§4s"<< itemsList->ValueStr()<<"§89"<< endl;
 			}
 		}
@@ -218,15 +253,51 @@ void GameTableStyleReader::readStyleFile(QString file) {
 		if(FKeyIndicatorColor == "") { wrongItems << "FKeyIndicatorColor"; }
 		if(ChanceLabelPossibleColor == "") { wrongItems << "ChanceLabelPossibleColor"; }
 		if(ChanceLabelImpossibleColor == "") { wrongItems << "ChanceLabelImpossibleColor"; }
-		if(ChatTextColor == "") { wrongItems << "ChatTextColor"; }
+		if(ChatLogTextColor == "") { wrongItems << "ChatLogTextColor"; }
 		if(ChatTextNickNotifyColor == "") { wrongItems << "ChatTextNickNotifyColor"; }
-		if(LogTextColor == "") { wrongItems << "LogTextColor"; }
+		if(ChatLogBgColor == "") { wrongItems << "ChatLogBgColor"; }
+		if(ChatLogScrollBarBorderColor == "") { wrongItems << "ChatLogScrollBarBorderColor"; }
+		if(ChatLogScrollBarBgColor == "") { wrongItems << "ChatLogScrollBarBgColor"; }
+		if(ChatLogScrollBarHandleBorderColor == "") { wrongItems << "ChatLogScrollBarHandleBorderColor"; }
+		if(ChatLogScrollBarHandleBgColor == "") { wrongItems << "ChatLogScrollBarHandleBgColor"; }
+		if(ChatLogScrollBarArrowBorderColor == "") { wrongItems << "ChatLogScrollBarArrowBorderColor"; }
+		if(ChatLogScrollBarArrowBgColor == "") { wrongItems << "ChatLogScrollBarArrowBgColor"; }
 		if(LogWinnerMainPotColor == "") { wrongItems << "LogWinnerMainPotColor"; }
 		if(LogWinnerSidePotColor == "") { wrongItems << "LogWinnerSidePotColor"; }
 		if(LogPlayerSitsOutColor == "") { wrongItems << "LogPlayerSitsOutColor"; }
 		if(LogNewGameAdminColor == "") { wrongItems << "LogNewGameAdminColor"; }
-		if(ChatTextSize == "") { wrongItems << "ChatTextSize"; }
-		if(LogTextSize == "") { wrongItems << "LogTextSize"; }
+		if(TabWidgetBorderColor == "") { wrongItems << "TabWidgetBorderColor"; }
+		if(TabWidgetBgColor == "") { wrongItems << "TabWidgetBgColor"; }
+		if(TabWidgetTextColor == "") { wrongItems << "TabWidgetTextColor"; }
+		if(MenuBgColor == "") { wrongItems << "MenuBgColor"; }
+		if(MenuTextColor == "") { wrongItems << "MenuTextColor"; }
+		if(BreakLobbyButtonBgColor == "") { wrongItems << "BreakLobbyButtonBgColor"; }
+		if(BreakLobbyButtonTextColor == "") { wrongItems << "BreakLobbyButtonTextColor"; }
+		if(BreakLobbyButtonBgDisabledColor == "") { wrongItems << "BreakLobbyButtonBgDisabledColor"; }
+		if(BreakLobbyButtonTextDisabledColor == "") { wrongItems << "BreakLobbyButtonTextDisabledColor"; }
+		if(BreakLobbyButtonBgBlinkColor == "") { wrongItems << "BreakLobbyButtonBgBlinkColor"; }
+		if(BreakLobbyButtonTextBlinkColor == "") { wrongItems << "BreakLobbyButtonTextBlinkColor"; }
+		if(PlayerCashTextColor == "") { wrongItems << "PlayerCashTextColor"; }
+		if(PlayerBetTextColor == "") { wrongItems << "PlayerBetTextColor"; }
+		if(PlayerNickTextColor == "") { wrongItems << "PlayerNickTextColor"; }
+		if(BoardBigTextColor == "") { wrongItems << "BoardBigTextColor"; }
+		if(BoardSmallTextColor == "") { wrongItems << "BoardSmallTextColor"; }
+		if(SpeedTextColor == "") { wrongItems << "SpeedTextColor"; }
+		if(VoteButtonBgColor == "") { wrongItems << "VoteButtonBgColor"; }
+		if(VoteButtonTextColor == "") { wrongItems << "VoteButtonTextColor"; }
+		if(BetInputTextColor == "") { wrongItems << "BetInputTextColor"; }
+		if(BetInputBgColor == "") { wrongItems << "BetInputBgColor"; }
+		if(BetInputDisabledTextColor == "") { wrongItems << "BetInputDisabledTextColor"; }
+		if(BetInputDisabledBgColor == "") { wrongItems << "BetInputDisabledBgColor"; }
+		if(FoldButtonTextColor == "") { wrongItems << "FoldButtonTextColor"; }
+		if(FoldButtonCheckableTextColor == "") { wrongItems << "FoldButtonCheckableTextColor"; }
+		if(CheckCallButtonTextColor == "") { wrongItems << "CheckCallButtonTextColor"; }
+		if(CheckCallButtonCheckableTextColor == "") { wrongItems << "CheckCallButtonCheckableTextColor"; }
+		if(BetRaiseButtonTextColor == "") { wrongItems << "BetRaiseButtonTextColor"; }
+		if(BetRaiseButtonCheckableTextColor == "") { wrongItems << "BetRaiseButtonCheckableTextColor"; }
+		if(AllInButtonTextColor == "") { wrongItems << "AllInButtonTextColor"; }
+		if(AllInButtonCheckableTextColor == "") { wrongItems << "AllInButtonCheckableTextColor"; }
+		if(ChatLogTextSize == "") { wrongItems << "ChatLogTextSize"; }
 			
 		//if one or more items are wrong or left show detailed error message
 		if(!wrongItems.isEmpty() && myW != 0) showErrorMessage(StyleDescription, wrongItems, StyleMaintainerEMail);
@@ -245,48 +316,43 @@ void GameTableStyleReader::showErrorMessage(QString style, QStringList failedIte
 
 void GameTableStyleReader::setTableBackground(gameTableImpl *gt)
 {
-	gt->setStyleSheet("QMainWindow { background-image: url("+Table+"); background-position: bottom center; background-origin: content;}");
+	gt->setStyleSheet("QMainWindow { background-image: url("+Table+"); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
 }
 
-void GameTableStyleReader::setLogStyle(QTextBrowser *tb)
+void GameTableStyleReader::setChatLogStyle(QTextBrowser *tb)
 {	
-	tb->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+LogTextSize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; } QScrollBar:vertical { border: 1px solid #104600; background: #135000; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #1B7200; background: #176400; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #208A00; height: 3px; width: 3px; background: #27A800; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
+	tb->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+ChatLogTextSize+"px; color: #"+ChatLogTextColor+"; background-color: #"+ChatLogBgColor+"; border:none; } QScrollBar:vertical { border: 1px solid #"+ChatLogScrollBarBorderColor+"; background: #"+ChatLogScrollBarBgColor+"; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #"+ChatLogScrollBarHandleBorderColor+"; background: #"+ChatLogScrollBarHandleBgColor+"; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #"+ChatLogScrollBarHandleBorderColor+"; background: #"+ChatLogScrollBarHandleBgColor+"; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #"+ChatLogScrollBarHandleBorderColor+"; background: #"+ChatLogScrollBarHandleBgColor+"; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #"+ChatLogScrollBarArrowBorderColor+"; height: 3px; width: 3px; background: #"+ChatLogScrollBarArrowBgColor+"; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
 	
-}
-
-void GameTableStyleReader::setChatStyle(QTextBrowser *tb)
-{
-	tb->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+ChatTextSize+"px; color: #F0F0F0; background-color: #1D3B00; border:none; } QScrollBar:vertical { border: 1px solid #104600; background: #135000; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #1B7200; background: #176400; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #1E7F00; background: #1A6F00; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #208A00; height: 3px; width: 3px; background: #27A800; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
 }
 
 void GameTableStyleReader::setChatInputStyle(QLineEdit *ci)
 {
-	ci->setStyleSheet("QLineEdit { "+ font1String +" font-size: "+textBrowserFontsize+"px; color: #F0F0F0; background-color: #1D3B00; border-top: 2px solid #286400; }");
+	ci->setStyleSheet("QLineEdit { "+ font1String +" font-size: "+ChatLogTextSize+"px; color: #"+ChatLogTextColor+"; background-color: #"+ChatLogBgColor+"; border-top: 2px solid #"+TabWidgetBorderColor+"; }");
 }
 
 void GameTableStyleReader::setCashLabelStyle(QLabel *cl)
 {	
-	cl->setStyleSheet("QLabel { "+ font2String +" font-size: "+cashFontSize+"px; font-weight: bold; color: #FFFF00; }");
+	cl->setStyleSheet("QLabel { "+ font2String +" font-size: "+cashFontSize+"px; font-weight: bold; color: #"+PlayerCashTextColor+"; }");
 }
 
 void GameTableStyleReader::setSetLabelStyle(QLabel *sl)
 {
-	sl->setStyleSheet("QLabel { "+ font2String +" font-size: "+setLabelFontSize+"px; font-weight: bold; color: #FFFF00; }");
+	sl->setStyleSheet("QLabel { "+ font2String +" font-size: "+setLabelFontSize+"px; font-weight: bold; color: #"+PlayerBetTextColor+"; }");
 }
 
 void GameTableStyleReader::setPlayerNameLabelStyle(QLabel *pnl)
 {
-	pnl->setStyleSheet("QLabel { "+ font2String +" font-size: "+playerNameLabelFontSize+"px; font-weight: bold; color: #F0F0F0; }");
+	pnl->setStyleSheet("QLabel { "+ font2String +" font-size: "+playerNameLabelFontSize+"px; font-weight: bold; color: #"+PlayerNickTextColor+"; }");
 }
 
 void GameTableStyleReader::setSmallFontBoardStyle(QLabel *l)
 {
-	l->setStyleSheet("QLabel { "+ font2String +" font-size: "+smallBoardFontSize+"px; font-weight: bold; color: #669900; }");
+	l->setStyleSheet("QLabel { "+ font2String +" font-size: "+smallBoardFontSize+"px; font-weight: bold; color: #"+BoardSmallTextColor+"; }");
 }
 
 void GameTableStyleReader::setBigFontBoardStyle(QLabel *l)
 {
-	l->setStyleSheet("QLabel { "+ font2String +" font-size: "+bigBoardFontSize+"px; font-weight: bold; color: #669900; }");
+	l->setStyleSheet("QLabel { "+ font2String +" font-size: "+bigBoardFontSize+"px; font-weight: bold; color: #"+BoardBigTextColor+"; }");
 }
 
 void GameTableStyleReader::setCardHolderStyle(QLabel *l, int bero)
@@ -303,17 +369,17 @@ void GameTableStyleReader::setCardHolderStyle(QLabel *l, int bero)
 
 void GameTableStyleReader::setMenuBarStyle(QMenuBar *mb)
 {
-	mb->setStyleSheet("QMenuBar { background-color: #145300; } QMenuBar::item { color: #99D500; }");
+	mb->setStyleSheet("QMenuBar { background-color: #"+MenuBgColor+"; font-size:12px; } QMenuBar::item { color: #"+MenuTextColor+"; }");
 }
 
 void GameTableStyleReader::setBreakButtonStyle(QPushButton *bb, int state)
 {
 	switch(state) {
 // 		default
-		case 0: bb->setStyleSheet("QPushButton:enabled { background-color: #145300; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
+		case 0: bb->setStyleSheet("QPushButton:enabled { background-color: #"+BreakLobbyButtonBgColor+"; color: #"+BreakLobbyButtonTextColor+";} QPushButton:disabled { background-color: #"+BreakLobbyButtonBgDisabledColor+"; color: #"+BreakLobbyButtonTextDisabledColor+"; font-weight: 900;}");
 		break;
 // 		blink
-		case 1: bb->setStyleSheet("QPushButton { background-color: #6E9E00; color: black;}");
+		case 1: bb->setStyleSheet("QPushButton { background-color: #"+BreakLobbyButtonBgBlinkColor+"; color: "+BreakLobbyButtonTextBlinkColor+";}");
 
 		break;
 	}
@@ -321,17 +387,17 @@ void GameTableStyleReader::setBreakButtonStyle(QPushButton *bb, int state)
 
 void GameTableStyleReader::setSpeedStringStyle(QLabel *l)
 {
-	l->setStyleSheet("QLabel { color: #99D500;}");	
+	l->setStyleSheet("QLabel { color: #"+SpeedTextColor+";}");	
 }
 
 void GameTableStyleReader::setVoteButtonStyle(QPushButton *b)
 {
-	b->setStyleSheet("QPushButton:enabled { background-color: #1C7000; color: #99D500;} QPushButton:disabled { background-color: #145300; color: #486F3E; font-weight: 900;}");
+	b->setStyleSheet("QPushButton:enabled { background-color: #"+VoteButtonBgColor+"; color: #"+VoteButtonTextColor+";} ");
 }
 
 void GameTableStyleReader::setVoteStringsStyle(QLabel *l)
 {
-	l->setStyleSheet("QLabel { color: #99D500; font-size: 11px;}");
+	l->setStyleSheet("QLabel { color: #"+TabWidgetTextColor+"; font-size: 11px;}");
 }
 
 void GameTableStyleReader::setPlayerSeatInActiveStyle(QGroupBox *ps)
@@ -346,12 +412,12 @@ void GameTableStyleReader::setPlayerSeatActiveStyle(QGroupBox *ps)
 
 void GameTableStyleReader::setBetValueInputStyle(QLineEdit *bv)
 {
-	bv->setStyleSheet("QLineEdit { "+ font2String +" font-size: "+betValueFontSize+"px; font-weight: bold; background-color: #1D3B00; color: #F0F0F0; } QLineEdit:disabled { background-color: #316300; color: #6d7b5f }");
+	bv->setStyleSheet("QLineEdit { "+ font2String +" font-size: "+betValueFontSize+"px; font-weight: bold; background-color: #"+BetInputBgColor+"; color: #"+BetInputTextColor+"; } QLineEdit:disabled { background-color: #"+BetInputDisabledBgColor+"; color: #"+BetInputDisabledTextColor+" }");
 }
 
 void GameTableStyleReader::setAwayRadioButtonsStyle(QRadioButton *rb)
 {
-	rb->setStyleSheet("QRadioButton { color: #99D500; } QRadioButton::indicator { color: #99D500; }");
+	rb->setStyleSheet("QRadioButton { color: #"+TabWidgetTextColor+"; } QRadioButton::indicator { color: #"+TabWidgetTextColor+"; }");
 }
 
 QString GameTableStyleReader::getActionPic(int action)
@@ -386,35 +452,35 @@ void GameTableStyleReader::setButtonsStyle(MyActionButton *br, MyActionButton *c
 	switch(state) {
 		//default
 		case 0: {
-			br->setStyleSheet("QPushButton { border:none; background-image: url("+BetRaiseButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url("+BetRaiseButtonDefault+"); } QPushButton:checked { background-image: url("+BetRaiseButtonChecked+");} QPushButton:hover { background-image: url("+BetRaiseButtonHover+"); } QPushButton:checked:hover { background-image: url("+BetRaiseButtonCheckedHover+");}"); 
+			br->setStyleSheet("QPushButton { border:none; background-image: url("+BetRaiseButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+BetRaiseButtonTextColor+";} QPushButton:unchecked { background-image: url("+BetRaiseButtonDefault+"); } QPushButton:checked { background-image: url("+BetRaiseButtonChecked+");} QPushButton:hover { background-image: url("+BetRaiseButtonHover+"); } QPushButton:checked:hover { background-image: url("+BetRaiseButtonCheckedHover+");}"); 
 			
-			cc->setStyleSheet("QPushButton { border:none; background-image: url("+CheckCallButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url("+CheckCallButtonDefault+"); } QPushButton:checked { background-image: url("+CheckCallButtonChecked+");} QPushButton:hover { background-image: url("+CheckCallButtonHover+"); } QPushButton:checked:hover { background-image: url("+CheckCallButtonCheckedHover+");}");
+			cc->setStyleSheet("QPushButton { border:none; background-image: url("+CheckCallButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+CheckCallButtonTextColor+";} QPushButton:unchecked { background-image: url("+CheckCallButtonDefault+"); } QPushButton:checked { background-image: url("+CheckCallButtonChecked+");} QPushButton:hover { background-image: url("+CheckCallButtonHover+"); } QPushButton:checked:hover { background-image: url("+CheckCallButtonCheckedHover+");}");
 
-			f->setStyleSheet("QPushButton { border:none; background-image: url("+FoldButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url("+FoldButtonDefault+"); } QPushButton:checked { background-image: url("+FoldButtonChecked+");} QPushButton:hover { background-image: url("+FoldButtonHover+"); } QPushButton:checked:hover { background-image: url("+FoldButtonCheckedHover+");}");
+			f->setStyleSheet("QPushButton { border:none; background-image: url("+FoldButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+FoldButtonTextColor+";}  QPushButton:unchecked { background-image: url("+FoldButtonDefault+"); } QPushButton:checked { background-image: url("+FoldButtonChecked+");} QPushButton:hover { background-image: url("+FoldButtonHover+"); } QPushButton:checked:hover { background-image: url("+FoldButtonCheckedHover+");}");
 
-			a->setStyleSheet("QPushButton { border:none; background-image: url("+AllInButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url("+AllInButtonDefault+"); } QPushButton:checked { background-image: url("+AllInButtonChecked+");} QPushButton:hover { background-image: url("+AllInButtonHover+"); } QPushButton:checked:hover { background-image: url("+AllInButtonCheckedHover+");}");
+			a->setStyleSheet("QPushButton { border:none; background-image: url("+AllInButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+AllInButtonTextColor+";}  QPushButton:unchecked { background-image: url("+AllInButtonDefault+"); } QPushButton:checked { background-image: url("+AllInButtonChecked+");} QPushButton:hover { background-image: url("+AllInButtonHover+"); } QPushButton:checked:hover { background-image: url("+AllInButtonCheckedHover+");}");
 		}
 		break;
 		//no hover
 		case 1: {
-			br->setStyleSheet("QPushButton { border:none; background-image: url("+BetRaiseButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url("+BetRaiseButtonDefault+"); } QPushButton:checked { background-image: url("+BetRaiseButtonChecked+");} QPushButton:hover { background-image: url("+BetRaiseButtonDefault+"); } QPushButton:checked:hover { background-image: url("+BetRaiseButtonChecked+");}"); 
+			br->setStyleSheet("QPushButton { border:none; background-image: url("+BetRaiseButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+BetRaiseButtonTextColor+";} QPushButton:unchecked { background-image: url("+BetRaiseButtonDefault+"); } QPushButton:checked { background-image: url("+BetRaiseButtonChecked+");} QPushButton:hover { background-image: url("+BetRaiseButtonDefault+"); } QPushButton:checked:hover { background-image: url("+BetRaiseButtonChecked+");}"); 
 			
-			cc->setStyleSheet("QPushButton { border:none; background-image: url("+CheckCallButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;} QPushButton:unchecked { background-image: url("+CheckCallButtonDefault+"); } QPushButton:checked { background-image: url("+CheckCallButtonChecked+");} QPushButton:hover { background-image: url("+CheckCallButtonDefault+"); } QPushButton:checked:hover { background-image: url("+CheckCallButtonChecked+");}");
+			cc->setStyleSheet("QPushButton { border:none; background-image: url("+CheckCallButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+CheckCallButtonTextColor+";} QPushButton:unchecked { background-image: url("+CheckCallButtonDefault+"); } QPushButton:checked { background-image: url("+CheckCallButtonChecked+");} QPushButton:hover { background-image: url("+CheckCallButtonDefault+"); } QPushButton:checked:hover { background-image: url("+CheckCallButtonChecked+");}");
 
-			f->setStyleSheet("QPushButton { border:none; background-image: url("+FoldButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url("+FoldButtonDefault+"); } QPushButton:checked { background-image: url("+FoldButtonChecked+");} QPushButton:hover { background-image: url("+FoldButtonDefault+"); } QPushButton:checked:hover { background-image: url("+FoldButtonChecked+");}");
+			f->setStyleSheet("QPushButton { border:none; background-image: url("+FoldButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+FoldButtonTextColor+";}  QPushButton:unchecked { background-image: url("+FoldButtonDefault+"); } QPushButton:checked { background-image: url("+FoldButtonChecked+");} QPushButton:hover { background-image: url("+FoldButtonDefault+"); } QPushButton:checked:hover { background-image: url("+FoldButtonChecked+");}");
 
-			a->setStyleSheet("QPushButton { border:none; background-image: url("+AllInButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #F0F0F0;}  QPushButton:unchecked { background-image: url("+AllInButtonDefault+"); } QPushButton:checked { background-image: url("+AllInButtonChecked+");} QPushButton:hover { background-image: url("+AllInButtonDefault+"); } QPushButton:checked:hover { background-image: url("+AllInButtonChecked+");}");
+			a->setStyleSheet("QPushButton { border:none; background-image: url("+AllInButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+AllInButtonTextColor+";}  QPushButton:unchecked { background-image: url("+AllInButtonDefault+"); } QPushButton:checked { background-image: url("+AllInButtonChecked+");} QPushButton:hover { background-image: url("+AllInButtonDefault+"); } QPushButton:checked:hover { background-image: url("+AllInButtonChecked+");}");
 		}
 		break;
 		//checkable
 		case 2: {
-			br->setStyleSheet("QPushButton { border:none; background-image: url("+BetRaiseButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #87FF97;} QPushButton:unchecked { background-image: url("+BetRaiseButtonDefault+"); } QPushButton:checked { background-image: url("+BetRaiseButtonChecked+");} QPushButton:hover { background-image: url("+BetRaiseButtonHover+"); } QPushButton:checked:hover { background-image: url("+BetRaiseButtonCheckedHover+");}"); 
+			br->setStyleSheet("QPushButton { border:none; background-image: url("+BetRaiseButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+BetRaiseButtonCheckableTextColor+";} QPushButton:unchecked { background-image: url("+BetRaiseButtonDefault+"); } QPushButton:checked { background-image: url("+BetRaiseButtonChecked+");} QPushButton:hover { background-image: url("+BetRaiseButtonHover+"); } QPushButton:checked:hover { background-image: url("+BetRaiseButtonCheckedHover+");}"); 
 			
-			cc->setStyleSheet("QPushButton { border:none; background-image: url("+CheckCallButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #87CDFF;} QPushButton:unchecked { background-image: url("+CheckCallButtonDefault+"); } QPushButton:checked { background-image: url("+CheckCallButtonChecked+");} QPushButton:hover { background-image: url("+CheckCallButtonHover+"); } QPushButton:checked:hover { background-image: url("+CheckCallButtonCheckedHover+");}");
+			cc->setStyleSheet("QPushButton { border:none; background-image: url("+CheckCallButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+CheckCallButtonCheckableTextColor+";} QPushButton:unchecked { background-image: url("+CheckCallButtonDefault+"); } QPushButton:checked { background-image: url("+CheckCallButtonChecked+");} QPushButton:hover { background-image: url("+CheckCallButtonHover+"); } QPushButton:checked:hover { background-image: url("+CheckCallButtonCheckedHover+");}");
 
-			f->setStyleSheet("QPushButton { border:none; background-image: url("+FoldButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #FF8787;}  QPushButton:unchecked { background-image: url("+FoldButtonDefault+"); } QPushButton:checked { background-image: url("+FoldButtonChecked+");} QPushButton:hover { background-image: url("+FoldButtonHover+"); } QPushButton:checked:hover { background-image: url("+FoldButtonCheckedHover+");}");
+			f->setStyleSheet("QPushButton { border:none; background-image: url("+FoldButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+FoldButtonCheckableTextColor+";}  QPushButton:unchecked { background-image: url("+FoldButtonDefault+"); } QPushButton:checked { background-image: url("+FoldButtonChecked+");} QPushButton:hover { background-image: url("+FoldButtonHover+"); } QPushButton:checked:hover { background-image: url("+FoldButtonCheckedHover+");}");
 
-			a->setStyleSheet("QPushButton { border:none; background-image: url("+AllInButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #ffe187;}  QPushButton:unchecked { background-image: url("+AllInButtonDefault+"); } QPushButton:checked { background-image: url("+AllInButtonChecked+");} QPushButton:hover { background-image: url("+AllInButtonHover+"); } QPushButton:checked:hover { background-image: url("+AllInButtonCheckedHover+");}");
+			a->setStyleSheet("QPushButton { border:none; background-image: url("+AllInButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+AllInButtonCheckableTextColor+";}  QPushButton:unchecked { background-image: url("+AllInButtonDefault+"); } QPushButton:checked { background-image: url("+AllInButtonChecked+");} QPushButton:hover { background-image: url("+AllInButtonHover+"); } QPushButton:checked:hover { background-image: url("+AllInButtonCheckedHover+");}");
 		}
 		break;
 	}
@@ -427,8 +493,43 @@ void GameTableStyleReader::setToolBoxBackground(QGroupBox* gb)
 
 void GameTableStyleReader::setTabWidgetStyle(QTabWidget *tw, QTabBar *tb)
 {
-	tw->setStyleSheet("QTabWidget::pane { border: 2px solid #286400; border-radius: 2px; background-color: #145300; }  QTabWidget::tab-bar { left: 5px; } ");
+	tw->setStyleSheet("QTabWidget::pane { border: 2px solid #"+TabWidgetBorderColor+"; border-radius: 2px; background-color: #"+TabWidgetBgColor+"; }  QTabWidget::tab-bar { left: 5px; } ");
 
-	tb->setStyleSheet("QTabBar::tab{ "+ font1String +" font-size: 11px; color: #99D500; background-color: #145300; border: 2px solid #286400; border-bottom-color: #286400; border-top-left-radius: 4px; border-top-right-radius: 4px; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:selected, QTabBar::tab:hover { background-color: #145300; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:selected { border-color: #286400; border-bottom-color: #145300; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;}  QTabBar::tab:!selected { margin-top: 2px; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:selected { margin-left: -4px; margin-right: -4px; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:first:selected { margin-left: 0; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:last:selected { margin-right: 0; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:only-one { margin: 0; } QTabBar::tab:disabled { font-size: 11px; font-weight: 900; color: #144D03; background-color: #144D03; border-left-color: #255704; border-right-color: #255704; border-top-color: #255704; }");
+	tb->setStyleSheet("QTabBar::tab{ "+ font1String +" font-size: 11px; color: #"+TabWidgetTextColor+"; background-color: #"+TabWidgetBgColor+"; border: 2px solid #"+TabWidgetBorderColor+"; border-bottom-color: #"+TabWidgetBorderColor+"; border-top-left-radius: 4px; border-top-right-radius: 4px; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:selected, QTabBar::tab:hover { background-color: #"+TabWidgetBgColor+"; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:selected { border-color: #"+TabWidgetBorderColor+"; border-bottom-color: #"+TabWidgetBgColor+"; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;}  QTabBar::tab:!selected { margin-top: 2px; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:selected { margin-left: -4px; margin-right: -4px; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:first:selected { margin-left: 0; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:last:selected { margin-right: 0; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:only-one { margin: 0; } ");
+
+}
+
+void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
+{
+	if(IfFixedWindowSize.toInt()) {
+		gt->setMinimumSize(FixedWindowWidth.toInt(), FixedWindowHeight.toInt());
+		gt->setMaximumSize(FixedWindowWidth.toInt(), FixedWindowHeight.toInt());
+		gt->resize(FixedWindowWidth.toInt(), FixedWindowHeight.toInt());
+
+		QDesktopWidget dw;
+		int availableWidth = dw.screenGeometry().width();
+		int availableHeight = dw.screenGeometry().height();
+		if(availableWidth == FixedWindowWidth.toInt() && availableHeight == FixedWindowHeight.toInt()) {
+			gt->actionFullScreen->setEnabled(TRUE);
+		}
+		else {
+			gt->actionFullScreen->setDisabled(TRUE);		
+		}
+	}
+	else {
+		gt->setMinimumSize(MinimumWindowWidth.toInt(), MinimumWindowHeight.toInt());
+		gt->setMaximumSize(MaximumWindowWidth.toInt(), MaximumWindowHeight.toInt());
+		gt->resize(MinimumWindowWidth.toInt(), MinimumWindowHeight.toInt());
+
+		QDesktopWidget dw;
+		int availableWidth = dw.screenGeometry().width();
+		int availableHeight = dw.screenGeometry().height();
+		if(availableWidth <= MaximumWindowWidth.toInt() && availableHeight <= MaximumWindowHeight.toInt()) {
+			gt->actionFullScreen->setEnabled(TRUE);
+		}
+		else {
+			gt->actionFullScreen->setDisabled(TRUE);		
+		}
+	}
 
 }

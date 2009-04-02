@@ -247,6 +247,7 @@ void settingsDialogImpl::exec() {
 	defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
 	QListWidgetItem *defaultTableItem = new QListWidgetItem(defaultTableStyle.getStyleDescription(),listWidget_gameTableStyles); 
 	defaultTableItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
+	defaultTableItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
 	
 	//load secondary styles into list (if fallback no entry)
 	myGameTableStylesList = myConfig->readConfigStringList("GameTableStylesList");
@@ -257,6 +258,7 @@ void settingsDialogImpl::exec() {
 		if(!nextStyle.getFallBack()) {
 			QListWidgetItem *nextItem = new QListWidgetItem(nextStyle.getStyleDescription()); 
 			nextItem->setData(15,QString::fromUtf8(it1->c_str()));
+			nextItem->setData(Qt::ToolTipRole,QString::fromUtf8(it1->c_str()));
 			listWidget_gameTableStyles->addItem(nextItem);
 		}
 	}	
@@ -292,11 +294,13 @@ void settingsDialogImpl::exec() {
 	defaultCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
 	QListWidgetItem *defaultCardItem = new QListWidgetItem(defaultCardStyle.getStyleDescription(),listWidget_cardDeckStyles); 
 	defaultCardItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
+	defaultCardItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
 	//define PokerTH default CardDeck4c
 	CardDeckStyleReader default4cCardStyle(myConfig);
 	default4cCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
 	QListWidgetItem *default4cCardItem = new QListWidgetItem(default4cCardStyle.getStyleDescription(),listWidget_cardDeckStyles); 
 	default4cCardItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
+	default4cCardItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
 
 	//load secondary card styles into list (if fallback no entry)
 	myCardDeckStylesList = myConfig->readConfigStringList("CardDeckStylesList");
@@ -307,6 +311,7 @@ void settingsDialogImpl::exec() {
 		if(!nextStyle.getFallBack()) {
 			QListWidgetItem *nextItem = new QListWidgetItem(nextStyle.getStyleDescription()); 
 			nextItem->setData(15,QString::fromUtf8(it2->c_str()));
+			nextItem->setData(Qt::ToolTipRole,QString::fromUtf8(it2->c_str()));
 			listWidget_cardDeckStyles->addItem(nextItem);
 		}
 	}	
@@ -902,6 +907,7 @@ void settingsDialogImpl::addGameTableStyle()
 			if(!newStyle.getFallBack()) {
 				QListWidgetItem *newItem = new QListWidgetItem(newStyle.getStyleDescription()); 
 				newItem->setData(15,fileName);
+				newItem->setData(Qt::ToolTipRole,fileName);
 				listWidget_gameTableStyles->addItem(newItem);
 			}
 			else {
@@ -985,6 +991,7 @@ void settingsDialogImpl::addCardDeckStyle()
 			if(!newStyle.getFallBack()) {
 				QListWidgetItem *newItem = new QListWidgetItem(newStyle.getStyleDescription()); 
 				newItem->setData(15,fileName);
+				newItem->setData(Qt::ToolTipRole,fileName);
 				listWidget_cardDeckStyles->addItem(newItem);
 			}
 			else {

@@ -3164,8 +3164,9 @@ void gameTableImpl::refreshActionButtonFKeyIndicator(bool clear)
 
 void gameTableImpl::refreshGameTableStyle()
 {
-	myGameTableStyle->setLogStyle(textBrowser_Log);
-	myGameTableStyle->setChatStyle(textBrowser_Chat);	
+	myGameTableStyle->setWindowsGeometry(this);
+	myGameTableStyle->setChatLogStyle(textBrowser_Log);
+	myGameTableStyle->setChatLogStyle(textBrowser_Chat);	
 	myGameTableStyle->setChatInputStyle(lineEdit_ChatInput);
 
 	int i;

@@ -50,7 +50,7 @@ public:
 	QString getFKeyIndicatorColor() const { return FKeyIndicatorColor; }
 	QString getChanceLabelImpossibleColor() const { return ChanceLabelImpossibleColor; }
 	QString getChanceLabelPossibleColor() const { return ChanceLabelPossibleColor; }
-	QString getChatTextColor() const { return ChatTextColor; }
+	QString getChatLogTextColor() const { return ChatLogTextColor; }
 	QString getChatTextNickNotifyColor() const { return ChatTextNickNotifyColor; }
 
 	QString getActionPic(int);
@@ -65,8 +65,7 @@ public:
 	void setToolBoxBackground(QGroupBox*);
 
 	//set fonts + colors
-	void setLogStyle(QTextBrowser*);
-	void setChatStyle(QTextBrowser*);
+	void setChatLogStyle(QTextBrowser*);
 	void setChatInputStyle(QLineEdit*);
 	void setCashLabelStyle(QLabel*);
 	void setSetLabelStyle(QLabel*);
@@ -81,6 +80,8 @@ public:
 	void setBetValueInputStyle(QLineEdit*);
 	
 	void setTabWidgetStyle(QTabWidget*, QTabBar*);
+
+	void setWindowsGeometry(gameTableImpl*);
 
 	//set pics and fonts and colors 
 	void setButtonsStyle(MyActionButton*, MyActionButton*, MyActionButton*, MyActionButton*, int);
@@ -145,16 +146,52 @@ private:
 	QString FKeyIndicatorColor;
 	QString ChanceLabelPossibleColor;
 	QString ChanceLabelImpossibleColor;
-	QString ChatTextColor;
 	QString ChatTextNickNotifyColor;
-	QString LogTextColor;
+	QString ChatLogTextColor;
+	QString ChatLogBgColor;
+	QString ChatLogScrollBarBorderColor;
+	QString ChatLogScrollBarBgColor;
+	QString ChatLogScrollBarHandleBorderColor;
+	QString ChatLogScrollBarHandleBgColor;
+	QString ChatLogScrollBarArrowBorderColor;
+	QString ChatLogScrollBarArrowBgColor;
 	QString LogWinnerMainPotColor;
 	QString LogWinnerSidePotColor;
 	QString LogPlayerSitsOutColor;
 	QString LogNewGameAdminColor;
+	QString TabWidgetBorderColor;
+	QString TabWidgetBgColor;
+     	QString TabWidgetTextColor;
+	QString MenuBgColor;
+	QString MenuTextColor;
+	QString BreakLobbyButtonBgColor;
+	QString BreakLobbyButtonTextColor;
+	QString BreakLobbyButtonBgDisabledColor;
+	QString BreakLobbyButtonTextDisabledColor;
+	QString BreakLobbyButtonBgBlinkColor;
+	QString BreakLobbyButtonTextBlinkColor;
+	QString PlayerCashTextColor;
+	QString PlayerBetTextColor;
+	QString PlayerNickTextColor;
+	QString BoardBigTextColor;
+	QString BoardSmallTextColor;
+	QString SpeedTextColor;
+	QString VoteButtonBgColor;
+	QString VoteButtonTextColor;
+	QString BetInputTextColor;
+	QString BetInputBgColor;
+	QString BetInputDisabledTextColor;
+	QString BetInputDisabledBgColor;
+	QString FoldButtonTextColor;
+	QString FoldButtonCheckableTextColor;
+	QString CheckCallButtonTextColor;
+	QString CheckCallButtonCheckableTextColor;
+	QString BetRaiseButtonTextColor;
+	QString BetRaiseButtonCheckableTextColor;
+	QString AllInButtonTextColor;
+	QString AllInButtonCheckableTextColor;
 // 	SIZES
-	QString ChatTextSize;
-     	QString LogTextSize;
+	QString ChatLogTextSize;
 
 	//internal
 	QString font2String;

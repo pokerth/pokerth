@@ -1540,7 +1540,7 @@
          </size>
         </property>
         <property name="styleSheet">
-         <string>QGroupBox {border-style:none;}</string>
+         <string notr="true">QGroupBox {border-style:none;}</string>
         </property>
         <widget class="QFrame" name="framegameinfo">
          <property name="geometry">
@@ -2469,13 +2469,13 @@
           <property name="minimumSize">
            <size>
             <width>260</width>
-            <height>190</height>
+            <height>188</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>260</width>
-            <height>190</height>
+            <height>188</height>
            </size>
           </property>
           <layout class="QGridLayout">
@@ -2696,8 +2696,8 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>170</width>
-          <height>180</height>
+          <width>155</width>
+          <height>0</height>
          </size>
         </property>
        </spacer>
@@ -2726,7 +2726,7 @@
          </size>
         </property>
         <property name="styleSheet">
-         <string>QGroupBox {border-style:none;}</string>
+         <string notr="true">QGroupBox {border-style:none;}</string>
         </property>
         <property name="title">
          <string/>
@@ -2979,7 +2979,7 @@
            <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
-             <height>40</height>
+             <height>0</height>
             </size>
            </property>
           </spacer>
@@ -2992,7 +2992,7 @@
            <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
-             <height>40</height>
+             <height>0</height>
             </size>
            </property>
           </spacer>
@@ -3010,8 +3010,8 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>170</width>
-          <height>180</height>
+          <width>155</width>
+          <height>0</height>
          </size>
         </property>
        </spacer>
@@ -3061,13 +3061,13 @@
           <property name="minimumSize">
            <size>
             <width>260</width>
-            <height>190</height>
+            <height>188</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>260</width>
-            <height>190</height>
+            <height>188</height>
            </size>
           </property>
           <layout class="QGridLayout">
@@ -3172,8 +3172,17 @@
                <string>Chance</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout_2">
-               <property name="margin">
-                <number>2</number>
+               <property name="leftMargin">
+                <number>1</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>1</number>
+               </property>
+               <property name="bottomMargin">
+                <number>1</number>
                </property>
                <property name="spacing">
                 <number>0</number>
