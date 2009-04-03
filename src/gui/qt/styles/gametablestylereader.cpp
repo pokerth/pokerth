@@ -41,8 +41,8 @@ GameTableStyleReader::GameTableStyleReader(ConfigFile *c, gameTableImpl *w) : my
 	humanPlayerButtonFontSize = "13";
 	betValueFontSize = "11";
 	
-	tabBarPaddingTop = "1";
-	tabBarPaddingSide = "7";
+	tabBarPaddingTop = "3";
+	tabBarPaddingSide = "9";
 #else 
 	#ifdef __APPLE__	
 		font1String = "font-family: \"Lucida Grande\";";
