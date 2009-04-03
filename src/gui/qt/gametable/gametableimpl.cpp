@@ -607,23 +607,27 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 
 	//Check for anti-peek mode
 	if(myStartWindow->getSession()->getCurrentGame()) {
-		QPixmap tempCardsPixmapArray[2];
-		int tempCardsIntArray[2];
-		
-		myStartWindow->getSession()->getCurrentGame()->getSeatsList()->front()->getMyCards(tempCardsIntArray);	
-		if(myConfig->readConfigInt("AntiPeekMode")) {
-			holeCardsArray[0][0]->setPixmap(*flipside, TRUE);
-			tempCardsPixmapArray[0] = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[0], 10)+".png"));
-			holeCardsArray[0][0]->setHiddenFrontPixmap(tempCardsPixmapArray[0]);
-			holeCardsArray[0][1]->setPixmap(*flipside, TRUE);
-			tempCardsPixmapArray[1]= QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[1], 10)+".png"));
-			holeCardsArray[0][1]->setHiddenFrontPixmap(tempCardsPixmapArray[1]);
-		}
-		else {
-			tempCardsPixmapArray[0]= QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[0], 10)+".png"));
-			holeCardsArray[0][0]->setPixmap(tempCardsPixmapArray[0],FALSE);
-			tempCardsPixmapArray[1]= QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[1], 10)+".png"));
-			holeCardsArray[0][1]->setPixmap(tempCardsPixmapArray[1],FALSE);
+// 		check if human player is already active
+		if(myStartWindow->getSession()->getCurrentGame()->getSeatsList()->front()->getMyActiveStatus()) {
+			
+			QPixmap tempCardsPixmapArray[2];
+			int tempCardsIntArray[2];
+			
+			myStartWindow->getSession()->getCurrentGame()->getSeatsList()->front()->getMyCards(tempCardsIntArray);	
+			if(myConfig->readConfigInt("AntiPeekMode")) {
+				holeCardsArray[0][0]->setPixmap(*flipside, TRUE);
+				tempCardsPixmapArray[0] = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[0], 10)+".png"));
+				holeCardsArray[0][0]->setHiddenFrontPixmap(tempCardsPixmapArray[0]);
+				holeCardsArray[0][1]->setPixmap(*flipside, TRUE);
+				tempCardsPixmapArray[1]= QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[1], 10)+".png"));
+				holeCardsArray[0][1]->setHiddenFrontPixmap(tempCardsPixmapArray[1]);
+			}
+			else {
+				tempCardsPixmapArray[0]= QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[0], 10)+".png"));
+				holeCardsArray[0][0]->setPixmap(tempCardsPixmapArray[0],FALSE);
+				tempCardsPixmapArray[1]= QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[1], 10)+".png"));
+				holeCardsArray[0][1]->setPixmap(tempCardsPixmapArray[1],FALSE);
+			}
 		}
 	}
 
