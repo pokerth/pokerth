@@ -47,14 +47,25 @@ public:
 	QString getSmallBlindPuck() const { return SmallBlindPuck; }
 	QString getBigBlindPuck() const	{ return BigBlindPuck; }
 	QString getHandRanking() const { return HandRanking; }
+	QString getActionPic(int);
+
 	QString getFKeyIndicatorColor() const { return FKeyIndicatorColor; }
 	QString getChanceLabelImpossibleColor() const { return ChanceLabelImpossibleColor; }
 	QString getChanceLabelPossibleColor() const { return ChanceLabelPossibleColor; }
 	QString getChatLogTextColor() const { return ChatLogTextColor; }
 	QString getChatTextNickNotifyColor() const { return ChatTextNickNotifyColor; }
+	QString getLogWinnerMainPotColor() const { return LogWinnerMainPotColor; }
+	QString getLogWinnerSidePotColor() const { return LogWinnerSidePotColor; }
+	QString getLogPlayerSitsOutColor() const { return LogPlayerSitsOutColor; }
+	QString getLogNewGameAdminColor() const { return LogNewGameAdminColor; }
+	QString getBreakLobbyButtonBgColor() const { return BreakLobbyButtonBgColor; }
 
-	QString getActionPic(int);
-
+	QString getMinimumWindowWidth() const { return MinimumWindowWidth; }
+	QString getMinimumWindowHeight() const { return MinimumWindowHeight; }
+	QString getMaximumWindowWidth() const { return MaximumWindowWidth; }
+	QString getMaximumWindowHeight() const { return MaximumWindowHeight; }
+	QString getIfFixedWindowSize() const {	return IfFixedWindowSize; }	
+	
 	bool getFallBack() const { return fallBack; }	
 
 	//set pictures
@@ -88,12 +99,6 @@ public:
 	void setButtonsStyle(MyActionButton*, MyActionButton*, MyActionButton*, MyActionButton*, int);
 	void setAwayRadioButtonsStyle(QRadioButton*);
 
-	QString getLogWinnerMainPotColor() const { return LogWinnerMainPotColor; }
-	QString getLogWinnerSidePotColor() const { return LogWinnerSidePotColor; }
-	QString getLogPlayerSitsOutColor() const { return LogPlayerSitsOutColor; }
-	QString getLogNewGameAdminColor() const { return LogNewGameAdminColor; }
-	QString getBreakLobbyButtonBgColor() const { return BreakLobbyButtonBgColor; }
-	
 private:
 	//style values
 // 	INFOS

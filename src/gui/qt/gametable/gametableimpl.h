@@ -297,6 +297,8 @@ public slots:
 	void refreshVotesMonitor(int currentVotes, int numVotesNeededToKick);
 
 	void refreshGameTableStyle();
+	void saveGameTableGeometry();
+	void restoreGameTableGeometry();
 
 private: 
 

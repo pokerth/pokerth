@@ -219,6 +219,9 @@ void GameTableStyleReader::readStyleFile(QString file) {
 		}
 		wrongItems.clear();
 
+// 		INFOS
+		if(StyleDescription == "") { wrongItems << "StyleDescription"; }
+// 		WINDOWS SETTINGS
 		if(IfFixedWindowSize == "") { wrongItems << "IfFixedWindowSize"; }
 		if(FixedWindowWidth == "") { wrongItems << "FixedWindowWidth"; }
 		if(FixedWindowHeight == "") { wrongItems << "FixedWindowHeight"; }
@@ -226,6 +229,7 @@ void GameTableStyleReader::readStyleFile(QString file) {
 		if(MinimumWindowHeight == "") { wrongItems << "MinimumWindowHeight"; }
 		if(MaximumWindowWidth == "") { wrongItems << "MaximumWindowWidth"; }
 		if(MaximumWindowHeight == "") { wrongItems << "MaximumWindowHeight"; }
+// 		PICS
 		if(ActionAllIn == "") { wrongItems << "ActionAllIn"; }
 		if(ActionRaise == "") { wrongItems << "ActionRaise"; }
 		if(ActionBet == "") { wrongItems << "ActionBet"; }
@@ -268,6 +272,7 @@ void GameTableStyleReader::readStyleFile(QString file) {
 		if(Table == "") { wrongItems << "Table"; }
 		if(HandRanking == "") { wrongItems << "HandRanking"; }
 		if(ToolBoxBackground == "") { wrongItems << "ToolBoxBackground"; }
+// 		COLORS
 		if(FKeyIndicatorColor == "") { wrongItems << "FKeyIndicatorColor"; }
 		if(ChanceLabelPossibleColor == "") { wrongItems << "ChanceLabelPossibleColor"; }
 		if(ChanceLabelImpossibleColor == "") { wrongItems << "ChanceLabelImpossibleColor"; }
@@ -319,6 +324,7 @@ void GameTableStyleReader::readStyleFile(QString file) {
 		if(BetSpeedSliderGrooveBorderColor == "") { wrongItems << "BetSpeedSliderGrooveBorderColor"; }
 		if(BetSpeedSliderHandleBgColor == "") { wrongItems << "BetSpeedSliderHandleBgColor"; }
 		if(BetSpeedSliderHandleBorderColor == "") { wrongItems << "BetSpeedSliderHandleBorderColor"; }
+// 		SIZE
 		if(ChatLogTextSize == "") { wrongItems << "ChatLogTextSize"; }
 			
 		//if one or more items are wrong or left show detailed error message
@@ -554,7 +560,9 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 			gt->actionFullScreen->setEnabled(TRUE);
 		}
 		else {
-			gt->actionFullScreen->setDisabled(TRUE);		
+			gt->actionFullScreen->setDisabled(TRUE);
+			if(gt->isFullScreen())
+				gt->showNormal();
 		}
 	}
 	else {
@@ -569,7 +577,9 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 			gt->actionFullScreen->setEnabled(TRUE);
 		}
 		else {
-			gt->actionFullScreen->setDisabled(TRUE);		
+			gt->actionFullScreen->setDisabled(TRUE);
+			if(gt->isFullScreen())
+				gt->showNormal();
 		}
 	}
 

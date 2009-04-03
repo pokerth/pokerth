@@ -2770,6 +2770,9 @@ void gameTableImpl::localGameModification() {
 
 	//clear log
 	textBrowser_Log->clear();
+
+	//restore saved windows geometry
+	restoreGameTableGeometry();
 }
 
 void gameTableImpl::networkGameModification() {
@@ -2804,6 +2807,9 @@ void gameTableImpl::networkGameModification() {
 
 	//clear log
 	textBrowser_Log->clear();
+	
+	//restore saved windows geometry
+	restoreGameTableGeometry();
 }
 
 void gameTableImpl::mouseOverFlipCards(bool front) {
@@ -2909,6 +2915,7 @@ void gameTableImpl::closeGameTable() {
 			myStartWindow->getSession()->terminateNetworkClient();
 			stopTimer();
 			if (myStartWindow->getMyServerGuiInterface().get()) myStartWindow->getMyServerGuiInterface()->getSession()->terminateNetworkServer();
+			saveGameTableGeometry();
 			myStartWindow->show();
 			this->hide();
 		}
@@ -2916,6 +2923,7 @@ void gameTableImpl::closeGameTable() {
 	else {
 		myStartWindow->getSession()->terminateNetworkClient();
 		stopTimer();
+		saveGameTableGeometry();
 		myStartWindow->show();
 		this->hide();
 	}
@@ -3233,4 +3241,31 @@ void gameTableImpl::refreshGameTableStyle()
 	myGameTableStyle->setTabWidgetStyle(tabWidget_Left, tabWidget_Left->getMyTabBar());
 	
 	label_Handranking->setPixmap(myGameTableStyle->getHandRanking());
+}
+
+void gameTableImpl::saveGameTableGeometry()
+{
+	if(this->isFullScreen()) {
+		myConfig->writeConfigInt("GameTableFullScreenSave", 1);
+	}
+	else {
+		myConfig->writeConfigInt("GameTableFullScreenSave", 0);
+		myConfig->writeConfigInt("GameTableHeightSave", this->height());
+		myConfig->writeConfigInt("GameTableWidthSave", this->width());
+	}
+	myConfig->writeBuffer();
+}
+
+void gameTableImpl::restoreGameTableGeometry()
+{
+	if(myConfig->readConfigInt("GameTableFullScreenSave")) {
+		if(actionFullScreen->isEnabled()) this->showFullScreen();
+	}
+	else {
+		//resize only if style size allow this and if NOT fixed windows size
+		if(!myGameTableStyle->getIfFixedWindowSize().toInt() && myConfig->readConfigInt("GameTableHeightSave") <= myGameTableStyle->getMaximumWindowHeight().toInt() && myConfig->readConfigInt("GameTableHeightSave") >= myGameTableStyle->getMinimumWindowHeight().toInt() && myConfig->readConfigInt("GameTableWidthSave") <= myGameTableStyle->getMaximumWindowWidth().toInt() && myConfig->readConfigInt("GameTableWidthSave") >= myGameTableStyle->getMinimumWindowWidth().toInt()){
+			
+			this->resize(myConfig->readConfigInt("GameTableWidthSave"), myConfig->readConfigInt("GameTableHeightSave"));
+		}		
+	}
 }
