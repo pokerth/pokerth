@@ -152,8 +152,10 @@ void GameTableStyleReader::readStyleFile(QString file) {
 				else if (itemsList->ValueStr() == "RadioButtonCheckedHover") { RadioButtonCheckedHover = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "RadioButtonUnchecked") { RadioButtonUnchecked = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "RadioButtonUncheckedHover") { RadioButtonUncheckedHover = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "PlayerSeatInActive") { PlayerSeatInActive = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "PlayerSeatActive") { PlayerSeatActive = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "PlayerTopSeatInactive") { PlayerTopSeatInactive = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "PlayerTopSeatActive") { PlayerTopSeatActive = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "PlayerBottomSeatInactive") { PlayerBottomSeatInactive = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "PlayerBottomSeatActive") { PlayerBottomSeatActive = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "Table") { Table = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "HandRanking") { HandRanking = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "ToolBoxBackground") { ToolBoxBackground = currentDir+QString::fromUtf8(tempString1.c_str()); }
@@ -259,8 +261,10 @@ void GameTableStyleReader::readStyleFile(QString file) {
 		if(RadioButtonCheckedHover == "") { wrongItems << "RadioButtonCheckedHover"; }
 		if(RadioButtonUnchecked == "") { wrongItems << "RadioButtonUnchecked"; }
 		if(RadioButtonUncheckedHover == "") { wrongItems << "RadioButtonUncheckedHover"; }
-		if(PlayerSeatActive == "") { wrongItems << "PlayerSeatActive"; }
-		if(PlayerSeatInActive == "") { wrongItems << "PlayerSeatInActive"; }
+		if(PlayerTopSeatActive == "") { wrongItems << "PlayerTopSeatActive"; }
+		if(PlayerTopSeatInactive == "") { wrongItems << "PlayerTopSeatInactive"; }
+		if(PlayerBottomSeatActive == "") { wrongItems << "PlayerBottomSeatActive"; }
+		if(PlayerBottomSeatInactive == "") { wrongItems << "PlayerBottomSeatInactive"; }
 		if(Table == "") { wrongItems << "Table"; }
 		if(HandRanking == "") { wrongItems << "HandRanking"; }
 		if(ToolBoxBackground == "") { wrongItems << "ToolBoxBackground"; }
@@ -418,14 +422,26 @@ void GameTableStyleReader::setVoteStringsStyle(QLabel *l)
 	l->setStyleSheet("QLabel { color: #"+TabWidgetTextColor+"; font-size: 11px;}");
 }
 
-void GameTableStyleReader::setPlayerSeatInActiveStyle(QGroupBox *ps)
+void GameTableStyleReader::setPlayerSeatInactiveStyle(QGroupBox *ps)
 {
-	ps->setStyleSheet("QGroupBox { border:none; background-image: url("+PlayerSeatInActive+") }"); 
+	// 	check if seat is on top or bottom line
+	if(ps->objectName() == "groupBox2" || ps->objectName() == "groupBox1" || ps->objectName() == "groupBox0" || ps->objectName() == "groupBox9" || ps->objectName() == "groupBox8") {
+		ps->setStyleSheet("QGroupBox { border:none; background-image: url("+PlayerBottomSeatInactive+") }"); 
+	}
+	else {
+		ps->setStyleSheet("QGroupBox { border:none; background-image: url("+PlayerTopSeatInactive+") }"); 
+	}
 }
 
 void GameTableStyleReader::setPlayerSeatActiveStyle(QGroupBox *ps)
 {
-	ps->setStyleSheet("QGroupBox { border:none; background-image: url("+PlayerSeatActive+") }"); 
+// 	check if seat is on top or bottom line
+	if(ps->objectName() == "groupBox2" || ps->objectName() == "groupBox1" || ps->objectName() == "groupBox0" || ps->objectName() == "groupBox9" || ps->objectName() == "groupBox8") {
+		ps->setStyleSheet("QGroupBox { border:none; background-image: url("+PlayerBottomSeatActive+") }"); 
+	}
+	else {
+		ps->setStyleSheet("QGroupBox { border:none; background-image: url("+PlayerTopSeatActive+") }"); 
+	}
 }
 
 void GameTableStyleReader::setBetValueInputStyle(QLineEdit *bv)

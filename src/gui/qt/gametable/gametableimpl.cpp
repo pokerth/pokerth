@@ -905,7 +905,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 							userWidgetsArray[j]->show();
 						}
 					}
-					myGameTableStyle->setPlayerSeatInActiveStyle(groupBoxArray[(*it_c)->getMyID()]);
+					myGameTableStyle->setPlayerSeatInactiveStyle(groupBoxArray[(*it_c)->getMyID()]);
 					
 				}
 				//Groupbox verdunkeln wenn der Spiele inactive ist.  
@@ -919,7 +919,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 						holeCardsArray[0][0]->signalFastFlipCards(FALSE);
 						holeCardsArray[0][1]->signalFastFlipCards(FALSE);						
 					}
-					myGameTableStyle->setPlayerSeatInActiveStyle(groupBoxArray[(*it_c)->getMyID()]);
+					myGameTableStyle->setPlayerSeatInactiveStyle(groupBoxArray[(*it_c)->getMyID()]);
 				}
 			}
 		}
@@ -938,7 +938,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 					holeCardsArray[0][0]->signalFastFlipCards(FALSE);
 					holeCardsArray[0][1]->signalFastFlipCards(FALSE);						
 				}
-				myGameTableStyle->setPlayerSeatInActiveStyle(groupBoxArray[playerID]);
+				myGameTableStyle->setPlayerSeatInactiveStyle(groupBoxArray[playerID]);
 			}
 		break;
 		//active but fold
@@ -949,7 +949,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 						userWidgetsArray[j]->show();
 					}		
 				}
-				myGameTableStyle->setPlayerSeatInActiveStyle(groupBoxArray[playerID]);
+				myGameTableStyle->setPlayerSeatInactiveStyle(groupBoxArray[playerID]);
 			}
 		break;
 		//active in action
@@ -959,7 +959,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 		break;
 		//active not in action
 		case 3:  {
-				myGameTableStyle->setPlayerSeatInActiveStyle(groupBoxArray[playerID]);
+				myGameTableStyle->setPlayerSeatInactiveStyle(groupBoxArray[playerID]);
 			}
 		break;
 		default: {}
@@ -3212,7 +3212,7 @@ void gameTableImpl::refreshGameTableStyle()
 	
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
-		myGameTableStyle->setPlayerSeatInActiveStyle(groupBoxArray[i]);
+		myGameTableStyle->setPlayerSeatInactiveStyle(groupBoxArray[i]);
 	}
 	//Human player button
 	myGameTableStyle->setButtonsStyle(pushButton_BetRaise, pushButton_CallCheck, pushButton_Fold, pushButton_AllIn, 0);

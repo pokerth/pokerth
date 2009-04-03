@@ -61,7 +61,7 @@ public:
 	void setTableBackground(gameTableImpl*);
 	void setCardHolderStyle(QLabel*, int /*bero*/);
 	void setPlayerSeatActiveStyle(QGroupBox*);
-	void setPlayerSeatInActiveStyle(QGroupBox*);
+	void setPlayerSeatInactiveStyle(QGroupBox*);
 	void setToolBoxBackground(QGroupBox*);
 
 	//set fonts + colors
@@ -144,8 +144,10 @@ private:
      	QString RadioButtonCheckedHover;
      	QString RadioButtonUnchecked;
      	QString RadioButtonUncheckedHover;
-	QString PlayerSeatInActive;
-	QString PlayerSeatActive;
+	QString PlayerTopSeatInactive;
+	QString PlayerTopSeatActive;
+	QString PlayerBottomSeatInactive;
+	QString PlayerBottomSeatActive;
 	QString Table;
 	QString HandRanking;
 	QString ToolBoxBackground;

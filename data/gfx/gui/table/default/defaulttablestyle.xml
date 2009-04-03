@@ -46,8 +46,10 @@
      <RadioButtonCheckedHover value="radiobutton_checked_hover.png" />
      <RadioButtonUnchecked value="radiobutton_unchecked.png" />
      <RadioButtonUncheckedHover value="radiobutton_unchecked_hover.png" />
-     <PlayerSeatInActive value="playerSeatInactive.png" />
-     <PlayerSeatActive value="playerSeatActive.png" />
+     <PlayerTopSeatInactive value="playerSeatInactive.png" />
+     <PlayerTopSeatActive value="playerSeatActive.png" />
+     <PlayerBottomSeatInactive value="playerSeatInactive.png" />
+     <PlayerBottomSeatActive value="playerSeatActive.png" />
      <Table value="table.png" />
      <ToolBoxBackground value="toolboxbg.png" />
      <HandRanking value="handranking.png" />
