@@ -42,15 +42,18 @@ public:
 	QString getPreview() const { return Preview; }
 
 	bool getFallBack() const { return fallBack; }	
-
+	void showErrorMessage(QString, QStringList, QString);
 
 private:
 
-	QString StyleDescription;
+	QString StyleDescription;	
+	QString StyleMaintainerEMail;
 	QString Preview;
 
 	QString currentFileName;
 	QString currentDir;
+
+	QStringList cardsLeft;
 
 	ConfigFile *myConfig;
 	gameTableImpl *myW;

@@ -328,7 +328,7 @@ void GameTableStyleReader::showErrorMessage(QString style, QStringList failedIte
 	QString items = failedItems.join(", ");
 
 	QMessageBox::warning(myW, tr("Game Table Style Error"),
-                                tr("Selected game table style \"%1\" seems to be incomplete or defective. \nThe value of \"%2\" is wrong or left. Please contact the style builder %3.").arg(style).arg(items).arg(email),
+                                tr("Selected game table style \"%1\" seems to be incomplete or defective. \nThe value(s) of \"%2\" is/are wrong or left. \n\nPlease contact the game table style builder %3.").arg(style).arg(items).arg(email),
                                 QMessageBox::Ok);
 }
 

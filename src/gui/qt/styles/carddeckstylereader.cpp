@@ -67,11 +67,35 @@ void CardDeckStyleReader::readStyleFile(QString file) {
 				tempString1 = tmpStr1;
 
 				if(itemsList->ValueStr() == "StyleDescription") { StyleDescription = QString::fromUtf8(tempString1.c_str()); }
+				else if(itemsList->ValueStr() == "StyleMaintainerEMail") { StyleMaintainerEMail = QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "Preview") { Preview = currentDir+QString::fromUtf8(tempString1.c_str()); }
 			}
 		}
 		
 	}
 	else {	qDebug() << "could not load card deck file: " << tinyFileName.c_str(); }
+
+	//check if all files are there
+	cardsLeft.clear();
+	int i;
+	for(i=0; i<52; i++) {
+		QString cardString(QString::number(i)+".png");
+		if(!QDir(currentDir).exists(cardString)) {
+			cardsLeft << cardString;
+		}
+	}
+	if(!QDir(currentDir).exists("flipside.png")) {
+			cardsLeft << "flipside.png";
+	}
+	
+	if(!cardsLeft.isEmpty() && myW != 0) showErrorMessage(StyleDescription, cardsLeft, StyleMaintainerEMail);
 }
 
+void CardDeckStyleReader::showErrorMessage(QString style, QStringList failedItems, QString email)
+{
+	QString items = failedItems.join(", ");
+
+	QMessageBox::warning(myW, tr("Card Deck Style Error"),
+                                tr("Selected card deck style \"%1\" seems to be incomplete or defective. \nThe card picture(s) \"%2\" is/are not available. \n\nPlease contact the card deck style builder %3.").arg(style).arg(items).arg(email),
+                                QMessageBox::Ok);
+}
