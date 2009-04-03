@@ -147,6 +147,11 @@ void GameTableStyleReader::readStyleFile(QString file) {
 				else if (itemsList->ValueStr() == "AllInButtonHover") { AllInButtonHover = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "AllInButtonChecked") { AllInButtonChecked = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "AllInButtonCheckedHover") { AllInButtonCheckedHover = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "RadioButtonPressed") { RadioButtonPressed = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "RadioButtonChecked") { RadioButtonChecked = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "RadioButtonCheckedHover") { RadioButtonCheckedHover = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "RadioButtonUnchecked") { RadioButtonUnchecked = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "RadioButtonUncheckedHover") { RadioButtonUncheckedHover = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "PlayerSeatInActive") { PlayerSeatInActive = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "PlayerSeatActive") { PlayerSeatActive = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "Table") { Table = currentDir+QString::fromUtf8(tempString1.c_str()); }
@@ -200,6 +205,10 @@ void GameTableStyleReader::readStyleFile(QString file) {
 				else if (itemsList->ValueStr() == "BetRaiseButtonCheckableTextColor") { BetRaiseButtonCheckableTextColor = QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "AllInButtonTextColor") { AllInButtonTextColor = QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "AllInButtonCheckableTextColor") { AllInButtonCheckableTextColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BetSpeedSliderGrooveBgColor") { BetSpeedSliderGrooveBgColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BetSpeedSliderGrooveBorderColor") { BetSpeedSliderGrooveBorderColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BetSpeedSliderHandleBgColor") { BetSpeedSliderHandleBgColor = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BetSpeedSliderHandleBorderColor") { BetSpeedSliderHandleBorderColor = QString::fromUtf8(tempString1.c_str()); }
 // 				SIZES
 				else if (itemsList->ValueStr() == "ChatLogTextSize") { ChatLogTextSize = QString::fromUtf8(tempString1.c_str()); }
 
@@ -245,6 +254,11 @@ void GameTableStyleReader::readStyleFile(QString file) {
 		if(AllInButtonHover == "") { wrongItems << "AllInButtonHover"; }
 		if(AllInButtonChecked == "") { wrongItems << "AllInButtonChecked"; }
 		if(AllInButtonCheckedHover == "") { wrongItems << "AllInButtonCheckedHover"; }
+		if(RadioButtonPressed == "") { wrongItems << "RadioButtonPressed"; }
+		if(RadioButtonChecked == "") { wrongItems << "RadioButtonChecked"; }
+		if(RadioButtonCheckedHover == "") { wrongItems << "RadioButtonCheckedHover"; }
+		if(RadioButtonUnchecked == "") { wrongItems << "RadioButtonUnchecked"; }
+		if(RadioButtonUncheckedHover == "") { wrongItems << "RadioButtonUncheckedHover"; }
 		if(PlayerSeatActive == "") { wrongItems << "PlayerSeatActive"; }
 		if(PlayerSeatInActive == "") { wrongItems << "PlayerSeatInActive"; }
 		if(Table == "") { wrongItems << "Table"; }
@@ -297,6 +311,10 @@ void GameTableStyleReader::readStyleFile(QString file) {
 		if(BetRaiseButtonCheckableTextColor == "") { wrongItems << "BetRaiseButtonCheckableTextColor"; }
 		if(AllInButtonTextColor == "") { wrongItems << "AllInButtonTextColor"; }
 		if(AllInButtonCheckableTextColor == "") { wrongItems << "AllInButtonCheckableTextColor"; }
+		if(BetSpeedSliderGrooveBgColor == "") { wrongItems << "BetSpeedSliderGrooveBgColor"; }
+		if(BetSpeedSliderGrooveBorderColor == "") { wrongItems << "BetSpeedSliderGrooveBorderColor"; }
+		if(BetSpeedSliderHandleBgColor == "") { wrongItems << "BetSpeedSliderHandleBgColor"; }
+		if(BetSpeedSliderHandleBorderColor == "") { wrongItems << "BetSpeedSliderHandleBorderColor"; }
 		if(ChatLogTextSize == "") { wrongItems << "ChatLogTextSize"; }
 			
 		//if one or more items are wrong or left show detailed error message
@@ -417,7 +435,8 @@ void GameTableStyleReader::setBetValueInputStyle(QLineEdit *bv)
 
 void GameTableStyleReader::setAwayRadioButtonsStyle(QRadioButton *rb)
 {
-	rb->setStyleSheet("QRadioButton { color: #"+TabWidgetTextColor+"; } QRadioButton::indicator { color: #"+TabWidgetTextColor+"; }");
+	rb->setStyleSheet("QRadioButton { color: #"+TabWidgetTextColor+"; } QRadioButton::indicator { width: 13px; height: 13px;} QRadioButton::indicator::checked { image: url("+RadioButtonChecked+");}  QRadioButton::indicator::unchecked { image: url("+RadioButtonUnchecked+");} QRadioButton::indicator:unchecked:hover { image: url("+RadioButtonUncheckedHover+");} QRadioButton::indicator:unchecked:pressed { image: url("+RadioButtonPressed+");} QRadioButton::indicator::checked { image: url("+RadioButtonChecked+");} QRadioButton::indicator:checked:hover { image: url("+RadioButtonCheckedHover+");} QRadioButton::indicator:checked:pressed { image: url("+RadioButtonPressed+");}");
+
 }
 
 QString GameTableStyleReader::getActionPic(int action)
@@ -531,5 +550,11 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 			gt->actionFullScreen->setDisabled(TRUE);		
 		}
 	}
+
+}
+
+void GameTableStyleReader::setSliderStyle(QSlider *s)
+{
+	s->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #"+BetSpeedSliderGrooveBorderColor+"; height: 3px; background: #"+BetSpeedSliderGrooveBgColor+"; margin: 4px 4px; border-radius: 2px; } QSlider::handle:horizontal { background: #"+BetSpeedSliderHandleBgColor+"; border: 1px solid #"+BetSpeedSliderHandleBorderColor+"; width: 9px; margin: -6px 0; border-radius: 4px;}");
 
 }

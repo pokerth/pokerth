@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ui version="4.0">
+<ui version="4.0" >
  <class>gameTable</class>
- <widget class="QMainWindow" name="gameTable">
-  <property name="geometry">
+ <widget class="QMainWindow" name="gameTable" >
+  <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
@@ -10,55 +9,55 @@
     <height>600</height>
    </rect>
   </property>
-  <property name="minimumSize">
+  <property name="minimumSize" >
    <size>
     <width>1024</width>
     <height>600</height>
    </size>
   </property>
-  <property name="maximumSize">
+  <property name="maximumSize" >
    <size>
     <width>1920</width>
     <height>1280</height>
    </size>
   </property>
-  <property name="mouseTracking">
+  <property name="mouseTracking" >
    <bool>false</bool>
   </property>
-  <property name="windowTitle">
+  <property name="windowTitle" >
    <string>PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">QStatusbar { height:0px; }</string>
+  <property name="styleSheet" >
+   <string notr="true" >QStatusbar { height:0px; }</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_4">
-    <property name="leftMargin">
+  <widget class="QWidget" name="centralwidget" >
+   <layout class="QGridLayout" name="gridLayout_4" >
+    <property name="leftMargin" >
      <number>2</number>
     </property>
-    <property name="topMargin">
+    <property name="topMargin" >
      <number>0</number>
     </property>
-    <property name="rightMargin">
+    <property name="rightMargin" >
      <number>2</number>
     </property>
-    <property name="bottomMargin">
+    <property name="bottomMargin" >
      <number>3</number>
     </property>
-    <property name="spacing">
+    <property name="spacing" >
      <number>0</number>
     </property>
-    <item row="0" column="0" rowspan="5">
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <property name="spacing">
+    <item rowspan="5" row="0" column="0" >
+     <layout class="QVBoxLayout" name="verticalLayout_2" >
+      <property name="spacing" >
        <number>0</number>
       </property>
       <item>
-       <spacer name="verticalSpacer_3">
-        <property name="orientation">
+       <spacer name="verticalSpacer_3" >
+        <property name="orientation" >
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" stdset="0">
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>20</width>
           <height>17</height>
@@ -67,24 +66,24 @@
        </spacer>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox3">
-        <property name="minimumSize">
+       <widget class="QGroupBox" name="groupBox3" >
+        <property name="minimumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="maximumSize">
+        <property name="maximumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="title">
+        <property name="title" >
          <string/>
         </property>
-        <widget class="MyAvatarLabel" name="label_Avatar3">
-         <property name="geometry">
+        <widget class="MyAvatarLabel" name="label_Avatar3" >
+         <property name="geometry" >
           <rect>
            <x>13</x>
            <y>13</y>
@@ -92,24 +91,24 @@
            <height>50</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName3">
-         <property name="geometry">
+        <widget class="QLabel" name="label_PlayerName3" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>11</y>
@@ -117,24 +116,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
-        <widget class="MySetLabel" name="textLabel_Set3">
-         <property name="geometry">
+        <widget class="MySetLabel" name="textLabel_Set3" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>119</y>
@@ -142,24 +141,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash3">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Cash3" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>25</y>
@@ -167,21 +166,21 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>35</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Button3">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Button3" >
+         <property name="geometry" >
           <rect>
            <x>18</x>
            <y>88</y>
@@ -189,27 +188,27 @@
            <height>42</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card3a">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card3a" >
+         <property name="geometry" >
           <rect>
            <x>86</x>
            <y>39</y>
@@ -217,12 +216,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card3b">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card3b" >
+         <property name="geometry" >
           <rect>
            <x>110</x>
            <y>39</y>
@@ -230,12 +229,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyStatusLabel" name="textLabel_Status3">
-         <property name="geometry">
+        <widget class="MyStatusLabel" name="textLabel_Status3" >
+         <property name="geometry" >
           <rect>
            <x>67</x>
            <y>55</y>
@@ -243,27 +242,27 @@
            <height>40</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>20</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer_2">
-        <property name="orientation">
+       <spacer name="verticalSpacer_2" >
+        <property name="orientation" >
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" stdset="0">
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>20</width>
           <height>13</height>
@@ -272,24 +271,24 @@
        </spacer>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox2">
-        <property name="minimumSize">
+       <widget class="QGroupBox" name="groupBox2" >
+        <property name="minimumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="maximumSize">
+        <property name="maximumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="title">
+        <property name="title" >
          <string/>
         </property>
-        <widget class="MyAvatarLabel" name="label_Avatar2">
-         <property name="geometry">
+        <widget class="MyAvatarLabel" name="label_Avatar2" >
+         <property name="geometry" >
           <rect>
            <x>13</x>
            <y>79</y>
@@ -297,24 +296,24 @@
            <height>50</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName2">
-         <property name="geometry">
+        <widget class="QLabel" name="label_PlayerName2" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>117</y>
@@ -322,24 +321,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
-        <widget class="MySetLabel" name="textLabel_Set2">
-         <property name="geometry">
+        <widget class="MySetLabel" name="textLabel_Set2" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>10</y>
@@ -347,24 +346,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash2">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Cash2" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>104</y>
@@ -372,21 +371,21 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>35</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Button2">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Button2" >
+         <property name="geometry" >
           <rect>
            <x>18</x>
            <y>16</y>
@@ -394,27 +393,27 @@
            <height>42</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card2a">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card2a" >
+         <property name="geometry" >
           <rect>
            <x>86</x>
            <y>26</y>
@@ -422,12 +421,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card2b">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card2b" >
+         <property name="geometry" >
           <rect>
            <x>110</x>
            <y>26</y>
@@ -435,12 +434,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyStatusLabel" name="textLabel_Status2">
-         <property name="geometry">
+        <widget class="MyStatusLabel" name="textLabel_Status2" >
+         <property name="geometry" >
           <rect>
            <x>67</x>
            <y>42</y>
@@ -448,27 +447,27 @@
            <height>40</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>20</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer_4">
-        <property name="orientation">
+       <spacer name="verticalSpacer_4" >
+        <property name="orientation" >
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" stdset="0">
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>20</width>
           <height>18</height>
@@ -478,30 +477,30 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="1">
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <property name="spacing">
+    <item row="0" column="1" >
+     <layout class="QHBoxLayout" name="horizontalLayout_4" >
+      <property name="spacing" >
        <number>0</number>
       </property>
       <item>
-       <widget class="QGroupBox" name="groupBox4">
-        <property name="minimumSize">
+       <widget class="QGroupBox" name="groupBox4" >
+        <property name="minimumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="maximumSize">
+        <property name="maximumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="title">
+        <property name="title" >
          <string/>
         </property>
-        <widget class="MyAvatarLabel" name="label_Avatar4">
-         <property name="geometry">
+        <widget class="MyAvatarLabel" name="label_Avatar4" >
+         <property name="geometry" >
           <rect>
            <x>13</x>
            <y>13</y>
@@ -509,24 +508,24 @@
            <height>50</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName4">
-         <property name="geometry">
+        <widget class="QLabel" name="label_PlayerName4" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>11</y>
@@ -534,24 +533,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
-        <widget class="MySetLabel" name="textLabel_Set4">
-         <property name="geometry">
+        <widget class="MySetLabel" name="textLabel_Set4" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>119</y>
@@ -559,24 +558,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash4">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Cash4" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>25</y>
@@ -584,21 +583,21 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>35</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Button4">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Button4" >
+         <property name="geometry" >
           <rect>
            <x>18</x>
            <y>88</y>
@@ -606,27 +605,27 @@
            <height>42</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card4a">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card4a" >
+         <property name="geometry" >
           <rect>
            <x>86</x>
            <y>39</y>
@@ -634,12 +633,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card4b">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card4b" >
+         <property name="geometry" >
           <rect>
            <x>110</x>
            <y>39</y>
@@ -647,12 +646,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyStatusLabel" name="textLabel_Status4">
-         <property name="geometry">
+        <widget class="MyStatusLabel" name="textLabel_Status4" >
+         <property name="geometry" >
           <rect>
            <x>67</x>
            <y>55</y>
@@ -660,40 +659,40 @@
            <height>40</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>20</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox5">
-        <property name="minimumSize">
+       <widget class="QGroupBox" name="groupBox5" >
+        <property name="minimumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="maximumSize">
+        <property name="maximumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="title">
+        <property name="title" >
          <string/>
         </property>
-        <widget class="MyAvatarLabel" name="label_Avatar5">
-         <property name="geometry">
+        <widget class="MyAvatarLabel" name="label_Avatar5" >
+         <property name="geometry" >
           <rect>
            <x>13</x>
            <y>13</y>
@@ -701,24 +700,24 @@
            <height>50</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName5">
-         <property name="geometry">
+        <widget class="QLabel" name="label_PlayerName5" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>11</y>
@@ -726,24 +725,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
-        <widget class="MySetLabel" name="textLabel_Set5">
-         <property name="geometry">
+        <widget class="MySetLabel" name="textLabel_Set5" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>119</y>
@@ -751,24 +750,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash5">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Cash5" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>25</y>
@@ -776,21 +775,21 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>35</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Button5">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Button5" >
+         <property name="geometry" >
           <rect>
            <x>18</x>
            <y>88</y>
@@ -798,27 +797,27 @@
            <height>42</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card5a">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card5a" >
+         <property name="geometry" >
           <rect>
            <x>86</x>
            <y>39</y>
@@ -826,12 +825,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card5b">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card5b" >
+         <property name="geometry" >
           <rect>
            <x>110</x>
            <y>39</y>
@@ -839,12 +838,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyStatusLabel" name="textLabel_Status5">
-         <property name="geometry">
+        <widget class="MyStatusLabel" name="textLabel_Status5" >
+         <property name="geometry" >
           <rect>
            <x>67</x>
            <y>55</y>
@@ -852,40 +851,40 @@
            <height>40</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>20</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox6">
-        <property name="minimumSize">
+       <widget class="QGroupBox" name="groupBox6" >
+        <property name="minimumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="maximumSize">
+        <property name="maximumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="title">
+        <property name="title" >
          <string/>
         </property>
-        <widget class="MyAvatarLabel" name="label_Avatar6">
-         <property name="geometry">
+        <widget class="MyAvatarLabel" name="label_Avatar6" >
+         <property name="geometry" >
           <rect>
            <x>13</x>
            <y>13</y>
@@ -893,24 +892,24 @@
            <height>50</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName6">
-         <property name="geometry">
+        <widget class="QLabel" name="label_PlayerName6" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>11</y>
@@ -918,24 +917,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
-        <widget class="MySetLabel" name="textLabel_Set6">
-         <property name="geometry">
+        <widget class="MySetLabel" name="textLabel_Set6" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>119</y>
@@ -943,24 +942,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash6">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Cash6" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>25</y>
@@ -968,21 +967,21 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>35</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Button6">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Button6" >
+         <property name="geometry" >
           <rect>
            <x>18</x>
            <y>88</y>
@@ -990,27 +989,27 @@
            <height>42</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card6a">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card6a" >
+         <property name="geometry" >
           <rect>
            <x>86</x>
            <y>39</y>
@@ -1018,12 +1017,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card6b">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card6b" >
+         <property name="geometry" >
           <rect>
            <x>110</x>
            <y>39</y>
@@ -1031,12 +1030,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyStatusLabel" name="textLabel_Status6">
-         <property name="geometry">
+        <widget class="MyStatusLabel" name="textLabel_Status6" >
+         <property name="geometry" >
           <rect>
            <x>67</x>
            <y>55</y>
@@ -1044,16 +1043,16 @@
            <height>40</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>20</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
@@ -1061,17 +1060,17 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="2" rowspan="5">
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <property name="spacing">
+    <item rowspan="5" row="0" column="2" >
+     <layout class="QVBoxLayout" name="verticalLayout_3" >
+      <property name="spacing" >
        <number>0</number>
       </property>
       <item>
-       <spacer name="verticalSpacer_5">
-        <property name="orientation">
+       <spacer name="verticalSpacer_5" >
+        <property name="orientation" >
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" stdset="0">
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>20</width>
           <height>13</height>
@@ -1080,24 +1079,24 @@
        </spacer>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox7">
-        <property name="minimumSize">
+       <widget class="QGroupBox" name="groupBox7" >
+        <property name="minimumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="maximumSize">
+        <property name="maximumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="title">
+        <property name="title" >
          <string/>
         </property>
-        <widget class="MyAvatarLabel" name="label_Avatar7">
-         <property name="geometry">
+        <widget class="MyAvatarLabel" name="label_Avatar7" >
+         <property name="geometry" >
           <rect>
            <x>13</x>
            <y>13</y>
@@ -1105,24 +1104,24 @@
            <height>50</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName7">
-         <property name="geometry">
+        <widget class="QLabel" name="label_PlayerName7" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>11</y>
@@ -1130,24 +1129,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
-        <widget class="MySetLabel" name="textLabel_Set7">
-         <property name="geometry">
+        <widget class="MySetLabel" name="textLabel_Set7" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>119</y>
@@ -1155,24 +1154,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash7">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Cash7" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>25</y>
@@ -1180,21 +1179,21 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>35</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Button7">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Button7" >
+         <property name="geometry" >
           <rect>
            <x>18</x>
            <y>88</y>
@@ -1202,27 +1201,27 @@
            <height>42</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card7a">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card7a" >
+         <property name="geometry" >
           <rect>
            <x>86</x>
            <y>39</y>
@@ -1230,12 +1229,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card7b">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card7b" >
+         <property name="geometry" >
           <rect>
            <x>110</x>
            <y>39</y>
@@ -1243,12 +1242,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyStatusLabel" name="textLabel_Status7">
-         <property name="geometry">
+        <widget class="MyStatusLabel" name="textLabel_Status7" >
+         <property name="geometry" >
           <rect>
            <x>67</x>
            <y>55</y>
@@ -1256,27 +1255,27 @@
            <height>40</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>20</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer_6">
-        <property name="orientation">
+       <spacer name="verticalSpacer_6" >
+        <property name="orientation" >
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" stdset="0">
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>20</width>
           <height>28</height>
@@ -1285,24 +1284,24 @@
        </spacer>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox8">
-        <property name="minimumSize">
+       <widget class="QGroupBox" name="groupBox8" >
+        <property name="minimumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="maximumSize">
+        <property name="maximumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="title">
+        <property name="title" >
          <string/>
         </property>
-        <widget class="MyAvatarLabel" name="label_Avatar8">
-         <property name="geometry">
+        <widget class="MyAvatarLabel" name="label_Avatar8" >
+         <property name="geometry" >
           <rect>
            <x>13</x>
            <y>79</y>
@@ -1310,24 +1309,24 @@
            <height>50</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName8">
-         <property name="geometry">
+        <widget class="QLabel" name="label_PlayerName8" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>117</y>
@@ -1335,24 +1334,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
-        <widget class="MySetLabel" name="textLabel_Set8">
-         <property name="geometry">
+        <widget class="MySetLabel" name="textLabel_Set8" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>10</y>
@@ -1360,24 +1359,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash8">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Cash8" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>104</y>
@@ -1385,21 +1384,21 @@
            <height>12</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>35</width>
            <height>12</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>12</height>
           </size>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Button8">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Button8" >
+         <property name="geometry" >
           <rect>
            <x>18</x>
            <y>16</y>
@@ -1407,27 +1406,27 @@
            <height>42</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card8a">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card8a" >
+         <property name="geometry" >
           <rect>
            <x>86</x>
            <y>26</y>
@@ -1435,12 +1434,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card8b">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card8b" >
+         <property name="geometry" >
           <rect>
            <x>110</x>
            <y>26</y>
@@ -1448,12 +1447,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyStatusLabel" name="textLabel_Status8">
-         <property name="geometry">
+        <widget class="MyStatusLabel" name="textLabel_Status8" >
+         <property name="geometry" >
           <rect>
            <x>67</x>
            <y>40</y>
@@ -1461,27 +1460,27 @@
            <height>40</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>20</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer_7">
-        <property name="orientation">
+       <spacer name="verticalSpacer_7" >
+        <property name="orientation" >
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" stdset="0">
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>20</width>
           <height>18</height>
@@ -1491,12 +1490,12 @@
       </item>
      </layout>
     </item>
-    <item row="1" column="1">
-     <spacer name="verticalSpacer_8">
-      <property name="orientation">
+    <item row="1" column="1" >
+     <spacer name="verticalSpacer_8" >
+      <property name="orientation" >
        <enum>Qt::Vertical</enum>
       </property>
-      <property name="sizeHint" stdset="0">
+      <property name="sizeHint" stdset="0" >
        <size>
         <width>20</width>
         <height>40</height>
@@ -1504,14 +1503,14 @@
       </property>
      </spacer>
     </item>
-    <item row="2" column="1">
-     <layout class="QHBoxLayout" name="horizontalLayout_6">
+    <item row="2" column="1" >
+     <layout class="QHBoxLayout" name="horizontalLayout_6" >
       <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
+       <spacer name="horizontalSpacer" >
+        <property name="orientation" >
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0">
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>40</width>
           <height>20</height>
@@ -1520,30 +1519,30 @@
        </spacer>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox_Board">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <widget class="QGroupBox" name="groupBox_Board" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize">
+        <property name="minimumSize" >
          <size>
           <width>535</width>
           <height>94</height>
          </size>
         </property>
-        <property name="maximumSize">
+        <property name="maximumSize" >
          <size>
           <width>535</width>
           <height>94</height>
          </size>
         </property>
-        <property name="styleSheet">
-         <string notr="true">QGroupBox {border-style:none;}</string>
+        <property name="styleSheet" >
+         <string notr="true" >QGroupBox {border-style:none;}</string>
         </property>
-        <widget class="QFrame" name="framegameinfo">
-         <property name="geometry">
+        <widget class="QFrame" name="framegameinfo" >
+         <property name="geometry" >
           <rect>
            <x>440</x>
            <y>42</y>
@@ -1551,58 +1550,58 @@
            <height>36</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>90</width>
            <height>0</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>90</width>
            <height>16777215</height>
           </size>
          </property>
-         <layout class="QGridLayout">
-          <property name="horizontalSpacing">
+         <layout class="QGridLayout" >
+          <property name="horizontalSpacing" >
            <number>0</number>
           </property>
-          <property name="verticalSpacing">
+          <property name="verticalSpacing" >
            <number>2</number>
           </property>
-          <property name="margin">
+          <property name="margin" >
            <number>0</number>
           </property>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_gameNumber"/>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_gameNumber" />
           </item>
-          <item row="1" column="1">
-           <widget class="QLabel" name="label_handNumberValue">
-            <property name="text">
+          <item row="1" column="1" >
+           <widget class="QLabel" name="label_handNumberValue" >
+            <property name="text" >
              <string/>
             </property>
-            <property name="alignment">
+            <property name="alignment" >
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="label_gameNumberValue">
-            <property name="text">
+          <item row="0" column="1" >
+           <widget class="QLabel" name="label_gameNumberValue" >
+            <property name="text" >
              <string/>
             </property>
-            <property name="alignment">
+            <property name="alignment" >
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_handNumber"/>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_handNumber" />
           </item>
          </layout>
         </widget>
-        <widget class="QFrame" name="frame_2">
-         <property name="geometry">
+        <widget class="QFrame" name="frame_2" >
+         <property name="geometry" >
           <rect>
            <x>0</x>
            <y>15</y>
@@ -1610,54 +1609,54 @@
            <height>62</height>
           </rect>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <property name="spacing">
+         <layout class="QVBoxLayout" name="verticalLayout_4" >
+          <property name="spacing" >
            <number>4</number>
           </property>
-          <property name="margin">
+          <property name="margin" >
            <number>0</number>
           </property>
           <item>
-           <widget class="QLabel" name="label_Pot">
-            <property name="text">
+           <widget class="QLabel" name="label_Pot" >
+            <property name="text" >
              <string/>
             </property>
-            <property name="alignment">
+            <property name="alignment" >
              <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
           <item>
-           <layout class="QGridLayout" name="grid2">
-            <property name="horizontalSpacing">
+           <layout class="QGridLayout" name="grid2" >
+            <property name="horizontalSpacing" >
              <number>0</number>
             </property>
-            <property name="verticalSpacing">
+            <property name="verticalSpacing" >
              <number>2</number>
             </property>
-            <property name="margin">
+            <property name="margin" >
              <number>0</number>
             </property>
-            <item row="1" column="1">
-             <widget class="QLabel" name="textLabel_Sets">
-              <property name="alignment">
+            <item row="1" column="1" >
+             <widget class="QLabel" name="textLabel_Sets" >
+              <property name="alignment" >
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_Total"/>
+            <item row="0" column="0" >
+             <widget class="QLabel" name="label_Total" />
             </item>
-            <item row="0" column="1">
-             <widget class="QLabel" name="textLabel_Pot">
-              <property name="alignment">
+            <item row="0" column="1" >
+             <widget class="QLabel" name="textLabel_Pot" >
+              <property name="alignment" >
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_Sets">
-              <property name="alignment">
+            <item row="1" column="0" >
+             <widget class="QLabel" name="label_Sets" >
+              <property name="alignment" >
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
              </widget>
@@ -1666,8 +1665,8 @@
           </item>
          </layout>
         </widget>
-        <widget class="QLabel" name="textLabel_handLabel">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_handLabel" >
+         <property name="geometry" >
           <rect>
            <x>440</x>
            <y>15</y>
@@ -1675,12 +1674,12 @@
            <height>22</height>
           </rect>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="label_CardHolder0">
-         <property name="geometry">
+        <widget class="QLabel" name="label_CardHolder0" >
+         <property name="geometry" >
           <rect>
            <x>140</x>
            <y>5</y>
@@ -1688,12 +1687,12 @@
            <height>82</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_CardHolder1">
-         <property name="geometry">
+        <widget class="QLabel" name="label_CardHolder1" >
+         <property name="geometry" >
           <rect>
            <x>195</x>
            <y>5</y>
@@ -1701,12 +1700,12 @@
            <height>82</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_CardHolder2">
-         <property name="geometry">
+        <widget class="QLabel" name="label_CardHolder2" >
+         <property name="geometry" >
           <rect>
            <x>250</x>
            <y>5</y>
@@ -1714,12 +1713,12 @@
            <height>82</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_CardHolder3">
-         <property name="geometry">
+        <widget class="QLabel" name="label_CardHolder3" >
+         <property name="geometry" >
           <rect>
            <x>305</x>
            <y>5</y>
@@ -1727,12 +1726,12 @@
            <height>82</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_CardHolder4">
-         <property name="geometry">
+        <widget class="QLabel" name="label_CardHolder4" >
+         <property name="geometry" >
           <rect>
            <x>360</x>
            <y>5</y>
@@ -1740,12 +1739,12 @@
            <height>82</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard0">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard0" >
+         <property name="geometry" >
           <rect>
            <x>143</x>
            <y>8</y>
@@ -1753,12 +1752,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard1">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard1" >
+         <property name="geometry" >
           <rect>
            <x>198</x>
            <y>8</y>
@@ -1766,12 +1765,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard2">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard2" >
+         <property name="geometry" >
           <rect>
            <x>253</x>
            <y>8</y>
@@ -1779,12 +1778,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard3">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard3" >
+         <property name="geometry" >
           <rect>
            <x>308</x>
            <y>8</y>
@@ -1792,12 +1791,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard4">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard4" >
+         <property name="geometry" >
           <rect>
            <x>363</x>
            <y>8</y>
@@ -1805,18 +1804,18 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
+       <spacer name="horizontalSpacer_2" >
+        <property name="orientation" >
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0">
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>40</width>
           <height>20</height>
@@ -1826,12 +1825,12 @@
       </item>
      </layout>
     </item>
-    <item row="3" column="1">
-     <spacer name="verticalSpacer_10">
-      <property name="orientation">
+    <item row="3" column="1" >
+     <spacer name="verticalSpacer_10" >
+      <property name="orientation" >
        <enum>Qt::Vertical</enum>
       </property>
-      <property name="sizeHint" stdset="0">
+      <property name="sizeHint" stdset="0" >
        <size>
         <width>20</width>
         <height>40</height>
@@ -1839,30 +1838,30 @@
       </property>
      </spacer>
     </item>
-    <item row="4" column="1">
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
-      <property name="spacing">
+    <item row="4" column="1" >
+     <layout class="QHBoxLayout" name="horizontalLayout_5" >
+      <property name="spacing" >
        <number>0</number>
       </property>
       <item>
-       <widget class="QGroupBox" name="groupBox1">
-        <property name="minimumSize">
+       <widget class="QGroupBox" name="groupBox1" >
+        <property name="minimumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="maximumSize">
+        <property name="maximumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="title">
+        <property name="title" >
          <string/>
         </property>
-        <widget class="MyAvatarLabel" name="label_Avatar1">
-         <property name="geometry">
+        <widget class="MyAvatarLabel" name="label_Avatar1" >
+         <property name="geometry" >
           <rect>
            <x>13</x>
            <y>79</y>
@@ -1870,24 +1869,24 @@
            <height>50</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName1">
-         <property name="geometry">
+        <widget class="QLabel" name="label_PlayerName1" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>117</y>
@@ -1895,24 +1894,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
-        <widget class="MySetLabel" name="textLabel_Set1">
-         <property name="geometry">
+        <widget class="MySetLabel" name="textLabel_Set1" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>10</y>
@@ -1920,24 +1919,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash1">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Cash1" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>104</y>
@@ -1945,21 +1944,21 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>35</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Button1">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Button1" >
+         <property name="geometry" >
           <rect>
            <x>18</x>
            <y>16</y>
@@ -1967,27 +1966,27 @@
            <height>42</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card1a">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card1a" >
+         <property name="geometry" >
           <rect>
            <x>86</x>
            <y>26</y>
@@ -1995,12 +1994,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card1b">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card1b" >
+         <property name="geometry" >
           <rect>
            <x>110</x>
            <y>26</y>
@@ -2008,12 +2007,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyStatusLabel" name="textLabel_Status1">
-         <property name="geometry">
+        <widget class="MyStatusLabel" name="textLabel_Status1" >
+         <property name="geometry" >
           <rect>
            <x>67</x>
            <y>42</y>
@@ -2021,40 +2020,40 @@
            <height>40</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>20</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox0">
-        <property name="minimumSize">
+       <widget class="QGroupBox" name="groupBox0" >
+        <property name="minimumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="maximumSize">
+        <property name="maximumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="title">
+        <property name="title" >
          <string/>
         </property>
-        <widget class="MyAvatarLabel" name="label_Avatar0">
-         <property name="geometry">
+        <widget class="MyAvatarLabel" name="label_Avatar0" >
+         <property name="geometry" >
           <rect>
            <x>13</x>
            <y>79</y>
@@ -2062,24 +2061,24 @@
            <height>50</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName0">
-         <property name="geometry">
+        <widget class="QLabel" name="label_PlayerName0" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>117</y>
@@ -2087,24 +2086,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
-        <widget class="MySetLabel" name="textLabel_Set0">
-         <property name="geometry">
+        <widget class="MySetLabel" name="textLabel_Set0" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>10</y>
@@ -2112,24 +2111,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash0">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Cash0" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>104</y>
@@ -2137,21 +2136,21 @@
            <height>12</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>35</width>
            <height>12</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>12</height>
           </size>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Button0">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Button0" >
+         <property name="geometry" >
           <rect>
            <x>18</x>
            <y>16</y>
@@ -2159,27 +2158,27 @@
            <height>42</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card0a">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card0a" >
+         <property name="geometry" >
           <rect>
            <x>86</x>
            <y>26</y>
@@ -2187,12 +2186,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card0b">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card0b" >
+         <property name="geometry" >
           <rect>
            <x>110</x>
            <y>26</y>
@@ -2200,12 +2199,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyStatusLabel" name="textLabel_Status0">
-         <property name="geometry">
+        <widget class="MyStatusLabel" name="textLabel_Status0" >
+         <property name="geometry" >
           <rect>
            <x>67</x>
            <y>42</y>
@@ -2213,40 +2212,40 @@
            <height>40</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>20</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox9">
-        <property name="minimumSize">
+       <widget class="QGroupBox" name="groupBox9" >
+        <property name="minimumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="maximumSize">
+        <property name="maximumSize" >
          <size>
           <width>190</width>
           <height>142</height>
          </size>
         </property>
-        <property name="title">
+        <property name="title" >
          <string/>
         </property>
-        <widget class="MyAvatarLabel" name="label_Avatar9">
-         <property name="geometry">
+        <widget class="MyAvatarLabel" name="label_Avatar9" >
+         <property name="geometry" >
           <rect>
            <x>13</x>
            <y>79</y>
@@ -2254,24 +2253,24 @@
            <height>50</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>50</width>
            <height>50</height>
           </size>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName9">
-         <property name="geometry">
+        <widget class="QLabel" name="label_PlayerName9" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>117</y>
@@ -2279,24 +2278,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
         </widget>
-        <widget class="MySetLabel" name="textLabel_Set9">
-         <property name="geometry">
+        <widget class="MySetLabel" name="textLabel_Set9" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>10</y>
@@ -2304,24 +2303,24 @@
            <height>14</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>14</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>14</height>
           </size>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash9">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Cash9" >
+         <property name="geometry" >
           <rect>
            <x>70</x>
            <y>104</y>
@@ -2329,21 +2328,21 @@
            <height>12</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>35</width>
            <height>12</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>16777215</width>
            <height>12</height>
           </size>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Button9">
-         <property name="geometry">
+        <widget class="QLabel" name="textLabel_Button9" >
+         <property name="geometry" >
           <rect>
            <x>18</x>
            <y>16</y>
@@ -2351,27 +2350,27 @@
            <height>42</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="maximumSize">
+         <property name="maximumSize" >
           <size>
            <width>40</width>
            <height>42</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card9a">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card9a" >
+         <property name="geometry" >
           <rect>
            <x>86</x>
            <y>26</y>
@@ -2379,12 +2378,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card9b">
-         <property name="geometry">
+        <widget class="MyCardsPixmapLabel" name="pixmapLabel_card9b" >
+         <property name="geometry" >
           <rect>
            <x>110</x>
            <y>26</y>
@@ -2392,12 +2391,12 @@
            <height>76</height>
           </rect>
          </property>
-         <property name="scaledContents">
+         <property name="scaledContents" >
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="MyStatusLabel" name="textLabel_Status9">
-         <property name="geometry">
+        <widget class="MyStatusLabel" name="textLabel_Status9" >
+         <property name="geometry" >
           <rect>
            <x>67</x>
            <y>40</y>
@@ -2405,16 +2404,16 @@
            <height>40</height>
           </rect>
          </property>
-         <property name="minimumSize">
+         <property name="minimumSize" >
           <size>
            <width>0</width>
            <height>20</height>
           </size>
          </property>
-         <property name="text">
+         <property name="text" >
           <string/>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
@@ -2422,25 +2421,25 @@
       </item>
      </layout>
     </item>
-    <item row="5" column="0" colspan="3">
-     <layout class="QHBoxLayout" name="horizontalLayout_7">
+    <item row="5" column="0" colspan="3" >
+     <layout class="QHBoxLayout" name="horizontalLayout_7" >
       <item>
-       <layout class="QVBoxLayout">
-        <property name="spacing">
+       <layout class="QVBoxLayout" >
+        <property name="spacing" >
          <number>0</number>
         </property>
-        <property name="margin">
+        <property name="margin" >
          <number>0</number>
         </property>
         <item>
          <spacer>
-          <property name="orientation">
+          <property name="orientation" >
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeType">
+          <property name="sizeType" >
            <enum>QSizePolicy::Fixed</enum>
           </property>
-          <property name="sizeHint" stdset="0">
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>260</width>
             <height>0</height>
@@ -2450,13 +2449,13 @@
         </item>
         <item>
          <spacer>
-          <property name="orientation">
+          <property name="orientation" >
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeType">
+          <property name="sizeType" >
            <enum>QSizePolicy::Expanding</enum>
           </property>
-          <property name="sizeHint" stdset="0">
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>0</width>
             <height>0</height>
@@ -2465,120 +2464,120 @@
          </spacer>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupBox_LeftToolBox">
-          <property name="minimumSize">
+         <widget class="QGroupBox" name="groupBox_LeftToolBox" >
+          <property name="minimumSize" >
            <size>
             <width>260</width>
             <height>188</height>
            </size>
           </property>
-          <property name="maximumSize">
+          <property name="maximumSize" >
            <size>
             <width>260</width>
             <height>188</height>
            </size>
           </property>
-          <layout class="QGridLayout">
-           <property name="margin">
+          <layout class="QGridLayout" >
+           <property name="margin" >
             <number>4</number>
            </property>
-           <item row="0" column="0">
-            <widget class="MyLeftTabWidget" name="tabWidget_Left">
-             <property name="focusPolicy">
+           <item row="0" column="0" >
+            <widget class="MyLeftTabWidget" name="tabWidget_Left" >
+             <property name="focusPolicy" >
               <enum>Qt::NoFocus</enum>
              </property>
-             <property name="currentIndex">
+             <property name="currentIndex" >
               <number>0</number>
              </property>
-             <widget class="QWidget" name="tab_Hands">
-              <attribute name="title">
+             <widget class="QWidget" name="tab_Hands" >
+              <attribute name="title" >
                <string>Hands</string>
               </attribute>
-              <layout class="QGridLayout">
-               <property name="margin">
+              <layout class="QGridLayout" >
+               <property name="margin" >
                 <number>0</number>
                </property>
-               <property name="spacing">
+               <property name="spacing" >
                 <number>0</number>
                </property>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_Handranking">
-                 <property name="alignment">
+               <item row="0" column="0" >
+                <widget class="QLabel" name="label_Handranking" >
+                 <property name="alignment" >
                   <set>Qt::AlignCenter</set>
                  </property>
                 </widget>
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="tab_Chat">
-              <attribute name="title">
+             <widget class="QWidget" name="tab_Chat" >
+              <attribute name="title" >
                <string>Chat</string>
               </attribute>
-              <layout class="QGridLayout">
-               <property name="margin">
+              <layout class="QGridLayout" >
+               <property name="margin" >
                 <number>0</number>
                </property>
-               <property name="spacing">
+               <property name="spacing" >
                 <number>0</number>
                </property>
-               <item row="0" column="0">
-                <widget class="QTextBrowser" name="textBrowser_Chat">
-                 <property name="focusPolicy">
+               <item row="0" column="0" >
+                <widget class="QTextBrowser" name="textBrowser_Chat" >
+                 <property name="focusPolicy" >
                   <enum>Qt::NoFocus</enum>
                  </property>
-                 <property name="autoFillBackground">
+                 <property name="autoFillBackground" >
                   <bool>true</bool>
                  </property>
-                 <property name="horizontalScrollBarPolicy">
+                 <property name="horizontalScrollBarPolicy" >
                   <enum>Qt::ScrollBarAlwaysOff</enum>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QLineEdit" name="lineEdit_ChatInput"/>
+               <item row="1" column="0" >
+                <widget class="QLineEdit" name="lineEdit_ChatInput" />
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="tab_Kick">
-              <attribute name="title">
+             <widget class="QWidget" name="tab_Kick" >
+              <attribute name="title" >
                <string>Kick</string>
               </attribute>
-              <layout class="QGridLayout" name="gridLayout">
-               <property name="horizontalSpacing">
+              <layout class="QGridLayout" name="gridLayout" >
+               <property name="horizontalSpacing" >
                 <number>0</number>
                </property>
-               <property name="verticalSpacing">
+               <property name="verticalSpacing" >
                 <number>6</number>
                </property>
-               <property name="margin">
+               <property name="margin" >
                 <number>5</number>
                </property>
-               <item row="0" column="0">
-                <layout class="QVBoxLayout" name="verticalLayout">
-                 <property name="spacing">
+               <item row="0" column="0" >
+                <layout class="QVBoxLayout" name="verticalLayout" >
+                 <property name="spacing" >
                   <number>0</number>
                  </property>
                  <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_3">
-                   <property name="spacing">
+                  <layout class="QHBoxLayout" name="horizontalLayout_3" >
+                   <property name="spacing" >
                     <number>5</number>
                    </property>
                    <item>
-                    <widget class="QLabel" name="label_votestartedby">
-                     <property name="text">
+                    <widget class="QLabel" name="label_votestartedby" >
+                     <property name="text" >
                       <string>Vote started by:</string>
                      </property>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_voteStarterNick">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                    <widget class="QLabel" name="label_voteStarterNick" >
+                     <property name="sizePolicy" >
+                      <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
-                     <property name="text">
+                     <property name="text" >
                       <string/>
                      </property>
                     </widget>
@@ -2586,26 +2585,26 @@
                   </layout>
                  </item>
                  <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_2">
-                   <property name="spacing">
+                  <layout class="QHBoxLayout" name="horizontalLayout_2" >
+                   <property name="spacing" >
                     <number>5</number>
                    </property>
                    <item>
-                    <widget class="QLabel" name="label_timeout">
-                     <property name="text">
+                    <widget class="QLabel" name="label_timeout" >
+                     <property name="text" >
                       <string>Vote Timeout:</string>
                      </property>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_kickVoteTimeout">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                    <widget class="QLabel" name="label_kickVoteTimeout" >
+                     <property name="sizePolicy" >
+                      <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
-                     <property name="text">
+                     <property name="text" >
                       <string/>
                      </property>
                     </widget>
@@ -2614,62 +2613,62 @@
                  </item>
                 </layout>
                </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_kickUser">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <item row="1" column="0" >
+                <widget class="QLabel" name="label_kickUser" >
+                 <property name="sizePolicy" >
+                  <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="text">
+                 <property name="text" >
                   <string/>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0">
-                <layout class="QHBoxLayout" name="horizontalLayout">
+               <item row="2" column="0" >
+                <layout class="QHBoxLayout" name="horizontalLayout" >
                  <item>
-                  <widget class="QPushButton" name="pushButton_voteOnKickYes">
-                   <property name="maximumSize">
+                  <widget class="QPushButton" name="pushButton_voteOnKickYes" >
+                   <property name="maximumSize" >
                     <size>
                      <width>80</width>
                      <height>20</height>
                     </size>
                    </property>
-                   <property name="text">
+                   <property name="text" >
                     <string>Yes</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton_voteOnKickNo">
-                   <property name="maximumSize">
+                  <widget class="QPushButton" name="pushButton_voteOnKickNo" >
+                   <property name="maximumSize" >
                     <size>
                      <width>80</width>
                      <height>20</height>
                     </size>
                    </property>
-                   <property name="text">
+                   <property name="text" >
                     <string>No</string>
                    </property>
                   </widget>
                  </item>
                 </layout>
                </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_votesMonitor">
-                 <property name="text">
+               <item row="3" column="0" >
+                <widget class="QLabel" name="label_votesMonitor" >
+                 <property name="text" >
                   <string/>
                  </property>
                 </widget>
                </item>
-               <item row="4" column="0">
-                <spacer name="verticalSpacer">
-                 <property name="orientation">
+               <item row="4" column="0" >
+                <spacer name="verticalSpacer" >
+                 <property name="orientation" >
                   <enum>Qt::Vertical</enum>
                  </property>
-                 <property name="sizeHint" stdset="0">
+                 <property name="sizeHint" stdset="0" >
                   <size>
                    <width>20</width>
                    <height>27</height>
@@ -2688,13 +2687,13 @@
       </item>
       <item>
        <spacer>
-        <property name="orientation">
+        <property name="orientation" >
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeType">
+        <property name="sizeType" >
          <enum>QSizePolicy::MinimumExpanding</enum>
         </property>
-        <property name="sizeHint" stdset="0">
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>155</width>
           <height>0</height>
@@ -2703,58 +2702,58 @@
        </spacer>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBoxControls">
-        <property name="enabled">
+       <widget class="QGroupBox" name="groupBoxControls" >
+        <property name="enabled" >
          <bool>true</bool>
         </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize">
+        <property name="minimumSize" >
          <size>
           <width>160</width>
-          <height>186</height>
+          <height>188</height>
          </size>
         </property>
-        <property name="maximumSize">
+        <property name="maximumSize" >
          <size>
           <width>160</width>
-          <height>186</height>
+          <height>188</height>
          </size>
         </property>
-        <property name="styleSheet">
-         <string notr="true">QGroupBox {border-style:none;}</string>
+        <property name="styleSheet" >
+         <string notr="true" >QGroupBox {border-style:none;}</string>
         </property>
-        <property name="title">
+        <property name="title" >
          <string/>
         </property>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <property name="horizontalSpacing">
+        <layout class="QGridLayout" name="gridLayout_3" >
+         <property name="horizontalSpacing" >
           <number>0</number>
          </property>
-         <property name="verticalSpacing">
+         <property name="verticalSpacing" >
           <number>1</number>
          </property>
-         <property name="margin">
+         <property name="margin" >
           <number>0</number>
          </property>
-         <item row="1" column="0">
-          <layout class="QHBoxLayout">
-           <property name="spacing">
+         <item row="1" column="0" >
+          <layout class="QHBoxLayout" >
+           <property name="spacing" >
             <number>2</number>
            </property>
            <item>
-            <widget class="QLineEdit" name="lineEdit_betValue">
-             <property name="minimumSize">
+            <widget class="QLineEdit" name="lineEdit_betValue" >
+             <property name="minimumSize" >
               <size>
                <width>0</width>
                <height>21</height>
               </size>
              </property>
-             <property name="maximumSize">
+             <property name="maximumSize" >
               <size>
                <width>16777215</width>
                <height>21</height>
@@ -2763,220 +2762,129 @@
             </widget>
            </item>
            <item>
-            <widget class="MyActionButton" name="pushButton_AllIn">
-             <property name="minimumSize">
+            <widget class="MyActionButton" name="pushButton_AllIn" >
+             <property name="minimumSize" >
               <size>
                <width>85</width>
                <height>25</height>
               </size>
              </property>
-             <property name="maximumSize">
+             <property name="maximumSize" >
               <size>
                <width>85</width>
                <height>25</height>
               </size>
              </property>
-             <property name="focusPolicy">
+             <property name="focusPolicy" >
               <enum>Qt::NoFocus</enum>
              </property>
             </widget>
            </item>
           </layout>
          </item>
-         <item row="2" column="0">
-          <widget class="QSlider" name="horizontalSlider_bet">
-           <property name="palette">
-            <palette>
-             <active>
-              <colorrole role="Button">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>102</red>
-                 <green>153</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-              <colorrole role="Base">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>255</red>
-                 <green>255</green>
-                 <blue>255</blue>
-                </color>
-               </brush>
-              </colorrole>
-              <colorrole role="Window">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>40</red>
-                 <green>100</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </active>
-             <inactive>
-              <colorrole role="Button">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>102</red>
-                 <green>153</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-              <colorrole role="Base">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>255</red>
-                 <green>255</green>
-                 <blue>255</blue>
-                </color>
-               </brush>
-              </colorrole>
-              <colorrole role="Window">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>40</red>
-                 <green>100</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </inactive>
-             <disabled>
-              <colorrole role="Button">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>102</red>
-                 <green>153</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-              <colorrole role="Base">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>40</red>
-                 <green>100</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-              <colorrole role="Window">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>40</red>
-                 <green>100</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </disabled>
-            </palette>
-           </property>
-           <property name="focusPolicy">
+         <item row="2" column="0" >
+          <widget class="QSlider" name="horizontalSlider_bet" >
+           <property name="focusPolicy" >
             <enum>Qt::NoFocus</enum>
            </property>
-           <property name="maximum">
+           <property name="maximum" >
             <number>99999</number>
            </property>
-           <property name="singleStep">
+           <property name="singleStep" >
             <number>10</number>
            </property>
-           <property name="orientation">
+           <property name="orientation" >
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="tickPosition">
+           <property name="tickPosition" >
             <enum>QSlider::NoTicks</enum>
            </property>
-           <property name="tickInterval">
+           <property name="tickInterval" >
             <number>10</number>
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
-          <widget class="MyActionButton" name="pushButton_BetRaise">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <item row="3" column="0" >
+          <widget class="MyActionButton" name="pushButton_BetRaise" >
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="minimumSize">
+           <property name="minimumSize" >
             <size>
              <width>160</width>
              <height>35</height>
             </size>
            </property>
-           <property name="maximumSize">
+           <property name="maximumSize" >
             <size>
              <width>160</width>
              <height>35</height>
             </size>
            </property>
-           <property name="focusPolicy">
+           <property name="focusPolicy" >
             <enum>Qt::NoFocus</enum>
            </property>
           </widget>
          </item>
-         <item row="4" column="0">
-          <widget class="MyActionButton" name="pushButton_CallCheck">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <item row="4" column="0" >
+          <widget class="MyActionButton" name="pushButton_CallCheck" >
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="minimumSize">
+           <property name="minimumSize" >
             <size>
              <width>160</width>
              <height>35</height>
             </size>
            </property>
-           <property name="maximumSize">
+           <property name="maximumSize" >
             <size>
              <width>160</width>
              <height>35</height>
             </size>
            </property>
-           <property name="focusPolicy">
+           <property name="focusPolicy" >
             <enum>Qt::NoFocus</enum>
            </property>
           </widget>
          </item>
-         <item row="5" column="0">
-          <widget class="MyActionButton" name="pushButton_Fold">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <item row="5" column="0" >
+          <widget class="MyActionButton" name="pushButton_Fold" >
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="minimumSize">
+           <property name="minimumSize" >
             <size>
              <width>160</width>
              <height>35</height>
             </size>
            </property>
-           <property name="maximumSize">
+           <property name="maximumSize" >
             <size>
              <width>160</width>
              <height>35</height>
             </size>
            </property>
-           <property name="focusPolicy">
+           <property name="focusPolicy" >
             <enum>Qt::NoFocus</enum>
            </property>
           </widget>
          </item>
-         <item row="0" column="0">
-          <spacer name="verticalSpacer_9">
-           <property name="orientation">
+         <item row="0" column="0" >
+          <spacer name="verticalSpacer_9" >
+           <property name="orientation" >
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0">
+           <property name="sizeHint" stdset="0" >
             <size>
              <width>20</width>
              <height>0</height>
@@ -2984,12 +2892,12 @@
            </property>
           </spacer>
          </item>
-         <item row="6" column="0">
-          <spacer name="verticalSpacer_11">
-           <property name="orientation">
+         <item row="6" column="0" >
+          <spacer name="verticalSpacer_11" >
+           <property name="orientation" >
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0">
+           <property name="sizeHint" stdset="0" >
             <size>
              <width>20</width>
              <height>0</height>
@@ -3002,13 +2910,13 @@
       </item>
       <item>
        <spacer>
-        <property name="orientation">
+        <property name="orientation" >
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeType">
+        <property name="sizeType" >
          <enum>QSizePolicy::MinimumExpanding</enum>
         </property>
-        <property name="sizeHint" stdset="0">
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>155</width>
           <height>0</height>
@@ -3017,22 +2925,22 @@
        </spacer>
       </item>
       <item>
-       <layout class="QVBoxLayout">
-        <property name="spacing">
+       <layout class="QVBoxLayout" >
+        <property name="spacing" >
          <number>0</number>
         </property>
-        <property name="margin">
+        <property name="margin" >
          <number>0</number>
         </property>
         <item>
          <spacer>
-          <property name="orientation">
+          <property name="orientation" >
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeType">
+          <property name="sizeType" >
            <enum>QSizePolicy::Fixed</enum>
           </property>
-          <property name="sizeHint" stdset="0">
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>260</width>
             <height>0</height>
@@ -3042,13 +2950,13 @@
         </item>
         <item>
          <spacer>
-          <property name="orientation">
+          <property name="orientation" >
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeType">
+          <property name="sizeType" >
            <enum>QSizePolicy::Expanding</enum>
           </property>
-          <property name="sizeHint" stdset="0">
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>0</width>
             <height>0</height>
@@ -3057,107 +2965,107 @@
          </spacer>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupBox_RightToolBox">
-          <property name="minimumSize">
+         <widget class="QGroupBox" name="groupBox_RightToolBox" >
+          <property name="minimumSize" >
            <size>
             <width>260</width>
             <height>188</height>
            </size>
           </property>
-          <property name="maximumSize">
+          <property name="maximumSize" >
            <size>
             <width>260</width>
             <height>188</height>
            </size>
           </property>
-          <layout class="QGridLayout">
-           <property name="horizontalSpacing">
+          <layout class="QGridLayout" >
+           <property name="horizontalSpacing" >
             <number>1</number>
            </property>
-           <property name="verticalSpacing">
+           <property name="verticalSpacing" >
             <number>2</number>
            </property>
-           <property name="margin">
+           <property name="margin" >
             <number>4</number>
            </property>
-           <item row="0" column="0">
-            <widget class="MyRightTabWidget" name="tabWidget_Right">
-             <property name="focusPolicy">
+           <item row="0" column="0" >
+            <widget class="MyRightTabWidget" name="tabWidget_Right" >
+             <property name="focusPolicy" >
               <enum>Qt::NoFocus</enum>
              </property>
-             <property name="currentIndex">
+             <property name="currentIndex" >
               <number>0</number>
              </property>
-             <widget class="QWidget" name="tab_Log">
-              <attribute name="title">
+             <widget class="QWidget" name="tab_Log" >
+              <attribute name="title" >
                <string>Log</string>
               </attribute>
-              <layout class="QGridLayout">
-               <property name="margin">
+              <layout class="QGridLayout" >
+               <property name="margin" >
                 <number>0</number>
                </property>
-               <property name="spacing">
+               <property name="spacing" >
                 <number>0</number>
                </property>
-               <item row="0" column="0">
-                <widget class="QTextBrowser" name="textBrowser_Log">
-                 <property name="focusPolicy">
+               <item row="0" column="0" >
+                <widget class="QTextBrowser" name="textBrowser_Log" >
+                 <property name="focusPolicy" >
                   <enum>Qt::NoFocus</enum>
                  </property>
-                 <property name="autoFillBackground">
+                 <property name="autoFillBackground" >
                   <bool>true</bool>
                  </property>
-                 <property name="horizontalScrollBarPolicy">
+                 <property name="horizontalScrollBarPolicy" >
                   <enum>Qt::ScrollBarAlwaysOff</enum>
                  </property>
                 </widget>
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="tab_away">
-              <attribute name="title">
+             <widget class="QWidget" name="tab_away" >
+              <attribute name="title" >
                <string>Away</string>
               </attribute>
-              <layout class="QGridLayout">
-               <item row="0" column="0">
-                <widget class="QRadioButton" name="radioButton_manualAction">
-                 <property name="focusPolicy">
+              <layout class="QGridLayout" >
+               <item row="0" column="0" >
+                <widget class="QRadioButton" name="radioButton_manualAction" >
+                 <property name="focusPolicy" >
                   <enum>Qt::NoFocus</enum>
                  </property>
-                 <property name="text">
+                 <property name="text" >
                   <string>Manual Action (default)</string>
                  </property>
-                 <property name="checked">
+                 <property name="checked" >
                   <bool>true</bool>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QRadioButton" name="radioButton_autoCheckFold">
-                 <property name="focusPolicy">
+               <item row="1" column="0" >
+                <widget class="QRadioButton" name="radioButton_autoCheckFold" >
+                 <property name="focusPolicy" >
                   <enum>Qt::NoFocus</enum>
                  </property>
-                 <property name="text">
+                 <property name="text" >
                   <string>Auto-Check / Auto-Fold</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0">
-                <widget class="QRadioButton" name="radioButton_autoCheckCallAny">
-                 <property name="focusPolicy">
+               <item row="2" column="0" >
+                <widget class="QRadioButton" name="radioButton_autoCheckCallAny" >
+                 <property name="focusPolicy" >
                   <enum>Qt::NoFocus</enum>
                  </property>
-                 <property name="text">
+                 <property name="text" >
                   <string>Auto-Check / Auto-Call-Any</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="0">
+               <item row="3" column="0" >
                 <spacer>
-                 <property name="orientation">
+                 <property name="orientation" >
                   <enum>Qt::Vertical</enum>
                  </property>
-                 <property name="sizeHint" stdset="0">
+                 <property name="sizeHint" stdset="0" >
                   <size>
                    <width>20</width>
                    <height>40</height>
@@ -3167,29 +3075,29 @@
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="tab_Chance">
-              <attribute name="title">
+             <widget class="QWidget" name="tab_Chance" >
+              <attribute name="title" >
                <string>Chance</string>
               </attribute>
-              <layout class="QGridLayout" name="gridLayout_2">
-               <property name="leftMargin">
+              <layout class="QGridLayout" name="gridLayout_2" >
+               <property name="leftMargin" >
                 <number>1</number>
                </property>
-               <property name="topMargin">
+               <property name="topMargin" >
                 <number>0</number>
                </property>
-               <property name="rightMargin">
+               <property name="rightMargin" >
                 <number>1</number>
                </property>
-               <property name="bottomMargin">
+               <property name="bottomMargin" >
                 <number>1</number>
                </property>
-               <property name="spacing">
+               <property name="spacing" >
                 <number>0</number>
                </property>
-               <item row="0" column="0">
-                <widget class="MyChanceLabel" name="label_chance">
-                 <property name="text">
+               <item row="0" column="0" >
+                <widget class="MyChanceLabel" name="label_chance" >
+                 <property name="text" >
                   <string/>
                  </property>
                 </widget>
@@ -3198,31 +3106,31 @@
              </widget>
             </widget>
            </item>
-           <item row="1" column="0">
-            <layout class="QHBoxLayout">
-             <property name="spacing">
+           <item row="1" column="0" >
+            <layout class="QHBoxLayout" >
+             <property name="spacing" >
               <number>6</number>
              </property>
-             <property name="margin">
+             <property name="margin" >
               <number>0</number>
              </property>
              <item>
-              <widget class="QLabel" name="label_speedString">
-               <property name="palette">
+              <widget class="QLabel" name="label_speedString" >
+               <property name="palette" >
                 <palette>
                  <active>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
+                  <colorrole role="WindowText" >
+                   <brush brushstyle="SolidPattern" >
+                    <color alpha="255" >
                      <red>240</red>
                      <green>240</green>
                      <blue>240</blue>
                     </color>
                    </brush>
                   </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
+                  <colorrole role="Text" >
+                   <brush brushstyle="SolidPattern" >
+                    <color alpha="255" >
                      <red>240</red>
                      <green>240</green>
                      <blue>240</blue>
@@ -3231,18 +3139,18 @@
                   </colorrole>
                  </active>
                  <inactive>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
+                  <colorrole role="WindowText" >
+                   <brush brushstyle="SolidPattern" >
+                    <color alpha="255" >
                      <red>240</red>
                      <green>240</green>
                      <blue>240</blue>
                     </color>
                    </brush>
                   </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
+                  <colorrole role="Text" >
+                   <brush brushstyle="SolidPattern" >
+                    <color alpha="255" >
                      <red>240</red>
                      <green>240</green>
                      <blue>240</blue>
@@ -3251,18 +3159,18 @@
                   </colorrole>
                  </inactive>
                  <disabled>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
+                  <colorrole role="WindowText" >
+                   <brush brushstyle="SolidPattern" >
+                    <color alpha="255" >
                      <red>128</red>
                      <green>128</green>
                      <blue>128</blue>
                     </color>
                    </brush>
                   </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
+                  <colorrole role="Text" >
+                   <brush brushstyle="SolidPattern" >
+                    <color alpha="255" >
                      <red>199</red>
                      <green>199</green>
                      <blue>199</blue>
@@ -3272,34 +3180,34 @@
                  </disabled>
                 </palette>
                </property>
-               <property name="text">
+               <property name="text" >
                 <string>Speed:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_speedValue">
-               <property name="minimumSize">
+              <widget class="QLabel" name="label_speedValue" >
+               <property name="minimumSize" >
                 <size>
                  <width>18</width>
                  <height>0</height>
                 </size>
                </property>
-               <property name="palette">
+               <property name="palette" >
                 <palette>
                  <active>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
+                  <colorrole role="WindowText" >
+                   <brush brushstyle="SolidPattern" >
+                    <color alpha="255" >
                      <red>240</red>
                      <green>240</green>
                      <blue>240</blue>
                     </color>
                    </brush>
                   </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
+                  <colorrole role="Text" >
+                   <brush brushstyle="SolidPattern" >
+                    <color alpha="255" >
                      <red>240</red>
                      <green>240</green>
                      <blue>240</blue>
@@ -3308,18 +3216,18 @@
                   </colorrole>
                  </active>
                  <inactive>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
+                  <colorrole role="WindowText" >
+                   <brush brushstyle="SolidPattern" >
+                    <color alpha="255" >
                      <red>240</red>
                      <green>240</green>
                      <blue>240</blue>
                     </color>
                    </brush>
                   </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
+                  <colorrole role="Text" >
+                   <brush brushstyle="SolidPattern" >
+                    <color alpha="255" >
                      <red>240</red>
                      <green>240</green>
                      <blue>240</blue>
@@ -3328,18 +3236,18 @@
                   </colorrole>
                  </inactive>
                  <disabled>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
+                  <colorrole role="WindowText" >
+                   <brush brushstyle="SolidPattern" >
+                    <color alpha="255" >
                      <red>128</red>
                      <green>128</green>
                      <blue>128</blue>
                     </color>
                    </brush>
                   </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
+                  <colorrole role="Text" >
+                   <brush brushstyle="SolidPattern" >
+                    <color alpha="255" >
                      <red>199</red>
                      <green>199</green>
                      <blue>199</blue>
@@ -3349,136 +3257,45 @@
                  </disabled>
                 </palette>
                </property>
-               <property name="text">
+               <property name="text" >
                 <string/>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QSlider" name="horizontalSlider_speed">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+              <widget class="QSlider" name="horizontalSlider_speed" >
+               <property name="sizePolicy" >
+                <sizepolicy vsizetype="Expanding" hsizetype="MinimumExpanding" >
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="palette">
-                <palette>
-                 <active>
-                  <colorrole role="Button">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>102</red>
-                     <green>153</green>
-                     <blue>0</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Base">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>255</red>
-                     <green>255</green>
-                     <blue>255</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Window">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>40</red>
-                     <green>100</green>
-                     <blue>0</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </active>
-                 <inactive>
-                  <colorrole role="Button">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>102</red>
-                     <green>153</green>
-                     <blue>0</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Base">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>255</red>
-                     <green>255</green>
-                     <blue>255</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Window">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>40</red>
-                     <green>100</green>
-                     <blue>0</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </inactive>
-                 <disabled>
-                  <colorrole role="Button">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>102</red>
-                     <green>153</green>
-                     <blue>0</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Base">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>40</red>
-                     <green>100</green>
-                     <blue>0</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Window">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>40</red>
-                     <green>100</green>
-                     <blue>0</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </disabled>
-                </palette>
-               </property>
-               <property name="focusPolicy">
+               <property name="focusPolicy" >
                 <enum>Qt::NoFocus</enum>
                </property>
-               <property name="minimum">
+               <property name="minimum" >
                 <number>1</number>
                </property>
-               <property name="maximum">
+               <property name="maximum" >
                 <number>11</number>
                </property>
-               <property name="orientation">
+               <property name="orientation" >
                 <enum>Qt::Horizontal</enum>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_break">
-               <property name="enabled">
+              <widget class="QPushButton" name="pushButton_break" >
+               <property name="enabled" >
                 <bool>true</bool>
                </property>
-               <property name="minimumSize">
+               <property name="minimumSize" >
                 <size>
                  <width>40</width>
                  <height>20</height>
                 </size>
                </property>
-               <property name="focusPolicy">
+               <property name="focusPolicy" >
                 <enum>Qt::NoFocus</enum>
                </property>
               </widget>
@@ -3494,162 +3311,162 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
     <rect>
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>25</height>
+     <height>23</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
+   <widget class="QMenu" name="menuView" >
+    <property name="title" >
      <string>&amp;View</string>
     </property>
-    <addaction name="actionFullScreen"/>
-    <addaction name="actionShowHideChat"/>
-    <addaction name="actionShowHideHelp"/>
-    <addaction name="actionShowHideLog"/>
-    <addaction name="actionShowHideAway"/>
-    <addaction name="actionShowHideChance"/>
-    <addaction name="actionClose"/>
+    <addaction name="actionFullScreen" />
+    <addaction name="actionShowHideChat" />
+    <addaction name="actionShowHideHelp" />
+    <addaction name="actionShowHideLog" />
+    <addaction name="actionShowHideAway" />
+    <addaction name="actionShowHideChance" />
+    <addaction name="actionClose" />
    </widget>
-   <widget class="QMenu" name="menuSettings">
-    <property name="title">
+   <widget class="QMenu" name="menuSettings" >
+    <property name="title" >
      <string>&amp;Settings</string>
     </property>
-    <addaction name="actionConfigure_PokerTH"/>
+    <addaction name="actionConfigure_PokerTH" />
    </widget>
-   <addaction name="menuView"/>
-   <addaction name="menuSettings"/>
+   <addaction name="menuView" />
+   <addaction name="menuSettings" />
   </widget>
-  <action name="actionNewGame">
-   <property name="text">
+  <action name="actionNewGame" >
+   <property name="text" >
     <string>Start Local Game ...</string>
    </property>
-   <property name="shortcut">
+   <property name="shortcut" >
     <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="actionQuit">
-   <property name="text">
+  <action name="actionQuit" >
+   <property name="text" >
     <string>Quit</string>
    </property>
-   <property name="shortcut">
+   <property name="shortcut" >
     <string>Ctrl+Q</string>
    </property>
   </action>
-  <action name="actionAboutPokerth">
-   <property name="text">
+  <action name="actionAboutPokerth" >
+   <property name="text" >
     <string>About PokerTH ...</string>
    </property>
   </action>
-  <action name="actionSettings">
-   <property name="text">
+  <action name="actionSettings" >
+   <property name="text" >
     <string>Settings ...</string>
    </property>
   </action>
-  <action name="actionCreate_network_Game">
-   <property name="text">
+  <action name="actionCreate_network_Game" >
+   <property name="text" >
     <string>Create Network Game ...</string>
    </property>
-   <property name="shortcut">
+   <property name="shortcut" >
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="actionJoin_network_Game">
-   <property name="text">
+  <action name="actionJoin_network_Game" >
+   <property name="text" >
     <string>Join Network Game ...</string>
    </property>
-   <property name="shortcut">
+   <property name="shortcut" >
     <string>Ctrl+J</string>
    </property>
   </action>
-  <action name="actionFullScreen">
-   <property name="icon">
-    <iconset resource="resources/pokerth.qrc">
+  <action name="actionFullScreen" >
+   <property name="icon" >
+    <iconset resource="resources/pokerth.qrc" >
      <normaloff>:/gfx/view-fullscreen.png</normaloff>:/gfx/view-fullscreen.png</iconset>
    </property>
-   <property name="text">
+   <property name="text" >
     <string>Fullscreen</string>
    </property>
-   <property name="shortcut">
+   <property name="shortcut" >
     <string>Ctrl+F</string>
    </property>
   </action>
-  <action name="actionShowHideChat">
-   <property name="text">
+  <action name="actionShowHideChat" >
+   <property name="text" >
     <string>Show/Hide Chat Window</string>
    </property>
-   <property name="shortcut">
+   <property name="shortcut" >
     <string>Ctrl+T</string>
    </property>
   </action>
-  <action name="actionShowHideHelp">
-   <property name="text">
+  <action name="actionShowHideHelp" >
+   <property name="text" >
     <string>Show/Hide Hands Window</string>
    </property>
-   <property name="iconText">
+   <property name="iconText" >
     <string>Show/Hide Hands Window</string>
    </property>
-   <property name="toolTip">
+   <property name="toolTip" >
     <string>Show/Hide Hands Window</string>
    </property>
-   <property name="shortcut">
+   <property name="shortcut" >
     <string>Ctrl+H</string>
    </property>
   </action>
-  <action name="actionShowHideLog">
-   <property name="text">
+  <action name="actionShowHideLog" >
+   <property name="text" >
     <string>Show/Hide Log Window</string>
    </property>
-   <property name="shortcut">
+   <property name="shortcut" >
     <string>Ctrl+L</string>
    </property>
   </action>
-  <action name="actionInternet_Game">
-   <property name="text">
+  <action name="actionInternet_Game" >
+   <property name="text" >
     <string>Internet Game ...</string>
    </property>
-   <property name="shortcut">
+   <property name="shortcut" >
     <string>Ctrl+I</string>
    </property>
   </action>
-  <action name="actionShowHideAway">
-   <property name="text">
+  <action name="actionShowHideAway" >
+   <property name="text" >
     <string>Show/Hide Away Window</string>
    </property>
-   <property name="shortcut">
+   <property name="shortcut" >
     <string>Ctrl+A</string>
    </property>
   </action>
-  <action name="actionConfigure_PokerTH">
-   <property name="icon">
-    <iconset resource="resources/pokerth.qrc">
+  <action name="actionConfigure_PokerTH" >
+   <property name="icon" >
+    <iconset resource="resources/pokerth.qrc" >
      <normaloff>:/gfx/systemsettings.png</normaloff>:/gfx/systemsettings.png</iconset>
    </property>
-   <property name="text">
+   <property name="text" >
     <string>Configure PokerTH ...</string>
    </property>
   </action>
-  <action name="actionClose">
-   <property name="icon">
-    <iconset resource="resources/pokerth.qrc">
+  <action name="actionClose" >
+   <property name="icon" >
+    <iconset resource="resources/pokerth.qrc" >
      <normaloff>:/gfx/application_exit.png</normaloff>:/gfx/application_exit.png</iconset>
    </property>
-   <property name="text">
+   <property name="text" >
     <string>Close</string>
    </property>
-   <property name="shortcut">
+   <property name="shortcut" >
     <string>Ctrl+X</string>
    </property>
   </action>
-  <action name="actionShowHideChance">
-   <property name="text">
+  <action name="actionShowHideChance" >
+   <property name="text" >
     <string>Show/Hide Chance Window</string>
    </property>
-   <property name="shortcut">
+   <property name="shortcut" >
     <string>Ctrl+C</string>
    </property>
   </action>
@@ -3699,7 +3516,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources/pokerth.qrc"/>
+  <include location="resources/pokerth.qrc" />
  </resources>
  <connections>
   <connection>
@@ -3708,11 +3525,11 @@
    <receiver>label_speedValue</receiver>
    <slot>setNum(int)</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>886</x>
      <y>624</y>
     </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>800</x>
      <y>638</y>
     </hint>

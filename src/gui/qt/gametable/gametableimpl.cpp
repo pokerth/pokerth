@@ -2717,7 +2717,7 @@ void gameTableImpl::blinkingStartButtonAnimationAction() {
 	
 	QString style = pushButton_break->styleSheet();
 
-	if(style.contains("QPushButton:enabled { background-color: #145300;")) {
+	if(style.contains("QPushButton:enabled { background-color: #"+myGameTableStyle->getBreakLobbyButtonBgColor())) {
 		myGameTableStyle->setBreakButtonStyle(pushButton_break,1);
 	}
 	else {
@@ -3214,6 +3214,8 @@ void gameTableImpl::refreshGameTableStyle()
 	myGameTableStyle->setButtonsStyle(pushButton_BetRaise, pushButton_CallCheck, pushButton_Fold, pushButton_AllIn, 0);
 
 	myGameTableStyle->setBetValueInputStyle(lineEdit_betValue);
+	myGameTableStyle->setSliderStyle(horizontalSlider_bet);
+	myGameTableStyle->setSliderStyle(horizontalSlider_speed);
 
 // 	away radiobuttons
 	myGameTableStyle->setAwayRadioButtonsStyle(radioButton_manualAction);

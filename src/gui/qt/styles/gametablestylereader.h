@@ -78,6 +78,7 @@ public:
 	void setVoteButtonStyle(QPushButton*);
 	void setVoteStringsStyle(QLabel*);
 	void setBetValueInputStyle(QLineEdit*);
+	void setSliderStyle(QSlider*);
 	
 	void setTabWidgetStyle(QTabWidget*, QTabBar*);
 
@@ -91,6 +92,7 @@ public:
 	QString getLogWinnerSidePotColor() const { return LogWinnerSidePotColor; }
 	QString getLogPlayerSitsOutColor() const { return LogPlayerSitsOutColor; }
 	QString getLogNewGameAdminColor() const { return LogNewGameAdminColor; }
+	QString getBreakLobbyButtonBgColor() const { return BreakLobbyButtonBgColor; }
 	
 private:
 	//style values
@@ -137,6 +139,11 @@ private:
 	QString AllInButtonHover;
 	QString AllInButtonChecked;
 	QString AllInButtonCheckedHover;
+	QString RadioButtonPressed;
+     	QString RadioButtonChecked;
+     	QString RadioButtonCheckedHover;
+     	QString RadioButtonUnchecked;
+     	QString RadioButtonUncheckedHover;
 	QString PlayerSeatInActive;
 	QString PlayerSeatActive;
 	QString Table;
@@ -190,6 +197,10 @@ private:
 	QString BetRaiseButtonCheckableTextColor;
 	QString AllInButtonTextColor;
 	QString AllInButtonCheckableTextColor;
+	QString BetSpeedSliderGrooveBgColor;
+     	QString BetSpeedSliderGrooveBorderColor;
+     	QString BetSpeedSliderHandleBgColor;
+     	QString BetSpeedSliderHandleBorderColor;
 // 	SIZES
 	QString ChatLogTextSize;
 

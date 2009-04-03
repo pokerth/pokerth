@@ -41,6 +41,11 @@
      <AllInButtonHover value="playeraction_orange_hover.png" />
      <AllInButtonChecked value="playeraction_orange_checked.png" />
      <AllInButtonCheckedHover value="playeraction_orange_checked_hover.png" />
+     <RadioButtonPressed value="radiobutton_pressed.png" />
+     <RadioButtonChecked value="radiobutton_checked.png" />
+     <RadioButtonCheckedHover value="radiobutton_checked_hover.png" />
+     <RadioButtonUnchecked value="radiobutton_unchecked.png" />
+     <RadioButtonUncheckedHover value="radiobutton_unchecked_hover.png" />
      <PlayerSeatInActive value="playerSeatInactive.png" />
      <PlayerSeatActive value="playerSeatActive.png" />
      <Table value="table.png" />
@@ -93,6 +98,10 @@
      <BetRaiseButtonCheckableTextColor value="87FF97" />
      <AllInButtonTextColor value="F0F0F0" />
      <AllInButtonCheckableTextColor value="FFE187" />
+     <BetSpeedSliderGrooveBgColor value="145300" />
+     <BetSpeedSliderGrooveBorderColor value="286400" />
+     <BetSpeedSliderHandleBgColor value="99D500" />
+     <BetSpeedSliderHandleBorderColor value="286400" />
      <ChatLogTextSize value="11" />
   </TableStyle>
 </PokerTH>
