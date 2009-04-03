@@ -25,7 +25,7 @@
 #include "configfile.h"
 #include <net/socket_startup.h>
 
-#define POKERTH_DISTRIBUTED_GAME_TABLE_STYLES 1
+#define POKERTH_DISTRIBUTED_GAME_TABLE_STYLES 2
 #define POKERTH_DISTRIBUTED_CARD_DECK_STYLES 2
 
 using namespace std;
@@ -248,6 +248,12 @@ void settingsDialogImpl::exec() {
 	QListWidgetItem *defaultTableItem = new QListWidgetItem(defaultTableStyle.getStyleDescription(),listWidget_gameTableStyles); 
 	defaultTableItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
 	defaultTableItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
+	//add danuxi table
+	GameTableStyleReader danuxi1TableStyle(myConfig);
+	danuxi1TableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
+	QListWidgetItem *danuxi1TableItem = new QListWidgetItem(danuxi1TableStyle.getStyleDescription(),listWidget_gameTableStyles); 
+	danuxi1TableItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
+	danuxi1TableItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
 	
 	//load secondary styles into list (if fallback no entry)
 	myGameTableStylesList = myConfig->readConfigStringList("GameTableStylesList");
