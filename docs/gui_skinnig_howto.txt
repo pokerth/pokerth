@@ -16,7 +16,8 @@ Maybe you would like to play around with the default table to see how the contro
 data/gfx/gui/table/default/ directory to another place. In order to avoid confusing styles, please first change the description
 <StyleDescription value="PokerTH default table style" /> to (e.g.) <StyleDescription value="my custom style" />. It is recommended to also
 rename the defaulttablestyle.xml to mycustomstyle.xml or something similar, and the directory name "default" to e.g. "mycustomtable".
-Now you can start playing around with color values or change/edit graphics files.
+Now you can start playing around with color values or change/edit gfx files.
+For best table drawing performance you should draw your gfx files with optimal size, mentioned in the corresponding comment in xml file.
 
 
 1.2 Testing your style
@@ -27,17 +28,6 @@ click "Activate". Closing the Settings dialog will refresh the style of the game
 
 If you change your mycustomstyle.xml there is no need to re-add it in the settings or to restart PokerTH. The simplest way is
 just to open settings dialog and close it immediately. This will refresh the game table style and show your changes.
-
-
-1.3 Distributing your style
--------------------------------
-TODO: Edit this.
-
-When your style is ready to distribute you should complete the style information StyleDescription, StyleMaintainerEMail and Preview. 
-The best way for Preview will be a screenshot of the style running in PokerTH.
-
-If you style is ready to be shipped please pack the whole directory into a zip archive. If you like your style to be added into
-skin gallery on http://www.pokerth.net please send a link to the address where you have hosted your archive to webmaster@pokerth.net. We cannot promise that every style will be added, but if everything works fine and the legal issues are also clear there should be no problem. 
 
 
 +++++++++++++++++++++++++
@@ -53,7 +43,7 @@ Maybe you would like to play around with the default card deck. To do this, you 
 directory to another place. In order to avoid confusing "card deck styles" please first change the description
 <StyleDescription value="PokerTH default card deck" /> to e.g. <StyleDescription value="my custom card deck" />.
 It is also recommended to rename the defaultdeckstyle.xml to e.g. mycustomcardstyle.xml and the directory name "default" to "mycustomdeck"
-or something similar. Now you can start changing/editing graphics files.
+or something similar. Now you can start changing/editing gfx files.
 
 If you take a look into all files from 0.png to 51.png you will see which card value belongs to which number. 
 It is VERY IMPORTANT to leave the filenames untouched. PokerTH will always take 0.png for "diamond 2", 51.png for "club ace" and 
@@ -73,20 +63,22 @@ If you do changes in your mycustomcardstyle.xml there is no need to re-add it in
 to open settings dialog and close it immediately. This will refresh the card deck style and show your changes.
 
 
-2.3 Distribute your deck
--------------------------------
-TODO: Edit this.
++++++++++++++++++++++++++
+3. Distributing Styles
++++++++++++++++++++++++++
 
-When your card deck style is ready to distribute you should complete the style information StyleDescription, StyleMaintainerEMail and Preview. 
+When your game table or card deck style is finished you should complete the style information StyleDescription, StyleMaintainerEMail and Preview.
+The best way for game table preview will be a screenshot of the game table style running in PokerTH. For card deck style may be you like to build 
+a picture like data/gfx/cards/default/preview.png
 
-Next step is editing the copyright.txt. Here you need to change "Maintainer" to your name and "EMail" to your valid mail address. 
-Please read the copyright declaration carefully. If you edited a free licenced gfx file you need to add the source address of the file 
-and corresponding licence information.
+If you style is ready to be shipped please pack the whole directory into a zip archive. If you like your style to be added into
+skin gallery on http://www.pokerth.net please send a link to the address where you are hosting your archive to webmaster@pokerth.net
+We cannot promise that every style will be added, but if everything works fine and the legal issues are also clear there should be no problem.
+Please read PokerTH GUI skinning legal notices (http://www.pokerth.net/content/view/55) carefully if you like to have a link to your style
+archive from http://www.pokerth.net.
 
-If you style is ready to be shipped please pack the whole directory into a zip archive and send it to anybody you like. If you like your 
-style to be added into skin gallery on http://www.pokerth.net please send the archive to webmaster@pokerth.net. We cannot promise that 
-every style will be added, but if everything works fine and the legal issues are also clear there should be no problem. 
 
+And now ... have a lot of fun when building a lot of stylish PokerTH skins ;-)
 
 
 2009 by Felix Hammer 

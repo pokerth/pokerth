@@ -3,6 +3,7 @@
   <TableStyle>
      <StyleDescription value="danuxi table design (1024x600 fixed)" />  <!-- This string will be shown in settings/game table style list -->
      <StyleMaintainerEMail value="webmaster@pokerth.net" /> <!-- This string will be shown in error message if there is a problem with the style -->
+     <Preview value="preview.png" />
      <IfFixedWindowSize value="1" /> <!-- value [1,0] 1 = fixed window size, 0 = resizeable window -->
      <FixedWindowWidth value="1024" />
      <FixedWindowHeight value="600" />
@@ -10,7 +11,6 @@
      <MinimumWindowHeight value="600" />
      <MaximumWindowWidth value="1980" />
      <MaximumWindowHeight value="1200" />
-     <Preview value="preview.png" />
      <ActionAllIn value="action_allin.png" />
      <ActionRaise value="action_raise.png" />
      <ActionBet value="action_bet.png" />
