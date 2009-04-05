@@ -509,6 +509,7 @@ ClientStateReadingServerList::Process(ClientThread &client)
 		}
 		else if (serverCount > 1)
 		{
+			client.GetCallback().SignalNetClientServerListShow();
 			client.SetState(ClientStateWaitChooseServer::Instance());
 		}
 		else

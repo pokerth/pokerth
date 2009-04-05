@@ -969,7 +969,7 @@ ClientThread::AddServerInfo(unsigned serverId, const ServerInfo &info)
 		boost::mutex::scoped_lock lock(m_serverInfoMapMutex);
 		m_serverInfoMap.insert(ServerInfoMap::value_type(serverId, info));
 	}
-	//GetCallback().SignalNetClientServerListAdd(serverId);
+	GetCallback().SignalNetClientServerListAdd(serverId);
 }
 
 void
@@ -979,7 +979,7 @@ ClientThread::ClearServerInfoMap()
 		boost::mutex::scoped_lock lock(m_serverInfoMapMutex);
 		m_serverInfoMap.clear();
 	}
-	//GetCallback().SignalNetClientServerListClear();
+	GetCallback().SignalNetClientServerListClear();
 }
 
 bool
