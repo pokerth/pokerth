@@ -58,6 +58,7 @@ void serverListDialogImpl::addServerItem(unsigned serverId)
 	item->setData(1, Qt::DisplayRole, QString::fromUtf8(info.country.c_str()));
 
 	treeWidget_serverList->resizeColumnToContents(0);
+	treeWidget_serverList->setCurrentItem(treeWidget_serverList->topLevelItem(0));
 }
 
 void serverListDialogImpl::connectToServer()
