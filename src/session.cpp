@@ -175,10 +175,13 @@ void Session::startInternetClient()
 
 	myNetClient = new ClientThread(*myGui, *myAvatarManager);
 	bool useAvatarServer = myConfig->readConfigInt("UseAvatarServer") != 0;
+
 	myNetClient->Init(
-		myConfig->readConfigString("InternetServerAddress"),
-		myConfig->readConfigString("InternetServerListAddress"),
-		myConfig->readConfigInt("InternetServerConfigMode") == 0,
+		myConfig->readConfigString("InternetServerAddress"), "pokerth.net/serverlist07.xml.z", 1,
+//WARNING this is just for 0.7 beta to connect to testing server //////////////
+// 		myConfig->readConfigString("InternetServerListAddress"),
+// 		myConfig->readConfigInt("InternetServerConfigMode") == 0,
+///////////////////////////////////////////////////////////////////////////////
 		myConfig->readConfigInt("InternetServerPort"),
 		myConfig->readConfigInt("InternetServerUseIpv6") == 1,
 		myConfig->readConfigInt("InternetServerUseSctp") == 1,

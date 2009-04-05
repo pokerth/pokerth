@@ -68,7 +68,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 // 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 // #endif	
 	setupUi(this);
-	this->setWindowTitle(QString(tr("PokerTH %1 - The Open-Source Texas Holdem Engine").arg(POKERTH_BETA_RELEASE_STRING)));
+	this->setWindowTitle(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
 
 	//Widgets Grafiken per Stylesheets setzen
 	QString myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
