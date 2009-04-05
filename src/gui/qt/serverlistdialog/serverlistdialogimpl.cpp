@@ -20,6 +20,7 @@
 #include "serverlistdialogimpl.h"
 #include "configfile.h"
 #include "startwindowimpl.h"
+#include "connecttoserverdialogimpl.h"
 #include "serverdata.h"
 #include "session.h"
 
@@ -32,10 +33,10 @@ serverListDialogImpl::serverListDialogImpl(startWindowImpl *sw, QMainWindow *par
 #endif	
     	setupUi(this);
 	
-
+	connect( treeWidget_serverList, SIGNAL( itemDoubleClicked ( QTreeWidgetItem*, int) ), this, SLOT( connectToServer() ));
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( connectToServer() ));
 	connect( buttonBox, SIGNAL( rejected() ), this, SLOT( closeNetworkClient() ));
-	
+	connect( this, SIGNAL( rejected() ), this, SLOT( closeNetworkClient() ));
 }
 
 void serverListDialogImpl::exec() {
@@ -55,6 +56,8 @@ void serverListDialogImpl::addServerItem(unsigned serverId)
 	item->setData(0, Qt::DisplayRole, QString::fromUtf8(info.name.c_str()));
 	item->setData(0, Qt::UserRole, serverId);
 	item->setData(1, Qt::DisplayRole, QString::fromUtf8(info.country.c_str()));
+
+	treeWidget_serverList->resizeColumnToContents(0);
 }
 
 void serverListDialogImpl::connectToServer()
@@ -63,9 +66,11 @@ void serverListDialogImpl::connectToServer()
 	if (item) {
 		mySw->getSession()->selectServer(item->data(0, Qt::UserRole).toUInt());
 	}
+	this->hide();
 }
 
 void serverListDialogImpl::closeNetworkClient() {
 
 	mySw->getSession()->terminateNetworkClient();
+	mySw->getMyConnectToServerDialog()->reject();
 }

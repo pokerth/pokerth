@@ -52,7 +52,8 @@ public:
 	void setSession(boost::shared_ptr<Session> session) { mySession = session; }
 	boost::shared_ptr<Session> getSession() { assert(mySession.get()); return mySession; }
 	boost::shared_ptr< GuiInterface > getMyServerGuiInterface() const { return myServerGuiInterface; }
-	
+	connectToServerDialogImpl* getMyConnectToServerDialog() const {	return myConnectToServerDialog;	}	
+
 signals: 
 	void signalShowClientDialog();
 	
