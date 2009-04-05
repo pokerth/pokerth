@@ -75,6 +75,7 @@ public:
 	void SendAskKickPlayer(unsigned playerId);
 	void SendVoteKick(bool doKick);
 
+	void SelectServer(unsigned serverId);
 	ServerInfo GetServerInfo(unsigned serverId) const;
 
 	GameInfo GetGameInfo(unsigned gameId) const;
@@ -153,6 +154,7 @@ protected:
 
 	void AddServerInfo(unsigned serverId, const ServerInfo &info);
 	void ClearServerInfoMap();
+	bool GetSelectedServer(unsigned &serverId) const;
 	void UseServer(unsigned serverId);
 
 	unsigned GetGameIdByName(const std::string &name) const;
@@ -198,6 +200,10 @@ private:
 
 	ServerInfoMap m_serverInfoMap;
 	mutable boost::mutex m_serverInfoMapMutex;
+
+	bool m_isServerSelected;
+	unsigned m_selectedServerId;
+	mutable boost::mutex m_selectServerMutex;
 
 	GameInfoMap m_gameInfoMap;
 	mutable boost::mutex m_gameInfoMapMutex;

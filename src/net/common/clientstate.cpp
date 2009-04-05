@@ -504,11 +504,12 @@ ClientStateReadingServerList::Process(ClientThread &client)
 		if (serverCount == 1)
 		{
 			client.UseServer(lastServerInfoId);
+			client.SetState(ClientStateStartResolve::Instance());
 			retVal = MSG_SOCK_SERVER_LIST_DONE;
 		}
-		else if (serverCount > 0)
+		else if (serverCount > 1)
 		{
-			// TODO....
+			client.SetState(ClientStateWaitChooseServer::Instance());
 		}
 		else
 			throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_XML, 0);
@@ -516,7 +517,41 @@ ClientStateReadingServerList::Process(ClientThread &client)
 	else
 		throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_XML, 0);
 
-	client.SetState(ClientStateStartResolve::Instance());
+
+	return retVal;
+}
+
+//-----------------------------------------------------------------------------
+
+ClientStateWaitChooseServer &
+ClientStateWaitChooseServer::Instance()
+{
+	static ClientStateWaitChooseServer state;
+	return state;
+}
+
+ClientStateWaitChooseServer::ClientStateWaitChooseServer()
+{
+}
+
+ClientStateWaitChooseServer::~ClientStateWaitChooseServer()
+{
+}
+
+int
+ClientStateWaitChooseServer::Process(ClientThread &client)
+{
+	int retVal = MSG_SOCK_INTERNAL_PENDING;
+
+	unsigned serverId;
+	if (client.GetSelectedServer(serverid))
+	{
+		client.UseServer(serverid);
+		client.SetState(ClientStateStartResolve::Instance());
+		retVal = MSG_SOCK_SERVER_LIST_DONE;
+	}
+	else
+		Thread::Msleep(20);
 
 	return retVal;
 }
@@ -1593,7 +1628,7 @@ ClientStateFinal::~ClientStateFinal()
 int
 ClientStateFinal::Process(ClientThread &/*client*/)
 {
-	Thread::Msleep(10);
+	Thread::Msleep(20);
 
 	return MSG_SOCK_INTERNAL_PENDING;
 }

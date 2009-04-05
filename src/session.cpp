@@ -404,6 +404,13 @@ void Session::startVoteKickPlayer(unsigned playerId)
 	myNetClient->SendAskKickPlayer(playerId);
 }
 
+void Session::selectServer(unsigned serverId)
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SelectServer(serverId);
+}
+
 void Session::voteKick(bool doKick)
 {
 	if (!myNetClient)

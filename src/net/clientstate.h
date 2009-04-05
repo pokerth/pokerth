@@ -188,6 +188,22 @@ protected:
 	ClientStateReadingServerList();
 };
 
+// State: Waiting for the user to choose a server.
+class ClientStateWaitChooseServer : public ClientState
+{
+public:
+	static ClientStateWaitChooseServer &Instance();
+
+	virtual ~ClientStateWaitChooseServer();
+
+	virtual int Process(ClientThread &client);
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateWaitChooseServer();
+};
+
 // State: Initiate server connection.
 class ClientStateStartConnect : public ClientState
 {

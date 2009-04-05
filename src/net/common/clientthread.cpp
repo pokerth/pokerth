@@ -60,7 +60,7 @@ private:
 };
 
 ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager)
-: m_curState(NULL), m_gui(gui), m_avatarManager(avatarManager),
+: m_curState(NULL), m_gui(gui), m_avatarManager(avatarManager), m_isServerSelected(false),
   m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false)
 {
 	m_ioService.reset(new boost::asio::io_service());
@@ -282,6 +282,14 @@ ClientThread::SendVoteKick(bool doKick)
 	static_cast<NetPacketVoteKickPlayer *>(vote.get())->SetData(voteData);
 	boost::mutex::scoped_lock lock(m_outPacketListMutex);
 	m_outPacketList.push_back(vote);
+}
+
+void
+ClientThread::SelectServer(unsigned serverId)
+{
+	boost::mutex::scoped_lock lock(m_selectServerMutex);
+	m_isServerSelected = true;
+	m_selectedServerId = serverId;
 }
 
 ServerInfo
@@ -974,6 +982,18 @@ ClientThread::ClearServerInfoMap()
 	//GetCallback().SignalNetClientServerListClear();
 }
 
+bool
+ClientThread::GetSelectedServer(unsigned &serverId) const
+{
+	bool retVal = false;
+	boost::mutex::scoped_lock lock(m_selectServerMutex);
+	if (m_isServerSelected)
+	{
+		retVal = true;
+		serverId = m_selectedServerId;
+	}
+	return retVal;
+}
 
 void
 ClientThread::UseServer(unsigned serverId)
