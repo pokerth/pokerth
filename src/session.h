@@ -19,6 +19,7 @@
  ***************************************************************************/
 #ifndef STDSESSION_H
 #define STDSESSION_H
+#include "serverdata.h"
 #include "gamedata.h"
 #include "playerdata.h"
 #include "game_defs.h"
@@ -88,6 +89,7 @@ public:
 	bool isNetworkClientRunning() const; // TODO hack
 	bool isNetworkServerRunning() const; // TODO hack
 
+	ServerInfo getClientServerInfo(unsigned serverId) const;
 	GameInfo getClientGameInfo(unsigned gameId) const;
 	PlayerInfo getClientPlayerInfo(unsigned playerId) const;
 	ServerStats getClientStats() const;

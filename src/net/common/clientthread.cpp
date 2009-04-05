@@ -284,6 +284,19 @@ ClientThread::SendVoteKick(bool doKick)
 	m_outPacketList.push_back(vote);
 }
 
+ServerInfo
+ClientThread::GetServerInfo(unsigned serverId) const
+{
+	ServerInfo tmpInfo;
+	boost::mutex::scoped_lock lock(m_serverInfoMapMutex);
+	ServerInfoMap::const_iterator pos = m_serverInfoMap.find(serverId);
+	if (pos != m_serverInfoMap.end())
+	{
+		tmpInfo = pos->second;
+	}
+	return tmpInfo;
+}
+
 GameInfo
 ClientThread::GetGameInfo(unsigned gameId) const
 {
@@ -939,6 +952,42 @@ ClientThread::RemoveDisconnectedPlayers()
 			}
 		}
 	}
+}
+
+void
+ClientThread::AddServerInfo(unsigned serverId, const ServerInfo &info)
+{
+	{
+		boost::mutex::scoped_lock lock(m_serverInfoMapMutex);
+		m_serverInfoMap.insert(ServerInfoMap::value_type(serverId, info));
+	}
+	//GetCallback().SignalNetClientServerListAdd(serverId);
+}
+
+void
+ClientThread::ClearServerInfoMap()
+{
+	{
+		boost::mutex::scoped_lock lock(m_serverInfoMapMutex);
+		m_serverInfoMap.clear();
+	}
+	//GetCallback().SignalNetClientServerListClear();
+}
+
+
+void
+ClientThread::UseServer(unsigned serverId)
+{
+	ClientContext &context = client.GetContext();
+	ServerInfo useInfo(GetServerInfo(serverId));
+
+	if (context.GetAddrFamily() == AF_INET6)
+		context.SetServerAddr(useInfo.ipv6addr);
+	else
+		context.SetServerAddr(useInfo.ipv4addr);
+
+	context.SetServerPort((unsigned)useInfo.port);
+	context.SetAvatarServerAddr(useInfo.avatarServerAddr);
 }
 
 unsigned

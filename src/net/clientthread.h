@@ -24,6 +24,7 @@
 #include <core/thread.h>
 #include <net/senderinterface.h>
 #include <guiinterface.h>
+#include <serverdata.h>
 #include <playerdata.h>
 #include <gamedata.h>
 #include <string>
@@ -74,6 +75,8 @@ public:
 	void SendAskKickPlayer(unsigned playerId);
 	void SendVoteKick(bool doKick);
 
+	ServerInfo GetServerInfo(unsigned serverId) const;
+
 	GameInfo GetGameInfo(unsigned gameId) const;
 	PlayerInfo GetPlayerInfo(unsigned playerId) const;
 	bool GetPlayerIdFromName(const std::string &playerName, unsigned &playerId) const;
@@ -89,6 +92,7 @@ protected:
 	typedef std::list<boost::shared_ptr<NetPacket> > NetPacketList;
 	typedef std::map<unsigned, PlayerInfo> PlayerInfoMap;
 	typedef std::map<unsigned, boost::shared_ptr<AvatarData> > AvatarDataMap;
+	typedef std::map<unsigned, ServerInfo> ServerInfoMap;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -147,6 +151,10 @@ protected:
 
 	void RemoveDisconnectedPlayers();
 
+	void AddServerInfo(unsigned serverId, const ServerInfo &info);
+	void ClearServerInfoMap();
+	void UseServer(unsigned serverId);
+
 	unsigned GetGameIdByName(const std::string &name) const;
 	void AddGameInfo(unsigned gameId, const GameInfo &info);
 	void UpdateGameInfoMode(unsigned gameId, GameMode mode);
@@ -187,6 +195,9 @@ private:
 	GameData m_gameData;
 	StartData m_startData;
 	PlayerDataList m_playerDataList;
+
+	ServerInfoMap m_serverInfoMap;
+	mutable boost::mutex m_serverInfoMapMutex;
 
 	GameInfoMap m_gameInfoMap;
 	mutable boost::mutex m_gameInfoMapMutex;

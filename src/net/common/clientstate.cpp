@@ -448,35 +448,66 @@ ClientStateReadingServerList::Process(ClientThread &client)
 
 	if (doc.LoadFile())
 	{
-		TiXmlHandle docHandle(&doc);	
-		const TiXmlElement *firstServer = docHandle.FirstChild("ServerList" ).FirstChild("Server").ToElement();
-		if (firstServer)
+		client.ClearServerInfoMap();
+		int serverCount = 0;
+		unsigned lastServerInfoId = 0;
+		TiXmlHandle docHandle(&doc);
+		const TiXmlElement *nextServer = docHandle.FirstChild("ServerList" ).FirstChild("Server").ToElement();
+		while (nextServer)
 		{
-			const TiXmlNode *addrNode;
-			if (context.GetAddrFamily() == AF_INET6)
-				addrNode = firstServer->FirstChild("IPv6Address");
-			else
-				addrNode = firstServer->FirstChild("IPv4Address");
-			const TiXmlNode *portNode = firstServer->FirstChild("Port");
+			ServerInfo serverInfo;
+			{
+				int tmpId;
+				nextServer->QueryIntAttribute("value", &tmpId);
+				serverInfo.id = (unsigned)tmpId;
+			}
+			const TiXmlNode *nameNode = nextServer->FirstChild("Name");
+			const TiXmlNode *sponsorNode = nextServer->FirstChild("Sponsor");
+			const TiXmlNode *countryNode = nextServer->FirstChild("Country");
+			const TiXmlNode *addr4Node = nextServer->FirstChild("IPv4Address");
+			const TiXmlNode *addr6Node = nextServer->FirstChild("IPv6Address");
+			const TiXmlNode *sctpNode = nextServer->FirstChild("SCTP");
+			const TiXmlNode *portNode = nextServer->FirstChild("Port");
 
-			// Currently, only IPv4 is supported for avatar servers.
-			const TiXmlNode *avatarNode = firstServer->FirstChild("AvatarServerAddress");
+			// IPv6 support for avatar servers depends on this address and on libcurl.
+			const TiXmlNode *avatarNode = nextServer->FirstChild("AvatarServerAddress");
 
-			if (!addrNode || !addrNode->ToElement() || !portNode || !portNode->ToElement())
+			if (!nameNode || !nameNode->ToElement() || !addrNode || !addr4Node->ToElement()
+				|| !addr6Node->ToElement() || !portNode || !portNode->ToElement())
 				throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_XML, 0);
 
-			context.SetServerAddr(addrNode->ToElement()->Attribute("value"));
+			serverInfo.name = nameNode->ToElement()->Attribute("value");
+			serverInfo.ipv4addr = addr4Node->ToElement()->Attribute("value");
+			serverInfo.ipv6addr = addr6Node->ToElement()->Attribute("value");
+			portNode->ToElement()->QueryIntAttribute("value", &serverInfo.port);
 
-			int tmpPort = 0;
-			portNode->ToElement()->QueryIntAttribute("value", &tmpPort);
-			context.SetServerPort((unsigned)tmpPort);
-
-			if (avatarNode && avatarNode->ToElement()) // optional
+			// Optional parameters:
+			if (sponsorNode && sponsorNode->ToElement())
+				serverInfo.sponsor = sponsorNode->ToElement()->Attribute("value");
+			if (countryNode && countryNode->ToElement())
+				serverInfo.country = countryNode->ToElement()->Attribute("value");
+			if (sctpNode && sctpNode->ToElement())
 			{
-				context.SetAvatarServerAddr(avatarNode->ToElement()->Attribute("value"));
+				int tmpSctp;
+				sctpNode->ToElement()->QueryIntAttribute
 			}
+			if (avatarNode && avatarNode->ToElement())
+				serverInfo.avatarServerAddr = avatarNode->ToElement()->Attribute("value");
 
+			client.AddServerInfo(serverInfo.id, serverInfo);
+			nextServer = nextServer->NextSiblingElement();
+			lastServerInfoId = serverInfo.id;
+			serverCount++;
+		}
+
+		if (serverCount == 1)
+		{
+			client.UseServer(lastServerInfoId);
 			retVal = MSG_SOCK_SERVER_LIST_DONE;
+		}
+		else if (serverCount > 0)
+		{
+			// TODO....
 		}
 		else
 			throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_XML, 0);

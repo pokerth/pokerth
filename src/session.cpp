@@ -425,6 +425,14 @@ bool Session::isNetworkServerRunning() const
 	return myNetServer != NULL;
 }
 
+ServerInfo Session::getClientServerInfo(unsigned serverId) const
+{
+	ServerInfo info;
+	if (myNetClient)
+		info = myNetClient->GetServerInfo(serverId);
+	return info;
+}
+
 GameInfo Session::getClientGameInfo(unsigned playerId) const
 {
 	GameInfo info;
