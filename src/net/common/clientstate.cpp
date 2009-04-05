@@ -544,9 +544,9 @@ ClientStateWaitChooseServer::Process(ClientThread &client)
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 
 	unsigned serverId;
-	if (client.GetSelectedServer(serverid))
+	if (client.GetSelectedServer(serverId))
 	{
-		client.UseServer(serverid);
+		client.UseServer(serverId);
 		client.SetState(ClientStateStartResolve::Instance());
 		retVal = MSG_SOCK_SERVER_LIST_DONE;
 	}

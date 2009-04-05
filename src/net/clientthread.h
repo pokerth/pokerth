@@ -242,6 +242,7 @@ friend class ClientStateStartServerListDownload;
 friend class ClientStateSynchronizingServerList;
 friend class ClientStateDownloadingServerList;
 friend class ClientStateReadingServerList;
+friend class ClientStateWaitChooseServer;
 friend class ClientStateStartConnect;
 friend class ClientStateConnecting;
 friend class ClientStateStartSession;
