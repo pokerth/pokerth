@@ -40,6 +40,7 @@ public slots:
 	void clearList();
 	void addServerItem(unsigned);
 	void connectToServer();
+	void closeNetworkClient();
 
 private:
 		

@@ -118,6 +118,10 @@ void ServerGuiWrapper::logPlayerWinGame(std::string /*playerName*/, int /*gameID
 void ServerGuiWrapper::flushLogAtGame(int /*gameID*/) {}
 void ServerGuiWrapper::flushLogAtHand() {}
 
+void ServerGuiWrapper::SignalNetClientServerListAdd(unsigned serverId) { if (myClientcb) myClientcb->SignalNetClientServerListAdd(serverId); }
+void ServerGuiWrapper::SignalNetClientServerListClear() { if (myClientcb) myClientcb->SignalNetClientServerListClear(); }
+void ServerGuiWrapper::SignalNetClientServerListShow() { if (myClientcb) myClientcb->SignalNetClientServerListShow(); }
+
 void ServerGuiWrapper::SignalNetClientConnect(int actionID) { if (myClientcb) myClientcb->SignalNetClientConnect(actionID); }
 void ServerGuiWrapper::SignalNetClientGameInfo(int actionID) { if (myClientcb) myClientcb->SignalNetClientGameInfo(actionID); }
 void ServerGuiWrapper::SignalNetClientError(int errorID, int osErrorID) { if (myClientcb) myClientcb->SignalNetClientError(errorID, osErrorID); }

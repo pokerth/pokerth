@@ -34,6 +34,7 @@ serverListDialogImpl::serverListDialogImpl(startWindowImpl *sw, QMainWindow *par
 	
 
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( connectToServer() ));
+	connect( buttonBox, SIGNAL( rejected() ), this, SLOT( closeNetworkClient() ));
 	
 }
 
@@ -62,4 +63,9 @@ void serverListDialogImpl::connectToServer()
 	if (item) {
 		mySw->getSession()->selectServer(item->data(0, Qt::UserRole).toUInt());
 	}
+}
+
+void serverListDialogImpl::closeNetworkClient() {
+
+	mySw->getSession()->terminateNetworkClient();
 }

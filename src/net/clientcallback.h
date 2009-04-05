@@ -59,6 +59,11 @@ public:
 	virtual void SignalNetClientChatMsg(const std::string &playerName, const std::string &msg) = 0;
 	virtual void SignalNetClientMsgBox(const std::string &msg) = 0;
 	virtual void SignalNetClientWaitDialog() = 0;
-	};
+	
+	virtual void SignalNetClientServerListAdd(unsigned serverId) =0;
+	virtual void SignalNetClientServerListClear() =0;
+	virtual void SignalNetClientServerListShow() =0;
+
+};
 
 #endif

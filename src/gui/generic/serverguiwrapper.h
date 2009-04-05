@@ -126,6 +126,10 @@ public:
 	void SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
 	void SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
 	void SignalNetClientGameStart(boost::shared_ptr<Game> game);
+	
+	void SignalNetClientServerListAdd(unsigned serverId);
+	void SignalNetClientServerListClear();
+	void SignalNetClientServerListShow();
 
 	void SignalNetServerSuccess(int actionID);
 	void SignalNetServerError(int errorID, int osErrorID);

@@ -122,7 +122,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 
 	connect(this, SIGNAL(signalNetClientServerListShow()), myServerListDialog, SLOT(exec()));
 	connect(this, SIGNAL(signalNetClientServerListClear()), myServerListDialog, SLOT(clearList()));
-	connect(this, SIGNAL(signalNetClientServerListAdd(unsigned serverId)), myServerListDialog, SLOT(addServerItem(serverId)));
+	connect(this, SIGNAL(signalNetClientServerListAdd(unsigned)), myServerListDialog, SLOT(addServerItem(unsigned)));
 
 	connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, int)), myStartNetworkGameDialog, SLOT(joinedNetworkGame(unsigned, QString, int)));
 	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, int)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(unsigned, QString, int)));
