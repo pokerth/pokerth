@@ -47,6 +47,7 @@
 #include "timeoutmsgboximpl.h"
 #include "lobbychat.h"
 #include "chat.h"
+#include "serverlistdialogimpl.h"
 
 using namespace std;
 
@@ -98,6 +99,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 	myGameLobbyDialog->setMyW(myGuiInterface->getMyW());
 	
 	myTimeoutDialog = new timeoutMsgBoxImpl(this);
+	myServerListDialog = new serverListDialogImpl(this, this, myConfig);
 
 	connect( actionStart_Local_Game, SIGNAL( triggered() ), this, SLOT( callNewGameDialog() ) );
 	connect( pushButtonStart_Local_Game, SIGNAL( clicked() ), this, SLOT( callNewGameDialog() ) );
@@ -117,6 +119,10 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 	connect(this, SIGNAL(signalNetClientConnect(int)), myConnectToServerDialog, SLOT(refresh(int)));
 	connect(this, SIGNAL(signalNetClientGameInfo(int)), myStartNetworkGameDialog, SLOT(refresh(int)));
 	connect(this, SIGNAL(signalNetClientGameInfo(int)), myGameLobbyDialog, SLOT(refresh(int)));
+
+	connect(this, SIGNAL(signalNetClientServerListShow()), myServerListDialog, SLOT(exec()));
+	connect(this, SIGNAL(signalNetClientServerListClear()), myServerListDialog, SLOT(clearList()));
+	connect(this, SIGNAL(signalNetClientServerListAdd(unsigned serverId)), myServerListDialog, SLOT(addServerItem(serverId)));
 
 	connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, int)), myStartNetworkGameDialog, SLOT(joinedNetworkGame(unsigned, QString, int)));
 	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, int)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(unsigned, QString, int)));

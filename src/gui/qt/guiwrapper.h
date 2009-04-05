@@ -113,6 +113,9 @@ public:
 	void flushLogAtHand();
 
 	void SignalNetClientConnect(int actionID);
+	void SignalNetClientServerListAdd(unsigned serverId);
+	void SignalNetClientServerListShow();
+	void SignalNetClientServerListClear();
 	void SignalNetClientGameInfo(int actionID);
 	void SignalNetClientError(int errorID, int osErrorID);
 	void SignalNetClientNotification(int notificationId);

@@ -42,7 +42,7 @@ class startNetworkGameDialogImpl;
 class changeHumanPlayerNameDialogImpl;
 class gameLobbyDialogImpl;
 class timeoutMsgBoxImpl;
-
+class serverListDialogImpl;
 
 class startWindowImpl: public QMainWindow, public Ui::startWindow {
 Q_OBJECT
@@ -57,6 +57,9 @@ signals:
 	void signalShowClientDialog();
 	
 	void signalNetClientConnect(int actionID);
+	void signalNetClientServerListShow();
+	void signalNetClientServerListClear();
+	void signalNetClientServerListAdd(unsigned serverId);
 	void signalNetClientGameInfo(int actionID);
 	void signalNetClientError(int errorID, int osErrorID);
 	void signalNetClientNotification(int notificationId);
@@ -135,6 +138,7 @@ private:
 	gameLobbyDialogImpl *myGameLobbyDialog;
 	timeoutMsgBoxImpl *myTimeoutDialog;
 	startWindowImpl *myStartWindow;
+	serverListDialogImpl *myServerListDialog;
 
 	
 friend class GuiWrapper;

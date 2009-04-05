@@ -36,13 +36,8 @@ TODO: Edit this.
 When your style is ready to distribute you should complete the style information StyleDescription, StyleMaintainerEMail and Preview. 
 The best way for Preview will be a screenshot of the style running in PokerTH.
 
-Next step is editing the copyright.txt. Here you need to change "Maintainer" to your name and "EMail" to your valid mail address. 
-Please read the copyright declaration carefully. If you edited a free licenced gfx file you need to add the source address of the file 
-and corresponding licence information.
-
-If you style is ready to be shipped please pack the whole directory into a zip archive and send it to anybody you like. If you like your 
-style to be added into skin gallery on http://www.pokerth.net please send the archive to webmaster@pokerth.net. We cannot promise that 
-every style will be added, but if everything works fine and the legal issues are also clear there should be no problem. 
+If you style is ready to be shipped please pack the whole directory into a zip archive. If you like your style to be added into
+skin gallery on http://www.pokerth.net please send a link to the address where you have hosted your archive to webmaster@pokerth.net. We cannot promise that every style will be added, but if everything works fine and the legal issues are also clear there should be no problem. 
 
 
 +++++++++++++++++++++++++

@@ -52,6 +52,7 @@ INCLUDEPATH += . \
 		src/gui/qt/settingsdialog/manualblindsorderdialog \
 		src/gui/qt/startnetworkgamedialog \
 		src/gui/qt/startwindow \
+		src/gui/qt/serverlistdialog \
 		src/gui/qt/styles \
 		src/gui/qt/changehumanplayernamedialog \
 		src/gui/qt/changecompleteblindsdialog \
@@ -92,6 +93,7 @@ DEPENDPATH += . \
 		src/gui/qt/settingsdialog/manualblindsorderdialog \
 		src/gui/qt/startnetworkgamedialog \
 		src/gui/qt/startwindow \
+		src/gui/qt/serverlistdialog \
 		src/gui/qt/styles \
 		src/gui/qt/changehumanplayernamedialog \
 		src/gui/qt/changecompleteblindsdialog \
@@ -190,7 +192,8 @@ HEADERS += \
 		src/gui/qt/qttools/qttoolswrapper.h \
 		src/gui/qt/qttools/qthelper/qthelper.h \
 		src/gui/generic/serverguiwrapper.h \
- src/gui/qt/gametable/mychancelabel.h
+ src/gui/qt/gametable/mychancelabel.h \
+ src/gui/qt/serverlistdialog/serverlistdialogimpl.h
 
 FORMS += \
 		src/gui/qt/gametable.ui \
@@ -208,7 +211,8 @@ FORMS += \
 		src/gui/qt/changecompleteblindsdialog.ui \
 		src/gui/qt/gamelobbydialog.ui \
 		src/gui/qt/mymessagedialog.ui \
-		src/gui/qt/manualblindsorderdialog.ui
+		src/gui/qt/manualblindsorderdialog.ui \
+		src/gui/qt/serverlistdialog.ui
 
 SOURCES += \
 		src/pokerth.cpp \
@@ -253,7 +257,8 @@ SOURCES += \
 		src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp \
 		src/net/common/net_helper_client.cpp \
 		src/core/common/loghelper_client.cpp \
- src/gui/qt/gametable/mychancelabel.cpp
+ src/gui/qt/gametable/mychancelabel.cpp \
+ src/gui/qt/serverlistdialog/serverlistdialogimpl.cpp
 
 TRANSLATIONS = \
 		ts/pokerth_bg.ts \
@@ -277,7 +282,7 @@ TRANSLATIONS = \
 		ts/pokerth_START_HERE.ts
 
 win32 {
-	QTPLUGIN += qjpeg qgif
+    QTPLUGIN += qjpeg qgif
     DEFINES += CURL_STATICLIB
     DEPENDPATH += src/net/win32/ src/core/win32
     INCLUDEPATH += ../boost/ ../SDL/include ../SDL_mixer
