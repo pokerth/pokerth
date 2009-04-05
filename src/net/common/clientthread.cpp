@@ -978,7 +978,7 @@ ClientThread::ClearServerInfoMap()
 void
 ClientThread::UseServer(unsigned serverId)
 {
-	ClientContext &context = client.GetContext();
+	ClientContext &context = GetContext();
 	ServerInfo useInfo(GetServerInfo(serverId));
 
 	if (context.GetAddrFamily() == AF_INET6)

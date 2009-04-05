@@ -472,8 +472,8 @@ ClientStateReadingServerList::Process(ClientThread &client)
 			// IPv6 support for avatar servers depends on this address and on libcurl.
 			const TiXmlNode *avatarNode = nextServer->FirstChild("AvatarServerAddress");
 
-			if (!nameNode || !nameNode->ToElement() || !addrNode || !addr4Node->ToElement()
-				|| !addr6Node->ToElement() || !portNode || !portNode->ToElement())
+			if (!nameNode || !nameNode->ToElement() || !addr4Node || !addr4Node->ToElement()
+				|| !addr6Node || !addr6Node->ToElement() || !portNode || !portNode->ToElement())
 				throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_XML, 0);
 
 			serverInfo.name = nameNode->ToElement()->Attribute("value");
@@ -489,7 +489,8 @@ ClientStateReadingServerList::Process(ClientThread &client)
 			if (sctpNode && sctpNode->ToElement())
 			{
 				int tmpSctp;
-				sctpNode->ToElement()->QueryIntAttribute
+				sctpNode->ToElement()->QueryIntAttribute("value", &tmpSctp);
+				serverInfo.supportsSctp = tmpSctp == 1 ? true : false;
 			}
 			if (avatarNode && avatarNode->ToElement())
 				serverInfo.avatarServerAddr = avatarNode->ToElement()->Attribute("value");
