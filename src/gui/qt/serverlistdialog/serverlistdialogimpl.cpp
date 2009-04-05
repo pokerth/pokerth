@@ -60,6 +60,6 @@ void serverListDialogImpl::connectToServer()
 {
 	QTreeWidgetItem *item = treeWidget_serverList->currentItem();
 	if (item) {
-// 		mySw->getSession()->connect(item->data(0, Qt::UserRole)) TODO
+		mySw->getSession()->selectServer(item->data(0, Qt::UserRole).toUInt());
 	}
 }
