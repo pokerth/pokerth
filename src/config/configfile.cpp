@@ -172,7 +172,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("GameSpeed", CONFIG_TYPE_INT, "4"));
 	configList.push_back(ConfigInfo("PauseBetweenHands", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ShowGameSettingsDialogOnNewGame", CONFIG_TYPE_INT, "1"));
-	configList.push_back(ConfigInfo("NetNumberOfPlayers", CONFIG_TYPE_INT, "7"));
+	configList.push_back(ConfigInfo("NetNumberOfPlayers", CONFIG_TYPE_INT, "10"));
 	configList.push_back(ConfigInfo("NetStartCash", CONFIG_TYPE_INT, "3000"));
 	configList.push_back(ConfigInfo("NetFirstSmallBlind", CONFIG_TYPE_INT, "10"));
 	configList.push_back(ConfigInfo("NetRaiseBlindsAtHands", CONFIG_TYPE_INT, "1"));
