@@ -168,7 +168,7 @@ void Session::startInternetClient()
 			myConfig->readConfigInt("IRCServerPort"),
 			myConfig->readConfigInt("IRCServerUseIpv6") == 1,
 			myIrcNick,
-			/*myConfig->readConfigString("IRCChannel")*/ "#pokerth-lobby07",//WARNING this is just for 0.7 beta to connect to testing chat //////////////
+			/*myConfig->readConfigString("IRCChannel")*/ "#pokerth-lobby-07beta",//WARNING this is just for 0.7 beta to connect to testing chat //////////////
 			myConfig->readConfigString("IRCChannelPassword"));
 		myClientIrcThread->Run();
 	}
