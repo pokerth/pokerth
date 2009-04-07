@@ -102,6 +102,7 @@ protected:
 	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
 	typedef std::map<std::string, boost::timers::portable::microsec_timer> TimerClientAddressMap;
 	typedef std::list<unsigned> RemoveGameList;
+	typedef std::list<boost::regex> RegexList;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -191,7 +192,7 @@ private:
 	SessionIdList m_resubscribeList;
 	mutable boost::mutex m_resubscribeListMutex;
 
-	RegExList m_banPlayerNameList;
+	RegexList m_banPlayerNameList;
 	mutable boost::mutex m_banPlayerNameListMutex;
 
 	GameMap m_gameMap;

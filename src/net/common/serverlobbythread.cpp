@@ -1382,8 +1382,8 @@ ServerLobbyThread::IsPlayerBanned(const std::string &name) const
 {
 	bool retVal = false;
 	boost::mutex::scoped_lock lock(m_banPlayerNameListMutex);
-	RegExList::const_iterator i = m_banPlayerNameList.begin();
-	RegExList::const_iterator end = m_banPlayerNameList.end();
+	RegexList::const_iterator i = m_banPlayerNameList.begin();
+	RegexList::const_iterator end = m_banPlayerNameList.end();
 	while (i != end)
 	{
 		if (regex_match(name, *i))
