@@ -258,6 +258,20 @@ ServerLobbyThread::KickPlayerByName(const std::string &playerName)
 }
 
 void
+ServerLobbyThread::BanPlayerRegex(const std::string &playerRegex)
+{
+	boost::mutex::scoped_lock lock(m_banPlayerNameListMutex);
+	m_banPlayerNameList.push_back(boost::regex(playerRegex));
+}
+
+void
+ServerLobbyThread::ClearBanList()
+{
+	boost::mutex::scoped_lock lock(m_banPlayerNameListMutex);
+	m_banPlayerNameList.clear();
+}
+
+void
 ServerLobbyThread::RemovePlayer(unsigned playerId, unsigned errorCode)
 {
 	boost::mutex::scoped_lock lock(m_removePlayerListMutex);
@@ -508,6 +522,13 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 	if (IsPlayerConnected(initData.playerName))
 	{
 		SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
+		return;
+	}
+
+	// Check whether the player name is banned.
+	if (IsPlayerBanned(initData.playerName))
+	{
+		SessionError(session, ERR_NET_PLAYER_BANNED);
 		return;
 	}
 
@@ -1344,7 +1365,7 @@ ServerLobbyThread::GetGui()
 }
 
 bool
-ServerLobbyThread::IsPlayerConnected(const string &name)
+ServerLobbyThread::IsPlayerConnected(const string &name) const
 {
 	bool retVal = false;
 
@@ -1354,6 +1375,24 @@ ServerLobbyThread::IsPlayerConnected(const string &name)
 		retVal = m_gameSessionManager.IsPlayerConnected(name);
 
 	return retVal;
+}
+
+bool
+ServerLobbyThread::IsPlayerBanned(const std::string &name) const
+{
+	bool retVal = false;
+	boost::mutex::scoped_lock lock(m_banPlayerNameListMutex);
+	RegExList::const_iterator i = m_banPlayerNameList.begin();
+	RegExList::const_iterator end = m_banPlayerNameList.end();
+	while (i != end)
+	{
+		if (regex_match(name, *i))
+		{
+			retVal = true;
+			break;
+		}
+		++i;
+	}
 }
 
 boost::shared_ptr<NetPacket>

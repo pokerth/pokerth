@@ -29,6 +29,7 @@
 
 #include <deque>
 #include <list>
+#include <boost/regex.hpp>
 #include <third_party/boost/timers.hpp>
 
 #define NET_LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC		20000
@@ -68,6 +69,8 @@ public:
 	void HandleGameRetrieveAvatar(SessionWrapper session, const NetPacketRetrieveAvatar &tmpPacket);
 
 	bool KickPlayerByName(const std::string &playerName);
+	void BanPlayerRegex(const std::string &playerRegex);
+	void ClearBanList();
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
 
 	void SendGlobalChat(const std::string &message);
@@ -156,7 +159,8 @@ protected:
 	ServerSenderCallback &GetSenderCallback();
 	GuiInterface &GetGui();
 
-	bool IsPlayerConnected(const std::string &name);
+	bool IsPlayerConnected(const std::string &name) const;
+	bool IsPlayerBanned(const std::string &name) const;
 
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListNew(const ServerGameThread &game);
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListUpdate(unsigned gameId, GameMode mode);
@@ -186,6 +190,9 @@ private:
 
 	SessionIdList m_resubscribeList;
 	mutable boost::mutex m_resubscribeListMutex;
+
+	RegExList m_banPlayerNameList;
+	mutable boost::mutex m_banPlayerNameListMutex;
 
 	GameMap m_gameMap;
 
