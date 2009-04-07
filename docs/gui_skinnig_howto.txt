@@ -8,27 +8,45 @@ How to create a skin for PokerTH
 
 1.1 Creating a game table
 -----------------------------
-The best way to start building a custom PokerTH game table is to take a look at the file "defaulttablestyle.xml". 
-You can find this file in the source code in the installation path of PokerTH >= 0.6.5 in the subfolder data/gfx/gui/table/default/.
-The defaulttablestyle.xml is the control center of your style. The file also contains comments which describe the use of the controls.
+The best way to start building a custom PokerTH game table is to take 
+a look at the file "defaulttablestyle.xml". You can find this file in
+source code or in installation path of PokerTH >= 0.6.5 in the 
+subfolder data/gfx/gui/table/default/. The defaulttablestyle.xml is 
+the control center of your style. The file also contains comments 
+which describe the use of the controls.
 
-Maybe you would like to play around with the default table to see how the controls will work. To do this, you should copy the whole
-data/gfx/gui/table/default/ directory to another place. In order to avoid confusing styles, please first change the description
-<StyleDescription value="PokerTH default table style" /> to (e.g.) <StyleDescription value="my custom style" />. It is recommended to also
-rename the defaulttablestyle.xml to mycustomstyle.xml or something similar, and the directory name "default" to e.g. "mycustomtable".
+Maybe you would like to play around with the default table to see how 
+the controls will work. To do this, you should copy the whole
+data/gfx/gui/table/default/ directory to another place. 
 
-Now you can start playing around with color values or change/edit gfx files.
-For best table drawing performance you should draw your gfx files with optimal size, mentioned in the corresponding comment in xml file.
+In order to avoid confusing styles, please first change the description
+<StyleDescription value="PokerTH default table style" /> --> (e.g.)
+<StyleDescription value="my custom style" />.
+
+It is recommended to also rename the file:
+"defaulttablestyle.xml" --> (e.g.) "mycustomstyle.xml"
+
+and the directory name: 
+"default" --> (e.g.) "mycustomtable".
+
+Now you can start playing around with color values or change/edit gfx
+files. For best table drawing performance you should draw your gfx 
+files with optimal size, mentioned in the corresponding comment in 
+xml file.
 
 
 1.2 Testing your style
 --------------------------------
-In order to test your style simply load it in PokerTH using "Settings" -> "Style" -> "Game Table Styles" --> "Add ...".
-After you have selected your file the value of "StyleDescription" is shown in the list. Select the corresponding entry and
-click "Activate". Closing the Settings dialog will refresh the style of the game table.
+In order to test your style simply load it in PokerTH using 
+"Settings" -> "Style" -> "Game Table Styles" --> "Add ...". 
+After you have selected your file the value of "StyleDescription" is 
+shown in the list. Select the corresponding entry and click "Activate".
+Closing the Settings dialog will refresh the style of the game table.
 
-If you change your mycustomstyle.xml there is no need to re-add it in the settings or to restart PokerTH. The simplest way is
-just to open the settings dialog and close it immediately. This will refresh the game table style and display your changes.
+If you change your mycustomstyle.xml there is no need to re-add it in
+the settings or to restart PokerTH. The simplest way is just to open 
+the settings dialog and close it immediately. This will refresh the 
+game table style and display your changes.
 
 
 +++++++++++++++++++++++++
@@ -37,49 +55,81 @@ just to open the settings dialog and close it immediately. This will refresh the
 
 2.1 Start building a card deck
 --------------------------------
-Setting up a card deck is not as complex as the game table. The xml file is only used for StyleDescription, StyleMaintainerEMail and Preview.
-In the file data/gfx/cards/default/defaultdeckstyle.xml you will find all required information to set these values.
+Setting up a card deck is not as complex as the game table. The xml
+file is only used for StyleDescription, StyleMaintainerEMail and Preview.
+In the file data/gfx/cards/default/defaultdeckstyle.xml you will find 
+all required information to set these values.
 
-Maybe you would like to play around with the default card deck. To do this, you should copy the whole data/gfx/cards/default/
-directory to another place. In order to avoid confusing "card deck styles" please first change the description
-<StyleDescription value="PokerTH default card deck" /> to e.g. <StyleDescription value="my custom card deck" />.
-It is also recommended to rename the defaultdeckstyle.xml to e.g. mycustomcardstyle.xml and the directory name "default" to "mycustomdeck"
-or something similar. Now you can start changing/editing gfx files.
+Maybe you would like to play around with the default card deck. 
+To do this, you should copy the whole data/gfx/cards/default/
+directory to another place. In order to avoid confusing 
+"card deck styles" please first change the description:
+<StyleDescription value="PokerTH default card deck" /> --> (e.g.) 
+<StyleDescription value="my custom card deck" />.
 
-If you take a look at all files from 0.png to 51.png you will see which card value belongs to which number. 
-It is VERY IMPORTANT to leave the filenames untouched. PokerTH will always take 0.png for "diamond 2", 51.png for "club ace" and 
-24.png for "heart king" for example. Also a flipside image called "flipside.png" has to be in the card deck directory.
+It is also recommended to rename the file:
+"defaultdeckstyle.xml" --> (e.g.) "mycustomcardstyle.xml" 
 
-The SIZE for all cards should be 48x76 pixel. If the size of an imgage does not fit into 48x76 pixel, PokerTH will scale it automatically. 
-But this picture scaling might cause speed issues for example when drawing animations. 
+and the directory name: 
+
+"default" --> (e.g.) "mycustomdeck". 
+
+Now you can start changing/editing gfx files.
+
+If you take a look at all files from 0.png to 51.png you will see 
+which card value belongs to which number. It is VERY IMPORTANT to 
+leave the filenames untouched. PokerTH will always take 0.png for 
+"diamond 2", 51.png for "club ace" and 24.png for "heart king" for 
+example. Also a flipside image called "flipside.png" has to be in the 
+card deck directory.
+
+The SIZE for all cards should be 48x76 pixel. If the size of an 
+imgage does not fit into 48x76 pixel, PokerTH will scale it 
+automatically. But this picture scaling might cause speed issues for 
+example when drawing animations. 
 
 
 2.2 Testing your deck
 --------------------------------
-In order to test your deck simply load it into PokerTH using "Settings" -> "Style" -> "Card Deck Styles" --> "Add ...".
-After you have selected your file the value of "StyleDescription" is shown in the list. Select the corresponding entry and
-click "Activate". Closing the Settings dialog will refresh the style of the card deck.
+In order to test your deck simply load it into PokerTH using 
+"Settings" -> "Style" -> "Card Deck Styles" --> "Add ...".
+After you have selected your file the value of "StyleDescription" is 
+shown in the list. Select the corresponding entry and click "Activate". 
+Closing the Settings dialog will refresh the style of the card deck.
 
-If you change your mycustomcardstyle.xml there is no need to re-add it in the settings or restart PokerTH. The simplest way is just
-to open the settings dialog and close it immediately. This will refresh the card deck style and display your changes.
+If you change your mycustomcardstyle.xml there is no need to re-add 
+it in the settings or restart PokerTH. The simplest way is just to 
+open the settings dialog and close it immediately. This will refresh 
+the card deck style and display your changes.
 
 
 +++++++++++++++++++++++++
 3. Distributing Styles
 +++++++++++++++++++++++++
 
-Once your game table or card deck style is finished you should complete the style information StyleDescription, StyleMaintainerEMail and Preview.
-The best way for game table preview will be a screenshot of the game table style running in PokerTH. For card deck style maybe you like to create 
-a picture like data/gfx/cards/default/preview.png
+Once your game table or card deck style is finished you should 
+complete the style information StyleDescription, 
+StyleMaintainerEMail and Preview. The best way for game table preview 
+will be a screenshot of the game table style running in PokerTH. For 
+card deck style maybe you like to create a picture like 
+data/gfx/cards/default/preview.png
 
-If you style is ready to be shipped please pack the whole directory into a zip archive. If you like your style to be added into
-skin gallery on http://www.pokerth.net please send a link to the address where you are hosting your archive to webmaster@pokerth.net
-We cannot promise that every style will be added, but if everything works fine and the legal issues are also clear there should be no problem.
-Please read PokerTH GUI skinning legal notices (http://www.pokerth.net/content/view/55) carefully if you like to have a link to your style
-archive from http://www.pokerth.net.
+If you style is ready to be shipped please pack the whole directory 
+into a zip archive. 
+
+If you like your style to be added into skin gallery on 
+http://www.pokerth.net please send a link to the address where you 
+are hosting your archive to webmaster@pokerth.net. We cannot promise 
+that every style will be added, but if everything works fine and the 
+legal issues are also clear there should be no problem. 
+
+Please read PokerTH GUI skinning legal notices 
+(http://www.pokerth.net/content/view/55) carefully if you like to 
+have a link to your style archive from http://www.pokerth.net.
 
 
-And now ... have a lot of fun when building a lot of stylish PokerTH skins ;-)
+And now ... have a lot of fun when building a lot of 
+stylish PokerTH skins ;-)
 
 
 2009 by Felix Hammer 
