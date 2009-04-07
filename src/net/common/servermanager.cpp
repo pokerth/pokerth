@@ -110,6 +110,22 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 						m_ircThread->SendChatMessage(nickName + ": Player \"" + playerName + "\" was not found on the server.");
 				}
 			}
+			else if (command == "ban")
+			{
+				while (msgStream.peek() == ' ')
+					msgStream.get();
+				string playerRegex(msgStream.str().substr(msgStream.tellg()));
+				if (!playerRegex.empty())
+				{
+					GetLobbyThread().BanPlayerRegex(playerRegex);
+					m_ircThread->SendChatMessage(nickName + ": The regex \"" + playerRegex + "\" was added to the player ban list.");
+				}
+			}
+			else if (command == "clearban")
+			{
+				GetLobbyThread().ClearBanList();
+				m_ircThread->SendChatMessage(nickName + ": The player ban list was cleared.");
+			}
 			else if (command == "stat")
 			{
 				ServerStats tmpStats = GetLobbyThread().GetStats();
