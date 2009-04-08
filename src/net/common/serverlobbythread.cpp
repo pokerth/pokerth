@@ -1393,6 +1393,8 @@ ServerLobbyThread::IsPlayerBanned(const std::string &name) const
 		}
 		++i;
 	}
+
+	return retVal;
 }
 
 boost::shared_ptr<NetPacket>
