@@ -381,11 +381,12 @@ unix : !mac {
 
         UNAME = $$system(uname -s)
         BSD = $$find(UNAME, "BSD")
-
+	kFreeBSD = $$find(UNAME, "kFreeBSD")
+	
         LIBS += -lpokerth_lib
         LIBS += $$BOOST_LIBS
         LIBS += -lSDL_mixer -lcurl
-        !isEmpty( BSD ){
+        !isEmpty( BSD ) && isEmpty( kFreeBSD ){
             LIBS += -lcrypto
         }        else {
             LIBS += -lgnutls-openssl -lgcrypt
