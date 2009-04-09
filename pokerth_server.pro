@@ -173,6 +173,7 @@ unix : !mac {
         BOOST_THREAD = boost_thread boost_thread-mt
         BOOST_PROGRAM_OPTIONS = boost_program_options boost_program_options-mt
         BOOST_IOSTREAMS = boost_iostreams boost_iostreams-mt
+	BOOST_REGEX = boost_regex boost_regex-mt
 
         #
         # searching in $PREFIX/lib and $PREFIX/lib64
@@ -205,10 +206,16 @@ unix : !mac {
                         BOOST_IOSTREAMS = -l$$lib
                     }
                 }
+		for(lib, BOOST_REGEX){
+                    exists($${dir}/lib$${lib}.so*){
+                        message("Found $$lib")
+                        BOOST_REGEX = -l$$lib
+                    }
+                }
             }
         }
-        BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS $$BOOST_IOSTREAMS
-        !count(BOOST_LIBS, 4){
+        BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS $$BOOST_IOSTREAMS $$BOOST_REGEX
+        !count(BOOST_LIBS, 5){
             error("Unable to find boost libraries in PREFIX=$${PREFIX}")
         }
 
