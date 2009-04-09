@@ -1285,10 +1285,6 @@ void gameTableImpl::provideMyActions(int mode) {
 	Game *currentGame = myStartWindow->getSession()->getCurrentGame();
 	HandInterface *currentHand = currentGame->getCurrentHand();
 
-// 	cout << "provideMyActions get myAction" << currentHand->getSeatsList()->front()->getMyAction() << endl;
-// 	cout << "provideMyActions get mySet" << currentGame->getSeatsList()->front()->getMySet() << endl;
-// 	cout << "provideMyActions get HighestSet" << currentHand->getCurrentBeRo()->getHighestSet() << endl;
-
 	//really disabled buttons if human player is fold/all-in or ... and not called from dealberocards
 	if(/*pushButton_BetRaise->isCheckable() && */mode != 0 && (currentHand->getSeatsList()->front()->getMyAction() == PLAYER_ACTION_ALLIN || currentHand->getSeatsList()->front()->getMyAction() == PLAYER_ACTION_FOLD || (currentGame->getSeatsList()->front()->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (currentGame->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_NONE)))) {
 	
@@ -1408,9 +1404,9 @@ void gameTableImpl::provideMyActions(int mode) {
 
 		
 		//if value changed on bet/raise button --> uncheck to prevent unwanted actions
-		QString lastBetValueString = lastPushButtonBetRaiseString.section(" ",1 ,1);
+		QString lastBetValueString = lastPushButtonBetRaiseString;
 		int index = lastBetValueString.indexOf("$");
-		lastBetValueString.remove(index,1);
+		lastBetValueString.remove(0, index+1);
 		bool ok;
 		int lastBetValue = lastBetValueString.toInt(&ok,10);
 		
@@ -1582,9 +1578,9 @@ int gameTableImpl::getMyCallAmount() {
 
 int gameTableImpl::getBetRaisePushButtonValue() {
 
-	QString betValueString = pushButton_BetRaise->text().section(" ",1 ,1);
+	QString betValueString = pushButton_BetRaise->text();
 	int index = betValueString.indexOf("$");
-	betValueString.remove(index,1);
+	betValueString.remove(0, index+1);
 	bool ok;
 	int betValue = betValueString.toInt(&ok,10);
 	
@@ -3161,16 +3157,16 @@ void gameTableImpl::refreshActionButtonFKeyIndicator(bool clear)
 	}
 	else {
 		if(myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0 ){
-			pushButton_AllIn->setFKeyText("F4");
-			pushButton_BetRaise->setFKeyText("F3");
-			pushButton_CallCheck->setFKeyText("F2");
-			pushButton_Fold->setFKeyText("F1");
+			if(!pushButton_AllIn->text().isEmpty()) pushButton_AllIn->setFKeyText("F4");
+			if(!pushButton_BetRaise->text().isEmpty()) pushButton_BetRaise->setFKeyText("F3");
+			if(!pushButton_CallCheck->text().isEmpty()) pushButton_CallCheck->setFKeyText("F2");
+			if(!pushButton_Fold->text().isEmpty()) pushButton_Fold->setFKeyText("F1");
 		}
 		else {
-			pushButton_AllIn->setFKeyText("F1");
-			pushButton_BetRaise->setFKeyText("F2");
-			pushButton_CallCheck->setFKeyText("F3");
-			pushButton_Fold->setFKeyText("F4");
+			if(!pushButton_AllIn->text().isEmpty()) pushButton_AllIn->setFKeyText("F1");
+			if(!pushButton_BetRaise->text().isEmpty()) pushButton_BetRaise->setFKeyText("F2");
+			if(!pushButton_CallCheck->text().isEmpty()) pushButton_CallCheck->setFKeyText("F3");
+			if(!pushButton_Fold->text().isEmpty()) pushButton_Fold->setFKeyText("F4");
 		}
 	}
 }

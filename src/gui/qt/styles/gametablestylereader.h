@@ -112,6 +112,7 @@ private:
 // 	INFOS
 	QString StyleDescription;
 	QString StyleMaintainerEMail;
+	QString PokerTHStyleFileVersion;
 // 	WINDOWS SETTINGS
 	QString IfFixedWindowSize;
 	QString FixedWindowWidth;

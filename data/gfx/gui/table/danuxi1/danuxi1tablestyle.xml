@@ -3,6 +3,7 @@
   <TableStyle>
      <StyleDescription value="danuxi table design (1024x600 fixed)" />  <!-- This string will be shown in settings/game table style list -->
      <StyleMaintainerEMail value="webmaster@pokerth.net" /> <!-- This string will be shown in error message if there is a problem with the style -->
+     <PokerTHStyleFileVersion value="1" />
      <Preview value="preview.png" />
      <IfFixedWindowSize value="1" /> <!-- value [1,0] 1 = fixed window size, 0 = resizeable window -->
      <FixedWindowWidth value="1024" />

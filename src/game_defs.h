@@ -35,6 +35,8 @@
 #define POKERTH_BETA_REVISION	0
 #define POKERTH_BETA_RELEASE_STRING	"0.7-beta1"
 
+#define PokerTH_STYLE_FILE_VERSION	1
+
 enum ServerNetworkMode {
 	NETWORK_MODE_TCP = 1,
 	NETWORK_MODE_SCTP = 2,

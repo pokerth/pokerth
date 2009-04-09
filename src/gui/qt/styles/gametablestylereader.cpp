@@ -107,6 +107,7 @@ void GameTableStyleReader::readStyleFile(QString file) {
 // 				INFOS
 				if(itemsList->ValueStr() == "StyleDescription") { StyleDescription = QString::fromUtf8(tempString1.c_str()); }
 				else if(itemsList->ValueStr() == "StyleMaintainerEMail") { StyleMaintainerEMail = QString::fromUtf8(tempString1.c_str()); }
+				else if(itemsList->ValueStr() == "PokerTHStyleFileVersion") { PokerTHStyleFileVersion = QString::fromUtf8(tempString1.c_str()); }
 // 				WINDOWS SETTINGS
 				else if (itemsList->ValueStr() == "IfFixedWindowSize") { IfFixedWindowSize = QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "FixedWindowWidth") { FixedWindowWidth = QString::fromUtf8(tempString1.c_str()); }
@@ -233,6 +234,7 @@ void GameTableStyleReader::readStyleFile(QString file) {
 
 // 		INFOS
 		if(StyleDescription == "") { leftItems << "StyleDescription"; }
+		if(PokerTHStyleFileVersion == "") { leftItems << "PokerTHStyleFileVersion"; }
 // 		WINDOWS SETTINGS
 		if(IfFixedWindowSize == "") { leftItems << "IfFixedWindowSize"; }
 		if(FixedWindowWidth == "") { leftItems << "FixedWindowWidth"; }
@@ -433,8 +435,16 @@ void GameTableStyleReader::readStyleFile(QString file) {
 			
 		//if one or more items are left show detailed error message
 		if(!leftItems.isEmpty() && myW != 0) showLeftItemsErrorMessage(StyleDescription, leftItems, StyleMaintainerEMail);
-		//if one or more pictures where not found show detailed error message
-		if(!itemPicsLeft.isEmpty() && myW != 0) showItemPicsLeftErrorMessage(StyleDescription, itemPicsLeft, StyleMaintainerEMail);
+		else {
+			//if one or more pictures where not found show detailed error message
+			if(!itemPicsLeft.isEmpty() && myW != 0) showItemPicsLeftErrorMessage(StyleDescription, itemPicsLeft, StyleMaintainerEMail);
+			//check for style file version
+			if(!PokerTHStyleFileVersion.isEmpty() && PokerTHStyleFileVersion.toInt() != PokerTH_STYLE_FILE_VERSION) {
+				QMessageBox::warning(myW, tr("Game Table Style Error"),
+					tr("Selected game table style \"%1\" seems to be outdated. \n The current PokerTH game table style version is \"%2\", but this style has version \"%3\" set. \n\nPlease contact the game table style builder %4.").arg(StyleDescription).arg(PokerTH_STYLE_FILE_VERSION).arg(PokerTHStyleFileVersion).arg(StyleMaintainerEMail),
+					QMessageBox::Ok);
+			}
+		}
 	}	
 	else {	qDebug() << "could not load game table style file: " << tinyFileName.c_str(); }
 }
@@ -444,7 +454,7 @@ void GameTableStyleReader::showLeftItemsErrorMessage(QString style, QStringList 
 	QString items = failedItems.join(", ");
 
 	QMessageBox::warning(myW, tr("Game Table Style Error"),
-                                tr("Current game table style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are left. \n\nPlease contact the game table style builder %3.").arg(style).arg(items).arg(email),
+                                tr("Selected game table style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are left. \n\nPlease contact the game table style builder %3.").arg(style).arg(items).arg(email),
                                 QMessageBox::Ok);
 }
 
