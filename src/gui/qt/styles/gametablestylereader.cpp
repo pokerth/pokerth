@@ -117,13 +117,13 @@ void GameTableStyleReader::readStyleFile(QString file) {
 				else if (itemsList->ValueStr() == "MaximumWindowHeight") { MaximumWindowHeight = QString::fromUtf8(tempString1.c_str()); }
 // 				PICS
 				else if (itemsList->ValueStr() == "Preview") { Preview = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ActionAllIn") { ActionAllIn = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ActionRaise") { ActionRaise = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ActionBet") { ActionBet = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ActionCall") { ActionCall = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ActionCheck") { ActionCheck = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ActionFold") { ActionFold = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ActionWinner") { ActionWinner = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionAllInI18N") { ActionAllInI18N = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionRaiseI18N") { ActionRaiseI18N = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionBetI18N") { ActionBetI18N = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionCallI18N") { ActionCallI18N = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionCheckI18N") { ActionCheckI18N = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionFoldI18N") { ActionFoldI18N = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionWinnerI18N") { ActionWinnerI18N = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "BigBlindPuck") { BigBlindPuck = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "SmallBlindPuck") { SmallBlindPuck = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "DealerPuck") { DealerPuck = currentDir+QString::fromUtf8(tempString1.c_str()); }
@@ -217,128 +217,146 @@ void GameTableStyleReader::readStyleFile(QString file) {
 // 				std::cout << "ÖLP" << itemsList->ValueStr() <<"§4s"<< itemsList->ValueStr()<<"§89"<< endl;
 			}
 		}
-		wrongItems.clear();
+
+		//check if style items are left and if pictures where not found and show warning
+		leftItems.clear();
+		itemPicsLeft.clear();
 
 // 		INFOS
-		if(StyleDescription == "") { wrongItems << "StyleDescription"; }
+		if(StyleDescription == "") { leftItems << "StyleDescription"; }
 // 		WINDOWS SETTINGS
-		if(IfFixedWindowSize == "") { wrongItems << "IfFixedWindowSize"; }
-		if(FixedWindowWidth == "") { wrongItems << "FixedWindowWidth"; }
-		if(FixedWindowHeight == "") { wrongItems << "FixedWindowHeight"; }
-		if(MinimumWindowWidth == "") { wrongItems << "MinimumWindowWidth"; }
-		if(MinimumWindowHeight == "") { wrongItems << "MinimumWindowHeight"; }
-		if(MaximumWindowWidth == "") { wrongItems << "MaximumWindowWidth"; }
-		if(MaximumWindowHeight == "") { wrongItems << "MaximumWindowHeight"; }
+		if(IfFixedWindowSize == "") { leftItems << "IfFixedWindowSize"; }
+		if(FixedWindowWidth == "") { leftItems << "FixedWindowWidth"; }
+		if(FixedWindowHeight == "") { leftItems << "FixedWindowHeight"; }
+		if(MinimumWindowWidth == "") { leftItems << "MinimumWindowWidth"; }
+		if(MinimumWindowHeight == "") { leftItems << "MinimumWindowHeight"; }
+		if(MaximumWindowWidth == "") { leftItems << "MaximumWindowWidth"; }
+		if(MaximumWindowHeight == "") { leftItems << "MaximumWindowHeight"; }
 // 		PICS
-		if(ActionAllIn == "") { wrongItems << "ActionAllIn"; }
-		if(ActionRaise == "") { wrongItems << "ActionRaise"; }
-		if(ActionBet == "") { wrongItems << "ActionBet"; }
-		if(ActionCall == "") { wrongItems << "ActionCall"; }
-		if(ActionCheck == "") { wrongItems << "ActionCheck"; }
-		if(ActionFold == "") { wrongItems << "ActionFold"; }
-		if(ActionWinner == "") { wrongItems << "ActionWinner"; }
-		if(BigBlindPuck == "") { wrongItems << "BigBlindPuck"; }
-		if(SmallBlindPuck == "") { wrongItems << "SmallBlindPuck"; }
-		if(DealerPuck == "") { wrongItems << "DealerPuck"; }
-		if(DefaultAvatar == "") { wrongItems << "DefaultAvatar"; }
-		if(CardHolderFlop == "") { wrongItems << "CardHolderFlop"; }
-		if(CardHolderTurn == "") { wrongItems << "CardHolderTurn"; }
-		if(CardHolderRiver == "") { wrongItems << "CardHolderRiver"; }
-		if(FoldButtonDefault == "") { wrongItems << "FoldButtonDefault"; }
-		if(FoldButtonHover == "") { wrongItems << "FoldButtonHover"; }
-		if(FoldButtonChecked == "") { wrongItems << "FoldButtonChecked"; }
-		if(FoldButtonCheckedHover == "") { wrongItems << "FoldButtonCheckedHover"; }
-		if(CheckCallButtonDefault == "") { wrongItems << "CheckCallButtonDefault"; }
-		if(CheckCallButtonHover == "") { wrongItems << "CheckCallButtonHover"; }
-		if(CheckCallButtonChecked == "") { wrongItems << "CheckCallButtonChecked"; }
-		if(CheckCallButtonCheckedHover == "") { wrongItems << "CheckCallButtonCheckedHover"; }
-		if(BetRaiseButtonDefault == "") { wrongItems << "BetRaiseButtonDefault"; }
-		if(BetRaiseButtonHover == "") { wrongItems << "BetRaiseButtonHover"; }
-		if(BetRaiseButtonChecked == "") { wrongItems << "BetRaiseButtonChecked"; }
-		if(BetRaiseButtonCheckedHover == "") { wrongItems << "BetRaiseButtonCheckedHover"; }
-		if(AllInButtonDefault == "") { wrongItems << "AllInButtonDefault"; }
-		if(AllInButtonHover == "") { wrongItems << "AllInButtonHover"; }
-		if(AllInButtonChecked == "") { wrongItems << "AllInButtonChecked"; }
-		if(AllInButtonCheckedHover == "") { wrongItems << "AllInButtonCheckedHover"; }
-		if(RadioButtonPressed == "") { wrongItems << "RadioButtonPressed"; }
-		if(RadioButtonChecked == "") { wrongItems << "RadioButtonChecked"; }
-		if(RadioButtonCheckedHover == "") { wrongItems << "RadioButtonCheckedHover"; }
-		if(RadioButtonUnchecked == "") { wrongItems << "RadioButtonUnchecked"; }
-		if(RadioButtonUncheckedHover == "") { wrongItems << "RadioButtonUncheckedHover"; }
-		if(PlayerTopSeatActive == "") { wrongItems << "PlayerTopSeatActive"; }
-		if(PlayerTopSeatInactive == "") { wrongItems << "PlayerTopSeatInactive"; }
-		if(PlayerBottomSeatActive == "") { wrongItems << "PlayerBottomSeatActive"; }
-		if(PlayerBottomSeatInactive == "") { wrongItems << "PlayerBottomSeatInactive"; }
-		if(Table == "") { wrongItems << "Table"; }
-		if(HandRanking == "") { wrongItems << "HandRanking"; }
-		if(ToolBoxBackground == "") { wrongItems << "ToolBoxBackground"; }
+		if(ActionAllInI18N == "") { leftItems << "ActionAllInI18N"; }
+		else if(ActionAllInI18N != QString(currentDir+"NULL") && !QFile(ActionAllInI18N).exists()) { itemPicsLeft << "ActionAllInI18N = "+ActionAllInI18N; }
+		if(ActionRaiseI18N == "") { leftItems << "ActionRaiseI18N"; }
+		else if(ActionRaiseI18N != QString(currentDir+"NULL") && !QFile(ActionRaiseI18N).exists()) { itemPicsLeft << "ActionRaiseI18N = "+ActionRaiseI18N; }
+		if(ActionBetI18N == "") { leftItems << "ActionBetI18N"; }
+		else if(ActionBetI18N != QString(currentDir+"NULL") && !QFile(ActionBetI18N).exists()) { itemPicsLeft << "ActionBetI18N = "+ActionBetI18N; }
+		if(ActionCallI18N == "") { leftItems << "ActionCallI18N"; }
+		else if(ActionCallI18N != QString(currentDir+"NULL") && !QFile(ActionCallI18N).exists()) { itemPicsLeft << "ActionCallI18N = "+ActionCallI18N; }
+		if(ActionCheckI18N == "") { leftItems << "ActionCheckI18N"; }
+		if(ActionFoldI18N == "") { leftItems << "ActionFoldI18N"; }
+		if(ActionWinnerI18N == "") { leftItems << "ActionWinnerI18N"; }
+		if(BigBlindPuck == "") { leftItems << "BigBlindPuck"; }
+		if(SmallBlindPuck == "") { leftItems << "SmallBlindPuck"; }
+		if(DealerPuck == "") { leftItems << "DealerPuck"; }
+		if(DefaultAvatar == "") { leftItems << "DefaultAvatar"; }
+		if(CardHolderFlop == "") { leftItems << "CardHolderFlop"; }
+		if(CardHolderTurn == "") { leftItems << "CardHolderTurn"; }
+		if(CardHolderRiver == "") { leftItems << "CardHolderRiver"; }
+		if(FoldButtonDefault == "") { leftItems << "FoldButtonDefault"; }
+		if(FoldButtonHover == "") { leftItems << "FoldButtonHover"; }
+		if(FoldButtonChecked == "") { leftItems << "FoldButtonChecked"; }
+		if(FoldButtonCheckedHover == "") { leftItems << "FoldButtonCheckedHover"; }
+		if(CheckCallButtonDefault == "") { leftItems << "CheckCallButtonDefault"; }
+		if(CheckCallButtonHover == "") { leftItems << "CheckCallButtonHover"; }
+		if(CheckCallButtonChecked == "") { leftItems << "CheckCallButtonChecked"; }
+		if(CheckCallButtonCheckedHover == "") { leftItems << "CheckCallButtonCheckedHover"; }
+		if(BetRaiseButtonDefault == "") { leftItems << "BetRaiseButtonDefault"; }
+		if(BetRaiseButtonHover == "") { leftItems << "BetRaiseButtonHover"; }
+		if(BetRaiseButtonChecked == "") { leftItems << "BetRaiseButtonChecked"; }
+		if(BetRaiseButtonCheckedHover == "") { leftItems << "BetRaiseButtonCheckedHover"; }
+		if(AllInButtonDefault == "") { leftItems << "AllInButtonDefault"; }
+		if(AllInButtonHover == "") { leftItems << "AllInButtonHover"; }
+		if(AllInButtonChecked == "") { leftItems << "AllInButtonChecked"; }
+		if(AllInButtonCheckedHover == "") { leftItems << "AllInButtonCheckedHover"; }
+		if(RadioButtonPressed == "") { leftItems << "RadioButtonPressed"; }
+		if(RadioButtonChecked == "") { leftItems << "RadioButtonChecked"; }
+		if(RadioButtonCheckedHover == "") { leftItems << "RadioButtonCheckedHover"; }
+		if(RadioButtonUnchecked == "") { leftItems << "RadioButtonUnchecked"; }
+		if(RadioButtonUncheckedHover == "") { leftItems << "RadioButtonUncheckedHover"; }
+		if(PlayerTopSeatActive == "") { leftItems << "PlayerTopSeatActive"; }
+		if(PlayerTopSeatInactive == "") { leftItems << "PlayerTopSeatInactive"; }
+		if(PlayerBottomSeatActive == "") { leftItems << "PlayerBottomSeatActive"; }
+		if(PlayerBottomSeatInactive == "") { leftItems << "PlayerBottomSeatInactive"; }
+		if(Table == "") { leftItems << "Table"; }
+		if(HandRanking == "") { leftItems << "HandRanking"; }
+		if(ToolBoxBackground == "") { leftItems << "ToolBoxBackground"; }
 // 		COLORS
-		if(FKeyIndicatorColor == "") { wrongItems << "FKeyIndicatorColor"; }
-		if(ChanceLabelPossibleColor == "") { wrongItems << "ChanceLabelPossibleColor"; }
-		if(ChanceLabelImpossibleColor == "") { wrongItems << "ChanceLabelImpossibleColor"; }
-		if(ChatLogTextColor == "") { wrongItems << "ChatLogTextColor"; }
-		if(ChatTextNickNotifyColor == "") { wrongItems << "ChatTextNickNotifyColor"; }
-		if(ChatLogBgColor == "") { wrongItems << "ChatLogBgColor"; }
-		if(ChatLogScrollBarBorderColor == "") { wrongItems << "ChatLogScrollBarBorderColor"; }
-		if(ChatLogScrollBarBgColor == "") { wrongItems << "ChatLogScrollBarBgColor"; }
-		if(ChatLogScrollBarHandleBorderColor == "") { wrongItems << "ChatLogScrollBarHandleBorderColor"; }
-		if(ChatLogScrollBarHandleBgColor == "") { wrongItems << "ChatLogScrollBarHandleBgColor"; }
-		if(ChatLogScrollBarArrowBorderColor == "") { wrongItems << "ChatLogScrollBarArrowBorderColor"; }
-		if(ChatLogScrollBarArrowBgColor == "") { wrongItems << "ChatLogScrollBarArrowBgColor"; }
-		if(LogWinnerMainPotColor == "") { wrongItems << "LogWinnerMainPotColor"; }
-		if(LogWinnerSidePotColor == "") { wrongItems << "LogWinnerSidePotColor"; }
-		if(LogPlayerSitsOutColor == "") { wrongItems << "LogPlayerSitsOutColor"; }
-		if(LogNewGameAdminColor == "") { wrongItems << "LogNewGameAdminColor"; }
-		if(TabWidgetBorderColor == "") { wrongItems << "TabWidgetBorderColor"; }
-		if(TabWidgetBgColor == "") { wrongItems << "TabWidgetBgColor"; }
-		if(TabWidgetTextColor == "") { wrongItems << "TabWidgetTextColor"; }
-		if(MenuBgColor == "") { wrongItems << "MenuBgColor"; }
-		if(MenuTextColor == "") { wrongItems << "MenuTextColor"; }
-		if(BreakLobbyButtonBgColor == "") { wrongItems << "BreakLobbyButtonBgColor"; }
-		if(BreakLobbyButtonTextColor == "") { wrongItems << "BreakLobbyButtonTextColor"; }
-		if(BreakLobbyButtonBgDisabledColor == "") { wrongItems << "BreakLobbyButtonBgDisabledColor"; }
-		if(BreakLobbyButtonTextDisabledColor == "") { wrongItems << "BreakLobbyButtonTextDisabledColor"; }
-		if(BreakLobbyButtonBgBlinkColor == "") { wrongItems << "BreakLobbyButtonBgBlinkColor"; }
-		if(BreakLobbyButtonTextBlinkColor == "") { wrongItems << "BreakLobbyButtonTextBlinkColor"; }
-		if(PlayerCashTextColor == "") { wrongItems << "PlayerCashTextColor"; }
-		if(PlayerBetTextColor == "") { wrongItems << "PlayerBetTextColor"; }
-		if(PlayerNickTextColor == "") { wrongItems << "PlayerNickTextColor"; }
-		if(BoardBigTextColor == "") { wrongItems << "BoardBigTextColor"; }
-		if(BoardSmallTextColor == "") { wrongItems << "BoardSmallTextColor"; }
-		if(SpeedTextColor == "") { wrongItems << "SpeedTextColor"; }
-		if(VoteButtonBgColor == "") { wrongItems << "VoteButtonBgColor"; }
-		if(VoteButtonTextColor == "") { wrongItems << "VoteButtonTextColor"; }
-		if(BetInputTextColor == "") { wrongItems << "BetInputTextColor"; }
-		if(BetInputBgColor == "") { wrongItems << "BetInputBgColor"; }
-		if(BetInputDisabledTextColor == "") { wrongItems << "BetInputDisabledTextColor"; }
-		if(BetInputDisabledBgColor == "") { wrongItems << "BetInputDisabledBgColor"; }
-		if(FoldButtonTextColor == "") { wrongItems << "FoldButtonTextColor"; }
-		if(FoldButtonCheckableTextColor == "") { wrongItems << "FoldButtonCheckableTextColor"; }
-		if(CheckCallButtonTextColor == "") { wrongItems << "CheckCallButtonTextColor"; }
-		if(CheckCallButtonCheckableTextColor == "") { wrongItems << "CheckCallButtonCheckableTextColor"; }
-		if(BetRaiseButtonTextColor == "") { wrongItems << "BetRaiseButtonTextColor"; }
-		if(BetRaiseButtonCheckableTextColor == "") { wrongItems << "BetRaiseButtonCheckableTextColor"; }
-		if(AllInButtonTextColor == "") { wrongItems << "AllInButtonTextColor"; }
-		if(AllInButtonCheckableTextColor == "") { wrongItems << "AllInButtonCheckableTextColor"; }
-		if(BetSpeedSliderGrooveBgColor == "") { wrongItems << "BetSpeedSliderGrooveBgColor"; }
-		if(BetSpeedSliderGrooveBorderColor == "") { wrongItems << "BetSpeedSliderGrooveBorderColor"; }
-		if(BetSpeedSliderHandleBgColor == "") { wrongItems << "BetSpeedSliderHandleBgColor"; }
-		if(BetSpeedSliderHandleBorderColor == "") { wrongItems << "BetSpeedSliderHandleBorderColor"; }
+		if(FKeyIndicatorColor == "") { leftItems << "FKeyIndicatorColor"; }
+		if(ChanceLabelPossibleColor == "") { leftItems << "ChanceLabelPossibleColor"; }
+		if(ChanceLabelImpossibleColor == "") { leftItems << "ChanceLabelImpossibleColor"; }
+		if(ChatLogTextColor == "") { leftItems << "ChatLogTextColor"; }
+		if(ChatTextNickNotifyColor == "") { leftItems << "ChatTextNickNotifyColor"; }
+		if(ChatLogBgColor == "") { leftItems << "ChatLogBgColor"; }
+		if(ChatLogScrollBarBorderColor == "") { leftItems << "ChatLogScrollBarBorderColor"; }
+		if(ChatLogScrollBarBgColor == "") { leftItems << "ChatLogScrollBarBgColor"; }
+		if(ChatLogScrollBarHandleBorderColor == "") { leftItems << "ChatLogScrollBarHandleBorderColor"; }
+		if(ChatLogScrollBarHandleBgColor == "") { leftItems << "ChatLogScrollBarHandleBgColor"; }
+		if(ChatLogScrollBarArrowBorderColor == "") { leftItems << "ChatLogScrollBarArrowBorderColor"; }
+		if(ChatLogScrollBarArrowBgColor == "") { leftItems << "ChatLogScrollBarArrowBgColor"; }
+		if(LogWinnerMainPotColor == "") { leftItems << "LogWinnerMainPotColor"; }
+		if(LogWinnerSidePotColor == "") { leftItems << "LogWinnerSidePotColor"; }
+		if(LogPlayerSitsOutColor == "") { leftItems << "LogPlayerSitsOutColor"; }
+		if(LogNewGameAdminColor == "") { leftItems << "LogNewGameAdminColor"; }
+		if(TabWidgetBorderColor == "") { leftItems << "TabWidgetBorderColor"; }
+		if(TabWidgetBgColor == "") { leftItems << "TabWidgetBgColor"; }
+		if(TabWidgetTextColor == "") { leftItems << "TabWidgetTextColor"; }
+		if(MenuBgColor == "") { leftItems << "MenuBgColor"; }
+		if(MenuTextColor == "") { leftItems << "MenuTextColor"; }
+		if(BreakLobbyButtonBgColor == "") { leftItems << "BreakLobbyButtonBgColor"; }
+		if(BreakLobbyButtonTextColor == "") { leftItems << "BreakLobbyButtonTextColor"; }
+		if(BreakLobbyButtonBgDisabledColor == "") { leftItems << "BreakLobbyButtonBgDisabledColor"; }
+		if(BreakLobbyButtonTextDisabledColor == "") { leftItems << "BreakLobbyButtonTextDisabledColor"; }
+		if(BreakLobbyButtonBgBlinkColor == "") { leftItems << "BreakLobbyButtonBgBlinkColor"; }
+		if(BreakLobbyButtonTextBlinkColor == "") { leftItems << "BreakLobbyButtonTextBlinkColor"; }
+		if(PlayerCashTextColor == "") { leftItems << "PlayerCashTextColor"; }
+		if(PlayerBetTextColor == "") { leftItems << "PlayerBetTextColor"; }
+		if(PlayerNickTextColor == "") { leftItems << "PlayerNickTextColor"; }
+		if(BoardBigTextColor == "") { leftItems << "BoardBigTextColor"; }
+		if(BoardSmallTextColor == "") { leftItems << "BoardSmallTextColor"; }
+		if(SpeedTextColor == "") { leftItems << "SpeedTextColor"; }
+		if(VoteButtonBgColor == "") { leftItems << "VoteButtonBgColor"; }
+		if(VoteButtonTextColor == "") { leftItems << "VoteButtonTextColor"; }
+		if(BetInputTextColor == "") { leftItems << "BetInputTextColor"; }
+		if(BetInputBgColor == "") { leftItems << "BetInputBgColor"; }
+		if(BetInputDisabledTextColor == "") { leftItems << "BetInputDisabledTextColor"; }
+		if(BetInputDisabledBgColor == "") { leftItems << "BetInputDisabledBgColor"; }
+		if(FoldButtonTextColor == "") { leftItems << "FoldButtonTextColor"; }
+		if(FoldButtonCheckableTextColor == "") { leftItems << "FoldButtonCheckableTextColor"; }
+		if(CheckCallButtonTextColor == "") { leftItems << "CheckCallButtonTextColor"; }
+		if(CheckCallButtonCheckableTextColor == "") { leftItems << "CheckCallButtonCheckableTextColor"; }
+		if(BetRaiseButtonTextColor == "") { leftItems << "BetRaiseButtonTextColor"; }
+		if(BetRaiseButtonCheckableTextColor == "") { leftItems << "BetRaiseButtonCheckableTextColor"; }
+		if(AllInButtonTextColor == "") { leftItems << "AllInButtonTextColor"; }
+		if(AllInButtonCheckableTextColor == "") { leftItems << "AllInButtonCheckableTextColor"; }
+		if(BetSpeedSliderGrooveBgColor == "") { leftItems << "BetSpeedSliderGrooveBgColor"; }
+		if(BetSpeedSliderGrooveBorderColor == "") { leftItems << "BetSpeedSliderGrooveBorderColor"; }
+		if(BetSpeedSliderHandleBgColor == "") { leftItems << "BetSpeedSliderHandleBgColor"; }
+		if(BetSpeedSliderHandleBorderColor == "") { leftItems << "BetSpeedSliderHandleBorderColor"; }
 // 		SIZE
-		if(ChatLogTextSize == "") { wrongItems << "ChatLogTextSize"; }
+		if(ChatLogTextSize == "") { leftItems << "ChatLogTextSize"; }
 			
-		//if one or more items are wrong or left show detailed error message
-		if(!wrongItems.isEmpty() && myW != 0) showErrorMessage(StyleDescription, wrongItems, StyleMaintainerEMail);
+		//if one or more items are left show detailed error message
+		if(!leftItems.isEmpty() && myW != 0) showLeftItemsErrorMessage(StyleDescription, leftItems, StyleMaintainerEMail);
+		//if one or more pictures where not found show detailed error message
+		if(!itemPicsLeft.isEmpty() && myW != 0) showItemPicsLeftErrorMessage(StyleDescription, itemPicsLeft, StyleMaintainerEMail);
 	}	
 	else {	qDebug() << "could not load game table style file: " << tinyFileName.c_str(); }
 }
 
-void GameTableStyleReader::showErrorMessage(QString style, QStringList failedItems, QString email)
+void GameTableStyleReader::showLeftItemsErrorMessage(QString style, QStringList failedItems, QString email)
 {
 	QString items = failedItems.join(", ");
 
 	QMessageBox::warning(myW, tr("Game Table Style Error"),
-                                tr("Selected game table style \"%1\" seems to be incomplete or defective. \nThe value(s) of \"%2\" is/are wrong or left. \n\nPlease contact the game table style builder %3.").arg(style).arg(items).arg(email),
+                                tr("Current game table style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are left. \n\nPlease contact the game table style builder %3.").arg(style).arg(items).arg(email),
+                                QMessageBox::Ok);
+}
+
+void GameTableStyleReader::showItemPicsLeftErrorMessage(QString style, QStringList picsLeft, QString email)
+{
+		QString pics = picsLeft.join("\n");
+
+	QMessageBox::warning(myW, tr("Game Table Style Error"),
+                                tr("One or more pictures from current game table style \"%1\" where not found: \n\n\"%2\" \n\nPlease contact the game table style builder %3.").arg(style).arg(pics).arg(email),
                                 QMessageBox::Ok);
 }
 
@@ -465,19 +483,19 @@ QString GameTableStyleReader::getActionPic(int action)
 {
 // 	1 = fold, 2 = check, 3 = call, 4 = bet, 5 = raise, 6 = allin, 7 = winner
 	switch(action) {
-		case 1: { return ActionFold; }
+		case 1: { return ActionFoldI18N; }
 		break;
-		case 2: { return ActionCheck; }
+		case 2: { return ActionCheckI18N; }
 		break;
-		case 3: { return ActionCall; }
+		case 3: { return ActionCallI18N; }
 		break;
-		case 4: { return ActionBet; }
+		case 4: { return ActionBetI18N; }
 		break;
-		case 5: { return ActionRaise; }
+		case 5: { return ActionRaiseI18N; }
 		break;
-		case 6: { return ActionAllIn; }
+		case 6: { return ActionAllInI18N; }
 		break;
-		case 7: { return ActionWinner; }
+		case 7: { return ActionWinnerI18N; }
 		break;
 		default: return QString("");
 	}

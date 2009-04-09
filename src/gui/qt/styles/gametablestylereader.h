@@ -37,7 +37,8 @@ public:
 	
 	void readStyleFile(QString);
 
-	void showErrorMessage(QString, QStringList, QString);
+	void showLeftItemsErrorMessage(QString, QStringList, QString);
+	void showItemPicsLeftErrorMessage(QString, QStringList, QString);
 
 	QString getStyleDescription() const { return StyleDescription; }
 	QString getCurrentFileName() const { return currentFileName; }
@@ -114,13 +115,13 @@ private:
 	QString MaximumWindowHeight;
 // 	PICS
 	QString Preview;
-	QString ActionAllIn;
-	QString ActionRaise;
-	QString ActionBet;
-	QString ActionCall;
-	QString ActionCheck;
-	QString ActionFold;
-	QString ActionWinner;
+	QString ActionAllInI18N;
+	QString ActionRaiseI18N;
+	QString ActionBetI18N;
+	QString ActionCallI18N;
+	QString ActionCheckI18N;
+	QString ActionFoldI18N;
+	QString ActionWinnerI18N;
 	QString BigBlindPuck;
 	QString SmallBlindPuck;
 	QString DealerPuck;
@@ -229,8 +230,9 @@ private:
 	QString currentFileName;
 	QString currentDir;
 
-	QStringList wrongItems;
-
+	QStringList leftItems;
+	QStringList itemPicsLeft;
+	
 	ConfigFile *myConfig;
 	gameTableImpl *myW;
 

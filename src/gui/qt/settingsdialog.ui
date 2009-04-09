@@ -212,13 +212,6 @@
              </property>
             </widget>
            </item>
-           <item row="4" column="0" >
-            <widget class="QCheckBox" name="checkBox_showBlindButtons" >
-             <property name="text" >
-              <string>Show buttons for small blind and big blind</string>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="1" >
             <widget class="QCheckBox" name="checkBox_showFlipCardsAnimation" >
              <property name="text" >
@@ -237,6 +230,20 @@
             <widget class="QCheckBox" name="checkBox_cardsChanceMonitor" >
              <property name="text" >
               <string>Show cards chance monitor</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0" >
+            <widget class="QCheckBox" name="checkBox_showBlindButtons" >
+             <property name="text" >
+              <string>Show buttons for small blind and big blind</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0" colspan="2" >
+            <widget class="QCheckBox" name="checkBox_dontTranslatePokerStrings" >
+             <property name="text" >
+              <string>Don't translate poker strings like check, call, raise from game table style</string>
              </property>
             </widget>
            </item>
@@ -3399,7 +3406,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkBox_showRightToolbox</tabstop>
   <tabstop>checkBox_showFadeOutCardsAnimation</tabstop>
   <tabstop>checkBox_alternateFKeysUserActionMode</tabstop>
-  <tabstop>checkBox_showBlindButtons</tabstop>
   <tabstop>checkBox_enableBetInputFocusSwitch</tabstop>
   <tabstop>radioButton_flipsideTux</tabstop>
   <tabstop>radioButton_flipsideOwn</tabstop>

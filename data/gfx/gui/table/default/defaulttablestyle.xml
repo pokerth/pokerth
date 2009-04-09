@@ -15,13 +15,6 @@
      <MaximumWindowHeight value="1200" /> <!-- value [min 600] This will set the maximum window height if IfFixedWindowsSize=0 -->
      
      <!-- Table Pictures - values should contain filenames of pictures which have to be stored in the same folder as this xml file. if you wanna have an item to be not shown please write "NULL" instead of the picture file name -->
-     <ActionAllIn value="action_allin.png" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionRaise value="action_raise.png" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionBet value="action_bet.png" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionCall value="action_call.png" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionCheck value="action_check.png" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionFold value="action_fold.png" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionWinner value="action_winner.png" /> <!-- optimal size width:height in px [100:40] -->
      <BigBlindPuck value="bigblindPuck.png" /> <!-- optimal size width:height in px [40:42] -->
      <SmallBlindPuck value="smallblindPuck.png" />  <!-- optimal size width:height in px [40:42] -->
      <DealerPuck value="dealerPuck.png" />  <!-- optimal size width:height in px [40:42] -->
@@ -57,7 +50,14 @@
      <Table value="table.png" /> <!-- minimal size width:height in px [1024:600] -->
      <ToolBoxBackground value="toolboxbg.png" />  <!-- minimal size width:height in px [260:188] -->
      <HandRanking value="handranking.png" />  <!-- minimal size width:height in px [240:153] -->
-
+     <!-- Action*I18N pictures if you wanna set action pics with specific language strings you can set them here. If you wanna use the default english strings just write "NULL" instead of picture files names. PokerTH will automatically display the english ones. -->
+     <ActionAllInI18N value="action_allin.png" /> <!-- optimal size width:height in px [100:40] -->
+     <ActionRaiseI18N value="action_raise.png" /> <!-- optimal size width:height in px [100:40] -->
+     <ActionBetI18N value="action_bet.png" /> <!-- optimal size width:height in px [100:40] -->
+     <ActionCallI18N value="action_call.png" /> <!-- optimal size width:height in px [100:40] -->
+     <ActionCheckI18N value="action_check.png" /> <!-- optimal size width:height in px [100:40] -->
+     <ActionFoldI18N value="action_fold.png" /> <!-- optimal size width:height in px [100:40] -->
+     <ActionWinnerI18N value="action_winner.png" /> <!-- optimal size width:height in px [100:40] -->
       <!-- Table Colors - values should be set in hexcode RGB style without "#" -->
      <FKeyIndicatorColor value="FFFFFF" />
      <ChanceLabelPossibleColor value="9CD500" />
