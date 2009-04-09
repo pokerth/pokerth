@@ -261,7 +261,7 @@ void
 ServerLobbyThread::BanPlayerRegex(const std::string &playerRegex)
 {
 	boost::mutex::scoped_lock lock(m_banPlayerNameListMutex);
-	m_banPlayerNameList.push_back(boost::regex(playerRegex));
+	m_banPlayerNameList.push_back(boost::regex(playerRegex, boost::regex_constants::no_except));
 }
 
 void
