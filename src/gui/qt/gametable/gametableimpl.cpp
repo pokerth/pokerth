@@ -686,7 +686,7 @@ void gameTableImpl::refreshSet() {
 		if( (*it_c)->getMySet() == 0 )
 			setLabelArray[(*it_c)->getMyID()]->setText("");
 		else
-			setLabelArray[(*it_c)->getMyID()]->setText("Bet: $"+QString::number((*it_c)->getMySet(),10)); 
+			setLabelArray[(*it_c)->getMyID()]->setText(BetString+": $"+QString::number((*it_c)->getMySet(),10)); 
 	}
 }
 
@@ -1312,45 +1312,45 @@ void gameTableImpl::provideMyActions(int mode) {
 		if(currentHand->getCurrentRound() == 0) { // preflop
 			
 			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { 
-				pushButtonBetRaiseString = "Raise $"+QString::number(getMyBetAmount()); 
+				pushButtonBetRaiseString = RaiseString+" $"+QString::number(getMyBetAmount()); 
 			}
 	
-			if (currentGame->getSeatsList()->front()->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getSeatsList()->front()->getMyButton() == 3) { pushButtonCallCheckString = "Check"; }
-			else { pushButtonCallCheckString = "Call $"+QString::number(getMyCallAmount()); }
+			if (currentGame->getSeatsList()->front()->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getSeatsList()->front()->getMyButton() == 3) { pushButtonCallCheckString = CheckString; }
+			else { pushButtonCallCheckString = CallString+" $"+QString::number(getMyCallAmount()); }
 			
-			pushButtonFoldString = "Fold"; 
-			pushButtonAllInString = "All-In"; 
+			pushButtonFoldString = FoldString; 
+			pushButtonAllInString = AllInString; 
 			refreshActionButtonFKeyIndicator();
 		}
 		else { // flop,turn,river
 
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable() ) { 
-				pushButtonFoldString = "Check / Fold"; 
+				pushButtonFoldString = CheckString+" / "+FoldString; 
 			}
-			else { pushButtonFoldString = "Fold"; }
+			else { pushButtonFoldString = FoldString; }
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 	
-				pushButtonCallCheckString = "Check";
-				pushButtonBetRaiseString = "Bet $"+QString::number(getMyBetAmount());
+				pushButtonCallCheckString = CheckString;
+				pushButtonBetRaiseString = BetString+" $"+QString::number(getMyBetAmount());
 			}
 			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-				pushButtonCallCheckString = "Call $"+QString::number(getMyCallAmount());
+				pushButtonCallCheckString = CallString+" $"+QString::number(getMyCallAmount());
 				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-					pushButtonBetRaiseString = "Raise $"+QString::number(getMyBetAmount());
+					pushButtonBetRaiseString = RaiseString+" $"+QString::number(getMyBetAmount());
 				}
 			}
-			pushButtonAllInString = "All-In"; 
+			pushButtonAllInString = AllInString; 
 			refreshActionButtonFKeyIndicator();
 		}
 		
 		if(mode == 0) {
 			if( currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD ) {
-				pushButtonBetRaiseString = "Bet $"+QString::number(getMyBetAmount());
-				pushButtonCallCheckString = "Check"; 
-				if( (currentGame->getActivePlayerList()->size() > 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_SMALL_BLIND ) || ( currentGame->getActivePlayerList()->size() <= 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_BIG_BLIND)) { pushButtonFoldString = "Fold"; }
-				else { pushButtonFoldString = "Check / Fold"; }
+				pushButtonBetRaiseString = BetString+" $"+QString::number(getMyBetAmount());
+				pushButtonCallCheckString = CheckString; 
+				if( (currentGame->getActivePlayerList()->size() > 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_SMALL_BLIND ) || ( currentGame->getActivePlayerList()->size() <= 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_BIG_BLIND)) { pushButtonFoldString = FoldString; }
+				else { pushButtonFoldString = CheckString+" / "+FoldString; }
 
-				pushButtonAllInString = "All-In"; 
+				pushButtonAllInString = AllInString; 
 				refreshActionButtonFKeyIndicator();
 			}
 			else {
@@ -1387,7 +1387,8 @@ void gameTableImpl::provideMyActions(int mode) {
 		pushButton_AllIn->setText(pushButtonAllInString);
 
 // 		myBetRaise();
-		if(pushButton_BetRaise->text().startsWith("Raise")) { 
+		
+		if(pushButton_BetRaise->text().startsWith(RaiseString)) { 
 				
 			horizontalSlider_bet->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
 			horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
@@ -1395,7 +1396,7 @@ void gameTableImpl::provideMyActions(int mode) {
 		
 			myActionIsRaise = 1;
 		}
-		else if(pushButton_BetRaise->text().startsWith("Bet")) { 
+		else if(pushButton_BetRaise->text().startsWith(BetString)) { 
 			
 			horizontalSlider_bet->setMinimum(currentHand->getSmallBlind()*2);
 			horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
@@ -1482,7 +1483,7 @@ void gameTableImpl::meInAction() {
 			myCallCheck();
 			break;
 		case 2: // Auto check / fold all
-			if (pushButton_CallCheck->text() == "Check") { 
+			if (pushButton_CallCheck->text() == CheckString) { 
 				myCheck();
 			} else {
 				myFold();
@@ -1527,13 +1528,13 @@ void gameTableImpl::disableMyButtons() {
 
 void gameTableImpl::myCallCheck() {
 
-	if(pushButton_CallCheck->text().startsWith("Call")) { myCall(); }
-	if(pushButton_CallCheck->text() == "Check") { myCheck(); }	
+	if(pushButton_CallCheck->text().startsWith(CallString)) { myCall(); }
+	if(pushButton_CallCheck->text() == CheckString) { myCheck(); }	
 }
 
 void gameTableImpl::myFold(){
 
-	if(pushButton_Fold->text() == "Fold") {
+	if(pushButton_Fold->text() == FoldString) {
 
 		HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 		currentHand->getSeatsList()->front()->setMyAction(1);
@@ -3241,6 +3242,20 @@ void gameTableImpl::refreshGameTableStyle()
 	myGameTableStyle->setTabWidgetStyle(tabWidget_Left, tabWidget_Left->getMyTabBar());
 	
 	label_Handranking->setPixmap(myGameTableStyle->getHandRanking());
+
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getActionCallI18NString() == "NULL") { CallString = "Call";	}
+	else { CallString = myGameTableStyle->getActionCallI18NString(); }
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getActionCheckI18NString() == "NULL") { CheckString = "Check"; }
+	else { CheckString = myGameTableStyle->getActionCheckI18NString(); }
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getActionBetI18NString() == "NULL") { BetString = "Bet"; }
+	else { BetString = myGameTableStyle->getActionBetI18NString(); }
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getActionRaiseI18NString() == "NULL") { RaiseString = "Raise"; }
+	else { RaiseString = myGameTableStyle->getActionRaiseI18NString(); }
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getActionFoldI18NString() == "NULL") { FoldString = "Fold"; }
+	else { FoldString = myGameTableStyle->getActionFoldI18NString(); }
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getActionAllInI18NString() == "NULL") { AllInString = "All-In"; }
+	else { AllInString = myGameTableStyle->getActionAllInI18NString(); }
+	
 }
 
 void gameTableImpl::saveGameTableGeometry()

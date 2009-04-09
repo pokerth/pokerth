@@ -100,6 +100,13 @@ public:
 	void setButtonsStyle(MyActionButton*, MyActionButton*, MyActionButton*, MyActionButton*, int);
 	void setAwayRadioButtonsStyle(QRadioButton*);
 
+	QString getActionAllInI18NString() const { return ActionAllInI18NString; }
+	QString getActionRaiseI18NString() const { return ActionRaiseI18NString; }
+	QString getActionBetI18NString() const { return ActionBetI18NString; }
+	QString getActionCallI18NString() const { return ActionCallI18NString; }
+	QString getActionCheckI18NString() const { return ActionCheckI18NString; }
+	QString getActionFoldI18NString() const { return ActionFoldI18NString; }
+	
 private:
 	//style values
 // 	INFOS
@@ -115,13 +122,13 @@ private:
 	QString MaximumWindowHeight;
 // 	PICS
 	QString Preview;
-	QString ActionAllInI18N;
-	QString ActionRaiseI18N;
-	QString ActionBetI18N;
-	QString ActionCallI18N;
-	QString ActionCheckI18N;
-	QString ActionFoldI18N;
-	QString ActionWinnerI18N;
+	QString ActionAllInI18NPic;
+	QString ActionRaiseI18NPic;
+	QString ActionBetI18NPic;
+	QString ActionCallI18NPic;
+	QString ActionCheckI18NPic;
+	QString ActionFoldI18NPic;
+	QString ActionWinnerI18NPic;
 	QString BigBlindPuck;
 	QString SmallBlindPuck;
 	QString DealerPuck;
@@ -157,6 +164,15 @@ private:
 	QString Table;
 	QString HandRanking;
 	QString ToolBoxBackground;
+
+//	I18N ACTION STRINGS
+	QString ActionAllInI18NString;
+     	QString ActionRaiseI18NString;
+     	QString ActionBetI18NString;
+     	QString ActionCallI18NString;
+     	QString ActionCheckI18NString;
+     	QString ActionFoldI18NString;
+
 // 	COLORS
 	QString FKeyIndicatorColor;
 	QString ChanceLabelPossibleColor;

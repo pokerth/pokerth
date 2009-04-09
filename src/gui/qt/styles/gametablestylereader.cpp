@@ -117,13 +117,13 @@ void GameTableStyleReader::readStyleFile(QString file) {
 				else if (itemsList->ValueStr() == "MaximumWindowHeight") { MaximumWindowHeight = QString::fromUtf8(tempString1.c_str()); }
 // 				PICS
 				else if (itemsList->ValueStr() == "Preview") { Preview = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ActionAllInI18N") { ActionAllInI18N = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ActionRaiseI18N") { ActionRaiseI18N = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ActionBetI18N") { ActionBetI18N = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ActionCallI18N") { ActionCallI18N = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ActionCheckI18N") { ActionCheckI18N = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ActionFoldI18N") { ActionFoldI18N = currentDir+QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "ActionWinnerI18N") { ActionWinnerI18N = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionAllInI18NPic") { ActionAllInI18NPic = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionRaiseI18NPic") { ActionRaiseI18NPic = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionBetI18NPic") { ActionBetI18NPic = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionCallI18NPic") { ActionCallI18NPic = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionCheckI18NPic") { ActionCheckI18NPic = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionFoldI18NPic") { ActionFoldI18NPic = currentDir+QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionWinnerI18NPic") { ActionWinnerI18NPic = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "BigBlindPuck") { BigBlindPuck = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "SmallBlindPuck") { SmallBlindPuck = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "DealerPuck") { DealerPuck = currentDir+QString::fromUtf8(tempString1.c_str()); }
@@ -159,6 +159,15 @@ void GameTableStyleReader::readStyleFile(QString file) {
 				else if (itemsList->ValueStr() == "Table") { Table = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "HandRanking") { HandRanking = currentDir+QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "ToolBoxBackground") { ToolBoxBackground = currentDir+QString::fromUtf8(tempString1.c_str()); }
+
+				//I18N ACTION STRINGS
+				else if (itemsList->ValueStr() == "ActionAllInI18NString") { ActionAllInI18NString = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "ActionRaiseI18NString") { ActionRaiseI18NString = QString::fromUtf8(tempString1.c_str()); }	
+				else if (itemsList->ValueStr() == "ActionBetI18NString") { ActionBetI18NString = QString::fromUtf8(tempString1.c_str()); }
+     				else if (itemsList->ValueStr() == "ActionCallI18NString") { ActionCallI18NString = QString::fromUtf8(tempString1.c_str()); }
+     				else if (itemsList->ValueStr() == "ActionCheckI18NString") { ActionCheckI18NString = QString::fromUtf8(tempString1.c_str()); }
+     				else if (itemsList->ValueStr() == "ActionFoldI18NString") { ActionFoldI18NString = QString::fromUtf8(tempString1.c_str()); }
+
 // 				COLORS
 				else if (itemsList->ValueStr() == "FKeyIndicatorColor") { FKeyIndicatorColor = QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "ChanceLabelPossibleColor") { ChanceLabelPossibleColor = QString::fromUtf8(tempString1.c_str()); }
@@ -233,52 +242,140 @@ void GameTableStyleReader::readStyleFile(QString file) {
 		if(MaximumWindowWidth == "") { leftItems << "MaximumWindowWidth"; }
 		if(MaximumWindowHeight == "") { leftItems << "MaximumWindowHeight"; }
 // 		PICS
-		if(ActionAllInI18N == "") { leftItems << "ActionAllInI18N"; }
-		else if(ActionAllInI18N != QString(currentDir+"NULL") && !QFile(ActionAllInI18N).exists()) { itemPicsLeft << "ActionAllInI18N = "+ActionAllInI18N; }
-		if(ActionRaiseI18N == "") { leftItems << "ActionRaiseI18N"; }
-		else if(ActionRaiseI18N != QString(currentDir+"NULL") && !QFile(ActionRaiseI18N).exists()) { itemPicsLeft << "ActionRaiseI18N = "+ActionRaiseI18N; }
-		if(ActionBetI18N == "") { leftItems << "ActionBetI18N"; }
-		else if(ActionBetI18N != QString(currentDir+"NULL") && !QFile(ActionBetI18N).exists()) { itemPicsLeft << "ActionBetI18N = "+ActionBetI18N; }
-		if(ActionCallI18N == "") { leftItems << "ActionCallI18N"; }
-		else if(ActionCallI18N != QString(currentDir+"NULL") && !QFile(ActionCallI18N).exists()) { itemPicsLeft << "ActionCallI18N = "+ActionCallI18N; }
-		if(ActionCheckI18N == "") { leftItems << "ActionCheckI18N"; }
-		if(ActionFoldI18N == "") { leftItems << "ActionFoldI18N"; }
-		if(ActionWinnerI18N == "") { leftItems << "ActionWinnerI18N"; }
+		if(ActionAllInI18NPic == "") { leftItems << "ActionAllInI18NPic"; }
+		else if(ActionAllInI18NPic != QString(currentDir+"NULL") && !QFile(ActionAllInI18NPic).exists()) { itemPicsLeft << "ActionAllInI18NPic = "+ActionAllInI18NPic; }
+
+		if(ActionRaiseI18NPic == "") { leftItems << "ActionRaiseI18NPic"; }
+		else if(ActionRaiseI18NPic != QString(currentDir+"NULL") && !QFile(ActionRaiseI18NPic).exists()) { itemPicsLeft << "ActionRaiseI18NPic = "+ActionRaiseI18NPic; }
+
+		if(ActionBetI18NPic == "") { leftItems << "ActionBetI18NPic"; }
+		else if(ActionBetI18NPic != QString(currentDir+"NULL") && !QFile(ActionBetI18NPic).exists()) { itemPicsLeft << "ActionBetI18NPic = "+ActionBetI18NPic; }
+
+		if(ActionCallI18NPic == "") { leftItems << "ActionCallI18NPic"; }
+		else if(ActionCallI18NPic != QString(currentDir+"NULL") && !QFile(ActionCallI18NPic).exists()) { itemPicsLeft << "ActionCallI18NPic = "+ActionCallI18NPic; }
+
+		if(ActionCheckI18NPic == "") { leftItems << "ActionCheckI18NPic"; }
+		else if(ActionCheckI18NPic != QString(currentDir+"NULL") && !QFile(ActionCheckI18NPic).exists()) { itemPicsLeft << "ActionCheckI18NPic = "+ActionCheckI18NPic; }
+
+		if(ActionFoldI18NPic == "") { leftItems << "ActionFoldI18NPic"; }
+		else if(ActionFoldI18NPic != QString(currentDir+"NULL") && !QFile(ActionFoldI18NPic).exists()) { itemPicsLeft << "ActionFoldI18NPic = "+ActionFoldI18NPic; }
+
+		if(ActionWinnerI18NPic == "") { leftItems << "ActionWinnerI18NPic"; }
+		else if(ActionWinnerI18NPic != QString(currentDir+"NULL") && !QFile(ActionWinnerI18NPic).exists()) { itemPicsLeft << "ActionWinnerI18NPic = "+ActionWinnerI18NPic; }
+
 		if(BigBlindPuck == "") { leftItems << "BigBlindPuck"; }
+		else if(BigBlindPuck != QString(currentDir+"NULL") && !QFile(BigBlindPuck).exists()) { itemPicsLeft << "BigBlindPuck = "+BigBlindPuck; }
+
 		if(SmallBlindPuck == "") { leftItems << "SmallBlindPuck"; }
+		else if(SmallBlindPuck != QString(currentDir+"NULL") && !QFile(SmallBlindPuck).exists()) { itemPicsLeft << "SmallBlindPuck = "+SmallBlindPuck; }
+
 		if(DealerPuck == "") { leftItems << "DealerPuck"; }
+		else if(DealerPuck != QString(currentDir+"NULL") && !QFile(DealerPuck).exists()) { itemPicsLeft << "DealerPuck = "+DealerPuck; }
+
 		if(DefaultAvatar == "") { leftItems << "DefaultAvatar"; }
+		else if(DefaultAvatar != QString(currentDir+"NULL") && !QFile(DefaultAvatar).exists()) { itemPicsLeft << "DefaultAvatar = "+DefaultAvatar; }
+
 		if(CardHolderFlop == "") { leftItems << "CardHolderFlop"; }
+		else if(CardHolderFlop != QString(currentDir+"NULL") && !QFile(CardHolderFlop).exists()) { itemPicsLeft << "CardHolderFlop = "+CardHolderFlop; }
+
 		if(CardHolderTurn == "") { leftItems << "CardHolderTurn"; }
+		else if(CardHolderTurn != QString(currentDir+"NULL") && !QFile(CardHolderTurn).exists()) { itemPicsLeft << "CardHolderTurn = "+CardHolderTurn; }
+
 		if(CardHolderRiver == "") { leftItems << "CardHolderRiver"; }
+		else if(CardHolderRiver != QString(currentDir+"NULL") && !QFile(CardHolderRiver).exists()) { itemPicsLeft << "CardHolderRiver = "+CardHolderRiver; }
+
 		if(FoldButtonDefault == "") { leftItems << "FoldButtonDefault"; }
+		else if(FoldButtonDefault != QString(currentDir+"NULL") && !QFile(FoldButtonDefault).exists()) { itemPicsLeft << "FoldButtonDefault = "+FoldButtonDefault; }
+
 		if(FoldButtonHover == "") { leftItems << "FoldButtonHover"; }
+		else if(FoldButtonHover != QString(currentDir+"NULL") && !QFile(FoldButtonHover).exists()) { itemPicsLeft << "FoldButtonHover = "+FoldButtonHover; }
+
 		if(FoldButtonChecked == "") { leftItems << "FoldButtonChecked"; }
+		else if(FoldButtonChecked != QString(currentDir+"NULL") && !QFile(FoldButtonChecked).exists()) { itemPicsLeft << "FoldButtonChecked = "+FoldButtonChecked; }
+
 		if(FoldButtonCheckedHover == "") { leftItems << "FoldButtonCheckedHover"; }
+		else if(FoldButtonCheckedHover != QString(currentDir+"NULL") && !QFile(FoldButtonCheckedHover).exists()) { itemPicsLeft << "FoldButtonCheckedHover = "+FoldButtonCheckedHover; }
+
 		if(CheckCallButtonDefault == "") { leftItems << "CheckCallButtonDefault"; }
+		else if(CheckCallButtonDefault != QString(currentDir+"NULL") && !QFile(CheckCallButtonDefault).exists()) { itemPicsLeft << "CheckCallButtonDefault = "+CheckCallButtonDefault; }
+
 		if(CheckCallButtonHover == "") { leftItems << "CheckCallButtonHover"; }
+		else if(CheckCallButtonHover != QString(currentDir+"NULL") && !QFile(CheckCallButtonHover).exists()) { itemPicsLeft << "CheckCallButtonHover = "+CheckCallButtonHover; }
+
 		if(CheckCallButtonChecked == "") { leftItems << "CheckCallButtonChecked"; }
+		else if(CheckCallButtonChecked != QString(currentDir+"NULL") && !QFile(CheckCallButtonChecked).exists()) { itemPicsLeft << "CheckCallButtonChecked = "+CheckCallButtonChecked; }
+
 		if(CheckCallButtonCheckedHover == "") { leftItems << "CheckCallButtonCheckedHover"; }
+		else if(CheckCallButtonCheckedHover != QString(currentDir+"NULL") && !QFile(CheckCallButtonCheckedHover).exists()) { itemPicsLeft << "CheckCallButtonCheckedHover = "+CheckCallButtonCheckedHover; }
+
 		if(BetRaiseButtonDefault == "") { leftItems << "BetRaiseButtonDefault"; }
+		else if(BetRaiseButtonDefault != QString(currentDir+"NULL") && !QFile(BetRaiseButtonDefault).exists()) { itemPicsLeft << "BetRaiseButtonDefault = "+BetRaiseButtonDefault; }
+
 		if(BetRaiseButtonHover == "") { leftItems << "BetRaiseButtonHover"; }
+		else if(BetRaiseButtonHover != QString(currentDir+"NULL") && !QFile(BetRaiseButtonHover).exists()) { itemPicsLeft << "BetRaiseButtonHover = "+BetRaiseButtonHover; }
+
 		if(BetRaiseButtonChecked == "") { leftItems << "BetRaiseButtonChecked"; }
+		else if(BetRaiseButtonChecked != QString(currentDir+"NULL") && !QFile(BetRaiseButtonChecked).exists()) { itemPicsLeft << "BetRaiseButtonChecked = "+BetRaiseButtonChecked; }
+
 		if(BetRaiseButtonCheckedHover == "") { leftItems << "BetRaiseButtonCheckedHover"; }
+		else if(BetRaiseButtonCheckedHover != QString(currentDir+"NULL") && !QFile(BetRaiseButtonCheckedHover).exists()) { itemPicsLeft << "BetRaiseButtonCheckedHover = "+BetRaiseButtonCheckedHover; }
+
 		if(AllInButtonDefault == "") { leftItems << "AllInButtonDefault"; }
+		else if(AllInButtonDefault != QString(currentDir+"NULL") && !QFile(AllInButtonDefault).exists()) { itemPicsLeft << "AllInButtonDefault = "+AllInButtonDefault; }
+
 		if(AllInButtonHover == "") { leftItems << "AllInButtonHover"; }
+		else if(AllInButtonHover != QString(currentDir+"NULL") && !QFile(AllInButtonHover).exists()) { itemPicsLeft << "AllInButtonHover = "+AllInButtonHover; }
+
 		if(AllInButtonChecked == "") { leftItems << "AllInButtonChecked"; }
+		else if(AllInButtonChecked != QString(currentDir+"NULL") && !QFile(AllInButtonChecked).exists()) { itemPicsLeft << "AllInButtonChecked = "+AllInButtonChecked; }
+
 		if(AllInButtonCheckedHover == "") { leftItems << "AllInButtonCheckedHover"; }
+		else if(AllInButtonCheckedHover != QString(currentDir+"NULL") && !QFile(AllInButtonCheckedHover).exists()) { itemPicsLeft << "AllInButtonCheckedHover = "+AllInButtonCheckedHover; }
+
 		if(RadioButtonPressed == "") { leftItems << "RadioButtonPressed"; }
+		else if(RadioButtonPressed != QString(currentDir+"NULL") && !QFile(RadioButtonPressed).exists()) { itemPicsLeft << "RadioButtonPressed = "+RadioButtonPressed; }
+
 		if(RadioButtonChecked == "") { leftItems << "RadioButtonChecked"; }
+		else if(RadioButtonChecked != QString(currentDir+"NULL") && !QFile(RadioButtonChecked).exists()) { itemPicsLeft << "RadioButtonChecked = "+RadioButtonChecked; }
+
 		if(RadioButtonCheckedHover == "") { leftItems << "RadioButtonCheckedHover"; }
+		else if(RadioButtonCheckedHover != QString(currentDir+"NULL") && !QFile(RadioButtonCheckedHover).exists()) { itemPicsLeft << "RadioButtonCheckedHover = "+RadioButtonCheckedHover; }
+
 		if(RadioButtonUnchecked == "") { leftItems << "RadioButtonUnchecked"; }
+		else if(RadioButtonUnchecked != QString(currentDir+"NULL") && !QFile(RadioButtonUnchecked).exists()) { itemPicsLeft << "RadioButtonUnchecked = "+RadioButtonUnchecked; }
+
 		if(RadioButtonUncheckedHover == "") { leftItems << "RadioButtonUncheckedHover"; }
+		else if(RadioButtonUncheckedHover != QString(currentDir+"NULL") && !QFile(RadioButtonUncheckedHover).exists()) { itemPicsLeft << "RadioButtonUncheckedHover = "+RadioButtonUncheckedHover; }
+
 		if(PlayerTopSeatActive == "") { leftItems << "PlayerTopSeatActive"; }
+		else if(PlayerTopSeatActive != QString(currentDir+"NULL") && !QFile(PlayerTopSeatActive).exists()) { itemPicsLeft << "PlayerTopSeatActive = "+PlayerTopSeatActive; }
+
 		if(PlayerTopSeatInactive == "") { leftItems << "PlayerTopSeatInactive"; }
+		else if(PlayerTopSeatInactive != QString(currentDir+"NULL") && !QFile(PlayerTopSeatInactive).exists()) { itemPicsLeft << "PlayerTopSeatInactive = "+PlayerTopSeatInactive; }
+
 		if(PlayerBottomSeatActive == "") { leftItems << "PlayerBottomSeatActive"; }
+		else if(PlayerBottomSeatActive != QString(currentDir+"NULL") && !QFile(PlayerBottomSeatActive).exists()) { itemPicsLeft << "PlayerBottomSeatActive = "+PlayerBottomSeatActive; }
+
 		if(PlayerBottomSeatInactive == "") { leftItems << "PlayerBottomSeatInactive"; }
+		else if(PlayerBottomSeatInactive != QString(currentDir+"NULL") && !QFile(PlayerBottomSeatInactive).exists()) { itemPicsLeft << "PlayerBottomSeatInactive = "+PlayerBottomSeatInactive; }
+
 		if(Table == "") { leftItems << "Table"; }
+		else if(Table != QString(currentDir+"NULL") && !QFile(Table).exists()) { itemPicsLeft << "Table = "+Table; }
+
 		if(HandRanking == "") { leftItems << "HandRanking"; }
+		else if(HandRanking != QString(currentDir+"NULL") && !QFile(HandRanking).exists()) { itemPicsLeft << "HandRanking = "+HandRanking; }
+
 		if(ToolBoxBackground == "") { leftItems << "ToolBoxBackground"; }
+		else if(ToolBoxBackground != QString(currentDir+"NULL") && !QFile(ToolBoxBackground).exists()) { itemPicsLeft << "ToolBoxBackground = "+ToolBoxBackground; }
+
+		//I18N ACTION STRINGS
+		if(ActionAllInI18NString == "") { leftItems << "ActionAllInI18NString"; }
+		if(ActionRaiseI18NString == "") { leftItems << "ActionRaiseI18NString"; }
+     		if(ActionBetI18NString == "") { leftItems << "ActionBetI18NString"; }
+     		if(ActionCallI18NString == "") { leftItems << "ActionCallI18NString"; }
+		if(ActionCheckI18NString == "") { leftItems << "ActionCheckI18NString"; }
+		if(ActionFoldI18NString == "") { leftItems << "ActionFoldI18NString"; }
+
 // 		COLORS
 		if(FKeyIndicatorColor == "") { leftItems << "FKeyIndicatorColor"; }
 		if(ChanceLabelPossibleColor == "") { leftItems << "ChanceLabelPossibleColor"; }
@@ -481,21 +578,58 @@ void GameTableStyleReader::setAwayRadioButtonsStyle(QRadioButton *rb)
 
 QString GameTableStyleReader::getActionPic(int action)
 {
+	QString myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
+
 // 	1 = fold, 2 = check, 3 = call, 4 = bet, 5 = raise, 6 = allin, 7 = winner
 	switch(action) {
-		case 1: { return ActionFoldI18N; }
+		case 1: { 
+			if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || ActionFoldI18NPic.endsWith("NULL"))
+				return myAppDataPath+"gfx/gui/misc/actionpics/action_fold.png";
+			else 
+				return ActionFoldI18NPic;
+		}
 		break;
-		case 2: { return ActionCheckI18N; }
+		case 2: { 
+			if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || ActionCheckI18NPic.endsWith("NULL"))
+				return myAppDataPath+"gfx/gui/misc/actionpics/action_check.png";
+			else 
+				return ActionCheckI18NPic; 
+		}
 		break;
-		case 3: { return ActionCallI18N; }
+		case 3: { 
+			if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || ActionCallI18NPic.endsWith("NULL"))
+				return myAppDataPath+"gfx/gui/misc/actionpics/action_call.png";
+			else 
+				 return ActionCallI18NPic; 
+		}
 		break;
-		case 4: { return ActionBetI18N; }
+		case 4: {
+			if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || ActionBetI18NPic.endsWith("NULL"))
+				return myAppDataPath+"gfx/gui/misc/actionpics/action_bet.png";
+			else 
+				return ActionBetI18NPic; 
+		}
 		break;
-		case 5: { return ActionRaiseI18N; }
+		case 5: { 
+			if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || ActionRaiseI18NPic.endsWith("NULL"))
+				return myAppDataPath+"gfx/gui/misc/actionpics/action_raise.png";
+			else 
+				return ActionRaiseI18NPic; 
+		}
 		break;
-		case 6: { return ActionAllInI18N; }
+		case 6: { 
+			if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || ActionAllInI18NPic.endsWith("NULL"))
+				return myAppDataPath+"gfx/gui/misc/actionpics/action_allin.png";
+			else 
+				return ActionAllInI18NPic; 
+		}
 		break;
-		case 7: { return ActionWinnerI18N; }
+		case 7: { 
+			if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || ActionWinnerI18NPic.endsWith("NULL"))
+				return myAppDataPath+"gfx/gui/misc/actionpics/action_winner.png";
+			else 
+				return ActionWinnerI18NPic; 
+		}
 		break;
 		default: return QString("");
 	}

@@ -418,6 +418,13 @@ private:
 	GameTableStyleReader *myGameTableStyle;
 	CardDeckStyleReader *myCardDeckStyle;
 
+	QString AllInString;
+     	QString RaiseString;
+     	QString BetString;
+     	QString CallString;
+     	QString CheckString;
+     	QString FoldString;
+
 friend class GuiWrapper;
 };
 

@@ -50,14 +50,24 @@
      <Table value="table.png" /> <!-- minimal size width:height in px [1024:600] -->
      <ToolBoxBackground value="toolboxbg.png" />  <!-- minimal size width:height in px [260:188] -->
      <HandRanking value="handranking.png" />  <!-- minimal size width:height in px [240:153] -->
-     <!-- Action*I18N pictures if you wanna set action pics with specific language strings you can set them here. If you wanna use the default english strings just write "NULL" instead of picture files names. PokerTH will automatically display the english ones. -->
-     <ActionAllInI18N value="action_allin.png" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionRaiseI18N value="action_raise.png" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionBetI18N value="action_bet.png" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionCallI18N value="action_call.png" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionCheckI18N value="action_check.png" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionFoldI18N value="action_fold.png" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionWinnerI18N value="action_winner.png" /> <!-- optimal size width:height in px [100:40] -->
+     
+     <!-- Action*I18NPic: If you wanna set action pics with specific language strings you can set them here. If you wanna use the default english strings just write "NULL" instead of picture files names. PokerTH will automatically display the english ones. -->
+     <ActionAllInI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
+     <ActionRaiseI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
+     <ActionBetI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
+     <ActionCallI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
+     <ActionCheckI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
+     <ActionFoldI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
+     <ActionWinnerI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
+     
+     <!-- Action*I18NString: If you wanna set specific language strings for poker actions like call, check, raise etc. which will be shown on human players buttons for this style you can define them here, If you wanna use the default english strings just write value="NULL". PokerTH will automatically display the english ones. -->
+     <ActionAllInI18NString value="NULL" />
+     <ActionRaiseI18NString value="NULL" />
+     <ActionBetI18NString value="NULL" />
+     <ActionCallI18NString value="NULL" />
+     <ActionCheckI18NString value="NULL" />
+     <ActionFoldI18NString value="NULL" />
+     
       <!-- Table Colors - values should be set in hexcode RGB style without "#" -->
      <FKeyIndicatorColor value="FFFFFF" />
      <ChanceLabelPossibleColor value="9CD500" />
