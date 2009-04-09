@@ -141,6 +141,7 @@ win32 {
         LIBS += -lz
         LIBS += -llibboost_thread-mgw43-mt-1_38
         LIBS += -llibboost_filesystem-mgw43-mt-1_38
+        LIBS += -llibboost_regex-mgw43-mt-1_38
         LIBS += -llibboost_system-mgw43-mt-1_38
         LIBS += -llibboost_iostreams-mgw43-mt-1_38
         LIBS += -llibboost_zlib-mgw43-mt-1_38
