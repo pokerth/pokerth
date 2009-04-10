@@ -67,13 +67,25 @@ void CardDeckStyleReader::readStyleFile(QString file) {
 				tempString1 = tmpStr1;
 
 				if(itemsList->ValueStr() == "StyleDescription") { StyleDescription = QString::fromUtf8(tempString1.c_str()); }
+				else if(itemsList->ValueStr() == "StyleMaintainerName") { StyleMaintainerName = QString::fromUtf8(tempString1.c_str()); }
 				else if(itemsList->ValueStr() == "StyleMaintainerEMail") { StyleMaintainerEMail = QString::fromUtf8(tempString1.c_str()); }
+				else if(itemsList->ValueStr() == "StyleCreateDate") { StyleCreateDate = QString::fromUtf8(tempString1.c_str()); }
+				else if(itemsList->ValueStr() == "PokerTHStyleFileVersion") { PokerTHStyleFileVersion = QString::fromUtf8(tempString1.c_str()); }
 				else if (itemsList->ValueStr() == "Preview") { Preview = currentDir+QString::fromUtf8(tempString1.c_str()); }
 			}
 		}
 		
 	}
 	else {	qDebug() << "could not load card deck file: " << tinyFileName.c_str(); }
+
+		//check if style items are left and show warning
+	leftItems.clear();
+
+	if(StyleDescription == "") { leftItems << "StyleDescription"; }
+	if(StyleMaintainerName == "") { leftItems << "StyleMaintainerName"; }
+	if(StyleMaintainerEMail == "") { leftItems << "StyleMaintainerEMail"; }
+	if(StyleCreateDate == "") { leftItems << "StyleCreateDate"; }
+	if(PokerTHStyleFileVersion == "") { leftItems << "PokerTHStyleFileVersion"; }
 
 	//check if all files are there
 	cardsLeft.clear();
@@ -88,10 +100,22 @@ void CardDeckStyleReader::readStyleFile(QString file) {
 			cardsLeft << "flipside.png";
 	}
 	
-	if(!cardsLeft.isEmpty() && myW != 0) showErrorMessage(StyleDescription, cardsLeft, StyleMaintainerEMail);
+	if(!leftItems.isEmpty() && myW != 0) showLeftItemsErrorMessage(StyleDescription, leftItems, StyleMaintainerEMail);
+	else {
+		if(!cardsLeft.isEmpty() && myW != 0) showCardsLeftErrorMessage(StyleDescription, cardsLeft, StyleMaintainerEMail);
+	}
 }
 
-void CardDeckStyleReader::showErrorMessage(QString style, QStringList failedItems, QString email)
+void CardDeckStyleReader::showLeftItemsErrorMessage(QString style, QStringList failedItems, QString email)
+{
+	QString items = failedItems.join(", ");
+
+	QMessageBox::warning(myW, tr("Game Table Style Error"),
+                                tr("Selected game table style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are left. \n\nPlease contact the game table style builder %3.").arg(style).arg(items).arg(email),
+                                QMessageBox::Ok);
+}
+
+void CardDeckStyleReader::showCardsLeftErrorMessage(QString style, QStringList failedItems, QString email)
 {
 	QString items = failedItems.join(", ");
 

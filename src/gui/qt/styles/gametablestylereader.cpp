@@ -106,7 +106,9 @@ void GameTableStyleReader::readStyleFile(QString file) {
 
 // 				INFOS
 				if(itemsList->ValueStr() == "StyleDescription") { StyleDescription = QString::fromUtf8(tempString1.c_str()); }
+				else if(itemsList->ValueStr() == "StyleMaintainerName") { StyleMaintainerName = QString::fromUtf8(tempString1.c_str()); }
 				else if(itemsList->ValueStr() == "StyleMaintainerEMail") { StyleMaintainerEMail = QString::fromUtf8(tempString1.c_str()); }
+				else if(itemsList->ValueStr() == "StyleCreateDate") { StyleCreateDate = QString::fromUtf8(tempString1.c_str()); }
 				else if(itemsList->ValueStr() == "PokerTHStyleFileVersion") { PokerTHStyleFileVersion = QString::fromUtf8(tempString1.c_str()); }
 // 				WINDOWS SETTINGS
 				else if (itemsList->ValueStr() == "IfFixedWindowSize") { IfFixedWindowSize = QString::fromUtf8(tempString1.c_str()); }
@@ -234,6 +236,9 @@ void GameTableStyleReader::readStyleFile(QString file) {
 
 // 		INFOS
 		if(StyleDescription == "") { leftItems << "StyleDescription"; }
+		if(StyleMaintainerName == "") { leftItems << "StyleMaintainerName"; }
+		if(StyleMaintainerEMail == "") { leftItems << "StyleMaintainerEMail"; }
+		if(StyleCreateDate == "") { leftItems << "StyleCreateDate"; }
 		if(PokerTHStyleFileVersion == "") { leftItems << "PokerTHStyleFileVersion"; }
 // 		WINDOWS SETTINGS
 		if(IfFixedWindowSize == "") { leftItems << "IfFixedWindowSize"; }

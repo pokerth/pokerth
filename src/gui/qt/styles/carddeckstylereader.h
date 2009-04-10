@@ -36,24 +36,33 @@ public:
 	void readStyleFile(QString);
 
 	QString getStyleDescription() const { return StyleDescription; }
+	QString getStyleMaintainerName() const { return StyleMaintainerName; }
+	QString getStyleMaintainerEMail() const	{ return StyleMaintainerEMail; }
+	QString getStyleCreateDate() const { return StyleCreateDate; }
+
 	QString getCurrentFileName() const { return currentFileName; }
 	QString getCurrentDir() const { return currentDir; }
 	
 	QString getPreview() const { return Preview; }
 
 	bool getFallBack() const { return fallBack; }	
-	void showErrorMessage(QString, QStringList, QString);
+	void showLeftItemsErrorMessage(QString, QStringList, QString);
+	void showCardsLeftErrorMessage(QString, QStringList, QString);
 
 private:
 
 	QString StyleDescription;	
+	QString StyleMaintainerName;
 	QString StyleMaintainerEMail;
+	QString StyleCreateDate;
+	QString PokerTHStyleFileVersion;
 	QString Preview;
 
 	QString currentFileName;
 	QString currentDir;
 
 	QStringList cardsLeft;
+	QStringList leftItems;
 
 	ConfigFile *myConfig;
 	gameTableImpl *myW;

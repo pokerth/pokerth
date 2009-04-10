@@ -393,159 +393,210 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item row="2" column="0" >
-          <widget class="QGroupBox" name="groupBox_11" >
-           <property name="title" >
-            <string>Game Table Styles</string>
+          <widget class="QTabWidget" name="tabWidget" >
+           <property name="currentIndex" >
+            <number>0</number>
            </property>
-           <layout class="QGridLayout" name="gridLayout_13" >
-            <item row="0" column="1" >
-             <layout class="QVBoxLayout" name="verticalLayout" >
-              <item>
-               <widget class="QPushButton" name="pushButton_activateGameTableStyle" >
-                <property name="text" >
-                 <string>Activate</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_3" >
-                <property name="orientation" >
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0" >
-                 <size>
-                  <width>20</width>
-                  <height>17</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_addGameTableStyle" >
-                <property name="text" >
-                 <string>Add ...</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_removeGameTableStyle" >
-                <property name="text" >
-                 <string>Remove</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="0" column="2" >
-             <widget class="QGroupBox" name="groupBox_13" >
-              <property name="title" >
-               <string>Preview:</string>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_15" >
-               <item row="0" column="0" >
-                <widget class="QLabel" name="label_gameTableStylePreview" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>160</width>
-                   <height>120</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>160</width>
-                   <height>120</height>
-                  </size>
-                 </property>
+           <widget class="QWidget" name="tab_3" >
+            <attribute name="title" >
+             <string>Game Table Styles</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_13" >
+             <item row="0" column="0" >
+              <widget class="QListWidget" name="listWidget_gameTableStyles" />
+             </item>
+             <item row="0" column="1" >
+              <layout class="QVBoxLayout" name="verticalLayout" >
+               <item>
+                <widget class="QPushButton" name="pushButton_activateGameTableStyle" >
                  <property name="text" >
-                  <string/>
+                  <string>Activate</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_3" >
+                 <property name="orientation" >
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0" >
+                  <size>
+                   <width>20</width>
+                   <height>17</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_addGameTableStyle" >
+                 <property name="text" >
+                  <string>Add ...</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_removeGameTableStyle" >
+                 <property name="text" >
+                  <string>Remove</string>
                  </property>
                 </widget>
                </item>
               </layout>
-             </widget>
-            </item>
-            <item row="0" column="0" >
-             <widget class="QListWidget" name="listWidget_gameTableStyles" />
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item row="3" column="0" >
-          <widget class="QGroupBox" name="groupBox_12" >
-           <property name="title" >
-            <string>Card Deck Styles</string>
-           </property>
-           <layout class="QGridLayout" name="gridLayout_14" >
-            <item row="0" column="1" >
-             <layout class="QVBoxLayout" name="verticalLayout_2" >
-              <item>
-               <widget class="QPushButton" name="pushButton_activateCardDeckStyle" >
-                <property name="text" >
-                 <string>Activate</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_3" >
-                <property name="orientation" >
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0" >
-                 <size>
-                  <width>20</width>
-                  <height>17</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_addCardDeckStyle" >
-                <property name="text" >
-                 <string>Add ...</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_removeCardDeckStyle" >
-                <property name="text" >
-                 <string>Remove</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="0" column="2" >
-             <widget class="QGroupBox" name="groupBox_14" >
-              <property name="title" >
-               <string>Preview:</string>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_16" >
-               <item row="0" column="0" >
-                <widget class="QLabel" name="label_cardDeckStylePreview" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>160</width>
-                   <height>120</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>160</width>
-                   <height>120</height>
-                  </size>
-                 </property>
+             </item>
+             <item row="1" column="0" colspan="2" >
+              <widget class="QGroupBox" name="groupBox_13" >
+               <property name="title" >
+                <string>Preview - Information:</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_15" >
+                <item row="0" column="0" >
+                 <widget class="QLabel" name="label_gameTableStylePreview" >
+                  <property name="minimumSize" >
+                   <size>
+                    <width>160</width>
+                    <height>120</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize" >
+                   <size>
+                    <width>160</width>
+                    <height>120</height>
+                   </size>
+                  </property>
+                  <property name="text" >
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1" >
+                 <widget class="QLabel" name="label_gameTableStyleInfo" >
+                  <property name="text" >
+                   <string/>
+                  </property>
+                  <property name="textFormat" >
+                   <enum>Qt::RichText</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="2" column="0" colspan="2" >
+              <widget class="QLabel" name="label_55" >
+               <property name="text" >
+                <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Nimbus Sans L'; font-size:8pt; font-weight:400; font-style:normal;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;a href="http://gtstyles.pokerth.net/">&lt;span style=" text-decoration: underline; color:#0000ff;">Get new PokerTH game table styles ...&lt;/span>&lt;/a>&lt;/p>&lt;/body>&lt;/html></string>
+               </property>
+               <property name="openExternalLinks" >
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_4" >
+            <attribute name="title" >
+             <string>Card Deck Styles</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_14" >
+             <item row="0" column="0" >
+              <widget class="QListWidget" name="listWidget_cardDeckStyles" />
+             </item>
+             <item row="0" column="1" >
+              <layout class="QVBoxLayout" name="verticalLayout_2" >
+               <item>
+                <widget class="QPushButton" name="pushButton_activateCardDeckStyle" >
                  <property name="text" >
-                  <string/>
+                  <string>Activate</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_3" >
+                 <property name="orientation" >
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0" >
+                  <size>
+                   <width>20</width>
+                   <height>17</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_addCardDeckStyle" >
+                 <property name="text" >
+                  <string>Add ...</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_removeCardDeckStyle" >
+                 <property name="text" >
+                  <string>Remove</string>
                  </property>
                 </widget>
                </item>
               </layout>
-             </widget>
-            </item>
-            <item row="0" column="0" >
-             <widget class="QListWidget" name="listWidget_cardDeckStyles" />
-            </item>
-           </layout>
+             </item>
+             <item row="1" column="0" colspan="2" >
+              <widget class="QGroupBox" name="groupBox_14" >
+               <property name="title" >
+                <string>Preview - Information:</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_16" >
+                <item row="0" column="0" >
+                 <widget class="QLabel" name="label_cardDeckStylePreview" >
+                  <property name="minimumSize" >
+                   <size>
+                    <width>160</width>
+                    <height>120</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize" >
+                   <size>
+                    <width>160</width>
+                    <height>120</height>
+                   </size>
+                  </property>
+                  <property name="text" >
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1" >
+                 <widget class="QLabel" name="label_cardDeckStyleInfo" >
+                  <property name="text" >
+                   <string/>
+                  </property>
+                  <property name="textFormat" >
+                   <enum>Qt::RichText</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="2" column="0" colspan="2" >
+              <widget class="QLabel" name="label_56" >
+               <property name="text" >
+                <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Nimbus Sans L'; font-size:8pt; font-weight:400; font-style:normal;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;a href="http://cdstyles.pokerth.net/">&lt;span style=" text-decoration: underline; color:#0000ff;">Get new PokerTH card deck styles ...&lt;/span>&lt;/a>&lt;/p>&lt;/body>&lt;/html></string>
+               </property>
+               <property name="openExternalLinks" >
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </item>
         </layout>
@@ -3400,11 +3451,8 @@ p, li { white-space: pre-wrap; }
   <tabstop>radioButton_flipsideOwn</tabstop>
   <tabstop>lineEdit_OwnFlipsideFilename</tabstop>
   <tabstop>pushButton_openFlipsidePicture</tabstop>
-  <tabstop>listWidget_gameTableStyles</tabstop>
-  <tabstop>pushButton_activateGameTableStyle</tabstop>
   <tabstop>pushButton_addGameTableStyle</tabstop>
   <tabstop>pushButton_removeGameTableStyle</tabstop>
-  <tabstop>listWidget_cardDeckStyles</tabstop>
   <tabstop>pushButton_activateCardDeckStyle</tabstop>
   <tabstop>pushButton_addCardDeckStyle</tabstop>
   <tabstop>pushButton_removeCardDeckStyle</tabstop>

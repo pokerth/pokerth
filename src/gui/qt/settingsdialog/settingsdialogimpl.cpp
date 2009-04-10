@@ -866,6 +866,12 @@ void settingsDialogImpl::showCurrentGameTableStylePreview()
 		QPixmap preview(style.getPreview());
 		if(preview.height() > 160 || preview.width() > 120) label_gameTableStylePreview->setPixmap(preview.scaled(160,120,Qt::KeepAspectRatio,Qt::SmoothTransformation));
 		else label_gameTableStylePreview->setPixmap(preview); 
+
+		QString MaintainerName = tr("Maintainer Name");
+		QString MaintainerEMail = tr("Maintainer EMail");
+		QString CreateDate = tr("Create Date");
+
+		label_gameTableStyleInfo->setText("<b>"+MaintainerName+":</b> <i>"+style.getStyleMaintainerName()+"</i><br><b>"+MaintainerEMail+":</b> <i>"+style.getStyleMaintainerEMail()+"</i><br><b>"+CreateDate+":</b> <i>"+style.getStyleCreateDate()+"</i>");
 	}
 }
 
@@ -949,7 +955,13 @@ void settingsDialogImpl::showCurrentCardDeckStylePreview()
 		style.readStyleFile(item->data(15).toString());
 		QPixmap preview(style.getPreview());
 		if(preview.height() > 160 || preview.width() > 120) label_cardDeckStylePreview->setPixmap(preview.scaled(160,120,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-		else label_cardDeckStylePreview->setPixmap(preview); 
+		else label_cardDeckStylePreview->setPixmap(preview);
+
+		QString MaintainerName = tr("Maintainer Name");
+		QString MaintainerEMail = tr("Maintainer EMail");
+		QString CreateDate = tr("Create Date");
+
+		label_cardDeckStyleInfo->setText("<b>"+MaintainerName+":</b> <i>"+style.getStyleMaintainerName()+"</i><br><b>"+MaintainerEMail+":</b> <i>"+style.getStyleMaintainerEMail()+"</i><br><b>"+CreateDate+":</b> <i>"+style.getStyleCreateDate()+"</i>"); 
 	}
 }
 

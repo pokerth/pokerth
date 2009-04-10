@@ -41,6 +41,10 @@ public:
 	void showItemPicsLeftErrorMessage(QString, QStringList, QString);
 
 	QString getStyleDescription() const { return StyleDescription; }
+	QString getStyleMaintainerName() const { return StyleMaintainerName; }
+	QString getStyleMaintainerEMail() const	{ return StyleMaintainerEMail; }
+	QString getStyleCreateDate() const { return StyleCreateDate; }
+
 	QString getCurrentFileName() const { return currentFileName; }
 	QString getPreview() const { return Preview; }
 	QString getDefaultAvatar() const { return DefaultAvatar; }
@@ -111,7 +115,9 @@ private:
 	//style values
 // 	INFOS
 	QString StyleDescription;
+	QString StyleMaintainerName;
 	QString StyleMaintainerEMail;
+	QString StyleCreateDate;
 	QString PokerTHStyleFileVersion;
 // 	WINDOWS SETTINGS
 	QString IfFixedWindowSize;
