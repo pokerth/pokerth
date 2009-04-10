@@ -194,6 +194,7 @@ SOURCES += \
 
 win32{
 	DEFINES += CURL_STATICLIB
+    DEFINES += _WIN32_WINNT=0x0501
 	DEPENDPATH += src/net/win32/ src/core/win32
 	SOURCES += src/net/win32/socket_helper.cpp \
 		src/net/win32/socket_startup.cpp

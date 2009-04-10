@@ -284,6 +284,7 @@ TRANSLATIONS = \
 win32 {
     QTPLUGIN += qjpeg qgif
     DEFINES += CURL_STATICLIB
+    DEFINES += _WIN32_WINNT=0x0501
     DEPENDPATH += src/net/win32/ src/core/win32
     INCLUDEPATH += ../boost/ ../SDL/include ../SDL_mixer
     INCLUDEPATH += ../SDL/include/SDL ../SDL_mixer/include ../GnuTLS/include  ../curl/include ../zlib
