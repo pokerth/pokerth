@@ -2557,7 +2557,7 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
 	if (event->key() == Qt::Key_F5) { radioButton_manualAction->click(); }
  	if (event->key() == Qt::Key_F6) { radioButton_autoCheckFold->click(); }
   	if (event->key() == Qt::Key_F7) { radioButton_autoCheckCallAny->click(); }
-	if (event->key() == 16777249) {  //CTRL
+	if (event->key() == Qt::Key_Shift) { 
 		if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
 			pushButton_break->click(); 
 			ctrlPressed = TRUE;
