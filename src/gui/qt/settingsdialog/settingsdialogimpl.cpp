@@ -870,8 +870,22 @@ void settingsDialogImpl::showCurrentGameTableStylePreview()
 		QString MaintainerName = tr("Maintainer Name");
 		QString MaintainerEMail = tr("Maintainer EMail");
 		QString CreateDate = tr("Create Date");
+		QString WindowBehaviour = tr("Windows Behaviour");
+		QString scaleable = tr("scaleable");
+		QString fixed = tr("fixed");
+		QString MinimumSize = tr("Minimum Size");
+		QString MaximumSize = tr("Maximum Size");
+		QString FixedSize = tr("Fixed Size");
 
-		label_gameTableStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br><b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br><b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"");
+		QString windowsSubString;
+		if(style.getIfFixedWindowSize().toInt()) {
+			windowsSubString = "<b>"+WindowBehaviour+":</b> "+fixed+"<br><b>"+FixedSize+":</b> "+style.getFixedWindowWidth()+"x"+style.getFixedWindowHeight();
+		}
+		else {
+			windowsSubString = "<b>"+WindowBehaviour+":</b> "+scaleable+"<br><b>"+MinimumSize+":</b> "+style.getMinimumWindowWidth()+"x"+style.getMinimumWindowHeight()+"<br><b>"+MaximumSize+":</b> "+style.getMaximumWindowWidth()+"x"+style.getMaximumWindowHeight();
+		}
+
+		label_gameTableStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br><b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br><b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"<br>"+windowsSubString);
 	}
 }
 

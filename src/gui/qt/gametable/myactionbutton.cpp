@@ -39,6 +39,6 @@ void MyActionButton::paintEvent(QPaintEvent * event) {
 		painter.drawText(6,6,15,15,Qt::AlignLeft,fKeyText);
 	}
 	else {
-		painter.drawText(8,11,15,15,Qt::AlignLeft,fKeyText);
+		painter.drawText(8,15,15,15,Qt::AlignLeft,fKeyText);
 	}
 }

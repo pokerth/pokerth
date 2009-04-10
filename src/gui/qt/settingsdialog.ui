@@ -476,6 +476,9 @@ p, li { white-space: pre-wrap; }
                   <property name="textFormat" >
                    <enum>Qt::RichText</enum>
                   </property>
+                  <property name="alignment" >
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
                  </widget>
                 </item>
                </layout>
@@ -575,6 +578,9 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="textFormat" >
                    <enum>Qt::RichText</enum>
+                  </property>
+                  <property name="alignment" >
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                   </property>
                  </widget>
                 </item>

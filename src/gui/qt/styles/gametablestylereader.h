@@ -69,6 +69,8 @@ public:
 	QString getMinimumWindowHeight() const { return MinimumWindowHeight; }
 	QString getMaximumWindowWidth() const { return MaximumWindowWidth; }
 	QString getMaximumWindowHeight() const { return MaximumWindowHeight; }
+	QString getFixedWindowWidth() const { return FixedWindowWidth; }
+	QString getFixedWindowHeight() const { return FixedWindowHeight; }
 	QString getIfFixedWindowSize() const {	return IfFixedWindowSize; }	
 	
 	bool getFallBack() const { return fallBack; }	

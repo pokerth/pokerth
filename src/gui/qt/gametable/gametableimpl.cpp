@@ -686,7 +686,7 @@ void gameTableImpl::refreshSet() {
 		if( (*it_c)->getMySet() == 0 )
 			setLabelArray[(*it_c)->getMyID()]->setText("");
 		else
-			setLabelArray[(*it_c)->getMyID()]->setText(BetString+": $"+QString::number((*it_c)->getMySet(),10)); 
+			setLabelArray[(*it_c)->getMyID()]->setText("$"+QString::number((*it_c)->getMySet(),10)); 
 	}
 }
 
@@ -1320,7 +1320,7 @@ void gameTableImpl::provideMyActions(int mode) {
 		else { // flop,turn,river
 
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0 && pushButton_Fold->isCheckable() ) { 
-				pushButtonFoldString = CheckString+" / "+FoldString; 
+				pushButtonFoldString = CheckString+" /\n"+FoldString; 
 			}
 			else { pushButtonFoldString = FoldString; }
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
@@ -1342,7 +1342,7 @@ void gameTableImpl::provideMyActions(int mode) {
 				pushButtonBetRaiseString = BetString+"\n$"+QString::number(getMyBetAmount());
 				pushButtonCallCheckString = CheckString; 
 				if( (currentGame->getActivePlayerList()->size() > 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_SMALL_BLIND ) || ( currentGame->getActivePlayerList()->size() <= 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_BIG_BLIND)) { pushButtonFoldString = FoldString; }
-				else { pushButtonFoldString = CheckString+" / "+FoldString; }
+				else { pushButtonFoldString = CheckString+" /\n"+FoldString; }
 
 				pushButtonAllInString = AllInString; 
 			}
@@ -1458,7 +1458,7 @@ void gameTableImpl::meInAction() {
 	if( pushButtonBetRaiseIsChecked ) { pushButton_BetRaise->click(); pushButtonBetRaiseIsChecked = FALSE;}
 	if( pushButtonCallCheckIsChecked )  { pushButton_CallCheck->click(); pushButtonCallCheckIsChecked = FALSE;}
 	if( pushButtonFoldIsChecked ) { 
-		if(lastPushButtonFoldString == "Check / Fold" && pushButton_CallCheck->text() == "Check") {
+		if(lastPushButtonFoldString == CheckString+" /\n"+FoldString && pushButton_CallCheck->text() == CheckString) {
 			pushButton_CallCheck->click();
 		}
 		else {
@@ -2883,7 +2883,7 @@ void gameTableImpl::myButtonsCheckable(bool state) {
 		pushButton_AllIn->setCheckable(FALSE);
 	
 		QString hover;
-		if(pushButton_AllIn->text()=="All-In") { 
+		if(pushButton_AllIn->text()==AllInString) { 
 			myGameTableStyle->setButtonsStyle(pushButton_BetRaise, pushButton_CallCheck, pushButton_Fold, pushButton_AllIn, 0); 
 		}
 		else { 
