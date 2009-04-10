@@ -177,38 +177,10 @@
          </item>
          <item row="3" column="0" >
           <layout class="QGridLayout" name="gridLayout_7" >
-           <item row="0" column="0" >
-            <widget class="QCheckBox" name="checkBox_showIntro" >
-             <property name="text" >
-              <string>Show intro on startup</string>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="1" >
             <widget class="QCheckBox" name="checkBox_showLeftToolbox" >
              <property name="text" >
               <string>Show left toolbox</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" >
-            <widget class="QCheckBox" name="checkBox_showRightToolbox" >
-             <property name="text" >
-              <string>Show right toolbox</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" >
-            <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation" >
-             <property name="text" >
-              <string>Show fade-out animation for non-winning cards</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0" >
-            <widget class="QCheckBox" name="checkBox_alternateFKeysUserActionMode" >
-             <property name="text" >
-              <string>Reverse order of F-Keys (F1 - F4)</string>
              </property>
             </widget>
            </item>
@@ -233,14 +205,35 @@
              </property>
             </widget>
            </item>
-           <item row="4" column="0" >
+           <item row="0" column="0" >
+            <widget class="QCheckBox" name="checkBox_showRightToolbox" >
+             <property name="text" >
+              <string>Show right toolbox</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" >
+            <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation" >
+             <property name="text" >
+              <string>Show fade-out animation for non-winning cards</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0" >
+            <widget class="QCheckBox" name="checkBox_alternateFKeysUserActionMode" >
+             <property name="text" >
+              <string>Reverse order of F-Keys (F1 - F4)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" >
             <widget class="QCheckBox" name="checkBox_showBlindButtons" >
              <property name="text" >
               <string>Show buttons for small blind and big blind</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="0" colspan="2" >
+           <item row="4" column="0" colspan="2" >
             <widget class="QCheckBox" name="checkBox_dontTranslatePokerStrings" >
              <property name="text" >
               <string>Don't translate poker strings like check, call, raise from game table style</string>
@@ -3401,11 +3394,7 @@ p, li { white-space: pre-wrap; }
  <tabstops>
   <tabstop>listWidget</tabstop>
   <tabstop>comboBox_switchLanguage</tabstop>
-  <tabstop>checkBox_showIntro</tabstop>
   <tabstop>checkBox_showLeftToolbox</tabstop>
-  <tabstop>checkBox_showRightToolbox</tabstop>
-  <tabstop>checkBox_showFadeOutCardsAnimation</tabstop>
-  <tabstop>checkBox_alternateFKeysUserActionMode</tabstop>
   <tabstop>checkBox_enableBetInputFocusSwitch</tabstop>
   <tabstop>radioButton_flipsideTux</tabstop>
   <tabstop>radioButton_flipsideOwn</tabstop>
