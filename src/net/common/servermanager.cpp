@@ -134,6 +134,10 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 						m_ircThread->SendChatMessage(*i);
 						++i;
 					}
+					ostringstream banListStream;
+					banListStream
+						<< nickName << ": Total count of banned nicks: " << banList.size();
+					m_ircThread->SendChatMessage(banListStream.str());
 				}
 				else if (command == "removenickban")
 				{
