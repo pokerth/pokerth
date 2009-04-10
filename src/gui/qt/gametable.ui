@@ -2714,13 +2714,13 @@
         </property>
         <property name="minimumSize" >
          <size>
-          <width>160</width>
+          <width>168</width>
           <height>188</height>
          </size>
         </property>
         <property name="maximumSize" >
          <size>
-          <width>160</width>
+          <width>168</width>
           <height>188</height>
          </size>
         </property>
@@ -2765,13 +2765,13 @@
             <widget class="MyActionButton" name="pushButton_AllIn" >
              <property name="minimumSize" >
               <size>
-               <width>85</width>
+               <width>95</width>
                <height>25</height>
               </size>
              </property>
              <property name="maximumSize" >
               <size>
-               <width>85</width>
+               <width>95</width>
                <height>25</height>
               </size>
              </property>
@@ -2814,14 +2814,14 @@
            </property>
            <property name="minimumSize" >
             <size>
-             <width>160</width>
-             <height>35</height>
+             <width>168</width>
+             <height>43</height>
             </size>
            </property>
            <property name="maximumSize" >
             <size>
-             <width>160</width>
-             <height>35</height>
+             <width>168</width>
+             <height>43</height>
             </size>
            </property>
            <property name="focusPolicy" >
@@ -2839,14 +2839,14 @@
            </property>
            <property name="minimumSize" >
             <size>
-             <width>160</width>
-             <height>35</height>
+             <width>168</width>
+             <height>43</height>
             </size>
            </property>
            <property name="maximumSize" >
             <size>
-             <width>160</width>
-             <height>35</height>
+             <width>168</width>
+             <height>43</height>
             </size>
            </property>
            <property name="focusPolicy" >
@@ -2864,14 +2864,14 @@
            </property>
            <property name="minimumSize" >
             <size>
-             <width>160</width>
-             <height>35</height>
+             <width>168</width>
+             <height>43</height>
             </size>
            </property>
            <property name="maximumSize" >
             <size>
-             <width>160</width>
-             <height>35</height>
+             <width>168</width>
+             <height>43</height>
             </size>
            </property>
            <property name="focusPolicy" >

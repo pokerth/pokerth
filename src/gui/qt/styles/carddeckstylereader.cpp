@@ -110,8 +110,8 @@ void CardDeckStyleReader::showLeftItemsErrorMessage(QString style, QStringList f
 {
 	QString items = failedItems.join(", ");
 
-	QMessageBox::warning(myW, tr("Game Table Style Error"),
-                                tr("Selected game table style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are left. \n\nPlease contact the game table style builder %3.").arg(style).arg(items).arg(email),
+	QMessageBox::warning(myW, tr("Card Deck Style Error"),
+                                tr("Selected card deck style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are missing. \n\nPlease contact the game table style builder %3.").arg(style).arg(items).arg(email),
                                 QMessageBox::Ok);
 }
 

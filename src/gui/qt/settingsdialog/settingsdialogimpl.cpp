@@ -871,7 +871,7 @@ void settingsDialogImpl::showCurrentGameTableStylePreview()
 		QString MaintainerEMail = tr("Maintainer EMail");
 		QString CreateDate = tr("Create Date");
 
-		label_gameTableStyleInfo->setText("<b>"+MaintainerName+":</b> <i>"+style.getStyleMaintainerName()+"</i><br><b>"+MaintainerEMail+":</b> <i>"+style.getStyleMaintainerEMail()+"</i><br><b>"+CreateDate+":</b> <i>"+style.getStyleCreateDate()+"</i>");
+		label_gameTableStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br><b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br><b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"");
 	}
 }
 
@@ -961,7 +961,7 @@ void settingsDialogImpl::showCurrentCardDeckStylePreview()
 		QString MaintainerEMail = tr("Maintainer EMail");
 		QString CreateDate = tr("Create Date");
 
-		label_cardDeckStyleInfo->setText("<b>"+MaintainerName+":</b> <i>"+style.getStyleMaintainerName()+"</i><br><b>"+MaintainerEMail+":</b> <i>"+style.getStyleMaintainerEMail()+"</i><br><b>"+CreateDate+":</b> <i>"+style.getStyleCreateDate()+"</i>"); 
+		label_cardDeckStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br><b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br><b>"+CreateDate+":</b> "+style.getStyleCreateDate()+""); 
 	}
 }
 
