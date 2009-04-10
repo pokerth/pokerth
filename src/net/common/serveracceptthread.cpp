@@ -189,7 +189,7 @@ ServerAcceptThread::AcceptLoop()
 		}
 
 		// Retrieve peer address.
-		socklen_t addrLen = (socklen_t)tmpData->GetPeerAddrSize();
+		socklen_t addrLen = (socklen_t)context.GetServerSockaddrSize();
 		if (getpeername(tmpData->GetSocket(), tmpData->GetPeerAddr(), &addrLen) != 0)
 		{
 			// Something went wrong with the connection, just continue (socket will be closed).
