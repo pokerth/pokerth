@@ -301,6 +301,20 @@ ServerLobbyThread::ClearBanPlayerList()
 	m_banPlayerNameMap.clear();
 }
 
+string
+ServerLobbyThread::GetPlayerIPAddress(const std::string &playerName) const
+{
+	string ipAddress;
+	SessionWrapper session = m_sessionManager.GetSessionByPlayerName(playerName);
+	if (!session.sessionData.get())
+		session = m_gameSessionManager.GetSessionByPlayerName(playerName);
+
+	if (session.sessionData.get() && session.playerData.get())
+		ipAddress = session.sessionData->GetClientAddr();
+
+	return ipAddress;
+}
+
 void
 ServerLobbyThread::RemovePlayer(unsigned playerId, unsigned errorCode)
 {

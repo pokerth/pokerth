@@ -73,6 +73,7 @@ public:
 	bool UnBanPlayerRegex(unsigned banId);
 	void GetBanPlayerList(std::list<std::string> &list) const;
 	void ClearBanPlayerList();
+	std::string GetPlayerIPAddress(const std::string &playerName) const;
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
 
 	void SendGlobalChat(const std::string &message);
