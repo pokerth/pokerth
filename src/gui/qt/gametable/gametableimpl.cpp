@@ -1316,7 +1316,6 @@ void gameTableImpl::provideMyActions(int mode) {
 			
 			pushButtonFoldString = FoldString; 
 			pushButtonAllInString = AllInString; 
-			refreshActionButtonFKeyIndicator();
 		}
 		else { // flop,turn,river
 
@@ -1336,7 +1335,6 @@ void gameTableImpl::provideMyActions(int mode) {
 				}
 			}
 			pushButtonAllInString = AllInString; 
-			refreshActionButtonFKeyIndicator();
 		}
 		
 		if(mode == 0) {
@@ -1347,7 +1345,6 @@ void gameTableImpl::provideMyActions(int mode) {
 				else { pushButtonFoldString = CheckString+" / "+FoldString; }
 
 				pushButtonAllInString = AllInString; 
-				refreshActionButtonFKeyIndicator();
 			}
 			else {
 				pushButtonBetRaiseString = "";
@@ -1359,7 +1356,6 @@ void gameTableImpl::provideMyActions(int mode) {
 		
 				myButtonsCheckable(FALSE);
 
-				refreshActionButtonFKeyIndicator(1);
 			}
 		}
 				
@@ -1382,6 +1378,7 @@ void gameTableImpl::provideMyActions(int mode) {
 		pushButton_CallCheck->setText(pushButtonCallCheckString);
 		pushButton_AllIn->setText(pushButtonAllInString);
 
+		refreshActionButtonFKeyIndicator();
 // 		myBetRaise();
 		
 		if(pushButton_BetRaise->text().startsWith(RaiseString)) { 
