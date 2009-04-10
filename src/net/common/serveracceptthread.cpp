@@ -193,7 +193,6 @@ ServerAcceptThread::AcceptLoop()
 
 		// Retrieve peer address.
 		socklen_t addrLen = (socklen_t)context.GetServerSockaddrSize();
-		tmpData->GetPeerAddr()->sa_family = context.GetAddrFamily();
 		if (getpeername(tmpData->GetSocket(), tmpData->GetPeerAddr(), &addrLen) != 0)
 		{
 			// Something went wrong with the connection, just continue (socket will be closed).
@@ -203,6 +202,7 @@ ServerAcceptThread::AcceptLoop()
 		{
 			// Set the size of the peer address.
 			tmpData->SetPeerAddrSize(addrLen);
+			tmpData->GetPeerAddr()->sa_family = context.GetAddrFamily();
 
 			// Optional calls - don't check return value.
 			// Enable keepalive - won't be of much use but better than nothing.
