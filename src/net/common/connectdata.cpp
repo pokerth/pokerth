@@ -18,10 +18,14 @@
  ***************************************************************************/
 
 #include <net/connectdata.h>
+#include <memory>
+
+using namespace std;
 
 ConnectData::ConnectData()
 : m_sockfd(INVALID_SOCKET), m_peerAddrSize(sizeof(m_peerAddr))
 {
+	memset(&m_peerAddr, 0, sizeof(m_peerAddr));
 }
 
 ConnectData::~ConnectData()

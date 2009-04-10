@@ -202,7 +202,6 @@ ServerAcceptThread::AcceptLoop()
 		{
 			// Set the size of the peer address.
 			tmpData->SetPeerAddrSize(addrLen);
-			tmpData->GetPeerAddr()->sa_family = context.GetAddrFamily();
 
 			// Optional calls - don't check return value.
 			// Enable keepalive - won't be of much use but better than nothing.
