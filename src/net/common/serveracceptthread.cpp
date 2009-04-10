@@ -118,8 +118,11 @@ ServerAcceptThread::Listen()
 	int nodelay = 1;
 	setsockopt(context.GetSocket(), SOL_SOCKET, TCP_NODELAY, (char *)&nodelay, sizeof(nodelay));
 	// Enable dual-stack socket on Windows Vista.
-	int ipv6only = 0;
-	setsockopt(context.GetSocket(), IPPROTO_IPV6, IPV6_V6ONLY, (char *)&ipv6only, sizeof(ipv6only));
+	if (context.GetAddrFamily() == AF_INET6)
+	{
+		int ipv6only = 0;
+		setsockopt(context.GetSocket(), IPPROTO_IPV6, IPV6_V6ONLY, (char *)&ipv6only, sizeof(ipv6only));
+	}
 
 	context.GetServerSockaddr()->ss_family = context.GetAddrFamily();
 
