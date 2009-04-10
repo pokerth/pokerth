@@ -90,107 +90,134 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 {
 	if (m_ircThread)
 	{
-		istringstream msgStream(msg);
-		string target;
-		msgStream >> target;
-		if (boost::algorithm::iequals(target, m_ircNick + ":"))
+		try
 		{
-			string command;
-			msgStream >> command;
-			if (command == "kick")
+			istringstream msgStream(msg);
+			string target;
+			msgStream >> target;
+			if (boost::algorithm::iequals(target, m_ircNick + ":"))
 			{
-				while (msgStream.peek() == ' ')
-					msgStream.get();
-				string playerName(msgStream.str().substr(msgStream.tellg()));
-				if (!playerName.empty())
+				string command;
+				msgStream >> command;
+				if (command == "kick")
 				{
-					if (GetLobbyThread().KickPlayerByName(playerName))
-						m_ircThread->SendChatMessage(nickName + ": Successfully kicked player \"" + playerName + "\" from the server.");
+					while (msgStream.peek() == ' ')
+						msgStream.get();
+					string playerName(msgStream.str().substr(msgStream.tellg()));
+					if (!playerName.empty())
+					{
+						if (GetLobbyThread().KickPlayerByName(playerName))
+							m_ircThread->SendChatMessage(nickName + ": Successfully kicked player \"" + playerName + "\" from the server.");
+						else
+							m_ircThread->SendChatMessage(nickName + ": Player \"" + playerName + "\" was not found on the server.");
+					}
+				}
+				else if (command == "nickban")
+				{
+					while (msgStream.peek() == ' ')
+						msgStream.get();
+					string playerRegex(msgStream.str().substr(msgStream.tellg()));
+					if (!playerRegex.empty())
+					{
+						GetLobbyThread().BanPlayerRegex(playerRegex);
+						m_ircThread->SendChatMessage(nickName + ": The regex \"" + playerRegex + "\" was added to the player ban list.");
+					}
+				}
+				else if (command == "listnickban")
+				{
+					list<string> banList;
+					GetLobbyThread().GetBanPlayerList(banList);
+					list<string>::const_iterator i = banList.begin();
+					list<string>::const_iterator end = banList.end();
+					while (i != end)
+					{
+						m_ircThread->SendChatMessage(*i);
+						++i;
+					}
+				}
+				else if (command == "removenickban")
+				{
+					unsigned banId = 0;
+					msgStream >> banId;
+					if (GetLobbyThread().UnBanPlayerRegex(banId))
+						m_ircThread->SendChatMessage(nickName + ": The nick ban was successfully removed.");
 					else
-						m_ircThread->SendChatMessage(nickName + ": Player \"" + playerName + "\" was not found on the server.");
+						m_ircThread->SendChatMessage(nickName + ": This nick ban does not exist.");
 				}
-			}
-			else if (command == "ban")
-			{
-				while (msgStream.peek() == ' ')
-					msgStream.get();
-				string playerRegex(msgStream.str().substr(msgStream.tellg()));
-				if (!playerRegex.empty())
+				else if (command == "clearnickban")
 				{
-					GetLobbyThread().BanPlayerRegex(playerRegex);
-					m_ircThread->SendChatMessage(nickName + ": The regex \"" + playerRegex + "\" was added to the player ban list.");
+					GetLobbyThread().ClearBanPlayerList();
+					m_ircThread->SendChatMessage(nickName + ": The player ban list was cleared.");
 				}
-			}
-			else if (command == "clearban")
-			{
-				GetLobbyThread().ClearBanList();
-				m_ircThread->SendChatMessage(nickName + ": The player ban list was cleared.");
-			}
-			else if (command == "stat")
-			{
-				ServerStats tmpStats = GetLobbyThread().GetStats();
+				else if (command == "stat")
 				{
-					boost::posix_time::time_duration timeDiff(boost::posix_time::second_clock::local_time() - GetLobbyThread().GetStartTime());
-					ostringstream statStream;
-					statStream
-						<< "Server uptime................ " << timeDiff.hours() / 24 << " days " << timeDiff.hours() % 24 << " hours " << timeDiff.minutes() << " minutes " << timeDiff.seconds() << " seconds";
-					m_ircThread->SendChatMessage(statStream.str());
+					ServerStats tmpStats = GetLobbyThread().GetStats();
+					{
+						boost::posix_time::time_duration timeDiff(boost::posix_time::second_clock::local_time() - GetLobbyThread().GetStartTime());
+						ostringstream statStream;
+						statStream
+							<< "Server uptime................ " << timeDiff.hours() / 24 << " days " << timeDiff.hours() % 24 << " hours " << timeDiff.minutes() << " minutes " << timeDiff.seconds() << " seconds";
+						m_ircThread->SendChatMessage(statStream.str());
+					}
+					{
+						ostringstream statStream;
+						statStream
+							<< "Players currently on Server.. " << tmpStats.numberOfPlayersOnServer;
+						m_ircThread->SendChatMessage(statStream.str());
+					}
+					{
+						ostringstream statStream;
+						statStream
+							<< "Games currently open......... " << tmpStats.numberOfGamesOpen;
+						m_ircThread->SendChatMessage(statStream.str());
+					}
+					{
+						ostringstream statStream;
+						statStream
+							<< "Total players ever logged in. " << tmpStats.totalPlayersEverLoggedIn
+							<< "    (Max at a time: " << tmpStats.maxPlayersLoggedIn << ")";
+						m_ircThread->SendChatMessage(statStream.str());
+					}
+					{
+						ostringstream statStream;
+						statStream
+							<< "Total games ever open........ " << tmpStats.totalGamesEverCreated
+							<< "    (Max at a time: " << tmpStats.maxGamesOpen << ")";
+						m_ircThread->SendChatMessage(statStream.str());
+					}
 				}
+				else if (command == "chat")
 				{
-					ostringstream statStream;
-					statStream
-						<< "Players currently on Server.. " << tmpStats.numberOfPlayersOnServer;
-					m_ircThread->SendChatMessage(statStream.str());
+					while (msgStream.peek() == ' ')
+						msgStream.get();
+					string chat(msgStream.str().substr(msgStream.tellg()));
+					if (!chat.empty() && chat.size() < MAX_CHAT_TEXT_SIZE)
+					{
+						GetLobbyThread().SendGlobalChat(chat);
+						m_ircThread->SendChatMessage(nickName + ": Global chat message sent.");
+					}
+					else
+						m_ircThread->SendChatMessage(nickName + ": Invalid message.");
 				}
+				else if (command == "msg")
 				{
-					ostringstream statStream;
-					statStream
-						<< "Games currently open......... " << tmpStats.numberOfGamesOpen;
-					m_ircThread->SendChatMessage(statStream.str());
-				}
-				{
-					ostringstream statStream;
-					statStream
-						<< "Total players ever logged in. " << tmpStats.totalPlayersEverLoggedIn
-						<< "    (Max at a time: " << tmpStats.maxPlayersLoggedIn << ")";
-					m_ircThread->SendChatMessage(statStream.str());
-				}
-				{
-					ostringstream statStream;
-					statStream
-						<< "Total games ever open........ " << tmpStats.totalGamesEverCreated
-						<< "    (Max at a time: " << tmpStats.maxGamesOpen << ")";
-					m_ircThread->SendChatMessage(statStream.str());
-				}
-			}
-			else if (command == "chat")
-			{
-				while (msgStream.peek() == ' ')
-					msgStream.get();
-				string chat(msgStream.str().substr(msgStream.tellg()));
-				if (!chat.empty() && chat.size() < MAX_CHAT_TEXT_SIZE)
-				{
-					GetLobbyThread().SendGlobalChat(chat);
-					m_ircThread->SendChatMessage(nickName + ": Global chat message sent.");
+					while (msgStream.peek() == ' ')
+						msgStream.get();
+					string message(msgStream.str().substr(msgStream.tellg()));
+					if (!message.empty() && message.size() < MAX_CHAT_TEXT_SIZE)
+					{
+						GetLobbyThread().SendGlobalMsgBox(message);
+						m_ircThread->SendChatMessage(nickName + ": Global message box sent.");
+					}
+					else
+						m_ircThread->SendChatMessage(nickName + ": Invalid message.");
 				}
 				else
-					m_ircThread->SendChatMessage(nickName + ": Invalid message.");
+					m_ircThread->SendChatMessage(nickName + ": Invalid command \"" + command + "\".");
 			}
-			else if (command == "msg")
-			{
-				while (msgStream.peek() == ' ')
-					msgStream.get();
-				string message(msgStream.str().substr(msgStream.tellg()));
-				if (!message.empty() && message.size() < MAX_CHAT_TEXT_SIZE)
-				{
-					GetLobbyThread().SendGlobalMsgBox(message);
-					m_ircThread->SendChatMessage(nickName + ": Global message box sent.");
-				}
-				else
-					m_ircThread->SendChatMessage(nickName + ": Invalid message.");
-			}
-			else
-				m_ircThread->SendChatMessage(nickName + ": Invalid command \"" + command + "\".");
+		} catch (...)
+		{
+			m_ircThread->SendChatMessage(nickName + ": Syntax error. Please check the command.");
 		}
 	}
 }

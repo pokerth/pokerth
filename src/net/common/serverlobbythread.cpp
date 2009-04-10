@@ -29,6 +29,7 @@
 #include <core/openssl_wrapper.h>
 
 #include <fstream>
+#include <sstream>
 #include <algorithm>
 #include <boost/lambda/lambda.hpp>
 #include <boost/filesystem.hpp>
@@ -80,7 +81,7 @@ private:
 
 
 ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager)
-: m_gui(gui), m_avatarManager(avatarManager), m_playerConfig(playerConfig),
+: m_curBanId(0), m_gui(gui), m_avatarManager(avatarManager), m_playerConfig(playerConfig),
   m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
   m_statDataChanged(false), m_startTime(boost::posix_time::second_clock::local_time())
 {
@@ -258,17 +259,46 @@ ServerLobbyThread::KickPlayerByName(const std::string &playerName)
 }
 
 void
-ServerLobbyThread::BanPlayerRegex(const std::string &playerRegex)
+ServerLobbyThread::BanPlayerRegex(const string &playerRegex)
 {
-	boost::mutex::scoped_lock lock(m_banPlayerNameListMutex);
-	m_banPlayerNameList.push_back(boost::regex(playerRegex, boost::regex_constants::no_except));
+	boost::mutex::scoped_lock lock(m_banMutex);
+	m_banPlayerNameMap[++m_curBanId] = boost::regex(playerRegex, boost::regex_constants::no_except);
+}
+
+bool
+ServerLobbyThread::UnBanPlayerRegex(unsigned banId)
+{
+	bool retVal = false;
+	boost::mutex::scoped_lock lock(m_banMutex);
+	RegexMap::iterator pos = m_banPlayerNameMap.find(banId);
+	if (pos != m_banPlayerNameMap.end())
+	{
+		m_banPlayerNameMap.erase(pos);
+		retVal = true;
+	}
+	return retVal;
 }
 
 void
-ServerLobbyThread::ClearBanList()
+ServerLobbyThread::GetBanPlayerList(list<string> &list) const
 {
-	boost::mutex::scoped_lock lock(m_banPlayerNameListMutex);
-	m_banPlayerNameList.clear();
+	boost::mutex::scoped_lock lock(m_banMutex);
+	RegexMap::const_iterator i = m_banPlayerNameMap.begin();
+	RegexMap::const_iterator end = m_banPlayerNameMap.end();
+	while (i != end)
+	{
+		ostringstream banText;
+		banText << (*i).first << ": " << (*i).second.str();
+		list.push_back(banText.str());
+		++i;
+	}
+}
+
+void
+ServerLobbyThread::ClearBanPlayerList()
+{
+	boost::mutex::scoped_lock lock(m_banMutex);
+	m_banPlayerNameMap.clear();
 }
 
 void
@@ -1381,12 +1411,12 @@ bool
 ServerLobbyThread::IsPlayerBanned(const std::string &name) const
 {
 	bool retVal = false;
-	boost::mutex::scoped_lock lock(m_banPlayerNameListMutex);
-	RegexList::const_iterator i = m_banPlayerNameList.begin();
-	RegexList::const_iterator end = m_banPlayerNameList.end();
+	boost::mutex::scoped_lock lock(m_banMutex);
+	RegexMap::const_iterator i = m_banPlayerNameMap.begin();
+	RegexMap::const_iterator end = m_banPlayerNameMap.end();
 	while (i != end)
 	{
-		if (regex_match(name, *i))
+		if (regex_match(name, (*i).second))
 		{
 			retVal = true;
 			break;

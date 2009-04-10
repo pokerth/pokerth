@@ -70,7 +70,9 @@ public:
 
 	bool KickPlayerByName(const std::string &playerName);
 	void BanPlayerRegex(const std::string &playerRegex);
-	void ClearBanList();
+	bool UnBanPlayerRegex(unsigned banId);
+	void GetBanPlayerList(std::list<std::string> &list) const;
+	void ClearBanPlayerList();
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
 
 	void SendGlobalChat(const std::string &message);
@@ -102,7 +104,7 @@ protected:
 	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
 	typedef std::map<std::string, boost::timers::portable::microsec_timer> TimerClientAddressMap;
 	typedef std::list<unsigned> RemoveGameList;
-	typedef std::list<boost::regex> RegexList;
+	typedef std::map<unsigned, boost::regex> RegexMap;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -192,8 +194,9 @@ private:
 	SessionIdList m_resubscribeList;
 	mutable boost::mutex m_resubscribeListMutex;
 
-	RegexList m_banPlayerNameList;
-	mutable boost::mutex m_banPlayerNameListMutex;
+	RegexMap m_banPlayerNameMap;
+	unsigned m_curBanId;
+	mutable boost::mutex m_banMutex;
 
 	GameMap m_gameMap;
 
