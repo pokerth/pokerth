@@ -32,6 +32,7 @@ The following packages are required to compile the server:
   - boost-program_options
   - boost-iostreams
   - boost-asio
+  - boost-regex
 * GnuTLS (any version should be fine)
 
 The following packages are optional but recommended:
@@ -258,4 +259,4 @@ The bot always answers to "BotName: " style commands.
 It ignores private messages. 
 
 
-2007 by Lothar May
+2007-2009 by Lothar May
