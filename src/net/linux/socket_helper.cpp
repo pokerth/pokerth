@@ -37,7 +37,12 @@ socket_string_to_addr(const char *str, int addrFamily, struct sockaddr *addr, in
 bool
 socket_addr_to_string(struct sockaddr *addr, int /*addrLen*/, int addrFamily, char *str, int strLen)
 {
-	return (inet_ntop(addrFamily, addr, str, strLen) != NULL);
+	if (addrFamily == AF_INET)
+		return (inet_ntop(addrFamily, &((struct sockaddr_in *)addr)->sin_addr, str, strLen) != NULL);
+	else if (addrFamily == AF_INET6)
+		return (inet_ntop(addrFamily, &((struct sockaddr_in6 *)addr)->sin6_addr, str, strLen) != NULL);
+	else
+		return false;
 }
 
 bool
