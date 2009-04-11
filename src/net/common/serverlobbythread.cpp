@@ -304,7 +304,7 @@ ServerLobbyThread::GetBanList(list<string> &list) const
 	while (i_nick != end_nick)
 	{
 		ostringstream banText;
-		banText << (*i_nick).first << " (nick): " << (*i_nick).second.str();
+		banText << (*i_nick).first << ": (nick) - " << (*i_nick).second.str();
 		list.push_back(banText.str());
 		++i_nick;
 	}
@@ -313,7 +313,7 @@ ServerLobbyThread::GetBanList(list<string> &list) const
 	while (i_ip != end_ip)
 	{
 		ostringstream banText;
-		banText << (*i_ip).first << " (IP): " << (*i_ip).second;
+		banText << (*i_ip).first << ": (IP) - " << (*i_ip).second;
 		list.push_back(banText.str());
 		++i_ip;
 	}

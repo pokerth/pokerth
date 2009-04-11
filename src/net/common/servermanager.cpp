@@ -169,9 +169,9 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 					unsigned banId = 0;
 					msgStream >> banId;
 					if (GetLobbyThread().UnBan(banId))
-						m_ircThread->SendChatMessage(nickName + ": The nick ban was successfully removed.");
+						m_ircThread->SendChatMessage(nickName + ": The ban was successfully removed.");
 					else
-						m_ircThread->SendChatMessage(nickName + ": This nick ban does not exist.");
+						m_ircThread->SendChatMessage(nickName + ": This ban does not exist.");
 				}
 				else if (command == "clearban")
 				{
