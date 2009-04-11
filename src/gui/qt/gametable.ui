@@ -1528,7 +1528,7 @@
         </property>
         <property name="minimumSize" >
          <size>
-          <width>535</width>
+          <width>580</width>
           <height>94</height>
          </size>
         </property>
@@ -1541,273 +1541,357 @@
         <property name="styleSheet" >
          <string notr="true" >QGroupBox {border-style:none;}</string>
         </property>
-        <widget class="QFrame" name="framegameinfo" >
-         <property name="geometry" >
-          <rect>
-           <x>440</x>
-           <y>42</y>
-           <width>90</width>
-           <height>36</height>
-          </rect>
+        <layout class="QGridLayout" name="gridLayout_5" >
+         <property name="margin" >
+          <number>0</number>
          </property>
-         <property name="minimumSize" >
-          <size>
-           <width>90</width>
-           <height>0</height>
-          </size>
+         <property name="spacing" >
+          <number>0</number>
          </property>
-         <property name="maximumSize" >
-          <size>
-           <width>90</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="horizontalSpacing" >
-           <number>0</number>
-          </property>
-          <property name="verticalSpacing" >
-           <number>2</number>
-          </property>
-          <property name="margin" >
-           <number>0</number>
-          </property>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label_gameNumber" />
-          </item>
-          <item row="1" column="1" >
-           <widget class="QLabel" name="label_handNumberValue" >
-            <property name="text" >
-             <string/>
-            </property>
-            <property name="alignment" >
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="QLabel" name="label_gameNumberValue" >
-            <property name="text" >
-             <string/>
-            </property>
-            <property name="alignment" >
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_handNumber" />
-          </item>
-         </layout>
-        </widget>
-        <widget class="QFrame" name="frame_2" >
-         <property name="geometry" >
-          <rect>
-           <x>0</x>
-           <y>15</y>
-           <width>120</width>
-           <height>62</height>
-          </rect>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4" >
-          <property name="spacing" >
-           <number>4</number>
-          </property>
-          <property name="margin" >
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_Pot" >
-            <property name="text" >
-             <string/>
-            </property>
-            <property name="alignment" >
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QGridLayout" name="grid2" >
-            <property name="horizontalSpacing" >
+         <item row="0" column="0" >
+          <widget class="QFrame" name="frame_2" >
+           <layout class="QVBoxLayout" name="verticalLayout_4" >
+            <property name="spacing" >
              <number>0</number>
             </property>
-            <property name="verticalSpacing" >
-             <number>2</number>
-            </property>
-            <property name="margin" >
+            <property name="leftMargin" >
              <number>0</number>
             </property>
-            <item row="1" column="1" >
-             <widget class="QLabel" name="textLabel_Sets" >
+            <property name="topMargin" >
+             <number>8</number>
+            </property>
+            <property name="rightMargin" >
+             <number>0</number>
+            </property>
+            <property name="bottomMargin" >
+             <number>8</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_Pot" >
+              <property name="minimumSize" >
+               <size>
+                <width>145</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text" >
+               <string/>
+              </property>
               <property name="alignment" >
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="label_Total" />
-            </item>
-            <item row="0" column="1" >
-             <widget class="QLabel" name="textLabel_Pot" >
-              <property name="alignment" >
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            <item>
+             <layout class="QGridLayout" name="grid2" >
+              <property name="horizontalSpacing" >
+               <number>3</number>
               </property>
-             </widget>
-            </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="label_Sets" >
-              <property name="alignment" >
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              <property name="verticalSpacing" >
+               <number>2</number>
               </property>
-             </widget>
+              <property name="margin" >
+               <number>0</number>
+              </property>
+              <item row="1" column="1" >
+               <widget class="QLabel" name="textLabel_Sets" >
+                <property name="alignment" >
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0" >
+               <widget class="QLabel" name="label_Total" >
+                <property name="alignment" >
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" >
+               <widget class="QLabel" name="textLabel_Pot" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>75</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="alignment" >
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" >
+               <widget class="QLabel" name="label_Sets" >
+                <property name="alignment" >
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QLabel" name="textLabel_handLabel" >
-         <property name="geometry" >
-          <rect>
-           <x>440</x>
-           <y>15</y>
-           <width>91</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="alignment" >
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_CardHolder0" >
-         <property name="geometry" >
-          <rect>
-           <x>140</x>
-           <y>5</y>
-           <width>54</width>
-           <height>82</height>
-          </rect>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_CardHolder1" >
-         <property name="geometry" >
-          <rect>
-           <x>195</x>
-           <y>5</y>
-           <width>54</width>
-           <height>82</height>
-          </rect>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_CardHolder2" >
-         <property name="geometry" >
-          <rect>
-           <x>250</x>
-           <y>5</y>
-           <width>54</width>
-           <height>82</height>
-          </rect>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_CardHolder3" >
-         <property name="geometry" >
-          <rect>
-           <x>305</x>
-           <y>5</y>
-           <width>54</width>
-           <height>82</height>
-          </rect>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_CardHolder4" >
-         <property name="geometry" >
-          <rect>
-           <x>360</x>
-           <y>5</y>
-           <width>54</width>
-           <height>82</height>
-          </rect>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard0" >
-         <property name="geometry" >
-          <rect>
-           <x>143</x>
-           <y>8</y>
-           <width>48</width>
-           <height>76</height>
-          </rect>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard1" >
-         <property name="geometry" >
-          <rect>
-           <x>198</x>
-           <y>8</y>
-           <width>48</width>
-           <height>76</height>
-          </rect>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard2" >
-         <property name="geometry" >
-          <rect>
-           <x>253</x>
-           <y>8</y>
-           <width>48</width>
-           <height>76</height>
-          </rect>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard3" >
-         <property name="geometry" >
-          <rect>
-           <x>308</x>
-           <y>8</y>
-           <width>48</width>
-           <height>76</height>
-          </rect>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard4" >
-         <property name="geometry" >
-          <rect>
-           <x>363</x>
-           <y>8</y>
-           <width>48</width>
-           <height>76</height>
-          </rect>
-         </property>
-         <property name="scaledContents" >
-          <bool>true</bool>
-         </property>
-        </widget>
+          </widget>
+         </item>
+         <item row="0" column="1" >
+          <spacer name="horizontalSpacer_3" >
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType" >
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0" >
+            <size>
+             <width>3</width>
+             <height>91</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="3" >
+          <spacer name="horizontalSpacer_4" >
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType" >
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0" >
+            <size>
+             <width>3</width>
+             <height>91</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="4" >
+          <layout class="QVBoxLayout" name="verticalLayout_5" >
+           <property name="spacing" >
+            <number>0</number>
+           </property>
+           <property name="topMargin" >
+            <number>8</number>
+           </property>
+           <property name="bottomMargin" >
+            <number>8</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="textLabel_handLabel" >
+             <property name="minimumSize" >
+              <size>
+               <width>142</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="alignment" >
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="framegameinfo" >
+             <property name="minimumSize" >
+              <size>
+               <width>90</width>
+               <height>0</height>
+              </size>
+             </property>
+             <layout class="QGridLayout" >
+              <property name="horizontalSpacing" >
+               <number>3</number>
+              </property>
+              <property name="verticalSpacing" >
+               <number>2</number>
+              </property>
+              <property name="margin" >
+               <number>0</number>
+              </property>
+              <item row="0" column="0" >
+               <widget class="QLabel" name="label_gameNumber" >
+                <property name="alignment" >
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" >
+               <widget class="QLabel" name="label_handNumberValue" >
+                <property name="text" >
+                 <string/>
+                </property>
+                <property name="alignment" >
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" >
+               <widget class="QLabel" name="label_gameNumberValue" >
+                <property name="text" >
+                 <string/>
+                </property>
+                <property name="alignment" >
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" >
+               <widget class="QLabel" name="label_handNumber" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>45</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="alignment" >
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="2" >
+          <widget class="QGroupBox" name="groupBox" >
+           <property name="minimumSize" >
+            <size>
+             <width>285</width>
+             <height>0</height>
+            </size>
+           </property>
+           <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard4" >
+            <property name="geometry" >
+             <rect>
+              <x>230</x>
+              <y>10</y>
+              <width>48</width>
+              <height>76</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard1" >
+            <property name="geometry" >
+             <rect>
+              <x>65</x>
+              <y>10</y>
+              <width>48</width>
+              <height>76</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_CardHolder1" >
+            <property name="geometry" >
+             <rect>
+              <x>62</x>
+              <y>7</y>
+              <width>54</width>
+              <height>82</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_CardHolder0" >
+            <property name="geometry" >
+             <rect>
+              <x>7</x>
+              <y>7</y>
+              <width>54</width>
+              <height>82</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard0" >
+            <property name="geometry" >
+             <rect>
+              <x>10</x>
+              <y>10</y>
+              <width>48</width>
+              <height>76</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_CardHolder4" >
+            <property name="geometry" >
+             <rect>
+              <x>227</x>
+              <y>7</y>
+              <width>54</width>
+              <height>82</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_CardHolder2" >
+            <property name="geometry" >
+             <rect>
+              <x>117</x>
+              <y>7</y>
+              <width>54</width>
+              <height>82</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard2" >
+            <property name="geometry" >
+             <rect>
+              <x>120</x>
+              <y>10</y>
+              <width>48</width>
+              <height>76</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_CardHolder3" >
+            <property name="geometry" >
+             <rect>
+              <x>172</x>
+              <y>7</y>
+              <width>54</width>
+              <height>82</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard3" >
+            <property name="geometry" >
+             <rect>
+              <x>175</x>
+              <y>10</y>
+              <width>48</width>
+              <height>76</height>
+             </rect>
+            </property>
+            <property name="scaledContents" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>

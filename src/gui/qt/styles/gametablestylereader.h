@@ -112,6 +112,15 @@ public:
 	QString getActionCallI18NString() const { return ActionCallI18NString; }
 	QString getActionCheckI18NString() const { return ActionCheckI18NString; }
 	QString getActionFoldI18NString() const { return ActionFoldI18NString; }
+	QString getRiverI18NString() const { return RiverI18NString; }
+	QString getTurnI18NString() const { return TurnI18NString; }
+ 	QString getFlopI18NString() const { return FlopI18NString; }
+	QString getPreflopI18NString() const { return PreflopI18NString; }
+	QString getHandI18NString() const { return HandI18NString; }
+	QString getGameI18NString() const { return GameI18NString; }
+	QString getBetsI18NString() const { return BetsI18NString; }
+ 	QString getTotalI18NString() const { return TotalI18NString; }
+	QString getPotI18NString() const { return PotI18NString; }
 	
 private:
 	//style values
@@ -181,6 +190,15 @@ private:
      	QString ActionCallI18NString;
      	QString ActionCheckI18NString;
      	QString ActionFoldI18NString;
+	QString PotI18NString;
+	QString TotalI18NString;
+	QString BetsI18NString;
+	QString GameI18NString;
+	QString HandI18NString;
+	QString PreflopI18NString;
+	QString FlopI18NString;
+	QString TurnI18NString;
+	QString RiverI18NString;
 
 // 	COLORS
 	QString FKeyIndicatorColor;

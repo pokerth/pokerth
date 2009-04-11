@@ -424,6 +424,15 @@ private:
      	QString CallString;
      	QString CheckString;
      	QString FoldString;
+	QString PotString;
+	QString TotalString;
+	QString BetsString;
+	QString GameString;
+	QString HandString;
+	QString PreflopString;
+	QString FlopString;
+	QString TurnString;
+	QString RiverString;
 
 friend class GuiWrapper;
 };

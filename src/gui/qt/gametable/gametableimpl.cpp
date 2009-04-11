@@ -327,12 +327,17 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	//raise actionLable above just inserted mypixmaplabel
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { actionLabelArray[i]->raise(); }
 
+	//raise board cards
+	for (i=0; i<5; i++) { boardCardsArray[i]->raise(); }
+
 	//fix for away string bug in righttabwidget on windows
  #if (defined _WIN32) || (defined __APPLE__)
 	tabWidget_Right->setTabText(0, " "+tabWidget_Right->tabText(0)+" ");
 	tabWidget_Right->setTabText(1, " "+tabWidget_Right->tabText(1)+" ");
+	tabWidget_Right->setTabText(2, " "+tabWidget_Right->tabText(2)+" ");
 	tabWidget_Left->setTabText(0, " "+tabWidget_Left->tabText(0)+" ");
 	tabWidget_Left->setTabText(1, " "+tabWidget_Left->tabText(1)+" ");
+	tabWidget_Left->setTabText(2, " "+tabWidget_Left->tabText(2)+" ");
 #endif
 
 	//resize stop-button depending on translation
@@ -648,11 +653,11 @@ void gameTableImpl::initGui(int speed)
 	//kill running Singleshots!!!
 	stopTimer();
 		
-	label_Pot->setText("Pot");
-	label_Total->setText("Total:");
-	label_Sets->setText("Bets:");
-	label_handNumber->setText("Hand:");
-	label_gameNumber->setText("Game:");
+	label_Pot->setText(PotString);
+	label_Total->setText(TotalString+":");
+	label_Sets->setText(BetsString+":");
+	label_handNumber->setText(HandString+":");
+	label_gameNumber->setText(GameString+":");
 	
 	groupBox_RightToolBox->setDisabled(FALSE);
 	groupBox_LeftToolBox->setDisabled(FALSE);	
@@ -971,16 +976,16 @@ void gameTableImpl::refreshGameLabels(int gameState) {
 
 	switch(gameState) {
 		case 0: {
-			textLabel_handLabel->setText("Preflop");
+			textLabel_handLabel->setText(PreflopString);
 		} break;
 		case 1: {
-			textLabel_handLabel->setText("Flop");
+			textLabel_handLabel->setText(FlopString);
 		} break;
 		case 2: {
-			textLabel_handLabel->setText("Turn");
+			textLabel_handLabel->setText(TurnString);
 		} break;
 		case 3: {
-			textLabel_handLabel->setText("River");
+			textLabel_handLabel->setText(RiverString);
 		} break;
 		case 4: {
 			textLabel_handLabel->setText("");
@@ -2187,7 +2192,7 @@ void gameTableImpl::postRiverRunAnimation5() {
 			}
 		}
 		else { 
-			label_Pot->setText("Pot");
+			label_Pot->setText(PotString);
 
 			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
 				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) { 
@@ -3248,6 +3253,24 @@ void gameTableImpl::refreshGameTableStyle()
 	else { FoldString = myGameTableStyle->getActionFoldI18NString(); }
 	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getActionAllInI18NString() == "NULL") { AllInString = "All-In"; }
 	else { AllInString = myGameTableStyle->getActionAllInI18NString(); }
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getPotI18NString() == "NULL") { PotString = "Pot";	}
+	else { PotString = myGameTableStyle->getPotI18NString(); }
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getTotalI18NString() == "NULL") { TotalString = "Total"; }
+	else { TotalString = myGameTableStyle->getTotalI18NString(); }
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getBetsI18NString() == "NULL") { BetsString = "Bets"; }
+	else { BetsString = myGameTableStyle->getBetsI18NString(); }
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getGameI18NString() == "NULL") { GameString = "Game"; }
+	else { GameString = myGameTableStyle->getGameI18NString(); }
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getHandI18NString() == "NULL") { HandString = "Hand"; }
+	else { HandString = myGameTableStyle->getHandI18NString(); }
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getPreflopI18NString() == "NULL") { PreflopString = "Preflop"; }
+	else { PreflopString = myGameTableStyle->getPreflopI18NString(); }
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getFlopI18NString() == "NULL") { FlopString = "Flop"; }
+	else { FlopString = myGameTableStyle->getFlopI18NString(); }
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getTurnI18NString() == "NULL") { TurnString = "Turn"; }
+	else { TurnString = myGameTableStyle->getTurnI18NString(); }
+	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getRiverI18NString() == "NULL") { RiverString = "River"; }
+	else { RiverString = myGameTableStyle->getRiverI18NString(); }
 	
 }
 

@@ -170,6 +170,15 @@ void GameTableStyleReader::readStyleFile(QString file) {
      				else if (itemsList->ValueStr() == "ActionCallI18NString") { ActionCallI18NString = QString::fromUtf8(tempString1.c_str()); }
      				else if (itemsList->ValueStr() == "ActionCheckI18NString") { ActionCheckI18NString = QString::fromUtf8(tempString1.c_str()); }
      				else if (itemsList->ValueStr() == "ActionFoldI18NString") { ActionFoldI18NString = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "PotI18NString") { PotI18NString = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "TotalI18NString") { TotalI18NString = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "BetsI18NString") { BetsI18NString = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "GameI18NString") { GameI18NString = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "HandI18NString") { HandI18NString = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "PreflopI18NString") { PreflopI18NString = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "FlopI18NString") { FlopI18NString = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "TurnI18NString") { TurnI18NString = QString::fromUtf8(tempString1.c_str()); }
+				else if (itemsList->ValueStr() == "RiverI18NString") { RiverI18NString = QString::fromUtf8(tempString1.c_str()); }
 
 // 				COLORS
 				else if (itemsList->ValueStr() == "FKeyIndicatorColor") { FKeyIndicatorColor = QString::fromUtf8(tempString1.c_str()); }
@@ -382,6 +391,15 @@ void GameTableStyleReader::readStyleFile(QString file) {
      		if(ActionCallI18NString == "") { leftItems << "ActionCallI18NString"; }
 		if(ActionCheckI18NString == "") { leftItems << "ActionCheckI18NString"; }
 		if(ActionFoldI18NString == "") { leftItems << "ActionFoldI18NString"; }
+		if(PotI18NString == "") { leftItems << "PotI18NString"; }
+		if(TotalI18NString == "") { leftItems << "TotalI18NString"; }
+		if(BetsI18NString == "") { leftItems << "BetsI18NString"; }		
+		if(GameI18NString == "") { leftItems << "GameI18NString"; }
+		if(HandI18NString == "") { leftItems << "HandI18NString"; }
+		if(PreflopI18NString == "") { leftItems << "PreflopI18NString"; }
+		if(FlopI18NString == "") { leftItems << "FlopI18NString"; }
+		if(TurnI18NString == "") { leftItems << "TurnI18NString"; }
+		if(RiverI18NString == "") { leftItems << "RiverI18NString"; }
 
 // 		COLORS
 		if(FKeyIndicatorColor == "") { leftItems << "FKeyIndicatorColor"; }

@@ -59,13 +59,22 @@
      <ActionFoldI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
      <ActionWinnerI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
      
-     <!-- Action*I18NString: If you wanna set specific language strings for poker actions like call, check, raise etc. which will be shown on human players buttons for this style you can define them here, If you wanna use the default english strings just write value="NULL". PokerTH will automatically display the english ones. -->
+     <!-- I18NString: If you wanna set specific language strings for poker actions like call, check, raise etc. which will be shown on human players buttons for this style, and some other game strings you can define them here, If you wanna use the default english strings just write value="NULL". PokerTH will automatically display the english ones. -->
      <ActionAllInI18NString value="NULL" />
      <ActionRaiseI18NString value="NULL" />
      <ActionBetI18NString value="NULL" />
      <ActionCallI18NString value="NULL" />
      <ActionCheckI18NString value="NULL" />
      <ActionFoldI18NString value="NULL" />
+     <PotI18NString value="NULL" />
+     <TotalI18NString value="NULL" />
+     <BetsI18NString value="NULL" />
+     <GameI18NString value="NULL" />
+     <HandI18NString value="NULL" />
+     <PreflopI18NString value="NULL" />
+     <FlopI18NString value="NULL" />
+     <TurnI18NString value="NULL" />
+     <RiverI18NString value="NULL" />
      
      <FKeyIndicatorColor value="FFFFFF" />
      <ChanceLabelPossibleColor value="A1B4FF" />
