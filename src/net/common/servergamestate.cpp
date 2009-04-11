@@ -311,7 +311,7 @@ ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper s
 		// Check whether the client supports the current game.
 		else if ((size_t)server.GetGameData().maxNumberOfPlayers > session.sessionData->GetMaxNumPlayers())
 		{
-			server.MoveSessionToLobby(session, NTF_NET_NEW_RELEASE_AVAILABLE);
+			server.MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
 		}
 		else
 		{
