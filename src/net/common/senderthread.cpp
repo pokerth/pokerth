@@ -232,7 +232,7 @@ SenderThread::Main()
 		do
 		{
 			sessionValid = false;
-			unsigned sessionId;
+			unsigned sessionId = 0;
 
 			{
 				boost::mutex::scoped_lock lock(m_changedSessionsMutex);
