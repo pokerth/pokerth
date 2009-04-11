@@ -446,6 +446,7 @@ mac {
     # make sure you have a universal version of boost
     LIBS += /usr/local/lib/libboost_thread-xgcc40-mt.a
     LIBS += /usr/local/lib/libboost_filesystem-xgcc40-mt.a
+    LIBS += /usr/local/lib/libboost_regex-xgcc40-mt.a
     LIBS += /usr/local/lib/libboost_system-xgcc40-mt.a
     LIBS += /usr/local/lib/libboost_iostreams-xgcc40-mt.a
     # libraries installed on every mac
