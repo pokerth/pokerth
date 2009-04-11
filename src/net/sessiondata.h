@@ -71,6 +71,9 @@ public:
 	void MarkActivityNotice();
 	unsigned GetAutoDisconnectTimerElapsedSec() const;
 
+	unsigned GetMaxNumPlayers() const;
+	void SetMaxNumPlayers(unsigned numPlayers);
+
 private:
 	boost::shared_ptr<boost::asio::ip::tcp::socket> m_socket;
 	const SessionId					m_id;
@@ -84,6 +87,7 @@ private:
 	boost::timers::portable::microsec_timer m_autoDisconnectTimer;
 	boost::shared_ptr<SenderInterface>	m_sender;
 	SessionDataCallback				&m_callback;
+	unsigned						m_maxNumPlayers;
 
 	mutable boost::mutex			m_dataMutex;
 };

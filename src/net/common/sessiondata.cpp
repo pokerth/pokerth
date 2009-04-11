@@ -22,7 +22,8 @@
 
 SessionData::SessionData(SOCKET sockfd, SessionId id, boost::shared_ptr<SenderInterface> sender, SessionDataCallback &cb, boost::asio::io_service &ioService)
 : m_id(id), m_state(SessionData::Init), m_readyFlag(false),
-  m_wantsLobbyMsg(true), m_activityTimeoutNoticeSent(false), m_callback(cb)
+  m_wantsLobbyMsg(true), m_activityTimeoutNoticeSent(false), m_callback(cb),
+  m_maxNumPlayers(0)
 {
 	m_socket.reset(new boost::asio::ip::tcp::socket(
 		ioService, boost::asio::ip::tcp::v6(), sockfd));
@@ -173,3 +174,16 @@ SessionData::GetAutoDisconnectTimerElapsedSec() const
 	return m_autoDisconnectTimer.elapsed().total_seconds();
 }
 
+unsigned
+SessionData::GetMaxNumPlayers() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_maxNumPlayers;
+}
+
+void
+SessionData::SetMaxNumPlayers(unsigned numPlayers)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_maxNumPlayers = numPlayers;
+}

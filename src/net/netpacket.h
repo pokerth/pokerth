@@ -31,7 +31,7 @@
 #include <list>
 
 #define NET_VERSION_MAJOR			5
-#define NET_VERSION_MINOR			1
+#define NET_VERSION_MINOR			2
 
 #define MIN_PACKET_SIZE				4
 #define MAX_PACKET_SIZE				268

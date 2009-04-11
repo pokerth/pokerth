@@ -568,6 +568,10 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 		SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
 		return;
 	}
+	if (initData.versionMajor == 5 && (initData.versionMinor == 0 || initData.versionMinor == 1))
+		session.sessionData->SetMaxNumPlayers(7);
+	else
+		session.sessionData->SetMaxNumPlayers(MAX_NUMBER_OF_PLAYERS);
 
 	// Check the server password.
 	if (!CheckPassword(initData.password))
