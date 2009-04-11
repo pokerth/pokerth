@@ -1,5 +1,5 @@
 ++++++++++++++++++++++++++++++++++++++++
-How to create a skin for PokerTH
+How to create a style for PokerTH
 ++++++++++++++++++++++++++++++++++++++++
 
 +++++++++++++++++++++++
@@ -117,19 +117,19 @@ data/gfx/cards/default/preview.png
 If you style is ready to be shipped please pack the whole directory 
 into a zip archive. 
 
-If you like your style to be added into skin gallery on 
+If you like your style to be added into styles gallery on 
 http://www.pokerth.net please send a link to the address where you 
 are hosting your archive to webmaster@pokerth.net. We cannot promise 
 that every style will be added, but if everything works fine and the 
 legal issues are also clear there should be no problem. 
 
-Please read PokerTH GUI skinning legal notices 
+Please read PokerTH GUI styling legal notices 
 (http://www.pokerth.net/content/view/55) carefully if you like to 
 have a link to your style archive from http://www.pokerth.net.
 
 
 And now ... have a lot of fun when building a lot of 
-stylish PokerTH skins ;-)
+stylish PokerTH styles ;-)
 
 
 2009 by Felix Hammer 
