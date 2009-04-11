@@ -121,12 +121,12 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 					{
 						string ipAddress(GetLobbyThread().GetPlayerIPAddress(playerName));
 						if (!ipAddress.empty())
-							m_ircThread->SendChatMessage(nickName + ": The IP address of player \"" + playerName + "\" is: " + ipAddress);
+							m_ircThread->SendChatMessage(nickName + ": The IP address of player \"" + playerName + "\" is: \"" + ipAddress + "\"");
 						else
 							m_ircThread->SendChatMessage(nickName + ": The IP address of player \"" + playerName + "\" is unknown.");
 					}
 				}
-				else if (command == "nickban")
+				else if (command == "bannick")
 				{
 					while (msgStream.peek() == ' ')
 						msgStream.get();
@@ -137,10 +137,21 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 						m_ircThread->SendChatMessage(nickName + ": The regex \"" + playerRegex + "\" was added to the player ban list.");
 					}
 				}
+				else if (command == "banip")
+				{
+					while (msgStream.peek() == ' ')
+						msgStream.get();
+					string ipAddress(msgStream.str().substr(msgStream.tellg()));
+					if (!ipAddress.empty())
+					{
+						GetLobbyThread().BanIPAddress(ipAddress);
+						m_ircThread->SendChatMessage(nickName + ": The IP address \"" + ipAddress + "\" was added to the IP address ban list.");
+					}
+				}
 				else if (command == "listban")
 				{
 					list<string> banList;
-					GetLobbyThread().GetBanPlayerList(banList);
+					GetLobbyThread().GetBanList(banList);
 					list<string>::const_iterator i = banList.begin();
 					list<string>::const_iterator end = banList.end();
 					while (i != end)
@@ -157,14 +168,14 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 				{
 					unsigned banId = 0;
 					msgStream >> banId;
-					if (GetLobbyThread().UnBanPlayerRegex(banId))
+					if (GetLobbyThread().UnBan(banId))
 						m_ircThread->SendChatMessage(nickName + ": The nick ban was successfully removed.");
 					else
 						m_ircThread->SendChatMessage(nickName + ": This nick ban does not exist.");
 				}
 				else if (command == "clearban")
 				{
-					GetLobbyThread().ClearBanPlayerList();
+					GetLobbyThread().ClearBanList();
 					m_ircThread->SendChatMessage(nickName + ": All ban lists were cleared.");
 				}
 				else if (command == "stat")

@@ -265,40 +265,66 @@ ServerLobbyThread::BanPlayerRegex(const string &playerRegex)
 	m_banPlayerNameMap[++m_curBanId] = boost::regex(playerRegex, boost::regex_constants::no_except);
 }
 
+void
+ServerLobbyThread::BanIPAddress(const string &ipAddress)
+{
+	boost::mutex::scoped_lock lock(m_banMutex);
+	m_banIPAddressMap[++m_curBanId] = ipAddress;
+}
+
 bool
-ServerLobbyThread::UnBanPlayerRegex(unsigned banId)
+ServerLobbyThread::UnBan(unsigned banId)
 {
 	bool retVal = false;
 	boost::mutex::scoped_lock lock(m_banMutex);
-	RegexMap::iterator pos = m_banPlayerNameMap.find(banId);
-	if (pos != m_banPlayerNameMap.end())
+	RegexMap::iterator posNick = m_banPlayerNameMap.find(banId);
+	if (posNick != m_banPlayerNameMap.end())
 	{
-		m_banPlayerNameMap.erase(pos);
+		m_banPlayerNameMap.erase(posNick);
 		retVal = true;
+	}
+	else
+	{
+		IPAddressMap::iterator posIP = m_banIPAddressMap.find(banId);
+		if (posIP != m_banIPAddressMap.end())
+		{
+			m_banIPAddressMap.erase(posIP);
+			retVal = true;
+		}
 	}
 	return retVal;
 }
 
 void
-ServerLobbyThread::GetBanPlayerList(list<string> &list) const
+ServerLobbyThread::GetBanList(list<string> &list) const
 {
 	boost::mutex::scoped_lock lock(m_banMutex);
-	RegexMap::const_iterator i = m_banPlayerNameMap.begin();
-	RegexMap::const_iterator end = m_banPlayerNameMap.end();
-	while (i != end)
+	RegexMap::const_iterator i_nick = m_banPlayerNameMap.begin();
+	RegexMap::const_iterator end_nick = m_banPlayerNameMap.end();
+	while (i_nick != end_nick)
 	{
 		ostringstream banText;
-		banText << (*i).first << ": " << (*i).second.str();
+		banText << (*i_nick).first << " (nick): " << (*i_nick).second.str();
 		list.push_back(banText.str());
-		++i;
+		++i_nick;
+	}
+	IPAddressMap::const_iterator i_ip = m_banIPAddressMap.begin();
+	IPAddressMap::const_iterator end_ip = m_banIPAddressMap.end();
+	while (i_ip != end_ip)
+	{
+		ostringstream banText;
+		banText << (*i_ip).first << " (IP): " << (*i_ip).second;
+		list.push_back(banText.str());
+		++i_ip;
 	}
 }
 
 void
-ServerLobbyThread::ClearBanPlayerList()
+ServerLobbyThread::ClearBanList()
 {
 	boost::mutex::scoped_lock lock(m_banMutex);
 	m_banPlayerNameMap.clear();
+	m_banIPAddressMap.clear();
 }
 
 string
@@ -571,6 +597,12 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const NetPacketIn
 
 	// Check whether the player name is banned.
 	if (IsPlayerBanned(initData.playerName))
+	{
+		SessionError(session, ERR_NET_PLAYER_BANNED);
+		return;
+	}
+	// Check whether the peer IP address is banned.
+	if (IsIPAddressBanned(session.sessionData->GetClientAddr()))
 	{
 		SessionError(session, ERR_NET_PLAYER_BANNED);
 		return;
@@ -1431,6 +1463,26 @@ ServerLobbyThread::IsPlayerBanned(const std::string &name) const
 	while (i != end)
 	{
 		if (regex_match(name, (*i).second))
+		{
+			retVal = true;
+			break;
+		}
+		++i;
+	}
+
+	return retVal;
+}
+
+bool
+ServerLobbyThread::IsIPAddressBanned(const std::string &ipAddress) const
+{
+	bool retVal = false;
+	boost::mutex::scoped_lock lock(m_banMutex);
+	IPAddressMap::const_iterator i = m_banIPAddressMap.begin();
+	IPAddressMap::const_iterator end = m_banIPAddressMap.end();
+	while (i != end)
+	{
+		if (ipAddress == (*i).second)
 		{
 			retVal = true;
 			break;

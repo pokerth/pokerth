@@ -70,9 +70,10 @@ public:
 
 	bool KickPlayerByName(const std::string &playerName);
 	void BanPlayerRegex(const std::string &playerRegex);
-	bool UnBanPlayerRegex(unsigned banId);
-	void GetBanPlayerList(std::list<std::string> &list) const;
-	void ClearBanPlayerList();
+	void BanIPAddress(const std::string &ipAddress);
+	bool UnBan(unsigned banId);
+	void GetBanList(std::list<std::string> &list) const;
+	void ClearBanList();
 	std::string GetPlayerIPAddress(const std::string &playerName) const;
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
 
@@ -106,6 +107,7 @@ protected:
 	typedef std::map<std::string, boost::timers::portable::microsec_timer> TimerClientAddressMap;
 	typedef std::list<unsigned> RemoveGameList;
 	typedef std::map<unsigned, boost::regex> RegexMap;
+	typedef std::map<unsigned, std::string> IPAddressMap;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -165,6 +167,7 @@ protected:
 
 	bool IsPlayerConnected(const std::string &name) const;
 	bool IsPlayerBanned(const std::string &name) const;
+	bool IsIPAddressBanned(const std::string &ipAddress) const;
 
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListNew(const ServerGameThread &game);
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListUpdate(unsigned gameId, GameMode mode);
@@ -196,6 +199,7 @@ private:
 	mutable boost::mutex m_resubscribeListMutex;
 
 	RegexMap m_banPlayerNameMap;
+	IPAddressMap m_banIPAddressMap;
 	unsigned m_curBanId;
 	mutable boost::mutex m_banMutex;
 
