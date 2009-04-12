@@ -746,9 +746,10 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 		}
 		else {
 			gt->actionFullScreen->setDisabled(TRUE);
-			if(gt->isFullScreen())
+			if(gt->isFullScreen()) {
 				gt->showNormal();
 				gt->move(50,50);
+			}
 		}
 	}
 	else {
@@ -764,9 +765,10 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 		}
 		else {
 			gt->actionFullScreen->setDisabled(TRUE);
-			if(gt->isFullScreen())
+			if(gt->isFullScreen()) {
 				gt->showNormal();
 				gt->move(50,50);
+			}
 		}
 	}
 
