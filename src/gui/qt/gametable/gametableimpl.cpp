@@ -3272,6 +3272,12 @@ void gameTableImpl::refreshGameTableStyle()
 	else { TurnString = myGameTableStyle->getTurnI18NString(); }
 	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getRiverI18NString() == "NULL") { RiverString = "River"; }
 	else { RiverString = myGameTableStyle->getRiverI18NString(); }
+
+	label_Pot->setText(PotString);
+	label_Total->setText(TotalString+":");
+	label_Sets->setText(BetsString+":");
+	label_handNumber->setText(HandString+":");
+	label_gameNumber->setText(GameString+":");
 	
 }
 
