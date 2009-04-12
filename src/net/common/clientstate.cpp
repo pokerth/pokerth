@@ -458,7 +458,7 @@ ClientStateReadingServerList::Process(ClientThread &client)
 			ServerInfo serverInfo;
 			{
 				int tmpId;
-				nextServer->QueryIntAttribute("value", &tmpId);
+				nextServer->QueryIntAttribute("id", &tmpId);
 				serverInfo.id = (unsigned)tmpId;
 			}
 			const TiXmlNode *nameNode = nextServer->FirstChild("Name");
