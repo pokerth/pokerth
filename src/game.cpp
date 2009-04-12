@@ -41,7 +41,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 	blindsList = myGameData.manualBlindsList;
 
 	if(DEBUG_MODE) {
-		startSmallBlind = 10;
+		startSmallBlind = 320;
 		currentSmallBlind = startSmallBlind;
 	}
 

@@ -104,11 +104,11 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 			case 1: {		
 
-				tempBoardArray[0] = 3;
-				tempBoardArray[1] = 17;
-				tempBoardArray[2] = 18;
-				tempBoardArray[3] = 32;
-				tempBoardArray[4] = 33;
+				tempBoardArray[0] = 48;
+				tempBoardArray[1] = 10;
+				tempBoardArray[2] = 11;
+				tempBoardArray[3] = 1;
+				tempBoardArray[4] = 26;
 			
 				myBoard->setMyCards(tempBoardArray);
 			
@@ -121,8 +121,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player0
 				it = seatsList->begin();
 			
-				tempPlayerArray[0] = 11;
-				tempPlayerArray[1] = 12;
+				tempPlayerArray[0] = 24;
+				tempPlayerArray[1] = 45;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -134,15 +134,15 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player1
 				it++;
 		
-/*				tempPlayerArray[0] = 12;
-				tempPlayerArray[1] = 48;
+				tempPlayerArray[0] = 38;
+				tempPlayerArray[1] = 27;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
 				(*it)->setMyCards(tempPlayerArray);
 				(*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
 			
-				(*it)->setMyBestHandPosition(temp5Array);*/
+				(*it)->setMyBestHandPosition(temp5Array);
 			
 				// player2
 				it++;

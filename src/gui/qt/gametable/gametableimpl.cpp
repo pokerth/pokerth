@@ -2404,7 +2404,7 @@ void gameTableImpl::nextRoundCleanGui() {
 	flipHolecardsAllInAlreadyDone = FALSE;
 
 	//Wenn Pause zwischen den Hands in der Konfiguration steht den Stop Button drücken!
-	if (myConfig->readConfigInt("PauseBetweenHands") && blinkingStartButtonAnimationTimer->isActive() == FALSE && myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) { 
+	if (myConfig->readConfigInt("PauseBetweenHands") /*&& blinkingStartButtonAnimationTimer->isActive() == FALSE*/ && myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) { 
 		pushButton_break->click(); 
 	}
 	else { 
