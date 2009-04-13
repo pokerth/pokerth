@@ -234,8 +234,6 @@ void GameTableStyleReader::readStyleFile(QString file) {
 				else if (itemsList->ValueStr() == "BetSpeedSliderHandleBorderColor") { BetSpeedSliderHandleBorderColor = QString::fromUtf8(tempString1.c_str()); }
 // 				SIZES
 				else if (itemsList->ValueStr() == "ChatLogTextSize") { ChatLogTextSize = QString::fromUtf8(tempString1.c_str()); }
-
-// 				std::cout << "ÖLP" << itemsList->ValueStr() <<"§4s"<< itemsList->ValueStr()<<"§89"<< endl;
 			}
 		}
 
@@ -469,7 +467,10 @@ void GameTableStyleReader::readStyleFile(QString file) {
 			}
 		}
 	}	
-	else {	qDebug() << "could not load game table style file: " << tinyFileName.c_str(); }
+        else {	QMessageBox::warning(myW, tr("Game Table Style Error"),
+                                        tr("Can not load game table style file: %1 \n\nPlease check the style file or choose another style!").arg(tinyFileName.c_str()),
+                                        QMessageBox::Ok);
+        }
 }
 
 void GameTableStyleReader::showLeftItemsErrorMessage(QString style, QStringList failedItems, QString email)
