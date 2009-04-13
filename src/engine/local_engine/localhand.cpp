@@ -522,7 +522,7 @@ void LocalHand::switchRounds() {
 				// no.2: heads up -> detect player who is all in and bb but could set less than sb
 				for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
 	
-					if(activePlayerList->size()==2 && (*it_c)->getMyAction() == PLAYER_ACTION_ALLIN && (*it_c)->getMyButton()==BUTTON_BIG_BLIND && (*it_c)->getMySet()<=smallBlind) {
+                                        if(activePlayerList->size()==2 && (*it_c)->getMyAction() == PLAYER_ACTION_ALLIN && (*it_c)->getMyButton()==BUTTON_BIG_BLIND && (*it_c)->getMySet()<=smallBlind && currentRound == GAME_STATE_PREFLOP) {
 							allInCondition = true;
 					}
 				}
