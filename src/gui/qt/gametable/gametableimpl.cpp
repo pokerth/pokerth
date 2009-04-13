@@ -641,6 +641,7 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 	//blind buttons refresh
 	if(myStartWindow->getSession()->getCurrentGame()) {
 		refreshButton();
+                refreshGroupbox();
 		provideMyActions();
 	}
 
