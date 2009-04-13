@@ -1694,31 +1694,32 @@ void gameTableImpl::mySet(){
 
 void gameTableImpl::myAllIn(){
 
-	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+        if(pushButton_AllIn->text() == AllInString) {
 
-	currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
-	currentHand->getSeatsList()->front()->setMyCash(0);
-	currentHand->getSeatsList()->front()->setMyAction(6);
-	
-	if(currentHand->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-		currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
+                HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
-		currentHand->getCurrentBeRo()->setHighestSet(currentHand->getSeatsList()->front()->getMySet());
+                currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
+                currentHand->getSeatsList()->front()->setMyCash(0);
+                currentHand->getSeatsList()->front()->setMyAction(6);
 
-	}
+                if(currentHand->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
+                        currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
 
-	currentHand->getSeatsList()->front()->setMyTurn(0);
+                        currentHand->getCurrentBeRo()->setHighestSet(currentHand->getSeatsList()->front()->getMySet());
 
-	currentHand->getBoard()->collectSets();
-	refreshPot();
-	
-// 	statusBar()->clearMessage();
+                }
 
-	//set that i was the last active player. need this for unhighlighting groupbox
-	currentHand->setLastPlayersTurn(0);
+                currentHand->getSeatsList()->front()->setMyTurn(0);
 
-	//Spiel läuft weiter
-	myActionDone();
+                currentHand->getBoard()->collectSets();
+                refreshPot();
+
+                //set that i was the last active player. need this for unhighlighting groupbox
+                currentHand->setLastPlayersTurn(0);
+
+                //Spiel läuft weiter
+                myActionDone();
+        }
 }
 
 
