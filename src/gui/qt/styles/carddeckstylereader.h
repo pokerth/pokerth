@@ -21,7 +21,6 @@
 #define CARDDECKSTYLEREADER_H
 
 #include "tinyxml.h"
-#include "gametableimpl.h"
 #include "configfile.h"
 #include <string>
 #include <QtCore>
@@ -30,7 +29,7 @@
 class CardDeckStyleReader : public QObject {
 Q_OBJECT
 public:
-	CardDeckStyleReader(ConfigFile *c, gameTableImpl *w =0 );
+        CardDeckStyleReader(ConfigFile *c, QWidget *w );
 	~CardDeckStyleReader();
 	
 	void readStyleFile(QString);
@@ -46,6 +45,8 @@ public:
 	QString getPreview() const { return Preview; }
 
 	bool getFallBack() const { return fallBack; }	
+        bool getLoadedSuccessfull() const { return loadedSuccessfull; }
+
 	void showLeftItemsErrorMessage(QString, QStringList, QString);
 	void showCardsLeftErrorMessage(QString, QStringList, QString);
 
@@ -65,9 +66,10 @@ private:
 	QStringList leftItems;
 
 	ConfigFile *myConfig;
-	gameTableImpl *myW;
+        QWidget *myW;
 
 	bool fallBack;
+        bool loadedSuccessfull;
 };
 
 #endif

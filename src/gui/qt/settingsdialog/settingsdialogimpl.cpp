@@ -242,25 +242,29 @@ void settingsDialogImpl::exec() {
 // 	define PokerTH default GameTableStyle
 	listWidget_gameTableStyles->clear();
 
-	GameTableStyleReader defaultTableStyle(myConfig);
+        GameTableStyleReader defaultTableStyle(myConfig, this);
 	defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
-	QListWidgetItem *defaultTableItem = new QListWidgetItem(defaultTableStyle.getStyleDescription(),listWidget_gameTableStyles); 
-	defaultTableItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
-	defaultTableItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
+        if(defaultTableStyle.getLoadedSuccessfull()) {
+                QListWidgetItem *defaultTableItem = new QListWidgetItem(defaultTableStyle.getStyleDescription(),listWidget_gameTableStyles);
+                defaultTableItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
+                defaultTableItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
+        }
 	//add danuxi table
-	GameTableStyleReader danuxi1TableStyle(myConfig);
+        GameTableStyleReader danuxi1TableStyle(myConfig, this);
 	danuxi1TableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
-	QListWidgetItem *danuxi1TableItem = new QListWidgetItem(danuxi1TableStyle.getStyleDescription(),listWidget_gameTableStyles); 
-	danuxi1TableItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
-	danuxi1TableItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
+        if(danuxi1TableStyle.getLoadedSuccessfull()) {
+                QListWidgetItem *danuxi1TableItem = new QListWidgetItem(danuxi1TableStyle.getStyleDescription(),listWidget_gameTableStyles);
+                danuxi1TableItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
+                danuxi1TableItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
+        }
 	
-	//load secondary styles into list (if fallback no entry)
+        //load secondary styles into list (if fallback no entry)
 	myGameTableStylesList = myConfig->readConfigStringList("GameTableStylesList");
 	list<std::string>::iterator it1;
 	for(it1= myGameTableStylesList.begin(); it1 != myGameTableStylesList.end(); it1++) {
-		GameTableStyleReader nextStyle(myConfig);
+                GameTableStyleReader nextStyle(myConfig, this);
 		nextStyle.readStyleFile(QString::fromUtf8(it1->c_str()));
-		if(!nextStyle.getFallBack()) {
+                if(!nextStyle.getFallBack() && nextStyle.getLoadedSuccessfull()) {
 			QListWidgetItem *nextItem = new QListWidgetItem(nextStyle.getStyleDescription()); 
 			nextItem->setData(15,QString::fromUtf8(it1->c_str()));
 			nextItem->setData(Qt::ToolTipRole,QString::fromUtf8(it1->c_str()));
@@ -268,26 +272,38 @@ void settingsDialogImpl::exec() {
 		}
 	}	
 
-	//set current Game Table Style from config file
-	GameTableStyleReader currentGameTableStyle(myConfig);
+        //set current Game Table Style from config file or fallback to first entry
+        GameTableStyleReader currentGameTableStyle(myConfig, this);
 	currentGameTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentGameTableStyle").c_str()));
-	int i;
-	bool currentGameTableFound(FALSE);
-	for(i=0; i < listWidget_gameTableStyles->count(); i++) {
-		QListWidgetItem *item = listWidget_gameTableStyles->item(i);
-		if(item->data(15) == currentGameTableStyle.getCurrentFileName()) {
-			item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
-			listWidget_gameTableStyles->setCurrentItem(item);
-			currentGameTableFound=TRUE;
-		}
-		else item->setIcon(QIcon());
-	}
-	if(!currentGameTableFound) {
-		qDebug() << "Config ERROR: current game table style file not found in List. Mark default as selected.";
-		QListWidgetItem *item = listWidget_gameTableStyles->item(0);
-		item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
-		listWidget_gameTableStyles->setCurrentItem(item);
-	}
+        if(currentGameTableStyle.getLoadedSuccessfull()) {
+                int i;
+                bool currentGameTableFound(FALSE);
+                for(i=0; i < listWidget_gameTableStyles->count(); i++) {
+                        QListWidgetItem *item = listWidget_gameTableStyles->item(i);
+                        if(item->data(15) == currentGameTableStyle.getCurrentFileName()) {
+                                item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+                                listWidget_gameTableStyles->setCurrentItem(item);
+                                currentGameTableFound=TRUE;
+                        }
+                        else item->setIcon(QIcon());
+                }
+                if(!currentGameTableFound) {
+                        qDebug() << "Config ERROR: current game table style file not found in List. Try to mark default as selected.";
+                        QListWidgetItem *item = listWidget_gameTableStyles->item(0);
+                        if(item) {
+                                item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+                                listWidget_gameTableStyles->setCurrentItem(item);
+                        }
+                }
+        }
+        else {
+                qDebug() << "Config ERROR: current game table style file could not be loaded. Try to mark default as selected.";
+                QListWidgetItem *item = listWidget_gameTableStyles->item(0);
+                if(item) {
+                        item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+                        listWidget_gameTableStyles->setCurrentItem(item);
+                }
+        }
 
 	//refresh Game Table Style Preview
 	showCurrentGameTableStylePreview();
@@ -295,25 +311,29 @@ void settingsDialogImpl::exec() {
 	//CARDS
 	//define PokerTH default CardDeck
 	listWidget_cardDeckStyles->clear();
-	CardDeckStyleReader defaultCardStyle(myConfig);
+        CardDeckStyleReader defaultCardStyle(myConfig, this);
 	defaultCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
-	QListWidgetItem *defaultCardItem = new QListWidgetItem(defaultCardStyle.getStyleDescription(),listWidget_cardDeckStyles); 
-	defaultCardItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
-	defaultCardItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
+        if(defaultCardStyle.getLoadedSuccessfull()) {
+                QListWidgetItem *defaultCardItem = new QListWidgetItem(defaultCardStyle.getStyleDescription(),listWidget_cardDeckStyles);
+                defaultCardItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
+                defaultCardItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
+        }
 	//define PokerTH default CardDeck4c
-	CardDeckStyleReader default4cCardStyle(myConfig);
+        CardDeckStyleReader default4cCardStyle(myConfig, this);
 	default4cCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
-	QListWidgetItem *default4cCardItem = new QListWidgetItem(default4cCardStyle.getStyleDescription(),listWidget_cardDeckStyles); 
-	default4cCardItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
-	default4cCardItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
+        if(default4cCardStyle.getLoadedSuccessfull()) {
+                QListWidgetItem *default4cCardItem = new QListWidgetItem(default4cCardStyle.getStyleDescription(),listWidget_cardDeckStyles);
+                default4cCardItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
+                default4cCardItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
+        }
 
 	//load secondary card styles into list (if fallback no entry)
 	myCardDeckStylesList = myConfig->readConfigStringList("CardDeckStylesList");
 	list<std::string>::iterator it2;
 	for(it2= myCardDeckStylesList.begin(); it2 != myCardDeckStylesList.end(); it2++) {
-		CardDeckStyleReader nextStyle(myConfig);
+                CardDeckStyleReader nextStyle(myConfig, this);
 		nextStyle.readStyleFile(QString::fromUtf8(it2->c_str()));
-		if(!nextStyle.getFallBack()) {
+                if(!nextStyle.getFallBack() && nextStyle.getLoadedSuccessfull()) {
 			QListWidgetItem *nextItem = new QListWidgetItem(nextStyle.getStyleDescription()); 
 			nextItem->setData(15,QString::fromUtf8(it2->c_str()));
 			nextItem->setData(Qt::ToolTipRole,QString::fromUtf8(it2->c_str()));
@@ -322,25 +342,37 @@ void settingsDialogImpl::exec() {
 	}	
 
 	//set current card deck style from config file
-	CardDeckStyleReader currentCardDeckStyle(myConfig);
+        CardDeckStyleReader currentCardDeckStyle(myConfig, this);
 	currentCardDeckStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentCardDeckStyle").c_str()));
-	int j;
-	bool currentCardDeckFound(FALSE);
-	for(j=0; j < listWidget_cardDeckStyles->count(); j++) {
-		QListWidgetItem *item = listWidget_cardDeckStyles->item(j);
-		if(item->data(15) == currentCardDeckStyle.getCurrentFileName()) {
-			item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
-			listWidget_cardDeckStyles->setCurrentItem(item);
-			currentCardDeckFound=TRUE;
-		}
-		else item->setIcon(QIcon());
-	}
-	if(!currentCardDeckFound) {
-		qDebug() << "Config ERROR: current card deck style file not found in List. Mark default as selected.";
-		QListWidgetItem *item = listWidget_cardDeckStyles->item(0);
-		item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
-		listWidget_cardDeckStyles->setCurrentItem(item);
-	}
+        if(currentCardDeckStyle.getLoadedSuccessfull()) {
+            int j;
+            bool currentCardDeckFound(FALSE);
+            for(j=0; j < listWidget_cardDeckStyles->count(); j++) {
+                    QListWidgetItem *item = listWidget_cardDeckStyles->item(j);
+                    if(item->data(15) == currentCardDeckStyle.getCurrentFileName()) {
+                            item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+                            listWidget_cardDeckStyles->setCurrentItem(item);
+                            currentCardDeckFound=TRUE;
+                    }
+                    else item->setIcon(QIcon());
+            }
+            if(!currentCardDeckFound) {
+                    qDebug() << "Config ERROR: current card deck style file not found in List. Try to mark default as selected.";
+                    QListWidgetItem *item = listWidget_cardDeckStyles->item(0);
+                    if(item) {
+                        item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+                        listWidget_cardDeckStyles->setCurrentItem(item);
+                    }
+            }
+        }
+        else {
+            qDebug() << "Config ERROR: current card deck style file could not be loaded. Try to mark default as selected.";
+            QListWidgetItem *item = listWidget_cardDeckStyles->item(0);
+            if(item) {
+                item->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+                listWidget_cardDeckStyles->setCurrentItem(item);
+            }
+        }
 
 // 	refresh Card Deck Style Preview
 	showCurrentCardDeckStylePreview();
@@ -612,7 +644,7 @@ void settingsDialogImpl::isAccepted() {
 }
 
 void settingsDialogImpl::setFlipsidePicFileName()
- {
+{
 	QDir flipSideDir(QDir::homePath());
 	QFile flipSideFile(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
 	if(flipSideFile.exists()) {
@@ -861,7 +893,7 @@ void settingsDialogImpl::showCurrentGameTableStylePreview()
 {
 	QListWidgetItem* item = listWidget_gameTableStyles->currentItem();
 	if(item) {
-		GameTableStyleReader style(myConfig);
+                GameTableStyleReader style(myConfig, this);
 		style.readStyleFile(item->data(15).toString());
 		QPixmap preview(style.getPreview());
 		if(preview.height() > 160 || preview.width() > 120) label_gameTableStylePreview->setPixmap(preview.scaled(160,120,Qt::KeepAspectRatio,Qt::SmoothTransformation));
@@ -885,7 +917,12 @@ void settingsDialogImpl::showCurrentGameTableStylePreview()
 			windowsSubString = "<b>"+WindowBehaviour+":</b> "+scaleable+"<br><b>"+MinimumSize+":</b> "+style.getMinimumWindowWidth()+"x"+style.getMinimumWindowHeight()+"<br><b>"+MaximumSize+":</b> "+style.getMaximumWindowWidth()+"x"+style.getMaximumWindowHeight();
 		}
 
-		label_gameTableStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br><b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br><b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"<br>"+windowsSubString);
+                QString maintainerEMailString;
+                if(style.getStyleMaintainerEMail() != "NULL" && style.getStyleMaintainerEMail() != "") {
+                    maintainerEMailString = "<b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br>";
+                }
+
+                label_gameTableStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br>"+maintainerEMailString+"<b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"<br>"+windowsSubString);
 	}
 }
 
@@ -926,9 +963,9 @@ void settingsDialogImpl::addGameTableStyle()
 					QMessageBox::Ok);	
 		}
 		else {
-			GameTableStyleReader newStyle(myConfig);
+                        GameTableStyleReader newStyle(myConfig, this);
 			newStyle.readStyleFile(fileName);
-			if(!newStyle.getFallBack()) {
+                        if(!newStyle.getFallBack() && newStyle.getLoadedSuccessfull()) {
 				QListWidgetItem *newItem = new QListWidgetItem(newStyle.getStyleDescription()); 
 				newItem->setData(15,fileName);
 				newItem->setData(Qt::ToolTipRole,fileName);
@@ -936,7 +973,7 @@ void settingsDialogImpl::addGameTableStyle()
 			}
 			else {
 				QMessageBox::warning(this, tr("Game Table Style File Error"),
-					tr("Could not read game table style file. \nStyle will not be placed into list!"),
+                                        tr("Could not load game table style file correctly. \nStyle will not be placed into list!"),
 					QMessageBox::Ok);	
 			}	
 		}
@@ -965,7 +1002,7 @@ void settingsDialogImpl::showCurrentCardDeckStylePreview()
 {
 	QListWidgetItem* item = listWidget_cardDeckStyles->currentItem();
 	if(item) {
-		CardDeckStyleReader style(myConfig);
+                CardDeckStyleReader style(myConfig, this);
 		style.readStyleFile(item->data(15).toString());
 		QPixmap preview(style.getPreview());
 		if(preview.height() > 160 || preview.width() > 120) label_cardDeckStylePreview->setPixmap(preview.scaled(160,120,Qt::KeepAspectRatio,Qt::SmoothTransformation));
@@ -975,7 +1012,12 @@ void settingsDialogImpl::showCurrentCardDeckStylePreview()
 		QString MaintainerEMail = tr("Maintainer EMail");
 		QString CreateDate = tr("Create Date");
 
-		label_cardDeckStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br><b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br><b>"+CreateDate+":</b> "+style.getStyleCreateDate()+""); 
+                QString maintainerEMailString;
+                if(style.getStyleMaintainerEMail() != "NULL" && style.getStyleMaintainerEMail() != "") {
+                    maintainerEMailString = "<b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br>";
+                }
+
+                label_cardDeckStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br>"+maintainerEMailString+"<b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"");
 	}
 }
 
@@ -1016,9 +1058,9 @@ void settingsDialogImpl::addCardDeckStyle()
 					QMessageBox::Ok);	
 		}
 		else {
-			CardDeckStyleReader newStyle(myConfig);
+                        CardDeckStyleReader newStyle(myConfig, this);
 			newStyle.readStyleFile(fileName);
-			if(!newStyle.getFallBack()) {
+                        if(!newStyle.getFallBack() && newStyle.getLoadedSuccessfull()) {
 				QListWidgetItem *newItem = new QListWidgetItem(newStyle.getStyleDescription()); 
 				newItem->setData(15,fileName);
 				newItem->setData(Qt::ToolTipRole,fileName);
@@ -1026,7 +1068,7 @@ void settingsDialogImpl::addCardDeckStyle()
 			}
 			else {
 				QMessageBox::warning(this, tr("Card Deck Style File Error"),
-					tr("Could not read card deck style file. \nStyle will not be placed into list!"),
+                                        tr("Could not load card deck style file correctly. \nStyle will not be placed into list!"),
 					QMessageBox::Ok);	
 			}	
 		}

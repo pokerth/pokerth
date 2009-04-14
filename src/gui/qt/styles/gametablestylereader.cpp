@@ -26,7 +26,7 @@
 
 using namespace std;
 
-GameTableStyleReader::GameTableStyleReader(ConfigFile *c, gameTableImpl *w) : myConfig(c), myW(w), fallBack(0)
+GameTableStyleReader::GameTableStyleReader(ConfigFile *c, QWidget *w) : myConfig(c), myW(w), fallBack(0), loadedSuccessfull(0)
 {
 
 	//set fonts and font sizes
@@ -454,20 +454,30 @@ void GameTableStyleReader::readStyleFile(QString file) {
 // 		SIZE
 		if(ChatLogTextSize == "") { leftItems << "ChatLogTextSize"; }
 			
+                //set loadedSuccessfull TRUE if everything works
+                if(leftItems.isEmpty() && itemPicsLeft.isEmpty() && PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() == POKERTH_GT_STYLE_FILE_VERSION)
+                        loadedSuccessfull = 1;
+                else
+                        loadedSuccessfull = 0;
+
 		//if one or more items are left show detailed error message
 		if(!leftItems.isEmpty() && myW != 0) showLeftItemsErrorMessage(StyleDescription, leftItems, StyleMaintainerEMail);
 		else {
 			//if one or more pictures where not found show detailed error message
 			if(!itemPicsLeft.isEmpty() && myW != 0) showItemPicsLeftErrorMessage(StyleDescription, itemPicsLeft, StyleMaintainerEMail);
 			//check for style file version
-			if(!PokerTHStyleFileVersion.isEmpty() && PokerTHStyleFileVersion.toInt() != PokerTH_STYLE_FILE_VERSION) {
+                        if(PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() != POKERTH_GT_STYLE_FILE_VERSION) {
+                                QString EMail;
+                                if(StyleMaintainerEMail != "NULL") EMail = StyleMaintainerEMail;
 				QMessageBox::warning(myW, tr("Game Table Style Error"),
-					tr("Selected game table style \"%1\" seems to be outdated. \n The current PokerTH game table style version is \"%2\", but this style has version \"%3\" set. \n\nPlease contact the game table style builder %4.").arg(StyleDescription).arg(PokerTH_STYLE_FILE_VERSION).arg(PokerTHStyleFileVersion).arg(StyleMaintainerEMail),
+                                        tr("Selected game table style \"%1\" seems to be outdated. \n The current PokerTH game table style version is \"%2\", but this style has version \"%3\" set. \n\nPlease contact the game table style builder %4.").arg(StyleDescription).arg(POKERTH_GT_STYLE_FILE_VERSION).arg(PokerTHStyleFileVersion).arg(EMail),
 					QMessageBox::Ok);
 			}
 		}
 	}	
-        else {	QMessageBox::warning(myW, tr("Game Table Style Error"),
+        else {
+            loadedSuccessfull = 0;
+            QMessageBox::warning(myW, tr("Game Table Style Error"),
                                         tr("Can not load game table style file: %1 \n\nPlease check the style file or choose another style!").arg(tinyFileName.c_str()),
                                         QMessageBox::Ok);
         }
@@ -476,18 +486,22 @@ void GameTableStyleReader::readStyleFile(QString file) {
 void GameTableStyleReader::showLeftItemsErrorMessage(QString style, QStringList failedItems, QString email)
 {
 	QString items = failedItems.join(", ");
+        QString EMail;
+        if(email != "NULL") EMail = email;
 
 	QMessageBox::warning(myW, tr("Game Table Style Error"),
-                                tr("Selected game table style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are missing. \n\nPlease contact the game table style builder %3.").arg(style).arg(items).arg(email),
+                                tr("Selected game table style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are missing. \n\nPlease contact the game table style builder %3.").arg(style).arg(items).arg(EMail),
                                 QMessageBox::Ok);
 }
 
 void GameTableStyleReader::showItemPicsLeftErrorMessage(QString style, QStringList picsLeft, QString email)
 {
-		QString pics = picsLeft.join("\n");
+        QString pics = picsLeft.join("\n");
+        QString EMail;
+        if(email != "NULL") EMail = email;
 
 	QMessageBox::warning(myW, tr("Game Table Style Error"),
-                                tr("One or more pictures from current game table style \"%1\" where not found: \n\n\"%2\" \n\nPlease contact the game table style builder %3.").arg(style).arg(pics).arg(email),
+                                tr("One or more pictures from current game table style \"%1\" where not found: \n\n\"%2\" \n\nPlease contact the game table style builder %3.").arg(style).arg(pics).arg(EMail),
                                 QMessageBox::Ok);
 }
 

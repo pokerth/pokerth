@@ -22,11 +22,11 @@
 #include <sstream>
 #include <cstdlib>
 #include <fstream>
-
+#include "game_defs.h"
 
 using namespace std;
 
-CardDeckStyleReader::CardDeckStyleReader(ConfigFile *c, gameTableImpl *w) : myConfig(c), myW(w), fallBack(0)
+CardDeckStyleReader::CardDeckStyleReader(ConfigFile *c, QWidget *w) : myConfig(c), myW(w), fallBack(0), loadedSuccessfull(0)
 {
 	
 }
@@ -74,52 +74,75 @@ void CardDeckStyleReader::readStyleFile(QString file) {
 				else if (itemsList->ValueStr() == "Preview") { Preview = currentDir+QString::fromUtf8(tempString1.c_str()); }
 			}
 		}
-		
-	}
-	else {	qDebug() << "could not load card deck file: " << tinyFileName.c_str(); }
+                //check if style items are left and show warning
+                leftItems.clear();
 
-		//check if style items are left and show warning
-	leftItems.clear();
+                if(StyleDescription == "") { leftItems << "StyleDescription"; }
+                if(StyleMaintainerName == "") { leftItems << "StyleMaintainerName"; }
+                if(StyleMaintainerEMail == "") { leftItems << "StyleMaintainerEMail"; }
+                if(StyleCreateDate == "") { leftItems << "StyleCreateDate"; }
+                if(PokerTHStyleFileVersion == "") { leftItems << "PokerTHStyleFileVersion"; }
 
-	if(StyleDescription == "") { leftItems << "StyleDescription"; }
-	if(StyleMaintainerName == "") { leftItems << "StyleMaintainerName"; }
-	if(StyleMaintainerEMail == "") { leftItems << "StyleMaintainerEMail"; }
-	if(StyleCreateDate == "") { leftItems << "StyleCreateDate"; }
-	if(PokerTHStyleFileVersion == "") { leftItems << "PokerTHStyleFileVersion"; }
+                //check if all files are there
+                cardsLeft.clear();
+                int i;
+                for(i=0; i<52; i++) {
+                        QString cardString(QString::number(i)+".png");
+                        if(!QDir(currentDir).exists(cardString)) {
+                                cardsLeft << cardString;
+                        }
+                }
+                if(!QDir(currentDir).exists("flipside.png")) {
+                                cardsLeft << "flipside.png";
+                }
 
-	//check if all files are there
-	cardsLeft.clear();
-	int i;
-	for(i=0; i<52; i++) {
-		QString cardString(QString::number(i)+".png");
-		if(!QDir(currentDir).exists(cardString)) {
-			cardsLeft << cardString;
-		}
-	}
-	if(!QDir(currentDir).exists("flipside.png")) {
-			cardsLeft << "flipside.png";
-	}
-	
-	if(!leftItems.isEmpty() && myW != 0) showLeftItemsErrorMessage(StyleDescription, leftItems, StyleMaintainerEMail);
-	else {
-		if(!cardsLeft.isEmpty() && myW != 0) showCardsLeftErrorMessage(StyleDescription, cardsLeft, StyleMaintainerEMail);
-	}
+                // set loadedSuccessfull TRUE if everything works
+                if(leftItems.isEmpty() && cardsLeft.isEmpty() && PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() == POKERTH_CD_STYLE_FILE_VERSION)
+                        loadedSuccessfull = 1;
+                else
+                        loadedSuccessfull = 0;
+
+                if(!leftItems.isEmpty() && myW != 0) showLeftItemsErrorMessage(StyleDescription, leftItems, StyleMaintainerEMail);
+                else {
+                        if(!cardsLeft.isEmpty() && myW != 0) showCardsLeftErrorMessage(StyleDescription, cardsLeft, StyleMaintainerEMail);
+                        //check for style file version
+                        if(PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() != POKERTH_CD_STYLE_FILE_VERSION) {
+                                QString EMail;
+                                if(StyleMaintainerEMail != "NULL") EMail = StyleMaintainerEMail;
+                                QMessageBox::warning(myW, tr("Card Deck Style Error"),
+                                        tr("Selected card deck style \"%1\" seems to be outdated. \n The current PokerTH card deck style version is \"%2\", but this style has version \"%3\" set. \n\nPlease contact the game table style builder %4.").arg(StyleDescription).arg(POKERTH_CD_STYLE_FILE_VERSION).arg(PokerTHStyleFileVersion).arg(EMail),
+                                        QMessageBox::Ok);
+                        }
+                }
+
+        }
+        else {
+            loadedSuccessfull = 0;
+            QMessageBox::warning(myW, tr("Card Deck Style Error"),
+                                        tr("Can not load card deck style file: %1 \n\nPlease check the style file or choose another style!").arg(tinyFileName.c_str()),
+                                        QMessageBox::Ok);
+        }
+
 }
 
 void CardDeckStyleReader::showLeftItemsErrorMessage(QString style, QStringList failedItems, QString email)
 {
 	QString items = failedItems.join(", ");
+        QString EMail;
+        if(email != "NULL") EMail = email;
 
 	QMessageBox::warning(myW, tr("Card Deck Style Error"),
-                                tr("Selected card deck style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are missing. \n\nPlease contact the game table style builder %3.").arg(style).arg(items).arg(email),
+                                tr("Selected card deck style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are missing. \n\nPlease contact the game table style builder %3.").arg(style).arg(items).arg(EMail),
                                 QMessageBox::Ok);
 }
 
 void CardDeckStyleReader::showCardsLeftErrorMessage(QString style, QStringList failedItems, QString email)
 {
 	QString items = failedItems.join(", ");
+        QString EMail;
+        if(email != "NULL") EMail = email;
 
 	QMessageBox::warning(myW, tr("Card Deck Style Error"),
-                                tr("Selected card deck style \"%1\" seems to be incomplete or defective. \nThe card picture(s) \"%2\" is/are not available. \n\nPlease contact the card deck style builder %3.").arg(style).arg(items).arg(email),
+                                tr("Selected card deck style \"%1\" seems to be incomplete or defective. \nThe card picture(s) \"%2\" is/are not available. \n\nPlease contact the card deck style builder %3.").arg(style).arg(items).arg(EMail),
                                 QMessageBox::Ok);
 }

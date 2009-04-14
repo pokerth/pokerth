@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <PokerTH>
   <TableStyle>
-     <StyleDescription value="danuxi table design" />  <!-- This string will be shown in settings/game table style list -->
+     <StyleDescription value="danuxi table design" />
      <StyleMaintainerName value="Daniel Hammer" />
-     <StyleMaintainerEMail value="webmaster@pokerth.net" /> <!-- This string will be shown in error message if there is a problem with the style -->
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
      <StyleCreateDate value="06.04.2009" />
      <PokerTHStyleFileVersion value="1" />
      <Preview value="preview.png" />
-     <IfFixedWindowSize value="1" /> <!-- value [1,0] 1 = fixed window size, 0 = resizeable window -->
+     <IfFixedWindowSize value="1" />
      <FixedWindowWidth value="1024" />
      <FixedWindowHeight value="600" />
      <MinimumWindowWidth value="1024" />
@@ -49,17 +49,13 @@
      <Table value="table.png" />
      <ToolBoxBackground value="toolboxbg.png" />
      <HandRanking value="handranking.png" />
-     
-     <!-- Action*I18NPic: If you wanna set action pics with specific language strings you can set them here. If you wanna use the default english strings just write "NULL" instead of picture files names. PokerTH will automatically display the english ones. -->
-     <ActionAllInI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionRaiseI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionBetI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionCallI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionCheckI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionFoldI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
-     <ActionWinnerI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
-     
-     <!-- I18NString: If you wanna set specific language strings for poker actions like call, check, raise etc. which will be shown on human players buttons for this style, and some other game strings you can define them here, If you wanna use the default english strings just write value="NULL". PokerTH will automatically display the english ones. -->
+     <ActionAllInI18NPic value="NULL" />
+     <ActionRaiseI18NPic value="NULL" />
+     <ActionBetI18NPic value="NULL" />
+     <ActionCallI18NPic value="NULL" />
+     <ActionCheckI18NPic value="NULL" />
+     <ActionFoldI18NPic value="NULL" />
+     <ActionWinnerI18NPic value="NULL" />
      <ActionAllInI18NString value="NULL" />
      <ActionRaiseI18NString value="NULL" />
      <ActionBetI18NString value="NULL" />
@@ -75,7 +71,6 @@
      <FlopI18NString value="NULL" />
      <TurnI18NString value="NULL" />
      <RiverI18NString value="NULL" />
-     
      <FKeyIndicatorColor value="FFFFFF" />
      <ChanceLabelPossibleColor value="A1B4FF" />
      <ChanceLabelImpossibleColor value="252C50" />

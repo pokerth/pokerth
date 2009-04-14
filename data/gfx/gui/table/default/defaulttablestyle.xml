@@ -3,7 +3,7 @@
   <TableStyle>
      <StyleDescription value="PokerTH default table style" /><!-- This string will be shown in settings/game table style list -->
      <StyleMaintainerName value="PokerTH Development Team" /> <!-- This string should contain the name of the style maintainer and will be shown in style information -->
-     <StyleMaintainerEMail value="webmaster@pokerth.net" /> <!-- This string should contain the email address of the style maintainer and will be shown in style information and also in error message if there is a problem with the style -->
+     <StyleMaintainerEMail value="webmaster@pokerth.net" /> <!-- This string should contain the email address of the style maintainer and will be shown in style information and also in error message if there is a problem with the style. If you dont like to post your mail address here please write value="NULL". -->
      <StyleCreateDate value="04.04.2009" /> <!-- This string should contain the create date or last date of modification and will be shown in style information-->
      <PokerTHStyleFileVersion value="1" /> <!-- This number matches the current PokerTH internal version that is supported, you should not change it unless PokerTH tells you to update the style -->
      <Preview value="preview.png" /> <!-- This preview picture will be shown in settings/game table style if this style is selected. The value should contain a filename of the preview picture which have to be stored in the same folder as this xml file. -->

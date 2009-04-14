@@ -21,8 +21,8 @@
 #define GAMETABLESTYLEREADER_H
 
 #include "tinyxml.h"
-#include "gametableimpl.h"
 #include "configfile.h"
+#include "gametableimpl.h"
 #include <string>
 #include <QtCore>
 #include <QtGui>
@@ -32,7 +32,7 @@ class gameTableImpl;
 class GameTableStyleReader : public QObject {
 Q_OBJECT
 public:
-	GameTableStyleReader(ConfigFile *c, gameTableImpl *w =0 );
+        GameTableStyleReader(ConfigFile *c, QWidget *w);
 	~GameTableStyleReader();
 	
 	void readStyleFile(QString);
@@ -74,6 +74,7 @@ public:
 	QString getIfFixedWindowSize() const {	return IfFixedWindowSize; }	
 	
 	bool getFallBack() const { return fallBack; }	
+        bool getLoadedSuccessfull() const { return loadedSuccessfull; }
 
 	//set pictures
 	void setTableBackground(gameTableImpl*);
@@ -277,9 +278,10 @@ private:
 	QStringList itemPicsLeft;
 	
 	ConfigFile *myConfig;
-	gameTableImpl *myW;
+        QWidget *myW;
 
-	bool fallBack;
+        bool fallBack;
+        bool loadedSuccessfull;
 };
 
 #endif
