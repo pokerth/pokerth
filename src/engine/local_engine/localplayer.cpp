@@ -1246,7 +1246,7 @@ void LocalPlayer::preflopEngine() {
 		// Standard-Raise-Routine
 		else {
 			// raise-Betrag ermitteln
-			raise = (sBluff/(8-currentHand->getActivePlayerList()->size()))*currentHand->getSmallBlind();
+			raise = (sBluff/(8-min(7,(int)(currentHand->getActivePlayerList()->size()))))*currentHand->getSmallBlind();
 			// raise-Betrag zu klein -> mindestens Standard-raise
 // 			if(raise < currentHand->getCurrentBeRo()->getHighestSet()) {
 // 				raise = currentHand->getCurrentBeRo()->getHighestSet();
