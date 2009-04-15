@@ -10,7 +10,7 @@ How to create a style for PokerTH
 -----------------------------
 The best way to start building a custom PokerTH game table is to take 
 a look at the file "defaulttablestyle.xml". You can find this file in
-source code or in installation path of PokerTH >= 0.6.5 in the 
+source code or in installation path of PokerTH >= 0.7 in the
 subfolder data/gfx/gui/table/default/. The defaulttablestyle.xml is 
 the control center of your style. The file also contains comments 
 which describe the use of the controls.

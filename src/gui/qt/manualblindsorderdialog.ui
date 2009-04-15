@@ -104,7 +104,7 @@
            <string>$</string>
           </property>
           <property name="maximum">
-           <number>5000</number>
+           <number>100000</number>
           </property>
           <property name="singleStep">
            <number>5</number>

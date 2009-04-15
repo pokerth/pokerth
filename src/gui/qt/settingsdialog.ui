@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>settingsDialog</class>
- <widget class="QDialog" name="settingsDialog" >
-  <property name="geometry" >
+ <widget class="QDialog" name="settingsDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,163 +10,163 @@
     <height>530</height>
    </rect>
   </property>
-  <property name="minimumSize" >
+  <property name="minimumSize">
    <size>
     <width>785</width>
     <height>530</height>
    </size>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Settings</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item row="0" column="0" >
-    <layout class="QHBoxLayout" >
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <layout class="QHBoxLayout">
      <item>
-      <widget class="QListWidget" name="listWidget" >
-       <property name="minimumSize" >
+      <widget class="QListWidget" name="listWidget">
+       <property name="minimumSize">
         <size>
          <width>190</width>
          <height>0</height>
         </size>
        </property>
-       <property name="maximumSize" >
+       <property name="maximumSize">
         <size>
          <width>190</width>
          <height>16777215</height>
         </size>
        </property>
-       <property name="iconSize" >
+       <property name="iconSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="isWrapping" stdset="0" >
+       <property name="isWrapping" stdset="0">
         <bool>false</bool>
        </property>
-       <property name="wordWrap" >
+       <property name="wordWrap">
         <bool>true</bool>
        </property>
        <item>
-        <property name="text" >
+        <property name="text">
          <string>Interface</string>
         </property>
-        <property name="icon" >
-         <iconset resource="resources/pokerth.qrc" >
+        <property name="icon">
+         <iconset resource="resources/pokerth.qrc">
           <normaloff>:/gfx/preferences-desktop.png</normaloff>:/gfx/preferences-desktop.png</iconset>
         </property>
        </item>
        <item>
-        <property name="text" >
+        <property name="text">
          <string>Style</string>
         </property>
-        <property name="icon" >
-         <iconset resource="resources/pokerth.qrc" >
+        <property name="icon">
+         <iconset resource="resources/pokerth.qrc">
           <normaloff>:/gfx/fill-color.png</normaloff>:/gfx/fill-color.png</iconset>
         </property>
        </item>
        <item>
-        <property name="text" >
+        <property name="text">
          <string>Sound</string>
         </property>
-        <property name="icon" >
-         <iconset resource="resources/pokerth.qrc" >
+        <property name="icon">
+         <iconset resource="resources/pokerth.qrc">
           <normaloff>:/gfx/speaker.png</normaloff>:/gfx/speaker.png</iconset>
         </property>
        </item>
        <item>
-        <property name="text" >
+        <property name="text">
          <string>Local Game</string>
         </property>
-        <property name="icon" >
-         <iconset resource="resources/pokerth.qrc" >
+        <property name="icon">
+         <iconset resource="resources/pokerth.qrc">
           <normaloff>:/gfx/swbuttonlocalgame.png</normaloff>:/gfx/swbuttonlocalgame.png</iconset>
         </property>
        </item>
        <item>
-        <property name="text" >
+        <property name="text">
          <string>Network Game</string>
         </property>
-        <property name="icon" >
-         <iconset resource="resources/pokerth.qrc" >
+        <property name="icon">
+         <iconset resource="resources/pokerth.qrc">
           <normaloff>:/gfx/swbuttonjoinnetworkgame.png</normaloff>:/gfx/swbuttonjoinnetworkgame.png</iconset>
         </property>
        </item>
        <item>
-        <property name="text" >
+        <property name="text">
          <string>Internet Game</string>
         </property>
-        <property name="icon" >
-         <iconset resource="resources/pokerth.qrc" >
+        <property name="icon">
+         <iconset resource="resources/pokerth.qrc">
           <normaloff>:/gfx/swbuttoninternetgame.png</normaloff>:/gfx/swbuttoninternetgame.png</iconset>
         </property>
        </item>
        <item>
-        <property name="text" >
+        <property name="text">
          <string>Nicks/Avatars</string>
         </property>
-        <property name="icon" >
-         <iconset resource="resources/pokerth.qrc" >
+        <property name="icon">
+         <iconset resource="resources/pokerth.qrc">
           <normaloff>:/gfx/system_users.png</normaloff>:/gfx/system_users.png</iconset>
         </property>
        </item>
        <item>
-        <property name="text" >
+        <property name="text">
          <string>Log Messages</string>
         </property>
-        <property name="icon" >
-         <iconset resource="resources/pokerth.qrc" >
+        <property name="icon">
+         <iconset resource="resources/pokerth.qrc">
           <normaloff>:/gfx/utilities-log-viewer.png</normaloff>:/gfx/utilities-log-viewer.png</iconset>
         </property>
        </item>
       </widget>
      </item>
      <item>
-      <widget class="QStackedWidget" name="stackedWidget" >
-       <property name="currentIndex" >
+      <widget class="QStackedWidget" name="stackedWidget">
+       <property name="currentIndex">
         <number>0</number>
        </property>
-       <widget class="QWidget" name="page" >
-        <layout class="QGridLayout" name="gridLayout_8" >
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label_19" >
-           <property name="styleSheet" >
-            <string notr="true" >QLabel { font-weight: bold;  }</string>
+       <widget class="QWidget" name="page">
+        <layout class="QGridLayout" name="gridLayout_8">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_19">
+           <property name="styleSheet">
+            <string notr="true">QLabel { font-weight: bold;  }</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>Interface</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" >
-          <widget class="Line" name="line_6" >
-           <property name="orientation" >
+         <item row="1" column="0">
+          <widget class="Line" name="line_6">
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
-         <item row="2" column="0" >
-          <layout class="QHBoxLayout" >
+         <item row="2" column="0">
+          <layout class="QHBoxLayout">
            <item>
-            <widget class="QLabel" name="label_14" >
-             <property name="text" >
+            <widget class="QLabel" name="label_14">
+             <property name="text">
               <string>Language:</string>
              </property>
-             <property name="buddy" >
+             <property name="buddy">
               <cstring>comboBox_switchLanguage</cstring>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_switchLanguage" />
+            <widget class="QComboBox" name="comboBox_switchLanguage"/>
            </item>
            <item>
             <spacer>
-             <property name="orientation" >
+             <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>40</width>
                <height>20</height>
@@ -175,82 +176,82 @@
            </item>
           </layout>
          </item>
-         <item row="3" column="0" >
-          <layout class="QGridLayout" name="gridLayout_7" >
-           <item row="0" column="1" >
-            <widget class="QCheckBox" name="checkBox_showLeftToolbox" >
-             <property name="text" >
+         <item row="3" column="0">
+          <layout class="QGridLayout" name="gridLayout_7">
+           <item row="0" column="1">
+            <widget class="QCheckBox" name="checkBox_showLeftToolbox">
+             <property name="text">
               <string>Show left toolbox</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1" >
-            <widget class="QCheckBox" name="checkBox_showFlipCardsAnimation" >
-             <property name="text" >
+           <item row="1" column="1">
+            <widget class="QCheckBox" name="checkBox_showFlipCardsAnimation">
+             <property name="text">
               <string>Show flip-card animation</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="1" >
-            <widget class="QCheckBox" name="checkBox_antiPeekMode" >
-             <property name="text" >
+           <item row="2" column="1">
+            <widget class="QCheckBox" name="checkBox_antiPeekMode">
+             <property name="text">
               <string>Show own cards only on mouse click</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1" >
-            <widget class="QCheckBox" name="checkBox_cardsChanceMonitor" >
-             <property name="text" >
+           <item row="3" column="1">
+            <widget class="QCheckBox" name="checkBox_cardsChanceMonitor">
+             <property name="text">
               <string>Show cards chance monitor</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="0" >
-            <widget class="QCheckBox" name="checkBox_showRightToolbox" >
-             <property name="text" >
+           <item row="0" column="0">
+            <widget class="QCheckBox" name="checkBox_showRightToolbox">
+             <property name="text">
               <string>Show right toolbox</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="0" >
-            <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation" >
-             <property name="text" >
+           <item row="1" column="0">
+            <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation">
+             <property name="text">
               <string>Show fade-out animation for non-winning cards</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="0" >
-            <widget class="QCheckBox" name="checkBox_alternateFKeysUserActionMode" >
-             <property name="text" >
+           <item row="2" column="0">
+            <widget class="QCheckBox" name="checkBox_alternateFKeysUserActionMode">
+             <property name="text">
               <string>Reverse order of F-Keys (F1 - F4)</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0" >
-            <widget class="QCheckBox" name="checkBox_showBlindButtons" >
-             <property name="text" >
+           <item row="3" column="0">
+            <widget class="QCheckBox" name="checkBox_showBlindButtons">
+             <property name="text">
               <string>Show buttons for small blind and big blind</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="0" colspan="2" >
-            <widget class="QCheckBox" name="checkBox_dontTranslatePokerStrings" >
-             <property name="text" >
+           <item row="4" column="0" colspan="2">
+            <widget class="QCheckBox" name="checkBox_dontTranslatePokerStrings">
+             <property name="text">
               <string>Don't translate poker strings like check, call, raise from game table style</string>
              </property>
             </widget>
            </item>
           </layout>
          </item>
-         <item row="4" column="0" >
-          <widget class="QGroupBox" name="groupBox_5" >
-           <property name="title" >
+         <item row="4" column="0">
+          <widget class="QGroupBox" name="groupBox_5">
+           <property name="title">
             <string>Network / Internet Game</string>
            </property>
-           <layout class="QGridLayout" >
-            <item row="0" column="0" >
-             <widget class="QCheckBox" name="checkBox_enableBetInputFocusSwitch" >
-              <property name="text" >
+           <layout class="QGridLayout">
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="checkBox_enableBetInputFocusSwitch">
+              <property name="text">
                <string>Switch keyboard focus to bet-input-field if it's your turn</string>
               </property>
              </widget>
@@ -258,69 +259,69 @@
            </layout>
           </widget>
          </item>
-         <item row="5" column="0" >
-          <widget class="QGroupBox" name="groupBox" >
-           <property name="title" >
+         <item row="5" column="0">
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
             <string>Flipside of Cards</string>
            </property>
-           <layout class="QGridLayout" >
-            <property name="leftMargin" >
+           <layout class="QGridLayout">
+            <property name="leftMargin">
              <number>9</number>
             </property>
-            <property name="topMargin" >
+            <property name="topMargin">
              <number>0</number>
             </property>
-            <property name="rightMargin" >
+            <property name="rightMargin">
              <number>9</number>
             </property>
-            <property name="bottomMargin" >
+            <property name="bottomMargin">
              <number>9</number>
             </property>
-            <property name="spacing" >
+            <property name="spacing">
              <number>6</number>
             </property>
-            <item row="1" column="0" >
-             <layout class="QVBoxLayout" >
-              <property name="spacing" >
+            <item row="1" column="0">
+             <layout class="QVBoxLayout">
+              <property name="spacing">
                <number>0</number>
               </property>
-              <property name="margin" >
+              <property name="margin">
                <number>0</number>
               </property>
               <item>
-               <layout class="QHBoxLayout" >
-                <property name="spacing" >
+               <layout class="QHBoxLayout">
+                <property name="spacing">
                  <number>2</number>
                 </property>
-                <property name="margin" >
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QRadioButton" name="radioButton_flipsideOwn" >
-                  <property name="text" >
+                 <widget class="QRadioButton" name="radioButton_flipsideOwn">
+                  <property name="text">
                    <string>Own flipside picture:</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="lineEdit_OwnFlipsideFilename" >
-                  <property name="enabled" >
+                 <widget class="QLineEdit" name="lineEdit_OwnFlipsideFilename">
+                  <property name="enabled">
                    <bool>false</bool>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_openFlipsidePicture" >
-                  <property name="enabled" >
+                 <widget class="QPushButton" name="pushButton_openFlipsidePicture">
+                  <property name="enabled">
                    <bool>false</bool>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>27</width>
                     <height>26</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>27</width>
                     <height>26</height>
@@ -331,26 +332,26 @@
                </layout>
               </item>
               <item>
-               <widget class="QLabel" name="label_23" >
-                <property name="text" >
-                 <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+               <widget class="QLabel" name="label_23">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style="font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-style:italic;">Note: Best quality with image ratio like &lt;/span>&lt;span style=" font-weight:600; font-style:italic;">width=100, height=140.&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=100, height=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
-                <property name="wordWrap" >
+                <property name="wordWrap">
                  <bool>true</bool>
                 </property>
                </widget>
               </item>
              </layout>
             </item>
-            <item row="0" column="0" >
-             <widget class="QRadioButton" name="radioButton_flipsideTux" >
-              <property name="text" >
+            <item row="0" column="0">
+             <widget class="QRadioButton" name="radioButton_flipsideTux">
+              <property name="text">
                <string>Default</string>
               </property>
-              <property name="checked" >
+              <property name="checked">
                <bool>true</bool>
               </property>
              </widget>
@@ -358,12 +359,12 @@ p, li { white-space: pre-wrap; }
            </layout>
           </widget>
          </item>
-         <item row="6" column="0" >
+         <item row="6" column="0">
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>400</width>
              <height>111</height>
@@ -373,53 +374,53 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="page_8" >
-        <layout class="QGridLayout" name="gridLayout_12" >
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label_28" >
-           <property name="styleSheet" >
-            <string notr="true" >QLabel { font-weight: bold;  }</string>
+       <widget class="QWidget" name="page_8">
+        <layout class="QGridLayout" name="gridLayout_12">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_28">
+           <property name="styleSheet">
+            <string notr="true">QLabel { font-weight: bold;  }</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>Style</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" >
-          <widget class="Line" name="line_7" >
-           <property name="orientation" >
+         <item row="1" column="0">
+          <widget class="Line" name="line_7">
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
-         <item row="2" column="0" >
-          <widget class="QTabWidget" name="tabWidget" >
-           <property name="currentIndex" >
+         <item row="2" column="0">
+          <widget class="QTabWidget" name="tabWidget">
+           <property name="currentIndex">
             <number>0</number>
            </property>
-           <widget class="QWidget" name="tab_3" >
-            <attribute name="title" >
+           <widget class="QWidget" name="tab_3">
+            <attribute name="title">
              <string>Game Table Styles</string>
             </attribute>
-            <layout class="QGridLayout" name="gridLayout_13" >
-             <item row="0" column="0" >
-              <widget class="QListWidget" name="listWidget_gameTableStyles" />
+            <layout class="QGridLayout" name="gridLayout_13">
+             <item row="0" column="0">
+              <widget class="QListWidget" name="listWidget_gameTableStyles"/>
              </item>
-             <item row="0" column="1" >
-              <layout class="QVBoxLayout" name="verticalLayout" >
+             <item row="0" column="1">
+              <layout class="QVBoxLayout" name="verticalLayout">
                <item>
-                <widget class="QPushButton" name="pushButton_activateGameTableStyle" >
-                 <property name="text" >
+                <widget class="QPushButton" name="pushButton_activateGameTableStyle">
+                 <property name="text">
                   <string>Activate</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <spacer name="verticalSpacer_3" >
-                 <property name="orientation" >
+                <spacer name="verticalSpacer_3">
+                 <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>
-                 <property name="sizeHint" stdset="0" >
+                 <property name="sizeHint" stdset="0">
                   <size>
                    <width>20</width>
                    <height>17</height>
@@ -428,55 +429,55 @@ p, li { white-space: pre-wrap; }
                 </spacer>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_addGameTableStyle" >
-                 <property name="text" >
+                <widget class="QPushButton" name="pushButton_addGameTableStyle">
+                 <property name="text">
                   <string>Add ...</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_removeGameTableStyle" >
-                 <property name="text" >
+                <widget class="QPushButton" name="pushButton_removeGameTableStyle">
+                 <property name="text">
                   <string>Remove</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </item>
-             <item row="1" column="0" colspan="2" >
-              <widget class="QGroupBox" name="groupBox_13" >
-               <property name="title" >
+             <item row="1" column="0" colspan="2">
+              <widget class="QGroupBox" name="groupBox_13">
+               <property name="title">
                 <string>Preview - Information:</string>
                </property>
-               <layout class="QGridLayout" name="gridLayout_15" >
-                <item row="0" column="0" >
-                 <widget class="QLabel" name="label_gameTableStylePreview" >
-                  <property name="minimumSize" >
+               <layout class="QGridLayout" name="gridLayout_15">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_gameTableStylePreview">
+                  <property name="minimumSize">
                    <size>
                     <width>160</width>
                     <height>120</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>160</width>
                     <height>120</height>
                    </size>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string/>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="1" >
-                 <widget class="QLabel" name="label_gameTableStyleInfo" >
-                  <property name="text" >
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_gameTableStyleInfo">
+                  <property name="text">
                    <string/>
                   </property>
-                  <property name="textFormat" >
+                  <property name="textFormat">
                    <enum>Qt::RichText</enum>
                   </property>
-                  <property name="alignment" >
+                  <property name="alignment">
                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                   </property>
                  </widget>
@@ -484,45 +485,45 @@ p, li { white-space: pre-wrap; }
                </layout>
               </widget>
              </item>
-             <item row="2" column="0" colspan="2" >
-              <widget class="QLabel" name="label_55" >
-               <property name="text" >
-                <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
-&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+             <item row="2" column="0" colspan="2">
+              <widget class="QLabel" name="label_55">
+               <property name="text">
+                <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;a href="http://gtstyles.pokerth.net/">&lt;span style=" text-decoration: underline; color:#0000ff;">Get new PokerTH game table styles ...&lt;/span>&lt;/a>&lt;/p>&lt;/body>&lt;/html></string>
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://gtstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Get new PokerTH game table styles ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
-               <property name="openExternalLinks" >
+               <property name="openExternalLinks">
                 <bool>true</bool>
                </property>
               </widget>
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="tab_4" >
-            <attribute name="title" >
+           <widget class="QWidget" name="tab_4">
+            <attribute name="title">
              <string>Card Deck Styles</string>
             </attribute>
-            <layout class="QGridLayout" name="gridLayout_14" >
-             <item row="0" column="0" >
-              <widget class="QListWidget" name="listWidget_cardDeckStyles" />
+            <layout class="QGridLayout" name="gridLayout_14">
+             <item row="0" column="0">
+              <widget class="QListWidget" name="listWidget_cardDeckStyles"/>
              </item>
-             <item row="0" column="1" >
-              <layout class="QVBoxLayout" name="verticalLayout_2" >
+             <item row="0" column="1">
+              <layout class="QVBoxLayout" name="verticalLayout_2">
                <item>
-                <widget class="QPushButton" name="pushButton_activateCardDeckStyle" >
-                 <property name="text" >
+                <widget class="QPushButton" name="pushButton_activateCardDeckStyle">
+                 <property name="text">
                   <string>Activate</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <spacer name="verticalSpacer_3" >
-                 <property name="orientation" >
+                <spacer name="verticalSpacer_3">
+                 <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>
-                 <property name="sizeHint" stdset="0" >
+                 <property name="sizeHint" stdset="0">
                   <size>
                    <width>20</width>
                    <height>17</height>
@@ -531,55 +532,55 @@ p, li { white-space: pre-wrap; }
                 </spacer>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_addCardDeckStyle" >
-                 <property name="text" >
+                <widget class="QPushButton" name="pushButton_addCardDeckStyle">
+                 <property name="text">
                   <string>Add ...</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_removeCardDeckStyle" >
-                 <property name="text" >
+                <widget class="QPushButton" name="pushButton_removeCardDeckStyle">
+                 <property name="text">
                   <string>Remove</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </item>
-             <item row="1" column="0" colspan="2" >
-              <widget class="QGroupBox" name="groupBox_14" >
-               <property name="title" >
+             <item row="1" column="0" colspan="2">
+              <widget class="QGroupBox" name="groupBox_14">
+               <property name="title">
                 <string>Preview - Information:</string>
                </property>
-               <layout class="QGridLayout" name="gridLayout_16" >
-                <item row="0" column="0" >
-                 <widget class="QLabel" name="label_cardDeckStylePreview" >
-                  <property name="minimumSize" >
+               <layout class="QGridLayout" name="gridLayout_16">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_cardDeckStylePreview">
+                  <property name="minimumSize">
                    <size>
                     <width>160</width>
                     <height>120</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>160</width>
                     <height>120</height>
                    </size>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string/>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="1" >
-                 <widget class="QLabel" name="label_cardDeckStyleInfo" >
-                  <property name="text" >
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_cardDeckStyleInfo">
+                  <property name="text">
                    <string/>
                   </property>
-                  <property name="textFormat" >
+                  <property name="textFormat">
                    <enum>Qt::RichText</enum>
                   </property>
-                  <property name="alignment" >
+                  <property name="alignment">
                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                   </property>
                  </widget>
@@ -587,16 +588,16 @@ p, li { white-space: pre-wrap; }
                </layout>
               </widget>
              </item>
-             <item row="2" column="0" colspan="2" >
-              <widget class="QLabel" name="label_56" >
-               <property name="text" >
-                <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
-&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+             <item row="2" column="0" colspan="2">
+              <widget class="QLabel" name="label_56">
+               <property name="text">
+                <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;a href="http://cdstyles.pokerth.net/">&lt;span style=" text-decoration: underline; color:#0000ff;">Get new PokerTH card deck styles ...&lt;/span>&lt;/a>&lt;/p>&lt;/body>&lt;/html></string>
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://cdstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Get new PokerTH card deck styles ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
-               <property name="openExternalLinks" >
+               <property name="openExternalLinks">
                 <bool>true</bool>
                </property>
               </widget>
@@ -607,112 +608,112 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="page_6" >
-        <layout class="QGridLayout" >
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label_26" >
-           <property name="styleSheet" >
-            <string notr="true" >QLabel { font-weight: bold;  }</string>
+       <widget class="QWidget" name="page_6">
+        <layout class="QGridLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_26">
+           <property name="styleSheet">
+            <string notr="true">QLabel { font-weight: bold;  }</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>Sound</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" >
-          <widget class="Line" name="line_8" >
-           <property name="orientation" >
+         <item row="1" column="0">
+          <widget class="Line" name="line_8">
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
-         <item row="2" column="0" >
-          <widget class="QGroupBox" name="groupBox_playSoundEffects" >
-           <property name="title" >
+         <item row="2" column="0">
+          <widget class="QGroupBox" name="groupBox_playSoundEffects">
+           <property name="title">
             <string>Play sound effects</string>
            </property>
-           <property name="checkable" >
+           <property name="checkable">
             <bool>true</bool>
            </property>
-           <property name="checked" >
+           <property name="checked">
             <bool>true</bool>
            </property>
-           <layout class="QGridLayout" >
-            <item row="0" column="0" >
-             <layout class="QHBoxLayout" >
-              <property name="spacing" >
+           <layout class="QGridLayout">
+            <item row="0" column="0">
+             <layout class="QHBoxLayout">
+              <property name="spacing">
                <number>6</number>
               </property>
-              <property name="margin" >
+              <property name="margin">
                <number>0</number>
               </property>
               <item>
-               <widget class="QLabel" name="label_25" >
-                <property name="text" >
+               <widget class="QLabel" name="label_25">
+                <property name="text">
                  <string>Sound Volume:</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_soundVolume" >
-                <property name="minimumSize" >
+               <widget class="QLabel" name="label_soundVolume">
+                <property name="minimumSize">
                  <size>
                   <width>20</width>
                   <height>0</height>
                  </size>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>10</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QSlider" name="horizontalSlider_soundVolume" >
-                <property name="minimum" >
+               <widget class="QSlider" name="horizontalSlider_soundVolume">
+                <property name="minimum">
                  <number>1</number>
                 </property>
-                <property name="maximum" >
+                <property name="maximum">
                  <number>10</number>
                 </property>
-                <property name="value" >
+                <property name="value">
                  <number>8</number>
                 </property>
-                <property name="orientation" >
+                <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
                </widget>
               </item>
              </layout>
             </item>
-            <item row="1" column="0" >
-             <widget class="QGroupBox" name="groupBox_10" >
-              <property name="title" >
+            <item row="1" column="0">
+             <widget class="QGroupBox" name="groupBox_10">
+              <property name="title">
                <string>Sound Categories </string>
               </property>
-              <layout class="QGridLayout" >
-               <property name="topMargin" >
+              <layout class="QGridLayout">
+               <property name="topMargin">
                 <number>0</number>
                </property>
-               <item row="0" column="0" >
-                <widget class="QCheckBox" name="checkBox_playGameActions" >
-                 <property name="text" >
-                  <string>Play game actions sounds like "check", "call", "raise"</string>
+               <item row="0" column="0">
+                <widget class="QCheckBox" name="checkBox_playGameActions">
+                 <property name="text">
+                  <string>Play game actions sounds like &quot;check&quot;, &quot;call&quot;, &quot;raise&quot;</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0" >
-                <widget class="QCheckBox" name="checkBox_playLobbyChatNotification" >
-                 <property name="text" >
+               <item row="1" column="0">
+                <widget class="QCheckBox" name="checkBox_playLobbyChatNotification">
+                 <property name="text">
                   <string>Play lobby chat notifications</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0" >
-                <widget class="QCheckBox" name="checkBox_playNetworkGameNotification" >
-                 <property name="text" >
-                  <string>Play network/internet game notifications like "player joined the game"</string>
+               <item row="2" column="0">
+                <widget class="QCheckBox" name="checkBox_playNetworkGameNotification">
+                 <property name="text">
+                  <string>Play network/internet game notifications like &quot;player joined the game&quot;</string>
                  </property>
-                 <property name="tristate" >
+                 <property name="tristate">
                   <bool>false</bool>
                  </property>
                 </widget>
@@ -723,12 +724,12 @@ p, li { white-space: pre-wrap; }
            </layout>
           </widget>
          </item>
-         <item row="3" column="0" >
+         <item row="3" column="0">
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>400</width>
              <height>321</height>
@@ -738,46 +739,46 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="page_2" >
-        <layout class="QVBoxLayout" >
+       <widget class="QWidget" name="page_2">
+        <layout class="QVBoxLayout">
          <item>
-          <widget class="QLabel" name="label_5" >
-           <property name="styleSheet" >
-            <string notr="true" >QLabel { font-weight: bold;  }</string>
+          <widget class="QLabel" name="label_5">
+           <property name="styleSheet">
+            <string notr="true">QLabel { font-weight: bold;  }</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>Local Game Settings</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="Line" name="line_3" >
-           <property name="orientation" >
+          <widget class="Line" name="line_3">
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
          <item>
-          <layout class="QHBoxLayout" >
+          <layout class="QHBoxLayout">
            <item>
-            <widget class="QLabel" name="label_4" >
-             <property name="text" >
+            <widget class="QLabel" name="label_4">
+             <property name="text">
               <string>Number of players:</string>
              </property>
-             <property name="buddy" >
+             <property name="buddy">
               <cstring>spinBox_quantityPlayers</cstring>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_quantityPlayers" >
-             <property name="minimum" >
+            <widget class="QSpinBox" name="spinBox_quantityPlayers">
+             <property name="minimum">
               <number>2</number>
              </property>
-             <property name="maximum" >
+             <property name="maximum">
               <number>10</number>
              </property>
-             <property name="value" >
+             <property name="value">
               <number>10</number>
              </property>
             </widget>
@@ -785,29 +786,29 @@ p, li { white-space: pre-wrap; }
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" >
+          <layout class="QHBoxLayout">
            <item>
-            <widget class="QLabel" name="label_2" >
-             <property name="text" >
+            <widget class="QLabel" name="label_2">
+             <property name="text">
               <string>Start Cash:</string>
              </property>
-             <property name="buddy" >
+             <property name="buddy">
               <cstring>spinBox_startCash</cstring>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_startCash" >
-             <property name="prefix" >
+            <widget class="QSpinBox" name="spinBox_startCash">
+             <property name="prefix">
               <string>$</string>
              </property>
-             <property name="minimum" >
+             <property name="minimum">
               <number>1000</number>
              </property>
-             <property name="maximum" >
+             <property name="maximum">
               <number>1000000</number>
              </property>
-             <property name="singleStep" >
+             <property name="singleStep">
               <number>50</number>
              </property>
             </widget>
@@ -815,26 +816,26 @@ p, li { white-space: pre-wrap; }
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" >
+          <layout class="QHBoxLayout">
            <item>
-            <widget class="QLabel" name="label_3" >
-             <property name="text" >
+            <widget class="QLabel" name="label_3">
+             <property name="text">
               <string>First small blind:</string>
              </property>
-             <property name="buddy" >
+             <property name="buddy">
               <cstring>spinBox_firstSmallBlind</cstring>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_firstSmallBlind" >
-             <property name="prefix" >
+            <widget class="QSpinBox" name="spinBox_firstSmallBlind">
+             <property name="prefix">
               <string>$</string>
              </property>
-             <property name="minimum" >
+             <property name="minimum">
               <number>5</number>
              </property>
-             <property name="maximum" >
+             <property name="maximum">
               <number>500</number>
              </property>
             </widget>
@@ -842,85 +843,85 @@ p, li { white-space: pre-wrap; }
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" >
+          <layout class="QHBoxLayout">
            <item>
-            <widget class="QGroupBox" name="groupBox_6" >
-             <property name="title" >
+            <widget class="QGroupBox" name="groupBox_6">
+             <property name="title">
               <string>Raise blinds:</string>
              </property>
-             <layout class="QGridLayout" >
-              <property name="leftMargin" >
+             <layout class="QGridLayout">
+              <property name="leftMargin">
                <number>9</number>
               </property>
-              <property name="topMargin" >
+              <property name="topMargin">
                <number>0</number>
               </property>
-              <property name="bottomMargin" >
+              <property name="bottomMargin">
                <number>9</number>
               </property>
-              <item row="0" column="0" >
-               <widget class="QRadioButton" name="radioButton_raiseBlindsAtHands" >
-                <property name="text" >
+              <item row="0" column="0">
+               <widget class="QRadioButton" name="radioButton_raiseBlindsAtHands">
+                <property name="text">
                  <string>Every:</string>
                 </property>
-                <property name="checked" >
+                <property name="checked">
                  <bool>true</bool>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1" >
-               <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryHands" >
-                <property name="minimum" >
+              <item row="0" column="1">
+               <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryHands">
+                <property name="minimum">
                  <number>1</number>
                 </property>
                </widget>
               </item>
-              <item row="0" column="2" >
-               <widget class="QLabel" name="label_47" >
-                <property name="sizePolicy" >
-                 <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_47">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>hands</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="0" >
-               <widget class="QRadioButton" name="radioButton_raiseBlindsAtMinutes" >
-                <property name="text" >
+              <item row="1" column="0">
+               <widget class="QRadioButton" name="radioButton_raiseBlindsAtMinutes">
+                <property name="text">
                  <string>Every:</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1" >
-               <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryMinutes" >
-                <property name="minimum" >
+              <item row="1" column="1">
+               <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryMinutes">
+                <property name="minimum">
                  <number>1</number>
                 </property>
                </widget>
               </item>
-              <item row="1" column="2" >
-               <widget class="QLabel" name="label_50" >
-                <property name="sizePolicy" >
-                 <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+              <item row="1" column="2">
+               <widget class="QLabel" name="label_50">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>minutes</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1" >
+              <item row="2" column="1">
                <spacer>
-                <property name="orientation" >
+                <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
-                <property name="sizeHint" stdset="0" >
+                <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
                   <height>5</height>
@@ -932,43 +933,43 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QGroupBox" name="groupBox_7" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+            <widget class="QGroupBox" name="groupBox_7">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="title" >
+             <property name="title">
               <string>Raise mode:</string>
              </property>
-             <layout class="QGridLayout" >
-              <property name="topMargin" >
+             <layout class="QGridLayout">
+              <property name="topMargin">
                <number>0</number>
               </property>
-              <item row="0" column="0" >
-               <widget class="QRadioButton" name="radioButton_alwaysDoubleBlinds" >
-                <property name="text" >
+              <item row="0" column="0">
+               <widget class="QRadioButton" name="radioButton_alwaysDoubleBlinds">
+                <property name="text">
                  <string>Always double blinds</string>
                 </property>
-                <property name="checked" >
+                <property name="checked">
                  <bool>true</bool>
                 </property>
                </widget>
               </item>
-              <item row="1" column="0" >
-               <widget class="QRadioButton" name="radioButton_manualBlindsOrder" >
-                <property name="text" >
+              <item row="1" column="0">
+               <widget class="QRadioButton" name="radioButton_manualBlindsOrder">
+                <property name="text">
                  <string>Manual blinds order:</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="0" >
-               <widget class="QPushButton" name="pushButton_editManualBlindsOrder" >
-                <property name="enabled" >
+              <item row="2" column="0">
+               <widget class="QPushButton" name="pushButton_editManualBlindsOrder">
+                <property name="enabled">
                  <bool>false</bool>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>Edit ...</string>
                 </property>
                </widget>
@@ -979,26 +980,26 @@ p, li { white-space: pre-wrap; }
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" >
+          <layout class="QHBoxLayout">
            <item>
-            <widget class="QLabel" name="label" >
-             <property name="text" >
+            <widget class="QLabel" name="label">
+             <property name="text">
               <string>Game Speed:</string>
              </property>
-             <property name="buddy" >
+             <property name="buddy">
               <cstring>spinBox_gameSpeed</cstring>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_gameSpeed" >
-             <property name="minimum" >
+            <widget class="QSpinBox" name="spinBox_gameSpeed">
+             <property name="minimum">
               <number>1</number>
              </property>
-             <property name="maximum" >
+             <property name="maximum">
               <number>11</number>
              </property>
-             <property name="singleStep" >
+             <property name="singleStep">
               <number>1</number>
              </property>
             </widget>
@@ -1006,25 +1007,25 @@ p, li { white-space: pre-wrap; }
           </layout>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox_pauseBetweenHands" >
-           <property name="text" >
-            <string>Pause between hands (press "start" button to go on)</string>
+          <widget class="QCheckBox" name="checkBox_pauseBetweenHands">
+           <property name="text">
+            <string>Pause between hands (press &quot;start&quot; button to go on)</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox_showGameSettingsDialogOnNewGame" >
-           <property name="text" >
+          <widget class="QCheckBox" name="checkBox_showGameSettingsDialogOnNewGame">
+           <property name="text">
             <string>Show game settings dialog on every new game</string>
            </property>
           </widget>
          </item>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>437</width>
              <height>285</height>
@@ -1034,46 +1035,46 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="page_4" >
-        <layout class="QVBoxLayout" >
+       <widget class="QWidget" name="page_4">
+        <layout class="QVBoxLayout">
          <item>
-          <widget class="QLabel" name="label_34" >
-           <property name="styleSheet" >
-            <string notr="true" >QLabel { font-weight: bold;  }</string>
+          <widget class="QLabel" name="label_34">
+           <property name="styleSheet">
+            <string notr="true">QLabel { font-weight: bold;  }</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>Network Game Settings</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="Line" name="line_5" >
-           <property name="orientation" >
+          <widget class="Line" name="line_5">
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
          <item>
-          <layout class="QHBoxLayout" >
+          <layout class="QHBoxLayout">
            <item>
-            <widget class="QLabel" name="label_15" >
-             <property name="text" >
+            <widget class="QLabel" name="label_15">
+             <property name="text">
               <string>Maximum number of players:</string>
              </property>
-             <property name="buddy" >
+             <property name="buddy">
               <cstring>spinBox_netQuantityPlayers</cstring>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_netQuantityPlayers" >
-             <property name="minimum" >
+            <widget class="QSpinBox" name="spinBox_netQuantityPlayers">
+             <property name="minimum">
               <number>2</number>
              </property>
-             <property name="maximum" >
+             <property name="maximum">
               <number>10</number>
              </property>
-             <property name="value" >
+             <property name="value">
               <number>10</number>
              </property>
             </widget>
@@ -1081,29 +1082,29 @@ p, li { white-space: pre-wrap; }
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" >
+          <layout class="QHBoxLayout">
            <item>
-            <widget class="QLabel" name="label_13" >
-             <property name="text" >
+            <widget class="QLabel" name="label_13">
+             <property name="text">
               <string>Start Cash:</string>
              </property>
-             <property name="buddy" >
+             <property name="buddy">
               <cstring>spinBox_netStartCash</cstring>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_netStartCash" >
-             <property name="prefix" >
+            <widget class="QSpinBox" name="spinBox_netStartCash">
+             <property name="prefix">
               <string>$</string>
              </property>
-             <property name="minimum" >
+             <property name="minimum">
               <number>1000</number>
              </property>
-             <property name="maximum" >
+             <property name="maximum">
               <number>1000000</number>
              </property>
-             <property name="singleStep" >
+             <property name="singleStep">
               <number>50</number>
              </property>
             </widget>
@@ -1111,26 +1112,26 @@ p, li { white-space: pre-wrap; }
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" >
+          <layout class="QHBoxLayout">
            <item>
-            <widget class="QLabel" name="label_35" >
-             <property name="text" >
+            <widget class="QLabel" name="label_35">
+             <property name="text">
               <string>First small blind:</string>
              </property>
-             <property name="buddy" >
+             <property name="buddy">
               <cstring>spinBox_netFirstSmallBlind</cstring>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_netFirstSmallBlind" >
-             <property name="prefix" >
+            <widget class="QSpinBox" name="spinBox_netFirstSmallBlind">
+             <property name="prefix">
               <string>$</string>
              </property>
-             <property name="minimum" >
+             <property name="minimum">
               <number>5</number>
              </property>
-             <property name="maximum" >
+             <property name="maximum">
               <number>500</number>
              </property>
             </widget>
@@ -1138,94 +1139,94 @@ p, li { white-space: pre-wrap; }
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" >
+          <layout class="QHBoxLayout">
            <item>
-            <widget class="QGroupBox" name="groupBox_8" >
-             <property name="maximumSize" >
+            <widget class="QGroupBox" name="groupBox_8">
+             <property name="maximumSize">
               <size>
                <width>16777215</width>
                <height>105</height>
               </size>
              </property>
-             <property name="title" >
+             <property name="title">
               <string>Raise blinds:</string>
              </property>
-             <layout class="QGridLayout" >
-              <property name="leftMargin" >
+             <layout class="QGridLayout">
+              <property name="leftMargin">
                <number>6</number>
               </property>
-              <property name="topMargin" >
+              <property name="topMargin">
                <number>0</number>
               </property>
-              <property name="rightMargin" >
+              <property name="rightMargin">
                <number>6</number>
               </property>
-              <property name="bottomMargin" >
+              <property name="bottomMargin">
                <number>6</number>
               </property>
-              <item row="0" column="0" >
-               <widget class="QRadioButton" name="radioButton_netRaiseBlindsAtHands" >
-                <property name="text" >
+              <item row="0" column="0">
+               <widget class="QRadioButton" name="radioButton_netRaiseBlindsAtHands">
+                <property name="text">
                  <string>Every:</string>
                 </property>
-                <property name="checked" >
+                <property name="checked">
                  <bool>true</bool>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1" >
-               <widget class="QSpinBox" name="spinBox_netRaiseSmallBlindEveryHands" >
-                <property name="minimum" >
+              <item row="0" column="1">
+               <widget class="QSpinBox" name="spinBox_netRaiseSmallBlindEveryHands">
+                <property name="minimum">
                  <number>1</number>
                 </property>
                </widget>
               </item>
-              <item row="0" column="2" >
-               <widget class="QLabel" name="label_51" >
-                <property name="sizePolicy" >
-                 <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_51">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>hands</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="0" >
-               <widget class="QRadioButton" name="radioButton_netRaiseBlindsAtMinutes" >
-                <property name="text" >
+              <item row="1" column="0">
+               <widget class="QRadioButton" name="radioButton_netRaiseBlindsAtMinutes">
+                <property name="text">
                  <string>Every:</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1" >
-               <widget class="QSpinBox" name="spinBox_netRaiseSmallBlindEveryMinutes" >
-                <property name="minimum" >
+              <item row="1" column="1">
+               <widget class="QSpinBox" name="spinBox_netRaiseSmallBlindEveryMinutes">
+                <property name="minimum">
                  <number>1</number>
                 </property>
                </widget>
               </item>
-              <item row="1" column="2" >
-               <widget class="QLabel" name="label_52" >
-                <property name="sizePolicy" >
-                 <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+              <item row="1" column="2">
+               <widget class="QLabel" name="label_52">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>minutes</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1" >
+              <item row="2" column="1">
                <spacer>
-                <property name="orientation" >
+                <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
-                <property name="sizeHint" stdset="0" >
+                <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
                   <height>10</height>
@@ -1237,58 +1238,58 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QGroupBox" name="groupBox_9" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+            <widget class="QGroupBox" name="groupBox_9">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="maximumSize" >
+             <property name="maximumSize">
               <size>
                <width>16777215</width>
                <height>105</height>
               </size>
              </property>
-             <property name="title" >
+             <property name="title">
               <string>Raise mode:</string>
              </property>
-             <layout class="QGridLayout" >
-              <property name="leftMargin" >
+             <layout class="QGridLayout">
+              <property name="leftMargin">
                <number>6</number>
               </property>
-              <property name="topMargin" >
+              <property name="topMargin">
                <number>0</number>
               </property>
-              <property name="rightMargin" >
+              <property name="rightMargin">
                <number>6</number>
               </property>
-              <property name="bottomMargin" >
+              <property name="bottomMargin">
                <number>6</number>
               </property>
-              <item row="0" column="0" >
-               <widget class="QRadioButton" name="radioButton_netAlwaysDoubleBlinds" >
-                <property name="text" >
+              <item row="0" column="0">
+               <widget class="QRadioButton" name="radioButton_netAlwaysDoubleBlinds">
+                <property name="text">
                  <string>Always double blinds</string>
                 </property>
-                <property name="checked" >
+                <property name="checked">
                  <bool>true</bool>
                 </property>
                </widget>
               </item>
-              <item row="1" column="0" >
-               <widget class="QRadioButton" name="radioButton_netManualBlindsOrder" >
-                <property name="text" >
+              <item row="1" column="0">
+               <widget class="QRadioButton" name="radioButton_netManualBlindsOrder">
+                <property name="text">
                  <string>Manual blinds order:</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="0" >
-               <widget class="QPushButton" name="pushButton_netEditManualBlindsOrder" >
-                <property name="enabled" >
+              <item row="2" column="0">
+               <widget class="QPushButton" name="pushButton_netEditManualBlindsOrder">
+                <property name="enabled">
                  <bool>false</bool>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>Edit ...</string>
                 </property>
                </widget>
@@ -1299,26 +1300,26 @@ p, li { white-space: pre-wrap; }
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" >
+          <layout class="QHBoxLayout">
            <item>
-            <widget class="QLabel" name="label_36" >
-             <property name="text" >
+            <widget class="QLabel" name="label_36">
+             <property name="text">
               <string>Game Speed for computer opponents:</string>
              </property>
-             <property name="buddy" >
+             <property name="buddy">
               <cstring>spinBox_netGameSpeed</cstring>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_netGameSpeed" >
-             <property name="minimum" >
+            <widget class="QSpinBox" name="spinBox_netGameSpeed">
+             <property name="minimum">
               <number>1</number>
              </property>
-             <property name="maximum" >
+             <property name="maximum">
               <number>11</number>
              </property>
-             <property name="singleStep" >
+             <property name="singleStep">
               <number>1</number>
              </property>
             </widget>
@@ -1326,29 +1327,29 @@ p, li { white-space: pre-wrap; }
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" >
+          <layout class="QHBoxLayout">
            <item>
-            <widget class="QLabel" name="label_40" >
-             <property name="text" >
+            <widget class="QLabel" name="label_40">
+             <property name="text">
               <string>Timeout for player action:</string>
              </property>
-             <property name="buddy" >
+             <property name="buddy">
               <cstring>spinBox_netTimeOutPlayerAction</cstring>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_netTimeOutPlayerAction" >
-             <property name="suffix" >
+            <widget class="QSpinBox" name="spinBox_netTimeOutPlayerAction">
+             <property name="suffix">
               <string> s</string>
              </property>
-             <property name="minimum" >
+             <property name="minimum">
               <number>5</number>
              </property>
-             <property name="maximum" >
+             <property name="maximum">
               <number>60</number>
              </property>
-             <property name="value" >
+             <property name="value">
               <number>20</number>
              </property>
             </widget>
@@ -1356,99 +1357,99 @@ p, li { white-space: pre-wrap; }
           </layout>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox_2" >
-           <property name="title" >
+          <widget class="QGroupBox" name="groupBox_2">
+           <property name="title">
             <string>Network Server Settings</string>
            </property>
-           <layout class="QGridLayout" >
-            <property name="leftMargin" >
+           <layout class="QGridLayout">
+            <property name="leftMargin">
              <number>6</number>
             </property>
-            <property name="topMargin" >
+            <property name="topMargin">
              <number>0</number>
             </property>
-            <property name="rightMargin" >
+            <property name="rightMargin">
              <number>6</number>
             </property>
-            <property name="bottomMargin" >
+            <property name="bottomMargin">
              <number>6</number>
             </property>
-            <property name="spacing" >
+            <property name="spacing">
              <number>6</number>
             </property>
-            <item row="1" column="1" >
-             <widget class="QLineEdit" name="lineEdit_serverPassword" >
-              <property name="maxLength" >
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="lineEdit_serverPassword">
+              <property name="maxLength">
                <number>60</number>
               </property>
-              <property name="echoMode" >
+              <property name="echoMode">
                <enum>QLineEdit::Password</enum>
               </property>
              </widget>
             </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="label_37" >
-              <property name="text" >
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_37">
+              <property name="text">
                <string>Server Password:</string>
               </property>
-              <property name="buddy" >
+              <property name="buddy">
                <cstring>lineEdit_serverPassword</cstring>
               </property>
              </widget>
             </item>
-            <item row="0" column="1" >
-             <widget class="QSpinBox" name="spinBox_serverPort" >
-              <property name="minimum" >
+            <item row="0" column="1">
+             <widget class="QSpinBox" name="spinBox_serverPort">
+              <property name="minimum">
                <number>80</number>
               </property>
-              <property name="maximum" >
+              <property name="maximum">
                <number>65535</number>
               </property>
-              <property name="value" >
+              <property name="value">
                <number>7234</number>
               </property>
              </widget>
             </item>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="label_16" >
-              <property name="text" >
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_16">
+              <property name="text">
                <string>Server Port:</string>
               </property>
-              <property name="buddy" >
+              <property name="buddy">
                <cstring>spinBox_serverPort</cstring>
               </property>
              </widget>
             </item>
-            <item row="3" column="0" >
-             <widget class="QCheckBox" name="checkBox_useSctp" >
-              <property name="text" >
+            <item row="3" column="0">
+             <widget class="QCheckBox" name="checkBox_useSctp">
+              <property name="text">
                <string>Use SCTP</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="0" >
-             <widget class="QCheckBox" name="checkBox_useIpv6" >
-              <property name="text" >
+            <item row="2" column="0">
+             <widget class="QCheckBox" name="checkBox_useIpv6">
+              <property name="text">
                <string>Use IPv6</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="1" >
-             <widget class="QLabel" name="label_22" >
-              <property name="text" >
-               <string>&lt;a href="http://en.wikipedia.org/wiki/Ipv6">What is this?&lt;/a></string>
+            <item row="2" column="1">
+             <widget class="QLabel" name="label_22">
+              <property name="text">
+               <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</string>
               </property>
-              <property name="openExternalLinks" >
+              <property name="openExternalLinks">
                <bool>true</bool>
               </property>
              </widget>
             </item>
-            <item row="3" column="1" >
-             <widget class="QLabel" name="label_24" >
-              <property name="text" >
-               <string>&lt;a href="http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol">What is this?&lt;/a></string>
+            <item row="3" column="1">
+             <widget class="QLabel" name="label_24">
+              <property name="text">
+               <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</string>
               </property>
-              <property name="openExternalLinks" >
+              <property name="openExternalLinks">
                <bool>true</bool>
               </property>
              </widget>
@@ -1457,11 +1458,11 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <spacer name="verticalSpacer_2" >
-           <property name="orientation" >
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
              <height>40</height>
@@ -1471,196 +1472,196 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="page_7" >
-        <layout class="QGridLayout" name="gridLayout_6" >
-         <item row="0" column="0" colspan="2" >
-          <widget class="QLabel" name="label_30" >
-           <property name="styleSheet" >
-            <string notr="true" >QLabel { font-weight: bold;  }</string>
+       <widget class="QWidget" name="page_7">
+        <layout class="QGridLayout" name="gridLayout_6">
+         <item row="0" column="0" colspan="2">
+          <widget class="QLabel" name="label_30">
+           <property name="styleSheet">
+            <string notr="true">QLabel { font-weight: bold;  }</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>Internet Game Settings</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" colspan="3" >
-          <widget class="Line" name="line_9" >
-           <property name="orientation" >
+         <item row="1" column="0" colspan="3">
+          <widget class="Line" name="line_9">
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
-         <item row="2" column="0" colspan="3" >
-          <widget class="QLabel" name="label_43" >
-           <property name="text" >
-            <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+         <item row="2" column="0" colspan="3">
+          <widget class="QLabel" name="label_43">
+           <property name="text">
+            <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style="font-weight:400; font-style:normal;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-style:italic;">Note: Default &lt;/span>&lt;span style=" font-weight:600; font-style:italic;">Game Settings&lt;/span>&lt;span style=" font-style:italic;"> like "Maximum number of players", "Start Cash" and "Small Blind" will be used &lt;/span>&lt;span style=" font-weight:600; font-style:italic;">from Network Game Settings.&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Default &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Game Settings&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; like &quot;Maximum number of players&quot;, &quot;Start Cash&quot; and &quot;Small Blind&quot; will be used &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;from Network Game Settings.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
-           <property name="wordWrap" >
+           <property name="wordWrap">
             <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item rowspan="2" row="3" column="0" >
-          <widget class="QGroupBox" name="groupBox_4" >
-           <property name="minimumSize" >
+         <item row="3" column="0" rowspan="2">
+          <widget class="QGroupBox" name="groupBox_4">
+           <property name="minimumSize">
             <size>
              <width>300</width>
              <height>0</height>
             </size>
            </property>
-           <property name="maximumSize" >
+           <property name="maximumSize">
             <size>
              <width>300</width>
              <height>16777215</height>
             </size>
            </property>
-           <property name="title" >
+           <property name="title">
             <string>Internet Server</string>
            </property>
-           <layout class="QGridLayout" name="gridLayout_5" >
-            <item row="0" column="0" colspan="2" >
-             <widget class="QGroupBox" name="groupBox_automaticServerConfig" >
-              <property name="title" >
+           <layout class="QGridLayout" name="gridLayout_5">
+            <item row="0" column="0" colspan="2">
+             <widget class="QGroupBox" name="groupBox_automaticServerConfig">
+              <property name="title">
                <string>Automatic Server Configuration URL</string>
               </property>
-              <property name="checkable" >
+              <property name="checkable">
                <bool>true</bool>
               </property>
-              <layout class="QGridLayout" name="gridLayout_3" >
-               <item row="0" column="0" >
-                <widget class="QLabel" name="label_18" >
-                 <property name="text" >
+              <layout class="QGridLayout" name="gridLayout_3">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_18">
+                 <property name="text">
                   <string>Serverlist Address:</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1" >
-                <widget class="QLineEdit" name="lineEdit_InternetServerListAddress" />
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_InternetServerListAddress"/>
                </item>
               </layout>
              </widget>
             </item>
-            <item row="1" column="0" colspan="2" >
-             <widget class="QGroupBox" name="groupBox_manualServerConfig" >
-              <property name="minimumSize" >
+            <item row="1" column="0" colspan="2">
+             <widget class="QGroupBox" name="groupBox_manualServerConfig">
+              <property name="minimumSize">
                <size>
                 <width>0</width>
                 <height>116</height>
                </size>
               </property>
-              <property name="title" >
+              <property name="title">
                <string>Manual Server Configuration</string>
               </property>
-              <property name="checkable" >
+              <property name="checkable">
                <bool>true</bool>
               </property>
-              <property name="checked" >
+              <property name="checked">
                <bool>false</bool>
               </property>
-              <layout class="QGridLayout" name="gridLayout_4" >
-               <item row="0" column="0" >
-                <widget class="QLabel" name="label_41" >
-                 <property name="text" >
+              <layout class="QGridLayout" name="gridLayout_4">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_41">
+                 <property name="text">
                   <string>Server Address:</string>
                  </property>
-                 <property name="buddy" >
+                 <property name="buddy">
                   <cstring>lineEdit_InternetServerAddress</cstring>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1" >
-                <widget class="QLineEdit" name="lineEdit_InternetServerAddress" >
-                 <property name="maxLength" >
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_InternetServerAddress">
+                 <property name="maxLength">
                   <number>60</number>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0" >
-                <widget class="QLabel" name="label_31" >
-                 <property name="text" >
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_31">
+                 <property name="text">
                   <string>Server Port:</string>
                  </property>
-                 <property name="buddy" >
+                 <property name="buddy">
                   <cstring>spinBox_InternetServerPort</cstring>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="1" >
-                <widget class="QSpinBox" name="spinBox_InternetServerPort" >
-                 <property name="minimum" >
+               <item row="1" column="1">
+                <widget class="QSpinBox" name="spinBox_InternetServerPort">
+                 <property name="minimum">
                   <number>80</number>
                  </property>
-                 <property name="maximum" >
+                 <property name="maximum">
                   <number>65535</number>
                  </property>
-                 <property name="value" >
+                 <property name="value">
                   <number>7234</number>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0" >
-                <widget class="QLabel" name="label_44" >
-                 <property name="text" >
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_44">
+                 <property name="text">
                   <string>Server Password:</string>
                  </property>
-                 <property name="buddy" >
+                 <property name="buddy">
                   <cstring>lineEdit_InternetServerPassword</cstring>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="1" >
-                <widget class="QLineEdit" name="lineEdit_InternetServerPassword" >
-                 <property name="echoMode" >
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lineEdit_InternetServerPassword">
+                 <property name="echoMode">
                   <enum>QLineEdit::Password</enum>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="0" >
-                <widget class="QCheckBox" name="checkBox_useAvatarServer" >
-                 <property name="text" >
+               <item row="3" column="0">
+                <widget class="QCheckBox" name="checkBox_useAvatarServer">
+                 <property name="text">
                   <string>Avatar Server:</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="1" >
-                <widget class="QLineEdit" name="lineEdit_avatarServerAddress" />
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="lineEdit_avatarServerAddress"/>
                </item>
               </layout>
              </widget>
             </item>
-            <item row="2" column="0" >
-             <widget class="QCheckBox" name="checkBox_InternetServerUseIpv6" >
-              <property name="text" >
+            <item row="2" column="0">
+             <widget class="QCheckBox" name="checkBox_InternetServerUseIpv6">
+              <property name="text">
                <string>Use IPv6</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="1" >
-             <widget class="QLabel" name="label_32" >
-              <property name="text" >
-               <string>&lt;a href="http://en.wikipedia.org/wiki/Ipv6">What is this?&lt;/a></string>
+            <item row="2" column="1">
+             <widget class="QLabel" name="label_32">
+              <property name="text">
+               <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</string>
               </property>
-              <property name="openExternalLinks" >
+              <property name="openExternalLinks">
                <bool>true</bool>
               </property>
              </widget>
             </item>
-            <item row="3" column="0" >
-             <widget class="QCheckBox" name="checkBox_InternetServerUseSctp" >
-              <property name="text" >
+            <item row="3" column="0">
+             <widget class="QCheckBox" name="checkBox_InternetServerUseSctp">
+              <property name="text">
                <string>Use SCTP</string>
               </property>
              </widget>
             </item>
-            <item row="3" column="1" >
-             <widget class="QLabel" name="label_42" >
-              <property name="text" >
-               <string>&lt;a href="http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol">What is this?&lt;/a></string>
+            <item row="3" column="1">
+             <widget class="QLabel" name="label_42">
+              <property name="text">
+               <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</string>
               </property>
-              <property name="openExternalLinks" >
+              <property name="openExternalLinks">
                <bool>true</bool>
               </property>
              </widget>
@@ -1668,111 +1669,111 @@ p, li { white-space: pre-wrap; }
            </layout>
           </widget>
          </item>
-         <item row="3" column="1" colspan="2" >
-          <widget class="QGroupBox" name="groupBox_lobbyChat" >
-           <property name="title" >
+         <item row="3" column="1" colspan="2">
+          <widget class="QGroupBox" name="groupBox_lobbyChat">
+           <property name="title">
             <string>Lobby Chat (IRC)</string>
            </property>
-           <property name="checkable" >
+           <property name="checkable">
             <bool>true</bool>
            </property>
-           <layout class="QGridLayout" name="gridLayout_2" >
-            <item row="0" column="0" >
-             <widget class="QLabel" name="label_48" >
-              <property name="text" >
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_48">
+              <property name="text">
                <string>Server Address:</string>
               </property>
-              <property name="buddy" >
+              <property name="buddy">
                <cstring>lineEdit_IRCServerAddress</cstring>
               </property>
              </widget>
             </item>
-            <item row="0" column="1" >
-             <widget class="QLineEdit" name="lineEdit_IRCServerAddress" >
-              <property name="text" >
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="lineEdit_IRCServerAddress">
+              <property name="text">
                <string>chat.freenode.net</string>
               </property>
-              <property name="maxLength" >
+              <property name="maxLength">
                <number>60</number>
               </property>
              </widget>
             </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="label_46" >
-              <property name="text" >
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_46">
+              <property name="text">
                <string>Server Port:</string>
               </property>
-              <property name="buddy" >
+              <property name="buddy">
                <cstring>spinBox_IRCServerPort</cstring>
               </property>
              </widget>
             </item>
-            <item row="1" column="1" >
-             <widget class="QSpinBox" name="spinBox_IRCServerPort" >
-              <property name="sizePolicy" >
-               <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="spinBox_IRCServerPort">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="minimum" >
+              <property name="minimum">
                <number>80</number>
               </property>
-              <property name="maximum" >
+              <property name="maximum">
                <number>65535</number>
               </property>
-              <property name="value" >
+              <property name="value">
                <number>6667</number>
               </property>
              </widget>
             </item>
-            <item row="2" column="0" >
-             <widget class="QLabel" name="label_49" >
-              <property name="text" >
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_49">
+              <property name="text">
                <string>Channel:</string>
               </property>
-              <property name="buddy" >
+              <property name="buddy">
                <cstring>lineEdit_IRCChannel</cstring>
               </property>
              </widget>
             </item>
-            <item row="3" column="0" >
-             <widget class="QLabel" name="label_17" >
-              <property name="text" >
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_17">
+              <property name="text">
                <string>Password:</string>
               </property>
-              <property name="buddy" >
+              <property name="buddy">
                <cstring>lineEdit_IRCChannelPassword</cstring>
               </property>
              </widget>
             </item>
-            <item row="3" column="1" >
-             <widget class="QLineEdit" name="lineEdit_IRCChannelPassword" >
-              <property name="echoMode" >
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="lineEdit_IRCChannelPassword">
+              <property name="echoMode">
                <enum>QLineEdit::Password</enum>
               </property>
              </widget>
             </item>
-            <item row="4" column="0" >
-             <widget class="QCheckBox" name="checkBox_IRCServerUseIpv6" >
-              <property name="text" >
+            <item row="4" column="0">
+             <widget class="QCheckBox" name="checkBox_IRCServerUseIpv6">
+              <property name="text">
                <string>Use IPv6</string>
               </property>
              </widget>
             </item>
-            <item row="4" column="1" >
-             <widget class="QLabel" name="label_45" >
-              <property name="text" >
-               <string>&lt;a href="http://en.wikipedia.org/wiki/Ipv6">What is this?&lt;/a></string>
+            <item row="4" column="1">
+             <widget class="QLabel" name="label_45">
+              <property name="text">
+               <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</string>
               </property>
-              <property name="openExternalLinks" >
+              <property name="openExternalLinks">
                <bool>true</bool>
               </property>
              </widget>
             </item>
-            <item row="2" column="1" >
-             <widget class="QLineEdit" name="lineEdit_IRCChannel" >
-              <property name="text" >
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="lineEdit_IRCChannel">
+              <property name="text">
                <string>#pokerth</string>
               </property>
              </widget>
@@ -1780,12 +1781,12 @@ p, li { white-space: pre-wrap; }
            </layout>
           </widget>
          </item>
-         <item row="4" column="2" >
-          <spacer name="verticalSpacer" >
-           <property name="orientation" >
+         <item row="4" column="2">
+          <spacer name="verticalSpacer">
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
              <height>98</height>
@@ -1793,36 +1794,36 @@ p, li { white-space: pre-wrap; }
            </property>
           </spacer>
          </item>
-         <item row="5" column="0" colspan="3" >
-          <layout class="QHBoxLayout" name="horizontalLayout_2" >
-           <property name="spacing" >
+         <item row="5" column="0" colspan="3">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <property name="spacing">
             <number>0</number>
            </property>
            <item>
-            <widget class="QCheckBox" name="checkBox_UseInternetGamePassword" >
-             <property name="text" >
+            <widget class="QCheckBox" name="checkBox_UseInternetGamePassword">
+             <property name="text">
               <string>Use password for private game:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit_InternetGamePassword" >
-             <property name="enabled" >
+            <widget class="QLineEdit" name="lineEdit_InternetGamePassword">
+             <property name="enabled">
               <bool>false</bool>
              </property>
-             <property name="echoMode" >
+             <property name="echoMode">
               <enum>QLineEdit::Password</enum>
              </property>
             </widget>
            </item>
           </layout>
          </item>
-         <item row="6" column="0" colspan="3" >
+         <item row="6" column="0" colspan="3">
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>437</width>
              <height>16</height>
@@ -1832,36 +1833,36 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="page_3" >
-        <layout class="QGridLayout" name="gridLayout_10" >
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label_7" >
-           <property name="styleSheet" >
-            <string notr="true" >QLabel { font-weight: bold;  }</string>
+       <widget class="QWidget" name="page_3">
+        <layout class="QGridLayout" name="gridLayout_10">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="styleSheet">
+            <string notr="true">QLabel { font-weight: bold;  }</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>Player Nicks/Avatars</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" >
-          <widget class="Line" name="line_4" >
-           <property name="orientation" >
+         <item row="1" column="0">
+          <widget class="Line" name="line_4">
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
-         <item row="2" column="0" >
-          <layout class="QGridLayout" name="gridLayout_9" >
-           <property name="spacing" >
+         <item row="2" column="0">
+          <layout class="QGridLayout" name="gridLayout_9">
+           <property name="spacing">
             <number>0</number>
            </property>
-           <item row="0" column="0" >
-            <spacer name="horizontalSpacer_4" >
-             <property name="orientation" >
+           <item row="0" column="0">
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>40</width>
                <height>20</height>
@@ -1869,34 +1870,34 @@ p, li { white-space: pre-wrap; }
              </property>
             </spacer>
            </item>
-           <item row="0" column="1" colspan="3" >
-            <widget class="QLabel" name="label_8" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <item row="0" column="1" colspan="3">
+            <widget class="QLabel" name="label_8">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="maximumSize" >
+             <property name="maximumSize">
               <size>
                <width>200</width>
                <height>16777215</height>
               </size>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>Human Player:</string>
              </property>
-             <property name="alignment" >
+             <property name="alignment">
               <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>
-           <item row="0" column="4" >
-            <spacer name="horizontalSpacer_5" >
-             <property name="orientation" >
+           <item row="0" column="4">
+            <spacer name="horizontalSpacer_5">
+             <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>40</width>
                <height>20</height>
@@ -1904,14 +1905,14 @@ p, li { white-space: pre-wrap; }
              </property>
             </spacer>
            </item>
-           <item row="1" column="0" colspan="5" >
-            <layout class="QHBoxLayout" name="horizontalLayout" >
+           <item row="1" column="0" colspan="5">
+            <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
-              <spacer name="horizontalSpacer_3" >
-               <property name="orientation" >
+              <spacer name="horizontalSpacer_3">
+               <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
-               <property name="sizeHint" stdset="0" >
+               <property name="sizeHint" stdset="0">
                 <size>
                  <width>40</width>
                  <height>20</height>
@@ -1920,23 +1921,23 @@ p, li { white-space: pre-wrap; }
               </spacer>
              </item>
              <item>
-              <widget class="MyHPAvatarButton" name="pushButton_HumanPlayerAvatar" >
-               <property name="minimumSize" >
+              <widget class="MyHPAvatarButton" name="pushButton_HumanPlayerAvatar">
+               <property name="minimumSize">
                 <size>
                  <width>60</width>
                  <height>60</height>
                 </size>
                </property>
-               <property name="maximumSize" >
+               <property name="maximumSize">
                 <size>
                  <width>60</width>
                  <height>60</height>
                 </size>
                </property>
-               <property name="text" >
+               <property name="text">
                 <string/>
                </property>
-               <property name="iconSize" >
+               <property name="iconSize">
                 <size>
                  <width>50</width>
                  <height>50</height>
@@ -1945,11 +1946,11 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacer_2" >
-               <property name="orientation" >
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
-               <property name="sizeHint" stdset="0" >
+               <property name="sizeHint" stdset="0">
                 <size>
                  <width>40</width>
                  <height>20</height>
@@ -1959,12 +1960,12 @@ p, li { white-space: pre-wrap; }
              </item>
             </layout>
            </item>
-           <item row="2" column="0" colspan="2" >
-            <spacer name="horizontalSpacer_6" >
-             <property name="orientation" >
+           <item row="2" column="0" colspan="2">
+            <spacer name="horizontalSpacer_6">
+             <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>78</width>
                <height>20</height>
@@ -1972,37 +1973,37 @@ p, li { white-space: pre-wrap; }
              </property>
             </spacer>
            </item>
-           <item row="2" column="2" >
-            <widget class="QLineEdit" name="lineEdit_HumanPlayerName" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <item row="2" column="2">
+            <widget class="QLineEdit" name="lineEdit_HumanPlayerName">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="minimumSize" >
+             <property name="minimumSize">
               <size>
                <width>100</width>
                <height>25</height>
               </size>
              </property>
-             <property name="maximumSize" >
+             <property name="maximumSize">
               <size>
                <width>100</width>
                <height>25</height>
               </size>
              </property>
-             <property name="maxLength" >
+             <property name="maxLength">
               <number>12</number>
              </property>
             </widget>
            </item>
-           <item row="2" column="3" colspan="2" >
-            <spacer name="horizontalSpacer_7" >
-             <property name="orientation" >
+           <item row="2" column="3" colspan="2">
+            <spacer name="horizontalSpacer_7">
+             <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>88</width>
                <height>20</height>
@@ -2012,92 +2013,92 @@ p, li { white-space: pre-wrap; }
            </item>
           </layout>
          </item>
-         <item row="3" column="0" >
-          <widget class="QGroupBox" name="groupBox_3" >
-           <property name="title" >
+         <item row="3" column="0">
+          <widget class="QGroupBox" name="groupBox_3">
+           <property name="title">
             <string>Computer Engine</string>
            </property>
-           <layout class="QGridLayout" name="gridLayout_11" >
-            <item row="0" column="0" >
-             <layout class="QHBoxLayout" name="horizontalLayout_3" >
+           <layout class="QGridLayout" name="gridLayout_11">
+            <item row="0" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
-               <layout class="QGridLayout" >
-                <property name="margin" >
+               <layout class="QGridLayout">
+                <property name="margin">
                  <number>0</number>
                 </property>
-                <property name="spacing" >
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <item row="2" column="0" >
-                 <widget class="QLineEdit" name="lineEdit_Opponent1Name" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="2" column="0">
+                 <widget class="QLineEdit" name="lineEdit_Opponent1Name">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maxLength" >
+                  <property name="maxLength">
                    <number>12</number>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="0" >
-                 <widget class="QLabel" name="label_9" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_9">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>0</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>16777215</height>
                    </size>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string>Opponent 1:</string>
                   </property>
-                  <property name="alignment" >
+                  <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="0" >
-                 <layout class="QHBoxLayout" >
-                  <property name="spacing" >
+                <item row="1" column="0">
+                 <layout class="QHBoxLayout">
+                  <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="margin" >
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2106,26 +2107,26 @@ p, li { white-space: pre-wrap; }
                    </spacer>
                   </item>
                   <item>
-                   <widget class="MyAvatarButton" name="pushButton_Opponent1Avatar" >
-                    <property name="sizePolicy" >
-                     <sizepolicy vsizetype="Ignored" hsizetype="Ignored" >
+                   <widget class="MyAvatarButton" name="pushButton_Opponent1Avatar">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <property name="minimumSize" >
+                    <property name="minimumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize" >
+                    <property name="maximumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="iconSize" >
+                    <property name="iconSize">
                      <size>
                       <width>50</width>
                       <height>50</height>
@@ -2135,13 +2136,13 @@ p, li { white-space: pre-wrap; }
                   </item>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2154,83 +2155,83 @@ p, li { white-space: pre-wrap; }
                </layout>
               </item>
               <item>
-               <layout class="QGridLayout" >
-                <property name="margin" >
+               <layout class="QGridLayout">
+                <property name="margin">
                  <number>0</number>
                 </property>
-                <property name="spacing" >
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <item row="2" column="0" >
-                 <widget class="QLineEdit" name="lineEdit_Opponent2Name" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="2" column="0">
+                 <widget class="QLineEdit" name="lineEdit_Opponent2Name">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maxLength" >
+                  <property name="maxLength">
                    <number>12</number>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="0" >
-                 <widget class="QLabel" name="label_10" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_10">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>0</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>16777215</height>
                    </size>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string>Opponent 2:</string>
                   </property>
-                  <property name="alignment" >
+                  <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="0" >
-                 <layout class="QHBoxLayout" >
-                  <property name="spacing" >
+                <item row="1" column="0">
+                 <layout class="QHBoxLayout">
+                  <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="margin" >
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2239,26 +2240,26 @@ p, li { white-space: pre-wrap; }
                    </spacer>
                   </item>
                   <item>
-                   <widget class="MyAvatarButton" name="pushButton_Opponent2Avatar" >
-                    <property name="sizePolicy" >
-                     <sizepolicy vsizetype="Ignored" hsizetype="Ignored" >
+                   <widget class="MyAvatarButton" name="pushButton_Opponent2Avatar">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <property name="minimumSize" >
+                    <property name="minimumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize" >
+                    <property name="maximumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="iconSize" >
+                    <property name="iconSize">
                      <size>
                       <width>50</width>
                       <height>50</height>
@@ -2268,13 +2269,13 @@ p, li { white-space: pre-wrap; }
                   </item>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2287,83 +2288,83 @@ p, li { white-space: pre-wrap; }
                </layout>
               </item>
               <item>
-               <layout class="QGridLayout" >
-                <property name="margin" >
+               <layout class="QGridLayout">
+                <property name="margin">
                  <number>0</number>
                 </property>
-                <property name="spacing" >
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <item row="0" column="0" >
-                 <widget class="QLabel" name="label_11" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_11">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>0</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>16777215</height>
                    </size>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string>Opponent 3:</string>
                   </property>
-                  <property name="alignment" >
+                  <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
                 </item>
-                <item row="2" column="0" >
-                 <widget class="QLineEdit" name="lineEdit_Opponent3Name" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="2" column="0">
+                 <widget class="QLineEdit" name="lineEdit_Opponent3Name">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maxLength" >
+                  <property name="maxLength">
                    <number>12</number>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="0" >
-                 <layout class="QHBoxLayout" >
-                  <property name="spacing" >
+                <item row="1" column="0">
+                 <layout class="QHBoxLayout">
+                  <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="margin" >
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2372,26 +2373,26 @@ p, li { white-space: pre-wrap; }
                    </spacer>
                   </item>
                   <item>
-                   <widget class="MyAvatarButton" name="pushButton_Opponent3Avatar" >
-                    <property name="sizePolicy" >
-                     <sizepolicy vsizetype="Ignored" hsizetype="Ignored" >
+                   <widget class="MyAvatarButton" name="pushButton_Opponent3Avatar">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <property name="minimumSize" >
+                    <property name="minimumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize" >
+                    <property name="maximumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="iconSize" >
+                    <property name="iconSize">
                      <size>
                       <width>50</width>
                       <height>50</height>
@@ -2401,13 +2402,13 @@ p, li { white-space: pre-wrap; }
                   </item>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2420,83 +2421,83 @@ p, li { white-space: pre-wrap; }
                </layout>
               </item>
               <item>
-               <layout class="QGridLayout" >
-                <property name="margin" >
+               <layout class="QGridLayout">
+                <property name="margin">
                  <number>0</number>
                 </property>
-                <property name="spacing" >
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <item row="2" column="0" >
-                 <widget class="QLineEdit" name="lineEdit_Opponent4Name" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="2" column="0">
+                 <widget class="QLineEdit" name="lineEdit_Opponent4Name">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maxLength" >
+                  <property name="maxLength">
                    <number>12</number>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="0" >
-                 <widget class="QLabel" name="label_12" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_12">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>0</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>16777215</height>
                    </size>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string>Opponent 4:</string>
                   </property>
-                  <property name="alignment" >
+                  <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="0" >
-                 <layout class="QHBoxLayout" >
-                  <property name="spacing" >
+                <item row="1" column="0">
+                 <layout class="QHBoxLayout">
+                  <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="margin" >
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2505,26 +2506,26 @@ p, li { white-space: pre-wrap; }
                    </spacer>
                   </item>
                   <item>
-                   <widget class="MyAvatarButton" name="pushButton_Opponent4Avatar" >
-                    <property name="sizePolicy" >
-                     <sizepolicy vsizetype="Ignored" hsizetype="Ignored" >
+                   <widget class="MyAvatarButton" name="pushButton_Opponent4Avatar">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <property name="minimumSize" >
+                    <property name="minimumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize" >
+                    <property name="maximumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="iconSize" >
+                    <property name="iconSize">
                      <size>
                       <width>50</width>
                       <height>50</height>
@@ -2534,13 +2535,13 @@ p, li { white-space: pre-wrap; }
                   </item>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2553,58 +2554,58 @@ p, li { white-space: pre-wrap; }
                </layout>
               </item>
               <item>
-               <layout class="QGridLayout" >
-                <property name="margin" >
+               <layout class="QGridLayout">
+                <property name="margin">
                  <number>0</number>
                 </property>
-                <property name="spacing" >
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <item row="0" column="0" >
-                 <widget class="QLabel" name="label_20" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_20">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>0</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>16777215</height>
                    </size>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string>Opponent 5:</string>
                   </property>
-                  <property name="alignment" >
+                  <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="0" >
-                 <layout class="QHBoxLayout" >
-                  <property name="spacing" >
+                <item row="1" column="0">
+                 <layout class="QHBoxLayout">
+                  <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="margin" >
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2613,26 +2614,26 @@ p, li { white-space: pre-wrap; }
                    </spacer>
                   </item>
                   <item>
-                   <widget class="MyAvatarButton" name="pushButton_Opponent5Avatar" >
-                    <property name="sizePolicy" >
-                     <sizepolicy vsizetype="Ignored" hsizetype="Ignored" >
+                   <widget class="MyAvatarButton" name="pushButton_Opponent5Avatar">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <property name="minimumSize" >
+                    <property name="minimumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize" >
+                    <property name="maximumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="iconSize" >
+                    <property name="iconSize">
                      <size>
                       <width>50</width>
                       <height>50</height>
@@ -2642,13 +2643,13 @@ p, li { white-space: pre-wrap; }
                   </item>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2658,27 +2659,27 @@ p, li { white-space: pre-wrap; }
                   </item>
                  </layout>
                 </item>
-                <item row="2" column="0" >
-                 <widget class="QLineEdit" name="lineEdit_Opponent5Name" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="2" column="0">
+                 <widget class="QLineEdit" name="lineEdit_Opponent5Name">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maxLength" >
+                  <property name="maxLength">
                    <number>12</number>
                   </property>
                  </widget>
@@ -2687,33 +2688,33 @@ p, li { white-space: pre-wrap; }
               </item>
              </layout>
             </item>
-            <item row="1" column="0" >
-             <layout class="QHBoxLayout" name="horizontalLayout_4" >
+            <item row="1" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
               <item>
-               <layout class="QGridLayout" >
-                <property name="margin" >
+               <layout class="QGridLayout">
+                <property name="margin">
                  <number>0</number>
                 </property>
-                <property name="spacing" >
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <item row="1" column="0" >
-                 <layout class="QHBoxLayout" >
-                  <property name="spacing" >
+                <item row="1" column="0">
+                 <layout class="QHBoxLayout">
+                  <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="margin" >
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2722,26 +2723,26 @@ p, li { white-space: pre-wrap; }
                    </spacer>
                   </item>
                   <item>
-                   <widget class="MyAvatarButton" name="pushButton_Opponent6Avatar" >
-                    <property name="sizePolicy" >
-                     <sizepolicy vsizetype="Ignored" hsizetype="Ignored" >
+                   <widget class="MyAvatarButton" name="pushButton_Opponent6Avatar">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <property name="minimumSize" >
+                    <property name="minimumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize" >
+                    <property name="maximumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="iconSize" >
+                    <property name="iconSize">
                      <size>
                       <width>50</width>
                       <height>50</height>
@@ -2751,13 +2752,13 @@ p, li { white-space: pre-wrap; }
                   </item>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2767,55 +2768,55 @@ p, li { white-space: pre-wrap; }
                   </item>
                  </layout>
                 </item>
-                <item row="2" column="0" >
-                 <widget class="QLineEdit" name="lineEdit_Opponent6Name" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="2" column="0">
+                 <widget class="QLineEdit" name="lineEdit_Opponent6Name">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maxLength" >
+                  <property name="maxLength">
                    <number>12</number>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="0" >
-                 <widget class="QLabel" name="label_21" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_21">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>0</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>16777215</height>
                    </size>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string>Opponent 6:</string>
                   </property>
-                  <property name="alignment" >
+                  <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
@@ -2823,30 +2824,30 @@ p, li { white-space: pre-wrap; }
                </layout>
               </item>
               <item>
-               <layout class="QGridLayout" name="_4" >
-                <property name="margin" >
+               <layout class="QGridLayout" name="_4">
+                <property name="margin">
                  <number>0</number>
                 </property>
-                <property name="spacing" >
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <item row="1" column="0" >
-                 <layout class="QHBoxLayout" name="_5" >
-                  <property name="spacing" >
+                <item row="1" column="0">
+                 <layout class="QHBoxLayout" name="_5">
+                  <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="margin" >
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2855,26 +2856,26 @@ p, li { white-space: pre-wrap; }
                    </spacer>
                   </item>
                   <item>
-                   <widget class="MyAvatarButton" name="pushButton_Opponent7Avatar" >
-                    <property name="sizePolicy" >
-                     <sizepolicy vsizetype="Ignored" hsizetype="Ignored" >
+                   <widget class="MyAvatarButton" name="pushButton_Opponent7Avatar">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <property name="minimumSize" >
+                    <property name="minimumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize" >
+                    <property name="maximumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="iconSize" >
+                    <property name="iconSize">
                      <size>
                       <width>50</width>
                       <height>50</height>
@@ -2884,13 +2885,13 @@ p, li { white-space: pre-wrap; }
                   </item>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2900,55 +2901,55 @@ p, li { white-space: pre-wrap; }
                   </item>
                  </layout>
                 </item>
-                <item row="2" column="0" >
-                 <widget class="QLineEdit" name="lineEdit_Opponent7Name" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="2" column="0">
+                 <widget class="QLineEdit" name="lineEdit_Opponent7Name">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maxLength" >
+                  <property name="maxLength">
                    <number>12</number>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="0" >
-                 <widget class="QLabel" name="label_33" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_33">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>0</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>16777215</height>
                    </size>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string>Opponent 7:</string>
                   </property>
-                  <property name="alignment" >
+                  <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
@@ -2956,30 +2957,30 @@ p, li { white-space: pre-wrap; }
                </layout>
               </item>
               <item>
-               <layout class="QGridLayout" name="_6" >
-                <property name="margin" >
+               <layout class="QGridLayout" name="_6">
+                <property name="margin">
                  <number>0</number>
                 </property>
-                <property name="spacing" >
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <item row="1" column="0" >
-                 <layout class="QHBoxLayout" name="_7" >
-                  <property name="spacing" >
+                <item row="1" column="0">
+                 <layout class="QHBoxLayout" name="_7">
+                  <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="margin" >
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -2988,26 +2989,26 @@ p, li { white-space: pre-wrap; }
                    </spacer>
                   </item>
                   <item>
-                   <widget class="MyAvatarButton" name="pushButton_Opponent8Avatar" >
-                    <property name="sizePolicy" >
-                     <sizepolicy vsizetype="Ignored" hsizetype="Ignored" >
+                   <widget class="MyAvatarButton" name="pushButton_Opponent8Avatar">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <property name="minimumSize" >
+                    <property name="minimumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize" >
+                    <property name="maximumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="iconSize" >
+                    <property name="iconSize">
                      <size>
                       <width>50</width>
                       <height>50</height>
@@ -3017,13 +3018,13 @@ p, li { white-space: pre-wrap; }
                   </item>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -3033,55 +3034,55 @@ p, li { white-space: pre-wrap; }
                   </item>
                  </layout>
                 </item>
-                <item row="2" column="0" >
-                 <widget class="QLineEdit" name="lineEdit_Opponent8Name" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="2" column="0">
+                 <widget class="QLineEdit" name="lineEdit_Opponent8Name">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maxLength" >
+                  <property name="maxLength">
                    <number>12</number>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="0" >
-                 <widget class="QLabel" name="label_53" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_53">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>0</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>16777215</height>
                    </size>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string>Opponent 8:</string>
                   </property>
-                  <property name="alignment" >
+                  <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
@@ -3089,30 +3090,30 @@ p, li { white-space: pre-wrap; }
                </layout>
               </item>
               <item>
-               <layout class="QGridLayout" name="_8" >
-                <property name="margin" >
+               <layout class="QGridLayout" name="_8">
+                <property name="margin">
                  <number>0</number>
                 </property>
-                <property name="spacing" >
+                <property name="spacing">
                  <number>0</number>
                 </property>
-                <item row="1" column="0" >
-                 <layout class="QHBoxLayout" name="_9" >
-                  <property name="spacing" >
+                <item row="1" column="0">
+                 <layout class="QHBoxLayout" name="_9">
+                  <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="margin" >
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -3121,26 +3122,26 @@ p, li { white-space: pre-wrap; }
                    </spacer>
                   </item>
                   <item>
-                   <widget class="MyAvatarButton" name="pushButton_Opponent9Avatar" >
-                    <property name="sizePolicy" >
-                     <sizepolicy vsizetype="Ignored" hsizetype="Ignored" >
+                   <widget class="MyAvatarButton" name="pushButton_Opponent9Avatar">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <property name="minimumSize" >
+                    <property name="minimumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize" >
+                    <property name="maximumSize">
                      <size>
                       <width>60</width>
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="iconSize" >
+                    <property name="iconSize">
                      <size>
                       <width>50</width>
                       <height>50</height>
@@ -3150,13 +3151,13 @@ p, li { white-space: pre-wrap; }
                   </item>
                   <item>
                    <spacer>
-                    <property name="orientation" >
+                    <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
-                    <property name="sizeType" >
+                    <property name="sizeType">
                      <enum>QSizePolicy::Fixed</enum>
                     </property>
-                    <property name="sizeHint" stdset="0" >
+                    <property name="sizeHint" stdset="0">
                      <size>
                       <width>3</width>
                       <height>20</height>
@@ -3166,55 +3167,55 @@ p, li { white-space: pre-wrap; }
                   </item>
                  </layout>
                 </item>
-                <item row="2" column="0" >
-                 <widget class="QLineEdit" name="lineEdit_Opponent9Name" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="2" column="0">
+                 <widget class="QLineEdit" name="lineEdit_Opponent9Name">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>25</height>
                    </size>
                   </property>
-                  <property name="maxLength" >
+                  <property name="maxLength">
                    <number>12</number>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="0" >
-                 <widget class="QLabel" name="label_54" >
-                  <property name="sizePolicy" >
-                   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_54">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize" >
+                  <property name="minimumSize">
                    <size>
                     <width>100</width>
                     <height>0</height>
                    </size>
                   </property>
-                  <property name="maximumSize" >
+                  <property name="maximumSize">
                    <size>
                     <width>100</width>
                     <height>16777215</height>
                    </size>
                   </property>
-                  <property name="text" >
+                  <property name="text">
                    <string>Opponent 10:</string>
                   </property>
-                  <property name="alignment" >
+                  <property name="alignment">
                    <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
@@ -3226,25 +3227,25 @@ p, li { white-space: pre-wrap; }
            </layout>
           </widget>
          </item>
-         <item row="4" column="0" >
-          <widget class="QLabel" name="label_38" >
-           <property name="text" >
-            <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_38">
+           <property name="text">
+            <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style="font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-style:italic;">Note: Best avatar quality with image ratio like &lt;/span>&lt;span style=" font-weight:600; font-style:italic;">width=50, height=50.&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best avatar quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=50, height=50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
-           <property name="wordWrap" >
+           <property name="wordWrap">
             <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item row="5" column="0" >
+         <item row="5" column="0">
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
              <height>40</height>
@@ -3254,59 +3255,59 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="page_5" >
-        <layout class="QGridLayout" >
-         <property name="margin" >
+       <widget class="QWidget" name="page_5">
+        <layout class="QGridLayout">
+         <property name="margin">
           <number>9</number>
          </property>
-         <property name="spacing" >
+         <property name="spacing">
           <number>6</number>
          </property>
-         <item row="2" column="0" >
-          <widget class="QGroupBox" name="groupBox_logOnOff" >
-           <property name="title" >
+         <item row="2" column="0">
+          <widget class="QGroupBox" name="groupBox_logOnOff">
+           <property name="title">
             <string>Enable/Disable Logging</string>
            </property>
-           <property name="checkable" >
+           <property name="checkable">
             <bool>true</bool>
            </property>
-           <property name="checked" >
+           <property name="checked">
             <bool>true</bool>
            </property>
-           <layout class="QGridLayout" >
-            <item row="0" column="0" >
-             <widget class="QLabel" name="label_29" >
-              <property name="text" >
+           <layout class="QGridLayout">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_29">
+              <property name="text">
                <string>Log File Directory: </string>
               </property>
-              <property name="buddy" >
+              <property name="buddy">
                <cstring>lineEdit_logDir</cstring>
               </property>
              </widget>
             </item>
-            <item row="0" column="1" >
-             <layout class="QHBoxLayout" >
-              <property name="spacing" >
+            <item row="0" column="1">
+             <layout class="QHBoxLayout">
+              <property name="spacing">
                <number>2</number>
               </property>
               <item>
-               <widget class="QLineEdit" name="lineEdit_logDir" />
+               <widget class="QLineEdit" name="lineEdit_logDir"/>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_openLogDir" >
-                <property name="minimumSize" >
+               <widget class="QPushButton" name="pushButton_openLogDir">
+                <property name="minimumSize">
                  <size>
                   <width>27</width>
                   <height>26</height>
                  </size>
                 </property>
-                <property name="maximumSize" >
+                <property name="maximumSize">
                  <size>
                   <width>27</width>
                   <height>26</height>
                  </size>
                 </property>
-                <property name="icon" >
+                <property name="icon">
                  <iconset>
                   <normaloff>../../../../../../.designer/backup</normaloff>../../../../../../.designer/backup</iconset>
                 </property>
@@ -3314,65 +3315,65 @@ p, li { white-space: pre-wrap; }
               </item>
              </layout>
             </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="label_27" >
-              <property name="text" >
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_27">
+              <property name="text">
                <string>Store log files for</string>
               </property>
-              <property name="buddy" >
+              <property name="buddy">
                <cstring>spinBox_logStoreDuration</cstring>
               </property>
              </widget>
             </item>
-            <item row="1" column="1" >
-             <widget class="QSpinBox" name="spinBox_logStoreDuration" >
-              <property name="suffix" >
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="spinBox_logStoreDuration">
+              <property name="suffix">
                <string> Day(s)</string>
               </property>
-              <property name="minimum" >
+              <property name="minimum">
                <number>1</number>
               </property>
-              <property name="maximum" >
+              <property name="maximum">
                <number>7</number>
               </property>
-              <property name="value" >
+              <property name="value">
                <number>2</number>
               </property>
              </widget>
             </item>
-            <item row="2" column="0" >
-             <widget class="QLabel" name="label_39" >
-              <property name="text" >
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_39">
+              <property name="text">
                <string>Write log after every: </string>
               </property>
-              <property name="wordWrap" >
+              <property name="wordWrap">
                <bool>false</bool>
               </property>
-              <property name="buddy" >
+              <property name="buddy">
                <cstring>comboBox_logInterval</cstring>
               </property>
              </widget>
             </item>
-            <item row="2" column="1" >
-             <widget class="QComboBox" name="comboBox_logInterval" >
-              <property name="sizePolicy" >
-               <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+            <item row="2" column="1">
+             <widget class="QComboBox" name="comboBox_logInterval">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>action (high frequent disc access)</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>hand (medium disc access)</string>
                </property>
               </item>
               <item>
-               <property name="text" >
+               <property name="text">
                 <string>game (low disc access)</string>
                </property>
               </item>
@@ -3381,29 +3382,29 @@ p, li { white-space: pre-wrap; }
            </layout>
           </widget>
          </item>
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label_6" >
-           <property name="styleSheet" >
-            <string notr="true" >QLabel { font-weight: bold;  }</string>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="styleSheet">
+            <string notr="true">QLabel { font-weight: bold;  }</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>Log Messages</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" >
-          <widget class="Line" name="line_2" >
-           <property name="orientation" >
+         <item row="1" column="0">
+          <widget class="Line" name="line_2">
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
-         <item row="3" column="0" >
+         <item row="3" column="0">
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
              <height>40</height>
@@ -3417,19 +3418,19 @@ p, li { white-space: pre-wrap; }
      </item>
     </layout>
    </item>
-   <item row="1" column="0" >
-    <widget class="Line" name="line" >
-     <property name="orientation" >
+   <item row="1" column="0">
+    <widget class="Line" name="line">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
+   <item row="2" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons" >
+     <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
@@ -3451,14 +3452,26 @@ p, li { white-space: pre-wrap; }
  <tabstops>
   <tabstop>listWidget</tabstop>
   <tabstop>comboBox_switchLanguage</tabstop>
+  <tabstop>checkBox_showRightToolbox</tabstop>
   <tabstop>checkBox_showLeftToolbox</tabstop>
+  <tabstop>checkBox_showFadeOutCardsAnimation</tabstop>
+  <tabstop>checkBox_showFlipCardsAnimation</tabstop>
+  <tabstop>checkBox_alternateFKeysUserActionMode</tabstop>
+  <tabstop>checkBox_antiPeekMode</tabstop>
+  <tabstop>checkBox_showBlindButtons</tabstop>
+  <tabstop>checkBox_cardsChanceMonitor</tabstop>
+  <tabstop>checkBox_dontTranslatePokerStrings</tabstop>
   <tabstop>checkBox_enableBetInputFocusSwitch</tabstop>
   <tabstop>radioButton_flipsideTux</tabstop>
   <tabstop>radioButton_flipsideOwn</tabstop>
   <tabstop>lineEdit_OwnFlipsideFilename</tabstop>
   <tabstop>pushButton_openFlipsidePicture</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>listWidget_gameTableStyles</tabstop>
+  <tabstop>pushButton_activateGameTableStyle</tabstop>
   <tabstop>pushButton_addGameTableStyle</tabstop>
   <tabstop>pushButton_removeGameTableStyle</tabstop>
+  <tabstop>listWidget_cardDeckStyles</tabstop>
   <tabstop>pushButton_activateCardDeckStyle</tabstop>
   <tabstop>pushButton_addCardDeckStyle</tabstop>
   <tabstop>pushButton_removeCardDeckStyle</tabstop>
@@ -3506,14 +3519,14 @@ p, li { white-space: pre-wrap; }
   <tabstop>lineEdit_avatarServerAddress</tabstop>
   <tabstop>checkBox_InternetServerUseIpv6</tabstop>
   <tabstop>checkBox_InternetServerUseSctp</tabstop>
+  <tabstop>checkBox_UseInternetGamePassword</tabstop>
+  <tabstop>lineEdit_InternetGamePassword</tabstop>
   <tabstop>groupBox_lobbyChat</tabstop>
   <tabstop>lineEdit_IRCServerAddress</tabstop>
   <tabstop>spinBox_IRCServerPort</tabstop>
   <tabstop>lineEdit_IRCChannel</tabstop>
   <tabstop>lineEdit_IRCChannelPassword</tabstop>
   <tabstop>checkBox_IRCServerUseIpv6</tabstop>
-  <tabstop>checkBox_UseInternetGamePassword</tabstop>
-  <tabstop>lineEdit_InternetGamePassword</tabstop>
   <tabstop>pushButton_HumanPlayerAvatar</tabstop>
   <tabstop>lineEdit_HumanPlayerName</tabstop>
   <tabstop>pushButton_Opponent1Avatar</tabstop>
@@ -3542,7 +3555,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
-  <include location="resources/pokerth.qrc" />
+  <include location="resources/pokerth.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -3551,11 +3564,11 @@ p, li { white-space: pre-wrap; }
    <receiver>stackedWidget</receiver>
    <slot>setCurrentIndex(int)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>127</x>
      <y>60</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>281</x>
      <y>85</y>
     </hint>
@@ -3567,11 +3580,11 @@ p, li { white-space: pre-wrap; }
    <receiver>lineEdit_OwnFlipsideFilename</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>360</x>
      <y>373</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>723</x>
      <y>374</y>
     </hint>
@@ -3583,11 +3596,11 @@ p, li { white-space: pre-wrap; }
    <receiver>pushButton_openFlipsidePicture</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>360</x>
      <y>373</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>752</x>
      <y>375</y>
     </hint>
@@ -3599,11 +3612,11 @@ p, li { white-space: pre-wrap; }
    <receiver>settingsDialog</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>595</x>
      <y>520</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>599</x>
      <y>497</y>
     </hint>
@@ -3615,11 +3628,11 @@ p, li { white-space: pre-wrap; }
    <receiver>lineEdit_InternetGamePassword</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>411</x>
      <y>443</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>717</x>
      <y>444</y>
     </hint>
@@ -3631,11 +3644,11 @@ p, li { white-space: pre-wrap; }
    <receiver>label_soundVolume</receiver>
    <slot>setNum(int)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>648</x>
      <y>98</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>336</x>
      <y>99</y>
     </hint>
@@ -3647,11 +3660,11 @@ p, li { white-space: pre-wrap; }
    <receiver>pushButton_editManualBlindsOrder</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>753</x>
      <y>220</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>753</x>
      <y>256</y>
     </hint>
@@ -3663,11 +3676,11 @@ p, li { white-space: pre-wrap; }
    <receiver>pushButton_netEditManualBlindsOrder</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>756</x>
      <y>218</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>756</x>
      <y>245</y>
     </hint>
@@ -3679,11 +3692,11 @@ p, li { white-space: pre-wrap; }
    <receiver>lineEdit_avatarServerAddress</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>314</x>
      <y>318</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>366</x>
      <y>320</y>
     </hint>
