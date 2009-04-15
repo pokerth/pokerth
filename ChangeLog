@@ -7,6 +7,8 @@
 - Automatically restore game table geometry (including fullscreen)
 - Server IP-address bans and nick bans based on regular expressions
 - Server list supports multiple server entries
+- bugfix(#0000009): No pause after first hand when starting a fresh local game
+- bugfix(#0000010): Strange side pot behaviour after all-in
 
 2009-03-22 version 0.6.4:
 - enhanced server performance
