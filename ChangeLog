@@ -1,4 +1,14 @@
-2009-03-22 version 0.6.4: 
+2009-04-15 version 0.7-beta1: 
+- Supporting up to 10 players on a table
+- Easily choose different table and card styles
+- Create your own style in simple steps
+- Online style gallery
+- Netbook support with minimum 1024x600
+- Automatically restore game table geometry (including fullscreen)
+- Server IP-address bans and nick bans based on regular expressions
+- Server list supports multiple server entries
+
+2009-03-22 version 0.6.4:
 - enhanced server performance
 - optional external avatar system to improve scalability
 - feature-request(#0000008): sorting of columns in the gamelist of the lobby is saved
