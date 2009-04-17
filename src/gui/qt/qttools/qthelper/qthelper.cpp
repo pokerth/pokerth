@@ -68,7 +68,7 @@ std::string QtHelper::getDataPathStdString(const char * /*argv0*/)
 	} else { path += "/data/"; }
 	#endif
 #endif
-	return (QDir::cleanPath(path) + "/").toUtf8().constData();
+	return (QDir::cleanPath(path) + "/").toStdString();
 }
 // [01:09] <Zhenech> doitux|mob, mach den pfad als define, und nur wenns nich gesetzt is wildes raten
 // [01:10] <Zhenech> dann compilieren die distries mit -DDATAPTH="/usr/share/games/pokerth" o.ä.

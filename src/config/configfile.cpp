@@ -466,7 +466,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState) {
 
 			TiXmlElement * confElement1 = new TiXmlElement( "AppDataDir" );
 			config->LinkEndChild( confElement1 );
-			confElement1->SetAttribute("value", myQtToolsInterface->getDataPathStdString(myArgv0));
+			confElement1->SetAttribute("value", myQtToolsInterface->stringToUtf8(myQtToolsInterface->getDataPathStdString(myArgv0)));
 
 			TiXmlHandle oldDocHandle( &oldDoc );
 

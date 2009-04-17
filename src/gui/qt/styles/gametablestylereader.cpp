@@ -478,7 +478,7 @@ void GameTableStyleReader::readStyleFile(QString file) {
         else {
             loadedSuccessfull = 0;
             QMessageBox::warning(myW, tr("Game Table Style Error"),
-                                        tr("Can not load game table style file: %1 \n\nPlease check the style file or choose another style!").arg(tinyFileName.c_str()),
+                                        tr("Cannot load game table style file: %1 \n\nPlease check the style file or choose another style!").arg(tinyFileName.c_str()),
                                         QMessageBox::Ok);
         }
 }
@@ -507,7 +507,7 @@ void GameTableStyleReader::showItemPicsLeftErrorMessage(QString style, QStringLi
 
 void GameTableStyleReader::setTableBackground(gameTableImpl *gt)
 {
-	gt->setStyleSheet("QMainWindow { background-image: url("+Table+"); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
+	gt->setStyleSheet("QMainWindow { background-image: url(\""+Table+"\"); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
 }
 
 void GameTableStyleReader::setChatLogStyle(QTextBrowser *tb)
@@ -595,10 +595,10 @@ void GameTableStyleReader::setPlayerSeatInactiveStyle(QGroupBox *ps)
 {
 	// 	check if seat is on top or bottom line
 	if(ps->objectName() == "groupBox2" || ps->objectName() == "groupBox1" || ps->objectName() == "groupBox0" || ps->objectName() == "groupBox9" || ps->objectName() == "groupBox8") {
-		ps->setStyleSheet("QGroupBox { border:none; background-image: url("+PlayerBottomSeatInactive+") }"); 
+		ps->setStyleSheet("QGroupBox { border:none; background-image: url(\""+PlayerBottomSeatInactive+"\") }"); 
 	}
 	else {
-		ps->setStyleSheet("QGroupBox { border:none; background-image: url("+PlayerTopSeatInactive+") }"); 
+		ps->setStyleSheet("QGroupBox { border:none; background-image: url(\""+PlayerTopSeatInactive+"\") }"); 
 	}
 }
 
@@ -606,10 +606,10 @@ void GameTableStyleReader::setPlayerSeatActiveStyle(QGroupBox *ps)
 {
 // 	check if seat is on top or bottom line
 	if(ps->objectName() == "groupBox2" || ps->objectName() == "groupBox1" || ps->objectName() == "groupBox0" || ps->objectName() == "groupBox9" || ps->objectName() == "groupBox8") {
-		ps->setStyleSheet("QGroupBox { border:none; background-image: url("+PlayerBottomSeatActive+") }"); 
+		ps->setStyleSheet("QGroupBox { border:none; background-image: url(\""+PlayerBottomSeatActive+"\") }"); 
 	}
 	else {
-		ps->setStyleSheet("QGroupBox { border:none; background-image: url("+PlayerTopSeatActive+") }"); 
+		ps->setStyleSheet("QGroupBox { border:none; background-image: url(\""+PlayerTopSeatActive+"\") }"); 
 	}
 }
 
@@ -620,7 +620,7 @@ void GameTableStyleReader::setBetValueInputStyle(QLineEdit *bv)
 
 void GameTableStyleReader::setAwayRadioButtonsStyle(QRadioButton *rb)
 {
-	rb->setStyleSheet("QRadioButton { color: #"+TabWidgetTextColor+"; } QRadioButton::indicator { width: 13px; height: 13px;} QRadioButton::indicator::checked { image: url("+RadioButtonChecked+");}  QRadioButton::indicator::unchecked { image: url("+RadioButtonUnchecked+");} QRadioButton::indicator:unchecked:hover { image: url("+RadioButtonUncheckedHover+");} QRadioButton::indicator:unchecked:pressed { image: url("+RadioButtonPressed+");} QRadioButton::indicator::checked { image: url("+RadioButtonChecked+");} QRadioButton::indicator:checked:hover { image: url("+RadioButtonCheckedHover+");} QRadioButton::indicator:checked:pressed { image: url("+RadioButtonPressed+");}");
+	rb->setStyleSheet("QRadioButton { color: #"+TabWidgetTextColor+"; } QRadioButton::indicator { width: 13px; height: 13px;} QRadioButton::indicator::checked { image: url(\""+RadioButtonChecked+"\");}  QRadioButton::indicator::unchecked { image: url(\""+RadioButtonUnchecked+"\");} QRadioButton::indicator:unchecked:hover { image: url(\""+RadioButtonUncheckedHover+"\");} QRadioButton::indicator:unchecked:pressed { image: url(\""+RadioButtonPressed+"\");} QRadioButton::indicator::checked { image: url(\""+RadioButtonChecked+"\");} QRadioButton::indicator:checked:hover { image: url(\""+RadioButtonCheckedHover+"\");} QRadioButton::indicator:checked:pressed { image: url(\""+RadioButtonPressed+"\");}");
 
 }
 
@@ -693,35 +693,35 @@ void GameTableStyleReader::setButtonsStyle(MyActionButton *br, MyActionButton *c
 	switch(state) {
 		//default
 		case 0: {
-			br->setStyleSheet("QPushButton { border:none; background-image: url("+BetRaiseButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+BetRaiseButtonTextColor+";} QPushButton:unchecked { background-image: url("+BetRaiseButtonDefault+"); } QPushButton:checked { background-image: url("+BetRaiseButtonChecked+");} QPushButton:hover { background-image: url("+BetRaiseButtonHover+"); } QPushButton:checked:hover { background-image: url("+BetRaiseButtonCheckedHover+");}"); 
+			br->setStyleSheet("QPushButton { border:none; background-image: url(\""+BetRaiseButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+BetRaiseButtonTextColor+";} QPushButton:unchecked { background-image: url(\""+BetRaiseButtonDefault+"\"); } QPushButton:checked { background-image: url(\""+BetRaiseButtonChecked+"\");} QPushButton:hover { background-image: url(\""+BetRaiseButtonHover+"\"); } QPushButton:checked:hover { background-image: url(\""+BetRaiseButtonCheckedHover+"\");}"); 
 			
-			cc->setStyleSheet("QPushButton { border:none; background-image: url("+CheckCallButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+CheckCallButtonTextColor+";} QPushButton:unchecked { background-image: url("+CheckCallButtonDefault+"); } QPushButton:checked { background-image: url("+CheckCallButtonChecked+");} QPushButton:hover { background-image: url("+CheckCallButtonHover+"); } QPushButton:checked:hover { background-image: url("+CheckCallButtonCheckedHover+");}");
+			cc->setStyleSheet("QPushButton { border:none; background-image: url(\""+CheckCallButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+CheckCallButtonTextColor+";} QPushButton:unchecked { background-image: url(\""+CheckCallButtonDefault+"\"); } QPushButton:checked { background-image: url(\""+CheckCallButtonChecked+"\");} QPushButton:hover { background-image: url(\""+CheckCallButtonHover+"\"); } QPushButton:checked:hover { background-image: url(\""+CheckCallButtonCheckedHover+"\");}");
 
-			f->setStyleSheet("QPushButton { border:none; background-image: url("+FoldButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+FoldButtonTextColor+";}  QPushButton:unchecked { background-image: url("+FoldButtonDefault+"); } QPushButton:checked { background-image: url("+FoldButtonChecked+");} QPushButton:hover { background-image: url("+FoldButtonHover+"); } QPushButton:checked:hover { background-image: url("+FoldButtonCheckedHover+");}");
+			f->setStyleSheet("QPushButton { border:none; background-image: url(\""+FoldButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+FoldButtonTextColor+";}  QPushButton:unchecked { background-image: url(\""+FoldButtonDefault+"\"); } QPushButton:checked { background-image: url(\""+FoldButtonChecked+"\");} QPushButton:hover { background-image: url(\""+FoldButtonHover+"\"); } QPushButton:checked:hover { background-image: url(\""+FoldButtonCheckedHover+"\");}");
 
-			a->setStyleSheet("QPushButton { border:none; background-image: url("+AllInButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+AllInButtonTextColor+";}  QPushButton:unchecked { background-image: url("+AllInButtonDefault+"); } QPushButton:checked { background-image: url("+AllInButtonChecked+");} QPushButton:hover { background-image: url("+AllInButtonHover+"); } QPushButton:checked:hover { background-image: url("+AllInButtonCheckedHover+");}");
+			a->setStyleSheet("QPushButton { border:none; background-image: url(\""+AllInButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+AllInButtonTextColor+";}  QPushButton:unchecked { background-image: url(\""+AllInButtonDefault+"\"); } QPushButton:checked { background-image: url(\""+AllInButtonChecked+"\");} QPushButton:hover { background-image: url(\""+AllInButtonHover+"\"); } QPushButton:checked:hover { background-image: url(\""+AllInButtonCheckedHover+"\");}");
 		}
 		break;
 		//no hover
 		case 1: {
-			br->setStyleSheet("QPushButton { border:none; background-image: url("+BetRaiseButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+BetRaiseButtonTextColor+";} QPushButton:unchecked { background-image: url("+BetRaiseButtonDefault+"); } QPushButton:checked { background-image: url("+BetRaiseButtonChecked+");} QPushButton:hover { background-image: url("+BetRaiseButtonDefault+"); } QPushButton:checked:hover { background-image: url("+BetRaiseButtonChecked+");}"); 
+			br->setStyleSheet("QPushButton { border:none; background-image: url(\""+BetRaiseButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+BetRaiseButtonTextColor+";} QPushButton:unchecked { background-image: url(\""+BetRaiseButtonDefault+"\"); } QPushButton:checked { background-image: url(\""+BetRaiseButtonChecked+"\");} QPushButton:hover { background-image: url(\""+BetRaiseButtonDefault+"\"); } QPushButton:checked:hover { background-image: url(\""+BetRaiseButtonChecked+"\");}"); 
 			
-			cc->setStyleSheet("QPushButton { border:none; background-image: url("+CheckCallButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+CheckCallButtonTextColor+";} QPushButton:unchecked { background-image: url("+CheckCallButtonDefault+"); } QPushButton:checked { background-image: url("+CheckCallButtonChecked+");} QPushButton:hover { background-image: url("+CheckCallButtonDefault+"); } QPushButton:checked:hover { background-image: url("+CheckCallButtonChecked+");}");
+			cc->setStyleSheet("QPushButton { border:none; background-image: url(\""+CheckCallButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+CheckCallButtonTextColor+";} QPushButton:unchecked { background-image: url(\""+CheckCallButtonDefault+"\"); } QPushButton:checked { background-image: url(\""+CheckCallButtonChecked+"\");} QPushButton:hover { background-image: url(\""+CheckCallButtonDefault+"\"); } QPushButton:checked:hover { background-image: url(\""+CheckCallButtonChecked+"\");}");
 
-			f->setStyleSheet("QPushButton { border:none; background-image: url("+FoldButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+FoldButtonTextColor+";}  QPushButton:unchecked { background-image: url("+FoldButtonDefault+"); } QPushButton:checked { background-image: url("+FoldButtonChecked+");} QPushButton:hover { background-image: url("+FoldButtonDefault+"); } QPushButton:checked:hover { background-image: url("+FoldButtonChecked+");}");
+			f->setStyleSheet("QPushButton { border:none; background-image: url(\""+FoldButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+FoldButtonTextColor+";}  QPushButton:unchecked { background-image: url(\""+FoldButtonDefault+"\"); } QPushButton:checked { background-image: url(\""+FoldButtonChecked+"\");} QPushButton:hover { background-image: url(\""+FoldButtonDefault+"\"); } QPushButton:checked:hover { background-image: url(\""+FoldButtonChecked+"\");}");
 
-			a->setStyleSheet("QPushButton { border:none; background-image: url("+AllInButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+AllInButtonTextColor+";}  QPushButton:unchecked { background-image: url("+AllInButtonDefault+"); } QPushButton:checked { background-image: url("+AllInButtonChecked+");} QPushButton:hover { background-image: url("+AllInButtonDefault+"); } QPushButton:checked:hover { background-image: url("+AllInButtonChecked+");}");
+			a->setStyleSheet("QPushButton { border:none; background-image: url(\""+AllInButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+AllInButtonTextColor+";}  QPushButton:unchecked { background-image: url(\""+AllInButtonDefault+"\"); } QPushButton:checked { background-image: url(\""+AllInButtonChecked+"\");} QPushButton:hover { background-image: url(\""+AllInButtonDefault+"\"); } QPushButton:checked:hover { background-image: url(\""+AllInButtonChecked+"\");}");
 		}
 		break;
 		//checkable
 		case 2: {
-			br->setStyleSheet("QPushButton { border:none; background-image: url("+BetRaiseButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+BetRaiseButtonCheckableTextColor+";} QPushButton:unchecked { background-image: url("+BetRaiseButtonDefault+"); } QPushButton:checked { background-image: url("+BetRaiseButtonChecked+");} QPushButton:hover { background-image: url("+BetRaiseButtonHover+"); } QPushButton:checked:hover { background-image: url("+BetRaiseButtonCheckedHover+");}"); 
+			br->setStyleSheet("QPushButton { border:none; background-image: url(\""+BetRaiseButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+BetRaiseButtonCheckableTextColor+";} QPushButton:unchecked { background-image: url(\""+BetRaiseButtonDefault+"\"); } QPushButton:checked { background-image: url(\""+BetRaiseButtonChecked+"\");} QPushButton:hover { background-image: url(\""+BetRaiseButtonHover+"\"); } QPushButton:checked:hover { background-image: url(\""+BetRaiseButtonCheckedHover+"\");}"); 
 			
-			cc->setStyleSheet("QPushButton { border:none; background-image: url("+CheckCallButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+CheckCallButtonCheckableTextColor+";} QPushButton:unchecked { background-image: url("+CheckCallButtonDefault+"); } QPushButton:checked { background-image: url("+CheckCallButtonChecked+");} QPushButton:hover { background-image: url("+CheckCallButtonHover+"); } QPushButton:checked:hover { background-image: url("+CheckCallButtonCheckedHover+");}");
+			cc->setStyleSheet("QPushButton { border:none; background-image: url(\""+CheckCallButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+CheckCallButtonCheckableTextColor+";} QPushButton:unchecked { background-image: url(\""+CheckCallButtonDefault+"\"); } QPushButton:checked { background-image: url(\""+CheckCallButtonChecked+"\");} QPushButton:hover { background-image: url(\""+CheckCallButtonHover+"\"); } QPushButton:checked:hover { background-image: url(\""+CheckCallButtonCheckedHover+"\");}");
 
-			f->setStyleSheet("QPushButton { border:none; background-image: url("+FoldButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+FoldButtonCheckableTextColor+";}  QPushButton:unchecked { background-image: url("+FoldButtonDefault+"); } QPushButton:checked { background-image: url("+FoldButtonChecked+");} QPushButton:hover { background-image: url("+FoldButtonHover+"); } QPushButton:checked:hover { background-image: url("+FoldButtonCheckedHover+");}");
+			f->setStyleSheet("QPushButton { border:none; background-image: url(\""+FoldButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+FoldButtonCheckableTextColor+";}  QPushButton:unchecked { background-image: url(\""+FoldButtonDefault+"\"); } QPushButton:checked { background-image: url(\""+FoldButtonChecked+"\");} QPushButton:hover { background-image: url(\""+FoldButtonHover+"\"); } QPushButton:checked:hover { background-image: url(\""+FoldButtonCheckedHover+"\");}");
 
-			a->setStyleSheet("QPushButton { border:none; background-image: url("+AllInButtonDefault+"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+AllInButtonCheckableTextColor+";}  QPushButton:unchecked { background-image: url("+AllInButtonDefault+"); } QPushButton:checked { background-image: url("+AllInButtonChecked+");} QPushButton:hover { background-image: url("+AllInButtonHover+"); } QPushButton:checked:hover { background-image: url("+AllInButtonCheckedHover+");}");
+			a->setStyleSheet("QPushButton { border:none; background-image: url(\""+AllInButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+AllInButtonCheckableTextColor+";}  QPushButton:unchecked { background-image: url(\""+AllInButtonDefault+"\"); } QPushButton:checked { background-image: url(\""+AllInButtonChecked+"\");} QPushButton:hover { background-image: url(\""+AllInButtonHover+"\"); } QPushButton:checked:hover { background-image: url(\""+AllInButtonCheckedHover+"\");}");
 		}
 		break;
 	}
@@ -729,7 +729,7 @@ void GameTableStyleReader::setButtonsStyle(MyActionButton *br, MyActionButton *c
 
 void GameTableStyleReader::setToolBoxBackground(QGroupBox* gb)
 {
-	gb->setStyleSheet("QGroupBox { border:none; background-image: url("+ToolBoxBackground+") }");
+	gb->setStyleSheet("QGroupBox { border:none; background-image: url(\""+ToolBoxBackground+"\") }");
 }
 
 void GameTableStyleReader::setTabWidgetStyle(QTabWidget *tw, QTabBar *tb)
