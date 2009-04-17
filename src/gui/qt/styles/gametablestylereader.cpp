@@ -81,11 +81,21 @@ void GameTableStyleReader::readStyleFile(QString file) {
 	//if style file failed --> default style fallback
 	if(QFile(file).exists()) { 
 		currentFileName = QFile(file).fileName();
+#ifdef _WIN32
+		tinyFileName = currentFileName.toStdString();		  
+#else
 		tinyFileName = currentFileName.toUtf8().constData();		 
+#endif
+	
 	}
 	else { 
 		currentFileName = QFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml").fileName(); 
-		tinyFileName = currentFileName.toUtf8().constData(); 
+#ifdef _WIN32
+		tinyFileName = currentFileName.toStdString();		  
+#else
+		tinyFileName = currentFileName.toUtf8().constData();		 
+#endif
+
 		fallBack = 1;
 	}
 	QFileInfo info(currentFileName);
