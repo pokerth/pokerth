@@ -48,7 +48,7 @@ void CardDeckStyleReader::readStyleFile(QString file) {
 	}
 
 	QFile myFile(currentFileName);
-	myFile.open(QIODevice::ReadOnly | QIODevice::Text);
+	myFile.open(QIODevice::ReadOnly);
 	fileContent = myFile.readAll();
 
 	QFileInfo info(currentFileName);
