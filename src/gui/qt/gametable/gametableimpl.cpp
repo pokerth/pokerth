@@ -1077,13 +1077,12 @@ void gameTableImpl::dealHoleCards() {
 				} 
 				else {
 					holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(*flipside, TRUE);
-/*					holeCardsArray[i][j]->setStyleSheet("QLabel:hover { background-image:url(:/cards/resources/graphics/cards/"+QString::number(tempCardsIntArray[j], 10)+".png");*/
+
 				}
 			}
 			else {
 				
 				holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(onePix, FALSE);
-//					holeCardsArray[i][j]->repaint();
 			}
 		}
 	}

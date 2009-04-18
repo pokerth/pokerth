@@ -61,6 +61,7 @@ private:
 
 	QString currentFileName;
 	QString currentDir;
+	QByteArray fileContent;
 
 	QStringList cardsLeft;
 	QStringList leftItems;

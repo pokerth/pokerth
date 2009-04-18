@@ -41,7 +41,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	waitStartGameMsgBoxTimer = new QTimer(this);
 	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
 
-	treeWidget_GameList->setStyleSheet("QTreeWidget {background-color: white; background-image: url("+myAppDataPath +"gfx/gui/misc/background_gamelist.png); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
+	treeWidget_GameList->setStyleSheet("QTreeWidget {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 	treeWidget_GameList->setAutoFillBackground(TRUE);
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );

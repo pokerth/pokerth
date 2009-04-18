@@ -38,36 +38,29 @@ CardDeckStyleReader::~CardDeckStyleReader()
 
 void CardDeckStyleReader::readStyleFile(QString file) {
 
-	string tinyFileName;
-
 	//if style file failed --> default style fallback
 	if(QFile(file).exists()) { 
-		currentFileName = QFile(file).fileName();
-#ifdef _WIN32
-		tinyFileName = currentFileName.toStdString();		  
-#else
-		tinyFileName = currentFileName.toUtf8().constData();		 
-#endif
-
+		currentFileName = file;
 	}
 	else { 
-		currentFileName = QFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml").fileName(); 
-#ifdef _WIN32
-		tinyFileName = currentFileName.toStdString();		  
-#else
-		tinyFileName = currentFileName.toUtf8().constData();		 
-#endif
-
+		currentFileName = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml"; 
 		fallBack = 1;
 	}
+
+	QFile myFile(currentFileName);
+	myFile.open(QIODevice::ReadOnly | QIODevice::Text);
+	fileContent = myFile.readAll();
+
 	QFileInfo info(currentFileName);
 	currentDir = info.absolutePath()+"/";
 
 	//start reading the file and fill vars	
 	string tempString1("");
-	TiXmlDocument doc(tinyFileName); 
-		
-	if(doc.LoadFile()) {
+
+	TiXmlDocument doc; 
+	doc.Parse(fileContent.constData());
+
+	if(doc.RootElement()) {
 		TiXmlHandle docHandle( &doc );	
 	
 		TiXmlElement* itemsList = docHandle.FirstChild( "PokerTH" ).FirstChild( "CardDeck" ).FirstChild().ToElement();
@@ -129,7 +122,7 @@ void CardDeckStyleReader::readStyleFile(QString file) {
         else {
             loadedSuccessfull = 0;
             QMessageBox::warning(myW, tr("Card Deck Style Error"),
-                                        tr("Can not load card deck style file: %1 \n\nPlease check the style file or choose another style!").arg(tinyFileName.c_str()),
+                                        tr("Cannot load card deck style file: %1 \n\nPlease check the style file or choose another style!").arg(currentFileName),
                                         QMessageBox::Ok);
         }
 

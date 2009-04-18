@@ -271,6 +271,7 @@ private:
 	QString tabBarPaddingTop;
 	QString tabBarPaddingSide;
 
+	QByteArray fileContent;
 	QString currentFileName;
 	QString currentDir;
 

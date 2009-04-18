@@ -42,7 +42,6 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	textBrowser_3->setPalette(myPalette);
 	textBrowser_4->setPalette(myPalette);
 
-// 	textBrowser_licence->setSource(QUrl(QDir::toNativeSeparators(myAppDataPath+"misc/gpl2.html")));
 	QFile gplFile(QDir::toNativeSeparators(myAppDataPath+"misc/gpl2.html"));
 	QString gplString;
 	if(gplFile.exists()) {
