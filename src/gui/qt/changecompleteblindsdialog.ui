@@ -29,7 +29,7 @@
         <number>5</number>
        </property>
        <property name="maximum">
-        <number>500</number>
+        <number>20000</number>
        </property>
       </widget>
      </item>
@@ -185,7 +185,7 @@
         <item row="2" column="0">
          <widget class="QSpinBox" name="spinBox_input">
           <property name="maximum">
-           <number>100000</number>
+           <number>20000</number>
           </property>
          </widget>
         </item>
