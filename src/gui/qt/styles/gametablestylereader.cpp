@@ -562,7 +562,7 @@ void GameTableStyleReader::setCardHolderStyle(QLabel *l, int bero)
 
 void GameTableStyleReader::setMenuBarStyle(QMenuBar *mb)
 {
-	mb->setStyleSheet("QMenuBar { background-color: #"+MenuBgColor+"; font-size:12px; } QMenuBar::item { color: #"+MenuTextColor+"; }");
+        mb->setStyleSheet("QMenuBar { background-color: #"+MenuBgColor+"; font-size:12px; } QMenuBar::item { color: #"+MenuTextColor+"; }");
 }
 
 void GameTableStyleReader::setBreakButtonStyle(QPushButton *bb, int state)

@@ -40,6 +40,7 @@ class BoardInterface;
 class PlayerInterface;
 class MyCardsPixmapLabel;
 class MyAvatarLabel;
+class MyTimeoutLabel;
 
 class settingsDialogImpl;
 class startWindowImpl;

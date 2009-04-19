@@ -29,6 +29,8 @@
 #include "myavatarlabel.h"
 #include "myactionbutton.h"
 #include "mychancelabel.h"
+#include "mytimeoutlabel.h"
+#include "mymenubar.h"
 #include "log.h"
 #include "chat.h"
 
@@ -265,6 +267,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	setLabelArray[8] = textLabel_Set8;
 	setLabelArray[9] = textLabel_Set9;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { setLabelArray[i]->setMyW(this); }
+        label_Timeout0->setMyW(this);
 
 	// statusLabelArray init
 	actionLabelArray[0] = textLabel_Status0;
@@ -1497,6 +1500,7 @@ void gameTableImpl::startTimeoutAnimation(int playerId, int timeoutSec) {
 	//beep for player 0
 	if(playerId) { setLabelArray[playerId]->startTimeOutAnimation(timeoutSec, FALSE); }
 	else { setLabelArray[playerId]->startTimeOutAnimation(timeoutSec, TRUE); }
+        label_Timeout0->startTimeOutAnimation(timeoutSec, FALSE);
 }
 
 void gameTableImpl::stopTimeoutAnimation(int playerId) {
