@@ -242,7 +242,7 @@
            <item>
             <widget class="QSpinBox" name="spinBox_afterThisAlwaysRaiseValue">
              <property name="maximum">
-              <number>100000</number>
+              <number>20000</number>
              </property>
             </widget>
            </item>
