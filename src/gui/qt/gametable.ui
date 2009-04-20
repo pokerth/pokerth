@@ -256,6 +256,19 @@
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
+        <widget class="MyTimeoutLabel" name="label_Timeout3">
+         <property name="geometry">
+          <rect>
+           <x>12</x>
+           <y>70</y>
+           <width>52</width>
+           <height>10</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
        </widget>
       </item>
       <item>
@@ -459,6 +472,19 @@
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="MyTimeoutLabel" name="label_Timeout2">
+         <property name="geometry">
+          <rect>
+           <x>12</x>
+           <y>61</y>
+           <width>52</width>
+           <height>10</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </widget>
@@ -673,6 +699,19 @@
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
+        <widget class="MyTimeoutLabel" name="label_Timeout4">
+         <property name="geometry">
+          <rect>
+           <x>12</x>
+           <y>70</y>
+           <width>52</width>
+           <height>10</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
        </widget>
       </item>
       <item>
@@ -865,6 +904,19 @@
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
+        <widget class="MyTimeoutLabel" name="label_Timeout5">
+         <property name="geometry">
+          <rect>
+           <x>12</x>
+           <y>70</y>
+           <width>52</width>
+           <height>10</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
        </widget>
       </item>
       <item>
@@ -1055,6 +1107,19 @@
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="MyTimeoutLabel" name="label_Timeout6">
+         <property name="geometry">
+          <rect>
+           <x>12</x>
+           <y>70</y>
+           <width>52</width>
+           <height>10</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </widget>
@@ -1269,6 +1334,19 @@
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
+        <widget class="MyTimeoutLabel" name="label_Timeout7">
+         <property name="geometry">
+          <rect>
+           <x>12</x>
+           <y>70</y>
+           <width>52</width>
+           <height>10</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
        </widget>
       </item>
       <item>
@@ -1472,6 +1550,19 @@
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="MyTimeoutLabel" name="label_Timeout8">
+         <property name="geometry">
+          <rect>
+           <x>12</x>
+           <y>61</y>
+           <width>52</width>
+           <height>10</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </widget>
@@ -2118,6 +2209,19 @@
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
+        <widget class="MyTimeoutLabel" name="label_Timeout1">
+         <property name="geometry">
+          <rect>
+           <x>12</x>
+           <y>61</y>
+           <width>52</width>
+           <height>10</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
        </widget>
       </item>
       <item>
@@ -2313,10 +2417,10 @@
         <widget class="MyTimeoutLabel" name="label_Timeout0">
          <property name="geometry">
           <rect>
-           <x>10</x>
-           <y>60</y>
-           <width>50</width>
-           <height>17</height>
+           <x>12</x>
+           <y>61</y>
+           <width>52</width>
+           <height>10</height>
           </rect>
          </property>
          <property name="text">
@@ -2513,6 +2617,19 @@
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="MyTimeoutLabel" name="label_Timeout9">
+         <property name="geometry">
+          <rect>
+           <x>12</x>
+           <y>61</y>
+           <width>52</width>
+           <height>10</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </widget>

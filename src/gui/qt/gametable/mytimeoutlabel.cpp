@@ -36,7 +36,7 @@ void MyTimeoutLabel::startTimeOutAnimation(int secs, bool beep) {
 
 	timeOutValue = secs;
 	timeOutFrame = 1;
-        timeOutAnimationWidth = 50;
+        timeOutAnimationWidth = 52;
 	
 	int preTimerIntervall = ((timeOutValue-3) * 1000)/timeOutAnimationWidth;
 	
@@ -90,7 +90,7 @@ void MyTimeoutLabel::nextTimeOutAnimationFrame() {
 			}
 			//save gfx ressources and never play more the 10 pps
 			unsigned int realTimerValue = realTimer.elapsed().total_milliseconds();
-                        timeOutAnimationWidth = 50-(((realTimerValue-3000)*50)/((timeOutValue-3)*1000));
+                        timeOutAnimationWidth = 52-(((realTimerValue-3000)*52)/((timeOutValue-3)*1000));
 
 		}
 		timeOutFrame++;
@@ -114,7 +114,7 @@ void MyTimeoutLabel::paintEvent(QPaintEvent * event) {
 
 		QPainter painter(this);
 	
-                QLinearGradient linearGrad(QPointF(0, 10), QPointF(45, 10));
+                QLinearGradient linearGrad(QPointF(0, 10), QPointF(47, 10));
 		linearGrad.setColorAt(0, Qt::red);
 		linearGrad.setColorAt(0.5, Qt::yellow);
 		linearGrad.setColorAt(1, Qt::green);
@@ -122,6 +122,6 @@ void MyTimeoutLabel::paintEvent(QPaintEvent * event) {
 		painter.setBrush(linearGrad);
 		
 		painter.setPen(QColor(0,0,0));
-		painter.drawRect(0,2,timeOutAnimationWidth-1,8);
+                painter.drawRect(0,1,timeOutAnimationWidth-1,8);
 	}
 }

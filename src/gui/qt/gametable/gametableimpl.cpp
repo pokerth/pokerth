@@ -255,6 +255,19 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 		playerAvatarLabelArray[i]->setMyId(i); 
 	}
 
+        // timeoutLabelArray init
+        timeoutLabelArray[0] = label_Timeout0;
+        timeoutLabelArray[1] = label_Timeout1;
+        timeoutLabelArray[2] = label_Timeout2;
+        timeoutLabelArray[3] = label_Timeout3;
+        timeoutLabelArray[4] = label_Timeout4;
+        timeoutLabelArray[5] = label_Timeout5;
+        timeoutLabelArray[6] = label_Timeout6;
+        timeoutLabelArray[7] = label_Timeout7;
+        timeoutLabelArray[8] = label_Timeout8;
+        timeoutLabelArray[9] = label_Timeout9;
+        for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { timeoutLabelArray[i]->setMyW(this); }
+
 	// setLabelArray init
 	setLabelArray[0] = textLabel_Set0;
 	setLabelArray[1] = textLabel_Set1;
@@ -1498,14 +1511,13 @@ void gameTableImpl::startTimeoutAnimation(int playerId, int timeoutSec) {
 	assert(playerId >= 0 && playerId < myStartWindow->getSession()->getCurrentGame()->getStartQuantityPlayers());
 	
 	//beep for player 0
-	if(playerId) { setLabelArray[playerId]->startTimeOutAnimation(timeoutSec, FALSE); }
-	else { setLabelArray[playerId]->startTimeOutAnimation(timeoutSec, TRUE); }
-        label_Timeout0->startTimeOutAnimation(timeoutSec, FALSE);
+        if(playerId) { timeoutLabelArray[playerId]->startTimeOutAnimation(timeoutSec, FALSE); }
+        else { timeoutLabelArray[playerId]->startTimeOutAnimation(timeoutSec, TRUE); }
 }
 
 void gameTableImpl::stopTimeoutAnimation(int playerId) {
 	assert(playerId >= 0 && playerId < myStartWindow->getSession()->getCurrentGame()->getStartQuantityPlayers());
-	setLabelArray[playerId]->stopTimeOutAnimation();
+        timeoutLabelArray[playerId]->stopTimeOutAnimation();
 }
 
 void gameTableImpl::disableMyButtons() {
@@ -2390,7 +2402,7 @@ void gameTableImpl::nextRoundCleanGui() {
 		boardCardsArray[i]->setPixmap(onePix, FALSE); 
 		boardCardsArray[i]->setFadeOutAction(FALSE); 
 		boardCardsArray[i]->stopFlipCardsAnimation();
-		setLabelArray[i]->stopTimeOutAnimation();
+                timeoutLabelArray[i]->stopTimeOutAnimation();
 		
 	}
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
@@ -2590,8 +2602,7 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
 	else { keyUpDownChatCounter = 0; }
 	
 	//TESTING UNIT
-	//if (event->key() == Qt::Key_M) { startVoteOnKick(3,60, 6); }
-	//if (event->key() == Qt::Key_N) { endVoteOnKick(); }
+        //if (event->key() == Qt::Key_M) { startVoteOnKick(3,60, 6); }
 }
 
 void gameTableImpl::changePlayingMode() {
@@ -2760,7 +2771,7 @@ void gameTableImpl::localGameModification() {
 
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 
-		setLabelArray[i]->stopTimeOutAnimation();
+                timeoutLabelArray[i]->stopTimeOutAnimation();
 		playerAvatarLabelArray[i]->setEnabledContextMenu(FALSE);
 	}
 

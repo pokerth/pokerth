@@ -356,6 +356,7 @@ private:
 	QLabel *actionLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *playerNameLabelArray[MAX_NUMBER_OF_PLAYERS];
 	MyAvatarLabel *playerAvatarLabelArray[MAX_NUMBER_OF_PLAYERS];
+        MyTimeoutLabel *timeoutLabelArray[MAX_NUMBER_OF_PLAYERS];
 
 	QGroupBox *groupBoxArray[MAX_NUMBER_OF_PLAYERS];
 	MyCardsPixmapLabel *boardCardsArray[5];
